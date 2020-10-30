@@ -30,6 +30,10 @@ std::string InputDevice::EntryToString(InputDevice::Entry entry)
     case InputDevice::Entry::Joy1AxisV: return "joystick1up";
     case InputDevice::Entry::Joy2AxisH: return "joystick2left";
     case InputDevice::Entry::Joy2AxisV: return "joystick2up";
+    case InputDevice::Entry::VolumeUp: return "vol+";
+    case InputDevice::Entry::VolumeDown: return "vol-";
+    case InputDevice::Entry::BrightnessUp: return "lum+";
+    case InputDevice::Entry::BrightnessDown: return "lum-";
     case InputDevice::Entry::__Count:
     default:
     {
@@ -64,6 +68,10 @@ InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
   if (lentry == "joystick1up") return InputDevice::Entry::Joy1AxisV;
   if (lentry == "joystick2left") return InputDevice::Entry::Joy2AxisH;
   if (lentry == "joystick2up") return InputDevice::Entry::Joy2AxisV;
+  if (lentry == "vol+") return InputDevice::Entry::VolumeUp;
+  if (lentry == "vol-") return InputDevice::Entry::VolumeDown;
+  if (lentry == "lum+") return InputDevice::Entry::BrightnessUp;
+  if (lentry == "lum-") return InputDevice::Entry::BrightnessDown;
   else
   {
     LOG(LogError) << "Unknown string Input entry: " << entry;
@@ -565,6 +573,10 @@ InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
     case Entry::Joy1AxisV: return InputCompactEvent::Entry::J1Up;
     case Entry::Joy2AxisH: return InputCompactEvent::Entry::J2Left;
     case Entry::Joy2AxisV: return InputCompactEvent::Entry::J2Up;
+    case Entry::VolumeUp: return InputCompactEvent::Entry::VolUp;
+    case Entry::VolumeDown: return InputCompactEvent::Entry::VolDown;
+    case Entry::BrightnessUp: return InputCompactEvent::Entry::LumUp;
+    case Entry::BrightnessDown: return InputCompactEvent::Entry::LumDown;
     case Entry::None:
     case Entry::__Count:
     default: break;

@@ -7,7 +7,7 @@
 #include <mutex>
 
 //#include "resources/ResourceManager.h"
-#include "Board.h"
+#include "hardware/Board.h"
 #include "resources/TextureData.h"
 #include <condition_variable>
 

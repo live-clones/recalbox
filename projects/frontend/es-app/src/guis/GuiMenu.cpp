@@ -15,15 +15,13 @@
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiDetectDevice.h"
 #include "views/ViewController.h"
-#include "audio/AudioManager.h"
-#include "Board.h"
+#include "hardware/Board.h"
 
 #include "components/SwitchComponent.h"
 #include "components/SliderComponent.h"
 #include "components/TextComponent.h"
 #include "components/OptionListComponent.h"
 #include "components/MenuComponent.h"
-#include "audio/AudioController.h"
 
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
@@ -42,6 +40,7 @@
 #include "GuiNetPlayEditPasswords.h"
 #include "GuiUpdateRecalbox.h"
 #include "GuiMenuNetwork.h"
+#include "GuiMenuSound.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -778,7 +777,7 @@ void GuiMenu::menuUISettings()
 {
   auto* s = new GuiSettings(mWindow, _("UI SETTINGS"));
 
-  // volume
+  // Brightness
   if (Board::BrightnessSupport())
   {
     auto brightness = std::make_shared<SliderComponent>(mWindow, 0.f, 8.f, 1.f, "");
@@ -1155,69 +1154,9 @@ void GuiMenu::menuUISettings()
   mWindow.pushGui(s);
 }
 
-void GuiMenu::menuSoundSettings(){
-  auto* s = new GuiSettings(mWindow, _("SOUND SETTINGS"));
-
-  // volume
-  auto volume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  volume->setSlider((float) AudioController::Instance().GetVolume());
-  if (!AudioController::Instance().HasSpecialAudio())
-  {
-    volume->setSelectedChangedCallback([](const float& newVal)
-                                       { AudioController::Instance().SetVolume(Math::roundi(newVal)); });
-    s->addWithLabel(volume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
-  }
-
-  // disable sounds
-  auto sounds_enabled = std::make_shared<SwitchComponent>(mWindow);
-  sounds_enabled->setState(RecalboxConf::Instance().AsBool("audio.bgmusic"));
-  s->addWithLabel(sounds_enabled, _("FRONTEND MUSIC"), _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
-
-  // audio device
-  auto optionsAudio = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OUTPUT DEVICE"),
-                                      false, FONT_SIZE_EXTRASMALL);
-  std::string currentDevice = RecalboxConf::Instance().AsString("audio.device");
-
-  // Transform/Sort playback list
-  HashMap<int, std::string> playbacksMap = AudioController::Instance().GetPlaybackList();
-  std::vector<std::string> availableAudio;
-  // Scan default
-  for(const auto& playback : playbacksMap)
-    if (playback.first == -1) // default item
-      availableAudio.push_back(playback.second);
-  // Add all remaining stuff
-  for(const auto& playback : playbacksMap)
-    if (playback.first != -1) // default item
-      availableAudio.push_back(playback.second);
-  // Sort
-  std::sort(availableAudio.begin() + 1, availableAudio.end());
-
-  if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
-  {
-    for (auto& it : availableAudio)
-        optionsAudio->add(_S(it), it, currentDevice == it);
-    auto setAudioDevice = [](const std::string &newVal) {
-      AudioManager::Instance().Deactivate();
-      AudioController::Instance().SetDefaultPlayback(newVal);
-      AudioManager::Instance().Reactivate();
-    };
-    optionsAudio->setSelectedChangedCallback(setAudioDevice);
-    s->addWithLabel(optionsAudio, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
-  }
-  
-  s->addSaveFunc([optionsAudio, currentDevice, sounds_enabled, volume] {
-    RecalboxConf::Instance().SetInt("audio.volume", Math::roundi(volume->getSlider()));
-
-    RecalboxConf::Instance().SetBool("audio.bgmusic", sounds_enabled->getState());
-    if (!sounds_enabled->getState())
-      AudioManager::Instance().StopAll();
-    if (currentDevice != optionsAudio->getSelected()) {
-      RecalboxConf::Instance().SetString("audio.device", optionsAudio->getSelected());
-    }
-    RecalboxConf::Instance().Save();
-  });
-
-  mWindow.pushGui(s);
+void GuiMenu::menuSoundSettings()
+{
+  mWindow.pushGui(new GuiMenuSound(mWindow));
 }
 
 void GuiMenu::menuNetworkSettings()

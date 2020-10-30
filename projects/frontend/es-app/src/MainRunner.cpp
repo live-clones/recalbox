@@ -233,7 +233,9 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
           // Convert event
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(window, event);
           // Process
-          if (!compactEvent.Empty()) window.ProcessInput(compactEvent);
+          if (!compactEvent.Empty())
+            if (!Board::ProcessSpecialInputs(compactEvent))
+              window.ProcessInput(compactEvent);
           // Quit?
           if (window.Closed()) RequestQuit(ExitState::Quit);
           break;

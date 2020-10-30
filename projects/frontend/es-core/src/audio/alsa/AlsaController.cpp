@@ -8,7 +8,7 @@
 #include <utils/math/Misc.h>
 #include "AlsaController.h"
 #include <audio/alsa/Raspberry.h>
-#include <Board.h>
+#include <hardware/Board.h>
 
 void AlsaController::Initialize()
 {

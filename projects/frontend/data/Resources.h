@@ -278,6 +278,9 @@ extern const uint8_t help__joystick_down_R_svg_data[];
 extern const uint16_t help__button_x_svg_size;
 extern const uint8_t help__button_x_svg_data[];
 
+extern const uint16_t help__brightness_down_svg_size;
+extern const uint8_t help__brightness_down_svg_data[];
+
 extern const uint16_t help__button_hotkey_svg_size;
 extern const uint8_t help__button_hotkey_svg_data[];
 
@@ -286,6 +289,9 @@ extern const uint8_t help__button_y_svg_data[];
 
 extern const uint16_t help__joystick_left_svg_size;
 extern const uint8_t help__joystick_left_svg_data[];
+
+extern const uint16_t help__volume_down_svg_size;
+extern const uint8_t help__volume_down_svg_data[];
 
 extern const uint16_t help__button_l_svg_size;
 extern const uint8_t help__button_l_svg_data[];
@@ -310,6 +316,9 @@ extern const uint8_t help__dpad_all_svg_data[];
 
 extern const uint16_t help__dpad_left_svg_size;
 extern const uint8_t help__dpad_left_svg_data[];
+
+extern const uint16_t help__brightness_up_svg_size;
+extern const uint8_t help__brightness_up_svg_data[];
 
 extern const uint16_t help__joystick_leftright_R_svg_size;
 extern const uint8_t help__joystick_leftright_R_svg_data[];
@@ -355,6 +364,9 @@ extern const uint8_t help__button_select_svg_data[];
 
 extern const uint16_t help__button_a_svg_size;
 extern const uint8_t help__button_a_svg_data[];
+
+extern const uint16_t help__volume_up_svg_size;
+extern const uint8_t help__volume_up_svg_data[];
 
 extern const uint16_t help__joystick_up_R_svg_size;
 extern const uint8_t help__joystick_up_R_svg_data[];

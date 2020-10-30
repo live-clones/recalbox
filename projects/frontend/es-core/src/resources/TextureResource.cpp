@@ -1,7 +1,7 @@
 #include "resources/TextureResource.h"
 
 #include <memory>
-#include "Board.h"
+#include "hardware/Board.h"
 #include "platform_gl.h"
 #include "ImageIO.h"
 

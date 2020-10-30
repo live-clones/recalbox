@@ -1,7 +1,10 @@
-#include <Board.h>
+#include <hardware/Board.h>
 #include <cstring>
 #include <utils/Log.h>
 #include <utils/Files.h>
+#include <input/InputCompactEvent.h>
+#include <audio/alsa/OdroidAdvanceGo2.h>
+#include "OdroidAdvanceGo2Board.h"
 
 int Board::Run(const std::string& cmd_utf8, bool debug)
 {
@@ -153,17 +156,12 @@ Board::BoardType Board::GetBoardType()
   return version;
 }
 
-
 void Board::SetLowestBrightness()
 {
+  LOG(LogInfo) << "[Backlight] Set lowest brightness";
   switch(GetBoardType())
   {
-    case BoardType::OdroidAdvanceGo2:
-    {
-      LOG(LogInfo) << "[Backlight] Set lowest brightness";
-      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), "0");
-      break;
-    }
+    case BoardType::OdroidAdvanceGo2: { OdroidAdvanceGo2Board::SetLowestBrightness(); break; }
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
@@ -179,17 +177,12 @@ void Board::SetLowestBrightness()
 
 void Board::SetBrightness(int step)
 {
+  LOG(LogInfo) << "[Backlight] Set brightness to step " << step;
   if (step < 0) step = 0;
   if (step > 8) step = 8;
   switch(GetBoardType())
   {
-    case BoardType::OdroidAdvanceGo2:
-    {
-      LOG(LogInfo) << "[Backlight] Set brightness to step " << step;
-      int value = 1 << step; if (value > 255) value = 255;
-      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
-      break;
-    }
+    case BoardType::OdroidAdvanceGo2: { OdroidAdvanceGo2Board::SetBrightness(step); break; }
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
@@ -255,4 +248,61 @@ void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
     }
     default: break;
   }
+}
+
+bool Board::HasExtraVolumeButtons()
+{
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: return true;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+  return false;
+}
+
+bool Board::HasExtraBrightnessButtons()
+{
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: return true;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+  return false;
+}
+
+bool Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
+{
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: return OdroidAdvanceGo2Board::ProcessSpecialInputs(inputEvent);
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+  return false;
 }

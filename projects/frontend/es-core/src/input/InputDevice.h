@@ -36,6 +36,10 @@ class InputDevice
       Joy1AxisV,
       Joy2AxisH,
       Joy2AxisV,
+      VolumeUp,
+      VolumeDown,
+      BrightnessUp,
+      BrightnessDown,
       __Count,
     };
 

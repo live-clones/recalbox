@@ -40,6 +40,7 @@ set(ES_HEADERS
         src/guis/GuiMenu.h
         src/guis/GuiMenuArcadeVirtualSystem.h
         src/guis/GuiMenuNetwork.h
+        src/guis/GuiMenuSound.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h
@@ -197,6 +198,7 @@ set(ES_SOURCES
         src/guis/GuiMenu.cpp
         src/guis/GuiMenuArcadeVirtualSystem.cpp
         src/guis/GuiMenuNetwork.cpp
+        src/guis/GuiMenuSound.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
         src/guis/GuiScraperSelect.cpp

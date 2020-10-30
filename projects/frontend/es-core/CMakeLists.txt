@@ -15,7 +15,6 @@ set(CORE_HEADERS
 		src/input/OrderedDevices.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
-        src/Board.h
 		src/Renderer.h
 		src/Settings.h
 		src/RootFolders.h
@@ -30,6 +29,10 @@ set(CORE_HEADERS
 		src/themes/ThemeElement.h
 		src/themes/ThemeExtras.h
 		src/themes/ThemeException.h
+
+		# Hardware
+		src/hardware/Board.h
+		src/hardware/OdroidAdvanceGo2Board.h
 
 		# Audio
 		src/audio/AudioManager.h
@@ -155,7 +158,6 @@ set(CORE_SOURCES
 		src/input/InputManager.cpp
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
-        src/Board.cpp
 		src/Renderer.cpp
 		src/Settings.cpp
 		src/RootFolders.cpp
@@ -167,6 +169,10 @@ set(CORE_SOURCES
 		src/utils/sdl2/SyncronousEvent.cpp
 		src/themes/ThemeData.cpp
 		src/themes/ThemeExtras.cpp
+
+		# Hardware
+		src/hardware/Board.cpp
+		src/hardware/OdroidAdvanceGo2Board.cpp
 
 		# Audio
 		src/audio/AudioManager.cpp

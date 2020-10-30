@@ -234,7 +234,19 @@ void GuiInputConfig::initFormInputs()
 	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputEvent::EventType::Button);
 	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputEvent::EventType::Button);
 
-	addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputEvent::EventType::Button);
+	if (Board::HasExtraVolumeButtons())
+  {
+    addFormInput("VOL+", _("VOLUME +"), ":/help/volume_up.svg", true, InputEvent::EventType::Button);
+    addFormInput("VOL-", _("VOLUME -"), ":/help/volume_down.svg", true, InputEvent::EventType::Button);
+  }
+
+	if (Board::HasExtraBrightnessButtons())
+  {
+    addFormInput("LUM+", _("BRIGHTNESS +"), ":/help/brightness_up.svg", true, InputEvent::EventType::Button);
+    addFormInput("LUM-", _("BRIGHTNESS -"), ":/help/brightness_down.svg", true, InputEvent::EventType::Button);
+  }
+
+  addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputEvent::EventType::Button);
 }
 
 void GuiInputConfig::addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputEvent::EventType preferredType)

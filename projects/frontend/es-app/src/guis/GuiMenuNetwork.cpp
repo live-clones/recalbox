@@ -197,8 +197,8 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
       else
       {
         // Save new ssid/password
-        SetWifiSSID(mWpsSSID, true);
-        SetWifiPassword(mWpsPSK, false);
+        SetWifiSSID(mWpsSSID, false);
+        SetWifiPassword(mWpsPSK, true);
         // Refresh SSID List
         Completed(NetworkOperation::ScanSSID, true);
         // Refresh psk

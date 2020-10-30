@@ -2,6 +2,8 @@
 
 #include <string>
 
+// Forward declaration
+class InputCompactEvent;
 
 class Board
 {
@@ -103,6 +105,25 @@ class Board
      * @param cpuGovernance CPU governance
      */
     static void SetCPUGovernance(CPUGovernance cpuGovernance);
+
+    /*!
+     * @brief Check if this board has extra volume +/- buttons
+     * @return True if such buttons are available, false otherwise
+     */
+    static bool HasExtraVolumeButtons();
+
+    /*!
+     * @brief Check if this board has extra brightness +/- buttons
+     * @return True if such buttons are available, false otherwise
+     */
+    static bool HasExtraBrightnessButtons();
+
+    /*!
+     * @brief Process special input if any
+     * @param inputEvent Input to process
+     * @return True if the input has been processed, false otherwise
+     */
+    static bool ProcessSpecialInputs(InputCompactEvent& inputEvent);
 
   private:
     /*!
