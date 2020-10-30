@@ -3,6 +3,7 @@
 ## Version NEXT
 
 ### News
+- Add WPS support for quick WIFI configuration
 
 ### Improvements
 - Improved NESPi4 case detection

@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Check free space before downloading updates
 - Fix screenshots on x86/x64
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
+- Add WPS support
 
 
 ## [7.0.1]
