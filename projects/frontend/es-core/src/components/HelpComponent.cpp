@@ -1,8 +1,9 @@
 #include <utils/Strings.h>
 #include <utils/storage/HashMap.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "components/HelpComponent.h"
 #include "Renderer.h"
-#include "Settings.h"
+#include "RecalboxConf.h"
 #include "utils/Log.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
@@ -56,7 +57,7 @@ void HelpComponent::UpdateHelps()
 
   mGrid.ClearEntries();
   mHelp = HelpItems();
-	if(!Settings::Instance().ShowHelpPrompts() || mHelp.Empty())
+	if(!RecalboxConf::Instance().GetShowHelp() || mHelp.Empty())
 		return;
 
 	const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();

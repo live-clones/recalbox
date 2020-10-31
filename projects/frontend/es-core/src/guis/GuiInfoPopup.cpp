@@ -70,32 +70,9 @@ GuiInfoPopup::GuiInfoPopup(Window&window, const std::string& message, int durati
 
 	float posX = 0.0f, posY = 0.0f;
 
-	const std::string& posString = Settings::Instance().PopupPosition();
-
-	if (posString == "Top/Right")
-	{
-    mCorner = Corner::TopRight;
-		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
-		posY = Renderer::getDisplayHeightAsFloat();
-	}
-	else if (posString == "Bottom/Right")
-	{
-    mCorner = Corner::BottomRight;
-		posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
-		posY = - mGrid.getSize().y();
-	}
-	else if (posString == "Bottom/Left")
-	{
-    mCorner = Corner::BottomLeft;
-		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
-		posY = - mGrid.getSize().y();
-	}
-	else if (posString == "Top/Left")
-	{
-    mCorner = Corner::TopLeft;
-		posX = Renderer::getDisplayWidthAsFloat() * 0.02f;
-		posY = Renderer::getDisplayHeightAsFloat();
-	}
+  mCorner = Corner::TopRight;
+  posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
+  posY = Renderer::getDisplayHeightAsFloat();
 
 	setPosition(posX, posY, 0);
   setSize(mGrid.getSize());

@@ -34,44 +34,26 @@ class Settings : public StaticLifeCycleControler<Settings>
       bool mDrawFramerate;
       bool mShowExit;
       bool mWindowed;
-      bool mUseOSK;
-      bool mShowClock;
       bool mVSync;
-      bool mShowHelpPrompts;
       bool mScrapeRatings;
       bool mMixImages;
       bool mIgnoreGamelist;
       bool mHideConsole;
-      bool mQuickSystemSelect;
       bool mFavoritesOnly;
       bool mShowHidden;
       bool mDebug;
       bool mDebugGrid;
       bool mDebugText;
-      bool mMoveCarousel;
       bool mOverscan;
 
       bool mThemeHasMenuView;
-      bool mThemeChanged;
       bool mThemeHasHelpSystem;
 
       int mScreenSaverTime;
-      int mMusicPopupTime;
       int mScraperResizeWidth;
       int mScraperResizeHeight;
-      int mHelpPopupTime;
-      int mNetplayPopupTime;
       int mMaxVRAM;
 
-      std::string mTransitionStyle;
-      std::string mPopupPosition;
-      std::string mThemeSet;
-      std::string mThemeColorSet;
-      std::string mThemeIconSet;
-      std::string mThemeMenu;
-      std::string mThemeSystemView;
-      std::string mThemeGamelistView;
-      std::string mThemeRegionName;
       std::string mScreenSaverBehavior;
       std::string mScraper;
       std::string mLang;
@@ -137,44 +119,26 @@ class Settings : public StaticLifeCycleControler<Settings>
     bool DrawFramerate          () const { return mData.mDrawFramerate;           }   
     bool ShowExit               () const { return mData.mShowExit;                }   
     bool Windowed               () const { return mData.mWindowed;                }   
-    bool UseOSK                 () const { return mData.mUseOSK;                  }   
-    bool ShowClock              () const { return mData.mShowClock;               }   
-    bool VSync                  () const { return mData.mVSync;                   }   
-    bool ShowHelpPrompts        () const { return mData.mShowHelpPrompts;         }   
-    bool ScrapeRatings          () const { return mData.mScrapeRatings;           }   
+    bool VSync                  () const { return mData.mVSync;                   }
+    bool ScrapeRatings          () const { return mData.mScrapeRatings;           }
     bool MixImages              () const { return mData.mMixImages;               }   
     bool IgnoreGamelist         () const { return mData.mIgnoreGamelist;          }   
     bool HideConsole            () const { return mData.mHideConsole;             }   
-    bool QuickSystemSelect      () const { return mData.mQuickSystemSelect;       }   
-    bool FavoritesOnly          () const { return mData.mFavoritesOnly;           }   
+    bool FavoritesOnly          () const { return mData.mFavoritesOnly;           }
     bool ShowHidden             () const { return mData.mShowHidden;              }   
     bool Debug                  () const { return mData.mDebug;                   }   
     bool DebugGrid              () const { return mData.mDebugGrid;               }   
     bool DebugText              () const { return mData.mDebugText;               }   
-    bool MoveCarousel           () const { return mData.mMoveCarousel;            }   
-    bool Overscan               () const { return mData.mOverscan;                }   
+    bool Overscan               () const { return mData.mOverscan;                }
                                                                
     bool ThemeHasMenuView       () const { return mData.mThemeHasMenuView;        }
-    bool ThemeChanged           () const { return mData.mThemeChanged;            }
     bool ThemeHasHelpSystem     () const { return mData.mThemeHasHelpSystem;      }
                                                                          
     int ScreenSaverTime         () const { return mData.mScreenSaverTime;          }
-    int MusicPopupTime          () const { return mData.mMusicPopupTime;           }
     int ScraperResizeWidth      () const { return mData.mScraperResizeWidth;       }
     int ScraperResizeHeight     () const { return mData.mScraperResizeHeight;      }
-    int HelpPopupTime           () const { return mData.mHelpPopupTime;            }
-    int NetplayPopupTime        () const { return mData.mNetplayPopupTime;         }
     int MaxVRAM                 () const { return mData.mMaxVRAM;                  }
                                                                          
-    const std::string& TransitionStyle      () const { return mData.mTransitionStyle;       }
-    const std::string& PopupPosition        () const { return mData.mPopupPosition;         }
-    const std::string& ThemeSet             () const { return mData.mThemeSet;              }
-    const std::string& ThemeColorSet        () const { return mData.mThemeColorSet;         }
-    const std::string& ThemeIconSet         () const { return mData.mThemeIconSet;          }
-    const std::string& ThemeMenu            () const { return mData.mThemeMenu;             }
-    const std::string& ThemeSystemView      () const { return mData.mThemeSystemView;       }
-    const std::string& ThemeGamelistView    () const { return mData.mThemeGamelistView;     }
-    const std::string& ThemeRegionName      () const { return mData.mThemeRegionName;       }
     const std::string& ScreenSaverBehavior  () const { return mData.mScreenSaverBehavior;   }
     const std::string& Scraper              () const { return mData.mScraper;               }
     const std::string& Lang                 () const { return mData.mLang;                  }
@@ -201,44 +165,26 @@ class Settings : public StaticLifeCycleControler<Settings>
     void SetDrawFramerate          (bool value) { mData.mDrawFramerate           = value; }   
     void SetShowExit               (bool value) { mData.mShowExit                = value; }   
     void SetWindowed               (bool value) { mData.mWindowed                = value; }   
-    void SetUseOSK                 (bool value) { mData.mUseOSK                  = value; }   
-    void SetShowClock              (bool value) { mData.mShowClock               = value; }   
-    void SetVSync                  (bool value) { mData.mVSync                   = value; }   
-    void SetShowHelpPrompts        (bool value) { mData.mShowHelpPrompts         = value; }   
-    void SetScrapeRatings          (bool value) { mData.mScrapeRatings           = value; }   
+    void SetVSync                  (bool value) { mData.mVSync                   = value; }
+    void SetScrapeRatings          (bool value) { mData.mScrapeRatings           = value; }
     void SetMixImages              (bool value) { mData.mMixImages               = value; }   
     void SetIgnoreGamelist         (bool value) { mData.mIgnoreGamelist          = value; }   
     void SetHideConsole            (bool value) { mData.mHideConsole             = value; }   
-    void SetQuickSystemSelect      (bool value) { mData.mQuickSystemSelect       = value; }   
-    void SetFavoritesOnly          (bool value) { mData.mFavoritesOnly           = value; }   
+    void SetFavoritesOnly          (bool value) { mData.mFavoritesOnly           = value; }
     void SetShowHidden             (bool value) { mData.mShowHidden              = value; }   
     void SetDebug                  (bool value) { mData.mDebug                   = value; }   
     void SetDebugGrid              (bool value) { mData.mDebugGrid               = value; }   
     void SetDebugText              (bool value) { mData.mDebugText               = value; }   
-    void SetMoveCarousel           (bool value) { mData.mMoveCarousel            = value; }   
-    void SetOverscan               (bool value) { mData.mOverscan                = value; }   
+    void SetOverscan               (bool value) { mData.mOverscan                = value; }
                                                                          
     void SetThemeHasMenuView       (bool value) { mData.mThemeHasMenuView        = value; }
-    void SetThemeChanged           (bool value) { mData.mThemeChanged            = value; }
     void SetThemeHasHelpSystem     (bool value) { mData.mThemeHasHelpSystem      = value; }
                                                                          
     void SetScreenSaverTime        (int  value) { mData.mScreenSaverTime          = value; }
-    void SetMusicPopupTime         (int  value) { mData.mMusicPopupTime           = value; }
     void SetScraperResizeWidth     (int  value) { mData.mScraperResizeWidth       = value; }
     void SetScraperResizeHeight    (int  value) { mData.mScraperResizeHeight      = value; }
-    void SetHelpPopupTime          (int  value) { mData.mHelpPopupTime            = value; }
-    void SetNetplayPopupTime       (int  value) { mData.mNetplayPopupTime         = value; }
     void SetMaxVRAM                (int  value) { mData.mMaxVRAM                  = value; }
 
-    void SetTransitionStyle        (const std::string& value) { mData.mTransitionStyle       = value; }
-    void SetPopupPosition          (const std::string& value) { mData.mPopupPosition         = value; }
-    void SetThemeSet               (const std::string& value) { mData.mThemeSet              = value; }
-    void SetThemeColorSet          (const std::string& value) { mData.mThemeColorSet         = value; }
-    void SetThemeIconSet           (const std::string& value) { mData.mThemeIconSet          = value; }
-    void SetThemeMenu              (const std::string& value) { mData.mThemeMenu             = value; }
-    void SetThemeSystemView        (const std::string& value) { mData.mThemeSystemView       = value; }
-    void SetThemeGamelistView      (const std::string& value) { mData.mThemeGamelistView     = value; }
-    void SetThemeRegionName        (const std::string& value) { mData.mThemeRegionName       = value; }
     void SetScreenSaverBehavior    (const std::string& value) { mData.mScreenSaverBehavior   = value; }
     void SetScraper                (const std::string& value) { mData.mScraper               = value; }
     void SetLang                   (const std::string& value) { mData.mLang                  = value; }

@@ -293,17 +293,14 @@ bool Window::isProcessing()
 void Window::exitScreenSaver()
 {
   if (Board::BrightnessSupport())
-  {
-    int brightness = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7);
-    Board::SetBrightness(brightness);
-  }
+    Board::SetBrightness(RecalboxConf::Instance().GetBrightness());
 }
 
 void Window::renderScreenSaver()
 {
   if (Board::BrightnessSupport())
   {
-    int brightness = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7);
+    int brightness = RecalboxConf::Instance().GetBrightness();
     std::string screenSaver = Settings::Instance().ScreenSaverBehavior();
     if (screenSaver == "black") Board::SetLowestBrightness();
     else if (screenSaver == "dim")

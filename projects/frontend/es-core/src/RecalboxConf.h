@@ -19,4 +19,69 @@ class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxCon
      * @brief Called when file has been saved
      */
     void OnSave() override;
+
+    /*
+     * Shortcuts
+     */
+
+    #define DefineGetterSetter(name, type, type2, key, defaultValue) \
+      type Get##name() const { return As##type2(sScreenSaverTime, defaultValue); } \
+      void Set##name(const type& value) { Set##type2(sScreenSaverTime, value); }
+
+    #define DefineGetterSetterParameterized(name, type, type2, keybefore, keyafter, defaultValue) \
+      type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
+      void Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); }
+
+    DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
+    DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
+    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "Default Output")
+
+    DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverType, 5)
+    DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverTime, "dim")
+    DefineGetterSetter(ScreenSaverSystemList, std::string, String, sScreenSaverSystemList, "")
+
+    DefineGetterSetter(PopupHelp, int, Int, sPopupHelp, 10)
+    DefineGetterSetter(PopupMusic, int, Int, sPopupMusic, 5)
+    DefineGetterSetter(PopupNetplay, int, Int, sPopupNetplay, 8)
+
+    DefineGetterSetter(ThemeCarousel, bool, Bool, sThemeCarousel, 1)
+    DefineGetterSetter(ThemeTransition, std::string, String, sThemeTransition, "slide")
+    DefineGetterSetter(ThemeFolder, std::string, String, sThemeFolder, "recalbox-next")
+
+    DefineGetterSetterParameterized(ThemeColorSet    , std::string, String, sThemeGeneric, ".colorset", "")
+    DefineGetterSetterParameterized(ThemeIconSet     , std::string, String, sThemeGeneric, ".iconset", "")
+    DefineGetterSetterParameterized(ThemeMenuSet     , std::string, String, sThemeGeneric, ".menuset", "")
+    DefineGetterSetterParameterized(ThemeSystemView  , std::string, String, sThemeGeneric, ".systemview", "")
+    DefineGetterSetterParameterized(ThemeGamelistView, std::string, String, sThemeGeneric, ".gamelistview", "")
+    DefineGetterSetterParameterized(ThemeRegion      , std::string, String, sThemeGeneric, ".region", "")
+
+    DefineGetterSetter(Brightness, int, Int, sBrightness, 7)
+    DefineGetterSetter(Clock, bool, Bool, sClock, false)
+    DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
+    DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
+
+    #undef DefineGetterSetter
+    #undef DefineGetterSetterParameterized
+
+    static constexpr const char* sAudioVolume           = "audio.volume";
+    static constexpr const char* sAudioMusic            = "audio.bgmusic";
+    static constexpr const char* sAudioOuput            = "audio.device";
+
+    static constexpr const char* sScreenSaverTime       = "emulationstation.screensaver.time";
+    static constexpr const char* sScreenSaverType       = "emulationstation.screensaver.type";
+    static constexpr const char* sScreenSaverSystemList = "global.demo.systemlist";
+
+    static constexpr const char* sPopupHelp             = "emulationstation.popoup.help";
+    static constexpr const char* sPopupMusic            = "emulationstation.popoup.music";
+    static constexpr const char* sPopupNetplay          = "emulationstation.popoup.netplay";
+
+    static constexpr const char* sThemeGeneric          = "emulationstation.theme.";
+    static constexpr const char* sThemeCarousel         = "emulationstation.theme.carousel";
+    static constexpr const char* sThemeTransition       = "emulationstation.theme.transition";
+    static constexpr const char* sThemeFolder           = "emulationstation.theme.folder";
+
+    static constexpr const char* sBrightness            = "emulationstation.brightness";
+    static constexpr const char* sClock                 = "emulationstation.clock";
+    static constexpr const char* sShowHelp              = "emulationstation.showhelp";
+    static constexpr const char* sQuickSystemSelect     = "emulationstation.quicksystemselect";
 };

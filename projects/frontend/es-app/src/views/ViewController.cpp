@@ -199,7 +199,7 @@ void ViewController::playViewTransition()
 		return;
 
 	std::string transitionTheme = ThemeData::getCurrent().getTransition();
-	if (transitionTheme.empty()) transitionTheme = Settings::Instance().TransitionStyle();
+	if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 	if(transitionTheme == "fade")
 	{
 		// fade
@@ -339,7 +339,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 	mLockInput = true;
 
   std::string transitionTheme = ThemeData::getCurrent().getTransition();
-  if (transitionTheme.empty()) transitionTheme = Settings::Instance().TransitionStyle();
+  if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
 	auto launchFactory = [this, game, origCamera, netplaydata, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
 	{

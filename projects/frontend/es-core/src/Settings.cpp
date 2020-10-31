@@ -7,55 +7,31 @@
 
 #include "pugixml/pugixml.hpp"
 
-#ifdef _RPI_
-  #define __VSYNC__ "1"
-#else
-  #define __VSYNC__ "1"
-#endif
-
 Settings::DataDescriptor const Settings::sDescriptors[] =
 {
   { Settings::DataType::Bool  , offsetof(Settings::Data, mBackgroundJoystickInput), "BackgroundJoystickInput", "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDrawFramerate          ), "DrawFramerate"          , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mShowExit               ), "ShowExit"               , "1", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mWindowed               ), "Windowed"               , "0", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mUseOSK                 ), "UseOSK"                 , "1", false },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mShowClock              ), "ShowClock"              , "0", false },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mVSync                  ), "VSync"                  , __VSYNC__, true },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mShowHelpPrompts        ), "ShowHelpPrompts"        , "1", false },
+  { Settings::DataType::Bool  , offsetof(Settings::Data, mVSync                  ), "VSync"                  , "1", true },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mScrapeRatings          ), "ScrapeRatings"          , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mMixImages              ), "MixImages"              , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mIgnoreGamelist         ), "IgnoreGamelist"         , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mHideConsole            ), "HideConsole"            , "1", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mQuickSystemSelect      ), "QuickSystemSelect"      , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mFavoritesOnly          ), "FavoritesOnly"          , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mShowHidden             ), "ShowHidden"             , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebug                  ), "Debug"                  , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebugGrid              ), "DebugGrid"              , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebugText              ), "DebugText"              , "0", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mMoveCarousel           ), "MoveCarousel"           , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mOverscan               ), "Overscan"               , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeHasMenuView       ), "ThemeHasMenuView"       , "0", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeChanged           ), "ThemeChanged"           , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeHasHelpSystem     ), "ThemeHasHelpSystem"     , "0", true  },
 
   { Settings::DataType::Int   , offsetof(Settings::Data, mScreenSaverTime        ), "ScreenSaverTime"        , "300000", false }, // 5 minutes
-  { Settings::DataType::Int   , offsetof(Settings::Data, mMusicPopupTime         ), "MusicPopupTime"         , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeWidth     ), "ScraperResizeWidth"     , "400"   , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeHeight    ), "ScraperResizeHeight"    , "0"     , false },
-  { Settings::DataType::Int   , offsetof(Settings::Data, mHelpPopupTime          ), "HelpPopupTime"          , "5"    , false },
-  { Settings::DataType::Int   , offsetof(Settings::Data, mNetplayPopupTime       ), "NetplayPopupTime"       , "5"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mMaxVRAM                ), "MaxVRAM"                , "80"    , false },
                                                           
-  { Settings::DataType::String, offsetof(Settings::Data, mTransitionStyle        ), "TransitionStyle"        , "fade"                                                     , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mPopupPosition          ), "PopupPosition"          , "Top/Right"                                                , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeSet               ), "ThemeSet"               , "recalbox-next"                                            , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeColorSet          ), "ThemeColorSet"          , ""                                                         , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeIconSet           ), "ThemeIconSet"           , ""                                                         , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeMenu              ), "ThemeMenu"              , ""                                                         , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeSystemView        ), "ThemeSystemView"        , ""                                                         , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeGamelistView      ), "ThemeGamelistView"      , ""                                                         , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mThemeRegionName        ), "ThemeRegionName"        , "eu"                                                       , false },
   { Settings::DataType::String, offsetof(Settings::Data, mScreenSaverBehavior    ), "ScreenSaverBehavior"    , "demo"                                                      , false },
   { Settings::DataType::String, offsetof(Settings::Data, mScraper                ), "Scraper"                , "Screenscraper"                                            , false },
   { Settings::DataType::String, offsetof(Settings::Data, mLang                   ), "Lang"                   , "en_US"                                                    , false },

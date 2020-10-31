@@ -3,12 +3,12 @@
 //
 #pragma once
 
-#include <guis/Gui.h>
+#include <guis/menus/GuiMenuBase.h>
 #include <components/MenuComponent.h>
 #include <components/SwitchComponent.h>
 #include <components/OptionListComponent.h>
 
-class GuiMenuSound : public Gui
+class GuiMenuSound : public GuiMenuBase
 {
   public:
     /*!
@@ -24,17 +24,7 @@ class GuiMenuSound : public Gui
      */
     void Update(int deltaTime) override;
 
-    /*!
-     * @brief Fill in help
-     * @param help Help
-     * @return true of the help system has been files
-     */
-    bool getHelpPrompts(Help& help) override;
-
   private:
-    //! Menu
-    MenuComponent mMenu;
-
     //! Volume slider
     std::shared_ptr<SliderComponent> mVolume;
     //! Music on/off
@@ -42,9 +32,21 @@ class GuiMenuSound : public Gui
     //! Outputs
     std::shared_ptr<OptionListComponent<std::string>> mOutputList;
 
+    /*!
+     * @brief Set & save volume
+     * @param volume new Volume
+     */
     static void SetVolume(float volume);
 
+    /*!
+     * @brief Se & save music on/off state
+     * @param on new Music on/off state
+     */
     static void SetMusicOnOff(bool on);
 
+    /*!
+     * @brief Set & save selected audio output
+     * @param output new Audio output
+     */
     static void SetOutput(const std::string& output);
 };

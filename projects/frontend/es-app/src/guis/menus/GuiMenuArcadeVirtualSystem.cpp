@@ -1,6 +1,6 @@
 #include <systems/SystemManager.h>
 #include <RecalboxConf.h>
-#include "guis/GuiMenuArcadeVirtualSystem.h"
+#include "GuiMenuArcadeVirtualSystem.h"
 
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"

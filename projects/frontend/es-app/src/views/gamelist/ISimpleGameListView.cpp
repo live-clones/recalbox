@@ -1,5 +1,4 @@
 #include <RecalboxConf.h>
-#include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
 #include <guis/GuiNetPlayHostPasswords.h>
@@ -210,7 +209,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // MOVE to NEXT GAMELIST
   if (event.AnyRightPressed())
   {
-    if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToNextGameList();
       return true;
@@ -218,8 +217,9 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // MOVE to PREVIOUS GAMELIST
-  if (event.AnyLeftPressed()) {
-    if (Settings::Instance().QuickSystemSelect() && !hideSystemView) {
+  if (event.AnyLeftPressed())
+  {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
       return true;
@@ -329,7 +329,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(HelpType::UpDown, _("CHOOSE"));
 
-  if (Settings::Instance().QuickSystemSelect() && !hideSystemView)
+  if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
   help.Set(HelpType::Start, _("OPTIONS"));

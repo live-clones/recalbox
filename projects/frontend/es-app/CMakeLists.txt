@@ -38,9 +38,15 @@ set(ES_HEADERS
         src/guis/GuiMetaDataEd.h
         src/guis/GuiGamelistOptions.h
         src/guis/GuiMenu.h
-        src/guis/GuiMenuArcadeVirtualSystem.h
-        src/guis/GuiMenuNetwork.h
-        src/guis/GuiMenuSound.h
+        src/guis/menus/GuiMenuArcadeVirtualSystem.h
+        src/guis/menus/GuiMenuBase.h
+        src/guis/menus/GuiMenuNetwork.h
+        src/guis/menus/GuiMenuPopupSettings.h
+        src/guis/menus/GuiMenuScreensavers.h
+        src/guis/menus/GuiMenuSound.h
+        src/guis/menus/GuiMenuThemeConfiguration.h
+        src/guis/menus/GuiMenuThemeOptions.h
+        src/guis/menus/GuiMenuUserInterface.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h
@@ -196,9 +202,15 @@ set(ES_SOURCES
         src/guis/GuiMetaDataEd.cpp
         src/guis/GuiGamelistOptions.cpp
         src/guis/GuiMenu.cpp
-        src/guis/GuiMenuArcadeVirtualSystem.cpp
-        src/guis/GuiMenuNetwork.cpp
-        src/guis/GuiMenuSound.cpp
+        src/guis/menus/GuiMenuArcadeVirtualSystem.cpp
+        src/guis/menus/GuiMenuBase.cpp
+        src/guis/menus/GuiMenuNetwork.cpp
+        src/guis/menus/GuiMenuPopupSettings.cpp
+        src/guis/menus/GuiMenuScreensavers.cpp
+        src/guis/menus/GuiMenuSound.cpp
+        src/guis/menus/GuiMenuThemeConfiguration.cpp
+        src/guis/menus/GuiMenuThemeOptions.cpp
+        src/guis/menus/GuiMenuUserInterface.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
         src/guis/GuiScraperSelect.cpp

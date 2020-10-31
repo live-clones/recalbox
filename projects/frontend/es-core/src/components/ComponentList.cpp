@@ -329,7 +329,7 @@ bool ComponentList::getHelpPrompts(Help& help)
 	if (size() > 1)
 		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));
 
-	if ((mEntries[mCursor].data.help_handler != nullptr) && Settings::Instance().HelpPopupTime() != 0)
+	if ((mEntries[mCursor].data.help_handler != nullptr) && RecalboxConf::Instance().GetPopupHelp() != 0)
 		help.Set(HelpType::Y, _("HELP"));
 
 	return true;

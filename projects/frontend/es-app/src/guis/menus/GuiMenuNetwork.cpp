@@ -8,16 +8,13 @@
 #include <MenuThemeData.h>
 #include <components/SwitchComponent.h>
 #include "GuiMenuNetwork.h"
-#include "MenuMessages.h"
+#include "guis/MenuMessages.h"
 #include <guis/GuiArcadeVirtualKeyboard.h>
 
 GuiMenuNetwork::GuiMenuNetwork(Window& window)
-  : Gui(window)
-  , mMenu(window, _("NETWORK SETTINGS"))
+  : GuiMenuBase(window, _("NETWORK SETTINGS"))
   , mCurrentEdition(EditedText::None)
 {
-  addChild(&mMenu);
-
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
   // Network status
@@ -215,24 +212,6 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
   mStatus->setText(RecalboxSystem::ping() ? _( "CONNECTED") : _("NOT CONNECTED"));
   mIP->setText(RecalboxSystem::getIpAdress());
   mMenu.onSizeChanged();
-}
-
-bool GuiMenuNetwork::ProcessInput(const InputCompactEvent& event)
-{
-  if (event.APressed())
-  {
-    Close();
-    return true;
-  }
-
-  return Gui::ProcessInput(event);
-}
-
-bool GuiMenuNetwork::getHelpPrompts(Help& help)
-{
-  help.Clear()
-      .Set(HelpType::A, _("CLOSE"));
-  return true;
 }
 
 void GuiMenuNetwork::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)

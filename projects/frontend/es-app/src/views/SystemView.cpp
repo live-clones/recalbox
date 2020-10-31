@@ -383,8 +383,8 @@ void SystemView::onCursorChanged(const CursorState& state)
 		return;
 
 	Animation* anim = nullptr;
-    bool move_carousel = Settings::Instance().MoveCarousel();
-	std::string transition_style = Settings::Instance().TransitionStyle();
+  bool move_carousel = RecalboxConf::Instance().GetThemeCarousel();
+	std::string transition_style = RecalboxConf::Instance().GetThemeTransition();
 	if(transition_style == "fade")
 	{
 		float startExtrasFade = mExtrasFadeOpacity;

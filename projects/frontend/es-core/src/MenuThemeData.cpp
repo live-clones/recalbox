@@ -4,7 +4,7 @@
 std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
 
 std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
-	if (sInstance == nullptr || Settings::Instance().ThemeChanged())
+	if (sInstance == nullptr)
 		sInstance = std::shared_ptr<MenuThemeData>(new MenuThemeData());
 	return sInstance;
 }
@@ -13,7 +13,7 @@ MenuThemeData::MenuThemeData()
 {
 	mCurrent = std::make_shared<MenuTheme>();
 	
-	auto elem = ThemeData::getCurrent().getElement("menu", "menubg", "menuBackground");
+	const auto *elem = ThemeData::getCurrent().getElement("menu", "menubg", "menuBackground");
 	
 	if (elem != nullptr)
 	{

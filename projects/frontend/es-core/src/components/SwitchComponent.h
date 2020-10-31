@@ -32,13 +32,13 @@ public:
 
 	bool getHelpPrompts(Help& help) override;
 
-  inline void setChangedCallback(const std::function<void()>& callback) { mChangedCallback = callback; };
+  inline void setChangedCallback(const std::function<void(bool state)>& callback) { mChangedCallback = callback; };
 
 private:
 	void onStateChanged();
 
 	ImageComponent mImage;
-	std::function<void()> mChangedCallback;
+	std::function<void(bool)> mChangedCallback;
   unsigned int mOriginColor;
 	bool mState;
 	bool mInitialState;

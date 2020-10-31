@@ -247,7 +247,7 @@ void AudioManager::PlayRandomMusic()
   mCurrentMusicSource = source;
 
   // Popup?
-  int popupDuration = Settings::Instance().MusicPopupTime();
+  int popupDuration = RecalboxConf::Instance().GetPopupMusic();
   if (popupDuration != 0)
   {
     // Create music popup

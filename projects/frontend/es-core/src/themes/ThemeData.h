@@ -89,6 +89,7 @@ class ThemeData
 	std::string mMenu;
 	std::string mSystemview;
 	std::string mGamelistview;
+  std::string mRegion;
 	std::string mSystemThemeFolder;
 
     void parseFeatures(const pugi::xml_node& themeRoot);
@@ -96,11 +97,12 @@ class ThemeData
     void parseViews(const pugi::xml_node& themeRoot);
     void parseView(const pugi::xml_node& viewNode, ThemeView& view);
     void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementProperty>& typeMap, ThemeElement& element);
-    static bool parseRegion(const pugi::xml_node& root);
+    bool parseRegion(const pugi::xml_node& root);
     bool parseSubset(const pugi::xml_node& node);
     static void crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<Path>& dequepath);
     static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
 
+    static bool CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset);
     static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
     {
       std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language"));

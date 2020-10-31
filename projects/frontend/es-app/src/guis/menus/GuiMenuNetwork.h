@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <guis/Gui.h>
+#include <guis/menus/GuiMenuBase.h>
 #include <components/MenuComponent.h>
 #include <components/OptionListComponent.h>
 #include <guis/GuiWaitLongExecution.h>
@@ -18,7 +18,7 @@ enum class NetworkOperation
   WPS,
 };
 
-class GuiMenuNetwork : public Gui, private ILongExecution<NetworkOperation, bool>, private IGuiArcadeVirtualKeyboardInterface
+class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperation, bool>, private IGuiArcadeVirtualKeyboardInterface
 {
   public:
     /*!
@@ -26,20 +26,6 @@ class GuiMenuNetwork : public Gui, private ILongExecution<NetworkOperation, bool
      * @param window Global window
      */
     explicit GuiMenuNetwork(Window& window);
-
-    /*!
-     * @brief Proces input
-     * @param event Inpuit event
-     * @return True if the input has been processed
-     */
-    bool ProcessInput(const InputCompactEvent& event) override;
-
-    /*!
-     * @brief Fill in help
-     * @param help Help
-     * @return true of the help system has been files
-     */
-    bool getHelpPrompts(Help& help) override;
 
   private:
     enum class EditedText
@@ -49,8 +35,6 @@ class GuiMenuNetwork : public Gui, private ILongExecution<NetworkOperation, bool
       WifiKey,
     };
 
-    //! Menu
-    MenuComponent mMenu;
     //! SSID list
     std::shared_ptr<OptionListComponent<std::string>> mSSIDList;
     //! WIFI On/Off

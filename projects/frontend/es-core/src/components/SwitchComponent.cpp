@@ -60,7 +60,7 @@ void SwitchComponent::onStateChanged()
 {
 	mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
 	if (mChangedCallback)
-	  mChangedCallback();
+	  mChangedCallback(mState);
 }
 
 bool SwitchComponent::getHelpPrompts(Help& help)

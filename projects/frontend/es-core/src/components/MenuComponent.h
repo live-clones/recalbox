@@ -35,7 +35,7 @@ class MenuComponent : public Component
     inline std::function<void()> buildHelpGui(const std::string& label, const std::string& help)
     {
       return [this, label, help] () {
-        int dur = Settings::Instance().HelpPopupTime();
+        int dur = RecalboxConf::Instance().GetPopupHelp();
         if (dur != 0)
           mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopup::PopupType::Help));
         return true;

@@ -83,7 +83,7 @@ MainRunner::ExitState MainRunner::Run()
     }
     // Brightness
     if (Board::BrightnessSupport())
-      Board::SetBrightness(RecalboxConf::Instance().AsInt("emulationstation.brightness", 7));
+      Board::SetBrightness(RecalboxConf::Instance().GetBrightness());
 
     // Initialize audio manager
     AudioManager audioManager(window);
@@ -320,7 +320,7 @@ void MainRunner::CheckUpdateMessage(Window& window)
 
 void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 {
-  std::string selectedTheme = Settings::Instance().ThemeSet();
+  std::string selectedTheme = RecalboxConf::Instance().GetThemeFolder();
   Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx/loading.ogg";
   if (!loadingMusic.Exists())
     loadingMusic = RootFolders::DataRootFolder / "themes" / selectedTheme / "fx/loading.ogg";

@@ -223,7 +223,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
         }; // ok callback (apply new value to ed)
         row.makeAcceptInputHandler([this, title, ed, updateVal, multiLine]
                                    {
-                                     if (Settings::Instance().UseOSK() && (!multiLine))
+                                     if (!multiLine)
                                      {
                                        mWindow.pushGui(new GuiTextEditPopupKeyboard(mWindow, title, ed->getValue(), updateVal, multiLine));
                                      }

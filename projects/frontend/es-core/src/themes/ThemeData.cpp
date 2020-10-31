@@ -274,13 +274,23 @@ unsigned int getHexColor(const char* str)
 ThemeData::ThemeData()
 {
 	mVersion = 0;
-	mColorset = Settings::Instance().ThemeColorSet();
-	mIconset = Settings::Instance().ThemeIconSet();
-	mMenu = Settings::Instance().ThemeMenu();
-	mSystemview = Settings::Instance().ThemeSystemView();
-	mGamelistview = Settings::Instance().ThemeGamelistView();
 	Settings::Instance().SetThemeHasMenuView(false);
 	mSystemThemeFolder.clear();
+}
+
+bool ThemeData::CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset)
+{
+  std::map<std::string, std::string> map = sortThemeSubSets(subsets, subset);
+  // Empty subset?
+  if (subsets.empty()) return false;
+  // Try to fix the value if not found
+  auto selectedColorSet = map.find(selected);
+  if (selectedColorSet == map.end())
+  {
+    selected = map.begin()->first;
+    return true;
+  }
+  return false;
 }
 
 void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
@@ -294,7 +304,24 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
 	mViews.clear();
 	
 	mSystemThemeFolder = systemThemeFolder;
-	
+
+	std::string themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
+	std::map<std::string, std::string> subSets = getThemeSubSets(themeName);
+	bool main = systemThemeFolder.empty();
+
+  mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
+  if (main && CheckThemeOption(mColorset, subSets, "colorset")) RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset);
+  mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
+  if (main && CheckThemeOption(mIconset, subSets, "iconset")) RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset);
+  mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
+  if (main && CheckThemeOption(mMenu, subSets, "menu")) RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu);
+  mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
+  if (main && CheckThemeOption(mSystemview, subSets, "systemview")) RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview);
+  mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
+  if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview);
+  mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
+  if (main && CheckThemeOption(mRegion, subSets, "region")) RecalboxConf::Instance().SetThemeRegion(themeName, mRegion);
+
 	pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file(path.ToChars());
 	if(!res)
@@ -494,7 +521,6 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 	
 	if (node.attribute("region") != nullptr)
 	{
-		const std::string& regionsetting = Settings::Instance().ThemeRegionName();
 		parse = false;
 		const char* delim = " \t\r\n,";
 		const std::string nameAttr = node.attribute("region").as_string();
@@ -505,7 +531,7 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 			std::string elemKey = nameAttr.substr(prevOff, off - prevOff);
 			prevOff = nameAttr.find_first_not_of(delim, off);
 			off = nameAttr.find_first_of(delim, prevOff);
-			if (elemKey == regionsetting)
+			if (elemKey == mRegion)
 			{	
 				parse = true;
 				return parse;
@@ -651,10 +677,10 @@ const ThemeData& ThemeData::getCurrent()
 	static ThemeData sCurrent;
 	static bool sLoaded = false;
 
-	if (!sLoaded || Settings::Instance().ThemeChanged())
+	if (!sLoaded)
 	{
 		Path path;
-		const std::string& currentTheme = Settings::Instance().ThemeSet();
+		const std::string& currentTheme = RecalboxConf::Instance().GetThemeFolder();
 
 		static constexpr size_t pathCount = 3;
 		Path paths[pathCount] =
@@ -870,12 +896,12 @@ Path ThemeData::getThemeFromCurrentSet(const std::string& system)
 		return Path::Empty;
 	}
 
-	auto set = themeSets.find(Settings::Instance().ThemeSet());
+	auto set = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
 	if(set == themeSets.end())
 	{
 		// currently selected theme set is missing, so just pick the first available set
 		set = themeSets.begin();
-		Settings::Instance().SetThemeSet(set->first);
+    RecalboxConf::Instance().SetThemeFolder(set->first);
 	}
 
 	return set->second.getThemePath(system);
@@ -904,7 +930,8 @@ std::string ThemeData::getTransition() const
 	return result;
 }
 
-bool ThemeData::isFolderHandled() const {
+bool ThemeData::isFolderHandled() const
+{
 	const auto* elem = getElement("detailed", "md_folder_name", "text");
-	return elem != nullptr ? elem->HasProperty("pos") : false;
+	return elem != nullptr && elem->HasProperty("pos");
 }

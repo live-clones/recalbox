@@ -120,7 +120,7 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
 
 bool TextureData::initImageFromMemory(const unsigned char* fileData, size_t length)
 {
-	size_t width, height;
+	size_t width = 0, height = 0;
 
 	// If already initialised then don't read again
 	{

@@ -53,7 +53,7 @@ MenuComponent::MenuComponent(Window&window, const std::string& title, const std:
     headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
   }
 
-  if (Settings::Instance().ShowClock())
+  if (RecalboxConf::Instance().GetClock())
   {
     mDateTime = std::make_shared<DateTimeComponent>(mWindow);
     mDateTime->setDisplayMode(DateTimeComponent::Display::RealTime);

@@ -36,20 +36,20 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   else if (inputEvent.BrightnessUpPressed())
   {
     LOG(LogDebug) << "[OdroidAdvanceGo2] Brightness + pressed";
-    int value = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7) + 1;
+    int value = RecalboxConf::Instance().GetBrightness() + 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);
-    RecalboxConf::Instance().SetInt("emulationstation.brightness", value);
+    RecalboxConf::Instance().SetBrightness(value);
     RecalboxConf::Instance().Save();
     return true;
   }
   else if (inputEvent.BrightnessDownPressed())
   {
     LOG(LogDebug) << "[OdroidAdvanceGo2] Brightness - pressed";
-    int value = RecalboxConf::Instance().AsInt("emulationstation.brightness", 7) - 1;
+    int value = RecalboxConf::Instance().GetBrightness() - 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);
-    RecalboxConf::Instance().SetInt("emulationstation.brightness", value);
+    RecalboxConf::Instance().SetBrightness(value);
     RecalboxConf::Instance().Save();
     return true;
   }
