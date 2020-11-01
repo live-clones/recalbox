@@ -9,6 +9,11 @@
 #include <utils/Files.h>
 #include <audio/AudioController.h>
 
+// Member implementations
+OdroidAdvanceGo2PowerEventReader OdroidAdvanceGo2Board::mPowerReader;
+OdroidAdvanceGo2SpecialButtonsReader OdroidAdvanceGo2Board::mButtonsReader;
+
+
 bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
 {
   if (inputEvent.VolumeUpPressed())
@@ -67,3 +72,9 @@ void OdroidAdvanceGo2Board::SetBrightness(int step)
   int value = 1 << step; if (value > 255) value = 255;
   Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
 }
+
+void OdroidAdvanceGo2Board::GracefulPowerOff()
+{
+
+}
+

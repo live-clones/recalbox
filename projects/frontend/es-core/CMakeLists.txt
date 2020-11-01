@@ -33,6 +33,8 @@ set(CORE_HEADERS
 		# Hardware
 		src/hardware/Board.h
 		src/hardware/OdroidAdvanceGo2Board.h
+		src/hardware/OdroidAdvanceGo2PowerEventReader.h
+		src/hardware/OdroidAdvanceGo2SpecialButtonsReader.h
 
 		# Audio
 		src/audio/AudioManager.h
@@ -173,6 +175,8 @@ set(CORE_SOURCES
 		# Hardware
 		src/hardware/Board.cpp
 		src/hardware/OdroidAdvanceGo2Board.cpp
+		src/hardware/OdroidAdvanceGo2PowerEventReader.cpp
+		src/hardware/OdroidAdvanceGo2SpecialButtonsReader.cpp
 
 		# Audio
 		src/audio/AudioManager.cpp

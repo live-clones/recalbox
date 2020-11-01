@@ -306,3 +306,79 @@ bool Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   }
   return false;
 }
+
+void Board::StartGlobalBackgroundProcesses()
+{
+  LOG(LogInfo) << "[Board] Starting background processes.";
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StartGlobalBackgroundProcesses(); break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
+void Board::StopGlobalBackgroundProcesses()
+{
+  LOG(LogInfo) << "[Board] Stopping background processes.";
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StopGlobalBackgroundProcesses(); break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
+void Board::StartInGameBackgroundProcesses()
+{
+  LOG(LogInfo) << "[Board] Starting in-game background processes.";
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StartInGameBackgroundProcesses(); break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
+void Board::StopInGameBackgroundProcesses()
+{
+  LOG(LogInfo) << "[Board] Stopping in-game background processes.";
+  switch (GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StopInGameBackgroundProcesses(); break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}

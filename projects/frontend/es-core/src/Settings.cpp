@@ -27,7 +27,6 @@ Settings::DataDescriptor const Settings::sDescriptors[] =
   { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeHasMenuView       ), "ThemeHasMenuView"       , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mThemeHasHelpSystem     ), "ThemeHasHelpSystem"     , "0", true  },
 
-  { Settings::DataType::Int   , offsetof(Settings::Data, mScreenSaverTime        ), "ScreenSaverTime"        , "300000", false }, // 5 minutes
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeWidth     ), "ScraperResizeWidth"     , "400"   , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeHeight    ), "ScraperResizeHeight"    , "0"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mMaxVRAM                ), "MaxVRAM"                , "80"    , false },

@@ -46,6 +46,9 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
+    // Board-related background processes
+    Board::StartGlobalBackgroundProcesses();
+
     // Save power for battery-powered devices
     Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
 
@@ -150,6 +153,9 @@ MainRunner::ExitState MainRunner::Run()
       LOG(LogError) << "Exception: " << ex.what();
       exitState = ExitState::Relaunch;
     }
+
+    // Board-related background processes
+    Board::StopGlobalBackgroundProcesses();
 
     // Exit
     mNotificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));

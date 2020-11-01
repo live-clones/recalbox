@@ -25,8 +25,8 @@ class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxCon
      */
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
-      type Get##name() const { return As##type2(sScreenSaverTime, defaultValue); } \
-      void Set##name(const type& value) { Set##type2(sScreenSaverTime, value); }
+      type Get##name() const { return As##type2(key, defaultValue); } \
+      void Set##name(const type& value) { Set##type2(key, value); }
 
     #define DefineGetterSetterParameterized(name, type, type2, keybefore, keyafter, defaultValue) \
       type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
@@ -36,8 +36,8 @@ class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxCon
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "Default Output")
 
-    DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverType, 5)
-    DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverTime, "dim")
+    DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
+    DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")
     DefineGetterSetter(ScreenSaverSystemList, std::string, String, sScreenSaverSystemList, "")
 
     DefineGetterSetter(PopupHelp, int, Int, sPopupHelp, 10)

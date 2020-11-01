@@ -125,6 +125,30 @@ class Board
      */
     static bool ProcessSpecialInputs(InputCompactEvent& inputEvent);
 
+    /*!
+     * @brief Start optional global background processes
+     * This method is called when ES starts
+     */
+    static void StartGlobalBackgroundProcesses();
+
+    /*!
+     * @brief Stop optional global background processes
+     * This method is called when ES stops
+     */
+    static void StopGlobalBackgroundProcesses();
+
+    /*!
+     * @brief Start optional in-game background processes.
+     * This method is called when a game starts
+     */
+    static void StartInGameBackgroundProcesses();
+
+    /*!
+     * @brief Stop optional in-game background processes.
+     * This method is called when a game stops
+     */
+    static void StopInGameBackgroundProcesses();
+
   private:
     /*!
      * Raspberry model (real models)

@@ -261,7 +261,7 @@ void Window::Render(Transform4x4f& transform)
     mDefaultFonts[1]->renderTextCache(mFrameDataText.get());
   }
 
-  unsigned int screensaverTime = (unsigned int) Settings::Instance().ScreenSaverTime();
+  unsigned int screensaverTime = (unsigned int) RecalboxConf::Instance().GetScreenSaverTime() * 60000;
   if (mTimeSinceLastInput >= screensaverTime && screensaverTime != 0)
   {
     if (!isProcessing())

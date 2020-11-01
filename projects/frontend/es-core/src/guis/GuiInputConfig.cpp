@@ -236,14 +236,14 @@ void GuiInputConfig::initFormInputs()
 
 	if (Board::HasExtraVolumeButtons())
   {
-    addFormInput("VOL+", _("VOLUME +"), ":/help/volume_up.svg", true, InputEvent::EventType::Button);
     addFormInput("VOL-", _("VOLUME -"), ":/help/volume_down.svg", true, InputEvent::EventType::Button);
+    addFormInput("VOL+", _("VOLUME +"), ":/help/volume_up.svg", true, InputEvent::EventType::Button);
   }
 
 	if (Board::HasExtraBrightnessButtons())
   {
-    addFormInput("LUM+", _("BRIGHTNESS +"), ":/help/brightness_up.svg", true, InputEvent::EventType::Button);
     addFormInput("LUM-", _("BRIGHTNESS -"), ":/help/brightness_down.svg", true, InputEvent::EventType::Button);
+    addFormInput("LUM+", _("BRIGHTNESS +"), ":/help/brightness_up.svg", true, InputEvent::EventType::Button);
   }
 
   addFormInput("HotKey", _("HOTKEY"), ":/help/button_hotkey.svg", false, InputEvent::EventType::Button);

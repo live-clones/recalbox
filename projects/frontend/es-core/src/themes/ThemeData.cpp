@@ -307,22 +307,42 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
 
 	std::string themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
 	std::map<std::string, std::string> subSets = getThemeSubSets(themeName);
+
 	bool main = systemThemeFolder.empty();
-
+  bool needSave = false;
   mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
-  if (main && CheckThemeOption(mColorset, subSets, "colorset")) RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset);
+  if (main && CheckThemeOption(mColorset, subSets, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
   mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
-  if (main && CheckThemeOption(mIconset, subSets, "iconset")) RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset);
+  if (main && CheckThemeOption(mIconset, subSets, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
   mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
-  if (main && CheckThemeOption(mMenu, subSets, "menu")) RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu);
+  if (main && CheckThemeOption(mMenu, subSets, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
   mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
-  if (main && CheckThemeOption(mSystemview, subSets, "systemview")) RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview);
+  if (main && CheckThemeOption(mSystemview, subSets, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
   mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
-  if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview);
+  if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
   mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
-  if (main && CheckThemeOption(mRegion, subSets, "region")) RecalboxConf::Instance().SetThemeRegion(themeName, mRegion);
+  if (main && CheckThemeOption(mRegion, subSets, "region")) { RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
+  if (needSave) RecalboxConf::Instance().Save();
 
-	pugi::xml_document doc;
+  /*if (systemThemeFolder.empty())
+  {
+    bool needSave = false;
+    mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
+    if (CheckThemeOption(mColorset, subSets, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
+    mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
+    if (CheckThemeOption(mIconset, subSets, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
+    mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
+    if (CheckThemeOption(mMenu, subSets, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
+    mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
+    if (CheckThemeOption(mSystemview, subSets, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
+    mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
+    if (CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
+    mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
+    if (CheckThemeOption(mRegion, subSets, "region")) { RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
+    if (needSave) RecalboxConf::Instance().Save();
+  }*/
+
+  pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file(path.ToChars());
 	if(!res)
 		throw ThemeException("XML parsing error: \n    " + std::string(res.description()), mPaths);
@@ -401,34 +421,27 @@ bool ThemeData::parseSubset(const pugi::xml_node& node)
 		
 		if (subsetAttr == "colorset" && nameAttr == mColorset)
 		{	
-			parse = true;
-			return parse;
+			return true;
 		}
 		if (subsetAttr == "iconset" && nameAttr == mIconset)
 		{	
-			parse = true;
-			return parse;
+			return true;
 		}
 		if (subsetAttr == "menu" && nameAttr == mMenu)
 		{	
-			parse = true;
-			return parse;
+			return true;
 		}
 		if (subsetAttr == "systemview" && nameAttr == mSystemview)
 		{	
-			parse = true;
-			return parse;
+			return true;
 		}
 		if (subsetAttr == "gamelistview" && nameAttr == mGamelistview)
 		{	
-			parse = true;
-			return parse;
+			return true;
 		}
 	}
-			
 	
 	return parse;
-	
 }
 
 void ThemeData::parseFeatures(const pugi::xml_node& root)
@@ -692,8 +705,7 @@ const ThemeData& ThemeData::getCurrent()
 
 		for (const auto& master : paths)
 		{
-			if(!master.IsDirectory())
-				continue;
+			if(!master.IsDirectory()) continue;
 
 			Path::PathList list = master.GetDirectoryContent();
 			for(auto& sub : list)
@@ -707,7 +719,7 @@ const ThemeData& ThemeData::getCurrent()
 						{
 							std::string empty;
               sCurrent.loadFile(empty, subTheme);
-							return sCurrent;
+							break;
 						} catch(ThemeException& e)
 						{
 							LOG(LogError) << e.what();
@@ -723,7 +735,7 @@ const ThemeData& ThemeData::getCurrent()
         {
           std::string empty;
           sCurrent.loadFile(empty, masterTheme);
-          return sCurrent;
+          break;
         } catch(ThemeException& e)
         {
           LOG(LogError) << e.what();
@@ -731,6 +743,8 @@ const ThemeData& ThemeData::getCurrent()
         }
       }
 		}
+
+		sLoaded = true;
 	}
 
 	return sCurrent;

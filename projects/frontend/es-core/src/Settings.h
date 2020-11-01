@@ -49,7 +49,6 @@ class Settings : public StaticLifeCycleControler<Settings>
       bool mThemeHasMenuView;
       bool mThemeHasHelpSystem;
 
-      int mScreenSaverTime;
       int mScraperResizeWidth;
       int mScraperResizeHeight;
       int mMaxVRAM;
@@ -134,7 +133,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     bool ThemeHasMenuView       () const { return mData.mThemeHasMenuView;        }
     bool ThemeHasHelpSystem     () const { return mData.mThemeHasHelpSystem;      }
                                                                          
-    int ScreenSaverTime         () const { return mData.mScreenSaverTime;          }
     int ScraperResizeWidth      () const { return mData.mScraperResizeWidth;       }
     int ScraperResizeHeight     () const { return mData.mScraperResizeHeight;      }
     int MaxVRAM                 () const { return mData.mMaxVRAM;                  }
@@ -180,7 +178,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     void SetThemeHasMenuView       (bool value) { mData.mThemeHasMenuView        = value; }
     void SetThemeHasHelpSystem     (bool value) { mData.mThemeHasHelpSystem      = value; }
                                                                          
-    void SetScreenSaverTime        (int  value) { mData.mScreenSaverTime          = value; }
     void SetScraperResizeWidth     (int  value) { mData.mScraperResizeWidth       = value; }
     void SetScraperResizeHeight    (int  value) { mData.mScraperResizeHeight      = value; }
     void SetMaxVRAM                (int  value) { mData.mMaxVRAM                  = value; }
