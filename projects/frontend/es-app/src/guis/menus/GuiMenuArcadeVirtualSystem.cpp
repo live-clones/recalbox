@@ -41,7 +41,7 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(Window& window, SystemMan
   }
   mMenu.addWithLabel(mPosition, _("POSITION"));
 
-	mMenu.addButton(_("OK"), "OK", [&]
+	mMenu.addButton(_("OK"), "OK", [this]
 	{
 	  RecalboxConf::Instance().SetBool("emulationstation.arcade", mArcadeOnOff->getState());
     RecalboxConf::Instance().SetBool("emulationstation.arcade.includeneogeo", mIncludeNeoGeo->getState());

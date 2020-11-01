@@ -29,7 +29,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(Window& window)
                        });
   }
 
-	mMenu.addButton(_("OK"), "OK", [&]
+	mMenu.addButton(_("OK"), "OK", [this]
 	{
     for(int i = DefaultPasswords::sPasswordCount; --i >= 0; )
       RecalboxConf::Instance().SetString("netplay.password." + Strings::ToString(i), mPasswords[i]->getValue());

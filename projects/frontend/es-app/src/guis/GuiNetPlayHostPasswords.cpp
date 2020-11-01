@@ -62,7 +62,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
     // Close window
     Close();
 	});
-  mMenu.addButton(_("EDIT PASSWORDS"), "", [&]
+  mMenu.addButton(_("EDIT PASSWORDS"), "", [this]
   {
     mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow));
   });

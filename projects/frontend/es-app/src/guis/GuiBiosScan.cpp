@@ -109,7 +109,7 @@ GuiBiosScan::GuiBiosScan(Window& window, SystemManager& systemManager)
   mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
   mList->setHorizontalMargin(Renderer::getDisplayWidthAsFloat() * 0.95f * 0.01f);
   mList->setSelectorHeight((float)menuTheme->menuTextSmall.font->getSize() * 1.5f);
-  mList->setCursorChangedCallback([&](const CursorState& state) { (void)state; UpdateBiosDetail(); });
+  mList->setCursorChangedCallback([this](const CursorState& state) { (void)state; UpdateBiosDetail(); });
   mGrid.setEntry(mList, Vector2i(1,2), true, false, Vector2i(1, 11));
 
   // Details components

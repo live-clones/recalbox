@@ -47,7 +47,7 @@ GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
       Start();
     }, _("NO"), [this] { mState = State::Exit; }));
   });
-  mMenu.addButton(_("BACK"), "back", [&]
+  mMenu.addButton(_("BACK"), "back", [this]
   { mState = State::Cancelled; });
 
   mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2,

@@ -149,7 +149,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
   mMenu.addWithLabel(mScrapeRatings, _("SCRAPE RATINGS"), _(MENUMESSAGE_SCRAPER_RATINGS_HELP_MSG));
 
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperOptions::pressedStart, this));
-	mMenu.addButton(_("BACK"), "back", [&] { Close(); });
+	mMenu.addButton(_("BACK"), "back", [this] { Close(); });
 
 	mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }

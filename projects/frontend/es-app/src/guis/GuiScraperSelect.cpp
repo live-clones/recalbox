@@ -34,7 +34,7 @@ GuiScraperSelect::GuiScraperSelect(Window& window, SystemManager& systemManager)
   mMenu.addWithLabel(mExtractRegion, _("GET REGION FROM FILENAME WHEN POSSIBLE"), _(MENUMESSAGE_SCRAPER_EXTRACT_REGION_FROM_FILENAME_HELP_MSG));
 
   mMenu.addButton(_("SCRAPE NOW"), "start", [this, &window, &systemManager] { SaveOptions(); window.pushGui(new GuiScraperOptions(window, systemManager)); });
-  mMenu.addButton(_("BACK"), "back", [&] { Close(); });
+  mMenu.addButton(_("BACK"), "back", [this] { Close(); });
 
   mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }

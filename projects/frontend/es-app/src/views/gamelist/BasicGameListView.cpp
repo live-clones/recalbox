@@ -27,7 +27,7 @@ BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManage
 	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
 	populateList(system.getRootFolder());
 
-  mList.setCursorChangedCallback([&](const CursorState& state)
+  mList.setCursorChangedCallback([this](const CursorState& state)
                                  {
                                    (void) state;
                                    updateInfoPanel();

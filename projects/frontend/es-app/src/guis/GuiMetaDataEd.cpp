@@ -278,17 +278,17 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SCRAPE"), _("SCRAPE"), std::bind(&GuiMetaDataEd::fetch, this)));
   }
 
-  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SAVE"), _("SAVE"), [&]
+  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SAVE"), _("SAVE"), [this]
   {
     save();
     Close();
   }));
 
-  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [&] { Close(); }));
+  buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this] { Close(); }));
 
   if (main && mActions != nullptr && !mGame.getSystem()->IsVirtual())
   {
-    auto deleteFileAndSelf = [&]
+    auto deleteFileAndSelf = [this]
     {
       mActions->Delete(mGameListView, mGame);
       Close();
