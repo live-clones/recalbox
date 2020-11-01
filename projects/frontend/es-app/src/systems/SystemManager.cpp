@@ -195,7 +195,7 @@ bool SystemManager::AddArcadeMetaSystem()
     // Non empty?
     if (!arcades.empty())
     {
-      // Remove Hidden systems fron the visible list
+      // Remove Hidden systems from the visible list
       bool hideOriginals = RecalboxConf::Instance().AsBool("emulationstation.arcade.hideoriginals", true);
       if (hideOriginals)
         for (SystemData* hidden: arcades)
@@ -203,6 +203,7 @@ bool SystemManager::AddArcadeMetaSystem()
           auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), hidden);
           if (it != mVisibleSystemVector.end())
             mVisibleSystemVector.erase(it);
+          mHiddenSystemVector.push_back(hidden);
         }
 
       // Create meta-system
@@ -214,9 +215,10 @@ bool SystemManager::AddArcadeMetaSystem()
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, arcade);
     }
-  }
 
-  return !mHiddenSystemVector.empty();
+    return !arcades.empty();
+  }
+  return false;
 }
 
 bool SystemManager::AddPorts()
@@ -238,7 +240,7 @@ bool SystemManager::AddPorts()
   // Non empty?
   if (!ports.empty())
   {
-    // Remove port systems fron the visible list and add to the hidden list
+    // Remove port systems from the visible list and add to the hidden list
     for (SystemData* port: ports)
     {
       auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), port);
@@ -258,7 +260,7 @@ bool SystemManager::AddPorts()
     mVisibleSystemVector.insert(it, portSystem);
   }
 
-  return !mHiddenSystemVector.empty();
+  return !ports.empty();
 }
 
 bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)
