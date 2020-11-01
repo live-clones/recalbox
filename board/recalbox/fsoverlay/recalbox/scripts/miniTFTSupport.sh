@@ -26,12 +26,31 @@ recallog "Reading system.secondminitft.resolution => ${tftResolution}"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"    
 recallog "Reading system.secondminitft.type => ${tftType}"
 tftBacklightControl="$(${systemsetting} -command load -key system.secondminitft.backlightcontrol)"
-
-if [[ "${tftBacklightControl}" ]] ; then 
+#recallog "Reading system.secondminitft.backlightcontrol  => ${tftBacklightControl}"
+if [[ "${tftBacklightControl}" ]] ; then
     recallog "Reading system.secondminitft.backlightcontrol => ${tftBacklightControl}"
 else
     recallog "Reading system.secondminitft.backlightcontrol => none (No backlight control)"
 fi
+
+tftSleepEnabled="$(${systemsetting} -command load -key system.secondminitft.sleepenabled)"
+#recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled}"
+if [[ "${tftSleepEnabled}" == "1" ]] ; then 
+    recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode ON"
+else
+    recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode OFF"
+fi
+
+#system.secondminitft.usemarquee
+tftUseMarquee="$(${systemsetting} -command load -key system.secondminitft.usemarquee)"
+#recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee}"
+if [[ "${tftSleepEnabled}" == "1" ]] ; then
+    recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Use Marquee Image"
+else
+    recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Do Not Use Marquee Image"
+fi
+
+
 
 #needed to use scaling with ffmpeg
 case "${tftResolution}" in
@@ -127,19 +146,22 @@ do_start() {
         if [[ "${tftBacklightControl}" ]] ; then 
             #~ #backlight control...  pwm  on GPIO "${tftBacklightControl}"
             gpio -g mode "${tftBacklightControl}" pwm 
-            gpio -g pwm "${tftBacklightControl}" 1023
-            WAKEUP=1        
+            gpio -g pwm "${tftBacklightControl}" 1023        
+        else
+            echo 0 | tee /sys/class/backlight/*/bl_power
         fi
-        
+
+        WAKE=1
+
         #display start video
         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
         #to save time intro video is backgrounded and killable with any action
         pkill -P "${scriptPID}" &> /dev/null
-	#echo "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" "${tftFullResolution[@]}"  -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}"
+        #echo "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" "${tftFullResolution[@]}"  -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}"
         "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
         #&> /dev/null
         #"${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${DefaultStartLogo}" -vf "scale=320:-1,setdar=4/3,pad=width=320:height=240:x=0:y=15:color=black" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}"
-        
+
         #initialize
         LTIME=""
         LTIME2=""
@@ -155,46 +177,48 @@ do_start() {
             ATIME=$(stat -t  /tmp/es_state.inf | awk '{print $13}')
             ATIME2=$(stat -t  /tmp/es_state.inf | awk '{print $14}')
             ASIZE=$(wc /tmp/es_state.inf | awk '{print $3}')
-        
-            if [[ "${ATIME}" != "${LTIME}" ]]  || [[ "${ASIZE}" != "${LSIZE}" ]] || [[ "${ATIME2}" != "${LTIME2}" ]] ; then
+            if [[ "${ATIME}" != "${LTIME}" ]]  || [[ "${ASIZE}" != "${LSIZE}" ]] || [[ "${ATIME2}" != "${LTIME2}" ]]; then
                 LTIME="${ATIME}"
                 LTIME2="${ATIME2}"
                 LSIZE="${ASIZE}"
                         
                 #getAction
                 TFTAction="$(sed -n 's/^Action=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
+                #recallog "TFTAction => ${TFTAction}"
                 # action in TFTAction : systembrowsing, gamelistbrowsing, rungame, rundemo, endgame, enddemo
                 # Used variables TFTGameImage, TFTVideoPath, TFTGame, TFTESSystem, TFTESState
                 case "${TFTAction}" in
                     sleep)
+                        if [[ "${tftSleepEnabled}" == "1" ]] ; then
                         case "${tftType}" in
                             ogst)
                                 if [[ "$(cat /sys/class/backlight/*/bl_power})"=="0" ]] && [[ "${WAKE}"=="1" ]] ; then
                                     backLight=$(echo 1 | tee /sys/class/backlight/*/bl_power)
-                                    WAKE="1"
+                                    WAKE="0"
                                 fi
                                 ;;
                             overlay)
-			                    if [[ "${tftBacklightControl}" ]] ; then 
-                                    if [[ "${tftBacklightControl}" ]] ; then 
-                                        if [[ "$(gpio -g read ${tftBacklightControl})"=="1" ]] && [[ "${WAKE}"=="1" ]] ; then
-                                            for i in {1023..64}; do gpio -g pwm "${tftBacklightControl}" $i; done
-                                            WAKE="0"
-                                        fi
+                                if [[ "${tftBacklightControl}" ]] ; then 
+                                    if [[ "$(gpio -g read ${tftBacklightControl})"=="1" ]] && [[ "${WAKE}"=="1" ]] ; then
+                                        for i in {1023..64}; do gpio -g pwm "${tftBacklightControl}" $i; done
+                                        WAKE="0"
                                     fi
                                 else
                                     if [[ "$(cat /sys/class/backlight/*/bl_power})"=="0" ]] && [[ "${WAKE}"=="1" ]] ; then
                                         backLight=$(echo 1 | tee /sys/class/backlight/*/bl_power)
-                                        WAKE="1"
+                                        WAKE="0"
                                     fi                         
                                 fi
                                 ;;
                         esac    
+                        fi
                         ;;
                     wakeup)
                         pkill -P "${scriptPID}" &> /dev/null
                         #delete screen on wakeup
                         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                        usleep "${tempoShort}"
+                        if [[ "${tftSleepEnabled}" == "1" ]] ; then
                         case "${tftType}" in
                             ogst)
                                 if [[ "$(cat /sys/class/backlight/*/bl_power})"=="1" ]] && [[ "${WAKE}"=="0" ]] ; then
@@ -203,12 +227,10 @@ do_start() {
                                 fi
                                 ;;
                             overlay)
-			                    if [[ "${tftBacklightControl}" ]] ; then                                 
-                                    if [[ "${tftBacklightControl}" ]] ; then 
-                                        if [[ "$(gpio -g read ${tftBacklightControl})"=="0" ]] && [[ "${WAKE}"=="0" ]] && [[ "${tftBacklightControl}" ]] ; then
-                                            for i in {64..1023}; do gpio -g pwm "${tftBacklightControl}" $i; done
-                                            WAKE="1"
-                                        fi
+			        if [[ "${tftBacklightControl}" ]] ; then 
+                                    if [[ "$(gpio -g read ${tftBacklightControl})"=="0" ]] && [[ "${WAKE}"=="0" ]] && [[ "${tftBacklightControl}" ]] ; then
+                                        for i in {64..1023}; do gpio -g pwm "${tftBacklightControl}" $i; done
+                                        WAKE="1"
                                     fi
                                 else
                                     if [[ "$(cat /sys/class/backlight/*/bl_power})"=="1" ]] && [[ "${WAKE}"=="0" ]] ; then
@@ -218,14 +240,68 @@ do_start() {
                                 fi
                                 ;;
                         esac
+                        fi
+                        #recallog "Case wakeup LastTFTAction => ${LastTFTAction}"
+                        case "${LastTFTAction}" in
+                            systembrowsing)
+                                TFTESSystem="${PreviousTFTESSystem}"
+                                #recallog "PreviousTFTESSystem => ${PreviousTFTESSystem}"
+                                #select system video
+                                selectSystemVideo;
+                                if [[ "$(pgrep -P ${scriptPID})" ]]; then
+                                    pkill -P "${scriptPID}" &> /dev/null
+                                    dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                                    usleep "${tempoShort}"
+                                fi
+                                dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                                usleep "${tempoShort}"
+                                "${FFMPEG}" -re -stream_loop "${Loop}" -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}"  "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+                                ;;
+                            gamelistbrowsing)
+                                TFTGame="${previousTFTGameBrowse}"
+                                TFTGameImage="${previousTFTGameImage}"
+                                TFTVideoPath="${previousTFTVideoPath}"
+                                #recallog "previousTFTGameBrowse => ${previousTFTGameBrowse}"
+                                #recallog "previousTFTGameImage => ${previousTFTGameImage}"
+                                #recallog "previousTFTVideoPath => ${previousTFTVideoPath}"
+                                if [[ "$(pgrep -P ${scriptPID})" ]]; then
+                                    pkill -P "${scriptPID}" &> /dev/null
+                                    dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                                    usleep "${tempoShort}"
+                                fi
+                                dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                                usleep "${tempoShort}"
+                                if [[ -z "${TFTGameImage}" ]] ; then
+                                    TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
+                                fi
+                                if [[ -z "${TFTVideoPath}" ]]; then 
+                                    FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+                                else
+				                    FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+                                    usleep "${tempoLong}" #display image for a bit of time 
+                                    #compute display settings for scraped video
+                                    widthVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=s=x:p=0  ${TFTVideoPath})
+                                    #echo ${widthVideo}
+                                    heightVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=height,width -of csv=s=x:p=0  ${TFTVideoPath})
+                                    #echo ${heightVideo}
+                                    "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftScreenResolution}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+                                fi
+                                ;;
+                        esac                            
                         ;;
-                    systembrowsing|runkodi)     
+                    systembrowsing|runkodi)
                         #get system
                         TFTESSystem="$(sed -n 's/^SystemId=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
+                        #recallog "TFTESSystem => ${TFTESSystem}"
+                        PreviousTFTESSystem="${TFTESSystem}"
+                        #recallog "PreviousTFTESSystem => ${PreviousTFTESSystem}"
                         #select system video
                         selectSystemVideo;
                         previousTFTGameBrowse=""
                         previousTFTGameRun=""
+                        previousTFTGameImage=""
+                        previousTFTVideoPath=""
+
                         if [[ "$(pgrep -P ${scriptPID})" ]]; then
                             pkill -P "${scriptPID}" &> /dev/null
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
@@ -234,16 +310,19 @@ do_start() {
                         dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                         usleep "${tempoShort}"
                         "${FFMPEG}" -re -stream_loop "${Loop}" -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}"  "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
+
+                        LastTFTAction=${TFTAction}
                         ;;
-                    gamelistbrowsing|endgame|enddemo)
+                    gamelistbrowsing)
                         TFTGameImage="$(sed -n 's/^ImagePath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
                         TFTVideoPath="$(sed -n 's/^VideoPath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
                         TFTGame="$(sed -n 's/^Game=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
                         if [[ "${TFTGame}" != "${previousTFTGameBrowse}" ]]; then
                             previousTFTGameBrowse="${TFTGame}"
-                            previousTFTESSystem=""
-							if [[ "$(pgrep -P ${scriptPID})" ]]; then
-								pkill -P "${scriptPID}" &> /dev/null
+                            previousTFTGameImage="${TFTGameImage}"
+                            previousTFTVideoPath="${TFTVideoPath}"
+                            if [[ "$(pgrep -P ${scriptPID})" ]]; then
+                                pkill -P "${scriptPID}" &> /dev/null
                                 dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                                 usleep "${tempoShort}"
                             fi
@@ -253,18 +332,49 @@ do_start() {
                                 TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
                             fi
                             if [[ -z "${TFTVideoPath}" ]]; then 
-								FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+				                FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
                             else
-								FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+				                FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
                                 usleep "${tempoLong}" #display image for a bit of time 
                                 #compute display settings for scraped video
                                 widthVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=s=x:p=0  ${TFTVideoPath})
                                 #echo ${widthVideo}
                                 heightVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=height,width -of csv=s=x:p=0  ${TFTVideoPath})
                                 #echo ${heightVideo}
-                                
                                 "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftScreenResolution}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                             fi
+                        fi
+                        LastTFTAction=${TFTAction}
+                        ;;
+                    endgame|enddemo)
+                        #recallog "Case endgame|enddemo LastTFTAction => ${LastTFTAction}"
+                        TFTGame="${previousTFTGameBrowse}"
+                        TFTGameImage="${previousTFTGameImage}"
+                        TFTVideoPath="${previousTFTVideoPath}"
+                        #recallog "previousTFTGameBrowse => ${previousTFTGameBrowse}"
+                        #recallog "previousTFTGameImage => ${previousTFTGameImage}"
+                        #recallog "previousTFTVideoPath => ${previousTFTVideoPath}"
+                        if [[ "$(pgrep -P ${scriptPID})" ]]; then
+                            pkill -P "${scriptPID}" &> /dev/null
+                            dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                            usleep "${tempoShort}"
+                        fi
+                        dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
+                        usleep "${tempoShort}"
+                        if [[ -z "${TFTGameImage}" ]] ; then
+                            TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
+                        fi
+                        if [[ -z "${TFTVideoPath}" ]]; then 
+                            FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+                        else
+                            FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"
+                            usleep "${tempoLong}" #display image for a bit of time 
+                            #compute display settings for scraped video
+                            widthVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=s=x:p=0  ${TFTVideoPath})
+                            #echo ${widthVideo}
+                            heightVideo=$(ffprobe -v error -select_streams v:0 -show_entries stream=height,width -of csv=s=x:p=0  ${TFTVideoPath})
+                            #echo ${heightVideo}
+                            "${FFMPEG}" -re -stream_loop -1 -i "${TFTVideoPath}" -s "${tftScreenResolution}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null &
                         fi
                         ;;
                     rungame|rundemo)
@@ -273,23 +383,27 @@ do_start() {
                         #select system video
                         selectSystemVideo;
                         TFTGameImage="$(sed -n 's/^ImagePath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
+                        TFTGameMarquee="${TFTGameImage/images/marquees}"
                         TFTVideoPath="$(sed -n 's/^VideoPath=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
                         TFTGame="$(sed -n 's/^Game=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
 
                         if [[ "${TFTGame}" != "${previousTFTGameRun}" ]]; then
                             previousTFTGameRun="${TFTGame}"
-                            previousTFTESSystem=""
-	                        if [[ "$(pgrep -P ${scriptPID})" ]]; then
-	                            pkill -P "${scriptPID}" &> /dev/null
+	                    if [[ "$(pgrep -P ${scriptPID})" ]]; then
+	                        pkill -P "${scriptPID}" &> /dev/null
                                 dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                                 usleep "${tempoShort}"
                             fi
-                            if [[ -z "${TFTGameImage}" ]] ; then
-                                TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
+                            if [[ "${tftUseMarquee}" == "1" ]] && [[ -f "${TFTGameMarquee}" ]] ; then
+                                 TFTGameImage=${TFTGameMarquee}
+                            else
+                                if [[ -z "${TFTGameImage}" ]] ; then
+                                    TFTGameImage="${LogoFolder}"/"${tftResolution}"/"${DefaultImage}"
+                                fi
                             fi
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
-                            "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" -s "${tftFullResolution[@]}" -aspect 4:3 -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null
+                            timeout 10 "${FFMPEG}" -re -i "${LogoFolder}"/"${tftResolution}"/"${LogoFile}" "${tftFullResolution[@]}" -c:v rawvideo -pix_fmt rgb565le -f fbdev "${fbDevice}" &> /dev/null 
                             dd if=/dev/zero of="${fbDevice}" &> /dev/null   #clear before draw
                             usleep "${tempoShort}"
                             FRAMEBUFFER="${fbDevice}" fbv2 -i "${imgStretch}" "${imgIgnoreAspect}" "${imgEnlarge}" "${imgAlpha}" --delay 1 "${TFTGameImage}"

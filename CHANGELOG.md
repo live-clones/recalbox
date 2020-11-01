@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Improve second miniTFT screen scripts
 - Fix AdvanceMAME log output
 - Fix AdvanceMAME configgen
 - Improved NESPi4 case detection
