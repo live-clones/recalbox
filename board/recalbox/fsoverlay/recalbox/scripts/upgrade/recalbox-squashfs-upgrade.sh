@@ -22,11 +22,9 @@ do_update() {
   echo "mount image"
   fbv2 -k -i /recalbox/system/resources/offline-install-2.jpg
   sleep 1
-  losetup /dev/loop1 "${UPDATEFILE}" -o 1048576
-  RESULT=$?
-  if [ $RESULT -ne 0 ]; then
-    losetup /dev/loop1 "${UPDATEFILE}" -o $((2048 * 512)) || return 2
-  fi
+  LBA=$(lba-finder "${UPDATEFILE}")
+  echo "intiating a losetup for lba ${LBA} (offset $((LBA * 512))s)"
+  losetup /dev/loop1 "${UPDATEFILE}" -o $((LBA * 512)) || return 2
   mount /dev/loop1 /mnt || return 3
 
   echo "remounting /boot R/W"

@@ -232,6 +232,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/liblcf/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libxmp-lite/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/wildmidi/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/lba-finder/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"

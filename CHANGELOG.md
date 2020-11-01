@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Fix screenshots on x86/x64
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 - Add WPS support
+- Fix upgrade procedure that could fail in some circumstances (#1376)
 
 
 ## [7.0.1]

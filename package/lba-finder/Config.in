@@ -1,0 +1,5 @@
+config BR2_PACKAGE_LBA_FINDER
+	bool "lba-finder"
+	help
+	  lba-finder is a simple to get the first sector
+	  of the first partition of a disk or image
