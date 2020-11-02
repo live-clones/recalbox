@@ -124,8 +124,20 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 
 	if(mTextCache)
 	{
-		// vertically center
-		Vector3f off(0, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
+        int horizontalOff;
+        switch(mHorizontalAlignment) {
+            case TextAlignment::Left:
+                horizontalOff = 0;
+                break;
+            case TextAlignment::Center:
+                horizontalOff = mSize.x() - mTextCache->metrics.size.x() / 2;
+                break;
+            case TextAlignment::Right:
+                horizontalOff = mSize.x() - mTextCache->metrics.size.x();
+        }
+
+        // vertically center
+        Vector3f off(horizontalOff, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
 		trans.translate(off);
 		trans.round();
 
