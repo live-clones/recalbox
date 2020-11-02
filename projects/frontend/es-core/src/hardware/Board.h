@@ -150,6 +150,12 @@ class Board
     static void StopInGameBackgroundProcesses();
 
   private:
+    static constexpr const char* sCpuGovernancePath = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+    static constexpr const char* sBatteryCapacityPath1 = "/sys/class/power_supply/BAT0/capacity";
+    static constexpr const char* sBatteryCapacityPath2 = "/sys/class/power_supply/battery/capacity";
+    static constexpr const char* sBatteryStatusPath1 = "/sys/class/power_supply/BAT0/status";
+    static constexpr const char* sBatteryStatusPath2 = "/sys/class/power_supply/battery/status";
+
     /*!
      * Raspberry model (real models)
      * https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md

@@ -198,8 +198,8 @@ void Board::SetBrightness(int step)
 
 bool Board::HasBattery()
 {
-  static bool sHasBattery = Path("/sys/class/power_supply/BAT0/capacity").Exists() ||
-                            Path("/sys/class/power_supply/battery/capacity").Exists();
+  static bool sHasBattery = Path(sBatteryCapacityPath1).Exists() ||
+                            Path(sBatteryCapacityPath2).Exists();
 
   return sHasBattery;
 }
@@ -208,9 +208,7 @@ int Board::GetBatteryChargePercent()
 {
   if (!HasBattery()) return -1;
 
-  static Path sBatteryCharge = Path("/sys/class/power_supply/BAT0/capacity").Exists()
-                             ? Path("/sys/class/power_supply/BAT0/capacity")
-                             : Path("/sys/class/power_supply/battery/capacity");
+  static Path sBatteryCharge = Path(Path(sBatteryCapacityPath1).Exists() ? sBatteryCapacityPath1 : sBatteryCapacityPath2);
 
   int charge = -1;
   Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
@@ -221,9 +219,7 @@ bool Board::IsBatteryCharging()
 {
   if (!HasBattery()) return false;
 
-  static Path sBatteryStatus = Path("/sys/class/power_supply/BAT0/status").Exists()
-                               ? Path("/sys/class/power_supply/BAT0/status")
-                               : Path("/sys/class/power_supply/battery/status");
+  static Path sBatteryStatus = Path(Path(sBatteryStatusPath1).Exists() ? sBatteryStatusPath1 : sBatteryStatusPath2);
 
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
@@ -237,13 +233,13 @@ void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
     case CPUGovernance::PowerSave:
     {
       LOG(LogInfo) << "[CPU] Set powersaving on";
-      Files::SaveFile(Path("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"), "powersave");
+      Files::SaveFile(Path(sCpuGovernancePath), "powersave");
       break;
     }
     case CPUGovernance::FullSpeed:
     {
       LOG(LogInfo) << "[CPU] Set dynamic mode on";
-      Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), "ondemand");
+      Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
       break;
     }
     default: break;
