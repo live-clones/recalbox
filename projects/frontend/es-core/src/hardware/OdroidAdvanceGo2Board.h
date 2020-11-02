@@ -62,6 +62,11 @@ class OdroidAdvanceGo2Board
      */
     static void GracefulPowerOff();
 
+    /*!
+     * @brief Suspend!
+     */
+    static void Suspend() { mPowerReader.Suspend(); }
+
   private:
     //! Power button event reader
     static OdroidAdvanceGo2PowerEventReader mPowerReader;

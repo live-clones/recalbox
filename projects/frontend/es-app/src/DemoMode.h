@@ -97,7 +97,7 @@ public:
      * @brief Return true is the uer set the screensaver to "demo"
      * @return True if demo screensaver is on
      */
-    bool hasDemoMode();
+    static bool hasDemoMode();
 
     /*!
      * @brief Run random games until user interaction

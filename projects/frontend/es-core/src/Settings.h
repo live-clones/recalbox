@@ -53,7 +53,6 @@ class Settings : public StaticLifeCycleControler<Settings>
       int mScraperResizeHeight;
       int mMaxVRAM;
 
-      std::string mScreenSaverBehavior;
       std::string mScraper;
       std::string mLang;
       std::string mInputName[sMaxJoysticks];
@@ -137,7 +136,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     int ScraperResizeHeight     () const { return mData.mScraperResizeHeight;      }
     int MaxVRAM                 () const { return mData.mMaxVRAM;                  }
                                                                          
-    const std::string& ScreenSaverBehavior  () const { return mData.mScreenSaverBehavior;   }
     const std::string& Scraper              () const { return mData.mScraper;               }
     const std::string& Lang                 () const { return mData.mLang;                  }
     const std::string& Overclock            () const { return mData.mOverclock;             }
@@ -182,7 +180,6 @@ class Settings : public StaticLifeCycleControler<Settings>
     void SetScraperResizeHeight    (int  value) { mData.mScraperResizeHeight      = value; }
     void SetMaxVRAM                (int  value) { mData.mMaxVRAM                  = value; }
 
-    void SetScreenSaverBehavior    (const std::string& value) { mData.mScreenSaverBehavior   = value; }
     void SetScraper                (const std::string& value) { mData.mScraper               = value; }
     void SetLang                   (const std::string& value) { mData.mLang                  = value; }
     void SetOverclock              (const std::string& value) { mData.mOverclock             = value; }

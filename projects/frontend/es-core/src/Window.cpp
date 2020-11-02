@@ -298,10 +298,15 @@ void Window::exitScreenSaver()
 
 void Window::renderScreenSaver()
 {
-  if (Board::BrightnessSupport())
+  if (Board::IsSupportingSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == "suspend")
+  {
+    Board::Suspend();
+    DoWake(); // Exit screensaver immediately on resume
+  }
+  else if (Board::BrightnessSupport())
   {
     int brightness = RecalboxConf::Instance().GetBrightness();
-    std::string screenSaver = Settings::Instance().ScreenSaverBehavior();
+    std::string screenSaver = RecalboxConf::Instance().GetScreenSaverType();
     if (screenSaver == "black") Board::SetLowestBrightness();
     else if (screenSaver == "dim")
     {
@@ -312,7 +317,7 @@ void Window::renderScreenSaver()
   else
   {
     Renderer::setMatrix(Transform4x4f::Identity());
-    unsigned char opacity = Settings::Instance().ScreenSaverBehavior() == "dim" ? 0xA0 : 0xFF;
+    unsigned char opacity = RecalboxConf::Instance().GetScreenSaverType() == "dim" ? 0xA0 : 0xFF;
     Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
   }
 }

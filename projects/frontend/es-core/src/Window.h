@@ -100,7 +100,7 @@ class Window
     // Returns true if at least one component on the stack is processing
     bool isProcessing();
 
-    static void renderScreenSaver();
+    void renderScreenSaver();
 
     static void exitScreenSaver();
 

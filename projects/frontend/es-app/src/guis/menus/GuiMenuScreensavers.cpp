@@ -22,9 +22,11 @@ GuiMenuScreensavers::GuiMenuScreensavers(Window& window, SystemManager& systemMa
   mType = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCREENSAVER BEHAVIOR"), false);
   std::vector<std::string> screensavers;
   std::string type = RecalboxConf::Instance().GetScreenSaverType();
-  mType->add("dim", "dim", type == "dim");
-  mType->add("black", "black", type == "black");
-  mType->add("demo", "demo", type == "demo");
+  if (Board::IsSupportingSuspendResume())
+    mType->add(_("suspend"), "suspend", type == "suspend");
+  mType->add(_("dim"), "dim", type == "dim");
+  mType->add(_("black"), "black", type == "black");
+  mType->add(_("demo"), "demo", type == "demo");
   mType->setChangedCallback([this] { SetType(); });
   mMenu.addWithLabel(mType, _("SCREENSAVER BEHAVIOR"), _(MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 

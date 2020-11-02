@@ -246,6 +246,26 @@ void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
   }
 }
 
+bool Board::IsSupportingSuspendResume()
+{
+  switch (GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: return true;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+
+  return false;
+}
+
 bool Board::HasExtraVolumeButtons()
 {
   switch(GetBoardType())
@@ -366,6 +386,24 @@ void Board::StopInGameBackgroundProcesses()
   switch (GetBoardType())
   {
     case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StopInGameBackgroundProcesses(); break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+}
+
+void Board::Suspend()
+{
+  switch (GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::Suspend(); break;
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:

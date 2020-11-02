@@ -12,6 +12,7 @@
 
 OdroidAdvanceGo2PowerEventReader::OdroidAdvanceGo2PowerEventReader()
   : mFileHandle(0)
+  , mWaitFor(WaitFor::Press)
 {
 }
 
@@ -46,14 +47,6 @@ void OdroidAdvanceGo2PowerEventReader::Break()
 
 void OdroidAdvanceGo2PowerEventReader::Run()
 {
-  //! Wait for specific button state
-  enum class WaitFor
-  {
-    Press,
-    Release,
-    Ignore,
-  };
-
   LOG(LogInfo) << "[OdroidAdvanceGo2] Running background power button manager running.";
   while(IsRunning())
   {
@@ -65,7 +58,6 @@ void OdroidAdvanceGo2PowerEventReader::Run()
       continue;
     }
 
-    WaitFor waitFor = WaitFor::Press;
     input_event pressEvent {};
     while(IsRunning())
     {
@@ -91,13 +83,13 @@ void OdroidAdvanceGo2PowerEventReader::Run()
 
       // Power button pressed?
       if ((event.type == 1) && (event.code == sPowerKeyCode))
-        switch(waitFor)
+        switch(mWaitFor)
         {
           case WaitFor::Press:
           {
             if (event.value == 1) // Really pressed?
             {
-              waitFor = WaitFor::Release;
+              mWaitFor = WaitFor::Release;
               pressEvent = event;
             }
             break;
@@ -106,7 +98,6 @@ void OdroidAdvanceGo2PowerEventReader::Run()
           {
             if (event.value == 0) // Really released
             {
-              waitFor = WaitFor::Ignore; // Ignore next event when waking up!
               long start = (pressEvent.time.tv_usec / 1000) + (pressEvent.time.tv_sec * 1000);
               long stop = (event.time.tv_usec / 1000) + (event.time.tv_sec * 1000);
               long elapsed = stop - start;
@@ -114,7 +105,7 @@ void OdroidAdvanceGo2PowerEventReader::Run()
             }
             break;
           }
-          case WaitFor::Ignore: waitFor = WaitFor::Press; break;
+          case WaitFor::Ignore: mWaitFor = WaitFor::Press; break;
         }
     }
   }
@@ -131,6 +122,7 @@ void OdroidAdvanceGo2PowerEventReader::SelectAction(long elapsed)
 void OdroidAdvanceGo2PowerEventReader::Suspend()
 {
   { LOG(LogInfo) << "[OdroidAdvanceGo2] SUSPEND!"; }
+  mWaitFor = WaitFor::Ignore; // Ignore next event when waking up!
   system("/usr/sbin/pm-suspend"); // Suspend mode
 }
 

@@ -74,7 +74,7 @@ void DemoMode::init()
 
 bool DemoMode::hasDemoMode()
 {
-  return (mSettings.ScreenSaverBehavior() == "demo");
+  return (RecalboxConf::Instance().GetScreenSaverType() == "demo");
 }
 
 bool DemoMode::isInHistory(int item, const int history[], int maxitems)

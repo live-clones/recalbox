@@ -119,6 +119,17 @@ class Board
     static bool HasExtraBrightnessButtons();
 
     /*!
+     * @brief Check if the current board supports suspend/resume operations
+     * @return True if the board supports suspend/resume operations, false otherwise
+     */
+    static bool IsSupportingSuspendResume();
+
+    /*!
+     * @brief Suspend!
+     */
+    static void Suspend();
+
+    /*!
      * @brief Process special input if any
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise

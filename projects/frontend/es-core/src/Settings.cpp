@@ -31,7 +31,6 @@ Settings::DataDescriptor const Settings::sDescriptors[] =
   { Settings::DataType::Int   , offsetof(Settings::Data, mScraperResizeHeight    ), "ScraperResizeHeight"    , "0"     , false },
   { Settings::DataType::Int   , offsetof(Settings::Data, mMaxVRAM                ), "MaxVRAM"                , "80"    , false },
                                                           
-  { Settings::DataType::String, offsetof(Settings::Data, mScreenSaverBehavior    ), "ScreenSaverBehavior"    , "demo"                                                      , false },
   { Settings::DataType::String, offsetof(Settings::Data, mScraper                ), "Scraper"                , "Screenscraper"                                            , false },
   { Settings::DataType::String, offsetof(Settings::Data, mLang                   ), "Lang"                   , "en_US"                                                    , false },
   { Settings::DataType::String, offsetof(Settings::Data, mInputName[0]              ), "INPUT P1NAME"               , "DEFAULT"                                                  , false },
