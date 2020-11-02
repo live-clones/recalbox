@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system gamegear --extension '.gg .GG .zip .ZIP .7z .7Z' --fullname 'Sega Game Gear' --platform gamegear --theme gamegear 1:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 2:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM
+# ./scripts/linux/empack.py --force --system gamegear --extension '.gg .GG .zip .ZIP .7z .7Z' --fullname 'Sega Game Gear' --platform gamegear --theme gamegear 1:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 2:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM 3:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_GAMEGEAR_SOURCE = 
@@ -21,12 +21,12 @@ SOURCE_ROMDIR_GAMEGEAR = $(RECALBOX_ROMFS_GAMEGEAR_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_MAIN_GAMEGEAR_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GAMEGEAR),Sega Game Gear,$(SYSTEM_NAME_GAMEGEAR),.gg .GG .zip .ZIP .7z .7Z,gamegear,gamegear)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_GAMEGEAR_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_GAMEGEAR),libretro)
 endef
@@ -39,6 +39,12 @@ endif
 ifeq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),y)
 define CONFIGURE_GAMEGEAR_LIBRETRO_GEARSYSTEM_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GAMEGEAR),gearsystem,2)
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
+define CONFIGURE_GAMEGEAR_LIBRETRO_FBNEO_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_GAMEGEAR),fbneo,3)
 endef
 endif
 
@@ -59,6 +65,7 @@ define RECALBOX_ROMFS_GAMEGEAR_CONFIGURE_CMDS
 	$(CONFIGURE_GAMEGEAR_LIBRETRO_START)
 	$(CONFIGURE_GAMEGEAR_LIBRETRO_GENESISPLUSGX_DEF)
 	$(CONFIGURE_GAMEGEAR_LIBRETRO_GEARSYSTEM_DEF)
+	$(CONFIGURE_GAMEGEAR_LIBRETRO_FBNEO_DEF)
 	$(CONFIGURE_GAMEGEAR_LIBRETRO_END)
 	$(CONFIGURE_MAIN_GAMEGEAR_END)
 endef

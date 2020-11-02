@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z' --fullname 'PC Engine' --platform pcengine --theme pcengine 1:libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX 2:libretro:mednafen_pce_fast:BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST
+# ./scripts/linux/empack.py --force --system pcengine --extension '.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z' --fullname 'PC Engine' --platform pcengine --theme pcengine 1:libretro:mednafen_supergrafx:BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX 2:libretro:mednafen_pce_fast:BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST 3:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PCENGINE_SOURCE = 
@@ -21,18 +21,24 @@ SOURCE_ROMDIR_PCENGINE = $(RECALBOX_ROMFS_PCENGINE_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_MAIN_PCENGINE_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PCENGINE),PC Engine,$(SYSTEM_NAME_PCENGINE),.pce .PCE .cue .CUE .sgx .SGX .ccd .CCD .zip .ZIP .7z .7Z,pcengine,pcengine)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_PCENGINE_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_PCENGINE),libretro)
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),y)
 define CONFIGURE_PCENGINE_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),mednafen_supergrafx,1)
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
+define CONFIGURE_PCENGINE_LIBRETRO_FBNEO_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_PCENGINE),fbneo,3)
 endef
 endif
 
@@ -58,6 +64,7 @@ define RECALBOX_ROMFS_PCENGINE_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_PCENGINE_START)
 	$(CONFIGURE_PCENGINE_LIBRETRO_START)
 	$(CONFIGURE_PCENGINE_LIBRETRO_MEDNAFEN_SUPERGRAFX_DEF)
+	$(CONFIGURE_PCENGINE_LIBRETRO_FBNEO_DEF)
 	$(CONFIGURE_PCENGINE_LIBRETRO_MEDNAFEN_PCE_FAST_DEF)
 	$(CONFIGURE_PCENGINE_LIBRETRO_END)
 	$(CONFIGURE_MAIN_PCENGINE_END)

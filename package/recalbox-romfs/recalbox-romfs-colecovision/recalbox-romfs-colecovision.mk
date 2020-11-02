@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system colecovision --extension '.col .COL .zip .ZIP' --fullname 'Colecovision' --platform colecovision --theme colecovision 1:libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX
+# ./scripts/linux/empack.py --force --system colecovision --extension '.col .COL .zip .ZIP' --fullname 'Colecovision' --platform colecovision --theme colecovision 1:libretro:bluemsx:BR2_PACKAGE_LIBRETRO_BLUEMSX 2:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_COLECOVISION_SOURCE = 
@@ -21,15 +21,21 @@ SOURCE_ROMDIR_COLECOVISION = $(RECALBOX_ROMFS_COLECOVISION_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_MAIN_COLECOVISION_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_COLECOVISION),Colecovision,$(SYSTEM_NAME_COLECOVISION),.col .COL .zip .ZIP,colecovision,colecovision)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_COLECOVISION_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_COLECOVISION),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
+define CONFIGURE_COLECOVISION_LIBRETRO_FBNEO_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_COLECOVISION),fbneo,2)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),y)
 define CONFIGURE_COLECOVISION_LIBRETRO_BLUEMSX_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_COLECOVISION),bluemsx,1)
@@ -51,6 +57,7 @@ endif
 define RECALBOX_ROMFS_COLECOVISION_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_COLECOVISION_START)
 	$(CONFIGURE_COLECOVISION_LIBRETRO_START)
+	$(CONFIGURE_COLECOVISION_LIBRETRO_FBNEO_DEF)
 	$(CONFIGURE_COLECOVISION_LIBRETRO_BLUEMSX_DEF)
 	$(CONFIGURE_COLECOVISION_LIBRETRO_END)
 	$(CONFIGURE_MAIN_COLECOVISION_END)
