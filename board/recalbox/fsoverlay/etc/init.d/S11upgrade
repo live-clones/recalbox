@@ -6,9 +6,9 @@ then
 fi
 
 ARCH=$(cat /recalbox/recalbox.arch)
-if [ "$ARCH" = "odroidxu4" ]; then
-  # HACK: for odroidxu4, the ARCH is xu4
-  ARCH=xu4
+if [ "$ARCH" = "xu4" ]; then
+  # HACK: for odroidxu4, the ARCH is odroidxu4
+  ARCH=odroidxu4
 fi
 
 UPDATEFILE="/boot/update/recalbox-$ARCH.img.xz"
