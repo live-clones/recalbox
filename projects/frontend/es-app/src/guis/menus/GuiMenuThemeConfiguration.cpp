@@ -7,7 +7,7 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(Window& window, const std::string& themeName)
-  : GuiMenuBase(window, _("POPUP SETTINGS"))
+  : GuiMenuBase(window, _("THEME CONFIGURATION"))
   , mThemeName(themeName)
   , mReloadRequired(false)
 {

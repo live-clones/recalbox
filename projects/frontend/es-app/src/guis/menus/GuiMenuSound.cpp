@@ -11,7 +11,7 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuSound::GuiMenuSound(Window& window)
-  : GuiMenuBase(window, _("NETWORK SETTINGS"))
+  : GuiMenuBase(window, _("SOUND SETTINGS"))
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 

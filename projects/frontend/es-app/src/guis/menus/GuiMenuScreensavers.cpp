@@ -19,7 +19,7 @@ GuiMenuScreensavers::GuiMenuScreensavers(Window& window, SystemManager& systemMa
   mMenu.addWithLabel(mTime, _("SCREENSAVER AFTER"), _(MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG));
 
   // screensaver behavior
-  mType = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"), false);
+  mType = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCREENSAVER BEHAVIOR"), false);
   std::vector<std::string> screensavers;
   std::string type = RecalboxConf::Instance().GetScreenSaverType();
   mType->add("dim", "dim", type == "dim");
