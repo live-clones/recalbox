@@ -32,4 +32,13 @@ class OdroidAdvanceGo2PowerEventReader : private Thread
 
     //! Event reader
     void Run() override;
+
+    //! Select action to execute regarding the given time
+    static void SelectAction(long elapsed);
+
+    //! Suspend
+    static void Suspend();
+
+    //! Power off
+    static void PowerOff();
 };
