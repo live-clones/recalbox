@@ -158,7 +158,7 @@ std::string Upgrade::ReplaceMachineParameters(const std::string& url)
 
   // Get arch
   std::string arch = Files::LoadFile(Path(sLocalArchFile));
-  Strings::ReplaceAllIn(arch, "odroidxu4", "xu4");
+  Strings::ReplaceAllIn(arch, "xu4", "odroidxu4");
 
   // Get uuid
   std::string uuid = Strings::Trim(Files::LoadFile(Path(sLocalUUID)), " \t\r\n");
