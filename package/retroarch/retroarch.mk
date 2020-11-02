@@ -57,7 +57,7 @@ endif
 endif
 
 # odroid xu4
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_XU4),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ORDOIDXU4),y)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 

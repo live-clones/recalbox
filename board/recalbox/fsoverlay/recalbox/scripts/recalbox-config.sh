@@ -388,7 +388,7 @@ if [ "$command" == "audio" ];then
         recallog "setting audio output mode : '$mode' => $cardId $deviceId"
         if [[ "${arch}" == "odroidxu4" && "${cardId}${deviceId}" == "00" ]]
         then
-            # this is specific to the xu4
+            # this is specific to the ordoidxu4
             # bypass the creation of the .asoundrc file for the default 0,0 device as the asound.conf is just enough
             recallog "bypass the creation of .asoundrc file"
             exit 0

@@ -107,37 +107,37 @@ case "${RECALBOX_TARGET}" in
 	sync || exit 1
 	;;
 
-    XU4)
-	rm -rf "${BINARIES_DIR}/xu4-firmware" || exit 1
-	mkdir -p "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
+    ORDOIDXU4)
+	rm -rf "${BINARIES_DIR}/odroidxu4-firmware" || exit 1
+	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
 
 	# /boot
 	echo "generating boot"
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/boot.ini" "${BINARIES_DIR}/xu4-firmware/boot.ini" || exit 1
-	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/xu4-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/xu4-firmware" || exit 1
-	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/xu4-firmware/boot/" || exit 1
-	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/xu4-firmware/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/xu4-firmware/boot/recalbox" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini" || exit 1
+	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
+	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/odroidxu4-firmware" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidxu4-firmware/boot/" || exit 1
+	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/odroidxu4-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidxu4-firmware/boot/recalbox" || exit 1
   [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/xu4-firmware/pre-upgrade.sh"
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidxu4-firmware/pre-upgrade.sh"
 
-	generate_boot_file_list "${BINARIES_DIR}/xu4-firmware/" | \
+	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
 	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
 	do
-	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/xu4-firmware/" || exit 1
+	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/odroidxu4-firmware/" || exit 1
 	done
 
 	# boot.tar.xz
-	tar -C "${BINARIES_DIR}/xu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+	tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
 		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/xu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
 	echo "generating image"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1

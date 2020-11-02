@@ -5,12 +5,6 @@ then
   exit 0
 fi
 
-ARCH=$(cat /recalbox/recalbox.arch)
-if [ "$ARCH" = "xu4" ]; then
-  # HACK: for odroidxu4, the ARCH is odroidxu4
-  ARCH=odroidxu4
-fi
-
 UPDATEFILE="/boot/update/recalbox-$ARCH.img.xz"
 UPDATEFILE_UNCOMPRESSED=${UPDATEFILE::-3}
 if [[ -f $UPDATEFILE ]]; then

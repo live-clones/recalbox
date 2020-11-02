@@ -133,7 +133,7 @@ playVideo() {
       playVideoOnOneScreen "$1" "-ao=alsa --vo=drm --drm-connector=$conn"
     done
   else
-    # on rpi, xu4, simply play
+    # on rpi, odroidxu4, simply play
     playVideoOnOneScreen "$1"
   fi
 }
