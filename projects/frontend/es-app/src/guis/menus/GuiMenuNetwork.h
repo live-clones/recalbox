@@ -28,15 +28,19 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     explicit GuiMenuNetwork(Window& window);
 
   private:
+    //! Text being currently edited
     enum class EditedText
     {
       None,
       WifiSSID,
       WifiKey,
+      Hostname,
     };
 
     //! SSID list
     std::shared_ptr<OptionListComponent<std::string>> mSSIDList;
+    //! Hostname
+    std::shared_ptr<TextComponent> mHostname;
     //! WIFI On/Off
     std::shared_ptr<SwitchComponent> mWifiOnOff;
     //! WIFI Key
@@ -60,12 +64,17 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     EditedText mCurrentEdition;
 
     /*!
-     * @brief Called when the user selectsthe  password line
+     * @brief Called when the user selects the Hostname line
+     */
+    void EditHostname();
+
+    /*!
+     * @brief Called when the user selects the password line
      */
     void EditPassword();
 
     /*!
-     * @brief Called when the user selectsthe  password line
+     * @brief Called when the user selects the SSID line
      */
     void EditSSID();
 
@@ -88,14 +97,22 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
      * @brief Build a masked passwors string
      * @return Password string
      */
-    static std::string MaskedPassword() { return std::string(GetWifiPassword().size(), '*'); }
+    static std::string MaskedPassword() { return std::string(RecalboxConf::Instance().GetWifiKey().size(), '*'); }
 
     /*
      * Convenient storage access
      */
 
-    //! Get the current WIFI status
-    static bool GetWifiStatus() { return RecalboxConf::Instance().AsBool("wifi.enabled"); }
+    /*!
+     * @brief Set Hostname
+     * @param status new hostname
+     * @param save True to save configuration immediately
+     */
+    static void SetHostname(const std::string& hostname, bool save)
+    {
+      RecalboxConf::Instance().SetHostname(hostname);
+      if (save) RecalboxConf::Instance().Save();
+    }
 
     /*!
      * @brief Set WIFI status
@@ -104,12 +121,9 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
      */
     static void SetWifiStatus(bool status, bool save)
     {
-      RecalboxConf::Instance().SetBool("wifi.enabled", status);
+      RecalboxConf::Instance().SetWifiEnabled(status);
       if (save) RecalboxConf::Instance().Save();
     }
-
-    //! Get the current WIFI password
-    static std::string GetWifiPassword() { return RecalboxConf::Instance().AsString("wifi.key"); }
 
     /*!
      * @brief Set WIFI password
@@ -118,12 +132,9 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
      */
     static void SetWifiPassword(const std::string& password, bool save)
     {
-      RecalboxConf::Instance().SetString("wifi.key", password);
+      RecalboxConf::Instance().SetWifiKey(password);
       if (save) RecalboxConf::Instance().Save();
     }
-
-    //! Get the current WIFI SSID
-    static std::string GetWifiSSID() { return RecalboxConf::Instance().AsString("wifi.ssid"); }
 
     /*!
      * @brief Set WIFI ssid
@@ -132,7 +143,7 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
      */
     static void SetWifiSSID(const std::string& ssid, bool save)
     {
-      RecalboxConf::Instance().SetString("wifi.ssid", ssid);
+      RecalboxConf::Instance().SetWifiSSID(ssid);
       if (save) RecalboxConf::Instance().Save();
     }
 

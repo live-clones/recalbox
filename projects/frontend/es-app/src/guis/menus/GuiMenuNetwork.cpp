@@ -25,8 +25,12 @@ GuiMenuNetwork::GuiMenuNetwork(Window& window)
   mIP = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(), menuTheme->menuText.font, menuTheme->menuText.color);
   mMenu.addWithLabel(mIP, _("IP ADDRESS"), _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
 
+  // Hostname
+  mHostname = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetHostname(), menuTheme->menuText.font, menuTheme->menuText.color);
+  mMenu.addWithLabel(mHostname, _("HOSTNAME"), _(MENUMESSAGE_NETWORK_HOST_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditHostname, this));
+
   // WIFI ON/OFF
-  mWifiOnOff = std::make_shared<SwitchComponent>(mWindow, GetWifiStatus());
+  mWifiOnOff = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetWifiEnabled());
   mWifiOnOff->setChangedCallback(std::bind(&GuiMenuNetwork::OnWifiStateChanged, this));
   mMenu.addWithLabel(mWifiOnOff, _("ENABLE WIFI"), _(MENUMESSAGE_NETWORK_WIFI_HELP_MSG));
 
@@ -45,16 +49,22 @@ GuiMenuNetwork::GuiMenuNetwork(Window& window)
   Completed(NetworkOperation::ScanSSID, true);
 }
 
+void GuiMenuNetwork::EditHostname()
+{
+  mCurrentEdition = EditedText::Hostname;
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("HOSTNAME"), RecalboxConf::Instance().GetHostname(), this));
+}
+
 void GuiMenuNetwork::EditPassword()
 {
   mCurrentEdition = EditedText::WifiKey;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), GetWifiPassword(), this));
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), RecalboxConf::Instance().GetWifiKey(), this));
 }
 
 void GuiMenuNetwork::EditSSID()
 {
   mCurrentEdition = EditedText::WifiSSID;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), GetWifiSSID(), this));
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), RecalboxConf::Instance().GetWifiSSID(), this));
 }
 
 void GuiMenuNetwork::OnSSIDChanged()
@@ -102,7 +112,7 @@ bool GuiMenuNetwork::Execute(GuiWaitLongExecution<NetworkOperation, bool>& from,
       return true;
     }
     case NetworkOperation::StopWIFI: return RecalboxSystem::disableWifi();
-    case NetworkOperation::NewConnection: return RecalboxSystem::enableWifi(GetWifiSSID(), GetWifiPassword());
+    case NetworkOperation::NewConnection: return RecalboxSystem::enableWifi(RecalboxConf::Instance().GetWifiSSID(), RecalboxConf::Instance().GetWifiKey());
     case NetworkOperation::ScanSSID:
     {
       mScannedSSIDList = RecalboxSystem::getAvailableWiFiSSID(mWifiOnOff->getState());
@@ -169,7 +179,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
       mSSIDList->setChangedCallback(nullptr);
 
       // Fill SSID list
-      std::string currentSSID = GetWifiSSID();
+      std::string currentSSID = RecalboxConf::Instance().GetWifiSSID();
       std::string currentSSIDView = currentSSID.empty() ? _("EDIT MANUALLY")
                                                         : currentSSID.append(" (").append(_("EDIT MANUALLY")).append(1, ')');
       bool found = false;
@@ -218,9 +228,19 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& v
   (void)vk;
   switch(mCurrentEdition)
   {
+    case EditedText::Hostname:
+    {
+      // Update hostname
+      SetHostname(text, false);
+
+      // Refresh hostname
+      mHostname->setText(text);
+      mMenu.onSizeChanged();
+      break;
+    }
     case EditedText::WifiSSID:
     {
-      // Restore old SSID
+      // Update SSID
       SetWifiSSID(text, false);
 
       // Refresh SSID list
@@ -229,7 +249,7 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& v
     }
     case EditedText::WifiKey:
     {
-      // Restore old password
+      // Update password
       SetWifiPassword(text, false);
 
       // Refresh password
@@ -249,6 +269,11 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk
 
   switch (mCurrentEdition)
   {
+    case EditedText::Hostname:
+    {
+      mWindow.displayMessage("Hostname changes will not be effective until next reboot");
+      break;
+    }
     case EditedText::WifiSSID:
     case EditedText::WifiKey:
     {
@@ -270,4 +295,3 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
   RecalboxConf::Instance().Save();
   mCurrentEdition = EditedText::None;
 }
-

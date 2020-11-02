@@ -32,6 +32,12 @@ class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxCon
       type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
       void Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); }
 
+    DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
+
+    DefineGetterSetter(WifiEnabled, bool, Bool, sWifiEnabled, false)
+    DefineGetterSetter(WifiSSID, std::string, String, sWifiSSID, "")
+    DefineGetterSetter(WifiKey, std::string, String, sWifiKey, "")
+
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "Default Output")
@@ -62,6 +68,12 @@ class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxCon
 
     #undef DefineGetterSetter
     #undef DefineGetterSetterParameterized
+
+    static constexpr const char* sHostname              = "system.hostname";
+
+    static constexpr const char* sWifiEnabled           = "wifi.enabled";
+    static constexpr const char* sWifiSSID              = "wifi.ssid";
+    static constexpr const char* sWifiKey               = "wifi.key";
 
     static constexpr const char* sAudioVolume           = "audio.volume";
     static constexpr const char* sAudioMusic            = "audio.bgmusic";
