@@ -188,6 +188,8 @@ class Board
         TreeAPlus   = 0x0E,
         TreeCM3Plus = 0x10,
         FourB       = 0x11,
+        FourHundred = 0x13,
+        FourCM4     = 0x14,
     };
 
     /*!

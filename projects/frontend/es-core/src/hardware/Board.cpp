@@ -88,7 +88,9 @@ Board::BoardType Board::GetPiModel(unsigned int revision)
     case RaspberryModel::TreeBPlus:
     case RaspberryModel::TreeCM3Plus:
     case RaspberryModel::TreeAPlus: return BoardType::Pi3plus;
-    case RaspberryModel::FourB: return BoardType::Pi4;
+    case RaspberryModel::FourB:
+    case RaspberryModel::FourHundred:
+    case RaspberryModel::FourCM4: return BoardType::Pi4;
     case RaspberryModel::Alpha:
     default: break;
   }

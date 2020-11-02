@@ -124,7 +124,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 
 	if(mTextCache)
 	{
-    int horizontalOff;
+    float horizontalOff = 0;
     switch(mHorizontalAlignment)
     {
       case TextAlignment::Top:
@@ -172,10 +172,10 @@ void DateTimeComponent::setValue(const std::string& val)
   }
 }
 
-void DateTimeComponent::setValue(DateTime dt)
+void DateTimeComponent::setValue(const DateTime& dt)
 {
-    mTime = dt;
-    updateTextCache();
+  mTime = dt;
+  updateTextCache();
 }
 
 std::string DateTimeComponent::getValue() const
