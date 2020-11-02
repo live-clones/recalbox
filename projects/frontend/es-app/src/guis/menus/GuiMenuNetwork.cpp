@@ -39,10 +39,7 @@ GuiMenuNetwork::GuiMenuNetwork(Window& window)
   mMenu.addWithLabel(mWifiKey, _("WIFI KEY"), _(MENUMESSAGE_NETWORK_KEY_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditPassword, this));
 
   // Buttons
-  mMenu.addButton(_("WPS CONNECTION"), _("Try a WPS connection. Push the WPS button on your internet box, then click this button to configure your WIFI connection automatically!"), std::bind(&GuiMenuNetwork::TryWPS, this) );
-  mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); } );
-
-  mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+  mMenu.addButton(_("WPS CONNECTION"), _("AUTOMATIC WPS CONNECTION"), std::bind(&GuiMenuNetwork::TryWPS, this) );
 
   // Set current SSID
   Completed(NetworkOperation::ScanSSID, true);
@@ -50,11 +47,13 @@ GuiMenuNetwork::GuiMenuNetwork(Window& window)
 
 void GuiMenuNetwork::EditPassword()
 {
+  mCurrentEdition = EditedText::WifiKey;
   mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), GetWifiPassword(), this));
 }
 
 void GuiMenuNetwork::EditSSID()
 {
+  mCurrentEdition = EditedText::WifiSSID;
   mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), GetWifiSSID(), this));
 }
 
@@ -262,11 +261,13 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk
     case EditedText::None:
     default: break;
   }
+  mCurrentEdition = EditedText::None;
 }
 
 void GuiMenuNetwork::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
 {
   ArcadeVirtualKeyboardTextChange(vk, mBackupedText);
   RecalboxConf::Instance().Save();
+  mCurrentEdition = EditedText::None;
 }
 
