@@ -9,6 +9,20 @@
 - Improved NESPi4 case detection
 - Libretro-atari800 with .car extension support
 - Check free space before downloading updates
+- Bump FBNeo to v1.0.0.0
+- Add FBNeo as core for
+  - Colecovision
+  - Gamegear
+  - Famicom Disk System
+  - Master-System
+  - Megadrive
+  - Msx 1
+  - NES
+  - NeoGeo Pocket
+  - PC-Engine
+  - SG-1000
+  - SuperGraphx
+  - ZX-Spectrum 
 
 ### Fixes
 - Fix AdvanceMAME

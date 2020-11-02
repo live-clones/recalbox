@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 - Add WPS support
 - Fix upgrade procedure that could fail in some circumstances (#1376)
+- Bump FBNeo & add as core for colecovision, gamegear, fds, master-system, megadrive, msx1, nes, ngp, pc-engine, sg-1000, supergraphx, zx-spectrum 
 
 
 ## [7.0.1]
