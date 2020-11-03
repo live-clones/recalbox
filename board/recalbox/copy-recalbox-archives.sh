@@ -107,7 +107,7 @@ case "${RECALBOX_TARGET}" in
 	sync || exit 1
 	;;
 
-    ORDOIDXU4)
+    ODROIDXU4)
 	rm -rf "${BINARIES_DIR}/odroidxu4-firmware" || exit 1
 	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
 
