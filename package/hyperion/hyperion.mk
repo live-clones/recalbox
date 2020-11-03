@@ -22,8 +22,7 @@ HYPERION_CONF_OPTS += -DBCM_INCLUDE_DIR="$(STAGING_DIR)/usr/" \
 	-DENABLE_QT5=ON \
 	--build "$(@D)/output/" "$(@D)/"
 
-HYPERION_DEPENDENCIES += rpi-firmware
-HYPERION_DEPENDENCIES += libusb qt5base host-libusb
+HYPERION_DEPENDENCIES += libusb qt5base host-libusb rpi-firmware host-protobuf host-cmake
 
 # rpi4
 ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
@@ -33,8 +32,6 @@ endif
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 HYPERION_DEPENDENCIES += rpi-userland
 endif
-
-HYPERION_DEPENDENCIES += host-protobuf host-cmake
 
 define HYPERION_PROTOBUF_COMPILE
 	mkdir -p "$(@D)/host-compile/"
