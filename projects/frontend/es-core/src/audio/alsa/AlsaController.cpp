@@ -69,12 +69,12 @@ void AlsaController::Initialize()
         }
         else
         {
-          if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+          if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
             if (snd_mixer_selem_is_enumerated(elem) != 0)
               if (strcmp(snd_mixer_selem_id_get_name(sid), "Playback Path") == 0)
               {
                 LOG(LogDebug) << "  Odroid Advance Go2's Path selector detected '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
-                card.AddOdroidAdvanceGo2Router(OdroidAdvanceGo2((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
+                card.AddOdroidAdvanceGo2Router(OdroidAdvanceGo2Alsa((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
                 continue;
               }
           LOG(LogDebug) << "  Ignored '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
@@ -119,12 +119,12 @@ void AlsaController::Initialize()
             LOG(LogDebug) << "      Subdevice " << subd << ", name `" << snd_pcm_info_get_subdevice_name(pcminfo) << "`";
         }
 
-        if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+        if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
         {
-          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Off, "Mute (no sound)", 0));
-          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Speaker, "Internal Speakers", 0));
-          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Headphone, "Headphone Jack", 0));
-          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2::OutputPath::Both, "Internal Speakers + Headphone Jack", 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Off, OdroidAdvanceGo2Alsa::sOff, 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Speaker, OdroidAdvanceGo2Alsa::sSpeaker, 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Headphone, OdroidAdvanceGo2Alsa::sHeadphone, 0));
+          card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Both, OdroidAdvanceGo2Alsa::sBoth, 0));
         }
         else card.AddDevice(AlsaDevice(devNum, snd_pcm_info_get_name(pcminfo), (int)nsubd));
       }
@@ -149,7 +149,7 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
   result[-1] = sDefaultOutput;
   for(const AlsaCard& playback : mPlaybacks)
   {
-    if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+    if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
     {
       result.erase(-1);
       for (int i = playback.DeviceCount(); --i >= 0;)
@@ -261,9 +261,9 @@ void AlsaController::SetDefaultPlayback(int identifier)
     "}\n";
 
   // Odroid Advance go 2 patch
-  if (Board::GetBoardType() == Board::BoardType::OdroidAdvanceGo2)
+  if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
   {
-    mPlaybacks[0].OdroidAdvanceGo2Router()->Route((OdroidAdvanceGo2::OutputPath)identifier);
+    mPlaybacks[0].OdroidAdvanceGo2Router()->Route((OdroidAdvanceGo2Alsa::OutputPath)identifier);
     return;
   }
 
@@ -299,22 +299,24 @@ void AlsaController::SetDefaultPlayback(int identifier)
     LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
 
     // Raspberry Pi hack
-    switch(Board::GetBoardType())
+    switch(Board::Instance().GetBoardType())
     {
-      case Board::BoardType::Pi1:
-      case Board::BoardType::Pi2:
-      case Board::BoardType::Pi3:
-      case Board::BoardType::Pi3plus:
+      case BoardType::Pi1:
+      case BoardType::Pi2:
+      case BoardType::Pi3:
+      case BoardType::Pi3plus:
       {
         Raspberry::SetRoute(deviceIndex == 0 ? Raspberry::Output::Headphones : Raspberry::Output::HDMI);
         break;
       }
-      case Board::BoardType::UndetectedYet:
-      case Board::BoardType::Unknown:
-      case Board::BoardType::Pi0:
-      case Board::BoardType::Pi4:
-      case Board::BoardType::UnknownPi:
-      case Board::BoardType::OdroidAdvanceGo2:
+      case BoardType::UndetectedYet:
+      case BoardType::Unknown:
+      case BoardType::Pi0:
+      case BoardType::Pi4:
+      case BoardType::UnknownPi:
+      case BoardType::OdroidAdvanceGo2:
+      case BoardType::PCx86:
+      case BoardType::PCx64:
       default: break;
     }
   }

@@ -18,6 +18,7 @@
 #include <guis/GuiMsgBox.h>
 #include <scraping/ScraperFactory.h>
 #include <audio/AudioController.h>
+#include <utils/os/system/ProcessTree.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -30,11 +31,12 @@ bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount, char** environment)
-  : mRequestedWidth(width),
-    mRequestedHeight(height),
-    mPendingExit(PendingExit::None),
-    mRunCount(runCount),
-    mNotificationManager(environment)
+  : mRequestedWidth(width)
+  , mRequestedHeight(height)
+  , mPendingExit(PendingExit::None)
+  , mRunCount(runCount)
+  , mNotificationManager(environment)
+  , mApplicationWindow(nullptr)
 {
   Intro();
   SetLocale(executablePath);
@@ -46,11 +48,11 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
-    // Board-related background processes
-    Board::StartGlobalBackgroundProcesses();
+    // Hardware board
+    Board board(*this);
 
     // Save power for battery-powered devices
-    Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
+    board.SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
 
     // Audio controller
     AudioController audioController;
@@ -84,12 +86,17 @@ MainRunner::ExitState MainRunner::Run()
       LOG(LogError) << "Window failed to initialize!";
       return ExitState::FatalError;
     }
+    mApplicationWindow = &window;
     // Brightness
-    if (Board::BrightnessSupport())
-      Board::SetBrightness(RecalboxConf::Instance().GetBrightness());
+    if (board.HasBrightnessSupport())
+      board.SetBrightness(RecalboxConf::Instance().GetBrightness());
 
     // Initialize audio manager
     AudioManager audioManager(window);
+
+    // Board-related background processes
+    // Initialize here so that all global object are available
+    board.StartGlobalBackgroundProcesses();
 
     // Display "loading..." screen
     //window.renderLoadingScreen();
@@ -141,7 +148,10 @@ MainRunner::ExitState MainRunner::Run()
       externalNotificationFolder.CreatePath();
       fileNotifier.WatchFile(externalNotificationFolder)
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
+
+      // Main SDL loop
       exitState = MainLoop(window, systemManager, fileNotifier);
+
       ResetExitState();
       fileNotifier.ResetEventNotifier();
       DeleteReadyFlagFile();
@@ -154,14 +164,12 @@ MainRunner::ExitState MainRunner::Run()
       exitState = ExitState::Relaunch;
     }
 
-    // Board-related background processes
-    Board::StopGlobalBackgroundProcesses();
-
     // Exit
     mNotificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     Window::Finalize();
+    mApplicationWindow = nullptr;
 
     switch(exitState)
     {
@@ -240,7 +248,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(window, event);
           // Process
           if (!compactEvent.Empty())
-            if (!Board::ProcessSpecialInputs(compactEvent))
+            if (!Board::Instance().ProcessSpecialInputs(compactEvent))
               window.ProcessInput(compactEvent);
           // Quit?
           if (window.Closed()) RequestQuit(ExitState::Quit);
@@ -256,7 +264,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 
     if (window.isSleeping())
     {
-      if (demoMode.hasDemoMode())
+      if (DemoMode::hasDemoMode())
         demoMode.runDemo();
 
       lastTime = SDL_GetTicks();
@@ -463,5 +471,161 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
       else if (path.ToString().find("themes") != std::string::npos)
         mPendingExit = PendingExit::ThemeChanged;
     }
+  }
+}
+
+void MainRunner::HeadphonePluggedIn(BoardType board)
+{
+  LOG(LogInfo) << "[Audio] Headphones plugged!";
+  switch(board)
+  {
+    case BoardType::OdroidAdvanceGo2:
+    {
+      std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
+      LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones plugged! " << currentAudio;
+      if (currentAudio == OdroidAdvanceGo2Alsa::sSpeaker)
+      {
+        // Switch to headphone
+        AudioController::Instance().SetDefaultPlayback(OdroidAdvanceGo2Alsa::sHeadphone);
+        RecalboxConf::Instance().SetAudioOuput(OdroidAdvanceGo2Alsa::sHeadphone);
+        // Create music popup
+        int popupDuration = RecalboxConf::Instance().GetPopupMusic();
+        LOG(LogInfo) << "[OdroidAdvanceGo2] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        if (popupDuration != 0 && mApplicationWindow != nullptr)
+          mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
+                                                popupDuration, GuiInfoPopup::PopupType::Music));
+      }
+      break;
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
+  }
+}
+
+void MainRunner::HeadphoneUnplugged(BoardType board)
+{
+  LOG(LogInfo) << "[Audio] Headphones unplugged!";
+  switch(board)
+  {
+    case BoardType::OdroidAdvanceGo2:
+    {
+      std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
+      LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones unplugged! " << currentAudio;
+      if (currentAudio == OdroidAdvanceGo2Alsa::sHeadphone)
+      {
+        // Switch back to speakers
+        AudioController::Instance().SetDefaultPlayback(OdroidAdvanceGo2Alsa::sSpeaker);
+        RecalboxConf::Instance().SetAudioOuput(OdroidAdvanceGo2Alsa::sSpeaker);
+        // Create music popup
+        int popupDuration = RecalboxConf::Instance().GetPopupMusic();
+        LOG(LogInfo) << "[OdroidAdvanceGo2] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        if (popupDuration != 0 && mApplicationWindow != nullptr)
+          mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
+                                                popupDuration, GuiInfoPopup::PopupType::Music));
+      }
+      break;
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
+  }
+}
+
+void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
+{
+  (void)board;
+  if (IsApplicationRunning())
+  {
+    // The application is running and is on screen.
+    // Display little window to notify the user
+    if (milliseconds < 500)
+      mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
+                                    ->Execute(HardwareTriggeredSpecialOperations::Suspend, _("Entering standby...")));
+    else
+      mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
+                                    ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
+  }
+  else
+  {
+    // The application is not Running, execute orders immediately
+    if (milliseconds < 500)
+      Board::Instance().Suspend();
+    else
+    {
+      Files::SaveFile(Path(sQuitNow), std::string());
+      // Gracefuly qui emulators and all the call chain
+      ProcessTree::TerminateAll(1000);
+      // Quit
+      RequestQuit(ExitState::Shutdown);
+    }
+  }
+}
+
+void MainRunner::Resume(BoardType board)
+{
+  (void)board;
+  // so... Waking up :)
+  if (mApplicationWindow != nullptr && IsApplicationRunning())
+    mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
+                                ->Execute(HardwareTriggeredSpecialOperations::Resume, _("Waking up!")));
+}
+
+bool MainRunner::Execute(GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>& from,
+                         const HardwareTriggeredSpecialOperations& parameter)
+{
+  (void)from;
+  switch(parameter)
+  {
+    case HardwareTriggeredSpecialOperations::Suspend:
+    case HardwareTriggeredSpecialOperations::Resume:
+    case HardwareTriggeredSpecialOperations::PowerOff:
+    default: sleep(1); // Just sleep one second
+  }
+  return false; // unused
+}
+
+void MainRunner::Completed(const HardwareTriggeredSpecialOperations& parameter, const bool& result)
+{
+  (void)result;
+  switch(parameter)
+  {
+    case HardwareTriggeredSpecialOperations::Suspend:
+    {
+      // Here is a little trick to erase the window from the screen before suspending
+      // To show the user we're soon suspending the hardware, just display the last screen in half luminosity
+      mApplicationWindow->Update(20);
+      mApplicationWindow->RenderAll(true);
+
+      // This method won't return until wake up
+      Board::Instance().Suspend();
+      break;
+    }
+    case HardwareTriggeredSpecialOperations::PowerOff:
+    {
+      // Bye bye :)
+      RequestQuit(ExitState::Shutdown);
+      break;
+    }
+    case HardwareTriggeredSpecialOperations::Resume: // Do nothing on resume
+    default: break;
   }
 }

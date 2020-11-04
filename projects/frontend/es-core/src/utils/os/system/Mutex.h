@@ -49,6 +49,35 @@ class Mutex
      */
     bool WaitSignal(long long milliseconds);
 
+    /*!
+     * @brief Autolock class
+     */
+    class AutoLock
+    {
+      private:
+        //! Mutex to use
+        Mutex& mMutex;
+
+      public:
+        /*!
+         * @brief Build an autolock instance based and the given mutex, then lock the mutex
+         * @param mutex Mutex to use
+         */
+        explicit AutoLock(Mutex& mutex)
+          : mMutex(mutex)
+        {
+          mMutex.Lock();
+        }
+
+        /*!
+         * @brief Unlock the given mutex on destruction
+         */
+        ~AutoLock()
+        {
+          mMutex.UnLock();
+        }
+    };
+
   private:
     //! Mutex handle
     OSMutex mMutex;

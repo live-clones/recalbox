@@ -9,11 +9,6 @@
 #include <utils/Files.h>
 #include <audio/AudioController.h>
 
-// Member implementations
-OdroidAdvanceGo2PowerEventReader OdroidAdvanceGo2Board::mPowerReader;
-OdroidAdvanceGo2SpecialButtonsReader OdroidAdvanceGo2Board::mButtonsReader;
-
-
 bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
 {
   if (inputEvent.VolumeUpPressed())
@@ -73,8 +68,39 @@ void OdroidAdvanceGo2Board::SetBrightness(int step)
   Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
 }
 
-void OdroidAdvanceGo2Board::GracefulPowerOff()
+void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance)
 {
+  if (!HasBattery()) return;
 
+  switch (cpuGovernance)
+  {
+    case CPUGovernance::PowerSave:
+    {
+      LOG(LogInfo) << "[CPU] Set powersaving on";
+      Files::SaveFile(Path(sCpuGovernancePath), "powersave");
+      break;
+    }
+    case CPUGovernance::FullSpeed:
+    {
+      LOG(LogInfo) << "[CPU] Set dynamic mode on";
+      Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
+      break;
+    }
+    default: break;
+  }
+}
+
+int OdroidAdvanceGo2Board::BatteryChargePercent()
+{
+  static Path sBatteryCharge(sBatteryCapacityPath);
+  int charge = -1;
+  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
+  return charge;
+}
+
+bool OdroidAdvanceGo2Board::IsBatteryCharging()
+{
+  static Path sBatteryStatus(sBatteryStatusPath);
+  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
 

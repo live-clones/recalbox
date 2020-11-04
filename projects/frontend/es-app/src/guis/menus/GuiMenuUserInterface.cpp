@@ -16,7 +16,7 @@ GuiMenuUserInterface::GuiMenuUserInterface(Window& window, SystemManager& system
   , mSystemManager(systemManager)
 {
   // Brightness
-  if (Board::BrightnessSupport())
+  if (Board::Instance().HasBrightnessSupport())
   {
     mBrightness = std::make_shared<SliderComponent>(mWindow, 0.f, 8.f, 1.f, "");
     mBrightness->setSlider((float)RecalboxConf::Instance().GetBrightness());
@@ -59,7 +59,7 @@ void GuiMenuUserInterface::SetBrightness(const float& brightness)
 {
   if (RecalboxConf::Instance().GetBrightness() != (int)brightness)
   {
-    Board::SetBrightness((int) brightness);
+    Board::Instance().SetBrightness((int) brightness);
     RecalboxConf::Instance().SetBrightness((int) brightness);
     RecalboxConf::Instance().Save();
   }

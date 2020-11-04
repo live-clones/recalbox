@@ -54,7 +54,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @param playbackName playback name from GetPlaybackList()
      * @return playbackName or default value if playbackName is invalid
      */
-    std::string SetDefaultPlayback(const std::string& playbackName) { return (!mHasSpecialAudio ? mController.SetDefaultPlayback(playbackName) : std::string()); }
+    std::string SetDefaultPlayback(const std::string& playbackName);
 
     /*!
      * @brief Get volume from the given playback

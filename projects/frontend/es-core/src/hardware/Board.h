@@ -1,171 +1,163 @@
 #pragma once
 
 #include <string>
+#include "BoardType.h"
+#include "hardware/messaging/IHardwareNotifications.h"
+#include "IBoardInterface.h"
+#include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <hardware/messaging/HardwareMessageSender.h>
 
 // Forward declaration
 class InputCompactEvent;
 
-class Board
+class Board: public StaticLifeCycleControler<Board>
 {
   public:
-    //! Board model/generation
-    enum class BoardType
-    {
-        // Undetected
-        UndetectedYet, // Not yet detected
-        Unknown,       // Unknown hardware
-        // RaspberryPi
-        Pi0,           // Pi 0, 0W
-        Pi1,           // Pi 1, A, B, A+, B+
-        Pi2,           // Pi 2B
-        Pi3,           // Pi 3B
-        Pi3plus,       // Pi 3B+
-        Pi4,           // Pi 4B
-        UnknownPi,     // Unknown Pi with higher revisions
-        // Odroid
-        OdroidAdvanceGo2, // Odroid advance go 2
-    };
-
-    //! CPU Speed governance
-    enum class CPUGovernance
-    {
-        PowerSave, //! Save has much power as possible
-        FullSpeed, //! Real full spead or "on demand"
-    };
-
     /*!
-     * @brief Run system command and capture output
-     * @param cmd_utf8 Command to execute
-     * @param debug log output?
-     * @return Return code
+     * @brief Constructor
+     * @param notificationInterface Notification interface
      */
-    static int Run(const std::string& cmd_utf8, bool debug);
+    explicit Board(IHardwareNotifications& notificationInterface);
+
+    //! Destructor
+    ~Board()
+    {
+      delete mBoard;
+    }
 
     /*!
      * @brief Get board type
      * @return Board type
      */
-    static BoardType GetBoardType();
+    BoardType GetBoardType();
 
     /*!
      * @brief Get brightness support
      * @return True if the current board support brightness, false otherwise
      */
-    static bool BrightnessSupport()
-    {
-      switch(GetBoardType())
-      {
-        case BoardType::OdroidAdvanceGo2: return true;
-        case BoardType::UndetectedYet:
-        case BoardType::Unknown:
-        case BoardType::Pi0:
-        case BoardType::Pi1:
-        case BoardType::Pi2:
-        case BoardType::Pi3:
-        case BoardType::Pi3plus:
-        case BoardType::Pi4:
-        case BoardType::UnknownPi:
-        default: break;
-      }
-      return false;
-    }
+    bool HasBrightnessSupport() { return mBoard->HasBrightnessSupport(); }
 
     /*!
      * @brief Set brightness
      * @param step Step value from 0 to 8
      */
-    static void SetBrightness(int step);
+    void SetBrightness(int step) { mBoard->SetBrightness(step); }
 
     /*!
      * @brief Set lowerst brightness available or even switch off the screen
      * @param step Step value from 0 to 8
      */
-    static void SetLowestBrightness();
+    void SetLowestBrightness() { mBoard->SetLowestBrightness(); };
 
     /*!
      * @brief Check if the current board has battery
      * @return
      */
-    static bool HasBattery();
+    bool HasBattery() { return mBoard->HasBattery(); }
 
     /*!
      * @brief Get battery charge in percent
      * @return Battery charge (-1 = no battery)
      */
-    static int GetBatteryChargePercent();
+    int BatteryChargePercent() { return mBoard->BatteryChargePercent(); }
 
     /*!
      * @brief Check if the battery is charging
      * @return True = charging, False = discharging or no battery
      */
-    static bool IsBatteryCharging();
+    bool IsBatteryCharging() { return mBoard->IsBatteryCharging(); }
 
     /*!
      * @brief Set CPU governance
      * @param cpuGovernance CPU governance
      */
-    static void SetCPUGovernance(CPUGovernance cpuGovernance);
+    void SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance) { mBoard->SetCPUGovernance(cpuGovernance); }
 
     /*!
      * @brief Check if this board has extra volume +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    static bool HasExtraVolumeButtons();
+    bool HasPhysicalVolumeButtons() { return mBoard->HasPhysicalVolumeButtons(); }
 
     /*!
      * @brief Check if this board has extra brightness +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    static bool HasExtraBrightnessButtons();
+    bool HasPhysicalBrightnessButtons() { return mBoard->HasPhysicalBrightnessButtons(); }
 
     /*!
      * @brief Check if the current board supports suspend/resume operations
      * @return True if the board supports suspend/resume operations, false otherwise
      */
-    static bool IsSupportingSuspendResume();
+    bool HasSuspendResume() { return mBoard->HasSuspendResume(); }
 
     /*!
      * @brief Suspend!
      */
-    static void Suspend();
+    void Suspend() { mBoard->Suspend(); }
 
     /*!
      * @brief Process special input if any
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise
      */
-    static bool ProcessSpecialInputs(InputCompactEvent& inputEvent);
+    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) { return mBoard->ProcessSpecialInputs(inputEvent); }
 
     /*!
      * @brief Start optional global background processes
      * This method is called when ES starts
      */
-    static void StartGlobalBackgroundProcesses();
+    void StartGlobalBackgroundProcesses()
+    {
+      LOG(LogInfo) << "[Hardware] Start global Hardware processes";
+      return mBoard->StartGlobalBackgroundProcesses();
+    }
 
     /*!
      * @brief Stop optional global background processes
      * This method is called when ES stops
      */
-    static void StopGlobalBackgroundProcesses();
+    void StopGlobalBackgroundProcesses()
+    {
+      LOG(LogInfo) << "[Hardware] Stop global Hardware processes";
+      return mBoard->StopGlobalBackgroundProcesses();
+    }
 
     /*!
      * @brief Start optional in-game background processes.
      * This method is called when a game starts
      */
-    static void StartInGameBackgroundProcesses();
+    void StartInGameBackgroundProcesses()
+    {
+      LOG(LogInfo) << "[Hardware] Start in-game Hardware processes";
+      return mBoard->StartInGameBackgroundProcesses();
+    }
 
     /*!
      * @brief Stop optional in-game background processes.
      * This method is called when a game stops
      */
-    static void StopInGameBackgroundProcesses();
+    void StopInGameBackgroundProcesses()
+    {
+      LOG(LogInfo) << "[Hardware] Start in-game Hardware processes";
+      return mBoard->StopInGameBackgroundProcesses();
+    }
 
   private:
-    static constexpr const char* sCpuGovernancePath = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
-    static constexpr const char* sBatteryCapacityPath1 = "/sys/class/power_supply/BAT0/capacity";
-    static constexpr const char* sBatteryCapacityPath2 = "/sys/class/power_supply/battery/capacity";
-    static constexpr const char* sBatteryStatusPath1 = "/sys/class/power_supply/BAT0/status";
-    static constexpr const char* sBatteryStatusPath2 = "/sys/class/power_supply/battery/status";
+    //static constexpr const char* sBatteryCapacityPath1 = "/sys/class/power_supply/BAT0/capacity";
+    //static constexpr const char* sBatteryCapacityPath2 = "/sys/class/power_supply/battery/capacity";
+    //static constexpr const char* sBatteryStatusPath1 = "/sys/class/power_supply/BAT0/status";
+    //static constexpr const char* sBatteryStatusPath2 = "/sys/class/power_supply/battery/status";
+
+    //! Board type
+    BoardType mType;
+    //! Synchronous message sender
+    HardwareMessageSender mSender;
+    //! Real hardware board interface implementation
+    IBoardInterface* mBoard;
+
+    //! Get board interface
+    IBoardInterface* GetBoardInterface(HardwareMessageSender& messageSender);
 
     /*!
      * Raspberry model (real models)

@@ -6,7 +6,7 @@
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 
-class RecalboxConf : public IniFile, public StaticLifeCycleControler<RecalboxConf>
+class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf>
 {
   public:
     /*!

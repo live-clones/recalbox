@@ -6,9 +6,14 @@
 #include <string>
 #include "AlsaMixer.h"
 
-class OdroidAdvanceGo2 : public AlsaMixer
+class OdroidAdvanceGo2Alsa : public AlsaMixer
 {
   public:
+    static constexpr const char* sOff = "Mute (no sound)";
+    static constexpr const char* sSpeaker = "Internal Speakers";
+    static constexpr const char* sHeadphone = "Headphone Jack";
+    static constexpr const char* sBoth = "Internal Speakers + Headphone Jack";
+
     enum class OutputPath
     {
       Off,       //!< No sound
@@ -18,7 +23,7 @@ class OdroidAdvanceGo2 : public AlsaMixer
     };
 
     //! Default constructor
-    OdroidAdvanceGo2(int id, const std::string& name, int cardReference)
+    OdroidAdvanceGo2Alsa(int id, const std::string& name, int cardReference)
       : AlsaMixer(id, name, cardReference, MixerType::OdroidAdvanceGo2Path)
     {
     }

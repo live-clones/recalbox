@@ -32,9 +32,17 @@ set(CORE_HEADERS
 
 		# Hardware
 		src/hardware/Board.h
-		src/hardware/OdroidAdvanceGo2Board.h
-		src/hardware/OdroidAdvanceGo2PowerEventReader.h
-		src/hardware/OdroidAdvanceGo2SpecialButtonsReader.h
+		src/hardware/messaging/HardwareMessage.h
+		src/hardware/messaging/HardwareMessageSender.h
+		src/hardware/IBoardInterface.h
+		src/hardware/messaging/IHardwareNotifications.h
+		src/hardware/boards/NullBoard.h
+		src/hardware/boards/pc/PcComputers.h
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2JackEventReader.h
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.h
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.h
+		src/hardware/messaging/MessageTypes.h
 
 		# Audio
 		src/audio/AudioManager.h
@@ -49,7 +57,7 @@ set(CORE_HEADERS
 		src/audio/alsa/AlsaVolume.h
 		src/audio/alsa/NameFiltering.h
 		src/audio/alsa/Raspberry.h
-		src/audio/alsa/OdroidAdvanceGo2.h
+		src/audio/alsa/OdroidAdvanceGo2Alsa.h
 
 		# Utils
 		src/utils/cplusplus/StaticLifeCycleControler.h
@@ -64,6 +72,7 @@ set(CORE_HEADERS
 		src/utils/os/system/ThreadPool.h
         src/utils/os/system/IThreadPoolWorkerInterface.h
 		src/utils/os/system/Mutex.h
+		src/utils/os/system/ProcessTree.h
 		src/utils/datetime/HighResolutionTimer.h
 		src/utils/locale/Internationalizer.h
 		src/utils/math/Vectors.h
@@ -78,6 +87,7 @@ set(CORE_HEADERS
 		src/utils/storage/Array.h
 		src/utils/storage/Common.h
 		src/utils/storage/HashMap.h
+		src/utils/storage/MessageFactory.h
 		src/utils/storage/Queue.h
 		src/utils/storage/Stack.h
 		src/utils/IniFile.h
@@ -174,9 +184,13 @@ set(CORE_SOURCES
 
 		# Hardware
 		src/hardware/Board.cpp
-		src/hardware/OdroidAdvanceGo2Board.cpp
-		src/hardware/OdroidAdvanceGo2PowerEventReader.cpp
-		src/hardware/OdroidAdvanceGo2SpecialButtonsReader.cpp
+		src/hardware/messaging/HardwareMessageSender.cpp
+		src/hardware/boards/NullBoard.cpp
+		src/hardware/boards/pc/PcComputers.cpp
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.cpp
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2JackEventReader.cpp
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.cpp
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.cpp
 
 		# Audio
 		src/audio/AudioManager.cpp
@@ -190,11 +204,12 @@ set(CORE_SOURCES
 		src/audio/alsa/AlsaVolume.cpp
 		src/audio/alsa/NameFiltering.cpp
 		src/audio/alsa/Raspberry.cpp
-		src/audio/alsa/OdroidAdvanceGo2.cpp
+		src/audio/alsa/OdroidAdvanceGo2Alsa.cpp
 
 		# Utils
 		src/utils/os/system/Thread.cpp
 		src/utils/os/system/Mutex.cpp
+		src/utils/os/system/ProcessTree.cpp
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
 		src/utils/locale/Internationalizer.cpp
@@ -272,5 +287,5 @@ set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
 
 include_directories(${COMMON_INCLUDE_DIRS})
 add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS} src/RecalboxConf.cpp src/RecalboxConf.h)
-target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl zip)
+target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl zip procps)
 

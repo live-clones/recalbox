@@ -234,13 +234,13 @@ void GuiInputConfig::initFormInputs()
 	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputEvent::EventType::Button);
 	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputEvent::EventType::Button);
 
-	if (Board::HasExtraVolumeButtons())
+	if (Board::Instance().HasPhysicalVolumeButtons())
   {
     addFormInput("VOL-", _("VOLUME -"), ":/help/volume_down.svg", true, InputEvent::EventType::Button);
     addFormInput("VOL+", _("VOLUME +"), ":/help/volume_up.svg", true, InputEvent::EventType::Button);
   }
 
-	if (Board::HasExtraBrightnessButtons())
+	if (Board::Instance().HasPhysicalBrightnessButtons())
   {
     addFormInput("LUM-", _("BRIGHTNESS -"), ":/help/brightness_down.svg", true, InputEvent::EventType::Button);
     addFormInput("LUM+", _("BRIGHTNESS +"), ":/help/brightness_up.svg", true, InputEvent::EventType::Button);

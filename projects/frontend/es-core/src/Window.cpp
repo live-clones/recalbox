@@ -292,26 +292,25 @@ bool Window::isProcessing()
 
 void Window::exitScreenSaver()
 {
-  if (Board::BrightnessSupport())
-    Board::SetBrightness(RecalboxConf::Instance().GetBrightness());
+  if (Board::Instance().HasBrightnessSupport())
+    Board::Instance().SetBrightness(RecalboxConf::Instance().GetBrightness());
 }
 
 void Window::renderScreenSaver()
 {
-  if (Board::IsSupportingSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == "suspend")
+  if (Board::Instance().HasSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == "suspend")
   {
-    Board::Suspend();
+    Board::Instance().Suspend();
     DoWake(); // Exit screensaver immediately on resume
   }
-  else if (Board::BrightnessSupport())
+  else if (Board::Instance().HasBrightnessSupport())
   {
-    int brightness = RecalboxConf::Instance().GetBrightness();
     std::string screenSaver = RecalboxConf::Instance().GetScreenSaverType();
-    if (screenSaver == "black") Board::SetLowestBrightness();
+    if (screenSaver == "black") Board::Instance().SetLowestBrightness();
     else if (screenSaver == "dim")
     {
-      if ((brightness >>= 1) < 2) brightness = 2;
-      Board::SetBrightness(brightness);
+      int brightness = RecalboxConf::Instance().GetBrightness();
+      Board::Instance().SetBrightness(brightness >> 1);
     }
   }
   else
@@ -352,10 +351,16 @@ bool Window::KonamiCode(const InputCompactEvent& input)
   return false;
 }
 
-void Window::RenderAll()
+void Window::RenderAll(bool halfLuminosity)
 {
   Transform4x4f transform(Transform4x4f::Identity());
   Render(transform);
+  if (halfLuminosity)
+  {
+    transform = Transform4x4f::Identity();
+    Renderer::setMatrix(transform);
+    Renderer::drawRect(0.f, 0.f, Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat(), 0x00000080);
+  }
   Renderer::swapBuffers();
 }
 

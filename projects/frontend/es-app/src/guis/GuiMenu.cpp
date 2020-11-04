@@ -19,7 +19,6 @@
 #include "hardware/Board.h"
 
 #include "components/SwitchComponent.h"
-#include "components/SliderComponent.h"
 #include "components/TextComponent.h"
 #include "components/OptionListComponent.h"
 #include "components/MenuComponent.h"
@@ -42,10 +41,6 @@
 #include "GuiUpdateRecalbox.h"
 #include "guis/menus/GuiMenuNetwork.h"
 #include "guis/menus/GuiMenuSound.h"
-#include "guis/menus/GuiMenuScreensavers.h"
-#include "guis/menus/GuiMenuPopupSettings.h"
-#include "guis/menus/GuiMenuThemeConfiguration.h"
-#include "guis/menus/GuiMenuThemeOptions.h"
 
 GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   : Gui(window),
@@ -798,9 +793,9 @@ void GuiMenu::menuAdvancedSettings(){
   // Overclock choice
   auto overclock_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OVERCLOCK"), false);
   const std::string& currentOverclock = Settings::Instance().Overclock();
-  switch(Board::GetBoardType())
+  switch(Board::Instance().GetBoardType())
   {
-    case Board::BoardType::Pi1:
+    case BoardType::Pi1:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "extrem", currentOverclock == "extrem");
       overclock_choice->add(_("TURBO (1000Mhz)"), "turbo", currentOverclock == "turbo");
@@ -808,7 +803,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE"), "none", currentOverclock == "none");
       break;
     }
-    case Board::BoardType::Pi2:
+    case BoardType::Pi2:
     {
       overclock_choice->add(_("EXTREM (1100Mhz)"), "rpi2-extrem", currentOverclock == "rpi2-extrem");
       overclock_choice->add(_("TURBO (1050Mhz)+"), "rpi2-turbo", currentOverclock == "rpi2-turbo");
@@ -816,7 +811,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (900Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case Board::BoardType::Pi3:
+    case BoardType::Pi3:
     {
       overclock_choice->add(_("EXTREM (1375Mhz)"), "rpi3-extrem", currentOverclock == "rpi3-extrem");
       overclock_choice->add(_("TURBO (1350Mhz)"), "rpi3-turbo", currentOverclock == "rpi3-turbo");
@@ -824,7 +819,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1200Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case Board::BoardType::Pi3plus:
+    case BoardType::Pi3plus:
     {
       overclock_choice->add(_("EXTREM (1500Mhz)"), "rpi3plus-extrem", currentOverclock == "rpi3plus-extrem");
       overclock_choice->add(_("TURBO (1450Mhz)"), "rpi3plus-turbo", currentOverclock == "rpi3plus-turbo");
@@ -832,7 +827,7 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1400Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case Board::BoardType::Pi4:
+    case BoardType::Pi4:
     {
       overclock_choice->add(_("FIRE IN THE HOLE! (2150Mhz)"), "rpi4-burning", currentOverclock == "rpi4-burning");
       overclock_choice->add(_("EXTREM (2000Mhz)"), "rpi4-extrem", currentOverclock == "rpi4-extrem");
@@ -841,11 +836,13 @@ void GuiMenu::menuAdvancedSettings(){
       overclock_choice->add(_("NONE (1500Mhz)"), "none", currentOverclock == "none");
       break;
     }
-    case Board::BoardType::Pi0:
-    case Board::BoardType::Unknown:
-    case Board::BoardType::UnknownPi:
-    case Board::BoardType::UndetectedYet:
-    case Board::BoardType::OdroidAdvanceGo2:
+    case BoardType::Pi0:
+    case BoardType::Unknown:
+    case BoardType::UnknownPi:
+    case BoardType::UndetectedYet:
+    case BoardType::OdroidAdvanceGo2:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
     default:
     {
       overclock_choice->add(_("NONE"), "none", true);

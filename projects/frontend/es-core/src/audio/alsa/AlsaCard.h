@@ -9,7 +9,7 @@
 #include "NameFiltering.h"
 #include "AlsaVolume.h"
 #include "AlsaSwitch.h"
-#include "OdroidAdvanceGo2.h"
+#include "OdroidAdvanceGo2Alsa.h"
 
 class AlsaCard
 {
@@ -38,7 +38,7 @@ class AlsaCard
     //! Add a new mixer to the mixer list attached to the current card
     void AddSwitch(const AlsaSwitch& mixer) { mSwitches.push_back(mixer); }
     //! Add a new mixer to the mixer list attached to the current card
-    void AddOdroidAdvanceGo2Router(const OdroidAdvanceGo2& mixer) { mRawMixers.push_back(mixer); }
+    void AddOdroidAdvanceGo2Router(const OdroidAdvanceGo2Alsa& mixer) { mRawMixers.push_back(mixer); }
 
     //! Add a new device to the device list attached to the current card
     void AddDevice(const AlsaDevice& device) { mDevices.push_back(device); }
@@ -59,7 +59,7 @@ class AlsaCard
     const AlsaSwitch& SwitchAt(int index) const { return mSwitches[index]; }
 
     //! Get Odroid Router
-    OdroidAdvanceGo2* OdroidAdvanceGo2Router() const;
+    OdroidAdvanceGo2Alsa* OdroidAdvanceGo2Router() const;
 
     //! Get device count
     int DeviceCount() const { return mDevices.size(); }

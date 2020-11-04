@@ -5,6 +5,7 @@
 #include "DemoMode.h"
 #include "utils/Log.h"
 #include "systems/SystemManager.h"
+#include "MainRunner.h"
 
 DemoMode::DemoMode(Window& window, SystemManager& systemManager)
   : mWindow(window),
@@ -169,7 +170,7 @@ void DemoMode::runDemo()
 
   init();
 
-  Path mustExit("/tmp/emulationstation.quitnow");
+  Path mustExit(MainRunner::sQuitNow);
   while(getRandomGame(game, duration))
   {
     // Get game's parent system

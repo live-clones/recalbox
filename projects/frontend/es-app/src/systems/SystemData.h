@@ -33,6 +33,22 @@ class SystemData : private INoCopy
 	private:
     friend class SystemManager;
 
+    //! Global flag set to true when a game is running and the application
+    //! is frozen until the game exits.
+    static bool sIsGameRunning;
+
+    /*!
+     * @brief Automatic Game running flag management
+     */
+    class GameRunner
+    {
+      public:
+        //! Constructor - Set the flag
+        GameRunner() { sIsGameRunning = true; }
+        //! Destructor - Reset the flag
+        ~GameRunner() { sIsGameRunning = false; }
+    };
+
     //! Parent manager
     SystemManager& mSystemManager;
 
@@ -202,6 +218,20 @@ class SystemData : private INoCopy
      * @return
      */
     SystemManager& Manager() const { return mSystemManager; }
+
+    /*!
+     * @brief Run system command and capture output
+     * @param cmd_utf8 Command to execute
+     * @param debug log output?
+     * @return Return code
+     */
+    static int Run(const std::string& cmd_utf8, bool debug);
+
+    /*!
+     * @brief Check if a game is running
+     * @return True if a game is running
+     */
+    static bool IsGameRunning() { return sIsGameRunning; }
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

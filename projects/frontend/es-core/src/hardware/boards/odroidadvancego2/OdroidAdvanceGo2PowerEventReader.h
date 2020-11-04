@@ -4,12 +4,13 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
+#include <hardware/messaging/HardwareMessageSender.h>
 
 class OdroidAdvanceGo2PowerEventReader : private Thread
 {
   public:
     //! Constructor
-    OdroidAdvanceGo2PowerEventReader();
+    explicit OdroidAdvanceGo2PowerEventReader(HardwareMessageSender& messageSender);
 
     ~OdroidAdvanceGo2PowerEventReader() override;
 
@@ -34,6 +35,9 @@ class OdroidAdvanceGo2PowerEventReader : private Thread
     static constexpr const char* sInputEventPath = "/dev/input/event0";
     //! Power key code
     static constexpr int sPowerKeyCode = 116;
+
+    //! Message sender
+    HardwareMessageSender& mSender;
     //! File handle
     int mFileHandle;
     //! Wait event
@@ -45,12 +49,6 @@ class OdroidAdvanceGo2PowerEventReader : private Thread
     //! Event reader
     void Run() override;
 
-    //! Select action to execute regarding the given time
-    void SelectAction(long elapsed);
-
     //! Suspend
     void Suspend();
-
-    //! Power off
-    static void PowerOff();
 };

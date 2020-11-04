@@ -505,12 +505,12 @@ std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
 
 bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 {
-  if (!Board::HasBattery()) return false;
+  if (!Board::Instance().HasBattery()) return false;
 
-  charge = Board::GetBatteryChargePercent();
+  charge = Board::Instance().BatteryChargePercent();
 
   unicodeIcon = 0xf1b4;
-  if (!Board::IsBatteryCharging())
+  if (!Board::Instance().IsBatteryCharging())
   {
     if (charge > 66)      unicodeIcon = 0xF1ba;
     else if (charge > 33) unicodeIcon = 0xF1b8;

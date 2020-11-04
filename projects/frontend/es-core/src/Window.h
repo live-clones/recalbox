@@ -40,7 +40,7 @@ class Window
 
     virtual void Render(Transform4x4f& transform);
 
-    void RenderAll();
+    void RenderAll(bool halfLuminosity = false);
 
     bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
 

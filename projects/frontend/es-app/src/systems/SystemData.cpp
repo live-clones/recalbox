@@ -15,6 +15,8 @@
 #include <padtokeyboard/PadToKeyboardManager.h>
 #include <utils/Zip.h>
 
+bool SystemData::sIsGameRunning = false;
+
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager),
     mDescriptor(descriptor),
@@ -42,13 +44,68 @@ void SystemData::OverrideCommand(const Path& romPath, std::string& command)
   }
 }
 
+int SystemData::Run(const std::string& cmd_utf8, bool debug)
+{
+  static std::string output("/recalbox/share/system/logs/es_launch_stdout.log");
+  static std::string outerr("/recalbox/share/system/logs/es_launch_stderr.log");
+
+  // Run command
+  std::string cmd(cmd_utf8);
+  cmd.append(" > ").append(output)
+     .append(" 2> ").append(outerr);
+  int exitcode = system(cmd.data());
+
+  // Get logs
+  if (debug)
+  {
+    Path outPath(output);
+    Path errPath(outerr);
+
+    static constexpr int sLogSizeLimit = 2 << 20; // 2Mb
+
+    // stdout
+    if (outPath.Size() > sLogSizeLimit)
+    {
+      long long size = outPath.Size();
+      std::string start = Files::LoadFile(outPath, 0, sLogSizeLimit / 2);
+      std::string stop = Files::LoadFile(outPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
+      LOG(LogInfo) << "Configgen Output:\n" << start << "\n...\n" << stop;
+    }
+    else
+    {
+      std::string content = Files::LoadFile(outPath);
+      if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
+    }
+
+    // stderr
+    if (errPath.Size() > sLogSizeLimit)
+    {
+      long long size = errPath.Size();
+      std::string start = Files::LoadFile(errPath, 0, sLogSizeLimit / 2);
+      std::string stop = Files::LoadFile(errPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
+      LOG(LogInfo) << "Configgen Errors:\n" << start << "\n...\n" << stop;
+    }
+    else
+    {
+      std::string content = Files::LoadFile(errPath);
+      if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
+    }
+  }
+
+  // Return state
+  return exitcode;
+}
+
 void SystemData::RunGame(Window& window,
                          SystemManager& systemManager,
                          FileData& game,
                          const EmulatorData& emulator,
                          const NetPlayData& netplay)
 {
-  LOG(LogInfo) << "Attempting to launch game...";
+  // Automatic game-running flag management
+  GameRunner gameRunner;
+
+  LOG(LogInfo) << "Launching game...";
 
   OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
   std::string controlersConfig = InputManager::GenerateConfiggenConfiguration(controllers);
@@ -118,9 +175,9 @@ void SystemData::RunGame(Window& window,
       command.append(" -verbose");
 
     printf("==============================================\n");
-    Board::SetCPUGovernance(Board::CPUGovernance::FullSpeed);
-    int exitCode = WEXITSTATUS(Board::Run(command, debug));
-    Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
+    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
+    int exitCode = WEXITSTATUS(Run(command, debug));
+    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
     printf("==============================================\n");
     if (exitCode != 0)
       LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
@@ -169,6 +226,11 @@ void SystemData::demoFinalize(Window& window)
 bool
 SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig)
 {
+  // Automatic game-running flag management
+  GameRunner gameRunner;
+
+  LOG(LogInfo) << "Launching game demo...";
+
   std::string command = mDescriptor.Command();
   OverrideCommand(game.getPath(), command);
 
@@ -197,9 +259,9 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
 
   LOG(LogInfo) << "Demo command: " << command;
   NotificationManager::Instance().Notify(game, Notification::RunDemo);
-  Board::SetCPUGovernance(Board::CPUGovernance::FullSpeed);
-  int exitCode = WEXITSTATUS(Board::Run(command, debug));
-  Board::SetCPUGovernance(Board::CPUGovernance::PowerSave);
+  Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
+  int exitCode = WEXITSTATUS(Run(command, debug));
+  Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
   NotificationManager::Instance().Notify(game, Notification::EndDemo);
   LOG(LogInfo) << "Demo exit code :	" << exitCode;
 

@@ -17,11 +17,11 @@ void AlsaCard::SwitchOn()
     mixer.SwitchOn();
 }
 
-OdroidAdvanceGo2* AlsaCard::OdroidAdvanceGo2Router() const
+OdroidAdvanceGo2Alsa* AlsaCard::OdroidAdvanceGo2Router() const
 {
   for(const AlsaMixer& mixer : mRawMixers)
     if (mixer.Type() == AlsaMixer::MixerType::OdroidAdvanceGo2Path)
-      return ((OdroidAdvanceGo2*)&mixer);
+      return ((OdroidAdvanceGo2Alsa*)&mixer);
 
   LOG(LogError) << "No OdroidAdvanceGo2 found!";
   return nullptr;

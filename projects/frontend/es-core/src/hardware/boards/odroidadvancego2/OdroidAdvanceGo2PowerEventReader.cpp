@@ -10,8 +10,9 @@
 #include <utils/datetime/DateTime.h>
 #include <MainRunner.h>
 
-OdroidAdvanceGo2PowerEventReader::OdroidAdvanceGo2PowerEventReader()
-  : mFileHandle(0)
+OdroidAdvanceGo2PowerEventReader::OdroidAdvanceGo2PowerEventReader(HardwareMessageSender& messageSender)
+  : mSender(messageSender)
+  , mFileHandle(0)
   , mWaitFor(WaitFor::Press)
 {
 }
@@ -101,7 +102,8 @@ void OdroidAdvanceGo2PowerEventReader::Run()
               long start = (pressEvent.time.tv_usec / 1000) + (pressEvent.time.tv_sec * 1000);
               long stop = (event.time.tv_usec / 1000) + (event.time.tv_sec * 1000);
               long elapsed = stop - start;
-              if (elapsed > 40) SelectAction(elapsed);
+              if (elapsed > 20) // Debouncing
+                mSender.Send(BoardType::OdroidAdvanceGo2, MessageTypes::PowerButtonPressed, (int)elapsed);
             }
             break;
           }
@@ -111,24 +113,12 @@ void OdroidAdvanceGo2PowerEventReader::Run()
   }
 }
 
-void OdroidAdvanceGo2PowerEventReader::SelectAction(long elapsed)
-{
-  if (elapsed < 500)
-    Suspend();
-  else
-    PowerOff();
-}
-
 void OdroidAdvanceGo2PowerEventReader::Suspend()
 {
   { LOG(LogInfo) << "[OdroidAdvanceGo2] SUSPEND!"; }
   mWaitFor = WaitFor::Ignore; // Ignore next event when waking up!
   system("/usr/sbin/pm-suspend"); // Suspend mode
-}
 
-void OdroidAdvanceGo2PowerEventReader::PowerOff()
-{
-  { LOG(LogInfo) << "[OdroidAdvanceGo2] POWER OFF!"; }
-  MainRunner::RequestQuit(MainRunner::ExitState::Shutdown, false);
+  { LOG(LogInfo) << "[OdroidAdvanceGo2] WAKEUP!"; }
+  mSender.Send(BoardType::OdroidAdvanceGo2, MessageTypes::Resume);
 }
-

@@ -3,62 +3,51 @@
 #include <utils/Log.h>
 #include <utils/Files.h>
 #include <input/InputCompactEvent.h>
-#include <audio/alsa/OdroidAdvanceGo2.h>
-#include "OdroidAdvanceGo2Board.h"
+#include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
+#include <sys/utsname.h>
+#include <hardware/boards/NullBoard.h>
+#include <hardware/boards/pc/PcComputers.h>
 
-int Board::Run(const std::string& cmd_utf8, bool debug)
+Board::Board(IHardwareNotifications& notificationInterface)
+  : StaticLifeCycleControler("Board")
+  , mType(BoardType::UndetectedYet)
+  , mSender(notificationInterface)
+  , mBoard(GetBoardInterface(mSender))
 {
-  static std::string output("/recalbox/share/system/logs/es_launch_stdout.log");
-  static std::string outerr("/recalbox/share/system/logs/es_launch_stderr.log");
-
-  // Run command
-  std::string cmd(cmd_utf8);
-  cmd.append(" > ").append(output)
-     .append(" 2> ").append(outerr);
-  int exitcode = system(cmd.data());
-
-  // Get logs
-  if (debug)
-  {
-    Path outPath(output);
-    Path errPath(outerr);
-
-    static constexpr int sLogSizeLimit = 2 << 20; // 2Mb
-
-    // stdout
-    if (outPath.Size() > sLogSizeLimit)
-    {
-      long long size = outPath.Size();
-      std::string start = Files::LoadFile(outPath, 0, sLogSizeLimit / 2);
-      std::string stop = Files::LoadFile(outPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
-      LOG(LogInfo) << "Configgen Output:\n" << start << "\n...\n" << stop;
-    }
-    else
-    {
-      std::string content = Files::LoadFile(outPath);
-      if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
-    }
-
-    // stderr
-    if (errPath.Size() > sLogSizeLimit)
-    {
-      long long size = errPath.Size();
-      std::string start = Files::LoadFile(errPath, 0, sLogSizeLimit / 2);
-      std::string stop = Files::LoadFile(errPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
-      LOG(LogInfo) << "Configgen Errors:\n" << start << "\n...\n" << stop;
-    }
-    else
-    {
-      std::string content = Files::LoadFile(errPath);
-      if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
-    }
-  }
-
-  // Return state
-  return exitcode;
 }
 
-Board::BoardType Board::GetPiModel(unsigned int revision)
+IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
+{
+  switch(GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo2:
+    {
+      LOG(LogInfo) << "[Hardware] Odroid Advance Go 2 detected.";
+      return new OdroidAdvanceGo2Board(messageSender);
+    }
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    {
+      LOG(LogInfo) << "[Hardware] x86 or x64 PC detected.";
+      return new PcComputers(messageSender);
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::UnknownPi:
+    default: break;
+  }
+
+  LOG(LogInfo) << "[Hardware] Default hardware interface created.";
+  return new NullBoard(messageSender);
+}
+
+BoardType Board::GetPiModel(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
   bool newGeneration  = ((revision >> 23) & 1) != 0;
@@ -104,317 +93,64 @@ Board::BoardType Board::GetPiModel(unsigned int revision)
 
 #define SizeLitteral(x) (sizeof(x) - 1)
 
-Board::BoardType Board::GetBoardType()
+BoardType Board::GetBoardType()
 {
-  static BoardType version = BoardType::UndetectedYet;
+  if (mType != BoardType::UndetectedYet) return mType;
+
+  // Try uname (for PC)
+  utsname uName {};
+  uname(&uName);
+  std::string machine(uName.machine);
+  if (machine == "x86") return mType = BoardType::PCx86;
+  if (machine == "x86_64") return mType = BoardType::PCx64;
+
+  // Then try CPU info
   std::string hardware;
+  std::string revision;
+  mType = BoardType::Unknown;
 
-  if (version == BoardType::UndetectedYet)
+  FILE* f = fopen(CPU_INFO_FILE, "r");
+  if (f != nullptr)
   {
-    version = BoardType::Unknown;
-
-    FILE* f = fopen(CPU_INFO_FILE, "r");
-    if (f != nullptr)
+    char line[1024];
+    std::string str; // Declared before loop to keep memory allocated
+    while (fgets(line, sizeof(line) - 1, f) != nullptr)
     {
-      char line[1024];
-      std::string str; // Declared before loop to keep memory allocated
-      while (fgets(line, sizeof(line) - 1, f) != nullptr)
+      // Raspberry pi
+      if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
       {
-        // Raspberry pi
-        if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
+        char* colon = strchr(line, ':');
+        if (colon != nullptr)
         {
-          char* colon = strchr(line, ':');
-          if (colon != nullptr)
-          {
-            hardware = colon + 2;
-            hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
-            LOG(LogInfo) << "Hardware " << hardware;
-          }
+          hardware = colon + 2;
+          hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
+          LOG(LogInfo) << "[Hardware] Hardware " << hardware;
         }
-        if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
+      }
+      if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
+      {
+        char* colon = strchr(line, ':');
+        if (colon != nullptr)
         {
-          char* colon = strchr(line, ':');
-          if (colon != nullptr)
-          {
-            unsigned int revision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
+          revision = colon + 2;
+          revision.erase(revision.find_last_not_of(" \t\r\n") + 1);
+          unsigned int irevision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
 
-            if (hardware == "BCM2835")
-            {
-              LOG(LogInfo) << "Pi revision " << (colon + 2);
-              version = GetPiModel(revision);
-            }
-            if (hardware == "Hardkernel ODROID-GO2")
-            {
-              LOG(LogInfo) << "Odroid Advance Go 2 revision " << (colon + 2);
-              version = BoardType::OdroidAdvanceGo2;
-            }
+          if (hardware == "BCM2835")
+          {
+            LOG(LogInfo) << "[Hardware] Pi revision " << revision;
+            mType = GetPiModel(irevision);
+          }
+          if (hardware == "Hardkernel ODROID-GO2")
+          {
+            LOG(LogInfo) << "[Hardware] Odroid Advance Go 2 revision " << revision;
+            mType = BoardType::OdroidAdvanceGo2;
           }
         }
       }
-      fclose(f);
     }
+    fclose(f);
   }
 
-  return version;
-}
-
-void Board::SetLowestBrightness()
-{
-  LOG(LogInfo) << "[Backlight] Set lowest brightness";
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: { OdroidAdvanceGo2Board::SetLowestBrightness(); break; }
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-void Board::SetBrightness(int step)
-{
-  LOG(LogInfo) << "[Backlight] Set brightness to step " << step;
-  if (step < 0) step = 0;
-  if (step > 8) step = 8;
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: { OdroidAdvanceGo2Board::SetBrightness(step); break; }
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-bool Board::HasBattery()
-{
-  static bool sHasBattery = Path(sBatteryCapacityPath1).Exists() ||
-                            Path(sBatteryCapacityPath2).Exists();
-
-  return sHasBattery;
-}
-
-int Board::GetBatteryChargePercent()
-{
-  if (!HasBattery()) return -1;
-
-  static Path sBatteryCharge = Path(Path(sBatteryCapacityPath1).Exists() ? sBatteryCapacityPath1 : sBatteryCapacityPath2);
-
-  int charge = -1;
-  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
-  return charge;
-}
-
-bool Board::IsBatteryCharging()
-{
-  if (!HasBattery()) return false;
-
-  static Path sBatteryStatus = Path(Path(sBatteryStatusPath1).Exists() ? sBatteryStatusPath1 : sBatteryStatusPath2);
-
-  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
-}
-
-void Board::SetCPUGovernance(Board::CPUGovernance cpuGovernance)
-{
-  if (!HasBattery()) return;
-
-  switch (cpuGovernance)
-  {
-    case CPUGovernance::PowerSave:
-    {
-      LOG(LogInfo) << "[CPU] Set powersaving on";
-      Files::SaveFile(Path(sCpuGovernancePath), "powersave");
-      break;
-    }
-    case CPUGovernance::FullSpeed:
-    {
-      LOG(LogInfo) << "[CPU] Set dynamic mode on";
-      Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
-      break;
-    }
-    default: break;
-  }
-}
-
-bool Board::IsSupportingSuspendResume()
-{
-  switch (GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: return true;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-
-  return false;
-}
-
-bool Board::HasExtraVolumeButtons()
-{
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: return true;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-  return false;
-}
-
-bool Board::HasExtraBrightnessButtons()
-{
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: return true;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-  return false;
-}
-
-bool Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
-{
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: return OdroidAdvanceGo2Board::ProcessSpecialInputs(inputEvent);
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-  return false;
-}
-
-void Board::StartGlobalBackgroundProcesses()
-{
-  LOG(LogInfo) << "[Board] Starting background processes.";
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StartGlobalBackgroundProcesses(); break;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-void Board::StopGlobalBackgroundProcesses()
-{
-  LOG(LogInfo) << "[Board] Stopping background processes.";
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StopGlobalBackgroundProcesses(); break;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-void Board::StartInGameBackgroundProcesses()
-{
-  LOG(LogInfo) << "[Board] Starting in-game background processes.";
-  switch(GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StartInGameBackgroundProcesses(); break;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-void Board::StopInGameBackgroundProcesses()
-{
-  LOG(LogInfo) << "[Board] Stopping in-game background processes.";
-  switch (GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::StopInGameBackgroundProcesses(); break;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
-}
-
-void Board::Suspend()
-{
-  switch (GetBoardType())
-  {
-    case BoardType::OdroidAdvanceGo2: OdroidAdvanceGo2Board::Suspend(); break;
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::UnknownPi:
-    default: break;
-  }
+  return mType;
 }

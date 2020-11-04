@@ -2,12 +2,12 @@
 // Created by bkg2k on 30/10/2020.
 //
 
-#include "OdroidAdvanceGo2.h"
+#include "OdroidAdvanceGo2Alsa.h"
 
 #include <utils/Log.h>
 #include <alsa/asoundlib.h>
 
-void OdroidAdvanceGo2::Route(OdroidAdvanceGo2::OutputPath path)
+void OdroidAdvanceGo2Alsa::Route(OdroidAdvanceGo2Alsa::OutputPath path)
 {
   snd_mixer_elem_t* mixerElement = OpenMixer();
   if (mixerElement != nullptr)

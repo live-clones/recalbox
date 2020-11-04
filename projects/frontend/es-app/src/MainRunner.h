@@ -9,12 +9,25 @@
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <usernotifications/NotificationManager.h>
-
+#include <guis/GuiWaitLongExecution.h>
 
 class AudioManager;
 class SystemManager;
 
-class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSystemWatcherNotification
+//! Special operations
+enum class HardwareTriggeredSpecialOperations
+{
+  Suspend,  //!< The hardware require a Suspend operation
+  Resume,   //!< The hardware just woken up
+  PowerOff, //!< The hardware require a Power-off
+};
+
+class MainRunner
+  : private INoCopy
+  , private ISynchronousEvent
+  , private IFileSystemWatcherNotification
+  , public IHardwareNotifications
+  , private ILongExecution<HardwareTriggeredSpecialOperations, bool>
 {
   public:
     //! Pending Exit
@@ -39,11 +52,12 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
       FastShutdown, //!< Relaunch machine, save nothing
     };
 
-  private:
     //! Temporary file used as flag of readyness
     static constexpr const char* sReadyFile = "/tmp/externalnotifications/emulationstation.ready";
     //! Temporary file used as quit request
     static constexpr const char* sQuitNow = "/tmp/externalnotifications/emulationstation.quitnow";
+
+  private:
     //! Requested width
     unsigned int mRequestedWidth;
     //! Requested height
@@ -67,6 +81,9 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
 
     //! Nofitication manager
     NotificationManager mNotificationManager;
+
+    //! Window reference
+    ApplicationWindow* mApplicationWindow;
 
     /*!
      * @brief Reset last exit state
@@ -158,13 +175,64 @@ class MainRunner: private INoCopy, private ISynchronousEvent, private IFileSyste
      * @brief Receive requested exit state event
      * @param event SDL event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncCallback(const SDL_Event& event) final;
 
     /*
      * IFileSystemWatcherNotification implementation
      */
 
-    void FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time) override;
+    void FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time) final;
+
+    /*
+     * IHardwareEvents implementation
+     */
+
+    bool IsApplicationRunning() final { return !SystemData::IsGameRunning(); }
+
+    /*!
+     * @brief Headphone has been pluggen in
+     * @param board current board
+     */
+    void HeadphonePluggedIn(BoardType board) final;
+
+    /*!
+     * @brief Headphone has been unplugged
+     * @param board current board
+     */
+    void HeadphoneUnplugged(BoardType board) final;
+
+    /*!
+     * @brief Suspend will occur in a short delay
+     * @param board current board
+     * @param delayInMs delay in ms before suspend will occurs
+     */
+    void PowerButtonPressed(BoardType board, int delayInMs) final;
+
+    /*!
+     * @brief We have been resumed from suspend mode
+     * @param board current board
+     */
+    void Resume(BoardType board) final;
+
+    /*
+     * ILongExecution implementation
+     */
+
+    /*!
+     * @brief Dummy execution of sleeps, allowing UI to draw special operation wait-windows
+     * @param from Source window
+     * @param parameter Operation
+     * @return Not used
+     */
+    bool Execute(GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>& from,
+                 const HardwareTriggeredSpecialOperations& parameter) override;
+
+    /*!
+     * @brief Called when special wait-window close so that we can execute the required operation
+     * @param parameter Operation required
+     * @param result Not used
+     */
+    void Completed(const HardwareTriggeredSpecialOperations& parameter, const bool& result) override;
 
   public:
     /*!

@@ -72,8 +72,8 @@ template<typename T> class Array : private Allocator
     }
 #endif
 
+    typedef int (Comparer)(const T&, const T&);
   public:
-    typedef int (*Comparer)(const T&, const T&);
 
     Array() : Allocator(__OBJSZ, __InitialCapacity, __InitialGranularity, true), fCount(0) { }
     explicit Array(int capacity) : Allocator(__OBJSZ, capacity, __InitialGranularity, false), fCount(0) { }
@@ -95,6 +95,30 @@ template<typename T> class Array : private Allocator
     Array& operator =(std::initializer_list<T> l) { Clear(); FillFromStd(l); return *this; }
 #endif
 
+    /*!
+     * Main Quicksort
+     * @param low Lowest element
+     * @param high Highest element
+     * @param comparer Compare method
+     */
+    void QuickSort(int low, int high, Comparer comparer)
+    {
+      int Low = low, High = high;
+      T Pivot= __GET((Low + High) >> 1);
+      do
+      {
+        while((*comparer)(__GET(Low) , Pivot) < 0) Low++;
+        while((*comparer)(__GET(High), Pivot) > 0) High--;
+        if (Low <= High)
+        {
+          T Tmp = __GET(Low); __GET(Low) = __GET(High); __GET(High) = Tmp;
+          Low++; High--;
+        }
+      }while(Low <= High);
+      if (High > low) QuickSort(low, High, comparer);
+      if (Low < high) QuickSort(Low, high, comparer);
+    }
+    
     // Sorter
     void Sort(Comparer compare)
     {
@@ -219,7 +243,7 @@ template<typename T> class Array : private Allocator
     bool Contains(const T* item)
     {
       for(int i = fCount; --i >= 0; )
-        if (__GET(i) == item)
+        if (__GET(i) == *item)
           return true;
       return false;
     }
@@ -227,7 +251,7 @@ template<typename T> class Array : private Allocator
     bool Contains(const T& item)
     {
       for(int i = fCount; --i >= 0; )
-        if (__GET(i) == &item)
+        if (__GET(i) == item)
           return true;
       return false;
     }
@@ -235,7 +259,7 @@ template<typename T> class Array : private Allocator
     int IndexOf(const T* item)
     {
       for(int i = fCount; --i >= 0; )
-        if (__GET(i) == item)
+        if (__GET(i) == *item)
           return i;
       return -1;
     }
@@ -243,7 +267,7 @@ template<typename T> class Array : private Allocator
     int IndexOf(const T& item)
     {
       for(int i = fCount; --i >= 0; )
-        if (__GET(i) == &item)
+        if (__GET(i) == item)
           return i;
       return -1;
     }
