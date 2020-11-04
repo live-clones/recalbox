@@ -109,6 +109,7 @@ void MenuComponent::Update(int deltaTime)
     }
     mTimeAccumulator -= 2000;
   }
+  Component::Update(deltaTime);
 }
 
 bool MenuComponent::ProcessInput(const InputCompactEvent& event)

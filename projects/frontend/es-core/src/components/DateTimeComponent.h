@@ -71,7 +71,7 @@ private:
 	unsigned int mColor;
 	unsigned int mOriginColor;
 	std::shared_ptr<Font> mFont;
-    TextAlignment mHorizontalAlignment = TextAlignment::Left;
+    TextAlignment mHorizontalAlignment = TextAlignment::Right;
 	bool mUppercase;
 
 	bool mAutoSize;

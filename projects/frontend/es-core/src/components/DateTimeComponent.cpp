@@ -124,23 +124,8 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 
 	if(mTextCache)
 	{
-    float horizontalOff = 0;
-    switch(mHorizontalAlignment)
-    {
-      case TextAlignment::Top:
-      case TextAlignment::Bottom:
-      case TextAlignment::Left:
-        horizontalOff = 0;
-        break;
-      case TextAlignment::Center:
-        horizontalOff = mSize.x() - mTextCache->metrics.size.x() / 2;
-        break;
-      case TextAlignment::Right:
-        horizontalOff = mSize.x() - mTextCache->metrics.size.x();
-    }
-
-    // vertically center
-    Vector3f off(horizontalOff, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
+        // vertically center
+        Vector3f off(0, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
 		trans.translate(off);
 		trans.round();
 
@@ -148,7 +133,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 
 		std::shared_ptr<Font> font = getFont();
 
-    mTextCache->setColor((mColor & 0xFFFFFF00) | getOpacity());
+        mTextCache->setColor((mColor & 0xFFFFFF00) | getOpacity());
 		font->renderTextCache(mTextCache.get());
 
 		if(mEditing)
