@@ -25,4 +25,25 @@ class AlsaVolume : public AlsaMixer
      * @brief Get current volume in 0-100 range
      */
     int GetVolume();
+
+  private:
+    /*!
+     * @brief Convert percent volume into a raw volune
+     * @param percent Percent value ton convert
+     * @param min Min raw volume
+     * @param max Max raw volume
+     * max-min gives the raw volume range
+     * @return raw volume between min and max
+     */
+    static long PercentToVolume(double percent, long min, long max);
+
+    /*!
+     * @brief Convert raw volume between min and max into volument percent
+     * @param raw Raw volume to convert
+     * @param min Min raw volume
+     * @param max Max raw volume
+     * max-min gives the raw volume range
+     * @return Volume percent
+     */
+    static int VolumeToPercent(double raw, long min, long max);
 };

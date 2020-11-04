@@ -151,7 +151,7 @@ HashMap<int, std::string> AlsaController::GetPlaybackList() const
   {
     if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
     {
-      result.erase(-1);
+      result[-1] = sDefaultOutput;
       for (int i = playback.DeviceCount(); --i >= 0;)
         result[playback.DeviceAt(i).Identifier()] = playback.DeviceAt(i).Name();
     }
@@ -263,6 +263,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
   // Odroid Advance go 2 patch
   if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
   {
+    if (identifier == -1) identifier = (int)OdroidAdvanceGo2Alsa::OutputPath::Speaker;
     mPlaybacks[0].OdroidAdvanceGo2Router()->Route((OdroidAdvanceGo2Alsa::OutputPath)identifier);
     return;
   }
