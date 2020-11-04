@@ -5,16 +5,7 @@
 #include "Pad.h"
 #include <input/InputDevice.h>
 #include <SDL2/SDL.h>
-
-Pad::Pad(const PadConfiguration& padConfiguration, const Configuration& configuration)
-  : mConfiguration(&configuration),
-    mPadConfiguration(padConfiguration),
-    mSdlToRecalboxIndexex {},
-    mItemOnOff {},
-    mReady(false)
-{
-  Open();
-}
+#include <input/InputManager.h>
 
 Pad::Pad(const PadConfiguration& padConfiguration)
   : mConfiguration(nullptr),
@@ -28,10 +19,7 @@ Pad::Pad(const PadConfiguration& padConfiguration)
 void Pad::Open(const OrderedDevices& orderedDevices)
 {
   // Allow joystick event
-  SDL_Init(SDL_INIT_JOYSTICK);
-  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
-  SDL_JoystickEventState(SDL_ENABLE);
-  SDL_JoystickUpdate();
+  InputManager::IntitializeSDL2JoystickSystem();
 
   // Bitflag for assigned pads
   int Assigned = 0;
@@ -76,68 +64,15 @@ void Pad::Open(const OrderedDevices& orderedDevices)
     LOG(LogWarning) << "[Pad2Keyboard] No Joystick assigned!";
 }
 
-
-void Pad::Open()
-{
-  // Allow joystick event
-  SDL_Init(SDL_INIT_JOYSTICK);
-  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
-  SDL_JoystickEventState(SDL_ENABLE);
-  SDL_JoystickUpdate();
-
-  // Bitflag for assigned pads
-  int Assigned = 0;
-  // Reset
-  for(int i = Input::sMaxInputDevices; --i >= 0; )
-  {
-    mSdlToRecalboxIndexex[i] = -1;
-    mItemOnOff[i] = 0;
-  }
-
-  // Compute SDL to Recalbox indexes
-  int count = SDL_NumJoysticks();
-  for(int j = 0; j < count; ++j)
-  {
-    // Get joystick
-    SDL_Joystick* joystick = SDL_JoystickOpen(j);
-    // Get global index
-    SDL_JoystickID joystickIndex = SDL_JoystickGetDeviceInstanceID(j);
-    // Get informations
-    const char* name = SDL_JoystickNameForIndex(j);
-    LOG(LogInfo) << name;
-    char guid[64];
-    SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
-    LOG(LogInfo) << guid;
-
-    // SDL index too high?
-    if (joystickIndex >= Input::sMaxInputDevices) continue;
-
-    // Lookup
-    for(int i = 0; i < Input::sMaxInputDevices; ++i)
-      if (mConfiguration->Valid(i))                          // Configuration valid?
-        if (strcmp(name, mConfiguration->PadName[i]) == 0)   // Name matching?
-          if (strcmp(guid, mConfiguration->PadGUID[i]) == 0) // Guid matching?
-            if ((Assigned & (1 << i)) == 0)                 // Not yet assigned?
-            {
-              mSdlToRecalboxIndexex[joystickIndex] = i;
-              break;
-            }
-  }
-
-  mReady = true;
-}
-
 void Pad::Release()
 {
-  SDL_JoystickEventState(SDL_DISABLE);
+  InputManager::FinalizeSDL2JoystickSystem();
 
   mReady = false;
 
   SDL_Event event;
   event.type = SDL_QUIT;
   SDL_PushEvent(&event);
-
-  SDL_Quit();
 }
 
 bool Pad::GetEvent(Pad::Event& event)

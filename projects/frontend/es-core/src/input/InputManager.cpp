@@ -46,28 +46,36 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
   return sEmptyDevice;
 }
 
+void InputManager::IntitializeSDL2JoystickSystem()
+{
+  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
+  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+  SDL_JoystickEventState(SDL_ENABLE);
+  SDL_JoystickUpdate();
+}
+
+void InputManager::FinalizeSDL2JoystickSystem()
+{
+  SDL_JoystickEventState(SDL_DISABLE);
+  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+}
+
 void InputManager::Finalize()
 {
   if (!IsInitialized()) return;
 
   ClearAllConfigurations();
-
-  SDL_JoystickEventState(SDL_DISABLE);
-  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+  FinalizeSDL2JoystickSystem();
 }
 
-void InputManager::Initialize(Window& window, bool padplugged)
+void InputManager::Initialize(Window* window, bool padplugged)
 {
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
 
   Finalize();
-
-  SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,
-              Settings::Instance().BackgroundJoystickInput() ? "1" : "0");
-  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
-  SDL_JoystickEventState(SDL_ENABLE);
-
   ClearAllConfigurations();
+
+  IntitializeSDL2JoystickSystem();
   LoadAllJoysticksConfiguration(previousList, window, padplugged);
 }
 
@@ -128,55 +136,57 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
   return result;
 }
 
-void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window, bool padplugged)
+void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window* window, bool padplugged)
 {
   int numJoysticks = SDL_NumJoysticks();
   for (int i = 0; i < numJoysticks; i++)
     LoadJoystickConfiguration(i);
 
-  std::vector<InputDevice> current = BuildCurrentDeviceList();
-
-  if (padplugged)
+  if (window != nullptr)
   {
-    if (current.size() > previous.size())
+    std::vector<InputDevice> current = BuildCurrentDeviceList();
+    if (padplugged)
     {
-      while (current.size() > previous.size())
+      if (current.size() > previous.size())
       {
-        // Joystick added
-        int index = 0;
-        while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
-          index++;
+        while (current.size() > previous.size())
+        {
+          // Joystick added
+          int index = 0;
+          while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
+            index++;
 
-        // Build the text
-        std::string text = current[index].Name();
-        text.append(1, ' ');
-        text.append(_(" has been plugged!"));
-        text.append("\n\n");
-        if (current[index].IsConfigured()) text.append(_("Ready to play!"));
-        else text.append(_("Not configured yet! Press a button to enter the configuration window."));
-        current.erase(current.begin() + index);
+          // Build the text
+          std::string text = current[index].Name();
+          text.append(1, ' ');
+          text.append(_(" has been plugged!"));
+          text.append("\n\n");
+          if (current[index].IsConfigured()) text.append(_("Ready to play!"));
+          else text.append(_("Not configured yet! Press a button to enter the configuration window."));
+          current.erase(current.begin() + index);
 
-        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
-        window.InfoPopupAdd(popup);
+          GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+          window->InfoPopupAdd(popup);
+        }
       }
-    }
-    else
-    {
-      while (current.size() < previous.size())
+      else
       {
-        // Joystick removed
-        int index = 0;
-        while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
-          index++;
+        while (current.size() < previous.size())
+        {
+          // Joystick removed
+          int index = 0;
+          while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
+            index++;
 
-        // Build the text
-        std::string text = previous[index].Name();
-        text.append(1, ' ');
-        text.append(_(" has been unplugged!"));
-        previous.erase(previous.begin() + index);
+          // Build the text
+          std::string text = previous[index].Name();
+          text.append(1, ' ');
+          text.append(_(" has been unplugged!"));
+          previous.erase(previous.begin() + index);
 
-        GuiInfoPopup* popup = new GuiInfoPopup(window, text, 10, GuiInfoPopup::PopupType::Pads);
-        window.InfoPopupAdd(popup);
+          GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+          window->InfoPopupAdd(popup);
+        }
       }
     }
   }
@@ -316,7 +326,7 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   return mKeyboard.ConvertToCompact(event);
 }
 
-InputCompactEvent InputManager::ManageSDLEvent(Window& window, const SDL_Event& ev)
+InputCompactEvent InputManager::ManageSDLEvent(Window* window, const SDL_Event& ev)
 {
   switch (ev.type)
   {

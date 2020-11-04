@@ -37,19 +37,7 @@ class Pad
     //! Devices readiness
     bool mReady;
 
-    /*!
-     * @brief Open all configured devices
-     */
-    void Open();
-
   public:
-    /*!
-     * @brief Constructor
-     * @param padConfiguration Pad Configuration
-     * @param configuration Global configuration
-     */
-    Pad(const PadConfiguration& padConfiguration, const Configuration& configuration);
-
     /*!
      * @brief Constructor
      * @param padConfiguration Pad Configuration

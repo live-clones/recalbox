@@ -176,7 +176,9 @@ void SystemData::RunGame(Window& window,
 
     printf("==============================================\n");
     Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
+    Board::Instance().StartInGameBackgroundProcesses();
     int exitCode = WEXITSTATUS(Run(command, debug));
+    Board::Instance().StopInGameBackgroundProcesses();
     Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
     printf("==============================================\n");
     if (exitCode != 0)

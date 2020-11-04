@@ -48,7 +48,7 @@ void OdroidAdvanceGo2PowerEventReader::Break()
 
 void OdroidAdvanceGo2PowerEventReader::Run()
 {
-  LOG(LogInfo) << "[OdroidAdvanceGo2] Running background power button manager running.";
+  LOG(LogInfo) << "[OdroidAdvanceGo2] Running background power button manager.";
   while(IsRunning())
   {
     mFileHandle = open(sInputEventPath, O_RDONLY);

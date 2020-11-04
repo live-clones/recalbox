@@ -196,7 +196,7 @@ if(MSGFMT_EXECUTABLE AND MSGMERGE_EXECUTABLE AND XGETTEXT_EXECUTABLE)
 endif()
 
 # pad to keyb
-add_subdirectory(tool-pad2keyb)
+#add_subdirectory(tool-pad2keyb)
 
 # Tests
 add_subdirectory(tests)

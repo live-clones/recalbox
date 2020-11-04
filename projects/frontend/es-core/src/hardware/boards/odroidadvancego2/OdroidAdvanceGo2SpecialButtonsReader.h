@@ -4,12 +4,13 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
+#include <hardware/IBoardInterface.h>
 
 class OdroidAdvanceGo2SpecialButtonsReader : private Thread
 {
   public:
     //! Constructor
-    OdroidAdvanceGo2SpecialButtonsReader();
+    explicit OdroidAdvanceGo2SpecialButtonsReader(IBoardInterface& boardInterface);
 
     //! Start reading the power events
     void StartReader();
@@ -18,6 +19,9 @@ class OdroidAdvanceGo2SpecialButtonsReader : private Thread
     void StopReader();
 
   private:
+    //! Parent board interface
+    IBoardInterface& mBoardInterface;
+
     //! Break the thread
     void Break() override;
 

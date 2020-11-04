@@ -18,6 +18,7 @@ class OdroidAdvanceGo2Board: public IBoardInterface
       : IBoardInterface(messageSender)
       , mHeadphoneReader(messageSender)
       , mPowerReader(messageSender)
+      , mButtonsReader(*this)
     {
     }
 

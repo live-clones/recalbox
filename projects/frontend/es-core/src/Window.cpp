@@ -108,7 +108,7 @@ bool Window::Initialize(unsigned int width, unsigned int height, bool initRender
   LOG(LogInfo) << " ARB_texture_non_power_of_two: "
                << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
 
-  InputManager::Instance().Initialize(*this);
+  InputManager::Instance().Initialize(this);
   ResourceManager::getInstance()->reloadAll();
 
   //keep a reference to the default fonts, so they don't keep getting destroyed/recreated

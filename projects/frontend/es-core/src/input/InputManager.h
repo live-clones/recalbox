@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 #include <input/InputDevice.h>
 #include <input/OrderedDevices.h>
@@ -19,7 +19,7 @@ class InputManager
     //! Joystick deadzone, in the 0-32767 range
     static constexpr int sJoystickDeadZone = 23000;
 
-    //! Index to DSL Identifiers
+    //! Index to SDL Identifiers
     SDL_JoystickID mIndexToId[Input::sMaxInputDevices];
     //! SDL Identifier to Joystick structures
     HashMap<SDL_JoystickID, SDL_Joystick*> mIdToSdlJoysticks;
@@ -62,7 +62,7 @@ class InputManager
     /*!
      * @brief Load all joystick and load configurations
      */
-    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window& window, bool padplugged);
+    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window* window, bool padplugged);
 
     /*!
      * @brief Load joystick configuration (by index)
@@ -97,14 +97,6 @@ class InputManager
      * @return InputCompactEvent filled with event information
      */
     InputCompactEvent ManageKeyEvent(const SDL_KeyboardEvent& key, bool down);
-
-    /*!
-     * @brief Lookup Xml configuration for a particular device, lookinf for matching
-     * guid and/or name
-     * @param device Device to look for configuration
-     * @return
-     */
-    static bool LookupDeviceXmlConfiguration(InputDevice& device);
 
     /*!
      * @brief Fill the given list with configured devices
@@ -153,12 +145,16 @@ class InputManager
      * @brief Initialize the InputManager
      * @param window Main window
      */
-    void Initialize(Window& window, bool padplugged = false);
+    void Initialize(Window* window, bool padplugged = false);
 
     /*!
      * Finalize the input manager and free all resources
      */
     void Finalize();
+
+    static void IntitializeSDL2JoystickSystem();
+
+    static void FinalizeSDL2JoystickSystem();
 
     /*!
      * Get number of initialized devices
@@ -171,7 +167,7 @@ class InputManager
      * @param resultEvent InputCompactEvent to fill with event information
      * @return True if the resultEvent is valid, false otherwise
      */
-    InputCompactEvent ManageSDLEvent(Window& window, const SDL_Event& ev);
+    InputCompactEvent ManageSDLEvent(Window* window, const SDL_Event& ev);
 
     /*!
      * @brief Get number of configured devices, either manually or from Xml configuration file
@@ -217,6 +213,14 @@ class InputManager
      * @return Configuration string
      */
     static std::string GenerateConfiggenConfiguration(const OrderedDevices& devices);
+
+    /*!
+     * @brief Lookup Xml configuration for a particular device, lookinf for matching
+     * guid and/or name
+     * @param device Device to look for configuration
+     * @return
+     */
+    static bool LookupDeviceXmlConfiguration(InputDevice& device);
 
     static void LogRawEvent(const InputEvent& event);
 
