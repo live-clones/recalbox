@@ -26,6 +26,7 @@
 
 ### Fixes
 - Fix AdvanceMAME
+- Fix freezes on megadrive/picodrive
 - Fix broken WIFI on some Intel chips
 - Bring back all firmwares
 - Fix boot from SSH/HDD on rpi4

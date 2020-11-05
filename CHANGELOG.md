@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Fix picodrive rewind freezes by bumping to the last version
 - Fix hyperion compilation on Pi4
 - Improve second miniTFT screen scripts
 - Fix AdvanceMAME log output
