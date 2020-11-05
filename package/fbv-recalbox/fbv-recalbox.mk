@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FBV_RECALBOX_VERSION = 3c3b7196e6a5cb6a7c4aa255bfb48b014ea68290
+FBV_RECALBOX_VERSION = 6157e3d4c8be5944688c4c2c2392a25c42f98f44
 FBV_RECALBOX_SITE = https://gitlab.com/Bkg2k/fbv.git
 FBV_RECALBOX_SITE_METHOD = git
 FBV_RECALBOX_LICENSE = GPL-2.0
