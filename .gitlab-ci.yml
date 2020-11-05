@@ -47,6 +47,12 @@ lint commits:
   script: test/lint/commits
   allow_failure: true
 
+lint beta-tests:
+  <<: *lint_definition
+  script:
+    - grep TESTING.md -e '^- \[ \]' && echo "Beta test not over" && exit 1
+  allow_failure: true
+
 # Build
 
 .build_template: &build_definition
