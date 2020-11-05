@@ -138,15 +138,14 @@ case "${RECALBOX_TARGET}" in
 	sync || exit 1
 	;;
 
-    ODROIDXU4)
-	rm -rf "${BINARIES_DIR}/odroidxu4-firmware" || exit 1
+	ODROIDXU4)
+	rm -rf "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
 
 	# /boot
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini" || exit 1
 	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/odroidxu4-firmware" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidxu4-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/odroidxu4-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidxu4-firmware/boot/recalbox" || exit 1
@@ -178,8 +177,8 @@ case "${RECALBOX_TARGET}" in
 	sync || exit 1
 	;;
 
-  ODROIDGO2)
-	rm -rf "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	ODROIDGO2)
+	rm -rf "${BINARIES_DIR}/odroidgo2-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/odroidgo2-firmware/boot" || exit 1
 
 	# /boot
@@ -187,7 +186,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/boot.ini" "${BINARIES_DIR}/odroidgo2-firmware/boot.ini" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
-	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidgo2-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/odroidgo2-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidgo2-firmware/boot/recalbox" || exit 1
@@ -216,13 +214,12 @@ case "${RECALBOX_TARGET}" in
 
 	X86|X86_64)
 	# /boot
-	rm -rf ${BINARIES_DIR}/pc-boot/ || exit 1
+	rm -rf ${BINARIES_DIR}/pc-boot/boot || exit 1
 	mkdir -p ${BINARIES_DIR}/pc-boot/boot/grub || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/pc-boot/boot/grub/grub.cfg || exit 1
 	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/pc-boot/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/pc-boot/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/pc-boot/boot/recalbox" || exit 1
-	cp "${BINARIES_DIR}/recalbox-boot.conf" "${BINARIES_DIR}/pc-boot/" || exit 1
   [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
 
