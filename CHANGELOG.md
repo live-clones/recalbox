@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Fix hyperion compilation on Pi4
 - Improve second miniTFT screen scripts
 - Fix AdvanceMAME log output
 - Fix AdvanceMAME configgen
