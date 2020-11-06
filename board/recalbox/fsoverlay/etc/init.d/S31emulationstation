@@ -8,7 +8,15 @@ PIDFILE=/var/run/emulationstation.pid
 ESBIN=/usr/bin/emulationstation-starter
 
 scr_msg() {
-	printf "\r%20s%10s" "${1}" " " > /dev/tty0 # with spaces at the begining for screen not displaying the left ; and spaces on right to erase old msg
+	echo "██████╗ ██████╗ █████╗ █████╗ ██╗   ██████╗  █████╗ ██╗  ██╗" > /dev/tty0;
+	echo "██╔══██╗██╔═══╝██╔═══╝██╔══██╗██║   ██╔══██╗██╔══██╗╚██╗██╔╝" > /dev/tty0;
+	echo "██████╔╝████╗  ██║    ███████║██║   ██████╔╝██║  ██║ ╚███╔╝ " > /dev/tty0;
+	echo "██╔══██╗██╔═╝  ██║    ██╔══██║██║   ██╔══██╗██║  ██║ ██╔██╗ " > /dev/tty0;
+	echo "██║  ██║██████╗╚█████╗██║  ██║█████╗██████╔╝╚█████╔╝██╔╝ ██╗" > /dev/tty0;
+	echo "╚═╝  ╚═╝╚═════╝ ╚════╝╚═╝  ╚═╝╚════╝╚═════╝  ╚════╝ ╚═╝  ╚═╝" > /dev/tty0;
+	echo "                                                                 " > /dev/tty0;
+	echo " Plase wait! DO NOT power off until the system is completely" > /dev/tty0;
+	echo " shut-down or you may damage your Recalbox." > /dev/tty0;
 }
 
 case "$1" in
