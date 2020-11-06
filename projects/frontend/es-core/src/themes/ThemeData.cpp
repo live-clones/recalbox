@@ -283,6 +283,7 @@ bool ThemeData::CheckThemeOption(std::string& selected, const std::map<std::stri
   std::map<std::string, std::string> map = sortThemeSubSets(subsets, subset);
   // Empty subset?
   if (subsets.empty()) return false;
+  if (map.empty()) return false;
   // Try to fix the value if not found
   auto selectedColorSet = map.find(selected);
   if (selectedColorSet == map.end())
