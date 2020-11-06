@@ -91,6 +91,7 @@ fi
 
 # Changelog
 cp "$BR2_EXTERNAL_RECALBOX_PATH/CHANGELOG.md" "${TARGET_DIR}/recalbox/recalbox.changelog"
+cp "$BR2_EXTERNAL_RECALBOX_PATH/RELEASE-NOTES.md" "${TARGET_DIR}/recalbox/recalbox.releasenotes"
 
 # Compress folders
 # 

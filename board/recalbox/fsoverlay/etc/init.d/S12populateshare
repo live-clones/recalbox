@@ -148,7 +148,6 @@ then
 fi
 mkdir -p /run/udev/rules.d
 mount --bind /recalbox/share/system/udev/rules.d /run/udev/rules.d
-test ! -e /recalbox/share/system/recalbox.changelog.done && cp /recalbox/recalbox.changelog /recalbox/share/system/recalbox.changelog.done
 
 # create a uuid if it's missing
 [ ! -e /recalbox/share/system/uuid ] && /recalbox/scripts/system/uuid.sh --uuid-file /recalbox/share/system/uuid
