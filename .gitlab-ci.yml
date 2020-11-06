@@ -5,6 +5,12 @@
 
 image: docker:latest
 
+.only-default: &only-default
+  only:
+    - branches
+    - merge_requests
+    - tags
+
 stages:
   - lint
   - build
@@ -20,9 +26,7 @@ variables:
 
 .lint_template: &lint_definition
   stage: lint
-  only:
-    - master
-    - branches
+  <<: *only-default
   tags:
     - lintstage
 
@@ -47,15 +51,6 @@ lint commits:
   script: test/lint/commits
   allow_failure: true
 
-lint changelog:
-  <<: *lint_definition
-  before_script:
-    - apk update && apk add git
-  only:
-    - merge_requests
-  script:
-    - git fetch origin master
-    - if git diff --exit-code origin/master -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
 
 lint beta-tests:
   <<: *lint_definition
@@ -63,10 +58,21 @@ lint beta-tests:
     - grep TESTING.md -e '^- \[ \]' && echo "Beta test not over" && exit 1
   allow_failure: true
 
+lint changelog:
+  <<: *lint_definition
+  only:
+    - merge_requests
+  before_script:
+    - apk update && apk add git
+  script:
+    - git fetch origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    - if git diff --exit-code "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
+  
 # Build
 
 .build_template: &build_definition
   stage: build
+  <<: *only-default
   before_script:
     - source scripts/release/functions.sh
   script:
@@ -100,121 +106,36 @@ lint beta-tests:
 build rpi1:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'rpi1'
 build rpi2:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'rpi2'
 build rpi3:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'rpi3'
 build rpi4:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'rpi4'
 build x86_64:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'x86_64'
 build x86:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
   variables:
     ARCH: 'x86'
 build odroidxu4:
   <<: *build_definition
   when: manual
-  only:
-    - master
-    - tags
-  variables:
-    ARCH: 'odroidxu4'
-
-build rpi1 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'rpi1'
-build rpi2 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'rpi2'
-build rpi3 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'rpi3'
-build rpi4 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'rpi4'
-build x86_64 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'x86_64'
-build x86 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
-  variables:
-    ARCH: 'x86'
-build odroidxu4 for test:
-  <<: *build_definition
-  when: manual
-  only:
-    - branches
-  except:
-    - master
   variables:
     ARCH: 'odroidxu4'
 
@@ -242,19 +163,20 @@ build odroidxu4 for test:
 
 release prod:
   <<: *release_definition
+  only:
+    - tags
   when: manual
   variables:
     DEPLOY_TYPE: prod
     BUCKET: recalbox-archive-stable
     BUCKET_PATH: latest
-  only:
-    - tags
   environment:
     name: prod
     url: https://download.recalbox.com
 
 release review:
   <<: *release_definition
+  <<: *only-default
   when: manual
   variables:
     DEPLOY_TYPE: review
