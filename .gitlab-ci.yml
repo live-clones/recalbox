@@ -47,6 +47,16 @@ lint commits:
   script: test/lint/commits
   allow_failure: true
 
+lint changelog:
+  <<: *lint_definition
+  before_script:
+    - apk update && apk add git
+  only:
+    - merge_requests
+  script:
+    - git fetch origin master
+    - if git diff --exit-code origin/master -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
+
 lint beta-tests:
   <<: *lint_definition
   script:
