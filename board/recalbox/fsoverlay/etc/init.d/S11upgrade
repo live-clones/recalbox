@@ -18,8 +18,11 @@ if [[ -f $UPDATEFILE ]]; then
   exit 0
 elif [[ -f "/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")" ]]; then
   # asynchronously remove uncompressed file
-  # this is to avoir a race condition whendoing the upgrade:
+  # this is to avoid a race condition when doing the upgrade:
   # unmounting the image and removing the file that is still locked
   # creates stale unremovable files that occupy space
   rm -f "/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
+
+  # inform ES we upgraded
+  touch /tmp/upgraded
 fi
