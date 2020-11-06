@@ -21,6 +21,9 @@ All notable changes to this project will be documented in this file.
 - Fix upgrade procedure that could fail in some circumstances (#1376)
 - Bump FBNeo & add as core for colecovision, gamegear, fds, master-system, megadrive, msx1, nes, ngp, pc-engine, sg-1000, supergraphx, zx-spectrum 
 - Fix odroid xu4 platform name to odroidxu4
+- Fix pt_BR translations (thank to Zing)
+- Fix battery icon on PC
+- Fix theme crash on empty subsets
 
 
 ## [7.0.1]

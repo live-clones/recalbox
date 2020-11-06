@@ -35,6 +35,7 @@
 - Fix screenshots on x86/x64
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 - Fix upgrade procedure that could fail in some circumstances
+- Fix battery icon on PC
 
 
 ## Version 7.0.1
