@@ -106,7 +106,6 @@ set(ES_HEADERS
 
         # Recalbox
         src/recalbox/RecalboxSystem.h
-        src/recalbox/RecalboxUpgrade.h
         src/LibretroRatio.h
         src/CommandThread.h
         src/netplay/NetPlayThread.h
@@ -258,7 +257,6 @@ set(ES_SOURCES
         src/views/SplashView.cpp
 
         src/recalbox/RecalboxSystem.cpp
-        src/recalbox/RecalboxUpgrade.cpp
         src/LibretroRatio.cpp
         src/CommandThread.cpp
         src/netplay/NetPlayThread.cpp

@@ -6,13 +6,13 @@
 #include <input/Input.h>
 #include <Upgrade.h>
 #include <guis/menus/GuiMenuUserInterface.h>
+#include <utils/Files.h>
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
 #include "Window.h"
 #include "Settings.h"
 #include "recalbox/RecalboxSystem.h"
-#include "recalbox/RecalboxUpgrade.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiDetectDevice.h"
 #include "views/ViewController.h"
@@ -215,7 +215,7 @@ void GuiMenu::menuSystem(){
   auto* s = new GuiSettings(mWindow, _("SYSTEM SETTINGS"));
 
   auto version = std::make_shared<TextComponent>(mWindow,
-      RecalboxUpgrade::getVersion(),
+      Files::LoadFile(Path(Upgrade::sLocalVersionFile)),
       mMenuTheme->menuText.font, mMenuTheme->menuText.color);
   s->addWithLabel(version, _("VERSION"), _(MENUMESSAGE_VERSION_HELP_MSG));
   bool warning = RecalboxSystem::isFreeSpaceLimit();
@@ -351,21 +351,24 @@ Path::PathList GuiMenu::GetShaderList()
   return glslp;
 }
 
-void GuiMenu::menuUpdates(){
+void GuiMenu::menuUpdates()
+{
   GuiSettings *updateGui = new GuiSettings(mWindow, _("UPDATES"));
   // Enable updates
   auto updates_enabled = std::make_shared<SwitchComponent>(mWindow);
   updates_enabled->setState(RecalboxConf::Instance().AsBool("updates.enabled"));
   updateGui->addWithLabel(updates_enabled, _("CHECK UPDATES"), _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
   // Display available update version
-  if (Upgrade::PendingUpdate()) {
+  if (Upgrade::PendingUpdate())
+  {
     auto updateVersion = std::make_shared<TextComponent>(mWindow,
         _("YES"), mMenuTheme->menuText.font, mMenuTheme->menuText.color);
     updateGui->addWithLabel(updateVersion, _("AVAILABLE UPDATE"), _(MENUMESSAGE_UPDATE_VERSION_HELP_MSG));
 
     // Display available update changelog
-    updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this] {
-      std::string changelog = RecalboxUpgrade::getUpdateChangelog();
+    updateGui->addSubMenu(_("UPDATE CHANGELOG"), [this]
+    {
+      std::string changelog = Upgrade::NewReleaseNote();
       if (!changelog.empty()) {
         const std::string& message = changelog;
         std::string updateVersion = Upgrade::NewVersion();
@@ -383,7 +386,6 @@ void GuiMenu::menuUpdates(){
   }
 
   // Enable updates
-
   auto updatesTypeComp = std::make_shared<OptionListComponent<std::string> >(mWindow,
       _("UPDATE TYPE"), false);
   std::string updatesType = RecalboxConf::Instance().AsString("updates.type");

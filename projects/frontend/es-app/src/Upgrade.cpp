@@ -17,7 +17,8 @@
 std::string Upgrade::mDomainName;
 std::string Upgrade::mRemoteVersion;
 std::string Upgrade::mLocalVersion;
-
+std::string Upgrade::mRemoteReleaseNote;
+std::string Upgrade::mLocalReleaseNote;
 
 Upgrade::Upgrade(Window& window)
   : mWindow(window),
@@ -48,8 +49,10 @@ void Upgrade::Run()
 
       // Do we have to update?
       mRemoteVersion = GetRemoteVersion();
-      mLocalVersion = Files::LoadFile(Path(sLocalVersionFile));
-      mLocalVersion = Strings::Trim(mLocalVersion, " \t\r\n");
+      mLocalVersion = Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n");
+      mRemoteReleaseNote = GetRemoteReleaseVersion();
+      mLocalReleaseNote = Strings::Trim(Files::LoadFile(Path(sLocalReleaseNoteFile)), " \t\r\n");
+
       if (ValidateVersion(mRemoteVersion))
       {
         if (mRemoteVersion != mLocalVersion)
@@ -72,6 +75,14 @@ void Upgrade::Run()
             mMessageBoxMessage = _("NEW VERSION:");
             mMessageBoxMessage += " ";
             mMessageBoxMessage += mRemoteVersion;
+
+            if (!mRemoteReleaseNote.empty())
+            {
+              mMessageBoxMessage += "\n\n";
+              mMessageBoxMessage += _("CHANGELOG");
+              mMessageBoxMessage += ":\n\n";
+              mMessageBoxMessage += mRemoteReleaseNote;
+            }
           }
 
           mSender.Call();
@@ -180,4 +191,21 @@ bool Upgrade::ValidateVersion(const std::string& version)
       return (version.find_first_not_of(_allowedCharacters) == std::string::npos);
 
   return false;
+}
+
+std::string Upgrade::GetRemoteReleaseVersion()
+{
+  // Get version
+  std::string url = ReplaceMachineParameters(sReleasenotePatternUrl);
+
+  std::string releaseNote;
+  if (!Http().Execute(url, releaseNote)) releaseNote.clear();
+
+  LOG(LogDebug) << "[Update] Remote release note: " << releaseNote << " (" << url << ')';
+
+  if (Strings::StartsWith(releaseNote, "<", 1)) releaseNote.clear();
+  else releaseNote = Strings::Trim(releaseNote, " \t\r\n");
+
+  // Return version
+  return releaseNote;
 }

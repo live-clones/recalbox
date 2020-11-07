@@ -11,7 +11,6 @@
 #include <views/ViewController.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiMsgBoxScroll.h>
-#include <recalbox/RecalboxUpgrade.h>
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
 #include <bios/BiosManager.h>
@@ -19,6 +18,7 @@
 #include <scraping/ScraperFactory.h>
 #include <audio/AudioController.h>
 #include <utils/os/system/ProcessTree.h>
+#include <recalbox/RecalboxSystem.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -321,14 +321,12 @@ void MainRunner::CheckAndInitializeInput(Window& window)
 void MainRunner::CheckUpdateMessage(Window& window)
 {
   // Push a message box with the whangelog if Recalbox has been updated
-  std::string changelog = RecalboxUpgrade::getChangelog();
-  if (!changelog.empty())
+  Path flag(sUpgradeFileFlag);
+  if (flag.Exists())
   {
+    std::string changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
     std::string message = "Changes :\n" + changelog;
-    window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []
-    {
-      RecalboxUpgrade::updateLastChangelogFile();
-    }, "", nullptr, "", nullptr, TextAlignment::Left));
+    window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
   }
 }
 

@@ -56,6 +56,8 @@ class MainRunner
     static constexpr const char* sReadyFile = "/tmp/externalnotifications/emulationstation.ready";
     //! Temporary file used as quit request
     static constexpr const char* sQuitNow = "/tmp/externalnotifications/emulationstation.quitnow";
+    //! Upgrade file flag. Only available once in /tmp after a successful update
+    static constexpr const char* sUpgradeFileFlag = "/tmp/upgraded";
 
   private:
     //! Requested width

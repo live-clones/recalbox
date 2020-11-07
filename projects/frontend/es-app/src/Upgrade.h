@@ -8,6 +8,15 @@
 class Upgrade: private Thread, private ISynchronousEvent
 {
   public:
+    //! Local version file
+    static constexpr const char* sLocalReleaseNoteFile = "/recalbox/recalbox.releasenotes";
+    //! Local version file
+    static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
+    //! Local version arch
+    static constexpr const char* sLocalArchFile = "/recalbox/recalbox.arch";
+    //! Local version arch
+    static constexpr const char* sLocalUUID = "/recalbox/share/system/uuid";
+
     /*!
      * @brief Constructor
      * @param window main Window
@@ -24,6 +33,12 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @return Remote version
      */
     static std::string NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
+
+    /*!
+     * @brief Return remote releasenote
+     * @return Remote release note
+     */
+    static std::string NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
 
     /*!
      * @brief Return remote version.
@@ -54,15 +69,10 @@ class Upgrade: private Thread, private ISynchronousEvent
 
     //! Get remote version template URL
     static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";
-    //! Get file download template url
+    //! Image template url
     static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox&uuid=#UUID#";
-
-    //! Local version file
-    static constexpr const char* sLocalVersionFile = "/recalbox/recalbox.version";
-    //! Local version arch
-    static constexpr const char* sLocalArchFile = "/recalbox/recalbox.arch";
-    //! Local version arch
-    static constexpr const char* sLocalUUID = "/recalbox/share/system/uuid";
+    //! Releasenote template url
+    static constexpr const char* sReleasenotePatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.releasenotes";
 
     //! MainWindow
     Window& mWindow;
@@ -80,6 +90,10 @@ class Upgrade: private Thread, private ISynchronousEvent
     static std::string mRemoteVersion;
     //! Local version
     static std::string mLocalVersion;
+    //! Remote version
+    static std::string mRemoteReleaseNote;
+    //! Local version
+    static std::string mLocalReleaseNote;
 
     /*
      * Thread implementation
@@ -110,6 +124,11 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @brief Get remote version
      */
     static std::string GetRemoteVersion();
+
+    /*!
+     * @brief Get remote version
+     */
+    static std::string GetRemoteReleaseVersion();
 
     /*!
      * @brief Replace machine parameters parameters in the given url (Arch, uuid, domain, ...)
