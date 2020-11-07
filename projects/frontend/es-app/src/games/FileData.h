@@ -142,7 +142,7 @@ class FileData
      * @brief Check if Pad2Keyboard configuration file exists
      * @return Trie if the Pad2Keyboard configuration file exists
      */
-    bool HasP2K() const { return P2KPath().Exists(); };
+    bool HasP2K() const;
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

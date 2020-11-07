@@ -36,3 +36,17 @@ std::string FileData::getScrappableName() const
 {
   return Strings::RemoveParenthesis(getDisplayName());
 }
+
+bool FileData::HasP2K() const
+{
+  // Check game file
+  Path p2k(P2KPath());
+  if (p2k.Exists()) return true;
+
+  // Check folder file until reaching the root
+  for(p2k = p2k.Directory(); !p2k.IsEmpty(); p2k = p2k.Directory())
+    if ((p2k / ".p2k.cfg").Exists())
+      return true;
+
+  return false;
+}
