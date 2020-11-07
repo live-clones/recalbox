@@ -99,8 +99,10 @@ BoardType Board::GetBoardType()
 
   // Try uname (for PC)
   utsname uName {};
+  memset(&uName, 0, sizeof(uName));
   uname(&uName);
   std::string machine(uName.machine);
+  LOG(LogDebug) << "[Hardware] Machine identifier: '" << machine << '\'';
   if (machine == "x86") return mType = BoardType::PCx86;
   if (machine == "x86_64") return mType = BoardType::PCx64;
 
