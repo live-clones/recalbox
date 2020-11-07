@@ -15,9 +15,11 @@ class PcComputers: public IBoardInterface
     }
 
   private:
-    static constexpr const char* sCpuGovernancePath   = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
-    static constexpr const char* sBatteryCapacityPath = "/sys/class/power_supply/BAT0/capacity";
-    static constexpr const char* sBatteryStatusPath   = "/sys/class/power_supply/BAT0/status";
+    static constexpr const char* sCpuGovernancePath    = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+    static constexpr const char* sBatteryCapacityPath1 = "/sys/class/power_supply/BAT0/capacity";
+    static constexpr const char* sBatteryStatusPath1   = "/sys/class/power_supply/BAT0/status";
+    static constexpr const char* sBatteryCapacityPath2 = "/sys/class/power_supply/BAT1/capacity";
+    static constexpr const char* sBatteryStatusPath2   = "/sys/class/power_supply/BAT1/status";
 
     /*!
      * @brief Start optional global background processes

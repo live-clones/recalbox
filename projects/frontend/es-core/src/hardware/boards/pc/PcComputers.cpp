@@ -29,13 +29,14 @@ void PcComputers::SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance)
 
 bool PcComputers::HasBattery()
 {
-  static bool hasBattery = Path(sBatteryCapacityPath).Exists();
+  static bool hasBattery = Path(sBatteryCapacityPath1).Exists() ||
+                           Path(sBatteryCapacityPath2).Exists();
   return hasBattery;
 }
 
 int PcComputers::BatteryChargePercent()
 {
-  static Path sBatteryCharge(sBatteryCapacityPath);
+  static Path sBatteryCharge(Path(sBatteryCapacityPath1).Exists() ? sBatteryCapacityPath1 : sBatteryCapacityPath2);
   int charge = -1;
   Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
   return charge;
@@ -43,6 +44,6 @@ int PcComputers::BatteryChargePercent()
 
 bool PcComputers::IsBatteryCharging()
 {
-  static Path sBatteryStatus(sBatteryStatusPath);
+  static Path sBatteryStatus(Path(sBatteryStatusPath1).Exists() ? sBatteryStatusPath1 : sBatteryStatusPath2);
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
