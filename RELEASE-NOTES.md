@@ -36,6 +36,7 @@
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 - Fix upgrade procedure that could fail in some circumstances
 - Fix battery icon on PC
+- Display p2k hints properly, including folders's p2k files
 
 
 ## Version 7.0.1
