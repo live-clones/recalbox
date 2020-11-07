@@ -50,7 +50,7 @@ GuiMenuSound::GuiMenuSound(Window& window)
   if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
   {
     for (auto& it : availableAudio) mOutputList->add(_S(it), it, currentDevice == it);
-    mOutputList->setSelectedChangedCallback(SetOutput);
+    mOutputList->setChangedCallback([this] { SetOutput(mOutputList->getSelected()); });
     mMenu.addWithLabel(mOutputList, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
   }
 }

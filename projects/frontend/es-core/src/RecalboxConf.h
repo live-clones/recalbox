@@ -5,6 +5,7 @@
 
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <audio/alsa/AlsaController.h>
 
 class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf>
 {
@@ -40,7 +41,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
-    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "Default Output")
+    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, AlsaController::sDefaultOutput)
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
     DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")

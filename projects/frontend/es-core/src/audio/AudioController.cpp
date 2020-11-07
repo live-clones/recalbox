@@ -21,8 +21,8 @@ std::string AudioController::SetDefaultPlayback(const std::string& playbackName)
   if (!mHasSpecialAudio)
   {
     std::string playback = mController.SetDefaultPlayback(playbackName);
-
+    return playback;
   }
 
-  return std::string();
+  return AlsaController::sDefaultOutput;
 }
