@@ -28,6 +28,8 @@ All notable changes to this project will be documented in this file.
 - Fix theme crash on empty subsets
 - Fix regression when upgrading device (#1419)
 - Fix Noobs & RasPiImager configuration
+- Add Odroid Go Advance board support
+
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video

@@ -5,6 +5,7 @@
 ### News
 - Add WPS support for quick WIFI configuration
 - Recalbox is distributed on Noobs (again) and Raspberry Pi Imager
+- Add Odroid Go Advance board support
 
 ### Improvements
 - Improved NESPi4 case detection
