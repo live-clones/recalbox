@@ -374,13 +374,11 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 	{
 		if (parseSubset(node))
 		{
-					
 			std::string str = resolveSystemVariable(mSystemThemeFolder, node.text().get());
 			
 			//workaround for an issue in parseincludes introduced by variable implementation
 			if (str.find("//") == std::string::npos)
 			{
-			
 				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 				if(!ResourceManager::fileExists(path))
         {
