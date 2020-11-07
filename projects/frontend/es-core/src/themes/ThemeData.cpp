@@ -322,26 +322,8 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
   mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
   if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
   mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
-  if (main && CheckThemeOption(mRegion, subSets, "region")) { RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
+  if (main && mRegion != "us" && mRegion != "eu" && mRegion != "jp") { mRegion="us"; RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
   if (needSave) RecalboxConf::Instance().Save();
-
-  /*if (systemThemeFolder.empty())
-  {
-    bool needSave = false;
-    mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
-    if (CheckThemeOption(mColorset, subSets, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
-    mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
-    if (CheckThemeOption(mIconset, subSets, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
-    mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
-    if (CheckThemeOption(mMenu, subSets, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
-    mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
-    if (CheckThemeOption(mSystemview, subSets, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
-    mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
-    if (CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
-    mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
-    if (CheckThemeOption(mRegion, subSets, "region")) { RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
-    if (needSave) RecalboxConf::Instance().Save();
-  }*/
 
   pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file(path.ToChars());
