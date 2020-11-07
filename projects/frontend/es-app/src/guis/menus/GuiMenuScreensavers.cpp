@@ -36,7 +36,7 @@ GuiMenuScreensavers::GuiMenuScreensavers(Window& window, SystemManager& systemMa
     if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
       mSystemList->add(it->getFullName(), it->getName(), RecalboxConf::Instance().isInList(RecalboxConf::sScreenSaverSystemList, it->getName()));
   mSystemList->setChangedCallback([this] { SetSystemList(); });
-  mMenu.addWithLabel(mSystemList, _("SYSTEMS FOR DEMO"));
+  mMenu.addWithLabel(mSystemList, _("SYSTEMS TO SHOW IN DEMO"));
 }
 
 void GuiMenuScreensavers::SetTime(float time)

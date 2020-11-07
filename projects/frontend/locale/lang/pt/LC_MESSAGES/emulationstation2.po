@@ -93,8 +93,7 @@ msgid ""
 msgstr ""
 "NÃO CONSEGUIMOS ENCONTRAR NENHUM SISTEMA!\n"
 "VERIFIQUE SE OS CAMINHOS ESTÃO CORRETOS NO ARQUIVO DE CONFIGURAÇÃO, E SE "
-"SUAS PASTAS DOS JOGOS POSSUEM AO MENOS UM JOGO COM A EXTENSÃO"
-"CORRETA.\n"
+"SUAS PASTAS DOS JOGOS POSSUEM AO MENOS UM JOGO COM A EXTENSÃOCORRETA.\n"
 "\n"
 "VISITE RECALBOX.COM PARA MAIS INFORMAÇÕES."
 
@@ -172,8 +171,8 @@ msgstr ""
 "A sua partição share está quase cheia.\n"
 "O scraper parou automaticamente.\n"
 "\n"
-"Exclua os jogos não utilizados, mídias e arquivos, para criar espaço antes de "
-"executar o scraper novamente!"
+"Exclua os jogos não utilizados, mídias e arquivos, para criar espaço antes "
+"de executar o scraper novamente!"
 
 msgid "OK"
 msgstr "OK"
@@ -1074,9 +1073,9 @@ msgid ""
 "If you choose unstable update, be so kind to report issues on the recalbox-"
 "os issue board (https://github.com/recalbox/recalbox-os/issues)"
 msgstr ""
-"Atualizações estáveis irão verificar por atualizações em lançamentos estáveis "
-"do recalbox. Atualizações estáveis são testadas e aprovadas pelo time do "
-"recalbox e seus testadores.\n"
+"Atualizações estáveis irão verificar por atualizações em lançamentos "
+"estáveis do recalbox. Atualizações estáveis são testadas e aprovadas pelo "
+"time do recalbox e seus testadores.\n"
 "Atualizações instáveis permitem que você obtenha os recursos mais recentes "
 "do recalbox, verificando nosso repositório instável. Você pode testar e "
 "validar conosco a última versão do recalbox.\n"
@@ -1183,9 +1182,9 @@ msgstr ""
 "Você não poderá salvar/recarregar sua partida em nenhum momento. Você terá "
 "que completar o jogo e conseguir suas conquistas, assim como no console "
 "original. Como recompensa, você ganhará as conquistas padrão e hardcore, "
-"duplicando seus pontos! Um jogo comum que vale 400 pontos, valerá agora "
-"800 se você completar no hardcore! Por exemplo: caso você complete o "
-"jogo ganhando 400 pontos, você terá a oportunidade de ganhar outros 400 no "
+"duplicando seus pontos! Um jogo comum que vale 400 pontos, valerá agora 800 "
+"se você completar no hardcore! Por exemplo: caso você complete o jogo "
+"ganhando 400 pontos, você terá a oportunidade de ganhar outros 400 no "
 "hardcore."
 
 msgid ""
@@ -1232,10 +1231,10 @@ msgid ""
 "If you've added games since the last boot, you can also refresh the gamelist "
 "from this menu."
 msgstr ""
-"Configurar sua experiência do EmulationStation. Selecione tipos de transição, "
-"dicas de ajuda, comportamento do protetor de tela. Você também pode "
-"desativar o teclado virtual se você tiver um teclado real conectado no seu "
-"recalbox.\n"
+"Configurar sua experiência do EmulationStation. Selecione tipos de "
+"transição, dicas de ajuda, comportamento do protetor de tela. Você também "
+"pode desativar o teclado virtual se você tiver um teclado real conectado no "
+"seu recalbox.\n"
 "Se você adicionou jogos desde a última inicialização, poderá atualizar a "
 "lista de jogos a partir deste menu."
 
@@ -1389,13 +1388,12 @@ msgid ""
 "is based on www.screenscraper.fr and scrapes game data in your language, if "
 "available."
 msgstr ""
-"Selecione um servidor para fazer scrape. O servidor SCREENSCRAPER "
-"é recomendado e está hospedado em www.screenscraper.fr. Os dados dos jogos "
+"Selecione um servidor para fazer scrape. O servidor SCREENSCRAPER é "
+"recomendado e está hospedado em www.screenscraper.fr. Os dados dos jogos "
 "serão obtidos no seu idioma (quando disponível)."
 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr ""
-"Inicia o processo de scrape com as configurações exibidas abaixo."
+msgstr "Inicia o processo de scrape com as configurações exibidas abaixo."
 
 msgid "Scrape and display game ratings."
 msgstr "Busca e exibe as classificações dos jogos."
@@ -1435,8 +1433,8 @@ msgid ""
 "directories).\n"
 "This option highly speeds up boot time, but new games will not be detected."
 msgstr ""
-"Mostra apenas os jogos contidos no arquivo gamelist.xml (localizado nas "
-"suas pastas de roms).\n"
+"Mostra apenas os jogos contidos no arquivo gamelist.xml (localizado nas suas "
+"pastas de roms).\n"
 "Esta opção acelera significativamente o tempo de inicialização, mas novos "
 "jogos não serão detectados."
 
@@ -1586,8 +1584,8 @@ msgid ""
 "Switch between seeing the folders structure and seeing all games in a "
 "flatten top level."
 msgstr ""
-"Alterna entre ver a estrutura das pastas e ver todos os jogos em um "
-"nível superior."
+"Alterna entre ver a estrutura das pastas e ver todos os jogos em um nível "
+"superior."
 
 msgid ""
 "This option display a menu which allows to change game data and many others "
@@ -1941,8 +1939,7 @@ msgid ""
 "there are strong chances of getting everything running fine."
 msgstr ""
 "O seu arquivo bios não corresponde a nenhum MD5 conhecido, mas isto não é "
-"obrigatório. Portanto, há grandes chances de conseguir que tudo corra "
-"bem."
+"obrigatório. Portanto, há grandes chances de conseguir que tudo corra bem."
 
 msgid ""
 "Your bios file does match one of the known MD5. Everything will run fine!"
@@ -2068,16 +2065,15 @@ msgstr "DESTACAR REGIÃO DOS JOGOS"
 
 msgid "Highlight all games of a particular region and fade out all others."
 msgstr ""
-"Destaca todos os jogos de uma determinada região e desvanece todos os "
-"outros."
+"Destaca todos os jogos de uma determinada região e desvanece todos os outros."
 
 msgid ""
 "Select the source of your game name. Trust the scrapping database or get "
 "them from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "Selecione a fonte do nome do seu jogo. Confie na base de dados de scrapping "
-"ou obtenha-os a partir do nome do arquivo, bruto ou não (sem decoração em "
-"() ou [] )."
+"ou obtenha-os a partir do nome do arquivo, bruto ou não (sem decoração em () "
+"ou [] )."
 
 msgid ""
 "Try to extract game region from its filename when possible. Support long and "
@@ -2186,8 +2182,7 @@ msgstr ""
 "O mais provável é que isso tenha acontecido por:\n"
 "- rom ruim\n"
 "- arquivos obrigatórios de BIOS ausentes/inválidos\n"
-"- arquivos BIOS opcionais ausentes/inválidos (mas necessários para este "
-"jogo)"
+"- arquivos BIOS opcionais ausentes/inválidos (mas necessários para este jogo)"
 
 msgid ""
 "At least one mandatory BIOS is missing for %emulator%!\n"
@@ -2197,8 +2192,8 @@ msgid ""
 "Do you want to launch the game anyway?"
 msgstr ""
 "Falta pelo menos um BIOS obrigatório para o %emulador%!\n"
-"O seu jogo '%game%' muito provavelmente não funcionará bem até que os "
-"BIOS obrigatórios sejam colocados na pasta solicitada.\n"
+"O seu jogo '%game%' muito provavelmente não funcionará bem até que os BIOS "
+"obrigatórios sejam colocados na pasta solicitada.\n"
 "\n"
 "Quer iniciar o jogo mesmo assim?"
 
@@ -2393,6 +2388,353 @@ msgstr "TUDO"
 #
 msgid "TYPE AT LEAST 3 CHARACTERS"
 msgstr "DIGITE PELO MENOS 3 CARACTERES"
+
+#
+msgid "AUTOMATIC WPS CONNECTION"
+msgstr ""
+
+#
+msgid "Connecting to WIFI..."
+msgstr ""
+
+#
+msgid "Enable/Disable Arcade virtual system and set its options"
+msgstr ""
+
+#
+msgid "Fetching WIFI parameters"
+msgstr ""
+
+#
+msgid "EDIT MANUALLY"
+msgstr ""
+
+#
+msgid "Headphones"
+msgstr ""
+
+#
+msgid "NETPLAY MITM"
+msgstr ""
+
+#
+msgid "RECALBOX API"
+msgstr ""
+
+#
+msgid "RECALBOX MANAGER"
+msgstr ""
+
+#
+msgid "Reseting WIFI configuration..."
+msgstr ""
+
+#
+msgid "WPS CONFIGURATION SUCCESSFUL!"
+msgstr ""
+
+#
+msgid "WPS CONNECTION"
+msgstr ""
+
+#
+msgid "Waiting for IP address... (%is)"
+msgstr ""
+
+#
+msgid "Waiting for WPS configuration..."
+msgstr ""
+
+#
+msgid "SCREENSAVER"
+msgstr ""
+
+#
+msgid "SHADERS"
+msgstr ""
+
+#
+msgid "SYSTEMS TO SHOW IN DEMO"
+msgstr ""
+
+#
+msgid "Saving WIFI configuration"
+msgstr ""
+
+#
+msgid "Scanning WIFI networks..."
+msgstr ""
+
+#
+msgid "THEME"
+msgstr ""
+
+#
+msgid ""
+"Shaders are like filters for the game rendering. You can select a raw shader "
+"file here. This setting may be overloaded by shaderset if not definied to "
+"'none'."
+msgstr ""
+
+#
+msgid "Select your keyboard layout."
+msgstr ""
+
+#
+msgid "Mute (no sound)"
+msgstr ""
+
+#
+msgid "Internal Speakers"
+msgstr ""
+
+#
+msgid "Headphone Jack"
+msgstr ""
+
+#
+msgid "Internal Speakers + Headphone Jack"
+msgstr ""
+
+#
+msgid "black"
+msgstr ""
+
+#
+msgid "demo"
+msgstr ""
+
+#
+msgid "dim"
+msgstr ""
+
+#
+msgid "Action (All)"
+msgstr ""
+
+#
+msgid "Action RPG"
+msgstr ""
+
+#
+msgid "Adventure (All)"
+msgstr ""
+
+#
+msgid "Artillery"
+msgstr ""
+
+#
+msgid "Auto-battler"
+msgstr ""
+
+#
+msgid "Battle Royale"
+msgstr ""
+
+#
+msgid "Beat'em All"
+msgstr ""
+
+#
+msgid "Board game"
+msgstr ""
+
+#
+msgid "Build & Management"
+msgstr ""
+
+#
+msgid "Casino"
+msgstr ""
+
+#
+msgid "Casual game"
+msgstr ""
+
+#
+msgid "Competition Sport"
+msgstr ""
+
+#
+msgid "Demo from Demo Screne"
+msgstr ""
+
+#
+msgid "Digital Cards"
+msgstr ""
+
+#
+msgid "Dungeon Crawler"
+msgstr ""
+
+#
+msgid "Educative"
+msgstr ""
+
+#
+msgid "Favorites"
+msgstr ""
+
+#
+msgid "Fighting"
+msgstr ""
+
+#
+msgid "Fighting/Violent Sport"
+msgstr ""
+
+#
+msgid "First Person Shooter"
+msgstr ""
+
+#
+msgid "Fishing & Hunting"
+msgstr ""
+
+#
+msgid "Graphical Adventure"
+msgstr ""
+
+#
+msgid "Infiltration"
+msgstr ""
+
+#
+msgid "Interactive Movie"
+msgstr ""
+
+#
+msgid "JRPG"
+msgstr ""
+
+#
+msgid "Life Simulation"
+msgstr ""
+
+#
+msgid "MMORPG"
+msgstr ""
+
+#
+msgid "Multi Game Compilation"
+msgstr ""
+
+#
+msgid "Multiplayer Online Battle Arena"
+msgstr ""
+
+#
+msgid "Multiplayer Party Game"
+msgstr ""
+
+#
+msgid "Party based RPG"
+msgstr ""
+
+#
+msgid "Pinball"
+msgstr ""
+
+#
+msgid "Platform Shooter"
+msgstr ""
+
+#
+msgid "Platform"
+msgstr ""
+
+#
+msgid "Puzzle & Logic"
+msgstr ""
+
+#
+msgid "RPG (All)"
+msgstr ""
+
+#
+msgid "Racing"
+msgstr ""
+
+#
+msgid "Real Time 3D Adventure"
+msgstr ""
+
+#
+msgid "Real Time Stratégy"
+msgstr ""
+
+#
+msgid "Rythm & Music"
+msgstr ""
+
+#
+msgid "Science Fiction Simulation"
+msgstr ""
+
+#
+msgid "Shoot with Gun"
+msgstr ""
+
+#
+msgid "Shoot'em Up"
+msgstr ""
+
+#
+msgid "Simulation (All)"
+msgstr ""
+
+#
+msgid "Sport Simulation"
+msgstr ""
+
+#
+msgid "Sports (All)"
+msgstr ""
+
+#
+msgid "Strategy (All)"
+msgstr ""
+
+#
+msgid "Survival"
+msgstr ""
+
+#
+msgid "Tactical RPG"
+msgstr ""
+
+#
+msgid "Textual Adventure"
+msgstr ""
+
+#
+msgid "Tower Defense"
+msgstr ""
+
+#
+msgid "Trivia"
+msgstr ""
+
+#
+msgid "Turn Based Strategy"
+msgstr ""
+
+#
+msgid "Vehicle Simulation"
+msgstr ""
+
+#
+msgid "Visual Novel"
+msgstr ""
+
+#
+msgid "Wargame"
+msgstr ""
+
+#
+msgid "eXplore, eXpand, eXploit & eXterminate"
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

@@ -19,7 +19,7 @@ msgid "DOWNLOADED"
 msgstr "TÉLÉCHARGÉ"
 
 msgid "NEW VERSION:"
-msgstr "VERSION MISE ­À JOUR:"
+msgstr "VERSION MISE À JOUR:"
 
 msgid "UPDATE CHANGELOG:"
 msgstr "CHANGER LE JOURNAL DE LA MISE À JOUR:"
@@ -316,7 +316,7 @@ msgid "PRESS TWICE TO QUIT GAME"
 msgstr "APPUYER DEUX FOIS POUR QUITTER LE JEU"
 
 msgid "SHADERS SET"
-msgstr "REGLAGE DES SHADERS"
+msgstr "SHADERS PRÉDÉFINIS"
 
 msgid "SCANLINES"
 msgstr "SCANLINES"
@@ -2354,8 +2354,20 @@ msgid "DOWNLOADING UPDATE..."
 msgstr "TÉLÉCHARGEMENT DE MISE À JOUR..."
 
 #
-msgid "We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
-msgstr "Nous téléchargeons Recalbox version %s!\n\nUne fois le téléchargement terminé, Recalbox va redémarrer et commencer l'installation de la nouvelle version.\nUne installation dure en moyenne 5 à 10mn. N'eteignez ou ne redémarrez JAMAIS Recalbox durant l'installation!"
+msgid ""
+"We're downloading Recalbox version %s!\n"
+"\n"
+"Once the download is complete, Recalbox will reboot and start installing the "
+"new version.\n"
+"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox "
+"until the installation is complete."
+msgstr ""
+"Nous téléchargeons Recalbox version %s!\n"
+"\n"
+"Une fois le téléchargement terminé, Recalbox va redémarrer et commencer "
+"l'installation de la nouvelle version.\n"
+"Une installation dure en moyenne 5 à 10mn. N'eteignez ou ne redémarrez "
+"JAMAIS Recalbox durant l'installation!"
 
 #
 msgid "REBOOT IN %s"
@@ -2363,7 +2375,8 @@ msgstr "REDÉMARRAGE DANS %s"
 
 #
 msgid "Error downloading Recalbox %s... Please retry later!"
-msgstr "Erreur de téléchargement de Recalbox %s... Veuillez rééssayer plus tard!"
+msgstr ""
+"Erreur de téléchargement de Recalbox %s... Veuillez rééssayer plus tard!"
 
 #
 msgid "ALL"
@@ -2372,3 +2385,353 @@ msgstr "TOUS"
 #
 msgid "TYPE AT LEAST 3 CHARACTERS"
 msgstr "TAPEZ AU MOINS 3 CARACTÈRES"
+
+#
+msgid "AUTOMATIC WPS CONNECTION"
+msgstr "CONNECTION WPS AUTOMATIQUE"
+
+#
+msgid "Connecting to WIFI..."
+msgstr "Connection au WIFI..."
+
+#
+msgid "Enable/Disable Arcade virtual system and set its options"
+msgstr "Active/désactive le système virtual Arcade er règle ses options"
+
+#
+msgid "Fetching WIFI parameters"
+msgstr "Récupération des paramètres WIFI"
+
+#
+msgid "EDIT MANUALLY"
+msgstr "EDITER MANUELLEMENT"
+
+#
+msgid "Headphones"
+msgstr "Prise casque"
+
+#
+msgid "NETPLAY MITM"
+msgstr ""
+
+#
+msgid "RECALBOX API"
+msgstr "API RECALBOX"
+
+#
+msgid "RECALBOX MANAGER"
+msgstr "GESTIONNAIRE WEB RECALBOX"
+
+#
+msgid "Reseting WIFI configuration..."
+msgstr "Réinitialization du WIFI..."
+
+#
+msgid "WPS CONFIGURATION SUCCESSFUL!"
+msgstr "CONNECTION WPS RÉUSSIE!"
+
+#
+msgid "WPS CONNECTION"
+msgstr "CONNECTION WPS"
+
+#
+msgid "Waiting for IP address... (%is)"
+msgstr "Attente de l'adresse IP... (%is)"
+
+#
+msgid "Waiting for WPS configuration..."
+msgstr "Attente de la configuration WPS..."
+
+#
+msgid "SCREENSAVER"
+msgstr "ÉCONOMISEUR D'ÉCRAN"
+
+#
+msgid "SHADERS"
+msgstr "SHADERS"
+
+#
+msgid "SYSTEMS TO SHOW IN DEMO"
+msgstr "SYSTÈMES À UTILISER EN DÉMOS"
+
+#
+msgid "Saving WIFI configuration"
+msgstr "Sauvegarde de la configuration WIFI..."
+
+#
+msgid "Scanning WIFI networks..."
+msgstr "Recherche des réseaux WIFI..."
+
+#
+msgid "THEME"
+msgstr "THÈME"
+
+#
+msgid ""
+"Shaders are like filters for the game rendering. You can select a raw shader "
+"file here. This setting may be overloaded by shaderset if not definied to "
+"'none'."
+msgstr ""
+"Les shaders sont des filtres de rendu. Vous pouvez selectionner un fichier shader "
+"brut ici. Ce réglable sera ignoré si les shaders prédéfinis ne sont pas réglés sur "
+"'aucun'."
+
+#
+msgid "Select your keyboard layout."
+msgstr "Selectionnez votre clavier"
+
+#
+msgid "Mute (no sound)"
+msgstr "Coupé (pas de son)"
+
+#
+msgid "Internal Speakers"
+msgstr "Haut-pasleurs internes"
+
+#
+msgid "Headphone Jack"
+msgstr "Prise casque"
+
+#
+msgid "Internal Speakers + Headphone Jack"
+msgstr "Haut-pasleurs internes + Prise casque"
+
+#
+msgid "black"
+msgstr "écran noir"
+
+#
+msgid "demo"
+msgstr "démos de jeux"
+
+#
+msgid "dim"
+msgstr "écran en demi-teinte"
+
+#
+msgid "Action (All)"
+msgstr "Action (Tous)"
+
+#
+msgid "Action RPG"
+msgstr "Jeu de Rôle d'Action"
+
+#
+msgid "Adventure (All)"
+msgstr "Aventure (Tous)"
+
+#
+msgid "Artillery"
+msgstr "Artillerie"
+
+#
+msgid "Auto-battler"
+msgstr "Batailles Automatiques"
+
+#
+msgid "Battle Royale"
+msgstr "Battle Royale"
+
+#
+msgid "Beat'em All"
+msgstr "Beat'em All"
+
+#
+msgid "Board game"
+msgstr "Jeu de plateau"
+
+#
+msgid "Build & Management"
+msgstr "Construction & Gestion"
+
+#
+msgid "Casino"
+msgstr "Casino"
+
+#
+msgid "Casual game"
+msgstr "Jeu Occasionel"
+
+#
+msgid "Competition Sport"
+msgstr "Compétition Sportive"
+
+#
+msgid "Demo from Demo Screne"
+msgstr "Démo de la Scène Démo"
+
+#
+msgid "Digital Cards"
+msgstr "Cartes Digitales"
+
+#
+msgid "Dungeon Crawler"
+msgstr "Exploration de Donjons"
+
+#
+msgid "Educative"
+msgstr "Éducatif"
+
+#
+msgid "Favorites"
+msgstr "Favoris"
+
+#
+msgid "Fighting"
+msgstr "Combat"
+
+#
+msgid "Fighting/Violent Sport"
+msgstr "Combat/Sport Violent"
+
+#
+msgid "First Person Shooter"
+msgstr "Tir à la Première Personne"
+
+#
+msgid "Fishing & Hunting"
+msgstr "Chasse & Pêche"
+
+#
+msgid "Graphical Adventure"
+msgstr "Aventure Graphique"
+
+#
+msgid "Infiltration"
+msgstr "Infiltration"
+
+#
+msgid "Interactive Movie"
+msgstr "Film Interactif"
+
+#
+msgid "JRPG"
+msgstr "Jeu de Rôles Japonais"
+
+#
+msgid "Life Simulation"
+msgstr "Simulation de vie"
+
+#
+msgid "MMORPG"
+msgstr "Jeu de Rôles Online"
+
+#
+msgid "Multi Game Compilation"
+msgstr "Compilation Multi-Jeux"
+
+#
+msgid "Multiplayer Online Battle Arena"
+msgstr "Arène de Combat Multi-Joueurs"
+
+#
+msgid "Multiplayer Party Game"
+msgstr "Jeu de Société Multi-Joueurs"
+
+#
+msgid "Party based RPG"
+msgstr "Jeu de Rôles de Sociétés"
+
+#
+msgid "Pinball"
+msgstr "Flipper"
+
+#
+msgid "Platform Shooter"
+msgstr "Jeu de Tir/Plateformes"
+
+#
+msgid "Platform"
+msgstr "Jeu de Plateformes"
+
+#
+msgid "Puzzle & Logic"
+msgstr "Puzzle & Logique"
+
+#
+msgid "RPG (All)"
+msgstr "Jeu de Rôles (Tous)"
+
+#
+msgid "Racing"
+msgstr "Course"
+
+#
+msgid "Real Time 3D Adventure"
+msgstr "Aventure 3D Temps Réel"
+
+#
+msgid "Real Time Stratégy"
+msgstr "Stratégie Temps Réel"
+
+#
+msgid "Rythm & Music"
+msgstr "Rythme & Musique"
+
+#
+msgid "Science Fiction Simulation"
+msgstr "Simulation de Science-Fiction"
+
+#
+msgid "Shoot with Gun"
+msgstr "Tir avec accessoires"
+
+#
+msgid "Shoot'em Up"
+msgstr "Shoot'em Up"
+
+#
+msgid "Simulation (All)"
+msgstr "Simulation (Toutes)"
+
+#
+msgid "Sport Simulation"
+msgstr "Simulation Sportives"
+
+#
+msgid "Sports (All)"
+msgstr "Sport (Tous)"
+
+#
+msgid "Strategy (All)"
+msgstr "Stratégie (Tous)"
+
+#
+msgid "Survival"
+msgstr "Jeux de Survie"
+
+#
+msgid "Tactical RPG"
+msgstr "Jeu de Rôles Tactique"
+
+#
+msgid "Textual Adventure"
+msgstr "Aventure Textuelle"
+
+#
+msgid "Tower Defense"
+msgstr "Tour de défense"
+
+#
+msgid "Trivia"
+msgstr "Quizz"
+
+#
+msgid "Turn Based Strategy"
+msgstr "Stétégie au Tout par Tout"
+
+#
+msgid "Vehicle Simulation"
+msgstr "Simulation de Véhicule"
+
+#
+msgid "Visual Novel"
+msgstr "Nouvelle Visuelle"
+
+#
+msgid "Wargame"
+msgstr "Simulation de Guerre"
+
+#
+msgid "eXplore, eXpand, eXploit & eXterminate"
+msgstr "eXploration, eXpension, eXploitation & eXtermination"
