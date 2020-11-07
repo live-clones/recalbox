@@ -100,7 +100,7 @@ void ImageComponent::setImage(const Path& path, bool tile) {
     }
     mPath = path;
 
-    if (path.IsEmpty() || !ResourceManager::getInstance()->fileExists(path)) {
+    if (path.IsEmpty() || !ResourceManager::fileExists(path)) {
         mTexture.reset();
     } else {
         mTexture = TextureResource::get(path, tile, mForceLoad, mDynamic);
@@ -194,13 +194,10 @@ void ImageComponent::updateVertices() {
     mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
     mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
 
-    float px, py;
+    float px = 1, py = 1;
     if (mTexture->isTiled()) {
         px = mSize.x() / (float)getTextureSize().x();
         py = mSize.y() / (float)getTextureSize().y();
-    } else {
-        px = 1;
-        py = 1;
     }
 
     mVertices[0].tex.Set(0, py);
