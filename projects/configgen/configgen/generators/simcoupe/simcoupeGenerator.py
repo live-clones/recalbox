@@ -61,7 +61,7 @@ class SimCoupeGenerator(Generator):
 
         settings.saveFile()
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
 
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
