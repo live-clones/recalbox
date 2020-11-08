@@ -195,16 +195,16 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
     else if (event.Right() && !event.LeftPressed() && !updown) ChangeChar(false, true, event.RightPressed());
     else if (event.L2()) ChangeChar(true, false, event.L2Pressed());
     else if (event.R2()) ChangeChar(true, true, event.R2Pressed());
-    else if (event.J2Left()) ChangeChar(true, false, event.J2LeftPressed());
-    else if (event.J2Right()) ChangeChar(true, true, event.J2RightPressed());
+    else if (event.J1Left()) ChangeChar(true, false, event.J1LeftPressed());
+    else if (event.J1Right()) ChangeChar(true, true, event.J1RightPressed());
     // Change Circles
     else if (event.UpPressed()) ChangeWheel(-1);
     else if (event.DownPressed()) ChangeWheel(1);
     // Move cursor
     else if (event.L1()) ChangeCursor(true, false, event.L1Pressed());
     else if (event.R1()) ChangeCursor(false, false, event.R1Pressed());
-    else if (event.J1Left()) ChangeCursor(true, true, event.J1LeftPressed());
-    else if (event.J1Right()) ChangeCursor(false, true, event.J1RightPressed());
+    else if (event.J2Left()) ChangeCursor(true, true, event.J2LeftPressed());
+    else if (event.J2Right()) ChangeCursor(false, true, event.J2RightPressed());
     // Edit
     else if (event.BPressed()) AddCharacter(GetSelectedCharacter());
     else if (event.APressed()) CancelEditor();
@@ -564,7 +564,7 @@ void GuiArcadeVirtualKeyboard::RenderWheelChar(const Wheel& wheel, double center
   float wr = 1.0f * sizeRatio * (float)(sizeratio * sizeratio);
   float hr = 1.0f * sizeRatio * (float)(sizeratio * sizeratio);
 
-  unsigned int unicode = (unsigned int)sWheels[wheel.mIndex][charindex];
+  unsigned int unicode = (unsigned char)sWheels[wheel.mIndex][charindex];
   Font::Glyph& glyph = mWheelFont->Character(unicode);
 
   float glyphWidth = glyph.texSize.x() * (float)glyph.texture->textureSize.x();
