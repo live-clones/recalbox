@@ -8,6 +8,7 @@ from settings.keyValueSettings import keyValueSettings
 from libretroRetroarch import LibretroRetroarch
 from libretroCores import LibretroCores
 from libretroControllers import LibretroControllers
+from utils.architecture import Architecture
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
@@ -19,6 +20,7 @@ class LibretroConfiguration:
     def __init__(self, system, controllers, rom, demo, nodefaultkeymap, recalboxSettings):
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
+        self.retroarchCustomArchFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
         self.retroarchCustomOverrideChain = buildOverrideChain(rom, ".retroarch.cfg")
         self.retroarchCustomOverrideFile = recalboxFiles.retroarchCustom + ".overrides.cfg"
@@ -50,7 +52,7 @@ class LibretroConfiguration:
         if self.retroarchCustomOriginFile is not None:
             retroarchConfig.changeSettingsFile(self.retroarchCustomOriginFile)
             retroarchConfig.loadFile()
-        # Load template config file
+        # Load config file
         if self.retroarchCustomFile is not None:
             retroarchConfig.changeSettingsFile(self.retroarchCustomFile)
             retroarchConfig.loadFile()
@@ -60,6 +62,11 @@ class LibretroConfiguration:
     def loadRetroarchOverrides(self):
         retroarchOverrides = self.retroarchOverrides
         retroarchOverrides.clear()
+
+        # Load arch config file
+        if self.retroarchCustomArchFile is not None:
+            retroarchOverrides.changeSettingsFile(self.retroarchCustomArchFile)
+            retroarchOverrides.loadFile()
 
         # Override with folder/rom settings
         for customFile in self.retroarchCustomOverrideChain:
