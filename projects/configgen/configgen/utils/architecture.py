@@ -15,6 +15,10 @@ class Architecture:
             print("Error getting architecture: {}".format(ex))
 
     @property
+    def Architecture(self):
+        return self.__Arch
+
+    @property
     def isPi0or1(self):
         return self.__Arch == "rpi1"
 
@@ -33,6 +37,10 @@ class Architecture:
     @property
     def isXu4(self):
         return self.__Arch == "odroidxu4"
+
+    @property
+    def isGoa2(self):
+        return self.__Arch == "odroidgo2"
 
     @property
     def isX86(self):
