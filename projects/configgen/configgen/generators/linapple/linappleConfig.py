@@ -20,15 +20,14 @@ joystick_translator = {
         'JoyExitButton1' : ('start',)
     }
 
-__resolutionFile = "/sys/class/graphics/fb0/virtual_size"
-
-def setResolutionFile(resolutionFile):
-    global __resolutionFile
-    __resolutionFile = resolutionFile
 
 
 class LinappleConfig(object):
 
+    globalResolutionFile = "/sys/class/graphics/fb0/virtual_size"
+
+    def setResolutionFile(self, resolutionFile):
+        LinappleConfig.globalResolutionFile = resolutionFile
 
     """
     Class managing linapple emulator configuration file.
@@ -192,13 +191,16 @@ class LinappleConfig(object):
         else:
             xy = "800,600"
             try:
-                global __resolutionFile
-                with open(__resolutionFile, "r") as f:
+                with open(LinappleConfig.globalResolutionFile, "r") as f:
                     xy = f.read()
             except Exception as ex:
                 print("Can't read resolution: {}".format(ex))
 
             (x, y) = xy.split(',')
+            if x == 320 and y == 480: # Hard-patch for GOA2
+                x = 480
+                y = 320
+            print("Final resolution: {}x{}".format(x, y))
             self.settings['Screen Width'] = x
             self.settings['Screen Height'] = y
 
