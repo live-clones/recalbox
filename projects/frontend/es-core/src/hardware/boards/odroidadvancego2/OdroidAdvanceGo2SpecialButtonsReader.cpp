@@ -66,7 +66,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
     // we can safely run our own
     if (SDL_WaitEvent(&sdl) == 1)
     {
-      LOG(LogDebug) << "[OdroidAdvanceGo2] SDL Event.";
+      //LOG(LogDebug) << "[OdroidAdvanceGo2] SDL Event.";
       switch (sdl.type)
       {
         case SDL_JOYBUTTONDOWN:
@@ -74,9 +74,9 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
         {
           LOG(LogDebug) << "[OdroidAdvanceGo2] SDL Button Event.";
           InputEvent inputEvent(sdl.jbutton.which, InputEvent::EventType::Button, sdl.jbutton.button, sdl.jbutton.state == SDL_PRESSED ? 1 : 0);
-          InputManager::LogRawEvent(inputEvent);
+          //InputManager::LogRawEvent(inputEvent);
           InputCompactEvent compactEvent = device.ConvertToCompact(inputEvent);
-          InputManager::LogCompactEvent(compactEvent);
+          //InputManager::LogCompactEvent(compactEvent);
           mBoardInterface.ProcessSpecialInputs(compactEvent);
           break;
         }
