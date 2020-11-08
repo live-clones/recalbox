@@ -138,6 +138,11 @@ build odroidxu4:
   when: manual
   variables:
     ARCH: 'odroidxu4'
+build odroidgo2:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'odroidgo2'
 
 ### Release
 
