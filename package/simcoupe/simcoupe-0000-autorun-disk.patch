@@ -1,8 +1,10 @@
---- a/Base/CPU.cpp	2018-06-01 09:19:32.000000000 +0200
-+++ b/Base/CPU.cpp	2019-01-13 20:16:18.757215000 +0100
-@@ -429,9 +429,21 @@
+diff --git a/Base/CPU.cpp b/Base/CPU.cpp
+index 8855861..8520aca 100644
+--- a/Base/CPU.cpp
++++ b/Base/CPU.cpp
+@@ -387,9 +387,21 @@ void ExecuteChunk()
  // The main Z80 emulation loop
- void Run ()
+ void Run()
  {
 +    bool NeedCheckAutoRun = true;
 +
