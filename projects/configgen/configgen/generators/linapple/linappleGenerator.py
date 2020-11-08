@@ -75,7 +75,8 @@ class LinappleGenerator(Generator):
                 else os.path.join(self.path_init, self.filename)
             config = LinappleConfig(filename=filename)
             # Adjust configuration
-            config.setResolutionFile("/nofile")
+            if "test" in args:
+                config.setResolutionFile("/nofile")
             config.joysticks(playersControllers)
             config.system(system, args.rom)
             # Save changes 

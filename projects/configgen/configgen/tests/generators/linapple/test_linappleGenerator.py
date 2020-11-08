@@ -62,6 +62,7 @@ class TestLinappleGenerator(runtest.TestCase):
         self.args["extra"] = ""
 
         # PATCH
+        self.args["test"] = True
         self.args["nodefaultkeymap"] = False
         self.args["netplay_playerpassword"] = ""
         self.args["netplay_viewerpassword"] = ""
