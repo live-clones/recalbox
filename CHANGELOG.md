@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Add xpi_gamcon module for piboy dmt support
 - Bump ES
 - Use RELEASE-NOTES.md to generate the message for upgrades
 - Fix picodrive rewind freezes by bumping to the last version
