@@ -76,18 +76,24 @@ void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuG
     {
       LOG(LogInfo) << "[CPU] Set powersaving mode";
       Files::SaveFile(Path(sCpuGovernancePath), "powersave");
+      Files::SaveFile(Path(sGpuGovernancePath), "powersave");
+      Files::SaveFile(Path(sDmcGovernancePath), "powersave");
       break;
     }
     case CPUGovernance::OnDemand:
     {
       LOG(LogInfo) << "[CPU] Set on-demand mode";
       Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
+      Files::SaveFile(Path(sGpuGovernancePath), "simple_ondemand");
+      Files::SaveFile(Path(sDmcGovernancePath), "dmc_ondemand");
       break;
     }
     case CPUGovernance::FullSpeed:
     {
       LOG(LogInfo) << "[CPU] Set performance mode";
       Files::SaveFile(Path(sCpuGovernancePath), "performance");
+      Files::SaveFile(Path(sGpuGovernancePath), "performance");
+      Files::SaveFile(Path(sDmcGovernancePath), "performance");
       break;
     }
     default: break;

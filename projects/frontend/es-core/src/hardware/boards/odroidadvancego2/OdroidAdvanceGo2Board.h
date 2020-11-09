@@ -24,6 +24,8 @@ class OdroidAdvanceGo2Board: public IBoardInterface
 
   private:
     static constexpr const char* sCpuGovernancePath   = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+    static constexpr const char* sGpuGovernancePath   = "/sys/class/devfreq/ff400000.gpu/governor";
+    static constexpr const char* sDmcGovernancePath   = "/sys/class/devfreq/dmc/governor";
     static constexpr const char* sBatteryCapacityPath = "/sys/class/power_supply/battery/capacity";
     static constexpr const char* sBatteryStatusPath   = "/sys/class/power_supply/battery/status";
 
