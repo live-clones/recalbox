@@ -49,6 +49,7 @@ menu "Controllers"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/virtualgamepads/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xarcade2jstick/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xboxdrv/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/xpi_gamecon_rpi/Config.in"
 endmenu
 menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/advancemame/Config.in"
