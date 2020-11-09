@@ -123,6 +123,13 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test retroarch v1.9.8 (#1885)
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
+[ ] Check the theme of trs80coco (#1945)
+- [ ] Check /boot/recalbox-boot.conf case setting is clean after 3 unsuccessful boot attempts (#1817)
+- [ ] Check PiBoy integration (#1817)
+  - [ ] check piboy boots
+  - [ ] check volume wheel works
+  - [ ] check power button switch poweroff piboy
+  - [ ] check joypad/joystick is well recognized
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
