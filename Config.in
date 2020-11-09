@@ -63,6 +63,8 @@ menu "Controllers"
          comment "Nintendo switch Joycons support"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/joycond/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/hid-nintendo/Config.in"
+         comment "Piboy DMG XPI Gamecon support"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/xpi_gamecon_rpi/Config.in"
 endmenu
 menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/advancemame/Config.in"
