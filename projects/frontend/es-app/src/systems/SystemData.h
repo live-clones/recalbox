@@ -31,11 +31,17 @@ class SystemData : private INoCopy
     };
 
 	private:
+    //! CPU Governance file
+    static constexpr const char* sGovernanceFile = "/recalbox/share_init/system/configs/.governances.cfg";
+
+    // Allow manager to access this class
     friend class SystemManager;
 
     //! Global flag set to true when a game is running and the application
     //! is frozen until the game exits.
     static bool sIsGameRunning;
+    //! Governance path
+    static Path sGovernancePath;
 
     /*!
      * @brief Automatic Game running flag management
@@ -123,6 +129,13 @@ class SystemData : private INoCopy
      * @param command Command to override
      */
     void OverrideCommand(const Path& romPath, std::string& command);
+
+    /*!
+     * @brief Get energy governance for a particular core/emulator
+     * @param core Core/Emulateur
+     * @return Governance
+     */
+    static IBoardInterface::CPUGovernance GetGovernance(const std::string& core);
 
   public:
     //! Return the root folder object

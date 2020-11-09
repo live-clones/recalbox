@@ -13,14 +13,20 @@ void PcComputers::SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance)
   {
     case CPUGovernance::PowerSave:
     {
-      LOG(LogInfo) << "[CPU] Set powersaving on";
+      LOG(LogInfo) << "[CPU] Set powersaving mode";
       Files::SaveFile(Path(sCpuGovernancePath), "powersave");
+      break;
+    }
+    case CPUGovernance::OnDemand:
+    {
+      LOG(LogInfo) << "[CPU] Set on-demand mode";
+      Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
       break;
     }
     case CPUGovernance::FullSpeed:
     {
-      LOG(LogInfo) << "[CPU] Set dynamic mode on";
-      Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
+      LOG(LogInfo) << "[CPU] Set performance mode";
+      Files::SaveFile(Path(sCpuGovernancePath), "performance");
       break;
     }
     default: break;

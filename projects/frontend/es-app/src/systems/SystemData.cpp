@@ -16,6 +16,7 @@
 #include <utils/Zip.h>
 
 bool SystemData::sIsGameRunning = false;
+Path SystemData::sGovernancePath(SystemData::sGovernanceFile);
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager),
@@ -175,7 +176,7 @@ void SystemData::RunGame(Window& window,
       command.append(" -verbose");
 
     printf("==============================================\n");
-    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
+    Board::Instance().SetCPUGovernance(GetGovernance(core));
     Board::Instance().StartInGameBackgroundProcesses();
     int exitCode = WEXITSTATUS(Run(command, debug));
     Board::Instance().StopInGameBackgroundProcesses();
@@ -722,4 +723,18 @@ void SystemData::UpdateLastPlayedGame(FileData& updated)
   map[updated.getPath().ToString()] = &updated;
   // Add the virtual game
   LookupOrCreateGame(updated.getSystem()->getRootFolder().getPath(), updated.getPath(), ItemType::Game, map);
+}
+
+IBoardInterface::CPUGovernance SystemData::GetGovernance(const std::string& core)
+{
+  static IniFile governanceFile(sGovernancePath);
+
+  std::string governance = governanceFile.AsString(core);
+
+  if (governance.empty()) return IBoardInterface::CPUGovernance::FullSpeed;
+  if (governance == "powersave") return IBoardInterface::CPUGovernance::PowerSave;
+  if (governance == "ondemand") return IBoardInterface::CPUGovernance::OnDemand;
+  if (governance == "performance") return IBoardInterface::CPUGovernance::FullSpeed;
+  LOG(LogError) << "Unreconized governance " << governance << " in " << sGovernanceFile;
+  return IBoardInterface::CPUGovernance::FullSpeed;
 }

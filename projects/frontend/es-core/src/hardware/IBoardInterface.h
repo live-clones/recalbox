@@ -13,6 +13,7 @@ class IBoardInterface
     enum class CPUGovernance
     {
         PowerSave, //! Save has much power as possible
+        OnDemand,  //! Adjust frequencies on demand
         FullSpeed, //! Real full spead or "on demand"
     };
 
