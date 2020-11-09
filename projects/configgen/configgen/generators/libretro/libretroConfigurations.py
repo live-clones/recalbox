@@ -21,6 +21,8 @@ class LibretroConfiguration:
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
         self.retroarchCustomArchFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture
+        self.retroarchCustomForCoreFile = recalboxFiles.retroarchCustom + '.' + system.config["core"]
+        self.retroarchCustomArchForCoreFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture + '.' + system.config["core"]
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
         self.retroarchCustomOverrideChain = buildOverrideChain(rom, ".retroarch.cfg")
         self.retroarchCustomOverrideFile = recalboxFiles.retroarchCustom + ".overrides.cfg"
@@ -63,9 +65,19 @@ class LibretroConfiguration:
         retroarchOverrides = self.retroarchOverrides
         retroarchOverrides.clear()
 
-        # Load arch config file
-        if self.retroarchCustomArchFile is not None:
+        # Load core-specific config file
+        if os.path.exists(self.retroarchCustomForCoreFile) is not None:
+            retroarchOverrides.changeSettingsFile(self.retroarchCustomForCoreFile)
+            retroarchOverrides.loadFile()
+
+        # Load arch-specific config file
+        if os.path.exists(self.retroarchCustomArchFile) is not None:
             retroarchOverrides.changeSettingsFile(self.retroarchCustomArchFile)
+            retroarchOverrides.loadFile()
+
+        # Load arch-specific & core-specific config file
+        if os.path.exists(self.retroarchCustomArchForCoreFile) is not None:
+            retroarchOverrides.changeSettingsFile(self.retroarchCustomArchForCoreFile)
             retroarchOverrides.loadFile()
 
         # Override with folder/rom settings
