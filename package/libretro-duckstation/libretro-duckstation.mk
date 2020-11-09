@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_DUCKSTATION_VERSION = a7e24da7fe535ae73599ca8d338519155817c58b
+LIBRETRO_DUCKSTATION_VERSION = 82ffb1bc81f6d3e637b65762a6e0678e3a5e5ec1
 LIBRETRO_DUCKSTATION_SITE = git://github.com/stenzek/duckstation.git
 LIBRETRO_DUCKSTATION_GIT_SUBMODULES=y
 LIBRETRO_DUCKSTATION_LICENSE = GPLv3
@@ -12,9 +12,9 @@ LIBRETRO_DUCKSTATION_LICENSE = GPLv3
 LIBRETRO_DUCKSTATION_CONF_OPTS=-DCMAKE_BUILD_TYPE=Release -DBUILD_LIBRETRO_CORE=ON
 
 define LIBRETRO_DUCKSTATION_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/usr/lib/libretro
 	$(INSTALL) -D $(@D)/duckstation_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/duckstation_libretro.so
+	$(INSTALL) -D $(@D)/bin/lib* $(TARGET_DIR)/usr/lib/
 endef
 
 LIBRETRO_DUCKSTATION_CONF_OPTS += -DCMAKE_C_ARCHIVE_CREATE="<CMAKE_AR> qcs <TARGET> <LINK_FLAGS> <OBJECTS>"
