@@ -54,6 +54,12 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
   - [ ] fan should be controlled by wpaf
 - [ ] Test that recalbox.local and http://recalbox works again (#1826)
+- [ ] Check /boot/recalbox-boot.conf case setting is clean after 3 unsuccessful boot attempts (#1817)
+- [ ] Check PiBoy integration (#1817)
+  - [ ] check piboy boots
+  - [ ] check volume wheel works
+  - [ ] check power button switch poweroff piboy
+  - [ ] check joypad/joystick is well recognized
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
