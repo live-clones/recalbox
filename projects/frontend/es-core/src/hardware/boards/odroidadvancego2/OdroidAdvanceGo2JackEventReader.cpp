@@ -61,7 +61,7 @@ void OdroidAdvanceGo2JackEventReader::Run()
     {
       // Poll
       struct pollfd poller { .fd = mFileHandle, .events = POLLIN, .revents = 0 };
-      if (poll(&poller, 1, 1000) != 1 || (poller.revents & POLLIN) == 0) continue;
+      if (poll(&poller, 1, 100) != 1 || (poller.revents & POLLIN) == 0) continue;
 
       // Read event
       struct input_event event {};
