@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add gamelink overload for gb and gbc
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 - Add libretro Gong core on all boards
+- Add PiBoy DMG support
 
 ### Improvements
 - Add new Netplay's MITM servers: Montreal & SaoPaulo
