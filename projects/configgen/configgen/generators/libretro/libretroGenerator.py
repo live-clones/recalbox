@@ -189,6 +189,8 @@ class LibretroGenerator(Generator):
                         carts.append(cartridges[ext])
                         carts.append('"' + rom + ext + '"')
                 return ['xvic {}'.format(' '.join(carts))]
+            else:
+                rom = rom + romExt
 
         # Demo mode: take the first disk, always
         if demo:
