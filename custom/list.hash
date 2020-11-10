@@ -24,6 +24,7 @@ bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 53e3a49a7e3113103224a3e8dce99a6d  package/bluez5_utils/bluez5_utils.mk
 fad4a9334552741586c0d33ac477ce65  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
+540a4e82aad83ace7d5ccdc836ac36c8  package/ffmpeg/ffmpeg.mk
 669a965d005d7545ad408a8dc69012ba  package/fluidsynth/fluidsynth.hash
 15047ec39b36fdc73bd91899a099cc55  package/fluidsynth/fluidsynth.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
