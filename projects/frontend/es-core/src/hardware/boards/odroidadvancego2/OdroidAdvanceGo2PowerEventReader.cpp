@@ -64,7 +64,25 @@ void OdroidAdvanceGo2PowerEventReader::Run()
     {
       // Poll
       struct pollfd poller { .fd = mFileHandle, .events = POLLIN, .revents = 0 };
-      if (poll(&poller, 1, 100) != 1 || (poller.revents & POLLIN) == 0) continue;
+      if (poll(&poller, 1, 100) != 1 || (poller.revents & POLLIN) == 0)
+      {
+        // If the button is pressed at least 2000ms
+        // Just send the message and ignore release event.
+        if (mWaitFor == WaitFor::Release)
+        {
+          timeval now {};
+          gettimeofday(&now, nullptr);
+          long start = (pressEvent.time.tv_usec / 1000) + (pressEvent.time.tv_sec * 1000);
+          long stop = (now.tv_usec / 1000) + (now.tv_sec * 1000);
+          long elapsed = stop - start;
+          if (elapsed >= 2000)
+          {
+            mSender.Send(BoardType::OdroidAdvanceGo2, MessageTypes::PowerButtonPressed, (int)elapsed);
+            mWaitFor = WaitFor::Ignore; // Ignore releasing the button
+          }
+        }
+        continue;
+      }
 
       // Read event
       struct input_event event {};
