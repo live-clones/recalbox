@@ -72,7 +72,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
-          LOG(LogDebug) << "[OdroidAdvanceGo2] SDL Button Event.";
+          //LOG(LogDebug) << "[OdroidAdvanceGo2] SDL Button Event.";
           InputEvent inputEvent(sdl.jbutton.which, InputEvent::EventType::Button, sdl.jbutton.button, sdl.jbutton.state == SDL_PRESSED ? 1 : 0);
           //InputManager::LogRawEvent(inputEvent);
           InputCompactEvent compactEvent = device.ConvertToCompact(inputEvent);
