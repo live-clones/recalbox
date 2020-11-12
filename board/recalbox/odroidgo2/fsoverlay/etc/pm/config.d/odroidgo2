@@ -1,2 +1,2 @@
 # unload wifi kernel modules before sleeping
-SUSPEND_MODULES=esp8089
+SUSPEND_MODULES="esp8089 dwc2"
