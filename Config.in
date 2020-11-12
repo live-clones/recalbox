@@ -1,13 +1,18 @@
 menu "Recalbox"
-menu "Boards"
-  menu "hardkernel"
-    source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mali/Config.in"
-	  menu "odroidgo2"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/librga/Config.in"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libgo2/Config.in"
+  menu "Hardware"
+    comment "CPU/GPU specific options"
+    menu "Rockchip"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mali/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mpp/Config.in"
+    endmenu
+    comment "Board specific options"
+    menu "Hardkernel"
+			menu "odroidgo2"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/librga/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libgo2/Config.in"
+      endmenu
     endmenu
   endmenu
-endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dpi-pizero-gpicase/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/freeimage/Config.in"
