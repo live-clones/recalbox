@@ -111,8 +111,9 @@ MainRunner::ExitState MainRunner::Run()
     ResetForceReloadState();
 
     // Run kodi at startup?
-    if ((mRunCount == 0) && mConfiguration.AsBool("kodi.enabled") && mConfiguration.AsBool("kodi.atstartup"))
-      RecalboxSystem::launchKodi(window);
+    if (RecalboxSystem::kodiExists())
+      if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
+        RecalboxSystem::launchKodi(window);
 
     // Scrapers
     ScraperFactory scraperFactory;

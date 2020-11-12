@@ -65,7 +65,8 @@ GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
   bool bartop =  RecalboxConf::Instance().AsString("emulationstation.menu") == "bartop";
 
   //KODI
-    if (RecalboxConf::Instance().AsBool("kodi.enabled")) {
+    if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
+    {
         addEntryWithHelp(_("KODI MEDIA CENTER"), _(MENUMESSAGE_START_KODI_HELP_MSG), mMenuTheme->menuText.color, true,
                  [this] {
                      if (!RecalboxSystem::launchKodi(mWindow)) {
@@ -896,8 +897,9 @@ void GuiMenu::menuAdvancedSettings(){
   {
     std::function<void()> openGui = [this] {
       GuiSettings *bootGui = new GuiSettings(mWindow, _("BOOT SETTINGS"));
-      auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().AsBool("kodi.atstartup"));
-      bootGui->addWithLabel(kodiAtStart, _("KODI AT START"), _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
+      auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow,RecalboxConf::Instance().GetKodiAtStartup());
+      if (RecalboxSystem::kodiExists())
+        bootGui->addWithLabel(kodiAtStart, _("KODI AT START"), _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
       // Gamelists only
       bool gamelistOnly = RecalboxConf::Instance().AsBool("emulationstation.gamelistonly");
       auto gamelistOnlyComp = std::make_shared<SwitchComponent>(mWindow, gamelistOnly);
@@ -938,7 +940,7 @@ void GuiMenu::menuAdvancedSettings(){
 
       bootGui->addSaveFunc(
           [gamelistOnlyComp, system_choices, kodiAtStart, bootOnGamelistComp, hidesystemviewComp, basicgamelistviewComp] {
-            RecalboxConf::Instance().SetBool("kodi.atstartup", kodiAtStart->getState());
+            RecalboxConf::Instance().SetKodiAtStartup(kodiAtStart->getState());
             RecalboxConf::Instance().SetBool("emulationstation.gamelistonly", gamelistOnlyComp->getState());
             RecalboxConf::Instance().SetString("emulationstation.selectedsystem", system_choices->getSelected());
             RecalboxConf::Instance().SetBool("emulationstation.bootongamelist", bootOnGamelistComp->getState());
@@ -1080,21 +1082,22 @@ void GuiMenu::menuAdvancedSettings(){
 
 
   //Kodi
+  if (RecalboxSystem::kodiExists())
   {
     std::function<void()> openGui = [this] {
       GuiSettings *kodiGui = new GuiSettings(mWindow, _("KODI SETTINGS"));
       auto kodiEnabled = std::make_shared<SwitchComponent>(mWindow);
-      kodiEnabled->setState(RecalboxConf::Instance().AsBool("kodi.enabled"));
+      kodiEnabled->setState(RecalboxConf::Instance().GetKodiEnabled());
       kodiGui->addWithLabel(kodiEnabled, _("ENABLE KODI"), _(MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG));
-      auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().AsBool("kodi.atstartup"));
+      auto kodiAtStart = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetKodiAtStartup());
       kodiGui->addWithLabel(kodiAtStart, _("KODI AT START"), _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
       auto kodiX = std::make_shared<SwitchComponent>(mWindow);
-      kodiX->setState(RecalboxConf::Instance().AsBool("kodi.xbutton"));
+      kodiX->setState(RecalboxConf::Instance().GetKodiXButton());
       kodiGui->addWithLabel(kodiX, _("START KODI WITH X"), _(MENUMESSAGE_ADVANCED_KODI_X_HELP_MSG));
       kodiGui->addSaveFunc([kodiEnabled, kodiAtStart, kodiX] {
-        RecalboxConf::Instance().SetBool("kodi.enabled", kodiEnabled->getState());
-        RecalboxConf::Instance().SetBool("kodi.atstartup", kodiAtStart->getState());
-        RecalboxConf::Instance().SetBool("kodi.xbutton", kodiX->getState());
+        RecalboxConf::Instance().SetKodiEnabled(kodiEnabled->getState());
+        RecalboxConf::Instance().SetKodiAtStartup(kodiAtStart->getState());
+        RecalboxConf::Instance().SetKodiXButton(kodiX->getState());
         RecalboxConf::Instance().Save();
       });
       mWindow.pushGui(kodiGui);

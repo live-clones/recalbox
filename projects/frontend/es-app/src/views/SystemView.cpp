@@ -219,11 +219,12 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		}
     if (event.XPressed())
     {
-      bool kodiEnabled = RecalboxConf::Instance().AsBool("kodi.enabled");
-      bool kodiX = RecalboxConf::Instance().AsBool("kodi.xbutton");
+      bool kodiExists = RecalboxSystem::kodiExists();
+      bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
+      bool kodiX = RecalboxConf::Instance().GetKodiXButton();
       bool netplay = RecalboxConf::Instance().AsBool("global.netplay.active");
 
-      if (kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
+      if (kodiExists && kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
       {
         if (netplay)
         {
@@ -482,7 +483,7 @@ bool SystemView::getHelpPrompts(Help& help)
 	help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
 	    .Set(HelpType::B, _("SELECT"));
 
-	if (RecalboxConf::Instance().AsBool("kodi.enabled") && RecalboxConf::Instance().AsBool("kodi.xbutton"))
+	if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetKodiXButton())
     help.Set(HelpType::X, RecalboxConf::Instance().AsBool("global.netplay.active") ? _("KODI/NETPLAY") : _("START KODI"));
 	else if (RecalboxConf::Instance().AsBool("global.netplay.active"))
 	  help.Set(HelpType::X, _("NETPLAY"));

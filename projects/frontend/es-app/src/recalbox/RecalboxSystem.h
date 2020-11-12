@@ -16,6 +16,7 @@ struct EmulatorDefaults
 class RecalboxSystem
 {
   public:
+
     static unsigned long long GetMinimumFreeSpaceOnSharePartition() { return 3LL << 30; } // 3Gb
 
     static unsigned long long getFreeSpace(const std::string& mountpoint);
@@ -43,6 +44,8 @@ class RecalboxSystem
     static bool setOverclock(const std::string& mode);
 
     static bool ping();
+
+    static bool kodiExists();
 
     static bool launchKodi(Window&window);
 

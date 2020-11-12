@@ -71,6 +71,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(SystemLanguage, std::string, String, sSystemLanguage, "en_US")
 
+    DefineGetterSetter(KodiEnabled, bool, Bool, sKodiEnabled, true)
+    DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
+    DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, true)
+
     #undef DefineGetterSetter
     #undef DefineGetterSetterParameterized
 
@@ -104,4 +108,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sFirstTimeUse          = "global.firsttimeuse";
     static constexpr const char* sSystemLanguage        = "system.language";
+
+    static constexpr const char* sKodiEnabled        = "kodi.enabled";
+    static constexpr const char* sKodiAtStartup      = "kodi.atstartup";
+    static constexpr const char* sKodiXButton        = "kodi.xbutton";
 };

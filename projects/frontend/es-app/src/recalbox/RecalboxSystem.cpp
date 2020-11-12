@@ -520,3 +520,8 @@ bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 
   return true;
 }
+
+bool RecalboxSystem::kodiExists()
+{
+  return Path("/usr/bin/kodi").IsFile();
+}
