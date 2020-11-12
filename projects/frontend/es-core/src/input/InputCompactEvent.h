@@ -203,6 +203,9 @@ class InputCompactEvent
     bool AnythingPressed()  const { return mActivatedEntryFlags   != 0; }
     bool AnythingReleased() const { return mDeactivatedEntryFlags != 0; }
 
+    bool AnyButtonPressed()  const { return (mActivatedEntryFlags   & ((int)Entry::A | (int)Entry::B | (int)Entry::X | (int)Entry::Y | (int)Entry::R1 | (int)Entry::L1 | (int)Entry::R2 | (int)Entry::L2 | (int)Entry::Start | (int)Entry::Select | (int)Entry::VolUp | (int)Entry::VolDown | (int)Entry::LumDown | (int)Entry::LumUp)) != 0; }
+    bool AnyButtonReleased() const { return (mDeactivatedEntryFlags & ((int)Entry::A | (int)Entry::B | (int)Entry::X | (int)Entry::Y | (int)Entry::R1 | (int)Entry::L1 | (int)Entry::R2 | (int)Entry::L2 | (int)Entry::Start | (int)Entry::Select | (int)Entry::VolUp | (int)Entry::VolDown | (int)Entry::LumDown | (int)Entry::LumUp)) != 0; }
+
     bool Empty() const
     {
       return ((mDeactivatedEntryFlags | mActivatedEntryFlags) == 0) && (!KeyDown() && !KeyUp());

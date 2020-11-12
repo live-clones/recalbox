@@ -34,6 +34,10 @@ set(ES_HEADERS
         src/components/TextListComponent.h
         src/components/ITextListComponentOverlay.h
 
+        # Wizards
+        src/guis/wizards/Wizard.h
+        src/guis/wizards/WizardAgo2.h
+
         # Guis
         src/guis/GuiMetaDataEd.h
         src/guis/GuiGamelistOptions.h
@@ -196,6 +200,10 @@ set(ES_SOURCES
         # GuiComponents
         src/components/RatingComponent.cpp
         src/components/ScraperSearchComponent.cpp
+
+        # Wizards
+        src/guis/wizards/Wizard.cpp
+        src/guis/wizards/WizardAgo2.cpp
 
         # Guis
         src/guis/GuiMetaDataEd.cpp

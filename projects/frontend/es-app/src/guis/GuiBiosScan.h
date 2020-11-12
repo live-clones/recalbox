@@ -45,7 +45,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     //! Ubuntu condensed
     std::shared_ptr<Font> mBoldCondensed;
 
-    //! "Window" mackground
+    //! "Window" background
     NinePatchComponent mBackground;
     //! Global component grid for easy positioning
     ComponentGrid mGrid;

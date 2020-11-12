@@ -98,12 +98,6 @@ class MainRunner
     static void ResetForceReloadState() { sForceReloadFromDisk = false; }
 
     /*!
-     * @brief Set the system locale
-     * @param executablePath Path to current executable
-     */
-    void SetLocale(const std::string& executablePath);
-
-    /*!
      * @brief Display Intro
      */
     void Intro();
@@ -134,8 +128,15 @@ class MainRunner
 
     /*!
      * @brief Check if Recalbox has been updated and push a display changelog popup
+     * @param window Main window
      */
     static void CheckUpdateMessage(Window& window);
+
+    /*!
+     * @brief Check if this is the first launch and run a wizard if required
+     * @param window Main window
+     */
+    static void CheckFirstTimeWizard(Window& window);
 
     /*!
      * @brief Initialize input configurations
@@ -257,4 +258,10 @@ class MainRunner
      * @param forceReloadFromDisk Force reload gamelist from disk
      */
     static void RequestQuit(ExitState requestedState, bool forceReloadFromDisk = false);
+
+    /*!
+     * @brief Set the system locale
+     * @param executablePath Path to current executable
+     */
+    static void SetLocale(const std::string& executablePath);
 };

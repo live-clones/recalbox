@@ -67,6 +67,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
 
+    DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
+
+    DefineGetterSetter(SystemLanguage, std::string, String, sSystemLanguage, "en_US")
+
     #undef DefineGetterSetter
     #undef DefineGetterSetterParameterized
 
@@ -97,4 +101,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sClock                 = "emulationstation.clock";
     static constexpr const char* sShowHelp              = "emulationstation.showhelp";
     static constexpr const char* sQuickSystemSelect     = "emulationstation.quicksystemselect";
+
+    static constexpr const char* sFirstTimeUse          = "global.firsttimeuse";
+    static constexpr const char* sSystemLanguage        = "system.language";
 };

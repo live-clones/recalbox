@@ -19,6 +19,7 @@
 #include <audio/AudioController.h>
 #include <utils/os/system/ProcessTree.h>
 #include <recalbox/RecalboxSystem.h>
+#include <guis/wizards/WizardAgo2.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -136,6 +137,8 @@ MainRunner::ExitState MainRunner::Run()
       CheckUpdateMessage(window);
       // Input ok?
       CheckAndInitializeInput(window);
+      // Wizard
+      CheckFirstTimeWizard(window);
 
       // Bios
       BiosManager biosManager;
@@ -318,6 +321,34 @@ void MainRunner::CheckAndInitializeInput(Window& window)
     window.pushGui(new GuiDetectDevice(window, true, [] { ViewController::Instance().goToStart(); }));
 }
 
+void MainRunner::CheckFirstTimeWizard(Window& window)
+{
+  if (RecalboxConf::Instance().GetFirstTimeUse())
+  {
+    switch (Board::Instance().GetBoardType())
+    {
+      case BoardType::PCx86:
+      case BoardType::PCx64:
+      case BoardType::OdroidAdvanceGo2:
+      {
+        window.pushGui(new WizardAGO2(window));
+        return; // Let the OGA Wizard reset the flag
+      }
+      case BoardType::UndetectedYet:
+      case BoardType::Unknown:
+      case BoardType::Pi0:
+      case BoardType::Pi1:
+      case BoardType::Pi2:
+      case BoardType::Pi3:
+      case BoardType::Pi4:
+      case BoardType::Pi3plus:
+      case BoardType::UnknownPi:
+      default: break;
+    }
+    RecalboxConf::Instance().SetFirstTimeUse(false);
+  }
+}
+
 void MainRunner::CheckUpdateMessage(Window& window)
 {
   // Push a message box with the whangelog if Recalbox has been updated
@@ -407,7 +438,7 @@ void MainRunner::SetLocale(const std::string& executablePath)
   }
 
   // Get locale from configuration
-  std::string localeName = mConfiguration.AsString("system.language", "en");
+  std::string localeName = RecalboxConf::Instance().GetSystemLanguage();
 
   // Set locale
   if (!Internationalizer::InitializeLocale(localeName,

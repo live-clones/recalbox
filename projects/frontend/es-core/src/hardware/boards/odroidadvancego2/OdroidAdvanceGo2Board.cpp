@@ -11,6 +11,10 @@
 
 bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
 {
+  // When the wizard is on screen, do not consume special key events
+  // so that the wizard can use it
+  bool pressResult = !RecalboxConf::Instance().GetFirstTimeUse();
+
   if (inputEvent.VolumeUpPressed())
   {
     LOG(LogDebug) << "[OdroidAdvanceGo2] Volume + pressed";
@@ -20,7 +24,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
     AudioController::Instance().SetVolume(value);
     RecalboxConf::Instance().SetInt("audio.volume", value);
     RecalboxConf::Instance().Save();
-    return true;
+    return pressResult;
   }
   else if (inputEvent.VolumeDownPressed())
   {
@@ -31,7 +35,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
     AudioController::Instance().SetVolume(value);
     RecalboxConf::Instance().SetInt("audio.volume", value);
     RecalboxConf::Instance().Save();
-    return true;
+    return pressResult;
   }
   else if (inputEvent.BrightnessUpPressed())
   {
@@ -41,7 +45,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
     SetBrightness(value);
     RecalboxConf::Instance().SetBrightness(value);
     RecalboxConf::Instance().Save();
-    return true;
+    return pressResult;
   }
   else if (inputEvent.BrightnessDownPressed())
   {
@@ -51,7 +55,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
     SetBrightness(value);
     RecalboxConf::Instance().SetBrightness(value);
     RecalboxConf::Instance().Save();
-    return true;
+    return pressResult;
   }
 
   return false;
