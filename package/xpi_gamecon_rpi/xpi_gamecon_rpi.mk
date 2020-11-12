@@ -16,6 +16,8 @@ endef
 
 define XPI_GAMECON_RPI_INSTALL_TARGET_CMDS
 	$(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR) modules_install
+	$(INSTALL) -d -m 0755 $(TARGET_DIR)/home/pi
+	cp -r $(XPI_GAMECON_RPI_PKGDIR)/ressources/osd $(TARGET_DIR)/home/pi
 endef
 
 $(eval $(kernel-module))
