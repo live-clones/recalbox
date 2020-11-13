@@ -106,7 +106,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sShowHelp              = "emulationstation.showhelp";
     static constexpr const char* sQuickSystemSelect     = "emulationstation.quicksystemselect";
 
-    static constexpr const char* sFirstTimeUse          = "global.firsttimeuse";
+    static constexpr const char* sFirstTimeUse          = "system.firsttimeuse";
     static constexpr const char* sSystemLanguage        = "system.language";
 
     static constexpr const char* sKodiEnabled        = "kodi.enabled";

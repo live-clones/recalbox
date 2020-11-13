@@ -2814,9 +2814,39 @@ msgstr ""
 msgid ""
 "Now you're ready to start your RETROGAMING experience with Recalbox! Press "
 "button B to start... and PLAY AGAIN!"
-msgstr "Agora você está pronto para iniciar sua experiência de RETROGAMING com Recalbox! Pressione o botão B para começar e... PLAY AGAIN!"
+msgstr ""
+"Agora você está pronto para iniciar sua experiência de RETROGAMING com "
+"Recalbox! Pressione o botão B para começar e... PLAY AGAIN!"
 
 #
 msgid "WELCOME TO RECALBOX!"
 msgstr "BEM-VINDO(A) AO RECALBOX"
 
+#
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"\n"
+"Press button B to continue."
+msgstr "Apenas algumas palavras sobre o botão POWER.\nAperte-o rapidamente, como se fosse o clique de um mouse, e seu console entrará no modo de suspensão. Aperte-o rapidamente outra vez, e seu console ligará instantaneamente! Funciona na interface do Recalbox e nos jogos!\n\nPressione o botão B para continuar."
+
+#
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr "Se você apertar o botão POWER por mais de 2 segundos, seu console será desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente fechará o emulador atual antes.\nPor precaução, pressionar o botão POWER por mais de 5 segundos iniciará um desligamento forçado.\n\nPressione o botão B para continuar."
+
+#
+msgid ""
+"One more thing to know: If you plug in or unplug your headphones in the jack "
+"connector, Recalbox will automatically switch the audio output. Convenient.\n"
+"\n"
+"Press button B, as usual."
+msgstr "Mais uma coisa útil: se você conectar ou desconectar seus fones de ouvido no conector de entrada, o Recalbox mudará automaticamente a saída de áudio. Prático.\n\nPressione o botão B, como de costume."

@@ -16,6 +16,9 @@ class WizardAGO2: public Wizard
       StartButton,
       VolumeButtons,
       BrightnessButtons,
+      PowerSuspend,
+      PowerOff,
+      Jack,
       Final,
       Count,
     };
@@ -26,13 +29,15 @@ class WizardAGO2: public Wizard
     }
 
   private:
-    static constexpr const char* sImagePath = "/recalbox/system/resources/wizard";
-    static constexpr const char* sIntroImageFile = "intro.png";
-    static constexpr const char* sSelectImageFile = "select.png";
-    static constexpr const char* sStartImageFile = "start.png";
-    static constexpr const char* sVolumeImageFile = "volume.png";
+    static constexpr const char* sImagePath           = "/recalbox/system/resources/wizard";
+    static constexpr const char* sIntroImageFile      = "intro.png";
+    static constexpr const char* sSelectImageFile     = "select.png";
+    static constexpr const char* sStartImageFile      = "start.png";
+    static constexpr const char* sVolumeImageFile     = "volume.png";
     static constexpr const char* sBrightnessImageFile = "brightness.png";
-    static constexpr const char* sFinalImageFile = "final.png";
+    static constexpr const char* sPowerImageFile      = "power.png";
+    static constexpr const char* sJackImageFile       = "jack.png";
+    static constexpr const char* sFinalImageFile      = "final.png";
 
     //! Called when a page image is required
     Path OnImageRequired(int page) override;

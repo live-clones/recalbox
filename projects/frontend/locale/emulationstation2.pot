@@ -2832,3 +2832,14 @@ msgstr ""
 msgid "WELCOME TO RECALBOX!"
 msgstr ""
 
+#
+msgid "Just a few words about the POWER button.\nMake a short press, just like a mouse click, and your console will enter sleep mode. Make another short press and your console will restart instanly! Work in Recalbox interface and in-game!\n\nPress button B to continue."
+msgstr ""
+
+#
+msgid "If you push the POWER button more than 2 seconds, this will power-off your console. If you do so in-game, Recalbox will close the current emulator gracefully before.\nJust in case, holding the POWER button down more than 5ws perform an hard power-off.\n\nPress button B to continue."
+msgstr ""
+
+#
+msgid "One more thing to know: If you plug in or unplug your headphones in the jack connector, Recalbox will automatically switch the audio output. Convenient.\n\nPress button B, as usual."
+msgstr ""

@@ -365,7 +365,7 @@ void SystemData::loadTheme()
 std::string SystemData::getLocalizedText(const std::string& source)
 {
   // Extract prefered language/region
-  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language", "en_US"));
+  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
 
   // Get start
   std::string key = "[";

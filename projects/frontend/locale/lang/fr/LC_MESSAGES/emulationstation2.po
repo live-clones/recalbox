@@ -2814,9 +2814,39 @@ msgstr ""
 msgid ""
 "Now you're ready to start your RETROGAMING experience with Recalbox! Press "
 "button B to start... and PLAY AGAIN!"
-msgstr "Vous êtes fin prêts à démarrer votre expérience RETROGAMING avec Recalbox!\nAppuyez sur le boutton B pour commencer et... JOUER!"
+msgstr ""
+"Vous êtes fin prêts à démarrer votre expérience RETROGAMING avec Recalbox!\n"
+"Appuyez sur le boutton B pour commencer et... JOUER!"
 
 #
 msgid "WELCOME TO RECALBOX!"
 msgstr "BIENVENUE SUR RECALBOX!"
 
+#
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"\n"
+"Press button B to continue."
+msgstr "Juste quelques mots sur le bouton POWER.\nUne pression courte, comme un click souris, mettra votre console en mode veille. Une nouvelle pression courte la sortira de veille instantanement! Fonctione dans l'interface Recalbox et en cours de jeu!\n\nAppuyez sur le bouton B pour continuer."
+
+#
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr "Si vous laissez appuyé le bouton POWER plus de 2 secondes, votre console s'arretera. Si vous le faite en cours de jeu, Recalbox fermera proprement l'émulateur en cours.\nJuste au cas ou, laisser appuyé le bouton POWER plus de 5 secondes provoquera un arrêt matériel.\n\nAppuyez sur le bouton B pour continuer."
+
+#
+msgid ""
+"One more thing to know: If you plug in or unplug your headphones in the jack "
+"connector, Recalbox will automatically switch the audio output. Convenient.\n"
+"\n"
+"Press button B, as usual."
+msgstr "Une dernière chose à savoir: Si vous branchez ou débranchez vos ecouteurs dans la prise jack, Recalbox changera la sortie son automatiquement. Pratique.\n\nAppuyez sur B, comme d'habitude."

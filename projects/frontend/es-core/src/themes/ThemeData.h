@@ -105,7 +105,7 @@ class ThemeData
     static bool CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset);
     static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
     {
-      std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("system.language"));
+      std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
       std::string lc = "en";
       std::string cc = "us";
       if (lccc.size() >= 5)

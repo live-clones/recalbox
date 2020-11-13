@@ -256,7 +256,7 @@ void GuiMenu::menuSystem(){
 
   // language choice
   auto language_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, _("LANGUAGE"), false);
-  std::string language = RecalboxConf::Instance().AsString("system.language");
+  std::string language = RecalboxConf::Instance().GetSystemLanguage();
   if (language.empty()) language = "en_US";
   language_choice->add("EUSKARA", "eu_ES", language == "eu_ES");
   language_choice->add("正體中文", "zh_TW", language == "zh_TW");
@@ -308,7 +308,7 @@ void GuiMenu::menuSystem(){
     }
 
     if (language != language_choice->getSelected()) {
-      RecalboxConf::Instance().SetString("system.language", language_choice->getSelected());
+      RecalboxConf::Instance().SetSystemLanguage(language_choice->getSelected());
       RecalboxConf::Instance().Save();
       reboot = true;
     }
