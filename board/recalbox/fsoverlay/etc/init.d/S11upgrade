@@ -5,6 +5,7 @@ then
   exit 0
 fi
 
+ARCH=$(cat /recalbox/recalbox.arch)
 UPDATEFILE="/boot/update/recalbox-$ARCH.img.xz"
 UPDATEFILE_UNCOMPRESSED=${UPDATEFILE::-3}
 if [[ -f $UPDATEFILE ]]; then

@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - Fix pt_BR translations (thank to Zing)
 - Fix battery icon on PC
 - Fix theme crash on empty subsets
+- Fix regression when upgrading device (#1419)
 
 
 ## [7.0.1]
