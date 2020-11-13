@@ -5,7 +5,7 @@
 ################################################################################
 
 SIMCOUPE_VERSION = f401f47fb6d6af5dbe7b1d83a520e82cbe9d7ff2
-SIMCOUPE_SITE = git://gitlab.com/recalbox/packages/standalone/simcoupe.git
+SIMCOUPE_SITE = https://gitlab.com/recalbox/packages/standalone/simcoupe.git
 SIMCOUPE_SITE_METHOD = git
 SIMCOUPE_DEPENDENCIES = sdl2
 
