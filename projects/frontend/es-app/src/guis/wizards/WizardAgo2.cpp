@@ -37,7 +37,7 @@ std::string WizardAGO2::OnTextRequired(int page)
     case Pages::PowerSuspend: return _("Just a few words about the POWER button.\nMake a short press, just like a mouse click, and your console will enter sleep mode. Make another short press and your console will restart instanly! Work in Recalbox interface and in-game!\n\nPress button B to continue.");
     case Pages::PowerOff: return _("If you push the POWER button more than 2 seconds, this will power-off your console. If you do so in-game, Recalbox will close the current emulator gracefully before.\nJust in case, holding the POWER button down more than 5ws perform an hard power-off.\n\nPress button B to continue.");
     case Pages::Jack: return _("One more thing to know: If you plug in or unplug your headphones in the jack connector, Recalbox will automatically switch the audio output. Convenient.\n\nPress button B, as usual.");
-    case Pages::Final: return  _("Now you're ready to start your RETROGAMING experience with Recalbox! Press any button to start... and PLAY AGAIN!");
+    case Pages::Final: return  _("Now you're ready to start your RETROGAMING experience with Recalbox! Press button B to start... and PLAY AGAIN!");
     case Pages::Count: break;
   }
 

@@ -2791,8 +2791,7 @@ msgid ""
 " Press either volume up or down"
 msgstr ""
 "Ensuite nous avons deux boutons, marqués 'III' et 'IV'.\n"
-"Utilisez les pour régler le volume sonore n'importe quand pour régler le "
-"volume anse l'interface Recalbox ou en cours de jeu.\n"
+"Utilisez les pour régler le volume sonore n'importe quand, aussi bien dans l'interface Recalbox qu'en cours de jeu.\n"
 "\n"
 "Pressez un bouton volume pour continuer."
 
@@ -2830,7 +2829,7 @@ msgid ""
 "Work in Recalbox interface and in-game!\n"
 "\n"
 "Press button B to continue."
-msgstr "Juste quelques mots sur le bouton POWER.\nUne pression courte, comme un click souris, mettra votre console en mode veille. Une nouvelle pression courte la sortira de veille instantanement! Fonctione dans l'interface Recalbox et en cours de jeu!\n\nAppuyez sur le bouton B pour continuer."
+msgstr "Juste quelques mots sur le bouton POWER.\nUne pression courte, comme un click souris, mettra votre console en mode veille. Une nouvelle pression courte la sortira de veille instantanement! Fonctionne dans l'interface Recalbox et en cours de jeu!\n\nAppuyez sur le bouton B pour continuer."
 
 #
 msgid ""
