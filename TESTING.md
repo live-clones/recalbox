@@ -10,3 +10,8 @@ Every case must be checked before a release.
 - [ ] Check that a P2K file is visible in UI => create a .p2k.cfg file in a rom directory, then check that p2k hints are available for all games in this folder
 - [ ] Check network menu translations especially for WIFI (ON/OFF/WPS)
 - [ ] Check regional system logo => switch theme, reboot, check that regionalized logo are shown properly (GB, SNES, ...)
+- [ ] Fixed the composite MD calculations => Test if neogeozip bios files are giving the same MD5 with different zip compressions
+- [ ] Kodi executable check => Check if all kodi menu are visible & working on random board, but GO2.
+- [ ] Kodi executable check => Check if all kodi menu are NOT visible on GO2
+- [ ] Virtual Keyboard => check if dpad + J1 move the wheel and j2 moves the cursor
+- [ ] Fixed VIC20 extensions => Run games for VIC20 with any extension but .20 .40 .60 .a0 .b0.

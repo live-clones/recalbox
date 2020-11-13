@@ -6,11 +6,18 @@
 - Add WPS support for quick WIFI configuration
 - Recalbox is distributed on Noobs (again) and Raspberry Pi Imager
 - Add Odroid Go Advance board support
+  - Run all emulators up to Naomi/Dreamcast (smoothly) or even Saturn/Atomiswave (not all games)
+  - Full power-saving support (slow down or speed up CPU/GPU/Ram regarding the running emulator)
+  - Suspend/Soft Power-off using POWER button
+  - Automatic audio switch between speakers/headpĥones
+  - Volume & Brightness buttons
+  - First-boot wizard
 
 ### Improvements
 - Improved NESPi4 case detection
 - Libretro-atari800 with .car extension support
 - Check free space before downloading updates
+- Bump Picodrive
 - Bump FBNeo to v1.0.0.0
 - Add FBNeo as core for
   - Colecovision
@@ -39,6 +46,8 @@
 - Fix upgrade procedure that could fail in some circumstances
 - Fix battery icon on PC
 - Display p2k hints properly, including folders's p2k files
+- Fix Vic20 games not running
+- Fix inconsistent MD5 on multi-file zipped bios (neogeo.zip, ...)
 
 
 ## Version 7.0.1

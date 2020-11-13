@@ -29,6 +29,9 @@ All notable changes to this project will be documented in this file.
 - Fix regression when upgrading device (#1419)
 - Fix Noobs & RasPiImager configuration
 - Add Odroid Go Advance board support
+- Fix composite MD5
+- First boot wizard
+- Check kodi executable before displaying related menus/options
 
 
 ## [7.0.1]
