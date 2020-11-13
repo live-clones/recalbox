@@ -69,14 +69,14 @@ Wizard::Move WizardAGO2::OnKeyReceived(int page, const InputCompactEvent& event)
     {
       if (event.APressed()) return Move::Backward;
       if (event.VolumeUpPressed() || event.VolumeDownPressed()) return Move::Foreward;
-if (event.SelectPressed()) return Move::Foreward;
+//if (event.SelectPressed()) return Move::Foreward;
       break;
     }
     case Pages::BrightnessButtons:
     {
       if (event.APressed()) return Move::Backward;
       if (event.BrightnessDownPressed() || event.BrightnessUpPressed()) return Move::Foreward;
-if (event.SelectPressed()) return Move::Foreward;
+//if (event.SelectPressed()) return Move::Foreward;
       break;
     }
     case Pages::PowerSuspend:

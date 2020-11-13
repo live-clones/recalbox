@@ -328,13 +328,13 @@ void MainRunner::CheckFirstTimeWizard(Window& window)
   {
     switch (Board::Instance().GetBoardType())
     {
-      case BoardType::PCx86:
-      case BoardType::PCx64:
       case BoardType::OdroidAdvanceGo2:
       {
         window.pushGui(new WizardAGO2(window));
         return; // Let the OGA Wizard reset the flag
       }
+      case BoardType::PCx86:
+      case BoardType::PCx64:
       case BoardType::UndetectedYet:
       case BoardType::Unknown:
       case BoardType::Pi0:
