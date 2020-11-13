@@ -226,7 +226,9 @@ void GuiMenu::menuSystem(){
       warning ? 0xFF0000FF : mMenuTheme->menuText.color);
   s->addWithLabel(space, _("DISK USAGE"), _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
 
-  std::vector<std::string> availableStorage = RecalboxSystem::getAvailableStorageDevices();
+  std::vector<std::string> availableStorage = Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2
+                                              ? std::vector<std::string>({ "INTERNAL" })
+                                              : RecalboxSystem::getAvailableStorageDevices();
   std::string selectedStorage = RecalboxSystem::getCurrentStorage();
 
   // Storage device
