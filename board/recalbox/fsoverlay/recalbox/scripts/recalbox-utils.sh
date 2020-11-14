@@ -14,7 +14,7 @@ RECALBOX_ARCH_FILE="/recalbox/recalbox.arch"
 getArchName() {
   local ARCH
   if [ -f "$RECALBOX_ARCH_FILE" ]; then
-    ARCH=$(head -n 1 "$RECALBOX_ARCH_FILE")
+    ARCH=$(head -n 1 "$RECALBOX_ARCH_FILE" | tr '[:upper:]' '[:lower:]')
     if [ -n "$ARCH" ]; then
       echo "$ARCH"
       return 0
