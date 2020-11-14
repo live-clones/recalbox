@@ -43,13 +43,14 @@ class MainRunner
     //! Runner exit state
     enum class ExitState
     {
-      Quit,         //!< Normal quit (usually requested by external software)
-      FatalError,   //!< Initialization error or runtime fatal error
-      Relaunch,     //!< Relaunch requested!
-      NormalReboot, //!< Normal reboot machine requested, save everything
-      FastReboot,   //!< Fast reboot machine, save nothing
-      Shutdown,     //!< Relaunch machine
-      FastShutdown, //!< Relaunch machine, save nothing
+      Quit,             //!< Normal quit (usually requested by external software)
+      FatalError,       //!< Initialization error or runtime fatal error
+      Relaunch,         //!< Relaunch requested!
+      RelaunchNoUpdate, //!< Relaunch requested! No gamelist update
+      NormalReboot,     //!< Normal reboot machine requested, save everything
+      FastReboot,       //!< Fast reboot machine, save nothing
+      Shutdown,         //!< Relaunch machine
+      FastShutdown,     //!< Relaunch machine, save nothing
     };
 
     //! Temporary file used as flag of readyness

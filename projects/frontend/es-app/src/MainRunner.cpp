@@ -179,7 +179,8 @@ MainRunner::ExitState MainRunner::Run()
     {
       case ExitState::Quit:
       case ExitState::FatalError: NotificationManager::Instance().Notify(Notification::Quit, exitState == ExitState::FatalError ? "fatalerror" : "quitrequested"); break;
-      case ExitState::Relaunch: NotificationManager::Instance().Notify(Notification::Relaunch); break;
+      case ExitState::Relaunch:
+      case ExitState::RelaunchNoUpdate: NotificationManager::Instance().Notify(Notification::Relaunch); break;
       case ExitState::NormalReboot:
       case ExitState::FastReboot: NotificationManager::Instance().Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal"); break;
       case ExitState::Shutdown:
@@ -475,6 +476,7 @@ bool MainRunner::DoWeHaveToUpdateGamelist(MainRunner::ExitState state)
     case ExitState::NormalReboot:
     case ExitState::Shutdown:
     case ExitState::Relaunch: return true;
+    case ExitState::RelaunchNoUpdate:
     case ExitState::FatalError:
     case ExitState::FastReboot:
     case ExitState::FastShutdown: break;

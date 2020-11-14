@@ -115,7 +115,8 @@ int main(int argc, char* argv[], char** env)
     {
       case MainRunner::ExitState::Quit:
       case MainRunner::ExitState::FatalError: return 0;
-      case MainRunner::ExitState::Relaunch: continue;
+      case MainRunner::ExitState::Relaunch:
+      case MainRunner::ExitState::RelaunchNoUpdate: continue;
       case MainRunner::ExitState::NormalReboot:
       case MainRunner::ExitState::FastReboot:
       {
