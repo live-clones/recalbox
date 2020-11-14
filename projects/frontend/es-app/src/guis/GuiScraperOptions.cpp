@@ -40,7 +40,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
   {
     case ScraperFactory::ScraperType::ScreenScraper:
     {
-      std::string imageCode = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("scraper.screenscraper.media", "mixv1"));
+      std::string imageCode = Strings::ToLowerASCII(RecalboxConf::Instance().GetScreenScraperMainMedia());
       if (std::string("screenshot|title|logo|marquee|box2d|box3d|mixv1|mixv2").find(imageCode) == std::string::npos)
         imageCode = "mixv1";
 
@@ -55,7 +55,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mImage->add(_("ScreenScraper Mix V2"), "mixv2"     , imageCode == "mixv2"     );
       mMenu.addWithLabel(mImage, _("SCRAPE IMAGE"));
 
-      std::string thumbnailCode = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("scraper.screenscraper.thumbnail", "box3d"));
+      std::string thumbnailCode = Strings::ToLowerASCII(RecalboxConf::Instance().GetScreenScraperThumbnail());
       if (std::string("screenshot|title|logo|marquee|box2d|box3d|mixv1|mixv2").find(thumbnailCode) == std::string::npos)
         thumbnailCode = "box3d";
 
@@ -71,7 +71,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mThumbnail->add(_("ScreenScraper Mix V2"), "mixv2"     , thumbnailCode == "mixv2"     );
       mMenu.addWithLabel(mThumbnail, _("SCRAPE THUMBNAIL"));
 
-      std::string videoCode = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("scraper.screenscraper.video", "none"));
+      std::string videoCode = Strings::ToLowerASCII(RecalboxConf::Instance().GetScreenScraperVideo());
       if (std::string("none|normal|optimized").find(videoCode) == std::string::npos)
         videoCode = "none";
 
@@ -81,7 +81,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mVideo->add(_("Optimized/Normalized video"), "optimized", videoCode == "optimized");
       mMenu.addWithLabel(mVideo, _("SCRAPE VIDEO"));
 
-      std::string regionCode = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("scraper.screenscraper.region", "wor"));
+      std::string regionCode = Strings::ToLowerASCII(RecalboxConf::Instance().GetScreenScraperRegion());
       if (std::string("eu|us|jp|wor").find(regionCode) == std::string::npos)
         regionCode = "wor";
 
@@ -92,7 +92,7 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mRegion->add(_("World") , "wor", regionCode == "wor");
       mMenu.addWithLabel(mRegion, _("FAVORITE REGION"));
 
-      std::string languageCode = Strings::ToLowerASCII(RecalboxConf::Instance().AsString("scraper.screenscraper.language", "en"));
+      std::string languageCode = Strings::ToLowerASCII(RecalboxConf::Instance().GetScreenScraperLanguage());
       if (std::string("en|es|pt|fr|de|it|nl|ja|zh|ko|ru|da|fi|sv|hu|no|pl|cz|sk|tr").find(languageCode) == std::string::npos)
         languageCode = "en";
 
@@ -119,15 +119,15 @@ GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManage
       mLanguage->add(_("Türkçe")    , "tr", languageCode == "tr");
       mMenu.addWithLabel(mLanguage, _("FAVORITE LANGUAGE"));
 
-      bool manuals = RecalboxConf::Instance().AsBool("scraper.screenscraper.manuals", false);
+      bool manuals = RecalboxConf::Instance().GetScreenScraperWantManual();
       mManual = std::make_shared<SwitchComponent>(mWindow, manuals);
       mMenu.addWithLabel(mManual, _("DOWNLOAD GAME MANUALS"));
 
-      bool maps = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
+      bool maps = RecalboxConf::Instance().GetScreenScraperWantMaps();
       mMaps = std::make_shared<SwitchComponent>(mWindow, maps);
       mMenu.addWithLabel(mMaps, _("DOWNLOAD GAME MAPS"));
 
-      bool p2k = RecalboxConf::Instance().AsBool("scraper.screenscraper.p2k", false);
+      bool p2k = RecalboxConf::Instance().GetScreenScraperWantP2K();
       mP2k = std::make_shared<SwitchComponent>(mWindow, p2k);
       mMenu.addWithLabel(mP2k, _("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"));
 
@@ -180,14 +180,14 @@ void GuiScraperOptions::start()
   {
     case ScraperFactory::ScraperType::ScreenScraper:
     {
-      RecalboxConf::Instance().SetString("scraper.screenscraper.media", mImage->getSelected());
-      RecalboxConf::Instance().SetString("scraper.screenscraper.thumbnail", mThumbnail->getSelected());
-      RecalboxConf::Instance().SetString("scraper.screenscraper.video", mVideo->getSelected());
-      RecalboxConf::Instance().SetString("scraper.screenscraper.region", mRegion->getSelected());
-      RecalboxConf::Instance().SetString("scraper.screenscraper.language", mLanguage->getSelected());
-      RecalboxConf::Instance().SetBool("scraper.screenscraper.manual", mManual->getState());
-      RecalboxConf::Instance().SetBool("scraper.screenscraper.maps", mMaps->getState());
-      RecalboxConf::Instance().SetBool("scraper.screenscraper.p2k", mP2k->getState());
+      RecalboxConf::Instance().SetScreenScraperMainMedia(mImage->getSelected());
+      RecalboxConf::Instance().SetScreenScraperThumbnail(mThumbnail->getSelected());
+      RecalboxConf::Instance().SetScreenScraperVideo(mVideo->getSelected());
+      RecalboxConf::Instance().SetScreenScraperRegion(mRegion->getSelected());
+      RecalboxConf::Instance().SetScreenScraperLanguage(mLanguage->getSelected());
+      RecalboxConf::Instance().SetScreenScraperWantManual(mManual->getState());
+      RecalboxConf::Instance().SetScreenScraperWantMaps(mMaps->getState());
+      RecalboxConf::Instance().SetScreenScraperWantP2K(mP2k->getState());
       RecalboxConf::Instance().Save();
       break;
     }

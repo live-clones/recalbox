@@ -187,19 +187,16 @@ void ScreenScraperEngine::Initialize()
   mCount = 0;
 
     // Credentials
-  mLogin = Strings::Trim(RecalboxConf::Instance().AsString("scraper.screenscraper.user", ""));
-  mPassword = Strings::Trim(RecalboxConf::Instance().AsString("scraper.screenscraper.password", ""));
+  mLogin = Strings::Trim(RecalboxConf::Instance().GetScreenScraperLogin());
+  mPassword = Strings::Trim(RecalboxConf::Instance().GetScreenScraperPassword());
 
   // Language & region
-  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-  mRegion = (locale.length() == 5) ? locale.substr(3,2) : "us";
-  mLanguage = (locale.length() == 5) ? locale.substr(0,2) : "en";
-  mRegion = RecalboxConf::Instance().AsString("scraper.screenscraper.region", "");
-  mLanguage = RecalboxConf::Instance().AsString("scraper.screenscraper.language", "");
+  mRegion = RecalboxConf::Instance().GetScreenScraperRegion();
+  mLanguage = RecalboxConf::Instance().GetScreenScraperLanguage();
 
   // Images
   mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1; // Default to mix v1
-  std::string value = RecalboxConf::Instance().AsString("scraper.screenscraper.media", "");
+  std::string value = RecalboxConf::Instance().GetScreenScraperMainMedia();
   if (value == "screenshot"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
   else if (value == "title"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
   else if (value == "logo"   ) mMainImage = ScreenScraperApis::IConfiguration::Image::Wheel;
@@ -209,7 +206,7 @@ void ScreenScraperEngine::Initialize()
   else if (value == "mixv1"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1;
   else if (value == "mixv2"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV2;
   mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box3d; // Default to box-3d
-  value = RecalboxConf::Instance().AsString("scraper.screenscraper.thumbnail", "");
+  value = RecalboxConf::Instance().GetScreenScraperThumbnail();
   if (value == "screenshot"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
   else if (value == "title"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
   else if (value == "logo"   ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Wheel;
@@ -219,14 +216,14 @@ void ScreenScraperEngine::Initialize()
   else if (value == "mixv1"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV1;
   else if (value == "mixv2"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV2;
   mVideo = ScreenScraperApis::IConfiguration::Video::None; // Default to no video
-  value = RecalboxConf::Instance().AsString("scraper.screenscraper.video", "");
+  value = RecalboxConf::Instance().GetScreenScraperVideo();
   if (value == "normal") mVideo = ScreenScraperApis::IConfiguration::Video::Raw;
   else if (value == "optimized") mVideo = ScreenScraperApis::IConfiguration::Video::Optimized;
-  mWantMarquee = RecalboxConf::Instance().AsBool("scraper.screenscraper.marquee", false);
-  mWantWheel   = RecalboxConf::Instance().AsBool("scraper.screenscraper.wheel", false);
-  mWantManual  = RecalboxConf::Instance().AsBool("scraper.screenscraper.manual", false);
-  mWantMaps    = RecalboxConf::Instance().AsBool("scraper.screenscraper.maps", false);
-  mWantP2K     = RecalboxConf::Instance().AsBool("scraper.screenscraper.p2k", false);
+  mWantMarquee = RecalboxConf::Instance().GetScreenScraperWantMarquee();
+  mWantWheel   = RecalboxConf::Instance().GetScreenScraperWantWheel();
+  mWantManual  = RecalboxConf::Instance().GetScreenScraperWantManual();
+  mWantMaps    = RecalboxConf::Instance().GetScreenScraperWantMaps();
+  mWantP2K     = RecalboxConf::Instance().GetScreenScraperWantP2K();
 }
 
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
