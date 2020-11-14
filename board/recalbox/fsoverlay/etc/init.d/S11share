@@ -28,6 +28,10 @@ sharePartition=$(/recalbox/scripts/recalbox-part.sh share)
 overlayPartition=$(/recalbox/scripts/recalbox-part.sh overlay)
 bootDevice=$(/recalbox/scripts/recalbox-part.sh prefix "${bootPartition}")
 
+# load utilities
+# shellcheck disable=SC1091
+[ -f /recalbox/script/recalbox-utils.sh ] && source /recalbox/script/recalbox-utils.sh
+
 # maxWaitFromConfig
 #   → outputs the `sharewait` directive value from /boot/recalbox-boot.conf
 #     (default: 7 in `DEV [FSUUID]` and `ANYEXTERNAL` mode, 20 in `NETWORK` mode)
@@ -279,6 +283,16 @@ fi
 # (read detailed user documentation in recalbox-boot.conf)
 shareDeviceMode=$(sed -nr 's/^sharedevice=(.+)$/\1/p' ${bootConfigFile})
 [ $? -ne "0" -o -z "${shareDeviceMode}" ] && shareDeviceMode="INTERNAL"
+
+# Check if current board supports mounting USB share
+# if not then force INTERNAL
+if ! doesBoardSupportExternalShare; then
+  if [ "$shareDeviceMode" = "ANYEXTERNAL" ] || [[ "$shareDeviceMode" =~ ^DEV ]]; then
+    logger -t S11share "forcing INTERNAL share device"
+    logger -t S11share "your board does not support mounting ANYEXTERNAL or DEV share device"
+    shareDeviceMode=INTERNAL
+  fi
+fi
 
 # Mount SHARE from configured source in /boot/recalbox-boot.conf
 case "${shareDeviceMode}" in
