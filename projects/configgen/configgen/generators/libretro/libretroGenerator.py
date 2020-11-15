@@ -48,23 +48,34 @@ class LibretroGenerator(Generator):
         configs = []
         romName = os.path.basename(rom)
 
-        # Custom configs - per core
+        # Custom configs - per core - DEPRECATED
         customCfg = "{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.name)
         if os.path.isfile(customCfg):
             configs.append(customCfg)
 
-        # Custom configs - per game
+        # Custom configs - per game - DEPRECATED
         customGameCfg = "{}/{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.name, romName)
         if os.path.isfile(customGameCfg):
             configs.append(customGameCfg)
 
         # Overlay management
+        overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.name)
+        if os.path.isfile(overlayFile):
+            # System global configuration
+            configs.append(overlayFile)
+        else:
+            overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
+            if os.path.isfile(overlayFile):
+                # All system global configuration
+                configs.append(overlayFile)
         overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, romName)
         if os.path.isfile(overlayFile):
+            # Rom file overlay
             configs.append(overlayFile)
         else:
             overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, system.name)
             if os.path.isfile(overlayFile):
+                # System overlay
                 configs.append(overlayFile)
 
         # In-place override takes priority over all
