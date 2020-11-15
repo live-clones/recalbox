@@ -1,5 +1,5 @@
 diff --git a/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk b/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
-index 31003fe856..7d0772fb78 100644
+index 31003fe856..2c7f77d050 100644
 --- a/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
 +++ b/package/kodi-jsonschemabuilder/kodi-jsonschemabuilder.mk
 @@ -6,7 +6,7 @@
@@ -7,7 +7,7 @@ index 31003fe856..7d0772fb78 100644
  # Not possible to directly refer to kodi variables, because of
  # first/second expansion trickery...
 -KODI_JSONSCHEMABUILDER_VERSION = 18.5-Leia
-+KODI_JSONSCHEMABUILDER_VERSION = 18.8-Leia
++KODI_JSONSCHEMABUILDER_VERSION = 18.9-Leia
  KODI_JSONSCHEMABUILDER_SITE = $(call github,xbmc,xbmc,$(KODI_JSONSCHEMABUILDER_VERSION))
  KODI_JSONSCHEMABUILDER_SOURCE = kodi-$(KODI_JSONSCHEMABUILDER_VERSION).tar.gz
  KODI_JSONSCHEMABUILDER_DL_SUBDIR = kodi

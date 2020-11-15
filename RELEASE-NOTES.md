@@ -38,6 +38,7 @@
 - Recalbox is back in Window's Network
 - Update BIOS database
 - Improved Flashback support: just copy your disk or CD game into roms/ports/flashback
+- Bump Kodi to 18.9
 
 ### Fixes
 - Fix AdvanceMAME
