@@ -4,6 +4,7 @@
 
 ### News
 - Add WPS support for quick WIFI configuration
+- Recalbox is distributed on Noobs (again) and Raspberry Pi Imager
 
 ### Improvements
 - Improved NESPi4 case detection

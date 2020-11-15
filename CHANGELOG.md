@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file.
 - Fix battery icon on PC
 - Fix theme crash on empty subsets
 - Fix regression when upgrading device (#1419)
-
+- Fix Noobs & RasPiImager configuration
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video
