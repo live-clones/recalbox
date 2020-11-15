@@ -32,6 +32,7 @@
   - SG-1000
   - SuperGraphx
   - ZX-Spectrum 
+- Add overlay global/per-system settings support in share/overlays  
 
 ### Fixes
 - Fix AdvanceMAME
@@ -48,6 +49,8 @@
 - Display p2k hints properly, including folders's p2k files
 - Fix Vic20 games not running
 - Fix inconsistent MD5 on multi-file zipped bios (neogeo.zip, ...)
+- Fix gamelist bein overwritten when edited from outside Emulationstation
+- Fix scrapper settings not always being saved
 
 
 ## Version 7.0.1

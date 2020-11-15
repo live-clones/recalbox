@@ -32,6 +32,9 @@ All notable changes to this project will be documented in this file.
 - Fix composite MD5
 - First boot wizard
 - Check kodi executable before displaying related menus/options
+- Fix gamelist bein overwritten when edited from outside ES
+- Fix scrapper settings not always saved
+- Add share/overlays/.overlay.cfg and share/overlays/system/.overlay.cfg for gloal/per-system overlay-related retroarch settings
 
 
 ## [7.0.1]
