@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system atari800 --extension '.xfd .atr .atx .cdm .cas .bin .xex .car .zip' --fullname 'Atari 800' --platform atari800 --theme atari800 1:libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
+# ./scripts/linux/empack.py --force --system atari800 --extension '.xfd .atr .atx .dcm .cas .bin .xex .car .com .rom .zip' --fullname 'Atari 800' --platform atari800 --theme atari800 1:libretro:atari800:BR2_PACKAGE_LIBRETRO_ATARI800
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATARI800_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATARI800 = $(RECALBOX_ROMFS_ATARI800_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 define CONFIGURE_MAIN_ATARI800_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI800),Atari 800,$(SYSTEM_NAME_ATARI800),.xfd .atr .atx .cdm .cas .bin .xex .car .zip,atari800,atari800)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATARI800),Atari 800,$(SYSTEM_NAME_ATARI800),.xfd .atr .atx .dcm .cas .bin .xex .car .com .rom .zip,atari800,atari800)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)

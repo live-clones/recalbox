@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system amiga1200 --extension '.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9 .dms .DMS .fdi .FDI .hdf .HDF .hdz .HDZ .m3u .M3U' --fullname 'Amiga 1200' --platform amiga --theme amiga1200 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE
+# ./scripts/linux/empack.py --force --system amiga1200 --extension '.adf .adz .ipf .lha .lhz .lzx .zip .rp9 .dms .fdi .hdf .hdz .m3u' --fullname 'Amiga 1200' --platform amiga --theme amiga1200 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGA1200_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_AMIGA1200 = $(RECALBOX_ROMFS_AMIGA1200_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
 define CONFIGURE_MAIN_AMIGA1200_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGA1200),Amiga 1200,$(SYSTEM_NAME_AMIGA1200),.adf .Adf .ADF .ipf .IPF .Ipf .lha .LHA .lhz .LHZ .lzx .LZX .zip .ZIP .rp9 .RP9 .dms .DMS .fdi .FDI .hdf .HDF .hdz .HDZ .m3u .M3U,amiga,amiga1200)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGA1200),Amiga 1200,$(SYSTEM_NAME_AMIGA1200),.adf .adz .ipf .lha .lhz .lzx .zip .rp9 .dms .fdi .hdf .hdz .m3u,amiga,amiga1200)
 endef
 
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)

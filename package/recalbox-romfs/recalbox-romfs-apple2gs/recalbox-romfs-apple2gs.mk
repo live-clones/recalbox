@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system apple2gs --extension '.2mg .2MG' --fullname 'Apple IIGS' --platform apple2gs --theme apple2gs 1:gsplus:gsplus:BR2_PACKAGE_GSPLUS
+# ./scripts/linux/empack.py --force --system apple2gs --extension '.2mg .po .hdv' --fullname 'Apple IIGS' --platform apple2gs --theme apple2gs 1:gsplus:gsplus:BR2_PACKAGE_GSPLUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_APPLE2GS_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_APPLE2GS = $(RECALBOX_ROMFS_APPLE2GS_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_GSPLUS),)
 define CONFIGURE_MAIN_APPLE2GS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_APPLE2GS),Apple IIGS,$(SYSTEM_NAME_APPLE2GS),.2mg .2MG,apple2gs,apple2gs)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_APPLE2GS),Apple IIGS,$(SYSTEM_NAME_APPLE2GS),.2mg .po .hdv,apple2gs,apple2gs)
 endef
 
 ifneq ($(BR2_PACKAGE_GSPLUS),)

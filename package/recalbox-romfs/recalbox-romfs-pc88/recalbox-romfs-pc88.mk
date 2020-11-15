@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system pc88 --extension '.d88 .D88 .t88 .T88 .cmt .CMT .zip .ZIP .7z .7Z' --fullname 'NEC PC-88' --platform pc88 --theme pc88 1:libretro:quasi88:BR2_PACKAGE_LIBRETRO_QUASI88
+# ./scripts/linux/empack.py --force --system pc88 --extension '.d88 .t88 .cmt .m3u .zip .7z' --fullname 'NEC PC-88' --platform pc88 --theme pc88 1:libretro:quasi88:BR2_PACKAGE_LIBRETRO_QUASI88
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PC88_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PC88 = $(RECALBOX_ROMFS_PC88_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_QUASI88),)
 define CONFIGURE_MAIN_PC88_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PC88),NEC PC-88,$(SYSTEM_NAME_PC88),.d88 .D88 .t88 .T88 .cmt .CMT .zip .ZIP .7z .7Z,pc88,pc88)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PC88),NEC PC-88,$(SYSTEM_NAME_PC88),.d88 .t88 .cmt .m3u .zip .7z,pc88,pc88)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_QUASI88),)

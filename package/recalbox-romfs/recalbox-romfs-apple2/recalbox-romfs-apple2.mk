@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system apple2 --extension '.nib .NIB .do .DO .po .PO .dsk .DSK' --fullname 'Apple II' --platform apple2 --theme apple2 1:linapple:linapple:BR2_PACKAGE_LINAPPLE_PIE 2:gsplus:gsplus:BR2_PACKAGE_GSPLUS
+# ./scripts/linux/empack.py --force --system apple2 --extension '.nib .do .po .dsk' --fullname 'Apple II' --platform apple2 --theme apple2 1:linapple:linapple:BR2_PACKAGE_LINAPPLE_PIE 2:gsplus:gsplus:BR2_PACKAGE_GSPLUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_APPLE2_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_APPLE2 = $(RECALBOX_ROMFS_APPLE2_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LINAPPLE_PIE)$(BR2_PACKAGE_GSPLUS),)
 define CONFIGURE_MAIN_APPLE2_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_APPLE2),Apple II,$(SYSTEM_NAME_APPLE2),.nib .NIB .do .DO .po .PO .dsk .DSK,apple2,apple2)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_APPLE2),Apple II,$(SYSTEM_NAME_APPLE2),.nib .do .po .dsk,apple2,apple2)
 endef
 
 ifneq ($(BR2_PACKAGE_LINAPPLE_PIE)$(BR2_PACKAGE_GSPLUS),)
