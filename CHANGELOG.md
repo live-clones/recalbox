@@ -36,6 +36,7 @@ All notable changes to this project will be documented in this file.
 - Fix gamelist bein overwritten when edited from outside ES
 - Fix scrapper settings not always saved
 - Add share/overlays/.overlay.cfg and share/overlays/system/.overlay.cfg for gloal/per-system overlay-related retroarch settings
+- Fix build of image for odroidxu4 (#1425)
 
 
 ## [7.0.1]
