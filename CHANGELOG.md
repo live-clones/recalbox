@@ -37,6 +37,9 @@ All notable changes to this project will be documented in this file.
 - Fix scrapper settings not always saved
 - Add share/overlays/.overlay.cfg and share/overlays/system/.overlay.cfg for gloal/per-system overlay-related retroarch settings
 - Fix build of image for odroidxu4 (#1425)
+- Limit virtual keyboard font for all plmtforms
+- Add core configuration for PUAE when run on cd32 & cdtv systems
+- Clone uae @ gitlab.com/recalbox / patches moved on recalbox branch / removed patches in .mk
 
 
 ## [7.0.1]
