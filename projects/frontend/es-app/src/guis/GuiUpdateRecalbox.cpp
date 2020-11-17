@@ -139,7 +139,7 @@ void GuiUpdateRecalbox::Run()
 
   // Get arch
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
-  Strings::ReplaceAllIn(arch, "xu4", "odroidxu4");
+  if (arch == "xu4") arch = "odroidxu4";
 
   // Get destination filename
   std::string destinationFileName = "recalbox-%.img.xz";
