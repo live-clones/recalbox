@@ -42,6 +42,14 @@ class LibretroCores:
     #
 
     @staticmethod
+    def configureAmigaCDTV(coreSettings):
+        coreSettings.setOption("puae_model", '"CDTV"')
+
+    @staticmethod
+    def configureAmigaCD32(coreSettings):
+        coreSettings.setOption("puae_model", '"CD32"')
+
+    @staticmethod
     def configureAmiga1200(coreSettings):
         coreSettings.setOption("puae_model", '"A1200"')
 
@@ -129,6 +137,8 @@ class LibretroCores:
         {
             "amiga600"     : LibretroCores.configureAmiga600,
             "amiga1200"    : LibretroCores.configureAmiga1200,
+            "amigacdtv"    : LibretroCores.configureAmigaCDTV,
+            "amigacd32"    : LibretroCores.configureAmigaCD32,
             "atari5200"    : LibretroCores.configureAtari5200,
             "atari800"     : LibretroCores.configureAtari800,
             "amstradcpc"   : LibretroCores.configureAmstradCPC,
