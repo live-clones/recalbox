@@ -40,6 +40,8 @@ All notable changes to this project will be documented in this file.
 - Limit virtual keyboard font for all plmtforms
 - Add core configuration for PUAE when run on cd32 & cdtv systems
 - Clone uae @ gitlab.com/recalbox / patches moved on recalbox branch / removed patches in .mk
+- Fix puae build
+- Add gitlab macro to external tree
 
 
 ## [7.0.1]
