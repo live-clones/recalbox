@@ -1,0 +1,64 @@
+diff --git a/libretro/libretro-core.h b/libretro/libretro-core.h
+index 120be17..3432524 100644
+--- a/libretro/libretro-core.h
++++ b/libretro/libretro-core.h
+@@ -125,14 +125,14 @@ enum EMU_CONFIG {
+ };
+ 
+ /* Kickstarts */
+-#define A500_ROM                "kick34005.A500"
+-#define A500KS2_ROM             "kick37175.A500"
+-#define A600_ROM                "kick40063.A600"
+-#define A1200_ROM               "kick40068.A1200"
+-#define A4000_ROM               "kick40068.A4000"
+-#define CDTV_ROM                "kick34005.CDTV"
+-#define CD32_ROM                "kick40060.CD32"
+-#define CD32_ROM_EXT            "kick40060.CD32.ext"
++#define A500_ROM                "kick34005.A500.rom"
++#define A500KS2_ROM             "kick37175.A500.rom"
++#define A600_ROM                "kick40063.A600.rom"
++#define A1200_ROM               "kick40068.A1200.rom"
++#define A4000_ROM               "kick40068.A4000.rom"
++#define CDTV_ROM                "kick34005.CDTV.rom"
++#define CD32_ROM                "kick40060.CD32.rom"
++#define CD32_ROM_EXT            "kick40060.CD32.ext.rom"
+ 
+ /* Support files */
+ #define LIBRETRO_PUAE_PREFIX    "puae_libretro"
+diff --git a/whdload/WHDLoad_files/S/KSCopy b/whdload/WHDLoad_files/S/KSCopy
+index 0e3b145..0616ed4 100644
+--- a/whdload/WHDLoad_files/S/KSCopy
++++ b/whdload/WHDLoad_files/S/KSCopy
+@@ -1,4 +1,4 @@
+-SETENV KSCOPY kick33180.A500
++SETENV KSCOPY kick33180.A500.rom
+ SETENV KSSIZE 262144
+ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    IF EXISTS RASystem:$KSCOPY
+@@ -11,7 +11,7 @@ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    ENDIF
+ ENDIF
+ 
+-SETENV KSCOPY kick34005.A500
++SETENV KSCOPY kick34005.A500.rom
+ SETENV KSSIZE 262144
+ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    IF EXISTS RASystem:$KSCOPY
+@@ -24,7 +24,7 @@ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    ENDIF
+ ENDIF
+ 
+-SETENV KSCOPY kick40063.A600
++SETENV KSCOPY kick40063.A600.rom
+ SETENV KSSIZE 524288
+ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    IF EXISTS RASystem:$KSCOPY
+@@ -37,7 +37,7 @@ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    ENDIF
+ ENDIF
+ 
+-SETENV KSCOPY kick40068.A1200
++SETENV KSCOPY kick40068.A1200.rom
+ SETENV KSSIZE 524288
+ IF NOT EXISTS WHDLoad:Devs/Kickstarts/$KSCOPY
+    IF EXISTS RASystem:$KSCOPY
