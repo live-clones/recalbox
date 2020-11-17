@@ -30,7 +30,7 @@ bootDevice=$(/recalbox/scripts/recalbox-part.sh prefix "${bootPartition}")
 
 # load utilities
 # shellcheck disable=SC1091
-[ -f /recalbox/script/recalbox-utils.sh ] && source /recalbox/script/recalbox-utils.sh
+[ -f /recalbox/scripts/recalbox-utils.sh ] && source /recalbox/scripts/recalbox-utils.sh
 
 # maxWaitFromConfig
 #   → outputs the `sharewait` directive value from /boot/recalbox-boot.conf

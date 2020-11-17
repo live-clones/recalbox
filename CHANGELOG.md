@@ -42,6 +42,7 @@ All notable changes to this project will be documented in this file.
 - Clone uae @ gitlab.com/recalbox / patches moved on recalbox branch / removed patches in .mk
 - Fix puae build
 - Add gitlab macro to external tree
+- Fix external share does not mount (#1427)
 
 
 ## [7.0.1]
