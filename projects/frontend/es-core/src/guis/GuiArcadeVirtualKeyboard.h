@@ -218,27 +218,9 @@ class GuiArcadeVirtualKeyboard : public Gui
     static int GetFontSize(float ratio)
     {
       int iRatio = (int)(ratio * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat()));
-      switch(Board::Instance().GetBoardType())
-      {
-        case BoardType::PCx86:
-        case BoardType::PCx64:
-        case BoardType::UndetectedYet:
-        case BoardType::OdroidAdvanceGo2:
-        case BoardType::Unknown:
-        case BoardType::UnknownPi:break;
-        case BoardType::Pi0:
-        case BoardType::Pi1:
-        case BoardType::Pi2:
-        case BoardType::Pi3:
-        case BoardType::Pi3plus:
-        case BoardType::Pi4:
-        {
-          int max = (int)(sWheelFontRatio * 800);
-          if (iRatio > max)
-            iRatio = max;
-          break;
-        }
-      }
+      int max = (int)(sWheelFontRatio * 800);
+      if (iRatio > max)
+        iRatio = max;
       return iRatio;
     }
 
