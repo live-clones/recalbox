@@ -18,29 +18,30 @@ logdir = HOME + '/logs/'
 # This dict is indexed on the emulator name, not on the system
 recalboxBins =\
 {
-    'dosbox'      : '/usr/bin/dosbox',
-    'fba2x'       : '/usr/bin/fba2x',
-    'kodi'        : '/recalbox/scripts/kodilauncher.sh',
-    'libretro'    : '/usr/bin/retroarch',
-    'linapple'    : '/usr/bin/linapple',
-    'gsplus'      : '/usr/bin/GSplus',
-    'moonlight'   : '/usr/bin/moonlight',
-    'mupen64plus' : '/usr/bin/mupen64plus',
-    'ppsspp'      : '/usr/bin/PPSSPPSDL',
-    'reicast'     : '/usr/bin/reicast.elf',
-    'scummvm'     : '/usr/bin/scummvm',
-    'residualvm'  : '/usr/bin/residualvm',
-    'vice'        : '/usr/bin/x64',
-    'dolphin'     : '/usr/bin/dolphin-emu',
     'advancemame' : '/usr/bin/advmame',
     'amiberry'    : '/usr/bin/amiberry',
     'daphne'      : '/usr/bin/hypseus',
-    'oricutron'   : '/usr/bin/oricutron/oricutron',
+    'dolphin'     : '/usr/bin/dolphin-emu',
+    'dosbox'      : '/usr/bin/dosbox',
+    'fba2x'       : '/usr/bin/fba2x',
+    'gsplus'      : '/usr/bin/GSplus',
+    'kodi'        : '/recalbox/scripts/kodilauncher.sh',
+    'libretro'    : '/usr/bin/retroarch',
+    'linapple'    : '/usr/bin/linapple',
+    'moonlight'   : '/usr/bin/moonlight',
+    'mupen64plus' : '/usr/bin/mupen64plus',
     'openbor'     : '/usr/bin/OpenBOR',
-    'solarus'     : '/usr/bin/solarus-run',
-    'simcoupe'    : '/usr/bin/simcoupe',
+    'oricutron'   : '/usr/bin/oricutron/oricutron',
     'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
     'pisnes'      : '/usr/bin/pisnes',
+    'ppsspp'      : '/usr/bin/PPSSPPSDL',
+    'reicast'     : '/usr/bin/reicast.elf',
+    'residualvm'  : '/usr/bin/residualvm',
+    'scummvm'     : '/usr/bin/scummvm',
+    'simcoupe'    : '/usr/bin/simcoupe',
+    'solarus'     : '/usr/bin/solarus-run',
+    'supermodel'  : '/usr/bin/supermodel',
+    'vice'        : '/usr/bin/x64',
 }
 
 
@@ -142,3 +143,7 @@ pcsxConfigFile = pcsxRootFolder + '/pcsx.cfg'
 
 pisnesRootFolder = '/recalbox/share/system/configs/pisnes'
 pisnesConfigFile = pisnesRootFolder + '/snes9x.cfg'
+
+supermodelRooFolder = CONF + '/model3'
+supermodelConfigFile = supermodelRooFolder + '/ConfigModel3.ini'
+supermodelControlsIni = supermodelRooFolder + '/Supermodel.ini'

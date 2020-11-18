@@ -28,6 +28,7 @@ setup(name='recalbox-configgen',
         'configgen.generators.oricutron',
         'configgen.generators.openbor',
         'configgen.generators.simcoupe',
+        'configgen.generators.supermodel',
         'configgen.generators.solarus',
         'configgen.settings',
         'configgen.utils']

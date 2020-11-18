@@ -111,6 +111,10 @@ def getGenerator(emulator):
         module = __import__("generators.pisnes.pisnesGenerator", fromlist=["PisnesGenerator"])
         generatorClass = getattr(module, "PisnesGenerator")
         return generatorClass()
+    elif emulator == "supermodel":
+        module = __import__("generators.supermodel.supermodelGenerator", fromlist=["SupermodelGenerator"])
+        generatorClass = getattr(module, "SupermodelGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -157,6 +161,7 @@ def getDefaultEmulator(targetSystem):
         "fba"            : Emulator(name='fba', emulator='fba2x'),
         "fbneo"          : Emulator(name='fbneo', emulator='libretro', core='fbneo'),
         "mame"           : Emulator(name='mame', emulator='libretro', core='mame2003_plus'),
+        "model3"         : Emulator(name='model3', emulator='supermodel'),
         "naomi"          : Emulator(name='naomi', emulator='libretro', core='flycast'),
         "naomigd"        : Emulator(name='naomigd', emulator='libretro', core='flycast'),
         "neogeo"         : Emulator(name='neogeo', emulator='fba2x'),
@@ -214,9 +219,9 @@ def getDefaultEmulator(targetSystem):
         "quake2"         : Emulator(name='quake2', emulator='libretro', core='vitaquake2'),
         "quake3"         : Emulator(name='quake3', emulator='libretro', core='vitaquake3'),
         "rickdangerous"  : Emulator(name='rickdangerous', emulator='libretro', core='xrick'),
-        "startrekvoyager": Emulator(name='startrekvoyager', emulator='libretro', core='vitavoyager'),
         "scummvm"        : Emulator(name='scummvm', emulator='scummvm', videomode='default'),
         "solarus"        : Emulator(name='solarus', emulator='solarus'),
+        "startrekvoyager": Emulator(name='startrekvoyager', emulator='libretro', core='vitavoyager'),
         "tombraider"     : Emulator(name='tombraider', emulator='libretro', core='openlara'),
         "wolfenstein3d"  : Emulator(name='wolfenstein3d', emulator='libretro', core='ecwolf'),
 
@@ -401,6 +406,7 @@ def config_upgrade(version):
      "residualvm",
      "scummvm",
      "simcoupe",
+     "supermodel",
      "vice"
     )
 
