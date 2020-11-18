@@ -36,10 +36,21 @@
     <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
   </system>
   <system fullname="Sammy Atomiswave" platform="atomiswave">
-    <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0" core="flycast" />  
+    <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0,
+    	                              042a0adecf2d616ccfb915a5cd71fde5,27fb8181fd9a0df18c7f6f941e9d60ab,
+    	                              74f5e994ecff655f18f0f9f998c9b1d9" core="flycast" />  
   </system>
   <system fullname="Naomi" platform="naomi">
-    <bios path="dc/naomi.zip" md5="7300a99a4fc856d1a3c36b4485789897" core="flycast" />  
+    <bios path="dc/naomi.zip" md5="7300a99a4fc856d1a3c36b4485789897,40ae83a9552df0f340d5eeeadc5436ea,
+    	                             7ed453bda92b25156536ff055b8685b6,a48e7a735b9036be8f150018155370ad" core="flycast" />
+    <bios path="dc/airlbios.zip" md5="06dd41b614a6d6d079ec1ee73e2bf87d,5b7de05fb2dea6fb0408149c9bada27c,
+    	                                987e08b1786a93653281ca8a5b21dc7f" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'Airline Pilots'" />
+    <bios path="dc/hod2bios.zip" md5="09b92ad1240fba7954985bdee59d1741,2c08c42cc8c6eb3a4e07bff07db5102f,
+    	                                9e1f4846028b18b5ef8a6bd8efd6c67d,fbdf7e1cef86d3ffd23754c0a303a4af" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'The House of the Dead 2'" />
+  </system>
+  <system fullname="Naomi GD-Rom" platform="naomigd">
+  	<bios path="dc/naomigd.zip" md5="288cde03a112e7726fa8093e05d46853,416b5914acb3d0b4a190a1d358c8710d,
+  		                               bd9f19b4be0692e92e272d0eb82402f7,be57d3744e71a3396fb8dc59830e880a" core="flycast" />
   </system>
   <system fullname="Commodore 64" platform="c64">
     <bios path="vice/JiffyDOS_C64.bin" md5="be09394f0576cf81fa8bacf634daf9a2" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
@@ -420,7 +431,11 @@
   </system>
   <system fullname="Sega Saturn" platform="saturn">
     <bios path="saturn_bios.bin"  md5="af5828fdff51384f99b3c4926be27762" hashMatchMandatory="false" mandatory="true" core="yabause,yabasanshiro,kronos" />
-    <bios path="stvbios.zip"      md5="2b99d9dcecde22db4371580b6bb33f32,53a094ad3a188f86de4e64624fe9b3ca" hashMatchMandatory="false" mandatory="true" core="yabasanshiro,kronos" />
+    <bios path="stvbios.zip"      md5="2b99d9dcecde22db4371580b6bb33f32,53a094ad3a188f86de4e64624fe9b3ca,
+    	                                 17116d2aea72454096b3f80ab714bfba,2b99d9dcecde22db4371580b6bb33f32,
+    	                                 4cb34733b741ada074f11e3abcdc56d8,6b6d422a6c392eaec178b64b92987e99,
+    	                                 88b9da6cda268ba1d9e37dd82d038801,8c34608cc140e1bfbf9c945a12fed0e8,
+    	                                 b876d86e244d00b336980b4e26e94132" hashMatchMandatory="false" mandatory="true" core="yabasanshiro,kronos" />
     <bios path="sega_101.bin"     md5="85ec9ca47d8f6807718151cbcca8b964" core="mednafen_saturn" note="Saturn JP BIOS - Required for JP games" />
     <bios path="mpr-17933.bin"    md5="3240872c70984b6cbfda1586cab68dbe" core="mednafen_saturn" note="Saturn US/EU BIOS - Required for US/EU games" />
     <bios path="mpr-18811-mx.ic1" md5="255113ba943c92a54facd25a10fd780c" core="mednafen_saturn,kronos" note="Required for The King of Fighters '95 ROM Cartridge" />
@@ -428,13 +443,31 @@
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
     <bios path="/recalbox/share/roms/neogeo/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
-                                                             d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+																    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
+																                                                             d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3,
+																                                                             005b843b6e70b939c2cca41887cbc371,42e359e394f0be1d61b94ddca0efbe6c,
+																                                                             4b9432a4571d03cc8bae9d24d8d6eb40,4cd64313e26537c04cdb561b8f84b0e4,
+																                                                             50bbfd6bf297038b085e29265c65723a,76ee7390ccd537cddea1018025ca29a8,
+																                                                             84d6c35aad790a77ba3cfc1b319e1061,912c0a56bafe0fba39d0c668b139b250,
+																                                                             94748719c0ef31e7375b0c357d82fc89,ab25b9e25052a6064901a7a221037eb6,
+																                                                             ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
+																                                                             b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
+																                                                             ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeocd">
     <bios path="/recalbox/share/roms/neogeocd/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-    	                                                         42e359e394f0be1d61b94ddca0efbe6c,7de395af329f683cb32696fb12ecb86f,
-                                                               2b4ffdf24d5d4f24c4b116c50c4bafc3" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
-    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip|/recalbox/share/bios/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+																	    	                                                       42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
+																	                                                             d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3,
+																	                                                             005b843b6e70b939c2cca41887cbc371,42e359e394f0be1d61b94ddca0efbe6c,
+																	                                                             4b9432a4571d03cc8bae9d24d8d6eb40,4cd64313e26537c04cdb561b8f84b0e4,
+																	                                                             50bbfd6bf297038b085e29265c65723a,76ee7390ccd537cddea1018025ca29a8,
+																	                                                             84d6c35aad790a77ba3cfc1b319e1061,912c0a56bafe0fba39d0c668b139b250,
+																	                                                             94748719c0ef31e7375b0c357d82fc89,ab25b9e25052a6064901a7a221037eb6,
+																	                                                             ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
+																	                                                             b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
+																	                                                             ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
+    <bios path="/recalbox/share/roms/neogeocd/neocdz.zip|/recalbox/share/bios/neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,
+    																																													 c85b8132799f1b2ad3754a97947809d2,b9ab07a79997fc044ca164fc72cd5680,
+    																																													 f39572af7584cb5b3f70ae8cc848aba2" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />    
   </system>
 </biosList>

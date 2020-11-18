@@ -45,6 +45,7 @@ All notable changes to this project will be documented in this file.
 - Add gitlab macro to external tree
 - Fix external share does not mount (#1427)
 - Add wsd (web service device) package
+- Update bios database
 
 
 ## [7.0.1]

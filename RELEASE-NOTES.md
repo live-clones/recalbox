@@ -35,6 +35,7 @@
   - ZX-Spectrum 
 - Add overlay global/per-system settings support in share/overlays  
 - Recalbox is back in Window's Network
+- Update BIOS database
 
 ### Fixes
 - Fix AdvanceMAME
