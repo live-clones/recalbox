@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_HARDWARE_VERSION = 35e9daa4b2c8db4929f720b9573e5da6ffeedc07
+RECALBOX_HARDWARE_VERSION = ba9353e281a287a8e48a4eabbd2e3dce47c2b3bd
 RECALBOX_HARDWARE_SITE = https://gitlab.com/recalbox/recalbox-hardware
 RECALBOX_HARDWARE_SITE_METHOD = git
 RECALBOX_HARDWARE_DEPENDENCIES = recalbox-themes
