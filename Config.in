@@ -250,6 +250,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/wildmidi/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/lba-finder/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/pm-utils/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/wsd/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"

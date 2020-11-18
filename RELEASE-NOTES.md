@@ -12,7 +12,7 @@
   - Suspend/Soft Power-off using POWER button
   - Automatic audio switch between speakers/headpĥones
   - Volume & Brightness buttons
-  - First-boot wizard
+  - First-boot wizard 
 
 ### Improvements
 - Improved NESPi4 case detection
@@ -34,6 +34,7 @@
   - SuperGraphx
   - ZX-Spectrum 
 - Add overlay global/per-system settings support in share/overlays  
+- Recalbox is back in Window's Network
 
 ### Fixes
 - Fix AdvanceMAME
