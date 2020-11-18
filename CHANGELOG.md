@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Add model3 arcade system
 - Add odroidgo2 build stage in .gitlab-ci.yml
 - Bump ES
 - Use RELEASE-NOTES.md to generate the message for upgrades

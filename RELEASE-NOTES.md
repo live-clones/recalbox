@@ -3,6 +3,7 @@
 ## Version NEXT
 
 ### News
+- Add model3 arcade system
 - Add WPS support for quick WIFI configuration
 - Recalbox is distributed on Noobs (again) and Raspberry Pi Imager
 - Add Odroid Go Advance board support

@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_MODEL3
+	bool "recalbox-romfs-model3"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_SUPERMODEL
+	help
+	  share_init/roms and xml for model3
