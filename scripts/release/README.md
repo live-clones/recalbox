@@ -14,16 +14,12 @@
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
-              "partition_setup": "https://upgrade.recalbox.com/latest/noobs/partition_setup.sh",
               "partitions_info": "https://upgrade.recalbox.com/latest/noobs/rpi1/partitions.json",
               "os_info": "https://upgrade.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi Model",
                   "Pi Compute Module Rev",
                   "Pi Zero"
-              ],
-              "tarballs": [
-                  "https://upgrade.recalbox.com/latest/rpi1/boot.tar.xz"
               ]
           },
           {
@@ -32,14 +28,10 @@
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
-              "partition_setup": "https://upgrade.recalbox.com/latest/noobs/partition_setup.sh",
               "partitions_info": "https://upgrade.recalbox.com/latest/noobs/rpi2/partitions.json",
               "os_info": "https://upgrade.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 2"
-              ],
-              "tarballs": [
-                  "https://upgrade.recalbox.com/latest/rpi2/boot.tar.xz"
               ]
           },
           {
@@ -48,15 +40,11 @@
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
-              "partition_setup": "https://upgrade.recalbox.com/latest/noobs/partition_setup.sh",
               "partitions_info": "https://upgrade.recalbox.com/latest/noobs/rpi3/partitions.json",
               "os_info": "https://upgrade.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 3",
                   "Pi Compute Module 3"
-              ],
-              "tarballs": [
-                  "https://upgrade.recalbox.com/latest/rpi3/boot.tar.xz"
               ]
           },
           {
@@ -65,14 +53,10 @@
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
-              "partition_setup": "https://upgrade.recalbox.com/latest/noobs/partition_setup.sh",
               "partitions_info": "https://upgrade.recalbox.com/latest/noobs/rpi4/partitions.json",
               "os_info": "https://upgrade.recalbox.com/latest/noobs/os.json",
               "supported_models": [
                   "Pi 4"
-              ],
-              "tarballs": [
-                  "https://upgrade.recalbox.com/latest/rpi4/boot.tar.xz"
               ]
           }
       ]
@@ -96,6 +80,7 @@
   * `description`
   * `icon`
   * `feature_level` ⇒ ???
+* `tarballs` ⇒ array of tarball URLs to be uncompressed in created partitions (they are assigned to partitions defined in `partitions.json` in the same order : 1st tarball in `tarballs` is assigned to 1st partition in `partitions.json`, 2nd tarball in `tarballs` is assigned to 2nd partition in `partitions.json`, etc… and they override any `tarball` directive defined in `partitions.json`!)
 * `supported_models` ⇒ array of strings which at least one must be present in `/proc/device-tree/model` for the OS to be considered compatible with the hardware
   * `Pi Zero` matches all Pi Zero models (Zero, Zero W, Zero WH)
   * `Pi Model` matches all Pi1 models (A, B, A+, B+)
