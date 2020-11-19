@@ -47,6 +47,7 @@ function generateNoobsAssets {
   for arch in rpi1 rpi2 rpi3 rpi4; do
     local tarball="${params[imagesDir]}/${arch}/boot.tar.xz"
     local uncompressedTarballSizeInBytes=$(xz --robot --list "${tarball}" | tail -1 | cut -f 5)
+    metadata["${arch}TarballUrl"]="https://upgrade.recalbox.com/latest/${arch}/recalbox.tar.xz"
     metadata["${arch}UncompressedTarballSize"]=$((${uncompressedTarballSizeInBytes} / 1024 / 1024))
   done
 
@@ -66,6 +67,7 @@ function generateNoobsAssets {
     mkdir -p "${destinationDir}/${arch}"
     cat "${templateDir}/partitions.json" \
     | sed -e "s|{{uncompressedTarballSize}}|${metadata["${arch}UncompressedTarballSize"]}|" \
+          -e "s|{{tarballUrl}}|${metadata["${arch}TarballUrl"]}|" \
     > "${destinationDir}/${arch}/partitions.json"
   done
 }
