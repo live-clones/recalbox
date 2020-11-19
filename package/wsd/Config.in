@@ -1,9 +1,5 @@
 config BR2_PACKAGE_WSD
 	bool "Web Service Device"
-	depends on BR2_INSTALL_LIBC
 	help
 	  Web Service Device for automatic discovery in Window network
 	  https://en.wikipedia.org/wiki/Web_Services_for_Devices
-
-comment "WSD needs a toolchain w/ C"
-	depends on !BR2_INSTALL_LIBC
