@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - Fix external share does not mount (#1427)
 - Add wsd (web service device) package
 - Update bios database
+- Improve wsd daemon: keep only wsdd2 in memory
 
 
 ## [7.0.1]

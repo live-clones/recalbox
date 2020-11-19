@@ -12,12 +12,12 @@ test -f ${DAEMON} || exit 0
 case "$1" in
 	start)
 		printf "Starting WSD server: "
-		start-stop-daemon -S -q -x ${DAEMON} -- $OPTIONS &
+		start-stop-daemon -S -q -x ${DAEMON} -- -d $OPTIONS
 		[ $? = 0 ] && echo "OK" || echo "FAIL"
 		;;
 	stop)
 		printf "Stopping WSD server: "
-		start-stop-daemon -K -q -x ${DAEMON} &
+		start-stop-daemon -K -q -x ${DAEMON}
 		[ $? = 0 ] && echo "OK" || echo "FAIL"
 		;;
 	restart | force-reload)
