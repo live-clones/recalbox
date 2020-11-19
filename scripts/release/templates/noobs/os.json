@@ -1,4 +1,6 @@
 {
   "version": "{{version}}",
-  "release_date": "{{releaseDate}}"
+  "release_date": "{{releaseDate}}",
+  "name": "Recalbox",
+  "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!"
 }
