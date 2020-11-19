@@ -45,9 +45,10 @@ function generateNoobsAssets {
   # Fetch tarball metadata
 
   for arch in rpi1 rpi2 rpi3 rpi4; do
-    local tarball="${params[imagesDir]}/${arch}/boot.tar.xz"
+    local tarball="${params[imagesDir]}/${arch}/recalbox.tar.xz"
     local uncompressedTarballSizeInBytes=$(xz --robot --list "${tarball}" | tail -1 | cut -f 5)
     metadata["${arch}UncompressedTarballSize"]=$((${uncompressedTarballSizeInBytes} / 1024 / 1024))
+    metadata["${arch}TarballUrl"]="https://upgrade.recalbox.com/latest/${arch}/recalbox.tar.xz"
   done
 
   # Create assets in destination directory
@@ -55,6 +56,8 @@ function generateNoobsAssets {
   mkdir -p "${destinationDir}"
   cp "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
   cp "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
+  cp "${templateDir}/marketing-kubii.tar" "${destinationDir}/marketing-kubii.tar"
+  cp "${templateDir}/os_list_kubii.json" "${destinationDir}/os_list_kubii.json"
   cp "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
 
   cat "${templateDir}/os.json" \
@@ -66,6 +69,7 @@ function generateNoobsAssets {
     mkdir -p "${destinationDir}/${arch}"
     cat "${templateDir}/partitions.json" \
     | sed -e "s|{{uncompressedTarballSize}}|${metadata["${arch}UncompressedTarballSize"]}|" \
+          -e "s|{{tarballUrl}}|${metadata["${arch}TarballUrl"]}|" \
     > "${destinationDir}/${arch}/partitions.json"
   done
 }

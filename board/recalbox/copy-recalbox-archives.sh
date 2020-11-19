@@ -119,9 +119,9 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
 		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
-	# boot.tar.xz
-	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	# recalbox.tar.xz (formerly boot.tar.xz)
+	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox.tar.xz" . ||
+		{ echo "ERROR : unable to create recalbox.tar.xz" && exit 1 ; }
 
 	#recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
