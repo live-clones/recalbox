@@ -288,26 +288,38 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
     });
 
     Entry* entry = mapper.try_get(key);
-    if (entry == nullptr || value.empty())
+    if (entry == nullptr || value.length() < 2)
     {
       LOG(LogError) << "Unknown mapping: " << mapping;
       continue;
     }
 
+    // Default values
     InputEvent::EventType typeEnum = InputEvent::EventType::Unknown;
     int id = -1;
     int val = 0;
     int code = -1;
+    int sign = 0;
+    int parserIndex = 0;
+
+    // Sign?
+    switch(value[parserIndex])
+    {
+      case '-': { sign = -1; ++parserIndex; break; }
+      case '+': { sign = +1; ++parserIndex; break; }
+      default: break;
+    }
 
     bool parsed = false;
-    switch(value[0])
+    switch(value[parserIndex])
     {
       case 'a':
       {
-        if (Strings::ToInt(value, 1, id))
+        if (Strings::ToInt(value, parserIndex + 1, id))
         {
           typeEnum = InputEvent::EventType::Axis;
-          val = -1;
+          if (sign == 0) val = -1; // non-signed axes are affected to joysticks: always left or up
+          else val = sign;         // Otherwise, take the sign as-is
           #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
             code = SDL_JoystickAxisEventCodeById(mDeviceIndex, id);
           #else
@@ -322,7 +334,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
       }
       case 'b':
       {
-        if (Strings::ToInt(value, 1, id))
+        if (Strings::ToInt(value, parserIndex + 1, id))
         {
           typeEnum = InputEvent::EventType::Button;
           val = 1;
@@ -340,8 +352,8 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
       }
       case 'h':
       {
-        if (Strings::ToInt(value, 1, '.', id))
-          if (Strings::ToInt(value, 3, val))
+        if (Strings::ToInt(value, parserIndex + 1, '.', id))
+          if (Strings::ToInt(value, parserIndex + 3, val))
           {
             typeEnum = InputEvent::EventType::Hat;
             #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
