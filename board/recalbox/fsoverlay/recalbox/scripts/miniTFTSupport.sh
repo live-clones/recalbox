@@ -173,13 +173,13 @@ do_start() {
         do
             #read fifo to get actions
             read -r TFTAction < /tmp/mqtt
-            recallog "TFTAction (read)  => ${TFTAction}"
+            #recallog "TFTAction (read)  => ${TFTAction}"
 
             #getAction additionnal read to catch wakeup action
             esStateFile=$(</tmp/es_state.inf)
             TFTAction="$(sed -n 's/^Action=\([^\r]\+\)\r\?$/\1/p' <<< ${esStateFile})"
             #TFTAction="$(sed -n 's/^Action=\([^\r]\+\)\r\?$/\1/p' /tmp/es_state.inf)"
-            recallog "TFTAction (sed) => ${TFTAction}"
+            #recallog "TFTAction (sed) => ${TFTAction}"
 
             # action in TFTAction : systembrowsing, gamelistbrowsing, rungame, rundemo, endgame, enddemo
             # Used variables TFTGameImage, TFTVideoPath, TFTGame, TFTESSystem, TFTESState
