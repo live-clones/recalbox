@@ -37,60 +37,76 @@ class Controller:
             self.axisesNumber = self.setAxisNumberList()
 
     def generateSDLGameDBLine(self):
-        # Making a dirty assumption here : if a dpad is an axis, then it shouldn't have any analog joystick
-        nameMapping = {
-            'a'             : { 'button' : 'b' },
-            'b'             : { 'button' : 'a' },
-            'x'             : { 'button' : 'y' },
-            'y'             : { 'button' : 'x' },
-            'start'         : { 'button' : 'start' },
-            'select'        : { 'button' : 'back' },
-            'l1'            : { 'button' : 'leftshoulder' },
-            'r1'            : { 'button' : 'rightshoulder' },
-            'l2'            : { 'button' : 'lefttrigger',  'axis' : 'lefttrigger' },
-            'r2'            : { 'button' : 'righttrigger', 'axis' : 'righttrigger' },
-            'l3'            : { 'button' : 'leftstick' },
-            'r3'            : { 'button' : 'rightstick' },
-            'up'            : { 'button' : 'dpup',    'hat' : 'dpup',   'axis' : 'lefty' },
-            'down'          : { 'button' : 'dpdown',  'hat' : 'dpdown' },
-            'left'          : { 'button' : 'dpleft',  'hat' : 'dpleft', 'axis' : 'leftx' },
-            'right'         : { 'button' : 'dpright', 'hat' : 'dpright' },
-            'joystick1up'   : { 'axis' : 'lefty' },
-            'joystick1left' : { 'axis' : 'leftx' },
-            'joystick2up'   : { 'axis' : 'righty' },
-            'joystick2left' : { 'axis' : 'rightx' },
-            'hotkey'        : { 'button' : 'guide' }
+        recalboxToSDL = {
+            'a'             : 'b',
+            'b'             : 'a',
+            'x'             : 'y',
+            'y'             : 'x',
+            'start'         : 'start',
+            'select'        : 'back',
+            'hotkey'        : 'guide',
+            'l1'            : 'leftshoulder',
+            'r1'            : 'rightshoulder',
+            'l2'            : 'lefttrigger',
+            'r2'            : 'righttrigger',
+            'l3'            : 'leftstick',
+            'r3'            : 'rightstick',
+            'up'            : 'dpup',
+            'down'          : 'dpdown',
+            'left'          : 'dpleft',
+            'right'         : 'dpright',
+            'joystick1up'   : 'lefty',
+            'joystick1left' : 'leftx',
+            'joystick2up'   : 'righty',
+            'joystick2left' : 'rightx',
         }
-        nameMappingForceHatToAxis = {
-            'up'            : { 'button' : '-lefty', 'hat' : '-lefty' },
-            'down'          : { 'button' : '+lefty', 'hat' : '+lefty' },
-            'left'          : { 'button' : '-leftx', 'hat' : '-leftx' },
-            'right'         : { 'button' : '+leftx', 'hat' : '+leftx' }
+
+        oppositeHat = {
+             1 :  4,
+             2 :  8,
+             3 : 12,
+             4 :  1,
+             5 :  0, # Not possible
+             6 :  9,
+             7 :  0, # Not possible
+             8 :  2,
+             9 :  6,
+            10 :  0, # Not possible
+            11 :  0, # Not possible
+            12 :  3,
+            13 :  0, # Not possible
+            14 :  0, # Not possible
+            15 :  0, # Not possible
         }
+
         typePrefix = {
             'axis'   : 'a',
             'button' : 'b',
-            'hat'    : 'h0.' # Force dpad 0 until ES handles others
+            'hat'    : 'h',
         }
-        
-        if not self.inputs:
-            return None
 
-        # If no left axis defined, map hat to left axis
-        if not self.inputs.has_key('joystick1up'):
-            nameMapping.update(nameMappingForceHatToAxis)
-            
-        # Need to remove commas from the device name
-        strOut = "{},{},platform:Linux,".format(self.guid, self.configName.encode("utf-8").replace(',', ' '))
-        
-        for idx, inp in self.inputs.iteritems():
-            if inp.name in nameMapping and inp.type in typePrefix and inp.type in nameMapping[inp.name] :
-                if inp.type == 'hat':
-                    strOut += "{}:{}{},".format(nameMapping[inp.name][inp.type], typePrefix[inp.type], inp.value)
-                else:
-                    strOut += "{}:{}{},".format(nameMapping[inp.name][inp.type], typePrefix[inp.type], inp.id)
-        
-        return strOut
+        result = "{},{},platform:Linux,".format(self.guid, self.configName.encode("utf-8").replace(',', ' '))
+        for name, input in self.inputs.iteritems():
+            if name in recalboxToSDL:
+                sdlName = recalboxToSDL[name]
+                if input.type in ('button', 'hat', 'axis'):
+                    sdlPrefix = typePrefix[input.type]
+                    if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and input.type in ('button', 'hat'):
+                        if input.type == 'hat':
+                            result += "-{}:h{}.{},".format(sdlName, input.id, input.value)
+                            result += "+{}:h{}.{},".format(sdlName, input.id, oppositeHat[int(input.value)])
+                        else:
+                            result += "-{}:{}{},".format(sdlName, sdlPrefix, input.id)
+                            result += "+{}:{}{},".format(sdlName, sdlPrefix, input.id)
+                    elif sdlName in ('dpup', 'dpdown', 'dpleft', 'dpright') and input.type == 'axis':
+                        sign = int(input.value) if sdlName in ('dpup', 'dpleft') else -int(input.value)
+                        result += "{}:{}a{},".format(sdlName, '-' if int(input.value) < 0 else '+', input.id)
+                    elif input.type == 'hat':
+                        result += "{}:h{}.{},".format(sdlName, input.id, input.value)
+                    else:
+                        result += "{}:{}{},".format(sdlName, sdlPrefix, input.id)
+
+        return result
 
     def count(self, inputType):
         count = 0
@@ -353,3 +369,7 @@ class Controller:
         with open(outputFile, "w") as text_file:
             text_file.write(sdlData)
         return outputFile
+
+if __name__ == '__main__':
+    controllers = Controller.loadAllControllersConfig()
+    Controller.generateSDLGameDBAllControllers(controllers)
