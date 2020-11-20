@@ -1,0 +1,22 @@
+diff --git a/Makefile b/Makefile
+index 92755f9..c9cd2c0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -86,6 +86,17 @@ else ifeq ($(platform), linux-portable)
+    SHARED := -shared -Wl,--version-script=$(CORE_DIR)/link.T
+ 	LIBM :=
+ 
++else ifneq (,$(findstring recalbox-embedded,$(platform)))
++   EXT ?= so
++   TARGET := $(TARGET_NAME)_libretro.$(EXT)
++   CFLAGS += -D_POSIX_C_SOURCE=199309L -DMESA_EGL_NO_X11_HEADERS -DEGL_NO_X11
++   fpic := -fPIC
++   SHARED := -shared -Wl,--version-script=$(CORE_DIR)/link.T -Wl,--no-undefined
++   GLES := 1
++   ifneq (,$(findstring rpi4,$(platform)))
++       GLES31 := 1
++   endif
++
+ else ifneq (,$(findstring rockchip,$(platform)))
+    EXT ?= so
+    TARGET := $(TARGET_NAME)_libretro.$(EXT)
