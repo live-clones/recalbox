@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Fix high cpu load with second minitft scripts
 - Add model3 arcade system
 - Add odroidgo2 build stage in .gitlab-ci.yml
 - Bump ES
