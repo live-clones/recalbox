@@ -1,0 +1,20 @@
+{
+    "os_list": [ 
+        {
+            "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+            "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
+            "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing-kubii.tar",
+            "nominal_size": 3000,
+            "os_info": "https://upgrade.recalbox.com/latest/noobs/os.json",
+            "os_name": "Recalbox",
+            "partitions_info": "https://upgrade.recalbox.com/latest/noobs/rpi4/partitions.json",
+            "release_date": "2020-11-19",
+            "supported_models": [
+                "Pi 4"
+            ],
+            "tarballs": [
+                "https://upgrade.recalbox.com/latest/rpi4/recalbox.tar.xz"
+            ]
+        }
+    ]
+}
