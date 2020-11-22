@@ -165,7 +165,7 @@ class SystemData : private INoCopy
     PlatformIds::PlatformId PlatformIds(int index) const { return mDescriptor.Platform(index); }
     int PlatformCount() const { return mDescriptor.PlatformCount(); }
     bool HasPlatform() const { return mDescriptor.PlatformCount() != 0; }
-    bool hasPlatformId(PlatformIds::PlatformId id) { return mDescriptor.HasPlatform(id); }
+    bool hasPlatformId(PlatformIds::PlatformId id) const { return mDescriptor.HasPlatform(id); }
 
     inline const ThemeData& getTheme() const { return mTheme; }
 

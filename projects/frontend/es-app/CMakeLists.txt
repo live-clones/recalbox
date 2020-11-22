@@ -5,7 +5,7 @@ set(ES_HEADERS
         src/EmulationStation.h
         src/games/FileSorts.h
         src/games/ItemType.h
-        src/MameNameMapManager.h
+        src/GameNameMapManager.h
         src/Upgrade.h
         src/systems/PlatformId.h
         src/games/IFilter.h
@@ -181,8 +181,8 @@ set(ES_SOURCES
         src/main.cpp
         src/DemoMode.cpp
         src/games/FileSorts.cpp
-        src/MameNameMap.cpp
-        src/MameNameMapManager.cpp
+        src/GameNameMap.cpp
+        src/GameNameMapManager.cpp
         src/Upgrade.cpp
         src/systems/PlatformId.cpp
         src/games/FileData.cpp

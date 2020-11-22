@@ -2,7 +2,7 @@
 #include "systems/SystemData.h"
 
 #include <utils/Strings.h>
-#include <MameNameMapManager.h>
+#include <GameNameMapManager.h>
 
 FileData::FileData(ItemType type, const Path& path, SystemData* system)
 	: mSystem(system),
@@ -21,13 +21,8 @@ FileData::FileData(const Path& path, SystemData* system) : FileData(ItemType::Ga
 std::string FileData::getDisplayName() const
 {
 	std::string stem = mPath.FilenameWithoutExtension();
-	if (mSystem != nullptr)
-	  if ((mSystem->hasPlatformId(PlatformIds::PlatformId::ARCADE) || mSystem->hasPlatformId(PlatformIds::PlatformId::NEOGEO)))
-    {
-      const char* newName = MameNameMapManager::GetCleanMameName(stem);
-      if (newName != nullptr)
-        return newName;
-    }
+  if (GameNameMapManager::HasRenaming(*mSystem))
+    stem = GameNameMapManager::Rename(*mSystem, stem);
 
   return stem;
 }

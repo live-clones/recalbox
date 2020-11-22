@@ -5,7 +5,7 @@
 #include "FolderData.h"
 #include "utils/Log.h"
 #include "systems/SystemData.h"
-#include "MameNameMapManager.h"
+#include "GameNameMapManager.h"
 #include <algorithm>
 
 #define CastFolder(f) ((FolderData*)(f))
@@ -93,8 +93,8 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
     filteredExtensions = subSystem.AsString("extensions", originalFilteredExtensions);
   }
 
-  // Arcade system?
-  bool isArcade = systemData->hasPlatformId(PlatformIds::PlatformId::ARCADE) || systemData->hasPlatformId(PlatformIds::PlatformId::NEOGEO);
+  // special system?
+  bool hasFiltering = GameNameMapManager::HasFiltering(*systemData);
   // No extension?
   bool noExtensions = filteredExtensions.empty();
 
@@ -118,9 +118,9 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
       if ((noExtensions && filePath.IsFile()) ||
           (!extension.empty() && IsMatching(stem, extension, filteredExtensions)))
       {
-        if (isArcade)
+        if (hasFiltering)
         {
-          if (!MameNameMapManager::IsGame(stem))
+          if (GameNameMapManager::IsFiltered(*systemData, stem))
             continue; // MAME Bios or Machine
         }
         // Get the key for duplicate detection. MUST MATCH KEYS USED IN Gamelist.findOrCreateFile - Always fullpath

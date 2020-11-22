@@ -1,7 +1,16 @@
-#include "MameNameMapManager.h"
+#include "GameNameMapManager.h"
 #include <string>
 
-const char* MameNameMapManager::mMameNameToRealName[MameNameMapManager::sMameListSize * 2] =
+const char* GameNameMapManager::mFlashbackNameToRealName[GameNameMapManager::sFlashbackListSize * 2] =
+{
+  "instru_f", "Flashback DOS (disk)",
+  "instru_e", "Flashback DOS (CD)",
+  "demo_uk", "Flashback DOS (Demo)",
+};
+
+int GameNameMapManager::mFlashbackNameHashes[GameNameMapManager::sFlashbackListSize];
+
+const char* GameNameMapManager::mMameNameToRealName[GameNameMapManager::sMameListSize * 2] =
 {
 	"005", "005", 
 	"10yard", "10-Yard Fight (World, set 1)", 
@@ -30451,9 +30460,9 @@ const char* MameNameMapManager::mMameNameToRealName[MameNameMapManager::sMameLis
 	"zzyzzyx2", "Zzyzzyxx (set 2)",
 };
 
-int MameNameMapManager::mMameNameHashes[MameNameMapManager::sMameListSize];
+int GameNameMapManager::mMameNameHashes[GameNameMapManager::sMameListSize];
 
-HashMap<std::string, bool> MameNameMapManager::mMameBios =
+HashMap<std::string, bool> GameNameMapManager::mMameBios =
 {
   { "galgbios", false },
   { "sys573", false },
@@ -30527,7 +30536,7 @@ HashMap<std::string, bool> MameNameMapManager::mMameBios =
   { "aleck64", false }
 };
 
-HashMap<std::string, bool> MameNameMapManager::mMameDevices =
+HashMap<std::string, bool> GameNameMapManager::mMameDevices =
 {
   { "cbm8000_hsg_a", false },
   { "comx_eb", false },

@@ -3,7 +3,6 @@
 //
 
 #include <RecalboxConf.h>
-#include <systems/SystemData.h>
 #include <views/ViewController.h>
 #include "GuiNetPlay.h"
 #include "components/TextComponent.h"
@@ -12,7 +11,7 @@
 #include "GuiNetPlayClientPasswords.h"
 #include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
-#include <MameNameMapManager.h>
+#include <GameNameMapManager.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/pointer.h>
 #include <utils/Files.h>
@@ -488,11 +487,7 @@ std::string GuiNetPlay::GetFormattedName(const LobbyGame& game)
   std::string gameName = game.mGameName;
   static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
   if (arcadesCores.find(gameName) != std::string::npos)
-  {
-    const char* newName = MameNameMapManager::GetCleanMameName(game.mGameName);
-    if (newName != nullptr)
-      gameName = newName;
-  }
+    gameName = GameNameMapManager::Rename(*game.mGame->getSystem(), game.mGameName);
 
   // Add decorations
   if (game.mNeedPlayerPassword)

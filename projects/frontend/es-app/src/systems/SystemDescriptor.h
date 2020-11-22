@@ -114,7 +114,7 @@ class SystemDescriptor
 
     int PlatformCount() const { return mPlateformCount; }
     PlatformIds::PlatformId Platform(int index) const { return (unsigned int)index < (unsigned int)sMaximumPlatformIds ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }
-    bool HasPlatform(PlatformIds::PlatformId id)
+    bool HasPlatform(PlatformIds::PlatformId id) const
     {
       for(int i = mPlateformCount; --i >= 0;)
         if (id == mPlatformIds[i])
