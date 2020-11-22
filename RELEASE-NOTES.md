@@ -36,6 +36,7 @@
 - Add overlay global/per-system settings support in share/overlays  
 - Recalbox is back in Window's Network
 - Update BIOS database
+- Improved Flashback support: just copy your disk or CD game into roms/ports/flashback
 
 ### Fixes
 - Fix AdvanceMAME
@@ -57,7 +58,7 @@
 - Fix VirtualKeyboard on resolution higher than 720p
 - Fix UAE configuration for CDTV/CD32
 - Fix UAE kickstart copy for WHDL games
-
+- Fix PSP mapping configuration
 
 ## Version 7.0.1
 

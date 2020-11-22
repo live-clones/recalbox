@@ -21,3 +21,5 @@ Every case must be checked before a release.
 - [ ] Fixed puae cd32 & cdtv => run an amiga600 games with UAE, then run a CD32 game, then run a CDTV game (in this exact order). All games must work
 - [ ] Fixed VK on 1080p and more => Open VK and use DPAD's up & down to change charset several times. No glitches & no messed up screens should occur
 - [ ] Recalbox is back in Window's Network => Switch on recalbox, wait for ES, wait a few more seconds, a new machine called 'RECALBOX' should pop in your Network
+- [ ] Flashback core improved => Test flashback
+- [ ] PSP mapping generator rewritten => Test PSP games with all available pads

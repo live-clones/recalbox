@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system flashback --extension '.map .aba .seq .zip .7z' --fullname 'Flashback' --platform flashback --theme flashback 1:libretro:reminiscence:BR2_PACKAGE_LIBRETRO_REMINISCENCE
+# ./scripts/linux/empack.py --force --port --system flashback --extension 'files:instru_f.map instru_e.map demo_uk.aba' --fullname 'Flashback' --platform flashback --theme flashback 1:libretro:reminiscence:BR2_PACKAGE_LIBRETRO_REMINISCENCE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FLASHBACK_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_FLASHBACK = $(RECALBOX_ROMFS_FLASHBACK_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
 define CONFIGURE_MAIN_FLASHBACK_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_FLASHBACK),Flashback,$(SYSTEM_NAME_FLASHBACK),.map .aba .seq .zip .7z,flashback,flashback)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_FLASHBACK),Flashback,$(SYSTEM_NAME_FLASHBACK),files:instru_f.map instru_e.map demo_uk.aba,flashback,flashback)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)

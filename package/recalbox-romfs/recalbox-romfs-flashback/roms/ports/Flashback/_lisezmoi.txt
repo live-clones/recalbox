@@ -1,17 +1,9 @@
 ## RECALBOX - SYSTEM FLASHBACK ##
 
-Placez ici vos jeux Flashback.
+Copiez votre jeu flashback ici
+Versions reconnues:
+- DOS Demo (disquette)
+- DOS Full version (disquette)
+- DOS Full version (CD)
 
-Les jeux Flashback doivent avoir l'extension ".map/.aba/.seq"
-
-Le contenu pouvant être chargé par le noyau REminiscence a les extensions de fichier suivantes:
-
-.map (DOS Map Data)
-.aba (DOS (Demo) Map Data)
-.seq (DOS CD Map Data)
-//.lev (Amiga Map Data)
-
-Data files:
-- PC game data files
-- Amiga .mod files (for music)
-- VOICE.VCE for in-game dialog (optional)
+Les versions Amiga et les version DOS non anglaises ne fonctionnent pas pour l'instant.

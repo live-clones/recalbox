@@ -48,6 +48,8 @@ All notable changes to this project will be documented in this file.
 - Update bios database
 - Improve wsd daemon: keep only wsdd2 in memory
 - Add missing extensions in various romfs
+- Fix PPSSPP configuration generator
+- Improved flashback support
 
 
 ## [7.0.1]
