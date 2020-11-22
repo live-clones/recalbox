@@ -45,10 +45,11 @@ function generateNoobsAssets {
   # Fetch tarball metadata
 
   for arch in rpi1 rpi2 rpi3 rpi4; do
-    local tarball="${params[imagesDir]}/${arch}/recalbox.tar.xz"
+    local tarball="${params[imagesDir]}/${arch}/recalbox-${arch}.tar.xz"
     local uncompressedTarballSizeInBytes=$(xz --robot --list "${tarball}" | tail -1 | cut -f 5)
     metadata["${arch}UncompressedTarballSize"]=$((${uncompressedTarballSizeInBytes} / 1024 / 1024))
-    metadata["${arch}TarballUrl"]="https://upgrade.recalbox.com/latest/${arch}/recalbox.tar.xz"
+    # Url is rewritten to https://upgrade.recalbox.com/latest/${arch}/recalbox-${arch}.tar.xz in proxies
+    metadata["${arch}TarballUrl"]="https://upgrade.recalbox.com/latest/noobs/${arch}/recalbox-${arch}.tar.xz"
   done
 
   # Create assets in destination directory
@@ -75,8 +76,8 @@ function generateNoobsAssets {
 }
 
 function generateRaspberryPiImagerAssets {
-  local templateDir="$(dirname $(readlink -f $0))/templates/raspi_imager"
-  local destinationDir="${params[destinationDir]}/raspi-imager"
+  local templateDir="$(dirname $(readlink -f $0))/templates/rpi_imager"
+  local destinationDir="${params[destinationDir]}/rpi-imager"
   declare -A metadata
 
   echo ">>> Generating assets for Raspberry Pi Imager (in ${destinationDir})"
