@@ -120,7 +120,7 @@ case "${RECALBOX_TARGET}" in
 		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
 	# recalbox.tar.xz (formerly boot.tar.xz)
-	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox.tar.xz" . ||
+	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" . ||
 		{ echo "ERROR : unable to create recalbox.tar.xz" && exit 1 ; }
 
 	#recalbox.img

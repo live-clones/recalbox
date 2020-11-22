@@ -3,8 +3,8 @@
         {
             "name": "Recalbox {{version}} (Pi 0/1)",
             "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-            "url": "https://upgrade.recalbox.com/latest/rpi1/recalbox-rpi1.img.xz",
-            "icon": "https://upgrade.recalbox.com/latest/raspi-imager/recalbox.svg",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi1/recalbox-rpi1.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.svg",
             "extract_size": {{rpi1ExtractSize}},
             "extract_sha256": "{{rpi1ExtractSha256}}",
             "image_download_size": {{rpi1ImageDownloadSize}},
@@ -14,8 +14,8 @@
         {
             "name": "Recalbox {{version}} (Pi 2)",
             "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-            "url": "https://upgrade.recalbox.com/latest/rpi2/recalbox-rpi2.img.xz",
-            "icon": "https://upgrade.recalbox.com/latest/raspi-imager/recalbox.svg",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi2/recalbox-rpi2.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.svg",
             "extract_size": {{rpi2ExtractSize}},
             "extract_sha256": "{{rpi2ExtractSha256}}",
             "image_download_size": {{rpi2ImageDownloadSize}},
@@ -25,8 +25,8 @@
         {
             "name": "Recalbox {{version}} (Pi 3)",
             "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-            "url": "https://upgrade.recalbox.com/latest/rpi3/recalbox-rpi3.img.xz",
-            "icon": "https://upgrade.recalbox.com/latest/raspi-imager/recalbox.svg",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi3/recalbox-rpi3.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.svg",
             "extract_size": {{rpi3ExtractSize}},
             "extract_sha256": "{{rpi3ExtractSha256}}",
             "image_download_size": {{rpi3ImageDownloadSize}},
@@ -36,8 +36,8 @@
         {
             "name": "Recalbox {{version}} (Pi 4)",
             "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-            "url": "https://upgrade.recalbox.com/latest/rpi4/recalbox-rpi4.img.xz",
-            "icon": "https://upgrade.recalbox.com/latest/raspi-imager/recalbox.svg",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi4/recalbox-rpi4.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.svg",
             "extract_size": {{rpi4ExtractSize}},
             "extract_sha256": "{{rpi4ExtractSha256}}",
             "image_download_size": {{rpi4ImageDownloadSize}},

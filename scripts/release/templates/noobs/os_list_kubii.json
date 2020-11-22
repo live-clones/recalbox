@@ -13,7 +13,7 @@
                 "Pi 4"
             ],
             "tarballs": [
-                "https://upgrade.recalbox.com/latest/rpi4/recalbox.tar.xz"
+                "https://upgrade.recalbox.com/latest/kubii/rpi4/recalbox-rpi4.tar.xz"
             ]
         }
     ]
