@@ -58,6 +58,8 @@ f87d0c463e1f9e7f51847e0f82c3f57a  package/rpi-bt-firmware/rpi-bt-firmware.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
 748930ce449b4863430e0399c9fa3476  package/rpi-firmware/rpi-firmware.mk
+005b56b1d7c04ae55bb974a8ac356806  package/rpi-wifi-firmware/rpi-wifi-firmware.hash
+6e16e6b3466ac21e399b60d335d9f236  package/rpi-wifi-firmware/rpi-wifi-firmware.mk
 4a6b23e7921b96113d2d455c98c5b801  package/sdl2/sdl2.hash
 12f2d0d866ef79ecd70f1dbdef3af8cc  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
