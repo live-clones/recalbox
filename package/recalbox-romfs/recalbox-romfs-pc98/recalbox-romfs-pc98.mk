@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system pc98 --extension '.d98 .98d .fdi .fdd .nfd .2hd .tfd .d88 .88d .hdm .xdf .dup .cmd .hdi .thd .nhd .hdd .hdn .m3u .zip .7z' --fullname 'NEC PC-98' --platform pc98 --theme pc98 1:libretro:np2kai:BR2_PACKAGE_LIBRETRO_NP2KAI
+# ./scripts/linux/empack.py --force --system pc98 --extension '.d98 .98d .dcp .fdi .fdd .nfd .2hd .tfd .d88 .88d .hdm .xdf .dup .cmd .hdi .thd .nhd .hdd .hdn .m3u .zip .7z' --fullname 'NEC PC-98' --platform pc98 --theme pc98 1:libretro:np2kai:BR2_PACKAGE_LIBRETRO_NP2KAI
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PC98_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PC98 = $(RECALBOX_ROMFS_PC98_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
 define CONFIGURE_MAIN_PC98_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PC98),NEC PC-98,$(SYSTEM_NAME_PC98),.d98 .98d .fdi .fdd .nfd .2hd .tfd .d88 .88d .hdm .xdf .dup .cmd .hdi .thd .nhd .hdd .hdn .m3u .zip .7z,pc98,pc98)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PC98),NEC PC-98,$(SYSTEM_NAME_PC98),.d98 .98d .dcp .fdi .fdd .nfd .2hd .tfd .d88 .88d .hdm .xdf .dup .cmd .hdi .thd .nhd .hdd .hdn .m3u .zip .7z,pc98,pc98)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)

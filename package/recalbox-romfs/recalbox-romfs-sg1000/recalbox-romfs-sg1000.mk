@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system sg1000 --extension '.sg .SG .zip .ZIP .7z .7Z' --fullname 'Sega SG1000' --platform sg1000 --theme sg1000 1:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 2:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM 3:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
+# ./scripts/linux/empack.py --force --system sg1000 --extension '.bin .sg .zip .7z' --fullname 'Sega SG1000' --platform sg1000 --theme sg1000 1:libretro:genesisplusgx:BR2_PACKAGE_LIBRETRO_GENESISPLUSGX 2:libretro:gearsystem:BR2_PACKAGE_LIBRETRO_GEARSYSTEM 3:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_SG1000_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SG1000 = $(RECALBOX_ROMFS_SG1000_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_MAIN_SG1000_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SG1000),Sega SG1000,$(SYSTEM_NAME_SG1000),.sg .SG .zip .ZIP .7z .7Z,sg1000,sg1000)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SG1000),Sega SG1000,$(SYSTEM_NAME_SG1000),.bin .sg .zip .7z,sg1000,sg1000)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM)$(BR2_PACKAGE_LIBRETRO_FBNEO),)

@@ -47,6 +47,7 @@ All notable changes to this project will be documented in this file.
 - Add wsd (web service device) package
 - Update bios database
 - Improve wsd daemon: keep only wsdd2 in memory
+- Add missing extensions in various romfs
 
 
 ## [7.0.1]
