@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#define LEGACY_STRING(x) x, sizeof(x)-1
+
 class Strings
 {
   private:

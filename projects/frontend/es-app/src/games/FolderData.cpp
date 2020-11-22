@@ -38,12 +38,26 @@ void FolderData::removeChild(FileData* file)
     }
 }
 
-static bool IsInExtensions(const std::string& extension, const std::string& extensionList)
+static bool IsMatching(const std::string& fileWoExt, const std::string& extension, const std::string& extensionList)
 {
-  size_t extensionPos = extensionList.find(extension);
-  if (extensionPos == std::string::npos) return false;
+  #define sFilesPrefix "files:"
+  if (!Strings::StartsWith(extensionList, LEGACY_STRING(sFilesPrefix)))
+  {
+    // Seek in regular extensions
+    size_t extensionPos = extensionList.find(extension);
+    if (extensionPos == std::string::npos) return false;
+    const char* p = extensionList.data();
+    return (extensionPos + extension.size() == extensionList.size()) || (p[extensionPos + extension.size()] == ' ');
+  }
+
+  // Seek complete files
+  constexpr int sFilesPrefixLength = sizeof(sFilesPrefix) - 1;
+  std::string file(fileWoExt); file.append(extension);
+  size_t filePos = extensionList.find(Strings::ToLowerASCII(fileWoExt) + extension);
+  if (filePos == std::string::npos) return false;
   const char* p = extensionList.data();
-  return (extensionPos + extension.size() == extensionList.size()) || (p[extensionPos + extension.size()] == ' ');
+  return ((filePos == sFilesPrefixLength) || (p[filePos - 1] == ' ')) &&
+         ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
 }
 
 void FolderData::populateRecursiveFolder(const std::string& originalFilteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
@@ -102,7 +116,7 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
     if (!filePath.IsHidden())
     {
       if ((noExtensions && filePath.IsFile()) ||
-          (!extension.empty() && IsInExtensions(extension, filteredExtensions)))
+          (!extension.empty() && IsMatching(stem, extension, filteredExtensions)))
       {
         if (isArcade)
         {
