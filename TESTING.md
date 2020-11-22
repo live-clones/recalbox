@@ -23,3 +23,4 @@ Every case must be checked before a release.
 - [ ] Recalbox is back in Window's Network => Switch on recalbox, wait for ES, wait a few more seconds, a new machine called 'RECALBOX' should pop in your Network
 - [ ] Flashback core improved => Test flashback
 - [ ] PSP mapping generator rewritten => Test PSP games with all available pads
+- [ ] Pi400 support => Boot on Pi400 using Pi4 image

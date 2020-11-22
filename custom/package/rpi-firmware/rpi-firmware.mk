@@ -5,7 +5,7 @@
 ################################################################################
 
 ifeq ($(BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_4),y)
-RPI_FIRMWARE_VERSION = 2ebdbbb1c304ec6325ae4e9afba10dbe4e4ce651
+RPI_FIRMWARE_VERSION = bff705fffe59ad3eea33999beb29c3f26408de40
 else
 RPI_FIRMWARE_VERSION = 1.20200212
 endif

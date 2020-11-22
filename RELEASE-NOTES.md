@@ -6,6 +6,7 @@
 - Add model3 arcade system
 - Add WPS support for quick WIFI configuration
 - Recalbox is distributed on Noobs (again) and Raspberry Pi Imager
+- Add Raspberry Pi400 support
 - Add Odroid Go Advance board support
   - Run all emulators up to Naomi/Dreamcast (smoothly) or even Saturn/Atomiswave (not all games)
   - Full power-saving support (slow down or speed up CPU/GPU/Ram regarding the running emulator)

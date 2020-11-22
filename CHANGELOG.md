@@ -50,6 +50,7 @@ All notable changes to this project will be documented in this file.
 - Add missing extensions in various romfs
 - Fix PPSSPP configuration generator
 - Improved flashback support
+- Add pi400 support
 
 
 ## [7.0.1]
