@@ -53,6 +53,8 @@ cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 ec738a2a5e00c4975eae27fef76d4506  package/nodejs/nodejs.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 2f5ef1257ec42b29f681f151fdf87d80  package/python-pygame/python-pygame.mk
+50ad0363cf4ea907fb2397df2144de58  package/rpi-bt-firmware/rpi-bt-firmware.hash
+f87d0c463e1f9e7f51847e0f82c3f57a  package/rpi-bt-firmware/rpi-bt-firmware.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 635322bdc7c4e8d244105c762bd173d5  package/rpi-firmware/rpi-firmware.hash
 748930ce449b4863430e0399c9fa3476  package/rpi-firmware/rpi-firmware.mk
