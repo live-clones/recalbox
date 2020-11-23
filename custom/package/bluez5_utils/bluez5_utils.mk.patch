@@ -1,5 +1,5 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index 2149614c56..f1f7ad4fd5 100644
+index f2c8cabcff..d269ff3bd3 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
 @@ -11,6 +11,7 @@ BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
@@ -10,7 +10,7 @@ index 2149614c56..f1f7ad4fd5 100644
  
  BLUEZ5_UTILS_DEPENDENCIES = \
  	$(if $(BR2_PACKAGE_BLUEZ5_UTILS_HEADERS),bluez5_utils-headers) \
-@@ -126,4 +127,12 @@ else
+@@ -133,4 +134,12 @@ else
  BLUEZ5_UTILS_CONF_OPTS += --disable-systemd
  endif
  

@@ -1,5 +1,5 @@
 diff --git a/package/libcec/libcec.mk b/package/libcec/libcec.mk
-index fe519d47ba..f06b0cfc72 100644
+index 7c37d05c7f..90d02b3f92 100644
 --- a/package/libcec/libcec.mk
 +++ b/package/libcec/libcec.mk
 @@ -24,6 +24,10 @@ ifeq ($(BR2_PACKAGE_PYTHON)$(BR2_PACKAGE_PYTHON3),y)
