@@ -409,6 +409,29 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   bool dirty = false;
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
+      // because mMetada do not contains default system emulator & core
+      if(mMetaDataEditable[i]->Key() == "emulator"){
+          std::string editorEmulatorCore = mEditors[i]->getValue();
+
+          std::string metaEmulator = mMetaData.Emulator();
+          std::string metaCore = mMetaData.Core();
+          std::string metaEmulatorCore = metaEmulator;
+          metaEmulatorCore.append(1,':').append(metaCore);
+
+          std::string defaultEmulator;
+          std::string defaultCore;
+          mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
+          std::string defaulEmulatorAndCore = defaultEmulator;
+          defaulEmulatorAndCore.append(1, ':').append(defaultCore);
+
+          if(editorEmulatorCore != metaEmulatorCore && editorEmulatorCore != defaulEmulatorAndCore)
+          {
+              dirty = true;
+              break;
+          }
+          continue;
+      }
+
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
     if ((mMetaData.*method)() != mEditors[i]->getValue())
     {
