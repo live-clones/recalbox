@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Improved flashback support
 - Add pi400 support
 - Update bios database #2
+- Fix metadata edition
 
 
 ## [7.0.1]
