@@ -1,5 +1,5 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index d8144c0c38..44ce6de636 100644
+index 80a8d4e6bf..7ac1c51514 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
 @@ -6,8 +6,20 @@
@@ -8,7 +8,7 @@ index d8144c0c38..44ce6de636 100644
  # and kodi-texturepacker
 +# rpi 0/1/2, xu4 and PC
 +ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
-+KODI_VERSION = 18.9-Leia
+ KODI_VERSION = 18.9-Leia
  KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
 +else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
 +# rpi3

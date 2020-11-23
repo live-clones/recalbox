@@ -1,12 +1,12 @@
 diff --git a/package/rpi-bt-firmware/rpi-bt-firmware.mk b/package/rpi-bt-firmware/rpi-bt-firmware.mk
-index 23923453c4..02754c0b46 100644
+index 785f007cc3..02754c0b46 100644
 --- a/package/rpi-bt-firmware/rpi-bt-firmware.mk
 +++ b/package/rpi-bt-firmware/rpi-bt-firmware.mk
 @@ -4,7 +4,7 @@
  #
  ################################################################################
  
--RPI_BT_FIRMWARE_VERSION = 688531da4bcf802a814d9cb0c8b6d62e3b8a3327
+-RPI_BT_FIRMWARE_VERSION = d4f7087ecbc8eff9cb64a4650765697157821d64
 +RPI_BT_FIRMWARE_VERSION = 9c0ffe9a7f0753b36ed88f7981905a989d940ea9
  RPI_BT_FIRMWARE_SITE = $(call github,LibreELEC,brcmfmac_sdio-firmware-rpi,$(RPI_BT_FIRMWARE_VERSION))
  RPI_BT_FIRMWARE_LICENSE = PROPRIETARY

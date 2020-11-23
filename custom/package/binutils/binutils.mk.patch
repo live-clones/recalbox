@@ -1,8 +1,8 @@
 diff --git a/package/binutils/binutils.mk b/package/binutils/binutils.mk
-index 326e6e2639..620811b958 100644
+index d978b424be..addc1816ee 100644
 --- a/package/binutils/binutils.mk
 +++ b/package/binutils/binutils.mk
-@@ -134,7 +134,7 @@ endif
+@@ -135,7 +135,7 @@ endif
  # Hardlinks between binaries in different directories cause a problem
  # with rpath fixup, so we de-hardlink those binaries, and replace them
  # with copies instead.
