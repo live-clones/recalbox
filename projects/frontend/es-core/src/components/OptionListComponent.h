@@ -28,6 +28,7 @@ private:
 	struct OptionListData
 	{
 		std::string name;
+		std::string value;
 		T object;
 		bool selected = false;
 	};
@@ -295,10 +296,11 @@ public:
 		mEntries.clear();
 	}
 
-	void add(const std::string& name, const T& obj, bool selected)
-	{
+    void add(const std::string& name, const T& obj, bool selected, const std::string& value = "")
+        {
 		OptionListData e;
 		e.name = name;
+		e.value = value;
 		e.object = obj;
 		e.selected = selected;
 		if (selected) {
@@ -405,6 +407,17 @@ private:
 
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
+
+    std::string getValue() const override {
+        assert(!mMultiSelect);
+        for (auto& entry : mEntries)
+        {
+            if(entry.selected) {
+                return entry.value;
+            }
+        }
+        return "";
+    }
 
 	bool mMultiSelect;
 

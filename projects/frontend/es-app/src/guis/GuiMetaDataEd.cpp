@@ -158,7 +158,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
 
               std::string emulatorAndCore = emulatorName;
               emulatorAndCore.append(1, ':').append(coreName);
-              emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore);
+              emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore, emulatorAndCore);
             }
           }
 
@@ -180,7 +180,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           }
           for (const auto& ratio : ratioMap)
           {
-            ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second);
+            ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second, ratio.second);
           }
           ed = ratio_choice;
         }
@@ -193,7 +193,7 @@ GuiMetaDataEd::GuiMetaDataEd(Window& window,
           for(const auto& genre : Genres::GetOrderedList())
           {
             std::string genreString = Strings::ToString((int)genre);
-            genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetName(genre), genreString, mMetaData.GenreId() == genre);
+            genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetName(genre),genreString, mMetaData.GenreId() == genre, genreString);
           }
           ed = genre_choice;
         }

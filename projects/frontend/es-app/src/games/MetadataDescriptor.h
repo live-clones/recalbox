@@ -504,7 +504,7 @@ class MetadataDescriptor
     std::string GenreAsString()       const { return ReadPString(mGenre, DefaultValueEmpty);       }
     std::string RegionAsString()      const { return Regions::Serialize4Regions(mRegion);          }
 
-    std::string RatingAsString()      const { return Strings::ToString(mRating, 4);                        }
+    std::string RatingAsString()      const { return Strings::ToString(mRating, 2);                        }
     std::string PlayersAsString()     const { return IntToRange(mPlayers);                                 }
     std::string ReleaseDateAsString() const { return mReleaseDate != 0 ? DateTime((long long)mReleaseDate).ToCompactISO8601() : ""; }
     std::string PlayCountAsString()   const { return Strings::ToString(mPlaycount);                           }
