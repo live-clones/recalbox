@@ -25,3 +25,4 @@ Every case must be checked before a release.
 - [ ] PSP mapping generator rewritten => Test PSP games with all available pads
 - [ ] Pi400 support => Boot on Pi400 using Pi4 image
 - [ ] Check that Kodi does not crash upon loading
+- [ ] Test all broke studio games!

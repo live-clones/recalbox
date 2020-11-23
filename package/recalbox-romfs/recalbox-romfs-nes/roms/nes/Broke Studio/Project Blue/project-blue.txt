@@ -1,0 +1,17 @@
+developers: Donny Phillips (toggleswitch), Ellen Larsson (frankengraphics), M-Tee 
+publisher: Broke Studio
+year: 2020
+style: action platformer
+player: 1
+
+-------------------------------------------------------
+
+In the dystopian wasteland of Neo Hong Kong, help Blue escape from the evil clutches of the Omnicorp conglomerate.
+
+Avoid robots, lasers, pools of toxic waste, and more as you fight your way out of a research facility and exact revenge upon your captors.
+
+-------------------------------------------------------
+
+Dans les terres désolées de Neo Hong Kong, aidez Blue à échapper aux griffes maléfiques du conglomérat Omnicorp.
+
+Évitez les robots, les lasers, les bassins de déchets toxiques et bien plus encore en vous frayant un chemin pour sortir d’un centre de recherche et vous venger de vos ravisseurs.

@@ -19,6 +19,19 @@
     <image>./media/images/2048 (tsone).png</image>
     <genreid>2816</genreid>
   </game>
+  <game id="214437" source="ScreenScraper.fr">
+    <path>./Broke Studio/Basse Def Adventures/BasseDef-DEMO.nes</path>
+    <name>Basse Def Adventures</name>
+    <desc>Simon and Ludo, two longtime nerd friends, find themselves sucked into "Basse Def", a mysterious video game. They'll have to be clever to fight against the alien invasion and the lurking demons ...</desc>
+    <releasedate>20190601T000000</releasedate>
+    <developer>Broke Studio</developer>
+    <publisher>Omaké Games</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>689A19E2</hash>
+    <image>./media/images/Broke Studio/Basse Def Adventures/BasseDef-DEMO.png</image>
+    <genreid>257</genreid>
+  </game>
   <game id="97387" source="ScreenScraper.fr">
     <path>./BladeBuster (High Level Challenge).nes</path>
     <name>Blade Buster</name>
@@ -31,6 +44,20 @@
     <hash>3ABA6565</hash>
     <image>./media/images/BladeBuster (High Level Challenge).png</image>
     <genreid>260</genreid>
+  </game>
+  <game id="213969" source="ScreenScraper.fr">
+    <path>./Broke Studio/Bolb/böbl-1.1.nes</path>
+    <name>Böbl</name>
+    <desc>You're a bubble, water is your friend and solid tiles kill you. Hold A to dive, then release and let buoyancy handle the rest. Let's find all the lost duckies!</desc>
+    <rating>0.7</rating>
+    <releasedate>20190101T000000</releasedate>
+    <developer>Morphcat Games</developer>
+    <publisher>Morphcat Games</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>831956EA</hash>
+    <image>./media/images/Broke Studio/Bolb/böbl-1.1.png</image>
+    <genreid>257</genreid>
   </game>
   <game id="97388" source="ScreenScraper.fr">
     <path>./Chase (Shiru).nes</path>
@@ -114,6 +141,52 @@ There are fifty levels in all, with increasing difficulty. A password system is 
     <image>./media/images/Lawn Mower (Shiru).png</image>
     <genreid>256</genreid>
   </game>
+  <game id="214439" source="ScreenScraper.fr">
+    <path>./Broke Studio/Lizard/lizard_demo.nes</path>
+    <name>Lizard</name>
+    <desc>Put on a lizard and go for an adventure! 
+ 
+Choose your lizard carefully. You can find six different ones scattered across the land, each with its own special ability. 
+ 
+You'll need these abilities as you make your difficult journey through many dangerous places. Carefully hop your way to the top of an active volcano. Surf down a surging river. Swim an underwater lake. Ascend a snowy mountaintop. What kind of strange creatures will you meet? Can you unravel the mysteries of Lizard?</desc>
+    <rating>0.75</rating>
+    <releasedate>20180101T000000</releasedate>
+    <developer>Brad Smith</developer>
+    <publisher>Broke Studio</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>0016DFE1</hash>
+    <image>./media/images/Broke Studio/Lizard/lizard_demo.png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="192712" source="ScreenScraper.fr">
+    <path>./Broke Studio/Micro Mages/Micro Mages Demo.nes</path>
+    <name>Micro Mages</name>
+    <desc>Slip into your wizard robes and enter the Demon Fortress, home of great treasure and ghastly creatures alike. Micro Mages is a new platform game for the NES, for 1 to 4 players.</desc>
+    <rating>0.75</rating>
+    <releasedate>20190430T000000</releasedate>
+    <developer>Morphcat Games</developer>
+    <publisher>Morphcat Games</publisher>
+    <genre>Platform</genre>
+    <players>1-4</players>
+    <hash>0A36115D</hash>
+    <image>./media/images/Broke Studio/Micro Mages/Micro Mages Demo.png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="213971" source="ScreenScraper.fr">
+    <path>./Broke Studio/Nebs'n'debs/nebsndebs-demo-08142018.nes</path>
+    <name>Nebs 'n Debs</name>
+    <desc>Run, jump, and dash your way through 12 levels as you search for the missing parts of Debs's ship to escape the hostile alien planet Vespasian 7MV!</desc>
+    <rating>0.7</rating>
+    <releasedate>20180101T000000</releasedate>
+    <developer>Dullahan Software</developer>
+    <publisher>Broke Studio</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>0399F67C</hash>
+    <image>./media/images/Broke Studio/Nebs'n'debs/nebsndebs-demo-08142018.png</image>
+    <genreid>257</genreid>
+  </game>
   <game id="199992" source="ScreenScraper.fr">
     <path>./Nova The Squirrel.nes</path>
     <name>Nova The Squirrel</name>
@@ -139,6 +212,20 @@ There are fifty levels in all, with increasing difficulty. A password system is 
     <image>./media/images/Nova The Squirrel.png</image>
     <genreid>257</genreid>
   </game>
+  <game id="213973" source="ScreenScraper.fr">
+    <path>./Broke Studio/Project Blue/project-blue-recalbox-demo-2020.nes</path>
+    <name>Project Blue</name>
+    <desc>In the dystopian wasteland of Neo Hong Kong, help Blue escape from the evil clutches of the Omnicorp conglomerate. 
+Avoid robots, lasers, pools of toxic waste, and more as you fight your way out of a research facility and exact revenge upon your captors.</desc>
+    <releasedate>20190101T000000</releasedate>
+    <developer>Toggleswitch</developer>
+    <publisher>Broke Studio</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>B015A3F9</hash>
+    <image>./media/images/Broke Studio/Project Blue/project-blue-recalbox-demo-2020.png</image>
+    <genreid>257</genreid>
+  </game>
   <game id="97392" source="ScreenScraper.fr">
     <path>./Sir Ababol (2013)(The Mojon Twins)[!].nes</path>
     <name>Sir Ababol</name>
@@ -156,7 +243,7 @@ Control Sir Ababol accross the Monegrian fields and gather 24 ababol flowers. To
   </game>
   <game id="97393" source="ScreenScraper.fr">
     <path>./Steemerz v02 (fauxgame) (FR).nes</path>
-    <name>Streemerz (Français)</name>
+    <name>Streemerz</name>
     <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
  
 These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
@@ -172,7 +259,7 @@ These were the orders given to you, Operative JOE when you were ordered to infil
   </game>
   <game id="97393" source="ScreenScraper.fr">
     <path>./Steemerz v02 (fauxgame).nes</path>
-    <name>Streemerz (English)</name>
+    <name>Streemerz</name>
     <desc>Try climbing to the top of this one by throwing streamers and climbing them. On your way up you better watch out for the various pie throwing clowns, burning candles and bouncing balls, because if they get you, you'll die a little each time. 
  
 These were the orders given to you, Operative JOE when you were ordered to infiltrate the evil MASTER Y's floating fortress to destroy the TIGER ARMY's top secret weapon.</desc>
@@ -184,6 +271,20 @@ These were the orders given to you, Operative JOE when you were ordered to infil
     <players>1</players>
     <hash>DBFCA8FB</hash>
     <image>./media/images/Steemerz v02 (fauxgame) (FR).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="214443" source="ScreenScraper.fr">
+    <path>./Broke Studio/Super Bat Puncher/Super Bat Puncher Demo.nes</path>
+    <name>Super Bat Puncher</name>
+    <desc>Super Bat Puncher is an original homebrew game for the NES console. Explore the dark caverns of a mysterious planet and find out about the plague that threatens Earth.</desc>
+    <rating>0.75</rating>
+    <releasedate>20110101T000000</releasedate>
+    <developer>Morphcat Games</developer>
+    <publisher>Morphcat Games</publisher>
+    <genre>Platform</genre>
+    <players>1-2</players>
+    <hash>D04302FA</hash>
+    <image>./media/images/Broke Studio/Super Bat Puncher/Super Bat Puncher Demo.png</image>
     <genreid>257</genreid>
   </game>
   <game id="97394" source="ScreenScraper.fr">
@@ -201,6 +302,20 @@ Therefore the release is in nes rom format so you'll need an emulator to play it
     <players>1</players>
     <hash>64BAF729</hash>
     <image>./media/images/Tiger Jenny (Ludosity).png</image>
+    <genreid>257</genreid>
+  </game>
+  <game id="189652" source="ScreenScraper.fr">
+    <path>./Broke Studio/Twin Dragons/Twin-Dragons-DEMO.nes</path>
+    <name>Twin Dragons</name>
+    <desc>On a far away island, Dinky and Minky, the Twin Dragons, live on top of a mountain with their parents, waiting for their new sibling to hatch out. One day, while their parents went hunting, the sorcerer of the neighboring remote tribe's village decided to steal the egg in order to increase his power. Help Dinky and Minky on their fantastic journey to rescue the Precious !</desc>
+    <rating>0.75</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>Antoine Gohin</developer>
+    <publisher>Broke Studio</publisher>
+    <genre>Platform</genre>
+    <players>1</players>
+    <hash>94EC3724</hash>
+    <image>./media/images/Broke Studio/Twin Dragons/Twin-Dragons-DEMO.png</image>
     <genreid>257</genreid>
   </game>
   <game id="195395" source="ScreenScraper.fr">

@@ -55,6 +55,8 @@ All notable changes to this project will be documented in this file.
 - Update bios database #2
 - Fix metadata edition
 - Bump Kodi to 18.9 (#1345)
+- Add broke sdudio's game demos
+
 
 ## [7.0.1]
 - Fix resolution and fullscreen display for intro video

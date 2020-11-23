@@ -14,6 +14,7 @@
   - Automatic audio switch between speakers/headpĥones
   - Volume & Brightness buttons
   - First-boot wizard 
+- Add 8 Broke Studio'a game demos on NES!
 
 ### Improvements
 - Improved NESPi4 case detection
