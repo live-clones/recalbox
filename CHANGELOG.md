@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file.
 - Fix PPSSPP configuration generator
 - Improved flashback support
 - Add pi400 support
+- Update bios database #2
 
 
 ## [7.0.1]

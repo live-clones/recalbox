@@ -61,6 +61,7 @@
 - Fix UAE kickstart copy for WHDL games
 - Fix PSP mapping configuration
 
+
 ## Version 7.0.1
 
 ### News
