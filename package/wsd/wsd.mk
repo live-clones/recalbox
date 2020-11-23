@@ -17,10 +17,10 @@ define WSD_BUILD_CMDS
 endef
 
 define WSD_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 644 $(@D)/wsdd2 \
+	$(INSTALL) -D -m 755 $(@D)/wsdd2 \
 		$(TARGET_DIR)/usr/sbin/wsdd2
-	$(INSTALL) -D -m 644 $(WSD_PKGDIR)/S92wsd \
-		$(TARGET_DIR)/etc/init.d/S92wds
+	$(INSTALL) -D -m 755 $(WSD_PKGDIR)/S92wsd \
+		$(TARGET_DIR)/etc/init.d/S92wsd
 endef
 
 $(eval $(generic-package))
