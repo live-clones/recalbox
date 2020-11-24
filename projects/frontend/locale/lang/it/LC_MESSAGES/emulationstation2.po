@@ -2286,31 +2286,43 @@ msgstr "DIGITA ALMENO 3 CARATTERI"
 
 #
 msgid "AUTOMATIC WPS CONNECTION"
-msgstr ""
+msgstr "CONNESSIONE AUTOMATICA WPS"
 
 #
 msgid "Connecting to WIFI..."
-msgstr ""
+msgstr "Connessione a Wi-Fi..."
+
+#
+msgid "Disconnecting from WIFI..."
+msgstr "Disconnessione dal Wi-Fi..."
+
+#
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr "NESSUNA CONFIGURAZIONE WPS TROVATA!"
+
+#
+msgid "Hostname changes will not be effective until next reboot"
+msgstr "Le modifiche al nome host non saranno effettive fino al prossimo riavvio"
 
 #
 msgid "Enable/Disable Arcade virtual system and set its options"
-msgstr ""
+msgstr "Abilita / Disabilita il sistema virtuale Arcade e imposta le sue opzioni"
 
 #
 msgid "Fetching WIFI parameters"
-msgstr ""
+msgstr "Recupero parametri Wi-Fi"
 
 #
 msgid "EDIT MANUALLY"
-msgstr ""
+msgstr "MODIFICA MANUALMENTE"
 
 #
 msgid "Headphones"
-msgstr ""
+msgstr "Cuffie"
 
 #
 msgid "NETPLAY MITM"
-msgstr ""
+msgstr "NETPLAY RELAY SERVER"
 
 #
 msgid "RECALBOX API"
@@ -2318,90 +2330,90 @@ msgstr ""
 
 #
 msgid "RECALBOX MANAGER"
-msgstr ""
+msgstr "GESTORE RECALBOX"
 
 #
 msgid "Reseting WIFI configuration..."
-msgstr ""
+msgstr "Reimpostazione della configurazione Wi-Fi..."
 
 #
 msgid "WPS CONFIGURATION SUCCESSFUL!"
-msgstr ""
+msgstr "CONFIGURAZIONE WPS RIUSCITA!"
 
 #
 msgid "WPS CONNECTION"
-msgstr ""
+msgstr "CONNESSIONE WPS"
 
 #
 msgid "Waiting for IP address... (%is)"
-msgstr ""
+msgstr "In attesa di indirizzo IP... (%is)"
 
 #
 msgid "Waiting for WPS configuration..."
-msgstr ""
+msgstr "In attesa della configurazione WPS..."
 
 #
 msgid "SCREENSAVER"
-msgstr ""
+msgstr "SALVASCHERMO"
 
 #
 msgid "SHADERS"
-msgstr ""
+msgstr "SHADERS"
 
 #
 msgid "SYSTEMS TO SHOW IN DEMO"
-msgstr ""
+msgstr "SISTEMI DA MOSTRARE IN DEMO"
 
 #
 msgid "Saving WIFI configuration"
-msgstr ""
+msgstr "Salvataggio della configurazione Wi-Fi"
 
 #
 msgid "Scanning WIFI networks..."
-msgstr ""
+msgstr "Scansione reti Wi-Fi..."
 
 #
 msgid "THEME"
-msgstr ""
+msgstr "TEMA"
 
 #
 msgid ""
 "Shaders are like filters for the game rendering. You can select a raw shader "
 "file here. This setting may be overloaded by shaderset if not definied to "
 "'none'."
-msgstr ""
+msgstr "Gli shader sono come i filtri per il rendering del gioco. Puoi selezionare un file shader grezzo qui. Questa impostazione può essere sovraccaricata dallo shaderset se non è definita su 'nessuno'."
 
 #
 msgid "Select your keyboard layout."
-msgstr ""
+msgstr "Seleziona il layout della tastiera"
 
 #
 msgid "Mute (no sound)"
-msgstr ""
+msgstr "Muto (nessun suono)"
 
 #
 msgid "Internal Speakers"
-msgstr ""
+msgstr "Altoparlanti interni"
 
 #
 msgid "Headphone Jack"
-msgstr ""
+msgstr "Jack per cuffie"
 
 #
 msgid "Internal Speakers + Headphone Jack"
-msgstr ""
+msgstr "Altoparlanti interni + jack per cuffie"
 
 #
 msgid "black"
-msgstr ""
+msgstr "Schermo nero"
 
 #
 msgid "demo"
-msgstr ""
+msgstr "Modalità demo"
 
 #
 msgid "dim"
-msgstr ""
+msgstr "Scurisci"
 
 #
 msgid "Action (All)"
@@ -2728,7 +2740,13 @@ msgid ""
 "Work in Recalbox interface and in-game!\n"
 "\n"
 "Press button B to continue."
-msgstr "Solo poche parole sul pulsante POWER.\nPremilo rapidamente, come un clic del mouse, e la tua console andrà in stop. Premilo di nuovo rapidamente e la tua console si accenderà immediatamente! Funziona sull'interfaccia Recalbox e nei giochi!\n\nPremi il pulsante B per continuare."
+msgstr ""
+"Solo poche parole sul pulsante POWER.\n"
+"Premilo rapidamente, come un clic del mouse, e la tua console andrà in stop. "
+"Premilo di nuovo rapidamente e la tua console si accenderà immediatamente! "
+"Funziona sull'interfaccia Recalbox e nei giochi!\n"
+"\n"
+"Premi il pulsante B per continuare."
 
 #
 msgid ""
@@ -2739,7 +2757,14 @@ msgid ""
 "power-off.\n"
 "\n"
 "Press button B to continue."
-msgstr "Se premi il pulsante POWER per più di 2 secondi, la tua console si spegnerà. Se lo fai durante una partita, Recalbox chiuderà in anticipo l'emulatore corrente.\nPer precauzione, premendo il pulsante POWER per più di 5 secondi verrà avviato uno spegnimento forzato.\n\nPremi il pulsante B per continuare."
+msgstr ""
+"Se premi il pulsante POWER per più di 2 secondi, la tua console si spegnerà. "
+"Se lo fai durante una partita, Recalbox chiuderà in anticipo l'emulatore "
+"corrente.\n"
+"Per precauzione, premendo il pulsante POWER per più di 5 secondi verrà "
+"avviato uno spegnimento forzato.\n"
+"\n"
+"Premi il pulsante B per continuare."
 
 #
 msgid ""
@@ -2747,4 +2772,8 @@ msgid ""
 "connector, Recalbox will automatically switch the audio output. Convenient.\n"
 "\n"
 "Press button B, as usual."
-msgstr "Un'altra cosa utile: se colleghi o scolleghi le cuffie al connettore di ingresso, Recalbox cambierà automaticamente l'uscita audio. Comodo.\n\nPremi il pulsante B, come al solito."
+msgstr ""
+"Un'altra cosa utile: se colleghi o scolleghi le cuffie al connettore di "
+"ingresso, Recalbox cambierà automaticamente l'uscita audio. Comodo.\n"
+"\n"
+"Premi il pulsante B, come al solito."

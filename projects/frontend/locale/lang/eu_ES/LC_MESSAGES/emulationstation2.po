@@ -2160,6 +2160,18 @@ msgid "Connecting to WIFI..."
 msgstr ""
 
 #
+msgid "Disconnecting from WIFI..."
+msgstr ""
+
+#
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr ""
+
+#
+msgid "Hostname changes will not be effective until next reboot"
+msgstr ""
+
+#
 msgid "Enable/Disable Arcade virtual system and set its options"
 msgstr ""
 

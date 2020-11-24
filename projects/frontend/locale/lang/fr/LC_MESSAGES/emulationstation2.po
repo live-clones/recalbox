@@ -2395,6 +2395,18 @@ msgid "Connecting to WIFI..."
 msgstr "Connection au WIFI..."
 
 #
+msgid "Disconnecting from WIFI..."
+msgstr "Déconnexion du WIFI..."
+
+#
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr "AUCUNE CONFIGURATION WPS TROUVÉE!"
+
+#
+msgid "Hostname changes will not be effective until next reboot"
+msgstr "Le changement de nom sera effectif au prochain démarrage"
+
+#
 msgid "Enable/Disable Arcade virtual system and set its options"
 msgstr "Active/désactive le système virtual Arcade er règle ses options"
 
@@ -2412,7 +2424,7 @@ msgstr "Prise casque"
 
 #
 msgid "NETPLAY MITM"
-msgstr ""
+msgstr "SERVEUR NETPLAY RELAY"
 
 #
 msgid "RECALBOX API"
@@ -2791,7 +2803,8 @@ msgid ""
 " Press either volume up or down"
 msgstr ""
 "Ensuite nous avons deux boutons, marqués 'III' et 'IV'.\n"
-"Utilisez les pour régler le volume sonore n'importe quand, aussi bien dans l'interface Recalbox qu'en cours de jeu.\n"
+"Utilisez les pour régler le volume sonore n'importe quand, aussi bien dans "
+"l'interface Recalbox qu'en cours de jeu.\n"
 "\n"
 "Pressez un bouton volume pour continuer."
 
@@ -2829,7 +2842,13 @@ msgid ""
 "Work in Recalbox interface and in-game!\n"
 "\n"
 "Press button B to continue."
-msgstr "Juste quelques mots sur le bouton POWER.\nUne pression courte, comme un click souris, mettra votre console en mode veille. Une nouvelle pression courte la sortira de veille instantanement! Fonctionne dans l'interface Recalbox et en cours de jeu!\n\nAppuyez sur le bouton B pour continuer."
+msgstr ""
+"Juste quelques mots sur le bouton POWER.\n"
+"Une pression courte, comme un click souris, mettra votre console en mode "
+"veille. Une nouvelle pression courte la sortira de veille instantanement! "
+"Fonctionne dans l'interface Recalbox et en cours de jeu!\n"
+"\n"
+"Appuyez sur le bouton B pour continuer."
 
 #
 msgid ""
@@ -2840,7 +2859,14 @@ msgid ""
 "power-off.\n"
 "\n"
 "Press button B to continue."
-msgstr "Si vous laissez appuyé le bouton POWER plus de 2 secondes, votre console s'arretera. Si vous le faite en cours de jeu, Recalbox fermera proprement l'émulateur en cours.\nJuste au cas ou, laisser appuyé le bouton POWER plus de 5 secondes provoquera un arrêt matériel.\n\nAppuyez sur le bouton B pour continuer."
+msgstr ""
+"Si vous laissez appuyé le bouton POWER plus de 2 secondes, votre console "
+"s'arretera. Si vous le faite en cours de jeu, Recalbox fermera proprement "
+"l'émulateur en cours.\n"
+"Juste au cas ou, laisser appuyé le bouton POWER plus de 5 secondes "
+"provoquera un arrêt matériel.\n"
+"\n"
+"Appuyez sur le bouton B pour continuer."
 
 #
 msgid ""
@@ -2848,4 +2874,9 @@ msgid ""
 "connector, Recalbox will automatically switch the audio output. Convenient.\n"
 "\n"
 "Press button B, as usual."
-msgstr "Une dernière chose à savoir: Si vous branchez ou débranchez vos ecouteurs dans la prise jack, Recalbox changera la sortie son automatiquement. Pratique.\n\nAppuyez sur B, comme d'habitude."
+msgstr ""
+"Une dernière chose à savoir: Si vous branchez ou débranchez vos ecouteurs "
+"dans la prise jack, Recalbox changera la sortie son automatiquement. "
+"Pratique.\n"
+"\n"
+"Appuyez sur B, comme d'habitude."

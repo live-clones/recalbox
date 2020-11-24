@@ -2272,6 +2272,18 @@ msgid "Connecting to WIFI..."
 msgstr ""
 
 #
+msgid "Disconnecting from WIFI..."
+msgstr ""
+
+#
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr ""
+
+#
+msgid "Hostname changes will not be effective until next reboot"
+msgstr ""
+
+#
 msgid "Enable/Disable Arcade virtual system and set its options"
 msgstr ""
 
@@ -2675,7 +2687,14 @@ msgid ""
 "Work in Recalbox interface and in-game!\n"
 "\n"
 "Press button B to continue."
-msgstr "Kurz ein paar Worte zur POWER-Taste.\nEin kurzes Drücken der POWER-Taste bewirkt, dass die Konsole in den Ruhemodus versetzt wird. Durch erneutes kurzes Drücken erwacht die Konsole wieder aus dem Ruhemodus. Dies funktioniert in der Recalbox Oberfläche sowie auch in einem gestarteten Spiel.\n\nDrücke die Taste B um fortzufahren."
+msgstr ""
+"Kurz ein paar Worte zur POWER-Taste.\n"
+"Ein kurzes Drücken der POWER-Taste bewirkt, dass die Konsole in den "
+"Ruhemodus versetzt wird. Durch erneutes kurzes Drücken erwacht die Konsole "
+"wieder aus dem Ruhemodus. Dies funktioniert in der Recalbox Oberfläche sowie "
+"auch in einem gestarteten Spiel.\n"
+"\n"
+"Drücke die Taste B um fortzufahren."
 
 #
 msgid ""
@@ -2686,7 +2705,14 @@ msgid ""
 "power-off.\n"
 "\n"
 "Press button B to continue."
-msgstr "Drücke die POWER-Taste länger als 2 Sekunden und die Konsole wird ausgeschaltet. Wenn das im Spiel gemacht wird, schließt Recalbox den aktuellen Emulator ordnungsgemäß.\nFür den Fall, dass die POWER-Taste länger als 5 Sekunden gedrückt wird, führt das zu einem harten Ausschalten.\n\nDrücke die Taste B um fortzufahren."
+msgstr ""
+"Drücke die POWER-Taste länger als 2 Sekunden und die Konsole wird "
+"ausgeschaltet. Wenn das im Spiel gemacht wird, schließt Recalbox den "
+"aktuellen Emulator ordnungsgemäß.\n"
+"Für den Fall, dass die POWER-Taste länger als 5 Sekunden gedrückt wird, "
+"führt das zu einem harten Ausschalten.\n"
+"\n"
+"Drücke die Taste B um fortzufahren."
 
 #
 msgid ""
@@ -2694,4 +2720,9 @@ msgid ""
 "connector, Recalbox will automatically switch the audio output. Convenient.\n"
 "\n"
 "Press button B, as usual."
-msgstr "Noch etwas wissenswertes: Wenn Kopfhörer am Klinkenanschluss ein- oder ausgesteckt werden, schaltet Recalbox den Audioausgang automatisch um. Praktisch.\n\nDrücke auch hier wie gewohnt die Taste B."
+msgstr ""
+"Noch etwas wissenswertes: Wenn Kopfhörer am Klinkenanschluss ein- oder "
+"ausgesteckt werden, schaltet Recalbox den Audioausgang automatisch um. "
+"Praktisch.\n"
+"\n"
+"Drücke auch hier wie gewohnt die Taste B."
