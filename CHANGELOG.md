@@ -54,7 +54,7 @@ All notable changes to this project will be documented in this file.
 - Add pi400 support
 - Update bios database #2
 - Fix metadata edition
-- Bump Kodi to 18.9 (#1345)
+- Bump Kodi to 18.9 (#1345) and add its hashes (#1432)
 - Add broke sdudio's game demos
 
 
