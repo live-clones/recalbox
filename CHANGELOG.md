@@ -56,6 +56,8 @@ All notable changes to this project will be documented in this file.
 - Fix metadata edition
 - Bump Kodi to 18.9 (#1345) and add its hashes (#1432)
 - Add broke sdudio's game demos
+- Add missing PT/ES/DE/IT/FR translations
+- Add Model3 theme
 
 
 ## [7.0.1]
