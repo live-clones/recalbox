@@ -182,7 +182,7 @@ This is a [comment from NOOBS source code](https://github.com/raspberrypi/noobs/
       {
         "name": "Recalbox",
         "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
-        "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.svg",
+        "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
         "subitems_url": "https://upgrade.recalbox.com/latest/rpi-imager/os_list_imagingutility_recalbox.json"
       }
     ]

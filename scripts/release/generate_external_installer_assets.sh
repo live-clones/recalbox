@@ -121,7 +121,7 @@ function generateRaspberryPiImagerAssets {
         -e "s|{{rpi3ImageDownloadSha256}}|${metadata[rpi3ImageDownloadSha256]}|" \
         -e "s|{{rpi4ImageDownloadSha256}}|${metadata[rpi4ImageDownloadSha256]}|" \
   > "${destinationDir}/os_list_imagingutility_recalbox.json"
-  cp "${templateDir}/recalbox.svg" "${destinationDir}/recalbox.svg"
+  cp "${templateDir}/recalbox.png" "${destinationDir}/recalbox.png"
 }
 
 ## PARAMETERS PARSING ##
