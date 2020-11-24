@@ -5,6 +5,11 @@ then
   exit 0
 fi
 
+# If the share partition is empty, try playing the "creating share" video
+if [ "$(find /recalbox/share -type f |wc -l)" = "0" ]; then
+    /recalbox/scripts/recalbox-create-share.sh
+fi
+
 # Installation image
 if [ -f /tmp/.install.sh ]; then
     ( /tmp/.install.sh installstuff ) &

@@ -25,6 +25,10 @@ findConnectedConnectors() {
 # * filename to play
 playVideo() {
   local conn
+  # Already playing?
+  if [[ -f /tmp/newshare ]] ; then
+    exit 0
+  fi
   if [[ "$machineArch" =~ x86 ]]; then
     # on x86 and x86_64, find connected monitors and play video on all of them
     findConnectedConnectors | while read -r conn; do

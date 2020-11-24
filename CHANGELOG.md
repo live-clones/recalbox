@@ -63,6 +63,7 @@ All notable changes to this project will be documented in this file.
 - Enable multi-thread LTO optimizations
 - Bump FBNeo to fix megdrive driver (thanks to Barbudreadmon)
 - Fix bios database (neogeo.zip)
+- Play share video even when noobs created partitions
 
 
 ## [7.0.1]
