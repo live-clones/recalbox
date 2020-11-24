@@ -64,6 +64,7 @@ All notable changes to this project will be documented in this file.
 - Bump FBNeo to fix megdrive driver (thanks to Barbudreadmon)
 - Fix bios database (neogeo.zip)
 - Play share video even when noobs created partitions
+- Switch broike studio's games to FCEUM core
 
 
 ## [7.0.1]
