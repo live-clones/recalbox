@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_FBNEO_VERSION = v1.0.0.0
+# Version 1.0.0.0 + megadrive driver fix
+LIBRETRO_FBNEO_VERSION = 0f55647e043ace3ffb21003ee66f4fc65ad6ed4f
 LIBRETRO_FBNEO_SITE = $(call github,libretro,FBNeo,$(LIBRETRO_FBNEO_VERSION))
 
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)

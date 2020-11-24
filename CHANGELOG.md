@@ -61,6 +61,7 @@ All notable changes to this project will be documented in this file.
 - Add Model3 theme
 - Fix tvservice script on Odroid Go Advance
 - Enable multi-thread LTO optimizations
+- Bump FBNeo to fix megdrive driver (thanks to Barbudreadmon)
 
 
 ## [7.0.1]
