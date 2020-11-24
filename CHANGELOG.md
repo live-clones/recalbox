@@ -58,6 +58,7 @@ All notable changes to this project will be documented in this file.
 - Add broke sdudio's game demos
 - Add missing PT/ES/DE/IT/FR translations
 - Add Model3 theme
+- Fix tvservice script on Odroid Go Advance
 
 
 ## [7.0.1]
