@@ -62,6 +62,7 @@ All notable changes to this project will be documented in this file.
 - Fix tvservice script on Odroid Go Advance
 - Enable multi-thread LTO optimizations
 - Bump FBNeo to fix megdrive driver (thanks to Barbudreadmon)
+- Fix bios database (neogeo.zip)
 
 
 ## [7.0.1]
