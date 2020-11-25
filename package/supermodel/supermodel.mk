@@ -4,20 +4,22 @@
 #
 ################################################################################
 
-SUPERMODEL_VERSION = r832
+SUPERMODEL_VERSION = r833
 SUPERMODEL_SITE = svn://svn.code.sf.net/p/model3emu/code/trunk
 SUPERMODEL_SITE_METHOD = svn
 SUPERMODEL_LICENSE = GPL2
-SUPERMODEL_DEPENDENCIES = zlib libpng libogg libvorbis
+SUPERMODEL_DEPENDENCIES = zlib libpng libogg libvorbis sdl2_net sdl2
 
 define SUPERMODEL_BUILD_CMDS
 	cp $(@D)/Makefiles/Makefile.UNIX $(@D)/Makefile
-	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
+	$(SED) "s|OPT = -Ofast|OPT = -O3 -fno-strict-aliasing|g" $(@D)/Makefiles/Rules.inc
+	$(SED) "s|-Ofast|-O3 -fno-strict-aliasing |g" $(@D)/Makefile
 	$(SED) "s|CC = gcc|CC = $(TARGET_CC)|g" $(@D)/Makefile
 	$(SED) "s|CXX = g++|CXX = $(TARGET_CXX)|g" $(@D)/Makefile
 	$(SED) "s|LD = gcc|LD = $(TARGET_CC)|g" $(@D)/Makefile
 	$(SED) "s|sdl2-config|$(STAGING_DIR)/usr/bin/sdl2-config|g" $(@D)/Makefile
-	$(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(@D) -f Makefile VERBOSE=1
+	$(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(@D) -f Makefile \
+	NET_BOARD=1 DEBUG=0 NEW_FRAME_TIMING=1 ENABLE_DEBUGGER=0
 endef
 
 define SUPERMODEL_INSTALL_TARGET_CMDS
@@ -27,7 +29,7 @@ define SUPERMODEL_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/recalbox/share_init/system/configs/model3/Games.xml
 	$(INSTALL) -D -m 0644 $(@D)/Config/Supermodel.ini \
 		$(TARGET_DIR)/recalbox/share_init/system/configs/model3/Supermodel.ini
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/model3/NVRAM
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/saves/model3/NVRAM
 endef
 
 define SUPERMODEL_LINE_ENDINGS_FIXUP

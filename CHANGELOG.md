@@ -34,6 +34,8 @@ All notable changes to this project will be documented in this file.
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
 - Remove updatev2 directory from sources
+## [Next]
+- Fix Supermodel build and move Nvram on saves path
 - Fix betatest TESTING.md lint script
 - Fix high cpu load with second minitft scripts
 - Fix NOOBS installation

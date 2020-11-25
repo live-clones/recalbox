@@ -70,6 +70,7 @@
 - Bump Kodi to 18.9
 
 ### Fixes
+- Fix Supermodel build and move Nvram path
 - Fix AdvanceMAME
 - Fix freezes on megadrive/picodrive
 - Fix broken WIFI on some Intel chips
