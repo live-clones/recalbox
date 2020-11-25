@@ -55,7 +55,7 @@ lint commits:
 lint beta-tests:
   <<: *lint_definition
   script:
-    - grep TESTING.md -e '^- \[ \]' && echo "Beta test not over" && exit 1
+    - if grep TESTING.md -q -e '^- \[ \]';then echo "Beta test not over" && exit 1; fi
   allow_failure: true
 
 lint changelog:

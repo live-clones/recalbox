@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Fix betatest TESTING.md lint script
 - Fix high cpu load with second minitft scripts
 - Fix NOOBS installation
 - Add model3 arcade system
