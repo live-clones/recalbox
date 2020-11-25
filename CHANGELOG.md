@@ -67,6 +67,7 @@ All notable changes to this project will be documented in this file.
 - Switch broike studio's games to FCEUM core
 - Fix update window size on low resolutions
 - Add 4 mame games free to distribute for non-commercial use
+- Update TESTINGS.md
 
 
 ## [7.0.1]
