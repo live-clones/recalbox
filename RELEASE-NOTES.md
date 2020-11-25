@@ -15,6 +15,7 @@
   - Volume & Brightness buttons
   - First-boot wizard 
 - Add 8 Broke Studio'a game demos on NES!
+- Add 4 MAME games from the '80
 
 ### Improvements
 - Improved NESPi4 case detection

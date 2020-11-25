@@ -66,6 +66,7 @@ All notable changes to this project will be documented in this file.
 - Play share video even when noobs created partitions
 - Switch broike studio's games to FCEUM core
 - Fix update window size on low resolutions
+- Add 4 mame games free to distribute for non-commercial use
 
 
 ## [7.0.1]

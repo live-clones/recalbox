@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Mame</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="41522" source="ScreenScraper.fr">
+    <path>./gridlee.zip</path>
+    <name>Gridlee</name>
+    <desc>A game where the player controls a bottle-shaped character named Gridlee who has to catch colored balls (or the crystal) for points &amp; shoot the enemies while they are overhead. Shooting enemies also awards the player points, but more importantly, the only way to pass a level is to shoot every enemy. The player knows when the enemy is overhead by looking at his shadow on the grid. Each red ball is worth 100 points. The green ball appears after catching 3 red balls &amp; isworth 500 points. The crystal appears after catching 3 red balls, a green ball and 3 more red balls. It is worth 1000 points and must be caught before it lands since it will not bounce, but instead disappear. The green balls bounce very high and can bounce far, making them hard to catch. The player has to avoid touching the bouncing enemies, the charged tiles that flash after enemies land on them, and the worm that moves horizontally across the tiles while charging them. There is a character named Igor that spits a sticky gum-like substance, which turns the tile it lands on pink and causes Gridlee to move slow when walking on that tile. Also, if there's one enemy left bouncing for a while as the player catches the 
+balls, the enemy eventually charges tile after tile, which makes it dangerous for the player as the walking space is limited.</desc>
+    <rating>0.5</rating>
+    <releasedate>19830101T000000</releasedate>
+    <developer>Videa</developer>
+    <publisher>Videa, Inc.</publisher>
+    <genre>Shooter / 3rd person-Shooter</genre>
+    <players>1-2</players>
+    <hash />
+    <image>./media/images/gridlee.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="42169" source="ScreenScraper.fr">
+    <path>./looping.zip</path>
+    <name>Looping</name>
+    <desc>As the player begins his flight into Adventure-Land, his airplane is quickly surrounded by hot air balloons. WATCH OUT! These seemingly innocent colorful objects mean destruction. 
+ 
+Immediately the Player's flying skills are tested. The hot air balloons challenge and engage the Player in a fierce dogfight. The Player must loop his plane to avoid and destroy the swirling balloons. 
+ 
+As the Player continues his journey into Adventure-Land he encounters the Maze Tunnel. Now the Player must guide and loop his airplane through the labyrinth with precision movements.</desc>
+    <rating>0.6</rating>
+    <releasedate>19820101T000000</releasedate>
+    <developer>Video Games GmbH</developer>
+    <publisher>Video Games GmbH</publisher>
+    <genre>Shooter / Plane-Shooter</genre>
+    <players>1-2</players>
+    <hash />
+    <image>./media/images/looping.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="43434" source="ScreenScraper.fr">
+    <path>./supertnk.zip</path>
+    <name>Super Tank</name>
+    <desc>Super Tank is a shooter where you control a tank and have to clear a field of mines and bushes. You are chased by enemy tanks, which fire at you. After wiping out all the mines and bushes, you reach the second level. It is kind of a 'boss' level, where you have to fight a big enemy tank, the Super Tank. You can destroy it by a direct hit into its gun.</desc>
+    <rating>0.5</rating>
+    <releasedate>19810101T000000</releasedate>
+    <developer>Video Games GmbH</developer>
+    <publisher>SNK</publisher>
+    <genre>Shooter</genre>
+    <players>1-2</players>
+    <hash />
+    <image>./media/images/supertnk.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="42789" source="ScreenScraper.fr">
+    <path>./robby.zip</path>
+    <name>The Adventures of Robby Roto!</name>
+    <desc>When playing this game. YOU are ROTO's mentor. He takes his directions ONLY from YOU and will do your bidding exclusively. YOU determine the strategies he will use to defeat the evil monster VOLTAR who has invaded the Earth, stealing all types of treasures and burying them deep within the earth. VOLTAR also takes hostages and seals them in vaults deep within the earth. 
+ 
+There is only one way to save the hostages and recover the stolen treasures. We must send in ROTO. He will follow VOLTAR right into his own home tunnels to rescue the hostages and recover the stolen treasures VOLTAR has salted away. 
+ 
+To say the least, this makes VOLTAR more than just a little bit upset with ROTO. To help protect his stolen treasures and kidnapped hostages. VOLTAR has developed a breed of giant SPIDER that can sense ROTO's location and that can also travel through solid earth. These SPIDERS attempt to corner and capture ROTO. And to direct their hunt for ROTO, VOLTAR turns himself into a TROLL that can travel through solid earth. 
+ 
+</desc>
+    <rating>0.5</rating>
+    <releasedate>19810101T000000</releasedate>
+    <publisher>Dave Nutting Associates</publisher>
+    <genre>Action-Action / Labyrinth</genre>
+    <players>1-2</players>
+    <hash />
+    <image>./media/images/robby.png</image>
+    <genreid>258</genreid>
+  </game>
+</gameList>
