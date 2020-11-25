@@ -59,7 +59,6 @@ function generateNoobsAssets {
   cp "${templateDir}/marketing.tar" "${destinationDir}/marketing.tar"
   cp "${templateDir}/marketing-kubii.tar" "${destinationDir}/marketing-kubii.tar"
   cp "${templateDir}/os_list_kubii.json" "${destinationDir}/os_list_kubii.json"
-  cp "${templateDir}/partition_setup.sh" "${destinationDir}/partition_setup.sh"
 
   cat "${templateDir}/os.json" \
   | sed -e "s|{{version}}|${metadata[version]}|" \
