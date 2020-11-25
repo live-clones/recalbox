@@ -63,6 +63,7 @@
 - Fix UAE configuration for CDTV/CD32
 - Fix UAE kickstart copy for WHDL games
 - Fix PSP mapping configuration
+- Fix Mupen64 resolution on x86/x64
 
 
 ## Version 7.0.1

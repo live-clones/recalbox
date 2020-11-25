@@ -71,6 +71,7 @@ All notable changes to this project will be documented in this file.
 - Fix update window size on low resolutions
 - Add 4 mame games free to distribute for non-commercial use
 - Update TESTINGS.md
+- Fix tvservice on x86/x64 - rely on xrandr instead of framebuffer
 
 
 ## [7.0.1]
