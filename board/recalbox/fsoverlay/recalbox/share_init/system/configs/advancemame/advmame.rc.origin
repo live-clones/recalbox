@@ -31,3 +31,6 @@ input_map[ui_right] keyboard[0,right]
 input_map[ui_select] keyboard[0,enter]
 input_map[ui_save_state] keyboard[0,lshift] keyboard[0,f7]
 input_map[ui_load_state] keyboard[0,f7] not keyboard[0,lshift]
+
+device_video_clock 5 - 150 / 5 - 90 / 5 - 130
+device_video_modeline ATSC-1080-59.94p 148.352 1920 1960 2016 2200 1080 1082 1088 1125 +hsync +vsync
