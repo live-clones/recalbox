@@ -65,6 +65,7 @@ All notable changes to this project will be documented in this file.
 - Fix bios database (neogeo.zip)
 - Play share video even when noobs created partitions
 - Switch broike studio's games to FCEUM core
+- Fix update window size on low resolutions
 
 
 ## [7.0.1]
