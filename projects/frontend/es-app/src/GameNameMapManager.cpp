@@ -73,7 +73,7 @@ bool GameNameMapManager::IsFiltered(const SystemData& system, const std::string&
   if (system.hasPlatformId(PlatformIds::PlatformId::ARCADE) ||
       system.hasPlatformId(PlatformIds::PlatformId::NEOGEO))
   {
-    return (!mMameBios.contains(filenameWoExt) && !mMameDevices.contains(filenameWoExt));
+    return (mMameBios.contains(filenameWoExt) || mMameDevices.contains(filenameWoExt));
   }
   return false;
 }
