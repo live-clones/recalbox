@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Next]
 - Fix rpiimager by reducing descriptions and change os order
+- Remove updatev2 directory from sources
 - Fix betatest TESTING.md lint script
 - Fix high cpu load with second minitft scripts
 - Fix NOOBS installation
