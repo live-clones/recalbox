@@ -26,6 +26,18 @@ class SupermodelGenerator(Generator):
         return musicVolume
 
     @staticmethod
+    def GetNoSound(system):
+        noSound = []
+        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
+        supermodelSettings.loadFile(True)
+        soundState = supermodelSettings.getOption("no-sound", "")
+        if noSound == "0" :
+            None
+        else:
+            noSound.append("-no-sound")
+        return noSound
+
+    @staticmethod
     def GetVolume(system):
         Volume = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
@@ -256,6 +268,7 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetDsb(system))
         commandArray.extend(self.GetBalance(system))
         commandArray.extend(self.GetSoundEngine(system))
+        commandArray.extend(self.GetNoSound(system))
         ## -----VIDEO------
         commandArray.extend(self.GetResolution(system))
         commandArray.extend(self.GetScreenRatio(system))
