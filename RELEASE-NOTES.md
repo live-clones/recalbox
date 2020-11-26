@@ -1,6 +1,6 @@
 # Release notes
 
-## Version NEXT
+## Version 7.1-Reloaded
 
 ### News
 - Add model3 arcade system
@@ -14,7 +14,7 @@
   - Automatic audio switch between speakers/headpĥones
   - Volume & Brightness buttons
   - First-boot wizard 
-- Add 8 Broke Studio'a game demos on NES!
+- Add 8 Broke Studio's game demos on NES!
 - Add 4 MAME games from the '80
 
 ### Improvements

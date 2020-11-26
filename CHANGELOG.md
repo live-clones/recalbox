@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Next]
+## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
 - Remove updatev2 directory from sources
 - Fix betatest TESTING.md lint script
