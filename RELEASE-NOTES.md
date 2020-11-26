@@ -1,5 +1,15 @@
 # Release notes
 
+## Next
+
+### News
+
+### Improvements
+- Bump Amiberry to version 3.3
+
+### Fixes
+
+
 ## 7.1.1-Reloaded
 
 ### Fixes

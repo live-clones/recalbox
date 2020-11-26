@@ -2,6 +2,9 @@
 All changes that must be tested will be documented in this file.
 Every case must be checked before a release.
 
+## [Next]
+- [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
+
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
 - [X] Clock should update properly

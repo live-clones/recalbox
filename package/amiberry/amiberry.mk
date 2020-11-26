@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-AMIBERRY_VERSION = v3.1.3.1
-AMIBERRY_SITE = $(call github,midwan,amiberry,$(AMIBERRY_VERSION))
+AMIBERRY_VERSION = v3.3
+AMIBERRY_SITE = $(call gitlab,recalbox,packages/standalone/amiberry,$(AMIBERRY_VERSION))
 AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf libcapsimage libmpeg2 mpg123 flac
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
@@ -19,8 +19,7 @@ AMIBERRY_PLATFORM=rpi1-sdl2
 else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
 AMIBERRY_PLATFORM=xu4
 else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
-AMIBERRY_PLATFORM=go-advance-libgo2
-AMIBERRY_DEPENDENCIES += libgo2
+AMIBERRY_PLATFORM=go-advance
 endif
 
 define AMIBERRY_BUILD_CMDS
@@ -41,7 +40,6 @@ define AMIBERRY_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/share/amiberry
 	cp -R $(@D)/data $(TARGET_DIR)/usr/share/amiberry
 	cp -R $(@D)/whdboot $(TARGET_DIR)/usr/share/amiberry
-	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/hostprefs.conf
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Savegames/foo.txt
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Kickstarts/foo.txt
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Debugs/foo.txt
