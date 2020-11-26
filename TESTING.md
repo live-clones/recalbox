@@ -23,6 +23,7 @@ Every case must be checked before a release.
 - [ ] Validate libretro-mupen64plus-next compiles on all boards
 - [ ] BR2020.11 - Check hyperion still works
 - [ ] BR2020.11 - Test libretro-fmsx
+- [ ] BR2020.11 - Test kodi-audiodecoder-timidity
 
 
 ## [7.1-Reloaded]
