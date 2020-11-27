@@ -5,7 +5,7 @@
 ################################################################################
 
 ifeq ($(BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_4),y)
-RPI_FIRMWARE_VERSION = bff705fffe59ad3eea33999beb29c3f26408de40
+RPI_FIRMWARE_VERSION = e15ef4e4fe8be99cd816cec901d977224a1eb07e
 else
 RPI_FIRMWARE_VERSION = 1.20200212
 endif
@@ -24,6 +24,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTB_OVERLAYS),y)
 define RPI_FIRMWARE_INSTALL_DTB_OVERLAYS
+	$(INSTALL) -D -m 0644 $(@D)/boot/overlays/overlay_map.dtb $(BINARIES_DIR)/rpi-firmware/overlays/overlay_map.dtb
 	for ovldtb in  $(@D)/boot/overlays/*.dtbo; do \
 		$(INSTALL) -D -m 0644 $${ovldtb} $(BINARIES_DIR)/rpi-firmware/overlays/$${ovldtb##*/} || exit 1; \
 	done
