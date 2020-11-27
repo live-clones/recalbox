@@ -8,11 +8,13 @@
 #include <components/VideoComponent.h>
 #include <utils/Strings.h>
 #include <algorithm>
+#include <MainRunner.h>
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
 #include "RootFolders.h"
 #include "ThemeException.h"
 
+bool ThemeData::sThemeChanged = false;
 std::vector<std::string>& ThemeData::SupportedViews()
 {
   static std::vector<std::string> sSupportedViews =
@@ -669,9 +671,8 @@ const ThemeElement* ThemeData::getElement(const std::string& view, const std::st
 const ThemeData& ThemeData::getCurrent()
 {
 	static ThemeData sCurrent;
-	static bool sLoaded = false;
 
-	if (!sLoaded)
+	if (ThemeData::IsThemeChanged())
 	{
 		Path path;
 		const std::string& currentTheme = RecalboxConf::Instance().GetThemeFolder();
@@ -725,10 +726,18 @@ const ThemeData& ThemeData::getCurrent()
       }
 		}
 
-		sLoaded = true;
+        ThemeData::SetThemeChanged(false);
 	}
 
 	return sCurrent;
+}
+
+void ThemeData::SetThemeChanged(bool themeChanged){
+    sThemeChanged = themeChanged;
+}
+
+bool ThemeData::IsThemeChanged(){
+    return sThemeChanged;
 }
 
 std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)

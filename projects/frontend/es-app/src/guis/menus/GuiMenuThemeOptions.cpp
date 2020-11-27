@@ -37,8 +37,10 @@ GuiMenuThemeOptions::GuiMenuThemeOptions(Window& window)
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
 {
-  if (mReloadRequired)
-    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+  if (mReloadRequired) {
+      ThemeData::SetThemeChanged(true);
+      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+  }
 }
 
 void GuiMenuThemeOptions::SetCarousel(bool on)

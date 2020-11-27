@@ -39,6 +39,8 @@ class ThemeData
         std::vector<std::string> orderedKeys;
     };
 
+    static bool sThemeChanged;
+
   public:
 
     ThemeData();
@@ -63,6 +65,8 @@ class ThemeData
 
     static const ThemeData& getDefault();
     static const ThemeData& getCurrent();
+    static void SetThemeChanged(bool themeChanged);
+    static bool IsThemeChanged();
 
 	static std::map<std::string, ThemeSet> getThemeSets();
 	static std::map<std::string, std::string> getThemeSubSets(const std::string& theme);
