@@ -18,7 +18,7 @@ set(CORE_HEADERS
 		src/Renderer.h
 		src/Settings.h
 		src/RootFolders.h
-		src/MenuThemeData.h
+        src/themes/MenuThemeData.h
 		src/VideoEngine.h
 		src/Window.h
 		src/utils/sdl2/ISynchronousEvent.h
@@ -173,7 +173,7 @@ set(CORE_SOURCES
 		src/Renderer.cpp
 		src/Settings.cpp
 		src/RootFolders.cpp
-		src/MenuThemeData.cpp
+        src/themes/MenuThemeData.cpp
 		src/VideoEngine.cpp
 		src/Window.cpp
 		src/utils/sdl2/SyncTimer.cpp

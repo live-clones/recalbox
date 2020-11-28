@@ -1,6 +1,6 @@
 #include <guis/GuiTextEditPopupKeyboard.h>
 #include <components/MenuComponent.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <RecalboxConf.h>
 #include <utils/locale/LocaleHelper.h>
 

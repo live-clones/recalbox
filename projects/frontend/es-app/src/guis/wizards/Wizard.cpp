@@ -3,7 +3,7 @@
 //
 
 #include "Wizard.h"
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <utils/locale/LocaleHelper.h>
 #include <components/TextComponent.h>
 #include <components/ImageComponent.h>

@@ -4,7 +4,7 @@
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 // animation definition
 AnimationFrame BUSY_ANIMATION_FRAMES[] = {

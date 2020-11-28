@@ -14,7 +14,7 @@
 #include "components/MenuComponent.h" // for makeButtonGrid
 #include "guis/GuiMsgBox.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 #include "MenuMessages.h"
 
 GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)

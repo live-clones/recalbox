@@ -3,7 +3,7 @@
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 #define BUTTON_GRID_VERT_PADDING Math::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)
 #define BUTTON_GRID_HORIZ_PADDING Math::max(Renderer::getDisplayWidthAsFloat() * 0.01f, 3.0f)

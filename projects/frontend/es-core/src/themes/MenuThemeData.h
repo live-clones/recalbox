@@ -59,6 +59,11 @@ class MenuThemeData
 public:
 	static std::shared_ptr<MenuThemeData> getInstance();
 	inline std::shared_ptr<MenuTheme> getCurrentTheme() { return mCurrent; };
+
+	/*!
+	 * @brief Destroy the singleton and force menu theme reloading
+	 */
+	static void Reset();
 	
 private:
 	MenuThemeData();

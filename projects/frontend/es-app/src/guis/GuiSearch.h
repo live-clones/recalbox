@@ -12,7 +12,7 @@
 #include <components/TextEditComponent.h>
 #include <components/OptionListComponent.h>
 #include <components/VideoComponent.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include "systems/SystemManager.h"
 
 class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface

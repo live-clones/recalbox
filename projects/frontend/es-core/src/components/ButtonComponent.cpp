@@ -2,7 +2,7 @@
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 ButtonComponent::ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
   : Component(window),

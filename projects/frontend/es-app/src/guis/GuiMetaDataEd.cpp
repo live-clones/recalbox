@@ -8,7 +8,7 @@
 #include "components/RatingComponent.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 #include "components/OptionListComponent.h"
 #include "recalbox/RecalboxSystem.h"
 

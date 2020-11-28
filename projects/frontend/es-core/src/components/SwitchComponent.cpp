@@ -3,7 +3,7 @@
 #include "resources/Font.h"
 #include "Window.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 SwitchComponent::SwitchComponent(Window&window)
   : Component(window),

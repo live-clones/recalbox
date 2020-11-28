@@ -14,7 +14,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <components/TextComponent.h>
 #include <components/ImageComponent.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <input/InputCompactEvent.h>
 
 static const char* IconPathMap(PadItems padItems)

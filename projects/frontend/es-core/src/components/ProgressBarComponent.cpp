@@ -2,7 +2,7 @@
 #include "components/ProgressBarComponent.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 ProgressBarComponent::ProgressBarComponent(Window&window, long long maxvalue)
   : Component(window),

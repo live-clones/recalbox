@@ -1,5 +1,4 @@
 #include "ThemeData.h"
-#include "Renderer.h"
 #include "audio/Sound.h"
 #include "resources/TextureResource.h"
 #include "utils/Log.h"
@@ -14,7 +13,7 @@
 #include "RootFolders.h"
 #include "ThemeException.h"
 
-bool ThemeData::sThemeChanged = false;
+bool ThemeData::sThemeChanged = true;
 std::vector<std::string>& ThemeData::SupportedViews()
 {
   static std::vector<std::string> sSupportedViews =

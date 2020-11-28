@@ -6,7 +6,7 @@
 #include "Renderer.h"
 
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 TextEditComponent::TextEditComponent(Window&window)
 	: Component(window),

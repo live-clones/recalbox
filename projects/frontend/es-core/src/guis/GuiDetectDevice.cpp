@@ -5,7 +5,7 @@
 #include <guis/GuiInputConfig.h>
 #include <components/TextComponent.h>
 #include <utils/locale/LocaleHelper.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 
 #define HOLD_TIME 1000
 

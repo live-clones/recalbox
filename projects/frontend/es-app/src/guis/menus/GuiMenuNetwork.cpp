@@ -5,7 +5,7 @@
 #include <components/TextComponent.h>
 #include <recalbox/RecalboxSystem.h>
 #include <utils/locale/LocaleHelper.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <components/SwitchComponent.h>
 #include "GuiMenuNetwork.h"
 #include "guis/MenuMessages.h"

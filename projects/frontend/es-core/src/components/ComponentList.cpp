@@ -1,6 +1,6 @@
 #include <Settings.h>
 #include <components/ComponentList.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <help/Help.h>
 #include <utils/locale/LocaleHelper.h>
 

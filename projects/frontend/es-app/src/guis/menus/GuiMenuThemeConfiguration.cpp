@@ -96,8 +96,11 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
 
 GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
 {
-  if (mReloadRequired) {
-      ThemeData::SetThemeChanged(true);
-      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+  if (mReloadRequired)
+  {
+    ThemeData::SetThemeChanged(true);
+    MenuThemeData::Reset();
+    ThemeData::SetThemeChanged(true);
+    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
   }
 }

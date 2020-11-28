@@ -6,7 +6,7 @@
 #include <components/ImageComponent.h>
 #include <components/MenuComponent.h>
 #include <components/ButtonComponent.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 
 GuiInputConfig::~GuiInputConfig()
 {

@@ -1,4 +1,4 @@
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <Settings.h>
 
 std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
@@ -7,6 +7,12 @@ std::shared_ptr<MenuThemeData> MenuThemeData::getInstance() {
 	if (sInstance == nullptr)
 		sInstance = std::shared_ptr<MenuThemeData>(new MenuThemeData());
 	return sInstance;
+}
+
+void MenuThemeData::Reset()
+{
+  sInstance = nullptr;
+  getInstance();
 }
 
 MenuThemeData::MenuThemeData()

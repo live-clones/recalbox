@@ -9,7 +9,7 @@
 #include "components/ComponentGrid.h"
 #include "components/ProgressBarComponent.h"
 #include <recalbox/RecalboxSystem.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>

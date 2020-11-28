@@ -30,7 +30,7 @@
 #include "RecalboxConf.h"
 #include "MenuMessages.h"
 
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 #include "animations/LambdaAnimation.h"
 #include "GuiHashStart.h"
 #include "GuiScraperSelect.h"

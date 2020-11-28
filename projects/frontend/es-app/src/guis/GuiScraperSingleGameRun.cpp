@@ -6,7 +6,7 @@
 #include "components/MenuComponent.h"
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 #include <scraping/ScraperFactory.h>
 #include <recalbox/RecalboxSystem.h>
 #include <scraping/ScraperTools.h>

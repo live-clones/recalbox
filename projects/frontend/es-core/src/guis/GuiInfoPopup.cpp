@@ -6,7 +6,7 @@
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include <SDL_timer.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <components/ScrollableContainer.h>
 #include <Settings.h>
 

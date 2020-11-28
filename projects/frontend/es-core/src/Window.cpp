@@ -5,7 +5,7 @@
 #include <guis/GuiInfoPopup.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiMsgBox.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <views/ViewController.h>
 #include <usernotifications/NotificationManager.h>
 

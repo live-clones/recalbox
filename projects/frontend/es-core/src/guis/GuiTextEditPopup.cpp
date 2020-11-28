@@ -2,7 +2,7 @@
 #include <components/MenuComponent.h>
 #include <components/ButtonComponent.h>
 #include <utils/locale/LocaleHelper.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 
 GuiTextEditPopup::GuiTextEditPopup(Window& window, const std::string& title, const std::string& initValue,
 				                           const std::function<void(const std::string&)>& okCallback, bool multiLine,

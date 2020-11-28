@@ -7,7 +7,7 @@
 #include "components/MenuComponent.h"
 #include "utils/Log.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 //Used to display a list of options.
 //Can select one or multiple options.

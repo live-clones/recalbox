@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "utils/Log.h"
 #include "utils/locale/LocaleHelper.h"
-#include "MenuThemeData.h"
+#include "themes/MenuThemeData.h"
 
 DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)
   : Component(window),

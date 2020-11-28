@@ -1,7 +1,7 @@
 #include <components/SliderComponent.h>
 #include <cassert>
 #include <Renderer.h>
-#include <MenuThemeData.h>
+#include <themes/MenuThemeData.h>
 #include <help/Help.h>
 #include <input/InputCompactEvent.h>
 #include <utils/Log.h>
