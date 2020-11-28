@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Fix compilation of libgo2 (#1446)
 - Simplify and streamline Recalbox description for external installers
 - Fix oga (v1) controller
+- Bump RPI4 kernel
+- Bump RPIs firmware
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
