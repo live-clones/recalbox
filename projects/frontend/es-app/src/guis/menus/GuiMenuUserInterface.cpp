@@ -42,7 +42,7 @@ GuiMenuUserInterface::GuiMenuUserInterface(Window& window, SystemManager& system
 
   // quick system select (left/right in game list view)
   mQuickSelect = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetQuickSystemSelect());
-  mHelp->setChangedCallback(SetQuickSystemSelect);
+  mQuickSelect->setChangedCallback(SetQuickSystemSelect);
   mMenu.addWithLabel(mQuickSelect, _("QUICK SYSTEM SELECT"), _(MENUMESSAGE_UI_QUICK_HELP_MSG));
 
   // Theme
