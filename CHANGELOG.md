@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
+- Fix theme issues
+- Fix model 3 sound option
+- Fix metadata edition #2
+- Fix various unsaved settings in Emulationstation
 
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
@@ -70,7 +74,7 @@ All notable changes to this project will be documented in this file.
 - Bump FBNeo to fix megdrive driver (thanks to Barbudreadmon)
 - Fix bios database (neogeo.zip)
 - Play share video even when noobs created partitions
-- Switch broike studio's games to FCEUM core
+- Switch broke studio's games to FCEUM core
 - Fix update window size on low resolutions
 - Add 4 mame games free to distribute for non-commercial use
 - Update TESTINGS.md

@@ -4,6 +4,11 @@
 
 ### Fixes
 - Fix abnormally long boots
+- Fix Sega Model 3 missing sound option
+- Fix theme issues when switching themes or theme options
+- Fix save required when exiting metadata edition w/o changing anything
+- Fix popup settings not saved
+- Fix quick system change setting not saved
 
 
 ## Version 7.1-Reloaded
