@@ -1,5 +1,11 @@
 # Release notes
 
+## 7.1.1-Reloaded
+
+### Fixes
+- Fix abnormally long boots
+
+
 ## Version 7.1-Reloaded
 
 ### News

@@ -2,7 +2,7 @@
 All changes that must be tested will be documented in this file.
 Every case must be checked before a release.
 
-## [Next]
+## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
 - [X] Clock should update properly
 - [X] Battery icon should show and update properly on PC when battery data are available, especially for a pc with /sys/class/power_supply/BAT1

@@ -6,7 +6,7 @@ then
 fi
 
 # If the share partition is empty, try playing the "creating share" video
-if [ "$(find /recalbox/share -type f |wc -l)" = "0" ]; then
+if [ ! -d /recalbox/share/roms ]; then
     /recalbox/scripts/recalbox-create-share.sh
 fi
 

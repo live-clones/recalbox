@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [7.1.1-Reloaded]
+- Fix abnormally long boots
+
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
 - Remove updatev2 directory from sources
