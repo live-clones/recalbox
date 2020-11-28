@@ -66,9 +66,9 @@ void Pad::Open(const OrderedDevices& orderedDevices)
 
 void Pad::Release()
 {
-  InputManager::FinalizeSDL2JoystickSystem();
-
   mReady = false;
+
+  InputManager::FinalizeSDL2JoystickSystem();
 
   SDL_Event event;
   event.type = SDL_QUIT;
@@ -181,6 +181,11 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_QUIT: return false;
         default: break;
       }
+    }
+    else
+    {
+      LOG(LogDebug) << "SDL Event Error";
+      return false;
     }
 
     // Pop first of new events
