@@ -1,7 +1,17 @@
 ## RECALBOX - SYSTEM SEGA MODEL3 ##
 
-Placez ici vos roms mame.
+Placez ici vos roms model3.
 
-Les roms doivent avoir l'extension ".zip"
+Les roms doivent avoir l'extension ".zip" provenant du romset mame 0.220
 
- Les roms doivent provenir du romset mame 0.219
+Ce système supporte une roms compressée au format .zip
+Attention toutefois, il ne s'agit que d'une archive.
+Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
+De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.
+
+Pour le problème de "network board not present" dans un jeu:
+(https://www.supermodel3.com/FAQ.html#NetworkBoardError)
+Faire L3 sur la manette ou 8 sur le clavier
+Aller sur Backup data clear (utiliser R3 sur manette ou 7 sur clavier) et valider
+Aller dans Game Assignements
+Mettre Link Id sur Single

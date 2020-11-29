@@ -9,6 +9,7 @@
 - Fix save required when exiting metadata edition w/o changing anything
 - Fix popup settings not saved
 - Fix quick system change setting not saved
+- Fix Supermodel build and move Nvram path
 
 
 ## Version 7.1-Reloaded
