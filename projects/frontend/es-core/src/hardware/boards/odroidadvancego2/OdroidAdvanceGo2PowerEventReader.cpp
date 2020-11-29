@@ -135,7 +135,8 @@ void OdroidAdvanceGo2PowerEventReader::Suspend()
 {
   { LOG(LogInfo) << "[OdroidAdvanceGo2] SUSPEND!"; }
   mWaitFor = WaitFor::Ignore; // Ignore next event when waking up!
-  system("/usr/sbin/pm-suspend"); // Suspend mode
+  if (system("/usr/sbin/pm-suspend") != 0) // Suspend mode
+    LOG(LogError) << "[OdroidAdvanceGo2] Suspend failed!";
 
   { LOG(LogInfo) << "[OdroidAdvanceGo2] WAKEUP!"; }
   mSender.Send(BoardType::OdroidAdvanceGo2, MessageTypes::Resume);
