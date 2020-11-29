@@ -31,9 +31,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         soundState = supermodelSettings.getOption("no-sound", "")
-        if noSound == "0" :
-            None
-        else:
+        if soundState == "1" :
             noSound.append("-no-sound")
         return noSound
 
