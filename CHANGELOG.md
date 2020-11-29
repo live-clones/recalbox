@@ -32,6 +32,8 @@ All notable changes to this project will be documented in this file.
 - Fix metadata edition #2
 - Fix various unsaved settings in Emulationstation
 - Fix menu theme
+- Fix p2k dead-lock
+- Fix demo mode info screen
 - Fix Supermodel build and move Nvram on saves path
 
 ## [7.1-Reloaded]
