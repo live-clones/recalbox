@@ -6,8 +6,8 @@
 
 NinePatchComponent::NinePatchComponent(Window& window)
   : Component(window),
-    mVertices(nullptr),
-    mColors(nullptr),
+    mVertices(),
+    mColors(),
     mPath(),
     mEdgeColor(0xFFFFFFFF),
     mCenterColor(0xFFFFFFFF)
@@ -22,12 +22,6 @@ NinePatchComponent::NinePatchComponent(Window& window, const Path& path)
 		buildVertices();
 }
 
-NinePatchComponent::~NinePatchComponent()
-{
-	delete[] mVertices;
-	delete[] mColors;
-}
-
 void NinePatchComponent::updateColors()
 {
 	Renderer::buildGLColorArray(mColors, mEdgeColor, 6 * 9);
@@ -36,21 +30,14 @@ void NinePatchComponent::updateColors()
 
 void NinePatchComponent::buildVertices()
 {
-	delete[] mVertices;
-	delete[] mColors;
-
 	mTexture = TextureResource::get(mPath);
 
 	if(mTexture->getSize() == Vector2i::Zero())
 	{
-		mVertices = nullptr;
-		mColors = nullptr;
 		LOG(LogWarning) << "NinePatchComponent missing texture!";
 		return;
 	}
 
-	mVertices = new Vertex[6 * 9];
-	mColors = new GLubyte[6 * 9 * 4];
 	updateColors();
 
 	const Vector2f ts = mTexture->getSize().toFloat();
@@ -135,7 +122,7 @@ void NinePatchComponent::buildVertices()
 	}
 
 	// round vertices
-	for (int i = 0; i < 6*9; i++)
+	for(int i = 6*9; --i >= 0; )
 	{
 		mVertices[i].pos.round();
 	}
@@ -145,7 +132,7 @@ void NinePatchComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 	
-	if(mTexture && mVertices != nullptr)
+	if(mTexture)
 	{
 		Renderer::setMatrix(trans);
 

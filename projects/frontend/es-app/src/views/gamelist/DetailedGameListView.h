@@ -13,6 +13,8 @@ class DetailedGameListView : public BasicGameListView, public ITextListComponent
 public:
     DetailedGameListView(Window& window, SystemManager& systemManager, SystemData& system);
 
+    ~DetailedGameListView();
+
     void onThemeChanged(const ThemeData& theme) override;
 
     const char* getName() const override { return "detailed"; }

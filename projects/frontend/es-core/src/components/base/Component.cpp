@@ -35,6 +35,8 @@ Component::~Component()
 
 	for (int i = (int)getChildCount(); --i >= 0; )
 		getChild(i)->setParent(nullptr);
+
+  delete mChildren;
 }
 
 bool Component::ProcessInput(const InputCompactEvent& event)

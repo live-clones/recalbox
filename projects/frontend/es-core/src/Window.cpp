@@ -88,8 +88,13 @@ void Window::deleteClosePendingGui()
 
 void Window::deleteAllGui()
 {
+  for(int i = mInfoPopups.Count(); --i >= 0; )
+    delete mInfoPopups[i];
+  mInfoPopups.Clear();
+
   for(int i = mGuiStack.Count(); --i >= 0;)
     delete mGuiStack.PopAt(i);
+  mGuiStack.Clear();
 }
 
 bool Window::Initialize(unsigned int width, unsigned int height, bool initRenderer)

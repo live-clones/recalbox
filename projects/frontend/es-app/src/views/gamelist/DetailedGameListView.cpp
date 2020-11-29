@@ -47,18 +47,15 @@ DetailedGameListView::DetailedGameListView(Window&window, SystemManager& systemM
                                  });*/
 
   // folder components
-  for (int y = 0; y < 3; y++)
+  for (int i = 3 * 3; --i >= 0; )
   {
-    for (int x = 0; x < 3; x++)
-    {
-      auto* img = new ImageComponent(window);
-      addChild(img); // normalised functions required to be added first
-      img->setOrigin(0.5f, 0.5f);
-      img->setNormalisedMaxSize(0.4f, 0.4f);
-      img->setDefaultZIndex(30);
-      img->setZIndex(30);
-      mFolderContent.push_back(img);
-    }
+    auto* img = new ImageComponent(window);
+    addChild(img); // normalised functions required to be added first
+    img->setOrigin(0.5f, 0.5f);
+    img->setNormalisedMaxSize(0.4f, 0.4f);
+    img->setDefaultZIndex(30);
+    img->setZIndex(30);
+    mFolderContent.push_back(img);
   }
 
   addChild(&mFolderName);
@@ -565,6 +562,13 @@ float DetailedGameListView::OverlayGetRightOffset()
     return mList.EntryHeight() * 1.2f;
 
   return 0.0f;
+}
+
+DetailedGameListView::~DetailedGameListView()
+{
+  for(int i = mFolderContent.size(); --i >= 0; )
+    delete mFolderContent[i];
+  mFolderContent.clear();
 }
 
 

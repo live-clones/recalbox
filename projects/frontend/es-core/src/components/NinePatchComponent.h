@@ -19,7 +19,6 @@ class NinePatchComponent : public Component
 public:
 	NinePatchComponent(Window&window, const Path& path);
   explicit NinePatchComponent(Window&window);
-	~NinePatchComponent() override;
 
 	void Render(const Transform4x4f& parentTrans) override;
 
@@ -45,8 +44,8 @@ private:
 		Vector2f tex;
 	};
 
-	Vertex* mVertices;
-	GLubyte* mColors;
+	Vertex mVertices[6 * 9];
+	GLubyte mColors[6 * 9 * 4];
 
 	Path mPath;
 	unsigned int mEdgeColor;
