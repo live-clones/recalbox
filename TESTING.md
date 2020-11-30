@@ -5,6 +5,7 @@ Every case must be checked before a release.
 ## [Next]
 - [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
 - [ ] Packages that require libgo2 compiles well
+- [ ] /usr/lib/libgo2.so should provides go2_ symbols
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
