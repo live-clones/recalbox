@@ -25,10 +25,20 @@ endef
 
 define LIBGO2_INSTALL_STAGING_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/libgo2.so $(STAGING_DIR)/usr/lib/libgo2.so
+	$(INSTALL) -D -m 0644 $(@D)/src/audio.h $(STAGING_DIR)/usr/include/go2/audio.h
+	$(INSTALL) -D -m 0644 $(@D)/src/display.h $(STAGING_DIR)/usr/include/go2/display.h
+	$(INSTALL) -D -m 0644 $(@D)/src/hardware.h $(STAGING_DIR)/usr/include/go2/hardware.h
+	$(INSTALL) -D -m 0644 $(@D)/src/input.h $(STAGING_DIR)/usr/include/go2/input.h
+	$(INSTALL) -D -m 0644 $(@D)/src/queue.h $(STAGING_DIR)/usr/include/go2/queue.h
 endef
 
 define LIBGO2_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/libgo2.so $(TARGET_DIR)/usr/lib/libgo2.so
+	$(INSTALL) -D -m 0644 $(@D)/src/audio.h $(TARGET_DIR)/usr/include/go2/audio.h
+	$(INSTALL) -D -m 0644 $(@D)/src/display.h $(TARGET_DIR)/usr/include/go2/display.h
+	$(INSTALL) -D -m 0644 $(@D)/src/hardware.h $(TARGET_DIR)/usr/include/go2/hardware.h
+	$(INSTALL) -D -m 0644 $(@D)/src/input.h $(TARGET_DIR)/usr/include/go2/input.h
+	$(INSTALL) -D -m 0644 $(@D)/src/queue.h $(TARGET_DIR)/usr/include/go2/queue.h
 endef
 
 $(eval $(generic-package))

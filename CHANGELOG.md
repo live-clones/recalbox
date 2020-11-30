@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Fix various unsaved settings in Emulationstation
 ## [Next]
 - Bump Amiberry to v3.3
+- Fix missing libgo2 C headers (#1445)
 
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
