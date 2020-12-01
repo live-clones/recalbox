@@ -95,6 +95,9 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	endif()
 endif()
 
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -O1 -fno-omit-frame-pointer -g")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -O1 -fno-omit-frame-pointer -g")
+
 if(${GLSystem} MATCHES "Desktop OpenGL")
     add_definitions(-DUSE_OPENGL_DESKTOP)
 else()

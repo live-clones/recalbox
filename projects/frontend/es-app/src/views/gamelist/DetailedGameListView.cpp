@@ -420,18 +420,19 @@ void DetailedGameListView::setGameInfo(FileData* file)
 {
   mRating.setValue(file->Metadata().RatingAsString());
   mReleaseDate.setValue(file->Metadata().ReleaseDate());
-  mDeveloper.setValue(file->Metadata().Developer());
-  mPublisher.setValue(file->Metadata().Publisher());
-  mGenre.setValue(file->Metadata().Genre());
+  mDeveloper.setValue(file->Metadata().Developer().empty() ? _("UNKNOWN") : file->Metadata().Developer());
+  mPublisher.setValue(file->Metadata().Publisher().empty() ? _("UNKNOWN") : file->Metadata().Publisher());
+  mGenre.setValue(file->Metadata().Genre().empty() ? _("NONE") : file->Metadata().Genre());
   mPlayers.setValue(file->Metadata().PlayersAsString());
   mLastPlayed.setValue(file->Metadata().LastPlayed());
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
-  mFavorite.setValue(file->Metadata().FavoriteAsString());
+  mFavorite.setValue(file->Metadata().Favorite() ? _("YES") : _("NO"));
 
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
-  mImage.setImage(file->Metadata().Image());
+  static Path noImage(":/no_image.png");
+  mImage.setImage(file->Metadata().Image().Exists() ? file->Metadata().Image() : noImage);
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop);
@@ -449,17 +450,6 @@ void DetailedGameListView::setScrappedFolderInfo(FileData* file)
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }
-
-/*void DetailedGameListView::getFolderGames(FileData* folder, FileData::List& output) {
-    FileData::List items = folder->getChildren();
-    for (auto it = items.begin(); it != items.end(); it++) {
-        if ((*it)->getType() == GAME) {
-            output.push_back(*it);
-        } else {
-            getFolderGames(*it, output);
-        }
-    }
-}*/
 
 void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fadingOut)
 {

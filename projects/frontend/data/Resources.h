@@ -71,6 +71,9 @@ extern const uint8_t recalbox_svg_data[];
 extern const uint16_t window_icon_256_png_size;
 extern const uint8_t window_icon_256_png_data[];
 
+extern const uint16_t no_image_png_size;
+extern const uint8_t no_image_png_data[];
+
 extern const uint16_t fav_remove_svg_size;
 extern const uint8_t fav_remove_svg_data[];
 
