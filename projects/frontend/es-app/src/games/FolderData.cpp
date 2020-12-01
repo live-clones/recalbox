@@ -307,6 +307,17 @@ bool FolderData::hasVisibleGame() const
   return false;
 }
 
+bool FolderData::hasVisibleGameWithVideo() const
+{
+    for (FileData* fd : mChildren)
+    {
+        if ( ((fd->isGame() && !fd->Metadata().Hidden()) && !fd->Metadata().VideoAsString().empty() &&
+        fd->Metadata().Video().Exists()) || (fd->isFolder() && CastFolder(fd)->hasVisibleGameWithVideo()))
+            return true;
+    }
+    return false;
+}
+
 int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const
 {
   int gameCount = 0;

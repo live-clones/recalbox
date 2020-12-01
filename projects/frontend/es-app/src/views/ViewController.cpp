@@ -13,6 +13,7 @@
 #include "animations/LambdaAnimation.h"
 
 #include "audio/AudioManager.h"
+#include <VideoEngine.h>
 
 #include <memory>
 #include <systems/SystemManager.h>
@@ -100,6 +101,44 @@ void ViewController::goToSystemView(SystemData* system)
 	playViewTransition();
 
   NotificationManager::Instance().Notify(*system, Notification::SystemBrowsing);
+}
+
+void ViewController::goToGameClipView()
+{
+    if(GameClipView::IsGameClipEnabled() && !mState.gameClipRunning) {
+        AudioManager::Instance().Deactivate();
+        VideoEngine::Instance().StopVideo();
+
+        mGameClipView = new GameClipView(mWindow, mSystemManager);
+        mCurrentView = mGameClipView;
+        mState.gameClipRunning = true;
+    }
+}
+
+void ViewController::quitGameClipView()
+{
+    delete mGameClipView;
+    switch (mState.viewing)
+    {
+        case ViewMode::SystemList:
+            goToSystemView(mSystemListView.getSelected());
+            break;
+        case ViewMode::GameList:
+            goToGameList(mState.getSystem());
+            break;
+        case ViewMode::None:
+        case ViewMode::SplashScreen:
+            break;
+    }
+    AudioManager::Instance().Reactivate();
+    mState.gameClipRunning = false;
+}
+
+void ViewController::goToGameList(FileData *file) {
+    mState.viewing = ViewMode::GameList;
+    goToGameList(file->getSystem());
+    IGameListView* view = getGameListView(file->getSystem()).get();
+    view->setCursor(file);
 }
 
 void ViewController::goToNextGameList()
@@ -447,7 +486,12 @@ void ViewController::Update(int deltaTime)
 
 void ViewController::Render(const Transform4x4f& parentTrans)
 {
-	Transform4x4f trans = mCamera * parentTrans;
+    if(mState.gameClipRunning) {
+        mGameClipView->Render(parentTrans);
+        return;
+    }
+
+  Transform4x4f trans = mCamera * parentTrans;
   Transform4x4f transInverse(Transform4x4f::Identity());
   transInverse.invert(trans);
 

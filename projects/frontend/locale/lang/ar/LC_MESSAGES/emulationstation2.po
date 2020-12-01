@@ -389,6 +389,10 @@ msgstr ""
 msgid "THEME GAMELISTVIEW"
 msgstr ""
 
+#
+msgid "THEME GAMECLIPVIEW"
+msgstr ""
+
 msgid "THEME REGION"
 msgstr ""
 
@@ -2308,6 +2312,10 @@ msgid "dim"
 msgstr ""
 
 #
+msgid "gameclip"
+msgstr ""
+
+#
 msgid "Action (All)"
 msgstr ""
 
@@ -2622,11 +2630,24 @@ msgid ""
 msgstr ""
 
 #
-msgid "HIDE PREINSTALLED GAMES"
+msgid "SHOW IN LIST"
+msgstr ""
+
+#
+msgid "System"
+msgstr ""
+
+#
+msgid "added to favorites"
+msgstr ""
+
+#
+msgid "removed from favorites"
 msgstr ""
 
 #
 msgid ""
-"Hide all pre-installed games. Changing this option makes EmulationStation to "
-"relaunch."
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
 msgstr ""

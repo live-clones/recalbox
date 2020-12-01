@@ -402,6 +402,10 @@ msgstr "THÈME DU SYSTEME"
 msgid "THEME GAMELISTVIEW"
 msgstr "THÈME LISTE DES JEUX"
 
+#
+msgid "THEME GAMECLIPVIEW"
+msgstr "THÈME CLIPS DE JEUX"
+
 msgid "THEME REGION"
 msgstr "THÈME DE LA RÉGION"
 
@@ -1239,8 +1243,9 @@ msgid ""
 "Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
 "turn the screen black, DEMO will launch demo mode."
 msgstr ""
-"Choisissez le comportement de l'économiseur d'écran. DIM réduira la "
-"luminosité de l'écran, BLACK rendra l'écran noir, DEMO lancera le mode demo."
+"Choisissez le comportement de l'économiseur d'écran. Écran en demi-teinte réduira la "
+"luminosité de l'écran, écran noir rendra l'écran noir, démos de jeux lancera le mode démo. "
+"clips de jeux lancera des clips de jeux"
 
 msgid ""
 "Shows a help at the bottom of the screen which displays commands you can use."
@@ -2464,7 +2469,7 @@ msgstr "SHADERS"
 
 #
 msgid "SYSTEMS TO SHOW IN DEMO"
-msgstr "SYSTÈMES À UTILISER EN DÉMOS"
+msgstr "SYSTÈMES À UTILISER EN DÉMOS / CLIPS DE JEUX"
 
 #
 msgid "Saving WIFI configuration"
@@ -2519,6 +2524,10 @@ msgstr "démos de jeux"
 #
 msgid "dim"
 msgstr "écran en demi-teinte"
+
+#
+msgid "gameclip"
+msgstr "clips de jeux"
 
 #
 msgid "Action (All)"
@@ -2890,3 +2899,29 @@ msgid ""
 "Hide all pre-installed games. Changing this option makes EmulationStation to "
 "relaunch."
 msgstr "Cache tous les jeux pré-installés dans Recalbox. Modifier cette option fera redémarrer EmulationStation."
+
+#
+msgid "SHOW IN LIST"
+msgstr "AFFICHER DANS LA LISTE"
+
+#
+msgid "System"
+msgstr "Système"
+
+#
+msgid "added to favorites"
+msgstr "ajouté aux favoris"
+
+#
+msgid "removed from favorites"
+msgstr "retiré des favoris"
+
+#
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Les clips de jeux ne peuvent être lus\n"
+"\n"
+"Aucune vidéo disponible pour votre selection"

@@ -27,6 +27,7 @@ GuiMenuScreensavers::GuiMenuScreensavers(Window& window, SystemManager& systemMa
   mType->add(_("dim"), "dim", type == "dim");
   mType->add(_("black"), "black", type == "black");
   mType->add(_("demo"), "demo", type == "demo");
+  mType->add(_("gameclip"), "gameclip", type == "gameclip");
   mType->setChangedCallback([this] { SetType(); });
   mMenu.addWithLabel(mType, _("SCREENSAVER BEHAVIOR"), _(MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 

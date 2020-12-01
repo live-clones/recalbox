@@ -216,6 +216,11 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       ViewController::Instance().goToGameList(getSelected());
 			return true;
 		}
+        if(event.APressed() && RecalboxConf::Instance().GetScreenSaverType() == "gameclip"){
+            ViewController::Instance().goToGameClipView();
+            return true;
+        }
+
     if (event.XPressed())
     {
       bool kodiExists = RecalboxSystem::kodiExists();

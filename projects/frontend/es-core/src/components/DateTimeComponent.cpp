@@ -120,6 +120,11 @@ void DateTimeComponent::Update(int deltaTime)
 
 void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
+
 	Transform4x4f trans = parentTrans * getTransform();
 
 	if(mTextCache)
@@ -191,6 +196,7 @@ std::string DateTimeComponent::getDisplayString(Display mode) const
 	  case Display::Date: return mTime.ToStringFormat("%YYYY/%MM/%dd");
     case Display::DateTime: return mTime.ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss");
     case Display::Time: return mTime.ToStringFormat("%HH:%mm:%ss");
+    case Display::Year: return mTime.ToStringFormat("%YYYY");
     case Display::RealTime: return DateTime().ToStringFormat("%HH:%mm:%ss");
     case Display::RelativeToNow:
 		{
@@ -310,6 +316,25 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 
 	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
 		setColor((unsigned int)elem->AsInt("color"));
+
+	if (hasFlag(properties, ThemeProperties::Display) && elem->HasProperty("display"))
+	{
+        std::string str = elem->AsString("display");
+        if(str == "date")
+        setDisplayMode(Display::Date);
+        if(str == "dateTime")
+            setDisplayMode(Display::DateTime);
+        else if(str == "year")
+            setDisplayMode(Display::Year);
+        else if(str == "realTime")
+            setDisplayMode(Display::RealTime);
+        else if(str == "time")
+            setDisplayMode(Display::Time);
+        else if(str == "RelativeToNow")
+            setDisplayMode(Display::RelativeToNow);
+        else
+            LOG(LogError) << "Unknown date time display mode string: " << str;
+        }
 
 	if (hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{

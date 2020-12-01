@@ -22,7 +22,8 @@ Component::Component(Window& window)
     mDefaultZIndex(0),
     mZIndex(0),
     mOpacity(255),
-    mIsProcessing(false)
+    mIsProcessing(false),
+    mDisabled(false)
 {
 }
 
@@ -71,6 +72,10 @@ void Component::Update(int deltaTime)
 
 void Component::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
 	Transform4x4f trans = parentTrans * getTransform();
 	renderChildren(trans);
 }
@@ -93,12 +98,14 @@ void Component::setPosition(float x, float y, float z)
 {
 	mPosition.Set(x, y, z);
 	onPositionChanged();
+	mDisabled = false;
 }
 
 void Component::setOrigin(float x, float y)
 {
 	mOrigin.Set(x, y);
 	onOriginChanged();
+	mDisabled = false;
 }
 
 void Component::setRotationOrigin(float x, float y)
@@ -371,6 +378,11 @@ void Component::applyTheme(const ThemeData& theme, const std::string& view, cons
 		setZIndex(elem->AsFloat("zIndex"));
 	else
 		setZIndex(getDefaultZIndex());
+
+    if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
+    {
+        mDisabled = elem->AsBool("disabled");
+    }
 }
 
 void Component::updateHelpPrompts()

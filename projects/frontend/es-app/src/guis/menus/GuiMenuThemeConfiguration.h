@@ -39,6 +39,8 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
     OptionList mSystemView;
     //! Gamelist View
     OptionList mGameListView;
+    //! Gameclip View
+    OptionList mGameClipView;
     //! Region
     OptionList mRegion;
 
@@ -73,6 +75,12 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
      * @param time new Gamelist view
      */
     void SetGameListView(const std::string& gameListView);
+
+    /*!
+     * @brief Set & save GameClip View
+     * @param time new GameClip view
+     */
+    void SetGameClipView(const std::string& gameClipView);
 
     /*!
      * @brief Set & save Region

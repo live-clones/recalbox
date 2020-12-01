@@ -29,6 +29,7 @@ enum class Notification
     ScrapGame            = 0x10000, //!< A game has been scrapped. Parameter: game path
     ConfigurationChanged = 0x20000, //!< The user changed something in the configuration.
     RunKodi              = 0x40000, //!< Run kodi!
+    StartGameClip        = 0x60000, //!< Start a game clip
 };
 
 DEFINE_BITFLAG_ENUM(Notification, int)

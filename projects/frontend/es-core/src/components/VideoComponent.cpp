@@ -20,7 +20,8 @@ VideoComponent::VideoComponent(Window&window)
   mFadeOpacity(0),
   mVideoDelay(DEFAULT_VIDEODELAY),
   mVideoEffect(DEFAULT_VIDEOEFFET),
-  mVideoLoop(DEFAULT_VIDEOLOOP)
+  mVideoLoop(DEFAULT_VIDEOLOOP),
+  mDecodeAudio(DEFAULT_VIDEODECODEAUDIO)
 {
   updateColors();
 }
@@ -87,12 +88,13 @@ void VideoComponent::resize()
   }
 }
 
-void VideoComponent::setVideo(const Path& path, int delay, int loops)
+void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
   VideoEngine::Instance().StopVideo(false);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
+  mDecodeAudio = decodeAudio;
   ResetAnimations();
 }
 
@@ -240,7 +242,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
     {
       // Start video if it's not started yet
       if (VideoEngine::Instance().IsIdle())
-        VideoEngine::Instance().PlayVideo(mVideoPath);
+        VideoEngine::Instance().PlayVideo(mVideoPath, mDecodeAudio);
       effect = 0.0;
       if (VideoEngine::Instance().IsPlaying())
       {
@@ -297,6 +299,11 @@ bool VideoComponent::ProcessDisplay(double& effect)
 
 void VideoComponent::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
+
   Transform4x4f trans = parentTrans * getTransform();
   Renderer::setMatrix(trans);
 
@@ -380,7 +387,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
   if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
   {
-    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP);
+    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
   }
 
   if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
@@ -414,4 +421,8 @@ bool VideoComponent::getHelpPrompts(Help& help)
 {
   help.Set(HelpType::B, _("SELECT"));
   return true;
+}
+
+bool VideoComponent::isDiplayed() {
+    return mState == State::DisplayVideo;
 }

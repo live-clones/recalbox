@@ -224,6 +224,11 @@ void ImageComponent::updateColors() {
 }
 
 void ImageComponent::Render(const Transform4x4f& parentTrans) {
+    if(mDisabled)
+    {
+        return;
+    }
+
     Transform4x4f trans = parentTrans * getTransform();
     Renderer::setMatrix(trans);
     
@@ -347,6 +352,11 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
         setZIndex(elem->AsFloat("zIndex"));
     } else {
         setZIndex(getDefaultZIndex());
+    }
+
+    if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
+    {
+        mDisabled = elem->AsBool("disabled");
     }
 }
 

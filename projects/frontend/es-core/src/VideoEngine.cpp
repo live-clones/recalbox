@@ -311,46 +311,49 @@ bool VideoEngine::InitializeDecoder()
 int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* buffer, int /*size*/)
 {
   static AVPacket packet;
-  static unsigned char* packetData = nullptr;
-  static int packetSize = 0;
   static AVFrame* frame = av_frame_alloc();
   static unsigned char converted_data[(192000 * 3) / 2];
   static unsigned char* converted = &converted_data[0];
 
-  int dataSize = 0;
-  for (;;)
-  {
-    while (packetSize > 0)
+    int dataSize = 0;
+    bool decodeAudio = (mState == PlayerState::Playing);
+    if (!decodeAudio || !mContext.AudioQueue.Dequeue(packet))
     {
-      int gotFrame = 0;
-      int size = -1; //avcodec_decode_audio4(&audioContext, frame, &gotFrame, &packet);
-      // if error, skip frame
-      if (size < 0) { packetSize = 0; break; }
-
-      packetData += size;
-      packetSize -= size;
-      if (gotFrame != 0)
-      {
-        //dataSize = av_samples_get_buffer_size(nullptr, audioContext.channels, frame->nb_samples, audioContext.sample_fmt, 1);
-        int outSize = av_samples_get_buffer_size(nullptr, audioContext.channels, frame->nb_samples, AV_SAMPLE_FMT_FLT, 1);
-        /*int len2 = */swr_convert(mContext.ResamplerContext, &converted, frame->nb_samples, (const uint8_t**)&frame->data[0], frame->nb_samples);
-        memcpy(buffer, converted_data, outSize);
-        dataSize = outSize;
-      }
-
-      // No data yet, get more frames
-      if (dataSize <= 0) continue;
-
-      // We have data, return it and come back for more later
-      return dataSize;
+        return -1;
+    }
+    int ret = avcodec_send_packet(&audioContext, &packet);
+    av_packet_unref(&packet);
+    if (ret < 0)
+    {
+        return -1;
     }
 
-    // TODO find a good way to unref packet after usage here (av_packet_unref(&packet)
-    if (!mDecodeAudio || !mContext.AudioQueue.Dequeue(packet)) return -1;
+    while (ret == 0)
+    {
+        ret = avcodec_receive_frame(&audioContext, frame);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR(EOF)) {
+            return -1;
+        }
+        // if error, skip frame
+        if (ret < 0)  break;
 
-    packetData = packet.data;
-    packetSize = packet.size;
-  }
+        int nbFrame = frame->nb_samples;
+        int outSize = av_samples_get_buffer_size(nullptr, audioContext.channels, nbFrame, AV_SAMPLE_FMT_FLT,
+                                                 1);
+        ret = swr_convert(mContext.ResamplerContext, &converted, nbFrame,
+                          (const uint8_t **) &frame->data[0], nbFrame);
+
+        if(ret<0) continue;
+
+        memcpy(buffer, converted_data, outSize);
+        dataSize = outSize;
+
+        // No data yet, get more frames
+        if (dataSize <= 0) continue;
+
+        // We have data, return it and come back for more later
+        return dataSize;
+    }
 }
 
 void VideoEngine::DecodeAudioFrameOnDemand(uint8_t * stream, int len)

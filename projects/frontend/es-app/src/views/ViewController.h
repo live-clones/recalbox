@@ -2,6 +2,7 @@
 
 #include <utils/cplusplus/INoCopy.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <views/GameClipView.h>
 #include "views/gamelist/IGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
@@ -32,7 +33,10 @@ public:
 	void goToPrevGameList();
 	bool goToGameList(std::string& systemName);
 	void goToGameList(SystemData* system);
-	void goToSystemView(SystemData* system);
+    void goToGameList(FileData* file);
+    void goToSystemView(SystemData* system);
+	void goToGameClipView();
+	void quitGameClipView();
 	void goToStart();
   void goToQuitScreen();
 
@@ -84,6 +88,7 @@ public:
 	private:
 		friend ViewController;
 		SystemData* system;
+        bool gameClipRunning;
 	};
 
 	inline const State& getState() const { return mState; }
@@ -114,6 +119,7 @@ private:
 	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;
 	SystemView mSystemListView;
 	SplashView mSplashView;
+	GameClipView* mGameClipView;
 	std::map<SystemData*, bool> mInvalidGameList;
 	
 	Transform4x4f mCamera;

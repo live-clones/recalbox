@@ -15,6 +15,7 @@ public:
 		Time,
 		RealTime,
 		RelativeToNow,
+		Year,
 	};
 
            DateTimeComponent(Window&window, Display dispMode);
@@ -36,7 +37,8 @@ public:
 	//  * DISP_DATE - only display the date.
 	//  * DISP_DATE_TIME - display both the date and the time on that date.
 	//  * DISP_RELATIVE_TO_NOW - intelligently display the point in time relative to right now (e.g. "5 secs ago", "3 minutes ago", "1 day ago".  Automatically updates as time marches on.
-	// The initial value is DISP_DATE.
+    //  * DISP_YEAR - only display the year.
+    // The initial value is DISP_DATE.
 	void setDisplayMode(Display mode);
 
 	void setColor(unsigned int color) final; // Text color.

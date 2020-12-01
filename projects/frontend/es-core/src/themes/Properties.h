@@ -21,6 +21,7 @@ enum class ThemeProperties : unsigned int
     LineSpacing    = (1 << 11),
     ZIndex         = (1 << 12),
     Rotation       = (1 << 13),
+    Display        = (1 << 15),
 
     All            = 0xFFFFFFFF,
 };

@@ -122,6 +122,10 @@ void TextComponent::setUppercase(bool uppercase)
 
 void TextComponent::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
 	Transform4x4f trans = parentTrans * getTransform();
 
 	if (mRenderBackground)

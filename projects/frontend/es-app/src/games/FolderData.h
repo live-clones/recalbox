@@ -201,6 +201,11 @@ class FolderData : public FileData
     bool hasVisibleGame() const;
 
     /*!
+     * Return true if contain at least one visible game with a video md
+     */
+    bool hasVisibleGameWithVideo() const;
+
+    /*!
      * Get total games in all folders, including hidden
      * @param includefolders True to include subfolders in the result
      * @return Game count

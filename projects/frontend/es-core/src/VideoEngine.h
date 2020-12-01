@@ -166,8 +166,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         void Dispose()
         {
           if (AudioVideoContext != nullptr ) avformat_close_input(&AudioVideoContext);
-          if (AudioCodecContext != nullptr ) avcodec_close(AudioCodecContext);
-          if (VideoCodecContext != nullptr ) avcodec_close(VideoCodecContext);
+          if (AudioCodecContext != nullptr ) avcodec_free_context(&AudioCodecContext);
+          if (VideoCodecContext != nullptr ) avcodec_free_context(&VideoCodecContext);
           if (ResamplerContext != nullptr  ) swr_free(&ResamplerContext);
           if (ColorsSpaceContext != nullptr) sws_freeContext(ColorsSpaceContext);
           if (Frame != nullptr             ) av_frame_free(&Frame);
@@ -292,6 +292,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * @return True if in idle state, false otherwise
      */
     bool IsIdle() { return (mState == PlayerState::Idle); }
+
+    bool IsError() { return (mState == PlayerState::Error); }
 
     int GetVideoDurationMs() { return IsPlaying() ? mContext.TotalTime : 0; }
 

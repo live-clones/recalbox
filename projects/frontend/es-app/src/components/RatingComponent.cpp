@@ -90,6 +90,11 @@ void RatingComponent::updateVertices()
 
 void RatingComponent::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
+
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::setMatrix(trans);
 

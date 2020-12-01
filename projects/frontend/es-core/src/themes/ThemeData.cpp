@@ -22,6 +22,7 @@ std::vector<std::string>& ThemeData::SupportedViews()
     { "basic"   },
     { "detailed"},
     { "menu"    },
+    { "gameclip"},
   };
   return sSupportedViews;
 }
@@ -52,6 +53,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "tile", ElementProperty::Boolean },
         { "color", ElementProperty::Color },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "video",
@@ -64,6 +66,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "rotationOrigin", ElementProperty::NormalizedPair },
         { "path", ElementProperty::Path },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "text",
@@ -83,6 +86,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "lineSpacing", ElementProperty::Float },
         { "value", ElementProperty::String },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "textlist",
@@ -114,6 +118,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "size", ElementProperty::NormalizedPair },
         { "origin", ElementProperty::NormalizedPair },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "ninepatch",
@@ -122,18 +127,22 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "size", ElementProperty::NormalizedPair },
         { "path", ElementProperty::Path },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "datetime",
       {
         { "pos", ElementProperty::NormalizedPair },
         { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
         { "color", ElementProperty::Color },
         { "fontPath", ElementProperty::Path },
         { "fontSize", ElementProperty::Float },
         { "alignment", ElementProperty::String },
         { "forceUppercase", ElementProperty::Boolean },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
+        { "display", ElementProperty::String },
       },
     },
     { "rating",
@@ -146,6 +155,7 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "filledPath", ElementProperty::Path },
         { "unfilledPath", ElementProperty::Path },
         { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
       },
     },
     { "sound",
@@ -322,6 +332,8 @@ void ThemeData::loadFile(const std::string& systemThemeFolder, const Path& path)
   if (main && CheckThemeOption(mSystemview, subSets, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
   mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
   if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
+  mGameClipView = RecalboxConf::Instance().GetThemeGameClipView(themeName);
+  if (main && CheckThemeOption(mGameClipView, subSets, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
   mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
   if (main && mRegion != "us" && mRegion != "eu" && mRegion != "jp") { mRegion="us"; RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
   if (needSave) RecalboxConf::Instance().Save();
@@ -421,8 +433,12 @@ bool ThemeData::parseSubset(const pugi::xml_node& node)
 		{	
 			return true;
 		}
+        if (subsetAttr == "gameclipview" && nameAttr == mGameClipView)
+        {
+            return true;
+        }
 	}
-	
+
 	return parse;
 }
 
@@ -739,6 +755,10 @@ bool ThemeData::IsThemeChanged(){
     return sThemeChanged;
 }
 
+std::string ThemeData::getGameClipView() const {
+    return mGameClipView;
+}
+
 std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)
 {
 	std::vector<Component*> comps;
@@ -880,13 +900,17 @@ void ThemeData::findRegion(const pugi::xml_document& doc, std::map<std::string, 
 std::map<std::string, std::string> ThemeData::sortThemeSubSets(const std::map<std::string, std::string>& subsetmap, const std::string& subset)
 {
 	std::map<std::string, std::string> sortedsets;
-	
+
 	for (const auto& it : subsetmap)
 	{
 		if (it.second == subset)
 			sortedsets[it.first] = it.first;
 	}
-	return sortedsets;
+
+	if(subset == "gameclipview" && !sortedsets.empty() )
+	    sortedsets[getNoTheme()] = getNoTheme();
+
+    return sortedsets;
 }
 
 

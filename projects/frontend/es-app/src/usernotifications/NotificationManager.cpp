@@ -50,6 +50,7 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::ScrapStop:            return "scrapstop";
     case Notification::ScrapGame:            return "scrapgame";
     case Notification::ConfigurationChanged: return "configurationchanged";
+    case Notification::StartGameClip:        return "startgameclip";
     default: break;
   }
   return "error";
@@ -78,6 +79,7 @@ Notification NotificationManager::ActionFromString(const std::string& action)
     { "scrapstop"           , Notification::ScrapStop            },
     { "scrapgame"           , Notification::ScrapGame            },
     { "configurationchanged", Notification::ConfigurationChanged },
+    { "startgameclip"       , Notification::StartGameClip        },
   });
 
   if (!sStringToAction.contains(action))
@@ -266,6 +268,7 @@ void NotificationManager::BuildStateCompatibility(std::string& output, Notificat
     case Notification::ScrapStop:
     case Notification::ScrapGame:
     case Notification::ConfigurationChanged:
+    case Notification::StartGameClip:
     default: output.append("selected"); break;
   }
 }

@@ -334,6 +334,47 @@ Just remember, *this only works if the elements have the same type!*
  * System Logo/Text - 50
  	* `text name="logoText"`
  	* `image name="logo"`
+ 	
+ ##### gameclip
+  * image `name="background"` - 40 !!!!!!!!!!!!
+  * image `name="recalboxlogo"` - 50
+  * image `name="clippingImage"` - 50
+  
+  * Extra Elements `extra="true"` - 10
+  
+  * Media
+    * video `name="md_video"` - 30
+    * image `name="md_image"` - 50
+  	* image `name="md_thumbnail"` - 50 - disabled
+  	
+  	
+  * Metadata - 40 - disabled
+  	* Labels
+  		* text `name="md_lbl_gameName"`
+  		* text `name="md_lbl_systemName"`
+  		* text `name="md_lbl_rating"`
+  		* text `name="md_lbl_releasedate"`
+  		* text `name="md_lbl_developer"`
+  		* text `name="md_lbl_publisher"`
+  		* text `name="md_lbl_genre"`
+  		* text `name="md_lbl_players"`
+  		* text `name="md_lbl_lastplayed"`
+  		* text `name="md_lbl_playcount"`
+  	* Values
+  		* text `name="md_gameName"` - 50 - displayed
+  		* text `name="md_systemName"` - 50 - displayed
+  		* rating `name="md_rating"`
+  		* datetime `name="md_releasedate"` - 50 - displayed
+  		* text `name="md_developer"`
+  		* text `name="md_publisher"`
+  		* text `name="md_genre"`
+  		* text `name="md_players"`
+  		* datetime `name="md_lastplayed"`
+  		* text `name="md_playcount"`
+  		* text `name="md_description"`
+  * System Logo/Text - 50
+  	* text `name="logoText"`
+  	* image `name="logo"`
  
 ### Region based elements
 
@@ -525,6 +566,8 @@ Remember, you do *not* need to specify every property!
 
 Can be created as an extra.
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 	- If only one axis is specified (and the other is zero), the other will be automatically calculated in accordance with the image's aspect ratio.
@@ -549,6 +592,8 @@ Can be created as an extra.
 
 Can be created as an extra.
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 	- Possible combinations:
@@ -576,6 +621,8 @@ Can be created as an extra.
 
 #### textlist
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 * `origin` - type: NORMALIZED_PAIR.
@@ -611,6 +658,8 @@ Can be created as an extra.
 
 #### ninepatch
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 * `path` - type: PATH.
@@ -621,6 +670,8 @@ EmulationStation borrows the concept of "nine patches" from Android (or "9-Slice
 
 #### rating
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
 * `size` - type: NORMALIZED_PAIR.
 	- Only one value is actually used. The other value should be zero.  (e.g. specify width OR height, but not both.  This is done to maintain the aspect ratio.)
@@ -639,7 +690,11 @@ EmulationStation borrows the concept of "nine patches" from Android (or "9-Slice
 
 #### datetime
 
+* `disabled` - type: BOOLEAN.
+	- If true the component will be hide, if pos/origin.zIndex changed this props will be turn off.
 * `pos` - type: NORMALIZED_PAIR.
+* `origin` - type: NORMALIZED_PAIR.
+	- Where on the image `pos` refers to.  For example, an origin of `0.5 0.5` and a `pos` of `0.5 0.5` would place the image exactly in the middle of the screen.  If the "POSITION" and "SIZE" attributes are themable, "ORIGIN" is implied.
 * `size` - type: NORMALIZED_PAIR.
 	- You should probably not set this.  Leave it to `fontSize`.
 * `color` - type: COLOR.

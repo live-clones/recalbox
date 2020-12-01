@@ -407,6 +407,9 @@ msgstr "THEME SYSTEMVIEW"
 msgid "THEME GAMELISTVIEW"
 msgstr "THEME GAMELISTVIEW"
 
+msgid "THEME GAMECLIPVIEW"
+msgstr "THEME GAMECLIPVIEW"
+
 msgid "THEME REGION"
 msgstr "THEME REGION"
 
@@ -1249,8 +1252,8 @@ msgid ""
 "Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
 "turn the screen black, DEMO will launch demo mode."
 msgstr ""
-"SET THE SCREENSAVER BEHAVIOR. DIM WILL REDUCE THE SCREEN LIGHT, BLACK WILL "
-"TURN THE SCREEN BLACK, DEMO WILL LAUNCH DEMO MODE."
+"SET THE SCREENSAVER BEHAVIOR. HALF LUMINOSITY WILL REDUCE THE SCREEN LIGHT, BLACK SCREEN WILL "
+"TURN THE SCREEN BLACK, RUN GAME DEMOS WILL LAUNCH DEMO MODE AND PLAY GAME CLIPS WILL PLAY GAME CLIPS."
 
 msgid ""
 "Shows a help at the bottom of the screen which displays commands you can use."
@@ -2446,7 +2449,7 @@ msgstr ""
 
 #
 msgid "SYSTEMS TO SHOW IN DEMO"
-msgstr ""
+msgstr "SYSTEMS TO SHOW IN DEMO / GAME CLIPS"
 
 #
 msgid "Saving WIFI configuration"
@@ -2498,6 +2501,10 @@ msgstr "run game demos"
 #
 msgid "dim"
 msgstr "half luminosity"
+
+#
+msgid "gameclip"
+msgstr "play game clips"
 
 #
 msgid "Action (All)"
@@ -2821,4 +2828,27 @@ msgstr ""
 msgid ""
 "Hide all pre-installed games. Changing this option makes EmulationStation to "
 "relaunch."
+msgstr ""
+
+#
+msgid "SHOW IN LIST"
+msgstr ""
+
+#
+msgid "System"
+msgstr ""
+
+#
+msgid "added to favorites"
+msgstr ""
+
+#
+msgid "removed from favorites"
+msgstr ""
+
+#
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
 msgstr ""

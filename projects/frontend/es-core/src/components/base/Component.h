@@ -57,6 +57,9 @@ class Component: public IComponent
      */
     void Render(const Transform4x4f& parentTrans) override;
 
+    inline bool isDisabled() { return mDisabled; }
+    inline void setDisabled(bool disabled) { mDisabled = disabled; }
+
     const Vector3f& getPosition() const { return mPosition; }
     void setNormalisedPosition(float x, float y, float z = 0.0f);
     inline void setPosition(const Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
@@ -91,7 +94,7 @@ class Component: public IComponent
     inline void setScale(float scale) { mScale = scale; }
 
     inline float getZIndex() const { return mZIndex; }
-    inline void setZIndex(float zIndex) { mZIndex = zIndex; }
+    inline void setZIndex(float zIndex) { mZIndex = zIndex; mDisabled = false;}
 
     inline float getDefaultZIndex() const { return mDefaultZIndex; }
     inline void setDefaultZIndex(float zIndex) { mDefaultZIndex = zIndex; }
@@ -195,4 +198,5 @@ class Component: public IComponent
 
     unsigned char mOpacity;
     bool mIsProcessing;
+    bool mDisabled;
 };

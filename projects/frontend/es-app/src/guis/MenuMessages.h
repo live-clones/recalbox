@@ -70,6 +70,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_THEME_MENU_MSG "Select exisiting menu style options for this theme."
     #define MENUMESSAGE_UI_THEME_SYSTEMVIEW_MSG "Select exisiting system view options for this theme."
     #define MENUMESSAGE_UI_THEME_GAMELISTVIEW_MSG "Select exisiting gamelist view options for this theme."
+    #define MENUMESSAGE_UI_THEME_GAMECLIPVIEW_MSG "Select exisiting game clip view options for this theme."
     #define MENUMESSAGE_UI_THEME_CONFIGURATION_MSG "Configure theme options if available."
     #define MENUMESSAGE_UI_THEME_REGION_MSG "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
     #define MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG "Updates the gamelists, if you added games since the last boot."

@@ -19,6 +19,11 @@ ScrollableContainer::ScrollableContainer(Window&window)
 
 void ScrollableContainer::Render(const Transform4x4f& parentTrans)
 {
+    if(mDisabled)
+    {
+        return;
+    }
+
 	Transform4x4f trans = parentTrans * getTransform();
 
 	Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());

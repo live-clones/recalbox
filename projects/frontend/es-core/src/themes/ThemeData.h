@@ -67,8 +67,10 @@ class ThemeData
     static const ThemeData& getCurrent();
     static void SetThemeChanged(bool themeChanged);
     static bool IsThemeChanged();
+    std::string getGameClipView() const;
+    static const char *getNoTheme() { return "0 - DEFAULT"; }
 
-	static std::map<std::string, ThemeSet> getThemeSets();
+    static std::map<std::string, ThemeSet> getThemeSets();
 	static std::map<std::string, std::string> getThemeSubSets(const std::string& theme);
 	static std::map<std::string, std::string> sortThemeSubSets(const std::map<std::string, std::string>& subsetmap, const std::string& subset);
 	static Path getThemeFromCurrentSet(const std::string& system);
@@ -93,7 +95,8 @@ class ThemeData
 	std::string mMenu;
 	std::string mSystemview;
 	std::string mGamelistview;
-  std::string mRegion;
+    std::string mRegion;
+	std::string mGameClipView;
 	std::string mSystemThemeFolder;
 
     void parseFeatures(const pugi::xml_node& themeRoot);

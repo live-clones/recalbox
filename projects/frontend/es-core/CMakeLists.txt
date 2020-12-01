@@ -107,9 +107,11 @@ set(CORE_HEADERS
 		src/components/AnimatedImageComponent.h
 		src/components/BusyComponent.h
 		src/components/ButtonComponent.h
+		src/components/ClippingContainer.h
 		src/components/ComponentGrid.h
 		src/components/ComponentList.h
 		src/components/DateTimeComponent.h
+        src/components/GameClipContainer.h
 		src/components/HelpComponent.h
 		src/components/IList.h
 		src/components/ImageComponent.h
@@ -236,9 +238,11 @@ set(CORE_SOURCES
 		src/components/AnimatedImageComponent.cpp
 		src/components/BusyComponent.cpp
 		src/components/ButtonComponent.cpp
+		src/components/ClippingContainer.cpp
 		src/components/ComponentGrid.cpp
 		src/components/ComponentList.cpp
 		src/components/DateTimeComponent.cpp
+        src/components/GameClipContainer.cpp
 		src/components/HelpComponent.cpp
 		src/components/ImageComponent.cpp
 		src/components/VideoComponent.cpp

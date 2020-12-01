@@ -62,11 +62,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterParameterized(ThemeMenuSet     , std::string, String, sThemeGeneric, ".menuset", "")
     DefineGetterSetterParameterized(ThemeSystemView  , std::string, String, sThemeGeneric, ".systemview", "")
     DefineGetterSetterParameterized(ThemeGamelistView, std::string, String, sThemeGeneric, ".gamelistview", "")
+    DefineGetterSetterParameterized(ThemeGameClipView, std::string, String, sThemeGeneric, ".gameclipview", "")
     DefineGetterSetterParameterized(ThemeRegion      , std::string, String, sThemeGeneric, ".region", "")
 
     DefineGetterSetter(Brightness, int, Int, sBrightness, 7)
     DefineGetterSetter(Clock, bool, Bool, sClock, false)
     DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
+    DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, false)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
@@ -124,6 +126,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sBrightness                 = "emulationstation.brightness";
     static constexpr const char* sClock                      = "emulationstation.clock";
     static constexpr const char* sShowHelp                   = "emulationstation.showhelp";
+    static constexpr const char* sShowGameClipHelpItems      = "emulationstation.showgamecliphelpitems";
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
