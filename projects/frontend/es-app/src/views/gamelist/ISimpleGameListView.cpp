@@ -70,6 +70,23 @@ void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
   }
 }
 
+void ISimpleGameListView::onChanged(Change change)
+{
+  (void)change;
+
+  // Store cursor
+  int cursor = getCursorIndex();
+
+  // Refresh list
+  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder")) populateList(mSystem.MasterRoot());
+  else refreshList();
+
+  // Restore cursor
+  setCursorIndex(cursor);
+  // And refresh game info
+  updateInfoPanel();
+}
+
 void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 {
   if (change == FileChangeType::Run)
@@ -84,13 +101,13 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   if (file->isGame())
   {
     SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
-    bool isInFavorite = favoriteSystem->getRootFolder().Contains(file, true);
+    bool isInFavorite = favoriteSystem->GetFavoriteRoot().Contains(file, true);
     bool isFavorite = file->Metadata().Favorite();
 
     if (isInFavorite != isFavorite)
     {
-      if (isInFavorite) favoriteSystem->getRootFolder().removeChild(file);
-      else favoriteSystem->getRootFolder().addChild(file, false);
+      if (isInFavorite) favoriteSystem->GetFavoriteRoot().removeChild(file);
+      else favoriteSystem->GetFavoriteRoot().addChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView().manageFavorite();
       if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
@@ -110,16 +127,10 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   }
 
   int cursor = getCursorIndex();
-  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"))
-  {
-    populateList(mSystem.getRootFolder());
-  }
-  else
-  {
-    refreshList();
-  }
-  setCursorIndex(cursor);
+  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder")) populateList(mSystem.MasterRoot());
+  else refreshList();
 
+  setCursorIndex(cursor);
   updateInfoPanel();
 }
 
@@ -158,7 +169,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       // remove current folder from stack
       mCursorStack.pop();
 
-      FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.getRootFolder();
+      FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
       populateList(cursor);
 
       setCursor(selected);
@@ -185,8 +196,8 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       if (favoriteSystem != nullptr)
       {
-        if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
-        else               favoriteSystem->getRootFolder().removeChild(cursor);
+        if (md.Favorite()) favoriteSystem->GetFavoriteRoot().addChild(cursor, false);
+        else favoriteSystem->GetFavoriteRoot().removeChild(cursor);
 
         ViewController::Instance().setInvalidGamesList(cursor->getSystem());
         ViewController::Instance().setInvalidGamesList(favoriteSystem);
@@ -408,7 +419,7 @@ void ISimpleGameListView::jumpToLetter(unsigned int unicode)
     // apply sort
     mSystem.setSortId(0);
     // notify that the root folder has to be sorted
-    onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
+    onChanged(Change::Resort);
   }
 
   FileData::List files = getFileDataList();

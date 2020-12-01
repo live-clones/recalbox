@@ -33,9 +33,8 @@ SystemView::SystemView(Window& window, SystemManager& systemManager)
 
 void SystemView::addSystem(SystemData * it)
 {
-	if(!(it)->getRootFolder().hasChildren()){
-		return;
-	}
+	if (!(it)->HasVisibleGame()) return;
+
 	const ThemeData& theme = (it)->getTheme();
 	
 	if(mViewNeedsReload)
@@ -414,7 +413,8 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 		}, 500);
 	}
-	else if (transition_style == "slide"){ // slide
+	else if (transition_style == "slide")
+  { // slide
 		anim = new LambdaAnimation(
 			[startPos, endPos, posMax, this, move_carousel](float t)
 		{

@@ -17,6 +17,12 @@ public:
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
 	void onFileChanged(FileData* file, FileChangeType change) override;
 
+  /*!
+   * @brief Called when a major change occurs on the system
+   * @param change Change type
+   */
+  void onChanged(Change change) override;
+
 	// Called whenever the theme changes.
 	void onThemeChanged(const ThemeData& theme) override;
 

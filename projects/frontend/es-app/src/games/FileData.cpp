@@ -4,8 +4,8 @@
 #include <utils/Strings.h>
 #include <GameNameMapManager.h>
 
-FileData::FileData(ItemType type, const Path& path, SystemData* system)
-	: mSystem(system),
+FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
+	: mTopAncestor(ancestor),
     mParent(nullptr),
     mType(type),
     mPath(path),
@@ -14,15 +14,16 @@ FileData::FileData(ItemType type, const Path& path, SystemData* system)
 
 }
 
-FileData::FileData(const Path& path, SystemData* system) : FileData(ItemType::Game, path, system)
+FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemType::Game, path, ancestor)
 {
 }
 
 std::string FileData::getDisplayName() const
 {
 	std::string stem = mPath.FilenameWithoutExtension();
-  if (GameNameMapManager::HasRenaming(*mSystem))
-    stem = GameNameMapManager::Rename(*mSystem, stem);
+	if (mType == ItemType::Game)
+    if (GameNameMapManager::HasRenaming(mTopAncestor.System()))
+      stem = GameNameMapManager::Rename(mTopAncestor.System(), stem);
 
   return stem;
 }
@@ -44,4 +45,9 @@ bool FileData::HasP2K() const
       return true;
 
   return false;
+}
+
+SystemData* FileData::getSystem() const
+{
+  return &mTopAncestor.System();
 }

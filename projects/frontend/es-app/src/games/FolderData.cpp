@@ -60,7 +60,7 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
          ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
 }
 
-void FolderData::populateRecursiveFolder(const std::string& originalFilteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher)
+void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, FileData::StringMap& doppelgangerWatcher)
 {
   const Path& folderPath = getPath();
   if (!folderPath.IsDirectory())
@@ -94,7 +94,7 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
   }
 
   // special system?
-  bool hasFiltering = GameNameMapManager::HasFiltering(*systemData);
+  bool hasFiltering = GameNameMapManager::HasFiltering(*getSystem());
   // No extension?
   bool noExtensions = filteredExtensions.empty();
 
@@ -120,13 +120,13 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
       {
         if (hasFiltering)
         {
-          if (GameNameMapManager::IsFiltered(*systemData, stem))
+          if (GameNameMapManager::IsFiltered(*getSystem(), stem))
             continue; // MAME Bios or Machine
         }
         // Get the key for duplicate detection. MUST MATCH KEYS USED IN Gamelist.findOrCreateFile - Always fullpath
         if (doppelgangerWatcher.find(filePath.ToString()) == doppelgangerWatcher.end())
         {
-          FileData* newGame = new FileData(filePath, systemData);
+          FileData* newGame = new FileData(filePath, root);
           newGame->Metadata().SetDirty();
           addChild(newGame, true);
           doppelgangerWatcher[filePath.ToString()] = newGame;
@@ -137,8 +137,8 @@ void FolderData::populateRecursiveFolder(const std::string& originalFilteredExte
       //add directories that also do not match an extension as folders
       if (!isLaunchableGame && filePath.IsDirectory())
       {
-        FolderData* newFolder = new FolderData(filePath, systemData);
-        newFolder->populateRecursiveFolder(filteredExtensions, systemData, doppelgangerWatcher);
+        FolderData* newFolder = new FolderData(filePath, root);
+        newFolder->populateRecursiveFolder(root, filteredExtensions, doppelgangerWatcher);
 
         //ignore folders that do not contain games
         if (newFolder->hasChildren())
@@ -289,7 +289,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
 
 bool FolderData::hasGame() const 
 {
-  for (FileData* fd : mChildren)
+  for(FileData* fd : mChildren)
   {
     if (fd->isGame() || (fd->isFolder() && CastFolder(fd)->hasGame()))
       return true;
@@ -647,7 +647,7 @@ int FolderData::FastSearchText(const std::string& text, const std::string& into)
   return -1;                                             // Nothing found
 }
 
-void FolderData::FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining)
+void FolderData::FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const
 {
   for (FileData* fd : mChildren)
     if (remaining <= 0) return;
@@ -679,3 +679,43 @@ void FolderData::FastSearch(FastSearchContext context, const std::string& text, 
           results.push_back(FastSearchItem(distance, fd));
     }
 }
+
+int FolderData::getFoldersRecursivelyTo(FileData::List& to) const
+{
+  if (isTopMostRoot())
+  {
+    int count = 0;
+    for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())
+      count += root->getAllFoldersRecursively(to);
+    return count;
+  }
+
+  return getAllFoldersRecursively(to);
+}
+
+int FolderData::getItemsRecursivelyTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
+{
+  if (isTopMostRoot())
+  {
+    int count = 0;
+    for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())
+      count += root->getItemsRecursively(to, includes, includefolders, includeadult);
+    return count;
+  }
+
+  return getItemsRecursively(to, includes, includefolders, includeadult);
+}
+
+int FolderData::getItemsTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
+{
+  if (isTopMostRoot())
+  {
+    int count = 0;
+    for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())
+      count += root->getItems(to, includes, includefolders, includeadult);
+    return count;
+  }
+
+  return getItems(to, includes, includefolders, includeadult);
+}
+

@@ -5,11 +5,18 @@
 
 class FolderData : public FileData
 {
-  private:
+  protected:
     //! Current folder child list
     FileData::List mChildren;
 
-  protected:
+    /*!
+     * Constructor
+     */
+    FolderData(RootFolderData& topAncestor, const Path& startpath)
+      : FileData(ItemType::Root, startpath, topAncestor)
+    {
+    }
+
     /*!
      * Clear the internal child lists without destroying them.
      * Used by inherited class that store children object without ownership
@@ -53,7 +60,7 @@ class FolderData : public FileData
     int countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const;
 
     /*!
-     * Get all items recursively.
+     * Get all items
      * @param to List to fill
      * @param includes Get only items matching these filters
      * @param includefolders Include folder as regular item, or just get their children
@@ -61,7 +68,7 @@ class FolderData : public FileData
      */
     int getItems(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const;
     /*!
-     * Count all items recursively
+     * Count all items
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
@@ -101,6 +108,10 @@ class FolderData : public FileData
     static int FastSearchText(const std::string& text, const std::string& into);
 
   public:
+    typedef std::vector<FolderData*> List;
+    typedef std::vector<const FolderData*> ConstList;
+
+    //! Search context
     enum class FastSearchContext
     {
         Path,
@@ -127,8 +138,8 @@ class FolderData : public FileData
     /*!
      * Constructor
      */
-    FolderData(const Path& startpath, SystemData* system)
-      : FileData(ItemType::Folder, startpath, system)
+    FolderData(const Path& startpath, RootFolderData& topAncestor)
+      : FileData(ItemType::Folder, startpath, topAncestor)
     {
     }
 
@@ -161,7 +172,7 @@ class FolderData : public FileData
      * @param systemData System to attach to
      * @param doppelgangerWatcher Map used to check duplicate games
      */
-    void populateRecursiveFolder(const std::string& filteredExtensions, SystemData* systemData, FileData::StringMap& doppelgangerWatcher);
+    void populateRecursiveFolder(RootFolderData& root, const std::string& filteredExtensions, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * Get next favorite game, starting from the reference entry
@@ -318,6 +329,29 @@ class FolderData : public FileData
     FileData::List getAllFolders() const;
 
     /*!
+     * @brief Get all folders recursively - Root hierarchy aware methods!
+     * @param to List to fill in
+     * @return Folder count
+     */
+    int getFoldersRecursivelyTo(FileData::List& to) const;
+    /*!
+     * Get filtered items recursively. - Root hierarchy aware methods!
+     * @param to List to fill
+     * @param includes Get only items matching these filters
+     * @param includefolders Include folder as regular item, or just get their children
+     * @return Total amount of items (not including folders!)
+     */
+    int getItemsRecursivelyTo(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const;
+    /*!
+     * Get all items - Root hierarchy aware methods!
+     * @param to List to fill
+     * @param includes Get only items matching these filters
+     * @param includefolders Include folder as regular item, or just get their children
+     * @return Total amount of items (not including folders!)
+     */
+    int getItemsTo(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const;
+
+    /*!
      * @brief Check if the folder (or one of its subfolders) contains at least one game
      * with dirty metadata (modified)
      * @return True if the folder is "dirty"
@@ -338,7 +372,7 @@ class FolderData : public FileData
      * @param results Result list
      * @param remaining Maximum results
      */
-    void FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining);
+    void FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const;
 };
 
 

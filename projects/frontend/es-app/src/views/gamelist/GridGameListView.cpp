@@ -12,7 +12,7 @@ GridGameListView::GridGameListView(Window&window, SystemData& system)
 	mGrid.setSize(mSize.x(), mSize.y() * 0.8f);
 	addChild(&mGrid);
 
-	populateList(system.getRootFolder());
+	populateList(system.MasterRoot());
 }
 
 void GridGameListView::setCursor(FileData* file)

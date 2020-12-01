@@ -52,7 +52,7 @@ void CommandThread::Run()
         }
 
         // Get and check game
-        FileData* result = system->getRootFolder().LookupGame(gameName, FileData::SearchAttributes::ByNameWithExt);
+        FileData* result = system->MasterRoot().LookupGame(gameName, FileData::SearchAttributes::ByNameWithExt);
         if (result != nullptr)
         {
           LOG(LogInfo) << "Starting game " << gameName << " for system " << systemName;

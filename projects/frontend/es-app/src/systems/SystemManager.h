@@ -38,6 +38,17 @@ class SystemManager :
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
+    //! Root tag
+    static constexpr const char* sRootTag = "%ROOT%";
+
+    //! Writable share roms
+    static constexpr const char* sWritebleRomRoot = "/recalbox/share/roms";
+    //! Read-only share roms
+    static constexpr const char* sReadOnlyRomRoot = "/recalbox/share_init/roms";
+    //! Remote roms
+    static constexpr const char* sRemoteRomRoot = "/recalbox/share/romsnetwork";
+
+
     //! Emulator manager
     EmulatorManager mEmulatorManager;
     //! Emulator manager guard

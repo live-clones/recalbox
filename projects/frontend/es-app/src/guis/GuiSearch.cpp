@@ -209,8 +209,8 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 
         if (favoriteSystem != nullptr)
         {
-          if (md.Favorite()) favoriteSystem->getRootFolder().addChild(cursor, false);
-          else favoriteSystem->getRootFolder().removeChild(cursor);
+          if (md.Favorite()) favoriteSystem->GetFavoriteRoot().addChild(cursor, false);
+          else favoriteSystem->GetFavoriteRoot().removeChild(cursor);
 
           ViewController::Instance().setInvalidGamesList(cursor->getSystem());
           ViewController::Instance().setInvalidGamesList(favoriteSystem);

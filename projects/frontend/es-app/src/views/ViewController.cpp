@@ -108,7 +108,7 @@ void ViewController::goToNextGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->getRootFolder().hasChildren()) {
+	while(!next->HasVisibleGame()) {
 		next = mSystemManager.NextVisible(next);
 	}
   AudioManager::Instance().StartPlaying(next->getTheme());
@@ -122,7 +122,7 @@ void ViewController::goToPrevGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 	SystemData* prev = mSystemManager.PreviousVisible(system);
-	while(!prev->getRootFolder().hasChildren()) {
+	while(!prev->HasVisibleGame()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
   AudioManager::Instance().StartPlaying(prev->getTheme());
@@ -181,8 +181,8 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 	IGameListView* view = getGameListView(system).get();
 	if (Settings::Instance().FavoritesOnly())
 	{
-		view->populateList(system->getRootFolder());
-		FileData* nextFavorite = system->getRootFolder().GetNextFavoriteTo(file);
+		view->populateList(system->MasterRoot());
+		FileData* nextFavorite = system->MasterRoot().GetNextFavoriteTo(file);
 	  view->setCursor(nextFavorite != nullptr ? nextFavorite : file);
 	}
 
@@ -360,7 +360,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
         {
           IGameListView* lastPlayedGameListView = it->second.get();
           if (lastPlayedGameListView != nullptr)
-            lastPlayedGameListView->onFileChanged(&lastPlayedSystem->getRootFolder(), FileChangeType::Sorted);
+            lastPlayedGameListView->onChanged(ISimpleGameListView::Change::Resort);
         }
       }
 		};
@@ -399,12 +399,12 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	std::shared_ptr<IGameListView> view;
 
 	//decide type
-	bool detailed = system->getRootFolder().hasDetailedData();
+	//bool detailed = system->getRootFolder().hasDetailedData();
 
-	if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
+	//if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
 		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
-	else
-		view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, *system));
+	//else
+	//	view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, *system));
 
 	// uncomment for experimental "image grid" view
 	//view = std::shared_ptr<IGameListView>(new GridGameListView(mWindow, system));
@@ -527,7 +527,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if (view->System().getRootFolder().countAll(false, view->System().IncludeAdultGames()) > 0)
+	if (view->System().HasVisibleGame())
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{

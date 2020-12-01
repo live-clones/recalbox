@@ -25,7 +25,7 @@ BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManage
   addChild(&mList);
 
 	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
-	populateList(system.getRootFolder());
+	populateList(system.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
                                  {
@@ -79,37 +79,24 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
   // Add hidden?
-  if (Settings::Instance().ShowHidden())
-    filter |= FileData::Filter::Hidden;
+  if (Settings::Instance().ShowHidden()) filter |= FileData::Filter::Hidden;
   // Favorites only?
-  if (mFavoritesOnly)
-    filter = FileData::Filter::Favorite;
+  if (mFavoritesOnly) filter = FileData::Filter::Favorite;
 
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
-  FileData::List items = flatfolders ?
-    folder.getFilteredItemsRecursively(filter, false, mSystem.IncludeAdultGames()) :
-    folder.getFilteredItems(filter, true, mSystem.IncludeAdultGames());
+  FileData::List items;
+  if (flatfolders) folder.getItemsRecursivelyTo(items, filter, false, mSystem.IncludeAdultGames());
+  else             folder.getItemsTo(items, filter, true, mSystem.IncludeAdultGames());
 
   // Check emptyness
-  if (items.empty())
-  {
-    // Insert "EMPTY SYSTEM" item
-    items.push_back(&mEmptyListItem);
-  }
+  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
 
   // Sort
-  if (!mSystem.IsSelfSorted())
-  {
-    int sortId = FileSorts::Clamp(mSystem.getSortId(), mSystem.IsVirtual());
-    FileSorts::Sorts sort = FileSorts::AvailableSorts(mSystem.IsVirtual())[sortId];
-    FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
-  }
-  else
-  {
-    FileSorts::Sorts sort = mSystem.FixedSort();
-    FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
-  }
+  FileSorts::Sorts sort =
+    mSystem.IsSelfSorted() ? mSystem.FixedSort()
+                           : FileSorts::AvailableSorts(mSystem.IsVirtual())[FileSorts::Clamp(mSystem.getSortId(), mSystem.IsVirtual())];
+  FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
 
   // Region filtering?
   Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + mSystem.getName() + ".regionfilter"));
@@ -167,7 +154,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 {
 	if(!mList.setCursor(cursor, 0))
 	{
-		populateList(mSystem.getRootFolder());
+		populateList(mSystem.MasterRoot());
 		mList.setCursor(cursor);
 
 		// update our cursor stack in case our cursor just got set to some folder we weren't in before
@@ -175,7 +162,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 		{
 			std::stack<FolderData*> tmp;
 			FolderData* ptr = cursor->getParent();
-			while((ptr != nullptr) && ptr != &mSystem.getRootFolder())
+			while((ptr != nullptr) && !ptr->isRoot())
 			{
 				tmp.push(ptr);
 				ptr = ptr->getParent();

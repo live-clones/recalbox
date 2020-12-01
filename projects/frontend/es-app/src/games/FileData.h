@@ -11,6 +11,7 @@
 // Forward declarations
 class SystemData;
 class FolderData;
+class RootFolderData;
 
 // A tree node that holds information for a file.
 class FileData
@@ -18,6 +19,7 @@ class FileData
   public:
     typedef HashMap<std::string, FileData*> StringMap;
     typedef std::vector<FileData*> List;
+    typedef std::vector<const FileData*> ConstList;
     typedef int (*Comparer)(const FileData& a, const FileData& b);
 
     //! Game filters
@@ -40,8 +42,8 @@ class FileData
     };
 
   protected:
-    //! System the current item is attached to
-    SystemData* mSystem;
+    //! Top ancestor (link to system)
+    RootFolderData& mTopAncestor;
     //! Parent folder
     FolderData* mParent;
     //! Item type - Const ensure mType cannot be modified after being set by the constructor, so that it's alays safe to use c-style cast for FolderData sub-class.
@@ -60,7 +62,7 @@ class FileData
      * @param path Item path
      * @param system Parent system
      */
-    FileData(ItemType type, const Path& path, SystemData* system);
+    FileData(ItemType type, const Path& path, RootFolderData& ancestor);
 
   public:
     /*!
@@ -68,7 +70,7 @@ class FileData
      * @param path Item path on filesystem
      * @param system system to attach to
      */
-    FileData(const Path& path, SystemData* system);
+    FileData(const Path& path, RootFolderData& ancestor);
 
     /*
      * Getters
@@ -79,7 +81,8 @@ class FileData
     inline ItemType getType() const { return mType; }
     inline const Path& getPath() const { return mPath; }
     inline FolderData* getParent() const { return mParent; }
-    inline SystemData* getSystem() const { return mSystem; }
+    inline RootFolderData& getTopAncestor() const { return mTopAncestor; }
+    SystemData* getSystem() const;
 
     /*
      * Booleans
@@ -87,7 +90,9 @@ class FileData
 
     inline bool isEmpty() const { return mType == ItemType::Empty; }
     inline bool isGame() const { return mType == ItemType::Game; }
-    inline bool isFolder() const { return mType == ItemType::Folder; }
+    inline bool isFolder() const { return mType == ItemType::Folder || mType == ItemType::Root; }
+    inline bool isRoot() const { return mType == ItemType::Root; }
+    inline bool isTopMostRoot() const { return mType == ItemType::Root && mParent == nullptr; }
 
     /*
      * Setters

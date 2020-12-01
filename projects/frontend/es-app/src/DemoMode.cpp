@@ -38,7 +38,7 @@ void DemoMode::init()
     const std::string& name = allSystems[i]->getName();
     bool includeSystem = mRecalboxConf.AsBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    bool hasVisibleGame = allSystems[i]->getRootFolder().hasVisibleGame();
+    bool hasVisibleGame = allSystems[i]->HasVisibleGame();
     if ((includeSystem || systemIsInIncludeList) && hasVisibleGame)
     {
       mDemoSystems.push_back(allSystems[i]);
@@ -129,7 +129,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
   SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
-  FileData::List gameList = system->getRootFolder().getAllDisplayableItemsRecursively(false, system->IncludeAdultGames());
+  FileData::List gameList = system->getGames();
   if (gameList.empty())
   {
     LOG(LogError) << "NO game available for demo mode in system " << system->getName() << " !";
@@ -162,7 +162,6 @@ void DemoMode::runDemo()
 {
   if (!hasDemoMode()) return;
 
-  SystemData* system = nullptr;
   FileData* game = nullptr;
   int duration = 0;
   bool Initialized = false;
@@ -174,7 +173,7 @@ void DemoMode::runDemo()
   while(getRandomGame(game, duration))
   {
     // Get game's parent system
-    system = game->getSystem();
+    SystemData* system = game->getSystem();
     // Initialize (shutdown ES display)
     if (!Initialized)
     {

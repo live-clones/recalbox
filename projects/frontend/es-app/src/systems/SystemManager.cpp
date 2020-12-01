@@ -21,10 +21,42 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
-  SystemData* result = new SystemData(*this, systemDescriptor, RootFolderData::Ownership::All, SystemData::Properties::Searchable);
+  SystemData* result = new SystemData(*this, systemDescriptor, SystemData::Properties::Searchable);
+
+  // Build root list
+  HashMap<std::string, bool> roots;
+  if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
+  {
+    std::string rootTag(sRootTag);
+    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sReadOnlyRomRoot)); if (root.Exists()) roots[root.ToString()] = true;
+    root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sWritebleRomRoot)); if (root.Exists()) roots[root.ToString()] = false;
+    root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sRemoteRomRoot  )); if (root.Exists()) roots[root.ToString()] = false;
+  }
+  else
+  {
+    // For compatibility until we move romfs
+    bool ok = false;
+    Path originalRomPath(sWritebleRomRoot);
+    Path relative(systemDescriptor.RomPath().MakeRelative(originalRomPath, ok));
+    if (ok)
+    {
+      Path root = Path(sWritebleRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = true;
+      root      = Path(sReadOnlyRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
+      root      = Path(sRemoteRomRoot  ) / relative; if (root.Exists()) roots[root.ToString()] = false;
+    }
+    else
+    {
+      LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is not relative to " << originalRomPath.ToString();
+      return result;
+    }
+  }
 
   // Avoid files being added more than once even through symlinks
+  for(const auto& rootPath : roots)
   {
+    RootFolderData& root = result->LookupOrCreateRootFolder(Path(rootPath.first),
+                                                            RootFolderData::Ownership::All,
+                                                            rootPath.second ? RootFolderData::Types::ReadOnly : RootFolderData::Types::None);
     FileData::StringMap doppelgangerWatcher;
 
     LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
@@ -32,12 +64,14 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     // Populate items from disk
     bool loadFromDisk = forceLoad || !RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false);
     if (loadFromDisk)
-      result->populateFolder(&(result->mRootFolder), doppelgangerWatcher);
+      result->populateFolder(root, doppelgangerWatcher);
+
     // Populate items from gamelist.xml
     if (!Settings::Instance().IgnoreGamelist())
-      result->ParseGamelistXml(doppelgangerWatcher, forceLoad);
+      result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
+
     // Overrides?
-    FileData::List allFolders = result->getRootFolder().getAllFolders();
+    FileData::List allFolders = result->getFolders();
     for(auto* folder : allFolders)
       SystemData::overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
@@ -55,8 +89,9 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::None, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
+  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
+  RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
   for (auto* system : systems)
   {
     FileData::List favs = system->getFavorites();
@@ -64,7 +99,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
     {
       LOG(LogWarning) << " Get " << favs.size() << " favorites for " << system->getName() << "!";
       for (auto* favorite : favs)
-        result->mRootFolder.addChild(favorite, false);
+        root.addChild(favorite, false);
     }
   }
 
@@ -83,16 +118,17 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
+  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
-  for (auto* system : systems)
+  RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
+  for(SystemData* source : systems)
   {
-    FileData::List all = system->getRootFolder().getAllItems(true, system->IncludeAdultGames());
+    FileData::List all = source->getTopGamesAndFolders();
     if (!all.empty())
     {
-      LOG(LogWarning) << "Add games from " << system->getName() << " into " << fullName;
+      LOG(LogWarning) << "Add games from " << source->getName() << " into " << fullName;
       for (auto* fd : all)
-        result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
+        result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
     }
   }
 
@@ -111,13 +147,14 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
-  SystemData* result = new SystemData(*this, descriptor, RootFolderData::Ownership::FolderOnly, SystemData::Properties::Virtual | properties, fixedSort);
+  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())
   {
+    RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     LOG(LogWarning) << "Add " << games.size() << " games into " << fullName;
     for (auto* fd : games)
-      result->LookupOrCreateGame(fd->getSystem()->getRootFolder().getPath(), fd->getPath(), fd->getType(), doppelganger);
+      result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
   }
 
   result->loadTheme();
@@ -136,7 +173,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
   try
   {
     SystemData* newSys = CreateRegularSystem(systemDescriptor, mForceReload);
-    if (newSys->getRootFolder().countAll(false, newSys->IncludeAdultGames()) == 0)
+    if (newSys->GameCount() == 0)
     {
       LOG(LogWarning) << "System \"" << systemDescriptor.Name() << "\" has no games! Ignoring it.";
       delete newSys;
@@ -182,7 +219,7 @@ bool SystemManager::AddArcadeMetaSystem()
 
     // Lookup all non-empty arcade platforms
     for (SystemData* system: mVisibleSystemVector)
-      if (system->getRootFolder().hasGame())
+      if (system->HasGame())
         for(int i = system->PlatformCount(); --i >= 0; )
           if ((system->PlatformIds(i) == PlatformIds::PlatformId::ARCADE) ||
               (system->PlatformIds(i) == PlatformIds::PlatformId::NEOGEO && includeNeogeo))
@@ -231,7 +268,7 @@ bool SystemManager::AddPorts()
     if (system->PlatformCount() == 1)
       if ((system->PlatformIds(0) > PlatformIds::PlatformId::PORT_START) &&
           (system->PlatformIds(0) < PlatformIds::PlatformId::PORT_STOP))
-        if (system->getRootFolder().hasGame())
+        if (system->HasGame())
         {
           ports.push_back(system);
           system->BuildDoppelgangerMap(doppelganger, false);
@@ -279,16 +316,17 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
     // Filter and insert items
     for(const SystemData* system : mVisibleSystemVector)
       if (!system->IsVirtual())
-      {
-        FileData::List list = system->getRootFolder().getFilteredItemsRecursively(filter, true,
-                                                                                  system->IncludeAdultGames());
-        allGames.reserve(allGames.size() + list.size());
-        allGames.insert(allGames.end(), list.begin(), list.end());
-        // dopplegagner must be build using file only
-        // Let the virtual system re-create all intermediate folder
-        // ... and destroy them properly
-        system->BuildDoppelgangerMap(doppelganger, false);
-      }
+        for(const RootFolderData* root : system->MasterRoot().SubRoots())
+          if (!root->Virtual())
+          {
+            FileData::List list = root->getFilteredItemsRecursively(filter, true, system->IncludeAdultGames());
+            allGames.reserve(allGames.size() + list.size());
+            allGames.insert(allGames.end(), list.begin(), list.end());
+            // dopplegagner must be build using file only
+            // Let the virtual system re-create all intermediate folder
+            // ... and destroy them properly
+            system->BuildDoppelgangerMap(doppelganger, false);
+          }
 
     // Not empty?
     if (!allGames.empty())
@@ -415,7 +453,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
       {
         // Get weight
-        int weight = weights.GetInt(descriptor.RomPath().ToString(), 0);
+        int weight = weights.GetInt(descriptor.FullName(), 0);
         // Add system name and watch gamelist
         mAllDeclaredSystemShortNames.push_back(descriptor.Name());
         // Push weighted system
@@ -443,8 +481,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     if (system != nullptr)
     {
       visibleSystem.push_back(system);
-      weights.SetInt(system->getStartPath().ToString(),
-                     system->getRootFolder().countAll(true, system->IncludeAdultGames()));
+      weights.SetInt(system->getFullName(), system->GameAndFolderCount());
     }
   mVisibleSystemVector = visibleSystem;
   LOG(LogInfo) << "Final non-virtual visible systems: " << mVisibleSystemVector.size();
@@ -464,11 +501,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 
   // Add gamelist watching
   for(SystemData* system : mAllSystemVector)
-  {
-    Path gamelistPath = system->getGamelistPath(false);
-    if (gamelistPath.Exists())
-      gamelistWatcher.WatchFile(gamelistPath);
-  }
+    for(const Path& path : system->WritableGamelists())
+      if (path.Exists())
+        gamelistWatcher.WatchFile(path);
 
   return true;
 }
@@ -637,7 +672,8 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
     if (system->IsSearchable())
     {
       int maximumResultPerSystem = maxpersystem;
-      system->getRootFolder().FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
+
+      system->FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
     }
 
   // Sort results

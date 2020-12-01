@@ -5,21 +5,18 @@
 #include "systems/SystemData.h"
 
 class Window;
-
 class Component;
-
 class FileData;
-
 class ThemeData;
 
 enum class FileChangeType
 {
-    Added,
-    Run,
-    MetadataChanged,
-    Removed,
-    Sorted,
-    DisplayUpdated,
+  Added,
+  Run,
+  MetadataChanged,
+  Removed,
+  Sorted,
+  DisplayUpdated,
 };
 
 // This is an interface that defines the minimum for a GameListView.
@@ -32,6 +29,12 @@ class IGameListView : public Gui
     virtual void DoUpdateGameInformation() = 0;
 
   public:
+    enum class Change
+    {
+      Resort, //!< New sorting required
+      Update, //!< Update lists
+    };
+
     IGameListView(Window&window, SystemData& system)
       : Gui(window),
         mSystem(system),
@@ -46,6 +49,12 @@ class IGameListView : public Gui
 
     // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
     virtual void onFileChanged(FileData* file, FileChangeType change) = 0;
+
+    /*!
+     * @brief Called when a major change occurs on the system
+     * @param change Change type
+     */
+    virtual void onChanged(Change change) = 0;
 
     // Called whenever the theme changes.
     virtual void onThemeChanged(const ThemeData& theme) = 0;

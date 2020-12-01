@@ -12,6 +12,7 @@
 #include "SystemDescriptor.h"
 #include "NetPlayData.h"
 #include "EmulatorData.h"
+#include "Settings.h"
 
 class SystemManager;
 
@@ -62,8 +63,8 @@ class SystemData : private INoCopy
     SystemDescriptor mDescriptor;
     //! Theme object
     ThemeData mTheme;
-    //! Root folder - Children are top level visible game/folder of the system
-    RootFolderData mRootFolder;
+    //! Root folders - Children are top level visible game/folder of the system
+    RootFolderData mRootOfRoot;
     //! Sorting index
     int mSortId;
     //! Is this system the favorite system?
@@ -77,7 +78,7 @@ class SystemData : private INoCopy
      * @param folder Root folder to recurse in
      * @param doppelgangerWatcher full path map to avoid adding a game more than once
      */
-    void populateFolder(FolderData* folder, FileData::StringMap& doppelgangerWatcher);
+    void populateFolder(RootFolderData& folder, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * @brief Private constructor, called from SystemManager
@@ -85,7 +86,7 @@ class SystemData : private INoCopy
      * @param childOwnership Type of children management
      * @param properties System properties
      */
-    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, RootFolderData::Ownership childOwnership, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
@@ -114,14 +115,15 @@ class SystemData : private INoCopy
      * @param doppelgangerWatcher Maps to avoid duplicate entries
      * @return Existing or newly created FileData
      */
-    FileData* LookupOrCreateGame(const Path& root, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher);
+    FileData* LookupOrCreateGame(RootFolderData& topAncestor, const Path& rootPath, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher) const;
 
     /*!
      * @brief Parse xml gamelist files and add games to the current system
+     * @param root Root rom folder
      * @param doppelgangerWatcher Maps to avoid duplicate entries
      * @param forceCheckFile True to force to check if file exists
      */
-    void ParseGamelistXml(FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
+    void ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
 
     /*!
      * @brief Try to override command with the nearest one found in .system.cfg in folder or parent folders
@@ -137,12 +139,32 @@ class SystemData : private INoCopy
      */
     static IBoardInterface::CPUGovernance GetGovernance(const std::string& core);
 
-  public:
-    //! Return the root folder object
-    RootFolderData& getRootFolder() { return mRootFolder; };
-    //! Return the root folder object (const version)
-    const RootFolderData& getRootFolder() const { return mRootFolder; };
+    /*!
+     * @brief Get root folder of the given type
+     * @param type Type to lookup
+     * @return Found root or nullptr
+     */
+    RootFolderData* GetRootFolder(RootFolderData::Types type);
 
+    /*!
+     * @brief Create new root folder
+     * @param startpath Path
+     * @param childownership Child ownership type
+     * @param type Type of root
+     * @return New root folder
+     */
+    RootFolderData& CreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership, RootFolderData::Types type);
+
+    /*!
+     * @brief Lookup an existig root folder or create a new one using the given configuration
+     * @param startpath Path
+     * @param childownership Child ownership type
+     * @param type Type of root
+     * @return Existing or new root folder
+     */
+    RootFolderData& LookupOrCreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership, RootFolderData::Types type);
+
+  public:
     /*!
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists
@@ -153,12 +175,31 @@ class SystemData : private INoCopy
                RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
     }
 
+    static bool IncludeHiddenGames()
+    {
+      return Settings::Instance().ShowHidden();
+    }
+
+    /*!
+     * @brief Get master root
+     * @return Master root
+     */
+    RootFolderData& MasterRoot() { return mRootOfRoot; }
+    /*!
+     * @brief Get master root - const version
+     * @return Master root
+     */
+    const RootFolderData& MasterRoot() const { return mRootOfRoot; }
+
     const std::string& getName() const { return mDescriptor.Name(); }
     const std::string& getFullName() const { return mDescriptor.FullName(); }
-    const Path& getStartPath() const { return mDescriptor.RomPath(); }
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
-    FileData::List getFavorites() const { return mRootFolder.getAllFavoritesRecursively(false, IncludeAdultGames()); }
+    FileData::List getFavorites() const;
+    FileData::List getGames() const;
+    FileData::List getAllGames() const;
+    FileData::List getFolders() const;
+    FileData::List getTopGamesAndFolders() const;
     int getSortId() const { return mSortId; };
     void setSortId(const int sortId) { mSortId = sortId; };
 
@@ -169,13 +210,20 @@ class SystemData : private INoCopy
 
     inline const ThemeData& getTheme() const { return mTheme; }
 
-    Path getGamelistPath(bool forWrite) const;
+    static Path getGamelistPath(const RootFolderData& root, bool forWrite);
+    /*!
+     * @brief Get list of writable Gamelists
+     * @return List of writable gamelists
+     */
+    Path::PathList WritableGamelists();
     Path getThemePath() const;
 
-    bool HasGame() const { return mRootFolder.hasGame(); }
-    int GameCount() const { return mRootFolder.countAll(false, IncludeAdultGames()); };
-    int FavoritesCount() const{ return mRootFolder.countAllFavorites(false, IncludeAdultGames()); };
-    int HiddenCount() const{ return mRootFolder.countAllHidden(false, IncludeAdultGames()); };
+    bool HasGame() const;
+    bool HasVisibleGame() const;
+    int GameCount() const;
+    int GameAndFolderCount() const;
+    int FavoritesCount() const;
+    int HiddenCount() const;
 
     void RunGame(Window& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
 
@@ -205,6 +253,12 @@ class SystemData : private INoCopy
 
     //! Is this system always flat?
     bool IsSearchable() const;
+
+    /*!
+     * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
+     * @return Virtual root
+     */
+    RootFolderData& GetFavoriteRoot();
 
     FileSorts::Sorts FixedSort() const { return mFixedSort; }
 
@@ -245,6 +299,15 @@ class SystemData : private INoCopy
      * @return True if a game is running
      */
     static bool IsGameRunning() { return sIsGameRunning; }
+
+    /*!
+     * @brief Search for all games containing 'text' and add them to 'result'
+     * @param context Field in which to search text for
+     * @param text Test to search for
+     * @param results Result list
+     * @param remaining Maximum results
+     */
+    void FastSearch(FolderData::FastSearchContext context, const std::string& text, FolderData::ResultList& results, int& remaining);
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

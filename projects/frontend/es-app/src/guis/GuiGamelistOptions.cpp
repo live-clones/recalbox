@@ -1,5 +1,6 @@
 #include <RecalboxConf.h>
 #include <MainRunner.h>
+#include <views/gamelist/ISimpleGameListView.h>
 #include "GuiGamelistOptions.h"
 #include "GuiMetaDataEd.h"
 #include "Settings.h"
@@ -176,21 +177,18 @@ GuiGamelistOptions::~GuiGamelistOptions()
 {
 	if (mReloading) return;
 
+	// Save data
 	save();
 
-	const FolderData& root = mSystem.getRootFolder();
-	if (root.countAllDisplayableItemsRecursively(false, mSystem.IncludeAdultGames()) != 0)
+	// Refresh lists?
+	if (mSystem.HasVisibleGame())
 	{
 		if (mListSort && mListSort->getSelected() != (int)mSystem.getSortId())
-		{
 			// notify that the root folder has to be sorted
-			getGamelist()->onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
-		}
+			getGamelist()->onChanged(ISimpleGameListView::Change::Resort);
 		else
-		{
 			// require list refresh
-			getGamelist()->onFileChanged(&mSystem.getRootFolder(), FileChangeType::DisplayUpdated);
-		}
+			getGamelist()->onChanged(ISimpleGameListView::Change::Update);
 
 		// if states has changed, invalidate and reload game list
 		if (Settings::Instance().FavoritesOnly() != mFavoriteState || Settings::Instance().ShowHidden() != mHiddenState)
@@ -227,7 +225,7 @@ void GuiGamelistOptions::jumpToLetter() {
 		// apply sort
 		mSystem.setSortId(sortId);
 		// notify that the root folder has to be sorted
-		gamelist->onFileChanged(&mSystem.getRootFolder(), FileChangeType::Sorted);
+		gamelist->onChanged(ISimpleGameListView::Change::Resort);
 	}
 
 	gamelist->jumpToLetter(letter);

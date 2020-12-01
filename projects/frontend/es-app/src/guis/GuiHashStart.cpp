@@ -126,15 +126,17 @@ void GuiHashStart::Start()
 
   // Run through systems...
   for (auto* system : mSystems->getSelectedObjects())
-  {
-    // Run through games
-    FileData::List games = system->getRootFolder().getAllItems(true, true);
-    for (FileData* game : games)
-      if (game->Metadata().RomCrc32() == 0 || forceAll)
-        mThreadPool.PushFeed(game);
-    mTotalGames = mThreadPool.PendingJobs();
-    mRemaininglGames = mTotalGames;
-  }
+    for(const RootFolderData* root : system->MasterRoot().SubRoots())
+      if (!root->ReadOnly())
+      {
+        // Run through games
+        FileData::List games = root->getAllItems(true, true);
+        for (FileData* game : games)
+          if (game->Metadata().RomCrc32() == 0 || forceAll)
+            mThreadPool.PushFeed(game);
+      }
+  mTotalGames = mThreadPool.PendingJobs();
+  mRemaininglGames = mTotalGames;
 
   // Run!
   if (mRemaininglGames != 0) mThreadPool.Run(-4, true);

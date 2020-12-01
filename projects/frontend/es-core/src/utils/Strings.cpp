@@ -326,6 +326,16 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 	return string;
 }
 
+std::string Strings::Replace(const std::string& _string, const std::string& _replace, const char* _with, int _withLength)
+{
+  std::string string = _string;
+
+  for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; )
+    string.replace(pos, 1, _with, _withLength);
+
+  return string;
+}
+
 void Strings::ReplaceAllIn(std::string& _string, const char _replace, const char* _with, int _withlength)
 {
   for(int pos = 0; (pos = _string.find(_replace, pos)) != (int)std::string::npos; pos += _withlength)
@@ -792,6 +802,11 @@ std::string Strings::Extract(const std::string& source, const char* starttag, co
       return source.substr(start + starttagl, stop - (start + starttagl));
   }
   return std::string();
+}
+
+bool Strings::Contains(const std::string& source, const char* what)
+{
+  return (source.find(what) != std::string::npos);
 }
 
 

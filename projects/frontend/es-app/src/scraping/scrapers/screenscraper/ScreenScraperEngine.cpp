@@ -265,7 +265,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::Sys
                      .append(" HTTP://WWW.SCREENSCRAPER.FR");
   // Feed threadpool
   for(SystemData* system : systemList)
-    for(FileData* game : system->getRootFolder().getAllDisplayableItemsRecursively(false, system->IncludeAdultGames()))
+    for(FileData* game : system->getAllGames())
       mRunner.PushFeed(game);
   mTotal = mRunner.PendingJobs();
   // Run!
@@ -577,7 +577,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
 bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData& game)
 {
-  const Path rootMediaPath = game.getSystem()->getRootFolder().getPath() / "media";
+  const Path rootMediaPath = game.getTopAncestor().getPath() / "media";
   const std::string gameFile = game.getPath().FilenameWithoutExtension();
   switch(method)
   {
@@ -757,7 +757,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
                                                    FileData& game)
 {
   bool ok = false;
-  const Path rootFolder(game.getSystem()->getRootFolder().getPath());
+  const Path rootFolder(game.getTopAncestor().getPath());
   const Path relativePath = game.getPath().MakeRelative(rootFolder, ok);
   const std::string gameName = ok ? (relativePath.Directory() / game.getPath().FilenameWithoutExtension()).ToString()
                                   : game.getPath().FilenameWithoutExtension();
