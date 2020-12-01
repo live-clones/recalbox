@@ -504,7 +504,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
   int vpr = (int)viewEnd.x() - 1;
   int vpb = (int)viewEnd.y() - 1;
 
-  // Draw systemview
+  // Draw splash
   for(;;)
   {
     // clipping - only y
@@ -534,6 +534,13 @@ void ViewController::Render(const Transform4x4f& parentTrans)
     if (gb < vpu) break;
     if (gu > vpb) break;
 
+    //TODO: manage to stopping snap video in gamelisview when back to system view
+    for(;;)
+    {
+        if(VideoEngine::Instance().IsIdle())
+            break;
+        VideoEngine::Instance().StopVideo();
+    }
     mSystemListView.Render(trans);
     break;
   }
