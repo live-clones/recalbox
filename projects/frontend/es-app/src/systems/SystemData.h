@@ -258,7 +258,7 @@ class SystemData : private INoCopy
      * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
      * @return Virtual root
      */
-    RootFolderData& GetFavoriteRoot();
+    FolderData& GetFavoriteRoot();
 
     FileSorts::Sorts FixedSort() const { return mFixedSort; }
 

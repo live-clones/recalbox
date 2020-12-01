@@ -92,7 +92,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   descriptor.SetInformation("", name, fullName, "", "", themeFolder);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
-  RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
+  FolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
   for (auto* system : systems)
   {
     FileData::List favs = system->getFavorites();

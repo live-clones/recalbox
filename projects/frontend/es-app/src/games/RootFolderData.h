@@ -20,15 +20,6 @@ class RootFolderData : public FolderData
       Virtual , //!< Virtual tree
     };
 
-  private:
-    //! Parent system
-    SystemData& mSystem;
-    //! Type of child ownership
-    Ownership mChildOwnership;
-    //! This folder and all its subtree is readonly
-    Types mType;
-
-  public:
     /*!
      * Constructor
      */
@@ -98,4 +89,21 @@ class RootFolderData : public FolderData
           roots.push_back((RootFolderData*)child);
       return roots;
     }
+
+    /*!
+     * @brief Add Sub-root
+     * @param subroot Sub-root to add
+     */
+    void AddSubRoot(RootFolderData* subroot) { addChild(subroot, true); }
+
+  private:
+    //! Parent system
+    SystemData& mSystem;
+    //! Type of child ownership
+    Ownership mChildOwnership;
+    //! This folder and all its subtree is readonly
+    Types mType;
+
+    // Hide addChild
+    using FolderData::addChild;
 };

@@ -745,7 +745,7 @@ RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
 RootFolderData& SystemData::CreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership, RootFolderData::Types type)
 {
   RootFolderData* newRoot = new RootFolderData(mRootOfRoot, childownership, type, startpath, *this);
-  mRootOfRoot.addChild(newRoot, true);
+  mRootOfRoot.AddSubRoot(newRoot);
   return *newRoot;
 }
 
@@ -758,7 +758,7 @@ RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, Root
   return CreateRootFolder(startpath, childownership, type);
 }
 
-RootFolderData& SystemData::GetFavoriteRoot()
+FolderData& SystemData::GetFavoriteRoot()
 {
   if (!IsFavorite())
     LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!";
