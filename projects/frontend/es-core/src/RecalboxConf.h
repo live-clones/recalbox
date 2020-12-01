@@ -33,6 +33,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
       void Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); }
 
+    DefineGetterSetter(HideDefaultGames, bool, Bool, sHideDefaultGames, false)
+
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
     DefineGetterSetter(WifiEnabled, bool, Bool, sWifiEnabled, false)
@@ -107,6 +109,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sScreenSaverTime            = "emulationstation.screensaver.time";
     static constexpr const char* sScreenSaverType            = "emulationstation.screensaver.type";
     static constexpr const char* sScreenSaverSystemList      = "global.demo.systemlist";
+
+    static constexpr const char* sHideDefaultGames           = "emulationstation.hidedefaultgames";
 
     static constexpr const char* sPopupHelp                  = "emulationstation.popoup.help";
     static constexpr const char* sPopupMusic                 = "emulationstation.popoup.music";

@@ -2302,11 +2302,13 @@ msgstr "NESSUNA CONFIGURAZIONE WPS TROVATA!"
 
 #
 msgid "Hostname changes will not be effective until next reboot"
-msgstr "Le modifiche al nome host non saranno effettive fino al prossimo riavvio"
+msgstr ""
+"Le modifiche al nome host non saranno effettive fino al prossimo riavvio"
 
 #
 msgid "Enable/Disable Arcade virtual system and set its options"
-msgstr "Abilita / Disabilita il sistema virtuale Arcade e imposta le sue opzioni"
+msgstr ""
+"Abilita / Disabilita il sistema virtuale Arcade e imposta le sue opzioni"
 
 #
 msgid "Fetching WIFI parameters"
@@ -2381,7 +2383,10 @@ msgid ""
 "Shaders are like filters for the game rendering. You can select a raw shader "
 "file here. This setting may be overloaded by shaderset if not definied to "
 "'none'."
-msgstr "Gli shader sono come i filtri per il rendering del gioco. Puoi selezionare un file shader grezzo qui. Questa impostazione può essere sovraccaricata dallo shaderset se non è definita su 'nessuno'."
+msgstr ""
+"Gli shader sono come i filtri per il rendering del gioco. Puoi selezionare "
+"un file shader grezzo qui. Questa impostazione può essere sovraccaricata "
+"dallo shaderset se non è definita su 'nessuno'."
 
 #
 msgid "Select your keyboard layout."
@@ -2777,3 +2782,13 @@ msgstr ""
 "ingresso, Recalbox cambierà automaticamente l'uscita audio. Comodo.\n"
 "\n"
 "Premi il pulsante B, come al solito."
+
+#
+msgid "HIDE PREINSTALLED GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""

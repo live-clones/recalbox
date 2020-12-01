@@ -410,9 +410,12 @@ void GuiMenu::menuUpdates()
   mWindow.pushGui(updateGui);
 }
 
-void GuiMenu::menuGameSettings(){
+void GuiMenu::menuGameSettings()
+{
   auto* s = new GuiSettings(mWindow, _("GAMES SETTINGS"));
-  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop") {
+
+  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
+  {
     // Screen ratio choice
     auto ratio_choice = createRatioOptionList(mWindow, "global");
     s->addWithLabel(ratio_choice, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
@@ -421,6 +424,7 @@ void GuiMenu::menuGameSettings(){
       RecalboxConf::Instance().Save();
     });
   }
+
   // smoothing
   auto smoothing_enabled = std::make_shared<SwitchComponent>(mWindow);
   smoothing_enabled->setState(RecalboxConf::Instance().AsBool("global.smooth"));
@@ -573,15 +577,25 @@ void GuiMenu::menuGameSettings(){
         s->addSubMenu(_("NETPLAY SETTINGS"), openGui, _(MENUMESSAGE_NP_HELP_MSG));
       }
     }
-
   }
-  s->addSaveFunc([smoothing_enabled, rewind_enabled, shaderSet_choices, shaders_choices, autosave_enabled] {
+
+  // Default Games
+  auto default_games = std::make_shared<SwitchComponent>(mWindow);
+  bool default_games_original = RecalboxConf::Instance().GetHideDefaultGames();
+  default_games->setState(default_games_original);
+  s->addWithLabel(default_games, _("HIDE PREINSTALLED GAMES"), _(MENUMESSAGE_GAME_HIDE_PREINSTALLED));
+
+  s->addSaveFunc([smoothing_enabled, rewind_enabled, shaderSet_choices, shaders_choices, autosave_enabled, default_games, default_games_original]
+  {
     RecalboxConf::Instance().SetBool("global.smooth", smoothing_enabled->getState());
     RecalboxConf::Instance().SetBool("global.rewind", rewind_enabled->getState());
     RecalboxConf::Instance().SetString("global.shaderset", shaderSet_choices->getSelected());
     RecalboxConf::Instance().SetString("global.shaders", shaders_choices->getSelected());
     RecalboxConf::Instance().SetBool("global.autosave", autosave_enabled->getState());
+    RecalboxConf::Instance().SetHideDefaultGames(default_games->getState());
     RecalboxConf::Instance().Save();
+    if (default_games->getState() != default_games_original)
+      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch);
   });
   mWindow.pushGui(s);
 }

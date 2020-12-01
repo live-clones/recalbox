@@ -25,10 +25,11 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
 
   // Build root list
   HashMap<std::string, bool> roots;
+  bool hide = RecalboxConf::Instance().GetHideDefaultGames();
   if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
   {
     std::string rootTag(sRootTag);
-    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sReadOnlyRomRoot)); if (root.Exists()) roots[root.ToString()] = true;
+    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sReadOnlyRomRoot)); if (root.Exists() && !hide) roots[root.ToString()] = true;
     root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sWritebleRomRoot)); if (root.Exists()) roots[root.ToString()] = false;
     root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sRemoteRomRoot  )); if (root.Exists()) roots[root.ToString()] = false;
   }
@@ -40,8 +41,8 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     Path relative(systemDescriptor.RomPath().MakeRelative(originalRomPath, ok));
     if (ok)
     {
-      Path root = Path(sWritebleRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = true;
-      root      = Path(sReadOnlyRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
+      Path root = Path(sReadOnlyRomRoot) / relative; if (root.Exists() && !hide) roots[root.ToString()] = true;
+      root      = Path(sWritebleRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
       root      = Path(sRemoteRomRoot  ) / relative; if (root.Exists()) roots[root.ToString()] = false;
     }
     else

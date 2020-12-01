@@ -2717,6 +2717,16 @@ msgid ""
 "Press button B, as usual."
 msgstr ""
 
+#
+msgid "HIDE PREINSTALLED GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

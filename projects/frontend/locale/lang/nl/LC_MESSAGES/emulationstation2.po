@@ -2726,3 +2726,13 @@ msgstr ""
 "Praktisch.\n"
 "\n"
 "Drücke auch hier wie gewohnt die Taste B."
+
+#
+msgid "HIDE PREINSTALLED GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""

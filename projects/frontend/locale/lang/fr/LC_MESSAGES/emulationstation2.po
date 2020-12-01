@@ -2880,3 +2880,13 @@ msgstr ""
 "Pratique.\n"
 "\n"
 "Appuyez sur B, comme d'habitude."
+
+#
+msgid "HIDE PREINSTALLED GAMES"
+msgstr "CACHER LES JEUX PRÉ-INSTALLÉS"
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr "Cache tous les jeux pré-installés dans Recalbox. Modifier cette option fera redémarrer EmulationStation."

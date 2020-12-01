@@ -2407,7 +2407,8 @@ msgstr "NENHUMA CONFIGURAÇÃO WPS ENCONTRADA!"
 
 #
 msgid "Hostname changes will not be effective until next reboot"
-msgstr "As mudanças no nome do host não serão efetivas até a próxima reinicialização"
+msgstr ""
+"As mudanças no nome do host não serão efetivas até a próxima reinicialização"
 
 #
 msgid "Enable/Disable Arcade virtual system and set its options"
@@ -2448,6 +2449,7 @@ msgstr "CONFIGURAÇÃO WPS BEM-SUCEDIDA!"
 #
 msgid "WPS CONNECTION"
 msgstr "CONEXÃO WPS"
+
 #
 msgid "Waiting for IP address... (%is)"
 msgstr "Aguardando endereço IP... (%is)"
@@ -2485,7 +2487,10 @@ msgid ""
 "Shaders are like filters for the game rendering. You can select a raw shader "
 "file here. This setting may be overloaded by shaderset if not definied to "
 "'none'."
-msgstr "Shaders são como filtros para a renderização do jogo. Você pode selecionar um arquivo de shader bruto aqui. Esta configuração pode ser sobreposta pelos conjuntos de shader se não forem definidos como 'nenhum'."
+msgstr ""
+"Shaders são como filtros para a renderização do jogo. Você pode selecionar "
+"um arquivo de shader bruto aqui. Esta configuração pode ser sobreposta pelos "
+"conjuntos de shader se não forem definidos como 'nenhum'."
 
 #
 msgid "Select your keyboard layout."
@@ -2879,3 +2884,13 @@ msgstr ""
 "Prático.\n"
 "\n"
 "Pressione o botão B, como de costume."
+
+#
+msgid "HIDE PREINSTALLED GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""
