@@ -5,7 +5,6 @@
 #include <SDL_audio.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
-//#include "utils/Log.h"
 
 #define PIXEL_FORMAT AV_PIX_FMT_RGBA
 
@@ -29,7 +28,7 @@ static int NanoSleep(long long nanoseconds)
   return remaining.tv_nsec;
 }
 
-static char* _FourCCToString(unsigned int fourcc)
+static char* FourCCToString(unsigned int fourcc)
 {
   static char FCC[5] = { 0, 0, 0, 0, 0 };
   FCC[0] = (char)fourcc;
@@ -83,8 +82,9 @@ bool VideoEngine::AudioPacketQueue::Dequeue(AVPacket& pkt)
 }
 
 VideoEngine::VideoEngine()
-  : StaticLifeCycleControler<VideoEngine>("VideoEngine"),
-    mState(PlayerState::Idle)
+  : StaticLifeCycleControler<VideoEngine>("VideoEngine")
+  , mState(PlayerState::Idle)
+  , mDecodeAudio(false)
 {
   StartEngine();
 }
@@ -230,7 +230,7 @@ bool VideoEngine::InitializeDecoder()
   if (mContext.AudioStreamIndex >= 0)
   {
     mContext.AudioCodec = avcodec_find_decoder(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_id);
-    if (mContext.AudioCodec == nullptr) RETURN_ERROR("Error finding audio codec " << _FourCCToString(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_tag), false);
+    if (mContext.AudioCodec == nullptr) RETURN_ERROR("Error finding audio codec " << FourCCToString(mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar->codec_tag), false);
     mContext.AudioCodecContext = avcodec_alloc_context3(mContext.AudioCodec);
     if (mContext.AudioCodecContext == nullptr) RETURN_ERROR("Error allocating audio codec context", false);
     if (avcodec_parameters_to_context(mContext.AudioCodecContext, mContext.AudioVideoContext->streams[mContext.AudioStreamIndex]->codecpar) != 0) RETURN_ERROR("Error setting parameters to audio codec context", false);
@@ -315,45 +315,47 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
   static unsigned char converted_data[(192000 * 3) / 2];
   static unsigned char* converted = &converted_data[0];
 
-    int dataSize = 0;
-    bool decodeAudio = (mState == PlayerState::Playing);
-    if (!decodeAudio || !mContext.AudioQueue.Dequeue(packet))
-    {
+  int dataSize = 0;
+  bool decodeAudio = (mState == PlayerState::Playing);
+  if (!decodeAudio || !mContext.AudioQueue.Dequeue(packet))
+  {
+      return -1;
+  }
+  int ret = avcodec_send_packet(&audioContext, &packet);
+  av_packet_unref(&packet);
+  if (ret < 0)
+  {
+    return -1;
+  }
+
+  while (ret == 0)
+  {
+    ret = avcodec_receive_frame(&audioContext, frame);
+    if (ret == AVERROR(EAGAIN) || ret == AVERROR(EOF)) {
         return -1;
     }
-    int ret = avcodec_send_packet(&audioContext, &packet);
-    av_packet_unref(&packet);
-    if (ret < 0)
-    {
-        return -1;
-    }
+    // if error, skip frame
+    if (ret < 0)  break;
 
-    while (ret == 0)
-    {
-        ret = avcodec_receive_frame(&audioContext, frame);
-        if (ret == AVERROR(EAGAIN) || ret == AVERROR(EOF)) {
-            return -1;
-        }
-        // if error, skip frame
-        if (ret < 0)  break;
+    int nbFrame = frame->nb_samples;
+    int outSize = av_samples_get_buffer_size(nullptr, audioContext.channels, nbFrame, AV_SAMPLE_FMT_FLT,
+                                             1);
+    ret = swr_convert(mContext.ResamplerContext, &converted, nbFrame,
+                      (const uint8_t **) &frame->data[0], nbFrame);
 
-        int nbFrame = frame->nb_samples;
-        int outSize = av_samples_get_buffer_size(nullptr, audioContext.channels, nbFrame, AV_SAMPLE_FMT_FLT,
-                                                 1);
-        ret = swr_convert(mContext.ResamplerContext, &converted, nbFrame,
-                          (const uint8_t **) &frame->data[0], nbFrame);
+    if (ret < 0) continue;
 
-        if(ret<0) continue;
+    memcpy(buffer, converted_data, outSize);
+    dataSize = outSize;
 
-        memcpy(buffer, converted_data, outSize);
-        dataSize = outSize;
+    // No data yet, get more frames
+    if (dataSize <= 0) continue;
 
-        // No data yet, get more frames
-        if (dataSize <= 0) continue;
+    break;
+  }
 
-        // We have data, return it and come back for more later
-        return dataSize;
-    }
+  // We have data, return it and come back for more later
+  return dataSize;
 }
 
 void VideoEngine::DecodeAudioFrameOnDemand(uint8_t * stream, int len)

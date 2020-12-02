@@ -2,7 +2,6 @@
 // Created by gugue_U on 17/10/2020
 //
 
-#include <VideoEngine.h>
 #include <recalbox/RecalboxSystem.h>
 #include "components/GameClipContainer.h"
 #include "utils/Log.h"
@@ -224,7 +223,7 @@ void GameClipContainer::onThemeChanged(const ThemeData &theme) {
         mHeaderText.applyTheme(theme, GameClipView::getName(), "logoText", ThemeProperties::All);
 
         // Remove old theme extras
-        for (auto extra : mThemeExtras.getmExtras()) {
+        for (auto *extra : mThemeExtras.getmExtras()) {
             removeChild(extra);
         }
         mThemeExtras.getmExtras().clear();
@@ -232,7 +231,7 @@ void GameClipContainer::onThemeChanged(const ThemeData &theme) {
         mThemeExtras.sortExtrasByZIndex();
 
         // Add new theme extras
-        for (auto extra : mThemeExtras.getmExtras()) {
+        for (auto *extra : mThemeExtras.getmExtras()) {
             addChild(extra);
         }
 

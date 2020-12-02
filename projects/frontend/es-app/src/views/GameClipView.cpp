@@ -154,8 +154,8 @@ void GameClipView::getNextGame() {
 void GameClipView::getPreviousGame() {
     mHistoryPosition++;
     //security
-    if (mHistoryPosition > mHistory.size()) {
-        mHistoryPosition = mHistory.size();
+    if (mHistoryPosition > (int)mHistory.size()) {
+        mHistoryPosition = (int)mHistory.size();
     }
     mGame = mHistory.at(mHistoryPosition);
 
@@ -200,7 +200,7 @@ void GameClipView::Render(const Transform4x4f &parentTrans) {
 }
 
 void GameClipView::changeGameClip(Direction direction) {
-    if (direction == Direction::Previous && mHistoryPosition >= mHistory.size() - 1)
+    if (direction == Direction::Previous && mHistoryPosition >= (int)mHistory.size() - 1)
         return;
 
     mDirection = direction;

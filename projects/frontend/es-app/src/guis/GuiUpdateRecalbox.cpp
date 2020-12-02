@@ -135,7 +135,11 @@ void GuiUpdateRecalbox::Run()
   LOG(LogDebug) << "Update: Download update file";
 
   // Set boot partition R/W
-  system("mount -o remount,rw /boot");
+  if (system("mount -o remount,rw /boot") != 0)
+  {
+    LOG(LogError) << "[Update] Cannot mount /boot RW!";
+    mSender.Call(-1);
+  }
 
   // Get arch
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
