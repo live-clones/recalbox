@@ -8,6 +8,7 @@
 - Bump Amiberry to version 3.3
 
 ### Fixes
+- Fix Odroid Go Advance controller (v1)
 
 
 ## 7.1.1-Reloaded
