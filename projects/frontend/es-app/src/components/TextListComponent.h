@@ -62,7 +62,7 @@ public:
 
   inline void setSelectedAt(int index, const T& object) { mEntries[index].object = object; }
 	inline void setAlignment(HorizontalAlignment align) { mAlignment = align; }
-	inline void setCursorChangedCallback(const std::function<void(CursorState state)>& func) { mCursorChangedCallback = func; }
+	inline void setCursorChangedCallback(const std::function<void(CursorState)>& func) { mCursorChangedCallback = func; }
 	inline void setFont(const std::shared_ptr<Font>& font)
 	{
 		mFont = font;
@@ -175,8 +175,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   // clip to inside margins
   Vector3f dim(mSize.x(), mSize.y(), 0);
   dim = trans * dim - trans.translation();
-  Renderer::pushClipRect(Vector2i((int)(trans.translation().x()/* + mHorizontalMargin*/), (int)trans.translation().y()),
-                         Vector2i((int)(dim.x() /*- mHorizontalMargin*/), (int)dim.y()));
+  Renderer::Instance().PushClippingRect(Vector2i((int)(trans.translation().x()/* + mHorizontalMargin*/), (int)trans.translation().y()),
+                                        Vector2i((int)(dim.x() /*- mHorizontalMargin*/), (int)dim.y()));
 
   // draw selector bar
 	if(startEntry < listCutoff)
@@ -185,8 +185,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 			mSelectorImage.setPosition(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, 0.f);
       mSelectorImage.Render(trans);
 		} else {
-			Renderer::setMatrix(trans);
-			Renderer::drawRect(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
+			Renderer::SetMatrix(trans);
+			Renderer::DrawRectangle(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
 		}
 	}
 
@@ -195,9 +195,9 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 	float rightMargin = mOverlay != nullptr ? mOverlay->OverlayGetRightOffset() : 0;
   if (leftMargin != 0.0f || rightMargin != 0.0f)
   {
-     Renderer::popClipRect();
-     Renderer::pushClipRect(Vector2i((int)(trans.translation().x() + leftMargin), (int)trans.translation().y()),
-                           Vector2i((int)(dim.x() - (leftMargin + rightMargin)), (int)dim.y()));
+     Renderer::Instance().PopClippingRect();
+     Renderer::Instance().PushClippingRect(Vector2i((int)(trans.translation().x() + leftMargin), (int)trans.translation().y()),
+                                           Vector2i((int)(dim.x() - (leftMargin + rightMargin)), (int)dim.y()));
   }
 
 	// Draw text items
@@ -211,8 +211,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
     {
-      Renderer::setMatrix(trans);
-      Renderer::drawRect(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
+      Renderer::SetMatrix(trans);
+      Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
                          mColors[entry.data.colorBackgroundId]);
     }
 
@@ -248,19 +248,19 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		Transform4x4f drawTrans = trans;
 		drawTrans.translate(offset);
-		Renderer::setMatrix(drawTrans);
+		Renderer::SetMatrix(drawTrans);
 
 		font->renderTextCache(entry.data.textCache.get());
 
     y += entrySize;
 	}
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 
   // Overlay?
   if (mOverlay != nullptr)
   {
-    Renderer::pushClipRect(Vector2i((int) (trans.translation().x()/* + mHorizontalMargin*/), (int) trans.translation().y()),
-                           Vector2i((int) (dim.x() /*- mHorizontalMargin*/), (int) dim.y()));
+    Renderer::Instance().PushClippingRect(Vector2i((int) (trans.translation().x()/* + mHorizontalMargin*/), (int) trans.translation().y()),
+                                          Vector2i((int) (dim.x() /*- mHorizontalMargin*/), (int) dim.y()));
 
     // Draw overlay
     y = 0;
@@ -275,14 +275,14 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
       Transform4x4f drawTrans = trans;
       drawTrans.translate(position);
-      Renderer::setMatrix(drawTrans);
+      Renderer::SetMatrix(drawTrans);
 
       mOverlay->OverlayApply(Vector2f(0), size, entry.object, color);
 
       y += entrySize;
     }
 
-    Renderer::popClipRect();
+    Renderer::Instance().PopClippingRect();
   }
 
   listRenderTitleOverlay(trans);
@@ -451,7 +451,7 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 		}
 		if(elem->HasProperty("horizontalMargin"))
 		{
-			mHorizontalMargin = elem->AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::getDisplayWidthAsFloat());
+			mHorizontalMargin = elem->AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::Instance().DisplayWidthAsFloat());
 		}
 	}
 
@@ -464,13 +464,13 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 			setLineSpacing(elem->AsFloat("lineSpacing"));
 		if(elem->HasProperty("selectorHeight"))
 		{
-			setSelectorHeight(elem->AsFloat("selectorHeight") * Renderer::getDisplayHeightAsFloat());
+			setSelectorHeight(elem->AsFloat("selectorHeight") * Renderer::Instance().DisplayHeightAsFloat());
 		} else {
 			setSelectorHeight(mFont->getSize() * 1.5);
 		}
 		if(elem->HasProperty("selectorOffsetY"))
 		{
-			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::getDisplayHeightAsFloat();
+			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::Instance().DisplayHeightAsFloat();
 			setSelectorOffsetY(elem->AsFloat("selectorOffsetY") * scale);
 		} else {
 			setSelectorOffsetY(0.0);

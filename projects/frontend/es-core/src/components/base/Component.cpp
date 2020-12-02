@@ -341,13 +341,13 @@ Vector2f Component::denormalise(float x, float y) {
 }
 
 Vector2f Component::denormalise(const Vector2f& value) {
-    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     return value * scale;
 }
 
 void Component::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
 {
-	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
 	const ThemeElement* elem = theme.getElement(view, element, "");
 	if(elem == nullptr)

@@ -118,14 +118,14 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   const float height = Math::round(font->getLetterHeight() * 1.75f);
 
   // Some calculation to adapt row/column regarding the number of items
-  float windowWidth = Renderer::getDisplayWidthAsFloat() * 0.60f;
+  float windowWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.60f;
   mRows = mapping.Count();
   mColumns = 1;
-  if (height * (float)mRows > Renderer::getDisplayHeightAsFloat() * 0.60f)
+  if (height * (float)mRows > Renderer::Instance().DisplayHeightAsFloat() * 0.60f)
   {
     mRows = (mRows + 1) / 2;
     mColumns = 2;
-    windowWidth = Renderer::getDisplayWidthAsFloat() * 0.90f;
+    windowWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.90f;
   }
   mGrid.SetGridDimensions({ mColumns * 5 + 2, mRows + 3 });
 
@@ -169,8 +169,8 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
 
   // Set Window position/size
   float titleHeight = mTitle->getFont()->getLetterHeight() * 2.6f;
-  setSize(windowWidth, (float)mRows * (font->getLetterHeight() * 2.25f) + titleHeight + Renderer::getDisplayHeightAsFloat() * 0.04f);
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  setSize(windowWidth, (float)mRows * (font->getLetterHeight() * 2.25f) + titleHeight + Renderer::Instance().DisplayHeightAsFloat() * 0.04f);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
 void GuiControlHints::onSizeChanged()

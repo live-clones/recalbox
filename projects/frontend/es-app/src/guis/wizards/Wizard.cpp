@@ -64,8 +64,8 @@ Wizard::Wizard(WindowManager& window, const std::string& title, int pageCount)
   mGrid.setEntry(mText, Vector2i(3, 1), false, true, Vector2i(1,1) );
 
   // Set Window position/size
-  setSize(Renderer::getDisplayWidthAsFloat() * 0.9f, Renderer::getDisplayHeightAsFloat() * 0.8f);
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.9f, Renderer::Instance().DisplayHeightAsFloat() * 0.8f);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
   mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
   mGrid.setSize(mSize);

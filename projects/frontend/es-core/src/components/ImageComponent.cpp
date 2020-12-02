@@ -220,7 +220,7 @@ void ImageComponent::updateVertices() {
 }
 
 void ImageComponent::updateColors() {
-    Renderer::buildGLColorArray(mColors, mColorShift, 6);
+    Renderer::BuildGLColorArray(mColors, mColorShift, 6);
 }
 
 void ImageComponent::Render(const Transform4x4f& parentTrans) {
@@ -230,7 +230,7 @@ void ImageComponent::Render(const Transform4x4f& parentTrans) {
     }
 
     Transform4x4f trans = parentTrans * getTransform();
-    Renderer::setMatrix(trans);
+    Renderer::SetMatrix(trans);
     
     if (mTexture && mOpacity > 0) {
         if (mTexture->isInitialized()) {
@@ -310,7 +310,7 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
         return;
     }
 
-    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     
     if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos")) {
         Vector2f denormalized = elem->AsVector("pos") * scale;

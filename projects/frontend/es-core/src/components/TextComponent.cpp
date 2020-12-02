@@ -130,8 +130,8 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 
 	if (mRenderBackground)
 	{
-		Renderer::setMatrix(trans);
-		Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
+		Renderer::SetMatrix(trans);
+		Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
 	}
 
 	if(mTextCache)
@@ -157,13 +157,13 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 		if(Settings::Instance().DebugText())
 		{
 			// draw the "textbox" area, what we are aligned within
-			Renderer::setMatrix(trans);
-			Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
+			Renderer::SetMatrix(trans);
+			Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
 		}
 		
 		trans.translate(off);
 		trans.round();
-		Renderer::setMatrix(trans);
+		Renderer::SetMatrix(trans);
 
 		// draw the text area, where the text actually is going
 		if(Settings::Instance().DebugText())
@@ -171,13 +171,13 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 			switch(mHorizontalAlignment)
 			{
 			case TextAlignment::Left:
-				Renderer::drawRect(0.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+				Renderer::DrawRectangle(0.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
 			case TextAlignment::Center:
-				Renderer::drawRect((mSize.x() - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+				Renderer::DrawRectangle((mSize.x() - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
 			case TextAlignment::Right:
-				Renderer::drawRect(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+				Renderer::DrawRectangle(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
 				break;
         case TextAlignment::Top:
         case TextAlignment::Bottom:break;
@@ -218,7 +218,7 @@ void TextComponent::onTextChanged()
 	const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
 
 	bool addAbbrev = false;
-	if(!isMultiline)
+	if (!isMultiline)
 	{
 		size_t newline = text.find('\n');
 		text = text.substr(0, newline); // single line of text - stop at the first newline since it'll mess everything up

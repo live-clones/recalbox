@@ -120,19 +120,14 @@ UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
 		cursor += 4;
 		return val;
 	}
-	else
-	{
-		// error, invalid utf8 string
 
-		// if this assert is tripped, the cursor is in the middle of a utf8 code point
-		assert((c & 0xC0) != 0x80); // character is 10xxxxxx
+  // error, invalid utf8 string
 
-		// if that wasn't it, something crazy happened
-		assert(false);
-	}
+  // if this assert is tripped, the cursor is in the middle of a utf8 code point
+  assert((c & 0xC0) != 0x80); // character is 10xxxxxx
 
-	// error
-	return 0;
+  // if that wasn't it, something crazy happened
+  assert(false);
 }
 
 
@@ -530,7 +525,7 @@ void Font::renderCharacter(unsigned int character, float x, float y, float wr, f
   vertices[5].tex.Set(sx, sy);
 
   GLubyte colors[6*4];
-  Renderer::buildGLColorArray(colors, color, 6);
+  Renderer::BuildGLColorArray(colors, color, 6);
 
   glBindTexture(GL_TEXTURE_2D, texture->textureId);
   glEnable(GL_TEXTURE_2D);
@@ -645,13 +640,12 @@ std::string Font::wrapText(std::string text, float xLen)
 	std::string out;
 
 	std::string line, word, temp;
-	size_t space;
 
 	Vector2f textSize(0);
 
 	while(text.length() > 0) //while there's text or we still have text to render
 	{
-		space = text.find_first_of(" \t\n");
+		size_t space = text.find_first_of(" \t\n");
 		if(space == std::string::npos)
 			space = text.length() - 1;
 
@@ -764,11 +758,9 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 	std::map< FontTexture*, std::vector<TextCache::Vertex> > vertMap;
 
 	size_t cursor = 0;
-	UnicodeChar character;
-	Glyph* glyph;
 	while(cursor < text.length())
 	{
-		character = readUnicodeChar(text, cursor); // also advances cursor
+		UnicodeChar character = readUnicodeChar(text, cursor); // also advances cursor
 
 		// invalid character
 		if(character == 0)
@@ -781,7 +773,7 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 			continue;
 		}
 
-		glyph = getGlyph(character);
+		Glyph* glyph = getGlyph(character);
 		if(glyph == nullptr)
 			continue;
 
@@ -832,7 +824,7 @@ TextCache* Font::buildTextCache(const std::string& text, Vector2f offset, unsign
 		vertList.verts = it.second;
 
 		vertList.colors.resize(4 * it.second.size());
-		Renderer::buildGLColorArray(vertList.colors.data(), color, it.second.size());
+		Renderer::BuildGLColorArray(vertList.colors.data(), color, it.second.size());
 	}
 
 	clearFaceCache();
@@ -848,7 +840,7 @@ TextCache* Font::buildTextCache(const std::string& text, float offsetX, float of
 void TextCache::setColor(unsigned int color)
 {
 	for (auto& vertexList : vertexLists)
-		Renderer::buildGLColorArray(vertexList.colors.data(), color, vertexList.verts.size());
+		Renderer::BuildGLColorArray(vertexList.colors.data(), color, vertexList.verts.size());
 }
 
 std::shared_ptr<Font> Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig)
@@ -860,7 +852,7 @@ std::shared_ptr<Font> Font::getFromTheme(const ThemeElement* elem, ThemeProperti
 	int size = (orig ? orig->mSize : (int) FONT_SIZE_MEDIUM);
 	Path path = (orig ? orig->mPath : getDefaultPath());
 
-	float sh = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
+	float sh = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
 	if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize"))
 		size = (int)(sh * elem->AsFloat("fontSize"));
 	if (hasFlag(properties, ThemeProperties::FontPath) && elem->HasProperty("fontPath"))

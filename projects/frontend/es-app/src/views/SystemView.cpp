@@ -28,7 +28,7 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
     mShowing(false),
 		launchKodi(false)
 {
-	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 }
 
 void SystemView::addSystem(SystemData * it)
@@ -539,10 +539,10 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 	carouselTrans.translate(Vector3f(mCarousel.origin.x() * mCarousel.size.x() * -1, mCarousel.origin.y() * mCarousel.size.y() * -1, 0.0f));
 
 	Vector2f clipPos(carouselTrans.translation().x(), carouselTrans.translation().y());
-	Renderer::pushClipRect(clipPos.toInt(), mCarousel.size.toInt());
+	Renderer::Instance().PushClippingRect(clipPos.toInt(), mCarousel.size.toInt());
 
-	Renderer::setMatrix(carouselTrans);
-	Renderer::drawRect(0.0, 0.0, mCarousel.size.x(), mCarousel.size.y(), mCarousel.color);
+	Renderer::SetMatrix(carouselTrans);
+	Renderer::DrawRectangle(0.0, 0.0, mCarousel.size.x(), mCarousel.size.y(), mCarousel.color);
 	
 	// draw logos
 	Vector2f logoSpacing(0.0, 0.0); // NB: logoSpacing will include the size of the logo itself as well!
@@ -640,12 +640,12 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
       comp2->Render(logoTrans);
 		}
 	}
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 }
 
 void SystemView::renderInfoBar(const Transform4x4f& trans)
 {
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
   mSystemInfo.Render(trans);
 }
 
@@ -655,7 +655,7 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 {	
 	int extrasCenter = (int)mExtrasCamOffset;
 
-	Renderer::pushClipRect(Vector2i::Zero(), mSize.toInt());
+	Renderer::Instance().PushClippingRect(Vector2i::Zero(), mSize.toInt());
 	
 	// Adding texture loading buffers depending on scrolling speed and status
 	int bufferIndex = getScrollingVelocity() + 1;
@@ -677,7 +677,7 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
 			else
 				extrasTrans.translate(Vector3f(0, ((float)i - mExtrasCamOffset) * mSize.y(), 0));
 
-			Renderer::pushClipRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]),
+			Renderer::Instance().PushClippingRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]),
 								   mSize.toInt());
 			SystemViewData data = mEntries[index].data;
 			for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
@@ -686,10 +686,10 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
           extra->Render(extrasTrans);
 				}
 			}
-			Renderer::popClipRect();
+			Renderer::Instance().PopClippingRect();
 		}
 	}
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 }
 
 void SystemView::renderFade(const Transform4x4f& trans)
@@ -697,8 +697,8 @@ void SystemView::renderFade(const Transform4x4f& trans)
 	// fade extras if necessary
 	if (mExtrasFadeOpacity != 0.0f)
 	{
-			Renderer::setMatrix(trans);
-			Renderer::drawRect(0.0f, 0.0f, mSize.x(), mSize.y(), 0x00000000 | (unsigned char)(mExtrasFadeOpacity * 255));
+			Renderer::SetMatrix(trans);
+			Renderer::DrawRectangle(0.0f, 0.0f, mSize.x(), mSize.y(), 0x00000000 | (unsigned char)(mExtrasFadeOpacity * 255));
 	}
 }
 

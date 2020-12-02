@@ -101,7 +101,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(ed, false, true);
 
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
+        spacer->setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
@@ -115,7 +115,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(ed, false);
 
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.0025f, 0);
+        spacer->setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.0025f, 0);
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
@@ -205,7 +205,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(ed, true);
 
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(Renderer::getDisplayWidthAsFloat() * 0.005f, 0);
+        spacer->setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.005f, 0);
         row.addElement(spacer, false);
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
@@ -322,9 +322,9 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                                   });
 
   // resize + center
-  y /= Renderer::getDisplayHeightAsFloat();
-  setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * (y + 0.15f));
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  y /= Renderer::Instance().DisplayHeightAsFloat();
+  setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * (y + 0.15f));
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
 void GuiMetaDataEd::onSizeChanged()

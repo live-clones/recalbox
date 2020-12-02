@@ -13,10 +13,10 @@
 #include "GuiSearch.h"
 #include "GuiNetPlayHostPasswords.h"
 
-#define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
+#define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
-#define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::getDisplayHeightAsFloat()*0.0437f )
+#define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
 GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
 		: Gui(window),
@@ -38,8 +38,8 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
 	initGridsNStuff();
 
 	updateSize();
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2,
-	            (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2,
+	            (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
 	PopulateGrid("");
 }
@@ -230,8 +230,8 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 
 void GuiSearch::updateSize()
 {
-	const float height = Renderer::getDisplayHeightAsFloat() * 0.85f;
-	const float width = Renderer::getDisplayWidthAsFloat() * 0.95f;
+	const float height = Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
+	const float width = Renderer::Instance().DisplayWidthAsFloat() * 0.95f;
 	setSize(width, height);
 }
 
@@ -286,8 +286,8 @@ void GuiSearch::Render(const Transform4x4f& parentTrans)
 
 	renderChildren(trans);
 
-	Renderer::setMatrix(trans);
-	Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+	Renderer::SetMatrix(trans);
+	Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 }
 
 void GuiSearch::PopulateGrid(const std::string& search)
@@ -295,7 +295,6 @@ void GuiSearch::PopulateGrid(const std::string& search)
 	if (mList) {
 		mList->clear();
 	}
-
 
 	if (search.length()>2)
 	{
@@ -413,7 +412,7 @@ void GuiSearch::launch()
   if (mList->size() != 0)
   {
     int index = mList->getCursor();
-    Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
+    Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
     ViewController::Instance().LaunchCheck(mSearchResults[index], NetPlayData(), target);
   }
 }

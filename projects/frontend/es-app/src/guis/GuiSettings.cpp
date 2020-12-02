@@ -11,7 +11,7 @@ GuiSettings::GuiSettings(WindowManager&window, const std::string& title)
 
 	mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); });
 
-	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 }
 
 GuiSettings::~GuiSettings()

@@ -19,8 +19,8 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 {
 	(void)height;
 
-	float width = Renderer::getDisplayWidthAsFloat() * 0.8f; // max width
-	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.4f; // minimum width
+	float width = Renderer::Instance().DisplayWidthAsFloat() * 0.8f; // max width
+	float minWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.4f; // minimum width
 
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -78,12 +78,12 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	}
 
 	mMsg->setSize(width, 0);
-	const float msgHeight = Math::min(Renderer::getDisplayHeightAsFloat() * 0.5f, mMsg->getSize().y());
+	const float msgHeight = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 0.5f, mMsg->getSize().y());
 	mMsgContainer->setSize(width, msgHeight);
 	setSize(width + HORIZONTAL_PADDING_PX*2, mButtonGrid->getSize().y() + msgHeight + mTitle->getSize().y());
 
 	// center for good measure
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
 	addChild(&mBackground);
 	addChild(&mGrid);

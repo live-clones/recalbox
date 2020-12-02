@@ -31,14 +31,14 @@ void ScrollableContainer::Render(const Transform4x4f& parentTrans)
 	Vector3f dimScaled = trans * Vector3f(mSize.x(), mSize.y(), 0);
 	Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
 
-	Renderer::pushClipRect(clipPos, clipDim);
+	Renderer::Instance().PushClippingRect(clipPos, clipDim);
 
 	trans.translate(-Vector3f(mScrollPos.x(), mScrollPos.y(), 0));
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
 
 	Component::renderChildren(trans);
 
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 }
 
 void ScrollableContainer::setAutoScroll(bool autoScroll)

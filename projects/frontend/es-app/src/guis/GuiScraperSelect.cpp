@@ -38,7 +38,7 @@ GuiScraperSelect::GuiScraperSelect(WindowManager& window, SystemManager& systemM
   mMenu.addButton(_("SCRAPE NOW"), "start", [this, &window, &systemManager] { window.pushGui(new GuiScraperOptions(window, systemManager)); });
   mMenu.addButton(_("BACK"), "back", [this] { Close(); });
 
-  mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+  mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
 void GuiScraperSelect::SaveOptions()

@@ -9,8 +9,8 @@
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
 
-#define ICON_TEXT_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
-#define ENTRY_SPACING Math::max(Renderer::getDisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
+#define ICON_TEXT_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
+#define ENTRY_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
 static const HashMap<HelpType, const char*>& IconPathMap()
 {
@@ -94,7 +94,7 @@ void HelpComponent::UpdateHelps()
     }
 
 	mGrid.setSize(width, height);
-  mScrollingLength = Math::roundi(width) - (Renderer::getDisplayWidthAsInt() - Math::roundi(2.0f * HelpItemStyle().Position().x()));
+  mScrollingLength = Math::roundi(width) - (Renderer::Instance().DisplayWidthAsInt() - Math::roundi(2.0f * HelpItemStyle().Position().x()));
   mScrollingOffset = 0;
   mScrollingTimeAccumulator = 0;
   mScrolling = Scrolling::Initialize;

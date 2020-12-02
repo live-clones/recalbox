@@ -53,10 +53,10 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const 
   ChangeWheel(0);
 
   // Compute editor bounds
-  double ray = Renderer::getDisplayWidthAsFloat();
+  double ray = Renderer::Instance().DisplayWidthAsFloat();
   ray = ((ray / 2.0) - (float)GetFontSize(sWheelFontRatio)) - (ray / 20.0f);
-  float centerX = Renderer::getDisplayWidthAsFloat() / 2.0f;
-  float centerY = Renderer::getDisplayHeightAsFloat() / 2.0f;
+  float centerX = Renderer::Instance().DisplayWidthAsFloat() / 2.0f;
+  float centerY = Renderer::Instance().DisplayHeightAsFloat() / 2.0f;
 
   float fontHeight  = (float)mTextFont->getMaxHeight();
 
@@ -369,19 +369,19 @@ void GuiArcadeVirtualKeyboard::RenderEditedString()
 
     // Inside selection?
     if (mCursor <= i && i < mCursor + mSelectionLength)
-      Renderer::drawRect(offsetX, mInnerEditor.y, width, mInnerEditor.h, 0xFFFFFFA0);
+      Renderer::DrawRectangle(offsetX, mInnerEditor.y, width, mInnerEditor.h, 0xFFFFFFA0);
       //Renderer::drawRect(mOuterEditor.x, mOuterEditor.y, mOuterEditor.w, mOuterEditor.h, 0x00000080);
 
     // Cursor itself
     if (i == mCursor)
-      Renderer::drawRect(offsetX, mInnerEditor.y, width, mInnerEditor.h, cursorColor);
+      Renderer::DrawRectangle(offsetX, mInnerEditor.y, width, mInnerEditor.h, cursorColor);
 
     mTextFont->renderCharacter(unicode, offsetX + glyph.bearing.x(), offsetY - glyph.bearing.y(), 1.0f, 1.0f, sEditableTextColor);
     offsetX += width;
   }
   if (mCursor >= (int)mText.size())
   {
-    Renderer::drawRect(offsetX, mInnerEditor.y, mTextFont->Character(32).advance.x(), mInnerEditor.h, cursorColor);
+    Renderer::DrawRectangle(offsetX, mInnerEditor.y, mTextFont->Character(32).advance.x(), mInnerEditor.h, cursorColor);
   }
 }
 
@@ -461,11 +461,11 @@ void GuiArcadeVirtualKeyboard::RenderSelector()
     Vector2f tex;
   } vertices[6];
 
-  double yray = Renderer::getDisplayHeightAsFloat();
+  double yray = Renderer::Instance().DisplayHeightAsFloat();
   yray = ((yray - (float)GetFontSize(sWheelFontRatio)) / 2.0f) - (yray / 60.0);
-  yray = ((Renderer::getDisplayHeightAsFloat() / 2.0) - yray);
+  yray = ((Renderer::Instance().DisplayHeightAsFloat() / 2.0) - yray);
 
-  float x1 = (float)((Renderer::getDisplayWidthAsFloat() / 2.0) - (yray * 1.5f));
+  float x1 = (float)((Renderer::Instance().DisplayWidthAsFloat() / 2.0) - (yray * 1.5f));
   float y1 = -(float)yray * 0.5f;
   float x2 = x1 + (float)yray * 3.0f;
   float y2 = (float)yray * 2.5f;
@@ -492,7 +492,7 @@ void GuiArcadeVirtualKeyboard::RenderSelector()
   vertices[5].tex.Set(sx, sy);
 
   GLubyte colors[6*4];
-  Renderer::buildGLColorArray(colors, 0xFFFFFFFF, 6);
+  Renderer::BuildGLColorArray(colors, 0xFFFFFFFF, 6);
 
   mSelectedChar->bind();
 
@@ -593,9 +593,9 @@ void GuiArcadeVirtualKeyboard::RenderWheel(const Wheel& wheel, double raymultipl
   double morphAngle = 2.0 * section;
 
   // Get screen center
-  float centerX = Renderer::getDisplayWidthAsFloat() / 2.0f;
-  float centerY = Renderer::getDisplayHeightAsFloat() / 2.0f;
-  //Renderer::drawRect(centerX - 1.0f, 0.0f, 3.0f, Renderer::getDisplayHeightAsFloat(), 0xFFFFFFFF);
+  float centerX = Renderer::Instance().DisplayWidthAsFloat() / 2.0f;
+  float centerY = Renderer::Instance().DisplayHeightAsFloat() / 2.0f;
+  //Renderer::drawRect(centerX - 1.0f, 0.0f, 3.0f, Renderer::Instance().DisplayHeightAsFloat(), 0xFFFFFFFF);
 
   int selectedChar = GetCurrentCharIndex(wheel);
   //LOG(LogDebug) << "Selected: " << selectedChar << '/' << wheel.mWheelCharCount;
@@ -604,9 +604,9 @@ void GuiArcadeVirtualKeyboard::RenderWheel(const Wheel& wheel, double raymultipl
     {
       double raymc = ((i & 1) != 0) ? raymultiplier : 1.0 /raymultiplier;
       // Compute the wheel size
-      double xray = Renderer::getDisplayWidthAsFloat();
+      double xray = Renderer::Instance().DisplayWidthAsFloat();
       xray = (((xray - (float)GetFontSize(sWheelFontRatio)) / 2.0f) - (xray / 60.0)) * raymc;
-      double yray = Renderer::getDisplayHeightAsFloat();
+      double yray = Renderer::Instance().DisplayHeightAsFloat();
       yray = (((yray - (float)GetFontSize(sWheelFontRatio)) / 2.0f) - (yray / 60.0)) * raymc;
 
       RenderWheelChar(wheel, centerX, centerY, i, xray, yray, raymc, morphAngle);
@@ -614,9 +614,9 @@ void GuiArcadeVirtualKeyboard::RenderWheel(const Wheel& wheel, double raymultipl
 
   double raymc = ((selectedChar & 1) != 0) ? raymultiplier : 1.0 /raymultiplier;
   // Compute the wheel size
-  double xray = Renderer::getDisplayWidthAsFloat();
+  double xray = Renderer::Instance().DisplayWidthAsFloat();
   xray = (((xray - (float)GetFontSize(sWheelFontRatio)) / 2.0f) - (xray / 60.0)) * raymc;
-  double yray = Renderer::getDisplayHeightAsFloat();
+  double yray = Renderer::Instance().DisplayHeightAsFloat();
   yray = (((yray - (float)GetFontSize(sWheelFontRatio)) / 2.0f) - (yray / 60.0)) * raymc;
 
   RenderWheelChar(wheel, centerX, centerY, selectedChar, xray, yray, raymc, morphAngle);
@@ -633,25 +633,25 @@ void GuiArcadeVirtualKeyboard::PrepareTitle()
 
 void GuiArcadeVirtualKeyboard::RenderTextBox()
 {
-  Renderer::drawRect(mOuterEditor.x, mOuterEditor.y, mOuterEditor.w, mOuterEditor.h, 0x00000080);
+  Renderer::DrawRectangle(mOuterEditor.x, mOuterEditor.y, mOuterEditor.w, mOuterEditor.h, 0x00000080);
 
   // Render title
   mTitleFont->renderTextCache(mTitleCache.get());
 
   // Clip text display
-  Renderer::pushClipRect(Vector2i((int)mInnerEditor.x, (int)mInnerEditor.y), Vector2i((int)mInnerEditor.w, (int)mInnerEditor.h));
+  Renderer::Instance().PushClippingRect(Vector2i((int)mInnerEditor.x, (int)mInnerEditor.y), Vector2i((int)mInnerEditor.w, (int)mInnerEditor.h));
   // Render text
   RenderEditedString();
   // Pop clip
-  Renderer::popClipRect();
+  Renderer::Instance().PopClippingRect();
 }
 
 void GuiArcadeVirtualKeyboard::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
 
-  Renderer::setMatrix(trans);
-  Renderer::drawRect(0.f, 0.f, Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat(), 0x00000040);
+  Renderer::SetMatrix(trans);
+  Renderer::DrawRectangle(0.f, 0.f, Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0x00000040);
 
   // Render selector
   RenderSelector();

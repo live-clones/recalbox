@@ -36,7 +36,7 @@ template<typename intype, typename outtype> class GuiWaitLongExecution : public 
       , mSender(this)
     {
       // Configura animation
-      mBusyAnim.setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+      mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     }
 
     /*!
@@ -91,10 +91,10 @@ template<typename intype, typename outtype> class GuiWaitLongExecution : public 
     void Render(const Transform4x4f& parentTrans) override
     {
       Transform4x4f trans = parentTrans * getTransform();
-      Renderer::setMatrix(trans);
+      Renderer::SetMatrix(trans);
 
-      Renderer::drawRect(0.f, (Renderer::getDisplayHeightAsFloat() - mBusyAnim.RealHeight() * 1.6f) / 2.0f,
-                         Renderer::getDisplayWidthAsFloat(), mBusyAnim.RealHeight() * 1.6f, 0x00000080);
+      Renderer::DrawRectangle(0.f, (Renderer::Instance().DisplayHeightAsFloat() - mBusyAnim.RealHeight() * 1.6f) / 2.0f,
+                         Renderer::Instance().DisplayWidthAsFloat(), mBusyAnim.RealHeight() * 1.6f, 0x00000080);
 
       mBusyAnim.Render(trans);
     }

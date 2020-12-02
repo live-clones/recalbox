@@ -1,4 +1,3 @@
-#include <utils/Strings.h>
 #include "components/ProgressBarComponent.h"
 #include "Renderer.h"
 #include "WindowManager.h"
@@ -24,12 +23,12 @@ ProgressBarComponent::ProgressBarComponent(WindowManager&window, long long maxva
 void ProgressBarComponent::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = (parentTrans * getTransform()).round();
-  Renderer::setMatrix(trans);
+  Renderer::SetMatrix(trans);
 
   float width = (float)((double)mCurrentValue * (double)mSize.x() / (double)mMaxValue);
 
-  Renderer::drawRect(0.0f, 0.0f, mSize.x(), mSize.y(), mEmptyColor);
-  Renderer::drawRect(0.0f, 0.0f, width, mSize.y(), mFillColor);
+  Renderer::DrawRectangle(0.0f, 0.0f, mSize.x(), mSize.y(), mEmptyColor);
+  Renderer::DrawRectangle(0.0f, 0.0f, width, mSize.y(), mFillColor);
 }
 
 void ProgressBarComponent::Update(int deltaTime)

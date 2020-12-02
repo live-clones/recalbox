@@ -107,7 +107,7 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mList->setColor(sColorIndexRed, 0xFF000022); // Red
   mList->setColor(sColorIndexYellow, 0xFFFF0022); // Yellow
   mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
-  mList->setHorizontalMargin(Renderer::getDisplayWidthAsFloat() * 0.95f * 0.01f);
+  mList->setHorizontalMargin(Renderer::Instance().DisplayWidthAsFloat() * 0.95f * 0.01f);
   mList->setSelectorHeight((float)menuTheme->menuTextSmall.font->getSize() * 1.5f);
   mList->setCursorChangedCallback([this](const CursorState& state) { (void)state; UpdateBiosDetail(); });
   mGrid.setEntry(mList, Vector2i(1,2), true, false, Vector2i(1, 11));
@@ -205,8 +205,8 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mGrid.setEntry(mButtonGrid, Vector2i(1, 14), true, false, Vector2i(5,1));
 
   // Set Window position/size
-  setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * 0.849f);
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
   UpdateBiosList();
 
@@ -227,10 +227,10 @@ void GuiBiosScan::onSizeChanged()
   float footerPercent = mFooter->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float buttonPercent = (mButtonGrid->getSize().y() * 1.2f) / mSize.y();
 
-  float spacerPercent = Renderer::IsSmallResolution() ? 0.0f : 0.02f;
+  float spacerPercent = Renderer::Instance().IsSmallResolution() ? 0.0f : 0.02f;
   float systemPercent = mDetailSystemLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float corePercent = mDetailCoreLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
-  float pathPercent = Renderer::IsSmallResolution() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
+  float pathPercent = Renderer::Instance().IsSmallResolution() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float mandatoryPercent = mDetailMandatoryLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float filePercent = mDetailFileFoundLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remarkPercent = mDetailText1Value->getFont()->getLetterHeight() * 8.6f / mSize.y();
@@ -354,11 +354,11 @@ void GuiBiosScan::Render(const Transform4x4f& parentTrans)
   Gui::Render(parentTrans);
 
   Transform4x4f trans = parentTrans * getTransform();
-  Renderer::setMatrix(trans);
-  Renderer::drawRect(mGrid.getPosition().x() + mGrid.getColWidth(0), mGrid.getPosition().y() + mGrid.getRowHeight(0, 1),
-                     mGrid.getColWidth(1), mGrid.getRowHeight(2, 12), 0x00000011);
-  Renderer::drawRect(mGrid.getPosition().x() + mGrid.getColWidth(0,1), mGrid.getPosition().y() + mGrid.getRowHeight(0, 1),
-                     mGrid.getColWidth(2,5), mGrid.getRowHeight(2, 12), 0x00000018);
+  Renderer::SetMatrix(trans);
+  Renderer::DrawRectangle(mGrid.getPosition().x() + mGrid.getColWidth(0), mGrid.getPosition().y() + mGrid.getRowHeight(0, 1),
+                          mGrid.getColWidth(1), mGrid.getRowHeight(2, 12), 0x00000011);
+  Renderer::DrawRectangle(mGrid.getPosition().x() + mGrid.getColWidth(0,1), mGrid.getPosition().y() + mGrid.getRowHeight(0, 1),
+                          mGrid.getColWidth(2,5), mGrid.getRowHeight(2, 12), 0x00000018);
 
   if (mScanInProgress)
     mBusyAnim.Render(trans);
@@ -484,7 +484,7 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailSystemValue->setValue(context.mBiosList->FullName());
     mDetailCoreLabel->setValue(_("Core") + " :");
     mDetailCoreValue->setValue(context.mBios->Cores());
-    if (!Renderer::IsSmallResolution())
+    if (!Renderer::Instance().IsSmallResolution())
     {
       mDetailPathLabel->setValue(_("File Path") + " :");
       mDetailPathValue->setValue(context.mBios->Filepath().ToString());

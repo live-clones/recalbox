@@ -5,8 +5,8 @@
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-#define BUTTON_GRID_VERT_PADDING Math::max(Renderer::getDisplayHeightAsFloat() * 0.008f, 2.0f)
-#define BUTTON_GRID_HORIZ_PADDING Math::max(Renderer::getDisplayWidthAsFloat() * 0.01f, 3.0f)
+#define BUTTON_GRID_VERT_PADDING Math::max(Renderer::Instance().DisplayHeightAsFloat() * 0.008f, 2.0f)
+#define BUTTON_GRID_HORIZ_PADDING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.01f, 3.0f)
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
@@ -147,7 +147,7 @@ float MenuComponent::getButtonGridHeight() const
 
 void MenuComponent::updateSize()
 {
-    const float maxHeight = Renderer::getDisplayHeightAsFloat() * 0.85f;
+    const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
     float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + 2;
     if(height > maxHeight)
     {
@@ -164,7 +164,7 @@ void MenuComponent::updateSize()
         }
     }
 
-    float width = Math::min(Renderer::getDisplayHeightAsFloat() * 1.2f, Renderer::getDisplayWidthAsFloat() * 0.90f);
+    float width = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f, Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
     setSize(width, height);
 }
 

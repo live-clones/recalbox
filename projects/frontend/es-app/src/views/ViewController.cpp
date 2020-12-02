@@ -43,7 +43,7 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 	mFavoritesOnly = Settings::Instance().FavoritesOnly();
 
 	// System View
-  mSystemListView.setPosition(0, Renderer::getDisplayHeightAsFloat());
+  mSystemListView.setPosition(0, Renderer::Instance().DisplayHeightAsFloat());
   // Splash
   mSplashView.setPosition(0,0);
 
@@ -85,7 +85,7 @@ void ViewController::goToQuitScreen()
 
 void ViewController::goToSystemView(SystemData* system)
 {
-  mSystemListView.setPosition((float)getSystemId(system) * Renderer::getDisplayWidthAsFloat(), mSystemListView.getPosition().y());
+  mSystemListView.setPosition((float)getSystemId(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
   if (!system->HasGame()) {
     system = mSystemManager.FirstNonEmptySystem();
@@ -184,7 +184,7 @@ void ViewController::goToGameList(SystemData* system)
 		// move system list
 		float offX = mSystemListView.getPosition().x();
 		int sysId = getSystemId(system);
-    mSystemListView.setPosition((float)sysId * Renderer::getDisplayWidthAsFloat(), mSystemListView.getPosition().y());
+    mSystemListView.setPosition((float)sysId * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 		offX = mSystemListView.getPosition().x() - offX;
 		mCamera.translation().x() -= offX;
 	}
@@ -362,7 +362,7 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
 
 void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata, const Vector3f& cameraTarget)
 {
-  Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
+  Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
 
 	if(!game->isGame())
 	{
@@ -452,7 +452,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
 	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
-	view->setPosition((float)id * Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat() * 2);
+	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);
 
 	addChild(view.get());
 
@@ -497,7 +497,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 	// camera position, position + size
 	Vector3f viewStart = transInverse.translation();
-	Vector3f viewEnd = transInverse * Vector3f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat(), 0);
+	Vector3f viewEnd = transInverse * Vector3f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0);
 
 	int vpl = (int)viewStart.x();
   int vpu = (int)viewStart.y();
@@ -571,8 +571,8 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	// fade out
 	if(mFadeOpacity != 0.0)
 	{
-		Renderer::setMatrix(parentTrans);
-		Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
+		Renderer::SetMatrix(parentTrans);
+		Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x00000000 | (unsigned char)(mFadeOpacity * 255));
 	}
 }
 

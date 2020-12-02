@@ -62,8 +62,8 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
 
-	setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * 0.849f);
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
 	// Final report component
   mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);

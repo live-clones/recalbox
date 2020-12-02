@@ -18,10 +18,10 @@ class TextCache;
 class ThemeElement;
 class ResourceManager;
 
-#define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
-#define FONT_SIZE_SMALL ((unsigned int)(0.035f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
-#define FONT_SIZE_MEDIUM ((unsigned int)(0.045f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
-#define FONT_SIZE_LARGE ((unsigned int)(0.085f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
+#define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
+#define FONT_SIZE_SMALL ((unsigned int)(0.035f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
+#define FONT_SIZE_MEDIUM ((unsigned int)(0.045f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
+#define FONT_SIZE_LARGE ((unsigned int)(0.085f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
 #define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
 #define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"

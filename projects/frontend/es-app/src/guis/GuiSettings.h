@@ -13,7 +13,7 @@ class GuiSettings : public Gui
     ~GuiSettings() override; // just calls save();
 
     void save();
-    inline void updatePosition() {mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
+    inline void updatePosition() {mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
     inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
     inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
     inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "") {

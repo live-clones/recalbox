@@ -134,7 +134,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 		trans.translate(off);
 		trans.round();
 
-		Renderer::setMatrix(trans);
+		Renderer::SetMatrix(trans);
 
 		std::shared_ptr<Font> font = getFont();
 
@@ -145,7 +145,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 		{
 			if(mEditIndex >= 0 && (unsigned int)mEditIndex < mCursorBoxes.size())
 			{
-				Renderer::drawRect((int)mCursorBoxes[mEditIndex][0], (int)mCursorBoxes[mEditIndex][1], 
+				Renderer::DrawRectangle((int)mCursorBoxes[mEditIndex][0], (int)mCursorBoxes[mEditIndex][1],
 					(int)mCursorBoxes[mEditIndex][2], (int)mCursorBoxes[mEditIndex][3], 0x00000022);
 			}
 		}

@@ -19,21 +19,21 @@ GuiInfoPopup::GuiInfoPopup(WindowManager&window, const std::string& message, int
     mDuration(duration * 1000),
     mRunning(true)
 {
-	float maxWidth = Renderer::getDisplayWidthAsFloat() * (Renderer::IsSmallResolution() ? 0.4f : 0.2f);
-	float maxHeight = Renderer::getDisplayHeightAsFloat() * (Renderer::IsSmallResolution() ? 0.5f : 0.4f);
+	float maxWidth = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.4f : 0.2f);
+	float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.5f : 0.4f);
 
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
 	mFrameColor = menuTheme->menuBackground.color;
 
-	float hwSize = Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat());
-	unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::IsSmallResolution() ? 0.08f : 0.04f) * hwSize);
-	unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::IsSmallResolution() ? 0.04f : 0.02f) * hwSize);
+	float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
+	unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.08f : 0.04f) * hwSize);
+	unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.04f : 0.02f) * hwSize);
 
 	// add a padding to the box
-	int paddingX = (int) (Renderer::getDisplayWidthAsFloat() * 0.02f);
-	int paddingY = (int) (Renderer::getDisplayHeightAsFloat() * 0.02f);
+	int paddingX = (int) (Renderer::Instance().DisplayWidthAsFloat() * 0.02f);
+	int paddingY = (int) (Renderer::Instance().DisplayHeightAsFloat() * 0.02f);
 
 	std::string iconText;
   switch (icon)
@@ -71,8 +71,8 @@ GuiInfoPopup::GuiInfoPopup(WindowManager&window, const std::string& message, int
 	float posX = 0.0f, posY = 0.0f;
 
   mCorner = Corner::TopRight;
-  posX = Renderer::getDisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
-  posY = Renderer::getDisplayHeightAsFloat();
+  posX = Renderer::Instance().DisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
+  posY = Renderer::Instance().DisplayHeightAsFloat();
 
 	setPosition(posX, posY, 0);
   setSize(mGrid.getSize());
@@ -96,7 +96,7 @@ void GuiInfoPopup::Render(const Transform4x4f& parentTrans)
 	// we use identity as we want to render on a specific window position, not on the view
 	Transform4x4f trans = getTransform() * Transform4x4f::Identity();
 
-  Renderer::setMatrix(trans);
+  Renderer::SetMatrix(trans);
   renderChildren(trans);
 }
 
@@ -110,7 +110,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::TopRight:
     case Corner::TopLeft:
     {
-      float targetY = Renderer::getDisplayHeightAsFloat() * 0.02f + (float)mTargetOffset;
+      float targetY = Renderer::Instance().DisplayHeightAsFloat() * 0.02f + (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;
@@ -119,7 +119,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::BottomRight:
     case Corner::BottomLeft:
     {
-      float targetY = Renderer::getDisplayHeightAsFloat() * 0.98f - mSize.y() - (float)mTargetOffset;
+      float targetY = Renderer::Instance().DisplayHeightAsFloat() * 0.98f - mSize.y() - (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;

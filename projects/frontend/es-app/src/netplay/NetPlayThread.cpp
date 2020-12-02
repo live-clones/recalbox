@@ -58,7 +58,7 @@ void NetPlayThread::Run()
       while (IsRunning())
       {
         bool enabled = RecalboxConf::Instance().AsBool("global.netplay.active");
-        if (Renderer::IsInitialized()) // Do not run while a game is running
+        if (Renderer::Instance().Initialized()) // Do not run while a game is running
         {
           if (firstLoop && enabled)
           {

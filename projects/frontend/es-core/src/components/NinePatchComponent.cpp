@@ -24,8 +24,8 @@ NinePatchComponent::NinePatchComponent(WindowManager& window, const Path& path)
 
 void NinePatchComponent::updateColors()
 {
-	Renderer::buildGLColorArray(mColors, mEdgeColor, 6 * 9);
-	Renderer::buildGLColorArray(&mColors[4 * 6 * 4], mCenterColor, 6);
+	Renderer::BuildGLColorArray(mColors, mEdgeColor, 6 * 9);
+	Renderer::BuildGLColorArray(&mColors[4 * 6 * 4], mCenterColor, 6);
 }
 
 void NinePatchComponent::buildVertices()
@@ -134,7 +134,7 @@ void NinePatchComponent::Render(const Transform4x4f& parentTrans)
 	
 	if(mTexture)
 	{
-		Renderer::setMatrix(trans);
+		Renderer::SetMatrix(trans);
 
 		mTexture->bind();
 

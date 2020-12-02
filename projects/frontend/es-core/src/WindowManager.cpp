@@ -101,7 +101,7 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
 {
   if (initRenderer)
   {
-    if (!Renderer::initialize((int) width, (int) height))
+    if (!Renderer::Instance().Initialize((int) width, (int) height))
     {
       LOG(LogError) << "Renderer failed to initialize!";
       return false;
@@ -124,7 +124,7 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
     mDefaultFonts.push_back(Font::get(FONT_SIZE_LARGE));
   }
 
-  mBackgroundOverlay.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+  mBackgroundOverlay.setResize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   // update our help because font sizes probably changed
   UpdateHelpSystem();
@@ -136,7 +136,7 @@ void WindowManager::Finalize()
 {
   InputManager::Instance().Finalize();
   ResourceManager::getInstance()->unloadAll();
-  Renderer::finalize();
+  Renderer::Instance().Finalize();
 }
 
 void WindowManager::textInput(const char* text)
@@ -263,7 +263,7 @@ void WindowManager::Render(Transform4x4f& transform)
 
   if (Settings::Instance().DrawFramerate() && mFrameDataText)
   {
-    Renderer::setMatrix(Transform4x4f::Identity());
+    Renderer::SetMatrix(Transform4x4f::Identity());
     mDefaultFonts[1]->renderTextCache(mFrameDataText.get());
   }
 
@@ -336,9 +336,9 @@ void WindowManager::renderScreenSaver()
   }
   else
   {
-    Renderer::setMatrix(Transform4x4f::Identity());
+    Renderer::SetMatrix(Transform4x4f::Identity());
     unsigned char opacity = RecalboxConf::Instance().GetScreenSaverType() == "dim" ? 0xA0 : 0xFF;
-    Renderer::drawRect(0, 0, Renderer::getDisplayWidthAsInt(), Renderer::getDisplayHeightAsInt(), 0x00000000 | opacity);
+    Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x00000000 | opacity);
   }
 }
 
@@ -379,10 +379,10 @@ void WindowManager::RenderAll(bool halfLuminosity)
   if (halfLuminosity)
   {
     transform = Transform4x4f::Identity();
-    Renderer::setMatrix(transform);
-    Renderer::drawRect(0.f, 0.f, Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat(), 0x00000080);
+    Renderer::SetMatrix(transform);
+    Renderer::DrawRectangle(0.f, 0.f, Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0x00000080);
   }
-  Renderer::swapBuffers();
+  Renderer::Instance().SwapBuffers();
 }
 
 void WindowManager::CloseAll()
@@ -427,7 +427,7 @@ void WindowManager::InfoPopupsShrink()
 
 void WindowManager::InfoPopupRetarget()
 {
-  int gap = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
+  int gap = (int)(Renderer::Instance().DisplayHeightAsFloat() * 0.01f);
   if (gap < 2) gap = 2;
   int targetOffset = 0;
   for(int i = 0; i < mInfoPopups.Count(); i++)

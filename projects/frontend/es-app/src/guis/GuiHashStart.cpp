@@ -23,7 +23,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
 {
   addChild(&mMenu);
 
-  mBusyAnim.setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+  mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   mFilter = std::make_shared<OptionListComponent<std::string> >(mWindow, _("FILTER"), false);
   mFilter->add(_("Only missing hashs"), "missing", true);
@@ -50,8 +50,8 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
   mMenu.addButton(_("BACK"), "back", [this]
   { mState = State::Cancelled; });
 
-  mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2,
-                    (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+  mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2,
+                    (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
 bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
@@ -106,8 +106,8 @@ void GuiHashStart::Render(const Transform4x4f& parentTrans)
   if (mState != State::Hashing)
     renderChildren(trans);
 
-  Renderer::setMatrix(trans);
-  Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+  Renderer::SetMatrix(trans);
+  Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
   if (mState == State::Hashing)
     mBusyAnim.Render(trans);

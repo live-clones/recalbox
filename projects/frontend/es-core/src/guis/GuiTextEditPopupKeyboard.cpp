@@ -100,8 +100,8 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const s
 	    }
 	}
 
-	const float screenHeightAvailable = Renderer::getDisplayHeightAsFloat() - HelpItemStyle().TextFont()->getHeight(); // Height - Help Height
-  const float gridWidth = Renderer::getDisplayWidthAsFloat() * 0.98f;
+	const float screenHeightAvailable = Renderer::Instance().DisplayHeightAsFloat() - HelpItemStyle().TextFont()->getHeight(); // Height - Help Height
+  const float gridWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.98f;
   const float gridHeight = screenHeightAvailable * ((float) buttonList.size() / (float) (buttonList.size() + 3) ); // 3 => share space with mTitle + mText + buttons
 
 	// Add keyboard keys
@@ -145,11 +145,11 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const s
 
 	// If multiline, set all size back to default, else draw size for keyboard.
 	if (mMultiLine)
-		setSize(Renderer::getDisplayWidthAsFloat() * 0.75f, height + padding);
+		setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.75f, height + padding);
 	else
 		setSize(gridWidth, height + padding);
 
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (screenHeightAvailable - mSize.y()) / 2);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (screenHeightAvailable - mSize.y()) / 2);
 }
 
 std::shared_ptr<ButtonComponent> GuiTextEditPopupKeyboard::makeButton(const std::string& key, const std::string& shiftedKey)

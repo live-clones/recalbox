@@ -22,7 +22,7 @@ ButtonComponent::ButtonComponent(WindowManager&window, const std::string& text, 
 	mColor = menuTheme->menuText.color;
 	mButton = menuTheme->iconSet.button;
 	mButton_filled = menuTheme->iconSet.button_filled;
-	
+
 	setPressedFunc(func);
 	setText(text, helpText, upperCase);
 	updateImage();
@@ -113,7 +113,7 @@ void ButtonComponent::updateImage()
 		return;
 	}
 
-	// If a new color has been set.  
+	// If a new color has been set.
 	if (mNewColor) {
 		mBox.setImagePath(mButton_filled);
 		mBox.setCenterColor(mModdedColor);
@@ -138,7 +138,7 @@ void ButtonComponent::Render(const Transform4x4f& parentTrans)
 		centerOffset.round();
 		trans = trans.translate(centerOffset);
 
-		Renderer::setMatrix(trans);
+		Renderer::SetMatrix(trans);
 		mTextCache->setColor(getCurTextColor());
 		mFont->renderTextCache(mTextCache.get());
 		trans = trans.translate(-centerOffset);

@@ -17,7 +17,7 @@
 #include <utils/Files.h>
 #include <utils/locale/LocaleHelper.h>
 
-#define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
+#define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
@@ -55,8 +55,8 @@ GuiNetPlay::GuiNetPlay(WindowManager& window, SystemManager& systemManager)
 
   updateSize();
   mBusyAnim.setSize(mSize);
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2,
-              (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2,
+              (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
   // start the thread if not aleaady done
   Thread::Start("GuiNetPlay");
@@ -315,8 +315,8 @@ bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 
 void GuiNetPlay::updateSize()
 {
-  const float height = Renderer::getDisplayHeightAsFloat() * 0.8f;
-  const float width = Renderer::getDisplayWidthAsFloat() * 0.9f;
+  const float height = Renderer::Instance().DisplayHeightAsFloat() * 0.8f;
+  const float width = Renderer::Instance().DisplayWidthAsFloat() * 0.9f;
   setSize(width, height);
 }
 
@@ -351,8 +351,8 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 
   renderChildren(trans);
 
-  Renderer::setMatrix(trans);
-  Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+  Renderer::SetMatrix(trans);
+  Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
   if (!mLobbyLoaded)
     mBusyAnim.Render(trans);

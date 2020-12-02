@@ -50,9 +50,9 @@ void GuiMenuBase::Update(int deltaTime)
     // Default button
     mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); } );
     // Position
-    mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+    mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 
-    setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
     mMenuInitialized = true;
   }

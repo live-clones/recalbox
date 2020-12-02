@@ -57,7 +57,7 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, Sy
 
     Close();
 	});
-	mMenu.setPosition((Renderer::getDisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::getDisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
+	mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 }
 
 bool GuiMenuArcadeVirtualSystem::ProcessInput(const InputCompactEvent& event)

@@ -28,8 +28,6 @@ class ComponentGrid : public Component
   public:
     ComponentGrid(WindowManager& window, const Vector2i& gridDimensions);
 
-    ~ComponentGrid() override;
-
     void SetGridDimensions(const Vector2i& gridDimensions);
 
     int EntryCount() const

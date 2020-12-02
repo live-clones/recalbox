@@ -65,8 +65,8 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
                  const std::string& name2, const std::function<void()>& func2,
                  const std::string& name3, const std::function<void()>& func3)
 {
-	float width = Renderer::getDisplayWidthAsFloat() * 0.7f; // max width
-	float minWidth = Renderer::getDisplayWidthAsFloat() * 0.4f; // minimum width
+	float width = Renderer::Instance().DisplayWidthAsFloat() * 0.7f; // max width
+	float minWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.4f; // minimum width
 	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -117,7 +117,7 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	setSize(width + HORIZONTAL_PADDING_PX*2, msgHeight + mButtonGrid->getSize().y());
 
 	// center for good measure
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2.0f, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2.0f);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2.0f, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2.0f);
 
 	addChild(&mBackground);
 	addChild(&mGrid);

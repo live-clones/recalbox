@@ -18,7 +18,7 @@ class TextComponent;
 class ButtonComponent;
 class SystemManager;
 
-#define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
+#define TITLE_VERT_PADDING (Renderer::Instance().DisplayHeightAsFloat()*0.0637f)
 
 class LobbyGame
 {

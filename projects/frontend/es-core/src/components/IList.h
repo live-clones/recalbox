@@ -97,7 +97,7 @@ protected:
         mTierList(tierList),
         mLoopType(loopType)
     {
-      mGradient.setResize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+      mGradient.setResize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
       mGradient.setImage(Path(":/scroll_gradient.png"));
       mTitleOverlayFont = Font::get(FONT_SIZE_LARGE);
     }
@@ -348,8 +348,8 @@ protected:
 		const std::string text = getSelectedName().size() >= 2 ? getSelectedName().substr(0, 2) : "??";
 
 		Vector2f off = mTitleOverlayFont->sizeText(text);
-		off[0] = (Renderer::getDisplayWidthAsFloat() - off.x()) * 0.5f;
-		off[1] = (Renderer::getDisplayHeightAsFloat() - off.y()) * 0.5f;
+		off[0] = (Renderer::Instance().DisplayWidthAsFloat() - off.x()) * 0.5f;
+		off[1] = (Renderer::Instance().DisplayHeightAsFloat() - off.y()) * 0.5f;
 		
 		Transform4x4f identTrans = Transform4x4f::Identity();
 

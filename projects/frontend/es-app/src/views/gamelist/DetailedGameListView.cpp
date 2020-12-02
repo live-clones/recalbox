@@ -473,7 +473,7 @@ void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fa
 
 void DetailedGameListView::launch(FileData* game)
 {
-  Vector3f target(Renderer::getDisplayWidthAsFloat() / 2.0f, Renderer::getDisplayHeightAsFloat() / 2.0f, 0);
+  Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
   if (mImage.hasImage())
     target.Set(mImage.getCenter().x(), mImage.getCenter().y(), 0);
 

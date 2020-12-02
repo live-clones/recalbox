@@ -73,7 +73,8 @@ MainRunner::ExitState MainRunner::Run()
     SDL_JoystickEventState(SDL_DISABLE);
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
-    if (!Renderer::initialize((int)mRequestedWidth, (int)mRequestedHeight))
+    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight);
+    if (!renderer.Initialized())
     {
       LOG(LogError) << "Error initializing the GL renderer.";
       return ExitState::FatalError;

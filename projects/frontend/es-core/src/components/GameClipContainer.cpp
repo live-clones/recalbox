@@ -50,7 +50,7 @@ GameClipContainer::GameClipContainer(WindowManager& window)
           mGame(nullptr),
           mSystem(nullptr) {
 
-    setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+    setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
     addChild(&mVideo);
     addChild(&mImage);

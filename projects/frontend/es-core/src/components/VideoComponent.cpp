@@ -3,7 +3,6 @@
 #include <Renderer.h>
 #include <help/Help.h>
 #include <themes/ThemeData.h>
-#include <utils/datetime/DateTime.h>
 #include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 
@@ -179,7 +178,7 @@ void VideoComponent::updateVertices(double bump)
 
 void VideoComponent::updateColors()
 {
-  Renderer::buildGLColorArray(mColors, mColorShift, 6);
+  Renderer::BuildGLColorArray(mColors, mColorShift, 6);
 }
 
 void VideoComponent::ResetAnimations()
@@ -305,7 +304,7 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
     }
 
   Transform4x4f trans = parentTrans * getTransform();
-  Renderer::setMatrix(trans);
+  Renderer::SetMatrix(trans);
 
   double effect = 0.0;
   bool display = ProcessDisplay(effect);
@@ -359,7 +358,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
   Vector2f scale = getParent() != nullptr ?
                    getParent()->getSize() :
-                   Vector2f(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+                   Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos"))
   {

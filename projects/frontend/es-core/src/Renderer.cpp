@@ -1,25 +1,91 @@
-#include <stack>
-#include <Renderer.h>
-#include <ImageIO.h>
-#include <../data/Resources.h>
-#include <Settings.h>
 #include <utils/math/Misc.h>
+#include "Renderer.h"
+#include "platform_gl.h"
+#include "utils/Log.h"
+#include "ImageIO.h"
+#include "../data/Resources.h"
+#include "Settings.h"
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof
 #endif
 
-bool Renderer::sInitialCursorState = false;
+#ifdef DEBUG
 
-SDL_Window* Renderer::sSdlWindow = nullptr;
-SDL_GLContext Renderer::sSdlContext = nullptr;
+static void APIENTRY GLDebugCallback(GLenum source,
+                                     GLenum type,
+                                     GLuint id,
+                                     GLenum severity,
+                                     GLsizei length,
+                                     const GLchar* message,
+                                     const void* userParam)
+{
+  (void)source;
+  (void)length;
+  (void)userParam;
 
-int Renderer::sDisplayWidth = 0;
-int Renderer::sDisplayHeight = 0;
-float Renderer::sDisplayWidthFloat = 0.0f;
-float Renderer::sDisplayHeightFloat = 0.0f;
+  const char* typeString = "UNKNOWN";
+  switch (type)
+  {
+    case GL_DEBUG_TYPE_ERROR: typeString = "ERROR"; break;
+    case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: typeString = "DEPRECATED_BEHAVIOR"; break;
+    case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: typeString = "UNDEFINED_BEHAVIOR"; break;
+    case GL_DEBUG_TYPE_PORTABILITY: typeString = "PORTABILITY"; break;
+    case GL_DEBUG_TYPE_PERFORMANCE: typeString = "PERFORMANCE"; break;
+    case GL_DEBUG_TYPE_OTHER: typeString = "OTHER"; break;
+    default: break;
+  }
 
-bool Renderer::createSurface()
+  const char* severityString = "UNKNOWN";
+  switch (severity)
+  {
+    case GL_DEBUG_SEVERITY_LOW: severityString = "LOW"; break;
+    case GL_DEBUG_SEVERITY_MEDIUM: severityString = "MEDIUM"; break;
+    case GL_DEBUG_SEVERITY_HIGH: severityString = "HIGH"; break;
+    default: break;
+  }
+
+  LOG(LogError) << "GL Error [Type:" << typeString << " - Severity:" << severityString << "] {id:" << id << "} " << message;
+}
+
+#endif
+
+void Renderer::ActivateGLDebug()
+{
+  #ifdef DEBUG
+  LOG(LogInfo) << "GL Debug activated.";
+  glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+  glDebugMessageCallback(GLDebugCallback, nullptr);
+  GLuint unusedIds = 0;
+  glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, 1);
+  #endif
+}
+
+Renderer::Renderer(int width, int height)
+  : StaticLifeCycleControler<Renderer>("Renderer"),
+    mSdlWindow(nullptr),
+    mSdlGLContext(nullptr),
+    mDisplayWidth(0),
+    mDisplayHeight(0),
+    mDisplayWidthFloat(0.0f),
+    mDisplayHeightFloat(0.0f),
+    mViewPortInitialized(false),
+    mInitialCursorState(false)
+{
+  #ifdef DEBUG
+  ActivateGLDebug();
+  #endif
+
+  mViewPortInitialized = Initialize(width, height);
+}
+
+Renderer::~Renderer()
+{
+  Finalize();
+}
+
+
+bool Renderer::CreateSdlSurface()
 {
   LOG(LogInfo) << "Creating surface...";
 
@@ -30,7 +96,7 @@ bool Renderer::createSurface()
   }
 
   //hide mouse cursor
-  sInitialCursorState = SDL_ShowCursor(0) == 1;
+  mInitialCursorState = SDL_ShowCursor(0) == 1;
 
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -48,18 +114,19 @@ bool Renderer::createSurface()
 
   SDL_DisplayMode dispMode;
   SDL_GetDesktopDisplayMode(0, &dispMode);
-  if (sDisplayWidth == 0) sDisplayWidth = dispMode.w;
-  if (sDisplayHeight == 0) sDisplayHeight = dispMode.h;
-  sDisplayWidthFloat = (float)sDisplayWidth;
-  sDisplayHeightFloat = (float)sDisplayHeight;
-  LOG(LogInfo) << "[Video] Resolution: " << sDisplayWidth << ',' << sDisplayHeight;
+  if (mDisplayWidth == 0)  mDisplayWidth = dispMode.w;
+  if (mDisplayHeight == 0) mDisplayHeight = dispMode.h;
+  mDisplayWidthFloat = (float)mDisplayWidth;
+  mDisplayHeightFloat = (float)mDisplayHeight;
+  LOG(LogInfo) << "[Video] Resolution: " << mDisplayWidth << ',' << mDisplayHeight;
 
-  sSdlWindow = SDL_CreateWindow("EmulationStation",
+  mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                sDisplayWidth, sDisplayHeight,
-                               SDL_WINDOW_OPENGL | (Settings::Instance().Windowed() ? 0 : SDL_WINDOW_FULLSCREEN));
+                                mDisplayWidth,
+                                mDisplayHeight,
+                                SDL_WINDOW_OPENGL | (Settings::Instance().Windowed() ? 0 : SDL_WINDOW_FULLSCREEN));
 
-  if (sSdlWindow == nullptr)
+  if (mSdlWindow == nullptr)
   {
     LOG(LogError) << "Error creating SDL window!\n\t" << SDL_GetError();
     return false;
@@ -90,12 +157,12 @@ bool Renderer::createSurface()
                                                         rmask, gmask, bmask, amask);
     if (logoSurface != nullptr)
     {
-      SDL_SetWindowIcon(sSdlWindow, logoSurface);
+      SDL_SetWindowIcon(mSdlWindow, logoSurface);
       SDL_FreeSurface(logoSurface);
     }
   }
 
-  sSdlContext = SDL_GL_CreateContext(sSdlWindow);
+  mSdlGLContext = SDL_GL_CreateContext(mSdlWindow);
 
   // vsync
   if (Settings::Instance().VSync())
@@ -120,95 +187,75 @@ bool Renderer::createSurface()
   return true;
 }
 
-void Renderer::swapBuffers()
+void Renderer::SwapBuffers()
 {
-  SDL_GL_SwapWindow(sSdlWindow);
+  SDL_GL_SwapWindow(mSdlWindow);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::destroySurface()
+void Renderer::DestroySdlSurface()
 {
-  SDL_GL_DeleteContext(sSdlContext);
-  sSdlContext = nullptr;
+  SDL_GL_DeleteContext(mSdlGLContext);
+  mSdlGLContext = nullptr;
 
-  SDL_DestroyWindow(sSdlWindow);
-  sSdlWindow = nullptr;
+  SDL_DestroyWindow(mSdlWindow);
+  mSdlWindow = nullptr;
 
   //show mouse cursor
-  SDL_ShowCursor(sInitialCursorState ? 1 : 0);
+  SDL_ShowCursor(mInitialCursorState ? 1 : 0);
 
   SDL_Quit();
 }
 
-bool Renderer::initialize(int w, int h)
+bool Renderer::Initialize(int w, int h)
 {
-  if (w != 0)
-    sDisplayWidth = w;
-  if (h != 0)
-    sDisplayHeight = h;
+  if (w != 0) mDisplayWidth = w;
+  if (h != 0) mDisplayHeight = h;
 
-  bool createdSurface = createSurface();
+  bool createdSurface = CreateSdlSurface();
+  if (!createdSurface) return false;
 
-  if (!createdSurface)
-    return false;
-
-  glViewport(0, 0, sDisplayWidth, sDisplayHeight);
+  glViewport(0, 0, mDisplayWidth, mDisplayHeight);
 
   glMatrixMode(GL_PROJECTION);
-  glOrtho(0, sDisplayWidth, sDisplayHeight, 0, -1.0, 1.0);
+  glOrtho(0, mDisplayWidth, mDisplayHeight, 0, -1.0, 1.0);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   return true;
 }
 
-void Renderer::finalize()
+void Renderer::Finalize()
 {
-  destroySurface();
+  DestroySdlSurface();
 }
 
-std::stack<Vector4i>& Renderer::ClipStack()
-{
-  static std::stack<Vector4i> sClippingStack;
-  return sClippingStack;
-}
-
-void Renderer::setColor4bArray(GLubyte* array, unsigned int color)
-{
-  array[0] = (color & 0xff000000) >> 24;
-  array[1] = (color & 0x00ff0000) >> 16;
-  array[2] = (color & 0x0000ff00) >> 8;
-  array[3] = (color & 0x000000ff);
-}
-
-void Renderer::buildGLColorArray(GLubyte* ptr, unsigned int color, unsigned int vertCount)
+void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vertCount)
 {
   unsigned int colorGl = 0;
-  setColor4bArray((GLubyte*) &colorGl, color);
-  for (int i = (int)vertCount; --i >= 0; )
-  {
+  ColorToByteArray((GLubyte*) &colorGl, color);
+  for (int i = vertCount; --i >= 0; )
     ((GLuint*) ptr)[i] = colorGl;
-  }
 }
 
-void Renderer::pushClipRect(Vector2i pos, Vector2i dim)
+void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
   Vector4i box(pos.x(), pos.y(), dim.x(), dim.y());
   if (box[2] == 0)
-    box[2] = Renderer::sDisplayWidth - box.x();
+    box[2] = mDisplayWidth - box.x();
   if (box[3] == 0)
-    box[3] = Renderer::sDisplayHeight - box.y();
+    box[3] = mDisplayHeight - box.y();
 
   //glScissor starts at the bottom left of the window
   //so (0, 0, 1, 1) is the bottom left pixel
   //everything else uses y+ = down, so flip it to be consistent
-  //rect.pos.y = Renderer::getScreenHeight() - rect.pos.y - rect.size.y;
-  box[1] = Renderer::sDisplayHeight - box.y() - box[3];
+  //rect.pos.y = Renderer::Instance().GetScreenHeight() - rect.pos.y - rect.size.y;
+  box[1] = mDisplayHeight - box.y() - box[3];
 
   //make sure the box fits within clipStack.top(), and clip further accordingly
-  if (!ClipStack().empty())
+  if (!mClippingStack.empty())
   {
-    Vector4i& top = ClipStack().top();
+    Vector4i& top = mClippingStack.top();
     if (top[0] > box[0])
       box[0] = top[0];
     if (top[1] > box[1])
@@ -224,38 +271,73 @@ void Renderer::pushClipRect(Vector2i pos, Vector2i dim)
   if (box[3] < 0)
     box[3] = 0;
 
-  ClipStack().push(box);
+  mClippingStack.push(box);
   glScissor(box[0], box[1], box[2], box[3]);
   glEnable(GL_SCISSOR_TEST);
 }
 
-void Renderer::popClipRect()
+void Renderer::Clip(const Rectangle& area)
 {
-  if (ClipStack().empty())
+  (void)area;
+}
+
+void Renderer::Unclip()
+{
+
+}
+
+void Renderer::PopClippingRect()
+{
+  if (mClippingStack.empty())
   {
     LOG(LogError) << "Tried to popClipRect while the stack was empty!";
     return;
   }
 
-  ClipStack().pop();
-  if (ClipStack().empty())
+  mClippingStack.pop();
+  if (mClippingStack.empty())
   {
     glDisable(GL_SCISSOR_TEST);
   }
   else
   {
-    Vector4i top = ClipStack().top();
+    Vector4i top = mClippingStack.top();
     glScissor(top[0], top[1], top[2], top[3]);
   }
 }
 
-void
-Renderer::drawRect(float x, float y, float w, float h, unsigned int color, GLenum blend_sfactor, GLenum blend_dfactor)
+GLuint Renderer::CreateGLTexture()
 {
-  drawRect(Math::roundi(x), Math::roundi(y), Math::roundi(w), Math::roundi(h), color, blend_sfactor, blend_dfactor);
+  GLuint id = 0;
+
+  glGenTextures(1, &id);
+  glBindTexture(GL_TEXTURE_2D, id);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  return id;
 }
 
-void Renderer::drawRect(int x, int y, int w, int h, unsigned int color, GLenum blend_sfactor, GLenum blend_dfactor)
+void Renderer::DestroyGLTexture(GLuint id)
+{
+  glDeleteTextures(1, &id);
+}
+
+void Renderer::DrawRectangle(const Rectangle& area, Colors::ColorARGB color, GLenum blend_sfactor, GLenum blend_dfactor)
+{
+  DrawRectangle(Math::roundi(area.Left()), Math::roundi(area.Top()),
+                Math::roundi(area.Width()), Math::roundi(area.Height()),
+                color, blend_sfactor, blend_dfactor);
+}
+
+void
+Renderer::DrawRectangle(float x, float y, float w, float h, Colors::ColorARGB color, GLenum blend_sfactor, GLenum blend_dfactor)
+{
+  DrawRectangle(Math::roundi(x), Math::roundi(y), Math::roundi(w), Math::roundi(h), color, blend_sfactor, blend_dfactor);
+}
+
+void Renderer::DrawRectangle(int x, int y, int w, int h, Colors::ColorARGB color, GLenum blend_sfactor, GLenum blend_dfactor)
 {
   #ifdef USE_OPENGL_ES
   GLshort points[12];
@@ -278,7 +360,7 @@ void Renderer::drawRect(int x, int y, int w, int h, unsigned int color, GLenum b
   points[11] = y + h;
 
   GLubyte colors[6 * 4];
-  buildGLColorArray(colors, color, 6);
+  BuildGLColorArray(colors, color, 6);
 
   glEnable(GL_BLEND);
   glBlendFunc(blend_sfactor, blend_dfactor);
@@ -299,7 +381,136 @@ void Renderer::drawRect(int x, int y, int w, int h, unsigned int color, GLenum b
   glDisableClientState(GL_COLOR_ARRAY);
 }
 
-void Renderer::setMatrix(const Transform4x4f& matrix)
+void Renderer::SetMatrix(const Transform4x4f& transform)
 {
-  glLoadMatrixf((float*) &matrix);
+  glLoadMatrixf((float*) &transform);
 }
+
+Renderer::Error Renderer::UploadAlpha(GLuint id, int width, int height, const void* data)
+{
+  glBindTexture(GL_TEXTURE_2D, id);
+  if (glGetError() != GL_NO_ERROR) return Error::NoResource;
+
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, width, height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+  if (glGetError() == GL_OUT_OF_MEMORY) return Error::OutOfGPUMemory;
+
+  return Error::NoError;
+}
+
+Renderer::Error Renderer::UploadRGBA(GLuint id, int width, int height, const void* data)
+{
+  glBindTexture(GL_TEXTURE_2D, id);
+  if (glGetError() != GL_NO_ERROR) return Error::NoResource;
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  if (glGetError() == GL_OUT_OF_MEMORY) return Error::OutOfGPUMemory;
+
+  return Error::NoError;
+}
+
+Renderer::Error Renderer::UploadAlphaPart(GLuint id, int x, int y, int width, int height, const void* data)
+{
+  glBindTexture(GL_TEXTURE_2D, id);
+  if (glGetError() != GL_NO_ERROR) return Error::NoResource;
+
+  glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+  if (glGetError() == GL_OUT_OF_MEMORY) return Error::OutOfGPUMemory;
+
+  return Error::NoError;
+}
+
+Renderer::Error Renderer::UploadRGBAPart(GLuint id, int x, int y, int width, int height, const void* data)
+{
+  glBindTexture(GL_TEXTURE_2D, id);
+  if (glGetError() != GL_NO_ERROR) return Error::NoResource;
+
+  glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  if (glGetError() == GL_OUT_OF_MEMORY) return Error::OutOfGPUMemory;
+
+  return Error::NoError;
+}
+
+void Renderer::DrawLines(const Vector2f coordinates[], const Colors::ColorARGB colors[], int count)
+{
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
+  glVertexPointer(2, GL_FLOAT, 0, &coordinates);
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, &colors);
+
+  glDrawArrays(GL_LINES, 0, count);
+
+  glDisable(GL_BLEND);
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void Renderer::DrawTexturedTriangles(GLuint id, const Vertex vertices[], const GLubyte colors[], int count, bool tiled)
+{
+  if (id != 0)
+    glBindTexture(GL_TEXTURE_2D, id);
+
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
+  glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+  glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+  glDrawArrays(GL_TRIANGLES, 0, count);
+
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
+
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_BLEND);
+}
+
+void Renderer::DrawTexturedTriangles(GLuint id, const Vertex vertices[], Colors::ColorARGB color, int count, bool tiled)
+{
+  if (id != 0)
+    glBindTexture(GL_TEXTURE_2D, id);
+
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+
+  glColor4ub((GLubyte)(color >> 24),
+             (GLubyte)(color >> 16),
+             (GLubyte)(color >> 8),
+             (GLubyte)(color >> 0));
+
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+  glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+
+  glDrawArrays(GL_TRIANGLES, 0, count);
+
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_BLEND);
+}
+

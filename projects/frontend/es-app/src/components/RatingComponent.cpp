@@ -96,7 +96,7 @@ void RatingComponent::Render(const Transform4x4f& parentTrans)
     }
 
 	Transform4x4f trans = (parentTrans * getTransform()).round();
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);

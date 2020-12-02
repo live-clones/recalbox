@@ -217,7 +217,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      */
     static int GetFontSize(float ratio)
     {
-      int iRatio = (int)(ratio * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat()));
+      int iRatio = (int)(ratio * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat()));
       int max = (int)(sWheelFontRatio * 800);
       if (iRatio > max)
         iRatio = max;

@@ -208,8 +208,8 @@ void ScraperSearchComponent::Render(const Transform4x4f& parentTrans)
 
 	if (mRunning)
 	{
-		Renderer::setMatrix(trans);
-		Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+		Renderer::SetMatrix(trans);
+		Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
     mBusyAnim.Render(trans);
 	}

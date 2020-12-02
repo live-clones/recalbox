@@ -164,7 +164,7 @@ GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system
   }
 
 	// center the menu
-	setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 	mMenu.setPosition((mSize.x() - mMenu.getSize().x()) / 2, (mSize.y() - mMenu.getSize().y()) / 2);
 
   mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); });

@@ -1,4 +1,3 @@
-#include <Settings.h>
 #include <components/ComponentList.h>
 #include <themes/MenuThemeData.h>
 #include <help/Help.h>
@@ -181,7 +180,7 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	// clip everything to be inside our bounds
 	Vector3f dim(mSize.x(), mSize.y(), 0);
 	dim = trans * dim - trans.translation();
-	Renderer::pushClipRect(Vector2i((int)trans.translation().x(), (int)trans.translation().y()), 
+	Renderer::Instance().PushClippingRect(Vector2i((int)trans.translation().x(), (int)trans.translation().y()),
 		Vector2i(Math::roundi(dim.x()), Math::roundi(dim.y() + 1)));
 
 	// scroll the camera
@@ -189,11 +188,10 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 
 	// draw our entries
 	std::vector<Component*> drawAfterCursor;
-	bool drawAll;
 	for (int i = 0; i < (int)mEntries.size(); i++)
 	{
 		auto& entry = mEntries[i];
-		drawAll = !mFocused || i != mCursor;
+		bool drawAll = !mFocused || i != mCursor;
 		for (auto& element : entry.data.elements)
 		{
 			if(drawAll || element.invert_when_selected)
@@ -207,7 +205,7 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	}
 
 	// custom rendering
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
 
 	// draw selector bar	
 	if(mFocused)
@@ -215,8 +213,8 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 		const float selectedRowHeight = getRowHeight(mEntries[mCursor].data);
 		//here we draw a bar then redraw the list entry
 		if ((selectorColor != bgColor) && ((selectorColor & 0xFF) != 0x00)) {
-			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-			Renderer::drawRect(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
+			Renderer::DrawRectangle(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, bgColor, GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+			Renderer::DrawRectangle(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
 		}
 		auto& entry = mEntries[mCursor];
 		for (auto& element : entry.data.elements)
@@ -230,7 +228,7 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 		
 		// reset matrix if one of these components changed it
 		if (!drawAfterCursor.empty())
-			Renderer::setMatrix(trans);
+			Renderer::SetMatrix(trans);
 	}
 
 	// draw separators
@@ -238,12 +236,12 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	
 	for (auto& mEntrie : mEntries)
 	{
-		Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
+		Renderer::DrawRectangle(0.0f, y, mSize.x(), 1.0f, separatorColor);
 		y += getRowHeight(mEntrie.data);
 	}
-	Renderer::drawRect(0.0f, y, mSize.x(), 1.0f, separatorColor);
+	Renderer::DrawRectangle(0.0f, y, mSize.x(), 1.0f, separatorColor);
 
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 }
 
 float ComponentList::getRowHeight(const ComponentListRow& row)

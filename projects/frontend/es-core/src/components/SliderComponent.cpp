@@ -33,7 +33,7 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 	mKnob.setImage(menuTheme->iconSet.knob);
 	
 	mKnob.setColorShift(mColor);
-	setSize(Renderer::getDisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
+	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
 }
 
 bool SliderComponent::ProcessInput(const InputCompactEvent& event)
@@ -74,7 +74,7 @@ void SliderComponent::Update(int deltaTime)
 void SliderComponent::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = (parentTrans * getTransform()).round();
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
 
 	// render suffix
 	if(mValueCache)
@@ -85,7 +85,7 @@ void SliderComponent::Render(const Transform4x4f& parentTrans)
 	//render line
 	const float lineWidth = 2;
 
-	Renderer::drawRect(mKnob.getSize().x() / 2, mSize.y() / 2 - lineWidth / 2, width, lineWidth, mColor);
+	Renderer::DrawRectangle(mKnob.getSize().x() / 2, mSize.y() / 2 - lineWidth / 2, width, lineWidth, mColor);
 
 	//render knob
   mKnob.Render(trans);

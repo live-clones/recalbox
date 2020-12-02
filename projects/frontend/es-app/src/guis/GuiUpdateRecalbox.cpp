@@ -11,7 +11,7 @@
 #include <utils/Http.h>
 #include <MainRunner.h>
 
-#define BUTTON_GRID_VERT_PADDING Renderer::getDisplayHeightAsFloat() * 0.025f
+#define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
@@ -35,8 +35,8 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& u
 
   std::shared_ptr<MenuTheme> menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-  const float height = Renderer::getDisplayHeightAsFloat() * (Renderer::IsSmallResolution() ? 0.7f : 0.5f);
-  const float width = Renderer::getDisplayWidthAsFloat() * (Renderer::IsSmallResolution() ? 0.8f : 0.6f);
+  const float height = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.7f : 0.5f);
+  const float width = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.8f : 0.6f);
 
   // Title
   mTitle = std::make_shared<TextComponent>(mWindow, _("DOWNLOADING UPDATE..."), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
@@ -88,8 +88,8 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& u
 
   // Window
   setSize(width, height);
-  setPosition((Renderer::getDisplayWidthAsFloat() - width) / 2,
-              (Renderer::getDisplayHeightAsFloat() - height) / 2);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - width) / 2,
+              (Renderer::Instance().DisplayHeightAsFloat() - height) / 2);
 
   // Check free bytes on share partition
   if (RecalboxSystem::isFreeSpaceLimit())

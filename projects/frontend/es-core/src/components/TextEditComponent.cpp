@@ -247,12 +247,12 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 	Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());
 	Vector3f dimScaled = trans * Vector3f(getTextAreaSize().x(), getTextAreaSize().y(), 0); // use "text area" size for clipping
 	Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
-	Renderer::pushClipRect(clipPos, clipDim);
+	Renderer::Instance().PushClippingRect(clipPos, clipDim);
 
 	trans.translate(Vector3f(-mScrollOffset.x(), -mScrollOffset.y(), 0));
 	trans.round();
 
-	Renderer::setMatrix(trans);
+	Renderer::SetMatrix(trans);
 
 	if(mTextCache)
 	{
@@ -260,7 +260,7 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 	}
 
 	// pop the clip early to allow the cursor to be drawn outside of the "text area"
-	Renderer::popClipRect();
+	Renderer::Instance().PopClippingRect();
 
 	// draw cursor
 	if(mEditing)
@@ -275,7 +275,7 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 		}
 
 		float cursorHeight = mFont->getHeight() * 0.8f;
-		Renderer::drawRect(cursorPos.x(), cursorPos.y() + (mFont->getHeight() - cursorHeight) / 2, 2.0f, cursorHeight, 0x000000FF);
+		Renderer::DrawRectangle(cursorPos.x(), cursorPos.y() + (mFont->getHeight() - cursorHeight) / 2, 2.0f, cursorHeight, 0x000000FF);
 	}
 }
 

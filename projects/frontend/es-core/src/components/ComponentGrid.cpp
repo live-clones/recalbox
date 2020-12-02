@@ -34,10 +34,6 @@ void ComponentGrid::SetGridDimensions(const Vector2i& gridDimensions)
   mRowHeights.resize(gridDimensions.y(), 0.0f);
 }
 
-ComponentGrid::~ComponentGrid()
-{
-}
-
 float ComponentGrid::getColWidth(int col)
 {
     if(mColWidths[col] != 0)
@@ -220,7 +216,7 @@ void ComponentGrid::updateSeparators()
     }
 
     mLineColors.reserve(mLines.size());
-    Renderer::buildGLColorArray((GLubyte*)mLineColors.data(), 0xC6C7C6FF, mLines.size());
+    Renderer::BuildGLColorArray((GLubyte*)mLineColors.data(), 0xC6C7C6FF, mLines.size());
 }
 
 void ComponentGrid::onSizeChanged()
@@ -370,7 +366,7 @@ void ComponentGrid::Update(int deltaTime)
 void ComponentGrid::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = parentTrans * getTransform();
-  Renderer::setMatrix(trans);
+  Renderer::SetMatrix(trans);
 
   // Render rows
   if (mHighlightRows)
@@ -381,7 +377,7 @@ void ComponentGrid::Render(const Transform4x4f& parentTrans)
     for (int i = mHighlightRowFrom - 1; ++i <= mHighlightRowTo; )
     {
       float h = getRowHeight(i);
-      Renderer::drawRect(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
+      Renderer::DrawRectangle(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
       y += h;
     }
   }
@@ -394,7 +390,7 @@ void ComponentGrid::Render(const Transform4x4f& parentTrans)
     for (int i = mHighlightColumnFrom - 1; ++i < mHighlightColumnTo; )
     {
       float w = getColWidth(i);
-      Renderer::drawRect(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
+      Renderer::DrawRectangle(x, y, w, h, (i & 1) != 0 ? 0xFFFFFF18 : 0x00000018);
       x += w;
     }
   }

@@ -50,13 +50,13 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, FileData&
 
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
 
-	setSize(Renderer::getDisplayWidthAsFloat() * 0.95f, Renderer::getDisplayHeightAsFloat() * 0.747f);
-	setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.747f);
+	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
   // Create scraper and run!
   // Don't use the notification interface since the use can close this gui at any time.
   mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
-  mScraper->RunOn(ScrappingMethod::All, game, nullptr, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
+  mScraper->RunOn(ScrappingMethod::All, game, nullptr, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
 void GuiScraperSingleGameRun::onSizeChanged()

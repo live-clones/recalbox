@@ -24,7 +24,7 @@ void ClippingContainer::Render(const Transform4x4f &parentTrans) {
     }
 
     Transform4x4f trans = parentTrans * getTransform();
-    Renderer::setMatrix(trans);
+    Renderer::SetMatrix(trans);
     Component::renderChildren(trans);
 }
 

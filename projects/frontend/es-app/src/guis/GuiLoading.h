@@ -64,7 +64,7 @@ public:
         mSyncMethodToPushResult(pushResult),
         mResult()
     {
-      setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+      setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
       mBusyAnim.setSize(mSize);
       auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
@@ -95,8 +95,8 @@ public:
       Transform4x4f trans = parentTrans * getTransform();
       renderChildren(trans);
 
-      Renderer::setMatrix(trans);
-      Renderer::drawRect(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
+      Renderer::SetMatrix(trans);
+      Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
       if (IsRunning())
         mBusyAnim.Render(trans);

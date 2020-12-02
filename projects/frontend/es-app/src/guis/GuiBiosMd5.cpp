@@ -92,7 +92,7 @@ void GuiBiosMd5::BuildUI()
   mList->setColor(sColorIndexRed, 0xFF000022); // Red
   mList->setColor(sColorIndexGray, 0x00000022); // Yellow
   mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
-  mList->setHorizontalMargin(Renderer::getDisplayWidthAsFloat() * 0.95f * 0.01f);
+  mList->setHorizontalMargin(Renderer::Instance().DisplayWidthAsFloat() * 0.95f * 0.01f);
   mList->setSelectorHeight((float)menuTheme->menuTextSmall.font->getSize() * 1.5f);
   mGrid.setEntry(mList, Vector2i(1,2), true, false, Vector2i(1, 1));
 
@@ -104,9 +104,9 @@ void GuiBiosMd5::BuildUI()
   mGrid.setEntry(mButtonGrid, Vector2i(1, 3), true, false, Vector2i(1,1));
 
   // Set Window position/size
-  float width = Math::max(menuTheme->menuTextSmall.font->sizeText(std::string(16, '0')).x() * 2.5f, Renderer::getDisplayWidthAsFloat() * 0.33f);
-  setSize(width, Renderer::getDisplayHeightAsFloat() * 0.849f);
-  setPosition((Renderer::getDisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::getDisplayHeightAsFloat() - mSize.y()) / 2);
+  float width = Math::max(menuTheme->menuTextSmall.font->sizeText(std::string(16, '0')).x() * 2.5f, Renderer::Instance().DisplayWidthAsFloat() * 0.33f);
+  setSize(width, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
+  setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
   // Force component size to refresh
   onSizeChanged();

@@ -40,7 +40,7 @@ class IGameListView : public Gui
         mSystem(system),
         mTheme(nullptr)
     {
-      setSize(Renderer::getDisplayWidthAsFloat(), Renderer::getDisplayHeightAsFloat());
+      setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     }
 
     ~IGameListView() override = default;
