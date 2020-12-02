@@ -2602,6 +2602,16 @@ msgid ""
 msgstr ""
 
 #
+msgid "HIDE PREINSTALLED GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""
+
+#
 msgid "SHOW IN LIST"
 msgstr ""
 
@@ -2622,16 +2632,6 @@ msgid ""
 "Gameclips cannot be played\n"
 "\n"
 "No video availabe for you selection"
-msgstr ""
-
-#
-msgid "HIDE PREINSTALLED GAMES"
-msgstr ""
-
-#
-msgid ""
-"Hide all pre-installed games. Changing this option makes EmulationStation to "
-"relaunch."
 msgstr ""
 
 #~ msgid ""

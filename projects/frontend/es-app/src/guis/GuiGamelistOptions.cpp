@@ -121,30 +121,38 @@ GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system
   }
 
 	// edit game metadata
-	row.elements.clear();
-	if (!nomenu && !bartop)
-	{
-		row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font, menuTheme->menuText.color), true);
-		row.addElement(makeArrow(mWindow), false);
-		row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
-		mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
-	}
-
-	if (!system.IsFavorite()) {
-        // update game list
+  FileData* file = getGamelist()->getCursor();
+	if (file != nullptr)
+    if (file->isGame() || file->isFolder())
+      if (!file->getTopAncestor().ReadOnly())
+      {
         row.elements.clear();
-        row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
-                                                       menuTheme->menuText.color), true);
-        row.addElement(makeArrow(mWindow), false);
-        row.makeAcceptInputHandler([this] {
-            mReloading = true;
-            mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"),
-                                          _("YES"), [] { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); },
-                                          _("NO"), [this] { mReloading = false; }
-            ));
-        });
-        mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
-    }
+        if (!nomenu && !bartop)
+        {
+          row.addElement(std::make_shared<TextComponent>(mWindow, _("EDIT THIS GAME'S METADATA"), menuTheme->menuText.font,
+                                                         menuTheme->menuText.color), true);
+          row.addElement(makeArrow(mWindow), false);
+          row.makeAcceptInputHandler(std::bind(&GuiGamelistOptions::openMetaDataEd, this));
+          mMenu.addRowWithHelp(row, _("EDIT THIS GAME'S METADATA"), _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+        }
+      }
+
+	if (!system.IsFavorite())
+	{
+    // update game list
+    row.elements.clear();
+    row.addElement(std::make_shared<TextComponent>(mWindow, _("UPDATE GAMES LISTS"), menuTheme->menuText.font,
+                                                   menuTheme->menuText.color), true);
+    row.addElement(makeArrow(mWindow), false);
+    row.makeAcceptInputHandler([this]
+    {
+      mReloading = true;
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("REALLY UPDATE GAMES LISTS ?"),
+                                        _("YES"), [] { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); },
+                                        _("NO"), [this] { mReloading = false; } ));
+    });
+    mMenu.addRowWithHelp(row, _("UPDATE GAMES LISTS"), _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
+  }
 
 	if (RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
   {
