@@ -11,7 +11,7 @@
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
 
-GuiHashStart::GuiHashStart(Window& window, SystemManager& systemManager)
+GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mBusyAnim(window),

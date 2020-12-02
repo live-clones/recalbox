@@ -67,7 +67,7 @@ struct ComponentListRow
 class ComponentList : public IList<ComponentListRow, void*>
 {
 public:
-	explicit ComponentList(Window&window);
+	explicit ComponentList(WindowManager&window);
 
 	void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true);
 

@@ -18,7 +18,7 @@
 class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent, private Http::IDownload
 {
   public:
-    GuiUpdateRecalbox(Window& window, const std::string& url, const std::string& newVersion);
+    GuiUpdateRecalbox(WindowManager& window, const std::string& url, const std::string& newVersion);
 
     ~GuiUpdateRecalbox() override;
 

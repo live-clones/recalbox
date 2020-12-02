@@ -17,8 +17,8 @@
 class NinePatchComponent : public Component
 {
 public:
-	NinePatchComponent(Window&window, const Path& path);
-  explicit NinePatchComponent(Window&window);
+	NinePatchComponent(WindowManager&window, const Path& path);
+  explicit NinePatchComponent(WindowManager&window);
 
 	void Render(const Transform4x4f& parentTrans) override;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Window.h"
+#include "WindowManager.h"
 #include "games/FileData.h"
 
 struct EmulatorDefaults
@@ -47,7 +47,7 @@ class RecalboxSystem
 
     static bool kodiExists();
 
-    static bool launchKodi(Window&window);
+    static bool launchKodi(WindowManager&window);
 
     static bool backupRecalboxConf();
 

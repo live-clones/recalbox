@@ -2,13 +2,13 @@
 #include "components/TextEditComponent.h"
 #include "utils/Log.h"
 #include "resources/Font.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "Renderer.h"
 
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-TextEditComponent::TextEditComponent(Window&window)
+TextEditComponent::TextEditComponent(WindowManager&window)
 	: Component(window),
     mFocused(false),
     mEditing(false),

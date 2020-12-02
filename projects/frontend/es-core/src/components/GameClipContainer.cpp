@@ -10,7 +10,7 @@
 #include <audio/AudioManager.h>
 #include "utils/locale/LocaleHelper.h"
 
-GameClipContainer::GameClipContainer(Window &window)
+GameClipContainer::GameClipContainer(WindowManager& window)
         : Gui(window),
           mWindow(window),
           mVideo(window),

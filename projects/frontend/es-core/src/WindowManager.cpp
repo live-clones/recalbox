@@ -1,5 +1,5 @@
 #include <utils/locale/LocaleHelper.h>
-#include <Window.h>
+#include <WindowManager.h>
 #include <Renderer.h>
 #include <Settings.h>
 #include <guis/GuiInfoPopup.h>
@@ -9,7 +9,7 @@
 #include <views/ViewController.h>
 #include <usernotifications/NotificationManager.h>
 
-Window::Window()
+WindowManager::WindowManager()
   : mHelp(*this),
     mBackgroundOverlay(*this),
     mInfoPopups(sMaxInfoPopups),
@@ -26,12 +26,12 @@ Window::Window()
   mBackgroundOverlay.setImage(menuTheme->menuBackground.fadePath);
 }
 
-Window::~Window()
+WindowManager::~WindowManager()
 {
   deleteAllGui();
 }
 
-bool Window::UpdateHelpSystem()
+bool WindowManager::UpdateHelpSystem()
 {
   Gui* gui = peekGui();
   if (gui != nullptr)
@@ -42,20 +42,20 @@ bool Window::UpdateHelpSystem()
   return false;
 }
 
-void Window::pushGui(Gui* gui)
+void WindowManager::pushGui(Gui* gui)
 {
   mGuiStack.Push(gui);
   UpdateHelpSystem();
 }
 
-void Window::displayMessage(const std::string& message, bool urgent)
+void WindowManager::displayMessage(const std::string& message, bool urgent)
 {
   if (!urgent && !mMessages.empty()) return;
 
   mMessages.push_back(message);
 }
 
-void Window::displayScrollMessage(const std::string& title, const std::string& message, bool urgent)
+void WindowManager::displayScrollMessage(const std::string& title, const std::string& message, bool urgent)
 {
   if (!urgent && !mScrollMessages.empty()) return;
 
@@ -63,7 +63,7 @@ void Window::displayScrollMessage(const std::string& title, const std::string& m
   mScrollMessages.push_back(message);
 }
 
-Gui* Window::peekGui()
+Gui* WindowManager::peekGui()
 {
   if (mGuiStack.Empty())
     return nullptr;
@@ -71,7 +71,7 @@ Gui* Window::peekGui()
   return mGuiStack.Peek();
 }
 
-void Window::deleteClosePendingGui()
+void WindowManager::deleteClosePendingGui()
 {
   bool deleted = false;
   for(int i = mGuiStack.Count(); --i >= 0;)
@@ -86,7 +86,7 @@ void Window::deleteClosePendingGui()
     UpdateHelpSystem();
 }
 
-void Window::deleteAllGui()
+void WindowManager::deleteAllGui()
 {
   for(int i = mInfoPopups.Count(); --i >= 0; )
     delete mInfoPopups[i];
@@ -97,7 +97,7 @@ void Window::deleteAllGui()
   mGuiStack.Clear();
 }
 
-bool Window::Initialize(unsigned int width, unsigned int height, bool initRenderer)
+bool WindowManager::Initialize(unsigned int width, unsigned int height, bool initRenderer)
 {
   if (initRenderer)
   {
@@ -132,20 +132,20 @@ bool Window::Initialize(unsigned int width, unsigned int height, bool initRender
   return true;
 }
 
-void Window::Finalize()
+void WindowManager::Finalize()
 {
   InputManager::Instance().Finalize();
   ResourceManager::getInstance()->unloadAll();
   Renderer::finalize();
 }
 
-void Window::textInput(const char* text)
+void WindowManager::textInput(const char* text)
 {
   if (!mGuiStack.Empty())
     mGuiStack.Peek()->textInput(text);
 }
 
-bool Window::ProcessInput(const InputCompactEvent& event)
+bool WindowManager::ProcessInput(const InputCompactEvent& event)
 {
   if (mSleeping)
   {
@@ -170,7 +170,7 @@ bool Window::ProcessInput(const InputCompactEvent& event)
   return false;
 }
 
-void Window::Update(int deltaTime)
+void WindowManager::Update(int deltaTime)
 {
   if (!mMessages.empty())
   {
@@ -236,7 +236,7 @@ void Window::Update(int deltaTime)
   InfoPopupsUpdate(deltaTime);
 }
 
-void Window::Render(Transform4x4f& transform)
+void WindowManager::Render(Transform4x4f& transform)
 {
   mRenderedHelpPrompts = false;
   bool gameClipEnabled = GameClipView::IsGameClipEnabled();
@@ -297,13 +297,13 @@ void Window::Render(Transform4x4f& transform)
   InfoPopupsDisplay(transform);
 }
 
-void Window::renderHelpPromptsEarly()
+void WindowManager::renderHelpPromptsEarly()
 {
   mHelp.Render(Transform4x4f::Identity());
   mRenderedHelpPrompts = true;
 }
 
-bool Window::isProcessing()
+bool WindowManager::isProcessing()
 {
   for(int i = mGuiStack.Count(); --i >= 0;)
     if (mGuiStack[i]->isProcessing())
@@ -311,13 +311,13 @@ bool Window::isProcessing()
   return false;
 }
 
-void Window::exitScreenSaver()
+void WindowManager::exitScreenSaver()
 {
   if (Board::Instance().HasBrightnessSupport())
     Board::Instance().SetBrightness(RecalboxConf::Instance().GetBrightness());
 }
 
-void Window::renderScreenSaver()
+void WindowManager::renderScreenSaver()
 {
   if (Board::Instance().HasSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == "suspend")
   {
@@ -342,7 +342,7 @@ void Window::renderScreenSaver()
   }
 }
 
-bool Window::KonamiCode(const InputCompactEvent& input)
+bool WindowManager::KonamiCode(const InputCompactEvent& input)
 {
   typedef bool (InputCompactEvent::*EventMethodPointer)() const;
 
@@ -372,7 +372,7 @@ bool Window::KonamiCode(const InputCompactEvent& input)
   return false;
 }
 
-void Window::RenderAll(bool halfLuminosity)
+void WindowManager::RenderAll(bool halfLuminosity)
 {
   Transform4x4f transform(Transform4x4f::Identity());
   Render(transform);
@@ -385,13 +385,13 @@ void Window::RenderAll(bool halfLuminosity)
   Renderer::swapBuffers();
 }
 
-void Window::CloseAll()
+void WindowManager::CloseAll()
 {
   for(int i = mGuiStack.Count(); --i >= 0;)
     mGuiStack[i]->Close();
 }
 
-void Window::DoWake()
+void WindowManager::DoWake()
 {
   if (mSleeping)
   {
@@ -402,7 +402,7 @@ void Window::DoWake()
   }
 }
 
-void Window::DoSleep()
+void WindowManager::DoSleep()
 {
   if (!mSleeping)
   {
@@ -411,7 +411,7 @@ void Window::DoSleep()
   }
 }
 
-void Window::InfoPopupsShrink()
+void WindowManager::InfoPopupsShrink()
 {
   int types = 0;
   for(int i = mInfoPopups.Count(); --i >= 0; )
@@ -425,7 +425,7 @@ void Window::InfoPopupsShrink()
     InfoPopupsRemove(0);
 }
 
-void Window::InfoPopupRetarget()
+void WindowManager::InfoPopupRetarget()
 {
   int gap = (int)(Renderer::getDisplayHeightAsFloat() * 0.01f);
   if (gap < 2) gap = 2;
@@ -437,14 +437,14 @@ void Window::InfoPopupRetarget()
   }
 }
 
-void Window::InfoPopupAdd(GuiInfoPopup* infoPopup)
+void WindowManager::InfoPopupAdd(GuiInfoPopup* infoPopup)
 {
   mInfoPopups.Add(infoPopup);
   InfoPopupsShrink();
   InfoPopupRetarget();
 }
 
-void Window::InfoPopupsRemove(int index)
+void WindowManager::InfoPopupsRemove(int index)
 {
   GuiInfoPopup* popup = mInfoPopups[index];
   mInfoPopups.Delete(index); // Delete pointer
@@ -454,7 +454,7 @@ void Window::InfoPopupsRemove(int index)
   InfoPopupRetarget();
 }
 
-void Window::InfoPopupsUpdate(int delta)
+void WindowManager::InfoPopupsUpdate(int delta)
 {
   for(int i = mInfoPopups.Count(); --i >= 0;)
   {
@@ -464,7 +464,7 @@ void Window::InfoPopupsUpdate(int delta)
   }
 }
 
-void Window::InfoPopupsDisplay(Transform4x4f& transform)
+void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
 {
   for(int i = mInfoPopups.Count(); --i >= 0;)
     mInfoPopups[i]->Render(transform);

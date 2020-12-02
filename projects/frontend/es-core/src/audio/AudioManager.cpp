@@ -11,7 +11,7 @@
 
 AudioManager* AudioManager::sInstance;
 
-AudioManager::AudioManager(Window& window)
+AudioManager::AudioManager(WindowManager& window)
   : mWindow(window),
     mCurrentMusic(0),
     mCurrentMusicSource(MusicSource::None),

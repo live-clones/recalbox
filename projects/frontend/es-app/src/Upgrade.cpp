@@ -20,7 +20,7 @@ std::string Upgrade::mLocalVersion;
 std::string Upgrade::mRemoteReleaseNote;
 std::string Upgrade::mLocalReleaseNote;
 
-Upgrade::Upgrade(Window& window)
+Upgrade::Upgrade(WindowManager& window)
   : mWindow(window),
     mSender(this)
 {

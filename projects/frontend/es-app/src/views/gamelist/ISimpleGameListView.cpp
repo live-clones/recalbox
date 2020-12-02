@@ -5,12 +5,12 @@
 #include "guis/GuiGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "systems/SystemData.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "views/ViewController.h"
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
-ISimpleGameListView::ISimpleGameListView(Window& window, SystemManager& systemManager, SystemData& system)
+ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : IGameListView(window, system),
     mSystemManager(systemManager),
     mHeaderText(window),

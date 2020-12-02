@@ -2,11 +2,11 @@
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "utils/Log.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "themes/ThemeData.h"
 #include "Settings.h"
 
-TextComponent::TextComponent(Window&window)
+TextComponent::TextComponent(WindowManager&window)
 	: Component(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mColor(0x000000FF),
@@ -25,7 +25,7 @@ TextComponent::TextComponent(Window&window)
   mPosition = Vector3f::Zero();
   mSize = Vector2f::Zero();
 }
-TextComponent::TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color)
+TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color)
   : TextComponent(window)
 {
   mFont = font;
@@ -36,7 +36,7 @@ TextComponent::TextComponent(Window&window, const std::string& text, const std::
   onTextChanged();
 }
 
-TextComponent::TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
+TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
   : TextComponent(window)
 {
   mFont = font;
@@ -48,7 +48,7 @@ TextComponent::TextComponent(Window&window, const std::string& text, const std::
   onTextChanged();
 }
 
-TextComponent::TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
+TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                              Vector3f pos, Vector2f size, unsigned int bgcolor)
 	: TextComponent(window, text, font, color, align)
 {

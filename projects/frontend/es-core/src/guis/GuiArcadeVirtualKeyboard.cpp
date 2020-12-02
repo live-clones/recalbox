@@ -20,7 +20,7 @@ const wchar_t* const GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
   GuiArcadeVirtualKeyboard::sWheelDiacriticCaps ,
 };
 
-GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(Window& window, const std::string& title, const std::string& initValue,
+GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
                                                    IGuiArcadeVirtualKeyboardInterface* okCallback)
   : Gui(window),
     mSavedAngles(),

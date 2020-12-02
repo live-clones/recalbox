@@ -1,12 +1,12 @@
 #include <utils/Strings.h>
 #include "components/DateTimeComponent.h"
 #include "Renderer.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "utils/Log.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-DateTimeComponent::DateTimeComponent(Window&window, Display dispMode)
+DateTimeComponent::DateTimeComponent(WindowManager&window, Display dispMode)
   : Component(window),
     mEditing(false),
     mEditIndex(0),

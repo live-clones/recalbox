@@ -23,7 +23,7 @@ static std::map<Bios::ReportStatus, const char*> sSuffixes(
   { Bios::ReportStatus::Red    , " - \uF1C2" },
 });
 
-GuiBiosScan::GuiBiosScan(Window& window, SystemManager& systemManager)
+GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(7,15)),

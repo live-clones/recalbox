@@ -8,7 +8,7 @@
 #include "Settings.h"
 #include <MainRunner.h>
 
-GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(Window& window, SystemManager& systemManager)
+GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mMenu(window, _("ARCADE VIRTUAL SYSTEM"))

@@ -1,11 +1,11 @@
 #include "SwitchComponent.h"
 #include "Renderer.h"
 #include "resources/Font.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-SwitchComponent::SwitchComponent(Window&window)
+SwitchComponent::SwitchComponent(WindowManager&window)
   : Component(window),
     mImage(window),
     mState(false),

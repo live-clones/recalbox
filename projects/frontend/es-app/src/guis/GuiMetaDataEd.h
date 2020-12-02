@@ -48,7 +48,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
     void ScrappingComplete(FileData& game) override;
 
   public:
-    GuiMetaDataEd(Window&window, SystemManager& systemManager, FileData& game,
+    GuiMetaDataEd(WindowManager&window, SystemManager& systemManager, FileData& game,
                   IGameListView* gamelistview, IMetaDataAction* actions , bool main);
 
     bool ProcessInput(const InputCompactEvent& event) override;

@@ -10,7 +10,7 @@
 class ThemeExtras : public Component
 {
   public:
-    explicit ThemeExtras(Window& window)
+    explicit ThemeExtras(WindowManager& window)
       : Component(window)
     {
     }

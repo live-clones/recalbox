@@ -2,7 +2,7 @@
 #include "utils/Log.h"
 #include "themes/MenuThemeData.h"
 
-AnimatedImageComponent::AnimatedImageComponent(Window&window)
+AnimatedImageComponent::AnimatedImageComponent(WindowManager&window)
   : Component(window),
     mLoop(false),
     mEnabled(false),

@@ -759,7 +759,7 @@ std::string ThemeData::getGameClipView() const {
     return mGameClipView;
 }
 
-std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, Window& window)
+std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const std::string& view, WindowManager& window)
 {
 	std::vector<Component*> comps;
 

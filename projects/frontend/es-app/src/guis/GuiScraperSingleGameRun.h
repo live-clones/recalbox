@@ -40,7 +40,7 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     std::shared_ptr<ComponentGrid> mButtonGrid;
 
   public:
-    explicit GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier);
+    explicit GuiScraperSingleGameRun(WindowManager&window, FileData& game, IScrappingComplete* notifier);
 
     void onSizeChanged() override;
 

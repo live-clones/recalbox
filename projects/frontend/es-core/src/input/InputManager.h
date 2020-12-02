@@ -8,7 +8,7 @@
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Array.h>
 
-class Window;
+class WindowManager;
 
 class InputManager
 {
@@ -62,7 +62,7 @@ class InputManager
     /*!
      * @brief Load all joystick and load configurations
      */
-    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window* window, bool padplugged);
+    void LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, WindowManager* window, bool padplugged);
 
     /*!
      * @brief Load joystick configuration (by index)
@@ -145,7 +145,7 @@ class InputManager
      * @brief Initialize the InputManager
      * @param window Main window
      */
-    void Initialize(Window* window, bool padplugged = false);
+    void Initialize(WindowManager* window, bool padplugged = false);
 
     /*!
      * Finalize the input manager and free all resources
@@ -167,7 +167,7 @@ class InputManager
      * @param resultEvent InputCompactEvent to fill with event information
      * @return True if the resultEvent is valid, false otherwise
      */
-    InputCompactEvent ManageSDLEvent(Window* window, const SDL_Event& ev);
+    InputCompactEvent ManageSDLEvent(WindowManager* window, const SDL_Event& ev);
 
     /*!
      * @brief Get number of configured devices, either manually or from Xml configuration file

@@ -1,10 +1,10 @@
 #include <utils/Strings.h>
 #include "components/ProgressBarComponent.h"
 #include "Renderer.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "themes/MenuThemeData.h"
 
-ProgressBarComponent::ProgressBarComponent(Window&window, long long maxvalue)
+ProgressBarComponent::ProgressBarComponent(WindowManager&window, long long maxvalue)
   : Component(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mMaxValue(1),

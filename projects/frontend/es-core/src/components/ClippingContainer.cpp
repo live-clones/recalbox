@@ -2,12 +2,12 @@
 // Created by gugue_U on 17/10/2020
 //
 
-#include <Window.h>
+#include <WindowManager.h>
 #include <Renderer.h>
 #include "ClippingContainer.h"
 #include "themes/ThemeData.h"
 
-ClippingContainer::ClippingContainer(Window &window)
+ClippingContainer::ClippingContainer(WindowManager& window)
         : Component(window),
           mClippingState(false){
     mTimer.Initialize(0);

@@ -15,7 +15,7 @@ class SwitchComponent;
 class GuiScraperSelect : public Gui
 {
   public:
-    explicit GuiScraperSelect(Window& window, SystemManager& systemManager);
+    explicit GuiScraperSelect(WindowManager& window, SystemManager& systemManager);
 
     bool ProcessInput(const InputCompactEvent& event) override;
 

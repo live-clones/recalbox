@@ -11,7 +11,7 @@ class SliderComponent : public Component
 {
 public:
 	//Minimum value (far left of the slider), maximum value (far right of the slider), increment size (how much just pressing L/R moves by), unit to display (optional).
-	SliderComponent(Window&window, float min, float max, float increment, const std::string& suffix = "");
+	SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix = "");
 
 	void setSlider(float val);
 	float getSlider() { return mValue; }

@@ -9,7 +9,7 @@
 #include "GuiNetPlayEditPasswords.h"
 #include <views/ViewController.h>
 
-GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(Window& window, LobbyGame& lobby)
+GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, LobbyGame& lobby)
   : Gui(window),
     mLobbyGame(lobby),
     mMenu(window, _("JOIN NETPLAY GAME"))

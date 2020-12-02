@@ -1,7 +1,7 @@
 //
 // Created by bkg2k on 21/11/2019.
 //
-#include <Window.h>
+#include <WindowManager.h>
 #include <components/TextComponent.h>
 #include "IProgressInterface.h"
 
@@ -21,7 +21,7 @@ class SplashView : public Gui, public IProgressInterface
      * @brief Constructor
      * @param window Main Window instance
      */
-    explicit SplashView(Window& window);
+    explicit SplashView(WindowManager& window);
 
     /*
      * IComponent implementation

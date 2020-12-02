@@ -87,7 +87,7 @@ static std::string IconTextMap(PadItems padItems, int pad)
   return result;
 }
 
-GuiControlHints::GuiControlHints(Window& window, const Path& romPath)
+GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   : Gui(window),
     mGrid(window, { 0, 0}),
     mBackground(window, Path(":/frame.png")),

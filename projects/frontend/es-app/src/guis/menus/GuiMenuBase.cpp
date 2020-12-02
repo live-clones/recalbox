@@ -6,9 +6,9 @@
 #include <input/InputCompactEvent.h>
 #include <help/Help.h>
 #include <utils/locale/LocaleHelper.h>
-#include <Window.h>
+#include <WindowManager.h>
 
-GuiMenuBase::GuiMenuBase(Window& window, const std::string& title)
+GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title)
   : Gui(window)
   , mMenu(window, title)
   , mMenuInitialized(false)

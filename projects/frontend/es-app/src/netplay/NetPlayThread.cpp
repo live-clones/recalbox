@@ -12,7 +12,7 @@
 #include <guis/GuiInfoPopup.h>
 #include <rapidjson/document.h>
 
-NetPlayThread::NetPlayThread(Window&window)
+NetPlayThread::NetPlayThread(WindowManager&window)
   : mWindow(window),
     mSender(this)
 {

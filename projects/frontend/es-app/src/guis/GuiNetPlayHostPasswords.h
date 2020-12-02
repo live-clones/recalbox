@@ -15,7 +15,7 @@ class SwitchComponent;
 class GuiNetPlayHostPasswords : public Gui
 {
   public:
-    explicit GuiNetPlayHostPasswords(Window& window, FileData& game);
+    explicit GuiNetPlayHostPasswords(WindowManager& window, FileData& game);
 
     bool getHelpPrompts(Help& help) override;
 

@@ -9,7 +9,7 @@
 class GuiSettings : public Gui
 {
   public:
-    GuiSettings(Window& window, const std::string& title);
+    GuiSettings(WindowManager& window, const std::string& title);
     ~GuiSettings() override; // just calls save();
 
     void save();

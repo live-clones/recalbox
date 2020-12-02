@@ -25,7 +25,7 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuNetwork(Window& window);
+    explicit GuiMenuNetwork(WindowManager& window);
 
   private:
     //! Text being currently edited

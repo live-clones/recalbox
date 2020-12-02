@@ -26,7 +26,7 @@ class GameClipContainer : public Gui {
 
 private:
 
-    Window &mWindow;
+    WindowManager& mWindow;
 
     void initMDLabels();
     void initMDValues();
@@ -68,7 +68,7 @@ private:
 
 public:
 
-    explicit GameClipContainer(Window &window);
+    explicit GameClipContainer(WindowManager& window);
 
     void Render(const Transform4x4f &parentTrans) override;
 

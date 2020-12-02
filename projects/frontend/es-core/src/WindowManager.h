@@ -9,18 +9,18 @@
 
 class GuiInfoPopup;
 
-class Window
+class WindowManager
 {
   public:
     /*!
      * @brief Default constructor
      */
-    Window();
+    WindowManager();
 
     /*!
      * @brief Default destructor
      */
-    ~Window();
+    ~WindowManager();
 
     void pushGui(Gui* gui);
 

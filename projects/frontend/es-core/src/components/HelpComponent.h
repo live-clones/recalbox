@@ -13,7 +13,7 @@ class HelpComponent : public Component
      * @brief Default constructor
      * @param window Target window
      */
-    explicit HelpComponent(Window&window);
+    explicit HelpComponent(WindowManager&window);
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.

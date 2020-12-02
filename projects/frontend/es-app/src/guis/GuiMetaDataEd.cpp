@@ -16,7 +16,7 @@
 #include "games/MetadataFieldDescriptor.h"
 #include "GuiScraperSingleGameRun.h"
 
-GuiMetaDataEd::GuiMetaDataEd(Window& window,
+GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                              SystemManager& systemManager,
                              FileData& game,
                              IGameListView* gamelistview,

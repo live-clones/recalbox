@@ -11,22 +11,22 @@ class ButtonComponent;
 class GuiMsgBox : public Gui
 {
   public:
-    GuiMsgBox(Window& window, const std::string& text,
+    GuiMsgBox(WindowManager& window, const std::string& text,
               const std::string& name1, const std::function<void()>& func1,
               const std::string& name2, const std::function<void()>& func2,
               const std::string& name3, const std::function<void()>& func3,
               TextAlignment align = TextAlignment::Center);
-    GuiMsgBox(Window& window, const std::string& text,
+    GuiMsgBox(WindowManager& window, const std::string& text,
               const std::string& name1, const std::function<void()>& func1,
               const std::string& name2, const std::function<void()>& func2);
-    GuiMsgBox(Window& window, const std::string& text,
+    GuiMsgBox(WindowManager& window, const std::string& text,
               const std::string& name1, const std::function<void()>& func1);
-    GuiMsgBox(Window& window, const std::string& text,
+    GuiMsgBox(WindowManager& window, const std::string& text,
               const std::string& name1,
               TextAlignment align);
-    GuiMsgBox(Window& window, const std::string& text,
+    GuiMsgBox(WindowManager& window, const std::string& text,
               const std::string& name1);
-    GuiMsgBox(Window& window, const std::string& text);
+    GuiMsgBox(WindowManager& window, const std::string& text);
 
   protected:
     bool ProcessInput(const InputCompactEvent& event) override;
@@ -34,7 +34,7 @@ class GuiMsgBox : public Gui
     bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
 
   private:
-    explicit GuiMsgBox(Window& window);
+    explicit GuiMsgBox(WindowManager& window);
 
     void CloseAndCall(const std::function<void()>& func);
 

@@ -15,7 +15,7 @@ class OptionListComponent;
 class GuiNetPlayClientPasswords : public Gui
 {
   public:
-    explicit GuiNetPlayClientPasswords(Window& window, LobbyGame& lobbygame);
+    explicit GuiNetPlayClientPasswords(WindowManager& window, LobbyGame& lobbygame);
 
     bool getHelpPrompts(Help& help) override;
 

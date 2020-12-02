@@ -7,7 +7,7 @@
 #include "Input.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_joystick.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include <algorithm>
 #include <guis/GuiInfoPopup.h>
 #include <utils/locale/LocaleHelper.h>
@@ -68,7 +68,7 @@ void InputManager::Finalize()
   FinalizeSDL2JoystickSystem();
 }
 
-void InputManager::Initialize(Window* window, bool padplugged)
+void InputManager::Initialize(WindowManager* window, bool padplugged)
 {
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
 
@@ -136,7 +136,7 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
   return result;
 }
 
-void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, Window* window, bool padplugged)
+void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, WindowManager* window, bool padplugged)
 {
   int numJoysticks = SDL_NumJoysticks();
   for (int i = 0; i < numJoysticks; i++)
@@ -326,7 +326,7 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   return mKeyboard.ConvertToCompact(event);
 }
 
-InputCompactEvent InputManager::ManageSDLEvent(Window* window, const SDL_Event& ev)
+InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_Event& ev)
 {
   switch (ev.type)
   {

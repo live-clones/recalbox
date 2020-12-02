@@ -10,7 +10,7 @@ class IGameListView;
 class GuiGamelistOptions : public Gui, private GuiMetaDataEd::IMetaDataAction
 {
 public:
-	GuiGamelistOptions(Window&window, SystemData& system, SystemManager& systemManager);
+	GuiGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager);
 	~GuiGamelistOptions() override;
 
 	void save();

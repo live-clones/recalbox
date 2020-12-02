@@ -13,7 +13,7 @@ class SystemData;
 class ViewController : public StaticLifeCycleControler<ViewController>, public Gui, private INoCopy
 {
 public:
-	ViewController(Window& window, SystemManager& systemManager);
+	ViewController(WindowManager& window, SystemManager& systemManager);
   ~ViewController() override = default;
 
 	/*!

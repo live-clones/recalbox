@@ -14,7 +14,7 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    GuiMenuThemeConfiguration(Window& window, const std::string& theme);
+    GuiMenuThemeConfiguration(WindowManager& window, const std::string& theme);
 
     //! Destructor
     ~GuiMenuThemeConfiguration() override;

@@ -11,7 +11,7 @@
 class ClippingContainer : public Component {
 
 public:
-    ClippingContainer(Window &window);
+    ClippingContainer(WindowManager& window);
 
     void Render(const Transform4x4f &parentTrans) override;
 

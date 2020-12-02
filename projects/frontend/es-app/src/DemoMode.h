@@ -12,7 +12,7 @@ class DemoMode
 {
   private:
     //! Window
-    Window& mWindow;
+    WindowManager& mWindow;
     //! SystemManager instance
     SystemManager& mSystemManager;
 
@@ -91,7 +91,7 @@ class DemoMode
 
 public:
     //! Default constructor
-    explicit DemoMode(Window& window, SystemManager& systemManager);
+    explicit DemoMode(WindowManager& window, SystemManager& systemManager);
 
     /*!
      * @brief Return true is the uer set the screensaver to "demo"

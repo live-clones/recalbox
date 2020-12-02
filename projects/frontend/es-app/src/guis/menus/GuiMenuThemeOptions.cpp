@@ -6,7 +6,7 @@
 #include "GuiMenuThemeOptions.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuThemeOptions::GuiMenuThemeOptions(Window& window)
+GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
   : GuiMenuBase(window, _("THEME"))
   , mReloadRequired(false)
 {

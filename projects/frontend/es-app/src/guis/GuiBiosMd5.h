@@ -73,12 +73,12 @@ class GuiBiosMd5 : public Gui
      * @param window Main window
      * @param bios Single bios object
      */
-    GuiBiosMd5(Window& window, const Bios& bios);
+    GuiBiosMd5(WindowManager& window, const Bios& bios);
 
     /*!
      * @brief Multi-bios constructor
      * @param window Main window
      * @param biosList Bios list object
      */
-    GuiBiosMd5(Window& window, const BiosList& biosList);
+    GuiBiosMd5(WindowManager& window, const BiosList& biosList);
 };

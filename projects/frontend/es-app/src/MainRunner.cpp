@@ -172,7 +172,7 @@ MainRunner::ExitState MainRunner::Run()
     mNotificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
-    Window::Finalize();
+    WindowManager::Finalize();
     mApplicationWindow = nullptr;
 
     switch(exitState)
@@ -313,7 +313,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   }
 }
 
-void MainRunner::CheckAndInitializeInput(Window& window)
+void MainRunner::CheckAndInitializeInput(WindowManager& window)
 {
   // Choose which GUI to open depending on if an input configuration already exists
   LOG(LogDebug) << "Preparing GUI";
@@ -323,7 +323,7 @@ void MainRunner::CheckAndInitializeInput(Window& window)
     window.pushGui(new GuiDetectDevice(window, true, [] { ViewController::Instance().goToStart(); }));
 }
 
-void MainRunner::CheckFirstTimeWizard(Window& window)
+void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
   if (RecalboxConf::Instance().GetFirstTimeUse())
   {
@@ -351,7 +351,7 @@ void MainRunner::CheckFirstTimeWizard(Window& window)
   }
 }
 
-void MainRunner::CheckUpdateMessage(Window& window)
+void MainRunner::CheckUpdateMessage(WindowManager& window)
 {
   // Push a message box with the whangelog if Recalbox has been updated
   Path flag(sUpgradeFileFlag);

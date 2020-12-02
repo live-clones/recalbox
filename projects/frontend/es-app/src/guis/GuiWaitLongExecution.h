@@ -28,7 +28,7 @@ template<typename intype, typename outtype> class ILongExecution
 template<typename intype, typename outtype> class GuiWaitLongExecution : public Gui, public Thread, private ISynchronousEvent
 {
   public:
-    explicit GuiWaitLongExecution(Window& window, ILongExecution<intype, outtype>& executor)
+    explicit GuiWaitLongExecution(WindowManager& window, ILongExecution<intype, outtype>& executor)
       : Gui(window)
       , mExecutor(executor)
       , mParameter()

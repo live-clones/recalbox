@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <Window.h>
+#include <WindowManager.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Thread.h>
@@ -18,7 +18,7 @@ class NetPlayThread: private Thread, private ISynchronousEvent
      * @brief Constructor
      * @param window main window
      */
-    explicit NetPlayThread(Window&window);
+    explicit NetPlayThread(WindowManager&window);
 
     /*!
      * @brief Destructor
@@ -44,7 +44,7 @@ class NetPlayThread: private Thread, private ISynchronousEvent
 
   private:
     //! Attached window
-    Window& mWindow;
+    WindowManager& mWindow;
 
     //! SDL Event sender
     SyncronousEvent mSender;

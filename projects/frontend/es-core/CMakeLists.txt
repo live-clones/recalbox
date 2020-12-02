@@ -20,7 +20,7 @@ set(CORE_HEADERS
 		src/RootFolders.h
         src/themes/MenuThemeData.h
 		src/VideoEngine.h
-		src/Window.h
+        src/WindowManager.h
 		src/utils/sdl2/ISynchronousEvent.h
 		src/utils/sdl2/ISyncTimer.h
 		src/utils/sdl2/SyncronousEventService.h
@@ -177,7 +177,7 @@ set(CORE_SOURCES
 		src/RootFolders.cpp
         src/themes/MenuThemeData.cpp
 		src/VideoEngine.cpp
-		src/Window.cpp
+        src/WindowManager.cpp
 		src/utils/sdl2/SyncTimer.cpp
 		src/utils/sdl2/SyncronousEventService.cpp
 		src/utils/sdl2/SyncronousEvent.cpp

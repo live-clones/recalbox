@@ -4,7 +4,7 @@
 #include <utils/cplusplus/INoCopy.h>
 #include <RecalboxConf.h>
 #include "games/RootFolderData.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "PlatformId.h"
 #include "themes/ThemeData.h"
 #include "games/FileSorts.h"
@@ -225,15 +225,15 @@ class SystemData : private INoCopy
     int FavoritesCount() const;
     int HiddenCount() const;
 
-    void RunGame(Window& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
+    void RunGame(WindowManager& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
 
     // Load or re-load theme.
     void loadTheme();
 
     const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
 
-    static std::string demoInitialize(Window& window);
-    static void demoFinalize(Window& window);
+    static std::string demoInitialize(WindowManager& window);
+    static void demoFinalize(WindowManager& window);
     bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
     //! Is this system the "Favorite" system?

@@ -1,10 +1,10 @@
 #include <utils/Strings.h>
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "themes/MenuThemeData.h"
 
-ButtonComponent::ButtonComponent(Window&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
+ButtonComponent::ButtonComponent(WindowManager&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
   : Component(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mFocused(false),

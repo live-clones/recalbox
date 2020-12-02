@@ -9,7 +9,7 @@
 #include "GuiScraperOptions.h"
 #include "MenuMessages.h"
 
-GuiScraperSelect::GuiScraperSelect(Window& window, SystemManager& systemManager)
+GuiScraperSelect::GuiScraperSelect(WindowManager& window, SystemManager& systemManager)
   :  Gui(window),
      mSystemManager(systemManager),
      mMenu(window, _("SCRAPER"))

@@ -23,7 +23,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <usernotifications/NotificationManager.h>
 
-ViewController::ViewController(Window& window, SystemManager& systemManager)
+ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController"),
 	  Gui(window),
 	  mSystemManager(systemManager),

@@ -38,7 +38,7 @@ class AudioManager : private ISynchronousEvent
     std::map<AudioHandle, Music*> mMusicMap;
 
     //! Window to attach popups to
-    Window& mWindow;
+    WindowManager& mWindow;
 
     //! Current playing music
     AudioHandle mCurrentMusic;
@@ -103,7 +103,7 @@ class AudioManager : private ISynchronousEvent
      * @brief Constructor - act as a singleton (Multiple instance is not possible)
      * That is, the application can control the lifecycle of this object
      */
-    explicit AudioManager(Window& window);
+    explicit AudioManager(WindowManager& window);
 
     /*!
      * @brief Singleton instance

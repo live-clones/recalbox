@@ -10,7 +10,7 @@
 #include "GuiMenuSound.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuSound::GuiMenuSound(Window& window)
+GuiMenuSound::GuiMenuSound(WindowManager& window)
   : GuiMenuBase(window, _("SOUND SETTINGS"))
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

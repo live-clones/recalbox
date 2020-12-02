@@ -16,7 +16,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-GuiUpdateRecalbox::GuiUpdateRecalbox(Window& window, const std::string& url, const std::string& newVersion)
+GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& url, const std::string& newVersion)
   : Gui(window)
   , mUrl(url)
   , mTotalSize(0)

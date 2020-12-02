@@ -17,7 +17,7 @@
 #include "themes/MenuThemeData.h"
 #include "MenuMessages.h"
 
-GuiScraperRun::GuiScraperRun(Window&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)
+GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)
   :	Gui(window),
     mSystemManager(systemManager),
     mSearchQueue(systems),

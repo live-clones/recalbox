@@ -22,7 +22,7 @@ class ProgressBarComponent : public Component
     void Render(const Transform4x4f& parentTrans) override;
 
   public:
-    ProgressBarComponent(Window&window, long long maxvalue);
+    ProgressBarComponent(WindowManager&window, long long maxvalue);
 
 	  void setMaxValue(long long maxvalue)
     {

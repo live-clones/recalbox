@@ -17,7 +17,7 @@ struct AnimationDef
 class AnimatedImageComponent : public Component
 {
 public:
-	explicit AnimatedImageComponent(Window&window);
+	explicit AnimatedImageComponent(WindowManager&window);
 	
 	void load(const AnimationDef* def); // no reference to def is kept after loading is complete
 

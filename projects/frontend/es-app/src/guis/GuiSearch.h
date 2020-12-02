@@ -18,7 +18,7 @@
 class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
 {
   public:
-    GuiSearch(Window& window, SystemManager& systemManager);
+    GuiSearch(WindowManager& window, SystemManager& systemManager);
 
     ~GuiSearch() override;
 

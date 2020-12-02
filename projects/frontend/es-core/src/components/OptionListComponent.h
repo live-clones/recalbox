@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/base/Component.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "components/TextComponent.h"
 #include "components/ImageComponent.h"
 #include "components/MenuComponent.h"
@@ -40,7 +40,7 @@ private:
 		OptionListComponent<T>* mParent;
 
 	public:
-		OptionListPopup(Window& window, OptionListComponent<T>* parent, const std::string& title)
+		OptionListPopup(WindowManager& window, OptionListComponent<T>* parent, const std::string& title)
 		  : Gui(window),
 			  mMenu(window, title),
 			  mParent(parent)
@@ -143,7 +143,7 @@ private:
 	};
 
 public:
-	OptionListComponent(Window& window, const std::string& name, bool multiSelect, unsigned int font_size)
+	OptionListComponent(WindowManager& window, const std::string& name, bool multiSelect, unsigned int font_size)
 	  : Component(window),
       mMultiSelect(multiSelect),
       mName(name),
@@ -184,7 +184,7 @@ public:
 
 		setSize(mLeftArrow.getSize().x() + mRightArrow.getSize().x(), font->getHeight());
 	}
-  OptionListComponent(Window&window, const std::string& name, bool multiSelect)
+  OptionListComponent(WindowManager&window, const std::string& name, bool multiSelect)
     : OptionListComponent(window, name, multiSelect, FONT_SIZE_MEDIUM)
   {
   }

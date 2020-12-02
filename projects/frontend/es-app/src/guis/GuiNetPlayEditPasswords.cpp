@@ -6,7 +6,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "Settings.h"
 
-GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(Window& window)
+GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
   : Gui(window),
     mCurrentPasswordIndex(0),
     mMenu(window, _("PREDEFINED PASSWORDS"))

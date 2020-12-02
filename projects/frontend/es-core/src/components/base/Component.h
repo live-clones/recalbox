@@ -9,7 +9,7 @@
 #include <functional>
 #include <vector>
 
-class Window;
+class WindowManager;
 class Animation;
 class AnimationController;
 class ThemeData;
@@ -22,7 +22,7 @@ class ThemeData;
 class Component: public IComponent
 {
   public:
-    explicit Component(Window& window);
+    explicit Component(WindowManager& window);
     virtual ~Component();
 
     /*!
@@ -182,7 +182,7 @@ class Component: public IComponent
     Vector2f denormalise(float x, float y);
     Vector2f denormalise(const Vector2f& value);
 
-    Window& mWindow;
+    WindowManager& mWindow;
     Component* mParent;
 
     Vector3f mPosition;

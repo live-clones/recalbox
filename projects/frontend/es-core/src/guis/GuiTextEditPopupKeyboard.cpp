@@ -4,8 +4,8 @@
 #include <RecalboxConf.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(Window&window, const std::string& title, const std::string& initValue,
-	const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
+GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const std::string& title, const std::string& initValue,
+                                                   const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
 	: Gui(window),
 	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 4)),

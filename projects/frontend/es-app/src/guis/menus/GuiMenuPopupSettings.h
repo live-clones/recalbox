@@ -14,7 +14,7 @@ class GuiMenuPopupSettings : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuPopupSettings(Window& window);
+    explicit GuiMenuPopupSettings(WindowManager& window);
 
   private:
     //! Help popup time

@@ -7,7 +7,7 @@
 #include "components/ComponentList.h"
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "themes/MenuThemeData.h"
 #include "guis/GuiMsgBoxScroll.h"
 #include "DateTimeComponent.h"
@@ -15,17 +15,17 @@
 class ButtonComponent;
 class ImageComponent;
 
-std::shared_ptr<ComponentGrid> makeButtonGrid(Window&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(Window&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
-std::shared_ptr<ImageComponent> makeArrow(Window&window);
+std::shared_ptr<ComponentGrid> makeButtonGrid(WindowManager&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
+std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(WindowManager&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
+std::shared_ptr<ImageComponent> makeArrow(WindowManager&window);
 
 #define TITLE_VERT_PADDING (Renderer::getDisplayHeightAsFloat()*0.0637f)
 
 class MenuComponent : public Component
 {
   public:
-    MenuComponent(Window&window, const std::string& title, const std::shared_ptr<Font>& titleFont);
-    MenuComponent(Window&window, const std::string& title)
+    MenuComponent(WindowManager&window, const std::string& title, const std::shared_ptr<Font>& titleFont);
+    MenuComponent(WindowManager&window, const std::string& title)
       : MenuComponent(window, title, Font::get(FONT_SIZE_LARGE))
     {
     }

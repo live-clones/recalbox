@@ -1,6 +1,6 @@
 #include <string>
 #include <guis/GuiDetectDevice.h>
-#include <Window.h>
+#include <WindowManager.h>
 #include <Renderer.h>
 #include <guis/GuiInputConfig.h>
 #include <components/TextComponent.h>
@@ -9,7 +9,7 @@
 
 #define HOLD_TIME 1000
 
-GuiDetectDevice::GuiDetectDevice(Window& window, bool firstRun, const std::function<void()>& doneCallback)
+GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std::function<void()>& doneCallback)
   : Gui(window),
     mFirstRun(firstRun),
 	  mBackground(window, Path(":/frame.png")),

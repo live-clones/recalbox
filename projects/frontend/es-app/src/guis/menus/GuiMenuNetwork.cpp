@@ -11,7 +11,7 @@
 #include "guis/MenuMessages.h"
 #include <guis/GuiArcadeVirtualKeyboard.h>
 
-GuiMenuNetwork::GuiMenuNetwork(Window& window)
+GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   : GuiMenuBase(window, _("NETWORK SETTINGS"))
   , mCurrentEdition(EditedText::None)
 {

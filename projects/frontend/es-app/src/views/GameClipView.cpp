@@ -12,16 +12,19 @@
 #include "utils/locale/LocaleHelper.h"
 #include <usernotifications/NotificationManager.h>
 
-GameClipView::GameClipView(Window &window, SystemManager &systemManager)
+GameClipView::GameClipView(WindowManager& window, SystemManager &systemManager)
         : Gui(window),
           mWindow(window),
           mSystemManager(systemManager),
           mRecalboxConf(RecalboxConf::Instance()),
+          mRandomDevice(),
           mRandomGenerator(mRandomDevice()),
           mGameRandomizer(0, 1U << 30U),
           mGameClipContainer(window),
-          systemIndex(-1) {
-    init();
+          systemIndex(-1),
+          mVideoDuration(0)
+{
+  init();
 }
 
 GameClipView::~GameClipView(){

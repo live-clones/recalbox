@@ -11,7 +11,7 @@
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
 
-GuiMenuUserInterface::GuiMenuUserInterface(Window& window, SystemManager& systemManager)
+GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("UI SETTINGS"))
   , mSystemManager(systemManager)
 {

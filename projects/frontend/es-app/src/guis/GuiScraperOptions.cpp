@@ -11,7 +11,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "Settings.h"
 
-GuiScraperOptions::GuiScraperOptions(Window& window, SystemManager& systemManager)
+GuiScraperOptions::GuiScraperOptions(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mMenu(window, _("SCRAPE NOW"))

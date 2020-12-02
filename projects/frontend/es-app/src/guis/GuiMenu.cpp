@@ -10,7 +10,7 @@
 
 #include "EmulationStation.h"
 #include "guis/GuiMenu.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "Settings.h"
 #include "recalbox/RecalboxSystem.h"
 #include "guis/GuiMsgBox.h"
@@ -42,7 +42,7 @@
 #include "guis/menus/GuiMenuNetwork.h"
 #include "guis/menus/GuiMenuSound.h"
 
-GuiMenu::GuiMenu(Window& window, SystemManager& systemManager)
+GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mMenu(window, _("MAIN MENU")),
@@ -1389,7 +1389,7 @@ bool GuiMenu::getHelpPrompts(Help& help)
   return true;
 }
 
-std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(Window& window, const std::string& configname)
+std::shared_ptr<OptionListComponent<std::string>> GuiMenu::createRatioOptionList(WindowManager& window, const std::string& configname)
 {
   auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
   std::string currentRatio = RecalboxConf::Instance().AsString(configname + ".ratio");

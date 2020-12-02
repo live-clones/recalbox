@@ -14,7 +14,7 @@
 #include "GuiQuit.h"
 #include "GuiMenu.h"
 
-GuiGamelistOptions::GuiGamelistOptions(Window& window, SystemData& system, SystemManager& systemManager)
+GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
   :	Gui(window),
     mSystem(system),
     mSystemManager(systemManager),

@@ -413,7 +413,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      * @param initValue Initial value
      * @param okCallback Callback interface
      */
-    GuiArcadeVirtualKeyboard(Window& window, const std::string& title, const std::string& initValue,
+    GuiArcadeVirtualKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
                              IGuiArcadeVirtualKeyboardInterface* okCallback);
 
     /*!

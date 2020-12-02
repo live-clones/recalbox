@@ -4,7 +4,7 @@
 #include "components/MenuComponent.h"
 #include "components/OptionListComponent.h"
 #include <functional>
-#include <Window.h>
+#include <WindowManager.h>
 #include <systems/SystemData.h>
 #include "guis/GuiSettings.h"
 
@@ -23,7 +23,7 @@ class StrInputConfig
 class GuiMenu : public Gui
 {
 public:
-	GuiMenu(Window& window, SystemManager& systemManager);
+	GuiMenu(WindowManager& window, SystemManager& systemManager);
 	~GuiMenu() override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
@@ -56,8 +56,8 @@ private:
   static const Path sShadersPath;
   static Path::PathList GetShaderList();
   static void ReadShaderFolder(const Path& root, Path::PathList& glslp);
-	static std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(Window& window,
-                                                                        const std::string& configname) ;
+	static std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(WindowManager& window,
+                                                                                 const std::string& configname) ;
 
 	void popSystemConfigurationGui(SystemData *systemData) const;
 

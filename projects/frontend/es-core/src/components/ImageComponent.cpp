@@ -12,7 +12,7 @@ Vector2i ImageComponent::getTextureSize() const {
     return Vector2i::Zero();
 }
 
-ImageComponent::ImageComponent(Window&window, bool forceLoad, bool dynamic)
+ImageComponent::ImageComponent(WindowManager&window, bool forceLoad, bool dynamic)
   : Component(window),
     mTargetSize(0, 0),
     mPath(""),

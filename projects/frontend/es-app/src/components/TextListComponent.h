@@ -46,7 +46,7 @@ public:
 	using IList<TextListData, T>::isScrolling;
 	using IList<TextListData, T>::stopScrolling;
 
-	explicit TextListComponent(Window& window);
+	explicit TextListComponent(WindowManager& window);
 
 	void SetOverlayInterface(ITextListComponentOverlay<T>* overlay) { mOverlay = overlay; }
 
@@ -123,7 +123,7 @@ private:
 };
 
 template <typename T>
-TextListComponent<T>::TextListComponent(Window& window)
+TextListComponent<T>::TextListComponent(WindowManager& window)
   :	IList<TextListData, T>(window),
     mSelectorImage(window),
     mColors{ 0x0000FFFF, 0x00FF00FF},

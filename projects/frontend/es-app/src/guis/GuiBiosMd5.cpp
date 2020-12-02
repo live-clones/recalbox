@@ -8,7 +8,7 @@
 #include "components/MenuComponent.h" // for makeButtonGrid
 #include "GuiBiosMd5.h"
 
-GuiBiosMd5::GuiBiosMd5(Window& window, const Bios& bios)
+GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
   : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(3,4))
@@ -39,7 +39,7 @@ GuiBiosMd5::GuiBiosMd5(Window& window, const Bios& bios)
   mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString((int)list.size())));
 }
 
-GuiBiosMd5::GuiBiosMd5(Window& window, const BiosList& biosList)
+GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
   : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(3,4))

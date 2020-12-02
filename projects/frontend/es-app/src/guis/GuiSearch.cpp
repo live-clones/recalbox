@@ -18,7 +18,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::getDisplayHeightAsFloat()*0.0437f )
 
-GuiSearch::GuiSearch(Window& window, SystemManager& systemManager)
+GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
 		: Gui(window),
 		  mSystemManager(systemManager),
 		  mBackground(window, Path(":/frame.png")),

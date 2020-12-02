@@ -7,7 +7,7 @@
 #include "GuiMenuScreensavers.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuScreensavers::GuiMenuScreensavers(Window& window, SystemManager& systemManager)
+GuiMenuScreensavers::GuiMenuScreensavers(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("SCREENSAVER"))
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

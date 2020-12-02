@@ -131,19 +131,19 @@ class MainRunner
      * @brief Check if Recalbox has been updated and push a display changelog popup
      * @param window Main window
      */
-    static void CheckUpdateMessage(Window& window);
+    static void CheckUpdateMessage(WindowManager& window);
 
     /*!
      * @brief Check if this is the first launch and run a wizard if required
      * @param window Main window
      */
-    static void CheckFirstTimeWizard(Window& window);
+    static void CheckFirstTimeWizard(WindowManager& window);
 
     /*!
      * @brief Initialize input configurations
      * @param window Main window
      */
-    static void CheckAndInitializeInput(Window& window);
+    static void CheckAndInitializeInput(WindowManager& window);
 
     /*!
      * @brief Main SDL event loop w/ UI update/refresh

@@ -11,7 +11,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <scraping/ScraperTools.h>
 
-GuiScraperSingleGameRun::GuiScraperSingleGameRun(Window&window, FileData& game, IScrappingComplete* notifier)
+GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, FileData& game, IScrappingComplete* notifier)
   : Gui(window),
     mGame(game),
     mNotifier(notifier),

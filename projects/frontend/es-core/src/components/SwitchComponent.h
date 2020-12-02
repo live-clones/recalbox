@@ -8,8 +8,8 @@
 class SwitchComponent : public Component
 {
 public:
-	explicit SwitchComponent(Window&window);
-  SwitchComponent(Window&window, bool state)
+	explicit SwitchComponent(WindowManager&window);
+  SwitchComponent(WindowManager&window, bool state)
     : SwitchComponent(window)
   {
     mInitialState = state;

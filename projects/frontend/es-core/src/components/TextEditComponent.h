@@ -11,7 +11,7 @@ class TextCache;
 class TextEditComponent : public Component, public IGuiArcadeVirtualKeyboardInterface
 {
 public:
-	explicit TextEditComponent(Window&window);
+	explicit TextEditComponent(WindowManager&window);
 	
 	void textInput(const char* text) override;
 	bool ProcessInput(const InputCompactEvent& event) override;

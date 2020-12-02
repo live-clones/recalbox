@@ -50,5 +50,5 @@ class GuiControlHints : public Gui
      * @brief Constructor
      * @param window Main window
      */
-    explicit GuiControlHints(Window& window, const Path& p2kPath);
+    explicit GuiControlHints(WindowManager& window, const Path& p2kPath);
 };

@@ -75,7 +75,7 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
      * @brief Constructor
      * @param window main ui window
      */
-    explicit GuiHashStart(Window& window, SystemManager& systemManager);
+    explicit GuiHashStart(WindowManager& window, SystemManager& systemManager);
 
     /*!
      * @brief Destructor

@@ -39,7 +39,7 @@ static const HashMap<HelpType, const char*>& IconPathMap()
   return sIconPathMap;
 }
 
-HelpComponent::HelpComponent(Window&window)
+HelpComponent::HelpComponent(WindowManager&window)
   : Component(window),
     mGrid(mWindow, Vector2i((int)Help::TypeCount() * 4, 1)),
     mScrolling(Scrolling::Initialize),

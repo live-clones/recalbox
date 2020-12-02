@@ -13,7 +13,7 @@ class SwitchComponent;
 class GuiMenuArcadeVirtualSystem : public Gui
 {
   public:
-    explicit GuiMenuArcadeVirtualSystem(Window& window, SystemManager& systemManager);
+    explicit GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager);
 
     bool getHelpPrompts(Help& help) override;
 

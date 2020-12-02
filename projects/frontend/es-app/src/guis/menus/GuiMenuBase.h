@@ -10,7 +10,7 @@ class GuiMenuBase : public Gui
 {
   public:
     //! Constructor
-    explicit GuiMenuBase(Window& window, const std::string& title);
+    explicit GuiMenuBase(WindowManager& window, const std::string& title);
 
     /*!
      * @brief Proces input

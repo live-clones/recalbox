@@ -37,7 +37,7 @@ class GameClipView : public Gui {
 private:
 
     //! Window
-    Window &mWindow;
+    WindowManager& mWindow;
 
     SystemManager &mSystemManager;
 
@@ -94,8 +94,8 @@ public:
     static bool IsGameClipEnabled();
 
     //! Default constructor
-    explicit GameClipView(Window &window, SystemManager &systemManager);
-    ~GameClipView();
+    explicit GameClipView(WindowManager& window, SystemManager &systemManager);
+    ~GameClipView() override;
 
     void Render(const Transform4x4f &parentTrans) override;
 

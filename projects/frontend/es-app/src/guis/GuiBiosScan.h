@@ -224,5 +224,5 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
      * @brief Constructor
      * @param window Main window
      */
-    explicit GuiBiosScan(Window& window, SystemManager& systemManager);
+    explicit GuiBiosScan(WindowManager& window, SystemManager& systemManager);
 };

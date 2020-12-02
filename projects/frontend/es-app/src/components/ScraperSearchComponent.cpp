@@ -13,7 +13,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-ScraperSearchComponent::ScraperSearchComponent(Window& window)
+ScraperSearchComponent::ScraperSearchComponent(WindowManager& window)
   : Component(window),
     mGrid(window, Vector2i(7, 6)),
     mBusyAnim(window)

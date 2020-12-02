@@ -29,7 +29,7 @@ class Wizard : public Gui
      * @param title Wizard title
      * @param pageCount Total page count
      */
-    Wizard(Window& window, const std::string& title, int pageCount);
+    Wizard(WindowManager& window, const std::string& title, int pageCount);
 
     /*!
      * @brief Called when a new page is displayed

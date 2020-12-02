@@ -5,7 +5,7 @@
 #include <input/InputCompactEvent.h>
 #include <help/Help.h>
 
-ComponentGrid::ComponentGrid(Window&window, const Vector2i& gridDimensions)
+ComponentGrid::ComponentGrid(WindowManager&window, const Vector2i& gridDimensions)
   : Component(window),
     mGridSize({ 0, 0}),
     mCursor(0, 0),

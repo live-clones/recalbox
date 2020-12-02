@@ -17,7 +17,7 @@ class GuiMenuUserInterface : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuUserInterface(Window& window, SystemManager& systemManager);
+    explicit GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager);
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.

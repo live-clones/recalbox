@@ -1,6 +1,6 @@
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiInputConfig.h>
-#include <Window.h>
+#include <WindowManager.h>
 #include <utils/Log.h>
 #include <components/TextComponent.h>
 #include <components/ImageComponent.h>
@@ -13,7 +13,7 @@ GuiInputConfig::~GuiInputConfig()
   mTargetDevice->SetConfiguringState(false);
 }
 
-GuiInputConfig::GuiInputConfig(Window&window, InputDevice* target, const std::function<void()>& doneCallback)
+GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const std::function<void()>& doneCallback)
   : Gui(window),
     mBackground(window, Path(":/frame.png")),
     mGrid(window, Vector2i(1, 5)),

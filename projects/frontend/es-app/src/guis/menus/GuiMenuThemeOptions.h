@@ -15,7 +15,7 @@ class GuiMenuThemeOptions : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuThemeOptions(Window& window);
+    explicit GuiMenuThemeOptions(WindowManager& window);
 
     //! Destructor
     ~GuiMenuThemeOptions() override;

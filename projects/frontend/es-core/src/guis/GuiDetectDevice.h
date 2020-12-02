@@ -10,7 +10,7 @@ class TextComponent;
 class GuiDetectDevice : public Gui
 {
 public:
-	GuiDetectDevice(Window& window, bool firstRun, const std::function<void()>& doneCallback);
+	GuiDetectDevice(WindowManager& window, bool firstRun, const std::function<void()>& doneCallback);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;

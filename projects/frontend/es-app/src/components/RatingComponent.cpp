@@ -2,9 +2,9 @@
 #include <components/RatingComponent.h>
 #include <themes/ThemeData.h>
 #include "Renderer.h"
-#include "Window.h"
+#include "WindowManager.h"
 
-RatingComponent::RatingComponent(Window&window, unsigned int color)
+RatingComponent::RatingComponent(WindowManager&window, unsigned int color)
   : Component(window),
     mVertices(),
     mColor(color),
@@ -17,7 +17,7 @@ RatingComponent::RatingComponent(Window&window, unsigned int color)
 	updateVertices();
 }
 
-RatingComponent::RatingComponent(Window&window)
+RatingComponent::RatingComponent(WindowManager&window)
   : RatingComponent(window, 0xFFFFFFFF)
 {
 }

@@ -6,7 +6,7 @@
 #include "guis/Gui.h"
 #include "components/NinePatchComponent.h"
 #include "components/ComponentGrid.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "utils/Log.h"
 #include "utils/math/Vectors.h"
 
@@ -33,7 +33,7 @@ class GuiInfoPopup : public Gui
       Pads,     //!< Joystick logo
     };
 
-    GuiInfoPopup(Window& window, const std::string& message, int duration, PopupType icon);
+    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon);
     ~GuiInfoPopup() override = default;
     void Update(int delta) override;
     void Render(const Transform4x4f& parentTrans) override;

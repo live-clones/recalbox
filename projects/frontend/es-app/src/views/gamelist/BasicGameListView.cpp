@@ -11,7 +11,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
 
-BasicGameListView::BasicGameListView(Window& window, SystemManager& systemManager, SystemData& system)
+BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
 	: ISimpleGameListView(window, systemManager, system),
 	  mList(window),
 	  mHasGenre(false),

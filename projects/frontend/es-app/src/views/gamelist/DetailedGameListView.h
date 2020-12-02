@@ -11,7 +11,7 @@
 class DetailedGameListView : public BasicGameListView, public ITextListComponentOverlay<FileData*>
 {
 public:
-    DetailedGameListView(Window& window, SystemManager& systemManager, SystemData& system);
+    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
 
     ~DetailedGameListView();
 

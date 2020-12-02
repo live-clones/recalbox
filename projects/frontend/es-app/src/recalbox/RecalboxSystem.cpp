@@ -160,7 +160,7 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
   return false;
 }
 
-bool RecalboxSystem::launchKodi(Window& window)
+bool RecalboxSystem::launchKodi(WindowManager& window)
 {
   LOG(LogInfo) << "Attempting to launch kodi...";
 
@@ -170,7 +170,7 @@ bool RecalboxSystem::launchKodi(Window& window)
   std::string commandline = InputManager::GenerateConfiggenConfiguration(controllers);
   std::string command = "configgen -system kodi -rom '' " + commandline;
 
-  Window::Finalize();
+  WindowManager::Finalize();
 
   NotificationManager::Instance().NotifyKodi();
 

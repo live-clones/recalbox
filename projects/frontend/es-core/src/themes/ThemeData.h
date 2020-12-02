@@ -15,7 +15,7 @@ class Sound;
 class ImageComponent;
 class NinePatchComponent;
 class TextComponent;
-class Window;
+class WindowManager;
 
 class ThemeSet
 {
@@ -61,7 +61,7 @@ class ThemeData
     // If expectedType is an empty string, will do no type checking.
     const ThemeElement* getElement(const std::string& view, const std::string& element, const std::string& expectedType) const;
 
-    static std::vector<Component*> makeExtras(const ThemeData& theme, const std::string& view, Window& window);
+    static std::vector<Component*> makeExtras(const ThemeData& theme, const std::string& view, WindowManager& window);
 
     static const ThemeData& getDefault();
     static const ThemeData& getCurrent();

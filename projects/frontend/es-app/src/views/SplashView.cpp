@@ -8,7 +8,7 @@
 
 #define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::getDisplayHeightAsFloat(), Renderer::getDisplayWidthAsFloat())))
 
-SplashView::SplashView(Window& window)
+SplashView::SplashView(WindowManager& window)
   : Gui(window),
     mLogo(window, true, true),
     mLoading(window, _("LOADING..."), Font::get(Renderer::IsSmallResolution() ? (int)(FONT_SIZE_LOADING) : (int)(FONT_SIZE_MEDIUM)), 0),

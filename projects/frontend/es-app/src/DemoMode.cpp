@@ -7,7 +7,7 @@
 #include "systems/SystemManager.h"
 #include "MainRunner.h"
 
-DemoMode::DemoMode(Window& window, SystemManager& systemManager)
+DemoMode::DemoMode(WindowManager& window, SystemManager& systemManager)
   : mWindow(window),
     mSystemManager(systemManager),
     mSettings(Settings::Instance()),

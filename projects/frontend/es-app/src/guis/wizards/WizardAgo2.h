@@ -23,7 +23,7 @@ class WizardAGO2: public Wizard
       Count,
     };
 
-    explicit WizardAGO2(Window& window)
+    explicit WizardAGO2(WindowManager& window)
       : Wizard(window, _("WELCOME TO RECALBOX!"), int(Pages::Count))
     {
     }

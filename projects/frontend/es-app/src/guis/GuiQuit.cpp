@@ -6,7 +6,7 @@
 #include <MainRunner.h>
 #include "GuiQuit.h"
 
-GuiQuit::GuiQuit(Window& window)
+GuiQuit::GuiQuit(WindowManager& window)
   : GuiSettings(window, _("QUIT"))
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -63,7 +63,7 @@ GuiQuit::GuiQuit(Window& window)
   addRow(row);
 }
 
-void GuiQuit::PushQuitGui(Window& window)
+void GuiQuit::PushQuitGui(WindowManager& window)
 {
   window.pushGui(new GuiQuit(window));
 }

@@ -21,7 +21,7 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @brief Constructor
      * @param window main Window
      */
-    explicit Upgrade(Window& window);
+    explicit Upgrade(WindowManager& window);
 
     /*!
      * @brief Destructor
@@ -75,7 +75,7 @@ class Upgrade: private Thread, private ISynchronousEvent
     static constexpr const char* sReleasenotePatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.releasenotes";
 
     //! MainWindow
-    Window& mWindow;
+    WindowManager& mWindow;
     //! Syncronous event to display popup
     SyncronousEvent mSender;
     //! Signal used to stop the thread

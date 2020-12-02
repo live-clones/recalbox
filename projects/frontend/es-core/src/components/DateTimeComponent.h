@@ -18,8 +18,8 @@ public:
 		Year,
 	};
 
-           DateTimeComponent(Window&window, Display dispMode);
-  explicit DateTimeComponent(Window&window)
+           DateTimeComponent(WindowManager&window, Display dispMode);
+  explicit DateTimeComponent(WindowManager&window)
     : DateTimeComponent(window, Display::Date)
   {
   }

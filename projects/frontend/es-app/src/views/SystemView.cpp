@@ -15,7 +15,7 @@
 const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
-SystemView::SystemView(Window& window, SystemManager& systemManager)
+SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always),
     mSystemManager(systemManager),
     mCarousel(),

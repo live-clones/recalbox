@@ -10,7 +10,7 @@
 #include "GuiNetPlayEditPasswords.h"
 #include <views/ViewController.h>
 
-GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(Window& window, FileData& game)
+GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData& game)
   : Gui(window),
     mGame(game),
     mMenu(window, _("GAME PROTECTION"))

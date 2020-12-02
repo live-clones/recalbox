@@ -17,7 +17,7 @@ class AnimatedImageComponent;
 class ScraperSearchComponent : public Component
 {
   public:
-    explicit ScraperSearchComponent(Window& window);
+    explicit ScraperSearchComponent(WindowManager& window);
 
     bool ProcessInput(const InputCompactEvent& event) override;
 

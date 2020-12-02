@@ -1,13 +1,13 @@
 #include <algorithm>
 #include "Component.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "animations/AnimationController.h"
 #include "themes/ThemeData.h"
 #include "Settings.h"
 
-Component::Component(Window& window)
+Component::Component(WindowManager& window)
   : mTransform(Transform4x4f::Identity()),
     mAnimationMap{ nullptr },
     mChildren(nullptr),

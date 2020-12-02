@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "systems/SystemData.h"
 
-class Window;
+class WindowManager;
 class Component;
 class FileData;
 class ThemeData;
@@ -35,7 +35,7 @@ class IGameListView : public Gui
       Update, //!< Update lists
     };
 
-    IGameListView(Window&window, SystemData& system)
+    IGameListView(WindowManager&window, SystemData& system)
       : Gui(window),
         mSystem(system),
         mTheme(nullptr)

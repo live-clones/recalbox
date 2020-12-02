@@ -11,7 +11,7 @@ class SystemManager;
 class ISimpleGameListView : public IGameListView
 {
 public:
-	ISimpleGameListView(Window& window, SystemManager& systemManager, SystemData& system);
+	ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
 	~ISimpleGameListView() override = default;
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed

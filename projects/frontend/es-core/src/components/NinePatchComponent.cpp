@@ -1,10 +1,10 @@
 #include "components/NinePatchComponent.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "utils/Log.h"
 #include "Renderer.h"
 #include "themes/ThemeData.h"
 
-NinePatchComponent::NinePatchComponent(Window& window)
+NinePatchComponent::NinePatchComponent(WindowManager& window)
   : Component(window),
     mVertices(),
     mColors(),
@@ -14,7 +14,7 @@ NinePatchComponent::NinePatchComponent(Window& window)
 {
 }
 
-NinePatchComponent::NinePatchComponent(Window& window, const Path& path)
+NinePatchComponent::NinePatchComponent(WindowManager& window, const Path& path)
 	: NinePatchComponent(window)
 {
   mPath = path;

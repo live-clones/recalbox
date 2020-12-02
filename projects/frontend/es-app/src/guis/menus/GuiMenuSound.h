@@ -15,7 +15,7 @@ class GuiMenuSound : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuSound(Window& window);
+    explicit GuiMenuSound(WindowManager& window);
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.

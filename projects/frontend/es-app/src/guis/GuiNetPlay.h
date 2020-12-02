@@ -60,7 +60,7 @@ class LobbyGame
 class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
 {
   public:
-    explicit GuiNetPlay(Window&window, SystemManager& systemManager);
+    explicit GuiNetPlay(WindowManager&window, SystemManager& systemManager);
 
     ~GuiNetPlay() override;
 

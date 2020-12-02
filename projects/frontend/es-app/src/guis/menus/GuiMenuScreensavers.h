@@ -15,7 +15,7 @@ class GuiMenuScreensavers : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuScreensavers(Window& window, SystemManager& systemManager);
+    explicit GuiMenuScreensavers(WindowManager& window, SystemManager& systemManager);
 
   private:
     //! Time before screensaver starts

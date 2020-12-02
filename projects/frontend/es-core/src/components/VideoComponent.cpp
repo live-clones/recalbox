@@ -7,7 +7,7 @@
 #include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 
-VideoComponent::VideoComponent(Window&window)
+VideoComponent::VideoComponent(WindowManager&window)
 : Component(window),
   mState(State::Uninitialized),
   mEffect(Effect::BreakingNews),

@@ -11,7 +11,7 @@ class TextComponent;
 class BusyComponent : public Component
 {
 public:
-	explicit BusyComponent(Window&window);
+	explicit BusyComponent(WindowManager&window);
 	~BusyComponent() override = default;
 
 	void onSizeChanged() override;

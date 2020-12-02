@@ -1,9 +1,9 @@
 #include "guis/GuiSettings.h"
-#include "Window.h"
+#include "WindowManager.h"
 #include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
-GuiSettings::GuiSettings(Window&window, const std::string& title)
+GuiSettings::GuiSettings(WindowManager&window, const std::string& title)
   : Gui(window),
     mMenu(window, title)
 {

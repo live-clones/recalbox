@@ -3,11 +3,11 @@
 //
 #pragma once
 
-#include <Window.h>
+#include <WindowManager.h>
 #include <systems/SystemManager.h>
 #include <views/ViewController.h>
 
-class ApplicationWindow: public Window
+class ApplicationWindow: public WindowManager
 {
   private:
     //! View controler
@@ -53,7 +53,7 @@ class ApplicationWindow: public Window
     bool AmIOnTopOfScreen(const Gui* ui) const override
     {
       if (HasGui())
-        return Window::AmIOnTopOfScreen(ui);
+        return WindowManager::AmIOnTopOfScreen(ui);
       else
         return &mViewController.CurrentUi() == ui;
     }

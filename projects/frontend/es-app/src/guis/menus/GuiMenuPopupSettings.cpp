@@ -6,7 +6,7 @@
 #include "GuiMenuPopupSettings.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuPopupSettings::GuiMenuPopupSettings(Window& window)
+GuiMenuPopupSettings::GuiMenuPopupSettings(WindowManager& window)
   : GuiMenuBase(window, _("POPUP SETTINGS"))
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

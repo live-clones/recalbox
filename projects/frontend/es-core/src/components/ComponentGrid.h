@@ -26,7 +26,7 @@ DEFINE_BITFLAG_ENUM(Borders, unsigned int)
 class ComponentGrid : public Component
 {
   public:
-    ComponentGrid(Window& window, const Vector2i& gridDimensions);
+    ComponentGrid(WindowManager& window, const Vector2i& gridDimensions);
 
     ~ComponentGrid() override;
 

@@ -6,7 +6,7 @@
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20
 
-ComponentList::ComponentList(Window&window)
+ComponentList::ComponentList(WindowManager&window)
    : IList<ComponentListRow, void*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::NeverLoop)
 {
 	mSelectorBarOffset = 0;

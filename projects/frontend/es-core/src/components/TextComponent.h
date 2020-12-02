@@ -13,10 +13,10 @@ class ThemeData;
 class TextComponent : public Component
 {
 public:
-	explicit TextComponent(Window&window);
-  TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color);
-  TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align);
-	TextComponent(Window&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
+	explicit TextComponent(WindowManager&window);
+  TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color);
+  TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align);
+	TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                 Vector3f pos, Vector2f size, unsigned int bgcolor);
 
 	void setFont(const std::shared_ptr<Font>& font);

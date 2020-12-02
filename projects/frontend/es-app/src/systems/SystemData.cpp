@@ -95,7 +95,7 @@ int SystemData::Run(const std::string& cmd_utf8, bool debug)
   return exitcode;
 }
 
-void SystemData::RunGame(Window& window,
+void SystemData::RunGame(WindowManager& window,
                          SystemManager& systemManager,
                          FileData& game,
                          const EmulatorData& emulator,
@@ -112,7 +112,7 @@ void SystemData::RunGame(Window& window,
 
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
-  Window::Finalize();
+  WindowManager::Finalize();
 
   std::string command = mDescriptor.Command();
   OverrideCommand(game.getPath(), command);
@@ -200,7 +200,7 @@ void SystemData::RunGame(Window& window,
   game.Metadata().SetLastplayedNow();
 }
 
-std::string SystemData::demoInitialize(Window&)
+std::string SystemData::demoInitialize(WindowManager&)
 {
   LOG(LogInfo) << "Entering demo mode...";
 
@@ -211,12 +211,12 @@ std::string SystemData::demoInitialize(Window&)
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
 
-  Window::Finalize();
+  WindowManager::Finalize();
 
   return controlersConfig;
 }
 
-void SystemData::demoFinalize(Window& window)
+void SystemData::demoFinalize(WindowManager& window)
 {
   // Reinit
   window.Initialize();

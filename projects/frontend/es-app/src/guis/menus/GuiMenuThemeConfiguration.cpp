@@ -6,7 +6,7 @@
 #include "GuiMenuThemeConfiguration.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(Window& window, const std::string& themeName)
+GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, const std::string& themeName)
   : GuiMenuBase(window, _("THEME CONFIGURATION"))
   , mThemeName(themeName)
   , mReloadRequired(false)

@@ -10,12 +10,12 @@
 class ImageComponent : public Component
 {
 public:
-  ImageComponent(Window&window, bool forceLoad, bool dynamic);
-  ImageComponent(Window&window, bool forceLoad)
+  ImageComponent(WindowManager&window, bool forceLoad, bool dynamic);
+  ImageComponent(WindowManager&window, bool forceLoad)
     : ImageComponent(window, forceLoad, true)
   {
   }
-  explicit ImageComponent(Window&window)
+  explicit ImageComponent(WindowManager&window)
     : ImageComponent(window, false, true)
   {
   }
