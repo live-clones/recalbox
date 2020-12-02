@@ -30,6 +30,7 @@ enum class Notification
     ConfigurationChanged = 0x20000, //!< The user changed something in the configuration.
     RunKodi              = 0x40000, //!< Run kodi!
     StartGameClip        = 0x60000, //!< Start a game clip
+    StopGameClip         = 0x60000, //!< Stop a game clip
 };
 
 DEFINE_BITFLAG_ENUM(Notification, int)

@@ -21,17 +21,20 @@
 #include "Settings.h"
 #include "RecalboxConf.h"
 
+class GameClipContainer : public Gui
+{
 
-class GameClipContainer : public Gui {
-
-private:
+  private:
 
     WindowManager& mWindow;
 
     void initMDLabels();
+
     void initMDValues();
-    std::vector<TextComponent *> getMDLabels();
-    std::vector<Component *> getMDValues();
+
+    std::vector<TextComponent*> getMDLabels();
+
+    std::vector<Component*> getMDValues();
 
     VideoComponent mVideo;
     ImageComponent mImage;
@@ -60,19 +63,20 @@ private:
     ImageComponent mBackground;
 
     ThemeExtras mThemeExtras;
-    FileData *mGame;
-    SystemData *mSystem;
+    FileData* mGame;
+    SystemData* mSystem;
 
-    void onThemeChanged(const ThemeData &theme);
+    void onThemeChanged(const ThemeData& theme);
+
     void initComponents();
 
-public:
+  public:
 
     explicit GameClipContainer(WindowManager& window);
 
-    void Render(const Transform4x4f &parentTrans) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
-    void setGameInfo(FileData *game);
+    void setGameInfo(FileData* game);
 
     void StopVideo();
 

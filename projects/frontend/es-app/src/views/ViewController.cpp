@@ -136,7 +136,9 @@ void ViewController::quitGameClipView()
 
 void ViewController::goToGameList(FileData *file) {
     mState.viewing = ViewMode::GameList;
-    goToGameList(file->getSystem());
+    SystemData* system = file->getSystem();
+    AudioManager::Instance().StartPlaying(system->getTheme());
+    goToGameList(system);
     IGameListView* view = getGameListView(file->getSystem()).get();
     view->setCursor(file);
 }

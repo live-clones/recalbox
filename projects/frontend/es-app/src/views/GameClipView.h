@@ -21,34 +21,38 @@
 #include "RecalboxConf.h"
 
 
-class GameClipView : public Gui {
-    enum class State {
+class GameClipView : public Gui
+{
+    enum class State
+    {
         NoGameSelected,
         InitPlaying,
         SetInHistory,
         Playing,
+        Quit,
     };
 
-    enum class Direction {
+    enum class Direction
+    {
         Next,
         Previous,
     };
 
-private:
+  private:
 
     //! Window
     WindowManager& mWindow;
 
-    SystemManager &mSystemManager;
+    SystemManager& mSystemManager;
 
-    RecalboxConf &mRecalboxConf;
+    RecalboxConf& mRecalboxConf;
 
-    std::vector<FileData *> mDemoFiles;
-    int mDemoFilesIndex =0;
+    std::vector<FileData*> mDemoFiles;
+    int mDemoFilesIndex = 0;
 
     static constexpr int MAX_HISTORY = 60;
     int mHistoryPosition = 0;
-    std::vector<FileData *> mHistory;
+    std::vector<FileData*> mHistory;
     //FileData *mHistory[MAX_HISTORY]{};
     Direction mDirection = Direction::Next;
 
@@ -59,7 +63,7 @@ private:
     //! Random repartition (game)
     std::uniform_int_distribution<int> mGameRandomizer;
 
-    FileData *mGame{};
+    FileData* mGame {};
     HighResolutionTimer mTimer;
 
     State mState = State::NoGameSelected;
@@ -68,44 +72,51 @@ private:
 
     int systemIndex;
 
-    int mSeed{};
+    int mSeed {};
 
-    int getFirstOccurenceInHistory(FileData *game);
+    int getFirstOccurenceInHistory(FileData* game);
 
-    void insertIntoHistory(FileData *game);
+    void insertIntoHistory(FileData* game);
 
     void init();
 
     void getGame();
 
     void getNextGame();
+
     void getPreviousGame();
 
     void changeGameClip(Direction direction);
 
     void startGameClip();
 
+    void stopGameClip();
+
     void checkEmptyDemoFiles();
 
     int mVideoDuration;
 
-public:
-    static const char *getName() { return "gameclip"; }
+  public:
+    static const char* getName()
+    { return "gameclip"; }
+
     static bool IsGameClipEnabled();
 
     //! Default constructor
-    explicit GameClipView(WindowManager& window, SystemManager &systemManager);
+    explicit GameClipView(WindowManager& window, SystemManager& systemManager);
+
     ~GameClipView() override;
 
-    void Render(const Transform4x4f &parentTrans) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
-    bool ProcessInput(const InputCompactEvent &event) override;
+    bool ProcessInput(const InputCompactEvent& event) override;
 
-    bool getHelpPrompts(Help &help) override;
+    bool getHelpPrompts(Help& help) override;
 
     void quitGameClipView();
 
     void updateHelpPrompts();
+
     void ApplyHelpStyle() override;
 
 };
