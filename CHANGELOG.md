@@ -1,16 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [Next]
+- Bump Amiberry to v3.3
+- Fix missing libgo2 C headers (#1445)
+- Fix compilation of libgo2 (#1446)
+- Simplify and streamline Recalbox description for external installers
+
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
 - Fix theme issues
 - Fix model 3 sound option
 - Fix metadata edition #2
 - Fix various unsaved settings in Emulationstation
-## [Next]
-- Bump Amiberry to v3.3
-- Fix missing libgo2 C headers (#1445)
-- Fix compilation of libgo2 (#1446)
 
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order

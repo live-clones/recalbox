@@ -1,8 +1,8 @@
 {
     "os_list": [
         {
-            "name": "Recalbox {{version}} (Pi 4/Pi 400)",
-            "description": "The official retro-gaming OS! Supporting 100+ gaming systems!",
+            "name": "Recalbox {{version}} - Pi4 / Pi400",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
             "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi4/recalbox-rpi4.img.xz",
             "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
             "extract_size": {{rpi4ExtractSize}},
@@ -12,8 +12,8 @@
             "release_date": "{{releaseDate}}"
         },
         {
-            "name": "Recalbox {{version}} (Pi 3)",
-            "description": "The official retro-gaming OS! Supporting 100+ gaming systems!",
+            "name": "Recalbox {{version}} - Pi3",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
             "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi3/recalbox-rpi3.img.xz",
             "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
             "extract_size": {{rpi3ExtractSize}},
@@ -23,8 +23,8 @@
             "release_date": "{{releaseDate}}"
         },
         {
-            "name": "Recalbox {{version}} (Pi 2)",
-            "description": "The official retro-gaming OS! Supporting 100+ gaming systems!",
+            "name": "Recalbox {{version}} - Pi2",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
             "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi2/recalbox-rpi2.img.xz",
             "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
             "extract_size": {{rpi2ExtractSize}},
@@ -34,8 +34,8 @@
             "release_date": "{{releaseDate}}"
         },
         {
-            "name": "Recalbox {{version}} (Pi 0/1/GPI Case)",
-            "description": "The official retro-gaming OS! Supporting 100+ gaming systems!",
+            "name": "Recalbox {{version}} - Pi0 / Pi1 / GPiCase",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
             "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi1/recalbox-rpi1.img.xz",
             "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
             "extract_size": {{rpi1ExtractSize}},

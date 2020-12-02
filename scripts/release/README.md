@@ -9,8 +9,8 @@
   {
       "os_list": [
           {
-              "os_name": "Recalbox - Pi0/1",
-              "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+              "os_name": "Recalbox - Pi0 / Pi1 / GPiCase",
+              "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
@@ -24,7 +24,7 @@
           },
           {
               "os_name": "Recalbox - Pi2",
-              "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+              "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
@@ -36,7 +36,7 @@
           },
           {
               "os_name": "Recalbox - Pi3",
-              "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+              "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
@@ -48,8 +48,8 @@
               ]
           },
           {
-              "os_name": "Recalbox - Pi4",
-              "description": "The official retro-gaming OS! Turn your Raspberry Pi into an all-in-one and plug-n-play retro-gaming console, supporting 100+ gaming systems!",
+              "os_name": "Recalbox - Pi4 / Pi400",
+              "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
               "nominal_size": 4096,
               "icon": "https://upgrade.recalbox.com/latest/noobs/recalbox.png",
               "marketing_info": "https://upgrade.recalbox.com/latest/noobs/marketing.tar",
@@ -181,7 +181,7 @@ This is a [comment from NOOBS source code](https://github.com/raspberrypi/noobs/
     "os_list": [
       {
         "name": "Recalbox",
-        "description": "The official retro-gaming OS! Supporting 100+ gaming systems!",
+        "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
         "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
         "subitems_url": "https://upgrade.recalbox.com/latest/rpi-imager/os_list_imagingutility_recalbox.json"
       }
