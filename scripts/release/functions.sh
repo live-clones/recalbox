@@ -144,3 +144,42 @@ EOF
   docker run --rm -v $(pwd)/s3cfg:/root/.s3cfg -v "$(pwd)/${DEST_DIR}:/download" garland/docker-s3cmd \
     s3cmd get -r --acl-public "s3://${BUCKET}/${PATH_IN_BUCKET}/" "/download" 
 }
+
+# Copy a remote folder from a path to an other path
+function copyFolder(){
+
+  if [ -z "${1}" -o -z "${2}" -o -z "${3}" -o -z "${4}" ]; then
+    echo "This script need 5 parameters"
+    exit 1
+  fi
+
+  local AWS_ACCESS_KEY_ID="${1}"
+  local AWS_SECRET_ACCESS_TOKEN="${2}"
+  local FROM="${3}"
+  local TO="${4}"
+
+cat >s3cfg <<EOF
+[default]
+# Endpoint
+host_base = https://s3.fr-par.scw.cloud
+host_bucket = https://s3.fr-par.scw.cloud
+bucket_location = fr-par
+
+# Login credentials
+access_key = ${AWS_ACCESS_KEY_ID}
+secret_key = ${AWS_SECRET_ACCESS_TOKEN}
+EOF
+    docker run --rm -v $(pwd)/s3cfg:/root/.s3cfg garland/docker-s3cmd \
+      s3cmd cp -r --acl-public "s3://${FROM}" "s3://${TO}"
+}
+
+# Clean and restart proxies
+function restartProxiesAfterUpgrade(){
+  local SSH_KEY="${1}"
+  local SSH_USER="${2}"
+
+  chmod 400 "${SSH_KEY}"
+  for ip in $(nslookup upgrade.recalbox.com 1.1.1.1 | grep Address | tail -n+2 | awk '{print $2}');do 
+    ssh -o "StrictHostKeyChecking no" -i "${SSH_KEY}" "${SSH_USER}@${ip}" "bash ./restart.sh"
+  done
+}

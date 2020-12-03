@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Copy files directly from latest to TAG on the bucket on production deployment
+- Restart and clean proxy on production deployment
 - Bump Amiberry to v3.3
 - Fix missing libgo2 C headers (#1445)
 - Fix compilation of libgo2 (#1446)
