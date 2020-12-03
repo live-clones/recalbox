@@ -163,8 +163,12 @@ build odroidgo2:
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
-    - if [ "${DEPLOY_TYPE}" == "prod" ];then uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${CI_COMMIT_TAG}"; fi
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - |
+      if [ "${DEPLOY_TYPE}" == "prod" ];then
+        restartProxiesAfterUpgrade "${PROXIES_SSH_KEY}" "${PROXIES_SSH_USER}"
+        copyFolder "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}/${BUCKET_PATH}/" "${BUCKET}/${CI_COMMIT_TAG}/"
+      fi
 
 release prod:
   <<: *release_definition
