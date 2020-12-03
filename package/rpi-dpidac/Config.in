@@ -1,0 +1,10 @@
+config BR2_PACKAGE_RPI_DPIDAC
+	bool "RPI DPI DAC Bridge support"
+	depends on BR2_LINUX_KERNEL
+	select DRM_KMS_HELPER
+	help
+	  Support for Raspberry Pi DPI to Analogue bridges like the
+	  VGA666, Pi2SCART, Pi2JAMMA, RGB-Pi, RPI2SCART.
+	  
+comment "rpi-dpidac needs a kernel and headers"
+	depends on !BR2_LINUX_KERNEL
