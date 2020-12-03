@@ -23,7 +23,7 @@ SOURCE_ROMDIR_DOOM = $(RECALBOX_ROMFS_DOOM_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
 define CONFIGURE_MAIN_DOOM_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM),Doom,$(SYSTEM_NAME_DOOM),.wad .iwad .pwad .lmp .zip .7z,doom,doom)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DOOM),Doom,$(SYSTEM_NAME_DOOM),.wad .iwad .pwad .lmp .zip .7z,doom,doom,0)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)

@@ -23,7 +23,7 @@ SOURCE_ROMDIR_FLASHBACK = $(RECALBOX_ROMFS_FLASHBACK_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
 define CONFIGURE_MAIN_FLASHBACK_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_FLASHBACK),Flashback,$(SYSTEM_NAME_FLASHBACK),files:instru_f.map instru_e.map demo_uk.aba,flashback,flashback)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_FLASHBACK),Flashback,$(SYSTEM_NAME_FLASHBACK),files:instru_f.map instru_e.map demo_uk.aba,flashback,flashback,0)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)

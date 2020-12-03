@@ -91,6 +91,35 @@ do
     test -e "$IN""/""$FILE" && test ! -e "$OUT""/""$FILE" && cp -r "$IN""/""$FILE" "$OUT""/""$FILE"
 done
 
+# Since 7.2, rom folders are no longer copied to the SHARE partition
+# Instead, just create the folder and copy text files
+#
+# ONLY NEW DIRECTORIES ARE UPDATED WHEN RECALBOX IS UPDATED
+#
+# the user can't delete any directory, otherwise, it will recreate it
+for DIR in roms
+do
+    [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
+    recreatedFolders=$(find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d)
+    for SUBDIR in $recreatedFolders
+    do
+        # Create dir & copy *.txt
+        BNAME=$(echo ${SUBDIR##*/})
+        TDIR="$OUT""/""$DIR""/""$BNAME"
+        if [ ! -e "$TDIR" ] ; then
+            mkdir -p "$TDIR"
+            find "$SUBDIR" -name "_*.txt" -exec cp {} "$TDIR" \;
+        fi
+        # Sync overlays with roms
+        if test $DIR = "roms" ; then
+            TDIR="$OUT""/overlays/""$BNAME"
+            if [ ! -e "$TDIR" ] ; then
+                mkdir -p "$TDIR"
+            fi
+        fi
+    done
+done
+
 # directories to force directories exists
 # files are linked
 #
@@ -99,7 +128,7 @@ done
 # the user can't delete any directory, otherwise, it will recreate it, with link inside
 # the user can delete links and add its own files
 # to reset the directory or update it, the user has to remove the directory (we are unable to differenciate new files from recalbox update from a file removed by the user)
-for DIR in roms system/configs overlays
+for DIR in system/configs overlays 
 do
     [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
     recreatedFolders=$(find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d)
@@ -111,14 +140,6 @@ do
         then
             cp -r "$SUBDIR" "$TDIR"
         fi
-        # Sync overlays with roms
-	if [ $DIR == "roms" ]; then
-	    TDIR="$OUT""/overlays/""$BNAME"
-            if test ! -e "$TDIR"
-            then
-                mkdir "$TDIR"
-            fi
-	fi
     done
 done
 
