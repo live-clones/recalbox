@@ -1,15 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: recalbox-emulationstation\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: POEditor.com\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
@@ -402,7 +398,6 @@ msgstr "THÈME DU SYSTEME"
 msgid "THEME GAMELISTVIEW"
 msgstr "THÈME LISTE DES JEUX"
 
-#
 msgid "THEME GAMECLIPVIEW"
 msgstr "THÈME CLIPS DE JEUX"
 
@@ -1243,9 +1238,9 @@ msgid ""
 "Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
 "turn the screen black, DEMO will launch demo mode."
 msgstr ""
-"Choisissez le comportement de l'économiseur d'écran. Écran en demi-teinte réduira la "
-"luminosité de l'écran, écran noir rendra l'écran noir, démos de jeux lancera le mode démo. "
-"clips de jeux lancera des clips de jeux"
+"Choisissez le comportement de l'économiseur d'écran. Écran en demi-teinte "
+"réduira la luminosité de l'écran, écran noir rendra l'écran noir, démos de "
+"jeux lancera le mode démo. clips de jeux lancera des clips de jeux"
 
 msgid ""
 "Shows a help at the bottom of the screen which displays commands you can use."
@@ -2229,7 +2224,6 @@ msgstr "TÉLÉCHARGER LES CARTES"
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
 msgstr "INSTALLER LES CONFIGURATIONS PAD VERS CLAVIER"
 
-#
 msgid ""
 "You're strongly recommended to update your Recalbox.\n"
 "No support will be provided for older versions!"
@@ -2237,128 +2231,97 @@ msgstr ""
 "Il vous est fortement recommandé de mettre à jour votre Recalbox\n"
 "Aucun support ne sera disponible sur les anciennes versions!"
 
-#
 msgid " has been plugged!"
 msgstr " a été branché!"
 
-#
 msgid "Ready to play!"
 msgstr "Prêt pour le jeu!"
 
-#
 msgid "Not configured yet! Press a button to enter the configuration window."
 msgstr ""
 "Non configuré! Appuyez sur un bouton pour lancer la fenêtre de configuration."
 
-#
 msgid " has been unplugged!"
 msgstr " a été débranché!"
 
-#
 msgid "Remove from favorite"
 msgstr "Retirer des favoris"
 
-#
 msgid "Default output"
 msgstr "Sortie par défaut"
 
-#
 msgid "ARCADE VIRTUAL SYSTEM"
 msgstr "SYSTÈME VIRTUAL ARCADE"
 
-#
 msgid "BETWEEN %1 AND %2"
 msgstr "ENTRE %1 ET %2"
 
-#
 msgid "ENABLE ARCADE VIRTUAL SYSTEM"
 msgstr "ACTIVE LE SYSTÈME VIRTUEL ARCADE"
 
-#
 msgid "HIDE ORIGINAL SYSTEMS"
 msgstr "CACHER LES SYSTÈMES ORIGINELS"
 
-#
 msgid "INCLUDE NEO-GEO"
 msgstr "INCLURE LA NÉO-GÉO"
 
-#
 msgid "POSITION"
 msgstr "POSITION"
 
-#
 msgid "PREDEFINED PASSWORDS"
 msgstr "MOTS DE PASSE PRÉDÉFINIS"
 
-#
 msgid "VALIDATE"
 msgstr "VALIDER"
 
-#
 msgid "PASSWORD #%i"
 msgstr "MOT DE PASSE N°%i"
 
-#
 msgid "PASSWORD REQUIRED"
 msgstr "MOT DE PASSE REQUIS"
 
-#
 msgid "PLAYER"
 msgstr "JOUEUR"
 
-#
 msgid "VIEWER-ONLY"
 msgstr "SPECTATEUR UNIQUEMENT"
 
-#
 msgid "JOIN AS"
 msgstr "JOINDRE EN TANT QUE"
 
-#
 msgid "CHOOSE PASSWORD"
 msgstr "CHOISIR LE MOT DE PASSE"
 
-#
 msgid "EDIT PASSWORDS"
 msgstr "EDITER LES MOTS DE PASSE"
 
-#
 msgid "GAME PASSWORDS"
 msgstr "MOTS DE PASSE DE LA PARTIE"
 
-#
 msgid "SET PLAYER PASSWORD"
 msgstr "MOT DE PASSE JOUEUR REQUIS"
 
-#
 msgid "SET VIEWER PASSWORD"
 msgstr "MOT DE PASSE SPECTATEUR REQUIS"
 
-#
 msgid "CHOOSE PLAYER PASSWORD"
 msgstr "MOT DE PASSE JOUEUR"
 
-#
 msgid "CHOOSE VIEWER-ONLY PASSWORD"
 msgstr "MOT DE PASSE SPECTATEUR"
 
-#
 msgid "GAME PROTECTION"
 msgstr "PROTECTION DE LA PARTIE"
 
-#
 msgid "JOIN NETPLAY GAME"
 msgstr "REJOINDRE UNE PARTIE NETPLAY"
 
-#
 msgid "SEARCH IN..."
 msgstr "CHERCHER DANS..."
 
-#
 msgid "DOWNLOADING UPDATE..."
 msgstr "TÉLÉCHARGEMENT DE MISE À JOUR..."
 
-#
 msgid ""
 "We're downloading Recalbox version %s!\n"
 "\n"
@@ -2374,116 +2337,88 @@ msgstr ""
 "Une installation dure en moyenne 5 à 10mn. N'eteignez ou ne redémarrez "
 "JAMAIS Recalbox durant l'installation!"
 
-#
 msgid "REBOOT IN %s"
 msgstr "REDÉMARRAGE DANS %s"
 
-#
 msgid "Error downloading Recalbox %s... Please retry later!"
 msgstr ""
 "Erreur de téléchargement de Recalbox %s... Veuillez rééssayer plus tard!"
 
-#
 msgid "ALL"
 msgstr "TOUS"
 
-#
 msgid "TYPE AT LEAST 3 CHARACTERS"
 msgstr "TAPEZ AU MOINS 3 CARACTÈRES"
 
-#
 msgid "AUTOMATIC WPS CONNECTION"
 msgstr "CONNECTION WPS AUTOMATIQUE"
 
-#
 msgid "Connecting to WIFI..."
 msgstr "Connection au WIFI..."
 
-#
 msgid "Disconnecting from WIFI..."
 msgstr "Déconnexion du WIFI..."
 
-#
 msgid "NO WPS CONFIGURATION FOUND!"
 msgstr "AUCUNE CONFIGURATION WPS TROUVÉE!"
 
-#
 msgid "Hostname changes will not be effective until next reboot"
 msgstr "Le changement de nom sera effectif au prochain démarrage"
 
-#
 msgid "Enable/Disable Arcade virtual system and set its options"
 msgstr "Active/désactive le système virtual Arcade er règle ses options"
 
-#
 msgid "Fetching WIFI parameters"
 msgstr "Récupération des paramètres WIFI"
 
-#
 msgid "EDIT MANUALLY"
 msgstr "EDITER MANUELLEMENT"
 
-#
 msgid "Headphones"
 msgstr "Prise casque"
 
-#
 msgid "NETPLAY MITM"
 msgstr "SERVEUR NETPLAY RELAY"
 
-#
 msgid "RECALBOX API"
 msgstr "API RECALBOX"
 
-#
 msgid "RECALBOX MANAGER"
 msgstr "GESTIONNAIRE WEB RECALBOX"
 
-#
 msgid "Reseting WIFI configuration..."
 msgstr "Réinitialization du WIFI..."
 
-#
 msgid "WPS CONFIGURATION SUCCESSFUL!"
 msgstr "CONNECTION WPS RÉUSSIE!"
 
-#
 msgid "WPS CONNECTION"
 msgstr "CONNECTION WPS"
 
-#
 msgid "Waiting for IP address... (%is)"
 msgstr "Attente de l'adresse IP... (%is)"
 
-#
 msgid "Waiting for WPS configuration..."
 msgstr "Attente de la configuration WPS..."
 
-#
 msgid "SCREENSAVER"
 msgstr "ÉCONOMISEUR D'ÉCRAN"
 
-#
 msgid "SHADERS"
 msgstr "SHADERS"
 
-#
 msgid "SYSTEMS TO SHOW IN DEMO"
 msgstr "SYSTÈMES À UTILISER EN DÉMOS / CLIPS DE JEUX"
 
-#
 msgid "Saving WIFI configuration"
 msgstr "Sauvegarde de la configuration WIFI..."
 
-#
 msgid "Scanning WIFI networks..."
 msgstr "Recherche des réseaux WIFI..."
 
-#
 msgid "THEME"
 msgstr "THÈME"
 
-#
 msgid ""
 "Shaders are like filters for the game rendering. You can select a raw shader "
 "file here. This setting may be overloaded by shaderset if not definied to "
@@ -2493,271 +2428,204 @@ msgstr ""
 "shader brut ici. Ce réglable sera ignoré si les shaders prédéfinis ne sont "
 "pas réglés sur 'aucun'."
 
-#
 msgid "Select your keyboard layout."
 msgstr "Selectionnez votre clavier"
 
-#
 msgid "Mute (no sound)"
 msgstr "Coupé (pas de son)"
 
-#
 msgid "Internal Speakers"
 msgstr "Haut-pasleurs internes"
 
-#
 msgid "Headphone Jack"
 msgstr "Prise casque"
 
-#
 msgid "Internal Speakers + Headphone Jack"
 msgstr "Haut-pasleurs internes + Prise casque"
 
-#
 msgid "black"
 msgstr "écran noir"
 
-#
 msgid "demo"
 msgstr "démos de jeux"
 
-#
 msgid "dim"
 msgstr "écran en demi-teinte"
 
-#
 msgid "gameclip"
 msgstr "clips de jeux"
 
-#
 msgid "Action (All)"
 msgstr "Action (Tous)"
 
-#
 msgid "Action RPG"
 msgstr "Jeu de Rôle d'Action"
 
-#
 msgid "Adventure (All)"
 msgstr "Aventure (Tous)"
 
-#
 msgid "Artillery"
 msgstr "Artillerie"
 
-#
 msgid "Auto-battler"
 msgstr "Batailles Automatiques"
 
-#
 msgid "Battle Royale"
 msgstr "Battle Royale"
 
-#
 msgid "Beat'em All"
 msgstr "Beat'em All"
 
-#
 msgid "Board game"
 msgstr "Jeu de plateau"
 
-#
 msgid "Build & Management"
 msgstr "Construction & Gestion"
 
-#
 msgid "Casino"
 msgstr "Casino"
 
-#
 msgid "Casual game"
 msgstr "Jeu Occasionel"
 
-#
 msgid "Competition Sport"
 msgstr "Compétition Sportive"
 
-#
 msgid "Demo from Demo Screne"
 msgstr "Démo de la Scène Démo"
 
-#
 msgid "Digital Cards"
 msgstr "Cartes Digitales"
 
-#
 msgid "Dungeon Crawler"
 msgstr "Exploration de Donjons"
 
-#
 msgid "Educative"
 msgstr "Éducatif"
 
-#
 msgid "Favorites"
 msgstr "Favoris"
 
-#
 msgid "Fighting"
 msgstr "Combat"
 
-#
 msgid "Fighting/Violent Sport"
 msgstr "Combat/Sport Violent"
 
-#
 msgid "First Person Shooter"
 msgstr "Tir à la Première Personne"
 
-#
 msgid "Fishing & Hunting"
 msgstr "Chasse & Pêche"
 
-#
 msgid "Graphical Adventure"
 msgstr "Aventure Graphique"
 
-#
 msgid "Infiltration"
 msgstr "Infiltration"
 
-#
 msgid "Interactive Movie"
 msgstr "Film Interactif"
 
-#
 msgid "JRPG"
 msgstr "Jeu de Rôles Japonais"
 
-#
 msgid "Life Simulation"
 msgstr "Simulation de vie"
 
-#
 msgid "MMORPG"
 msgstr "Jeu de Rôles Online"
 
-#
 msgid "Multi Game Compilation"
 msgstr "Compilation Multi-Jeux"
 
-#
 msgid "Multiplayer Online Battle Arena"
 msgstr "Arène de Combat Multi-Joueurs"
 
-#
 msgid "Multiplayer Party Game"
 msgstr "Jeu de Société Multi-Joueurs"
 
-#
 msgid "Party based RPG"
 msgstr "Jeu de Rôles de Sociétés"
 
-#
 msgid "Pinball"
 msgstr "Flipper"
 
-#
 msgid "Platform Shooter"
 msgstr "Jeu de Tir/Plateformes"
 
-#
 msgid "Platform"
 msgstr "Jeu de Plateformes"
 
-#
 msgid "Puzzle & Logic"
 msgstr "Puzzle & Logique"
 
-#
 msgid "RPG (All)"
 msgstr "Jeu de Rôles (Tous)"
 
-#
 msgid "Racing"
 msgstr "Course"
 
-#
 msgid "Real Time 3D Adventure"
 msgstr "Aventure 3D Temps Réel"
 
-#
-msgid "Real Time Stratégy"
+msgid "Real Time Strategy"
 msgstr "Stratégie Temps Réel"
 
-#
 msgid "Rythm & Music"
 msgstr "Rythme & Musique"
 
-#
 msgid "Science Fiction Simulation"
 msgstr "Simulation de Science-Fiction"
 
-#
 msgid "Shoot with Gun"
 msgstr "Tir avec accessoires"
 
-#
 msgid "Shoot'em Up"
 msgstr "Shoot'em Up"
 
-#
 msgid "Simulation (All)"
 msgstr "Simulation (Toutes)"
 
-#
 msgid "Sport Simulation"
 msgstr "Simulation Sportives"
 
-#
 msgid "Sports (All)"
 msgstr "Sport (Tous)"
 
-#
 msgid "Strategy (All)"
 msgstr "Stratégie (Tous)"
 
-#
 msgid "Survival"
 msgstr "Jeux de Survie"
 
-#
 msgid "Tactical RPG"
 msgstr "Jeu de Rôles Tactique"
 
-#
 msgid "Textual Adventure"
 msgstr "Aventure Textuelle"
 
-#
 msgid "Tower Defense"
 msgstr "Tour de défense"
 
-#
 msgid "Trivia"
 msgstr "Quizz"
 
-#
 msgid "Turn Based Strategy"
 msgstr "Stétégie au Tout par Tout"
 
-#
 msgid "Vehicle Simulation"
 msgstr "Simulation de Véhicule"
 
-#
 msgid "Visual Novel"
 msgstr "Nouvelle Visuelle"
 
-#
 msgid "Wargame"
 msgstr "Simulation de Guerre"
 
-#
 msgid "eXplore, eXpand, eXploit & eXterminate"
 msgstr "eXploration, eXpension, eXploitation & eXtermination"
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Advance!\n"
 "This little presentation will show you how to use the 6 special buttons "
@@ -2771,7 +2639,6 @@ msgstr ""
 "\n"
 "Appuyez sur un bouton pour continuer."
 
-#
 msgid ""
 "The leftmost button is the SELECT button, marked with a 'I', also available "
 "on most modern pads.\n"
@@ -2789,7 +2656,6 @@ msgstr ""
 "\n"
 "Appuyez sur SELECT pour continuer."
 
-#
 msgid ""
 "Next to the SELECT button is the START button, marked with an 'II'.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2803,7 +2669,6 @@ msgstr ""
 "\n"
 "Appuyez sur START pour continuer."
 
-#
 msgid ""
 "Then, there are 2 buttons marked with a 'III' and a 'IV'.\n"
 "Use them to raise or lower the volume at any time in the Recalbox interface "
@@ -2817,7 +2682,6 @@ msgstr ""
 "\n"
 "Pressez un bouton volume pour continuer."
 
-#
 msgid ""
 "The last two buttons marked 'V' and 'VI' are useful to make your screen "
 "darker or brighter.\n"
@@ -2831,7 +2695,6 @@ msgstr ""
 "\n"
 "Pressez un des deux boutons de luminosité pour continuer."
 
-#
 msgid ""
 "Now you're ready to start your RETROGAMING experience with Recalbox! Press "
 "button B to start... and PLAY AGAIN!"
@@ -2839,11 +2702,9 @@ msgstr ""
 "Vous êtes fin prêts à démarrer votre expérience RETROGAMING avec Recalbox!\n"
 "Appuyez sur le boutton B pour commencer et... JOUER!"
 
-#
 msgid "WELCOME TO RECALBOX!"
 msgstr "BIENVENUE SUR RECALBOX!"
 
-#
 msgid ""
 "Just a few words about the POWER button.\n"
 "Make a short press, just like a mouse click, and your console will enter "
@@ -2859,7 +2720,6 @@ msgstr ""
 "\n"
 "Appuyez sur le bouton B pour continuer."
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2877,7 +2737,6 @@ msgstr ""
 "\n"
 "Appuyez sur le bouton B pour continuer."
 
-#
 msgid ""
 "One more thing to know: If you plug in or unplug your headphones in the jack "
 "connector, Recalbox will automatically switch the audio output. Convenient.\n"
@@ -2890,33 +2749,28 @@ msgstr ""
 "\n"
 "Appuyez sur B, comme d'habitude."
 
-#
 msgid "HIDE PREINSTALLED GAMES"
 msgstr "CACHER LES JEUX PRÉ-INSTALLÉS"
 
-#
 msgid ""
 "Hide all pre-installed games. Changing this option makes EmulationStation to "
 "relaunch."
-msgstr "Cache tous les jeux pré-installés dans Recalbox. Modifier cette option fera redémarrer EmulationStation."
+msgstr ""
+"Cache tous les jeux pré-installés dans Recalbox. Modifier cette option fera "
+"redémarrer EmulationStation."
 
-#
 msgid "SHOW IN LIST"
 msgstr "AFFICHER DANS LA LISTE"
 
-#
 msgid "System"
 msgstr "Système"
 
-#
 msgid "added to favorites"
 msgstr "ajouté aux favoris"
 
-#
 msgid "removed from favorites"
 msgstr "retiré des favoris"
 
-#
 msgid ""
 "Gameclips cannot be played\n"
 "\n"
@@ -2925,3 +2779,23 @@ msgstr ""
 "Les clips de jeux ne peuvent être lus\n"
 "\n"
 "Aucune vidéo disponible pour votre selection"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Choisissez le comportement de l'économiseur d'écran: DIM réduira la "
+#~ "luminosité de l'écran, BLACK rendra l'écran noir."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSION MISE ­À JOUR:"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom trouvée"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copier le système actuel sur un autre périphérique.\n"
+#~ "Attention ! Cela effacera tout le contenu de la cible."

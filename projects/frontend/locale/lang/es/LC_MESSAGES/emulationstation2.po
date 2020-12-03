@@ -2681,7 +2681,7 @@ msgid "Real Time 3D Adventure"
 msgstr ""
 
 #
-msgid "Real Time Stratégy"
+msgid "Real Time Strategy"
 msgstr ""
 
 #
