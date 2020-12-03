@@ -27,13 +27,16 @@ class SystemDescriptor
     PlateformIdentifiers    mPlatformIds;    //!< Platform identifiers
     EmulatorList            mEmulators;      //!< Emulator/core tree
 
+    bool                    mReadOnly;       //!< This system is a port and is readonly
+
   public:
     /*!
      * @brief Default constructor
      */
     SystemDescriptor()
-      : mPlateformCount(0),
-        mPlatformIds{}
+      : mPlateformCount(0)
+      , mPlatformIds{}
+      , mReadOnly(false)
     {
     }
 
@@ -51,7 +54,8 @@ class SystemDescriptor
                         const std::string& fullname,
                         const std::string& command,
                         const std::string& extensions,
-                        const std::string& theme)
+                        const std::string& theme,
+                        bool readonly)
     {
       mPath = Path(path);
       mName = name;
@@ -59,6 +63,7 @@ class SystemDescriptor
       mCommand = command;
       mExtensions = extensions;
       mThemeFolder = theme;
+      mReadOnly = readonly;
     }
 
     void ClearPlatforms() { mPlateformCount = 0; }
@@ -111,6 +116,9 @@ class SystemDescriptor
     const std::string& Command() const { return mCommand; }
     const std::string& Extension() const { return mExtensions; }
     const std::string& ThemeFolder() const { return mThemeFolder; }
+
+    bool IsPort() const { return Strings::Contains(mPath.ToString(), "/ports/"); }
+    bool IsReadOnly() const { return mReadOnly; }
 
     int PlatformCount() const { return mPlateformCount; }
     PlatformIds::PlatformId Platform(int index) const { return (unsigned int)index < (unsigned int)sMaximumPlatformIds ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }

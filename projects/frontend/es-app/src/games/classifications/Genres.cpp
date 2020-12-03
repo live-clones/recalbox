@@ -118,7 +118,7 @@ const Genres::GenreMap& Genres::GetLongNameMap()
      { GameGenres::  StrategyArtillery           , "Artillery"                              },
      { GameGenres::  StrategyAutoBattler         , "Auto-battler"                           },
      { GameGenres::  StrategyMOBA                , "Multiplayer Online Battle Arena"        },
-     { GameGenres::  StrategyRTS                 , "Real Time Stratégy"                     },
+     { GameGenres::  StrategyRTS                 , "Real Time Strategy"                     },
      { GameGenres::  StrategyTBS                 , "Turn Based Strategy"                    },
      { GameGenres::  StrategyTowerDefense        , "Tower Defense"                          },
      { GameGenres::  StrategyWargame             , "Wargame"                                },

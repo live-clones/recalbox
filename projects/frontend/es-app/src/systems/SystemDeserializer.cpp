@@ -31,7 +31,8 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                   Xml::AsString(systemNode, "fullname", ""),
                                   Xml::AsString(systemNode, "command", ""),
                                   Xml::AsString(systemNode, "extension", ""),
-                                  Xml::AsString(systemNode, "theme", ""));
+                                  Xml::AsString(systemNode, "theme", ""),
+                                  Xml::AttributeAsString(systemNode.child("path"), "readonly", "0") == "1");
 
   // Check
   if (systemDescriptor.IsValid())

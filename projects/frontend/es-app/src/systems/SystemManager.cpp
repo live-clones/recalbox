@@ -15,6 +15,46 @@
 #include <algorithm>
 #include <utils/locale/LocaleHelper.h>
 
+
+SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
+{
+  RomSources roots;
+  bool hide = RecalboxConf::Instance().GetHideDefaultGames();
+  if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
+  {
+    std::string rootTag(sRootTag);
+    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareInitRomRoot));
+    if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
+    if (port != PortTypes::ShareInitOnly)
+    {
+      root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareRomRoot));
+      if (root.Exists()) roots[root.ToString()] = false;
+      root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sRemoteRomRoot));
+      if (root.Exists()) roots[root.ToString()] = false;
+    }
+  }
+  else
+  {
+    // For compatibility until we move romfs
+    bool ok = false;
+    Path originalRomPath(sShareRomRoot);
+    Path relative(systemDescriptor.RomPath().MakeRelative(originalRomPath, ok));
+    if (ok)
+    {
+      Path root = Path(sShareInitRomRoot) / relative;
+      if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
+      if (port != PortTypes::ShareInitOnly)
+      {
+        root = Path(sShareRomRoot) / relative;  if (root.Exists()) roots[root.ToString()] = false;
+        root = Path(sRemoteRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
+      }
+    }
+    else LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is not relative to " << originalRomPath.ToString();
+  }
+
+  return roots;
+}
+
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
   const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
@@ -23,34 +63,12 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   // Create system
   SystemData* result = new SystemData(*this, systemDescriptor, SystemData::Properties::Searchable);
 
+  PortTypes port = PortTypes::None;
+  if (systemDescriptor.IsPort())
+    port = systemDescriptor.IsReadOnly() ? PortTypes::ShareInitOnly : PortTypes::ShareOnly;
+
   // Build root list
-  HashMap<std::string, bool> roots;
-  bool hide = RecalboxConf::Instance().GetHideDefaultGames();
-  if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
-  {
-    std::string rootTag(sRootTag);
-    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sReadOnlyRomRoot)); if (root.Exists() && !hide) roots[root.ToString()] = true;
-    root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sWritebleRomRoot)); if (root.Exists()) roots[root.ToString()] = false;
-    root      = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sRemoteRomRoot  )); if (root.Exists()) roots[root.ToString()] = false;
-  }
-  else
-  {
-    // For compatibility until we move romfs
-    bool ok = false;
-    Path originalRomPath(sWritebleRomRoot);
-    Path relative(systemDescriptor.RomPath().MakeRelative(originalRomPath, ok));
-    if (ok)
-    {
-      Path root = Path(sReadOnlyRomRoot) / relative; if (root.Exists() && !hide) roots[root.ToString()] = true;
-      root      = Path(sWritebleRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
-      root      = Path(sRemoteRomRoot  ) / relative; if (root.Exists()) roots[root.ToString()] = false;
-    }
-    else
-    {
-      LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is not relative to " << originalRomPath.ToString();
-      return result;
-    }
-  }
+  HashMap<std::string, bool> roots = GetRomSource(systemDescriptor, port);
 
   // Avoid files being added more than once even through symlinks
   for(const auto& rootPath : roots)
@@ -89,7 +107,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder);
+  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   FolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
@@ -118,7 +136,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder);
+  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
@@ -147,7 +165,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder);
+  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())

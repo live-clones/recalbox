@@ -65,6 +65,10 @@ class Strings
 
     static bool Contains(const std::string& source, const char* what);
 
+    static bool Contains(const std::string& source, const std::string& what);
+
+    static bool Contains(const char* source, const char* what);
+
     static std::string ToLowerUTF8(const std::string& _string);
 
     static std::string ToUpperUTF8(const std::string& _string);

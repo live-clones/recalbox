@@ -809,4 +809,12 @@ bool Strings::Contains(const std::string& source, const char* what)
   return (source.find(what) != std::string::npos);
 }
 
+bool Strings::Contains(const std::string& source, const std::string& what)
+{
+  return (source.find(what) != std::string::npos);
+}
 
+bool Strings::Contains(const char* source, const char* what)
+{
+  return (strstr(source, what) != nullptr);
+}

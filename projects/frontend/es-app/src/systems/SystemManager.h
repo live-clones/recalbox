@@ -35,6 +35,9 @@ class SystemManager :
     static constexpr const char* sAllGamesSystemFullName = "All Games";
 
   private:
+    //! Rom source folder to read/write (false) / read-only (true) state
+    typedef HashMap<std::string, bool> RomSources;
+
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
 
@@ -42,12 +45,19 @@ class SystemManager :
     static constexpr const char* sRootTag = "%ROOT%";
 
     //! Writable share roms
-    static constexpr const char* sWritebleRomRoot = "/recalbox/share/roms";
+    static constexpr const char* sShareRomRoot = "/recalbox/share/roms";
     //! Read-only share roms
-    static constexpr const char* sReadOnlyRomRoot = "/recalbox/share_init/roms";
+    static constexpr const char* sShareInitRomRoot = "/recalbox/share_init/roms";
     //! Remote roms
     static constexpr const char* sRemoteRomRoot = "/recalbox/share/romsnetwork";
 
+    //! Special process of ports
+    enum class PortTypes
+    {
+        None,          //!< Not a port / Do nothing
+        ShareInitOnly, //!< From share_init only
+        ShareOnly,     //!< From share only
+    };
 
     //! Emulator manager
     EmulatorManager mEmulatorManager;
@@ -131,6 +141,13 @@ class SystemManager :
      * @return
      */
     bool AddSpecialCollectionsMetaSystems();
+
+    /*!
+     * @brief Get valid rom source for the given system descriptor
+     * @param systemDescriptor System descriptor
+     * @return Rom source folders and associated RW/RO states
+     */
+    static RomSources GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port);
 
     /*!
      * @brief Create regular system from a SystemDescriptor object
