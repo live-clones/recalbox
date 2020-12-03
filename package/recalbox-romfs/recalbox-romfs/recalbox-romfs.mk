@@ -69,12 +69,13 @@ endef
 # $4 = e=list of extensions ex : .zip .ZIP
 # $5 = platform
 # $6 = theme
-# $7 = extra configgen command line args
+# $7 = read only
+# $8 = extra configgen command line args
 define RECALBOX_ROMFS_CALL_ADD_PORT
     echo -e '<system>\n' \
     '<fullname>$(2)</fullname>\n' \
     "<name>$(3)</name>\n" \
-    '<path>/recalbox/share/roms/ports/$(2)</path>\n' \
+    '<path readonly="$(7)">/recalbox/share/roms/ports/$(2)</path>\n' \
     '<extension>$(4)</extension>\n' \
     "<command>$(CONFIGGEN_STD_CMD)$(7)</command>\n" \
     '<platform>$(5)</platform>\n' \

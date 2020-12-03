@@ -8,7 +8,7 @@ from distutils.dir_util import copy_tree
 
 
 class EmPack:
-    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False, port=False, rompath=None):
+    def __init__(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, force=False, port=False, readonly=False, rompath=None):
         # Set member variable
         """
 
@@ -22,6 +22,7 @@ class EmPack:
         self._Theme = theme if theme is not None else self._System
         self._Force = force
         self._Port = port
+        self._ReadOnly = readonly
         self._RomPath = rompath if rompath is not None else ""
 
         self._SingleMode = False
@@ -68,10 +69,9 @@ class EmPack:
 
     def setcmdline(self, system, extensions, emcoredef, fullname=None, platform=None, theme=None, rompath=None):
         cmdline = "{} ".format(sys.argv[0])
-        if self._Force:
-            cmdline += "--force "
-        if self._Port:
-            cmdline += "--port "
+        if self._Force: cmdline += "--force "
+        if self._Port: cmdline += "--port "
+        if self._ReadOnly: cmdline += "--readonly "
         cmdline += "--system {} ".format(system)
         cmdline += "--extension '{}' ".format(extensions)
         cmdline += "--fullname '{}' ".format(fullname) if fullname is not None else ""
@@ -274,6 +274,7 @@ class EmPack:
         mkFile = mkFile.replace('%FULLNAME%', self._FullName)
         mkFile = mkFile.replace('%PLATFORM%', self._Platform)
         mkFile = mkFile.replace('%THEME%', self._Theme)
+        mkFile = mkFile.replace('%RO%', '1' if self._ReadOnly else '0')
         mkFile = mkFile.replace('%ROMPATH%', self._RomPath)
 
         #
@@ -397,11 +398,12 @@ if __name__ == '__main__':
     parser.add_argument("-r", "--rompath", help="Sets the full rompath instead of /recalbox/share/roms/<system>. ex: /recalbox/share/screenshots", type=str, required=False)
     parser.add_argument("--force", help="force overwriting any existing files", action="store_true", required=False)
     parser.add_argument("--port", help="This system is a port, not a regular system", action="store_true", required=False)
+    parser.add_argument("--readonly", help="This system is a port, and this port is ready-only (can stay in share_init)", action="store_true", required=False)
     parser.add_argument("packageDetails", nargs='+', help="Either specify a BR2_PACKAGE_XXXXX for a standalone emulator (like reicast, ppsspp etc ...)\nOr write it like libretro:mame2003:BR2_PACKAGE_LIBRETRO_MAME2003 libretro:mame2000:BR2_PACKAGE_LIBRETRO_MAME2000 advancemame:advancemame:BR2_PACKAGE_ADVANCEMAME for a multiple emulators/cores system. The syntax in that case is emulator:core:BUILDROOT_CORE_PACKAGE", type=str)
 
     args = parser.parse_args()
 
-    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme, force = args.force, port = args.port, rompath = args.rompath)
+    ConfigEm = EmPack(args.system, args.extensions, args.packageDetails, fullname = args.fullname, platform = args.platform, theme = args.theme, force = args.force, port = args.port, readonly = args.readonly, rompath = args.rompath)
     print(ConfigEm)
     ConfigEm.writemakefile()
     ConfigEm.writeconfigin()

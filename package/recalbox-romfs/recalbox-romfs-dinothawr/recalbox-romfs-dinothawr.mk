@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system dinothawr --extension '.game .zip .7z' --fullname 'Dinothawr' --platform dinothawr --theme dinothawr 1:libretro:dinothawr:BR2_PACKAGE_LIBRETRO_DINOTHAWR
+# ./scripts/linux/empack.py --force --port --readonly --system dinothawr --extension '.game .zip .7z' --fullname 'Dinothawr' --platform dinothawr --theme dinothawr 1:libretro:dinothawr:BR2_PACKAGE_LIBRETRO_DINOTHAWR
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DINOTHAWR_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_DINOTHAWR = $(RECALBOX_ROMFS_DINOTHAWR_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_DINOTHAWR),)
 define CONFIGURE_MAIN_DINOTHAWR_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DINOTHAWR),Dinothawr,$(SYSTEM_NAME_DINOTHAWR),.game .zip .7z,dinothawr,dinothawr)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_DINOTHAWR),Dinothawr,$(SYSTEM_NAME_DINOTHAWR),.game .zip .7z,dinothawr,dinothawr,1)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_DINOTHAWR),)

@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Fix oga (v1) controller
 - Bump RPI4 kernel
 - Bump RPIs firmware
+- Add port readonly parameter to empack
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
