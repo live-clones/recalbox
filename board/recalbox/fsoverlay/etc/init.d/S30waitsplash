@@ -21,6 +21,7 @@ wait_splash_end() {
 
 case "$1" in
   start)
+    /recalbox/scripts/recalbox-create-share.sh stop
     wait_splash_end
     ;;
   *)

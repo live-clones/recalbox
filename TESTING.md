@@ -10,6 +10,7 @@ Every case must be checked before a release.
 - [ ] New roms management => Fresh install: Test all ports
 - [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
 - [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
+- [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
 
 
 ## [7.1-Reloaded]

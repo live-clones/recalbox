@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Add GameClip screensaver
 - Add port readonly parameter to empack
 - Fix some crash in ES when stopping videos
+- Add feature slides during install
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

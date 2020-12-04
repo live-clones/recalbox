@@ -7,6 +7,7 @@
   - Pre-installed games are no longer copied into SHARE partition (except ports)
   - New option in game menu to show/hide pre-installed games
 - New "GameClip" screensaver playing games' videos in many configurable ways
+- Show feature slides during install
 
 ### Improvements
 - Bump Amiberry to version 3.3
