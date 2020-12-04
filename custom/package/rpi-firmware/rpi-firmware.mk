@@ -4,11 +4,7 @@
 #
 ################################################################################
 
-ifeq ($(BR2_TOOLCHAIN_HEADERS_AT_LEAST_5_4),y)
 RPI_FIRMWARE_VERSION = e15ef4e4fe8be99cd816cec901d977224a1eb07e
-else
-RPI_FIRMWARE_VERSION = 1.20200212
-endif
 RPI_FIRMWARE_SITE = $(call github,raspberrypi,firmware,$(RPI_FIRMWARE_VERSION))
 RPI_FIRMWARE_LICENSE = BSD-3-Clause
 RPI_FIRMWARE_LICENSE_FILES = boot/LICENCE.broadcom
