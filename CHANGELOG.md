@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Bump mupen64plus gles2rice, glesn64, gliden64 and rice video plugins
 - Enable mupen64plus with rice for odroidgo2
 - Fix compilation of wm8960 for all boards (#1457)
+- Patch libwebsocket to match mosquito's requirements
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

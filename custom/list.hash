@@ -11,6 +11,7 @@
 --------------------------------  package/kodi/0003-Add-missing-cassert-includes.patch
 --------------------------------  package/kodi/0003-webserver-Compatibility-with-libmicrohttpd-0.9.71.patch
 --------------------------------  package/kodi/0004-Backport-Add-missing-cstddef-includes.patch
+--------------------------------  package/libwebsockets/0001-CMakeLists-txt-fix-static-build-with-openssl.patch
 --------------------------------  package/mesa3d/0002-meson-use-wayland-scanner-provided-by-wayland-scanne.patch
 --------------------------------  package/mesa3d/0004-c99_math-import-isinf-for-uclibc-based-toolchains.patch
 --------------------------------  package/mesa3d/0006-util-remove-the-dependency-on-kcmp.h.patch
@@ -42,6 +43,9 @@ e38159f7158b380ddec51bc06b36021f  package/kodi-texturepacker/kodi-texturepacker.
 37b3490c1e87a43d5bb6ac81e9672b9e  package/kodi/kodi.mk
 e459efac93dadd5c08fbe59ecd03bfd9  package/libcec/libcec.mk
 411c881d8d83c11bd9c544a33a218245  package/libclc/libclc.mk
+6f2b4c0e917ba47fe3256401cf8ed52e  package/libwebsockets/Config.in
+e7d1c9f3ce8200f6af461db2ca38bcf1  package/libwebsockets/libwebsockets.hash
+ee873fdc9e8954f6f2b1cb159a25e45a  package/libwebsockets/libwebsockets.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 65687cf75f764d5f0cbe2a6df7782975  package/luajit/Config.in
 a04d6955e15bd7e338ef057982db98ba  package/mesa3d-headers/mesa3d-headers.mk
