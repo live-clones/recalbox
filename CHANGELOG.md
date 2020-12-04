@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Fix some crash in ES when stopping videos
 - Add feature slides during install
 - Bump rpi1, rpi2 and rpi3 kernel to version 5.4 (#1453)
+- Add rpi-400 dts
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
