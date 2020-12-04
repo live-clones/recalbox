@@ -17,6 +17,9 @@ All notable changes to this project will be documented in this file.
 - Add feature slides during install
 - Bump rpi1, rpi2 and rpi3 kernel to version 5.4 (#1453)
 - Add rpi-400 dts
+- Bump mupen64plus-core, uiconsole and rsphle
+- Bump mupen64plus gles2rice, glesn64, gliden64 and rice video plugins
+- Enable mupen64plus with rice for odroidgo2
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

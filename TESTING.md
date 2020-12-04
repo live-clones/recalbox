@@ -13,6 +13,8 @@ Every case must be checked before a release.
 - [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
 - [ ] Kernel bump => test every system thing works on rpi1, rpi2 and rpi3
 - [ ] Added rpi-400 dts => check pi400 boots correctly
++ [ ] mupen64plus bump => test standalone core deeply
++ [ ] Enabled mupen64plus with rice for odroidgo2 => test it works
 
 
 ## [7.1-Reloaded]
