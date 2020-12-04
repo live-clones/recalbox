@@ -120,6 +120,17 @@ do
     done
 done
 
+# Since 7.2, ports may behave as:
+# - ReadOnly: The port is self-sufficient and stays ib share_init
+# - Read/Write: The user must add content to the port or may extend the port by adding extra-content
+#
+# This loop take Read/Write ports and copy them to the share
+while read -r file; do
+  DSTDIR=$file
+  SRCDIR=${file//share/share_init}
+  cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
+done < <(sed -E '/<path\s+readonly="0">/!d;s/^.*>(.*)<.*$/\1/' /recalbox/share_init/system/.emulationstation/es_systems.cfg )
+
 # directories to force directories exists
 # files are linked
 #

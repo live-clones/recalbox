@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 - Fix oga (v1) controller
 - Bump RPI4 kernel
 - Bump RPIs firmware
+- Add multi-source roms management
+- Add option to show/hide preinstalled games
+- Add GameClip screensaver
 - Add port readonly parameter to empack
 
 ## [7.1.1-Reloaded]

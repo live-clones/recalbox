@@ -6,6 +6,11 @@ Every case must be checked before a release.
 - [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
 - [ ] Packages that require libgo2 compiles well
 - [ ] /usr/lib/libgo2.so should provides go2_ symbols
+- [ ] New roms management => Test option in game menu to show/hide preinstalled games
+- [ ] New roms management => Fresh install: Test all ports
+- [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
+- [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
+
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
