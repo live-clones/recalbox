@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-MUPEN64PLUS_VIDEO_RICE_VERSION = 772fdd9ecacf3669d7e50ea59ce4ef1f2c26b99b
+# Commit of 17/09/2020
+MUPEN64PLUS_VIDEO_RICE_VERSION = 7ce0bf039ecf0534e633db46fc4904fcfde0c2ce
 MUPEN64PLUS_VIDEO_RICE_SITE = $(call github,mupen64plus,mupen64plus-video-rice,$(MUPEN64PLUS_VIDEO_RICE_VERSION))
 MUPEN64PLUS_VIDEO_RICE_LICENSE = MIT
 MUPEN64PLUS_VIDEO_RICE_DEPENDENCIES = sdl2 alsa-lib mupen64plus-core
