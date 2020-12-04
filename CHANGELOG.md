@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Add option to show/hide preinstalled games
 - Add GameClip screensaver
 - Add port readonly parameter to empack
+- Fix some crash in ES when stopping videos
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
