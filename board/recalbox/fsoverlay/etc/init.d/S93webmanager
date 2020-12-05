@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+
+systemsetting="recalbox_settings"
+
+WBPIDFILE=/var/run/webapi-server.pid
+WBBIN=/usr/bin/webapi-server
+
+case "$1" in
+  start)
+	enabled="`$systemsetting -command load -key system.manager.enabled`"
+	if [ "$enabled" != "0" ];then
+		recallog "starting webapi-server"
+		HOME=/recalbox/share/system start-stop-daemon -S -q -m -p "$WBPIDFILE" --exec "$WBBIN" &
+	fi
+	;;
+  stop)
+	recallog "Stopping webapi-server"
+	start-stop-daemon -K -q -p "${WBPIDFILE}"
+	;;
+  restart|reload)
+	"$0" stop
+	if [ -f "${PIDFILE}" ] ; then
+		while `"$0" status > /dev/null` ; do
+			sleep 0.1
+		done
+	fi
+	"$0" start
+	;;
+  status)
+	WBPID=`cat ${WBPIDFILE} 2>/dev/null`
+	if [ -f "${WBPIDFILE}" ] && `ps | grep -qE "^[[:space:]]*${WBPID}"` ; then
+		echo "webapi-server is running (pid `cat ${WBPIDFILE}`)"
+		exit 0
+	else
+		echo "webapi-server is stopped"
+		exit 1
+	fi
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
