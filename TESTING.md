@@ -15,6 +15,7 @@ Every case must be checked before a release.
 - [ ] Added rpi-400 dts => check pi400 boots correctly
 + [ ] mupen64plus bump => test standalone core deeply
 + [ ] Enabled mupen64plus with rice for odroidgo2 => test it works
++ [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 
 
 ## [7.1-Reloaded]
