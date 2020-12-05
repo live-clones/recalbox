@@ -28,5 +28,6 @@ docker run -ti --rm --security-opt seccomp=unconfined \
 	-e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
 	-e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
 	-e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" \
+	-e "GITLAB_TOKEN_WEBMANAGER3=${GITLAB_TOKEN_WEBMANAGER3}" \
 	--user="`id -u`:`id -g`" \
 	"recalbox-dev" ${@}

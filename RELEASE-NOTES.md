@@ -400,6 +400,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Dolphin Emulator to Version 5.0-13178
 - Bump Buildroot to version 2020.02
 - Bump Kernel to 5.8 (except on Odroid Go Advance)
+- Add WebManager v3
 - New multi-source rom management:
   - Pre-installed games are no longer copied into SHARE partition (except ports)
   - New option in game menu to show/hide pre-installed games

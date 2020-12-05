@@ -476,6 +476,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
 - [ ] Check that there are no regression with kernel 5.10 on rpi boards
 - [ ] Tester que le GPi ou NesPi4 case s'installent correctement (via installation fraiche)
+- [ ] Pulseaudio - Check audio works everywhere
+- [ ] WebMAnager v3 => test all
 
 
 ## [7.1-Reloaded]
