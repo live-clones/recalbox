@@ -4,15 +4,9 @@
 #
 ################################################################################
 
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
-# Commit of 29/10/2020
-MUPEN64PLUS_CORE_VERSION = b50ca2e04b4c8dc3820f2529135819d25bba6f3b
-MUPEN64PLUS_CORE_SITE = $(call github,OtherCrashOverride,mupen64plus-core-go2,$(MUPEN64PLUS_CORE_VERSION))
-else
 # Commit of 29/10/2020
 MUPEN64PLUS_CORE_VERSION = 7b73d2db689b805708b99d202a06c5925e9a0980
 MUPEN64PLUS_CORE_SITE = $(call github,mupen64plus,mupen64plus-core,$(MUPEN64PLUS_CORE_VERSION))
-endif
 MUPEN64PLUS_CORE_LICENSE = GPLv2+
 MUPEN64PLUS_CORE_DEPENDENCIES = sdl2 alsa-lib libpng freetype host-nasm host-binutils
 MUPEN64PLUS_CORE_INSTALL_STAGING = YES

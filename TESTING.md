@@ -14,7 +14,7 @@ Every case must be checked before a release.
 - [ ] Kernel bump => test every system thing works on rpi1, rpi2 and rpi3
 - [ ] Added rpi-400 dts => check pi400 boots correctly
 + [ ] mupen64plus bump => test standalone core deeply on all boards
-+ [ ] Enabled mupen64plus with rice for odroidgo2 => test it works
++ [ ] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
 + [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 
 
