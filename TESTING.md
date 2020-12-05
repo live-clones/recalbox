@@ -13,7 +13,7 @@ Every case must be checked before a release.
 - [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
 - [ ] Kernel bump => test every system thing works on rpi1, rpi2 and rpi3
 - [ ] Added rpi-400 dts => check pi400 boots correctly
-+ [ ] mupen64plus bump => test standalone core deeply
++ [ ] mupen64plus bump => test standalone core deeply on all boards
 + [ ] Enabled mupen64plus with rice for odroidgo2 => test it works
 + [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 
