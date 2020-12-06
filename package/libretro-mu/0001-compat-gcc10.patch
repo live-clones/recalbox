@@ -1,0 +1,11 @@
+--- libretro-mu-4ac406874ccdc33ca3282299fda412f15ec544ad/src/pxa260/pxa260_LCD.h.orig	2020-11-27 22:09:55.943058297 +0100
++++ libretro-mu-4ac406874ccdc33ca3282299fda412f15ec544ad/src/pxa260/pxa260_LCD.h	2020-11-27 22:10:06.554972056 +0100
+@@ -4,7 +4,7 @@
+ #include "pxa260_CPU.h"
+ #include "pxa260_IC.h"
+ 
+-uint16_t* pxa260Framebuffer;
++extern uint16_t* pxa260Framebuffer;
+ 
+ /*
+ 	PXA260 OS LCD controller
