@@ -25,6 +25,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test libretro-fmsx
 - [ ] BR2020.11 - Test kodi-audiodecoder-timidity
 - [ ] BR2020.11 - Test libretro-mupen64plus-nx on rpi2 (as libretro-mupen64plus is disabled)
+- [ ] BR2020.11 - Test libretro-gpsp
 
 
 ## [7.1-Reloaded]

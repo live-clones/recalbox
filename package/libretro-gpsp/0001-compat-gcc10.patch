@@ -1,0 +1,21 @@
+--- libretro-gpsp-856af16ba64951d99a6a9aa84b1a10dc1540a868/cpu_threaded.c.orig	2020-11-27 20:33:55.418128607 +0100
++++ libretro-gpsp-856af16ba64951d99a6a9aa84b1a10dc1540a868/cpu_threaded.c	2020-11-27 20:32:32.118583765 +0100
+@@ -57,15 +57,15 @@
+ __asm__(".section .jit,\"awx\",%progbits");
+ 
+ u8 rom_translation_cache[ROM_TRANSLATION_CACHE_SIZE]
+-		__attribute__ ((aligned(4),section(".jit")));
++		__attribute__ ((aligned(4),section(".jit#")));
+ u8 *rom_translation_ptr = rom_translation_cache;
+ 
+ u8 ram_translation_cache[RAM_TRANSLATION_CACHE_SIZE]
+-		__attribute__ ((aligned(4),section(".jit")));
++		__attribute__ ((aligned(4),section(".jit#")));
+ u8 *ram_translation_ptr = ram_translation_cache;
+ 
+ u8 bios_translation_cache[BIOS_TRANSLATION_CACHE_SIZE]
+-		__attribute__ ((aligned(4),section(".jit")));
++		__attribute__ ((aligned(4),section(".jit#")));
+ u8 *bios_translation_ptr = bios_translation_cache;
+ #else
+ u8 rom_translation_cache[ROM_TRANSLATION_CACHE_SIZE];
