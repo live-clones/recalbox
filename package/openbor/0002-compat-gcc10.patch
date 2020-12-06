@@ -1,0 +1,137 @@
+diff --git a/engine/openbor.c b/engine/openbor.c
+index 44eb88b9..20a03326 100644
+--- a/engine/openbor.c
++++ b/engine/openbor.c
+@@ -36369,7 +36369,9 @@ void savelevelinfo()
+         save->pSpawnmp[i] = player[i].spawnmp;
+         save->pWeapnum[i] = player[i].weapnum;
+         save->pColourmap[i] = player[i].colourmap;
++        OPENBOR_STRINGOP_TRUNCATION_WARN_OFF;
+         strncpy(save->pName[i], player[i].name, MAX_NAME_LEN);
++        OPENBOR_STRINGOP_TRUNCATION_WARN_ON;
+     }
+     save->credits = credits;
+     save->level = current_level;
+diff --git a/engine/source/gamelib/packfile.c b/engine/source/gamelib/packfile.c
+index ec301dbb..dd8ce3c7 100644
+--- a/engine/source/gamelib/packfile.c
++++ b/engine/source/gamelib/packfile.c
+@@ -319,7 +319,9 @@ char *casesearch(const char *dir, const char *filepath)
+     //if (entry != NULL && entry->d_name != NULL)
+     if (entry != NULL)
+     {
+-        sprintf(fullpath, "%s/%s", dir, entry->d_name);
++        OPENBOR_FORMAT_TRUNCATION_WARN_OFF;
++        snprintf(fullpath, sizeof(fullpath), "%s/%s", dir, entry->d_name);
++        OPENBOR_FORMAT_TRUNCATION_WARN_ON;
+     }
+ 
+     if (closedir(d))
+diff --git a/engine/source/globals.h b/engine/source/globals.h
+index ca80c1f3..fa8e5d85 100644
+--- a/engine/source/globals.h
++++ b/engine/source/globals.h
+@@ -98,4 +98,30 @@ memset((p)+(n), 0, sizeof(*(p)));
+ p = realloc((p), sizeof(*(p))*(s));\
+ memset((p)+(n), 0, sizeof(*(p))*((s)-(n)));
+ 
++/*
++ * credit: https://github.com/iponweb/luavela/blob/f34210c08cf459efb90d155688b44b47aea1b3e8/src/lj_def.h#L165 
++ */
++#if __GNUC__ >= 8
++#define OPENBOR_STRINGOP_TRUNCATION_WARN_OFF \
++    _Pragma("GCC diagnostic push") \
++    _Pragma("GCC diagnostic ignored \"-Wstringop-truncation\"")
++#define OPENBOR_STRINGOP_TRUNCATION_WARN_ON \
++    _Pragma("GCC diagnostic pop")
++#else /* !(__GNUC__ >= 8)  */
++#define OPENBOR_STRINGOP_TRUNCATION_WARN_OFF /* stub */
++#define OPENBOR_STRINGOP_TRUNCATION_WARN_ON /* stub */
++#endif /* __GNUC__ >= 8 */
++
++#if __GNUC__ >= 8
++#define OPENBOR_FORMAT_TRUNCATION_WARN_OFF \
++    _Pragma("GCC diagnostic push") \
++    _Pragma("GCC diagnostic ignored \"-Wformat-truncation\"")
++#define OPENBOR_FORMAT_TRUNCATION_WARN_ON \
++    _Pragma("GCC diagnostic pop")
++#else /* !(__GNUC__ >= 8)  */
++#define OPENBOR_FORMAT_TRUNCATION_WARN_OFF /* stub */
++#define OPENBOR_FORMAT_TRUNCATION_WARN_ON /* stub */
++#endif /* __GNUC__ >= 8 */
++
++
+ #endif
+diff --git a/engine/source/preprocessorlib/pp_parser.c b/engine/source/preprocessorlib/pp_parser.c
+index 6ba0bb17..77378ea7 100644
+--- a/engine/source/preprocessorlib/pp_parser.c
++++ b/engine/source/preprocessorlib/pp_parser.c
+@@ -714,7 +714,9 @@ HRESULT pp_parser_stringify(pp_parser *self)
+             }
+             else
+             {
++                OPENBOR_STRINGOP_TRUNCATION_WARN_OFF;
+                 strncat(self->token.theSource, source, 1);
++                OPENBOR_STRINGOP_TRUNCATION_WARN_ON;                
+             }
+ 
+             if(strlen(self->token.theSource) + 2 > MAX_TOKEN_LENGTH)
+diff --git a/engine/sdl/control.c b/engine/sdl/control.c
+index 9e353bc7..2c372a8f 100644
+--- a/engine/sdl/control.c
++++ b/engine/sdl/control.c
+@@ -339,7 +339,7 @@ static int flag_to_index(u64 flag)
+ 
+ char* get_joystick_name(const char* name)
+ {
+-    char lname[strlen(name)];
++    char lname[MAX_BUFFER_LEN];
+ 
+     if (strlen(name) <= 0) return JOY_UNKNOWN_NAME;
+     strcpy(lname,name);
+diff --git a/engine/openbor.c b/engine/openbor.c
+index ada9246f..671e2de4 100644
+--- a/engine/openbor.c
++++ b/engine/openbor.c
+@@ -38,6 +38,8 @@ s_savedata savedata;
+ a_playrecstatus *playrecstatus = NULL;
+ 
+ s_set_entry *levelsets = NULL;
++s_anim_list *anim_list;
++s_modelcache *model_cache;
+ int        num_difficulties;
+ 
+ int no_cmd_compatible = 0;
+diff --git a/engine/openbor.h b/engine/openbor.h
+index 70daface..38a08e31 100644
+--- a/engine/openbor.h
++++ b/engine/openbor.h
+@@ -2097,7 +2097,7 @@ struct animlist
+     struct animlist *next;
+ };
+ typedef struct animlist s_anim_list;
+-s_anim_list *anim_list;
++extern s_anim_list *anim_list;
+ 
+ typedef struct
+ {
+@@ -2435,7 +2435,7 @@ typedef struct
+     int loadflag;
+     int selectable;
+ } s_modelcache;
+-s_modelcache *model_cache;
++extern s_modelcache *model_cache;
+ 
+ // Caskey, Damon V.
+ // 2013-12-08
+--- openbor-668aec85293a024e1421def947494c8a7e5bdcc3/engine/Makefile.orig	2020-12-12 19:13:24.561054554 +0100
++++ openbor-668aec85293a024e1421def947494c8a7e5bdcc3/engine/Makefile	2020-12-12 19:13:46.079752486 +0100
+@@ -476,7 +476,7 @@
+ #----------------------------------------------------------------------------------------------------
+ 
+ CFLAGS 	       += $(addprefix -I", $(addsuffix ", $(INCS))) $(ARCHFLAGS) -D$(TARGET_PLATFORM)
+-CFLAGS 	       += -g -Wall -Werror -fsigned-char -std=gnu99
++CFLAGS 	       += -g -Wall -fsigned-char -std=gnu99
+ 
+ 
+ ifndef BUILD_DARWIN
