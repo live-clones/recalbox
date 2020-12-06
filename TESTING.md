@@ -33,6 +33,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test openbor
 - [ ] BR2020.11 - Test mpv (splash video) still works
 - [ ] BR2020.11 - Test ppsspp
+- [ ] BR2020.11 - Test libretro-81
 
 
 ## [7.1-Reloaded]
