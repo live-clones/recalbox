@@ -1,0 +1,22 @@
+--- libretro-pcsx_rearmed-d56340b165b4a7ef25bc3c7509d4f2315843bc31/libpcsxcore/r3000a.c.orig	2020-11-28 20:59:21.552655578 +0100
++++ libretro-pcsx_rearmed-d56340b165b4a7ef25bc3c7509d4f2315843bc31/libpcsxcore/r3000a.c	2020-11-28 20:58:25.573090994 +0100
+@@ -27,7 +27,7 @@
+ #include "gte.h"
+ 
+ R3000Acpu *psxCpu = NULL;
+-psxRegisters psxRegs;
++extern psxRegisters psxRegs;
+ 
+ int psxInit() {
+ 	SysPrintf(_("Running PCSX Version %s (%s).\n"), PCSX_VERSION, __DATE__);
+--- libretro-pcsx_rearmed-d56340b165b4a7ef25bc3c7509d4f2315843bc31/libpcsxcore/psxcounters.c.orig	2020-11-28 21:01:23.807699777 +0100
++++ libretro-pcsx_rearmed-d56340b165b4a7ef25bc3c7509d4f2315843bc31/libpcsxcore/psxcounters.c	2020-11-28 21:01:32.787629337 +0100
+@@ -70,7 +70,7 @@
+ 
+ /******************************************************************************/
+ 
+-Rcnt rcnts[ CounterQuantity ];
++extern Rcnt rcnts[ CounterQuantity ];
+ 
+ u32 hSyncCount = 0;
+ u32 frame_counter = 0;
