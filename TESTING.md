@@ -29,6 +29,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test advancemame
 - [ ] BR2020.11 - Test libretro-mu
 - [ ] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
+- [ ] BR2020.11 - Test moonlight-embedded
 
 
 ## [7.1-Reloaded]
