@@ -1,0 +1,22 @@
+--- a/desmume/src/frontend/libretro/Makefile.libretro	2020-05-25 21:41:34.000000000 +0200
++++ b/desmume/src/frontend/libretro/Makefile.libretro2	2020-12-06 19:53:38.025033861 +0100
+@@ -84,6 +84,19 @@
+       DESMUME_JIT ?= 1
+    endif
+ 
++else ifeq ($(platform), linux-nogl)
++   TARGET := $(TARGET_NAME)_libretro.so
++   fpic := -fPIC
++   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=$(CORE_DIR)/frontend/libretro/link.T
++   LIBS := -lpthread -lpcap
++   CXXFLAGS += -std=gnu++11
++   HAVE_NEON = 1
++   ARCH = arm
++   BUILTIN_GPU = neon
++   USE_DYNAREC = 1
++   DESMUME_JIT_ARM = 1
++   CXXFLAGS += -DARM
++
+ # Classic Platforms ####################
+ # Platform affix = classic_<ISA>_<µARCH>
+ # Help at https://modmyclassic.com/comp

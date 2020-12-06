@@ -9,10 +9,19 @@ LIBRETRO_DESMUME_SITE = $(call github,libretro,desmume,$(LIBRETRO_DESMUME_VERSIO
 LIBRETRO_DESMUME_LICENSE = GPLv2
 LIBRETRO_DESMUME_DEPENDENCIES = libpcap-overriden
 
+ifeq ($(BR2_arm)$(BR2_aarch64),y)
+LIBRETRO_DESMUME_PLATFORM=linux-nogl
+else
+LIBRETRO_DESMUME_PLATFORM=unix
+endif
+
 define LIBRETRO_DESMUME_BUILD_CMDS
-	CFLAGS="$(TARGET_CFLAGS)" CXXFLAGS="$(TARGET_CXXFLAGS)" \
-	$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_CXX) -lpthread" AR="$(TARGET_AR)" RANLIB="$(TARGET_RANLIB)" \
-		-C $(@D)/desmume/src/frontend/libretro -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)"
+	$(SED) "s|-O2|-O3|g" $(@D)/desmume/src/frontend/libretro/Makefile
+	CFLAGS="$(TARGET_CFLAGS)  $(COMPILER_COMMONS_CFLAGS_SO)" \
+		CXXFLAGS="$(TARGET_CXXFLAGS)  $(COMPILER_COMMONS_CXXFLAGS_SO)" \
+		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
+		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" LD="$(TARGET_CXX) -lpthread" AR="$(TARGET_AR)" RANLIB="$(TARGET_RANLIB)" \
+		-C $(@D)/desmume/src/frontend/libretro -f Makefile platform="$(LIBRETRO_DESMUME_PLATFORM)"
 endef
 
 define LIBRETRO_DESMUME_INSTALL_TARGET_CMDS

@@ -1,0 +1,18 @@
+--- a/Makefile	2020-12-06 21:51:27.020437607 +0100
++++ b/Makefile2	2020-12-06 21:51:39.032546844 +0100
+@@ -82,6 +82,15 @@
+    ifeq ($(ARCH),x86_64)
+       JIT_ARCH=x64
+    endif
++else ifeq ($(platform), linux-nogl)
++	EXT ?= so
++   TARGET := $(TARGET_NAME)_libretro.$(EXT)
++   fpic := -fPIC
++   SHARED := -shared -Wl,--version-script=$(CORE_DIR)/link.T -Wl,--no-undefined
++   LIBS +=-lpthread
++   HAVE_THREADS=1
++	HAVE_NEON = 1
++	ARCH = arm
+ else ifeq ($(platform), linux-portable)
+    TARGET := $(TARGET_NAME)_libretro.$(EXT)
+    fpic := -fPIC -nostdlib

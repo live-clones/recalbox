@@ -18,6 +18,7 @@ Every case must be checked before a release.
 + [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
 + [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 - [ ] Bump Stella => Deeply retest Stella core
+- [ ] Test & evaluate MelonDS on Pi4
 
 
 ## [7.1-Reloaded]
