@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-PPSSPP_VERSION = 9aab3d986a170b3b92559288bcb89a93c3010ef1
+# Commit of 6/12/2020
+PPSSPP_VERSION = dd2c093586aba4fdc73d13ebfd45263de88682a5
 PPSSPP_SITE = git://github.com/hrydgard/ppsspp.git
 PPSSPP_GIT_SUBMODULES=y
 PPSSPP_DEPENDENCIES = sdl2 zlib libzip linux zip ffmpeg snappy
