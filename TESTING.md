@@ -27,6 +27,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test libretro-pcsx_rearmed
 - [ ] BR2020.11 - Test moonlight-embedded
 - [ ] BR2020.11 - Test openbor
+- [ ] BR2020.11 - Test mpv (splash video) still works
 
 
 ## [7.1-Reloaded]
