@@ -28,6 +28,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test libretro-gpsp
 - [ ] BR2020.11 - Test advancemame
 - [ ] BR2020.11 - Test libretro-mu
+- [ ] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
 
 
 ## [7.1-Reloaded]
