@@ -32,6 +32,10 @@ All notable changes to this project will be documented in this file.
 - Move to private theme repository for official Recalbox builds
 - Add libretro-mupen64plus-next for odroidxu4 (#1465, #1467)
 - Bump libretro-pcsx_rearmed to 4bc5e3507d00a20344ad3fbf2571b66e9a8640ea
+- Bump libretro-melonds to 7bbf8e1606697f7591072d05b61fae84e8b49455
+- Bump buildroot to 2020.11
+- Bump ppsspp to v1.10.3-1299-gdd2c09358
+- Disable libretro-mupen64plus in profit of libretro-mupen64plus-nx
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
