@@ -1,5 +1,5 @@
-#include <utils/Strings.h>
 #include "PlatformId.h"
+#include <map>
 
 namespace PlatformIds
 {
@@ -144,7 +144,7 @@ namespace PlatformIds
 
   std::string getPlatformName(PlatformId id)
   {
-    for(auto& it : getScrappingPlatforms())
+    for(const auto& it : getScrappingPlatforms())
       if (it.second == id)
         return it.first;
 

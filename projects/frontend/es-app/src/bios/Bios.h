@@ -59,6 +59,20 @@ class Bios
          * @brief Copy constructor
          * @param source Source Hash
          */
+        Md5Hash& operator = (const Md5Hash& source)
+        {
+          if (&source != this)
+          {
+            memcpy(mBytes, source.mBytes, sizeof(mBytes));
+            mValid = source.mValid;
+          }
+          return *this;
+        }
+
+        /*!
+         * @brief Copy constructor
+         * @param source Source Hash
+         */
         Md5Hash(const Md5Hash& source)
           : mBytes {},
             mValid(source.mValid)

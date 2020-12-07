@@ -8,6 +8,7 @@
 
 #include <functional>
 #include <vector>
+#include <string>
 
 class WindowManager;
 class Animation;
@@ -57,7 +58,7 @@ class Component: public IComponent
      */
     void Render(const Transform4x4f& parentTrans) override;
 
-    inline bool isDisabled() { return mDisabled; }
+    inline bool isDisabled() const { return mDisabled; }
     inline void setDisabled(bool disabled) { mDisabled = disabled; }
 
     const Vector3f& getPosition() const { return mPosition; }
