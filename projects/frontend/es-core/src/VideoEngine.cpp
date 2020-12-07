@@ -83,104 +83,119 @@ bool VideoEngine::AudioPacketQueue::Dequeue(AVPacket& pkt)
 
 VideoEngine::VideoEngine()
   : StaticLifeCycleControler<VideoEngine>("VideoEngine")
-  , mState(PlayerState::Idle)
-  , mDecodeAudio(false)
+  , mIsPlaying(false)
+  , mPlayAudio(false)
 {
   StartEngine();
+}
+
+bool VideoEngine::CheckPendingMessages()
+{
+  Mutex::AutoLock sync(mQueueSyncer);
+  return !mPendingMessages.Empty();
+}
+
+bool VideoEngine::GetNextOrder(VideoEngine::OrderMessage& output)
+{
+  for(;;)
+  {
+    { // Check last message - Pop & recycle previous message if it's a pending play message
+      Mutex::AutoLock sync(mQueueSyncer);
+      if (!mPendingMessages.Empty())
+      {
+        output = *mPendingMessages.Peek();
+        mMessageProvider.Recycle(mPendingMessages.Pop());
+        return true;
+      }
+    }
+    // No message yet, wait for the next
+    mSignal.WaitSignal();
+  }
 }
 
 void VideoEngine::Run()
 {
   try
   {
+    OrderMessage nextMessage;
     while(IsRunning())
-    {
-      // Wait for a video to play
-      if(mState != PlayerState::Error)
-      {
-          mState = PlayerState::Idle;
-      }
-      mSignal.WaitSignal();
-      if (!IsRunning())
-      {
-        LOG(LogInfo) << "Video Engine stopped.";
-        break;
-      }
-
-      // Run the video
-      LOG(LogDebug) << "Video Engine start playing " << mFileName.ToString();
-      mState = PlayerState::StartPending;
-      if (InitializeDecoder())
-      {
-        if (mState == PlayerState::StartPending)
-          mState = PlayerState::Playing;
-        while (mState == PlayerState::Playing)
+      if (GetNextOrder(nextMessage)) // Blocking operation
+        switch(nextMessage.GetOrder())
         {
-          DecodeFrames();
+          case Order::Play:
+          {
+            // Video changed?
+            if (nextMessage.GetPath() == mFileName) FinalizeDecoder();
+            // Entre play loop
+            mFileName = nextMessage.GetPath();
+            if (InitializeDecoder())
+            {
+              mIsPlaying = true;
+              // Play until next message
+              LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
+              DecodeFrames();
+            }
+            else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
+            break;
+          }
+          case Order::Stop:
+          {
+            mIsPlaying = false;
+            mFileName = Path();
+            FinalizeDecoder();
+            break;
+          }
+          case Order::None:
+          default: break;
         }
-      }
-      else
-      {
-           mState = PlayerState::Error;
-      }
-      FinalizeDecoder();
-    }
   }
   catch(const std::exception& e)
   {
-    LOG(LogError) << "Video engine fatal exception: " << e.what() << ". Engine stopped until next ES launch!";
+    LOG(LogError) << "[Video Engine] fatal exception: " << e.what() << ". Engine stopped until next ES launch!";
   }
+  FinalizeDecoder();
 }
 
-void VideoEngine::PlayVideo(const Path& videopath, bool decodeAudio)
+void VideoEngine::PlayVideo(const Path& videopath)
 {
   LOG(LogDebug) << "Video Engine requested to play " << videopath.ToString();
 
-  // Stop previous video
-  StopVideo(true);
+  { // Check last message - Pop & recycle previous message if it's a pending play message
+    Mutex::AutoLock sync(mQueueSyncer);
+    if (!mPendingMessages.Empty())
+      if (mPendingMessages.Peek()->GetOrder() == Order::Play)
+        mMessageProvider.Recycle(mPendingMessages.Pop());
+  }
 
-  // Start the new video
-  if (!videopath.IsEmpty())
-  {
-    mDecodeAudio = decodeAudio;
-    mFileName = videopath;
+  // Create new message
+  OrderMessage* message = mMessageProvider.Obtain();
+  message->Set(Order::Play, videopath);
+  { // Post
+    Mutex::AutoLock sync(mQueueSyncer);
+    mPendingMessages.Push(message);
     mSignal.Signal();
   }
 }
 
-void VideoEngine::StopVideo(bool waitforstop)
+void VideoEngine::StopVideo()
 {
-  switch(mState)
-  {
-    case PlayerState::Error:
-    {
+  LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName.ToString();
 
-        mState = PlayerState::Idle;
-        break;
-    }
-    case PlayerState::Idle: break;
-    case PlayerState::StartPending:
-    case PlayerState::Paused:
-    case PlayerState::Playing:
-    {
-      LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName.ToString();
-      mState = PlayerState::StopPending;
-      break;
-    }
-    case PlayerState::StopPending: break;
-  }
-  // Paused?
-
-  // Wait for the video to stop
-  if (waitforstop)
-  {
-    // So we can afford a little sleep loop. No need to use a signal here.
-    while (mState == PlayerState::StopPending)
-      sleep(10);
+  { // Check last message - Pop & recycle previous message if it's a pending play message
+    Mutex::AutoLock sync(mQueueSyncer);
+    if (!mPendingMessages.Empty())
+      if (mPendingMessages.Peek()->GetOrder() == Order::Stop)
+        mMessageProvider.Recycle(mPendingMessages.Pop());
   }
 
-  mFileName = "";
-  mTexture.reset();
+  // Create new message
+  OrderMessage* message = mMessageProvider.Obtain();
+  message->Set(Order::Stop);
+  { // Post
+    Mutex::AutoLock sync(mQueueSyncer);
+    mPendingMessages.Push(message);
+    mSignal.Signal();
+  }
 }
 
 bool VideoEngine::InitializeDecoder()
@@ -316,24 +331,17 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
   static unsigned char* converted = &converted_data[0];
 
   int dataSize = 0;
-  bool decodeAudio = (mState == PlayerState::Playing);
-  if (!decodeAudio || !mContext.AudioQueue.Dequeue(packet))
-  {
-      return -1;
-  }
+  if (!mContext.AudioQueue.Dequeue(packet)) return -1;
+
   int ret = avcodec_send_packet(&audioContext, &packet);
   av_packet_unref(&packet);
-  if (ret < 0)
-  {
-    return -1;
-  }
+  if (ret < 0) return -1;
 
   while (ret == 0)
   {
     ret = avcodec_receive_frame(&audioContext, frame);
-    if (ret == AVERROR(EAGAIN) || ret == AVERROR(EOF)) {
-        return -1;
-    }
+    if (ret == AVERROR(EAGAIN) || ret == AVERROR(EOF)) return -1;
+
     // if error, skip frame
     if (ret < 0)  break;
 
@@ -406,7 +414,7 @@ void VideoEngine::DecodeFrames()
   AVPacket packet;
   HighResolutionTimer timer;
   timer.Initialize(0);
-  for(;;)
+  while(!CheckPendingMessages())
   {
     int error = av_read_frame(mContext.AudioVideoContext, &packet);
 
@@ -425,7 +433,7 @@ void VideoEngine::DecodeFrames()
       {
         if (avcodec_send_packet(mContext.VideoCodecContext, &packet) != 0)
           RETURN_ERROR("Error sending video packet to codec",);
-        while (mState == PlayerState::Playing && (avcodec_receive_frame(mContext.VideoCodecContext, mContext.Frame) == 0))
+        while (avcodec_receive_frame(mContext.VideoCodecContext, mContext.Frame) == 0)
         {
           // Timing
           long long TimeFromPreviousFrame = timer.GetNanoSeconds();
@@ -449,24 +457,19 @@ void VideoEngine::DecodeFrames()
           ++VideoFrameCount;
         }
       }
-      else if (mDecodeAudio && packet.stream_index == mContext.AudioStreamIndex)
+      else if (mPlayAudio && packet.stream_index == mContext.AudioStreamIndex)
       {
         mContext.AudioQueue.Enqueue(&packet);
         ++AudioFrameCount;
       }
       av_packet_unref(&packet);
     }
-
-    // Paused?
-    while(mState == PlayerState::Paused)
-      sleep(50);
-
-    // End?
-    if (mState != PlayerState::Playing) break;
   }
 }
 
 void VideoEngine::FinalizeDecoder()
 {
+  SDL_CloseAudio();
   mContext.Dispose();
 }
+

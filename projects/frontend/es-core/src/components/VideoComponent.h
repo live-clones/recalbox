@@ -14,6 +14,7 @@ class VideoComponent : public Component
     {
       Uninitialized,
       InitializeVideo,
+      WaitForVideoToStart,
       StartVideo,
       DisplayVideo,
       StopVideo,

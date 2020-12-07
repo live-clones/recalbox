@@ -24,30 +24,29 @@
 #include <usernotifications/NotificationManager.h>
 
 ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
-	: StaticLifeCycleControler<ViewController>("ViewController"),
-	  Gui(window),
-	  mSystemManager(systemManager),
-	  mCurrentView(nullptr),
-	  mSystemListView(window, systemManager),
-	  mSplashView(window),
-	  mCamera(Transform4x4f::Identity()),
-	  mFadeOpacity(0),
-	  mLockInput(false),
-    mState()
+	: StaticLifeCycleControler<ViewController>("ViewController")
+	, Gui(window)
+	, mSystemManager(systemManager)
+	, mCurrentView(&mSplashView)
+	, mSystemListView(window, systemManager)
+	, mSplashView(window)
+	, mGameClipView()
+	, mCamera(Transform4x4f::Identity())
+	, mFadeOpacity(0)
+	, mLockInput(false)
+  , mFavoritesOnly(Settings::Instance().FavoritesOnly())
+  , mState()
 {
   // Progress interface
   systemManager.SetProgressInterface(&mSplashView);
 
   // default view mode
 	mState.viewing = ViewMode::SplashScreen;
-	mFavoritesOnly = Settings::Instance().FavoritesOnly();
 
 	// System View
   mSystemListView.setPosition(0, Renderer::Instance().DisplayHeightAsFloat());
   // Splash
   mSplashView.setPosition(0,0);
-
-  mCurrentView = &mSplashView;
 }
 
 void ViewController::goToStart()
@@ -536,13 +535,6 @@ void ViewController::Render(const Transform4x4f& parentTrans)
     if (gb < vpu) break;
     if (gu > vpb) break;
 
-    //TODO: manage to stopping snap video in gamelisview when back to system view
-    for(;;)
-    {
-        if(VideoEngine::Instance().IsIdle())
-            break;
-        VideoEngine::Instance().StopVideo();
-    }
     mSystemListView.Render(trans);
     break;
   }

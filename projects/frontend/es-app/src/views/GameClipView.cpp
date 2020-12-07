@@ -191,7 +191,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
     quitGameClipView();
     return;
   }
-  if (mState == State::NoGameSelected && VideoEngine::Instance().IsIdle())
+  if (mState == State::NoGameSelected && !VideoEngine::Instance().IsPlaying())
   {
     startGameClip();
     mState = State::InitPlaying;
@@ -211,7 +211,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
         mState = State::Playing;
       }
     }
-    else if (VideoEngine::Instance().IsError())
+    else
     {
       LOG(LogDebug) << "Video in error for game" << mGame->Metadata().VideoAsString();
       // remove game from list
@@ -355,14 +355,7 @@ void GameClipView::startGameClip()
 
 void GameClipView::stopGameClip()
 {
-  for (;;)
-  {
-    if (VideoEngine::Instance().IsIdle())
-    {
-      break;
-    }
-    mGameClipContainer.StopVideo();
-  }
+  mGameClipContainer.StopVideo();
   NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
 }
 

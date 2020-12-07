@@ -52,6 +52,12 @@ template<typename T> class Array : private Allocator
       return &__GET(from);
     }
 
+    // Clear size byte from memory
+    inline void ClearMemory(void* memory, int size)
+    {
+      memset(memory, 0, size);
+    }
+
     // Contract area by removing count item
     void Contract(int from, int count)
     {
@@ -59,7 +65,7 @@ template<typename T> class Array : private Allocator
       if (from + count > fCount) count = fCount - from;
       memcpy(&__GET(from), &__GET(from + count), (fCount - (from + count)) * __OBJSZ);
       fCount -= count;
-      memset(&__GET(fCount), 0, count * __OBJSZ);
+      ClearMemory(&__GET(fCount), count * __OBJSZ);
     }
 
 #ifdef __cplusplus11

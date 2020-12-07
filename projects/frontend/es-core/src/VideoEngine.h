@@ -6,8 +6,10 @@
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <utils/storage/MessageFactory.h>
 #include <SDL_system.h>
 #include <resources/TextureData.h>
+#include <utils/storage/Queue.h>
 
 extern "C"
 {
@@ -24,7 +26,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 {
   public:
     /*!
-     * @brief Curren tplayer state
+     * @brief Current player state
      */
     enum class PlayerState
     {
@@ -34,6 +36,16 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
       Paused,       // Pause flag
       StopPending,  // Currently playing but must stop asap and return idle
       Error,        // video is in error
+    };
+
+    /*!
+     * @brief Simple order sent to th eplayer
+     */
+    enum class Order
+    {
+      None,  //!< Emptuy order
+      Play,  //!< Play a video
+      Stop,  //!< Stop video
     };
 
   private:
@@ -59,9 +71,11 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
          * @brief Constructor
          */
         AudioPacketQueue()
+          : First(nullptr)
+          , Last(nullptr)
+          , Count(0)
+          , Size(0)
         {
-          First = Last = nullptr;
-          Count = Size = 0;
         }
 
         void Reset()
@@ -165,6 +179,10 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
         void Dispose()
         {
+          // Protect both access to RGB data
+          FrammeRGBLocker[0].Lock();
+          FrammeRGBLocker[1].Lock();
+
           if (AudioVideoContext != nullptr ) avformat_close_input(&AudioVideoContext);
           if (AudioCodecContext != nullptr ) avcodec_free_context(&AudioCodecContext);
           if (VideoCodecContext != nullptr ) avcodec_free_context(&VideoCodecContext);
@@ -188,28 +206,69 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
           FrameTime = 0;
 
           AudioQueue.Reset();
+
+          // Unlock RGB data
+          FrammeRGBLocker[0].UnLock();
+          FrammeRGBLocker[1].UnLock();
         }
     };
 
-  private:
+    /*!
+     * @brief Order message
+     */
+    class OrderMessage
+    {
+      public:
+        //! Default constructor
+        OrderMessage() : mOrder(Order::Stop) {}
+        //! Copy constructor
+        OrderMessage(const OrderMessage& source) : mOrder(source.GetOrder()), mVideoPath(source.mVideoPath) {}
+        //! Copy operator
+        OrderMessage& operator = (const OrderMessage& source)
+        {
+          if (&source != this)
+          {
+            mOrder = source.GetOrder();
+            mVideoPath = source.mVideoPath;
+          }
+          return *this;
+        }
+        //! Set properties
+        void Set(Order order, const Path& videoPath) { mOrder = order; mVideoPath = videoPath; }
+        //! Set properties
+        void Set(Order order) { mOrder = order; }
+
+        Order GetOrder() const { return mOrder; }
+        const Path& GetPath() const { return mVideoPath; }
+
+      private:
+        Order mOrder;
+        Path mVideoPath;
+    };
+
     //! Signal used to unlock the thread and actually run the video decoding
     Mutex mSignal;
-
     //! Video filename
     Path mFileName;
 
-    //! Video playing state
-    volatile PlayerState mState;
+    //! Is playing?
+    volatile bool mIsPlaying;
+    //! Decode & play audio?
+    bool mPlayAudio;
 
     //! Global context
     PlayerContext mContext;
-
     //! Textures to render
     TextureData mTexture;
 
-    static constexpr int SDL_AUDIO_BUFFER_SIZE = 4096;
+    //! Order message provider
+    MessageFactory<OrderMessage> mMessageProvider;
+    //! Order Queue
+    Queue<OrderMessage*> mPendingMessages;
+    //! Queue protector
+    Mutex mQueueSyncer;
 
-  private:
+    static constexpr int SDL_AUDIO_BUFFER_SIZE = 4096;
 
     /*!
      * Thread main loop
@@ -240,11 +299,22 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     void FinalizeDecoder();
 
     /*!
+     * @brief Check if there is at least one pending message in the queue
+     * @return True if at least one pending message is in the queue, fals otherwise
+     */
+    bool CheckPendingMessages();
+
+    /*!
+     * @brief Pop next message out of the order queue.
+     * @param output Ouput message to fill in with the first message availablein the queue
+     * @return True if the output contains a valid message, false otherwise
+     */
+    bool GetNextOrder(OrderMessage& output);
+
+    /*!
      * @brief Start the video engine. After calling this method, the player is ready to play video
      */
     void StartEngine() { Thread::Start("VideoEngine"); }
-
-    bool mDecodeAudio;
 
   public:
     /*!
@@ -257,7 +327,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      */
     ~VideoEngine() override
     {
-      StopVideo(false);
+      StopVideo();
       Thread::Stop();
     }
 
@@ -266,13 +336,13 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const Path& videopath, bool decodeAudio = false);
+    void PlayVideo(const Path& videopath);
 
     /*!
      * @brief Stop the currently playing video file.
      * Does nothing if no file is actually playing
      */
-    void StopVideo(bool waitforstop = false);
+    void StopVideo();
 
     /*!
      * @brief Get current image of the current playing video
@@ -285,25 +355,11 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * @brief Return true if the player is actually playing a video
      * @return True if a video is playing, false otherwise
      */
-    bool IsPlaying() { return ((mState == PlayerState::Playing) || (mState == PlayerState::StopPending)); }
+    bool IsPlaying() const { return mIsPlaying; }
 
     /*!
      * @brief Return true if the engine is in idle state
      * @return True if in idle state, false otherwise
      */
-    bool IsIdle() { return (mState == PlayerState::Idle); }
-
-    bool IsError() { return (mState == PlayerState::Error); }
-
     int GetVideoDurationMs() { return IsPlaying() ? mContext.TotalTime : 0; }
-
-    /*!
-     * Pause the engine if it's actually playing a video. Otherwise do nothing.
-     */
-    void PauseEngine() { if (mState == PlayerState::Playing) mState = PlayerState::Paused; }
-
-    /*!
-     * Resume the engine if it's actually paused. Otherwise do nothing.
-     */
-    void ResumeEngine() { if (mState == PlayerState::Paused) mState = PlayerState::Playing; }
 };
