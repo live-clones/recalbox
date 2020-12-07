@@ -34,6 +34,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test mpv (splash video) still works
 - [ ] BR2020.11 - Test ppsspp
 - [ ] BR2020.11 - Test libretro-81
+- [ ] BR2020.11 - Check video (spash video) is displayed on boot
 
 
 ## [7.1-Reloaded]
