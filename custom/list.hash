@@ -28,6 +28,8 @@ eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 3989f1f326324312947762b6efbdaf5e  package/rpi-firmware/rpi-firmware.hash
 a3dbd73130dbd41a1863ea30ebecbdcf  package/rpi-firmware/rpi-firmware.mk
+55551146f293705a233f5f6097ba61a2  package/rpi-userland/rpi-userland.hash
+ad631da645e56f71a6c87cf8b3269b7c  package/rpi-userland/rpi-userland.mk
 fe9cec5ae979fec31bda3476ef73624b  package/rpi-wifi-firmware/rpi-wifi-firmware.hash
 5266f2bf135efa8a2a416812d71df588  package/rpi-wifi-firmware/rpi-wifi-firmware.mk
 8bda0266f861d3e7c84daf5c81232edd  package/sdl2/sdl2.mk
