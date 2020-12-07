@@ -36,6 +36,7 @@ All notable changes to this project will be documented in this file.
 - Bump buildroot to 2020.11
 - Bump ppsspp to v1.10.3-1299-gdd2c09358
 - Disable libretro-mupen64plus in profit of libretro-mupen64plus-nx
+- Bump libretro-flycast to b7839962a58577cd94992ecfc0f3c6f041b90484 (12/11/2020)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
