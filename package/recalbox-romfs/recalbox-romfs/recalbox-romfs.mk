@@ -77,7 +77,7 @@ define RECALBOX_ROMFS_CALL_ADD_PORT
     "<name>$(3)</name>\n" \
     '<path readonly="$(7)">/recalbox/share/roms/ports/$(2)</path>\n' \
     '<extension>$(4)</extension>\n' \
-    "<command>$(CONFIGGEN_STD_CMD)$(7)</command>\n" \
+    "<command>$(CONFIGGEN_STD_CMD)$(8)</command>\n" \
     '<platform>$(5)</platform>\n' \
     '<theme>$(6)</theme>\n' \
     '<emulators>' > $(1)
