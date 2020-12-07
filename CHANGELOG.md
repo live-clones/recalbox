@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Fix compilation of wm8960 for all boards (#1457)
 - Patch libwebsocket to match mosquito's requirements
 - Fix compilation of mupen64plus core and gliden64 for rpi2/3 (#1461)
+- Bump stella
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

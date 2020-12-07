@@ -11,6 +11,7 @@
 
 ### Improvements
 - Bump Amiberry to version 3.3
+- Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
 
 ### Fixes
 - Fix Odroid Go Advance controller (v1)
