@@ -116,7 +116,7 @@ playVideoOnOneScreen() {
   local options
   # shellcheck disable=SC2206
   options+=($2) # get space delimited options as is
-  options+=(--fs --sub-file /recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
+  options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }
