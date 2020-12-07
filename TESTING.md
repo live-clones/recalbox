@@ -35,6 +35,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test ppsspp
 - [ ] BR2020.11 - Test libretro-81
 - [ ] BR2020.11 - Check video (spash video) is displayed on boot
+- [ ] BR2020.11 - Check recalbox-initramfs compiles
 
 
 ## [7.1-Reloaded]
