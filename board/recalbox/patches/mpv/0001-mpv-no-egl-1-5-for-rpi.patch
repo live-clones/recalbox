@@ -1,0 +1,14 @@
+--- mpv-0.32.0/video/out/opengl/egl_helpers.h.orig	2020-12-08 18:32:31.020631450 +0100
++++ mpv-0.32.0/video/out/opengl/egl_helpers.h	2020-12-08 18:33:51.100420330 +0100
+@@ -8,6 +8,11 @@
+ 
+ #include "video/out/gpu/context.h"
+ 
++// define EGLAttrib for rpi <= 3 platform
++#ifndef EGL_VERSION_1_5
++typedef intptr_t EGLAttrib;
++#endif
++
+ struct mp_log;
+ 
+ bool mpegl_create_context(struct ra_ctx *ctx, EGLDisplay display,
