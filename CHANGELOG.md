@@ -31,6 +31,7 @@ All notable changes to this project will be documented in this file.
 - Fix model 3 sound option
 - Fix metadata edition #2
 - Fix various unsaved settings in Emulationstation
+- Fix menu theme
 
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
