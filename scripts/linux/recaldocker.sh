@@ -25,5 +25,6 @@ docker run -ti --rm \
 	-e "ARCH=${ARCH}" \
 	-e "PACKAGE=${PACKAGE}" \
 	-e "RECALBOX_VERSION=${RECALBOX_VERSION:-development}" \
+	-e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
 	--user="`id -u`:`id -g`" \
 	"recalbox-dev" ${@}

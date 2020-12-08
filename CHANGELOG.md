@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Fix compilation of mupen64plus core and gliden64 for rpi2/3 (#1461)
 - Bump stella
 - Compile MelonDS & DesMume on arm/aarch64 boards
+- Move to private theme repository for official Recalbox builds
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
