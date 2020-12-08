@@ -34,6 +34,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check ES compiles with GCC10
 - [ ] BR2020.11 - Check recalbox-initramfs compiles
 - [ ] BR2020.11 - Test libretro-flycast
+- [ ] BR2020.11 - Check mpv correctly displays a splash video on rpi1, 2 and 3
 
 
 ## [7.1-Reloaded]
