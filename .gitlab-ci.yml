@@ -72,6 +72,9 @@ lint changelog:
 
 .build_template: &build_definition
   stage: build
+  variables:
+    ARCH: arch to build (no default)
+    QUICK: true for quick build reusing last build files (default false)
   <<: *only-default
   before_script:
     - source scripts/release/functions.sh
@@ -85,23 +88,118 @@ lint changelog:
     - cat RELEASE-NOTES.md
     # Build
     - docker build -t "recalbox-${ARCH}" .
-    - docker run --rm -v `pwd`:/work -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - WORKDIR="$(pwd)"
+    - ls .
+    - ls /recalbox-builds
+    - if [[ "${QUICK}" == "true" && ! -f "/recalbox-builds/outputs/output-${ARCH}.building" ]];then WORKDIR="/recalbox-builds/outputs/output-${ARCH}" && mkdir -p "${WORKDIR}" && cp -r . "${WORKDIR}" && touch "${WORKDIR}/.building";fi 
+    - docker run --rm -v "${WORKDIR}:/work" -v /recalbox-builds/dl:/share/dl -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=true" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     # Dist
     - export DIST_DIR="dist/${ARCH}"
     - mkdir -p "${DIST_DIR}"
-    - cp output/images/recalbox/* "${DIST_DIR}"
+    - cp ${WORKDIR}/output/images/recalbox/* "${DIST_DIR}"
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
-    - cp CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
-    - cp RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
+    - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
+    - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
   after_script:
-    - rm -rf buildroot
+    - if [[ "${QUICK}" == "true" ]]; then rm "/recalbox-builds/outputs/output-${ARCH}/.building";fi
   artifacts:
     name: dist-${ARCH}-${CI_PIPELINE_ID}
     when: always
     paths:
       - build.log
     expire_in: 2 mos
+
+quick build rpi1:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'rpi1'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build rpi2:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'rpi2'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build rpi3:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'rpi3'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build rpi4:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'rpi4'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build x86_64:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'x86_64'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build x86:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'x86'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build x86:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'x86'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build odroidxu4:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'odroidxu4'
+    QUICK: 'true'
+  tags:
+    - quickbuild
+quick build odroidgo2:
+  <<: *build_definition
+  when: manual
+  except:
+    - tags
+  variables:
+    ARCH: 'odroidgo2'
+    QUICK: 'true'
+  tags:
+    - quickbuild
 
 build rpi1:
   <<: *build_definition
