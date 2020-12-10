@@ -29,9 +29,9 @@ endif
 # Sadly the NEON optimizations in the PNG library doesn't work yet, so disable them
 define REICAST_OLD_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/shell/linux/Makefile
-	$(SED) "s|CFLAGS :=|CFLAGS := $(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_EXE)|g" $(@D)/shell/linux/Makefile
-	$(SED) "s|CXXFLAGS :=|CXXFLAGS := $(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_EXE)|g" $(@D)/shell/linux/Makefile
-	$(SED) "s|LDFLAGS :=|LDFLAGS := $(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_EXE)|g" $(@D)/shell/linux/Makefile
+	$(SED) "s|CFLAGS :=|CFLAGS := $(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)|g" $(@D)/shell/linux/Makefile
+	$(SED) "s|CXXFLAGS :=|CXXFLAGS := $(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)|g" $(@D)/shell/linux/Makefile
+	$(SED) "s|LDFLAGS :=|LDFLAGS := $(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO)|g" $(@D)/shell/linux/Makefile
 	$(TARGET_CONFIGURE_OPTS) $(MAKE) \
 		CPP="$(TARGET_CPP)" \
 		CXX="$(TARGET_CXX) -D_GLIBCXX_USE_CXX11_ABI=0" \
