@@ -1,0 +1,72 @@
+diff --git a/Makefile b/Makefile
+index c60ad289ab..d82ace7593 100644
+--- a/Makefile
++++ b/Makefile
+@@ -605,6 +605,7 @@ ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-stack-usage.sh $(CC)),y)
+ endif
+ 
+ KBUILD_CFLAGS += $(call cc-option,-Wno-format-nonliteral)
++KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
+ 
+ # turn jbsr into jsr for m68k
+ ifeq ($(ARCH),m68k)
+diff --git a/disk/part_efi.c b/disk/part_efi.c
+index 4033b3e802..b67f197866 100644
+--- a/disk/part_efi.c
++++ b/disk/part_efi.c
+@@ -795,9 +795,18 @@ err:
+ 	return ret;
+ }
+ 
+-static void gpt_convert_efi_name_to_char(char *s, efi_char16_t *es, int n)
++/**
++  * gpt_convert_efi_name_to_char() - convert u16 string to char string
++  *
++  * TODO: this conversion only supports ANSI characters
++  *
++  * @s: target buffer
++  * @es: u16 string to be converted
++  * @n: size of target buffer
++  */
++static void gpt_convert_efi_name_to_char(char *s, void *es, int n)
+ {
+-	char *ess = (char *)es;
++	char *ess = es;
+ 	int i, j;
+ 
+ 	memset(s, '\0', n);
+diff --git a/lib/uuid.c b/lib/uuid.c
+index 1536c027da..d3f623136a 100644
+--- a/lib/uuid.c
++++ b/lib/uuid.c
+@@ -235,23 +235,23 @@ void uuid_bin_to_str(unsigned char *uuid_bin, char *uuid_str, int str_format)
+ #if defined(CONFIG_RANDOM_UUID) || defined(CONFIG_CMD_UUID)
+ void gen_rand_uuid(unsigned char *uuid_bin)
+ {
+-	struct uuid uuid;
+-	unsigned int *ptr = (unsigned int *)&uuid;
++	u32 ptr[4];
++	struct uuid *uuid = (struct uuid *)ptr;  
+ 	int i;
+ 
+ 	/* Set all fields randomly */
+-	for (i = 0; i < sizeof(struct uuid) / sizeof(*ptr); i++)
+-		*(ptr + i) = cpu_to_be32(rand());
++	for (i = 0; i < 4; i++)
++		ptr[i] = rand();
+ 
+-	clrsetbits_be16(&uuid.time_hi_and_version,
+++	clrsetbits_be16(&uuid->time_hi_and_version,
+ 			UUID_VERSION_MASK,
+ 			UUID_VERSION << UUID_VERSION_SHIFT);
+ 
+-	clrsetbits_8(&uuid.clock_seq_hi_and_reserved,
+++	clrsetbits_8(&uuid->clock_seq_hi_and_reserved,
+ 		     UUID_VARIANT_MASK,
+ 		     UUID_VARIANT << UUID_VARIANT_SHIFT);
+ 
+-	memcpy(uuid_bin, &uuid, sizeof(struct uuid));
++	memcpy(uuid_bin, uuid, 16);
+ }
+ 
+ /*
