@@ -41,6 +41,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
 - [ ] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
 - [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
+- [ ] BR2020.11 - Check that Odroid GO2 boots correctly
 
 
 ## [7.1-Reloaded]
