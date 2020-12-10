@@ -19,6 +19,7 @@ Every case must be checked before a release.
 + [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
 - [ ] Bump Stella => Deeply retest Stella core
 - [ ] Test & evaluate MelonDS on Pi4
+- [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
 
 
 ## [7.1-Reloaded]
