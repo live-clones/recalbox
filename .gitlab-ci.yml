@@ -8,7 +8,6 @@ image: docker:latest
 .only-default: &only-default
   only:
     - branches
-    - merge_requests
     - tags
 
 stages:
@@ -61,8 +60,9 @@ lint beta-tests:
 
 lint changelog:
   <<: *lint_definition
-  only:
-    - merge_requests
+  except:
+    - master
+    - tags
   before_script:
     - apk update && apk add git
   script:
