@@ -43,6 +43,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
 - [ ] BR2020.11 - Check that Odroid GO2 boots correctly
 - [ ] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
+- [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
 
 
 ## [7.1-Reloaded]
