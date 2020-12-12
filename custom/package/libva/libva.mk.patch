@@ -1,0 +1,13 @@
+diff --git a/package/libva/libva.mk b/package/libva/libva.mk
+index 75d26fa7fa..0ec6b12868 100644
+--- a/package/libva/libva.mk
++++ b/package/libva/libva.mk
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBVA_VERSION = 2.9.0
++LIBVA_VERSION = 2.10.0
+ LIBVA_SOURCE = libva-$(LIBVA_VERSION).tar.bz2
+ LIBVA_SITE = https://github.com/intel/libva/releases/download/$(LIBVA_VERSION)
+ LIBVA_LICENSE = MIT
