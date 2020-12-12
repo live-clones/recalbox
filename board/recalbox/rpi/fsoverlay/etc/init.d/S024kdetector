@@ -10,7 +10,7 @@ DESIRED_CEA_RESOLUTION=("1920x1080.*60Hz.*progressive" "1920x1080.*60Hz.*interla
 DESIRED_DMT_RESOLUTION=("1920x1080.*60Hz.*progressive" "1920x1080.*60Hz.*interlaced" \
                         "1600x900.*60Hz.*progressive" "1600x900.*60Hz.*interlaced" \
                         "1280x1024.*60Hz.*progressive" "1280x1024.*60Hz.*interlaced" \
-                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced" )
+                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced")
 
 found_best_cea_resolution() {
   local MODE resolution
@@ -48,8 +48,9 @@ if tvservice -s |head -n 1 |grep -q '3840x2160'; then
   fi
 
   if [ -z "$MODE" ]; then
-    echo "no suitable mode found" >&2
-    exit 1
+    echo "no suitable mode found, using lowres mode" >&2
+    GROUP=1
+    MODE=1
   fi
 
   mount -o remount,rw /boot

@@ -53,6 +53,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check nvidia drivers version 440 works properly
 - [ ] BR2020.11 - Test pcsx_rearmed on rpi1 works
 - [ ] BR2020.11 - Check that Odroid GO2 linux kernel boots correctly
+- [ ] Test S024kdetector still does its job
 
 
 ## [7.1-Reloaded]
