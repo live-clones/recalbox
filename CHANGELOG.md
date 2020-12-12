@@ -38,6 +38,7 @@ All notable changes to this project will be documented in this file.
 - Disable libretro-mupen64plus in profit of libretro-mupen64plus-nx
 - Bump libretro-flycast to b7839962a58577cd94992ecfc0f3c6f041b90484 (12/11/2020)
 - Bump libretro-mame to f0c675d604317fdbfaaa08997bd843af6bcfd193 (0.226)
+- Bump libretro-melonds to 7bbf8e1606697f7591072d05b61fae84e8b49455
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
