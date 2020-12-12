@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MAME_VERSION = 21d2ebdaa06dfbcc94effe23a7473253ec3fd969
+LIBRETRO_MAME_VERSION = f0c675d604317fdbfaaa08997bd843af6bcfd193
 LIBRETRO_MAME_SITE = $(call github,libretro,mame,$(LIBRETRO_MAME_VERSION))
 LIBRETRO_MAME_LICENSE = MAME
 LIBRETRO_MAME_DEPENDENCIES = alsa-lib
