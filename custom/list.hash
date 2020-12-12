@@ -5,6 +5,7 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/mosquitto/0001-default-configuratyion.patch
+--------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 c0f2d9a0b89fb42dfd68b3c99d66a16a  package/binutils/binutils.mk
 ba77177afc0d4e22d3740c6099e1533e  package/bluez5_utils/bluez5_utils.mk
@@ -13,10 +14,18 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 ea6a9ddce7bd35b76353b4f64e3f03e5  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
+8b4330fb127da6ed56706adf336b7b8a  package/intel-gmmlib/intel-gmmlib.hash
+99de429ccb30eceb74d16d85c8f9a926  package/intel-gmmlib/intel-gmmlib.mk
+82c8367a666cbc2ca22860d4fa88a4b0  package/intel-mediadriver/intel-mediadriver.hash
+9a2d8c23cd857e691aa43746fd09cd0f  package/intel-mediadriver/intel-mediadriver.mk
+af0e11b2c97d84fbdf2d952dd00d097e  package/intel-mediasdk/intel-mediasdk.hash
+1a0c0ecfbd6f16258247b4089b868b6e  package/intel-mediasdk/intel-mediasdk.mk
 3b3095680a94ec70bbbf934da1bc6f72  package/kodi/Config.in
 22ce83fe62d9e6c3cf431e8df8ca7716  package/kodi/kodi.hash
 f2a67fc5fabaa3149e82fdf4ed04ee20  package/kodi/kodi.mk
 071d473db6912239bae73fd13a0257e3  package/libcec/libcec.mk
+9a4e0eb2a018dd1e887f232e3744c421  package/libva/libva.hash
+c9063855222839a8a01088556144a1fa  package/libva/libva.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
 98987c50f014de063b8e0accf612409f  package/mosquitto/mosquitto.mk
