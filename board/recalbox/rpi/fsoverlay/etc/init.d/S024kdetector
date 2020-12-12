@@ -7,9 +7,10 @@ fi
 
 DESIRED_CEA_RESOLUTION=("1920x1080.*60Hz.*progressive" "1920x1080.*60Hz.*interlaced" \
                         "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced")
-DESIRED_DMT_RESOLUTION=("1600x900.*60Hz.*progressive" "1600x900.*60Hz.*interlaced" \
+DESIRED_DMT_RESOLUTION=("1920x1080.*60Hz.*progressive" "1920x1080.*60Hz.*interlaced" \
+                        "1600x900.*60Hz.*progressive" "1600x900.*60Hz.*interlaced" \
                         "1280x1024.*60Hz.*progressive" "1280x1024.*60Hz.*interlaced" \
-                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced")
+                        "1280x720.*60Hz.*progressive" "1280x720.*60Hz.*interlaced" )
 
 found_best_cea_resolution() {
   local MODE resolution
