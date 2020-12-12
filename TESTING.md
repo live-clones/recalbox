@@ -45,6 +45,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
 - [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
 - [ ] BR2020.11 - Check that PC with intel chipsets works properly
+- [ ] BR2020.11 - Check Xorg AMDGPU driver works properly
 
 
 ## [7.1-Reloaded]
