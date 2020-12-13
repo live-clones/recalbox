@@ -26,7 +26,7 @@ All notable changes to this project will be documented in this file.
 - Bump stella
 - Compile MelonDS & DesMume on arm/aarch64 boards
 - Move to private theme repository for official Recalbox builds
-- Add libretro-mupen64plus-next for odroidxu4 (#1465)
+- Add libretro-mupen64plus-next for odroidxu4 (#1465, #1467)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
