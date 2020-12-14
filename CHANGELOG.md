@@ -40,6 +40,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-mame to f0c675d604317fdbfaaa08997bd843af6bcfd193 (0.226)
 - Bump libretro-melonds to 7bbf8e1606697f7591072d05b61fae84e8b49455
 - Fix a silent error in `copy-recalbox-archives.sh`
+- Remove duplicate directives in defconfigs
 
 - Remove duplicate network wait time during boot
 ## [7.1.1-Reloaded]
