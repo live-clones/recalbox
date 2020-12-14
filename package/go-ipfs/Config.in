@@ -1,0 +1,11 @@
+config BR2_PACKAGE_GO_IPFS
+	bool "go-ipfs"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+
+	help
+	  IPFS is a global, versioned, peer-to-peer filesystem.
+	  IPFS provides an interface as simple as the HTTP web,
+	  but with permanence built-in.
+	  You can also mount the world at /ipfs.
+
+	  https://ipfs.io

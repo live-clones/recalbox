@@ -5,6 +5,11 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
+## Version NEXT
+
+### News
+- Add IPFS on Pi3, Pi4, XU4 and PC (disabled by default)
+
 ## Version 8.0-Electron
 
 ### News

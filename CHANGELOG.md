@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [NEXT]
+- Add IPFS on Pi3, Pi4, XU4 and PC (disabled by default)
+
 ## [8.0-Electron]
 - Remove non-working shaders
 - Fix rotation on pifba for Rpizero2 (#2032)

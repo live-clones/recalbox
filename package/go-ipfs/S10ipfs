@@ -1,0 +1,55 @@
+#!/bin/ash
+
+if [ "$(recalbox_settings -command load -key system.ipfs.enabled)" != "1" ]; then
+  exit 0
+fi
+
+PIDFILE=/var/run/ipfs.pid
+
+do_init() {
+  if ipfs config show &> /dev/null; then
+    return 0
+  fi
+
+  recallog "Initializing IPFS"
+
+  hostname="$(recalbox_settings -command load -key system.hostname)"
+  hostname=${hostname:-RECALBOX}
+  storageMax="$(recalbox_settings -command load -key system.ipfs.storage-max)"
+  storageMax=${storageMax:-8GB}
+
+  ipfs init --empty-repo
+  ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/9001 # default is 8080 but it's used by
+  ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
+  ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://${hostname}:5001\", \"http://${hostname}.local:5001\", \"http://localhost:5001\", \"http://127.0.0.1:5001\"]"
+  ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
+  ipfs config Datastore.StorageMax "${storageMax}"
+}
+
+do_start() {
+  recallog "Starting IPFS"
+  start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PIDFILE --exec ipfs -- daemon
+}
+
+do_stop() {
+  recallog "Stopping IPFS"
+  start-stop-daemon --stop --quiet --pidfile $PIDFILE
+}
+
+case "$1" in
+  start)
+    do_init
+    do_start
+    ;;
+  stop)
+    do_stop
+    ;;
+  restart)
+    do_stop
+    sleep 1
+    do_start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
