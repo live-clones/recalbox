@@ -41,6 +41,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-melonds to 7bbf8e1606697f7591072d05b61fae84e8b49455
 - Fix a silent error in `copy-recalbox-archives.sh`
 
+- Remove duplicate network wait time during boot
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
 - Fix theme issues
