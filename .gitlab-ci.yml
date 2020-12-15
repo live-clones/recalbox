@@ -75,8 +75,7 @@ lint changelog:
   stage: build
   variables:
     ARCH: arch to build (no default)
-    CCACHE: true
-    QUICK: true for quick build reusing last build files (default false)
+    QUICK: false # set true for quick build reusing last build files (default false)
   <<: *only-default
   before_script:
     - source scripts/release/functions.sh
@@ -91,7 +90,7 @@ lint changelog:
     - cat RELEASE-NOTES.md
     # Build
     - docker build -t "recalbox-${ARCH}" .
-    - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="./output"
+    - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - |
       if [[ "${QUICK}" == "true" ]];then
         OUTPUTDIR="/recalbox-builds/outputs/output-${ARCH}" CCACHE=""
@@ -212,41 +211,49 @@ build rpi1:
   when: manual
   variables:
     ARCH: 'rpi1'
+    QUICK: 'false'
 build rpi2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi2'
+    QUICK: 'false'
 build rpi3:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi3'
+    QUICK: 'false'
 build rpi4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi4'
+    QUICK: 'false'
 build x86_64:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'x86_64'
+    QUICK: 'false'
 build x86:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'x86'
+    QUICK: 'false'
 build odroidxu4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidxu4'
+    QUICK: 'false'
 build odroidgo2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidgo2'
+    QUICK: 'false'
 
 ### Release
 

@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Fix Quickbuilds
 - Add quickbuild stage in ci
 - Copy files directly from latest to TAG on the bucket on production deployment
 - Restart and clean proxy on production deployment
