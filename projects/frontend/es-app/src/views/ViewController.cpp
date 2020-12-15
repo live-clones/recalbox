@@ -105,8 +105,10 @@ void ViewController::goToSystemView(SystemData* system)
 void ViewController::goToGameClipView()
 {
     if(GameClipView::IsGameClipEnabled() && !mState.gameClipRunning) {
-        AudioManager::Instance().Deactivate();
-        VideoEngine::Instance().StopVideo();
+        if(RecalboxConf::Instance().GetAudioGameClip())
+        {
+          AudioManager::Instance().Deactivate();
+        }
 
         mGameClipView = new GameClipView(mWindow, mSystemManager);
         mCurrentView = mGameClipView;
@@ -116,7 +118,8 @@ void ViewController::goToGameClipView()
 
 void ViewController::quitGameClipView()
 {
-    delete mGameClipView;
+  WakeUp();
+  delete mGameClipView;
     switch (mState.viewing)
     {
         case ViewMode::SystemList:
@@ -129,7 +132,11 @@ void ViewController::quitGameClipView()
         case ViewMode::SplashScreen:
             break;
     }
-    AudioManager::Instance().Reactivate();
+
+    if(RecalboxConf::Instance().GetAudioGameClip())
+    {
+      AudioManager::Instance().Reactivate();
+    }
     mState.gameClipRunning = false;
 }
 

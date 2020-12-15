@@ -55,6 +55,7 @@ class GameClipContainer : public Gui
     DateTimeComponent mLastPlayed;
     TextComponent mPlayCount;
     TextComponent mFavorite;
+    ImageComponent mFavoriteIcon;
 
     ScrollableContainer mDescContainer;
     TextComponent mDescription;
@@ -77,8 +78,6 @@ class GameClipContainer : public Gui
     void Render(const Transform4x4f& parentTrans) override;
 
     void setGameInfo(FileData* game);
-
-    void StopVideo();
 
     Vector2f getVideoCenter();
 };

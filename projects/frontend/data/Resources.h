@@ -29,6 +29,9 @@ extern const uint8_t fav_remove_svg_data[];
 extern const uint16_t star_unfilled_svg_size;
 extern const uint8_t star_unfilled_svg_data[];
 
+extern const uint32_t mire_recalbox_svg_size;
+extern const uint8_t mire_recalbox_svg_data[];
+
 extern const uint16_t on_svg_size;
 extern const uint8_t on_svg_data[];
 
@@ -88,6 +91,9 @@ extern const uint8_t option_arrow_svg_data[];
 
 extern const uint16_t splash_svg_size;
 extern const uint8_t splash_svg_data[];
+
+extern const uint16_t heart_filled_svg_size;
+extern const uint8_t heart_filled_svg_data[];
 
 extern const uint16_t white_png_size;
 extern const uint8_t white_png_data[];

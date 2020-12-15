@@ -216,7 +216,9 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       ViewController::Instance().goToGameList(getSelected());
 			return true;
 		}
-        if(event.APressed() && RecalboxConf::Instance().GetScreenSaverType() == "gameclip"){
+        if (event.YPressed() && GameClipView::IsGameClipEnabled())
+        {
+            mWindow.DoSleep();
             ViewController::Instance().goToGameClipView();
             return true;
         }
@@ -496,6 +498,11 @@ bool SystemView::getHelpPrompts(Help& help)
 	help.Set(HelpType::Select, _("QUIT"))
 	    .Set(HelpType::Start, _("MENU"))
 	    .Set(HelpType::R, _("SEARCH"));
+
+	if(GameClipView::IsGameClipEnabled())
+  {
+    help.Set(HelpType::Y, _("gameclip"));
+  }
 
 	return true;
 }	

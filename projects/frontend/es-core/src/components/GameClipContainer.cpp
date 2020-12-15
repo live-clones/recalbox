@@ -15,7 +15,7 @@ GameClipContainer::GameClipContainer(WindowManager& window)
     mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), mLblGenre(window), mLblPlayers(window),
     mLblLastPlayed(window), mLblPlayCount(window), mLblFavorite(window), mGameName(window), mSystemName(window),
     mRating(window), mReleaseDate(window), mDeveloper(window), mPublisher(window), mGenre(window), mPlayers(window),
-    mLastPlayed(window), mPlayCount(window), mFavorite(window), mDescContainer(window), mDescription(window),
+    mLastPlayed(window), mPlayCount(window), mFavorite(window), mFavoriteIcon(window), mDescContainer(window), mDescription(window),
     mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mGame(nullptr),
     mSystem(nullptr)
 {
@@ -128,15 +128,22 @@ void GameClipContainer::initComponents()
   mImage.setDefaultZIndex(40);
 
   mGameName.setFont(Font::get(FONT_SIZE_MEDIUM));
-  mGameName.setPosition(mSize.x() * 0.98f, mSize.y() * 0.91f);
+  mGameName.setPosition(mSize.x() * 0.97f, mSize.y() * 0.91f);
   mGameName.setOrigin(1, 1);
-  mGameName.setSize(mSize.x() * 0.7f, mSize.y() * 0.03f);
+  mGameName.setSize(mSize.x() * 0.6f, mSize.y() * 0.03f);
   mGameName.setZIndex(50);
   mGameName.setHorizontalAlignment(TextAlignment::Right);
   mGameName.setColor(0xFFFFFFFF);
 
+  mFavoriteIcon.setImage(Path(":/heart_filled.svg"));
+  mFavoriteIcon.setOrigin(0, 1);
+  mFavoriteIcon.setPosition(mSize.x() * 0.975f, mSize.y() * 0.91f);
+  mFavoriteIcon.setMaxSize(mSize.x() * 0.018f, mSize.x() * 0.018f);
+  mFavoriteIcon.setZIndex(50);
+  mFavoriteIcon.setDefaultZIndex(50);
+
   float systemPosY = mGameName.getPosition().y() + mGameName.getSize().y() + verticalPadding;
-  mSystemName.setPosition(mSize.x() * 0.98f, systemPosY);
+  mSystemName.setPosition(mSize.x() * 0.97f, systemPosY);
   mSystemName.setOrigin(1, 1);
   mSystemName.setSize(mSize.x() * 0.7f, mSize.y() * 0.03f);
   mSystemName.setZIndex(50);
@@ -145,7 +152,7 @@ void GameClipContainer::initComponents()
   mSystemName.setColor(0xFFFFFFFF);
 
   float releasePosY = mSystemName.getPosition().y() + mSystemName.getSize().y() + verticalPadding;
-  mReleaseDate.setPosition(mSize.x() * 0.98f, releasePosY);
+  mReleaseDate.setPosition(mSize.x() * 0.97f, releasePosY);
   mReleaseDate.setSize(mSize.x() * 0.7f, mSize.y() * 0.03f);
   mReleaseDate.setZIndex(50);
   mReleaseDate.setOrigin(1, 1);
@@ -230,6 +237,14 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
     mImage.applyTheme(theme, GameClipView::getName(), "md_image",
                       ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
                       ThemeProperties::Rotation);
+
+    if (mSystem->getHasFavoritesInTheme())
+    {
+      mFavoriteIcon.applyTheme(theme, GameClipView::getName(), "md_favoriteIcon",
+                               ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
+                               ThemeProperties::Rotation);
+    }
+
     mThumbnail.applyTheme(theme, GameClipView::getName(), "md_thumbnail",
                           ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
                           ThemeProperties::Rotation);
@@ -312,6 +327,14 @@ void GameClipContainer::Render(const Transform4x4f& parentTrans)
     return;
   }
   mFavorite.setValue(mGame->Metadata().FavoriteAsString());
+  if(mGame->Metadata().Favorite())
+  {
+    addChild(&mFavoriteIcon);
+  }
+  else
+  {
+    removeChild(&mFavoriteIcon);
+  }
 
   Vector2f videoCenter = mVideo.getCenter();
   ThemeData theme = mGame->getSystem()->getTheme();
@@ -381,7 +404,7 @@ void GameClipContainer::setGameInfo(FileData* game)
   mPlayers.setValue(mGame->Metadata().PlayersAsString());
   mLastPlayed.setValue(mGame->Metadata().LastPlayedAsString());
   mPlayCount.setValue(mGame->Metadata().PlayCountAsString());
-  mVideo.setVideo(mGame->Metadata().Video(), 0, 1, true);
+  mVideo.setVideo(mGame->Metadata().Video(), 0, 1, RecalboxConf::Instance().GetAudioGameClip());
 
   mImage.setImage(mGame->Metadata().Image());
   mThumbnail.setImage(mGame->Metadata().Thumbnail());
@@ -394,11 +417,6 @@ void GameClipContainer::setGameInfo(FileData* game)
     addChild(&mLblFavorite);
     addChild(&mFavorite);
   }
-}
-
-void GameClipContainer::StopVideo()
-{
-  mVideo.setVideo(Path::Empty, 0, 0);
 }
 
 Vector2f GameClipContainer::getVideoCenter()

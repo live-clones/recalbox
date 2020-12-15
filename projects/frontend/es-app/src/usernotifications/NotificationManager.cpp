@@ -51,6 +51,7 @@ const char* NotificationManager::ActionToString(Notification action)
     case Notification::ScrapGame:            return "scrapgame";
     case Notification::ConfigurationChanged: return "configurationchanged";
     case Notification::StartGameClip:        return "startgameclip";
+    case Notification::StopGameClip:         return "stopgameclip";
     default: break;
   }
   return "error";
@@ -80,6 +81,7 @@ Notification NotificationManager::ActionFromString(const std::string& action)
     { "scrapgame"           , Notification::ScrapGame            },
     { "configurationchanged", Notification::ConfigurationChanged },
     { "startgameclip"       , Notification::StartGameClip        },
+    { "stopgameclip"        , Notification::StopGameClip         },
   });
 
   if (!sStringToAction.contains(action))
@@ -269,14 +271,16 @@ void NotificationManager::BuildStateCompatibility(std::string& output, Notificat
     case Notification::ScrapGame:
     case Notification::ConfigurationChanged:
     case Notification::StartGameClip:
+    case Notification::StopGameClip:
     default: output.append("selected"); break;
   }
 }
 
 void NotificationManager::Notify(const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
 {
-  if (VideoEngine::IsInstantiated())
-    VideoEngine::Instance().StopVideo();
+//  why ?
+//  if (VideoEngine::IsInstantiated())
+//    VideoEngine::Instance().StopVideo();
 
   const std::string& notificationParameter = (game != nullptr) ? game->getPath().ToString() :
                                              ((system != nullptr) ? system->getName() : actionParameters);

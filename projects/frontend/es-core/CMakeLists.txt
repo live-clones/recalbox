@@ -281,7 +281,7 @@ set(CORE_SOURCES
         src/utils/hash/Md5.cpp
 		src/utils/hash/Crc32.cpp
 		src/utils/hash/Crc32File.cpp
-)
+        src/components/GameClipNoVideoContainer.cpp src/components/GameClipNoVideoContainer.h)
 
 file(GLOB_RECURSE EMBEDDED_ASSET_SOURCES ${emulationstation-all_SOURCE_DIR}/data/*.cpp)
 

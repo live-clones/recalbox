@@ -2744,18 +2744,13 @@ msgid "System"
 msgstr ""
 
 #
-msgid "added to favorites"
-msgstr ""
+msgid "Added to favorites"msgstr ""
 
 #
-msgid "removed from favorites"
-msgstr ""
+msgid "Removed from favorites"msgstr ""
 
 #
-msgid ""
-"Gameclips cannot be played\n"
-"\n"
-"No video availabe for you selection"
+msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 
 #~ msgid ""

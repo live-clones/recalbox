@@ -147,7 +147,7 @@ void WindowManager::textInput(const char* text)
 
 bool WindowManager::ProcessInput(const InputCompactEvent& event)
 {
-  if (mSleeping)
+  if (mSleeping && !GameClipView::IsGameClipEnabled())
   {
     // wake up
     DoWake();
@@ -239,7 +239,6 @@ void WindowManager::Update(int deltaTime)
 void WindowManager::Render(Transform4x4f& transform)
 {
   mRenderedHelpPrompts = false;
-  bool gameClipEnabled = GameClipView::IsGameClipEnabled();
 
   // draw only bottom and top of GuiStack (if they are different)
   if (!mGuiStack.Empty())
@@ -267,27 +266,20 @@ void WindowManager::Render(Transform4x4f& transform)
     mDefaultFonts[1]->renderTextCache(mFrameDataText.get());
   }
 
-    if (gameClipEnabled){
-        InfoPopupsDisplay(transform);
-    }
-
   unsigned int screensaverTime = (unsigned int) RecalboxConf::Instance().GetScreenSaverTime() * 60000;
   if (mTimeSinceLastInput >= screensaverTime && screensaverTime != 0)
   {
     if (!isProcessing())
     {
-        if(gameClipEnabled)
+      if (RecalboxConf::Instance().GetScreenSaverType() == "gameclip")
+      {
+        // do not play game clips if menu opened
+        if (!isSleeping() && mGuiStack.Empty())
         {
-            // do not play game clips if menu opened
-            if (mGuiStack.Empty()) {
-                ViewController::Instance().goToGameClipView();
-            }
-            return;
+          ViewController::Instance().goToGameClipView();
         }
-
-
-
-      renderScreenSaver();
+      }
+      else renderScreenSaver();
       // go to sleep
       if (!isSleeping())
         DoSleep();

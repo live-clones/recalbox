@@ -204,6 +204,12 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       }
       ViewController::Instance().getSystemListView().manageFavorite();
 
+      int popupDuration = RecalboxConf::Instance().GetPopupHelp();
+      std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->getDisplayName(), popupDuration,
+                                            GuiInfoPopup::PopupType::None));
+
+
       // Reset favorite-only view if no more favorites
       if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
 

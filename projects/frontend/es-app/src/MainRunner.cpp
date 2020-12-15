@@ -268,7 +268,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
       }
     }
 
-    if (window.isSleeping())
+    if (window.isSleeping() && !GameClipView::IsGameClipEnabled())
     {
       if (DemoMode::hasDemoMode())
         demoMode.runDemo();

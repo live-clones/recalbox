@@ -15,7 +15,7 @@
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
   : Gui(window), mWindow(window), mSystemManager(systemManager), mRecalboxConf(RecalboxConf::Instance()),
     mRandomDevice(), mRandomGenerator(mRandomDevice()), mGameRandomizer(0, 1U << 30U), mGameClipContainer(window),
-    systemIndex(-1), mVideoDuration(0)
+    mNoVideoContainer(window), systemIndex(-1), mVideoDuration(0)
 {
   init();
 }
@@ -45,59 +45,24 @@ void GameClipView::init()
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = mSystemManager.GetAllSystemList();
-  std::vector<SystemData*> demoSystems;
 
   bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
   for (int i = (int) allSystems.size(); --i >= 0;)
   {
     const std::string& name = allSystems[i]->getName();
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    bool hasVisibleGame = allSystems[i]->MasterRoot().hasVisibleGameWithVideo();
-    if (systemIsInIncludeList && hasVisibleGame)
+    if (systemIsInIncludeList)
     {
-      demoSystems.push_back(allSystems[i]);
+      FileData::List list = allSystems[i]->MasterRoot().getFilteredItemsRecursively(&videoFilter, false,
+                                                                                    allSystems[i]->IncludeAdultGames());
+      mDemoFiles.reserve(mDemoFiles.size() + list.size());
+      mDemoFiles.insert(mDemoFiles.end(), list.begin(), list.end());
     }
-    else LOG(LogDebug) << "System NOT selected for game clip : " << allSystems[i]->getName() << " - isSelected: "
-                       << (systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0);
   }
-
-  // Check if there is at least one system.
-  // If not, get all system with no filtering
-  if (demoSystems.empty())
-    for (int i = (int) allSystems.size(); --i >= 0;)
-    {
-      demoSystems.push_back(allSystems[i]);
-    }
-
-  // Filter and insert items
-  for (const SystemData* system : demoSystems)
-  {
-    FileData::List list = system->MasterRoot().getFilteredItemsRecursively(&videoFilter, false,
-                                                                           system->IncludeAdultGames());
-    mDemoFiles.reserve(mDemoFiles.size() + list.size());
-    mDemoFiles.insert(mDemoFiles.end(), list.begin(), list.end());
-  }
-
-  checkEmptyDemoFiles();
 
   // Second seed - must never be negative
   mSeed = ((int) (DateTime() - DateTime(1970, 1, 1)).TotalMilliseconds()) & 0x7FFFFFFF;
-}
-
-void GameClipView::checkEmptyDemoFiles()
-{
-  if (mDemoFiles.empty())
-  {
-    int popupDuration = RecalboxConf::Instance().GetPopupHelp();
-    std::string message = _("Gameclips cannot be played\n No video availabe for you selection");
-    mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message, popupDuration, GuiInfoPopup::PopupType::None));
-    quitGameClipView();
-  }
-}
-
-bool GameClipView::IsGameClipEnabled()
-{
-  return (RecalboxConf::Instance().GetScreenSaverType() == getName());
+  stopGameClip();
 }
 
 int GameClipView::getFirstOccurenceInHistory(FileData* game)
@@ -186,21 +151,56 @@ void GameClipView::getPreviousGame()
 
 void GameClipView::Render(const Transform4x4f& parentTrans)
 {
+  // waiting to be destroy
+  if (mState == State::Terminated)
+  {
+    return;
+  }
+
   if (mState == State::Quit)
   {
     quitGameClipView();
+    mState = State::Terminated;
     return;
   }
+
+  if (mState == State::NoGameSelected && mDemoFiles.empty())
+  {
+    updateHelpPrompts();
+    mState = State::EmptyPlayList;
+    mTimer.Initialize(0);
+    return;
+  }
+
+  if (mState == State::EmptyPlayList)
+  {
+    mNoVideoContainer.Render(parentTrans);
+    if(mTimer.GetMilliSeconds() > 60000)
+      mState = State::Quit;
+  }
+
   if (mState == State::NoGameSelected && !VideoEngine::Instance().IsPlaying())
   {
     startGameClip();
+    mTimer.Initialize(0);
     mState = State::InitPlaying;
   }
 
-  if (mState == State::InitPlaying)
+  else if (mState == State::InitPlaying)
   {
+    // when videoEngine cannot play video file
+    if (mTimer.GetMilliSeconds() > 5000)
+    {
+      LOG(LogDebug) << "Video do not start for game: " << mGame->Metadata().VideoAsString();
+      // remove game from list
+      mDemoFiles.erase(mDemoFiles.begin() + mDemoFilesIndex);
+      VideoEngine::Instance().StopVideo();
+      mState = State::NoGameSelected;
+      return;
+    }
     if (VideoEngine::Instance().IsPlaying())
     {
+      NotificationManager::Instance().Notify(*mGame, Notification::StartGameClip);
       mVideoDuration = VideoEngine::Instance().GetVideoDurationMs();
       if (Direction::Next == mDirection && mHistoryPosition == 0)
       {
@@ -211,27 +211,17 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
         mState = State::Playing;
       }
     }
-    else
-    {
-      LOG(LogDebug) << "Video in error for game" << mGame->Metadata().VideoAsString();
-      // remove game from list
-      mDemoFiles.erase(mDemoFiles.begin() + mDemoFilesIndex);
-      checkEmptyDemoFiles();
-      stopGameClip();
-      mState = State::NoGameSelected;
-      return;
-    }
   }
 
-  if (mState == State::SetInHistory)
+  else if (mState == State::SetInHistory)
   {
     insertIntoHistory(mGame);
     mState = State::Playing;
   }
 
-  if (mState == State::Playing)
+  else if (mState == State::Playing)
   {
-    if (mTimer.GetMilliSeconds() > mVideoDuration)
+    if (mTimer.GetMilliSeconds() > mVideoDuration || mTimer.GetMilliSeconds() > 35000)
     {
       changeGameClip(Direction::Next);
       return;
@@ -248,11 +238,21 @@ void GameClipView::changeGameClip(Direction direction)
   mDirection = direction;
   mState = State::NoGameSelected;
   stopGameClip();
+  NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
 }
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
 {
-  if (!VideoEngine::Instance().IsPlaying())
+  if (mDemoFiles.empty())
+  {
+    if (event.APressed())
+    {
+      mState = State::Quit;
+    }
+    return true;
+  }
+
+  if (mState != State::Playing || mTimer.GetMilliSeconds() < 1000)
   {
     return true;
   }
@@ -323,7 +323,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
       ViewController::Instance().getSystemListView().manageFavorite();
 
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
-      std::string message = md.Favorite() ? _("added to favorites") : _("removed from favorites");
+      std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->getDisplayName(), popupDuration,
                                             GuiInfoPopup::PopupType::None));
 
@@ -347,50 +347,54 @@ void GameClipView::startGameClip()
 {
   getGame();
   mGameClipContainer.setGameInfo(mGame);
-  mTimer.Initialize(0);
-  NotificationManager::Instance().Notify(*mGame, Notification::StartGameClip);
   if (RecalboxConf::Instance().GetShowHelp())
     updateHelpPrompts();
 }
 
 void GameClipView::stopGameClip()
 {
-  mGameClipContainer.StopVideo();
-  NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
+  for(;;)
+  {
+    if(!VideoEngine::Instance().IsPlaying())
+    {
+      break;
+    }
+    VideoEngine::Instance().StopVideo();
+  }
 }
 
 void GameClipView::quitGameClipView()
 {
-  stopGameClip();
+  if (!mDemoFiles.empty())
+  {
+    stopGameClip();
+    NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
+  }
+
   ViewController::Instance().quitGameClipView();
 }
 
 bool GameClipView::getHelpPrompts(Help& help)
 {
-  help.Set(HelpType::A, _("QUIT")).Set(HelpType::Start, _("LAUNCH")).Set(HelpType::Y, mGame->Metadata().Favorite() ? _(
-    "Remove from favorite") : _("Favorite")).Set(HelpType::LeftRight, _("CHANGE")).Set(HelpType::Select,
-                                                                                       _("SHOW IN LIST"));
+  help.Set(HelpType::A, _("QUIT"));
+  if (mDemoFiles.empty())
+    return true;
+
+  help.Set(HelpType::Start, _("LAUNCH"))
+    .Set(HelpType::Y, mGame->Metadata().Favorite() ? _("Remove from favorite") : _( "Favorite"))
+    .Set(HelpType::LeftRight, _("CHANGE"))
+    .Set(HelpType::Select, _("SHOW IN LIST"));
+
   return true;
 }
 
 void GameClipView::updateHelpPrompts()
 {
-  if (getParent() != nullptr)
-  {
-    getParent()->updateHelpPrompts();
-    return;
-  }
-
   HelpItems().Clear();
   HelpItems().Empty();
-  if (RecalboxConf::Instance().GetShowGameClipHelpItems() && getHelpPrompts(HelpItems()))
+  if ((mDemoFiles.empty() || RecalboxConf::Instance().GetShowGameClipHelpItems()))
   {
-    ApplyHelpStyle();
+    getHelpPrompts(HelpItems());
   }
   mWindow.UpdateHelp();
-}
-
-void GameClipView::ApplyHelpStyle()
-{
-  HelpItemStyle().FromTheme(mGame->getSystem()->getTheme(), getName());
 }

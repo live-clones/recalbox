@@ -17,6 +17,7 @@
 #include <themes/ThemeExtras.h>
 #include <components/DateTimeComponent.h>
 #include <components/GameClipContainer.h>
+#include <components/GameClipNoVideoContainer.h>
 #include "Settings.h"
 #include "RecalboxConf.h"
 
@@ -26,10 +27,12 @@ class GameClipView : public Gui
     enum class State
     {
         NoGameSelected,
+        EmptyPlayList,
         InitPlaying,
         SetInHistory,
         Playing,
         Quit,
+        Terminated,
     };
 
     enum class Direction
@@ -70,6 +73,8 @@ class GameClipView : public Gui
 
     GameClipContainer mGameClipContainer;
 
+    GameClipNoVideoContainer mNoVideoContainer;
+
     int systemIndex;
 
     int mSeed {};
@@ -92,15 +97,14 @@ class GameClipView : public Gui
 
     void stopGameClip();
 
-    void checkEmptyDemoFiles();
-
     int mVideoDuration;
 
   public:
     static const char* getName()
     { return "gameclip"; }
 
-    static bool IsGameClipEnabled();
+    static bool IsGameClipEnabled()
+    { return RecalboxConf::Instance().GetScreenSaverType() == "gameclip"; }
 
     //! Default constructor
     explicit GameClipView(WindowManager& window, SystemManager& systemManager);
@@ -116,7 +120,4 @@ class GameClipView : public Gui
     void quitGameClipView();
 
     void updateHelpPrompts();
-
-    void ApplyHelpStyle() override;
-
 };

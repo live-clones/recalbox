@@ -345,6 +345,7 @@ Just remember, *this only works if the elements have the same type!*
   * Media
     * video `name="md_video"` - 30
     * image `name="md_image"` - 50
+    * image `name="favoriteIcon"` - 50
   	* image `name="md_thumbnail"` - 50 - disabled
   	
   	
