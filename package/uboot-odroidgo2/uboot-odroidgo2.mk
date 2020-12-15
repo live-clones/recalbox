@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UBOOT_ODROIDGO2_VERSION = odroidgoA-v2017.09
+UBOOT_ODROIDGO2_VERSION = a1b59905a4554055f35196e17301bf83cbe41b5f
 UBOOT_ODROIDGO2_SITE = $(call github,hardkernel,u-boot,$(UBOOT_ODROIDGO2_VERSION))
 UBOOT_ODROIDGO2_INSTALL_TARGET = NO
 UBOOT_ODROIDGO2_INSTALL_IMAGES = YES
@@ -15,7 +15,7 @@ define UBOOT_ODROIDGO2_BUILD_CMDS
 	ADDR2LINE_ARM64=aarch64-buildroot-linux-gnu-addr2line \
 	OBJ_ARM64=aarch64-buildroot-linux-gnu-objdump \
 	GCC_ARM64=aarch64-buildroot-linux-gnu- \
-	./make.sh odroidgo2
+	./make.sh odroidgoa
 endef
 
 define UBOOT_ODROIDGO2_INSTALL_IMAGES_CMDS
