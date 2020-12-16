@@ -11,8 +11,14 @@ GO_IPFS_SOURCE = go-ipfs-source.tar.gz
 GO_IPFS_LICENSE = MIT or Apache-2.0
 GO_IPFS_LICENSE_FILES = LICENSE LICENSE-MIT LICENSE-APACHE
 
-GO_IPFS_GO_ENV = CGO_ENABLED=0
 GO_IPFS_BUILD_TARGETS = cmd/ipfs
+
+GO_IPFS_DEPENDENCIES = openssl
+GO_IPFS_TAGS = openssl
+GO_IPFS_LDFLAGS = \
+	-X $(GO_IPFS_GOMOD)/cli/version.GitCommit=$(GO_IPFS_VERSION) \
+	-X $(GO_IPFS_GOMOD)/cli/version.Version=$(GO_IPFS_VERSION) \
+	-linkmode internal
 
 GO_IPFS_INSTALL_BINS = $(notdir $(GO_IPFS_BUILD_TARGETS))
 
