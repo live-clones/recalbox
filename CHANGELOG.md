@@ -41,7 +41,6 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-melonds to 7bbf8e1606697f7591072d05b61fae84e8b49455
 - Fix a silent error in `copy-recalbox-archives.sh`
 - Remove duplicate directives in defconfigs
-- Add libretro-mupen64plus-next for odroidxu4 (#1465)
 - Fix detection of 4k screen (#1384)
 
 - Remove duplicate network wait time during boot
