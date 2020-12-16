@@ -8,6 +8,7 @@
   - New option in game menu to show/hide pre-installed games
 - New "GameClip" screensaver playing games' videos in many configurable ways
 - Show feature slides during install
+- Add Super Cassette Vision core
 
 ### Improvements
 - Bump Amiberry to version 3.3

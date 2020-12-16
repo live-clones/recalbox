@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file.
 
 - Remove duplicate network wait time during boot
 - Add support for three Realtek wifi cards (rtl8189fs, rtl8821au and rtl88x2bu)
+- Add Super Cassette Vision core
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

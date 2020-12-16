@@ -739,4 +739,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
 endif
 
+# System: scv
+ifneq ($(BR2_PACKAGE_LIBRETRO_EMUSCV),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scv
+endif
+
 $(eval $(generic-package))
