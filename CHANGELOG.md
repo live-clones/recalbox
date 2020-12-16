@@ -45,7 +45,7 @@ All notable changes to this project will be documented in this file.
 - Fix multiple issue in gameclip screensaver
 
 - Remove duplicate network wait time during boot
-- Add support for three Realtek wifi cards (rtl8189fs, rtl8821au and rtl88x2bu)
+- Add support for three Realtek wifi cards (rtl8189fs, rtl8821au and rtl88x2bu) (#1377)
 - Add Super Cassette Vision core
 
 ## [7.1.1-Reloaded]
