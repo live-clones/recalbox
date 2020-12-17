@@ -82,7 +82,7 @@ void GameClipView::insertIntoHistory(FileData* game)
   mHistory.insert(mHistory.begin(), game);
   if (mHistory.size() == MAX_HISTORY + 1)
   {
-    mHistory.erase(mHistory.begin() + MAX_HISTORY + 1);
+    mHistory.erase(mHistory.begin() + MAX_HISTORY);
   }
 }
 

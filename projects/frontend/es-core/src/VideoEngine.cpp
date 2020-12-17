@@ -470,7 +470,8 @@ void VideoEngine::DecodeFrames()
 
 void VideoEngine::FinalizeDecoder()
 {
-  SDL_CloseAudio();
+//  cause segvault when launching a game if snap is playing in gamelistview
+//  SDL_CloseAudio();
   mContext.Dispose();
 }
 
