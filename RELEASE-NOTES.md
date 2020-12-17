@@ -3,12 +3,15 @@
 ## Next
 
 ### News
+- Bump Buildroot to version 2020.02
+- Bump Kernel to 5.8 (except on Odroid Go Advance)
 - New multi-source rom management:
   - Pre-installed games are no longer copied into SHARE partition (except ports)
   - New option in game menu to show/hide pre-installed games
 - New "GameClip" screensaver playing games' videos in many configurable ways
 - Show feature slides during install
 - Add Super Cassette Vision core
+- Add Libretro NeoCD core (w/ CHD support)
 
 ### Improvements
 - Bump Amiberry to version 3.3

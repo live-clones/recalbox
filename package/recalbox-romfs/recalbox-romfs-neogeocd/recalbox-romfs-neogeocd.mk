@@ -5,8 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system neogeocd --extension '.cue .CUE' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd 1:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
-# [ -extra \"--subsystem neocd\"] added manually afterwards on line 27
+# ./scripts/linux/empack.py --force --system neogeocd --extension '.cue .chd' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd 1:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO 2:libretro:neocd:BR2_PACKAGE_LIBRETRO_NEOCD
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NEOGEOCD_SOURCE = 
@@ -22,15 +21,21 @@ SOURCE_ROMDIR_NEOGEOCD = $(RECALBOX_ROMFS_NEOGEOCD_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_LIBRETRO_NEOCD),)
 define CONFIGURE_MAIN_NEOGEOCD_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEOCD),Neo-Geo CD,$(SYSTEM_NAME_NEOGEOCD),.cue .CUE,neogeocd,neogeocd, -extra \"--subsystem neocd\")
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEOCD),Neo-Geo CD,$(SYSTEM_NAME_NEOGEOCD),.cue .chd,neogeocd,neogeocd)
 endef
 
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
+ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_LIBRETRO_NEOCD),)
 define CONFIGURE_NEOGEOCD_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_NEOGEOCD),libretro)
 endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_NEOCD),y)
+define CONFIGURE_NEOGEOCD_LIBRETRO_NEOCD_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),neocd,2)
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_LIBRETRO_FBNEO),y)
 define CONFIGURE_NEOGEOCD_LIBRETRO_FBNEO_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_NEOGEOCD),fbneo,1)
@@ -52,6 +57,7 @@ endif
 define RECALBOX_ROMFS_NEOGEOCD_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_NEOGEOCD_START)
 	$(CONFIGURE_NEOGEOCD_LIBRETRO_START)
+	$(CONFIGURE_NEOGEOCD_LIBRETRO_NEOCD_DEF)
 	$(CONFIGURE_NEOGEOCD_LIBRETRO_FBNEO_DEF)
 	$(CONFIGURE_NEOGEOCD_LIBRETRO_END)
 	$(CONFIGURE_MAIN_NEOGEOCD_END)

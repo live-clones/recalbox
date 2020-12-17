@@ -56,6 +56,7 @@ Every case must be checked before a release.
 - [ ] Test S024kdetector still does its job
 - [ ] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
 - [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
+- [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
 
 
 ## [7.1-Reloaded]
