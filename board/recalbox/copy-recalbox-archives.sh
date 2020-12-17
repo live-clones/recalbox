@@ -63,7 +63,7 @@ odroidgo2_fusing() {
     RECALBOXIMG=$2
 
     # fusing
-    idbloader_position=64
+    idbloader_position=1
     uboot_position=16384
     trust_position=24576
 
