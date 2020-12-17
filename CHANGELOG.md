@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Add GBC and Naomi intro videos
 - Simplify recalbox.version for branches builds
 - Fix Quickbuilds
 - Add quickbuild stage in ci
