@@ -80,6 +80,8 @@ class Genres
 
     static bool IsSubGenre(GameGenres genre) { return ((int)genre & 0xFF) != 0; }
 
+    static bool TopGenreMatching(GameGenres sub, GameGenres top) { return ((int)sub >> 8) == ((int)top >> 8); }
+
     /*!
      * @brief Get genre resource path of the given genre
      * @param genre Game genre

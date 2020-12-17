@@ -415,9 +415,18 @@ bool SystemManager::AddGenresMetaSystem()
   {
     private:
       GameGenres mGenre;
+      bool mSubGenre;
     public:
-      explicit Filter(GameGenres genre) : mGenre(genre) {}
-      bool ApplyFilter(const FileData& file) const override { return file.Metadata().GenreId() == mGenre; }
+      explicit Filter(GameGenres genre)
+        : mGenre(genre)
+        , mSubGenre(Genres::IsSubGenre(genre))
+      {
+      }
+      bool ApplyFilter(const FileData& file) const override
+      {
+        if (mSubGenre) return (file.Metadata().GenreId() == mGenre);
+        return Genres::TopGenreMatching(file.Metadata().GenreId(), mGenre);
+      }
   };
 
   for(const auto& genre : genres)
