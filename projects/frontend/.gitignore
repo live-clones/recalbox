@@ -41,6 +41,7 @@ cmake_install.cmake
 Makefile
 CPackConfig.cmake
 CPackSourceConfig.cmake
+cmake-build-debug/
 
 # Eclipse generated files
 .cproject
