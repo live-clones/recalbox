@@ -97,7 +97,7 @@ bool VideoEngine::CheckPendingMessages()
 
 bool VideoEngine::GetNextOrder(VideoEngine::OrderMessage& output)
 {
-  for(;;)
+  while(IsRunning())
   {
     { // Check last message - Pop & recycle previous message if it's a pending play message
       Mutex::AutoLock sync(mQueueSyncer);
@@ -120,34 +120,35 @@ void VideoEngine::Run()
     OrderMessage nextMessage;
     while(IsRunning())
       if (GetNextOrder(nextMessage)) // Blocking operation
-        switch(nextMessage.GetOrder())
-        {
-          case Order::Play:
+        if (IsRunning())
+          switch(nextMessage.GetOrder())
           {
-            // Video changed?
-            if (nextMessage.GetPath() == mFileName) FinalizeDecoder();
-            // Entre play loop
-            mFileName = nextMessage.GetPath();
-            if (InitializeDecoder())
+            case Order::Play:
             {
-              mIsPlaying = true;
-              // Play until next message
-              LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
-              DecodeFrames();
+              // Video changed?
+              if (nextMessage.GetPath() == mFileName) FinalizeDecoder();
+              // Entre play loop
+              mFileName = nextMessage.GetPath();
+              if (InitializeDecoder())
+              {
+                mIsPlaying = true;
+                // Play until next message
+                LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
+                DecodeFrames();
+              }
+              else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
+              break;
             }
-            else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
-            break;
+            case Order::Stop:
+            {
+              mIsPlaying = false;
+              mFileName = Path();
+              FinalizeDecoder();
+              break;
+            }
+            case Order::None:
+            default: break;
           }
-          case Order::Stop:
-          {
-            mIsPlaying = false;
-            mFileName = Path();
-            FinalizeDecoder();
-            break;
-          }
-          case Order::None:
-          default: break;
-        }
   }
   catch(const std::exception& e)
   {
