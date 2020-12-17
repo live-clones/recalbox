@@ -2733,10 +2733,12 @@ msgid "System"
 msgstr ""
 
 #
-msgid "Added to favorites"msgstr ""
+msgid "Added to favorites"
+msgstr ""
 
 #
-msgid "Removed from favorites"msgstr ""
+msgid "Removed from favorites"
+msgstr ""
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"

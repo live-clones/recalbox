@@ -2765,9 +2765,11 @@ msgstr "AFFICHER DANS LA LISTE"
 msgid "System"
 msgstr "Système"
 
-msgid "Added to favorites"msgstr "Ajouté aux favoris"
+msgid "Added to favorites"
+msgstr "Ajouté aux favoris"
 
-msgid "Removed from favorites"msgstr "Retiré des favoris"
+msgid "Removed from favorites"
+msgstr "Retiré des favoris"
 
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
