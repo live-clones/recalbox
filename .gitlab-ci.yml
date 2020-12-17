@@ -81,7 +81,7 @@ lint changelog:
     - source scripts/release/functions.sh
   script:
     - set -euo pipefail
-    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG:0:12} (${CI_COMMIT_SHA:0:8}) ${CI_PIPELINE_ID} ${ARCH} $(date '+%Y/%m/%d %H:%M:%S')}"
+    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG} $(date '+%Y/%m/%d-%H:%M')} (${CI_PIPELINE_ID})"
     - cp "${YOUTUBE_API_KEYS}" "./api_keys.json"
     # Release Note generation
     - echo -e "Recalbox ${RECALBOX_VERSION}\n" > /tmp/RELEASE-NOTES.md

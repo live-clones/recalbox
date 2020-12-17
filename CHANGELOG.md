@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Simplify recalbox.version for branches builds
 - Fix Quickbuilds
 - Add quickbuild stage in ci
 - Copy files directly from latest to TAG on the bucket on production deployment
