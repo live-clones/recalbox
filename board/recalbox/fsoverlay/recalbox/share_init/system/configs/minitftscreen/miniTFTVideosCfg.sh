@@ -50,6 +50,7 @@ case "${TFTESSystem}" in
     segacd)          LogoFile='SEGA/SegaCD/VideoSnaps/logo.mp4' && Loop=-1  ;;
     #dreamcast)       LogoFile='SEGA/Dreamcast/VideoSnaps/logo.mp4' && Loop=-1  ;;
     dreamcast)       LogoFile='RBvideos/introRecalboxDCBlue.mp4' && Loop=-1  ;;
+    naomi)           LogoFile='RBvideos/introRecalboxNaomi.mp4' && Loop=-1  ;;
     # Sony
     #psx)             LogoFile='PSX/VideoSnaps/logo.mp4' && Loop=-1  ;;
     psx)             LogoFile='RBvideos/introRecalboxPS1.mp4' && Loop=-1  ;;
