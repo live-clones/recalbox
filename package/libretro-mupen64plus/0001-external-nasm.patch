@@ -19,3 +19,4 @@ index a1ab7fc..416a4e7 100644
  
  %.o: %.S
  	$(CC_AS) $(CFLAGS) -c $< -o $@
+lol
