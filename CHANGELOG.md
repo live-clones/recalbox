@@ -47,6 +47,10 @@ All notable changes to this project will be documented in this file.
 - Fix detection of 4k screen (#1384)
 - Fix multiple issue in gameclip screensaver
 - Add libretro neocd core
+- Add scv to configgen
+- Add scv theme
+- Fix VideoEngine crash
+- Fix VideoEngine dead-lock
 
 - Remove duplicate network wait time during boot
 - Add support for three Realtek wifi cards (rtl8189fs, rtl8821au and rtl88x2bu) (#1377)
