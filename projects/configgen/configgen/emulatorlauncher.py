@@ -242,6 +242,7 @@ def getDefaultEmulator(targetSystem):
         "pcfx"           : Emulator(name='pcfx', emulator='libretro', core='mednafen_pcfx'),
         "psp"            : Emulator(name='psp', emulator='ppsspp'),
         "psx"            : Emulator(name='psx', emulator='libretro', core='pcsx_rearmed'),
+        "scv"            : Emulator(name='scv', emulator='libretro', core='emuscv'),
         "supergrafx"     : Emulator(name='supergrafx', emulator='libretro', core='mednafen_supergrafx'),
         "uzebox"         : Emulator(name='uzebox', emulator='libretro', core='uzem'),
         "vectrex"        : Emulator(name='vectrex', emulator='libretro', core='vecx'),
