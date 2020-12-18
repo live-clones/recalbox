@@ -30,6 +30,7 @@ namespace PlatformIds
       { "amiga"           , PlatformId::COMMODORE_AMIGA           },
       { "amigacd32"       , PlatformId::COMMODORE_CD32            },
       { "amigacdtv"       , PlatformId::COMMODORE_CDTV            },
+      { "scv"             , PlatformId::EPOCH_SUPERCASSETTEVISION },
       { "channelf"        , PlatformId::FAIRCHILD_CHANNELF        },
       { "daphne"          , PlatformId::GAMEENGINE_DAPHNE         },
       { "lutro"           , PlatformId::GAMEENGINE_LUTRO          },
@@ -86,6 +87,7 @@ namespace PlatformIds
       { "genesis"         , PlatformId::SEGA_GENESIS              }, // Sega Genesis
       { "mastersystem"    , PlatformId::SEGA_MASTER_SYSTEM        }, // Sega Master system
       { "megadrive"       , PlatformId::SEGA_MEGA_DRIVE           }, // Sega Megadrive
+      { "model3"          , PlatformId::SEGA_MODEL3               },
       { "naomi"           , PlatformId::SEGA_NAOMI                }, // Sega Arcade
       { "naomigd"         , PlatformId::SEGA_NAOMI                }, // Sega Arcade
       { "saturn"          , PlatformId::SEGA_SATURN               }, // Sega Saturn
