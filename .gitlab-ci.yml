@@ -7,7 +7,8 @@ image: docker:latest
 
 .only-default: &only-default
   only:
-    - branches
+    - master
+    - merge_requests
     - tags
 
 stages:
@@ -18,9 +19,6 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  PROD_STACK_NAME: archive
-  REVIEW_STACK_NAME: archive-review
-  IMAGE: recalbox/archive
 
 # Lint
 
@@ -29,6 +27,16 @@ variables:
   <<: *only-default
   tags:
     - lintstage
+
+
+
+test script:
+  <<: *only-default
+  stage: lint
+  before_script:
+    - apk update && apk add git
+  script:
+    - ./scripts/linux/quickBuildCleanup.sh
 
 lint config-files:
   <<: *lint_definition
@@ -78,6 +86,7 @@ lint changelog:
     QUICK: false # set true for quick build reusing last build files (default false)
   <<: *only-default
   before_script:
+    - apk update && apk add git
     - source scripts/release/functions.sh
   script:
     - set -euo pipefail
@@ -95,6 +104,7 @@ lint changelog:
       if [[ "${QUICK}" == "true" ]];then
         OUTPUTDIR="/recalbox-builds/outputs/output-${ARCH}" CCACHE=""
         [ -f "${OUTPUTDIR}/.building" ] && echo "slot taken" && exit 1
+        bash scripts/linux/quickBuildCleanup.sh
       fi
     - mkdir -p ${OUTPUTDIR} && echo "${CI_JOB_ID}" > "${OUTPUTDIR}/.building"
     - docker run --rm -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
