@@ -27,9 +27,11 @@ VideoComponent::VideoComponent(WindowManager&window)
 
 void VideoComponent::resize()
 {
+  VideoEngine::Instance().AquireTexture();
   TextureData& texture = VideoEngine::Instance().GetDisplayableFrame();
-
   const Vector2f textureSize(texture.width(), texture.height());
+  VideoEngine::Instance().ReleaseTexture();
+
   if (textureSize.isZero()) return;
 
   if (texture.tiled())
@@ -316,8 +318,11 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
 
   if (display)
   {
+    VideoEngine::Instance().AquireTexture();
     TextureData& videoFrame = VideoEngine::Instance().GetDisplayableFrame();
     videoFrame.uploadAndBind();
+    VideoEngine::Instance().ReleaseTexture();
+
     // Bounds
     updateVertices(effect);
     // Opacity

@@ -260,6 +260,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     PlayerContext mContext;
     //! Textures to render
     TextureData mTexture;
+    //! Texture protector
+    Mutex mTextureSyncer;
 
     //! Order message provider
     MessageFactory<OrderMessage> mMessageProvider;
@@ -361,5 +363,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * @brief Return true if the engine is in idle state
      * @return True if in idle state, false otherwise
      */
-    int GetVideoDurationMs() { return IsPlaying() ? mContext.TotalTime : 0; }
+    int GetVideoDurationMs() const { return IsPlaying() ? mContext.TotalTime : 0; }
+
+    void AquireTexture() { mTextureSyncer.Lock(); }
+
+    void ReleaseTexture() { mTextureSyncer.UnLock(); }
 };

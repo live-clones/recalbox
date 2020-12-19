@@ -111,6 +111,7 @@ bool VideoEngine::GetNextOrder(VideoEngine::OrderMessage& output)
     // No message yet, wait for the next
     mSignal.WaitSignal();
   }
+  return false;
 }
 
 void VideoEngine::Run()
@@ -120,35 +121,34 @@ void VideoEngine::Run()
     OrderMessage nextMessage;
     while(IsRunning())
       if (GetNextOrder(nextMessage)) // Blocking operation
-        if (IsRunning())
-          switch(nextMessage.GetOrder())
+        switch(nextMessage.GetOrder())
+        {
+          case Order::Play:
           {
-            case Order::Play:
+            // Video changed?
+            if (nextMessage.GetPath() == mFileName) FinalizeDecoder();
+            // Entre play loop
+            mFileName = nextMessage.GetPath();
+            if (InitializeDecoder())
             {
-              // Video changed?
-              if (nextMessage.GetPath() == mFileName) FinalizeDecoder();
-              // Entre play loop
-              mFileName = nextMessage.GetPath();
-              if (InitializeDecoder())
-              {
-                mIsPlaying = true;
-                // Play until next message
-                LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
-                DecodeFrames();
-              }
-              else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
-              break;
+              mIsPlaying = true;
+              // Play until next message
+              LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
+              DecodeFrames();
             }
-            case Order::Stop:
-            {
-              mIsPlaying = false;
-              mFileName = Path();
-              FinalizeDecoder();
-              break;
-            }
-            case Order::None:
-            default: break;
+            else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
+            break;
           }
+          case Order::Stop:
+          {
+            mIsPlaying = false;
+            mFileName = Path();
+            FinalizeDecoder();
+            break;
+          }
+          case Order::None:
+          default: break;
+        }
   }
   catch(const std::exception& e)
   {
@@ -402,7 +402,11 @@ TextureData& VideoEngine::GetDisplayableFrame()
   int frame = ((int)mContext.FrameInUse ^ 1) & 1;
   mContext.FrammeRGBLocker[frame].Lock();
   if (mContext.FrameRGB[frame] != nullptr)
+  {
+    AquireTexture();
     mTexture.updateFromRGBA(mContext.FrameRGB[frame]->data[0], mContext.Width, mContext.Height);
+    ReleaseTexture();
+  }
   mContext.FrammeRGBLocker[frame].UnLock();
 
   return mTexture;
@@ -472,6 +476,9 @@ void VideoEngine::FinalizeDecoder()
 {
 //  cause segvault when launching a game if snap is playing in gamelistview
 //  SDL_CloseAudio();
+  AquireTexture();
+  mTexture.reset();
+  ReleaseTexture();
   mContext.Dispose();
 }
 
