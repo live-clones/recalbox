@@ -15,7 +15,7 @@ class IAudioController
      * @brief Get playback list
      * @return Map identifier : playback name
      */
-    virtual HashMap<int, std::string> GetPlaybackList() const = 0;
+    virtual HashMap<int, std::string> GetPlaybackList() = 0;
 
     /*!
      * @brief Set the default card/device

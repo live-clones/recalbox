@@ -7,7 +7,7 @@
 #include <audio/IAudioController.h>
 #include "AlsaCard.h"
 
-class AlsaController: public IAudioController, public StaticLifeCycleControler<AlsaController>
+class AlsaController: public IAudioController//, public StaticLifeCycleControler<AlsaController>
 {
   private:
     std::vector<AlsaCard> mPlaybacks;
@@ -34,7 +34,7 @@ class AlsaController: public IAudioController, public StaticLifeCycleControler<A
      * @brief Default constructor
      */
     AlsaController()
-      : StaticLifeCycleControler("AlsaController")
+    //  : StaticLifeCycleControler("AlsaController")
     {
       Initialize();
     }
@@ -52,7 +52,7 @@ class AlsaController: public IAudioController, public StaticLifeCycleControler<A
      * @brief Get playback list
      * @return Map opaque identifier : playback name
      */
-    HashMap<int, std::string> GetPlaybackList() const final;
+    HashMap<int, std::string> GetPlaybackList() final;
 
     /*!
      * @brief Set the default card/device

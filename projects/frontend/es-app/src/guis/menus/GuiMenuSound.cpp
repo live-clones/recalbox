@@ -57,9 +57,12 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
 
 void GuiMenuSound::SetVolume(float volume)
 {
-  AudioController::Instance().SetVolume(Math::roundi(volume));
-  RecalboxConf::Instance().SetAudioVolume(Math::roundi(volume));
-  RecalboxConf::Instance().Save();
+  if (AudioController::Instance().GetVolume() != Math::roundi(volume))
+  {
+    AudioController::Instance().SetVolume(Math::roundi(volume));
+    RecalboxConf::Instance().SetAudioVolume(Math::roundi(volume));
+    RecalboxConf::Instance().Save();
+  }
 }
 
 void GuiMenuSound::SetMusicOnOff(bool on)

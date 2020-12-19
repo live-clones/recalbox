@@ -57,11 +57,7 @@ find_package(FreeImage REQUIRED)
 find_package(SDL2MIXER REQUIRED)
 find_package(SDL2 REQUIRED) 
 find_package(CURL REQUIRED)
-
-#add ALSA for Linux
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    find_package(ALSA REQUIRED)
-endif()
+find_package(PulseAudio REQUIRED)
 
 #-------------------------------------------------------------------------------
 #set up compiler flags and excutable names
@@ -115,16 +111,9 @@ set(COMMON_INCLUDE_DIRS
     ${FREETYPE_INCLUDE_DIRS}
     ${FreeImage_INCLUDE_DIRS}
     ${SDL2_INCLUDE_DIR}
-    #${Boost_INCLUDE_DIRS}
     ${CURL_INCLUDE_DIR}
+    ${PULSEAUDIO_INCLUDE_DIR}
 )
-
-#add ALSA for Linux
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    LIST(APPEND COMMON_INCLUDE_DIRS
-        ${ALSA_INCLUDE_DIRS}
-    )
-endif()
 
 if(${GLSystem} MATCHES "Desktop OpenGL")
     LIST(APPEND COMMON_INCLUDE_DIRS
@@ -147,16 +136,10 @@ set(COMMON_LIBRARIES
 	${SDL2_LIBRARY}
 	${SDLMIXER_LIBRARY}
     ${CURL_LIBRARIES}
+    ${PULSEAUDIO_LIBRARY}
     pugixml
     nanosvg
 )
-
-#add ALSA for Linux
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    LIST(APPEND COMMON_LIBRARIES
-        ${ALSA_LIBRARY}
-    )
-endif()
 
 if(MSVC)
     LIST(APPEND COMMON_LIBRARIES

@@ -6,15 +6,17 @@
 #include <audio/IAudioController.h>
 #include <audio/alsa/AlsaController.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <audio/pulseaudio/PulseAudioController.h>
 
 class AudioController: public StaticLifeCycleControler<AudioController>
 {
   private:
     static IAudioController& GetAudioController()
     {
-      // Statically stuck to ALSA for now
-      static AlsaController sAlsaController;
-      return sAlsaController;
+      //static AlsaController sAlsaController;
+      //return sAlsaController;
+      static PulseAudioController sPulseausioController;
+      return sPulseausioController;
     }
 
     // Underlaying audio controler

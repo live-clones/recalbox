@@ -143,7 +143,7 @@ void AlsaController::Initialize()
   snd_config_update_free_global();
 }
 
-HashMap<int, std::string> AlsaController::GetPlaybackList() const
+HashMap<int, std::string> AlsaController::GetPlaybackList()
 {
   HashMap<int, std::string> result;
   result[-1] = sDefaultOutput;
