@@ -1,0 +1,11 @@
+--- reicast-0bd6ea371e0293f3c8e02b5ac1344c89b1e60bee/libswirl/utils/glwrap/gl3w-es.cpp
++++ reicast-0bd6ea371e0293f3c8e02b5ac1344c89b1e60bee/libswirl/utils/glwrap/gl3w-es.cpp
+@@ -8,7 +8,7 @@
+ #include "gl3w.h"
+ 
+ #if defined(SUPPORT_EGL)
+-#include "khronos/EGL/egl.h"
++#include <EGL/egl.h>
+ #if defined(_ANDROID)
+ #include <dlfcn.h>
+ #endif

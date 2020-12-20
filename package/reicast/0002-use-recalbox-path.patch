@@ -1,0 +1,34 @@
+--- reicast-0bd6ea371e0293f3c8e02b5ac1344c89b1e60bee/libswirl/libswirl.cpp
++++ reicast-0bd6ea371e0293f3c8e02b5ac1344c89b1e60bee/libswirl/libswirl.cpp
+@@ -43,6 +43,9 @@
+ 
+ #define fault_printf(...)
+ 
++#define RECALBOX_BIOS_PATH  "/recalbox/share/bios/"
++#define RECALBOX_NVMEM_PATH "/recalbox/share/bios/"
++
+ #ifdef SCRIPTING
+ #include "scripting/lua_bindings.h"
+ #endif
+@@ -759,7 +762,7 @@
+ 
+             sh4_cpu->Run();
+ 
+-            SaveRomFiles(get_writable_data_path(DATA_PATH));
++            SaveRomFiles(RECALBOX_NVMEM_PATH);
+             if (reset_requested)
+             {
+                 virtualDreamcast->Reset();
+@@ -840,10 +843,10 @@
+     {
+         cfgSetVirtual("config", "image", path.c_str());
+ 
+-        if (settings.bios.UseReios || !LoadRomFiles(get_readonly_data_path(DATA_PATH)))
++        if (settings.bios.UseReios || !LoadRomFiles(RECALBOX_BIOS_PATH))
+         {
+ #ifdef USE_REIOS
+-            if (!LoadHle(get_readonly_data_path(DATA_PATH)))
++          if (!LoadHle(RECALBOX_BIOS_PATH))
+             {
+                 return -5;
+             }
