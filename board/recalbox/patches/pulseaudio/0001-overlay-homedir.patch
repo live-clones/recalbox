@@ -1,0 +1,27 @@
+--- pulseaudio-13.0/src/pulsecore/core-util.c
++++ pulseaudio-13.0/src/pulsecore/core-util.c
+@@ -1490,23 +1490,7 @@
+ 
+ char *pa_get_home_dir_malloc(void) {
+     char *homedir;
+-    size_t allocated = 128;
+-
+-    for (;;) {
+-        homedir = pa_xmalloc(allocated);
+-
+-        if (!pa_get_home_dir(homedir, allocated)) {
+-            pa_xfree(homedir);
+-            return NULL;
+-        }
+-
+-        if (strlen(homedir) < allocated - 1)
+-            break;
+-
+-        pa_xfree(homedir);
+-        allocated *= 2;
+-    }
+-
++    homedir = pa_sprintf_malloc(PA_PATH_SEP "overlay");
+     return homedir;
+ }
+ 
