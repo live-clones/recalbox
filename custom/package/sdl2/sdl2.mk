@@ -17,7 +17,6 @@ SDL2_CONF_OPTS += \
 	--disable-arts \
 	--disable-esd \
 	--disable-dbus \
-	--disable-pulseaudio \
 	--disable-video-wayland
 
 # We are using autotools build system for sdl2, so the sdl2-config.cmake
@@ -152,6 +151,13 @@ SDL2_DEPENDENCIES += alsa-lib
 SDL2_CONF_OPTS += --enable-alsa
 else
 SDL2_CONF_OPTS += --disable-alsa
+endif
+
+ifeq ($(BR2_PACKAGE_PULSEAUDIO),y)
+SDL2_DEPENDENCIES += pulseaudio
+SDL2_CONF_OPTS += --enable-pulseaudio
+else
+SDL2_CONF_OPTS += --disable-pulseaudio
 endif
 
 ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
