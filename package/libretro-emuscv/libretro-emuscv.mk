@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_EMUSCV_VERSION = 041601db4543cf9e90b447f979b98d5ab31ff66d
+LIBRETRO_EMUSCV_VERSION = 5a9a555e4a1e2a8c8e7ec411acadbf2eb381b55e
 LIBRETRO_EMUSCV_SITE = $(call gitlab,recalbox,packages/libretro/libretro-emuscv,$(LIBRETRO_EMUSCV_VERSION))
 
 define LIBRETRO_EMUSCV_BUILD_CMDS

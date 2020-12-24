@@ -56,6 +56,7 @@ All notable changes to this project will be documented in this file.
 - Add Super Cassette Vision core
 - Debump python-gobject
 - Fix gpsp core (temporarily disable dynarec until it's fixed with gcc >= 8)
+- Bump SCV (working on RPis)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
