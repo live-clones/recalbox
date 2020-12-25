@@ -59,6 +59,7 @@ All notable changes to this project will be documented in this file.
 - Bump SCV (working on RPis)
 - Fix OGA default mapping
 - Add Nintendo Switch joycons and combined joycons support
+- Add private theme token to yaml
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
