@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system dos --extension '.pc .PC .dos .DOS' --fullname 'Dos (x86)' --platform pc --theme pc 1:dosbox:dosbox:BR2_PACKAGE_DOSBOX
+# ./scripts/linux/empack.py --force --system dos --extension '.pc .dos .zip' --fullname 'Dos (x86)' --platform pc --theme pc 1:dosbox:dosbox:BR2_PACKAGE_DOSBOX 2:libretro:dosbox_pure:BR2_PACKAGE_LIBRETRO_DOSBOX_PURE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DOS_SOURCE = 
@@ -21,12 +21,27 @@ SOURCE_ROMDIR_DOS = $(RECALBOX_ROMFS_DOS_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_DOSBOX),)
+ifneq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),)
 define CONFIGURE_MAIN_DOS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DOS),Dos (x86),$(SYSTEM_NAME_DOS),.pc .PC .dos .DOS,pc,pc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DOS),Dos (x86),$(SYSTEM_NAME_DOS),.pc .dos .zip,pc,pc)
 endef
 
-ifneq ($(BR2_PACKAGE_DOSBOX),)
+ifneq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),)
+define CONFIGURE_DOS_LIBRETRO_START
+	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_DOS),libretro)
+endef
+ifeq ($(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),y)
+define CONFIGURE_DOS_LIBRETRO_DOSBOX_PURE_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_DOS),dosbox_pure,2)
+endef
+endif
+
+define CONFIGURE_DOS_LIBRETRO_END
+	$(call RECALBOX_ROMFS_CALL_END_EMULATOR,$(SYSTEM_XML_DOS))
+endef
+endif
+
+ifneq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),)
 define CONFIGURE_DOS_DOSBOX_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_DOS),dosbox)
 endef
@@ -50,6 +65,9 @@ endif
 
 define RECALBOX_ROMFS_DOS_CONFIGURE_CMDS
 	$(CONFIGURE_MAIN_DOS_START)
+	$(CONFIGURE_DOS_LIBRETRO_START)
+	$(CONFIGURE_DOS_LIBRETRO_DOSBOX_PURE_DEF)
+	$(CONFIGURE_DOS_LIBRETRO_END)
 	$(CONFIGURE_DOS_DOSBOX_START)
 	$(CONFIGURE_DOS_DOSBOX_DOSBOX_DEF)
 	$(CONFIGURE_DOS_DOSBOX_END)

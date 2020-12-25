@@ -317,7 +317,7 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BOOM3),)
 endif
 
 # System: dos
-ifeq ($(BR2_PACKAGE_DOSBOX),y)
+ifeq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos
 endif
 

@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_ROMFS_DOS
 	bool "recalbox-romfs-dos"
 	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_DOSBOX
+	depends on BR2_PACKAGE_DOSBOX \
+	  || BR2_PACKAGE_LIBRETRO_DOSBOX_PURE
 	help
 	  share_init/roms and xml for dos
