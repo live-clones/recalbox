@@ -61,6 +61,7 @@ All notable changes to this project will be documented in this file.
 - Add Nintendo Switch joycons and combined joycons support
 - Add private theme token to yaml
 - Add libretro dosbox-pure
+- Fix neogeo cd system name in bios database
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
