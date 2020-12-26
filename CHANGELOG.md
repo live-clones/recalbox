@@ -62,6 +62,7 @@ All notable changes to this project will be documented in this file.
 - Add private theme token to yaml
 - Add libretro dosbox-pure
 - Fix neogeo cd system name in bios database
+- Fix screenshot rotation on odroid advance go
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
