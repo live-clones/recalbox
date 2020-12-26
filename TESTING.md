@@ -60,6 +60,7 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Check bluetooth pairing
 - [ ] Test Nintendo switch joycons and combined joycons
 - [ ] DosBox Pure added => test this new core
+- [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
 
 
 ## [7.1-Reloaded]

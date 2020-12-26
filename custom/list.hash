@@ -7,6 +7,7 @@
 ++++++++++++++++++++++++++++++++  package/mosquitto/0001-default-configuratyion.patch
 ++++++++++++++++++++++++++++++++  package/python-gobject/0001-add-PYTHON_INCLUDES-override.patch
 --------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
+827c654896536436b4ca531a671ea6da  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 c0f2d9a0b89fb42dfd68b3c99d66a16a  package/binutils/binutils.mk
 ba77177afc0d4e22d3740c6099e1533e  package/bluez5_utils/bluez5_utils.mk

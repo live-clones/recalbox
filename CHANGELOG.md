@@ -63,6 +63,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro dosbox-pure
 - Fix neogeo cd system name in bios database
 - Fix screenshot rotation on odroid advance go
+- Grub2 package fix for legacy booting (#1484)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
