@@ -1,0 +1,1 @@
+./scripts/linux/empack.py --force --system pico8 --extension '.p8 .png .zip .7z' --fullname 'PICO-8' --platform pico8 --theme pico8 1:libretro:retro8:BR2_PACKAGE_LIBRETRO_RETRO8
