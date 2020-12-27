@@ -49,7 +49,11 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
         root = Path(sRemoteRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
       }
     }
-    else LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is not relative to " << originalRomPath.ToString();
+    else
+    {
+      roots[systemDescriptor.RomPath().ToString()] = false;
+      LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder.";
+    }
   }
 
   return roots;
