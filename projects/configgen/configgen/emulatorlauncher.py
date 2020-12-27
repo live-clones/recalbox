@@ -195,6 +195,7 @@ def getDefaultEmulator(targetSystem):
         "pc88"           : Emulator(name='pc88', emulator='libretro', core='quasi88'),
         "pc98"           : Emulator(name='pc98', emulator='libretro', core='np2kai'),
         "pet"            : Emulator(name='pet', emulator='libretro', core='vice_xpet'),
+        "pico8"          : Emulator(name='pico8', emulator='libretro', core='retro8'),
         "plus4"          : Emulator(name='plus4', emulator='libretro', core='vice_xplus4'),
         "samcoupe"       : Emulator(name='samcoupe', emulator='simcoupe', videomode='default'),
         "spectravideo"   : Emulator(name='spectravideo', emulator='libretro', core='bluemsx'),
