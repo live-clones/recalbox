@@ -14,6 +14,7 @@
 - Add Libretro NeoCD core (w/ CHD support)
 - Add Nintendo Switch joycon support (both solo or combined mode)
 - Add new libretro core for DOS games (dosbox-pure available on rpi3/4, x86/x64 & Xu4.Goa)
+- Add Pulseaudio support
 
 ### Improvements
 - Bump Amiberry to version 3.3

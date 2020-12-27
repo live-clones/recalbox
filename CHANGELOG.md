@@ -67,6 +67,7 @@ All notable changes to this project will be documented in this file.
 - Fix SCV theme
 - Fix crash in empty bios checker list
 - Fix hidden screenshot system
+- Implement Pulseaudio
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

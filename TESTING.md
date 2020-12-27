@@ -61,6 +61,7 @@ Every case must be checked before a release.
 - [ ] Test Nintendo switch joycons and combined joycons
 - [ ] DosBox Pure added => test this new core
 - [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
+- [ ] Pulseaudio - Check audio works everywhere
 
 
 ## [7.1-Reloaded]

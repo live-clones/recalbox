@@ -1,0 +1,8 @@
+config BR2_PACKAGE_PAMIX
+	bool "PAmix"
+	depends on BR2_PACKAGE_PULSEAUDIO
+	select BR2_PACKAGE_NCURSES
+	help
+	  ncurses/curses pulseaudio mixer in c++ similar to pavucontrol
+
+	  https://github.com/patroclos/PAmix
