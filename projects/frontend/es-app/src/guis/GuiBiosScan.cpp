@@ -329,7 +329,7 @@ bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.BPressed())
+  if (event.BPressed() && (mList->size() > 0))
   {
     const ListContext& context = mList->getSelected();
     if (context.mBios != nullptr)
