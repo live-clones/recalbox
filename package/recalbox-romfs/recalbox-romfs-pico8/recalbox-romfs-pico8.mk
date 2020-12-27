@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system pico8 --extension '.p8 .png .zip .7z' --fullname 'Sharp PICO8' --platform pico8 --theme pico8 1:libretro:pico8:BR2_PACKAGE_LIBRETRO_RETRO8
+# ./scripts/linux/empack.py --force --system pico8 --extension '.p8 .png .zip .7z' --fullname 'PICO-8' --platform pico8 --theme pico8 1:libretro:pico8:BR2_PACKAGE_LIBRETRO_RETRO8
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_PICO8_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_PICO8 = $(RECALBOX_ROMFS_PICO8_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
 define CONFIGURE_MAIN_PICO8_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PICO8),Sharp PICO8,$(SYSTEM_NAME_PICO8),.p8 .png .zip .7z,pico8,pico8)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_PICO8),PICO-8,$(SYSTEM_NAME_PICO8),.p8 .png .zip .7z,pico8,pico8)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
