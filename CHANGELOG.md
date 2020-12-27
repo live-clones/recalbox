@@ -64,6 +64,9 @@ All notable changes to this project will be documented in this file.
 - Fix neogeo cd system name in bios database
 - Fix screenshot rotation on odroid advance go
 - Grub2 package fix for legacy booting (#1484)
+- Fix SCV theme
+- Fix crash in empty bios checker list
+- Fix hidden screenshot system
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
