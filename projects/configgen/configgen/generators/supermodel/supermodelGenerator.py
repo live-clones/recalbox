@@ -112,6 +112,8 @@ class SupermodelGenerator(Generator):
             reso.append("-res="+getConfig)
         return reso
 
+    ## added in version r835 :
+    ## -wide-bg When wide-screen mode is enabled, also expand the 2D background layer to screen width
     @staticmethod
     def GetScreenRatio(system):
         ratio = []
@@ -119,6 +121,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings.loadFile(True)
         screenRatio = supermodelSettings.getOption("screen-ratio", "")
         if screenRatio == "1" :
+            #ratio.append("-wide-bg")
             ratio.append("-wide-screen")
         elif screenRatio == "2" :
             ratio.append("-stretch")
@@ -173,14 +176,14 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         Crosshairs = supermodelSettings.getOption("crosshairs", "")
-        ## on default set 3 (for playres one and two) if enabled in config file 
+        ## on default set 3 (for players one and two) if enabled in config file 
         if Crosshairs == "1" :
             SetCrosshairs.append("-crosshairs=1")
         elif Crosshairs == "2" :
             SetCrosshairs.append("-crosshairs=3")
         return SetCrosshairs
 
-## show only on statut bar 
+## Disabled because FPS show only on statut bar 
 #    ## -----CORE-----
 #    @staticmethod
 #    def GetShowsFps(system):
@@ -224,14 +227,15 @@ class SupermodelGenerator(Generator):
             PpcFrequency.append("-ppc-frequency="+Frequency)
         return PpcFrequency
 
-    @staticmethod
-    def GetSavesState(system):
-        savespath =[]
-        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
-        supermodelSettings.loadFile(True)
-        model3saves = "/recalbox/share/saves/model3/"
-        savespath.append("-load-state="+model3saves)
-        return savespath
+## Disabled because make crash on few games
+#    @staticmethod
+#    def GetSavesState(system):
+#        savespath =[]
+#        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
+#        supermodelSettings.loadFile(True)
+#        model3saves = "/recalbox/share/saves/model3/"
+#        savespath.append("-load-state="+model3saves)
+#        return savespath
 
     @staticmethod
     def GetLogsPath(system):
@@ -280,7 +284,7 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetGpuThread(system))
         commandArray.extend(self.GetThreads(system))
         commandArray.extend(self.GetPpcFrequency(system))
-        commandArray.extend(self.GetSavesState(system))
+#        commandArray.extend(self.GetSavesState(system))
         commandArray.extend(self.GetLogsPath(system))
         commandArray.extend(self.GetLogsLevel(system))
 
