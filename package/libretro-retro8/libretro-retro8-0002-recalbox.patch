@@ -1,0 +1,213 @@
+diff --git a/src/io/stegano.cpp b/src/io/stegano.cpp
+index 88fd452..8afd21c 100644
+--- a/src/io/stegano.cpp
++++ b/src/io/stegano.cpp
+@@ -32,6 +32,34 @@ uint8_t Stegano::assembleByte(const uint32_t v)
+     ((((v & MASK_BLUE) >> SHIFT_BLUE) & 0b11) << 4);
+ }
+ 
++int Stegano::readOneBit(const unsigned int* data, int& offset, int& bitoffset)
++{
++  int result = 0;
++  if (bitoffset == 8) { bitoffset = 0; ++offset; }
++  unsigned char byte = assembleByte(data[offset]);
++  result |= ((byte >> bitoffset) & 1);
++  ++bitoffset;
++  return result;
++}
++
++int Stegano::readBit(const unsigned int* data, int& offset, int& bitoffset, int bitread)
++{
++  int result = 0;
++  int resultStartBit = 0;
++  while(bitread != 0)
++  {
++    if (bitoffset == 8) { bitoffset = 0; ++offset; }
++    unsigned char byte = assembleByte(data[offset]);
++    int remaining = 8 - bitoffset;
++    if (remaining > bitread) remaining = bitread;
++    result |= ((byte >> bitoffset) & ((1 << remaining) - 1)) << resultStartBit;
++    bitoffset += remaining;
++    resultStartBit += remaining;
++    bitread -= remaining;
++  }
++  return result;
++}
++
+ void Stegano::load(const PngData& data, Machine& m)
+ {
+   constexpr size_t SPRITE_SHEET_SIZE = gfx::SPRITE_SHEET_HEIGHT * gfx::SPRITE_SHEET_WIDTH / gfx::PIXEL_TO_BYTE_RATIO;
+@@ -53,59 +81,116 @@ void Stegano::load(const PngData& data, Machine& m)
+     m.memory().base()[i] = assembleByte(d[i]);
+ 
+   size_t o = RAW_DATA_LENGTH;
+-  std::array<uint8_t, 4> magic;
+-  std::array<uint8_t, 4> expected = { { ':', 'c', ':', '\0' } };
++  std::array<uint8_t, 4> magic {};
++  std::array<uint8_t, 4> expectedOld = { { ':', 'c', ':', '\0' } };
++  std::array<uint8_t, 4> expectedNew = { { '\0', 'p', 'x', 'a' } };
+ 
+   /* read magic code heaader */
+   for (size_t i = 0; i < magic.size(); ++i)
+     magic[i] = assembleByte(d[o++]);
+ 
+-  assert(magic == expected);
++  std::string code;
+ 
+-  /* read uint6_t lsb compressed length*/
+-  size_t compressedLength = assembleByte(d[o]) << 8 | assembleByte(d[o + 1]);
+-  o += 2;
+-  /* skip 2 null*/
+-  o += 2;
++  if (magic == expectedOld) // Old compression method
++  {
++    /* read uint6_t lsb compressed length*/
++    size_t compressedLength = assembleByte(d[o]) << 8 | assembleByte(d[o + 1]);
++    o += 2;
++    /* skip 2 null*/
++    o += 2;
+ 
+-  compressedLength = std::min(size_t(32769ULL - RAW_DATA_LENGTH), compressedLength);
++    compressedLength = std::min(size_t(32769ULL - RAW_DATA_LENGTH), compressedLength);
+ 
+-  const std::string lookup = "\n 0123456789abcdefghijklmnopqrstuvwxyz!#%(){}[]<>+=/*:;.,~_";
+-  std::string code;
++    const std::string lookup = "\n 0123456789abcdefghijklmnopqrstuvwxyz!#%(){}[]<>+=/*:;.,~_";
+ 
+-  assert(0x3b == lookup.length());
+-  //TODO: optimize concatenation on string by reserving space
++    assert(0x3b == lookup.length());
++    //TODO: optimize concatenation on string by reserving space
+ 
+-  for (size_t i = 0; i < compressedLength; ++i)
+-  {
+-    uint8_t v = assembleByte(d[o + i]);
+-
+-    /* copy next */
+-    if (v == 0x00)
++    for (size_t i = 0; i < compressedLength; ++i)
+     {
+-      uint8_t vn = assembleByte(d[o + i + 1]);
+-      code += vn;
+-      ++i;
++      uint8_t v = assembleByte(d[o + i]);
++
++      /* copy next */
++      if (v == 0x00)
++      {
++        uint8_t vn = assembleByte(d[o + i + 1]);
++        code += vn;
++        ++i;
++      }
++        /* lookup */
++      else if (v <= 0x3b)
++      {
++        code += lookup[v - 1];
++      }
++      else
++      {
++        uint8_t vn = assembleByte(d[o + i + 1]);
++
++        auto offset = ((v - 0x3c) << 4) + (vn & 0xf);
++        size_t length = (vn >> 4) + 2;
++
++        const size_t start = code.length() - offset;
++        for (size_t j = 0; j < length; ++j)
++          code += code[start + j];
++
++        ++i;
++      }
+     }
+-    /* lookup */
+-    else if (v <= 0x3b)
+-    {
+-      code += lookup[v - 1];
+-    }
+-    else
+-    {
+-      uint8_t vn = assembleByte(d[o + i + 1]);
++  }
++  else if (magic == expectedNew) // New compression method
++  {
++    int uncompressedLength = (int)((size_t)assembleByte(d[o]) << 8 | (size_t)assembleByte(d[o + 1]));
++    o += 2;
++    int compressedLength = (int)((size_t)assembleByte(d[o]) << 8 | (size_t)assembleByte(d[o + 1]) - 8);
++    o += 2;
++
++    // Build mapper
++    unsigned char mapper[256];
++    for(int i = 256; --i >= 0; ) mapper[i] = (unsigned char)i;
+ 
+-      auto offset = ((v - 0x3c) << 4) + (vn & 0xf);
+-      auto length = (vn >> 4) + 2;
++    // Reserve size
++    code.resize(uncompressedLength);
+ 
+-      const size_t start = code.length() - offset;
+-      for (size_t j = 0; j < length; ++j)
+-        code += code[start + j];
++    // Read position
++    int bit = 0;
++    int readOffset = o;
+ 
+-      ++i;
++    // Write loop
++    for(int writeOffset = 0; writeOffset < uncompressedLength; )
++    {
++      // Check header
++      if (readOneBit(d, readOffset, bit))
++      {
++        int unary = 0; while(readOneBit(d, readOffset, bit)) ++unary;
++        int unaryMask = (1 << unary) - 1;
++        int index = readBit(d, readOffset, bit, 4 + unary) + (unaryMask << 4);
++        unsigned char value = code[writeOffset++] = mapper[index];
++        memmove(&mapper[1], &mapper[0], index);
++        mapper[0] = value;
++      }
++      else
++      {
++        // Read offset
++        int offsetBits = readOneBit(d, readOffset, bit) != 0 ? (readOneBit(d, readOffset, bit) != 0 ? 5 : 10) : 15;
++        int offset = readBit(d, readOffset, bit, offsetBits) + 1;
++        // Read length
++        int length = 3;
++        for(;;)
++        {
++          int part = readBit(d, readOffset, bit, 3);
++          length += part;
++          if (part != 7) break;
++        }
++        // Copy
++        assert(length < writeOffset);
++        offset = writeOffset - offset;
++        for(; --length >= 0; )
++          code[writeOffset++] = code[offset++];
++      }
+     }
++
+   }
++  else assert(false);
+ 
+ #if DEBUGGER
+   std::ofstream output(fileName);
+diff --git a/src/io/stegano.h b/src/io/stegano.h
+index b3a34ef..62b685d 100644
+--- a/src/io/stegano.h
++++ b/src/io/stegano.h
+@@ -22,9 +22,12 @@ namespace retro8
+       static constexpr size_t IMAGE_HEIGHT = 205;
+ 
+     private:
+-      uint8_t assembleByte(const uint32_t v);
+-    public:
+-      void load(const PngData& data, Machine& dest);
++      static uint8_t assembleByte(const uint32_t v);
++      static int readBit(const unsigned int* data, int& offset, int& bitoffset, int bitread);
++      static int readOneBit(const unsigned int* data, int& offset, int& bitoffset);
++
++      public:
++      static void load(const PngData& data, Machine& dest);
+     };
+   }
+ }
+\ No newline at end of file
