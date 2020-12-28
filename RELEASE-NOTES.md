@@ -3,6 +3,7 @@
 ## Next
 
 ### News
+- Bump Dolphin Emulator to Version 5.0-13178
 - Bump Buildroot to version 2020.02
 - Bump Kernel to 5.8 (except on Odroid Go Advance)
 - New multi-source rom management:
@@ -21,6 +22,7 @@
 - Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
 
 ### Fixes
+- Fix Dolphin emulator 
 - Fix Odroid Go Advance controller (v1)
 
 
