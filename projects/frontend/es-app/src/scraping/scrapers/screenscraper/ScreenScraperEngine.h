@@ -5,6 +5,7 @@
 
 #include <scraping/scrapers/IScraperEngine.h>
 #include <utils/os/system/Mutex.h>
+#include <utils/os/system/Signal.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/ThreadPool.h>
 #include <games/MetadataFieldDescriptor.h>
@@ -226,7 +227,7 @@ class ScreenScraperEngine
     //! Engine allocator protection
     Mutex mEngineMutex;
     //! Free engine signal
-    Mutex mEngineSignal;
+    Signal mEngineSignal;
 
     //! Main thread synchronizer
     SyncronousEvent mSender;
@@ -334,7 +335,7 @@ class ScreenScraperEngine
       for(int i = sMaxEngines; --i >= 0; )
       {
         mEngines[i].Abort();
-        mEngineSignal.Signal();
+        mEngineSignal.Fire();
       }
       if (waitforcompletion)
         mRunner.WaitForCompletion();

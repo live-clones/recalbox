@@ -48,7 +48,7 @@ void PulseAudioController::SetVolumeCallback(pa_context *context, int success, v
   PulseAudioController& This = *(PulseAudioController*)userdata;
 
   // Result - don't care about the actual result
-  This.mSignal.Signal();
+  This.mSignal.Fire();
 }
 
 void PulseAudioController::SetSourceCallback(pa_context *context, int success, void *userdata)
@@ -60,7 +60,7 @@ void PulseAudioController::SetSourceCallback(pa_context *context, int success, v
   PulseAudioController& This = *(PulseAudioController*)userdata;
 
   // Result - don't care about the actual result
-  This.mSignal.Signal();
+  This.mSignal.Fire();
 }
 
 void PulseAudioController::ContextStateCallback(pa_context *context, void *userdata)
@@ -76,13 +76,13 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 		case PA_CONTEXT_TERMINATED:
     {
       This.mConnectionState = ConnectionState::Closed;
-      This.mSignal.Signal();
+      This.mSignal.Fire();
       break;
     }
 		case PA_CONTEXT_READY:
     {
       This.mConnectionState =ConnectionState::Ready;
-      This.mSignal.Signal();
+      This.mSignal.Fire();
       break;
     }
     case PA_CONTEXT_UNCONNECTED:
@@ -102,7 +102,7 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
   // If eol is set to a positive number, you're at the end of the list
   if (eol > 0)
   {
-    This.mSignal.Signal();
+    This.mSignal.Fire();
     return;
   }
 

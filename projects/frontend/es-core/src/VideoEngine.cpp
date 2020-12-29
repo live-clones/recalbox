@@ -24,7 +24,7 @@ static int NanoSleep(long long nanoseconds)
     timespec delay = { (int)(nanoseconds / 1000000000LL), (int)(nanoseconds % 1000000000LL) };
     nanosleep(&delay, &remaining);
   }
-  // Return factionnal or remaining time
+  // Return fractionnal or remaining time
   return remaining.tv_nsec;
 }
 
@@ -174,7 +174,7 @@ void VideoEngine::PlayVideo(const Path& videopath)
   { // Post
     Mutex::AutoLock sync(mQueueSyncer);
     mPendingMessages.Push(message);
-    mSignal.Signal();
+    mSignal.Fire();
   }
 }
 
@@ -195,7 +195,7 @@ void VideoEngine::StopVideo()
   { // Post
     Mutex::AutoLock sync(mQueueSyncer);
     mPendingMessages.Push(message);
-    mSignal.Signal();
+    mSignal.Fire();
   }
 }
 

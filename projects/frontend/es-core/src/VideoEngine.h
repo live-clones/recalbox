@@ -5,6 +5,7 @@
 
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
+#include <utils/os/system/Signal.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <utils/storage/MessageFactory.h>
 #include <SDL_system.h>
@@ -247,7 +248,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     };
 
     //! Signal used to unlock the thread and actually run the video decoding
-    Mutex mSignal;
+    Signal mSignal;
     //! Video filename
     Path mFileName;
 
@@ -282,7 +283,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      */
     void Break() override
     {
-      mSignal.Signal();
+      mSignal.Fire();
     }
 
     static void AudioCallback(void *userdata, unsigned char* stream, int len)

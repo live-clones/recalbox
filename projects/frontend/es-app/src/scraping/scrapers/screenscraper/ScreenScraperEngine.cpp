@@ -383,7 +383,7 @@ void ScreenScraperEngine::RecycleEngine(int index)
   {
     mAllocatedEngines &= ~(1 << index);
     mEngineMutex.UnLock();
-    mEngineSignal.Signal();
+    mEngineSignal.Fire();
   }
 }
 

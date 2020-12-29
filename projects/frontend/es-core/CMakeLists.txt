@@ -74,6 +74,7 @@ set(CORE_HEADERS
         src/utils/os/system/IThreadPoolWorkerInterface.h
 		src/utils/os/system/Mutex.h
 		src/utils/os/system/ProcessTree.h
+		src/utils/os/system/Signal.h
 		src/utils/datetime/HighResolutionTimer.h
 		src/utils/locale/Internationalizer.h
 		src/utils/math/Vectors.h
@@ -214,6 +215,7 @@ set(CORE_SOURCES
 		src/utils/os/system/Thread.cpp
 		src/utils/os/system/Mutex.cpp
 		src/utils/os/system/ProcessTree.cpp
+		src/utils/os/system/Signal.cpp
 		src/utils/os/fs/Path.cpp
 		src/utils/os/fs/StringMapFile.cpp
 		src/utils/locale/Internationalizer.cpp

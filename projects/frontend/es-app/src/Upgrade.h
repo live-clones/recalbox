@@ -3,7 +3,7 @@
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
-#include <utils/os/system/Mutex.h>
+#include <utils/os/system/Signal.h>
 
 class Upgrade: private Thread, private ISynchronousEvent
 {
@@ -79,7 +79,7 @@ class Upgrade: private Thread, private ISynchronousEvent
     //! Syncronous event to display popup
     SyncronousEvent mSender;
     //! Signal used to stop the thread
-    Mutex mSignal;
+    Signal mSignal;
     //! Built popup message
     std::string mPopupMessage;
     //! Build MessageBox message

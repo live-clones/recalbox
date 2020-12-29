@@ -7,7 +7,7 @@
 #include <pulse/pulseaudio.h>
 #include <vector>
 #include <utils/os/system/Thread.h>
-#include <utils/os/system/Mutex.h>
+#include <utils/os/system/Signal.h>
 
 class PulseAudioController: public IAudioController, private Thread
 {
@@ -95,7 +95,7 @@ class PulseAudioController: public IAudioController, private Thread
     //! PulseAudio Mainloop handle
     pa_mainloop* mPulseAudioMainLoop;
     //! Signal
-    Mutex mSignal;
+    Signal mSignal;
 
     /*!
      * @brief Initialize all

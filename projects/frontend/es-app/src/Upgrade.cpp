@@ -29,7 +29,7 @@ Upgrade::Upgrade(WindowManager& window)
 
 Upgrade::~Upgrade()
 {
-  mSignal.Signal();
+  mSignal.Fire();
   Thread::Stop();
 }
 
