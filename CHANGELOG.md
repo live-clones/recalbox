@@ -71,6 +71,7 @@ All notable changes to this project will be documented in this file.
 - Fix hidden screenshot system
 - Implement Pulseaudio
 - Resize & rotate install slides on GoA
+- Fix pulseaudio dependency in emulationstation package
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
