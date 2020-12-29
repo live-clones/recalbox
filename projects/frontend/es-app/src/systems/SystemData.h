@@ -29,6 +29,7 @@ class SystemData : private INoCopy
       FixedSort  =  8, //!< This system has its own fixed sort
       AlwaysFlat = 16, //!< This system is presented always flat
       Searchable = 32, //!< We can search games in this system
+      GameInPng  = 64, //!< Game is its image and vice-versa :)
     };
 
 	private:

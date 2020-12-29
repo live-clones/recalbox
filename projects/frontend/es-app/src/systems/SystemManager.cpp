@@ -59,13 +59,25 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
   return roots;
 }
 
+void SystemManager::AutoScrape(SystemData* system)
+{
+  std::string png(LEGACY_STRING(".png"));
+  FileData::List games = system->MasterRoot().getAllItemsRecursively(false, true);
+  for(FileData* game : games)
+    if (game->isGame())
+      if (Strings::ToLowerASCII(game->getPath().Extension()) == png)
+        game->Metadata().SetImagePath(game->getPath());
+}
+
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
   const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
   Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
 
   // Create system
-  SystemData* result = new SystemData(*this, systemDescriptor, SystemData::Properties::Searchable);
+  SystemData::Properties properties = SystemData::Properties::Searchable;
+  if (systemDescriptor.Name() == "pico8") properties |= SystemData::Properties::GameInPng;
+  SystemData* result = new SystemData(*this, systemDescriptor, properties);
 
   PortTypes port = PortTypes::None;
   if (systemDescriptor.IsPort())
@@ -92,6 +104,10 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     // Populate items from gamelist.xml
     if (!Settings::Instance().IgnoreGamelist())
       result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
+
+    // Game In Png?
+    if ((properties & SystemData::Properties::GameInPng) != 0)
+      AutoScrape(result);
 
     // Overrides?
     FileData::List allFolders = result->getFolders();

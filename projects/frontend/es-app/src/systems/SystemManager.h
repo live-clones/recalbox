@@ -370,5 +370,8 @@ class SystemManager :
      * @return Sorted game found list
      */
     FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal);
+
+    //! Auto-scrape game image
+    void AutoScrape(SystemData* pData);
 };
 
