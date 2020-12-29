@@ -8,7 +8,7 @@ RECALBOX_EMULATIONSTATION2_VERSION = a6f55b4cd0f57307f2517af4fa0ec923b6388658
 RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulationstation.git
 RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
-RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer freeimage freetype alsa-lib \
+RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer freeimage freetype alsa-lib pulseaudio \
 	libcurl openssl libzip ffmpeg bluez5_utils bluez5_utils-headers
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
