@@ -125,6 +125,7 @@ index 0b69bfe..94ec519 100644
          InitJoystick(i);
      }
 +
++    // hotkey event
 +    std::array<std::unique_ptr<Input::ButtonDevice>, Settings::NativeButton::NumButtons> buttons;
 +    std::transform(Settings::values.current_input_profile.buttons.begin() + Settings::NativeButton::BUTTON_HID_BEGIN,
 +                   Settings::values.current_input_profile.buttons.begin() + Settings::NativeButton::NumButtons,
