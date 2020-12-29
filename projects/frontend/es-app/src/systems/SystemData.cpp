@@ -507,7 +507,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
   return nullptr;
 }
 
-void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile)
+void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool /*forceCheckFile*/)
 {
   try
   {
@@ -559,7 +559,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         else continue; // Unknown node
 
         Path path = relativeTo / Xml::AsString(fileNode, "path", "");
-        if (forceCheckFile)
+        //if (forceCheckFile)
           if (!path.Exists())
             continue;
 
