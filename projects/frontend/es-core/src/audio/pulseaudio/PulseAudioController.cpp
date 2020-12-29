@@ -203,6 +203,10 @@ void PulseAudioController::SetDefaultPlayback(int identifier)
       pa_context_set_default_sink(mPulseAudioContext, device.Name.data(), SetSourceCallback, this);
       // Wait for result
       mSignal.WaitSignal();
+      // Set sound on
+      pa_context_set_sink_mute_by_index(mPulseAudioContext, device.Index, 0, SetSourceCallback, this);
+      // Wait for result
+      mSignal.WaitSignal();
       break;
     }
 }
