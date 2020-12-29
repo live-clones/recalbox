@@ -19,6 +19,7 @@
 
 ### Improvements
 - Bump supermodel to version 839
+- Add frequency screen option for X86, X86_64 by Chriskt78
 - Bump Amiberry to version 3.3
 - Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
 
