@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Next]
 - Fix and Bump Dolphin emulator
+- Bump supermodel to version 839
 - Cherry pick files to remove when quick building
 - Add GBC and Naomi intro videos
 - Simplify recalbox.version for branches builds
