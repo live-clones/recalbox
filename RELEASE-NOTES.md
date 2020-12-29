@@ -3,6 +3,7 @@
 ## Next
 
 ### News
+- Bump of the port family
 - Bump Dolphin Emulator to Version 5.0-13178
 - Bump Buildroot to version 2020.02
 - Bump Kernel to 5.8 (except on Odroid Go Advance)

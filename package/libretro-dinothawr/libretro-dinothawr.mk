@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_DINOTHAWR_VERSION = fb3c9a26e5c02310ed40f941150a22118763cbe3
+LIBRETRO_DINOTHAWR_VERSION = a75a7045ee8433ea3270aea94cd1747d4a1c91cd
 LIBRETRO_DINOTHAWR_SITE = $(call github,libretro,Dinothawr,$(LIBRETRO_DINOTHAWR_VERSION))
 
 define LIBRETRO_DINOTHAWR_BUILD_CMDS

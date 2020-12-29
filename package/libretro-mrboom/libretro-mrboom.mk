@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MRBOOM_VERSION = 441ba41151f2a688c6d9a2c1a34ff2106d8c57f8
+LIBRETRO_MRBOOM_VERSION = c59553c8ea025515b2e77cea6056b5108acf867d
 LIBRETRO_MRBOOM_SITE = git://github.com/libretro/mrboom-libretro.git
 LIBRETRO_MRBOOM_SITE_METHOD=git
 LIBRETRO_MRBOOM_GIT_SUBMODULES=y
