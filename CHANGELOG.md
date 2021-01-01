@@ -77,6 +77,8 @@ All notable changes to this project will be documented in this file.
 - Fix missing early logs
 - Bump emuscv (add sound support)
 - Bump hatari
+- Bump emuscv (sound version)
+- Add libretro's The Powder Toy game to ports
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
