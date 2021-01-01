@@ -94,7 +94,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
                                                             rootPath.second ? RootFolderData::Types::ReadOnly : RootFolderData::Types::None);
     FileData::StringMap doppelgangerWatcher;
 
-    LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName();
+    LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName() << " (from " << rootPath.first << ')';
 
     // Populate items from disk
     bool loadFromDisk = forceLoad || !RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false);
