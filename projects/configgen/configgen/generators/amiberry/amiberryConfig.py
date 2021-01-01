@@ -24,10 +24,10 @@ class ConfigGenerator:
 
     def SetDefaultPath(self, subsystem):
         romsPath = os.path.join(recalboxFiles.ROMS, subsystem)
-        self.settings.setOption("config_description", "Recalbox auto-generated configuration for Amiga subsystem: " + subsystem)
+        self.settings.setOption("config_description", "Recalbox auto-generated configuration for Amiga " + subsystem)
         self.settings.setOption("config_hardware", "true")
         self.settings.setOption("config_host", "true")
-        self.settings.setOption("config_version", "4.1.0")
+        self.settings.setOption("config_version", "4.4.0")
         self.settings.setOption("amiberry.rom_path", romsPath)
         self.settings.setOption("amiberry.floppy_path", romsPath)
         self.settings.setOption("amiberry.hardfile_path", romsPath)

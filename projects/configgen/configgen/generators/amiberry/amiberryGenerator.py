@@ -20,7 +20,7 @@ class AmiberryGenerator(Generator):
         if system in SubSystems.COMPUTERS:
             # Package are self-configured so just return the package AS the config file
             # Add -G to force amiberry to run immediately. Otherwise the GUI is shown for some reasons
-            return ["-config=" + rom, "-G"]
+            return ["-config", rom, "-G"]
         raise Exception("PACKAGE not allowed on non-computer devices")
 
     # Generate ADF Arguments
@@ -183,14 +183,16 @@ class AmiberryGenerator(Generator):
         commandArray.extend(func(rom, subSystem, configFile))
 
         # Add uae config, if no-one has been set before
-        configExists = len([command for command in commandArray if "-config=" in command]) > 0
+        configExists = len([command for command in commandArray if "-config" in command]) > 0
         if not configExists:
+            # Insert the configuration at position #1, right after the amiberry executable
+            # Amiberry ignore the config file after "rom" files
             if romType == RomType.WHDL :
-                commandArray.insert(1, "-autowhdload=" + rom)
+                commandArray.insert(1, rom)
+                commandArray.insert(1, "-autowhdload")
             else :
-                # Insert the configuration at position #1, right after the amiberry executable
-                # Amiberry ignore the config file after "rom" files
-                commandArray.insert(1, "-config=" + settingsFullPath)
+                commandArray.insert(1, settingsFullPath)
+                commandArray.insert(1, "-config")
 
         # Save configuration
         configFile.saveConfigFile()
