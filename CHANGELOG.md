@@ -70,7 +70,7 @@ All notable changes to this project will be documented in this file.
 - Fix SCV theme
 - Fix crash in empty bios checker list
 - Fix hidden screenshot system
-- Implement Pulseaudio
+- Implement Pulseaudio (#1483)
 - Resize & rotate install slides on GoA
 - Fix pulseaudio dependency in emulationstation package
 - Fix missing early logs
