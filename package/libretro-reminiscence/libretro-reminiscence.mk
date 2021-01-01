@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_REMINISCENCE_VERSION = 6888c010a5886b06ea8c3ac18add29e1ba1fa6a6
+LIBRETRO_REMINISCENCE_VERSION = bb8edb2fb006584303e0a706c9f0f2aadf56be27
 LIBRETRO_REMINISCENCE_SITE = $(call github,libretro,REminiscence,$(LIBRETRO_REMINISCENCE_VERSION))
 
 define LIBRETRO_REMINISCENCE_BUILD_CMDS
