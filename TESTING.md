@@ -63,6 +63,8 @@ Every case must be checked before a release.
 - [ ] DosBox Pure added => test this new core
 - [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
 - [ ] Pulseaudio - Check audio works everywhere and switch automatically when new sink is connected
+- [ ] Pulseaudio - Check audio works everywhere
+- [ ] Bump Hatari => Retest all game format on Atari ST core
 
 
 ## [7.1-Reloaded]

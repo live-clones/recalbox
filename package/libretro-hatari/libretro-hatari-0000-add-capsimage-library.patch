@@ -1,0 +1,46 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index 95446f50..a43cd669 100755
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -4,6 +4,13 @@ ZLIB_DIR = $(LIBRETRO_DIR)/utils/zlib
+ STATIC_LINKING=0
+ STATIC_LINKING_LINK=0
+ 
++DEBUG = 0
++IPFSUPPORT = 1
++
++ifeq ($(IPFSUPPORT), 1)
++   CAPS_LIB = -L$(STAGING_DIR)/usr/lib -lcapsimage
++endif
++
+ ifeq ($(platform),)
+ platform = unix
+ ifeq ($(shell uname -a),)
+@@ -191,6 +198,10 @@ CFLAGS += -funroll-loops -ffast-math -fomit-frame-pointer -O3
+ endif
+ CFLAGS += -fsigned-char -D__LIBRETRO__ -fno-builtin
+ 
++ifeq ($(IPFSUPPORT),1)
++    PLATFLAGS += -DHAVE_CAPSIMAGE=1
++endif
++
+ CFLAGS   += $(fpic) $(PLATFLAGS)
+ CXXFLAGS := $(CFLAGS)
+ CPPFLAGS := $(CFLAGS)
+@@ -210,11 +221,15 @@ OBJECTS := $(SOURCES_C:.c=.o)
+ 
+ all: $(TARGET)
+ 
++ifeq ($(IPFSUPPORT), 1)
++    INCFLAGS += -I$(STAGING_DIR)/usr/lib/capsimage
++endif
++
+ $(TARGET): $(OBJECTS)
+ ifeq ($(STATIC_LINKING_LINK),1)
+ 	$(AR) rcs $@ $(OBJECTS) 
+ else
+-	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm $(ZLIB) $(SHARED)
++	$(CC) $(CFLAGS) $(INCFLAGS) $(LDFLAGS) $(OBJECTS) -o $@ -lm $(ZLIB) $(SHARED) -lpthread $(CAPS_LIB)
+ endif
+ 
+ %.o: %.c

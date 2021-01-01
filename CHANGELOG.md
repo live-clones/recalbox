@@ -76,6 +76,7 @@ All notable changes to this project will be documented in this file.
 - Fix pulseaudio dependency in emulationstation package
 - Fix missing early logs
 - Bump emuscv (sound version)
+- Bump hatari
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
