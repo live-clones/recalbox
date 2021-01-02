@@ -75,7 +75,7 @@ All notable changes to this project will be documented in this file.
 - Resize & rotate install slides on GoA
 - Fix pulseaudio dependency in emulationstation package
 - Fix missing early logs
-- Bump emuscv (sound version)
+- Bump emuscv (add sound support)
 - Bump hatari
 
 ## [7.1.1-Reloaded]
