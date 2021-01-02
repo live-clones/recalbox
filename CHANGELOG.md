@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- FAKE
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - update of the Port family
 - Fix and Bump Dolphin emulator
