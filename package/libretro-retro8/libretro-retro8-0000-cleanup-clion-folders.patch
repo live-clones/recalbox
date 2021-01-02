@@ -1,0 +1,10 @@
+diff --git a/.gitignore b/.gitignore
+index 72cee2d..94fda4a 100755
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,3 +5,5 @@ projects/opendingux/**
+ **/Debug/**
+ **/Release/**
+ .DS_Store
++.idea/
++cmake-build-debug/
