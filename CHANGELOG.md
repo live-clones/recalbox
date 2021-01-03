@@ -79,6 +79,8 @@ All notable changes to this project will be documented in this file.
 - Bump hatari
 - Implement Pulseaudio
 - Add libretro retro8 core (PICO-8)
+- Fix pico8 system
+- Remove common retroarch configuration in odroidgo2 fsoverlay
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
