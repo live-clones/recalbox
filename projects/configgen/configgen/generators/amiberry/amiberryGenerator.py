@@ -134,7 +134,7 @@ class AmiberryGenerator(Generator):
         globalConfig.createGlobalSettings(args.verbose, scanline)
 
         # Build default command
-        settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/uaeconfig.uae")
+        settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/default.uae")
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
 
         # Prepare configuration file
@@ -189,7 +189,7 @@ class AmiberryGenerator(Generator):
             # Amiberry ignore the config file after "rom" files
             if romType == RomType.WHDL :
                 commandArray.insert(1, rom)
-                commandArray.insert(1, "-autowhdload")
+                commandArray.insert(1, "-autoload")
             else :
                 commandArray.insert(1, settingsFullPath)
                 commandArray.insert(1, "-config")
