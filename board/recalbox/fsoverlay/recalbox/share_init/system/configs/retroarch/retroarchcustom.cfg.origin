@@ -68,3 +68,4 @@ menu_show_restart_retroarch = false
 cheevos_badges_enable = true
 
 input_overlay_hide_in_menu = true
+builtin_imageviewer_enable = false
