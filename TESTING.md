@@ -65,6 +65,9 @@ Every case must be checked before a release.
 - [ ] Pulseaudio - Check audio works everywhere and switch automatically when new sink is connected
 - [ ] Pulseaudio - Check audio works everywhere
 - [ ] Bump Hatari => Retest all game format on Atari ST core
+- [ ] RPI4 - oneline/offline upgrade should modify /boot/config.txt and /boot/recalbox-config.txt (see #1496 for details)
+- [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
+- [ ] Headphone output should be selectable in ES on rpi4
 
 
 ## [7.1-Reloaded]

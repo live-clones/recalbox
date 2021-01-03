@@ -25,4 +25,4 @@ temp_soft_limit=70
 
 [pi4]
 temp_soft_limit=70
-
+dtoverlay=vc4-kms-v3d
