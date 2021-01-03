@@ -81,6 +81,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro retro8 core (PICO-8)
 - Fix pico8 system
 - Remove common retroarch configuration in odroidgo2 fsoverlay
+- Set vc4-kms-v3d as default overlay on rpi4 (#1496)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

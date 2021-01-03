@@ -29,18 +29,6 @@ hdmi_force_hotplug=1
 # uncomment for lirc-rpi
 #dtoverlay=lirc-rpi
 
-# enable fake-kms overlay
-# possible alternatives are
-# * vc4-kms-v3d
-# * vc4-kms-v3d-pi4
-dtoverlay=vc4-fkms-v3d
-
-# allow only one framebuffer (the one marked 0, closest to the power input)
-max_framebuffers=1
-
-# disable 4k 60hz - enabling can cause random freezes
-#hdmi_enable_4kp60=0
-
 # total amount of GPU memory
 gpu_mem=448
 
