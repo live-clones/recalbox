@@ -30,8 +30,10 @@ void PulseAudioController::Initialize()
   // Enumerate all output devices
   PulseEnumerateDevices();
   LOG(LogInfo) << "[PulseAudio] Enumerated " << mDeviceList.size() << " devices.";
+  for(const PulseAudioCard& card : mCardList)
+    LOG(LogWarning) << "[PulseAudio] Card: " << card.Index << " : " << card.Name;
   for(const PulseAudioDevice& device : mDeviceList)
-    LOG(LogWarning) << "[PulseAudio] " << device.Index << ':' << device.Name << ':' << device.Description;
+    LOG(LogWarning) << "[PulseAudio] Sink: " << device.Index << " : " << device.Name << " : " << device.Description << " : " << device.CardIndex;
 }
 
 void PulseAudioController::Finalize()
@@ -93,6 +95,28 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 	}
 }
 
+void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_card_info* info, int eol, void* userdata)
+{
+  (void)context;
+  // Get class
+  PulseAudioController& This = *(PulseAudioController*)userdata;
+
+  // If eol is set to a positive number, you're at the end of the list
+  if (eol > 0)
+  {
+    This.mSignal.Fire();
+    return;
+  }
+
+  // Store card
+  PulseAudioCard card;
+  card.Name = info->name;
+  card.Index = info->index;
+  This.mSyncer.Lock();
+  This.mCardList.push_back(card);
+  This.mSyncer.UnLock();
+}
+
 void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_sink_info* info, int eol, void* userdata)
 {
   (void)context;
@@ -106,20 +130,40 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
     return;
   }
 
+  // Some sinks do not have an active port. Just ignore them!
+  if (info->active_port == nullptr) return;
+
   // Store device
   PulseAudioDevice device;
   device.Name = info->name;
-  device.Description = info->description;
+  device.Description = info->active_port->description;
   device.Index = info->index;
+  device.CardIndex = info->card;
+  device.Channels = info->volume.channels;
+
   This.mSyncer.Lock();
   This.mDeviceList.push_back(device);
   This.mSyncer.UnLock();
 }
 
-void PulseAudioController::AdjustDevices()
+void PulseAudioController::AdjustDeviceNames()
 {
   Mutex::AutoLock lock(mSyncer);
 
+  // Rename outputs
+  /*for(PulseAudioDevice& device : mDeviceList)
+  {
+    std::string name;
+    for(const PulseAudioCard& card : mCardList)
+      if (card.Index == device.CardIndex)
+      {
+        name = card.Name;
+        break;
+      }
+    device.Description = NameFiltering::Filter(name, NameFiltering::Source::Card);
+  }*/
+
+  // Re-number same names
   HashMap<std::string, int> deviceMax;
   HashMap<std::string, int> deviceCount;
   for(const PulseAudioDevice& device : mDeviceList)
@@ -179,16 +223,17 @@ void PulseAudioController::SetVolume(int volume)
   if (mPulseAudioContext == nullptr) return;
 
   volume = Math::clampi(volume, 0, 100);
-  pa_cvolume volumeStructure;
-  pa_cvolume_init(&volumeStructure);
-  pa_cvolume_set(&volumeStructure, PA_CHANNELS_MAX, (PA_VOLUME_NORM * volume) / 100);
 
   for(const PulseAudioDevice& device : mDeviceList)
   {
+    pa_cvolume volumeStructure;
+    pa_cvolume_init(&volumeStructure);
+    pa_cvolume_set(&volumeStructure, device.Channels, (PA_VOLUME_NORM * volume) / 100);
+
     // Set volume
-    pa_context_set_sink_volume_by_index(mPulseAudioContext, device.Index, &volumeStructure, SetVolumeCallback, this);
+    pa_context_set_sink_volume_by_index(mPulseAudioContext, device.Index, &volumeStructure, nullptr, nullptr); //SetVolumeCallback, this);
     // Wait for result
-    mSignal.WaitSignal();
+    //mSignal.WaitSignal();
   }
 }
 
@@ -252,15 +297,22 @@ void PulseAudioController::PulseContextDisconnect()
 
 void PulseAudioController::PulseEnumerateDevices()
 {
-  // This sends an operation to the server.  pa_sinklist_info is
-  // our callback function and a pointer to our devicelist will
-  // be passed to the callback The operation ID is stored in the
-  // pa_op variable
+  /*
+  // Enumerate cards
+  pa_operation* operations = pa_context_get_card_info_list(mPulseAudioContext, EnumerateCardCallback, this);
+  // Wait for response
+  mSignal.WaitSignal();
+  // Release
+  pa_operation_unref(operations);
+  */
+
+  // Enumerate sinks
   pa_operation* operations = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
   // Wait for response
   mSignal.WaitSignal();
   // Release
   pa_operation_unref(operations);
+
   // Adjust devices
-  AdjustDevices();
+  AdjustDeviceNames();
 }

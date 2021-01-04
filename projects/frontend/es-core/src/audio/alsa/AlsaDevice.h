@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "NameFiltering.h"
+#include "audio/NameFiltering.h"
 
 class AlsaDevice
 {

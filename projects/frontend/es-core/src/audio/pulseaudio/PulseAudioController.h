@@ -58,12 +58,21 @@ class PulseAudioController: public IAudioController, private Thread
     void SetVolume(int volume) override;
 
   private:
+    //! Card structure
+    struct PulseAudioCard
+    {
+      std::string Name;        //!< Device name
+      int Index;               //!< Device index in pulseaudio context
+    };
+
     //! Device structure
     struct PulseAudioDevice
     {
       std::string Name;        //!< Device name
       std::string Description; //!< Description
       int Index;               //!< Device index in pulseaudio context
+      int CardIndex;           //!< Card index in pulseaudio context
+      int Channels;            //!< Channel count
     };
 
     //! Pulseaudio connection state
@@ -82,6 +91,8 @@ class PulseAudioController: public IAudioController, private Thread
         Complete,    //!< Enumeration complete
     };
 
+    //! Card list
+    std::vector<PulseAudioCard> mCardList;
     //! Device list (output only)
     std::vector<PulseAudioDevice> mDeviceList;
     //! Syncer
@@ -128,6 +139,15 @@ class PulseAudioController: public IAudioController, private Thread
     static void EnumerateSinkCallback(pa_context *context, const pa_sink_info *info, int eol, void *userdata);
 
     /*!
+     * @brief Callback used to retrieve Cards
+     * @param context Pulseaudio context
+     * @param info Sink information structure
+     * @param eol End-of-list flag
+     * @param userdata This
+     */
+    static void EnumerateCardCallback(pa_context* context, const pa_card_info* info, int eol, void* userdata);
+
+    /*!
      * @brief Callback called when volume is set
      * @param context Pulseaudio context
      * @param success Success flag
@@ -146,7 +166,7 @@ class PulseAudioController: public IAudioController, private Thread
     /*!
      * @brief Adjust device names
      */
-    void AdjustDevices();
+    void AdjustDeviceNames();
 
     /*
      * Thread implementation

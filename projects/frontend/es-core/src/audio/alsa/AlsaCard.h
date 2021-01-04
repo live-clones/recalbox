@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include "AlsaDevice.h"
-#include "NameFiltering.h"
+#include "audio/NameFiltering.h"
 #include "AlsaVolume.h"
 #include "AlsaSwitch.h"
 #include "OdroidAdvanceGo2Alsa.h"
