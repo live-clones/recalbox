@@ -55,7 +55,9 @@ LIBRETRO_MESS_OPTS += CROSS_BUILD=1
 LIBRETRO_MESS_OPTS += OVERRIDE_CXX="$(TARGET_CXX)" OVERRIDE_CC="$(TARGET_CC)" OVERRIDE_LD="$(TARGET_LD)"
 LIBRETRO_MESS_OPTS += RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)"
 # Select driver {System} to build
-LIBRETRO_MESS_OPTS += SOURCES="src/mame/drivers/aquarius.cpp,src/mame/drivers/arcadia.cpp,src/mame/drivers/cdi.cpp,src/mame/drivers/cgenie.cpp,src/mame/drivers/coco3.cpp,src/mame/drivers/einstein.cpp,src/mame/drivers/gp32.cpp,src/mame/drivers/hh_sm510.cpp,src/mame/drivers/mc10.cpp,src/mame/drivers/pockstat.cpp,src/mame/drivers/sega_beena.cpp,src/mame/drivers/segapico.cpp,src/mame/drivers/vsmile.cpp,src/mame/drivers/vsmileb.cpp,src/mame/drivers/vsmilepro.cpp"
+#LIBRETRO_MESS_OPTS += SOURCES="src/mame/drivers/aquarius.cpp,src/mame/drivers/arcadia.cpp,src/mame/drivers/cdi.cpp,src/mame/drivers/cgenie.cpp,src/mame/drivers/coco3.cpp,src/mame/drivers/einstein.cpp,src/mame/drivers/gp32.cpp,src/mame/drivers/hh_sm510.cpp,src/mame/drivers/mc10.cpp,src/mame/drivers/pockstat.cpp,src/mame/drivers/sega_beena.cpp,src/mame/drivers/segapico.cpp,src/mame/drivers/vsmile.cpp,src/mame/drivers/vsmileb.cpp,src/mame/drivers/vsmilepro.cpp"
+LIBRETRO_MESS_SOURCES += "src/mame/drivers/aquarius.cpp,src/mame/drivers/arcadia.cpp,src/mame/drivers/cdi.cpp,src/mame/drivers/cgenie.cpp,src/mame/drivers/coco3.cpp,src/mame/drivers/einstein.cpp,src/mame/drivers/hh_sm510.cpp,src/mame/drivers/mc10.cpp,src/mame/drivers/pockstat.cpp,src/mame/drivers/sega_beena.cpp,src/mame/drivers/segapico.cpp,src/mame/drivers/vsmile.cpp,src/mame/drivers/vsmileb.cpp,src/mame/drivers/vsmilepro.cpp"
+LIBRETRO_MESS_OPTS += SOURCES="${LIBRETRO_MESS_SOURCES}"
 
 define LIBRETRO_MESS_BUILD_CMDS
 	mkdir -p $(@D)/build/gmake/libretro/obj/x64/libretro/src/osd/retro

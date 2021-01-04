@@ -30,3 +30,5 @@ dist
 # this is (over)written by `recaldocker.sh` or `.gitlab-ci.yml`
 /board/recalbox/fsoverlay/recalbox/recalbox.version
 scripts/release/recalbox*
+
+package/kernelfirmwares/001_linux_15khz.patch
