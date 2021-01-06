@@ -41,7 +41,7 @@ void PulseAudioController::Finalize()
   PulseContextDisconnect();
 }
 
-void PulseAudioController::SetVolumeCallback(pa_context *context, int success, void *userdata)
+void PulseAudioController::SetProfileCallback(pa_context *context, int success, void *userdata)
 {
   (void)context;
   (void)success;
@@ -108,10 +108,35 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
     return;
   }
 
-  // Store card
+  // Store card info
   PulseAudioCard card;
   card.Name = info->name;
   card.Index = info->index;
+
+  // Select profile
+  if (info->active_profile2 == nullptr)
+  {
+    LOG(LogWarning) << "[PulseAudio] No active profile. Seeking for best matching profile...";
+    unsigned int priority = 0;
+    const pa_card_profile_info2* selected = nullptr;
+    for(int i = info->n_profiles; --i >= 0; )
+    {
+      const pa_card_profile_info2& profile = *info->profiles2[i];
+      if (profile.available != 0)          // Available ?
+        if (profile.n_sinks > 0)           // Has sinks?
+          if (profile.priority > priority) // Higher priority?
+          {
+            priority = profile.priority;
+            card.Profile = profile.name;
+            selected = &profile;
+          }
+    }
+    if (selected == nullptr) { LOG(LogError) << "[PulseAudio] No matching profile!"; }
+    else
+      LOG(LogInfo) << "[PulseAudio] Selected profile named '" << selected->description << '\'';
+  }
+
+  // Store card
   This.mSyncer.Lock();
   This.mCardList.push_back(card);
   This.mSyncer.UnLock();
@@ -149,19 +174,6 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
 void PulseAudioController::AdjustDeviceNames()
 {
   Mutex::AutoLock lock(mSyncer);
-
-  // Rename outputs
-  /*for(PulseAudioDevice& device : mDeviceList)
-  {
-    std::string name;
-    for(const PulseAudioCard& card : mCardList)
-      if (card.Index == device.CardIndex)
-      {
-        name = card.Name;
-        break;
-      }
-    device.Description = NameFiltering::Filter(name, NameFiltering::Source::Card);
-  }*/
 
   // Re-number same names
   HashMap<std::string, int> deviceMax;
@@ -297,21 +309,33 @@ void PulseAudioController::PulseContextDisconnect()
 
 void PulseAudioController::PulseEnumerateDevices()
 {
-  /*
   // Enumerate cards
-  pa_operation* operations = pa_context_get_card_info_list(mPulseAudioContext, EnumerateCardCallback, this);
+  LOG(LogInfo) << "[PulseAudio] Enumerating Cards.";
+  pa_operation* cardOp = pa_context_get_card_info_list(mPulseAudioContext, EnumerateCardCallback, this);
   // Wait for response
   mSignal.WaitSignal();
   // Release
-  pa_operation_unref(operations);
-  */
+  pa_operation_unref(cardOp);
+
+  // Activate profile if required
+  LOG(LogInfo) << "[PulseAudio] Enumerating profiles & activate default profile.";
+  for(const PulseAudioCard& card : mCardList)
+    if (!card.Profile.empty())
+    {
+      pa_operation* profileOp = pa_context_set_card_profile_by_index(mPulseAudioContext, card.Index, card.Profile.data(), SetProfileCallback, this);
+      // Wait for response
+      mSignal.WaitSignal();
+      // Release
+      pa_operation_unref(profileOp);
+    }
 
   // Enumerate sinks
-  pa_operation* operations = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
+  LOG(LogInfo) << "[PulseAudio] Enumerating outputs";
+  pa_operation* sinkOp = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
   // Wait for response
   mSignal.WaitSignal();
   // Release
-  pa_operation_unref(operations);
+  pa_operation_unref(sinkOp);
 
   // Adjust devices
   AdjustDeviceNames();

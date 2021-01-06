@@ -63,6 +63,7 @@ class PulseAudioController: public IAudioController, private Thread
     {
       std::string Name;        //!< Device name
       int Index;               //!< Device index in pulseaudio context
+      std::string Profile;     //!< Profile to select. Empty to not select any profile
     };
 
     //! Device structure
@@ -148,12 +149,12 @@ class PulseAudioController: public IAudioController, private Thread
     static void EnumerateCardCallback(pa_context* context, const pa_card_info* info, int eol, void* userdata);
 
     /*!
-     * @brief Callback called when volume is set
+     * @brief Callback called when profile is set
      * @param context Pulseaudio context
      * @param success Success flag
      * @param userdata This
      */
-    static void SetVolumeCallback(pa_context *context, int success, void *userdata);
+    static void SetProfileCallback(pa_context *context, int success, void *userdata);
 
     /*!
      * @brief Callback called when volume is set
