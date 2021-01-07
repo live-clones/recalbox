@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system thepowdertoy --extension '.game .cps' --fullname 'The Powder Toy' --platform thepowdertoy --theme thepowdertoy 1:libretro:thepowdertoy:BR2_PACKAGE_LIBRETRO_THEPOWDERTOY
+# ./scripts/linux/empack.py --force --port --readonly --system thepowdertoy --extension '.game .cps' --fullname 'The Powder Toy' --platform thepowdertoy --theme thepowdertoy 1:libretro:thepowdertoy:BR2_PACKAGE_LIBRETRO_THEPOWDERTOY
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_THEPOWDERTOY_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_THEPOWDERTOY = $(RECALBOX_ROMFS_THEPOWDERTOY_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
 define CONFIGURE_MAIN_THEPOWDERTOY_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_THEPOWDERTOY),The Powder Toy,$(SYSTEM_NAME_THEPOWDERTOY),.game .cps,thepowdertoy,thepowdertoy)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_THEPOWDERTOY),The Powder Toy,$(SYSTEM_NAME_THEPOWDERTOY),.game .cps,thepowdertoy,thepowdertoy,1)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)

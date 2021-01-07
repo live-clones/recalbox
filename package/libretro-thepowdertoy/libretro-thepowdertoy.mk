@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_THEPOWDERTOY_VERSION = 219774ea5a36311be26e1d860d9a161a525ae76e
+LIBRETRO_THEPOWDERTOY_VERSION = c45c2dd844f9b44d47203daec334d3df02809b35
 LIBRETRO_THEPOWDERTOY_SITE = git://github.com/libretro/ThePowderToy.git
 LIBRETRO_THEPOWDERTOY_LICENSE = GPLv3
 LIBRETRO_THEPOWDERTOY_GIT_SUBMODULES=y
