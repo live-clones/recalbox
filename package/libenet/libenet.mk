@@ -10,5 +10,7 @@ LIBENET_SITE = http://enet.bespin.org/download
 LIBENET_INSTALL_STAGING = YES
 LIBENET_AUTORECONF = YES
 LIBENET_DEPENDENCIES = host-pkgconf
+LIBENET_LICENSE = Custom
+LIBENET_LICENSE_FILES = LICENSE
 
 $(eval $(autotools-package))
