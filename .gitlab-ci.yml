@@ -29,7 +29,7 @@ license_scanning:
   allow_failure: true
   script:
     - docker build -t "recalbox-makedefconfig" .
-    - docker run --rm -v "${WORKDIR}:/work" -v "${PWD}:/work/output" -e "ARCH=RPI4" -e "RECALBOX_VERSION=NONE" "recalbox-makedefconfig" "make recalbox-rpi4.defconfig"
+    - docker run --rm -v "${WORKDIR}:/work" -v "${PWD}:/work/output" -e "ARCH=RPI4" -e "RECALBOX_VERSION=NONE" "recalbox-makedefconfig" make recalbox-rpi4_defconfig
     - bash scripts/linux/checkLicenses.sh gl-license-scanning-report.json
   artifacts:
     reports:
