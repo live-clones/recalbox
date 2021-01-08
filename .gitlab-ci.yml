@@ -20,6 +20,24 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+
+
+license_scanning:
+  stage: lint
+  <<: *only-default
+  image: "docker:latest"
+  allow_failure: true
+  script:
+    - apk update && apk add bash jq
+    - docker build -t "recalbox-makedefconfig" .
+    - docker run --rm -v "$(pwd):/work" -e "ARCH=RPI4" -e "RECALBOX_VERSION=NONE" "recalbox-makedefconfig" make recalbox-rpi4_defconfig
+    - bash scripts/linux/checkLicenses.sh gl-license-scanning-report.json
+    - cat gl-license-scanning-report.json | jq
+  artifacts:
+    reports:
+      license_scanning: gl-license-scanning-report.json
+  dependencies: []
+
 # Lint
 
 .lint_template: &lint_definition
