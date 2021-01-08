@@ -5,7 +5,8 @@ set -uo pipefail
 OUTPUT="${1}"
 SEPARATOR=""
 
-echo '{"version": "2.1", "licenses": [{"id": "MPL-2.0","name": "Mozilla Public License 2.0","url": "https://opensource.org/licenses/MPL-2.0"}],"dependencies" : [ ' > "${OUTPUT}"
+LICENCES = 
+echo '{"version": "2.1", "licenses": [{"id": "GPL3"},{"id": "MPL-2.0","name": "Mozilla Public License 2.0","url": "https://opensource.org/licenses/MPL-2.0"}],"dependencies" : [ ' > "${OUTPUT}"
 for packageRaw in $(cat output/.config | grep -e "^BR2_PACKAGE" | sed 's/=.*//g;');do
 	package="${packageRaw//BR2_PACKAGE_/}" 
 	packageLower="${package,,}"
