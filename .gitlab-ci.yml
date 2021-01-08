@@ -24,6 +24,7 @@ variables:
 
 license_scanning:
   stage: lint
+  <<: *only-default
   image: "ubuntu:latest"
   allow_failure: true
   script:
