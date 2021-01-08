@@ -18,6 +18,7 @@
 InputManager::InputManager()
   : mIndexToId {}
   , mKeyboard(nullptr, InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
+  , mMousse(nullptr, InputEvent::sMousseDevice, 0, "Mousse", KEYBOARD_GUID_STRING, 0, 0, 5)
 {
   // Create keyboard
   LoadDefaultKeyboardConfiguration();
@@ -102,8 +103,13 @@ void InputManager::LoadDefaultKeyboardConfiguration()
 
   //WriteDeviceXmlConfiguration(mKeyboard);
 
+  mMousse.ClearAll();
+  mMousse.Set(InputDevice::Entry::B, InputEvent(InputEvent::sMousseDevice, InputEvent::EventType::Button, SDL_BUTTON_LEFT, 1));
+  mMousse.Set(InputDevice::Entry::A, InputEvent(InputEvent::sMousseDevice, InputEvent::EventType::Button, SDL_BUTTON_RIGHT, 1));
+
   // Load configuration
   LookupDeviceXmlConfiguration(mKeyboard);
+  LookupDeviceXmlConfiguration(mMousse);
 }
 
 void InputManager::ClearAllConfigurations()
@@ -326,6 +332,12 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   return mKeyboard.ConvertToCompact(event);
 }
 
+InputCompactEvent InputManager::ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down)
+{
+  InputEvent event = InputEvent(button.which, InputEvent::EventType::Button, button.button, down  ? 1 : 0);
+  return mMousse.ConvertToCompact(event);
+}
+
 InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_Event& ev)
 {
   switch (ev.type)
@@ -336,6 +348,8 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     case SDL_JOYHATMOTION: return ManageHatEvent(ev.jhat);
     case SDL_KEYDOWN:
     case SDL_KEYUP: return ManageKeyEvent(ev.key, ev.type == SDL_KEYDOWN);
+    case SDL_MOUSEBUTTONDOWN:
+    case SDL_MOUSEBUTTONUP: return ManageMousseButtonEvent(ev.button, ev.type == SDL_MOUSEBUTTONDOWN);
     case SDL_JOYDEVICEADDED:
     case SDL_JOYDEVICEREMOVED:
     {

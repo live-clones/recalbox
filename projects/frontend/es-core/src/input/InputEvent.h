@@ -26,6 +26,8 @@ class InputEvent
     int       mCode;             //!< SDL Raw code
 
   public:
+    //! Define virtual default mousse device
+    static constexpr int sMousseDevice = 0;
     //! Define virtual default keyboard device
     static constexpr int sKeyboardDevice = -1;
     //! Define empty device device

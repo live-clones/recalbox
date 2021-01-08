@@ -249,6 +249,8 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         case SDL_JOYAXISMOTION:
         case SDL_JOYDEVICEADDED:
         case SDL_JOYDEVICEREMOVED:
+        case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONUP:
         {
           // Convert event
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);

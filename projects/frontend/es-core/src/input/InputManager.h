@@ -27,6 +27,8 @@ class InputManager
     HashMap<SDL_JoystickID, InputDevice> mIdToDevices;
     //! Default Keyboard
     InputDevice mKeyboard;
+    //! Default Mousse
+    InputDevice mMousse;
 
     /*!
      * @brief Default constructor
@@ -93,10 +95,17 @@ class InputManager
 
     /*!
      * @brief Process a keyboard SDL event and generate an InputCompactEvent accordingly
-     * @param hat SDL event
+     * @param keyboard SDL event
      * @return InputCompactEvent filled with event information
      */
     InputCompactEvent ManageKeyEvent(const SDL_KeyboardEvent& key, bool down);
+
+    /*!
+     * @brief Process a mousse SDL event and generate an InputCompactEvent accordingly
+     * @param mousse SDL event
+     * @return InputCompactEvent filled with event information
+     */
+    InputCompactEvent ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down);
 
     /*!
      * @brief Fill the given list with configured devices
