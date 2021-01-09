@@ -6,6 +6,8 @@
 
 SIMCOUPE_VERSION = f401f47fb6d6af5dbe7b1d83a520e82cbe9d7ff2
 SIMCOUPE_SITE = https://gitlab.com/recalbox/packages/standalone/simcoupe.git
+SIMCOUPE_LICENSE = GPL-2.0
+SIMCOUPE_LICENSE_FILES = License.txt
 SIMCOUPE_SITE_METHOD = git
 SIMCOUPE_DEPENDENCIES = sdl2
 

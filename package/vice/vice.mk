@@ -6,6 +6,8 @@
 
 VICE_VERSION = 3.4
 VICE_SITE = https://sourceforge.net/projects/vice-emu/files/releases
+VICE_LICENSE = GPL-2.0
+VICE_LICENSE_FILES = COPYING
 
 VICE_CONF_OPTS += \
 	--disable-option-checking \
