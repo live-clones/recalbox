@@ -5,24 +5,57 @@ then
   exit 0
 fi
 
+# this removes the content of dir $1
+clean_dir() {
+  [ ! -d "$1" ] && return
+  find "$1" -mindepth 1 -exec rm {} \;
+}
+
+clean_boot_update() {
+  mount -o remount,rw /boot
+  clean_dir "$UPDATEDIR"
+  mount -o remount,ro /boot
+}
+
+failed_clean_exit() {
+  clean_boot_update
+  fbv2 -k -i /recalbox/system/resources/offline-install-error.jpg
+  sleep 10
+  exit 1
+}
+
 ARCH=$(cat /recalbox/recalbox.arch)
-UPDATEFILE="/boot/update/recalbox-$ARCH.img.xz"
+UPDATEDIR=/boot/update
+UPDATEFILE="$UPDATEDIR/recalbox-$ARCH.img.xz"
+UPDATEFILE_SHA1="$UPDATEDIR/recalbox-$ARCH.img.xz.sha1"
 UPDATEFILE_UNCOMPRESSED=${UPDATEFILE::-3}
+SHAREUPDATEDIR=/recalbox/share/system/upgrade/
+
 if [[ -f $UPDATEFILE ]]; then
   recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
   fbv2 -k -i /recalbox/system/resources/offline-install-0.jpg
-  unxz -c "${UPDATEFILE}" >"/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
-  mount -o remount,rw /boot
-  rm "${UPDATEFILE}"
-  mount -o remount,ro /boot
+  if [ -f "$UPDATEFILE_SHA1" ]; then
+    recallog -f upgrade.log "checking SHA1"
+    if ! ( cd "$UPDATEDIR" && sha1sum -c "$UPDATEFILE_SHA1" ); then
+      recallog -f upgrade.log "SHA1 checking failed, removing stale files. Exiting..."
+      failed_clean_exit
+    fi
+  fi
+  clean_dir "$SHAREUPDATEDIR"
+  if ! unxz -c "${UPDATEFILE}" >"$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"; then
+      recallog -f upgrade.log "decompression failed, removing stale files. Exiting..."
+    failed_clean_exit
+  fi
+  clean_dir "$UPDATEDIR"
+  recallog -f upgrade.log "proceeding with rest of upgrade process"
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
-elif [[ -f "/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")" ]]; then
+elif [[ -f "$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")" ]]; then
   # asynchronously remove uncompressed file
   # this is to avoid a race condition when doing the upgrade:
   # unmounting the image and removing the file that is still locked
   # creates stale unremovable files that occupy space
-  rm -f "/recalbox/share/system/upgrade/$(basename "$UPDATEFILE_UNCOMPRESSED")"
+  rm -f "$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"
 
   # inform ES we upgraded
   touch /tmp/upgraded

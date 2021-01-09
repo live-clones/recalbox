@@ -82,6 +82,7 @@ All notable changes to this project will be documented in this file.
 - Fix pico8 system
 - Remove common retroarch configuration in odroidgo2 fsoverlay
 - Set vc4-kms-v3d as default overlay on rpi4 (#1496)
+- enforce upgrade process (#1498)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
