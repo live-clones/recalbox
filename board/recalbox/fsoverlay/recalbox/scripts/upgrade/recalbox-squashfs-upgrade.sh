@@ -24,8 +24,8 @@ do_update() {
   sleep 1
   LBA=$(lba-finder "${UPDATEFILE}")
   echo "intiating a losetup for lba ${LBA} (offset $((LBA * 512))s)"
-  losetup /dev/loop1 "${UPDATEFILE}" -o $((LBA * 512)) || return 2
-  mount /dev/loop1 /mnt || return 3
+  LOOPFILE=$(losetup -f --show "${UPDATEFILE}" -o $((LBA * 512))) || return 2
+  mount "$LOOPFILE" /mnt || return 3
 
   echo "remounting /boot R/W"
   fbv2 -k -i /recalbox/system/resources/offline-install-3.jpg
