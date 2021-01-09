@@ -15,6 +15,9 @@ esSettings = HOME + '/.emulationstation/es_settings.cfg'
 recalboxConf = HOME + '/recalbox.conf'
 logdir = HOME + '/logs/'
 
+esLightGun = HOME_INIT + '/.emulationstation/lightgun.cfg'
+GameListFileName = "gamelist.xml"
+
 # This dict is indexed on the emulator name, not on the system
 recalboxBins =\
 {

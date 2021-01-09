@@ -6,6 +6,7 @@ import libretroConfigurations
 import recalboxFiles
 
 from generators.Generator import Generator
+import libretroLightGuns
 
 
 class LibretroGenerator(Generator):
@@ -95,6 +96,10 @@ class LibretroGenerator(Generator):
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
+
+        # setup wiimotes lightgun configuration 
+        lightgunConfig = libretroLightGuns.libretroLightGun(system,rom,demo,retroarchConfig, coreConfig)
+        lightgunConfig.createLightGunConfiguration()
 
         return configuration.getRetroarchConfigurationFileName(),\
                configuration.getRetroarchOverridesFileName(),\
