@@ -241,6 +241,7 @@ def getDefaultEmulator(targetSystem):
         "pcengine"       : Emulator(name='pcengine', emulator='libretro', core='mednafen_supergrafx'),
         "pcenginecd"     : Emulator(name='pcenginecd', emulator='libretro', core='mednafen_supergrafx'),
         "pcfx"           : Emulator(name='pcfx', emulator='libretro', core='mednafen_pcfx'),
+        "pcv2"           : Emulator(name='pcv2', emulator='libretro', core='mednafen_wswan', ratio='16/10'),
         "psp"            : Emulator(name='psp', emulator='ppsspp'),
         "psx"            : Emulator(name='psx', emulator='libretro', core='pcsx_rearmed'),
         "scv"            : Emulator(name='scv', emulator='libretro', core='emuscv'),
