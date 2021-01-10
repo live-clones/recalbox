@@ -19,13 +19,13 @@
 GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& url, const std::string& newVersion)
   : Gui(window)
   , mUrl(url)
+  , mNewVersion(newVersion)
   , mTotalSize(0)
   , mCurrentSize(0)
   , mSender(this)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
 {
-  mNewVersion = newVersion;
   mRebootIn = _("REBOOT IN %s");
   mError = _("Error downloading Recalbox %s... Please retry later!");
   Strings::ReplaceAllIn(mError, "%s", mNewVersion);
@@ -140,6 +140,8 @@ void GuiUpdateRecalbox::Run()
     LOG(LogError) << "[Update] Cannot mount /boot RW!";
     mSender.Call(-1);
   }
+  // Empty target folder
+  system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data());
 
   // Get arch
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
@@ -150,7 +152,8 @@ void GuiUpdateRecalbox::Run()
   Strings::ReplaceAllIn(destinationFileName, "%", arch);
 
   // Download
-  Path destination = Path("/boot/update") / destinationFileName;
+  Path destination = Path(sDownloadFolder) / destinationFileName;
+  Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.append(".sha1");
   LOG(LogDebug) << "Update: Target path " << destination.ToString();
   destination.Delete();
   mTimeReference = DateTime();
@@ -160,6 +163,9 @@ void GuiUpdateRecalbox::Run()
   if (mTotalSize != 0)
     if (destination.Size() == mTotalSize)
     {
+      // Download sha1
+      mRequest.Execute(mUrl.append(".sha1"), destinationSha1, this);
+      // Reboot
       MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
       return;
     }

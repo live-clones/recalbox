@@ -27,6 +27,7 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
     bool getHelpPrompts(Help& help) override;
 
   private:
+    static constexpr const char* sDownloadFolder = "/boot/output";
 
     /*!
      * @brief Receive synchronous SDL2 event
