@@ -554,6 +554,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
 endif
 
+# System: pcv2
+ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcv2
+endif
+
 # System: pico8
 ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pico8
