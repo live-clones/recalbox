@@ -131,7 +131,7 @@ do_start() {
             fi
             ;;
         overlay)
-            recallog "TFT screen configured through overlays in /boot/config.txt. Be sure to have your second TFT working"
+            recallog "TFT screen configured through overlays in /boot/recalbox-user-config.txt. Be sure to have your second TFT working"
             ;;
         default)
             recallog "Not OGST Case Screen, be sure to have your second TFT configured thanks to overlays"

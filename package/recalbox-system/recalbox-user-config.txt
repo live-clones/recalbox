@@ -1,9 +1,3 @@
-#!/bin/bash
-
-mount -o remount,rw /boot
-
-if [ -f /boot/recalbox-user-config.txt ]; then
-  cat >/boot/recalbox-user-config.txt <<EOF
 # Change to your needs
 
 # uncomment if you get no picture on HDMI for a default "safe" mode
@@ -28,7 +22,3 @@ hdmi_force_hotplug=1
 
 # uncomment for lirc-rpi
 #dtoverlay=lirc-rpi
-EOF
-fi
-
-mount -o remount,ro /boot

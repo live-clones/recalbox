@@ -4,7 +4,7 @@ if [ ! "$1" ];then
     echo -e "usage : recalbox-config.sh [command] [args]\nWith command in\n\toverscan [enable|disable]\n\toverclock [none|high|turbo|extrem]\n\taudio [hdmi|jack|auto|string]\n\tlsaudio\n\tcanupdate\n\tupdate\n\twifi [enable|disable] ssid key\n\tstorage [current|list|INTERNAL|ANYEXTERNAL|RAM|DEV UUID]\n\tsetRootPassword [password]\n\tgetRootPassword"
     exit 1
 fi
-configFile="/boot/config.txt"
+configFile="/boot/recalbox-user-config.txt"
 storageFile="/boot/recalbox-boot.conf"
 command="$1"
 mode="$2"
