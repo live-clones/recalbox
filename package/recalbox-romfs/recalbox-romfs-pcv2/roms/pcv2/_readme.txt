@@ -1,8 +1,8 @@
-## RECALBOX - SYSTEM WONDERSWAN ##
+## RECALBOX - SYSTEM PCV2 ##
 
-Put your wonderswan roms in this directory.
+Put your Pocket Challenge v2 roms in this directory.
 
-Rom files must have a ".ws/.wsc/.zip/.7z" extension.
+Rom files must have a ".pc2/.zip/.7z" extension.
 
 This system allows to use compressed roms on .zip/.7z.
 But, it is only an archive. Files inside the .zip/.7z must match with extensions mentioned above.
