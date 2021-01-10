@@ -116,7 +116,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rpi-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
-		grep -v -E '^(boot.lst|config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
+		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
 	# recalbox.tar.xz (formerly boot.tar.xz)
 	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" . ||
@@ -132,8 +132,8 @@ case "${RECALBOX_TARGET}" in
 	echo "generating image"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	sync || exit 1
 	;;
 

@@ -2,7 +2,7 @@
 
 if test "$1" = start
 then
-    if grep -qE '^dtoverlay=lirc-rpi$' /boot/config.txt
+    if grep -qE '^dtoverlay=lirc-rpi$' /boot/config.txt /boot/recalbox-user-config.txt
     then
 	if ! lsmod | grep -qE '^lirc-rpi'
 	then

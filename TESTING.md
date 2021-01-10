@@ -68,6 +68,7 @@ Every case must be checked before a release.
 - [ ] RPI4 - oneline/offline upgrade should modify /boot/config.txt and /boot/recalbox-config.txt (see #1496 for details)
 - [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
 - [ ] Headphone output should be selectable in ES on rpi4
+- [ ] Offline/online upgrade still works (check config.txt and recalbox-user-config.txt)
 
 
 ## [7.1-Reloaded]
