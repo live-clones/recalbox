@@ -6,7 +6,8 @@ config BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN
 	select BR2_PACKAGE_RECALBOX_ROMFS_WSWANC
 	select BR2_PACKAGE_RECALBOX_ROMFS_PCV2
 	help
-	  A libretro Wonderswan/Pocket Challenge v2 emulator core for ARM.
+	  A libretro Wonderswan/Pocket Challenge v2
+	  emulator core for ARM.
 
 	  http://www.libretro.com
 
