@@ -95,6 +95,7 @@ All notable changes to this project will be documented in this file.
 - Initial Lightgun feature included for Libretro cores in configgen (compatible with dolphin bar/wiimote)
 - Update DOOM & SIGIL screenshots
 - Remove useless palm-os bios from bios database
+- Rework overclocking
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

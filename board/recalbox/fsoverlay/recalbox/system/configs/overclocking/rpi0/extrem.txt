@@ -1,0 +1,13 @@
+# Plateform: RPI1
+# Description: Extrem Overclocking!
+
+arm_freq=1100
+core_freq=550
+sdram_freq=600
+force_turbo=1
+over_voltage=8
+over_voltage_sdram_p=6
+over_voltage_sdram_i=6
+over_voltage_sdram_c=6
+gpu_freq=250
+sdram_schmoo=0x02000020
