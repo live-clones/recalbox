@@ -2,7 +2,7 @@
 
 mount -o remount,rw /boot
 
-if [ -f /boot/recalbox-user-config.txt ]; then
+if [ ! -f /boot/recalbox-user-config.txt ]; then
   cat >/boot/recalbox-user-config.txt <<EOF
 # Change to your needs
 
