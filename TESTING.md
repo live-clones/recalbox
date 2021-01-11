@@ -69,7 +69,12 @@ Every case must be checked before a release.
 - [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
 - [ ] Headphone output should be selectable in ES on rpi4
 - [ ] Offline/online upgrade still works (check config.txt and recalbox-user-config.txt)
-
+  - [ ] begin an upgrade download and remove ethernet cable while download => no upgrade + clean files
+  - [ ] begin an upgrade download and poweroff during the download => no upgrade + clean files
+  - [ ] put an image and a sha1sum file with wrong sha1 sum in /boot => no upgrade + clean files
+  - [ ] put an image in share (offline upgrade) => no upgrade
+  - [ ] put an image and a sha1sum file with wrong sha1 sum in share => no upgrade
+  - [ ] put an image and a sha1sum file with good sha1 sum in share => UPGRADE
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
