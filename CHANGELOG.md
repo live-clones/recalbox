@@ -85,6 +85,7 @@ All notable changes to this project will be documented in this file.
 - Enforce upgrade process (#1498)
 - Add Pocket Challenge v2 system (pcv2)
 - Make /boot/config.txt part of Recalbox distribution. User settings moved to /boot/recalbox-user-config.txt
+- Enforce upgrade process episode 2 (#1505)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

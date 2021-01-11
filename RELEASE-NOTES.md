@@ -30,7 +30,7 @@
 ### Fixes
 - Fix Dolphin emulator 
 - Fix Odroid Go Advance controller (v1)
-- make the upgrade process more reliable
+- Check recalbox image integrity before upgrading
 
 
 ## 7.1.1-Reloaded
