@@ -5,6 +5,7 @@
 ################################################################################
 
 MALI_T62X_DEPENDENCIES = mali-opengles-sdk libdrm
+MALI_T62X_LICENSE = COPYRIGHT
 
 ifeq ($(BR2_PACKAGE_MALI_T62X_BIGMALI),y)
 MALI_T62X_VERSION = unknown

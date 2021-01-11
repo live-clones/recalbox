@@ -6,6 +6,9 @@
 
 QTSIXA_VERSION = gasia
 QTSIXA_SITE = $(call github,recalbox,qtsixa,$(QTSIXA_VERSION))
+QTSIXA_LICENSE = GPL-2.0
+QTSIXA_LICENSE_FILES = COPYING
+
 QTSIXA_DEPENDENCIES = sdl linux-headers libusb libusb-compat
 
 QTSIXA_INCLUDES =-I$(STAGING_DIR)/usr/include

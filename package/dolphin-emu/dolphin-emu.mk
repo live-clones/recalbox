@@ -7,7 +7,8 @@
 # Version: 5.0-13178
 DOLPHIN_EMU_VERSION = a34823df61df65168aa40ef5e82e44defd4a0138
 DOLPHIN_EMU_SITE = $(call github,dolphin-emu,dolphin,$(DOLPHIN_EMU_VERSION))
-DOLPHIN_EMU_LICENCE = GPLv2+
+DOLPHIN_EMU_LICENSE = GPL-2.0+
+DOLPHIN_EMU_LICENSE_FILES = license.txt
 DOLPHIN_EMU_DEPENDENCIES = libevdev ffmpeg zlib libpng lzo libusb libcurl bluez5_utils hidapi xz host-xz xserver_xorg-server qt5base
 DOLPHIN_EMU_SUPPORTS_IN_SOURCE_BUILD = NO
 

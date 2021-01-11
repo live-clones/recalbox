@@ -4,6 +4,8 @@
 #
 ################################################################################
 
+COMPILER_COMMONS_LICENSE = MIT
+
 # Board options
 ifneq ($(BR2_GCC_TARGET_ABI),)
 COMPILER_COMMONS_ABI += -mabi=$(BR2_GCC_TARGET_ABI)

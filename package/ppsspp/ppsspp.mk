@@ -7,6 +7,9 @@
 # Commit of 6/12/2020
 PPSSPP_VERSION = dd2c093586aba4fdc73d13ebfd45263de88682a5
 PPSSPP_SITE = git://github.com/hrydgard/ppsspp.git
+PPSSPP_LICENSE = GPL-2.0
+PPSSPP_LICENSE_FILES = LICENSE.TXT
+
 PPSSPP_GIT_SUBMODULES=y
 PPSSPP_DEPENDENCIES = sdl2 zlib libzip linux zip ffmpeg snappy
 
