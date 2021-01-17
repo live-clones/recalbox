@@ -25,7 +25,17 @@
      return homedir;
  }
  
-@@ -1543,7 +1543,7 @@
+@@ -1533,17 +1517,11 @@
+ 
+     pa_assert(_r);
+ 
+-    e = getenv("XDG_CONFIG_HOME");
+-    if (e && *e) {
+-        *_r = pa_sprintf_malloc("%s" PA_PATH_SEP "pulse", e);
+-        return 0;
+-    }
+-
+     home_dir = pa_get_home_dir_malloc();
      if (!home_dir)
          return -PA_ERR_NOENTITY;
  
@@ -34,7 +44,7 @@
      pa_xfree(home_dir);
      return 0;
  }
-@@ -1874,7 +1874,7 @@
+@@ -1874,7 +1852,7 @@
              f = pa_fopen_cloexec(fn, "r");
              if (!f) {
                  free(lfn);
