@@ -71,13 +71,12 @@ All notable changes to this project will be documented in this file.
 - Fix SCV theme
 - Fix crash in empty bios checker list
 - Fix hidden screenshot system
-- Implement Pulseaudio (#1483)
+- Implement Pulseaudio (#1483, #1511)
 - Resize & rotate install slides on GoA
 - Fix pulseaudio dependency in emulationstation package
 - Fix missing early logs
 - Bump emuscv (add sound support)
 - Bump hatari
-- Implement Pulseaudio
 - Add libretro retro8 core (PICO-8)
 - Fix pico8 system
 - Remove common retroarch configuration in odroidgo2 fsoverlay

@@ -76,6 +76,7 @@ Every case must be checked before a release.
   - [ ] put an image and a sha1sum file with good sha1 sum in share => UPGRADE
   - [ ] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
   - [ ] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
+- [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
