@@ -77,6 +77,9 @@ Every case must be checked before a release.
   - [ ] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
   - [ ] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
 - [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
+- [ ] Check wifi still works
+  - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
+  - [ ] Check if recalbox can connect on open network (passwordless SSID)
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive

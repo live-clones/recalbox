@@ -48,6 +48,7 @@ rb_wifi_configure() {
     wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
     wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
     wpa_cli -i "$interface" set_network "$network" scan_ssid 1 || exit 1
+    wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
     wpa_cli -i "$interface" enable_network "$network" || exit 1
 
     # static ip configuration in dhcpcd.conf

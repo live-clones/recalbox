@@ -85,6 +85,7 @@ All notable changes to this project will be documented in this file.
 - Add Pocket Challenge v2 system (pcv2)
 - Make /boot/config.txt part of Recalbox distribution. User settings moved to /boot/recalbox-user-config.txt (#1504, #1506)
 - Enforce upgrade process episode 2 (#1505)
+- Fix wifi support for open, WPA-PSK-SHA256 and WPA3-Personal (#1492)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

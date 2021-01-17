@@ -31,6 +31,7 @@
 - Fix Dolphin emulator 
 - Fix Odroid Go Advance controller (v1)
 - Check recalbox image integrity before upgrading
+- Fix lost support of open and WPA-PSK-SHA256 wifi networks
 
 
 ## 7.1.1-Reloaded
