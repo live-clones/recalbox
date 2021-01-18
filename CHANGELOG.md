@@ -87,6 +87,7 @@ All notable changes to this project will be documented in this file.
 - Enforce upgrade process episode 2 (#1505)
 - Fix wifi support for open, WPA-PSK-SHA256 and WPA3-Personal (#1492)
 - Fix 8Bitdo NES30 Pro rev 1 mapping
+- Fix name for palmos rom
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

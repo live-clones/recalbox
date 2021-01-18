@@ -81,6 +81,7 @@ Every case must be checked before a release.
   - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
   - [ ] Check if recalbox can connect on open network (passwordless SSID)
 - [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
+- [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive

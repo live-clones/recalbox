@@ -33,6 +33,7 @@
 - Check recalbox image integrity before upgrading
 - Fix lost support of open and WPA-PSK-SHA256 wifi networks
 - Fix 8Bitdo NES30 Pro rev 1 mapping (thanks @fredbcode)
+- Fix name for palmos rom (thanks @RaZer0k)
 
 
 ## 7.1.1-Reloaded
