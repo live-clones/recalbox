@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 class GuiArcadeVirtualKeyboard;
 
 class IGuiArcadeVirtualKeyboardInterface

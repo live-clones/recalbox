@@ -60,27 +60,23 @@ void GuiMenuUserInterface::SetBrightness(const float& brightness)
   if (RecalboxConf::Instance().GetBrightness() != (int)brightness)
   {
     Board::Instance().SetBrightness((int) brightness);
-    RecalboxConf::Instance().SetBrightness((int) brightness);
-    RecalboxConf::Instance().Save();
+    RecalboxConf::Instance().SetBrightness((int) brightness).Save();
   }
 }
 
 void GuiMenuUserInterface::SetClock(bool on)
 {
-  RecalboxConf::Instance().SetClock(on);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetClock(on).Save();
 }
 
 void GuiMenuUserInterface::SetHelp(bool on)
 {
-  RecalboxConf::Instance().SetShowHelp(on);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetShowHelp(on).Save();
 }
 
 void GuiMenuUserInterface::SetQuickSystemSelect(bool on)
 {
-  RecalboxConf::Instance().SetQuickSystemSelect(on);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetQuickSystemSelect(on).Save();
 }
 
 void GuiMenuUserInterface::ReloadGamelists()

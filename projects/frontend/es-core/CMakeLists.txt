@@ -11,6 +11,7 @@ set(CORE_HEADERS
 		src/input/InputEvent.h
 		src/input/InputCompactEvent.h
 		src/input/InputManager.h
+		src/input/InputMapper.h
 		src/input/InputStack.h
 		src/input/OrderedDevices.h
 		src/utils/Log.h
@@ -172,6 +173,7 @@ set(CORE_SOURCES
 		src/input/InputEvent.cpp
 		src/input/InputCompactEvent.cpp
 		src/input/InputManager.cpp
+		src/input/InputMapper.cpp
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
 		src/Renderer.cpp

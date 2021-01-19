@@ -2781,6 +2781,22 @@ msgstr ""
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 
+#
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr ""
+
+#
+msgid "PAIRING %s ..."
+msgstr ""
+
+#
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr ""
+
+#
+msgid "Device %n (%p)"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

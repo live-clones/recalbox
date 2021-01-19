@@ -9,8 +9,6 @@
 GuiMenuPopupSettings::GuiMenuPopupSettings(WindowManager& window)
   : GuiMenuBase(window, _("POPUP SETTINGS"))
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
   //help popup time 0=no popup
   mHelp = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
   mHelp->setSlider((float) RecalboxConf::Instance().GetPopupHelp());
@@ -33,27 +31,18 @@ GuiMenuPopupSettings::GuiMenuPopupSettings(WindowManager& window)
 void GuiMenuPopupSettings::SetHelpPopupTime(float time)
 {
   if (time != RecalboxConf::Instance().GetPopupHelp())
-  {
-    RecalboxConf::Instance().SetPopupHelp((int) time);
-    RecalboxConf::Instance().Save();
-  }
+    RecalboxConf::Instance().SetPopupHelp((int) time).Save();
 }
 
 void GuiMenuPopupSettings::SetMusicPopupTime(float time)
 {
   if (time != RecalboxConf::Instance().GetPopupMusic())
-  {
-    RecalboxConf::Instance().SetPopupMusic((int) time);
-    RecalboxConf::Instance().Save();
-  }
+    RecalboxConf::Instance().SetPopupMusic((int) time).Save();
 }
 
 void GuiMenuPopupSettings::SetNetplayPopupTime(float time)
 {
   if (time != RecalboxConf::Instance().GetPopupNetplay())
-  {
-    RecalboxConf::Instance().SetPopupNetplay((int) time);
-    RecalboxConf::Instance().Save();
-  }
+    RecalboxConf::Instance().SetPopupNetplay((int) time).Save();
 }
 

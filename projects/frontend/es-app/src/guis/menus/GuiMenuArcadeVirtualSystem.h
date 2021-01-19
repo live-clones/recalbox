@@ -1,36 +1,52 @@
 #pragma once
 
-#include "guis/Gui.h"
-#include "systems/SystemData.h"
-#include "components/MenuComponent.h"
+#include <guis/menus/GuiMenuBase.h>
+#include <systems/SystemData.h>
+#include <components/MenuComponent.h>
 
 template<typename T>
 class OptionListComponent;
 class SwitchComponent;
 
-// The starting point for a multi-game scrape.
-// Allows the user to set various parameters.
-class GuiMenuArcadeVirtualSystem : public Gui
+class GuiMenuArcadeVirtualSystem : public GuiMenuBase
 {
   public:
-    explicit GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager);
+    //! Constructor
+    GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager);
 
-    bool getHelpPrompts(Help& help) override;
-
-    /*
-     * Component implementation
-     */
-
-    bool ProcessInput(const InputCompactEvent& event) override;
+    //! Destructor
+    ~GuiMenuArcadeVirtualSystem() override;
 
   private:
     //! SystemManager instance
     SystemManager& mSystemManager;
 
+    //! Arcade ON/OFF
     std::shared_ptr<SwitchComponent>          mArcadeOnOff;
+    //! Include neogeo in arcade
     std::shared_ptr<SwitchComponent>          mIncludeNeoGeo;
+    //! Hide original systems
     std::shared_ptr<SwitchComponent>          mHideOriginals;
+    //! Position of the arcade system
     std::shared_ptr<OptionListComponent<int>> mPosition;
 
-    MenuComponent mMenu;
+    //! Original Arcade ON/OFF value
+    bool mOriginalArcadeOnOff;
+    //! Original Include neogeo value
+    bool mOriginalIncludeNeogeo;
+    //! Original Hide Original value
+    bool mOriginalHideOriginals;
+    //! Original position
+    int  mOriginalPosition;
+
+    //! Set Arcade On/off
+    static void SetArcade(bool on);
+    //! Set Arcade On/off
+    static void SetIncludeNeoGeo(bool on);
+    //! Set Arcade On/off
+    static void SetHideOriginals(bool on);
+    //! Set Arcade On/off
+    static void SetPosition(const int& position);
+
+    std::vector<GuiMenuBase::ListEntry<int>> GetPositionEntries();
 };

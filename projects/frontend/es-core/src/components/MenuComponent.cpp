@@ -13,7 +13,7 @@
 MenuComponent::MenuComponent(WindowManager&window, const std::string& title, const std::shared_ptr<Font>& titleFont)
   : Component(window)
   , mBackground(window)
-  , mGrid(window, Vector2i(1, 3))
+  , mGrid(window, Vector2i(1, 4))
   , mTimeAccumulator(0)
 {
   (void)titleFont;
@@ -68,24 +68,6 @@ MenuComponent::MenuComponent(WindowManager&window, const std::string& title, con
   // set up list which will never change (externally, anyway)
   mList = std::make_shared<ComponentList>(mWindow);
   mGrid.setEntry(mList, Vector2i(0, 1), true);
-
-    /*mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool {
-        if (event.DownPressed()) {
-            mGrid.setCursorTo(mList);
-            mList->setCursorIndex(0);
-            return true;
-        }
-        if (event.UpPressed()) {
-        	mList->setCursorIndex(mList->size() - 1);
-            if(!mButtons.empty()) {
-				mGrid.moveCursor(Vector2i(0, 1));
-            } else {
-                mGrid.setCursorTo(mList);
-            }
-            return true;
-        }
-        return false;
-    });*/
 
   updateGrid();
   updateSize();
@@ -142,16 +124,16 @@ void MenuComponent::setTitle(const std::string& title, const std::shared_ptr<Fon
 float MenuComponent::getButtonGridHeight() const
 {
     auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-    return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
+    return ((mButtonGrid ? mButtonGrid->getSize().y() : 0 /*menuTheme->menuText.font->getHeight()*/) + BUTTON_GRID_VERT_PADDING);
 }
 
 void MenuComponent::updateSize()
 {
     const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
-    float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + 2;
+    float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + getFooterHeight() + 2;
     if(height > maxHeight)
     {
-        height = TITLE_HEIGHT + getButtonGridHeight() + 2;
+        height = TITLE_HEIGHT + getButtonGridHeight() + getFooterHeight() + 2;
         int i = 0;
         while(i < mList->size())
         {
@@ -175,7 +157,8 @@ void MenuComponent::onSizeChanged()
     // update grid row/col sizes
     mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
     mGrid.setRowHeightPerc(2, getButtonGridHeight() / mSize.y());
-    
+    mGrid.setRowHeightPerc(3, getFooterHeight() / mSize.y());
+
     mGrid.setSize(mSize);
 }
 
@@ -188,21 +171,36 @@ void MenuComponent::addButton(const std::string& name, const std::string& helpTe
 
 void MenuComponent::updateGrid()
 {
-    if(mButtonGrid)
-        mGrid.removeEntry(mButtonGrid);
+  if(mButtonGrid) mGrid.removeEntry(mButtonGrid);
+  if(mFooter) mGrid.removeEntry(mFooter);
 
-    mButtonGrid.reset();
+  mButtonGrid.reset();
 
-    if(!mButtons.empty())
-    {
-        mButtonGrid = makeButtonGrid(mWindow, mButtons);
-        mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
-    }
+  if(!mButtons.empty())
+  {
+      mButtonGrid = makeButtonGrid(mWindow, mButtons);
+      mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
+  }
+  if (mFooter) mGrid.setEntry(mFooter, Vector2i(0,3), false, false);
 }
 
 bool MenuComponent::getHelpPrompts(Help& help)
 {
-    return mGrid.getHelpPrompts(help);
+  return mGrid.getHelpPrompts(help);
+}
+
+void MenuComponent::setFooter(const std::string& label)
+{
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  mFooter = std::make_shared<TextComponent>(mWindow, label, menuTheme->menuFooter.font, menuTheme->menuFooter.color);
+  updateGrid();
+  updateSize();
+}
+
+float MenuComponent::getFooterHeight() const
+{
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  return ((mFooter ? mFooter->getSize().y() : 0) + BUTTON_GRID_VERT_PADDING);
 }
 
 std::shared_ptr<ComponentGrid> makeButtonGrid(WindowManager&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons)

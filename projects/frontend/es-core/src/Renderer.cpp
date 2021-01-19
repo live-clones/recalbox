@@ -5,6 +5,7 @@
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "Settings.h"
+#include <RecalboxConf.h>
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof
@@ -165,24 +166,20 @@ bool Renderer::CreateSdlSurface()
   mSdlGLContext = SDL_GL_CreateContext(mSdlWindow);
 
   // vsync
-  if (Settings::Instance().VSync())
+  LOG(LogInfo) << "Activating vertical sync'";
+  // SDL_GL_SetSwapInterval(0) for immediate updates (no vsync, default),
+  // 1 for updates synchronized with the vertical retrace,
+  // or -1 for late swap tearing.
+  // SDL_GL_SetSwapInterval returns 0 on success, -1 on error.
+  // if vsync is requested, try late swap tearing; if that doesn't work, try normal vsync
+  // if that doesn't work, report an error
+  /*if (SDL_GL_SetSwapInterval(-1) == 0) LOG(LogInfo) << "Adaptative VSync' activated.";
+  else*/
+  if (SDL_GL_SetSwapInterval(1) == 0)
   {
-    LOG(LogInfo) << "Activating vertical sync'";
-    // SDL_GL_SetSwapInterval(0) for immediate updates (no vsync, default),
-    // 1 for updates synchronized with the vertical retrace,
-    // or -1 for late swap tearing.
-    // SDL_GL_SetSwapInterval returns 0 on success, -1 on error.
-    // if vsync is requested, try late swap tearing; if that doesn't work, try normal vsync
-    // if that doesn't work, report an error
-    /*if (SDL_GL_SetSwapInterval(-1) == 0) LOG(LogInfo) << "Adaptative VSync' activated.";
-    else*/
-    if (SDL_GL_SetSwapInterval(1) == 0)
-    {
-      LOG(LogInfo) << "Normal VSync' activated.";
-    }
-    else LOG(LogWarning) << "Tried to enable vsync, but failed! (" << SDL_GetError() << ")";
+    LOG(LogInfo) << "Normal VSync' activated.";
   }
-  else LOG(LogInfo) << "No VSync requiested";
+  else LOG(LogWarning) << "Tried to enable vsync, but failed! (" << SDL_GetError() << ")";
 
   return true;
 }

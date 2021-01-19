@@ -346,6 +346,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::Pi2:
       case BoardType::Pi3:
       case BoardType::Pi4:
+      case BoardType::Pi400:
       case BoardType::Pi3plus:
       case BoardType::UnknownPi:
       default: break;
@@ -540,6 +541,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
     case BoardType::Pi3:
     case BoardType::Pi3plus:
     case BoardType::Pi4:
+    case BoardType::Pi400:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -578,6 +580,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
     case BoardType::Pi3:
     case BoardType::Pi3plus:
     case BoardType::Pi4:
+    case BoardType::Pi400:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:

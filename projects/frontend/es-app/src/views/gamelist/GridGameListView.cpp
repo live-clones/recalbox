@@ -47,7 +47,7 @@ void GridGameListView::populateList(const FolderData& folder)
 
 bool GridGameListView::getHelpPrompts(Help& help)
 {
-	bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
+	bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
 	help.Set(HelpType::AllDirections, _("SCROLL"))
 	    .Set(HelpType::B, _("LAUNCH"));

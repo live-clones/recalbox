@@ -51,18 +51,18 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 
 void ViewController::goToStart()
 {
-  std::string systemName = RecalboxConf::Instance().AsString("emulationstation.selectedsystem");
+  std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
     selectedSystem = mSystemManager.FirstNonEmptySystem();
 
-  if (RecalboxConf::Instance().AsBool("emulationstation.hidesystemview"))
+  if (RecalboxConf::Instance().GetStartupHideSystemView())
     goToGameList(selectedSystem);
   else
   {
-    if (RecalboxConf::Instance().AsBool("emulationstation.bootongamelist"))
+    if (RecalboxConf::Instance().GetStartupStartOnGamelist())
       goToGameList(selectedSystem);
     else
       goToSystemView(selectedSystem);
@@ -333,7 +333,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
       /*text.append("\n\n")
           .append(_("Missing bios list:"))
           .append(1, ' ')
-          .append(Strings::Join(biosList.GetMissingBiosFileList(), "\n"));*/
+          .append(Strings::Join(biosList.GetMissingBiosFileList(), '\n'));*/
       // Show the dialog box
       Gui* gui = new GuiMsgBox(mWindow,
                                text,

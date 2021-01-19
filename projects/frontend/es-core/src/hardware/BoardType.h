@@ -16,6 +16,7 @@ enum class BoardType
     Pi3,           // Pi 3B
     Pi3plus,       // Pi 3B+
     Pi4,           // Pi 4B
+    Pi400,         // Pi 400
     UnknownPi,     // Unknown Pi with higher revisions
     // Odroid
     OdroidAdvanceGo2, // Odroid advance go 2

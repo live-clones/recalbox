@@ -7,11 +7,124 @@
 #include <utils/os/fs/Path.h>
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Array.h>
+#include "IInputChange.h"
 
 class WindowManager;
+class InputMapper;
 
 class InputManager
 {
+  public:
+    /*!
+     * @brief Default destructor
+     */
+    virtual ~InputManager();
+
+    /*!
+     * @brief Instance
+     * @return Singleton instance
+     */
+    static InputManager& Instance();
+
+    /*!
+     * @brief Initialize the InputManager
+     * @param window Main window
+     */
+    void Initialize(WindowManager* window, bool padplugged = false);
+
+    /*!
+     * Finalize the input manager and free all resources
+     */
+    void Finalize();
+
+    static void IntitializeSDL2JoystickSystem();
+
+    static void FinalizeSDL2JoystickSystem();
+
+    /*!
+     * Get number of initialized devices
+     */
+    int DeviceCount() const { return mIdToDevices.size(); }
+
+    /*!
+     * @brief Parse an SDL event and generate an InputCompactEvent accordingly
+     * @param ev SDL event
+     * @param resultEvent InputCompactEvent to fill with event information
+     * @return True if the resultEvent is valid, false otherwise
+     */
+    InputCompactEvent ManageSDLEvent(WindowManager* window, const SDL_Event& ev);
+
+    /*!
+     * @brief Get number of configured devices, either manually or from Xml configuration file
+     * @return Configured device count
+     */
+    int ConfiguredDeviceCount();
+
+    /*!
+     * @brief Get configuration path
+     * @return Configuration path
+     */
+    static Path ConfigurationPath();
+
+    /*!
+     * @brief Write device configuration to Xml configuration file
+     * @param device
+     */
+    static void WriteDeviceXmlConfiguration(InputDevice& device);
+
+    /*!
+     * @brief Get device by SDL Identifier
+     * @param deviceId Device identifier
+     * @return Device configuration
+     */
+    InputDevice& GetDeviceConfigurationFromIndex(int index) { return GetDeviceConfigurationFromId(mIndexToId[index]); }
+
+    /*!
+     * @brief Generate an ordered device list in function of player devices configuratons
+     * @return OrderedDevice object
+     */
+    OrderedDevices GetMappedDeviceList(const InputMapper& mapper);
+
+    /*!
+     * @brief Generate all player configurations into a single string
+     * ready to be used in the configgen
+     * @return Configuration string
+     */
+    std::string GetMappedDeviceListConfiguration(const InputMapper& mapper);
+
+    /*!
+     * @brief Lookup Xml configuration for a particular device, lookinf for matching
+     * guid and/or name
+     * @param device Device to look for configuration
+     * @return
+     */
+    static bool LookupDeviceXmlConfiguration(InputDevice& device);
+
+    /*!
+     * @brief Log a detailled report of the raw input event
+     * @param event Input event
+     */
+    static void LogRawEvent(const InputEvent& event);
+
+    /*!
+     * @brief Log a detailled report of the input compact event
+     * @param event compact event
+     */
+    static void LogCompactEvent(const InputCompactEvent& event);
+
+    /*!
+     * @brief Add a new interface to call when a pad is added or removed
+     * @param interface New interface
+     */
+    void AddNotificationInterface(IInputChange* interface);
+
+    /*!
+     * @brief Remove a notofocation interface
+     * Does nothing if the given interface has not been previously added
+     * @param interface Interface to remove
+     */
+    void RemoveNotificationInterface(IInputChange* interface);
+
   private:
     //! Device list
     typedef Array<InputDevice> InputDeviceList;
@@ -29,6 +142,9 @@ class InputManager
     InputDevice mKeyboard;
     //! Default Mousse
     InputDevice mMousse;
+
+    //! Notification interfaces
+    Array<IInputChange*> mNotificationInterfaces;
 
     /*!
      * @brief Default constructor
@@ -108,130 +224,9 @@ class InputManager
     InputCompactEvent ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down);
 
     /*!
-     * @brief Fill the given list with configured devices
-     * @param list
-     */
-    void FillConfiguredDevicelist(InputDeviceList& list);
-
-    /*!
-     * @brief Lookup a device matching both guid and name in the given list
-     * @param list List to look in
-     * @param guid Guid to look for
-     * @param name Name to look for
-     * @return Device instance if found, nullptr otherwise
-     */
-    static bool LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name, InputDevice& output);
-
-    /*!
-     * @brief Lookup a device matching name in the given list
-     * @param list List to look in
-     * @param name Name to look for
-     * @return Device instance if found, nullptr otherwise
-     */
-    static bool LookupDevice(InputDeviceList& list, const std::string& name, InputDevice& output);
-
-    /*!
-     * @brief Lookup a device in the given list
-     * @param list List to look in
-     * @param name Name to look for
-     * @return Device instance if found, nullptr otherwise
-     */
-    static bool LookupDevice(InputDeviceList& list, InputDevice& output);
-
-  public:
-    /*!
-     * @brief Default destructor
-     */
-    virtual ~InputManager();
-
-    /*!
-     * @brief Instance
-     * @return Singleton instance
-     */
-    static InputManager& Instance();
-
-    /*!
-     * @brief Initialize the InputManager
-     * @param window Main window
-     */
-    void Initialize(WindowManager* window, bool padplugged = false);
-
-    /*!
-     * Finalize the input manager and free all resources
-     */
-    void Finalize();
-
-    static void IntitializeSDL2JoystickSystem();
-
-    static void FinalizeSDL2JoystickSystem();
-
-    /*!
-     * Get number of initialized devices
-     */
-    int DeviceCount() const { return mIdToDevices.size(); }
-
-    /*!
-     * @brief Parse an SDL event and generate an InputCompactEvent accordingly
-     * @param ev SDL event
-     * @param resultEvent InputCompactEvent to fill with event information
-     * @return True if the resultEvent is valid, false otherwise
-     */
-    InputCompactEvent ManageSDLEvent(WindowManager* window, const SDL_Event& ev);
-
-    /*!
-     * @brief Get number of configured devices, either manually or from Xml configuration file
-     * @return Configured device count
-     */
-    int ConfiguredDeviceCount();
-
-    /*!
-     * @brief Get configuration path
-     * @return Configuration path
-     */
-    static Path ConfigurationPath();
-
-    /*!
-     * @brief Write device configuration to Xml configuration file
-     * @param device
-     */
-    static void WriteDeviceXmlConfiguration(InputDevice& device);
-
-    /*!
      * @brief Get device by SDL Identifier
      * @param deviceId Device identifier
      * @return Device configuration
      */
     InputDevice& GetDeviceConfigurationFromId(SDL_JoystickID deviceId);
-
-    /*!
-     * @brief Get device by SDL Identifier
-     * @param deviceId Device identifier
-     * @return Device configuration
-     */
-    InputDevice& GetDeviceConfigurationFromIndex(int index) { return GetDeviceConfigurationFromId(mIndexToId[index]); }
-
-    /*!
-     * @brief Generate an ordered device list in function of player devices configuratons
-     * @return OrderedDevice object
-     */
-    OrderedDevices GenerateConfiguration();
-
-    /*!
-     * @brief Generate all player configurations into a single string
-     * ready to be used in the configgen
-     * @return Configuration string
-     */
-    static std::string GenerateConfiggenConfiguration(const OrderedDevices& devices);
-
-    /*!
-     * @brief Lookup Xml configuration for a particular device, lookinf for matching
-     * guid and/or name
-     * @param device Device to look for configuration
-     * @return
-     */
-    static bool LookupDeviceXmlConfiguration(InputDevice& device);
-
-    static void LogRawEvent(const InputEvent& event);
-
-    static void LogCompactEvent(const InputCompactEvent& event);
 };

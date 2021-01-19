@@ -2767,50 +2767,31 @@ msgstr "Système"
 
 #
 msgid "Added to favorites"
-msgstr ""
+msgstr "Ajouté aux favoris"
 
 #
 msgid "Removed from favorites"
-msgstr ""
+msgstr "Retiré des favoris"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
+"Les clips de jeux ne peuvent être lus. Aucune vidéo disponible pour votre "
+"selection"
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Choisissez le comportement de l'économiseur d'écran: DIM réduira la "
-#~ "luminosité de l'écran, BLACK rendra l'écran noir."
+#
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr ""
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "VERSION MISE ­À JOUR:"
+#
+msgid "PAIRING %s ..."
+msgstr "APPAIRAGE DE %s ..."
 
-#~ msgid "Rom found"
-#~ msgstr "Rom trouvée"
+#
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr "SCAN DES PÉRIPHÉRIQUES BLUETOOTH"
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Copier le système actuel sur un autre périphérique.\n"
-#~ "Attention ! Cela effacera tout le contenu de la cible."
+#
+msgid "Device %n (%p)"
+msgstr "Média %s (%p)"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Stratégie Temps Réel"
-
-#~ msgid "added to favorites"
-#~ msgstr "ajouté aux favoris"
-
-#~ msgid "removed from favorites"
-#~ msgstr "retiré des favoris"
-
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Les clips de jeux ne peuvent être lus\n"
-#~ "\n"
-#~ "Aucune vidéo disponible pour votre selection"

@@ -42,15 +42,32 @@ set(ES_HEADERS
         src/guis/GuiMetaDataEd.h
         src/guis/GuiGamelistOptions.h
         src/guis/GuiMenu.h
+        src/guis/menus/GuiMenuAdvancedSettings.h
         src/guis/menus/GuiMenuArcadeVirtualSystem.h
         src/guis/menus/GuiMenuBase.h
+        src/guis/menus/GuiMenuBootSettings.h
+        src/guis/menus/GuiMenuGameSettings.h
+        src/guis/menus/GuiMenuKodiSettings.h
+        src/guis/menus/GuiMenuNetplay.h
         src/guis/menus/GuiMenuNetwork.h
+        src/guis/menus/GuiMenuPads.h
+        src/guis/menus/GuiMenuPadsPair.h
         src/guis/menus/GuiMenuPopupSettings.h
+        src/guis/menus/GuiMenuRetroAchievements.h
         src/guis/menus/GuiMenuScreensavers.h
+        src/guis/menus/GuiMenuSecurity.h
         src/guis/menus/GuiMenuSound.h
+        src/guis/menus/GuiMenuSwitchKodiNetplay.h
+        src/guis/menus/GuiMenuSystem.h
+        src/guis/menus/GuiMenuSystemList.h
+        src/guis/menus/GuiMenuSystemConfiguration.h
         src/guis/menus/GuiMenuThemeConfiguration.h
         src/guis/menus/GuiMenuThemeOptions.h
+        src/guis/menus/GuiMenuTools.h
+        src/guis/menus/GuiMenuUpdates.h
         src/guis/menus/GuiMenuUserInterface.h
+        src/guis/menus/GuiMenuVirtualSystems.h
+        src/guis/menus/GuiMenuVirtualSystemPerGenre.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h
@@ -66,7 +83,7 @@ set(ES_HEADERS
         src/guis/GuiLoading.h
         src/guis/GuiBiosScan.h
         src/guis/GuiBiosMd5.h
-        src/guis/GuiQuit.h
+        src/guis/menus/GuiMenuQuit.h
         src/guis/GuiSearch.h
         src/guis/GuiControlHints.h
         src/guis/GuiWaitLongExecution.h
@@ -210,15 +227,32 @@ set(ES_SOURCES
         src/guis/GuiMetaDataEd.cpp
         src/guis/GuiGamelistOptions.cpp
         src/guis/GuiMenu.cpp
+        src/guis/menus/GuiMenuAdvancedSettings.cpp
         src/guis/menus/GuiMenuArcadeVirtualSystem.cpp
         src/guis/menus/GuiMenuBase.cpp
+        src/guis/menus/GuiMenuBootSettings.cpp
+        src/guis/menus/GuiMenuGameSettings.cpp
+        src/guis/menus/GuiMenuKodiSettings.cpp
+        src/guis/menus/GuiMenuNetplay.cpp
         src/guis/menus/GuiMenuNetwork.cpp
+        src/guis/menus/GuiMenuPads.cpp
+        src/guis/menus/GuiMenuPadsPair.cpp
         src/guis/menus/GuiMenuPopupSettings.cpp
+        src/guis/menus/GuiMenuRetroAchievements.cpp
         src/guis/menus/GuiMenuScreensavers.cpp
+        src/guis/menus/GuiMenuSecurity.cpp
         src/guis/menus/GuiMenuSound.cpp
+        src/guis/menus/GuiMenuSwitchKodiNetplay.cpp
+        src/guis/menus/GuiMenuSystem.cpp
+        src/guis/menus/GuiMenuSystemList.cpp
+        src/guis/menus/GuiMenuSystemConfiguration.cpp
         src/guis/menus/GuiMenuThemeConfiguration.cpp
         src/guis/menus/GuiMenuThemeOptions.cpp
+        src/guis/menus/GuiMenuTools.cpp
+        src/guis/menus/GuiMenuUpdates.cpp
         src/guis/menus/GuiMenuUserInterface.cpp
+        src/guis/menus/GuiMenuVirtualSystems.cpp
+        src/guis/menus/GuiMenuVirtualSystemPerGenre.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
         src/guis/GuiScraperSelect.cpp
@@ -233,7 +267,7 @@ set(ES_SOURCES
         src/guis/GuiHashStart.cpp
         src/guis/GuiBiosScan.cpp
         src/guis/GuiBiosMd5.cpp
-        src/guis/GuiQuit.cpp
+        src/guis/menus/GuiMenuQuit.cpp
         src/guis/GuiSearch.cpp
         src/guis/GuiControlHints.cpp
         src/guis/GuiWaitLongExecution.cpp

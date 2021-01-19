@@ -10,6 +10,8 @@ unsigned short Strings::sCapitalToSmall[1 << (8 * sizeof(unsigned short))];
 
 bool Strings::sInitialized = Strings::sInitialize();
 
+const std::string Strings::Empty;
+
 bool Strings::sInitialize()
 {
   if (!sInitialized)
@@ -431,6 +433,28 @@ std::string Strings::Join(const std::vector<const char*>& _string, const std::st
   return result;
 }
 
+std::string Strings::Join(const std::vector<std::string>& _string, char joiner)
+{
+  std::string result;
+  for(const std::string& string : _string)
+  {
+    if (!result.empty()) result.append(1, joiner);
+    result.append(string);
+  }
+  return result;
+}
+
+std::string Strings::Join(const std::vector<const char*>& _string, char joiner)
+{
+  std::string result;
+  for(const std::string& string : _string)
+  {
+    if (!result.empty()) result.append(1, joiner);
+    result.append(string);
+  }
+  return result;
+}
+
 std::string Strings::Format(const char* _string, ...)
 {
 	va_list	args;
@@ -817,4 +841,20 @@ bool Strings::Contains(const std::string& source, const std::string& what)
 bool Strings::Contains(const char* source, const char* what)
 {
   return (strstr(source, what) != nullptr);
+}
+
+bool Strings::SplitAt(const std::string& _string, char splitter, std::string& left, std::string& right, bool trim)
+{
+  size_t pos = _string.find(splitter);
+  if (pos == std::string::npos) return false;
+
+  left  = _string.substr(0, pos);
+  right = _string.substr(pos + 1);
+  if (trim)
+  {
+    left = Trim(left, " \t\r\n");
+    right = Trim(right, " \t\r\n");
+  }
+
+  return true;
 }

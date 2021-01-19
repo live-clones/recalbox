@@ -5,11 +5,13 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
-#include <guis/GuiQuit.h>
+#include <guis/menus/GuiMenuQuit.h>
 #include <usernotifications/NotificationManager.h>
 #include "guis/GuiMenu.h"
 #include "audio/AudioManager.h"
 #include <guis/GuiSearch.h>
+#include <guis/GuiSettings.h>
+#include <guis/menus/GuiMenuSwitchKodiNetplay.h>
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -232,33 +234,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
       if (kodiExists && kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
       {
-        if (netplay)
-        {
-          auto* s = new GuiSettings(mWindow, _("KODI/NETPLAY"));
-          auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-          ComponentListRow row;
-          row.makeAcceptInputHandler([this, s] {
-              launchKodi = true;
-              if( ! RecalboxSystem::launchKodi(mWindow)) {
-                  LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-              }
-              launchKodi = false;
-              s->Close();
-          });
-          auto lbl = std::make_shared<TextComponent>(mWindow, "\uF1c3 " + _("KODI MEDIA CENTER"), menuTheme->menuText.font, menuTheme->menuText.color);
-          row.addElement(lbl, true); // label
-          s->addRow(row);
-          row.elements.clear();
-          row.makeAcceptInputHandler([this, s] {
-              auto* netplay = new GuiNetPlay(mWindow, mSystemManager);
-              mWindow.pushGui(netplay);
-              s->Close();
-          });
-          auto lbl2 = std::make_shared<TextComponent>(mWindow, "\uF1c4 " + _("NETPLAY LOBBY"), menuTheme->menuText.font, menuTheme->menuText.color);
-          row.addElement(lbl2, true); // label
-          s->addRow(row);
-          mWindow.pushGui(s);
-        }
+        if (netplay) mWindow.pushGui(new GuiMenuSwitchKodiNetplay(mWindow, mSystemManager));
         else
         {
           launchKodi = true;
@@ -278,7 +254,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
 		{
-		  GuiQuit::PushQuitGui(mWindow);
+		  GuiMenuQuit::PushQuitGui(mWindow);
 		}
 
 		if (event.StartPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")

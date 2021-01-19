@@ -327,7 +327,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   args.push_back(target.ToChars());
   for (const std::string& argument : arguments) args.push_back(argument.c_str());
 
-  LOG(LogDebug) << "Run UserScript: " << Strings::Join(args, " ");
+  LOG(LogDebug) << "Run UserScript: " << Strings::Join(args, ' ');
 
   // Push final null
   args.push_back(nullptr);

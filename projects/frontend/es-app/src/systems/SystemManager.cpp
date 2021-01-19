@@ -19,7 +19,7 @@
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {
   RomSources roots;
-  bool hide = RecalboxConf::Instance().GetHideDefaultGames();
+  bool hide = RecalboxConf::Instance().GetGlobalHidePreinstalled();
   if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
   {
     std::string rootTag(sRootTag);
@@ -97,7 +97,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName() << " (from " << rootPath.first << ')';
 
     // Populate items from disk
-    bool loadFromDisk = forceLoad || !RecalboxConf::Instance().AsBool("emulationstation.gamelistonly", false);
+    bool loadFromDisk = forceLoad || !RecalboxConf::Instance().GetStartupGamelistOnly();
     if (loadFromDisk)
       result->populateFolder(root, doppelgangerWatcher);
 

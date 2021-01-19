@@ -15,18 +15,16 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   : GuiMenuBase(window, _("NETWORK SETTINGS"))
   , mCurrentEdition(EditedText::None)
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
   // Network status
-  mStatus = std::make_shared<TextComponent>(mWindow, _("NOT CONNECTED"), menuTheme->menuText.font, menuTheme->menuText.color);
+  mStatus = std::make_shared<TextComponent>(mWindow, _("NOT CONNECTED"), mTheme.menuText.font, mTheme.menuText.color);
   mMenu.addWithLabel(mStatus, _("STATUS"), _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
 
   // IP
-  mIP = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(), menuTheme->menuText.font, menuTheme->menuText.color);
+  mIP = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(), mTheme.menuText.font, mTheme.menuText.color);
   mMenu.addWithLabel(mIP, _("IP ADDRESS"), _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
 
   // Hostname
-  mHostname = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetHostname(), menuTheme->menuText.font, menuTheme->menuText.color);
+  mHostname = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetHostname(), mTheme.menuText.font, mTheme.menuText.color);
   mMenu.addWithLabel(mHostname, _("HOSTNAME"), _(MENUMESSAGE_NETWORK_HOST_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditHostname, this));
 
   // WIFI ON/OFF
@@ -39,7 +37,7 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   mMenu.addWithLabel(mSSIDList, _("WIFI SSID"), _(MENUMESSAGE_NETWORK_KEY_HELP_MSG));
 
   // Password
-  mWifiKey = std::make_shared<TextComponent>(mWindow, MaskedPassword(), menuTheme->menuText.font, menuTheme->menuText.color);
+  mWifiKey = std::make_shared<TextComponent>(mWindow, MaskedPassword(), mTheme.menuText.font, mTheme.menuText.color);
   mMenu.addWithLabel(mWifiKey, _("WIFI KEY"), _(MENUMESSAGE_NETWORK_KEY_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditPassword, this));
 
   // Buttons
@@ -51,20 +49,23 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
 
 void GuiMenuNetwork::EditHostname()
 {
+  mBackupedText = RecalboxConf::Instance().GetHostname();
   mCurrentEdition = EditedText::Hostname;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("HOSTNAME"), RecalboxConf::Instance().GetHostname(), this));
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("HOSTNAME"), mBackupedText, this));
 }
 
 void GuiMenuNetwork::EditPassword()
 {
+  mBackupedText = RecalboxConf::Instance().GetWifiKey();
   mCurrentEdition = EditedText::WifiKey;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), RecalboxConf::Instance().GetWifiKey(), this));
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), mBackupedText, this));
 }
 
 void GuiMenuNetwork::EditSSID()
 {
+  mBackupedText = RecalboxConf::Instance().GetWifiSSID();
   mCurrentEdition = EditedText::WifiSSID;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), RecalboxConf::Instance().GetWifiSSID(), this));
+  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), mBackupedText, this));
 }
 
 void GuiMenuNetwork::OnSSIDChanged()

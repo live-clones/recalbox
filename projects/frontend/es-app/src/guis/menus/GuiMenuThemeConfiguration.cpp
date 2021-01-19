@@ -11,8 +11,6 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
   , mThemeName(themeName)
   , mReloadRequired(false)
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
   StringMaps themeSubSets = ThemeData::getThemeSubSets(themeName);
   mColorSet     = BuildSelector(_("THEME COLORSET"    ), RecalboxConf::Instance().GetThemeColorSet(themeName)  ,
                                 ThemeData::sortThemeSubSets(themeSubSets, "colorset")    , [this] { SetColorSet(mColorSet->getSelected()); });
@@ -39,50 +37,43 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
 
 void GuiMenuThemeConfiguration::SetColorSet(const std::string& colorSet)
 {
-  RecalboxConf::Instance().SetThemeColorSet(mThemeName, colorSet);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeColorSet(mThemeName, colorSet).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetIconSet(const std::string& iconSet)
 {
-  RecalboxConf::Instance().SetThemeIconSet(mThemeName, iconSet);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeIconSet(mThemeName, iconSet).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetMenuSet(const std::string& menuSet)
 {
-  RecalboxConf::Instance().SetThemeMenuSet(mThemeName, menuSet);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeMenuSet(mThemeName, menuSet).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetSystemView(const std::string& systemView)
 {
-  RecalboxConf::Instance().SetThemeSystemView(mThemeName, systemView);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeSystemView(mThemeName, systemView).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetGameListView(const std::string& gameListView)
 {
-  RecalboxConf::Instance().SetThemeGamelistView(mThemeName, gameListView);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeGamelistView(mThemeName, gameListView).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetGameClipView(const std::string& gameClipView)
 {
-    RecalboxConf::Instance().SetThemeGameClipView(mThemeName, gameClipView);
-    RecalboxConf::Instance().Save();
-    mReloadRequired = true;
+  RecalboxConf::Instance().SetThemeGameClipView(mThemeName, gameClipView).Save();
+  mReloadRequired = true;
 }
 
 void GuiMenuThemeConfiguration::SetRegion(const std::string& region)
 {
-  RecalboxConf::Instance().SetThemeRegion(mThemeName, region);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeRegion(mThemeName, region).Save();
   mReloadRequired = true;
 }
 

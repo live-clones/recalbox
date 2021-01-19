@@ -202,7 +202,7 @@ void WindowManager::Update(int deltaTime)
   {
     mAverageDeltaTime = mFrameTimeElapsed / mFrameCountElapsed;
 
-    if (Settings::Instance().DrawFramerate())
+    if (RecalboxConf::Instance().GetGlobalShowFPS())
     {
       std::string ss = Strings::ToString(1000.0f * (float) mFrameCountElapsed / (float) mFrameTimeElapsed, 1) +
                        "fps, " + Strings::ToString((float) mFrameTimeElapsed / (float) mFrameCountElapsed, 2) + "ms";
@@ -260,7 +260,7 @@ void WindowManager::Render(Transform4x4f& transform)
   if (!mRenderedHelpPrompts)
     mHelp.Render(transform);
 
-  if (Settings::Instance().DrawFramerate() && mFrameDataText)
+  if (RecalboxConf::Instance().GetGlobalShowFPS() && mFrameDataText)
   {
     Renderer::SetMatrix(Transform4x4f::Identity());
     mDefaultFonts[1]->renderTextCache(mFrameDataText.get());

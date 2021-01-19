@@ -1,79 +1,78 @@
 #include <systems/SystemManager.h>
 #include <RecalboxConf.h>
+#include <guis/GuiMsgBox.h>
 #include "GuiMenuArcadeVirtualSystem.h"
 
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
 #include "utils/locale/LocaleHelper.h"
 #include "Settings.h"
-#include <MainRunner.h>
 
 GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager)
-  : Gui(window),
-    mSystemManager(systemManager),
-    mMenu(window, _("ARCADE VIRTUAL SYSTEM"))
+  : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"))
+  , mSystemManager(systemManager)
+  , mOriginalArcadeOnOff(RecalboxConf::Instance().GetCollectionArcade())
+  , mOriginalIncludeNeogeo(RecalboxConf::Instance().GetCollectionArcadeNeogeo())
+  , mOriginalHideOriginals(RecalboxConf::Instance().GetCollectionArcadeHide())
+  , mOriginalPosition(RecalboxConf::Instance().GetCollectionPosition())
 {
-	addChild(&mMenu);
+  // Enable arcade
+  mArcadeOnOff = AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), mOriginalArcadeOnOff, SetArcade);
 
-  bool arcade = RecalboxConf::Instance().AsBool("emulationstation.arcade", false);
-  mArcadeOnOff = std::make_shared<SwitchComponent>(mWindow, arcade);
-  mMenu.addWithLabel(mArcadeOnOff, _("ENABLE ARCADE VIRTUAL SYSTEM"));
+  // Include neogeo?
+  mIncludeNeoGeo = AddSwitch(_("INCLUDE NEO-GEO"), mOriginalIncludeNeogeo,SetIncludeNeoGeo);
 
-  bool neogeo = RecalboxConf::Instance().AsBool("emulationstation.arcade.includeneogeo", false);
-  mIncludeNeoGeo = std::make_shared<SwitchComponent>(mWindow, neogeo);
-  mMenu.addWithLabel(mIncludeNeoGeo, _("INCLUDE NEO-GEO"));
+  // Hide original systems?
+  mHideOriginals = AddSwitch(_("HIDE ORIGINAL SYSTEMS"), mOriginalHideOriginals, SetHideOriginals);
 
-  bool originals = RecalboxConf::Instance().AsBool("emulationstation.arcade.hideoriginals", false);
-  mHideOriginals = std::make_shared<SwitchComponent>(mWindow, originals);
-  mMenu.addWithLabel(mHideOriginals, _("HIDE ORIGINAL SYSTEMS"));
+  // Position in list
+  mPosition = AddList<int>(_("POSITION"), SetPosition, GetPositionEntries());
+}
 
-  int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0);
-  mPosition = std::make_shared< OptionListComponent<int> >(mWindow, _("POSITION"), 0);
-  const SystemManager::SystemList& systemList = systemManager.GetVisibleSystemList();
+GuiMenuArcadeVirtualSystem::~GuiMenuArcadeVirtualSystem()
+{
+  if ((mArcadeOnOff->getState() != mOriginalArcadeOnOff) ||
+      (mIncludeNeoGeo->getState() != mOriginalIncludeNeogeo) ||
+      (mHideOriginals->getState() != mOriginalHideOriginals) ||
+      (mPosition->getSelected() != mOriginalPosition))
+    RequestReboot();
+}
+
+void GuiMenuArcadeVirtualSystem::SetArcade(bool on)
+{
+  RecalboxConf::Instance().SetCollectionArcade(on).Save();
+}
+
+void GuiMenuArcadeVirtualSystem::SetIncludeNeoGeo(bool on)
+{
+  RecalboxConf::Instance().SetCollectionArcadeNeogeo(on).Save();
+}
+
+void GuiMenuArcadeVirtualSystem::SetHideOriginals(bool on)
+{
+  RecalboxConf::Instance().SetCollectionArcadeHide(on).Save();
+}
+
+void GuiMenuArcadeVirtualSystem::SetPosition(const int& position)
+{
+  RecalboxConf::Instance().SetCollectionPosition(position).Save();
+}
+
+std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPositionEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<int>> list;
+
+  const SystemManager::SystemList& systemList = mSystemManager.GetVisibleSystemList();
   for(int i = 0; i < (int)systemList.size(); ++i)
   {
-    std::string before = ((i == 0) ? systemList[systemList.size() - 1]->getFullName() : systemList[i - 1]->getFullName());
     std::string after = systemList[i]->getFullName();
+    std::string before = ((i <= 0) ? systemList[systemList.size() - 1]->getFullName() : systemList[i - 1]->getFullName());
     std::string displayString = _("BETWEEN %1 AND %2");
     Strings::ReplaceAllIn(displayString, "%1", before);
     Strings::ReplaceAllIn(displayString, "%2", after);
-    mPosition->add(displayString, i, i == position);
-  }
-  mMenu.addWithLabel(mPosition, _("POSITION"));
-
-	mMenu.addButton(_("OK"), "OK", [this]
-	{
-	  RecalboxConf::Instance().SetBool("emulationstation.arcade", mArcadeOnOff->getState());
-    RecalboxConf::Instance().SetBool("emulationstation.arcade.includeneogeo", mIncludeNeoGeo->getState());
-    RecalboxConf::Instance().SetBool("emulationstation.arcade.hideoriginals", mHideOriginals->getState());
-    RecalboxConf::Instance().SetInt("emulationstation.arcade.position", mPosition->getSelected());
-
-    // If Arcade on/off changed, relaunch
-    if (mArcadeOnOff->changed())
-      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
-    // If any other property changed, relaunch only if arcade is on
-    if ((mIncludeNeoGeo->changed() || mHideOriginals->changed() || mPosition->changed()) && mArcadeOnOff->getState())
-      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
-
-    Close();
-	});
-	mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
-}
-
-bool GuiMenuArcadeVirtualSystem::ProcessInput(const InputCompactEvent& event)
-{
-  if (event.APressed())
-  {
-    Close();
-    return true;
+    list.push_back({ displayString, i, i == mOriginalPosition });
   }
 
-  return Component::ProcessInput(event);
+  return list;
 }
 
-bool GuiMenuArcadeVirtualSystem::getHelpPrompts(Help& help)
-{
-	mMenu.getHelpPrompts(help);
-	help.Set(HelpType::A, _("BACK"));
-	return true;
-}

@@ -8,6 +8,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_joystick.h"
 #include "WindowManager.h"
+#include "InputMapper.h"
 #include <algorithm>
 #include <guis/GuiInfoPopup.h>
 #include <utils/locale/LocaleHelper.h>
@@ -89,17 +90,17 @@ void InputManager::LoadDefaultKeyboardConfiguration()
   mKeyboard.Set(InputDevice::Entry::Left, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_LEFT, 1));
   mKeyboard.Set(InputDevice::Entry::Right, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RIGHT, 1));
 
-  mKeyboard.Set(InputDevice::Entry::A, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_x, 1));
-  mKeyboard.Set(InputDevice::Entry::B, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_z, 1));
-  mKeyboard.Set(InputDevice::Entry::X, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_a, 1));
-  mKeyboard.Set(InputDevice::Entry::Y, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_a, 1));
+  mKeyboard.Set(InputDevice::Entry::A, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_s, 1));
+  mKeyboard.Set(InputDevice::Entry::B, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_a, 1));
+  mKeyboard.Set(InputDevice::Entry::X, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_p, 1));
+  mKeyboard.Set(InputDevice::Entry::Y, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_l, 1));
   mKeyboard.Set(InputDevice::Entry::Start, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RETURN, 1));
-  mKeyboard.Set(InputDevice::Entry::Select, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RSHIFT, 1));
+  mKeyboard.Set(InputDevice::Entry::Select, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_SPACE, 1));
 
-  mKeyboard.Set(InputDevice::Entry::L1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_q, 1));
-  mKeyboard.Set(InputDevice::Entry::R1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_w, 1));
+  mKeyboard.Set(InputDevice::Entry::L1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEUP, 1));
+  mKeyboard.Set(InputDevice::Entry::R1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEDOWN, 1));
 
-  mKeyboard.Set(InputDevice::Entry::Hotkey, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_RCTRL, 1));
+  mKeyboard.Set(InputDevice::Entry::Hotkey, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_ESCAPE, 1));
 
   //WriteDeviceXmlConfiguration(mKeyboard);
 
@@ -148,52 +149,50 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
   for (int i = 0; i < numJoysticks; i++)
     LoadJoystickConfiguration(i);
 
-  if (window != nullptr)
+  // No info popup ?
+  if (window == nullptr) return;
+  if (!padplugged) return;
+
+  std::vector<InputDevice> current = BuildCurrentDeviceList();
+  if (current.size() > previous.size())
   {
-    std::vector<InputDevice> current = BuildCurrentDeviceList();
-    if (padplugged)
+    while (current.size() > previous.size())
     {
-      if (current.size() > previous.size())
-      {
-        while (current.size() > previous.size())
-        {
-          // Joystick added
-          int index = 0;
-          while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
-            index++;
+      // Joystick added
+      int index = 0;
+      while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
+        index++;
 
-          // Build the text
-          std::string text = current[index].Name();
-          text.append(1, ' ');
-          text.append(_(" has been plugged!"));
-          text.append("\n\n");
-          if (current[index].IsConfigured()) text.append(_("Ready to play!"));
-          else text.append(_("Not configured yet! Press a button to enter the configuration window."));
-          current.erase(current.begin() + index);
+      // Build the text
+      std::string text = current[index].Name();
+      text.append(1, ' ');
+      text.append(_(" has been plugged!"));
+      text.append("\n\n");
+      if (current[index].IsConfigured()) text.append(_("Ready to play!"));
+      else text.append(_("Not configured yet! Press a button to enter the configuration window."));
+      current.erase(current.begin() + index);
 
-          GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
-          window->InfoPopupAdd(popup);
-        }
-      }
-      else
-      {
-        while (current.size() < previous.size())
-        {
-          // Joystick removed
-          int index = 0;
-          while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
-            index++;
+      GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+      window->InfoPopupAdd(popup);
+    }
+  }
+  else
+  {
+    while (current.size() < previous.size())
+    {
+      // Joystick removed
+      int index = 0;
+      while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
+        index++;
 
-          // Build the text
-          std::string text = previous[index].Name();
-          text.append(1, ' ');
-          text.append(_(" has been unplugged!"));
-          previous.erase(previous.begin() + index);
+      // Build the text
+      std::string text = previous[index].Name();
+      text.append(1, ' ');
+      text.append(_(" has been unplugged!"));
+      previous.erase(previous.begin() + index);
 
-          GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
-          window->InfoPopupAdd(popup);
-        }
-      }
+      GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+      window->InfoPopupAdd(popup);
     }
   }
 }
@@ -355,6 +354,8 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     {
       LOG(LogInfo) << "Reinitialize because of joystick added/removed.";
       Initialize(window, true);
+      for(int i = mNotificationInterfaces.Count(); --i >= 0; )
+        mNotificationInterfaces[i]->PadsAddedOrRemoved();
       break;
     }
   }
@@ -446,112 +447,28 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   doc.save_file(path.ToChars());
 }
 
-void InputManager::FillConfiguredDevicelist(InputDeviceList& list)
+OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
 {
-  for(auto& item : mIdToDevices)
-    if (item.second.IsConfigured())
-      list.Add(item.second);
-}
-
-bool InputManager::LookupDevice(InputDeviceList& list, const std::string& guid, const std::string& name, InputDevice& output)
-{
-  for(int i = 0 ; i < list.Count(); ++i )
-  {
-    const InputDevice& device = list[i];
-    if (device.IsConfigured())
-      if (guid == device.GUID() && name == device.Name())
-      {
-        output = device;
-        list.Delete(i);
-        return true;
-      }
-  }
-  return false;
-}
-
-bool InputManager::LookupDevice(InputDeviceList& list, const std::string& name, InputDevice& output)
-{
-  for(int i = 0 ; i < list.Count(); ++i )
-  {
-    const InputDevice& device = list[i];
-    if (device.IsConfigured())
-      if (name == device.Name())
-      {
-        output = device;
-        list.Delete(i);
-        return true;
-      }
-  }
-  return false;
-}
-
-bool InputManager::LookupDevice(InputDeviceList& list, InputDevice& output)
-{
-  if (!list.Empty())
-  {
-    output = list[0];
-    list.Delete(0);
-    return true;
-  }
-  return false;
-}
-
-OrderedDevices InputManager::GenerateConfiguration()
-{
-  InputDevice device;
   OrderedDevices devices;
-  InputDeviceList list;
-  FillConfiguredDevicelist(list);
-
-  // First loop, search for GUID + NAME. High Priority
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    std::string playerConfigName = Settings::Instance().InputName(player);
-    std::string playerConfigGuid = Settings::Instance().InputGuid(player);
-
-    if (LookupDevice(list, playerConfigGuid, playerConfigName, device))
-    {
-      devices.SetDevice(player, device);
-      LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (configured Name/Guid)";
-    }
+    const InputMapper::Pad& pad = mapper.PadAt(player);
+    if (pad.IsConnected())
+      devices.SetDevice(player, mIdToDevices[pad.Identifier]);
   }
-  // Second loop, search for NAME. High Priority
-  for (int player = 0; player < Input::sMaxInputDevices; ++player)
-    if (!devices.IsConfigured(player))
-    {
-      std::string playerConfigName = Settings::Instance().InputName(player);
-
-      if (LookupDevice(list, playerConfigName, device))
-      {
-        devices.SetDevice(player, device);
-        LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (configured Name only)";
-      }
-    }
-  // Last loop, search for free controllers for remaining players.
-  for (int player = 0; player < Input::sMaxInputDevices; ++player)
-    if (!devices.IsConfigured(player))
-    {
-      if (LookupDevice(list, device))
-      {
-        devices.SetDevice(player, device);
-        LOG(LogInfo) << "Set " << device.Name() << " for player " << player << " (default)";
-      }
-    }
-
-  // Shrink configuration so that there is no hole
-  devices.Shrink();
 
   return devices;
 }
 
-std::string InputManager::GenerateConfiggenConfiguration(const OrderedDevices& devices)
+std::string InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
 {
   std::string command;
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    if (devices.IsConfigured(player))
+    const InputMapper::Pad& pad = mapper.PadAt(player);
+    if (pad.IsConnected())
     {
-      const InputDevice& device = devices.Device(player);
+      const InputDevice& device = mIdToDevices[pad.Identifier];
       std::string p(" -p"); p.append(Strings::ToString(player + 1));
       command.append(p).append("index ").append(Strings::ToString(device.Index()))
              .append(p).append("guid ").append(device.GUID())
@@ -581,6 +498,19 @@ void InputManager::LogRawEvent(const InputEvent& event)
 void InputManager::LogCompactEvent(const InputCompactEvent& event)
 {
   LOG(LogDebug) << "Compact Event: " << event.ToString();
+}
+
+void InputManager::AddNotificationInterface(IInputChange* interface)
+{
+  if (!mNotificationInterfaces.Contains(interface))
+    mNotificationInterfaces.Add(interface);
+}
+
+void InputManager::RemoveNotificationInterface(IInputChange* interface)
+{
+  int index = mNotificationInterfaces.IndexOf(interface);
+  if (index >= 0)
+    mNotificationInterfaces.Delete(index);
 }
 
 

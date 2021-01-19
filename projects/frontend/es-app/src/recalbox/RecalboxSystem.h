@@ -16,6 +16,9 @@ struct EmulatorDefaults
 class RecalboxSystem
 {
   public:
+    static bool MakeBootReadOnly();
+
+    static bool MakeBootReadWrite();
 
     static unsigned long long GetMinimumFreeSpaceOnSharePartition() { return 3LL << 30; } // 3Gb
 

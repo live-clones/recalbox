@@ -1,66 +1,45 @@
 #pragma once
 
-#include "guis/Gui.h"
-#include "components/MenuComponent.h"
-#include "components/OptionListComponent.h"
-#include <functional>
-#include <WindowManager.h>
-#include <systems/SystemData.h>
-#include "guis/GuiSettings.h"
+#include "guis/menus/GuiMenuBase.h"
 
-class StrInputConfig
+// Forward declarations
+class WindowManager;
+class SystemManager;
+
+class GuiMenu : public GuiMenuBase
 {
- public:
-  StrInputConfig(const std::string& ideviceName, const std::string& ideviceGUIDString) {
-    deviceName = ideviceName;
-    deviceGUIDString = ideviceGUIDString;
-  }
+  public:
+    //! Constructor
+    GuiMenu(WindowManager& window, SystemManager& systemManager);
 
-  std::string deviceName;
-  std::string deviceGUIDString;
-};
+  private:
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
-class GuiMenu : public Gui
-{
-public:
-	GuiMenu(WindowManager& window, SystemManager& systemManager);
-	~GuiMenu() override;
-
-	bool ProcessInput(const InputCompactEvent& event) override;
-	void onSizeChanged() override;
-	bool getHelpPrompts(Help& help) override;
-
-private:
-	void addEntry(const std::string& name, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
-	void addEntryWithHelp(const std::string& name, const std::string& help, unsigned int color, bool add_arrow, const std::function<void()>& func, const Path& iconName = Path());
-
-	void createInputTextRow(GuiSettings * gui, const std::string& title, const char* settingsID, bool password, const std::string& help);
-	void menuSystem();
-	void menuUpdates();
-	void menuGameSettings();
-	void menuControllers();
-	void menuUISettings();
-	void menuSoundSettings();
-	void menuNetworkSettings();
-	void menuScrapper();
-	void menuAdvancedSettings();
-	void menuQuit();
-
-	//! SystemManager instance
-	SystemManager& mSystemManager;
-
-	MenuComponent mMenu;
-	TextComponent mVersion;
-	std::shared_ptr<MenuTheme> mMenuTheme;
-
-  static const Path sShadersPath;
-  static Path::PathList GetShaderList();
-  static void ReadShaderFolder(const Path& root, Path::PathList& glslp);
-	static std::shared_ptr<OptionListComponent<std::string>> createRatioOptionList(WindowManager& window,
-                                                                                 const std::string& configname) ;
-
-	void popSystemConfigurationGui(SystemData *systemData) const;
-
-	std::vector<StrInputConfig*> mLoadedInput; // used to keep information about loaded devices in case there are unpluged between device window load and save
-	void clearLoadedInput();
+    //! Run Kodi
+    static void RunKodi(GuiMenu* thiz);
+    //! Launch System menu
+    static void System(GuiMenu* thiz);
+    //! Launch Update menu
+    static void Update(GuiMenu* thiz);
+    //! Launch Games menu
+    static void Games(GuiMenu* thiz);
+    //! Launch Controllers menu
+    static void Controllers(GuiMenu* thiz);
+    //! Launch UI Settings menu
+    static void UISettings(GuiMenu* thiz);
+    //! Launch Sound menu
+    static void Sound(GuiMenu* thiz);
+    //! Launch Network menu
+    static void Network(GuiMenu* thiz);
+    //! Launch Scrapper menu
+    static void Scrapper(GuiMenu* thiz);
+    //! Launch Advanced menu
+    static void Advanced(GuiMenu* thiz);
+    //! Launch Bios menu
+    static void Bios(GuiMenu* thiz);
+    //! License
+    static void License(GuiMenu* thiz);
+    //! Quit
+    static void Quit(GuiMenu* thiz);
 };

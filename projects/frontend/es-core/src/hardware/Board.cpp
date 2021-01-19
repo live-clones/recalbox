@@ -39,6 +39,7 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
     case BoardType::Pi3:
     case BoardType::Pi3plus:
     case BoardType::Pi4:
+    case BoardType::Pi400:
     case BoardType::UnknownPi:
     default: break;
   }
@@ -78,8 +79,8 @@ BoardType Board::GetPiModel(unsigned int revision)
     case RaspberryModel::TreeCM3Plus:
     case RaspberryModel::TreeAPlus: return BoardType::Pi3plus;
     case RaspberryModel::FourB:
-    case RaspberryModel::FourHundred:
     case RaspberryModel::FourCM4: return BoardType::Pi4;
+    case RaspberryModel::FourHundred: return BoardType::Pi400;
     case RaspberryModel::Alpha:
     default: break;
   }
@@ -103,7 +104,8 @@ BoardType Board::GetBoardType()
   uname(&uName);
   std::string machine(uName.machine);
   LOG(LogDebug) << "[Hardware] Machine identifier: '" << machine << '\'';
-  if (machine == "x86") return mType = BoardType::PCx86;
+  if (machine == "i386") return mType = BoardType::PCx86;
+  if (machine == "i686") return mType = BoardType::PCx86;
   if (machine == "x86_64") return mType = BoardType::PCx64;
 
   // Then try CPU info

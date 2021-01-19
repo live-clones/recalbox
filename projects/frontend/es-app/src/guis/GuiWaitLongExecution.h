@@ -9,7 +9,7 @@
 #include <utils/sdl2/SyncronousEvent.h>
 #include <Renderer.h>
 
-// Forxard declaration
+// Forward declaration
 template<typename intype, typename outtype> class GuiWaitLongExecution;
 
 /*!

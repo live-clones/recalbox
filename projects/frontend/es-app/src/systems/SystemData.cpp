@@ -14,6 +14,7 @@
 #include <themes/ThemeException.h>
 #include <padtokeyboard/PadToKeyboardManager.h>
 #include <utils/Zip.h>
+#include <input/InputMapper.h>
 
 bool SystemData::sIsGameRunning = false;
 Path SystemData::sGovernancePath(SystemData::sGovernanceFile);
@@ -106,8 +107,9 @@ void SystemData::RunGame(WindowManager& window,
 
   LOG(LogInfo) << "Launching game...";
 
-  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
-  std::string controlersConfig = InputManager::GenerateConfiggenConfiguration(controllers);
+  InputMapper mapper(nullptr);
+  OrderedDevices controllers = InputManager::Instance().GetMappedDeviceList(mapper);
+  std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   VideoEngine::Instance().StopVideo();
@@ -204,8 +206,9 @@ std::string SystemData::demoInitialize(WindowManager&)
 {
   LOG(LogInfo) << "Entering demo mode...";
 
-  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
-  std::string controlersConfig = InputManager::GenerateConfiggenConfiguration(controllers);
+  InputMapper mapper(nullptr);
+  //OrderedDevices controllers = InputManager::Instance().GenerateConfiguration(mapper);
+  std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   LOG(LogInfo) << "Controllers config : " << controlersConfig;
 
   VideoEngine::Instance().StopVideo();
@@ -876,5 +879,11 @@ FileData::List SystemData::getTopGamesAndFolders() const
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     root->getItemsTo(result, FileData::Filter::All, true, IncludeAdultGames());
   return result;
+}
+
+bool SystemData::IncludeAdultGames() const
+{
+  return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
+           RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
 }
 

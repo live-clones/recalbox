@@ -2,17 +2,16 @@
 
 #include <string>
 #include <utils/cplusplus/INoCopy.h>
-#include <RecalboxConf.h>
 #include "games/RootFolderData.h"
 #include "WindowManager.h"
 #include "PlatformId.h"
-#include "themes/ThemeData.h"
 #include "games/FileSorts.h"
 #include "EmulatorList.h"
 #include "SystemDescriptor.h"
 #include "NetPlayData.h"
 #include "EmulatorData.h"
 #include "Settings.h"
+#include <themes/ThemeData.h>
 
 class SystemManager;
 
@@ -170,11 +169,7 @@ class SystemData : private INoCopy
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists
      */
-    bool IncludeAdultGames() const
-    {
-      return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
-               RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
-    }
+    bool IncludeAdultGames() const;
 
     static bool IncludeHiddenGames()
     {

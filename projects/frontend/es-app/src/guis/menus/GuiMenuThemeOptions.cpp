@@ -37,29 +37,27 @@ GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
 {
-  if (mReloadRequired) {
-      ThemeData::SetThemeChanged(true);
-      MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+  if (mReloadRequired)
+  {
+    ThemeData::SetThemeChanged(true);
+    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
   }
 }
 
 void GuiMenuThemeOptions::SetCarousel(bool on)
 {
-  RecalboxConf::Instance().SetThemeCarousel(on);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeCarousel(on).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeOptions::SetTransition(const std::string& transition)
 {
-  RecalboxConf::Instance().SetThemeTransition(transition);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeTransition(transition).Save();
   mReloadRequired = true;
 }
 
 void GuiMenuThemeOptions::SetTheme(const std::string& theme)
 {
-  RecalboxConf::Instance().SetThemeFolder(theme);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetThemeFolder(theme).Save();
   mReloadRequired = true;
 }

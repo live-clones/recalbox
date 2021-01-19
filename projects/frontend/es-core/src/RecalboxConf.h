@@ -7,6 +7,9 @@
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <audio/alsa/AlsaController.h>
 
+// Forward declaration
+class SystemData;
+
 class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf>
 {
   public:
@@ -22,18 +25,53 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     void OnSave() override;
 
     /*
+     * Enums
+     */
+
+    enum class Menu
+    {
+        Default, //!< All menu available
+        Bartop,  //!< Limited menu
+        None,    //!< No menu except exit
+    };
+
+    enum class Relay
+    {
+        None,    //!< No relay
+        NewYork, //!< Newyork relay
+        Madrid,  //!< Madrid relay
+    };
+
+    /*
      * Shortcuts
      */
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
-      void Set##name(const type& value) { Set##type2(key, value); }
+      RecalboxConf& Set##name(const type& value) { Set##type2(key, value); return *this; }
+
+    #define DefineListGetterSetter(name, key, defaultValue) \
+      Strings::Vector Get##name() const { return Strings::Split(AsString(key, defaultValue), ','); } \
+      bool IsIn##name(const std::string& value) const { return isInList(key, value); } \
+      RecalboxConf& Set##name(const Strings::Vector& value) { SetString(key, Strings::Join(value, ',')); return *this; }
 
     #define DefineGetterSetterParameterized(name, type, type2, keybefore, keyafter, defaultValue) \
       type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
-      void Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); }
+      RecalboxConf& Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); return *this; }
 
-    DefineGetterSetter(HideDefaultGames, bool, Bool, sHideDefaultGames, false)
+    #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.getName()).append(1, '.').append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.getName()).append(1, '.').append(key), value); return *this; }
+
+    #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
+      type GetSystem##name(const SystemData& system) const; \
+      RecalboxConf& SetSystem##name(const SystemData& system, const type& value);
+
+    #define DefineGetterSetterEnum(name, enumType, key, adapterPrefix) \
+      enumType Get##name() const { return adapterPrefix##FromString(AsString(key, "")); } \
+      RecalboxConf& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); return *this; }
+
+    DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
 
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
@@ -48,7 +86,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
     DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")
-    DefineGetterSetter(ScreenSaverSystemList, std::string, String, sScreenSaverSystemList, "")
+    DefineListGetterSetter(ScreenSaverSystemList, sScreenSaverSystemList, "")
 
     DefineGetterSetter(PopupHelp, int, Int, sPopupHelp, 10)
     DefineGetterSetter(PopupMusic, int, Int, sPopupMusic, 5)
@@ -71,10 +109,17 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
     DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, false)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
+    DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
     DefineGetterSetter(SystemLanguage, std::string, String, sSystemLanguage, "en_US")
+    DefineGetterSetter(SystemKbLayout, std::string, String, sSystemKbLayout, "us")
+    DefineGetterSetter(SystemManagerEnabled, bool, Bool, sSystemManagerEnabled, true)
+
+    DefineGetterSetter(SecurityEnabled, bool, Bool, sSecurityEnabled, false)
+    DefineGetterSetter(Overclocking, std::string, String, sOverclocking, "none")
+    DefineGetterSetter(Overscan, bool, Bool, sOverscan, false)
 
     DefineGetterSetter(KodiEnabled, bool, Bool, sKodiEnabled, true)
     DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
@@ -96,8 +141,105 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ScreenScraperWantMaps, bool, Bool, sScreenScraperWantMaps, false)
     DefineGetterSetter(ScreenScraperWantP2K, bool, Bool, sScreenScraperWantP2K, false)
 
+    DefineGetterSetter(NetplayEnabled, bool, Bool, sNetplayEnabled, false)
+    DefineGetterSetter(NetplayLogin, std::string, String, sNetplayLogin, "")
+    DefineGetterSetter(NetplayLobby, std::string, String, sNetplayLobby, "http://lobby.libretro.com/list/")
+    DefineGetterSetter(NetplayPort, int, Int, sNetplayPort, sNetplayDefaultPort)
+    DefineGetterSetterEnum(NetplayRelay, Relay, sNetplayRelay, Relay)
+
+    DefineGetterSetter(RetroAchievementOnOff, bool, Bool, sRetroAchievementOnOff, false)
+    DefineGetterSetter(RetroAchievementHardcore, bool, Bool, sRetroAchievementHardcore, false)
+    DefineGetterSetter(RetroAchievementLogin, std::string, String, sRetroAchievementLogin, "")
+    DefineGetterSetter(RetroAchievementPassword, std::string, String, sRetroAchievementPassword, "")
+
+    DefineGetterSetter(StartupGamelistOnly, bool, Bool, sStartupGamelistOnly, false)
+    DefineGetterSetter(StartupSelectedSystem, std::string, String, sStartupSelectedSystem, "")
+    DefineGetterSetter(StartupStartOnGamelist, bool, Bool, sStartupStartOnGamelist, false)
+    DefineGetterSetter(StartupHideSystemView, bool, Bool, sStartupHideSystemView, false)
+
+    DefineGetterSetter(GlobalRatio, std::string, String, sGlobalRatio, "auto")
+    DefineGetterSetter(GlobalSmooth, bool, Bool, sGlobalSmooth, true)
+    DefineGetterSetter(GlobalRewind, bool, Bool, sGlobalRewind, true)
+    DefineGetterSetter(GlobalAutoSave, bool, Bool, sGlobalAutoSave, false)
+    DefineGetterSetter(GlobalQuitTwice, bool, Bool, sGlobalQuitTwice, false)
+    DefineGetterSetter(GlobalHidePreinstalled, bool, Bool, sGlobalHidePreinstalled, false)
+    DefineGetterSetter(GlobalIntegerScale, bool, Bool, sGlobalIntegerScale, false)
+    DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
+    DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
+    DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
+
+    DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
+    DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
+    DefineGetterSetter(CollectionAllGames, bool, Bool, sCollectionAllGames, false)
+
+    DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
+    DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
+    DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, false)
+    DefineGetterSetter(CollectionPosition, int, Int, sCollectionPosition, 0)
+
+    DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
+    DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
+
+    /*
+     * System
+     */
+
+    DefineSystemGetterSetterDeclaration(Emulator, std::string, String, sSystemEmulator)
+    DefineSystemGetterSetterDeclaration(Core, std::string, String, sSystemCore)
+    DefineSystemGetterSetterDeclaration(Ratio, std::string, String, sSystemRatio)
+    DefineSystemGetterSetterDeclaration(Smooth, bool, Bool, sSystemSmooth)
+    DefineSystemGetterSetterDeclaration(Rewind, bool, Bool, sSystemRewind)
+    DefineSystemGetterSetterDeclaration(AutoSave, bool, Bool, sSystemAutoSave)
+    DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
+    DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
+
     #undef DefineGetterSetter
+    #undef DefineListGetterSetter
     #undef DefineGetterSetterParameterized
+
+    /*
+     * Direct Implementations
+     */
+
+    bool GetCollection(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name), false); }
+    RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name), on); return *this; }
+
+    std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
+    RecalboxConf& SetPad(int index, const std::string& padid) { SetString(std::string(sPadHeader).append(Strings::ToString(index)), padid); return *this; }
+
+    /*
+     * System keys
+     */
+
+    static constexpr const char* sSystemEmulator             = "emulator";
+    static constexpr const char* sSystemCore                 = "core";
+    static constexpr const char* sSystemRatio                = "ratio";
+    static constexpr const char* sSystemSmooth               = "smooth";
+    static constexpr const char* sSystemRewind               = "rewind";
+    static constexpr const char* sSystemAutoSave             = "autosave";
+    static constexpr const char* sSystemShaders              = "shaders";
+    static constexpr const char* sSystemShaderSet            = "shaderset";
+
+    /*
+     * Key headers
+     */
+
+    static constexpr const char* sCollectionHeader           = "emulationstation.collection";
+
+    /*
+     * Keys
+     */
+
+    static constexpr const char* sGlobalRatio                = "global.ratio";
+    static constexpr const char* sGlobalSmooth               = "global.smooth";
+    static constexpr const char* sGlobalRewind               = "global.rewind";
+    static constexpr const char* sGlobalAutoSave             = "global.autosave";
+    static constexpr const char* sGlobalShaders              = "global.shaders";
+    static constexpr const char* sGlobalShaderSet            = "global.shaderset";
+    static constexpr const char* sGlobalQuitTwice            = "global.quitpresstwice";
+    static constexpr const char* sGlobalHidePreinstalled     = "global.hidepreinstalledgames";
+    static constexpr const char* sGlobalIntegerScale         = "global.integerscale";
+    static constexpr const char* sGlobalShowFPS              = "global.showfps";
 
     static constexpr const char* sHostname                   = "system.hostname";
 
@@ -114,8 +256,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sScreenSaverType            = "emulationstation.screensaver.type";
     static constexpr const char* sScreenSaverSystemList      = "global.demo.systemlist";
 
-    static constexpr const char* sHideDefaultGames           = "emulationstation.hidedefaultgames";
-
     static constexpr const char* sPopupHelp                  = "emulationstation.popoup.help";
     static constexpr const char* sPopupMusic                 = "emulationstation.popoup.music";
     static constexpr const char* sPopupNetplay               = "emulationstation.popoup.netplay";
@@ -130,9 +270,16 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sShowHelp                   = "emulationstation.showhelp";
     static constexpr const char* sShowGameClipHelpItems      = "emulationstation.showgamecliphelpitems";
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
+    static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
     static constexpr const char* sSystemLanguage             = "system.language";
+    static constexpr const char* sSystemKbLayout             = "system.kblayout";
+    static constexpr const char* sSystemManagerEnabled       = "system.manager.enabled";
+
+    static constexpr const char* sSecurityEnabled            = "system.security.enabled";
+    static constexpr const char* sOverclocking               = "system.overclocking";
+    static constexpr const char* sOverscan                   = "system.overscan";
 
     static constexpr const char* sKodiEnabled                = "kodi.enabled";
     static constexpr const char* sKodiAtStartup              = "kodi.atstartup";
@@ -140,7 +287,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sScrapperGetNameFrom        = "scraper.getnamefrom";
     static constexpr const char* sScrapperRegionFromFilename = "scraper.extractregionfromfilename";
-
 
     static constexpr const char* sScreenScraperLogin         = "scraper.screenscraper.user";
     static constexpr const char* sScreenScraperPassword      = "scraper.screenscraper.password";
@@ -155,15 +301,57 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sScreenScraperWantMaps      = "scraper.screenscraper.maps";
     static constexpr const char* sScreenScraperWantP2K       = "scraper.screenscraper.p2k";
 
+    static constexpr const char* sNetplayEnabled             = "global.netplay.active";
+    static constexpr const char* sNetplayLogin               = "global.netplay.nickname";
+    static constexpr const char* sNetplayLobby               = "global.netplay.lobby";
+    static constexpr const char* sNetplayPort                = "global.netplay.port";
+    static constexpr const char* sNetplayRelay               = "global.netplay.relay";
+
+    static constexpr const char* sRetroAchievementOnOff      = "global.retroachievements";
+    static constexpr const char* sRetroAchievementHardcore   = "global.retroachievements.hardcore";
+    static constexpr const char* sRetroAchievementLogin      = "global.retroachievements.username";
+    static constexpr const char* sRetroAchievementPassword   = "global.retroachievements.password";
+
+    static constexpr const char* sStartupGamelistOnly        = "emulationstation.gamelistonly";
+    static constexpr const char* sStartupSelectedSystem      = "emulationstation.selectedsystem";
+    static constexpr const char* sStartupStartOnGamelist     = "emulationstation.bootongamelist";
+    static constexpr const char* sStartupHideSystemView      = "emulationstation.hidesystemview";
+
+    static constexpr const char* sMenuType                   = "emulationstation.menu";
+    static constexpr const char* sHideSystemView             = "emulationstation.hidesystemview";
+    static constexpr const char* sBootOnGamelist             = "emulationstation.bootongamelist";
+    static constexpr const char* sForceBasicGamelistView     = "emulationstation.forcebasicgamelistview";
+
+    static constexpr const char* sCollectionLastPlayed       = "emulationstation.collection.lastplayed";
+    static constexpr const char* sCollectionMultiplayer      = "emulationstation.collection.multiplayer";
+    static constexpr const char* sCollectionAllGames         = "emulationstation.collection.allgames";
+
+    static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
+    static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";
+    static constexpr const char* sCollectionArcadeHide       = "emulationstation.arcade.hideoriginals";
+    static constexpr const char* sCollectionPosition         = "emulationstation.arcade.position";
+
+    static constexpr const char* sUpdatesEnabled             = "updates.enabled";
+    static constexpr const char* sUpdatesType                = "updates.type";
+
+    static constexpr const char* sPadHeader                  = "emulationstation.pad";
+
+    static constexpr const int sNetplayDefaultPort           = 55435;
+
   private:
-    static std::string GetLanguage()
-    {
-      std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-      return (locale.length() == 5) ? locale.substr(0,2) : "en";
-    }
-    static std::string GetCountry()
-    {
-      std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-      return (locale.length() == 5) ? locale.substr(3,2) : "us";
-    }
+    /*
+     * Culture
+     */
+
+    static std::string GetLanguage();
+    static std::string GetCountry();
+
+    /*
+     * En,umeration getter/setter
+     */
+
+    static Menu MenuFromString(const std::string& menu);
+    static const std::string& MenuFromEnum(Menu menu);
+    static Relay RelayFromString(const std::string& relay);
+    static const std::string& RelayFromEnum(Relay relay);
 };

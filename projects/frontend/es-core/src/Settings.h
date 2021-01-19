@@ -31,10 +31,8 @@ class Settings : public StaticLifeCycleControler<Settings>
     struct Data
     {
       bool mBackgroundJoystickInput;
-      bool mDrawFramerate;
       bool mShowExit;
       bool mWindowed;
-      bool mVSync;
       bool mScrapeRatings;
       bool mMixImages;
       bool mIgnoreGamelist;
@@ -57,7 +55,6 @@ class Settings : public StaticLifeCycleControler<Settings>
       std::string mLang;
       std::string mInputName[sMaxJoysticks];
       std::string mInputGuid[sMaxJoysticks];
-      std::string mOverclock;
       std::string mUpdateCommand;
       std::string mUpdateServer;
       std::string mVersionFile;
@@ -114,10 +111,8 @@ class Settings : public StaticLifeCycleControler<Settings>
      */
   	
     bool BackgroundJoystickInput() const { return mData.mBackgroundJoystickInput; }   
-    bool DrawFramerate          () const { return mData.mDrawFramerate;           }   
-    bool ShowExit               () const { return mData.mShowExit;                }   
+    bool ShowExit               () const { return mData.mShowExit;                }
     bool Windowed               () const { return mData.mWindowed;                }   
-    bool VSync                  () const { return mData.mVSync;                   }
     bool ScrapeRatings          () const { return mData.mScrapeRatings;           }
     bool MixImages              () const { return mData.mMixImages;               }   
     bool IgnoreGamelist         () const { return mData.mIgnoreGamelist;          }   
@@ -138,7 +133,6 @@ class Settings : public StaticLifeCycleControler<Settings>
                                                                          
     const std::string& Scraper              () const { return mData.mScraper;               }
     const std::string& Lang                 () const { return mData.mLang;                  }
-    const std::string& Overclock            () const { return mData.mOverclock;             }
     const std::string& UpdateCommand        () const { return mData.mUpdateCommand;         }
     const std::string& UpdateServer         () const { return mData.mUpdateServer;          }
     const std::string& VersionFile          () const { return mData.mVersionFile;           }
@@ -158,10 +152,8 @@ class Settings : public StaticLifeCycleControler<Settings>
     std::string InputGuid(int index) const { return (index < sMaxJoysticks) ? mData.mInputGuid[index] : ""; }
 
     void SetBackgroundJoystickInput(bool value) { mData.mBackgroundJoystickInput = value; }   
-    void SetDrawFramerate          (bool value) { mData.mDrawFramerate           = value; }   
-    void SetShowExit               (bool value) { mData.mShowExit                = value; }   
+    void SetShowExit               (bool value) { mData.mShowExit                = value; }
     void SetWindowed               (bool value) { mData.mWindowed                = value; }   
-    void SetVSync                  (bool value) { mData.mVSync                   = value; }
     void SetScrapeRatings          (bool value) { mData.mScrapeRatings           = value; }
     void SetMixImages              (bool value) { mData.mMixImages               = value; }   
     void SetIgnoreGamelist         (bool value) { mData.mIgnoreGamelist          = value; }   
@@ -182,7 +174,6 @@ class Settings : public StaticLifeCycleControler<Settings>
 
     void SetScraper                (const std::string& value) { mData.mScraper               = value; }
     void SetLang                   (const std::string& value) { mData.mLang                  = value; }
-    void SetOverclock              (const std::string& value) { mData.mOverclock             = value; }
     void SetUpdateCommand          (const std::string& value) { mData.mUpdateCommand         = value; }
     void SetUpdateServer           (const std::string& value) { mData.mUpdateServer          = value; }
     void SetVersionFile            (const std::string& value) { mData.mVersionFile           = value; }

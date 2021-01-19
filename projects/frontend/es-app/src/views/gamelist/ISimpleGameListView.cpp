@@ -135,7 +135,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 }
 
 bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
-  bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
+  bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
   // RUN GAME or ENTER FOLDER
   if (event.BPressed())
@@ -324,7 +324,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
 bool ISimpleGameListView::getHelpPrompts(Help& help)
 {
-  bool hideSystemView = RecalboxConf::Instance().AsBool("emulationstation.hidesystemview");
+  bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
   help.Set(HelpType::B, _("LAUNCH"));
 

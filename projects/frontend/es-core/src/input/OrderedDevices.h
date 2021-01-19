@@ -1,5 +1,5 @@
 //
-// Created by thierry.imbert on 24/02/2020.
+// Created by bkg2k on 24/02/2020.
 //
 #pragma once
 
@@ -61,22 +61,6 @@ class OrderedDevices
         mDevicesIndexes[i] = device;
         mConfiguredBitFlags |= 1 << i;
       }
-    }
-
-    /*!
-     * @brief Shrink devices so there is no hole between
-     */
-    void Shrink()
-    {
-      int count = 0;
-      for (int i = 0; i < Input::sMaxInputDevices; i++)
-      {
-        if (!IsConfigured(i)) continue;
-        if (count != i) mDevicesIndexes[count] = mDevicesIndexes[i];
-        count++;
-      }
-      mCount = count;
-      mConfiguredBitFlags = count != 0 ? 0xFFFFFFFFU >> (32 - count) : 0;
     }
 };
 

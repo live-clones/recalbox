@@ -13,8 +13,6 @@
 GuiMenuSound::GuiMenuSound(WindowManager& window)
   : GuiMenuBase(window, _("SOUND SETTINGS"))
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
   // volume
   mVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
   mVolume->setSlider((float) AudioController::Instance().GetVolume());
@@ -45,7 +43,8 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
     if (playback.first != -1) // default item
       availableAudio.push_back(playback.second);
   // Sort
-  std::sort(availableAudio.begin() + 1, availableAudio.end());
+  if (!availableAudio.empty())
+    std::sort(availableAudio.begin() + 1, availableAudio.end());
 
   if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
   {
@@ -60,8 +59,7 @@ void GuiMenuSound::SetVolume(float volume)
   if (AudioController::Instance().GetVolume() != Math::roundi(volume))
   {
     AudioController::Instance().SetVolume(Math::roundi(volume));
-    RecalboxConf::Instance().SetAudioVolume(Math::roundi(volume));
-    RecalboxConf::Instance().Save();
+    RecalboxConf::Instance().SetAudioVolume(Math::roundi(volume)).Save();
   }
 }
 
@@ -69,8 +67,7 @@ void GuiMenuSound::SetMusicOnOff(bool on)
 {
   if (on) AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
   else AudioManager::Instance().StopAll();
-  RecalboxConf::Instance().SetAudioMusic(on);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetAudioMusic(on).Save();
 }
 
 void GuiMenuSound::SetOutput(const std::string& output)
@@ -78,8 +75,7 @@ void GuiMenuSound::SetOutput(const std::string& output)
   AudioManager::Instance().Deactivate();
   AudioController::Instance().SetDefaultPlayback(output);
   AudioManager::Instance().Reactivate();
-  RecalboxConf::Instance().SetAudioOuput(output);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetAudioOuput(output).Save();
 }
 
 void GuiMenuSound::Update(int deltaTime)

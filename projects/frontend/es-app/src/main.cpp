@@ -30,7 +30,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     }
     else if (strcmp(argv[i], "--draw-framerate") == 0)
     {
-      settings.SetDrawFramerate(true);
+      RecalboxConf::Instance().SetGlobalShowFPS(true);
     }
     else if (strcmp(argv[i], "--no-exit") == 0)
     {
@@ -45,12 +45,6 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     else if (strcmp(argv[i], "--windowed") == 0)
     {
       settings.SetWindowed(true);
-    }
-    else if (strcmp(argv[i], "--vsync") == 0)
-    {
-      bool vsync = (strcmp(argv[i + 1], "on") == 0 || strcmp(argv[i + 1], "1") == 0);
-      settings.SetVSync(vsync);
-      i++; // skip vsync value
     }
     else if (strcmp(argv[i], "--max-vram") == 0)
     {

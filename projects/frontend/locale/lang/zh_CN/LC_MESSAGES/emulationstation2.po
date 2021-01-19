@@ -2679,38 +2679,18 @@ msgstr ""
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr "设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK会将屏幕调黑。"
+#
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr ""
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "更新版本："
+#
+msgid "PAIRING %s ..."
+msgstr ""
 
-#~ msgid "Rom found"
-#~ msgstr "发现 ROM"
+#
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr ""
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "将系统复制到另一设备上。\n"
-#~ "警告！这会擦除目标设备上的一切数据。"
-
-#~ msgid "Real Time Stratégy"
-#~ msgstr "实时策略"
-
-#~ msgid "added to favorites"
-#~ msgstr "添加到收藏夹"
-
-#~ msgid "removed from favorites"
-#~ msgstr "从收藏夹移除"
-
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "无法播放游戏剪辑。\n"
-#~ "\n"
-#~ "没有可供您选择的视频。"
+#
+msgid "Device %n (%p)"
+msgstr ""

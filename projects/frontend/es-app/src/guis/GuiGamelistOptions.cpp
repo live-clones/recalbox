@@ -11,7 +11,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "MenuMessages.h"
 #include "guis/GuiMsgBox.h"
-#include "GuiQuit.h"
+#include "guis/menus/GuiMenuQuit.h"
 #include "GuiMenu.h"
 
 GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
@@ -167,7 +167,7 @@ GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(mWindow, _("QUIT"), menuTheme->menuText.font, menuTheme->menuText.color), true);
     row.addElement(makeArrow(mWindow), false);
-    row.makeAcceptInputHandler([this] { GuiQuit::PushQuitGui(mWindow); });
+    row.makeAcceptInputHandler([this] { GuiMenuQuit::PushQuitGui(mWindow); });
     mMenu.addRow(row);
   }
 

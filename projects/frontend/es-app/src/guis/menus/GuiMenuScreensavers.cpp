@@ -10,8 +10,6 @@
 GuiMenuScreensavers::GuiMenuScreensavers(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("SCREENSAVER"))
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
   // screensaver time
   mTime = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
   mTime->setSlider((float)RecalboxConf::Instance().GetScreenSaverTime());
@@ -35,27 +33,24 @@ GuiMenuScreensavers::GuiMenuScreensavers(WindowManager& window, SystemManager& s
   mSystemList = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
   for (auto* it : systemManager.GetAllSystemList())
     if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-      mSystemList->add(it->getFullName(), it->getName(), RecalboxConf::Instance().isInList(RecalboxConf::sScreenSaverSystemList, it->getName()));
+      mSystemList->add(it->getFullName(), it->getName(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->getName()));
   mSystemList->setChangedCallback([this] { SetSystemList(); });
   mMenu.addWithLabel(mSystemList, _("SYSTEMS TO SHOW IN DEMO"));
 }
 
 void GuiMenuScreensavers::SetTime(float time)
 {
-  RecalboxConf::Instance().SetScreenSaverTime((int)time);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetScreenSaverTime((int)time).Save();
 }
 
 void GuiMenuScreensavers::SetType()
 {
-  RecalboxConf::Instance().SetScreenSaverType(mType->getSelected());
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetScreenSaverType(mType->getSelected()).Save();
 }
 
 void GuiMenuScreensavers::SetSystemList()
 {
   std::vector<std::string> names = mSystemList->getSelectedObjects();
-  RecalboxConf::Instance().SetList(RecalboxConf::sScreenSaverSystemList, names);
-  RecalboxConf::Instance().Save();
+  RecalboxConf::Instance().SetScreenSaverSystemList(names).Save();
 }
 

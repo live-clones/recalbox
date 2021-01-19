@@ -104,7 +104,7 @@ bool IniFile::Save()
   }
 
   // Save new
-  Files::SaveFile(mFilePath, Strings::Join(lines, "\n"));
+  Files::SaveFile(mFilePath, Strings::Join(lines, '\n'));
 
   OnSave();
   return true;
@@ -175,7 +175,7 @@ void IniFile::SetInt(const std::string& name, unsigned int value)
 
 void IniFile::SetList(const std::string& name, const std::vector<std::string>& values)
 {
-  mPendingWrites[name] = Strings::Join(values, ",");
+  mPendingWrites[name] = Strings::Join(values, ',');
 }
 
 bool IniFile::isInList(const std::string& name, const std::string& value) const

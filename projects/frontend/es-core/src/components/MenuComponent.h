@@ -83,7 +83,7 @@ class MenuComponent : public Component
 
         // spacer between icon and text
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(10, 0);
+        spacer->setSize(10 + Math::roundi(menuTheme->menuText.font->getLetterHeight() * 1.25f) - Math::roundi(icon->getSize().x()), 0);
         row.addElement(spacer, false, invert_when_selected);
       }
 
@@ -100,6 +100,8 @@ class MenuComponent : public Component
     }
 
     void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
+
+    void setFooter(const std::string& label);
 
     void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
 
@@ -131,6 +133,7 @@ class MenuComponent : public Component
     void updateSize();
     void updateGrid();
     float getButtonGridHeight() const;
+    float getFooterHeight() const;
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
@@ -140,6 +143,7 @@ class MenuComponent : public Component
     std::shared_ptr<DateTimeComponent> mDateTime;
     std::shared_ptr<ComponentList> mList;
     std::shared_ptr<ComponentGrid> mButtonGrid;
+    std::shared_ptr<TextComponent> mFooter;
     std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 
     int mTimeAccumulator;

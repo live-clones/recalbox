@@ -10,10 +10,8 @@
 Settings::DataDescriptor const Settings::sDescriptors[] =
 {
   { Settings::DataType::Bool  , offsetof(Settings::Data, mBackgroundJoystickInput), "BackgroundJoystickInput", "0", false },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mDrawFramerate          ), "DrawFramerate"          , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mShowExit               ), "ShowExit"               , "1", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mWindowed               ), "Windowed"               , "0", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mVSync                  ), "VSync"                  , "1", true },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mScrapeRatings          ), "ScrapeRatings"          , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mMixImages              ), "MixImages"              , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mIgnoreGamelist         ), "IgnoreGamelist"         , "0", true  },
@@ -53,7 +51,6 @@ Settings::DataDescriptor const Settings::sDescriptors[] =
   { Settings::DataType::String, offsetof(Settings::Data, mInputGuid[7]              ), "INPUT P8GUID"               , ""                                                  , false },
   { Settings::DataType::String, offsetof(Settings::Data, mInputGuid[8]              ), "INPUT P9GUID"               , ""                                                  , false },
   { Settings::DataType::String, offsetof(Settings::Data, mInputGuid[9]              ), "INPUT P10GUID"              , ""                                                  , false },
-  { Settings::DataType::String, offsetof(Settings::Data, mOverclock              ), "Overclock"              , "none"                                                     , false },
   { Settings::DataType::String, offsetof(Settings::Data, mUpdateCommand          ), "UpdateCommand"          , "/recalbox/scripts/recalbox-upgrade.sh"                    , true  },
   { Settings::DataType::String, offsetof(Settings::Data, mUpdateServer           ), "UpdateServer"           , "archive.recalbox.com"                                     , true  },
   { Settings::DataType::String, offsetof(Settings::Data, mVersionFile            ), "VersionFile"            , "/recalbox/recalbox.version"                               , true  },

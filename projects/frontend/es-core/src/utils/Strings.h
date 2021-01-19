@@ -23,6 +23,8 @@ class Strings
   public:
     typedef std::vector<std::string> Vector;
 
+    static const std::string Empty;
+
     static unsigned int UpperChar(const std::string& utf8string)
     {
       int dummy = 0;
@@ -101,9 +103,15 @@ class Strings
 
     static Vector Split(const std::string& _string, char splitter, bool multipleSplittersAsOne = false);
 
+    static bool SplitAt(const std::string& _string, char splitter, std::string& left, std::string& right, bool trim);
+
     static std::string Join(const std::vector<std::string>& _string, const std::string& joiner);
 
     static std::string Join(const std::vector<const char*>& _string, const std::string& joiner);
+
+    static std::string Join(const std::vector<std::string>& _string, char joiner);
+
+    static std::string Join(const std::vector<const char*>& _string, char joiner);
 
     static std::string Format(const char* _string, ...);
 

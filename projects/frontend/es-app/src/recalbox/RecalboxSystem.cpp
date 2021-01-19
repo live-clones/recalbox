@@ -20,6 +20,7 @@
 #include <Upgrade.h>
 #include <utils/locale/LocaleHelper.h>
 #include <utils/IniFile.h>
+#include <input/InputMapper.h>
 
 std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
 {
@@ -166,8 +167,9 @@ bool RecalboxSystem::launchKodi(WindowManager& window)
 
   AudioManager::Instance().Deactivate();
 
-  OrderedDevices controllers = InputManager::Instance().GenerateConfiguration();
-  std::string commandline = InputManager::GenerateConfiggenConfiguration(controllers);
+  InputMapper mapper(nullptr);
+  //OrderedDevices controllers = InputManager::Instance().GenerateConfiguration(mapper);
+  std::string commandline = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   std::string command = "configgen -system kodi -rom '' " + commandline;
 
   WindowManager::Finalize();
@@ -523,5 +525,16 @@ bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 
 bool RecalboxSystem::kodiExists()
 {
+  return true;
   return Path("/usr/bin/kodi").IsFile();
+}
+
+bool RecalboxSystem::MakeBootReadOnly()
+{
+  return system("mount -o remount,ro /boot") == 0;
+}
+
+bool RecalboxSystem::MakeBootReadWrite()
+{
+  return system("mount -o remount,rw /boot") == 0;
 }
