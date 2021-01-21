@@ -14,7 +14,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## [Next]
 
 ## Pending Features
-- [ ] Test & evaluate MelonDS on Pi4 : NOk - rame trop sur Pi non O/C
+- [ ] Test & evaluate MelonDS on Pi4
 - [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
 - [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
 - [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
