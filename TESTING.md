@@ -1,31 +1,44 @@
 # Testing
-All changes that must be tested will be documented in this file.
-Every case must be checked before a release.
+
+This file is in french as all our beta testers are french.
+
+
+A chaque modification du système, les développeurs ajoutent une ou plusieurs lignes dans ce fichier.
+
+Les beta testeurs cochent les cases lors des sessions de tests.
+
+Toutes les cases doivent être cochées avant la release stable.
+
+Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [Next]
-- [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
-- [ ] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
-- [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
-- [ ] Packages that require libgo2 compiles well
-- [ ] /usr/lib/libgo2.so should provides go2_ symbols
-- [ ] New roms management => Test option in game menu to show/hide preinstalled games
-- [ ] New roms management => Fresh install: Test all ports
+
+## Pending Features
+- [ ] Test & evaluate MelonDS on Pi4
 - [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
 - [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
 - [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
-- [ ] Kernel bump => test every system thing works on rpi1, rpi2 and rpi3
-- [ ] Added rpi-400 dts => check pi400 boots correctly
-+ [ ] mupen64plus bump => test standalone core deeply on all boards
-+ [ ] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
-+ [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
-+ [ ] Verify wm8960 audio hat works for all boards with kernel 5.4
-- [ ] Bump Stella => Deeply retest Stella core
-- [ ] Test & evaluate MelonDS on Pi4
 - [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
-- [ ] Validate libretro-mupen64plus-next compiles on all boards
-- [ ] BR2020.11 - Check hyperion still works
+- [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
+- [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
+- [ ] Test Nintendo switch joycons and combined joycons
+- [ ] DosBox Pure added => test this new core
+- [ ] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
+
+## Non Regression
+- [ ] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
+- [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
+- [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
+- [ ] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
+- [ ] New roms management => Test option in game menu to show/hide preinstalled games
+- [ ] New roms management => Fresh install: Test all ports
+- [ ] Added rpi-400 dts => check pi400 boots correctly
+- [ ] mupen64plus bump => test standalone core deeply on all boards
+- [ ] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
+- [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
+- [ ] Bump Stella => Deeply retest Stella core
+- [ ] BR2020.11 - Check hyperion still works (ian57 a le matos)
 - [ ] BR2020.11 - Test libretro-fmsx
-- [ ] BR2020.11 - Test kodi-audiodecoder-timidity
 - [ ] BR2020.11 - Test libretro-mupen64plus-nx on rpi2 (as libretro-mupen64plus is disabled)
 - [ ] BR2020.11 - Test libretro-gpsp
 - [ ] BR2020.11 - Test advancemame
@@ -36,35 +49,24 @@ Every case must be checked before a release.
 - [ ] BR2020.11 - Test mpv (splash video) still works
 - [ ] BR2020.11 - Test ppsspp
 - [ ] BR2020.11 - Test libretro-81
-- [ ] BR2020.11 - Check video (spash video) is displayed on boot
-- [ ] BR2020.11 - Check recalbox-initramfs compiles
-- [ ] BR2020.11 - Test libretro-flycast
-- [ ] BR2020.11 - Check mpv correctly displays a splash video on rpi1, 2 and 3
 - [ ] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
+- [ ] BR2020.11 - Test libretro-flycast
+- [ ] Verify wm8960 audio hat works for all boards with kernel 5.4 (ian57 a le matos)
+- [ ] BR2020.11 - Check splash video on rpi1, 2 and 3
 - [ ] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
 - [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
 - [ ] BR2020.11 - Check that Odroid GO2 boots correctly
-- [ ] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
-- [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
 - [ ] BR2020.11 - Check that PC with intel chipsets works properly
-- [ ] BR2020.11 - Check Xorg AMDGPU driver works properly
-- [ ] BR2020.11 - Check Xorg OpenChrome driver works properly
+- [ ] BR2020.11 - Check Xorg AMDGPU driver works properly (see with david)
+- [ ] BR2020.11 - Check Xorg OpenChrome driver works properly (see with david)
 - [ ] BR2020.11 - Check libretro-mame works properly (0.226)
 - [ ] BR2020.11 - Check libretro-melonds works properly
+- [ ] BR2020.11 - Test pcsx_rearmed on rpi1 works
+- [ ] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
 - [ ] BR2020.11 - Check nvidia drivers version 390 works properly
 - [ ] BR2020.11 - Check nvidia drivers version 440 works properly
-- [ ] BR2020.11 - Test pcsx_rearmed on rpi1 works
-- [ ] BR2020.11 - Check that Odroid GO2 linux kernel boots correctly with idbloader fix
-- [ ] Test S024kdetector still does its job
-- [ ] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
-- [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
-- [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
 - [ ] BR2020.11 - Check bluetooth pairing
-- [ ] Test Nintendo switch joycons and combined joycons
-- [ ] DosBox Pure added => test this new core
 - [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
-- [ ] Pulseaudio - Check audio works everywhere and switch automatically when new sink is connected
-- [ ] Pulseaudio - Check audio works everywhere
 - [ ] Bump Hatari => Retest all game format on Atari ST core
 - [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
 - [ ] Headphone output should be selectable in ES on rpi4
@@ -82,11 +84,19 @@ Every case must be checked before a release.
   - [ ] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
   - [ ] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
 - [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
-- [ ] Check wifi still works
-  - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
   - [ ] Check if recalbox can connect on open network (passwordless SSID)
 - [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
 - [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
+
+## Technique
+- [ ] Packages that require libgo2 compiles well
+- [ ] /usr/lib/libgo2.so should provides go2_ symbols
+- [ ] Validate libretro-mupen64plus-next compiles on all boards
+- [ ] BR2020.11 - Test kodi-audiodecoder-timidity (how ?)
+- [ ] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
+- [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
+- [ ] Test S024kdetector still does its job
+- [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
