@@ -1,0 +1,12 @@
+--- a/mednafen/ss/db.cpp	2020-12-25 12:19:45.000000000 -0500
++++ b/mednafen/ss/db.cpp	2020-12-27 14:59:32.432321000 -0500
+@@ -170,8 +170,10 @@
+  //{ "MK-81019", CPUCACHE_EMUMODE_DATA },	// Astal (USA)
+  //{ "GS-9019",  CPUCACHE_EMUMODE_DATA },	// Astal (Japan)
+ 
+  { "T-36102G",	CPUCACHE_EMUMODE_FULL },	// Whizz (Japan)
+  { "T-9515H-50", CPUCACHE_EMUMODE_FULL },	// Whizz (Europe)
++ { "MK-81015", CPUCACHE_EMUMODE_FULL },	// Virtua Cop (Europe)
++ { "MK-81043", CPUCACHE_EMUMODE_FULL },	// Virtua Cop 2 (Europe)
+ };
+

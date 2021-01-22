@@ -88,6 +88,11 @@ All notable changes to this project will be documented in this file.
 - Fix wifi support for open, WPA-PSK-SHA256 and WPA3-Personal (#1492)
 - Fix 8Bitdo NES30 Pro rev 1 mapping
 - Fix name for palmos rom
+- enforce upgrade process (#1498)
+- Bump and patch Libretro Beetle Saturn
+- Retroarch patch for X11 multi-mouse and additional udev logs
+- Flycast patch to have not blend lightgun crosshairs
+- Initial Lightgun feature included for Libretro cores in configgen (compatible with dolphin bar/wiimote)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
