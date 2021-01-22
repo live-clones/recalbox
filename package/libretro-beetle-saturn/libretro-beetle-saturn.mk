@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_SATURN_VERSION = e5aee3275cc1ff611141081c35254f63df5d0cc7
+LIBRETRO_BEETLE_SATURN_VERSION = 139528344281d8bd650ccbadb90be08142d976ce
 LIBRETRO_BEETLE_SATURN_SITE = $(call github,libretro,beetle-saturn-libretro,$(LIBRETRO_BEETLE_SATURN_VERSION))
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)

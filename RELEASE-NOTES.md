@@ -19,6 +19,7 @@
 - Add Pulseaudio support
 - Add PICO-8 core (libretro-retro8)
 - Add Pocket Challenge v2 system (pcv2)
+- Lightgun feature : more than 200 games already ready to play ! (using dolphin bar/wiimote)
 
 ### Improvements
 - Bump supermodel to version 839
@@ -26,6 +27,9 @@
 - Bump Amiberry to version 3.3
 - Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
 - Set default overlay to vc4-kms-v3d on RPI4 (better 3D performance)
+- Bump and Patch Beetle-Saturn for best support of european Virtua Cop games
+- Patch Retroarch for X11 multi-mouse
+- Flycast crossairs updated
 
 ### Fixes
 - Fix Dolphin emulator 

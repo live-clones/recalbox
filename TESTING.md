@@ -67,6 +67,10 @@ Every case must be checked before a release.
 - [ ] Bump Hatari => Retest all game format on Atari ST core
 - [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
 - [ ] Headphone output should be selectable in ES on rpi4
+- [ ] Bump Beetle-Saturn: check launching virtual cop 1 and 2 (europe versions) + additional random saturn games to confirm bump and patch are globally ok
+- [ ] Patch Retroarch: check 2 lightgun players games is possible now on x86_64 and still ok on board as Pi2/3/4 and XU4
+- [ ] Patch Flycast: check that new crosshair for lightgun game is now not transparent/blend - best visibility in games as The Maze of kings
+- [ ] Lightgun feature: check fun by your prefered lightgun games in priority ;-) check one game in 1 player and/or 2 players and by "lightgun" system  - check documentation also.
 - [ ] Offline/online upgrade still works (check config.txt and recalbox-user-config.txt)
   - [ ] begin an upgrade download and remove ethernet cable while download => no upgrade + clean files
   - [ ] begin an upgrade download and poweroff during the download => no upgrade + clean files
