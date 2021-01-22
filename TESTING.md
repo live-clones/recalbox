@@ -84,7 +84,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
   - [ ] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
 - [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
-  - [ ] Check if recalbox can connect on open network (passwordless SSID)
+- [ ] Check if recalbox can connect on open network (passwordless SSID)
 - [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
 - [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
 
