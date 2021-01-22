@@ -26,6 +26,7 @@
 - Bump Amiberry to version 3.3
 - Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
 - Set default overlay to vc4-kms-v3d on RPI4 (better 3D performance)
+- Go back to upstream nanosvg repository
 
 ### Fixes
 - Fix Dolphin emulator 
