@@ -1,0 +1,36 @@
+From 9ab277987cde47da6a1f6b55d3438cbd4de23b4b Mon Sep 17 00:00:00 2001
+From: BOZO THE GEEK <bozolesv2@gmail.com>
+Date: Tue, 19 Jan 2021 19:02:11 +0100
+Subject: [PATCH] change to BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+---
+ core/rend/gl4/gldraw.cpp  | 2 +-
+ core/rend/gles/gldraw.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/rend/gl4/gldraw.cpp b/core/rend/gl4/gldraw.cpp
+index 90ac71c0f..a9298cf93 100644
+--- a/core/rend/gl4/gldraw.cpp
++++ b/core/rend/gl4/gldraw.cpp
+@@ -893,7 +893,7 @@ void gl4DrawGunCrosshair(u8 port)
+ 	glcache.Disable(GL_STENCIL_TEST);
+ 	glcache.Disable(GL_CULL_FACE);
+    glcache.Enable(GL_BLEND);
+-	glcache.BlendFunc(GL_SRC_ALPHA, GL_ONE);
++	glcache.BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+ 
+ 	glBindVertexArray(gl4.vbo.main_vao);
+ 
+diff --git a/core/rend/gles/gldraw.cpp b/core/rend/gles/gldraw.cpp
+index e35a1e721..c155e1023 100644
+--- a/core/rend/gles/gldraw.cpp
++++ b/core/rend/gles/gldraw.cpp
+@@ -865,7 +865,7 @@ void DrawGunCrosshair(u8 port)
+ 	glcache.Disable(GL_STENCIL_TEST);
+ 	glcache.Disable(GL_CULL_FACE);
+ 	glcache.Enable(GL_BLEND);
+-	glcache.BlendFunc(GL_SRC_ALPHA, GL_ONE);
++	glcache.BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+ 
+ 	SetupMainVBO();
+ 	PipelineShader *shader = GetProgram(0, false, 1, 1, 0, 0, 0, 2, false, false, false, false, false);
