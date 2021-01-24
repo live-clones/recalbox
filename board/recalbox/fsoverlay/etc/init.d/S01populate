@@ -6,7 +6,7 @@ fi
 
 # create system directories
 mkdir -p /var/lib/sixad/profiles /var/lib/bluetooth /var/lib/samba/private /var/cache \
-         /var/lib/dbus /var/run /run/udev/ /var/log
+         /var/lib/dbus /var/run /run/udev/ /var/log /var/db
 
 # sixad
 cp /etc/sixad.profile /var/lib/sixad/profiles/default
