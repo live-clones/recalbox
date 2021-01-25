@@ -248,10 +248,8 @@
     <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,
     	                             3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />  
   </system>
-  <system fullname="Palm Pilot" platform="palm">
-    <bios path="palmos40-en-m500.rom"   md5="f50e4d5e4d98dc831f2c34a9107651eb" core="mu" mandatory="false" />  
-    <bios path="palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" />  
-    <bios path="palmos52-en-t3.rom" md5="de46ec84d9aabf655eabdf9b00a3845d" core="mu" mandatory="false" />  
+  <system fullname="Palm Pilot" platform="palm">  
+    <bios path="palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" /> 
     <bios path="bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" mandatory="false" />  
   </system>
   <system fullname="Tangerine Oric/Atmos" platform="oricatmos"> 
