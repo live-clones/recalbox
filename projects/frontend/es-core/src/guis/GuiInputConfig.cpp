@@ -42,13 +42,14 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 	mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
-	char strbuf[256];
-	if(mTargetDevice->Identifier() == InputEvent::sKeyboardDevice)
-	  strncpy(strbuf, _("KEYBOARD").c_str(), 256);
-	else
-	  snprintf(strbuf, 256, _("GAMEPAD %i").c_str(), mTargetDevice->Index() + 1);
-	  
-	mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(strbuf), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
+	std::string deviceName = _("KEYBOARD");
+	if (mTargetDevice->Identifier() != InputEvent::sKeyboardDevice)
+  {
+	  deviceName = _("GAMEPAD %i");
+	  Strings::ReplaceAllIn(deviceName, "%i", Strings::ToString(mTargetDevice->Index() + 1));
+  }
+
+	mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(deviceName), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
 	mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);

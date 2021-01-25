@@ -13,7 +13,9 @@ Thread::Thread()
   static int sTotalCount = 0;
   memset(mName, 0, sizeof(mName));
   std::string strName = "thread " + std::to_string(++sTotalCount);
-  strncpy(mName, strName.c_str(), sizeof(mName));
+  int len = (int)strName.size() + 1;
+  if (len > (int)sizeof(mName)) len = (int)sizeof(mName);
+  strncpy(mName, strName.c_str(), len);
 }
 
 Thread::~Thread()

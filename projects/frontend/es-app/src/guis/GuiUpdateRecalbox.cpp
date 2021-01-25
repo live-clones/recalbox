@@ -141,7 +141,8 @@ void GuiUpdateRecalbox::Run()
     mSender.Call(-1);
   }
   // Empty target folder
-  system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data());
+  if (system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data()) != 0)
+    LOG(LogError) << "[Update] Cannot empty " << sDownloadFolder;
 
   // Get arch
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
