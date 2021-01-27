@@ -6,11 +6,12 @@
 //
 #pragma once
 
-#include <guis/IGuiArcadeVirtualKeyboardInterface.h>
 #include <guis/menus/GuiMenuBase.h>
 #include <components/SwitchComponent.h>
 
-class GuiMenuRetroAchievements : public GuiMenuBase, private IGuiArcadeVirtualKeyboardInterface
+class GuiMenuRetroAchievements : public GuiMenuBase
+                               , private IEditableComponent
+                               , private ISwitchComponent
 {
   public:
     /*!
@@ -20,10 +21,10 @@ class GuiMenuRetroAchievements : public GuiMenuBase, private IGuiArcadeVirtualKe
     explicit GuiMenuRetroAchievements(WindowManager& window);
 
   private:
-    //! Text being currently edited
-    enum class EditedText
+    enum class Components
     {
-        None,
+        Enabled,
+        Hardcore,
         Login,
         Password,
     };
@@ -33,57 +34,21 @@ class GuiMenuRetroAchievements : public GuiMenuBase, private IGuiArcadeVirtualKe
     //! Hardcore mode
     std::shared_ptr<SwitchComponent> mHardcore;
     //! Login
-    std::shared_ptr<TextComponent> mLogin;
+    std::shared_ptr<EditableComponent> mLogin;
     //! Password
-    std::shared_ptr<TextComponent> mPassword;
-
-    //! Current edited text before edition
-    std::string mBackupedText;
-    //! Current text being edited
-    EditedText mCurrentEdition;
-
-    /*!
-     * @brief Called when the user selects the Hostname line
-     */
-    void EditLogin();
-
-    /*!
-     * @brief Called when the user selects the password line
-     */
-    void EditPassword();
-
-    //! Set On/off value
-    static void SetOnOff(bool on);
-
-    //! Set hardcore value
-    static void SetHardcore(bool on);
-
-    /*!
-     * @brief Build a masked passwors string
-     * @return Password string
-     */
-    static std::string MaskedPassword() { return std::string(RecalboxConf::Instance().GetRetroAchievementPassword().size(), '*'); }
+    std::shared_ptr<EditableComponent> mPassword;
 
     /*
-     * IGuiArcadeVirtualKeyboardInterface implementation
+     * IEditableComponent implementation
      */
 
-    /*!
-     * @brief Called when the edited text change.
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void EditableComponentTextChanged(int id, const std::string& text) override;
 
-    /*!
-     * @brief Called when the edited text is validated (Enter or Start)
-     * Current text is available from the Text() method.
+    /*
+     * ISwitchComponent implementation
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
 
-    /*!
-     * @brief Called when the edited text is cancelled.
-     */
-    void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk) final;
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

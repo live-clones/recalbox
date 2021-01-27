@@ -14,6 +14,7 @@ class SwitchComponent;
 class TextComponent;
 
 class GuiMenuSystem : public GuiMenuBase
+                    , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -26,6 +27,13 @@ class GuiMenuSystem : public GuiMenuBase
     ~GuiMenuSystem() override;
 
   private:
+    enum class Components
+    {
+      Storage,
+      Culture,
+      Keyboard,
+    };
+
     //! Kayboard name
     struct Keyboard
     {
@@ -62,17 +70,18 @@ class GuiMenuSystem : public GuiMenuBase
     //! Original keyboard
     std::string mOriginalKeyboard;
 
-    //! Set Storage
-    static void SetStorage(const std::string& storage);
-    //! Set Culture
-    static void SetCulture(const std::string& culture);
-    //! Set Keyboard
-    static void SetKeyboard(const std::string& layout);
+    //! Get Storage List
+    std::vector<ListEntry<std::string>> GetStorageEntries();
+    //! Get Culture List
+    std::vector<ListEntry<std::string>> GetCultureEntries();
+    //! Get Keyboard List
+    std::vector<ListEntry<std::string>> GetKeyboardEntries();
 
-    //! Get available culture list
-    static CultureList AvailableCultures();
-    //! Get available keyboard list
-    static KeyboardList AvailableKeyboards();
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };
 
 

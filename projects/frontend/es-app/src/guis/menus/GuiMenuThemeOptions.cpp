@@ -7,57 +7,64 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
-  : GuiMenuBase(window, _("THEME"))
-  , mReloadRequired(false)
+  : GuiMenuBase(window, _("THEME"), nullptr)
 {
   // carousel transition option
-  mCarousel = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetThemeCarousel());
-  mCarousel->setChangedCallback([this](bool state) { SetCarousel(state); });
-  mMenu.addWithLabel(mCarousel, _("CAROUSEL ANIMATION"), _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
+  mCarousel = AddSwitch(_("CAROUSEL ANIMATION"), mOriginalCaroussel = RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
 
   // transition style
-  std::string currentTransition = RecalboxConf::Instance().GetThemeTransition();
-  mTransition = std::make_shared<OptionListComponent<std::string> >(mWindow, _("TRANSITION STYLE"), false);
-  mTransition->add("fade", "fade", currentTransition == "fade");
-  mTransition->add("slide", "slide", currentTransition == "slide");
-  mTransition->add("instant", "instant", currentTransition == "instant");
-  mTransition->setChangedCallback([this] { SetTransition(mTransition->getSelected()); });
-  mMenu.addWithLabel(mTransition, _("TRANSITION STYLE"), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
+  mTransition = AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
 
   // theme set
-  auto themeSets = ThemeData::getThemeSets();
-  auto selectedSet = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
-  if (selectedSet == themeSets.end()) selectedSet = themeSets.begin();
-
-  mTheme = std::make_shared<OptionListComponent<std::string> >(mWindow, _("THEME SET"), false);
-  for (const auto& it : themeSets) mTheme->add(it.first, it.first, it.first == selectedSet->first);
-  mTheme->setChangedCallback([this] { SetTheme(mTheme->getSelected()); });
-  mMenu.addWithLabel(mTheme, _("THEME SET"), _(MENUMESSAGE_UI_THEME_HELP_MSG));
+  mTheme = AddList(_("THEME SET"), (int)Components::Theme, this, GetThemeEntries(), _(MENUMESSAGE_UI_THEME_HELP_MSG));
 }
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
 {
-  if (mReloadRequired)
+  if ((mCarousel->getState() != mOriginalCaroussel) ||
+      (mTransition->getSelected() != mOriginalTransition) ||
+      (mTheme->getSelected() != mOriginalTheme))
   {
     ThemeData::SetThemeChanged(true);
     MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
   }
 }
 
-void GuiMenuThemeOptions::SetCarousel(bool on)
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetTransitionEntries()
 {
-  RecalboxConf::Instance().SetThemeCarousel(on).Save();
-  mReloadRequired = true;
+  std::vector<ListEntry<std::string>> list;
+
+  mOriginalTransition = RecalboxConf::Instance().GetThemeTransition();
+  list.push_back({ "fade", "fade", mOriginalTransition == "fade" });
+  list.push_back({ "slide", "slide", mOriginalTransition == "slide" });
+  list.push_back({ "instant", "instant", mOriginalTransition == "instant" });
+
+  return list;
 }
 
-void GuiMenuThemeOptions::SetTransition(const std::string& transition)
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetThemeEntries()
 {
-  RecalboxConf::Instance().SetThemeTransition(transition).Save();
-  mReloadRequired = true;
+  std::vector<ListEntry<std::string>> list;
+
+  auto themeSets = ThemeData::getThemeSets();
+  auto selectedSet = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
+  if (selectedSet == themeSets.end()) selectedSet = themeSets.begin();
+  mOriginalTheme = selectedSet->first;
+  for (const auto& it : themeSets)
+    list.push_back({ it.first, it.first, it.first == mOriginalTheme });
+
+  return list;
 }
 
-void GuiMenuThemeOptions::SetTheme(const std::string& theme)
+void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const std::string& value)
 {
-  RecalboxConf::Instance().SetThemeFolder(theme).Save();
-  mReloadRequired = true;
+  (void)index;
+  if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
+  else if ((Components)id == Components::Theme) RecalboxConf::Instance().SetThemeFolder(value).Save();
+}
+
+void GuiMenuThemeOptions::SwitchComponentChanged(int id, bool status)
+{
+  if ((Components)id == Components::Carousel)
+    RecalboxConf::Instance().SetThemeCarousel(status).Save();
 }

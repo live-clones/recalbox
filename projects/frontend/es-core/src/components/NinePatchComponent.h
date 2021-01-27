@@ -32,9 +32,10 @@ public:
 
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
-private:
-	static Vector2f getCornerSize() ;
+	float MargingX() const { return mW; }
+  float MargingY() const { return mH; }
 
+private:
 	void buildVertices();
 	void updateColors();
 
@@ -48,6 +49,8 @@ private:
 	GLubyte mColors[6 * 9 * 4];
 
 	Path mPath;
+	float mW;
+	float mH;
 	unsigned int mEdgeColor;
 	unsigned int mCenterColor;
 	std::shared_ptr<TextureResource> mTexture;

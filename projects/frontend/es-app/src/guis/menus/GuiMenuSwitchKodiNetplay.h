@@ -12,6 +12,7 @@
 class SystemManager;
 
 class GuiMenuSwitchKodiNetplay : public GuiMenuBase
+                               , private IGuiMenuBase
 {
   public:
     /*!
@@ -21,13 +22,20 @@ class GuiMenuSwitchKodiNetplay : public GuiMenuBase
     explicit GuiMenuSwitchKodiNetplay(WindowManager& window, SystemManager& systemManager);
 
   private:
+    enum class Components
+    {
+      Kodi,
+      Netplay,
+    };
+
     //! System manager
     SystemManager& mSystemManager;
 
-    //! Start Kodi
-    static void StartKodi(GuiMenuSwitchKodiNetplay* thiz);
-    //! Start Netplay
-    static void StartNetplay(GuiMenuSwitchKodiNetplay* thiz);
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };
 
 

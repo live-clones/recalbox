@@ -9,6 +9,9 @@
 #include <components/OptionListComponent.h>
 
 class GuiMenuScreensavers : public GuiMenuBase
+                          , private ISliderComponent
+                          , private IOptionListComponent<std::string>
+                          , private IOptionListMultiComponent<std::string>
 {
   public:
     /*!
@@ -18,6 +21,16 @@ class GuiMenuScreensavers : public GuiMenuBase
     explicit GuiMenuScreensavers(WindowManager& window, SystemManager& systemManager);
 
   private:
+    enum class Components
+    {
+        Time,
+        Type,
+        SystemList,
+    };
+
+    //! System Manager reference
+    SystemManager& mSystemManager;
+
     //! Time before screensaver starts
     std::shared_ptr<SliderComponent> mTime;
     //! Screensaver type
@@ -25,20 +38,28 @@ class GuiMenuScreensavers : public GuiMenuBase
     //! System list for demo mode
     std::shared_ptr<OptionListComponent<std::string>> mSystemList;
 
-    /*!
-     * @brief Save & set screensaver time
-     * @param time new screensaver time
-     */
-    static void SetTime(float time);
+    //! Get Screensaver type List
+    std::vector<ListEntry<std::string>> GetTypeEntries();
 
-    /*!
-     * @brief Set & save screensaver type
-     */
-    void SetType();
+    //! Get System List
+    std::vector<ListEntry<std::string>> GetSystemEntries();
 
-    /*!
-     * @brief Set & save screensaver system list
+    /*
+     * ISliderComponent implementation
      */
-    void SetSystemList();
+
+    void SliderMoved(int id, float value) override;
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * IOptionListMultiComponent<std::string> implementation
+     */
+
+    void OptionListMultiComponentChanged(int id, const std::vector<std::string>& value) override;
 };
 

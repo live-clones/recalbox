@@ -2,6 +2,7 @@
 
 #include "components/base/Component.h"
 #include "components/ImageComponent.h"
+#include "ISliderComponent.h"
 
 class TextCache;
 class Font;
@@ -11,7 +12,8 @@ class SliderComponent : public Component
 {
 public:
 	//Minimum value (far left of the slider), maximum value (far right of the slider), increment size (how much just pressing L/R moves by), unit to display (optional).
-	SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix = "");
+	SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix);
+  SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix, int id, ISliderComponent* interface);
 
 	void setSlider(float val);
 	float getSlider() { return mValue; }
@@ -28,7 +30,8 @@ public:
 	
 	bool getHelpPrompts(Help& help) override;
 
-	inline void setSelectedChangedCallback(const std::function<void(const float&)>& callback) {
+	inline void setSelectedChangedCallback(const std::function<void(const float&)>& callback)
+	{
 		mSelectedChangedCallback = callback;
 	}
 
@@ -50,4 +53,6 @@ private:
 	std::shared_ptr<TextCache> mValueCache;
 
 	std::function<void(const float&)> mSelectedChangedCallback;
+	ISliderComponent* mInterface;
+	int mIdentifier;
 };

@@ -13,6 +13,7 @@ class SwitchComponent;
 class TextComponent;
 
 class GuiMenuSecurity : public GuiMenuBase
+                      , private ISwitchComponent
 {
   public:
     /*!
@@ -25,6 +26,11 @@ class GuiMenuSecurity : public GuiMenuBase
     ~GuiMenuSecurity() override;
 
   private:
+    enum class Components
+    {
+      Enabled,
+    };
+
     //! Security on/off
     std::shared_ptr<SwitchComponent> mEnabled;
     //! Read-only password
@@ -33,11 +39,11 @@ class GuiMenuSecurity : public GuiMenuBase
     //! Original enabled value
     bool mOriginalEnabled;
 
-    //! Set Enabled on/off
-    static void SetEnabled(bool on);
+    /*
+     * ISwitchComponent implementation
+     */
 
-    //! Reboot method (must be static)
-    static void Reboot();
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

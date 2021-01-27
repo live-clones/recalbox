@@ -11,15 +11,17 @@
 #define MOVE_REPEAT_RATE 40
 
 SliderComponent::SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix)
-  : Component(window),
-    mMin(min),
-    mMax(max),
-    mSingleIncrement(increment),
-    mMoveRate(0),
-    mMoveAccumulator(0),
-    mOriginColor(0),
-    mKnob(window),
-    mSuffix(suffix)
+  : Component(window)
+  , mMin(min)
+  , mMax(max)
+  , mSingleIncrement(increment)
+  , mMoveRate(0)
+  , mMoveAccumulator(0)
+  , mOriginColor(0)
+  , mKnob(window)
+  , mSuffix(suffix)
+  , mInterface(nullptr)
+  , mIdentifier(0)
 {
 	assert((min - max) != 0);
 
@@ -34,6 +36,14 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 	
 	mKnob.setColorShift(mColor);
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
+}
+
+SliderComponent::SliderComponent(WindowManager& window, float min, float max, float increment,
+                                 const std::string& suffix, int id, ISliderComponent* interface)
+  : SliderComponent(window, min, max, increment, suffix)
+{
+  mIdentifier = id;
+  mInterface = interface;
 }
 
 bool SliderComponent::ProcessInput(const InputCompactEvent& event)
@@ -139,6 +149,9 @@ void SliderComponent::onValueChanged()
 	float lineLength = mSize.x() - mKnob.getSize().x() - (mValueCache ? mValueCache->metrics.size.x() + 4 : 0);
 	mKnob.setPosition(((mValue + mMin) / mMax) * lineLength + mKnob.getSize().x()/2, mSize.y() / 2);
 
+	if (mInterface != nullptr)
+	  mInterface->SliderMoved(mIdentifier, mValue);
+
 	//send new knob value to functor if any
 	if (mSelectedChangedCallback)
 		mSelectedChangedCallback(mValue);
@@ -149,3 +162,4 @@ bool SliderComponent::getHelpPrompts(Help& help)
 	help.Set(HelpType::LeftRight, _("CHANGE"));
 	return true;
 }
+

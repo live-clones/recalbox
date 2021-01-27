@@ -14,6 +14,8 @@ class SwitchComponent;
 template<class T> class OptionListComponent;
 
 class GuiMenuBootSettings : public GuiMenuBase
+                          , private IOptionListComponent<std::string>
+                          , private ISwitchComponent
 {
   public:
     /*!
@@ -23,6 +25,15 @@ class GuiMenuBootSettings : public GuiMenuBase
     explicit GuiMenuBootSettings(WindowManager& window, SystemManager& systemManager);
 
   private:
+    enum class Components
+    {
+      KodiAtStartup,
+      GamelistOnly,
+      SelectedSystem,
+      StartOnGamelist,
+      HideSystemView,
+    };
+
     //! System manager
     SystemManager& mSystemManager;
 
@@ -40,17 +51,19 @@ class GuiMenuBootSettings : public GuiMenuBase
     //! Get system list
     std::vector<ListEntry<std::string>> GetSystemEntries();
 
-    //! Set & save Kodi at startup
-    static void SetKodiAtStartup(bool on);
-    //! Set & save Gamelist only
-    static void SetGamelistOnly(bool on);
-    //! Set & save Start on gamelist
-    static void SetStartOnGamelist(bool on);
-    //! Set & save Hide system view
-    static void SetHideSystemView(bool on);
-    //! Set & save selected system
-    static void SetSelectedSystem(const std::string& system);
+    /*
+     * IOptionListComponent<Overclocking> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
+
 
 
 

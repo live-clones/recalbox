@@ -7,42 +7,25 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuPopupSettings::GuiMenuPopupSettings(WindowManager& window)
-  : GuiMenuBase(window, _("POPUP SETTINGS"))
+  : GuiMenuBase(window, _("POPUP SETTINGS"), nullptr)
 {
   //help popup time 0=no popup
-  mHelp = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-  mHelp->setSlider((float) RecalboxConf::Instance().GetPopupHelp());
-  mHelp->setSelectedChangedCallback(SetHelpPopupTime);
-  mMenu.addWithLabel(mHelp, _("HELP POPUP DURATION"), _(MENUMESSAGE_UI_HELP_POPUP_DURATION_HELP_MSG));
+  mHelp = AddSlider(_("HELP POPUP DURATION"), 0.f, 10.f, 1.f, (float)RecalboxConf::Instance().GetPopupHelp(), "s", (int)Components::Help, this, _(MENUMESSAGE_UI_HELP_POPUP_DURATION_HELP_MSG));
 
   //music popup time 0=no popup
-  mMusic = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-  mMusic->setSlider((float) RecalboxConf::Instance().GetPopupMusic());
-  mMusic->setSelectedChangedCallback(SetMusicPopupTime);
-  mMenu.addWithLabel(mMusic, _("MUSIC POPUP DURATION"), _(MENUMESSAGE_UI_MUSIC_POPUP_DURATION_HELP_MSG));
+  mMusic = AddSlider(_("MUSIC POPUP DURATION"), 0.f, 10.f, 1.f, (float)RecalboxConf::Instance().GetPopupMusic(), "s", (int)Components::Music, this, _(MENUMESSAGE_UI_MUSIC_POPUP_DURATION_HELP_MSG));
 
   //netplay popup time 0=no popup
-  mNetplay = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "s");
-  mNetplay->setSlider((float) RecalboxConf::Instance().GetPopupNetplay());
-  mNetplay->setSelectedChangedCallback(SetNetplayPopupTime);
-  mMenu.addWithLabel(mNetplay, _("NETPLAY POPUP DURATION"), _(MENUMESSAGE_UI_NETPLAY_POPUP_DURATION_HELP_MSG));
+  mNetplay = AddSlider(_("NETPLAY POPUP DURATION"), 0.f, 10.f, 1.f, (float)RecalboxConf::Instance().GetPopupNetplay(), "s", (int)Components::Netplay, this, _(MENUMESSAGE_UI_NETPLAY_POPUP_DURATION_HELP_MSG));
 }
 
-void GuiMenuPopupSettings::SetHelpPopupTime(float time)
+void GuiMenuPopupSettings::SliderMoved(int id, float value)
 {
-  if (time != RecalboxConf::Instance().GetPopupHelp())
-    RecalboxConf::Instance().SetPopupHelp((int) time).Save();
-}
-
-void GuiMenuPopupSettings::SetMusicPopupTime(float time)
-{
-  if (time != RecalboxConf::Instance().GetPopupMusic())
-    RecalboxConf::Instance().SetPopupMusic((int) time).Save();
-}
-
-void GuiMenuPopupSettings::SetNetplayPopupTime(float time)
-{
-  if (time != RecalboxConf::Instance().GetPopupNetplay())
-    RecalboxConf::Instance().SetPopupNetplay((int) time).Save();
+  switch((Components)id)
+  {
+    case Components::Help: if ((int)value != RecalboxConf::Instance().GetPopupHelp()) RecalboxConf::Instance().SetPopupHelp((int)value).Save(); break;
+    case Components::Music: if ((int)value != RecalboxConf::Instance().GetPopupMusic()) RecalboxConf::Instance().SetPopupMusic((int)value).Save(); break;
+    case Components::Netplay: if ((int)value != RecalboxConf::Instance().GetPopupNetplay()) RecalboxConf::Instance().SetPopupNetplay((int)value).Save();break;
+  }
 }
 

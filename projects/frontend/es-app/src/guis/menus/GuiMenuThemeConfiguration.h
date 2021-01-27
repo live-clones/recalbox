@@ -8,6 +8,7 @@
 #include <guis/menus/GuiMenuBase.h>
 
 class GuiMenuThemeConfiguration : public GuiMenuBase
+                                , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -20,6 +21,17 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
     ~GuiMenuThemeConfiguration() override;
 
   private:
+    enum class Components
+    {
+      ColorSet,
+      IconSet,
+      MenuSet,
+      SystemView,
+      GamelistView,
+      GameClipView,
+      Region,
+    };
+
     typedef std::map<std::string, std::string> StringMaps;
     typedef std::shared_ptr<OptionListComponent<std::string>> OptionList;
     typedef std::function<void()> Callback;
@@ -44,47 +56,35 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
     //! Region
     OptionList mRegion;
 
-    OptionList BuildSelector(const std::string& label, const std::string& selected, const StringMaps& items, const Callback& callback);
+    //! Color Set
+    std::string mOriginalColorSet;
+    //! Icon Set
+    std::string mOriginalIconSet;
+    //! Menu Set
+    std::string mOriginalMenuSet;
+    //! System View
+    std::string mOriginalSystemView;
+    //! Gamelist View
+    std::string mOriginalGameListView;
+    //! Gameclip View
+    std::string mOriginalGameClipView;
+    //! Region
+    std::string mOriginalRegion;
 
     /*!
-     * @brief Save & set Color Set
-     * @param time new Color set
+     * @brief Build an option menu
+     * @param label Menu label
+     * @param help Help msg
+     * @param selected Currently selected item
+     * @param items All items
+     * @param id Menu id
+     * @return OptionList component
      */
-    void SetColorSet(const std::string& colorSet);
+    OptionList BuildSelector(const std::string& label, const std::string& help, const std::string& selected, const StringMaps& items, Components id, std::string& original);
 
-    /*!
-     * @brief Set & save Icon set
-     * @param time new Icon set
+    /*
+     * IOptionListComponent<std::string> implementation
      */
-    void SetIconSet(const std::string& iconSet);
 
-    /*!
-     * @brief Set & save Menu Set
-     * @param time new Menu set
-     */
-    void SetMenuSet(const std::string& menuSet);
-
-    /*!
-     * @brief Set & save System View
-     * @param time new System view
-     */
-    void SetSystemView(const std::string& SystemView);
-
-    /*!
-     * @brief Set & save Gamelist View
-     * @param time new Gamelist view
-     */
-    void SetGameListView(const std::string& gameListView);
-
-    /*!
-     * @brief Set & save GameClip View
-     * @param time new GameClip view
-     */
-    void SetGameClipView(const std::string& gameClipView);
-
-    /*!
-     * @brief Set & save Region
-     * @param time new Region
-     */
-    void SetRegion(const std::string& region);
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };

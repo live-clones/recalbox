@@ -16,29 +16,23 @@
 #include <systems/SystemManager.h>
 
 GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"))
+  : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"), this)
   , mSystemManager(systemManager)
   , mAllGamesOriginalValues(false)
   , mMultiplayersOriginalValues(false)
   , mLastPlayedOriginalValues(false)
 {
   // All games
-  mAllGames = std::make_shared<SwitchComponent>(window, mAllGamesOriginalValues = RecalboxConf::Instance().GetCollectionAllGames());
-  mAllGames->setChangedCallback(SetAllGames);
-  mMenu.addWithLabel(mAllGames, _("SHOW ALL-GAMES SYSTEM"), _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
+  mAllGames = AddSwitch(_("SHOW ALL-GAMES SYSTEM"), mAllGamesOriginalValues = RecalboxConf::Instance().GetCollectionAllGames(), (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
 
   // Multiplayers
-  mMultiplayers = std::make_shared<SwitchComponent>(window, mMultiplayersOriginalValues = RecalboxConf::Instance().GetCollectionMultiplayer());
-  mMultiplayers->setChangedCallback(SetMultiplayers);
-  mMenu.addWithLabel(mMultiplayers, _("SHOW MULTIPLAYER SYSTEM"), _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
+  mMultiplayers = AddSwitch(_("SHOW MULTIPLAYER SYSTEM"), mMultiplayersOriginalValues = RecalboxConf::Instance().GetCollectionMultiplayer(), (int)Components::Multiplayers, this, _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
 
   // Last Played
-  mLastPlayed = std::make_shared<SwitchComponent>(window, mLastPlayedOriginalValues = RecalboxConf::Instance().GetCollectionLastPlayed());
-  mLastPlayed->setChangedCallback(SetLastPlayed);
-  mMenu.addWithLabel(mLastPlayed, _("SHOW LAST-PLAYED SYSTEM"), _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
+  mLastPlayed = AddSwitch(_("SHOW LAST-PLAYED SYSTEM"), mLastPlayedOriginalValues = RecalboxConf::Instance().GetCollectionLastPlayed(), (int)Components::LastPlayed, this, _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
 
-  AddSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), [this] { mWindow.pushGui(new GuiMenuVirtualSystemPerGenre(mWindow)); }, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
-  AddSubMenu(_("ARCADE VIRTUAL SYSTEM"), [this] { mWindow.pushGui(new GuiMenuArcadeVirtualSystem(mWindow, mSystemManager)); }, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
+  AddSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), (int)Components::VirtualPerGenre, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
+  AddSubMenu(_("ARCADE VIRTUAL SYSTEM"), (int)Components::VirtualArcade, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
 }
 
 GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
@@ -52,17 +46,20 @@ GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
   }
 }
 
-void GuiMenuVirtualSystems::SetAllGames(bool on)
+void GuiMenuVirtualSystems::SubMenuSelected(int id)
 {
-  RecalboxConf::Instance().SetCollectionAllGames(on).Save();
+  if ((Components)id == Components::VirtualPerGenre) mWindow.pushGui(new GuiMenuVirtualSystemPerGenre(mWindow));
+  else if ((Components)id == Components::VirtualArcade) mWindow.pushGui(new GuiMenuArcadeVirtualSystem(mWindow, mSystemManager));
 }
 
-void GuiMenuVirtualSystems::SetMultiplayers(bool on)
+void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
 {
-  RecalboxConf::Instance().SetCollectionMultiplayer(on).Save();
-}
-
-void GuiMenuVirtualSystems::SetLastPlayed(bool on)
-{
-  RecalboxConf::Instance().SetCollectionLastPlayed(on).Save();
+  switch((Components)id)
+  {
+    case Components::AllGames: RecalboxConf::Instance().SetCollectionAllGames(status).Save(); break;
+    case Components::Multiplayers: RecalboxConf::Instance().SetCollectionMultiplayer(status).Save(); break;
+    case Components::LastPlayed: RecalboxConf::Instance().SetCollectionLastPlayed(status).Save(); break;
+    case Components::VirtualPerGenre:
+    case Components::VirtualArcade: break;
+  }
 }

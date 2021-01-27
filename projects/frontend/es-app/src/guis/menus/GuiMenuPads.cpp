@@ -9,26 +9,24 @@
 #include "GuiMenuPadsPair.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
-#include <components/OptionListComponent.h>
-#include <components/SwitchComponent.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiDetectDevice.h>
 
 GuiMenuPads::GuiMenuPads(WindowManager& window)
-  : GuiMenuBase(window, _("CONTROLLERS SETTINGS"))
+  : GuiMenuBase(window, _("CONTROLLERS SETTINGS"), this)
   , mMapper(this)
   , mRefreshing(false)
 {
   // Configure a pad
-  AddSubMenu(_("CONFIGURE A CONTROLLER"), std::bind(GuiMenuPads::StartConfiguring, this), _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
+  AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
 
   // Pair a pad
-  AddSubMenu(_("PAIR A BLUETOOTH CONTROLLER"), std::bind(GuiMenuPads::StartScanningDevices, this), _(MENUMESSAGE_CONTROLLER_BT_HELP_MSG));
+  AddSubMenu(_("PAIR A BLUETOOTH CONTROLLER"), (int)Components::Pair, _(MENUMESSAGE_CONTROLLER_BT_HELP_MSG));
 
   // Unpair all pads
-  AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), std::bind(GuiMenuPads::UnpairAll, this), _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
+  AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), (int)Components::Unpair, _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
 
   // Pad list
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
@@ -37,34 +35,32 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
     std::string name(balls[i]);
     name.append(1, ' ').append(_("INPUT P%i"));
     Strings::ReplaceAllIn(name, "%i", Strings::ToString(i + 1));
-    mDevices[i] = std::make_shared<OptionListComponent<int>>(window, name, false);
-    mDevices[i]->setChangedCallback(std::bind(GuiMenuPads::ChangePadAt, this, i));
-    mMenu.addWithLabel(mDevices[i], name);
+    mDevices[i] = AddList(name, (int)Components::Pads + i, this);
   }
 
   // Process & refresh device selector components
-  RefreshDevices(this);
+  RefreshDevices();
 }
 
 void GuiMenuPads::PadsAddedOrRemoved()
 {
-  RefreshDevices(this);
+  RefreshDevices();
 }
 
-void GuiMenuPads::StartConfiguring(GuiMenuPads* thiz)
+void GuiMenuPads::StartConfiguring()
 {
-  Gui* msgBox = new GuiMsgBox(thiz->mWindow,
+  Gui* msgBox = new GuiMsgBox(mWindow,
                               _("YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
                                 "CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
                                 "IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
                                 "ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
-                                "SNES CONTROLLER."), _("OK"), std::bind(GuiMenuPads::RunDeviceDetection, thiz));
-  thiz->mWindow.pushGui(msgBox);
+                                "SNES CONTROLLER."), _("OK"), std::bind(GuiMenuPads::RunDeviceDetection, this));
+  mWindow.pushGui(msgBox);
 }
 
 void GuiMenuPads::RunDeviceDetection(GuiMenuPads* thiz)
 {
-  thiz->mWindow.pushGui(new GuiDetectDevice(thiz->mWindow, false, std::bind(GuiMenuPads::RefreshDevices, thiz)));
+  thiz->mWindow.pushGui(new GuiDetectDevice(thiz->mWindow, false, [thiz] { thiz->RefreshDevices(); }));
 }
 
 Strings::Vector GuiMenuPads::Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&)
@@ -79,48 +75,59 @@ void GuiMenuPads::Completed(const bool&, const Strings::Vector& result)
                   : (Gui*)new GuiMenuPadsPair(mWindow, result));
 }
 
-void GuiMenuPads::StartScanningDevices(GuiMenuPads* thiz)
+void GuiMenuPads::StartScanningDevices()
 {
-  thiz->mWindow.pushGui((new GuiWaitLongExecution<bool, Strings::Vector>(thiz->mWindow, *thiz))->Execute(false, _("SCANNING BLUETOOTH DEVICES...")));
+  mWindow.pushGui((new GuiWaitLongExecution<bool, Strings::Vector>(mWindow, *this))->Execute(false, _("SCANNING BLUETOOTH DEVICES...")));
 }
 
-void GuiMenuPads::UnpairAll(GuiMenuPads* thiz)
+void GuiMenuPads::UnpairAll()
 {
   RecalboxSystem::forgetBluetoothControllers();
-  thiz->mWindow.pushGui(new GuiMsgBox(thiz->mWindow, _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("CONTROLLERS LINKS HAVE BEEN DELETED."), _("OK")));
 }
 
-void GuiMenuPads::RefreshDevices(GuiMenuPads* thiz)
+void GuiMenuPads::RefreshDevices()
 {
-  thiz->mRefreshing = true;
+  mRefreshing = true;
   // Finaly fill in all components
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
   {
-    const InputMapper::Pad& pad = thiz->mMapper.PadAt(i);
+    const InputMapper::Pad& pad = mMapper.PadAt(i);
 
     // Add none element
-    thiz->mDevices[i]->clear();
+    mDevices[i]->clear();
     if (pad.IsValid())
       for(int j = 0; j < Input::sMaxInputDevices; ++j)
       {
-        const InputMapper::Pad& displayablePad = thiz->mMapper.PadAt(j);
+        const InputMapper::Pad& displayablePad = mMapper.PadAt(j);
         if (displayablePad.IsValid())
-          thiz->mDevices[i]->add(thiz->mMapper.GetDecoratedName(j), j, i == j);
+          mDevices[i]->add(mMapper.GetDecoratedName(j), j, i == j);
       }
     else
-      thiz->mDevices[i]->add(_("NONE"), -1, true);
+      mDevices[i]->add(_("NONE"), -1, true);
   }
-  thiz->mRefreshing = false;
+  mRefreshing = false;
 }
 
-void GuiMenuPads::ChangePadAt(GuiMenuPads* thiz, int index)
+void GuiMenuPads::SubMenuSelected(int id)
 {
-  if (thiz->mRefreshing) return;
+  switch((Components)id)
+  {
+    case Components::Configure: StartConfiguring(); break;
+    case Components::Pair: StartScanningDevices(); break;
+    case Components::Unpair: UnpairAll(); break;
+    case Components::Pads:break;
+  }
+}
 
-  int newIndex = thiz->mDevices[index]->getSelected();
+void GuiMenuPads::OptionListComponentChanged(int id, int, const int&)
+{
+  if (mRefreshing) return;
+
+  int newIndex = mDevices[id]->getSelected();
   if (newIndex < 0) return; // Ignore user playing with NONE :)
 
   // Swap both pads
-  thiz->mMapper.Swap(index, newIndex);
-  RefreshDevices(thiz);
+  mMapper.Swap(id, newIndex);
+  RefreshDevices();
 }

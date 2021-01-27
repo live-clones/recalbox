@@ -8,6 +8,7 @@
 
 #include <guis/menus/GuiMenuBase.h>
 #include <guis/IGuiArcadeVirtualKeyboardInterface.h>
+#include <components/IEditableComponent.h>
 
 // Forward declaration
 class SystemManager;
@@ -15,7 +16,11 @@ class SystemData;
 template<class T> class OptionListComponent;
 class SwitchComponent;
 
-class GuiMenuNetplay : public GuiMenuBase, private IGuiArcadeVirtualKeyboardInterface
+class GuiMenuNetplay : public GuiMenuBase
+                     , private IOptionListComponent<RecalboxConf::Relay>
+                     , private ISwitchComponent
+                     , private IGuiMenuBase
+                     , private IEditableComponent
 {
   public:
     /*!
@@ -25,61 +30,60 @@ class GuiMenuNetplay : public GuiMenuBase, private IGuiArcadeVirtualKeyboardInte
     explicit GuiMenuNetplay(WindowManager& window, SystemManager& systemManager);
 
   private:
+    enum class Editor
+    {
+      Username,
+      Port,
+    };
+
+    enum class Components
+    {
+      Enabled,
+      UserName,
+      Port,
+      Mitm,
+      Passwords,
+      Hash,
+    };
+
     //! System manager
     SystemManager& mSystemManager;
-
-    //! Text being currently edited
-    enum class EditedText
-    {
-        None,
-        Login,
-        Port,
-    };
 
     //! Enabled
     std::shared_ptr<SwitchComponent> mEnabled;
     //! Login
-    std::shared_ptr<TextComponent> mLogin;
+    std::shared_ptr<EditableComponent> mLogin;
     //! Port
-    std::shared_ptr<TextComponent> mPort;
+    std::shared_ptr<EditableComponent> mPort;
     //! Mitm
     std::shared_ptr<OptionListComponent<RecalboxConf::Relay>> mMitm;
 
-    //! Backuped text
-    std::string mBackupedText;
-    //! Current edition
-    EditedText mCurrentEdition;
-
-    //! Set enabled on/off
-    static void SetEnabled(bool on);
-    //! Set MITM server
-    static void SetMitm(RecalboxConf::Relay mitm);
-
-    //! Start editing the Login
-    void EditLogin();
-    //! Start editing the port
-    void EditPort();
+    //! Get O/C List
+    static std::vector<ListEntry<RecalboxConf::Relay>> GetMitmEntries();
 
     /*
-     * IGuiArcadeVirtualKeyboardInterface implementation
+     * IEditableComponent implementation
      */
 
-    /*!
-     * @brief Called when the edited text change.
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void EditableComponentTextChanged(int id, const std::string& text) override;
 
-    /*!
-     * @brief Called when the edited text is validated (Enter or Start)
-     * Current text is available from the Text() method.
+    /*
+     * IGuiMenuBase implementation
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
 
-    /*!
-     * @brief Called when the edited text is cancelled.
+    void SubMenuSelected(int id) override;
+
+    /*
+     * IOptionListComponent implementation
      */
-    void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk) final;
+
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value) override;
+
+    /*
+     * ISWitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

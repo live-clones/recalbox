@@ -68,6 +68,7 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuUserInterface.h
         src/guis/menus/GuiMenuVirtualSystems.h
         src/guis/menus/GuiMenuVirtualSystemPerGenre.h
+        src/guis/menus/IGuiMenuBase.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
         src/guis/GuiScraperSelect.h

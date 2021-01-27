@@ -2,6 +2,7 @@
 
 #include "components/base/Component.h"
 #include "components/ImageComponent.h"
+#include "ISwitchComponent.h"
 
 // A very simple "on/off" switch.
 // Should hopefully be switched to use images instead of text in the future.
@@ -14,10 +15,20 @@ public:
   {
     mInitialState = state;
     mState = state;
-    onStateChanged();
+    setImageState();
   }
 
-	bool ProcessInput(const InputCompactEvent& event) override;
+  SwitchComponent(WindowManager&window, bool state, int id, ISwitchComponent* interface)
+    : SwitchComponent(window)
+  {
+    mInitialState = state;
+    mState = state;
+    mId = id;
+    mInterface = interface;
+    setImageState();
+  }
+
+    bool ProcessInput(const InputCompactEvent& event) override;
 	void Render(const Transform4x4f& parentTrans) override;
 	void onSizeChanged() override;
 	void setColor(unsigned int color) override;
@@ -35,11 +46,14 @@ public:
   inline void setChangedCallback(const std::function<void(bool state)>& callback) { mChangedCallback = callback; };
 
 private:
+  void setImageState();
 	void onStateChanged();
 
 	ImageComponent mImage;
 	std::function<void(bool)> mChangedCallback;
+	ISwitchComponent* mInterface;
   unsigned int mOriginColor;
+  int mId;
 	bool mState;
 	bool mInitialState;
 };

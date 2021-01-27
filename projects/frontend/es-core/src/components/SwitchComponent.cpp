@@ -6,10 +6,12 @@
 #include "themes/MenuThemeData.h"
 
 SwitchComponent::SwitchComponent(WindowManager&window)
-  : Component(window),
-    mImage(window),
-    mState(false),
-    mInitialState(false)
+  : Component(window)
+  , mImage(window)
+  , mInterface(nullptr)
+  , mId(0)
+  , mState(false)
+  , mInitialState(false)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
@@ -32,8 +34,7 @@ bool SwitchComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if(event.BPressed())
 	{
-		mState = !mState;
-		onStateChanged();
+		setState(!mState);
 		return true;
 	}
 
@@ -49,18 +50,24 @@ void SwitchComponent::Render(const Transform4x4f& parentTrans)
 	renderChildren(trans);
 }
 
+void SwitchComponent::setImageState()
+{
+  mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
+}
+
 void SwitchComponent::setState(bool state)
 {
 	mState = state;
-	mInitialState = mState;
+	setImageState();
 	onStateChanged();
 }
 
 void SwitchComponent::onStateChanged()
 {
-	mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
 	if (mChangedCallback)
 	  mChangedCallback(mState);
+	if (mInterface != nullptr)
+	  mInterface->SwitchComponentChanged(mId, mState);
 }
 
 bool SwitchComponent::getHelpPrompts(Help& help)
@@ -77,3 +84,4 @@ bool SwitchComponent::changed() const
 {
 	return mInitialState != mState;
 }
+

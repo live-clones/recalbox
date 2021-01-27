@@ -43,12 +43,12 @@ GuiGamelistOptions::GuiGamelistOptions(WindowManager& window, SystemData& system
 		row.addElement(std::make_shared<TextComponent>(mWindow, _("JUMP TO LETTER"), menuTheme->menuText.font,
 													   menuTheme->menuText.color), true);
 		row.addElement(mJumpToLetterList, false);
-		row.input_handler = [this](const InputCompactEvent& event)
+		/*row.input_handler = [this](const InputCompactEvent& event)
 		{
 			if (event.BPressed()) { jumpToLetter(); return true; }
 			else if (mJumpToLetterList->ProcessInput(event)) return true;
 			return false;
-		};
+		};*/
 		mMenu.addRowWithHelp(row, _("JUMP TO LETTER"), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 	}
 

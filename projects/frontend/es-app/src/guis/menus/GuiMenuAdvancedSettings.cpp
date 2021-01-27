@@ -20,51 +20,64 @@
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
 
-bool GuiMenuAdvancedSettings::sLastHazardous = false;
-
 GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("ADVANCED SETTINGS"))
+  : GuiMenuBase(window, _("ADVANCED SETTINGS"), this)
   , mSystemManager(systemManager)
   , mDefaultOverclock({ _("NONE"), "none", false})
+  , mLastHazardous(false)
+  , mValidOverclock(false)
 {
-  sLastHazardous = false;
-
   // Overclock choice
-  mOverclock = AddList<Overclocking>(_("OVERCLOCK"), SetOverclock, GetOverclockEntries(), _(MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG));
+  mOverclock = AddList<Overclocking>(_("OVERCLOCK"), (int)Components::OverclockList, this, GetOverclockEntries(), _(MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG));
 
   // Boot
-  AddSubMenu(_("BOOT SETTINGS"), [this] { mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); }, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
+  AddSubMenu(_("BOOT SETTINGS"), (int)Components::BootSubMenu, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
 
   // Virtual systems
-  AddSubMenu(_("VIRTUAL SYSTEMS"), [this] { mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); }, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
+  AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
 
   // Adult games
-  mAdult = AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), SetAdult, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  mAdult = AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   // Custom config for systems
-  AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), [this] { mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); }, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
+  AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
 
   //Kodi
   if (RecalboxSystem::kodiExists())
-    AddSubMenu(_("KODI SETTINGS"), [this] { mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); }, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
+    AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
 
   //Security
-  AddSubMenu(_("SECURITY"), [this] { mWindow.pushGui(new GuiMenuSecurity(mWindow)); }, _(MENUMESSAGE_ADVANCED_SECURITY_HELP_MSG));
+  AddSubMenu(_("SECURITY"), (int)Components::SecuritySubMenu, _(MENUMESSAGE_ADVANCED_SECURITY_HELP_MSG));
 
   // overscan
-  mOverscan = AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), SetOverscan, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
+  mOverscan = AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
 
   // framerate
-  mShowFPS = AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), SetShowFPS, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
+  mShowFPS = AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
 
   // Recalbox Manager
-  mWebManager = AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), SetWebmanager, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
+  mWebManager = AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
 }
 
-std::vector<GuiMenuBase::ListEntry<GuiMenuAdvancedSettings::Overclocking>> GuiMenuAdvancedSettings::GetOverclockEntries()
+GuiMenuAdvancedSettings::~GuiMenuAdvancedSettings()
 {
-  std::vector<ListEntry<GuiMenuAdvancedSettings::Overclocking>> list;
+  if (mValidOverclock)
+    if (mOriginalOverclock != mOverclock->getSelected().Description)
+    {
+      if (mLastHazardous)
+        mWindow.pushGui(
+          new GuiMsgBox(mWindow, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
+                        _("YES"), [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }, _("NO"), [this] { ResetOverclock(); }));
+      else
+        RequestReboot();
+    }
+}
 
+std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOverclockEntries()
+{
+  std::vector<ListEntry<Overclocking>> list;
+
+  // Add entries
   OverclockList oc = AvailableOverclocks();
   mOriginalOverclock = RecalboxConf::Instance().GetOverclocking();
   bool ocFound = false;
@@ -74,23 +87,13 @@ std::vector<GuiMenuBase::ListEntry<GuiMenuAdvancedSettings::Overclocking>> GuiMe
     ocFound |= found;
     list.push_back({ overclock.Description + (overclock.Hazardous ? " \u26a0" : ""), overclock, found });
   }
-  list.push_back({ _("NONE"), mDefaultOverclock, !ocFound });
+  // Add none
+  mValidOverclock = !list.empty();
+  if (mValidOverclock)
+    list.push_back({ _("NONE"), mDefaultOverclock, !ocFound });
   if (!ocFound) mOriginalOverclock = "none";
 
   return list;
-}
-
-GuiMenuAdvancedSettings::~GuiMenuAdvancedSettings()
-{
-  if (mOriginalOverclock != mOverclock->getSelected().Description)
-  {
-    if (sLastHazardous)
-      mWindow.pushGui(
-        new GuiMsgBox(mWindow, _("TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\nIF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."),
-                      _("YES"), [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }, _("NO"), [this] { ResetOverclock(); }));
-    else
-      RequestReboot();
-  }
 }
 
 GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclocks()
@@ -142,44 +145,64 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
   return result;
 }
 
-void GuiMenuAdvancedSettings::SetOverclock(const Overclocking& oc)
-{
-  sLastHazardous = oc.Hazardous;
-  RecalboxConf::Instance().SetOverclocking(oc.File).Save();
-
-  if (RecalboxSystem::MakeBootReadWrite())
-  {
-    Files::SaveFile(Path(sOverclockFile), Files::LoadFile(Path(oc.File)));
-    RecalboxSystem::MakeBootReadOnly();
-    LOG(LogInfo) << "[Overclock] Overclocking set to " << oc.Description;
-  }
-  else LOG(LogError) << "[Overclock] Cannot make boot read write";
-}
-
 void GuiMenuAdvancedSettings::ResetOverclock()
 {
-  SetOverclock(mDefaultOverclock);
   mOverclock->select(mDefaultOverclock);
 }
 
-void GuiMenuAdvancedSettings::SetAdult(bool on)
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const Overclocking& value)
 {
-  RecalboxConf::Instance().SetFilterAdultGames(on).Save();
+  (void)index;
+  if ((Components)id == Components::OverclockList)
+  {
+    RecalboxConf::Instance().SetOverclocking(value.File).Save();
+
+    if (RecalboxSystem::MakeBootReadWrite())
+    {
+      Files::SaveFile(Path(sOverclockFile), Files::LoadFile(Path(value.File)));
+      RecalboxSystem::MakeBootReadOnly();
+      mLastHazardous = value.Hazardous;
+      LOG(LogInfo) << "[Overclock] Overclocking set to " << value.Description;
+    }
+    else LOG(LogError) << "[Overclock] Cannot make boot read write";
+  }
 }
 
-void GuiMenuAdvancedSettings::SetOverscan(bool on)
+void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
 {
-  RecalboxConf::Instance().SetOverscan(on);
-  RecalboxSystem::setOverscan(on);
+  switch ((Components)id)
+  {
+    case Components::AdultGames: RecalboxConf::Instance().SetFilterAdultGames(status).Save(); break;
+    case Components::Overscan:
+    {
+      RecalboxConf::Instance().SetOverscan(status);
+      RecalboxSystem::setOverscan(status);
+      break;
+    }
+    case Components::ShowFPS: RecalboxConf::Instance().SetGlobalShowFPS(status).Save(); break;
+    case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
+    case Components::OverclockList:
+    case Components::BootSubMenu:
+    case Components::VirtualSubMenu:
+    case Components::AdvancedSubMenu:
+    case Components::KodiSubMenu:
+    case Components::SecuritySubMenu:break;
+  }
 }
 
-void GuiMenuAdvancedSettings::SetShowFPS(bool on)
+void GuiMenuAdvancedSettings::SubMenuSelected(int id)
 {
-  RecalboxConf::Instance().SetGlobalShowFPS(on).Save();
+  switch ((Components)id)
+  {
+    case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
+    case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
+    case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
+    case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
+    case Components::SecuritySubMenu: mWindow.pushGui(new GuiMenuSecurity(mWindow)); break;
+    case Components::OverclockList:
+    case Components::AdultGames:
+    case Components::Overscan:
+    case Components::ShowFPS:
+    case Components::Manager:break;
+  }
 }
-
-void GuiMenuAdvancedSettings::SetWebmanager(bool on)
-{
-  RecalboxConf::Instance().SetSystemManagerEnabled(on).Save();
-}
-

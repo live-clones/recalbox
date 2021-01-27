@@ -12,16 +12,18 @@
 #include <systems/SystemData.h>
 
 GuiMenuSystemList::GuiMenuSystemList(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("ADVANCED EMULATOR CONFIGURATION"))
+  : GuiMenuBase(window, _("ADVANCED EMULATOR CONFIGURATION"), this)
   , mSystemManager(systemManager)
 {
   // For each activated system
-  for (SystemData* system : systemManager.GetAllSystemList())
-    if (!system->IsVirtual())
-      AddSubMenu(system->getFullName(), [this, system] { SelectSystem(*system); });
+  const std::vector<SystemData*> systems = systemManager.GetAllSystemList();
+  for(int i = 0; i < (int)systems.size(); ++i)
+    if (!systems[i]->IsVirtual())
+      AddSubMenu(systems[i]->getFullName(), i);
 }
 
-void GuiMenuSystemList::SelectSystem(SystemData& system)
+void GuiMenuSystemList::SubMenuSelected(int id)
 {
+  SystemData& system = *mSystemManager.GetAllSystemList()[id];
   mWindow.pushGui(new GuiMenuSystemConfiguration(mWindow, system, mSystemManager));
 }

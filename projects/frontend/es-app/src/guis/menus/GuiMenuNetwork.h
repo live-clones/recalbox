@@ -5,6 +5,7 @@
 
 #include <guis/menus/GuiMenuBase.h>
 #include <components/MenuComponent.h>
+#include <components/IEditableComponent.h>
 #include <components/OptionListComponent.h>
 #include <guis/GuiWaitLongExecution.h>
 #include <guis/IGuiArcadeVirtualKeyboardInterface.h>
@@ -18,7 +19,12 @@ enum class NetworkOperation
   WPS,
 };
 
-class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperation, bool>, private IGuiArcadeVirtualKeyboardInterface
+class GuiMenuNetwork : public GuiMenuBase
+                     , private ILongExecution<NetworkOperation, bool>
+                     , private IGuiArcadeVirtualKeyboardInterface
+                     , private IOptionListComponent<std::string>
+                     , private IEditableComponent
+                     , private ISwitchComponent
 {
   public:
     /*!
@@ -28,10 +34,9 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     explicit GuiMenuNetwork(WindowManager& window);
 
   private:
-    //! Text being currently edited
-    enum class EditedText
+    enum class Components
     {
-      None,
+      WifiOnOff,
       WifiSSID,
       WifiKey,
       Hostname,
@@ -40,15 +45,18 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     //! SSID list
     std::shared_ptr<OptionListComponent<std::string>> mSSIDList;
     //! Hostname
-    std::shared_ptr<TextComponent> mHostname;
+    std::shared_ptr<EditableComponent> mHostname;
     //! WIFI On/Off
     std::shared_ptr<SwitchComponent> mWifiOnOff;
     //! WIFI Key
-    std::shared_ptr<TextComponent> mWifiKey;
+    std::shared_ptr<EditableComponent> mWifiKey;
     //! Status
     std::shared_ptr<TextComponent> mStatus;
     //! IP
     std::shared_ptr<TextComponent> mIP;
+
+    //! Edited text Backup
+    std::string mBackupedText;
 
     //! Captured WPS SSID
     std::string mWpsSSID;
@@ -58,35 +66,8 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     //! Last SSID Scan
     Strings::Vector mScannedSSIDList;
 
-    //! Currently edited text backup
-    std::string mBackupedText;
-    //! Current text edition
-    EditedText mCurrentEdition;
-
-    /*!
-     * @brief Called when the user selects the Hostname line
-     */
-    void EditHostname();
-
-    /*!
-     * @brief Called when the user selects the password line
-     */
-    void EditPassword();
-
-    /*!
-     * @brief Called when the user selects the SSID line
-     */
-    void EditSSID();
-
-    /*!
-     * @brief Called when the SSID has changed
-     */
-    void OnSSIDChanged();
-
-    /*!
-     * @brief Called when the WIFI state is required to change
-     */
-    void OnWifiStateChanged();
+    //! Anti-renentry flag
+    bool mFillingList;
 
     /*!
      * @brief Try WPS connection
@@ -94,47 +75,11 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     void TryWPS();
 
     /*!
-     * @brief Build a masked passwors string
-     * @return Password string
+     * @brief Connect using WPS
+     * @param from Current Operation
+     * @return True if the WPS connection is successful
      */
-    static std::string MaskedPassword() { return std::string(RecalboxConf::Instance().GetWifiKey().size(), '*'); }
-
-    /*
-     * Convenient storage access
-     */
-
-    /*!
-     * @brief Set Hostname
-     * @param status new hostname
-     * @param save True to save configuration immediately
-     */
-    static void SetHostname(const std::string& hostname, bool save)
-    {
-      RecalboxConf::Instance().SetHostname(hostname);
-      if (save) RecalboxConf::Instance().Save();
-    }
-
-    /*!
-     * @brief Set WIFI status
-     * @param status new wifi status
-     * @param save True to save configuration immediately
-     */
-    static void SetWifiStatus(bool status, bool save)
-    {
-      RecalboxConf::Instance().SetWifiEnabled(status);
-      if (save) RecalboxConf::Instance().Save();
-    }
-
-    /*!
-     * @brief Set WIFI password
-     * @param password new wifi password
-     * @param save True to save configuration immediately
-     */
-    static void SetWifiPassword(const std::string& password, bool save)
-    {
-      RecalboxConf::Instance().SetWifiKey(password);
-      if (save) RecalboxConf::Instance().Save();
-    }
+    bool ConnectWps(GuiWaitLongExecution<NetworkOperation, bool>& from);
 
     /*!
      * @brief Set WIFI ssid
@@ -166,24 +111,31 @@ class GuiMenuNetwork : public GuiMenuBase, private ILongExecution<NetworkOperati
     void Completed(const NetworkOperation& parameter, const bool& result) final;
 
     /*
+     * IOptionListComponent implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * IEditableComponent implementation
+     */
+
+    void EditableComponentTextChanged(int id, const std::string& text) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
+
+    /*
      * IGuiArcadeVirtualKeyboardInterface implementation
      */
 
-    /*!
-     * @brief Called when the edited text change.
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const std::string&) override {}
 
-    /*!
-     * @brief Called when the edited text is validated (Enter or Start)
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
 
-    /*!
-     * @brief Called when the edited text is cancelled.
-     */
-    void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk) final;
+    void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard&) override {}
 };
 

@@ -14,6 +14,8 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuVirtualSystems : public GuiMenuBase
+                            , private IGuiMenuBase
+                            , private ISwitchComponent
 {
   public:
     /*!
@@ -26,6 +28,15 @@ class GuiMenuVirtualSystems : public GuiMenuBase
     ~GuiMenuVirtualSystems() override;
 
   private:
+    enum class Components
+    {
+      AllGames,
+      Multiplayers,
+      LastPlayed,
+      VirtualPerGenre,
+      VirtualArcade,
+    };
+
     //! System manager
     SystemManager& mSystemManager;
 
@@ -43,12 +54,17 @@ class GuiMenuVirtualSystems : public GuiMenuBase
     //! Last Played original value
     bool mLastPlayedOriginalValues;
 
-    //! Set All games value
-    static void SetAllGames(bool on);
-    //! Set Multiplayers value
-    static void SetMultiplayers(bool on);
-    //! Set Last Played value
-    static void SetLastPlayed(bool on);
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

@@ -12,71 +12,36 @@
 #include <MainRunner.h>
 
 GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("UI SETTINGS"))
+  : GuiMenuBase(window, _("UI SETTINGS"), this)
   , mSystemManager(systemManager)
 {
   // Brightness
   if (Board::Instance().HasBrightnessSupport())
-  {
-    mBrightness = std::make_shared<SliderComponent>(mWindow, 0.f, 8.f, 1.f, "");
-    mBrightness->setSlider((float)RecalboxConf::Instance().GetBrightness());
-    mBrightness->setSelectedChangedCallback(SetBrightness);
-    mMenu.addWithLabel(mBrightness, _("BRIGHTNESS"));
-  }
+    mBrightness = AddSlider(_("BRIGHTNESS"), 0.f, 8.f, 1.f, (float)RecalboxConf::Instance().GetBrightness(), "", (int)Components::Brightness, this);
 
   // Screensavers
-  AddSubMenu(_("SCREENSAVER"), [this] { mWindow.pushGui(new GuiMenuScreensavers(mWindow, mSystemManager)); }, _(MENUMESSAGE_UI_SCREENSAVER_HELP_MSG));
+  AddSubMenu(_("SCREENSAVER"), (int)Components::ScreenSaver, _(MENUMESSAGE_UI_SCREENSAVER_HELP_MSG));
 
   // display clock
-  mClock = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetClock());
-  mClock->setChangedCallback(SetClock);
-  mMenu.addWithLabel(mClock, _("CLOCK IN MENU"), _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
+  mClock = AddSwitch(_("CLOCK IN MENU"), RecalboxConf::Instance().GetClock(), (int)Components::Clock, this, _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
 
   // show help
-  mHelp = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetShowHelp());
-  mHelp->setChangedCallback(SetHelp);
-  mMenu.addWithLabel(mHelp, _("ON-SCREEN HELP"), _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
+  mHelp = AddSwitch(_("ON-SCREEN HELP"), RecalboxConf::Instance().GetShowHelp(), (int)Components::Help, this, _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
 
   // Popup settings
-  AddSubMenu(_("POPUP SETTINGS"), [this] { mWindow.pushGui(new GuiMenuPopupSettings(mWindow)); }, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
+  AddSubMenu(_("POPUP SETTINGS"), (int)Components::Popups, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
 
   // quick system select (left/right in game list view)
-  mQuickSelect = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetQuickSystemSelect());
-  mQuickSelect->setChangedCallback(SetQuickSystemSelect);
-  mMenu.addWithLabel(mQuickSelect, _("QUICK SYSTEM SELECT"), _(MENUMESSAGE_UI_QUICK_HELP_MSG));
+  mQuickSelect = AddSwitch(_("QUICK SYSTEM SELECT"), RecalboxConf::Instance().GetQuickSystemSelect(), (int)Components::QuickSelect, this, _(MENUMESSAGE_UI_QUICK_HELP_MSG));
 
   // Theme
-  AddSubMenu(_("THEME"), [this] { mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); }, _(MENUMESSAGE_UI_THEME_HELP_MSG));
+  AddSubMenu(_("THEME"), (int)Components::Theme, _(MENUMESSAGE_UI_THEME_HELP_MSG));
 
   // Theme Options
-  AddSubMenu(_("THEME CONFIGURATION"), [this] { mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); }, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
+  AddSubMenu(_("THEME CONFIGURATION"), (int)Components::ThemeConfig, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
 
   // Game List Update
-  AddSubMenu(_("UPDATE GAMES LISTS"), [this] { ReloadGamelists(); }, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
-}
-
-void GuiMenuUserInterface::SetBrightness(const float& brightness)
-{
-  if (RecalboxConf::Instance().GetBrightness() != (int)brightness)
-  {
-    Board::Instance().SetBrightness((int) brightness);
-    RecalboxConf::Instance().SetBrightness((int) brightness).Save();
-  }
-}
-
-void GuiMenuUserInterface::SetClock(bool on)
-{
-  RecalboxConf::Instance().SetClock(on).Save();
-}
-
-void GuiMenuUserInterface::SetHelp(bool on)
-{
-  RecalboxConf::Instance().SetShowHelp(on).Save();
-}
-
-void GuiMenuUserInterface::SetQuickSystemSelect(bool on)
-{
-  RecalboxConf::Instance().SetQuickSystemSelect(on).Save();
+  AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 }
 
 void GuiMenuUserInterface::ReloadGamelists()
@@ -96,5 +61,47 @@ void GuiMenuUserInterface::Update(int deltaTime)
     int realBrightness = RecalboxConf::Instance().GetBrightness();
     if (realBrightness != (int) mBrightness->getSlider())
       mBrightness->setSlider((float) realBrightness);
+  }
+}
+
+void GuiMenuUserInterface::SubMenuSelected(int id)
+{
+  switch((Components)id)
+  {
+    case Components::ScreenSaver: mWindow.pushGui(new GuiMenuScreensavers(mWindow, mSystemManager)); break;
+    case Components::Popups: mWindow.pushGui(new GuiMenuPopupSettings(mWindow)); break;
+    case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); break;
+    case Components::ThemeConfig: mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
+    case Components::UpdateGamelist: ReloadGamelists(); break;
+    case Components::Brightness:
+    case Components::Clock:
+    case Components::Help:
+    case Components::QuickSelect: break;
+  }
+}
+
+void GuiMenuUserInterface::SliderMoved(int id, float value)
+{
+  if ((Components)id == Components::Brightness)
+    if (RecalboxConf::Instance().GetBrightness() != (int)value)
+    {
+      Board::Instance().SetBrightness((int) value);
+      RecalboxConf::Instance().SetBrightness((int) value).Save();
+    }
+}
+
+void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
+{
+  switch((Components)id)
+  {
+    case Components::Clock: RecalboxConf::Instance().SetClock(status).Save(); break;
+    case Components::Help: RecalboxConf::Instance().SetShowHelp(status).Save(); break;
+    case Components::QuickSelect: RecalboxConf::Instance().SetQuickSystemSelect(status).Save(); break;
+    case Components::Popups:
+    case Components::Theme:
+    case Components::ThemeConfig:
+    case Components::UpdateGamelist:
+    case Components::ScreenSaver:
+    case Components::Brightness: break;
   }
 }

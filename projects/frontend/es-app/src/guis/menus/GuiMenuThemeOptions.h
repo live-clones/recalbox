@@ -9,6 +9,8 @@
 #include <components/SwitchComponent.h>
 
 class GuiMenuThemeOptions : public GuiMenuBase
+                          , private ISwitchComponent
+                          , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -21,8 +23,12 @@ class GuiMenuThemeOptions : public GuiMenuBase
     ~GuiMenuThemeOptions() override;
 
   private:
-    //! Changed flag
-    bool mReloadRequired;
+    enum class Components
+    {
+      Carousel,
+      Transition,
+      Theme,
+    };
 
     //! Carousel
     std::shared_ptr<SwitchComponent> mCarousel;
@@ -31,21 +37,27 @@ class GuiMenuThemeOptions : public GuiMenuBase
     //! Teeme
     std::shared_ptr<OptionListComponent<std::string>> mTheme;
 
-    /*!
-     * @brief Save & set Carousel state
-     * @param time new Carousel state
-     */
-    void SetCarousel(bool on);
+    //! Carousel original value
+    bool mOriginalCaroussel;
+    //! Transition original value
+    std::string mOriginalTransition;
+    //! Theme original value
+    std::string mOriginalTheme;
 
-    /*!
-     * @brief Save & set Transition
-     * @param time new Transition
-     */
-    void SetTransition(const std::string& transition);
+    //! Get O/C List
+    std::vector<ListEntry<std::string>> GetTransitionEntries();
+    //! Get Theme List
+    std::vector<ListEntry<std::string>> GetThemeEntries();
 
-    /*!
-     * @brief Save & set Theme
-     * @param time new Theme
+    /*
+     * IOptionListComponent<std::string> implementation
      */
-    void SetTheme(const std::string& theme);
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };

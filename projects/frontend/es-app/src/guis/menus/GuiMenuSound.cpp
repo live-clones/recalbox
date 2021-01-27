@@ -11,27 +11,25 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuSound::GuiMenuSound(WindowManager& window)
-  : GuiMenuBase(window, _("SOUND SETTINGS"))
+  : GuiMenuBase(window, _("SOUND SETTINGS"), nullptr)
 {
-  // volume
-  mVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");
-  mVolume->setSlider((float) AudioController::Instance().GetVolume());
+  // Volume
   if (!AudioController::Instance().HasSpecialAudio())
-  {
-    mVolume->setSelectedChangedCallback(SetVolume);
-    mMenu.addWithLabel(mVolume, _("SYSTEM VOLUME"), _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
-  }
+    mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 
-  // disable sounds
-  mMusic = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetAudioMusic());
-  mMusic->setChangedCallback(SetMusicOnOff);
-  mMenu.addWithLabel(mMusic, _("FRONTEND MUSIC"), _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
+  // Music on/off
+  mMusic = AddSwitch(_("FRONTEND MUSIC"), RecalboxConf::Instance().GetAudioMusic(), (int)Components::Music, this, _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
 
-  // audio device
-  mOutputList = std::make_shared<OptionListComponent<std::string> >(mWindow, _("OUTPUT DEVICE"),false, FONT_SIZE_EXTRASMALL);
+  // Audio device
+  if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
+    mOutputList = AddList<std::string>(_("OUTPUT DEVICE"), (int)Components::Output, this, GetOutputEntries(), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
   std::string currentDevice = RecalboxConf::Instance().GetAudioOuput();
-
-  // Transform/Sort playback list
   HashMap<int, std::string> playbacksMap = AudioController::Instance().GetPlaybackList();
   std::vector<std::string> availableAudio;
   // Scan default
@@ -46,36 +44,10 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
   if (!availableAudio.empty())
     std::sort(availableAudio.begin() + 1, availableAudio.end());
 
-  if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().AsString("emulationstation.menu") != "bartop")
-  {
-    for (auto& it : availableAudio) mOutputList->add(_S(it), it, currentDevice == it);
-    mOutputList->setChangedCallback([this] { SetOutput(mOutputList->getSelected()); });
-    mMenu.addWithLabel(mOutputList, _("OUTPUT DEVICE"), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
-  }
-}
+  for (auto& it : availableAudio)
+    list.push_back({ _S(it), it, currentDevice == it });
 
-void GuiMenuSound::SetVolume(float volume)
-{
-  if (AudioController::Instance().GetVolume() != Math::roundi(volume))
-  {
-    AudioController::Instance().SetVolume(Math::roundi(volume));
-    RecalboxConf::Instance().SetAudioVolume(Math::roundi(volume)).Save();
-  }
-}
-
-void GuiMenuSound::SetMusicOnOff(bool on)
-{
-  if (on) AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
-  else AudioManager::Instance().StopAll();
-  RecalboxConf::Instance().SetAudioMusic(on).Save();
-}
-
-void GuiMenuSound::SetOutput(const std::string& output)
-{
-  AudioManager::Instance().Deactivate();
-  AudioController::Instance().SetDefaultPlayback(output);
-  AudioManager::Instance().Reactivate();
-  RecalboxConf::Instance().SetAudioOuput(output).Save();
+  return list;
 }
 
 void GuiMenuSound::Update(int deltaTime)
@@ -86,5 +58,36 @@ void GuiMenuSound::Update(int deltaTime)
   int realVolume = AudioController::Instance().GetVolume();
   if (realVolume != (int)mVolume->getSlider())
     mVolume->setSlider((float)realVolume);
+}
+
+void GuiMenuSound::OptionListComponentChanged(int id, int index, const std::string& value)
+{
+  (void)index;
+  if ((Components)id == Components::Output)
+  {
+    AudioManager::Instance().Deactivate();
+    AudioController::Instance().SetDefaultPlayback(value);
+    AudioManager::Instance().Reactivate();
+    RecalboxConf::Instance().SetAudioOuput(value).Save();
+  }
+}
+
+void GuiMenuSound::SwitchComponentChanged(int id, bool status)
+{
+  if ((Components)id == Components::Music)
+  {
+    if (status) AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
+    else AudioManager::Instance().StopAll();
+    RecalboxConf::Instance().SetAudioMusic(status).Save();
+  }
+}
+
+void GuiMenuSound::SliderMoved(int id, float value)
+{
+  if ((Components)id == Components::Volume && AudioController::Instance().GetVolume() != Math::roundi(value))
+  {
+    AudioController::Instance().SetVolume(Math::roundi(value));
+    RecalboxConf::Instance().SetAudioVolume(Math::roundi(value)).Save();
+  }
 }
 

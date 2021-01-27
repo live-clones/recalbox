@@ -14,6 +14,7 @@ class SwitchComponent;
 template<class T> class OptionListComponent;
 
 class GuiMenuKodiSettings : public GuiMenuBase
+                          , private ISwitchComponent
 {
   public:
     /*!
@@ -23,6 +24,13 @@ class GuiMenuKodiSettings : public GuiMenuBase
     explicit GuiMenuKodiSettings(WindowManager& window);
 
   private:
+    enum class Components
+    {
+      Enabled,
+      RunAtStartup,
+      ButtonX,
+    };
+
     //! Enable kodi
     std::shared_ptr<SwitchComponent> mKodiEnabled;
     //! Run kodi at startup
@@ -30,12 +38,11 @@ class GuiMenuKodiSettings : public GuiMenuBase
     //! Run kodi with X key
     std::shared_ptr<SwitchComponent> mKodiX;
 
-    //! Set & save Kodi enabled
-    static void SetKodiEnabled(bool on);
-    //! Set & save Kodi at startup
-    static void SetKodiAtStartup(bool on);
-    //! Set & save Kodi laucched with X
-    static void SetKodiX(bool on);
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

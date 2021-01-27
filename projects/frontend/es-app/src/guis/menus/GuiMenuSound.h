@@ -9,6 +9,9 @@
 #include <components/OptionListComponent.h>
 
 class GuiMenuSound : public GuiMenuBase
+                   , private ISliderComponent
+                   , private ISwitchComponent
+                   , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -25,6 +28,13 @@ class GuiMenuSound : public GuiMenuBase
     void Update(int deltaTime) override;
 
   private:
+    enum class Components
+    {
+      Volume,
+      Music,
+      Output,
+    };
+
     //! Volume slider
     std::shared_ptr<SliderComponent> mVolume;
     //! Music on/off
@@ -32,21 +42,24 @@ class GuiMenuSound : public GuiMenuBase
     //! Outputs
     std::shared_ptr<OptionListComponent<std::string>> mOutputList;
 
-    /*!
-     * @brief Set & save volume
-     * @param volume new Volume
-     */
-    static void SetVolume(float volume);
+    //! Get Output List
+    std::vector<ListEntry<std::string>> GetOutputEntries();
 
-    /*!
-     * @brief Se & save music on/off state
-     * @param on new Music on/off state
+    /*
+     * IOptionListComponent<Overclocking> implementation
      */
-    static void SetMusicOnOff(bool on);
 
-    /*!
-     * @brief Set & save selected audio output
-     * @param output new Audio output
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * ISwitchComponent implementation
      */
-    static void SetOutput(const std::string& output);
+
+    void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * ISliderComponent implementation
+     */
+
+    void SliderMoved(int id, float value) override;
 };

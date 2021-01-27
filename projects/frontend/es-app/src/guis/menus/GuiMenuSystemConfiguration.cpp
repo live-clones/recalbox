@@ -14,109 +14,124 @@
 #include "GuiMenuTools.h"
 
 GuiMenuSystemConfiguration::GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager)
-  : GuiMenuBase(window, system.getFullName())
+  : GuiMenuBase(window, system.getFullName(), nullptr)
+  , mSystemManager(systemManager)
   , mSystem(system)
 {
   // Default emulator/core
-  std::string currentEmulator(RecalboxConf::Instance().GetSystemEmulator(system));
-  std::string currentCore    (RecalboxConf::Instance().GetSystemCore(system));
-  GuiMenuTools::EmulatorAndCoreList list =
-    GuiMenuTools::ListEmulatorAndCore(systemManager, system, mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
-  if (!list.empty())
-  {
-    mEmulator = std::make_shared<OptionListComponent<std::string>>(window, _("Emulator"), false);
-    mEmulator->setChangedCallback([this] { SetEmulatorCore(mEmulator->getSelected()); });
-    for (const GuiMenuTools::EmulatorAndCore& emulator : list)
-      mEmulator->add(emulator.Displayable, emulator.Identifier, emulator.Selected);
-    mMenu.addWithLabel(mEmulator, _("Emulator"), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
-  }
+  mEmulator = AddList(_("Emulator"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
   // Screen ratio choice
-  mRatio = std::make_shared<OptionListComponent<std::string> >(window, _("GAME RATIO"), false);
-  mRatio->setChangedCallback([this] { SetRatio(mRatio->getSelected()); });
-  std::string currentRatio = RecalboxConf::Instance().GetSystemRatio(system);
-  for (const auto& ratio : LibretroRatio::GetRatio())
-    mRatio->add(ratio.first, ratio.second, currentRatio == ratio.second);
-  mMenu.addWithLabel(mRatio, _("GAME RATIO"), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+  mRatio = AddList(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // smoothing
-  mSmooth = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetSystemSmooth(system));
-  mSmooth->setChangedCallback([this](bool on) { SetSmooth(on); });
-  mMenu.addWithLabel(mSmooth, _("SMOOTH GAMES"), _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
+  mSmooth = AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetSystemSmooth(system), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
 
   // rewind
-  mRewind = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetSystemRewind(system));
-  mRewind->setChangedCallback([this](bool on) { SetRewind(on); });
-  mMenu.addWithLabel(mRewind, _("REWIND"), _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
+  mRewind = AddSwitch(_("REWIND"), RecalboxConf::Instance().GetSystemRewind(system), (int)Components::Rewind, this, _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // autosave
-  mAutoSave = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetSystemAutoSave(system));
-  mAutoSave->setChangedCallback([this](bool on) { SetAutoSave(on); });
-  mMenu.addWithLabel(mAutoSave, _("AUTO SAVE/LOAD"), _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+  mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetSystemAutoSave(system), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Shaders
-  mShaders = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SHADERS"), false);
-  mShaders->setChangedCallback([this] { SetShaders(mShaders->getSelected()); });
-  GuiMenuTools::ShaderList shaderList = GuiMenuTools::ListShaders();
-  std::string currentShader = RecalboxConf::Instance().GetSystemShaders(system);
-  mShaders->add(_("NONE"), "", currentShader.empty());
-  for (const GuiMenuTools::Shader& shader : shaderList)
-    mShaders->add(shader.Displayable, shader.ShaderPath.ToString(), currentShader == shader.ShaderPath.ToString());
-  mMenu.addWithLabel(mShaders, _("SHADERS"), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+  mShaders = AddList(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
-  mShaderSet = std::make_shared<OptionListComponent<std::string>>(mWindow,_("SHADERS SET"), false);
-  mShaderSet->setChangedCallback([this] { SetShaderSet(mShaderSet->getSelected()); });
-  currentShader = RecalboxConf::Instance().GetSystemShaderSet(system);
-  if (currentShader.empty()) currentShader = "none";
-  mShaderSet->add(_("NONE"), "none", currentShader == "none");
-  mShaderSet->add(_("SCANLINES"), "scanlines", currentShader == "scanlines");
-  mShaderSet->add(_("RETRO"), "retro", currentShader == "retro");
-  mMenu.addWithLabel(mShaderSet, _("SHADERS SET"), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+  mShaderSet = AddList(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderSetEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 }
 
-void GuiMenuSystemConfiguration::SetEmulatorCore(const std::string& emulatorCore)
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetEmulatorEntries()
 {
-  // Split emulator & core
-  std::string emulator, core;
-  if (Strings::SplitAt(emulatorCore, ':', emulator, core, false))
+  std::vector<ListEntry<std::string>> list;
+
+  std::string currentEmulator(RecalboxConf::Instance().GetSystemEmulator(mSystem));
+  std::string currentCore    (RecalboxConf::Instance().GetSystemCore(mSystem));
+  GuiMenuTools::EmulatorAndCoreList eList =
+    GuiMenuTools::ListEmulatorAndCore(mSystemManager, mSystem, mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
+  if (!eList.empty())
+    for (const GuiMenuTools::EmulatorAndCore& emulator : eList)
+      list.push_back({ emulator.Displayable, emulator.Identifier, emulator.Selected });
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetRatioEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  std::string currentRatio = RecalboxConf::Instance().GetSystemRatio(mSystem);
+  for (const auto& ratio : LibretroRatio::GetRatio())
+    mRatio->add(ratio.first, ratio.second, currentRatio == ratio.second);
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetShadersEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  GuiMenuTools::ShaderList shaderList = GuiMenuTools::ListShaders();
+  std::string currentShader = RecalboxConf::Instance().GetSystemShaders(mSystem);
+  list.push_back({ _("NONE"), "", currentShader.empty() });
+  for (const GuiMenuTools::Shader& shader : shaderList)
+    list.push_back({ shader.Displayable, shader.ShaderPath.ToString(), currentShader == shader.ShaderPath.ToString() });
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetShaderSetEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  std::string currentShader = RecalboxConf::Instance().GetSystemShaderSet(mSystem);
+  if (currentShader.empty() || !Strings::Contains("|none|scanlines|retro|", std::string(1, '|').append(currentShader).append(1, '|'))) currentShader = "none";
+  list.push_back({ _("NONE"), "none", currentShader == "none" });
+  list.push_back({ _("SCANLINES"), "scanlines", currentShader == "scanlines" });
+  list.push_back({ _("RETRO"), "retro", currentShader == "retro" });
+
+  return list;
+}
+
+void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, const std::string& value)
+{
+  (void)index;
+  switch((Components)id)
   {
-    if (emulator == mDefaultEmulator && core == mDefaultCore)
-      RecalboxConf::Instance().SetSystemEmulator(mSystem, "")
-                              .SetSystemCore(mSystem, "").Save();
-    else
-      RecalboxConf::Instance().SetSystemEmulator(mSystem, emulator)
-                              .SetSystemCore(mSystem, core).Save();
+    case Components::Emulator:
+    {
+      // Split emulator & core
+      std::string emulator, core;
+      if (Strings::SplitAt(value, ':', emulator, core, false))
+      {
+        if (emulator == mDefaultEmulator && core == mDefaultCore)
+          RecalboxConf::Instance().SetSystemEmulator(mSystem, "")
+                                  .SetSystemCore(mSystem, "").Save();
+        else
+          RecalboxConf::Instance().SetSystemEmulator(mSystem, emulator)
+                                  .SetSystemCore(mSystem, core).Save();
+      }
+      else LOG(LogError) << "Error splitting emulator and core!";
+      break;
+    }
+    case Components::Ratio: RecalboxConf::Instance().SetSystemRatio(mSystem, value).Save(); break;
+    case Components::Shaders: RecalboxConf::Instance().SetSystemShaders(mSystem, value).Save(); break;
+    case Components::ShaderSet: RecalboxConf::Instance().SetSystemShaderSet(mSystem, value).Save(); break;
+    case Components::Smooth:
+    case Components::Rewind:
+    case Components::AutoSave: break;
   }
-  else LOG(LogError) << "Error splitting emulator and core!";
 }
 
-void GuiMenuSystemConfiguration::SetRatio(const std::string& ratio)
+void GuiMenuSystemConfiguration::SwitchComponentChanged(int id, bool status)
 {
-  RecalboxConf::Instance().SetSystemRatio(mSystem, ratio).Save();
-}
-
-void GuiMenuSystemConfiguration::SetSmooth(bool on)
-{
-  RecalboxConf::Instance().SetSystemSmooth(mSystem, on).Save();
-}
-
-void GuiMenuSystemConfiguration::SetRewind(bool on)
-{
-  RecalboxConf::Instance().SetSystemRewind(mSystem, on).Save();
-}
-
-void GuiMenuSystemConfiguration::SetAutoSave(bool on)
-{
-  RecalboxConf::Instance().SetSystemAutoSave(mSystem, on).Save();
-}
-
-void GuiMenuSystemConfiguration::SetShaders(const std::string& shaders)
-{
-  RecalboxConf::Instance().SetSystemShaders(mSystem, shaders).Save();
-}
-
-void GuiMenuSystemConfiguration::SetShaderSet(const std::string& shaderset)
-{
-  RecalboxConf::Instance().SetSystemShaderSet(mSystem, shaderset).Save();
+  switch((Components)id)
+  {
+    case Components::Smooth: RecalboxConf::Instance().SetSystemSmooth(mSystem, status).Save(); break;
+    case Components::Rewind: RecalboxConf::Instance().SetSystemRewind(mSystem, status).Save(); break;
+    case Components::AutoSave: RecalboxConf::Instance().SetSystemAutoSave(mSystem, status).Save(); break;
+    case Components::Emulator:
+    case Components::Ratio:
+    case Components::Shaders:
+    case Components::ShaderSet: break;
+  }
 }

@@ -5,12 +5,14 @@
 #include "themes/ThemeData.h"
 
 NinePatchComponent::NinePatchComponent(WindowManager& window)
-  : Component(window),
-    mVertices(),
-    mColors(),
-    mPath(),
-    mEdgeColor(0xFFFFFFFF),
-    mCenterColor(0xFFFFFFFF)
+  : Component(window)
+  , mVertices()
+  , mColors()
+  , mPath()
+  , mW(0)
+  , mH(0)
+  , mEdgeColor(0xFFFFFFFF)
+  , mCenterColor(0xFFFFFFFF)
 {
 }
 
@@ -41,28 +43,28 @@ void NinePatchComponent::buildVertices()
 	updateColors();
 
 	const Vector2f ts = mTexture->getSize().toFloat();
+	mW = ts.x() / 3.f;
+  mH = ts.y() / 3.f;
 
 	//coordinates on the image in pixels, top left origin
 	const Vector2f pieceCoords[9] = {
-		Vector2f(0,  0),
-		Vector2f(16, 0),
-		Vector2f(32, 0),
-		Vector2f(0,  16),
-		Vector2f(16, 16),
-		Vector2f(32, 16),
-		Vector2f(0,  32),
-		Vector2f(16, 32),
-		Vector2f(32, 32),
+		Vector2f(       0,        0),
+		Vector2f(mW * 1.f,        0),
+		Vector2f(mW * 2.f,        0),
+		Vector2f(       0, mH * 1.f),
+		Vector2f(mW * 1.f, mH * 1.f),
+		Vector2f(mW * 2.f, mH * 1.f),
+		Vector2f(       0, mH * 2.f),
+		Vector2f(mW * 1.f, mH * 2.f),
+		Vector2f(mW * 2.f, mH * 2.f),
 	};
 
-	const Vector2f pieceSizes = getCornerSize();
-
 	//corners never stretch, so we calculate a width and height for slices 1, 3, 5, and 7
-	float borderWidth = mSize.x() - (pieceSizes.x() * 2); //should be pieceSizes[0] and pieceSizes[2]
+	float borderWidth = mSize.x() - (mW * 2); //should be pieceSizes[0] and pieceSizes[2]
 	//if(borderWidth < pieceSizes.x())
 	//	borderWidth = pieceSizes.x();
 
-	float borderHeight = mSize.y() - (pieceSizes.y() * 2); //should be pieceSizes[0] and pieceSizes[6]
+	float borderHeight = mSize.y() - (mH * 2); //should be pieceSizes[0] and pieceSizes[6]
 	//if(borderHeight < pieceSizes.y())
 	//	borderHeight = pieceSizes.y();
 
@@ -70,12 +72,12 @@ void NinePatchComponent::buildVertices()
 	mVertices[1 * 6].pos = pieceCoords[1]; //top middle
 	mVertices[2 * 6].pos = pieceCoords[1] + Vector2f(borderWidth, 0); //top right
 
-	mVertices[3 * 6].pos = mVertices[0 * 6].pos + Vector2f(0, pieceSizes.y()); //mid left
-	mVertices[4 * 6].pos = mVertices[3 * 6].pos + Vector2f(pieceSizes.x(), 0); //mid middle
+	mVertices[3 * 6].pos = mVertices[0 * 6].pos + Vector2f(0, mH); //mid left
+	mVertices[4 * 6].pos = mVertices[3 * 6].pos + Vector2f(mW, 0); //mid middle
 	mVertices[5 * 6].pos = mVertices[4 * 6].pos + Vector2f(borderWidth, 0); //mid right
 
 	mVertices[6 * 6].pos = mVertices[3 * 6].pos + Vector2f(0, borderHeight); //bot left
-	mVertices[7 * 6].pos = mVertices[6 * 6].pos + Vector2f(pieceSizes.x(), 0); //bot middle
+	mVertices[7 * 6].pos = mVertices[6 * 6].pos + Vector2f(mW, 0); //bot middle
 	mVertices[8 * 6].pos = mVertices[7 * 6].pos + Vector2f(borderWidth, 0); //bot right
 
 	int v = 0;
@@ -84,20 +86,14 @@ void NinePatchComponent::buildVertices()
 		Vector2f size(0, 0);
 
 		//corners
-		if(slice == 0 || slice == 2 || slice == 6 || slice == 8)
-			size = pieceSizes;
-
+		if(slice == 0 || slice == 2 || slice == 6 || slice == 8) size.Set(mW, mH);
 		//vertical borders
-		if(slice == 1 || slice == 7)
-			size.Set(borderWidth, pieceSizes.y());
-
+		if(slice == 1 || slice == 7) size.Set(borderWidth, mH);
 		//horizontal borders
-		if(slice == 3 || slice == 5)
-			size.Set(pieceSizes.x(), borderHeight);
+		if(slice == 3 || slice == 5) size.Set(mW, borderHeight);
 
 		//center
-		if(slice == 4)
-			size.Set(borderWidth, borderHeight);
+		if(slice == 4) size.Set(borderWidth, borderHeight);
 
 		//no resizing will be necessary
 		//mVertices[v + 0] is already correct
@@ -111,7 +107,7 @@ void NinePatchComponent::buildVertices()
 		//texture coordinates
 		//the y = (1 - y) is to deal with texture coordinates having a bottom left corner origin vs. verticies having a top left origin
 		mVertices[v + 0].tex.Set(pieceCoords[slice].x() / ts.x(), 1 - (pieceCoords[slice].y() / ts.y()));
-		mVertices[v + 1].tex.Set((pieceCoords[slice].x() + pieceSizes.x()) / ts.x(), 1 - ((pieceCoords[slice].y() + pieceSizes.y()) / ts.y()));
+		mVertices[v + 1].tex.Set((pieceCoords[slice].x() + mW) / ts.x(), 1 - ((pieceCoords[slice].y() + mH) / ts.y()));
 		mVertices[v + 2].tex.Set(mVertices[v + 0].tex.x(), mVertices[v + 1].tex.y());
 
 		mVertices[v + 3].tex.Set(mVertices[v + 1].tex.x(), mVertices[v + 0].tex.y());
@@ -168,19 +164,14 @@ void NinePatchComponent::onSizeChanged()
 	buildVertices();
 }
 
-Vector2f NinePatchComponent::getCornerSize()
-{
-	return {16, 16 };
-}
-
 void NinePatchComponent::fitTo(Vector2f size, Vector3f position, Vector2f padding)
 {
 	size += padding;
 	position[0] -= padding.x() / 2;
 	position[1] -= padding.y() / 2;
 
-	setSize(size + Vector2f(getCornerSize().x() * 2, getCornerSize().y() * 2));
-	setPosition(-getCornerSize().x() + position.x(), -getCornerSize().y() + position.y());
+	setSize(size + Vector2f(mW * 2, mH * 2));
+	setPosition(-mW + position.x(), -mH + position.y());
 }
 
 void NinePatchComponent::setImagePath(const Path& path)

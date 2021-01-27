@@ -9,7 +9,7 @@
 #include "Settings.h"
 
 GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"))
+  : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"), nullptr)
   , mSystemManager(systemManager)
   , mOriginalArcadeOnOff(RecalboxConf::Instance().GetCollectionArcade())
   , mOriginalIncludeNeogeo(RecalboxConf::Instance().GetCollectionArcadeNeogeo())
@@ -17,16 +17,16 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, Sy
   , mOriginalPosition(RecalboxConf::Instance().GetCollectionPosition())
 {
   // Enable arcade
-  mArcadeOnOff = AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), mOriginalArcadeOnOff, SetArcade);
+  mArcadeOnOff = AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), mOriginalArcadeOnOff, (int)Components::ArcadeOnOff, this);
 
   // Include neogeo?
-  mIncludeNeoGeo = AddSwitch(_("INCLUDE NEO-GEO"), mOriginalIncludeNeogeo,SetIncludeNeoGeo);
+  mIncludeNeoGeo = AddSwitch(_("INCLUDE NEO-GEO"), mOriginalIncludeNeogeo, (int)Components::IncludeNeogeo, this);
 
   // Hide original systems?
-  mHideOriginals = AddSwitch(_("HIDE ORIGINAL SYSTEMS"), mOriginalHideOriginals, SetHideOriginals);
+  mHideOriginals = AddSwitch(_("HIDE ORIGINAL SYSTEMS"), mOriginalHideOriginals, (int)Components::HideOriginals, this);
 
   // Position in list
-  mPosition = AddList<int>(_("POSITION"), SetPosition, GetPositionEntries());
+  mPosition = AddList<int>(_("POSITION"), (int)Components::Position, this, GetPositionEntries());
 }
 
 GuiMenuArcadeVirtualSystem::~GuiMenuArcadeVirtualSystem()
@@ -36,26 +36,6 @@ GuiMenuArcadeVirtualSystem::~GuiMenuArcadeVirtualSystem()
       (mHideOriginals->getState() != mOriginalHideOriginals) ||
       (mPosition->getSelected() != mOriginalPosition))
     RequestReboot();
-}
-
-void GuiMenuArcadeVirtualSystem::SetArcade(bool on)
-{
-  RecalboxConf::Instance().SetCollectionArcade(on).Save();
-}
-
-void GuiMenuArcadeVirtualSystem::SetIncludeNeoGeo(bool on)
-{
-  RecalboxConf::Instance().SetCollectionArcadeNeogeo(on).Save();
-}
-
-void GuiMenuArcadeVirtualSystem::SetHideOriginals(bool on)
-{
-  RecalboxConf::Instance().SetCollectionArcadeHide(on).Save();
-}
-
-void GuiMenuArcadeVirtualSystem::SetPosition(const int& position)
-{
-  RecalboxConf::Instance().SetCollectionPosition(position).Save();
 }
 
 std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPositionEntries()
@@ -74,5 +54,25 @@ std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPosition
   }
 
   return list;
+}
+
+void GuiMenuArcadeVirtualSystem::OptionListComponentChanged(int id, int index, const int& value)
+{
+  (void)index;
+  if ((Components)id == Components::Position)
+  {
+    RecalboxConf::Instance().SetCollectionPosition(value).Save();
+  }
+}
+
+void GuiMenuArcadeVirtualSystem::SwitchComponentChanged(int id, bool status)
+{
+  switch((Components)id)
+  {
+    case Components::ArcadeOnOff: RecalboxConf::Instance().SetCollectionArcade(status).Save(); break;
+    case Components::IncludeNeogeo: RecalboxConf::Instance().SetCollectionArcadeNeogeo(status).Save(); break;
+    case Components::HideOriginals: RecalboxConf::Instance().SetCollectionArcadeHide(status).Save(); break;
+    case Components::Position:break;
+  }
 }
 

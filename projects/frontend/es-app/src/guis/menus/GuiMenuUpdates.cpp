@@ -14,63 +14,70 @@
 #include <guis/GuiUpdateRecalbox.h>
 
 GuiMenuUpdates::GuiMenuUpdates(WindowManager& window)
-  : GuiMenuBase(window, _("UPDATES"))
+  : GuiMenuBase(window, _("UPDATES"), this)
 {
   // Enable updates
-  mEnableUpdate = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetUpdatesEnabled());
-  mEnableUpdate->setChangedCallback(SetEnabled);
-  mMenu.addWithLabel(mEnableUpdate, _("CHECK UPDATES"), _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
+  mEnableUpdate = AddSwitch(_("CHECK UPDATES"), RecalboxConf::Instance().GetUpdatesEnabled(), (int)Components::Enable, this, _(MENUMESSAGE_UPDATE_CHECK_HELP_MSG));
 
   // Display available update version
   bool update = Upgrade::PendingUpdate();
-  mAvailable = std::make_shared<TextComponent>(mWindow, update ? _("YES") : _("NO"), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mAvailable, _("AVAILABLE UPDATE"), _(MENUMESSAGE_UPDATE_VERSION_HELP_MSG));
+  mAvailable = AddText(_("AVAILABLE UPDATE"), update ? _("YES") : _("NO"), _(MENUMESSAGE_UPDATE_VERSION_HELP_MSG));
 
   if (update)
   {
     // Display available update changelog
-    AddSubMenu(_("UPDATE CHANGELOG"), [this] { ShowChangelog(); }, _(MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG));
+    AddSubMenu(_("UPDATE CHANGELOG"), (int)Components::Changelog, _(MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG));
     // Start update
-    AddSubMenu(_("START UPDATE"), [this] { StartUpdate(); }, _(MENUMESSAGE_START_UPDATE_HELP_MSG));
+    AddSubMenu(_("START UPDATE"), (int)Components::StartUpdate, _(MENUMESSAGE_START_UPDATE_HELP_MSG));
   }
 
   // Enable updates
-  mType = std::make_shared<OptionListComponent<std::string>>(mWindow, _("UPDATE TYPE"), false);
-  mType->setChangedCallback([this] { SetUpdateType(mType->getSelected()); });
+  mType = AddList(_("UPDATE TYPE"), (int)Components::UpdateType, this, GetUpdateTypeEntries(), _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUpdates::GetUpdateTypeEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
   std::string updatesType = RecalboxConf::Instance().GetUpdatesType();
   if (updatesType != "stable" && updatesType != "custom") updatesType = "stable";
-  mType->add("stable", "stable", updatesType == "stable");
-  mType->add("custom", "custom", updatesType != "stable");
+  list.push_back({ "stable", "stable", updatesType == "stable" });
+  list.push_back({ "custom", "custom", updatesType != "stable" });
 
-  mMenu.addWithLabel(mType, _("UPDATE TYPE"), _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
+  return list;
 }
 
-void GuiMenuUpdates::SetEnabled(bool on)
+void GuiMenuUpdates::SwitchComponentChanged(int id, bool status)
 {
-  RecalboxConf::Instance().SetUpdatesEnabled(on).Save();
+  if ((Components)id == Components::Enable)
+    RecalboxConf::Instance().SetUpdatesEnabled(status).Save();
 }
 
-void GuiMenuUpdates::SetUpdateType(const std::string& type)
+void GuiMenuUpdates::SubMenuSelected(int id)
 {
-  RecalboxConf::Instance().SetUpdatesType(type);
-}
-
-void GuiMenuUpdates::ShowChangelog()
-{
-  std::string changelog = Upgrade::NewReleaseNote();
-  if (!changelog.empty())
+  if ((Components)id == Components::Changelog)
   {
-    const std::string& message = changelog;
-    std::string updateVersion = Upgrade::NewVersion();
-    mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
-                                 _("NEW VERSION:") + ' ' + updateVersion + "\n" +
-                                 _("UPDATE CHANGELOG:") + "\n" + message);
+    std::string changelog = Upgrade::NewReleaseNote();
+    if (!changelog.empty())
+    {
+      const std::string& message = changelog;
+      std::string updateVersion = Upgrade::NewVersion();
+      mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
+                                   _("NEW VERSION:") + ' ' + updateVersion + "\n" +
+                                   _("UPDATE CHANGELOG:") + "\n" + message);
+    }
+    else
+      mWindow.displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
   }
-  else
-    mWindow.displayMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"));
+  else if ((Components)id == Components::StartUpdate)
+  {
+    mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::DownloadUrl(), Upgrade::NewVersion()));
+  }
 }
 
-void GuiMenuUpdates::StartUpdate()
+void GuiMenuUpdates::OptionListComponentChanged(int id, int index, const std::string& value)
 {
-  mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::DownloadUrl(), Upgrade::NewVersion()));
+  (void)index;
+  if ((Components)id == Components::UpdateType)
+    RecalboxConf::Instance().SetUpdatesType(value);
 }

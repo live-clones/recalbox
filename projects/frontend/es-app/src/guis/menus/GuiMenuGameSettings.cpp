@@ -16,44 +16,44 @@
 #include <algorithm>
 
 GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("GAMES SETTINGS"))
+  : GuiMenuBase(window, _("GAMES SETTINGS"), this)
   , mSystemManager(systemManager)
   , mOriginalPreinstalled(false)
 {
   // Screen ratio choice
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
-    mRatio = AddList<std::string>(_("GAME RATIO"), SetRatio, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+    mRatio = AddList<std::string>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // smoothing
-  mSmooth = AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetGlobalSmooth(), SetSmooth, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
+  mSmooth = AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetGlobalSmooth(), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
 
   // rewind
-  mRewind = AddSwitch(_("REWIND"), RecalboxConf::Instance().GetGlobalRewind(), SetRewind,_(MENUMESSAGE_GAME_REWIND_HELP_MSG));
+  mRewind = AddSwitch(_("REWIND"), RecalboxConf::Instance().GetGlobalRewind(), (int)Components::Rewind, this,_(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // autosave
-  mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), SetAutoSave, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+  mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Press twice to quit
-  mQuitTwice = AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), SetQuitTwice, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
+  mQuitTwice = AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::QuitTwice, this, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
 
   // Integer Scale
-  mIntegerScale = AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalQuitTwice(), SetIntegerScale, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
+  mIntegerScale = AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
 
   // Shaders
-  mShaders = AddList<std::string>(_("SHADERS"), SetShaders, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+  mShaders = AddList<std::string>(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
-  mShaderSet = AddList<std::string>(_("SHADERS SET"), SetShaderSet, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+  mShaderSet = AddList<std::string>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 
   // Retroachievements
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
   {
-    AddSubMenu(_("RETROACHIEVEMENTS SETTINGS"), [this] { mWindow.pushGui(new GuiMenuRetroAchievements(mWindow)); }, _(MENUMESSAGE_RA_HELP_MSG));
-    AddSubMenu(_("NETPLAY SETTINGS"), [this] { mWindow.pushGui(new GuiMenuNetplay(mWindow, mSystemManager)); }, _(MENUMESSAGE_NP_HELP_MSG));
+    AddSubMenu(_("RETROACHIEVEMENTS SETTINGS"), (int)Components::RetroAchivements, _(MENUMESSAGE_RA_HELP_MSG));
+    AddSubMenu(_("NETPLAY SETTINGS"), (int)Components::Netplay, _(MENUMESSAGE_NP_HELP_MSG));
   }
 
   // Hide preinstalled games
-  mHidePreinstalled = AddSwitch(_("HIDE PREINSTALLED GAMES"), mOriginalPreinstalled = RecalboxConf::Instance().GetGlobalHidePreinstalled(), SetPreinstalled, _(MENUMESSAGE_GAME_HIDE_PREINSTALLED));
+  mHidePreinstalled = AddSwitch(_("HIDE PREINSTALLED GAMES"), mOriginalPreinstalled = RecalboxConf::Instance().GetGlobalHidePreinstalled(), (int)Components::HidePreinstalled, this, _(MENUMESSAGE_GAME_HIDE_PREINSTALLED));
 }
 
 GuiMenuGameSettings::~GuiMenuGameSettings()
@@ -99,48 +99,35 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaderP
   return list;
 }
 
-void GuiMenuGameSettings::SetRatio(const std::string& ratio)
+void GuiMenuGameSettings::SubMenuSelected(int id)
 {
-  RecalboxConf::Instance().SetGlobalRatio(ratio).Save();
+  if ((Components)id == Components::RetroAchivements) mWindow.pushGui(new GuiMenuRetroAchievements(mWindow));
+  else if ((Components)id == Components::Netplay) mWindow.pushGui(new GuiMenuNetplay(mWindow, mSystemManager));
 }
 
-void GuiMenuGameSettings::SetQuitTwice(bool on)
+void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const std::string& value)
 {
-  RecalboxConf::Instance().SetGlobalQuitTwice(on).Save();
+  (void)index;
+  if ((Components)id == Components::Ratio) RecalboxConf::Instance().SetGlobalRatio(value).Save();
+  else if ((Components)id == Components::Shaders) RecalboxConf::Instance().SetGlobalShaders(value).Save();
+  else if ((Components)id == Components::ShaderSet) RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
 }
 
-void GuiMenuGameSettings::SetSmooth(bool on)
+void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
 {
-  RecalboxConf::Instance().SetGlobalSmooth(on).Save();
-}
-
-void GuiMenuGameSettings::SetRewind(bool on)
-{
-  RecalboxConf::Instance().SetGlobalRewind(on).Save();
-}
-
-void GuiMenuGameSettings::SetAutoSave(bool on)
-{
-  RecalboxConf::Instance().SetGlobalAutoSave(on).Save();
-}
-
-void GuiMenuGameSettings::SetShaders(const std::string& shaders)
-{
-  RecalboxConf::Instance().SetGlobalShaders(shaders).Save();
-}
-
-void GuiMenuGameSettings::SetShaderSet(const std::string& shaderset)
-{
-  RecalboxConf::Instance().SetGlobalShaderSet(shaderset).Save();
-}
-
-void GuiMenuGameSettings::SetIntegerScale(bool on)
-{
-  RecalboxConf::Instance().SetGlobalIntegerScale(on).Save();
-}
-
-void GuiMenuGameSettings::SetPreinstalled(bool on)
-{
-  RecalboxConf::Instance().SetGlobalHidePreinstalled(on).Save();
+  switch((Components)id)
+  {
+    case Components::Smooth: RecalboxConf::Instance().SetGlobalSmooth(status).Save(); break;
+    case Components::Rewind: RecalboxConf::Instance().SetGlobalRewind(status).Save(); break;
+    case Components::AutoSave: RecalboxConf::Instance().SetGlobalAutoSave(status).Save(); break;
+    case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
+    case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
+    case Components::HidePreinstalled: RecalboxConf::Instance().SetGlobalHidePreinstalled(status).Save(); break;
+    case Components::Ratio:
+    case Components::Shaders:
+    case Components::ShaderSet:
+    case Components::RetroAchivements:
+    case Components::Netplay: break;
+  }
 }
 

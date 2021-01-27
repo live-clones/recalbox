@@ -57,8 +57,10 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 
 	mList = std::make_shared<ComponentList>(mWindow);
 	mGrid.setEntry(mList, Vector2i(0, 3), true, true);
-	
-	for (auto& formInput: mFormInputs) {
+
+	int index = -1;
+	for (auto& formInput: mFormInputs)
+	{
 		ComponentListRow row;
 		// icon
 		auto icon = std::make_shared<ImageComponent>(mWindow);
@@ -79,75 +81,7 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 		row.addElement(mapping, true);
 		mMappings.push_back(mapping);
 
-		row.input_handler = [this, formInput, mapping](const InputCompactEvent& event) -> bool {
-			// ignore input not from our target device
-			if(&event.Device() != mTargetDevice)
-				return false;
-
-			if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
-			{
-				if (!mInputStack.hasInput(event.RawEvent()))
-				{
-					mInputStack.push(event.RawEvent(), [this, formInput](const std::vector<InputEvent>& inputs)
-					{
-            for (auto input: inputs)
-            {
-							// Key Up
-							if (mTargetDevice->IsMatching(InputDevice::Entry::Up, input))
-							{
-								if (mList->getCursorId() > 0 && mTargetDevice->IsSet(InputDevice::Entry::Down))
-								{
-									restaurePreviousAssignment();
-									if (!isAssigned() && formInput.skippable) setSkipped();
-									mList->moveCursor(-1);
-									setPress();
-								}
-								return;
-							}
-
-							// Key Down
-							if (mTargetDevice->IsMatching(InputDevice::Entry::Down, input))
-							{
-								if (!isAssigned() && !formInput.skippable) return ;
-								restaurePreviousAssignment();
-								if (!isAssigned()) setSkipped();
-								rowDone();
-								return;
-							}
-
-							if (isAssigned() && mTargetDevice->IsMatching(InputDevice::Entry::A, input))
-							{
-                unAssign();
-								setHelpMessage();
-								setPress();
-								return;
-							}
-						}
-
-            if (isAssigned())
-            {
-                setHelpMessage();
-                setPress();
-                return;
-            }
-
-            // At first, try to find the preferred type, on the second pass, we ignore the preferred type
-						for (int pass = 0; pass < 2; pass++)
-            {
-                for (auto input: inputs)
-                {
-                    if (((input.Type() == formInput.preferredType) || (pass == 1) ) && assign(input))
-                    {
-                        rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
-                        return ;
-                    }
-                }
-            }
-					});
-				}
-			}
-			return true;
-		};
+		row.SetEventInterceptor(-index, this);
 
 		mList->addRow(row);
 	}
@@ -382,5 +316,79 @@ void GuiInputConfig::restaurePreviousAssignment() {
 bool GuiInputConfig::isAssigned() {
 	FormInput formInput = mFormInputs[mList->getCursorId()];
 	return mTargetDevice->IsSet(InputDevice::StringToEntry(formInput.name));
+}
+
+bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
+{
+  // ignore input not from our target device
+  if(&event.Device() != mTargetDevice)
+    return false;
+
+  FormInput formInput = mFormInputs[id];
+
+  if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
+  {
+    if (!mInputStack.hasInput(event.RawEvent()))
+    {
+      mInputStack.push(event.RawEvent(), [this, formInput](const std::vector<InputEvent>& inputs)
+      {
+        for (auto input: inputs)
+        {
+          // Key Up
+          if (mTargetDevice->IsMatching(InputDevice::Entry::Up, input))
+          {
+            if (mList->getCursorId() > 0 && mTargetDevice->IsSet(InputDevice::Entry::Down))
+            {
+              restaurePreviousAssignment();
+              if (!isAssigned() && formInput.skippable) setSkipped();
+              mList->moveCursor(-1);
+              setPress();
+            }
+            return;
+          }
+
+          // Key Down
+          if (mTargetDevice->IsMatching(InputDevice::Entry::Down, input))
+          {
+            if (!isAssigned() && !formInput.skippable) return ;
+            restaurePreviousAssignment();
+            if (!isAssigned()) setSkipped();
+            rowDone();
+            return;
+          }
+
+          if (isAssigned() && mTargetDevice->IsMatching(InputDevice::Entry::A, input))
+          {
+            unAssign();
+            setHelpMessage();
+            setPress();
+            return;
+          }
+        }
+
+        if (isAssigned())
+        {
+          setHelpMessage();
+          setPress();
+          return;
+        }
+
+        // At first, try to find the preferred type, on the second pass, we ignore the preferred type
+        for (int pass = 0; pass < 2; pass++)
+        {
+          for (auto input: inputs)
+          {
+            if (((input.Type() == formInput.preferredType) || (pass == 1) ) && assign(input))
+            {
+              rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
+              return ;
+            }
+          }
+        }
+      });
+    }
+  };
+
+  return false;
 }
 

@@ -6,6 +6,7 @@
 #include <guis/menus/GuiMenuBase.h>
 
 class GuiMenuQuit : public GuiMenuBase
+                  , private IGuiMenuBase
 {
   public:
     explicit GuiMenuQuit(WindowManager& window);
@@ -13,10 +14,16 @@ class GuiMenuQuit : public GuiMenuBase
     static void PushQuitGui(WindowManager& window);
 
   private:
-    //! Shutdown
-    static void Shutdown(GuiMenuQuit* thiz);
-    //! Fast Shutdown
-    static void FastShutdown(GuiMenuQuit* thiz);
-    //! Reboot
-    static void Reboot(GuiMenuQuit* thiz);
+    enum class Components
+    {
+      Shutdown,
+      FastShutdown,
+      Reboot,
+    };
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };

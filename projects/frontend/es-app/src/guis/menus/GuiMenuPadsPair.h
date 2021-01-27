@@ -15,7 +15,9 @@ class SystemData;
 template<class T> class OptionListComponent;
 class SwitchComponent;
 
-class GuiMenuPadsPair : public GuiMenuBase, ILongExecution<std::string, bool>
+class GuiMenuPadsPair : public GuiMenuBase
+                      , ILongExecution<std::string, bool>
+                      , IGuiMenuBase
 {
   public:
     /*!
@@ -25,11 +27,16 @@ class GuiMenuPadsPair : public GuiMenuBase, ILongExecution<std::string, bool>
     explicit GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList);
 
   private:
-    //! A device has been selected
-    static void DeviceSelected(GuiMenuPadsPair* thiz, const std::string& device);
+    enum class Components
+    {
+      Devices,
+    };
+
+    //! Device list
+    Strings::Vector mDevices;
 
     /*
-     * ILongExecution
+     * ILongExecution implementation
      */
 
     /*!
@@ -46,4 +53,10 @@ class GuiMenuPadsPair : public GuiMenuBase, ILongExecution<std::string, bool>
      * @param result Pairing result
      */
     void Completed(const std::string& parameter, const bool& result) override;
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };

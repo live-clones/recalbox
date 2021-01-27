@@ -9,110 +9,81 @@
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 #include <systems/SystemManager.h>
-#include <components/OptionListComponent.h>
 #include <components/SwitchComponent.h>
 #include <guis/GuiNetPlayEditPasswords.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <guis/GuiHashStart.h>
 
 GuiMenuNetplay::GuiMenuNetplay(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("NETPLAY SETTINGS"))
+  : GuiMenuBase(window, _("NETPLAY SETTINGS"), this)
   , mSystemManager(systemManager)
-  , mCurrentEdition(EditedText::None)
 {
   // Netplay Enabled
-  mEnabled = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetNetplayEnabled());
-  mEnabled->setChangedCallback(SetEnabled);
-  mMenu.addWithLabel(mEnabled, _("NETPLAY"), _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
+  mEnabled = AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
 
   // netplay username
-  mLogin = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetNetplayLogin(), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mLogin, _("NICKNAME"), "", false, true, std::bind(&GuiMenuNetplay::EditLogin, this));
+  mLogin = AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
 
   // netplay port
-  mPort = std::make_shared<TextComponent>(mWindow, Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mPort, _("PORT"), "", false, true, std::bind(&GuiMenuNetplay::EditPort, this));
+  mPort = AddEditable(_("PORT"), Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
 
   //mitm
-  mMitm = std::make_shared<OptionListComponent<RecalboxConf::Relay> >(mWindow,_("NETPLAY MITM"), false);
-  mMitm->setChangedCallback([this] { SetMitm(mMitm->getSelected()); });
-  RecalboxConf::Relay currentMitm = RecalboxConf::Instance().GetNetplayRelay();
-  mMitm->add(_("NONE"), RecalboxConf::Relay::None, currentMitm == RecalboxConf::Relay::None);
-  mMitm->add(_("NEW YORK"), RecalboxConf::Relay::NewYork, currentMitm == RecalboxConf::Relay::NewYork);
-  mMitm->add(_("MADRID"), RecalboxConf::Relay::Madrid, currentMitm == RecalboxConf::Relay::Madrid);
-  mMenu.addWithLabel(mMitm, _("NETPLAY MITM"), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
+  mMitm = AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
 
   // Password edition
-  AddSubMenu(_("PREDEFINED PASSWORDS"), [this] { mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow)); });
+  AddSubMenu(_("PREDEFINED PASSWORDS"), (int)Components::Passwords);
+
   // Hash roms
-  AddSubMenu(_("HASH ROMS"), [this] { mWindow.pushGui(new GuiHashStart(mWindow, mSystemManager)); }, _(MENUMESSAGE_NP_HASH_HELP_MSG));
+  AddSubMenu(_("HASH ROMS"), (int)Components::Hash, _(MENUMESSAGE_NP_HASH_HELP_MSG));
 }
 
-void GuiMenuNetplay::EditLogin()
+std::vector<GuiMenuBase::ListEntry<RecalboxConf::Relay>> GuiMenuNetplay::GetMitmEntries()
 {
-  mBackupedText = RecalboxConf::Instance().GetNetplayLogin();
-  mCurrentEdition = EditedText::Login;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("NICKNAME"), mBackupedText, this));
+  std::vector<ListEntry<RecalboxConf::Relay>> list;
+
+  RecalboxConf::Relay currentMitm = RecalboxConf::Instance().GetNetplayRelay();
+  list.push_back({ _("NONE"), RecalboxConf::Relay::None, currentMitm == RecalboxConf::Relay::None });
+  list.push_back({ _("NEW YORK"), RecalboxConf::Relay::NewYork, currentMitm == RecalboxConf::Relay::NewYork });
+  list.push_back({ _("MADRID"), RecalboxConf::Relay::Madrid, currentMitm == RecalboxConf::Relay::Madrid });
+
+  return list;
 }
 
-void GuiMenuNetplay::EditPort()
+void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& text)
 {
-  mBackupedText = Strings::ToString(RecalboxConf::Instance().GetNetplayPort());
-  mCurrentEdition = EditedText::Port;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("PORT"), mBackupedText, this));
-}
-
-void GuiMenuNetplay::SetEnabled(bool on)
-{
-  RecalboxConf::Instance().SetNetplayEnabled(on).Save();
-}
-
-void GuiMenuNetplay::SetMitm(RecalboxConf::Relay mitm)
-{
-  RecalboxConf::Instance().SetNetplayRelay(mitm).Save();
-}
-
-void GuiMenuNetplay::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
-{
-  (void)vk;
-  switch(mCurrentEdition)
+  switch((Editor)id)
   {
-    case EditedText::Login:
+    case Editor::Username:
     {
-      // Update login
-      RecalboxConf::Instance().SetNetplayLogin(text);
-
-      // Refresh login
-      mLogin->setText(text);
-      mMenu.onSizeChanged();
+      RecalboxConf::Instance().SetNetplayLogin(text).Save();
       break;
     }
-    case EditedText::Port:
+    case Editor::Port:
     {
-      // Update password
-      int value = RecalboxConf::sNetplayDefaultPort;
-      RecalboxConf::Instance().SetNetplayPort(Strings::ToInt(text, value) ? value : RecalboxConf::sNetplayDefaultPort);
-
-      // Refresh password
-      mPort->setText(Strings::ToString(value));
-      mMenu.onSizeChanged();
+      int p = RecalboxConf::sNetplayDefaultPort;
+      Strings::ToInt(text, p);
+      if ((unsigned int)p > 65535) p = 65535;
+      RecalboxConf::Instance().SetNetplayPort(p).Save();
       break;
     }
-    case EditedText::None:
-    default: break;
   }
 }
 
-void GuiMenuNetplay::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void GuiMenuNetplay::SubMenuSelected(int id)
 {
-  ArcadeVirtualKeyboardTextChange(vk, text);
-  RecalboxConf::Instance().Save();
-  mCurrentEdition = EditedText::None;
+  if ((Components)id == Components::Passwords) mWindow.pushGui(new GuiNetPlayEditPasswords(mWindow));
+  else if ((Components)id == Components::Hash) mWindow.pushGui(new GuiHashStart(mWindow, mSystemManager));
 }
 
-void GuiMenuNetplay::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
+void GuiMenuNetplay::OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value)
 {
-  ArcadeVirtualKeyboardTextChange(vk, mBackupedText);
-  RecalboxConf::Instance().Save();
-  mCurrentEdition = EditedText::None;
+  (void)index;
+  if ((Components)id == Components::Mitm)
+    RecalboxConf::Instance().SetNetplayRelay(value).Save();
+}
+
+void GuiMenuNetplay::SwitchComponentChanged(int id, bool status)
+{
+  if ((Components)id == Components::Enabled)
+    RecalboxConf::Instance().SetNetplayEnabled(status).Save();
 }

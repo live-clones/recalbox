@@ -8,6 +8,8 @@
 #include "utils/Log.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include "IOptionListComponent.h"
+#include "IOptionListMultiComponent.h"
 
 //Used to display a list of options.
 //Can select one or multiple options.
@@ -144,21 +146,24 @@ private:
 
 public:
 	OptionListComponent(WindowManager& window, const std::string& name, bool multiSelect, unsigned int font_size)
-	  : Component(window),
-      mMultiSelect(multiSelect),
-      mName(name),
-      mText(window),
-      mLeftArrow(window),
-      mRightArrow(window)
+	  : Component(window)
+    , mName(name)
+    , mText(window)
+    , mLeftArrow(window)
+    , mRightArrow(window)
+    , mOriginColor(0)
+    , mId(0)
+    , mInterface(nullptr)
+    , mMultiInterface(nullptr)
+    , mMultiSelect(multiSelect)
 	{
 		std::shared_ptr<Font> font = nullptr;
-		unsigned int color;
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 		if (font_size == FONT_SIZE_SMALL)
 			font = menuTheme->menuTextSmall.font;
 		else
 			font = menuTheme->menuText.font;
-		color = menuTheme->menuText.color;
+    unsigned int color = menuTheme->menuText.color;
 		mOriginColor = color;
 			
 		mText.setFont(font);
@@ -184,12 +189,27 @@ public:
 
 		setSize(mLeftArrow.getSize().x() + mRightArrow.getSize().x(), font->getHeight());
 	}
+
   OptionListComponent(WindowManager&window, const std::string& name, bool multiSelect)
     : OptionListComponent(window, name, multiSelect, FONT_SIZE_MEDIUM)
   {
   }
 
-	// handles positioning/resizing of text and arrows
+  OptionListComponent(WindowManager&window, const std::string& name, int id, IOptionListComponent<T>* interface)
+    : OptionListComponent(window, name, false, FONT_SIZE_MEDIUM)
+  {
+	  mId = id;
+	  mInterface = interface;
+  }
+
+  OptionListComponent(WindowManager&window, const std::string& name, int id, IOptionListMultiComponent<T>* interface)
+    : OptionListComponent(window, name, true, FONT_SIZE_MEDIUM)
+  {
+    mId = id;
+    mMultiInterface = interface;
+  }
+
+    // handles positioning/resizing of text and arrows
 	void onSizeChanged() override
 	{
 		mLeftArrow.setResize(0, mText.getFont()->getLetterHeight());
@@ -380,7 +400,15 @@ private:
 			}
 		}
 
-		if (mSelectedChangedCallback) {
+		if (mInterface != nullptr)
+      mInterface->OptionListComponentChanged(mId, getSelectedId(), mEntries[getSelectedId()].object);
+
+    if (mMultiInterface != nullptr)
+    {
+      mMultiInterface->OptionListMultiComponentChanged(mId, getSelectedObjects());
+    }
+
+    if (mSelectedChangedCallback) {
 			mSelectedChangedCallback(mEntries[getSelectedId()].object);
 		}
 
@@ -419,16 +447,19 @@ private:
         return "";
     }
 
-	bool mMultiSelect;
-
 	std::string mName;
 	T firstSelected;
 	TextComponent mText;
 	ImageComponent mLeftArrow;
 	ImageComponent mRightArrow;
 	unsigned int mOriginColor;
+	int mId;
 
 	std::vector<OptionListData> mEntries;
 	std::function<void(const T&)> mSelectedChangedCallback;
 	std::function<void()> mChangedCallback;
+	IOptionListComponent<T>* mInterface;
+  IOptionListMultiComponent<T>* mMultiInterface;
+
+  bool mMultiSelect;
 };

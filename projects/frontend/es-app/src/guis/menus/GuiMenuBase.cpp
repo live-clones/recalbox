@@ -11,12 +11,14 @@
 #include <components/SwitchComponent.h>
 #include <MainRunner.h>
 #include <guis/GuiMsgBox.h>
+#include <components/SliderComponent.h>
 
-GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title)
+GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title, IGuiMenuBase* interface)
   : Gui(window)
   , mMenu(window, title)
   , mTheme(*MenuThemeData::getInstance()->getCurrentTheme())
   , mMenuInitialized(false)
+  , mInterface(interface)
 {
   addChild(&mMenu);
 }
@@ -67,10 +69,10 @@ void GuiMenuBase::Update(int deltaTime)
   Component::Update(deltaTime);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const std::function<void()>& func, const std::string& help)
+void GuiMenuBase::AddSubMenu(const std::string& label, int id, const std::string& help)
 {
   ComponentListRow row;
-  row.makeAcceptInputHandler(func);
+  row.SetCallbackInterface(id, this);
 
   if (!help.empty())
     row.makeHelpInputHandler([this, help, label] { mWindow.pushGui(new GuiMsgBoxScroll(mWindow, label, help, _("OK"), []{}, "", nullptr, "", nullptr)); return true; });
@@ -81,11 +83,11 @@ void GuiMenuBase::AddSubMenu(const std::string& label, const std::function<void(
   mMenu.addRowWithHelp(row, label, help);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, const std::function<void()>& func,
+void GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, int id,
                              const std::string& help)
 {
   ComponentListRow row;
-  row.makeAcceptInputHandler(func);
+  row.SetCallbackInterface(id, this);
 
   if (!iconPath.IsEmpty())
   {
@@ -111,27 +113,100 @@ void GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, con
   mMenu.addRowWithHelp(row, label, help);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const std::function<void()>& func)
+void GuiMenuBase::AddSubMenu(const std::string& label, int id)
 {
-  AddSubMenu(label, func, Strings::Empty);
+  return AddSubMenu(label, id, Strings::Empty);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const Path& icon, const std::function<void()>& func)
+void GuiMenuBase::AddSubMenu(const std::string& label, const Path& icon, int id)
 {
-  AddSubMenu(label, icon, func, Strings::Empty);
+  return AddSubMenu(label, icon, id, Strings::Empty);
 }
 
-std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const std::string& text, bool value, const std::function<void(bool)>& callback, const std::string& help)
+std::shared_ptr<SliderComponent> GuiMenuBase::AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface, const std::string& help)
 {
-  auto result = std::make_shared<SwitchComponent>(mWindow, value);
-  result->setChangedCallback(callback);
+  auto result = std::make_shared<SliderComponent>(mWindow, min, max, inc, suffix, id, interface);
+  result->setSlider(value);
   mMenu.addWithLabel(result, text, help);
   return result;
 }
 
-std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const std::string& text, bool value, const std::function<void(bool)>& callback)
+std::shared_ptr<SliderComponent> GuiMenuBase::AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface)
 {
-  return AddSwitch(text, value, callback, Strings::Empty);
+  return AddSlider(text, min, max, inc, value, suffix, id, interface, Strings::Empty);
+}
+
+std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help)
+{
+  auto result = std::make_shared<SwitchComponent>(mWindow, value, id, interface);
+  mMenu.addWithLabel(result, icon, text, help);
+  return result;
+}
+
+std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface)
+{
+  return AddSwitch(icon, text, value, id, interface, Strings::Empty);
+}
+
+std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help)
+{
+  auto result = std::make_shared<SwitchComponent>(mWindow, value, id, interface);
+  mMenu.addWithLabel(result, text, help);
+  return result;
+}
+
+std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface)
+{
+  return AddSwitch(text, value, id, interface, Strings::Empty);
+}
+
+std::shared_ptr<TextComponent> GuiMenuBase::AddText(const std::string& text, const std::string& value, unsigned int color, const std::string& help)
+{
+  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.menuText.font, color);
+  mMenu.addWithLabel(result, text, help);
+  return result;
+}
+
+std::shared_ptr<TextComponent> GuiMenuBase::AddText(const std::string& text, const std::string& value, unsigned int color)
+{
+  return AddText(text, value, color, Strings::Empty);
+}
+
+std::shared_ptr<TextComponent> GuiMenuBase::AddText(const std::string& text, const std::string& value, const std::string& help)
+{
+  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.menuText.font, mTheme.menuText.color);
+  mMenu.addWithLabel(result, text, help);
+  return result;
+}
+
+std::shared_ptr<TextComponent> GuiMenuBase::AddText(const std::string& text, const std::string& value)
+{
+  return AddText(text, value, Strings::Empty);
+}
+
+std::shared_ptr<EditableComponent> GuiMenuBase::AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, const std::string& help, bool masked)
+{
+  auto result = std::make_shared<EditableComponent>(mWindow, edittitle, value, mTheme.menuText.font, mTheme.menuText.color, id, interface, masked);
+  result->setSize(mMenu.getSize().x() / 3.f, mTheme.menuText.font->getHeight());
+  result->setHorizontalAlignment(TextAlignment::Right);
+  mMenu.addWithLabel(result, text, help, false, true, [result] { result->StartEditing(); });
+  return result;
+}
+
+std::shared_ptr<EditableComponent> GuiMenuBase::AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked)
+{
+  return AddEditable(edittitle, text, value, id, interface, Strings::Empty, masked);
+}
+
+std::shared_ptr<EditableComponent> GuiMenuBase::AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface,
+                                                            const std::string& help, bool masked)
+{
+  return AddEditable(text, text, value, id, interface, help, masked);
+}
+
+std::shared_ptr<EditableComponent> GuiMenuBase::AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked)
+{
+  return AddEditable(text, text, value, id, interface, Strings::Empty, masked);
 }
 
 void GuiMenuBase::Reboot()
@@ -143,4 +218,12 @@ void GuiMenuBase::RequestReboot()
 {
   mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), Reboot));
 }
+
+void GuiMenuBase::ComponentListRowSelected(int id)
+{
+  // Pass-thru from ComponentListRow to user interface
+  if (mInterface != nullptr)
+    mInterface->SubMenuSelected(id);
+}
+
 

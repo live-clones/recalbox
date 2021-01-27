@@ -13,7 +13,7 @@
 #include <MainRunner.h>
 
 GuiMenuVirtualSystemPerGenre::GuiMenuVirtualSystemPerGenre(WindowManager& window)
-  : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"))
+  : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"), nullptr)
 {
   // All games
   Genres::GenreMap map = Genres::GetShortNameMap();
@@ -24,8 +24,7 @@ GuiMenuVirtualSystemPerGenre::GuiMenuVirtualSystemPerGenre(WindowManager& window
     std::string prefix = Genres::IsSubGenre(genre) ? "   \u21B3 " : "";
     Path icon = Path(Genres::GetResourcePath(genre));
     bool value = RecalboxConf::Instance().GetCollection(shortName);
-    auto component = std::make_shared<SwitchComponent>(mWindow, value);
-    mMenu.addWithLabel(component, icon, prefix + _S(longName), _S(longName));
+    auto component = AddSwitch(icon, prefix + _S(longName), value, 0, nullptr, _S(longName));
     mComponents[component] = shortName;
   }
 }
@@ -46,3 +45,4 @@ GuiMenuVirtualSystemPerGenre::~GuiMenuVirtualSystemPerGenre()
     { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); }));
   }
 }
+

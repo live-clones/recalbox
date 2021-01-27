@@ -9,6 +9,8 @@ class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuArcadeVirtualSystem : public GuiMenuBase
+                                 , private IOptionListComponent<int>
+                                 , private ISwitchComponent
 {
   public:
     //! Constructor
@@ -18,6 +20,14 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
     ~GuiMenuArcadeVirtualSystem() override;
 
   private:
+    enum class Components
+    {
+      ArcadeOnOff,
+      IncludeNeogeo,
+      HideOriginals,
+      Position,
+    };
+
     //! SystemManager instance
     SystemManager& mSystemManager;
 
@@ -39,14 +49,19 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
     //! Original position
     int  mOriginalPosition;
 
-    //! Set Arcade On/off
-    static void SetArcade(bool on);
-    //! Set Arcade On/off
-    static void SetIncludeNeoGeo(bool on);
-    //! Set Arcade On/off
-    static void SetHideOriginals(bool on);
-    //! Set Arcade On/off
-    static void SetPosition(const int& position);
 
+    //! Get position entries
     std::vector<GuiMenuBase::ListEntry<int>> GetPositionEntries();
+
+    /*
+     * IOptionListComponent<Overclocking> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const int& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };

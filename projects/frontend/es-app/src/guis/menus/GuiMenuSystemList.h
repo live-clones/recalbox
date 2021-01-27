@@ -13,6 +13,7 @@ class SystemManager;
 class SystemData;
 
 class GuiMenuSystemList : public GuiMenuBase
+                        , private IGuiMenuBase
 {
   public:
     /*!
@@ -25,8 +26,11 @@ class GuiMenuSystemList : public GuiMenuBase
     //! System manager
     SystemManager& mSystemManager;
 
-    //! System selected
-    void SelectSystem(SystemData& system);
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };
 
 

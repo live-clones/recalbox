@@ -16,7 +16,11 @@ class SystemData;
 template<class T> class OptionListComponent;
 class SwitchComponent;
 
-class GuiMenuPads : public GuiMenuBase, ILongExecution<bool, Strings::Vector>, IInputChange
+class GuiMenuPads : public GuiMenuBase
+                  , ILongExecution<bool, Strings::Vector>
+                  , IInputChange
+                  , IOptionListComponent<int>
+                  , IGuiMenuBase
 {
   public:
     /*!
@@ -26,6 +30,14 @@ class GuiMenuPads : public GuiMenuBase, ILongExecution<bool, Strings::Vector>, I
     explicit GuiMenuPads(WindowManager& window);
 
   private:
+    enum class Components
+    {
+      Pads,
+      Configure = (int)Pads + Input::sMaxInputDevices,
+      Pair,
+      Unpair,
+    };
+
     //! Configure a pad
     std::shared_ptr<TextComponent> mConfigure;
     //! Pair a pad
@@ -41,26 +53,19 @@ class GuiMenuPads : public GuiMenuBase, ILongExecution<bool, Strings::Vector>, I
     bool mRefreshing;
 
     //! Called when the user start configuring a pad
-    static void StartConfiguring(GuiMenuPads* thiz);
+    void StartConfiguring();
 
     //! Detect the device to configure
     static void RunDeviceDetection(GuiMenuPads* thiz);
 
     //! Refresh the device list
-    static void RefreshDevices(GuiMenuPads* thiz);
+    void RefreshDevices();
 
     //! Called when the user start configuring a pad
-    static void StartScanningDevices(GuiMenuPads* thiz);
+    void StartScanningDevices();
 
     //! Unpair all device
-    static void UnpairAll(GuiMenuPads* thiz);
-
-    /*!
-     * @brief Pad has been changed at position Index
-     * @param thiz Class instance
-     * @param index Index of changed pad
-     */
-    static void ChangePadAt(GuiMenuPads* thiz, int index);
+    void UnpairAll();
 
     /*
      * ILongExecution
@@ -87,6 +92,18 @@ class GuiMenuPads : public GuiMenuBase, ILongExecution<bool, Strings::Vector>, I
 
     //! Refresh pad list
     void PadsAddedOrRemoved() override;
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
+
+    /*
+     * IOptionListComponent<int> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const int& value) override;
 };
 
 

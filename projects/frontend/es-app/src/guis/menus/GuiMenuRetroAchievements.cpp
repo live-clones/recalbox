@@ -11,95 +11,29 @@
 #include <guis/MenuMessages.h>
 
 GuiMenuRetroAchievements::GuiMenuRetroAchievements(WindowManager& window)
-  : GuiMenuBase(window, _("RETROACHIEVEMENTS SETTINGS"))
-  , mCurrentEdition(EditedText::None)
+  : GuiMenuBase(window, _("RETROACHIEVEMENTS SETTINGS"), nullptr)
 {
   // Retroachievement on/off
-  mRetroAchievement = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetRetroAchievementOnOff());
-  mRetroAchievement->setChangedCallback(SetOnOff);
-  mMenu.addWithLabel(mRetroAchievement, _("RETROACHIEVEMENTS"), _(MENUMESSAGE_RA_ONOFF_HELP_MSG));
+  mRetroAchievement = AddSwitch(_("RETROACHIEVEMENTS"), RecalboxConf::Instance().GetRetroAchievementOnOff(), (int)Components::Enabled, this, _(MENUMESSAGE_RA_ONOFF_HELP_MSG));
 
-  // Retroachievement on/off
-  mHardcore = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetRetroAchievementHardcore());
-  mRetroAchievement->setChangedCallback(SetHardcore);
-  mMenu.addWithLabel(mHardcore, _("HARDCORE MODE"), _(MENUMESSAGE_RA_HARDCORE_HELP_MSG));
+  // Hardcore mode on/off
+  mHardcore = AddSwitch(_("HARDCORE MODE"), RecalboxConf::Instance().GetRetroAchievementHardcore(), (int)Components::Hardcore, this, _(MENUMESSAGE_RA_HARDCORE_HELP_MSG));
 
   // Login
-  mLogin = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetRetroAchievementLogin(),
-                                           mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mLogin, _("USERNAME"), "", false, true,
-                     std::bind(&GuiMenuRetroAchievements::EditLogin, this));
+  mLogin = AddEditable(_("USERNAME"), RecalboxConf::Instance().GetRetroAchievementLogin(), (int)Components::Login, this, false);
 
   // Password
-  mPassword = std::make_shared<TextComponent>(mWindow, MaskedPassword(), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mPassword, _("PASSWORD"), "", false, true,
-                     std::bind(&GuiMenuRetroAchievements::EditPassword, this));
+  mPassword = AddEditable(_("PASSWORD"), RecalboxConf::Instance().GetRetroAchievementPassword(), (int)Components::Password, this, true);
 }
 
-void GuiMenuRetroAchievements::EditLogin()
+void GuiMenuRetroAchievements::EditableComponentTextChanged(int id, const std::string& text)
 {
-  mBackupedText = RecalboxConf::Instance().GetRetroAchievementLogin();
-  mCurrentEdition = EditedText::Login;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("USERNAME"), RecalboxConf::Instance().GetRetroAchievementLogin(), this));
+  if ((Components)id == Components::Login) RecalboxConf::Instance().SetRetroAchievementLogin(text).Save();
+  else if ((Components)id == Components::Password) RecalboxConf::Instance().SetRetroAchievementPassword(text).Save();
 }
 
-void GuiMenuRetroAchievements::EditPassword()
+void GuiMenuRetroAchievements::SwitchComponentChanged(int id, bool status)
 {
-  mBackupedText = RecalboxConf::Instance().GetRetroAchievementPassword();
-  mCurrentEdition = EditedText::Password;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("PASSWORD"), RecalboxConf::Instance().GetRetroAchievementPassword(), this));
-}
-
-void GuiMenuRetroAchievements::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
-{
-  (void)vk;
-  switch(mCurrentEdition)
-  {
-    case EditedText::Login:
-    {
-      // Update login
-      RecalboxConf::Instance().SetRetroAchievementLogin(text);
-
-      // Refresh login
-      mLogin->setText(text);
-      mMenu.onSizeChanged();
-      break;
-    }
-    case EditedText::Password:
-    {
-      // Update password
-      RecalboxConf::Instance().SetRetroAchievementPassword(text);
-
-      // Refresh password
-      mPassword->setText(MaskedPassword());
-      mMenu.onSizeChanged();
-      break;
-    }
-    case EditedText::None:
-    default: break;
-  }
-}
-
-void GuiMenuRetroAchievements::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
-{
-  ArcadeVirtualKeyboardTextChange(vk, text);
-  RecalboxConf::Instance().Save();
-  mCurrentEdition = EditedText::None;
-}
-
-void GuiMenuRetroAchievements::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
-{
-  ArcadeVirtualKeyboardTextChange(vk, mBackupedText);
-  RecalboxConf::Instance().Save();
-  mCurrentEdition = EditedText::None;
-}
-
-void GuiMenuRetroAchievements::SetOnOff(bool on)
-{
-  RecalboxConf::Instance().SetRetroAchievementOnOff(on).Save();
-}
-
-void GuiMenuRetroAchievements::SetHardcore(bool on)
-{
-  RecalboxConf::Instance().SetRetroAchievementHardcore(on).Save();
+  if ((Components)id == Components::Enabled) RecalboxConf::Instance().SetRetroAchievementOnOff(status).Save();
+  else if ((Components)id == Components::Hardcore) RecalboxConf::Instance().SetRetroAchievementHardcore(status).Save();
 }

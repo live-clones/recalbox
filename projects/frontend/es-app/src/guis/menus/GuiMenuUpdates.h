@@ -14,6 +14,9 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuUpdates : public GuiMenuBase
+                     , private ISwitchComponent
+                     , private IGuiMenuBase
+                     , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -23,6 +26,15 @@ class GuiMenuUpdates : public GuiMenuBase
     explicit GuiMenuUpdates(WindowManager& window);
 
   private:
+    enum class Components
+    {
+      Enable,
+      Version,
+      Changelog,
+      StartUpdate,
+      UpdateType,
+    };
+
     //! Enable updates
     std::shared_ptr<SwitchComponent> mEnableUpdate;
     //! Enable updates
@@ -30,15 +42,26 @@ class GuiMenuUpdates : public GuiMenuBase
     //! Update type
     std::shared_ptr<OptionListComponent<std::string>> mType;
 
-    //! Set update enabled
-    static void SetEnabled(bool on);
-    //! Set update enabled
-    static void SetUpdateType(const std::string& type);
+    //! Get Update type List
+    std::vector<ListEntry<std::string>> GetUpdateTypeEntries();
 
-    //! Show changelog
-    void ShowChangelog();
-    //! Show changelog
-    void StartUpdate();
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };
 
 

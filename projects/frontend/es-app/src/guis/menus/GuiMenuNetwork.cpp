@@ -12,33 +12,26 @@
 #include <guis/GuiArcadeVirtualKeyboard.h>
 
 GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
-  : GuiMenuBase(window, _("NETWORK SETTINGS"))
-  , mCurrentEdition(EditedText::None)
+  : GuiMenuBase(window, _("NETWORK SETTINGS"), nullptr)
+  , mFillingList(false)
 {
   // Network status
-  mStatus = std::make_shared<TextComponent>(mWindow, _("NOT CONNECTED"), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mStatus, _("STATUS"), _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
+  mStatus = AddText(_("STATUS"), Strings::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
 
   // IP
-  mIP = std::make_shared<TextComponent>(mWindow, RecalboxSystem::getIpAdress(), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mIP, _("IP ADDRESS"), _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
-
-  // Hostname
-  mHostname = std::make_shared<TextComponent>(mWindow, RecalboxConf::Instance().GetHostname(), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mHostname, _("HOSTNAME"), _(MENUMESSAGE_NETWORK_HOST_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditHostname, this));
+  mIP = AddText(_("IP ADDRESS"), Strings::Empty, _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
 
   // WIFI ON/OFF
-  mWifiOnOff = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().GetWifiEnabled());
-  mWifiOnOff->setChangedCallback(std::bind(&GuiMenuNetwork::OnWifiStateChanged, this));
-  mMenu.addWithLabel(mWifiOnOff, _("ENABLE WIFI"), _(MENUMESSAGE_NETWORK_WIFI_HELP_MSG));
+  mWifiOnOff = AddSwitch(_("ENABLE WIFI"), RecalboxConf::Instance().GetWifiEnabled(), (int)Components::WifiKey, this, _(MENUMESSAGE_NETWORK_WIFI_HELP_MSG));
 
   // SSID
-  mSSIDList = std::make_shared<OptionListComponent<std::string>>(mWindow, _("WIFI SSID"), false, FONT_SIZE_MEDIUM);
-  mMenu.addWithLabel(mSSIDList, _("WIFI SSID"), _(MENUMESSAGE_NETWORK_KEY_HELP_MSG));
+  mSSIDList = AddList<std::string>(_("WIFI SSID"), (int)Components::WifiSSID, this, _(MENUMESSAGE_NETWORK_KEY_HELP_MSG));
 
   // Password
-  mWifiKey = std::make_shared<TextComponent>(mWindow, MaskedPassword(), mTheme.menuText.font, mTheme.menuText.color);
-  mMenu.addWithLabel(mWifiKey, _("WIFI KEY"), _(MENUMESSAGE_NETWORK_KEY_HELP_MSG), false, true, std::bind(&GuiMenuNetwork::EditPassword, this));
+  mWifiKey = AddEditable(_("WIFI KEY"), RecalboxConf::Instance().GetWifiKey(), (int)Components::WifiKey, this, _(MENUMESSAGE_NETWORK_KEY_HELP_MSG), true);
+
+  // Hostname
+  mHostname = AddEditable(_("HOSTNAME"), RecalboxConf::Instance().GetHostname(), (int)Components::Hostname, this, _(MENUMESSAGE_NETWORK_HOST_HELP_MSG), false);
 
   // Buttons
   mMenu.addButton(_("WPS CONNECTION"), _("AUTOMATIC WPS CONNECTION"), std::bind(&GuiMenuNetwork::TryWPS, this) );
@@ -47,39 +40,28 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   Completed(NetworkOperation::ScanSSID, true);
 }
 
-void GuiMenuNetwork::EditHostname()
+void GuiMenuNetwork::OptionListComponentChanged(int id, int index, const std::string& value)
 {
-  mBackupedText = RecalboxConf::Instance().GetHostname();
-  mCurrentEdition = EditedText::Hostname;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("HOSTNAME"), mBackupedText, this));
-}
+  if (mFillingList) return;
+    if ((Components)id == Components::WifiSSID)
+    {
+      if (index == 0)
+      {
+        mBackupedText = RecalboxConf::Instance().GetWifiSSID();
+        mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), mBackupedText, this));
+      }
+      else
+      {
+        // Store new SSID
+        SetWifiSSID(value, true);
 
-void GuiMenuNetwork::EditPassword()
-{
-  mBackupedText = RecalboxConf::Instance().GetWifiKey();
-  mCurrentEdition = EditedText::WifiKey;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI KEY"), mBackupedText, this));
-}
-
-void GuiMenuNetwork::EditSSID()
-{
-  mBackupedText = RecalboxConf::Instance().GetWifiSSID();
-  mCurrentEdition = EditedText::WifiSSID;
-  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("WIFI SSID"), mBackupedText, this));
-}
-
-void GuiMenuNetwork::OnSSIDChanged()
-{
-  if (mSSIDList->getSelectedIndex() == 0) EditSSID();
-  else
-  {
-    // Store new SSID
-    SetWifiSSID(mSSIDList->getSelected(), true);
-
-    // Reconnext using new parameters
-    if (mWifiOnOff->getState())
-      mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,_("Connecting to WIFI...")));
-  }
+        // Reconnext using new parameters
+        if (mWifiOnOff->getState())
+          mWindow.pushGui(
+            (new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,
+                                                                                        _("Connecting to WIFI...")));
+      }
+    }
 }
 
 void GuiMenuNetwork::TryWPS()
@@ -89,15 +71,37 @@ void GuiMenuNetwork::TryWPS()
   mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::WPS,""));
 }
 
-void GuiMenuNetwork::OnWifiStateChanged()
+bool GuiMenuNetwork::ConnectWps(GuiWaitLongExecution<NetworkOperation, bool>& from)
 {
-  // Store new state
-  SetWifiStatus(mWifiOnOff->getState(), true);
+  LOG(LogDebug) << "[WPS] Start WPS connection";
+  from.SetText(_("Reseting WIFI configuration..."));
+  LOG(LogDebug) << "[WPS] " << "Reseting WIFI configuration...";
+  if (!RecalboxSystem::enableWifi("", "")) return false;
+  from.SetText(_("Waiting for WPS configuration..."));
+  LOG(LogDebug) << "[WPS] " << "Waiting for WPS configuration...";
+  if (!RecalboxSystem::getWifiWps()) return false;
+  sleep(2); // Give time to read the message :)
+  std::string ip = _("Waiting for IP address... (%is)");
+  for(int i = 30; --i >= 0; )
+  {
+    std::string finalText(Strings::Replace(ip, "%i", Strings::ToString(i)));
+    from.SetText(finalText);
+    LOG(LogDebug) << "[WPS] " << finalText;
+    if (RecalboxSystem::hasIpAdress(true)) break;
+    sleep(1);
+  }
+  if (!RecalboxSystem::hasIpAdress(true)) return false;
+  from.SetText(_("Saving WIFI configuration"));
+  LOG(LogDebug) << "[WPS] " << "Saving WIFI configuration";
+  if (!RecalboxSystem::saveWifiWps()) return false;
+  sleep(2); // Give time to read the message :)
+  from.SetText(_("Fetching WIFI parameters"));
+  LOG(LogDebug) << "[WPS] " << "Fetching WIFI parameters";
+  if (!RecalboxSystem::getWifiConfiguration(mWpsSSID, mWpsPSK)) return false;
+  sleep(2); // Give time to read the message :)
 
-  // Connect or disconnect
-  NetworkOperation operation = mWifiOnOff->getState() ? NetworkOperation::StartWIFI : NetworkOperation::StopWIFI;
-  std::string text = mWifiOnOff->getState() ? _("Connecting to WIFI...") : _("Disconnecting from WIFI...");
-  mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(operation, text));
+  LOG(LogInfo) << "[WPS] WPS Configuration OK!";
+  return true;
 }
 
 bool GuiMenuNetwork::Execute(GuiWaitLongExecution<NetworkOperation, bool>& from, const NetworkOperation& parameter)
@@ -121,35 +125,7 @@ bool GuiMenuNetwork::Execute(GuiWaitLongExecution<NetworkOperation, bool>& from,
     }
     case NetworkOperation::WPS:
     {
-      LOG(LogDebug) << "[WPS] Start WPS connection";
-      from.SetText(_("Reseting WIFI configuration..."));
-      LOG(LogDebug) << "[WPS] " << "Reseting WIFI configuration...";
-      if (!RecalboxSystem::enableWifi("", "")) return false;
-      from.SetText(_("Waiting for WPS configuration..."));
-      LOG(LogDebug) << "[WPS] " << "Waiting for WPS configuration...";
-      if (!RecalboxSystem::getWifiWps()) return false;
-      sleep(2); // Give time to read the message :)
-      std::string ip = _("Waiting for IP address... (%is)");
-      for(int i = 30; --i >= 0; )
-      {
-        std::string finalText(Strings::Replace(ip, "%i", Strings::ToString(i)));
-        from.SetText(finalText);
-        LOG(LogDebug) << "[WPS] " << finalText;
-        if (RecalboxSystem::hasIpAdress(true)) break;
-        sleep(1);
-      }
-      if (!RecalboxSystem::hasIpAdress(true)) return false;
-      from.SetText(_("Saving WIFI configuration"));
-      LOG(LogDebug) << "[WPS] " << "Saving WIFI configuration";
-      if (!RecalboxSystem::saveWifiWps()) return false;
-      sleep(2); // Give time to read the message :)
-      from.SetText(_("Fetching WIFI parameters"));
-      LOG(LogDebug) << "[WPS] " << "Fetching WIFI parameters";
-      if (!RecalboxSystem::getWifiConfiguration(mWpsSSID, mWpsPSK)) return false;
-      sleep(2); // Give time to read the message :)
-
-      LOG(LogInfo) << "[WPS] WPS Configuration OK!";
-      return true;
+      return ConnectWps(from);
     }
     default: break;
   }
@@ -177,7 +153,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
     case NetworkOperation::ScanSSID:
     {
       // Kill notifier
-      mSSIDList->setChangedCallback(nullptr);
+      mFillingList = true;
 
       // Fill SSID list
       std::string currentSSID = RecalboxConf::Instance().GetWifiSSID();
@@ -192,7 +168,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
         mSSIDList->add(ssid, ssid, currentSSID == ssid);
 
       // Set back the change notifier
-      mSSIDList->setChangedCallback(std::bind(&GuiMenuNetwork::OnSSIDChanged, this));
+      mFillingList = false;
       break;
     }
     case NetworkOperation::WPS:
@@ -204,12 +180,12 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
       else
       {
         // Save new ssid/password
-        SetWifiSSID(mWpsSSID, false);
-        SetWifiPassword(mWpsPSK, true);
+        RecalboxConf::Instance().SetWifiSSID(mWpsSSID).Save();
+        RecalboxConf::Instance().SetWifiKey(mWpsPSK).Save();
         // Refresh SSID List
         Completed(NetworkOperation::ScanSSID, true);
         // Refresh psk
-        mWifiKey->setText(MaskedPassword());
+        mWifiKey->setText(mWpsPSK);
 
         mWindow.displayMessage(_("WPS CONFIGURATION SUCCESSFUL!"));
       }
@@ -224,75 +200,43 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
   mMenu.onSizeChanged();
 }
 
-void GuiMenuNetwork::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void GuiMenuNetwork::EditableComponentTextChanged(int id, const std::string& text)
 {
-  (void)vk;
-  switch(mCurrentEdition)
+  if ((Components)id == Components::WifiKey)
   {
-    case EditedText::Hostname:
-    {
-      // Update hostname
-      SetHostname(text, false);
-
-      // Refresh hostname
-      mHostname->setText(text);
-      mMenu.onSizeChanged();
-      break;
-    }
-    case EditedText::WifiSSID:
-    {
-      // Update SSID
-      SetWifiSSID(text, false);
-
-      // Refresh SSID list
-      Completed(NetworkOperation::ScanSSID, true);
-      break;
-    }
-    case EditedText::WifiKey:
-    {
-      // Update password
-      SetWifiPassword(text, false);
-
-      // Refresh password
-      mWifiKey->setText(MaskedPassword());
-      mMenu.onSizeChanged();
-      break;
-    }
-    case EditedText::None:
-    default: break;
+    // Save
+    RecalboxConf::Instance().SetWifiKey(text).Save();
+    // Reconnect using new parameters
+    if (mWifiOnOff->getState())
+      mWindow.pushGui(
+        (new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,
+                                                                                    _("Connecting to WIFI...")));
   }
+  else if ((Components)id == Components::Hostname)
+    RecalboxConf::Instance().SetHostname(text).Save();
+}
+
+void GuiMenuNetwork::SwitchComponentChanged(int id, bool status)
+{
+  (void)id;
+  // Save state
+  RecalboxConf::Instance().SetWifiEnabled(status).Save();
+  // Connect or disconnect
+  NetworkOperation operation = mWifiOnOff->getState() ? NetworkOperation::StartWIFI : NetworkOperation::StopWIFI;
+  std::string text = mWifiOnOff->getState() ? _("Connecting to WIFI...") : _("Disconnecting from WIFI...");
+  mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(operation, text));
 }
 
 void GuiMenuNetwork::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
 {
-  ArcadeVirtualKeyboardTextChange(vk, text);
-  RecalboxConf::Instance().Save();
-
-  switch (mCurrentEdition)
-  {
-    case EditedText::Hostname:
-    {
-      mWindow.displayMessage("Hostname changes will not be effective until next reboot");
-      break;
-    }
-    case EditedText::WifiSSID:
-    case EditedText::WifiKey:
-    {
-      // Reconnext using new parameters
-      if (mWifiOnOff->getState())
-        mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,_("Connecting to WIFI...")));
-
-      break;
-    }
-    case EditedText::None:
-    default: break;
-  }
-  mCurrentEdition = EditedText::None;
+  (void)vk;
+  // Save new SSID
+  RecalboxConf::Instance().SetWifiSSID(text).Save();
+  // Refresh SSID List
+  Completed(NetworkOperation::ScanSSID, true);
+  // Reconnext using new parameters
+  if (mWifiOnOff->getState())
+    mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,_("Connecting to WIFI...")));
 }
 
-void GuiMenuNetwork::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
-{
-  ArcadeVirtualKeyboardTextChange(vk, mBackupedText);
-  RecalboxConf::Instance().Save();
-  mCurrentEdition = EditedText::None;
-}
+

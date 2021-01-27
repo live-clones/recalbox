@@ -10,7 +10,7 @@
 
 class TextComponent;
 
-class GuiInputConfig : public Gui
+class GuiInputConfig : public Gui, private IComponentListRowEventInterceptor
 {
 public:
 	GuiInputConfig(WindowManager& window, InputDevice* target, const std::function<void()>& doneCallback);
@@ -57,7 +57,9 @@ private:
 
 	void rowDone();
 
-	NinePatchComponent mBackground;
+    bool EventReceived(int id, const InputCompactEvent& event) override;
+
+    NinePatchComponent mBackground;
 	ComponentGrid mGrid;
 	
 	std::vector< FormInput > mFormInputs;

@@ -7,25 +7,25 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, const std::string& themeName)
-  : GuiMenuBase(window, _("THEME CONFIGURATION"))
+  : GuiMenuBase(window, _("THEME CONFIGURATION"), nullptr)
   , mThemeName(themeName)
   , mReloadRequired(false)
 {
   StringMaps themeSubSets = ThemeData::getThemeSubSets(themeName);
-  mColorSet     = BuildSelector(_("THEME COLORSET"    ), RecalboxConf::Instance().GetThemeColorSet(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "colorset")    , [this] { SetColorSet(mColorSet->getSelected()); });
-  mIconSet      = BuildSelector(_("THEME ICONSET"     ), RecalboxConf::Instance().GetThemeIconSet(themeName)   ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "iconset")     , [this] { SetIconSet(mIconSet->getSelected()); });
-  mMenuSet      = BuildSelector(_("THEME MENU"        ), RecalboxConf::Instance().GetThemeMenuSet(themeName)   ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "menu")        , [this] { SetMenuSet(mMenuSet->getSelected()); });
-  mSystemView   = BuildSelector(_("THEME SYSTEMVIEW"  ), RecalboxConf::Instance().GetThemeSystemView(themeName),
-                                ThemeData::sortThemeSubSets(themeSubSets, "systemview")  , [this] { SetSystemView(mSystemView->getSelected()); });
-  mGameListView = BuildSelector(_("THEME GAMELISTVIEW"), RecalboxConf::Instance().GetThemeGamelistView(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "gamelistview"), [this] { SetGameListView(mGameListView->getSelected()); });
-  mGameClipView = BuildSelector(_("THEME GAMECLIPVIEW"), RecalboxConf::Instance().GetThemeGameClipView(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "gameclipview"), [this] { SetGameClipView(mGameClipView->getSelected()); });
-  mRegion       = BuildSelector(_("THEME REGION"      ), RecalboxConf::Instance().GetThemeRegion(themeName)    ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "region")      , [this] { SetRegion(mRegion->getSelected()); });
+  mColorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG), RecalboxConf::Instance().GetThemeColorSet(themeName)  ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "colorset")    , Components::ColorSet, mOriginalColorSet);
+  mIconSet      = BuildSelector(_("THEME ICONSET"     ), _(MENUMESSAGE_UI_THEME_ICONSET_MSG), RecalboxConf::Instance().GetThemeIconSet(themeName)   ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "iconset")     , Components::IconSet, mOriginalIconSet);
+  mMenuSet      = BuildSelector(_("THEME MENU"        ), _(MENUMESSAGE_UI_THEME_MENU_MSG), RecalboxConf::Instance().GetThemeMenuSet(themeName)   ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "menu")        , Components::MenuSet, mOriginalMenuSet);
+  mSystemView   = BuildSelector(_("THEME SYSTEMVIEW"  ), _(MENUMESSAGE_UI_THEME_SYSTEMVIEW_MSG), RecalboxConf::Instance().GetThemeSystemView(themeName),
+                                ThemeData::sortThemeSubSets(themeSubSets, "systemview")  , Components::SystemView, mOriginalSystemView);
+  mGameListView = BuildSelector(_("THEME GAMELISTVIEW"), _(MENUMESSAGE_UI_THEME_GAMELISTVIEW_MSG), RecalboxConf::Instance().GetThemeGamelistView(themeName)  ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "gamelistview"), Components::GamelistView, mOriginalGameListView);
+  mGameClipView = BuildSelector(_("THEME GAMECLIPVIEW"), _(MENUMESSAGE_UI_THEME_GAMECLIPVIEW_MSG), RecalboxConf::Instance().GetThemeGameClipView(themeName)  ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "gameclipview"), Components::GameClipView, mOriginalGameClipView);
+  mRegion       = BuildSelector(_("THEME REGION"      ), _(MENUMESSAGE_UI_THEME_REGION_MSG), RecalboxConf::Instance().GetThemeRegion(themeName)    ,
+                                ThemeData::sortThemeSubSets(themeSubSets, "region")      , Components::Region, mOriginalRegion);
 
   // Empty?
   if (!mColorSet && !mIconSet && !mMenuSet && !mSystemView && !mGameListView && !mRegion)
@@ -35,72 +35,52 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
   }
 }
 
-void GuiMenuThemeConfiguration::SetColorSet(const std::string& colorSet)
-{
-  RecalboxConf::Instance().SetThemeColorSet(mThemeName, colorSet).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetIconSet(const std::string& iconSet)
-{
-  RecalboxConf::Instance().SetThemeIconSet(mThemeName, iconSet).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetMenuSet(const std::string& menuSet)
-{
-  RecalboxConf::Instance().SetThemeMenuSet(mThemeName, menuSet).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetSystemView(const std::string& systemView)
-{
-  RecalboxConf::Instance().SetThemeSystemView(mThemeName, systemView).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetGameListView(const std::string& gameListView)
-{
-  RecalboxConf::Instance().SetThemeGamelistView(mThemeName, gameListView).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetGameClipView(const std::string& gameClipView)
-{
-  RecalboxConf::Instance().SetThemeGameClipView(mThemeName, gameClipView).Save();
-  mReloadRequired = true;
-}
-
-void GuiMenuThemeConfiguration::SetRegion(const std::string& region)
-{
-  RecalboxConf::Instance().SetThemeRegion(mThemeName, region).Save();
-  mReloadRequired = true;
-}
-
-GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const std::string& label, const std::string& selected, const StringMaps & items, const Callback& callback)
-{
-  auto selectedColorSet = items.find(selected);
-  if (selectedColorSet == items.end()) selectedColorSet = items.begin();
-
-  auto optionList = std::make_shared<OptionListComponent<std::string> >(mWindow, label, false);
-  for (const auto& it : items) optionList->add(it.first, it.first, it.first == selectedColorSet->first);
-  optionList->setChangedCallback(callback);
-
-  if (!items.empty())
-  {
-    mMenu.addWithLabel(optionList, label, _(MENUMESSAGE_UI_THEME_COLORSET_MSG));
-    return optionList;
-  }
-  return nullptr;
-}
-
 GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
 {
-  if (mReloadRequired)
+  if ((mColorSet->getSelected()     != mOriginalColorSet    ) ||
+      (mIconSet->getSelected()      != mOriginalIconSet     ) ||
+      (mMenuSet->getSelected()      != mOriginalMenuSet     ) ||
+      (mSystemView->getSelected()   != mOriginalSystemView  ) ||
+      (mGameListView->getSelected() != mOriginalGameListView) ||
+      (mGameClipView->getSelected() != mOriginalGameClipView) ||
+      (mRegion->getSelected()       != mOriginalRegion      ))
   {
     ThemeData::SetThemeChanged(true);
     MenuThemeData::Reset();
     ThemeData::SetThemeChanged(true);
     MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
   }
+}
+
+void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, const std::string& value)
+{
+  (void)index;
+  switch((Components)id)
+  {
+    case Components::ColorSet: RecalboxConf::Instance().SetThemeColorSet(mThemeName, value).Save(); break;
+    case Components::IconSet: RecalboxConf::Instance().SetThemeIconSet(mThemeName, value).Save(); break;
+    case Components::MenuSet: RecalboxConf::Instance().SetThemeMenuSet(mThemeName, value).Save(); break;
+    case Components::SystemView: RecalboxConf::Instance().SetThemeSystemView(mThemeName, value).Save(); break;
+    case Components::GamelistView: RecalboxConf::Instance().SetThemeGamelistView(mThemeName, value).Save(); break;
+    case Components::GameClipView: RecalboxConf::Instance().SetThemeGameClipView(mThemeName, value).Save(); break;
+    case Components::Region: RecalboxConf::Instance().SetThemeRegion(mThemeName, value).Save(); break;
+  }
+}
+
+GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const std::string& label, const std::string& help, const std::string& selected, const StringMaps & items, Components id, std::string& original)
+{
+  auto selectedColorSet = items.find(selected);
+  if (selectedColorSet == items.end()) selectedColorSet = items.begin();
+  original = selectedColorSet->first;
+
+  std::vector<ListEntry<std::string>> list;
+  for (const auto& it : items)
+    list.push_back({ it.first, it.first, it.first == selectedColorSet->first });
+
+  if (!items.empty())
+  {
+    auto optionList = AddList(label, (int)id, this, list, help);
+    return optionList;
+  }
+  return nullptr;
 }

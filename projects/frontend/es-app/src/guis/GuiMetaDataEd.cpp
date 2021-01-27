@@ -105,7 +105,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(spacer, false);
 
         // pass input to the actual RatingComponent instead of the spacer
-        row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
+        //row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }
@@ -119,7 +119,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(spacer, false);
 
         // pass input to the actual DateTimeComponent instead of the spacer
-        row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
+        //row.input_handler = std::bind(&Component::ProcessInput, ed.get(), std::placeholders::_1/*, std::placeholders::_2*/);
 
         break;
       }

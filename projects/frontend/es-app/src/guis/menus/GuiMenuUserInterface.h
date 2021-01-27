@@ -4,13 +4,15 @@
 #pragma once
 
 #include <components/MenuComponent.h>
-#include <components/OptionListComponent.h>
 #include <guis/menus/GuiMenuBase.h>
 #include <components/SwitchComponent.h>
 #include <components/SliderComponent.h>
 #include <systems/SystemManager.h>
 
 class GuiMenuUserInterface : public GuiMenuBase
+                           , private IGuiMenuBase
+                           , private ISliderComponent
+                           , private ISwitchComponent
 {
   public:
     /*!
@@ -27,6 +29,20 @@ class GuiMenuUserInterface : public GuiMenuBase
     void Update(int deltaTime) override;
 
   private:
+    enum class Components
+    {
+      Brightness,
+      ScreenSaver,
+      Clock,
+      Help,
+      Popups,
+      QuickSelect,
+      Theme,
+      ThemeConfig,
+      UpdateGamelist,
+    };
+
+    //! System Manager
     SystemManager& mSystemManager;
 
     //! Brightness
@@ -39,32 +55,26 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mQuickSelect;
 
     /*!
-     * @brief Save & set brightness
-     * @param time new brightness
-     */
-    static void SetBrightness(const float& brightness);
-
-    /*!
-     * @brief Save & set Clock on/off
-     * @param time new Clock state
-     */
-    static void SetClock(bool on);
-
-    /*!
-     * @brief Save & set Show help on/off
-     * @param time new Show help state
-     */
-    static void SetHelp(bool on);
-
-    /*!
-     * @brief Save & set Quick system select
-     * @param time new Quick system select state
-     */
-    static void SetQuickSystemSelect(bool on);
-
-    /*!
      * @brief Reload gamelists
      */
     void ReloadGamelists();
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
+
+    /*
+     * ISliderComponent implementation
+     */
+
+    void SliderMoved(int id, float value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 

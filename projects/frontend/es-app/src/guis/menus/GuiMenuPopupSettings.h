@@ -8,6 +8,7 @@
 #include <components/SliderComponent.h>
 
 class GuiMenuPopupSettings : public GuiMenuBase
+                           , private ISliderComponent
 {
   public:
     /*!
@@ -17,6 +18,13 @@ class GuiMenuPopupSettings : public GuiMenuBase
     explicit GuiMenuPopupSettings(WindowManager& window);
 
   private:
+    enum class Components
+    {
+      Help,
+      Music,
+      Netplay,
+    };
+
     //! Help popup time
     std::shared_ptr<SliderComponent> mHelp;
     //! Music popup time
@@ -24,22 +32,10 @@ class GuiMenuPopupSettings : public GuiMenuBase
     //! Netplay popup time
     std::shared_ptr<SliderComponent> mNetplay;
 
-    /*!
-     * @brief Save & set help popup time
-     * @param time new popup time
+    /*
+     * ISliderComponent implementation
      */
-    static void SetHelpPopupTime(float time);
 
-    /*!
-     * @brief Set & save Music popup time
-     * @param time new popup time
-     */
-    static void SetMusicPopupTime(float time);
-
-    /*!
-     * @brief Set & save Netplay popup time
-     * @param time new popup time
-     */
-    static void SetNetplayPopupTime(float time);
+    void SliderMoved(int id, float value) override;
 };
 

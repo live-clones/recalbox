@@ -15,6 +15,8 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuSystemConfiguration : public GuiMenuBase
+                                 , private IOptionListComponent<std::string>
+                                 , private ISwitchComponent
 {
   public:
     /*!
@@ -24,6 +26,19 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
     explicit GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager);
 
   private:
+    enum class Components
+    {
+      Emulator,
+      Ratio,
+      Smooth,
+      Rewind,
+      AutoSave,
+      Shaders,
+      ShaderSet,
+    };
+
+    //! System manager
+    SystemManager& mSystemManager;
     //! Target system
     SystemData& mSystem;
     //! Default emulator
@@ -46,20 +61,26 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
     //! Shader Set
     std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
 
-    //! Set emulator & core
-    void SetEmulatorCore(const std::string& emulatorCore);
-    //! Set ratio
-    void SetRatio(const std::string& ratio);
-    //! Set smoothing on/off
-    void SetSmooth(bool on);
-    //! Set rewind on/off
-    void SetRewind(bool on);
-    //! Set auto save on/off
-    void SetAutoSave(bool on);
-    //! Set raw shaders path
-    void SetShaders(const std::string& shaders);
-    //! Set shader preset name
-    void SetShaderSet(const std::string& shaderset);
+    //! Get Emulator List
+    std::vector<ListEntry<std::string>> GetEmulatorEntries();
+    //! Get Ratio List
+    std::vector<ListEntry<std::string>> GetRatioEntries();
+    //! Get Shaders List
+    std::vector<ListEntry<std::string>> GetShadersEntries();
+    //! Get ShaderSet List
+    std::vector<ListEntry<std::string>> GetShaderSetEntries();
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

@@ -18,50 +18,95 @@ struct ComponentListElement
 	bool invert_when_selected;
 };
 
+class IComponentListRow
+{
+  public:
+    virtual void ComponentListRowSelected(int id) = 0;
+};
+
+class IComponentListRowEventInterceptor
+{
+  public:
+    virtual bool EventReceived(int id, const InputCompactEvent& event) = 0;
+};
+
 struct ComponentListRow
 {
-	std::vector<ComponentListElement> elements;
-	std::string name;
+  public:
 
-	// The input handler is called when the user enters any input while this row is highlighted (including up/down).
-	// Return false to let the list try to use it or true if the input has been consumed.
-	// If no input handler is supplied (input_handler == nullptr), the default behavior is to forward the input to 
-	// the rightmost element in the currently selected row.
-	std::function<bool(const InputCompactEvent&)> input_handler;
-	std::function<bool(const InputCompactEvent&)> help_handler;
+    std::vector<ComponentListElement> elements;
+    std::string name;
 
-	explicit ComponentListRow(std::string n = std::string()) : name(std::move(n))
-	{}
-	
-	inline void addElement(const std::shared_ptr<Component>& component, bool resize_width, bool invert_when_selected = true)
-	{
-		elements.push_back(ComponentListElement(component, resize_width, invert_when_selected));
-	}
+    explicit ComponentListRow(/*std::string n = std::string()*/)
+      : name(/*n*/)
+      , mInterceptor(nullptr)
+      , mInterface(nullptr)
+      , mIdentifier(0)
+    {
+    }
 
-	// Utility method for making an input handler for "when the users presses B on this, do func."
-	inline void makeAcceptInputHandler(const std::function<void()>& func)
-	{
-		input_handler = [func](const InputCompactEvent& event) -> bool {
-			if(event.BPressed())
-			{
-				func();
-				return true;
-			}
-			return false;
-		};
-	}
+    inline void addElement(const std::shared_ptr<Component>& component, bool resize_width, bool invert_when_selected = true)
+    {
+      elements.push_back(ComponentListElement(component, resize_width, invert_when_selected));
+    }
 
-	inline void makeHelpInputHandler(const std::function<void()> &func)
-	{
-		help_handler = [func](const InputCompactEvent& event) -> bool {
-			if(event.YPressed())
-			{
-				func();
-				return true;
-			}
-			return false;
-		};
-	}
+    bool ProcessInput(const InputCompactEvent& event)
+    {
+      if (mInterceptor != nullptr)
+        return mInterceptor->EventReceived(mIdentifier, event);
+
+      if(event.BPressed())
+      {
+        if (mInterface != nullptr) { mInterface->ComponentListRowSelected(mIdentifier); return true; }
+        if (input_handler) { input_handler(); return true; }
+      }
+      if(event.YPressed())
+        if (help_handler) { help_handler(); return true; }
+
+      // No input handler assigned, do the default, which is to give it to the rightmost element in the row
+      if(!elements.empty())
+        if(elements.back().component->ProcessInput(event))
+          return true;
+
+      return false;
+    }
+
+    inline void SetEventInterceptor(int id, IComponentListRowEventInterceptor* interceptor)
+    {
+      mIdentifier =id;
+      mInterceptor = interceptor;
+    }
+
+    inline void SetCallbackInterface(int id, IComponentListRow* interface)
+    {
+      mIdentifier = id;
+      mInterface = interface;
+    }
+
+    // Utility method for making an input handler for "when the users presses B on this, do func."
+    inline void makeAcceptInputHandler(const std::function<void()>& func)
+    {
+      input_handler = func;
+    }
+
+    inline void makeHelpInputHandler(const std::function<void()> &func)
+    {
+      help_handler = func;
+    }
+
+    inline bool HasHelpHandler() { return help_handler != nullptr; }
+
+  private:
+    // The input handler is called when the user enters any input while this row is highlighted (including up/down).
+    // Return false to let the list try to use it or true if the input has been consumed.
+    // If no input handler is supplied (input_handler == nullptr), the default behavior is to forward the input to
+    // the rightmost element in the currently selected row.
+
+    std::function<void()> input_handler;
+    std::function<void()> help_handler;
+    IComponentListRowEventInterceptor* mInterceptor;
+    IComponentListRow* mInterface;
+    int mIdentifier;
 };
 
 class ComponentList : public IList<ComponentListRow, void*>
@@ -83,7 +128,7 @@ public:
 
 	bool moveCursor(int amt);
 	inline int getCursorId() const { return mCursor; }
-	
+
 	float getTotalRowHeight() const;
 	inline float getRowHeight(int row) const { return getRowHeight(mEntries[row].data); }
 

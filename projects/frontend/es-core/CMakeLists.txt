@@ -114,9 +114,15 @@ set(CORE_HEADERS
 		src/components/ComponentGrid.h
 		src/components/ComponentList.h
 		src/components/DateTimeComponent.h
+		src/components/EditableComponent.h
         src/components/GameClipContainer.h
 		src/components/HelpComponent.h
+		src/components/IEditableComponent.h
 		src/components/IList.h
+		src/components/IOptionListComponent.h
+		src/components/IOptionListMultiComponent.h
+		src/components/ISliderComponent.h
+		src/components/ISwitchComponent.h
 		src/components/ImageComponent.h
 		src/components/VideoComponent.h
 		src/components/ImageGridComponent.h
@@ -248,6 +254,7 @@ set(CORE_SOURCES
 		src/components/ComponentGrid.cpp
 		src/components/ComponentList.cpp
 		src/components/DateTimeComponent.cpp
+		src/components/EditableComponent.cpp
         src/components/GameClipContainer.cpp
 		src/components/HelpComponent.cpp
 		src/components/ImageComponent.cpp

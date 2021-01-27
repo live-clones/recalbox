@@ -11,24 +11,31 @@
 #include <systems/SystemManager.h>
 
 GuiMenuSwitchKodiNetplay::GuiMenuSwitchKodiNetplay(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("KODI/NETPLAY"))
+  : GuiMenuBase(window, _("KODI/NETPLAY"), this)
   , mSystemManager(systemManager)
 {
   // Start kodi
-  AddSubMenu("\uF1c3 " + _("KODI MEDIA CENTER"), std::bind(StartKodi, this));
+  AddSubMenu("\uF1c3 " + _("KODI MEDIA CENTER"), (int)Components::Kodi);
 
   // Start Netplay
-  AddSubMenu("\uF1c4 " + _("NETPLAY LOBBY"), std::bind(StartNetplay, this));
+  AddSubMenu("\uF1c4 " + _("NETPLAY LOBBY"), (int)Components::Netplay);
 }
 
-void GuiMenuSwitchKodiNetplay::StartKodi(GuiMenuSwitchKodiNetplay* thiz)
+void GuiMenuSwitchKodiNetplay::SubMenuSelected(int id)
 {
-  if (!RecalboxSystem::launchKodi(thiz->mWindow))
-    LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-}
-
-void GuiMenuSwitchKodiNetplay::StartNetplay(GuiMenuSwitchKodiNetplay* thiz)
-{
-  thiz->mWindow.pushGui(new GuiNetPlay(thiz->mWindow, thiz->mSystemManager));
-  thiz->Close();
+  switch((Components)id)
+  {
+    case Components::Kodi:
+    {
+      if (!RecalboxSystem::launchKodi(mWindow))
+        LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+      break;
+    }
+    case Components::Netplay:
+    {
+      mWindow.pushGui(new GuiNetPlay(mWindow, mSystemManager));
+      Close();
+      break;
+    }
+  }
 }

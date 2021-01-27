@@ -14,6 +14,9 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuGameSettings : public GuiMenuBase
+                          , private IOptionListComponent<std::string>
+                          , private ISwitchComponent
+                          , private IGuiMenuBase
 {
   public:
     /*!
@@ -25,6 +28,21 @@ class GuiMenuGameSettings : public GuiMenuBase
     ~GuiMenuGameSettings() override;
 
   private:
+    enum class Components
+    {
+      Ratio,
+      Smooth,
+      Rewind,
+      AutoSave,
+      QuitTwice,
+      IntegerScale,
+      HidePreinstalled,
+      Shaders,
+      ShaderSet,
+      RetroAchivements,
+      Netplay,
+    };
+
     //! System manager
     SystemManager& mSystemManager;
 
@@ -75,6 +93,24 @@ class GuiMenuGameSettings : public GuiMenuBase
     static void SetShaders(const std::string& shaders);
     //! Set shader preset nastatic me
     static void SetShaderSet(const std::string& shaderset);
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };
 
 

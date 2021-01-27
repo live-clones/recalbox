@@ -14,7 +14,20 @@ class SystemData;
 template<class T> class OptionListComponent;
 class SwitchComponent;
 
+//! O/C file & description
+struct Overclocking
+{
+  std::string File;
+  std::string Description;
+  bool Hazardous;
+
+  bool operator == (const Overclocking& r) const { return (File == r.File) && (Description == r.Description) && (Hazardous == r.Hazardous); }
+};
+
 class GuiMenuAdvancedSettings : public GuiMenuBase
+                              , private IOptionListComponent<Overclocking>
+                              , private ISwitchComponent
+                              , private IGuiMenuBase
 {
   public:
     /*!
@@ -27,18 +40,22 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     ~GuiMenuAdvancedSettings() override;
 
   private:
+    enum class Components
+    {
+      OverclockList,
+      BootSubMenu,
+      VirtualSubMenu,
+      AdultGames,
+      AdvancedSubMenu,
+      KodiSubMenu,
+      SecuritySubMenu,
+      Overscan,
+      ShowFPS,
+      Manager,
+    };
+
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";
     static constexpr const char* sOverclockFile = "/boot/recalbox-oc-config.txt";
-
-    //! O/C file & description
-    struct Overclocking
-    {
-      std::string File;
-      std::string Description;
-      bool Hazardous;
-
-      bool operator == (const Overclocking& r) const { return (File == r.File) && (Description == r.Description) && (Hazardous == r.Hazardous); }
-    };
 
     //! Overclocking list
     typedef std::vector<Overclocking> OverclockList;
@@ -51,7 +68,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     //! Original overclock value
     std::string mOriginalOverclock;
     //! Last overclock hazardous?
-    static bool sLastHazardous;
+    bool mLastHazardous;
+    //! Is there at least a valid O/C?
+    bool mValidOverclock;
 
     //! Overclock
     std::shared_ptr<OptionListComponent<Overclocking>> mOverclock;
@@ -70,18 +89,26 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     //! Get O/C List
     std::vector<ListEntry<Overclocking>> GetOverclockEntries();
 
-    //! Set overclock
-    static void SetOverclock(const Overclocking& oc);
     //! Reset overclock
     void ResetOverclock();
-    //! Set Adult flag
-    static void SetAdult(bool on);
-    //! Set Overscan
-    static void SetOverscan(bool on);
-    //! Set Show FPS
-    static void SetShowFPS(bool on);
-    //! Set Webmanager
-    static void SetWebmanager(bool on);
+
+    /*
+     * IOptionListComponent<Overclocking> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const Overclocking& value) override;
+
+    /*
+     * ISwitchComponent implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };
 
 

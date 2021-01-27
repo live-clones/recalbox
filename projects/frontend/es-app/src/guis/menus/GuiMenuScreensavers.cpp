@@ -8,49 +8,62 @@
 #include "guis/MenuMessages.h"
 
 GuiMenuScreensavers::GuiMenuScreensavers(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("SCREENSAVER"))
+  : GuiMenuBase(window, _("SCREENSAVER"), nullptr)
+  , mSystemManager(systemManager)
 {
   // screensaver time
-  mTime = std::make_shared<SliderComponent>(mWindow, 0.f, 30.f, 1.f, "m");
-  mTime->setSlider((float)RecalboxConf::Instance().GetScreenSaverTime());
-  mTime->setSelectedChangedCallback(SetTime);
-  mMenu.addWithLabel(mTime, _("SCREENSAVER AFTER"), _(MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG));
+  mTime = AddSlider(_("SCREENSAVER AFTER"), 0.f, 30.f, 1.f, (float)RecalboxConf::Instance().GetScreenSaverTime(), "m", (int)Components::Time, this, _(MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG));
 
   // screensaver behavior
-  mType = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCREENSAVER BEHAVIOR"), false);
-  std::vector<std::string> screensavers;
-  std::string type = RecalboxConf::Instance().GetScreenSaverType();
-  if (Board::Instance().HasSuspendResume())
-    mType->add(_("suspend"), "suspend", type == "suspend");
-  mType->add(_("dim"), "dim", type == "dim");
-  mType->add(_("black"), "black", type == "black");
-  mType->add(_("demo"), "demo", type == "demo");
-  mType->add(_("gameclip"), "gameclip", type == "gameclip");
-  mType->setChangedCallback([this] { SetType(); });
-  mMenu.addWithLabel(mType, _("SCREENSAVER BEHAVIOR"), _(MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
+  mType = AddList<std::string>(_("SCREENSAVER BEHAVIOR"), (int)Components::Type, this, GetTypeEntries(), _(MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 
   // add systems
-  mSystemList = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SYSTEMS TO SHOW IN DEMO"), true);
-  for (auto* it : systemManager.GetAllSystemList())
+  mSystemList = AddMultiList(_("SYSTEMS TO SHOW IN DEMO"), (int)Components::SystemList, this, GetSystemEntries());
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuScreensavers::GetTypeEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  std::string type = RecalboxConf::Instance().GetScreenSaverType();
+  if (Board::Instance().HasSuspendResume())
+    list.push_back({ _("suspend"), "suspend", type == "suspend" });
+  list.push_back({ _("dim"), "dim", type == "dim" });
+  list.push_back({ _("black"), "black", type == "black" });
+  list.push_back({ _("demo"), "demo", type == "demo" });
+  list.push_back({ _("gameclip"), "gameclip", type == "gameclip" });
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuScreensavers::GetSystemEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  for (auto* it : mSystemManager.GetAllSystemList())
     if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-      mSystemList->add(it->getFullName(), it->getName(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->getName()));
-  mSystemList->setChangedCallback([this] { SetSystemList(); });
-  mMenu.addWithLabel(mSystemList, _("SYSTEMS TO SHOW IN DEMO"));
+      list.push_back({ it->getFullName(), it->getName(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->getName()) });
+
+  return list;
 }
 
-void GuiMenuScreensavers::SetTime(float time)
+void GuiMenuScreensavers::SliderMoved(int id, float value)
 {
-  RecalboxConf::Instance().SetScreenSaverTime((int)time).Save();
+  if ((Components)id == Components::Time)
+    RecalboxConf::Instance().SetScreenSaverTime((int)value).Save();
 }
 
-void GuiMenuScreensavers::SetType()
+void GuiMenuScreensavers::OptionListComponentChanged(int id, int index, const std::string& value)
 {
-  RecalboxConf::Instance().SetScreenSaverType(mType->getSelected()).Save();
+  (void)index;
+  if ((Components)id == Components::Type) RecalboxConf::Instance().SetScreenSaverType(value).Save();
 }
 
-void GuiMenuScreensavers::SetSystemList()
+void GuiMenuScreensavers::OptionListMultiComponentChanged(int id, const std::vector<std::string>& value)
 {
-  std::vector<std::string> names = mSystemList->getSelectedObjects();
-  RecalboxConf::Instance().SetScreenSaverSystemList(names).Save();
+  if ((Components)id == Components::SystemList)
+  {
+    RecalboxConf::Instance().SetScreenSaverSystemList(value).Save();
+  }
 }
 

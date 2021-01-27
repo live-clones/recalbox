@@ -7,16 +7,21 @@
 #include <guis/Gui.h>
 #include <components/MenuComponent.h>
 #include <components/OptionListComponent.h>
+#include <components/EditableComponent.h>
+#include <components/ISwitchComponent.h>
+#include <components/ISliderComponent.h>
+#include "IGuiMenuBase.h"
 
 // Forward declaration
 class SwitchComponent;
+class SliderComponent;
 template<typename T> class OptionListComponent;
 
-class GuiMenuBase : public Gui
+class GuiMenuBase : public Gui, private IComponentListRow
 {
   public:
     //! Constructor
-    explicit GuiMenuBase(WindowManager& window, const std::string& title);
+    explicit GuiMenuBase(WindowManager& window, const std::string& title, IGuiMenuBase* interface);
 
     /*!
      * @brief Proces input
@@ -59,14 +64,14 @@ class GuiMenuBase : public Gui
      * @param func Method to call back when selected
      * @param help Help string
      */
-    void AddSubMenu(const std::string& label, const std::function<void()>& func, const std::string& help);
+    void AddSubMenu(const std::string& label, int id, const std::string& help);
 
     /*!
      * @brief Add Submenu
      * @param label Label
      * @param func Method to call back when selected
      */
-    void AddSubMenu(const std::string& label, const std::function<void()>& func);
+    void AddSubMenu(const std::string& label, int id);
 
     /*!
      * @brief Add Submenu with Icon
@@ -75,7 +80,7 @@ class GuiMenuBase : public Gui
      * @param func Method to call back when selected
      * @param help Help string
      */
-    void AddSubMenu(const std::string& label, const Path& icon, const std::function<void()>& func, const std::string& help);
+    void AddSubMenu(const std::string& label, const Path& icon, int id, const std::string& help);
 
     /*!
      * @brief Add Submenu with Icon
@@ -83,7 +88,7 @@ class GuiMenuBase : public Gui
      * @param icon Icon image path
      * @param func Method to call back when selected
      */
-    void AddSubMenu(const std::string& label, const Path& icon, const std::function<void()>& func);
+    void AddSubMenu(const std::string& label, const Path& icon, int id);
 
     /*!
      * @brief Add a switch menu entry
@@ -93,7 +98,7 @@ class GuiMenuBase : public Gui
      * @param help Help text
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, const std::function<void(bool)>& callback, const std::string& help);
+    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help);
 
     /*!
      * @brief Add a switch menu entry
@@ -102,7 +107,126 @@ class GuiMenuBase : public Gui
      * @param callback Callback when entry changes
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, const std::function<void(bool)>& callback);
+    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface);
+
+    /*!
+     * @brief Add a switch menu entry
+     * @param icon
+     * @param text Menu text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @param help Help text
+     * @return Switch component
+     */
+    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help);
+
+    /*!
+     * @brief Add a switch menu entry
+     * @param text Menu text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @return Switch component
+     */
+    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface);
+
+    /*!
+     * @brief Add non editable text
+     * @param text Caption text
+     * @param value Text value
+     * @param help Help text
+     * @return TextComponent
+     */
+    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, const std::string& help);
+
+    /*!
+     * @brief Add non editable text
+     * @param text Caption text
+     * @param value Text value
+     * @return TextComponent
+     */
+    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value);
+
+    /*!
+     * @brief Add non editable text
+     * @param text Caption text
+     * @param value Text value
+     * @param color Text color
+     * @param help Help text
+     * @return TextComponent
+     */
+    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, unsigned int color, const std::string& help);
+
+    /*!
+     * @brief Add non editable text
+     * @param text Caption text
+     * @param value Text value
+     * @param color Text color
+     * @return TextComponent
+     */
+    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, unsigned int color);
+
+    /*!
+     * @brief Add editable text
+     * @param text Caption text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @param help Help text
+     * @return TextComponent
+     */
+    std::shared_ptr<EditableComponent> AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, const std::string& help, bool masked);
+
+    /*!
+     * @brief Add editable text
+     * @param text Caption text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @return TextComponent
+     */
+    std::shared_ptr<EditableComponent> AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked);
+
+    /*!
+     * @brief Add editable text
+     * @param text Caption text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @param help Help text
+     * @return TextComponent
+     */
+    std::shared_ptr<EditableComponent> AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface, const std::string& help, bool masked);
+
+    /*!
+     * @brief Add editable text
+     * @param text Caption text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @return TextComponent
+     */
+    std::shared_ptr<EditableComponent> AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked);
+
+    /*!
+     * @brief Add a Slider menu entry
+     * @param text Menu text
+     * @param min Minimum value
+     * @param max Maximum value
+     * @param value Initial value
+     * @param id Identifier
+     * @param interface Callback interface
+     * @param help Help text
+     * @return Slider component
+     */
+    std::shared_ptr<SliderComponent> AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface, const std::string& help);
+
+    /*!
+     * @brief Add a Slider menu entry
+     * @param text Menu text
+     * @param min Minimum value
+     * @param max Maximum value
+     * @param value Initial value
+     * @param id Identifier
+     * @param interface Callback interface
+     * @return Slider component
+     */
+    std::shared_ptr<SliderComponent> AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface);
 
     //! Normalized entry structure for List components
     template<typename T> struct ListEntry
@@ -120,27 +244,30 @@ class GuiMenuBase : public Gui
     };
 
     /*!
-     * @brief Add s choice list
+     * @brief Add a choice list
      * @tparam T Select object type
      * @param text Menu text (and selection window title)
-     * @param callback Callback when a new value is selected
+     * @param id Identifier
+     * @param interface callback interface
      * @param entries Entries to add to the list
      * @param help Help text
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, const std::function<void(const T&)>& callback, const std::vector<ListEntry<T>>& entries, const std::string& help)
+    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const std::string& help)
     {
-      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, false);
-      result->setSelectedChangedCallback(callback);
-      for(const ListEntry<T>& entry : entries)
-        result->add(entry.mText, entry.mValue, entry.mSelected);
-      mMenu.addWithLabel(result, text, help);
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, id, interface);
+      if (!entries.empty())
+      {
+        for (const ListEntry<T>& entry : entries)
+          result->add(entry.mText, entry.mValue, entry.mSelected);
+        mMenu.addWithLabel(result, text, help);
+      }
       return result;
     }
 
     /*!
-     * @brief Add s choice list
+     * @brief Add a choice list
      * @tparam T Select object type
      * @param text Menu text (and selection window title)
      * @param callback Callback when a new value is selected
@@ -148,8 +275,111 @@ class GuiMenuBase : public Gui
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, const std::function<void(const T&)>& callback, const std::vector<ListEntry<T>>& entries)
+    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
     {
-      return AddList(text, callback, entries, Strings::Empty);
+      return AddList(text, id, interface, entries, Strings::Empty);
     }
+
+    /*!
+     * @brief Add an empty choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param callback Callback when a new value is selected
+     * @param help Help text
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::string& help)
+    {
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, id, interface);
+      mMenu.addWithLabel(result, text, help);
+      return result;
+    }
+
+    /*!
+     * @brief Add an empty choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param callback Callback when a new value is selected
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface)
+    {
+      return AddList(text, id, interface, Strings::Empty);
+    }
+
+    /*!
+     * @brief Add a multi-choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param id Identifier
+     * @param interface callback interface
+     * @param entries Entries to add to the list
+     * @param help Help text
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const std::string& help)
+    {
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, id, interface);
+      if (!entries.empty())
+      {
+        for (const ListEntry<T>& entry : entries)
+          result->add(entry.mText, entry.mValue, entry.mSelected);
+        mMenu.addWithLabel(result, text, help);
+      }
+      return result;
+    }
+
+    /*!
+     * @brief Add a multi-choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param callback Callback when a new value is selected
+     * @param entries Entries to add to the list
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
+    {
+      return AddMultiList(text, id, interface, entries, Strings::Empty);
+    }
+
+    /*!
+     * @brief Add an empty multi-choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param callback Callback when a new value is selected
+     * @param help Help text
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::string& help)
+    {
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, id, interface);
+      mMenu.addWithLabel(result, text, help);
+      return result;
+    }
+
+    /*!
+     * @brief Add an empty multi-choice list
+     * @tparam T Select object type
+     * @param text Menu text (and selection window title)
+     * @param callback Callback when a new value is selected
+     * @return OptionListComponent
+     */
+    template<typename T>
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface)
+    {
+      return AddMultiList(text, id, interface, Strings::Empty);
+    }
+
+  private:
+    IGuiMenuBase* mInterface;
+
+    /*
+     * IComponentListRow omplementation
+     */
+    void ComponentListRowSelected(int id) override;
 };

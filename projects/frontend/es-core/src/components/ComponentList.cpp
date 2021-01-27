@@ -69,24 +69,8 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	if(size() == 0)
 		return false;
 
-	if(mEntries[mCursor].data.help_handler){
-		if(mEntries[mCursor].data.help_handler(event))
-			return true;
-	}
-	// give it to the current row's input handler
-	if(mEntries[mCursor].data.input_handler)
-	{
-		if(mEntries[mCursor].data.input_handler(event))
-			return true;
-	}else{
-		// no input handler assigned, do the default, which is to give it to the rightmost element in the row
-		auto& row = mEntries[mCursor].data;
-		if(!row.elements.empty())
-		{
-			if(row.elements.back().component->ProcessInput(event))
-				return true;
-		}
-	}
+	if (mEntries[mCursor].data.ProcessInput(event))
+	  return true;
 
 	// input handler didn't consume the input - try to scroll
 	if (event.AnyUpPressed())	      return listInput(-1);
@@ -254,7 +238,7 @@ float ComponentList::getRowHeight(const ComponentListRow& row)
 			height = element.component->getSize().y();
 	}
 
-	return height;
+	return height + 2;
 }
 
 float ComponentList::getTotalRowHeight() const
@@ -327,7 +311,7 @@ bool ComponentList::getHelpPrompts(Help& help)
 	if (size() > 1)
 		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));
 
-	if ((mEntries[mCursor].data.help_handler != nullptr) && RecalboxConf::Instance().GetPopupHelp() != 0)
+	if ((mEntries[mCursor].data.HasHelpHandler()) && RecalboxConf::Instance().GetPopupHelp() != 0)
 		help.Set(HelpType::Y, _("HELP"));
 
 	return true;
