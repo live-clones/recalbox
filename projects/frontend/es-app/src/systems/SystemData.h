@@ -10,7 +10,6 @@
 #include "SystemDescriptor.h"
 #include "NetPlayData.h"
 #include "EmulatorData.h"
-#include "Settings.h"
 #include <themes/ThemeData.h>
 
 class SystemManager;
@@ -65,8 +64,6 @@ class SystemData : private INoCopy
     ThemeData mTheme;
     //! Root folders - Children are top level visible game/folder of the system
     RootFolderData mRootOfRoot;
-    //! Sorting index
-    int mSortId;
     //! Is this system the favorite system?
     Properties mProperties;
     //! Fixed sort
@@ -171,11 +168,6 @@ class SystemData : private INoCopy
      */
     bool IncludeAdultGames() const;
 
-    static bool IncludeHiddenGames()
-    {
-      return Settings::Instance().ShowHidden();
-    }
-
     /*!
      * @brief Get master root
      * @return Master root
@@ -196,8 +188,6 @@ class SystemData : private INoCopy
     FileData::List getAllGames() const;
     FileData::List getFolders() const;
     FileData::List getTopGamesAndFolders() const;
-    int getSortId() const { return mSortId; };
-    void setSortId(const int sortId) { mSortId = sortId; };
 
     PlatformIds::PlatformId PlatformIds(int index) const { return mDescriptor.Platform(index); }
     int PlatformCount() const { return mDescriptor.PlatformCount(); }

@@ -125,9 +125,10 @@ void GuiMenuBase::AddSubMenu(const std::string& label, const Path& icon, int id)
 
 std::shared_ptr<SliderComponent> GuiMenuBase::AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface, const std::string& help)
 {
-  auto result = std::make_shared<SliderComponent>(mWindow, min, max, inc, suffix, id, interface);
+  auto result = std::make_shared<SliderComponent>(mWindow, min, max, inc, suffix);
   result->setSlider(value);
   mMenu.addWithLabel(result, text, help);
+  result->SetInterface(id, interface);
   return result;
 }
 
@@ -138,8 +139,9 @@ std::shared_ptr<SliderComponent> GuiMenuBase::AddSlider(const std::string& text,
 
 std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help)
 {
-  auto result = std::make_shared<SwitchComponent>(mWindow, value, id, interface);
+  auto result = std::make_shared<SwitchComponent>(mWindow, value);
   mMenu.addWithLabel(result, icon, text, help);
+  result->SetInterface(id, interface);
   return result;
 }
 
@@ -150,8 +152,9 @@ std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const Path& icon, const 
 
 std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help)
 {
-  auto result = std::make_shared<SwitchComponent>(mWindow, value, id, interface);
+  auto result = std::make_shared<SwitchComponent>(mWindow, value);
   mMenu.addWithLabel(result, text, help);
+  result->SetInterface(id, interface);
   return result;
 }
 

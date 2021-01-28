@@ -125,7 +125,6 @@ private:
 	Transform4x4f mCamera;
 	float mFadeOpacity;
 	bool mLockInput;
-	bool mFavoritesOnly;
 
 	State mState;
 };

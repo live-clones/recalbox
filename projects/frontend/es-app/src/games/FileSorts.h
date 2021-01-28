@@ -9,10 +9,10 @@ class FileSorts
     //! Available sorts
     enum class Sorts
     {
-        SystemAscending,      //!< By system then by filename, A-Z
-        SystemDescending,     //!< By system then by filename, Z-A
         FileNameAscending,    //!< By filename, A-Z
         FileNameDescending,   //!< By filename, Z-A
+        SystemAscending,      //!< By system then by filename, A-Z
+        SystemDescending,     //!< By system then by filename, Z-A
         RatingAscending,      //!< By rating then by filename, 0-9
         RatingDescending,     //!< By rating then by filename, 9-0
         TimesPlayedAscending, //!< By times played then by filename, A-Z
@@ -66,13 +66,6 @@ class FileSorts
     DeclareSortMethodPrototype(compareDevelopper)
     DeclareSortMethodPrototype(comparePublisher)
     DeclareSortMethodPrototype(compareGenre)
-
-    static int Clamp(int sortid, bool multisystem)
-    {
-      if (sortid < 0) return 0;
-      if (sortid >= (int)AvailableSorts(multisystem).size()) return (int)AvailableSorts(multisystem).size() - 1;
-      return sortid;
-    }
 
     /*!
      * @brief Get available sorts for a single system

@@ -35,7 +35,7 @@ bool GridGameListView::ProcessInput(const InputCompactEvent& event)
 void GridGameListView::populateList(const FolderData& folder)
 {
 	mGrid.clear();
-	bool favoritesOnly = Settings::Instance().FavoritesOnly();
+	bool favoritesOnly = RecalboxConf::Instance().GetFavoritesOnly();
 	FileData::List files = favoritesOnly ?
 	  folder.getAllFavorites(true, folder.getSystem()->IncludeAdultGames()) :
 	  folder.getAllDisplayableItems(true, folder.getSystem()->IncludeAdultGames());

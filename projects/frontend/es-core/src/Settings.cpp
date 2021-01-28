@@ -16,8 +16,6 @@ Settings::DataDescriptor const Settings::sDescriptors[] =
   { Settings::DataType::Bool  , offsetof(Settings::Data, mMixImages              ), "MixImages"              , "1", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mIgnoreGamelist         ), "IgnoreGamelist"         , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mHideConsole            ), "HideConsole"            , "1", true  },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mFavoritesOnly          ), "FavoritesOnly"          , "0", false },
-  { Settings::DataType::Bool  , offsetof(Settings::Data, mShowHidden             ), "ShowHidden"             , "0", false },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebug                  ), "Debug"                  , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebugGrid              ), "DebugGrid"              , "0", true  },
   { Settings::DataType::Bool  , offsetof(Settings::Data, mDebugText              ), "DebugText"              , "0", true  },

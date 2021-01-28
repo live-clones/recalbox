@@ -1,4 +1,4 @@
-#include <guis/GuiMenu.h>
+#include <guis/menus/GuiMenu.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
 #include <animations/LambdaAnimation.h>
@@ -13,8 +13,8 @@
 #include <guis/menus/GuiMenuSound.h>
 #include <guis/menus/GuiMenuNetwork.h>
 #include <guis/menus/GuiMenuAdvancedSettings.h>
-#include "GuiScraperSelect.h"
-#include "GuiBiosScan.h"
+#include "guis/GuiScraperSelect.h"
+#include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -26,51 +26,51 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
 
   // Kodi
   if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
-    AddSubMenu(_("KODI MEDIA CENTER"), (int)Components::Kodi, _(MENUMESSAGE_START_KODI_HELP_MSG));
+    AddSubMenu(_("KODI MEDIA CENTER"), mTheme.menuIconSet.kodi, (int)Components::Kodi, _(MENUMESSAGE_START_KODI_HELP_MSG));
 
   // System menu
   if (!bartop)
-    AddSubMenu(_("SYSTEM SETTINGS"), (int)Components::System, _(MENUMESSAGE_SYSTEM_HELP_MSG));
+    AddSubMenu(_("SYSTEM SETTINGS"), mTheme.menuIconSet.system, (int)Components::System, _(MENUMESSAGE_SYSTEM_HELP_MSG));
 
   // Update menu
   if (!bartop)
-    AddSubMenu(_("UPDATES"), (int)Components::Update, _(MENUMESSAGE_UPDATE_HELP_MSG));
+    AddSubMenu(_("UPDATES"), mTheme.menuIconSet.updates, (int)Components::Update, _(MENUMESSAGE_UPDATE_HELP_MSG));
 
   // Games menu
-  AddSubMenu(_("GAMES SETTINGS"), (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
+  AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
 
   // Controllers menu
   if (!bartop)
-    AddSubMenu(_("CONTROLLERS SETTINGS"), (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
+    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
 
   // UI Settings menu
   if (!bartop)
-    AddSubMenu(_("UI SETTINGS"), (int)Components::UISettings, _(MENUMESSAGE_UI_HELP_MSG));
+    AddSubMenu(_("UI SETTINGS"), mTheme.menuIconSet.ui, (int)Components::UISettings, _(MENUMESSAGE_UI_HELP_MSG));
 
   // Sound menu
-  AddSubMenu(_("SOUND SETTINGS"), (int)Components::Sound, _(MENUMESSAGE_SOUND_HELP_MSG));
+  AddSubMenu(_("SOUND SETTINGS"), mTheme.menuIconSet.sound, (int)Components::Sound, _(MENUMESSAGE_SOUND_HELP_MSG));
 
   // Network
   if (!bartop)
-    AddSubMenu(_("NETWORK SETTINGS"), (int)Components::Network, _(MENUMESSAGE_NETWORK_HELP_MSG));
+    AddSubMenu(_("NETWORK SETTINGS"), mTheme.menuIconSet.network, (int)Components::Network, _(MENUMESSAGE_NETWORK_HELP_MSG));
 
   // Scrapper
   if (!bartop)
-    AddSubMenu(_("SCRAPER"), (int)Components::Scrapper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
+    AddSubMenu(_("SCRAPER"), mTheme.menuIconSet.scraper, (int)Components::Scrapper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
 
   // Advanced
   if (!bartop)
-    AddSubMenu(_("ADVANCED SETTINGS"), (int)Components::Advanced, _(MENUMESSAGE_ADVANCED_HELP_MSG));
+    AddSubMenu(_("ADVANCED SETTINGS"), mTheme.menuIconSet.advanced, (int)Components::Advanced, _(MENUMESSAGE_ADVANCED_HELP_MSG));
 
   // Bios
   if (!bartop)
-    AddSubMenu(_("BIOS CHECKING"), (int)Components::Bios, _(MENUMESSAGE_BIOS_HELP_MSG));
+    AddSubMenu(_("BIOS CHECKING"), mTheme.menuIconSet.games, (int)Components::Bios, _(MENUMESSAGE_BIOS_HELP_MSG));
 
   // License
-  AddSubMenu(_("OPEN-SOURCE LICENSE"), (int)Components::License);
+  AddSubMenu(_("OPEN-SOURCE LICENSE"), mTheme.menuIconSet.license, (int)Components::License);
 
   // Quit
-  AddSubMenu(_("QUIT"), (int)Components::Quit);
+  AddSubMenu(_("QUIT"), mTheme.menuIconSet.quit, (int)Components::Quit);
 
   // Animation
   auto fadeFunc = [this](float t)

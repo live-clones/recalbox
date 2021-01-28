@@ -7,7 +7,7 @@
 #include <systems/SystemManager.h>
 #include <guis/menus/GuiMenuQuit.h>
 #include <usernotifications/NotificationManager.h>
-#include "guis/GuiMenu.h"
+#include "guis/menus/GuiMenu.h"
 #include "audio/AudioManager.h"
 #include <guis/GuiSearch.h>
 #include <guis/GuiSettings.h>

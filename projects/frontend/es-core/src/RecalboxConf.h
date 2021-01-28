@@ -6,6 +6,8 @@
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <audio/alsa/AlsaController.h>
+#include <games/classifications/Genres.h>
+#include <games/FileSorts.h>
 
 // Forward declaration
 class SystemData;
@@ -63,13 +65,29 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.getName()).append(1, '.').append(key), defaultValue); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.getName()).append(1, '.').append(key), value); return *this; }
 
+    #define DefineEmulationStationSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), value); return *this; }
+
     #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
+      type GetSystem##name(const SystemData& system) const; \
+      RecalboxConf& SetSystem##name(const SystemData& system, const type& value);
+
+    #define DefineEmulationStationSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
       RecalboxConf& SetSystem##name(const SystemData& system, const type& value);
 
     #define DefineGetterSetterEnum(name, enumType, key, adapterPrefix) \
       enumType Get##name() const { return adapterPrefix##FromString(AsString(key, "")); } \
       RecalboxConf& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); return *this; }
+
+    #define DefineEmulationStationSystemGetterSetterNumericEnumDeclaration(name, enumType) \
+      enumType GetSystem##name(const SystemData& system) const; \
+      RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
+
+    #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
+      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)value); return *this; }
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
 
@@ -110,6 +128,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, false)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
+    DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
+    DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
@@ -193,6 +213,11 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
     DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
 
+    DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
+    DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
+    DefineEmulationStationSystemGetterSetterNumericEnumDeclaration(Sort, FileSorts::Sorts)
+    DefineEmulationStationSystemGetterSetterNumericEnumDeclaration(RegionFilter, Regions::GameRegions)
+
     #undef DefineGetterSetter
     #undef DefineListGetterSetter
     #undef DefineGetterSetterParameterized
@@ -219,6 +244,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemAutoSave             = "autosave";
     static constexpr const char* sSystemShaders              = "shaders";
     static constexpr const char* sSystemShaderSet            = "shaderset";
+    static constexpr const char* sSystemFilterAdult          = "filteradultgames";
+    static constexpr const char* sSystemRegionFilter         = "regionfilter";
+    static constexpr const char* sSystemFlatFolders          = "flatfolders";
+    static constexpr const char* sSystemSort                 = "sort";
 
     /*
      * Key headers
@@ -271,6 +300,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sShowGameClipHelpItems      = "emulationstation.showgamecliphelpitems";
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
+    static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";
+    static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
     static constexpr const char* sSystemLanguage             = "system.language";

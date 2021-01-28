@@ -2,7 +2,7 @@
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
 #include <guis/GuiNetPlayHostPasswords.h>
-#include "guis/GuiGamelistOptions.h"
+#include "guis/menus/GuiMenuGamelistOptions.h"
 #include "views/gamelist/ISimpleGameListView.h"
 #include "systems/SystemData.h"
 #include "WindowManager.h"
@@ -18,9 +18,6 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
     mBackground(window),
     mThemeExtras(window)
 {
-  int favoritesCount = system.FavoritesCount();
-  mFavoritesOnly = favoritesCount > 0 && Settings::Instance().FavoritesOnly();
-
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
   mHeaderText.setPosition(0, 0);
@@ -110,7 +107,6 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
       else favoriteSystem->GetFavoriteRoot().addChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView().manageFavorite();
-      if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
       updateHelpPrompts();
     }
   }
@@ -209,10 +205,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->getDisplayName(), popupDuration,
                                             GuiInfoPopup::PopupType::None));
 
-
-      // Reset favorite-only view if no more favorites
-      if (mSystem.FavoritesCount() == 0) mFavoritesOnly = false;
-
       // Reload to refresh the favorite icon
       int cursorPlace = getCursorIndex();
       refreshList();
@@ -247,14 +239,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
   {
-    jumpToNextLetter(mSystem.getSortId() == 1);
+    jumpToNextLetter(!FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 
   // JUMP TO PREVIOUS LETTER
   if (event.R1Pressed())
   {
-    jumpToNextLetter(mSystem.getSortId() == 0);
+    jumpToNextLetter(FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 
@@ -300,20 +292,16 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   if (event.StartPressed())
   {
-    mWindow.pushGui(new GuiGamelistOptions(mWindow, mSystem, mSystemManager));
+    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager));
     return true;
   }
 
   if (event.SelectPressed() && !IsFavoriteSystem())
   {
-    if (mSystem.FavoritesCount() != 0)
-    {
-      mFavoritesOnly = !mFavoritesOnly;
-      Settings::Instance().SetFavoritesOnly(mFavoritesOnly);
-      refreshList();
-      updateInfoPanel();
-      updateHelpPrompts();
-    }
+    RecalboxConf::Instance().SetFavoritesOnly(!RecalboxConf::Instance().GetFavoritesOnly());
+    refreshList();
+    updateInfoPanel();
+    updateHelpPrompts();
     return true;
   }
 
@@ -351,10 +339,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(HelpType::Start, _("OPTIONS"));
   if (!IsFavoriteSystem())
-  {
-    if (mSystem.FavoritesCount() != 0)
-      help.Set(HelpType::Select, mFavoritesOnly ? _("ALL GAMES") : _("FAVORITES ONLY"));
-  }
+    help.Set(HelpType::Select, RecalboxConf::Instance().GetFavoritesOnly() ? _("ALL GAMES") : _("FAVORITES ONLY"));
 
   return true;
 }
@@ -420,10 +405,11 @@ void ISimpleGameListView::jumpToNextLetter(bool forward)
 void ISimpleGameListView::jumpToLetter(unsigned int unicode)
 {
   // Jump to letter requires an alpha sort
-  if ( mSystem.getSortId() > 1)
+  FileSorts::Sorts sort = RecalboxConf::Instance().GetSystemSort(mSystem);
+  if (sort != FileSorts::Sorts::FileNameAscending && sort != FileSorts::Sorts::FileNameDescending)
   {
     // apply sort
-    mSystem.setSortId(0);
+    RecalboxConf::Instance().SetSystemSort(mSystem, FileSorts::Sorts::FileNameAscending);
     // notify that the root folder has to be sorted
     onChanged(Change::Resort);
   }

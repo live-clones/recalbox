@@ -60,7 +60,6 @@ protected:
 	ThemeExtras mThemeExtras;
 
 	std::stack<FolderData*> mCursorStack;
-	bool mFavoritesOnly;
 
 private:
   bool IsFavoriteSystem() { return mSystem.IsFavorite(); }

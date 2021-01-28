@@ -5,7 +5,6 @@
 #include "themes/ThemeData.h"
 #include "systems/SystemData.h"
 #include "games/FileSorts.h"
-#include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 #include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
@@ -79,9 +78,9 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
   // Add hidden?
-  if (Settings::Instance().ShowHidden()) filter |= FileData::Filter::Hidden;
+  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
   // Favorites only?
-  if (mFavoritesOnly) filter = FileData::Filter::Favorite;
+  if (RecalboxConf::Instance().GetFavoritesOnly()) filter = FileData::Filter::Favorite;
 
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
@@ -93,9 +92,7 @@ void BasicGameListView::populateList(const FolderData& folder)
   if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
 
   // Sort
-  FileSorts::Sorts sort =
-    mSystem.IsSelfSorted() ? mSystem.FixedSort()
-                           : FileSorts::AvailableSorts(mSystem.IsVirtual())[FileSorts::Clamp(mSystem.getSortId(), mSystem.IsVirtual())];
+  FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() : RecalboxConf::Instance().GetSystemSort(mSystem);
   FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
 
   // Region filtering?

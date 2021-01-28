@@ -40,8 +40,8 @@ set(ES_HEADERS
 
         # Guis
         src/guis/GuiMetaDataEd.h
-        src/guis/GuiGamelistOptions.h
-        src/guis/GuiMenu.h
+        src/guis/menus/GuiMenuGamelistOptions.h
+        src/guis/menus/GuiMenu.h
         src/guis/menus/GuiMenuAdvancedSettings.h
         src/guis/menus/GuiMenuArcadeVirtualSystem.h
         src/guis/menus/GuiMenuBase.h
@@ -226,8 +226,8 @@ set(ES_SOURCES
 
         # Guis
         src/guis/GuiMetaDataEd.cpp
-        src/guis/GuiGamelistOptions.cpp
-        src/guis/GuiMenu.cpp
+        src/guis/menus/GuiMenuGamelistOptions.cpp
+        src/guis/menus/GuiMenu.cpp
         src/guis/menus/GuiMenuAdvancedSettings.cpp
         src/guis/menus/GuiMenuArcadeVirtualSystem.cpp
         src/guis/menus/GuiMenuBase.cpp

@@ -13,7 +13,6 @@
 #include "animations/LambdaAnimation.h"
 
 #include "audio/AudioManager.h"
-#include <VideoEngine.h>
 
 #include <memory>
 #include <systems/SystemManager.h>
@@ -34,7 +33,6 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
-  , mFavoritesOnly(Settings::Instance().FavoritesOnly())
   , mState()
 {
   // Progress interface
@@ -210,7 +208,6 @@ void ViewController::goToGameList(SystemData* system)
 		if (!system->IsFavorite())
 		{
 			updateFavorite(system, getGameListView(system)->getCursor());
-			mFavoritesOnly = Settings::Instance().FavoritesOnly();
 		}
 	}
 
@@ -226,7 +223,7 @@ void ViewController::goToGameList(SystemData* system)
 void ViewController::updateFavorite(SystemData* system, FileData* file)
 {
 	IGameListView* view = getGameListView(system).get();
-	if (Settings::Instance().FavoritesOnly())
+	if (RecalboxConf::Instance().GetFavoritesOnly())
 	{
 		view->populateList(system->MasterRoot());
 		FileData* nextFavorite = system->MasterRoot().GetNextFavoriteTo(file);
@@ -445,17 +442,7 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	//if we didn't, make it, remember it, and return it
 	std::shared_ptr<IGameListView> view;
 
-	//decide type
-	//bool detailed = system->getRootFolder().hasDetailedData();
-
-	//if(detailed && ! (RecalboxConf::Instance().AsBool("emulationstation.forcebasicgamelistview")))
-		view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
-	//else
-	//	view = std::shared_ptr<IGameListView>(new BasicGameListView(mWindow, mSystemManager, *system));
-
-	// uncomment for experimental "image grid" view
-	//view = std::shared_ptr<IGameListView>(new GridGameListView(mWindow, system));
-
+  view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
 	view->setTheme(system->getTheme());
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();

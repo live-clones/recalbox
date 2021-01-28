@@ -37,8 +37,6 @@ class Settings : public StaticLifeCycleControler<Settings>
       bool mMixImages;
       bool mIgnoreGamelist;
       bool mHideConsole;
-      bool mFavoritesOnly;
-      bool mShowHidden;
       bool mDebug;
       bool mDebugGrid;
       bool mDebugText;
@@ -117,9 +115,7 @@ class Settings : public StaticLifeCycleControler<Settings>
     bool MixImages              () const { return mData.mMixImages;               }   
     bool IgnoreGamelist         () const { return mData.mIgnoreGamelist;          }   
     bool HideConsole            () const { return mData.mHideConsole;             }   
-    bool FavoritesOnly          () const { return mData.mFavoritesOnly;           }
-    bool ShowHidden             () const { return mData.mShowHidden;              }   
-    bool Debug                  () const { return mData.mDebug;                   }   
+    bool Debug                  () const { return mData.mDebug;                   }
     bool DebugGrid              () const { return mData.mDebugGrid;               }   
     bool DebugText              () const { return mData.mDebugText;               }   
     bool Overscan               () const { return mData.mOverscan;                }
@@ -158,9 +154,7 @@ class Settings : public StaticLifeCycleControler<Settings>
     void SetMixImages              (bool value) { mData.mMixImages               = value; }   
     void SetIgnoreGamelist         (bool value) { mData.mIgnoreGamelist          = value; }   
     void SetHideConsole            (bool value) { mData.mHideConsole             = value; }   
-    void SetFavoritesOnly          (bool value) { mData.mFavoritesOnly           = value; }
-    void SetShowHidden             (bool value) { mData.mShowHidden              = value; }   
-    void SetDebug                  (bool value) { mData.mDebug                   = value; }   
+    void SetDebug                  (bool value) { mData.mDebug                   = value; }
     void SetDebugGrid              (bool value) { mData.mDebugGrid               = value; }   
     void SetDebugText              (bool value) { mData.mDebugText               = value; }   
     void SetOverscan               (bool value) { mData.mOverscan                = value; }

@@ -18,14 +18,10 @@ public:
     setImageState();
   }
 
-  SwitchComponent(WindowManager&window, bool state, int id, ISwitchComponent* interface)
-    : SwitchComponent(window)
+  inline void SetInterface(int id, ISwitchComponent* interface)
   {
-    mInitialState = state;
-    mState = state;
     mId = id;
     mInterface = interface;
-    setImageState();
   }
 
     bool ProcessInput(const InputCompactEvent& event) override;

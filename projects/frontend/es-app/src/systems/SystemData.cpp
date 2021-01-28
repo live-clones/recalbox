@@ -23,7 +23,6 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
   : mSystemManager(systemManager),
     mDescriptor(descriptor),
     mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this),
-    mSortId(RecalboxConf::Instance().AsInt(mDescriptor.Name() + ".sort")),
     mProperties(properties),
     mFixedSort(fixedSort)
 {
@@ -811,7 +810,7 @@ int SystemData::HiddenCount() const
 FileData::List SystemData::getFavorites() const
 {
   FileData::Filter filter = FileData::Filter::Favorite;
-  if (IncludeHiddenGames()) filter |= FileData::Filter::Hidden;
+  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
   bool adult = IncludeAdultGames();
 
   FileData::List result;
@@ -823,7 +822,7 @@ FileData::List SystemData::getFavorites() const
 FileData::List SystemData::getGames() const
 {
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
-  if (IncludeHiddenGames()) filter |= FileData::Filter::Hidden;
+  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
   bool adult = IncludeAdultGames();
 
   FileData::List result;
@@ -842,7 +841,7 @@ FileData::List SystemData::getAllGames() const
 
 bool SystemData::HasVisibleGame() const
 {
-  bool displayHidden = Settings::Instance().ShowHidden();
+  bool displayHidden = RecalboxConf::Instance().GetShowHidden();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (displayHidden) { if (root->hasGame()) return true; }
     else               { if (root->hasVisibleGame()) return true; }

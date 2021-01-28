@@ -195,21 +195,12 @@ public:
   {
   }
 
-  OptionListComponent(WindowManager&window, const std::string& name, int id, IOptionListComponent<T>* interface)
+  OptionListComponent(WindowManager&window, const std::string& name)
     : OptionListComponent(window, name, false, FONT_SIZE_MEDIUM)
   {
-	  mId = id;
-	  mInterface = interface;
   }
 
-  OptionListComponent(WindowManager&window, const std::string& name, int id, IOptionListMultiComponent<T>* interface)
-    : OptionListComponent(window, name, true, FONT_SIZE_MEDIUM)
-  {
-    mId = id;
-    mMultiInterface = interface;
-  }
-
-    // handles positioning/resizing of text and arrows
+  // handles positioning/resizing of text and arrows
 	void onSizeChanged() override
 	{
 		mLeftArrow.setResize(0, mText.getFont()->getLetterHeight());
@@ -346,9 +337,19 @@ public:
 
 	inline void setChangedCallback(const std::function<void()>& callback) { mChangedCallback = callback; };
 
-	bool changed(){
-		return firstSelected != getSelected();
-	}
+  inline void SetInterface(int id, IOptionListComponent<T>* interface)
+  {
+    mId = id;
+    mInterface = interface;
+  }
+
+  inline void SetMultiInterface(int id, IOptionListMultiComponent<T>* interface)
+  {
+    mId = id;
+    mMultiInterface = interface;
+  }
+
+  bool changed() {return firstSelected != getSelected();}
 
   unsigned int getSelectedIndex() const { return getSelectedId(); }
 

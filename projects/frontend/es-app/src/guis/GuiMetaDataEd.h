@@ -4,7 +4,6 @@
 #include "components/MenuComponent.h"
 #include "GuiScraperSingleGameRun.h"
 
-#include <functional>
 #include <systems/SystemData.h>
 #include <views/gamelist/IGameListView.h>
 
@@ -17,6 +16,13 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
         virtual void Delete(IGameListView* gamelistview, FileData& game) = 0;
         virtual void Modified(IGameListView* gamelistview, FileData& game) = 0;
     };
+
+    GuiMetaDataEd(WindowManager&window, SystemManager& systemManager, FileData& game,
+                  IGameListView* gamelistview, IMetaDataAction* actions , bool main);
+
+    bool ProcessInput(const InputCompactEvent& event) override;
+    void onSizeChanged() override;
+    bool getHelpPrompts(Help& help) override;
 
   private:
     void save();
@@ -46,12 +52,4 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
      * GuiScraperSingleGameRun::IScrappingCommplete
      */
     void ScrappingComplete(FileData& game) override;
-
-  public:
-    GuiMetaDataEd(WindowManager&window, SystemManager& systemManager, FileData& game,
-                  IGameListView* gamelistview, IMetaDataAction* actions , bool main);
-
-    bool ProcessInput(const InputCompactEvent& event) override;
-    void onSizeChanged() override;
-    bool getHelpPrompts(Help& help) override;
 };

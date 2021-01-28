@@ -38,14 +38,6 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
 }
 
-SliderComponent::SliderComponent(WindowManager& window, float min, float max, float increment,
-                                 const std::string& suffix, int id, ISliderComponent* interface)
-  : SliderComponent(window, min, max, increment, suffix)
-{
-  mIdentifier = id;
-  mInterface = interface;
-}
-
 bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.AnyLeft())
