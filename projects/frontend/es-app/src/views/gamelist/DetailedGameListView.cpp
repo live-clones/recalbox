@@ -20,7 +20,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mLblPlayCount(window),
   mLblFavorite(window),
   mFolderName(window),
-  mRating(window),
+  mRating(window, 0.f),
   mReleaseDate(window),
   mDeveloper(window),
   mPublisher(window),

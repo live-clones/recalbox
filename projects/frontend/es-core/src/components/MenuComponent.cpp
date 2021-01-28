@@ -191,6 +191,7 @@ bool MenuComponent::getHelpPrompts(Help& help)
 
 void MenuComponent::setFooter(const std::string& label)
 {
+  if (mFooter) mGrid.removeEntry(mFooter);
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   mFooter = std::make_shared<TextComponent>(mWindow, label, menuTheme->menuFooter.font, menuTheme->menuFooter.color);
   updateGrid();

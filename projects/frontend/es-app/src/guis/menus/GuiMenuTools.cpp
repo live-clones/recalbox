@@ -18,8 +18,13 @@ GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& syst
                                   const std::string& currentCore)
 {
   EmulatorAndCoreList result;
+  std::string emulator = currentEmulator;
+  std::string core = currentCore;
 
   if (systemManager.Emulators().GetDefaultEmulator(system, outDefaultEmulator, outDefaultCore))
+  {
+    if (emulator.empty()) emulator = outDefaultEmulator;
+    if (core.empty()) core = outDefaultCore;
     for (const std::string& emulatorName : systemManager.Emulators().GetEmulators(system))
       for (const std::string& coreName : systemManager.Emulators().GetCores(system, emulatorName))
       {
@@ -33,12 +38,13 @@ GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& syst
         // Build a key "emulator:core"
         std::string emulatorAndCore(emulatorName);
         emulatorAndCore.append(1, ':').append(coreName);
-        bool match = emulatorName == currentEmulator && coreName == currentCore;
+        bool match = emulatorName == emulator && coreName == core;
         if (match) LOG(LogDebug) << "Selected emulator/core: " << emulatorAndCore;
 
         // Add the entry
         result.push_back({ emulatorAndCore, displayName, match });
       }
+  }
   else LOG(LogError) << "[UI] Can't get default emulator/core for " << system.getFullName();
 
   return result;

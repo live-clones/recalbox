@@ -2651,6 +2651,26 @@ msgstr ""
 msgid "Device %n (%p)"
 msgstr ""
 
+#
+msgid "GAME OPTIONS"
+msgstr ""
+
+#
+msgid "NO GAME SELECTED"
+msgstr ""
+
+#
+msgid "GAME %s"
+msgstr ""
+
+#
+msgid "FOLDER %s"
+msgstr ""
+
+#
+msgid "RUN WITH"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

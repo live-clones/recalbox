@@ -37,13 +37,13 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
 
 GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
 {
-  if ((mColorSet->getSelected()     != mOriginalColorSet    ) ||
-      (mIconSet->getSelected()      != mOriginalIconSet     ) ||
-      (mMenuSet->getSelected()      != mOriginalMenuSet     ) ||
-      (mSystemView->getSelected()   != mOriginalSystemView  ) ||
-      (mGameListView->getSelected() != mOriginalGameListView) ||
-      (mGameClipView->getSelected() != mOriginalGameClipView) ||
-      (mRegion->getSelected()       != mOriginalRegion      ))
+  if ((mColorSet     && (mColorSet->getSelected()     != mOriginalColorSet    )) ||
+      (mIconSet      && (mIconSet->getSelected()      != mOriginalIconSet     )) ||
+      (mMenuSet      && (mMenuSet->getSelected()      != mOriginalMenuSet     )) ||
+      (mSystemView   && (mSystemView->getSelected()   != mOriginalSystemView  )) ||
+      (mGameListView && (mGameListView->getSelected() != mOriginalGameListView)) ||
+      (mGameClipView && (mGameClipView->getSelected() != mOriginalGameClipView)) ||
+      (mRegion       && (mRegion->getSelected()       != mOriginalRegion      )))
   {
     ThemeData::SetThemeChanged(true);
     MenuThemeData::Reset();
@@ -71,7 +71,7 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
 {
   auto selectedColorSet = items.find(selected);
   if (selectedColorSet == items.end()) selectedColorSet = items.begin();
-  original = selectedColorSet->first;
+  if (!items.empty()) original = selectedColorSet->first;
 
   std::vector<ListEntry<std::string>> list;
   for (const auto& it : items)

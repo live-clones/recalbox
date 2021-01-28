@@ -47,6 +47,8 @@ private:
 			  mMenu(window, title),
 			  mParent(parent)
 		{
+      addChild(&mMenu);
+
 			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 			auto font = menuTheme->menuText.font;
 			auto color = menuTheme->menuText.color;
@@ -55,7 +57,7 @@ private:
 			// for select all/none
 			std::vector<ImageComponent*> checkboxes;
 
-			for (auto& e : mParent->mEntries)
+      for (auto& e : mParent->mEntries)
 			{
 				row.elements.clear();
 				row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(e.name), font, color), true);
@@ -96,11 +98,12 @@ private:
 				// also set cursor to this row if we're not multi-select and this row is selected
 				mMenu.addRow(row, (!mParent->mMultiSelect && e.selected), false);
 			}
-			mMenu.addButton(_("BACK"), "accept", [this] { Close(); });
 
 			if(mParent->mMultiSelect)
 			{
-			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes, color] {
+        mMenu.addButton(_("BACK"), "accept", [this] { Close(); });
+			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes, color]
+			  {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries[i].selected = true;
@@ -110,7 +113,8 @@ private:
 					mParent->onSelectedChanged();
 				});
 
-			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes, color] {
+			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes, color]
+			  {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)
 					{
 						mParent->mEntries[i].selected = false;
@@ -121,8 +125,8 @@ private:
 				});
 			}
 
+      mMenu.refresh();
 			mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
-			addChild(&mMenu);
 		}
 
 		bool ProcessInput(const InputCompactEvent& event) override

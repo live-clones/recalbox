@@ -7,14 +7,17 @@
 #include <guis/Gui.h>
 #include <components/MenuComponent.h>
 #include <components/OptionListComponent.h>
-#include <components/EditableComponent.h>
+#include <components/IEditableComponent.h>
 #include <components/ISwitchComponent.h>
 #include <components/ISliderComponent.h>
+#include <components/IRatingComponent.h>
 #include "IGuiMenuBase.h"
 
 // Forward declaration
 class SwitchComponent;
 class SliderComponent;
+class RatingComponent;
+class EditableComponent;
 template<typename T> class OptionListComponent;
 
 class GuiMenuBase : public Gui, private IComponentListRow
@@ -44,13 +47,17 @@ class GuiMenuBase : public Gui, private IComponentListRow
      */
     bool getHelpPrompts(Help& help) override;
 
+    void SetFooter(const std::string& footer)
+    {
+      mFooter = footer;
+      mMenuInitialized = false;
+    }
+
   protected:
     //! Menu
     MenuComponent mMenu;
     //! Menu theme
     const MenuTheme& mTheme;
-    //! Menu initialized flag
-    bool mMenuInitialized;
 
     //! Reboot
     static void Reboot();
@@ -64,14 +71,14 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param func Method to call back when selected
      * @param help Help string
      */
-    void AddSubMenu(const std::string& label, int id, const std::string& help);
+    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, int id, const std::string& help);
 
     /*!
      * @brief Add Submenu
      * @param label Label
      * @param func Method to call back when selected
      */
-    void AddSubMenu(const std::string& label, int id);
+    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, int id);
 
     /*!
      * @brief Add Submenu with Icon
@@ -80,7 +87,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param func Method to call back when selected
      * @param help Help string
      */
-    void AddSubMenu(const std::string& label, const Path& icon, int id, const std::string& help);
+    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, const Path& icon, int id, const std::string& help);
 
     /*!
      * @brief Add Submenu with Icon
@@ -88,7 +95,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param icon Icon image path
      * @param func Method to call back when selected
      */
-    void AddSubMenu(const std::string& label, const Path& icon, int id);
+    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, const Path& icon, int id);
 
     /*!
      * @brief Add a switch menu entry
@@ -108,6 +115,25 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return Switch component
      */
     std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface);
+
+    /*!
+     * @brief Add a switch menu entry
+     * @param text Menu text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @param help Help text
+     * @return Switch component
+     */
+    std::shared_ptr<RatingComponent> AddRating(const std::string& text, float value, int id, IRatingComponent* interface, const std::string& help);
+
+    /*!
+     * @brief Add a switch menu entry
+     * @param text Menu text
+     * @param value Initial value
+     * @param callback Callback when entry changes
+     * @return Switch component
+     */
+    std::shared_ptr<RatingComponent> AddRating(const std::string& text, float value, int id, IRatingComponent* interface);
 
     /*!
      * @brief Add a switch menu entry
@@ -380,7 +406,12 @@ class GuiMenuBase : public Gui, private IComponentListRow
     }
 
   private:
+    //! callback Interface
     IGuiMenuBase* mInterface;
+    //! Footer
+    std::string mFooter;
+    //! Menu initialized flag
+    bool mMenuInitialized;
 
     /*
      * IComponentListRow omplementation

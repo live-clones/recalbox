@@ -10,6 +10,7 @@
 #include "guis/GuiMsgBox.h"
 #include "guis/menus/GuiMenuQuit.h"
 #include "GuiMenu.h"
+#include "GuiMenuGamelistGameOptions.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
   :	GuiMenuBase(window, _("OPTIONS"), this)
@@ -17,6 +18,20 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   , mSystemManager(systemManager)
   , mGamelist(*ViewController::Instance().getGameListView(&system))
 {
+  // edit game metadata
+  bool nomenu = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::None;
+  bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
+  if (!nomenu && !bartop)
+  {
+    FileData* file = mGamelist.getCursor();
+    if (file != nullptr)
+      if (!file->getTopAncestor().ReadOnly())
+      {
+        mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+        RefreshGameMenuContext();
+      }
+  }
+
   // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
@@ -41,19 +56,6 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
     if (!system.IsAlwaysFlat())
       mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
-	// edit game metadata
-  bool nomenu = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::None;
-  bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
-	if (!nomenu && !bartop)
-  {
-    FileData* file = mGamelist.getCursor();
-    if (file != nullptr)
-      if (file->isGame() || file->isFolder())
-        if (!file->getTopAncestor().ReadOnly())
-          AddSubMenu(_("EDIT THIS GAME'S METADATA"), (int) Components::MetaData,
-                     _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
-  }
-
   // update game list
   if (!system.IsFavorite())
     AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -71,6 +73,25 @@ GuiMenuGamelistOptions::~GuiMenuGamelistOptions()
 {
   // require list refresh
 	mGamelist.onChanged(ISimpleGameListView::Change::Update);
+}
+
+void GuiMenuGamelistOptions::RefreshGameMenuContext()
+{
+  FileData* file = mGamelist.getCursor();
+  if ((file == nullptr) || (file->isEmpty()) || (file->getTopAncestor().ReadOnly()))
+    mGame->setText(_("NO GAME"));
+  else if (file->isGame())
+  {
+    std::string text = _("GAME %s");
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getDisplayName()));
+    mGame->setText(text);
+  }
+  else if (file->isFolder())
+  {
+    std::string text = _("FOLDER %s");
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getDisplayName()));
+    mGame->setText(text);
+  }
 }
 
 std::vector<GuiMenuBase::ListEntry<Regions::GameRegions>> GuiMenuGamelistOptions::GetRegionEntries()
@@ -159,6 +180,7 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
     }
 
     mGamelist.jumpToLetter(value);
+    RefreshGameMenuContext();
   }
 }
 
@@ -174,8 +196,8 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
 
     mGamelist.refreshList();
     mGamelist.setCursor(game);
+    RefreshGameMenuContext();
   }
-
 }
 
 void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const Regions::GameRegions& value)
@@ -189,7 +211,13 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
 {
   switch((Components)id)
   {
-    case Components::MetaData: mWindow.pushGui(new GuiMetaDataEd(mWindow, mSystemManager, *mGamelist.getCursor(), &mGamelist, this, true)); break;
+    case Components::MetaData:
+    {
+      FileData* file = mGamelist.getCursor();
+      if ((file != nullptr) && (!file->isEmpty()) && (!file->getTopAncestor().ReadOnly()))
+        mWindow.pushGui(new GuiMenuGamelistGameOptions(mWindow, mGamelist, mSystemManager, mSystem, *mGamelist.getCursor()));
+      break;
+    }
     case Components::MainMenu: mWindow.pushGui(new GuiMenu(mWindow, mSystemManager)); Close(); break;
     case Components::Quit: GuiMenuQuit::PushQuitGui(mWindow); break;
     case Components::UpdateGamelist:
@@ -229,5 +257,6 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   FileData* game = mGamelist.getCursor();
   mGamelist.refreshList();
   mGamelist.setCursor(game);
+  RefreshGameMenuContext();
 }
 

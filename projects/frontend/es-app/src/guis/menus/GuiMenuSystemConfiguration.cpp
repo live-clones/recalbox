@@ -61,7 +61,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
 
   std::string currentRatio = RecalboxConf::Instance().GetSystemRatio(mSystem);
   for (const auto& ratio : LibretroRatio::GetRatio())
-    mRatio->add(ratio.first, ratio.second, currentRatio == ratio.second);
+    list.push_back({ ratio.first, ratio.second, currentRatio == ratio.second });
 
   return list;
 }

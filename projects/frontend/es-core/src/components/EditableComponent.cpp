@@ -153,7 +153,7 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
       case TextAlignment::Left:
       case TextAlignment::Right: break;
     }
-    Vector3f off(-mBackground.MargingX(), yOff, 0);
+    Vector3f off(mBackground.MargingX(), yOff, 0);
 
     if(Settings::Instance().DebugText())
     {
@@ -169,16 +169,17 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
     // draw the text area, where the text actually is going
     if(Settings::Instance().DebugText())
     {
+      float usableSize = mSize.x() - mBackground.MargingX() * 2;
       switch(mHorizontalAlignment)
       {
         case TextAlignment::Left:
-          Renderer::DrawRectangle(0.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+          Renderer::DrawRectangle(mBackground.MargingX(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
           break;
         case TextAlignment::Center:
-          Renderer::DrawRectangle((mSize.x() - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+          Renderer::DrawRectangle(mBackground.MargingX() +(usableSize - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
           break;
         case TextAlignment::Right:
-          Renderer::DrawRectangle(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
+          Renderer::DrawRectangle(mBackground.MargingX() + usableSize - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
           break;
         case TextAlignment::Top:
         case TextAlignment::Bottom:break;
@@ -227,13 +228,14 @@ void EditableComponent::onTextChanged()
   }
 
   Vector2f size = f->sizeText(text);
-  if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > mSize.x() || addAbbrev))
+  float usableSize = mSize.x() - mBackground.MargingX() * 2;
+  if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > usableSize || addAbbrev))
   {
     // abbreviate text
-    const std::string abbrev = "...";
+    const std::string abbrev = "\u2026";
     Vector2f abbrevSize = f->sizeText(abbrev);
 
-    while(!text.empty() && size.x() + abbrevSize.x() > mSize.x())
+    while(!text.empty() && size.x() + abbrevSize.x() > usableSize)
     {
       size_t newSize = Font::getPrevCursor(text, text.size());
       text.erase(newSize, text.size() - newSize);
@@ -242,9 +244,9 @@ void EditableComponent::onTextChanged()
 
     text.append(abbrev);
 
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
+    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, usableSize, mHorizontalAlignment, mLineSpacing));
   }else{
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
+    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, usableSize, mHorizontalAlignment, mLineSpacing));
   }
 }
 

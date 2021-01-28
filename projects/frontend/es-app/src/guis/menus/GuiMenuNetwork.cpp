@@ -7,6 +7,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <themes/MenuThemeData.h>
 #include <components/SwitchComponent.h>
+#include <components/EditableComponent.h>
 #include "GuiMenuNetwork.h"
 #include "guis/MenuMessages.h"
 #include <guis/GuiArcadeVirtualKeyboard.h>

@@ -14,7 +14,7 @@ GameClipContainer::GameClipContainer(WindowManager& window)
     mClippingContainer(window), mClippingImage(window), mLbGameName(window), mLbSystemName(window), mLblRating(window),
     mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), mLblGenre(window), mLblPlayers(window),
     mLblLastPlayed(window), mLblPlayCount(window), mLblFavorite(window), mGameName(window), mSystemName(window),
-    mRating(window), mReleaseDate(window), mDeveloper(window), mPublisher(window), mGenre(window), mPlayers(window),
+    mRating(window, 0.f), mReleaseDate(window), mDeveloper(window), mPublisher(window), mGenre(window), mPlayers(window),
     mLastPlayed(window), mPlayCount(window), mFavorite(window), mFavoriteIcon(window), mDescContainer(window), mDescription(window),
     mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mGame(nullptr),
     mSystem(nullptr)

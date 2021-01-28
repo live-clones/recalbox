@@ -30,6 +30,7 @@ set(ES_HEADERS
 
         # GuiComponents
         src/components/RatingComponent.h
+        src/components/IRatingComponent.h
         src/components/ScraperSearchComponent.h
         src/components/TextListComponent.h
         src/components/ITextListComponentOverlay.h
@@ -40,12 +41,13 @@ set(ES_HEADERS
 
         # Guis
         src/guis/GuiMetaDataEd.h
-        src/guis/menus/GuiMenuGamelistOptions.h
         src/guis/menus/GuiMenu.h
         src/guis/menus/GuiMenuAdvancedSettings.h
         src/guis/menus/GuiMenuArcadeVirtualSystem.h
         src/guis/menus/GuiMenuBase.h
         src/guis/menus/GuiMenuBootSettings.h
+        src/guis/menus/GuiMenuGamelistOptions.h
+        src/guis/menus/GuiMenuGamelistGameOptions.h
         src/guis/menus/GuiMenuGameSettings.h
         src/guis/menus/GuiMenuKodiSettings.h
         src/guis/menus/GuiMenuNetplay.h
@@ -81,7 +83,6 @@ set(ES_HEADERS
         src/guis/GuiNetPlayHostPasswords.h
         src/guis/GuiNetPlayClientPasswords.h
         src/guis/GuiHashStart.h
-        src/guis/GuiLoading.h
         src/guis/GuiBiosScan.h
         src/guis/GuiBiosMd5.h
         src/guis/menus/GuiMenuQuit.h
@@ -226,12 +227,13 @@ set(ES_SOURCES
 
         # Guis
         src/guis/GuiMetaDataEd.cpp
-        src/guis/menus/GuiMenuGamelistOptions.cpp
         src/guis/menus/GuiMenu.cpp
         src/guis/menus/GuiMenuAdvancedSettings.cpp
         src/guis/menus/GuiMenuArcadeVirtualSystem.cpp
         src/guis/menus/GuiMenuBase.cpp
         src/guis/menus/GuiMenuBootSettings.cpp
+        src/guis/menus/GuiMenuGamelistOptions.cpp
+        src/guis/menus/GuiMenuGamelistGameOptions.cpp
         src/guis/menus/GuiMenuGameSettings.cpp
         src/guis/menus/GuiMenuKodiSettings.cpp
         src/guis/menus/GuiMenuNetplay.cpp

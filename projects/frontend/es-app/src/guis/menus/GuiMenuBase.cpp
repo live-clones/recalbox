@@ -3,22 +3,23 @@
 //
 
 #include "GuiMenuBase.h"
-#include <input/InputCompactEvent.h>
-#include <help/Help.h>
-#include <utils/locale/LocaleHelper.h>
 #include <WindowManager.h>
 #include <EmulationStation.h>
-#include <components/SwitchComponent.h>
 #include <MainRunner.h>
+#include <input/InputCompactEvent.h>
+#include <utils/locale/LocaleHelper.h>
 #include <guis/GuiMsgBox.h>
+#include <help/Help.h>
+#include <components/SwitchComponent.h>
 #include <components/SliderComponent.h>
+#include <components/EditableComponent.h>
 
 GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title, IGuiMenuBase* interface)
   : Gui(window)
   , mMenu(window, title)
   , mTheme(*MenuThemeData::getInstance()->getCurrentTheme())
-  , mMenuInitialized(false)
   , mInterface(interface)
+  , mMenuInitialized(false)
 {
   addChild(&mMenu);
 }
@@ -55,9 +56,8 @@ void GuiMenuBase::Update(int deltaTime)
 {
   if (!mMenuInitialized)
   {
-    // Default button
-    mMenu.setFooter("RECALBOX VERSION " + Strings::ToUpperASCII(PROGRAM_VERSION_STRING));
-    //mMenu.addButton(_("CLOSE"), _("CLOSE"), [this] { Close(); } );
+    // footer
+    mMenu.setFooter(!mFooter.empty() ? mFooter : "RECALBOX VERSION " + Strings::ToUpperASCII(PROGRAM_VERSION_STRING));
     // Position
     mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 
@@ -69,7 +69,7 @@ void GuiMenuBase::Update(int deltaTime)
   Component::Update(deltaTime);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, int id, const std::string& help)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const std::string& label, int id, const std::string& help)
 {
   ComponentListRow row;
   row.SetCallbackInterface(id, this);
@@ -81,10 +81,10 @@ void GuiMenuBase::AddSubMenu(const std::string& label, int id, const std::string
   row.addElement(entryMenu, true);
   row.addElement(makeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
+  return entryMenu;
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, int id,
-                             const std::string& help)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, int id, const std::string& help)
 {
   ComponentListRow row;
   row.SetCallbackInterface(id, this);
@@ -111,16 +111,31 @@ void GuiMenuBase::AddSubMenu(const std::string& label, const Path& iconPath, int
   row.addElement(entryMenu, true);
   row.addElement(makeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
+  return entryMenu;
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, int id)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const std::string& label, int id)
 {
   return AddSubMenu(label, id, Strings::Empty);
 }
 
-void GuiMenuBase::AddSubMenu(const std::string& label, const Path& icon, int id)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const std::string& label, const Path& icon, int id)
 {
   return AddSubMenu(label, icon, id, Strings::Empty);
+}
+
+std::shared_ptr<RatingComponent> GuiMenuBase::AddRating(const std::string& text, float value, int id, IRatingComponent* interface, const std::string& help)
+{
+  auto result = std::make_shared<RatingComponent>(mWindow, mTheme.menuText.color, value);
+  result->setSize(0, mTheme.menuText.font->getHeight() * 0.8f);
+  mMenu.addWithLabel(result, text, help);
+  result->SetInterface(id, interface);
+  return result;
+}
+
+std::shared_ptr<RatingComponent> GuiMenuBase::AddRating(const std::string& text, float value, int id, IRatingComponent* interface)
+{
+  return AddRating(text, value, id, interface, Strings::Empty);
 }
 
 std::shared_ptr<SliderComponent> GuiMenuBase::AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface, const std::string& help)

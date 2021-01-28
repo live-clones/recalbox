@@ -4,22 +4,28 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 
-RatingComponent::RatingComponent(WindowManager&window, unsigned int color)
-  : Component(window),
-    mVertices(),
-    mColor(color),
-    mOriginColor(color)
+RatingComponent::RatingComponent(WindowManager&window, unsigned int color, float value)
+  : Component(window)
+  , mValue(value)
+  , mVertices()
+  , mColor(color)
+  , mOriginColor(color)
 {
 	mFilledTexture = TextureResource::get(Path(":/star_filled.svg"), true);
 	mUnfilledTexture = TextureResource::get(Path(":/star_unfilled.svg"), true);
-	mValue = 0.5f;
 	mSize.Set(64 * NUM_RATING_STARS, 64);
 	updateVertices();
 }
 
-RatingComponent::RatingComponent(WindowManager&window)
-  : RatingComponent(window, 0xFFFFFFFF)
+RatingComponent::RatingComponent(WindowManager&window, float value)
+  : RatingComponent(window, 0xFFFFFFFF, value)
 {
+}
+
+void RatingComponent::setValue(float value)
+{
+  mValue = Math::clamp(value, 0.f, 1.f);
+  updateVertices();
 }
 
 void RatingComponent::setValue(const std::string& value)
@@ -28,10 +34,8 @@ void RatingComponent::setValue(const std::string& value)
 	if(!value.empty())
   {
 		Strings::ToFloat(value, mValue);
-		if(mValue > 1.0f)
-			mValue = 1.0f;
-		else if(mValue < 0.0f)
-			mValue = 0.0f;
+		if(mValue > 1.0f)	mValue = 1.0f;
+		else if(mValue < 0.0f) mValue = 0.0f;
 	}
 
 	updateVertices();
@@ -135,14 +139,20 @@ void RatingComponent::Render(const Transform4x4f& parentTrans)
 
 bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.BPressed())
+	if (event.BPressed() || event.AnyRightPressed())
 	{
-		mValue += 1.f / NUM_RATING_STARS;
-		if(mValue > 1.0f)
-			mValue = 0.0f;
-
+		if((mValue += .5f / NUM_RATING_STARS) > 1.1f) mValue = 0.f;
 		updateVertices();
+		if (mInterface != nullptr)
+		  mInterface->RatingChanged(mId, mValue);
 	}
+	else if (event.AnyLeftPressed())
+  {
+    if((mValue -= .5f / NUM_RATING_STARS) < 0.f) mValue = 1.f;
+    updateVertices();
+    if (mInterface != nullptr)
+      mInterface->RatingChanged(mId, mValue);
+  }
 
 	return Component::ProcessInput(event);
 }
@@ -176,3 +186,4 @@ bool RatingComponent::getHelpPrompts(Help& help)
 	help.Set(HelpType::B, _("ADD STAR"));
 	return true;
 }
+

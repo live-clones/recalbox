@@ -2496,6 +2496,26 @@ msgstr ""
 msgid "Device %n (%p)"
 msgstr ""
 
+#
+msgid "GAME OPTIONS"
+msgstr ""
+
+#
+msgid "NO GAME SELECTED"
+msgstr ""
+
+#
+msgid "GAME %s"
+msgstr ""
+
+#
+msgid "FOLDER %s"
+msgstr ""
+
+#
+msgid "RUN WITH"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "نسخه بروزرسانی:"
 

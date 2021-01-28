@@ -125,6 +125,12 @@ class MenuComponent : public Component
     */
     void Update(int deltaTime) override;
 
+    void refresh()
+    {
+      updateGrid();
+      updateSize();
+    }
+
   protected:
     inline ComponentList* getList() const { return mList.get(); }
 

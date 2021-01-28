@@ -57,6 +57,10 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mFlatFolders;
     std::shared_ptr<SwitchComponent> mFavoritesOnly;
     std::shared_ptr<SwitchComponent> mShowHidden;
+    std::shared_ptr<TextComponent> mGame;
+
+    //! Refresh first menu entry
+    void RefreshGameMenuContext();
 
     //! Get available letter List
     std::vector<ListEntry<unsigned int>> GetLetterEntries();

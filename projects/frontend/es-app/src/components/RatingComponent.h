@@ -3,6 +3,7 @@
 #include <components/base/Component.h>
 #include <resources/TextureResource.h>
 #include <utils/Strings.h>
+#include "IRatingComponent.h"
 
 #define NUM_RATING_STARS 5
 
@@ -14,11 +15,12 @@
 class RatingComponent : public Component
 {
 public:
-	explicit RatingComponent(WindowManager&window);
-  explicit RatingComponent(WindowManager&window, unsigned int color);
+	explicit RatingComponent(WindowManager&window, float value);
+  explicit RatingComponent(WindowManager&window, unsigned int color, float value);
 
 	std::string getValue() const override { return Strings::ToString(mValue, 2); }
 	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
+  void setValue(float value); // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Render(const Transform4x4f& parentTrans) override;
@@ -33,6 +35,12 @@ public:
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
 	bool getHelpPrompts(Help& help) override;
+
+	void SetInterface(int id, IRatingComponent* interface)
+  {
+	  mId = id;
+	  mInterface = interface;
+  }
 
 private:
 	void updateVertices();
@@ -50,5 +58,7 @@ private:
 	
 	unsigned int mColor;
 	unsigned int mOriginColor;
+	int mId;
+	IRatingComponent* mInterface;
 };
 

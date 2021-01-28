@@ -2795,3 +2795,26 @@ msgstr "SCAN DES PÉRIPHÉRIQUES BLUETOOTH"
 msgid "Device %n (%p)"
 msgstr "Média %s (%p)"
 
+#
+msgid "GAME OPTIONS"
+msgstr "OPTIONS DU JEU"
+
+#
+msgid "NO GAME SELECTED"
+msgstr ""
+
+#
+msgid "GAME %s"
+msgstr "JEU %s"
+
+#
+msgid "FOLDER %s"
+msgstr "RÉPERTOIRE %s"
+
+#
+msgid "RUN WITH"
+msgstr "LANCER AVEC"
+
+#
+#~ msgid "NO GAME"
+#~ msgstr "PAS DE JEU SÉLECTIONNÉ"
