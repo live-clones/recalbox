@@ -1,5 +1,4 @@
 #include <themes/MenuThemeData.h>
-#include <Settings.h>
 
 std::shared_ptr<MenuThemeData> MenuThemeData::sInstance = nullptr;
 

@@ -4,7 +4,6 @@
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include "components/SwitchComponent.h"
 #include "utils/locale/LocaleHelper.h"
-#include "Settings.h"
 
 GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
   : Gui(window),

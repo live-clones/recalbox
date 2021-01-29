@@ -35,7 +35,6 @@ private:
   std::shared_ptr<OptionListComponent<std::string>>     mVideo;
 	std::shared_ptr<OptionListComponent<std::string>>     mRegion;
 	std::shared_ptr<OptionListComponent<std::string>>     mLanguage;
-	std::shared_ptr<SwitchComponent>                      mScrapeRatings;
 	std::shared_ptr<OptionListComponent<ScrappingMethod>> mScrapingMethod;
 	std::shared_ptr<OptionListComponent<SystemData*>>     mSystems;
 	std::shared_ptr<SwitchComponent> mApproveResults;

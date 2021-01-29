@@ -18,7 +18,6 @@
 
 #include <themes/ThemeExtras.h>
 #include <components/DateTimeComponent.h>
-#include "Settings.h"
 #include "RecalboxConf.h"
 
 class GameClipContainer : public Gui

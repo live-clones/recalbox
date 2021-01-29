@@ -2,7 +2,6 @@
 #include "audio/Sound.h"
 #include "resources/TextureResource.h"
 #include "utils/Log.h"
-#include "Settings.h"
 #include "pugixml/pugixml.hpp"
 #include <components/VideoComponent.h>
 #include <utils/Strings.h>
@@ -14,6 +13,9 @@
 #include "ThemeException.h"
 
 bool ThemeData::sThemeChanged = true;
+bool ThemeData::sThemeHasMenuView = true;
+bool ThemeData::sThemeHasHelpSystem = true;
+
 std::vector<std::string>& ThemeData::SupportedViews()
 {
   static std::vector<std::string> sSupportedViews =
@@ -285,7 +287,7 @@ unsigned int getHexColor(const char* str)
 ThemeData::ThemeData()
 {
 	mVersion = 0;
-	Settings::Instance().SetThemeHasMenuView(false);
+	SetThemeHasMenuView(false);
 	mSystemThemeFolder.clear();
 }
 
@@ -475,7 +477,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 		{
 			viewKey = nameAttr.substr(prevOff, off - prevOff);
 			if (viewKey == "menu")
-				Settings::Instance().SetThemeHasMenuView(true);
+				SetThemeHasMenuView(true);
 			prevOff = nameAttr.find_first_not_of(delim, off);
 			off = nameAttr.find_first_of(delim, prevOff);
 			
@@ -495,7 +497,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 		if(!node.attribute("name"))
 			throw ThemeException("Element of type \"" + std::string(node.name()) + R"(" missing "name" attribute!)", mPaths);
 		if (std::string(node.name()) == "helpsystem")
-			Settings::Instance().SetThemeHasHelpSystem(true);
+			SetThemeHasHelpSystem(true);
 
     const std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& elementMap = ElementMap();
 

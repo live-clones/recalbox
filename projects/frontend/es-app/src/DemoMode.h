@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <random>
-#include "Settings.h"
 #include "RecalboxConf.h"
 #include "systems/SystemData.h"
 
@@ -15,9 +14,6 @@ class DemoMode
     WindowManager& mWindow;
     //! SystemManager instance
     SystemManager& mSystemManager;
-
-    //! Settings direct access
-    Settings& mSettings;
 
     //! Recalbox configuration direct access
     RecalboxConf& mRecalboxConf;

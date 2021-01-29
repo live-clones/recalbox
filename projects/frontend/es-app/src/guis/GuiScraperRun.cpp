@@ -72,7 +72,7 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
   NotificationManager::Instance().Notify(Notification::ScrapStart);
 
   // Create scraper and run!
-	mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
+	mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource());
 	mScraper->RunOn(method, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 

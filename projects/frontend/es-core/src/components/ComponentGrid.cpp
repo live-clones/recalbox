@@ -1,6 +1,5 @@
 #include "components/ComponentGrid.h"
 #include "Renderer.h"
-#include "Settings.h"
 #include <utils/locale/LocaleHelper.h>
 #include <input/InputCompactEvent.h>
 #include <help/Help.h>
@@ -174,7 +173,7 @@ void ComponentGrid::updateSeparators()
 {
     mLines.clear();
 
-    bool drawAll = Settings::Instance().DebugGrid();
+    bool drawAll = false; //Settings::Instance().DebugGrid();
 
     Vector2f pos(0, 0);
     Vector2f size(0, 0);

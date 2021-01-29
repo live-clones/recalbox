@@ -20,7 +20,7 @@ GuiScraperSelect::GuiScraperSelect(WindowManager& window, SystemManager& systemM
   mScrapers = std::make_shared<OptionListComponent<std::string> >(mWindow, _("SCRAPE FROM"), false);
   std::vector<std::string> scrapers = ScraperFactory::GetScraperList();
   for (auto& scraper : scrapers)
-    mScrapers->add(scraper, scraper, scraper == Settings::Instance().Scraper());
+    mScrapers->add(scraper, scraper, scraper == RecalboxConf::Instance().GetScraperSource());
   mMenu.addWithLabel(mScrapers, _("SCRAPE FROM"), _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
 
   ScraperNameOptions nameOption = ScraperTools::Clamp(RecalboxConf::Instance().GetScraperGetNameFrom());

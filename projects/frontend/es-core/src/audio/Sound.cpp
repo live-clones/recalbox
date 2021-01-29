@@ -1,5 +1,5 @@
 #include "Sound.h"
-#include "Settings.h"
+#include <utils/Log.h>
 
 Sound* Sound::BuildFromPath(const Path& path)
 {

@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <views/SystemView.h>
 #include "RecalboxConf.h"
-#include "Settings.h"
 #include "RootFolders.h"
 #include "utils/sdl2/SyncronousEventService.h"
 #include "utils/locale/LocaleHelper.h"
@@ -201,7 +200,7 @@ void AudioManager::PlayRandomMusic()
   }
 
   // Then check user folder
-  Path userMusics = Path(Settings::Instance().MusicDirectory());
+  Path userMusics(sMusicFolder);
   if (source == MusicSource::None && !userMusics.IsEmpty())
   {
     Path musicPath = FetchRandomMusic(userMusics, previousPath);

@@ -1,7 +1,6 @@
 #include <RecalboxConf.h>
 #include "views/gamelist/GridGameListView.h"
 #include "WindowManager.h"
-#include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
 GridGameListView::GridGameListView(WindowManager&window, SystemData& system)

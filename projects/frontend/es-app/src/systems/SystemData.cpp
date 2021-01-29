@@ -10,7 +10,6 @@
 #include <VideoEngine.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
-#include <Settings.h>
 #include <themes/ThemeException.h>
 #include <padtokeyboard/PadToKeyboardManager.h>
 #include <utils/Zip.h>
@@ -589,8 +588,6 @@ void SystemData::UpdateGamelistXml()
   //because there might be information missing in our systemdata which would then miss in the new XML.
   //We have the complete information for every game though, so we can simply remove a game
   //we already have in the system from the XML, and then add it back from its GameData information...
-  if (Settings::Instance().IgnoreGamelist()) return;
-
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (!root->ReadOnly() && root->IsDirty())
       try

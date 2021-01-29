@@ -1,6 +1,5 @@
 #include "guis/GuiSettings.h"
 #include "WindowManager.h"
-#include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 
 GuiSettings::GuiSettings(WindowManager&window, const std::string& title)
@@ -26,8 +25,6 @@ void GuiSettings::save()
 
 	for (auto& saveFunc : mSaveFuncs)
 		saveFunc();
-
-	Settings::Instance().saveFile();
 }
 
 bool GuiSettings::ProcessInput(const InputCompactEvent& event)

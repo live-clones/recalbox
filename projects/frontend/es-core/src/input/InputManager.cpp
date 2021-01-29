@@ -1,6 +1,5 @@
 #include "InputManager.h"
 #include "InputDevice.h"
-#include "Settings.h"
 #include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
 #include "RootFolders.h"
@@ -316,16 +315,6 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
       quit.type = SDL_QUIT;
       SDL_PushEvent(&quit);
       return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, event };
-    }
-
-    if (event.Value() != 0 && Settings::Instance().Debug())
-    {
-      // toggle debug grid with Ctrl-G
-      if (event.Id() == SDLK_g && ((SDL_GetModState() & KMOD_LCTRL) != 0))
-        Settings::Instance().SetDebugGrid(!Settings::Instance().DebugGrid());
-      // toggle TextComponent debug view with Ctrl-T
-      else if (event.Id() == SDLK_t && ((SDL_GetModState() & KMOD_LCTRL) != 0))
-        Settings::Instance().SetDebugText(!Settings::Instance().DebugText());
     }
   }
   return mKeyboard.ConvertToCompact(event);

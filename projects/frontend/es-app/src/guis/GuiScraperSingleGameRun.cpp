@@ -4,7 +4,6 @@
 #include "components/TextComponent.h"
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
-#include "Settings.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 #include <scraping/ScraperFactory.h>
@@ -55,7 +54,7 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, FileData&
 
   // Create scraper and run!
   // Don't use the notification interface since the use can close this gui at any time.
-  mScraper = ScraperFactory::Instance().GetScraper(Settings::Instance().Scraper());
+  mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource());
   mScraper->RunOn(ScrappingMethod::All, game, nullptr, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 

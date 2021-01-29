@@ -1,4 +1,3 @@
-#include <Settings.h>
 #include <recalbox/RecalboxSystem.h>
 #include "components/MenuComponent.h"
 #include "components/ButtonComponent.h"

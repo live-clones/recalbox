@@ -1,5 +1,4 @@
 #include "guis/GuiMetaDataEd.h"
-#include "Settings.h"
 #include "guis/GuiMsgBox.h"
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>

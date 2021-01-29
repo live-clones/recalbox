@@ -6,7 +6,6 @@
 #include "SystemDescriptor.h"
 #include "SystemDeserializer.h"
 #include <utils/Log.h>
-#include <Settings.h>
 #include <RecalboxConf.h>
 #include <utils/os/system/ThreadPool.h>
 #include <utils/Strings.h>
@@ -71,8 +70,7 @@ void SystemManager::AutoScrape(SystemData* system)
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
-  const Path defaultRomsPath = Path(Settings::Instance().DefaultRomsPath()).ToAbsolute();
-  Path realPath = defaultRomsPath.IsEmpty() ? systemDescriptor.RomPath() : systemDescriptor.RomPath().ToAbsolute(defaultRomsPath);
+  Path realPath = systemDescriptor.RomPath();
 
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
@@ -102,8 +100,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
       result->populateFolder(root, doppelgangerWatcher);
 
     // Populate items from gamelist.xml
-    if (!Settings::Instance().IgnoreGamelist())
-      result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
+    result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
 
     // Game In Png?
     if ((properties & SystemData::Properties::GameInPng) != 0)
@@ -604,9 +601,8 @@ void SystemManager::GenerateExampleConfigurationFile(const Path& path)
 bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
 {
   // Save changed game data back to xml
-  if (!Settings::Instance().IgnoreGamelist())
-    if (!feed->IsVirtual())
-      feed->UpdateGamelistXml();
+  if (!feed->IsVirtual())
+    feed->UpdateGamelistXml();
 
   return true;
 }

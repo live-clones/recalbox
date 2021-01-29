@@ -40,10 +40,18 @@ class ThemeData
     };
 
     static bool sThemeChanged;
+    static bool sThemeHasMenuView;
+    static bool sThemeHasHelpSystem;
 
   public:
 
     ThemeData();
+
+    static bool ThemeHasMenuView() { return sThemeHasMenuView; }
+    static bool ThemeHasHelpSystem() { return sThemeHasHelpSystem; }
+
+    static void SetThemeHasMenuView(bool on) { sThemeHasMenuView = on; }
+    static void SetThemeHasHelpSystem(bool on) { sThemeHasHelpSystem = on; }
 
 	// throws ThemeException
 	void loadFile(const std::string& systemThemeFolder, const Path& path);
@@ -63,7 +71,7 @@ class ThemeData
 
     static std::vector<Component*> makeExtras(const ThemeData& theme, const std::string& view, WindowManager& window);
 
-    static const ThemeData& getDefault();
+    //static const ThemeData& getDefault();
     static const ThemeData& getCurrent();
     static void SetThemeChanged(bool themeChanged);
     static bool IsThemeChanged();

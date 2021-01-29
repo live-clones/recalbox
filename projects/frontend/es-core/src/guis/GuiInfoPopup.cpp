@@ -8,7 +8,6 @@
 #include <SDL_timer.h>
 #include <themes/MenuThemeData.h>
 #include <components/ScrollableContainer.h>
-#include <Settings.h>
 
 GuiInfoPopup::GuiInfoPopup(WindowManager&window, const std::string& message, int duration, PopupType icon)
   : Gui(window),

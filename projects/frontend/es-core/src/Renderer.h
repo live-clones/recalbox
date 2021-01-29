@@ -43,6 +43,8 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     bool mViewPortInitialized;
     //! Initial cursor state
     bool mInitialCursorState;
+    //! Windowed mode
+    bool mWindowed;
 
     static void ColorToByteArray(GLubyte* array, Colors::ColorARGB color)
     {
@@ -81,7 +83,7 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     /*!
      * @brief Constructor
      */
-    Renderer(int width, int height);
+    Renderer(int width, int height, bool windowed);
 
     /*!
      * @brief Destructor

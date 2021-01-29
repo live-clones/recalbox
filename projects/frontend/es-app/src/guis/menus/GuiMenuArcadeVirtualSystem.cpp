@@ -6,7 +6,6 @@
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
 #include "utils/locale/LocaleHelper.h"
-#include "Settings.h"
 
 GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"), nullptr)

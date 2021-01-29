@@ -1,7 +1,6 @@
 #pragma once
 
 #include <guis/GuiInfoPopup.h>
-#include <Settings.h>
 #include <utils/Strings.h>
 #include "components/NinePatchComponent.h"
 #include "components/ComponentList.h"

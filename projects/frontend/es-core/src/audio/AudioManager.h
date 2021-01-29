@@ -17,6 +17,9 @@ class AudioManager : private ISynchronousEvent
     typedef unsigned long long AudioHandle;
 
   private:
+    //! Music source folder
+    static constexpr const char* sMusicFolder = "/recalbox/share/music/";
+
     //! Music source
     enum class MusicSource
     {

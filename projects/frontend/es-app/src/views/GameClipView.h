@@ -1,7 +1,6 @@
 //
 // Created by gugue_U on 17/10/2020
 //
-
 #pragma once
 
 #include <vector>
@@ -10,17 +9,11 @@
 #include <systems/PlatformId.h>
 #include <systems/SystemManager.h>
 #include <utils/datetime/HighResolutionTimer.h>
-#include <components/TextComponent.h>
 #include <components/VideoComponent.h>
-#include <components/RatingComponent.h>
 #include <components/ScrollableContainer.h>
-#include <themes/ThemeExtras.h>
-#include <components/DateTimeComponent.h>
 #include <components/GameClipContainer.h>
 #include <components/GameClipNoVideoContainer.h>
-#include "Settings.h"
 #include "RecalboxConf.h"
-
 
 class GameClipView : public Gui
 {

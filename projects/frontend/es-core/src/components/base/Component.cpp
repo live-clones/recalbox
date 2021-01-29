@@ -5,7 +5,6 @@
 #include "Renderer.h"
 #include "animations/AnimationController.h"
 #include "themes/ThemeData.h"
-#include "Settings.h"
 
 Component::Component(WindowManager& window)
   : mTransform(Transform4x4f::Identity()),
@@ -403,7 +402,7 @@ void Component::updateHelpPrompts()
 
 void Component::ApplyHelpStyle()
 {
-	if (Settings::Instance().ThemeHasMenuView())
+	if (ThemeData::ThemeHasMenuView())
 		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "menu");
 	else
 		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "system");

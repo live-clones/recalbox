@@ -4,7 +4,6 @@
 #include "utils/Log.h"
 #include "ImageIO.h"
 #include "../data/Resources.h"
-#include "Settings.h"
 #include <RecalboxConf.h>
 
 #ifdef USE_OPENGL_ES
@@ -62,16 +61,17 @@ void Renderer::ActivateGLDebug()
   #endif
 }
 
-Renderer::Renderer(int width, int height)
-  : StaticLifeCycleControler<Renderer>("Renderer"),
-    mSdlWindow(nullptr),
-    mSdlGLContext(nullptr),
-    mDisplayWidth(0),
-    mDisplayHeight(0),
-    mDisplayWidthFloat(0.0f),
-    mDisplayHeightFloat(0.0f),
-    mViewPortInitialized(false),
-    mInitialCursorState(false)
+Renderer::Renderer(int width, int height, bool windowed)
+  : StaticLifeCycleControler<Renderer>("Renderer")
+  , mSdlWindow(nullptr)
+  , mSdlGLContext(nullptr)
+  , mDisplayWidth(0)
+  , mDisplayHeight(0)
+  , mDisplayWidthFloat(0.0f)
+  , mDisplayHeightFloat(0.0f)
+  , mViewPortInitialized(false)
+  , mInitialCursorState(false)
+  , mWindowed(windowed)
 {
   #ifdef DEBUG
   ActivateGLDebug();
@@ -125,7 +125,7 @@ bool Renderer::CreateSdlSurface()
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                 mDisplayWidth,
                                 mDisplayHeight,
-                                SDL_WINDOW_OPENGL | (Settings::Instance().Windowed() ? 0 : SDL_WINDOW_FULLSCREEN));
+                                SDL_WINDOW_OPENGL | (mWindowed ? 0 : SDL_WINDOW_FULLSCREEN));
 
   if (mSdlWindow == nullptr)
   {

@@ -86,6 +86,10 @@ class RecalboxSystem
     static bool getSysBatteryInfo(int& charge, int& unicodeIcon);
 
   private:
+    //! Share path
+    static constexpr const char* sSharePath = "/recalbox/share/";
+    static constexpr const char* sConfigScript = "/recalbox/scripts/recalbox-config.sh";
+
     static std::string BuildSettingsCommand(const std::string& arguments);
 
     static Strings::Vector ExecuteSettingsCommand(const std::string& arguments);

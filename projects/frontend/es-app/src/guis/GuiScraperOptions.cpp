@@ -4,12 +4,10 @@
 #include "guis/GuiScraperOptions.h"
 #include "guis/GuiScraperRun.h"
 #include "guis/GuiMsgBox.h"
-#include "MenuMessages.h"
 
 #include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
 #include "utils/locale/LocaleHelper.h"
-#include "Settings.h"
 
 GuiScraperOptions::GuiScraperOptions(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
@@ -34,7 +32,7 @@ GuiScraperOptions::GuiScraperOptions(WindowManager& window, SystemManager& syste
   mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
 	// Select option regarding the selected scraper
-	ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(Settings::Instance().Scraper());
+	ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(RecalboxConf::Instance().GetScraperSource());
 
 	switch(type)
   {
@@ -143,11 +141,6 @@ GuiScraperOptions::GuiScraperOptions(WindowManager& window, SystemManager& syste
     }
   }
 
-  // scrape ratings
-  mScrapeRatings = std::make_shared<SwitchComponent>(mWindow);
-  mScrapeRatings->setState(Settings::Instance().ScrapeRatings());
-  mMenu.addWithLabel(mScrapeRatings, _("SCRAPE RATINGS"), _(MENUMESSAGE_SCRAPER_RATINGS_HELP_MSG));
-
 	mMenu.addButton(_("START"), "start", std::bind(&GuiScraperOptions::pressedStart, this));
 	mMenu.addButton(_("BACK"), "back", [this] { Close(); });
 
@@ -174,7 +167,7 @@ void GuiScraperOptions::pressedStart()
 void GuiScraperOptions::start()
 {
   // Select option regarding the selected scraper
-  ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(Settings::Instance().Scraper());
+  ScraperFactory::ScraperType type = ScraperFactory::GetScraperType(RecalboxConf::Instance().GetScraperSource());
   // Save options
   switch(type)
   {
@@ -196,7 +189,6 @@ void GuiScraperOptions::start()
       break;
     }
   }
-  Settings::Instance().SetScrapeRatings(mScrapeRatings->getState());
 
   GuiScraperRun* gsm = new GuiScraperRun(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected());
   mWindow.pushGui(gsm);

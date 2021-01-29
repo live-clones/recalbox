@@ -17,7 +17,6 @@ set(CORE_HEADERS
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
 		src/Renderer.h
-		src/Settings.h
 		src/RootFolders.h
         src/themes/MenuThemeData.h
 		src/VideoEngine.h
@@ -183,7 +182,6 @@ set(CORE_SOURCES
 		src/input/InputStack.cpp
 		src/utils/Log.cpp
 		src/Renderer.cpp
-		src/Settings.cpp
 		src/RootFolders.cpp
         src/themes/MenuThemeData.cpp
 		src/VideoEngine.cpp

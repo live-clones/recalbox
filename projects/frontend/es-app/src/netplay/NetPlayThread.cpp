@@ -5,7 +5,6 @@
 #include "NetPlayThread.h"
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
-#include <Settings.h>
 #include <views/ViewController.h>
 #include <utils/locale/LocaleHelper.h>
 #include <utils/sdl2/SyncronousEventService.h>

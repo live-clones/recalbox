@@ -10,7 +10,6 @@
 DemoMode::DemoMode(WindowManager& window, SystemManager& systemManager)
   : mWindow(window),
     mSystemManager(systemManager),
-    mSettings(Settings::Instance()),
     mRecalboxConf(RecalboxConf::Instance()),
     mDefaultDuration(0),
     mInfoScreenDuration(0),

@@ -10,7 +10,6 @@
 #include <utils/Strings.h>
 #include <utils/Log.h>
 #include <themes/ThemeData.h>
-#include <Settings.h>
 #include <Renderer.h>
 #include <WindowManager.h>
 
@@ -155,7 +154,7 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
     }
     Vector3f off(mBackground.MargingX(), yOff, 0);
 
-    if(Settings::Instance().DebugText())
+    if (false /*Settings::Instance().DebugText()*/)
     {
       // draw the "textbox" area, what we are aligned within
       Renderer::SetMatrix(trans);
@@ -167,7 +166,7 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
     Renderer::SetMatrix(trans);
 
     // draw the text area, where the text actually is going
-    if(Settings::Instance().DebugText())
+    if (false /*Settings::Instance().DebugText()*/)
     {
       float usableSize = mSize.x() - mBackground.MargingX() * 2;
       switch(mHorizontalAlignment)

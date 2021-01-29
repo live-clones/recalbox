@@ -7,7 +7,6 @@
 
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
-#include "Settings.h"
 #include "utils/Log.h"
 #include "audio/AudioManager.h"
 
@@ -24,7 +23,7 @@
 
 std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
 {
-  std::string result = Settings::Instance().RecalboxSettingScript();
+  std::string result = sConfigScript;
   result.append(1, ' ');
   result.append(arguments);
   return result;
@@ -72,7 +71,7 @@ std::string RecalboxSystem::SizeToString(unsigned long long size)
 
 std::string RecalboxSystem::getFreeSpaceInfo()
 {
-  std::string sharePart = Settings::Instance().SharePartition();
+  std::string sharePart = sSharePath;
   std::string result = "N/A";
   if (!sharePart.empty())
   {
@@ -101,7 +100,7 @@ std::string RecalboxSystem::getFreeSpaceInfo()
 
 bool RecalboxSystem::isFreeSpaceLimit()
 {
-  std::string sharePart = Settings::Instance().SharePartition();
+  std::string sharePart = sSharePath;
   if (!sharePart.empty())
   {
     return getFreeSpace(sharePart) < GetMinimumFreeSpaceOnSharePartition();
@@ -124,7 +123,8 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
 
 bool RecalboxSystem::setOverscan(bool enable)
 {
-  std::string cmd =Settings::Instance().RecalboxSettingScript() + " overscan";
+  std::string cmd(sConfigScript);
+  cmd += " overscan";
   cmd += enable ? " enable" : " disable";
   LOG(LogInfo) << "Launching " << cmd;
   if (system(cmd.c_str()) != 0)
@@ -144,7 +144,10 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
 {
   if (!mode.empty())
   {
-    std::string cmd = Settings::Instance().RecalboxSettingScript() + " overclock" + ' ' + mode;
+    std::string cmd(sConfigScript);
+    cmd += " overclock";
+    cmd += ' ';
+    cmd += mode;
     LOG(LogInfo) << "Launching " << cmd;
     if (system(cmd.c_str()) != 0)
     {
@@ -207,7 +210,8 @@ bool RecalboxSystem::launchKodi(WindowManager& window)
 
 bool RecalboxSystem::backupRecalboxConf()
 {
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " configbackup";
+  std::string cmd(sConfigScript);
+  cmd += " configbackup";
   LOG(LogInfo) << "Launching " << cmd;
   if (system(cmd.c_str()) == 0)
   {
@@ -225,7 +229,8 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 {
   ssid = Strings::Replace(ssid, "\"", "\\\"");
   key = Strings::Replace(key, "\"", "\\\"");
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " wifi enable \"" + ssid + "\" \"" + key + "\"";
+  std::string cmd(sConfigScript);
+  cmd += " wifi enable \"" + ssid + "\" \"" + key + "\"";
   LOG(LogInfo) << "Launching " << cmd;
   if (system(cmd.c_str()) == 0)
   {
@@ -241,7 +246,8 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 
 bool RecalboxSystem::disableWifi()
 {
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " wifi disable";
+  std::string cmd(sConfigScript);
+  cmd += " wifi disable";
   LOG(LogInfo) << "Launching " << cmd;
   if (system(cmd.c_str()) == 0)
   {
@@ -404,7 +410,8 @@ bool RecalboxSystem::pairBluetooth(const std::string& controller)
   Strings::ReplaceAllIn(escapedController, "*", "\\*");
   Strings::ReplaceAllIn(escapedController, "'", "\\'");
   Strings::ReplaceAllIn(escapedController, "\"", "\\\"");
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " hiddpair " + escapedController;
+  std::string cmd(sConfigScript);
+  cmd += " hiddpair " + escapedController;
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
@@ -422,14 +429,16 @@ std::string RecalboxSystem::getCurrentStorage()
 
 bool RecalboxSystem::setStorage(const std::string& selected)
 {
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " storage " + selected;
+  std::string cmd(sConfigScript);
+  cmd += " storage " + selected;
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
 bool RecalboxSystem::forgetBluetoothControllers()
 {
-  std::string cmd = Settings::Instance().RecalboxSettingScript() + " forgetBT";
+  std::string cmd(sConfigScript);
+  cmd += " forgetBT";
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
@@ -461,11 +470,6 @@ std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
 bool RecalboxSystem::ping()
 {
   return Upgrade::NetworkReady();
-
-  /*const std::string& updateserver = Settings::Instance().UpdateServer();
-  std::string s("ping -c 1 " + updateserver);
-  int exitcode = system(s.c_str());
-  return exitcode == 0;*/
 }
 
 std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
@@ -525,7 +529,6 @@ bool RecalboxSystem::getSysBatteryInfo(int& charge, int& unicodeIcon)
 
 bool RecalboxSystem::kodiExists()
 {
-  return true;
   return Path("/usr/bin/kodi").IsFile();
 }
 

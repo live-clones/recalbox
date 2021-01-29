@@ -31,9 +31,10 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount, char** environment)
+MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment)
   : mRequestedWidth(width)
   , mRequestedHeight(height)
+  , mRequestWindowed(windowed)
   , mPendingExit(PendingExit::None)
   , mRunCount(runCount)
   , mNotificationManager(environment)
@@ -42,7 +43,6 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
   Intro();
   SetLocale(executablePath);
   CheckHomeFolder();
-  SetArchitecture();
 }
 
 MainRunner::ExitState MainRunner::Run()
@@ -73,7 +73,7 @@ MainRunner::ExitState MainRunner::Run()
     SDL_JoystickEventState(SDL_DISABLE);
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
-    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight);
+    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed);
     if (!renderer.Initialized())
     {
       LOG(LogError) << "Error initializing the GL renderer.";
@@ -451,12 +451,6 @@ void MainRunner::SetLocale(const std::string& executablePath)
                                            { path / "locale/lang", Path("/usr/share/locale") },
                                            "emulationstation2"))
     LOG(LogWarning) << "No locale found. Default text used.";
-}
-
-void MainRunner::SetArchitecture()
-{
-  if (Settings::Instance().Arch().empty())
-    Settings::Instance().SetArch(Files::LoadFile(Path("/recalbox/recalbox.arch")));
 }
 
 void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)

@@ -4,7 +4,6 @@
 #include "utils/Log.h"
 #include "WindowManager.h"
 #include "themes/ThemeData.h"
-#include "Settings.h"
 
 TextComponent::TextComponent(WindowManager&window)
 	: Component(window),
@@ -154,7 +153,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 			}
 		Vector3f off(0, yOff, 0);
 
-		if(Settings::Instance().DebugText())
+		if (false /*Settings::Instance().DebugText()*/)
 		{
 			// draw the "textbox" area, what we are aligned within
 			Renderer::SetMatrix(trans);
@@ -166,7 +165,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 		Renderer::SetMatrix(trans);
 
 		// draw the text area, where the text actually is going
-		if(Settings::Instance().DebugText())
+		if (false /*Settings::Instance().DebugText()*/)
 		{
 			switch(mHorizontalAlignment)
 			{

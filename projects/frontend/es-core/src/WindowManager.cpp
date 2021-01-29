@@ -1,7 +1,6 @@
 #include <utils/locale/LocaleHelper.h>
 #include <WindowManager.h>
 #include <Renderer.h>
-#include <Settings.h>
 #include <guis/GuiInfoPopup.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiMsgBox.h>

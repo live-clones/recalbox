@@ -3,7 +3,6 @@
 #include "views/ViewController.h"
 #include "utils/Log.h"
 #include "systems/SystemData.h"
-#include "Settings.h"
 
 #include "views/gamelist/BasicGameListView.h"
 #include "views/gamelist/DetailedGameListView.h"

@@ -65,6 +65,8 @@ class MainRunner
     unsigned int mRequestedWidth;
     //! Requested height
     unsigned int mRequestedHeight;
+    //! Requested window mode
+    bool mRequestWindowed;
 
     //! Pending exit
     PendingExit mPendingExit;
@@ -107,11 +109,6 @@ class MainRunner
      * @brief Check home folder existence
      */
     static void CheckHomeFolder();
-
-    /*!
-     * @brief Set architecture in settings
-     */
-    static void SetArchitecture();
 
     /*!
      * @brief Play loading jingle (loading.ogg) from theme if available
@@ -244,9 +241,10 @@ class MainRunner
      * @param executablePath current executable path
      * @param width Requested width
      * @param height Requested height
+     * @param windowed No fullscreen
      * @param runCount Number of time the MainRunner has been run
      */
-    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, int runCount, char** environment);
+    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment);
 
     /*!
      * @brief Run the game!
