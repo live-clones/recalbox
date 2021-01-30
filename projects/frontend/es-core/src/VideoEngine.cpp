@@ -197,6 +197,12 @@ void VideoEngine::StopVideo()
     mPendingMessages.Push(message);
     mSignal.Fire();
   }
+  if(mTexture.isLoaded())
+  {
+    AquireTexture();
+    mTexture.reset();
+    ReleaseTexture();
+  }
 }
 
 bool VideoEngine::InitializeDecoder()
@@ -476,9 +482,9 @@ void VideoEngine::FinalizeDecoder()
 {
 //  cause segvault when launching a game if snap is playing in gamelistview
 //  SDL_CloseAudio();
-  AquireTexture();
-  mTexture.reset();
-  ReleaseTexture();
+//  AquireTexture();
+//  mTexture.reset();
+//  ReleaseTexture();
   mContext.Dispose();
 }
 
