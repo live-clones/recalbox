@@ -220,8 +220,8 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToNextGameList();
-      return true;
     }
+    return true;
   }
 
   // MOVE to PREVIOUS GAMELIST
@@ -230,8 +230,8 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
-      return true;
     }
+    return true;
   }
 
 
