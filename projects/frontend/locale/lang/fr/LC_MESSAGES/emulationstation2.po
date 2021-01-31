@@ -2816,5 +2816,9 @@ msgid "RUN WITH"
 msgstr "LANCER AVEC"
 
 #
+msgid "NON EDITABLE GAME"
+msgstr ""
+
+#
 #~ msgid "NO GAME"
 #~ msgstr "PAS DE JEU SÉLECTIONNÉ"

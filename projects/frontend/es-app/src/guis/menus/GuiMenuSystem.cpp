@@ -133,7 +133,7 @@ void GuiMenuSystem::OptionListComponentChanged(int id, int index, const std::str
   {
     case Components::Storage: RecalboxSystem::setStorage(value); break;
     case Components::Culture: RecalboxConf::Instance().SetSystemLanguage(value).Save(); break;
-    case Components::Keyboard: RecalboxConf::Instance().SetSystemKbLayout(value); break;
+    case Components::Keyboard: RecalboxConf::Instance().SetSystemKbLayout(value).Save(); break;
   }
 }
 

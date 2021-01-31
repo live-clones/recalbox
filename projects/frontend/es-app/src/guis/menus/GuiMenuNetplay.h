@@ -30,12 +30,6 @@ class GuiMenuNetplay : public GuiMenuBase
     explicit GuiMenuNetplay(WindowManager& window, SystemManager& systemManager);
 
   private:
-    enum class Editor
-    {
-      Username,
-      Port,
-    };
-
     enum class Components
     {
       Enabled,

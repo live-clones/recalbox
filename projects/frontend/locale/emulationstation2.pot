@@ -2927,3 +2927,7 @@ msgstr ""
 #
 msgid "RUN WITH"
 msgstr ""
+
+#
+msgid "NON EDITABLE GAME"
+msgstr ""

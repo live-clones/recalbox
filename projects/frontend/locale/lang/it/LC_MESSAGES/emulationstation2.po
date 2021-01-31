@@ -2817,6 +2817,10 @@ msgstr ""
 msgid "RUN WITH"
 msgstr ""
 
+#
+msgid "NON EDITABLE GAME"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

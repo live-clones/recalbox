@@ -23,13 +23,8 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
   if (!nomenu && !bartop)
   {
-    FileData* file = mGamelist.getCursor();
-    if (file != nullptr)
-      if (!file->getTopAncestor().ReadOnly())
-      {
-        mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
-        RefreshGameMenuContext();
-      }
+    mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+    RefreshGameMenuContext();
   }
 
   // Jump to letter
@@ -77,19 +72,23 @@ GuiMenuGamelistOptions::~GuiMenuGamelistOptions()
 
 void GuiMenuGamelistOptions::RefreshGameMenuContext()
 {
+  if (!mGame) return;
+
   FileData* file = mGamelist.getCursor();
-  if ((file == nullptr) || (file->isEmpty()) || (file->getTopAncestor().ReadOnly()))
+  if ((file == nullptr) || file->isEmpty())
     mGame->setText(_("NO GAME"));
+  else if (file->getTopAncestor().ReadOnly())
+    mGame->setText(_("NON EDITABLE GAME"));
   else if (file->isGame())
   {
     std::string text = _("GAME %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getDisplayName()));
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
     mGame->setText(text);
   }
   else if (file->isFolder())
   {
     std::string text = _("FOLDER %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getDisplayName()));
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
     mGame->setText(text);
   }
 }

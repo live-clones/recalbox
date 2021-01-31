@@ -51,14 +51,14 @@ std::vector<GuiMenuBase::ListEntry<RecalboxConf::Relay>> GuiMenuNetplay::GetMitm
 
 void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& text)
 {
-  switch((Editor)id)
+  switch((Components)id)
   {
-    case Editor::Username:
+    case Components::UserName:
     {
       RecalboxConf::Instance().SetNetplayLogin(text).Save();
       break;
     }
-    case Editor::Port:
+    case Components::Port:
     {
       int p = RecalboxConf::sNetplayDefaultPort;
       Strings::ToInt(text, p);
@@ -66,6 +66,10 @@ void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& tex
       RecalboxConf::Instance().SetNetplayPort(p).Save();
       break;
     }
+    case Components::Enabled:
+    case Components::Mitm:
+    case Components::Passwords:
+    case Components::Hash: break;
   }
 }
 

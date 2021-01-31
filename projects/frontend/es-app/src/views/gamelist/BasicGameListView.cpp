@@ -83,7 +83,7 @@ void BasicGameListView::populateList(const FolderData& folder)
   if (RecalboxConf::Instance().GetFavoritesOnly()) filter = FileData::Filter::Favorite;
 
   // Get items
-  bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder"));
+  bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().GetSystemFlatFolders(mSystem));
   FileData::List items;
   if (flatfolders) folder.getItemsRecursivelyTo(items, filter, false, mSystem.IncludeAdultGames());
   else             folder.getItemsTo(items, filter, true, mSystem.IncludeAdultGames());
@@ -96,7 +96,7 @@ void BasicGameListView::populateList(const FolderData& folder)
   FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
 
   // Region filtering?
-  Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().AsInt("emulationstation." + mSystem.getName() + ".regionfilter"));
+  Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
   bool activeRegionFiltering = false;
   if (currentRegion != Regions::GameRegions::Unknown)
   {

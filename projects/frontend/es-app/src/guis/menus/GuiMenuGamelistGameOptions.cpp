@@ -22,9 +22,9 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   , mGame(game)
 {
   if (mGame.isGame())
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(mGame.getDisplayName())));
+    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(mGame.getName())));
   else if (mGame.isFolder())
-    SetFooter(Strings::Replace(_("FOLDER %s"), "%s", Strings::ToUpperUTF8(mGame.getDisplayName())));
+    SetFooter(Strings::Replace(_("FOLDER %s"), "%s", Strings::ToUpperUTF8(mGame.getName())));
 
   // Run width
   mEmulator = AddList<std::string>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));

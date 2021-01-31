@@ -350,7 +350,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
     template<typename T>
     std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const std::string& help)
     {
-      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text);
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, true);
       if (!entries.empty())
       {
         for (const ListEntry<T>& entry : entries)
@@ -386,7 +386,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
     template<typename T>
     std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::string& help)
     {
-      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text);
+      auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, true);
       mMenu.addWithLabel(result, text, help);
       result->SetMultiInterface(id, interface);
       return result;

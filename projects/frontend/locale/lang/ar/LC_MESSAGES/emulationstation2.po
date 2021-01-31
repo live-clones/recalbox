@@ -2554,5 +2554,9 @@ msgstr ""
 msgid "RUN WITH"
 msgstr ""
 
+#
+msgid "NON EDITABLE GAME"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "رقم التحديث:"
