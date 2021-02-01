@@ -1,0 +1,42 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index e3a50f8..2544465 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -214,26 +214,26 @@ inline void VDP::draw_text(int dx, int dy, uint8_t data, uint8_t tcol, uint8_t b
+ 
+ inline void VDP::draw_block(int dx, int dy, uint8_t data)
+ {
+-	int dx8 = dx << 3;
++	int dx8 = dx << 3; // Pointer to pixel is aligned to 8.
+ 	int dy16 = dy << 4;
+ 	uint8_t cu = data >> 4;
+ 	uint8_t cl = data & 0xf;
+ 
+-	if(cu)
++	if (cu != 0)
+ 	{
+-		for(int l = 0; l < 8; l++)
+-		{
+-			memset(&text[dy16 + l][dx8], cu, 8);
++    unsigned char* p = &text[dy16][dx8];
++	  uint32_t c = cu + (cu << 8); c = c + (c << 16);
++	  for(int i = 8; --i >= 0; p += 320)
++	    p[0] = p[1] = c;
+ 		}
+-	}
+-	if(cl)
++	if (cl != 0)
+ 	{
+-		for(int l = 8; l < 16; l++)
+-		{
+-			memset(&text[dy16 + l][dx8], cl, 8);
++    unsigned char* p = &text[dy16 + 8][dx8];
++    uint32_t c = cl + (cl << 8); c = c + (c << 16);
++    for(int i = 8; --i >= 0; p += 320)
++      p[0] = p[1] = c;
+ 		}
+ 	}
+-}
+ 
+ inline void VDP::draw_graph(int dx, int dy, uint8_t data, uint8_t col)
+ {

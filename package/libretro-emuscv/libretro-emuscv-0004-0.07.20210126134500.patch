@@ -1,0 +1,796 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index e565db9..e152334 100755
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -3,7 +3,7 @@ TARGET_NAME := emuscv
+ EMUSCV_VERSION_MAJOR := 0
+ EMUSCV_VERSION_MINOR := 07
+ #EMUSCV_VERSION_DATETIME := $(shell date -u +'%Y%m%d%H%M%S')
+-EMUSCV_VERSION_DATETIME := '20210122133400'
++EMUSCV_VERSION_DATETIME := '20210126134500'
+ EMUSCV_VERSION := $(EMUSCV_VERSION_MAJOR).$(EMUSCV_VERSION_MINOR).$(EMUSCV_VERSION_DATETIME)
+ 
+ DEBUG = 1
+diff --git a/changelog.txt b/changelog.txt
+index 67d45c4..ed3cb17 100755
+--- a/changelog.txt
++++ b/changelog.txt
+@@ -15,10 +15,9 @@ Libretro-EmuSCV (EPOCH/YENO Super Cassette Vision Emulator)
+ 
+ 
+ ***********************************************************
+-* Libretro-EmuSCV v0.07.20210122133400
++* Libretro-EmuSCV v0.07.20210126134500
+ ***********************************************************
+-- Added Audio (enhanced support for PCM, noise and square channels)
+-- Modified audio support
++- Added Audio (support of PCM 1-bit, tone, noise and 3 square channels)
+ 
+ ***********************************************************
+ * Libretro-EmuSCV v0.06.20201223231000
+diff --git a/src/emuscv.cpp b/src/emuscv.cpp
+index defab06..ab941a7 100755
+--- a/src/emuscv.cpp
++++ b/src/emuscv.cpp
+@@ -1292,13 +1292,7 @@ cEmuSCV::cEmuSCV()
+ 
+ 	// Init variables
+ 	retro_core_initialized		= false;
+-/*
+-	retro_use_audio_cb			= false;
+-*/
+ 	retro_audio_enable			= false;
+-/*
+-	retro_audio_phase			= 0;
+-*/
+ 	retro_frame_counter			= 0;
+ 	retro_frame_time			= 0;
+ 	retro_input_support_bitmask	= false;
+@@ -1328,14 +1322,6 @@ cEmuSCV::cEmuSCV()
+ 	run_frames_last				= 0;
+ 	run_frames_total			= 0;
+ 	draw_frames_total			= 0;
+-//	skip_frames					= 0;
+-//	next_time.tv_sec			= 0;
+-//	next_time.tv_nsec			= 0;
+-//	prev_skip					= false;
+-//	update_fps_time.tv_sec		= 0;
+-//	update_fps_time.tv_nsec		= 0;
+-//	update_status_bar_time		= 0;
+-//	disable_screen_saver_time	= 0;
+ 
+ 	config.window_height = DRAW_HEIGHT_EMUSCV;
+ 	config.window_width = config.window_height*4.0/3.0;
+@@ -1372,6 +1358,14 @@ cEmuSCV::cEmuSCV()
+ 	is_menu_displayed = false;
+ 	keyboard_x = 1;
+ 	keyboard_y = 2;
++
++	for (int32_t i = EMUSCV_NOISE_SAMPLES-1; i >= 0; i--)
++	{
++		sound_buffer_noise[i] = (rand() % 256) - 128;
++	}
++	sound_buffer_noise_index = rand() % (EMUSCV_NOISE_SAMPLES - 1);
++	sound_buffer_samples = 0;
++	sound_buffer_size = 0;
+ }
+ 
+ //
+@@ -1603,8 +1597,8 @@ unsigned cEmuSCV::RetroGetVideoRegion(void)
+ //	RetroLogPrintf(RETRO_LOG_INFO, "[%s] cEmuSCV::RetroGetVideoRegion() => RETRO_REGION_PAL\n", EMUSCV_NAME);
+ //	RetroLogPrintf(RETRO_LOG_INFO, "[%s] cEmuSCV::RetroGetVideoRegion() => RETRO_REGION_NTSC\n", EMUSCV_NAME);
+ 
+-	return RETRO_REGION_PAL;
+-//	return RETRO_REGION_NTSC;
++//	return RETRO_REGION_PAL;
++	return RETRO_REGION_NTSC;
+ }
+ 
+ // 
+@@ -1657,13 +1651,12 @@ void cEmuSCV::RetroInit(retro_audio_callback_t RetroAudioCb, retro_audio_set_sta
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Initialisaztions already done\n", EMUSCV_NAME);
+ 		return;
+ 	}
+-/*
+-	// Set audio callbacks
+-	struct retro_audio_callback audio_callback = { RetroAudioCb, RetroAudioSetStateCb };
+-	retro_use_audio_cb = RetroEnvironment(RETRO_ENVIRONMENT_SET_AUDIO_CALLBACK, &audio_callback);
+-	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Audio callback set\n", EMUSCV_NAME);
+-//retro_use_audio_cb = false;
+-*/
++
++//	// Set audio callbacks
++//	struct retro_audio_callback audio_callback = { RetroAudioCb, RetroAudioSetStateCb };
++//	retro_use_audio_cb = RetroEnvironment(RETRO_ENVIRONMENT_SET_AUDIO_CALLBACK, &audio_callback);
++//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Audio callback set\n", EMUSCV_NAME);
++
+ 	// Set frame time callback
+ 	struct retro_frame_time_callback frame_time_callback;
+ 	frame_time_callback.callback  = RetroFrameTimeCb;
+@@ -1707,25 +1700,13 @@ void cEmuSCV::RetroInit(retro_audio_callback_t RetroAudioCb, retro_audio_set_sta
+ 	retro_frame_time			= 0;
+ 	retro_game_loaded			= false;
+ 	retro_audio_enable			= false;
+-/*
+-	retro_audio_phase			= 0;
+-*/
+ 
+ 	retro_input_support_bitmask	= RetroEnvironment(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL);
+ //	if(retro_input_support_bitmask)
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Input supports bitmask\n", EMUSCV_NAME);
+ //	else
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] retro_input_support_bitmask set (false)\n", EMUSCV_NAME);
+-/*
+-	// Init SDL
+-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+-	{
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL initialization failed! %s\n", EMUSCV_NAME, SDL_GetError());
+-		return;	// Fatal error
+-	}
+-	else
+-		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL initialization ok\n", EMUSCV_NAME);
+-*/
++
+ 	// Initialize eSCV settings
+ 	initialize_config();
+ //	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] config initialized\n", EMUSCV_NAME);
+@@ -1808,19 +1789,12 @@ void cEmuSCV::RetroDeinit(void)
+ 	}
+ //	else
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] escv_emu don't exists, nothing to delete\n", EMUSCV_NAME);
+-/*	
+-	// Deinit SDL
+-	SDL_Quit();
+-	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL quitted\n", EMUSCV_NAME);
+-*/
++
+ 	// Reinit core variables
+ 	retro_frame_time			= 0;
+ 	retro_game_loaded			= FALSE;
+     retro_input_support_bitmask	= FALSE;
+ 	retro_audio_enable			= FALSE;
+-/*
+-	retro_audio_phase			= 0;
+-*/
+ 	retro_core_initialized 		= FALSE;
+ 
+ //	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] All deinitialisaztions done\n", EMUSCV_NAME);
+@@ -1889,9 +1863,7 @@ void cEmuSCV::RetroAudioSetStateCb(bool enable)
+ // 
+ void cEmuSCV::RetroFrameTimeCb(retro_usec_t usec)
+ {
+-
+ 	int64_t usec_corrected = usec*FRAMES_PER_SEC/config.window_fps;
+-//int64_t usec_corrected = usec*FRAMES_PER_SEC/WINDOW_FPS_EPOCH;
+ 
+ 	// Log
+ //	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] ================================================================================\n", EMUSCV_NAME);
+@@ -2261,74 +2233,7 @@ bool cEmuSCV::RetroLoadGame(const struct retro_game_info *info)
+ 				RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Game loaded\n", EMUSCV_NAME);
+ 			}
+ 			else
+-			{
+ 				RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game not loaded\n", EMUSCV_NAME);
+-/*
+-FILEIO *fio = new FILEIO();
+-
+-if(fio->IsFileExisting(retro_game_path))
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file exists\n", EMUSCV_NAME);
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file don't exist\n", EMUSCV_NAME);
+-
+-//if(access(retro_game_path, R_OK) == 0)
+-//	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is readable\n", EMUSCV_NAME);
+-//else
+-//	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is not readable\n", EMUSCV_NAME);
+-
+-if(!fio->IsFileProtected(retro_game_path))
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is writable\n", EMUSCV_NAME);
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is not writable\n", EMUSCV_NAME);
+-
+-//if(access(retro_game_path, X_OK) == 0)
+-//	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is executable\n", EMUSCV_NAME);
+-//else
+-//	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Game file is not executable\n", EMUSCV_NAME);
+-
+-FILE *fpa = fopen(retro_game_path, "r");
+-if(fpa != NULL)
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can open game file manually in READ ASCII mode\n", EMUSCV_NAME);
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't open game file manually in READ ASCII mode\n", EMUSCV_NAME);
+-fclose(fpa);
+-
+-FILE *fpb = fopen(retro_game_path, "r");
+-if(fpb != NULL)
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can open game file manually in READ BINARY mode\n", EMUSCV_NAME);
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't open game file manually in READ BINARY mode\n", EMUSCV_NAME);
+-fclose(fpb);
+-
+-if(fio->Fopen(retro_game_path, FILEIO_READ_ASCII))
+-{
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can open game file in FILEIO_READ_ASCII mode\n", EMUSCV_NAME);
+-	uint8_t raw[0x20000];
+-	if(fio->Fread(&raw, sizeof(raw), 1) != 1)
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can read game file in FILEIO_READ_ASCII mode\n", EMUSCV_NAME);
+-	else
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't read game file in FILEIO_READ_ASCII mode\n", EMUSCV_NAME);
+-	fio->Fclose();
+-}
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't open game file in FILEIO_READ_ASCII mode\n", EMUSCV_NAME);
+-
+-if(fio->Fopen(retro_game_path, FILEIO_READ_BINARY))
+-{
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can open game file in READ_BINARY mode\n", EMUSCV_NAME);
+-	uint8_t raw[0x20000];
+-	if(fio->Fread(&raw, sizeof(raw), 1) != 1)
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can read game file in READ_BINARY mode\n", EMUSCV_NAME);
+-	else
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't read game file in READ_BINARY mode\n", EMUSCV_NAME);
+-	fio->Fclose();
+-}
+-else
+-	RetroLogPrintf(RETRO_LOG_ERROR, "[%s] Can't open game file in READ_BINARY mode\n", EMUSCV_NAME);
+-
+-delete(fio);
+-*/
+-			}
+ 		}
+ 		else
+ 			RetroLogPrintf(RETRO_LOG_INFO, "[%s] Bios not present or empty game path -> game not loaded\n", EMUSCV_NAME);
+@@ -2339,6 +2244,8 @@ delete(fio);
+ 
+ //RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Game loading done\n", EMUSCV_NAME);
+ 
++	sound_buffer_samples = (AUDIO_SAMPLING_RATE / config.window_fps + 0.5);
++
+ 	return true;
+ }
+ 
+@@ -2453,61 +2360,11 @@ void cEmuSCV::RetroRun(void)
+ 
+ 	bool config_changed = false;
+ 
+-/*
+-	// SDL surfaces and renderers must exists
+-	if (!frame_surface)
+-	{
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL main surface not created!\n", EMUSCV_NAME);
+-		return;
+-	}
+-//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL main surface exists\n", EMUSCV_NAME);
+-
+-	if (!frame_renderer)
+-	{
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL main surface renderer not created!\n", EMUSCV_NAME);
+-		return;
+-	}
+-//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL main surface exists\n", EMUSCV_NAME);
+-
+-	if (!noise_surface)
+-	{
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL secondary surface not created!\n", EMUSCV_NAME);
+-		return;
+-	}
+-//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface exists\n", EMUSCV_NAME);
+-
+-	if (!noise_renderer)
+-	{
+-		RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL secondary surface renderer not created!\n", EMUSCV_NAME);
+-		return;
+-	}
+-//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface exists\n", EMUSCV_NAME);
+-*/
+ 	// Recreate SDL surfaces and renderers if the size change
+ 	if(frame_surface->w != config.window_width || frame_surface->h != config.window_height)
+ 	{
+ 		RetroLogPrintf(RETRO_LOG_INFO, "[%s] Resolution change detected\n", EMUSCV_NAME);
+-/*
+-		// Free SDL TV static noise renderer
+-		if (noise_renderer != NULL)
+-		{
+-			SDL_DestroyRenderer(noise_renderer);
+-			noise_renderer = NULL;
+-//			RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface renderer destroyed\n", EMUSCV_NAME);
+-		}
+-//		else
+-//			RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] No SDL secondary surface renderer, nothing to destroy\n", EMUSCV_NAME);
+ 
+-		// Free SDL TV static noise surface
+-		if (noise_surface != NULL)
+-		{
+-			SDL_FreeSurface(noise_surface);
+-			noise_surface = NULL;
+-//			RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface destroyed\n", EMUSCV_NAME);
+-		}
+-//		else
+-//			RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] No SDL secondary surface, nothing to destroy\n", EMUSCV_NAME);
+-*/
+ 		// Free SDL main frame renderer
+ 		if (frame_renderer != NULL)
+ 		{
+@@ -2545,36 +2402,6 @@ void cEmuSCV::RetroRun(void)
+ 			return;
+ 		}
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL main surface renderer created\n", EMUSCV_NAME);
+-/*
+-		// Create SDL TV static noise surface
+-		noise_surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 2*NOISE_WIDTH, 2*NOISE_HEIGHT, 8*sizeof(uint32_t), 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+-		if (noise_surface == NULL)
+-		{
+-			RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL secondary surface creation failed! %s\n", EMUSCV_NAME, SDL_GetError());
+-			return;
+-		}
+-//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface created\n", EMUSCV_NAME);
+-
+-		// Create SDL TV static noise renderer
+-		noise_renderer = SDL_CreateSoftwareRenderer(noise_surface);
+-		if (noise_renderer == NULL)
+-		{
+-			RetroLogPrintf(RETRO_LOG_ERROR, "[%s] SDL secondary surface renderer creation failed! %s\n", EMUSCV_NAME, SDL_GetError());
+-			return;
+-		}
+-//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] SDL secondary surface created\n", EMUSCV_NAME);
+-
+-		// Draw TV static noise
+-		for(int y = 0; y < noise_surface->h; y++)
+-		{
+-			for(int x = 0; x < noise_surface->w; x++)
+-			{
+-				uint8_t noise_color = rand() % 255;
+-				pixelRGBA(noise_renderer, x, y, noise_color, noise_color, noise_color, 255);
+-			}
+-		}
+-//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] TV static noise drawn\n", EMUSCV_NAME);
+-*/
+ 	}
+ 
+ 	// Get inputs
+@@ -2983,26 +2810,11 @@ void cEmuSCV::RetroRun(void)
+ 
+ 	if(is_power_on && escv_emu)
+ 	{
+-/*
+-		// Drive machine
+-		if(run_frames_last > 1)
+-		{
+-			run_frames_last--;
+-		}
+-		else
+-		{
+-
+-	//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] escv_emu->run()\n", EMUSCV_NAME);
+-
+-
+-*/
+-			run_frames_last = escv_emu->run();
+-			run_frames_total += run_frames_last;
+-	//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] escv_emu->draw_screen()\n", EMUSCV_NAME);
+-			draw_frames_total += escv_emu->draw_screen();
+-/*
+-		}
+-*/
++//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] escv_emu->run()\n", EMUSCV_NAME);
++		run_frames_last = escv_emu->run();
++		run_frames_total += run_frames_last;
++//		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] escv_emu->draw_screen()\n", EMUSCV_NAME);
++		draw_frames_total += escv_emu->draw_screen();
+ 
+ 		// Copy screen
+ 		SDL_Rect RectSrc;
+@@ -3581,46 +3393,36 @@ void cEmuSCV::RetroRun(void)
+ 		boxRGBA(frame_renderer, posx+3+9*space, posy+7+6*space, posx+11*space, posy+5+8*space, R_OF_COLOR(color), G_OF_COLOR(color), B_OF_COLOR(color), alpha);
+ //		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] Inputs drawn\n", EMUSCV_NAME);
+ 	}
+-/*
+-	// Call audio callback manually if not set
+-	if (retro_use_audio_cb == false)
+-	{
+-		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] retro_use_audio_cb == false -> RetroAudioCb()\n", EMUSCV_NAME);
+-		RetroAudioCb();
+-	}
+-	else
+-		RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] retro_use_audio_cb == true => nothing to do\n", EMUSCV_NAME);
+-*/
++
+ 	// Call audio callback
+-	size_t buffer_size = (AUDIO_SAMPLING_RATE / config.window_fps + 0.5);
+-	int16_t sound_buffer[(buffer_size<<1)];
+ 	if(escv_emu && is_power_on)
+ 	{
+ 		int16_t *sound_ptr = escv_emu->get_osd()->get_sound_ptr();
+ 		if(!sound_ptr)
+ 		{
+-			memset(sound_buffer, 0, sizeof(sound_buffer));
+-			sound_ptr = sound_buffer;
++			for (uint32_t i = sound_buffer_samples; i > 0; i--)
++				RetroAudioSample(0, 0);
+ 		}
+ 		else
+ 		{
+-//			memcpy(sound_buffer, sound_ptr, sizeof(sound_buffer));
+-			for(uint32_t i = 0; i < (buffer_size<<1); i++)
++			int16_t sound_val;
++			for (uint32_t i = 0; i < sound_buffer_samples; i++)
+ 			{
+-//				if(sound_buffer[i] != sound_buffer[0])
+-//					bool stop = true;
+-				sound_buffer[i] = sound_ptr[i];
++				sound_val = sound_ptr[i];
++				RetroAudioSample(sound_val, sound_val);
+ 			}
+ 		}
+-		RetroAudioSampleBatch(sound_buffer, buffer_size);
+ 	}
+ 	else
+ 	{
+-		for (uint32_t i = 0; i < (buffer_size<<1); i++)
+-			sound_buffer[i] = (rand() % 256) - 128;
+-		RetroAudioSampleBatch(sound_buffer, buffer_size);
++		for (uint32_t i = sound_buffer_samples; i > 0; i--)
++		{
++			RetroAudioSample(sound_buffer_noise[sound_buffer_noise_index], sound_buffer_noise[sound_buffer_noise_index]);
++			if(++sound_buffer_noise_index >= EMUSCV_NOISE_SAMPLES)
++				sound_buffer_noise_index = rand() % (EMUSCV_NOISE_SAMPLES - 1);
++		}
+ 	}
+-//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] => RetroAudioSampleBatch()\n", EMUSCV_NAME);
++//	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] => RetroAudioSample()\n", EMUSCV_NAME);
+ 
+ 	// Call video callback
+ 	RetroVideoRefresh(frame_surface->pixels, config.window_width, config.window_height,  config.window_width*sizeof(uint32_t));
+@@ -3917,6 +3719,7 @@ void cEmuSCV::RetroLoadSettings(void)
+ 
+ 	if(escv_emu)
+ 		escv_emu->get_osd()->reset_sound();
++	sound_buffer_samples = (AUDIO_SAMPLING_RATE / config.window_fps + 0.5);
+ 
+ //	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] apply_display_config()\n", EMUSCV_NAME);
+ }
+diff --git a/src/emuscv.h b/src/emuscv.h
+index 00b361c..cb5bdd8 100755
+--- a/src/emuscv.h
++++ b/src/emuscv.h
+@@ -73,6 +73,8 @@ class EMU;
+ #define EMUSCV_AXIS_NEUTRAL_MAX			8192
+ #define EMUSCV_AXIS_NEUTRAL_MIN			-EMUSCV_AXIS_NEUTRAL_MAX
+ 
++#define EMUSCV_NOISE_SAMPLES			16384
++
+ 
+ // /!\ Must be static
+ class cEmuSCV
+@@ -168,6 +170,12 @@ class cEmuSCV
+ 		bool is_menu_displayed;
+ 		uint8_t keyboard_x;
+ 		uint8_t keyboard_y;
++
++		int16_t sound_buffer_noise[EMUSCV_NOISE_SAMPLES];	// Mono noise
++		size_t sound_buffer_noise_index;
++		size_t sound_buffer_samples;
++		size_t sound_buffer_size;
++
+ };
+ 
+ #endif	// _EMUSCV_INC_EMUSCV_H_
+diff --git a/src/vm/event.cpp b/src/vm/event.cpp
+index 0e20362..8ee8139 100755
+--- a/src/vm/event.cpp
++++ b/src/vm/event.cpp
+@@ -45,15 +45,15 @@ void EVENT::initialize_sound(int rate)//, int samples)
+ {
+ 	// initialize sound
+ 	sound_rate = rate;
+-	sound_size = (int)(sound_rate / FRAMES_PER_SEC_MIN + 0.5);
++	sound_size = (int)(sound_rate / FRAMES_PER_SEC_MIN + 0.5) * sizeof(int16_t) + 1;
+ 	sound_samples = (int)(sound_rate/config.window_fps+0.5);
+-	sound_buffer_1 = (int16_t*)malloc(sound_size * sizeof(int16_t) * 2 + 1);
+-	memset(sound_buffer_1, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++	sound_buffer_1 = (int16_t*)malloc(sound_size);
++	memset(sound_buffer_1, 0, sound_size);
+ 	sound_buffer_1_start = sound_buffer_1;
+ 	if((uint64_t)sound_buffer_1_start & 1)
+ 		sound_buffer_1++;
+-	sound_buffer_2 = (int16_t*)malloc(sound_size * sizeof(int16_t) * 2 + 1);
+-	memset(sound_buffer_2, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++	sound_buffer_2 = (int16_t*)malloc(sound_size);
++	memset(sound_buffer_2, 0, sound_size);
+ 	sound_buffer_2_start = sound_buffer_2;
+ 	if((uint64_t)sound_buffer_2_start & 1)
+ 		sound_buffer_2++;
+@@ -98,9 +98,9 @@ void EVENT::reset()
+ 	// reset sound
+ 	sound_samples = (int)(sound_rate/config.window_fps+0.5);
+ 	if(sound_buffer_1)
+-		memset(sound_buffer_1, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++		memset(sound_buffer_1, 0, sound_size);
+ 	if(sound_buffer_2)
+-		memset(sound_buffer_2, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++		memset(sound_buffer_2, 0, sound_size);
+ 	sound_buffer_read = sound_buffer_2_start;
+ 	sound_buffer_write = sound_buffer_1_start;
+ 	sound_buffer_write_index = 0;
+@@ -563,18 +563,12 @@ void EVENT::event_callback(int event_id, int err)
+ 
+ void EVENT::mix_sound(uint32_t samples)
+ {
+-	d_sound[0]->mix(sound_buffer_write + (sound_buffer_write_index << 1), samples);	// Only one audio device for the Super Cassette Vision
++	d_sound[0]->mix(sound_buffer_write + sound_buffer_write_index, samples);	// Only one audio device for the Super Cassette Vision
+ 	sound_buffer_write_index += samples;
+ }
+ 
+ int16_t* EVENT::create_sound(int* extra_frames)
+ {
+-	for(uint32_t i = 0; i < (sound_samples<<1); i++)
+-	{
+-		if(sound_buffer_read[i] == 0)
+-			bool stop = true;
+-	}
+-
+ 	if(sound_buffer_write_index >= sound_samples)
+ 	{
+ 		if(sound_buffer_write == sound_buffer_1_start)
+@@ -668,9 +662,9 @@ bool EVENT::process_state(FILEIO* state_fio, bool loading)
+ 	if(loading)
+ 	{
+ 		if(sound_buffer_1)
+-			memset(sound_buffer_1, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++			memset(sound_buffer_1, 0, sound_size);
+ 		if(sound_buffer_2)
+-			memset(sound_buffer_2, 0, ((sound_size << 1) * sizeof(int16_t)) + 1);
++			memset(sound_buffer_2, 0, sound_size);
+ 		sound_buffer_read = sound_buffer_2_start;
+ 		sound_buffer_write = sound_buffer_1_start;
+ 		sound_buffer_write_index = 0;
+diff --git a/src/vm/scv/sound.cpp b/src/vm/scv/sound.cpp
+index 33ca3cf..2581427 100755
+--- a/src/vm/scv/sound.cpp
++++ b/src/vm/scv/sound.cpp
+@@ -153,7 +153,7 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 
+ 			case CMD_NOISE:	// Noise & square
+ 				noise.timbre = (params[1] & 0xE0) << 1;
+-				noise.offset = (params[1] & 0x1F) << 3;
++				//noise.offset = (params[1] & 0x1F) << 3;
+ 				noise.ptr    = rand() % (NOISE_TABLE_SIZE - 1);
+ 				noise.period = params[2] << 6;
+ 				noise.volume = MAX_NOISE * (params[3] & 0x1F) / 0x1F;
+@@ -162,16 +162,13 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 				else
+ 					noise.output = (noise_table[noise.ptr] * noise.volume) >> 9;
+ 
+-				square1.ptr = 0;
+-				square2.ptr = 0;
+-				square3.ptr = 0;
+ 				square1.volume = MAX_SQUARE1 * (params[7] & 0x1F) / 0x1F;
+ 				square2.volume = MAX_SQUARE2 * (params[8] & 0x1F) / 0x1F;
+ 				square3.volume = MAX_SQUARE3 * (params[9] & 0x1F) / 0x1F;
+ 				if(params[1] == 0 && params[3] == 0)
+ 				{
+ 					square1.period = params[4] << 7;
+-					if(params[4] > 1 && params[4] < 12)
++					if(params[4] > 1 && params[4] < 12)	// Patch for Kung-Fu Road... Not perfect
+ 						square2.period = (params[5] * params[4]) << 2;
+ 					else
+ 						square2.period = params[5] << 8;
+@@ -195,8 +192,7 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 
+ 			case CMD_TONE:	// note on : $02, timbre, period, volume ?
+ 				tone.timbre = (params[1] & 0xE0) >> 5;
+-				tone.offset = (params[1] & 0x1F) << 3;
+-				tone.ptr    = tone.offset;
++				tone.offset = params[1] & 0x1F;
+ 				tone.period = params[2] * detune_table[tone.offset];
+ 				tone.volume = MAX_TONE * (params[3] & 0x1F) / 0x1F;
+ 				tone.output = (timbre_table[tone.timbre][tone.ptr] * tone.volume) >> 8;
+@@ -335,8 +331,8 @@ void SOUND::mix(int16_t* buffer, uint32_t cnt)
+ 		// mix pcm
+ 		if(pcm.count != 0)
+ 		{
+-			int64_t v = pcm.output;
+-			int64_t c = 1;
++//			int64_t v = pcm.output;
++//			int64_t c = 1;
+ 			pcm.count -= pcm.diff;
+ 			while(pcm.count <= 0)
+ 			{
+@@ -348,10 +344,9 @@ void SOUND::mix(int16_t* buffer, uint32_t cnt)
+ 					else
+ 						pcm_table_data[i] = 0;
+ 				}
+-				pcm.output = (pcm_table_data[0]+pcm_table_data[1]+(pcm_table_data[2]+pcm_table_data[3]+pcm_table_data[4]+pcm_table_data[5]+pcm_table_data[6])<<1+pcm_table_data[7]) >> 3;
+-				v += tone.output;
+-				c++;
+-
++				pcm.output = (pcm_table_data[0]+pcm_table_data[1]+pcm_table_data[4]+pcm_table_data[5]+pcm_table_data[6]+(pcm_table_data[2]+pcm_table_data[3]+pcm_table_data[4]+pcm_table_data[5]+pcm_table_data[6]+pcm_table_data[7]+pcm_table_data[8])<<1+pcm_table_data[9]) >> 4;
++//				v += tone.output;
++//				c++;
+ 				if(++pcm.ptr >= pcm_len)
+ 				{
+ 					pcm.count = 0;
+@@ -359,15 +354,16 @@ void SOUND::mix(int16_t* buffer, uint32_t cnt)
+ 				}
+ 			}
+ 			// Smooth sound
+-			v = v/c;
+-			vol += v;
++//			v = v/c;
++//			vol += v;
++			vol += pcm.output;
+ 		}
+ 
+ 		// mix tone
+ 		if(tone.volume && tone.period)
+ 		{
+-			int64_t v = tone.output;
+-			int64_t c = 1;
++//			int64_t v = tone.output;
++//			int64_t c = 1;
+ 			tone.count -= tone.diff;
+ 			while(tone.count <= 0)
+ 			{
+@@ -375,12 +371,13 @@ void SOUND::mix(int16_t* buffer, uint32_t cnt)
+ 				if(++tone.ptr >= 256)
+ 					tone.ptr = tone.offset;
+ 				tone.output = (timbre_table[tone.timbre][tone.ptr] * tone.volume) >> 8;
+-				v += tone.output;
+-				c++;
++//				v += tone.output;
++//				c++;
+ 			}
+ 			// Smooth sound
+-			v = v/c;
+-			vol += v;
++//			v = v/c;
++//			vol += v;
++			vol += tone.output;
+ 		}
+ 
+ 		// Mix noise
+@@ -453,8 +450,8 @@ void SOUND::mix(int16_t* buffer, uint32_t cnt)
+ 			vol = INT16_MAX;
+ 		else if(vol < INT16_MIN)
+ 			vol = INT16_MIN;
+-		*buffer++ = vol;	// Left
+-		*buffer++ = vol;	// Right
++
++		*buffer++ = vol;	// Mono
+ 	}
+ }
+ 
+diff --git a/src/vm/scv/sound.h b/src/vm/scv/sound.h
+index f65d5ac..1d9a008 100755
+--- a/src/vm/scv/sound.h
++++ b/src/vm/scv/sound.h
+@@ -18,16 +18,16 @@
+ #include "../../emu.h"
+ #include "../device.h"
+ 
+-#define TONE_CLOCK   1522400.0
++#define TONE_CLOCK   1500000.0
+ #define NOISE_CLOCK      750.0
+-#define SQUARE_CLOCK  174000.0
+-#define PCM_CLOCK    1522400.0
++#define SQUARE_CLOCK  175000.0
++#define PCM_CLOCK    1500000.0
+ 
+ #define MAX_TONE          9000
+-#define MAX_NOISE         9000
+-#define MAX_SQUARE1       4500
+-#define MAX_SQUARE2       4500
+-#define MAX_SQUARE3       4500
++#define MAX_NOISE         3000
++#define MAX_SQUARE1       1500
++#define MAX_SQUARE2       1500
++#define MAX_SQUARE3       1500
+ #define MAX_PCM          12000
+ 
+ #define MAX_PARAM       0x8000
+@@ -35,7 +35,7 @@
+ #define NOISE_TABLE_SIZE  1024
+ #define SQUARE_TABLE_SIZE  256
+ #define PCM_TABLE_SIZE 0x40000
+-#define PCM_TABLE_DATA_SIZE  8
++#define PCM_TABLE_DATA_SIZE 10
+ 
+ #define CMD_SILENCE	      0x00
+ #define CMD_NOISE	      0x01
+diff --git a/src/vm/scv/sound_tbl.h b/src/vm/scv/sound_tbl.h
+index 77b94ee..01f8c8b 100755
+--- a/src/vm/scv/sound_tbl.h
++++ b/src/vm/scv/sound_tbl.h
+@@ -14,7 +14,7 @@
+ #ifndef _EMUSCV_INC_VM_SCV_SOUND_TBL_H_
+ #define _EMUSCV_INC_VM_SCV_SOUND_TBL_H_
+ 
+-static const int16_t timbre_table[8][256] =
++const int timbre_table[8][256] =
+ {
+ 	{	// Tone 0
+ 		  48,  167,  212,  220,  231,  239,  245,  247,  250,  253,  253,  255,  255,  255,  255,  255,
+@@ -32,7 +32,7 @@ static const int16_t timbre_table[8][256] =
+ 		 204,  212,  220,  226,  231,  234,  237,  239,  239,  239,  242,  242,  242,  239,  234,  229,
+ 		 220,  215,  210,  204,  185,  153,  113,   72,   35,   10,  -12,  -28,  -47, -122, -176, -190,
+ 		-209, -219, -230, -238, -244, -249, -252, -252, -252, -252, -252, -249, -249, -249, -246, -244,
+-		-241, -238, -238, -236, -236, -233, -230, -228, -225, -225, -219, -222, -219, -214, -190,  -74
++		-241, -238, -238, -236, -236, -233, -230, -228, -225, -225, -219, -222, -219, -214, -190,  -74,
+ 	},
+ 	{	// Tone 1
+ 		   3,   93,  139,  174,  197,  213,  220,  220,  220,  217,  217,  213,  213,  213,  213,  217,
+@@ -50,7 +50,7 @@ static const int16_t timbre_table[8][256] =
+ 		 142,  116,   97,   81,   68,   51,   25,   -2,  -31,  -54,  -70,  -83,  -92,  -83,  -37,   16,
+ 		  68,  113,  152,  178,  197,  213,  223,  233,  239,  243,  243,  243,  246,  236,  207,  171,
+ 		 139,  110,   87,   71,   58,   55,   64,   77,   90,  103,  113,  119,  123,  106,   64,   16,
+-		 -31,  -70,  -96, -122, -138, -148, -154, -157, -157, -157, -157, -157, -157, -154, -125,  -63
++		 -31,  -70,  -96, -122, -138, -148, -154, -157, -157, -157, -157, -157, -157, -154, -125,  -63,
+ 	},
+ 	{	// Tone 2
+ 		  14,   35,   50,   53,   59,   62,   62,   62,   65,   92,  154,  199,  211,  217,  226,  229,
+@@ -68,7 +68,7 @@ static const int16_t timbre_table[8][256] =
+ 		 110,  110,  107,  104,  101,  101,   98,   95,   92,   92,   95,   95,   98,  101,  101,  104,
+ 		 104,   92,   71,   47,   23,    8,   -4,  -16,  -22,  -19,   -1,   17,   35,   50,   62,   71,
+ 		  77,   95,  116,  142,  163,  181,  193,  202,  205,  184,  136,   83,   35,   -4,  -34,  -58,
+-		 -79, -129, -198, -219, -225, -234, -240, -246, -249, -249, -240, -228, -168,  -94,  -43,   -1
++		 -79, -129, -198, -219, -225, -234, -240, -246, -249, -249, -240, -228, -168,  -94,  -43,   -1,
+ 	 },
+ 	{	// Tone 3
+ 		  70,  182,  208,  220,  235,  241,  247,  244,  229,  220,  194,  135,   88,   52,   32,   32,
+@@ -86,7 +86,7 @@ static const int16_t timbre_table[8][256] =
+ 		 100,   94,   88,   82,   79,   76,   76,   82,   88,   91,   97,  100,  102,  105,  105,  102,
+ 		 100,   94,   94,   91,   88,   88,   88,   91,   94,  100,  102,  102,  105,  105,  144,  197,
+ 		 211,  220,  232,  241,  247,  253,  255,  250,  235,  223,  203,  150,  102,   70,   52,   52,
+-		  58,   67,   76,   82,   85,   88,   64,   14,  -40,  -90, -131, -163, -190, -204, -152,  -34
++		  58,   67,   76,   82,   85,   88,   64,   14,  -40,  -90, -131, -163, -190, -204, -152,  -34,
+ 	},
+ 	{	// Tone 4
+ 		   5,   26,   43,   56,   80,  107,  134,  158,  177,  185,  188,  188,  188,  188,  188,  188,
+@@ -104,10 +104,9 @@ static const int16_t timbre_table[8][256] =
+ 		-209, -211, -214, -217, -219, -222, -228, -230, -233, -233, -236, -236, -238, -241, -244, -246,
+ 		-246, -249, -249, -249, -249, -252, -252, -252, -252, -252, -252, -252, -252, -252, -252, -252,
+ 		-252, -252, -249, -249, -249, -246, -246, -244, -244, -241, -241, -241, -238, -236, -233, -230,
+-		-228, -225, -222, -222, -219, -214, -209, -203, -201, -193, -179, -163, -128,  -87,  -50,  -17
++		-228, -225, -222, -222, -219, -214, -209, -203, -201, -193, -179, -163, -128,  -87,  -50,  -17,
+ 	},
+-	{
+-		// Tone 5
++	{	// Tone 5
+ 		   2,   16,   24,   38,   68,  107,  143,  167,  173,  176,  176,  178,  173,  121,   55,    2,
+ 		 -43,  -76, -103, -122, -142, -158, -172, -183, -191, -197, -199, -202, -202, -202, -197, -197,
+ 		-194, -191, -191, -188, -177, -169, -161, -153, -144, -142, -136, -142, -175, -208, -216, -219,
+@@ -123,10 +122,9 @@ static const int16_t timbre_table[8][256] =
+ 		-197, -158, -133, -109,  -89,  -73,  -56,  -45,  -34,  -29,  -23,  -21,  -21,  -21,  -23,  -26,
+ 		 -26,  -29,  -29,  -32,  -37,  -48,  -56,  -62,  -67,  -73,  -78,  -81,  -84,  -89,  -92,  -98,
+ 		-100, -100, -103, -103, -103, -103, -103, -103, -103, -103, -103, -103, -103, -106, -109, -109,
+-		-111, -111, -111, -111, -111, -111, -111, -111, -111, -109, -109, -100,  -78,  -54,  -29,  -12
++		-111, -111, -111, -111, -111, -111, -111, -111, -111, -109, -109, -100,  -78,  -54,  -29,  -12,
+ 	},
+-	{
+-		// Tone 6
++	{	// Tone 6
+ 		   2,   10,   21,   32,   53,   83,  115,  142,  164,  180,  194,  202,  202,  202,  202,  202,
+ 		 202,  202,  202,  202,  202,  204,  207,  210,  212,  212,  215,  215,  218,  220,  223,  226,
+ 		 226,  229,  229,  231,  231,  234,  237,  239,  239,  242,  242,  242,  245,  245,  247,  250,
+@@ -142,10 +140,9 @@ static const int16_t timbre_table[8][256] =
+ 		-252, -252, -252, -252, -252, -252, -252, -252, -249, -249, -249, -249, -249, -246, -246, -246,
+ 		-246, -246, -244, -244, -244, -241, -241, -241, -238, -238, -236, -236, -236, -233, -230, -230,
+ 		-228, -228, -225, -225, -222, -219, -217, -217, -214, -211, -209, -209, -206, -203, -201, -198,
+-		-195, -193, -193, -190, -187, -184, -179, -163, -147, -133, -125, -112,  -90,  -63,  -36,  -15
++		-195, -193, -193, -190, -187, -184, -179, -163, -147, -133, -125, -112,  -90,  -63,  -36,  -15,
+ 	},
+-	{
+-		// Tone 7
++	{	// Tone 7
+ 		   0,   60,  118,  128,  140,  152,  161,  167,  170,  176,  185,  195,  204,  210,  216,  219,
+ 		 222,  225,  231,  237,  240,  246,  249,  249,  252,  252,  255,  255,  255,  255,  255,  255,
+ 		 255,  255,  252,  249,  246,  243,  240,  240,  237,  234,  228,  219,  213,  207,  201,  198,
+@@ -161,7 +158,7 @@ static const int16_t timbre_table[8][256] =
+ 		-245, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242, -242,
+ 		-242, -242, -242, -239, -239, -239, -239, -239, -239, -239, -239, -239, -239, -236, -236, -236,
+ 		-236, -236, -236, -236, -236, -236, -236, -236, -233, -233, -233, -233, -233, -233, -233, -233,
+-		-230, -227, -221, -215, -212, -206, -203, -200, -191, -163, -130, -105,  -78,  -53,  -35,  -20
++		-230, -227, -221, -215, -212, -206, -203, -200, -191, -163, -130, -105,  -78,  -53,  -35,  -20,
+ 	}
+ };
+ 

@@ -1,0 +1,16 @@
+diff --git a/src/vm/scv/sound.cpp b/src/vm/scv/sound.cpp
+index 0502d95..33ca3cf 100755
+--- a/src/vm/scv/sound.cpp
++++ b/src/vm/scv/sound.cpp
+@@ -307,9 +307,9 @@ void SOUND::initialize_sound(int rate)
+ 
+ 	// Create square table
+ 	for(int i = 0; i < SQUARE_TABLE_SIZE>>1; i++)
+-		square_table[i] = 255; 
++		square_table[i] = 255;
+ 	for(int i = SQUARE_TABLE_SIZE>>1; i < SQUARE_TABLE_SIZE; i++)
+-		square_table[i] = -255; 
++		square_table[i] = -255;
+ }
+ 
+ inline void SOUND::clear_channel(channel_t *ch)

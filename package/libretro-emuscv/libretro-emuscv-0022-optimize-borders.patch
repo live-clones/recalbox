@@ -1,0 +1,238 @@
+diff --git a/src/config.cpp b/src/config.cpp
+index f97af0e..31af2ff 100755
+--- a/src/config.cpp
++++ b/src/config.cpp
+@@ -716,7 +716,7 @@ void DLL_PREFIX apply_display_config()
+ #elif defined(_RESOLUTION_AUTO_MEDIUM)
+ 			config.window_resolution = SETTING_RESOLUTION_MEDIUM_VAL;
+ #else
+-			config.window_resolution = SETTING_RESOLUTION_HIGH_VAL;
++			config.window_resolution = SETTING_RESOLUTION_LOW_VAL; //SETTING_RESOLUTION_HIGH_VAL;
+ #endif
+ 			break;
+ 	}
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index 57bb786..fb2d9ac 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -63,11 +63,7 @@ void VDP::draw_screen()
+ 
+ 	// draw sprite screen
+ 	memset(sprite, 0, sizeof(sprite));
+-	if(vdc0 & 0x10)
+-	{
+-		//clipy = ((vdc0 & 0xf7) == 0x17 && (vdc2 & 0xef) == 0x4f) ? 31 : 0;
+-		draw_sprite_screen();
+-	}
++	if(vdc0 & 0x10)	draw_sprite_screen();
+ 
+ 	// Mix buffers
+ 	scrntype_t* d = emu->get_screen_ptr();
+@@ -109,51 +105,59 @@ void VDP::draw_screen()
+ 	switch(config.screen_display)
+ 	{
+ 		case SETTING_DISPLAY_EPOCH_VAL:
+-			// EPOCH
+-			for(int x = 26; x < 226; x++)
+-			{
+-				d[int(x+23*SCREEN_WIDTH)] = palette_pc[0x8];
+-				d[int(x+248*SCREEN_WIDTH)] = palette_pc[0x8];
+-			}
+-			for(int y = 24; y < 248; y++)
+-			{
+-				d[int(26+y*SCREEN_WIDTH)] = palette_pc[0x8];
+-				d[int(225+y*SCREEN_WIDTH)] = palette_pc[0x8];
+-			}
+-			break;
++    {
++      // EPOCH
++      scrntype_t c = palette_pc[0x8];
++      for (int x = 26; x < 226; x++)
++      {
++        d[int(x + 23 * SCREEN_WIDTH)] = d[int(x + 248 * SCREEN_WIDTH)] = c;
++      }
++      for (int y = 24; y < 248; y++)
++      {
++        d[int(26 + y * SCREEN_WIDTH)] = d[int(225 + y * SCREEN_WIDTH)] = c;
++      }
++      break;
++    }
+ 		case SETTING_DISPLAY_YENO_VAL:
+-			// YENO
+-			for(int y = 0; y < 256; y++)
+-				for(int x = 215; x < 218; x++)
+-						d[int(x+y*SCREEN_WIDTH)] = palette_pc[0x1];
+-			for(int y = 256; y < 264; y++)
+-				for(int x = 32; x < 218; x++)
+-						d[int(x+y*SCREEN_WIDTH)] = palette_pc[0x1];
+-			for(int x = 31; x < 219; x++)
+-			{
+-//				d[int(x-1*SCREEN_WIDTH)] = palette_pc[0x2];
+-				d[int(x+264*SCREEN_WIDTH)] = palette_pc[0x2];
+-			}
+-			for(int y = 0; y < 264; y++)
+-			{
+-				d[int(31+y*SCREEN_WIDTH)] = palette_pc[0x2];
+-				d[int(218+y*SCREEN_WIDTH)] = palette_pc[0x2];
+-			}
+-			break;
++    {
++      // YENO
++      scrntype_t c1 = palette_pc[0x1];
++      scrntype_t c2 = palette_pc[0x2];
++      for (int y = 0; y < 256; y++)
++        for (int x = 215; x < 218; x++)
++          d[int(x + y * SCREEN_WIDTH)] = c1;
++      for (int y = 256; y < 264; y++)
++        for (int x = 32; x < 218; x++)
++          d[int(x + y * SCREEN_WIDTH)] = c1;
++      for (int x = 31; x < 219; x++)
++      {
++        //				d[int(x-1*SCREEN_WIDTH)] = palette_pc[0x2];
++        d[int(x + 264 * SCREEN_WIDTH)] = c2;
++      }
++      for (int y = 0; y < 264; y++)
++      {
++        d[int(31 + y * SCREEN_WIDTH)] = c2;
++        d[int(218 + y * SCREEN_WIDTH)] = c2;
++      }
++      break;
++    }
+ 		case SETTING_DISPLAY_EMUSCV_VAL:
+ 		default:
+-			// EMUSCV
+-			for(int x = 29; x < 223; x++)
+-			{
+-				d[int(x+27*SCREEN_WIDTH)] = palette_pc[0x4];
+-				d[int(x+244*SCREEN_WIDTH)] = palette_pc[0x4];
+-			}
+-			for(int y = 28; y < 244; y++)
+-			{
+-				d[int(29+y*SCREEN_WIDTH)] = palette_pc[0x4];
+-				d[int(222+y*SCREEN_WIDTH)] = palette_pc[0x4];
+-			}
+-			break;
++    {
++      // EMUSCV
++      scrntype_t c = palette_pc[0x4];
++      for (int x = 29; x < 223; x++)
++      {
++        d[int(x + 27 * SCREEN_WIDTH)] = c;
++        d[int(x + 244 * SCREEN_WIDTH)] = c;
++      }
++      for (int y = 28; y < 244; y++)
++      {
++        d[int(29 + y * SCREEN_WIDTH)] = c;
++        d[int(222 + y * SCREEN_WIDTH)] = c;
++      }
++      break;
++    }
+ 	}
+ }
+ 
+@@ -487,85 +491,33 @@ if(index == 0)
+ inline void VDP::draw_sprite(int dx, int dy, int sx, int ex, int sy, int ey, int no, uint8_t col)
+ {
+  	// color #0 is transparent
+- 	if(!col)
+- 		return;
++ 	if(!col) return;
+ 
+-	if(sy < 0)
+-		sy = 0;
++	if(sy < 0) sy = 0;
+ 
+ 	int no32 = no << 5;
+  	for(int y = sy; y < ey; y++)
+-	 {
++  {
+  		int y2u = (y << 1) + dy;
+ 		int y2l = (y << 1) + dy + 1;
+ 		int y4 = (y << 2) + no32;
+-//		if(y2u > 0 && y2u < 317 && y2l > 0 && y2l < 317)
+-//		{
+-			for(int x = sx; x < ex; x++)
+-			{
+-				int x4 = dx + (x << 2);
+-//				if (x4 > 0 && x4 < 317)
+-//				{
+-					uint8_t* du = &sprite[y2u][x4];
+-					uint8_t* dl = &sprite[y2l][x4];
+-					uint8_t p = vram0[y4 + x];
+-
+-					if(p & 0x80)
+-						du[0] = col;
+-					if(p & 0x40)
+-						du[1] = col;
+-					if(p & 0x20)
+-						du[2] = col;
+-					if(p & 0x10)
+-						du[3] = col;
+-					if(p & 0x08)
+-						dl[0] = col;
+-					if(p & 0x04)
+-						dl[1] = col;
+-					if(p & 0x02)
+-						dl[2] = col;
+-					if(p & 0x01)
+-						dl[3] = col;
+-/*
+-					if(y == sy)
+-					{
+-						du[0] = 0x8;
+-						du[1] = 0x8;
+-						du[2] = 0x8;
+-						du[3] = 0x8;
+-					}
+-					if(y == ey-1)
+-					{
+-						dl[0] = 0x8;
+-						dl[1] = 0x8;
+-						dl[2] = 0x8;
+-						dl[3] = 0x8;
+-					}
+-					if(x == sx)
+-					{
+-						du[0] = 0x8;
+-						dl[0] = 0x8;
+-					}
+-					if(x == ex-1)
+-					{
+-						du[3] = 0x8;
+-						dl[3] = 0x8;
+-					}
+-*/
+-//				}
+-			}
+-//		}
+- 	}
+-
+-	// Patch for Lupin III only?
+-/*
+-	if(vdc0 == 83 && vdc2 == 64 && no == 43 && col == 0x9)
+-	{
+-		no = 42;
+-		col = 0xf;
+-		draw_sprite(dx, dy, sx, ex, sy, ey, no, col);
+-	}
+-*/
++    for(int x = sx; x < ex; x++)
++    {
++      int x4 = dx + (x << 2);
++      uint8_t* du = &sprite[y2u][x4];
++      uint8_t* dl = &sprite[y2l][x4];
++      uint8_t p = vram0[y4 + x];
++
++      if(p & 0x80) du[0] = col;
++      if(p & 0x40) du[1] = col;
++      if(p & 0x20) du[2] = col;
++      if(p & 0x10) du[3] = col;
++      if(p & 0x08) dl[0] = col;
++      if(p & 0x04) dl[1] = col;
++      if(p & 0x02) dl[2] = col;
++      if(p & 0x01) dl[3] = col;
++    }
++  }
+ }
+ 
+ #define STATE_VERSION	1

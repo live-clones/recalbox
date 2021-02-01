@@ -1,0 +1,41 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index 093401c..8a54093 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -158,31 +158,15 @@ inline void VDP::draw_text_screen()
+ 	uint8_t cb = vdc3 & 0xf;
+ 	uint8_t cg = vdc1 >> 4;
+ 
+-	for(int y = 15; y >= 0; y--)
++	for(int y = 16; --y >= 0; )
+ 	{
+ 		bool t = (ys <= y && y < ye);
+ 		int y32 = y << 5;
+-
+-		for(int x = 0; x < 32; x++)
++		for(int x = 32; --x >= 0; )
+ 		{
+-			if(t && (xs <= x && x < xe))
+-			{
+-				// draw text
+-				uint8_t data = vram1[y32 + x] & 0x7f;
+-				draw_text(x, y, data, ct, cb);
+-			}
+-			else if((vdc0 & 3) == 1)
+-			{
+-				// semi graph
+-				uint8_t data = vram1[y32 + x];
+-				draw_graph(x, y, data, cg);
+-			}
+-			else if((vdc0 & 3) == 3)
+-			{
+-				// block
+-				uint8_t data = vram1[y32 + x];
+-				draw_block(x, y, data);
+-			}
++			if (t && (xs <= x && x < xe)) draw_text(x, y, vram1[y32 + x] & 0x7f, ct, cb); // draw text
++			else if ((vdc0 & 3) == 1) draw_graph(x, y, vram1[y32 + x], cg); // semi graph
++			else if ((vdc0 & 3) == 3) draw_block(x, y, vram1[y32 + x]); // block
+ 		}
+ 	}
+ }

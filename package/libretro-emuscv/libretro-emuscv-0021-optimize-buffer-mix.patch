@@ -1,0 +1,35 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index 89febe3..57bb786 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -71,14 +71,22 @@ void VDP::draw_screen()
+ 
+ 	// Mix buffers
+ 	scrntype_t* d = emu->get_screen_ptr();
+-	memset(d, 0, SCREEN_WIDTH*SCREEN_HEIGHT*sizeof(uint32_t));
+-	for(int y = 319; y >= 0; y--)
+-		for(int x = 0; x < 320; x++)
+-		{
+-			d[int(x+4+y*SCREEN_WIDTH)] = palette_pc[text[y][x]];
+-			if(sprite[y][x])
+-				d[int(x-(x > 255 ? 256 : 0)+(y+2)*SCREEN_WIDTH)] = palette_pc[sprite[y][x]];
+-		}
++	//memset(d, 0, SCREEN_WIDTH*SCREEN_HEIGHT*sizeof(uint32_t));
++	for(int y = 320; --y >= 0; )
++  {
++    scrntype_t* pt = &d[4 + y * SCREEN_WIDTH];
++    unsigned char *st = text[y];
++    scrntype_t* ps = &d[(y + 2) * SCREEN_WIDTH];
++    unsigned char *ss = sprite[y];
++
++    for (int x = -1; ++x < 320;)
++    {
++      *pt++ = palette_pc[*st++];
++      unsigned int s = *ss++;
++      if (s != 0)
++        ps[x & 0xFF] = palette_pc[s];
++    }
++  }
+ 
+ 	// Reset scanline
+ 	if(resetting)
