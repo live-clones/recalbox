@@ -119,6 +119,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::PCx86:
     case BoardType::PCx64: break;
   }
+  LOG(LogDebug) << "[Overclock] Board: " << (int)Board::Instance().GetBoardType();
   if (boardFolder.empty()) return result;
   Path finalPath = basePath / boardFolder;
   LOG(LogDebug) << "[Overclock] Final source folder: " <<finalPath.ToString();

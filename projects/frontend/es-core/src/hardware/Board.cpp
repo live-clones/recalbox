@@ -140,7 +140,7 @@ BoardType Board::GetBoardType()
           revision.erase(revision.find_last_not_of(" \t\r\n") + 1);
           unsigned int irevision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
 
-          if (hardware == "BCM2835")
+          if ((hardware == "BCM2835") || (hardware == "BCM2711"))
           {
             LOG(LogInfo) << "[Hardware] Pi revision " << revision;
             mType = GetPiModel(irevision);
