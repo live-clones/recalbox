@@ -1,0 +1,21 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index a3141f2..a2b5144 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -209,14 +209,14 @@ inline void VDP::draw_block(int dx, int dy, uint8_t data)
+ 	if (cu != 0)
+ 	{
+     unsigned int* p = (unsigned int*)&text[dy16][dx8];
+-	  uint32_t c = cu + (cu << 8); c = c + (c << 16);
++	  uint32_t c = cu + ((uint32_t)cu << 8); c = c + (c << 16);
+ 	  for(int i = 8; --i >= 0; p += 320 >> 2)
+ 	    p[0] = p[1] = c;
+ 	}
+ 	if (cl != 0)
+ 	{
+     unsigned int* p = (unsigned int*)&text[dy16 + 8][dx8];
+-    uint32_t c = cl + (cl << 8); c = c + (c << 16);
++    uint32_t c = cl + ((uint32_t)cl << 8); c = c + (c << 16);
+     for(int i = 8; --i >= 0; p += 320 >> 2)
+       p[0] = p[1] = c;
+ 	}

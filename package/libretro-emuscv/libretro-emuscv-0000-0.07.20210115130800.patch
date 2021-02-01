@@ -1,0 +1,185 @@
+diff --git a/Makefile.libretro b/Makefile.libretro
+index db2bbe7..d1ad0b2 100755
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -3,7 +3,7 @@ TARGET_NAME := emuscv
+ EMUSCV_VERSION_MAJOR := 0
+ EMUSCV_VERSION_MINOR := 07
+ #EMUSCV_VERSION_DATETIME := $(shell date -u +'%Y%m%d%H%M%S')
+-EMUSCV_VERSION_DATETIME := '20210115085000'
++EMUSCV_VERSION_DATETIME := '20210115130800'
+ EMUSCV_VERSION := $(EMUSCV_VERSION_MAJOR).$(EMUSCV_VERSION_MINOR).$(EMUSCV_VERSION_DATETIME)
+ 
+ DEBUG = 1
+diff --git a/changelog.txt b/changelog.txt
+index 6aa7216..f506f2d 100755
+--- a/changelog.txt
++++ b/changelog.txt
+@@ -14,6 +14,10 @@ Libretro-EmuSCV (EPOCH/YENO Super Cassette Vision Emulator)
+ - In-game display of the resources contained in .zip ROMs
+ 
+ 
++***********************************************************
++* Libretro-EmuSCV v0.07.20210115130800
++***********************************************************
++- Added Audio (enhanced support for PCM channel)
+ 
+ ***********************************************************
+ * Libretro-EmuSCV v0.06.20201223231000
+diff --git a/src/emuscv.cpp b/src/emuscv.cpp
+index f2161d4..d9e3c62 100755
+--- a/src/emuscv.cpp
++++ b/src/emuscv.cpp
+@@ -1355,6 +1355,11 @@ cEmuSCV::cEmuSCV()
+ 
+ 	start_up_counter_power = 0;
+ 	start_up_counter_logo = 0;
++
++	is_keyboard_displayed = false;
++	is_menu_displayed = false;
++	keyboard_x = 1;
++	keyboard_y = 2;
+ }
+ 
+ //
+@@ -1893,6 +1898,9 @@ bool cEmuSCV::RetroLoadGame(const struct retro_game_info *info)
+ //	RetroLogPrintf(RETRO_LOG_DEBUG, "[%s] ================================================================================\n", EMUSCV_NAME);
+ //	RetroLogPrintf(RETRO_LOG_INFO, "[%s] cEmuSCV::RetroLoadGame()\n", EMUSCV_NAME);
+ 
++	keyboard_x = 1;
++	keyboard_y = 2;
++
+ 	if(retro_game_loaded)
+ 	{
+ 		RetroUnloadGame();
+diff --git a/src/emuscv.h b/src/emuscv.h
+index 2697318..8f81fd1 100755
+--- a/src/emuscv.h
++++ b/src/emuscv.h
+@@ -166,6 +166,11 @@ class cEmuSCV
+ 
+ 		uint64_t start_up_counter_power;
+ 		uint64_t start_up_counter_logo;
++
++		bool is_keyboard_displayed;
++		bool is_menu_displayed;
++		uint8_t keyboard_x;
++		uint8_t keyboard_y;
+ };
+ 
+ #endif	// _EMUSCV_INC_EMUSCV_H_
+diff --git a/src/vm/scv/sound.cpp b/src/vm/scv/sound.cpp
+index 655e997..4bbe011 100755
+--- a/src/vm/scv/sound.cpp
++++ b/src/vm/scv/sound.cpp
+@@ -57,7 +57,7 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 
+ 			case CMD_PCM:
+ 				param_cnt = MAX_PARAM;
+-				memset(pcm_table, 0, PCM_TABLE_SIZE);
++				memset(pcm_table, 0, PCM_TABLE_SIZE+8);
+ 				//memset(pcm_table_smooth, 0, sizeof(pcm_table_smooth));
+ 				//memset(pcm_smooth, 0, sizeof(pcm_smooth));
+ 				pcm_len = pcm.ptr = 0;
+@@ -137,6 +137,7 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 						}
+ 						pcm_len += 8;
+ */
++/*
+ 						pcm_table[pcm_len++] = (data & 0x80) ? 1 : 0;
+ 						pcm_table[pcm_len++] = (data & 0x40) ? 1 : 0;
+ 						pcm_table[pcm_len++] = (data & 0x20) ? 1 : 0;
+@@ -145,6 +146,15 @@ void SOUND::write_data8(uint32_t addr, uint32_t data)
+ 						pcm_table[pcm_len++] = (data & 0x04) ? 1 : 0;
+ 						pcm_table[pcm_len++] = (data & 0x02) ? 1 : 0;
+ 						pcm_table[pcm_len++] = (data & 0x01) ? 1 : 0;
++*/
++						pcm_table[pcm_len++] = (data & 0x80) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x40) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x20) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x10) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x08) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x04) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x02) ? MAX_PCM : 0;
++						pcm_table[pcm_len++] = (data & 0x01) ? MAX_PCM : 0;
+ 
+ 						if(!pcm.count)
+ 						{
+@@ -340,10 +350,11 @@ inline void SOUND::clear_channel(channel_t *ch)
+ 
+ void SOUND::mix(int32_t* buffer, int cnt)
+ {
+-	float c, v;
+ 	int vol, vol_l, vol_r;
++/*
++	float c, v;
+ 	int o01, o03, o05, o07, o09, o11, o13, o15, o17, o19;
+-
++*/
+ 
+ 	// create sound buffer
+ 	for(int i = 0; i < cnt; i++)
+@@ -372,9 +383,9 @@ void SOUND::mix(int32_t* buffer, int cnt)
+ 					pcm.output = +MAX_PCM*(pcm_table[pcm.ptr]+pcm_table[pcm.ptr + 1]+pcm_table[pcm.ptr + 2]+pcm_table[pcm.ptr + 3])/4;
+ 					pcm.output = +MAX_PCM*(pcm_table[pcm.ptr]+pcm_table[pcm.ptr + 1]+pcm_table[pcm.ptr + 2]+pcm_table[pcm.ptr + 3]+pcm_table[pcm.ptr + 4]+pcm_table[pcm.ptr + 5]+pcm_table[pcm.ptr + 6]+pcm_table[pcm.ptr + 7])/8;
+ */
++/*
+ 					for(uint8_t i = 0; i < 19; i++)
+ 					{
+-/*
+ 						v = c = 0;
+ 						if(pcm.ptr + i - 1 >= 0)
+ 						{
+@@ -397,8 +408,7 @@ void SOUND::mix(int32_t* buffer, int cnt)
+ 							pcm_smooth[i] = 0;
+ 						else
+ 							pcm_smooth[i] = MAX_PCM;
+-*/
+-						pcm_smooth[i] = (pcm.ptr + i < pcm_len ? MAX_PCM * pcm_table[pcm.ptr + i] : 0);
++//						pcm_smooth[i] = (pcm.ptr + i < pcm_len ? MAX_PCM * pcm_table[pcm.ptr + i] : 0);
+ 					}
+ 					// Mix 10 bands
+ 					// /!\ TODO_MM: MUST BE OPTIMIZED
+@@ -415,7 +425,8 @@ void SOUND::mix(int32_t* buffer, int cnt)
+ //					pcm.output = (50 * o01 + 98 * o03 + 142 * o05 + 181 * o07 + 213 * o09 + 237 * o11 + 251 * o13 + 256 * o15 + 256 * o17 + 253 * o19) / (40+79+116+150+181+207+228+243+253+256);
+ 					pcm.output = (98 * o03 + 142 * o05 + 237 * o11 + 253 * o19) / (98+142+237+253);
+ 					pcm.output = (2 * pcm.output) - MAX_PCM;
+-
++*/
++					pcm.output = (pcm_table[pcm.ptr] + pcm_table[pcm.ptr + 1] + pcm_table[pcm.ptr + 2] + pcm_table[pcm.ptr + 3] + pcm_table[pcm.ptr + 4] + pcm_table[pcm.ptr + 8] + pcm_table[pcm.ptr + 6] + pcm_table[pcm.ptr + 7]) >> 3;
+ 				}
+ 				else
+ 					pcm.output = 0;
+diff --git a/src/vm/scv/sound.h b/src/vm/scv/sound.h
+index 0a6c421..79d366f 100755
+--- a/src/vm/scv/sound.h
++++ b/src/vm/scv/sound.h
+@@ -19,10 +19,10 @@
+ #define SQUARE_CLOCK  174000.0
+ #define PCM_CLOCK    1522400.0
+ 
+-#define MAX_TONE         24000
+-#define MAX_NOISE        16000
+-#define MAX_SQUARE        8000
+-#define MAX_PCM          20000
++#define MAX_TONE         16384
++#define MAX_NOISE         8192
++#define MAX_SQUARE        2048
++#define MAX_PCM          16384
+ 
+ #define MAX_PARAM       0x8000
+ #define PCM_TABLE_SIZE 0x40000
+@@ -58,11 +58,11 @@ private:
+ 	channel_t pcm;
+ 	inline void clear_channel(channel_t *ch);
+ 
+-	int pcm_table[PCM_TABLE_SIZE];
++	int pcm_table[PCM_TABLE_SIZE+8];
+ 	uint32_t cmd_addr;
+ 	int pcm_len;
+ //	int pcm_table_smooth[8];
+-	int pcm_smooth[19];
++//	int pcm_smooth[19];
+ 
+ 	int volume_table[32];
+ 	int detune_table[32];

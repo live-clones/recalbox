@@ -1,0 +1,23 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index b00d52b..89febe3 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -83,10 +83,14 @@ void VDP::draw_screen()
+ 	// Reset scanline
+ 	if(resetting)
+ 	{
+-		for(int y = resetscanband; y < resetscanband+30 ; y++)
+-			for(int x = 0; x < SCREEN_WIDTH; x++)
+-				if(y >= 0 && y < SCREEN_HEIGHT)
+-					d[int(x+y*SCREEN_WIDTH)] = palette_pc[0x1];
++    scrntype_t color = palette_pc[0x1];
++		for(int y = resetscanband+30 ; --y >= resetscanband; )
++      if((unsigned int)y < SCREEN_HEIGHT)
++      {
++        scrntype_t* p = &d[y * SCREEN_WIDTH];
++        for (int x = SCREEN_WIDTH; --x >= 0; )
++          *p++ = color;
++      }
+ 	}
+ 	resetscanband -= 2;
+ 	if(resetscanband < -30)

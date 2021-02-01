@@ -5,7 +5,7 @@
 ################################################################################
 
 # Version 1.0.0.0 + megadrive driver fix
-LIBRETRO_FBNEO_VERSION = 0f55647e043ace3ffb21003ee66f4fc65ad6ed4f
+LIBRETRO_FBNEO_VERSION = e5986c480fa22150a741d4cfe6b55f5e41ac40ea
 LIBRETRO_FBNEO_SITE = $(call github,libretro,FBNeo,$(LIBRETRO_FBNEO_VERSION))
 LIBRETRO_FBNEO_LICENSE = COPYRIGHT
 LIBRETRO_FBNEO_LICENSE_FILES = LICENSE.md

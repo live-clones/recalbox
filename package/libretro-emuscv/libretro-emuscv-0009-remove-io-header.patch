@@ -1,8 +1,8 @@
 diff --git a/src/common.h b/src/common.h
-index f7eb566..ee471df 100755
+index 281b659..2a2fbcc 100755
 --- a/src/common.h
 +++ b/src/common.h
-@@ -118,7 +118,7 @@
+@@ -122,7 +122,7 @@
  #elif defined(_OSX)
      #include <sys/uio.h>
  #else

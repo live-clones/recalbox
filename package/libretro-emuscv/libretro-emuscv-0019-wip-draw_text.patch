@@ -1,0 +1,28 @@
+diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
+index a2b5144..b00d52b 100755
+--- a/src/vm/scv/vdp.cpp
++++ b/src/vm/scv/vdp.cpp
+@@ -176,7 +176,7 @@ inline void VDP::draw_text(int dx, int dy, uint8_t data, uint8_t tcol, uint8_t b
+ 	int dx8 = (dx << 3)+2;
+ 	int dy16 = dy << 4;
+ 
+-	const unsigned char* f = &font[data];
++	const unsigned char* f = font[data];
+ 	unsigned char* p = (unsigned char*)&text[dy16][dx8];
+ 	unsigned int c = (tcol << 8) + bcol;
+ 	if (data)
+@@ -193,10 +193,10 @@ inline void VDP::draw_text(int dx, int dy, uint8_t data, uint8_t tcol, uint8_t b
+       p[7] = (unsigned char)(c >> ((pat << (3 - 0)) & 8));
+     }
+ 
+-  unsigned int* p = (unsigned int*)&text[dy16 + ((data != 0) ? 8 : 0)][dx8];
+-  c = bcol + ((uint32_t )bcol << 8); c = c + (c << 16);
+-	for(int l = (data ? 8 : 16); --l >= 0; p += 320 >> 2)
+-	  p[0] = p[1] = c;
++  unsigned int* p2 = (unsigned int*)&text[dy16 + ((data != 0) ? 8 : 0)][dx8];
++  c = bcol + ((uint32_t)bcol << 8); c = c + (c << 16);
++	for(int l = (data ? 8 : 16); --l >= 0; p2 += 320 >> 2)
++	  p2[0] = p2[1] = c;
+ }
+ 
+ inline void VDP::draw_block(int dx, int dy, uint8_t data)
