@@ -6,6 +6,7 @@
 
 LIBRETRO_XRICK_VERSION = 836f7a2ee933476c8062bb9489b749a9949fd2b1
 LIBRETRO_XRICK_SITE = $(call github,libretro,xrick-libretro,$(LIBRETRO_XRICK_VERSION))
+LIBRETRO_XRICK_LICENSE = GPL-3.0
 
 define LIBRETRO_XRICK_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile.libretro

@@ -28,6 +28,14 @@ variables:
   tags:
     - lintstage
 
+lint package license:
+  stage: lint
+  <<: *only-default
+  image: "docker:latest"
+  script:
+    - apk update && apk add bash
+    - bash test/lint/package-licenses.sh
+
 lint config-files:
   <<: *lint_definition
   before_script:

@@ -9,5 +9,7 @@ JSTEST2_SITE = https://gitlab.com/sdl-jstest/sdl-jstest.git
 JSTEST2_SITE_METHOD = git
 JSTEST2_GIT_SUBMODULES = y
 JSTEST2_DEPENDENCIES = sdl sdl2
+JSTEST2_LICENSE = GPL-3.0
+JSTEST2_LICENSE_FILES = LICENSE.txt
 
 $(eval $(cmake-package))

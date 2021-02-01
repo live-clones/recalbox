@@ -7,6 +7,7 @@
 # https://github.com/libretro/yabause/tree/kronos/yabause/src/libretro
 LIBRETRO_KRONOS_VERSION = 95a6176d9c059f8cce87a8aff8e25e98ef9d94a7
 LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
+LIBRETRO_KRONOS_LICENSE = GPL-2.0
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
   	LIBRETRO_KRONOS_GL = GLESv2

@@ -6,6 +6,7 @@
 
 LIBRETRO_YABAUSE_VERSION = f515e5a49336195c61b751e539aadae72fbe0aa7
 LIBRETRO_YABAUSE_SITE = $(call github,libretro,yabause,$(LIBRETRO_YABAUSE_VERSION))
+LIBRETRO_YABAUSE_LICENSE = GPL-2.0
 
 define LIBRETRO_YABAUSE_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/yabause/src/libretro/Makefile

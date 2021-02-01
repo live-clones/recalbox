@@ -6,8 +6,9 @@
 
 PIFBA_VERSION = 419faa7c3967560f6fa149f2f78b5aedca5b123a
 PIFBA_SITE = $(call github,recalbox,pifba,$(PIFBA_VERSION))
+PIFBA_LICENSE = COPYRIGHT
+PIFBA_NON_COMMERCIAL = y
 
-PIFBA_LICENSE = MIT
 PIFBA_DEPENDENCIES = sdl2 alsa-lib rpi-userland
 
 PIFBA_SDL_CONFIG=$(STAGING_DIR)/usr/bin/sdl2-config

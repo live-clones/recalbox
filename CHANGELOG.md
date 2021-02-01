@@ -97,6 +97,9 @@ All notable changes to this project will be documented in this file.
 - Remove useless palm-os bios from bios database
 - Rework overclocking
 - Impreved menu ergonomy & pad per player manement in ES
+- Add license information in all packages/mk
+- Fix neogeo cd romfs selection from libretro-neocd
+- Add ci linter for package license
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

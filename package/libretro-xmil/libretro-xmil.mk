@@ -6,6 +6,8 @@
 
 LIBRETRO_XMIL_VERSION = e6a5150921c1c8e81085aa20d534fcf40f91d333
 LIBRETRO_XMIL_SITE = $(call github,libretro,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
+LIBRETRO_XMIL_LICENSE = BSD-3-Clause
+LIBRETRO_XMIL_LICENSE_FILES = LICENSE
 
 define LIBRETRO_XMIL_BUILD_CMDS
 	$(SED) "s|--export-all-symbols||g" $(@D)/libretro/Makefile.libretro
