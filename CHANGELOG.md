@@ -101,6 +101,9 @@ All notable changes to this project will be documented in this file.
 - Add license information in all packages/mk
 - Fix neogeo cd romfs selection from libretro-neocd
 - Add ci linter for package license
+- Bump ES: new menus + fix pi4 identification
+- Bump Configgen: fix FPS
+- Bump FBNeo, SCV (+sound) & DosBox Pure
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

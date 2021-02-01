@@ -24,8 +24,12 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Nintendo switch joycons and combined joycons
 - [ ] DosBox Pure added => test this new core
 - [ ] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
+- [ ] Revalider tous les menus sur la liste système
+- [ ] Revalider tous les menus sur les listes de jeux
 
 ## Non Regression
+- [ ] Vérifier que le settings "Show FPS" fonctionne correctement
+- [ ] Vérifier que la nouvelle façon de gerer les O/C fonctionne correctement (verifier les vitesses réelles en SSH)
 - [ ] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
 - [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
 - [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
