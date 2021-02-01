@@ -94,6 +94,7 @@ All notable changes to this project will be documented in this file.
 - Flycast patch to have not blend lightgun crosshairs
 - Initial Lightgun feature included for Libretro cores in configgen (compatible with dolphin bar/wiimote)
 - Update DOOM & SIGIL screenshots
+- Remove useless palm-os bios from bios database
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
