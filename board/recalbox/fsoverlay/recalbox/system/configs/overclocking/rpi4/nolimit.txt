@@ -1,0 +1,7 @@
+# Plateform: RPI4
+# Description: No Limit Full Power!
+# Warning
+
+over_voltage=8
+arm_freq=2147
+gpu_freq=750

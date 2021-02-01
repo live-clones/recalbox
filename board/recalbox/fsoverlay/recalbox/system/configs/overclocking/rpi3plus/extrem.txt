@@ -1,5 +1,6 @@
 # Plateform: RPI3+
 # Description: Extrem Overclocking!
+# Warning
 
 arm_freq=1500
 core_freq=550
