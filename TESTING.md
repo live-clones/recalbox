@@ -3,6 +3,7 @@ All changes that must be tested will be documented in this file.
 Every case must be checked before a release.
 
 ## [Next]
+- [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
 - [ ] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
 - [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
 - [ ] Packages that require libgo2 compiles well
