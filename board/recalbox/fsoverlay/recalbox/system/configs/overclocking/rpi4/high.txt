@@ -1,0 +1,7 @@
+# Plateform: RPI4
+# Description: High Overclocking
+
+
+over_voltage=2
+arm_freq=1600
+gpu_freq=530

@@ -1,0 +1,13 @@
+# Plateform: RPI3+
+# Description: Turbo Overclocking
+
+arm_freq=1450
+core_freq=525
+sdram_freq=575
+force_turbo=0
+over_voltage=4
+over_voltage_sdram_p=6
+over_voltage_sdram_i=4
+over_voltage_sdram_c=4
+gpu_freq=500
+sdram_schmoo=0x02000020

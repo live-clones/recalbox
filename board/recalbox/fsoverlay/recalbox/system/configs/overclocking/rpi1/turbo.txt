@@ -1,0 +1,13 @@
+# Plateform: RPI1
+# Description: Turbo Overclocking
+
+arm_freq=1000
+core_freq=500
+sdram_freq=600
+force_turbo=0
+over_voltage=6
+over_voltage_sdram_p=0
+over_voltage_sdram_i=0
+over_voltage_sdram_c=0
+gpu_freq=250
+sdram_schmoo=0x02000020

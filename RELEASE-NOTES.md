@@ -30,6 +30,7 @@
 - Bump and Patch Beetle-Saturn for best support of european Virtua Cop games
 - Patch Retroarch for X11 multi-mouse
 - Flycast crossairs updated
+- Improved menu ergonomy
 
 ### Fixes
 - Fix Dolphin emulator 

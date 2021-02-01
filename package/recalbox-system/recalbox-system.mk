@@ -50,6 +50,7 @@ ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
 define RECALBOX_SYSTEM_INSTALL_RPI_CONFIG
 	$(INSTALL) -D -m 0644 $(RECALBOX_SYSTEM_PKGDIR)/config.txt $(BINARIES_DIR)/$(RECALBOX_SYSTEM_FIRMWAREDIR)/config.txt
 	$(INSTALL) -D -m 0644 $(RECALBOX_SYSTEM_PKGDIR)/recalbox-user-config.txt $(BINARIES_DIR)/$(RECALBOX_SYSTEM_FIRMWAREDIR)/recalbox-user-config.txt
+	$(INSTALL) -D -m 0644 $(RECALBOX_SYSTEM_PKGDIR)/recalbox-oc-config.txt $(BINARIES_DIR)/$(RECALBOX_SYSTEM_FIRMWAREDIR)/recalbox-oc-config.txt
 endef
 endif
 
