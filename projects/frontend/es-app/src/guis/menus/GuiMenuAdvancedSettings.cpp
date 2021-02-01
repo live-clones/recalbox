@@ -105,6 +105,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
   std::string boardFolder;
   switch(Board::Instance().GetBoardType())
   {
+    case BoardType::Pi0: boardFolder = "rpi0"; break;
     case BoardType::Pi1: boardFolder = "rpi1"; break;
     case BoardType::Pi2: boardFolder = "rpi2"; break;
     case BoardType::Pi3: boardFolder = "rpi3"; break;
@@ -113,7 +114,6 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::Pi400: boardFolder = "rpi400"; break;
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
-    case BoardType::Pi0:
     case BoardType::UnknownPi:
     case BoardType::OdroidAdvanceGo2:
     case BoardType::PCx86:
@@ -121,6 +121,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
   }
   if (boardFolder.empty()) return result;
   Path finalPath = basePath / boardFolder;
+  LOG(LogDebug) << "[Overclock] Final source folder: " <<finalPath.ToString();
 
   // Get O/C config list
   Path::PathList list = finalPath.GetDirectoryContent();
@@ -139,7 +140,12 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
         hazard = true;
     // Record?
     if (!desc.empty())
+    {
       result.push_back({ path.ToString(), desc, hazard });
+      LOG(LogInfo) << "[Overclock] File " << path.ToString() << " validated.";
+    }
+    else
+      LOG(LogError) << "[Overclock] Invalid file " << path.ToString();
   }
 
   return result;
