@@ -31,6 +31,7 @@ class Emulator:
         self.config['netplay_vieweronly'] = arguments.netplay_vieweronly
         self.config['hash'] = arguments.hash
         self.config['extra'] = arguments.extra
+        self.config['showFPS'] = 'true' if recalboxSettings.getOption('global.showfps', '0') == '1' else 'false'
         self.updateConfiguration(recalboxSettings.getOptionSubset("global."), recalboxSettings)
         self.updateConfiguration(recalboxSettings.getOptionSubset("{}.".format(self.name)), recalboxSettings)
         self.updateForcedConfig(arguments.emulator, arguments.core, arguments.ratio)
@@ -51,11 +52,6 @@ class Emulator:
         if settings.get('shaderset', '') != '':
             self.updateShaders(settings['shaderset'])
 
-        # Draw FPS
-        if self.config.get('showFPS') not in ['false', 'true']:
-            self.config['showFPS'] = False
-            self.updateDrawFPS()
-
         # Optional emulator args ONLY if security is disabled
         security = recalboxSettings.getOption("system.security.enabled", '0')
         if security != '1' and settings.get('args', '') != '':
@@ -63,18 +59,6 @@ class Emulator:
             self.config['args'] = shlex.split(settings['args'])
         else:
             self.config['args'] = None
-
-    def updateDrawFPS(self):
-        value = 'false'
-        try:
-            import xml.etree.ElementTree as ET
-            esConfig = ET.parse(recalboxFiles.esSettings)
-            value = esConfig.find("./bool[@name='DrawFramerate']").attrib["value"]
-        except:
-            pass
-        if value == '1': value = 'true'
-        if value not in ['false', 'true']: value = 'false'
-        self.config['showFPS'] = value
 
     def updateShaders(self, shaderSet):
         if shaderSet is not None and shaderSet != 'none':
