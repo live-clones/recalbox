@@ -96,6 +96,7 @@ All notable changes to this project will be documented in this file.
 - Update DOOM & SIGIL screenshots
 - Remove useless palm-os bios from bios database
 - Rework overclocking
+- Impreved menu ergonomy & pad per player manement in ES
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
