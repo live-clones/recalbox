@@ -93,6 +93,7 @@ All notable changes to this project will be documented in this file.
 - Retroarch patch for X11 multi-mouse and additional udev logs
 - Flycast patch to have not blend lightgun crosshairs
 - Initial Lightgun feature included for Libretro cores in configgen (compatible with dolphin bar/wiimote)
+- Update DOOM & SIGIL screenshots
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
