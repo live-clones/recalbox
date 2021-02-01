@@ -33,6 +33,7 @@
 - Improved menu ergonomy
 
 ### Fixes
+- Fix reactivation of the deleted mesa 3d demos package
 - Fix Dolphin emulator 
 - Fix Odroid Go Advance controller (v1)
 - Check recalbox image integrity before upgrading
