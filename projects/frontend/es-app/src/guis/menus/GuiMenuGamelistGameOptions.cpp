@@ -22,39 +22,52 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   , mGame(game)
 {
   if (mGame.isGame())
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(mGame.getName())));
+  {
+    std::string gameName(game.getName());
+    gameName.append(" (").append(game.getPath().Filename()).append(1, ')');
+    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+  }
   else if (mGame.isFolder())
+  {
     SetFooter(Strings::Replace(_("FOLDER %s"), "%s", Strings::ToUpperUTF8(mGame.getName())));
+  }
 
   // Run width
-  mEmulator = AddList<std::string>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+  if (mGame.isGame())
+    mEmulator = AddList<std::string>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
-  // Run width
-  mRatio = AddList<std::string>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+  // Ratio
+  if (mGame.isGame())
+    mRatio = AddList<std::string>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
   // Game name
   mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, false);
 
   // Rating
-  mRating = AddRating(_("Rating"), mGame.Metadata().Rating(), (int)Components::Rating, this);
+  if (mGame.isGame())
+    mRating = AddRating(_("Rating"), mGame.Metadata().Rating(), (int)Components::Rating, this);
 
   // Normalized genre
-  mGenre = AddList<GameGenres>(_("Genre"), (int)Components::Genre, this, GetGenreEntries());
+  if (mGame.isGame())
+    mGenre = AddList<GameGenres>(_("Genre"), (int)Components::Genre, this, GetGenreEntries());
 
   // Description
   mDescription = AddEditable(_("Description"), mGame.Metadata().Description(), (int)Components::Description, this, false);
 
   // Favorite
-  mFavorite = AddSwitch(_("Favorite"), mGame.Metadata().Favorite(), (int)Components::Favorite, this);
+  if (mGame.isGame())
+    mFavorite = AddSwitch(_("Favorite"), mGame.Metadata().Favorite(), (int)Components::Favorite, this);
 
   // Hidden
   mHidden = AddSwitch(_("Hidden"), mGame.Metadata().Hidden(), (int)Components::Hidden, this);
 
   // Adult
-  mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
+  if (mGame.isGame())
+    mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
 
   // Scrappe
-  AddSubMenu(_("SCRAPE"), (int)Components::Scrappe);
+  if (mGame.isGame())
+    AddSubMenu(_("SCRAPE"), (int)Components::Scrappe);
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::GetRatioEntries()
@@ -82,8 +95,8 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::Get
 {
   std::vector<ListEntry<std::string>> list;
 
-  std::string currentEmulator(RecalboxConf::Instance().GetSystemEmulator(*mGame.getSystem()));
-  std::string currentCore    (RecalboxConf::Instance().GetSystemCore(*mGame.getSystem()));
+  std::string currentEmulator(mGame.Metadata().Emulator());
+  std::string currentCore    (mGame.Metadata().Core());
   GuiMenuTools::EmulatorAndCoreList eList =
     GuiMenuTools::ListEmulatorAndCore(mSystemManager, *mGame.getSystem(), mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
   if (!eList.empty())

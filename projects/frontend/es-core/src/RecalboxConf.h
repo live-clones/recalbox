@@ -6,7 +6,7 @@
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <audio/alsa/AlsaController.h>
-#include <games/classifications/Genres.h>
+//#include <games/classifications/Genres.h>
 #include <games/FileSorts.h>
 
 // Forward declaration
@@ -86,7 +86,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
 
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
-      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)defaultValue); } \
+      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)(defaultValue)); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)value); return *this; }
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)

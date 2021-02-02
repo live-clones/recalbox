@@ -81,13 +81,13 @@ void GuiMenuGamelistOptions::RefreshGameMenuContext()
     mGame->setText(_("NON EDITABLE GAME"));
   else if (file->isGame())
   {
-    std::string text = _("GAME %s");
+    std::string text = _("EDIT GAME %s");
     Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
     mGame->setText(text);
   }
   else if (file->isFolder())
   {
-    std::string text = _("FOLDER %s");
+    std::string text = _("EDIT FOLDER %s");
     Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
     mGame->setText(text);
   }

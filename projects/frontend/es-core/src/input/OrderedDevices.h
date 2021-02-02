@@ -61,6 +61,10 @@ class OrderedDevices
         mDevicesIndexes[i] = device;
         mConfiguredBitFlags |= 1 << i;
       }
+      mCount = 0;
+      for(int b = sizeof(mConfiguredBitFlags) * 8; --b >= 0; )
+        if (((mConfiguredBitFlags >> b) & 1) != 0)
+          mCount++;
     }
 };
 
