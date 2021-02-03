@@ -82,7 +82,7 @@ All notable changes to this project will be documented in this file.
 - Fix pico8 system
 - Remove common retroarch configuration in odroidgo2 fsoverlay
 - Set vc4-kms-v3d as default overlay on rpi4 (#1496)
-- Enforce upgrade process (#1498)
+- Enforce upgrade process (#1498, #1530)
 - Add Pocket Challenge v2 system (pcv2)
 - Make /boot/config.txt part of Recalbox distribution. User settings moved to /boot/recalbox-user-config.txt (#1504, #1506)
 - Enforce upgrade process episode 2 (#1505)
@@ -144,7 +144,7 @@ All notable changes to this project will be documented in this file.
 - Fix multiple issues in ScummVM/ResidualVM: lag/crash on Pi4, joystick buttons, ...
 - Add WPS support
 - Fix upgrade procedure that could fail in some circumstances (#1376)
-- Bump FBNeo & add as core for colecovision, gamegear, fds, master-system, megadrive, msx1, nes, ngp, pc-engine, sg-1000, supergraphx, zx-spectrum 
+- Bump FBNeo & add as core for colecovision, gamegear, fds, master-system, megadrive, msx1, nes, ngp, pc-engine, sg-1000, supergraphx, zx-spectrum
 - Fix odroid xu4 platform name to odroidxu4
 - Fix pt_BR translations (thank to Zing)
 - Fix battery icon on PC
@@ -290,15 +290,15 @@ All notable changes to this project will be documented in this file.
 - 3 new virtual systems: All-games, Last-Played and Multiplayers
 - New virtual systems per genre
 - Region highligting in gamelist
-- Improved Genre & Region processing in EmulationStation 
+- Improved Genre & Region processing in EmulationStation
 - Added missing texts into translated texts
 - Improved french translations
 - Fix duplicate folders in virtual systems
 - Fix quit menu not being accessible when boot-on-gamelist is on
-- Faster CRC calculation for netplay 
+- Faster CRC calculation for netplay
 - Game sorting and Jump-to-letter now unicode compatible
 - Bump oricatmos emulator on lastest version
-- Bump simcoupe emulator 
+- Bump simcoupe emulator
 - Fix some bad behaviors in favorite management
 - Add support for nVidia proprietary drivers version 390 and 440
 - Simplify emulator/core selection UI
@@ -306,11 +306,11 @@ All notable changes to this project will be documented in this file.
 - Bump retroarch-cheats to v1.9.0
 - Bump libretro-assets on last version
 - Bump libretro-cores family
-- Fix reboot Emulationstation with webmanager 
+- Fix reboot Emulationstation with webmanager
 - Add laptop switch external screen function only for x86_64 x86
 - Fix reboot Emulationstation with webmanager
 - Add Nintendo 64DD
-- Add libretro mame 
+- Add libretro mame
 - Add EmulationStation event-driver user scripts
 - Rename 4do to opera (newer 3do emulator fork)
 - Add libretro-race (new ngp & ngpc performance emulator)
