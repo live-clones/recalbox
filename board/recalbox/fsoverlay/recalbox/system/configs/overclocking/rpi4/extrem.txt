@@ -1,6 +1,7 @@
 # Plateform: RPI4
-# Description: Extrem Overclocking!
+# Description: Extrem Overclocking! CPU:2000 Mhz GPU:750 Mhz
 # Warning
+# Frequency: 2000
 
 over_voltage=6
 arm_freq=2000

@@ -1,5 +1,6 @@
 # Plateform: RPI3
-# Description: High Overclocking
+# Description: High Overclocking CPU:1300 Mhz GPU:500 Mhz
+# Frequency: 1300
 
 arm_freq=1300
 core_freq=525
