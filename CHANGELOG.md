@@ -104,6 +104,7 @@ All notable changes to this project will be documented in this file.
 - Bump ES: new menus + fix pi4 identification
 - Bump Configgen: fix FPS
 - Bump FBNeo, SCV (+sound) & DosBox Pure
+- Fix TIC-80 repository
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
