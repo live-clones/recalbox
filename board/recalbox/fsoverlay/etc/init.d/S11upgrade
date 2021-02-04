@@ -46,13 +46,13 @@ if [[ -f $UPDATEFILE ]]; then
     recallog -f upgrade.log "SHA1 checking failed, removing stale files. Exiting..."
     failed_clean_exit
   fi
-  
+
   clean_dir "$SHAREUPDATEDIR"
   if ! unxz -c "${UPDATEFILE}" >"$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"; then
     recallog -f upgrade.log "decompression failed, removing stale files. Exiting..."
     failed_clean_exit
   fi
-  clean_dir "$UPDATEDIR"
+  clean_boot_update
   recallog -f upgrade.log "proceeding with rest of upgrade process"
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
