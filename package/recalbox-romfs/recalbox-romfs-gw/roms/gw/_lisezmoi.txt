@@ -11,3 +11,6 @@ De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
 Vous pouvez télécharger les roms game and watch à l'adresse :
 http://bot.libretro.com/assets/cores/Handheld%20Electronic%20Game/
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-portables/game-and-watch

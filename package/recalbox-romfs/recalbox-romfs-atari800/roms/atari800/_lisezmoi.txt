@@ -7,3 +7,6 @@ Les roms doivent avoir l'extension ".xfd/.atr/.atx/.cdm/.cas/.bin/.xex/.car/.zip
 Ce système supporte également les roms compressées au format .zip.
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip doivent correspondre aux extensions citées précédemment.
 De plus, chaque fichier .zip ne doit contenir qu'une seule rom compressée.
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/atari-800
