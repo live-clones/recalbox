@@ -3,3 +3,6 @@
 Placez ici vos roms Nintendo 64DD.
 
 Les roms doivent avoir l'extension ".ndd"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/nintendo-64-dd

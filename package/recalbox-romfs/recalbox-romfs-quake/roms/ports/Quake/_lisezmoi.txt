@@ -4,28 +4,31 @@ Placez ici vos jeux QUAKE 1.
 
 Les jeux Quake 1 doivent avoir l'extension ".pak"
 
-Quake a besoin de la structure suivante: 
-id1/  
-├── pak0.pak ## shareware data  
-├── pak1.pak ## registered data  
-├── music/  
-│   ├── track02.ogg  
-│   ├── ...  
-│   └── track11.ogg  
-│  
-hipnotic/  
-├── pak0.pak  
-├── music/  
-│   ├── track02.ogg  
-│   ├── ...  
-│   └── track09.ogg  
-│  
-rogue/  
-├── pak0.pak  
-├── music/  
-│   ├── track02.ogg  
-│   ├── ...  
-│   └── track09.ogg  
-│  
-dopa/  
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ports/quake-1
+
+Quake a besoin de la structure suivante:
+id1/
+├── pak0.pak ## shareware data
+├── pak1.pak ## registered data
+├── music/
+│   ├── track02.ogg
+│   ├── ...
+│   └── track11.ogg
+│
+hipnotic/
+├── pak0.pak
+├── music/
+│   ├── track02.ogg
+│   ├── ...
+│   └── track09.ogg
+│
+rogue/
+├── pak0.pak
+├── music/
+│   ├── track02.ogg
+│   ├── ...
+│   └── track09.ogg
+│
+dopa/
 └──  pak0.pak

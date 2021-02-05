@@ -140,6 +140,7 @@ All notable changes to this project will be documented in this file.
 - Add easy emulationstation update
 - Bump configgen - fix dolphin/pulseaudio issue
 
+- Updated French readme files
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

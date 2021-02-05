@@ -19,3 +19,6 @@ https://github.com/libretro/lutro-pong
 
 Vous pouvez télécharger des démos de jeux en lutro sur le site libretro :
 http://buildbot.libretro.com/assets/cores/Lutro/
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-fantasy/lutro-lua-engine

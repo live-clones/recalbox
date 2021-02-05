@@ -9,5 +9,8 @@ Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans 
 De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
 
-Pour activer le support du gamepad, veuillez entrer dans le menu Retroarch avec "Hotkey+B", puis modifiez l'option : 
+Pour activer le support du gamepad, veuillez entrer dans le menu Retroarch avec "Hotkey+B", puis modifiez l'option :
 "Settings/Input/Input User 1 Binds/User 1 Device type : Retropad" en "Cursor Joystick"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/zx81

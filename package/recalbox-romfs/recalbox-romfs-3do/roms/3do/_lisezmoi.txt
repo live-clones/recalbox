@@ -3,3 +3,6 @@
 Placez ici vos roms Panasonic 3DO.
 
 Les roms doivent avoir l'extension ".iso/.bin/.cue/.chd"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/3do

@@ -3,3 +3,6 @@
 Placez ici vos roms Neo-Geo CD.
 
 Les roms doivent avoir l'extension ".cue"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/neo-geo-cd
