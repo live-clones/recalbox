@@ -2506,3 +2506,7 @@ msgstr ""
 #
 msgid "NON EDITABLE GAME"
 msgstr ""
+
+#
+msgid "auto select"
+msgstr ""

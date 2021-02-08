@@ -3,25 +3,27 @@
 //
 #pragma once
 
-#include <utils/storage/HashMap.h>
+#include <vector>
 #include <string>
+#include "DeviceDescriptor.h"
 
 class IAudioController
 {
   public:
+    //! Autoswitch string
+    static constexpr const char* sAutoSwitch = "auto:switch";
+
+    //! For convenience only
+    typedef std::vector<DeviceDescriptor> DeviceList;
+
+    //! Destructor
     virtual ~IAudioController() = default;
 
     /*!
      * @brief Get playback list
-     * @return Map identifier : playback name
+     * @return Device list
      */
-    virtual HashMap<int, std::string> GetPlaybackList() = 0;
-
-    /*!
-     * @brief Set the default card/device
-     * @param identifier opaque identifier from GetPlaybackList()
-     */
-    virtual void SetDefaultPlayback(int identifier) = 0;
+    virtual DeviceList GetPlaybackList() = 0;
 
     /*!
      * @brief Set the default card/device
@@ -41,4 +43,9 @@ class IAudioController
      * @param volume Volume percent
      */
     virtual void SetVolume(int volume) = 0;
+
+    /*!
+     * @brief Force the implementation to refresh all its internal objects
+     */
+    virtual void Refresh() = 0;
 };

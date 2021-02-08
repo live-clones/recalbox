@@ -43,7 +43,7 @@ class GuiMenuSound : public GuiMenuBase
     std::shared_ptr<OptionListComponent<std::string>> mOutputList;
 
     //! Get Output List
-    std::vector<ListEntry<std::string>> GetOutputEntries();
+    static std::vector<ListEntry<std::string>> GetOutputEntries();
 
     /*
      * IOptionListComponent<Overclocking> implementation

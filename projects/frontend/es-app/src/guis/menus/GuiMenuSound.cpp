@@ -30,22 +30,15 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries(
   std::vector<ListEntry<std::string>> list;
 
   std::string currentDevice = RecalboxConf::Instance().GetAudioOuput();
-  HashMap<int, std::string> playbacksMap = AudioController::Instance().GetPlaybackList();
+  IAudioController::DeviceList playbackList = AudioController::Instance().GetPlaybackList();
   std::vector<std::string> availableAudio;
-  // Scan default
-  for(const auto& playback : playbacksMap)
-    if (playback.first == -1) // default item
-      availableAudio.push_back(playback.second);
-  // Add all remaining stuff
-  for(const auto& playback : playbacksMap)
-    if (playback.first != -1) // default item
-      availableAudio.push_back(playback.second);
-  // Sort
-  if (!availableAudio.empty())
-    std::sort(availableAudio.begin() + 1, availableAudio.end());
 
-  for (auto& it : availableAudio)
-    list.push_back({ _S(it), it, currentDevice == it });
+  // Add all remaining stuff
+  for(const auto& playback : playbackList)
+    list.push_back({ playback.DisplayableName, playback.InternalName, currentDevice == playback.InternalName });
+
+  // Sort
+  std::sort(list.begin(), list.end(), [](const ListEntry<std::string>& a, const ListEntry<std::string>& b) -> bool { return a.mText > b.mText; });
 
   return list;
 }

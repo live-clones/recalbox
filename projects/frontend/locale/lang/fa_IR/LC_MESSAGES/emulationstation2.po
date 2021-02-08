@@ -2520,6 +2520,10 @@ msgstr ""
 msgid "NON EDITABLE GAME"
 msgstr ""
 
+#
+msgid "auto select"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "نسخه بروزرسانی:"
 

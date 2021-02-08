@@ -30,13 +30,7 @@ class PulseAudioController: public IAudioController, private Thread
      * @brief Return device list using identifier/displayable name
      * @return Device list
      */
-    HashMap<int, std::string> GetPlaybackList() override;
-
-    /*!
-     * @brief Set default playback device by identifier
-     * @param identifier device identifier
-     */
-    void SetDefaultPlayback(int identifier) override;
+    IAudioController::DeviceList GetPlaybackList() override;
 
     /*!
      * @brief Set default playback device by name
@@ -57,23 +51,47 @@ class PulseAudioController: public IAudioController, private Thread
      */
     void SetVolume(int volume) override;
 
+    /*!
+     * @brief Force the implementation to refresh all its internal objects
+     */
+    void Refresh() override { PulseEnumerateCards(); };
+
   private:
-    //! Card structure
-    struct PulseAudioCard
+    struct Sink
     {
-      std::string Name;        //!< Device name
-      int Index;               //!< Device index in pulseaudio context
-      std::string Profile;     //!< Profile to select. Empty to not select any profile
+      std::string Name;                   //!< Device name
+      int Channels;                       //!< Channel count
+      int Index;                          //!< Device index in pulseaudio context
+      std::vector<std::string> PortNames; //!< Available port list
     };
 
-    //! Device structure
-    struct PulseAudioDevice
+    struct Profile
     {
       std::string Name;        //!< Device name
       std::string Description; //!< Description
+      bool Available;          //!< Profile available
+      int Priority;            //!< Profile priority
+    };
+
+    struct Port
+    {
+      std::vector<Profile> Profiles; //!< Available profile list for this port
+      std::string Name;              //!< Device name
+      std::string Description;       //!< Description
+      int InternalIndex;             //!< Internal index (not PA index)
+      int Priority;                  //!< Priority
+      AudioIcon Icon;                //!< Icon
+      bool Available;                //!< Available? (plugged)
+    };
+
+    struct Card
+    {
+      std::string Name;        //!< Card name
+      std::string Description; //!< Card Description
       int Index;               //!< Device index in pulseaudio context
-      int CardIndex;           //!< Card index in pulseaudio context
-      int Channels;            //!< Channel count
+      bool HasActioveProfile;  //!< Has an active profile already set?
+      std::vector<Port> Ports; //!< Available port list
+      std::vector<Sink> Sinks; //!< Available sink list
     };
 
     //! Pulseaudio connection state
@@ -87,15 +105,13 @@ class PulseAudioController: public IAudioController, private Thread
     //! Source enumeration state state
     enum class EnumerationState
     {
-        Starting,    //!< Just start!
-        Enumerating, //!< Enumerating devices
-        Complete,    //!< Enumeration complete
+      Starting,    //!< Just start!
+      Enumerating, //!< Enumerating devices
+      Complete,    //!< Enumeration complete
     };
 
     //! Card list
-    std::vector<PulseAudioCard> mCardList;
-    //! Device list (output only)
-    std::vector<PulseAudioDevice> mDeviceList;
+    std::vector<Card> mCards;
     //! Syncer
     Mutex mSyncer;
 
@@ -118,6 +134,20 @@ class PulseAudioController: public IAudioController, private Thread
      * @brief Finalize all
      */
     void Finalize();
+
+    /*
+     * Tools
+     */
+
+    const Card* LookupCard(const std::string& name);
+
+    static const Port* LookupPort(const Card& card, const std::string& name);
+
+    static bool HasPort(const Sink& sink, const Port& port);
+
+    static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
+
+    std::string AdjustSpecialPlayback(const std::string& originalPlaybackName);
 
     /*
      * Pulse Audio callback
@@ -157,17 +187,45 @@ class PulseAudioController: public IAudioController, private Thread
     static void SetProfileCallback(pa_context *context, int success, void *userdata);
 
     /*!
-     * @brief Callback called when volume is set
+     * @brief Callback called when the sink changed
      * @param context Pulseaudio context
      * @param success Success flag
      * @param userdata This
      */
-    static void SetSourceCallback(pa_context *context, int success, void *userdata);
+    static void SetSinkCallback(pa_context *context, int success, void *userdata);
 
     /*!
-     * @brief Adjust device names
+     * @brief Callback called when the port changed
+     * @param context Pulseaudio context
+     * @param success Success flag
+     * @param userdata This
      */
-    void AdjustDeviceNames();
+    static void SetPortCallback(pa_context *context, int success, void *userdata);
+
+    /*!
+     * @brief Callback called when a sink is muted/unmuted
+     * @param context Pulseaudio context
+     * @param success Success flag
+     * @param userdata This
+     */
+    static void SetMuteCallback(pa_context *context, int success, void *userdata);
+
+    /*!
+     * @brief Subscription callback
+     * @param context Pulseaudio context
+     * @param type Event type
+     * @param index Object index
+     * @param userdata This
+     */
+    static void SubsciptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata);
+
+    /*!
+     * @brief Callback called when volume is changed
+     * @param context Pulseaudio context
+     * @param success Success flag
+     * @param userdata This
+     */
+    static void SetVolumeCallback(pa_context *context, int success, void *userdata);
 
     /*
      * Thread implementation
@@ -183,9 +241,49 @@ class PulseAudioController: public IAudioController, private Thread
      * PulseAudio api
      */
 
+    //! Connect to pulse Audio server
     void PulseContextConnect();
 
+    //! Disconnect from Pulse Audio server
     void PulseContextDisconnect();
 
-    void PulseEnumerateDevices();
+    //! Enumerates all cards and thair sub objects
+    void PulseEnumerateCards();
+
+    //! Enumerates outputs (sinks)
+    void PulseEnumarateSinks();
+
+    //! Subscribe to all pulse audio events
+    void PulseSubscribe();
+
+    //! Activate best profile for profile-less cards
+    void SetDefaultProfiles();
+
+    /*!
+     * @brief Get best profile from the given card
+     * @param card Card
+     * @return Best profile
+     */
+    static const Profile* GetBestProfile(const Card& card);
+
+    /*!
+     * @brief Build the best card name from the card property set
+     * @param info Card info structure
+     * @return Card name
+     */
+    static std::string GetCardDescription(const pa_card_info& info);
+
+    /*!
+     * @brief Build the best port name from the port properties
+     * @param info Port info structure
+     * @return Port name
+     */
+    static std::string GetPortDescription(const pa_card_port_info& info, AudioIcon& icon);
+
+    /*!
+     * @brief Get icon from port information
+     * @param info Port info structure
+     * @return Icon
+     */
+    static AudioIcon GetPortIcon(const pa_card_port_info& info);
 };

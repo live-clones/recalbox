@@ -5,8 +5,7 @@
 
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
-#include <audio/alsa/AlsaController.h>
-//#include <games/classifications/Genres.h>
+#include <games/classifications/Genres.h>
 #include <games/FileSorts.h>
 
 // Forward declaration
@@ -100,7 +99,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
     DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, true)
-    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, AlsaController::sDefaultOutput)
+    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
     DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")

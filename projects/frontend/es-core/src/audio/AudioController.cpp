@@ -24,5 +24,5 @@ std::string AudioController::SetDefaultPlayback(const std::string& playbackName)
     return playback;
   }
 
-  return AlsaController::sDefaultOutput;
+  return playbackName;
 }

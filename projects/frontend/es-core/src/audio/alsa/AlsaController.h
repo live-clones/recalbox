@@ -52,13 +52,7 @@ class AlsaController: public IAudioController//, public StaticLifeCycleControler
      * @brief Get playback list
      * @return Map opaque identifier : playback name
      */
-    HashMap<int, std::string> GetPlaybackList() final;
-
-    /*!
-     * @brief Set the default card/device
-     * @param identifier opaque identifier from GetPlaybackList()
-     */
-    void SetDefaultPlayback(int identifier) final;
+    HashMap<std::string, std::string> GetPlaybackList() final;
 
     /*!
      * @brief Set the default card/device

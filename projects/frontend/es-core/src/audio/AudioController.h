@@ -4,7 +4,6 @@
 #pragma once
 
 #include <audio/IAudioController.h>
-#include <audio/alsa/AlsaController.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <audio/pulseaudio/PulseAudioController.h>
 
@@ -43,13 +42,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Get playback list
      * @return Map identifier : playback name
      */
-    HashMap<int, std::string> GetPlaybackList() const { return mController.GetPlaybackList(); }
-
-    /*!
-     * @brief Set the default card/device
-     * @param identifier opaque identifier from GetPlaybackList()
-     */
-    void SetDefaultPlayback(int identifier) { if (!mHasSpecialAudio) mController.SetDefaultPlayback(identifier); }
+    IAudioController::DeviceList GetPlaybackList() const { return mController.GetPlaybackList(); }
 
     /*!
      * @brief Set the default card/device

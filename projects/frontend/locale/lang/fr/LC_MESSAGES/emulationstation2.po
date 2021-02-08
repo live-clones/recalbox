@@ -2375,7 +2375,7 @@ msgid "EDIT MANUALLY"
 msgstr "EDITER MANUELLEMENT"
 
 msgid "Headphones"
-msgstr "Prise casque"
+msgstr "Casque"
 
 msgid "NETPLAY MITM"
 msgstr "SERVEUR NETPLAY RELAY"
@@ -2435,13 +2435,13 @@ msgid "Mute (no sound)"
 msgstr "Coupé (pas de son)"
 
 msgid "Internal Speakers"
-msgstr "Haut-pasleurs internes"
+msgstr "Haut-parleurs internes"
 
 msgid "Headphone Jack"
 msgstr "Prise casque"
 
 msgid "Internal Speakers + Headphone Jack"
-msgstr "Haut-pasleurs internes + Prise casque"
+msgstr "Haut-parleurs internes + Prise casque"
 
 msgid "black"
 msgstr "écran noir"
@@ -2820,5 +2820,5 @@ msgid "NON EDITABLE GAME"
 msgstr ""
 
 #
-#~ msgid "NO GAME"
-#~ msgstr "PAS DE JEU SÉLECTIONNÉ"
+msgid "auto select"
+msgstr "sélection automatique"
