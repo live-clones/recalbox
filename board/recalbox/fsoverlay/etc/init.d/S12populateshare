@@ -170,6 +170,17 @@ then
     mv /tmp/dropbear_dss_host_key /recalbox/share/system/ssh/
 fi
 
+# bluetooth : untar last bluetooth settings
+# This is a migration process which should run once.
+# The tar file is removed and all settings are savec in
+# /overlay/.configs/lib/bluetooth since #1523
+btTar=/recalbox/share/system/bluetooth/bluetooth.tar
+if test -e "$btTar"
+then
+    tar xf "$btTar" --strip-components=1 -C /overlay/.configs/ >/dev/null && rm "$btTar"
+    /etc/init.d/S06bluetooth restart
+fi
+
 # udev : create a link for rules persistance
 if test ! -e /recalbox/share/system/udev/rules.d
 then
