@@ -55,7 +55,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] BR2020.11 - Test libretro-81
 - [ ] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
 - [ ] BR2020.11 - Test libretro-flycast
-- [ ] Verify wm8960 audio hat works for all boards with kernel 5.4 (ian57 a le matos)
+- [ ] Verify wm8960 audio hat works for all boards with kernel 5.10 (ian57 a le matos)
 - [ ] BR2020.11 - Check splash video on rpi1, 2 and 3
 - [ ] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
 - [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
@@ -101,6 +101,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
 - [ ] Test S024kdetector still does its job
 - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
+- [ ] Check that there are no regression with kernel 5.10 on rpi boards
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
