@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file.
 - Add port readonly parameter to empack
 - Fix some crash in ES when stopping videos
 - Add feature slides during install
-- Bump rpi1, rpi2 and rpi3 kernel to version 5.4 (#1453)
+- Bump rpi1, rpi2 and rpi3 kernel to version 5.10 (#1453, #1538)
 - Add rpi-400 dts
 - Bump mupen64plus-core, uiconsole and rsphle for all boards
 - Bump mupen64plus gles2rice, glesn64, gliden64 and rice video plugins
