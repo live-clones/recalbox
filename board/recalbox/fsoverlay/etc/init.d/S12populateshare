@@ -170,14 +170,6 @@ then
     mv /tmp/dropbear_dss_host_key /recalbox/share/system/ssh/
 fi
 
-# bluetooth : now gotta tar/untar, the directory structure for bluez5 is more complex
-# once untar, delete the cache folder. The exclude tar option of busybox is dreadful
-btTar=/recalbox/share/system/bluetooth/bluetooth.tar
-if test -e "$btTar"
-then
-    tar xvf "$btTar" -C / 2>/dev/null 
-fi
-
 # udev : create a link for rules persistance
 if test ! -e /recalbox/share/system/udev/rules.d
 then
