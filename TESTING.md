@@ -91,6 +91,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check if recalbox can connect on open network (passwordless SSID)
 - [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
 - [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
+- [ ] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
