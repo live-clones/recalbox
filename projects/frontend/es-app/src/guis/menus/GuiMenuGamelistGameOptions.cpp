@@ -38,7 +38,7 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
 
   // Ratio
   if (mGame.isGame())
-    mRatio = AddList<std::string>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+    mRatio = AddList<std::string>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // Game name
   mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, false);
@@ -74,7 +74,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::Get
 {
   std::vector<ListEntry<std::string>> list;
 
-  std::string currentRatio = RecalboxConf::Instance().GetSystemRatio(mSystem);
+  std::string currentRatio = mGame.Metadata().Ratio();
   for (const auto& ratio : LibretroRatio::GetRatio())
     list.push_back({ ratio.first, ratio.second, currentRatio == ratio.second });
 
@@ -122,6 +122,8 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
         mGame.Metadata().SetCore(core);
       }
   }
+  else if ((Components)id == Components::Ratio)
+    mGame.Metadata().SetRatio(value);
 }
 
 void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const GameGenres& value)
@@ -135,8 +137,6 @@ void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const std:
 {
   if ((Components)id == Components::Name)
     mGame.Metadata().SetName(text);
-  else if ((Components)id == Components::Ratio)
-    mGame.Metadata().SetRatio(text);
   else if ((Components)id == Components::Description)
     mGame.Metadata().SetDescription(text);
 }
