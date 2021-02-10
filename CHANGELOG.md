@@ -106,6 +106,7 @@ All notable changes to this project will be documented in this file.
 - Bump FBNeo, SCV (+sound) & DosBox Pure
 - Fix TIC-80 repository
 - Fix error message `/var/db/dhcpd.leases no such file or directory`
+- Fix ES missing dependencies
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
