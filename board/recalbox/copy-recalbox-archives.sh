@@ -185,6 +185,7 @@ case "${RECALBOX_TARGET}" in
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/boot.ini" "${BINARIES_DIR}/odroidgo2-firmware/boot.ini" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo3-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidgo2-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/odroidgo2-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidgo2-firmware/boot/recalbox" || exit 1
@@ -192,7 +193,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidgo2-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
-		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
 	# boot.tar.xz
 	tar -C "${BINARIES_DIR}/odroidgo2-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||

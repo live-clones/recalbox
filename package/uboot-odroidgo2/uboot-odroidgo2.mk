@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UBOOT_ODROIDGO2_VERSION = a1b59905a4554055f35196e17301bf83cbe41b5f
+UBOOT_ODROIDGO2_VERSION = e9d7bedabe68cec4d5924ee11de510399577ece2
 UBOOT_ODROIDGO2_SITE = $(call github,hardkernel,u-boot,$(UBOOT_ODROIDGO2_VERSION))
 UBOOT_ODROIDGO2_LICENSE = GPL-2.0+
 UBOOT_ODROIDGO2_LICENSE_FILES = Licenses/gpl-2.0.txt

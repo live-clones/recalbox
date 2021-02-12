@@ -1,0 +1,5 @@
+config BR2_PACKAGE_ROCKCHIP_MALI_BIFROST_VULKAN
+	bool "Enable Bifrost Vulkan support"
+	depends on BR2_PACKAGE_ROCKCHIP_MALI_BIFROST_GBM
+	help
+	  Add Vulkan support

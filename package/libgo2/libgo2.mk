@@ -4,12 +4,12 @@
 #
 ################################################################################
 
-LIBGO2_VERSION = fc78629ffc5152035c5872e609b7468254eae9ec
+LIBGO2_VERSION = bc992566bb86f2fe0c8d981d4db46e2e2beb5b0e
 LIBGO2_SITE = $(call github,OtherCrashOverride,libgo2,$(LIBGO2_VERSION))
 LIBGO2_LICENSE = LGPL-2.0
 LIBGO2_LICENSE_FILES = LICENSE
 
-LIBGO2_DEPENDENCIES = alsa-lib libevdev libdrm libpng librga openal rockchip-mali
+LIBGO2_DEPENDENCIES = alsa-lib libevdev libdrm libpng librga openal libegl
 LIBGO2_INSTALL_STAGING = YES
 
 define LIBGO2_BUILD_CMDS
