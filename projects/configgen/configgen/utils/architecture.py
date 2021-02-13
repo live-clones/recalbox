@@ -11,6 +11,11 @@ class Architecture:
         try:
             with open("/recalbox/recalbox.arch") as f:
                 self.__Arch = f.read()
+            if self.isGoa2:
+                with open("/sys/class/drm/card0/card0-DSI-1/mode") as f:
+                    reso = f.readline().strip("\r\n")
+                    if reso == "480x854p60":
+                        self.__Arch = "odroidgo3"
         except Exception as ex:
             print("Error getting architecture: {}".format(ex))
 
@@ -41,6 +46,10 @@ class Architecture:
     @property
     def isGoa2(self):
         return self.__Arch == "odroidgo2"
+
+    @property
+    def isGoa3(self):
+        return self.__Arch == "odroidgo3"
 
     @property
     def isX86(self):
