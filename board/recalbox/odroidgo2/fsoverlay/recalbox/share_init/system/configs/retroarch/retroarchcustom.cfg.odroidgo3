@@ -1,0 +1,6 @@
+# Performance configuration
+video_driver = "gl"
+video_threaded = true
+
+# Ozone optimization
+menu_scale_factor = "1.250000"
