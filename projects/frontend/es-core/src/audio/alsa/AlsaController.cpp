@@ -69,7 +69,7 @@ void AlsaController::Initialize()
         }
         else
         {
-          if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
+          if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo)
             if (snd_mixer_selem_is_enumerated(elem) != 0)
               if (strcmp(snd_mixer_selem_id_get_name(sid), "Playback Path") == 0)
               {
@@ -119,7 +119,7 @@ void AlsaController::Initialize()
             LOG(LogDebug) << "      Subdevice " << subd << ", name `" << snd_pcm_info_get_subdevice_name(pcminfo) << "`";
         }
 
-        if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
+        if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo)
         {
           card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Off, OdroidAdvanceGo2Alsa::sOff, 0));
           card.AddDevice(AlsaDevice((int)OdroidAdvanceGo2Alsa::OutputPath::Speaker, OdroidAdvanceGo2Alsa::sSpeaker, 0));
@@ -149,7 +149,7 @@ HashMap<int, std::string> AlsaController::GetPlaybackList()
   result[-1] = sDefaultOutput;
   for(const AlsaCard& playback : mPlaybacks)
   {
-    if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
+    if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo)
     {
       result[-1] = sDefaultOutput;
       for (int i = playback.DeviceCount(); --i >= 0;)
@@ -261,7 +261,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
     "}\n";
 
   // Odroid Advance go 2 patch
-  if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2)
+  if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo)
   {
     if (identifier == -1) identifier = (int)OdroidAdvanceGo2Alsa::OutputPath::Speaker;
     mPlaybacks[0].OdroidAdvanceGo2Router()->Route((OdroidAdvanceGo2Alsa::OutputPath)identifier);
@@ -316,7 +316,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
       case BoardType::Pi4:
       case BoardType::Pi400:
       case BoardType::UnknownPi:
-      case BoardType::OdroidAdvanceGo2:
+      case BoardType::OdroidAdvanceGo:
       case BoardType::PCx86:
       case BoardType::PCx64:
       default: break;

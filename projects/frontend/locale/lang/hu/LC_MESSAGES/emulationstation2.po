@@ -2655,6 +2655,14 @@ msgid "FOLDER %s"
 msgstr ""
 
 #
+msgid "EDIT GAME %s"
+msgstr ""
+
+#
+msgid "EDIT FOLDER %s"
+msgstr ""
+
+#
 msgid "RUN WITH"
 msgstr ""
 

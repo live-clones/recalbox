@@ -17,29 +17,29 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
 
   if (inputEvent.VolumeUpPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo2] Volume + pressed";
-    int value = RecalboxConf::Instance().AsInt("audio.volume", 90) + 10;
+    LOG(LogDebug) << "[OdroidAdvanceGo] Volume + pressed";
+    int value = RecalboxConf::Instance().GetAudioVolume() + 10;
     value = Math::clampi(value, 0, 100);
     value = (value / 10) * 10;
     AudioController::Instance().SetVolume(value);
-    RecalboxConf::Instance().SetInt("audio.volume", value);
+    RecalboxConf::Instance().SetAudioVolume(value);
     RecalboxConf::Instance().Save();
     return pressResult;
   }
   else if (inputEvent.VolumeDownPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo2] Volume - pressed";
-    int value = RecalboxConf::Instance().AsInt("audio.volume", 90) - 10;
+    LOG(LogDebug) << "[OdroidAdvanceGo] Volume - pressed";
+    int value = RecalboxConf::Instance().GetAudioVolume() - 10;
     value = Math::clampi(value, 0, 100);
     value = (value / 10) * 10;
     AudioController::Instance().SetVolume(value);
-    RecalboxConf::Instance().SetInt("audio.volume", value);
+    RecalboxConf::Instance().SetAudioVolume(value);
     RecalboxConf::Instance().Save();
     return pressResult;
   }
   else if (inputEvent.BrightnessUpPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo2] Brightness + pressed";
+    LOG(LogDebug) << "[OdroidAdvanceGo] Brightness + pressed";
     int value = RecalboxConf::Instance().GetBrightness() + 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);
@@ -49,7 +49,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   }
   else if (inputEvent.BrightnessDownPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo2] Brightness - pressed";
+    LOG(LogDebug) << "[OdroidAdvanceGo] Brightness - pressed";
     int value = RecalboxConf::Instance().GetBrightness() - 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);

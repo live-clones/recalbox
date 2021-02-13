@@ -66,12 +66,12 @@ class IBoardInterface
     /*!
      * @brief Has physical volume buttons?
      */
-    virtual bool HasPhysicalVolumeButtons() = 0;
+    virtual bool HasMappableVolumeButtons() = 0;
 
     /*!
      * @brief Has physical brightness buttons?
      */
-    virtual bool HasPhysicalBrightnessButtons() = 0;
+    virtual bool HasMappableBrightnessButtons() = 0;
 
     /*!
      * @brief Has hardware suspend/resume?

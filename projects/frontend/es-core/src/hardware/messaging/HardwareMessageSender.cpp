@@ -43,6 +43,18 @@ void HardwareMessageSender::ProcessMessage(HardwareMessage* message)
       mNotificationInterface.PowerButtonPressed(message->Board(), message->Millisecond());
       break;
     }
+    case MessageTypes::VolumeDownPressed:
+    {
+      LOG(LogDebug) << "[Hardware] Volume down button pressed.";
+      mNotificationInterface.VolumeDecrease(message->Board(), 0.10f);
+      break;
+    }
+    case MessageTypes::VolumeUpPressed:
+    {
+      LOG(LogDebug) << "[Hardware] Volume up button pressed.";
+      mNotificationInterface.VolumeIncrease(message->Board(), 0.10f);
+      break;
+    }
     case MessageTypes::Resume:
     {
       LOG(LogDebug) << "[Hardware] Hardware exited from suspend mode.";

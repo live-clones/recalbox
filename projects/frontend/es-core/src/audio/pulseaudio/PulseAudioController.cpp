@@ -320,7 +320,8 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
 {
   switch(Board::Instance().GetBoardType())
   {
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     {
       list.push_back({ std::string("\u26ab ").append(_("auto select")).append(" \uf1e0 \u26ab"), sAutoSwitch, AudioIcon::Auto });
       break;
@@ -411,11 +412,8 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
 {
   switch(Board::Instance().GetBoardType())
   {
-    case BoardType::OdroidAdvanceGo2:
-    {
-
-      break;
-    }
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
@@ -703,7 +701,8 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
       Strings::ReplaceAllIn(result, "v4-hdmi", "HDMI");
       break;
     }
-    case BoardType::OdroidAdvanceGo2: break;
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper: break;
     case BoardType::PCx86:
     case BoardType::PCx64:
     case BoardType::UndetectedYet:
@@ -736,7 +735,8 @@ std::string PulseAudioController::GetPortDescription(const pa_card_port_info& in
     case BoardType::Pi4:
     case BoardType::Pi400:
     case BoardType::UnknownPi: break;
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     {
       if (low == "multichannel output")
       {

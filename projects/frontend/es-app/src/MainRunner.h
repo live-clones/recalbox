@@ -203,6 +203,18 @@ class MainRunner
     void HeadphoneUnplugged(BoardType board) final;
 
     /*!
+     * @brief Decrease volume
+     * @param board current board
+     */
+    void VolumeDecrease(BoardType board, float percent) final;
+
+    /*!
+     * @brief Increase volume
+     * @param board current board
+     */
+    void VolumeIncrease(BoardType board, float percent) final;
+
+    /*!
      * @brief Suspend will occur in a short delay
      * @param board current board
      * @param delayInMs delay in ms before suspend will occurs

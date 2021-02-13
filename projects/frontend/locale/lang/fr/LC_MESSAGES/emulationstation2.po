@@ -2812,6 +2812,14 @@ msgid "FOLDER %s"
 msgstr "RÉPERTOIRE %s"
 
 #
+msgid "EDIT GAME %s"
+msgstr ""
+
+#
+msgid "EDIT FOLDER %s"
+msgstr ""
+
+#
 msgid "RUN WITH"
 msgstr "LANCER AVEC"
 

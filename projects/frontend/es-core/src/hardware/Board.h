@@ -77,13 +77,13 @@ class Board: public StaticLifeCycleControler<Board>
      * @brief Check if this board has extra volume +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    bool HasPhysicalVolumeButtons() { return mBoard->HasPhysicalVolumeButtons(); }
+    bool HasPhysicalVolumeButtons() { return mBoard->HasMappableVolumeButtons(); }
 
     /*!
      * @brief Check if this board has extra brightness +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    bool HasPhysicalBrightnessButtons() { return mBoard->HasPhysicalBrightnessButtons(); }
+    bool HasPhysicalBrightnessButtons() { return mBoard->HasMappableBrightnessButtons(); }
 
     /*!
      * @brief Check if the current board supports suspend/resume operations

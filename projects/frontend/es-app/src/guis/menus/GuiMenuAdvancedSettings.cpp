@@ -115,7 +115,8 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::UnknownPi:
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     case BoardType::PCx86:
     case BoardType::PCx64: break;
   }

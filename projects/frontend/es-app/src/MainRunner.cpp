@@ -332,7 +332,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
   {
     switch (Board::Instance().GetBoardType())
     {
-      case BoardType::OdroidAdvanceGo2:
+      case BoardType::OdroidAdvanceGo:
       {
         window.pushGui(new WizardAGO2(window));
         return; // Let the OGA Wizard reset the flag
@@ -509,7 +509,8 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
   LOG(LogInfo) << "[Audio] Headphones plugged!";
   switch(board)
   {
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     {
       std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
       LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones plugged! " << currentAudio;
@@ -521,7 +522,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
         RecalboxConf::Instance().SetAudioOuput(Headphones);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        LOG(LogInfo) << "[OdroidAdvanceGo2] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
                                                 popupDuration, GuiInfoPopup::PopupType::Music));
@@ -549,7 +550,8 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
   LOG(LogInfo) << "[Audio] Headphones unplugged!";
   switch(board)
   {
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
     {
       std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
       LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones unplugged! " << currentAudio;
@@ -561,7 +563,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
         RecalboxConf::Instance().SetAudioOuput(Speakers);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        LOG(LogInfo) << "[OdroidAdvanceGo2] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
                                                 popupDuration, GuiInfoPopup::PopupType::Music));
@@ -662,4 +664,28 @@ void MainRunner::Completed(const HardwareTriggeredSpecialOperations& parameter, 
     case HardwareTriggeredSpecialOperations::Resume: // Do nothing on resume
     default: break;
   }
+}
+
+void MainRunner::VolumeDecrease(BoardType board, float percent)
+{
+  (void)board;
+
+  int value = RecalboxConf::Instance().GetAudioVolume() - (int)(100 * percent);
+  value = Math::clampi(value, 0, 100);
+  value = (value / 10) * 10;
+  AudioController::Instance().SetVolume(value);
+  RecalboxConf::Instance().SetAudioVolume(value);
+  RecalboxConf::Instance().Save();
+}
+
+void MainRunner::VolumeIncrease(BoardType board, float percent)
+{
+  (void)board;
+
+  int value = RecalboxConf::Instance().GetAudioVolume() + (int)(100 * percent);
+  value = Math::clampi(value, 0, 100);
+  value = (value / 10) * 10;
+  AudioController::Instance().SetVolume(value);
+  RecalboxConf::Instance().SetAudioVolume(value);
+  RecalboxConf::Instance().Save();
 }

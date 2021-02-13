@@ -19,7 +19,8 @@ enum class BoardType
     Pi400,         // Pi 400
     UnknownPi,     // Unknown Pi with higher revisions
     // Odroid
-    OdroidAdvanceGo2, // Odroid advance go 2
+    OdroidAdvanceGo, // Odroid advance go 1 & 2
+    OdroidAdvanceGoSuper, // Odroid advance go 3 (super)
     // PC
     PCx86,
     PCx64,

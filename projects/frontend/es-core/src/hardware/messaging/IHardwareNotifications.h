@@ -38,6 +38,18 @@ class IHardwareNotifications
     virtual void HeadphoneUnplugged(BoardType board) = 0;
 
     /*!
+     * @brief Decrease volume
+     * @param board current board
+     */
+    virtual void VolumeDecrease(BoardType board, float percent) = 0;
+
+    /*!
+     * @brief Increase volume
+     * @param board current board
+     */
+    virtual void VolumeIncrease(BoardType board, float percent) = 0;
+
+    /*!
      * @brief Power button had been pressed and released for the given amount of time
      * @param board current board
      * @param milliseconds total time the power button has been pressed down

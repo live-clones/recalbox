@@ -18,12 +18,18 @@ Board::Board(IHardwareNotifications& notificationInterface)
 
 IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
 {
-  switch(GetBoardType())
+  BoardType model = GetBoardType();
+  switch(model)
   {
-    case BoardType::OdroidAdvanceGo2:
+    case BoardType::OdroidAdvanceGo:
     {
-      LOG(LogInfo) << "[Hardware] Odroid Advance Go 2 detected.";
-      return new OdroidAdvanceGo2Board(messageSender);
+      LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected.";
+      return new OdroidAdvanceGo2Board(messageSender, model);
+    }
+    case BoardType::OdroidAdvanceGoSuper:
+    {
+      LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected.";
+      return new OdroidAdvanceGo2Board(messageSender, model);
     }
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -145,10 +151,15 @@ BoardType Board::GetBoardType()
             LOG(LogInfo) << "[Hardware] Pi revision " << revision;
             mType = GetPiModel(irevision);
           }
-          if (hardware == "Hardkernel ODROID-GO2")
+          if (hardware == "Hardkernel ODROID-GO3")
           {
-            LOG(LogInfo) << "[Hardware] Odroid Advance Go 2 revision " << revision;
-            mType = BoardType::OdroidAdvanceGo2;
+            LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision;
+            mType = BoardType::OdroidAdvanceGoSuper;
+          }
+          if ((hardware == "Hardkernel ODROID-GO2") || (hardware == "Hardkernel ODROID-GO1") || (hardware == "Hardkernel ODROID-GO"))
+          {
+            LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision;
+            mType = BoardType::OdroidAdvanceGo;
           }
         }
       }

@@ -147,7 +147,7 @@ class PulseAudioController: public IAudioController, private Thread
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
-    std::string AdjustSpecialPlayback(const std::string& originalPlaybackName);
+    static std::string AdjustSpecialPlayback(const std::string& originalPlaybackName);
 
     /*
      * Pulse Audio callback

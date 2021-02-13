@@ -7,6 +7,7 @@
 #include "OdroidAdvanceGo2SpecialButtonsReader.h"
 #include "hardware/IBoardInterface.h"
 #include "OdroidAdvanceGo2JackEventReader.h"
+#include "OdroidAdvanceGo3VolumeReader.h"
 
 // Forward declaration
 class InputCompactEvent;
@@ -14,11 +15,13 @@ class InputCompactEvent;
 class OdroidAdvanceGo2Board: public IBoardInterface
 {
   public:
-    explicit OdroidAdvanceGo2Board(HardwareMessageSender& messageSender)
+    explicit OdroidAdvanceGo2Board(HardwareMessageSender& messageSender, BoardType model)
       : IBoardInterface(messageSender)
       , mHeadphoneReader(messageSender)
       , mPowerReader(messageSender)
       , mButtonsReader(*this)
+      , mVolumeReader(messageSender)
+      , mModel(model)
     {
     }
 
@@ -35,6 +38,10 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     OdroidAdvanceGo2PowerEventReader mPowerReader;
     //! Special button reader (volume/brightness)
     OdroidAdvanceGo2SpecialButtonsReader mButtonsReader;
+    //! Special button reader (volume/brightness)
+    OdroidAdvanceGo3VolumeReader mVolumeReader;
+    //! Type
+    BoardType mModel;
 
     /*!
      * @brief Start optional global background processes
@@ -44,6 +51,8 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     {
       mPowerReader.StartReader();
       mHeadphoneReader.StartReader();
+      if (mModel == BoardType::OdroidAdvanceGoSuper)
+        mVolumeReader.StartReader();
     }
 
     /*!
@@ -54,6 +63,8 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     {
       mPowerReader.StopReader();
       mHeadphoneReader.StopReader();
+      if (mModel == BoardType::OdroidAdvanceGoSuper)
+        mVolumeReader.StopReader();
     }
 
     /*!
@@ -88,13 +99,13 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     /*!
      * @brief Has physical volume buttons?
      */
-    bool HasPhysicalVolumeButtons() final
-    { return true; }
+    bool HasMappableVolumeButtons() final
+    { return mModel == BoardType::OdroidAdvanceGo; }
 
     /*!
      * @brief Has physical brightness buttons?
      */
-    bool HasPhysicalBrightnessButtons() final
+    bool HasMappableBrightnessButtons() final
     { return true; }
 
     /*!

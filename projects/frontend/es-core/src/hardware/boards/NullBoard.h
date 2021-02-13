@@ -25,9 +25,9 @@ class NullBoard: public IBoardInterface
 
     bool HasCPUGovernance() final { return false; }
 
-    bool HasPhysicalVolumeButtons() final { return false; }
+    bool HasMappableVolumeButtons() final { return false; }
 
-    bool HasPhysicalBrightnessButtons() final { return false; }
+    bool HasMappableBrightnessButtons() final { return false; }
 
     bool HasBrightnessSupport() final { return false; }
 

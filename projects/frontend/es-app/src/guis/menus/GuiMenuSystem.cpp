@@ -49,7 +49,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetStorageEntrie
   std::vector<ListEntry<std::string>> list;
 
   std::vector<std::string> availableStorage;
-  if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo2) availableStorage.push_back("INTERNAL");
+  if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo) availableStorage.push_back("INTERNAL");
   else availableStorage = RecalboxSystem::getAvailableStorageDevices();
   mOriginalStorage = RecalboxSystem::getCurrentStorage();
   if (mOriginalStorage.empty()) mOriginalStorage = "INTERNAL";

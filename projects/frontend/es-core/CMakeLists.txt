@@ -42,6 +42,7 @@ set(CORE_HEADERS
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2JackEventReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.h
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.h
 		src/hardware/messaging/MessageTypes.h
 
 		# Audio
@@ -203,6 +204,7 @@ set(CORE_SOURCES
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2JackEventReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.cpp
+		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.cpp
 
 		# Audio
 		src/audio/AudioManager.cpp

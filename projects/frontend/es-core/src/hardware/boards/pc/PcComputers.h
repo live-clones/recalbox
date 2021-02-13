@@ -58,12 +58,12 @@ class PcComputers: public IBoardInterface
     /*!
      * @brief Has physical volume buttons?
      */
-    bool HasPhysicalVolumeButtons() final { return false; }
+    bool HasMappableVolumeButtons() final { return false; }
 
     /*!
      * @brief Has physical brightness buttons?
      */
-    bool HasPhysicalBrightnessButtons() final { return false; }
+    bool HasMappableBrightnessButtons() final { return false; }
 
     /*!
      * @brief Has physical brightness buttons?
