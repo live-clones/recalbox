@@ -20,6 +20,7 @@
 #include <utils/os/system/ProcessTree.h>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/wizards/WizardAgo2.h>
+#include <guis/wizards/WizardAgo3.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -335,6 +336,11 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::OdroidAdvanceGo:
       {
         window.pushGui(new WizardAGO2(window));
+        return; // Let the OGA Wizard reset the flag
+      }
+      case BoardType::OdroidAdvanceGoSuper:
+      {
+        window.pushGui(new WizardAgo3(window));
         return; // Let the OGA Wizard reset the flag
       }
       case BoardType::PCx86:

@@ -2683,11 +2683,12 @@ msgstr ""
 "\n"
 "Stiskněte B pro pokračování."
 
+#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
-"gracefully before.\n"
-"Just in case, holding the POWER button down more than 5ws perform an hard "
+"gracefully.\n"
+"Just in case, holding the POWER button down more than 5s perform an hard "
 "power-off.\n"
 "\n"
 "Press button B to continue."
@@ -2730,15 +2731,15 @@ msgstr "Systém"
 
 #
 msgid "Added to favorites"
-msgstr ""
+msgstr "Přidáno do oblíbených"
 
 #
 msgid "Removed from favorites"
-msgstr ""
+msgstr "Odebráno z oblíbených"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr ""
+msgstr "Klip ze hry nemůže být přehrán. Pro váš výběr není dostupné video."
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2792,40 +2793,57 @@ msgstr ""
 msgid "auto select"
 msgstr ""
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Nastavení chování spořiče obrazovky. DIM redukuje jas obrazovky a BLACK "
-#~ "ji zcela vypne."
+#
+msgid ""
+"Welcome to RECALBOX for Odroid Go Super!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "UPDATE VERZE"
+#
+msgid ""
+"The top-left black button is the SELECT button, also available on most "
+"modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other "
+"buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr ""
 
-#~ msgid "Rom found"
-#~ msgstr "Rom nalezena"
+#
+msgid ""
+"At the opposite side of the SELECT button is the START button.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr ""
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Zkopírovat stávající systém na jiné zařízení. Pozor, data na cílovém "
-#~ "zařízení budou vymazána."
+#
+msgid ""
+"Then, on the top of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+" Press any button to continue"
+msgstr ""
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Strategie v reálném čase"
+#
+msgid ""
+"The two bottom-left gray buttons control the screen brightness.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down button"
+msgstr ""
 
-#~ msgid "added to favorites"
-#~ msgstr "přidáno do oblíbených"
-
-#~ msgid "removed from favorites"
-#~ msgstr "odebráno z oblíbených"
-
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Klip ze hry nemůže být přehrán.\n"
-#~ "\n"
-#~ "Pro váš výběr není dostupné video."
+#
+msgid ""
+"Finally, the two bottom-right gray buttons are third left & right triggers "
+"(L3/R3), only usefull in some emulators or to record videos.\n"
+"\n"
+" Press either L3 or R3"
+msgstr ""

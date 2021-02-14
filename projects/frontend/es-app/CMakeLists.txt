@@ -38,6 +38,8 @@ set(ES_HEADERS
         # Wizards
         src/guis/wizards/Wizard.h
         src/guis/wizards/WizardAgo2.h
+        src/guis/wizards/WizardAgo3.h
+        src/guis/wizards/WizardLanguage.h
 
         # Guis
         src/guis/GuiMetaDataEd.h
@@ -224,6 +226,8 @@ set(ES_SOURCES
         # Wizards
         src/guis/wizards/Wizard.cpp
         src/guis/wizards/WizardAgo2.cpp
+        src/guis/wizards/WizardAgo3.cpp
+        src/guis/wizards/WizardLanguage.cpp
 
         # Guis
         src/guis/GuiMetaDataEd.cpp

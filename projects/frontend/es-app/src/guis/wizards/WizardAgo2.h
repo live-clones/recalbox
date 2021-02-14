@@ -4,9 +4,9 @@
 #pragma once
 
 #include <utils/locale/LocaleHelper.h>
-#include "Wizard.h"
+#include "WizardLanguage.h"
 
-class WizardAGO2: public Wizard
+class WizardAGO2: public WizardLanguage
 {
   public:
     enum class Pages
@@ -24,7 +24,7 @@ class WizardAGO2: public Wizard
     };
 
     explicit WizardAGO2(WindowManager& window)
-      : Wizard(window, _("WELCOME TO RECALBOX!"), int(Pages::Count))
+      : WizardLanguage(window, _("WELCOME TO RECALBOX!"), int(Pages::Count))
     {
     }
 
@@ -45,16 +45,7 @@ class WizardAGO2: public Wizard
     //! Called when a page text is required
     std::string OnTextRequired(int page) override;
 
-    //! Called when rebuilding the help bar
-    void OnHelpRequired(int page, Help& help) override;
-
     //! Called when z key event is received
     Move OnKeyReceived(int page, const InputCompactEvent& event) override;
-
-    /*!
-     * @brief Change current language
-     * @param increment True to go forward in the language list, false to go backward
-     */
-    void ChangeLanguage(bool increment);
 };
 
