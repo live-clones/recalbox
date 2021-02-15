@@ -94,6 +94,7 @@ set(CORE_HEADERS
 		src/utils/storage/HashMap.h
 		src/utils/storage/MessageFactory.h
 		src/utils/storage/Queue.h
+		src/utils/storage/Set.h
 		src/utils/storage/Stack.h
 		src/utils/IniFile.h
 		src/utils/Files.h

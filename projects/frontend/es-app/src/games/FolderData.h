@@ -1,10 +1,15 @@
 #pragma once
 
+#include <utils/storage/Set.h>
 #include "FileData.h"
 #include "IFilter.h"
 
 class FolderData : public FileData
 {
+  private:
+    //! Blacklist
+    typedef HashSet<std::string> FileSet;
+
   protected:
     //! Current folder child list
     FileData::List mChildren;
@@ -14,6 +19,7 @@ class FolderData : public FileData
      */
     FolderData(RootFolderData& topAncestor, const Path& startpath)
       : FileData(ItemType::Root, startpath, topAncestor)
+      , mChildren()
     {
     }
 
@@ -107,6 +113,21 @@ class FolderData : public FileData
      */
     static int FastSearchText(const std::string& text, const std::string& into);
 
+    static bool ContainsMultiDiskFile(const std::string& extensions)
+    {
+      return Strings::Contains(extensions, ".m3u") || Strings::Contains(extensions, ".cue") ||
+      Strings::Contains(extensions, ".ccd") || Strings::Contains(extensions, ".gdi");
+    }
+
+    static void ExtractUselessFiles(const Path::PathList& items, FileSet& blacklist);
+
+    static void ExtractUselessFilesFromCue(const Path& path, FileSet& list);
+    static void ExtractUselessFilesFromCcd(const Path& path, FileSet& list);
+    static void ExtractUselessFilesFromM3u(const Path& path, FileSet& list);
+    static void ExtractUselessFilesFromGdi(const Path& path, FileSet& list);
+
+    static constexpr int sMaxGdiFileSize = (10 << 10); // 10 Kb
+
   public:
     typedef std::vector<FolderData*> List;
     typedef std::vector<const FolderData*> ConstList;
@@ -140,6 +161,7 @@ class FolderData : public FileData
      */
     FolderData(const Path& startpath, RootFolderData& topAncestor)
       : FileData(ItemType::Folder, startpath, topAncestor)
+      , mChildren()
     {
     }
 

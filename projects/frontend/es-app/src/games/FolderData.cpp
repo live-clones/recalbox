@@ -7,6 +7,7 @@
 #include "systems/SystemData.h"
 #include "GameNameMapManager.h"
 #include <algorithm>
+#include <utils/Files.h>
 
 #define CastFolder(f) ((FolderData*)(f))
 
@@ -100,12 +101,19 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
 
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   Path::PathList items = folderPath.GetDirectoryContent();
+
+  FileSet blacklist{};
+  bool containsMultiDiskFile = ContainsMultiDiskFile(filteredExtensions);
+  if (containsMultiDiskFile) ExtractUselessFiles(items, blacklist);
+
   for (Path& filePath : items)
   {
     // Get file
     std::string stem = filePath.FilenameWithoutExtension();
     if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
+
+    if (containsMultiDiskFile && blacklist.contains(filePath.Filename())) continue;
 
     // and Extension
     std::string extension = Strings::ToLowerASCII(filePath.Extension());
@@ -157,6 +165,78 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
   }
 }
 
+void FolderData::ExtractUselessFiles(const Path::PathList& items, FileSet& blacklist)
+{
+  for (const Path& filePath : items)
+  {
+    const std::string extension = filePath.Extension();
+    if(extension == ".cue")
+    {
+      ExtractUselessFilesFromCue(filePath, blacklist);
+      continue;
+    }
+    if(extension == ".ccd")
+    {
+      ExtractUselessFilesFromCcd(filePath, blacklist);
+      continue;
+    }
+    if(extension == ".gdi" && filePath.Size() <= sMaxGdiFileSize)
+    {
+      ExtractUselessFilesFromGdi(filePath, blacklist);
+      continue;
+    }
+    if(extension == ".m3u")
+    {
+      ExtractUselessFilesFromM3u(filePath, blacklist);
+      continue;
+    }
+  }
+}
+
+void FolderData::ExtractUselessFilesFromCue(const Path& path, FileSet& list)
+{
+  std::string file = Files::LoadFile(path);
+  for(const std::string& line : Strings::Split(file, '\n'))
+    if(Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
+      {
+        const size_t strBegin = line.find_first_of('\"') + 1;
+        const size_t strEnd   = line.find_last_of('\"');
+        if(strBegin >= strEnd) continue;
+        list.insert(line.substr(strBegin , strEnd - strBegin));
+      }
+}
+
+void FolderData::ExtractUselessFilesFromCcd(const Path& path, FileSet& list)
+{
+  std::string file = path.FilenameWithoutExtension();
+  list.insert(file + ".cue");
+  list.insert(file + ".bin");
+  list.insert(file + ".sub");
+}
+
+void FolderData::ExtractUselessFilesFromM3u(const Path& path, FileSet& list)
+{
+  std::string file = Files::LoadFile(path);
+  for(std::string line : Strings::Split(file, '\n'))
+  {
+    line = Strings::Trim(line, "\r");
+    list.insert(line);
+  }
+}
+
+void FolderData::ExtractUselessFilesFromGdi(const Path& path, FileSet& list)
+{
+  std::string file = Files::LoadFile(path);
+  for(const std::string& line : Strings::Split(file, '\n'))
+  {
+    for(const std::string& word : Strings::Split(line, ' ', true))
+    {
+      if(Strings::Contains(word, "."))
+        list.insert(word);
+    }
+  }
+}
+
 int FolderData::getAllFoldersRecursively(FileData::List& to) const
 {
   int gameCount = 0;
@@ -169,10 +249,7 @@ int FolderData::getAllFoldersRecursively(FileData::List& to) const
       if (CastFolder(fd)->getAllFoldersRecursively(to) > 1)
         to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
     }
-    else if (fd->isGame())
-    {
-      gameCount++;
-    }
+    else if (fd->isGame()) gameCount++;
   }
   return gameCount;
 }
@@ -188,7 +265,7 @@ void FolderData::ClearSubChildList()
 {
   for (int i = mChildren.size(); --i >= 0; )
   {
-    FileData* fd = mChildren[i];
+    const FileData* fd = mChildren[i];
     if (fd->isFolder())
       CastFolder(fd)->ClearSubChildList();
     else
@@ -661,11 +738,10 @@ int FolderData::FastSearchText(const std::string& text, const std::string& into)
 void FolderData::FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const
 {
   for (FileData* fd : mChildren)
+  {
     if (remaining <= 0) return;
-    else if (fd->isFolder())
-      CastFolder(fd)->FastSearch(context, text, results, remaining);
-    else
-    if (!fd->Metadata().Hidden())
+    if (fd->isFolder()) CastFolder(fd)->FastSearch(context, text, results, remaining);
+    else if (!fd->Metadata().Hidden())
     {
       int distance = 0;
       switch(context)
@@ -689,6 +765,7 @@ void FolderData::FastSearch(FastSearchContext context, const std::string& text, 
         if (--remaining > 0)
           results.push_back(FastSearchItem(distance, fd));
     }
+  }
 }
 
 int FolderData::getFoldersRecursivelyTo(FileData::List& to) const
