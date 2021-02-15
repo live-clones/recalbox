@@ -109,6 +109,7 @@ All notable changes to this project will be documented in this file.
 - Fix ES missing dependencies
 - Add Minecraft's port Craft on pc
 - Back to libretro-uae repo and bump core (chd support on amigacd32 & amigacdtv)
+- Bump libretro-uae (chd support on amigacd32 & amigacdtv)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
