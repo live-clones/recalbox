@@ -1,3 +1,23 @@
 ## RECALBOX - SYSTEM MINECRAFT ##
 
 Ce système est un port d'un clone de Minecraft. Aucune rom n'est requise.
+
+Contrôles
+WASD pour avancer, gauche, reculer, droite.
+Espace pour sauter.
+Clic gauche pour détruire un bloc.
+Clic droit ou Cmd + Clic gauche pour créer un bloc.
+Ctrl + clic droit pour faire basculer un bloc comme source de lumière.
+1-9 pour sélectionner le type de bloc à créer.
+E pour parcourir les types de blocs.
+Tab pour basculer entre la marche et le vol.
+ZXCVBN pour se déplacer dans des directions exactes le long des axes XYZ.
+Décalage gauche pour zoomer.
+F pour afficher la scène en mode orthographique.
+O pour observer les joueurs dans la vue principale.
+P pour observer les joueurs dans la vue image dans l'image.
+T pour saisir du texte dans le chat.
+Barre oblique (/) pour entrer une commande.
+Backquote (`) pour écrire du texte sur n'importe quel bloc (signes).
+Les touches fléchées émulent le mouvement de la souris.
+Enter émule le clic de souris.

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_HATARI_VERSION = 664ac30180064b7f616330d8ac16adf3dd78be12
+LIBRETRO_HATARI_VERSION = 561c07ee5143d651ee0c04ce31b91ffebc95e299
 LIBRETRO_HATARI_SITE = $(call github,libretro,hatari,$(LIBRETRO_HATARI_VERSION))
 LIBRETRO_HATARI_LICENSE = GPL-2.0
 
