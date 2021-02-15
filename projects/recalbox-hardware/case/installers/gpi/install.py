@@ -22,13 +22,13 @@ class Install(InstallBase):
 
             try:
                 os.system("mount -o remount,rw /boot")
-                # Install /boot/config.txt - most important change first
-                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/config.txt"
-                os.system("cp /boot/config.txt /boot/config.txt.backup")
+                # Install /boot/recalbox-user-config.txt - most important change first
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/recalbox-user-config.txt"
+                os.system("cp /boot/recalbox-user-config.txt /boot/recalbox-user-config.txt.backup")
                 if os.system("cp {} /boot".format(sourceConfig)) != 0:
-                    logger.hardlog("GPi: Error installing config.txt")
+                    logger.hardlog("GPi: Error installing recalbox-user-config.txt")
                     return False
-                logger.hardlog("GPi: config.txt installed")
+                logger.hardlog("GPi: recalbox-user-config.txt installed")
 
                 # Install Overlay
                 sourceOverlay = self.BASE_SOURCE_FOLDER + "assets/overlays/*.dtbo"
@@ -202,11 +202,11 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
-            # Uninstall /boot/config.txt
-            if os.system("cp /boot/config.txt.backup /boot/config.txt") != 0:
-                logger.hardlog("GPi: Error uninstalling config.txt")
+            # Uninstall /boot/recalbox-user-config.txt
+            if os.system("cp /boot/recalbox-user-config.txt.backup /boot/recalbox-user-config.txt") != 0:
+                logger.hardlog("GPi: Error uninstalling recalbox-user-config.txt")
                 return False
-            logger.hardlog("GPi: config.txt uninstalled")
+            logger.hardlog("GPi: recalbox-user-config.txt uninstalled")
 
         except Exception as e:
             logger.hardlog("GPi: Exception = {}".format(e))

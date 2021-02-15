@@ -52,13 +52,6 @@ sdram_freq=500
 sdram_schmoo=0x02000020 
 over_voltage=6 (default) 
 sdram_over_voltage=2 
- 
-###########################
-# do not remove this line !
-include recalbox-config.txt
-
-# custom config
-[all]
 
 # Shorten boot delay 
 boot_delay=1 
