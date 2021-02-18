@@ -35,10 +35,7 @@ void GameClipView::init()
       {
         bool hasVideo = !file.Metadata().VideoAsString().empty();
         bool videoExist = file.Metadata().Video().Exists();
-        if (hasVideo && !videoExist)
-        {
-          LOG(LogDebug) << "No video found for : " << file.getDisplayName();
-        }
+        if (hasVideo && !videoExist) { LOG(LogDebug) << "[GameClip] No video found for : " << file.getDisplayName(); }
         return hasVideo && videoExist;
       }
   } videoFilter;
@@ -191,7 +188,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
     // when videoEngine cannot play video file
     if (mTimer.GetMilliSeconds() > 5000)
     {
-      LOG(LogDebug) << "Video do not start for game: " << mGame->Metadata().VideoAsString();
+      { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
       // remove game from list
       mDemoFiles.erase(mDemoFiles.begin() + mDemoFilesIndex);
       VideoEngine::Instance().StopVideo();

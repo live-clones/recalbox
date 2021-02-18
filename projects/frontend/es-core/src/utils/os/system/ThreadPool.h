@@ -290,7 +290,7 @@ void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async)
     threadCount = get_nprocs_conf() * (threadCount == 0 ? 1 : -threadCount);
 
   // Log
-  LOG(LogDebug) << "Creating new threadpool '" << mThreadPoolName << "' using " << threadCount << " workers " << (mPermanent ? "permanently" : "one-shoot");
+  { LOG(LogDebug) << "[ThreadPool] Creating new threadpool '" << mThreadPoolName << "' using " << threadCount << " workers " << (mPermanent ? "permanently" : "one-shoot"); }
 
   // Sort by priority
   if (mQueue.size() > 1)

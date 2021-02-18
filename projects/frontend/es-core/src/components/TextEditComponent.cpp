@@ -128,7 +128,7 @@ bool TextEditComponent::ProcessInput(const InputCompactEvent& event)
 
   if (event.IsKeyboard())
   {
-    LOG(LogDebug) << " Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value();
+    //{ LOG(LogDebug) << "[TextInput] Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value(); }
     bool pressed = event.RawEvent().Value() != 0;
     switch(event.RawEvent().Id())
     {

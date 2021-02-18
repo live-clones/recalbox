@@ -17,7 +17,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
 
   if (inputEvent.VolumeUpPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo] Volume + pressed";
+    { LOG(LogDebug) << "[OdroidAdvanceGo] Volume + pressed"; }
     int value = RecalboxConf::Instance().GetAudioVolume() + 10;
     value = Math::clampi(value, 0, 100);
     value = (value / 10) * 10;
@@ -28,7 +28,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   }
   else if (inputEvent.VolumeDownPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo] Volume - pressed";
+    { LOG(LogDebug) << "[OdroidAdvanceGo] Volume - pressed"; }
     int value = RecalboxConf::Instance().GetAudioVolume() - 10;
     value = Math::clampi(value, 0, 100);
     value = (value / 10) * 10;
@@ -39,7 +39,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   }
   else if (inputEvent.BrightnessUpPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo] Brightness + pressed";
+    { LOG(LogDebug) << "[OdroidAdvanceGo] Brightness + pressed"; }
     int value = RecalboxConf::Instance().GetBrightness() + 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);
@@ -49,7 +49,7 @@ bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
   }
   else if (inputEvent.BrightnessDownPressed())
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo] Brightness - pressed";
+    { LOG(LogDebug) << "[OdroidAdvanceGo] Brightness - pressed"; }
     int value = RecalboxConf::Instance().GetBrightness() - 1;
     value = Math::clampi(value, 0, 8);
     SetBrightness(value);
@@ -78,7 +78,7 @@ void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuG
   {
     case CPUGovernance::PowerSave:
     {
-      LOG(LogInfo) << "[CPU] Set powersaving mode";
+      { LOG(LogInfo) << "[CPU] Set powersaving mode"; }
       Files::SaveFile(Path(sCpuGovernancePath), "powersave");
       Files::SaveFile(Path(sGpuGovernancePath), "powersave");
       Files::SaveFile(Path(sDmcGovernancePath), "powersave");
@@ -86,7 +86,7 @@ void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuG
     }
     case CPUGovernance::OnDemand:
     {
-      LOG(LogInfo) << "[CPU] Set on-demand mode";
+      { LOG(LogInfo) << "[CPU] Set on-demand mode"; }
       Files::SaveFile(Path(sCpuGovernancePath), "ondemand");
       Files::SaveFile(Path(sGpuGovernancePath), "simple_ondemand");
       Files::SaveFile(Path(sDmcGovernancePath), "dmc_ondemand");
@@ -94,7 +94,7 @@ void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuG
     }
     case CPUGovernance::FullSpeed:
     {
-      LOG(LogInfo) << "[CPU] Set performance mode";
+      { LOG(LogInfo) << "[CPU] Set performance mode"; }
       Files::SaveFile(Path(sCpuGovernancePath), "performance");
       Files::SaveFile(Path(sGpuGovernancePath), "performance");
       Files::SaveFile(Path(sDmcGovernancePath), "performance");

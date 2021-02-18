@@ -28,7 +28,7 @@ void GuiMenuSwitchKodiNetplay::SubMenuSelected(int id)
     case Components::Kodi:
     {
       if (!RecalboxSystem::launchKodi(mWindow))
-        LOG(LogWarning) << "Shutdown terminated with non-zero result!";
+      { LOG(LogWarning) << "[Kodi] Kodi terminated with non-zero result!"; }
       break;
     }
     case Components::Netplay:

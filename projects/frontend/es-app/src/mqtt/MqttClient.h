@@ -62,10 +62,10 @@ class MqttClient : mqtt::iaction_listener
       EnsureConnection();
       if (subscribe(topic, MQTT::QOS0, item, method) != 0)
       {
-        LOG(LogError) << "Error subscribing to: " << topic;
+        { LOG(LogError) << "Error subscribing to: " << topic; }
         return;
       }
-      LOG(LogInfo) << "Subscribed to: " << topic;
+      { LOG(LogInfo) << "Subscribed to: " << topic; }
 
     }*/
 };

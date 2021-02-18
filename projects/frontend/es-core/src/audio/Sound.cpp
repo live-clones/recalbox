@@ -26,7 +26,7 @@ void Sound::Initialize()
   //load wav file via SDL
   mSampleData = Mix_LoadWAV(mPath.ToChars());
   if (mSampleData == nullptr)
-    LOG(LogError) << "Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
+  { LOG(LogError) << "[Sound] Error loading sound \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError(); }
 }
 
 void Sound::Finalize()

@@ -29,17 +29,17 @@ class Log
     static void open(const char* filename = nullptr);
     static void close();
 
-    Log& operator << (char v) { mMessage += v; return *this; }
-    Log& operator << (const char* v) { mMessage += v; return *this; }
-    Log& operator << (const std::string& v) { mMessage += v; return *this; }
-    Log& operator << (int v) { mMessage += Strings::ToString(v); return *this; }
-    Log& operator << (unsigned int v) { mMessage += Strings::ToString(v); return *this; }
-    Log& operator << (long long v) { mMessage += Strings::ToString(v); return *this; }
-    Log& operator << (unsigned long long v) { mMessage += Strings::ToString(v); return *this; }
-    Log& operator << (long v) { mMessage += Strings::ToString((long long)v); return *this; }
-    Log& operator << (unsigned long v) { mMessage += Strings::ToString((unsigned long long)v); return *this; }
-    Log& operator << (bool v) { mMessage += Strings::ToString(v); return *this; }
-    Log& operator << (float v) { mMessage += Strings::ToString(v, 4); return *this; }
+    Log& operator << (char v) { mMessage.append(1, v); return *this; }
+    Log& operator << (const char* v) { mMessage.append(v); return *this; }
+    Log& operator << (const std::string& v) { mMessage.append(v); return *this; }
+    Log& operator << (int v) { mMessage.append(Strings::ToString(v)); return *this; }
+    Log& operator << (unsigned int v) { mMessage.append(Strings::ToString(v)); return *this; }
+    Log& operator << (long long v) { mMessage.append(Strings::ToString(v)); return *this; }
+    Log& operator << (unsigned long long v) { mMessage.append(Strings::ToString(v)); return *this; }
+    Log& operator << (long v) { mMessage.append(Strings::ToString((long long)v)); return *this; }
+    Log& operator << (unsigned long v) { mMessage.append(Strings::ToString((unsigned long long)v)); return *this; }
+    Log& operator << (bool v) { mMessage.append(Strings::ToString(v)); return *this; }
+    Log& operator << (float v) { mMessage.append(Strings::ToString(v, 4)); return *this; }
     Log& operator << (const Strings::Vector& v) { for(const std::string& s : v) mMessage.append(s).append(1, ' '); return *this; }
 
   private:

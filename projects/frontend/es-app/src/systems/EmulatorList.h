@@ -51,8 +51,7 @@ class EmulatorList
     {
       if (mEmulatorCount < sMaximumEmulators)
         mEmulators[mEmulatorCount++] = emulatorDescriptor;
-      else
-        LOG(LogError) << emulatorDescriptor.Name() << " cannot be added to current system.";
+      else {LOG(LogError) << "[Emulator] " << emulatorDescriptor.Name() << " cannot be added to current system."; }
     }
 };
 

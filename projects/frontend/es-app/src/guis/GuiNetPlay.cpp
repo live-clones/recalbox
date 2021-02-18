@@ -445,13 +445,13 @@ void GuiNetPlay::ParseLobby()
 
 void GuiNetPlay::Run()
 {
-  LOG(LogDebug) << "Lobby Thread: Loading core list";
+  { LOG(LogDebug) << "[NetplayGui] Loading core list"; }
   LoadCoreMap();
-  LOG(LogDebug) << "Lobby Thread: Start getting lobby list";
+  { LOG(LogDebug) << "[NetplayGui] Start getting lobby list"; }
   ParseLobby();
   mSender.Call((int)MessageType::LobbyLoaded);
 
-  LOG(LogDebug) << "Lobby Thread: Start pinging players";
+  { LOG(LogDebug) << "[NetplayGui] Start pinging players"; }
   for (auto& game : mLobbyList)
   {
     if (!IsRunning()) break;
@@ -460,7 +460,7 @@ void GuiNetPlay::Run()
     mSender.Call((int)MessageType::Ping);
   }
 
-  LOG(LogDebug) << "Lobby Thread: Start sleeping";
+  { LOG(LogDebug) << "[NetplayGui] Start sleeping"; }
 }
 
 void GuiNetPlay::ReceiveSyncCallback(const SDL_Event& event)

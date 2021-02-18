@@ -126,15 +126,15 @@ bool RecalboxSystem::setOverscan(bool enable)
   std::string cmd(sConfigScript);
   cmd += " overscan";
   cmd += enable ? " enable" : " disable";
-  LOG(LogInfo) << "Launching " << cmd;
+  { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) != 0)
   {
-    LOG(LogWarning) << "Error executing " << cmd;
+    { LOG(LogWarning) << "[System] Error executing " << cmd; }
     return false;
   }
   else
   {
-    LOG(LogInfo) << "Overscan set to : " << enable;
+    { LOG(LogInfo) << "[System] Overscan set to : " << enable; }
     return true;
   }
 
@@ -148,15 +148,15 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
     cmd += " overclock";
     cmd += ' ';
     cmd += mode;
-    LOG(LogInfo) << "Launching " << cmd;
+    { LOG(LogInfo) << "[System] Launching " << cmd; }
     if (system(cmd.c_str()) != 0)
     {
-      LOG(LogWarning) << "Error executing " << cmd;
+      { LOG(LogWarning) << "[System] Error executing " << cmd; }
       return false;
     }
     else
     {
-      LOG(LogInfo) << "Overclocking set to " << mode;
+      { LOG(LogInfo) << "[System] Overclocking set to " << mode; }
       return true;
     }
   }
@@ -166,7 +166,7 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
 
 bool RecalboxSystem::launchKodi(WindowManager& window)
 {
-  LOG(LogInfo) << "Attempting to launch kodi...";
+  { LOG(LogInfo) << "[System] Attempting to launch kodi..."; }
 
   AudioManager::Instance().Deactivate();
 
@@ -212,15 +212,15 @@ bool RecalboxSystem::backupRecalboxConf()
 {
   std::string cmd(sConfigScript);
   cmd += " configbackup";
-  LOG(LogInfo) << "Launching " << cmd;
+  { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
   {
-    LOG(LogInfo) << "recalbox.conf backup'ed successfully";
+    { LOG(LogInfo) << "[System] recalbox.conf backup'ed successfully"; }
     return true;
   }
   else
   {
-    LOG(LogInfo) << "recalbox.conf backup failed";
+    { LOG(LogInfo) << "[System] recalbox.conf backup failed"; }
     return false;
   }
 }
@@ -231,15 +231,15 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
   key = Strings::Replace(key, "\"", "\\\"");
   std::string cmd(sConfigScript);
   cmd += " wifi enable \"" + ssid + "\" \"" + key + "\"";
-  LOG(LogInfo) << "Launching " << cmd;
+  { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
   {
-    LOG(LogInfo) << "Wifi enabled ";
+    { LOG(LogInfo) << "[System] Wifi enabled "; }
     return true;
   }
   else
   {
-    LOG(LogInfo) << "Cannot enable wifi ";
+    { LOG(LogInfo) << "[System] Cannot enable wifi "; }
     return false;
   }
 }
@@ -248,15 +248,15 @@ bool RecalboxSystem::disableWifi()
 {
   std::string cmd(sConfigScript);
   cmd += " wifi disable";
-  LOG(LogInfo) << "Launching " << cmd;
+  { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
   {
-    LOG(LogInfo) << "Wifi disabled ";
+    { LOG(LogInfo) << "[System] Wifi disabled "; }
     return true;
   }
   else
   {
-    LOG(LogInfo) << "Cannot disable wifi ";
+    { LOG(LogInfo) << "[System] Cannot disable wifi "; }
     return false;
   }
 }

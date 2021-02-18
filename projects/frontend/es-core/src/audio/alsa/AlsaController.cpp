@@ -19,7 +19,7 @@ void AlsaController::Initialize()
     int err = snd_card_next(&cardNum);
     if (err < 0)
     {
-      LOG(LogError) << "Can't get the next card number: " << snd_strerror(err);
+      { LOG(LogError) << "[Alsa] Can't get the next card number: " << snd_strerror(err); }
       break;
     }
     if (cardNum < 0) break;
@@ -30,7 +30,7 @@ void AlsaController::Initialize()
     param.append(Strings::ToString(cardNum));
     if ((err = snd_ctl_open(&cardHandle, param.data(), 0)) < 0)	//Now cardHandle becomes your sound card.
     {
-      LOG(LogError) << "Can't open card " << cardNum << ": " << snd_strerror(err);
+      { LOG(LogError) << "[Alsa] Can't open card " << cardNum << ": " << snd_strerror(err); }
       continue;
     }
 
@@ -39,32 +39,32 @@ void AlsaController::Initialize()
     //Tell ALSA to fill in our snd_ctl_card_info_t with info about this card
     if ((err = snd_ctl_card_info(cardHandle, cardInfo)) < 0)
     {
-      LOG(LogError) << "Can't get info for card " << cardNum << ": " << snd_strerror(err);
+      { LOG(LogError) << "[Alsa] Can't get info for card " << cardNum << ": " << snd_strerror(err); }
     }
     else
     {
-      LOG(LogDebug) <<"Found Card " << cardNum << ": " << snd_ctl_card_info_get_name(cardInfo);
+      { LOG(LogDebug) <<"[Alsa] Found Card " << cardNum << ": " << snd_ctl_card_info_get_name(cardInfo); }
       AlsaCard card(cardNum, snd_ctl_card_info_get_name(cardInfo));
 
       snd_mixer_t *handle = nullptr;
       snd_mixer_selem_id_t *sid = nullptr;
       snd_mixer_selem_id_alloca(&sid);
-      if ((err = snd_mixer_open(&handle, 0)) < 0) { LOG(LogError) << "Mixer " << param << " open error: " << snd_strerror(err); continue; }
-      if ((err = snd_mixer_attach(handle, param.data())) < 0) { LOG(LogError) << "Mixer attach " << param << " error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
-      if ((err = snd_mixer_selem_register(handle, nullptr, nullptr)) < 0) { LOG(LogError) << "Mixer register error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
-      if ((err = snd_mixer_load(handle)) < 0) { LOG(LogError) << "Mixer " << param << " load error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
+      if ((err = snd_mixer_open(&handle, 0)) < 0) { LOG(LogError) << "[Alsa] Mixer " << param << " open error: " << snd_strerror(err); continue; }
+      if ((err = snd_mixer_attach(handle, param.data())) < 0) { LOG(LogError) << "[Alsa] Mixer attach " << param << " error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
+      if ((err = snd_mixer_selem_register(handle, nullptr, nullptr)) < 0) { LOG(LogError) << "[Alsa] Mixer register error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
+      if ((err = snd_mixer_load(handle)) < 0) { LOG(LogError) << "[Alsa] Mixer " << param << " load error: " << snd_strerror(err); snd_mixer_close(handle); continue; }
 
       for (snd_mixer_elem_t* elem = snd_mixer_first_elem(handle); elem != nullptr; elem = snd_mixer_elem_next(elem))
       {
         snd_mixer_selem_get_id(elem, sid);
         if (snd_mixer_selem_has_playback_volume(elem) != 0)
         {
-          LOG(LogDebug) << "  Mixer control (Volume) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+          { LOG(LogDebug) << "[Alsa]   Mixer control (Volume) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid); }
           card.AddVolumeControl(AlsaVolume((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
         }
         else if (snd_mixer_selem_has_playback_switch(elem) != 0)
         {
-          LOG(LogDebug) << "  Mixer control (Switch) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+          { LOG(LogDebug) << "[Alsa]   Mixer control (Switch) '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid); }
           card.AddSwitch(AlsaSwitch((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
         }
         else
@@ -73,11 +73,11 @@ void AlsaController::Initialize()
             if (snd_mixer_selem_is_enumerated(elem) != 0)
               if (strcmp(snd_mixer_selem_id_get_name(sid), "Playback Path") == 0)
               {
-                LOG(LogDebug) << "  Odroid Advance Go2's Path selector detected '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+                { LOG(LogDebug) << "[Alsa]   Odroid Advance Go2's Path selector detected '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid); }
                 card.AddOdroidAdvanceGo2Router(OdroidAdvanceGo2Alsa((int) snd_mixer_selem_id_get_index(sid), snd_mixer_selem_id_get_name(sid), cardNum));
                 continue;
               }
-          LOG(LogDebug) << "  Ignored '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid);
+          { LOG(LogDebug) << "[Alsa]   Ignored '" << snd_mixer_selem_id_get_name(sid) << "'," << snd_mixer_selem_id_get_index(sid); }
         }
       }
 
@@ -90,7 +90,7 @@ void AlsaController::Initialize()
         err = snd_ctl_pcm_next_device(cardHandle, &devNum);
         if (err < 0)
         {
-          LOG(LogError) << "Can't get the next device number: " << snd_strerror(err) << " of " << snd_ctl_card_info_get_name(cardInfo);
+          { LOG(LogError) << "[Alsa] Can't get the next device number: " << snd_strerror(err) << " of " << snd_ctl_card_info_get_name(cardInfo); }
           break;
         }
         if (devNum < 0) break;
@@ -104,19 +104,19 @@ void AlsaController::Initialize()
         err = snd_ctl_pcm_info(cardHandle, pcminfo);
         if (err < 0)
         {
-          LOG(LogError) << "Can't get the device informations: " << snd_strerror(err) << " of " << snd_ctl_card_info_get_name(cardInfo);
+          { LOG(LogError) << "[Alsa] Can't get the device informations: " << snd_strerror(err) << " of " << snd_ctl_card_info_get_name(cardInfo); }
           break;
         }
         unsigned int nsubd = snd_pcm_info_get_subdevices_count(pcminfo);
-        LOG(LogDebug) << "  Device " << devNum << ", ID `" << snd_pcm_info_get_id(pcminfo) << "`, name `"
-                      << snd_pcm_info_get_name(pcminfo) << "`, " << nsubd << " subdevices ("
-                      << snd_pcm_info_get_subdevices_avail(pcminfo) <<" available)";
+        { LOG(LogDebug) << "[Alsa]   Device " << devNum << ", ID `" << snd_pcm_info_get_id(pcminfo) << "`, name `"
+                        << snd_pcm_info_get_name(pcminfo) << "`, " << nsubd << " subdevices ("
+                        << snd_pcm_info_get_subdevices_avail(pcminfo) <<" available)"; }
 
         for(unsigned int subd=0; subd < nsubd; ++subd)
         {
           snd_pcm_info_set_subdevice(pcminfo, subd);
           if (snd_ctl_pcm_info(cardHandle, pcminfo) >= 0)
-            LOG(LogDebug) << "      Subdevice " << subd << ", name `" << snd_pcm_info_get_subdevice_name(pcminfo) << "`";
+          { LOG(LogDebug) << "[Alsa]       Subdevice " << subd << ", name `" << snd_pcm_info_get_subdevice_name(pcminfo) << "`"; }
         }
 
         if (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo)
@@ -187,7 +187,7 @@ std::string AlsaController::SetDefaultPlayback(const std::string& playbackName)
       return playbackName;
     }
   }
-  LOG(LogError) << "Cannot find audio device " << playbackName;
+  { LOG(LogError) << "[Alsa] Cannot find audio device " << playbackName; }
   SetDefaultPlayback(-1);
   return sDefaultOutput;
 }
@@ -196,7 +196,7 @@ bool AlsaController::LookupCardDevice(int identifier, int& cardIndex, int& devic
 {
   int deviceIdentifier = ((identifier & 0xFFFF) << 16) >> 16;
   int cardIdentifier = (identifier >> 16) & 0xFFFF;
-  LOG(LogInfo) << "Requested ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier;
+  { LOG(LogInfo) << "[Alsa] Requested ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier; }
 
   bool found = false;
   for(int i = 0; i < (int)mPlaybacks.size(); ++i)
@@ -227,8 +227,8 @@ bool AlsaController::LookupCardDevice(int identifier, int& cardIndex, int& devic
     }
   }
 
-  if (found) { LOG(LogInfo) << "Found ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier; }
-  else { LOG(LogError) << "ALSA output Card#" << cardIdentifier << " device#" << deviceIdentifier << " NOT FOUND!"; }
+  if (found) { LOG(LogInfo) << "[Alsa] Found ALSA output Card #" << cardIdentifier << " Device #" << deviceIdentifier; }
+  else { LOG(LogError) << "[Alsa] Output Card#" << cardIdentifier << " device#" << deviceIdentifier << " NOT FOUND!"; }
 
   return found;
 }
@@ -271,7 +271,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
   // Default card & device - Let ALSA deciding
   if (identifier == -1)
   {
-    LOG(LogInfo) << "Default alsa output selected. Removing .asoundrc & AUDIOENV";
+    { LOG(LogInfo) << "[Alsa] Default alsa output selected. Removing .asoundrc & AUDIOENV"; }
     asoundrcPath.Delete();
     unsetenv("AUDIODEV");
     return;
@@ -297,7 +297,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
     // Activate
     mPlaybacks[cardIndex].SwitchOn();
     // Final lof
-    LOG(LogInfo) << "ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')';
+    { LOG(LogInfo) << "[Alsa] ALSA output set to Card #" << cardIdentifier << " (index: " << cardIndex << ") Device #" << deviceIdentifier << " 'index: " << deviceIndex << ')'; }
 
     // Raspberry Pi hack
     switch(Board::Instance().GetBoardType())
@@ -324,7 +324,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
   }
   else
   {
-    LOG(LogError) << "Error setting ALSA output. Try to set default.";
+    { LOG(LogError) << "[Alsa] Error setting ALSA output. Try to set default."; }
     // Set default card/default device
     SetDefaultPlayback(-1);
   }

@@ -45,7 +45,7 @@ void NetPlayThread::Run()
   {
     sleep(5);
 
-    LOG(LogInfo) << "NetPlayThread started";
+    { LOG(LogInfo) << "[Netplay] NetPlayThread started"; }
 
     bool firstLoop = true;
     int popupDuration = RecalboxConf::Instance().GetPopupNetplay();
@@ -89,8 +89,8 @@ void NetPlayThread::Run()
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "NetPlayThread thread crashed.";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[Netplay] NetPlayThread thread crashed."; }
+    { LOG(LogError) << "[Netplay] Exception: " << ex.what(); }
   }
 }
 
@@ -131,7 +131,7 @@ void NetPlayThread::PopupTriggered(const std::string& player, const std::string&
 bool NetPlayThread::RefreshNetplayList(PlayerGameList& list, bool filtered)
 {
   list.clear();
-  LOG(LogInfo) << "NetPlayThread: Refresh lobby list";
+  { LOG(LogInfo) << "[Netplay] NetPlayThread: Refresh lobby list"; }
   auto json_req = RecalboxSystem::execute(getLobbyListCommand());
   if (json_req.second == 0)
   {

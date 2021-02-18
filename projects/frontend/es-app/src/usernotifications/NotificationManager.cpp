@@ -134,12 +134,12 @@ void NotificationManager::LoadScriptList()
         if (permanent)
         {
           RunProcess(path, {}, false, true);
-          LOG(LogDebug) << "Run permanent UserScript: " << path.ToString();
+          { LOG(LogDebug) << "[Script] Run permanent UserScript: " << path.ToString(); }
         }
         else
         {
           mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
-          LOG(LogDebug) << "Scan UserScript: " << path.ToString();
+          { LOG(LogDebug) << "[Script] Scan UserScript: " << path.ToString(); }
         }
       }
 }
@@ -327,7 +327,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   args.push_back(target.ToChars());
   for (const std::string& argument : arguments) args.push_back(argument.c_str());
 
-  LOG(LogDebug) << "Run UserScript: " << Strings::Join(args, ' ');
+  { LOG(LogDebug) << "[Script] Run UserScript: " << Strings::Join(args, ' '); }
 
   // Push final null
   args.push_back(nullptr);
@@ -349,7 +349,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
 
   if (status != 0) // Error
   {
-    LOG(LogError) << "Error running " << target.ToString() << " (spawn failed)";
+    { LOG(LogError) << "[Script] Error running " << target.ToString() << " (spawn failed)"; }
     return;
   }
 
@@ -357,7 +357,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   if (synchronous)
   {
     if (waitpid(pid, &status, 0) != pid)
-      LOG(LogError) << "Error waiting for " << target.ToString() << " to complete. (waitpid failed)";
+    { LOG(LogError) << "[Script] Error waiting for " << target.ToString() << " to complete. (waitpid failed)"; }
   }
 
   // Permanent?

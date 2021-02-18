@@ -25,7 +25,7 @@ AudioManager::AudioManager(WindowManager& window)
   }
   else
   {
-    LOG(LogError) << "AudioManager multiple instance detected";
+    { LOG(LogError) << "[AudioManager] multiple instance detected"; }
     exit(-1);
   }
 }
@@ -56,7 +56,7 @@ AudioManager& AudioManager::Instance()
 {
   if (sInstance == nullptr)
   {
-    LOG(LogError) << "AudioManager not available!";
+    { LOG(LogError) << "[AudioManager] AudioManager not available!"; }
     exit(-1);
   }
   return *sInstance;
@@ -70,24 +70,24 @@ void AudioManager::Initialize()
 
   if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
   {
-    LOG(LogError) << "Error initializing SDL audio!\n" << SDL_GetError();
+    { LOG(LogError) << "[AudioManager] Error initializing SDL audio!\n" << SDL_GetError(); }
     return;
   }
 
   // Open the audio device and pause
   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
   {
-    LOG(LogError) << "MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError();
+    { LOG(LogError) << "[AudioManager] MUSIC Error - Unable to open SDLMixer audio: " << SDL_GetError(); }
     return;
   }
 
-  LOG(LogInfo) << "SDL AUDIO Initialized";
+  { LOG(LogInfo) << "[AudioManager] SDL AUDIO Initialized"; }
 }
 
 void AudioManager::Finalize()
 {
   // Completely tear down SDL audio. else SDL hogs audio resources and emulators might fail to start...
-  LOG(LogInfo) << "Shutting down SDL AUDIO";
+  { LOG(LogInfo) << "[AudioManager] Shutting down SDL AUDIO"; }
   Mix_HookMusicFinished(nullptr);
   Mix_HaltMusic();
   Mix_CloseAudio();
@@ -224,10 +224,10 @@ void AudioManager::PlayRandomMusic()
     }
   }
 
-  LOG(LogInfo) << "AudioManager: " << log;
+  { LOG(LogInfo) << "[AudioManager] " << log; }
   if (source == MusicSource::None)
   {
-    LOG(LogError) << "No music source!";
+    { LOG(LogError) << "[AudioManager] No music source!"; }
     return;
   }
 

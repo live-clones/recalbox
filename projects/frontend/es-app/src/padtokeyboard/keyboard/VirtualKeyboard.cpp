@@ -78,7 +78,7 @@ void VirtualKeyboard::Emit(int type, int code, int value) const
   event.time.tv_usec = 0;
 
   if (write(mFileDescriptor, &event, sizeof(event)) != sizeof(event))
-    LOG(LogError) << "[P2K] Error writting to virtual keyboard";
+  { LOG(LogError) << "[Pad2Keyboard] Error writting to virtual keyboard"; }
 }
 
 void VirtualKeyboard::Write(const VirtualKeyboard::Event& event)

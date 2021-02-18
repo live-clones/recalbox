@@ -43,10 +43,9 @@ void DemoMode::init()
       mDemoSystems.push_back(allSystems[i]);
       int systemDuration = (int) mRecalboxConf.AsUInt(name + ".demo.duration", (unsigned int) mDefaultDuration);
       mDurations.push_back(systemDuration);
-      LOG(LogInfo) << "System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s";
+      { LOG(LogInfo) << "[DemoMode] System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s"; }
     }
-    else
-      LOG(LogDebug) << "System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem || systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0);
+    else { LOG(LogDebug) << "[DemoMode] System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem || systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0); }
   }
 
   // Check if there is at least one system.
@@ -111,8 +110,7 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << " ("  << outputSystemIndex << "/" << (int)mDemoSystems.size() << ")";
-  //std::cout << "Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << "\r\n";
+  { LOG(LogInfo) << "[DemoMode] Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << " ("  << outputSystemIndex << "/" << (int)mDemoSystems.size() << ")"; }
 
   return true;
 }
@@ -120,20 +118,12 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
 bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
 {
   int systemIndex = 0;
-  if (!getRandomSystem(systemIndex, outputDuration))
-  {
-    LOG(LogError) << "NO system available for demo mode!";
-    return false;
-  }
+  if (!getRandomSystem(systemIndex, outputDuration)) { LOG(LogError) << "[DemoMode] NO system available for demo mode!"; return false; }
   SystemData* system = mDemoSystems[systemIndex];
 
   // Get filelist
   FileData::List gameList = system->getGames();
-  if (gameList.empty())
-  {
-    LOG(LogError) << "NO game available for demo mode in system " << system->getName() << " !";
-    return false;
-  }
+  if (gameList.empty()) { LOG(LogError) << "[DemoMode] NO game available for demo mode in system " << system->getName() << " !"; return false; }
 
   int gamePosition = 0;
   for (int i = MAX_HISTORY; --i >= 0; )
@@ -150,8 +140,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
     }
     // No luck, try again
   }
-  LOG(LogInfo) << "Randomly selected game: " << outputGame->getPath().ToString() << " ("  << gamePosition << "/" << (int)gameList.size() << ")";
-  //std::cout << "Randomly selected game: " << outputGame->getPath().generic_string() << "\r\n";;
+  { LOG(LogInfo) << "[DemoMode] Randomly selected game: " << outputGame->getPath().ToString() << " ("  << gamePosition << "/" << (int)gameList.size() << ")"; }
 
   mSeed++;
   return true;
@@ -193,7 +182,3 @@ void DemoMode::runDemo()
   if (Initialized)
     SystemData::demoFinalize(mWindow);
 }
-
-
-
-

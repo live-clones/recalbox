@@ -293,7 +293,7 @@ void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, 
 		else if(str == "right")
 			setHorizontalAlignment(TextAlignment::Right);
 		else
-			LOG(LogError) << "Unknown text alignment string: " << str;
+    { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
 	}
 
 	if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))

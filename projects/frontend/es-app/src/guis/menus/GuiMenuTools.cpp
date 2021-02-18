@@ -39,13 +39,13 @@ GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& syst
         std::string emulatorAndCore(emulatorName);
         emulatorAndCore.append(1, ':').append(coreName);
         bool match = emulatorName == emulator && coreName == core;
-        if (match) LOG(LogDebug) << "Selected emulator/core: " << emulatorAndCore;
+        if (match) { LOG(LogDebug) << "[GUI] Selected emulator/core: " << emulatorAndCore; }
 
         // Add the entry
         result.push_back({ emulatorAndCore, displayName, match });
       }
   }
-  else LOG(LogError) << "[UI] Can't get default emulator/core for " << system.getFullName();
+  else { LOG(LogError) << "[GUI] Can't get default emulator/core for " << system.getFullName(); }
 
   return result;
 }

@@ -37,7 +37,7 @@ std::string InputDevice::EntryToString(InputDevice::Entry entry)
     case InputDevice::Entry::__Count:
     default:
     {
-      LOG(LogError) << "Unknown int Input entry: " << (int)entry;
+      { LOG(LogError) << "[InputDevice] Unknown int Input entry: " << (int)entry; }
       return "error";
     }
   }
@@ -74,7 +74,7 @@ InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
   if (lentry == "lum-") return InputDevice::Entry::BrightnessDown;
   else
   {
-    LOG(LogError) << "Unknown string Input entry: " << entry;
+    { LOG(LogError) << "[InputDevice] Unknown string Input entry: " << entry; }
     return InputDevice::Entry::None;
   }
 }
@@ -250,10 +250,10 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
                     "dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1," \
                     "leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b11,rightstick:b12," \
                     "leftx:a0,lefty:a1,rightx:a2,righty:a3,";
-    LOG(LogWarning) << "XBox mapping hard patched from " << originalConfiguration << " to " << configuration;
+    { LOG(LogWarning) << "[InputDevice] XBox mapping hard patched from " << originalConfiguration << " to " << configuration; }
   }
 
-  LOG(LogInfo) << "Autoconfiguration from " << configuration;
+  { LOG(LogInfo) << "[InputDevice] Autoconfiguration from " << configuration; }
   Strings::Vector mappingList = Strings::Split(configuration, ',');
   for(const std::string& mapping : mappingList)
   {
@@ -290,7 +290,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
     Entry* entry = mapper.try_get(key);
     if (entry == nullptr || value.length() < 2)
     {
-      LOG(LogError) << "Unknown mapping: " << mapping;
+      { LOG(LogError) << "[InputDevice] Unknown mapping: " << mapping; }
       continue;
     }
 
@@ -328,7 +328,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
             #endif
           #endif
           parsed = true;
-          LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Axis " << id << " (Code: " << code << ')';
+          { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Axis " << id << " (Code: " << code << ')'; }
         }
         break;
       }
@@ -346,7 +346,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
             #endif
           #endif
           parsed = true;
-          LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Button " << id << " (Code: " << code << ')';
+          { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Button " << id << " (Code: " << code << ')'; }
         }
         break;
       }
@@ -364,7 +364,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
               #endif
             #endif
             parsed = true;
-            LOG(LogInfo) << "Auto-Assign " << EntryToString(*entry) << " to Hat " << id << '/' << val << " (Code: " << code << ')';
+            { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Hat " << id << '/' << val << " (Code: " << code << ')'; }
           }
         break;
       }
@@ -374,7 +374,7 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
     }
     if (!parsed)
     {
-      LOG(LogError) << "Error parsing mapping: " << mapping;
+      { LOG(LogError) << "[InputDevice] Error parsing mapping: " << mapping; }
       continue;
     }
 
@@ -405,13 +405,13 @@ bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration
               mInputEvents[(int)Entry::Joy1AxisV] = mInputEvents[(int)Entry::Joy1AxisH] = InputEvent();
               mConfigurationBits &= ~((1 << (int)Entry::Joy1AxisV) | (1 << (int)Entry::Joy1AxisH));
 
-              LOG(LogInfo) << "No DPAD detected. First analog joystick moved to DPAD";
+              { LOG(LogInfo) << "[InputDevice] No DPAD detected. First analog joystick moved to DPAD"; }
             }
 
   // Still no HK? Use select
   if (mInputEvents[(int)Entry::Hotkey].Type() == InputEvent::EventType::Unknown)
   {
-    LOG(LogInfo) << "Not hotkey button guessed. Using SELECT as Hotkey";
+    { LOG(LogInfo) << "[InputDevice] Not hotkey button guessed. Using SELECT as Hotkey"; }
     mInputEvents[(int) Entry::Hotkey] = mInputEvents[(int) Entry::Select];
   }
 
@@ -431,7 +431,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
 
     if(typeEnum == InputEvent::EventType::Unknown)
     {
-      LOG(LogError) << "InputConfig load error - input of type \"" << type << "\" is invalid! Skipping input \"" << name << "\".\n";
+      { LOG(LogError) << "[InputDevice] InputConfig load error - input of type \"" << type << "\" is invalid! Skipping input \"" << name << "\".\n"; }
       continue;
     }
 
@@ -439,7 +439,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
     int value = input.attribute("value").as_int();
 
     if(value == 0)
-      LOG(LogWarning) << "WARNING: InputConfig value is 0 for " << type << " " << id << "!\n";
+    { LOG(LogWarning) << "[InputDevice] WARNING: InputConfig value is 0 for " << type << " " << id << "!\n"; }
 
     // Adapt seamlessly old l1/r1
     if (name == "pageup") name = "l1";
@@ -450,7 +450,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
       Set(entry, InputEvent(mDeviceId, typeEnum, id, value));
       loaded++;
     }
-    else LOG(LogError) << "Unknown Joystick configuration entry: " << name << " of type " << type << "!\n";
+    else { LOG(LogError) << "[InputDevice] Unknown Joystick configuration entry: " << name << " of type " << type << "!\n"; }
   }
   return loaded;
 }
@@ -552,7 +552,8 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
         case InputEvent::EventType::Unknown:
         default:
         {
-          LOG(LogError) << "Abnormal InputEvent::EventType: " << (int)event.Type();
+          { LOG(LogError) << "[InputDevice] Abnormal InputEvent::EventType: " << (int)event.Type(); }
+          break;
         }
       }
     }
@@ -593,7 +594,7 @@ InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
     case Entry::__Count:
     default: break;
   }
-  LOG(LogError) << "Unknown entry! " << (int)entry;
+  { LOG(LogError) << "[InputDevice] Unknown entry! " << (int)entry; }
   return InputCompactEvent::Entry::Nothing;
 }
 

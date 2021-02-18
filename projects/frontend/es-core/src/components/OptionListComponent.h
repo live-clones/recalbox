@@ -211,7 +211,7 @@ public:
 		mRightArrow.setResize(0, mText.getFont()->getLetterHeight());
 
         /*if(mSize.x() < (mLeftArrow.getSize().x() + mRightArrow.getSize().x())) {
-			LOG(LogWarning) << "OptionListComponent too narrow!";
+			{ LOG(LogWarning) << "[OptionListComponent] too narrow!"; }
         }*/
 
 		mText.setSize(mSize.x() - mLeftArrow.getSize().x() - mRightArrow.getSize().x(), mText.getFont()->getHeight());
@@ -367,7 +367,7 @@ private:
 				return i;
 		}
 
-		LOG(LogWarning) << "OptionListComponent::getSelectedId() - no selected element found, defaulting to 0";
+    { LOG(LogWarning) << "[OptionListComponent] no selected element found, defaulting to 0"; }
 		return 0;
 	}
 

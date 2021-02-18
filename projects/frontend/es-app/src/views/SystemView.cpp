@@ -238,10 +238,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         else
         {
           launchKodi = true;
-          if( ! RecalboxSystem::launchKodi(mWindow))
-          {
-              LOG(LogWarning) << "Shutdown terminated with non-zero result!";
-          }
+          if (!RecalboxSystem::launchKodi(mWindow)) { LOG(LogWarning) << "[SystemView] Kodi terminated with non-zero result!"; }
           launchKodi = false;
         }
       }
@@ -491,7 +488,7 @@ void SystemView::ApplyHelpStyle()
 void SystemView::onThemeChanged(const ThemeData& theme)
 {
 	(void)theme; // TODO: Log theme name
-	LOG(LogDebug) << "SystemView::onThemeChanged()";
+  { LOG(LogDebug) << "[SystemView] Theme Changed"; }
 	mViewNeedsReload = true;
 	populate();
 }	
@@ -499,7 +496,7 @@ void SystemView::onThemeChanged(const ThemeData& theme)
 //  Get the ThemeElements that make up the SystemView.
 void  SystemView::getViewElements(const ThemeData& theme)
 {
-		LOG(LogDebug) << "SystemView::getViewElements()";
+  { LOG(LogDebug) << "[SystemView] Get View Elements"; }
 		getDefaultElements();
 		
 		const ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");

@@ -27,37 +27,37 @@ void HardwareMessageSender::ProcessMessage(HardwareMessage* message)
     case MessageTypes::None: break;
     case MessageTypes::HeadphonePluggedIn:
     {
-      LOG(LogDebug) << "[Hardware] Headphones plugged!";
+      { LOG(LogDebug) << "[Hardware] Headphones plugged!"; }
       mNotificationInterface.HeadphonePluggedIn(message->Board());
       break;
     }
     case MessageTypes::HeadphoneUnplugged:
     {
-      LOG(LogDebug) << "[Hardware] Headphones unplugged!";
+      { LOG(LogDebug) << "[Hardware] Headphones unplugged!"; }
       mNotificationInterface.HeadphoneUnplugged(message->Board());
       break;
     }
     case MessageTypes::PowerButtonPressed:
     {
-      LOG(LogDebug) << "[Hardware] Power button pressed for " << message->Millisecond() << "ms.";
+      { LOG(LogDebug) << "[Hardware] Power button pressed for " << message->Millisecond() << "ms."; }
       mNotificationInterface.PowerButtonPressed(message->Board(), message->Millisecond());
       break;
     }
     case MessageTypes::VolumeDownPressed:
     {
-      LOG(LogDebug) << "[Hardware] Volume down button pressed.";
+      { LOG(LogDebug) << "[Hardware] Volume down button pressed."; }
       mNotificationInterface.VolumeDecrease(message->Board(), 0.10f);
       break;
     }
     case MessageTypes::VolumeUpPressed:
     {
-      LOG(LogDebug) << "[Hardware] Volume up button pressed.";
+      { LOG(LogDebug) << "[Hardware] Volume up button pressed."; }
       mNotificationInterface.VolumeIncrease(message->Board(), 0.10f);
       break;
     }
     case MessageTypes::Resume:
     {
-      LOG(LogDebug) << "[Hardware] Hardware exited from suspend mode.";
+      { LOG(LogDebug) << "[Hardware] Hardware exited from suspend mode."; }
       mNotificationInterface.Resume(message->Board());
       break;
     }

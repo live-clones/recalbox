@@ -74,12 +74,12 @@ void GuiMenuNetwork::TryWPS()
 
 bool GuiMenuNetwork::ConnectWps(GuiWaitLongExecution<NetworkOperation, bool>& from)
 {
-  LOG(LogDebug) << "[WPS] Start WPS connection";
+  { LOG(LogDebug) << "[WPS] Start WPS connection"; }
   from.SetText(_("Reseting WIFI configuration..."));
-  LOG(LogDebug) << "[WPS] " << "Reseting WIFI configuration...";
+  { LOG(LogDebug) << "[WPS] " << "Reseting WIFI configuration..."; }
   if (!RecalboxSystem::enableWifi("", "")) return false;
   from.SetText(_("Waiting for WPS configuration..."));
-  LOG(LogDebug) << "[WPS] " << "Waiting for WPS configuration...";
+  { LOG(LogDebug) << "[WPS] " << "Waiting for WPS configuration..."; }
   if (!RecalboxSystem::getWifiWps()) return false;
   sleep(2); // Give time to read the message :)
   std::string ip = _("Waiting for IP address... (%is)");
@@ -87,21 +87,21 @@ bool GuiMenuNetwork::ConnectWps(GuiWaitLongExecution<NetworkOperation, bool>& fr
   {
     std::string finalText(Strings::Replace(ip, "%i", Strings::ToString(i)));
     from.SetText(finalText);
-    LOG(LogDebug) << "[WPS] " << finalText;
+    { LOG(LogDebug) << "[WPS] " << finalText; }
     if (RecalboxSystem::hasIpAdress(true)) break;
     sleep(1);
   }
   if (!RecalboxSystem::hasIpAdress(true)) return false;
   from.SetText(_("Saving WIFI configuration"));
-  LOG(LogDebug) << "[WPS] " << "Saving WIFI configuration";
+  { LOG(LogDebug) << "[WPS] " << "Saving WIFI configuration"; }
   if (!RecalboxSystem::saveWifiWps()) return false;
   sleep(2); // Give time to read the message :)
   from.SetText(_("Fetching WIFI parameters"));
-  LOG(LogDebug) << "[WPS] " << "Fetching WIFI parameters";
+  { LOG(LogDebug) << "[WPS] " << "Fetching WIFI parameters"; }
   if (!RecalboxSystem::getWifiConfiguration(mWpsSSID, mWpsPSK)) return false;
   sleep(2); // Give time to read the message :)
 
-  LOG(LogInfo) << "[WPS] WPS Configuration OK!";
+  { LOG(LogInfo) << "[WPS] WPS Configuration OK!"; }
   return true;
 }
 
@@ -111,7 +111,7 @@ bool GuiMenuNetwork::Execute(GuiWaitLongExecution<NetworkOperation, bool>& from,
   {
     case NetworkOperation::StartWIFI:
     {
-      LOG(LogDebug) << "[Network] Starting WIFI using current configuration";
+      { LOG(LogDebug) << "[Network] Starting WIFI using current configuration"; }
       if (!RecalboxSystem::enableWifi("", "")) return false;
       from.SetText(_("Scanning WIFI networks..."));
       mScannedSSIDList = RecalboxSystem::getAvailableWiFiSSID(mWifiOnOff->getState());

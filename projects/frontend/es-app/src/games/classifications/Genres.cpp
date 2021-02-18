@@ -73,7 +73,7 @@ const Path& Genres::GetResourcePath(GameGenres genre)
   if (found != nullptr)
     return *found;
 
-  LOG(LogError) << "[Resource path] Unknown GameGenre " << (int)genre;
+  { LOG(LogError) << "[Genres] Unknown GameGenre " << (int)genre; }
   return Path::Empty;
 }
 
@@ -149,7 +149,7 @@ std::string Genres::GetName(GameGenres genre)
   if (found != nullptr)
     return *found;
 
-  LOG(LogError) << "[Name] Unknown GameGenre " << (int)genre;
+  { LOG(LogError) << "[Genres] Unknown GameGenre " << (int)genre; }
   return "Uknown";
 }
 

@@ -14,7 +14,7 @@ Bios::Md5Hash::Md5Hash(const std::string& source)
 {
   if (source.length() != sizeof(mBytes) * 2)
   {
-    LOG(LogError) << "Invalid MD5: " << source;
+    { LOG(LogError) << "[Bios] Invalid MD5: " << source; }
     mValid = false;
     return;
   }
@@ -133,11 +133,11 @@ Bios::Bios(const XmlNode& biosNode)
 {
   // Load mandatory fields
   pugi::xml_attribute path = biosNode.attribute("path");
-  if (!path) { LOG(LogError) << "Bios file's bios node is missing path!"; return; }
+  if (!path) { LOG(LogError) << "[Bios] Bios file's bios node is missing path!"; return; }
   pugi::xml_attribute hashes = biosNode.attribute("md5");
-  if (!hashes) { LOG(LogError) << "Bios file's bios node is missing md5!"; return; }
+  if (!hashes) { LOG(LogError) << "[Bios] Bios file's bios node is missing md5!"; return; }
   pugi::xml_attribute cores = biosNode.attribute("core");
-  if (!cores) { LOG(LogError) << "Bios file's bios node is missing cores!"; return; }
+  if (!cores) { LOG(LogError) << "[Bios] Bios file's bios node is missing cores!"; return; }
 
   // Set mandatory fields
   Strings::Vector list = Strings::Split(path.value(), '|');

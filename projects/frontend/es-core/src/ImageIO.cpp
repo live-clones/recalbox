@@ -50,15 +50,9 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
         //free bitmap data
         FreeImage_Unload(fiBitmap);
 			}
-			else
-			{
-				LOG(LogError) << "Error - Failed to load image from memory!";
-			}
+			else { LOG(LogError) << "[Image] Error - Failed to load image from memory!"; }
 		}
-		else
-		{
-			LOG(LogError) << "Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << "!";
-		}
+		else { LOG(LogError) << "[Image] Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << "!"; }
 		//free FIMEMORY again
 		FreeImage_CloseMemory(fiMemory);
 	}

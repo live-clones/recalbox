@@ -51,7 +51,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
     else
     {
       roots[systemDescriptor.RomPath().ToString()] = false;
-      LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder.";
+      { LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder."; }
     }
   }
 
@@ -92,7 +92,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
                                                             rootPath.second ? RootFolderData::Types::ReadOnly : RootFolderData::Types::None);
     FileData::StringMap doppelgangerWatcher;
 
-    LOG(LogInfo) << "Creating & populating system: " << systemDescriptor.FullName() << " (from " << rootPath.first << ')';
+    { LOG(LogInfo) << "[System] Creating & populating system: " << systemDescriptor.FullName() << " (from " << rootPath.first << ')'; }
 
     // Populate items from disk
     bool loadFromDisk = forceLoad || !RecalboxConf::Instance().GetStartupGamelistOnly();
@@ -133,7 +133,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
     FileData::List favs = system->getFavorites();
     if (!favs.empty())
     {
-      LOG(LogWarning) << " Get " << favs.size() << " favorites for " << system->getName() << "!";
+      { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << system->getName() << "!"; }
       for (auto* favorite : favs)
         root.addChild(favorite, false);
     }
@@ -162,7 +162,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     FileData::List all = source->getTopGamesAndFolders();
     if (!all.empty())
     {
-      LOG(LogWarning) << "Add games from " << source->getName() << " into " << fullName;
+      { LOG(LogWarning) << "[System] Add games from " << source->getName() << " into " << fullName; }
       for (auto* fd : all)
         result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
     }
@@ -188,7 +188,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   if (!games.empty())
   {
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
-    LOG(LogWarning) << "Add " << games.size() << " games into " << fullName;
+    { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
     for (auto* fd : games)
       result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
   }
@@ -211,7 +211,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
     SystemData* newSys = CreateRegularSystem(systemDescriptor, mForceReload);
     if (newSys->GameCount() == 0)
     {
-      LOG(LogWarning) << "System \"" << systemDescriptor.Name() << "\" has no games! Ignoring it.";
+      { LOG(LogWarning) << "[System] System \"" << systemDescriptor.Name() << "\" has no games! Ignoring it."; }
       delete newSys;
       return nullptr;
     }
@@ -220,14 +220,14 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
       mEmulatorGuard.Lock();
       mEmulatorManager.AddEmulatorList(*newSys);
       mEmulatorGuard.UnLock();
-      LOG(LogWarning) << "Adding \"" << systemDescriptor.Name() << "\" in system list.";
+      { LOG(LogWarning) << "[System] Adding \"" << systemDescriptor.Name() << "\" in system list."; }
       return newSys;
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "System \"" << systemDescriptor.FullName() << "\" has raised an error. Ignored.";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[System] System \"" << systemDescriptor.FullName() << "\" has raised an error. Ignored."; }
+    { LOG(LogError) << "[System] Exception: " << ex.what(); }
   }
   return nullptr;
 }
@@ -237,7 +237,7 @@ bool SystemManager::AddFavoriteSystem()
   // Favorite system
   if (!mVisibleSystemVector.empty())
   {
-    LOG(LogInfo) << "creating favorite system";
+    { LOG(LogInfo) << "[System] Creating favorite system"; }
     SystemData *newSys = CreateFavoriteSystem(sFavoriteSystemShortName, _("Favorites"), sFavoriteSystemShortName, mVisibleSystemVector);
     mVisibleSystemVector.push_back(newSys);
   }
@@ -283,7 +283,7 @@ bool SystemManager::AddArcadeMetaSystem()
       SystemData::Properties properties = SystemData::Properties::Virtual;
       if (hideOriginals) properties |= SystemData::Properties::Searchable;
       SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
-      LOG(LogInfo) << "creating Arcade meta-system";
+      { LOG(LogInfo) << "[System] Creating Arcade meta-system"; }
       int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, arcade);
@@ -324,7 +324,7 @@ bool SystemManager::AddPorts()
 
     // Create meta-system
     SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
-    LOG(LogInfo) << "creating Ports";
+    { LOG(LogInfo) << "[System] Creating Ports"; }
     // Seek defaulot position
     int position = 0;
     while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
@@ -377,7 +377,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
           allGames.resize(limit);
 
       // Create!
-      LOG(LogInfo) << "creating " << fullname << " meta-system";
+      { LOG(LogInfo) << "[System] Creating " << fullname << " meta-system"; }
       SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger, fixedSort);
 
       // And add the system
@@ -476,7 +476,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Is there at least
   if (!loaded)
   {
-    LOG(LogError) << "No es_systems.cfg file available!";
+    { LOG(LogError) << "[System] No es_systems.cfg file available!"; }
     GenerateExampleConfigurationFile(SystemDeserializer::UserConfigurationPath());
     return false;
   }
@@ -504,7 +504,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
         // Push weighted system
         threadPool.PushFeed(descriptor, weight);
       }
-      else LOG(LogInfo) << descriptor.FullName() << " ignored in configuration.";
+      else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
     }
   }
   // Run the threadpool and automatically wait for all jobs to complete
@@ -513,14 +513,14 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     mProgressInterface->SetMaximum(count);
   threadPool.Run(-2, false);
   // Push result
-  LOG(LogInfo) << "Store visible systems";
+  { LOG(LogInfo) << "[System] Store visible systems"; }
   mVisibleSystemVector.resize(count, nullptr);
   int index = 0;
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
     mVisibleSystemVector[index] = result;
 
   // Shrink & update weights
-  LOG(LogInfo) << "Update weights";
+  { LOG(LogInfo) << "[System] Update weights"; }
   std::vector<SystemData*> visibleSystem;
   for(SystemData* system : mVisibleSystemVector)
     if (system != nullptr)
@@ -529,11 +529,11 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       weights.SetInt(system->getFullName(), system->GameAndFolderCount());
     }
   mVisibleSystemVector = visibleSystem;
-  LOG(LogInfo) << "Final non-virtual visible systems: " << mVisibleSystemVector.size();
+  { LOG(LogInfo) << "[System] Final non-virtual visible systems: " << mVisibleSystemVector.size(); }
   weights.Save();
 
   DateTime stop;
-  LOG(LogInfo) << "Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
+  { LOG(LogInfo) << "[System] Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
 
   // Add special systems
   AddFavoriteSystem();
@@ -595,7 +595,7 @@ void SystemManager::GenerateExampleConfigurationFile(const Path& path)
 
   Files::SaveFile(path, text);
 
-  LOG(LogError) << "Example config written!  Go read it at \"" << path.ToString() << "\"!";
+  { LOG(LogError) << "[System] Example config written!  Go read it at \"" << path.ToString() << "\"!"; }
 }
 
 bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
@@ -624,7 +624,7 @@ void SystemManager::UpdateAllSystems()
     threadPool.Run(-2, false);
 
   DateTime stop;
-  LOG(LogInfo) << "Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms";
+  { LOG(LogInfo) << "[System] Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
 }
 
 void SystemManager::DeleteAllSystems(bool updateGamelists)

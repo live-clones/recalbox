@@ -75,20 +75,12 @@ MainRunner::ExitState MainRunner::Run()
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
     Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed);
-    if (!renderer.Initialized())
-    {
-      LOG(LogError) << "Error initializing the GL renderer.";
-      return ExitState::FatalError;
-    }
+    if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Initialize main Window and ViewController
     SystemManager systemManager;
     ApplicationWindow window(systemManager);
-    if (!window.Initialize(mRequestedWidth, mRequestedHeight, false))
-    {
-      LOG(LogError) << "Window failed to initialize!";
-      return ExitState::FatalError;
-    }
+    if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     mApplicationWindow = &window;
     // Brightness
     if (board.HasBrightnessSupport())
@@ -124,16 +116,16 @@ MainRunner::ExitState MainRunner::Run()
     try
     {
       // Start update thread
-      LOG(LogDebug) << "Launching Network thread";
+      { LOG(LogDebug) << "[MainRunner] Launching Network thread"; }
       Upgrade networkThread(window);
       // Start the socket server
-      LOG(LogDebug) << "Launching Command thread";
+      { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);
       // Start Video engine
-      LOG(LogDebug) << "Launching Video engine";
+      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
       VideoEngine videoEngine;
       // Start Neyplay thread
-      LOG(LogDebug) << "Launching Netplay thread";
+      { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
 
       // Update?
@@ -165,8 +157,8 @@ MainRunner::ExitState MainRunner::Run()
     }
     catch(std::exception& ex)
     {
-      LOG(LogError) << "Main thread crashed (inner).";
-      LOG(LogError) << "Exception: " << ex.what();
+      { LOG(LogError) << "[MainRunner] Main thread crashed (inner)."; }
+      { LOG(LogError) << "[MainRunner] Exception: " << ex.what(); }
       exitState = ExitState::Relaunch;
     }
 
@@ -193,8 +185,8 @@ MainRunner::ExitState MainRunner::Run()
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "Main thread crashed (outer).";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[MainRunner] Main thread crashed (outer)."; }
+    { LOG(LogError) << "[MainRunner] Exception: " << ex.what(); }
   }
 
   // If we get there, a severe and probably non-recoverable error occured.
@@ -222,7 +214,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 
   DemoMode demoMode(window, systemManager);
 
-  LOG(LogDebug) << "Entering main loop";
+  { LOG(LogDebug) << "[MainRunner] Entering main loop"; }
   Path mustExit(sQuitNow);
   int lastTime = SDL_GetTicks();
   for(;;)
@@ -320,7 +312,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 void MainRunner::CheckAndInitializeInput(WindowManager& window)
 {
   // Choose which GUI to open depending on if an input configuration already exists
-  LOG(LogDebug) << "Preparing GUI";
+  { LOG(LogDebug) << "[MainRunner] Preparing GUI"; }
   if (InputManager::ConfigurationPath().Exists() && InputManager::Instance().ConfiguredDeviceCount() > 0)
     ViewController::Instance().goToStart();
   else
@@ -389,20 +381,20 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
 {
   if (!systemManager.LoadSystemConfigurations(gamelistWatcher, forceReloadFromDisk))
   {
-    LOG(LogError) << "Error while parsing systems configuration file!";
-    LOG(LogError) << "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
-                     "VISIT EMULATIONSTATION.ORG FOR MORE INFORMATION.";
+    { LOG(LogError) << "[MainRunner] Error while parsing systems configuration file!"; }
+    { LOG(LogError) << "[MainRunner] IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
+                       "VISIT EMULATIONSTATION.ORG FOR MORE INFORMATION."; }
     return false;
   }
 
   if (systemManager.GetVisibleSystemList().empty())
   {
-    LOG(LogError) << "No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)";
-    LOG(LogError) << "WE CAN'T FIND ANY SYSTEMS!\n"
-                     "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
-                     "YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
-                     "\n"
-                     "VISIT RECALBOX.FR FOR MORE INFORMATION.";
+    { LOG(LogError) << "[MainRunner] No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)"; }
+    { LOG(LogError) << "[MainRunner]  WE CAN'T FIND ANY SYSTEMS!\n"
+                       "CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+                       "YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+                       "\n"
+                       "VISIT RECALBOX.FR FOR MORE INFORMATION."; }
     return false;
   }
 
@@ -421,7 +413,7 @@ void MainRunner::Intro()
   if (mConfiguration.AsBool("emulationstation.debuglogs", false))
     Log::setReportingLevel(LogLevel::LogDebug);
 
-  LOG(LogInfo) << "EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING;
+  { LOG(LogInfo) << "[MainRunner] EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING; }
 }
 
 void MainRunner::CheckHomeFolder()
@@ -431,12 +423,9 @@ void MainRunner::CheckHomeFolder()
   Path configDir = home / "system/.emulationstation";
   if (!configDir.Exists())
   {
-    LOG(LogError) << "Creating config directory \"" << configDir.ToString() << "\"\n";
+    { LOG(LogError) << "[MainRunner] Creating config directory \"" << configDir.ToString() << "\"\n"; }
     configDir.CreatePath();
-    if (!configDir.Exists())
-    {
-      LOG(LogError) << "Config directory could not be created!\n";
-    }
+    if (!configDir.Exists()) { LOG(LogError) << "[MainRunner] Config directory could not be created!\n"; }
   }
 }
 
@@ -444,19 +433,14 @@ void MainRunner::SetLocale(const std::string& executablePath)
 {
   Path path(executablePath);
   path = path.Directory(); // Get executable folder
-  if (path.IsEmpty() || !path.Exists())
-  {
-    LOG(LogError) << "Error getting executable path (received: " << executablePath << ')';
-  }
+  if (path.IsEmpty() || !path.Exists()) { LOG(LogError) << "[Locale] Error getting executable path (received: " << executablePath << ')'; }
 
   // Get locale from configuration
   std::string localeName = RecalboxConf::Instance().GetSystemLanguage();
 
   // Set locale
-  if (!Internationalizer::InitializeLocale(localeName,
-                                           { path / "locale/lang", Path("/usr/share/locale") },
-                                           "emulationstation2"))
-    LOG(LogWarning) << "No locale found. Default text used.";
+  if (!Internationalizer::InitializeLocale(localeName, { path / "locale/lang", Path("/usr/share/locale") }, "emulationstation2"))
+  { LOG(LogWarning) << "[Locale] No locale found. Default text used."; }
 }
 
 void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
@@ -512,14 +496,14 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
 
 void MainRunner::HeadphonePluggedIn(BoardType board)
 {
-  LOG(LogInfo) << "[Audio] Headphones plugged!";
+  { LOG(LogInfo) << "[Audio] Headphones plugged!"; }
   switch(board)
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
       std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
-      LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones plugged! " << currentAudio;
+      { LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones plugged! " << currentAudio; }
       if (currentAudio == IAudioController::sAutoSwitch)
       {
         // Switch to headphone
@@ -528,7 +512,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
         RecalboxConf::Instance().SetAudioOuput(Headphones);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
                                                 popupDuration, GuiInfoPopup::PopupType::Music));
@@ -553,14 +537,14 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
 
 void MainRunner::HeadphoneUnplugged(BoardType board)
 {
-  LOG(LogInfo) << "[Audio] Headphones unplugged!";
+  { LOG(LogInfo) << "[Audio] Headphones unplugged!"; }
   switch(board)
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
       std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
-      LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones unplugged! " << currentAudio;
+      { LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones unplugged! " << currentAudio; }
       if (currentAudio == IAudioController::sAutoSwitch)
       {
         // Switch back to speakers
@@ -569,7 +553,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
         RecalboxConf::Instance().SetAudioOuput(Speakers);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok");
+        { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
                                                 popupDuration, GuiInfoPopup::PopupType::Music));

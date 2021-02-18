@@ -317,7 +317,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
         int intValue = 0;
         if (!StringToInt(value, intValue))
         {
-          LOG(LogWarning) << "Invalid int value " << value;
+          { LOG(LogWarning) << "[Metadata] Invalid int value " << value; }
           StringToInt(field.DefaultValue(), intValue);
         }
         *((int*)target) = intValue;
@@ -334,7 +334,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
         float floatValue = 0;
         if (!StringToFloat(value, floatValue))
         {
-          LOG(LogWarning) << "Invalid float value " << value;
+          { LOG(LogWarning) << "[Metadata] Invalid float value " << value; }
           StringToFloat(field.DefaultValue(), floatValue);
         }
         *((float*)target) = floatValue;
@@ -349,7 +349,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
           if (DateTime::ParseFromString("%yyyy%MM%ddT%hh%mm%ss", value, dt))
             epoch = (int) dt.ToLocal().ToEpochTime();
           else
-            LOG(LogWarning) << "Invalid DateTime value " << value;
+          { LOG(LogWarning) << "[Metadata] Invalid DateTime value " << value; }
         }
         *((int*) target) = epoch;
         break;
@@ -357,7 +357,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
       case MetadataFieldDescriptor::DataType::Range:
       {
         int intValue = 0;
-        if (!RangeToInt(value, intValue)) { LOG(LogWarning) << "Invalid Range " << value; }
+        if (!RangeToInt(value, intValue)) { LOG(LogWarning) << "[Metadata] Invalid Range " << value; }
         *((int*)target) = intValue;
         break;
       }
@@ -365,14 +365,11 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
       {
         int intValue = 0;
         if (value.length() != 0)
-          if (!HexToInt(value, intValue))
-          {
-            LOG(LogWarning) << "Invalid CRC32 " << value;
-          }
+          if (!HexToInt(value, intValue)) { LOG(LogWarning) << "[Metadata] Invalid CRC32 " << value; }
         *((int*)target) = intValue;
         break;
       }
-      default: throw std::logic_error("Unknown field type");
+      default: { LOG(LogError) << "[Metadata] Unknown field type"; }
     }
   }
 
@@ -472,7 +469,7 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
         Xml::AddAsString(node, field.Key(), value);
         break;
       }
-      default: throw std::logic_error("Unknown field type");
+      default: { LOG(LogError) << "[Metadata] Unknown field type"; }
     }
   }
 }
@@ -530,7 +527,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
         *((float*)destination) = *((float*)source);
         break;
       }
-      default: throw std::logic_error("Unknown field type");
+      default: { LOG(LogError) << "[Metadata] Unknown field type"; }
     }
 
     // A field has been copied. Set the dirty flag

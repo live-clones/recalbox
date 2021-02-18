@@ -14,19 +14,19 @@ OdroidAdvanceGo2SpecialButtonsReader::OdroidAdvanceGo2SpecialButtonsReader(IBoar
 
 void OdroidAdvanceGo2SpecialButtonsReader::StartReader()
 {
-  LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to start.";
+  { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to start."; }
   Start("OAG2Pad");
 }
 
 void OdroidAdvanceGo2SpecialButtonsReader::StopReader()
 {
-  LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to stop.";
+  { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to stop."; }
   Stop();
 }
 
 void OdroidAdvanceGo2SpecialButtonsReader::Break()
 {
-  LOG(LogDebug) << "[OdroidAdvanceGo] Breaking in-game special button manager thread.";
+  { LOG(LogDebug) << "[OdroidAdvanceGo] Breaking in-game special button manager thread."; }
   SDL_Event event;
   event.type = SDL_QUIT;
   SDL_PushEvent(&event);
@@ -34,7 +34,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Break()
 
 void OdroidAdvanceGo2SpecialButtonsReader::Run()
 {
-  LOG(LogInfo) << "[OdroidAdvanceGo] Running in-game special button manager.";
+  { LOG(LogInfo) << "[OdroidAdvanceGo] Running in-game special button manager."; }
 
   // Allow joystick event
   InputManager::IntitializeSDL2JoystickSystem();
@@ -43,7 +43,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
   SDL_Joystick* mainJoystick = SDL_JoystickOpen(0);
   if (mainJoystick == nullptr)
   {
-    LOG(LogError) << "[OdroidAdvanceGo] Cannot open main joystick!";
+    { LOG(LogError) << "[OdroidAdvanceGo] Cannot open main joystick!"; }
     return;
   }
   // Create device
@@ -66,13 +66,13 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
     // we can safely run our own
     if (SDL_WaitEvent(&sdl) == 1)
     {
-      //LOG(LogDebug) << "[OdroidAdvanceGo] SDL Event.";
+      //{ LOG(LogDebug) << "[OdroidAdvanceGo] SDL Event."; }
       switch (sdl.type)
       {
         case SDL_JOYBUTTONDOWN:
         case SDL_JOYBUTTONUP:
         {
-          //LOG(LogDebug) << "[OdroidAdvanceGo] SDL Button Event.";
+          //{ LOG(LogDebug) << "[OdroidAdvanceGo] SDL Button Event."; }
           InputEvent inputEvent(sdl.jbutton.which, InputEvent::EventType::Button, sdl.jbutton.button, sdl.jbutton.state == SDL_PRESSED ? 1 : 0);
           //InputManager::LogRawEvent(inputEvent);
           InputCompactEvent compactEvent = device.ConvertToCompact(inputEvent);
@@ -82,7 +82,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Run()
         }
         case SDL_QUIT:
         {
-          LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager receive quit order.";
+          { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager receive quit order."; }
           break;
         }
         default: break;

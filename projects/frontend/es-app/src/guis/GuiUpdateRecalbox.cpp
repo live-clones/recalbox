@@ -132,17 +132,17 @@ bool GuiUpdateRecalbox::getHelpPrompts(Help& help)
 
 void GuiUpdateRecalbox::Run()
 {
-  LOG(LogDebug) << "Update: Download update file";
+  { LOG(LogDebug) << "[UpdateGui] Download update file"; }
 
   // Set boot partition R/W
   if (system("mount -o remount,rw /boot") != 0)
   {
-    LOG(LogError) << "[Update] Cannot mount /boot RW!";
+    { LOG(LogError) << "[UpdateGui] Cannot mount /boot RW!"; }
     mSender.Call(-1);
   }
   // Empty target folder
   if (system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data()) != 0)
-    LOG(LogError) << "[Update] Cannot empty " << sDownloadFolder;
+  { LOG(LogError) << "[UpdateGui] Cannot empty " << sDownloadFolder; }
 
   // Get arch
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
@@ -155,7 +155,7 @@ void GuiUpdateRecalbox::Run()
   // Download
   Path destination = Path(sDownloadFolder) / destinationFileName;
   Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.append(".sha1");
-  LOG(LogDebug) << "Update: Target path " << destination.ToString();
+  { LOG(LogDebug) << "[UpdateGui] Target path " << destination.ToString(); }
   destination.Delete();
   mTimeReference = DateTime();
   mRequest.Execute(mUrl, destination, this);

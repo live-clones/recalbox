@@ -289,7 +289,7 @@ void EditableComponent::applyTheme(const ThemeData& theme, const std::string& vi
     else if(str == "right")
       setHorizontalAlignment(TextAlignment::Right);
     else
-    LOG(LogError) << "Unknown text alignment string: " << str;
+    { LOG(LogError) << "[EditableComponent] Unknown text alignment string: " << str; }
   }
 
   if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))

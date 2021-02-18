@@ -49,7 +49,7 @@ void WizardLanguage::ChangeLanguage(bool increment)
   RecalboxConf::Instance().SetSystemLanguage(sAvailableLanguages[current]);
   // Set locale
   if (!Internationalizer::InitializeLocale(sAvailableLanguages[current], { Path("/usr/share/locale") }, "emulationstation2"))
-    LOG(LogWarning) << "No locale found. Default text used.";
+  { LOG(LogWarning) << "[Locale] No locale found. Default text used."; }
 
   // Refresh all
   UpdatePage();

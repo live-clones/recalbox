@@ -18,9 +18,9 @@ void AlsaVolume::SetVolume(int volume)
   {
     long rawVolume = PercentToVolume(volume, minVolume, maxVolume);
     if (snd_mixer_selem_set_playback_volume_all(mixerElement, rawVolume) < 0)
-      LOG(LogError) << "Failed to set mixer volume for " << Name();
+    { LOG(LogError) << "[AlsaVolume] Failed to set mixer volume for " << Name(); }
   }
-  else LOG(LogError) << "Failed to get volume range for " << Name();
+  else { LOG(LogError) << "[AlsaVolume] Failed to get volume range for " << Name(); }
   CloseMixer();
 }
 
@@ -37,10 +37,9 @@ int AlsaVolume::GetVolume()
   {
     if (snd_mixer_selem_get_playback_volume(mixerElement, SND_MIXER_SCHN_MONO, &rawVolume) == 0)
       volume = (int)VolumeToPercent((double)rawVolume, minVolume, maxVolume);
-    else
-      LOG(LogError) << "Failed to get mixer volume for " << Name();
+    else { LOG(LogError) << "[AlsaVolume] Failed to get mixer volume for " << Name(); }
   }
-  else LOG(LogError) << "Failed to get volume range for " << Name();
+  else { LOG(LogError) << "[AlsaVolume] Failed to get volume range for " << Name(); }
   CloseMixer();
 
   return volume;

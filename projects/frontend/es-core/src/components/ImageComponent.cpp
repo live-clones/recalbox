@@ -261,7 +261,7 @@ void ImageComponent::Render(const Transform4x4f& parentTrans) {
             glDisable(GL_TEXTURE_2D);
             glDisable(GL_BLEND);
         } else {
-            LOG(LogError) << "Image texture is not initialized!";
+          { LOG(LogError) << "[ImageComponent] Image texture is not initialized!"; }
             mTexture.reset();
         }
     }

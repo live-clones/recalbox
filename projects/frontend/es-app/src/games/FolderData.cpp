@@ -66,7 +66,7 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
   const Path& folderPath = getPath();
   if (!folderPath.IsDirectory())
   {
-    LOG(LogWarning) << "Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!";
+    { LOG(LogWarning) << "[FolderData] Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!"; }
     return;
   }
 
@@ -80,10 +80,7 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
     // if this symlink resolves to somewhere that's at the beginning of our path, it's gonna recurse
     Path canonical = folderPath.ToCanonical();
     if (folderPath.ToString().compare(0, canonical.ToString().size(), canonical.ToChars()) == 0)
-    {
-      LOG(LogWarning) << "Skipping infinitely recursive symlink \"" << folderPath.ToString() << "\"";
-      return;
-    }
+    { LOG(LogWarning) << "[FolderData] Skipping infinitely recursive symlink \"" << folderPath.ToString() << "\""; return; }
   }
 
   // Subsystem override

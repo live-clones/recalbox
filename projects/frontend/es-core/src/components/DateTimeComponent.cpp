@@ -333,8 +333,8 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
         else if(str == "RelativeToNow")
             setDisplayMode(Display::RelativeToNow);
         else
-            LOG(LogError) << "Unknown date time display mode string: " << str;
-        }
+        { LOG(LogError) << "[DateTimeComponent] Unknown date time display mode string: " << str; }
+  }
 
 	if (hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{
@@ -346,7 +346,7 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 		else if(str == "right")
 			setHorizontalAlignment(TextAlignment::Right);
 		else
-		LOG(LogError) << "Unknown text alignment string: " << str;
+    { LOG(LogError) << "[DateTimeComponent] Unknown text alignment string: " << str; }
 	}
 
 	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))

@@ -231,7 +231,7 @@ void ScreenScraperEngine::Initialize()
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
                                 long long diskMinimumFree)
 {
-  LOG(LogInfo) << "Starting new single game scrapping session...";
+  { LOG(LogInfo) << "[ScreenScraper] Starting new single game scrapping session..."; }
 
   mNotifier = notifyTarget;
   mMethod = method;
@@ -252,7 +252,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, IN
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
                                 INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
-  LOG(LogInfo) << "Starting new multi-system scrapping session...";
+  { LOG(LogInfo) << "[ScreenScraper] Starting new multi-system scrapping session..."; }
 
   mNotifier = notifyTarget;
   mMethod = method;
@@ -282,7 +282,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
   if (engineIndex >= 0)
   {
     // Process the scrape in this thread, allocated and fired automatically by the threadpool
-    LOG(LogDebug) << "Got engine #" << engineIndex << " for " << feed->getPath().ToString();
+    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->getPath().ToString(); }
     Engine& engine = mEngines[engineIndex];
     if (!engine.IsAborted())
     {
@@ -311,7 +311,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
     RecycleEngine(engineIndex);
     return true;
   }
-  else LOG(LogError) << "No more engine available!";
+  else { LOG(LogError) << "[ScreenScraper] No more engine available!"; }
   return false;
 }
 
@@ -416,7 +416,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
       ScreenScraperApis::Game gameResult;
       gameResult.mResult = ScrapeResult::NotFound;
 
-      LOG(LogDebug) << "Start scrapping data for " << game.getPath().ToString();
+      { LOG(LogDebug) << "[ScreenScraper] Start scrapping data for " << game.getPath().ToString(); }
       if (mAbortRequest) break;
 
       // Get file size
@@ -496,7 +496,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
 {
   // Get MD5
   std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.getPath()) : std::string();
-  LOG(LogDebug) << "MD5 of " << game.getPath().ToString() << " : " << md5;
+  { LOG(LogDebug) << "[ScreenScraper] MD5 of " << game.getPath().ToString() << " : " << md5; }
 
   // Get crc32
   std::string crc32;
@@ -541,7 +541,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
       // Get MD5
       std::string md5 = zip.Md5(0);
-      LOG(LogDebug) << "MD5 of " << filePath.ToString() << " [" << game.getPath().ToString() << "] : " << md5;
+      { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.getPath().ToString() << "] : " << md5; }
 
       // Get crc32
       int crc32i = zip.Crc32(0);
@@ -639,7 +639,7 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
   }
 
   // Unknown method
-  LOG(LogError) << "Unknown scrapping method";
+  { LOG(LogError) << "[ScreenScraper] Unknown scrapping method"; }
   return false;
 }
 
@@ -745,7 +745,7 @@ ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const std::string& gameN
         break;
       }
       case ScrapeResult::NotScraped: break;
-      case ScrapeResult::NotFound: LOG(LogError) << "Missing media!"; break;
+      case ScrapeResult::NotFound: { LOG(LogError) << "[ScreenScraper] Missing media!"; break; }
       case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
       case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
       case ScrapeResult::FatalError: break;

@@ -14,7 +14,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     {
       if (i >= argc - 2)
       {
-        LOG(LogError) << "Invalid resolution supplied.";
+        { LOG(LogError) << "[Params] Invalid resolution supplied."; }
         return false;
       }
 
@@ -71,7 +71,7 @@ int main(int argc, char* argv[], char** env)
     MainRunner runner(argv[0], width, height, windowed, loopCount, env);
     MainRunner::ExitState exitState = runner.Run();
 
-    LOG(LogInfo) << "EmulationStation cleanly shutting down.";
+    { LOG(LogInfo) << "[Main] EmulationStation cleanly shutting down."; }
     switch(exitState)
     {
       case MainRunner::ExitState::Quit:
@@ -81,20 +81,20 @@ int main(int argc, char* argv[], char** env)
       case MainRunner::ExitState::NormalReboot:
       case MainRunner::ExitState::FastReboot:
       {
-        LOG(LogInfo) << "Rebooting system";
+        { LOG(LogInfo) << "[Main] Rebooting system"; }
         #ifndef DEBUG
         if (system("shutdown -r now") != 0)
-          LOG(LogError) << "Error rebooting system";
+          { LOG(LogError) << "[Main] Error rebooting system"; }
         #endif
         return 0;
       }
       case MainRunner::ExitState::Shutdown:
       case MainRunner::ExitState::FastShutdown:
       {
-        LOG(LogInfo) << "Rebooting system (fast)";
+        { LOG(LogInfo) << "[Main] Rebooting system (fast)"; }
         #ifndef DEBUG
         if (system("shutdown -h now") != 0)
-          LOG(LogError) << "Error shutting system down";
+          { LOG(LogError) << "[Main] Error shutting system down"; }
         #endif
         return 0;
       }

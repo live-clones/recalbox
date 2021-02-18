@@ -17,7 +17,7 @@ bool InputStack::hasInput(const InputEvent& input)
 
 void InputStack::push(const InputEvent& input, const std::function<void(const std::vector<InputEvent>& inputs)>& func)
 {
-  LOG(LogDebug) << "Push! " << input.ToString();
+  { LOG(LogDebug) << "[InputStack] Push! " << input.ToString(); }
   // Debouncing
   TimeSpan diff = DateTime() - mDebounceReference;
   if (diff.TotalMilliseconds() < SDL_IDLE_MS)

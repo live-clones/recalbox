@@ -110,7 +110,7 @@ void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, c
           RecalboxConf::Instance().SetSystemEmulator(mSystem, emulator)
                                   .SetSystemCore(mSystem, core).Save();
       }
-      else LOG(LogError) << "Error splitting emulator and core!";
+      else { LOG(LogError) << "[SystemConfigurationGui] Error splitting emulator and core!"; }
       break;
     }
     case Components::Ratio: RecalboxConf::Instance().SetSystemRatio(mSystem, value).Save(); break;

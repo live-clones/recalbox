@@ -24,7 +24,7 @@ void CommandThread::Run()
   {
     sleep(5);
 
-    LOG(LogInfo) << "CommandThread started";
+    { LOG(LogInfo) << "[Command] CommandThread started"; }
 
     if (OpenUDP())
       while (IsRunning())
@@ -38,33 +38,22 @@ void CommandThread::Run()
         std::string gameName = tokens[2];
 
         // Check that the command is valid. Easy way as there is just 1 for now
-        if (command != "START") {
-          LOG(LogError) << "Wrong network command " << tokens[0];
-          continue;
-        }
+        if (command != "START") { LOG(LogError) << "[Command] Wrong network command " << tokens[0]; continue; }
 
         // Get and check system
         SystemData *system = mSystemManager.SystemByName(systemName);
-        if (system == nullptr)
-        {
-          LOG(LogError) << "Invalid system on network command: " << systemName;
-          continue;
-        }
+        if (system == nullptr) { LOG(LogError) << "[Command] Invalid system on network command: " << systemName; continue; }
 
         // Get and check game
         FileData* result = system->MasterRoot().LookupGame(gameName, FileData::SearchAttributes::ByNameWithExt);
-        if (result != nullptr)
-        {
-          LOG(LogInfo) << "Starting game " << gameName << " for system " << systemName;
-          mEvent.Call(result);
-        }
-        else LOG(LogError) << "Couldn't find game " << gameName << " for system " << systemName;
+        if (result != nullptr) { LOG(LogInfo) << "[Command] Starting game " << gameName << " for system " << systemName; mEvent.Call(result); }
+        else { LOG(LogError) << "[Command] Couldn't find game " << gameName << " for system " << systemName; }
       }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "CommandThread thread crashed.";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[Command] CommandThread thread crashed."; }
+    { LOG(LogError) << "[Command] Exception: " << ex.what(); }
   }
 }
 

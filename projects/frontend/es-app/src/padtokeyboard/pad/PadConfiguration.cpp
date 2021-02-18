@@ -31,7 +31,7 @@ void PadConfiguration::Load()
   XmlResult result = padXml.load_string(Files::LoadFile(Path(sInputFile)).c_str());
   if (!result)
   {
-    LOG(LogError) << "Could not parse " << sInputFile << " file!";
+    { LOG(LogError) << "[Pad2Keyboard] Could not parse " << sInputFile << " file!"; }
     return;
   }
 

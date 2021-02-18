@@ -21,7 +21,7 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
     mCursorOnList(true)
 {
   mTargetDevice->SetConfiguringState(true);
-	LOG(LogInfo) << "Configuring device " << mTargetDevice->Index() << " (" << mTargetDevice->Name() << ").";
+  { LOG(LogInfo) << "[GuiInput] Configuring device " << mTargetDevice->Index() << " (" << mTargetDevice->Name() << ")."; }
 
 	initFormInputs();
 
@@ -286,7 +286,7 @@ bool GuiInputConfig::assign(InputEvent input)
   input.StoreSDLCode(mTargetDevice->Index());
   mTargetDevice->Set(InputDevice::StringToEntry(formInput.name), input);
 
-	LOG(LogInfo) << "  Mapping [" << input.ToString() << "] -> " << formInput.name;
+  { LOG(LogInfo) << "[GuiInput]   Mapping [" << input.ToString() << "] -> " << formInput.name; }
 
 	return true;
 }
@@ -301,7 +301,7 @@ void GuiInputConfig::unAssign() {
 	
   mTargetDevice->Unset(InputDevice::StringToEntry(formInput.name));
 
-	LOG(LogInfo) << "  Unmapping [" << input.ToString() << "] -> " << formInput.name;
+  { LOG(LogInfo) << "[GuiInput]   Unmapping [" << input.ToString() << "] -> " << formInput.name; }
 }
 
 void GuiInputConfig::restaurePreviousAssignment() {

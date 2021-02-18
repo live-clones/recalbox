@@ -57,7 +57,7 @@ void Upgrade::Run()
       {
         if (mRemoteVersion != mLocalVersion)
         {
-          LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!";
+          { LOG(LogInfo) << "[Update] Remote version " << mRemoteVersion << " does not match local version " << mLocalVersion << ". Update available!"; }
 
           // Popup, always shown
           mPopupMessage = _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX");
@@ -87,15 +87,15 @@ void Upgrade::Run()
 
           mSender.Call();
         }
-        else LOG(LogInfo) << "[Update] Remote version match local version. No update.";
+        else { LOG(LogInfo) << "[Update] Remote version match local version. No update."; }
       }
-      else LOG(LogError) << "[Update] Invalid remote version! " << mRemoteVersion;
+      else { LOG(LogError) << "[Update] Invalid remote version! " << mRemoteVersion; }
     }
   }
   catch(std::exception& ex)
   {
-    LOG(LogError) << "Upgrade thread crashed.";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[Update] Upgrade thread crashed."; }
+    { LOG(LogError) << "[Update] Exception: " << ex.what(); }
   }
 }
 
@@ -130,7 +130,7 @@ std::string Upgrade::GetDomainName()
     if (ns_parserr(&msg, ns_s_an, 0, &rr) == 0)
     {
       mDomainName = std::string((char*) (ns_rr_rdata(rr) + 1), (int)ns_rr_rdata(rr)[0]);
-      LOG(LogDebug) << "[Update] Domain: " << mDomainName;
+      { LOG(LogDebug) << "[Update] Domain: " << mDomainName; }
     }
   }
 
@@ -145,7 +145,7 @@ std::string Upgrade::GetRemoteVersion()
   std::string version;
   if (!Http().Execute(url, version)) version.clear();
   version = Strings::Trim(version, " \t\r\n");
-  LOG(LogDebug) << "[Update] Remote version: " << version << " (" << url << ')';
+  { LOG(LogDebug) << "[Update] Remote version: " << version << " (" << url << ')'; }
 
   // Return version
   return version;
@@ -155,7 +155,7 @@ std::string Upgrade::DownloadUrl()
 {
   // Get url
   std::string url = ReplaceMachineParameters(sDownloadPatternUrl);
-  LOG(LogDebug) << "[Update] Download url: " << url;
+  { LOG(LogDebug) << "[Update] Download url: " << url; }
 
   return url;
 }
@@ -201,7 +201,7 @@ std::string Upgrade::GetRemoteReleaseVersion()
   std::string releaseNote;
   if (!Http().Execute(url, releaseNote)) releaseNote.clear();
 
-  LOG(LogDebug) << "[Update] Remote release note: " << releaseNote << " (" << url << ')';
+  { LOG(LogDebug) << "[Update] Remote release note: " << releaseNote << " (" << url << ')'; }
 
   if (Strings::StartsWith(releaseNote, "<", 1)) releaseNote.clear();
   else releaseNote = Strings::Trim(releaseNote, " \t\r\n");

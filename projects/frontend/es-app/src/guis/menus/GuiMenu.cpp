@@ -88,7 +88,7 @@ void GuiMenu::SubMenuSelected(int id)
 {
   switch((Components)id)
   {
-    case Components::Kodi: if (!RecalboxSystem::launchKodi(mWindow)) LOG(LogWarning) << "[Kodi] Error running Kodi."; break;
+    case Components::Kodi: if (!RecalboxSystem::launchKodi(mWindow)) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
     case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow)); break;
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;

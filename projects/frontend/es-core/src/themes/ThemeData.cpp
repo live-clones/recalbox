@@ -379,7 +379,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 				if(!ResourceManager::fileExists(path))
         {
-          LOG(LogWarning) << "Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")";
+          { LOG(LogWarning) << "[ThemeData] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
           continue;
         }
 
@@ -604,7 +604,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 					ss += std::string("could not find file \"") + node.text().get() + "\" ";
 					if(node.text().get() != path.ToString())
 						ss += "(which resolved to \"" + path.ToString() + "\") ";
-					LOG(LogWarning) << ss;
+          { LOG(LogWarning) << "[ThemeData] " << ss; }
 				}
 				break;
 			}
@@ -651,8 +651,7 @@ const ThemeElement* ThemeData::getElement(const std::string& view, const std::st
 
 	if(elemIt->second.Type() != expectedType && !expectedType.empty())
 	{
-		LOG(LogWarning) << " requested mismatched theme type for [" << view << "." << element << "] - expected \"" 
-			<< expectedType << "\", got \"" << elemIt->second.Type() << "\"";
+    { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << view << "." << element << "] - expected \"" << expectedType << "\", got \"" << elemIt->second.Type() << "\""; }
 		return nullptr;
 	}
 
@@ -676,7 +675,7 @@ const ThemeElement* ThemeData::getElement(const std::string& view, const std::st
 			}
 			catch(ThemeException& e)
 			{
-				LOG(LogError) << e.what();
+				{ LOG(LogError) << "[ThemeData] " << e.what(); }
 			}
 		}
 		sLoaded = true;
@@ -721,7 +720,7 @@ const ThemeData& ThemeData::getCurrent()
 							break;
 						} catch(ThemeException& e)
 						{
-							LOG(LogError) << e.what();
+              { LOG(LogError) << "[ThemeData] " << e.what(); }
 						}
 					}
 				
@@ -737,7 +736,7 @@ const ThemeData& ThemeData::getCurrent()
           break;
         } catch(ThemeException& e)
         {
-          LOG(LogError) << e.what();
+          { LOG(LogError) << "[ThemeData] " << e.what(); }
           sCurrent = ThemeData(); //reset to empty
         }
       }

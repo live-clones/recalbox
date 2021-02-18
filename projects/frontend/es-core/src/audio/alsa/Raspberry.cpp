@@ -21,21 +21,21 @@ void Raspberry::SetRoute(Raspberry::Output output)
   std::string value = Strings::ToString((int)output);
 
   // Open
-  if (snd_ctl_ascii_elem_id_parse(id, "numid=3") != 0) { LOG(LogError) << "Cannot get ID 3"; return; }
-  if ((err = snd_ctl_open(&handle, "hw:0", 0)) < 0) { LOG(LogError) << "Cannot open Card 0, Error: " << snd_strerror(err); return; }
+  if (snd_ctl_ascii_elem_id_parse(id, "numid=3") != 0) { LOG(LogError) << "[Alsa] Cannot get ID 3"; return; }
+  if ((err = snd_ctl_open(&handle, "hw:0", 0)) < 0) { LOG(LogError) << "[Alsa] Cannot open Card 0, Error: " << snd_strerror(err); return; }
 
   // Get informations
   snd_ctl_elem_info_set_id(info, id);
-  if ((err = snd_ctl_elem_info(handle, info)) < 0) { LOG(LogError) << "Cannot find the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
+  if ((err = snd_ctl_elem_info(handle, info)) < 0) { LOG(LogError) << "[Alsa] Cannot find the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
   snd_ctl_elem_info_get_id(info, id); // TODO: Really usefull?
   // Create control
   snd_ctl_elem_value_set_id(control, id);
   // Read current value
-  if ((err = snd_ctl_elem_read(handle, control)) < 0) { LOG(LogError) << "Cannot read the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
+  if ((err = snd_ctl_elem_read(handle, control)) < 0) { LOG(LogError) << "[Alsa] Cannot read the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
   // Parse
-  if ((err = snd_ctl_ascii_value_parse(handle, control, info, value.data())) < 0) { LOG(LogError) << "Cannot parse the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
+  if ((err = snd_ctl_ascii_value_parse(handle, control, info, value.data())) < 0) { LOG(LogError) << "[Alsa] Cannot parse the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
   // Write
-  if ((err = snd_ctl_elem_write(handle, control)) < 0) { LOG(LogError) << "Cannot write the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
+  if ((err = snd_ctl_elem_write(handle, control)) < 0) { LOG(LogError) << "[Alsa] Cannot write the given element from control hw:0, Error: " << snd_strerror(err); snd_ctl_close(handle); return; }
   // Close
   snd_ctl_close(handle);
 }

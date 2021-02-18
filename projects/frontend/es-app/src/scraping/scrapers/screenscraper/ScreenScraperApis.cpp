@@ -57,7 +57,7 @@ ScreenScraperApis::User ScreenScraperApis::GetUserInformation()
   std::string output;
   if (mClient.Execute(BuildUrlCommon(Api::UserInfo), output))
   {
-    LOG(LogDebug) << "GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode() << "\n" << output;
+    { LOG(LogDebug) << "[ScreenScraper] GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode() << "\n" << output; }
 
     rapidjson::Document json;
     json.Parse(output.c_str());
@@ -109,7 +109,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
         case 200: game.mResult = ScrapeResult::Ok; break;
         default:
         {
-          LOG(LogError) << "Unexpected HTTP return code " << mClient.GetLastHttpResponseCode();
+          { LOG(LogError) << "[ScreenScraper] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
           game.mResult = ScrapeResult::FatalError;
           break;
         }
@@ -117,12 +117,12 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
       // Error?
       if (game.mResult != ScrapeResult::Ok)
       {
-        LOG(LogError) << "Media URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
+        { LOG(LogError) << "[ScreenScraper] Media URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
         break;
       }
       if (output.empty())
       {
-        LOG(LogError) << "Empty response, retrying...";
+        { LOG(LogError) << "[ScreenScraper] Empty response, retrying..."; }
         continue;
       }
 
@@ -130,7 +130,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
       DeserializeGameInformation(output, game);
       break;
     }
-    else LOG(LogError) << "Error executing HTTP request onto " << url;
+    else { LOG(LogError) << "[ScreenScraper] Error executing HTTP request onto " << url; }
   }
   return game;
 }
@@ -318,7 +318,7 @@ std::string ScreenScraperApis::ExtractRegionalizedText(const rapidjson::Value& a
     return object["text"].GetString();
 
   // WTFH?!
-  LOG(LogError) << "Can't find regionalized text!";
+  { LOG(LogError) << "[ScreenScraper] Can't find regionalized text!"; }
   return std::string();
 }
 
@@ -339,7 +339,7 @@ std::string ScreenScraperApis::ExtractLocalizedText(const rapidjson::Value& arra
     return object["text"].GetString();
 
   // WTFH?!
-  LOG(LogError) << "Can't find localized text!";
+  { LOG(LogError) << "[ScreenScraper] Can't find localized text!"; }
   return std::string();
 }
 
@@ -631,7 +631,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
       }
 
   // WTFH?!
-  LOG(LogDebug) << "Can't find media url matching: " << type << " / " << region;
+  { LOG(LogDebug) << "[ScreenScraper] Can't find media url matching: " << type << " / " << region; }
   return std::string();
 }
 
@@ -657,7 +657,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
         case 200: result = ScrapeResult::Ok; size = mClient.GetLastContentSize(); break;
         default:
         {
-          LOG(LogError) << "Unexpected HTTP return code " << mClient.GetLastHttpResponseCode();
+          { LOG(LogError) << "[ScreenScraper] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
           result = ScrapeResult::FatalError;
           break;
         }
@@ -666,7 +666,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
   }
 
   if (result != ScrapeResult::Ok)
-    LOG(LogError) << "Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
+  { LOG(LogError) << "[ScreenScraper] Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
 
   // Delete wrong files
   if (to.Size() <= 256)

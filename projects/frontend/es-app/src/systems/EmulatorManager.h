@@ -87,7 +87,7 @@ class EmulatorManager : public INoCopy
       std::string key = KeyFrom(system);
       if (mSystemEmulators.contains(key))
       {
-        LOG(LogError) << "Fatal error: You cannot define 2 systems with the same fullname and the same platforms! ABORTING.";
+        { LOG(LogError) << "[Emulator] Fatal error: You cannot define 2 systems with the same fullname and the same platforms! ABORTING."; }
         exit(1);
       }
       mSystemEmulators.insert(key, &system.Emulators());

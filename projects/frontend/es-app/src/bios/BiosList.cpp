@@ -11,7 +11,7 @@ BiosList::BiosList(XmlNode& systemNode)
   mSystemFullName = systemNode.attribute("fullname").value();
   mSystemName = systemNode.attribute("platform").value();
   if (mSystemFullName.empty() || mSystemName.empty())
-    LOG(LogWarning) << "Bios file's system node is missing fullname and/or platform attributes!";
+  { LOG(LogWarning) << "[Bios] Bios file's system node is missing fullname and/or platform attributes!"; }
 
   // Extract bios
   for(XmlNode& biosNode : systemNode.children("bios"))

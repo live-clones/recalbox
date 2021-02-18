@@ -18,7 +18,7 @@ std::string InputEvent::TypeToString(EventType type)
     case EventType::Unknown:
     default:
     {
-      LOG(LogError) << "Unknown int Input type: " << (int)type;
+      { LOG(LogError) << "[InputEvent] Unknown int Input type: " << (int)type; }
       return "error";
     }
   }
@@ -30,7 +30,7 @@ InputEvent::EventType InputEvent::StringToType(const std::string& type)
   if (type == "button")	return EventType::Button;
   if (type == "hat")    return EventType::Hat;
   if (type == "key")    return EventType::Key;
-  LOG(LogError) << "Unknown string Input type: " << type;
+  { LOG(LogError) << "[InputEvent] Unknown string Input type: " << type; }
   return EventType::Unknown;
 }
 
@@ -39,9 +39,9 @@ void InputEvent::StoreSDLCode(int deviceIndex)
   #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
     switch (mType)
     {
-    case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(deviceIndex, mId); LOG(LogDebug) << "AXIS"; break;
-      case EventType::Button: mCode = SDL_JoystickButtonEventCodeById(deviceIndex, mId); LOG(LogDebug) << "BUTTON"; break;
-      case EventType::Hat: mCode = SDL_JoystickHatEventCodeById(deviceIndex, mId); LOG(LogDebug) << "HAT"; break;
+    case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] AXIS" }; break;
+      case EventType::Button: mCode = SDL_JoystickButtonEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] BUTTON"; } break;
+      case EventType::Hat: mCode = SDL_JoystickHatEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] HAT"; } break;
       case EventType::Key:
       case EventType::Unknown: mCode = -2;
       default: break;
@@ -52,7 +52,7 @@ void InputEvent::StoreSDLCode(int deviceIndex)
       #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
     #endif
   #endif
-  LOG(LogDebug) << "Device Index: " << deviceIndex << "Device ID: " << mDeviceIdentifier << "ID: " << mId << "Event: " << ToString() << " - Code: " << mCode;
+  { LOG(LogDebug) << "[InputEvent] Device Index: " << deviceIndex << "Device ID: " << mDeviceIdentifier << "ID: " << mId << "Event: " << ToString() << " - Code: " << mCode; }
 }
 
 std::string InputEvent::ToString() const

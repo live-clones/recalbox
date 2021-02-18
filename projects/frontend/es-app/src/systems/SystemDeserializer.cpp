@@ -54,12 +54,12 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
         break;
       }
       if (!systemDescriptor.AddPlatformIdentifiers(platformId))
-        LOG(LogError) << "Platform count for system " << systemDescriptor.Name() << " full. " << platform << " ignored!";
+      { LOG(LogError) << "[System] Platform count for system " << systemDescriptor.Name() << " full. " << platform << " ignored!"; }
     }
     return true;
   }
 
-  LOG(LogError) << "System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or command!";
+  { LOG(LogError) << "[System] System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or command!"; }
   return false;
 }
 
@@ -94,10 +94,7 @@ bool SystemDeserializer::LoadSystemXMLNodes(const XmlDocument& document)
       } else mSystemList[index] = system;
     }
 
-  if (!result)
-  {
-    LOG(LogError) << "missing or empty <systemList> tag!";
-  }
+  if (!result) { LOG(LogError) << "[System] missing or empty <systemList> tag!"; }
 
   return result;
 }
@@ -107,7 +104,7 @@ bool SystemDeserializer::LoadXMLFile(XmlDocument& document, const Path& filepath
   XmlResult result = document.load_file(filepath.ToChars());
   if (!result)
   {
-    LOG(LogError) << "Could not parse " << filepath.ToString() << " file!";
+    { LOG(LogError) << "[System] Could not parse " << filepath.ToString() << " file!"; }
     return false;
   }
   return true;
@@ -118,18 +115,15 @@ bool SystemDeserializer::LoadSystemList(XmlDocument &document, const Path &filep
   // Load user configuration
   if (!filepath.Exists())
   {
-    LOG(LogWarning) << filepath.ToString() << " file does not exist!";
+    { LOG(LogWarning) << "[System] " << filepath.ToString() << " file does not exist!"; }
     return false;
   }
 
-  LOG(LogInfo) << "Loading system config files " << filepath.ToString() << "...";
+  { LOG(LogInfo) << "[System] Loading system config files " << filepath.ToString() << "..."; }
   if (!LoadXMLFile(document, filepath)) return false;
 
   bool result = LoadSystemXMLNodes(document);
-  if (!result)
-  {
-    LOG(LogWarning) << filepath.ToString() << " has no systems or systemList nodes";
-  }
+  if (!result) { LOG(LogWarning) << "[System] " << filepath.ToString() << " has no systems or systemList nodes"; }
 
   return result;
 }

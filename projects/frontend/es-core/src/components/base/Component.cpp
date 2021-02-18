@@ -141,10 +141,7 @@ void Component::removeChild(Component* cmp)
 	if(cmp->getParent() == nullptr)
 		return;
 
-	if(cmp->getParent() != this)
-	{
-		LOG(LogError) << "Tried to remove child from incorrect parent!";
-	}
+	if(cmp->getParent() != this) { LOG(LogError) << "[Component] Tried to remove child from incorrect parent!"; }
 
 	cmp->setParent(nullptr);
 

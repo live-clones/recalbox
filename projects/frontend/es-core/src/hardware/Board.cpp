@@ -23,18 +23,18 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
   {
     case BoardType::OdroidAdvanceGo:
     {
-      LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected.";
+      { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected."; }
       return new OdroidAdvanceGo2Board(messageSender, model);
     }
     case BoardType::OdroidAdvanceGoSuper:
     {
-      LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected.";
+      { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected."; }
       return new OdroidAdvanceGo2Board(messageSender, model);
     }
     case BoardType::PCx86:
     case BoardType::PCx64:
     {
-      LOG(LogInfo) << "[Hardware] x86 or x64 PC detected.";
+      { LOG(LogInfo) << "[Hardware] x86 or x64 PC detected."; }
       return new PcComputers(messageSender);
     }
     case BoardType::UndetectedYet:
@@ -50,7 +50,7 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
     default: break;
   }
 
-  LOG(LogInfo) << "[Hardware] Default hardware interface created.";
+  { LOG(LogInfo) << "[Hardware] Default hardware interface created."; }
   return new NullBoard(messageSender);
 }
 
@@ -109,7 +109,7 @@ BoardType Board::GetBoardType()
   memset(&uName, 0, sizeof(uName));
   uname(&uName);
   std::string machine(uName.machine);
-  LOG(LogDebug) << "[Hardware] Machine identifier: '" << machine << '\'';
+  { LOG(LogDebug) << "[Hardware] Machine identifier: '" << machine << '\''; }
   if (machine == "i386") return mType = BoardType::PCx86;
   if (machine == "i686") return mType = BoardType::PCx86;
   if (machine == "x86_64") return mType = BoardType::PCx64;
@@ -134,7 +134,7 @@ BoardType Board::GetBoardType()
         {
           hardware = colon + 2;
           hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
-          LOG(LogInfo) << "[Hardware] Hardware " << hardware;
+          { LOG(LogInfo) << "[Hardware] Hardware " << hardware; }
         }
       }
       if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
@@ -148,17 +148,17 @@ BoardType Board::GetBoardType()
 
           if ((hardware == "BCM2835") || (hardware == "BCM2711"))
           {
-            LOG(LogInfo) << "[Hardware] Pi revision " << revision;
+            { LOG(LogInfo) << "[Hardware] Pi revision " << revision; }
             mType = GetPiModel(irevision);
           }
           if (hardware == "Hardkernel ODROID-GO3")
           {
-            LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision;
+            { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision; }
             mType = BoardType::OdroidAdvanceGoSuper;
           }
           if ((hardware == "Hardkernel ODROID-GO2") || (hardware == "Hardkernel ODROID-GO1") || (hardware == "Hardkernel ODROID-GO"))
           {
-            LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision;
+            { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision; }
             mType = BoardType::OdroidAdvanceGo;
           }
         }

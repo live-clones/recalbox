@@ -133,10 +133,10 @@ void VideoEngine::Run()
             {
               mIsPlaying = true;
               // Play until next message
-              LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString();
+              { LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString(); }
               DecodeFrames();
             }
-            else LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString();
+            else { LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString(); }
             break;
           }
           case Order::Stop:
@@ -152,14 +152,14 @@ void VideoEngine::Run()
   }
   catch(const std::exception& e)
   {
-    LOG(LogError) << "[Video Engine] fatal exception: " << e.what() << ". Engine stopped until next ES launch!";
+    { LOG(LogError) << "[Video Engine] fatal exception: " << e.what() << ". Engine stopped until next ES launch!"; }
   }
   FinalizeDecoder();
 }
 
 void VideoEngine::PlayVideo(const Path& videopath)
 {
-  LOG(LogDebug) << "Video Engine requested to play " << videopath.ToString();
+  { LOG(LogDebug) << "[Video Engine] Request to play " << videopath.ToString(); }
 
   { // Check last message - Pop & recycle previous message if it's a pending play message
     Mutex::AutoLock sync(mQueueSyncer);
@@ -180,7 +180,7 @@ void VideoEngine::PlayVideo(const Path& videopath)
 
 void VideoEngine::StopVideo()
 {
-  LOG(LogDebug) << "Video Engine requested to stop playing " << mFileName.ToString();
+  { LOG(LogDebug) << "[Video Engine] Request to stop playing " << mFileName.ToString(); }
 
   { // Check last message - Pop & recycle previous message if it's a pending play message
     Mutex::AutoLock sync(mQueueSyncer);
@@ -217,7 +217,7 @@ bool VideoEngine::InitializeDecoder()
     avformat_network_init();
 
     FFMpegInitialized = true;
-    LOG(LogInfo) << "FFMpeg global context initialized.";
+    { LOG(LogInfo) << "[Video Engine] FFMpeg global context initialized."; }
   }
 
   // Open the file

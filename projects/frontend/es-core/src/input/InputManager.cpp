@@ -42,7 +42,7 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
   if (device != nullptr)
     return *device;
 
-  LOG(LogError) << "Unexisting device!";
+  { LOG(LogError) << "[Input] Unexisting device!"; }
   static InputDevice sEmptyDevice(nullptr, InputEvent::sEmptyDevice, -1, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
   return sEmptyDevice;
 }
@@ -241,22 +241,22 @@ void InputManager::LoadJoystickConfiguration(int index)
     }
 
     if (!autoConfigured)
-      LOG(LogWarning) << "Unknown joystick " << SDL_JoystickName(joy)
+    { LOG(LogWarning) << "[Input] Unknown joystick " << SDL_JoystickName(joy)
                       << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
                       << ", Device Index: " << index
                       << ", Axis: " << SDL_JoystickNumAxes(joy)
                       << ", Hats: " << SDL_JoystickNumHats(joy)
-                      << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")";
+                      << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")"; }
   }
 
   // Store
   mIdToDevices[identifier] = device;
-  LOG(LogWarning) << "Added joystick " << SDL_JoystickName(joy)
-                  << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
-                  << ", Device Index: " << index
-                  << ", Axis: " << SDL_JoystickNumAxes(joy)
-                  << ", Hats: " << SDL_JoystickNumHats(joy)
-                  << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")";
+  { LOG(LogWarning) << "[Input] Added joystick " << SDL_JoystickName(joy)
+                    << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
+                    << ", Device Index: " << index
+                    << ", Axis: " << SDL_JoystickNumAxes(joy)
+                    << ", Hats: " << SDL_JoystickNumHats(joy)
+                    << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")"; }
 
 }
 
@@ -341,7 +341,7 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     case SDL_JOYDEVICEADDED:
     case SDL_JOYDEVICEREMOVED:
     {
-      LOG(LogInfo) << "Reinitialize because of joystick added/removed.";
+      { LOG(LogInfo) << "[Input] Reinitialize because of joystick added/removed."; }
       Initialize(window, true);
       for(int i = mNotificationInterfaces.Count(); --i >= 0; )
         mNotificationInterfaces[i]->PadsAddedOrRemoved();
@@ -366,24 +366,24 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
   pugi::xml_parse_result res = doc.load_file(path.ToChars());
   if (!res)
   {
-    LOG(LogError) << "Error parsing input config: " << res.description();
+    { LOG(LogError) << "[Input] Error parsing input config: " << res.description(); }
     return false;
   }
 
-  LOG(LogDebug) << "Looking for configuration for " << device.Name() << " (UUID: " << device.GUID()
-                << ") - Axis: " << device.AxeCount()
-                << " - Hats: " << device.HatCount()
-                << " - Buttons: " << device.ButtonCount();
+  { LOG(LogDebug) << "[Input] Looking for configuration for " << device.Name() << " (UUID: " << device.GUID()
+                  << ") - Axis: " << device.AxeCount()
+                  << " - Hats: " << device.HatCount()
+                  << " - Buttons: " << device.ButtonCount(); }
 
   pugi::xml_node root = doc.child("inputList");
   if (root != nullptr)
     for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
     {
-      LOG(LogDebug) << "Trying " << item.attribute("deviceGUID").value()
-                    << " (UUID: " << item.attribute("deviceName").value()
-                    << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
-                    << " - Hats: " << item.attribute("deviceNbHats").as_int()
-                    << " - Buttons: " << item.attribute("deviceNbButtons").as_int();
+      { LOG(LogDebug) << "[Input] Trying " << item.attribute("deviceGUID").value()
+                      << " (UUID: " << item.attribute("deviceName").value()
+                      << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
+                      << " - Hats: " << item.attribute("deviceNbHats").as_int()
+                      << " - Buttons: " << item.attribute("deviceNbButtons").as_int(); }
       // check the guid
       bool guid    = (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0) || device.IsKeyboard();
       bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
@@ -393,7 +393,7 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
       if (guid && name && axes && hats && buttons)
       {
         int loaded = device.LoadFromXml(item);
-        LOG(LogInfo) << "Loaded " << loaded << " configuration entries for device " << device.Name();
+        { LOG(LogInfo) << "[Input] Loaded " << loaded << " configuration entries for device " << device.Name(); }
         return true;
       }
     }
@@ -407,10 +407,7 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   if (path.Exists())
   {
     pugi::xml_parse_result result = doc.load_file(path.ToChars());
-    if (!result)
-    {
-      LOG(LogError) << "Error parsing input config: " << result.description();
-    }
+    if (!result) { LOG(LogError) << "[Input] Error parsing input config: " << result.description(); }
     else
     {
       // successfully loaded, delete the old entry if it exists
@@ -475,18 +472,18 @@ std::string InputManager::GetMappedDeviceListConfiguration(const InputMapper& ma
              ;
     }
   }
-  LOG(LogInfo) << "Configure emulators command : " << command;
+  { LOG(LogInfo) << "[Input] Configure emulators command : " << command; }
   return command;
 }
 
 void InputManager::LogRawEvent(const InputEvent& event)
 {
-  LOG(LogDebug) << "Raw Event: " << event.ToString();
+  { LOG(LogDebug) << "[Input] Raw Event: " << event.ToString(); }
 }
 
 void InputManager::LogCompactEvent(const InputCompactEvent& event)
 {
-  LOG(LogDebug) << "Compact Event: " << event.ToString();
+  { LOG(LogDebug) << "[Input] Compact Event: " << event.ToString(); }
 }
 
 void InputManager::AddNotificationInterface(IInputChange* interface)

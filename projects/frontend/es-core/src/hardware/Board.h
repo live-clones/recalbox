@@ -109,7 +109,7 @@ class Board: public StaticLifeCycleControler<Board>
      */
     void StartGlobalBackgroundProcesses()
     {
-      LOG(LogInfo) << "[Hardware] Start global Hardware processes";
+      { LOG(LogInfo) << "[Hardware] Start global Hardware processes"; }
       return mBoard->StartGlobalBackgroundProcesses();
     }
 
@@ -119,7 +119,7 @@ class Board: public StaticLifeCycleControler<Board>
      */
     void StopGlobalBackgroundProcesses()
     {
-      LOG(LogInfo) << "[Hardware] Stop global Hardware processes";
+      { LOG(LogInfo) << "[Hardware] Stop global Hardware processes"; }
       return mBoard->StopGlobalBackgroundProcesses();
     }
 
@@ -129,7 +129,7 @@ class Board: public StaticLifeCycleControler<Board>
      */
     void StartInGameBackgroundProcesses()
     {
-      LOG(LogInfo) << "[Hardware] Start in-game Hardware processes";
+      { LOG(LogInfo) << "[Hardware] Start in-game Hardware processes"; }
       return mBoard->StartInGameBackgroundProcesses();
     }
 
@@ -139,7 +139,7 @@ class Board: public StaticLifeCycleControler<Board>
      */
     void StopInGameBackgroundProcesses()
     {
-      LOG(LogInfo) << "[Hardware] Start in-game Hardware processes";
+      { LOG(LogInfo) << "[Hardware] Start in-game Hardware processes"; }
       return mBoard->StopInGameBackgroundProcesses();
     }
 

@@ -377,7 +377,7 @@ void GuiMetaDataEd::save()
             mMetaData.SetCore(split[1]);
           }
         }
-        else LOG(LogError) << "Error splitting emulator and core!";
+        else { LOG(LogError) << "[MetadataEditor] Error splitting emulator and core!"; }
       }
       else (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
     }

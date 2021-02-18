@@ -246,7 +246,7 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, int& code)
       }
   }
 
-  LOG(LogWarning) << "Unknown key: " << value;
+  { LOG(LogWarning) << "[Pad2Keyboard] Unknown key: " << value; }
   return false;
 }
 
@@ -307,7 +307,7 @@ bool MappingConfiguration::ParsePadItems(const std::string& value, int& padNum, 
       }
   }
 
-  LOG(LogWarning) << "Unknown pad item: " << value;
+  { LOG(LogWarning) << "[Pad2Keyboard] Unknown pad item: " << value; }
   return false;
 }
 

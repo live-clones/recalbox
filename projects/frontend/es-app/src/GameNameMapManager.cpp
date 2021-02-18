@@ -91,6 +91,6 @@ std::string GameNameMapManager::Rename(const SystemData& system, const std::stri
     const char* newName = GetCleanFlashbackName(Strings::ToLowerASCII(filenameWoExt));
     return newName != nullptr ? std::string(newName) : filenameWoExt;
   }
-  LOG(LogError) << "[GameName] Renaming called on non-renamed platform game: " << filenameWoExt;
+  { LOG(LogError) << "[GameName] Renaming called on non-renamed platform game: " << filenameWoExt; }
   return filenameWoExt;
 }

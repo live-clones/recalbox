@@ -13,7 +13,7 @@ void OdroidAdvanceGo2Alsa::Route(OdroidAdvanceGo2Alsa::OutputPath path)
   if (mixerElement != nullptr)
   {
     if (snd_mixer_selem_set_enum_item(mixerElement, SND_MIXER_SCHN_MONO, (unsigned int)path) < 0)
-      LOG(LogError) << "Failed to set mixer volume for " << Name();
+    { LOG(LogError) << "[Alsa] Failed to set mixer volume for " << Name(); }
     CloseMixer();
   }
 }

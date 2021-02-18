@@ -447,7 +447,7 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 			else if(str == "right")
 				setAlignment(HorizontalAlignment::Right);
 			else
-				LOG(LogError) << "Unknown TextListComponent alignment \"" << str << "\"!";
+      { LOG(LogError) << "[TextListComponent] Unknown TextListComponent alignment \"" << str << "\"!"; }
 		}
 		if(elem->HasProperty("horizontalMargin"))
 		{

@@ -102,15 +102,15 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
   {
     if (!Renderer::Instance().Initialize((int) width, (int) height))
     {
-      LOG(LogError) << "Renderer failed to initialize!";
+      { LOG(LogError) << "[WindowManager] Renderer failed to initialize!"; }
       return false;
     }
   }
 
   std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
-  LOG(LogInfo) << "Checking available OpenGL extensions...";
-  LOG(LogInfo) << " ARB_texture_non_power_of_two: "
-               << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
+  { LOG(LogInfo) << "[WindowManager] Checking available OpenGL extensions..."; }
+  { LOG(LogInfo) << "[WindowManager] ARB_texture_non_power_of_two: "
+                 << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING"); }
 
   InputManager::Instance().Initialize(this);
   ResourceManager::getInstance()->reloadAll();

@@ -160,7 +160,7 @@ int GuiArcadeVirtualKeyboard::GetCurrentCharIndex(const Wheel& wheel)
 
 void GuiArcadeVirtualKeyboard::textInput(const char* text)
 {
-  //LOG(LogDebug) << "TextInput: " << text << " (" << strlen(text) << ")";
+  //{ LOG(LogDebug) << "[ArcacdeVirtualKeyboard] TextInput: " << text << " (" << strlen(text) << ")"; }
   std::vector<unsigned int> unicodes = Strings::Utf8ToUnicode(text);
   for(unsigned int unicode : unicodes)
     AddCharacter(unicode);
@@ -174,7 +174,7 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
 
   if (event.IsKeyboard())
   {
-    LOG(LogDebug) << " Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value();
+    //{ LOG(LogDebug) << "[ArcadeVirtualKeyboard] Type: " << (int)event.RawEvent().Type() << " - Id: " << event.RawEvent().Id() << " - Device: " << event.RawEvent().Device() << " - Value: " << event.RawEvent().Value(); }
     bool pressed = event.RawEvent().Value() != 0;
     switch(event.RawEvent().Id())
     {
@@ -598,7 +598,7 @@ void GuiArcadeVirtualKeyboard::RenderWheel(const Wheel& wheel, double raymultipl
   //Renderer::drawRect(centerX - 1.0f, 0.0f, 3.0f, Renderer::Instance().DisplayHeightAsFloat(), 0xFFFFFFFF);
 
   int selectedChar = GetCurrentCharIndex(wheel);
-  //LOG(LogDebug) << "Selected: " << selectedChar << '/' << wheel.mWheelCharCount;
+  //{ LOG(LogDebug) << "[ArcadeVirtualKeyboard] Selected: " << selectedChar << '/' << wheel.mWheelCharCount; }
   for(int i=wheel.mWheelCharCount; --i >= 0;)
     if (i != selectedChar)
     {

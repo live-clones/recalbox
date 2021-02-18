@@ -56,8 +56,7 @@ class EmulatorDescriptor
         mCorePriorities[mCoreCount] = priority;
         mCores[mCoreCount++] = core;
       }
-      else
-        LOG(LogError) << "Core " << core << " cannot be added to emulator " << mEmulator;
+      else { LOG(LogError) << "[Emulator] Core " << core << " cannot be added to emulator " << mEmulator; }
     }
 };
 

@@ -21,7 +21,7 @@ void AnimatedImageComponent::load(const AnimationDef* def)
 	{
 		if(def->frames[i].path != nullptr && !ResourceManager::getInstance()->fileExists(Path(def->frames[i].path)))
 		{
-			LOG(LogError) << "Missing animation frame " << (int)i << " (\"" << def->frames[i].path << "\")";
+      { LOG(LogError) << "[Animation] Missing animation frame " << (int)i << " (\"" << def->frames[i].path << "\")"; }
 			continue;
 		}
 

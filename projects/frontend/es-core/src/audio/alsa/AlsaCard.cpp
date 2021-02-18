@@ -23,6 +23,6 @@ OdroidAdvanceGo2Alsa* AlsaCard::OdroidAdvanceGo2Router() const
     if (mixer.Type() == AlsaMixer::MixerType::OdroidAdvanceGo2Path)
       return ((OdroidAdvanceGo2Alsa*)&mixer);
 
-  LOG(LogError) << "No OdroidAdvanceGo2 found!";
+  { LOG(LogError) << "[Alsa] No OdroidAdvanceGo2 found!"; }
   return nullptr;
 }

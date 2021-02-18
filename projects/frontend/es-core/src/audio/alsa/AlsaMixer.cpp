@@ -21,19 +21,19 @@ snd_mixer_elem_t* AlsaMixer::OpenMixer()
 
   //open mixer
   int err = snd_mixer_open(&mMixerHandle, 0);
-  if (err < 0) { LOG(LogError) << "Failed to open ALSA mixer: " << snd_strerror(err); return nullptr; }
+  if (err < 0) { LOG(LogError) << "[AlsaMixer] Failed to open ALSA mixer: " << snd_strerror(err); return nullptr; }
 
   err = snd_mixer_attach(mMixerHandle, card.data());
-  if (err < 0) { LOG(LogError) << "Failed to attach card " << card << ' ' << snd_strerror(err); CloseMixer(); return nullptr; }
+  if (err < 0) { LOG(LogError) << "[AlsaMixer] Failed to attach card " << card << ' ' << snd_strerror(err); CloseMixer(); return nullptr; }
 
   err = snd_mixer_selem_register(mMixerHandle, nullptr, nullptr);
-  if (err < 0) { LOG(LogError) << "Failed to register simple element class " << snd_strerror(err); CloseMixer(); return nullptr; }
+  if (err < 0) { LOG(LogError) << "[AlsaMixer] Failed to register simple element class " << snd_strerror(err); CloseMixer(); return nullptr; }
 
   err = snd_mixer_load(mMixerHandle);
-  if (err < 0) { LOG(LogError) << "VolumeControl::init() - Failed to load mixer elements " << snd_strerror(err); CloseMixer(); return nullptr; }
+  if (err < 0) { LOG(LogError) << "[AlsaMixer] VolumeControl::init() - Failed to load mixer elements " << snd_strerror(err); CloseMixer(); return nullptr; }
 
   snd_mixer_elem_t* mixerElem = snd_mixer_find_selem(mMixerHandle, mixerSelemId);
-  if (mixerElem == nullptr) { LOG(LogError) << "Failed to find mixer elements " << mMixerName << ',' << mMixerId; }
+  if (mixerElem == nullptr) { LOG(LogError) << "[AlsaMixer] Failed to find mixer elements " << mMixerName << ',' << mMixerId; }
 
   return mixerElem;
 }

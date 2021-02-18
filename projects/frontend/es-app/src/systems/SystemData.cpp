@@ -67,12 +67,12 @@ int SystemData::Run(const std::string& cmd_utf8, bool debug)
       long long size = outPath.Size();
       std::string start = Files::LoadFile(outPath, 0, sLogSizeLimit / 2);
       std::string stop = Files::LoadFile(outPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
-      LOG(LogInfo) << "Configgen Output:\n" << start << "\n...\n" << stop;
+      { LOG(LogInfo) << "[Run] Configgen Output:\n" << start << "\n...\n" << stop; }
     }
     else
     {
       std::string content = Files::LoadFile(outPath);
-      if (!content.empty()) LOG(LogInfo) << "Configgen Output:\n" << content;
+      if (!content.empty()) { LOG(LogInfo) << "[Run] Configgen Output:\n" << content; }
     }
 
     // stderr
@@ -81,12 +81,12 @@ int SystemData::Run(const std::string& cmd_utf8, bool debug)
       long long size = errPath.Size();
       std::string start = Files::LoadFile(errPath, 0, sLogSizeLimit / 2);
       std::string stop = Files::LoadFile(errPath, size - (sLogSizeLimit / 2), sLogSizeLimit / 2);
-      LOG(LogInfo) << "Configgen Errors:\n" << start << "\n...\n" << stop;
+      { LOG(LogInfo) << "[Run] Configgen Errors:\n" << start << "\n...\n" << stop; }
     }
     else
     {
       std::string content = Files::LoadFile(errPath);
-      if (!content.empty()) LOG(LogInfo) << "Configgen Errors:\n" << content;
+      if (!content.empty()) { LOG(LogInfo) << "[Run] Configgen Errors:\n" << content; }
     }
   }
 
@@ -103,12 +103,12 @@ void SystemData::RunGame(WindowManager& window,
   // Automatic game-running flag management
   GameRunner gameRunner;
 
-  LOG(LogInfo) << "Launching game...";
+  { LOG(LogInfo) << "[Run] Launching game..."; }
 
   InputMapper mapper(nullptr);
   OrderedDevices controllers = InputManager::Instance().GetMappedDeviceList(mapper);
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
-  LOG(LogInfo) << "Controllers config : " << controlersConfig;
+  { LOG(LogInfo) << "[Run] Controllers config : " << controlersConfig; }
 
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
@@ -161,7 +161,7 @@ void SystemData::RunGame(WindowManager& window,
     }
   }
 
-  LOG(LogInfo) << "	" << command;
+  { LOG(LogInfo) << "[Run] Command: " << command; }
   {
     PadToKeyboardManager padToKeyboard(controllers, game.getPath());
     padToKeyboard.StartMapping();
@@ -181,7 +181,7 @@ void SystemData::RunGame(WindowManager& window,
     Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
     printf("==============================================\n");
     if (exitCode != 0)
-      LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
+    { LOG(LogWarning) << "[Run] ...launch terminated with nonzero exit code " << exitCode << "!"; }
 
     NotificationManager::Instance().Notify(game, Notification::EndGame);
     padToKeyboard.StopMapping();
@@ -202,12 +202,12 @@ void SystemData::RunGame(WindowManager& window,
 
 std::string SystemData::demoInitialize(WindowManager&)
 {
-  LOG(LogInfo) << "Entering demo mode...";
+  { LOG(LogInfo) << "[DemoMode] Entering demo mode..."; }
 
   InputMapper mapper(nullptr);
   //OrderedDevices controllers = InputManager::Instance().GenerateConfiguration(mapper);
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
-  LOG(LogInfo) << "Controllers config : " << controlersConfig;
+  { LOG(LogInfo) << "[DemoMode] Controllers config : " << controlersConfig; }
 
   VideoEngine::Instance().StopVideo();
   AudioManager::Instance().Deactivate();
@@ -231,7 +231,7 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   // Automatic game-running flag management
   GameRunner gameRunner;
 
-  LOG(LogInfo) << "Launching game demo...";
+  { LOG(LogInfo) << "[Run] Launching game demo..."; }
 
   std::string command = mDescriptor.Command();
   OverrideCommand(game.getPath(), command);
@@ -259,31 +259,31 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   if (debug)
     command.append(" -verbose");
 
-  LOG(LogInfo) << "Demo command: " << command;
+  { LOG(LogInfo) << "[Run] Demo command: " << command; }
   NotificationManager::Instance().Notify(game, Notification::RunDemo);
   Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
   int exitCode = WEXITSTATUS(Run(command, debug));
   Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
   NotificationManager::Instance().Notify(game, Notification::EndDemo);
-  LOG(LogInfo) << "Demo exit code :	" << exitCode;
+  { LOG(LogInfo) << "[Run] Demo exit code :	" << exitCode; }
 
 
   // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
   if (exitCode == 0x33)
   {
-    LOG(LogInfo) << "Exiting demo upon user request";
+    { LOG(LogInfo) << "[Run] Exiting demo upon user request"; }
     return true;
   }
 
   if (exitCode != 0)
-    LOG(LogWarning) << "...launch terminated with nonzero exit code " << exitCode << "!";
+  { LOG(LogWarning) << "[Run] ...launch terminated with nonzero exit code " << exitCode << "!"; }
 
   return false;
 }
 
 void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppelgangerWatcher)
 {
-  LOG(LogInfo) << root.getSystem()->getFullName() << ": Searching games/roms in " << root.getPath().ToString() << "...";
+  { LOG(LogInfo) << "[Gamelist] " << root.getSystem()->getFullName() << ": Searching games/roms in " << root.getPath().ToString() << "..."; }
 
   try
   {
@@ -291,8 +291,8 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
   }
   catch (std::exception& ex)
   {
-    LOG(LogError) << "Reading folder \"" << root.getPath().ToString() << "\" has raised an error!";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[Gamelist] Reading folder \"" << root.getPath().ToString() << "\" has raised an error!"; }
+    { LOG(LogError) << "[Gamelist] Exception: " << ex.what(); }
   }
 }
 
@@ -350,7 +350,7 @@ void SystemData::loadTheme()
   }
   catch (ThemeException& e)
   {
-    LOG(LogError) << e.what();
+    { LOG(LogError) << "[Theme] " << e.what(); }
     mDescriptor.SetDefaultThemePath();
     mTheme.loadFile(ThemeFolder(), path);
   }
@@ -435,8 +435,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
 {
   if (!path.StartWidth(rootPath))
   {
-    LOG(LogError) << "File path \"" << path.ToString() << "\" is outside system path \"" << rootPath.ToString()
-                  << "\"";
+    { LOG(LogError) << "[Gamelist] File path \"" << path.ToString() << "\" is outside system path \"" << rootPath.ToString() << "\""; }
     return nullptr;
   }
 
@@ -521,20 +520,20 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       Zip zip(xmlpath);
       if (zip.Count() != 1)
       {
-        LOG(LogError) << "Invalid zipped gamelist: More than one file in the archive!";
+        { LOG(LogError) << "[Gamelist] Invalid zipped gamelist: More than one file in the archive!"; }
         return;
       }
       Path gamelist(zip.FileName(0));
       if (gamelist.Filename() != "gamelist.xml")
       {
-        LOG(LogError) << "Invalid zipped gamelist: No gamelist.xml found!";
+        { LOG(LogError) << "[Gamelist] Invalid zipped gamelist: No gamelist.xml found!"; }
         return;
       }
       std::string content = zip.Content(0);
       XmlResult result = gameList.load_string(content.data());
       if (!result)
       {
-        LOG(LogError) << "Could not parse " << xmlpath.ToString() << " file!";
+        { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
         return;
       }
     }
@@ -543,7 +542,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       XmlResult result = gameList.load_file(xmlpath.ToChars());
       if (!result)
       {
-        LOG(LogError) << "Could not parse " << xmlpath.ToString() << " file!";
+        { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
         return;
       }
     }
@@ -567,7 +566,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         FileData* file = LookupOrCreateGame(root, relativeTo, path, type, doppelgangerWatcher);
         if (file == nullptr)
         {
-          LOG(LogError) << "Error finding/creating FileData for \"" << path.ToString() << "\", skipping.";
+          { LOG(LogError) << "[Gamelist] Error finding/creating FileData for \"" << path.ToString() << "\", skipping."; }
           continue;
         }
 
@@ -577,8 +576,8 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
   }
   catch (std::exception& ex)
   {
-    LOG(LogError) << "System \"" << getName() << "\" has raised an error while reading its gamelist.xml!";
-    LOG(LogError) << "Exception: " << ex.what();
+    { LOG(LogError) << "[Gamelist] System \"" << getName() << "\" has raised an error while reading its gamelist.xml!"; }
+    { LOG(LogError) << "[Gamelist] Exception: " << ex.what(); }
   }
 }
 
@@ -641,25 +640,23 @@ void SystemData::UpdateGamelistXml()
           if (zip.Add(Writer.mOutput, xmlTruePath.Filename()))
           {
             xmlTruePath.Delete();
-            LOG(LogInfo) << "Saved gamelist.zip for system " << getFullName() << ". Updated items: " << fileList.size()
-                         << "/" << fileList.size();
+            { LOG(LogInfo) << "[Gamelist] Saved gamelist.zip for system " << getFullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
           }
-          else LOG(LogError) << "Failed to save " << xmlWritePath.ToString();
+          else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
         }
         else
         {
           if (Files::SaveFile(xmlWritePath, Writer.mOutput))
           {
             xmlWritePath.ChangeExtension(".zip").Delete();
-            LOG(LogInfo) << "Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileList.size()
-                         << "/" << fileList.size();
+            { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
           }
-          else LOG(LogError) << "Failed to save " << xmlWritePath.ToString();
+          else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
         }
       }
       catch (std::exception& e)
       {
-        LOG(LogError) << "Something went wrong while saving " << getFullName() << " : " << e.what();
+        { LOG(LogError) << "[Gamelist] Something went wrong while saving " << getFullName() << " : " << e.what(); }
       }
 }
 
@@ -729,7 +726,7 @@ IBoardInterface::CPUGovernance SystemData::GetGovernance(const std::string& core
   if (governance == "powersave") return IBoardInterface::CPUGovernance::PowerSave;
   if (governance == "ondemand") return IBoardInterface::CPUGovernance::OnDemand;
   if (governance == "performance") return IBoardInterface::CPUGovernance::FullSpeed;
-  LOG(LogError) << "Unreconized governance " << governance << " in " << sGovernanceFile;
+  { LOG(LogError) << "[Gamelist] Unreconized governance " << governance << " in " << sGovernanceFile; }
   return IBoardInterface::CPUGovernance::FullSpeed;
 }
 
@@ -760,7 +757,7 @@ RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, Root
 FolderData& SystemData::GetFavoriteRoot()
 {
   if (!IsFavorite())
-    LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!";
+  {LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
   return LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
 }
 

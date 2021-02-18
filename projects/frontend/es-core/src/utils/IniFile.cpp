@@ -40,9 +40,9 @@ bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::st
           value = line.substr(separatorPos + 1);
           return true;
         }
-        else LOG(LogWarning) << "Invalid key: `" << line << '`';
+        else { LOG(LogWarning) << "[IniFile] Invalid key: `" << line << '`'; }
       }
-      else LOG(LogError) << "Invalid line: `" << line << '`';
+      else { LOG(LogError) << "[IniFile] Invalid line: `" << line << '`'; }
     }
   }
   return false;

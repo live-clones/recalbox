@@ -36,7 +36,7 @@ void NinePatchComponent::buildVertices()
 
 	if(mTexture->getSize() == Vector2i::Zero())
 	{
-		LOG(LogWarning) << "NinePatchComponent missing texture!";
+    { LOG(LogWarning) << "[NinePatchComponent] missing texture!"; }
 		return;
 	}
 

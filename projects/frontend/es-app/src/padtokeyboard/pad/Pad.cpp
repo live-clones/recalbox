@@ -53,15 +53,14 @@ void Pad::Open(const OrderedDevices& orderedDevices)
         {
           Assigned |= (1 << i);
           mSdlToRecalboxIndexex[joystickIdentifier] = i;
-          LOG(LogInfo) << "[Pad2Keyboard] "<< joystickIdentifier << ':' << name << " (" << guid << ") assigned as Pad #" << i;
+          { LOG(LogInfo) << "[Pad2Keyboard] "<< joystickIdentifier << ':' << name << " (" << guid << ") assigned as Pad #" << i; }
           break;
         }
     }
   }
 
   mReady = (Assigned != 0);
-  if (!mReady)
-    LOG(LogWarning) << "[Pad2Keyboard] No Joystick assigned!";
+  if (!mReady) { LOG(LogWarning) << "[Pad2Keyboard] No Joystick assigned!"; }
 }
 
 void Pad::Release()
@@ -184,7 +183,7 @@ bool Pad::GetEvent(Pad::Event& event)
     }
     else
     {
-      LOG(LogDebug) << "SDL Event Error";
+      { LOG(LogDebug) << "[Pad2Keyboard] SDL Event Error"; }
       return false;
     }
 

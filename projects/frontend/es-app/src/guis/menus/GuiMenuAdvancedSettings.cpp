@@ -120,10 +120,10 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::PCx86:
     case BoardType::PCx64: break;
   }
-  LOG(LogDebug) << "[Overclock] Board: " << (int)Board::Instance().GetBoardType();
+  { LOG(LogDebug) << "[Overclock] Board: " << (int)Board::Instance().GetBoardType(); }
   if (boardFolder.empty()) return result;
   Path finalPath = basePath / boardFolder;
-  LOG(LogDebug) << "[Overclock] Final source folder: " <<finalPath.ToString();
+  { LOG(LogDebug) << "[Overclock] Final source folder: " <<finalPath.ToString(); }
 
   // Get O/C config list
   Path::PathList list = finalPath.GetDirectoryContent();
@@ -144,10 +144,9 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     if (!desc.empty())
     {
       result.push_back({ path.ToString(), desc, hazard });
-      LOG(LogInfo) << "[Overclock] File " << path.ToString() << " validated.";
+      { LOG(LogInfo) << "[Overclock] File " << path.ToString() << " validated."; }
     }
-    else
-      LOG(LogError) << "[Overclock] Invalid file " << path.ToString();
+    else { LOG(LogError) << "[Overclock] Invalid file " << path.ToString(); }
   }
 
   return result;
@@ -170,9 +169,9 @@ void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, cons
       Files::SaveFile(Path(sOverclockFile), Files::LoadFile(Path(value.File)));
       RecalboxSystem::MakeBootReadOnly();
       mLastHazardous = value.Hazardous;
-      LOG(LogInfo) << "[Overclock] Overclocking set to " << value.Description;
+      { LOG(LogInfo) << "[Overclock] Overclocking set to " << value.Description; }
     }
-    else LOG(LogError) << "[Overclock] Cannot make boot read write";
+    else { LOG(LogError) << "[Overclock] Cannot make boot read write"; }
   }
 }
 

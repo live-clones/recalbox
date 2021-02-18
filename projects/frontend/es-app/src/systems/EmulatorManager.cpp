@@ -7,16 +7,15 @@
 
 bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const
 {
-  LOG(LogDebug) << "Get system's emulator for " << system.getFullName();
+  { LOG(LogDebug) << "[Emulator] Get system's emulator for " << system.getFullName(); }
   bool Ok = GetSystemDefaultEmulator(system, emulator, core);
-  if (!Ok)
-    LOG(LogError) << "Cannot get default emulator!";
+  if (!Ok) { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
   return Ok;
 }
 
 bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
 {
-  LOG(LogDebug) << "Get game's emulator for " << game.getPath().ToString();
+  { LOG(LogDebug) << "[Emulator] Get game's emulator for " << game.getPath().ToString(); }
 
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(*game.getSystem(), emulator, core);
@@ -31,9 +30,9 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulato
     // Then from file overrides
     GetEmulatorFromOverride(game, emulator, core);
   }
-  else LOG(LogError) << "Cannot get default emulator!";
+  else { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
 
-  LOG(LogDebug) << "Final game's emulator for " << game.getPath().ToString() << " : " << emulator << "-" << core;
+  { LOG(LogDebug) << "[Emulator] Final game's emulator for " << game.getPath().ToString() << " : " << emulator << "-" << core; }
 
   return Ok;
 }
@@ -71,7 +70,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
             emulator = list.EmulatorAt(i).Name();
           }
 
-      LOG(LogDebug) << "  From SystemList: " << emulator << '/' << core;
+      { LOG(LogDebug) << "[Emulator]   From SystemList: " << emulator << '/' << core; }
       return true;
     }
   }
@@ -90,7 +89,7 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
     {
       emulator = rawemulator;
       core = rawcore;
-      LOG(LogDebug) << "  From configuration file" << emulator << '/' << core;
+      { LOG(LogDebug) << "[Emulator]   From configuration file" << emulator << '/' << core; }
     }
     else
     {
@@ -98,7 +97,7 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
       {
         emulator = rawemulator;
         core = rawcore;
-        LOG(LogDebug) << "  Guessed from configuration file" << emulator << '/' << core;
+        { LOG(LogDebug) << "[Emulator]   Guessed from configuration file" << emulator << '/' << core; }
       }
     }
   }
@@ -116,7 +115,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
     {
       emulator = rawemulator;
       core = rawcore;
-      LOG(LogDebug) << " From Gamelist.xml" << emulator << '/' << core;
+      { LOG(LogDebug) << "[Emulator]  From Gamelist.xml" << emulator << '/' << core; }
     }
     else
     {
@@ -124,7 +123,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
       {
         emulator = rawemulator;
         core = rawcore;
-        LOG(LogDebug) << "  Guessed from Gamelist.xml" << emulator << '/' << core;
+        { LOG(LogDebug) << "[Emulator]   Guessed from Gamelist.xml" << emulator << '/' << core; }
       }
     }
   }
@@ -190,7 +189,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
     {
       emulator = finalEmulator;
       core = finalCore;
-      LOG(LogDebug) << " From override files" << emulator << '/' << core;
+      { LOG(LogDebug) << "[Emulator]   From override files" << emulator << '/' << core; }
     }
     else
     {
@@ -198,7 +197,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
       {
         emulator = finalEmulator;
         core = finalCore;
-        LOG(LogDebug) << "  Guessed from override files" << emulator << '/' << core;
+        { LOG(LogDebug) << "[Emulator]   Guessed from override files" << emulator << '/' << core; }
       }
     }
   }
@@ -230,7 +229,7 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
         if (list.Named(emulator).CoreCount() == 1)
         {
           core = list.Named(emulator).CoreAt(0);
-          LOG(LogDebug) << "Core " << core << " guessed from emulator " << emulator << " whish has only one core";
+          { LOG(LogDebug) << "[Emulator] Core " << core << " guessed from emulator " << emulator << " whish has only one core"; }
           return true;
         }
     }
@@ -241,7 +240,7 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
         if (list.EmulatorAt(i).HasCore(core))
         {
           emulator = list.EmulatorAt(i).Name();
-          LOG(LogDebug) << "Emulator " << emulator << " guessed from core " << core;
+          { LOG(LogDebug) << "[Emulator] Emulator " << emulator << " guessed from core " << core; }
           return true;
         }
     }

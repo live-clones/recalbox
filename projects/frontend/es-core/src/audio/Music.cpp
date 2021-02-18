@@ -6,7 +6,7 @@ Music* Music::sCurrentlyPlaying = nullptr;
 
 Music* Music::LoadFromPath(const Path& path)
 {
-  LOG(LogInfo) << "Loading music " << path.ToString();
+  { LOG(LogInfo) << "[Music] Loading music " << path.ToString(); }
   if (path.Exists())
     return new Music(path);
   return nullptr;
@@ -41,7 +41,7 @@ void Music::Initialize()
   gMusic = Mix_LoadMUS(mPath.ToChars());
   if (gMusic == nullptr)
   {
-    LOG(LogError) << "Error loading music \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError();
+    { LOG(LogError) << "[Music] Error loading music \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError(); }
     return;
   }
   mMusic = gMusic;
@@ -70,10 +70,10 @@ bool Music::Play(bool repeat)
 {
   if (mMusic == nullptr) return false;
 
-  LOG(LogInfo) << "Playing " << Name();
+  { LOG(LogInfo) << "[Music] Playing " << Name(); }
   if (Mix_FadeInMusic(mMusic, repeat ? -1 : 1, 1000) == -1)
   {
-    LOG(LogInfo) << "Mix_PlayMusic Error: " << Mix_GetError();
+    { LOG(LogInfo) << "[Music] Mix_PlayMusic Error: " << Mix_GetError(); }
     return false;
   }
 
@@ -92,4 +92,3 @@ void Music::Stop()
   Mix_FadeOutMusic(1000);
   Mix_HaltMusic();
 }
-

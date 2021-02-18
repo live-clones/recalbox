@@ -664,8 +664,7 @@ bool GuiBiosScan::IsSystemShown(const std::string& systemNames)
     for(const std::string& s : list)
       if (systemName == s)
         check = true;
-  if (!check)
-    LOG(LogError) << "CHECK BIOS Systems: " << systemNames << " not found!";
+  if (!check) { LOG(LogError) << "[BiosGui] CHECK BIOS Systems: " << systemNames << " not found!"; }
   #endif
 
   for(const SystemData* systemData : mSystemManager.GetAllSystemList())

@@ -45,7 +45,7 @@ static void APIENTRY GLDebugCallback(GLenum source,
     default: break;
   }
 
-  LOG(LogError) << "GL Error [Type:" << typeString << " - Severity:" << severityString << "] {id:" << id << "} " << message;
+  { LOG(LogError) << "[Renderer] GL Error [Type:" << typeString << " - Severity:" << severityString << "] {id:" << id << "} " << message; }
 }
 
 #endif
@@ -53,7 +53,7 @@ static void APIENTRY GLDebugCallback(GLenum source,
 void Renderer::ActivateGLDebug()
 {
   #ifdef DEBUG
-  LOG(LogInfo) << "GL Debug activated.";
+  { LOG(LogInfo) << "[Renderer] GL Debug activated."; }
   glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
   glDebugMessageCallback(GLDebugCallback, nullptr);
   GLuint unusedIds = 0;
@@ -88,11 +88,11 @@ Renderer::~Renderer()
 
 bool Renderer::CreateSdlSurface()
 {
-  LOG(LogInfo) << "Creating surface...";
+  { LOG(LogInfo) << "[Renderer] Creating surface..."; }
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0)
   {
-    LOG(LogError) << "Error initializing SDL!\n	" << SDL_GetError();
+    { LOG(LogError) << "[Renderer] Error initializing SDL!\n	" << SDL_GetError(); }
     return false;
   }
 
@@ -119,7 +119,7 @@ bool Renderer::CreateSdlSurface()
   if (mDisplayHeight == 0) mDisplayHeight = dispMode.h;
   mDisplayWidthFloat = (float)mDisplayWidth;
   mDisplayHeightFloat = (float)mDisplayHeight;
-  LOG(LogInfo) << "[Video] Resolution: " << mDisplayWidth << ',' << mDisplayHeight;
+  { LOG(LogInfo) << "[Renderer] Resolution: " << mDisplayWidth << ',' << mDisplayHeight; }
 
   mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -129,11 +129,11 @@ bool Renderer::CreateSdlSurface()
 
   if (mSdlWindow == nullptr)
   {
-    LOG(LogError) << "Error creating SDL window!\n\t" << SDL_GetError();
+    { LOG(LogError) << "[Renderer] Error creating SDL window!\n\t" << SDL_GetError(); }
     return false;
   }
 
-  LOG(LogInfo) << "Created window successfully.";
+  { LOG(LogInfo) << "[Renderer] Created window successfully."; }
 
   //set an icon for the window
   size_t width = 0;
@@ -166,7 +166,7 @@ bool Renderer::CreateSdlSurface()
   mSdlGLContext = SDL_GL_CreateContext(mSdlWindow);
 
   // vsync
-  LOG(LogInfo) << "Activating vertical sync'";
+  { LOG(LogInfo) << "[Renderer] Activating vertical sync'"; }
   // SDL_GL_SetSwapInterval(0) for immediate updates (no vsync, default),
   // 1 for updates synchronized with the vertical retrace,
   // or -1 for late swap tearing.
@@ -175,11 +175,8 @@ bool Renderer::CreateSdlSurface()
   // if that doesn't work, report an error
   /*if (SDL_GL_SetSwapInterval(-1) == 0) LOG(LogInfo) << "Adaptative VSync' activated.";
   else*/
-  if (SDL_GL_SetSwapInterval(1) == 0)
-  {
-    LOG(LogInfo) << "Normal VSync' activated.";
-  }
-  else LOG(LogWarning) << "Tried to enable vsync, but failed! (" << SDL_GetError() << ")";
+  if (SDL_GL_SetSwapInterval(1) == 0) { LOG(LogInfo) << "[Renderer] Normal VSync' activated."; }
+  else { LOG(LogWarning) << "[Renderer] Tried to enable vsync, but failed! (" << SDL_GetError() << ")"; }
 
   return true;
 }
@@ -287,7 +284,7 @@ void Renderer::PopClippingRect()
 {
   if (mClippingStack.empty())
   {
-    LOG(LogError) << "Tried to popClipRect while the stack was empty!";
+    { LOG(LogError) << "[Renderer] Tried to popClipRect while the stack was empty!"; }
     return;
   }
 

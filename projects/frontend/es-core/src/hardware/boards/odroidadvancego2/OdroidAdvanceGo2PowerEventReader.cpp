@@ -24,13 +24,13 @@ OdroidAdvanceGo2PowerEventReader::~OdroidAdvanceGo2PowerEventReader()
 
 void OdroidAdvanceGo2PowerEventReader::StartReader()
 {
-  LOG(LogDebug) << "[OdroidAdvanceGo] Power button manager requested to start.";
+  { LOG(LogDebug) << "[OdroidAdvanceGo] Power button manager requested to start."; }
   Start("OAG2Power");
 }
 
 void OdroidAdvanceGo2PowerEventReader::StopReader()
 {
-  LOG(LogDebug) << "[OdroidAdvanceGo] Power button manager requested to stop.";
+  { LOG(LogDebug) << "[OdroidAdvanceGo] Power button manager requested to stop."; }
   Stop();
 }
 
@@ -38,23 +38,20 @@ void OdroidAdvanceGo2PowerEventReader::Break()
 {
   if (mFileHandle >= 0)
   {
-    LOG(LogDebug) << "[OdroidAdvanceGo] Breaking power button thread.";
-    // Close handle to force the 'read' to fail and exit
-    int fd = mFileHandle;
+    { LOG(LogDebug) << "[OdroidAdvanceGo] Breaking power button thread."; }
     mFileHandle = -1;
-    close(fd);
   }
 }
 
 void OdroidAdvanceGo2PowerEventReader::Run()
 {
-  LOG(LogInfo) << "[OdroidAdvanceGo] Running background power button manager.";
+  { LOG(LogInfo) << "[OdroidAdvanceGo] Running background power button manager."; }
   while(IsRunning())
   {
     mFileHandle = open(sInputEventPath, O_RDONLY);
     if (mFileHandle < 0)
     {
-      LOG(LogError) << "[OdroidAdvanceGo] Error opening " << sInputEventPath << ". Retry in 5s...";
+      { LOG(LogError) << "[OdroidAdvanceGo] Error opening " << sInputEventPath << ". Retry in 5s..."; }
       sleep(5);
       continue;
     }
@@ -88,15 +85,15 @@ void OdroidAdvanceGo2PowerEventReader::Run()
       struct input_event event {};
       if (read(mFileHandle, &event, sizeof(event)) != sizeof(event))
       {
+        close(mFileHandle);
         // Error while the file handle is ok means a true read error
         if (mFileHandle >= 0)
         {
-          LOG(LogError) << "[OdroidAdvanceGo] Error reading " << sInputEventPath << ". Retrying";
-          close(mFileHandle);
+          { LOG(LogError) << "[OdroidAdvanceGo] Error reading " << sInputEventPath << ". Retrying"; }
           continue;
         }
         // If file handle NOK, we're instructed to quit
-        LOG(LogInfo) << "[OdroidAdvanceGo] Power event reader ordered to stop.";
+        { LOG(LogInfo) << "[OdroidAdvanceGo] Power event reader ordered to stop."; }
         break;
       }
 
@@ -136,7 +133,7 @@ void OdroidAdvanceGo2PowerEventReader::Suspend()
   { LOG(LogInfo) << "[OdroidAdvanceGo] SUSPEND!"; }
   mWaitFor = WaitFor::Ignore; // Ignore next event when waking up!
   if (system("/usr/sbin/pm-suspend") != 0) // Suspend mode
-    LOG(LogError) << "[OdroidAdvanceGo] Suspend failed!";
+  { LOG(LogError) << "[OdroidAdvanceGo] Suspend failed!"; }
 
   { LOG(LogInfo) << "[OdroidAdvanceGo] WAKEUP!"; }
   mSender.Send(BoardType::OdroidAdvanceGo, MessageTypes::Resume);

@@ -309,7 +309,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
   {
-    LOG(LogError) << "Empty emulator/core when running " << game->getPath().ToString() << '!';
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->getPath().ToString() << '!'; }
     return;
   }
 
@@ -370,7 +370,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 
 	if(!game->isGame())
 	{
-		LOG(LogError) << "tried to launch something that isn't a game";
+    { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
 		return;
 	}
 

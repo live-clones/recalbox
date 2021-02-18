@@ -60,13 +60,13 @@ StaticLifeCycleControler<T>::StaticLifeCycleControler(const char* name)
 {
   if (sInstance != nullptr)
   {
-    LOG(LogInfo) << "Instance of " << name << " already exists!";
+    { LOG(LogInfo) << "[StaticLifeCycleControler] Instance of " << name << " already exists!"; }
     exit(-1);
   }
 
   sNameHolder.mClassName = name;
   sInstance = (T*)this;
-  LOG(LogInfo) << name << " instance created.";
+  { LOG(LogInfo) << "[StaticLifeCycleControler] " << name << " instance created."; }
 }
 
 template<class T>
@@ -74,7 +74,7 @@ StaticLifeCycleControler<T>::~StaticLifeCycleControler()
 {
   if (sInstance != this)
   {
-    LOG(LogInfo) << "Abnormal destruction of " << sNameHolder.mClassName;
+    { LOG(LogInfo) << "[StaticLifeCycleControler] Abnormal destruction of " << sNameHolder.mClassName; }
     exit(-1);
   }
   sInstance = nullptr;
@@ -86,7 +86,7 @@ T& StaticLifeCycleControler<T>::Instance()
   if (sInstance != nullptr)
     return *sInstance;
 
-  LOG(LogError) << sNameHolder.mClassName << " not yet available!";
+  { LOG(LogError) << "[StaticLifeCycleControler] " << sNameHolder.mClassName << " not yet available!"; }
   exit(-1);
 }
 

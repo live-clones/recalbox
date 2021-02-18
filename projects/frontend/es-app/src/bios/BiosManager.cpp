@@ -26,7 +26,7 @@ void BiosManager::LoadFromFile()
   XmlResult result = biosListXml.load_file(xmlpath.ToChars());
   if (!result)
   {
-    LOG(LogError) << "Could not parse " << xmlpath.ToString() << " file!";
+    { LOG(LogError) << "[Bios] Could not parse " << xmlpath.ToString() << " file!"; }
     return;
   }
 
