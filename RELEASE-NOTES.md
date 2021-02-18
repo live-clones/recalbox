@@ -42,7 +42,7 @@
 - Fix lost support of open and WPA-PSK-SHA256 wifi networks
 - Fix 8Bitdo NES30 Pro rev 1 mapping (thanks @fredbcode)
 - Fix name for palmos rom (thanks @RaZer0k)
-
+- Fix 4k resolution handling on rpi4
 
 ## 7.1.1-Reloaded
 

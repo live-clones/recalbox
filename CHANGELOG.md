@@ -111,6 +111,7 @@ All notable changes to this project will be documented in this file.
 - Back to libretro-uae repo and bump core (chd support on amigacd32 & amigacdtv)
 - Bump libretro-uae (chd support on amigacd32 & amigacdtv)
 - Fix FDS's extensions
+- Fix 4k resolution handling on rpi4
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
