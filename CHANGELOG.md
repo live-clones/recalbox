@@ -112,6 +112,7 @@ All notable changes to this project will be documented in this file.
 - Fix FDS's extensions
 - Fix 4k resolution handling on rpi4
 - Bump ScummVM (February '21)
+- Bump BlueMSX
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

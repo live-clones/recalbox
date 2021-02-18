@@ -34,6 +34,7 @@
 - Improved menu ergonomy
 - Bump libretro-uae adding CHD support
 - Bump ScummVM
+- Bump BlueMSX
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package
