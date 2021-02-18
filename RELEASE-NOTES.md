@@ -32,6 +32,7 @@
 - Patch Retroarch for X11 multi-mouse
 - Flycast crossairs updated
 - Improved menu ergonomy
+- Bump libretro-uae adding CHD support
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package
