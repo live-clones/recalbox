@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system fds --extension '.fds.zip .7z' --fullname 'Family Computer Disk System' --platform fds --theme fds 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:mesen:BR2_PACKAGE_LIBRETRO_MESEN 4:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
+# ./scripts/linux/empack.py --force --system fds --extension '.fds .zip .7z' --fullname 'Family Computer Disk System' --platform fds --theme fds 1:libretro:nestopia:BR2_PACKAGE_LIBRETRO_NESTOPIA 2:libretro:fceumm:BR2_PACKAGE_LIBRETRO_FCEUMM 3:libretro:mesen:BR2_PACKAGE_LIBRETRO_MESEN 4:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_FDS_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_FDS = $(RECALBOX_ROMFS_FDS_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
 define CONFIGURE_MAIN_FDS_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FDS),Family Computer Disk System,$(SYSTEM_NAME_FDS),.fds.zip .7z,fds,fds)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_FDS),Family Computer Disk System,$(SYSTEM_NAME_FDS),.fds .zip .7z,fds,fds)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN)$(BR2_PACKAGE_LIBRETRO_FBNEO),)
