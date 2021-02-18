@@ -2968,3 +2968,11 @@ msgstr ""
 #
 msgid "Finally, the two bottom-right gray buttons are third left & right triggers (L3/R3), only usefull in some emulators or to record videos.\n\n Press either L3 or R3"
 msgstr ""
+
+#
+msgid "DRIVER"
+msgstr ""
+
+#
+msgid "Change the driver if your pad is not working at all or not working properly in-game."
+msgstr ""

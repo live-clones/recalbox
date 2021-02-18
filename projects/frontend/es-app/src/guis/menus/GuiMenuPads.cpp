@@ -28,6 +28,9 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   // Unpair all pads
   AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), (int)Components::Unpair, _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
 
+  // Driver
+  AddList<std::string>(_("DRIVER"), (int)Components::Driver, this, GetModes(), _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
+
   // Pad list
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
   {
@@ -35,11 +38,25 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
     std::string name(balls[i]);
     name.append(1, ' ').append(_("INPUT P%i"));
     Strings::ReplaceAllIn(name, "%i", Strings::ToString(i + 1));
-    mDevices[i] = AddList(name, (int)Components::Pads + i, this);
+    mDevices[i] = AddList<int>(name, (int)Components::Pads + i, this);
   }
 
   // Process & refresh device selector components
   RefreshDevices();
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuPads::GetModes()
+{
+  std::vector<ListEntry<std::string>> list;
+
+  std::string mode = RecalboxConf::Instance().GetGlobalInputDriver();
+  if ((mode != "udev") && (mode != "sdl2")) mode = "auto";
+
+  list.push_back({ _("AUTOMATIC"), "auto", mode == "auto" });
+  list.push_back({ _("SYSTEM DRIVER"), "udev", mode == "udev" });
+  list.push_back({ _("GAME LIBRARY DRIVER"), "sdl2", mode == "dsl2" });
+
+  return list;
 }
 
 void GuiMenuPads::PadsAddedOrRemoved()
@@ -116,7 +133,8 @@ void GuiMenuPads::SubMenuSelected(int id)
     case Components::Configure: StartConfiguring(); break;
     case Components::Pair: StartScanningDevices(); break;
     case Components::Unpair: UnpairAll(); break;
-    case Components::Pads:break;
+    case Components::Pads:
+    case Components::Driver:break;
   }
 }
 
@@ -130,4 +148,11 @@ void GuiMenuPads::OptionListComponentChanged(int id, int, const int&)
   // Swap both pads
   mMapper.Swap(id, newIndex);
   RefreshDevices();
+}
+
+void GuiMenuPads::OptionListComponentChanged(int id, int index, const std::string& value)
+{
+  (void)index;
+  if ((Components)id == Components::Driver)
+    RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
 }

@@ -2735,9 +2735,9 @@ msgid ""
 "\n"
 "Press button B to continue."
 msgstr ""
-"Se premi il pulsante POWER per più di 2 secondi, la tua console si "
-"spegnerà. Se lo fai durante una partita, Recalbox chiuderà in anticipo "
-"l'emulatore corrente.\n"
+"Se premi il pulsante POWER per più di 2 secondi, la tua console si spegnerà. "
+"Se lo fai durante una partita, Recalbox chiuderà in anticipo l'emulatore "
+"corrente.\n"
 "Per precauzione, premendo il pulsante POWER per più di 5 secondi verrà "
 "avviato uno spegnimento forzato.\n"
 "\n"
@@ -2780,7 +2780,9 @@ msgstr "rimosso dai preferiti"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "I gameclip non possono essere avviati. Nessun video disponibile per la tua selezione."
+msgstr ""
+"I gameclip non possono essere avviati. Nessun video disponibile per la tua "
+"selezione."
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2889,4 +2891,6 @@ msgid ""
 " Press either L3 or R3"
 msgstr ""
 
-
+#
+msgid "DRIVER"
+msgstr ""

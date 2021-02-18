@@ -2577,9 +2577,9 @@ msgid ""
 "\n"
 "Press button B to continue."
 msgstr ""
-"Om du trycker på POWER-knappen i mer än 2 sekunder stänger du av "
-"konsolen. Om du gör det i spelet kommer Recalbox att stänga den nuvarande "
-"emulatorn graciöst innan den stängs av.\n"
+"Om du trycker på POWER-knappen i mer än 2 sekunder stänger du av konsolen. "
+"Om du gör det i spelet kommer Recalbox att stänga den nuvarande emulatorn "
+"graciöst innan den stängs av.\n"
 "Bara så att du är medveten om du håller ned POWER-knappen i mer än 5 "
 "sekunder för att göra en hård avstängning.\n"
 "\n"
@@ -2622,7 +2622,8 @@ msgstr "Borttagen från favoriter"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "Videoklipp kan inte spelas upp. Finns inga videofiler i aktuell markering."
+msgstr ""
+"Videoklipp kan inte spelas upp. Finns inga videofiler i aktuell markering."
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2729,4 +2730,8 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
+msgstr ""
+
+#
+msgid "DRIVER"
 msgstr ""

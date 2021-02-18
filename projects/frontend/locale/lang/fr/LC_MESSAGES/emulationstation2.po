@@ -2889,3 +2889,11 @@ msgid ""
 "\n"
 " Press either L3 or R3"
 msgstr "Enfin, the deux boutons en bas à droite sont les troisièmes gâchettes gauches et droite (L3/R3), utiles uniquement dans certains émulateurs, ou pour enregistrer des vidéos.\n\nAppuyez sur L3 ou R3 pour continuer."
+
+#
+msgid "DRIVER"
+msgstr "PILOTE"
+
+#
+msgid "Change the driver if your pad is not working at all or not working properly in-game."
+msgstr "Changez le pilote si votre pad ne fonctionne pad du tout en jeu, ou s'il fonctionne partiellement."

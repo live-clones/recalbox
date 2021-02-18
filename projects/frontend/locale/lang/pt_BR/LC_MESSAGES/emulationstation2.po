@@ -2737,8 +2737,8 @@ msgstr ""
 "Se você apertar o botão POWER por mais de 2 segundos, seu console será "
 "desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente "
 "fechará o emulador atual antes.\n"
-"Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará "
-"um desligamento forçado.\n"
+"Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará um "
+"desligamento forçado.\n"
 "\n"
 "Pressione o botão B para continuar."
 
@@ -2780,7 +2780,9 @@ msgstr "Removido dos favoritos"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "Gamesclips não podem ser reproduzidos. Não existem vídeos disponíveis para sua seleção."
+msgstr ""
+"Gamesclips não podem ser reproduzidos. Não existem vídeos disponíveis para "
+"sua seleção."
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2887,4 +2889,8 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
+msgstr ""
+
+#
+msgid "DRIVER"
 msgstr ""

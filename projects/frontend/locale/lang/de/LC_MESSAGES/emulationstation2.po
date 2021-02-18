@@ -2734,9 +2734,9 @@ msgid ""
 "\n"
 "Press button B to continue."
 msgstr ""
-"Wenn du den POWER-Knopf länger als 2 Sekunden drückst, fährt deine "
-"Konsole herunter. Machst du das während dem Spielen machst, schliesst "
-"Recalbox zuerst den Emulator.\n"
+"Wenn du den POWER-Knopf länger als 2 Sekunden drückst, fährt deine Konsole "
+"herunter. Machst du das während dem Spielen machst, schliesst Recalbox "
+"zuerst den Emulator.\n"
 "Wenn du den POWER-Knopf länger als 5 Sekunden drückst, schaltet sich die "
 "Konsole unmittelbar aus.\n"
 "\n"
@@ -2779,7 +2779,9 @@ msgstr "Von Favoriten entfernt"
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "Spieleclips können nicht abgespielt werden. Kein Video für deine Auswahl verfügbar"
+msgstr ""
+"Spieleclips können nicht abgespielt werden. Kein Video für deine Auswahl "
+"verfügbar"
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2886,4 +2888,8 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
+msgstr ""
+
+#
+msgid "DRIVER"
 msgstr ""

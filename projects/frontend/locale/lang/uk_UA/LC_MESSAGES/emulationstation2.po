@@ -2752,3 +2752,7 @@ msgid ""
 "\n"
 " Press either L3 or R3"
 msgstr ""
+
+#
+msgid "DRIVER"
+msgstr ""

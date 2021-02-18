@@ -20,6 +20,7 @@ class GuiMenuPads : public GuiMenuBase
                   , ILongExecution<bool, Strings::Vector>
                   , IInputChange
                   , IOptionListComponent<int>
+                  , IOptionListComponent<std::string>
                   , IGuiMenuBase
 {
   public:
@@ -36,14 +37,9 @@ class GuiMenuPads : public GuiMenuBase
       Configure = (int)Pads + Input::sMaxInputDevices,
       Pair,
       Unpair,
+      Driver,
     };
 
-    //! Configure a pad
-    std::shared_ptr<TextComponent> mConfigure;
-    //! Pair a pad
-    std::shared_ptr<TextComponent> mPair;
-    //! Unpair all pads
-    std::shared_ptr<TextComponent> mUnpair;
     //! Pad lists
     std::shared_ptr<OptionListComponent<int>> mDevices[Input::sMaxInputDevices];
 
@@ -66,6 +62,9 @@ class GuiMenuPads : public GuiMenuBase
 
     //! Unpair all device
     void UnpairAll();
+
+    //! Get modes
+    static std::vector<GuiMenuBase::ListEntry<std::string>> GetModes();
 
     /*
      * ILongExecution
@@ -104,6 +103,12 @@ class GuiMenuPads : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const int& value) override;
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };
 
 

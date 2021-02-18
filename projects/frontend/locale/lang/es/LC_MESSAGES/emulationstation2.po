@@ -2778,7 +2778,8 @@ msgstr ""
 
 #
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "Gameclips no pueden ser reproducidos. No hay video disponible en tu selección"
+msgstr ""
+"Gameclips no pueden ser reproducidos. No hay video disponible en tu selección"
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
@@ -2885,4 +2886,8 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
+msgstr ""
+
+#
+msgid "DRIVER"
 msgstr ""

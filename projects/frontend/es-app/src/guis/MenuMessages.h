@@ -48,6 +48,7 @@ class MenuMessages
     #define MENUMESSAGE_CONTROLLER_CONF_HELP_MSG "Configure an associated controller. Your controller has to be associated / plugged before."
     #define MENUMESSAGE_CONTROLLER_BT_HELP_MSG "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
     #define MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
+    #define MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG "Change the driver if your pad is not working at all or not working properly in-game."
 
     #define MENUMESSAGE_UI_HELP_MSG "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu."
     #define MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG "Configure screensaver"
