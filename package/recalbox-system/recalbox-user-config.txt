@@ -19,3 +19,6 @@ config_hdmi_boost=0
 
 # uncomment for lirc-rpi
 #dtoverlay=lirc-rpi
+
+# uncomment if you have chinese TV display and display is garbled or slow
+#hdmi_ignore_edid=0xa5000080

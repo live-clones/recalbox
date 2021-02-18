@@ -28,6 +28,9 @@ hdmi_force_hotplug=1
 
 # uncomment for lirc-rpi
 #dtoverlay=lirc-rpi
+
+# uncomment if you have chinese TV display and display is garbled or slow
+#hdmi_ignore_edid=0xa5000080
 EOF
 fi
 

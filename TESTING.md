@@ -94,6 +94,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
 - [ ] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
 - [ ] Bump Libretro-uae: Check new CHD support on amigacd32 & amigacdtv
+- [ ] Vérifier que le pi4 ne démarre pas en 4k sur un ecran 4k
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
