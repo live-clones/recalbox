@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_CRAFT_VERSION = 3f1d38299dccb74ad0726b1c743a0c34fde01e80
+LIBRETRO_CRAFT_VERSION = 424c8c81dae4883ee7b2ce341575dd53e0541731
 LIBRETRO_CRAFT_SITE = $(call github,libretro,Craft,$(LIBRETRO_CRAFT_VERSION))
 LIBRETRO_CRAFT_LICENSE = MIT
 LIBRETRO_CRAFT_LICENSE_FILES = LICENSE.md

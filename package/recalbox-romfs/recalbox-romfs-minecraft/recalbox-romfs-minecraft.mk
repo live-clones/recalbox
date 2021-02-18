@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --port --system minecraft --extension '.game' --fullname 'Minecraft' --platform minecraft --theme minecraft 1:libretro:craft:BR2_PACKAGE_LIBRETRO_CRAFT
+# ./scripts/linux/empack.py --force --port --readonly --system minecraft --extension '.game' --fullname 'Minecraft' --platform minecraft --theme minecraft 1:libretro:craft:BR2_PACKAGE_LIBRETRO_CRAFT
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MINECRAFT_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MINECRAFT = $(RECALBOX_ROMFS_MINECRAFT_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAFT),)
 define CONFIGURE_MAIN_MINECRAFT_START
-	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_MINECRAFT),Minecraft,$(SYSTEM_NAME_MINECRAFT),.game,minecraft,minecraft)
+	$(call RECALBOX_ROMFS_CALL_ADD_PORT,$(SYSTEM_XML_MINECRAFT),Minecraft,$(SYSTEM_NAME_MINECRAFT),.game,minecraft,minecraft,1)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAFT),)

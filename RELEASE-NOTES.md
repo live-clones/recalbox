@@ -19,7 +19,8 @@
 - Add Pulseaudio support
 - Add PICO-8 core (libretro-retro8)
 - Add Pocket Challenge v2 system (pcv2)
-- Lightgun feature : more than 200 games already ready to play ! (using dolphin bar/wiimote)
+- Lightgun feature : more than 200 games already ready to play! (using dolphin bar/wiimote)
+- Add Minecraft's port Craft on pc
 
 ### Improvements
 - Bump supermodel to version 839

@@ -26,6 +26,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
 - [ ] Revalider tous les menus sur la liste système
 - [ ] Revalider tous les menus sur les listes de jeux
+- [ ] Test Craft (Minecraft clone) on ports (pc only)
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
