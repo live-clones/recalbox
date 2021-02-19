@@ -120,6 +120,7 @@ All notable changes to this project will be documented in this file.
 - Start bluetooth earlier (#1523)
 - Bump webmanager v2
 - Fix gamecon_gpio_rpi build time (only build as module) (#1552)
+- Fix mk_arcade_joystick_rpi build time (only build as module) (#1553)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
