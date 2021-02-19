@@ -116,6 +116,7 @@ All notable changes to this project will be documented in this file.
 - Add comments on overclock settings (#1433)
 - Fix case installation always triggered
 - Bump all subprojects
+- Enabled retroarch core option nospritelimit  
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
