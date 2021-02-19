@@ -1,5 +1,6 @@
 # Plateform: RPI1
-# Description: Turbo Overclocking
+# Description: Turbo Overclocking CPU:1000 Mhz GPU:250 Mhz
+# Frequency: 1000
 
 arm_freq=1000
 core_freq=500

@@ -1,5 +1,6 @@
 # Plateform: RPI1
-# Description: Extrem Overclocking!
+# Description: Extrem Overclocking! CPU:1100 Mhz GPU:250 Mhz
+# Frequency: 1100
 # Warning
 
 arm_freq=1100

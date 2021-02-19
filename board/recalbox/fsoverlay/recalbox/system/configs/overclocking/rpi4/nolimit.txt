@@ -1,6 +1,7 @@
 # Plateform: RPI4
-# Description: No Limit Full Power!
+# Description: No Limit Full Power! CPU:2147 Mhz GPU:750 Mhz
 # Warning
+# Frequency: 2147
 
 over_voltage=8
 arm_freq=2147
