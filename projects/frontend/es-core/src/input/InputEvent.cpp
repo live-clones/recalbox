@@ -39,7 +39,7 @@ void InputEvent::StoreSDLCode(int deviceIndex)
   #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
     switch (mType)
     {
-    case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] AXIS" }; break;
+    case EventType::Axis: mCode = SDL_JoystickAxisEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] AXIS"; }; break;
       case EventType::Button: mCode = SDL_JoystickButtonEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] BUTTON"; } break;
       case EventType::Hat: mCode = SDL_JoystickHatEventCodeById(deviceIndex, mId); { LOG(LogDebug) << "[InputEvent] HAT"; } break;
       case EventType::Key:
