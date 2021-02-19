@@ -16,7 +16,7 @@ if [ "$1" == "start" ]; then
   fi
 
   # Cases - Don't try to detect if already done
-  grep -v -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && python2.7 /recalbox/system/hardware/case/manage.pyc "" 1 1 0
+  grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf || python2.7 /recalbox/system/hardware/case/manage.pyc "" 1 1 0
 
   # Installation image
   if [ -f /tmp/.install.sh ]; then

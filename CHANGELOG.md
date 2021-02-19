@@ -114,6 +114,7 @@ All notable changes to this project will be documented in this file.
 - Bump ScummVM (February '21)
 - Bump BlueMSX
 - Add comments on overclock settings (#1433)
+- Fix case installation always triggered
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
