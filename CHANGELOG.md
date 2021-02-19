@@ -117,6 +117,7 @@ All notable changes to this project will be documented in this file.
 - Fix case installation always triggered
 - Bump all subprojects
 - Enabled retroarch core option nospritelimit  
+- Start bluetooth earlier (#1523)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

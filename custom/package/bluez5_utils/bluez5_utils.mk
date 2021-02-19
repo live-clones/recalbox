@@ -22,6 +22,7 @@ BLUEZ5_UTILS_CONF_OPTS = \
 	--enable-tools \
 	--enable-library \
 	--disable-cups \
+	--localstatedir=/overlay/.configs/ \
 	--with-dbusconfdir=/etc
 
 ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS_OBEX),y)

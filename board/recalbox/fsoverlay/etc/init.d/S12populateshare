@@ -170,12 +170,15 @@ then
     mv /tmp/dropbear_dss_host_key /recalbox/share/system/ssh/
 fi
 
-# bluetooth : now gotta tar/untar, the directory structure for bluez5 is more complex
-# once untar, delete the cache folder. The exclude tar option of busybox is dreadful
+# bluetooth : untar last bluetooth settings
+# This is a migration process which should run once.
+# The tar file is removed and all settings are savec in
+# /overlay/.configs/lib/bluetooth since #1523
 btTar=/recalbox/share/system/bluetooth/bluetooth.tar
 if test -e "$btTar"
 then
-    tar xvf "$btTar" -C / 2>/dev/null 
+    tar xf "$btTar" --strip-components=1 -C /overlay/.configs/ >/dev/null && rm "$btTar"
+    /etc/init.d/S06bluetooth restart
 fi
 
 # udev : create a link for rules persistance

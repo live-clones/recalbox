@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# Auto connect bluetooth controllers
+#
+
+config_file_noshare="/boot/recalbox-backup.conf"
+config_file="/recalbox/share/system/recalbox.conf"
+systemsetting="recalbox_settings"
+if [ ! -f "$config_file" ]; then
+  systemsetting="recalbox_settings -source $config_file_noshare"
+fi
+
+scanningDaemon=test-discovery
+scanCmd=
+
+handle_ertm() {
+  local modprobe_option
+  local ertm
+  ertm="$($systemsetting  -command load -key controllers.bluetooth.ertm)"
+  # handle ERTM activation (enhanced retransmission mode)
+  if [ "$ertm" = "0" ];then
+    modprobe_option="options bluetooth disable_ertm=Y"
+  else
+    modprobe_option="options bluetooth disable_ertm=N"
+  fi
+
+  if ! grep -q "$modprobe_option" /etc/modprobe.d/bluetooth.conf; then
+    mount -o remount,rw /
+    echo "$modprobe_option" > /etc/modprobe.d/bluetooth.conf
+    mount -o remount,ro /
+  fi
+}
+
+start_bluetoothd() {
+  local settings_version
+  settings_version="$($systemsetting -command load -key controllers.ps3.driver)"
+  if [ "$settings_version" != "bluez" ]; then BLUETOOTHD_ARGS="--noplugin=sixaxis"; else BLUETOOTHD_ARGS="--noplugin=sixaxispair"; fi
+  start-stop-daemon -S -q -m -p /var/run/bluetoothd.pid  --exec /usr/libexec/bluetooth/bluetoothd -- $BLUETOOTHD_ARGS &
+  ( /recalbox/scripts/bluetoothcontrollers.sh ; $scanCmd ) &
+}
+
+case "$1" in
+  start)
+  handle_ertm
+  alternate="$($systemsetting  -command load -key controllers.bluetooth.alternate)"
+  if [ "$alternate" = "1" ] ; then
+    scanningDaemon=btDaemon
+    scanCmd="start-stop-daemon -S -q -m -p /var/run/$scanningDaemon.pid --exec /recalbox/scripts/bluetooth/$scanningDaemon > /dev/null 2>&1"
+  fi
+  enabled="$($systemsetting  -command load -key controllers.bluetooth.enabled)"
+  if [ "$enabled" = "1" ];then
+    start_bluetoothd
+  fi
+    ;;
+  stop)
+	start-stop-daemon -K -q -p /var/run/"$scanningDaemon".pid
+	start-stop-daemon -K -q -p /var/run/bluetoothd.pid
+	;;
+  restart|reload)
+    "$0" stop
+    "$0" start
+	;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?
