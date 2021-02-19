@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_BLUEMSX_VERSION = 1d441d908e73cf0fa7f52c42686f6c9e8cd254ed
+LIBRETRO_BLUEMSX_VERSION = faf470e78543367c5bd63f112d3a9261286b5b59
 LIBRETRO_BLUEMSX_SITE = $(call github,libretro,blueMSX-libretro,$(LIBRETRO_BLUEMSX_VERSION))
 LIBRETRO_BLUEMSX_LICENSE = GPL-2.0, BDS, Public domain
 LIBRETRO_BLUEMSX_LICENSE_FILES = license.txt
