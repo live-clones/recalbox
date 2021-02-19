@@ -4,16 +4,10 @@
 #
 ################################################################################
 
-LIBRETRO_DOSBOX_PURE_VERSION = f50c621cc4556838ce84fb42d31feb81d457a185
+LIBRETRO_DOSBOX_PURE_VERSION = 2372e20f835bd3ce1679413c7be224d667c82be9
 LIBRETRO_DOSBOX_PURE_SITE = $(call gitlab,recalbox,packages/libretro/libretro-dosbox-pure,$(LIBRETRO_DOSBOX_PURE_VERSION))
 LIBRETRO_DOSBOX_PURE_LICENSE = GPL-2.0
 LIBRETRO_DOSBOX_PURE_LICENSE_FILES = LICENSE
-
-#ifeq ($(BR2_x86_64)$(BR2_i386),y)
-#LIBRETRO_DOSBOX_PURE_GLES = 0
-#else
-#LIBRETRO_DOSBOX_PURE_GLES = 1
-#endif
 
 define LIBRETRO_DOSBOX_PURE_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
