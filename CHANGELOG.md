@@ -121,6 +121,7 @@ All notable changes to this project will be documented in this file.
 - Bump webmanager v2
 - Fix gamecon_gpio_rpi build time (only build as module) (#1552)
 - Fix mk_arcade_joystick_rpi build time (only build as module) (#1553)
+- Fix wm8960 audio hat build time (only build as module) and add kernel 5.10 compat (#1554)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
