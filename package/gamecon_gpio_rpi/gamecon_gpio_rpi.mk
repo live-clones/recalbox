@@ -17,13 +17,5 @@ endef
 
 GAMECON_GPIO_RPI_CONFIGURE_CMDS += $(GAMECON_GPIO_RPI_COPY_CMDS)
 
-define GAMECON_GPIO_RPI_BUILD_CMDS
-	$(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR)
-endef
-
-define GAMECON_GPIO_RPI_INSTALL_TARGET_CMDS
-	$(MAKE) -C $(@D) $(LINUX_MAKE_FLAGS) KERNELDIR=$(LINUX_DIR) modules_install
-endef
-
 $(eval $(kernel-module))
 $(eval $(generic-package))

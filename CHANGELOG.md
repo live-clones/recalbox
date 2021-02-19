@@ -119,6 +119,7 @@ All notable changes to this project will be documented in this file.
 - Enabled retroarch core option nospritelimit  
 - Start bluetooth earlier (#1523)
 - Bump webmanager v2
+- Fix gamecon_gpio_rpi build time (only build as module) (#1552)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
