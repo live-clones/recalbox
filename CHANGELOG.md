@@ -108,10 +108,10 @@ All notable changes to this project will be documented in this file.
 - Fix error message `/var/db/dhcpd.leases no such file or directory`
 - Fix ES missing dependencies
 - Add Minecraft's port Craft on pc
-- Back to libretro-uae repo and bump core (chd support on amigacd32 & amigacdtv)
 - Bump libretro-uae (chd support on amigacd32 & amigacdtv)
 - Fix FDS's extensions
 - Fix 4k resolution handling on rpi4
+- Bump ScummVM (February '21)
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

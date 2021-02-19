@@ -1,6 +1,6 @@
 --- a/configure
 +++ b/configure
-@@ -1575,7 +1575,7 @@
+@@ -1614,7 +1614,7 @@
  		done
  		;;
  	*)
@@ -9,7 +9,7 @@
  		;;
  	esac;
  done;
-@@ -3240,17 +3240,17 @@
+@@ -3336,17 +3336,17 @@
  			# but Raspbian does.
  			# Be careful as it's the linker (LDFLAGS) which must know about sysroot.
  			# These are needed to build against Raspbian's libSDL.
