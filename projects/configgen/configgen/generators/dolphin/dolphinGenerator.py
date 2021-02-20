@@ -186,6 +186,8 @@ class DolphinGenerator(Generator):
             dolphinSettings.setOption(self.SECTION_ANALYTICS, "Fullscreen", "True")
         # Logging
         dolphinSettings.setOption(self.SECTION_DSP, "CaptureLog", "True" if args.verbose else "False")
+        # Force audio backend on Pulse Audio
+        dolphinSettings.setOption(self.SECTION_DSP, "Backend", "Pulse" )
         # Analytics
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
         dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
