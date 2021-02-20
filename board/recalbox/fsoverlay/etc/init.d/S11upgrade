@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /recalbox/scripts/recalbox-utils.sh
+IMAGE_PATH=$(getInstallUpgradeImagePath)
+
 if test "$1" != "start"
 then
   exit 0
@@ -20,7 +23,7 @@ clean_boot_update() {
 failed_clean_exit() {
   clean_boot_update
   touch /tmp/upgradefailed
-  fbv2 -k -i /recalbox/system/resources/offline-install-error.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-error.jpg"
   sleep 10
   exit 1
 }
@@ -34,7 +37,7 @@ SHAREUPDATEDIR=/recalbox/share/system/upgrade/
 
 if [[ -f $UPDATEFILE ]]; then
   recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
-  fbv2 -k -i /recalbox/system/resources/offline-install-0.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-0.jpg"
 
   if [ ! -f "$UPDATEFILE_SHA1" ]; then
     recallog -f upgrade.log "upgrade SHA1 not found, skipping upgrade"

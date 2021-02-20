@@ -40,3 +40,19 @@ doesBoardSupportExternalShare() {
   fi
   return 0
 }
+
+# Returns path to directory containing best resolution images
+# for current screen resolution
+getInstallUpgradeImagePath() {
+  local MODEL
+  if [ "$(getArchName)" = "odroidgo2" ]; then
+    MODEL=$(tr '\0' '\n' </sys/firmware/devicetree/base/model)
+    case $MODEL in
+      *ODROID-GO2) echo "/recalbox/system/resources/320x480" ;;
+      *ODROID-GO3) echo "/recalbox/system/resources/480x854" ;;
+      *)           echo "/recalbox/system/resources" ;;
+    esac
+  else
+    echo "/recalbox/system/resources"
+  fi
+}

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /recalbox/scripts/recalbox-utils.sh
+IMAGE_PATH=$(getInstallUpgradeImagePath)
+
 # Don't play animation when a special case is installing!
 if [[ -f /tmp/.install.png ]] ; then
   exit 0
@@ -50,21 +53,21 @@ playSlides() {
   if [[ ! -f /tmp/first-boot-slides ]] ; then
     touch /tmp/first-boot-slides
     fbv2 -i -k -e -s 150 \
-      /recalbox/system/resources/install-1.png \
-      /recalbox/system/resources/install-2.png \
-      /recalbox/system/resources/install-3.png \
-      /recalbox/system/resources/install-4.png \
-      /recalbox/system/resources/install-5.png \
-      /recalbox/system/resources/install-6.png \
-      /recalbox/system/resources/install-7.png \
-      /recalbox/system/resources/install-8.png &
+      "$IMAGE_PATH/install-1.png" \
+      "$IMAGE_PATH/install-2.png" \
+      "$IMAGE_PATH/install-3.png" \
+      "$IMAGE_PATH/install-4.png" \
+      "$IMAGE_PATH/install-5.png" \
+      "$IMAGE_PATH/install-6.png" \
+      "$IMAGE_PATH/install-7.png" \
+      "$IMAGE_PATH/install-8.png" &
   fi  
 }
 
 # Start
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
 if [ "${fbdevHeight}" -le 320 ] ; then
-  playvideo
+  playVideo
 else  
   playSlides
 fi

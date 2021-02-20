@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /recalbox/scripts/recalbox-utils.sh
+IMAGE_PATH=$(getInstallUpgradeImagePath)
+
 do_update() {
 
   UPDATEFILE="rbx_no_upgrade"
@@ -15,12 +18,12 @@ do_update() {
   echo "stopping emulationstation"
   /etc/init.d/S31emulationstation stop
   dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
-  fbv2 -k -i /recalbox/system/resources/offline-install-1.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-1.jpg"
   sleep 1
 
   # Mount
   echo "mount image"
-  fbv2 -k -i /recalbox/system/resources/offline-install-2.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-2.jpg"
   sleep 1
   LBA=$(lba-finder "${UPDATEFILE}")
   echo "intiating a losetup for lba ${LBA} (offset $((LBA * 512))s)"
@@ -28,13 +31,13 @@ do_update() {
   mount "$LOOPFILE" /mnt || return 3
 
   echo "remounting /boot R/W"
-  fbv2 -k -i /recalbox/system/resources/offline-install-3.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-3.jpg"
   sleep 1
   mount -o remount,rw /boot/ || return 4
 
   # Files copy
   echo "copying update boot files"
-  fbv2 -k -i /recalbox/system/resources/offline-install-4.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-4.jpg"
   if [ -f /mnt/boot.lst ]; then
     while read -r file; do
       echo "  processing $file"
@@ -45,13 +48,13 @@ do_update() {
   else
     return 7
   fi
-  fbv2 -k -i /recalbox/system/resources/offline-install-5.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-5.jpg"
   sleep 1
 
   # Umount
   echo "unmount image"
   umount /mnt/ || return 8
-  fbv2 -k -i /recalbox/system/resources/offline-install-6.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-6.jpg"
   sleep 1
 
   return 0
@@ -77,11 +80,11 @@ if [ $RC -eq 0 ]; then
   fi
   # Reboot
   echo "upgrade successfull, rebooting"
-  fbv2 -k -i /recalbox/system/resources/offline-install-7.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-7.jpg"
   sleep 1
 else
   echo "upgrade failed return code $RC" >&2
-  fbv2 -k -i /recalbox/system/resources/offline-install-error.jpg
+  fbv2 -k -i "$IMAGE_PATH/offline-install-error.jpg"
   sleep 10
 fi
 sync
