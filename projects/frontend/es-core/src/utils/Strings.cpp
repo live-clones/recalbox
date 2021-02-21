@@ -389,17 +389,17 @@ std::string Strings::RemoveParenthesis(const std::string& _string)
 	}
 
 	return Trim(string);
+}
 
-} // removeParenthesis
-
-Strings::Vector Strings::Split(const std::string& _string, char splitter, bool multipleSplittersAsOne)
+Strings::Vector Strings::Split(const std::string& _string, char splitter, int max, bool multipleSplittersAsOne)
 {
   Vector vector;
-  size_t       start = 0;
-  size_t       comma = _string.find(splitter);
+  size_t start = 0;
+  size_t comma = _string.find(splitter);
 
   while(comma != std::string::npos)
   {
+    if ((int)vector.size() == max - 1) comma = _string.size();
     vector.push_back(_string.substr(start, comma - start));
     start = multipleSplittersAsOne ? _string.find_first_not_of(splitter, comma) : comma + 1;
     comma = _string.find(splitter, start);
@@ -408,8 +408,12 @@ Strings::Vector Strings::Split(const std::string& _string, char splitter, bool m
     vector.push_back(_string.substr(start));
 
   return vector;
+}
 
-} // commaStringToVector
+Strings::Vector Strings::Split(const std::string& _string, char splitter, bool multipleSplittersAsOne)
+{
+  return Split(_string, splitter, INT32_MAX, multipleSplittersAsOne);
+}
 
 std::string Strings::Join(const std::vector<std::string>& _string, const std::string& joiner)
 {
@@ -857,4 +861,35 @@ bool Strings::SplitAt(const std::string& _string, char splitter, std::string& le
   }
 
   return true;
+}
+
+Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter)
+{
+  return SplitQuotted(_string, splitter, INT32_MAX);
+}
+
+Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter, int max)
+{
+  int Len = (int)_string.size();
+  const char* Current = _string.data();
+  const char* Last = Current;
+  const char* End = Current + Len;
+  bool Quoted = false;
+
+  Strings::Vector output;
+  if (max > 1)
+    for (; --Len >= 0; ++Current)
+    {
+      char C = Current[0];
+      if (C == '"') Quoted = !Quoted;
+      else if ((C == splitter) && !Quoted)
+      {
+        if (Last < Current) output.push_back(std::string(Last, (int)(Current - Last)));
+        Last = Current + 1;
+        if ((int)output.size() == max - 1) break;
+      }
+    }
+  output.push_back(std::string(Last, (int)(End - Last)));
+
+  return output;
 }

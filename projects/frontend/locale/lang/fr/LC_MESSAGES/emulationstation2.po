@@ -2793,10 +2793,6 @@ msgid "SCANNING BLUETOOTH DEVICES..."
 msgstr "SCAN DES PÉRIPHÉRIQUES BLUETOOTH"
 
 #
-msgid "Device %n (%p)"
-msgstr "Média %s (%p)"
-
-#
 msgid "GAME OPTIONS"
 msgstr "OPTIONS DU JEU"
 
@@ -2897,3 +2893,23 @@ msgstr "PILOTE"
 #
 msgid "Change the driver if your pad is not working at all or not working properly in-game."
 msgstr "Changez le pilote si votre pad ne fonctionne pad du tout en jeu, ou s'il fonctionne partiellement."
+
+#
+msgid "In Memory!"
+msgstr "En Mémoire!"
+
+#
+msgid "Internal Share Partition"
+msgstr "Partition Share Interne"
+
+#
+msgid "Network Share"
+msgstr "Partage Réseau"
+
+#
+msgid "Device %d - %l (%f)"
+msgstr "Stockage %d - %l (%f)"
+
+#
+msgid "Any External Device"
+msgstr "N'importe quel Stockage Externe"

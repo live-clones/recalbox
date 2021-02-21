@@ -85,7 +85,7 @@ class Strings
 
     static std::string Replace(const std::string& _string, const std::string& _replace, const std::string& _with);
 
-    static std::string Replace(const std::string& _string, const std::string& _replace, const char* _with, const int _withLength);
+    static std::string Replace(const std::string& _string, const std::string& _replace, const char* _with, int _withLength);
 
     static void ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with);
 
@@ -102,6 +102,12 @@ class Strings
     static std::string RemoveParenthesis(const std::string& _string);
 
     static Vector Split(const std::string& _string, char splitter, bool multipleSplittersAsOne = false);
+
+    static Vector Split(const std::string& _string, char splitter, int max, bool multipleSplittersAsOne = false);
+
+    static Vector SplitQuotted(const std::string& _string, char splitter);
+
+    static Vector SplitQuotted(const std::string& _string, char splitter, int max);
 
     static bool SplitAt(const std::string& _string, char splitter, std::string& left, std::string& right, bool trim);
 

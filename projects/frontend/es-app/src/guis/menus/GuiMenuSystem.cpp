@@ -27,55 +27,30 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window)
                        RecalboxSystem::isFreeSpaceLimit() ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
 
   // Storage device
-  mStorages = AddList(_("STORAGE DEVICE"), (int)Components::Storage, this, GetStorageEntries(), _(MENUMESSAGE_STORAGE_DEVICE_HELP_MSG));
+  mStorages = AddList<StorageDevices::Device>(_("STORAGE DEVICE"), (int)Components::Storage, this, GetStorageEntries(), _(MENUMESSAGE_STORAGE_DEVICE_HELP_MSG));
 
   // language choice
-  mCulture = AddList(_("LANGUAGE"), (int)Components::Culture, this, GetCultureEntries(), _(MENUMESSAGE_LANGUAGE_HELP_MSG));
+  mCulture = AddList<std::string>(_("LANGUAGE"), (int)Components::Culture, this, GetCultureEntries(), _(MENUMESSAGE_LANGUAGE_HELP_MSG));
 
   // Keyboard
-  mKeyboard = AddList(_("KEYBOARD"), (int)Components::Keyboard, this, GetKeyboardEntries(), _(MENUMESSAGE_KEYBOARD_HELP_MSG));
+  mKeyboard = AddList<std::string>(_("KEYBOARD"), (int)Components::Keyboard, this, GetKeyboardEntries(), _(MENUMESSAGE_KEYBOARD_HELP_MSG));
 }
 
 GuiMenuSystem::~GuiMenuSystem()
 {
-  if ((mStorages->getSelected() != mOriginalStorage) ||
+  if ((mStorages->getSelected().UUID != mOriginalStorage) ||
       (mCulture->getSelected() != mOriginalCulture) ||
       (mKeyboard->getSelected() != mOriginalKeyboard))
     mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }));
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetStorageEntries()
+std::vector<GuiMenuBase::ListEntry<StorageDevices::Device>> GuiMenuSystem::GetStorageEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<StorageDevices::Device>> list;
 
-  std::vector<std::string> availableStorage;
-  if ((Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGo) ||
-      (Board::Instance().GetBoardType() == BoardType::OdroidAdvanceGoSuper)) availableStorage.push_back("INTERNAL");
-  else availableStorage = RecalboxSystem::getAvailableStorageDevices();
-  mOriginalStorage = RecalboxSystem::getCurrentStorage();
-  if (mOriginalStorage.empty()) mOriginalStorage = "INTERNAL";
-
-  // Network starage available?
-  IniFile bootConf(Path("/boot/recalbox-boot.conf"));
-  if (bootConf.HasKeyStartingWith("sharenetwork_") || bootConf.AsString("sharedevice") == "NETWORK")
-    list.push_back({ "NETWORK", "NETWORK", true });
-  // Storage devices
-  for (auto& it : availableStorage)
-    if (Strings::StartsWith(it, "DEV"))
-    {
-      std::vector<std::string> tokens = Strings::Split(it, ' ');
-      if (tokens.size() >= 3)
-      {
-        std::string displayableName = _("Device %n (%p)");
-        Strings::ReplaceAllIn(displayableName, "%n", tokens[1]);
-        Strings::ReplaceAllIn(displayableName, "%p", tokens[2]);
-        std::string device(tokens[0]);
-        device.append(1, ' ').append(tokens[1]);
-        list.push_back({ displayableName, device, mOriginalStorage == device });
-      }
-    }
-    else
-      if (it != "RAM") { list.push_back({ it, it, mOriginalStorage == it }); }
+  mOriginalStorage = mStorageDevices.GetStorageDevice();
+  for(const StorageDevices::Device& device : mStorageDevices.GetStorageDevices())
+    list.push_back({ device.DisplayName, device, device.Current });
 
   return list;
 }
@@ -132,9 +107,20 @@ void GuiMenuSystem::OptionListComponentChanged(int id, int index, const std::str
   (void)index;
   switch((Components)id)
   {
-    case Components::Storage: RecalboxSystem::setStorage(value); break;
+    case Components::Storage: break;
     case Components::Culture: RecalboxConf::Instance().SetSystemLanguage(value).Save(); break;
     case Components::Keyboard: RecalboxConf::Instance().SetSystemKbLayout(value).Save(); break;
+  }
+}
+
+void GuiMenuSystem::OptionListComponentChanged(int id, int index, const StorageDevices::Device& value)
+{
+  (void)index;
+  switch((Components)id)
+  {
+    case Components::Storage: mStorageDevices.SetStorageDevice(value); break;
+    case Components::Culture:
+    case Components::Keyboard: break;
   }
 }
 

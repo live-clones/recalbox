@@ -2672,10 +2672,6 @@ msgid "SCANNING BLUETOOTH DEVICES..."
 msgstr ""
 
 #
-msgid "Device %n (%p)"
-msgstr ""
-
-#
 msgid "GAME OPTIONS"
 msgstr ""
 
@@ -2774,4 +2770,24 @@ msgstr ""
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
+msgstr ""
+
+#
+msgid "In Memory!"
+msgstr ""
+
+#
+msgid "Internal Share Partition"
+msgstr ""
+
+#
+msgid "Network Share"
+msgstr ""
+
+#
+msgid "Device %d - %l (%f)"
+msgstr ""
+
+#
+msgid "Any External Device"
 msgstr ""

@@ -415,7 +415,7 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
-      // Path to bypass buggy PulseAudio on GoA/GoS
+      // Patch to bypass buggy PulseAudio on GoA/GoS
       if (originalPlaybackName == "alsa_card.0:analog-output-headphones") system("amixer sset 'Playback Path' HP");
       else if (originalPlaybackName == "alsa_card.0:multichannel-output") system("amixer sset 'Playback Path' SPK");
       else LOG(LogError) << "[PulseAudio] Unreconized GoA/GoS output: " << originalPlaybackName;

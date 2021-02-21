@@ -38,7 +38,7 @@ void OdroidAdvanceGo2JackEventReader::Break()
   {
     { LOG(LogDebug) << "[OdroidAdvanceGo] Breaking headphone thread."; }
     mFileHandle = -1;
-  }
+    }
 }
 
 void OdroidAdvanceGo2JackEventReader::Run()

@@ -7,6 +7,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
+#include <recalbox/StorageDevices.h>
 
 // Forward declaration
 template<class T> class OptionListComponent;
@@ -15,6 +16,7 @@ class TextComponent;
 
 class GuiMenuSystem : public GuiMenuBase
                     , private IOptionListComponent<std::string>
+                    , private IOptionListComponent<StorageDevices::Device>
 {
   public:
     /*!
@@ -52,12 +54,15 @@ class GuiMenuSystem : public GuiMenuBase
     //! Culture list
     typedef std::vector<Culture> CultureList;
 
+    //! Storage devices
+    StorageDevices mStorageDevices;
+
     //! Version
     std::shared_ptr<TextComponent> mVersion;
     //! Share Free Space
     std::shared_ptr<TextComponent> mFreeSpace;
     //! Available storages
-    std::shared_ptr<OptionListComponent<std::string>> mStorages;
+    std::shared_ptr<OptionListComponent<StorageDevices::Device>> mStorages;
     //! Culture
     std::shared_ptr<OptionListComponent<std::string>> mCulture;
     //! Keyboard
@@ -71,7 +76,7 @@ class GuiMenuSystem : public GuiMenuBase
     std::string mOriginalKeyboard;
 
     //! Get Storage List
-    std::vector<ListEntry<std::string>> GetStorageEntries();
+    std::vector<ListEntry<StorageDevices::Device>> GetStorageEntries();
     //! Get Culture List
     std::vector<ListEntry<std::string>> GetCultureEntries();
     //! Get Keyboard List
@@ -82,6 +87,13 @@ class GuiMenuSystem : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * IOptionListComponent<StorageDevices::Device> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const StorageDevices::Device& value) override;
+
 };
 
 
