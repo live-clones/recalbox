@@ -98,7 +98,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
-    DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, true)
+    DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, false)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
