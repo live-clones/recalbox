@@ -6,6 +6,7 @@
 
 # Package generated with :
 # ./scripts/linux/empack.py --force --system neogeocd --extension '.cue .chd' --fullname 'Neo-Geo CD' --platform neogeocd --theme neogeocd 1:libretro:fbneo:BR2_PACKAGE_LIBRETRO_FBNEO 2:libretro:neocd:BR2_PACKAGE_LIBRETRO_NEOCD
+# [ -extra \"--subsystem neocd\"] added manually afterwards on line 27
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NEOGEOCD_SOURCE = 
@@ -23,7 +24,7 @@ SOURCE_ROMDIR_NEOGEOCD = $(RECALBOX_ROMFS_NEOGEOCD_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_LIBRETRO_NEOCD),)
 define CONFIGURE_MAIN_NEOGEOCD_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEOCD),Neo-Geo CD,$(SYSTEM_NAME_NEOGEOCD),.cue .chd,neogeocd,neogeocd)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NEOGEOCD),Neo-Geo CD,$(SYSTEM_NAME_NEOGEOCD),.cue .chd,neogeocd,neogeocd, -extra \"--subsystem neocd\")
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_LIBRETRO_NEOCD),)
