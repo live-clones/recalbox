@@ -2756,3 +2756,9 @@ msgstr ""
 #
 msgid "DRIVER"
 msgstr ""
+
+#
+msgid ""
+"Change the driver if your pad is not working at all or not working properly "
+"in-game."
+msgstr ""
