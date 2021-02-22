@@ -2,7 +2,6 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
-- Add colecovision Netplay with FBNeo core 
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - update of the Port family
 - Fix and Bump Dolphin emulator
