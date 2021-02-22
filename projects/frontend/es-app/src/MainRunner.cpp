@@ -508,8 +508,10 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
       {
         // Switch to headphone
         std::string Headphones = "alsa_card.0:analog-output-headphones";
+        AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Headphones);
-        RecalboxConf::Instance().SetAudioOuput(Headphones);
+        AudioManager::Instance().Reactivate();
+        //RecalboxConf::Instance().SetAudioOuput(Headphones);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
@@ -549,8 +551,10 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
       {
         // Switch back to speakers
         std::string Speakers = "alsa_card.0:multichannel-output";
+        AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Speakers);
-        RecalboxConf::Instance().SetAudioOuput(Speakers);
+        AudioManager::Instance().Reactivate();
+        //RecalboxConf::Instance().SetAudioOuput(Speakers);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
