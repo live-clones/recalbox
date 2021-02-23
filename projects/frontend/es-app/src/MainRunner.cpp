@@ -508,9 +508,9 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
       {
         // Switch to headphone
         std::string Headphones = "alsa_card.0:analog-output-headphones";
-        AudioManager::Instance().Deactivate();
+        if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Headphones);
-        AudioManager::Instance().Reactivate();
+        if (IsApplicationRunning()) AudioManager::Instance().Reactivate();
         //RecalboxConf::Instance().SetAudioOuput(Headphones);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
@@ -551,9 +551,9 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
       {
         // Switch back to speakers
         std::string Speakers = "alsa_card.0:multichannel-output";
-        AudioManager::Instance().Deactivate();
+        if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Speakers);
-        AudioManager::Instance().Reactivate();
+        if (IsApplicationRunning()) AudioManager::Instance().Reactivate();
         //RecalboxConf::Instance().SetAudioOuput(Speakers);
         // Create music popup
         int popupDuration = RecalboxConf::Instance().GetPopupMusic();
