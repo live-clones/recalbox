@@ -655,7 +655,15 @@ void MainRunner::Completed(const HardwareTriggeredSpecialOperations& parameter, 
       RequestQuit(ExitState::Shutdown);
       break;
     }
-    case HardwareTriggeredSpecialOperations::Resume: // Do nothing on resume
+    case HardwareTriggeredSpecialOperations::Resume:
+    {
+      // Set audio output since headphone may have been plugged/unplugged
+      std::string output = RecalboxConf::Instance().GetAudioOuput();
+      AudioManager::Instance().Deactivate();
+      AudioController::Instance().Refresh();
+      AudioController::Instance().SetDefaultPlayback(output);
+      AudioManager::Instance().Reactivate();
+    }
     default: break;
   }
 }

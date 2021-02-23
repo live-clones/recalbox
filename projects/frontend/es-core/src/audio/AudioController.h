@@ -68,4 +68,10 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @return True if there is a special audio configuration
      */
     bool HasSpecialAudio() const { return mHasSpecialAudio; }
+
+
+    /*!
+     * @brief Force the implementation to refresh all its internal objects
+     */
+    void Refresh() { mController.Refresh(); }
 };

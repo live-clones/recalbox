@@ -147,7 +147,15 @@ class PulseAudioController: public IAudioController, private Thread
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
-    static std::string AdjustSpecialPlayback(const std::string& originalPlaybackName);
+    /*!
+     * @brief Give the oportunity to process special playback regarding the current hardware
+     * set the flag allprocessed to true will stop the playback processing right after this method
+     * not tring to use common PulseAudio API
+     * @param originalPlaybackName Required playback
+     * @param allprocessed if set to true, the playback processing will stop right after this method call
+     * @return modified or unmodified playback name
+     */
+    std::string AdjustSpecialPlayback(const std::string& originalPlaybackName, bool& allprocessed);
 
     /*
      * Pulse Audio callback

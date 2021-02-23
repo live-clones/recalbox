@@ -78,7 +78,7 @@ void OdroidAdvanceGo2JackEventReader::Run()
 
       // Power button pressed?
       if ((event.type == sHeadphoneInsertType) && (event.code == sHeadphoneInsertCode))
-        mSender.Send(BoardType::OdroidAdvanceGo, (event.value == 1) ? MessageTypes::HeadphoneUnplugged : MessageTypes::HeadphonePluggedIn);
+        mSender.Send(BoardType::OdroidAdvanceGo, (event.value == 0) ? MessageTypes::HeadphoneUnplugged : MessageTypes::HeadphonePluggedIn);
     }
   }
 }

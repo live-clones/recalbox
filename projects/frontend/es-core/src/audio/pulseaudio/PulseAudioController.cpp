@@ -235,7 +235,7 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
     newPort.Name = portInfo.name;
     newPort.Icon = GetPortIcon(portInfo);
     newPort.Description = GetPortDescription(portInfo, newPort.Icon);
-    newPort.Available = portInfo.available != 0;
+    newPort.Available = portInfo.available != PA_PORT_AVAILABLE_NO;
     newPort.Priority = portInfo.priority;
     newPort.InternalIndex = (int)newCard.Ports.size();
 
@@ -408,18 +408,31 @@ bool PulseAudioController::HasPort(const PulseAudioController::Sink& sink, const
   return false;
 }
 
-std::string PulseAudioController::AdjustSpecialPlayback(const std::string& originalPlaybackName)
+std::string PulseAudioController::AdjustSpecialPlayback(const std::string& originalPlaybackName, bool& allprocessed)
 {
+  allprocessed = false;
+
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
       // Patch to bypass buggy PulseAudio on GoA/GoS
-      if (originalPlaybackName == "alsa_card.0:analog-output-headphones") system("amixer sset 'Playback Path' HP");
+      if (originalPlaybackName == IAudioController::sAutoSwitch)
+      {
+        bool headphonePlugged = false;
+        for(const Card& card : mCards)
+          for(const Port& port : card.Ports)
+            if (port.Name == "analog-output-headphones")
+              headphonePlugged = port.Available;
+        LOG(LogInfo) << "[PulseAudio] AutoSwitch set to " << (headphonePlugged ? "Headphones" : "Speakers");
+        system(headphonePlugged? "amixer sset 'Playback Path' HP" :"amixer sset 'Playback Path' SPK");
+      }
+      else if (originalPlaybackName == "alsa_card.0:analog-output-headphones") system("amixer sset 'Playback Path' HP");
       else if (originalPlaybackName == "alsa_card.0:multichannel-output") system("amixer sset 'Playback Path' SPK");
       else LOG(LogError) << "[PulseAudio] Unreconized GoA/GoS output: " << originalPlaybackName;
-      return Strings::Empty;
+      allprocessed = true;
+      break;
     }
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
@@ -441,8 +454,9 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
 
 std::string PulseAudioController::SetDefaultPlayback(const std::string& originalPlaybackName)
 {
-  std::string playbackName = AdjustSpecialPlayback(originalPlaybackName);
-  if (playbackName.empty()) return originalPlaybackName; // AjustSpecialPlayback did some tricks, no need to go further
+  bool allProcessed = false;
+  std::string playbackName = AdjustSpecialPlayback(originalPlaybackName, allProcessed);
+  if (allProcessed) return playbackName; // AjustSpecialPlayback did some tricks, no need to go further
 
   const Card* card = nullptr;
   const Port* port = nullptr;
