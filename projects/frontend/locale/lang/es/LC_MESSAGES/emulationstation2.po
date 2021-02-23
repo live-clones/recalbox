@@ -2836,7 +2836,7 @@ msgid ""
 "available all around the screen.\n"
 "\n"
 "Press any button to start!"
-msgstr ""
+msgstr "Bienvenido a RECALBOX para Odroid Go Super!\nEsta pequeña presentación te mostrará cómo usar todos los botones especiales disponibles en la pantalla.\n\n¡Presiona cualquier botón para comenzar!"
 
 #
 msgid ""
@@ -2847,7 +2847,7 @@ msgid ""
 "For example, you can use HOTKEY+START to quit the current game.\n"
 "\n"
 "Press the SELECT button."
-msgstr ""
+msgstr "El botón negro de la parte superior izquierda es el botón SELECT, también disponible en la mayoría de los pads modernos.\nPero también es el botón HOTKEY que puedes usar junto con otros botones en la mayoría de los emuladores.\nPor ejemplo, puedes usar HOTKEY + START para salir del juego actual.\n\nPresiona el botón SELECT."
 
 #
 msgid ""
@@ -2856,7 +2856,7 @@ msgid ""
 "the regular START button available on most consoles.\n"
 "\n"
 "Press this START button please."
-msgstr ""
+msgstr "En el lado opuesto del botón SELECT está el botón START.\nÚsalo para abrir el menú principal en la interfaz de Recalbox y úsalo en el juego como el botón START normal disponible en la mayoría de las consolas.\n\nPresiona este botón START por favor."
 
 #
 msgid ""
@@ -2866,7 +2866,7 @@ msgid ""
 "or in-game.\n"
 "\n"
 " Press any button to continue"
-msgstr ""
+msgstr "Luego, en la parte superior de la consola, hay 2 botones marcados con un '-' y un '+'.\nÚsalos para subir o bajar el volumen en cualquier momento en la interfaz de Recalbox o dentro del juego.\n\n Presiona cualquier botón para continuar"
 
 #
 msgid ""
@@ -2874,7 +2874,7 @@ msgid ""
 "Note that the brighter the screen, the more power it consumes!\n"
 "\n"
 " Press either brightness up or down button"
-msgstr ""
+msgstr "Los dos botones grises de la parte inferior izquierda controlan el brillo de la pantalla.\n¡Tenga en cuenta que cuanto más brillante es la pantalla, más energía consume!\n\n Presiona el botón de brillo hacia arriba o hacia abajo"
 
 #
 msgid ""
@@ -2882,34 +2882,39 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
-msgstr ""
+msgstr "Finalmente, los dos botones grises de la parte inferior derecha son el tercer gatillo izquierdo y derecho (L3 / R3), solo útiles en algunos emuladores o para grabar videos.\n\n Presiona L3 o R3"
 
 #
 msgid "DRIVER"
-msgstr ""
+msgstr "DRIVER"
 
 #
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
-msgstr ""
+msgstr "Cambia el driver si tu pad no responde o no funciona correctamente dentro del juego."
 
 #
 msgid "In Memory!"
-msgstr ""
+msgstr "¡En Memoria!"
 
 #
 msgid "Internal Share Partition"
-msgstr ""
+msgstr "Partición Interna"
 
 #
 msgid "Network Share"
-msgstr ""
+msgstr "Red Compartida"
 
 #
 msgid "Device %d - %l (%f)"
-msgstr ""
+msgstr "Dispositivo %d - %l (%f)"
 
 #
 msgid "Any External Device"
-msgstr ""
+msgstr "Cualquier Dispositivo Externo"
+
+
+
+
+
