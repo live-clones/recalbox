@@ -1,5 +1,5 @@
 # Performance configuration
-video_driver = "oga"
+video_driver = "gl"
 video_threaded = true
 
 # RGUI configuration

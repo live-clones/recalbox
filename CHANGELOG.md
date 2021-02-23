@@ -131,6 +131,8 @@ All notable changes to this project will be documented in this file.
 - Add langauges: lt_LT gl_ES pt_BR ro uk_UA
 - Add support for Odroid Go Super aka odroidgo3
 - Bump rockchip-libmali (vulkan coming)
+- Fix shaders on odroigo2
+- Fix RetroArch shortcuts on odroidgo2
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

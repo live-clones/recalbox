@@ -47,6 +47,8 @@
 - Fix 8Bitdo NES30 Pro rev 1 mapping (thanks @fredbcode)
 - Fix name for palmos rom (thanks @RaZer0k)
 - Fix 4k resolution handling on rpi4
+- Fix shaders on odroidgo2
+- Fix RetroArch shortcuts on odroidgo2
 
 ## 7.1.1-Reloaded
 

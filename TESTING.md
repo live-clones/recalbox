@@ -104,6 +104,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check Odroid GO 2 has no performance regression
   - [ ] Check Odroid GO 2 with uboot < 3/12/2020 still works after offline upgrade (boot.ini rewrite)
   - [ ] Check boot logo are displayed correctly
+- [ ] Check Odroid GO 2 shaders now work
+- [ ] Check RetroArch shortcuts all work on Odroid GO 2
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
