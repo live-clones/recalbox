@@ -126,6 +126,7 @@ All notable changes to this project will be documented in this file.
 - Fix neogeo CD configuration in romfs
 - Fix webmanager v2
 - Add GoS wizard translations
+- Remove old libretro-scummvm references everywhere
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
