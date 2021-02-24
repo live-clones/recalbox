@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#include <string>
+
 //! Scrapped name options
 enum class ScraperNameOptions
 {
@@ -20,4 +22,7 @@ class ScraperTools
      * @return Clamped option
      */
     static ScraperNameOptions Clamp(int option);
+
+    static ScraperNameOptions ScraperNameOptionsFromString(const std::string& scraperNameOptions);
+    static const std::string& ScraperNameOptionsFromEnum(ScraperNameOptions scraperNameOptions);
 };

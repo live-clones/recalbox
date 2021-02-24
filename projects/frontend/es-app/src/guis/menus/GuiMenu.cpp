@@ -13,9 +13,10 @@
 #include <guis/menus/GuiMenuSound.h>
 #include <guis/menus/GuiMenuNetwork.h>
 #include <guis/menus/GuiMenuAdvancedSettings.h>
-#include "guis/GuiScraperSelect.h"
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
+#include "GuiMenuRetroAchievements.h"
+#include "GuiMenuScraper.h"
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("MAIN MENU"), this)
@@ -96,7 +97,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;
-    case Components::Scrapper: mWindow.pushGui(new GuiScraperSelect(mWindow, mSystemManager)); break;
+    case Components::Scrapper: mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager)); break;
     case Components::Advanced: mWindow.pushGui(new GuiMenuAdvancedSettings(mWindow, mSystemManager)); break;
     case Components::Bios: mWindow.pushGui(new GuiBiosScan(mWindow, mSystemManager)); break;
     case Components::License:

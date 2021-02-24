@@ -2916,8 +2916,18 @@ msgstr "Gerät %d - %l (%f)"
 msgid "Any External Device"
 msgstr "Beliebiges externes Gerät"
 
+#
+msgid "SCRAPER OPTIONS"
+msgstr ""
 
+#
+msgid "SCREENSCRAPER OPTIONS"
+msgstr ""
 
+#
+msgid "DETECTED REGION"
+msgstr ""
 
-
-
+#
+msgid "SELECT REGION PRIORITY"
+msgstr ""

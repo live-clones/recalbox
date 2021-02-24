@@ -2917,3 +2917,18 @@ msgstr "Dispositivo %d -%l (%f)"
 msgid "Any External Device"
 msgstr "Qualquer dispositivo externo"
 
+#
+msgid "SCRAPER OPTIONS"
+msgstr ""
+
+#
+msgid "SCREENSCRAPER OPTIONS"
+msgstr ""
+
+#
+msgid "DETECTED REGION"
+msgstr ""
+
+#
+msgid "SELECT REGION PRIORITY"
+msgstr ""

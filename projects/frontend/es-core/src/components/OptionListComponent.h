@@ -101,7 +101,6 @@ private:
 
 			if(mParent->mMultiSelect)
 			{
-        mMenu.addButton(_("BACK"), "accept", [this] { Close(); });
 			  mMenu.addButton(_("SELECT ALL"), "select all", [this, checkboxes, color]
 			  {
 					for (unsigned int i = 0; i < mParent->mEntries.size(); i++)

@@ -147,9 +147,9 @@ ScreenScraperEngine::ScreenScraperEngine()
     mMethod(ScrappingMethod::All),
     mNotifier(nullptr),
     mDiskMinimumFree(0),
-    mMainImage(ScreenScraperApis::IConfiguration::Image::MixV1),
-    mThumbnailImage(ScreenScraperApis::IConfiguration::Image::None),
-    mVideo(ScreenScraperApis::IConfiguration::Video::None),
+    mMainImage(ScreenScraperEnums::ScreenScraperImageType::MixV1),
+    mThumbnailImage(ScreenScraperEnums::ScreenScraperImageType::None),
+    mVideo(ScreenScraperEnums::ScreenScraperVideoType::None),
     mWantMarquee(false),
     mWantWheel(false),
     mWantManual(false),
@@ -196,31 +196,10 @@ void ScreenScraperEngine::Initialize()
   mRegion = RecalboxConf::Instance().GetScreenScraperRegion();
   mLanguage = RecalboxConf::Instance().GetScreenScraperLanguage();
 
-  // Images
-  mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1; // Default to mix v1
-  std::string value = RecalboxConf::Instance().GetScreenScraperMainMedia();
-  if (value == "screenshot"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
-  else if (value == "title"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
-  else if (value == "logo"   ) mMainImage = ScreenScraperApis::IConfiguration::Image::Wheel;
-  else if (value == "marquee") mMainImage = ScreenScraperApis::IConfiguration::Image::Marquee;
-  else if (value == "box2d"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::Box2d;
-  else if (value == "box3d"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::Box3d;
-  else if (value == "mixv1"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV1;
-  else if (value == "mixv2"  ) mMainImage = ScreenScraperApis::IConfiguration::Image::MixV2;
-  mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box3d; // Default to box-3d
-  value = RecalboxConf::Instance().GetScreenScraperThumbnail();
-  if (value == "screenshot"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotIngame;
-  else if (value == "title"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::ScreenshotTitle;
-  else if (value == "logo"   ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Wheel;
-  else if (value == "marquee") mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Marquee;
-  else if (value == "box2d"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box2d;
-  else if (value == "box3d"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::Box3d;
-  else if (value == "mixv1"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV1;
-  else if (value == "mixv2"  ) mThumbnailImage = ScreenScraperApis::IConfiguration::Image::MixV2;
-  mVideo = ScreenScraperApis::IConfiguration::Video::None; // Default to no video
-  value = RecalboxConf::Instance().GetScreenScraperVideo();
-  if (value == "normal") mVideo = ScreenScraperApis::IConfiguration::Video::Raw;
-  else if (value == "optimized") mVideo = ScreenScraperApis::IConfiguration::Video::Optimized;
+  // Medias
+  mMainImage = RecalboxConf::Instance().GetScreenScraperMainMedia();
+  mThumbnailImage = RecalboxConf::Instance().GetScreenScraperThumbnail();
+  mVideo = RecalboxConf::Instance().GetScreenScraperVideo();
   mWantMarquee = RecalboxConf::Instance().GetScreenScraperWantMarquee();
   mWantWheel   = RecalboxConf::Instance().GetScreenScraperWantWheel();
   mWantManual  = RecalboxConf::Instance().GetScreenScraperWantManual();
@@ -599,11 +578,11 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
       if (game.Metadata().Region() == 0) return true;
 
       // Check required and missing media
-      if (mConfiguration.GetImageType() != ScreenScraperApis::IConfiguration::Image::None)
+      if (mConfiguration.GetImageType() != ScreenScraperEnums::ScreenScraperImageType::None)
         if (game.Metadata().Image().IsEmpty()) return true;
-      if (mConfiguration.GetThumbnailType() != ScreenScraperApis::IConfiguration::Image::None)
+      if (mConfiguration.GetThumbnailType() != ScreenScraperEnums::ScreenScraperImageType::None)
         if (game.Metadata().Thumbnail().IsEmpty()) return true;
-      if (mConfiguration.GetVideo() != ScreenScraperApis::IConfiguration::Video::None)
+      if (mConfiguration.GetVideo() != ScreenScraperEnums::ScreenScraperVideoType::None)
         if (game.Metadata().Video().IsEmpty()) return true;
       if (mConfiguration.GetWantMarquee())
       {

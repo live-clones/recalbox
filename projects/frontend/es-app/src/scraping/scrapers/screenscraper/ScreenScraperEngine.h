@@ -184,15 +184,15 @@ class ScreenScraperEngine
     //! Screenscraper credentials: Password
     std::string mPassword;
     //! Ffavorite language
-    std::string mLanguage;
+    Languages mLanguage;
     //! Favorite region
-    std::string mRegion;
+    Regions::GameRegions mRegion;
     //! Main image
-    ScreenScraperApis::IConfiguration::Image mMainImage;
+    ScreenScraperEnums::ScreenScraperImageType mMainImage;
     //! Thumbnail image
-    ScreenScraperApis::IConfiguration::Image mThumbnailImage;
+    ScreenScraperEnums::ScreenScraperImageType mThumbnailImage;
     //! Video
-    ScreenScraperApis::IConfiguration::Video mVideo;
+    ScreenScraperEnums::ScreenScraperVideoType mVideo;
     //! Marquee
     bool mWantMarquee;
     //! Wheel
@@ -376,19 +376,19 @@ class ScreenScraperEngine
     std::string GetPassword() const override { return mPassword; }
 
     //! Get favorite language
-    std::string GetFavoriteLanguage() const override { return mLanguage; };
+    Languages GetFavoriteLanguage() const override { return mLanguage; };
 
     //! Get favorite region
-    std::string GetFavoriteRegion() const override { return mRegion; }
+    Regions::GameRegions GetFavoriteRegion() const override { return mRegion; }
 
     //! Get main image type
-    ScreenScraperApis::IConfiguration::Image GetImageType() const override { return mMainImage; }
+    ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mMainImage; }
 
     //! Get thumbnail image typ
-    ScreenScraperApis::IConfiguration::Image GetThumbnailType() const override { return mThumbnailImage; }
+    ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mThumbnailImage; }
 
     //! Check if video are required
-    ScreenScraperApis::IConfiguration::Video GetVideo() const override { return mVideo; }
+    ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override { return mVideo; }
 
     //! Check if marquee are required
     bool GetWantMarquee() const override { return mWantMarquee; }

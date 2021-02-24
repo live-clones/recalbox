@@ -101,10 +101,6 @@ void GuiScraperRun::finish()
 
 void GuiScraperRun::GameResult(int index, int total, FileData* result)
 {
-  // Extract region?
-  if (RecalboxConf::Instance().GetScraperRegionFromFilename())
-    ScraperFactory::ExtractRegionFromFilename(*result);
-  // Overwrite name?
   switch(ScraperTools::Clamp(RecalboxConf::Instance().GetScraperGetNameFrom()))
   {
     case ScraperNameOptions::GetFromScraper: break;

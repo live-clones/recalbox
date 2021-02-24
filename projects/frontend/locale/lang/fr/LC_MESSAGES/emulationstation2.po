@@ -2913,3 +2913,19 @@ msgstr "Stockage %d - %l (%f)"
 #
 msgid "Any External Device"
 msgstr "N'importe quel Stockage Externe"
+
+#
+msgid "SCRAPER OPTIONS"
+msgstr "OPTIONS DU SCRAPPEUR"
+
+#
+msgid "SCREENSCRAPER OPTIONS"
+msgstr "OPTIONS DE SCREENSCRAPER"
+
+#
+msgid "DETECTED REGION"
+msgstr "RÉGION DETECTÉE"
+
+#
+msgid "SELECT REGION PRIORITY"
+msgstr "SELECTIONNEZ VOTRE PRIORITÉ DE RÉGION"

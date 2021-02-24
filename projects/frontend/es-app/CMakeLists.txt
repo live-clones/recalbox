@@ -58,7 +58,9 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuPadsPair.h
         src/guis/menus/GuiMenuPopupSettings.h
         src/guis/menus/GuiMenuRetroAchievements.h
+        src/guis/menus/GuiMenuScraper.h
         src/guis/menus/GuiMenuScreensavers.h
+        src/guis/menus/GuiMenuScreenScraperOptions.h
         src/guis/menus/GuiMenuSecurity.h
         src/guis/menus/GuiMenuSound.h
         src/guis/menus/GuiMenuSwitchKodiNetplay.h
@@ -75,8 +77,6 @@ set(ES_HEADERS
         src/guis/menus/IGuiMenuBase.h
         src/guis/GuiSettings.h
         src/guis/GuiScraperRun.h
-        src/guis/GuiScraperSelect.h
-        src/guis/GuiScraperOptions.h
         src/guis/GuiScraperSingleGameRun.h
         src/guis/GuiUpdateRecalbox.h
         src/guis/MenuMessages.h
@@ -109,7 +109,9 @@ set(ES_HEADERS
         src/scraping/ScrapeResult.h
         src/scraping/ScraperTools.h
         src/scraping/scrapers/IScraperEngine.h
+        src/scraping/scrapers/screenscraper/Languages.h
         src/scraping/scrapers/screenscraper/ScreenScraperEngine.h
+        src/scraping/scrapers/screenscraper/ScreenScraperEnums.h
         src/scraping/scrapers/screenscraper/ScreenScraperApis.h
         src/scraping/scrapers/thegamedb/TheGameDBEngine.h
 
@@ -247,7 +249,9 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuPadsPair.cpp
         src/guis/menus/GuiMenuPopupSettings.cpp
         src/guis/menus/GuiMenuRetroAchievements.cpp
+        src/guis/menus/GuiMenuScraper.cpp
         src/guis/menus/GuiMenuScreensavers.cpp
+        src/guis/menus/GuiMenuScreenScraperOptions.cpp
         src/guis/menus/GuiMenuSecurity.cpp
         src/guis/menus/GuiMenuSound.cpp
         src/guis/menus/GuiMenuSwitchKodiNetplay.cpp
@@ -263,8 +267,6 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuVirtualSystemPerGenre.cpp
         src/guis/GuiSettings.cpp
         src/guis/GuiScraperRun.cpp
-        src/guis/GuiScraperSelect.cpp
-        src/guis/GuiScraperOptions.cpp
         src/guis/GuiScraperSingleGameRun.cpp
         src/guis/GuiUpdateRecalbox.cpp
         src/guis/MenuMessages.cpp
@@ -292,7 +294,9 @@ set(ES_SOURCES
         # Scrapers
         src/scraping/ScraperTools.cpp
         src/scraping/ScraperFactory.cpp
+        src/scraping/scrapers/screenscraper/Languages.cpp
         src/scraping/scrapers/screenscraper/ScreenScraperEngine.cpp
+        src/scraping/scrapers/screenscraper/ScreenScraperEnums.cpp
         src/scraping/scrapers/screenscraper/ScreenScraperApis.cpp
         src/scraping/scrapers/thegamedb/TheGameDBEngine.cpp
 

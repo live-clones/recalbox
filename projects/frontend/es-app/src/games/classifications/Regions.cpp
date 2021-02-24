@@ -50,7 +50,7 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        //     { "american samoa", GameRegions::AS},
        //     { "india", GameRegions::IN},
        //     { "tanzania", GameRegions::TZ},
-       { "spain", GameRegions::ES},
+       { "spain", GameRegions::SP},
        //     { "azerbaijan", GameRegions::AZ},
        //     { "bosnia and herzegovina", GameRegions::BA},
        { "russia", GameRegions::RU},
@@ -254,10 +254,10 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        //     { "tajikistan", GameRegions::TJ},
        //     { "thailand", GameRegions::TH},
        //     { "turkmenistan", GameRegions::TM},
-       //     { "turkey", GameRegions::TR},
+            { "turkey", GameRegions::TR},
        //     { "uzbekistan", GameRegions::UZ},
        //     { "vietnam", GameRegions::VN},
-       //     { "taiwan", GameRegions::TW},
+            { "taiwan", GameRegions::TW},
        { "usa", GameRegions::USA},
        { "asia", GameRegions::ASI},
      });
@@ -312,7 +312,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::AS, "American Samoa" },
 //       { GameRegions::IN, "India" },
 //       { GameRegions::TZ, "Tanzania" },
-       { GameRegions::ES, "Spain" },
+       { GameRegions::SP, "Spain" },
 //       { GameRegions::AZ, "Azerbaijan" },
 //       { GameRegions::BA, "Bosnia and Herzegovina" },
        { GameRegions::RU, "Russia" },
@@ -507,7 +507,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::MD, "Moldova" },
 //       { GameRegions::UA, "Ukraine" },
 //       { GameRegions::LK, "Sri Lanka" },
-//       { GameRegions::SK, "Slovakia" },
+      { GameRegions::SK, "Slovakia" },
 //       { GameRegions::AL, "Albania" },
 //       { GameRegions::XK, "Kosovo" },
 //       { GameRegions::ME, "Montenegro" },
@@ -516,10 +516,10 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::TJ, "Tajikistan" },
 //       { GameRegions::TH, "Thailand" },
 //       { GameRegions::TM, "Turkmenistan" },
-//       { GameRegions::TR, "Turkey" },
+       { GameRegions::TR, "Turkey" },
 //       { GameRegions::UZ, "Uzbekistan" },
 //       { GameRegions::VN, "Vietnam" },
-//       { GameRegions::TW, "Taiwan" },
+       { GameRegions::TW, "Taiwan" },
        { GameRegions::USA, "USA" },
        { GameRegions::ASI, "Asia" },
      });
@@ -575,7 +575,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::AS, "as" }, // American Samoa
        //       { GameRegions::IN, "in" }, // India
        //       { GameRegions::TZ, "tz" }, // Tanzania
-       { GameRegions::ES, "es" }, // Spain
+       { GameRegions::SP, "sp" }, // Spain
        //       { GameRegions::AZ, "az" }, // Azerbaijan
        //       { GameRegions::BA, "ba" }, // Bosnia and Herzegovina
        { GameRegions::RU, "ru" }, // Russia
@@ -770,7 +770,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::MD, "md" }, // Moldova
        //       { GameRegions::UA, "ua" }, // Ukraine
        //       { GameRegions::LK, "lk" }, // Sri Lanka
-       //       { GameRegions::SK, "sk" }, // Slovakia
+              { GameRegions::SK, "sk" }, // Slovakia
        //       { GameRegions::AL, "al" }, // Albania
        //       { GameRegions::XK, "xk" }, // Kosovo
        //       { GameRegions::ME, "me" }, // Montenegro
@@ -782,7 +782,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::TR, "tr" }, // Turkey
        //       { GameRegions::UZ, "uz" }, // Uzbekistan
        //       { GameRegions::VN, "vn" }, // Vietnam
-       //       { GameRegions::TW, "tw" }, // Taiwan
+              { GameRegions::TW, "tw" }, // Taiwan
        { GameRegions::USA, "usa" }, // USA
        { GameRegions::ASI, "asi" }, // Asia
      });
@@ -838,7 +838,7 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "as", GameRegions::AS }, // American Samoa
 //       { "in", GameRegions::IN }, // India
 //       { "tz", GameRegions::TZ }, // Tanzania
-       { "es", GameRegions::ES }, // Spain
+       { "sp", GameRegions::SP }, // Spain
 //       { "az", GameRegions::AZ }, // Azerbaijan
 //       { "ba", GameRegions::BA }, // Bosnia and Herzegovina
        { "ru", GameRegions::RU }, // Russia
@@ -1033,7 +1033,7 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "md", GameRegions::MD }, // Moldova
 //       { "ua", GameRegions::UA }, // Ukraine
 //       { "lk", GameRegions::LK }, // Sri Lanka
-//       { "sk", GameRegions::SK }, // Slovakia
+       { "sk", GameRegions::SK }, // Slovakia
 //       { "al", GameRegions::AL }, // Albania
 //       { "xk", GameRegions::XK }, // Kosovo
 //       { "me", GameRegions::ME }, // Montenegro
@@ -1042,7 +1042,7 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "tj", GameRegions::TJ }, // Tajikistan
 //       { "th", GameRegions::TH }, // Thailand
 //       { "tm", GameRegions::TM }, // Turkmenistan
-//       { "tr", GameRegions::TR }, // Turkey
+       { "tr", GameRegions::TR }, // Turkey
 //       { "uz", GameRegions::UZ }, // Uzbekistan
 //       { "vn", GameRegions::VN }, // Vietnam
 //       { "tw", GameRegions::TW }, // Taiwan
@@ -1121,34 +1121,34 @@ const Regions::List& Regions::AvailableRegions()
      GameRegions::WOR, // World
      GameRegions::USA, // USA
      GameRegions::EU,  // Europe
-     GameRegions::JP,  // Japan
      GameRegions::AME, // Latin America
      GameRegions::ASI, // Asia
+     GameRegions::AU,  // Australia
+     GameRegions::BR,  // Brazil
+     GameRegions::BG,  // Bulgaria
+     GameRegions::CA,  // Canada
+     GameRegions::CL,  // Chile
+     GameRegions::CN,  // China
+     GameRegions::CZ,  // Czechia
+     GameRegions::DK,  // Denmark
+     GameRegions::FI,  // Finland
      GameRegions::FR,  // France
      GameRegions::DE,  // Germany
-     GameRegions::ES,  // Spain
-     GameRegions::IT,  // Italy
-     GameRegions::NL,  // Netherlands
-     GameRegions::PT,  // Portugal
-     GameRegions::UK,  // United Kingdom
-     GameRegions::RU,  // Russia
-     GameRegions::CA,  // Canada
-     GameRegions::AU,  // Australia
-     GameRegions::CN,  // China
-     GameRegions::KR,  // Korea
-     GameRegions::BR,  // Brazil
-     GameRegions::DK,  // Denmark
-     GameRegions::SE,  // Sweden
-     GameRegions::NO,  // Norway
-     GameRegions::FI,  // Finland
-     GameRegions::CZ,  // Czechia
-     GameRegions::PL,  // Poland
      GameRegions::GR,  // Greece
      GameRegions::HU,  // Hungary
-     GameRegions::NZ,  // New Zealand
      GameRegions::IL,  // Israel
-     GameRegions::BG,  // Bulgaria
-     GameRegions::CL,  // Chile
+     GameRegions::KR,  // Korea
+     GameRegions::IT,  // Italy
+     GameRegions::JP,  // Japan
+     GameRegions::NL,  // Netherlands
+     GameRegions::NZ,  // New Zealand
+     GameRegions::NO,  // Norway
+     GameRegions::PL,  // Poland
+     GameRegions::PT,  // Portugal
+     GameRegions::RU,  // Russia
+     GameRegions::SP,  // Spain
+     GameRegions::SE,  // Sweden
+     GameRegions::UK,  // United Kingdom
   });
 
   return sRegions;
@@ -1162,3 +1162,12 @@ bool Regions::IsIn4Regions(unsigned int regions, Regions::GameRegions region)
   return (GameRegions) ((regions >> 24) & 0xFF) == region;
 }
 
+Regions::GameRegions Regions::GameRegionsFromString(const std::string& gameRegion)
+{
+  return DeserializeRegion(gameRegion);
+}
+
+const std::string& Regions::GameRegionsFromEnum(Regions::GameRegions gameRegions)
+{
+  return SerializeRegion(gameRegions);
+}

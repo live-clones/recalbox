@@ -9,6 +9,9 @@
 #include <rapidjson/document.h>
 #include <scraping/ScrapeResult.h>
 #include <games/classifications/Genres.h>
+#include <games/classifications/Regions.h>
+#include "ScreenScraperEnums.h"
+#include "Languages.h"
 
 
 class ScreenScraperApis
@@ -46,15 +49,15 @@ class ScreenScraperApis
         //! Get password
         virtual std::string GetPassword() const = 0;
         //! Get favorite language
-        virtual std::string GetFavoriteLanguage() const = 0;
+        virtual Languages GetFavoriteLanguage() const = 0;
         //! Get favorite region
-        virtual std::string GetFavoriteRegion() const = 0;
+        virtual Regions::GameRegions GetFavoriteRegion() const = 0;
         //! Get main image type
-        virtual Image GetImageType() const = 0;
+        virtual ScreenScraperEnums::ScreenScraperImageType GetImageType() const = 0;
         //! Get thumbnail image type
-        virtual Image GetThumbnailType() const = 0;
+        virtual ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const = 0;
         //! GetVideo type
-        virtual Video GetVideo() const = 0;
+        virtual ScreenScraperEnums::ScreenScraperVideoType GetVideo() const = 0;
         //! Check if marquee are required
         virtual bool GetWantMarquee() const = 0;
         //! Check if wheel are required
@@ -213,15 +216,17 @@ class ScreenScraperApis
      * @param json Input json
      * @param game Output Game object
      */
-    void DeserializeGameInformation(const std::string& json, Game& game);
+    void DeserializeGameInformation(const std::string& json, Game& game, Path path);
+
+    static std::string GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of regionalized texts, regarding the given preferred region
      * @param array Json array of regionalized texts
-     * @param preferedregion Preferred region
+     * @param requiredRegion Required region
      * @return Best-matching text
      */
-    static std::string ExtractRegionalizedText(const rapidjson::Value& array, const std::string& preferedregion);
+    static std::string ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of localized texts, regarding the given preferred language

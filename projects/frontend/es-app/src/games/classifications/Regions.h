@@ -50,7 +50,7 @@ class Regions
         AS, // American Samoa
         IN, // India
         TZ, // Tanzania
-        ES, // Spain
+        SP, // Spain
         AZ, // Azerbaijan
         BA, // Bosnia and Herzegovina
         RU, // Russia
@@ -338,5 +338,8 @@ class Regions
      * @return true if region is in regions
      */
     static bool IsIn4Regions(unsigned int regions, GameRegions region);
+
+    static GameRegions GameRegionsFromString(const std::string& gameRegions);
+    static const std::string& GameRegionsFromEnum(GameRegions gameRegions);
 };
 

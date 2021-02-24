@@ -7,6 +7,9 @@
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <games/classifications/Genres.h>
 #include <games/FileSorts.h>
+#include <scraping/ScraperTools.h>
+#include <scraping/scrapers/screenscraper/ScreenScraperEnums.h>
+#include <scraping/scrapers/screenscraper/Languages.h>
 
 // Forward declaration
 class SystemData;
@@ -89,6 +92,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)value); return *this; }
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
+    DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScrapperGetNameFrom, ScraperTools::ScraperNameOptions)
+    DefineGetterSetterEnum(ScreenScraperRegionPriority, ScreenScraperEnums::ScreenScraperRegionPriority, sScreenScraperRegionPriority, ScreenScraperEnums::ScreenScraperRegionPriority)
+    DefineGetterSetterEnum(ScreenScraperRegion, Regions::GameRegions, sScreenScraperRegion, Regions::GameRegions)
+    DefineGetterSetterEnum(ScreenScraperLanguage, Languages, sScreenScraperLanguage, LanguagesTools::Language)
+    DefineGetterSetterEnum(ScreenScraperMainMedia, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperMainMedia, ScreenScraperEnums::ScreenScraperImageType)
+    DefineGetterSetterEnum(ScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType)
+    DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
 
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
@@ -146,15 +156,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(ScraperSource, std::string, String, sScrapperSource, "Screenscraper")
     DefineGetterSetter(ScraperGetNameFrom, int, Int, sScrapperGetNameFrom, 0)
-    DefineGetterSetter(ScraperRegionFromFilename, bool, Bool, sScrapperRegionFromFilename, false)
 
     DefineGetterSetter(ScreenScraperLogin, std::string, String, sScreenScraperLogin, "")
     DefineGetterSetter(ScreenScraperPassword, std::string, String, sScreenScraperPassword, "")
-    DefineGetterSetter(ScreenScraperRegion, std::string, String, sScreenScraperRegion, GetCountry())
-    DefineGetterSetter(ScreenScraperLanguage, std::string, String, sScreenScraperLanguage, GetLanguage())
-    DefineGetterSetter(ScreenScraperMainMedia, std::string, String, sScreenScraperMainMedia, "mixv1")
-    DefineGetterSetter(ScreenScraperThumbnail, std::string, String, sScreenScraperThumbnail, "box3d")
-    DefineGetterSetter(ScreenScraperVideo, std::string, String, sScreenScraperVideo, "none")
     DefineGetterSetter(ScreenScraperWantMarquee, bool, Bool, sScreenScraperWantMarquee, false)
     DefineGetterSetter(ScreenScraperWantWheel, bool, Bool, sScreenScraperWantWheel, false)
     DefineGetterSetter(ScreenScraperWantManual, bool, Bool, sScreenScraperWantManual, false)
@@ -320,10 +324,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sScrapperSource             = "scraper.source";
     static constexpr const char* sScrapperGetNameFrom        = "scraper.getnamefrom";
-    static constexpr const char* sScrapperRegionFromFilename = "scraper.extractregionfromfilename";
 
     static constexpr const char* sScreenScraperLogin         = "scraper.screenscraper.user";
     static constexpr const char* sScreenScraperPassword      = "scraper.screenscraper.password";
+    static constexpr const char* sScreenScraperRegionPriority= "scraper.screenscraper.regionPriority";
     static constexpr const char* sScreenScraperRegion        = "scraper.screenscraper.region";
     static constexpr const char* sScreenScraperLanguage      = "scraper.screenscraper.language";
     static constexpr const char* sScreenScraperMainMedia     = "scraper.screenscraper.media";
