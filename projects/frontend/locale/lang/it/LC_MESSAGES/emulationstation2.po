@@ -2839,7 +2839,7 @@ msgid ""
 "available all around the screen.\n"
 "\n"
 "Press any button to start!"
-msgstr ""
+msgstr "Benvenuto in RECALBOX per Odroid Go Super!\nIn questa breve presentazione mostrerà come usare i vari pulsanti speciali presenti attorno allo schermo.\n\nPremi un pulsante qualsiasi per iniziare!"
 
 #
 msgid ""
@@ -2850,7 +2850,7 @@ msgid ""
 "For example, you can use HOTKEY+START to quit the current game.\n"
 "\n"
 "Press the SELECT button."
-msgstr ""
+msgstr "Il tasto nero in alto a sinistra è il tasto SELECT, anch'esso presente in molti controllers moderni.\nMa è anche il tasto HOTKEY che si può usare in congiunzione con gli altri pulsanti per la maggior parte degli emulatori.\nPer esempio, puoi premere HOTKEY+START per uscire dal gioco in corso.\n\nPremi il tasto SELECT."
 
 #
 msgid ""
@@ -2859,7 +2859,7 @@ msgid ""
 "the regular START button available on most consoles.\n"
 "\n"
 "Press this START button please."
-msgstr ""
+msgstr "Dal lato opposto del tasto SELECT c'è il tasto START.\nUsalo per aprire il menù principale nell'interfaccia di Recalbox e, mentre giochi, come il classico tasto START di una console.\n\nPer favore, premi il tasto START"
 
 #
 msgid ""
@@ -2869,7 +2869,7 @@ msgid ""
 "or in-game.\n"
 "\n"
 " Press any button to continue"
-msgstr ""
+msgstr "Ora, in cima alla console, ci sono due tasti contrassegnati con '-' e '+'.\nUsali per alzare o diminuire il volume del suono nell'interfaccia di Recalbox o mentre giochi.\n\n Premi un tasto qualsiasi per continuare."
 
 #
 msgid ""
@@ -2877,7 +2877,7 @@ msgid ""
 "Note that the brighter the screen, the more power it consumes!\n"
 "\n"
 " Press either brightness up or down button"
-msgstr ""
+msgstr "I due tasti grigi in basso a sinistra controllano la luminosità dello schermo.\nNota che, più lo schermo è luminoso, più energia verrà consumata!\n\n Premi uno dei tasti della luminosità."
 
 #
 msgid ""
@@ -2885,34 +2885,34 @@ msgid ""
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
-msgstr ""
+msgstr "Infine, i due tasti grigi in basso a destra sono il terzo grilletto sinistro e destro (L3/R3), usati solamente in alcuni emulatori o per registrare video.\n\n Premi L3 o R3."
 
 #
 msgid "DRIVER"
-msgstr ""
+msgstr "DRIVER"
 
 #
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
-msgstr ""
+msgstr "Cambia il driver se il tuo controller non funziona o non funziona correttamente durante il gioco."
 
 #
 msgid "In Memory!"
-msgstr ""
+msgstr "In Memoria!"
 
 #
 msgid "Internal Share Partition"
-msgstr ""
+msgstr "Partizione Interna Condivisa"
 
 #
 msgid "Network Share"
-msgstr ""
+msgstr "Partizione di Rete"
 
 #
 msgid "Device %d - %l (%f)"
-msgstr ""
+msgstr "Dispositivo %d - %l (%f)"
 
 #
 msgid "Any External Device"
-msgstr ""
+msgstr "Qualsiasi Dispositivo Esterno"
