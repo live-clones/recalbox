@@ -127,6 +127,7 @@ All notable changes to this project will be documented in this file.
 - Fix webmanager v2
 - Add GoS wizard translations
 - Remove old libretro-scummvm references everywhere
+- Fix GoS brightness issue when exiting DIM screensaver
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
