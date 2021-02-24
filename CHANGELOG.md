@@ -125,6 +125,7 @@ All notable changes to this project will be documented in this file.
 - Fix wm8960 audio hat build time (only build as module) and add kernel 5.10 compat (#1554)
 - Fix neogeo CD configuration in romfs
 - Fix webmanager v2
+- Add GoS wizard translations
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
