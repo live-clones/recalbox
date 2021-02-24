@@ -68,7 +68,10 @@ void OdroidAdvanceGo2Board::SetLowestBrightness()
 
 void OdroidAdvanceGo2Board::SetBrightness(int step)
 {
-  int value = 1 << step; if (value > 255) value = 255;
+  std::string maxValue = Files::LoadFile(Path("/sys/class/backlight/backlight/max_brightness"));
+  int max = 160; // Max GoS value
+  Strings::ToInt(Strings::Trim(maxValue, "\r\n"), max);
+  int value = 1 << step; if (value > max) value = max;
   Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
 }
 
