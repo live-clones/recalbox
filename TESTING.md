@@ -28,6 +28,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Revalider tous les menus sur la liste système
 - [ ] Revalider tous les menus sur les listes de jeux
 - [ ] Test Craft (Minecraft clone) on ports (pc only)
+- [ ] Odroid GO Super => check it works (uses same image as Go Advanced)
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
@@ -99,6 +100,12 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
   - [ ] Vérifier qu'un appairage fonctionne
   - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
+- [ ] Check Odroid GO 2 image compatibility
+  - [ ] Check Odroid GO 2 has no performance regression
+  - [ ] Check Odroid GO 2 with uboot < 3/12/2020 still works after offline upgrade (boot.ini rewrite)
+  - [ ] Check boot logo are displayed correctly
+- [ ] Check Odroid GO 2 shaders now work
+- [ ] Check RetroArch shortcuts all work on Odroid GO 2
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well

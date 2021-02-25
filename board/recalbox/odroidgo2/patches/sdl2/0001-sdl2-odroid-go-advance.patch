@@ -1,3 +1,32 @@
+From d6c431161e7467bec884cb5a889e140e004d4180 Mon Sep 17 00:00:00 2001
+From: AreaScout <d.mehrwald@gmail.com>
+Date: Sun, 8 Mar 2020 12:04:42 +0100
+Subject: [PATCH] Add: initial ODROID Go Advanced support
+
+---
+ configure.ac                          |  5 +++
+ src/video/kmsdrm/SDL_kmsdrmopengles.c | 19 ++++++++-
+ src/video/kmsdrm/SDL_kmsdrmsym.h      |  1 +
+ src/video/kmsdrm/SDL_kmsdrmvideo.c    | 61 ++++++++++++++++++++++++---
+ src/video/kmsdrm/SDL_kmsdrmvideo.h    |  7 +++
+ 5 files changed, 86 insertions(+), 7 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 19361a4b8..5d44c6a59 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2236,6 +2236,11 @@ AS_HELP_STRING([--enable-video-kmsdrm], [use KMSDRM video driver [[default=no]]]
+         PKG_CHECK_MODULES([LIBDRM], [libdrm >= 2.4.46], libdrm_avail=yes, libdrm_avail=no)
+         PKG_CHECK_MODULES([LIBGBM], [gbm >= 9.0.0], libgbm_avail=yes, libgbm_avail=no)
+ 
++        AC_CHECK_LIB(rga, c_RkRgaInit, have_rga_lib=yes)
++        if test x$have_rga_lib = xyes ; then
++            EXTRA_LDFLAGS="$EXTRA_LDFLAGS -lrga"
++        fi
++
+         if test x$libdrm_avail = xyes -a x$libgbm_avail = xyes; then
+             video_kmsdrm=yes
+         fi
 diff --git a/src/video/kmsdrm/SDL_kmsdrmopengles.c b/src/video/kmsdrm/SDL_kmsdrmopengles.c
 index ae4b3580b..1e8276b03 100644
 --- a/src/video/kmsdrm/SDL_kmsdrmopengles.c
@@ -59,18 +88,10 @@ index e3e48ef64..aa240cc75 100644
  
  #undef SDL_KMSDRM_MODULE
 diff --git a/src/video/kmsdrm/SDL_kmsdrmvideo.c b/src/video/kmsdrm/SDL_kmsdrmvideo.c
-index 216c45dab..a6fe7f8c1 100644
+index 216c45dab..0de95edbe 100644
 --- a/src/video/kmsdrm/SDL_kmsdrmvideo.c
 +++ b/src/video/kmsdrm/SDL_kmsdrmvideo.c
-@@ -42,6 +42,7 @@
- #include "SDL_kmsdrmopengles.h"
- #include "SDL_kmsdrmmouse.h"
- #include "SDL_kmsdrmdyn.h"
-+#include <sys/ioctl.h>
- #include <sys/stat.h>
- #include <dirent.h>
- #include <errno.h>
-@@ -49,6 +50,9 @@
+@@ -49,6 +49,9 @@
  
  #define KMSDRM_DRI_PATH "/dev/dri/"
  
@@ -80,7 +101,7 @@ index 216c45dab..a6fe7f8c1 100644
  static int
  check_modestting(int devindex)
  {
-@@ -254,6 +258,40 @@ KMSDRM_FBDestroyCallback(struct gbm_bo *bo, void *data)
+@@ -254,6 +257,41 @@ KMSDRM_FBDestroyCallback(struct gbm_bo *bo, void *data)
      SDL_free(fb_info);
  }
  
@@ -96,7 +117,7 @@ index 216c45dab..a6fe7f8c1 100644
 +    for (int i = 0; i < RGA_BUFFERS_MAX; ++i)
 +    {
 +        viddata->rga_buffers[i] = KMSDRM_gbm_bo_create(viddata->gbm,
-+              frameWidth, frameHeight,
++              frameWidth, (frameHeight == 480) ? frameHeight : (frameHeight + 32) & ~31,
 +              GBM_FORMAT_XRGB8888, GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
 +        assert(viddata->rga_buffers[i]);
 +
@@ -109,12 +130,13 @@ index 216c45dab..a6fe7f8c1 100644
 +    src_info.mmuFlag = 1;
 +    src_info.rotation = HAL_TRANSFORM_ROT_270;
 +
-+    // swap width and height here because our source buffer is 480x320
-+    rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, frameHeight, frameWidth, RK_FORMAT_BGRA_8888);
++    // swap width and height here because our source buffer (user side render buffer) is 480x320 or 854x480
++    rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, (frameHeight == 480) ? frameHeight : (frameHeight + 32) & ~31, frameWidth, RK_FORMAT_BGRA_8888);
 +
 +    dst_info.fd = -1;
 +    dst_info.mmuFlag = 1;
 +
++    // this is our hardware side destination buffer which has 320x480 or 480x854 portrait type LCD size
 +    rga_set_rect(&dst_info.rect, 0, 0, frameWidth, frameHeight, frameWidth, frameHeight, RK_FORMAT_BGRA_8888);
 +}
 +
@@ -211,8 +233,8 @@ index 63dcf6ffd..f9ce2eb02 100644
  } SDL_VideoData;
  
  
---- a/Makefile.in	2020-10-25 22:12:38.106942315 +0100
-+++ b/Makefile.in	2020-10-25 22:13:28.536759861 +0100
+--- a/Makefile.in      2020-10-25 22:12:38.106942315 +0100
++++ b/Makefile.in      2020-10-25 22:13:28.536759861 +0100
 @@ -22,7 +22,7 @@
  INCLUDE = @INCLUDE@
  CFLAGS  = @BUILD_CFLAGS@

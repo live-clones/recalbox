@@ -1,0 +1,33 @@
+#!/bin/bash
+
+[[ "$1" != "start" ]] && exit 0
+
+source /recalbox/scripts/recalbox-utils.sh
+IMAGE_PATH=$(getInstallUpgradeImagePath)
+
+# Calibrate joypad
+KEYPAD=/sys/devices/platform/odroidgo?-joypad
+
+# disable then enable joypad
+echo 0 > $KEYPAD/enable
+echo 1 > $KEYPAD/enable
+
+# calibrate current position of joypad
+echo 1 > $KEYPAD/adc_cal
+
+# Enable sound
+amixer sset 'Playback' 100%
+amixer sset 'Playback Path' SPK
+
+# install correct sized logo images
+install_if_different() {
+  if ! cmp --silent "$1" "$2"; then
+    if [[ "$2" =~ ^/boot ]]; then mount -o remount,rw /boot; else mount -o remount,rw /; fi
+    cp -f "$1" "$2"
+    if [[ "$2" =~ ^/boot ]]; then mount -o remount,ro /boot; else mount -o remount,ro /; fi
+  fi
+}
+
+install_if_different "$IMAGE_PATH/logo.bmp"         "/boot/logo.bmp"
+install_if_different "$IMAGE_PATH/boot.ppm"         "/boot/boot.ppm"
+install_if_different "$IMAGE_PATH/logo-version.png" "/recalbox/system/resources/splash/logo-version.png"

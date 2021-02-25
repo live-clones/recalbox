@@ -21,6 +21,7 @@
 - Add Pocket Challenge v2 system (pcv2)
 - Lightgun feature : more than 200 games already ready to play! (using dolphin bar/wiimote)
 - Add Minecraft's port Craft on pc
+- Add support for Odroid Go Super
 
 ### Improvements
 - Bump supermodel to version 839
@@ -35,6 +36,7 @@
 - Bump libretro-uae adding CHD support
 - Bump ScummVM
 - Bump BlueMSX
+- Bump rockchip-libmali (for odroidgo2 and 3)
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package
@@ -45,6 +47,8 @@
 - Fix 8Bitdo NES30 Pro rev 1 mapping (thanks @fredbcode)
 - Fix name for palmos rom (thanks @RaZer0k)
 - Fix 4k resolution handling on rpi4
+- Fix shaders on odroidgo2
+- Fix RetroArch shortcuts on odroidgo2
 
 ## 7.1.1-Reloaded
 
