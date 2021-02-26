@@ -2,7 +2,7 @@ diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 0368903..cea1f66 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -129,3 +129,7 @@ set(CPACK_PACKAGE_VERSION_MINOR "${VER_MINOR}")
+@@ -134,3 +134,7 @@ set(CPACK_PACKAGE_VERSION_MINOR "${VER_MINOR}")
  set(CPACK_PACKAGE_VERSION_PATCH "${VER_PATCH}")
  
  include(CPack)
