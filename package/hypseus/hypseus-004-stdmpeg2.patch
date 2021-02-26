@@ -5,7 +5,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 
 --- a/src/CMakeLists.txt	2019-04-01 20:08:16.953920498 +0200
 +++ b/src/CMakeLists.txt	2019-04-02 21:58:24.204989201 +0200
-@@ -36,15 +36,16 @@ include(GNUInstallDirs)
+@@ -37,15 +37,16 @@ include(GNUInstallDirs)
  include(GetGitRevisionDescription)
  include(InstallRequiredSystemLibraries)
  include(FindPkgConfig)
@@ -25,7 +25,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  
  message(STATUS "Target: ${CMAKE_SYSTEM_NAME} ${CMAKE_TARGET_ARCHITECTURES}")
  
-@@ -72,6 +73,7 @@ message(STATUS "Version: ${VER_TAG}")
+@@ -73,6 +74,7 @@ message(STATUS "Version: ${VER_TAG}")
  include_directories(
      ${PROJECT_BINARY_DIR} # config.h
      ${SDL2_INCLUDE_DIRS}
@@ -33,7 +33,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  )
  
  if( "${CMAKE_TARGET_ARCHITECTURES}" MATCHES "i386" )
-@@ -97,17 +99,17 @@ add_subdirectory(timer)
+@@ -98,10 +98,10 @@ add_subdirectory(timer)
  add_subdirectory(video)
  add_subdirectory(vldp)
  
@@ -47,15 +47,8 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +#add_dependencies( sound vldp )
  
  add_executable( hypseus hypseus.cpp globals.h )
- target_link_libraries( hypseus plog io timer sound video cpu game ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} )
- 
- set_source_files_properties( testvldp.cpp PROPERTIES COMPILE_FLAGS -DSHOW_FRAMES)
- add_executable( testvldp testvldp.cpp )
--target_link_libraries( testvldp video vldp ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${SDL2IMAGE_LIBRARIES})
-+target_link_libraries( testvldp video vldp ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${SDL2IMAGE_LIBRARIES} )
- 
- if(BUILDBOT)
-     add_custom_command( TARGET hypseus
+ target_link_libraries( hypseus plog io timer sound video cpu game ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES})
+
 --- a/src/vldp/vldp_internal.cpp	2019-04-02 22:00:27.879821269 +0200
 +++ b/src/vldp/vldp_internal.cpp	2019-04-02 22:00:35.959745458 +0200
 @@ -37,8 +37,6 @@

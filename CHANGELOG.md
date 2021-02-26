@@ -133,6 +133,7 @@ All notable changes to this project will be documented in this file.
 - Bump rockchip-libmali (vulkan coming)
 - Fix shaders on odroigo2
 - Fix RetroArch shortcuts on odroidgo2
+- Bump Hypseus to version 1.3
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
