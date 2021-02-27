@@ -154,7 +154,11 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
         {
           const rapidjson::Value& rom = jeu["rom"];
           if (rom.HasMember("romregions"))
-              romRegion = Regions::DeserializeRegion(rom["romregions"].GetString());
+          {
+            romRegion = Regions::DeserializeRegion(rom["romregions"].GetString());
+            if(Regions::GameRegions::Unknown == romRegion)
+              romRegion = Regions::DeserializeCustomRegion(rom["romregions"].GetString());
+          }
             if (rom.HasMember("romcrc"))
               game.mCrc = rom["romcrc"].GetString();
         }

@@ -11,7 +11,7 @@ const std::string& LanguagesTools::LanguagesFullName(Languages language)
   static HashMap<Languages, const std::string> sLanguagesToFullName({
     {Languages::EN, "English"},
     {Languages::FR, "Français"},
-    {Languages::SP, "Español"},
+    {Languages::ES, "Español"},
     {Languages::PT, "Português"},
     {Languages::DE, "Deutsch"},
     {Languages::IT, "Italiano"},
@@ -46,7 +46,7 @@ const LanguagesTools::List& LanguagesTools::AvailableLanguages()
        Languages::CZ,
        Languages::DA,
        Languages::DE,
-       Languages::SP,
+       Languages::ES,
        Languages::EN,
        Languages::FR,
        Languages::IT,
@@ -72,7 +72,7 @@ Languages LanguagesTools::DeserializeLanguage(const std::string& language)
   static HashMap<std::string, Languages> sLanguageNameToLanguage
   ({
       {"en", Languages::EN},
-      {"sp", Languages::SP},
+      {"es", Languages::ES},
       {"pt", Languages::PT},
       {"fr", Languages::FR},
       {"de", Languages::DE},
@@ -105,7 +105,7 @@ const std::string& LanguagesTools::SerializeLanguage(Languages language)
   static HashMap<Languages, std::string> sLanguageToLanguageName
     ({
        {Languages::EN, "en"},
-       {Languages::SP, "sp"},
+       {Languages::ES, "es"},
        {Languages::PT, "pt"},
        {Languages::FR, "fr"},
        {Languages::DE, "de"},

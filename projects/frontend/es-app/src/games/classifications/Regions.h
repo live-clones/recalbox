@@ -50,7 +50,7 @@ class Regions
         AS, // American Samoa
         IN, // India
         TZ, // Tanzania
-        SP, // Spain
+        ES, // Spain
         AZ, // Azerbaijan
         BA, // Bosnia and Herzegovina
         RU, // Russia
@@ -313,6 +313,8 @@ class Regions
      * @return
      */
     static GameRegions ExtractRegionsFromFileName(const Path& path);
+
+    static GameRegions DeserializeCustomRegion(const std::string& region);
 
     /*!
      * @brief Check and clamp the value inside valid range

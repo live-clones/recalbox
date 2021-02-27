@@ -50,7 +50,7 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        //     { "american samoa", GameRegions::AS},
        //     { "india", GameRegions::IN},
        //     { "tanzania", GameRegions::TZ},
-       { "spain", GameRegions::SP},
+       { "spain", GameRegions::ES},
        //     { "azerbaijan", GameRegions::AZ},
        //     { "bosnia and herzegovina", GameRegions::BA},
        { "russia", GameRegions::RU},
@@ -312,7 +312,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::AS, "American Samoa" },
 //       { GameRegions::IN, "India" },
 //       { GameRegions::TZ, "Tanzania" },
-       { GameRegions::SP, "Spain" },
+       { GameRegions::ES, "Spain" },
 //       { GameRegions::AZ, "Azerbaijan" },
 //       { GameRegions::BA, "Bosnia and Herzegovina" },
        { GameRegions::RU, "Russia" },
@@ -575,7 +575,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::AS, "as" }, // American Samoa
        //       { GameRegions::IN, "in" }, // India
        //       { GameRegions::TZ, "tz" }, // Tanzania
-       { GameRegions::SP, "sp" }, // Spain
+       { GameRegions::ES, "es" }, // Spain
        //       { GameRegions::AZ, "az" }, // Azerbaijan
        //       { GameRegions::BA, "ba" }, // Bosnia and Herzegovina
        { GameRegions::RU, "ru" }, // Russia
@@ -838,7 +838,7 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "as", GameRegions::AS }, // American Samoa
 //       { "in", GameRegions::IN }, // India
 //       { "tz", GameRegions::TZ }, // Tanzania
-       { "sp", GameRegions::SP }, // Spain
+       { "es", GameRegions::ES }, // Spain
 //       { "az", GameRegions::AZ }, // Azerbaijan
 //       { "ba", GameRegions::BA }, // Bosnia and Herzegovina
        { "ru", GameRegions::RU }, // Russia
@@ -1105,11 +1105,32 @@ Regions::GameRegions Regions::ExtractRegionsFromFileName(const Path& path)
     if (result != GameRegions::Unknown) return result;
     result = DeserializeRegion(region);
     if (result != GameRegions::Unknown) return result;
+    result = DeserializeCustomRegion(region);
+    if (result != GameRegions::Unknown)
+      return result;
 
     // Try next
     start = stop + 1;
   }
   return GameRegions::Unknown;
+}
+
+Regions::GameRegions Regions::DeserializeCustomRegion(const std::string& region)
+{
+  static HashMap<std::string, Regions::GameRegions> sRegionNameToRegion
+    ({
+       { "sp", Regions::GameRegions::ES }, // ScreenScraper spanish region
+       { "J", Regions::GameRegions::JP },
+       { "F", Regions::GameRegions::FR },
+       { "E", Regions::GameRegions::EU },
+       { "U", Regions::GameRegions::USA },
+     });
+
+  Regions::GameRegions* found = sRegionNameToRegion.try_get(Strings::ToUpperUTF8(region));
+  if (found != nullptr)
+    return *found;
+
+  return Regions::GameRegions::Unknown;
 }
 
 const Regions::List& Regions::AvailableRegions()
@@ -1146,7 +1167,7 @@ const Regions::List& Regions::AvailableRegions()
      GameRegions::PL,  // Poland
      GameRegions::PT,  // Portugal
      GameRegions::RU,  // Russia
-     GameRegions::SP,  // Spain
+     GameRegions::ES,  // Spain
      GameRegions::SE,  // Sweden
      GameRegions::UK,  // United Kingdom
   });

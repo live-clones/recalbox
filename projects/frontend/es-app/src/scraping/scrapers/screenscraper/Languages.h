@@ -9,7 +9,7 @@
 enum class Languages
 {
     EN,
-    SP,
+    ES,
     PT,
     FR,
     DE,
