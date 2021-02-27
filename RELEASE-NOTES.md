@@ -32,7 +32,8 @@
 - Bump and Patch Beetle-Saturn for best support of european Virtua Cop games
 - Patch Retroarch for X11 multi-mouse
 - Flycast crossairs updated
-- Improved menu ergonomy
+- Improve menu ergonomy
+- Improve internal scraper
 - Bump libretro-uae adding CHD support
 - Bump ScummVM
 - Bump BlueMSX
@@ -50,6 +51,7 @@
 - Fix 4k resolution handling on rpi4
 - Fix shaders on odroidgo2
 - Fix RetroArch shortcuts on odroidgo2
+
 
 ## 7.1.1-Reloaded
 
