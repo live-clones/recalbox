@@ -134,6 +134,8 @@ All notable changes to this project will be documented in this file.
 - Fix shaders on odroigo2
 - Fix RetroArch shortcuts on odroidgo2
 - Bump Hypseus to version 1.3
+- Improve internal scraper
+
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
