@@ -43,7 +43,7 @@ class GuiMenuUpdates : public GuiMenuBase
     std::shared_ptr<OptionListComponent<std::string>> mType;
 
     //! Get Update type List
-    std::vector<ListEntry<std::string>> GetUpdateTypeEntries();
+    static std::vector<ListEntry<std::string>> GetUpdateTypeEntries();
 
     /*
      * ISwitchComponent implementation

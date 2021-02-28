@@ -140,7 +140,7 @@ std::string Upgrade::GetDomainName()
 std::string Upgrade::GetRemoteVersion()
 {
   // Get version
-  std::string url = ReplaceMachineParameters(sVersionPatternUrl);
+  std::string url = ReplaceMachineParameters(sVersionPatternUrl, Strings::Empty);
 
   std::string version;
   if (!Http().Execute(url, version)) version.clear();
@@ -151,16 +151,25 @@ std::string Upgrade::GetRemoteVersion()
   return version;
 }
 
-std::string Upgrade::DownloadUrl()
+std::string Upgrade::ImageUrl()
 {
   // Get url
-  std::string url = ReplaceMachineParameters(sDownloadPatternUrl);
-  { LOG(LogDebug) << "[Update] Download url: " << url; }
+  std::string url = ReplaceMachineParameters(sDownloadPatternUrl, Strings::Empty);
+  { LOG(LogDebug) << "[Update] Image file url: " << url; }
 
   return url;
 }
 
-std::string Upgrade::ReplaceMachineParameters(const std::string& url)
+std::string Upgrade::HashUrl()
+{
+  // Get url
+  std::string url = ReplaceMachineParameters(sDownloadPatternUrl, ".sha1");
+  { LOG(LogDebug) << "[Update] Hash file url: " << url; }
+
+  return url;
+}
+
+std::string Upgrade::ReplaceMachineParameters(const std::string& url, const std::string& ext)
 {
   std::string result(url);
 
@@ -179,6 +188,7 @@ std::string Upgrade::ReplaceMachineParameters(const std::string& url)
   Strings::ReplaceAllIn(result, "#DOMAIN#", mDomainName);
   Strings::ReplaceAllIn(result, "#ARCH#", arch);
   Strings::ReplaceAllIn(result, "#UUID#", uuid);
+  Strings::ReplaceAllIn(result, "#EXT#", ext);
 
   return result;
 }
@@ -196,7 +206,7 @@ bool Upgrade::ValidateVersion(const std::string& version)
 std::string Upgrade::GetRemoteReleaseVersion()
 {
   // Get version
-  std::string url = ReplaceMachineParameters(sReleasenotePatternUrl);
+  std::string url = ReplaceMachineParameters(sReleasenotePatternUrl, Strings::Empty);
 
   std::string releaseNote;
   if (!Http().Execute(url, releaseNote)) releaseNote.clear();

@@ -44,7 +44,13 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @brief Return remote version.
      * @return Remote version
      */
-    static std::string DownloadUrl();
+    static std::string ImageUrl();
+
+    /*!
+     * @brief Return remote version.
+     * @return Remote version
+     */
+    static std::string HashUrl();
 
     /*!
      * @brief Check if there is a pending update
@@ -70,7 +76,7 @@ class Upgrade: private Thread, private ISynchronousEvent
     //! Get remote version template URL
     static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";
     //! Image template url
-    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz?source=recalbox&uuid=#UUID#";
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz#EXT#?source=recalbox&uuid=#UUID#";
     //! Releasenote template url
     static constexpr const char* sReleasenotePatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.releasenotes";
 
@@ -133,9 +139,10 @@ class Upgrade: private Thread, private ISynchronousEvent
     /*!
      * @brief Replace machine parameters parameters in the given url (Arch, uuid, domain, ...)
      * @param url Template url
+     * @param ext Optional extention
      * @return Final url
      */
-    static std::string ReplaceMachineParameters(const std::string& url);
+    static std::string ReplaceMachineParameters(const std::string& url, const std::string& ext);
 
     /*!
      * @brief Validate the given version

@@ -71,7 +71,7 @@ void GuiMenuUpdates::SubMenuSelected(int id)
   }
   else if ((Components)id == Components::StartUpdate)
   {
-    mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::DownloadUrl(), Upgrade::NewVersion()));
+    mWindow.pushGui(new GuiUpdateRecalbox(mWindow, Upgrade::ImageUrl(), Upgrade::HashUrl(), Upgrade::NewVersion()));
   }
 }
 

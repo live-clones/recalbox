@@ -54,7 +54,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuPads::GetModes()
 
   list.push_back({ _("AUTOMATIC"), "auto", mode == "auto" });
   list.push_back({ _("SYSTEM DRIVER"), "udev", mode == "udev" });
-  list.push_back({ _("GAME LIBRARY DRIVER"), "sdl2", mode == "dsl2" });
+  list.push_back({ _("GAME LIBRARY DRIVER"), "sdl2", mode == "sdl2" });
 
   return list;
 }

@@ -2782,7 +2782,7 @@ msgstr ""
 
 #
 msgid "EmulationStation must relaunch to apply your changes."
-msgstr ""
+msgstr "EmulationStation doit redémarrer pour appliquer les changements."
 
 #
 msgid "PAIRING %s ..."

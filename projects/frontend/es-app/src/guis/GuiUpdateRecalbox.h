@@ -18,7 +18,7 @@
 class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent, private Http::IDownload
 {
   public:
-    GuiUpdateRecalbox(WindowManager& window, const std::string& url, const std::string& newVersion);
+    GuiUpdateRecalbox(WindowManager& window, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion);
 
     ~GuiUpdateRecalbox() override;
 
@@ -27,7 +27,7 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
     bool getHelpPrompts(Help& help) override;
 
   private:
-    static constexpr const char* sDownloadFolder = "/boot/output";
+    static constexpr const char* sDownloadFolder = "/boot/update";
 
     /*!
      * @brief Receive synchronous SDL2 event
@@ -59,8 +59,10 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
     //! Http request object
     Http mRequest;
 
-    //! Url to download
-    std::string mUrl;
+    //! Image Url to download
+    std::string mImageUrl;
+    //! Sha1 Url to download
+    std::string mSha1Url;
     //! New version
     std::string mNewVersion;
     // texts

@@ -16,9 +16,10 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& url, const std::string& newVersion)
+GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion)
   : Gui(window)
-  , mUrl(url)
+  , mImageUrl(imageUrl)
+  , mSha1Url(sha1Url)
   , mNewVersion(newVersion)
   , mTotalSize(0)
   , mCurrentSize(0)
@@ -158,14 +159,14 @@ void GuiUpdateRecalbox::Run()
   { LOG(LogDebug) << "[UpdateGui] Target path " << destination.ToString(); }
   destination.Delete();
   mTimeReference = DateTime();
-  mRequest.Execute(mUrl, destination, this);
+  mRequest.Execute(mImageUrl, destination, this);
 
   // Control & Reboot
   if (mTotalSize != 0)
     if (destination.Size() == mTotalSize)
     {
       // Download sha1
-      mRequest.Execute(mUrl.append(".sha1"), destinationSha1, this);
+      mRequest.Execute(mSha1Url.append(".sha1"), destinationSha1, this);
       // Reboot
       MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
       return;
