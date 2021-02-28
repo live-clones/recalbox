@@ -1,0 +1,110 @@
+From 5dff6fa2f30644f93128b30b92d6251a12514e36 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sun, 25 Jul 2021 21:56:04 +0200
+Subject: [PATCH 4/4] feat: add power button input device
+
+---
+ xpi_gamecon.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/xpi_gamecon.c b/xpi_gamecon.c
+index fa1ac49..8ab432d 100644
+--- a/xpi_gamecon.c
++++ b/xpi_gamecon.c
+@@ -73,6 +73,7 @@ int gc_btn_size = sizeof(gc_btn);
+ struct gc {
+ 	struct input_dev *dev;
+ 	struct input_dev *volume_dev;
++	struct input_dev *power_dev;
+ 	struct timer_list timer;
+ 	int used;
+ 	struct mutex mutex;
+@@ -170,6 +171,7 @@ static void gc_timer(struct timer_list *t)
+ 	unsigned char data[32];
+ 	struct input_dev *dev = gc->dev;
+ 	struct input_dev *volume_dev = gc->volume_dev;
++	struct input_dev *power_dev = gc->power_dev;
+ 
+ 	int byteindex;
+ 	long bitindex;
+@@ -265,6 +267,9 @@ static void gc_timer(struct timer_list *t)
+ 		input_report_abs(volume_dev, ABS_VOLUME, data[6]);		//Y Axis
+ 		input_sync(volume_dev);
+ 
++		input_report_key(power_dev, KEY_POWER, !(data[5]&0x40));
++		input_sync(power_dev);
++
+ 		batt_val = (int)(data[7]*5)+2950;		//Battery Voltage
+ 		cur_val = (int)((signed char)data[8])*50;	//Current
+ 		percent_val = data[9];				//battery percentage
+@@ -380,6 +385,43 @@ err_free_dev:
+ 	return err;
+ }
+ 
++/* power device
++ */
++static int __init gc_setup_power(struct gc *gc)
++{
++	struct input_dev *input_dev;
++	int err;
++
++	gc->power_dev = input_dev = input_allocate_device();
++	if (!input_dev) {
++		printk(KERN_INFO "Not enough memory for power input device\n");
++		return -ENOMEM;
++	}
++
++	input_dev->name = "PiBoy Power switch";
++	input_dev->phys = "input2";
++	input_dev->id.bustype = BUS_PARPORT;
++	input_dev->id.vendor = 0x0001;
++	input_dev->id.product = 1;
++	input_dev->id.version = 0x0100;
++
++	input_set_drvdata(input_dev, gc);
++
++	__set_bit(EV_KEY, input_dev->evbit);
++	__set_bit(KEY_POWER, input_dev->keybit);
++
++	err = input_register_device(input_dev);
++	if (err)
++		goto err_free_dev;
++
++	return 0;
++
++err_free_dev:
++	input_free_device(gc->power_dev);
++	gc->power_dev = NULL;
++	return err;
++}
++
+ static struct gc __init *gc_probe(void)
+ {
+ 	struct gc *gc;
+@@ -400,10 +442,14 @@ static struct gc __init *gc_probe(void)
+ 	if (err) goto err_unreg_devs;
+ 	err = gc_setup_volume(gc);
+ 	if (err) goto err_unreg_devs;
++	err = gc_setup_power(gc);
++	if (err) goto err_unreg_devs;
+ 	return gc;
+ 
+  err_unreg_devs:
+ 	if (gc->dev) input_unregister_device(gc->dev);
++	if (gc->volume_dev) input_unregister_device(gc->volume_dev);
++	if (gc->power_dev) input_unregister_device(gc->power_dev);
+ 	kfree(gc);
+  err_out:
+ 	return ERR_PTR(err);
+@@ -415,6 +461,8 @@ static void gc_remove(struct gc *gc)
+ 		input_unregister_device(gc->dev);
+ 	if (gc->volume_dev)
+ 		input_unregister_device(gc->volume_dev);
++	if (gc->power_dev)
++		input_unregister_device(gc->power_dev);
+ 	kfree(gc);
+ }
+ 
+-- 
+2.32.0
+
