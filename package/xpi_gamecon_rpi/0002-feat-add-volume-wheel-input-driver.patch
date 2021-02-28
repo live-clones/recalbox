@@ -1,0 +1,106 @@
+From 66e9a79663319b3f715fb6188338ec19b93c623d Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Tue, 6 Apr 2021 22:23:10 +0200
+Subject: [PATCH 2/4] feat: add volume wheel input driver
+
+---
+ xpi_gamecon.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/xpi_gamecon.c b/xpi_gamecon.c
+index e156c45..f822065 100644
+--- a/xpi_gamecon.c
++++ b/xpi_gamecon.c
+@@ -72,6 +72,7 @@ int gc_btn_size = sizeof(gc_btn);
+ 
+ struct gc {
+ 	struct input_dev *dev;
++	struct input_dev *volume_dev;
+ 	struct timer_list timer;
+ 	int used;
+ 	struct mutex mutex;
+@@ -168,6 +169,7 @@ static void gc_timer(struct timer_list *t)
+ 
+ 	unsigned char data[32];
+ 	struct input_dev *dev = gc->dev;
++	struct input_dev *volume_dev = gc->volume_dev;
+ 
+ 	int byteindex;
+ 	long bitindex;
+@@ -262,6 +264,9 @@ static void gc_timer(struct timer_list *t)
+ 
+ 		input_sync(dev);
+ 
++		input_report_abs(volume_dev, ABS_VOLUME, data[6]);		//Y Axis
++		input_sync(volume_dev);
++
+ 		batt_val = (int)(data[7]*5)+2950;		//Battery Voltage
+ 		cur_val = (int)((signed char)data[8])*50;	//Current
+ 		percent_val = data[9];				//battery percentage
+@@ -336,6 +341,45 @@ err_free_dev:
+ 	return err;
+ }
+ 
++/* volume device
++ */
++static int __init gc_setup_volume(struct gc *gc)
++{
++	struct input_dev *input_dev;
++	int err;
++
++	gc->volume_dev = input_dev = input_allocate_device();
++	if (!input_dev) {
++		printk(KERN_INFO "Not enough memory for volume input device\n");
++		return -ENOMEM;
++	}
++
++	input_dev->name = "PiBoy Volume wheel";
++	input_dev->phys = "input1";
++	input_dev->id.bustype = BUS_PARPORT;
++	input_dev->id.vendor = 0x0001;
++	input_dev->id.product = 1;
++	input_dev->id.version = 0x0100;
++
++	input_set_drvdata(input_dev, gc);
++
++	__set_bit(EV_ABS, input_dev->evbit);
++	__set_bit(ABS_VOLUME, input_dev->absbit);
++
++	input_set_abs_params(input_dev, ABS_VOLUME, 0, 100, 0, 0);
++
++	err = input_register_device(input_dev);
++	if (err)
++		goto err_free_dev;
++
++	return 0;
++
++err_free_dev:
++	input_free_device(gc->volume_dev);
++	gc->volume_dev = NULL;
++	return err;
++}
++
+ static struct gc __init *gc_probe(void)
+ {
+ 	struct gc *gc;
+@@ -354,6 +398,8 @@ static struct gc __init *gc_probe(void)
+ 
+ 	err = gc_setup_pad(gc);
+ 	if (err) goto err_unreg_devs;
++	err = gc_setup_volume(gc);
++	if (err) goto err_unreg_devs;
+ 	return gc;
+ 
+  err_unreg_devs:
+@@ -367,6 +413,8 @@ static void gc_remove(struct gc *gc)
+ {
+ 	if (gc->dev)
+ 		input_unregister_device(gc->dev);
++	if (gc->volume_dev)
++		input_unregister_device(gc->volume_dev);
+ 	kfree(gc);
+ }
+ 
+-- 
+2.32.0
+
