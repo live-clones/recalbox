@@ -104,7 +104,12 @@ bool IniFile::Save()
   }
 
   // Save new
+  bool boot = mFilePath.StartWidth("/boot/");
+  if (boot)
+    if (system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
   Files::SaveFile(mFilePath, Strings::Join(lines, '\n'));
+  if (boot)
+    if (system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
 
   OnSave();
   return true;
