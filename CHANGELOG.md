@@ -136,6 +136,7 @@ All notable changes to this project will be documented in this file.
 - Bump Hypseus to version 1.3
 - Improve internal scraper
 - Multiple minor menu fixes in EmulationStation
+- Bump SCV (optimizations + virtual keyboard)
 
 
 ## [7.1.1-Reloaded]
