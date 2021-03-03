@@ -17,7 +17,8 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
   , mSystemManager(systemManager)
 {
   // Kodi at startup
-  mKodiAtStartup = AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::KodiAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
+  if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
+    mKodiAtStartup = AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::KodiAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
 
   // Gamelists only
   mGamelistOnly = AddSwitch(_("GAMELIST ONLY"), RecalboxConf::Instance().GetStartupGamelistOnly(), (int)Components::GamelistOnly, this, _(MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG));

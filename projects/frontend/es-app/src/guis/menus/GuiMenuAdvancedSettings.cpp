@@ -43,7 +43,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
 
   //Kodi
-  if (RecalboxSystem::kodiExists())
+  if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
     AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
 
   //Security
