@@ -83,7 +83,7 @@ std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOv
   bool ocFound = false;
   for(const Overclocking& overclock : oc)
   {
-    bool found = mOriginalOverclock == overclock.Description;
+    bool found = mOriginalOverclock == overclock.File;
     ocFound |= found;
     list.push_back({ overclock.Description + (overclock.Hazardous ? " \u26a0" : ""), overclock, found });
   }
