@@ -138,6 +138,7 @@ All notable changes to this project will be documented in this file.
 - Multiple minor menu fixes in EmulationStation
 - Bump SCV (optimizations + virtual keyboard)
 - Add easy emulationstation update
+- Bump configgen - fix dolphin/pulseaudio issue
 
 
 ## [7.1.1-Reloaded]
