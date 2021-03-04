@@ -137,6 +137,7 @@ All notable changes to this project will be documented in this file.
 - Improve internal scraper
 - Multiple minor menu fixes in EmulationStation
 - Bump SCV (optimizations + virtual keyboard)
+- Add easy emulationstation update
 
 
 ## [7.1.1-Reloaded]
