@@ -109,7 +109,7 @@ void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
   (void)index;
   (void)total;
 
-  switch(ScraperTools::Clamp(RecalboxConf::Instance().GetScraperGetNameFrom()))
+  switch(RecalboxConf::Instance().GetScraperNameOptions())
   {
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:

@@ -155,7 +155,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, true)
 
     DefineGetterSetter(ScraperSource, std::string, String, sScrapperSource, "Screenscraper")
-    DefineGetterSetter(ScraperGetNameFrom, int, Int, sScrapperGetNameFrom, 0)
 
     DefineGetterSetter(ScreenScraperLogin, std::string, String, sScreenScraperLogin, "")
     DefineGetterSetter(ScreenScraperPassword, std::string, String, sScreenScraperPassword, "")
