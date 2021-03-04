@@ -139,6 +139,7 @@ All notable changes to this project will be documented in this file.
 - Bump SCV (optimizations + virtual keyboard)
 - Add easy emulationstation update
 - Bump configgen - fix dolphin/pulseaudio issue
+- Fix 64dd missing core (lr-mupen64-next)
 
 
 ## [7.1.1-Reloaded]
