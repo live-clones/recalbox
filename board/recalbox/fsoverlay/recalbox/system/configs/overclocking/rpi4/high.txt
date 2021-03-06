@@ -1,5 +1,5 @@
 # Plateform: RPI4
-# Description: High Overclocking CPU:1600 Mhz GPU:530 Mhz
+# Description: 1- High Overclocking CPU:1600 Mhz GPU:530 Mhz
 # Frequency: 1600
 
 over_voltage=2
