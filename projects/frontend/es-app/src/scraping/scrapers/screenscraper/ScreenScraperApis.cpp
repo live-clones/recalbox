@@ -26,7 +26,7 @@ std::string ScreenScraperApis::BuildUrlCommon(ScreenScraperApis::Api api)
   result.append("&devid=").append(XOrTheSpaceSheriff(API_DEV_U, API_DEV_K));
   result.append("&devpassword=").append(XOrTheSpaceSheriff(API_DEV_P, API_DEV_K));
   // Software
-  result.append("&softname=").append("Emulationstation-Recalbox-" + Strings::Trim(PROGRAM_VERSION_STRING));
+  result.append("&softname=").append(Strings::URLEncode("Emulationstation-Recalbox-" + Strings::Trim(PROGRAM_VERSION_STRING)));
   // Credentials
   result.append("&ssid=").append(mConfiguration.GetLogin());
   result.append("&sspassword=").append(mConfiguration.GetPassword());
