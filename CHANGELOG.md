@@ -142,6 +142,7 @@ All notable changes to this project will be documented in this file.
 - Fix 64dd missing core (lr-mupen64-next)
 - Manage sub-systems in Configgen (fix neogeocd core issues)
 - Fix boot video is played while slides are displayed (#1536)
+- Improve PSX emulator speed (duckstation uses Vulkan, #1563)
 
 
 ## [7.1.1-Reloaded]

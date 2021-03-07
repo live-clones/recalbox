@@ -107,6 +107,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check Odroid GO 2 shaders now work
 - [ ] Check RetroArch shortcuts all work on Odroid GO 2
 - [ ] Check boot video is not played while slides are displayed after changing external share
+- [ ] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
