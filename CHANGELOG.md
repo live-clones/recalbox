@@ -140,6 +140,7 @@ All notable changes to this project will be documented in this file.
 - Add easy emulationstation update
 - Bump configgen - fix dolphin/pulseaudio issue
 - Fix 64dd missing core (lr-mupen64-next)
+- Manage sub-systems in Configgen (fix neogeocd core issues)
 
 
 ## [7.1.1-Reloaded]
