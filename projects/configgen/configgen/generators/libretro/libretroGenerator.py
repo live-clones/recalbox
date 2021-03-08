@@ -141,6 +141,8 @@ class LibretroGenerator(Generator):
         commandArray.extend(self.getNetplayArguments(system))
         # Converted command args
         commandArray.extend(commandArgs)
+        # Extra system/core arguments
+        commandArray.extend(self.buildExtraArguments(args.system, system.config['core']))
 
         # Optional arguments from es_systems.cfg
         if 'extra' in system.config and system.config['extra'] is not None:
@@ -155,6 +157,13 @@ class LibretroGenerator(Generator):
         commandArray.extend(roms)
 
         return Command.Command(videomode=system.config['videomode'], array=commandArray)
+
+    @staticmethod
+    def buildExtraArguments(system, core): # type: (str, str) -> list
+        if system == "neogeocd" and core == "fbneo":
+            return ["--subsystem", "neocd"]
+
+        return []
 
     @staticmethod
     def buildRomArguments(rom, core, verbose, demo): # type: (str, str, bool, bool) -> list

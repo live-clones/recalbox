@@ -7,3 +7,4 @@ class Arguments:
         self.nodefaultkeymap = False
         self.demo = False
         self.verbose = False
+        self.system = 'virtual'
