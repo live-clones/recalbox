@@ -6,10 +6,12 @@ if [ "$1" != "start" ]; then
   exit 0
 fi
 
+SKIPVIDEOSPLASHFLAG=/overlay/configs/skipvideosplash
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 
 # first boot or upgrade
-if [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
+if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
+  [[ -f "$SKIPVIDEOSPLASHFLAG" ]] && rm "$SKIPVIDEOSPLASHFLAG"
   recallog "Install in progress. Don't play boot video"
   exit 0
 fi

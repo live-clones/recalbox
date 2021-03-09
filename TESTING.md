@@ -106,6 +106,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check boot logo are displayed correctly
 - [ ] Check Odroid GO 2 shaders now work
 - [ ] Check RetroArch shortcuts all work on Odroid GO 2
+- [ ] Check boot video is not played while slides are displayed after changing external share
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
