@@ -143,6 +143,7 @@ All notable changes to this project will be documented in this file.
 - Manage sub-systems in Configgen (fix neogeocd core issues)
 - Fix boot video is played while slides are displayed (#1536)
 - Improve PSX emulator speed (duckstation uses Vulkan, #1563)
+- Add control interface Ultimarc J-PAC (#1561)
 
 
 ## [7.1.1-Reloaded]
