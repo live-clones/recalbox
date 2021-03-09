@@ -153,6 +153,7 @@ All notable changes to this project will be documented in this file.
 - Add Watara Supervision system (lr-potator core)
 - Fix paralleln64 on Pi4
 - Add paralleln64 on pi3
+- Add control interface Ultimarc J-PAC (#1561)
 
 - Bump Fbneo (March '13) 
 - Updated French readme files
