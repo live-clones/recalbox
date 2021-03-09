@@ -354,6 +354,7 @@ void GameClipView::stopGameClip()
   {
     if(!VideoEngine::Instance().IsPlaying())
     {
+      sleep(0);
       break;
     }
     VideoEngine::Instance().StopVideo();

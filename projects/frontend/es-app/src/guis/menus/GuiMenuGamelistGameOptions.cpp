@@ -12,6 +12,7 @@
 #include <components/EditableComponent.h>
 #include <components/RatingComponent.h>
 #include <components/SwitchComponent.h>
+#include <views/ViewController.h>
 #include <LibretroRatio.h>
 
 GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
@@ -145,7 +146,26 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::Favorite: mGame.Metadata().SetFavorite(status); break;
+    case Components::Favorite:
+    {
+      mGame.Metadata().SetFavorite(status);
+      SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
+      if (favoriteSystem != nullptr)
+      {
+        if (mGame.Metadata().Favorite())
+        {
+          favoriteSystem->GetFavoriteRoot().addChild(&mGame, false);
+        }
+        else
+        {
+          favoriteSystem->GetFavoriteRoot().removeChild(&mGame);
+        }
+        ViewController::Instance().setInvalidGamesList(mGame.getSystem());
+        ViewController::Instance().setInvalidGamesList(favoriteSystem);
+      }
+      ViewController::Instance().getSystemListView().manageFavorite();
+      break;
+    }
     case Components::Hidden: mGame.Metadata().SetHidden(status); break;
     case Components::Adult: mGame.Metadata().SetAdult(status); break;
     case Components::Name:

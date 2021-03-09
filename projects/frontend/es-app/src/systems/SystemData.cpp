@@ -804,7 +804,6 @@ int SystemData::HiddenCount() const
 FileData::List SystemData::getFavorites() const
 {
   FileData::Filter filter = FileData::Filter::Favorite;
-  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
   bool adult = IncludeAdultGames();
 
   FileData::List result;
@@ -816,7 +815,6 @@ FileData::List SystemData::getFavorites() const
 FileData::List SystemData::getGames() const
 {
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
-  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
   bool adult = IncludeAdultGames();
 
   FileData::List result;

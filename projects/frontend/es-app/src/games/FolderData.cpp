@@ -310,6 +310,7 @@ int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool in
 
 int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const
 {
+  const bool showHidden = RecalboxConf::Instance().GetShowHidden();
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
@@ -322,10 +323,9 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
     else if (fd->isGame())
     {
       Filter current = Filter::None;
-      if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (showHidden|| !fd->Metadata().Hidden()))
       {
         to.push_back(fd);
         gameCount++;
@@ -337,6 +337,7 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
 
 int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const
 {
+  const bool showHidden = RecalboxConf::Instance().GetShowHidden();
   int result = 0;
   for (FileData* fd : mChildren)
   {
@@ -351,10 +352,9 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
     else if (fd->isGame())
     {
       Filter current = Filter::None;
-      if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (showHidden || !fd->Metadata().Hidden()))
         result++;
     }
   }
@@ -394,6 +394,7 @@ bool FolderData::hasVisibleGameWithVideo() const
 
 int FolderData::getItems(FileData::List& to, Filter includes, bool includefolders, bool includeadult) const
 {
+  const bool showHidden = RecalboxConf::Instance().GetShowHidden();
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
@@ -409,10 +410,9 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
         if (item->isGame())
         {
           Filter current = Filter::None;
-          if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()) && (showHidden || !item->Metadata().Hidden()))
             isolatedFile = item;
         }
       }
@@ -425,10 +425,9 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
     else
     {
       Filter current = Filter::None;
-      if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0  && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (showHidden || !fd->Metadata().Hidden()))
       {
         to.push_back(fd);
         gameCount++;
@@ -440,6 +439,7 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
 
 int FolderData::countItems(Filter includes, bool includefolders, bool includeadult) const
 {
+  const bool showHidden = RecalboxConf::Instance().GetShowHidden();
   int result = 0;
   for (FileData* fd : mChildren)
   {
@@ -455,10 +455,9 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
         if (item->isGame())
         {
           Filter current = Filter::None;
-          if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()) && (showHidden || !item->Metadata().Hidden()))
             isolatedFile = item;
         }
       }
@@ -471,10 +470,9 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
     else if (fd->isGame())
     {
       Filter current = Filter::None;
-      if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (showHidden || !fd->Metadata().Hidden()))
         result++;
     }
   }
