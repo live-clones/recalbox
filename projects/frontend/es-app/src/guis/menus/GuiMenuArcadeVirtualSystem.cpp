@@ -13,7 +13,7 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, Sy
   , mOriginalArcadeOnOff(RecalboxConf::Instance().GetCollectionArcade())
   , mOriginalIncludeNeogeo(RecalboxConf::Instance().GetCollectionArcadeNeogeo())
   , mOriginalHideOriginals(RecalboxConf::Instance().GetCollectionArcadeHide())
-  , mOriginalPosition(RecalboxConf::Instance().GetCollectionPosition())
+  , mOriginalPosition(RecalboxConf::Instance().GetCollectionArcadePosition())
 {
   // Enable arcade
   mArcadeOnOff = AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), mOriginalArcadeOnOff, (int)Components::ArcadeOnOff, this);
@@ -60,7 +60,7 @@ void GuiMenuArcadeVirtualSystem::OptionListComponentChanged(int id, int index, c
   (void)index;
   if ((Components)id == Components::Position)
   {
-    RecalboxConf::Instance().SetCollectionPosition(value).Save();
+    RecalboxConf::Instance().SetCollectionArcadePosition(value).Save();
   }
 }
 

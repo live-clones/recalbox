@@ -21,6 +21,7 @@ set(ES_HEADERS
         src/systems/EmulatorDescriptor.h
         src/systems/EmulatorList.h
         src/systems/EmulatorManager.h
+        src/systems/LightGunDatabase.h
         src/systems/NetPlayData.h
         src/systems/SystemData.h
         src/systems/SystemDescriptor.h
@@ -217,6 +218,7 @@ set(ES_SOURCES
         src/games/classifications/Regions.cpp
         src/systems/EmulatorManager.cpp
         src/systems/EmulatorList.cpp
+        src/systems/LightGunDatabase.cpp
         src/systems/SystemData.cpp
         src/systems/SystemDeserializer.cpp
         src/systems/SystemManager.cpp

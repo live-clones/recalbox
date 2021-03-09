@@ -2766,3 +2766,7 @@ msgstr ""
 #
 msgid "A reboot is required to apply pending changes."
 msgstr ""
+
+#
+msgid "SHOW LIGHTGUN SYSTEM"
+msgstr ""

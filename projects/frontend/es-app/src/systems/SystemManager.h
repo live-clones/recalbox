@@ -138,9 +138,15 @@ class SystemManager :
 
     /*!
      * @brief All all special collections
-     * @return
+     * @return Always true
      */
     bool AddSpecialCollectionsMetaSystems();
+
+    /*!
+     * @brief All lightgun system
+     * @return Always true
+     */
+    bool AddLightGunMetaSystem();
 
     /*!
      * @brief Get valid rom source for the given system descriptor

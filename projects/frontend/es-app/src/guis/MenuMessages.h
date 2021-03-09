@@ -112,6 +112,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG "Show a 'all-games' system with all ames from all systems."
     #define MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG "Show multiplayer games (all games playable by two or more players)."
     #define MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG "Show last played games."
+    #define MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG "Show all available games playable with a lightgun."
     #define MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG "Select virtual systems to show."
     #define MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG "Select vitual systems per genre to show."
     #define MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG "Enable/Disable Arcade virtual system and set its options"

@@ -5,6 +5,7 @@
 #include "SystemManager.h"
 #include "SystemDescriptor.h"
 #include "SystemDeserializer.h"
+#include "LightGunDatabase.h"
 #include <utils/Log.h>
 #include <RecalboxConf.h>
 #include <utils/os/system/ThreadPool.h>
@@ -247,10 +248,10 @@ bool SystemManager::AddFavoriteSystem()
 
 bool SystemManager::AddArcadeMetaSystem()
 {
-  if (RecalboxConf::Instance().AsBool("emulationstation.arcade", false))
+  if (RecalboxConf::Instance().GetCollectionArcade())
   {
     std::vector<SystemData*> arcades;
-    bool includeNeogeo = RecalboxConf::Instance().AsBool("emulationstation.arcade.includeneogeo", true);
+    bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
     FileData::StringMap doppelganger;
 
     // Lookup all non-empty arcade platforms
@@ -269,7 +270,7 @@ bool SystemManager::AddArcadeMetaSystem()
     if (!arcades.empty())
     {
       // Remove Hidden systems from the visible list
-      bool hideOriginals = RecalboxConf::Instance().AsBool("emulationstation.arcade.hideoriginals", true);
+      bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHide();
       if (hideOriginals)
         for (SystemData* hidden: arcades)
         {
@@ -284,7 +285,7 @@ bool SystemManager::AddArcadeMetaSystem()
       if (hideOriginals) properties |= SystemData::Properties::Searchable;
       SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
       { LOG(LogInfo) << "[System] Creating Arcade meta-system"; }
-      int position = RecalboxConf::Instance().AsInt("emulationstation.arcade.position", 0) % (int)mVisibleSystemVector.size();
+      int position = RecalboxConf::Instance().GetCollectionArcadePosition() % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, arcade);
     }
@@ -328,7 +329,7 @@ bool SystemManager::AddPorts()
     // Seek defaulot position
     int position = 0;
     while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
-    position = RecalboxConf::Instance().AsInt("emulationstation.ports.position", position) % (int)mVisibleSystemVector.size();
+    position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
     auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
     mVisibleSystemVector.insert(it, portSystem);
   }
@@ -338,31 +339,31 @@ bool SystemManager::AddPorts()
 
 bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)
 {
-  std::string confPrefix("emulationstation.collection.");
-  confPrefix += identifier;
   // Collection activated?
-  bool collection = RecalboxConf::Instance().AsBool(confPrefix, false);
+  bool collection = RecalboxConf::Instance().GetCollection(identifier);
   if (collection)
   {
     // Get theme name
-    std::string theme = RecalboxConf::Instance().AsString(confPrefix + ".theme", "auto-" + identifier);
+    std::string theme = RecalboxConf::Instance().GetCollectionTheme(identifier);
     FileData::List allGames;
     FileData::StringMap doppelganger;
 
     // Filter and insert items
     for(const SystemData* system : mVisibleSystemVector)
       if (!system->IsVirtual())
-        for(const RootFolderData* root : system->MasterRoot().SubRoots())
+      {
+        for (const RootFolderData* root : system->MasterRoot().SubRoots())
           if (!root->Virtual())
           {
             FileData::List list = root->getFilteredItemsRecursively(filter, true, system->IncludeAdultGames());
             allGames.reserve(allGames.size() + list.size());
             allGames.insert(allGames.end(), list.begin(), list.end());
-            // dopplegagner must be build using file only
-            // Let the virtual system re-create all intermediate folder
-            // ... and destroy them properly
-            system->BuildDoppelgangerMap(doppelganger, false);
           }
+        // dopplegagner must be build using file only
+        // Let the virtual system re-create all intermediate folder
+        // ... and destroy them properly
+        system->BuildDoppelgangerMap(doppelganger, false);
+      }
 
     // Not empty?
     if (!allGames.empty())
@@ -371,7 +372,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
       if (comparer != nullptr)
         FolderData::Sort(allGames, comparer, true);
       // Limit if required
-      int limit = RecalboxConf::Instance().AsInt(confPrefix + ".limit", 0);
+      int limit = RecalboxConf::Instance().GetCollectionLimit(identifier);
       if (limit > 0)
         if (limit < (int)allGames.size())
           allGames.resize(limit);
@@ -381,7 +382,64 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
       SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger, fixedSort);
 
       // And add the system
-      int position = RecalboxConf::Instance().AsInt(confPrefix + ".position", 0) % (int) mVisibleSystemVector.size();
+      int position = RecalboxConf::Instance().GetCollectionPosition(identifier) % (int) mVisibleSystemVector.size();
+      auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+      mVisibleSystemVector.insert(it, allsystem);
+
+      return true;
+    }
+  }
+  return false;
+}
+
+bool SystemManager::AddLightGunMetaSystem()
+{
+  std::string identifier("lightgun");
+  std::string fullname("LightGun Games");
+  // Collection activated?
+  bool collection = RecalboxConf::Instance().GetCollection(identifier);
+  if (collection)
+  {
+    // Get theme name
+    std::string theme = RecalboxConf::Instance().GetCollectionTheme(identifier);
+    FileData::List allGames;
+    FileData::StringMap doppelganger;
+
+    // Filter and insert items
+    LightGunDatabase database;
+    for(const SystemData* system : mVisibleSystemVector)
+      if (database.SetCurrentSystem(*system))
+      {
+        for (const RootFolderData* root : system->MasterRoot().SubRoots())
+          if (!root->Virtual())
+          {
+            FileData::List list = root->getFilteredItemsRecursively(&database, true, system->IncludeAdultGames());
+            allGames.reserve(allGames.size() + list.size());
+            allGames.insert(allGames.end(), list.begin(), list.end());
+          }
+        // dopplegagner must be build using file only
+        // Let the virtual system re-create all intermediate folder
+        // ... and destroy them properly
+        system->BuildDoppelgangerMap(doppelganger, false);
+      }
+
+    // Not empty?
+    if (!allGames.empty())
+    {
+      // Limit if required
+      int limit = RecalboxConf::Instance().GetCollectionLimit(identifier);
+      if (limit > 0)
+        if (limit < (int)allGames.size())
+          allGames.resize(limit);
+
+      // Create!
+      { LOG(LogInfo) << "[System] Creating " << fullname << " meta-system"; }
+      SystemData::Properties props = SystemData::Properties::Virtual |
+                                     SystemData::Properties::AlwaysFlat;
+      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, props, doppelganger);
+
+      // And add the system
+      int position = RecalboxConf::Instance().GetCollectionPosition(identifier) % (int) mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, allsystem);
 
@@ -461,6 +519,7 @@ bool SystemManager::AddSpecialCollectionsMetaSystems()
   AddAllGamesMetaSystem();
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();
+  AddLightGunMetaSystem();
   AddGenresMetaSystem();
 
   return true;

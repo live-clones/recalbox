@@ -196,11 +196,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
     DefineGetterSetter(CollectionAllGames, bool, Bool, sCollectionAllGames, false)
+    DefineGetterSetter(CollectionLightGun, bool, Bool, sCollectionLightGun, false)
 
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
     DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
-    DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, false)
-    DefineGetterSetter(CollectionPosition, int, Int, sCollectionPosition, 0)
+    DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, true)
+    DefineGetterSetter(CollectionArcadePosition, int, Int, sCollectionArcadePosition, 0)
 
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
     DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
@@ -234,6 +235,15 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     bool GetCollection(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name), false); }
     RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name), on); return *this; }
 
+    std::string GetCollectionTheme(const std::string& name) const { return AsString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), std::string("auto-").append(name)); }
+    RecalboxConf& SetCollectionTheme(const std::string& name, const std::string& value) { SetString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), value); return *this; }
+
+    int GetCollectionLimit(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), 0); }
+    RecalboxConf& SetCollectionLimit(const std::string& name, int limit) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), limit); return *this; }
+
+    int GetCollectionPosition(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), 0); }
+    RecalboxConf& SetCollectionPosition(const std::string& name, int position) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), position); return *this; }
+
     std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
     RecalboxConf& SetPad(int index, const std::string& padid) { SetString(std::string(sPadHeader).append(Strings::ToString(index)), padid); return *this; }
 
@@ -253,6 +263,14 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
+
+    /*
+     * Collection Keys
+     */
+
+    static constexpr const char* sCollectionTheme            = "theme";
+    static constexpr const char* sCollectionLimit            = "limit";
+    static constexpr const char* sCollectionPosition         = "position";
 
     /*
      * Key headers
@@ -363,11 +381,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionLastPlayed       = "emulationstation.collection.lastplayed";
     static constexpr const char* sCollectionMultiplayer      = "emulationstation.collection.multiplayer";
     static constexpr const char* sCollectionAllGames         = "emulationstation.collection.allgames";
+    static constexpr const char* sCollectionLightGun         = "emulationstation.collection.lightgun";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";
     static constexpr const char* sCollectionArcadeHide       = "emulationstation.arcade.hideoriginals";
-    static constexpr const char* sCollectionPosition         = "emulationstation.arcade.position";
+    static constexpr const char* sCollectionArcadePosition   = "emulationstation.arcade.position";
 
     static constexpr const char* sUpdatesEnabled             = "updates.enabled";
     static constexpr const char* sUpdatesType                = "updates.type";
