@@ -38,6 +38,11 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window)
 
 GuiMenuSystem::~GuiMenuSystem()
 {
+  // Storage changed?
+  if (mStorages->getSelected().UUID != mOriginalStorage)
+    Files::SaveFile(Path("/overlay/configs/skipvideosplash"), mStorages->getSelected().UUID);
+
+  // Reboot?
   if ((mStorages->getSelected().UUID != mOriginalStorage) ||
       (mCulture->getSelected() != mOriginalCulture) ||
       (mKeyboard->getSelected() != mOriginalKeyboard))
