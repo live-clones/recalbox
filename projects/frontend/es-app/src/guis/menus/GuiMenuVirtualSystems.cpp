@@ -8,7 +8,6 @@
 #include <guis/menus/GuiMenuVirtualSystems.h>
 #include <components/SwitchComponent.h>
 #include <utils/locale/LocaleHelper.h>
-#include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
 #include <guis/MenuMessages.h>
 #include "GuiMenuArcadeVirtualSystem.h"
@@ -40,10 +39,7 @@ GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
   if ((mLastPlayedOriginalValues != RecalboxConf::Instance().GetCollectionLastPlayed()) ||
       (mMultiplayersOriginalValues != RecalboxConf::Instance().GetCollectionMultiplayer()) ||
       (mAllGamesOriginalValues != RecalboxConf::Instance().GetCollectionAllGames()))
-  {
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("EmulationStation must relaunch to apply your changes."), _("OK"), []
-    { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); }));
-  }
+    RequestRelaunch();
 }
 
 void GuiMenuVirtualSystems::SubMenuSelected(int id)

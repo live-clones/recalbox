@@ -42,6 +42,7 @@ GuiInfoPopup::GuiInfoPopup(WindowManager&window, const std::string& message, int
     case PopupType::Netplay : iconText = "\uF1c4"; break;
     case PopupType::Recalbox: iconText = "\uF200"; break;
     case PopupType::Pads    : iconText = "\uF2ee"; break;
+    case PopupType::Reboot  : iconText = "\uF006"; break;
     case PopupType::None:
     default: break;
   }

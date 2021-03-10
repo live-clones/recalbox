@@ -2929,3 +2929,11 @@ msgstr "RÉGION DETECTÉE"
 #
 msgid "SELECT REGION PRIORITY"
 msgstr "SELECTIONNEZ VOTRE PRIORITÉ DE RÉGION"
+
+#
+msgid "LATER"
+msgstr "PLUS TARD"
+
+#
+msgid "A reboot is required to apply pending changes."
+msgstr "Vous devez redémarrer votre Recalbox pour appliquer les changements en attente."

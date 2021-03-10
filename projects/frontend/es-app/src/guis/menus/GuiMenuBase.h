@@ -59,11 +59,11 @@ class GuiMenuBase : public Gui, private IComponentListRow
     //! Menu theme
     const MenuTheme& mTheme;
 
-    //! Reboot
-    static void Reboot();
-
     //! Notify the user Recalbox is about to reboot
     void RequestReboot();
+
+    //! Request a relaunch
+    void RequestRelaunch();
 
     /*!
      * @brief Add Submenu
@@ -413,8 +413,17 @@ class GuiMenuBase : public Gui, private IComponentListRow
     //! Menu initialized flag
     bool mMenuInitialized;
 
+    //! Check if a reboot is pending. If not, send an infinite popup
+    static void RebootPending(WindowManager* window);
+
+    //! Relaunch
+    static void Relaunch();
+
+    //! Reboot
+    static void Reboot();
+
     /*
-     * IComponentListRow omplementation
+     * IComponentListRow implementation
      */
     void ComponentListRowSelected(int id) override;
 };

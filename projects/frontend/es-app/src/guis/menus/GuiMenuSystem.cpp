@@ -41,7 +41,7 @@ GuiMenuSystem::~GuiMenuSystem()
   if ((mStorages->getSelected().UUID != mOriginalStorage) ||
       (mCulture->getSelected() != mOriginalCulture) ||
       (mKeyboard->getSelected() != mOriginalKeyboard))
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), [] { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); }));
+    RequestReboot();
 }
 
 std::vector<GuiMenuBase::ListEntry<StorageDevices::Device>> GuiMenuSystem::GetStorageEntries()

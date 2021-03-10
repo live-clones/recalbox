@@ -38,11 +38,6 @@ GuiMenuVirtualSystemPerGenre::~GuiMenuVirtualSystemPerGenre()
       RecalboxConf::Instance().SetCollection(component.second, component.first->getState());
       relaunch = true;
     }
-  if (relaunch)
-  {
-    RecalboxConf::Instance().Save();
-    mWindow.pushGui(new GuiMsgBox(mWindow, _("EmulationStation must relaunch to apply your changes."), _("OK"), []
-    { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); }));
-  }
+  if (relaunch) RequestReboot();
 }
 

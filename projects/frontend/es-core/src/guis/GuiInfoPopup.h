@@ -31,6 +31,7 @@ class GuiInfoPopup : public Gui
       Netplay,  //!< Netplay logo
       Recalbox, //!< Recalbox logo
       Pads,     //!< Joystick logo
+      Reboot,   //!< Pending reboot
     };
 
     GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon);

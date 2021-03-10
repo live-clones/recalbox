@@ -234,7 +234,32 @@ void GuiMenuBase::Reboot()
 
 void GuiMenuBase::RequestReboot()
 {
-  mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), Reboot));
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"),
+                                _("OK"), Reboot,
+                                _("LATER"), std::bind(GuiMenuBase::RebootPending, &mWindow)));
+}
+
+void GuiMenuBase::RebootPending(WindowManager* window)
+{
+  static bool pending = false;
+  if (!pending)
+  {
+    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, GuiInfoPopup::PopupType::Reboot));
+    pending = true;
+  }
+}
+
+void GuiMenuBase::Relaunch()
+{
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
+}
+
+void GuiMenuBase::RequestRelaunch()
+{
+  mWindow.pushGui(
+    new GuiMsgBox(mWindow, _("EmulationStation must relaunch to apply your changes."),
+                  _("OK"), Relaunch,
+                  _("LATER"), std::bind(GuiMenuBase::RebootPending, &mWindow)));
 }
 
 void GuiMenuBase::ComponentListRowSelected(int id)

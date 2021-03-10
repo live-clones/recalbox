@@ -2636,3 +2636,11 @@ msgstr ""
 #
 msgid "SELECT REGION PRIORITY"
 msgstr ""
+
+#
+msgid "LATER"
+msgstr ""
+
+#
+msgid "A reboot is required to apply pending changes."
+msgstr ""
