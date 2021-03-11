@@ -1,0 +1,31 @@
+--- ./Makefile.orig	2021-03-10 00:08:47.452721091 +0100
++++ ./Makefile	2021-03-10 00:09:01.901672649 +0100
+@@ -172,18 +172,26 @@
+       GLES = 1
+       GL_LIB := -lGLESv2
+       CPUFLAGS += -DNO_ASM -DARM -D__arm__ -DARM_ASM -D__NEON_OPT -DNOSSE -DARM_FIX
+-      CPUFLAGS += -marm -mfloat-abi=hard
+       HAVE_NEON = 1
+       WITH_DYNAREC=arm
+       ifneq (,$(findstring ODROIDC,$(BOARD)))
+          # ODROID-C1
+          CPUFLAGS += -mcpu=cortex-a5 -mfpu=neon
++         CPUFLAGS += -marm -mfloat-abi=hard
+       else ifneq (,$(findstring ODROID-XU,$(BOARD)))
+          # ODROID-XU3 XU4 and XU3-Lite
+          CPUFLAGS += -mcpu=cortex-a15 -mtune=cortex-a15.cortex-a7 -mfpu=neon-vfpv4
++         CPUFLAGS += -marm -mfloat-abi=hard
++      else ifneq (,$(findstring ODROIDGO2,$(BOARD)))
++         # ODROIDGO2 and ODROIDGO3 (64 bits)
++         HAVE_PARALLEL = 1
++         WITH_DYNAREC=aarch64
++         CPUFLAGS += -DNO_ASM -DARM -DARM_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64
++         CPUFLAGS += -march=armv8-a+crc+simd -mtune=cortex-a35 -mcpu=cortex-a35
+       else
+          # ODROID-U3, U2, X2 & X
+-          CPUFLAGS += -mcpu=cortex-a9 -mfpu=neon
++         CPUFLAGS += -mcpu=cortex-a9 -mfpu=neon
++         CPUFLAGS += -marm -mfloat-abi=hard
+       endif
+    endif
+    
