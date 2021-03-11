@@ -11,27 +11,3 @@ index aa99602..70af4c9 100755
  #endif
  			break;
  	}
-diff --git a/src/vm/scv/vdp.cpp b/src/vm/scv/vdp.cpp
-index 34a7f40..dbc6dfa 100755
---- a/src/vm/scv/vdp.cpp
-+++ b/src/vm/scv/vdp.cpp
-@@ -63,8 +63,7 @@ void VDP::draw_screen()
- 
- 	// draw sprite screen
- 	memset(sprite, 0, sizeof(sprite));
--	if(vdc0 & 0x10)
--		draw_sprite_screen();
-+	if(vdc0 & 0x10)	draw_sprite_screen();
- 
- 	// Mix buffers
- 	scrntype_t* d = emu->get_screen_ptr();
-@@ -495,8 +494,7 @@ if(index == 0)
- inline void VDP::draw_sprite(int32_t dx, int32_t dy, int32_t sx, int32_t ex, int32_t sy, int32_t ey, int32_t no, uint8_t col)
- {
-  	// color #0 is transparent
-- 	if(!col)
-- 		return;
-+ 	if(!col) return;
- 
- //dx = 311; dy = 200;
- //	if(dx < 0 || dx > 311 || dy < 0 || dy > 311)	// Full
