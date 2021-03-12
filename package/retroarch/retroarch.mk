@@ -74,7 +74,7 @@ endif
 
 # rpi4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
-RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-kms
+RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-kms --enable-vulkan
 endif
 
 # x86 : SSE
