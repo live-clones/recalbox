@@ -1,5 +1,5 @@
 # Plateform: RPI4
-# Description: Turbo Overclocking CPU:1800 Mhz GPU:600 Mhz
+# Description: 2- Turbo Overclocking CPU:1800 Mhz GPU:600 Mhz
 # Frequency: 1800
 
 over_voltage=4
