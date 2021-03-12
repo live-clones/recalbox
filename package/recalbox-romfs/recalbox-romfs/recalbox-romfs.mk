@@ -719,6 +719,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wolfenstein3d
 endif
 
+# System: wsv
+ifneq ($(BR2_PACKAGE_LIBRETRO_POTATOR),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wsv
+endif
+
 # System: wswan
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswan

@@ -22,6 +22,7 @@
 - Lightgun feature : more than 200 games already ready to play! (using dolphin bar/wiimote)
 - Add Minecraft's port Craft on pc
 - Add support for Odroid Go Super
+- Add Watara SuperVision System on all boards
 
 ### Improvements
 - Bump supermodel to version 839

@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_POTATOR
+	bool "libretro-potator"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_RECALBOX_ROMFS_WSV
+	help
+	  A libretro Watara Supervision emulator core.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_POTATOR needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
