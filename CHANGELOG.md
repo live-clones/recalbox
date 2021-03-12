@@ -144,6 +144,10 @@ All notable changes to this project will be documented in this file.
 - Fix boot video is played while slides are displayed (#1536)
 - Improve PSX emulator speed (duckstation uses Vulkan, #1563)
 - Fix paralleln64 on odroidgo2
+- Bump emuscv (optimizations + recalbox logo)
+- Activate Duckstation on xu4, rpi3, rpi4, x86 & x64
+- Add lightgun system in EmulationSation
+- Minor fixes & improvements in internal scraper
 
 
 ## [7.1.1-Reloaded]
