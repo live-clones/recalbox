@@ -1,0 +1,5 @@
+config BR2_PACKAGE_VULKAN_HEADERS
+	bool "Vulkan headers"
+	help
+	  Vulkan Header files and API registry
+	  https://github.com/KhronosGroup/Vulkan-Headers
