@@ -1,0 +1,24 @@
+diff --git a/package/mesa3d/Config.in b/package/mesa3d/Config.in
+index ebfc422bf2..0c29888e02 100644
+--- a/package/mesa3d/Config.in
++++ b/package/mesa3d/Config.in
+@@ -403,6 +403,19 @@ comment "intel vulkan depends on X.org and needs a glibc toolchain w/ headers >=
+ 	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
+ 		!BR2_TOOLCHAIN_USES_GLIBC || !BR2_PACKAGE_XORG7
+ 
++config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_BROADCOM
++	bool "Vulkan Broadcom driver"
++	depends on BR2_arm || BR2_aarch64
++	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
++	select BR2_PACKAGE_MESA3D_VULKAN_DRIVER
++	help
++	  Vulkan driver for Broadcom hardware from v3dv Raspberry PI 4.
++
++comment "broadcom vulkan depends on X.org and needs a glibc toolchain w/ headers >= 3.17"
++	depends on BR2_arm || BR2_aarch64
++	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
++		!BR2_TOOLCHAIN_USES_GLIBC
++
+ comment "Off-screen Rendering"
+ 
+ config BR2_PACKAGE_MESA3D_OSMESA_CLASSIC

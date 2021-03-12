@@ -7,6 +7,8 @@
 ++++++++++++++++++++++++++++++++  package/mosquitto/0001-default-configuratyion.patch
 ++++++++++++++++++++++++++++++++  package/python-gobject/0001-add-PYTHON_INCLUDES-override.patch
 --------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
+--------------------------------  package/mesa3d/0002-meson-Set-proper-value-for-LIBCLC_INCLUDEDIR.patch
+--------------------------------  package/mesa3d/0005-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
 827c654896536436b4ca531a671ea6da  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 c0f2d9a0b89fb42dfd68b3c99d66a16a  package/binutils/binutils.mk
@@ -30,6 +32,9 @@ f2a67fc5fabaa3149e82fdf4ed04ee20  package/kodi/kodi.mk
 c9063855222839a8a01088556144a1fa  package/libva/libva.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
+91c439e04976d01a80ceaa6f61e09f2c  package/mesa3d/Config.in
+508ad81d3d10bff92d3c7ec6f52a4e68  package/mesa3d/mesa3d.hash
+13f1539948afb3526f4fb3471e85592f  package/mesa3d/mesa3d.mk
 98987c50f014de063b8e0accf612409f  package/mosquitto/mosquitto.mk
 cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
 ff95c370ba8a0b5169ef2eeb2123fa9d  package/python-gobject/Config.in
