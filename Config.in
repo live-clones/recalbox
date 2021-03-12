@@ -13,6 +13,13 @@ menu "Recalbox"
       endmenu
     endmenu
   endmenu
+  menu "Software"
+    comment "CPU/GPU specific options"
+    menu "GPU related software"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/vulkan-headers/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/vulkan-loader/Config.in"
+    endmenu
+  endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dpi-pizero-gpicase/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/freeimage/Config.in"
