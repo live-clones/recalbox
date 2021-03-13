@@ -1,0 +1,11 @@
+--- ./cmd/source.c	2021-03-14 00:20:26.864386332 +0100
++++ ./cmd/source.c	2021-03-14 00:21:25.870882742 +0100
+@@ -135,7 +135,7 @@
+ 		{
+ 			char magic[32];
+ 			int size = snprintf(magic, sizeof(magic),
+-					"%s-uboot-config", CONFIG_SYS_BOARD);
++					"%s-uboot-config", "odroidgo2");
+ 			if (strncasecmp(buf, magic, strlen(magic))) {
+ 				puts ("Wrong image format for \"source\" command\n");
+ 				return 1;
