@@ -71,7 +71,7 @@ void SystemManager::AutoScrape(SystemData* system)
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
-  Path realPath = systemDescriptor.RomPath();
+  const Path& realPath = systemDescriptor.RomPath();
 
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
