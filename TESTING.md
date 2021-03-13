@@ -109,6 +109,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check boot video is not played while slides are displayed after changing external share
 - [ ] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
 - [ ] Check libretro-paralleln64 works on Odroid GO 2 & GO Super
+- [ ] Vérifier que les GO2/GO3 bootent quelque soit le firmware de la console
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
