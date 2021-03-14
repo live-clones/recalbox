@@ -87,10 +87,11 @@ std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOv
     ocFound |= found;
     list.push_back({ overclock.Description + (overclock.Hazardous ? " \u26a0" : ""), overclock, found });
   }
+  std::sort(list.begin(), list.end(), [](const ListEntry<Overclocking>& a, const ListEntry<Overclocking>& b) { return a.mText < b.mText; });
   // Add none
   mValidOverclock = !list.empty();
   if (mValidOverclock)
-    list.push_back({ _("NONE"), mDefaultOverclock, !ocFound });
+    list.insert(list.begin(), { _("NONE"), mDefaultOverclock, !ocFound });
   if (!ocFound) mOriginalOverclock = "none";
 
   return list;
