@@ -25,6 +25,5 @@ define UBOOT_ODROIDGO2_INSTALL_IMAGES_CMDS
 	$(INSTALL) -D $(@D)/sd_fuse/uboot.img $(BINARIES_DIR)/
 	$(INSTALL) -D $(@D)/sd_fuse/idbloader.img $(BINARIES_DIR)/
 	$(INSTALL) -D $(@D)/sd_fuse/trust.img $(BINARIES_DIR)/
-	$(INSTALL) -D $(@D)/sd_fuse/rk3326_header_miniloader_spiboot.img $(BINARIES_DIR)/
 endef
 $(eval $(generic-package))

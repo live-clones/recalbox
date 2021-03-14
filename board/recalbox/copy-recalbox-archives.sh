@@ -63,9 +63,9 @@ odroidgo2_fusing() {
     RECALBOXIMG=$2
 
     # fusing
-    idbloader_position=1
-    uboot_position=16384
-    trust_position=24576
+    idbloader_position=64
+    uboot_position=131072
+    trust_position=196608
 
     echo "IDBLOADER fusing"
     dd if="${BINARIES_DIR}/idbloader.img" of="${RECALBOXIMG}" seek=$idbloader_position conv=notrunc bs=512 || return 1

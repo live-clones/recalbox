@@ -148,6 +148,7 @@ All notable changes to this project will be documented in this file.
 - Activate Duckstation on xu4, rpi3, rpi4, x86 & x64
 - Add lightgun system in EmulationSation
 - Minor fixes & improvements in internal scraper
+- Make firmware upgrade optional
 
 
 ## [7.1.1-Reloaded]
