@@ -149,6 +149,7 @@ All notable changes to this project will be documented in this file.
 - Add lightgun system in EmulationSation
 - Minor fixes & improvements in internal scraper
 - Make firmware upgrade optional
+- Add Watara Supervision system (lr-potator core)
 
 
 ## [7.1.1-Reloaded]
