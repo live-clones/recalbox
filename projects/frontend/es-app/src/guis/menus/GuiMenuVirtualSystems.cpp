@@ -31,7 +31,7 @@ GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManage
   mLastPlayed = AddSwitch(_("SHOW LAST-PLAYED SYSTEM"), mLastPlayedOriginalValues = RecalboxConf::Instance().GetCollectionLastPlayed(), (int)Components::LastPlayed, this, _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
 
   // Last Played
-  mLastPlayed = AddSwitch(_("SHOW LIGHTGUN SYSTEM"), mLightGunOriginalValues = RecalboxConf::Instance().GetCollectionLastPlayed(), (int)Components::LightGun, this, _(MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG));
+  mLastPlayed = AddSwitch(_("SHOW LIGHTGUN SYSTEM"), mLightGunOriginalValues = RecalboxConf::Instance().GetCollectionLightGun(), (int)Components::LightGun, this, _(MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG));
 
   AddSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), (int)Components::VirtualPerGenre, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
   AddSubMenu(_("ARCADE VIRTUAL SYSTEM"), (int)Components::VirtualArcade, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));

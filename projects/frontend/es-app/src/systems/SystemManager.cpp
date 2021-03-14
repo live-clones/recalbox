@@ -71,8 +71,6 @@ void SystemManager::AutoScrape(SystemData* system)
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
 {
-  const Path& realPath = systemDescriptor.RomPath();
-
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
   if (systemDescriptor.Name() == "pico8") properties |= SystemData::Properties::GameInPng;
@@ -397,7 +395,7 @@ bool SystemManager::AddLightGunMetaSystem()
   std::string identifier("lightgun");
   std::string fullname("LightGun Games");
   // Collection activated?
-  bool collection = RecalboxConf::Instance().GetCollection(identifier);
+  bool collection = RecalboxConf::Instance().GetCollectionLightGun();
   if (collection)
   {
     // Get theme name
