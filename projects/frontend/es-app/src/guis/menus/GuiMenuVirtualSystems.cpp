@@ -17,23 +17,24 @@
 GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"), this)
   , mSystemManager(systemManager)
-  , mAllGamesOriginalValues(false)
-  , mMultiplayersOriginalValues(false)
-  , mLastPlayedOriginalValues(false)
+  , mAllGamesOriginalValues(RecalboxConf::Instance().GetCollectionAllGames())
+  , mMultiplayersOriginalValues(RecalboxConf::Instance().GetCollectionMultiplayer())
+  , mLastPlayedOriginalValues(RecalboxConf::Instance().GetCollectionLastPlayed())
+  , mLightGunOriginalValues(RecalboxConf::Instance().GetCollectionLightGun())
 {
   // All games
-  mAllGames = AddSwitch(_("SHOW ALL-GAMES SYSTEM"), mAllGamesOriginalValues = RecalboxConf::Instance().GetCollectionAllGames(), (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
+  mAllGames = AddSwitch(_("SHOW ALL-GAMES SYSTEM"), mAllGamesOriginalValues, (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
 
   // Multiplayers
-  mMultiplayers = AddSwitch(_("SHOW MULTIPLAYER SYSTEM"), mMultiplayersOriginalValues = RecalboxConf::Instance().GetCollectionMultiplayer(), (int)Components::Multiplayers, this, _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
+  mMultiplayers = AddSwitch(_("SHOW MULTIPLAYER SYSTEM"), mMultiplayersOriginalValues, (int)Components::Multiplayers, this, _(MENUMESSAGE_ADVANCED_MULTIPLAYERS_HELP_MSG));
 
   // Last Played
-  mLastPlayed = AddSwitch(_("SHOW LAST-PLAYED SYSTEM"), mLastPlayedOriginalValues = RecalboxConf::Instance().GetCollectionLastPlayed(), (int)Components::LastPlayed, this, _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
+  mLastPlayed = AddSwitch(_("SHOW LAST-PLAYED SYSTEM"), mLastPlayedOriginalValues, (int)Components::LastPlayed, this, _(MENUMESSAGE_ADVANCED_LASTPLAYED_HELP_MSG));
 
   // Last Played
   BoardType board = Board::Instance().GetBoardType();
   if (board != BoardType::OdroidAdvanceGo && board != BoardType::OdroidAdvanceGoSuper)
-    mLastPlayed = AddSwitch(_("SHOW LIGHTGUN SYSTEM"), mLightGunOriginalValues = RecalboxConf::Instance().GetCollectionLightGun(), (int)Components::LightGun, this, _(MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG));
+    mLastPlayed = AddSwitch(_("SHOW LIGHTGUN SYSTEM"), mLightGunOriginalValues, (int)Components::LightGun, this, _(MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG));
 
   AddSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), (int)Components::VirtualPerGenre, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
   AddSubMenu(_("ARCADE VIRTUAL SYSTEM"), (int)Components::VirtualArcade, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
