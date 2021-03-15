@@ -325,9 +325,9 @@ bool SystemManager::AddPorts()
     SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
     { LOG(LogInfo) << "[System] Creating Ports"; }
     // Seek defaulot position
-    int position = 0;
-    while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
-    position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
+    int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
+    if (position == 0)
+      while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
     auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
     mVisibleSystemVector.insert(it, portSystem);
   }
@@ -513,7 +513,6 @@ bool SystemManager::AddGenresMetaSystem()
 
 bool SystemManager::AddSpecialCollectionsMetaSystems()
 {
-  AddPorts();
   AddAllGamesMetaSystem();
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();
@@ -594,6 +593,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 
   // Add special systems
   AddFavoriteSystem();
+  AddPorts(); // Must be first after "normal systems"
   AddSpecialCollectionsMetaSystems();
   AddArcadeMetaSystem(); // Must be latest
 
