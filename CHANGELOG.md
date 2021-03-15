@@ -150,6 +150,8 @@ All notable changes to this project will be documented in this file.
 - Minor fixes & improvements in internal scraper
 - Make firmware upgrade optional (#1571, #1572)
 - Add Watara Supervision system (lr-potator core)
+- Fix paralleln64 on Pi4
+- Add paralleln64 on pi3
 
 
 ## [7.1.1-Reloaded]
