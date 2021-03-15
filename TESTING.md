@@ -111,6 +111,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
 - [ ] Check libretro-paralleln64 works on Odroid GO 2 & GO Super
 - [ ] Vérifier que les GO2/GO3 bootent quelque soit le firmware de la console
+- [ ] Bump Fbneo => Retest all games
 - [ ] Tester Paralleln64 on Pi4
 
 ## Technique

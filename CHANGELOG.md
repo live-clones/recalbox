@@ -153,6 +153,7 @@ All notable changes to this project will be documented in this file.
 - Fix paralleln64 on Pi4
 - Add paralleln64 on pi3
 
+- Bump Fbneo (March '13) 
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
