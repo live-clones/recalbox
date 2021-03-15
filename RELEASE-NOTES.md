@@ -41,6 +41,7 @@
 - Bump rockchip-libmali (for odroidgo2 and 3)
 - Bump Hypseus to version 1.3
 - Bump Duckstation, PSX games now run full speed (for odroidgo2 and 3)
+- Bump Fbneo
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package

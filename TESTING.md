@@ -29,6 +29,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Revalider tous les menus sur les listes de jeux
 - [ ] Test Craft (Minecraft clone) on ports (pc only)
 - [ ] Odroid GO Super => check it works (uses same image as Go Advanced)
+- [ ] Test and validate Paralleln64 on Pi3
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
@@ -110,6 +111,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
 - [ ] Check libretro-paralleln64 works on Odroid GO 2 & GO Super
 - [ ] Vérifier que les GO2/GO3 bootent quelque soit le firmware de la console
+- [ ] Bump Fbneo => Retest all games
+- [ ] Tester Paralleln64 on Pi4
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
