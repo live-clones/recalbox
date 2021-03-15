@@ -150,7 +150,7 @@ All notable changes to this project will be documented in this file.
 - Minor fixes & improvements in internal scraper
 - Make firmware upgrade optional (#1571, #1572)
 - Add Watara Supervision system (lr-potator core)
-
+- Bump Fbneo (March '13) 
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
