@@ -276,6 +276,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
 endif
 
+# System: bk
+ifneq ($(BR2_PACKAGE_LIBRETRO_BK_EMULATOR),)
+    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-bk
+endif
+
 # System: c64
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64

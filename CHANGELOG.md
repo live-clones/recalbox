@@ -155,6 +155,7 @@ All notable changes to this project will be documented in this file.
 - Add paralleln64 on pi3
 - Add control interface Ultimarc J-PAC (#1561)
 
+- Add Elektronika BK series on all boards (lr-bk)
 - Bump Fbneo (March '13) 
 - Updated French readme files
 - Bump Fbneo (March '13) 
