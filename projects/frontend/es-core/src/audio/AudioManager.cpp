@@ -101,7 +101,7 @@ void AudioManager::Reactivate()
 {
   Initialize();
 
-  if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
+  if (RecalboxConf::Instance().GetAudioMusic())
     PlayRandomMusic();
 }
 
@@ -173,7 +173,7 @@ void AudioManager::StopAll()
 
 void AudioManager::StartPlaying(const ThemeData& theme)
 {
-  if (RecalboxConf::Instance().AsBool("audio.bgmusic"))
+  if (RecalboxConf::Instance().GetAudioMusic())
   {
     const ThemeElement* elem = theme.getElement("system", "directory", "sound");
     mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));

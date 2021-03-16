@@ -102,9 +102,9 @@ void ViewController::goToSystemView(SystemData* system)
 void ViewController::goToGameClipView()
 {
     if(GameClipView::IsGameClipEnabled() && !mState.gameClipRunning) {
-        if(RecalboxConf::Instance().GetAudioGameClip())
+        if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
         {
-          AudioManager::Instance().Deactivate();
+          AudioManager::Instance().StopAll();
         }
 
         mGameClipView = new GameClipView(mWindow, mSystemManager);
@@ -130,9 +130,9 @@ void ViewController::quitGameClipView()
             break;
     }
 
-    if(RecalboxConf::Instance().GetAudioGameClip())
+    if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
     {
-      AudioManager::Instance().Reactivate();
+      AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
     }
     mState.gameClipRunning = false;
 }

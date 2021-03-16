@@ -69,9 +69,9 @@ void GuiMenuSound::SwitchComponentChanged(int id, bool status)
 {
   if ((Components)id == Components::Music)
   {
+    RecalboxConf::Instance().SetAudioMusic(status);
     if (status) AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
     else AudioManager::Instance().StopAll();
-    RecalboxConf::Instance().SetAudioMusic(status).Save();
   }
 }
 
