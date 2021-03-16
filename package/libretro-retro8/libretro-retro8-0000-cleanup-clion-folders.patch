@@ -1,8 +1,8 @@
 diff --git a/.gitignore b/.gitignore
-index 72cee2d..94fda4a 100755
+index b6b2af9..dfe2919 100755
 --- a/.gitignore
 +++ b/.gitignore
-@@ -5,3 +5,5 @@ projects/opendingux/**
+@@ -6,3 +6,5 @@ projects/funkey/**
  **/Debug/**
  **/Release/**
  .DS_Store

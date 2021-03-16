@@ -157,6 +157,9 @@ All notable changes to this project will be documented in this file.
 
 - Bump Fbneo (March '13) 
 - Updated French readme files
+- Bump Fbneo (March '13) 
+- Bump Retro8
+
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
