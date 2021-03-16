@@ -183,6 +183,7 @@ def getDefaultEmulator(targetSystem):
         "apple2gs"       : Emulator(name='apple2gs', emulator='gsplus', videomode='default'),
         "atari800"       : Emulator(name='atari800', emulator='libretro', core='atari800'),
         "atarist"        : Emulator(name='atarist', emulator='libretro', core='hatari'),
+        "bk"             : Emulator(name='bk', emulator='libretro', core='bk'),
         "c128"           : Emulator(name='c128', emulator='libretro', core='vice_x128'),
         "c64"            : Emulator(name='c64', emulator='libretro', core='vice_x64'),
         "dos"            : Emulator(name='dos', emulator='dosbox', videomode='default'),
