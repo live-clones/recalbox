@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Next]
+- Add Atomiswave intro video
 - Fix glxinfo and more tools mesa 3d demos package
 - Add colecovision Netplay with FBNeo core 
 - Add frequency screen option for X86, X86_64 by Chriskt78
