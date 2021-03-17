@@ -1,5 +1,5 @@
---- ./Makefile.orig	2021-03-10 00:08:47.452721091 +0100
-+++ ./Makefile	2021-03-10 00:09:01.901672649 +0100
+--- ./Makefile	2021-03-16 08:03:09.238353443 +0100
++++ ./Makefile	2021-03-16 09:10:28.314690450 +0100
 @@ -172,18 +172,26 @@
        GLES = 1
        GL_LIB := -lGLESv2
@@ -19,7 +19,7 @@
 +         # ODROIDGO2 and ODROIDGO3 (64 bits)
 +         HAVE_PARALLEL = 1
 +         WITH_DYNAREC=aarch64
-+         CPUFLAGS += -DNO_ASM -DARM -DARM_ASM -DDONT_WANT_ARM_OPTIMIZATIONS -DARM_FIX -DCLASSIC -DARM64
++         CPUFLAGS += -DCLASSIC -DARM64
 +         CPUFLAGS += -march=armv8-a+crc+simd -mtune=cortex-a35 -mcpu=cortex-a35
        else
           # ODROID-U3, U2, X2 & X
@@ -29,3 +29,12 @@
        endif
     endif
     
+@@ -938,7 +946,7 @@
+ endif
+ 
+ # Fix for GCC 10, make sure its added to all stages of the compiler
+-ifeq "$(shell expr `gcc -dumpversion` \>= 10)" "1"
++ifeq "$(shell expr `$(CC) -dumpversion` \>= 10)" "1"
+   CPUFLAGS += -fcommon
+ endif
+ 
