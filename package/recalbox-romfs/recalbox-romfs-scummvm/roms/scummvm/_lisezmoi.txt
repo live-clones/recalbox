@@ -14,3 +14,6 @@ scummvm
 | |- ...
 
 Vous trouverez les noms courts a l'adresse : http://scummvm.org/compatibility/
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ports/scummvm-residualvm

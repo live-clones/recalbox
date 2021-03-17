@@ -8,5 +8,5 @@ Seuls les cores libretro permettent d'utiliser des ROM compressées au format .z
 Attention toutefois, il ne s'agit que d'une archive. Les fichiers contenus dans les .zip/.7z doivent correspondre aux extensions citées précédemment.
 De plus, chaque fichier .zip/.7z ne doit contenir qu'une seule rom compressée.
 
-Si vous rencontrez des problèmes d'écran noir suivi d'un retour sous Emulationstation, veuillez vous référer au wiki suivant :
-https://github.com/recalbox/recalbox-os/wiki/N64-retour-sous-ES-%28FR%29
+Si vous rencontrez des problèmes d'écran noir suivi d'un retour sous Emulationstation, veuillez consulter la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/nintendo-64

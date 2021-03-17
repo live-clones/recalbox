@@ -15,3 +15,6 @@ Le fichier ROM correspondant au jeu doit se trouver dans le sous-répertoire rom
 
 Exemple:
 roms/dle21.zip
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/arcade/laserdisc

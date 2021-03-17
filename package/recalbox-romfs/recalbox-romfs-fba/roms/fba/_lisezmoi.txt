@@ -6,5 +6,8 @@ Les roms doivent avoir l'extension ".zip/.fba"
 
 Le fichier bios/fba/piFBA_gamelist.txt liste les jeux compatibles.
 
-Vous pouvez utiliser clrmamepro disponible sur http://mamedev.emulab.it/clrmamepro/ 
+Vous pouvez utiliser clrmamepro disponible sur http://mamedev.emulab.it/clrmamepro/
 et utiliser le fichier .dat dans le repertoire clrmamepro pour verifier la version de vos roms.
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/arcade/final-burn-neo

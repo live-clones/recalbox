@@ -3,3 +3,6 @@
 Placez les ROMS SamCoupé dans ce répertoire.
 
 Les fichiers roms doivent avoir une extensions parmi ".dsk,.sad,.mgt,.sdf,.td0,.sbt,.cpm,.zip".
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/sam-coupe

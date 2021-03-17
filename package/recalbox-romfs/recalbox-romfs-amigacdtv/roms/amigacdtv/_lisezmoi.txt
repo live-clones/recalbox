@@ -2,8 +2,8 @@
 
 Placez ici vos ISO amiga CDTV.
 
-Consultez la documentation à cette adresse : 
-https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/amiga-cdtv
 
 Libretro P-UAE:
 Supported formats are:

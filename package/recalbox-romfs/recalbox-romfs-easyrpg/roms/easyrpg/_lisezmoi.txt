@@ -3,3 +3,6 @@
 Placez ici vos roms EASYRPG.
 
 Les roms doivent avoir l'extension ".ini"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-fantasy/easyrpg
