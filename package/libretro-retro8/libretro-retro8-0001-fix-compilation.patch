@@ -1,10 +1,10 @@
 diff --git a/src/vm/defines.h b/src/vm/defines.h
-index a7a9b51..ad051f7 100755
+index 9bcbb6c..4bcf592 100755
 --- a/src/vm/defines.h
 +++ b/src/vm/defines.h
-@@ -2,6 +2,7 @@
- 
+@@ -3,6 +3,7 @@
  #include <array>
+ #include <cstddef>
  #include <cstdint>
 +#include <cstddef>
  
