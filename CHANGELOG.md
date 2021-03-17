@@ -155,6 +155,7 @@ All notable changes to this project will be documented in this file.
 - Add paralleln64 on pi3
 
 - Bump Fbneo (March '13) 
+- Updated French readme files
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

@@ -15,3 +15,6 @@ Faire L3 sur la manette ou 8 sur le clavier
 Aller sur Backup data clear (utiliser R3 sur manette ou 7 sur clavier) et valider
 Aller dans Game Assignements
 Mettre Link Id sur Single
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/arcade/sega-model-3

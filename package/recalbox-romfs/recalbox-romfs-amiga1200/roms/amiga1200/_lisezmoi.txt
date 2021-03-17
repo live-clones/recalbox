@@ -13,8 +13,8 @@ Des fichiers UAE (*.uae) peuvent être utilisés pour specifier une configuratio
 
 Ce système nécessite des bios pour fonctionner (Kickstart 3.1).
 
-Consultez la documentation à cette adresse : 
-https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/amiga-1200
 
 Libretro P-UAE:
 Supported formats are:

@@ -3,3 +3,6 @@
 Placez ici vos roms OpenBOR.
 
 Les roms doivent avoir l'extension ".pak"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-fantasy/openbor

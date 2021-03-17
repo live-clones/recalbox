@@ -12,8 +12,8 @@ Des fichiers UAE (*.uae) peuvent être utilisés pour specifier une configuratio
 
 Ce système nécessite des bios pour fonctionner (cd32.rom et cd32ext.com).
 
-Consultez la documentation à cette adresse : 
-https://github.com/recalbox/recalbox-os/wiki/Amiga-sur-Recalbox-(FR)
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/amiga-cd32
 
 Libretro P-UAE:
 Supported formats are:

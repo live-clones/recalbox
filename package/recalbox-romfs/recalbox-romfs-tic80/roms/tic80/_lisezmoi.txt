@@ -13,3 +13,6 @@ SSH dans le dossier /recalbox/share/roms/tic80 roms et tapez
 ./recalbox-tic80
 pour télécharger des jeux TIC-80 facilement. Vous pouvez essayer d'autres catégories, mais nous vous
 recommandons uniquement de jouer à des jeux avec le port libretro.
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-fantasy/tic-80

@@ -3,3 +3,6 @@
 Placez ici vos jeux DOOM 3.
 
 Les jeux DOOM 3 doivent avoir l'extension ".pk4"
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ports/doom-3

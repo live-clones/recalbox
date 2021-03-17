@@ -16,3 +16,6 @@ Dpad-Haut:	Sélectionne State Slot 1
 Dpad-Bas:	Sélectionne State Slot 2
 Dpad-Gauche:	Augmente la vitesse d'émulation
 Dpad-Droite:	Diminue la vitesse d'émulation
+
+Consultez la documentation à cette adresse :
+https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/wii
