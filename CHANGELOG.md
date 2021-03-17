@@ -161,6 +161,7 @@ All notable changes to this project will be documented in this file.
 - Bump Retro8
 - Bump ES to fix some beta 16 bugs
 - Bump Configgen to add Watara Supervision & BK defaults
+- Improve lightgun database & management
 
 
 ## [7.1.1-Reloaded]
