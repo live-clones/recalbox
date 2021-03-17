@@ -77,11 +77,12 @@ void LightGunDatabase::LoadDatabase()
       XmlNode games = system.child("games");
       if (games != nullptr)
         for(const XmlNode game : games.children("game"))
-        {
-          std::string gameName = Xml::AsString(game, "name", "");
-          if (!gameName.empty())
-            gameList.push_back(gameName);
-        }
+          if (Xml::AttributeAsString(game, "tested", "no") == "ok")
+          {
+            std::string gameName = Xml::AsString(game, "name", "");
+            if (!gameName.empty())
+              gameList.push_back(gameName);
+          }
       { LOG(LogDebug) << "[LightGun] " << gameList.size() << " games found in system " << systemName; }
     }
 
