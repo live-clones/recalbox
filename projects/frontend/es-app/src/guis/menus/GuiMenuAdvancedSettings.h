@@ -20,8 +20,9 @@ struct Overclocking
   std::string File;
   std::string Description;
   bool Hazardous;
+  int Frequency;
 
-  bool operator == (const Overclocking& r) const { return (File == r.File) && (Description == r.Description) && (Hazardous == r.Hazardous); }
+  bool operator == (const Overclocking& r) const { return (File == r.File) && (Description == r.Description) && (Hazardous == r.Hazardous) && (Frequency == r.Frequency); }
 };
 
 class GuiMenuAdvancedSettings : public GuiMenuBase

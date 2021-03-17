@@ -23,7 +23,7 @@
 GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ADVANCED SETTINGS"), this)
   , mSystemManager(systemManager)
-  , mDefaultOverclock({ _("NONE"), "none", false})
+  , mDefaultOverclock({ _("NONE"), "none", false, 0})
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
@@ -85,9 +85,10 @@ std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOv
   {
     bool found = mOriginalOverclock == overclock.File;
     ocFound |= found;
-    list.push_back({ overclock.Description + (overclock.Hazardous ? " \u26a0" : ""), overclock, found });
+    std::string label = std::string(overclock.Description).append(" (", 2).append(Strings::ToString(overclock.Frequency)).append(" Mhz)", 5).append(overclock.Hazardous ? " \u26a0" : "");
+    list.push_back({ label, overclock, found });
   }
-  std::sort(list.begin(), list.end(), [](const ListEntry<Overclocking>& a, const ListEntry<Overclocking>& b) { return a.mText < b.mText; });
+  std::sort(list.begin(), list.end(), [](const ListEntry<Overclocking>& a, const ListEntry<Overclocking>& b) { return a.mValue.Frequency < b.mValue.Frequency; });
   // Add none
   mValidOverclock = !list.empty();
   if (mValidOverclock)
@@ -135,16 +136,25 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     std::string trash;
     std::string desc;
     bool hazard = false;
+    int freq = 0;
     // Extract lines - doesn't matter if the file does not load, it returns an empty string
     for(const std::string& line : Strings::Split(Files::LoadFile(path), '\n'))
+    {
       if (Strings::StartsWith(line, LEGACY_STRING("# Description: ")))
         Strings::SplitAt(line, ':', trash, desc, true);
       else if (Strings::StartsWith(line, LEGACY_STRING("# Warning")))
         hazard = true;
+      else if (Strings::StartsWith(line, LEGACY_STRING("# Frequency: ")))
+      {
+        std::string freqStr;
+        Strings::SplitAt(line, ':', trash,freqStr, true);
+        Strings::ToInt(freqStr, freq);
+      }
+    }
     // Record?
-    if (!desc.empty())
+    if (!desc.empty() && freq != 0)
     {
-      result.push_back({ path.ToString(), desc, hazard });
+      result.push_back({ path.ToString(), desc, hazard, freq });
       { LOG(LogInfo) << "[Overclock] File " << path.ToString() << " validated."; }
     }
     else { LOG(LogError) << "[Overclock] Invalid file " << path.ToString(); }

@@ -39,7 +39,7 @@ std::vector<GuiMenuBase::ListEntry<ScreenScraperEnums::ScreenScraperImageType>> 
   list.push_back({ _("box2D"),              ScreenScraperEnums::ScreenScraperImageType::Box2d,            ScreenScraperEnums::ScreenScraperImageType::Box2d == imageCode });
   list.push_back({ _("box3d"),              ScreenScraperEnums::ScreenScraperImageType::Box3d,            ScreenScraperEnums::ScreenScraperImageType::Box3d == imageCode });
   list.push_back({ _("ScreenScraper Mix V1"),ScreenScraperEnums::ScreenScraperImageType::MixV1,          ScreenScraperEnums::ScreenScraperImageType::MixV1 == imageCode });
-  list.push_back({ _("IScreenScraper Mix V2"), ScreenScraperEnums::ScreenScraperImageType::MixV2,         ScreenScraperEnums::ScreenScraperImageType::MixV2 == imageCode });
+  list.push_back({ _("ScreenScraper Mix V2"), ScreenScraperEnums::ScreenScraperImageType::MixV2,         ScreenScraperEnums::ScreenScraperImageType::MixV2 == imageCode });
   return list;
 }
 

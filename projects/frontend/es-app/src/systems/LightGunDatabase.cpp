@@ -53,7 +53,7 @@ std::string LightGunDatabase::GetSimplifiedName(const std::string& name)
   }
   result.resize(writeIndex);
 
-  { LOG(LogDebug) << "[LightGun] " << name << " = " << result; }
+  //{ LOG(LogDebug) << "[LightGun] " << name << " = " << result; }
 
   return result;
 }
