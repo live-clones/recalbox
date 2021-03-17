@@ -154,12 +154,13 @@ All notable changes to this project will be documented in this file.
 - Fix paralleln64 on Pi4
 - Add paralleln64 on pi3
 - Add control interface Ultimarc J-PAC (#1561)
-
 - Add Elektronika BK series on all boards (lr-bk)
 - Bump Fbneo (March '13) 
 - Updated French readme files
 - Bump Fbneo (March '13) 
 - Bump Retro8
+- Bump ES to fix some beta 16 bugs
+- Bump Configgen to add Watara Supervision & BK defaults
 
 
 ## [7.1.1-Reloaded]
