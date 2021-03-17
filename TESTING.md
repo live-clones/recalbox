@@ -30,6 +30,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Craft (Minecraft clone) on ports (pc only)
 - [ ] Odroid GO Super => check it works (uses same image as Go Advanced)
 - [ ] Test and validate Paralleln64 on Pi3
+- [ ] Test Watara Supervision emulator on all boards
+- [ ] Test Elektronika Emulator emulator on all boards
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
