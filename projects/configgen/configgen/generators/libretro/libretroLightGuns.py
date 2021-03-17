@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-## Released version: 1.6.5
+## Released version: 1.6.6
 ##IMPORT STD---------------------------------------------------------------------
 import os
 import sys
@@ -93,6 +93,7 @@ KEY_GAME_NAME = "Game"
 ## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow) 
 ## V1.6.4 : To change way to recalculate the indexation of mouse for retroarch (using udev database)
 ## V1.6.5 : Cleaning + deactivate log by default + to support some keyboards including mouse and identified differently by retroarch (now, we count only header values as js + input + event to anticipate indexation)
+## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
 ## V1.7 TO DO: to integrate a popup to inform about buttons to use from wiimote
 
 def Log(txt): 
@@ -203,8 +204,7 @@ class libretroLightGun:
         
         ##rom name cleaning (to be lower case and keep only alphanumeric characters):
         game_name=game_name.lower()
-        game_name=game_name.replace('_','')
-        game_name = re.sub(r'\W+', '', game_name)
+        game_name = re.sub(r'[^a-z0-9!]+', '', game_name)
         
         ##save lightgun dedicated emulator & core
         Log('selected emulator by user:' + self.system.config['emulator'])
