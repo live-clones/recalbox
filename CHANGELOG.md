@@ -162,6 +162,7 @@ All notable changes to this project will be documented in this file.
 - Bump ES to fix some beta 16 bugs
 - Bump Configgen to add Watara Supervision & BK defaults
 - Improve lightgun database & management
+- Update description O/C for all pi
 
 
 ## [7.1.1-Reloaded]
