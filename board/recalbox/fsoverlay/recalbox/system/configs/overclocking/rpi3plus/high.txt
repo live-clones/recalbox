@@ -1,5 +1,5 @@
 # Plateform: RPI3+
-# Description: High Overclocking CPU:1425 Mhz GPU:500 Mhz
+# Description: High
 # Frequency: 1425
 
 arm_freq=1425

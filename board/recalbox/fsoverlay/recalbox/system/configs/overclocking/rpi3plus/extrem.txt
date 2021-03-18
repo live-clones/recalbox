@@ -1,5 +1,5 @@
 # Plateform: RPI3+
-# Description: Extrem Overclocking! CPU:1500 Mhz GPU:525 Mhz
+# Description: Extrem
 # Warning
 # Frequency: 1500
 
