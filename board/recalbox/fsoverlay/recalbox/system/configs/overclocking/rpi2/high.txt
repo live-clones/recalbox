@@ -1,5 +1,5 @@
 # Plateform: RPI2
-# Description: High Overclocking CPU:1050 Mhz GPU:350 Mhz
+# Description: High
 # Frequency: 1050
 
 arm_freq=1050

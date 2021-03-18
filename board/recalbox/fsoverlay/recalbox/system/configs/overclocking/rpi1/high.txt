@@ -1,5 +1,5 @@
 # Plateform: RPI1
-# Description: High Overclocking CPU:950 Mhz GPU:250 Mhz
+# Description: High
 # Frequency: 950
 
 arm_freq=950
