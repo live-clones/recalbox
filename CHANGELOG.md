@@ -163,6 +163,7 @@ All notable changes to this project will be documented in this file.
 - Bump Configgen to add Watara Supervision & BK defaults
 - Improve lightgun database & management
 - Fix overclocking menu ordering
+- Update description O/C for all pi
 
 
 ## [7.1.1-Reloaded]
