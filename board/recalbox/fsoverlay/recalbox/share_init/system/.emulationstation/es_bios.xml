@@ -35,6 +35,15 @@
   <system fullname="Atari 7800" platform="atari7800">
     <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
   </system>
+  <system fullname="Elektronika BK" platform="bk">
+    <bios path="bk/B11M_BOS.ROM" md5="fe4627d1e3a1535874085050733263e7" core="bk" />
+	<bios path="bk/B11M_EXT.ROM" md5="dc52f365d56fa1951f5d35b1101b9e3f" core="bk" />
+	<bios path="bk/BAS11M_0.ROM" md5="946f6f23ded03c0e26187f0b3ca75993" core="bk" />
+	<bios path="bk/BAS11M_1.ROM" md5="1e6637f32aa7d1de03510030cac40bcf" core="bk" />
+	<bios path="bk/DISK_327.ROM" md5="5015228eeeb238e65da8edcd1b6dfac7" core="bk" />
+	<bios path="bk/FOCAL10.ROM" md5="5737f972e8638831ab71e9139abae052" core="bk" />
+	<bios path="bk/MONIT10.ROM" md5="95f8c41c6abf7640e35a6a03cecebd01" core="bk" />
+  </system>
   <system fullname="Sammy Atomiswave" platform="atomiswave">
     <bios path="dc/awbios.zip" md5="a420c0e56135c2e7e87399c887d7ef4a,abb0a508c83e689fc5e9230c623dabd0,
     	                              042a0adecf2d616ccfb915a5cd71fde5,27fb8181fd9a0df18c7f6f941e9d60ab,

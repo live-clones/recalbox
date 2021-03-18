@@ -164,6 +164,7 @@ All notable changes to this project will be documented in this file.
 - Improve lightgun database & management
 - Fix overclocking menu ordering
 - Update description O/C for all pi
+- Update es_bios.xml (add bios Elektronika BK)
 
 
 ## [7.1.1-Reloaded]
