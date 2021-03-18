@@ -81,8 +81,7 @@ void LightGunDatabase::LoadDatabase()
       Strings::Vector& gameList = mSystemLists[systemName];
 
       // Run through games
-      XmlNode games = system.child("games");
-      if (games != nullptr)
+      for(const XmlNode games : system.children("games"))
         for(const XmlNode game : games.children("game"))
           if (Xml::AttributeAsString(game, "tested", "no") == "ok")
           {
