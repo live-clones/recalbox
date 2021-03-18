@@ -1,5 +1,5 @@
 # Plateform: RPI3+
-# Description: Turbo Overclocking CPU:1450 Mhz GPU:500 Mhz
+# Description: Turbo
 # Frequency: 1450
 
 arm_freq=1450

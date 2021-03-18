@@ -1,5 +1,5 @@
 # Plateform: RPI4
-# Description: 3- Extrem Overclocking! CPU:2000 Mhz GPU:750 Mhz
+# Description: Extrem
 # Warning
 # Frequency: 2000
 

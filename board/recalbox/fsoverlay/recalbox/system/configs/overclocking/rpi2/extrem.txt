@@ -1,5 +1,5 @@
 # Plateform: RPI2
-# Description: Extrem Overclocking! CPU:1100 Mhz GPU:366 Mhz
+# Description: Extrem
 # Frequency: 1100
 # Warning
 
