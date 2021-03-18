@@ -116,6 +116,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bump Fbneo => Retest all games
 - [ ] Tester Paralleln64 on Pi4
 - [ ] Check the order of the O / C options (Pi1,Pi2,PI3,Pi3B+,PI4)
+- [ ] Update es_bios.xml (add bios Elektronika BK)
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
