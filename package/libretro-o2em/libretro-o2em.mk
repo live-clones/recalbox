@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_O2EM_VERSION = 31a60bb551e9d72b66dab0c373a61e185cd25459
+LIBRETRO_O2EM_VERSION = ddd647ae0aeac8e7d635c807063a0bff76da3b1a
 LIBRETRO_O2EM_SITE = $(call github,libretro,libretro-o2em,$(LIBRETRO_O2EM_VERSION))
 LIBRETRO_O2EM_LICENSE = ARTISTIC
 LIBRETRO_O2EM_LICENSE_FILES = COPYING

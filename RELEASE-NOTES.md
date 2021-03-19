@@ -44,6 +44,7 @@
 - Bump Duckstation, PSX games now run full speed (for odroidgo2 and 3)
 - Bump Fbneo
 - Bump Libretro Mupen64plus Next
+- Bump Odyssey²: Add support for european & french models
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package
@@ -56,7 +57,7 @@
 - Fix 4k resolution handling on rpi4
 - Fix shaders on odroidgo2
 - Fix RetroArch shortcuts on odroidgo2
-- Fix Libretro Parallel N64 core on odroidgo2
+- Fix Libretro Parallel N64 core on odroidgo2 & Pi4
 
 
 ## 7.1.1-Reloaded
