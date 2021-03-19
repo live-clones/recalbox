@@ -249,6 +249,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     //! Signal used to unlock the thread and actually run the video decoding
     Signal mSignal;
+    //! Signal used to instruct other thread a video has been stoped
+    Signal mWaitForStop;
     //! Video filename
     Path mFileName;
 
@@ -330,7 +332,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      */
     ~VideoEngine() override
     {
-      StopVideo();
+      StopVideo(true);
       Thread::Stop();
     }
 
@@ -344,8 +346,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     /*!
      * @brief Stop the currently playing video file.
      * Does nothing if no file is actually playing
+     * @param waitforstop wait for the playing video to stop
      */
-    void StopVideo();
+    void StopVideo(bool waitforstop);
 
     /*!
      * @brief Get current image of the current playing video
@@ -366,7 +369,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      */
     int GetVideoDurationMs() const { return IsPlaying() ? mContext.TotalTime : 0; }
 
+    //! Lock texture for thread safety
     void AquireTexture() { mTextureSyncer.Lock(); }
 
+    //! Release texture
     void ReleaseTexture() { mTextureSyncer.UnLock(); }
 };

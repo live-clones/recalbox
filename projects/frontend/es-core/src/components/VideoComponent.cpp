@@ -91,7 +91,8 @@ void VideoComponent::resize()
 
 void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
-  VideoEngine::Instance().StopVideo();
+  VideoEngine::Instance().StopVideo(true);
+  //while(VideoEngine::Instance().IsPlaying()) sleep(0);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
@@ -193,7 +194,7 @@ void VideoComponent::ResetAnimations()
 
   // Stop the video
   if (VideoEngine::Instance().IsPlaying())
-    VideoEngine::Instance().StopVideo();
+    VideoEngine::Instance().StopVideo(false);
 }
 
 double VideoComponent::ProcessEffect(int elapsedms, bool in)
@@ -291,7 +292,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       if (elapsed >= mVideoEffect)
       {
         mState = State::Uninitialized;
-        VideoEngine::Instance().StopVideo();
+        VideoEngine::Instance().StopVideo(false);
         mTimer.Initialize(0);
         //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
         video = false;

@@ -144,6 +144,7 @@ void VideoEngine::Run()
             mIsPlaying = false;
             mFileName = Path();
             FinalizeDecoder();
+            mWaitForStop.Fire();
             break;
           }
           case Order::None:
@@ -178,7 +179,7 @@ void VideoEngine::PlayVideo(const Path& videopath)
   }
 }
 
-void VideoEngine::StopVideo()
+void VideoEngine::StopVideo(bool waitforstop)
 {
   { LOG(LogDebug) << "[Video Engine] Request to stop playing " << mFileName.ToString(); }
 
@@ -203,6 +204,12 @@ void VideoEngine::StopVideo()
     mTexture.reset();
     ReleaseTexture();
   }
+
+  // Wait?
+  if (mIsPlaying && waitforstop)
+    mWaitForStop.WaitSignal(2000); // Not longer than 2s or something is going really wrong
+  // Force a signal reset so that a non waiting stop does not unlock the next waiting stop
+  mWaitForStop.Reset();
 }
 
 bool VideoEngine::InitializeDecoder()

@@ -25,6 +25,7 @@ public:
 
 protected:
     void launch(FileData* game) override;
+    void clean() override { mVideo.setVideo(Path::Empty, 0, 0); }
 
 private:
     void initMDLabels();

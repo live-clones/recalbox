@@ -135,6 +135,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // RUN GAME or ENTER FOLDER
   if (event.BPressed())
   {
+    clean();
     FileData* cursor = getCursor();
     if (cursor->isGame())
     {
@@ -157,6 +158,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // BACK to PARENT FOLDER or PARENT SYSTEM
   if (event.APressed())
   {
+    clean();
     if (!mCursorStack.empty())
     {
       FolderData* selected = mCursorStack.top();
@@ -218,6 +220,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   if (event.AnyRightPressed())
   {
     if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
+      clean();
       onFocusLost();
       ViewController::Instance().goToNextGameList();
     }
@@ -228,6 +231,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   if (event.AnyLeftPressed())
   {
     if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
+      clean();
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
     }
@@ -276,6 +280,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
       && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
   {
+    clean();
     FileData* cursor = getCursor();
     mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
     return true;

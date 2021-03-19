@@ -37,6 +37,11 @@ class Signal
      */
     bool WaitSignal(long long milliseconds);
 
+    /*!
+     * @brief Force a manuel signal reset
+     */
+    void Reset();
+
   private:
     //! Mutex handle
     pthread_mutex_t mMutex;

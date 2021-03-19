@@ -191,7 +191,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
       { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
       // remove game from list
       mDemoFiles.erase(mDemoFiles.begin() + mDemoFilesIndex);
-      VideoEngine::Instance().StopVideo();
+      VideoEngine::Instance().StopVideo(false);
       mState = State::NoGameSelected;
       return;
     }
@@ -350,14 +350,14 @@ void GameClipView::startGameClip()
 
 void GameClipView::stopGameClip()
 {
-  for(;;)
+  //for(;;)
   {
-    if(!VideoEngine::Instance().IsPlaying())
+    /*if(!VideoEngine::Instance().IsPlaying())
     {
       sleep(0);
       break;
-    }
-    VideoEngine::Instance().StopVideo();
+    }*/
+    VideoEngine::Instance().StopVideo(true);
   }
 }
 

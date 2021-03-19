@@ -110,7 +110,7 @@ void SystemData::RunGame(WindowManager& window,
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   { LOG(LogInfo) << "[Run] Controllers config : " << controlersConfig; }
 
-  VideoEngine::Instance().StopVideo();
+  VideoEngine::Instance().StopVideo(false);
   AudioManager::Instance().Deactivate();
   WindowManager::Finalize();
 
@@ -209,7 +209,7 @@ std::string SystemData::demoInitialize(WindowManager&)
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   { LOG(LogInfo) << "[DemoMode] Controllers config : " << controlersConfig; }
 
-  VideoEngine::Instance().StopVideo();
+  VideoEngine::Instance().StopVideo(false);
   AudioManager::Instance().Deactivate();
 
   WindowManager::Finalize();

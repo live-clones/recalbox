@@ -57,3 +57,10 @@ bool Signal::WaitSignal(long long int milliseconds)
   pthread_mutex_unlock(&mMutex);
   return result;
 }
+
+void Signal::Reset()
+{
+  pthread_mutex_lock(&mMutex);
+  mSignal = false;
+  pthread_mutex_unlock(&mMutex);
+}

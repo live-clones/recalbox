@@ -26,8 +26,6 @@ class IGameListView : public Gui
     SystemData& mSystem;
     const ThemeData* mTheme;
 
-    virtual void DoUpdateGameInformation() = 0;
-
   public:
     enum class Change
     {
@@ -73,6 +71,8 @@ class IGameListView : public Gui
     void ApplyHelpStyle() override;
 
     void updateInfoPanel();
+
+    virtual void DoUpdateGameInformation() = 0;
 
     virtual void populateList(const FolderData& folder) = 0;
     virtual void refreshList() = 0;
