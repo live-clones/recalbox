@@ -157,13 +157,13 @@ All notable changes to this project will be documented in this file.
 - Add Elektronika BK series on all boards (lr-bk)
 - Bump Fbneo (March '13) 
 - Updated French readme files
-- Bump Fbneo (March '13) 
 - Bump Retro8
 - Bump ES to fix some beta 16 bugs
 - Bump Configgen to add Watara Supervision & BK defaults
 - Improve lightgun database & management
 - Fix overclocking menu ordering
 - Update description O/C for all pi
+- Bump Fbneo (March '19) 
 
 
 ## [7.1.1-Reloaded]
