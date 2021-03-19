@@ -47,6 +47,7 @@
 - Bump Odyssey²: Add support for european & french models
 - Bump Np2kai NP21/W rev.79
 - Bump nVidia video drivers, add support for RTX 20x0 and RTX 30x0
+- Bump PPSSPP, PSP games now run far more quickly (for odroidgo2 and 3)
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package

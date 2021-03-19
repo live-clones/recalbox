@@ -178,6 +178,7 @@ All notable changes to this project will be documented in this file.
 - Bump Quasi88
 - Bump es (add reset factory, swap a/b, fix bt audio)
 - Bump nVidia drivers to 460.67 (#1299)
+- Bump PPSSPP to v1.11.3 (#1589)
 
 
 ## [7.1.1-Reloaded]

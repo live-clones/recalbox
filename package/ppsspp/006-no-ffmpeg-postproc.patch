@@ -1,0 +1,26 @@
+--- ./cmake/Modules/FindFFmpeg.cmake	2021-03-28 23:36:05.774620037 +0200
++++ ./cmake/Modules/FindFFmpeg.cmake	2021-03-28 23:36:25.896251191 +0200
+@@ -33,7 +33,6 @@
+   avfilter
+   avformat
+   avutil
+-  postproc
+   swresample
+   swscale
+ )
+@@ -42,7 +41,6 @@
+ set(_FFmpeg_DEPS_avdevice avcodec avformat avutil)
+ set(_FFmpeg_DEPS_avfilter avutil)
+ set(_FFmpeg_DEPS_avformat avcodec avutil)
+-set(_FFmpeg_DEPS_postproc avutil)
+ set(_FFmpeg_DEPS_swresample avutil)
+ set(_FFmpeg_DEPS_swscale avutil)
+ 
+@@ -51,7 +49,6 @@
+ set(_FFmpeg_HEADER_avfilter avfilter)
+ set(_FFmpeg_HEADER_avformat avformat)
+ set(_FFmpeg_HEADER_avutil avutil)
+-set(_FFmpeg_HEADER_postproc postprocess)
+ set(_FFmpeg_HEADER_swresample swresample)
+ set(_FFmpeg_HEADER_swscale swscale)
+ 
