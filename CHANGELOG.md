@@ -165,6 +165,7 @@ All notable changes to this project will be documented in this file.
 - Fix overclocking menu ordering
 - Update description O/C for all pi
 - Update es_bios.xml (add bios Elektronika BK)
+- Add lightgun database XSD
 
 
 ## [7.1.1-Reloaded]
