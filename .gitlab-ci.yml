@@ -23,6 +23,7 @@ variables:
 # Lint
 
 
+
 .lint_template: &lint_definition
   stage: lint
   <<: *only-default
