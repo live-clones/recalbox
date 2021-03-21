@@ -117,6 +117,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Tester Paralleln64 on Pi4
 - [ ] Check the order of the O / C options (Pi1,Pi2,PI3,Pi3B+,PI4)
 - [ ] Update es_bios.xml (add bios Elektronika BK)
+- [ ] vérifier que le son est correct sur rpi2 et rpi3
+  - [ ] `pacmd list-modules |grep -A1 'name: <module-udev-detect>' |grep -q tsched=0 && echo "OK" ||echo "PAS OK"`
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
