@@ -120,7 +120,7 @@ All notable changes to this project will be documented in this file.
 - Fix case installation always triggered
 - Bump all subprojects
 - Enabled retroarch core option nospritelimit
-- Start bluetooth earlier (#1523)
+- Start bluetooth earlier (#1523, #1583)
 - Bump webmanager v2
 - Fix gamecon_gpio_rpi build time (only build as module) (#1552)
 - Fix mk_arcade_joystick_rpi build time (only build as module) (#1553)
