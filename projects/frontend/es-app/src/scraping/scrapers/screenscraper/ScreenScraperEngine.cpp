@@ -39,6 +39,7 @@ static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
       { PlatformIds::PlatformId::COMMODORE_AMIGA,           64},
       { PlatformIds::PlatformId::COMMODORE_CD32,            130},
       { PlatformIds::PlatformId::COMMODORE_CDTV,            129},
+      { PlatformIds::PlatformId::ELEKTRONIKA_BK,            93},
       { PlatformIds::PlatformId::EPOCH_SUPERCASSETTEVISION, 67},
       { PlatformIds::PlatformId::FAIRCHILD_CHANNELF,        80},
       { PlatformIds::PlatformId::GAMEENGINE_DAPHNE,         49},
@@ -65,7 +66,7 @@ static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
       { PlatformIds::PlatformId::NEC_PCFX,                  72},
       { PlatformIds::PlatformId::NEC_SUPERGRAFX,            31},
       { PlatformIds::PlatformId::NEOGEO,                    142},
-      { PlatformIds::PlatformId::NEOGEO_CD,                 142},
+      { PlatformIds::PlatformId::NEOGEO_CD,                 70},
       { PlatformIds::PlatformId::NEOGEO_POCKET,             25},
       { PlatformIds::PlatformId::NEOGEO_POCKET_COLOR,       82},
       { PlatformIds::PlatformId::NINTENDO_3DS,              17},
@@ -88,6 +89,7 @@ static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
       { PlatformIds::PlatformId::OSH_UZEBOX,                216},
       { PlatformIds::PlatformId::PALM_PDA,                  219},
       { PlatformIds::PlatformId::PANASONIC_3DO,             29},
+      { PlatformIds::PlatformId::POCKET_CHALLENGE_V2,       237},
       { PlatformIds::PlatformId::PORT_2048,                 135},
       { PlatformIds::PlatformId::PORT_BOOM3,                135},
       { PlatformIds::PlatformId::PORT_CANNONBALL,           135},
@@ -130,6 +132,7 @@ static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
       { PlatformIds::PlatformId::SPECTRAVISION_SPECTRAVIDEO,218},
       { PlatformIds::PlatformId::TANDERINE_ORICATMOS,       131},
       { PlatformIds::PlatformId::THOMSON_MOTO,              141},
+      { PlatformIds::PlatformId::WATARA_SUPERVISION,        207},
     };
 
   return screenscraperPlatformidMap;

@@ -33,6 +33,7 @@ namespace PlatformIds
     COMMODORE_AMIGA,
     COMMODORE_CD32,
     COMMODORE_CDTV,
+    ELEKTRONIKA_BK,
     EPOCH_SUPERCASSETTEVISION,
     FAIRCHILD_CHANNELF,
     GAMEENGINE_DAPHNE,
@@ -82,6 +83,7 @@ namespace PlatformIds
     OSH_UZEBOX,
     PALM_PDA,
     PANASONIC_3DO,
+    POCKET_CHALLENGE_V2,
     SAMMY_ATOMISWAVE,
     SEGA_32X,
     SEGA_CD,
@@ -108,6 +110,7 @@ namespace PlatformIds
     STREAM_MOONLIGHT,
     TANDERINE_ORICATMOS,
     THOMSON_MOTO,
+    WATARA_SUPERVISION,
     PORT_START,      // Placeholder for first port
     PORT_2048,
     PORT_BOOM3,
