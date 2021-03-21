@@ -70,8 +70,9 @@ lint changelog:
   before_script:
     - apk update && apk add git
   script:
-    - git fetch origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
-    - if git diff --exit-code "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
+    - git remote add target "${CI_MERGE_REQUEST_SOURCE_PROJECT_URL}"
+    - git fetch target "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    - if git diff --exit-code "target/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
   
 # Build
 
