@@ -45,6 +45,7 @@
 - Bump Fbneo
 - Bump Libretro Mupen64plus Next
 - Bump Odyssey²: Add support for european & french models
+- Bump Np2kai NP21/W rev.79
 
 ### Fixes
 - Fix reactivation of the deleted mesa 3d demos package

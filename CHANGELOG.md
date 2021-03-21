@@ -172,6 +172,7 @@ All notable changes to this project will be documented in this file.
 - Add controller 'SNES Controller'
 - CI beta test linter now runs only on tags
 - Check fix bios md5 for GB and GBC
+- Bump Np2kai
 
 
 ## [7.1.1-Reloaded]
