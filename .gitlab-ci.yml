@@ -53,8 +53,6 @@ lint commits:
   before_script:
     - npm install -g @commitlint/cli @commitlint/config-conventional
   script: test/lint/commits
-  allow_failure: true
-
 
 lint beta-tests:
   <<: *lint_definition
