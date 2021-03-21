@@ -25,8 +25,7 @@ variables:
 .lint_template: &lint_definition
   stage: lint
   <<: *only-default
-  tags:
-    - lintstage
+
 
 lint package license:
   stage: lint
