@@ -108,7 +108,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
-    DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, false)
+    DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, true)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
@@ -134,7 +134,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(Brightness, int, Int, sBrightness, 7)
     DefineGetterSetter(Clock, bool, Bool, sClock, false)
     DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
-    DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, false)
+    DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, true)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)

@@ -223,7 +223,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         //! Default constructor
         OrderMessage() : mOrder(Order::Stop) {}
         //! Copy constructor
-        OrderMessage(const OrderMessage& source) : mOrder(source.GetOrder()), mVideoPath(source.mVideoPath) {}
+        OrderMessage(const OrderMessage& source) : mOrder(source.GetOrder()), mVideoPath(source.mVideoPath), mDecodeAudio(source.mDecodeAudio) {}
         //! Copy operator
         OrderMessage& operator = (const OrderMessage& source)
         {
@@ -231,20 +231,23 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
           {
             mOrder = source.GetOrder();
             mVideoPath = source.mVideoPath;
+            mDecodeAudio = source.mDecodeAudio;
           }
           return *this;
         }
         //! Set properties
-        void Set(Order order, const Path& videoPath) { mOrder = order; mVideoPath = videoPath; }
+        void Set(Order order, const Path& videoPath, bool decodeAudio) { mOrder = order; mVideoPath = videoPath; mDecodeAudio = decodeAudio; }
         //! Set properties
         void Set(Order order) { mOrder = order; }
 
         Order GetOrder() const { return mOrder; }
         const Path& GetPath() const { return mVideoPath; }
+        bool GetDecodeAudio() const { return mDecodeAudio; }
 
       private:
         Order mOrder;
         Path mVideoPath;
+        bool mDecodeAudio;
     };
 
     //! Signal used to unlock the thread and actually run the video decoding
@@ -256,8 +259,6 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     //! Is playing?
     volatile bool mIsPlaying;
-    //! Decode & play audio?
-    bool mPlayAudio;
 
     //! Global context
     PlayerContext mContext;
@@ -299,7 +300,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     int DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* buffer, int size);
 
-    void DecodeFrames();
+    void DecodeFrames(bool decodeAudio = false);
 
     void FinalizeDecoder();
 
@@ -341,7 +342,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * If a video is already playing, a call to stop is performed playing the new video
      * @param videopath Path to the video file ot play
      */
-    void PlayVideo(const Path& videopath);
+    void PlayVideo(const Path& videopath, bool decodeAudio = false);
 
     /*!
      * @brief Stop the currently playing video file.

@@ -88,7 +88,7 @@ public:
 	private:
 		friend ViewController;
 		SystemData* system;
-        bool gameClipRunning;
+		bool gameClipRunning;
 	};
 
 	inline const State& getState() const { return mState; }

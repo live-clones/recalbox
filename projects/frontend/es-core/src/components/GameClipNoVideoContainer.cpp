@@ -43,3 +43,8 @@ void GameClipNoVideoContainer::Render(const Transform4x4f& parentTrans)
   renderChildren(parentTrans);
 }
 
+bool GameClipNoVideoContainer::getHelpPrompts(Help& help)
+{
+  help.Set(HelpType::A, _("QUIT"));
+  return true;
+}

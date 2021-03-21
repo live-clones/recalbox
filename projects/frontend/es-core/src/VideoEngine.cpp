@@ -84,7 +84,6 @@ bool VideoEngine::AudioPacketQueue::Dequeue(AVPacket& pkt)
 VideoEngine::VideoEngine()
   : StaticLifeCycleControler<VideoEngine>("VideoEngine")
   , mIsPlaying(false)
-  , mPlayAudio(false)
 {
   StartEngine();
 }
@@ -134,7 +133,7 @@ void VideoEngine::Run()
               mIsPlaying = true;
               // Play until next message
               { LOG(LogDebug) << "[Video Engine] is playing " << mFileName.ToString(); }
-              DecodeFrames();
+              DecodeFrames(nextMessage.GetDecodeAudio());
             }
             else { LOG(LogDebug) << "[Video Engine] got an error playing " << mFileName.ToString(); }
             break;
@@ -158,7 +157,7 @@ void VideoEngine::Run()
   FinalizeDecoder();
 }
 
-void VideoEngine::PlayVideo(const Path& videopath)
+void VideoEngine::PlayVideo(const Path& videopath, bool decodeAudio)
 {
   { LOG(LogDebug) << "[Video Engine] Request to play " << videopath.ToString(); }
 
@@ -171,7 +170,7 @@ void VideoEngine::PlayVideo(const Path& videopath)
 
   // Create new message
   OrderMessage* message = mMessageProvider.Obtain();
-  message->Set(Order::Play, videopath);
+  message->Set(Order::Play, videopath, decodeAudio);
   { // Post
     Mutex::AutoLock sync(mQueueSyncer);
     mPendingMessages.Push(message);
@@ -425,7 +424,7 @@ TextureData& VideoEngine::GetDisplayableFrame()
   return mTexture;
 }
 
-void VideoEngine::DecodeFrames()
+void VideoEngine::DecodeFrames(bool decodeAudio)
 {
   int VideoFrameCount = 0;
   int AudioFrameCount = 0;
@@ -475,7 +474,7 @@ void VideoEngine::DecodeFrames()
           ++VideoFrameCount;
         }
       }
-      else if (mPlayAudio && packet.stream_index == mContext.AudioStreamIndex)
+      else if (decodeAudio && packet.stream_index == mContext.AudioStreamIndex)
       {
         mContext.AudioQueue.Enqueue(&packet);
         ++AudioFrameCount;
@@ -487,11 +486,7 @@ void VideoEngine::DecodeFrames()
 
 void VideoEngine::FinalizeDecoder()
 {
-//  cause segvault when launching a game if snap is playing in gamelistview
-//  SDL_CloseAudio();
-//  AquireTexture();
-//  mTexture.reset();
-//  ReleaseTexture();
+  SDL_CloseAudio();
   mContext.Dispose();
 }
 

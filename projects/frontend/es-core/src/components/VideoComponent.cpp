@@ -92,7 +92,6 @@ void VideoComponent::resize()
 void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
   VideoEngine::Instance().StopVideo(true);
-  //while(VideoEngine::Instance().IsPlaying()) sleep(0);
   mVideoPath = path;
   mVideoDelay = delay;
   mVideoLoop = loops;
@@ -243,7 +242,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
     case State::InitializeVideo:
     {
       // Start video if it's not started yet
-      VideoEngine::Instance().PlayVideo(mVideoPath);
+      VideoEngine::Instance().PlayVideo(mVideoPath, mDecodeAudio);
       mState = State::WaitForVideoToStart;
       mTimer.Initialize(0);
       break;

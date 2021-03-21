@@ -423,3 +423,15 @@ Vector2f GameClipContainer::getVideoCenter()
 {
   return mVideo.getCenter();
 }
+
+bool GameClipContainer::getHelpPrompts(Help& help)
+{
+  if(RecalboxConf::Instance().GetShowGameClipHelpItems())
+    help.Set(HelpType::A, _("QUIT"))
+      .Set(HelpType::Start, _("LAUNCH"))
+      .Set(HelpType::Y, mGame->Metadata().Favorite() ? _("Remove from favorite") : _( "Favorite"))
+      .Set(HelpType::LeftRight, _("CHANGE"))
+      .Set(HelpType::Select, _("SHOW IN LIST"));
+
+  return true;
+}

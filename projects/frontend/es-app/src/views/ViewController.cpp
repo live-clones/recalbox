@@ -108,7 +108,6 @@ void ViewController::goToGameClipView()
         }
 
         mGameClipView = new GameClipView(mWindow, mSystemManager);
-        mCurrentView = mGameClipView;
         mState.gameClipRunning = true;
     }
 }
@@ -117,24 +116,25 @@ void ViewController::quitGameClipView()
 {
   WakeUp();
   delete mGameClipView;
-    switch (mState.viewing)
-    {
-        case ViewMode::SystemList:
-            goToSystemView(mSystemListView.getSelected());
-            break;
-        case ViewMode::GameList:
-            goToGameList(mState.getSystem());
-            break;
-        case ViewMode::None:
-        case ViewMode::SplashScreen:
-            break;
-    }
+  switch (mState.viewing)
+  {
+    case ViewMode::SystemList:
+      goToSystemView(mSystemListView.getSelected());
+      break;
+    case ViewMode::GameList:
+      goToGameList(mState.getSystem());
+      break;
+    case ViewMode::None:
+    case ViewMode::SplashScreen:
+      break;
+  }
 
-    if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
-    {
-      AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
-    }
-    mState.gameClipRunning = false;
+  if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
+  {
+    AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
+  }
+  mState.gameClipRunning = false;
+  updateHelpPrompts();
 }
 
 void ViewController::goToGameList(FileData *file) {
@@ -469,7 +469,10 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 	}
 
   // Normal processing
-  mCurrentView->ProcessInput(event);
+  if(mState.gameClipRunning)
+    mGameClipView->ProcessInput(event);
+  else
+    mCurrentView->ProcessInput(event);
 
 	return false;
 }

@@ -88,8 +88,6 @@ class GameClipView : public Gui
 
     void startGameClip();
 
-    void stopGameClip();
-
     int mVideoDuration;
 
   public:
@@ -111,6 +109,4 @@ class GameClipView : public Gui
     bool getHelpPrompts(Help& help) override;
 
     void quitGameClipView();
-
-    void updateHelpPrompts();
 };

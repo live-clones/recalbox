@@ -59,7 +59,7 @@ void GameClipView::init()
 
   // Second seed - must never be negative
   mSeed = ((int) (DateTime() - DateTime(1970, 1, 1)).TotalMilliseconds()) & 0x7FFFFFFF;
-  stopGameClip();
+  VideoEngine::Instance().StopVideo(true);
 }
 
 int GameClipView::getFirstOccurenceInHistory(FileData* game)
@@ -163,8 +163,8 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
   if (mState == State::NoGameSelected && mDemoFiles.empty())
   {
-    updateHelpPrompts();
     mState = State::EmptyPlayList;
+    updateHelpPrompts();
     mTimer.Initialize(0);
     return;
   }
@@ -176,11 +176,12 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
       mState = State::Quit;
   }
 
-  if (mState == State::NoGameSelected && !VideoEngine::Instance().IsPlaying())
+  if (mState == State::NoGameSelected)
   {
     startGameClip();
     mTimer.Initialize(0);
     mState = State::InitPlaying;
+    updateHelpPrompts();
   }
 
   else if (mState == State::InitPlaying)
@@ -234,30 +235,19 @@ void GameClipView::changeGameClip(Direction direction)
 
   mDirection = direction;
   mState = State::NoGameSelected;
-  stopGameClip();
+  VideoEngine::Instance().StopVideo(true);
   NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
 }
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
 {
-  if (mDemoFiles.empty())
+  if (event.APressed())
   {
-    if (event.APressed())
-    {
-      mState = State::Quit;
-    }
-    return true;
+    mState = State::Quit;
   }
 
   if (mState != State::Playing || mTimer.GetMilliSeconds() < 1000)
   {
-    return true;
-  }
-
-  // QUIT GAMECLIPVIEW - A
-  if (event.APressed())
-  {
-    mState = State::Quit;
     return true;
   }
 
@@ -268,8 +258,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
     mState = State::Quit;
     return true;
   }
-
-
+  
   // RUN GAME - START
   if (event.StartPressed())
   {
@@ -324,19 +313,11 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->getDisplayName(), popupDuration,
                                             GuiInfoPopup::PopupType::None));
 
-      if (RecalboxConf::Instance().GetShowHelp())
         updateHelpPrompts();
     }
     return true;
   }
 
-  // HIDE SHOW GAME CLIP HELP ITEMS - UP or DOWN
-  if (RecalboxConf::Instance().GetShowHelp() && (event.AnyDownPressed() || event.AnyUpPressed()))
-  {
-    RecalboxConf::Instance().SetShowGameClipHelpItems(!RecalboxConf::Instance().GetShowGameClipHelpItems());
-    updateHelpPrompts();
-    return true;
-  }
   return true;
 }
 
@@ -344,28 +325,13 @@ void GameClipView::startGameClip()
 {
   getGame();
   mGameClipContainer.setGameInfo(mGame);
-  if (RecalboxConf::Instance().GetShowHelp())
-    updateHelpPrompts();
-}
-
-void GameClipView::stopGameClip()
-{
-  //for(;;)
-  {
-    /*if(!VideoEngine::Instance().IsPlaying())
-    {
-      sleep(0);
-      break;
-    }*/
-    VideoEngine::Instance().StopVideo(true);
-  }
 }
 
 void GameClipView::quitGameClipView()
 {
   if (!mDemoFiles.empty())
   {
-    stopGameClip();
+    VideoEngine::Instance().StopVideo(true);
     NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
   }
 
@@ -374,25 +340,12 @@ void GameClipView::quitGameClipView()
 
 bool GameClipView::getHelpPrompts(Help& help)
 {
-  help.Set(HelpType::A, _("QUIT"));
-  if (mDemoFiles.empty())
-    return true;
-
-  help.Set(HelpType::Start, _("LAUNCH"))
-    .Set(HelpType::Y, mGame->Metadata().Favorite() ? _("Remove from favorite") : _( "Favorite"))
-    .Set(HelpType::LeftRight, _("CHANGE"))
-    .Set(HelpType::Select, _("SHOW IN LIST"));
-
-  return true;
-}
-
-void GameClipView::updateHelpPrompts()
-{
-  HelpItems().Clear();
-  HelpItems().Empty();
-  if ((mDemoFiles.empty() || RecalboxConf::Instance().GetShowGameClipHelpItems()))
+  switch(mState)
   {
-    getHelpPrompts(HelpItems());
+    case State::EmptyPlayList: return mNoVideoContainer.getHelpPrompts(help);
+    case State::InitPlaying:
+    case State::Playing:
+    case State::SetInHistory: return mGameClipContainer.getHelpPrompts(help);
   }
-  mWindow.UpdateHelp();
+  return true;
 }

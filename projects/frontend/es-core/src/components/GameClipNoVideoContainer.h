@@ -18,6 +18,8 @@ class GameClipNoVideoContainer : public Gui
     explicit GameClipNoVideoContainer(WindowManager& window);
 
     void Render(const Transform4x4f& parentTrans) override;
+
+    bool getHelpPrompts(Help& help);
 };
 
 
