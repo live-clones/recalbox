@@ -25,8 +25,6 @@ variables:
 .lint_template: &lint_definition
   stage: lint
   <<: *only-default
-  tags:
-    - lintstage
 
 lint package license:
   stage: lint
@@ -220,53 +218,71 @@ build rpi1:
   variables:
     ARCH: 'rpi1'
     QUICK: 'false'
+  tags:
+    - build
 build rpi2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi2'
     QUICK: 'false'
+  tags:
+    - build
 build rpi3:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi3'
     QUICK: 'false'
+  tags:
+    - build
 build rpi4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi4'
     QUICK: 'false'
+  tags:
+    - build
 build x86_64:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'x86_64'
     QUICK: 'false'
+  tags:
+    - build
 build x86:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'x86'
     QUICK: 'false'
+  tags:
+    - build
 build odroidxu4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidxu4'
     QUICK: 'false'
+  tags:
+    - build
 build odroidgo2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidgo2'
     QUICK: 'false'
+  tags:
+    - build
 
 ### Release
 
 .release_template: &release_definition
   stage: release
+  tags:
+    - release
   variables:
     DEPLOY_TYPE: type of the deployment (prod, review)
     SKIP_IMAGES: Release or without images if true

@@ -167,6 +167,7 @@ All notable changes to this project will be documented in this file.
 - Add lightgun database XSD
 - Bump Odyssey²
 - Bump Fbneo (March '19) 
+- CI enable fork builds and pipelines
 
 
 ## [7.1.1-Reloaded]
