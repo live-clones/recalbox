@@ -1,14 +1,17 @@
-Please make sure your MR is ready to be merged !
+**Thank you for your contribution!**
 
-- [ ] You added the changes in CHANGELOG.md
-- [ ] You described the MR as below
-- [ ] You updated the [recalbox wiki](https://github.com/recalbox/recalbox-os/wiki/) or the [dev wiki](https://gitlab.com/recalbox/recalbox/wikis/home)
-- [ ] You wrote a blog post on [recalbox-blog](https://gitlab.com/recalbox/recalbox-blog)
+Please make sure your Merge Request is ready to be merged:
+- [ ] a line describing your modifications has been added to **CHANGELOG.md**
+- [ ] a line describing tests to make before release has been added to **TESTING.md**
+- [ ] if the Merge Request is about a new feature, an improvement or an important bugfix, amend **RELEASE-NOTES.md** 
+- [ ] you respected [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
-Fixes #XXX
+
+The results of the build can give you clues about what is missing in your Merge Request.
+
 
 Changes :
-- describe changes here
+- Describe your changes
 
 Related to :
-- link other PR or issues here
+- Link to related Merge Requests or Issues
