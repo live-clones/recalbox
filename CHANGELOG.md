@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Next]
 - Add Atomiswave intro video
 - Fix glxinfo and more tools mesa 3d demos package
-- Add colecovision Netplay with FBNeo core 
+- Add colecovision Netplay with FBNeo core
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - update of the Port family
 - Fix and Bump Dolphin emulator
@@ -118,7 +118,7 @@ All notable changes to this project will be documented in this file.
 - Add comments on overclock settings (#1433)
 - Fix case installation always triggered
 - Bump all subprojects
-- Enabled retroarch core option nospritelimit  
+- Enabled retroarch core option nospritelimit
 - Start bluetooth earlier (#1523)
 - Bump webmanager v2
 - Fix gamecon_gpio_rpi build time (only build as module) (#1552)
@@ -155,7 +155,7 @@ All notable changes to this project will be documented in this file.
 - Add paralleln64 on pi3
 - Add control interface Ultimarc J-PAC (#1561)
 - Add Elektronika BK series on all boards (lr-bk)
-- Bump Fbneo (March '13) 
+- Bump Fbneo (March '13)
 - Updated French readme files
 - Bump Retro8
 - Bump ES to fix some beta 16 bugs
@@ -166,8 +166,9 @@ All notable changes to this project will be documented in this file.
 - Update es_bios.xml (add bios Elektronika BK)
 - Add lightgun database XSD
 - Bump Odyssey²
-- Bump Fbneo (March '19) 
+- Bump Fbneo (March '19)
 - CI enable fork builds and pipelines
+- Add controller 'SNES Controller'
 
 
 ## [7.1.1-Reloaded]
