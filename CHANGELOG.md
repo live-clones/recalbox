@@ -169,6 +169,7 @@ All notable changes to this project will be documented in this file.
 - Bump Fbneo (March '19)
 - CI enable fork builds and pipelines
 - Add controller 'SNES Controller'
+- CI beta test linter now runs only on tags
 
 
 ## [7.1.1-Reloaded]
