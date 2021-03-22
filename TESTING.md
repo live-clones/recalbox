@@ -121,6 +121,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] `pacmd list-modules |grep -A1 'name: <module-udev-detect>' |grep -q tsched=0 && echo "OK" ||echo "PAS OK"`
 - [ ] vérifier que l'option "multichannel output" n'est plus visible sur les PI (0 à 4)
 - [ ] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
+- [ ] Vérifier que la fonction d'oubli de manettes bluetooth soit opérationnelle
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well

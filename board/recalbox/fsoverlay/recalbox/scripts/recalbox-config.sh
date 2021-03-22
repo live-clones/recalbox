@@ -636,7 +636,7 @@ if [[ "$command" == "storage" ]]; then
 fi
 
 if [[ "$command" == "forgetBT" ]]; then
-    for mac in $(find /var/lib/bluetooth/ -type d -maxdepth 2 -mindepth 2 | grep -v "/cache$" | cut -d "/" -f 6) ; do
+    for mac in $(bluetoothctl paired-devices | awk '{print $2}') ; do
         recallog "Unpairing and removing BT device $mac"
         /recalbox/scripts/bluetooth/test-device remove "$mac"
     done
