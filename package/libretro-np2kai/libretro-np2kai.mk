@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_NP2KAI_VERSION = 8c96339397dba27500051586c875aa2223f11b40
+LIBRETRO_NP2KAI_VERSION = 3e8fedc7c1c6f68faa26589187512474a766ee9e
 LIBRETRO_NP2KAI_SITE = $(call github,AZO234,NP2kai,$(LIBRETRO_NP2KAI_VERSION))
 LIBRETRO_NP2KAI_LICENSE = MIT
 

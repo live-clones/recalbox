@@ -123,6 +123,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
 - [ ] Vérifier que la fonction d'oubli de manettes bluetooth soit opérationnelle
 - [ ] Check fix bios md5 for DMG_BOOT.bin (nintendo gb) and CGB_BOOT.bin (nintendo gbc)
+- [ ] Bump Np2kai => Test game for PC9801
 
 
 ## Technique
