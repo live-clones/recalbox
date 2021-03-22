@@ -67,7 +67,7 @@ bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 		return true;
 
 	// pressing back when not text editing closes us
-	if (event.APressed())
+	if (event.CancelPressed())
 	{
 		Close();
 		return true;
@@ -79,6 +79,6 @@ bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 bool GuiTextEditPopup::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
-	help.Set(HelpType::A, _("BACK"));
+	help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

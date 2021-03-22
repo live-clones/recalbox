@@ -212,7 +212,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			}
 			break;	
 		}
-		if (event.BPressed())
+		if (event.ValidPressed())
 		{
 			stopScrolling();
       ViewController::Instance().goToGameList(getSelected());
@@ -461,7 +461,7 @@ void SystemView::Render(const Transform4x4f& parentTrans)
 bool SystemView::getHelpPrompts(Help& help)
 {
 	help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
-	    .Set(HelpType::B, _("SELECT"));
+	    .Set(Help::Valid(), _("SELECT"));
 
 	if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetKodiXButton())
     help.Set(HelpType::X, RecalboxConf::Instance().AsBool("global.netplay.active") ? _("KODI/NETPLAY") : _("START KODI"));

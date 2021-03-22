@@ -5,6 +5,7 @@
 
 #include <utils/cplusplus/Bitflags.h>
 #include <input/InputEvent.h>
+#include "RecalboxConf.h"
 
 class InputDevice;
 
@@ -210,6 +211,11 @@ class InputCompactEvent
     {
       return ((mDeactivatedEntryFlags | mActivatedEntryFlags) == 0) && (!KeyDown() && !KeyUp());
     }
+
+    bool ValidPressed() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? APressed() : BPressed(); }
+    bool ValidReleased() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? AReleased() : BReleased(); }
+    bool CancelPressed() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? BPressed() : APressed(); }
+    bool CancelReleased() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? BReleased() : AReleased(); }
 
     /*
      * Debug

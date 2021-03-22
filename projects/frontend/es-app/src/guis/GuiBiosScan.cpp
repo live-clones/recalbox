@@ -315,7 +315,7 @@ bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
     return true;
@@ -329,7 +329,7 @@ bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.BPressed() && (mList->size() > 0))
+  if (event.ValidPressed() && (mList->size() > 0))
   {
     const ListContext& context = mList->getSelected();
     if (context.mBios != nullptr)
@@ -634,8 +634,8 @@ bool GuiBiosScan::getHelpPrompts(Help& help)
   mGrid.getHelpPrompts(help);
   help.Set(HelpType::UpDown, _("SELECT"))
       .Set(HelpType::Start, _("RESCAN"))
-      .Set(HelpType::B, _("MD5 LIST"))
-      .Set(HelpType::A, _("CLOSE"))
+      .Set(Help::Valid(), _("MD5 LIST"))
+      .Set(Help::Cancel(), _("CLOSE"))
       .Set(HelpType::X, mShowAllSystems ? _("MY SYSTEMS") : _("ALL SYSTEMS"));
   return true;
 }

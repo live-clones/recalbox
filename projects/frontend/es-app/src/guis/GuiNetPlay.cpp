@@ -306,7 +306,7 @@ float GuiNetPlay::getButtonGridHeight() const
 
 bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
   }
@@ -334,8 +334,8 @@ void GuiNetPlay::onSizeChanged()
 bool GuiNetPlay::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
-  help.Set(HelpType::A, _("BACK"))
-      .Set(HelpType::B, _("LAUNCH"));
+  help.Set(Help::Cancel(), _("BACK"))
+      .Set(Help::Valid(), _("LAUNCH"));
   return true;
 }
 

@@ -106,6 +106,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(WifiSSID, std::string, String, sWifiSSID, "")
     DefineGetterSetter(WifiKey, std::string, String, sWifiKey, "")
 
+    DefineGetterSetter(SwapValidateAndCancel, bool, Bool, sSwapValidateAndCancel, false)
+
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
     DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, true)
@@ -298,6 +300,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sWifiEnabled                = "wifi.enabled";
     static constexpr const char* sWifiSSID                   = "wifi.ssid";
     static constexpr const char* sWifiKey                    = "wifi.key";
+
+    static constexpr const char* sSwapValidateAndCancel  = "controllers.swapvalidateandcancel";
 
     static constexpr const char* sAudioVolume                = "audio.volume";
     static constexpr const char* sAudioMusic                 = "audio.bgmusic";

@@ -40,7 +40,7 @@ void ButtonComponent::setPressedFunc(std::function<void()> f)
 
 bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(event.BPressed())
+	if(event.ValidPressed())
 	{
 		if(mPressedFunc && mEnabled)
 			mPressedFunc();
@@ -157,6 +157,6 @@ unsigned int ButtonComponent::getCurTextColor() const
 
 bool ButtonComponent::getHelpPrompts(Help& help)
 {
-	help.Set(HelpType::B, mHelpText.empty() ? mText : mHelpText);
+	help.Set(Help::Valid(), mHelpText.empty() ? mText : mHelpText);
 	return true;
 }

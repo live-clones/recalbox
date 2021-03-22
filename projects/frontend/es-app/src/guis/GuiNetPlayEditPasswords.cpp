@@ -41,7 +41,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
 
 bool GuiNetPlayEditPasswords::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
     return true;
@@ -53,8 +53,8 @@ bool GuiNetPlayEditPasswords::ProcessInput(const InputCompactEvent& event)
 bool GuiNetPlayEditPasswords::getHelpPrompts(Help& help)
 {
 	mMenu.getHelpPrompts(help);
-	help.Set(HelpType::A, _("BACK"))
-	    .Set(HelpType::B, _("EDIT"));
+	help.Set(Help::Cancel(), _("BACK"))
+	    .Set(Help::Valid(), _("EDIT"));
 	return true;
 }
 

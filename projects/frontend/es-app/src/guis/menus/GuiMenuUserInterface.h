@@ -34,6 +34,7 @@ class GuiMenuUserInterface : public GuiMenuBase
       Brightness,
       ScreenSaver,
       Clock,
+      SwapValidateAndCancel,
       Help,
       Popups,
       QuickSelect,
@@ -49,6 +50,8 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::shared_ptr<SliderComponent> mBrightness;
     //! Show Clock
     std::shared_ptr<SwitchComponent> mClock;
+    //! Swap validate cancel buttons
+    std::shared_ptr<SwitchComponent> mSwapValidateAndCancel;
     //! Show Help
     std::shared_ptr<SwitchComponent> mHelp;
     //! Show Quick Help

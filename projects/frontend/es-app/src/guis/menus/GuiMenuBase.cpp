@@ -26,7 +26,7 @@ GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title, IGuiMe
 
 bool GuiMenuBase::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
     return true;
@@ -46,7 +46,7 @@ bool GuiMenuBase::getHelpPrompts(Help& help)
   mMenu.getHelpPrompts(help);
 
   help.Set(HelpType::UpDown, _("CHOOSE"))
-      .Set(HelpType::A, _("BACK"))
+      .Set(Help::Cancel(), _("BACK"))
       .Set(HelpType::Start, _("CLOSE"));
 
   return true;

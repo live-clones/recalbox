@@ -49,8 +49,8 @@ bool GridGameListView::getHelpPrompts(Help& help)
 	bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
 	help.Set(HelpType::AllDirections, _("SCROLL"))
-	    .Set(HelpType::B, _("LAUNCH"));
+	    .Set(Help::Valid(), _("LAUNCH"));
 	if(!hideSystemView)
-	  help.Set(HelpType::A, _("BACK"));
+	  help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

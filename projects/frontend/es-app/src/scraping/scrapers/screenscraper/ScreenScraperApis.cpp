@@ -139,7 +139,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
 
 void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring, ScreenScraperApis::Game& game, Path path)
 {
-  Regions::GameRegions romRegion;
+  Regions::GameRegions romRegion = Regions::GameRegions::Unknown;
   rapidjson::Document json;
   json.Parse(jsonstring.c_str());
   if (!json.HasParseError())

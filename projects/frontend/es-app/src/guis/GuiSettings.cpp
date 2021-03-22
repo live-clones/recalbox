@@ -29,7 +29,7 @@ void GuiSettings::save()
 
 bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.APressed())
+	if (event.CancelPressed())
 	{
 		Close();
 		return true;
@@ -49,7 +49,7 @@ bool GuiSettings::getHelpPrompts(Help& help)
 {
 	mMenu.getHelpPrompts(help);
 
-	help.Set(HelpType::A, _("BACK"))
+	help.Set(Help::Cancel(), _("BACK"))
 	    .Set(HelpType::Start, _("CLOSE"));
 
 	return true;

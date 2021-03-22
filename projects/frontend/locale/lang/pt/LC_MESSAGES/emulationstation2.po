@@ -2832,3 +2832,7 @@ msgid ""
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
+
+#
+msgid "SWAP VALIDATE/CANCEL BUTTONS"
+msgstr ""

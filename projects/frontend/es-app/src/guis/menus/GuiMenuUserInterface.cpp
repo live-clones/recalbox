@@ -42,6 +42,9 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
 
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
+
+  // Swap validate and cancel buttons
+  mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(""));
 }
 
 void GuiMenuUserInterface::ReloadGamelists()
@@ -75,6 +78,7 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::UpdateGamelist: ReloadGamelists(); break;
     case Components::Brightness:
     case Components::Clock:
+    case Components::SwapValidateAndCancel:
     case Components::Help:
     case Components::QuickSelect: break;
   }
@@ -97,6 +101,12 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
     case Components::Clock: RecalboxConf::Instance().SetClock(status).Save(); break;
     case Components::Help: RecalboxConf::Instance().SetShowHelp(status).Save(); break;
     case Components::QuickSelect: RecalboxConf::Instance().SetQuickSystemSelect(status).Save(); break;
+    case Components::SwapValidateAndCancel:
+    {
+      RecalboxConf::Instance().SetSwapValidateAndCancel(status).Save();
+      updateHelpPrompts();
+      break;
+    }
     case Components::Popups:
     case Components::Theme:
     case Components::ThemeConfig:

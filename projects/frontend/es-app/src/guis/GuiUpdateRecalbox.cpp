@@ -116,7 +116,7 @@ GuiUpdateRecalbox::~GuiUpdateRecalbox()
 
 bool GuiUpdateRecalbox::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     mRequest.Cancel();
     Close();
@@ -127,7 +127,7 @@ bool GuiUpdateRecalbox::ProcessInput(const InputCompactEvent& event)
 bool GuiUpdateRecalbox::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
-  help.Set(HelpType::A, _("CANCEL"));
+  help.Set(Help::Cancel(), _("CANCEL"));
   return true;
 }
 

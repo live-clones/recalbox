@@ -362,6 +362,6 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
 bool ImageComponent::getHelpPrompts(Help& help)
 {
-  help.Set(HelpType::B, _("SELECT"));
+  help.Set(Help::Valid(), _("SELECT"));
   return true;
 }

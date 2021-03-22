@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "RecalboxConf.h"
 
 //! Help types
 enum class HelpType
@@ -125,5 +126,7 @@ class Help
             return false;
       return true;
     }
-};
 
+    static HelpType Valid() { return RecalboxConf::Instance().GetSwapValidateAndCancel() ?  HelpType::A : HelpType::B; }
+    static HelpType Cancel(){ return RecalboxConf::Instance().GetSwapValidateAndCancel() ? HelpType::B : HelpType::A; }
+};

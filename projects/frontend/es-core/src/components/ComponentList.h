@@ -55,7 +55,7 @@ struct ComponentListRow
       if (mInterceptor != nullptr)
         return mInterceptor->EventReceived(mIdentifier, event);
 
-      if(event.BPressed())
+      if(event.ValidPressed())
       {
         if (mInterface != nullptr) { mInterface->ComponentListRowSelected(mIdentifier); return true; }
         if (input_handler) { input_handler(); return true; }

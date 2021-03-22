@@ -479,7 +479,7 @@ bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.APressed() || event.StartPressed())
+  if (event.CancelPressed() || event.StartPressed())
   {
     close(event.StartPressed());
     return true;
@@ -491,7 +491,7 @@ bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
 bool GuiMetaDataEd::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
-  help.Set(HelpType::A, _("BACK"))
+  help.Set(Help::Cancel(), _("BACK"))
       .Set(HelpType::Start, _("CLOSE"));
   return true;
 }

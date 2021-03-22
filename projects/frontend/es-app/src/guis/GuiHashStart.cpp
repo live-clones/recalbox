@@ -57,7 +57,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
 bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 {
   // Cancel or exit immediatelly on pressing A
-  if (event.APressed())
+  if (event.CancelPressed())
     mState = State::Cancelled;
 
   return Component::ProcessInput(event);
@@ -116,7 +116,7 @@ void GuiHashStart::Render(const Transform4x4f& parentTrans)
 bool GuiHashStart::getHelpPrompts(Help& help)
 {
   mMenu.getHelpPrompts(help);
-  help.Set(HelpType::A, _("BACK"));
+  help.Set(Help::Cancel(), _("BACK"));
   return true;
 }
 

@@ -241,7 +241,7 @@ void GameClipView::changeGameClip(Direction direction)
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     mState = State::Quit;
   }
@@ -258,7 +258,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
     mState = State::Quit;
     return true;
   }
-  
+
   // RUN GAME - START
   if (event.StartPressed())
   {
@@ -342,10 +342,14 @@ bool GameClipView::getHelpPrompts(Help& help)
 {
   switch(mState)
   {
+    case State::NoGameSelected :
+    case State::Terminated :
+    case State::Quit : break;
     case State::EmptyPlayList: return mNoVideoContainer.getHelpPrompts(help);
     case State::InitPlaying:
     case State::Playing:
     case State::SetInHistory: return mGameClipContainer.getHelpPrompts(help);
+
   }
   return true;
 }

@@ -32,7 +32,7 @@ void SwitchComponent::setColor(unsigned int color) {
 
 bool SwitchComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(event.BPressed())
+	if(event.ValidPressed())
 	{
 		setState(!mState);
 		return true;
@@ -72,7 +72,7 @@ void SwitchComponent::onStateChanged()
 
 bool SwitchComponent::getHelpPrompts(Help& help)
 {
-	help.Set(HelpType::B, _("CHANGE"));
+	help.Set(Help::Valid(), _("CHANGE"));
 	return true;
 }
 

@@ -46,7 +46,7 @@ std::string WizardAGO2::OnTextRequired(int page)
 
 Wizard::Move WizardAGO2::OnKeyReceived(int page, const InputCompactEvent& event)
 {
-  if (event.APressed()) return Move::Backward;
+  if (event.CancelPressed()) return Move::Backward;
 
   switch((Pages)page)
   {
@@ -79,12 +79,12 @@ Wizard::Move WizardAGO2::OnKeyReceived(int page, const InputCompactEvent& event)
     case Pages::PowerOff:
     case Pages::Jack:
     {
-      if (event.BPressed()) return Move::Foreward;
+      if (event.ValidPressed()) return Move::Foreward;
       break;
     }
     case Pages::Final:
     {
-      if (event.BPressed())
+      if (event.ValidPressed())
       {
         RecalboxConf::Instance().SetFirstTimeUse(false);
         return Move::Close;

@@ -293,8 +293,8 @@ bool TextEditComponent::getHelpPrompts(Help& help)
 {
 	if(mEditing)
 		help.Set(HelpType::AllDirections, _("MOVE CURSOR"))
-		    .Set(HelpType::A, _("STOP EDITING"));
+		    .Set(Help::Cancel(), _("STOP EDITING"));
 	else
-		help.Set(HelpType::B, _("EDIT"));
+		help.Set(Help::Valid(), _("EDIT"));
 	return true;
 }

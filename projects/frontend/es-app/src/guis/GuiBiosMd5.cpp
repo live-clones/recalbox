@@ -144,13 +144,13 @@ bool GuiBiosMd5::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
   help.Set(HelpType::UpDown, _("BROWSE"))
-      .Set(HelpType::A, _("CLOSE"));
+      .Set(Help::Cancel(), _("CLOSE"));
   return true;
 }
 
 bool GuiBiosMd5::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
     return true;

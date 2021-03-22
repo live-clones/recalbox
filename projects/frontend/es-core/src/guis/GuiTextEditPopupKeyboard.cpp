@@ -192,7 +192,7 @@ bool GuiTextEditPopupKeyboard::ProcessInput(const InputCompactEvent& event)
 		return true;
 
 	// pressing back when not text editing closes us
-	if (event.APressed())
+	if (event.CancelPressed())
 	{
 		Close();
 		return true;
@@ -241,7 +241,7 @@ bool GuiTextEditPopupKeyboard::getHelpPrompts(Help& help)
 {
 	mGrid.getHelpPrompts(help);
 	help.Set(HelpType::Y, _("SHIFT"))
-	    .Set(HelpType::A, _("BACK"))
+	    .Set(Help::Cancel(), _("BACK"))
 	    .Set(HelpType::R, _("SPACE"))
 	    .Set(HelpType::L, _("DELETE"));
 	return true;

@@ -133,7 +133,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
   // RUN GAME or ENTER FOLDER
-  if (event.BPressed())
+  if (event.ValidPressed())
   {
     clean();
     FileData* cursor = getCursor();
@@ -156,7 +156,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // BACK to PARENT FOLDER or PARENT SYSTEM
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     clean();
     if (!mCursorStack.empty())
@@ -318,7 +318,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 {
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
-  help.Set(HelpType::B, _("LAUNCH"));
+  help.Set(Help::Valid(), _("LAUNCH"));
 
   bool netplay = RecalboxConf::Instance().AsBool("global.netplay.active");
   if (netplay && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
@@ -334,7 +334,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
-    help.Set(HelpType::A, _("BACK"));
+    help.Set(Help::Cancel(), _("BACK"));
 
   help.Set(HelpType::UpDown, _("CHOOSE"));
 

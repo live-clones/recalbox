@@ -130,7 +130,7 @@ private:
 
 		bool ProcessInput(const InputCompactEvent& event) override
 		{
-			if (event.APressed())
+			if (event.CancelPressed())
 			{
 				Close();
 				return true;
@@ -142,7 +142,7 @@ private:
 		bool getHelpPrompts(Help& help) override
 		{
 			mMenu.getHelpPrompts(help);
-			help.Set(HelpType::A, _("BACK"));
+			help.Set(Help::Cancel(), _("BACK"));
 			return true;
 		}
 	};
@@ -223,7 +223,7 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override
 	{
-    if (event.BPressed())
+    if (event.ValidPressed())
     {
       open();
       return true;
@@ -426,7 +426,7 @@ private:
 		if(!mMultiSelect)
 		  help.Set(HelpType::LeftRight, _("CHANGE"));
 		
-		help.Set(HelpType::B, _("SELECT"));
+		help.Set(Help::Valid(), _("SELECT"));
 		return true;
 	}
 

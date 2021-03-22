@@ -172,7 +172,7 @@ float GuiSearch::getButtonGridHeight() const
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
 	{
 		Close();
 		return true;
@@ -182,7 +182,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 	  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
 	  return true;
   }
-  else if (event.BPressed())
+  else if (event.ValidPressed())
   {
 	  launch();
 	  return true;
@@ -257,10 +257,10 @@ bool GuiSearch::getHelpPrompts(Help& help)
   {
     help.Set(HelpType::LeftRight, _("SEARCH IN..."))
         .Set(HelpType::UpDown, _("SELECT"))
-        .Set(HelpType::A, _("BACK"))
+        .Set(Help::Cancel(), _("BACK"))
         .Set(HelpType::R, _("KEYBOARD"));
     if (!mList->isEmpty())
-      help.Set(HelpType::B, _("LAUNCH"))
+      help.Set(Help::Valid(), _("LAUNCH"))
           .Set(HelpType::X, _("NETPLAY"))
           .Set(HelpType::Y,
                mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));

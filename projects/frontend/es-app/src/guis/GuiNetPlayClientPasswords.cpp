@@ -73,7 +73,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
 
 bool GuiNetPlayClientPasswords::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.APressed())
+  if (event.CancelPressed())
   {
     Close();
     return true;
@@ -85,6 +85,6 @@ bool GuiNetPlayClientPasswords::ProcessInput(const InputCompactEvent& event)
 bool GuiNetPlayClientPasswords::getHelpPrompts(Help& help)
 {
 	mMenu.getHelpPrompts(help);
-	help.Set(HelpType::A, _("BACK"));
+	help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

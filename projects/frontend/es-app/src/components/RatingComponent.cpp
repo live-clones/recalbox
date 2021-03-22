@@ -139,7 +139,7 @@ void RatingComponent::Render(const Transform4x4f& parentTrans)
 
 bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.BPressed() || event.AnyRightPressed())
+	if (event.ValidPressed() || event.AnyRightPressed())
 	{
 		if((mValue += .5f / NUM_RATING_STARS) > 1.1f) mValue = 0.f;
 		updateVertices();
@@ -183,7 +183,7 @@ void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view
 
 bool RatingComponent::getHelpPrompts(Help& help)
 {
-	help.Set(HelpType::B, _("ADD STAR"));
+	help.Set(Help::Valid(), _("ADD STAR"));
 	return true;
 }
 

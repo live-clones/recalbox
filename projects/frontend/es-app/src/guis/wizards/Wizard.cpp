@@ -120,7 +120,7 @@ void Wizard::SetPage(int page)
 bool Wizard::getHelpPrompts(Help& help)
 {
   help.Clear();
-  if (mCurrentPage > 0) help.Set(HelpType::A, _("BACK"));
+  if (mCurrentPage > 0) help.Set(Help::Cancel(), _("BACK"));
 
   OnHelpRequired(mCurrentPage, help);
 

@@ -73,7 +73,7 @@ void GuiScraperSingleGameRun::onSizeChanged()
 
 bool GuiScraperSingleGameRun::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.APressed())
+	if (event.CancelPressed())
 	{
 		Close();
 		return true;
