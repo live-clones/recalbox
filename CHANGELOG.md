@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Add Atomiswave intro video
 - Fix glxinfo and more tools mesa 3d demos package
 - Add colecovision Netplay with FBNeo core
+- FAKE
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - update of the Port family
 - Fix and Bump Dolphin emulator
