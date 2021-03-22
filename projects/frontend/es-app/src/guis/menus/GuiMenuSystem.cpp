@@ -40,7 +40,7 @@ GuiMenuSystem::~GuiMenuSystem()
 {
   // Storage changed?
   if (mStorages->getSelected().UUID != mOriginalStorage)
-    Files::SaveFile(Path("/overlay/configs/skipvideosplash"), mStorages->getSelected().UUID);
+    Files::SaveFile(Path("/overlay/.configs/skipvideosplash"), mStorages->getSelected().UUID);
 
   // Reboot?
   if ((mStorages->getSelected().UUID != mOriginalStorage) ||

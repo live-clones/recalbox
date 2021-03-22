@@ -232,7 +232,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
 
 void GuiMenuAdvancedSettings::ResetFactory()
 {
-  mWindow.pushGui(new GuiMsgBox(mWindow, _("RESET TO FACTORY SETTINGS\n\nYOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\nALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE KEPT.\n\nTHIS OPERATION IS NOT CANCELLABLE!\n\nARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"),
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("RESET TO FACTORY SETTINGS\n\nYOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\nALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE KEPT.\n\nTHIS OPERATION CANNOT BE UNDONE!\nARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"),
                                 _("NO"), nullptr,
                                 _("YES"), std::bind(GuiMenuAdvancedSettings::ResetFactoryReally, &mWindow)));
 }
@@ -249,7 +249,26 @@ void GuiMenuAdvancedSettings::ResetFactoryReally(WindowManager* window)
 
 void GuiMenuAdvancedSettings::DoResetFactory()
 {
-  if (system("rm -rf /recalbox/share/system /overlay/upper /overlay/upper.old") == 0)
-    if (system("shutdown -r now") != 0)
-      { LOG(LogError) << "[Main] Error rebooting system"; }
+  std::vector<std::string> deleteMe
+  ({
+    "/recalbox/share/system",  // Recalbox & emulator configurations
+    "/overlay/upper/*",        // System overlay
+    "/overlay/.configs/*",     // System configurations
+    "/overlay/upper.old",      // System overlay backup
+    "/overlay/.config",        // Old system configurations
+    "/boot/recalbox-boot.conf" // Recalbox configuration backup
+  });
+
+  // Make boot partition writable
+  if (!RecalboxSystem::MakeBootReadWrite())
+  { LOG(LogError) << "[ResetFactory] Error makign boot r/w"; }
+
+  // Delete all required folder/files
+  for(const std::string& path : deleteMe)
+    if (system(std::string("rm -rf ").append(path).data()) != 0)
+    { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
+
+  // Reset!
+  if (system("shutdown -r now") != 0)
+  { LOG(LogError) << "[ResetFactory] Error rebooting system"; }
 }
