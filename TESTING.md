@@ -119,6 +119,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Update es_bios.xml (add bios Elektronika BK)
 - [ ] vérifier que le son est correct sur rpi2 et rpi3
   - [ ] `pacmd list-modules |grep -A1 'name: <module-udev-detect>' |grep -q tsched=0 && echo "OK" ||echo "PAS OK"`
+- [ ] vérifier que l'option "multichannel output" n'est plus visible sur les PI (0 à 4)
+- [ ] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
