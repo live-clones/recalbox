@@ -53,6 +53,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       Overscan,
       ShowFPS,
       Manager,
+      FactoryReset,
     };
 
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";
@@ -92,6 +93,15 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
 
     //! Reset overclock
     void ResetOverclock();
+
+    //! Reset Factory requested Level 1
+    void ResetFactory();
+
+    //! Reset Factory requested Level 2
+    static void ResetFactoryReally(WindowManager* This);
+
+    //! Do Reset Factory
+    static void DoResetFactory();
 
     /*
      * IOptionListComponent<Overclocking> implementation

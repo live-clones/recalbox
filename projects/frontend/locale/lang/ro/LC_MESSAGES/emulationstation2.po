@@ -2648,3 +2648,41 @@ msgstr ""
 #
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
+
+#
+msgid "Show all available games playable with a lightgun."
+msgstr ""
+
+#
+msgid ""
+"WARNING! This option erase all recalbox and emulator configurations! Use it "
+"carefully!"
+msgstr ""
+
+#
+msgid "RESET TO FACTORY SETTINGS"
+msgstr ""
+
+#
+msgid "WARNING!"
+msgstr ""
+
+#
+msgid ""
+"RESET TO FACTORY SETTINGS\n"
+"\n"
+"YOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\n"
+"ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
+"KEPT.\n"
+"\n"
+"THIS OPERATION IS NOT CANCELLABLE!\n"
+"\n"
+"ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
+msgstr ""
+
+#
+msgid ""
+"YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
+"\n"
+"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr ""

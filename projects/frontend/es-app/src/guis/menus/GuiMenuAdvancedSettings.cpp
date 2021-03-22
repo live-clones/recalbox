@@ -57,6 +57,9 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Recalbox Manager
   mWebManager = AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
+
+  //Security
+  AddSubMenu(_("RESET TO FACTORY SETTINGS"), (int)Components::FactoryReset, _(MENUMESSAGE_ADVANCED_FACTORY_RESET));
 }
 
 GuiMenuAdvancedSettings::~GuiMenuAdvancedSettings()
@@ -204,7 +207,8 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::VirtualSubMenu:
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
-    case Components::SecuritySubMenu:break;
+    case Components::SecuritySubMenu:
+    case Components::FactoryReset: break;
   }
 }
 
@@ -217,10 +221,35 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
     case Components::SecuritySubMenu: mWindow.pushGui(new GuiMenuSecurity(mWindow)); break;
+    case Components::FactoryReset: ResetFactory(); break;
     case Components::OverclockList:
     case Components::AdultGames:
     case Components::Overscan:
     case Components::ShowFPS:
-    case Components::Manager:break;
+    case Components::Manager: break;
   }
+}
+
+void GuiMenuAdvancedSettings::ResetFactory()
+{
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("RESET TO FACTORY SETTINGS\n\nYOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\nALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE KEPT.\n\nTHIS OPERATION IS NOT CANCELLABLE!\n\nARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"),
+                                _("NO"), nullptr,
+                                _("YES"), std::bind(GuiMenuAdvancedSettings::ResetFactoryReally, &mWindow)));
+}
+
+void GuiMenuAdvancedSettings::ResetFactoryReally(WindowManager* window)
+{
+  std::string text("\u26a0 %TITLE% \u26a0\n\n%TEXT%");
+  Strings::ReplaceAllIn(text, "%TITLE%", _("WARNING!"));
+  Strings::ReplaceAllIn(text, "%TEXT%", _("YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n\nARE YOU REALLY SURE YOU WANT TO DO THIS?"));
+  window->pushGui(new GuiMsgBox(*window, text,
+                              _("NO"), nullptr,
+                              _("YES"), DoResetFactory));
+}
+
+void GuiMenuAdvancedSettings::DoResetFactory()
+{
+  if (system("rm -rf /recalbox/share/system /overlay/upper /overlay/upper.old") == 0)
+    if (system("shutdown -r now") != 0)
+      { LOG(LogError) << "[Main] Error rebooting system"; }
 }

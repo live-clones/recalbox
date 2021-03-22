@@ -2978,7 +2978,49 @@ msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "Montrer le system LightGun"
 
 #
-#~ msgid "Show all available games playable with a lightgun."
-#~ msgstr ""
-#~ "Ajoute un système qui contient tous les jeux jouables avec un dispositif "
-#~ "de visée sur l'écran."
+msgid "Show all available games playable with a lightgun."
+msgstr ""
+"Ajoute un système qui contient tous les jeux jouables avec un dispositif de "
+"visée sur l'écran."
+
+#
+msgid ""
+"WARNING! This option erase all recalbox and emulator configurations! Use it "
+"carefully!"
+msgstr ""
+"ATTENTION! Cette option supprime toutes les configurations de Recalbox et "
+"des émulateurs!"
+
+#
+msgid "RESET TO FACTORY SETTINGS"
+msgstr "RESTAURER LES PARAMÈTRES D'USINE"
+
+#
+msgid "WARNING!"
+msgstr "ATTENTION!"
+
+#
+msgid ""
+"RESET TO FACTORY SETTINGS\n"
+"\n"
+"YOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\n"
+"ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
+"KEPT.\n"
+"\n"
+"THIS OPERATION IS NOT CANCELLABLE!\n"
+"\n"
+"ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
+msgstr ""
+"RESTAURER LES PARAMÈTRES D'USINE\n"
+"\n"
+"VOUS ÊTES SUR LE POINT DE RESTAURER LES PARAMÈTRES D'USINE DE RECALBOX ET DE "
+"TOUS LES ÉMULATEURS!\n"
+"TOUS VOS JEUX, SAUVEGARDES, MUSIQUES, SCREENSHOTS, ETC. SERONT CONSERVÉS.\n"
+"\n"
+"CETTE OPÉRATION NE POURRA PAS ÊTRE ANNULÉE!\n"
+"\n"
+"ÊTES-VOUS SUR DE VOULOIR RESTAURER LES PARAMÈTRES D'USINE?"
+
+#
+msgid "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n\nARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr "VOUS ÊTES À UN CLICK DE RESTAURER LES PARAMÈTRES D'USINE DE RECALBOX ET DE TOUS LES ÉMULATEURS!\n\nÊTES-VOUS VRAIMENT CERTAIN DE VOULOIR LE FAIRE?"

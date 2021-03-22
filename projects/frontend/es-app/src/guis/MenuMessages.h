@@ -131,6 +131,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_API_HELP_MSG "Enable or disable the recalbox API.\nThe Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
     #define MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG "Select which emulator to use when you start a game for this system."
     #define MENUMESSAGE_ADVANCED_EMU_CORE_HELP_MSG "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
+    #define MENUMESSAGE_ADVANCED_FACTORY_RESET "WARNING! This option erase all recalbox and emulator configurations! Use it carefully!"
 
     #define MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG "Select a letter and the listing will go directly on the first game starting with this letter."
     #define MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG "Select the way the game list is sortered (alphabetically, by notation...)."
