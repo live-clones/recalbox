@@ -15,12 +15,20 @@ static const char* StringLevel[] =
 
 Path Log::getLogPath(const char* filename)
 {
-	return RootFolders::DataRootFolder / "system/.emulationstation" / filename;
+	return RootFolders::DataRootFolder / "system/logs" / filename;
 }
 
 void Log::open(const char* filename)
 {
-	sFile = fopen(filename != nullptr ? filename : getLogPath("es_log.txt").ToChars(), "w");
+  // Build log path
+  Path logpath(filename != nullptr ? filename : getLogPath("es_log.txt").ToChars());
+
+  // Backup?
+  if (logpath.Exists())
+    system(std::string("cp ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data());
+
+  // Open new log
+  sFile = fopen(logpath.ToChars(), "w");
 }
 
 Log& Log::get(LogLevel level)
