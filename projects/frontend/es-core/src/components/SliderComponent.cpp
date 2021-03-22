@@ -47,7 +47,7 @@ bool SliderComponent::ProcessInput(const InputCompactEvent& event)
 		mMoveRate = event.AnyLeftPressed() ? -mSingleIncrement : 0;
 		mMoveAccumulator = -MOVE_REPEAT_DELAY;
 	}
-	if (event.AnyRight())
+	if (event.AnyRight() && !event.AnyLeftPressed())
 	{
 		if (event.AnyRightPressed()) setSlider(mValue + mSingleIncrement);
 
