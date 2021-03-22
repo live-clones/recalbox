@@ -122,6 +122,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] vérifier que l'option "multichannel output" n'est plus visible sur les PI (0 à 4)
 - [ ] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
 - [ ] Vérifier que la fonction d'oubli de manettes bluetooth soit opérationnelle
+- [ ] Check fix bios md5 for DMG_BOOT.bin (nintendo gb) and CGB_BOOT.bin (nintendo gbc)
+
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well

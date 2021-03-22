@@ -171,6 +171,7 @@ All notable changes to this project will be documented in this file.
 - CI enable fork builds and pipelines
 - Add controller 'SNES Controller'
 - CI beta test linter now runs only on tags
+- Check fix bios md5 for GB and GBC
 
 
 ## [7.1.1-Reloaded]
