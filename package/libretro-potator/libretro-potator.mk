@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_POTATOR_VERSION = f9e8de777b2bf85f4161330652dde085b0aed0a6
+LIBRETRO_POTATOR_VERSION = 356b6951a8dc59408e15f67cd449a6fe0e539f5a
 LIBRETRO_POTATOR_SITE = $(call github,libretro,potator,$(LIBRETRO_POTATOR_VERSION))
 LIBRETRO_POTATOR_LICENSE = Unlicense
 
