@@ -6,7 +6,7 @@ if [ "$1" != "start" ]; then
   exit 0
 fi
 
-SKIPVIDEOSPLASHFLAG=/overlay/configs/skipvideosplash
+SKIPVIDEOSPLASHFLAG=/overlay/.configs/skipvideosplash
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 
 # first boot or upgrade

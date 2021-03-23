@@ -143,7 +143,7 @@ All notable changes to this project will be documented in this file.
 - Bump configgen - fix dolphin/pulseaudio issue
 - Fix 64dd missing core (lr-mupen64-next)
 - Manage sub-systems in Configgen (fix neogeocd core issues)
-- Fix boot video is played while slides are displayed (#1536)
+- Fix boot video is played while slides are displayed (#1536, #1584)
 - Improve PSX emulator speed (duckstation uses Vulkan, #1563)
 - Fix paralleln64 on odroidgo2 (#1569, #1575)
 - Bump emuscv (optimizations + recalbox logo)
