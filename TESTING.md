@@ -127,6 +127,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check fix bios md5 for DMG_BOOT.bin (nintendo gb) and CGB_BOOT.bin (nintendo gbc)
 - [ ] Bump Np2kai => Test game for PC9801
 - [ ] Vérifier que le screenshot fonctionne sur toutes les boards
+- [ ] Check update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
 
 
 ## Technique
