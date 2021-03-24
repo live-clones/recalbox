@@ -705,6 +705,9 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
 
   // Get best name
   const char* cardName = pa_proplist_gets(info.proplist, "alsa.card_name");
+  if (cardName == nullptr) cardName = pa_proplist_gets(info.proplist, "bluez.alias");
+  if (cardName == nullptr) cardName = pa_proplist_gets(info.proplist, "device.description");
+  if (cardName == nullptr) cardName = "Unlabelled device";
 
   // Change
   switch(Board::Instance().GetBoardType())
