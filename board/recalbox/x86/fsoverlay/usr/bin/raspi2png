@@ -1,2 +1,0 @@
-#!/bin/ash
-/usr/bin/ffmpeg -f x11grab -framerate 1 -video_size $(DISPLAY=:0 xrandr |grep \* |awk '{print $1}') -i :0.0 -vframes 1 -vcodec png $2

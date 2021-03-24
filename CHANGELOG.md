@@ -173,6 +173,7 @@ All notable changes to this project will be documented in this file.
 - CI beta test linter now runs only on tags
 - Check fix bios md5 for GB and GBC
 - Bump Np2kai
+- Make raspi2png works with rpi4 KMS overlay (#1587)
 
 
 ## [7.1.1-Reloaded]
