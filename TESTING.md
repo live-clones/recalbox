@@ -32,6 +32,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test and validate Paralleln64 on Pi3
 - [ ] Test Watara Supervision emulator on all boards
 - [ ] Test Elektronika Emulator emulator on all boards
+- [ ] Test vibrations work with pcsx_rearmed (must be enabled if upgrading,
+      check `pcsx_rearmed_vibration` in file system/configs/retrarch/core/retroarch-core-options.cfg)
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
