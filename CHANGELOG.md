@@ -174,6 +174,7 @@ All notable changes to this project will be documented in this file.
 - Check fix bios md5 for GB and GBC
 - Bump Np2kai
 - Make raspi2png works with rpi4 KMS overlay (#1587)
+- Enable vibration for pcsx_rearmed libretro core (#725)
 
 
 ## [7.1.1-Reloaded]
