@@ -29,7 +29,7 @@ endef
 
 define RASPI2PNG_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/raspi2png \
-		$(TARGET_DIR)/usr/bin/raspi2png
+		$(TARGET_DIR)/usr/bin/raspi2png.real
 endef
 
 $(eval $(generic-package))

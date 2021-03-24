@@ -1,2 +1,0 @@
-#!/bin/ash
-ffmpeg -y -f kmsgrab -i - -vf 'hwdownload,format=bgr0' -frames:v 1 -f image2 -vcodec png "$2"
