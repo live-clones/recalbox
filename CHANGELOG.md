@@ -177,6 +177,7 @@ All notable changes to this project will be documented in this file.
 - Enable vibration for pcsx_rearmed libretro core (#725)
 - Update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
 - Bump Quasi88
+- Bump es (add reset factory, swap a/b, fix bt audio)
 
 
 ## [7.1.1-Reloaded]
