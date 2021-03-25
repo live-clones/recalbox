@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_QUASI88_VERSION = 1f71abec521b4599f62978d19aad1f8517c9ae21
+LIBRETRO_QUASI88_VERSION = 1df8c3bcab01eea5ba2ccaf379f6335c0672e9d6
 LIBRETRO_QUASI88_SITE = $(call github,libretro,quasi88-libretro,$(LIBRETRO_QUASI88_VERSION))
 LIBRETRO_QUASI88_LICENSE = BSD-3-Clause
 LIBRETRO_QUASI88_LICENSE_FILES = LICENSE

@@ -176,6 +176,7 @@ All notable changes to this project will be documented in this file.
 - Make raspi2png works with rpi4 KMS overlay (#1587)
 - Enable vibration for pcsx_rearmed libretro core (#725)
 - Update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
+- Bump Quasi88
 
 
 ## [7.1.1-Reloaded]
