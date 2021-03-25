@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_WSV
-	bool "recalbox-romfs-wsv"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_POTATOR
-	help
-	  share_init/roms and xml for wsv

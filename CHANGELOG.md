@@ -151,7 +151,7 @@ All notable changes to this project will be documented in this file.
 - Add lightgun system in EmulationSation
 - Minor fixes & improvements in internal scraper
 - Make firmware upgrade optional (#1571, #1572)
-- Add Watara Supervision system (lr-potator core)
+- Add Watara Supervision system (lr-potator)
 - Fix paralleln64 on Pi4
 - Add paralleln64 on pi3
 - Add control interface Ultimarc J-PAC (#1561)
