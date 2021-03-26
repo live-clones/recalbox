@@ -247,9 +247,9 @@ def getDefaultEmulator(targetSystem):
         "psx"            : Emulator(name='psx', emulator='libretro', core='pcsx_rearmed'),
         "scv"            : Emulator(name='scv', emulator='libretro', core='emuscv'),
         "supergrafx"     : Emulator(name='supergrafx', emulator='libretro', core='mednafen_supergrafx'),
+        "supervision"    : Emulator(name='supervision', emulator='libretro', core='potator'),
         "uzebox"         : Emulator(name='uzebox', emulator='libretro', core='uzem'),
         "vectrex"        : Emulator(name='vectrex', emulator='libretro', core='vecx'),
-        "wsv"            : Emulator(name='wsv', emulator='libretro', core='potator'),
         "wswan"          : Emulator(name='wswan', emulator='libretro', core='mednafen_wswan', ratio='16/10'),
         "wswanc"         : Emulator(name='wswanc', emulator='libretro', core='mednafen_wswan', ratio='16/10'),
 
