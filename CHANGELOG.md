@@ -166,7 +166,7 @@ All notable changes to this project will be documented in this file.
 - Update es_bios.xml (add bios Elektronika BK)
 - Add lightgun database XSD
 - Bump Odyssey²
-- Bump Fbneo (March '19)
+- Bump Fbneo (March '26)
 - CI enable fork builds and pipelines
 - Add controller 'SNES Controller'
 - CI beta test linter now runs only on tags
