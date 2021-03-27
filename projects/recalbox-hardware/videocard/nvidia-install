@@ -28,12 +28,12 @@ gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut
 # if has intel igpu and nvidia gpu serie M you need optimus technologie is not compatible for a moment in recalbox
 igpu=("$(lspci -d8086::0300)")
 
-# check the compatibility of the graphics card with the driver version "440.31" then "390.116"
-supportList440=($(grep -i "${gpu} ${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-440.txt))
-supportList390=($(grep -i "${gpu} ${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+# check the compatibility of the graphics card with the driver version "460.67" then "390.116"
+supportList460=($(grep -i -E "${gpu}.*${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-460.txt))
+supportList390=($(grep -i -E "${gpu}.*${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
 
 # check the version
-nvidia440=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
+nvidia460=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
 nvidia390=("$(echo /usr/lib/extra/nvidia-3* |cut -d'-' -f 2)")
 
 # nouveau conflict with nvidia-drm
@@ -50,9 +50,9 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
 	exit 0
 	else
 	# detect/configure nvidia driver version to install
-		if [ -n "${gpuid}" ] && [ -n "${supportList440}" ]; then
-	        nvver="${nvidia440}"
-	        echo "${supportList440}"
+		if [ -n "${gpuid}" ] && [ -n "${supportList460}" ]; then
+	        nvver="${nvidia460}"
+	        echo "${supportList460}"
         elif [ -n "${gpuid}" ] && [ -n "${supportList390}" ]; then
 	        nvver="${nvidia390}"
 	        echo "${supportList390}"
@@ -89,19 +89,19 @@ echo "Installing..."
 # install/symlink xorg modules
 ##
 chmod -R +x ${nvxorg}
-# 390/440
+# 390/460
 try_symlink "${nvxorg}/drivers/nvidia_drv.so" "${xorg}/drivers/nvidia_drv.so"
 # 390
 try_symlink_lib "${nvxorg}/libnvidia-wfb.so" "${xorg}/libnvidia-wfb.so" "${nvver}"
 try_symlink_lib "${nvxorg}/extensions/libglx.so" "${xorg}/extensions/libglx.so" "${nvver}"
-# 440
+# 460
 try_symlink_lib "${nvxorg}/extensions/libglxserver_nvidia.so" "${xorg}/extensions/libglxserver_nvidia.so" "${nvver}"
 
 ##
 # install/symlink modules
 ##
 chmod +x ${nvlibs}/*
-# 390/440
+# 390/460
 try_symlink_lib "${nvlibs}/libEGL.so" "${libs}/libEGL.so" "${nvegl}"
 try_symlink_lib "${nvlibs}/libEGL_nvidia.so" "${libs}/libEGL_nvidia.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libGL.so" "${libs}/libGL.so" "${nvgl}"
@@ -129,6 +129,7 @@ try_symlink_lib "${nvlibs}/libnvidia-encode.so" "${libs}/libnvidia-encode.so" "$
 try_symlink_lib "${nvlibs}/libnvidia-ptxjitcompiler.so" "${libs}/libnvidia-ptxjitcompiler.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-gtk2.so" "${libs}/libnvidia-gtk2.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-gtk3.so" "${libs}/libnvidia-gtk3.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-ngx.so" "${libs}/libnvidia-ngx.so" "${nvver}"
 
 ##
 # install/symlink kernel modules
