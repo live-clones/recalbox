@@ -177,6 +177,7 @@ All notable changes to this project will be documented in this file.
 - Update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
 - Bump Quasi88
 - Bump es (add reset factory, swap a/b, fix bt audio)
+- Bump nVidia drivers to 460.67 (#1299)
 
 
 ## [7.1.1-Reloaded]

@@ -1,0 +1,21 @@
+--- nvidia-driver-390-recalbox-390.138/kernel/conftest.sh.orig	2020-12-12 16:07:17.230697747 +0100
++++ nvidia-driver-390-recalbox-390.138/kernel/conftest.sh	2020-12-12 16:08:14.943347971 +0100
+@@ -4214,7 +4214,7 @@
+                 echo "The kernel was built with ${kernel_cc_string}, but the" \
+                      "current compiler version is `$CC --version | head -n 1`.";
+             fi
+-            exit 1;
++            exit 0;
+         fi
+     ;;
+ 
+--- nvidia-driver-390-recalbox-390.138/kernel/Kbuild.orig	2020-12-12 16:17:03.781222655 +0100
++++ nvidia-driver-390-recalbox-390.138/kernel/Kbuild	2020-12-12 16:23:01.797899646 +0100
+@@ -69,6 +69,7 @@
+ EXTRA_CFLAGS += -Wall -MD $(DEFINES) $(INCLUDES) -Wsign-compare -Wno-cast-qual -Wno-error
+ EXTRA_CFLAGS += -D__KERNEL__ -DMODULE -DNVRM -DNV_VERSION_STRING=\"390.138\" -Wno-unused-function -Wuninitialized -fno-strict-aliasing -mno-red-zone -mcmodel=kernel -DNV_UVM_ENABLE -Wno-sign-compare -Wno-format-extra-args
+ EXTRA_CFLAGS += $(call cc-option,-Werror=undef,)
++EXTRA_CFLAGS += $(call cc-disable-warning, incompatible-pointer-types)
+ EXTRA_CFLAGS += -DNV_SPECTRE_V2=$(NV_SPECTRE_V2)
+ 
+ #
