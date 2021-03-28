@@ -129,6 +129,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier que le screenshot fonctionne sur toutes les boards
 - [ ] Check update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
 - [ ] Bump Quasi88 => Test game for PC8800
+- [ ] Tester le driver nVidia 460.67
 
 
 ## Technique
