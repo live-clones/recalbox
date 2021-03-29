@@ -251,12 +251,12 @@ void GuiMenuAdvancedSettings::DoResetFactory()
 {
   std::vector<std::string> deleteMe
   ({
-    "/recalbox/share/system",  // Recalbox & emulator configurations
-    "/overlay/upper/*",        // System overlay
-    "/overlay/.configs/*",     // System configurations
-    "/overlay/upper.old",      // System overlay backup
-    "/overlay/.config",        // Old system configurations
-    "/boot/recalbox-boot.conf" // Recalbox configuration backup
+    "/recalbox/share/system",    // Recalbox & emulator configurations
+    "/overlay/upper/*",          // System overlay
+    "/overlay/.configs/*",       // System configurations
+    "/overlay/upper.old",        // System overlay backup
+    "/overlay/.config",          // Old system configurations
+    "/boot/recalbox-backup.conf" // Recalbox configuration backup
   });
 
   // Make boot partition writable
