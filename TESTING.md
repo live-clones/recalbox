@@ -102,9 +102,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
 - [ ] Bump Libretro-uae: Check new CHD support on amigacd32 & amigacdtv
 - [ ] Vérifier que le pi4 ne démarre pas en 4k sur un ecran 4k
-- [ ] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
-  - [ ] Vérifier qu'un appairage fonctionne
-  - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
 - [ ] Check Odroid GO 2 image compatibility
   - [ ] Check Odroid GO 2 has no performance regression
   - [ ] Check Odroid GO 2 with uboot < 3/12/2020 still works after offline upgrade (boot.ini rewrite)
@@ -131,6 +128,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bump Quasi88 => Test game for PC8800
 - [ ] Tester le driver nVidia 460.67
 - [ ] Tester PPSSPP (psp) sur la Go2/GoS (doit être plus rapide)
+- [ ] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
+  - [ ] Vérifier qu'un appairage fonctionne
+  - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
 
 
 ## Technique
