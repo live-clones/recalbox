@@ -44,6 +44,8 @@ Run the script that compiles the project in a Docker container:
 scripts/linux/recaldocker.sh
 ```
 
+Be aware the build process is very slow the first time, around 8+ hours on a modern machine.
+
 You can set the following environment variables to customise the build:
 * `ARCH`: to force the target architecture (see available architectures in the [`configs` directory](configs), default is to infer it from the current directory name)
 * `RECALBOX_VERSION`: to set a Recalbox build version (no impact on build, just the version shown)
