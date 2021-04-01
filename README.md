@@ -20,7 +20,7 @@ Please use **Issues** in corresponding projects to report a bug or request a fea
 ## Useful links
 - [www.recalbox.com](https://www.recalbox.com): the main recalbox website.
 - [www.recalbox.com/blog/](https://www.recalbox.com/blog): the dev blog.
-- [Recalbox Wiki](https://github.com/recalbox/recalbox-os/wiki): the wiki of recalbox.
+- [Recalbox Wiki](https://recalbox.gitbook.io/documentation/): the wiki of recalbox.
 - [forum.recalbox.com](https://forum.recalbox.com): recalbox forum. You will find support there.
 
 
@@ -44,7 +44,7 @@ Run the script that compiles the project in a Docker container:
 scripts/linux/recaldocker.sh
 ```
 
-You can set the following environment variables to customise the build:
+You can set the following environment variables to customize the build:
 * `ARCH`: to force the target architecture (see available architectures in the [`configs` directory](configs), default is to infer it from the current directory name)
 * `RECALBOX_VERSION`: to set a Recalbox build version (no impact on build, just the version shown)
 * `PACKAGE`: if you want to build a single package

@@ -180,6 +180,7 @@ All notable changes to this project will be documented in this file.
 - Bump nVidia drivers to 460.67 (#1299)
 - Bump PPSSPP to v1.11.3 (#1589)
 - Removed zip from Sam Coupé file extensions in readme files
+- Fix README.md link to documentation
 
 
 ## [7.1.1-Reloaded]
