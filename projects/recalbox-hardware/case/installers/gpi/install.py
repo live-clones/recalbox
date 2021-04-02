@@ -30,6 +30,14 @@ class Install(InstallBase):
                     return False
                 logger.hardlog("GPi: recalbox-user-config.txt installed")
 
+                # Install /boot/cmdline.txt, correct sound issue
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/cmdline.txt"
+                os.system("cp /boot/cmdline.txt /boot/cmdline.txt.backup")
+                if os.system("cp {} /boot".format(sourceConfig)) != 0:
+                    logger.hardlog("GPi: Error installing cmdline.txt")
+                    return False
+                logger.hardlog("GPi: cmdline.txt installed")
+
                 # Install Overlay
                 sourceOverlay = self.BASE_SOURCE_FOLDER + "assets/overlays/*.dtbo"
                 if os.system("cp -r {} /boot/overlays".format(sourceOverlay)) != 0:
@@ -207,6 +215,12 @@ class Install(InstallBase):
                 logger.hardlog("GPi: Error uninstalling recalbox-user-config.txt")
                 return False
             logger.hardlog("GPi: recalbox-user-config.txt uninstalled")
+
+            # Uninstall /boot/cmdline.txt
+            if os.system("cp /boot/cmdline.txt.backup /boot/cmdline.txt") != 0:
+                logger.hardlog("GPi: Error uninstalling cmdline.txt")
+                return False
+            logger.hardlog("GPi: cmdline.txt uninstalled")
 
         except Exception as e:
             logger.hardlog("GPi: Exception = {}".format(e))
