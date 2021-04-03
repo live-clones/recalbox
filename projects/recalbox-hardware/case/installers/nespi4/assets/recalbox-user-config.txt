@@ -1,0 +1,34 @@
+# Change to your needs
+
+# uncomment if you get no picture on HDMI for a default "safe" mode
+#hdmi_safe=1
+
+disable_overscan=1
+
+# uncomment to force a specific HDMI mode (this will force VGA)
+#hdmi_group=1
+#hdmi_mode=1
+
+# Sound output. Set to 0 or comment for autodetect, 1 for DVI, 2 to force HDMI.
+#hdmi_drive=2
+
+config_hdmi_boost=0
+
+# uncomment for composite PAL
+#sdtv_mode=2
+
+# uncomment for lirc-rpi
+#dtoverlay=lirc-rpi
+
+# uncomment if you have chinese TV display and display is garbled or slow
+#hdmi_ignore_edid=0xa5000080
+
+###########################
+# NesPi4Case              #
+###########################
+dtoverlay=RetroFlag_pw_io.dtbo
+unable_uart=1
+
+# Overlay setup for proper powercut, needed for Retroflag cases
+dtoverlay=gpio-poweroff,gpiopin=4,active_low=1,input=1
+

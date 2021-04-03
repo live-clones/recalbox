@@ -17,14 +17,13 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
-            # Install /boot/config.txt - most important change first
-            destinationConfig = "/boot/config.txt"
-            os.system("sed '/^dtoverlay=RetroFlag.*\.dtbo/d' {}".format(destinationConfig))
-            os.system("echo '' >> {}".format(destinationConfig))
-            os.system("echo 'dtoverlay=RetroFlag_pw_io.dtbo' >> {}".format(destinationConfig))
-            os.system("sed '/^unable_uart=.*/d' {}".format(destinationConfig))
-            os.system("echo 'unable_uart=1' >> {}".format(destinationConfig))
-            logger.hardlog("NesPi14: config.txt installed")
+            # Install /boot/recalbox-user-config.txt - most important change first
+            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/recalbox-user-config.txt"
+            os.system("cp /boot/recalbox-user-config.txt /boot/recalbox-user-config.txt.backup")
+            if os.system("cp {} /boot".format(sourceConfig)) != 0:
+                logger.hardlog("NesPi4: Error installing recalbox-user-config.txt")
+                return False
+            logger.hardlog("NesPi4: recalbox-user-config.txt installed")
 
             # Install Overlay
             sourceOverlay = self.BASE_SOURCE_FOLDER + "assets/overlays/*.dtbo"
@@ -77,10 +76,11 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /")
-
-            destinationConfig = "/boot/config.txt"
-            os.system("sed '/^dtoverlay=RetroFlag.*\.dtbo/d' {}".format(destinationConfig))
-            os.system("sed '/^unable_uart=.*/d' {}".format(destinationConfig))
+            # Uninstall /boot/recalbox-user-config.txt
+            if os.system("cp /boot/recalbox-user-config.txt.backup /boot/recalbox-user-config.txt") != 0:
+                logger.hardlog("NesPi4: Error uninstalling recalbox-user-config.txt")
+                return False
+            logger.hardlog("NesPi4: recalbox-user-config.txt uninstalled")
 
         except Exception as e:
             logger.hardlog("NesPi4: Exception = {}".format(e))
