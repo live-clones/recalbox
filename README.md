@@ -44,7 +44,9 @@ Run the script that compiles the project in a Docker container:
 scripts/linux/recaldocker.sh
 ```
 
-Be aware the build process is very slow the first time, around 8+ hours on a modern machine.
+Be aware that:
+- if your OS has a case insensitive file system, build will fail.
+- the first time you build the process will take up to 24hours
 
 You can set the following environment variables to customise the build:
 * `ARCH`: to force the target architecture (see available architectures in the [`configs` directory](configs), default is to infer it from the current directory name)
