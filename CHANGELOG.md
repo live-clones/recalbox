@@ -182,6 +182,8 @@ All notable changes to this project will be documented in this file.
 - Removed zip from Sam Coupé file extensions in readme files
 - Fix README.md link to documentation
 - Update lightgun.xml (add Point Blank for fbneo)
+- Add VideoPac+ System
+- Separate VIC-20 system from C64
 
 
 ## [7.1.1-Reloaded]

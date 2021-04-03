@@ -3,8 +3,9 @@ config BR2_PACKAGE_LIBRETRO_O2EM
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_RECALBOX_ROMFS_O2EM
+	select BR2_PACKAGE_RECALBOX_ROMFS_VIDEOPACPLUS
 	help
-	  A libretro Odyssey 2/VideoPac emulator core.
+	  A libretro Odyssey 2/VideoPac/VideoPac+ emulator core.
 
 	  http://www.libretro.com
 
