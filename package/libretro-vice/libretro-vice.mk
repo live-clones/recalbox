@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = 6a4c13bde15b1f7c984eb3959cdf2ac1a5c2fee8
+LIBRETRO_VICE_VERSION = 63bc1163350d465fa8e7a99f90dc895cd4a2b36e
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 LIBRETRO_VICE_LICENSE = GPL-2.0
 LIBRETRO_VICE_LICENSE_FILES = COPYING
