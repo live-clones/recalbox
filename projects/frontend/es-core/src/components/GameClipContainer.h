@@ -78,6 +78,8 @@ class GameClipContainer : public Gui
 
     void setGameInfo(FileData* game);
 
+    void CleanVideo();
+
     Vector2f getVideoCenter();
 
     bool getHelpPrompts(Help& help);

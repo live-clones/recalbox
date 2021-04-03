@@ -3007,8 +3007,7 @@ msgid ""
 "ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
 "KEPT.\n"
 "\n"
-"THIS OPERATION CANNOT BE UNDONE!"
-"\n"
+"THIS OPERATION CANNOT BE UNDONE!\n"
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
 "RESTAURER LES PARAMÈTRES D'USINE\n"
@@ -3022,9 +3021,44 @@ msgstr ""
 "ÊTES-VOUS SUR DE VOULOIR RESTAURER LES PARAMÈTRES D'USINE?"
 
 #
-msgid "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n\nARE YOU REALLY SURE YOU WANT TO DO THIS?"
-msgstr "VOUS ÊTES À UN CLICK DE RESTAURER LES PARAMÈTRES D'USINE DE RECALBOX ET DE TOUS LES ÉMULATEURS!\n\nÊTES-VOUS VRAIMENT CERTAIN DE VOULOIR LE FAIRE?"
+msgid ""
+"YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
+"\n"
+"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr ""
+"VOUS ÊTES À UN CLICK DE RESTAURER LES PARAMÈTRES D'USINE DE RECALBOX ET DE "
+"TOUS LES ÉMULATEURS!\n"
+"\n"
+"ÊTES-VOUS VRAIMENT CERTAIN DE VOULOIR LE FAIRE?"
 
 #
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr "INVERSER LES BOUTONS VALIDER/ANNULER"
+
+#
+msgid "AUDIO MODE"
+msgstr "MODE AUDIO"
+
+#
+msgid "Select sound to play. Musics, videos sound, both or none"
+msgstr "Selectionnez le son à jouer. Les musiques, le son des vidéos, les deux ou aucun"
+
+#
+msgid "Musics or videos sound"
+msgstr "Les musiques ou le son des vidéos"
+
+#
+msgid "Musics and videos sound"
+msgstr "Les musiques et le son des vidéos"
+
+#
+msgid "Musics only"
+msgstr "Les musiques uniquement"
+
+#
+msgid "Videos sound only"
+msgstr "le son des vidéos uniquement"
+
+#
+msgid "No sound"
+msgstr "Aucun son"

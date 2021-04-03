@@ -33,10 +33,10 @@ public:
 	void goToPrevGameList();
 	bool goToGameList(std::string& systemName);
 	void goToGameList(SystemData* system);
-    void goToGameList(FileData* file);
-    void goToSystemView(SystemData* system);
+  void goToSystemView(SystemData* system);
 	void goToGameClipView();
 	void quitGameClipView();
+	void selectGamelistAndCursor(FileData* file);
 	void goToStart();
   void goToQuitScreen();
 

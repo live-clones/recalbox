@@ -7,11 +7,12 @@
 #include <components/MenuComponent.h>
 #include <components/SwitchComponent.h>
 #include <components/OptionListComponent.h>
+#include <audio/AudioMode.h>
 
 class GuiMenuSound : public GuiMenuBase
                    , private ISliderComponent
-                   , private ISwitchComponent
                    , private IOptionListComponent<std::string>
+                   , private IOptionListComponent<AudioMode>
 {
   public:
     /*!
@@ -31,31 +32,24 @@ class GuiMenuSound : public GuiMenuBase
     enum class Components
     {
       Volume,
-      Music,
+      AudioMode,
       Output,
     };
 
     //! Volume slider
     std::shared_ptr<SliderComponent> mVolume;
-    //! Music on/off
-    std::shared_ptr<SwitchComponent> mMusic;
+    //! Audio
+    std::shared_ptr<OptionListComponent<AudioMode>> mAudioMode;
     //! Outputs
     std::shared_ptr<OptionListComponent<std::string>> mOutputList;
 
     //! Get Output List
     static std::vector<ListEntry<std::string>> GetOutputEntries();
 
-    /*
-     * IOptionListComponent<Overclocking> implementation
-     */
+    static std::vector<ListEntry<AudioMode>> GetAudioModeEntries();
 
     void OptionListComponentChanged(int id, int index, const std::string& value) override;
-
-    /*
-     * ISwitchComponent implementation
-     */
-
-    void SwitchComponentChanged(int id, bool status) override;
+    void OptionListComponentChanged(int id, int index, const AudioMode& value) override;
 
     /*
      * ISliderComponent implementation

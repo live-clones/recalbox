@@ -404,7 +404,7 @@ void GameClipContainer::setGameInfo(FileData* game)
   mPlayers.setValue(mGame->Metadata().PlayersAsString());
   mLastPlayed.setValue(mGame->Metadata().LastPlayedAsString());
   mPlayCount.setValue(mGame->Metadata().PlayCountAsString());
-  mVideo.setVideo(mGame->Metadata().Video(), 0, 1, RecalboxConf::Instance().GetAudioGameClip());
+  mVideo.setVideo(mGame->Metadata().Video(), 0, 1, AudioModeTools::CanDecodeVideoSound());
 
   mImage.setImage(mGame->Metadata().Image());
   mThumbnail.setImage(mGame->Metadata().Thumbnail());
@@ -417,6 +417,11 @@ void GameClipContainer::setGameInfo(FileData* game)
     addChild(&mLblFavorite);
     addChild(&mFavorite);
   }
+}
+
+void GameClipContainer::CleanVideo()
+{
+  mVideo.setVideo(Path::Empty, 0, 0);
 }
 
 Vector2f GameClipContainer::getVideoCenter()

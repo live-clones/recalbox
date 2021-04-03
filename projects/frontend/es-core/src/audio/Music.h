@@ -48,7 +48,10 @@ class Music
      */
   	bool Play(bool repeat);
 
-  	/*!
+    static void Pause();
+    static void Resume();
+
+    /*!
   	 * @brief Stop current music if it's playing
   	 */
   	static void Stop();

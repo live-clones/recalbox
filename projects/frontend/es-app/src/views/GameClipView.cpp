@@ -17,7 +17,7 @@ GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
     mRandomDevice(), mRandomGenerator(mRandomDevice()), mGameRandomizer(0, 1U << 30U), mGameClipContainer(window),
     mNoVideoContainer(window), systemIndex(-1), mVideoDuration(0)
 {
-  init();
+  Initialize();
 }
 
 GameClipView::~GameClipView()
@@ -26,7 +26,7 @@ GameClipView::~GameClipView()
   mHistory.clear();
 }
 
-void GameClipView::init()
+void GameClipView::Initialize()
 {
   class Filter : public IFilter
   {
@@ -62,7 +62,7 @@ void GameClipView::init()
   VideoEngine::Instance().StopVideo(true);
 }
 
-int GameClipView::getFirstOccurenceInHistory(FileData* game)
+int GameClipView::GetFirstOccurenceInHistory(FileData* game)
 {
   for (int i = 0; i < (int) mHistory.size(); ++i)
   {
@@ -74,7 +74,7 @@ int GameClipView::getFirstOccurenceInHistory(FileData* game)
   return -1;
 }
 
-void GameClipView::insertIntoHistory(FileData* game)
+void GameClipView::InsertIntoHistory(FileData* game)
 {
   mHistory.insert(mHistory.begin(), game);
   if (mHistory.size() == MAX_HISTORY + 1)
@@ -83,19 +83,19 @@ void GameClipView::insertIntoHistory(FileData* game)
   }
 }
 
-void GameClipView::getGame()
+void GameClipView::GetGame()
 {
   if (Direction::Next == mDirection)
   {
-    getNextGame();
+    GetNextGame();
   }
   else
   {
-    getPreviousGame();
+    GetPreviousGame();
   }
 }
 
-void GameClipView::getNextGame()
+void GameClipView::GetNextGame()
 {
   if (mHistoryPosition == 0)
   {
@@ -107,7 +107,7 @@ void GameClipView::getNextGame()
     {
       int index = ((mGameRandomizer(mRandomGenerator) + mSeed) & 0x7FFFFFFF) % (int) mDemoFiles.size();
       mSeed++;
-      int gamePosition = getFirstOccurenceInHistory(mDemoFiles[index]);
+      int gamePosition = GetFirstOccurenceInHistory(mDemoFiles[index]);
       if (gamePosition == -1)
       {
         finalIndex = index;
@@ -135,7 +135,7 @@ void GameClipView::getNextGame()
   }
 }
 
-void GameClipView::getPreviousGame()
+void GameClipView::GetPreviousGame()
 {
   mHistoryPosition++;
   //security
@@ -148,16 +148,27 @@ void GameClipView::getPreviousGame()
 
 void GameClipView::Render(const Transform4x4f& parentTrans)
 {
-  // waiting to be destroy
-  if (mState == State::Terminated)
+  if (mState == State::LaunchGame)
   {
-    return;
+    ViewController::Instance().LaunchCheck(mGame, NetPlayData(), Vector3f());
+    mState = State::GoToSystem;
+  }
+
+  if (mState == State::GoToSystem)
+  {
+    ViewController::Instance().selectGamelistAndCursor(mGame);
+    mState = State::Quit;
   }
 
   if (mState == State::Quit)
   {
-    quitGameClipView();
+    ViewController::Instance().quitGameClipView();
     mState = State::Terminated;
+  }
+
+  // waiting to be destroy
+  if (mState == State::Terminated)
+  {
     return;
   }
 
@@ -178,7 +189,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
   if (mState == State::NoGameSelected)
   {
-    startGameClip();
+    StartGameClip();
     mTimer.Initialize(0);
     mState = State::InitPlaying;
     updateHelpPrompts();
@@ -213,7 +224,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
   else if (mState == State::SetInHistory)
   {
-    insertIntoHistory(mGame);
+    InsertIntoHistory(mGame);
     mState = State::Playing;
   }
 
@@ -221,22 +232,11 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
   {
     if (mTimer.GetMilliSeconds() > mVideoDuration || mTimer.GetMilliSeconds() > 35000)
     {
-      changeGameClip(Direction::Next);
+      ChangeGameClip(Direction::Next);
       return;
     }
   }
   mGameClipContainer.Render(parentTrans);
-}
-
-void GameClipView::changeGameClip(Direction direction)
-{
-  if (direction == Direction::Previous && mHistoryPosition >= (int) mHistory.size() - 1)
-    return;
-
-  mDirection = direction;
-  mState = State::NoGameSelected;
-  VideoEngine::Instance().StopVideo(true);
-  NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
 }
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
@@ -244,42 +244,37 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   if (event.CancelPressed())
   {
     mState = State::Quit;
+    StopGameClipView();
   }
 
-  if (mState != State::Playing || mTimer.GetMilliSeconds() < 1000)
-  {
-    return true;
-  }
+  if (State::EmptyPlayList == mState || State::Playing != mState || mTimer.GetMilliSeconds() < 1000) return true;
 
   // GO TO GAME LIST -  SELECT
   if (event.SelectPressed())
   {
-    ViewController::Instance().goToGameList(mGame);
-    mState = State::Quit;
+    mState = State::GoToSystem;
+    StopGameClipView();
     return true;
   }
 
   // RUN GAME - START
   if (event.StartPressed())
   {
-    Vector3f target(mGameClipContainer.getVideoCenter());
-    ViewController::Instance().LaunchCheck(mGame, NetPlayData(), target);
-
-    ViewController::Instance().goToGameList(mGame);
-    mState = State::Quit;
+    StopGameClipView();
+    mState = State::LaunchGame;
     return true;
   }
 
   // NEXT GAMECLIP  - RIGHT
   if (event.RightPressed())
   {
-    changeGameClip(Direction::Next);
+    ChangeGameClip(Direction::Next);
     return true;
   }
   // PREVIOUS GAMECLIP - LEFT
   if (event.LeftPressed())
   {
-    changeGameClip(Direction::Previous);
+    ChangeGameClip(Direction::Previous);
     return true;
   }
 
@@ -317,25 +312,31 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
     }
     return true;
   }
-
   return true;
 }
 
-void GameClipView::startGameClip()
+void GameClipView::StartGameClip()
 {
-  getGame();
+  GetGame();
   mGameClipContainer.setGameInfo(mGame);
 }
 
-void GameClipView::quitGameClipView()
+void GameClipView::StopGameClipView()
 {
-  if (!mDemoFiles.empty())
-  {
+  NotificationManager::Instance().Notify(Notification::StopGameClip);
+  if(State::EmptyPlayList != mState)
     VideoEngine::Instance().StopVideo(true);
-    NotificationManager::Instance().Notify(*mGame, Notification::StopGameClip);
-  }
+  mGameClipContainer.CleanVideo();
+}
 
-  ViewController::Instance().quitGameClipView();
+void GameClipView::ChangeGameClip(Direction direction)
+{
+  if (direction == Direction::Previous && mHistoryPosition >= (int) mHistory.size() - 1)
+    return;
+
+  mDirection = direction;
+  mState = State::NoGameSelected;
+  VideoEngine::Instance().StopVideo(true);
 }
 
 bool GameClipView::getHelpPrompts(Help& help)
@@ -343,13 +344,14 @@ bool GameClipView::getHelpPrompts(Help& help)
   switch(mState)
   {
     case State::NoGameSelected :
+    case State::GoToSystem:
+    case State::LaunchGame:
     case State::Terminated :
     case State::Quit : break;
     case State::EmptyPlayList: return mNoVideoContainer.getHelpPrompts(help);
     case State::InitPlaying:
     case State::Playing:
     case State::SetInHistory: return mGameClipContainer.getHelpPrompts(help);
-
   }
   return true;
 }

@@ -2812,8 +2812,7 @@ msgid ""
 "ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
 "KEPT.\n"
 "\n"
-"THIS OPERATION CANNOT BE UNDONE!"
-"\n"
+"THIS OPERATION CANNOT BE UNDONE!\n"
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
 
@@ -2826,4 +2825,32 @@ msgstr ""
 
 #
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
+msgstr ""
+
+#
+msgid "AUDIO MODE"
+msgstr ""
+
+#
+msgid "Select sound to play. Musics, videos sound, both or none"
+msgstr ""
+
+#
+msgid "Musics or videos sound"
+msgstr ""
+
+#
+msgid "Musics and videos sound"
+msgstr ""
+
+#
+msgid "Musics only"
+msgstr ""
+
+#
+msgid "Videos sound only"
+msgstr ""
+
+#
+msgid "No sound"
 msgstr ""

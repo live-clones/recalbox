@@ -17,8 +17,8 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
   if (!AudioController::Instance().HasSpecialAudio())
     mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 
-  // Music on/off
-  mMusic = AddSwitch(_("FRONTEND MUSIC"), RecalboxConf::Instance().GetAudioMusic(), (int)Components::Music, this, _(MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG));
+  // AudioMode
+  mAudioMode = AddList<AudioMode>(_("AUDIO MODE"), (int)Components::AudioMode, this, GetAudioModeEntries(), _(MENUMESSAGE_SOUND_MODE_HELP_MSG));
 
   // Audio device
   if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
@@ -39,6 +39,19 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries(
 
   // Sort
   std::sort(list.begin(), list.end(), [](const ListEntry<std::string>& a, const ListEntry<std::string>& b) -> bool { return a.mText > b.mText; });
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<AudioMode>> GuiMenuSound::GetAudioModeEntries()
+{
+  const AudioMode audioMode = RecalboxConf::Instance().GetAudioMode();
+  std::vector<ListEntry < AudioMode>> list;
+  list.push_back({_("Musics or videos sound"), AudioMode::MusicsXorVideosSound, AudioMode::MusicsXorVideosSound == audioMode });
+  list.push_back({_("Musics and videos sound"), AudioMode::MusicsAndVideosSound, AudioMode::MusicsAndVideosSound == audioMode });
+  list.push_back({_("Musics only"), AudioMode::MusicsOnly, AudioMode::MusicsOnly == audioMode });
+  list.push_back({_("Videos sound only"), AudioMode::VideosSoundOnly, AudioMode::VideosSoundOnly == audioMode });
+  list.push_back({_("No sound"), AudioMode::None, AudioMode::None == audioMode });
 
   return list;
 }
@@ -65,13 +78,17 @@ void GuiMenuSound::OptionListComponentChanged(int id, int index, const std::stri
   }
 }
 
-void GuiMenuSound::SwitchComponentChanged(int id, bool status)
+void GuiMenuSound::OptionListComponentChanged(int id, int index, const AudioMode& value)
 {
-  if ((Components)id == Components::Music)
+  (void)index;
+  if ((Components)id == Components::AudioMode)
   {
-    RecalboxConf::Instance().SetAudioMusic(status);
-    if (status) AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
-    else AudioManager::Instance().StopAll();
+    const bool currentCanPlayMusic = AudioModeTools::CanPlayMusic();
+    RecalboxConf::Instance().SetAudioMode(value).Save();
+    if (!currentCanPlayMusic && AudioModeTools::CanPlayMusic())
+      AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
+    else if (currentCanPlayMusic && !AudioModeTools::CanPlayMusic())
+      AudioManager::Instance().StopAll();
   }
 }
 

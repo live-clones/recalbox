@@ -10,6 +10,7 @@
 #include <scraping/ScraperTools.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperEnums.h>
 #include <scraping/scrapers/screenscraper/Languages.h>
+#include <audio/AudioMode.h>
 
 // Forward declaration
 class SystemData;
@@ -99,6 +100,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperMainMedia, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperMainMedia, ScreenScraperEnums::ScreenScraperImageType)
     DefineGetterSetterEnum(ScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType)
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
+    DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
 
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
@@ -109,8 +111,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SwapValidateAndCancel, bool, Bool, sSwapValidateAndCancel, false)
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
-    DefineGetterSetter(AudioMusic, bool, Bool, sAudioMusic, true)
-    DefineGetterSetter(AudioGameClip, bool, Bool, sAudioGameClip, true)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
@@ -304,8 +304,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSwapValidateAndCancel  = "controllers.swapvalidateandcancel";
 
     static constexpr const char* sAudioVolume                = "audio.volume";
-    static constexpr const char* sAudioMusic                 = "audio.bgmusic";
-    static constexpr const char* sAudioGameClip              = "audio.gameclip";
+    static constexpr const char* sAudioOptions               = "audio.mode";
     static constexpr const char* sAudioOuput                 = "audio.device";
 
     static constexpr const char* sScreenSaverTime            = "emulationstation.screensaver.time";

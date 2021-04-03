@@ -44,7 +44,7 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 
   // Swap validate and cancel buttons
-  mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(""));
+  mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG));
 }
 
 void GuiMenuUserInterface::ReloadGamelists()

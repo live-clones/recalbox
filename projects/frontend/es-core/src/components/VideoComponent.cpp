@@ -1,4 +1,5 @@
 #include <components/VideoComponent.h>
+#include <audio/AudioManager.h>
 #include <VideoEngine.h>
 #include <Renderer.h>
 #include <help/Help.h>
@@ -91,6 +92,7 @@ void VideoComponent::resize()
 
 void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
+  AudioManager::Instance().ResumeMusicIfNecessary();
   VideoEngine::Instance().StopVideo(true);
   mVideoPath = path;
   mVideoDelay = delay;
@@ -256,6 +258,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
         mState = State::StartVideo;
         mTimer.Initialize(0);
         //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
+        AudioManager::Instance().PauseMusicIfNecessary();
       }
       break;
     }
@@ -296,6 +299,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
         //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
         video = false;
       }
+      AudioManager::Instance().ResumeMusicIfNecessary();
       break;
     }
   }

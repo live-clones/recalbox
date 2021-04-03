@@ -154,6 +154,8 @@ class AudioManager : private ISynchronousEvent
      */
     bool PlayMusic(AudioHandle handle, bool loop);
 
+    void PauseMusic();
+    void ResumeMusic();
     /*!
      * @brief Stop all sounds and musics
      */
@@ -182,4 +184,7 @@ class AudioManager : private ISynchronousEvent
      * @brief Reactivate the sound system if it has been previously deactivated.
      */
     void Reactivate();
+
+    void PauseMusicIfNecessary();
+    void ResumeMusicIfNecessary();
 };

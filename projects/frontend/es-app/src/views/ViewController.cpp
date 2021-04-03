@@ -12,6 +12,7 @@
 #include "animations/LambdaAnimation.h"
 
 #include "audio/AudioManager.h"
+#include <audio/AudioMode.h>
 
 #include <memory>
 #include <systems/SystemManager.h>
@@ -102,12 +103,13 @@ void ViewController::goToSystemView(SystemData* system)
 void ViewController::goToGameClipView()
 {
     if(GameClipView::IsGameClipEnabled() && !mState.gameClipRunning) {
-        if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
-        {
-          AudioManager::Instance().StopAll();
-        }
 
+      if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+      {
+        AudioManager::Instance().StopAll();
+      }
         mGameClipView = new GameClipView(mWindow, mSystemManager);
+        NotificationManager::Instance().Notify(Notification::StartGameClip);
         mState.gameClipRunning = true;
     }
 }
@@ -116,6 +118,10 @@ void ViewController::quitGameClipView()
 {
   WakeUp();
   delete mGameClipView;
+  if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+  {
+    AudioManager::Instance().StartPlaying(mState.system->getTheme());
+  }
   switch (mState.viewing)
   {
     case ViewMode::SystemList:
@@ -129,21 +135,16 @@ void ViewController::quitGameClipView()
       break;
   }
 
-  if(RecalboxConf::Instance().GetAudioGameClip() && RecalboxConf::Instance().GetAudioMusic())
-  {
-    AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
-  }
   mState.gameClipRunning = false;
   updateHelpPrompts();
 }
 
-void ViewController::goToGameList(FileData *file) {
-    mState.viewing = ViewMode::GameList;
-    SystemData* system = file->getSystem();
-    AudioManager::Instance().StartPlaying(system->getTheme());
-    goToGameList(system);
-    IGameListView* view = getGameListView(file->getSystem()).get();
-    view->setCursor(file);
+void ViewController::selectGamelistAndCursor(FileData *file) {
+  mState.viewing = ViewMode::GameList;
+  SystemData* system = file->getSystem();
+  goToGameList(system);
+  IGameListView* view = getGameListView(system).get();
+  view->setCursor(file);
 }
 
 void ViewController::goToNextGameList()

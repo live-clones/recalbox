@@ -24,6 +24,8 @@ class GameClipView : public Gui
         InitPlaying,
         SetInHistory,
         Playing,
+        LaunchGame,
+        GoToSystem,
         Quit,
         Terminated,
     };
@@ -60,6 +62,7 @@ class GameClipView : public Gui
     std::uniform_int_distribution<int> mGameRandomizer;
 
     FileData* mGame {};
+
     HighResolutionTimer mTimer;
 
     State mState = State::NoGameSelected;
@@ -72,23 +75,25 @@ class GameClipView : public Gui
 
     int mSeed {};
 
-    int getFirstOccurenceInHistory(FileData* game);
-
-    void insertIntoHistory(FileData* game);
-
-    void init();
-
-    void getGame();
-
-    void getNextGame();
-
-    void getPreviousGame();
-
-    void changeGameClip(Direction direction);
-
-    void startGameClip();
-
     int mVideoDuration;
+
+    int GetFirstOccurenceInHistory(FileData* game);
+
+    void InsertIntoHistory(FileData* game);
+
+    void Initialize();
+
+    void GetGame();
+
+    void GetNextGame();
+
+    void GetPreviousGame();
+
+    void StartGameClip();
+
+    void StopGameClipView();
+
+    void ChangeGameClip(Direction direction);
 
   public:
     static const char* getName()
@@ -107,6 +112,4 @@ class GameClipView : public Gui
     bool ProcessInput(const InputCompactEvent& event) override;
 
     bool getHelpPrompts(Help& help) override;
-
-    void quitGameClipView();
 };

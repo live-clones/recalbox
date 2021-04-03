@@ -101,7 +101,7 @@ void AudioManager::Reactivate()
 {
   Initialize();
 
-  if (RecalboxConf::Instance().GetAudioMusic())
+  if (AudioModeTools::CanPlayMusic())
     PlayRandomMusic();
 }
 
@@ -164,6 +164,16 @@ bool AudioManager::PlayMusic(AudioManager::AudioHandle handle, bool loop)
   return false;
 }
 
+void AudioManager::PauseMusic()
+{
+    Music::Pause();
+}
+
+void AudioManager::ResumeMusic()
+{
+    Music::Resume();
+}
+
 void AudioManager::StopAll()
 {
   Music::Stop();
@@ -173,7 +183,7 @@ void AudioManager::StopAll()
 
 void AudioManager::StartPlaying(const ThemeData& theme)
 {
-  if (RecalboxConf::Instance().GetAudioMusic())
+  if (AudioModeTools::CanPlayMusic())
   {
     const ThemeElement* elem = theme.getElement("system", "directory", "sound");
     mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
@@ -309,3 +319,14 @@ void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
   PlayRandomMusic();
 }
 
+void AudioManager::PauseMusicIfNecessary()
+{
+  if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+    PauseMusic();
+}
+
+void AudioManager::ResumeMusicIfNecessary()
+{
+  if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+    ResumeMusic();
+}

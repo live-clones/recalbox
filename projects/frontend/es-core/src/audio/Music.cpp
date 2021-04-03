@@ -85,6 +85,40 @@ bool Music::Play(bool repeat)
   return true;
 }
 
+void Music::Pause()
+{
+  if (Mix_PlayingMusic() != 1)
+  {
+    { LOG(LogDebug) << "[Music] none music is playing, could not be paused "; }
+    return;
+  }
+
+  if (Mix_PausedMusic() != 1)
+  {
+    { LOG(LogInfo) << "[Music] music will be pause "; }
+    Mix_PauseMusic();
+  }
+  else
+  { LOG(LogDebug) << "[Music] music is already paused "; }
+}
+
+void Music::Resume()
+{
+  if (Mix_PlayingMusic() != 1)
+  {
+    { LOG(LogDebug) << "[Music] none music is playing, could not be paused "; }
+    return;
+  }
+
+  if(Mix_PausedMusic() == 1 )
+  {
+    { LOG(LogInfo) << "[Music] music will be resume "; }
+    Mix_ResumeMusic();
+  }
+  else
+  { LOG(LogDebug) << "[Music] none music is paused "; }
+}
+
 void Music::Stop()
 {
   sCurrentlyPlaying = nullptr;

@@ -49,6 +49,7 @@ set(CORE_HEADERS
 		src/audio/AudioManager.h
 		src/audio/AudioController.h
 		src/audio/AudioIcons.h
+		src/audio/AudioMode.h
 		src/audio/DeviceDescriptor.h
 		src/audio/IAudioController.h
 		src/audio/Music.h
@@ -210,6 +211,7 @@ set(CORE_SOURCES
 		# Audio
 		src/audio/AudioManager.cpp
 		src/audio/AudioController.cpp
+		src/audio/AudioMode.cpp
 		src/audio/Music.cpp
 		src/audio/Sound.cpp
 		src/audio/NameFiltering.cpp

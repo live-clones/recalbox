@@ -75,10 +75,11 @@ class MenuMessages
     #define MENUMESSAGE_UI_THEME_CONFIGURATION_MSG "Configure theme options if available."
     #define MENUMESSAGE_UI_THEME_REGION_MSG "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
     #define MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG "Updates the gamelists, if you added games since the last boot."
+    #define MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG "Allow to swap validate button B/X and cancel button B/O"
 
     #define MENUMESSAGE_SOUND_HELP_MSG "Configure the sound options of your recalbox."
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
-    #define MENUMESSAGE_SOUND_FRONTEND_MUSIC_HELP_MSG "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
+    #define MENUMESSAGE_SOUND_MODE_HELP_MSG "Select sound to play. Musics, videos sound, both or none"
     #define MENUMESSAGE_SOUND_DEVICE_HELP_MSG "Select your output device. Only HDMI and JACK are supported."
 
     #define MENUMESSAGE_NETWORK_HELP_MSG "Configure the network options of your recalbox.\nCheck your network status and IP address, set the hostname and configure the WIFI."
