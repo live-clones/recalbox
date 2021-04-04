@@ -65,7 +65,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 GuiMenuAdvancedSettings::~GuiMenuAdvancedSettings()
 {
   if (mValidOverclock)
-    if (mOriginalOverclock != mOverclock->getSelected().Description)
+    if (mOriginalOverclock != mOverclock->getSelected().File)
     {
       if (mLastHazardous)
         mWindow.pushGui(
