@@ -131,6 +131,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
   - [ ] Vérifier qu'un appairage fonctionne
   - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
+- [ ] Update lightgun.xml => Test Point Blank for fbneo (lightgun)
 
 
 ## Technique
