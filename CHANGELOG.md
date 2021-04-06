@@ -181,6 +181,7 @@ All notable changes to this project will be documented in this file.
 - Bump PPSSPP to v1.11.3 (#1589)
 - Removed zip from Sam Coupé file extensions in readme files
 - Fix README.md link to documentation
+- Update lightgun.xml (add Point Blank for fbneo)
 
 
 ## [7.1.1-Reloaded]
