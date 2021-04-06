@@ -184,6 +184,8 @@ All notable changes to this project will be documented in this file.
 - Update lightgun.xml (add Point Blank for fbneo)
 - Add VideoPac+ System
 - Separate VIC-20 system from C64
+- Fix Theme svg from SCV system
+- Fix Supervision naming in configgen
 
 
 ## [7.1.1-Reloaded]
