@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system vic20 --extension '.20 .40 .60 .a0 .b0 .bin .zip .7z' --fullname 'Commodore VIC-20' --platform vic20 --theme vic20 1:libretro:vice_xvic:BR2_PACKAGE_LIBRETRO_VICE
+# ./scripts/linux/empack.py --force --system vic20 --extension '.20 .40 .60 .70 .a0 .b0 .bin .crt .m3u .zip .7z' --fullname 'Commodore VIC-20' --platform vic20 --theme vic20 1:libretro:vice_xvic:BR2_PACKAGE_LIBRETRO_VICE
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_VIC20_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_VIC20 = $(RECALBOX_ROMFS_VIC20_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
 define CONFIGURE_MAIN_VIC20_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VIC20),Commodore VIC-20,$(SYSTEM_NAME_VIC20),.20 .40 .60 .a0 .b0 .bin .zip .7z,vic20,vic20)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_VIC20),Commodore VIC-20,$(SYSTEM_NAME_VIC20),.20 .40 .60 .70 .a0 .b0 .bin .crt .m3u .zip .7z,vic20,vic20)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
