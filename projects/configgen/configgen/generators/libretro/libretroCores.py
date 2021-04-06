@@ -111,6 +111,14 @@ class LibretroCores:
     def configureMsxTurboR(coreSettings):
         coreSettings.setOption("bluemsx_msxtype", '"MSXturboR"')
 
+    @staticmethod
+    def configureOdyssey2(coreSettings):
+        coreSettings.setOption("o2em_bios", '"o2rom.bin"')
+
+    @staticmethod
+    def configureVideoPacPlus(coreSettings):
+        coreSettings.setOption("o2em_bios", '"g7400.bin"')
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -149,6 +157,8 @@ class LibretroCores:
             "msx2"         : LibretroCores.configureMsx2,
             "msxturbor"    : LibretroCores.configureMsxTurboR,
             "pc98"         : LibretroCores.configureNPKAI,
+            "odyssey2"     : LibretroCores.configureOdyssey2,
+            "videopacplus" : LibretroCores.configureVideoPacPlus,
         }
 
         # Get handler and execute
