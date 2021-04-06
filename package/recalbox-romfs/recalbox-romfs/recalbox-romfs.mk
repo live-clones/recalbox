@@ -714,6 +714,16 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
 endif
 
+# System: vic20
+ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vic20
+endif
+
+# System: videopacplus
+ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-videopacplus
+endif
+
 # System: virtualboy
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-virtualboy
