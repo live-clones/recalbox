@@ -204,6 +204,7 @@ class LibretroGenerator(Generator):
                 ".20": "-cart2",
                 ".40": "-cart4",
                 ".60": "-cart6",
+                ".70": "-cart6",
                 ".a0": "-cartA",
                 ".b0": "-cartB",
             }
