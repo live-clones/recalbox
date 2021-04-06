@@ -1,8 +1,8 @@
 ## RECALBOX - SYSTEME SAMCOUPE ##
 
-Placez les ROMS SamCoupé dans ce répertoire.
+Placez les ROMS SamCoupÃ© dans ce rÃ©pertoire.
 
-Les fichiers roms doivent avoir une extensions parmi ".dsk,.sad,.mgt,.sdf,.td0,.sbt,.cpm,.zip".
+Les fichiers roms doivent avoir une extensions parmi ".dsk,.sad,.mgt,.sdf,.td0,.sbt,.cpm".
 
-Consultez la documentation à cette adresse :
+Consultez la documentation Ã  cette adresse :
 https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/sam-coupe

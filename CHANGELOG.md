@@ -179,6 +179,7 @@ All notable changes to this project will be documented in this file.
 - Bump es (add reset factory, swap a/b, fix bt audio)
 - Bump nVidia drivers to 460.67 (#1299)
 - Bump PPSSPP to v1.11.3 (#1589)
+- Removed zip from Sam Coupé file extensions in readme files
 
 
 ## [7.1.1-Reloaded]
