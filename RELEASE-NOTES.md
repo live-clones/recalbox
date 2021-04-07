@@ -26,6 +26,7 @@
 - Add Elektronika BK series on all boards
 - Add VideoPac+ System
 - Separate VIC-20 system from C64
+- Add sound mode option (Music/Video sound)
 
 ### Improvements
 - Bump supermodel to version 839

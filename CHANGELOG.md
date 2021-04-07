@@ -188,6 +188,12 @@ All notable changes to this project will be documented in this file.
 - Fix Supervision naming in configgen
 - Fix sound issue on GPIcase (#1476)
 - Fix fan not stopping on shutdown on nespi4case
+- Fix useless reboot in O/C menu
+- Fix Kodi enable/disable option
+- Fix Netplay pinged while a game is running
+- Fix wrong file deleted in reset factory option
+- Add sound mode
+
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

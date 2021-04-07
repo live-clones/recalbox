@@ -34,6 +34,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Elektronika Emulator emulator on all boards
 - [ ] Test vibrations work with pcsx_rearmed (must be enabled if upgrading,
       check `pcsx_rearmed_vibration` in file system/configs/retrarch/core/retroarch-core-options.cfg)
+- [ ] Test Videopack system
+- [ ] Test Vic20 system
+- [ ] Test all sound modes
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
@@ -147,6 +150,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
 - [ ] Check that there are no regression with kernel 5.10 on rpi boards
 - [ ] Tester que le GPi ou NesPi4 case s'installent correctement (via installation fraiche)
+
 
 ## [7.1-Reloaded]
 - [X] Bumped picodrive to fix rewind on megadrive => test the rewind on megadrive/picodrive
