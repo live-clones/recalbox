@@ -1,0 +1,35 @@
+diff --git a/xpi_gamecon.c b/xpi_gamecon.c
+index b50503f..7975c04 100644
+--- a/xpi_gamecon.c
++++ b/xpi_gamecon.c
+@@ -70,7 +70,7 @@ static const short gc_btn[] = { BTN_A, //A
+ 			};
+ int gc_btn_size = sizeof(gc_btn);
+ 
+-static const short gc_volume[] = { 
++static const short gc_volume[] = {
+     ABS_VOLUME
+ };
+ struct gc {
+@@ -258,10 +258,8 @@ static void gc_timer(struct timer_list *t)
+ 		input_report_key(dev, gc_btn[6], data[3]&0x40);		//Select
+ 		input_report_key(dev, gc_btn[7], data[3]&0x80); 	//Start
+ 		input_report_key(dev, gc_btn[8], data[4]&0x40);		//Left Thumb
+-		input_report_key(dev, gc_btn[9], data[4]&0x01);		//DPAD Up
+-		input_report_key(dev, gc_btn[10], data[4]&0x02);	//DPAD Down
+-		input_report_key(dev, gc_btn[11], data[4]&0x04);	//DPAD Left
+-		input_report_key(dev, gc_btn[12], data[4]&0x08);	//DPAD Right
++		input_report_abs(dev, ABS_HAT0X, !(data[4]&0x04)-!(data[4]&0x08));	//HAT X
++		input_report_abs(dev, ABS_HAT0Y, !(data[4]&0x02)-!(data[4]&0x01));	//HAT Y
+ 		input_report_key(dev, gc_btn[13], data[4]&0x10);	//Left Shoulder
+ 		input_report_key(dev, gc_btn[14], data[4]&0x20);	//Right Shoulder
+ 
+@@ -324,6 +322,8 @@ static int __init gc_setup_pad(struct gc *gc)
+ 
+ 	input_set_abs_params(input_dev, ABS_X, 0, 255, 0, 0);
+ 	input_set_abs_params(input_dev, ABS_Y, 0, 255, 0, 0);
++	input_set_abs_params(input_dev, ABS_HAT0X, -1, 1, 0, 0);
++	input_set_abs_params(input_dev, ABS_HAT0Y, -1, 1, 0, 0);
+ 
+ 	err = input_register_device(input_dev);
+ 	if (err)
