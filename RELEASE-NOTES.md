@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 - Add PiBoy DMG support
 - Add gamelink overload for gb and gbc
+- Better support for Xbox joysticks like Xbox One S Wireless controller, Xbox Elite Series 2 Wireless controller and Xbox Series X|S Wireless controller
 
 ### Improvements
 - Bump Amiberry to v4.1.5. Add CDTV support
