@@ -186,7 +186,8 @@ All notable changes to this project will be documented in this file.
 - Separate VIC-20 system from C64
 - Fix Theme svg from SCV system
 - Fix Supervision naming in configgen
-
+- Fix sound issue on GPIcase (#1476)
+- Fix fan not stopping on shutdown on nespi4case
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

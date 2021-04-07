@@ -132,6 +132,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Vérifier qu'un appairage fonctionne
   - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
 - [ ] Update lightgun.xml => Test Point Blank for fbneo (lightgun)
+- [ ] Vérifier que le GPi émet du son (#1476)
+- [ ] Vérifier que le ventilateur s'éteint à l'arrêt du nespi4case
 
 
 ## Technique
