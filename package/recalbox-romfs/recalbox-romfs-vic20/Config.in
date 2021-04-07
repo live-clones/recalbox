@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RECALBOX_ROMFS_VIC20
+	bool "recalbox-romfs-vic20"
+	select BR2_PACKAGE_RECALBOX_ROMS
+	depends on BR2_PACKAGE_LIBRETRO_VICE
+	help
+	  share_init/roms and xml for vic20

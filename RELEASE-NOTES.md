@@ -24,6 +24,8 @@
 - Add support for Odroid Go Super
 - Add Watara SuperVision System on all boards
 - Add Elektronika BK series on all boards
+- Add VideoPac+ System
+- Separate VIC-20 system from C64
 
 ### Improvements
 - Bump supermodel to version 839
