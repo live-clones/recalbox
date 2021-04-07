@@ -66,6 +66,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test manual refresh
   - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
   - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
+- [ ] Test xpadneo package (#1609)
+  - [ ] Test Xbox One S Wireless controller
+  - [ ] Test Xbox Elite Series 2 Wireless controller
+  - [ ] Test Xbox Series X|S Wireless controller
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
