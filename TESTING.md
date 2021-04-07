@@ -139,6 +139,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check volume wheel works
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
+- [ ] Test xpadneo package (#1609)
+  - [ ] Test Xbox One S Wireless controller
+  - [ ] Test Xbox Elite Series 2 Wireless controller
+  - [ ] Test Xbox Series X|S Wireless controller
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
