@@ -85,7 +85,7 @@ InputMapper::PadList InputMapper::AvailablePads()
 
 void InputMapper::SortActiveFirst(PadArray& padArray)
 {
-  // Seeh highest non empty/phantom devices
+  // Seek highest non empty/phantom devices
   int higher = Input::sMaxInputDevices;
   while(--higher >= 0)
     if (padArray[higher].Identifier >= 0)
