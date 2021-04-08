@@ -64,7 +64,8 @@
 - Fix shaders on odroidgo2
 - Fix RetroArch shortcuts on odroidgo2
 - Fix Libretro Parallel N64 core on odroidgo2 & Pi4
- -Fix fan not stopping on shutdown on nespi4case
+- Fix fan not stopping on shutdown on nespi4case
+- Fix libretro-mame, now full speed
 
 ## 7.1.1-Reloaded
 
