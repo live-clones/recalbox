@@ -194,6 +194,7 @@ All notable changes to this project will be documented in this file.
 - Fix wrong file deleted in reset factory option
 - Add sound mode
 - Fix slow libretro-mame (#1387)
+- Fix bios path neogeocd 
 
 
 ## [7.1.1-Reloaded]
