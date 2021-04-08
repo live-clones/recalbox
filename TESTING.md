@@ -137,6 +137,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Update lightgun.xml => Test Point Blank for fbneo (lightgun)
 - [ ] Vérifier que le GPi émet du son (#1476)
 - [ ] Vérifier que le ventilateur s'éteint à l'arrêt du nespi4case
+- [ ] Vérifier que Killer instinct fonctionne à 60fps sur libretro-mame
 
 
 ## Technique

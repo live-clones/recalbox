@@ -193,6 +193,7 @@ All notable changes to this project will be documented in this file.
 - Fix Netplay pinged while a game is running
 - Fix wrong file deleted in reset factory option
 - Add sound mode
+- Fix slow libretro-mame (#1387)
 
 
 ## [7.1.1-Reloaded]
