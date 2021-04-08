@@ -260,8 +260,8 @@ class SupermodelGenerator(Generator):
 
             # Controllers
             supermodelControllers.generateControllerConfig(self, Generator, playersControllers, system)
-
-            commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
+            
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
         ## add other cmd option for more configuration
         ## -----AUDIO------
         commandArray.extend(self.GetMusicVolume(system))
