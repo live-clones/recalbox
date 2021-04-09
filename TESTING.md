@@ -144,6 +144,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier que l'odroidxu4 dispose des profiles définis dans odroidxu4-hdmi.conf
   - [ ] `pacmd list-cards |grep -e '^\s*output:' |grep -q 'Digital Stereo Output' && echo "ok" || echo "pas ok"`
   - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=odroidxu4-hdmi.conf && echo "ok" || echo "pas ok"`
+- [ ] Check the path of the bios neogeocd in the bios checker (ES)
+
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well
