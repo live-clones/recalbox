@@ -195,6 +195,7 @@ All notable changes to this project will be documented in this file.
 - Add sound mode
 - Fix slow libretro-mame (#1387)
 - Fix bios path neogeocd and file restructuring
+- Updated ES log path for support script
 
 
 ## [7.1.1-Reloaded]
