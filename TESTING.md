@@ -138,7 +138,12 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Vérifier que le GPi émet du son (#1476)
 - [ ] Vérifier que le ventilateur s'éteint à l'arrêt du nespi4case
 - [ ] Vérifier que Killer instinct fonctionne à 60fps sur libretro-mame
-
+- [ ] Vérifier que le gpicase dispose des profiles définis dans rpi-analog.conf
+  - [ ] `test $(pacmd list-cards |grep -e '^\s*output:' |wc -l) -eq 2 && echo "ok" || echo "pas ok"`
+  - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=rpi-analog.conf && echo "ok" || echo "pas ok"`
+- [ ] Vérifier que l'odroidxu4 dispose des profiles définis dans odroidxu4-hdmi.conf
+  - [ ] `pacmd list-cards |grep -e '^\s*output:' |grep -q 'Digital Stereo Output' && echo "ok" || echo "pas ok"`
+  - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=odroidxu4-hdmi.conf && echo "ok" || echo "pas ok"`
 
 ## Technique
 - [ ] Packages that require libgo2 compiles well

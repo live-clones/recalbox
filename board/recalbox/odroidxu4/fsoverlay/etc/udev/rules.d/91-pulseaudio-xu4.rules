@@ -1,0 +1,8 @@
+SUBSYSTEM!="sound*", GOTO="end"
+ACTION!="change", GOTO="end"
+KERNEL!="card*", GOTO="end"
+ENV{SOUND_FORM_FACTOR}!="internal", GOTO="end"
+
+DRIVERS=="odroid-audio", ATTR{id}=="OdroidXU4", ENV{PULSE_PROFILE_SET}="odroidxu4-hdmi.conf", GOTO="end"
+
+LABEL="end"
