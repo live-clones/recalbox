@@ -19,6 +19,7 @@ InputMapper::InputMapper(IInputChange* interface)
 
 InputMapper::~InputMapper()
 {
+  SaveConfiguration();
   InputManager::Instance().RemoveNotificationInterface(this);
 }
 
