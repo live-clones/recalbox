@@ -198,6 +198,8 @@ All notable changes to this project will be documented in this file.
 - Updated ES log path for support script
 - Added supplemental bios fixes
 - Fix svgs in SCV's theme
+- Fix pad ordering not saved
+- Fix minor issues in Emulationstation
 
 
 ## [7.1.1-Reloaded]
