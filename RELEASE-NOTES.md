@@ -29,7 +29,7 @@
 - Add sound mode option (Music/Video sound)
 
 ### Improvements
-- Bump supermodel to version 839
+- Bump supermodel to version 858
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - Bump Amiberry to version 3.3
 - Bump Stella (A2600) to fix lots of games (Pitfall II among many others)
@@ -53,6 +53,7 @@
 - Bump PPSSPP, PSP games now run far more quickly (for odroidgo2 and 3)
 
 ### Fixes
+- Fix bypass configgen option for model3
 - Fix reactivation of the deleted mesa 3d demos package
 - Fix Dolphin emulator 
 - Fix Odroid Go Advance controller (v1)
