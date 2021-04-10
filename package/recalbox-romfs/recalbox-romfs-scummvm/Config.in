@@ -2,7 +2,6 @@ config BR2_PACKAGE_RECALBOX_ROMFS_SCUMMVM
 	bool "recalbox-romfs-scummvm"
 	select BR2_PACKAGE_RECALBOX_ROMS
 	depends on BR2_PACKAGE_SCUMMVM \
-	  || BR2_PACKAGE_RESIDUALVM \
 	  || BR2_PACKAGE_LIBRETRO_SCUMMVM
 	help
 	  share_init/roms and xml for scummvm
