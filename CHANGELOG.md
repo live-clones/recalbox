@@ -197,6 +197,7 @@ All notable changes to this project will be documented in this file.
 - Fix bios path neogeocd and file restructuring
 - Updated ES log path for support script
 - Added supplemental bios fixes
+- Fix svgs in SCV's theme
 
 
 ## [7.1.1-Reloaded]
