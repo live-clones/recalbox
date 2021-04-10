@@ -21,16 +21,15 @@ try_symlink_lib() {
 
 # get nvidia gpu model
 # "lspci -d::0300" only list vga class devices 
-gpu=("$(lspci -d::0300 |awk -F'[' '{print $2}' |awk -F']' '{print $1}')")
+gpu=("$(lspci -vmm -d10de::0300 | sed -E '/^Device/!d;s/.*\[([^]]+)\].*/\1/' | head -n 1)")
 # "lspci -nd10de::0300" only list nvidia vendor and vga class devices
-gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2)")
-# get Intel igpu
+gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2 | sed '/^$/d' | head -n 1)")
 # if has intel igpu and nvidia gpu serie M you need optimus technologie is not compatible for a moment in recalbox
 igpu=("$(lspci -d8086::0300)")
 
 # check the compatibility of the graphics card with the driver version "460.67" then "390.116"
-supportList460=($(grep -i -E "${gpu}.*${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-460.txt))
-supportList390=($(grep -i -E "${gpu}.*${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+supportList460=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-460.txt))
+supportList390=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
 
 # check the version
 nvidia460=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
