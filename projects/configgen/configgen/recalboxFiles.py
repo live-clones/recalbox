@@ -39,7 +39,6 @@ recalboxBins =\
     'pisnes'      : '/usr/bin/pisnes',
     'ppsspp'      : '/usr/bin/PPSSPPSDL',
     'reicast'     : '/usr/bin/reicast.elf',
-    'residualvm'  : '/usr/bin/residualvm',
     'scummvm'     : '/usr/bin/scummvm',
     'simcoupe'    : '/usr/bin/simcoupe',
     'solarus'     : '/usr/bin/solarus-run',
@@ -118,7 +117,6 @@ dosboxCustom = CONF + '/dosbox'
 dosboxConfig = dosboxCustom + '/dosbox.conf'
 
 scummvmSaves = SAVES + '/scummvm'
-residualvmSaves = SAVES + '/scummvm'
 
 viceConfig = CONF + "/vice/vice.conf"
 

@@ -51,10 +51,6 @@ def getGenerator(emulator):
         module = __import__("generators.dosbox.dosboxGenerator", fromlist=["DosBoxGenerator"])
         generatorClass = getattr(module, "DosBoxGenerator")
         return generatorClass()
-    elif emulator == "residualvm":
-        module = __import__("generators.residualvm.residualvmGenerator", fromlist=["ResidualVMGenerator"])
-        generatorClass = getattr(module, "ResidualVMGenerator")
-        return generatorClass()
     elif emulator == "advancemame":
         module = __import__("generators.advancemame.advMameGenerator", fromlist=["AdvMameGenerator"])
         generatorClass = getattr(module, "AdvMameGenerator")
@@ -410,7 +406,6 @@ def config_upgrade(version):
      "pisnes",
      "ppsspp",
      "reicast",
-     "residualvm",
      "scummvm",
      "simcoupe",
      "supermodel",

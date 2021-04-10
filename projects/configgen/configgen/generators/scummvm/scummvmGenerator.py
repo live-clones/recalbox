@@ -3,7 +3,6 @@ import Command
 import recalboxFiles
 from controllersConfig import Controller
 from generators.Generator import Generator
-from generators.residualvm.residualvmGenerator import ResidualVMGenerator 
 import os.path
 import glob
 
@@ -25,10 +24,6 @@ class ScummVMGenerator(Generator):
     def generate(self, system, playersControllers, recalboxSettings, args):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
-        # If ResidualVM extension, redirect to ResidualVM emulator
-        if args.rom.endswith(".residualvm"):
-            system.config['emulator'] = 'residualvm'
-            return ResidualVMGenerator().generate(system, playersControllers, recalboxSettings, args)
 
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
@@ -36,12 +31,12 @@ class ScummVMGenerator(Generator):
             #system.config['configfile'] = recalboxFiles.mupenCustom
             pass
 
-
         # Find rom path
         if os.path.isdir(args.rom):
-          # rom is a directory: must contains a <game name>.scummvm file
+          # rom is a directory: must contains a <game name>.scummvm/.residualvm file
           romPath = args.rom
-          romFile = glob.glob(romPath + "/*.scummvm")[0]
+          romExt = os.path.splitext(romPath)[1]
+          romFile = glob.glob(romPath + "/*" + romExt)[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
         else:
           # rom is a file: split in directory and file name
@@ -65,4 +60,4 @@ class ScummVMGenerator(Generator):
 
         commandArray.append("""{}""".format(romName))
 
-        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_RENDER_VSYNC":"1"})
+        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so", "SDL_RENDER_VSYNC":"1"})
