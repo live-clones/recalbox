@@ -78,6 +78,9 @@ if [ $RC -eq 0 ]; then
     echo "running pre-upgrade script"
     bash /boot/update/pre-upgrade.sh
   fi
+  # clear case setting
+  echo "clear case setting"
+  sed -i -E 's/^case=/;case=/' /boot/recalbox-boot.conf
   # Reboot
   echo "upgrade successfull, rebooting"
   fbv2 -k -i "$IMAGE_PATH/offline-install-7.jpg"

@@ -201,8 +201,8 @@ All notable changes to this project will be documented in this file.
 - Fix pad ordering not saved
 - Fix minor issues in Emulationstation
 - Fix emulationstation log path in webmanager
-
-- [ ] Fix chmod in recalbox-hardware package
+- Fix chmod in recalbox-hardware package
+- Remove case setting when upgrading
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
