@@ -174,7 +174,7 @@ endef
 # the no-version symlink, so we can link to them at build time.
 define NVIDIA_DRIVER_390_RECALBOX_INSTALL_LIBS
 	$(foreach lib,$(NVIDIA_DRIVER_390_RECALBOX_LIBS),\
-		$(INSTALL) -D -m 0644 $(@D)/$(lib) $(1)/usr/lib/extra/nvidia-$(NVIDIA_DRIVER_390_RECALBOX_VERSION)/$(notdir $(lib))
+		$(INSTALL) -D -m 0755 $(@D)/$(lib) $(1)/usr/lib/extra/nvidia-$(NVIDIA_DRIVER_390_RECALBOX_VERSION)/$(notdir $(lib))
 		libsoname="$$( $(TARGET_READELF) -d "$(@D)/$(lib)" \
 			|sed -r -e '/.*\(SONAME\).*\[(.*)\]$$/!d; s//\1/;' )";)
 endef
@@ -189,7 +189,7 @@ endef
 define NVIDIA_DRIVER_390_RECALBOX_INSTALL_TARGET_CMDS
 	$(call NVIDIA_DRIVER_390_RECALBOX_INSTALL_LIBS,$(TARGET_DIR))
 	$(foreach m,$(NVIDIA_DRIVER_390_RECALBOX_X_MODS), \
-		$(INSTALL) -D -m 0644 $(@D)/$(notdir $(m)) \
+		$(INSTALL) -D -m 0755 $(@D)/$(notdir $(m)) \
 			$(TARGET_DIR)/usr/lib/extra/nvidia-$(NVIDIA_DRIVER_390_RECALBOX_VERSION)/xorg/$(m)
 	)
 	$(foreach p,$(NVIDIA_DRIVER_390_RECALBOX_PROGS), \
