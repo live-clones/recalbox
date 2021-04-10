@@ -40,7 +40,7 @@
 - Improve menu ergonomy
 - Improve internal scraper
 - Bump libretro-uae adding CHD support
-- Bump ScummVM
+- Bump ScummVM and merge with ResidualVM
 - Bump BlueMSX
 - Bump rockchip-libmali (for odroidgo2 and 3)
 - Bump Hypseus to version 1.3
