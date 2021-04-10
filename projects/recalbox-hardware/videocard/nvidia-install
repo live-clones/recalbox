@@ -88,7 +88,6 @@ echo "Installing..."
 ##
 # install/symlink xorg modules
 ##
-chmod -R +x ${nvxorg}
 # 390/460
 try_symlink "${nvxorg}/drivers/nvidia_drv.so" "${xorg}/drivers/nvidia_drv.so"
 # 390
@@ -100,7 +99,6 @@ try_symlink_lib "${nvxorg}/extensions/libglxserver_nvidia.so" "${xorg}/extension
 ##
 # install/symlink modules
 ##
-chmod +x ${nvlibs}/*
 # 390/460
 try_symlink_lib "${nvlibs}/libEGL.so" "${libs}/libEGL.so" "${nvegl}"
 try_symlink_lib "${nvlibs}/libEGL_nvidia.so" "${libs}/libEGL_nvidia.so" "${nvver}"
