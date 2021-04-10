@@ -31,4 +31,6 @@ hdmi_force_hotplug=1
 EOF
 fi
 
-mount -o remount,ro /boot
+# this next patch can removed post 7.2 as the case
+# reset will be implemented in the caller script
+sed -i -E 's/^case=/;case=/' /boot/recalbox-boot.conf

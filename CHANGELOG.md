@@ -202,7 +202,7 @@ All notable changes to this project will be documented in this file.
 - Fix minor issues in Emulationstation
 - Fix emulationstation log path in webmanager
 - Fix chmod in recalbox-hardware package
-- Remove case setting when upgrading
+- Remove case setting when upgrading for GPicase for 7.2
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

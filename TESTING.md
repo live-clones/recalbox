@@ -146,7 +146,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=odroidxu4-hdmi.conf && echo "ok" || echo "pas ok"`
 - [ ] Check the path of the bios neogeocd in the bios checker (ES)
 - [ ] Check x86 and x86_64 fresh install with nvidia GFX card works
-- [ ] Check case config has been reconfigured
+- [ ] Check GPIcase config has been reconfigured
 
 
 ## Technique
