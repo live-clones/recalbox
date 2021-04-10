@@ -31,4 +31,3 @@ hdmi_force_hotplug=1
 EOF
 fi
 
-mount -o remount,ro /boot
