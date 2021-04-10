@@ -200,6 +200,7 @@ All notable changes to this project will be documented in this file.
 - Fix svgs in SCV's theme
 - Fix pad ordering not saved
 - Fix minor issues in Emulationstation
+- Fix emulationstation log path in webmanager
 
 
 ## [7.1.1-Reloaded]
