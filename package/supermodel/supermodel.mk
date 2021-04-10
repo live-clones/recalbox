@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SUPERMODEL_VERSION = r839
+SUPERMODEL_VERSION = r858
 SUPERMODEL_SITE = svn://svn.code.sf.net/p/model3emu/code/trunk
 SUPERMODEL_SITE_METHOD = svn
 SUPERMODEL_LICENSE = GPL2

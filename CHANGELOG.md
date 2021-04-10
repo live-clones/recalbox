@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Add frequency screen option for X86, X86_64 by Chriskt78
 - update of the Port family
 - Fix and Bump Dolphin emulator
-- Bump supermodel to version 839
+- Bump supermodel to version 858 Fix bypass configgen option for model3
 - Cherry pick files to remove when quick building
 - Add GBC and Naomi intro videos
 - Simplify recalbox.version for branches builds

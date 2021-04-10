@@ -14,6 +14,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## [Next]
 
 ## Pending Features
+- [ ] Supermodel => Model3 emulator => test with romset 0.230 and test bypass configgen option add 'model3.configfile=dummy' in 'recalbox.conf' and check if '/recalbox/share/system/configs/model3/supermodel.ini' is not rewritten
 - [ ] colecovision Netplay with FBNeo core
 - [ ] Test & evaluate MelonDS on Pi4
 - [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
