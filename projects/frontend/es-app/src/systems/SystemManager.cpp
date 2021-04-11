@@ -295,49 +295,47 @@ bool SystemManager::AddArcadeMetaSystem()
 
 bool SystemManager::AddPorts()
 {
-  if (RecalboxConf::Instance().GetCollection("ports"))
+  std::vector<SystemData*> ports;
+  FileData::StringMap doppelganger;
+
+  // Lookup all non-empty arcade platforms
+  for (SystemData* system: mVisibleSystemVector)
+    if (system->PlatformCount() == 1)
+      if ((system->PlatformIds(0) > PlatformIds::PlatformId::PORT_START) &&
+          (system->PlatformIds(0) < PlatformIds::PlatformId::PORT_STOP))
+        if (system->HasGame())
+        {
+          ports.push_back(system);
+          system->BuildDoppelgangerMap(doppelganger, false);
+        }
+
+  // Non empty?
+  if (!ports.empty())
   {
-    std::vector<SystemData*> ports;
-    FileData::StringMap doppelganger;
-
-    // Lookup all non-empty arcade platforms
-    for (SystemData* system: mVisibleSystemVector)
-      if (system->PlatformCount() == 1)
-        if ((system->PlatformIds(0) > PlatformIds::PlatformId::PORT_START) &&
-            (system->PlatformIds(0) < PlatformIds::PlatformId::PORT_STOP))
-          if (system->HasGame())
-          {
-            ports.push_back(system);
-            system->BuildDoppelgangerMap(doppelganger, false);
-          }
-
-    // Non empty?
-    if (!ports.empty())
+    // Remove port systems from the visible list and add to the hidden list
+    for (SystemData* port: ports)
     {
-      // Remove port systems from the visible list and add to the hidden list
-      for (SystemData* port: ports)
-      {
-        auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), port);
-        if (it != mVisibleSystemVector.end())
-          mVisibleSystemVector.erase(it);
-        mHiddenSystemVector.push_back(port);
-      }
+      auto it = std::find(mVisibleSystemVector.begin(), mVisibleSystemVector.end(), port);
+      if (it != mVisibleSystemVector.end())
+        mVisibleSystemVector.erase(it);
+      mHiddenSystemVector.push_back(port);
+    }
 
+    if (!RecalboxConf::Instance().GetCollectionHide("ports"))
+    {
       // Create meta-system
       SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
       { LOG(LogInfo) << "[System] Creating Ports"; }
-      // Seek defaulot position
+      // Seek default position
       int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
       if (position == 0)
         while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, portSystem);
     }
-
-    return !ports.empty();
   }
 
-  return false;
+  return !ports.empty();
 }
 
 bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)

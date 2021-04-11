@@ -245,6 +245,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     int GetCollectionPosition(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), 0); }
     RecalboxConf& SetCollectionPosition(const std::string& name, int position) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), position); return *this; }
 
+    bool GetCollectionHide(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), false); }
+    RecalboxConf& SetCollectionHide(const std::string& name, bool hide) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), hide); return *this; }
+
     std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
     RecalboxConf& SetPad(int index, const std::string& padid) { SetString(std::string(sPadHeader).append(Strings::ToString(index)), padid); return *this; }
 
@@ -269,6 +272,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Collection Keys
      */
 
+    static constexpr const char* sCollectionHide             = "hide";
     static constexpr const char* sCollectionTheme            = "theme";
     static constexpr const char* sCollectionLimit            = "limit";
     static constexpr const char* sCollectionPosition         = "position";
