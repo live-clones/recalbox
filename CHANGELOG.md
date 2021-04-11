@@ -206,6 +206,7 @@ All notable changes to this project will be documented in this file.
 - Remove case setting when upgrading
 - Bump ScummVM and merge with ResidualVM
 - Fix neogeo bios path #2
+- Add missing neogeocd letter in md5
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
