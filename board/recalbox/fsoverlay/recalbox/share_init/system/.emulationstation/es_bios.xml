@@ -450,18 +450,18 @@
     <bios path="mpr-19367-mx.ic1" md5="1cd19988d1d72a3e7caa0b73234c96b4" core="mednafen_saturn,kronos" note="Required for Ultraman: Hikari no Kyojin Densetsu ROM Cartridge" />
   </system>
   <system fullname="SNK Neo-Geo" platform="neogeo">
-    <bios path="/recalbox/share/roms/neogeo/neogeo.zip|neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
-                                                                        42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
-                                                                        d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3,
-                                                                        005b843b6e70b939c2cca41887cbc371,42e359e394f0be1d61b94ddca0efbe6c,
-                                                                        4b9432a4571d03cc8bae9d24d8d6eb40,4cd64313e26537c04cdb561b8f84b0e4,
-                                                                        50bbfd6bf297038b085e29265c65723a,76ee7390ccd537cddea1018025ca29a8,
-                                                                        84d6c35aad790a77ba3cfc1b319e1061,912c0a56bafe0fba39d0c668b139b250,
-                                                                        94748719c0ef31e7375b0c357d82fc89,ab25b9e25052a6064901a7a221037eb6,
-                                                                        ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
-                                                                        b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
-                                                                        ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
-                                                                        a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+    <bios path="/recalbox/share/roms/neogeo/neogeo.zip|/recalbox/share/bios/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+                                                                                             42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
+                                                                                             d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3,
+                                                                                             005b843b6e70b939c2cca41887cbc371,42e359e394f0be1d61b94ddca0efbe6c,
+                                                                                             4b9432a4571d03cc8bae9d24d8d6eb40,4cd64313e26537c04cdb561b8f84b0e4,
+                                                                                             50bbfd6bf297038b085e29265c65723a,76ee7390ccd537cddea1018025ca29a8,
+                                                                                             84d6c35aad790a77ba3cfc1b319e1061,912c0a56bafe0fba39d0c668b139b250,
+                                                                                             94748719c0ef31e7375b0c357d82fc89,ab25b9e25052a6064901a7a221037eb6,
+                                                                                             ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
+                                                                                             b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
+                                                                                             ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
+                                                                                             a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
   </system>
   <system fullname="SNK Neo-Geo CD" platform="neogeocd">
     <bios path="neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
