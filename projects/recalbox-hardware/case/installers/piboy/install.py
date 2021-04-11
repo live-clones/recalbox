@@ -1,0 +1,177 @@
+import os
+import logger
+from filemanipulation import sed, stripline
+from installers.base.install import InstallBase
+from settings import keyValueSettings
+
+# status flags
+# ex: 1100 0110
+#     ||    |\-VSTAT1
+#     ||    \-VSTAT2
+#     |\-power button (0 -> off position, 1 -> on position)
+#     \-VBus
+
+
+class Install(InstallBase):
+
+    BASE_SOURCE_FOLDER = InstallBase.BASE_SOURCE_FOLDER + "piboy/"
+    RECALBOX_CONF = "/recalbox/share/system/recalbox.conf"
+
+    def __init__(self):
+        InstallBase.__init__(self)
+
+    def InstallHardware(self, case):
+
+        logger.hardlog("Installing PiBoy DMG hardware")
+
+        try:
+            os.system("mount -o remount,rw /boot")
+            # Install /boot/recalbox-user-config.txt - most important change first
+            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/recalbox-user-config.txt"
+            os.system("cp /boot/recalbox-user-config.txt /boot/recalbox-user-config.txt.backup")
+            if os.system("cp {} /boot".format(sourceConfig)) != 0:
+                logger.hardlog("PiBoy: Error installing recalbox-user-config.txt")
+                return False
+            logger.hardlog("PiBoy: recalbox-user-config.txt installed")
+            # install boot image
+            sourcePpm = self.BASE_SOURCE_FOLDER + "assets/piboy.ppm"
+            if os.system("cp -r {} /boot/boot.ppm".format(sourcePpm)) == 0:
+                logger.hardlog("PiBoy: boot image installed")
+            else:
+                logger.hardlog("PiBoy: boot image NOT installed")
+
+            sed('^\s*dtoverlay=vc4-kms-v3d', 'dtoverlay=vc4-fkms-v3d', '/boot/config.txt')
+            sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
+            logger.hardlog("PiBoy: vc4-fkms-v3d installed")
+
+        except Exception as e:
+            logger.hardlog("PiBoy: Exception = {}".format(e))
+            return False
+
+        finally:
+            os.system("mount -o remount,ro /boot")
+            # write 129 to flags in order to reboot properly (instead of shutdown)
+            with open("/sys/kernel/xpi_gamecon/flags", "w") as xpiflags:
+                xpiflags.write("129\n")
+
+        logger.hardlog("PiBoy DMG hardware installed successfully!")
+        return True
+
+    def UninstallHardware(self, case):
+
+        try:
+            os.system("mount -o remount,rw /boot")
+            # Uninstall /boot/recalbox-user-config.txt
+            if os.system("cp /boot/recalbox-user-config.txt.backup /boot/recalbox-user-config.txt") != 0:
+                logger.hardlog("PiBoy: Error uninstalling recalbox-user-config.txt")
+                return False
+            logger.hardlog("PiBoy: recalbox-user-config.txt uninstalled")
+            os.remove("/boot/boot.ppm")
+            logger.hardlog("PiBoy: /boot/boot.ppm uninstalled")
+            sed('^\s*dtoverlay=vc4-fkms-v3d', 'dtoverlay=vc4-kms-v3d', '/boot/config.txt')
+            sed(' video=HDMI-A-1:d', '', '/boot/cmdline.txt')
+            logger.hardlog("PiBoy: vc4-fkms-v3d uninstalled, revert to vc4-kms-v3d")
+
+        except Exception as e:
+            logger.hardlog("PiBoy: Exception = {}".format(e))
+            return False
+
+        finally:
+            os.system("mount -o remount,ro /boot")
+            os.system("mount -o remount,ro /")
+
+        return True
+
+    def InstallSoftware(self, case):
+
+        if case == "PiBoy":
+
+            logger.hardlog("Installing PiBoy DMG software")
+
+            try:
+                os.system("mount -o remount,rw /")
+                # Install /etc/init.d/S01piboy
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S01piboy"
+                if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
+                    logger.hardlog("PiBoy: Error installing S01piboy")
+                    return ""
+                logger.hardlog("PiBoy: S01piboy installed")
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-battery-indicator"
+                if os.system("cp {} /usr/bin/".format(sourceConfig)) != 0:
+                    logger.hardlog("PiBoy: Error installing piboy-battery-indicator")
+                    return ""
+                logger.hardlog("PiBoy: piboy-battery-indicator installed")
+                # Load recalbox.conf
+                recalboxConf = keyValueSettings(self.RECALBOX_CONF, False)
+                recalboxConf.loadFile()
+
+                # Set powerswitch.sh config
+                recalboxConf.setOption("system.power.switch", "PIBOY")
+                # Set wpaf config
+                recalboxConf.setOption("hat.wpaf.enabled", "1")
+                recalboxConf.setOption("hat.wpaf.board", "piboy")
+                recalboxConf.saveFile()
+                logger.hardlog("PiBoy: powerswitch configured")
+                # Install /etc/init.d/S25volumed
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S25volumed"
+                if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
+                    logger.hardlog("PiBoy: Error installing S25volumed")
+                    return ""
+                logger.hardlog("PiBoy: S25volumed installed")
+                with open("/etc/modules.conf", "a") as etcmodules:
+                    etcmodules.write("xpi_gamecon\n")
+                logger.hardlog("PiBoy: xpi_gamecon declared in /etc/modules.conf")
+
+                # start piboy service for listening to power event
+                os.system("/etc/init.d/S01piboy start")
+                # start volumed service for volume wheel to work properly
+                os.system("/etc/init.d/S25volumed start")
+
+            except Exception as e:
+                logger.hardlog("PiBoy: Exception = {}".format(e))
+                return ""
+
+            finally:
+                os.system("mount -o remount,ro /")
+
+            logger.hardlog("PiBoy DMG software installed successfully!")
+            return case
+
+        return ""
+
+    def UninstallSoftware(self, case):
+
+        try:
+            os.system("mount -o remount,rw /")
+            os.remove("/etc/init.d/S01piboy")
+            logger.hardlog("PiBoy: /etc/init.d/S01piboy uninstalled")
+            os.remove("/usr/bin/piboy-battery-indicator")
+            logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
+            os.remove("/etc/init.d/S25volumed")
+            logger.hardlog("PiBoy: /etc/init.d/S25volumed uninstalled")
+            stripline("xpi_gamecon", "/etc/modules.conf")
+            logger.hardlog("PiBoy: xpi_gamecon removed from /etc/modules.conf")
+            # Load recalbox.conf
+            recalboxConf = keyValueSettings(self.RECALBOX_CONF, False)
+            recalboxConf.loadFile()
+
+            # Remove powerswitch.sh config
+            recalboxConf.removeOption("system.power.switch")
+            # Remove wpaf config
+            recalboxConf.setOption("hat.wpaf.enabled", "0")
+            recalboxConf.removeOption("hat.wpaf.board")
+            recalboxConf.saveFile()
+            logger.hardlog("PiBoy: powerswitch unconfigured")
+
+        except Exception as e:
+            logger.hardlog("PiBoy: Exception = {}".format(e))
+            return False
+
+        finally:
+            os.system("mount -o remount,ro /")
+
+        return True
+
+    def GetInstallScript(self, case):
+
+        return None

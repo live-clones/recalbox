@@ -1,4 +1,7 @@
+import logger
+import os
 import sys
+import time
 from settings import keyValueSettings
 import cases
 
@@ -41,6 +44,26 @@ def DetectNesPi4Case():
 
 # --------- Nuxii
 
+# --------- PiBoy
+
+
+def DetectPiBoyCase(cases):
+    case = cases.NONE
+    try:
+        logger.hardlog("trying piboy")
+        os.system("modprobe xpi_gamecon")
+        time.sleep(0.5)
+        with open("/sys/kernel/xpi_gamecon/status") as xpistatus:
+            status = int(xpistatus.readline())
+            logger.hardlog("status = {}".format(status))
+            if status in (70, 198):
+                case = cases.PIBOY
+            else:
+                raise "piboy not detected"
+    except:
+        os.system("rmmod xpi_gamecon") # keep module loaded if piboy detected, remove otherwise
+    return case
+
 # --------- Main
 
 # Main identification routine
@@ -53,8 +76,10 @@ def Identify():
     if board in ("rpi0", "rpi1", "rpi3", "rpizero2legacy"):
         case = DetectGPiCase()
 
-    if case == cases.NONE and board == "rpi4":
-        case = DetectNesPi4Case()
+    if board == "rpi4":
+        case = DetectNesPi4Case(cases)
+        if case == cases.NONE:
+            case = DetectPiBoyCase(cases)
 
     return case
 
@@ -130,7 +155,7 @@ def mainInstall():
         if needReboot and machine:
             logger.hardlog("Automatic reboot required")
             subprocess.call(["reboot", "-f"])
-            exit(0)
+            sys.exit(0)
 
     # No reboot after phase 0, make install image available
     if previousPhase == 0:
