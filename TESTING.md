@@ -38,6 +38,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Videopack system
 - [ ] Test Vic20 system
 - [ ] Test all sound modes
+- [ ] Test externalscreen.sh with a first screen that is 2K/4K but has not FullHD resolution
 
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
