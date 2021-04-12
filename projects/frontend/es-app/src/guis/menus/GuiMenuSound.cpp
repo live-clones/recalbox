@@ -14,14 +14,13 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
   : GuiMenuBase(window, _("SOUND SETTINGS"), nullptr)
 {
   // Volume
-  if (!AudioController::Instance().HasSpecialAudio())
-    mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
+  mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 
   // AudioMode
   mAudioMode = AddList<AudioMode>(_("AUDIO MODE"), (int)Components::AudioMode, this, GetAudioModeEntries(), _(MENUMESSAGE_SOUND_MODE_HELP_MSG));
 
   // Audio device
-  if (!AudioController::Instance().HasSpecialAudio() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
+  if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
     mOutputList = AddList<std::string>(_("OUTPUT DEVICE"), (int)Components::Output, this, GetOutputEntries(), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
 }
 
@@ -38,7 +37,8 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries(
     list.push_back({ playback.DisplayableName, playback.InternalName, currentDevice == playback.InternalName });
 
   // Sort
-  std::sort(list.begin(), list.end(), [](const ListEntry<std::string>& a, const ListEntry<std::string>& b) -> bool { return a.mText > b.mText; });
+  if (!list.empty())
+    std::sort(list.begin(), list.end(), [](const ListEntry<std::string>& a, const ListEntry<std::string>& b) -> bool { return a.mText > b.mText; });
 
   return list;
 }
