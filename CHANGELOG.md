@@ -290,6 +290,10 @@ All notable changes to this project will be documented in this file.
 - Add 4 mame games free to distribute for non-commercial use
 - Update TESTINGS.md
 - Fix tvservice on x86/x64 - rely on xrandr instead of framebuffer
+- Bump hardware repo (nVivia 460)
+- Bump EmulationStation (latest 7.2 fixes)
+- Bump configgen (fix Supermodel3 emulator)
+- Bump Theme (fix SCV & Vic20 svgs)
 
 
 ## [7.0.1]
