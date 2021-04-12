@@ -7,6 +7,7 @@
 
 #include <input/InputMapper.h>
 #include <input/InputManager.h>
+#include <utils/Log.h>
 #include <RecalboxConf.h>
 
 InputMapper::InputMapper(IInputChange* interface)
@@ -35,7 +36,10 @@ void InputMapper::Build()
   for(Pad& device : mPads)
     if (device.IsValid())
       if ((device.Identifier = LookupAndPopDevice(activePads, device)) < 0)
+      {
         mUnconnected.push_back(device);
+        LOG(LogDebug) << "[PadMapping] Move to unconnected: " << device.AsString();
+      }
 
   // Add remaining pads in unused slots
   bool assignNew = false;
@@ -43,13 +47,19 @@ void InputMapper::Build()
     for (Pad& device : mPads)
       if (!device.IsValid())
       {
+        LOG(LogDebug) << "[PadMapping] Add connected to the list: " << connectedDevice.AsString();
         device.Set(connectedDevice.Name, connectedDevice.UUID, connectedDevice.Identifier);
         assignNew = true;
         break;
       }
 
   // Push active pads first
+  LOG(LogDebug) << "[PadMapping] Sort active first";
   SortActiveFirst(mPads);
+
+  int index = 0;
+  for(const Pad& pad : mPads)
+    LOG(LogDebug) << "[PadMapping] Pad @" << ++index << " = " << pad.AsString();
 
   // Save config
   if (assignNew)
@@ -62,14 +72,20 @@ void InputMapper::LoadConfiguration()
   std::string uuid, name;
   for(int i = Input::sMaxInputDevices; --i >= 0; )
     if (Strings::SplitAt(RecalboxConf::Instance().GetPad(i), ':', uuid, name, true))
+    {
       mPads[i].Set(name, uuid, -1);
+      LOG(LogDebug) << "[PadMapping] Load pad @" << i << " = " << mPads[i].AsString();
+    }
 }
 
 void InputMapper::SaveConfiguration()
 {
   for(int i = Input::sMaxInputDevices; --i >= 0;)
     if (mPads[i].IsValid())
+    {
       RecalboxConf::Instance().SetPad(i, std::string(mPads[i].UUID).append(1, ':').append(mPads[i].Name));
+      LOG(LogDebug) << "[PadMapping] Save pad @" << i << " = " << mPads[i].AsString();
+    }
   RecalboxConf::Instance().Save();
 }
 
@@ -79,7 +95,8 @@ InputMapper::PadList InputMapper::AvailablePads()
   for(int i = 0; i < InputManager::Instance().DeviceCount(); ++i)
   {
     const InputDevice& device = InputManager::Instance().GetDeviceConfigurationFromIndex(i);
-    result.push_back(Pad(device.Name(), device.GUID(), device.Identifier()));
+    result.push_back(Pad(Strings::Trim(device.Name(), " \t\r\n"), device.GUID(), device.Identifier()));
+    LOG(LogDebug) << "[PadMapping] Available pad @" << i << " = " << result.back().AsString();
   }
   return result;
 }

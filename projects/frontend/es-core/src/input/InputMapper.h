@@ -11,6 +11,7 @@
 #include <input/Input.h>
 #include <input/IInputChange.h>
 #include <utils/math/Misc.h>
+#include <utils/Strings.h>
 
 class InputMapper : IInputChange
 {
@@ -20,7 +21,7 @@ class InputMapper : IInputChange
     {
       std::string Name; //!< Real pad name
       std::string UUID; //!< Pad uuid
-      int Identifier;        //!< Incremental index for multiple same pads
+      int Identifier;   //!< Incremental index for multiple same pads
 
       Pad() : Identifier(-1) {}
 
@@ -61,6 +62,8 @@ class InputMapper : IInputChange
         return Name == than.Name &&
                UUID == than.UUID;
       }
+
+      std::string AsString() const { return std::string(Name).append(1, '.').append(UUID).append(1, '.').append(Strings::ToString(Identifier)); }
     };
 
     //! Pad array
