@@ -23,7 +23,7 @@
 GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ADVANCED SETTINGS"), this)
   , mSystemManager(systemManager)
-  , mDefaultOverclock({ _("NONE"), "none", false, 0})
+  , mDefaultOverclock({ "none", _("NONE"), false, 0})
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
