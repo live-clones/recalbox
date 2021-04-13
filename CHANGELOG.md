@@ -223,6 +223,7 @@ All notable changes to this project will be documented in this file.
 - Improve FR texts
 - Fix genesis theme
 
+- Fix bluetooth device not found on first boot
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

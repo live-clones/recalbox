@@ -16,7 +16,7 @@ scanCmd=
 handle_ertm() {
   local modprobe_option
   local ertm
-  ertm="$($systemsetting  -command load -key controllers.bluetooth.ertm)"
+  ertm="$($systemsetting  -command load -key controllers.bluetooth.ertm -default 1)"
   # handle ERTM activation (enhanced retransmission mode)
   if [ "$ertm" = "0" ];then
     modprobe_option="options bluetooth disable_ertm=Y"
@@ -33,7 +33,7 @@ handle_ertm() {
 
 start_bluetoothd() {
   local settings_version
-  settings_version="$($systemsetting -command load -key controllers.ps3.driver)"
+  settings_version="$($systemsetting -command load -key controllers.ps3.driver -default bluez)"
   if [ "$settings_version" != "bluez" ]; then BLUETOOTHD_ARGS="--noplugin=sixaxis"; else BLUETOOTHD_ARGS="--noplugin=sixaxispair"; fi
   start-stop-daemon -S -q -m -p /var/run/bluetoothd.pid  --exec /usr/libexec/bluetooth/bluetoothd -- $BLUETOOTHD_ARGS &
   ( /recalbox/scripts/bluetoothcontrollers.sh ; $scanCmd ) &
@@ -42,12 +42,12 @@ start_bluetoothd() {
 case "$1" in
   start)
   handle_ertm
-  alternate="$($systemsetting  -command load -key controllers.bluetooth.alternate)"
+  alternate="$($systemsetting  -command load -key controllers.bluetooth.alternate -default 0)"
   if [ "$alternate" = "1" ] ; then
     scanningDaemon=btDaemon
     scanCmd="start-stop-daemon -S -q -m -p /var/run/$scanningDaemon.pid --exec /recalbox/scripts/bluetooth/$scanningDaemon > /dev/null 2>&1"
   fi
-  enabled="$($systemsetting  -command load -key controllers.bluetooth.enabled)"
+  enabled="$($systemsetting  -command load -key controllers.bluetooth.enabled -default 1)"
   if [ "$enabled" = "1" ];then
     start_bluetoothd
   fi
