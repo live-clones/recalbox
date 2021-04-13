@@ -2063,8 +2063,8 @@ msgstr ""
 "demás."
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "Selecciona la fuente del nombre de tu juego. Confíe en la base de datos de "
 "desguace o obtenerlos de nombre de archivo en bruto o sin decoración (sin "
@@ -3010,6 +3010,26 @@ msgstr "Vídeos"
 
 msgid "No sound"
 msgstr "Sin sonido"
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

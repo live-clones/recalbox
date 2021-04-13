@@ -1946,8 +1946,8 @@ msgid "Highlight all games of a particular region and fade out all others."
 msgstr "突出顯示特定區域的所有遊戲，然後淡出其他所有遊戲。"
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "選擇您的遊戲名稱的來源。信任剪貼數據庫，或從原始文件名或未修飾的文件名中獲取"
 "它們(沒有裝飾() or [] )."
@@ -2841,6 +2841,26 @@ msgid "Videos sound only"
 msgstr ""
 
 msgid "No sound"
+msgstr ""
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
 msgstr ""
 
 #~ msgid ""

@@ -2035,8 +2035,8 @@ msgstr ""
 "ます。"
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "ゲーム名でソースを選択します。 スクレイプデータベースを信頼す るか、ファイル"
 "名から取得します。 (未加工、装飾なしは、()か[])"
@@ -2953,6 +2953,26 @@ msgid "Videos sound only"
 msgstr ""
 
 msgid "No sound"
+msgstr ""
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
 msgstr ""
 
 #~ msgid ""

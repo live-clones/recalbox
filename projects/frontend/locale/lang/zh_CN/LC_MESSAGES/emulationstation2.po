@@ -1988,8 +1988,8 @@ msgstr "突出显示特定地域的所有游戏，并淡化其他地域的游戏
 
 #, fuzzy
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "选择您游戏名称的来源。信任搜刮数据库，或从原始文件名或未修饰的文件名中获取它"
 "们（在 () 或 [] 没有修饰）。"
@@ -2910,6 +2910,26 @@ msgid "Videos sound only"
 msgstr ""
 
 msgid "No sound"
+msgstr ""
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
 msgstr ""
 
 #~ msgid ""

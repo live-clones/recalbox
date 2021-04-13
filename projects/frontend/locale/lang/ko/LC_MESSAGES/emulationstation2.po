@@ -2002,8 +2002,8 @@ msgid "Highlight all games of a particular region and fade out all others."
 msgstr "특정 지역의 모든 게임을 강조 표시하고 다른 게임은 페이드 아웃합니다."
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "게임 이름의 원본을 선택하십시오. 스크래핑 데이터베이스를 신뢰하거나 원본이나 "
 "장식이 없는 파일 이름에서 가져옵니다(() 또는 []의 장식이 없는 경우)."
@@ -2884,6 +2884,26 @@ msgid "Videos sound only"
 msgstr ""
 
 msgid "No sound"
+msgstr ""
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
 msgstr ""
 
 #~ msgid ""

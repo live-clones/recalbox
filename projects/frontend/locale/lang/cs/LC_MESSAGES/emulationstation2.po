@@ -2032,8 +2032,8 @@ msgid "Highlight all games of a particular region and fade out all others."
 msgstr "Zvýrazní všechny hry nálěžející k regionu a potlačí všechny ostatní."
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "Vyberte zdroj jména vaší hry. Důvěřovat vyhledávací databázi, získat jej ze "
 "jména souboru v surové, nebo upravené formě (bez částí v () nebo v [] )."
@@ -2966,6 +2966,26 @@ msgstr "Pouze zvuk videa"
 
 msgid "No sound"
 msgstr "Bez zvuku"
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

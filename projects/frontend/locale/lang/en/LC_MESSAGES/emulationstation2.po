@@ -2030,8 +2030,8 @@ msgid "Highlight all games of a particular region and fade out all others."
 msgstr "Highlight all games of a particular region and fade out others."
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "Select the source of your game name. Trust the scraping database or get them "
 "from filename, raw or undecorated (without decoration in () or [] )."
@@ -2960,6 +2960,26 @@ msgstr "Video sound only"
 
 msgid "No sound"
 msgstr "No sound"
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

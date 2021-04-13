@@ -2067,8 +2067,8 @@ msgstr ""
 "Destaca todos os jogos de uma determinada região e desvanece todos os outros."
 
 msgid ""
-"Select the source of your game name. Trust the scraping database or get "
-"them from filename, raw or undecorated (without decoration in () or [] )."
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
 "Selecione a fonte do nome do seu jogo. Confie na base de dados de scraping "
 "ou obtenha-os a partir do nome do arquivo, bruto ou não (sem decoração em () "
@@ -3014,6 +3014,26 @@ msgstr "Somente sons dos vídeos"
 
 msgid "No sound"
 msgstr "Sem som"
+
+#
+msgid "BRIGHTNESS -"
+msgstr ""
+
+#
+msgid "BRIGHTNESS +"
+msgstr ""
+
+#
+msgid "Adult"
+msgstr ""
+
+#
+msgid "Waking up!"
+msgstr ""
+
+#
+msgid "Bye bye!"
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
