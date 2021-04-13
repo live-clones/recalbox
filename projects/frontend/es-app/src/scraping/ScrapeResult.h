@@ -7,9 +7,9 @@
 enum class ScrapeResult
 {
     Ok,           //!< Game found
-    NotScraped,   //!< Game does not need to be scrapped
+    NotScraped,   //!< Game does not need to be scraped
     NotFound,     //!< Game not found
-    QuotaReached, //!< Quota reached - Stop scrapping!
-    DiskFull,     //!< Disk limit reached - Stop scrapping!
-    FatalError,   //!< Fatal error - Stop scrapping!
+    QuotaReached, //!< Quota reached - Stop scraping!
+    DiskFull,     //!< Disk limit reached - Stop scraping!
+    FatalError,   //!< Fatal error - Stop scraping!
 };

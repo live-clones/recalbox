@@ -55,9 +55,9 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   if (!bartop)
     AddSubMenu(_("NETWORK SETTINGS"), mTheme.menuIconSet.network, (int)Components::Network, _(MENUMESSAGE_NETWORK_HELP_MSG));
 
-  // Scrapper
+  // Scraper
   if (!bartop)
-    AddSubMenu(_("SCRAPER"), mTheme.menuIconSet.scraper, (int)Components::Scrapper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
+    AddSubMenu(_("SCRAPER"), mTheme.menuIconSet.scraper, (int)Components::Scraper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
 
   // Advanced
   if (!bartop)
@@ -97,7 +97,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;
-    case Components::Scrapper: mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager)); break;
+    case Components::Scraper: mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager)); break;
     case Components::Advanced: mWindow.pushGui(new GuiMenuAdvancedSettings(mWindow, mSystemManager)); break;
     case Components::Bios: mWindow.pushGui(new GuiBiosScan(mWindow, mSystemManager)); break;
     case Components::License:

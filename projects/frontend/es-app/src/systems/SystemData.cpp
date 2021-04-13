@@ -477,7 +477,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
         }
         return game;
       }
-      else // Final folder (scrapped obviously)
+      else // Final folder (scraped obviously)
       {
         FolderData* folder = (FolderData*) item;
         if (folder == nullptr)

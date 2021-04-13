@@ -66,9 +66,9 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   if (mGame.isGame())
     mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
 
-  // Scrappe
+  // Scrape
   if (mGame.isGame())
-    AddSubMenu(_("SCRAPE"), (int)Components::Scrappe);
+    AddSubMenu(_("SCRAPE"), (int)Components::Scrape);
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::GetRatioEntries()
@@ -172,7 +172,7 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
     case Components::Description:
     case Components::Rating:
     case Components::Genre:
-    case Components::Scrappe:
+    case Components::Scrape:
     case Components::Ratio:
     case Components::Emulator: break;
   }
@@ -186,7 +186,7 @@ void GuiMenuGamelistGameOptions::RatingChanged(int id, float value)
 
 void GuiMenuGamelistGameOptions::SubMenuSelected(int id)
 {
-  if ((Components)id == Components::Scrappe)
+  if ((Components)id == Components::Scrape)
     mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mGame, this));
 }
 

@@ -67,16 +67,16 @@ class ScreenScraperEngine
         ScrapeResult RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size);
 
         /*!
-         * @brief Check if the current game needs to be scrapped regarding the given method
-         * @param method Scrapping method
+         * @brief Check if the current game needs to be scraped regarding the given method
+         * @param method Scraping method
          * @param game Game to scrape
          * @return True of the game need to be scraped
          */
         bool NeedScrapping(ScrappingMethod method, FileData& game);
 
         /*!
-         * @brief Store scraped data into destination game's metadata, regarding the scrapping method
-         * @param method Scrapping method
+         * @brief Store scraped data into destination game's metadata, regarding the scraping method
+         * @param method Scraping method
          * @param sourceData Source data
          * @param game DFestination game
          */
@@ -84,18 +84,18 @@ class ScreenScraperEngine
 
         /*!
          * @brief Download an store media one after once
-         * @param method Scrapping method
+         * @param method Scraping method
          * @param sourceData Source data
          * @param game DFestination game
-         * @return True if the quota is reached and the scrapping must stop ASAP. False in any other case
+         * @return True if the quota is reached and the scraping must stop ASAP. False in any other case
          */
         ScrapeResult DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
 
         /*!
          * @brief Download and store one media
          * @param gameName Relatiove game path to the system rom folder
-         * @param method Scrapping method
-         * @param game Game being scrapped
+         * @param method Scraping method
+         * @param game Game being scraped
          * @param mediaFolder Base media folder (roms/<system>/media/<mediatype>)
          * @param media Media being downloaded
          * @param format MEdia format (file extension)
@@ -134,7 +134,7 @@ class ScreenScraperEngine
         ScrapeResult Scrape(ScrappingMethod method, FileData& game);
 
         /*!
-         * @brief Abort the current engine. The engine is required to quit its current scrapping ASAP
+         * @brief Abort the current engine. The engine is required to quit its current scraping ASAP
          */
         void Abort() { mAbortRequest = true; }
 
@@ -239,10 +239,10 @@ class ScreenScraperEngine
      * Getters
      */
 
-    //! Get current scrapping session completion
+    //! Get current scraping session completion
     int Completed() const { return mCount; }
 
-    //! Get current scrapping session's total item to process
+    //! Get current scraping session's total item to process
     int Total() const { return mTotal; }
 
     /*
@@ -273,9 +273,9 @@ class ScreenScraperEngine
 
     /*!
      * @brief Run the scraper using the given methods, on the given system list and report progress using notifyTarget
-     * @param method Scrapping method
+     * @param method Scraping method
      * @param systemList System list
-     * @param notifyTarget Interface for reporting scrapping progression
+     * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
     bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
@@ -283,9 +283,9 @@ class ScreenScraperEngine
 
     /*!
      * @brief Run the scraper using the given methods, on the given single game and report progress using notifyTarget
-     * @param method Scrapping method
+     * @param method Scraping method
      * @param singleGame Single game to scrape
-     * @param notifyTarget Interface for reporting scrapping progression
+     * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
     bool RunOn(ScrappingMethod method, FileData& singleGame,

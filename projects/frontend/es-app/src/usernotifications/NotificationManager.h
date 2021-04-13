@@ -24,9 +24,9 @@ enum class Notification
     EndDemo              = 0x00800, //!< Game demo session end. Parameter: game path
     Sleep                = 0x01000, //!< EmulationStation is entering sleep state.
     WakeUp               = 0x02000, //!< EmulationStation is waking up
-    ScrapStart           = 0x04000, //!< A multiple game scrapping session starts
-    ScrapStop            = 0x08000, //!< Scrapping session end. Parameter: scrapped game count
-    ScrapGame            = 0x10000, //!< A game has been scrapped. Parameter: game path
+    ScrapStart           = 0x04000, //!< A multiple game scraping session starts
+    ScrapStop            = 0x08000, //!< Scraping session end. Parameter: scraped game count
+    ScrapGame            = 0x10000, //!< A game has been scraped. Parameter: game path
     ConfigurationChanged = 0x20000, //!< The user changed something in the configuration.
     RunKodi              = 0x40000, //!< Run kodi!
     StartGameClip        = 0x60000, //!< Start a game clip

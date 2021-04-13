@@ -109,7 +109,7 @@ void ImageComponent::setImage(const Path& path, bool tile) {
 }
 
 /**
- * Set image from data scrapped
+ * Set image from data scraped
  */
 void ImageComponent::setImage(const char* image, size_t length, bool tile) {
     mPath = "!";

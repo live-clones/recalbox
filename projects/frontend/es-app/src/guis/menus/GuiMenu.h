@@ -24,7 +24,7 @@ class GuiMenu : public GuiMenuBase
       UISettings,
       Sound,
       Network,
-      Scrapper,
+      Scraper,
       Advanced,
       Bios,
       License,

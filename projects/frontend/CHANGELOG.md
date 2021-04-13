@@ -14,7 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - No game launch if core doesn't match
 - Game not listed in lobby if password protected
-- Restore scrapped folder display
+- Restore scraped folder display
 - Changed popups handling for better stability
 - Wifi options securely saved automatically
 
@@ -92,7 +92,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add a UDP sock server on port 1337
 - Added new version support
 - Added an option to scrape recalbox-mix-images from screenscraper
-- Added new mamedb scrapper mirror
+- Added new mamedb scraper mirror
 - Only save changed metadata when saving gamelist.xml (improve shutdown time)
 - Ignore all known bios and devices for arcade/neogeo platform
 - Added Czech support

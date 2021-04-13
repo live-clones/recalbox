@@ -61,7 +61,7 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     void GameResult(int index, int total, FileData* result) override;
 
     /*!
-     * @brief Scraper site quota reached. Scrapping is being aborted immediately.
+     * @brief Scraper site quota reached. Scraping is being aborted immediately.
      */
     void ScrapingComplete(ScrapeResult reason) override;
 };

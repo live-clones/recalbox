@@ -25,9 +25,9 @@ class IScraperEngine : private INoCopy
 
     /*!
      * @brief Run the scraper using the given methods, on the given system list and report progress using notifyTarget
-     * @param method Scrapping method
+     * @param method Scraping method
      * @param systemList System list
-     * @param notifyTarget Interface for reporting scrapping progression
+     * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
     virtual bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
@@ -35,9 +35,9 @@ class IScraperEngine : private INoCopy
 
     /*!
    * @brief Run the scraper using the given methods, on the given single game and report progress using notifyTarget
-   * @param method Scrapping method
+   * @param method Scraping method
    * @param singleGame Single game to scrape
-   * @param notifyTarget Interface for reporting scrapping progression
+   * @param notifyTarget Interface for reporting scraping progression
    * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
    */
     virtual bool RunOn(ScrappingMethod method, FileData& singleGame,

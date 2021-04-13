@@ -42,7 +42,7 @@ std::vector<GuiMenuBase::ListEntry<ScraperNameOptions>> GuiMenuScraper::GetNameO
   ScraperNameOptions nameOption = RecalboxConf::Instance().GetScraperNameOptions();
   std::vector<ListEntry<ScraperNameOptions>> list;
 
-  list.push_back({ _("Scrapper results"), ScraperNameOptions::GetFromScraper, nameOption == ScraperNameOptions::GetFromScraper });
+  list.push_back({ _("Scraper results"), ScraperNameOptions::GetFromScraper, nameOption == ScraperNameOptions::GetFromScraper });
   list.push_back({ _("Raw filename"), ScraperNameOptions::GetFromFilename, nameOption == ScraperNameOptions::GetFromFilename });
   list.push_back({ _("Undecorated filename"), ScraperNameOptions::GetFromFilenameUndecorated, nameOption == ScraperNameOptions::GetFromFilenameUndecorated });
 
@@ -63,7 +63,7 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   for(SystemData* system : mSystemManager.GetVisibleSystemList())
   {
     if(!system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-      if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scrapping favorites, but not virtual systems
+      if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
         if (system->HasGame())
           list.push_back({ system->getFullName(), system, system->PlatformCount() != 0 });
   }

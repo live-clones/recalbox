@@ -49,7 +49,7 @@ private:
 	// Running state
 	enum class State
   {
-	  Running,     //!< Running (scrapping)
+	  Running,     //!< Running (scraping)
 	  StopPending, //!< Stop pending
 	  Stopped,     //!< Stopped, display statistics
 	  OverQuota,   //!< Stopped, over quota
@@ -69,7 +69,7 @@ private:
   void GameResult(int index, int total, FileData* result) override;
 
   /*!
-   * @brief Scraper site quota reached. Scrapping is being aborted immediately.
+   * @brief Scraper site quota reached. Scraping is being aborted immediately.
    */
   void ScrapingComplete(ScrapeResult reason) override;
 };

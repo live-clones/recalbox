@@ -39,7 +39,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
       Description,
       Rating,
       Genre,
-      Scrappe,
+      Scrape,
     };
 
     //! View reference

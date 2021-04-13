@@ -93,12 +93,12 @@ class MenuMessages
 
     #define MENUMESSAGE_SCRAPER_HELP_MSG "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
     #define MENUMESSAGE_SCRAPER_FROM_HELP_MSG "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
-    #define MENUMESSAGE_SCRAPER_GET_NAME_FROM_HELP_MSG "Select the source of your game name. Trust the scrapping database or get them from filename, raw or undecorated (without decoration in () or [] )."
+    #define MENUMESSAGE_SCRAPER_GET_NAME_FROM_HELP_MSG "Select the source of your game name. Trust the scraping database or get them from filename, raw or undecorated (without decoration in () or [] )."
     #define MENUMESSAGE_SCRAPER_EXTRACT_REGION_FROM_FILENAME_HELP_MSG "Try to extract game region from its filename when possible. Support long and short region game (JP or Japan, EU or Europe, ...)"
     #define MENUMESSAGE_SCRAPER_NOW_HELP_MSG "Begin the scrape process with the configuration shown below."
     #define MENUMESSAGE_SCRAPER_RATINGS_HELP_MSG "Scrape and display game ratings."
-    #define MENUMESSAGE_SCRAPER_FINAL_POPUP "Scrapping complete! {PROCESSED} games processed.\n\n{SUCCESS} game(s) scraped or updated\n{NOTFOUND} game(s) not found...\n{ERRORS} request/download errors\n\n{TEXTINFO} Text information updated\n{IMAGES} images and {VIDEOS} videos downloaded\n{MEDIASIZE} of media saved\nNow, EmulationStation is going to relaunch to update all gamelists."
-    #define MENUMESSAGE_SCRAPER_FINAL_QUOTA "You reached your daily quota of scrapping request.\nAll your today's scrapes have been saved anyway.\n\nStart scrapping again tomorrow.\nDont forget to select 'update' and not 'scrape all'"
+    #define MENUMESSAGE_SCRAPER_FINAL_POPUP "Scraping complete! {PROCESSED} games processed.\n\n{SUCCESS} game(s) scraped or updated\n{NOTFOUND} game(s) not found...\n{ERRORS} request/download errors\n\n{TEXTINFO} Text information updated\n{IMAGES} images and {VIDEOS} videos downloaded\n{MEDIASIZE} of media saved\nNow, EmulationStation is going to relaunch to update all gamelists."
+    #define MENUMESSAGE_SCRAPER_FINAL_QUOTA "You reached your daily quota of scraping request.\nAll your today's scrapes have been saved anyway.\n\nStart scraping again tomorrow.\nDont forget to select 'update' and not 'scrape all'"
     #define MENUMESSAGE_SCRAPER_FINAL_DISKFULL "Your share partition is almost full.\nThe scraper stopped automatically.\n\nRemove unused games, media, files to make room before running the scraper again!"
 
     #define MENUMESSAGE_ADVANCED_HELP_MSG "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."

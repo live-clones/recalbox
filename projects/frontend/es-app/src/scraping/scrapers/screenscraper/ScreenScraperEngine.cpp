@@ -215,7 +215,7 @@ void ScreenScraperEngine::Initialize()
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
                                 long long diskMinimumFree)
 {
-  { LOG(LogInfo) << "[ScreenScraper] Starting new single game scrapping session..."; }
+  { LOG(LogInfo) << "[ScreenScraper] Starting new single game scraping session..."; }
 
   mNotifier = notifyTarget;
   mMethod = method;
@@ -236,7 +236,7 @@ bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, IN
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
                                 INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
-  { LOG(LogInfo) << "[ScreenScraper] Starting new multi-system scrapping session..."; }
+  { LOG(LogInfo) << "[ScreenScraper] Starting new multi-system scraping session..."; }
 
   mNotifier = notifyTarget;
   mMethod = method;
@@ -310,7 +310,7 @@ void ScreenScraperEngine::ReceiveSyncCallback(const SDL_Event& event)
     // Call completed game notification
     if (mNotifier != nullptr)
       mNotifier->GameResult(mCount, mTotal, game);
-    // End of scrapping?
+    // End of scraping?
     if (mCount == mTotal)
       if (mNotifier != nullptr)
         mNotifier->ScrapingComplete(ScrapeResult::Ok);
@@ -400,7 +400,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
       ScreenScraperApis::Game gameResult;
       gameResult.mResult = ScrapeResult::NotFound;
 
-      { LOG(LogDebug) << "[ScreenScraper] Start scrapping data for " << game.getPath().ToString(); }
+      { LOG(LogDebug) << "[ScreenScraper] Start scraping data for " << game.getPath().ToString(); }
       if (mAbortRequest) break;
 
       // Get file size
@@ -623,7 +623,7 @@ bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData
   }
 
   // Unknown method
-  { LOG(LogError) << "[ScreenScraper] Unknown scrapping method"; }
+  { LOG(LogError) << "[ScreenScraper] Unknown scraping method"; }
   return false;
 }
 
@@ -636,7 +636,7 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
     game.Metadata().SetName(sourceData.mName);
     mTextInfo++;
   }
-  // Store data only if they are not empty and not scrapped if method is IncompleteKeep
+  // Store data only if they are not empty and not scraped if method is IncompleteKeep
   if (!sourceData.mSynopsis.empty())
     if (game.Metadata().Description().empty() || method != ScrappingMethod::IncompleteKeep)
     {

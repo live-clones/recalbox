@@ -5,7 +5,7 @@
 
 #include <string>
 
-//! Scrapped name options
+//! Scraped name options
 enum class ScraperNameOptions
 {
   GetFromScraper,             //!< Get name from scraper (default)
