@@ -207,6 +207,7 @@ All notable changes to this project will be documented in this file.
 - Bump ScummVM and merge with ResidualVM
 - Fix neogeo bios path #2
 - Add missing neogeocd letter in md5
+- Fix externalscreen.sh if first screen is 2K/4K but has not FullHD resolution
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
