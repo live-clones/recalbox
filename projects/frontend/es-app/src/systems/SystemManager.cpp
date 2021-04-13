@@ -66,7 +66,8 @@ void SystemManager::AutoScrape(SystemData* system)
   for(FileData* game : games)
     if (game->isGame())
       if (Strings::ToLowerASCII(game->getPath().Extension()) == png)
-        game->Metadata().SetImagePath(game->getPath());
+        if (game->Metadata().Image().IsEmpty())
+          game->Metadata().SetImagePath(game->getPath());
 }
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
