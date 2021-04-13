@@ -2725,7 +2725,6 @@ msgstr ""
 "\n"
 "Premi il pulsante B per continuare."
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2770,69 +2769,54 @@ msgstr "MOSTRA NELLA LISTA"
 msgid "System"
 msgstr "Sistema"
 
-#
 msgid "Added to favorites"
 msgstr "aggiunto ai preferiti"
 
-#
 msgid "Removed from favorites"
 msgstr "rimosso dai preferiti"
 
-#
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 "I gameclip non possono essere avviati. Nessun video disponibile per la tua "
 "selezione."
 
-#
 msgid "EmulationStation must relaunch to apply your changes."
 msgstr ""
+"EmulationStation deve essere riavviato per poter applicare le modifiche."
 
-#
 msgid "PAIRING %s ..."
-msgstr ""
+msgstr "PAIRING IN CORSO %s..."
 
-#
 msgid "SCANNING BLUETOOTH DEVICES..."
-msgstr ""
+msgstr "SCANSIONE PERIFERICHE BLUETOOTH..."
 
-#
 msgid "GAME OPTIONS"
-msgstr ""
+msgstr "OPZIONI DI GIOCO"
 
-#
 msgid "NO GAME SELECTED"
-msgstr ""
+msgstr "NESSUN GIOCO SELEZIONATO"
 
-#
 msgid "GAME %s"
-msgstr ""
+msgstr "GIOCO %s"
 
-#
 msgid "FOLDER %s"
-msgstr ""
+msgstr "CARTELLA %s"
 
-#
 msgid "EDIT GAME %s"
-msgstr ""
+msgstr "MODIFICA GIOCO %s"
 
-#
 msgid "EDIT FOLDER %s"
-msgstr ""
+msgstr "MODIFICA CARTELLA %s"
 
-#
 msgid "RUN WITH"
-msgstr ""
+msgstr "ESEGUI CON"
 
-#
 msgid "NON EDITABLE GAME"
-msgstr ""
+msgstr "GIOCO NON MODIFICABILE"
 
-#
 msgid "auto select"
-msgstr ""
+msgstr "seleziona automaticamente"
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Super!\n"
 "This little presentation will show you how to use all the special buttons "
@@ -2846,7 +2830,6 @@ msgstr ""
 "\n"
 "Premi un pulsante qualsiasi per iniziare!"
 
-#
 msgid ""
 "The top-left black button is the SELECT button, also available on most "
 "modern pads.\n"
@@ -2864,7 +2847,6 @@ msgstr ""
 "\n"
 "Premi il tasto SELECT."
 
-#
 msgid ""
 "At the opposite side of the SELECT button is the START button.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2878,7 +2860,6 @@ msgstr ""
 "\n"
 "Per favore, premi il tasto START"
 
-#
 msgid ""
 "Then, on the top of the console, there are 2 buttons marked with a '-' and a "
 "'+'.\n"
@@ -2893,7 +2874,6 @@ msgstr ""
 "\n"
 " Premi un tasto qualsiasi per continuare."
 
-#
 msgid ""
 "The two bottom-left gray buttons control the screen brightness.\n"
 "Note that the brighter the screen, the more power it consumes!\n"
@@ -2906,7 +2886,6 @@ msgstr ""
 "\n"
 " Premi uno dei tasti della luminosità."
 
-#
 msgid ""
 "Finally, the two bottom-right gray buttons are third left & right triggers "
 "(L3/R3), only usefull in some emulators or to record videos.\n"
@@ -2919,11 +2898,9 @@ msgstr ""
 "\n"
 " Premi L3 o R3."
 
-#
 msgid "DRIVER"
 msgstr "DRIVER"
 
-#
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
@@ -2931,73 +2908,58 @@ msgstr ""
 "Cambia il driver se il tuo controller non funziona o non funziona "
 "correttamente durante il gioco."
 
-#
 msgid "In Memory!"
 msgstr "In Memoria!"
 
-#
 msgid "Internal Share Partition"
 msgstr "Partizione Interna Condivisa"
 
-#
 msgid "Network Share"
 msgstr "Partizione di Rete"
 
-#
 msgid "Device %d - %l (%f)"
 msgstr "Dispositivo %d - %l (%f)"
 
-#
 msgid "Any External Device"
 msgstr "Qualsiasi Dispositivo Esterno"
 
-#
 msgid "SCRAPER OPTIONS"
-msgstr ""
+msgstr "OPZIONI SCRAPER"
 
-#
 msgid "SCREENSCRAPER OPTIONS"
-msgstr ""
+msgstr "OPZIONI SCREENSCRAPER"
 
-#
 msgid "DETECTED REGION"
-msgstr ""
+msgstr "REGIONE RILEVATA"
 
-#
 msgid "SELECT REGION PRIORITY"
-msgstr ""
+msgstr "SELEZIONA PRIORITÁ REGIONE"
 
-#
 msgid "LATER"
-msgstr ""
+msgstr "DOPO"
 
-#
 msgid "A reboot is required to apply pending changes."
-msgstr ""
+msgstr "È necessario riavviare per applicare le modifiche."
 
-#
 msgid "SHOW LIGHTGUN SYSTEM"
-msgstr ""
+msgstr "MOSTRA SISTEMA LIGHTGUN"
 
-#
 msgid "Show all available games playable with a lightgun."
-msgstr ""
+msgstr "Mostra tutti i giochi che utilizzano una ligthgun."
 
-#
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
+"ATTENZIONE! Questa opzione cancellerà tutte le configurazioni di Recalbox e "
+"degli emulatori. Usala con cautela!"
 
-#
 msgid "RESET TO FACTORY SETTINGS"
-msgstr ""
+msgstr "RESET IMPOSTAZIONI DI FABBRICA"
 
-#
 msgid "WARNING!"
-msgstr ""
+msgstr "ATTENZIONE!"
 
-#
 msgid ""
 "RESET TO FACTORY SETTINGS\n"
 "\n"
@@ -3008,42 +2970,101 @@ msgid ""
 "THIS OPERATION CANNOT BE UNDONE!\n"
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
+"RESET IMPOSTAZIONI DI FABBRICA\n"
+"\n"
+"STAI PER RIPRISTINARE LE IMPOSTAZIONI DI RECALBOX E DEGLI EMULATORI AI "
+"VALORI DI DEFAULT.\n"
+"TUTTI I TUOI DATI COME GIOCHI, SALVATAGGI, MUSICHE, SCHERMATE E COSÌ VIA, "
+"SARANNO MANTENUTE.\n"
+"\n"
+"QUESTA OPERAZIONE NON PUÒ ESSERE FERMATA!\n"
+"SEI SICURO DI RIPRISTINARE TUTTE LE TUE IMPOSTAZIONI?"
 
-#
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
+"SEI AD UN CLICK DAL RIPRISTINARE RECALBOX ALLE IMPOSTAZIONI DI FABBRICA!\n"
+"\n"
+"SEI VERAMENTE SICURO DI FARLO?"
 
-#
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
-msgstr ""
+msgstr "SCAMBIA TASTI CONVALIDA/CANCELLA"
 
-#
 msgid "AUDIO MODE"
-msgstr ""
+msgstr "MODALITÀ AUDIO"
 
-#
 msgid "Select sound to play. Musics, videos sound, both or none"
 msgstr ""
+"Seleziona quali suoni vuoi ascoltare. Musica, Video, entrambi o nessuno."
 
-#
 msgid "Musics or videos sound"
-msgstr ""
+msgstr "Musica o Video"
 
-#
 msgid "Musics and videos sound"
-msgstr ""
+msgstr "Musica e Video"
 
-#
 msgid "Musics only"
-msgstr ""
+msgstr "Solo Musica"
 
-#
 msgid "Videos sound only"
-msgstr ""
+msgstr "Solo Video"
 
-#
 msgid "No sound"
-msgstr ""
+msgstr "Nessuno"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Imposta il comportamento dello screensaver. DIM riduce la luminosità e "
+#~ "NERO rende lo schermo nero."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSIONE AGGIORNATA"
+
+#~ msgid "Rom found"
+#~ msgstr "ROM trovata"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copia il sistema corrente su un altro dispositivo. Attenzione! Cancellerà "
+#~ "tutti i dati nel dispositivo di destinazione."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "Strategia in Tempo Reale"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Se premi il pulsante POWER per più di 2 secondi, la tua console si "
+#~ "spegnerà. Se lo fai durante una partita, Recalbox chiuderà in anticipo "
+#~ "l'emulatore corrente.\n"
+#~ "Per precauzione, premendo il pulsante POWER per più di 5 secondi verrà "
+#~ "avviato uno spegnimento forzato.\n"
+#~ "\n"
+#~ "Premi il pulsante B per continuare."
+
+#~ msgid "added to favorites"
+#~ msgstr "aggiunto ai preferiti"
+
+#~ msgid "removed from favorites"
+#~ msgstr "rimosso dai preferiti"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "I gameclip non possono essere avviati\n"
+#~ "\n"
+#~ "Nessun video disponibile per la tua selezione."

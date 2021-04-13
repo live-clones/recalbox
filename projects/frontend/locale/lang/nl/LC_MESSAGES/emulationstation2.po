@@ -2562,7 +2562,6 @@ msgid ""
 "Press button B to continue."
 msgstr ""
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2594,67 +2593,51 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#
 msgid "Added to favorites"
 msgstr ""
 
-#
 msgid "Removed from favorites"
 msgstr ""
 
-#
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 
-#
 msgid "EmulationStation must relaunch to apply your changes."
 msgstr ""
 
-#
 msgid "PAIRING %s ..."
 msgstr ""
 
-#
 msgid "SCANNING BLUETOOTH DEVICES..."
 msgstr ""
 
-#
 msgid "GAME OPTIONS"
 msgstr ""
 
-#
 msgid "NO GAME SELECTED"
 msgstr ""
 
-#
 msgid "GAME %s"
 msgstr ""
 
-#
 msgid "FOLDER %s"
 msgstr ""
 
-#
 msgid "EDIT GAME %s"
 msgstr ""
 
-#
 msgid "EDIT FOLDER %s"
 msgstr ""
 
-#
 msgid "RUN WITH"
 msgstr ""
 
-#
 msgid "NON EDITABLE GAME"
 msgstr ""
 
-#
 msgid "auto select"
 msgstr ""
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Super!\n"
 "This little presentation will show you how to use all the special buttons "
@@ -2663,7 +2646,6 @@ msgid ""
 "Press any button to start!"
 msgstr ""
 
-#
 msgid ""
 "The top-left black button is the SELECT button, also available on most "
 "modern pads.\n"
@@ -2674,7 +2656,6 @@ msgid ""
 "Press the SELECT button."
 msgstr ""
 
-#
 msgid ""
 "At the opposite side of the SELECT button is the START button.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2683,7 +2664,6 @@ msgid ""
 "Press this START button please."
 msgstr ""
 
-#
 msgid ""
 "Then, on the top of the console, there are 2 buttons marked with a '-' and a "
 "'+'.\n"
@@ -2693,7 +2673,6 @@ msgid ""
 " Press any button to continue"
 msgstr ""
 
-#
 msgid ""
 "The two bottom-left gray buttons control the screen brightness.\n"
 "Note that the brighter the screen, the more power it consumes!\n"
@@ -2701,7 +2680,6 @@ msgid ""
 " Press either brightness up or down button"
 msgstr ""
 
-#
 msgid ""
 "Finally, the two bottom-right gray buttons are third left & right triggers "
 "(L3/R3), only usefull in some emulators or to record videos.\n"
@@ -2709,83 +2687,64 @@ msgid ""
 " Press either L3 or R3"
 msgstr ""
 
-#
 msgid "DRIVER"
 msgstr ""
 
-#
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
 msgstr ""
 
-#
 msgid "In Memory!"
 msgstr ""
 
-#
 msgid "Internal Share Partition"
 msgstr ""
 
-#
 msgid "Network Share"
 msgstr ""
 
-#
 msgid "Device %d - %l (%f)"
 msgstr ""
 
-#
 msgid "Any External Device"
 msgstr ""
 
-#
 msgid "SCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "SCREENSCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "DETECTED REGION"
 msgstr ""
 
-#
 msgid "SELECT REGION PRIORITY"
 msgstr ""
 
-#
 msgid "LATER"
 msgstr ""
 
-#
 msgid "A reboot is required to apply pending changes."
 msgstr ""
 
-#
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
 
-#
 msgid "Show all available games playable with a lightgun."
 msgstr ""
 
-#
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
 
-#
 msgid "RESET TO FACTORY SETTINGS"
 msgstr ""
 
-#
 msgid "WARNING!"
 msgstr ""
 
-#
 msgid ""
 "RESET TO FACTORY SETTINGS\n"
 "\n"
@@ -2797,41 +2756,42 @@ msgid ""
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
 
-#
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
 
-#
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr ""
 
-#
 msgid "AUDIO MODE"
 msgstr ""
 
-#
 msgid "Select sound to play. Musics, videos sound, both or none"
 msgstr ""
 
-#
 msgid "Musics or videos sound"
 msgstr ""
 
-#
 msgid "Musics and videos sound"
 msgstr ""
 
-#
 msgid "Musics only"
 msgstr ""
 
-#
 msgid "Videos sound only"
 msgstr ""
 
-#
 msgid "No sound"
 msgstr ""
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Stel de screensaver in. DIM zal het scherm dimmen, en ZWART maakt je "
+#~ "scherm zwart."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "UPDATE VERSIE:"

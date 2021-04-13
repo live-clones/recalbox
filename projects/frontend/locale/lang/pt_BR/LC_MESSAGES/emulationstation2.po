@@ -311,7 +311,7 @@ msgid "AUTO SAVE/LOAD"
 msgstr "CARREGAR/SALVAR AUTOMÁTICO"
 
 msgid "PRESS TWICE TO QUIT GAME"
-msgstr "PRESSIONA DUAS VEZES PARA SAIR"
+msgstr "PRESSIONE DUAS VEZES PARA SAIR"
 
 msgid "SHADERS SET"
 msgstr "CONJUNTO DE SHADERS"
@@ -458,13 +458,13 @@ msgid "MANUAL INPUT"
 msgstr "ENTRADA MANUAL"
 
 msgid "WIFI KEY"
-msgstr "SENHA DO WIFI"
+msgstr "SENHA DA WIFI"
 
 msgid "WIFI ENABLED"
 msgstr "WIFI ATIVO"
 
 msgid "WIFI CONFIGURATION ERROR"
-msgstr "ERRO NA CONFIGURAÇÃO DO WIFI"
+msgstr "ERRO NA CONFIGURAÇÃO DA WIFI"
 
 msgid "SCRAPER"
 msgstr "SCRAPER"
@@ -549,7 +549,7 @@ msgid "CHOOSE"
 msgstr "ESCOLHER"
 
 msgid "SELECT"
-msgstr "SELECIONAR"
+msgstr "SELECT"
 
 msgid "OPTIONS"
 msgstr "OPÇÕES"
@@ -590,7 +590,7 @@ msgid "USER DECIDES ON CONFLICTS"
 msgstr "USUÁRIO DECIDE CONFLITOS"
 
 msgid "START"
-msgstr "INICIAR"
+msgstr "START"
 
 msgid ""
 "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
@@ -1073,14 +1073,14 @@ msgid ""
 "os issue board (https://github.com/recalbox/recalbox-os/issues)"
 msgstr ""
 "Atualizações estáveis irão verificar por atualizações em lançamentos "
-"estáveis do recalbox. Atualizações estáveis são testadas e aprovadas pelo "
-"time do recalbox e seus testadores.\n"
+"estáveis do Recalbox. Atualizações estáveis são testadas e aprovadas pelo "
+"time do Recalbox e seus testadores.\n"
 "Atualizações instáveis permitem que você obtenha os recursos mais recentes "
-"do recalbox, verificando nosso repositório instável. Você pode testar e "
-"validar conosco a última versão do recalbox.\n"
-"Se você escolher a atualização instável, seja gentil e relate os problemas "
-"no sistema de incidentes do recalbox-os (https://github.com/recalbox/"
-"recalbox-os/issues)"
+"do Recalbox, verificando nosso repositório instável. Ajude-nos a testar a "
+"versão mais recente do Recalbox!\n"
+"Se você escolher atualizações instáveis, certifique-se de relatar problemas "
+"no quadro de problemas do Recalbox-OS (https://gitlab.com/recalbox/"
+"recalbox/-/issues)"
 
 msgid ""
 "Automatically check if an update is avaialble. If so, it notifies you with a "
@@ -1854,45 +1854,44 @@ msgstr "Deixar o padrão"
 
 #. Bios
 msgid "BIOS CHECKING"
-msgstr "VERIFICAÇÃO DOS BIOS"
+msgstr "VERIFICAÇÃO DAS BIOS"
 
 msgid ""
 "Scan and check all your BIOS files and report everything in a comprehensive "
 "way."
 msgstr ""
-"Faça um scan e verifique todos os seus arquivos BIOS e relate tudo de uma "
-"forma compreensiva."
+"Escaneie e verifique todas as suas BIOS, e visualize um relatório abrangente."
 
 msgid "RESCAN"
 msgstr "ESCANEAR NOVAMENTE"
 
 msgid "Rescan all bios files"
-msgstr "ESCANEAR NOVAMENTE TODOS OS ARQUIVOS BIOS"
+msgstr "ESCANEAR NOVAMENTE TODAS AS BIOS"
 
 msgid ""
 "EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
 msgstr ""
-"EMULADOR %s PODE NÃO FUNCIONAR CORRETAMENTA ATÉ QUE TODOS OS BIOS REQUERIDOS "
+"EMULADOR %s PODE NÃO FUNCIONAR CORRETAMENTA ATÉ QUE TODAS AS BIOS REQUERIDAS "
 "ESTEJAM DISPONÍVEIS!"
 
 msgid ""
 "%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
 "AVAILABLE!"
 msgstr ""
-"%i EMULADORES PODEM NÃO FUNCIONAR CORRETAMENTE ATÉ QUE TODOS OS BIOS "
-"REQUERIDOS ESTEJAM DISPONÍVEIS!"
+"%i EMULADORES PODEM NÃO FUNCIONAR CORRETAMENTE ATÉ QUE TODAS AS BIOS "
+"REQUERIDAS ESTEJAM DISPONÍVEIS!"
 
 msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
 msgstr "PARABÉNS! TODOS OS EMULADORES DEVERÃO FUNCIONAR CORRETAMENTE!"
 
 msgid "%i BIOS NOT FOUND"
-msgstr "%i BIOS NÃO ENCONTRADO"
+msgstr "%i BIOS NÃO ENCONTRADA"
 
 msgid "%i NON-MATCHING BIOS FOUND"
-msgstr "%i BIOS NÃO CORRESPONDENTE ENCONTRADO"
+msgstr "%i BIOS NÃO CORRESPONDENTE ENCONTRADA"
 
 msgid "%i GOOD BIOS FOUND!"
-msgstr "%i BIOS CERTOS ENCONTRADOS!"
+msgstr "%i BIOS CERTAS ENCONTRADAS!"
 
 msgid "File Path"
 msgstr "Caminho do arquivo"
@@ -1916,35 +1915,35 @@ msgid ""
 "This bios is required in order to run the emulator properly. You won't be "
 "able to run any games with the emulator/core above."
 msgstr ""
-"Este bios é necessário para que o emulador funcione corretamente. Você não "
+"Esta BIOS é necessária para que o emulador funcione corretamente. Você não "
 "poderá jogar nenhum jogo com o emulador/núcleo acima."
 
 msgid ""
 "This bios is not mandatory in most cases. The emulator will run properly "
 "unless you want to use features requiring this particular bios file."
 msgstr ""
-"Este bios não é obrigatório na maioria dos casos. O emulador funcionará "
-"corretamente, a menos que pretenda utilizar funcionalidades que exijam este "
-"arquivo bios em particular."
+"Esta BIOS não é obrigatório na maioria dos casos. O emulador funcionará "
+"corretamente, a menos que pretenda utilizar funcionalidades que exijam esta "
+"BIOS em particular."
 
 msgid ""
 "Your bios file does not match any known MD5. However, there are chances of "
 "getting the emulator running fine."
 msgstr ""
-"O seu arquivo bios não corresponde a nenhum MD5 conhecido. No entanto, há "
-"hipóteses de conseguir que o emulador funcione bem."
+"A sua BIOS não corresponde a nenhum MD5 conhecido. No entanto, há hipóteses "
+"de conseguir que o emulador funcione bem."
 
 msgid ""
 "Your bios file does not match any known MD5 but this is not required. So "
 "there are strong chances of getting everything running fine."
 msgstr ""
-"O seu arquivo bios não corresponde a nenhum MD5 conhecido, mas isto não é "
+"A sua BIOS não corresponde a nenhum MD5 conhecido, mas isto não é "
 "obrigatório. Portanto, há grandes chances de conseguir que tudo corra bem."
 
 msgid ""
 "Your bios file does match one of the known MD5. Everything will run fine!"
 msgstr ""
-"O seu arquivo bios corresponde a um dos MD5 conhecidos. Tudo vai correr bem!"
+"A sua BIOS corresponde a um dos MD5 conhecidos. Tudo vai funcionar bem!"
 
 msgid "MD5 LIST"
 msgstr "LISTA MD5"
@@ -1958,26 +1957,26 @@ msgid ""
 "made available."
 msgstr ""
 "Os núcleos/emuladores listados abaixo provavelmente não funcionarão até que "
-"o bios necessário esteja disponível."
+"a BIOS necessária esteja disponível."
 
 msgid ""
 "Cores/emulators listed below may work in most cases, unless you use features "
 "requiring special bios."
 msgstr ""
 "Os núcleos/emuladores listados abaixo devem funcionar na maioria dos casos, "
-"a menos que você use características que exijam bios especiais."
+"a menos que você use características que exijam BIOS especiais."
 
 msgid "BIOS OK"
 msgstr "BIOS OK"
 
 msgid "BIOS UNSAFE"
-msgstr "BIOS NÃO SEGURO"
+msgstr "BIOS NÃO SEGURA"
 
 msgid "BIOS KO"
-msgstr "BIOS KO"
+msgstr "BIOS NÃO OK"
 
 msgid "BIOS NOT FOUND"
-msgstr "BIOS NÃO ENCONTRADO"
+msgstr "BIOS NÃO ENCONTRADA"
 
 msgid "MD5 OK"
 msgstr "MD5 OK"
@@ -1989,7 +1988,7 @@ msgid "BROWSE"
 msgstr "NAVEGAR"
 
 msgid "Your bios' MD5"
-msgstr "MD5 do seu BIOS"
+msgstr "MD5 da sua BIOS"
 
 msgid "Known MD5 List"
 msgstr "Lista dos MD5 conhecidos"
@@ -2006,8 +2005,8 @@ msgid ""
 "files."
 msgstr ""
 "O EmulationStation detectou alterações externas num arquivo da gamelist.\n"
-"Para evitar a perda de dados, o EmulationStation está prestes a reiniciar e "
-"recarregar todos os arquivos."
+"Para evitar a perda de dados, o EmulationStation irá reiniciar e recarregar "
+"todos os arquivos."
 
 msgid ""
 "EmulationStation has detected external changes on a theme file.\n"
@@ -2015,8 +2014,8 @@ msgid ""
 "files."
 msgstr ""
 "O EmulationStation detectou alterações externas num arquivo do tema.\n"
-"Para evitar a perda de dados, o EmulationStation está prestes a reiniciar e "
-"recarregar todos os arquivos."
+"Para evitar a perda de dados, o EmulationStation irá reiniciar e recarregar "
+"todos os arquivos."
 
 msgid "VIRTUAL SYSTEMS"
 msgstr "SISTEMAS VIRTUAIS"
@@ -2180,9 +2179,9 @@ msgstr ""
 "Parece que o seu jogo não iniciou totalmente!\n"
 "\n"
 "O mais provável é que isso tenha acontecido por:\n"
-"- rom ruim\n"
-"- arquivos obrigatórios de BIOS ausentes/inválidos\n"
-"- arquivos BIOS opcionais ausentes/inválidos (mas necessários para este jogo)"
+"- ROM defeituosa\n"
+"- BIOS obrigatórias ausentes/inválidas\n"
+"- BIOS opcionais ausentes/inválidas (mas necessárias para este jogo)"
 
 msgid ""
 "At least one mandatory BIOS is missing for %emulator%!\n"
@@ -2191,9 +2190,9 @@ msgid ""
 "\n"
 "Do you want to launch the game anyway?"
 msgstr ""
-"Falta pelo menos um BIOS obrigatório para o %emulador%!\n"
-"O seu jogo '%game%' muito provavelmente não funcionará bem até que os BIOS "
-"obrigatórios sejam colocados na pasta solicitada.\n"
+"Falta pelo menos uma BIOS obrigatória para o %emulator%!\n"
+"O seu jogo '%game%' muito provavelmente não funcionará bem até que as BIOS "
+"obrigatórias sejam colocadas na pasta solicitada.\n"
 "\n"
 "Quer iniciar o jogo mesmo assim?"
 
@@ -2357,10 +2356,10 @@ msgid "AUTOMATIC WPS CONNECTION"
 msgstr "CONEXÃO AUTOMÁTICA WPS"
 
 msgid "Connecting to WIFI..."
-msgstr "Conectando ao WI-FI..."
+msgstr "Conectando a WI-FI..."
 
 msgid "Disconnecting from WIFI..."
-msgstr "Desconectando do WI-FI..."
+msgstr "Desconectando da WI-FI..."
 
 msgid "NO WPS CONFIGURATION FOUND!"
 msgstr "NENHUMA CONFIGURAÇÃO WPS ENCONTRADA!"
@@ -2724,7 +2723,6 @@ msgstr ""
 "\n"
 "Pressione o botão B para continuar."
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2770,69 +2768,53 @@ msgstr "MOSTRAR NA LISTA"
 msgid "System"
 msgstr "Sistema"
 
-#
 msgid "Added to favorites"
-msgstr "Aadicionado aos favoritos"
+msgstr "Adicionado aos favoritos"
 
-#
 msgid "Removed from favorites"
 msgstr "Removido dos favoritos"
 
-#
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr ""
 "Gamesclips não podem ser reproduzidos. Não existem vídeos disponíveis para "
 "sua seleção."
 
-#
 msgid "EmulationStation must relaunch to apply your changes."
-msgstr ""
+msgstr "EmulationStation precisa reiniciar para aplicar suas alterações."
 
-#
 msgid "PAIRING %s ..."
-msgstr ""
+msgstr "PAREANDO %s ..."
 
-#
 msgid "SCANNING BLUETOOTH DEVICES..."
-msgstr ""
+msgstr "PROCURANDO DISPOSITIVOS BLUETOOTH..."
 
-#
 msgid "GAME OPTIONS"
-msgstr ""
+msgstr "OPÇÕES DE JOGO"
 
-#
 msgid "NO GAME SELECTED"
-msgstr ""
+msgstr "NENHUM JOGO SELECIONADO"
 
-#
 msgid "GAME %s"
-msgstr ""
+msgstr "JOGO %s"
 
-#
 msgid "FOLDER %s"
-msgstr ""
+msgstr "PASTA %s"
 
-#
 msgid "EDIT GAME %s"
-msgstr ""
+msgstr "EDITAR JOGO %s"
 
-#
 msgid "EDIT FOLDER %s"
-msgstr ""
+msgstr "EDITAR PASTA %s"
 
-#
 msgid "RUN WITH"
-msgstr ""
+msgstr "EXECUTAR COM"
 
-#
 msgid "NON EDITABLE GAME"
-msgstr ""
+msgstr "JOGO NÃO EDITÁVEL"
 
-#
 msgid "auto select"
-msgstr ""
+msgstr "auto selecionar"
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Super!\n"
 "This little presentation will show you how to use all the special buttons "
@@ -2846,7 +2828,6 @@ msgstr ""
 "\n"
 "Pressione qualquer botão para começar!"
 
-#
 msgid ""
 "The top-left black button is the SELECT button, also available on most "
 "modern pads.\n"
@@ -2864,7 +2845,6 @@ msgstr ""
 "\n"
 "Pressione o botão SELECT."
 
-#
 msgid ""
 "At the opposite side of the SELECT button is the START button.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2878,7 +2858,6 @@ msgstr ""
 "\n"
 "Pressione o botão START por favor."
 
-#
 msgid ""
 "Then, on the top of the console, there are 2 buttons marked with a '-' and a "
 "'+'.\n"
@@ -2894,7 +2873,6 @@ msgstr ""
 "\n"
 " Pressione qualquer botão para continuar"
 
-#
 msgid ""
 "The two bottom-left gray buttons control the screen brightness.\n"
 "Note that the brighter the screen, the more power it consumes!\n"
@@ -2907,7 +2885,6 @@ msgstr ""
 "\n"
 "Pressione o botão de aumentar ou diminuir o brilho"
 
-#
 msgid ""
 "Finally, the two bottom-right gray buttons are third left & right triggers "
 "(L3/R3), only usefull in some emulators or to record videos.\n"
@@ -2920,11 +2897,9 @@ msgstr ""
 "\n"
 " Pressione L3 ou R3"
 
-#
 msgid "DRIVER"
 msgstr "DRIVER"
 
-#
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
@@ -2932,73 +2907,59 @@ msgstr ""
 "Mude o driver se o seu controle não estiver funcionando ou não funcionar "
 "corretamente no jogo."
 
-#
 msgid "In Memory!"
 msgstr "Na memória!"
 
-#
 msgid "Internal Share Partition"
 msgstr "Partição SHARE Interna"
 
-#
 msgid "Network Share"
 msgstr "Partição SHARE via Rede"
 
-#
 msgid "Device %d - %l (%f)"
 msgstr "Dispositivo %d -%l (%f)"
 
-#
 msgid "Any External Device"
 msgstr "Qualquer dispositivo externo"
 
-#
 msgid "SCRAPER OPTIONS"
-msgstr ""
+msgstr "OPÇÕES DO SCRAPER"
 
-#
 msgid "SCREENSCRAPER OPTIONS"
-msgstr ""
+msgstr "OPÇÕES DO SCREENSCRAPER"
 
-#
 msgid "DETECTED REGION"
-msgstr ""
+msgstr "REGIÃO DETECTADA"
 
-#
 msgid "SELECT REGION PRIORITY"
-msgstr ""
+msgstr "SELECIONE A PRIORIDADE DA REGIÃO"
 
-#
 msgid "LATER"
-msgstr ""
+msgstr "DEPOIS"
 
-#
 msgid "A reboot is required to apply pending changes."
-msgstr ""
+msgstr "Uma reinicialização é necessária para aplicar as alterações pendentes."
 
-#
 msgid "SHOW LIGHTGUN SYSTEM"
-msgstr ""
+msgstr "MOSTRAR SISTEMA LIGHTGUN"
 
-#
 msgid "Show all available games playable with a lightgun."
 msgstr ""
+"Mostrar todos os jogos disponíveis que podem ser jogados com uma lightgun."
 
-#
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
+"CUIDADO! Esta opção apaga todas as configurações do Recalbox e dos "
+"emuladores! Use com cautela!"
 
-#
 msgid "RESET TO FACTORY SETTINGS"
-msgstr ""
+msgstr "REDEFINIR PARA AS CONFIGURAÇÕES DE FÁBRICA"
 
-#
 msgid "WARNING!"
-msgstr ""
+msgstr "CUIDADO!"
 
-#
 msgid ""
 "RESET TO FACTORY SETTINGS\n"
 "\n"
@@ -3009,42 +2970,102 @@ msgid ""
 "THIS OPERATION CANNOT BE UNDONE!\n"
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
+"REDEFINIR PARA AS CONFIGURAÇÕES DE FÁBRICA\n"
+"\n"
+"VOCÊ ESTÁ PRESTES A REDEFINIR AS CONFIGURAÇÕES DO RECALBOX E DOS EMULADORES "
+"PARA OS VALORES PADRÕES.\n"
+"TODOS OS SEUS DADOS, COMO JOGOS, SAVES, MÚSICAS, CAPTURAS DE TELA E ASSIM "
+"POR DIANTE, SERÃO MANTIDOS.\n"
+"\n"
+"ESTA OPERAÇÃO NÃO PODE SER DESFEITA!\n"
+"TEM A CERTEZA QUE DESEJA REINICIAR TODAS AS CONFIGURAÇÕES?"
 
-#
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
+"VOCÊ ESTÁ A UM CLIQUE DE REDEFINIR SEU RECALBOX PARA AS CONFIGURAÇÕES DE "
+"FÁBRICA!\n"
+"\n"
+"VOCÊ TEM CERTEZA DE QUE DESEJA FAZER ISSO?"
 
-#
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
-msgstr ""
+msgstr "TROCAR BOTÕES DE VALIDAR/CANCELAR"
 
-#
 msgid "AUDIO MODE"
-msgstr ""
+msgstr "MODO DE ÁUDIO"
 
-#
 msgid "Select sound to play. Musics, videos sound, both or none"
 msgstr ""
+"Selecione o som a ser reproduzido. Músicas, sons dos vídeos, ambos ou nenhum"
 
-#
 msgid "Musics or videos sound"
-msgstr ""
+msgstr "Músicas ou sons dos vídeos"
 
-#
 msgid "Musics and videos sound"
-msgstr ""
+msgstr "Músicas e sons dos vídeos"
 
-#
 msgid "Musics only"
-msgstr ""
+msgstr "Somente Músicas"
 
-#
 msgid "Videos sound only"
-msgstr ""
+msgstr "Somente sons dos vídeos"
 
-#
 msgid "No sound"
-msgstr ""
+msgstr "Sem som"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Ajustar o comportamento da tela de proteção. ESCURECER reduz o brilho da "
+#~ "tela e TELA PRETA deixa a tela preta."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSÃO DA ATUALIZAÇÃO:"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom encontrada"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copiar sistema atual em outro dispositivo.\n"
+#~ "Alerta ! Irá apagar os dados no dispositivo de destino."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "RTS - Estratégia em Tempo Real"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Se você apertar o botão POWER por mais de 2 segundos, seu console será "
+#~ "desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente "
+#~ "fechará o emulador atual antes.\n"
+#~ "Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará "
+#~ "um desligamento forçado.\n"
+#~ "\n"
+#~ "Pressione o botão B para continuar."
+
+#~ msgid "added to favorites"
+#~ msgstr "adicionado aos favoritos"
+
+#~ msgid "removed from favorites"
+#~ msgstr "removido dos favoritos"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Gamesclips não podem ser reproduzidos.\n"
+#~ "\n"
+#~ "Não existem vídeos disponíveis para sua seleção."

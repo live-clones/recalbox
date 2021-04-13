@@ -2653,7 +2653,6 @@ msgstr ""
 "\n"
 "계속하려면 B 버튼을 누르십시오."
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2694,67 +2693,51 @@ msgstr "목록 보기"
 msgid "System"
 msgstr "시스템"
 
-#
 msgid "Added to favorites"
 msgstr "즐겨찾기에 추가됨"
 
-#
 msgid "Removed from favorites"
 msgstr "즐겨찾기에서 제거됨"
 
-#
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr "게임 클립을 재생할 수 없습니다. 선택한 동영상이 없습니다."
 
-#
 msgid "EmulationStation must relaunch to apply your changes."
 msgstr ""
 
-#
 msgid "PAIRING %s ..."
 msgstr ""
 
-#
 msgid "SCANNING BLUETOOTH DEVICES..."
 msgstr ""
 
-#
 msgid "GAME OPTIONS"
 msgstr ""
 
-#
 msgid "NO GAME SELECTED"
 msgstr ""
 
-#
 msgid "GAME %s"
 msgstr ""
 
-#
 msgid "FOLDER %s"
 msgstr ""
 
-#
 msgid "EDIT GAME %s"
 msgstr ""
 
-#
 msgid "EDIT FOLDER %s"
 msgstr ""
 
-#
 msgid "RUN WITH"
 msgstr ""
 
-#
 msgid "NON EDITABLE GAME"
 msgstr ""
 
-#
 msgid "auto select"
 msgstr ""
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Super!\n"
 "This little presentation will show you how to use all the special buttons "
@@ -2763,7 +2746,6 @@ msgid ""
 "Press any button to start!"
 msgstr ""
 
-#
 msgid ""
 "The top-left black button is the SELECT button, also available on most "
 "modern pads.\n"
@@ -2774,7 +2756,6 @@ msgid ""
 "Press the SELECT button."
 msgstr ""
 
-#
 msgid ""
 "At the opposite side of the SELECT button is the START button.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2783,7 +2764,6 @@ msgid ""
 "Press this START button please."
 msgstr ""
 
-#
 msgid ""
 "Then, on the top of the console, there are 2 buttons marked with a '-' and a "
 "'+'.\n"
@@ -2793,7 +2773,6 @@ msgid ""
 " Press any button to continue"
 msgstr ""
 
-#
 msgid ""
 "The two bottom-left gray buttons control the screen brightness.\n"
 "Note that the brighter the screen, the more power it consumes!\n"
@@ -2801,7 +2780,6 @@ msgid ""
 " Press either brightness up or down button"
 msgstr ""
 
-#
 msgid ""
 "Finally, the two bottom-right gray buttons are third left & right triggers "
 "(L3/R3), only usefull in some emulators or to record videos.\n"
@@ -2809,83 +2787,64 @@ msgid ""
 " Press either L3 or R3"
 msgstr ""
 
-#
 msgid "DRIVER"
 msgstr ""
 
-#
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
 msgstr ""
 
-#
 msgid "In Memory!"
 msgstr ""
 
-#
 msgid "Internal Share Partition"
 msgstr ""
 
-#
 msgid "Network Share"
 msgstr ""
 
-#
 msgid "Device %d - %l (%f)"
 msgstr ""
 
-#
 msgid "Any External Device"
 msgstr ""
 
-#
 msgid "SCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "SCREENSCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "DETECTED REGION"
 msgstr ""
 
-#
 msgid "SELECT REGION PRIORITY"
 msgstr ""
 
-#
 msgid "LATER"
 msgstr ""
 
-#
 msgid "A reboot is required to apply pending changes."
 msgstr ""
 
-#
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
 
-#
 msgid "Show all available games playable with a lightgun."
 msgstr ""
 
-#
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
 
-#
 msgid "RESET TO FACTORY SETTINGS"
 msgstr ""
 
-#
 msgid "WARNING!"
 msgstr ""
 
-#
 msgid ""
 "RESET TO FACTORY SETTINGS\n"
 "\n"
@@ -2897,41 +2856,83 @@ msgid ""
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
 
-#
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
 
-#
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr ""
 
-#
 msgid "AUDIO MODE"
 msgstr ""
 
-#
 msgid "Select sound to play. Musics, videos sound, both or none"
 msgstr ""
 
-#
 msgid "Musics or videos sound"
 msgstr ""
 
-#
 msgid "Musics and videos sound"
 msgstr ""
 
-#
 msgid "Musics only"
 msgstr ""
 
-#
 msgid "Videos sound only"
 msgstr ""
 
-#
 msgid "No sound"
 msgstr ""
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "화면 보호기의 동작을 설정하세요. DIM은 화면을 어둡게 하고 BLACK은 화면을 "
+#~ "검정색으로 바꿉니다."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "업데이트 버젼:"
+
+#~ msgid "Rom found"
+#~ msgstr "롬 확인됨."
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "다른 장치에 현재 시스템을 복사하십시오. 경고! 대상 장치의 모든 데이터를 지"
+#~ "웁니다."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "실시간 전략"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "전원 버튼을 2초 이상 누르면 콘솔의 전원이 꺼집니다. 게임 내에서는 전원을 "
+#~ "끄기 전에 현재 에뮬레이터를 정상적으로 닫습니다.\n"
+#~ "전원 버튼을 5초 이상 누르고 있으면 강제종료가 수행됩니다."
+
+#~ msgid "added to favorites"
+#~ msgstr "즐겨찾기에 추가됨"
+
+#~ msgid "removed from favorites"
+#~ msgstr "즐겨찾기에서 제거됨"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "게임 클립을 재생할 수 없습니다.\n"
+#~ "\n"
+#~ "선택한 동영상이 없습니다."

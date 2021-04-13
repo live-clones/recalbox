@@ -119,7 +119,7 @@ msgid "ONLY 1 SCRAPPING ENGINE"
 msgstr "僅1個搜刮引擎"
 
 msgid "%i SCRAPPING ENGINES"
-msgstr "％i搜刮搜尋機"
+msgstr "%i搜刮搜尋機"
 
 msgid ""
 "Scrapping complete! {PROCESSED} games processed.\n"
@@ -2504,8 +2504,10 @@ msgid ""
 "\n"
 "Press any button to start!"
 msgstr ""
-"歡迎使用RECALBOX進行Odroid Go Advance！這個小小的演示將向您展示如何使用屏幕下"
-"方的6個特殊按鈕。按任意按鈕開始！"
+"歡迎使用 RECALBOX 進行 ODROID-GO Advance！\n"
+"這個簡易示範將向您展示如何使用螢幕下方的6個特殊按鈕。\n"
+"\n"
+"按任意按鈕開始！"
 
 msgid ""
 "The leftmost button is the SELECT button, marked with a 'I', also available "
@@ -2520,7 +2522,7 @@ msgstr ""
 "但這也是HOTKEY按鈕，您可以將其與大多數仿真器中的其他按鈕結合使用。\n"
 "例如，您可以使用HOTKEY + START退出當前遊戲。\n"
 "\n"
-"按 SELECT 鍵繼續。"
+"請按 SELECT 鍵繼續。"
 
 msgid ""
 "Next to the SELECT button is the START button, marked with an 'II'.\n"
@@ -2583,7 +2585,6 @@ msgstr ""
 "\n"
 "按下按鈕B繼續。"
 
-#
 msgid ""
 "If you push the POWER button more than 2 seconds, this will power-off your "
 "console. If you do so in-game, Recalbox will close the current emulator "
@@ -2597,7 +2598,7 @@ msgstr ""
 "Recalbox會在之前優雅地關閉當前模擬器。\n"
 "以防萬一，按住電源按鈕5秒鐘以上會執行硬體關機。\n"
 "\n"
-"按下按鈕B繼續。"
+"請按 B 鍵繼續。"
 
 msgid ""
 "One more thing to know: If you plug in or unplug your headphones in the jack "
@@ -2624,67 +2625,51 @@ msgstr "在清單中顯示"
 msgid "System"
 msgstr "系統"
 
-#
 msgid "Added to favorites"
-msgstr "添加到收藏夾"
+msgstr "新增至收藏夾"
 
-#
 msgid "Removed from favorites"
 msgstr "從收藏夾中刪除"
 
-#
 msgid "Gameclips cannot be played. No video availabe for your selection"
 msgstr "無法播放遊戲剪輯。你的選擇沒有影片"
 
-#
 msgid "EmulationStation must relaunch to apply your changes."
-msgstr ""
+msgstr "必須重新開機才能套用您的更新"
 
-#
 msgid "PAIRING %s ..."
-msgstr ""
+msgstr "配對中 %s ..."
 
-#
 msgid "SCANNING BLUETOOTH DEVICES..."
-msgstr ""
+msgstr "正在掃描藍芽裝置..."
 
-#
 msgid "GAME OPTIONS"
-msgstr ""
+msgstr "遊戲設定"
 
-#
 msgid "NO GAME SELECTED"
-msgstr ""
+msgstr "沒有選擇遊戲"
 
-#
 msgid "GAME %s"
-msgstr ""
+msgstr "遊戲 %s"
 
-#
 msgid "FOLDER %s"
-msgstr ""
+msgstr "資料夾 %s"
 
-#
 msgid "EDIT GAME %s"
-msgstr ""
+msgstr "修改遊戲 %s"
 
-#
 msgid "EDIT FOLDER %s"
-msgstr ""
+msgstr "修改資料夾 %s"
 
-#
 msgid "RUN WITH"
-msgstr ""
+msgstr "運行"
 
-#
 msgid "NON EDITABLE GAME"
-msgstr ""
+msgstr "不可編輯的遊戲"
 
-#
 msgid "auto select"
-msgstr ""
+msgstr "自動選擇"
 
-#
 msgid ""
 "Welcome to RECALBOX for Odroid Go Super!\n"
 "This little presentation will show you how to use all the special buttons "
@@ -2692,8 +2677,11 @@ msgid ""
 "\n"
 "Press any button to start!"
 msgstr ""
+"歡迎使用 RECALBOX 進行 ODROID-GO Super!\n"
+"這個簡易示範將向您展示如何使用螢幕上的所有特殊按鈕。\n"
+"\n"
+"請按任意按鍵開始！"
 
-#
 msgid ""
 "The top-left black button is the SELECT button, also available on most "
 "modern pads.\n"
@@ -2703,8 +2691,12 @@ msgid ""
 "\n"
 "Press the SELECT button."
 msgstr ""
+"左上角的黑色按鈕是SELECT按鈕，現代大部份的控制器都有提供該按鈕。\n"
+"但它也可以與大多數模擬器中的其他按鈕合併使用的HOTKEY熱鍵。\n"
+"例如，您可以使用HOTKEY + START退出正在玩的遊戲。\n"
+"\n"
+"請按 SELECT 鍵繼續。"
 
-#
 msgid ""
 "At the opposite side of the SELECT button is the START button.\n"
 "Use it to open the main menu in the Recalbox interface and use it in-game as "
@@ -2712,8 +2704,11 @@ msgid ""
 "\n"
 "Press this START button please."
 msgstr ""
+"在選擇鍵SELECT的對面是開始鍵START。開始鍵它可以在Recalbox界面中打開主選單，並"
+"且也是遊戲中的常見的START按鈕。\n"
+"\n"
+"請按下 START 鍵繼續。"
 
-#
 msgid ""
 "Then, on the top of the console, there are 2 buttons marked with a '-' and a "
 "'+'.\n"
@@ -2722,100 +2717,91 @@ msgid ""
 "\n"
 " Press any button to continue"
 msgstr ""
+"在控制台的頂部，有兩個標記為 “-” 和 “+” 的按鈕。 無論您是在Recalbox界面中還是"
+"在遊戲中，都可以使用它們隨時提高或降低音量。\n"
+"\n"
+"請按任意按鍵繼續。"
 
-#
 msgid ""
 "The two bottom-left gray buttons control the screen brightness.\n"
 "Note that the brighter the screen, the more power it consumes!\n"
 "\n"
 " Press either brightness up or down button"
 msgstr ""
+"左下方的兩個灰色按鈕可以控制螢幕的亮度。\n"
+"注意：螢幕越亮，您將使用的電量會越多！\n"
+"\n"
+"請按上或下亮度按鈕繼續。"
 
-#
 msgid ""
 "Finally, the two bottom-right gray buttons are third left & right triggers "
 "(L3/R3), only usefull in some emulators or to record videos.\n"
 "\n"
 " Press either L3 or R3"
 msgstr ""
+"最後，兩個右下角的灰色按鈕是第三個左右觸發器（L3 / R3）。只有一部份的模擬器才"
+"有用途，或用於錄製影片的熱鍵。\n"
+"\n"
+"請按 L3 或 R3 繼續。"
 
-#
 msgid "DRIVER"
-msgstr ""
+msgstr "驅動程式"
 
-#
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
 "in-game."
-msgstr ""
+msgstr "如果您的手把不能正常使用，請嘗試更換驅動程式。"
 
-#
 msgid "In Memory!"
-msgstr ""
+msgstr "在記憶體中！"
 
-#
 msgid "Internal Share Partition"
-msgstr ""
+msgstr "分割內部儲存磁區"
 
-#
 msgid "Network Share"
-msgstr ""
+msgstr "網路分享"
 
-#
 msgid "Device %d - %l (%f)"
-msgstr ""
+msgstr "裝置 %d - %l (%f)"
 
-#
 msgid "Any External Device"
-msgstr ""
+msgstr "任何外接裝置"
 
-#
 msgid "SCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "SCREENSCRAPER OPTIONS"
 msgstr ""
 
-#
 msgid "DETECTED REGION"
 msgstr ""
 
-#
 msgid "SELECT REGION PRIORITY"
 msgstr ""
 
-#
 msgid "LATER"
 msgstr ""
 
-#
 msgid "A reboot is required to apply pending changes."
 msgstr ""
 
-#
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
 
-#
 msgid "Show all available games playable with a lightgun."
 msgstr ""
 
-#
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
 
-#
 msgid "RESET TO FACTORY SETTINGS"
 msgstr ""
 
-#
 msgid "WARNING!"
 msgstr ""
 
-#
 msgid ""
 "RESET TO FACTORY SETTINGS\n"
 "\n"
@@ -2827,41 +2813,80 @@ msgid ""
 "ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
 msgstr ""
 
-#
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
 
-#
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr ""
 
-#
 msgid "AUDIO MODE"
 msgstr ""
 
-#
 msgid "Select sound to play. Musics, videos sound, both or none"
 msgstr ""
 
-#
 msgid "Musics or videos sound"
 msgstr ""
 
-#
 msgid "Musics and videos sound"
 msgstr ""
 
-#
 msgid "Musics only"
 msgstr ""
 
-#
 msgid "Videos sound only"
 msgstr ""
 
-#
 msgid "No sound"
 msgstr ""
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr "設定螢幕保護效果。DIM 會讓畫面變暗，BLACK 會讓畫面全黑。"
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "更新的版本："
+
+#~ msgid "Rom found"
+#~ msgstr "已找到 ROM"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "將系統複製到另一台設備上。\n"
+#~ "警告！這會清除目標設備上的一切信息。"
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "實時策略"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "如果按電源按鈕超過2秒鐘，這將關閉控制台電源。如果您在遊戲中這樣做，那麼"
+#~ "Recalbox會在之前優雅地關閉當前模擬器。\n"
+#~ "以防萬一，按住電源按鈕5秒鐘以上會執行硬體關機。\n"
+#~ "\n"
+#~ "請按 B 鍵繼續。"
+
+#~ msgid "added to favorites"
+#~ msgstr "新增至收藏夾"
+
+#~ msgid "removed from favorites"
+#~ msgstr "從收藏夾中刪除"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr "無法播放遊戲剪輯。你的選擇沒有影片"
