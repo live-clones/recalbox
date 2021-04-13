@@ -294,6 +294,11 @@ All notable changes to this project will be documented in this file.
 - Bump EmulationStation (latest 7.2 fixes)
 - Bump configgen (fix Supermodel3 emulator)
 - Bump Theme (fix SCV & Vic20 svgs)
+- Fix sound menu crash on GPI
+- Fix Vic20 theme (again)
+- Add early Bk theme
+- Fix auto-scraped systems
+- Update all translations from/to poeditor.com
 
 
 ## [7.0.1]
