@@ -178,7 +178,8 @@ btTar=/recalbox/share/system/bluetooth/bluetooth.tar
 if test -e "$btTar"
 then
     tar xf "$btTar" --strip-components=1 -C /overlay/.configs/ >/dev/null && rm "$btTar"
-    /etc/init.d/S06bluetooth restart
+    /etc/init.d/S07bluetooth stop
+    /etc/init.d/S07bluetooth start
 fi
 
 # udev : create a link for rules persistance
