@@ -211,6 +211,18 @@ All notable changes to this project will be documented in this file.
 - Add missing neogeocd letter in md5
 - Fix externalscreen.sh if first screen is 2K/4K but has not FullHD resolution
 - Fix install slide for oga and ogs
+- Bump hardware repo (nVivia 460)
+- Bump EmulationStation (latest 7.2 fixes)
+- Bump configgen (fix Supermodel3 emulator)
+- Bump Theme (fix SCV & Vic20 svgs)
+- Fix sound menu crash on GPI
+- Fix Vic20 theme (again)
+- Add early Bk theme
+- Fix auto-scraped systems
+- Update all translations from/to poeditor.com
+- Improve FR texts
+- Fix genesis theme
+
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
@@ -222,6 +234,7 @@ All notable changes to this project will be documented in this file.
 - Fix p2k dead-lock
 - Fix demo mode info screen
 - Fix Supermodel build and move Nvram on saves path
+
 
 ## [7.1-Reloaded]
 - Fix rpiimager by reducing descriptions and change os order
@@ -294,15 +307,6 @@ All notable changes to this project will be documented in this file.
 - Add 4 mame games free to distribute for non-commercial use
 - Update TESTINGS.md
 - Fix tvservice on x86/x64 - rely on xrandr instead of framebuffer
-- Bump hardware repo (nVivia 460)
-- Bump EmulationStation (latest 7.2 fixes)
-- Bump configgen (fix Supermodel3 emulator)
-- Bump Theme (fix SCV & Vic20 svgs)
-- Fix sound menu crash on GPI
-- Fix Vic20 theme (again)
-- Add early Bk theme
-- Fix auto-scraped systems
-- Update all translations from/to poeditor.com
 
 
 ## [7.0.1]
