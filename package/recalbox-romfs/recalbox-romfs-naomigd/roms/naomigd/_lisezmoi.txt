@@ -3,6 +3,7 @@
 Placez ici vos roms naomigd.
 
 Les roms doivent avoir l'extension ".lst/.dat/.zip/.7z"
+Trouver le fichier DAT dans le dossier "/recalbox/share/bios/dc/"
 Les fichiers .chd nécessitent un fichier .zip pour être démarrés.
 
 Ce système supporte également les roms compressées au format .zip/.7z.

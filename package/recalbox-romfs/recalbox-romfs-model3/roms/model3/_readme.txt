@@ -2,7 +2,8 @@
 
 Put your model3 roms in this directory.
 
-Rom files must have a ".zip" extension from romset mame 0.220
+Rom files must have a ".zip" extension from romset mame 0.230
+Find the DAT file in the folder "/recalbox/share/bios/supermodel/"
 
 This system allows to use compressed roms on .zip
 But, it is only an archive. Files inside the .zip must match with extensions mentioned above.
