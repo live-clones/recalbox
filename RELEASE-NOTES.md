@@ -3,6 +3,8 @@
 ## Next
 
 ### News
+- Bump libretro-mame
+- Bump Datfiles for Mame, Atomiswave, Naomi, NaomiGd, Model3 on Romset 0.230
 - Bump of the port family
 - Bump Dolphin Emulator to Version 5.0-13178
 - Bump Buildroot to version 2020.02
