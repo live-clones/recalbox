@@ -2967,23 +2967,18 @@ msgstr "Pouze zvuk videa"
 msgid "No sound"
 msgstr "Bez zvuku"
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -3006,6 +3001,54 @@ msgstr ""
 #~ msgstr ""
 #~ "Zkopírovat stávající systém na jiné zařízení. Pozor, data na cílovém "
 #~ "zařízení budou vymazána."
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "Vyhledávání dokončeno! Zpracováno {PROCESSED} her.\n"
+#~ "\n"
+#~ "Vyhledáno nebo aktualizováno {SUCCESS} her\n"
+#~ "{NOTFOUND} her nenalezeno...\n"
+#~ "{ERRORS} chyb požadavků/stažení\n"
+#~ "\n"
+#~ "Aktualizováno {TEXTINFO} textových informací\n"
+#~ "Staženo {IMAGES} obrázků a {VIDEOS} videí\n"
+#~ "Uloženo {MEDIASIZE} médií\n"
+#~ "Nyní se provede restart EmulationStation kvůli aktualizaci všech seznamů "
+#~ "her."
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "Dosáhl jste denního limitu pro vyhledávání.\n"
+#~ "Všechny vaše dnešní záznamy byly přesto uloženy.\n"
+#~ "\n"
+#~ "Spusťte vyhledávání znovu zítra.\n"
+#~ "Nezapomeňte vybrat 'aktualizovat' namísto 'vyhledávat vše\"."
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "Vyberte zdroj jména vaší hry. Důvěřovat vyhledávací databázi, získat jej "
+#~ "ze jména souboru v surové, nebo upravené formě (bez částí v () nebo v "
+#~ "[] )."
+
+#~ msgid "Scrapper results"
+#~ msgstr "Výsledky vyhledávače"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "Strategie v reálném čase"

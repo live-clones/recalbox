@@ -3018,23 +3018,18 @@ msgstr "Nur Videoton"
 msgid "No sound"
 msgstr "Kein Ton"
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -3057,6 +3052,54 @@ msgstr ""
 #~ msgstr ""
 #~ "Kopiert das aktuelle System auf ein anderes Gerät.\n"
 #~ "Warnung! Es werden alle Daten auf dem Zielgerät gelöscht."
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "Scraping abgeschlossen! {PROCESSED} Spiele verarbeitet.\n"
+#~ "\n"
+#~ "{SUCCESS} Spiel(e) gescrapt oder aktualisiert\n"
+#~ "{NOTFOUND} Spiel(e) nicht gefunden...\n"
+#~ "{ERRORS} Fehler beim Abfragen/Herunterladen\n"
+#~ "\n"
+#~ "{TEXTINFO} Textinformationen aktualisiert\n"
+#~ "{IMAGES} Bilder und {VIDEOS} Videos heruntergeladen\n"
+#~ "{MEDIASIZE} an Medien gespeichert \n"
+#~ "EmulationStation wird nun neu gestartet, um die Spiellisten zu "
+#~ "aktualisieren."
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "Du hast dein tägliches Kontingent an Scraping-Anfragen erreicht!\n"
+#~ "Alle abgeschlossenen Scrapes wurden gespeichert.\n"
+#~ "\n"
+#~ "Versuche es morgen erneut.\n"
+#~ "Vergiss nicht, 'Aktualisieren' anstelle von 'Alle scrapen' zu wählen."
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "Wähle die Quelle für den Spielnamen. Vertraue der Scraping-Datenbank oder "
+#~ "beziehe sie aus dem Dateinamen, unbearbeitet oder undekoriert (ohne "
+#~ "Dekoration in () oder [])."
+
+#~ msgid "Scrapper results"
+#~ msgstr "Scraper-Ergebnisse"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "Echtzeit-Strategie"

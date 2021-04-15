@@ -2912,23 +2912,18 @@ msgstr ""
 msgid "No sound"
 msgstr ""
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -2949,6 +2944,51 @@ msgstr ""
 #~ msgstr ""
 #~ "将系统复制到另一设备上。\n"
 #~ "警告！这会擦除目标设备上的一切数据。"
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "抓取完成！{PROCESSED} 个游戏已处理。\n"
+#~ "\n"
+#~ "{SUCCESS} 个游戏已成功抓取或更新。\n"
+#~ "{NOTFOUND} 个游戏未能找到……\n"
+#~ "{ERRORS} 个请求/下载出现错误。\n"
+#~ "\n"
+#~ "{TEXTINFO} 条文本信息已更新。\n"
+#~ "{IMAGES} 个图片和 {VIDEOS} 个视频已下载。\n"
+#~ "共保存了 {MEDIASIZE} 的媒体文件。\n"
+#~ "EmulationStation 将重新启动以更新所有游戏列表。"
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "您已达到每日抓取请求限额！所有已完成的抓取都将保存。\n"
+#~ "\n"
+#~ "请明天再来尝试吧。不要忘记选择“更新”而不是“全部搜刮”。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "选择您游戏名称的来源。信任搜刮数据库，或从原始文件名或未修饰的文件名中获取"
+#~ "它们（在 () 或 [] 没有修饰）。"
+
+#~ msgid "Scrapper results"
+#~ msgstr "抓取结果"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "实时策略"

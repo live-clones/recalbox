@@ -2955,23 +2955,18 @@ msgstr ""
 msgid "No sound"
 msgstr ""
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -2994,6 +2989,52 @@ msgstr ""
 #~ msgstr ""
 #~ "現在のシステムを別のデバイスにコピーします。 警告！ コピー先のデバイス上に"
 #~ "あるすべてのデータが消去されます。"
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "スクラップ完了！ {PROCESSED}ゲームが処理されました。\n"
+#~ "\n"
+#~ "{SUCCESS} ゲームのスクレイピングまたは更新\n"
+#~ "{NOTFOUND} ゲームが見つかりません...\n"
+#~ "{ERRORS} リクエスト/ダウンロードエラー\n"
+#~ "\n"
+#~ "{TEXTINFO} テキスト情報が更新されました\n"
+#~ "{IMAGES}画像と {VIDEOS} 動画をダウンロード\n"
+#~ "保存されたメディアの {MEDIASIZE}\n"
+#~ "今、EmulationStationはすべてのゲームリストを更新するために再起動します。"
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "スクレイプ取得の1日あたりの割り当てに達しました。\n"
+#~ "とにかく、今日のスクレイプはすべて保存されました。\n"
+#~ "\n"
+#~ "明日またスクラップを始めましょう。\n"
+#~ "「すべてをスクレイプ」ではなく「更新」を選択することを忘れないでください"
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "ゲーム名でソースを選択します。 スクレイプデータベースを信頼す るか、ファイ"
+#~ "ル名から取得します。 (未加工、装飾なしは、()か[])"
+
+#~ msgid "Scrapper results"
+#~ msgstr "Scrapperの結果"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "リアルタイムストラテジー"

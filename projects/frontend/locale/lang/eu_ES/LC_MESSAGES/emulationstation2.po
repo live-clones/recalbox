@@ -2674,23 +2674,18 @@ msgstr ""
 msgid "No sound"
 msgstr ""
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 

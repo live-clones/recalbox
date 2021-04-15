@@ -2805,23 +2805,18 @@ msgstr ""
 msgid "No sound"
 msgstr ""
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -2831,6 +2826,16 @@ msgstr ""
 #~ msgstr ""
 #~ "Ställ in skärmsläckarbeteendet. DIM minskar skärmens ljus och SVART gör "
 #~ "skärmen svart."
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "Välj källan till ditt spelnamn. Lita på skrapdatabasen eller hämta dem "
+#~ "från filnamn, råa eller odekorerade (utan dekoration i () eller [])."
+
+#~ msgid "Scrapper results"
+#~ msgstr "Skrapningsresultat"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "Strategispel i realtid"

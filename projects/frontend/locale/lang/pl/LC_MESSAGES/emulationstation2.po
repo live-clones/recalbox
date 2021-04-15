@@ -3013,23 +3013,18 @@ msgstr "Tylko dżwięk Video"
 msgid "No sound"
 msgstr "Brak dżwięku"
 
-#
 msgid "BRIGHTNESS -"
 msgstr ""
 
-#
 msgid "BRIGHTNESS +"
 msgstr ""
 
-#
 msgid "Adult"
 msgstr ""
 
-#
 msgid "Waking up!"
 msgstr ""
 
-#
 msgid "Bye bye!"
 msgstr ""
 
@@ -3052,6 +3047,55 @@ msgstr ""
 #~ msgstr ""
 #~ "Kopiuj bieżący system na inne urządzenie.\n"
 #~ "UWAGA! Wybranie tej funkcji usunie wszystkie dane na urządzeniu docelowym."
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "Pobieranie informacji zakończone! Ilość zaktualizowanych gier: "
+#~ "{PROCESSED}.\n"
+#~ "\n"
+#~ "Zaktualizowane gry: {SUCCESS}.\n"
+#~ "Nieznalezione gry: {NOTFOUND}...\n"
+#~ "Błędy żądania/pobierania: {ERRORS}.\n"
+#~ "\n"
+#~ "Zaktualizowane informacje tekstowe: {TEXTINFO}.\n"
+#~ "Pobranych obrazów: {IMAGES}. Pobranych filmów: {VIDEOS}.\n"
+#~ "Zapisano {MEDIASIZE} danych.\n"
+#~ "EmulationStation uruchomi się teraz ponownie, aby zaktualizować wszystkie "
+#~ "listy gier."
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "Osiągnąłeś swój dzienny limit pobierania informacji!\n"
+#~ "Wszystkie pobrane informacje zostały zapisane.\n"
+#~ "\n"
+#~ "Spróbuj uruchomić pobieranie informacji jutro.\n"
+#~ "Nie zapomnij wybrać \"aktualizuj\" zamiast \"wyszukaj wszystko\"."
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "Wybierz źródło nazwy swojej gry. Zaufaj bazie danych wyszukiwarki "
+#~ "informacji lub pozyskaj ją z nazwy pliku - surowej lub bez dekoracji (bez "
+#~ "tekstu w () lub [] )."
+
+#~ msgid "Scrapper results"
+#~ msgstr "Wyniki wyszukiwania informacji"
 
 #~ msgid "Real Time Stratégy"
 #~ msgstr "Strategia czasu rzeczywistego"
