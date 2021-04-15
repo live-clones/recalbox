@@ -16,14 +16,27 @@ class DaphneGenerator(Generator):
         romName = os.path.splitext(os.path.basename(args.rom))[0]
         frameFile = args.rom + "/" + romName + ".txt"
         commandsFile = args.rom + "/" + romName + ".commands"
+        singeFile = args.rom + "/" + romName + ".singe"
         # the command to run  
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
-            romName, "vldp",
-            "-framefile", frameFile,
-            "-fullscreen",
-            "-useoverlaysb", "2",
-            "-datadir", recalboxFiles.daphneDatadir,
-            "-homedir", recalboxFiles.daphneHomedir]
+        if os.path.exists(singeFile):
+            # for a singe game
+            commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
+                "singe", "vldp",
+                "-framefile", frameFile,
+                "-fullscreen",
+                "-script", singeFile,
+                "-blend_sprites",
+                "-datadir", recalboxFiles.daphneDatadir,
+                "-homedir", recalboxFiles.daphneHomedir]
+        else:
+            # for a classical game
+            commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
+                romName, "vldp",
+                "-framefile", frameFile,
+                "-fullscreen",
+                "-useoverlaysb", "2",
+                "-datadir", recalboxFiles.daphneDatadir,
+                "-homedir", recalboxFiles.daphneHomedir]
 
         from utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
