@@ -241,7 +241,7 @@ All notable changes to this project will be documented in this file.
 - Bump rockchip-libmali (vulkan coming)
 - Fix shaders on odroigo2
 - Fix RetroArch shortcuts on odroidgo2
-- Bump Hypseus to version 1.3
+- Bump Hypseus to version 2.4.2 (DirtBagXon)
 - Improve internal scraper
 - Multiple minor menu fixes in EmulationStation
 - Bump SCV (optimizations + virtual keyboard)
@@ -310,7 +310,6 @@ All notable changes to this project will be documented in this file.
 - Fix emulationstation log path in webmanager
 - Fix chmod in recalbox-hardware package
 - Remove case setting when upgrading for GPicase for 7.2
-- Remove case setting when upgrading
 - Bump ScummVM and merge with ResidualVM
 - Fix neogeo bios path #2
 - Add missing neogeocd letter in md5

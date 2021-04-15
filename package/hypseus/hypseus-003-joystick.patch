@@ -15,7 +15,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  bool g_use_joystick      = true;  // use a joystick by default
  bool g_alt_pressed       = false; // whether the ALT key is presssed (for ALT-Enter
                                    // combo)
-@@ -107,24 +106,46 @@ int g_key_defs[SWITCH_COUNT][2] = {
+@@ -110,32 +109,46 @@ int g_key_defs[SWITCH_COUNT][2] = {
      {SDLK_ESCAPE, SDLK_q},    // Quit DAPHNE
      {SDLK_p, 0},                      // pause game
      {SDLK_BACKQUOTE, 0},                  // toggle console (TODO)
@@ -27,17 +27,25 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  
 -// added by Russ
 -// global button mapping array. just hardcoded room for 10 buttons max
--int joystick_buttons_map[10] = {
--    SWITCH_BUTTON1, // button 1
--    SWITCH_BUTTON2, // button 2
--    SWITCH_BUTTON3, // button 3
--    SWITCH_BUTTON1, // button 4
--    SWITCH_COIN1,   // button 5
--    SWITCH_START1,  // button 6
--    SWITCH_BUTTON1, // button 7
--    SWITCH_BUTTON1, // button 8
--    SWITCH_BUTTON1, // button 9
--    SWITCH_BUTTON1, // button 10
+-int joystick_buttons_map[18] = {
+-    -1, // button 0
+-    -1, // button 1
+-    -1, // button 2
+-    -1, // button 3
+-    -1, // button 4
+-    -1, // button 5
+-    -1, // button 6
+-    -1, // button 7
+-    -1, // button 8
+-    -1, // button 9
+-    -1, // button 10
+-    -1, // button 11
+-    -1, // button 12
+-    -1, // button 13
+-    -1, // button 14
+-    -1, // button 15
+-    -1, // button 16
+-    -1  // button 17
 +// default joystick buttons assignments, in case .ini file is missing
 +// Two values defined: 1st=joystick index (0=1st joystick), 2nd=button index (0=not defined)
 +// NOTE : These are in a specific order, corresponding to the enum in hypseus.h
@@ -76,7 +84,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  };
  
  // Mouse button to key mappings
-@@ -143,8 +164,8 @@ void CFG_Keys()
+@@ -154,8 +167,8 @@ void CFG_Keys()
  {
      struct mpo_io *io;
      string cur_line = "";
@@ -86,8 +94,16 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +    int val1 = 0, val2 = 0, val3 = 0, val4 = 0;
      //	bool done = false;
  
-     // find where the hypinput ini file is (if the file doesn't exist, this
-@@ -188,6 +209,10 @@ void CFG_Keys()
+     if (m_altInputFileSet) {
+@@ -166,7 +179,6 @@ void CFG_Keys()
+ 
+     // find where the keymap ini file is (if the file doesn't exist, this string will be empty)
+     string strDapInput = g_homedir.find_file(g_inputini_file.c_str(), true);
+-    int max_buttons = (int) (sizeof(joystick_buttons_map) / sizeof(int));
+     io = mpo_open(strDapInput.c_str(), MPO_OPEN_READONLY);
+     if (io) {
+         LOGD << "Remapping input ...";
+@@ -204,6 +217,10 @@ void CFG_Keys()
                                      val1         = atoi(sval1.c_str());
                                      val2         = atoi(sval2.c_str());
                                      val3         = atoi(sval3.c_str());
@@ -98,22 +114,25 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
                                      corrupt_file = false; // looks like we're
                                                            // good
  
-@@ -200,11 +225,22 @@ void CFG_Keys()
+@@ -216,15 +233,22 @@ void CFG_Keys()
                                              g_key_defs[i][0] = val1;
                                              g_key_defs[i][1] = val2;
  
 -                                            // if zero then no mapping
 -                                            // necessary, just use default, if
 -                                            // any
--                                            if (val3 > 0)
--                                                joystick_buttons_map[val3 - 1] = i;
+-                                            if ( val3 -1  < max_buttons)
+-                                            {
+-                                               if (val3 > 0 ) joystick_buttons_map[val3 - 1] = i;
 +                                            // joystick buttons:
 +                                            // if zero, use default
 +                                            // if not: hundreds=joystick index, units=button index
 +                                            if (val3 > 0) {
 +                                                g_joy_btn_defs[i][0] = (val3 / 100);
 +                                                g_joy_btn_defs[i][1] = (val3 % 100);
-+                                            }
+                                             }
+-                                               else printf("Support for only %d joystick buttons. Unable to map button %d, check hypinput.ini\n",
+-							       max_buttons, val3 - 1 );
 +                                            // joystick axis:
 +                                            // if zero, use default
 +                                            // if not: hundreds=joystick index, units=axis index, sign=direction
@@ -123,10 +142,10 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +                                                g_joy_axs_defs[i][2] = (val4 == 0)?0:((val4 < 0)?-1:1);
 +                                            }
 +
-                                             found_match                        = true;
+                                             found_match = true;
                                              break;
                                          }
-@@ -263,20 +299,17 @@ int SDL_input_init()
+@@ -283,20 +307,17 @@ int SDL_input_init()
      if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) >= 0) {
          // if joystick usage is enabled
          if (g_use_joystick) {
@@ -155,7 +174,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
          }
          // notify user that their attempt to disable the joystick is successful
          else {
-@@ -459,11 +492,10 @@ void process_event(SDL_Event *event)
+@@ -479,11 +500,10 @@ void process_event(SDL_Event *event)
      case SDL_JOYBUTTONDOWN:
          reset_idle(); // added by JFA for -idleexit
  
@@ -171,7 +190,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
                  break;
              }
          }
-@@ -472,10 +504,10 @@ void process_event(SDL_Event *event)
+@@ -492,10 +512,10 @@ void process_event(SDL_Event *event)
      case SDL_JOYBUTTONUP:
          reset_idle(); // added by JFA for -idleexit
  
@@ -186,7 +205,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
                  break;
              }
          }
-@@ -562,50 +594,37 @@ void process_keyup(SDL_Keycode key)
+@@ -582,50 +602,37 @@ void process_keyup(SDL_Keycode key)
  // processes movements of the joystick
  void process_joystick_motion(SDL_Event *event)
  {
@@ -236,7 +255,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 -    } // end verticle axis
 -
 -    // horizontal axis
--    else {
+-    else if (event->jaxis.axis == 0) {
 -        // if they're moving right
 -        if (event->jaxis.value > JOY_AXIS_MID) {
 -            input_enable(SWITCH_RIGHT);

@@ -116,7 +116,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump ScummVM and merge with ResidualVM
 - Bump BlueMSX
 - Bump rockchip-libmali (for odroidgo2 and 3)
-- Bump Hypseus to version 1.3
+- Bump Hypseus to version 2.4.2 (DirtBagXon)
 - Bump Duckstation, PSX games now run full speed (for odroidgo2 and 3)
 - Bump Fbneo
 - Bump Libretro Mupen64plus Next
