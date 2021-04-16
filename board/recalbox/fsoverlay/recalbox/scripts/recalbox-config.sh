@@ -581,9 +581,6 @@ if [[ "$command" == "hiddpair" ]]; then
         connected=0
         recallog "bluetooth : $mac1 connected !"
         /recalbox/scripts/bluetooth/test-device trusted "$mac" yes
-        # Save the configuration
-        btTar=/recalbox/share/system/bluetooth/bluetooth.tar
-        rm "$btTar" ; tar cvf "$btTar" /var/lib/bluetooth/
     else
         connected=1
         recallog "bluetooth : $mac1 failed connection"
