@@ -151,6 +151,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check x86 and x86_64 fresh install with nvidia GFX card works
 - [ ] Check GPIcase config has been reconfigured
 - [ ] Check bluetooth can pair device on first boot
+- [ ] Check sound output is HDMI on all rpi boards after a fresh-install 
 
 
 ## Technique
