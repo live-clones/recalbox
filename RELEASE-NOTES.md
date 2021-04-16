@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Bump SimCoupé to v1.2.5
 - Bump Oricutron to latest version
+- Bump Amiberry to v4.1.5. Add CDTV support
 - Bump Retroarch to v1.9.3
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 - Bump Fbneo v1.0.0.02
