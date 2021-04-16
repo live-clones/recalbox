@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Fixed Supermodel configuration (#1825)
+- Bump Amiberry to v4.1.5+
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
