@@ -34,3 +34,8 @@ hdmi_force_hotplug=1
 EOF
 fi
 
+# force hdmi audio output
+# ES should select best port on start
+sed -i \
+    -e '/^\(audio.device=\).*/{s//\1alsa_card.1:hdmi-output-0/;:a;n;ba;q}' \
+    -e '$aaudio.device=alsa_card.1:hdmi-output-0' /recalbox/share/system/recalbox.conf
