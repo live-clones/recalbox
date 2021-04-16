@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Bump kronos libretro core (#1849)
 - Remove build kronos libretro core for x86 (#1849)
 - Bump Mame libretro core to 0.235 (#1889)
+- Bump Amiberry to v4.1.5+
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
