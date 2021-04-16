@@ -97,6 +97,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test libretro-MGBA  
 - [ ] Test SimCoupé
 - [ ] Test Oricutron
+- [ ] Test Amiberry v4.1.5
+  - [ ] Test CDTV with Amiberry
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
