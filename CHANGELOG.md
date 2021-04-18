@@ -226,6 +226,7 @@ All notable changes to this project will be documented in this file.
 - Remove non working emulators on Pi4
 - Bump theme
 - Add .rvz support on Dolphin
+- Bump theme again (videopc+ & elektronika bk)
 
 
 ## [7.1.1-Reloaded]
