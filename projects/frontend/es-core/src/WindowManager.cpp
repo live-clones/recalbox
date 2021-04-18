@@ -270,15 +270,8 @@ void WindowManager::Render(Transform4x4f& transform)
   {
     if (!isProcessing())
     {
-      if (RecalboxConf::Instance().GetScreenSaverType() == "gameclip")
-      {
-        // do not play game clips if menu opened
-        if (!isSleeping() && mGuiStack.Empty())
-        {
-          ViewController::Instance().goToGameClipView();
-        }
-      }
-      else renderScreenSaver();
+      renderScreenSaver();
+
       // go to sleep
       if (!isSleeping())
         DoSleep();
@@ -324,6 +317,11 @@ void WindowManager::renderScreenSaver()
       int brightness = RecalboxConf::Instance().GetBrightness();
       Board::Instance().SetBrightness(brightness >> 1);
     }
+  }
+  else if (RecalboxConf::Instance().GetScreenSaverType() == "gameclip")
+  {
+    if (mGuiStack.Empty())
+      ViewController::Instance().goToGameClipView();
   }
   else
   {
@@ -395,6 +393,9 @@ void WindowManager::DoWake()
 
 void WindowManager::DoSleep()
 {
+  if( RecalboxConf::Instance().GetScreenSaverType() == "gameclip" && !mGuiStack.Empty())
+    return;
+  
   if (!mSleeping)
   {
     mSleeping = true;
