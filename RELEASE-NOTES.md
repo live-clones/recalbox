@@ -1,6 +1,6 @@
 # Release notes
 
-## Next
+## 7.2-Reloaded
 
 ### News
 - Bump libretro-mame
