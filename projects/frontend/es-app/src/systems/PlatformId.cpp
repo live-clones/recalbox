@@ -110,7 +110,7 @@ namespace PlatformIds
       { "moonlight"       , PlatformId::STREAM_MOONLIGHT          },
       { "oricatmos"       , PlatformId::TANDERINE_ORICATMOS       },
       { "thomsonmoto"     , PlatformId::THOMSON_MOTO              },
-      { "wsv"             , PlatformId::WATARA_SUPERVISION        },
+      { "supervision"     , PlatformId::WATARA_SUPERVISION        },
       { "2048"            , PlatformId::PORT_2048                 },
       { "cavestory"       , PlatformId::PORT_CAVE_STORY           },
       { "dinothawr"       , PlatformId::PORT_DINOTHAWR            },
