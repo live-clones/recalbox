@@ -5,11 +5,11 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system gamecube --extension '.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM' --fullname 'GameCube' --platform gc --theme gc 1:dolphin:dolphin:BR2_PACKAGE_DOLPHIN_EMU
+# ./scripts/linux/empack.py --force --system gamecube --extension '.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM .rvz .RVZ' --fullname 'GameCube' --platform gc --theme gc 1:dolphin:dolphin:BR2_PACKAGE_DOLPHIN_EMU
 
 # Name the 3 vars as the package requires
-RECALBOX_ROMFS_GAMECUBE_SOURCE = 
-RECALBOX_ROMFS_GAMECUBE_SITE = 
+RECALBOX_ROMFS_GAMECUBE_SOURCE =
+RECALBOX_ROMFS_GAMECUBE_SITE =
 RECALBOX_ROMFS_GAMECUBE_INSTALL_STAGING = NO
 # Set the system name
 SYSTEM_NAME_GAMECUBE = gamecube
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_GAMECUBE = $(RECALBOX_ROMFS_GAMECUBE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_DOLPHIN_EMU),)
 define CONFIGURE_MAIN_GAMECUBE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GAMECUBE),GameCube,$(SYSTEM_NAME_GAMECUBE),.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM,gc,gc)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_GAMECUBE),GameCube,$(SYSTEM_NAME_GAMECUBE),.iso .ISO .gc .GC .gcz .GCZ .gcm .GCM .rvz .RVZ,gc,gc)
 endef
 
 ifneq ($(BR2_PACKAGE_DOLPHIN_EMU),)

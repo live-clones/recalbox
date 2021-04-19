@@ -2,7 +2,7 @@
 
 Placez ici vos roms GameCube.
 
-Les roms doivent avoir l'extension ".iso/.gc/.gcz/.gcm"
+Les roms doivent avoir l'extension ".iso/.gc/.gcz/.gcm/.rvz"
 
 Consultez la documentation à cette adresse :
 https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/gamecube

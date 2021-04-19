@@ -2,7 +2,7 @@
 
 Put your GameCube roms in this directory.
 
-Rom files must have a ".iso/.gc/.gcz/.gcm" extension.
+Rom files must have a ".iso/.gc/.gcz/.gcm/.rvz" extension.
 
 Hotkeys Mapping:
 B:		Stop "for dolphin memu"
