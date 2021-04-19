@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Next]
+## [7.2-Reloaded]
 - Bump libretro-mame
 - Bump Datfiles for Mame, Atomiswave, Naomi, NaomiGd, Model3 on Romset 0.230
 - Add Atomiswave intro video
