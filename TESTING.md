@@ -152,6 +152,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check GPIcase config has been reconfigured
 - [ ] Check bluetooth can pair device on first boot, again for b25
 - [ ] Check sound output is HDMI on all rpi boards after a fresh-install 
+- [ ] Check OgS boot correctly after update from 7.1.1 OgS
 
 
 ## Technique

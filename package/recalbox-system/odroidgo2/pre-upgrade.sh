@@ -22,3 +22,10 @@ mupen64plus-43screensize = "320x240"
 mupen64plus-EnableCopyColorToRDRAM = "Off"
 mupen64plus-ThreadedRenderer = "True"
 EOF
+
+# Bugfix for 7.1.1 GoS erroneous uboot
+OLDBOOT=$(head -n 1 /boot/boot.ini)
+if [ "$OLDBOOT" = 'odroidgoa-uboot-config' ]; then
+  mount -o remount,rw /boot
+  sed -i -E '1 s/^.*$/'"$OLDBOOT"'/' /boot/update/boot.ini
+fi
