@@ -214,7 +214,10 @@ void GuiMenuNetwork::EditableComponentTextChanged(int id, const std::string& tex
                                                                                     _("Connecting to WIFI...")));
   }
   else if ((Components)id == Components::Hostname)
+  {
     RecalboxConf::Instance().SetHostname(text).Save();
+    mWindow.displayMessage(_("Hostname changes will not be effective until next reboot"));
+  }
 }
 
 void GuiMenuNetwork::SwitchComponentChanged(int id, bool status)
