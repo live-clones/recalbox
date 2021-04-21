@@ -76,6 +76,4 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const Languages& value) override;
 
     void SwitchComponentChanged(int id, bool status) override;
-
-    static Languages GetScrapingLanguage();
 };

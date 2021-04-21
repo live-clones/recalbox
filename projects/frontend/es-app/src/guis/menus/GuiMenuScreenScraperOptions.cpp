@@ -97,7 +97,7 @@ std::vector<GuiMenuBase::ListEntry<Regions::GameRegions>> GuiMenuScreenScraperOp
 
 std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetLanguagesEntries()
 {
-  Languages  scrapingLanguage = GetScrapingLanguage();
+  Languages  scrapingLanguage = LanguagesTools::GetScrapingLanguage();
   std::vector<ListEntry<Languages>> list;
   for(Languages language : LanguagesTools::AvailableLanguages()){
     if(Languages::Unknown == language)
@@ -106,21 +106,6 @@ std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetL
   }
   return list;
 }
-
-Languages GuiMenuScreenScraperOptions::GetScrapingLanguage()
-{
-  Languages confLanguage = RecalboxConf::Instance().GetScreenScraperLanguage();
-  if(Languages::Unknown != confLanguage)
-    return confLanguage;
-
-  const std::string languagesStd = RecalboxConf::Instance().GetSystemLanguage();
-  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.substr(0, 2));
-  if(Languages::Unknown != systemLanguage)
-    return systemLanguage;
-
-  return Languages::EN;
-}
-
 
 void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const std::string& text)
 {

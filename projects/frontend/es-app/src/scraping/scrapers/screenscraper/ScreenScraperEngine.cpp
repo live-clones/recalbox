@@ -199,7 +199,7 @@ void ScreenScraperEngine::Initialize()
 
   // Language & region
   mRegion = RecalboxConf::Instance().GetScreenScraperRegion();
-  mLanguage = RecalboxConf::Instance().GetScreenScraperLanguage();
+  mLanguage = LanguagesTools::GetScrapingLanguage();
 
   // Medias
   mMainImage = RecalboxConf::Instance().GetScreenScraperMainMedia();

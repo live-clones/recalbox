@@ -5,6 +5,7 @@
 #include <string>
 #include <utils/storage/HashMap.h>
 #include "Languages.h"
+#include "RecalboxConf.h"
 
 const std::string& LanguagesTools::LanguagesFullName(Languages language)
 {
@@ -142,4 +143,20 @@ Languages LanguagesTools::LanguageFromString(const std::string& language)
 const std::string& LanguagesTools::LanguageFromEnum(Languages language)
 {
   return SerializeLanguage(language);
+}
+
+Languages LanguagesTools::GetScrapingLanguage()
+{
+  Languages confLanguage = RecalboxConf::Instance().GetScreenScraperLanguage();
+  if(Languages::Unknown != confLanguage)
+    return confLanguage;
+
+  const std::string languagesStd = RecalboxConf::Instance().GetSystemLanguage();
+  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.substr(0, 2));
+  if(Languages::Unknown != systemLanguage)
+  {
+    return systemLanguage;
+  }
+
+  return Languages::EN;
 }

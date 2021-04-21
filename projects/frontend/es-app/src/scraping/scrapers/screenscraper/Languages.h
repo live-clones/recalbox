@@ -48,4 +48,6 @@ class LanguagesTools
     static Languages LanguageFromString(const std::string& languages);
 
     static const std::string& LanguageFromEnum(Languages languages);
+
+    static Languages GetScrapingLanguage();
 };
