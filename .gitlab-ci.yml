@@ -87,7 +87,7 @@ lint changelog:
     - source scripts/release/functions.sh
   script:
     - set -euo pipefail
-    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG} $(date '+%Y/%m/%d-%H:%M')} (${CI_PIPELINE_ID})"
+    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG} $(date '+%Y/%m/%d-%H:%M') (${CI_PIPELINE_ID})}"
     - cp "${YOUTUBE_API_KEYS}" "./api_keys.json"
     # Release Note generation
     - echo -e "Recalbox ${RECALBOX_VERSION}\n" > /tmp/RELEASE-NOTES.md
@@ -213,6 +213,47 @@ quick build odroidgo2:
   tags:
     - quickbuild
 
+
+build x86_64:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'x86_64'
+    QUICK: 'false'
+  tags:
+    - build
+build rpi4:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'rpi4'
+    QUICK: 'false'
+  tags:
+    - build
+build odroidgo2:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'odroidgo2'
+    QUICK: 'false'
+  tags:
+    - build
+build x86:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'x86'
+    QUICK: 'false'
+  tags:
+    - build
+build odroidxu4:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'odroidxu4'
+    QUICK: 'false'
+  tags:
+    - build
 build rpi1:
   <<: *build_definition
   when: manual
@@ -234,46 +275,6 @@ build rpi3:
   when: manual
   variables:
     ARCH: 'rpi3'
-    QUICK: 'false'
-  tags:
-    - build
-build rpi4:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi4'
-    QUICK: 'false'
-  tags:
-    - build
-build x86_64:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'x86_64'
-    QUICK: 'false'
-  tags:
-    - build
-build x86:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'x86'
-    QUICK: 'false'
-  tags:
-    - build
-build odroidxu4:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'odroidxu4'
-    QUICK: 'false'
-  tags:
-    - build
-build odroidgo2:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'odroidgo2'
     QUICK: 'false'
   tags:
     - build

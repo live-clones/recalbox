@@ -229,7 +229,8 @@ All notable changes to this project will be documented in this file.
 - Bump theme again (videopc+ & elektronika bk)
 - Fix uboot header for OgS when updating
 - Bump theme (model3 update)
-
+- Fix recalbox stable version generation
+- Change board build order for gitlab ci
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
