@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 
 - Fix rtl88x2bu wifi driver now works again
 
+- Removed multiple duplicates MD5 in bios list
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
