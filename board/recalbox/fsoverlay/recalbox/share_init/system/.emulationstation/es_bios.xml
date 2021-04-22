@@ -103,17 +103,15 @@
                                             50274bb5dcb707e4450011b09accffcb,c70ee9df11794bd5cc8aadb3721b4a03,
                                             cd237e16e7e77c06bb58540e9e9fca68,e246140dec5124c5e404869a84caefce" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/font.bmp"       md5="0c8624e9ced7cca8769e5c7b0dd4279b,7da1e5b7c482d4108d22a5b09631d967" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/font.rom"       md5="38d32748ae49d1815b0614970849fd40,38d32748ae49d1815b0614970849fd40,
+    <bios path="np2kai/font.rom"       md5="38d32748ae49d1815b0614970849fd40,fd0b856899aec843cbe69d2940df547f,
                                             4133b0be0d470920da60b9ed28d2614f,693fd1da3239d4bbeafc77d211718fc5,
                                             829b963e21334e0fc2092ebd58f2ab4a,add4a225048c85ca2bc588696c6ecdc5,
-                                            ca87908a99ea423093f6d497fc367f7d,fd0b856899aec843cbe69d2940df547f" hashMatchMandatory="false" core="np2kai" />
+                                            ca87908a99ea423093f6d497fc367f7d" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/itf.rom"        md5="1d295699ffeab0f0e24e09381299259d,72ea51443070f0e9212bfc9b793ee28e,
                                             a13d96da03a28af8418d7f86ab951f1a,b49ea39a1f730f1c966babc11961dc9a,
                                             e9fc3890963b12cf15d0a2eea5815b72" hashMatchMandatory="false" core="np2kai" />
-    <bios path="np2kai/sound.rom"      md5="42c271f8b720e796a484cc1165ff4914,42c271f8b720e796a484cc1165ff4914,
-                                            42c271f8b720e796a484cc1165ff4914,524473c1a5a03b17e21d86a0408ff827,
-                                            a77fc2bc7c696dd68dba18e02f89d386,caf90f22197aed6f14c471c21e64658d,
-                                            caf90f22197aed6f14c471c21e64658d" hashMatchMandatory="false" core="np2kai" />
+    <bios path="np2kai/sound.rom"      md5="42c271f8b720e796a484cc1165ff4914,524473c1a5a03b17e21d86a0408ff827,
+                                            a77fc2bc7c696dd68dba18e02f89d386,caf90f22197aed6f14c471c21e64658d" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/2608_bd.wav"    md5="9c6637930b1779abe00b8b63e4e41f50,d94546e70f17fd899be8df3544ab6cbb" mandatory="false" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/2608_hh.wav"    md5="73548a1391631ff54a1f7c838d67917e,08c54a0c1f774a5538a848a6665a34b4" mandatory="false" hashMatchMandatory="false" core="np2kai" />
     <bios path="np2kai/2608_rim.wav"   md5="43d54b3e05c081fa280c9bace3af1043,465ea0768b27da404aec45dfc501404b" mandatory="false" hashMatchMandatory="false" core="np2kai" />
@@ -176,7 +174,7 @@
   <system fullname="Atari ST/STE/Falcon" platform="atarist">
     <bios path="tos.img" md5="27ac71b59d59f65571b972e0f894054a,25789a649faff0a1176dc7d9b98105c0,
                               b9e37f0f0a700fc673049794870bdb85,5491b3755992feaf743ceecaa3b18f34,
-                              d0f682ee6237497004339fb02172638b,d0f682ee6237497004339fb02172638b,
+                              d0f682ee6237497004339fb02172638b,941baac767269649f92f7918dd5740b8,
                               d6521785627d20c51edc566808a6bf28,091a4d95f6c600231a3f1391a309ac26,
                               696ba04b3bc963aee2ba769298e342de,91ce7c1903006da75c823ff3c938e5d2,
                               b2a8570de2e850c5acf81cb80512d9f6,c1c57ce48e8ee4135885cee9e63a68a2,
@@ -197,8 +195,7 @@
                               e690bec90d902024beed549d22150755,f62bc9777f28bc6876422738758db365,
                               066f39a7ea5789d5afd59dd7b3104fa6,d41ae4efaa2c97f632dbe75d24d51bea,
                               2a8e39c60317b921eabd7e25b5d74395,ed2647936ce4bd283c4d7dfd7ae09d1c,
-                              9e880168d0a004f7f5e852be758f39e4,e5ea0f216fb446f1c4a4f476bc5f03d4,
-                              941baac767269649f92f7918dd5740b8" core="hatari" />
+                              9e880168d0a004f7f5e852be758f39e4,e5ea0f216fb446f1c4a4f476bc5f03d4" core="hatari" />
   </system>
   <system fullname="Magnavox Odyssey²" platform="o2em">
     <bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />
@@ -257,8 +254,7 @@
   <system fullname="Nintendo DS" platform="nds">
     <bios path="bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="melonds,desmume" />
     <bios path="bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="melonds,desmume" />
-    <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,
-                                   3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />
+    <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />
   </system>
   <system fullname="Palm Pilot" platform="palm">
     <bios path="palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" />
@@ -477,8 +473,7 @@
                                  b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
                                  ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
                                  a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
-    <bios path="neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,
-                                 c85b8132799f1b2ad3754a97947809d2,b9ab07a79997fc044ca164fc72cd5680" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+    <bios path="neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2,b9ab07a79997fc044ca164fc72cd5680" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="neocd/neocd.bin"                 md5="f39572af7584cb5b3f70ae8cc848aba2" core="neocd" mandatory="true" hashMatchMandatory="false" note="CDZ BIOS (MAME)" />
     <bios path="neocd/uni-bioscd.rom"            md5="08ca8b2dba6662e8024f9e789711c6fc" core="neocd" mandatory="false" hashMatchMandatory="false" note="Universe BIOS CD 3.3" />
     <bios path="neocd/top-sp1.bin"               md5="122aee210324c72e8a11116e6ef9c0d0" core="neocd" mandatory="false" hashMatchMandatory="false" note="Top Loader BIOS (MAME)" />
