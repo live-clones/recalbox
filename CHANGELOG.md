@@ -231,6 +231,7 @@ All notable changes to this project will be documented in this file.
 - Bump theme (model3 update)
 - Fix recalbox stable version generation
 - Change board build order for gitlab ci
+- Remove Donkey Kong Classic
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
