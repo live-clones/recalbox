@@ -2,7 +2,7 @@
 
 Put your Wii roms in this directory.
 
-Rom files must have a ".iso/.wbfs/.wad" extension.
+Rom files must have a ".iso/.rvz/.wbfs/.wad" extension.
 
 Hotkeys Mapping:
 B:		Stop "for dolphin menu"
