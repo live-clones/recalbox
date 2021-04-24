@@ -146,7 +146,7 @@ bool TextureData::initImageFromMemory(const unsigned char* fileData, size_t leng
 bool TextureData::initFromRGBA(const unsigned char* dataRGBA, size_t width, size_t height)
 {
 	// If already initialised then don't read again
-	//std::unique_lock<std::mutex> lock(mMutex);
+	std::unique_lock<std::mutex> lock(mMutex);
 	if (mDataRGBA != nullptr)
 		return true;
 
