@@ -83,12 +83,14 @@ bool GuiMenuNetwork::ConnectWps(GuiWaitLongExecution<NetworkOperation, bool>& fr
   if (!RecalboxSystem::getWifiWps()) return false;
   sleep(2); // Give time to read the message :)
   std::string ip = _("Waiting for IP address... (%is)");
+  std::string ipResult;
   for(int i = 30; --i >= 0; )
   {
     std::string finalText(Strings::Replace(ip, "%i", Strings::ToString(i)));
     from.SetText(finalText);
     { LOG(LogDebug) << "[WPS] " << finalText; }
-    if (RecalboxSystem::hasIpAdress(true)) break;
+    if (RecalboxSystem::getIpV4Address(ipResult)) break;
+    if ((i < 5) && RecalboxSystem::getIpV6Address(ipResult)) break;
     sleep(1);
   }
   if (!RecalboxSystem::hasIpAdress(true)) return false;
@@ -197,7 +199,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
 
   // Update status & IP
   mStatus->setText(RecalboxSystem::ping() ? _( "CONNECTED") : _("NOT CONNECTED"));
-  mIP->setText(RecalboxSystem::getIpAdress());
+  mIP->setText(RecalboxSystem::getIpAddress());
   mMenu.onSizeChanged();
 }
 

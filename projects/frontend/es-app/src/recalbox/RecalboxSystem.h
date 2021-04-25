@@ -65,7 +65,11 @@ class RecalboxSystem
      */
     static bool hasIpAdress(bool interface);
 
-    static std::string getIpAdress();
+    static std::string getIpAddress();
+
+    static bool getIpV4Address(std::string& result);
+
+    static bool getIpV6Address(std::string& result);
 
     static std::vector<std::string> scanBluetooth();
 

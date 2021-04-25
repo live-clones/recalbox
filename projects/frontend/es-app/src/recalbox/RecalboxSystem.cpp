@@ -295,60 +295,65 @@ bool RecalboxSystem::getWifiConfiguration(std::string& ssid, std::string& psk)
   return !ssid.empty() && !psk.empty();
 }
 
-std::string RecalboxSystem::getIpAdress()
+bool RecalboxSystem::getIpV4Address(std::string& result)
 {
   struct ifaddrs* ifAddrStruct = nullptr;
-
-  std::string result = "NOT CONNECTED";
   getifaddrs(&ifAddrStruct);
 
   for (struct ifaddrs* ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
-  {
-    if (ifa->ifa_addr == nullptr)
-    {
-      continue;
-    }
-    if (ifa->ifa_addr->sa_family == AF_INET)
-    { // check it is IP4
-      // is a valid IP4 Address
-      void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
-      char addressBuffer[INET_ADDRSTRLEN];
-      inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-      printf("%s IP Address %s\n", ifa->ifa_name, addressBuffer);
-      if (std::string(ifa->ifa_name).find("eth") != std::string::npos ||
-          std::string(ifa->ifa_name).find("wlan") != std::string::npos)
+    if (ifa->ifa_addr != nullptr)
+      if (ifa->ifa_addr->sa_family == AF_INET)
       {
-        result = std::string(addressBuffer);
-        break;
+        void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
+        char addressBuffer[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+        LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer;
+        if (Strings::Contains(ifa->ifa_name, "eth") ||
+            Strings::Contains(ifa->ifa_name, "wlan"))
+        {
+          result = std::string(addressBuffer);
+          freeifaddrs(ifAddrStruct);
+          return true;
+        }
       }
-    }
-  }
-  // Seeking for ipv6 if no IPV4
-  if (result == "NOT CONNECTED")
-  {
-    for (struct ifaddrs* ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
-    {
-      if (ifa->ifa_addr == nullptr)
-      {
-        continue;
-      }
+
+  if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
+  return false;
+}
+
+bool RecalboxSystem::getIpV6Address(std::string& result)
+{
+  struct ifaddrs* ifAddrStruct = nullptr;
+  getifaddrs(&ifAddrStruct);
+
+  for (struct ifaddrs* ifa = ifAddrStruct; ifa != nullptr; ifa = ifa->ifa_next)
+    if (ifa->ifa_addr != nullptr)
       if (ifa->ifa_addr->sa_family == AF_INET6)
-      { // check it is IP6
-        // is a valid IP6 Address
+      {
         void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-        printf("%s IP Address %s\n", ifa->ifa_name, addressBuffer);
-        if (std::string(ifa->ifa_name).find("eth") != std::string::npos ||
-            std::string(ifa->ifa_name).find("wlan") != std::string::npos)
+        LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer;
+        if (Strings::Contains(ifa->ifa_name, "eth") ||
+            Strings::Contains(ifa->ifa_name, "wlan"))
         {
           result = std::string(addressBuffer);
-          break;
+          freeifaddrs(ifAddrStruct);
+          return true;
         }
       }
-    }
-  }
+
   if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
+  return false;
+}
+
+std::string RecalboxSystem::getIpAddress()
+{
+  std::string result = "NOT CONNECTED";
+
+  if (!getIpV4Address(result))
+    getIpV6Address(result);
+
   return result;
 }
 
