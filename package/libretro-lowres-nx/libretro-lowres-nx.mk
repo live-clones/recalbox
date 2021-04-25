@@ -10,7 +10,7 @@ LIBRETRO_LOWRES_NX_LICENSE = ZLIB
 LIBRETRO_LOWRES_NX_LICENSE_FILES = LICENSE
 
 define LIBRETRO_LOWRES_NX_BUILD_CMDS
-	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
+	$(SED) "s|-O2|-O3|g" $(@D)/platform/LibRetro/Makefile
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
@@ -18,7 +18,7 @@ define LIBRETRO_LOWRES_NX_BUILD_CMDS
 endef
 
 define LIBRETRO_LOWRES_NX_INSTALL_TARGET_CMDS
-	$(INSTALL) -D $(@D)/lowresnx_libretro.so \
+	$(INSTALL) -D $(@D)/platform/LibRetro/lowresnx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/lowresnx_libretro.so
 endef
 

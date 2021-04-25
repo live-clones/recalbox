@@ -1,4 +1,4 @@
-## RECALBOX - SYSTEM TIC-80 ##
+## RECALBOX - SYSTEM LOWRES-NX ##
 
 Put your LowRes NX roms in this directory.
 
