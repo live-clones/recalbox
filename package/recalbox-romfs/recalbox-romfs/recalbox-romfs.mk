@@ -409,6 +409,11 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-jaguar
 endif
 
+# System: lowresnx
+ifneq ($(BR2_PACKAGE_LIBRETRO_LOWRES_NX),)
+        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lowresnx
+endif
+
 # System: lutro
 ifneq ($(BR2_PACKAGE_LIBRETRO_LUTRO),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lutro
