@@ -55,7 +55,8 @@
     <bios path="dc/airlbios.zip" md5="06dd41b614a6d6d079ec1ee73e2bf87d,5b7de05fb2dea6fb0408149c9bada27c,
                                       987e08b1786a93653281ca8a5b21dc7f" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'Airline Pilots'" />
     <bios path="dc/hod2bios.zip" md5="09b92ad1240fba7954985bdee59d1741,2c08c42cc8c6eb3a4e07bff07db5102f,
-                                      9e1f4846028b18b5ef8a6bd8efd6c67d,fbdf7e1cef86d3ffd23754c0a303a4af" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'The House of the Dead 2'" />
+                                      9e1f4846028b18b5ef8a6bd8efd6c67d,fbdf7e1cef86d3ffd23754c0a303a4af,
+                                      729A623576CB9D8F7FD7C4E44ECE3066" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'The House of the Dead 2'" />
   </system>
   <system fullname="Naomi GD-Rom" platform="naomigd">
     <bios path="dc/naomigd.zip" md5="288cde03a112e7726fa8093e05d46853,416b5914acb3d0b4a190a1d358c8710d,
