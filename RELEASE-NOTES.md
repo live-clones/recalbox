@@ -1,5 +1,8 @@
 # Release notes
 
+## Next
+- Fixed Raspberry Pi 1,2,3 slow videos
+
 ## 7.2-Reloaded
 
 ### News

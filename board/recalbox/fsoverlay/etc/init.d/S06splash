@@ -8,6 +8,7 @@ fi
 
 SKIPVIDEOSPLASHFLAG=/overlay/.configs/skipvideosplash
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
+ARCH=$(cat /recalbox/recalbox.arch)
 
 # first boot or upgrade
 if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
@@ -134,8 +135,11 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "-ao=alsa --vo=drm --drm-connector=$conn"
     done
+  elif [[ "$ARCH" == "rpi1" || "$ARCH" == "rpi2" || "$ARCH" == "rpi3" ]]; then
+    # on rpi1 2 and 3 we need to force output
+    playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
   else
-    # on rpi, odroidxu4, simply play
+    # on other simply play
     playVideoOnOneScreen "$1"
   fi
 }

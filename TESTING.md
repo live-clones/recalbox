@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [Next]
+- [ ] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
 
 ## Pending Features
 - [ ] Bump Libretro-mame => test core with Romset 0.230
