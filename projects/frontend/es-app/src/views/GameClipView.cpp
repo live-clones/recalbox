@@ -33,10 +33,7 @@ void GameClipView::Initialize()
     public:
       bool ApplyFilter(const FileData& file) const override
       {
-        bool hasVideo = !file.Metadata().VideoAsString().empty();
-        bool videoExist = file.Metadata().Video().Exists();
-        if (hasVideo && !videoExist) { LOG(LogDebug) << "[GameClip] No video found for : " << file.getDisplayName(); }
-        return hasVideo && videoExist;
+        return  !file.Metadata().VideoAsString().empty();
       }
   } videoFilter;
 
@@ -198,7 +195,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
   else if (mState == State::InitPlaying)
   {
     // when videoEngine cannot play video file
-    if (mTimer.GetMilliSeconds() > 5000)
+    if (!mGame->Metadata().Video().Exists() ||  mTimer.GetMilliSeconds() > 3000)
     {
       { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
       // remove game from list
