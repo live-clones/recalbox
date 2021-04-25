@@ -1,5 +1,10 @@
 # Release notes
 
+## 7.2.1-Reloaded
+
+### News
+- Add LowRes NX virtual console on all boards
+
 ## 7.2-Reloaded
 
 ### News
