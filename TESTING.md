@@ -21,10 +21,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check ES fetches an IPv4 when connecting WIFI (SSIF/Key or WPS)
 - [ ] Check core libretro swanstation for psx (#1640) and check bios swanstation for psx
 - [ ] Test ports CaveStory for x86 and x86_64
+- [ ] Tester que les videos fonctionnent dans kodi sous rpi4
 
 
 ## [7.2-Reloaded]
-
 ## Pending Features
 - [ ] Bump Libretro-mame => test core with Romset 0.230
 - [ ] Supermodel => Model3 emulator => test with romset 0.230 and test bypass configgen option add 'model3.configfile=dummy' in 'recalbox.conf' and check if '/recalbox/share/system/configs/model3/supermodel.ini' is not rewritten
