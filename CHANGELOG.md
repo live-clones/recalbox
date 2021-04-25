@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Fix swanstation issues (former libretro-duckstation) (#1640)
 - Add ports cavestory x86 and x86_64
 - Revert kodi to XBMC upstream version (#1631)
+- Add missing wifi and bluetooth firmware on odroidgo2 (#1642)
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
