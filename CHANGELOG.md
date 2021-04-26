@@ -1,15 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [ NEXT ]
-- Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
-## [Next]
-
-- Add new MD5 from MAME 0.230 for House of the Dead 2
 ## [7.2.1-Reloaded]
+- Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
+- Add new MD5 from MAME 0.230 for House of the Dead 2
 - Create bios/mame folder by default
-## [Next]
-- Added missing file extensions (scv and wii)
+- Add missing file extensions (scv and wii)
+- Fix Scraper default language
+- Fix gameclip initialization on network shares
+- Fix gameclip launch
+- Fix freezes running a game while playing video
+- Fix crash when loading heavy themes
+- Fix missing popup when changing hostname
+- Fix IPv6/IPv4 priority when connecting WIFI
+
 
 ## [7.2-Reloaded]
 - Bump libretro-mame

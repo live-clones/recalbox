@@ -11,8 +11,17 @@ Toutes les cases doivent être cochées avant la release stable.
 
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
-## [Next]
+## [7.2.1-Reloaded]
 - [ ] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
+- [ ] Check extensions of WII (*.rvz) & SCV (*.0) roms
+- [ ] Check internal scraper default language
+- [ ] Check ES won't freeze anymore when running a game while a vidoe is playing
+- [ ] Check ES won't crash anymore when loading heavy themes
+- [ ] Check ES display a popup when changing the HOSTNAME entry in network menu
+- [ ] Check ES fetches an IPv4 when connecting WIFI (SSIF/Key or WPS)
+
+
+## [7.2-Reloaded]
 
 ## Pending Features
 - [ ] Bump Libretro-mame => test core with Romset 0.230
