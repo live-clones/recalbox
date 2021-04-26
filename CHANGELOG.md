@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Fix missing translations
 - Fix SCV scraping
 
+- Fix rtl88x2bu wifi driver now works again
 
 
 ## [7.2-Reloaded]

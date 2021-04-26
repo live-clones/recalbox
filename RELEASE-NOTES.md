@@ -22,7 +22,7 @@
 - Fix sound menu & output auto-selection
 - Fix missing translations
 - Fix SCV scraping
-
+- Fix rtl88x2bu Realtek wifi driver
 
 ## 7.2-Reloaded
 

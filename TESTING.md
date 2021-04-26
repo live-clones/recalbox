@@ -23,6 +23,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test ports CaveStory for x86 and x86_64
 - [ ] Tester que les videos fonctionnent dans kodi sous rpi4
 - [ ] Tester un dongle USB realtek sur l'odroidgo2 (module r8188eu)
+- [ ] Check rtl88x2bu realtek wifi driver works again
 
 
 ## [7.2-Reloaded]
