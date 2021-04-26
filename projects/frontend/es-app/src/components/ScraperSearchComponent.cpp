@@ -89,7 +89,7 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window)
   mGrid.setEntry(mValuePublisher, Vector2i(3, 2), false, false, Vector2i(1, 1));
   mValueGenre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
   mGrid.setEntry(mValueGenre, Vector2i(3, 3), false, false, Vector2i(1, 1));
-  mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color);
+  mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color, 0.f);
   mGrid.setEntry(mValueRating, Vector2i(5, 1), false, false, Vector2i(1, 1));
   mValueReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
   mValueReleaseDate->setColor(mdColor);
@@ -169,7 +169,7 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
     mResultThumbnail->setImage(image);
 
     // metadata
-		mValueRating->setValue(game->Metadata().RatingAsString());
+		mValueRating->setValue(game->Metadata().Rating());
 		mValueReleaseDate->setValue(Strings::ToUpperASCII(game->Metadata().ReleaseDateAsString()));
 		mValueDeveloper->setText(Strings::ToUpperUTF8(game->Metadata().Developer()));
 		mValuePublisher->setText(Strings::ToUpperUTF8(game->Metadata().Publisher()));
