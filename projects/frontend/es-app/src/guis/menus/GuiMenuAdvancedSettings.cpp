@@ -261,12 +261,17 @@ void GuiMenuAdvancedSettings::DoResetFactory()
 
   // Make boot partition writable
   if (!RecalboxSystem::MakeBootReadWrite())
-  { LOG(LogError) << "[ResetFactory] Error makign boot r/w"; }
+  { LOG(LogError) << "[ResetFactory] Error making boot r/w"; }
 
   // Delete all required folder/files
   for(const std::string& path : deleteMe)
     if (system(std::string("rm -rf ").append(path).data()) != 0)
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
+
+  // Reset case to force detection again
+  IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"));
+  recalboxBoot.SetString("case", "");
+  recalboxBoot.Save();
 
   // Reset!
   if (system("shutdown -r now") != 0)
