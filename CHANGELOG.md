@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ## [Next]
 
 - Add new MD5 from MAME 0.230 for House of the Dead 2
+## [7.2.1-Reloaded]
+- Create bios/mame folder by default
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
