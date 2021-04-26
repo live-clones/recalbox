@@ -1,7 +1,18 @@
 # Release notes
 
-## Next
-- Fixed Raspberry Pi 1,2,3 slow videos
+## 7.2.1-Reloaded
+
+### Fixes
+- Fix Raspberry Pi 1,2,3 slow videos
+- Fix House of the dead bios MD5
+- Fix missings extensions (SCV & WII)
+- Fix Scraper default language
+- Fix gameclip initialization on network shares
+- Fix gameclip launch
+- Fix freezes running a game while playing video
+- Fix crash when loading heavy themes
+- Fix missing popup when changing hostname
+- Fix IPv6/IPv4 priority when connecting WIFI
 
 ## 7.2-Reloaded
 
