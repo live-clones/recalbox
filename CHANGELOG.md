@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [ NEXT ]
 - Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
+## [Next]
+
+- Add new MD5 from MAME 0.230 for House of the Dead 2
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
