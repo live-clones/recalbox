@@ -20,7 +20,7 @@ GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManage
   , mAllGamesOriginalValues(RecalboxConf::Instance().GetCollectionAllGames())
   , mMultiplayersOriginalValues(RecalboxConf::Instance().GetCollectionMultiplayer())
   , mLastPlayedOriginalValues(RecalboxConf::Instance().GetCollectionLastPlayed())
-  , mLightGunOriginalValues(RecalboxConf::Instance().GetCollectionLightGun())
+  , mLightGunOriginalValues(!RecalboxConf::Instance().GetCollectionHide("lightgun"))
 {
   // All games
   mAllGames = AddSwitch(_("SHOW ALL-GAMES SYSTEM"), mAllGamesOriginalValues, (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
@@ -62,7 +62,7 @@ void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
     case Components::AllGames: RecalboxConf::Instance().SetCollectionAllGames(status).Save(); break;
     case Components::Multiplayers: RecalboxConf::Instance().SetCollectionMultiplayer(status).Save(); break;
     case Components::LastPlayed: RecalboxConf::Instance().SetCollectionLastPlayed(status).Save(); break;
-    case Components::LightGun: RecalboxConf::Instance().SetCollectionLightGun(status).Save(); break;
+    case Components::LightGun: RecalboxConf::Instance().SetCollectionHide("lightgun", !status).Save(); break;
     case Components::VirtualPerGenre:
     case Components::VirtualArcade: break;
   }

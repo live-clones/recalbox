@@ -399,7 +399,7 @@ bool SystemManager::AddLightGunMetaSystem()
   std::string identifier("lightgun");
   std::string fullname("LightGun Games");
   // Collection activated?
-  bool collection = RecalboxConf::Instance().GetCollectionLightGun();
+  bool collection = !RecalboxConf::Instance().GetCollectionHide(identifier);
   if (collection)
   {
     // Get theme name
