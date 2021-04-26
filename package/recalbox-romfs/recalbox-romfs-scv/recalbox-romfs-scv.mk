@@ -5,11 +5,11 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system scv --extension '.bin .cart .zip .7z' --fullname 'Super Cassette Vision' --platform scv --theme scv 1:libretro:emuscv:BR2_PACKAGE_LIBRETRO_EMUSCV
+# ./scripts/linux/empack.py --force --system scv --extension '.0 .bin .cart .zip .7z' --fullname 'Super Cassette Vision' --platform scv --theme scv 1:libretro:emuscv:BR2_PACKAGE_LIBRETRO_EMUSCV
 
 # Name the 3 vars as the package requires
-RECALBOX_ROMFS_SCV_SOURCE = 
-RECALBOX_ROMFS_SCV_SITE = 
+RECALBOX_ROMFS_SCV_SOURCE =
+RECALBOX_ROMFS_SCV_SITE =
 RECALBOX_ROMFS_SCV_INSTALL_STAGING = NO
 # Set the system name
 SYSTEM_NAME_SCV = scv
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_SCV = $(RECALBOX_ROMFS_SCV_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_EMUSCV),)
 define CONFIGURE_MAIN_SCV_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SCV),Super Cassette Vision,$(SYSTEM_NAME_SCV),.bin .cart .zip .7z,scv,scv)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_SCV),Super Cassette Vision,$(SYSTEM_NAME_SCV),.0 .bin .cart .zip .7z,scv,scv)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_EMUSCV),)

@@ -5,11 +5,11 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system wii --extension '.iso .ISO .wbfs .WBFS .wad .WAD' --fullname 'Wii' --platform wii --theme wii 1:dolphin:dolphin:BR2_PACKAGE_DOLPHIN_EMU
+# ./scripts/linux/empack.py --force --system wii --extension '.iso .ISO .rvz .RVZ .wbfs .WBFS .wad .WAD' --fullname 'Wii' --platform wii --theme wii 1:dolphin:dolphin:BR2_PACKAGE_DOLPHIN_EMU
 
 # Name the 3 vars as the package requires
-RECALBOX_ROMFS_WII_SOURCE = 
-RECALBOX_ROMFS_WII_SITE = 
+RECALBOX_ROMFS_WII_SOURCE =
+RECALBOX_ROMFS_WII_SITE =
 RECALBOX_ROMFS_WII_INSTALL_STAGING = NO
 # Set the system name
 SYSTEM_NAME_WII = wii
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_WII = $(RECALBOX_ROMFS_WII_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_DOLPHIN_EMU),)
 define CONFIGURE_MAIN_WII_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WII),Wii,$(SYSTEM_NAME_WII),.iso .ISO .wbfs .WBFS .wad .WAD,wii,wii)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_WII),Wii,$(SYSTEM_NAME_WII),.iso .ISO .rvz .RVZ .wbfs .WBFS .wad .WAD,wii,wii)
 endef
 
 ifneq ($(BR2_PACKAGE_DOLPHIN_EMU),)
