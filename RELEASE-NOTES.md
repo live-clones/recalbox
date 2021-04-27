@@ -3,6 +3,7 @@
 ## 7.2.1-Reloaded
 
 ### Fixes
+- Fix Video lag on ppsspp
 - Fix Raspberry Pi 1,2,3 slow videos
 - Fix swanstation issues (former libretro-duckstation)
 - Fix cavestory x86 and x86_64

@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [7.2.1-Reloaded]
+- [ ] Test on a game like "god of wars ghost of sparta" the intro video must be fluid 
 - [ ] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
 - [ ] Check extensions of WII (*.rvz) & SCV (*.0) roms
 - [ ] Check internal scraper default language
