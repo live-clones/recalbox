@@ -3,6 +3,7 @@
 ## 7.2.1-Reloaded
 - Fixed Raspberry Pi 1,2,3 slow videos
 - Fix swanstation issues (former libretro-duckstation)
+- Fix cavestory x86 and x86_64
 
 ### Fixes
 - Fix Raspberry Pi 1,2,3 slow videos
@@ -15,6 +16,7 @@
 - Fix crash when loading heavy themes
 - Fix missing popup when changing hostname
 - Fix IPv6/IPv4 priority when connecting WIFI
+
 
 ## 7.2-Reloaded
 
