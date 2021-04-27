@@ -3144,11 +3144,3 @@ msgstr ""
 #
 msgid "box3d"
 msgstr ""
-
-#
-msgid "box2D"
-msgstr ""
-
-#
-msgid "box3d"
-msgstr ""
