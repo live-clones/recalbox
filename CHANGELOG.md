@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Fix missing popup when changing hostname
 - Fix IPv6/IPv4 priority when connecting WIFI
 - Fix swanstation issues (former libretro-duckstation) (#1640)
+- Add ports cavestory x86 and x86_64
 
 
 ## [7.2-Reloaded]
