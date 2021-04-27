@@ -54,23 +54,23 @@ class PulseAudioController: public IAudioController, private Thread
     /*!
      * @brief Force the implementation to refresh all its internal objects
      */
-    void Refresh() override { PulseEnumerateCards(); };
+    void Refresh() override;
 
   private:
     struct Sink
     {
+      std::vector<std::string> PortNames; //!< Available port list
       std::string Name;                   //!< Device name
       int Channels;                       //!< Channel count
       int Index;                          //!< Device index in pulseaudio context
-      std::vector<std::string> PortNames; //!< Available port list
     };
 
     struct Profile
     {
       std::string Name;        //!< Device name
       std::string Description; //!< Description
-      bool Available;          //!< Profile available
       int Priority;            //!< Profile priority
+      bool Available;          //!< Profile available
     };
 
     struct Port
@@ -86,12 +86,12 @@ class PulseAudioController: public IAudioController, private Thread
 
     struct Card
     {
+      std::vector<Port> Ports; //!< Available port list
+      std::vector<Sink> Sinks; //!< Available sink list
       std::string Name;        //!< Card name
       std::string Description; //!< Card Description
       int Index;               //!< Device index in pulseaudio context
       bool HasActioveProfile;  //!< Has an active profile already set?
-      std::vector<Port> Ports; //!< Available port list
-      std::vector<Sink> Sinks; //!< Available sink list
     };
 
     //! Pulseaudio connection state
@@ -110,9 +110,12 @@ class PulseAudioController: public IAudioController, private Thread
       Complete,    //!< Enumeration complete
     };
 
+    //! APIs Syncer
+    Mutex mAPISyncer;
+
     //! Card list
     std::vector<Card> mCards;
-    //! Syncer
+    //! Internal Syncer
     Mutex mSyncer;
 
     //! Connection state
@@ -139,6 +142,10 @@ class PulseAudioController: public IAudioController, private Thread
      * Tools
      */
 
+    const Card* FirstCard();
+
+    static const Port* FirstPort(const Card& card);
+
     const Card* LookupCard(const std::string& name);
 
     static const Port* LookupPort(const Card& card, const std::string& name);
@@ -146,6 +153,8 @@ class PulseAudioController: public IAudioController, private Thread
     static bool HasPort(const Sink& sink, const Port& port);
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
+
+    bool IsPortAvailable(const std::string& portName);
 
     /*!
      * @brief Give the oportunity to process special playback regarding the current hardware
@@ -268,11 +277,12 @@ class PulseAudioController: public IAudioController, private Thread
     void SetDefaultProfiles();
 
     /*!
-     * @brief Get best profile from the given card
-     * @param card Card
-     * @return Best profile
+     * @brief Get overall best profile, regarding the given information
+     * @param card Card (may be null)
+     * @param port Port (may be null)
+     * @return Best profile or null if no profile is available
      */
-    static const Profile* GetBestProfile(const Card& card);
+    const Profile* GetBestProfile(const Card* card, const Port* port);
 
     /*!
      * @brief Build the best card name from the card property set
