@@ -1,6 +1,8 @@
 # Release notes
 
 ## 7.2.1-Reloaded
+- Fixed Raspberry Pi 1,2,3 slow videos
+- Fix swanstation issues (former libretro-duckstation)
 
 ### Fixes
 - Fix Raspberry Pi 1,2,3 slow videos

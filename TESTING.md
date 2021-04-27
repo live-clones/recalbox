@@ -19,6 +19,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check ES won't crash anymore when loading heavy themes
 - [ ] Check ES display a popup when changing the HOSTNAME entry in network menu
 - [ ] Check ES fetches an IPv4 when connecting WIFI (SSIF/Key or WPS)
+- [ ] Check core libretro swanstation for psx (#1640) and check bios swanstation for psx
 
 
 ## [7.2-Reloaded]

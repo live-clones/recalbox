@@ -235,9 +235,9 @@
     <bios path="xmil/IPLROM.X1T" md5="56c28adcf1f3a2f87cf3d57c378013f5" core="xmil" />
   </system>
   <system fullname="Playstation" platform="psx">
-    <bios path="scph5500.bin" md5="8dd7d5296a650fac7319bce665a6a53c" core="mednafen_psx,mednafen_psx_hw,duckstation" />
-    <bios path="scph5501.bin" md5="490f666e1afb15b7362b406ed1cea246" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw,duckstation" />
-    <bios path="scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="mednafen_psx,mednafen_psx_hw,duckstation" />
+    <bios path="scph5500.bin" md5="8dd7d5296a650fac7319bce665a6a53c" core="mednafen_psx,mednafen_psx_hw,swanstation" />
+    <bios path="scph5501.bin" md5="490f666e1afb15b7362b406ed1cea246" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw,swanstation" />
+    <bios path="scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="mednafen_psx,mednafen_psx_hw,swanstation" />
     <bios path="scph101.bin"  md5="6E3735FF4C7DC899EE98981385F6F3D0" core="pcsx_rearmed" note="Recommended for better compatibility." />
     <bios path="scph7001.bin" md5="1e68c231d0896b7eadcad1d7d8e76129" core="pcsx_rearmed" note="Recommended for better compatibility." />
     <bios path="scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d,924e392ed05558ffdb115408c263dccf" core="pcsx_rearmed" note="Recommended for better compatibility." />
