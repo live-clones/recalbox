@@ -1,6 +1,5 @@
 # Release notes
 
-<<<<<<< HEAD
 ## 7.2.1-Reloaded
 
 ### Fixes
@@ -17,6 +16,13 @@
 - Fix missing popup when changing hostname
 - Fix IPv6/IPv4 priority when connecting WIFI
 - Fix video playback issue with kodi on rpi4
+- Fix case detection after factory reset
+- Lightgun system is shown by default
+- Fix rating componant running out of screen
+- Fix sound menu & output auto-selection
+- Fix missing translations
+- Fix SCV scraping
+
 
 ## 7.2-Reloaded
 
