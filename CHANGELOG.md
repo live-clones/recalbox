@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 - Fix IPv6/IPv4 priority when connecting WIFI
 - Fix swanstation issues (former libretro-duckstation) (#1640)
 - Add ports cavestory x86 and x86_64
-
+- Revert kodi to XBMC upstream version (#1631)
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
