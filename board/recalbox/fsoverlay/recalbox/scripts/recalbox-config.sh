@@ -633,7 +633,7 @@ if [[ "$command" == "storage" ]]; then
 fi
 
 if [[ "$command" == "forgetBT" ]]; then
-    for mac in $(bluetoothctl paired-devices | awk '{print $2}') ; do
+    for mac in $(bluetoothctl devices | awk '{print $2}') ; do
         recallog "Unpairing and removing BT device $mac"
         /recalbox/scripts/bluetooth/test-device remove "$mac"
     done
