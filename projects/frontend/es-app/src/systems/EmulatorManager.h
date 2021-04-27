@@ -93,6 +93,13 @@ class EmulatorManager : public INoCopy
       mSystemEmulators.insert(key, &system.Emulators());
     }
 
+    /*!
+     * @brief Patch name if required (example: libretro-duckstation renamed libretro-swanstation in 7.2.1)
+     * @param emulator emulator name
+     * @param core core name
+     */
+    static void PatchNames(std::string& emulator, std::string& core);
+
     //! Class SystemManager needs to Add emulator lists
     friend class SystemManager;
 

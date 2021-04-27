@@ -81,6 +81,7 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
 {
   std::string rawemulator = RecalboxConf::Instance().AsString(system.getName() + ".emulator");
   std::string rawcore = RecalboxConf::Instance().AsString(system.getName() + ".core");
+  PatchNames(rawemulator, rawcore);
 
   // At least one not empty?
   if (!emulator.empty() || !core.empty())
@@ -110,6 +111,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
   {
     std::string rawemulator = game.Metadata().Emulator();
     std::string rawcore = game.Metadata().Core();
+    PatchNames(rawemulator, rawcore);
 
     if (CheckEmulatorAndCore(*game.getSystem(), rawemulator, rawcore))
     {
@@ -182,6 +184,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   // Get final tupple
   std::string finalEmulator = rawSystemEmulator.empty() ? rawGlobalEmulator : rawSystemEmulator;
   std::string finalCore     = rawSystemCore.empty()     ? rawGlobalCore     : rawSystemCore;
+  PatchNames(finalEmulator, finalCore);
 
   if (!finalEmulator.empty() || !finalCore.empty())
   {
@@ -329,5 +332,11 @@ std::string EmulatorManager::KeyFrom(const SystemData& system)
   for(int i = system.PlatformCount(); --i >= 0; )
     result.append(Strings::ToString((int)system.PlatformIds(i)));
   return result;
+}
+
+void EmulatorManager::PatchNames(std::string& emulator, std::string& core)
+{
+  if (emulator == "libretro")
+    if (core == "duckstation") core = "swanstation";
 }
 
