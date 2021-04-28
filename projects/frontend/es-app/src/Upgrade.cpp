@@ -69,7 +69,7 @@ void Upgrade::Run()
           // Message box only if the option is on
           if (RecalboxConf::Instance().AsBool("updates.enabled"))
           {
-            while (mWindow.HasGui())
+            while (mWindow.HasGui() || mWindow.isSleeping())
               sleep(5);
 
             mMessageBoxMessage = _("NEW VERSION:");
