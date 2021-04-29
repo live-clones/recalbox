@@ -511,6 +511,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
 
     if (card == nullptr) { LOG(LogError) << "[PulseAudio] No sound card available!"; return playbackName; }
     if (port == nullptr) { LOG(LogError) << "[PulseAudio] No port '" << portName << "' available on sound card " << card->Description; return playbackName; }
+    if (selectedProfile == nullptr) { LOG(LogError) << "[PulseAudio] No profile available!"; return playbackName; }
 
     { LOG(LogInfo) << "[PulseAudio] Activating profile " << selectedProfile->Description << " for card #" << card->Index << ' ' << card->Name; }
 
