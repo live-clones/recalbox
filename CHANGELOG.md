@@ -29,6 +29,7 @@ All notable changes to this project will be documented in this file.
 - Fix odroidgo2 v1 gamepad
 - Fix forgetting unconnected bluetooth devices
 - Enable FastConnectable bluetooth option, fix joycon not reconnecting (#1666)
+- Remove reicast emulator
 
 
 ## [7.2-Reloaded]

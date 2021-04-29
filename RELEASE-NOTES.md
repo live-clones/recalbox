@@ -4,6 +4,7 @@
 
 ### Fixes
 - Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
+- Reicast has been removed from Recalbox as this emulator does not work anymore with our new kernel and softwares versions. You can now use Flycast as the main emulator for the dreamcast.
 - Fix Video lag on ppsspp
 - Fix Raspberry Pi 1,2,3 slow videos
 - Fix swanstation issues (former libretro-duckstation)
@@ -27,6 +28,7 @@
 - Fix rtl88x2bu Realtek wifi driver
 - Fix odroidgo2 v1 gamepad detection
 - Fix forget all bluetooth devices
+
 
 
 ## 7.2-Reloaded
