@@ -24,6 +24,7 @@
 - Fix missing translations
 - Fix SCV scraping
 - Fix rtl88x2bu Realtek wifi driver
+- Fix odroidgo2 v1 gamepad detection
 
 ## 7.2-Reloaded
 
