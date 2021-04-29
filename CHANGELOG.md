@@ -229,6 +229,7 @@ All notable changes to this project will be documented in this file.
 - Bump theme again (videopc+ & elektronika bk)
 - Fix uboot header for OgS when updating
 - Bump theme (model3 update)
+- Bump odroidxu4 kernel
 
 
 ## [7.1.1-Reloaded]
