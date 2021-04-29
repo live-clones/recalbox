@@ -24,8 +24,8 @@ All notable changes to this project will be documented in this file.
 - Fix sound menu & output auto-selection
 - Fix missing translations
 - Fix SCV scraping
-
 - Fix rtl88x2bu wifi driver now works again
+- Fix odroidgo2 v1 gamepad
 
 
 ## [7.2-Reloaded]
