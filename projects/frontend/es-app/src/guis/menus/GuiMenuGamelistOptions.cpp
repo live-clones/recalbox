@@ -242,7 +242,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   {
     case Components::Adult: RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save(); break;
     case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); break;
-    case Components::ShowHidden: RecalboxConf::Instance().SetShowHidden(status).Save(); break;
+    case Components::ShowHidden:
+      RecalboxConf::Instance().SetShowHidden(status).Save();
+      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      break;
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::Regions:
     case Components::Sorts:
