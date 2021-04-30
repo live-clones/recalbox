@@ -31,7 +31,11 @@ All notable changes to this project will be documented in this file.
 - Enable FastConnectable bluetooth option, fix joycon not reconnecting (#1666)
 - Remove reicast emulator
 - Fix problem autoconf pad 8bitdo (#1624)
-
+- Fix pixel-perfect settings being incorrectly set in menu
+- Fix update popup over gameclip
+- Fix hiding a game wipe all its metadata
+- Fix theme swithing & theme option edition
+- Improved .cue/.gdi/.m3u subfile detection
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
