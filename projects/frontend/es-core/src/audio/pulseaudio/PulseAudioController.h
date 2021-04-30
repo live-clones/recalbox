@@ -282,7 +282,7 @@ class PulseAudioController: public IAudioController, private Thread
      * @param port Port (may be null)
      * @return Best profile or null if no profile is available
      */
-    const Profile* GetBestProfile(const Card* card, const Port* port);
+    const Profile* GetBestProfile(const Card*& card, const Port*& port);
 
     /*!
      * @brief Build the best card name from the card property set

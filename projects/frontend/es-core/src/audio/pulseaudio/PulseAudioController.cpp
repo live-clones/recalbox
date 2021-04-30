@@ -655,7 +655,7 @@ void PulseAudioController::PulseEnumarateSinks()
     }
 }
 
-const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const PulseAudioController::Card* targetCard, const PulseAudioController::Port* targetPort)
+const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const PulseAudioController::Card*& targetCard, const PulseAudioController::Port*& targetPort)
 {
   int priority = -1;
   const Port* selectedPort = nullptr;
@@ -685,6 +685,8 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const 
         priority = port.Priority;
         selectedPort = &port;
         selectedCard = &card;
+        targetCard = &card;
+        targetPort = &port;
         { LOG(LogDebug) << "[PulseAudio] Get Best profile, card - port selected : " << selectedCard->Description << " - " << selectedPort->Description; }
       }
     }
@@ -717,7 +719,9 @@ void PulseAudioController::SetDefaultProfiles()
 
     { LOG(LogInfo) << "[PulseAudio] Card #" << card.Index << ' ' << card.Name << " has no profile activated."; }
 
-    const Profile* selectedProfile = GetBestProfile(&card, nullptr);
+    const Card* cardTemp = &card;
+    const Port* portTemp = nullptr;
+    const Profile* selectedProfile = GetBestProfile(cardTemp, portTemp);
     if (selectedProfile == nullptr) continue;
 
     // Activate selected profile

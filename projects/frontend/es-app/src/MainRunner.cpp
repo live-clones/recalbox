@@ -62,10 +62,7 @@ MainRunner::ExitState MainRunner::Run()
     std::string originalAudioDevice = RecalboxConf::Instance().GetAudioOuput();
     std::string fixedAudioDevice = audioController.SetDefaultPlayback(originalAudioDevice);
     if (fixedAudioDevice != originalAudioDevice)
-    {
-      RecalboxConf::Instance().SetAudioOuput(fixedAudioDevice);
-      RecalboxConf::Instance().Save();
-    }
+      RecalboxConf::Instance().SetAudioOuput(fixedAudioDevice).Save();
 
     // Notification Manager
     mNotificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
