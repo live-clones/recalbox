@@ -125,6 +125,7 @@ class FolderData : public FileData
     static void ExtractUselessFilesFromCcd(const Path& path, FileSet& list);
     static void ExtractUselessFilesFromM3u(const Path& path, FileSet& list);
     static void ExtractUselessFilesFromGdi(const Path& path, FileSet& list);
+    static void ExtractFileNameFromLine(std::string line, FileSet& list);
 
     static constexpr int sMaxGdiFileSize = (10 << 10); // 10 Kb
 

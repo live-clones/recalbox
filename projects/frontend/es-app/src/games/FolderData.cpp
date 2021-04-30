@@ -194,13 +194,10 @@ void FolderData::ExtractUselessFilesFromCue(const Path& path, FileSet& list)
 {
   std::string file = Files::LoadFile(path);
   for(const std::string& line : Strings::Split(file, '\n'))
-    if(Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
-      {
-        const size_t strBegin = line.find_first_of('\"') + 1;
-        const size_t strEnd   = line.find_last_of('\"');
-        if(strBegin >= strEnd) continue;
-        list.insert(line.substr(strBegin , strEnd - strBegin));
-      }
+    if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
+    {
+      ExtractFileNameFromLine(line, list);
+    }
 }
 
 void FolderData::ExtractUselessFilesFromCcd(const Path& path, FileSet& list)
@@ -226,11 +223,27 @@ void FolderData::ExtractUselessFilesFromGdi(const Path& path, FileSet& list)
   std::string file = Files::LoadFile(path);
   for(const std::string& line : Strings::Split(file, '\n'))
   {
-    for(const std::string& word : Strings::Split(line, ' ', true))
-    {
-      if(Strings::Contains(word, "."))
-        list.insert(word);
-    }
+    ExtractFileNameFromLine(line, list);
+  }
+}
+
+void FolderData::ExtractFileNameFromLine(std::string line, FileSet& list)
+{
+  // 1 check file name between double quotes
+  const size_t strBegin = line.find_first_of('\"') + 1;const size_t strEnd   = line.find_last_of('\"');
+
+  std::string string =  line.substr(strBegin , strEnd - strBegin);
+  if(Strings::Contains(string, "."))
+  {
+    list.insert(string);
+    return;
+  }
+  
+  // 2 check every words separated by space that contains dot
+  for(const std::string& word : Strings::Split(line, ' ', true))
+  {
+    if (Strings::Contains(word, "."))
+      list.insert(word);
   }
 }
 
