@@ -3,31 +3,29 @@
 ## 7.2.1-Reloaded
 
 ### Fixes
+- Fix loop reboot with non official themes
+- Lightgun system is shown by default if any game is detected
+- Kodi video playback is back on Rpi 4
+- Reicast has been removed from Rpi, PC and XU4 as this emulator does not work anymore with our new kernel and softwares versions. You can now use Flycast as the main emulator for the dreamcast.
+- On PSP, with PPSSPP emulator, videos now run full speed
+- Raspberry Pi 1,2,3 boot video now run full speed
 - Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
-- Fix Video lag on ppsspp
-- Fix Raspberry Pi 1,2,3 slow videos
-- Fix swanstation issues (former libretro-duckstation)
+- Duckstation has been renamed Swanstation
+- Fix Swanstation issues when loading games
 - Fix cavestory x86 and x86_64
-- Fix House of the dead bios MD5
-- Fix missings extensions (SCV & WII)
-- Fix Scraper default language
+- Fix House of the dead bios validation
+- Add missings game extensions detection for SCV and WII
+- Default language is now used when scraping 
 - Fix gameclip initialization on network shares
-- Fix gameclip launch
-- Fix freezes running a game while playing video
-- Fix crash when loading heavy themes
-- Fix missing popup when changing hostname
-- Fix IPv6/IPv4 priority when connecting WIFI
-- Fix video playback issue with kodi on rpi4
-- Fix case detection after factory reset
-- Lightgun system is shown by default
+- Fix freezes when running a game while playing gameclip
+- Using IPv4 in priority when connecting WIFI
+- Factory reset now reset case configuration
 - Fix rating componant running out of screen
 - Fix sound menu & output auto-selection
-- Fix missing translations
-- Fix SCV scraping
+- Fix Odroid Go Advance V1 gamepad detection
+- Fix Super Cassette Vision scraping
 - Fix rtl88x2bu Realtek wifi driver
-- Fix odroidgo2 v1 gamepad detection
-- Fix forget all bluetooth devices
-
+- Fix "Forget all bluetooth devices"
 
 ## 7.2-Reloaded
 
