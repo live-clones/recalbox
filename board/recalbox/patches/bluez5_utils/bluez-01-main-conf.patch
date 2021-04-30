@@ -1,0 +1,20 @@
+--- bluez5_utils-5.55/src/main.conf	2021-04-29 23:58:45.452310231 +0200
++++ bluez5_utils-5.55/src/main.conf	2021-04-29 23:59:11.558891698 +0200
+@@ -2,7 +2,7 @@
+ 
+ # Default adapter name
+ # Defaults to 'BlueZ X.YZ'
+-#Name = BlueZ
++Name = Recalbox
+ 
+ # Default device class. Only the major and minor device class bits are
+ # considered. Defaults to '0x000000'.
+@@ -63,7 +63,7 @@
+ # however the tradeoff is increased power consumptions. This feature
+ # will fully work only on kernel version 4.1 and newer. Defaults to
+ # 'false'.
+-#FastConnectable = false
++FastConnectable = true
+ 
+ # Default privacy setting.
+ # Enables use of private address.

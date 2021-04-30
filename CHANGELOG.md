@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - Fix rtl88x2bu wifi driver now works again
 - Fix odroidgo2 v1 gamepad
 - Fix forgetting unconnected bluetooth devices
+- Enable FastConnectable bluetooth option, fix joycon not reconnecting (#1666)
 
 
 ## [7.2-Reloaded]
