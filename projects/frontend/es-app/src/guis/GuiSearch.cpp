@@ -12,6 +12,8 @@
 #include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
 #include "GuiNetPlayHostPasswords.h"
+#include <VideoEngine.h>
+
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -411,6 +413,9 @@ void GuiSearch::launch()
 {
   if (mList->size() != 0)
   {
+    VideoEngine::Instance().StopVideo(true);
+    mResultVideo->setVideo(Path::Empty, 0, 0);
+
     int index = mList->getCursor();
     Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
     ViewController::Instance().LaunchCheck(mSearchResults[index], NetPlayData(), target);
