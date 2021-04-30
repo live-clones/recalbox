@@ -30,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - Fix forgetting unconnected bluetooth devices
 - Enable FastConnectable bluetooth option, fix joycon not reconnecting (#1666)
 - Remove reicast emulator
+- Fix problem autoconf pad 8bitdo (#1624)
 
 
 ## [7.2-Reloaded]
