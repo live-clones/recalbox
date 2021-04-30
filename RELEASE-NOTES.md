@@ -26,6 +26,8 @@
 - Fix SCV scraping
 - Fix rtl88x2bu Realtek wifi driver
 - Fix odroidgo2 v1 gamepad detection
+- Fix forget all bluetooth devices
+
 
 ## 7.2-Reloaded
 

@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file.
 - Fix SCV scraping
 - Fix rtl88x2bu wifi driver now works again
 - Fix odroidgo2 v1 gamepad
+- Fix forgetting unconnected bluetooth devices
 
 
 ## [7.2-Reloaded]
