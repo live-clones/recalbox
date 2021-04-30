@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system naomigd --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sega NAOMI GD-ROM System' --platform naomigd --theme naomigd 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
+# ./scripts/linux/empack.py --force --system naomigd --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sega NAOMI GD-ROM System' --platform 'naomigd arcade' --theme naomigd 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_NAOMIGD_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_NAOMIGD = $(RECALBOX_ROMFS_NAOMIGD_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
 define CONFIGURE_MAIN_NAOMIGD_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NAOMIGD),Sega NAOMI GD-ROM System,$(SYSTEM_NAME_NAOMIGD),.lst .LST .dat .DAT .zip .ZIP .7z .7Z,naomigd,naomigd)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_NAOMIGD),Sega NAOMI GD-ROM System,$(SYSTEM_NAME_NAOMIGD),.lst .LST .dat .DAT .zip .ZIP .7z .7Z,naomigd arcade,naomigd)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)

@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system atomiswave --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sammy Atomiswave' --platform atomiswave --theme atomiswave 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
+# ./scripts/linux/empack.py --force --system atomiswave --extension '.lst .LST .dat .DAT .zip .ZIP .7z .7Z' --fullname 'Sammy Atomiswave' --platform 'atomiswave arcade' --theme atomiswave 1:libretro:flycast:BR2_PACKAGE_LIBRETRO_FLYCAST
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_ATOMISWAVE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_ATOMISWAVE = $(RECALBOX_ROMFS_ATOMISWAVE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
 define CONFIGURE_MAIN_ATOMISWAVE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATOMISWAVE),Sammy Atomiswave,$(SYSTEM_NAME_ATOMISWAVE),.lst .LST .dat .DAT .zip .ZIP .7z .7Z,atomiswave,atomiswave)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_ATOMISWAVE),Sammy Atomiswave,$(SYSTEM_NAME_ATOMISWAVE),.lst .LST .dat .DAT .zip .ZIP .7z .7Z,atomiswave arcade,atomiswave)
 endef
 
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
