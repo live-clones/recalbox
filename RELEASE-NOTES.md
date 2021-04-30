@@ -26,6 +26,11 @@
 - Fix Super Cassette Vision scraping
 - Fix rtl88x2bu Realtek wifi driver
 - Fix "Forget all bluetooth devices"
+- Fix pixel-perfect settings being incorrectly set in menu
+- Fix update popup appearing over Gameclip Screensaver
+- Fix hiding a game wipe all its metadata
+- Fix theme display after switching theme or editing theme options
+- Fix some files referenced in .cue/.gdi/.m3u not being ignored by the scraper
 
 ## 7.2-Reloaded
 

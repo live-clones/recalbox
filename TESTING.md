@@ -12,6 +12,12 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [7.2.1-Reloaded]
+- [ ] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
+- [ ] Switch one theme option, let ES to reboot, then check if the option is ok
+- [ ] Switch theme and let ES to reboot, then check the theme is displayed properly
+- [ ] Hide a game with metadata. Relaunch ES or Reboot. Display hidden game and check if your last hidden game stall have its metadata
+- [ ] Ensure updates check is ON in update menu. Run Gameclip screensaver immediately after ES is ready. Wait for 2 minutes max: Update popup should not appear until you exit the screensaver
+- [ ] Test pixel perfect option: set/unset the option, quit then reenter the menu, it should be displayed properly
 - [ ] Test reicast vanished from rpi4, x86, x86_64 and odroidxu4
 - [ ] Test forgetting all BT devices, especially non-connected devices (switch off/standby)
 - [ ] Test arcade view system all on this system check: mame, naomi, naomigd, atomiswave, model3, daphné, neogeo, fbneo
