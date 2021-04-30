@@ -29,6 +29,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Tester un dongle USB realtek sur l'odroidgo2 (module r8188eu)
 - [ ] Check rtl88x2bu realtek wifi driver works again
 - [ ] Check bluetooth pairing works as expected
+- [ ] Test pad 8bitdo with lastest firmware (mode start+b) (#1624)
 
 
 ## [7.2-Reloaded]
