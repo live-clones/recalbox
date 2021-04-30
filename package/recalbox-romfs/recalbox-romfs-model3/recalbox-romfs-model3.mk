@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --system model3 --extension '.zip .ZIP' --fullname 'Sega Model3' --platform model3 --theme model3 1:supermodel:supermodel:BR2_PACKAGE_SUPERMODEL
+# ./scripts/linux/empack.py --system model3 --extension '.zip .ZIP' --fullname 'Sega Model3' --platform 'model3 arcade' --theme model3 1:supermodel:supermodel:BR2_PACKAGE_SUPERMODEL
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_MODEL3_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_MODEL3 = $(RECALBOX_ROMFS_MODEL3_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_SUPERMODEL),)
 define CONFIGURE_MAIN_MODEL3_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MODEL3),Sega Model3,$(SYSTEM_NAME_MODEL3),.zip .ZIP,model3,model3)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_MODEL3),Sega Model3,$(SYSTEM_NAME_MODEL3),.zip .ZIP,model3 arcade,model3)
 endef
 
 ifneq ($(BR2_PACKAGE_SUPERMODEL),)

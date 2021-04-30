@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [7.2.1-Reloaded]
+- Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
 - Fix video lag on ppsspp
 - Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
 - Add new MD5 from MAME 0.230 for House of the Dead 2

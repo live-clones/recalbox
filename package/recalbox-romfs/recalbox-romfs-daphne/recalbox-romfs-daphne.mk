@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system daphne --extension '.daphne .DAPHNE' --fullname 'Daphne' --platform daphne --theme daphne 1:daphne:daphne:BR2_PACKAGE_HYPSEUS
+# ./scripts/linux/empack.py --force --system daphne --extension '.daphne .DAPHNE' --fullname 'Daphne' --platform 'daphne arcade' --theme daphne 1:daphne:daphne:BR2_PACKAGE_HYPSEUS
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_DAPHNE_SOURCE = 
@@ -23,7 +23,7 @@ SOURCE_ROMDIR_DAPHNE = $(RECALBOX_ROMFS_DAPHNE_PKGDIR)/roms
 
 ifneq ($(BR2_PACKAGE_HYPSEUS),)
 define CONFIGURE_MAIN_DAPHNE_START
-	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DAPHNE),Daphne,$(SYSTEM_NAME_DAPHNE),.daphne .DAPHNE,daphne,daphne)
+	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_DAPHNE),Daphne,$(SYSTEM_NAME_DAPHNE),.daphne .DAPHNE,daphne arcade,daphne)
 endef
 
 ifneq ($(BR2_PACKAGE_HYPSEUS),)
