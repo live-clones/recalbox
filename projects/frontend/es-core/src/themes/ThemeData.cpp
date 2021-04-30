@@ -11,8 +11,10 @@
 #include "components/TextComponent.h"
 #include "RootFolders.h"
 #include "ThemeException.h"
+#include "MenuThemeData.h"
 
-bool ThemeData::sThemeChanged = true;
+ThemeData* ThemeData::sCurrent = nullptr;
+bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
 
@@ -686,9 +688,13 @@ const ThemeElement* ThemeData::getElement(const std::string& view, const std::st
 
 const ThemeData& ThemeData::getCurrent()
 {
-	static ThemeData sCurrent;
+  if (IsThemeChanged())
+  {
+    delete sCurrent;
+    sCurrent = nullptr;
+  }
 
-	if (ThemeData::IsThemeChanged())
+	if (sCurrent == nullptr)
 	{
 		Path path;
 		const std::string& currentTheme = RecalboxConf::Instance().GetThemeFolder();
@@ -700,6 +706,8 @@ const ThemeData& ThemeData::getCurrent()
 			RootFolders::DataRootFolder     / "themes/" / currentTheme,
 			RootFolders::DataRootFolder     / "system/.emulationstation/themes/" / currentTheme
 		};
+
+		sCurrent = new ThemeData();
 
 		for (const auto& master : paths)
 		{
@@ -716,7 +724,7 @@ const ThemeData& ThemeData::getCurrent()
 						try
 						{
 							std::string empty;
-              sCurrent.loadFile(empty, subTheme);
+              sCurrent->loadFile(empty, subTheme);
 							break;
 						} catch(ThemeException& e)
 						{
@@ -732,20 +740,21 @@ const ThemeData& ThemeData::getCurrent()
         try
         {
           std::string empty;
-          sCurrent.loadFile(empty, masterTheme);
+          sCurrent->loadFile(empty, masterTheme);
           break;
         } catch(ThemeException& e)
         {
           { LOG(LogError) << "[ThemeData] " << e.what(); }
-          sCurrent = ThemeData(); //reset to empty
+          *sCurrent = ThemeData(); //reset to empty
         }
       }
 		}
 
-        ThemeData::SetThemeChanged(false);
-	}
+    ThemeData::SetThemeChanged(false);
+    MenuThemeData::Reset();
+  }
 
-	return sCurrent;
+	return *sCurrent;
 }
 
 void ThemeData::SetThemeChanged(bool themeChanged){

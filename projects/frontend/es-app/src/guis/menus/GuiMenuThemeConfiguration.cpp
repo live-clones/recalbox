@@ -45,10 +45,10 @@ GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
       (mGameClipView && (mGameClipView->getSelected() != mOriginalGameClipView)) ||
       (mRegion       && (mRegion->getSelected()       != mOriginalRegion      )))
   {
+    //ThemeData::SetThemeChanged(true);
+    //MenuThemeData::Reset();
     ThemeData::SetThemeChanged(true);
-    MenuThemeData::Reset();
-    ThemeData::SetThemeChanged(true);
-    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+    RequestRelaunch();
   }
 }
 

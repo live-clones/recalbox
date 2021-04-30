@@ -26,7 +26,7 @@ GuiMenuThemeOptions::~GuiMenuThemeOptions()
       (mTheme->getSelected() != mOriginalTheme))
   {
     ThemeData::SetThemeChanged(true);
-    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
+    RequestRelaunch();
   }
 }
 

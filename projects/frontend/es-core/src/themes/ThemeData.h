@@ -39,6 +39,7 @@ class ThemeData
         std::vector<std::string> orderedKeys;
     };
 
+    static ThemeData* sCurrent;
     static bool sThemeChanged;
     static bool sThemeHasMenuView;
     static bool sThemeHasHelpSystem;
@@ -53,8 +54,8 @@ class ThemeData
     static void SetThemeHasMenuView(bool on) { sThemeHasMenuView = on; }
     static void SetThemeHasHelpSystem(bool on) { sThemeHasHelpSystem = on; }
 
-	// throws ThemeException
-	void loadFile(const std::string& systemThemeFolder, const Path& path);
+  	// throws ThemeException
+	  void loadFile(const std::string& systemThemeFolder, const Path& path);
 
     enum class ElementProperty
     {
