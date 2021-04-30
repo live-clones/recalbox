@@ -34,16 +34,16 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bump Libretro-mame => test core with Romset 0.230
 - [ ] Supermodel => Model3 emulator => test with romset 0.230 and test bypass configgen option add 'model3.configfile=dummy' in 'recalbox.conf' and check if '/recalbox/share/system/configs/model3/supermodel.ini' is not rewritten
 - [ ] colecovision Netplay with FBNeo core
-- [ ] Test & evaluate MelonDS on Pi4
-- [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
-- [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
-- [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
-- [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
-- [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
+- [X] Test & evaluate MelonDS on Pi4
+- [X] GameClip => Test gameclip screensaver with some available videos => Test all options
+- [X] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
+- [X] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
+- [FAILED] Test & evaluate libretro-mupen64plus-next on odroidxu4
+- [FAILED] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax - Cannot access pad.
 - [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
-- [ ] Test Nintendo switch joycons and combined joycons
-- [ ] DosBox Pure added => test this new core
-- [ ] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
+- [X] Test Nintendo switch joycons and combined joycons
+- [X] DosBox Pure added => test this new core
+- [X] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
 - [ ] Revalider tous les menus sur la liste système
 - [ ] Revalider tous les menus sur les listes de jeux
 - [ ] Test Craft (Minecraft clone) on ports (pc only)
@@ -61,36 +61,38 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## Non Regression
 - [ ] Vérifier que le settings "Show FPS" fonctionne correctement
 - [ ] Vérifier que la nouvelle façon de gerer les O/C fonctionne correctement (verifier les vitesses réelles en SSH)
-- [ ] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
-- [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
+- [X] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
+- [X] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
 - [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
 - [ ] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
-- [ ] New roms management => Test option in game menu to show/hide preinstalled games
-- [ ] New roms management => Fresh install: Test all ports
-- [ ] Added rpi-400 dts => check pi400 boots correctly
+- [X] New roms management => Test option in game menu to show/hide preinstalled games
+- [X] New roms management => Fresh install: Test all ports
+- [X] Added rpi-400 dts => check pi400 boots correctly
 - [ ] mupen64plus bump => test standalone core deeply on all boards
-- [ ] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
+- [FAILED] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
 - [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
-- [ ] Bump Stella => Deeply retest Stella core
+- [X] Bump Stella => Deeply retest Stella core
 - [ ] BR2020.11 - Check hyperion still works (ian57 a le matos)
-- [ ] BR2020.11 - Test libretro-fmsx
+- [ ] BR2020.11 - Test libretro-bluemsx
+- [ ] BR2020.11 - Test libretro-scummvm
+- [X] BR2020.11 - Test libretro-fmsx
 - [ ] BR2020.11 - Test libretro-mupen64plus-nx on rpi2 (as libretro-mupen64plus is disabled)
-- [ ] BR2020.11 - Test libretro-gpsp
-- [ ] BR2020.11 - Test advancemame
-- [ ] BR2020.11 - Test libretro-mu
-- [ ] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
+- [X] BR2020.11 - Test libretro-gpsp
+- [X] BR2020.11 - Test advancemame
+- [X] BR2020.11 - Test libretro-mu
+- [X] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
 - [ ] BR2020.11 - Test moonlight-embedded
-- [ ] BR2020.11 - Test openbor
+- [X] BR2020.11 - Test openbor
 - [ ] BR2020.11 - Test mpv (splash video) still works
-- [ ] BR2020.11 - Test ppsspp
-- [ ] BR2020.11 - Test libretro-81
+- [X] BR2020.11 - Test ppsspp
+- [X] BR2020.11 - Test libretro-81
 - [ ] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
-- [ ] BR2020.11 - Test libretro-flycast
+- [X] BR2020.11 - Test libretro-flycast
 - [ ] Verify wm8960 audio hat works for all boards with kernel 5.10 (ian57 a le matos)
 - [ ] BR2020.11 - Check splash video on rpi1, 2 and 3
 - [ ] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
 - [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
-- [ ] BR2020.11 - Check that Odroid GO2 boots correctly
+- [X] BR2020.11 - Check that Odroid GO2 boots correctly
 - [ ] BR2020.11 - Check that PC with intel chipsets works properly
 - [ ] BR2020.11 - Check Xorg AMDGPU driver works properly (see with david)
 - [ ] BR2020.11 - Check Xorg OpenChrome driver works properly (see with david)
@@ -100,7 +102,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
 - [ ] BR2020.11 - Check nvidia drivers version 390 works properly
 - [ ] BR2020.11 - Check nvidia drivers version 440 works properly
-- [ ] BR2020.11 - Check bluetooth pairing
+- [X] BR2020.11 - Check bluetooth pairing
 - [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
 - [ ] Bump Hatari => Retest all game format on Atari ST core
 - [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
@@ -121,7 +123,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
 - [ ] Check if recalbox can connect on open network (passwordless SSID)
 - [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
-- [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
+- [x] Check Palmos palmos52-en-t3.rom is correctly recognized
 - [ ] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
 - [ ] Bump Libretro-uae: Check new CHD support on amigacd32 & amigacdtv
 - [ ] Vérifier que le pi4 ne démarre pas en 4k sur un ecran 4k
