@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [NEXT]
+- Bring back fan speed setting on odroidxu4 (#1662)
+
 ## [7.2.1-Reloaded]
 - Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
 - Fix video lag on ppsspp
