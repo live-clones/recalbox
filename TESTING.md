@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [7.2.1-Reloaded]
+- [ ] Test swanstation performance on rpi2
 - [ ] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
 - [ ] Switch one theme option, let ES to reboot, then check if the option is ok
 - [ ] Switch theme and let ES to reboot, then check the theme is displayed properly

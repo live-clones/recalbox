@@ -36,6 +36,7 @@ All notable changes to this project will be documented in this file.
 - Fix hiding a game wipe all its metadata
 - Fix theme swithing & theme option edition
 - Improved .cue/.gdi/.m3u subfile detection
+- Added Swanstation libretro core on rpi2
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
