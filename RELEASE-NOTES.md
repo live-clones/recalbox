@@ -31,6 +31,7 @@
 - Fix hiding a game wipe all its metadata
 - Fix theme display after switching theme or editing theme options
 - Fix some files referenced in .cue/.gdi/.m3u not being ignored by the scraper
+- Force volume of all outputs to 100%
 
 ## 7.2-Reloaded
 

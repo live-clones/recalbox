@@ -2,9 +2,38 @@
 
 # load/save alsa state
 
+find_number_of_card() {
+  ls -1 /proc/asound/card*/id 2>/dev/null | wc -l || echo 0
+}
+
+find_all_outputs_for_card() {
+  cardid=$1
+  amixer scontrols --card $cardid | grep 'Simple mixer control' | while read line; do
+    echo "$line" | sed -E "s/.*'(.+)'.*/\1/"
+  done
+}
+
+set_max_volume_for_card_output() {
+  cardid=$1
+  outputname=$2
+  amixer sset "$outputname" --card $cardid 100% || true
+}
+
+set_max_volume_for_all_cards() {
+  nbcards=`find_number_of_card`
+  if [ $nbcards -gt 0 ]; then
+    for card in `seq 0 $((nbcards-1))`; do
+      find_all_outputs_for_card $card | while read output; do
+        set_max_volume_for_card_output "$card" "$output"
+      done
+    done
+  fi
+}
+
 case "$1" in
     start)
         alsactl -f /boot/asound.state restore
+        set_max_volume_for_all_cards
         ;;
     stop)
         mount -o remount,rw /boot

@@ -36,6 +36,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check rtl88x2bu realtek wifi driver works again
 - [ ] Check bluetooth pairing works as expected
 - [ ] Test pad 8bitdo with lastest firmware (mode start+b) (#1624)
+- [ ] Test volume is at max on boot for all outputs (#1634)
 
 
 ## [7.2-Reloaded]
