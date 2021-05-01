@@ -32,6 +32,7 @@
 - Fix theme display after switching theme or editing theme options
 - Fix some files referenced in .cue/.gdi/.m3u not being ignored by the scraper
 - Force volume of all outputs to 100%
+- Fix crash when running a game from the search window
 
 ## 7.2-Reloaded
 
