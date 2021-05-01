@@ -31,7 +31,7 @@
 - Fix hiding a game wipe all its metadata
 - Fix theme display after switching theme or editing theme options
 - Fix some files referenced in .cue/.gdi/.m3u not being ignored by the scraper
-- Swanstation has been added on rpi2
+- Swanstation has been added on rpi2 and rpi1
 
 ## 7.2-Reloaded
 
