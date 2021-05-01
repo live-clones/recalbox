@@ -52,7 +52,7 @@ as release notes for end user on a Recalbox upgrade.
 - Force volume of all outputs to 100%
 - Fix crash when running a game from the search window
 - Fix GBA gpsp emulator
-- Swanstation has been added on rpi2
+- Swanstation has been added on rpi2 and rpi1
 
 
 ## Version 7.2-Reloaded

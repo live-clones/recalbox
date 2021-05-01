@@ -76,6 +76,7 @@ All notable changes to this project will be documented in this file.
 - Set PPSSPP Vsync to on, in default config and in pre-upgrade for rpi4
 - Fix gpsp compilation option (#1626)
 - Added Swanstation libretro core on rpi2
+- Added Swanstation libretro core on rpi2 and rpi1/0
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
