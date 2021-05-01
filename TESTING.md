@@ -33,6 +33,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Run any game on PPSSPP rpi4 and check is vsync is on.
 - [ ] Test odroidxu4 fan speeds are set on boot (#1662)
 - [ ] Run games from the search window when its video snap is playing. Should not crash anymore.
+- [ ] Test swanstation performance on rpi2
 - [ ] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
 - [ ] Switch one theme option, let ES to reboot, then check if the option is ok
 - [ ] Switch theme and let ES to reboot, then check the theme is displayed properly
