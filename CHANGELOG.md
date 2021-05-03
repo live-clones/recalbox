@@ -38,6 +38,7 @@ All notable changes to this project will be documented in this file.
 - Improved .cue/.gdi/.m3u subfile detection
 - Force volume of all output to 100%
 - Fix crash when running a game from the search window
+- Send hostname when requesting dhcp address
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
