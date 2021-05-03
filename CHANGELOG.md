@@ -39,6 +39,7 @@ All notable changes to this project will be documented in this file.
 - Force volume of all output to 100%
 - Fix crash when running a game from the search window
 - Send hostname when requesting dhcp address
+- Set PPSSPP Vsync to on, in default config and in pre-upgrade for rpi4
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
