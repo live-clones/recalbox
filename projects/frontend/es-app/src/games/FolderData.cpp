@@ -206,6 +206,7 @@ void FolderData::ExtractUselessFilesFromCcd(const Path& path, FileSet& list)
   list.insert(file + ".cue");
   list.insert(file + ".bin");
   list.insert(file + ".sub");
+  list.insert(file + ".img");
 }
 
 void FolderData::ExtractUselessFilesFromM3u(const Path& path, FileSet& list)
