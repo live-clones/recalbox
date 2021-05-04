@@ -40,6 +40,8 @@ All notable changes to this project will be documented in this file.
 - Fix crash when running a game from the search window
 - Send hostname when requesting dhcp address
 - Set PPSSPP Vsync to on, in default config and in pre-upgrade for rpi4
+- Fix rewind dosbox pure (#1681)
+
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
