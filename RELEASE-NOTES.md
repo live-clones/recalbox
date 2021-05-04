@@ -1,5 +1,11 @@
 # Release notes
 
+## Next
+
+### Fixes
+- Bring back fan speed setting on Odroid XU4
+
+
 ## 7.2.1-Reloaded
 
 ### Fixes
@@ -33,6 +39,7 @@
 - Fix some files referenced in .cue/.gdi/.m3u not being ignored by the scraper
 - Force volume of all outputs to 100%
 - Fix crash when running a game from the search window
+
 
 ## 7.2-Reloaded
 
