@@ -227,9 +227,9 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           }
           if (mConfiguration.GetImageType() != ScreenScraperEnums::ScreenScraperImageType::None)
           {
-            game.MediaSources.mImage = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
+            game.MediaSources.mImage = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize, game.MediaSources.mImageMd5);
             if (game.MediaSources.mImage.empty() && type2 != nullptr)
-              game.MediaSources.mImage = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize);
+              game.MediaSources.mImage = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize, game.MediaSources.mImageMd5);
           }
 
           // Thumbnail
@@ -250,9 +250,9 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           }
           if (mConfiguration.GetThumbnailType() != ScreenScraperEnums::ScreenScraperImageType::None)
           {
-            game.MediaSources.mThumbnail = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
+            game.MediaSources.mThumbnail = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize, game.MediaSources.mThumbnailMd5);
             if (game.MediaSources.mThumbnail.empty() && type2 != nullptr)
-              game.MediaSources.mThumbnail = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize);
+              game.MediaSources.mThumbnail = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize, game.MediaSources.mThumbnailMd5);
           }
 
           // Video
@@ -266,34 +266,34 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           }
           if (mConfiguration.GetVideo() != ScreenScraperEnums::ScreenScraperVideoType::None)
           {
-            game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
+            game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize, game.MediaSources.mVideoMd5);
             if (game.MediaSources.mVideo.empty() && type2 != nullptr)
-              game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize);
+              game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize, game.MediaSources.mVideoMd5);
           }
 
           // Marquee
           if (mConfiguration.GetWantMarquee())
           {
-            game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarquee", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize);
+            game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarquee", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize, game.MediaSources.mMarqueeMd5);
             if (game.MediaSources.mMarquee.empty() && type2 != nullptr)
-              game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarqueesmall", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize);
+              game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarqueesmall", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize, game.MediaSources.mMarqueeMd5);
           }
 
           // Wheel
           if (mConfiguration.GetWantWheel())
           {
-            game.MediaSources.mWheel = ExtractMedia(medias, "wheel-hs", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize);
+            game.MediaSources.mWheel = ExtractMedia(medias, "wheel-hs", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize, game.MediaSources.mWheelMd5);
             if (game.MediaSources.mWheel.empty() && type2 != nullptr)
-              game.MediaSources.mWheel = ExtractMedia(medias, "wheel", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize);
+              game.MediaSources.mWheel = ExtractMedia(medias, "wheel", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize, game.MediaSources.mWheelMd5);
           }
 
           // Manual
           if (mConfiguration.GetWantManual())
-            game.MediaSources.mManual = ExtractMedia(medias, "manuel", requiredRegion, game.MediaSources.mManualFormat, game.MediaSources.mManualSize);
+            game.MediaSources.mManual = ExtractMedia(medias, "manuel", requiredRegion, game.MediaSources.mManualFormat, game.MediaSources.mManualSize, game.MediaSources.mManualMd5);
 
           // Maps
           if (mConfiguration.GetWantMaps())
-            game.MediaSources.mMaps = ExtractMedia(medias, "maps", std::string(), game.MediaSources.mMapsFormat, game.MediaSources.mMapsSize);
+            game.MediaSources.mMaps = ExtractMedia(medias, "maps", std::string(), game.MediaSources.mMapsFormat, game.MediaSources.mMapsSize, game.MediaSources.mMapsMd5);
         }
       }
     }
@@ -582,11 +582,13 @@ bool ScreenScraperApis::ExtractAdultState(const rapidjson::Value& array)
   return false;
 }
 
-std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size)
+std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size, std::string& md5)
 {
   const char* parent = "jeu";
   format.clear();
   size = 0;
+  md5.clear();
+
 
   if (!region.empty())
   {
@@ -598,6 +600,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
           {
             Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
+            md5 = object["md5"].GetString();
             return object["url"].GetString();
           }
 
@@ -609,6 +612,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
           {
             Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
+            md5 = object["md5"].GetString();
             return object["url"].GetString();
           }
 
@@ -620,6 +624,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
           {
             Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
+            md5 = object["md5"].GetString();
             return object["url"].GetString();
           }
 
@@ -631,6 +636,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
           {
             Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
+            md5 = object["md5"].GetString();
             return object["url"].GetString();
           }
 
@@ -642,6 +648,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
           {
             Strings::ToLong(object["size"].GetString(), size);
             format = object["format"].GetString();
+            md5 = object["md5"].GetString();
             return object["url"].GetString();
           }
   }
@@ -653,6 +660,7 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
       {
         Strings::ToLong(object["size"].GetString(), size);
         format = object["format"].GetString();
+        md5 = object["md5"].GetString();
         return object["url"].GetString();
       }
 

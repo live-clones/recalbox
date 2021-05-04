@@ -210,6 +210,7 @@ void ScreenScraperEngine::Initialize()
   mWantManual  = RecalboxConf::Instance().GetScreenScraperWantManual();
   mWantMaps    = RecalboxConf::Instance().GetScreenScraperWantMaps();
   mWantP2K     = RecalboxConf::Instance().GetScreenScraperWantP2K();
+  mMd5Set = MutexSet{};
 }
 
 bool ScreenScraperEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
@@ -271,7 +272,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
     if (!engine.IsAborted())
     {
       engine.Initialize(true);
-      switch(engine.Scrape(mMethod, *feed))
+      switch(engine.Scrape(mMethod, *feed, mMd5Set))
       {
         case ScrapeResult::Ok:
         {
@@ -383,7 +384,7 @@ void ScreenScraperEngine::Engine::Initialize(bool noabort)
   mMediaSize = 0;
 }
 
-ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game)
+ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileData& game, MutexSet& md5Set)
 {
   // Start
   mRunning = true;
@@ -440,7 +441,7 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
         if (mAbortRequest) break;
 
         // Request and store media
-        switch (DownloadAndStoreMedia(method, gameResult, game))
+        switch (DownloadAndStoreMedia(method, gameResult, game, md5Set))
         {
           case ScrapeResult::QuotaReached:
           case ScrapeResult::DiskFull:
@@ -710,12 +711,26 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
   }
 }
 
-ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const std::string& gameName, FileData& game,
-  const Path& mediaFolder, const std::string& media, const std::string& format, SetPathMethodType pathSetter)
+ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
+  const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, std::string mediaType)
 {
+
+  bool mediaIsPresent;
+  md5Set.mMutex.Lock();
+  mediaIsPresent = md5Set.mSet.contains(AbsoluteImagePath.ToString());
+  if (!mediaIsPresent)
+  {
+    md5Set.mSet.insert(AbsoluteImagePath.ToString());
+  }
+  md5Set.mMutex.UnLock();
+  if(mediaIsPresent)
+  {
+    if (pathSetter != nullptr)
+      (game.Metadata().*pathSetter)(AbsoluteImagePath);
+    return ScrapeResult::Ok;
+  }
   if (!media.empty())
   {
-    Path AbsoluteImagePath = mediaFolder / (gameName + '.' + format);
     long long size = 0;
 
     switch(mCaller.GetMedia(media, AbsoluteImagePath, size))
@@ -724,7 +739,11 @@ ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const std::string& gameN
       {
         if (pathSetter != nullptr)
           (game.Metadata().*pathSetter)(AbsoluteImagePath);
-        mImages++;
+        if(mediaType == "images" || mediaType == "thumbnails" || mediaType == "wheels" ||
+        mediaType == "maps" || mediaType == "marquees")
+          mImages++;
+        if(mediaType == "videos")
+          mVideos++;
         mMediaSize += size;
         break;
       }
@@ -740,7 +759,7 @@ ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const std::string& gameN
 
 ScrapeResult
 ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData,
-                                                   FileData& game)
+                                                   FileData& game, MutexSet& md5Set)
 {
   bool ok = false;
   const Path rootFolder(game.getTopAncestor().getPath());
@@ -752,63 +771,59 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
   // Main image
   if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "images", sourceData.MediaSources.mImage,
-                                        sourceData.MediaSources.mImageFormat, &MetadataDescriptor::SetImagePath);
+    Path ThumbnailsAbsoluteImagePath = mediaFolder / "images" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mImageMd5 + '.' + sourceData.MediaSources.mImageFormat);
+    ScrapeResult result = DownloadMedia(ThumbnailsAbsoluteImagePath, game,
+      sourceData.MediaSources.mImage, &MetadataDescriptor::SetImagePath, md5Set, "images");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
   // Thumbnail image
+  Path ThumbnailsAbsoluteImagePath = mediaFolder / "thumbnails" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mThumbnailMd5 + '.' + sourceData.MediaSources.mThumbnailFormat);
   if (!game.Metadata().Thumbnail().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "thumbnails",
-                                        sourceData.MediaSources.mThumbnail, sourceData.MediaSources.mThumbnailFormat,
-                                        &MetadataDescriptor::SetThumbnailPath);
+    ScrapeResult result = DownloadMedia(ThumbnailsAbsoluteImagePath, game,
+      sourceData.MediaSources.mThumbnail, &MetadataDescriptor::SetThumbnailPath,md5Set, "thumbnails");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
   // Video
+  Path VideoAbsoluteVideoPath = mediaFolder / "videos" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mVideoMd5 + '.' + sourceData.MediaSources.mVideoFormat);
   if (!game.Metadata().Video().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "videos", sourceData.MediaSources.mVideo,
-                                        sourceData.MediaSources.mVideoFormat, &MetadataDescriptor::SetVideoPath);
+    ScrapeResult result = DownloadMedia(VideoAbsoluteVideoPath, game,
+      sourceData.MediaSources.mVideo, &MetadataDescriptor::SetVideoPath, md5Set, "videos");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  // Marquee - TODO: Absolutepath is built twice
-  Path MarqueeAbsoluteImagePath = mediaFolder / "marquees" / (gameName + '.' + sourceData.MediaSources.mMarqueeFormat);
+  Path MarqueeAbsoluteImagePath = mediaFolder / "marquees" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mMarqueeMd5 + '.' + sourceData.MediaSources.mMarqueeFormat);
   if (!MarqueeAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "marquees",
-                                        sourceData.MediaSources.mMarquee, sourceData.MediaSources.mMarqueeFormat,
-                                        nullptr);
+    ScrapeResult result = DownloadMedia(MarqueeAbsoluteImagePath, game,
+      sourceData.MediaSources.mMarquee, nullptr, md5Set, "marquees");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  // Wheel - TODO: Absolutepath is built twice
-  Path WheelAbsoluteImagePath = mediaFolder / "wheels" / (gameName + '.' + sourceData.MediaSources.mWheelFormat);
+  Path WheelAbsoluteImagePath = mediaFolder / "wheels" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mWheelMd5 + '.' + sourceData.MediaSources.mWheelFormat);
   if (!WheelAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "wheels", sourceData.MediaSources.mWheel,
-                                        sourceData.MediaSources.mWheelFormat, nullptr);
+    ScrapeResult result = DownloadMedia(WheelAbsoluteImagePath, game,
+      sourceData.MediaSources.mWheel, nullptr, md5Set, "wheels");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  // Manual - TODO: Absolutepath is built twice
-  Path ManualAbsoluteImagePath = mediaFolder / "manuals" / (gameName + '.' + sourceData.MediaSources.mManualFormat);
+  Path ManualAbsoluteImagePath = mediaFolder / "manuals" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mManualMd5 + '.' + sourceData.MediaSources.mManualFormat);
   if (!ManualAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "manuals",
-                                        sourceData.MediaSources.mManual, sourceData.MediaSources.mManualFormat,
-                                        nullptr);
+    ScrapeResult result = DownloadMedia(ManualAbsoluteImagePath, game,
+      sourceData.MediaSources.mManual, nullptr, md5Set, "manuals");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  // Maps - TODO: Absolutepath is built twice
-  Path MapAbsoluteImagePath = mediaFolder / "maps" / (gameName + '.' + sourceData.MediaSources.mMapsFormat);
+  Path MapAbsoluteImagePath = mediaFolder / "maps" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mMapsMd5 + '.' + sourceData.MediaSources.mMapsFormat);
   if (!MapAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    ScrapeResult result = DownloadMedia(gameName, game, mediaFolder / "maps", sourceData.MediaSources.mMaps,
-                                        sourceData.MediaSources.mMapsFormat, nullptr);
+    ScrapeResult result = DownloadMedia(MapAbsoluteImagePath, game,
+      sourceData.MediaSources.mMaps, nullptr, md5Set, "maps");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 

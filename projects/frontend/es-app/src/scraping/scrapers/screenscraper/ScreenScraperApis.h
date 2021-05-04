@@ -119,6 +119,8 @@ class ScreenScraperApis
         std::string mImage;
         //! Main image file format
         std::string mImageFormat;
+        //! main image md5
+        std::string mImageMd5;
         //! Main image size
         long long mImageSize;
 
@@ -126,6 +128,8 @@ class ScreenScraperApis
         std::string mThumbnail;
         //! Thumbnail image file format
         std::string mThumbnailFormat;
+        //! Thumbnail image file md5
+        std::string mThumbnailMd5;
         //! Thumbnail image
         long long mThumbnailSize;
 
@@ -133,6 +137,8 @@ class ScreenScraperApis
         std::string mVideo;
         //! Video file format
         std::string mVideoFormat;
+        //! Video file md5
+        std::string mVideoMd5;
         //! Video
         long long mVideoSize;
 
@@ -140,6 +146,8 @@ class ScreenScraperApis
         std::string mMarquee;
         //! Marquee file format
         std::string mMarqueeFormat;
+        //! Marquee file md5
+        std::string mMarqueeMd5;
         //! Marquee
         long long mMarqueeSize;
 
@@ -147,6 +155,8 @@ class ScreenScraperApis
         std::string mWheel;
         //! Wheel file format
         std::string mWheelFormat;
+        //! Wheel file md5
+        std::string mWheelMd5;
         //! Wheel
         long long mWheelSize;
 
@@ -154,6 +164,8 @@ class ScreenScraperApis
         std::string mManual;
         //! Manual file format
         std::string mManualFormat;
+        //! Manual file md5
+        std::string mManualMd5;
         //! Manual
         long long mManualSize;
 
@@ -161,6 +173,8 @@ class ScreenScraperApis
         std::string mMaps;
         //! Maps file format
         std::string mMapsFormat;
+        //! Maps file md5
+        std::string mMapsMd5;
         //! Maps
         long long mMapsSize;
       }
@@ -244,7 +258,7 @@ class ScreenScraperApis
      * @param format If an url is found, this string contains the media format (jpg, png, mp4, ...)
      * @return Best-matching url
      */
-    static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size);
+    static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size, std::string&  md5);
 
     /*!
      * @brief Extract best matching genre texts, comma-separated.

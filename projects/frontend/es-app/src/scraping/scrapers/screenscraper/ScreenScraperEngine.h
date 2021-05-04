@@ -10,6 +10,7 @@
 #include <utils/os/system/ThreadPool.h>
 #include <games/MetadataFieldDescriptor.h>
 #include "ScreenScraperApis.h"
+#include <utils/storage/Set.h>
 
 class ScreenScraperEngine
   : public IScraperEngine,
@@ -18,6 +19,14 @@ class ScreenScraperEngine
     public ISynchronousEvent
 {
   private:
+
+    class MutexSet
+    {
+      public:
+        HashSet<std::string> mSet{};
+        Mutex mMutex;
+    };
+
     //! Persistant engine class accross requests
     class Engine
     {
@@ -89,7 +98,7 @@ class ScreenScraperEngine
          * @param game DFestination game
          * @return True if the quota is reached and the scraping must stop ASAP. False in any other case
          */
-        ScrapeResult DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+        ScrapeResult DownloadAndStoreMedia(ScrappingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game, MutexSet& md5Set);
 
         /*!
          * @brief Download and store one media
@@ -101,9 +110,8 @@ class ScreenScraperEngine
          * @param format MEdia format (file extension)
          * @return Scrape result
          */
-        ScrapeResult DownloadMedia(const std::string& gameName, FileData& game,
-                                   const Path& mediaFolder, const std::string& media, const std::string& format,
-                                   SetPathMethodType pathSetter);
+        ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
+                                   const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, std::string mediaType);
 
       public:
         explicit Engine(ScreenScraperApis::IConfiguration* configuration)
@@ -131,7 +139,7 @@ class ScreenScraperEngine
          * @param game game to scrape
          * @return True if the whole process must stop for whatever reason
          */
-        ScrapeResult Scrape(ScrappingMethod method, FileData& game);
+        ScrapeResult Scrape(ScrappingMethod method, FileData& game, MutexSet& md5Set);
 
         /*!
          * @brief Abort the current engine. The engine is required to quit its current scraping ASAP
@@ -228,6 +236,8 @@ class ScreenScraperEngine
     Mutex mEngineMutex;
     //! Free engine signal
     Signal mEngineSignal;
+
+    MutexSet mMd5Set;
 
     //! Main thread synchronizer
     SyncronousEvent mSender;
