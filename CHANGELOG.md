@@ -41,6 +41,8 @@ All notable changes to this project will be documented in this file.
 - Send hostname when requesting dhcp address
 - Set PPSSPP Vsync to on, in default config and in pre-upgrade for rpi4
 
+- Removed multiple duplicates MD5 in bios list
+
 ## [7.2-Reloaded]
 - Bump libretro-mame
 - Bump Datfiles for Mame, Atomiswave, Naomi, NaomiGd, Model3 on Romset 0.230
