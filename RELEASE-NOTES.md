@@ -4,6 +4,8 @@
 
 ### Fixes
 - Fix Raspberry Pi 1,2,3 slow videos
+- Fix swanstation issues (former libretro-duckstation)
+- Fix cavestory x86 and x86_64
 - Fix House of the dead bios MD5
 - Fix missings extensions (SCV & WII)
 - Fix Scraper default language
@@ -13,6 +15,14 @@
 - Fix crash when loading heavy themes
 - Fix missing popup when changing hostname
 - Fix IPv6/IPv4 priority when connecting WIFI
+- Fix video playback issue with kodi on rpi4
+- Fix case detection after factory reset
+- Lightgun system is shown by default
+- Fix rating componant running out of screen
+- Fix sound menu & output auto-selection
+- Fix missing translations
+- Fix SCV scraping
+- Fix rtl88x2bu Realtek wifi driver
 
 ## 7.2-Reloaded
 

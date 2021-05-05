@@ -13,6 +13,19 @@ All notable changes to this project will be documented in this file.
 - Fix crash when loading heavy themes
 - Fix missing popup when changing hostname
 - Fix IPv6/IPv4 priority when connecting WIFI
+- Fix swanstation issues (former libretro-duckstation) (#1640)
+- Fix ports cavestory x86 and x86_64
+- Revert kodi to XBMC upstream version (#1631)
+- Add missing wifi and bluetooth firmware on odroidgo2 (#1642)
+- Fix case detection after factory reset
+- Lightgun system is shown by default
+- Fix rating componant running out of screen
+- Fix sound menu & output auto-selection
+- Fix missing translations
+- Fix SCV scraping
+
+- Fix rtl88x2bu wifi driver now works again
+
 - Removed multiple duplicates MD5 in bios list
 
 ## [7.2-Reloaded]
