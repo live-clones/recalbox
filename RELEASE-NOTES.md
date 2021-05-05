@@ -4,6 +4,7 @@
 
 ### Fixes
 - Fix sound issue on boot video
+- Audio is working on Sound Open Firmware audio adapters
 
 ## 7.2.1-Reloaded
 

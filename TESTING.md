@@ -13,6 +13,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [NEXT]
 - [ ] Check sound of boot video (#1596)
+- [ ] Check sound is still working on PC
 
 ## [7.2.1-Reloaded]
 - [ ] Check that games are not hidden when upgrading to 7.2.1 from 7.2
