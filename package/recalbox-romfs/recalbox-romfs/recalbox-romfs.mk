@@ -195,12 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# Add necessary dependencies
-# System: 2048
-ifneq ($(BR2_PACKAGE_LIBRETRO_2048),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-2048
-endif
-
 # System: 3do
 ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
@@ -276,19 +270,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
 endif
 
-# System: bk
-ifneq ($(BR2_PACKAGE_LIBRETRO_BK_EMULATOR),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-bk
-endif
-
 # System: c64
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
-endif
-
-# System: cavestory
-ifneq ($(BR2_PACKAGE_LIBRETRO_NXENGINE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-cavestory
 endif
 
 # System: channelf
@@ -304,21 +288,6 @@ endif
 # System: daphne
 ifeq ($(BR2_PACKAGE_HYPSEUS),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
-endif
-
-# System: dinothawr
-ifneq ($(BR2_PACKAGE_LIBRETRO_DINOTHAWR),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dinothawr
-endif
-
-# System: doom
-ifneq ($(BR2_PACKAGE_LIBRETRO_PRBOOM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom
-endif
-
-# System: doom3
-ifneq ($(BR2_PACKAGE_LIBRETRO_BOOM3),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-doom3
 endif
 
 # System: dos
@@ -736,16 +705,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wolfenstein3d
 endif
 
-# System: wswan
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswan
-endif
-
-# System: wswanc
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wswanc
-endif
-
 # System: x1
 ifneq ($(BR2_PACKAGE_LIBRETRO_XMIL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x1
@@ -759,11 +718,6 @@ endif
 # System: zx81
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
-endif
-
-# System: zxspectrum
-ifneq ($(BR2_PACKAGE_LIBRETRO_FUSE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zxspectrum
 endif
 
 # System: scv
