@@ -1,6 +1,7 @@
+import glob
 import os
 import shutil
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from inisettings import IniSettings
 from configin import ConfigIn
@@ -56,9 +57,19 @@ class InstallRoms:
         for fileName, language in self.__README_FILES.items():
             self.__installParsedFile(sourceSystemPath, targetSystemPath, fileName, language, holder)
 
+    @staticmethod
+    def __find(name: str, path: str) -> Union[str, None]:
+        for root, dir, files in os.walk(path):
+            if name in files:
+                return os.path.join(root, name)
+        return None
+
     def __installParsedFile(self, source: str, destinationPath: str, filename: str, language: str, holder: SystemHolder):
         # read file lines
-        filePath: str = os.path.join(source, "roms", filename)
+        textPath = os.path.join(source, "roms")
+        filePath = self.__find(filename, textPath)
+        if filePath is None:
+            raise FileNotFoundError("{} not found in {} !".format(textPath, filename))
         with open(filePath, 'r') as f:
             lines: List[str] = f.readlines()
 
