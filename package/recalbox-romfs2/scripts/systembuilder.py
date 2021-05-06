@@ -22,15 +22,22 @@ class SystemBuilder:
         print("[ROMFS 2] Building systems to {}".format(self.__target))
 
         # Create final document w/ root node
-        root = ET.Element("systemList")
+        if os.path.exists(self.__target):
+            root = ET.ElementTree(file=self.__target).getroot()
+        else:
+            root = ET.Element("systemList")
 
         # Run though systems folders
         for folder in os.listdir(self.__source):
             subfolder = os.path.join(self.__source, folder)
             if os.path.isdir(subfolder) and not folder.startswith('.'):
                 print("[ROMFS 2] Building system from {}".format(folder))
-                result = self.__process(subfolder)
+                # Deserialize
+                holder = SystemHolder(self.__arch, os.path.join(subfolder, "system.ini"), self.__config)
+                if holder.CoreCount < 1: continue
+                result = self.__process(subfolder, holder)
                 if result is not None:
+                    self.__removeOlder(root, holder)
                     root.append(result)
 
         # Pretiffy
@@ -39,12 +46,18 @@ class SystemBuilder:
         with open(self.__target, "w") as f:
             f.write(xml)
 
-    def __process(self, folder: str) -> Union[ET.Element, None]:
-        # Deserialize
-        holder = SystemHolder(self.__arch, os.path.join(folder, "system.ini"), self.__config)
-        if holder.CoreCount < 1:
-            return None
+    def __removeOlder(self, root: ET.Element, holder: SystemHolder):
+        target: Union[None, ET.Element] = None
+        systems = root.findall("system")
+        for system in systems:
+            name = system.find("name").text
+            if name == holder.Name:
+                target = system
+                break
+        if target is not None:
+            root.remove(target)
 
+    def __process(self, folder: str, holder: SystemHolder) -> ET.Element:
         # Open system node
         system = ET.Element("system")
 
