@@ -2,10 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
-- Bring back fan speed setting on odroidxu4 (#1662)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
+- Bring back fan speed setting on odroidxu4 (#1662)
+- Es Improve subfiles detection. ignore img files with ccd
 - Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
 - Fix video lag on ppsspp
 - Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
