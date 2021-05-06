@@ -1,14 +1,9 @@
 # Release notes
 
-## Next
-
-### Fixes
-- Bring back fan speed setting on Odroid XU4
-
-
 ## 7.2.1-Reloaded
 
 ### Fixes
+- Bring back fan speed setting on Odroid XU4
 - Fix loop reboot with non official themes
 - Lightgun system is shown by default if any game is detected
 - Kodi video playback is back on Rpi 4

@@ -12,12 +12,11 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
-- [ ] Test odroidxu4 fan speeds are set on boot (#1662)
--
 
 ## [7.2.1-Reloaded]
 - [ ] Check that games are not hidden when upgrading to 7.2.1 from 7.2
 - [ ] Run any game on PPSSPP rpi4 and check is vsync is on.
+- [ ] Test odroidxu4 fan speeds are set on boot (#1662)
 - [ ] Run games from the search window when its video snap is playing. Should not crash anymore.
 - [ ] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
 - [ ] Switch one theme option, let ES to reboot, then check if the option is ok
