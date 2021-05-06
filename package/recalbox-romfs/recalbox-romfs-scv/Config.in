@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_SCV
-	bool "recalbox-romfs-scv"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_EMUSCV
-	help
-	  share_init/roms and xml for scv
