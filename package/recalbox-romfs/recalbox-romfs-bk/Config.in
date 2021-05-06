@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_BK
-	bool "recalbox-romfs-bk"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_BK_EMULATOR
-	help
-	  share_init/roms and xml for bk
