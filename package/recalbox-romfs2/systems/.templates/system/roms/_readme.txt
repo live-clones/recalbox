@@ -1,5 +1,5 @@
 =======================================================================
-# RECALBOX: System $(FULLNAME) ($(TYPE:Arcade system:Home console:Handheld console:Computer:Virtual system))
+# RECALBOX: System $(FULLNAME) ($(TYPE:Arcade system:Home console:Handheld console:Computer:Virtual system:game engine:Port))
 =======================================================================
 
 Copy your $(FULLNAME)'s roms here.

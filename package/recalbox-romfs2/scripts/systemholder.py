@@ -13,14 +13,16 @@ class SystemHolder:
             "console": 1,
             "handheld": 2,
             "computer": 3,
-            "virtual" : 4,
+            "virtual": 4,
+            "engine": 5,
+            "port": 5,
         }
 
         __deviceRequirement: Dict[str, int] = {
             "no": 0,
             "optional": 1,
             "recommended": 2,
-            "mandatory": 3
+            "mandatory": 3,
         }
 
         def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str):
