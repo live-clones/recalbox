@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_ROMFS2
 	bool "recalbox romfs 2"
 	depends on BR2_PACKAGE_HOST_PYTHON3
+	depends on BR2_PACKAGE_RECALBOX_ROMFS
 	help
 	  A new system descriptor generator using python3.
 
