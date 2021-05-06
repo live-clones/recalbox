@@ -2,7 +2,7 @@ config BR2_PACKAGE_LIBRETRO_2048
 	bool "libretro-2048"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_2048
+	select BR2_PACKAGE_RECALBOX_ROMFS2
 	help
 	  A libretro port of 2048, a game.
 
