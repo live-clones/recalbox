@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Super Famicom</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="204260" source="ScreenScraper.fr">
+    <path>./UWOL Quest For Money [PAL] (PortableDev - MojonTwins).sfc</path>
+    <name>Uwol Quest for Money</name>
+    <desc>Uwol est une adaptation de « Uwol Quest for Money » sur ZX Spectrum. L'objectif de ce jeu est de récolter toutes les pièces de chaque niveau pour passer au niveau suivant. Le jeu se terminera uniquement quand vous aurez récolté 255 pièces dans les différents niveaux.</desc>
+    <releasedate>20150901T000000</releasedate>
+    <developer>PortableDev</developer>
+    <publisher>PortableDev</publisher>
+    <genre>Puzzle-Game</genre>
+    <players>1</players>
+    <hash>A54999EC</hash>
+    <image>./media/images/UWOL Quest For Money [PAL] (PortableDev - MojonTwins).png</image>
+    <genreid>2816</genreid>
+  </game>
+</gameList>

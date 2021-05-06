@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Intellivision</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="200024" source="ScreenScraper.fr">
+    <path>./deep_zone .rom</path>
+    <name>Deep Zone</name>
+    <desc>Classically inspired, Deep Zone immediately reminds you of Gyruss - but with its own unique twists.</desc>
+    <rating>0.8</rating>
+    <releasedate />
+    <developer>Artrag</developer>
+    <publisher>Artrag</publisher>
+    <genre>Shoot'em Up</genre>
+    <players>1</players>
+    <hash>44BAE532</hash>
+    <image>./media/images/deep_zone .png</image>
+    <genreid>260</genreid>
+  </game>
+  <game id="200461" source="ScreenScraper.fr">
+    <path>./hotelbunny.rom</path>
+    <name>Hotel Bunny</name>
+    <desc>Hotel Bunny has the player try to get several of the nine rabbits safely to the titular hotel, located past a trial of up to three angry dogs. 
+ 
+Controls: Press right on the controller disc to get the bunny hopping towards the hotel. Press a top/bottom button to use carrot power. 
+To be successful, you must time the bunny's start well, and use your carrot power wisely.</desc>
+    <rating>0.6</rating>
+    <releasedate>20170101T000000</releasedate>
+    <developer>Sebastian Mihai</developer>
+    <publisher>Sebastian Mihai</publisher>
+    <genre>Action</genre>
+    <players>1</players>
+    <hash>E55546FB</hash>
+    <image>./media/images/hotelbunny.png</image>
+    <genreid>256</genreid>
+  </game>
+  <game id="200022" source="ScreenScraper.fr">
+    <path>./princess_lydie .rom</path>
+    <name>Princess Lydie</name>
+    <desc>You play as Lydie, and the objective is stomping/kicking enemies, then kick them out of the screen. There's a bonus of few extra seconds, chain/combo gains additional seconds. 
+You'll only lose a life when running out of time</desc>
+    <releasedate>20180601T000000</releasedate>
+    <developer>Marco Marrero</developer>
+    <publisher>Marco Marrero</publisher>
+    <genre>Platform-Plateform / Run Jump</genre>
+    <players>1</players>
+    <hash>75A413EA</hash>
+    <image>./media/images/princess_lydie .png</image>
+    <genreid>257</genreid>
+  </game>
+</gameList>
