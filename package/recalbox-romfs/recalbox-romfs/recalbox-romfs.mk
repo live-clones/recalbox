@@ -210,11 +210,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
-# System: amigacdtv
-ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
-endif
-
 # System: amstradcpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amstradcpc
@@ -248,11 +243,6 @@ endif
 # System: dos
 ifeq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos
-endif
-
-# System: dreamcast
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST)$(BR2_PACKAGE_LIBRETRO_RETRODREAM)$(BR2_PACKAGE_REICAST)$(BR2_PACKAGE_REICAST_OLD),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dreamcast
 endif
 
 # System: dungeoncrawlstonesoup
