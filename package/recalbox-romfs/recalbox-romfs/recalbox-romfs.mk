@@ -195,16 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# System: 3do
-ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
-endif
-
-# System: 64dd
-ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-64dd
-endif
-
 # System: amiga600
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
@@ -245,39 +235,14 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
 endif
 
-# System: atari2600
-ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA2014)$(BR2_PACKAGE_LIBRETRO_STELLA),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari2600
-endif
-
-# System: atari5200
-ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
-endif
-
-# System: atari7800
-ifneq ($(BR2_PACKAGE_LIBRETRO_PROSYSTEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari7800
-endif
-
 # System: atarist
 ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atarist
 endif
 
-# System: atomiswave
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
-endif
-
 # System: c64
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
-endif
-
-# System: channelf
-ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-channelf
 endif
 
 # System: colecovision
@@ -540,11 +505,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
-# System: outrun
-ifneq ($(BR2_PACKAGE_LIBRETRO_CANNONBALL),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-outrun
-endif
-
 # System: psp
 ifeq ($(BR2_PACKAGE_PPSSPP),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp
@@ -553,26 +513,6 @@ endif
 # System: psx
 ifneq ($(BR2_PACKAGE_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW)$(BR2_PACKAGE_LIBRETRO_SWANSTATION),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
-endif
-
-# System: quake
-ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
-endif
-
-# System: quake2
-ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE2),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake2
-endif
-
-# System: quake3
-ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE3),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake3
-endif
-
-# System: rickdangerous
-ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-rickdangerous
 endif
 
 # System: samcoupe
@@ -588,11 +528,6 @@ endif
 # System: saturn
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SATURN)$(BR2_PACKAGE_LIBRETRO_KRONOS)$(BR2_PACKAGE_LIBRETRO_YABASANSHIRO)$(BR2_PACKAGE_LIBRETRO_YABAUSE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-saturn
-endif
-
-# System: sega32x
-ifneq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sega32x
 endif
 
 # System: segacd
@@ -628,11 +563,6 @@ endif
 # System: startrekvoyager
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-startrekvoyager
-endif
-
-# System: sufami
-ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sufami
 endif
 
 # System: supergrafx
@@ -690,11 +620,6 @@ ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
 endif
 
-# System: wolfenstein3d
-ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wolfenstein3d
-endif
-
 # System: x1
 ifneq ($(BR2_PACKAGE_LIBRETRO_XMIL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x1
@@ -708,11 +633,6 @@ endif
 # System: zx81
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
-endif
-
-# System: scv
-ifneq ($(BR2_PACKAGE_LIBRETRO_EMUSCV),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scv
 endif
 
 $(eval $(generic-package))
