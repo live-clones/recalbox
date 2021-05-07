@@ -195,11 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# System: 64dd
-ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-64dd
-endif
-
 # System: amiga600
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
@@ -238,11 +233,6 @@ endif
 # System: atari800
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
-endif
-
-# System: atari5200
-ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
 endif
 
 # System: atarist
@@ -525,21 +515,6 @@ ifneq ($(BR2_PACKAGE_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACK
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
 endif
 
-# System: quake2
-ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE2),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake2
-endif
-
-# System: quake3
-ifneq ($(BR2_PACKAGE_LIBRETRO_VITAQUAKE3),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake3
-endif
-
-# System: rickdangerous
-ifneq ($(BR2_PACKAGE_LIBRETRO_XRICK),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-rickdangerous
-endif
-
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
@@ -553,11 +528,6 @@ endif
 # System: saturn
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SATURN)$(BR2_PACKAGE_LIBRETRO_KRONOS)$(BR2_PACKAGE_LIBRETRO_YABASANSHIRO)$(BR2_PACKAGE_LIBRETRO_YABAUSE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-saturn
-endif
-
-# System: sega32x
-ifneq ($(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sega32x
 endif
 
 # System: segacd
@@ -593,11 +563,6 @@ endif
 # System: startrekvoyager
 ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-startrekvoyager
-endif
-
-# System: sufami
-ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sufami
 endif
 
 # System: supergrafx
@@ -653,11 +618,6 @@ endif
 # System: wii
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
-endif
-
-# System: wolfenstein3d
-ifneq ($(BR2_PACKAGE_LIBRETRO_ECWOLF),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wolfenstein3d
 endif
 
 # System: x1
