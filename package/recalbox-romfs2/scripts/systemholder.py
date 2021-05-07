@@ -25,15 +25,17 @@ class SystemHolder:
             "mandatory": 3,
         }
 
-        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str):
+        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str):
             if systemtype not in self.__systemTypes.keys(): raise TypeError("Invalid system type! {}".format(systemtype))
             if pad not in self.__deviceRequirement.keys(): raise TypeError("Invalid pad type! {}".format(pad))
             if keyboard not in self.__deviceRequirement.keys(): raise TypeError("Invalid keyboard type! {}".format(keyboard))
             if mouse not in self.__deviceRequirement.keys(): raise TypeError("Invalid mouse type! {}".format(mouse))
+            if lightgun not in self.__deviceRequirement.keys(): raise TypeError("Invalid lightgun type! {}".format(lightgun))
             self.__type = systemtype
             self.__pad = pad
             self.__keyboard = keyboard
             self.__mouse = mouse
+            self.__lightgun = lightgun
 
         def serialize(self):
             return {"type": self.__type, "pad": self.__pad, "keyboard": self.__keyboard, "mouse": self.__mouse}
@@ -142,7 +144,7 @@ class SystemHolder:
           "fr": "FR Documentation link",
           "en": "EN Documentation link",
         }
-        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no")
+        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no")
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
         self.__deserialize()
@@ -257,5 +259,6 @@ class SystemHolder:
             pad=self.__get(desc, "properties", "device.pad", "no", False),
             keyboard=self.__get(desc, "properties", "device.keyboard", "no", False),
             mouse=self.__get(desc, "properties", "device.mouse", "no", False),
+            lightgun=self.__get(desc, "properties", "device.lightgun", "no", False),
         )
 
