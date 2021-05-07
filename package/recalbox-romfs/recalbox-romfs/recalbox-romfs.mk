@@ -200,11 +200,6 @@ ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
 endif
 
-# System: amiga1200
-ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga1200
-endif
-
 # System: amigacd32
 ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
