@@ -71,7 +71,6 @@ source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-psp/Co
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-psx/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-quake2/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-quake3/Config.in"
-source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-rickdangerous/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-samcoupe/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-satellaview/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-saturn/Config.in"
