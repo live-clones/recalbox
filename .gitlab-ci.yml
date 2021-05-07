@@ -13,7 +13,6 @@ image: docker:latest
 
 stages:
   - lint
-  - quickbuild
   - build
   - release
 
@@ -27,8 +26,7 @@ variables:
   <<: *only-default
 
 lint package license:
-  stage: lint
-  <<: *only-default
+  <<: *lint_definition
   image: "docker:latest"
   script:
     - apk update && apk add bash
@@ -67,6 +65,7 @@ lint changelog:
   except:
     - master
     - tags
+    - schedules
   before_script:
     - apk update && apk add git
   script:
@@ -79,15 +78,15 @@ lint changelog:
 .build_template: &build_definition
   stage: build
   variables:
-    ARCH: arch to build (no default)
-    QUICK: false # set true for quick build reusing last build files (default false)
+    ARCH: arch # to build (no default)
   <<: *only-default
   before_script:
     - apk update && apk add git
     - source scripts/release/functions.sh
   script:
+    # Version generation
     - set -euo pipefail
-    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-${CI_COMMIT_REF_SLUG} $(date '+%Y/%m/%d-%H:%M') (${CI_PIPELINE_ID})}"
+    - export RECALBOX_VERSION="${CI_COMMIT_TAG:-$(date '+%Y/%m/%d') ${CI_COMMIT_REF_SLUG} (${CI_PIPELINE_ID})}"
     - cp "${YOUTUBE_API_KEYS}" "./api_keys.json"
     # Release Note generation
     - echo -e "Recalbox ${RECALBOX_VERSION}\n" > /tmp/RELEASE-NOTES.md
@@ -97,12 +96,6 @@ lint changelog:
     # Build
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
-    - |
-      if [[ "${QUICK}" == "true" ]];then
-        OUTPUTDIR="/recalbox-builds/outputs/output-${ARCH}" CCACHE=""
-        [ -f "${OUTPUTDIR}/.building" ] && echo "slot taken" && exit 1
-        ./scripts/linux/quickBuildCleanup.sh "${OUTPUTDIR}"
-      fi
     - mkdir -p ${OUTPUTDIR} && echo "${CI_JOB_ID}" > "${OUTPUTDIR}/.building"
     - docker run --rm -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
@@ -123,95 +116,8 @@ lint changelog:
     paths:
       - build.log
     expire_in: 2 mos
-
-quick build rpi1:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'rpi1'
-    QUICK: 'true'
   tags:
-    - quickbuild
-quick build rpi2:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'rpi2'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build rpi3:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'rpi3'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build rpi4:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'rpi4'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build x86_64:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'x86_64'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build x86:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'x86'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build odroidxu4:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'odroidxu4'
-    QUICK: 'true'
-  tags:
-    - quickbuild
-quick build odroidgo2:
-  <<: *build_definition
-  stage: quickbuild
-  when: manual
-  except:
-    - tags
-  variables:
-    ARCH: 'odroidgo2'
-    QUICK: 'true'
-  tags:
-    - quickbuild
+    - build
 
 
 build x86_64:
@@ -219,65 +125,92 @@ build x86_64:
   when: manual
   variables:
     ARCH: 'x86_64'
-    QUICK: 'false'
-  tags:
-    - build
 build rpi4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi4'
-    QUICK: 'false'
-  tags:
-    - build
 build odroidgo2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidgo2'
-    QUICK: 'false'
-  tags:
-    - build
 build x86:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'x86'
-    QUICK: 'false'
-  tags:
-    - build
 build odroidxu4:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'odroidxu4'
-    QUICK: 'false'
-  tags:
-    - build
 build rpi1:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi1'
-    QUICK: 'false'
-  tags:
-    - build
 build rpi2:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi2'
-    QUICK: 'false'
-  tags:
-    - build
 build rpi3:
   <<: *build_definition
   when: manual
   variables:
     ARCH: 'rpi3'
-    QUICK: 'false'
-  tags:
-    - build
+
+# Schedules (nightly)
+nightly build x86_64:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'x86_64'
+nightly build rpi4:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpi4'
+nightly build odroidgo2:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'odroidgo2'
+nightly build x86:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'x86'
+nightly build odroidxu4:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'odroidxu4'
+nightly build rpi1:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpi1'
+nightly build rpi2:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpi2'
+nightly build rpi3:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpi3'
+
 
 ### Release
 
@@ -287,9 +220,7 @@ build rpi3:
     - release
   variables:
     DEPLOY_TYPE: type of the deployment (prod, review)
-    SKIP_IMAGES: Release or without images if true
     BUCKET: Bucket to deploy to
-    BUCKET_PATH: path in the bucket
   before_script:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
@@ -300,11 +231,11 @@ build rpi3:
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
-    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "${BUCKET_PATH}"
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "latest"
     - |
       if [ "${DEPLOY_TYPE}" == "prod" ];then
         restartProxiesAfterUpgrade "${PROXIES_SSH_KEY}" "${PROXIES_SSH_USER}"
-        copyFolder "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}/${BUCKET_PATH}/" "${BUCKET}/${CI_COMMIT_TAG}/"
+        copyFolder "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}/latest/" "${BUCKET}/${CI_COMMIT_TAG}/"
       fi
 
 release prod:
@@ -315,7 +246,6 @@ release prod:
   variables:
     DEPLOY_TYPE: prod
     BUCKET: recalbox-archive-stable
-    BUCKET_PATH: latest
   environment:
     name: prod
     url: https://download.recalbox.com
@@ -327,7 +257,16 @@ release review:
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-reviews
-    BUCKET_PATH: latest
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
-    url: https://recalbox-archive-reviews.s3.fr-par.scw.cloud${CI_ENVIRONMENT_SLUG}/index.html
+
+
+release nightly:
+  <<: *release_definition
+  only:
+    - schedules
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-nightly
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
