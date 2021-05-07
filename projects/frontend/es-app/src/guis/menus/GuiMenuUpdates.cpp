@@ -32,7 +32,7 @@ GuiMenuUpdates::GuiMenuUpdates(WindowManager& window)
   }
 
   // Enable updates
-  mType = AddList(_("UPDATE TYPE"), (int)Components::UpdateType, this, GetUpdateTypeEntries(), _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
+  // mType = AddList(_("UPDATE TYPE"), (int)Components::UpdateType, this, GetUpdateTypeEntries(), _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUpdates::GetUpdateTypeEntries()
