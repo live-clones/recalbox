@@ -270,11 +270,6 @@ ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
 endif
 
-# System: fbneo
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fbneo
-endif
-
 # System: fds
 ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
