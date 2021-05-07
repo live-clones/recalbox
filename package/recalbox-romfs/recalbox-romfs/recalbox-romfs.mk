@@ -245,11 +245,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
 endif
 
-# System: atari2600
-ifneq ($(BR2_PACKAGE_LIBRETRO_STELLA2014)$(BR2_PACKAGE_LIBRETRO_STELLA),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari2600
-endif
-
 # System: atari5200
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
@@ -273,11 +268,6 @@ endif
 # System: c64
 ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
-endif
-
-# System: channelf
-ifneq ($(BR2_PACKAGE_LIBRETRO_FREECHAF),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-channelf
 endif
 
 # System: colecovision
@@ -718,11 +708,6 @@ endif
 # System: zx81
 ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
-endif
-
-# System: scv
-ifneq ($(BR2_PACKAGE_LIBRETRO_EMUSCV),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scv
 endif
 
 $(eval $(generic-package))
