@@ -195,11 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# System: 3do
-ifneq ($(BR2_PACKAGE_LIBRETRO_OPERA),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-3do
-endif
-
 # System: 64dd
 ifneq ($(BR2_PACKAGE_LIBRETRO_PARALLEL_N64)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-64dd
@@ -250,19 +245,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari5200
 endif
 
-# System: atari7800
-ifneq ($(BR2_PACKAGE_LIBRETRO_PROSYSTEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari7800
-endif
-
 # System: atarist
 ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atarist
-endif
-
-# System: atomiswave
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atomiswave
 endif
 
 # System: c64
@@ -535,11 +520,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
-# System: outrun
-ifneq ($(BR2_PACKAGE_LIBRETRO_CANNONBALL),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-outrun
-endif
-
 # System: psp
 ifeq ($(BR2_PACKAGE_PPSSPP),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp
@@ -548,11 +528,6 @@ endif
 # System: psx
 ifneq ($(BR2_PACKAGE_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_PCSX_REARMED)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PSX_HW)$(BR2_PACKAGE_LIBRETRO_SWANSTATION),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psx
-endif
-
-# System: quake
-ifneq ($(BR2_PACKAGE_LIBRETRO_TYRQUAKE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-quake
 endif
 
 # System: quake2
