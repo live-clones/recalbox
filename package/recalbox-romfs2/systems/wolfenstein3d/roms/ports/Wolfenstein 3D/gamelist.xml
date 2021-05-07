@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>PC Dos</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="0" source="ScreenScraper.fr">
+    <path>./CATALOG.EXE</path>
+    <name>CATALOG</name>
+    <hidden>true</hidden>
+  </game>
+  <game id="0" source="ScreenScraper.fr">
+    <path>./ecwolf.pk3</path>
+    <name>ecwolf</name>
+    <hidden>true</hidden>
+  </game>
+  <game id="152368" source="ScreenScraper.fr">
+    <path>./WOLF3D.EXE</path>
+    <name>Wolfenstein 3D</name>
+    <desc>The first three episodes of the game focus on William "B.J." Blazkowicz's attempts to escape from Castle Wolfenstein and overthrow the Nazi regime.
+
+In the first episode, Escape from Castle Wolfenstein, B.J., an Allied spy, has been captured while trying to find the plans for Operation Eisenfaust, and was imprisoned in Castle Wolfenstein. Initially armed only with a knife and a Walther P38 (obtained by overpowering the guard in his cell), B.J. tries to escape the castle prison. Taking on SS guards, he eventually finds himself face to face with head prison guard Hans Grosse.
+
+In the second episode, Operation: Eisenfaust, B.J. finds out that the operation is real, and that Nazis are creating an army of undead mutants in Castle Hollehammer. B.J. enters the castle and confronts the mad scientist Dr. Schabbs, creator of the mutants. His defeat signals the end of this biological war.
+
+Die, Führer, Die! is, chronologically, the final episode. Fighting through Nazi soldiers, and attacking the bunker under the Reichstag, he finds himself up against Adolf Hitler himself (equipped with a robotic suit and 4 Gatling guns).</desc>
+    <rating>0.6</rating>
+    <releasedate>19920505T000000</releasedate>
+    <developer>id Software</developer>
+    <publisher>Apogee</publisher>
+    <genre>Shooter-Shooter / 1st person</genre>
+    <players>1</players>
+    <hash>213D5D76</hash>
+    <image>./media/images/WOLF3D.png</image>
+    <genreid>259</genreid>
+  </game>
+</gameList>
