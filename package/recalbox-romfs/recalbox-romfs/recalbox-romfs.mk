@@ -400,11 +400,6 @@ ifneq ($(BR2_PACKAGE_MUPEN64PLUS_GLIDEN64)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLES2N
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-n64
 endif
 
-# System: naomi
-ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomi
-endif
-
 # System: naomigd
 ifneq ($(BR2_PACKAGE_LIBRETRO_FLYCAST),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-naomigd
