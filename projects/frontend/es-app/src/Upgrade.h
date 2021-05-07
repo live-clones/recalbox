@@ -69,9 +69,7 @@ class Upgrade: private Thread, private ISynchronousEvent
 
   private:
     //! Release DNS
-    static constexpr const char* sReleaseDNS = "stable.download.recalbox.com";
-    //! Review DNS
-    static constexpr const char* sReviewDNS = "review.download.recalbox.com";
+    static constexpr const char* sUpgradeDNS = ".download.recalbox.com";
 
     //! Get remote version template URL
     static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";

@@ -10,6 +10,7 @@
 #include <resolv.h>
 #include <utils/Http.h>
 #include <utils/Files.h>
+#include <algorithm>
 #include "Upgrade.h"
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
@@ -117,7 +118,10 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = RecalboxConf::Instance().AsString("updates.type", "stable");
-  std::string domain(target == "review" ? sReviewDNS : sReleaseDNS);
+  Strings::ReplaceAllIn(target, ' ', "", 0);
+  std::string domain(target + sUpgradeDNS);
+
+  { LOG(LogDebug) << "[Update] updates.type implied dns to use: " << domain; }
 
   // Query TXT
   unsigned char buffer[4096];

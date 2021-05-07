@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [NEXT]
+### Added
+- Upgrade subdomain as a wildcard
+
 ## [6.1]
 ### Added
 - Shutdown System option moved at the top of the Quit menu
