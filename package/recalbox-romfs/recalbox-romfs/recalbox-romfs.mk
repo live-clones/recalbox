@@ -225,11 +225,6 @@ ifeq ($(BR2_PACKAGE_LINAPPLE_PIE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-apple2
 endif
 
-# System: apple2gs
-ifeq ($(BR2_PACKAGE_GSPLUS),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-apple2gs
-endif
-
 # System: atari800
 ifneq ($(BR2_PACKAGE_LIBRETRO_ATARI800),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atari800
@@ -248,11 +243,6 @@ endif
 # System: colecovision
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
-endif
-
-# System: daphne
-ifeq ($(BR2_PACKAGE_HYPSEUS),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-daphne
 endif
 
 # System: dos
@@ -278,11 +268,6 @@ endif
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
-endif
-
-# System: fbneo
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fbneo
 endif
 
 # System: fds
