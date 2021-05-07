@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 - Fix missing rtl8821cu wifi drivers
 - Fix HID bluetooth device not working (#1704)
 - Add nightly builds (all nights on master) (#1673)
+- Add branch builds (manual on merge requests) (#1673)
+- Renamed review builds to beta builds (tags only) (#1673)
 
 
 ## [7.2.1-Reloaded]
