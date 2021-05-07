@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>PC Dos</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="106236" source="ScreenScraper.fr">
+    <path>./doom.wad</path>
+    <name>DOOM</name>
+    <desc>Ne pouvant manoeuvrer le vaisseau spatial seul, le Space Marine comprend que son seul espoir est de pénétrer dans la base de Phobos afin de stopper l'invasion démoniaque. Pour cela, il doit compléter trois épisodes constitués chacun de huit niveaux. 
+ 
+Dans le premier épisode "Knee-Deep in the Dead" il explore le complexe militaire de Phobos jusqu'à découvrir un portail interdimensionnels le menant directement sur l'autre lune de Mars. Dans le deuxième épisode "The Shores of Hell" il doit traverser la base de Deimos, celle-ci ayant été distordue par l'influence démoniaque. Après avoir vaincu le puissant Cyberdemon, il découvre que Deimos flotte maintenant au-dessus de l'enfer. Dans le troisième épisode "Inferno" le Space Marine lutte contre les démons de l'Enfer jusqu'à faire face au Spiderdemon, le démon ayant planifié l'invasion de la Terre. Après l'avoir vaincu, il découvre un portail de téléportation qui le ramène sur Terre. Il découvre alors que celle-ci a été envahie par les démons.</desc>
+    <rating>0.85</rating>
+    <releasedate>19930101T000000</releasedate>
+    <developer>id Software</developer>
+    <publisher>GT Interactive</publisher>
+    <genre>Tir-Tir / 1ere Personne</genre>
+    <players>1-4</players>
+    <hash>162B696A</hash>
+    <image>./media/images/doom.png</image>
+    <genreid>259</genreid>
+  </game>
+  <game id="213607" source="ScreenScraper.fr">
+    <path>./SIGIL_v1_21.wad</path>
+    <name>Sigil</name>
+    <desc>After killing the Spiderdemon at the end of E4M8 (Unto the Cruel), your next stop is Earth — you must save it from hellspawn that is causing unimaginable carnage. But Baphomet glitched the final teleporter with his hidden sigil whose eldritch power brings you to even darker shores of Hell. You fight through this stygian pocket of evil to confront the ultimate harbingers of Satan, then finally return to become Earth's savior.</desc>
+    <rating>0.8</rating>
+    <releasedate>20190101T000000</releasedate>
+    <developer>John Romero</developer>
+    <publisher>Limited Run Games</publisher>
+    <genre>Tir / 1ere Personne</genre>
+    <players>1</players>
+    <hash>F9216574</hash>
+    <image>./media/images/SIGIL_v1_21.png</image>
+    <genreid>259</genreid>
+  </game>
+</gameList>
