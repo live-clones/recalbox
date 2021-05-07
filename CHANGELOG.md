@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add nightly builds
+
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
