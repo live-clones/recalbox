@@ -23,7 +23,8 @@ class SystemBuilder:
         print("[ROMFS 2] Building systems to {}".format(self.__target))
 
         # Create final document w/ root node
-        if self.__mergefrom is not None and os.path.exists(self.__target):
+        if self.__mergefrom is not None and os.path.exists(self.__mergefrom):
+            print("[ROMFS 2] Merge from {}".format(self.__mergefrom))
             root = ET.ElementTree(file=self.__mergefrom).getroot()
         else:
             root = ET.Element("systemList")
@@ -43,7 +44,7 @@ class SystemBuilder:
 
         # Prettify
         xml: str = ET.tostring(root, "utf-8")
-        xml = minidom.parseString(xml).toprettyxml(indent='  ')
+        xml = minidom.parseString(xml).toprettyxml(indent='  ').replace("\n\n", "\n")
         with open(self.__target, "w") as f:
             f.write(xml)
 
