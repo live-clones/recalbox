@@ -19,6 +19,7 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
+
 # Lint
 
 .lint_template: &lint_definition
@@ -250,15 +251,16 @@ release prod:
     name: prod
     url: https://download.recalbox.com
 
-release review:
+release beta:
   <<: *release_definition
-  <<: *only-default
+  only:
+    - tags
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-reviews
+    BUCKET: recalbox-archive-beta
   environment:
-    name: review/${CI_COMMIT_REF_SLUG}
+    name: beta/${CI_COMMIT_REF_SLUG}
 
 
 release nightly:
@@ -269,4 +271,17 @@ release nightly:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-nightly
   environment:
-    name: review/${CI_COMMIT_REF_SLUG}
+    name: nightly/${CI_COMMIT_REF_SLUG}
+
+
+release branch:
+  <<: *release_definition
+  <<: *only-default
+  when: manual
+  only:
+    - merge_requests
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-branch
+  environment:
+    name: branch/${CI_COMMIT_REF_SLUG}
