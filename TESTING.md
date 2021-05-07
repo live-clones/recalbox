@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Check sound of boot video (#1596)
 
 ## [7.2.1-Reloaded]
 - [ ] Check that games are not hidden when upgrading to 7.2.1 from 7.2

@@ -13,6 +13,9 @@ start() {
 	echo "OK"
 }
 stop() {
+	printf "Saving configuration: "
+	echo ".include /etc/pulse/default.pa" >/overlay/.configs/pulse/default.pa
+	pacmd dump |grep -E '(set-default-sink|set-card-profile)' >>/overlay/.configs/pulse/default.pa && echo "OK" || echo "KO"
 	printf "Stopping pulseaudio: "
 	start-stop-daemon -K -p /var/run/pulse.pid
 	echo "OK"
