@@ -8,7 +8,6 @@ source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-amigac
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-amigacdtv/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-amstradcpc/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-apple2/Config.in"
-source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-apple2gs/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-atari800/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-atarist/Config.in"
 source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-romfs/recalbox-romfs-c64/Config.in"
