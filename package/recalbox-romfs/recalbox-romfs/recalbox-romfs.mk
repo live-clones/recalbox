@@ -209,7 +209,7 @@ endif
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
 endif
- 	
+
 # System: amiga1200
 ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga1200
@@ -224,7 +224,7 @@ endif
 ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacdtv
 endif
- 	
+
 # System: amstradcpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32)$(BR2_PACKAGE_LIBRETRO_CROCODS),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amstradcpc
@@ -364,11 +364,6 @@ endif
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
 endif
-
-# Sytem: intellivision
-ifneq ($(BR2_PACKAGE_LIBRETRO_FREEINTV),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-intellivision
-endif  
 
 # System: jaguar
 ifneq ($(BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR),)
