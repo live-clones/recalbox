@@ -1,5 +1,10 @@
 # Release notes
 
+## Next
+
+### Fixes
+- Fix sound issue on boot video
+
 ## 7.2.1-Reloaded
 
 ### Fixes

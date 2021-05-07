@@ -119,6 +119,7 @@ playVideoOnOneScreen() {
   local options
   # shellcheck disable=SC2206
   options+=($2) # get space delimited options as is
+  options+=(--ao=pulse)
   options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
@@ -133,7 +134,7 @@ playVideo() {
   if [[ "$machineArch" =~ x86 ]]; then
     # on x86 and x86_64, find connected monitors and play video on all of them
     findConnectedConnectors |while read -r conn; do
-      playVideoOnOneScreen "$1" "-ao=alsa --vo=drm --drm-connector=$conn"
+      playVideoOnOneScreen "$1" "--vo=drm --drm-connector=$conn"
     done
   elif [[ "$ARCH" == "rpi1" || "$ARCH" == "rpi2" || "$ARCH" == "rpi3" ]]; then
     # on rpi1 2 and 3 we need to force output
