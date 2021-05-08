@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Fix missing sound on boot video (#1596)
+- Fix no sound on Sound Open Firmware compatible audio cards (#1677)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
