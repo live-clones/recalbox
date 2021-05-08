@@ -260,11 +260,6 @@ ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
 endif
 
-# System: fds
-ifneq ($(BR2_PACKAGE_LIBRETRO_NESTOPIA)$(BR2_PACKAGE_LIBRETRO_FCEUMM)$(BR2_PACKAGE_LIBRETRO_MESEN),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fds
-endif
-
 # System: flashback
 ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-flashback
