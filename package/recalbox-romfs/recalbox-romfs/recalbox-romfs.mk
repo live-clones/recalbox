@@ -305,11 +305,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
 endif
 
-# System: jaguar
-ifneq ($(BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-jaguar
-endif
-
 # System: lutro
 ifneq ($(BR2_PACKAGE_LIBRETRO_LUTRO),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lutro
