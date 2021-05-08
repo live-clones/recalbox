@@ -5,6 +5,7 @@
 ### Fixes
 - Fix sound issue on boot video
 - Audio is working on Sound Open Firmware audio adapters
+- Added configuration for SN30-GP controller
 
 ## 7.2.1-Reloaded
 
@@ -16,13 +17,13 @@
 - Reicast has been removed from Rpi, PC and XU4 as this emulator does not work anymore with our new kernel and softwares versions. You can now use Flycast as the main emulator for the dreamcast.
 - On PSP, with PPSSPP emulator, videos now run full speed
 - Raspberry Pi 1,2,3 boot video now run full speed
-- Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
+- Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné
 - Duckstation has been renamed Swanstation
 - Fix Swanstation issues when loading games
 - Fix cavestory x86 and x86_64
 - Fix House of the dead bios validation
 - Add missings game extensions detection for SCV and WII
-- Default language is now used when scraping 
+- Default language is now used when scraping
 - Fix gameclip initialization on network shares
 - Fix freezes when running a game while playing gameclip
 - Using IPv4 in priority when connecting WIFI
@@ -100,7 +101,7 @@
 ### Fixes
 - Fix bypass configgen option for model3
 - Fix reactivation of the deleted mesa 3d demos package
-- Fix Dolphin emulator 
+- Fix Dolphin emulator
 - Fix Odroid Go Advance controller (v1)
 - Check recalbox image integrity before upgrading
 - Fix lost support of open and WPA-PSK-SHA256 wifi networks
@@ -140,7 +141,7 @@
   - Suspend/Soft Power-off using POWER button
   - Automatic audio switch between speakers/headpĥones
   - Volume & Brightness buttons
-  - First-boot wizard 
+  - First-boot wizard
 - Add 8 Broke Studio's game demos on NES!
 - Add 4 MAME games from the '80
 
@@ -162,8 +163,8 @@
   - PC-Engine
   - SG-1000
   - SuperGraphx
-  - ZX-Spectrum 
-- Add overlay global/per-system settings support in share/overlays  
+  - ZX-Spectrum
+- Add overlay global/per-system settings support in share/overlays
 - Recalbox is back in Window's Network
 - Update BIOS database
 - Improved Flashback support: just copy your disk or CD game into roms/ports/flashback
@@ -211,7 +212,7 @@
 
 ### Fixes
 - Fix Missing dat files mame, naomi(Gd), atomiswave
-- Fix Netflix plugin authentication (bump to v1.10.0) 
+- Fix Netflix plugin authentication (bump to v1.10.0)
 - Fix RPI4 blackscreen issues while booting
 - Fix doom.wad required for WADs games (prboom core)
 - Fix Mupen64 L1/R1 mapping
@@ -291,7 +292,7 @@
   - Add libretro's mupen64plus-nx, an improved n64/64dd emulator (rpi only for now)
   - Add libetro's Mesen, accurate NES & FDS emulator (rpi4, xu4, x86/x64 only)
   - Add libetro's Mesen-S, accurate SNES, Satellaview, GB/GBC & Super GameBoy emulator (rpi4, xu4, x86/x64 only)
-  - Add libretro mame for recent mame set 
+  - Add libretro mame for recent mame set
   - Add libretro-race, an ngp & ngpc emulator focused on performance
   - Add Libretro-flycast on on rpi3, xu4 and x86
 - Add PORTS system:
@@ -419,15 +420,15 @@
   - Bump ResidualVM
   - Bump Dolphin emulator
   - Bump libretro-cores family
-  - Bump oricatmos emulator on lastest version 
-  - Bump simcoupe emulator 
+  - Bump oricatmos emulator on lastest version
+  - Bump simcoupe emulator
   - Bump Amiberry to v3.1.3.1
   - Bump AdvanceMame to v3.9
   - Bump Theodore core (add emulation of Thomson TO7 and TO7/70 computers)
 - Bump retroarch to v1.9.0
 - Bump retroarch-cheats to v1.9.0
 - Bump libretro-assets on last version
-- Bump Odroid UBOOT to 2017/05 version 
+- Bump Odroid UBOOT to 2017/05 version
 - Move x86/x64 graphic backend from GLES to OpenGL. Improve overall quality.
 - Improved NetPlay:
   - Removed filtering of non-Recalbox players in netplay game lists
@@ -443,20 +444,20 @@
   - Volume control is working for boot-videos
 - Rename Fba_libretro to Fbneo (updated to the new official logo)
 - Rename 4do to Opera (newer libretro 3do core)
-- Manage GameCube Bios 
+- Manage GameCube Bios
 - Improve internal Scraper (ScreenScraper):
-  - Faster! Use your ScreenScraper's threads to parallelize workloads 
+  - Faster! Use your ScreenScraper's threads to parallelize workloads
   - Better! Lots of options, snaps video, and more...
   - Stronger! Improved reliability and strongness
 - Improve overall Emulationstation's stability & reliability
 - Optimize memory requirements of EmulationStation
 - Optimize EmulationStation boot time (up to 20 times faster!)
 - Improve pad processing in EmulationStation. Perform auto-mapping of 70% of commonly available pads (incluxing all 8BitDo)
-- Improved Genre & Region processing in EmulationStation * 
+- Improved Genre & Region processing in EmulationStation *
 - Improved translations:
   - Fix some bad translations in FR, ES, PT, IT & DE texts
   - Fix missing translations in FR, ES, PT, IT & DE texts
-- Faster-than-light CRC calculation for netplay 
+- Faster-than-light CRC calculation for netplay
 - Game sorting and Jump-to-letter are now unicode compatible
 - Simplify emulator/core selection UI
 - Set vice_x64sc as default c64 emulator + JiffyDOS support
@@ -490,11 +491,11 @@
 - Fix music loop play
 - Fix netplay popup crashes
 - Fix Apple2 not working on x86/x64
-- Fix fullscreeen on Oric/Atmos and Apple2 on x86/x64 
+- Fix fullscreeen on Oric/Atmos and Apple2 on x86/x64
 - Fix duplicate folders in Arcade systems
 - Fix quit menu not being accessible when boot-on-gamelist is on
 - Fix some bad behaviors in favorite management
-- Fix reboot Emulationstation with webmanager 
+- Fix reboot Emulationstation with webmanager
 - Fix volume issues in boot video
 - Fix REICAST bug on XU4
 - Fix FPS show/hide in Retroarch
@@ -502,8 +503,8 @@
 - Fix Gamelist reset when editing Metadata
 - Fix multiple crashes in EmulationStation
 
-*  : Require to scrape missing data using the internal scraper 
-** : Availailable in both EmulationStation menu and configuration file 
+*  : Require to scrape missing data using the internal scraper
+** : Availailable in both EmulationStation menu and configuration file
 
 
 ## Version 6.1.1
@@ -617,7 +618,7 @@
   - Choose your image: Screenshot, Title, Front Case, 3D Case, Mix V1 and Mix V2
   - Use your ScreenScraper account to get higher per day limitations
   - Choose your favorite region/language to get appropriate images and texts
-- TheGameDB internal scraper is back using newest APIs 
+- TheGameDB internal scraper is back using newest APIs
 - Commodore 64 has now two emulators: x64 (speed) and x64sc (accuracy)
 
 ### Fixes

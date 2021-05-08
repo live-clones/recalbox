@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix missing sound on boot video (#1596)
 - Fix no sound on Sound Open Firmware compatible audio cards (#1677)
+- Add configurations for SN30-GP controller (#1693)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
 - Bring back fan speed setting on odroidxu4 (#1662)
 - Es Improve subfiles detection. ignore img files with ccd
-- Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné 
+- Fix arcade view systems missing model3, atomiswave, naomi, naomigd, daphné
 - Fix video lag on ppsspp
 - Fix laggy boot video by forcing video output mode for mpv for rpi1,2,3 (#1627)
 - Add new MD5 from MAME 0.230 for House of the Dead 2
