@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add libretro uae4arm core
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
