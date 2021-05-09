@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Fix missing sound on boot video (#1596)
 - Fix no sound on Sound Open Firmware compatible audio cards (#1677)
 - Add configurations for SN30-GP controller (#1693)
+- Fix dreamcast and n64 overlay offset rpi2 and rpi3 (#1695)
+
 
 
 ## [7.2.1-Reloaded]
