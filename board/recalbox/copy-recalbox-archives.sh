@@ -162,11 +162,6 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
-	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-	do
-	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/odroidxu4-firmware/" || exit 1
-	done
-
 	# boot.tar.xz
 	tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
 		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
