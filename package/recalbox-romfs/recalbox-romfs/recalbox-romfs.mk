@@ -500,11 +500,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
 endif
 
-# System: thomson
-ifneq ($(BR2_PACKAGE_LIBRETRO_THEODORE),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thomson
-endif
-
 # System: tic80
 ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
@@ -533,16 +528,6 @@ endif
 # System: wii
 ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
-endif
-
-# System: x1
-ifneq ($(BR2_PACKAGE_LIBRETRO_XMIL),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x1
-endif
-
-# System: x68000
-ifneq ($(BR2_PACKAGE_LIBRETRO_PX68K),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x68000
 endif
 
 $(eval $(generic-package))
