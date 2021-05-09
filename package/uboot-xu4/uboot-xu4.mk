@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-UBOOT_XU4_VERSION = odroidxu4-v2017.05
+# 19/05/2020
+UBOOT_XU4_VERSION = 42ac93dcfbbb8a08c2bdc02e19f96eb35a81891a
 UBOOT_XU4_SITE = $(call github,hardkernel,u-boot,$(UBOOT_XU4_VERSION))
 UBOOT_XU4_LICENSE = GPL-2.0+
 UBOOT_XU4_LICENSE_FILES = Licenses/gpl-2.0.txt
