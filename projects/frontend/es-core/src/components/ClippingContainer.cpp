@@ -9,34 +9,38 @@
 
 ClippingContainer::ClippingContainer(WindowManager& window)
         : Component(window),
-          mClippingState(false){
+          mClippingDisplayed(false){
     mTimer.Initialize(0);
 }
 
-void ClippingContainer::init(){
-    mClippingState = false;
-    mTimer.Initialize(0);
+ClippingContainer::ClippingContainer(WindowManager& window, int timeUp, int timeDown)
+  : Component(window),
+    mTimeUp(timeUp),
+    mTimeDown(timeDown),
+    mClippingDisplayed(false){
+  mTimer.Initialize(0);
 }
 
 void ClippingContainer::Render(const Transform4x4f &parentTrans) {
-    if (activate && !clippingDisplay()) {
-        return;
-    }
+  UpdateClippingState();
+  if (!mClippingDisplayed) {
+    return;
+  }
 
-    Transform4x4f trans = parentTrans * getTransform();
-    Renderer::SetMatrix(trans);
-    Component::renderChildren(trans);
+  Transform4x4f trans = parentTrans * getTransform();
+  Renderer::SetMatrix(trans);
+  Component::renderChildren(trans);
 }
 
-bool ClippingContainer::clippingDisplay() {
-    if (mClippingState && mTimer.GetMilliSeconds() > mTimeUp) {
-        mTimer.Initialize(0);
-        mClippingState = false;
+void ClippingContainer::UpdateClippingState() {
+  if (mClippingDisplayed && mTimer.GetMilliSeconds() > mTimeUp) {
+    mTimer.Initialize(0);
+    mClippingDisplayed = false;
 
-    } else if (!mClippingState && mTimer.GetMilliSeconds() > mTimeDown) {
-        mTimer.Initialize(0);
-        mClippingState = true;
-    }
-
-    return mClippingState;
+  }
+  else if (!mClippingDisplayed && mTimer.GetMilliSeconds() > mTimeDown)
+  {
+    mTimer.Initialize(0);
+    mClippingDisplayed = true;
+  }
 }

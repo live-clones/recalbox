@@ -11,7 +11,7 @@
 
 GameClipContainer::GameClipContainer(WindowManager& window)
   : Gui(window), mWindow(window), mVideo(window), mImage(window), mThumbnail(window), mRecalboxLogo(window),
-    mClippingContainer(window), mClippingImage(window), mLbGameName(window), mLbSystemName(window), mLblRating(window),
+    mClippingContainer(window, 300, 1000), mClippingImage(window), mLbGameName(window), mLbSystemName(window), mLblRating(window),
     mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), mLblGenre(window), mLblPlayers(window),
     mLblLastPlayed(window), mLblPlayCount(window), mLblFavorite(window), mGameName(window), mSystemName(window),
     mRating(window, 0.f), mReleaseDate(window), mDeveloper(window), mPublisher(window), mGenre(window), mPlayers(window),
@@ -26,8 +26,11 @@ GameClipContainer::GameClipContainer(WindowManager& window)
   addChild(&mImage);
   addChild(&mThumbnail);
   addChild(&mRecalboxLogo);
-  addChild(&mClippingContainer);
-  mClippingContainer.addChild(&mClippingImage);
+  if (RecalboxConf::Instance().GetShowGameClipClippingItem())
+  {
+    addChild(&mClippingContainer);
+    mClippingContainer.addChild(&mClippingImage);
+  }
   addChild(&mBackground);
 
   addChild(&mDescContainer);
@@ -98,13 +101,16 @@ void GameClipContainer::initComponents()
   mVideo.setMaxSize(mSize.x(), mSize.y());
   mVideo.setDefaultZIndex(30);
 
-  mClippingContainer.setSize(mSize);
-  mClippingContainer.setDefaultZIndex(50);
-  mClippingContainer.setZIndex(50);
+  if (RecalboxConf::Instance().GetShowGameClipClippingItem())
+  {
+    mClippingContainer.setSize(mSize);
+    mClippingContainer.setDefaultZIndex(50);
+    mClippingContainer.setZIndex(50);
 
-  mClippingImage.setImage(Path(":/press_start.svg"));
-  mClippingImage.setSize(mSize.x() * 0.12f, mSize.y() * 0.12f);
-  mClippingImage.setOrigin(0.5, 0.5);
+    mClippingImage.setImage(Path(":/press_start.svg"));
+    mClippingImage.setSize(mSize.x() * 0.12f, mSize.y() * 0.12f);
+    mClippingImage.setOrigin(0.5, 0.5);
+  }
 
   mRecalboxLogo.setImage(Path(":/Recalbox_logo_White.svg"));
   mRecalboxLogo.setOrigin(1, 0);

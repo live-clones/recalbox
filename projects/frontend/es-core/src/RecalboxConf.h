@@ -137,6 +137,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(Clock, bool, Bool, sClock, false)
     DefineGetterSetter(ShowHelp, bool, Bool, sShowHelp, true)
     DefineGetterSetter(ShowGameClipHelpItems, bool, Bool, sShowGameClipHelpItems, true)
+    DefineGetterSetter(ShowGameClipClippingItem, bool, Bool, sShowGameClipClippingItem, true)
     DefineGetterSetter(QuickSystemSelect, bool, Bool, sQuickSystemSelect, true)
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
@@ -328,6 +329,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sClock                      = "emulationstation.clock";
     static constexpr const char* sShowHelp                   = "emulationstation.showhelp";
     static constexpr const char* sShowGameClipHelpItems      = "emulationstation.showgamecliphelpitems";
+    static constexpr const char* sShowGameClipClippingItem  = "emulationstation.showgameclipclippingitem";
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";

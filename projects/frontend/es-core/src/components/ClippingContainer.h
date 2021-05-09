@@ -12,18 +12,16 @@ class ClippingContainer : public Component {
 
 public:
     ClippingContainer(WindowManager& window);
+    ClippingContainer(WindowManager& window, int timeUp, int timedown);
 
     void Render(const Transform4x4f &parentTrans) override;
 
-    void init();
-
 private:
-    bool activate = true;
-    int mTimeUp = 800;
-    int mTimeDown = 500;
-    bool mClippingState;
+    int mTimeUp = 500;
+    int mTimeDown = 1000;
+    bool mClippingDisplayed;
     HighResolutionTimer mTimer;
-    bool clippingDisplay();
+    void UpdateClippingState();
 };
 
 
