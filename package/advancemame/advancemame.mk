@@ -4,6 +4,9 @@
 #
 ################################################################################
 
+# When bumping please run a build, then run
+# cd output/build/advancemame-vXX/ && find ./obj -type d
+# and replace the directory list in directoriesCreation.sh
 ADVANCEMAME_VERSION = v3.9
 ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPL-2.0 MAME
@@ -15,7 +18,12 @@ define ADVANCEMAME_RUN_AUTOGEN
 	cd $(@D) && PATH=$(BR_PATH) ./autogen.sh
 endef
 
+define ADVANCEMAME_RUN_DIRECTORIES_CREATION
+	cd $(@D) && bash "$(ADVANCEMAME_PKGDIR)/directoriesCreation.sh"
+endef
+
 ADVANCEMAME_PRE_CONFIGURE_HOOKS += ADVANCEMAME_RUN_AUTOGEN
+ADVANCEMAME_PRE_CONFIGURE_HOOKS += ADVANCEMAME_RUN_DIRECTORIES_CREATION
 
 ADVANCEMAME_CONF_ENV += CFLAGS=-I$(STAGING_DIR)/usr/include/freetype2 LDFLAGS=-L$(STAGING_DIR)/usr/lib/
 

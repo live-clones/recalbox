@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix erratic advancemame builds (#1694)
 - Fix missing sound on boot video (#1596)
 - Fix no sound on Sound Open Firmware compatible audio cards (#1677)
 - Add configurations for SN30-GP controller (#1693)
