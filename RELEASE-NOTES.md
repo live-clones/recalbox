@@ -1,5 +1,9 @@
 # Release notes
 
+This file will be processed and will be distributed with Recalbox Releases.
+The text, located between the first `## Version XXX` and the second one, will appear 
+as release notes for end user on a Recalbox upgrade.
+
 ## Next
 
 ### Fixes
@@ -7,7 +11,7 @@
 - Audio is working on Sound Open Firmware audio adapters
 - Added configuration for SN30-GP controller
 
-## 7.2.1-Reloaded
+## Version 7.2.1-Reloaded
 
 ### Fixes
 - Bring back fan speed setting on Odroid XU4
@@ -44,7 +48,7 @@
 - Fix GBA gpsp emulator
 
 
-## 7.2-Reloaded
+## Version 7.2-Reloaded
 
 ### News
 - Bump libretro-mame
@@ -114,7 +118,7 @@
 - Fix fan not stopping on shutdown on nespi4case
 - Fix libretro-mame, now full speed
 
-## 7.1.1-Reloaded
+## Version 7.1.1-Reloaded
 
 ### Fixes
 - Fix abnormally long boots
