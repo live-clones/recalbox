@@ -205,21 +205,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
-# System: apple2
-ifeq ($(BR2_PACKAGE_LINAPPLE_PIE),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-apple2
-endif
-
-# System: atarist
-ifneq ($(BR2_PACKAGE_LIBRETRO_HATARI),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-atarist
-endif
-
-# System: c64
-ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-c64
-endif
-
 # System: colecovision
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
