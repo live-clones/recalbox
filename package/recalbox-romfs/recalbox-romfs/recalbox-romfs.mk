@@ -280,11 +280,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE)$(B
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mastersystem
 endif
 
-# System: megadrive
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-megadrive
-endif
-
 # System: minecraft
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAFT),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-minecraft
