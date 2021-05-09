@@ -195,11 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# System: amiga600
-ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amiga600
-endif
-
 # System: amigacd32
 ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
@@ -525,11 +520,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
 endif
 
-# System: vic20
-ifneq ($(BR2_PACKAGE_LIBRETRO_VICE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vic20
-endif
-
 # System: videopacplus
 ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-videopacplus
@@ -553,11 +543,6 @@ endif
 # System: x68000
 ifneq ($(BR2_PACKAGE_LIBRETRO_PX68K),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-x68000
-endif
-
-# System: zx81
-ifneq ($(BR2_PACKAGE_LIBRETRO_81),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-zx81
 endif
 
 $(eval $(generic-package))
