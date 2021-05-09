@@ -1,9 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_SATURN
-	bool "recalbox-romfs-saturn"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_BEETLE_SATURN \
-	  || BR2_PACKAGE_LIBRETRO_KRONOS \
-	  || BR2_PACKAGE_LIBRETRO_YABASANSHIRO \
-	  || BR2_PACKAGE_LIBRETRO_YABAUSE
-	help
-	  share_init/roms and xml for saturn
