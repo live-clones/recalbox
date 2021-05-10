@@ -215,11 +215,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
 endif
 
-# System: pcfx
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
-endif
-
 # System: pcv2
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcv2
