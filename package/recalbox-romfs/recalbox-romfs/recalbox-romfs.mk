@@ -215,16 +215,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
 endif
 
-# System: oricatmos
-ifneq ($(BR2_PACKAGE_ORICUTRON),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-oricatmos
-endif
-
-# System: palm
-ifneq ($(BR2_PACKAGE_LIBRETRO_MU),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-palm
-endif
-
 # System: pcfx
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
@@ -248,11 +238,6 @@ endif
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
-endif
-
-# System: scummvm
-ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
 endif
 
 # System: spectravideo
