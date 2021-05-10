@@ -310,11 +310,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pico8
 endif
 
-# System: psp
-ifeq ($(BR2_PACKAGE_PPSSPP),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-psp
-endif
-
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
