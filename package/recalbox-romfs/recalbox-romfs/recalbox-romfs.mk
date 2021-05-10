@@ -200,11 +200,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
-# System: colecovision
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
-endif
-
 # System: dungeoncrawlstonesoup
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
@@ -318,11 +313,6 @@ endif
 # System: scummvm
 ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
         RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
-endif
-
-# System: satellaview
-ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X)$(BR2_PACKAGE_LIBRETRO_MESEN_S),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
 # System: spectravideo
