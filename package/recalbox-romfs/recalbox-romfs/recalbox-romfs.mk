@@ -455,11 +455,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
 endif
 
-# System: tic80
-ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
-endif
-
 # System: uzebox
 ifneq ($(BR2_PACKAGE_LIBRETRO_UZEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-uzebox
@@ -468,16 +463,6 @@ endif
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
-endif
-
-# System: videopacplus
-ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-videopacplus
-endif
-
-# System: virtualboy
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-virtualboy
 endif
 
 # System: wii
