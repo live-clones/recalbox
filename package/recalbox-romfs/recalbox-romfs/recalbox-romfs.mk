@@ -245,11 +245,6 @@ ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
 endif
 
-# System: scummvm
-ifneq ($(BR2_PACKAGE_SCUMMVM)$(BR2_PACKAGE_LIBRETRO_SCUMMVM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-scummvm
-endif
-
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
