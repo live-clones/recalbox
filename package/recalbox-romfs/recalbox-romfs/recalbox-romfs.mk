@@ -235,9 +235,4 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UZEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-uzebox
 endif
 
-# System: vectrex
-ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
-endif
-
 $(eval $(generic-package))
