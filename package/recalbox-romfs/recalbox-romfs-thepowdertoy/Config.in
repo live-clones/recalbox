@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_THEPOWDERTOY
-    bool "recalbox-romfs-thepowdertoy"
-    select BR2_PACKAGE_RECALBOX_ROMS
-    depends on BR2_PACKAGE_LIBRETRO_THEPOWDERTOY
-    help
-      share_init/roms and xml for thepowdertoy
