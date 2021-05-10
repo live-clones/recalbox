@@ -445,11 +445,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X)$(BR2_PACKAGE_LIBRETRO_MESEN_S),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
-# System: solarus
-ifeq ($(BR2_PACKAGE_SOLARUS_RECALBOX),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
-endif
-
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
@@ -475,11 +470,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
 endif
 
-# System: tic80
-ifneq ($(BR2_PACKAGE_LIBRETRO_TIC80),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-tic80
-endif
-
 # System: uzebox
 ifneq ($(BR2_PACKAGE_LIBRETRO_UZEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-uzebox
@@ -488,16 +478,6 @@ endif
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
-endif
-
-# System: videopacplus
-ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-videopacplus
-endif
-
-# System: virtualboy
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_VB),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-virtualboy
 endif
 
 # System: wii
