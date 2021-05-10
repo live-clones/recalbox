@@ -215,19 +215,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
 endif
 
-# System: easyrpg
-ifneq ($(BR2_PACKAGE_LIBRETRO_EASYRPG),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-easyrpg
-endif
-
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
-endif
-
-# System: flashback
-ifneq ($(BR2_PACKAGE_LIBRETRO_REMINISCENCE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-flashback
 endif
 
 # System: gamecube
@@ -243,11 +233,6 @@ endif
 # System: gba
 ifneq ($(BR2_PACKAGE_LIBRETRO_GPSP)$(BR2_PACKAGE_LIBRETRO_MGBA)$(BR2_PACKAGE_LIBRETRO_METEOR),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gba
-endif
-
-# System: gw
-ifneq ($(BR2_PACKAGE_LIBRETRO_GW),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gw
 endif
 
 # System: gx4000
@@ -268,16 +253,6 @@ endif
 # System: macintosh
 ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
-endif
-
-# System: mastersystem
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mastersystem
-endif
-
-# System: minecraft
-ifneq ($(BR2_PACKAGE_LIBRETRO_CRAFT),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-minecraft
 endif
 
 # System: moonlight
@@ -303,11 +278,6 @@ endif
 # System: multivision
 ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
-endif
-
-# System: n64
-ifneq ($(BR2_PACKAGE_MUPEN64PLUS_GLIDEN64)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLES2N64)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLES2RICE)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_GLIDE64MK2)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS)$(BR2_PACKAGE_LIBRETRO_PARALLEL_N64)$(BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX)$(BR2_PACKAGE_MUPEN64PLUS_VIDEO_RICE),)
-        RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-n64
 endif
 
 # System: neogeo
@@ -385,11 +355,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pico8
 endif
 
-# System: pokemini
-ifneq ($(BR2_PACKAGE_LIBRETRO_POKEMINI),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pokemini
-endif
-
 # System: mrboom
 ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
@@ -435,21 +400,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
 endif
 
-# System: startrekvoyager
-ifneq ($(BR2_PACKAGE_LIBRETRO_VITAVOYAGER),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-startrekvoyager
-endif
-
-# System: supergrafx
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supergrafx
-endif
-
-# System: supervision
-ifneq ($(BR2_PACKAGE_LIBRETRO_POTATOR),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-supervision
-endif
-
 # System: thepowdertoy
 ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
@@ -463,11 +413,6 @@ endif
 # System: vectrex
 ifneq ($(BR2_PACKAGE_LIBRETRO_VECX),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-vectrex
-endif
-
-# System: wii
-ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-wii
 endif
 
 $(eval $(generic-package))
