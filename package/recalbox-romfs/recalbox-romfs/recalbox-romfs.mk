@@ -245,21 +245,6 @@ ifeq ($(BR2_PACKAGE_MOONLIGHT_EMBEDDED),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-moonlight
 endif
 
-# System: msx1
-ifneq ($(BR2_PACKAGE_LIBRETRO_FMSX)$(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx1
-endif
-
-# System: msx2
-ifneq ($(BR2_PACKAGE_LIBRETRO_FMSX)$(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msx2
-endif
-
-# System: msxturbor
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-msxturbor
-endif
-
 # System: multivision
 ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
