@@ -430,11 +430,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_SNES9X)$(BR2_PACKAGE_LIBRETRO_MESEN_S),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-satellaview
 endif
 
-# System: solarus
-ifeq ($(BR2_PACKAGE_SOLARUS_RECALBOX),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-solarus
-endif
-
 # System: spectravideo
 ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
