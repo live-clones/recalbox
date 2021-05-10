@@ -210,11 +210,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
 endif
 
-# System: neogeocd
-ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeocd
-endif
-
 # System: o2em
 ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
