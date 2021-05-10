@@ -230,11 +230,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
 endif
 
-# System: moonlight
-ifeq ($(BR2_PACKAGE_MOONLIGHT_EMBEDDED),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-moonlight
-endif
-
 # System: multivision
 ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
@@ -248,11 +243,6 @@ endif
 # System: neogeocd
 ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeocd
-endif
-
-# System: ngpc
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP)$(BR2_PACKAGE_LIBRETRO_RACE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngpc
 endif
 
 # System: o2em
@@ -323,11 +313,6 @@ endif
 # System: segacd
 ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-segacd
-endif
-
-# System: sg1000
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-sg1000
 endif
 
 # System: scummvm
