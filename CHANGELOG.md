@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - Add configurations for SN30-GP controller (#1693)
 - Updated mame version in readme files
 
+- Bump odroidxu4 kernel to 5.4.109 (#1678)
+- Fix OGST display not working on odroidxu4 (#1678)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh

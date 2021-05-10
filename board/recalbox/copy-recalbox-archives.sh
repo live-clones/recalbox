@@ -144,6 +144,14 @@ case "${RECALBOX_TARGET}" in
 	# /boot
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/odroidxu4-firmware/config.ini" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini.sample" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/odroidxu4-firmware/config.ini.sample" || exit 1
+	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/overlays"
+	for overlay in ads7846 hktft32 hktft35 hktft-cs-ogst \
+	             i2c0 i2c1 spi0 sx865x-i2c1 uart0; do
+		cp "${BINARIES_DIR}/${overlay}.dtb" "${BINARIES_DIR}/odroidxu4-firmware/overlays/${overlay}.dtbo" || exit 1
+	done
 	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidxu4-firmware/boot/" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/odroidxu4-firmware/boot/linux" || exit 1
@@ -152,12 +160,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidxu4-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
-		grep -v -E '^(boot.lst|boot.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
-
-	for F in bl1.bin.hardkernel bl2.bin.hardkernel.720k_uboot tzsw.bin.hardkernel u-boot.bin.hardkernel
-	do
-	    cp "${BUILD_DIR}/uboot-xu4-odroidxu4-v2017.05/sd_fuse/${F}" "${BINARIES_DIR}/odroidxu4-firmware/" || exit 1
-	done
+		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
 	# boot.tar.xz
 	tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||

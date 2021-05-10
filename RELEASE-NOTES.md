@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix sound issue on boot video
 - Audio is working on Sound Open Firmware audio adapters
 - Added configuration for SN30-GP controller
+- Fix OGST display not working on Odroid XU4
 
 ## Version 7.2.1-Reloaded
 
