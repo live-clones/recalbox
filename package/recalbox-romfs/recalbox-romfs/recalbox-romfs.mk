@@ -215,19 +215,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
 endif
 
-# System: lutro
-ifneq ($(BR2_PACKAGE_LIBRETRO_LUTRO),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lutro
-endif
-
 # System: macintosh
 ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
-endif
-
-# System: multivision
-ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
 endif
 
 # System: neogeo
@@ -245,11 +235,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_O2EM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-o2em
 endif
 
-# System: openbor
-ifeq ($(BR2_PACKAGE_OPENBOR),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-openbor
-endif
-
 # System: oricatmos
 ifneq ($(BR2_PACKAGE_ORICUTRON),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-oricatmos
@@ -258,16 +243,6 @@ endif
 # System: palm
 ifneq ($(BR2_PACKAGE_LIBRETRO_MU),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-palm
-endif
-
-# System: pcengine
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcengine
-endif
-
-# System: pcenginecd
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_SUPERGRAFX)$(BR2_PACKAGE_LIBRETRO_BEETLE_PCE_FAST),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcenginecd
 endif
 
 # System: pcfx
@@ -290,11 +265,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcv2
 endif
 
-# System: pico8
-ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pico8
-endif
-
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
@@ -303,11 +273,6 @@ endif
 # System: model3
 ifeq ($(BR2_PACKAGE_SUPERMODEL),y)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-model3
-endif
-
-# System: segacd
-ifneq ($(BR2_PACKAGE_LIBRETRO_GENESISPLUSGX)$(BR2_PACKAGE_LIBRETRO_PICODRIVE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-segacd
 endif
 
 # System: scummvm
