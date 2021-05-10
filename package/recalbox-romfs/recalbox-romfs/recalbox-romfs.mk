@@ -255,11 +255,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_FBNEO),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeocd
 endif
 
-# System: ngp
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP)$(BR2_PACKAGE_LIBRETRO_RACE),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngp
-endif
-
 # System: ngpc
 ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_NGP)$(BR2_PACKAGE_LIBRETRO_RACE),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-ngpc
