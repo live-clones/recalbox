@@ -200,11 +200,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
 endif
 
-# System: colecovision
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
-endif
-
 # System: dungeoncrawlstonesoup
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
