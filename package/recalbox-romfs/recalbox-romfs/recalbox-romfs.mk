@@ -220,11 +220,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_PCFX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcfx
 endif
 
-# System: pc88
-ifneq ($(BR2_PACKAGE_LIBRETRO_QUASI88),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc88
-endif
-
 # System: pc98
 ifneq ($(BR2_PACKAGE_LIBRETRO_NP2KAI),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pc98
@@ -238,11 +233,6 @@ endif
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
-endif
-
-# System: spectravideo
-ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-spectravideo
 endif
 
 # System: thepowdertoy
