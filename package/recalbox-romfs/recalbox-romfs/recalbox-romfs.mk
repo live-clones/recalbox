@@ -205,24 +205,9 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
 endif
 
-# System: fba
-ifneq ($(BR2_PACKAGE_PIFBA),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
-endif
-
 # System: gx4000
 ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
-endif
-
-# System: macintosh
-ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
-endif
-
-# System: neogeo
-ifneq ($(BR2_PACKAGE_LIBRETRO_MAME2003)$(BR2_PACKAGE_LIBRETRO_MAME2000)$(BR2_PACKAGE_LIBRETRO_FBNEO)$(BR2_PACKAGE_PIFBA)$(BR2_PACKAGE_LIBRETRO_MAME2010)$(BR2_PACKAGE_LIBRETRO_MAME2015)$(BR2_PACKAGE_LIBRETRO_MAME2016),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-neogeo
 endif
 
 # System: neogeocd
@@ -268,11 +253,6 @@ endif
 # System: samcoupe
 ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
-endif
-
-# System: model3
-ifeq ($(BR2_PACKAGE_SUPERMODEL),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-model3
 endif
 
 # System: scummvm
