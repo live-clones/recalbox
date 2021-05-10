@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_UZEBOX
-	bool "recalbox-romfs-uzebox"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_UZEM
-	help
-	  share_init/roms and xml for uzebox
