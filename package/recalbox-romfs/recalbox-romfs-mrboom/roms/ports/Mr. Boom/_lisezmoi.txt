@@ -1,6 +1,0 @@
-## RECALBOX - SYSTEM MRBOOM ##
-
-Ce système est un port d'un clone de Bomberman. Aucune rom n'est requise.
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ports/mrboom

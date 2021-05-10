@@ -205,11 +205,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_BLUEMSX),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-colecovision
 endif
 
-# System: dos
-ifeq ($(BR2_PACKAGE_DOSBOX)$(BR2_PACKAGE_LIBRETRO_DOSBOX_PURE),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dos
-endif
-
 # System: dungeoncrawlstonesoup
 ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
@@ -218,11 +213,6 @@ endif
 # System: fba
 ifneq ($(BR2_PACKAGE_PIFBA),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-fba
-endif
-
-# System: gamecube
-ifeq ($(BR2_PACKAGE_DOLPHIN_EMU),y)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gamecube
 endif
 
 # System: gba
@@ -348,11 +338,6 @@ endif
 # System: pico8
 ifneq ($(BR2_PACKAGE_LIBRETRO_RETRO8),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pico8
-endif
-
-# System: mrboom
-ifneq ($(BR2_PACKAGE_LIBRETRO_MRBOOM),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-mrboom
 endif
 
 # System: psp
