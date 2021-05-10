@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_POKEMINI
-	bool "recalbox-romfs-pokemini"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_POKEMINI
-	help
-	  share_init/roms and xml for pokemini
