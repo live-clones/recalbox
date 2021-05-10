@@ -1,8 +1,0 @@
-## RECALBOX - SYSTEM NEOGEO ##
-
-Placez ici vos roms Neo-Geo.
-
-Les roms doivent avoir l'extension ".zip/.7z"
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/neo-geo
