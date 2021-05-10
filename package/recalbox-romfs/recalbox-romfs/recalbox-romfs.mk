@@ -195,31 +195,6 @@ define RECALBOX_ROMFS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/roms $(TARGET_ROMDIR)
 endef
 
-# System: amigacd32
-ifneq ($(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_AMIBERRY),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-amigacd32
-endif
-
-# System: dungeoncrawlstonesoup
-ifneq ($(BR2_PACKAGE_LIBRETRO_CRAWL),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-dungeoncrawlstonesoup
-endif
-
-# System: gx4000
-ifneq ($(BR2_PACKAGE_LIBRETRO_CAP32),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-gx4000
-endif
-
-# System: pcv2
-ifneq ($(BR2_PACKAGE_LIBRETRO_BEETLE_WSWAN),)
-    RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-pcv2
-endif
-
-# System: samcoupe
-ifeq ($(BR2_PACKAGE_SIMCOUPE),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-samcoupe
-endif
-
 # System: thepowdertoy
 ifneq ($(BR2_PACKAGE_LIBRETRO_THEPOWDERTOY),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-thepowdertoy
