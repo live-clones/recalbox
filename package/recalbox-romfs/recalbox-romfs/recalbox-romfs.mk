@@ -230,11 +230,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
 endif
 
-# System: moonlight
-ifeq ($(BR2_PACKAGE_MOONLIGHT_EMBEDDED),y)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-moonlight
-endif
-
 # System: multivision
 ifneq ($(BR2_PACKAGE_LIBRETRO_GEARSYSTEM),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-multivision
