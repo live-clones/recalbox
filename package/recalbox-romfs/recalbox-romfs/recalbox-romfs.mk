@@ -225,11 +225,6 @@ ifneq ($(BR2_PACKAGE_LIBRETRO_LUTRO),)
 	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lutro
 endif
 
-# System: lynx
-ifneq ($(BR2_PACKAGE_LIBRETRO_HANDY)$(BR2_PACKAGE_LIBRETRO_BEETLE_LYNX),)
-	RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-lynx
-endif
-
 # System: macintosh
 ifneq ($(BR2_PACKAGE_LIBRETRO_MINIVMAC),)
     RECALBOX_ROMFS_DEPENDENCIES += recalbox-romfs-macintosh
