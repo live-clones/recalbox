@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_BK_EMULATOR
 	bool "libretro-bk-emulator"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_BK
 	help
 	  A libretro BK computer serie emulator core.
 

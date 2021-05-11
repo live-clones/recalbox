@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_JAGUAR
-	bool "recalbox-romfs-jaguar"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_VIRTUALJAGUAR
-	help
-	  share_init/roms and xml for jaguar

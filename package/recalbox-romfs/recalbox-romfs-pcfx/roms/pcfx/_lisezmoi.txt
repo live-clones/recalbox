@@ -1,9 +1,0 @@
-## RECALBOX - SYSTEM PC-FX ##
-
-Placez ici vos roms NEC PC-FX.
-
-Les roms doivent avoir l'extension ".cue/.ccd/.toc/.chd"
-Les fichiers .bin nécessitent un fichier .cue pour être démarrés.
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/pcfx
