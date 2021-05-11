@@ -44,7 +44,7 @@ GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
 {
   if ((mLastPlayedOriginalValues != RecalboxConf::Instance().GetCollectionLastPlayed()) ||
       (mMultiplayersOriginalValues != RecalboxConf::Instance().GetCollectionMultiplayer()) ||
-      (mLightGunOriginalValues != RecalboxConf::Instance().GetCollectionLightGun()) ||
+      (mLightGunOriginalValues == RecalboxConf::Instance().GetCollectionHide("lightgun")) ||
       (mAllGamesOriginalValues != RecalboxConf::Instance().GetCollectionAllGames()))
     RequestRelaunch();
 }
