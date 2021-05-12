@@ -299,6 +299,47 @@ void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
   }
 }
 
+bool FolderData::HasMissingHashRecursively()
+{
+  for (FileData* fd : mChildren)
+    if (fd->IsFolder())
+    {
+      if (CastFolder(fd)->HasMissingHashRecursively())
+        return true;
+    }
+    else if (fd->IsGame())
+      if (fd->Metadata().RomCrc32() == 0)
+        return true;
+  return false;
+}
+
+void FolderData::CalculateMissingHashRecursively()
+{
+  for (FileData* fd : mChildren)
+    if (fd->IsFolder())
+      CastFolder(fd)->CalculateMissingHashRecursively();
+    else if (fd->IsGame())
+      if (fd->Metadata().RomCrc32() == 0)
+        fd->CalculateHash();
+}
+
+int FolderData::getMissingHashRecursively(FileData::List& to) const
+{
+  int gameCount = 0;
+  for (FileData* fd : mChildren)
+  {
+    if (fd->IsFolder())
+      gameCount += CastFolder(fd)->getMissingHashRecursively(to);
+    else if (fd->IsGame())
+      if (fd->Metadata().RomCrc32() == 0)
+      {
+        to.push_back(fd);
+        gameCount++;
+      }
+  }
+  return gameCount;
+}
+
 int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders, bool includeadult) const
 {
   int gameCount = 0;

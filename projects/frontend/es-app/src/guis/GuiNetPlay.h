@@ -148,13 +148,6 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
     void ReceiveSyncCallback(const SDL_Event& event) override;
 
     /*!
-     * @brief Ping a remote host
-     * @param ip IP to ping
-     * @return time in milliseconds
-     */
-    static int PingHost(const std::string& ip);
-
-    /*!
      * @brief Look for a game in all gamelist available
      * @param game game or hash
      * @return FileData of the game is found, otherwise nullptr

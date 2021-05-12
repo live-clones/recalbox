@@ -16,6 +16,8 @@
 #include <rapidjson/pointer.h>
 #include <utils/Files.h>
 #include <utils/locale/LocaleHelper.h>
+#include <liboping/src/oping.h>
+#include <netdb.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -71,89 +73,93 @@ void GuiNetPlay::populateGrid()
 {
   if (!mLobbyList.empty())
   {
-    mList = std::make_shared<ComponentList>(mWindow);
-    mGridMeta->setEntry(mList, Vector2i(0, 0), true);
-    mGridMeta->setColWidthPerc(0, 0.57);
-    mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
+    if (mList == nullptr)
+    {
+      mList = std::make_shared<ComponentList>(mWindow);
+      mGridMeta->setEntry(mList, Vector2i(0, 0), true);
+      mGridMeta->setColWidthPerc(0, 0.57);
+      mGrid.setEntry(mGridMeta, Vector2i(0, 1), true);
 
-    mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " + _("Username") + " : ",
-                                                           mMenuTheme->menuTextSmall.font,
-                                                           mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextUsername = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                        mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblUsername, Vector2i(0, 0), false, true);
-    mGridMetaRight->setEntry(mMetaTextUsername, Vector2i(1, 0), false, true);
-    mMetaTextLblCountry = std::make_shared<TextComponent>(mWindow, "    " + _("Country") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
+      mMetaTextLblUsername = std::make_shared<TextComponent>(mWindow, "    " + _("Username") + " : ",
+                                                             mMenuTheme->menuTextSmall.font,
+                                                             mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextUsername = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
                                                           mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextCountry = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+      mGridMetaRight->setEntry(mMetaTextLblUsername, Vector2i(0, 0), false, true);
+      mGridMetaRight->setEntry(mMetaTextUsername, Vector2i(1, 0), false, true);
+      mMetaTextLblCountry = std::make_shared<TextComponent>(mWindow, "    " + _("Country") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextCountry = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblCountry, Vector2i(0, 1), false, true);
+      mGridMetaRight->setEntry(mMetaTextCountry, Vector2i(1, 1), false, true);
+      mMetaTextLblRomHash = std::make_shared<TextComponent>(mWindow, "    " + _("Rom hash") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextRomHash = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblRomHash, Vector2i(0, 2), false, true);
+      mGridMetaRight->setEntry(mMetaTextRomHash, Vector2i(1, 2), false, true);
+      mMetaTextLblRomFile = std::make_shared<TextComponent>(mWindow, "    " + _("Rom file") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextRomFile = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblRomFile, Vector2i(0, 3), false, true);
+      mGridMetaRight->setEntry(mMetaTextRomFile, Vector2i(1, 3), false, true);
+      mMetaTextLblCore = std::make_shared<TextComponent>(mWindow, "    " + _("Core") + " : ",
+                                                         mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color,
+                                                         TextAlignment::Left);
+      mMetaTextCore = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                      mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblCore, Vector2i(0, 4), false, true);
+      mGridMetaRight->setEntry(mMetaTextCore, Vector2i(1, 4), false, true);
+      mMetaTextLblCoreVer = std::make_shared<TextComponent>(mWindow, "    " + _("Core ver.") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextCoreVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblCoreVer, Vector2i(0, 5), false, true);
+      mGridMetaRight->setEntry(mMetaTextCoreVer, Vector2i(1, 5), false, true);
+      mMetaTextLblLatency = std::make_shared<TextComponent>(mWindow, "    " + _("Latency") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextLatency = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblLatency, Vector2i(0, 6), false, true);
+      mGridMetaRight->setEntry(mMetaTextLatency, Vector2i(1, 6), false, true);
+      mMetaTextLblRAVer = std::make_shared<TextComponent>(mWindow, "    " + _("RA ver.") + " : ",
+                                                          mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color,
+                                                          TextAlignment::Left);
+      mMetaTextRAVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
                                                        mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblCountry, Vector2i(0, 1), false, true);
-    mGridMetaRight->setEntry(mMetaTextCountry, Vector2i(1, 1), false, true);
-    mMetaTextLblRomHash = std::make_shared<TextComponent>(mWindow, "    " + _("Rom hash") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
+      mGridMetaRight->setEntry(mMetaTextLblRAVer, Vector2i(0, 7), false, true);
+      mGridMetaRight->setEntry(mMetaTextRAVer, Vector2i(1, 7), false, true);
+      mMetaTextLblHostArch = std::make_shared<TextComponent>(mWindow, "    " + _("Host arch.") + " : ",
+                                                             mMenuTheme->menuTextSmall.font,
+                                                             mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextHostArch = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
                                                           mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextRomHash = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                       mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblRomHash, Vector2i(0, 2), false, true);
-    mGridMetaRight->setEntry(mMetaTextRomHash, Vector2i(1, 2), false, true);
-    mMetaTextLblRomFile = std::make_shared<TextComponent>(mWindow, "    " + _("Rom file") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
-                                                          mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextRomFile = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                       mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblRomFile, Vector2i(0, 3), false, true);
-    mGridMetaRight->setEntry(mMetaTextRomFile, Vector2i(1, 3), false, true);
-    mMetaTextLblCore = std::make_shared<TextComponent>(mWindow, "    " + _("Core") + " : ",
-                                                       mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color,
-                                                       TextAlignment::Left);
-    mMetaTextCore = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                    mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblCore, Vector2i(0, 4), false, true);
-    mGridMetaRight->setEntry(mMetaTextCore, Vector2i(1, 4), false, true);
-    mMetaTextLblCoreVer = std::make_shared<TextComponent>(mWindow, "    " + _("Core ver.") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
-                                                          mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextCoreVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                       mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblCoreVer, Vector2i(0, 5), false, true);
-    mGridMetaRight->setEntry(mMetaTextCoreVer, Vector2i(1, 5), false, true);
-    mMetaTextLblLatency = std::make_shared<TextComponent>(mWindow, "    " + _("Latency") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
-                                                          mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextLatency = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                       mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblLatency, Vector2i(0, 6), false, true);
-    mGridMetaRight->setEntry(mMetaTextLatency, Vector2i(1, 6), false, true);
-    mMetaTextLblRAVer = std::make_shared<TextComponent>(mWindow, "    " + _("RA ver.") + " : ",
-                                                        mMenuTheme->menuTextSmall.font, mMenuTheme->menuTextSmall.color,
-                                                        TextAlignment::Left);
-    mMetaTextRAVer = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                     mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblRAVer, Vector2i(0, 7), false, true);
-    mGridMetaRight->setEntry(mMetaTextRAVer, Vector2i(1, 7), false, true);
-    mMetaTextLblHostArch = std::make_shared<TextComponent>(mWindow, "    " + _("Host arch.") + " : ",
-                                                           mMenuTheme->menuTextSmall.font,
-                                                           mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextHostArch = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                        mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblHostArch, Vector2i(0, 8), false, true);
-    mGridMetaRight->setEntry(mMetaTextHostArch, Vector2i(1, 8), false, true);
-    mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " + _("Can join") + " : ",
-                                                          mMenuTheme->menuTextSmall.font,
-                                                          mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                       mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-    mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
-    mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
-    mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Vector2i(1, 1), Borders::Left);
-    mGridMetaRight->setColWidthPerc(1, 0.60, true);
+      mGridMetaRight->setEntry(mMetaTextLblHostArch, Vector2i(0, 8), false, true);
+      mGridMetaRight->setEntry(mMetaTextHostArch, Vector2i(1, 8), false, true);
+      mMetaTextLblCanJoin = std::make_shared<TextComponent>(mWindow, "    " + _("Can join") + " : ",
+                                                            mMenuTheme->menuTextSmall.font,
+                                                            mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mMetaTextCanJoin = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
+                                                         mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+      mGridMetaRight->setEntry(mMetaTextLblCanJoin, Vector2i(0, 10), false, true);
+      mGridMetaRight->setEntry(mMetaTextCanJoin, Vector2i(1, 10), false, true);
+      mGridMeta->setEntry(mGridMetaRight, Vector2i(1, 0), false, true, Vector2i(1, 1), Borders::Left);
+      mGridMetaRight->setColWidthPerc(1, 0.60, true);
+    }
 
     ComponentListRow row;
     std::shared_ptr<Component> ed;
 
     std::sort(mLobbyList.begin(), mLobbyList.end(), [](const LobbyGame& game1, const LobbyGame& game2) { return game1.mFormattedName < game2.mFormattedName; });
 
+    mList->clear();
     for (auto& game : mLobbyList)
     {
       row.elements.clear();
@@ -238,7 +244,7 @@ void GuiNetPlay::populateGridMeta(int i)
   if (game.mPingTimeInMs < 0)         mMetaTextLatency->setText("\uF1c9 " + _("unknown"));
   else if (game.mPingTimeInMs < 80)   mMetaTextLatency->setText("\uF1c8 " + _("good") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
   else if (game.mPingTimeInMs < 150)  mMetaTextLatency->setText("\uF1c7 " + _("medium") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
-  else                                mMetaTextLatency->setText("\uF1c6 " + _("bad") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
+  else                                mMetaTextLatency->setText("\uF1c6 " + _("bad") + " ( > 150ms)");
 
   mMetaTextRAVer->setText(game.mRetroarchVersion.empty() ? "N/A" : game.mRetroarchVersion);
   mMetaTextHostArch->setText(frontend);
@@ -310,6 +316,15 @@ bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
   {
     Close();
   }
+  if (event.StartPressed())
+  {
+    // restart the thread if not aleaady done
+    if (Thread::IsDone())
+    {
+      if (mList != nullptr) mList->clear();
+      Thread::Start("GuiNetPlay");
+    }
+  }
   return Component::ProcessInput(event);
 }
 
@@ -335,7 +350,8 @@ bool GuiNetPlay::getHelpPrompts(Help& help)
 {
   mGrid.getHelpPrompts(help);
   help.Set(Help::Cancel(), _("BACK"))
-      .Set(Help::Valid(), _("LAUNCH"));
+      .Set(Help::Valid(), _("LAUNCH"))
+      .Set(HelpType::Start, _("RESCAN"));
   return true;
 }
 
@@ -356,21 +372,6 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 
   if (!mLobbyLoaded)
     mBusyAnim.Render(trans);
-}
-
-int GuiNetPlay::PingHost(const std::string& ip)
-{
-  int value = -1;
-  std::pair<std::string, int> ping = RecalboxSystem::execute("ping -c 1 -w 1 " + ip);
-  std::string ms = Strings::Extract(ping.first, "min/avg/max = ", "/", sizeof("min/avg/max = ") - 1, 1);
-  if (!ms.empty())
-  {
-    float fvalue = 0;
-    Strings::ToFloat(ping.first, fvalue);
-    value = (int)value;
-  }
-
-  return value;
 }
 
 FileData* GuiNetPlay::FindGame(const std::string& game)
@@ -452,15 +453,47 @@ void GuiNetPlay::Run()
   mSender.Call((int)MessageType::LobbyLoaded);
 
   { LOG(LogDebug) << "[NetplayGui] Start pinging players"; }
+  // Build ping object
+  pingobj_t* pinger = ping_construct();
+  // Add all ip
   for (auto& game : mLobbyList)
   {
-    if (!IsRunning()) break;
-    game.mPingTimeInMs = PingHost(game.mIp);
-    if (!IsRunning()) break;
-    mSender.Call((int)MessageType::Ping);
+    if (ping_host_add(pinger, game.mIp.data()) != 0)
+    { LOG(LogWarning) << "[Ping] Error pinging Host: " << game.mIp; }
+    game.mPingTimeInMs = -1;
   }
+  // Set timeout to 150ms
+  double timeout = 0.150; // 150 ms
+  if (ping_setopt(pinger, PING_OPT_TIMEOUT, &timeout) != 0)
+  { LOG(LogWarning) << "[Ping] Error setting ping timeout to: " << (int)(timeout * 1000.0); }
+  // Ping!
+  int r = ping_send(pinger);
+  { LOG(LogWarning) << "[Ping] Number of ping response: " << r; }
+  if (r < 0) LOG(LogError) << "[Ping] Ping error: " << ping_get_error(pinger);
+  // Iterate results
+  if (r > 0)
+    for (pingobj_iter_t *iter = ping_iterator_get(pinger); iter != nullptr; iter = ping_iterator_next(iter))
+    {
+      // Get ip
+      char host[NI_MAXHOST];
+      size_t hostlen = sizeof(host);
+      ping_iterator_get_info(iter, PING_INFO_HOSTNAME, host, &hostlen);
+      { LOG(LogWarning) << "[Ping] Host: " << std::string(host); }
+      // Get latency
+      double latency = -1;
+      size_t latencylen = sizeof(latency);
+      ping_iterator_get_info(iter, PING_INFO_LATENCY, &latency, &latencylen);
+      { LOG(LogWarning) << "[Ping] Ms: " << (latency < 0 ? 1000 : (int)latency); }
+      // Lookup and store
+      for (auto& game : mLobbyList)
+        if (game.mIp == std::string(host))
+          game.mPingTimeInMs = latency < 0 ? 1000 : (int)latency;
+    }
+  // Destroy pinger
+  ping_destroy(pinger);
 
   { LOG(LogDebug) << "[NetplayGui] Start sleeping"; }
+  mSender.Call((int)MessageType::Ping);
 }
 
 void GuiNetPlay::ReceiveSyncCallback(const SDL_Event& event)

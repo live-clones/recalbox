@@ -147,24 +147,7 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
 {
   if (mState == State::Hashing)
   {
-    bool done = false;
-    if (Strings::ToLowerASCII(feed->FilePath().Extension()) == ".zip")
-    {
-      Zip zip(feed->FilePath());
-      if (zip.Count() == 1)
-      {
-        feed->Metadata().SetRomCrc32(zip.Crc32(0));
-        done = true;
-      }
-    }
-
-    if (!done)
-    {
-      // Hash file
-      unsigned int result = 0;
-      if (Crc32File(feed->FilePath()).Crc32(result))
-        feed->Metadata().SetRomCrc32((int) result);
-    }
+    feed->CalculateHash();
 
     std::string busyText(feed->System().FullName());
     busyText.append(1, ' ')

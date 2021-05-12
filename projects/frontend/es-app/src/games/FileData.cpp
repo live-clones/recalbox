@@ -3,6 +3,8 @@
 
 #include <utils/Strings.h>
 #include <GameNameMapManager.h>
+#include <utils/Zip.h>
+#include <utils/hash/Crc32File.h>
 
 FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
 	: mTopAncestor(ancestor),
@@ -50,4 +52,31 @@ bool FileData::HasP2K() const
 SystemData& FileData::System() const
 {
   return mTopAncestor.RootSystem();
+}
+
+FileData& FileData::CalculateHash()
+{
+  if (mType != ItemType::Game) return *this;
+  if (mPath.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
+
+  bool done = false;
+  if (Strings::ToLowerASCII(mPath.Extension()) == ".zip")
+  {
+    Zip zip(mPath);
+    if (zip.Count() == 1)
+    {
+      mMetadata.SetRomCrc32(zip.Crc32(0));
+      done = true;
+    }
+  }
+
+  if (!done)
+  {
+    // Hash file
+    unsigned int result = 0;
+    if (Crc32File(mPath).Crc32(result))
+      mMetadata.SetRomCrc32((int) result);
+  }
+
+  return *this;
 }

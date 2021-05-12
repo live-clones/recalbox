@@ -8,7 +8,11 @@
 
 #include <guis/menus/GuiMenuBase.h>
 #include <guis/IGuiArcadeVirtualKeyboardInterface.h>
+#include <guis/GuiWaitLongExecution.h>
 #include <components/IEditableComponent.h>
+#include <games/FileData.h>
+#include <utils/os/system/ThreadPool.h>
+#include <utils/os/system/IThreadPoolWorkerInterface.h>
 
 // Forward declaration
 class SystemManager;
@@ -21,6 +25,8 @@ class GuiMenuNetplay : public GuiMenuBase
                      , private ISwitchComponent
                      , private IGuiMenuBase
                      , private IEditableComponent
+                     , private ILongExecution<bool, bool>
+                     , private IThreadPoolWorkerInterface<FileData*, FileData*>
 {
   public:
     /*!
@@ -40,6 +46,13 @@ class GuiMenuNetplay : public GuiMenuBase
       Hash,
     };
 
+    //! Thread pool for // CRC computations
+    ThreadPool<FileData*, FileData*> mThreadPool;
+    //! Event
+    Signal mWaiter;
+    //! Syncher
+    Mutex mSyncher;
+
     //! System manager
     SystemManager& mSystemManager;
 
@@ -51,6 +64,15 @@ class GuiMenuNetplay : public GuiMenuBase
     std::shared_ptr<EditableComponent> mPort;
     //! Mitm
     std::shared_ptr<OptionListComponent<RecalboxConf::Relay>> mMitm;
+
+    //! Total games
+    int mTotalGames;
+    //! Remaining games
+    int mRemainingGames;
+    //! Sored progress
+    int mPreviousProgressPercent;
+    //! Reference to long operation object
+    GuiWaitLongExecution<bool, bool>* mOperation;
 
     //! Get O/C List
     static std::vector<ListEntry<RecalboxConf::Relay>> GetMitmEntries();
@@ -78,6 +100,40 @@ class GuiMenuNetplay : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * ILongExecution implementation
+     */
+
+    /*!
+     * @brief Execture network operation
+     * @param parameter Network operation required to execute
+     * @return True if the operation was successful
+     */
+    bool Execute(GuiWaitLongExecution<bool, bool>& from, const bool& parameter) final;
+
+    /*!
+     * @brief Receive the status of network operations
+     * @param parameter original input parameter
+     * @param result Result state
+     */
+    void Completed(const bool& parameter, const bool& result) final { (void)parameter; (void)result; }
+
+    /*
+     * Thread implementation
+     */
+
+    /*!
+     * @brief The main runner. Implement here the task to process a feed object
+     * @param feed Feed object to process
+     * @return Result Object
+     */
+    FileData* ThreadPoolRunJob(FileData*& feed) override;
+
+    /*
+     * Hash
+     */
+    void StartHashing();
 };
 
 

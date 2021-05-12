@@ -148,6 +148,12 @@ class FileData
      * @return Trie if the Pad2Keyboard configuration file exists
      */
     bool HasP2K() const;
+
+    /*!
+     * @brief Calculate rom CRC32 and store it in metadata
+     * @return This
+     */
+    FileData& CalculateHash();
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

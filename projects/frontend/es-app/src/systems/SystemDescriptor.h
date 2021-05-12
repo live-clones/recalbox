@@ -195,6 +195,15 @@ class SystemDescriptor
     DeviceRequirement MouseRequirement() const { return mMouse; }
     bool LightGun() const { return mLightgun; }
 
+    bool HasNetPlayCores() const
+    {
+      for(int i = mEmulators.Count(); --i >= 0; )
+        for(int j = mEmulators.EmulatorAt(i).CoreCount(); --j >= 0; )
+          if (mEmulators.EmulatorAt(i).CoreNetplay(j))
+            return true;
+      return false;
+    }
+
     bool IsPort() const { return mPort; }
     bool IsReadOnly() const { return mReadOnly; }
 

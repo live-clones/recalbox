@@ -8,6 +8,26 @@
 class EmulatorDescriptor
 {
   public:
+    //! Compatibility information
+    enum class Compatibility
+    {
+      Unknown, //!< Unknown
+      High   , //!< Perfect or near perfect
+      Good   , //!< Some games don't work at all or have issues
+      Average, //!< Expect to run half of the games
+      Low    , //!< only a few games run well and w/o issues
+    };
+
+    //! Speed information
+    enum class Speed
+    {
+      Unknown, //!< Unknown
+      High   , //!< Perfect or near perfect
+      Good   , //!< Some games will not run at full speed or may have slowdowns
+      Average, //!< Expect around half of the games running at a decent framerate
+      Low    , //!< Only a few games are playable
+    };
+
     //! Maximum core per emulator
     static constexpr int sMaximumCores = 10;
 
@@ -51,10 +71,18 @@ class EmulatorDescriptor
       return false;
     }
 
-    // Get core name
+    //! Get core name
     const std::string& CoreNameAt(int index) const { return CoreAt(index).mName; }
     //! Get core priority
     unsigned char CorePriorityAt(int index) const { return CoreAt(index).mPriority; }
+    //! Get core Extensions
+    const std::string& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
+    //! Get core Netplay
+    bool CoreNetplay(int index) const { return CoreAt(index).mNetplay; }
+    //! Get core Speed
+    Speed CoreSpeed(int index) const { return CoreAt(index).mSpeed; }
+    //! Get core Compatibility
+    Compatibility CoreCompatibility(int index) const { return CoreAt(index).mCompatibility; }
 
     /*!
      * @brief Add core
@@ -86,26 +114,6 @@ class EmulatorDescriptor
     }
 
   private:
-    //! Compatibility information
-    enum class Compatibility
-    {
-      Unknown, //!< Unknown
-      High   , //!< Perfect or near perfect
-      Good   , //!< Some games don't work at all or have issues
-      Average, //!< Expect to run half of the games
-      Low    , //!< only a few games run well and w/o issues
-    };
-
-    //! Speed information
-    enum class Speed
-    {
-        Unknown, //!< Unknown
-        High   , //!< Perfect or near perfect
-        Good   , //!< Some games will not run at full speed or may have slowdowns
-        Average, //!< Expect around half of the games running at a decent framerate
-        Low    , //!< Only a few games are playable
-    };
-
     //! Core structure
     struct Core
     {

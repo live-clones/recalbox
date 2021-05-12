@@ -106,6 +106,15 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     if ((properties & SystemData::Properties::GameInPng) != 0)
       AutoScrape(result);
 
+    // Autohash
+    if (RecalboxConf::Instance().GetNetplayEnabled())
+      if (systemDescriptor.HasNetPlayCores())
+        if (root.HasMissingHashRecursively())
+        {
+          LOG(LogInfo) << "[System] Calculating missing hashes of " << systemDescriptor.FullName();
+          root.CalculateMissingHashRecursively();
+        }
+
     // Overrides?
     FileData::List allFolders = result->getFolders();
     for(auto* folder : allFolders)

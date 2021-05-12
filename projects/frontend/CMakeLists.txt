@@ -139,6 +139,7 @@ set(COMMON_LIBRARIES
     ${PULSEAUDIO_LIBRARY}
     pugixml
     nanosvg
+    liboping
 )
 
 if(MSVC)

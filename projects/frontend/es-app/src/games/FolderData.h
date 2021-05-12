@@ -10,6 +10,8 @@ class FolderData : public FileData
     //! Blacklist
     typedef HashSet<std::string> FileSet;
 
+    using FileData::CalculateHash;
+
   protected:
     //! Current folder child list
     FileData::List mChildren;
@@ -227,6 +229,23 @@ class FolderData : public FileData
      * Return true if contain at least one visible game with a video md
      */
     bool HasVisibleGameWithVideo() const;
+
+    /*!
+     * @brief Check if there are one or more missing hash recursively
+     */
+    bool HasMissingHashRecursively();
+
+    /*!
+     * @brief Compute all missing hashes recursively
+     */
+    void CalculateMissingHashRecursively();
+
+    /*!
+     * @brief Get all non-hashed roms
+     * @param to FileData list to receive non-hashed roms
+     * @return Total non-hashed rom count
+     */
+    int getMissingHashRecursively(FileData::List& to) const;
 
     /*!
      * Get total games in all folders, including hidden

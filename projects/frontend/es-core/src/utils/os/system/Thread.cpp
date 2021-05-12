@@ -76,5 +76,7 @@ void* Thread::StartThread(void* thread_)
   { LOG(LogDebug) << "[Thread] Thread " << thread.mName << " exited!"; }
 
   thread.mId = 0;
+  thread.mIsRunning = false;
+  thread.mIsDone = true;
   return nullptr;
 }

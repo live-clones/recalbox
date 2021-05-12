@@ -5,6 +5,7 @@
 #include <utils/Log.h>
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Signal.h>
+#include <utils/os/system/IThreadPoolWorkerInterface.h>
 
 template<class FeedObject, class ResultObject> class ThreadPool
 {
