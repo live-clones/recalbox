@@ -55,7 +55,7 @@ class LibretroCores:
 
     @staticmethod
     def configureAmiga600(coreSettings):
-        coreSettings.setOption("puae_model", '"A500PLUS"')
+        coreSettings.setOption("puae_model", '"A600"')
 
     @staticmethod
     def configureAmstradCPC(coreSettings):
