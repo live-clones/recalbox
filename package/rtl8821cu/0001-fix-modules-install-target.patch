@@ -1,0 +1,20 @@
+--- rtl8821cu-9c1b069f46ed565f0e4a3a54a76493b6ab00efad/Makefile.orig	2021-05-13 11:29:04.816814774 +0200
++++ rtl8821cu-9c1b069f46ed565f0e4a3a54a76493b6ab00efad/Makefile	2021-05-13 11:29:36.186317486 +0200
+@@ -2371,14 +2371,13 @@
+ all: modules
+ 
+ modules:
+-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
++	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC)  modules
+ 
+ strip:
+ 	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
+ 
+-install:
+-	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
+-	/sbin/depmod -a ${KVER}
++modules_install:
++	$(MAKE) ARCH="$(ARCH)" CROSS_COMPILE="$(CROSS_COMPILE)" INSTALL_MOD_PATH="$(INSTALL_MOD_PATH)" INSTALL_MOD_DIR="extra" -C $(KSRC) SUBDIRS="$(MODULE_DIR)"  modules_install
+ 
+ uninstall:
+ 	rm -f $(MODDESTDIR)/$(MODULE_NAME).ko
