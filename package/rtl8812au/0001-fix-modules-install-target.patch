@@ -1,0 +1,23 @@
+--- rtl8812au-3a64331a1c809bbbc21eca63b825970f213ec5ac/Makefile.orig	2021-05-13 20:23:16.537965699 +0200
++++ rtl8812au-3a64331a1c809bbbc21eca63b825970f213ec5ac/Makefile	2021-05-13 20:25:46.708184259 +0200
+@@ -2241,7 +2241,7 @@
+ all: modules
+ 
+ modules:
+-	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC) M=$(shell pwd)  modules
++	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) -C $(KSRC)  modules
+ 	@echo "---------------------------------------------------------------------------"
+ 	@echo "Visit https://github.com/aircrack-ng/rtl8812au for support/reporting issues"
+ 	@echo "or check for newer versions (branches) of these drivers.                   "
+@@ -2249,9 +2249,8 @@
+ strip:
+ 	$(CROSS_COMPILE)strip $(MODULE_NAME).ko --strip-unneeded
+ 
+-install:
+-	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
+-	/sbin/depmod -a ${KVER}
++modules_install:
++	$(MAKE) ARCH="$(ARCH)" CROSS_COMPILE="$(CROSS_COMPILE)" INSTALL_MOD_PATH="$(INSTALL_MOD_PATH)" INSTALL_MOD_DIR="extra" -C $(KSRC) SUBDIRS="$(MODULE_DIR)"  modules_install
+ 
+ uninstall:
+ 	rm -f $(MODDESTDIR)/$(MODULE_NAME).ko

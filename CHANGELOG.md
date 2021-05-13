@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Bump odroidxu4 kernel to 5.4.109 (#1678)
 - Fix OGST display not working on odroidxu4 (#1678)
 - Bump bootx64 efi to 2.0.4 (#1710)
+- Replace old rtl8821au wifi driver with rtl88xxau wifi driver (#1718)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
