@@ -61,6 +61,7 @@ All notable changes to this project will be documented in this file.
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
 
+- Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
@@ -241,7 +242,7 @@ All notable changes to this project will be documented in this file.
 - Bump rockchip-libmali (vulkan coming)
 - Fix shaders on odroigo2
 - Fix RetroArch shortcuts on odroidgo2
-- Bump Hypseus to version 2.4.2 (DirtBagXon)
+- Bump Hypseus to version 1.3
 - Improve internal scraper
 - Multiple minor menu fixes in EmulationStation
 - Bump SCV (optimizations + virtual keyboard)
@@ -310,6 +311,7 @@ All notable changes to this project will be documented in this file.
 - Fix emulationstation log path in webmanager
 - Fix chmod in recalbox-hardware package
 - Remove case setting when upgrading for GPicase for 7.2
+- Remove case setting when upgrading
 - Bump ScummVM and merge with ResidualVM
 - Fix neogeo bios path #2
 - Add missing neogeocd letter in md5

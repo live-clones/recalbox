@@ -6,6 +6,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 7.2.2-Reloaded
 
+### News
+- Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
+
 ### Fixes
 - Fix mupen64plus resolution (standalone)
 - Make mupen64plus working on Odroid Advance Go2/Go Super (standalone)
@@ -116,7 +119,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump ScummVM and merge with ResidualVM
 - Bump BlueMSX
 - Bump rockchip-libmali (for odroidgo2 and 3)
-- Bump Hypseus to version 2.4.2 (DirtBagXon)
+- Bump Hypseus to version 1.3
 - Bump Duckstation, PSX games now run full speed (for odroidgo2 and 3)
 - Bump Fbneo
 - Bump Libretro Mupen64plus Next
