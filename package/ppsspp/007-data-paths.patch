@@ -1,0 +1,31 @@
+diff --git a/Core/System.cpp b/Core/System.cpp
+--- a/Core/System.cpp
++++ b/Core/System.cpp
+@@ -578,15 +578,16 @@ CoreParameter &PSP_CoreParameter() {
+ }
+ 
+ std::string GetSysDirectory(PSPDirectories directoryType) {
++	g_Config.memStickDirectory = "/recalbox/share/saves/psp/";
+ 	switch (directoryType) {
+ 	case DIRECTORY_CHEATS:
+ 		return g_Config.memStickDirectory + "PSP/Cheats/";
+ 	case DIRECTORY_GAME:
+ 		return g_Config.memStickDirectory + "PSP/GAME/";
+ 	case DIRECTORY_SAVEDATA:
+ 		return g_Config.memStickDirectory + "PSP/SAVEDATA/";
+ 	case DIRECTORY_SCREENSHOT:
+-		return g_Config.memStickDirectory + "PSP/SCREENSHOT/";
++		return "/recalbox/share/screenshots/";
+ 	case DIRECTORY_SYSTEM:
+ 		return g_Config.memStickDirectory + "PSP/SYSTEM/";
+ 	case DIRECTORY_PAUTH:
+@@ -611,7 +611,7 @@ std::string GetSysDirectory(PSPDirectories directoryType) {
+ 	case DIRECTORY_VIDEO:
+-		return g_Config.memStickDirectory + "PSP/VIDEO/";
++		return "/recalbox/share/video/";
+ 	case DIRECTORY_AUDIO:
+-		return g_Config.memStickDirectory + "PSP/AUDIO/";
++		return "/recalbox/share/music/";
+ 	case DIRECTORY_MEMSTICK_ROOT:
+ 		return g_Config.memStickDirectory;
+ 	// Just return the memory stick root if we run into some sort of problem.
