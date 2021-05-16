@@ -18,6 +18,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check PC x86_64 can boot from EFI (#1710)
 - [ ] Check rtl8812au/rtl8821au wifi drivers (#1718)
 - [ ] Check Cudy W650 works on rpi2, rpi3, odroixu4, x86 and x86_64
+- [ ] Check HID bluetooth device maps to HCI (#1704)
 
 ## [7.2.1-Reloaded]
 - [ ] Check that games are not hidden when upgrading to 7.2.1 from 7.2
