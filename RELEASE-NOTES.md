@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix OGST display not working on Odroid XU4
 - Fix no boot black screen on some PCs
 - Fix realtek wifi driver for rtl8812au and rtl8821au
+- Fix missing rtl8821cu wifi drivers for Odroid XU4, RPI2, RPI3 and PCs
 
 ## Version 7.2.1-Reloaded
 
