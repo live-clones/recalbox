@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump retroarch to version 1.9.3
 - Add libretro uae4arm core
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)
@@ -9,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Show a message in emulationstation when the upgrade has failed
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
 - Bump Fbneo 1.0.0.02 (#1688) 
+- Fix changelog linter (#1759)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
@@ -34,8 +36,6 @@ All notable changes to this project will be documented in this file.
 - Fixed game compatibility on ppsspp (#1756)
 - Added tmp directory for docker builds (#1765)
 - CI: do not clone buildroot when running linter (#1765)
-
-- Fix changelog linter (#1759)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
@@ -66,6 +66,8 @@ All notable changes to this project will be documented in this file.
 - Renamed review builds to beta builds (tags only) (#1673)
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
+
+- Bump Retroarch to v1.9.3
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh

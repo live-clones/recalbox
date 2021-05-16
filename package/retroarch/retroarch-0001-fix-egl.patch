@@ -1,10 +1,10 @@
 diff --git a/Makefile.common b/Makefile.common
-index cdcab25402..1322273273 100644
+index 2c555ad17a..f431963667 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -1237,7 +1237,7 @@ ifeq ($(HAVE_ODROIDGO2), 1)
- else
-    OBJ += gfx/drivers_context/drm_ctx.o
+@@ -1389,7 +1389,7 @@ ifeq ($(HAVE_KMS), 1)
+ ifeq ($(HAVE_ODROIDGO2), 1)
+    OBJ += gfx/drivers_context/drm_go2_ctx.o
  endif
 -   DEF_FLAGS += $(GBM_CFLAGS) $(DRM_CFLAGS)
 +   DEF_FLAGS += $(GBM_CFLAGS) $(DRM_CFLAGS) -D__GBM__
