@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Bump bootx64 efi to 2.0.4 (#1710)
 - Replace old rtl8821au wifi driver with rtl88xxau wifi driver (#1718)
 - Fix missing rtl8821cu wifi drivers
+- Fix HID bluetooth device not working (#1704)
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
