@@ -1,7 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_64DD
-	bool "recalbox-romfs-64dd"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_PARALLEL_N64 \
-	  || BR2_PACKAGE_LIBRETRO_MUPEN64PLUS_NX
-	help
-	  share_init/roms and xml for 64dd

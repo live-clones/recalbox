@@ -2,8 +2,6 @@ config BR2_PACKAGE_LIBRETRO_VICE
 	bool "libretro-vice"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_C64
-	select BR2_PACKAGE_RECALBOX_ROMFS_VIC20
 	help
 	  A libretro VICE emulator core.
 

@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_ROMFS2
+	bool "recalbox romfs 2"
+	select BR2_PACKAGE_HOST_PYTHON3
+	help
+	  A new system descriptor generator using python3.
+
+	  https://github.com/recalbox/recalbox-os

@@ -2,9 +2,6 @@ config BR2_PACKAGE_LIBRETRO_SNES9X
 	bool "libretro-snes9x"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_SNES
-	select BR2_PACKAGE_RECALBOX_ROMFS_SATELLAVIEW
-	select BR2_PACKAGE_RECALBOX_ROMFS_SUFAMI
 	help
 	  Snes9x
 	  Portable Super Nintendo Entertainment System (TM) emulator

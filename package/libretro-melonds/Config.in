@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_MELONDS
 	bool "libretro-melonds"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_NDS
 	help
 	  A libretro nintendo DS emulator core.
 
