@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Fix missing rtl8821cu wifi drivers
 - Fix HID bluetooth device not working (#1704)
 - Reworked lightgun detection by harmonizing spaces/tabs and added not tested game on PSX
+- Remove duplicate MD5 bios
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
