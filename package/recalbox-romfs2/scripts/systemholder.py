@@ -138,6 +138,7 @@ class SystemHolder:
         self.__config = config
         self.__systemIni: str = systemIni
         self.__arch: str = arch
+        self.__uuid: str = "uuid"
         self.__name: str = "Name"
         self.__fullname: str = "Fullname"
         self.__platforms: str = "Platform list"
@@ -218,6 +219,7 @@ class SystemHolder:
         desc.loadFile(True)
 
         # System part
+        self.__uuid = self.__get(desc, "system", "uuid", "", True)
         self.__name = self.__get(desc, "system", "name", "", True)
         self.__fullname = self.__get(desc, "system", "fullname", "", True)
         self.__platforms = self.__get(desc, "system", "platforms", "", True)
