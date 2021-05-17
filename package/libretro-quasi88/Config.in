@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_QUASI88
 	bool "libretro-quasi88"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_PC88
 	help
 	  A libretro NEC PC-88 emulator core.
 

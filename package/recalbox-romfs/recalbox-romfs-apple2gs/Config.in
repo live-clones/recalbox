@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_APPLE2GS
-	bool "recalbox-romfs-apple2gs"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_GSPLUS
-	help
-	  share_init/roms and xml for apple2gs

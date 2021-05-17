@@ -58,6 +58,7 @@ All notable changes to this project will be documented in this file.
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
 
+- New romfs v2
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh

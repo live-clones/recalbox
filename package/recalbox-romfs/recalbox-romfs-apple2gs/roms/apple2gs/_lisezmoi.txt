@@ -1,8 +1,0 @@
-## RECALBOX - SYSTEM APLE2GS ##
-
-Placez ici vos roms Apple IIGS.
-
-Les roms doivent avoir l'extension ".2mg"
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ordinosaures/apple-2-gs

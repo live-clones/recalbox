@@ -1,9 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_FDS
-	bool "recalbox-romfs-fds"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_NESTOPIA \
-	  || BR2_PACKAGE_LIBRETRO_FCEUMM \
-	  || BR2_PACKAGE_LIBRETRO_MESEN \
-	  || BR2_PACKAGE_LIBRETRO_FBNEO
-	help
-	  share_init/roms and xml for fds
