@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 - Fix OGST display not working on odroidxu4 (#1678)
 - Bump bootx64 efi to 2.0.4 (#1710)
 - Replace old rtl8821au wifi driver with rtl88xxau wifi driver (#1718)
-- Fix missing rtl8821cu wifi drivers
+- Fix missing rtl8821cu wifi drivers (#1717,#1728)
 - Fix HID bluetooth device not working (#1704)
 - Reworked lightgun detection by harmonizing spaces/tabs and added not tested game on PSX
 - Remove duplicate MD5 bios
