@@ -5,6 +5,7 @@ then
   exit 0
 fi
 
+ARCH=$(cat /recalbox/recalbox.arch)
 ESUPDATESOURCEDIR=/recalbox/share/system
 ESUPDATESOURCEFILE="$ESUPDATESOURCEDIR/emulationstation-recalbox-$ARCH"
 ESUPDATEDESTINATIONDIR=/usr/bin
