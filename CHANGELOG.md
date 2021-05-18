@@ -17,6 +17,11 @@ All notable changes to this project will be documented in this file.
 - Fix HID bluetooth device not working (#1704)
 - Reworked lightgun detection by harmonizing spaces/tabs and added not tested game on PSX
 - Remove duplicate MD5 bios
+- Add nightly builds (all nights on master) (#1673)
+- Add branch builds (manual on merge requests) (#1673)
+- Renamed review builds to beta builds (tags only) (#1673)
+- Remove update type from ES user interface (#1673)
+
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh
