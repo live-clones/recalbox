@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix update process of emulationstation in beta versions
 - Add warning in release notes about processing (#1696)
 - Fix erratic advancemame builds (#1694)
 - Fix missing sound on boot video (#1596)
