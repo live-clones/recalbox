@@ -57,6 +57,7 @@ do_update() {
     if [ -f /boot_root/update/boot.lst ]; then
       # filelist mode
       while read -r file; do
+        [ ! -d `dirname "/boot_root/$file"` ] && mkdir -p `dirname "/boot_root/$file"`
         mv "/boot_root/update/$file" "/boot_root/$file" || return 1
       done < /boot_root/update/boot.lst
       rm /boot_root/update/boot.lst
