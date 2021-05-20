@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file.
 - Renamed review builds to beta builds (tags only) (#1673)
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
+- Fix dreamcast overlay offset rpi3 (#1695)
 
 
 ## [7.2.1-Reloaded]
