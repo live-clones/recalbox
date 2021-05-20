@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Upgrade process creates missing directories in /boot (#1734)
+
+## [7.2.2-Beta1]
 - Fix update process of emulationstation in beta versions
 - Add warning in release notes about processing (#1696)
 - Fix erratic advancemame builds (#1694)

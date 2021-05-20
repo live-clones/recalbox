@@ -12,6 +12,9 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
+
+## [7.2.2-Beta1]
 - [ ] Check sound of boot video (#1596)
 - [ ] Check sound is still working on PC
 - [ ] Check OGST on xu4 works right after activating it in /boot/config.ini (#1678)
