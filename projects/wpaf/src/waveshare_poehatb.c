@@ -3,7 +3,6 @@
 #include "config.h"
 
 #include "board_driver.h"
-#include "oled_driver.h"
 #include "fan_driver.h"
 #include "ssd1306_oled_controller.h"
 #include "pcf8574_fan_controller.h"
@@ -46,16 +45,22 @@ SSD1306_data_struct wspoehatb_oled_data = {
 };
 
 board_handler * wspoehatb_init() {
+  printf("init\n");
   board_handler * board = malloc(sizeof(board_handler));
   board->oled = &ssd1306_interface;
   board->fan  = &pcf8574_interface;
 
-  board->o_handler = board->oled->init();
+  printf("init ssd1306\n");
+  board->o_handler = board->oled->init(WSPOEHATB_OLED_ADDRESS);
+  printf("init pcf8574\n");
   board->f_handler = board->fan->init(WSPOEHATB_FAN_ADDRESS);
 
+  printf("extra oled\n");
   board->o_handler->extra_data = &wspoehatb_oled_data;
 
+  printf("reset oled\n");
   board->oled->reset(board->o_handler);
+  printf("set screen size oled\n");
   board->oled->set_screen_size(board->o_handler, WSPOEHATB_OLED_X, WSPOEHATB_OLED_Y);
 
   return board;

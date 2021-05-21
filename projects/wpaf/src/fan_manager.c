@@ -4,8 +4,6 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include <wiringPi.h>
-#include <wiringPiI2C.h>
 
 #include "config.h"
 

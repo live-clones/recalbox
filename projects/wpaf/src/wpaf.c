@@ -138,7 +138,7 @@ uint32_t start_wpaf(uint32_t boardid) {
   if (fd)
     fgets(recalbox_version, sizeof(recalbox_version), fd);
   fclose(fd);
-  snprintf(recalbox_string, sizeof(recalbox_string), "RecalboxOS %s", recalbox_version);
+  snprintf(recalbox_string, sizeof(recalbox_string), "Recalbox %s", recalbox_version);
 
   gui_init(handler->oled, handler->o_handler, handler->o_handler->columns, handler->o_handler->pages);
 

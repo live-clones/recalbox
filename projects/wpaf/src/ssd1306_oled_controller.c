@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <wiringPi.h>
-#include <wiringPiI2C.h>
 
 #include "config.h"
 #include "ssd1306_oled_controller.h"
-#include "oled_i2c_driver.h"
+#include "wpaf_i2c.h"
 
 oled_interface ssd1306_interface = {
   &ssd1306_oled_init,
@@ -20,8 +18,9 @@ oled_interface ssd1306_interface = {
 };
 
 // allocate handler
-oled_handler * ssd1306_oled_init() {
+oled_handler * ssd1306_oled_init(uint8_t address) {
   oled_handler * handler = malloc(sizeof(oled_handler));
+  handler->address = address;
   return handler;
 }
 
@@ -30,10 +29,10 @@ oled_handler * ssd1306_oled_init() {
 void ssd1306_oled_reset(oled_handler * oled) {
   int i;
   SSD1306_data_struct * data = oled->extra_data;
-  oled->fd = wiringPiI2CSetup(data->oled_address);
   
   for(i=0; i<data->oled_init_sequence_length; i++) {
-    oled_write_register(oled->fd, data->oled_init_sequence[i]);
+    printf("add: %d - data: %d\n", oled->address,data->oled_init_sequence[i]);
+    SSD1306_WRITE_REG(oled->address, data->oled_init_sequence[i]);
   }
 
   ssd1306_oled_clear(oled);
@@ -60,11 +59,11 @@ void ssd1306_oled_send_buffer(oled_handler * oled) {
   int column,page;
   uint8_t * ptr = oled->buffer;
   for(page = 0; page < OLED_PAGE; page++) {
-    oled_write_register(oled->fd, 0xb0 + page); //Set page address
-    oled_write_register(oled->fd, 0x00);        //Set display position - column low address
-    oled_write_register(oled->fd, 0x10);        //Set display position - column high address
+    SSD1306_WRITE_REG(oled->address, 0xb0 + page); //Set page address
+    SSD1306_WRITE_REG(oled->address, 0x00);        //Set display position - column low address
+    SSD1306_WRITE_REG(oled->address, 0x10);        //Set display position - column high address
     for(column = 0; column < OLED_COLUMN; column++) {
-      oled_write_memory(oled->fd, *ptr);
+      SSD1306_WRITE_MEM(oled->address, *ptr);
       ptr++;
     }
   }
@@ -75,11 +74,11 @@ void ssd1306_oled_send_partial_buffer(oled_handler * oled, uint32_t x, uint32_t 
   int column,page;
   uint8_t * ptr = oled->buffer;
   for(page = y; page < end_y/8; page++) {
-    oled_write_register(oled->fd, 0xb0 + page); //Set page address
-    oled_write_register(oled->fd, 0x00);        //Set display position - column low address
-    oled_write_register(oled->fd, 0x10);        //Set display position - column high address
+    SSD1306_WRITE_REG(oled->address, 0xb0 + page); //Set page address
+    SSD1306_WRITE_REG(oled->address, 0x00);        //Set display position - column low address
+    SSD1306_WRITE_REG(oled->address, 0x10);        //Set display position - column high address
     for(column = x; column < end_x; column++) {
-      oled_write_memory(oled->fd, *ptr);
+      SSD1306_WRITE_MEM(oled->address, *ptr);
       ptr++;
     }
   }
@@ -88,18 +87,22 @@ void ssd1306_oled_send_partial_buffer(oled_handler * oled, uint32_t x, uint32_t 
 // free handler
 void ssd1306_oled_close(oled_handler * oled) {
   if (oled->buffer) free(oled->buffer);
-  if (oled->fd) close(oled->fd);
 }
 
 void ssd1306_oled_hscroll(oled_handler * oled, uint32_t page_start, uint32_t page_end, uint32_t time_interval) {
-  oled_write_register(oled->fd, 0x2e); // end scroll
-  oled_write_register(oled->fd, 0x27); // set scroll
-  oled_write_register(oled->fd, 0x00); // dummy
-  oled_write_register(oled->fd, page_start);
-  oled_write_register(oled->fd, time_interval);
-  oled_write_register(oled->fd, page_end);
-  oled_write_register(oled->fd, 0x00); // dummy
-  oled_write_register(oled->fd, 0xff); // dummy
-  oled_write_register(oled->fd, 0x2f); // start scroll
+  SSD1306_WRITE_REG(oled->address, 0x2e); // end scroll
+  SSD1306_WRITE_REG(oled->address, 0x27); // set scroll
+  SSD1306_WRITE_REG(oled->address, 0x00); // dummy
+  SSD1306_WRITE_REG(oled->address, page_start);
+  SSD1306_WRITE_REG(oled->address, time_interval);
+  SSD1306_WRITE_REG(oled->address, page_end);
+  SSD1306_WRITE_REG(oled->address, 0x00); // dummy
+  SSD1306_WRITE_REG(oled->address, 0xff); // dummy
+  SSD1306_WRITE_REG(oled->address, 0x2f); // start scroll
 }
 
+void _ssd1306_write_byte(uint8_t address, uint8_t cmd, uint8_t value) {
+  char wbuf[2]={cmd, value};
+  wpaf_i2c_write_to_addr(address, wbuf, 2);
+}
+  

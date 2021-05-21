@@ -4,7 +4,6 @@ AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
 AC_CHECK_HEADERS([stdlib.h stdio.h])
 AC_CHECK_LIB(bcm2835, bcm2835_init)
-AC_CHECK_LIB(wiringPi, wiringPiSetupGpio)
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
 

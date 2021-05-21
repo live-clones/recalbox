@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 typedef struct {
-  uint32_t fd;
+  uint8_t address;
 } fan_handler;
 
 typedef struct {
