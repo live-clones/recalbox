@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro-mupen64plus-nx for x86 and x86_64 (#1407)
 
 ## [7.2.2-Beta1]
+- Fix build instructions in README.md
 - Fix update process of emulationstation in beta versions
 - Add warning in release notes about processing (#1696)
 - Fix erratic advancemame builds (#1694)
