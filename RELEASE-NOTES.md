@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix realtek wifi driver for rtl8812au and rtl8821au
 - Fix missing rtl8821cu wifi drivers for Odroid XU4, RPI2, RPI3 and PCs
 - Fix some bluetooth adapters not working when detected as HID device (like some Apple or Dell devices)
+- Add Mupen64plus Next libretro core on PC platforms
 
 ## Version 7.2.1-Reloaded
 
