@@ -1,0 +1,25 @@
+config BR2_PACKAGE_MOONLIGHT_QT
+	bool "moonlight-qt"
+	depends on (BR2_PACKAGE_HAS_LIBGLES || BR2_PACKAGE_HAS_LIBEGL || BR2_PACKAGE_HAS_LIBGL)
+	depends on BR2_PACKAGE_HAS_UDEV
+	select BR2_PACKAGE_OPUS
+	select BR2_PACKAGE_OPUS_FIXED_POINT
+	select BR2_PACKAGE_EXPAT
+	select BR2_PACKAGE_LIBEVDEV
+	select BR2_PACKAGE_AVAHI
+	select BR2_PACKAGE_ALSA_LIB
+	select BR2_PACKAGE_PULSEAUDIO
+	select BR2_PACKAGE_LIBCURL
+	select BR2_PACKAGE_LIBCEC
+	select BR2_PACKAGE_FFMPEG
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_SDL2_TTF
+	select BR2_PACKAGE_LIBENET
+	select BR2_PACKAGE_RECALBOX_ROMFS_MOONLIGHT
+	select BR2_PACKAGE_QT5SVG
+	select BR2_PACKAGE_QT5QUICKCONTROLS2
+	select BR2_PACKAGE_OPENSSL
+	help
+	  GameStream client for PCs (Windows, Mac, Linux,
+	  and Steam Link)
+	  https://github.com/moonlight-stream/moonlight-qt
