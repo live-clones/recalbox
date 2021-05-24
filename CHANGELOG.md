@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Upgrade process creates missing directories in /boot (#1734)
+- Replace Moonlight embedded with Moonlight QT (#1628)
 
 ## [7.2.2-Beta1]
 - Fix update process of emulationstation in beta versions
