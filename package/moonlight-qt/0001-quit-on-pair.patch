@@ -1,0 +1,18 @@
+--- moonlight-qt-v4.2.1/app/gui/CliPair.qml.orig	2022-10-23 00:04:33.635862463 +0200
++++ moonlight-qt-v4.2.1/app/gui/CliPair.qml	2022-10-23 00:06:23.051288831 +0200
+@@ -15,13 +15,12 @@
+ 
+     function onFailed(message) {
+         stageIndicator.visible = false
+-        errorDialog.text = message
+-        errorDialog.open()
++        Qt.quit()
+     }
+ 
+     function onSuccess(appName) {
+         stageIndicator.visible = false
+-        pairCompleteDialog.open()
++        Qt.quit()
+     }
+ 
+     // Allow user to back out of pairing
