@@ -1,0 +1,17 @@
+--- libretro-mupen64plus-nx-8fb474275aaca2e92e025c6a60af3e47cfdd185c/Makefile	2021-05-24 13:58:53.654013621 +0200
++++ libretro-mupen64plus-nx-8fb474275aaca2e92e025c6a60af3e47cfdd185c/Makefile	2021-05-24 13:58:26.590671174 +0200
+@@ -588,6 +588,14 @@
+ $(AWK_DEST_DIR)/asm_defines_nasm.h: $(ASM_DEFINES_OBJ)
+ 	$(STRINGS) "$<" | $(TR) -d '\r' | $(AWK) -v dest_dir="$(AWK_DEST_DIR)" -f $(CORE_DIR)/tools/gen_asm_defines.awk
+ 
++# It is important to disable LTO for this object file
++# otherwise we can't extract usefull information from it.
++$(ASM_DEFINES_OBJ): $(CORE_DIR)/src/asm_defines/asm_defines.c
++	$(COMPILE.c) -fno-lto -o $@ $<
++
++$(LIBRETRO_COMM_DIR)/libco/libco.o: $(LIBRETRO_COMM_DIR)/libco/libco.c
++	$(COMPILE.c) -fno-lto -o $@ $<
++
+ %.o: %.asm $(AWK_DEST_DIR)/asm_defines_gas.h
+ 	$(NASM) -i$(AWK_DEST_DIR)/ $(ASFLAGS) $< -o $@
+ 
