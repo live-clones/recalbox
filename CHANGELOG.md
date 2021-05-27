@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ## [7.2.2-Beta1]
 - Fix build instructions in README.md
+- Fix crash in netplay lobby window
 - Fix update process of emulationstation in beta versions
 - Add warning in release notes about processing (#1696)
 - Fix erratic advancemame builds (#1694)
