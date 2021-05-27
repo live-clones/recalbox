@@ -108,14 +108,6 @@ class DolphinGenerator(Generator):
         esLanguage = conf.getOption("system.language", "$")[0:2].upper()
         return esLanguage
 
-    # Get selected ratio
-    @staticmethod
-    def GetRatio():
-        conf = keyValueSettings(recalboxFiles.recalboxConf)
-        conf.loadFile(True)
-        hasRatio = conf.getOption("gamecube.ratio", "$")
-        return hasRatio
-
     # Get netplay username
     @staticmethod
     def GetNetplay():
@@ -233,8 +225,9 @@ class DolphinGenerator(Generator):
 
     def gfxConfiguration(self, system):
         # Get Ratio
-        ratio = self.GetRatio()
-        gameRatio = self.GAME_RATIO[ratio] if ratio in self.GAME_RATIO else 0
+        self.system = system
+        recalbox = self.system.config
+        gameRatio = self.GAME_RATIO[recalbox['ratio']] if recalbox['ratio'] in self.GAME_RATIO else 0
         
         # Load Configuration
         gfxSettings = IniSettings(recalboxFiles.dolphinGFX, True)

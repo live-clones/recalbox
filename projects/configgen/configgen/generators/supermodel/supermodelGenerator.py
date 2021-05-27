@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import Command
+import platform
 import ConfigParser
 import recalboxFiles
 import supermodelControllers
@@ -99,10 +100,10 @@ class SupermodelGenerator(Generator):
         reso = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
-        width, height = getCurrentResulution()
-        currentResolution = ("{}".format(width))+","+("{}".format(height))
         getConfig = supermodelSettings.getOption("resolution", "")
         if getConfig == "auto" :
+            width, height = getCurrentResulution()
+            currentResolution = ("{}".format(width))+","+("{}".format(height))
             reso.append("-fullscreen")
             reso.append("-res="+currentResolution)
         elif getConfig == "none" :
@@ -115,16 +116,13 @@ class SupermodelGenerator(Generator):
     ## added in version r835 :
     ## -wide-bg When wide-screen mode is enabled, also expand the 2D background layer to screen width
     @staticmethod
-    def GetScreenRatio(system):
+    def GetScreenRatio(system, self):
         ratio = []
-        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
-        supermodelSettings.loadFile(True)
-        screenRatio = supermodelSettings.getOption("screen-ratio", "")
-        if screenRatio == "1" :
-            #ratio.append("-wide-bg")
+        self.system = system
+        recalbox = self.system.config
+        if recalbox['ratio'] == "16/9" :
             ratio.append("-wide-screen")
-        elif screenRatio == "2" :
-            ratio.append("-stretch")
+            ratio.append("-wide-bg")
         return ratio
 
     @staticmethod
@@ -161,14 +159,20 @@ class SupermodelGenerator(Generator):
 
     @staticmethod
     def GetEngine(system):
-        ## set current engine new3d work but in "intel" use legacy3d engine
-        legacy = []
-        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
-        supermodelSettings.loadFile(True)
-        legacy3d = supermodelSettings.getOption("3d-engine", "")
-        if legacy3d == "1" :
-            legacy.append("-legacy3d") 
-        return legacy
+    # Set new3d engine only if have a nvidia driver else use legacy3d engine
+    # Is nVidia driver on?
+        arch = platform.machine()
+        if arch == "x86_64":
+            # check if have nvidia driver
+            if os.path.exists("/etc/modprobe.d/blacklist.conf"):
+                for line in open("/etc/modprobe.d/blacklist.conf"):
+                    engine = []
+                    if "blacklist nouveau" in line:
+                        # return empty args for new3d engine
+                        engine
+                    else :
+                        engine.append("-legacy3d")
+        return engine
 
     @staticmethod
     def GetCrosshairs(system):
@@ -196,24 +200,18 @@ class SupermodelGenerator(Generator):
 #        return ShowFps
 
     @staticmethod
-    def GetGpuThread(system):
-        gpuThread = []
-        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
-        supermodelSettings.loadFile(True)
-        GpuThreadStatut = supermodelSettings.getOption("no-gpu-thread", "")
-        if GpuThreadStatut == "1" :
-            gpuThread.append("-no-gpu-thread")
-        return gpuThread
-
-    @staticmethod
     def GetThreads(system):
-        Threads = []
+        Thread = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
-        ThreadsStatut = supermodelSettings.getOption("no-threads", "")
-        if ThreadsStatut == "1" :
-            Threads.append("-no-threads")
-        return Threads
+        ThreadStatut = supermodelSettings.getOption("multi-threading", "")
+        if ThreadStatut == "1" :
+            Thread.append("-no-gpu-thread")
+        elif ThreadStatut == "2" :
+            Thread.append("no-threads")
+        else :
+            Thread.append("-gpu-multi-threaded")
+        return Thread
 
     @staticmethod
     def GetPpcFrequency(system):
@@ -228,21 +226,21 @@ class SupermodelGenerator(Generator):
         return PpcFrequency
 
 ## Disabled because make crash on few games
-#    @staticmethod
-#    def GetSavesState(system):
-#        savespath =[]
-#        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
-#        supermodelSettings.loadFile(True)
-#        model3saves = "/recalbox/share/saves/model3/"
-#        savespath.append("-load-state="+model3saves)
-#        return savespath
+    @staticmethod
+    def GetSavesState(system):
+        savespath =[]
+        supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
+        supermodelSettings.loadFile(True)
+        model3saves = "/recalbox/share/saves/model3/"
+        savespath.append("-load-state="+model3saves)
+        return savespath
 
     @staticmethod
     def GetLogsPath(system):
         logpath =[]
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
-        model3logs = "/recalbox/share/system/configs/model3/Supermodel.log"
+        model3logs = recalboxFiles.supermodelRooFolder + "/Supermodel.log"
         logpath.append("-log-output="+model3logs)
         return logpath
 
@@ -273,7 +271,7 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetNoSound(system))
         ## -----VIDEO------
         commandArray.extend(self.GetResolution(system))
-        commandArray.extend(self.GetScreenRatio(system))
+        commandArray.extend(self.GetScreenRatio(system, self))
         commandArray.extend(self.GetThrottle(system))
         commandArray.extend(self.GetMultiTexture(system))
         commandArray.extend(self.GetRendering(system))
@@ -281,10 +279,9 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetCrosshairs(system))
         ## -----CORE------
 #        commandArray.extend(self.GetShowsFps(system))
-        commandArray.extend(self.GetGpuThread(system))
         commandArray.extend(self.GetThreads(system))
         commandArray.extend(self.GetPpcFrequency(system))
-#        commandArray.extend(self.GetSavesState(system))
+        commandArray.extend(self.GetSavesState(system))
         commandArray.extend(self.GetLogsPath(system))
         commandArray.extend(self.GetLogsLevel(system))
 
