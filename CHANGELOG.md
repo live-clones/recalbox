@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Upgrade process creates missing directories in /boot (#1734)
 - Add libretro-mupen64plus-nx for x86 and x86_64 (#1407)
+- Change repo + bump swanstation (#1744)
+
 
 ## [7.2.2-Beta1]
 - Fix build instructions in README.md
