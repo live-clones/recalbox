@@ -6,7 +6,7 @@ config BR2_PACKAGE_LIBRETRO_SWANSTATION
 	help
 	  A libretro psx emulation core.
 
-	  https://github.com/libretro/duckstation
+	  https://github.com/libretro/swanstation
 
 comment "LIBRETRO_SWANSTATION needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP

@@ -15,6 +15,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
 - [ ] Test libretro-mupen64plus-nx works on x86 and x86_64 (#1407)
 - [ ] Test there are no regressions for libretro-mupen64plus-nx on all platforms (#1407)
+- [ ] Test RA for libretro swanstation (#1744) 
+
 
 ## [7.2.2-Beta1]
 - [ ] Check sound of boot video (#1596)
