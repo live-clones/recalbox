@@ -4,13 +4,13 @@ recalbox
 
 Welcome to the main recalbox repository.
 
-This repository contains the source code that build the recalboxOS for different boards.
+This repository contains the source code that builds recalbox for different boards.
 
 Recalbox is an opensource project. We hope that you will contribute and help us to improve this OS.
 But if you are working on a fork, by respect for our work, we ask you not to integrate our work in progress located on branches other than master.
 Thank you for waiting for a merge on master branch.
 
-Please use **Issues** in corresponding projects to report a bug or request a feature.
+Please use [**Issues**](https://gitlab.com/recalbox/recalbox/-/issues) to report a bug or request a feature.
 
 ## Recalbox Projects
 - [recalbox/recalbox](https://gitlab.com/recalbox/recalbox): the repository contains the source code to build recalbox.
@@ -19,12 +19,11 @@ Please use **Issues** in corresponding projects to report a bug or request a fea
 
 ## Useful links
 - [www.recalbox.com](https://www.recalbox.com): the main recalbox website.
-- [www.recalbox.com/blog/](https://www.recalbox.com/blog): the dev blog.
-- [Recalbox Wiki](https://recalbox.gitbook.io/documentation/): the wiki of recalbox.
+- [Recalbox Wiki](https://wiki.recalbox.com) the wiki of recalbox.
 - [forum.recalbox.com](https://forum.recalbox.com): recalbox forum. You will find support there.
 
 
-# How to build ![Build status](https://gitlab.com/recalbox/recalbox/badges/master/pipeline.svg?style=flat-square)
+# How to build (Linux only) ![Build status](https://gitlab.com/recalbox/recalbox/badges/master/pipeline.svg?style=flat-square)
 
 ### General steps
 
@@ -32,17 +31,25 @@ Install docker: [docs.docker.com/install/](https://docs.docker.com/install/)
 
 Make sure your user belongs to the docker group -> `sudo usermod -a -G docker $USER` then logoff/login
 
-Clone the repository in your home:
+Clone the repository:
 
 ```bash
-ARCH="rpi3" && git clone https://gitlab.com/recalbox/recalbox.git recalbox-${ARCH}
+ARCH="rpi4" && git clone https://gitlab.com/recalbox/recalbox.git recalbox-${ARCH}
 ```
 
-Run the script that compiles the project in a Docker container:
+**Build** recalbox:
 
 ```bash
-scripts/linux/recaldocker.sh
+export ARCH="rpi4"
+cd recalbox-${ARCH}
+./scripts/linux/recaldocker.sh
 ```
+
+The build time depends on the CPU power of your computer, and will produce a Recalbox image for the architecture specified in `ARCH` variable.
+
+At the end of the build, the image will be available in `output/images/recalbox/`.
+
+### Customize build
 
 You can set the following environment variables to customize the build:
 * `ARCH`: to force the target architecture (see available architectures in the [`configs` directory](configs), default is to infer it from the current directory name)
@@ -58,17 +65,20 @@ In the recalbox directory, you will find some directories created by the build:
 
 Using the command line arguments, you can pass a custom command to run:
 ```bash
-ARCH=rpi3 scripts/linux/recaldocker.sh make menuconfig
+ARCH=rpi4 && ./scripts/linux/recaldocker.sh make menuconfig
 ```
 
-This way you can run menuconfig and configure the system. If you never built the system, use the following command to create the default configuration for your arch:
+This way you can run menuconfig to configure the system. If you never built the system, use the following command to create the default configuration for your board:
 ```bash
-export ARCH=rpi3 && scripts/linux/recaldocker.sh make "recalbox-${ARCH}_defconfig" && make menuconfig
+ARCH=rpi4 && ./scripts/linux/recaldocker.sh make "recalbox-${ARCH}_defconfig" && make menuconfig
 ```
 
 Your command will override the default build command from the docker image, so you may have to copy past some variable from it.
 
-### Known errors
+### Known issues
+
+The docker build process only works on `linux`.
+
 During the image built if you encounter errors like the following :
 
 ```text
