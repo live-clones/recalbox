@@ -119,6 +119,10 @@ class LibretroCores:
     def configureVideoPacPlus(coreSettings):
         coreSettings.setOption("o2em_bios", '"g7400.bin"')
 
+    @staticmethod
+    def configureSwanstation(coreSettings):
+        coreSettings.setOption("duckstation_Controller2.Type", '"DigitalController"')
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
