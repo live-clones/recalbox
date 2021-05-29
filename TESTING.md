@@ -29,6 +29,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test libretro-mupen64plus-nx works on x86 and x86_64 (#1407)
 - [ ] Test there are no regressions for libretro-mupen64plus-nx on all platforms (#1407)
 - [ ] Test RA for libretro swanstation (#1744)
+- [ ] Test in libretro-mame push select with wiimote in lightgun games if the menu doesn't not appear (#1787)
 
 ## [7.2.2-Beta1]
 - [ ] Check sound of boot video (#1596)
