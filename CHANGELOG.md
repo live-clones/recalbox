@@ -175,6 +175,7 @@ All notable changes to this project will be documented in this file.
 - Disable rewind for rpi2 (#1798)
 
 - Add xpadneo package for handling various xbox wireless controllers (#1609)
+- Bump pcsx_rearmed to 7bbabe80066083236adfd653f289de17443a7dd8 (#1593)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
