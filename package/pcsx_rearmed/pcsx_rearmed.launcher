@@ -1,0 +1,3 @@
+#!/bin/bash
+
+fbset -g 320 240 640 480 16 && /usr/bin/pcsx_rearmed.bin "$@"
