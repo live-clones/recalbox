@@ -1,0 +1,11 @@
+--- pcsx_rearmed-fbf19ce6b6c02da47a67f58e23d8294cfcd18f55/configure.orig	2021-05-29 23:02:10.641142824 +0200
++++ pcsx_rearmed-fbf19ce6b6c02da47a67f58e23d8294cfcd18f55/configure	2021-05-29 23:02:28.484749266 +0200
+@@ -134,7 +134,7 @@
+   ;;
+   --disable-dynarec) enable_dynarec="no"
+   ;;
+-  *) echo "ERROR: unknown option $opt"; show_help="yes"
++  *) echo "ERROR: unknown option $opt";
+   ;;
+   esac
+ done
