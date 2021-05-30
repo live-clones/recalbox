@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Libretro Parallel N64 video plugin selection to Rice (better speed on selected H/W)
 - Make Libretro Parallel N64 works on Odroid XU4
 - Make Mupen64plus Rice works on Odroid XU4, Odroid GO Advanced and Odroid GO Super
+- Fix black screen on Moonlight on RPI4
 
 ## Version 7.2.1-Reloaded
 
