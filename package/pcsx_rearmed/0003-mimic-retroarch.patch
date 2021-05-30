@@ -1,5 +1,16 @@
---- a/frontend/plugin_lib.c	2019-03-25 22:48:57.000000000 +0100
-+++ b/frontend/plugin_lib.c	2019-07-08 09:18:22.937310685 +0200
+From 4022e068673a77f77c361a2ddf56596538ab733c Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 4 Nov 2021 22:01:14 +0100
+Subject: [PATCH 3/4] mimic-retroarch
+
+---
+ frontend/plugin_lib.c | 48 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/frontend/plugin_lib.c b/frontend/plugin_lib.c
+index ab4d415..8be6532 100644
+--- a/frontend/plugin_lib.c
++++ b/frontend/plugin_lib.c
 @@ -16,6 +16,7 @@
  #include <fcntl.h>
  #include <unistd.h>
@@ -8,7 +19,7 @@
  
  #include "libpicofe/fonts.h"
  #include "libpicofe/input.h"
-@@ -612,6 +613,53 @@
+@@ -612,6 +613,53 @@ static void update_input(void)
  	emu_set_action(emu_act);
  
  	in_keystate = actions[IN_BINDTYPE_PLAYER12];
@@ -62,3 +73,6 @@
  }
  #else /* MAEMO */
  extern void update_input(void);
+-- 
+2.33.1
+

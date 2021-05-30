@@ -61,12 +61,14 @@ as release notes for end user on a Recalbox upgrade.
   - Keystroke sequences (like typing a word)
   - Keystroke combination (like CTRL+C)
 - Bump ScummVM to 2.4.0git
+- Bump pcsx_rearmed on Raspberry PI 0 and 1
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
 - Fix laggy video playback on Odroid XU4 OGST
 - Fix message "failed to extract content from compressed" for core libretro xrick
 - Fix retroarch 1.9.8 to correct issue on wrong lightgun shooting area
+- Fix loads of bugs on pcsx_rearmed on Raspberry PI 0 and 1
 
 ## Version 7.2.2-Reloaded
 

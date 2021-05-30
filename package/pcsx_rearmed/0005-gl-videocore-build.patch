@@ -1,0 +1,44 @@
+From 31d96ba04d7eae2b2b2d4101dc6cbd3b832238b7 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 4 Nov 2021 22:23:04 +0100
+Subject: [PATCH 5/5] gl-videocore-build
+
+---
+ configure | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/configure b/configure
+index 25249cf..36b34d0 100755
+--- a/configure
++++ b/configure
+@@ -451,12 +451,9 @@ EOF
+ fi
+ 
+ # check for VideoCore stuff for Raspberry Pi
+-if [ -d /opt/vc/include -a -d /opt/vc/lib -a "$VIDEOCORE" != "no" ]; then
+-  CFLAGS_GLES="$CFLAGS_GLES -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux"
+-  LDLIBS_GLES="$LDLIBS_GLES -L/opt/vc/lib"
+-  if [ -f /opt/vc/lib/libbcm_host.so ]; then
+-    LDLIBS_GLES="$LDLIBS_GLES -lbcm_host"
+-  fi
++if [ "$VIDEOCORE" != "no" ]; then
++  CFLAGS_GLES="$CFLAGS_GLES -I${ROOT_DIR}/usr/include/interface/vcos/pthreads -I${ROOT_DIR}/usr/include/interface/vmcs_host/linux"
++  LDLIBS_GLES="$LDLIBS_GLES -lbcm_host -lvchostif"
+   need_xlib="yes"
+   VIDEOCORE="yes"
+ fi
+@@ -491,11 +488,6 @@ if [ "$have_arm_neon" = "yes" -a "$builtin_gpu" != "neon" ]; then
+   plugins="$plugins plugins/gpu_neon/gpu_neon.so"
+ fi
+ 
+-# check for xlib (only headers needed)
+-if [ "x$need_xlib" = "xyes" ]; then
+-  check_xlib_headers || fail "please install libx11-dev"
+-fi
+-
+ sizeof_long=`check_define_val __SIZEOF_LONG__`
+ if [ "x$sizeof_long" = "x4" ]; then
+   CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64"
+-- 
+2.33.1
+
