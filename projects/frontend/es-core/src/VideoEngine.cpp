@@ -10,6 +10,15 @@
 
 #define RETURN_ERROR(x, y) do{ LOG(LogError) << x; return y; }while(false)
 
+static unsigned char converted_data[(192000 * 3) / 2];
+static unsigned char* converted = &converted_data[0];
+
+static void ClearAudioBuffers()
+{
+  memset(converted_data, 0, sizeof(converted_data));
+}
+
+
 static int NanoSleep(long long nanoseconds)
 {
   static timespec remaining;
@@ -225,6 +234,8 @@ bool VideoEngine::InitializeDecoder()
     FFMpegInitialized = true;
     { LOG(LogInfo) << "[Video Engine] FFMpeg global context initialized."; }
   }
+  // Reset audio data
+  ClearAudioBuffers();
 
   // Open the file
   if (avformat_open_input(&mContext.AudioVideoContext, mFileName.ToChars(), nullptr, nullptr) != 0)
@@ -340,8 +351,6 @@ int VideoEngine::DecodeAudioFrame(AVCodecContext& audioContext, unsigned char* b
 {
   static AVPacket packet;
   static AVFrame* frame = av_frame_alloc();
-  static unsigned char converted_data[(192000 * 3) / 2];
-  static unsigned char* converted = &converted_data[0];
 
   int dataSize = 0;
   if (!mContext.AudioQueue.Dequeue(packet)) return -1;
