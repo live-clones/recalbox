@@ -7,12 +7,12 @@ All notable changes to this project will be documented in this file.
 - Libretro Parallel n64 now works on odroidxu4 (#1712)
 - Mupen64plus rice plugin added on odroidxu4 and odroidgo2 (#1712)
 - Fix Moonlight on rpi4/kms (#1628)
+- Fixes the time conflict between Windows and Recalbox in case of dual-boot (#1791)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
 - Add libretro-mupen64plus-nx for x86 and x86_64 (#1407)
 - Change repo + bump swanstation (#1744)
-
 
 ## [7.2.2-Beta1]
 - Fix build instructions in README.md
