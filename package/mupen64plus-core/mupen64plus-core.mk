@@ -5,7 +5,7 @@
 ################################################################################
 
 # Commit of 29/10/2020
-MUPEN64PLUS_CORE_VERSION = 7b73d2db689b805708b99d202a06c5925e9a0980
+MUPEN64PLUS_CORE_VERSION = c9f49e2ea638d4f0afca7937aef57f8294ac95e7
 MUPEN64PLUS_CORE_SITE = $(call github,mupen64plus,mupen64plus-core,$(MUPEN64PLUS_CORE_VERSION))
 MUPEN64PLUS_CORE_LICENSE = GPLv2+
 MUPEN64PLUS_CORE_DEPENDENCIES = sdl2 alsa-lib libpng freetype host-nasm host-binutils

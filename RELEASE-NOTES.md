@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix missing rtl8821cu wifi drivers for Odroid XU4, RPI2, RPI3 and PCs
 - Fix some bluetooth adapters not working when detected as HID device (like some Apple or Dell devices)
 - Add Mupen64plus Next libretro core on PC platforms
+- Bump Mupen64plus standalone emulator
 
 ## Version 7.2.1-Reloaded
 
