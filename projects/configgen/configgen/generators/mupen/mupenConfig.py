@@ -13,7 +13,6 @@ GLideN64NativeResolution_blacklist = ["majora"]
 def writeMupenConfig(system, controllers, rom):
     setPaths()
     writeHotKeyConfig(controllers)
-    setRealResolution(system.config['videomode'].strip())
     setIpl64DD(system)
     # ~ mupenSettings.save('Fullscreen', "True")
     # ~ mupenSettings.save('ScreenWidth', "")
@@ -44,6 +43,12 @@ def writeMupenConfig(system, controllers, rom):
     mupenSettings.save('EnableLegacyBlending', 'True')
     #Frame buffer size is the factor of N64 native resolution.
     mupenSettings.save('UseNativeResolutionFactor', '1')
+    #Resolution
+    from utils.resolutions import ResolutionParser
+    resolution = ResolutionParser(system.config['videomode'].strip())
+    if resolution.isSet and resolution.selfProcess:
+        mupenSettings.save('ScreenWidth', "{}".format(resolution.width))
+        mupenSettings.save('ScreenHeight', "{}".format(resolution.height))
 
     for n in GlideN64FBEmulation_whitelist:
         if n in romName.lower():
@@ -86,39 +91,6 @@ def createButtonCode(button):
         return 'B'+button.id
     if button.type == 'hat':
         return 'H'+button.id+'V'+button.value
-
-
-def setRealResolution(videoConfig):
-    if videoConfig == "auto":
-        videoSetting = checkAutoMode()
-    elif "auto" in videoConfig:
-        realSetting = videoConfig.split(' ', 1)[1]
-        videoSetting = checkAutoMode(realSetting)
-    else:
-        videoSetting = videoConfig
-    print videoSetting
-    if videoSetting == "default":
-        width, height = getCurrentResulution()
-        mupenSettings.save('ScreenWidth', "{}".format(width))
-        mupenSettings.save('ScreenHeight', "{}".format(height))
-        return
-
-    group, mode, drive = videoSetting.split(' ')
-
-    import subprocess
-    proc = subprocess.Popen(["tvservice -j -m {}".format(group)], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    #print "program output:", out
-    import json
-    tvmodes = json.loads(out)
-
-    for tvmode in tvmodes:
-        if tvmode["code"] == int(mode):
-            mupenSettings.save('ScreenWidth', "{}".format(tvmode["width"]))
-            mupenSettings.save('ScreenHeight', "{}".format(tvmode["height"]))
-            return
-
-    sys.exit("The resolution for '{} {} {}' is not supported by your monitor".format(group, mode, drive))
 
 
 def setPaths():
