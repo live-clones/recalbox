@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Bump mupen64plus standalone core (#1712)
 - Libretro Parallel n64 automatic video plugin is set to Rice (#1712)
+- Libretro Parallel n64 now works on odroidxu4 (#1712)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
