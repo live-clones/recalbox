@@ -55,6 +55,7 @@ def writeMupenConfig(system, controllers, rom):
     # and force 16bpp color quality as H/W does not support 32bpp
     if Architecture.isGoa2 or Architecture.isGoa3:
         mupenSettings.save('VerticalSync', 'True')
+    if Architecture.isGoa2 or Architecture.isGoa3 or Architecture.isPi4:
         mupenSettings.save('ColorQuality', '1')
 
     for n in GlideN64FBEmulation_whitelist:
