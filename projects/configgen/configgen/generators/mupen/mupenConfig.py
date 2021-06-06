@@ -3,6 +3,7 @@
 import recalboxFiles
 from settings.unixSettings import UnixSettings
 from utils.videoMode import *
+from utils.architecture import Architecture
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 
@@ -49,6 +50,12 @@ def writeMupenConfig(system, controllers, rom):
     if resolution.isSet and resolution.selfProcess:
         mupenSettings.save('ScreenWidth', "{}".format(resolution.width))
         mupenSettings.save('ScreenHeight', "{}".format(resolution.height))
+
+    # VerticalSync makes video smoother on odroidgo2 and odroidgo3
+    # and force 16bpp color quality as H/W does not support 32bpp
+    if Architecture.isGoa2 or Architecture.isGoa3:
+        mupenSettings.save('VerticalSync', 'True')
+        mupenSettings.save('ColorQuality', '1')
 
     for n in GlideN64FBEmulation_whitelist:
         if n in romName.lower():
