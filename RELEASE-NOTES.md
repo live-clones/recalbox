@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Make Libretro Parallel N64 works on Odroid XU4
 - Make Mupen64plus Rice works on Odroid XU4, Odroid GO Advanced and Odroid GO Super
 - Fix black screen on Moonlight on RPI4
+- Fixes the time conflict between Windows and Recalbox in case of dual-boot 
 
 ## Version 7.2.1-Reloaded
 
