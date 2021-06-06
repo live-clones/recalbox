@@ -15,6 +15,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
 - [ ] Test libretro-parallel-n64 with default conf on rpi and odroidxu4 boards (#1712)
 - [ ] Test mupen64plus rice with default conf on odroidgo2 and odroidxu4 boards (#1712)
+- [ ] Test moonlight on rpi4/kms (#1628)
 
 ## [7.2.2-Beta2]
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
