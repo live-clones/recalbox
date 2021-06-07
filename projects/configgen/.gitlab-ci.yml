@@ -12,5 +12,3 @@ build:
     - export PYTHONPATH=$PYTHONPATH:$(pwd)/configgen && python -m runtest discover -v -p "*test*"
     - echo "Building configgen" 
     - python setup.py install
-  tags:
-    - cgbuild
