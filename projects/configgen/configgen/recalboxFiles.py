@@ -112,6 +112,7 @@ ppssppControlsIni = ppssppConf + '/controls.ini'
 ppssppControls = CONF + '/ppsspp/gamecontrollerdb.txt'
 ppssppControlsInit = HOME_INIT + 'configs/ppsspp/PSP/SYSTEM/controls.ini'
 ppssppConfig = ppssppConf + '/ppsspp.ini'
+ppssppSaves = SAVES + '/psp'
 
 dosboxCustom = CONF + '/dosbox'
 dosboxConfig = dosboxCustom + '/dosbox.conf'
