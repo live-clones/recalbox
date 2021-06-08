@@ -23,6 +23,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus on GoA (standalone)
 - [ ] Test mupen64plus + rice on RPI4 (standalone)
 - [ ] Test PSP save path (in share/saves instead of share/bios)
+- [ ] Test the game castlevania and other on the different boards (# 1756)
 
 ## [7.2.2-Beta2]
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
