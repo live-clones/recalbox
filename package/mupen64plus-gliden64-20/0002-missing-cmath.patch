@@ -1,0 +1,19 @@
+--- mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/GLideNHQ/TextureFilters_xbrz.cpp	2021-06-09 14:05:56.607248839 +0200
++++ mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/GLideNHQ/TextureFilters_xbrz.cpp	2021-06-09 14:06:13.259127703 +0200
+@@ -15,6 +15,7 @@
+ 
+ #include "TextureFilters_xbrz.h"
+ #include <cassert>
++#include <cmath>
+ #include <algorithm>
+ #include <vector>
+ 
+--- mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/gDP.cpp	2021-06-09 14:08:12.562262242 +0200
++++ mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/gDP.cpp	2021-06-09 14:08:22.690188952 +0200
+@@ -1,5 +1,6 @@
+ #include <assert.h>
+ #include <algorithm>
++#include <cmath>
+ #include "GLideN64.h"
+ #include "N64.h"
+ #include "GBI.h"
