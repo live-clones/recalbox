@@ -18,6 +18,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test moonlight on rpi4/kms (#1628)
 - [ ] Test if time not change if you boot on recalbox or windows (#1791)
 - [ ] Test the n64 kubii pad on the mupen64 standalone core (#1512)
+- [ ] Test mupen64plus gliden64_20 on rpi3 (#1700)
 
 ## [7.2.2-Beta2]
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)

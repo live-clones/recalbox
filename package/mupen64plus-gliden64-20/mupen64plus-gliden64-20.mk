@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-# commit of FIXME
+# commit of 19/10/2015
 MUPEN64PLUS_GLIDEN64_20_VERSION = 34fa719a61fa2338025facc9810ad2ef1a00e7ee
 MUPEN64PLUS_GLIDEN64_20_SITE = $(call github,gonetz,GLideN64,$(MUPEN64PLUS_GLIDEN64_20_VERSION))
 MUPEN64PLUS_GLIDEN64_20_LICENSE = MIT
@@ -33,7 +33,7 @@ endif
 define MUPEN64PLUS_GLIDEN64_20_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/hires_texture
 	$(INSTALL) -D $(@D)/src/plugin/release/mupen64plus-video-GLideN64.so \
-		$(TARGET_DIR)/usr/lib/mupen64plus/mupen64plus-video-gliden64.so
+		$(TARGET_DIR)/usr/lib/mupen64plus/mupen64plus-video-gliden64_20.so
 	$(INSTALL) -D $(@D)/ini/* \
 		$(TARGET_DIR)/recalbox/share_init/system/configs/mupen64/
 endef

@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Fixes the time conflict between Windows and Recalbox in case of dual-boot (#1791)
 - Add n64 kubii and n64 retro-bit pad settings (#1512)
 
+- Mupen64plus GLideN64 is back on rpi3 (#1700)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
