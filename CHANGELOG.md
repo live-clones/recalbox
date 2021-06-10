@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - Mupen64plus rice plugin added on odroidxu4 and odroidgo2 (#1712)
 - Fix Moonlight on rpi4/kms (#1628)
 - Fixes the time conflict between Windows and Recalbox in case of dual-boot (#1791)
+- Add n64 kubii and n64 retro-bit pad settings (#1512)
+
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)

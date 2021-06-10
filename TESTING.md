@@ -17,6 +17,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus rice with default conf on odroidgo2 and odroidxu4 boards (#1712)
 - [ ] Test moonlight on rpi4/kms (#1628)
 - [ ] Test if time not change if you boot on recalbox or windows (#1791)
+- [ ] Test the n64 kubii pad on the mupen64 standalone core (#1512)
 
 ## [7.2.2-Beta2]
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)

@@ -1,0 +1,59 @@
+diff --git a/data/InputAutoCfg.ini b/data/InputAutoCfg.ini
+index 223d14d..7f3004a 100644
+--- a/data/InputAutoCfg.ini
++++ b/data/InputAutoCfg.ini
+@@ -2248,3 +2248,54 @@ Mempak switch = button(2)
+ Rumblepak switch = button(3)
+ X Axis = axis(0-,0+)
+ Y Axis = axis(1-,1+)
++
++; Kubii N64 USB Controller
++[usb gamepad           ]
++plugged = True
++plugin = 2
++AnalogDeadzone = 4096,4096
++AnalogPeak = 32768,32768
++mouse = False
++DPad R = hat(0 Right)
++DPad L = hat(0 Left)
++DPad D = hat(0 Down)
++DPad U = hat(0 Up)
++C Button R = button(1)
++C Button L = button(3)
++C Button D = button(2)
++C Button U = button(0)
++A Button = button(5)
++B Button = button(4)
++L Trig = button(6)
++R Trig = button(7)
++Start = button(9)
++X Axis = axis(0-,0+)
++Y Axis = axis(1-,1+)
++Z Trig = button(8)
++
++; Retro-bit & 8bitdo Controleur Bluetooth
++[8Bitdo N64 GamePad]
++plugged = True
++plugin = 2
++mouse = false
++AnalogDeadZone = 4096,4096
++AnalogPeak = 32768,32768
++DPad R = hat(0 Right)
++DPad L = hat(0 Left)
++DPad D = hat(0 Down)
++DPad U = hat(0 Up)
++Start = button(11)
++Z Trig = button(10)
++B Button = button(1)
++A Button = button(0)
++C Button R = button(9)
++C Button L = button(4)
++C Button D = button(3)
++C Button U = button(8)
++R Trig = button(7)
++L Trig = button(6)
++Mempak switch =
++Rumblepak =
++X Axis = axis(0-,0+)
++Y Axis = axis(1-,1+)
++
