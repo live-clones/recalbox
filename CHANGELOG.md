@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Upgrade process creates missing directories in /boot (#1734)
 - Add libretro-mupen64plus-nx for x86 and x86_64 (#1407)
 - Change repo + bump swanstation (#1744)
+- Fix MAME menu is displayed if you add credit with the wiimote (#1787)
 
 ## [7.2.2-Beta1]
 - Fix build instructions in README.md
