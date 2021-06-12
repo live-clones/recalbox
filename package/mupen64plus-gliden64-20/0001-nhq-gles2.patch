@@ -1,0 +1,28 @@
+--- mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/GLideNHQ/CMakeLists.txt	2021-06-09 13:59:36.406046250 +0200
++++ mupen64plus-gliden64-20-34fa719a61fa2338025facc9810ad2ef1a00e7ee/src/GLideNHQ/CMakeLists.txt	2021-06-09 14:01:20.457273425 +0200
+@@ -57,13 +57,18 @@
+ 	)
+ endif( CMAKE_BUILD_TYPE STREQUAL "Debug")
+ 
+-find_package(OpenGL REQUIRED)
+-include_directories(${OpenGL_INCLUDE_DIRS})
+-link_directories(${OpenGL_LIBRARY_DIRS})
+-add_definitions(${OpenGL_DEFINITIONS})
+-if(NOT OPENGL_FOUND)
+-	message(ERROR " OPENGL not found!")
+-endif(NOT OPENGL_FOUND)
++if (GLES2)
++  add_definitions(-DGLES2)
++  SET(OPENGL_LIBRARIES -lGLESv2 -lEGL)
++else (GLES)
++  find_package(OpenGL REQUIRED)
++  include_directories(${OpenGL_INCLUDE_DIRS})
++  link_directories(${OpenGL_LIBRARY_DIRS})
++  add_definitions(${OpenGL_DEFINITIONS})
++  if(NOT OPENGL_FOUND)
++  	message(ERROR " OPENGL not found!")
++  endif(NOT OPENGL_FOUND)
++endif(GLES2)
+ 
+ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+ 	add_definitions( -D__MSC__)
