@@ -317,6 +317,8 @@ All notable changes to this project will be documented in this file.
 - Fix recalbox stable version generation
 - Change board build order for gitlab ci
 - Remove Donkey Kong Classic
+- Bump odroidxu4 kernel
+
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots
