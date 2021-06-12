@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix mupen64plus resolution (standalone)
+- Make mupen64plus working on Odroid Advance Go2/Go Super (standalone)
+- Force 16bpp in mupen64plus + rice for RPI4
+- Fix ratio issues in Dolphin & Supermodel3
+- Switch PUAE to A600 instead of A500PLUS for amiga600 system
+- Fix PSP save path
+- Fix controler #2 in swanstation
 - Bump mupen64plus standalone core (#1712)
 - Libretro Parallel n64 automatic video plugin is set to Rice (#1712)
 - Libretro Parallel n64 now works on odroidxu4 (#1712)

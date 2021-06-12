@@ -19,6 +19,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test if time not change if you boot on recalbox or windows (#1791)
 - [ ] Test the n64 kubii pad on the mupen64 standalone core (#1512)
 - [ ] Test mupen64plus gliden64_20 on rpi3 (#1700)
+- [ ] Test to change resolution when using mupen64plus (standalone) 
+- [ ] Test mupen64plus on GoA (standalone)
+- [ ] Test mupen64plus + rice on RPI4 (standalone)
+- [ ] Test PSP save path (in share/saves instead of share/bios)
 
 ## [7.2.2-Beta2]
 - [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)

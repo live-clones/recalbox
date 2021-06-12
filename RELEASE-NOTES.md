@@ -7,6 +7,13 @@ as release notes for end user on a Recalbox upgrade.
 ## Next
 
 ### Fixes
+- Fix mupen64plus resolution (standalone)
+- Make mupen64plus working on Odroid Advance Go2/Go Super (standalone)
+- Make mupen64plus + RICE working on RPi4
+- Fix ratio issues in Dolphin & Supermodel3
+- Switch PUAE to A600 instead of A500PLUS for amiga600 system
+- Fix PSP save path (share/saves/PSP)
+- Fix controler #2 configuration in swanstation
 - Fix sound issue on boot video
 - Audio is working on Sound Open Firmware audio adapters
 - Added configuration for SN30-GP controller
