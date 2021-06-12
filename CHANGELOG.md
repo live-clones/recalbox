@@ -18,6 +18,8 @@ All notable changes to this project will be documented in this file.
 - Add n64 kubii and n64 retro-bit pad settings (#1512)
 
 - Mupen64plus GLideN64 is back on rpi3 (#1700)
+- Fixed game compatibility on ppsspp (#1756)
+
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
