@@ -16,9 +16,9 @@ All notable changes to this project will be documented in this file.
 - Fix Moonlight on rpi4/kms (#1628)
 - Fixes the time conflict between Windows and Recalbox in case of dual-boot (#1791)
 - Add n64 kubii and n64 retro-bit pad settings (#1512)
-
 - Mupen64plus GLideN64 is back on rpi3 (#1700)
 - Fixed game compatibility on ppsspp (#1756)
+- Added tmp directory for docker builds (#1765)
 
 
 ## [7.2.2-Beta2]
