@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Mupen64plus GLideN64 is back on rpi3 (#1700)
 - Fixed game compatibility on ppsspp (#1756)
 - Added tmp directory for docker builds (#1765)
+- CI: do not clone buildroot when running linter (#1765)
 
 
 ## [7.2.2-Beta2]
