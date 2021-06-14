@@ -136,6 +136,7 @@ class LibretroCores:
             "opera": LibretroCores.configureOpera,
             "parallel_n64": LibretroCores.configurePARALLELN64,
             "np2kai" : LibretroCores.configureNPKAI,
+            "swanstation" : LibretroCores.configureSwanstation,
         }
 
         # Get handler and execute
