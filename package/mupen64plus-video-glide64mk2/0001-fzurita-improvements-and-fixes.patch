@@ -1,0 +1,1060 @@
+From 2f7e3e97b474f3533db199310fe8ba30259e71d0 Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 21:02:14 -0500
+Subject: [PATCH 1/8] Don't allow too big texture sizes for buffer size
+
+---
+ src/Glide64/TexCache.cpp | 22 +++++++++----
+ src/Glide64/TexConv.h    | 70 +++++++++++++++++++++++++++-------------
+ 2 files changed, 63 insertions(+), 29 deletions(-)
+
+diff --git a/src/Glide64/TexCache.cpp b/src/Glide64/TexCache.cpp
+index ab344ec..062d14b 100644
+--- a/src/Glide64/TexCache.cpp
++++ b/src/Glide64/TexCache.cpp
+@@ -45,8 +45,10 @@
+ 
+ void LoadTex (int id, int tmu);
+ 
+-wxUint8 tex1[1024*1024*4];		// temporary texture
+-wxUint8 tex2[1024*1024*4];
++static const int TEX_SIZE = 1024*1024*4
++wxUint8 tex1[(int)(TEX_SIZE*1.2)];		// temporary texture
++wxUint8 tex2[(int)(TEX_SIZE*1.2)];
++
+ wxUint8 *texture;
+ wxUint8 *texture_buffer = tex1;
+ 
+@@ -1269,6 +1271,11 @@ void LoadTex (int id, int tmu)
+     }
+   }
+ 
++  // Invalid texture size, abort
++  if (real_x*real_y > TEX_SIZE/8) {
++    return;
++  }
++
+   wxUint32 result = 0;	// keep =0 so it doesn't mess up on the first split
+ 
+   texture = tex1;
+@@ -1503,22 +1510,22 @@ void LoadTex (int id, int tmu)
+     // Convert the texture to ARGB 4444
+     if (LOWORD(result) == GR_TEXFMT_ARGB_1555)
+     {
+-      TexConv_ARGB1555_ARGB4444 ((texture), (tex2), real_x, real_y);
++      TexConv_ARGB1555_ARGB4444 ((texture), (tex2), real_x, real_y, TEX_SIZE);
+       texture = tex2;
+     }
+     else if (LOWORD(result) == GR_TEXFMT_ALPHA_INTENSITY_88)
+     {
+-      TexConv_AI88_ARGB4444 ((texture), (tex2), real_x, real_y);
++      TexConv_AI88_ARGB4444 ((texture), (tex2), real_x, real_y, TEX_SIZE);
+       texture = tex2;
+     }
+     else if (LOWORD(result) == GR_TEXFMT_ALPHA_INTENSITY_44)
+     {
+-      TexConv_AI44_ARGB4444 ((texture), (tex2), real_x, real_y);
++      TexConv_AI44_ARGB4444 ((texture), (tex2), real_x, real_y, TEX_SIZE);
+       texture = tex2;
+     }
+     else if (LOWORD(result) == GR_TEXFMT_ALPHA_8)
+     {
+-      TexConv_A8_ARGB4444 ((texture), (tex2), real_x, real_y);
++      TexConv_A8_ARGB4444 ((texture), (tex2), real_x, real_y, TEX_SIZE);
+       texture = tex2;
+     }
+     /*else if (LOWORD(result) == GR_TEXFMT_ARGB_4444)
+@@ -1808,7 +1815,8 @@ void LoadTex (int id, int tmu)
+       if (id == 1 && rdp.tex == 3)
+         LoadTex (0, rdp.t0);
+ 
+-      LoadTex (id, tmu);
++      if (voodoo.tmem_ptr[tmu]+texture_size < voodoo.tex_max_addr[tmu])
++        LoadTex (id, tmu);
+       return;
+       // DON'T CONTINUE (already done)
+     }
+diff --git a/src/Glide64/TexConv.h b/src/Glide64/TexConv.h
+index 9bb1729..a65fa3a 100644
+--- a/src/Glide64/TexConv.h
++++ b/src/Glide64/TexConv.h
+@@ -85,26 +85,24 @@ static inline void texConv_AI88_ARGB4444(uint8_t *src, uint8_t *dst, int size)
+ 
+ static inline void texConv_AI44_ARGB4444(uint8_t *src, uint8_t *dst, int size)
+ {
+-  uint32_t *v3;
+-  uint32_t *v4;
+-  int v5;
+-  uint32_t v6;
+-  uint32_t *v7;
++  uint32_t* source = (uint32_t *)src;
++  uint32_t* destination = (uint32_t *)dst;
++  int dstIndex = 0;
++  int srcIndex = 0;
+ 
+-  v3 = (uint32_t *)src;
+-  v4 = (uint32_t *)dst;
+-  v5 = size;
+-  do
+-  {
+-    v6 = *v3;
+-    ++v3;
+-    *v4 = ((((uint16_t)v6 << 8) & 0xFF00 & 0xF00u) >> 8) | ((((uint16_t)v6 << 8) & 0xFF00 & 0xF00u) >> 4) | (uint16_t)(((uint16_t)v6 << 8) & 0xFF00) | (((v6 << 16) & 0xF000000) >> 8) | (((v6 << 16) & 0xF000000) >> 4) | ((v6 << 16) & 0xFF000000);
+-    v7 = v4 + 1;
+-    *v7 = (((v6 >> 8) & 0xF00) >> 8) | (((v6 >> 8) & 0xF00) >> 4) | ((v6 >> 8) & 0xFF00) | ((v6 & 0xF000000) >> 8) | ((v6 & 0xF000000) >> 4) | (v6 & 0xFF000000);
+-    v4 = v7 + 1;
+-    --v5;
++  while (srcIndex < size) {
++
++    destination[dstIndex] = ((((uint16_t)source[srcIndex] << 8) & 0xFF00 & 0xF00u) >> 8) |
++            ((((uint16_t)source[srcIndex] << 8) & 0xFF00 & 0xF00u) >> 4) |
++            (uint16_t)(((uint16_t)source[srcIndex] << 8) & 0xFF00) | (((source[srcIndex] << 16) & 0xF000000) >> 8) |
++            (((source[srcIndex] << 16) & 0xF000000) >> 4) | ((source[srcIndex] << 16) & 0xFF000000);
++    ++dstIndex;
++    destination[dstIndex] = (((source[srcIndex] >> 8) & 0xF00) >> 8) |
++            (((source[srcIndex] >> 8) & 0xF00) >> 4) | ((source[srcIndex] >> 8) & 0xFF00) |
++            ((source[srcIndex] & 0xF000000) >> 8) | ((source[srcIndex] & 0xF000000) >> 4) | (source[srcIndex] & 0xFF000000);
++    ++dstIndex;
++    ++srcIndex;
+   }
+-  while ( v5 );
+ }
+ 
+ static inline void texConv_A8_ARGB4444(uint8_t *src, uint8_t *dst, int size)
+@@ -133,35 +131,63 @@ static inline void texConv_A8_ARGB4444(uint8_t *src, uint8_t *dst, int size)
+   while ( v5 );
+ }
+ 
+-void TexConv_ARGB1555_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
++void TexConv_ARGB1555_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height, int max)
+ {
+   int size = (width * height) >> 1;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
+   // 2 pixels are converted in one loop
+   // NOTE: width * height must be a multiple of 2
++
++  int maxUint32 = max/4;
++  if(size > maxUint32)
++  {
++    size = 0;
++  }
++
+   texConv_ARGB1555_ARGB4444(src, dst, size);
+ }
+ 
+-void TexConv_AI88_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
++void TexConv_AI88_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height, int max)
+ {
+   int size = (width * height) >> 1;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
+   // 2 pixels are converted in one loop
+   // NOTE: width * height must be a multiple of 2
++
++  int maxUint32 = max/4;
++  if(size > maxUint32)
++  {
++    size = 0;
++  }
++
+   texConv_AI88_ARGB4444(src, dst, size);
+ }
+ 
+-void TexConv_AI44_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
++void TexConv_AI44_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height, int max)
+ {
+   int size = (width * height) >> 2;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
+   // 4 pixels are converted in one loop
+   // NOTE: width * height must be a multiple of 4
++
++  int maxUint32 = max/8;
++  if(size > maxUint32)
++  {
++    size = 0;
++  }
++
+   texConv_AI44_ARGB4444(src, dst, size);
+ }
+ 
+-void TexConv_A8_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height)
++void TexConv_A8_ARGB4444 (unsigned char * src, unsigned char * dst, int width, int height, int max)
+ {
+   int size = (width * height) >> 2;	// Hiroshi Morii <koolsmoky@users.sourceforge.net>
+   // 4 pixels are converted in one loop
+   // NOTE: width * height must be a multiple of 4
++
++  int maxUint32 = max/8;
++  if(size > maxUint32)
++  {
++    size = 0;
++  }
++
+   texConv_A8_ARGB4444(src, dst, size);
+ }
+ 
+-- 
+2.32.0
+
+
+From 79ac9ffabe98671a6073dd7466cc70cf79a5af8f Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 22:03:46 -0500
+Subject: [PATCH 2/8] Do bounds checking when copying FB to screen
+
+---
+ src/Glide64/FBtoScreen.cpp | 31 +++++++++++++++++++++++++------
+ src/Glide64/TexCache.cpp   |  1 -
+ src/Glide64/TexCache.h     |  1 +
+ 3 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/src/Glide64/FBtoScreen.cpp b/src/Glide64/FBtoScreen.cpp
+index 02da6d1..975ff76 100644
+--- a/src/Glide64/FBtoScreen.cpp
++++ b/src/Glide64/FBtoScreen.cpp
+@@ -159,11 +159,18 @@ static void DrawRE2Video256(FB_TO_SCREEN_INFO & fb_info)
+   wxUint16 * dst = tex;
+   wxUint32 col;
+   wxUint8 r, g, b;
++  wxUint32 idx;
++  const wxUint32 bound = (BMASK+1-fb_info.addr) >> 1;
++
+   fb_info.height = min(256, fb_info.height);
+   for (wxUint32 h = 0; h < fb_info.height; h++)
+   {
+     for (wxUint32 w = 0; w < 256; w++)
+     {
++      idx = (h+w*fb_info.width)^1;
++      if (idx >= bound)
++        break;
++
+       col = *(src++);
+       r = (wxUint8)((col >> 24)&0xFF);
+       r = (wxUint8)((float)r / 255.0f * 31.0f);
+@@ -236,19 +243,23 @@ static void DrawFrameBufferToScreen256(FB_TO_SCREEN_INFO & fb_info)
+       cur_height = (256*(h+1) < height) ? 256 : h_tail;
+       cur_tail = 256 - cur_width;
+       wxUint16 * dst = tex;
++      int dstBoundCheck = 0;
++
+       if (fb_info.size == 2)
+       {
+-        for (wxUint32 y=0; y < cur_height; y++)
++        for (wxUint32 y=0; y < cur_height && dstBoundCheck < TEX_SIZE; y++)
+         {
+-          for (wxUint32 x=0; x < cur_width; x++)
++          for (wxUint32 x=0; x < cur_width && dstBoundCheck < TEX_SIZE; x++)
+           {
+             idx = SHORTADDR(x+256*w+(y+256*h)*fb_info.width);
+             if (idx >= bound)
+               break;
+             c = src[idx];
+             *(dst++) = (c >> 1) | ((c&1)<<15);
++			dstBoundCheck += 2;
+           }
+           dst += cur_tail;
++		  dstBoundCheck += cur_tail*2;
+         }
+       }
+       else
+@@ -351,9 +362,11 @@ bool DrawFrameBufferToScreen(FB_TO_SCREEN_INFO & fb_info)
+     wxUint32 idx;
+     const wxUint32 bound = (BMASK+1-fb_info.addr) >> 1;
+     bool empty = true;
+-    for (wxUint32 y=0; y < height; y++)
++    int dstBoundCheck = 0;
++
++    for (wxUint32 y=0; y < height && dstBoundCheck < TEX_SIZE; y++)
+     {
+-      for (wxUint32 x=0; x < width; x++)
++      for (wxUint32 x=0; x < width && dstBoundCheck < TEX_SIZE; x++)
+       {
+         idx = SHORTADDR(x+y*fb_info.width);
+         if (idx >= bound)
+@@ -361,8 +374,10 @@ bool DrawFrameBufferToScreen(FB_TO_SCREEN_INFO & fb_info)
+         c = src[idx];
+         if (c) empty = false;
+         *(dst++) = (c >> 1) | ((c&1)<<15);
++        dstBoundCheck += 2;
+       }
+       dst += texwidth-width;
++      dstBoundCheck += (texwidth-width)*2;
+     }
+     if (empty)
+       return false;
+@@ -378,17 +393,21 @@ bool DrawFrameBufferToScreen(FB_TO_SCREEN_INFO & fb_info)
+     wxUint32 col;
+     wxUint32 idx;
+     const wxUint32 bound = (BMASK+1-fb_info.addr) >> 2;
+-    for (wxUint32 y=0; y < height; y++)
++    int dstBoundCheck = 0;
++
++    for (wxUint32 y=0; y < height && dstBoundCheck < TEX_SIZE; y++)
+     {
+-      for (wxUint32 x=0; x < width; x++)
++      for (wxUint32 x=0; x < width && dstBoundCheck < TEX_SIZE; x++)
+       {
+         idx = x+y*fb_info.width;
+         if (idx >= bound)
+           break;
+         col = src[idx];
+         *(dst++) = (col >> 8) | 0xFF000000;
++        dstBoundCheck += 4;
+       }
+       dst += texwidth-width;
++      dstBoundCheck += (texwidth-width)*4;
+     }
+     t_info.format = GR_TEXFMT_ARGB_8888;
+     t_info.data = tex;
+diff --git a/src/Glide64/TexCache.cpp b/src/Glide64/TexCache.cpp
+index 062d14b..04cdc08 100644
+--- a/src/Glide64/TexCache.cpp
++++ b/src/Glide64/TexCache.cpp
+@@ -45,7 +45,6 @@
+ 
+ void LoadTex (int id, int tmu);
+ 
+-static const int TEX_SIZE = 1024*1024*4
+ wxUint8 tex1[(int)(TEX_SIZE*1.2)];		// temporary texture
+ wxUint8 tex2[(int)(TEX_SIZE*1.2)];
+ 
+diff --git a/src/Glide64/TexCache.h b/src/Glide64/TexCache.h
+index d9e4e74..6c3a28a 100644
+--- a/src/Glide64/TexCache.h
++++ b/src/Glide64/TexCache.h
+@@ -45,5 +45,6 @@ void TexCache ();
+ void ClearCache ();
+ 
+ extern wxUint8 * texture_buffer;
++static const int TEX_SIZE = 1024*1024*4;
+ 
+ #endif //TEXCACHE_H
+-- 
+2.32.0
+
+
+From 758ba55ce56beaebf09b47cc4599f55317e43e6f Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 22:05:48 -0500
+Subject: [PATCH 3/8] Fix slowdown reported by some users
+
+First issue, the frame skipper was not lining up correctly with the
+ProcessDlist call. So, when the frame skip limit is reached, now ProcessDList must execute at least once before
+we can skip more frames.
+
+Second issue, we are unecessarily skipping frames due to timer accuracy
+issues. Now, we must fall behind by at least one frame before starting
+to skip frames.
+---
+ src/Glide64/FrameSkipper.cpp | 92 ++++++++++++++++++------------------
+ src/Glide64/FrameSkipper.h   | 34 +++++++------
+ 2 files changed, 65 insertions(+), 61 deletions(-)
+
+diff --git a/src/Glide64/FrameSkipper.cpp b/src/Glide64/FrameSkipper.cpp
+index 044cf89..15ffb4f 100644
+--- a/src/Glide64/FrameSkipper.cpp
++++ b/src/Glide64/FrameSkipper.cpp
+@@ -18,59 +18,59 @@
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ 
+ #include "FrameSkipper.h"
++#include "Gfx_1.3.h"
+ #include <SDL_timer.h>
+ 
+ FrameSkipper::FrameSkipper()
+-  : _skipType(AUTO), _maxSkips(2), _targetFPS(60),
+-    _skipCounter(0), _initialTicks(0), _actualFrame(0)
+-{
++        : _skipType(AUTO), _maxSkips(2), _targetFPS(60),
++          _skipCounter(0), _initialTicks(0), _actualFrame(0), _desiredFrame(0) {
+ }
+ 
+-void FrameSkipper::update()
+-{
+-  if (_maxSkips < 1)
+-  {
+-    // Frameskip disabled, do nothing
+-  }
+-  else if (_skipType == MANUAL)
+-  {
+-    // Skip this frame based on a deterministic skip rate
+-    if (++_skipCounter > _maxSkips)
+-      _skipCounter = 0;
+-  }
+-  else if (_initialTicks > 0) // skipType == AUTO, running
+-  {
+-    // Compute the frame number we want be at, based on elapsed time and target FPS
+-    unsigned int elapsedMilliseconds = SDL_GetTicks() - _initialTicks;
+-    unsigned int desiredFrame = (elapsedMilliseconds * _targetFPS) / 1000;
+ 
+-    // Record the frame number we are actually at
+-    _actualFrame++;
+-
+-    // See if we need to skip
+-    if (desiredFrame < _actualFrame)
+-    {
+-      // We are ahead of schedule, so do nothing
++bool FrameSkipper::willSkipNext() {
++    //Frame skip disabled
++    if (_maxSkips < 1) {
++        return false;
+     }
+-    else if (desiredFrame > _actualFrame && _skipCounter < _maxSkips)
+-    {
+-      // We are behind schedule and we are allowed to skip this frame, so skip this frame
+-      _skipCounter++;
++
++    //Manual frame skip
++    if (_skipType == MANUAL) {
++        if (_skipCounter < _maxSkips) {
++            _skipCounter++;
++            return true;
++        } else {
++            _skipCounter = 0;
++            return false;
++        }
+     }
+-    else
+-    {
+-      // We are on schedule, or we are not allowed to skip this frame...
+-      // ... so do not skip this frame
+-      _skipCounter = 0;
+-      // ... and pretend we are on schedule (if not already)
+-      _actualFrame = desiredFrame;
++
++    //If we got this far, it's AUTO
++    if (_desiredFrame > _actualFrame + 2 && _skipCounter < _maxSkips) {
++        _skipCounter++;
++
++        return true;
++    } else if (_skipCounter == _maxSkips || _actualFrame == _desiredFrame) {
++        _skipCounter = 0;
++        _actualFrame = _desiredFrame;
+     }
+-  }
+-  else // skipType == AUTO, initializing
+-  {
+-    // First frame, initialize auto-skip variables
+-    _initialTicks = SDL_GetTicks();
+-    _actualFrame = 0;
+-    _skipCounter = 0;
+-  }
++
++    return false;
+ }
++
++void FrameSkipper::update() {
++    if (_initialTicks == 0) {
++        // First frame, initialize auto-skip variables
++        _initialTicks = SDL_GetTicks();
++        _actualFrame = 0;
++        _skipCounter = 0;
++    }
++
++    if (_skipType == AUTO) {
++        // Compute the frame number we want be at, based on elapsed time and target FPS
++        unsigned int elapsedMilliseconds = SDL_GetTicks() - _initialTicks;
++        _desiredFrame = (elapsedMilliseconds * _targetFPS) / 1000;
++
++        // Record the frame number we are actually at
++        _actualFrame++;
++    }
++}
+\ No newline at end of file
+diff --git a/src/Glide64/FrameSkipper.h b/src/Glide64/FrameSkipper.h
+index 686cb2b..d694729 100644
+--- a/src/Glide64/FrameSkipper.h
++++ b/src/Glide64/FrameSkipper.h
+@@ -20,29 +20,33 @@
+ #ifndef FRAME_SKIPPER_H
+ #define FRAME_SKIPPER_H
+ 
+-class FrameSkipper
+-{
++class FrameSkipper {
+ public:
+-  enum { AUTO, MANUAL };
++    enum {
++        AUTO, MANUAL
++    };
+ 
+-  FrameSkipper();
++    FrameSkipper();
+ 
+-  void setSkips(int type, int max) { _skipType = type; _maxSkips = max; }
++    void setSkips(int type, int max) {
++        _skipType = type;
++        _maxSkips = max;
++    }
+ 
+-  void setTargetFPS(int fps) { _targetFPS = fps; }
++    void setTargetFPS(int fps) { _targetFPS = fps; }
+ 
+-  bool willSkipNext() { return (_skipCounter > 0); }
++    bool willSkipNext();
+ 
+-  void update();
++    void update();
+ 
+ private:
+-  int _skipType;
+-  int _maxSkips;
+-  int _targetFPS;
+-  int _skipCounter;
+-  unsigned int _initialTicks;
+-  unsigned int _actualFrame;
++    int _skipType;
++    int _maxSkips;
++    int _targetFPS;
++    int _skipCounter;
++    unsigned int _desiredFrame;
++    unsigned int _initialTicks;
++    unsigned int _actualFrame;
+ };
+ 
+ #endif
+-
+-- 
+2.32.0
+
+
+From 31cf34563ba337739f48c6003b05cca99ae92d85 Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 22:09:57 -0500
+Subject: [PATCH 4/8] Workaround for Mali crashing on glClear
+
+---
+ src/Glide64/Main.cpp             |  8 +++++---
+ src/Glitch64/OGLESglitchmain.cpp | 29 +++++++++++++++++++++++++++++
+ src/Glitch64/OGLESwrappers.h     |  4 ++--
+ src/Glitch64/OGLglitchmain.cpp   | 29 +++++++++++++++++++++++++++++
+ src/Glitch64/inc/glide.h         |  3 +++
+ 5 files changed, 68 insertions(+), 5 deletions(-)
+
+diff --git a/src/Glide64/Main.cpp b/src/Glide64/Main.cpp
+index 40dfe2c..28423ba 100644
+--- a/src/Glide64/Main.cpp
++++ b/src/Glide64/Main.cpp
+@@ -2434,11 +2434,13 @@ void newSwapBuffers()
+   {
+     if  (debugging || settings.wireframe || settings.buff_clear || (settings.hacks&hack_PPL && settings.ucode == 6))
+     {
+-      if (settings.hacks&hack_RE2 && fb_depth_render_enabled)
++      if (settings.hacks&hack_RE2 && fb_depth_render_enabled) {
+         grDepthMask (FXFALSE);
+-      else
++        grBufferClearNoDepth (0, 0);
++      } else {
+         grDepthMask (FXTRUE);
+-      grBufferClear (0, 0, 0xFFFF);
++        grBufferClear (0, 0, 0xFFFF);
++      }
+     }
+     /* //let the game to clear the buffers
+     else
+diff --git a/src/Glitch64/OGLESglitchmain.cpp b/src/Glitch64/OGLESglitchmain.cpp
+index 53c6b36..60fba9d 100644
+--- a/src/Glitch64/OGLESglitchmain.cpp
++++ b/src/Glitch64/OGLESglitchmain.cpp
+@@ -1717,6 +1717,35 @@ grBufferClear( GrColor_t color, GrAlpha_t alpha, FxU32 depth )
+ 
+ }
+ 
++FX_ENTRY void FX_CALL
++grBufferClearNoDepth( GrColor_t color, GrAlpha_t alpha )
++{
++  vbo_draw();
++  LOG("grBufferClear(%d,%d,%d)\r\n", color, alpha);
++  switch(lfb_color_fmt)
++  {
++    case GR_COLORFORMAT_ARGB:
++      glClearColor(((color >> 16) & 0xFF) / 255.0f,
++                   ((color >>  8) & 0xFF) / 255.0f,
++                   ( color        & 0xFF) / 255.0f,
++                   alpha / 255.0f);
++          break;
++    case GR_COLORFORMAT_RGBA:
++      glClearColor(((color >> 24) & 0xFF) / 255.0f,
++                   ((color >> 16) & 0xFF) / 255.0f,
++                   (color         & 0xFF) / 255.0f,
++                   alpha / 255.0f);
++          break;
++    default:
++      display_warning("grBufferClear: unknown color format : %x", lfb_color_fmt);
++  }
++
++  glClear(GL_COLOR_BUFFER_BIT);
++
++  // ZIGGY TODO check that color mask is on
++  buffer_cleared = 1;
++}
++
+ // #include <unistd.h>
+ FX_ENTRY void FX_CALL
+ grBufferSwap( FxU32 swap_interval )
+diff --git a/src/Glitch64/OGLESwrappers.h b/src/Glitch64/OGLESwrappers.h
+index d0bceb3..85f0e6a 100644
+--- a/src/Glitch64/OGLESwrappers.h
++++ b/src/Glitch64/OGLESwrappers.h
+@@ -83,7 +83,7 @@ static GLclampf cached_ClearColor_blue;
+ static GLclampf cached_ClearColor_alpha;
+ void inline cache_glClearColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
+ {
+-  if(red != cached_ClearColor_red || green != cached_ClearColor_green || blue != cached_ClearColor_blue || alpha != cached_ClearColor_alpha)
++  //if(red != cached_ClearColor_red || green != cached_ClearColor_green || blue != cached_ClearColor_blue || alpha != cached_ClearColor_alpha)
+   {
+     vbo_draw();
+     glClearColor(red, green, blue, alpha);
+@@ -98,7 +98,7 @@ void inline cache_glClearColor (GLclampf red, GLclampf green, GLclampf blue, GLc
+ static GLclampf cached_ClearDepthf_depth;
+ void inline cache_glClearDepthf (GLclampf depth)
+ {
+-  if(depth != cached_ClearDepthf_depth)
++  //if(depth != cached_ClearDepthf_depth)
+   {
+     vbo_draw();
+     glClearDepthf(depth);
+diff --git a/src/Glitch64/OGLglitchmain.cpp b/src/Glitch64/OGLglitchmain.cpp
+index 415a8ab..847a549 100644
+--- a/src/Glitch64/OGLglitchmain.cpp
++++ b/src/Glitch64/OGLglitchmain.cpp
+@@ -1675,6 +1675,35 @@ grBufferClear( GrColor_t color, GrAlpha_t alpha, FxU32 depth )
+ 
+ }
+ 
++FX_ENTRY void FX_CALL
++grBufferClearNoDepth( GrColor_t color, GrAlpha_t alpha )
++{
++LOG("grBufferClear(%d,%d,%d)\r\n", color, alpha);
++  switch(lfb_color_fmt)
++  {
++  case GR_COLORFORMAT_ARGB:
++  glClearColor(((color >> 16) & 0xFF) / 255.0f,
++  ((color >>  8) & 0xFF) / 255.0f,
++  ( color        & 0xFF) / 255.0f,
++  alpha / 255.0f);
++  break;
++  case GR_COLORFORMAT_RGBA:
++  glClearColor(((color >> 24) & 0xFF) / 255.0f,
++  ((color >> 16) & 0xFF) / 255.0f,
++  (color         & 0xFF) / 255.0f,
++  alpha / 255.0f);
++  break;
++  default:
++  display_warning("grBufferClear: unknown color format : %x", lfb_color_fmt);
++  }
++
++glClear(GL_COLOR_BUFFER_BIT);
++
++// ZIGGY TODO check that color mask is on
++buffer_cleared = 1;
++
++}
++
+ // #include <unistd.h>
+ FX_ENTRY void FX_CALL
+ grBufferSwap( FxU32 swap_interval )
+diff --git a/src/Glitch64/inc/glide.h b/src/Glitch64/inc/glide.h
+index 25c9ca8..559fded 100644
+--- a/src/Glitch64/inc/glide.h
++++ b/src/Glitch64/inc/glide.h
+@@ -600,6 +600,9 @@ grAADrawTriangle(
+ FX_ENTRY void FX_CALL
+ grBufferClear( GrColor_t color, GrAlpha_t alpha, FxU32 depth );
+ 
++FX_ENTRY void FX_CALL
++grBufferClearNoDepth( GrColor_t color, GrAlpha_t alpha );
++
+ FX_ENTRY void FX_CALL
+ grBufferSwap( FxU32 swap_interval );
+ 
+-- 
+2.32.0
+
+
+From 13a97d9720c7bddf7e32009dc818deea5a699b69 Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 22:11:22 -0500
+Subject: [PATCH 5/8] Branchless Z, protect against too high vertex index
+
+---
+ src/Glide64/ucode01.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Glide64/ucode01.h b/src/Glide64/ucode01.h
+index c774f63..a3e1717 100644
+--- a/src/Glide64/ucode01.h
++++ b/src/Glide64/ucode01.h
+@@ -155,7 +155,7 @@ static void uc1_branch_z()
+ {
+   wxUint32 addr = segoffset(branch_dl);
+   FRDP ("uc1:branch_less_z, addr: %08x\n", addr);
+-  wxUint32 vtx = (rdp.cmd0 >> 1) & 0x7FF;
++  wxUint32 vtx = (rdp.cmd0 >> 1) & 0xFF;
+   const wxUint32 zTest = wxUint32((rdp.vtx[vtx].z / rdp.vtx[vtx].w) * 1023.0f);
+   if (zTest > 0x03FF || zTest <= rdp.cmd1)
+   {
+-- 
+2.32.0
+
+
+From 62a31fa40c9b6881f580dc3fa07837a246fbd858 Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 1 Dec 2019 22:16:13 -0500
+Subject: [PATCH 6/8] Allow resolutions higher than 2048x2048 without crashing
+
+---
+ src/Glitch64/OGLESglitchmain.cpp | 90 +++++++++++++++++++++-----------
+ src/Glitch64/OGLEStextures.cpp   |  5 +-
+ src/Glitch64/OGLglitchmain.cpp   | 35 +++++++++++--
+ src/Glitch64/OGLtextures.cpp     |  5 +-
+ src/Glitch64/glitchmain.h        |  5 +-
+ 5 files changed, 98 insertions(+), 42 deletions(-)
+
+diff --git a/src/Glitch64/OGLESglitchmain.cpp b/src/Glitch64/OGLESglitchmain.cpp
+index 60fba9d..ab1f83a 100644
+--- a/src/Glitch64/OGLESglitchmain.cpp
++++ b/src/Glitch64/OGLESglitchmain.cpp
+@@ -146,6 +146,18 @@ typedef struct
+   int buff_clear;
+ } fb;
+ 
++union PackedScreenResolution
++{
++    struct
++    {
++        int width : 16;
++        int height : 15;
++        int fullscreen : 1;
++    };
++    int resolution;
++};
++
++PackedScreenResolution packedScreenResolution;
+ int nbTextureUnits;
+ int nbAuxBuffers, current_buffer;
+ int width, widtho, heighto, height;
+@@ -203,8 +215,8 @@ struct texbuf_t {
+ static texbuf_t texbufs[NB_TEXBUFS];
+ static int texbuf_i;
+ 
+-unsigned short frameBuffer[2048*2048*2]; // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
+-unsigned short depthBuffer[2048*2048];   // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
++unsigned short* frameBuffer; // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
++unsigned short* depthBuffer;   // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
+ 
+ //#define VOODOO1
+ 
+@@ -472,16 +484,6 @@ grSstWinOpen(
+ {
+   static int show_warning = 1;
+ 
+-  // ZIGGY
+-  // allocate static texture names
+-  // the initial value should be big enough to support the maximal resolution
+-  free_texture = 32*2048*2048;
+-  default_texture = free_texture++;
+-  color_texture = free_texture++;
+-  depth_texture = free_texture++;
+-
+-  LOG("grSstWinOpen(%08lx, %d, %d, %d, %d, %d %d)\r\n", hWnd, screen_resolution&~0x80000000, refresh_rate, color_format, origin_location, nColBuffers, nAuxBuffers);
+-
+ #ifdef _WIN32
+   if ((HWND)hWnd == NULL) hWnd = GetActiveWindow();
+   hwnd_win = (HWND)hWnd;
+@@ -495,14 +497,36 @@ grSstWinOpen(
+     printf("Could not open video settings");
+     return false;
+   }
+-  width = ConfigGetParamInt(video_general_section, "ScreenWidth");
+-  height = ConfigGetParamInt(video_general_section, "ScreenHeight");
+   fullscreen = ConfigGetParamBool(video_general_section, "Fullscreen");
+   int vsync = ConfigGetParamBool(video_general_section, "VerticalSync");
+   //viewport_offset = ((screen_resolution>>2) > 20) ? screen_resolution >> 2 : 20;
+   // ZIGGY viewport_offset is WIN32 specific, with SDL just set it to zero
+   viewport_offset = 0; //-10 //-20;
+ 
++  packedScreenResolution.resolution = screen_resolution;
++  width = packedScreenResolution.width;
++  height = packedScreenResolution.height;
++
++  if (packedScreenResolution.width*packedScreenResolution.height < 2048*2048) {
++    packedScreenResolution.width = 2048;
++    packedScreenResolution.height = 2048;
++  }
++
++  // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
++  frameBuffer = new unsigned short[packedScreenResolution.width*packedScreenResolution.height*2];
++  // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
++  depthBuffer = new unsigned short[packedScreenResolution.width*packedScreenResolution.height];
++
++  // ZIGGY
++  // allocate static texture names
++  // the initial value should be big enough to support the maximal resolution
++  free_texture = 32*packedScreenResolution.width*packedScreenResolution.height;
++  default_texture = free_texture++;
++  color_texture = free_texture++;
++  depth_texture = free_texture++;
++
++  LOG("grSstWinOpen(%08lx, %d, %d, %d, %d, %d %d)\r\n", hWnd, screen_resolution&~0x80000000, refresh_rate, color_format, origin_location, nColBuffers, nAuxBuffers);
++
+   CoreVideo_Init();
+   CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, 1);
+   CoreVideo_GL_SetAttribute(M64P_GL_SWAP_CONTROL, vsync);
+@@ -711,7 +735,7 @@ grSstWinOpen(
+   //FindBestDepthBias();
+ 
+   init_geometry();
+-  init_textures();
++  init_textures(packedScreenResolution.width, packedScreenResolution.height);
+   init_combiner();
+ 
+ /*
+@@ -778,6 +802,8 @@ grSstWinClose( GrContext_t context )
+   }
+ #endif
+   nb_fb = 0;
++  delete [] frameBuffer;
++  delete [] depthBuffer;
+ 
+   free_textures();
+ #ifndef _WIN32
+@@ -1840,23 +1866,25 @@ grLfbLock( GrLock_t type, GrBuffer_t buffer, GrLfbWriteMode_t writeMode,
+       } else {
+         buf = (unsigned char*)malloc(width*height*4);
+ 
+-        info->lfbPtr = frameBuffer;
+-        info->strideInBytes = width*2;
+-        info->writeMode = GR_LFBWRITEMODE_565;
+-        info->origin = origin;
+-        glReadPixels(0, viewport_offset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+-
+-        for (j=0; j<height; j++)
+-        {
+-          for (i=0; i<width; i++)
+-          {
+-            frameBuffer[(height-j-1)*width+i] =
+-              ((buf[j*width*4+i*4+0] >> 3) << 11) |
+-              ((buf[j*width*4+i*4+1] >> 2) <<  5) |
+-              (buf[j*width*4+i*4+2] >> 3);
+-          }
++        if (buf != NULL) {
++            info->lfbPtr = frameBuffer;
++            info->strideInBytes = width*2;
++            info->writeMode = GR_LFBWRITEMODE_565;
++            info->origin = origin;
++            glReadPixels(0, viewport_offset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buf);
++
++            for (j=0; j<height; j++)
++            {
++                for (i=0; i<width; i++)
++                {
++                    frameBuffer[(height-j-1)*width+i] =
++                            ((buf[j*width*4+i*4+0] >> 3) << 11) |
++                            ((buf[j*width*4+i*4+1] >> 2) <<  5) |
++                            (buf[j*width*4+i*4+2] >> 3);
++                }
++            }
++            free(buf);
+         }
+-        free(buf);
+       }
+     }
+     else
+diff --git a/src/Glitch64/OGLEStextures.cpp b/src/Glitch64/OGLEStextures.cpp
+index 3d7e852..43835c8 100644
+--- a/src/Glitch64/OGLEStextures.cpp
++++ b/src/Glitch64/OGLEStextures.cpp
+@@ -134,7 +134,7 @@ void add_tex(unsigned int id)
+   aux->next->next = aux2;
+ }
+ 
+-void init_textures()
++void init_textures(int width, int height)
+ {
+   tex0_width = tex0_height = tex1_width = tex1_height = 2;
+   // ZIGGY because remove_tex isn't called (Pj64 doesn't like it), it's better
+@@ -142,7 +142,8 @@ void init_textures()
+   // 	list = NULL;
+   // 	nbTex = 0;
+ 
+-  if (!texture)	texture = (unsigned char*)malloc(2048*2048*4);
++  if (!texture)	texture = (unsigned char*)malloc(width*height*4);
++  TMU_SIZE = width*height*8;
+ }
+ 
+ void free_textures()
+diff --git a/src/Glitch64/OGLglitchmain.cpp b/src/Glitch64/OGLglitchmain.cpp
+index 847a549..c5822ac 100644
+--- a/src/Glitch64/OGLglitchmain.cpp
++++ b/src/Glitch64/OGLglitchmain.cpp
+@@ -143,6 +143,19 @@ typedef struct
+   int buff_clear;
+ } fb;
+ 
++union PackedScreenResolution
++{
++    struct
++    {
++        int width : 16;
++        int height : 15;
++        int fullscreen : 1;
++    };
++    int resolution;
++};
++
++PackedScreenResolution packedScreenResolution;
++
+ int nbTextureUnits;
+ int nbAuxBuffers, current_buffer;
+ int width, widtho, heighto, height;
+@@ -200,8 +213,8 @@ struct texbuf_t {
+ static texbuf_t texbufs[NB_TEXBUFS];
+ static int texbuf_i;
+ 
+-unsigned short frameBuffer[2048*2048*2]; // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
+-unsigned short depthBuffer[2048*2048];   // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
++unsigned short* frameBuffer; // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
++unsigned short* depthBuffer;   // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
+ 
+ //#define VOODOO1
+ 
+@@ -462,10 +475,22 @@ grSstWinOpen(
+ {
+   static int show_warning = 1;
+ 
++  packedScreenResolution.resolution = screen_resolution;
++
++  if (packedScreenResolution.width*packedScreenResolution.height < 2048*2048) {
++    packedScreenResolution.width = 2048;
++    packedScreenResolution.height = 2048;
++  }
++
++  // Support 2048x2048 screen resolution at 32 bits (RGBA) per pixel
++  frameBuffer = new unsigned short[packedScreenResolution.width*packedScreenResolution.height*2];
++  // Support 2048x2048 screen resolution at 16 bits (depth) per pixel
++  depthBuffer = new unsigned short[packedScreenResolution.width*packedScreenResolution.height];
++
+   // ZIGGY
+   // allocate static texture names
+   // the initial value should be big enough to support the maximal resolution
+-  free_texture = 32*2048*2048;
++  free_texture = 32*packedScreenResolution.width*packedScreenResolution.height;
+   default_texture = free_texture++;
+   color_texture = free_texture++;
+   depth_texture = free_texture++;
+@@ -720,7 +745,7 @@ grSstWinOpen(
+   FindBestDepthBias();
+ 
+   init_geometry();
+-  init_textures();
++  init_textures(packedScreenResolution.width, packedScreenResolution.height);
+   init_combiner();
+ 
+   // Aniso filter check
+@@ -785,6 +810,8 @@ grSstWinClose( GrContext_t context )
+   }
+ #endif
+   nb_fb = 0;
++  delete [] frameBuffer;
++  delete [] depthBuffer;
+ 
+   free_textures();
+ #ifndef _WIN32
+diff --git a/src/Glitch64/OGLtextures.cpp b/src/Glitch64/OGLtextures.cpp
+index bf4d558..c7b33de 100644
+--- a/src/Glitch64/OGLtextures.cpp
++++ b/src/Glitch64/OGLtextures.cpp
+@@ -134,7 +134,7 @@ void add_tex(unsigned int id)
+   aux->next->next = aux2;
+ }
+ 
+-void init_textures()
++void init_textures(int width, int height)
+ {
+   tex0_width = tex0_height = tex1_width = tex1_height = 2;
+   // ZIGGY because remove_tex isn't called (Pj64 doesn't like it), it's better
+@@ -142,7 +142,8 @@ void init_textures()
+   // 	list = NULL;
+   // 	nbTex = 0;
+ 
+-  if (!texture)	texture = (unsigned char*)malloc(2048*2048*4);
++  if (!texture)	texture = (unsigned char*)malloc(width*height*4);
++  TMU_SIZE = width*height*8;
+ }
+ 
+ void free_textures()
+diff --git a/src/Glitch64/glitchmain.h b/src/Glitch64/glitchmain.h
+index e4f0151..4b728d6 100644
+--- a/src/Glitch64/glitchmain.h
++++ b/src/Glitch64/glitchmain.h
+@@ -79,8 +79,7 @@ extern int buffer_cleared; // mark that the buffer has been cleared, used to che
+ #if defined(_WIN32) && !defined(__MINGW32__) && !defined(__MINGW64__)
+ #include <windows.h>
+ extern "C" {
+-	#include <GL/gl.h>
+-	#include <GL/glext.h>
++    #include <SDL_opengl.h>
+     extern PFNGLACTIVETEXTUREARBPROC glActiveTextureARB;
+     extern PFNGLATTACHOBJECTARBPROC glAttachObjectARB;
+     extern PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT;
+@@ -137,7 +136,7 @@ extern "C" {
+ 
+ void display_warning(const char *text, ...) ATTR_FMT(1,2);
+ void init_geometry();
+-void init_textures();
++void init_textures(int width, int height);
+ void init_combiner();
+ void free_textures();
+ void updateCombiner(int i);
+-- 
+2.32.0
+
+
+From 4101750fa10a84f25375bb479165c7680307920e Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sat, 15 Feb 2020 01:12:34 -0500
+Subject: [PATCH 7/8] Fix extreme logging
+
+---
+ src/Glide64/Main.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Glide64/Main.cpp b/src/Glide64/Main.cpp
+index 28423ba..d0e4cdb 100644
+--- a/src/Glide64/Main.cpp
++++ b/src/Glide64/Main.cpp
+@@ -349,7 +349,7 @@ void WriteLog(m64p_msg_level level, const char *msg, ...)
+   vsnprintf(buf, 1023, msg, args);
+   buf[1023]='\0';
+   va_end(args);
+-  if (l_DebugCallback)
++  if (l_DebugCallback && level != M64MSG_VERBOSE)
+   {
+     l_DebugCallback(l_DebugCallContext, level, buf);
+   }
+-- 
+2.32.0
+
+
+From 0f6cd25d3f0c3c72595c714dff36634b4fdf02c1 Mon Sep 17 00:00:00 2001
+From: fzurita <fzurita@gmail.com>
+Date: Sun, 20 Dec 2020 18:15:25 -0500
+Subject: [PATCH 8/8] Fix crash with Adreno devices
+
+---
+ src/Glitch64/OGLESgeometry.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Glitch64/OGLESgeometry.cpp b/src/Glitch64/OGLESgeometry.cpp
+index 8088f23..c30c95a 100644
+--- a/src/Glitch64/OGLESgeometry.cpp
++++ b/src/Glitch64/OGLESgeometry.cpp
+@@ -50,7 +50,7 @@ int w_buffer_mode;
+ int inverted_culling;
+ int culling_mode;
+ 
+-#define VERTEX_BUFFER_SIZE 1500 //Max amount of vertices to buffer, this seems large enough.
++#define VERTEX_BUFFER_SIZE 750 //Max amount of vertices to buffer, this seems large enough.
+ static VERTEX vertex_buffer[VERTEX_BUFFER_SIZE];
+ static int vertex_buffer_count = 0;
+ static GLenum vertex_draw_mode;
+-- 
+2.32.0
+

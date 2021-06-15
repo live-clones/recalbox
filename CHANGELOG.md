@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Fixed game compatibility on ppsspp (#1756)
 - Added tmp directory for docker builds (#1765)
 - CI: do not clone buildroot when running linter (#1765)
+- Bump mupen64plus Glide64MK2 (#1766)
 
 
 ## [7.2.2-Beta2]

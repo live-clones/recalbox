@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix the time conflict between Windows and Recalbox in case of dual-boot 
 - Make Mupen64plus GLideN64 works on Raspberry PI3
 - Fix MAME menu is displayed if you add credit with the wiimote
+- Make Mupen64plus Glide64MK2 works on various boards
 
 ## Version 7.2.1-Reloaded
 
