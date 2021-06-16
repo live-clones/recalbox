@@ -2,13 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+
+## [7.2.2-Reloaded]
+- Fix controler #2 in swanstation (#1730)
+- Bump mupen64plus Glide64MK2 (#1766)
+- Fix dreamcast overlay offset rpi3 (#1695)
+
+## [7.2.2-Beta3]
 - Fix mupen64plus resolution (standalone)
 - Make mupen64plus working on Odroid Advance Go2/Go Super (standalone)
 - Force 16bpp in mupen64plus + rice for RPI4
 - Fix ratio issues in Dolphin & Supermodel3
 - Switch PUAE to A600 instead of A500PLUS for amiga600 system
 - Fix PSP save path
-- Fix controler #2 in swanstation (#1730)
 - Bump mupen64plus standalone core (#1712)
 - Libretro Parallel n64 automatic video plugin is set to Rice (#1712)
 - Libretro Parallel n64 now works on odroidxu4 (#1712)
@@ -20,7 +26,6 @@ All notable changes to this project will be documented in this file.
 - Fixed game compatibility on ppsspp (#1756)
 - Added tmp directory for docker builds (#1765)
 - CI: do not clone buildroot when running linter (#1765)
-- Bump mupen64plus Glide64MK2 (#1766)
 
 
 ## [7.2.2-Beta2]
@@ -52,7 +57,6 @@ All notable changes to this project will be documented in this file.
 - Renamed review builds to beta builds (tags only) (#1673)
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
-- Fix dreamcast overlay offset rpi3 (#1695)
 
 
 ## [7.2.1-Reloaded]

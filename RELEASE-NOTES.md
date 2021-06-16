@@ -4,7 +4,7 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear 
 as release notes for end user on a Recalbox upgrade.
 
-## Next
+## Version 7.2.2-Reloaded
 
 ### Fixes
 - Fix mupen64plus resolution (standalone)
@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Make Mupen64plus GLideN64 works on Raspberry PI3
 - Fix MAME menu is displayed if you add credit with the wiimote
 - Make Mupen64plus Glide64MK2 works on various boards
+- Fix image display on dreamcast when using overlays
 
 ## Version 7.2.1-Reloaded
 
