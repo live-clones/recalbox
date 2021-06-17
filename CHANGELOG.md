@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Show a message in emulationstation when the upgrade has failed
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
