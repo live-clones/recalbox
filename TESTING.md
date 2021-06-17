@@ -23,6 +23,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped px68k (Sharp x68000) (#1775)
 - [ ] Get an es_systems.cfg for your board (7.2.2 max) and compare emulators/core available in this file to those available in this beta. They should all be there :)
 - [ ] Test stella2014 on rpizero and rpi2, should be full fps (#1761)
+- [ ] Bumped Stella : Test stella core on all plateforms (#1761)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
