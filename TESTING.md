@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
 - [ ] Test libretro-parallel-n64 with default conf on rpi and odroidxu4 boards (#1712)
 - [ ] Test mupen64plus rice with default conf on odroidgo2 and odroidxu4 boards (#1712)

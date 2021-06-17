@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fix controler #2 in swanstation (#1730)
 - Bump mupen64plus Glide64MK2 (#1766)
 - Fix dreamcast overlay offset rpi3 (#1695)
+- Migrate PPSSPP saves to new directory (#1773)
 
 ## [7.2.2-Beta3]
 - Fix mupen64plus resolution (standalone)
