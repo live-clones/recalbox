@@ -19,7 +19,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window)
   : GuiMenuBase(window, _("SYSTEM SETTINGS"), nullptr)
 {
   // Version
-  std::string version = Strings::Trim(Files::LoadFile(Path(Upgrade::sLocalVersionFile)), " \t\r\n");
+  std::string version = Upgrade::CurrentVersion();
   mVersion = AddText(_("VERSION"), version, _(MENUMESSAGE_VERSION_HELP_MSG));
 
   // Share space

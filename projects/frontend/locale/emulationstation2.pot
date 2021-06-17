@@ -3148,3 +3148,11 @@ msgstr ""
 #
 msgid "P2K CONTROLS"
 msgstr ""
+
+#
+msgid "THE UPGRADE HAS FAILED"
+msgstr ""
+
+#
+msgid "The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists."
+msgstr ""

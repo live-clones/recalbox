@@ -39,7 +39,7 @@ class MainRunner
        MustExit,        //!< External quit required
        WaitingExit,     //!< Special wait state after a pending exit state has been processed
     };
-    
+
     //! Runner exit state
     enum class ExitState
     {
@@ -59,6 +59,7 @@ class MainRunner
     static constexpr const char* sQuitNow = "/tmp/externalnotifications/emulationstation.quitnow";
     //! Upgrade file flag. Only available once in /tmp after a successful update
     static constexpr const char* sUpgradeFileFlag = "/tmp/upgraded";
+    static constexpr const char* sUpgradeFailedFlag = "/tmp/upgradefailed";
 
   private:
     //! Requested width
@@ -129,6 +130,12 @@ class MainRunner
      * @param window Main window
      */
     static void CheckUpdateMessage(WindowManager& window);
+
+    /*!
+     * @brief Check if Recalbox upgrade has failed push an error popup
+     * @param window Main window
+    */
+    static void CheckUpdateFailed(WindowManager& window);
 
     /*!
      * @brief Check if this is the first launch and run a wizard if required

@@ -127,6 +127,7 @@ MainRunner::ExitState MainRunner::Run()
 
       // Update?
       CheckUpdateMessage(window);
+      CheckUpdateFailed(window);
       // Input ok?
       CheckAndInitializeInput(window);
       // Wizard
@@ -352,13 +353,25 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 
 void MainRunner::CheckUpdateMessage(WindowManager& window)
 {
-  // Push a message box with the whangelog if Recalbox has been updated
+  // Push a message box with the changelog if Recalbox has been updated
   Path flag(sUpgradeFileFlag);
   if (flag.Exists())
   {
     std::string changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
     std::string message = "Changes :\n" + changelog;
     window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
+  }
+}
+
+void MainRunner::CheckUpdateFailed(WindowManager& window)
+{
+  // Push a message if Recalbox upgrade has failed
+  Path flag(sUpgradeFailedFlag);
+  if (flag.Exists())
+  {
+    std::string version = Upgrade::CurrentVersion();
+    std::string message = Strings::Format(_("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.").c_str(), version.c_str());
+    window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE HAS FAILED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
   }
 }
 

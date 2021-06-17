@@ -4,6 +4,7 @@
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/Signal.h>
+#include <utils/Files.h>
 
 class Upgrade: private Thread, private ISynchronousEvent
 {
@@ -33,6 +34,12 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @return Remote version
      */
     static std::string NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
+
+    /*!
+     * @brief Return trimmed current version.
+     * @return Current version
+     */
+    static std::string CurrentVersion() { return Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n"); }
 
     /*!
      * @brief Return remote releasenote
