@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
 - Bump Fbneo 1.0.0.02 (#1688) 
 - Fix changelog linter (#1759)
 - New romfs v2
+- Add libretro uae4arm core (#1771)
+- Set grub timeout to 3 seconds (#1750)
+- Show a message in emulationstation when the upgrade has failed (#1772)
+- Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
+- Add stella2014 core on RPI1/Zero and RPI2 as it is more performant (#1761)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add libretro uae4arm core
+- Add stella2014 core on RPI1/Zero and RPI2 as it is more performant
 
 ### Improvements
 - Bump Retroarch to v1.9.3
