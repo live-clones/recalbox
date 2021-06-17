@@ -103,3 +103,15 @@ done
 mount -o remount,ro /
 
 
+### Migration 6 [20210617165703]
+### Copy all psp saves to the new directory : see https://gitlab.com/recalbox/recalbox/-/issues/1773
+PSPSAVEDIR="/recalbox/share/saves/psp/ppsspp/PSP/"
+mkdir -p "${PSPSAVEDIR}"
+
+for SAVE_DIR in "SAVEDATA" "PPSSPP_STATE"; do
+  if [ ! -z "$(ls -A /recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/)" ]; then
+    recallog "MIGRATION of PPSSPP saves from /recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/ to /recalbox/share/saves/psp/ppsspp/PSP/"
+    cp -r "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/" "${PSPSAVEDIR}" && \
+    rm -rf "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/"
+  fi
+done
