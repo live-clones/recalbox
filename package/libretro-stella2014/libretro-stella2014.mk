@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_STELLA2014_VERSION = fc87f2c78d3b177f4b9b19698557dce452ac3ce7
+LIBRETRO_STELLA2014_VERSION = ceed5a52549c313a12b4feb94c28411bdffb7612
 LIBRETRO_STELLA2014_SITE = $(call github,libretro,stella2014-libretro,$(LIBRETRO_STELLA2014_VERSION))
 LIBRETRO_STELLA2014_LICENSE = GPL-2.0
 
