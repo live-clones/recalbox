@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file.
 - Added tmp directory for docker builds (#1765)
 - CI: do not clone buildroot when running linter (#1765)
 
+- Fix changelog linter (#1759)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
