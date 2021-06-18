@@ -830,6 +830,10 @@ All notable changes to this project will be documented in this file.
 - Package names updated (catsfc -> snes9x2005, pocketsnes -> snes9x2002, snes9x_next -> snes9x2010, pce -> mednafen_pce_fast, vb -> mednafen_vb, imame -> mame2000, mame2003 as core name instead of mame078, fbalpha instead of fba)
 - Improved log formatting
 - Add Demo Screensaver
+- Add xinmo controller support
+- Add 8BitDo M30 gamepad support
+- Fix virtual gamepad even if user has an existing configuration from previous Recalbox version
+- ES: add a backup option
 
 ## [18.07.13] - 2018-07-13
 - Bump desmume to desmume2015
