@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
+- Show a message in emulationstation when the upgrade has failed
+- Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
