@@ -42,7 +42,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuScreensavers::GetSystemE
 
   for (auto* it : mSystemManager.GetAllSystemList())
     if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-      list.push_back({ it->getFullName(), it->getName(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->getName()) });
+      list.push_back({ it->FullName(), it->Name(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->Name()) });
 
   return list;
 }

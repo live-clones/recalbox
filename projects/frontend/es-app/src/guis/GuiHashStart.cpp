@@ -34,8 +34,8 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
   mSystems = std::make_shared<OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
   for (auto* it : mSystemManager.GetVisibleSystemList())
   {
-    if (RecalboxConf::Instance().isInList("global.netplay.systems", it->getName()))
-      mSystems->add(it->getFullName(), it, true);
+    if (RecalboxConf::Instance().isInList("global.netplay.systems", it->Name()))
+      mSystems->add(it->FullName(), it, true);
   }
   mMenu.addWithLabel(mSystems, _("SYSTEMS"));
 
@@ -130,7 +130,7 @@ void GuiHashStart::Start()
       if (!root->ReadOnly())
       {
         // Run through games
-        FileData::List games = root->getAllItems(true, true);
+        FileData::List games = root->GetAllItems(true, true);
         for (FileData* game : games)
           if (game->Metadata().RomCrc32() == 0 || forceAll)
             mThreadPool.PushFeed(game);
@@ -148,9 +148,9 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   if (mState == State::Hashing)
   {
     bool done = false;
-    if (Strings::ToLowerASCII(feed->getPath().Extension()) == ".zip")
+    if (Strings::ToLowerASCII(feed->FilePath().Extension()) == ".zip")
     {
-      Zip zip(feed->getPath());
+      Zip zip(feed->FilePath());
       if (zip.Count() == 1)
       {
         feed->Metadata().SetRomCrc32(zip.Crc32(0));
@@ -162,11 +162,11 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
     {
       // Hash file
       unsigned int result = 0;
-      if (Crc32File(feed->getPath()).Crc32(result))
+      if (Crc32File(feed->FilePath()).Crc32(result))
         feed->Metadata().SetRomCrc32((int) result);
     }
 
-    std::string busyText(feed->getSystem()->getFullName());
+    std::string busyText(feed->System().FullName());
     busyText.append(1, ' ')
             .append(Strings::ToString(mTotalGames - mRemaininglGames))
             .append(1, '/')

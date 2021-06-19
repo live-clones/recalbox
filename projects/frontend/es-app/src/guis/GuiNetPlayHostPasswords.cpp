@@ -48,7 +48,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData
     RecalboxConf::Instance().Save();
 
     // Run game
-    if(mGame.isGame())
+    if(mGame.IsGame())
     {
       std::string playerPassword, viewerPassword;
       if (mPlayerPasswordOnOff->getState())

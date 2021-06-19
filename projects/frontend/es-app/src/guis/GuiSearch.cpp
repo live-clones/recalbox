@@ -195,14 +195,14 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 
     // NETPLAY
     if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
-        && (RecalboxConf::Instance().isInList("global.netplay.systems", cursor->getSystem()->getName())))
+        && (RecalboxConf::Instance().isInList("global.netplay.systems", cursor->System().Name())))
     {
       mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
       return true;
     }
     if (event.YPressed())
     {
-      if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+      if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
       {
         MetadataDescriptor& md = cursor->Metadata();
         SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
@@ -211,10 +211,10 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 
         if (favoriteSystem != nullptr)
         {
-          if (md.Favorite()) favoriteSystem->GetFavoriteRoot().addChild(cursor, false);
-          else favoriteSystem->GetFavoriteRoot().removeChild(cursor);
+          if (md.Favorite()) favoriteSystem->GetFavoriteRoot().AddChild(cursor, false);
+          else favoriteSystem->GetFavoriteRoot().RemoveChild(cursor);
 
-          ViewController::Instance().setInvalidGamesList(cursor->getSystem());
+          ViewController::Instance().setInvalidGamesList(&cursor->System());
           ViewController::Instance().setInvalidGamesList(favoriteSystem);
         }
         ViewController::Instance().getSystemListView().manageFavorite();
@@ -310,7 +310,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 				row.elements.clear();
 				std::string gameName;
 
-				const char* icon = SystemIcons::GetIcon(game->getSystem()->getName());
+				const char* icon = SystemIcons::GetIcon(game->System().Name());
 				if (icon != nullptr) gameName.append(icon);
 				gameName.append(game->Metadata().Name());
 
@@ -366,7 +366,7 @@ void GuiSearch::populateGridMeta(int i)
 	mResultVideo->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
 
 	//system logo retieved from theme
-	mResultSystemLogo->applyTheme(mSearchResults[i]->getSystem()->getTheme(), "system", "logo", ThemeProperties::Path);
+	mResultSystemLogo->applyTheme(mSearchResults[i]->System().Theme(), "system", "logo", ThemeProperties::Path);
 	mGridLogoAndMD->setRowHeightPerc(0, 0.5f);
 	mResultSystemLogo->setMaxSize(mGridLogo->getSize().x() * 0.8f, mGridLogo->getSize().y() * 0.8f);
 	ResizeGridLogo();
@@ -382,7 +382,7 @@ void GuiSearch::populateGridMeta(int i)
 	float height = (mMDDeveloperLabel->getFont()->getLetterHeight() + 2) / mGridLogoAndMD->getSize().y();
 	mGridLogoAndMD->setRowHeightPerc(2, height);
 	mGridLogoAndMD->setRowHeightPerc(4, height);
-	int width = std::max(mMDDeveloperLabel->getSize().x(), mMDPublisherLabel->getSize().x());
+	int width = Math::max(mMDDeveloperLabel->getSize().x(), mMDPublisherLabel->getSize().x());
 	mGridLogoAndMD->setColWidthPerc(0, (float)width / mGridLogoAndMD->getSize().x());
 	mGridLogoAndMD->getCellAt(0, 2)->resize = true;
 	mGridLogoAndMD->getCellAt(0, 4)->resize = true;

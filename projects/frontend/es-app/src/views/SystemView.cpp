@@ -37,13 +37,13 @@ void SystemView::addSystem(SystemData * it)
 {
 	if (!(it)->HasVisibleGame()) return;
 
-	const ThemeData& theme = (it)->getTheme();
+	const ThemeData& theme = (it)->Theme();
 	
 	if(mViewNeedsReload)
 			getViewElements(theme);
 
 	Entry e;
-	e.name = (it)->getName();
+	e.name = (it)->Name();
 	e.object = it;
 
 	// make logo
@@ -52,12 +52,12 @@ void SystemView::addSystem(SystemData * it)
 	{
 		ImageComponent* logo = new ImageComponent(mWindow, false, false);
 		logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
-		logo->applyTheme((it)->getTheme(), "system", "logo", ThemeProperties::Path);
+		logo->applyTheme((it)->Theme(), "system", "logo", ThemeProperties::Path);
 		e.data.logo = std::shared_ptr<Component>(logo);
 		if ((it)->ThemeFolder() == "default")
 		{
 			TextComponent* text = new TextComponent(mWindow,
-                                              (it)->getName(),
+                                              (it)->Name(),
                                               Font::get(FONT_SIZE_MEDIUM),
                                               0x1A1A1AFF,
                                               TextAlignment::Center);
@@ -70,11 +70,11 @@ void SystemView::addSystem(SystemData * it)
 		}
 
 	}else{
-	  GameGenres genre = Genres::LookupFromName(it->getName());
+	  GameGenres genre = Genres::LookupFromName(it->Name());
 	  if (genre == GameGenres::None)
     {
       // no logo in theme; use text
-      TextComponent* text = new TextComponent(mWindow, (it)->getFullName(), Font::get(FONT_SIZE_LARGE), 0x000000FF,
+      TextComponent* text = new TextComponent(mWindow, (it)->FullName(), Font::get(FONT_SIZE_LARGE), 0x000000FF,
                                               TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logo = std::shared_ptr<Component>(text);
@@ -91,7 +91,7 @@ void SystemView::addSystem(SystemData * it)
       e.data.logo = std::shared_ptr<Component>(logo);
 
       TextComponent* text = new TextComponent(mWindow,
-                                              (it)->getFullName(),
+                                              (it)->FullName(),
                                               Font::get(FONT_SIZE_MEDIUM),
                                               0xE6E6E6FF,
                                               TextAlignment::Center);
@@ -148,7 +148,7 @@ void SystemView::addSystem(SystemData * it)
 	}
 
 	e.data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
-	e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->getTheme(), "system", mWindow));
+	e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->Theme(), "system", mWindow));
 
 
 	// sort the extras by z-index
@@ -285,7 +285,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 	if(lastSystem != getSelected()){
 		lastSystem = getSelected();
-    AudioManager::Instance().StartPlaying(getSelected()->getTheme());
+    AudioManager::Instance().StartPlaying(getSelected()->Theme());
 	}
 	// update help style
 	updateHelpPrompts();
@@ -482,7 +482,7 @@ bool SystemView::getHelpPrompts(Help& help)
 
 void SystemView::ApplyHelpStyle()
 {
-  HelpItemStyle().FromTheme(mEntries[mCursor].object->getTheme(), "system");
+  HelpItemStyle().FromTheme(mEntries[mCursor].object->Theme(), "system");
 }
 
 void SystemView::onThemeChanged(const ThemeData& theme)

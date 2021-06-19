@@ -34,7 +34,7 @@ void DemoMode::init()
   bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
   for (int i=(int)allSystems.size(); --i>= 0;)
   {
-    const std::string& name = allSystems[i]->getName();
+    const std::string& name = allSystems[i]->Name();
     bool includeSystem = mRecalboxConf.AsBool(name + ".demo.include");
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
     bool hasVisibleGame = allSystems[i]->HasVisibleGame();
@@ -43,9 +43,9 @@ void DemoMode::init()
       mDemoSystems.push_back(allSystems[i]);
       int systemDuration = (int) mRecalboxConf.AsUInt(name + ".demo.duration", (unsigned int) mDefaultDuration);
       mDurations.push_back(systemDuration);
-      { LOG(LogInfo) << "[DemoMode] System selected for demo : " << allSystems[i]->getName() << " with session of " << systemDuration << "s"; }
+      { LOG(LogInfo) << "[DemoMode] System selected for demo : " << allSystems[i]->Name() << " with session of " << systemDuration << "s"; }
     }
-    else { LOG(LogDebug) << "[DemoMode] System NOT selected for demo : " << allSystems[i]->getName() << " - isSelected: " << (includeSystem || systemIsInIncludeList) << " - hasVisibleGame: " << (hasVisibleGame ? 1 : 0); }
+    else { LOG(LogDebug) << "[DemoMode] System NOT selected for demo : " << allSystems[i]->Name() << " - isSelected: " << (includeSystem || systemIsInIncludeList) << " - HasVisibleGame: " << (hasVisibleGame ? 1 : 0); }
   }
 
   // Check if there is at least one system.
@@ -110,7 +110,7 @@ bool DemoMode::getRandomSystem(int& outputSystemIndex, int& outputDuration)
     }
     // No luck, try again
   }
-  { LOG(LogInfo) << "[DemoMode] Randomly selected system: " << mDemoSystems[outputSystemIndex]->getName() << " ("  << outputSystemIndex << "/" << (int)mDemoSystems.size() << ")"; }
+  { LOG(LogInfo) << "[DemoMode] Randomly selected system: " << mDemoSystems[outputSystemIndex]->Name() << " ("  << outputSystemIndex << "/" << (int)mDemoSystems.size() << ")"; }
 
   return true;
 }
@@ -123,7 +123,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
 
   // Get filelist
   FileData::List gameList = system->getGames();
-  if (gameList.empty()) { LOG(LogError) << "[DemoMode] NO game available for demo mode in system " << system->getName() << " !"; return false; }
+  if (gameList.empty()) { LOG(LogError) << "[DemoMode] NO game available for demo mode in system " << system->Name() << " !"; return false; }
 
   int gamePosition = 0;
   for (int i = MAX_HISTORY; --i >= 0; )
@@ -140,7 +140,7 @@ bool DemoMode::getRandomGame(FileData*& outputGame, int& outputDuration)
     }
     // No luck, try again
   }
-  { LOG(LogInfo) << "[DemoMode] Randomly selected game: " << outputGame->getPath().ToString() << " ("  << gamePosition << "/" << (int)gameList.size() << ")"; }
+  { LOG(LogInfo) << "[DemoMode] Randomly selected game: " << outputGame->FilePath().ToString() << " ("  << gamePosition << "/" << (int)gameList.size() << ")"; }
 
   mSeed++;
   return true;
@@ -161,7 +161,7 @@ void DemoMode::runDemo()
   while(getRandomGame(game, duration))
   {
     // Get game's parent system
-    SystemData* system = game->getSystem();
+    SystemData& system = game->System();
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
@@ -170,7 +170,7 @@ void DemoMode::runDemo()
     }
     // Run game
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
-    if (system->DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
+    if (system.DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
     {
       mWindow.DoWake();
       break;

@@ -43,7 +43,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
-  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.getPath().Filename()),
+  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.FilePath().Filename()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
@@ -139,16 +139,16 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
           std::string currentCore = mMetaData.Core();
           std::string defaultEmulator;
           std::string defaultCore;
-          if (!mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore))
+          if (!mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore))
             continue;
           if (currentEmulator.empty()) currentEmulator = defaultEmulator;
           if (currentCore.empty()) currentCore = defaultCore;
 
           row.addElement(emu_choice, false);
 
-          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(*mGame.getSystem()))
+          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(mGame.System()))
           {
-            for (const std::string& coreName : mSystemManager.Emulators().GetCores(*mGame.getSystem(), emulatorName))
+            for (const std::string& coreName : mSystemManager.Emulators().GetCores(mGame.System(), emulatorName))
             {
               std::string displayName = emulatorName;
               if (displayName != coreName) displayName.append(1, ' ').append(coreName);
@@ -272,7 +272,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   }
 
 
-  if (main && !game.getSystem()->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
+  if (main && !game.System().hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
   {
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SCRAPE"), _("SCRAPE"), std::bind(&GuiMetaDataEd::fetch, this)));
   }
@@ -285,7 +285,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
   buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this] { Close(); }));
 
-  if (main && mActions != nullptr && !mGame.getSystem()->IsVirtual())
+  if (main && mActions != nullptr && !mGame.System().IsVirtual())
   {
     auto deleteFileAndSelf = [this]
     {
@@ -365,7 +365,7 @@ void GuiMetaDataEd::save()
         {
           std::string defaultEmulator;
           std::string defaultCore;
-          mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
+          mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore);
           if (split[0] == defaultEmulator && split[1] == defaultCore)
           {
             mMetaData.SetEmulator("");
@@ -419,7 +419,7 @@ void GuiMetaDataEd::close(bool closeAllWindows)
 
           std::string defaultEmulator;
           std::string defaultCore;
-          mSystemManager.Emulators().GetDefaultEmulator(*mGame.getSystem(), defaultEmulator, defaultCore);
+          mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore);
           std::string defaulEmulatorAndCore = defaultEmulator;
           defaulEmulatorAndCore.append(1, ':').append(defaultCore);
 

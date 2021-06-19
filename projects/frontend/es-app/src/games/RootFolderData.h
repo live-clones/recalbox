@@ -40,7 +40,7 @@ class RootFolderData : public FolderData
       // Destroy any subroot first
       for(RootFolderData* root : SubRoots())
       {
-        removeChild(root);
+        RemoveChild(root);
         delete root;
       }
 
@@ -57,10 +57,10 @@ class RootFolderData : public FolderData
     }
 
     //! System
-    SystemData& System() const { return mSystem; }
+    SystemData& RootSystem() const { return mSystem; }
 
     //! Get type
-    Types Type() const { return mType; }
+    Types RootType() const { return mType; }
 
     //! Normal folder?
     bool Normal() const { return (mType == Types::None); }
@@ -75,7 +75,7 @@ class RootFolderData : public FolderData
     bool HasSubRoots() const
     {
       for(FileData* child : mChildren)
-        if (child->isRoot())
+        if (child->IsRoot())
           return true;
       return false;
     }
@@ -85,7 +85,7 @@ class RootFolderData : public FolderData
     {
       std::vector<RootFolderData*> roots;
       for(FileData* child : mChildren)
-        if (child->isRoot())
+        if (child->IsRoot())
           roots.push_back((RootFolderData*)child);
       return roots;
     }
@@ -94,7 +94,7 @@ class RootFolderData : public FolderData
      * @brief Add Sub-root
      * @param subroot Sub-root to add
      */
-    void AddSubRoot(RootFolderData* subroot) { addChild(subroot, true); }
+    void AddSubRoot(RootFolderData* subroot) { AddChild(subroot, true); }
 
   private:
     //! Parent system
@@ -105,5 +105,5 @@ class RootFolderData : public FolderData
     Types mType;
 
     // Hide addChild
-    using FolderData::addChild;
+    using FolderData::AddChild;
 };

@@ -191,7 +191,7 @@ class ScreenScraperEngine
     std::string mLogin;
     //! Screenscraper credentials: Password
     std::string mPassword;
-    //! Ffavorite language
+    //! Favorite language
     Languages mLanguage;
     //! Favorite region
     Regions::GameRegions mRegion;

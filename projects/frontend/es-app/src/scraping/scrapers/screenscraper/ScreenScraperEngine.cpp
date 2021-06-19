@@ -10,166 +10,38 @@
 #include <utils/Files.h>
 #include "ScreenScraperEngine.h"
 
-/*!
- * List of systems and their IDs from
- * https://www.screenscraper.fr/api/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=XML
- */
-static const HashMap<PlatformIds::PlatformId, int>& GetPlatformIDs()
-{
-  static const HashMap<PlatformIds::PlatformId, int> screenscraperPlatformidMap
-    {
-      { PlatformIds::PlatformId::AMSTRAD_CPC,               65},
-      { PlatformIds::PlatformId::AMSTRAD_GX4000,            87},
-      { PlatformIds::PlatformId::APPLE_II,                  86},
-      { PlatformIds::PlatformId::APPLE_IIGS,                217},
-      { PlatformIds::PlatformId::APPLE_MACOS,               146},
-      { PlatformIds::PlatformId::ARCADE,                    75},
-      { PlatformIds::PlatformId::ATARI_8BITS,               43},
-      { PlatformIds::PlatformId::ATARI_2600,                26},
-      { PlatformIds::PlatformId::ATARI_5200,                40},
-      { PlatformIds::PlatformId::ATARI_7800,                41},
-      { PlatformIds::PlatformId::ATARI_JAGUAR,              27},
-      { PlatformIds::PlatformId::ATARI_JAGUAR_CD,           171},
-      { PlatformIds::PlatformId::ATARI_LYNX,                28},
-      { PlatformIds::PlatformId::ATARI_ST,                  42},
-      { PlatformIds::PlatformId::BANDAI_WONDERSWAN,         45},
-      { PlatformIds::PlatformId::BANDAI_WONDERSWAN_COLOR,   46},
-      { PlatformIds::PlatformId::COLECOVISION,              48},
-      { PlatformIds::PlatformId::COMMODORE_VIC20,           73},
-      { PlatformIds::PlatformId::COMMODORE_64,              66},
-      { PlatformIds::PlatformId::COMMODORE_AMIGA,           64},
-      { PlatformIds::PlatformId::COMMODORE_CD32,            130},
-      { PlatformIds::PlatformId::COMMODORE_CDTV,            129},
-      { PlatformIds::PlatformId::ELEKTRONIKA_BK,            93},
-      { PlatformIds::PlatformId::EPOCH_SUPERCASSETTEVISION, 67},
-      { PlatformIds::PlatformId::FAIRCHILD_CHANNELF,        80},
-      { PlatformIds::PlatformId::GAMEENGINE_DAPHNE,         49},
-      { PlatformIds::PlatformId::GAMEENGINE_LUTRO,          206},
-      { PlatformIds::PlatformId::GAMEENGINE_OPENBOR,        214},
-      { PlatformIds::PlatformId::GAMEENGINE_SCUMMVM,        123},
-      { PlatformIds::PlatformId::GAMEENGINE_SOLARUS,        223},
-      { PlatformIds::PlatformId::GAMEENGINE_TIC80,          222},
-      { PlatformIds::PlatformId::GCE_VECTREX,               102},
-      { PlatformIds::PlatformId::IBM_PC,                    135},
-      { PlatformIds::PlatformId::MAGNAVOX_ODYSSEY2,         104},
-      { PlatformIds::PlatformId::MATTEL_INTELLIVISION,      115},
-      { PlatformIds::PlatformId::MGT_SAMCOUPE,              213},
-      { PlatformIds::PlatformId::MICROSOFT_MSX,             113},
-      { PlatformIds::PlatformId::MICROSOFT_MSX1,            113},
-      { PlatformIds::PlatformId::MICROSOFT_MSX2,            116},
-      { PlatformIds::PlatformId::MICROSOFT_MSXTURBOR,       118},
-      { PlatformIds::PlatformId::MICROSOFT_XBOX,            32},
-      { PlatformIds::PlatformId::MICROSOFT_XBOX_360,        33},
-      { PlatformIds::PlatformId::NEC_PC88,                  221},
-      { PlatformIds::PlatformId::NEC_PC98,                  208},
-      { PlatformIds::PlatformId::NEC_PCENGINE,              31},
-      { PlatformIds::PlatformId::NEC_PCENGINE_CD,           114},
-      { PlatformIds::PlatformId::NEC_PCFX,                  72},
-      { PlatformIds::PlatformId::NEC_SUPERGRAFX,            31},
-      { PlatformIds::PlatformId::NEOGEO,                    142},
-      { PlatformIds::PlatformId::NEOGEO_CD,                 70},
-      { PlatformIds::PlatformId::NEOGEO_POCKET,             25},
-      { PlatformIds::PlatformId::NEOGEO_POCKET_COLOR,       82},
-      { PlatformIds::PlatformId::NINTENDO_3DS,              17},
-      { PlatformIds::PlatformId::NINTENDO_64,               14},
-      { PlatformIds::PlatformId::NINTENDO_DS,               15},
-      { PlatformIds::PlatformId::NINTENDO_FDS,              106},
-      { PlatformIds::PlatformId::NINTENDO_GAME_AND_WATCH,   52},
-      { PlatformIds::PlatformId::NINTENDO_GAMEBOY,          9},
-      { PlatformIds::PlatformId::NINTENDO_GAMEBOY_ADVANCE,  12},
-      { PlatformIds::PlatformId::NINTENDO_GAMEBOY_COLOR,    10},
-      { PlatformIds::PlatformId::NINTENDO_GAMECUBE,         13},
-      { PlatformIds::PlatformId::NINTENDO_NES,              3},
-      { PlatformIds::PlatformId::NINTENDO_POKEMINI,         211},
-      { PlatformIds::PlatformId::NINTENDO_SATELLAVIEW,      107},
-      { PlatformIds::PlatformId::NINTENDO_SNES,             4},
-      { PlatformIds::PlatformId::NINTENDO_SUFAMITURBO,      108},
-      { PlatformIds::PlatformId::NINTENDO_VIRTUAL_BOY,      11},
-      { PlatformIds::PlatformId::NINTENDO_WII,              16},
-      { PlatformIds::PlatformId::NINTENDO_WII_U,            18},
-      { PlatformIds::PlatformId::OSH_UZEBOX,                216},
-      { PlatformIds::PlatformId::PALM_PDA,                  219},
-      { PlatformIds::PlatformId::PANASONIC_3DO,             29},
-      { PlatformIds::PlatformId::PHILIPS_VIDEOPACPLUS,      104},
-      { PlatformIds::PlatformId::POCKET_CHALLENGE_V2,       237},
-      { PlatformIds::PlatformId::PORT_2048,                 135},
-      { PlatformIds::PlatformId::PORT_BOOM3,                135},
-      { PlatformIds::PlatformId::PORT_CANNONBALL,           135},
-      { PlatformIds::PlatformId::PORT_CAVE_STORY,           135},
-      { PlatformIds::PlatformId::PORT_CRAFT,                135},
-      { PlatformIds::PlatformId::PORT_DINOTHAWR,            135},
-      { PlatformIds::PlatformId::PORT_ECWOLF,               135},
-      { PlatformIds::PlatformId::PORT_MRBOOM,               135},
-      { PlatformIds::PlatformId::PORT_OPENLARA,             135},
-      { PlatformIds::PlatformId::PORT_PRBOOM,               135},
-      { PlatformIds::PlatformId::PORT_REMINISCENCE,         135},
-      { PlatformIds::PlatformId::PORT_SMW,                  135},
-      { PlatformIds::PlatformId::PORT_THEPOWDERTOY,         135},
-      { PlatformIds::PlatformId::PORT_TYRQUAKE,             135},
-      { PlatformIds::PlatformId::PORT_VITAQUAKE2,           135},
-      { PlatformIds::PlatformId::PORT_VITAQUAKE3,           135},
-      { PlatformIds::PlatformId::PORT_VITAVOYAGER,          135},
-      { PlatformIds::PlatformId::PORT_XRICK,                135},
-      { PlatformIds::PlatformId::SAMMY_ATOMISWAVE,          53},
-      { PlatformIds::PlatformId::SEGA_32X,                  19},
-      { PlatformIds::PlatformId::SEGA_CD,                   20},
-      { PlatformIds::PlatformId::SEGA_DREAMCAST,            23},
-      { PlatformIds::PlatformId::SEGA_GAME_GEAR,            21},
-      { PlatformIds::PlatformId::SEGA_GENESIS,              1},
-      { PlatformIds::PlatformId::SEGA_MASTER_SYSTEM,        2},
-      { PlatformIds::PlatformId::SEGA_MEGA_DRIVE,           1},
-      { PlatformIds::PlatformId::SEGA_MODEL3,               55},
-      { PlatformIds::PlatformId::SEGA_NAOMI,                56},
-      { PlatformIds::PlatformId::SEGA_SATURN,               22},
-      { PlatformIds::PlatformId::SEGA_SG1000,               109},
-      { PlatformIds::PlatformId::SHARP_X1,                  220},
-      { PlatformIds::PlatformId::SHARP_X68000,              79},
-      { PlatformIds::PlatformId::SINCLAIR_ZX_SPECTRUM,      76},
-      { PlatformIds::PlatformId::SINCLAIR_ZX_81,            77},
-      { PlatformIds::PlatformId::SONY_PLAYSTATION,          57},
-      { PlatformIds::PlatformId::SONY_PLAYSTATION_2,        58},
-      { PlatformIds::PlatformId::SONY_PLAYSTATION_3,        59},
-      { PlatformIds::PlatformId::SONY_PLAYSTATION_VITA,     62},
-      { PlatformIds::PlatformId::SONY_PLAYSTATION_PORTABLE, 61},
-      { PlatformIds::PlatformId::SPECTRAVISION_SPECTRAVIDEO,218},
-      { PlatformIds::PlatformId::TANDERINE_ORICATMOS,       131},
-      { PlatformIds::PlatformId::THOMSON_MOTO,              141},
-      { PlatformIds::PlatformId::WATARA_SUPERVISION,        207},
-    };
-
-  return screenscraperPlatformidMap;
-}
-
 ScreenScraperEngine::ScreenScraperEngine()
-  : mRunner(this, "Scraper-ssfr", false),
-    mEngines
+  : mRunner(this, "Scraper-ssfr", false)
+  , mEngines
     {
       Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
       Engine(this), Engine(this), Engine(this), Engine(this), Engine(this),
       Engine(this), Engine(this), Engine(this), Engine(this), Engine(this)
-    },
-    mAllocatedEngines(0),
-    mMethod(ScrappingMethod::All),
-    mNotifier(nullptr),
-    mDiskMinimumFree(0),
-    mMainImage(ScreenScraperEnums::ScreenScraperImageType::MixV1),
-    mThumbnailImage(ScreenScraperEnums::ScreenScraperImageType::None),
-    mVideo(ScreenScraperEnums::ScreenScraperVideoType::None),
-    mWantMarquee(false),
-    mWantWheel(false),
-    mWantManual(false),
-    mWantMaps(false),
-    mWantP2K(false),
-    mTotal(0),
-    mCount(0),
-    mStatScraped(0),
-    mStatNotFound(0),
-    mStatErrors(0),
-    mTextInfo(0),
-    mImages(0),
-    mVideos(0),
-    mMediaSize(0),
-    mSender(this)
+    }
+  , mAllocatedEngines(0)
+  , mMethod(ScrappingMethod::All)
+  , mNotifier(nullptr)
+  , mDiskMinimumFree(0)
+  , mLanguage(Languages::Unknown)
+  , mRegion(Regions::GameRegions::Unknown)
+  , mMainImage(ScreenScraperEnums::ScreenScraperImageType::MixV1)
+  , mThumbnailImage(ScreenScraperEnums::ScreenScraperImageType::None)
+  , mVideo(ScreenScraperEnums::ScreenScraperVideoType::None)
+  , mWantMarquee(false)
+  , mWantWheel(false)
+  , mWantManual(false)
+  , mWantMaps(false)
+  , mWantP2K(false)
+  , mTotal(0)
+  , mCount(0)
+  , mStatScraped(0)
+  , mStatNotFound(0)
+  , mStatErrors(0)
+  , mTextInfo(0)
+  , mImages(0)
+  , mVideos(0)
+  , mMediaSize(0)
+  , mSender(this)
 {
 }
 
@@ -267,7 +139,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
   if (engineIndex >= 0)
   {
     // Process the scrape in this thread, allocated and fired automatically by the threadpool
-    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->getPath().ToString(); }
+    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->FilePath().ToString(); }
     Engine& engine = mEngines[engineIndex];
     if (!engine.IsAborted())
     {
@@ -401,11 +273,11 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
       ScreenScraperApis::Game gameResult;
       gameResult.mResult = ScrapeResult::NotFound;
 
-      { LOG(LogDebug) << "[ScreenScraper] Start scraping data for " << game.getPath().ToString(); }
+      { LOG(LogDebug) << "[ScreenScraper] Start scraping data for " << game.FilePath().ToString(); }
       if (mAbortRequest) break;
 
       // Get file size
-      long long size = game.getPath().Size();
+      long long size = game.FilePath().Size();
       if (size <= 0) break;
       if (mAbortRequest) break;
 
@@ -480,35 +352,18 @@ std::string ScreenScraperEngine::Engine::ComputeMD5(const Path& path)
 ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   // Get MD5
-  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.getPath()) : std::string();
-  { LOG(LogDebug) << "[ScreenScraper] MD5 of " << game.getPath().ToString() << " : " << md5; }
+  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.FilePath()) : std::string();
+  { LOG(LogDebug) << "[ScreenScraper] MD5 of " << game.FilePath().ToString() << " : " << md5; }
 
   // Get crc32
   std::string crc32;
   if (game.Metadata().RomCrc32() != 0) game.Metadata().RomCrc32AsString();
 
-  // Lookup system
-  for(int i = game.getSystem()->PlatformCount(); --i >= 0; )
+  if (!mAbortRequest)
   {
-    if (mAbortRequest) break;
-
-    // Convert platform ID
-    PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
-    const HashMap<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
-    int* sssysid = Map.try_get(systemid);
-    if (sssysid == nullptr) return result.mResult;
-
+    int ssid = game.System().Descriptor().ScreenScaperID();
     // Call!
-    result = mCaller.GetGameInformation(*sssysid, game.getPath(), crc32, md5, size);
-    switch(result.mResult)
-    {
-      case ScrapeResult::NotFound: continue;
-      case ScrapeResult::QuotaReached:
-      case ScrapeResult::DiskFull:
-      case ScrapeResult::FatalError:
-      case ScrapeResult::NotScraped:
-      case ScrapeResult::Ok: return result.mResult;
-    }
+    result = mCaller.GetGameInformation(ssid, game.FilePath(), crc32, md5, size);
   }
 
   return result.mResult;
@@ -516,9 +371,9 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
 
 ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
-  if (Strings::ToLowerASCII(game.getPath().Extension()) == ".zip")
+  if (Strings::ToLowerASCII(game.FilePath().Extension()) == ".zip")
   {
-    Zip zip(game.getPath());
+    Zip zip(game.FilePath());
     if (zip.Count() == 1) // Ignore multi-file archives
     {
       // Get real name
@@ -526,35 +381,20 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
       // Get MD5
       std::string md5 = zip.Md5(0);
-      { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.getPath().ToString() << "] : " << md5; }
+      { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.FilePath().ToString() << "] : " << md5; }
 
       // Get crc32
       int crc32i = zip.Crc32(0);
       std::string crc32 = Strings::ToHexa(crc32i, 8);
 
       // Lookup system
-      for (int i = game.getSystem()->PlatformCount(); --i >= 0;)
+      if (!mAbortRequest)
       {
-        if (mAbortRequest) break;
-
         // Convert platform ID
-        PlatformIds::PlatformId systemid = game.getSystem()->PlatformIds(i);
-        const HashMap<PlatformIds::PlatformId, int>& Map = GetPlatformIDs();
-        int* sssysid = Map.try_get(systemid);
-        if (sssysid == nullptr) return result.mResult;
-        if (*sssysid == 75) continue; // Arcade
+        int ssid = game.System().Descriptor().ScreenScaperID();
 
         // Call!
-        result = mCaller.GetGameInformation(*sssysid, filePath, crc32, md5, size);
-        switch (result.mResult)
-        {
-          case ScrapeResult::NotFound: continue;
-          case ScrapeResult::DiskFull:
-          case ScrapeResult::QuotaReached:
-          case ScrapeResult::FatalError:
-          case ScrapeResult::NotScraped:
-          case ScrapeResult::Ok: return result.mResult;
-        }
+        result = mCaller.GetGameInformation(ssid, filePath, crc32, md5, size);
       }
     }
   }
@@ -564,8 +404,8 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
 bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData& game)
 {
-  const Path rootMediaPath = game.getTopAncestor().getPath() / "media";
-  const std::string gameFile = game.getPath().FilenameWithoutExtension();
+  const Path rootMediaPath = game.TopAncestor().FilePath() / "media";
+  const std::string gameFile = game.FilePath().FilenameWithoutExtension();
   switch(method)
   {
     case ScrappingMethod::All: return true;
@@ -762,10 +602,10 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
                                                    FileData& game, MutexSet& md5Set)
 {
   bool ok = false;
-  const Path rootFolder(game.getTopAncestor().getPath());
-  const Path relativePath = game.getPath().MakeRelative(rootFolder, ok);
-  const std::string gameName = ok ? (relativePath.Directory() / game.getPath().FilenameWithoutExtension()).ToString()
-                                  : game.getPath().FilenameWithoutExtension();
+  const Path rootFolder(game.TopAncestor().FilePath());
+  const Path relativePath = game.FilePath().MakeRelative(rootFolder, ok);
+  const std::string gameName = ok ? (relativePath.Directory() / game.FilePath().FilenameWithoutExtension()).ToString()
+                                  : game.FilePath().FilenameWithoutExtension();
   const Path mediaFolder = rootFolder / "media";
 
   // Main image

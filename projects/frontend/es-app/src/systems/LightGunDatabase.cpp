@@ -15,19 +15,19 @@ LightGunDatabase::LightGunDatabase()
 
 bool LightGunDatabase::SetCurrentSystem(const SystemData& system)
 {
-  mCurrentList = mSystemLists.try_get(system.getName());
-  { LOG(LogDebug) << "[LightGun] System " << system.getName() << " selected."; }
+  mCurrentList = mSystemLists.try_get(system.Name());
+  { LOG(LogDebug) << "[LightGun] System " << system.Name() << " selected."; }
   return mCurrentList != nullptr;
 }
 
 bool LightGunDatabase::ApplyFilter(const FileData& file) const
 {
-  std::string name = GetSimplifiedName(file.getName().empty() ? file.getPath().FilenameWithoutExtension() : file.getName());
+  std::string name = GetSimplifiedName(file.Name().empty() ? file.FilePath().FilenameWithoutExtension() : file.Name());
   if (mCurrentList != nullptr)
     for(const std::string& gamename : *mCurrentList)
       if (Strings::Contains(name, gamename))
       {
-        { LOG(LogDebug) << "[LightGun] Game " << file.getName() << " match database name " << gamename; }
+        { LOG(LogDebug) << "[LightGun] Game " << file.Name() << " match database name " << gamename; }
         return true;
       }
   return false;

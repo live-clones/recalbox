@@ -60,10 +60,10 @@ const char * BasicGameListView::getItemIcon(FileData* item)
   // Crossed out eye for hidden things
 	if (item->Metadata().Hidden()) return "\uF070 ";
 	// System icon, for Favorite games
-	if ((item->isGame()) && (mSystem.IsVirtual() || item->Metadata().Favorite()))
-		return SystemIcons::GetIcon(item->getSystem()->getName());
+	if ((item->IsGame()) && (mSystem.IsVirtual() || item->Metadata().Favorite()))
+		return SystemIcons::GetIcon(item->System().Name());
 	// Open folder for folders
-	if (item->isFolder())
+	if (item->IsFolder())
 	  return "\uF07C ";
 
 	return nullptr;
@@ -73,7 +73,7 @@ void BasicGameListView::populateList(const FolderData& folder)
 {
   mPopulatedFolder = &folder;
   mList.clear();
-  mHeaderText.setText(mSystem.getFullName());
+  mHeaderText.setText(mSystem.FullName());
 
   // Default filter
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
@@ -85,8 +85,8 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().GetSystemFlatFolders(mSystem));
   FileData::List items;
-  if (flatfolders) folder.getItemsRecursivelyTo(items, filter, false, mSystem.IncludeAdultGames());
-  else             folder.getItemsTo(items, filter, true, mSystem.IncludeAdultGames());
+  if (flatfolders) folder.GetItemsRecursivelyTo(items, filter, false, mSystem.IncludeAdultGames());
+  else folder.GetItemsTo(items, filter, true, mSystem.IncludeAdultGames());
 
   // Check emptyness
   if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
@@ -117,16 +117,16 @@ void BasicGameListView::populateList(const FolderData& folder)
     // Select fron icon
     const char* icon = getItemIcon(fd);
   	// Get name
-  	std::string name = icon != nullptr ? icon + fd->getName() : fd->getName();
+  	std::string name = icon != nullptr ? icon + fd->Name() : fd->Name();
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)
   	  if (!Regions::IsIn4Regions(fd->Metadata().Region(), currentRegion))
   	    colorIndexOffset = 2;
     // Store
-		mList.add(name, fd, colorIndexOffset + (fd->isFolder() ? 1 : 0), false);
+		mList.add(name, fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
 		// Attribuite analysis
-		if (fd->isGame())
+		if (fd->IsGame())
     {
       if (fd->Metadata().GenreId() != GameGenres::None)
         mHasGenre = true;
@@ -155,14 +155,14 @@ void BasicGameListView::setCursor(FileData* cursor)
 		mList.setCursor(cursor);
 
 		// update our cursor stack in case our cursor just got set to some folder we weren't in before
-		if(mCursorStack.empty() || mCursorStack.top() != cursor->getParent())
+		if(mCursorStack.empty() || mCursorStack.top() != cursor->Parent())
 		{
 			std::stack<FolderData*> tmp;
-			FolderData* ptr = cursor->getParent();
-			while((ptr != nullptr) && !ptr->isRoot())
+			FolderData* ptr = cursor->Parent();
+			while((ptr != nullptr) && !ptr->IsRoot())
 			{
 				tmp.push(ptr);
-				ptr = ptr->getParent();
+				ptr = ptr->Parent();
 			}
 			
 			// flip the stack and put it in mCursorStack

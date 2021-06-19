@@ -9,7 +9,7 @@ FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
     mParent(nullptr),
     mType(type),
     mPath(path),
-    mMetadata(getDisplayName(), type) // TODO: Move clean name into metadata
+    mMetadata(DisplayName(), type) // TODO: Move clean name into metadata
 {
 
 }
@@ -18,19 +18,19 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 {
 }
 
-std::string FileData::getDisplayName() const
+std::string FileData::DisplayName() const
 {
 	std::string stem = mPath.FilenameWithoutExtension();
 	if (mType == ItemType::Game)
-    if (GameNameMapManager::HasRenaming(mTopAncestor.System()))
-      stem = GameNameMapManager::Rename(mTopAncestor.System(), stem);
+    if (GameNameMapManager::HasRenaming(System()))
+      stem = GameNameMapManager::Rename(System(), stem);
 
   return stem;
 }
 
-std::string FileData::getScrappableName() const
+std::string FileData::ScrappableName() const
 {
-  return Strings::RemoveParenthesis(getDisplayName());
+  return Strings::RemoveParenthesis(DisplayName());
 }
 
 bool FileData::HasP2K() const
@@ -47,7 +47,7 @@ bool FileData::HasP2K() const
   return false;
 }
 
-SystemData* FileData::getSystem() const
+SystemData& FileData::System() const
 {
-  return &mTopAncestor.System();
+  return mTopAncestor.RootSystem();
 }

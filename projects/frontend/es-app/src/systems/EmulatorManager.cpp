@@ -7,7 +7,7 @@
 
 bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const
 {
-  { LOG(LogDebug) << "[Emulator] Get system's emulator for " << system.getFullName(); }
+  { LOG(LogDebug) << "[Emulator] Get system's emulator for " << system.FullName(); }
   bool Ok = GetSystemDefaultEmulator(system, emulator, core);
   if (!Ok) { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
   return Ok;
@@ -15,14 +15,14 @@ bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& 
 
 bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
 {
-  { LOG(LogDebug) << "[Emulator] Get game's emulator for " << game.getPath().ToString(); }
+  { LOG(LogDebug) << "[Emulator] Get game's emulator for " << game.FilePath().ToString(); }
 
   // Get default emulator first
-  bool Ok = GetSystemDefaultEmulator(*game.getSystem(), emulator, core);
+  bool Ok = GetSystemDefaultEmulator(game.System(), emulator, core);
   if (Ok)
   {
     // Then from the general config file
-    GetEmulatorFromConfigFile(*game.getSystem(), emulator, core);
+    GetEmulatorFromConfigFile(game.System(), emulator, core);
 
     // Then from the gamelist.xml file
     GetEmulatorFromGamelist(game, emulator, core);
@@ -32,7 +32,7 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulato
   }
   else { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
 
-  { LOG(LogDebug) << "[Emulator] Final game's emulator for " << game.getPath().ToString() << " : " << emulator << "-" << core; }
+  { LOG(LogDebug) << "[Emulator] Final game's emulator for " << game.FilePath().ToString() << " : " << emulator << "-" << core; }
 
   return Ok;
 }
@@ -79,8 +79,8 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
 
 void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::string& emulator, std::string& core) const
 {
-  std::string rawemulator = RecalboxConf::Instance().AsString(system.getName() + ".emulator");
-  std::string rawcore = RecalboxConf::Instance().AsString(system.getName() + ".core");
+  std::string rawemulator = RecalboxConf::Instance().AsString(system.Name() + ".emulator");
+  std::string rawcore = RecalboxConf::Instance().AsString(system.Name() + ".core");
   PatchNames(rawemulator, rawcore);
 
   // At least one not empty?
@@ -113,7 +113,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
     std::string rawcore = game.Metadata().Core();
     PatchNames(rawemulator, rawcore);
 
-    if (CheckEmulatorAndCore(*game.getSystem(), rawemulator, rawcore))
+    if (CheckEmulatorAndCore(game.System(), rawemulator, rawcore))
     {
       emulator = rawemulator;
       core = rawcore;
@@ -121,7 +121,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
     }
     else
     {
-      if (GuessEmulatorAndCore(*game.getSystem(), rawemulator, rawcore))
+      if (GuessEmulatorAndCore(game.System(), rawemulator, rawcore))
       {
         emulator = rawemulator;
         core = rawcore;
@@ -138,11 +138,11 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   std::string rawGlobalCore;
   std::string rawSystemCore;
 
-  std::string keyEmulator = game.getSystem()->getName() + ".emulator";
-  std::string keyCore = game.getSystem()->getName() + ".core";
+  std::string keyEmulator = game.System().Name() + ".emulator";
+  std::string keyCore = game.System().Name() + ".core";
 
   // Get game directory
-  Path path = game.getPath().Directory();
+  Path path = game.FilePath().Directory();
   // Run through all folder starting from root
   int count = path.ItemCount();
   for (int i = 0; i < count; ++i)
@@ -165,7 +165,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   }
 
   // Get file config
-  IniFile configuration(game.getPath().ChangeExtension(game.getPath().Extension() + ".recalbox.conf"));
+  IniFile configuration(game.FilePath().ChangeExtension(game.FilePath().Extension() + ".recalbox.conf"));
   if (configuration.IsValid())
   {
     // Get values
@@ -188,7 +188,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
 
   if (!finalEmulator.empty() || !finalCore.empty())
   {
-    if (CheckEmulatorAndCore(*game.getSystem(), finalEmulator, finalCore))
+    if (CheckEmulatorAndCore(game.System(), finalEmulator, finalCore))
     {
       emulator = finalEmulator;
       core = finalCore;
@@ -196,7 +196,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
     }
     else
     {
-      if (GuessEmulatorAndCore(*game.getSystem(), finalEmulator, finalCore))
+      if (GuessEmulatorAndCore(game.System(), finalEmulator, finalCore))
       {
         emulator = finalEmulator;
         core = finalCore;
@@ -328,7 +328,7 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
 
 std::string EmulatorManager::KeyFrom(const SystemData& system)
 {
-  std::string result(system.getFullName());
+  std::string result(system.FullName());
   for(int i = system.PlatformCount(); --i >= 0; )
     result.append(Strings::ToString((int)system.PlatformIds(i)));
   return result;

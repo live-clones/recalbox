@@ -14,7 +14,7 @@
 #include "GuiMenuTools.h"
 
 GuiMenuSystemConfiguration::GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager)
-  : GuiMenuBase(window, system.getFullName(), nullptr)
+  : GuiMenuBase(window, system.FullName(), nullptr)
   , mSystemManager(systemManager)
   , mSystem(system)
 {

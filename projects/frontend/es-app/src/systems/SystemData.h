@@ -179,10 +179,23 @@ class SystemData : private INoCopy
      */
     const RootFolderData& MasterRoot() const { return mRootOfRoot; }
 
-    const std::string& getName() const { return mDescriptor.Name(); }
-    const std::string& getFullName() const { return mDescriptor.FullName(); }
+    /*!
+     * @brief Get system descriptor
+     * @return System descriptor
+     */
+    const SystemDescriptor& Descriptor() const { return mDescriptor; }
+
+    //! Get system name
+    const std::string& Name() const { return mDescriptor.Name(); }
+    //! Get full name
+    const std::string& FullName() const { return mDescriptor.FullName(); }
+    //! Theme folder
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
-    bool getHasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
+
+    //! Has favorite in theme?
+    // TODO: Please kill me asap!
+    bool HasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
+
     FileData::List getFavorites() const;
     FileData::List getGames() const;
     FileData::List getAllGames() const;
@@ -194,9 +207,10 @@ class SystemData : private INoCopy
     bool HasPlatform() const { return mDescriptor.PlatformCount() != 0; }
     bool hasPlatformId(PlatformIds::PlatformId id) const { return mDescriptor.HasPlatform(id); }
 
-    inline const ThemeData& getTheme() const { return mTheme; }
+    inline const ThemeData& Theme() const { return mTheme; }
 
     static Path getGamelistPath(const RootFolderData& root, bool forWrite);
+
     /*!
      * @brief Get list of writable Gamelists
      * @return List of writable gamelists

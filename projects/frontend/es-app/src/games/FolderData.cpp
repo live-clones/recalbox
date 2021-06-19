@@ -20,16 +20,16 @@ FolderData::~FolderData()
   mChildren.clear();
 }
 
-void FolderData::addChild(FileData* file, bool lukeImYourFather)
+void FolderData::AddChild(FileData* file, bool lukeImYourFather)
 {
-  assert(file->getParent() == nullptr || !lukeImYourFather);
+  assert(file->Parent() == nullptr || !lukeImYourFather);
 
   mChildren.push_back(file);
   if (lukeImYourFather)
-    file->setParent(this);
+    file->SetParent(this);
 }
 
-void FolderData::removeChild(FileData* file)
+void FolderData::RemoveChild(FileData* file)
 {
   for (auto it = mChildren.begin(); it != mChildren.end(); it++)
     if(*it == file)
@@ -61,9 +61,9 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
          ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
 }
 
-void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, FileData::StringMap& doppelgangerWatcher)
+void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, FileData::StringMap& doppelgangerWatcher)
 {
-  const Path& folderPath = getPath();
+  const Path& folderPath = FilePath();
   if (!folderPath.IsDirectory())
   {
     { LOG(LogWarning) << "[FolderData] Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!"; }
@@ -92,7 +92,7 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
   }
 
   // special system?
-  bool hasFiltering = GameNameMapManager::HasFiltering(*getSystem());
+  bool hasFiltering = GameNameMapManager::HasFiltering(System());
   // No extension?
   bool noExtensions = filteredExtensions.empty();
 
@@ -125,7 +125,7 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
       {
         if (hasFiltering)
         {
-          if (GameNameMapManager::IsFiltered(*getSystem(), stem))
+          if (GameNameMapManager::IsFiltered(System(), stem))
             continue; // MAME Bios or Machine
         }
         // Get the key for duplicate detection. MUST MATCH KEYS USED IN Gamelist.findOrCreateFile - Always fullpath
@@ -133,7 +133,7 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
         {
           FileData* newGame = new FileData(filePath, root);
           newGame->Metadata().SetDirty();
-          addChild(newGame, true);
+          AddChild(newGame, true);
           doppelgangerWatcher[filePath.ToString()] = newGame;
         }
         isLaunchableGame = true;
@@ -143,15 +143,15 @@ void FolderData::populateRecursiveFolder(RootFolderData& root, const std::string
       if (!isLaunchableGame && filePath.IsDirectory())
       {
         FolderData* newFolder = new FolderData(filePath, root);
-        newFolder->populateRecursiveFolder(root, filteredExtensions, doppelgangerWatcher);
+        newFolder->PopulateRecursiveFolder(root, filteredExtensions, doppelgangerWatcher);
 
         //ignore folders that do not contain games
-        if (newFolder->hasChildren())
+        if (newFolder->HasChildren())
         {
-          const std::string& key = newFolder->getPath().ToString();
+          const std::string& key = newFolder->FilePath().ToString();
           if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
           {
-            addChild(newFolder, true);
+            AddChild(newFolder, true);
             doppelgangerWatcher[key] = newFolder;
           }
         }
@@ -228,12 +228,12 @@ void FolderData::ExtractUselessFilesFromGdi(const Path& path, FileSet& list)
   }
 }
 
-void FolderData::ExtractFileNameFromLine(std::string line, FileSet& list)
+void FolderData::ExtractFileNameFromLine(const std::string& line, FileSet& list)
 {
   // 1 check file name between double quotes
   const size_t strBegin = line.find_first_of('\"') + 1;const size_t strEnd   = line.find_last_of('\"');
 
-  std::string string =  line.substr(strBegin , strEnd - strBegin);
+  std::string string = line.substr(strBegin , strEnd - strBegin);
   if(Strings::Contains(string, "."))
   {
     list.insert(string);
@@ -253,19 +253,19 @@ int FolderData::getAllFoldersRecursively(FileData::List& to) const
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       to.push_back(fd);
       int position = (int)to.size(); // TOOD: Check if the insert is necessary
       if (CastFolder(fd)->getAllFoldersRecursively(to) > 1)
         to.insert(to.begin() + position, fd); // Include folders iif it contains more than one game.
     }
-    else if (fd->isGame()) gameCount++;
+    else if (fd->IsGame()) gameCount++;
   }
   return gameCount;
 }
 
-FileData::List FolderData::getAllFolders() const
+FileData::List FolderData::GetAllFolders() const
 {
   FileData::List result;
   getAllFoldersRecursively(result);
@@ -274,10 +274,10 @@ FileData::List FolderData::getAllFolders() const
 
 void FolderData::ClearSubChildList()
 {
-  for (int i = mChildren.size(); --i >= 0; )
+  for (int i = (int)mChildren.size(); --i >= 0; )
   {
     const FileData* fd = mChildren[i];
-    if (fd->isFolder())
+    if (fd->IsFolder())
       CastFolder(fd)->ClearSubChildList();
     else
       mChildren[i] = nullptr;
@@ -288,14 +288,14 @@ void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
 {
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       CastFolder(fd)->BuildDoppelgangerMap(doppelganger, includefolder);
       if (includefolder)
-        doppelganger[fd->getPath().ToString()] = fd;
+        doppelganger[fd->FilePath().ToString()] = fd;
     }
     else
-      doppelganger[fd->getPath().ToString()] = fd;
+      doppelganger[fd->FilePath().ToString()] = fd;
   }
 }
 
@@ -304,13 +304,13 @@ int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool in
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       if (CastFolder(fd)->getItemsRecursively(to, filter, includefolders, includeadult) > 1)
         if (includefolders)
           to.push_back(fd); // Include folders iif it contains more than one game.
     }
-    else if (fd->isGame())
+    else if (fd->IsGame())
     {
       if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()))
       {
@@ -327,13 +327,13 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       if (CastFolder(fd)->getItemsRecursively(to, includes, includefolders, includeadult) > 1)
         if (includefolders)
           to.push_back(fd); // Include folders iif it contains more than one game.
     }
-    else if (fd->isGame())
+    else if (fd->IsGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
@@ -354,7 +354,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
   int result = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       int subCount = CastFolder(fd)->countItemsRecursively(includes, includefolders, includeadult);
       result += subCount;
@@ -362,7 +362,7 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
         if (includefolders)
           result++; // Include folders iif it contains more than one game.
     }
-    else if (fd->isGame())
+    else if (fd->IsGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
@@ -375,32 +375,32 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
   return result;
 }
 
-bool FolderData::hasGame() const 
+bool FolderData::HasGame() const
 {
   for(FileData* fd : mChildren)
   {
-    if (fd->isGame() || (fd->isFolder() && CastFolder(fd)->hasGame()))
+    if (fd->IsGame() || (fd->IsFolder() && CastFolder(fd)->HasGame()))
       return true;
   }
   return false;
 }
 
-bool FolderData::hasVisibleGame() const
+bool FolderData::HasVisibleGame() const
 {
   for (FileData* fd : mChildren)
   {
-    if ( (fd->isGame() && !fd->Metadata().Hidden()) || (fd->isFolder() && CastFolder(fd)->hasVisibleGame()))
+    if ( (fd->IsGame() && !fd->Metadata().Hidden()) || (fd->IsFolder() && CastFolder(fd)->HasVisibleGame()))
       return true;
   }
   return false;
 }
 
-bool FolderData::hasVisibleGameWithVideo() const
+bool FolderData::HasVisibleGameWithVideo() const
 {
     for (FileData* fd : mChildren)
     {
-        if ( ((fd->isGame() && !fd->Metadata().Hidden()) && !fd->Metadata().VideoAsString().empty() &&
-        fd->Metadata().Video().Exists()) || (fd->isFolder() && CastFolder(fd)->hasVisibleGameWithVideo()))
+        if ( ((fd->IsGame() && !fd->Metadata().Hidden()) && !fd->Metadata().VideoAsString().empty() &&
+        fd->Metadata().Video().Exists()) || (fd->IsFolder() && CastFolder(fd)->HasVisibleGameWithVideo()))
             return true;
     }
     return false;
@@ -411,16 +411,16 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
   int gameCount = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       FolderData* folder = CastFolder(fd);
       // Seek for isolated file
       FileData* isolatedFile = nullptr;
-      while((folder->mChildren.size() == 1) && folder->mChildren[0]->isFolder()) folder = CastFolder(folder->mChildren[0]);
+      while((folder->mChildren.size() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
       if (folder->mChildren.size() == 1)
       {
         FileData* item = folder->mChildren[0];
-        if (item->isGame())
+        if (item->IsGame())
         {
           Filter current = Filter::None;
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
@@ -457,16 +457,16 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
   int result = 0;
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       FolderData* folder = CastFolder(fd);
       // Seek for isolated file
       FileData* isolatedFile = nullptr;
-      while((folder->mChildren.size() == 1) && folder->mChildren[0]->isFolder()) folder = CastFolder(folder->mChildren[0]);
+      while((folder->mChildren.size() == 1) && folder->mChildren[0]->IsFolder()) folder = CastFolder(folder->mChildren[0]);
       if (folder->mChildren.size() == 1)
       {
         FileData* item = folder->mChildren[0];
-        if (item->isGame())
+        if (item->IsGame())
         {
           Filter current = Filter::None;
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
@@ -482,7 +482,7 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
           if (folder->countItems(includes, includefolders, includeadult) > 0) // Only add if it contains at leas one game
             result++;
     }
-    else if (fd->isGame())
+    else if (fd->IsGame())
     {
       Filter current = Filter::None;
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
@@ -495,14 +495,14 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
   return result;
 }
 
-bool FolderData::hasDetailedData() const
+bool FolderData::HasDetailedData() const
 {
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       FolderData* folder = CastFolder(fd);
-      if (folder->hasDetailedData())
+      if (folder->HasDetailedData())
         return true;
     }
     else
@@ -524,9 +524,9 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
   {
-    std::string filename = path.empty() ? fd->getPath().ToString() : path + '/' + fd->getPath().Filename();
+    std::string filename = path.empty() ? fd->FilePath().ToString() : path + '/' + fd->FilePath().Filename();
 
-    if (fd->isFolder())
+    if (fd->IsFolder())
     {
       FolderData* folder = CastFolder(fd);
       FileData* result = folder->LookupGame(item, attributes, path);
@@ -543,7 +543,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
           return fd;
       if ((attributes & SearchAttributes::ByName) != 0)
       {
-        filename = path.empty() ? fd->getPath().FilenameWithoutExtension() : path + '/' + fd->getPath().FilenameWithoutExtension();
+        filename = path.empty() ? fd->FilePath().FilenameWithoutExtension() : path + '/' + fd->FilePath().FilenameWithoutExtension();
         if (strcasecmp(filename.c_str(), item.c_str()) == 0)
           return fd;
       }
@@ -626,7 +626,7 @@ bool FolderData::Contains(const FileData* item, bool recurse) const
 {
   for (FileData* fd : mChildren)
   {
-    if ((fd->isFolder()) && recurse)
+    if ((fd->IsFolder()) && recurse)
     {
       if (Contains(fd, true)) return true;
     }
@@ -635,7 +635,7 @@ bool FolderData::Contains(const FileData* item, bool recurse) const
   return false;
 }
 
-FileData::List FolderData::getFilteredItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const
+FileData::List FolderData::GetFilteredItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders, includeadult)); // Allocate once
@@ -645,7 +645,7 @@ FileData::List FolderData::getFilteredItemsRecursively(IFilter* filter, bool inc
   return result;
 }
 
-FileData::List FolderData::getFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const
+FileData::List FolderData::GetFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItemsRecursively(filters, includefolders, includeadult)); // Allocate once
@@ -654,7 +654,7 @@ FileData::List FolderData::getFilteredItemsRecursively(Filter filters, bool incl
   return result;
 }
 
-FileData::List FolderData::getAllItemsRecursively(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllItemsRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItemsRecursively(Filter::All, includefolders, includeadult)); // Allocate once
@@ -663,7 +663,7 @@ FileData::List FolderData::getAllItemsRecursively(bool includefolders, bool incl
   return result;
 }
 
-FileData::List FolderData::getAllDisplayableItemsRecursively(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllDisplayableItemsRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItemsRecursively(Filter::Normal | Filter::Favorite, includefolders, includeadult)); // Allocate once
@@ -672,7 +672,7 @@ FileData::List FolderData::getAllDisplayableItemsRecursively(bool includefolders
   return result;
 }
 
-FileData::List FolderData::getAllFavoritesRecursively(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllFavoritesRecursively(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItemsRecursively(Filter::Favorite, includefolders, includeadult)); // Allocate once
@@ -681,7 +681,7 @@ FileData::List FolderData::getAllFavoritesRecursively(bool includefolders, bool 
   return result;
 }
 
-FileData::List FolderData::getFilteredItems(Filter filters, bool includefolders, bool includeadult) const
+FileData::List FolderData::GetFilteredItems(Filter filters, bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItems(filters, includefolders, includeadult)); // Allocate once
@@ -690,7 +690,7 @@ FileData::List FolderData::getFilteredItems(Filter filters, bool includefolders,
   return result;
 }
 
-FileData::List FolderData::getAllItems(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllItems(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItems(Filter::All, includefolders, includeadult)); // Allocate once
@@ -699,7 +699,7 @@ FileData::List FolderData::getAllItems(bool includefolders, bool includeadult) c
   return result;
 }
 
-FileData::List FolderData::getAllDisplayableItems(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllDisplayableItems(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItems(Filter::Normal | Filter::Favorite, includefolders, includeadult)); // Allocate once
@@ -708,7 +708,7 @@ FileData::List FolderData::getAllDisplayableItems(bool includefolders, bool incl
   return result;
 }
 
-FileData::List FolderData::getAllFavorites(bool includefolders, bool includeadult) const
+FileData::List FolderData::GetAllFavorites(bool includefolders, bool includeadult) const
 {
   FileData::List result;
   result.reserve((unsigned long)countItems(Filter::Favorite, includefolders, includeadult)); // Allocate once
@@ -721,7 +721,7 @@ bool FolderData::IsDirty() const
 {
   for (FileData* fd : mChildren)
   {
-    if (fd->isFolder() && CastFolder(fd)->IsDirty())
+    if (fd->IsFolder() && CastFolder(fd)->IsDirty())
       return true;
     if (fd->Metadata().IsDirty())
       return true;
@@ -751,21 +751,21 @@ void FolderData::FastSearch(FastSearchContext context, const std::string& text, 
   for (FileData* fd : mChildren)
   {
     if (remaining <= 0) return;
-    if (fd->isFolder()) CastFolder(fd)->FastSearch(context, text, results, remaining);
+    if (fd->IsFolder()) CastFolder(fd)->FastSearch(context, text, results, remaining);
     else if (!fd->Metadata().Hidden())
     {
       int distance = 0;
       switch(context)
       {
-        case FastSearchContext::Name       : distance = FastSearchText(text, fd->getName()); break;
-        case FastSearchContext::Path       : distance = FastSearchText(text, fd->getPath().ToString()); break;
+        case FastSearchContext::Name       : distance = FastSearchText(text, fd->Name()); break;
+        case FastSearchContext::Path       : distance = FastSearchText(text, fd->FilePath().ToString()); break;
         case FastSearchContext::Description: distance = FastSearchText(text, fd->Metadata().Description()); break;
         case FastSearchContext::Developer  : distance = FastSearchText(text, fd->Metadata().Developer()); break;
         case FastSearchContext::Publisher  : distance = FastSearchText(text, fd->Metadata().Publisher()); break;
         case FastSearchContext::All        :
         {
-          distance = FastSearchText(text, fd->getName());
-          if (distance < 0) distance = FastSearchText(text, fd->getPath().ToString());
+          distance = FastSearchText(text, fd->Name());
+          if (distance < 0) distance = FastSearchText(text, fd->FilePath().ToString());
           if (distance < 0) distance = FastSearchText(text, fd->Metadata().Description());
           if (distance < 0) distance = FastSearchText(text, fd->Metadata().Developer());
           if (distance < 0) distance = FastSearchText(text, fd->Metadata().Publisher());
@@ -779,9 +779,9 @@ void FolderData::FastSearch(FastSearchContext context, const std::string& text, 
   }
 }
 
-int FolderData::getFoldersRecursivelyTo(FileData::List& to) const
+int FolderData::GetFoldersRecursivelyTo(FileData::List& to) const
 {
-  if (isTopMostRoot())
+  if (IsTopMostRoot())
   {
     int count = 0;
     for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())
@@ -792,9 +792,9 @@ int FolderData::getFoldersRecursivelyTo(FileData::List& to) const
   return getAllFoldersRecursively(to);
 }
 
-int FolderData::getItemsRecursivelyTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
+int FolderData::GetItemsRecursivelyTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
 {
-  if (isTopMostRoot())
+  if (IsTopMostRoot())
   {
     int count = 0;
     for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())
@@ -805,9 +805,9 @@ int FolderData::getItemsRecursivelyTo(FileData::List& to, FileData::Filter inclu
   return getItemsRecursively(to, includes, includefolders, includeadult);
 }
 
-int FolderData::getItemsTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
+int FolderData::GetItemsTo(FileData::List& to, FileData::Filter includes, bool includefolders, bool includeadult) const
 {
-  if (isTopMostRoot())
+  if (IsTopMostRoot())
   {
     int count = 0;
     for (const RootFolderData* root : ((RootFolderData*) this)->SubRoots())

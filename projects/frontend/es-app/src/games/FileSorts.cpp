@@ -27,8 +27,8 @@ bool FileSorts::Initialize()
     sAllSorts.push_back(SortType(Sorts::GenreDescending, &compareGenre, false, "\uF15e " + _("GENRE")));
     sAllSorts.push_back(SortType(Sorts::SystemAscending, &compareSystemName, true, "\uF166 " + _("SYSTEM NAME")));
     sAllSorts.push_back(SortType(Sorts::SystemDescending, &compareSystemName, false, "\uF167 " + _("SYSTEM NAME")));
+    mInitialized = true;
   }
-  mInitialized = true;
   return mInitialized;
 }
 
@@ -46,8 +46,8 @@ static int unicodeCompareUppercase(const std::string& a, const std::string& b)
 
 static int compareFoldersAndGames(const FileData& fd1, const FileData& fd2)
 {
-  ItemType f1 = fd1.getType();
-  ItemType f2 = fd2.getType();
+  ItemType f1 = fd1.Type();
+  ItemType f2 = fd2.Type();
   if (f1 == f2) return 0;                // Both are games or folders
   if (f1 == ItemType::Folder) return -1; // f1 is a folder, f2 is a game
   return 1;                              // f2 is a folder
@@ -57,17 +57,17 @@ static int compareFoldersAndGames(const FileData& fd1, const FileData& fd2)
 
 ImplementSortMethod(compareSystemName)
 {
-  const SystemData * system1 = file1.getSystem();
-  const SystemData * system2 = file2.getSystem();
-  const int result = unicodeCompareUppercase(system1->getName(), system2->getName());
+  const SystemData& system1 = file1.System();
+  const SystemData& system2 = file2.System();
+  const int result = unicodeCompareUppercase(system1.Name(), system2.Name());
   if (result != 0) { return result; }
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareFileName)
 {
   CheckFoldersAndGames(file1, file2)
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareRating)
@@ -76,7 +76,7 @@ ImplementSortMethod(compareRating)
   float c = file1.Metadata().Rating() - file2.Metadata().Rating();
   if (c < 0) { return -1; }
   if (c > 0) { return 1; }
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareTimesPlayed)
@@ -84,7 +84,7 @@ ImplementSortMethod(compareTimesPlayed)
   CheckFoldersAndGames(file1, file2)
   int playCount = (file1).Metadata().PlayCount() - (file2).Metadata().PlayCount();
   if (playCount != 0) return playCount;
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareLastPlayed)
@@ -95,7 +95,7 @@ ImplementSortMethod(compareLastPlayed)
   if (ep1 == 0) ep1 = 0xFFFFFFFF;
   if (ep2 == 0) ep2 = 0xFFFFFFFF;
   if (ep1 == ep2)
-    return unicodeCompareUppercase(file1.getName(), file2.getName());
+    return unicodeCompareUppercase(file1.Name(), file2.Name());
   return ep1 < ep2 ? -1 : 1;
 }
 
@@ -104,7 +104,7 @@ ImplementSortMethod(compareNumberPlayers)
   CheckFoldersAndGames(file1, file2)
   int players = (file1).Metadata().PlayerRange() - (file2).Metadata().PlayerRange();
   if (players != 0) return players;
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareDevelopper)
@@ -124,7 +124,7 @@ ImplementSortMethod(compareGenre)
   CheckFoldersAndGames(file1, file2)
   int genre = (int)(file1).Metadata().GenreId() - (int)(file2).Metadata().GenreId();
   if (genre != 0) return genre;
-  return unicodeCompareUppercase(file1.getName(), file2.getName());
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)

@@ -41,7 +41,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
     RecalboxConf::Instance().Save();
 
     // Run game
-    if(mLobbyGame.mGame->isGame())
+    if(mLobbyGame.mGame->IsGame())
     {
       std::string playerPassword, viewerPassword;
       if (mPasswords->getSelected() >= 0)

@@ -62,12 +62,12 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
 void SystemManager::AutoScrape(SystemData* system)
 {
   std::string png(LEGACY_STRING(".png"));
-  FileData::List games = system->MasterRoot().getAllItemsRecursively(false, true);
+  FileData::List games = system->MasterRoot().GetAllItemsRecursively(false, true);
   for(FileData* game : games)
-    if (game->isGame())
-      if (Strings::ToLowerASCII(game->getPath().Extension()) == png)
+    if (game->IsGame())
+      if (Strings::ToLowerASCII(game->FilePath().Extension()) == png)
         if (game->Metadata().Image().IsEmpty())
-          game->Metadata().SetImagePath(game->getPath());
+          game->Metadata().SetImagePath(game->FilePath());
 }
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
@@ -134,9 +134,9 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
     FileData::List favs = system->getFavorites();
     if (!favs.empty())
     {
-      { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << system->getName() << "!"; }
+      { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << system->Name() << "!"; }
       for (auto* favorite : favs)
-        root.addChild(favorite, false);
+        root.AddChild(favorite, false);
     }
   }
 
@@ -164,9 +164,9 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     FileData::List all = source->getTopGamesAndFolders();
     if (!all.empty())
     {
-      { LOG(LogWarning) << "[System] Add games from " << source->getName() << " into " << fullName; }
+      { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
       for (auto* fd : all)
-        result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
+        result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
     }
   }
 
@@ -193,7 +193,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
     for (auto* fd : games)
-      result->LookupOrCreateGame(root, fd->getTopAncestor().getPath(), fd->getPath(), fd->getType(), doppelganger);
+      result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
   }
 
   result->loadTheme();
@@ -333,7 +333,7 @@ bool SystemManager::AddPorts()
       // Seek default position
       int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
       if (position == 0)
-        while((position < (int)mVisibleSystemVector.size()) && (portSystem->getName() > mVisibleSystemVector[position]->getName())) position++;
+        while((position < (int)mVisibleSystemVector.size()) && (portSystem->Name() > mVisibleSystemVector[position]->Name())) position++;
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
       mVisibleSystemVector.insert(it, portSystem);
     }
@@ -360,7 +360,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
         for (const RootFolderData* root : system->MasterRoot().SubRoots())
           if (!root->Virtual())
           {
-            FileData::List list = root->getFilteredItemsRecursively(filter, true, system->IncludeAdultGames());
+            FileData::List list = root->GetFilteredItemsRecursively(filter, true, system->IncludeAdultGames());
             allGames.reserve(allGames.size() + list.size());
             allGames.insert(allGames.end(), list.begin(), list.end());
           }
@@ -418,7 +418,7 @@ bool SystemManager::AddLightGunMetaSystem()
         for (const RootFolderData* root : system->MasterRoot().SubRoots())
           if (!root->Virtual())
           {
-            FileData::List list = root->getFilteredItemsRecursively(&database, true, system->IncludeAdultGames());
+            FileData::List list = root->GetFilteredItemsRecursively(&database, true, system->IncludeAdultGames());
             allGames.reserve(allGames.size() + list.size());
             allGames.insert(allGames.end(), list.begin(), list.end());
           }
@@ -589,7 +589,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     if (system != nullptr)
     {
       visibleSystem.push_back(system);
-      weights.SetInt(system->getFullName(), system->GameAndFolderCount());
+      weights.SetInt(system->FullName(), system->GameAndFolderCount());
     }
   mVisibleSystemVector = visibleSystem;
   { LOG(LogInfo) << "[System] Final non-virtual visible systems: " << mVisibleSystemVector.size(); }
@@ -708,7 +708,7 @@ SystemData *SystemManager::SystemByName(std::string &name)
 {
   for (auto *system: mVisibleSystemVector)
   {
-    if (system->getName() == name)
+    if (system->Name() == name)
     {
       return system;
     }
@@ -727,7 +727,7 @@ SystemData *SystemManager::FavoriteSystem()
 int SystemManager::getVisibleSystemIndex(const std::string &name)
 {
   for (int i = (int) mVisibleSystemVector.size(); --i >= 0;)
-    if (mVisibleSystemVector[i]->getName() == name)
+    if (mVisibleSystemVector[i]->Name() == name)
       return i;
   return -1;
 }

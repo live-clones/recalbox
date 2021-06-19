@@ -669,7 +669,7 @@ bool GuiBiosScan::IsSystemShown(const std::string& systemNames)
 
   for(const SystemData* systemData : mSystemManager.GetAllSystemList())
     for(const std::string& s : list)
-      if (systemData->getName() == s)
+      if (systemData->Name() == s)
         return true;
 
   return false;

@@ -18,7 +18,7 @@ void GridGameListView::setCursor(FileData* file)
 {
 	if(!mGrid.setCursor(file))
 	{
-		populateList(*file->getParent());
+		populateList(*file->Parent());
 		mGrid.setCursor(file);
 	}
 }
@@ -35,12 +35,11 @@ void GridGameListView::populateList(const FolderData& folder)
 {
 	mGrid.clear();
 	bool favoritesOnly = RecalboxConf::Instance().GetFavoritesOnly();
-	FileData::List files = favoritesOnly ?
-	  folder.getAllFavorites(true, folder.getSystem()->IncludeAdultGames()) :
-	  folder.getAllDisplayableItems(true, folder.getSystem()->IncludeAdultGames());
+	FileData::List files = favoritesOnly ? folder.GetAllFavorites(true, folder.System().IncludeAdultGames()) : folder.GetAllDisplayableItems(true,
+                                                                                                                           folder.System().IncludeAdultGames());
 	for (FileData* fd : files)
 	{
-		mGrid.add(fd->getName(), fd->getThumbnailOrImagePath(), fd);
+		mGrid.add(fd->Name(), fd->ThumbnailOrImagePath(), fd);
 	}
 }
 

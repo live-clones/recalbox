@@ -74,7 +74,7 @@ void ISimpleGameListView::onChanged(Change change)
   int cursor = getCursorIndex();
 
   // Refresh list
-  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder")) populateList(mSystem.MasterRoot());
+  if (RecalboxConf::Instance().AsBool(mSystem.Name() + ".flatfolder")) populateList(mSystem.MasterRoot());
   else refreshList();
 
   // Restore cursor
@@ -94,7 +94,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
     return;
 
-  if (file->isGame())
+  if (file->IsGame())
   {
     SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
     bool isInFavorite = favoriteSystem->GetFavoriteRoot().Contains(file, true);
@@ -102,8 +102,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 
     if (isInFavorite != isFavorite)
     {
-      if (isInFavorite) favoriteSystem->GetFavoriteRoot().removeChild(file);
-      else favoriteSystem->GetFavoriteRoot().addChild(file, false);
+      if (isInFavorite) favoriteSystem->GetFavoriteRoot().RemoveChild(file);
+      else favoriteSystem->GetFavoriteRoot().AddChild(file, false);
       ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
       ViewController::Instance().getSystemListView().manageFavorite();
       updateHelpPrompts();
@@ -122,7 +122,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   }
 
   int cursor = getCursorIndex();
-  if (RecalboxConf::Instance().AsBool(mSystem.getName() + ".flatfolder")) populateList(mSystem.MasterRoot());
+  if (RecalboxConf::Instance().AsBool(mSystem.Name() + ".flatfolder")) populateList(mSystem.MasterRoot());
   else refreshList();
 
   setCursorIndex(cursor);
@@ -137,15 +137,15 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   {
     clean();
     FileData* cursor = getCursor();
-    if (cursor->isGame())
+    if (cursor->IsGame())
     {
       //Sound::getFromTheme(getTheme(), getName(), "launch")->play();
       launch(cursor);
     }
-    else if (cursor->isFolder())
+    else if (cursor->IsFolder())
     {
       FolderData* folder = (FolderData*)cursor;
-      if (folder->hasChildren())
+      if (folder->HasChildren())
       {
         mCursorStack.push(folder);
         populateList(*folder);
@@ -184,7 +184,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   if (event.YPressed())
   {
     FileData* cursor = getCursor();
-    if (cursor->isGame() && cursor->getSystem()->getHasFavoritesInTheme())
+    if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
     {
       MetadataDescriptor& md = cursor->Metadata();
       SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
@@ -193,17 +193,17 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
       if (favoriteSystem != nullptr)
       {
-        if (md.Favorite()) favoriteSystem->GetFavoriteRoot().addChild(cursor, false);
-        else favoriteSystem->GetFavoriteRoot().removeChild(cursor);
+        if (md.Favorite()) favoriteSystem->GetFavoriteRoot().AddChild(cursor, false);
+        else favoriteSystem->GetFavoriteRoot().RemoveChild(cursor);
 
-        ViewController::Instance().setInvalidGamesList(cursor->getSystem());
+        ViewController::Instance().setInvalidGamesList(&cursor->System());
         ViewController::Instance().setInvalidGamesList(favoriteSystem);
       }
       ViewController::Instance().getSystemListView().manageFavorite();
 
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->getDisplayName(), popupDuration,
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->DisplayName(), popupDuration,
                                             GuiInfoPopup::PopupType::None));
 
       // Reload to refresh the favorite icon
@@ -278,7 +278,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   // NETPLAY
   if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
-      && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+      && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->System().Name())))
   {
     clean();
     FileData* cursor = getCursor();
@@ -290,7 +290,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     FileData* fd = getCursor();
     if (fd != nullptr)
       if (fd->HasP2K())
-        mWindow.pushGui(new GuiControlHints(mWindow, fd->getPath()));
+        mWindow.pushGui(new GuiControlHints(mWindow, fd->FilePath()));
     return true;
   }
 
@@ -321,7 +321,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   help.Set(Help::Valid(), _("LAUNCH"));
 
   bool netplay = RecalboxConf::Instance().AsBool("global.netplay.active");
-  if (netplay && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->getSystem()->getName())))
+  if (netplay && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->System().Name())))
     help.Set(HelpType::X, _("NETPLAY"));
   else
   {
@@ -356,10 +356,10 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
   unicode.resize(UnicodeSize / (sizeof(unsigned int) * 8), 0);
 
   for (auto* file : files)
-    if (file->isGame())
+    if (file->IsGame())
     {
       // Tag every first characters from every game name
-      unsigned int wc = Strings::UpperChar(file->getName());
+      unsigned int wc = Strings::UpperChar(file->Name());
       if (wc < UnicodeSize) // Ignore extended unicodes
         unicode[wc >> 5] |= 1 << (wc & 0x1F);
     }
@@ -383,7 +383,7 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
 void ISimpleGameListView::jumpToNextLetter(bool forward)
 {
   // Get current unicode
-  unsigned int currentUnicode = getCursor()->isGame() ?(unsigned int)Strings::UpperChar(getCursor()->getName()) : 0;
+  unsigned int currentUnicode = getCursor()->IsGame() ?(unsigned int)Strings::UpperChar(getCursor()->Name()) : 0;
 
   // Get available unicodes
   std::vector<unsigned int> availableUnicodes = getAvailableLetters();
@@ -420,8 +420,8 @@ void ISimpleGameListView::jumpToLetter(unsigned int unicode)
 
   FileData::List files = getFileDataList();
   for(int c = (int)files.size(), i = 0; --c >= 0; ++i)
-    if (files[i]->isGame())
-      if (Strings::UpperChar(files[i]->getName()) == unicode)
+    if (files[i]->IsGame())
+      if (Strings::UpperChar(files[i]->Name()) == unicode)
       {
         setCursor(files[i]);
         break;

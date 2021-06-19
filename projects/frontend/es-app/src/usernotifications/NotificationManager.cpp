@@ -187,8 +187,8 @@ void NotificationManager::BuildStateCommons(std::string& output, const SystemDat
 
   // System
   if (system != nullptr)
-    output.append("System=").append(system->getFullName()).append(eol)
-          .append("SystemId=").append(system->getName()).append(eol);
+    output.append("System=").append(system->FullName()).append(eol)
+          .append("SystemId=").append(system->Name()).append(eol);
   else if (action == Notification::RunKodi)
     output.append("System=kodi").append(eol)
           .append("SystemId=kodi").append(eol);
@@ -198,8 +198,8 @@ void NotificationManager::BuildStateCommons(std::string& output, const SystemDat
 
   // Permanent game infos
   if (game != nullptr)
-    output.append("Game=").append(game->getName()).append(eol)
-          .append("GamePath=").append(game->getPath().ToString()).append(eol)
+    output.append("Game=").append(game->Name()).append(eol)
+          .append("GamePath=").append(game->FilePath().ToString()).append(eol)
           .append("ImagePath=").append(game->Metadata().Image().ToString()).append(eol);
   else
     output.append("Game=").append(eol)
@@ -213,7 +213,7 @@ void NotificationManager::BuildStateGame(std::string& output, const FileData* ga
   std::string core;
 
   if (game == nullptr) return;
-  output.append("IsFolder=").append(game->isFolder() ? "1" : "0").append(eol)
+  output.append("IsFolder=").append(game->IsFolder() ? "1" : "0").append(eol)
         .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append(eol)
         .append("VideoPath=").append(game->Metadata().Video().ToString()).append(eol)
         .append("Developer=").append(game->Metadata().Developer()).append(eol)
@@ -226,7 +226,7 @@ void NotificationManager::BuildStateGame(std::string& output, const FileData* ga
         .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append(eol)
         .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol);
 
-  if (game->getSystem()->Manager().Emulators().GetGameEmulator(*game, emulator, core))
+  if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
     output.append("Emulator=").append(emulator).append(eol)
           .append("Core=").append(core).append(eol);
 }
@@ -282,8 +282,8 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
 //  if (VideoEngine::IsInstantiated())
 //    VideoEngine::Instance().StopVideo();
 
-  const std::string& notificationParameter = (game != nullptr) ? game->getPath().ToString() :
-                                             ((system != nullptr) ? system->getName() : actionParameters);
+  const std::string& notificationParameter = (game != nullptr) ? game->FilePath().ToString() :
+                                             ((system != nullptr) ? system->Name() : actionParameters);
 
   // Check if it is the same event than in previous call
   ParamBag newBag(system, game, action, actionParameters);

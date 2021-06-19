@@ -118,12 +118,15 @@ class SystemDescriptor
                                                const std::string& pad,
                                                const std::string& keyboard,
                                                const std::string& mouse,
+                                               const std::string& releasedate,
                                                bool lightgun)
     {
       mType = ConvertSystemType(systemtype);
       mPad = ConvertDeviceRequirement(pad);
       mKeyboard = ConvertDeviceRequirement(keyboard);
       mMouse = ConvertDeviceRequirement(mouse);
+      if (Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
+        mReleaseDate = 0;
       mLightgun = lightgun;
       return *this;
     }
@@ -220,6 +223,7 @@ class SystemDescriptor
     // Scrapper
     int                     mScreenScraperID; //!< ScreenScraper ID
     // Properties
+    int                     mReleaseDate;     //!< Release date in numeric format yyyymm
     SystemType              mType;            //!< System type
     DeviceRequirement       mPad;             //!< Pad state
     DeviceRequirement       mKeyboard;        //!< Pad state

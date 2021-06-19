@@ -259,14 +259,14 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param game Target game
      * @param action Action to notify
      */
-    void Notify(const FileData& game, Notification action) { Notify(game.getSystem(), &game, action, game.getPath().ToString()); }
+    void Notify(const FileData& game, Notification action) { Notify(&game.System(), &game, action, game.FilePath().ToString()); }
 
     /*!
      * @brief Update EmulationStation status file with system information
      * @param system Target system
      * @param action Action to notify
      */
-    void Notify(const SystemData& system, Notification action) { Notify(&system, nullptr, action, system.getFullName()); }
+    void Notify(const SystemData& system, Notification action) { Notify(&system, nullptr, action, system.FullName()); }
 
     /*!
      * @brief

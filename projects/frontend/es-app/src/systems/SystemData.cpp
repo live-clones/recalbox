@@ -115,16 +115,16 @@ void SystemData::RunGame(WindowManager& window,
   WindowManager::Finalize();
 
   std::string command = mDescriptor.Command();
-  OverrideCommand(game.getPath(), command);
+  OverrideCommand(game.FilePath(), command);
 
-  const std::string rom = game.getPath().MakeEscaped();
-  const std::string basename = game.getPath().FilenameWithoutExtension();
-  const std::string rom_raw = game.getPath().ToString();
+  const std::string rom = game.FilePath().MakeEscaped();
+  const std::string basename = game.FilePath().FilenameWithoutExtension();
+  const std::string rom_raw = game.FilePath().ToString();
   const std::string& core = netplay.NetplayMode() == NetPlayData::Mode::Client ? netplay.CoreName() : emulator.Core();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  Strings::ReplaceAllIn(command, "%SYSTEM%", game.getSystem()->getName());
+  Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
   Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
@@ -163,7 +163,7 @@ void SystemData::RunGame(WindowManager& window,
 
   { LOG(LogInfo) << "[Run] Command: " << command; }
   {
-    PadToKeyboardManager padToKeyboard(controllers, game.getPath());
+    PadToKeyboardManager padToKeyboard(controllers, game.FilePath());
     padToKeyboard.StartMapping();
     if (padToKeyboard.IsValid())
       command.append(" -nodefaultkeymap");
@@ -234,15 +234,15 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   { LOG(LogInfo) << "[Run] Launching game demo..."; }
 
   std::string command = mDescriptor.Command();
-  OverrideCommand(game.getPath(), command);
+  OverrideCommand(game.FilePath(), command);
 
-  const std::string rom = game.getPath().MakeEscaped();
-  const std::string basename = game.getPath().FilenameWithoutExtension();
-  const std::string rom_raw = game.getPath().ToString();
+  const std::string rom = game.FilePath().MakeEscaped();
+  const std::string basename = game.FilePath().FilenameWithoutExtension();
+  const std::string rom_raw = game.FilePath().ToString();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  Strings::ReplaceAllIn(command, "%SYSTEM%", game.getSystem()->getName());
+  Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
   Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
@@ -283,15 +283,15 @@ SystemData::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
 
 void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppelgangerWatcher)
 {
-  { LOG(LogInfo) << "[Gamelist] " << root.getSystem()->getFullName() << ": Searching games/roms in " << root.getPath().ToString() << "..."; }
+  { LOG(LogInfo) << "[Gamelist] " << root.System().FullName() << ": Searching games/roms in " << root.FilePath().ToString() << "..."; }
 
   try
   {
-    root.populateRecursiveFolder(root, Strings::ToLowerASCII(mDescriptor.Extension()), doppelgangerWatcher);
+    root.PopulateRecursiveFolder(root, Strings::ToLowerASCII(mDescriptor.Extension()), doppelgangerWatcher);
   }
   catch (std::exception& ex)
   {
-    { LOG(LogError) << "[Gamelist] Reading folder \"" << root.getPath().ToString() << "\" has raised an error!"; }
+    { LOG(LogError) << "[Gamelist] Reading folder \"" << root.FilePath().ToString() << "\" has raised an error!"; }
     { LOG(LogError) << "[Gamelist] Exception: " << ex.what(); }
   }
 }
@@ -299,7 +299,7 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
 Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
 {
   bool zip = RecalboxConf::Instance().AsBool("emulationstation.zippedgamelist", false);
-  Path filePath = root.getPath() / (zip ? "gamelist.zip" : "gamelist.xml");
+  Path filePath = root.FilePath() / (zip ? "gamelist.zip" : "gamelist.xml");
 
   if (forWrite) // Write mode, ensure folder exist
   {
@@ -308,7 +308,7 @@ Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
   }
   else if (!filePath.Exists()) // Read mode. Try selected mode first, the fallback to the other mode
   {
-    Path otherFilePath = root.getPath() / (zip ? "gamelist.xml" : "gamelist.zip");
+    Path otherFilePath = root.FilePath() / (zip ? "gamelist.xml" : "gamelist.zip");
     if (otherFilePath.Exists()) return otherFilePath;
   }
 
@@ -397,7 +397,7 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
 {
   // Override image
   bool imageOverriden = false;
-  Path fullPath = folderdata->getPath() / ".folder.picture.svg";
+  Path fullPath = folderdata->FilePath() / ".folder.picture.svg";
 
   MetadataDescriptor& metadata = folderdata->Metadata();
 
@@ -408,7 +408,7 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   }
   else
   {
-    fullPath = folderdata->getPath() / ".folder.picture.png";
+    fullPath = folderdata->FilePath() / ".folder.picture.png";
     if (fullPath.Exists())
     {
       metadata.SetVolatileImagePath(fullPath);
@@ -419,7 +419,7 @@ void SystemData::overrideFolderInformation(FileData* folderdata)
   // Override description oly if the image has been overriden
   if (imageOverriden)
   {
-    fullPath = folderdata->getPath() / ".folder.description.txt";
+    fullPath = folderdata->FilePath() / ".folder.description.txt";
     std::string text = Files::LoadFile(fullPath);
     if (text.length() != 0)
     {
@@ -450,7 +450,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
     FileData* item = (doppelgangerWatcher.find(key) != doppelgangerWatcher.end()) ? doppelgangerWatcher[key] : nullptr;
 
     // Some ScummVM folder/games may create inconsistent folders
-    if (!treeNode->isFolder()) return nullptr;
+    if (!treeNode->IsFolder()) return nullptr;
 
     // Last path component?
     if (itemIndex == itemLast)
@@ -463,7 +463,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
           // Add final game
           game = new FileData(path, topAncestor);
           doppelgangerWatcher[key] = game;
-          treeNode->addChild(game, true);
+          treeNode->AddChild(game, true);
         }
         // Virtual systems use the doppleganger map in a reverse way:
         // Game to insert are already in the map
@@ -471,7 +471,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
         else if (game != nullptr && isVirtual)
         {
           // Add existing game & remove from doppleganger
-          treeNode->addChild(game, false);
+          treeNode->AddChild(game, false);
           doppelgangerWatcher.erase(key);
         }
         return game;
@@ -484,7 +484,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
           // Create missing folder in both case, virtual or not
           folder = new FolderData(Path(key), topAncestor);
           doppelgangerWatcher[key] = folder;
-          treeNode->addChild(folder, true);
+          treeNode->AddChild(folder, true);
         }
         return folder;
       }
@@ -497,7 +497,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
         // Create missing folder in both case, virtual or not
         folder = new FolderData(Path(key), topAncestor);
         doppelgangerWatcher[key] = folder;
-        treeNode->addChild(folder, true);
+        treeNode->AddChild(folder, true);
       }
       treeNode = folder;
     }
@@ -546,7 +546,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       }
     }
 
-    const Path& relativeTo = root.getPath();
+    const Path& relativeTo = root.FilePath();
     XmlNode games = gameList.child("gameList");
     if (games != nullptr)
       for (const XmlNode fileNode : games.children())
@@ -575,7 +575,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
   }
   catch (std::exception& ex)
   {
-    { LOG(LogError) << "[Gamelist] System \"" << getName() << "\" has raised an error while reading its gamelist.xml!"; }
+    { LOG(LogError) << "[Gamelist] System \"" << Name() << "\" has raised an error while reading its gamelist.xml!"; }
     { LOG(LogError) << "[Gamelist] Exception: " << ex.what(); }
   }
 }
@@ -593,8 +593,8 @@ void SystemData::UpdateGamelistXml()
         /*
          * Get all folder & games in a flat storage
          */
-        FileData::List fileList = root->getAllItemsRecursively(true, true);
-        FileData::List folderList = root->getAllFolders();
+        FileData::List fileList = root->GetAllItemsRecursively(true, true);
+        FileData::List folderList = root->GetAllFolders();
         // Nothing to process?
         if (fileList.empty()) return;
 
@@ -609,9 +609,9 @@ void SystemData::UpdateGamelistXml()
          * Serialize folder and game nodes
          */
         for (const FileData* folder : folderList)
-          folder->Metadata().Serialize(gameList, folder->getPath(), root->getPath());
+          folder->Metadata().Serialize(gameList, folder->FilePath(), root->FilePath());
         for (const FileData* file : fileList)
-          file->Metadata().Serialize(gameList, file->getPath(), root->getPath());
+          file->Metadata().Serialize(gameList, file->FilePath(), root->FilePath());
 
         /*
          * Custom thread-safe writer
@@ -639,7 +639,7 @@ void SystemData::UpdateGamelistXml()
           if (zip.Add(Writer.mOutput, xmlTruePath.Filename()))
           {
             xmlTruePath.Delete();
-            { LOG(LogInfo) << "[Gamelist] Saved gamelist.zip for system " << getFullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
+            { LOG(LogInfo) << "[Gamelist] Saved gamelist.zip for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
           }
           else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
         }
@@ -648,14 +648,14 @@ void SystemData::UpdateGamelistXml()
           if (Files::SaveFile(xmlWritePath, Writer.mOutput))
           {
             xmlWritePath.ChangeExtension(".zip").Delete();
-            { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << getFullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
+            { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
           }
           else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
         }
       }
       catch (std::exception& e)
       {
-        { LOG(LogError) << "[Gamelist] Something went wrong while saving " << getFullName() << " : " << e.what(); }
+        { LOG(LogError) << "[Gamelist] Something went wrong while saving " << FullName() << " : " << e.what(); }
       }
 }
 
@@ -704,15 +704,15 @@ void SystemData::UpdateLastPlayedGame(FileData& updated)
   FileData::StringMap map;
   BuildDoppelgangerMap(map, false);
   // If the game is already here, exit
-  if (map.contains(updated.getPath().ToString())) return;
+  if (map.contains(updated.FilePath().ToString())) return;
 
   // Prepare a one game map
   map.clear();
-  map[updated.getPath().ToString()] = &updated;
+  map[updated.FilePath().ToString()] = &updated;
   // Add the virtual game
   RootFolderData* root = GetRootFolder(RootFolderData::Types::Virtual);
   if (root != nullptr)
-    LookupOrCreateGame(*root, updated.getTopAncestor().getPath(), updated.getPath(), ItemType::Game, map);
+    LookupOrCreateGame(*root, updated.TopAncestor().FilePath(), updated.FilePath(), ItemType::Game, map);
 }
 
 IBoardInterface::CPUGovernance SystemData::GetGovernance(const std::string& core)
@@ -732,7 +732,7 @@ IBoardInterface::CPUGovernance SystemData::GetGovernance(const std::string& core
 RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
 {
   for(RootFolderData* root : mRootOfRoot.SubRoots())
-    if (root->Type() == type)
+    if (root->RootType() == type)
       return root;
   return nullptr;
 }
@@ -763,7 +763,7 @@ FolderData& SystemData::GetFavoriteRoot()
 bool SystemData::HasGame() const
 {
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (root->hasGame())
+    if (root->HasGame())
       return true;
   return false;
 }
@@ -772,7 +772,7 @@ int SystemData::GameCount() const
 {
   int result = 0;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->countAll(false, IncludeAdultGames());
+    result += root->CountAll(false, IncludeAdultGames());
   return result;
 }
 
@@ -780,7 +780,7 @@ int SystemData::GameAndFolderCount() const
 {
   int result = 0;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->countAll(true, IncludeAdultGames());
+    result += root->CountAll(true, IncludeAdultGames());
   return result;
 }
 
@@ -788,7 +788,7 @@ int SystemData::FavoritesCount() const
 {
   int result = 0;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->countAllFavorites(false, IncludeAdultGames());
+    result += root->CountAllFavorites(false, IncludeAdultGames());
   return result;
 }
 
@@ -796,7 +796,7 @@ int SystemData::HiddenCount() const
 {
   int result = 0;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->countAllHidden(false, IncludeAdultGames());
+    result += root->CountAllHidden(false, IncludeAdultGames());
   return result;
 }
 
@@ -808,7 +808,7 @@ FileData::List SystemData::getFavorites() const
 
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->getItemsRecursivelyTo(result, filter, false, adult);
+    root->GetItemsRecursivelyTo(result, filter, false, adult);
   return result;
 }
 
@@ -820,7 +820,7 @@ FileData::List SystemData::getGames() const
 
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->getItemsRecursivelyTo(result, filter, false, adult);
+    root->GetItemsRecursivelyTo(result, filter, false, adult);
   return result;
 }
 
@@ -828,7 +828,7 @@ FileData::List SystemData::getAllGames() const
 {
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->getItemsRecursivelyTo(result, FileData::Filter::All, false, true);
+    root->GetItemsRecursivelyTo(result, FileData::Filter::All, false, true);
   return result;
 }
 
@@ -836,8 +836,8 @@ bool SystemData::HasVisibleGame() const
 {
   bool displayHidden = RecalboxConf::Instance().GetShowHidden();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (displayHidden) { if (root->hasGame()) return true; }
-    else               { if (root->hasVisibleGame()) return true; }
+    if (displayHidden) { if (root->HasGame()) return true; }
+    else               { if (root->HasVisibleGame()) return true; }
 
   return false;
 }
@@ -861,7 +861,7 @@ FileData::List SystemData::getFolders() const
 {
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->getFoldersRecursivelyTo(result);
+    root->GetFoldersRecursivelyTo(result);
   return result;
 }
 
@@ -869,7 +869,7 @@ FileData::List SystemData::getTopGamesAndFolders() const
 {
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->getItemsTo(result, FileData::Filter::All, true, IncludeAdultGames());
+    root->GetItemsTo(result, FileData::Filter::All, true, IncludeAdultGames());
   return result;
 }
 

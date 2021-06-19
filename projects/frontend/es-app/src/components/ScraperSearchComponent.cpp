@@ -160,7 +160,7 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
 {
 	if (game != nullptr)
 	{
-		mResultName->setText(Strings::ToUpperUTF8(game->getName()));
+		mResultName->setText(Strings::ToUpperUTF8(game->Name()));
 		mResultDesc->setText(Strings::ToUpperUTF8(game->Metadata().Description()));
 		mDescContainer->reset();
 

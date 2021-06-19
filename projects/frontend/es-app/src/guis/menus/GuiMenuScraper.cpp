@@ -65,7 +65,7 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
     if(!system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
       if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
         if (system->HasGame())
-          list.push_back({ system->getFullName(), system, system->PlatformCount() != 0 });
+          list.push_back({ system->FullName(), system, system->HasPlatform() });
   }
   return list;
 }
@@ -92,7 +92,7 @@ void GuiMenuScraper::pressedStart()
 {
     for (auto& system : mSystems->getSelectedObjects())
     {
-      if (system->PlatformCount() == 0)
+      if (!system->HasPlatform())
       {
         mWindow.pushGui(new GuiMsgBox(mWindow,
                                       _("WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\nCONTINUE ANYWAY?"),

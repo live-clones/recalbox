@@ -44,8 +44,8 @@ std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPosition
   const SystemManager::SystemList& systemList = mSystemManager.GetVisibleSystemList();
   for(int i = 0; i < (int)systemList.size(); ++i)
   {
-    std::string after = systemList[i]->getFullName();
-    std::string before = ((i <= 0) ? systemList[systemList.size() - 1]->getFullName() : systemList[i - 1]->getFullName());
+    std::string after = systemList[i]->FullName();
+    std::string before = ((i <= 0) ? systemList[systemList.size() - 1]->FullName() : systemList[i - 1]->FullName());
     std::string displayString = _("BETWEEN %1 AND %2");
     Strings::ReplaceAllIn(displayString, "%1", before);
     Strings::ReplaceAllIn(displayString, "%2", after);

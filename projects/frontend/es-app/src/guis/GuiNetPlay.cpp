@@ -210,7 +210,7 @@ void GuiNetPlay::populateGridMeta(int i)
   bool hashMatch = false;
   if (game.mGame != nullptr)
   {
-    hashMatch = game.mGame->getHash() == game.mGameCRC;
+    hashMatch = game.mGame->Hash() == game.mGameCRC;
   }
   const CoreInfo& CoreInfo = GetCoreInfo(game.mCoreLongName);
   bool coreVerMatch = CoreInfo.Version() == game.mCoreVersion;
@@ -376,7 +376,7 @@ int GuiNetPlay::PingHost(const std::string& ip)
 FileData* GuiNetPlay::FindGame(const std::string& game)
 {
   for (auto* tmp : mSystemManager.GetAllSystemList())
-    if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->getName()))
+    if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->Name()))
     {
       FileData* result = tmp->MasterRoot().LookupGame(game, FileData::SearchAttributes::ByName |
                                                             FileData::SearchAttributes::ByHash);
@@ -487,7 +487,7 @@ std::string GuiNetPlay::GetFormattedName(const LobbyGame& game)
   std::string gameName = game.mGameName;
   static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
   if (arcadesCores.find(gameName) != std::string::npos && game.mGame != nullptr)
-    gameName = GameNameMapManager::Rename(*game.mGame->getSystem(), game.mGameName);
+    gameName = GameNameMapManager::Rename(game.mGame->System(), game.mGameName);
 
   // Add decorations
   if (game.mNeedPlayerPassword)
@@ -502,7 +502,7 @@ std::string GuiNetPlay::GetFormattedName(const LobbyGame& game)
   // Matching status
   if (game.mGame != nullptr)
   {
-    if (game.mGame->getHash() == game.mGameCRC)        gameName.insert(0, "\uf1c0 ");
+    if (game.mGame->Hash() == game.mGameCRC)        gameName.insert(0, "\uf1c0 ");
     else if (!GetCoreInfo(game.mCoreLongName).Empty()) gameName.insert(0, "\uf1c1 ");
     else gameName.insert(0, "\uf1c2 ");
   }

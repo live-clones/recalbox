@@ -70,7 +70,7 @@ void ViewController::goToStart()
 int ViewController::getSystemId(SystemData* system)
 {
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
-	return std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
+	return (int)(std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin());
 }
 
 void ViewController::goToQuitScreen()
@@ -120,7 +120,7 @@ void ViewController::quitGameClipView()
   delete mGameClipView;
   if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
   {
-    AudioManager::Instance().StartPlaying(mState.system->getTheme());
+    AudioManager::Instance().StartPlaying(mState.system->Theme());
   }
   switch (mState.viewing)
   {
@@ -141,9 +141,9 @@ void ViewController::quitGameClipView()
 
 void ViewController::selectGamelistAndCursor(FileData *file) {
   mState.viewing = ViewMode::GameList;
-  SystemData* system = file->getSystem();
-  goToGameList(system);
-  IGameListView* view = getGameListView(system).get();
+  SystemData& system = file->System();
+  goToGameList(&system);
+  IGameListView* view = getGameListView(&system).get();
   view->setCursor(file);
 }
 
@@ -156,7 +156,7 @@ void ViewController::goToNextGameList()
 	while(!next->HasVisibleGame()) {
 		next = mSystemManager.NextVisible(next);
 	}
-  AudioManager::Instance().StartPlaying(next->getTheme());
+  AudioManager::Instance().StartPlaying(next->Theme());
 
 	goToGameList(next);
 }
@@ -170,7 +170,7 @@ void ViewController::goToPrevGameList()
 	while(!prev->HasVisibleGame()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
-  AudioManager::Instance().StartPlaying(prev->getTheme());
+  AudioManager::Instance().StartPlaying(prev->Theme());
 	goToGameList(prev);
 }
 
@@ -292,14 +292,14 @@ void ViewController::playViewTransition()
 
 void ViewController::onFileChanged(FileData* file, FileChangeType change)
 {
-	auto it = mGameListViews.find(file->getSystem());
+	auto it = mGameListViews.find(&file->System());
 	if (it != mGameListViews.end()) {
 		it->second->onFileChanged(file, change);
 	}
 	if (file->Metadata().Favorite()) {
 		for (auto& mGameListView : mGameListViews)
 		{
-			if (mGameListView.first->getName() == "favorites") {
+			if (mGameListView.first->Name() == "favorites") {
 				mGameListView.second->onFileChanged(file, change);
 				break;
 			}
@@ -312,13 +312,13 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
   {
-    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->getPath().ToString() << '!'; }
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->FilePath().ToString() << '!'; }
     return;
   }
 
   if (!forceLaunch)
   {
-    const BiosList& biosList = BiosManager::Instance().SystemBios(game->getSystem()->getName());
+    const BiosList& biosList = BiosManager::Instance().SystemBios(game->System().Name());
     if (biosList.TotalBiosKo() != 0)
     {
       // Build emulator name
@@ -327,7 +327,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
       // Build text
       std::string text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
       text = Strings::Replace(text, "%emulator%", emulatorString);
-      text = Strings::Replace(text, "%game%", game->getName());
+      text = Strings::Replace(text, "%game%", game->Name());
       // Add bios names
       /*text.append("\n\n")
           .append(_("Missing bios list:"))
@@ -351,7 +351,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
 void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata)
 {
   DateTime start;
-  game->getSystem()->RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
+  game->System().RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
@@ -371,7 +371,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 {
   Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
 
-	if(!game->isGame())
+	if(!game->IsGame())
 	{
     { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
 		return;
@@ -445,10 +445,10 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 	std::shared_ptr<IGameListView> view;
 
   view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
-	view->setTheme(system->getTheme());
+	view->setTheme(system->Theme());
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
-	int id = std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin();
+	int id = (int)(std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin());
 	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);
 
 	addChild(view.get());

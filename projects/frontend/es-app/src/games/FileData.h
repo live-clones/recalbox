@@ -76,41 +76,41 @@ class FileData
      * Getters
      */
 
-    inline const std::string& getName() const { return mMetadata.Name(); }
-    inline std::string getHash() const { return mMetadata.RomCrc32AsString(); }
-    inline ItemType getType() const { return mType; }
-    inline const Path& getPath() const { return mPath; }
-    inline FolderData* getParent() const { return mParent; }
-    inline RootFolderData& getTopAncestor() const { return mTopAncestor; }
-    SystemData* getSystem() const;
+    inline const std::string& Name() const { return mMetadata.Name(); }
+    inline std::string Hash() const { return mMetadata.RomCrc32AsString(); }
+    inline ItemType Type() const { return mType; }
+    inline const Path& FilePath() const { return mPath; }
+    inline FolderData* Parent() const { return mParent; }
+    inline RootFolderData& TopAncestor() const { return mTopAncestor; }
+    SystemData& System() const;
 
     /*
      * Booleans
      */
 
-    inline bool isEmpty() const { return mType == ItemType::Empty; }
-    inline bool isGame() const { return mType == ItemType::Game; }
-    inline bool isFolder() const { return mType == ItemType::Folder || mType == ItemType::Root; }
-    inline bool isRoot() const { return mType == ItemType::Root; }
-    inline bool isTopMostRoot() const { return mType == ItemType::Root && mParent == nullptr; }
+    inline bool IsEmpty() const { return mType == ItemType::Empty; }
+    inline bool IsGame() const { return mType == ItemType::Game; }
+    inline bool IsFolder() const { return mType == ItemType::Folder || mType == ItemType::Root; }
+    inline bool IsRoot() const { return mType == ItemType::Root; }
+    inline bool IsTopMostRoot() const { return mType == ItemType::Root && mParent == nullptr; }
 
     /*
      * Setters
      */
 
-    inline void setParent(FolderData* parent) { mParent = parent; }
+    inline void SetParent(FolderData* parent) { mParent = parent; }
 
     /*!
      * Get Thumbnail path if there is one, or Image path.
      * @return file path (may be empty)
      */
-    inline const Path& getThumbnailOrImagePath() const { return mMetadata.Thumbnail().IsEmpty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
+    inline const Path& ThumbnailOrImagePath() const { return mMetadata.Thumbnail().IsEmpty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
 
     /*!
      * Return true if at least one image is available (thumbnail or regular image)
      * @return Boolean result
      */
-    inline bool hasThumbnailOrImage() const { return !(mMetadata.Thumbnail().IsEmpty() && mMetadata.Image().IsEmpty()); }
+    inline bool HasThumbnailOrImage() const { return !(mMetadata.Thumbnail().IsEmpty() && mMetadata.Image().IsEmpty()); }
 
     /*!
      * const Metadata accessor for Read operations
@@ -128,14 +128,14 @@ class FileData
      * Get clean default name, by reoving parenthesis and braqueted words
      * @return Clean name
      */
-    std::string getScrappableName() const;
+    std::string ScrappableName() const;
 
     /*!
      * Get smart default name, when available, depending of the file/folder name
      * Mainly used to get smart naming from arcade zipped roms
      * @return Smart name of the current item, or file/folder name
      */
-    std::string getDisplayName() const;
+    std::string DisplayName() const;
 
     /*!
      * @brief Get Pad2Keyboard configuration file path

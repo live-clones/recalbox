@@ -42,11 +42,11 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemE
   // For each activated system
   bool found = false;
   for (SystemData* system : mSystemManager.GetVisibleSystemList())
-    if(system->getName() != SystemManager::sFavoriteSystemShortName)
+    if(system->Name() != SystemManager::sFavoriteSystemShortName)
     {
-      bool match = (selectedsystem == system->getName());
+      bool match = (selectedsystem == system->Name());
       found |= match;
-      list.push_back({ system->getFullName(), system->getName(), match });
+      list.push_back({ system->FullName(), system->Name(), match });
     }
   list.push_back({ SystemManager::sFavoriteSystemShortName, SystemManager::sFavoriteSystemShortName, !found });
 

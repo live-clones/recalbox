@@ -50,6 +50,7 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                             Xml::AttributeAsString(properties, "pad", ""),
                                             Xml::AttributeAsString(properties, "keyboard", ""),
                                             Xml::AttributeAsString(properties, "mouse", ""),
+                                            Xml::AttributeAsString(properties, "releasedate", ""),
                                             Xml::AttributeAsBool(properties, "lightgun", false));
 
   // Check

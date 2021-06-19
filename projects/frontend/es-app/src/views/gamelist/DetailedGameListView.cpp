@@ -100,7 +100,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
   addChild(&mPlayCount);
-  if (mSystem.getHasFavoritesInTheme())
+  if (mSystem.HasFavoritesInTheme())
   {
     mLblFavorite.setText(_("Favorite") + ": ");
     addChild(&mLblFavorite);
@@ -142,7 +142,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
                                    "md_lbl_playcount"
                                  });
 
-  if (mSystem.getHasFavoritesInTheme())
+  if (mSystem.HasFavoritesInTheme())
   {
     names.push_back("md_lbl_favorite");
   }
@@ -166,7 +166,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     "md_playcount"
   };
 
-  if (mSystem.getHasFavoritesInTheme())
+  if (mSystem.HasFavoritesInTheme())
   {
     names.push_back("md_favorite");
   }
@@ -318,7 +318,7 @@ void DetailedGameListView::DoUpdateGameInformation()
   }
   else
   {
-    const bool isFolder = file->isFolder();
+    const bool isFolder = file->IsFolder();
     const bool hasImage = !file->Metadata().Image().IsEmpty();
 
     if (hasImage && isFolder)
@@ -392,17 +392,17 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
 {
   char strbuf[256];
 
-  FileData::List games = folder->getAllDisplayableItemsRecursively(false, folder->getSystem()->IncludeAdultGames());
+  FileData::List games = folder->GetAllDisplayableItemsRecursively(false, folder->System().IncludeAdultGames());
   snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
-  mFolderName.setText(folder->getName() + " - " + strbuf);
+  mFolderName.setText(folder->Name() + " - " + strbuf);
 
   unsigned char idx = 0;
 
   for (FileData* game : games)
   {
-    if (game->hasThumbnailOrImage())
+    if (game->HasThumbnailOrImage())
     {
-      mFolderContent[idx]->setImage(game->getThumbnailOrImagePath());
+      mFolderContent[idx]->setImage(game->ThumbnailOrImagePath());
       if (++idx == mFolderContent.size())
         break;
     }
@@ -436,7 +436,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
-  { LOG(LogDebug) << "[GamelistView] Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->getPath().ToString(); }
+  { LOG(LogDebug) << "[GamelistView] Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->FilePath().ToString(); }
 
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
@@ -494,7 +494,7 @@ std::vector<TextComponent*> DetailedGameListView::getMDLabels()
   ret.push_back(&mLblPlayers);
   ret.push_back(&mLblLastPlayed);
   ret.push_back(&mLblPlayCount);
-  if (mSystem.getHasFavoritesInTheme())
+  if (mSystem.HasFavoritesInTheme())
   {
     ret.push_back(&mLblFavorite);
   }
@@ -513,7 +513,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
   ret.push_back(&mPlayers);
   ret.push_back(&mLastPlayed);
   ret.push_back(&mPlayCount);
-  if (mSystem.getHasFavoritesInTheme())
+  if (mSystem.HasFavoritesInTheme())
   {
     ret.push_back(&mFavorite);
   }
@@ -558,7 +558,7 @@ float DetailedGameListView::OverlayGetRightOffset()
 
 DetailedGameListView::~DetailedGameListView()
 {
-  for(int i = mFolderContent.size(); --i >= 0; )
+  for(int i = (int)mFolderContent.size(); --i >= 0; )
     delete mFolderContent[i];
   mFolderContent.clear();
 }

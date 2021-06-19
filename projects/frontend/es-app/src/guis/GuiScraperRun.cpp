@@ -73,7 +73,7 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
 
   // Create scraper and run!
 	mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource());
-	mScraper->RunOn(method, systems, this, RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
+	mScraper->RunOn(method, systems, this, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
 void GuiScraperRun::onSizeChanged()
@@ -106,7 +106,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:
     {
-      result->Metadata().SetName(result->getPath().FilenameWithoutExtension());
+      result->Metadata().SetName(result->FilePath().FilenameWithoutExtension());
       break;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:
@@ -117,11 +117,11 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   }
 
   // update title
-  mSystem->setText(Strings::ToUpperASCII(result->getSystem()->getFullName()));
+  mSystem->setText(Strings::ToUpperASCII(result->System().FullName()));
 
   // update subtitle
   std::string ss = Strings::Format(_("GAME %i OF %i").c_str(), index, total) +
-                   " - " + Strings::ToUpperASCII(result->getPath().Filename());
+                   " - " + Strings::ToUpperASCII(result->FilePath().Filename());
   mSubtitle->setText(ss);
 
   // Update game data

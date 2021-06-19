@@ -65,12 +65,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); return *this; }
 
     #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
-      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.getName()).append(1, '.').append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.getName()).append(1, '.').append(key), value); return *this; }
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.Name()).append(1, '.').append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.Name()).append(1, '.').append(key), value); return *this; }
 
     #define DefineEmulationStationSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
-      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), value); return *this; }
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), value); return *this; }
 
     #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
@@ -89,8 +89,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
 
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
-      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)(defaultValue)); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.getName()).append(1, '.').append(key), (int)value); return *this; }
+      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)(defaultValue)); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)value); return *this; }
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
     DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScrapperGetNameFrom, ScraperTools::ScraperNameOptions)

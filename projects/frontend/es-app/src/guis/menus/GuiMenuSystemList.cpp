@@ -19,7 +19,7 @@ GuiMenuSystemList::GuiMenuSystemList(WindowManager& window, SystemManager& syste
   const std::vector<SystemData*> systems = systemManager.GetAllSystemList();
   for(int i = 0; i < (int)systems.size(); ++i)
     if (!systems[i]->IsVirtual())
-      AddSubMenu(systems[i]->getFullName(), i);
+      AddSubMenu(systems[i]->FullName(), i);
 }
 
 void GuiMenuSystemList::SubMenuSelected(int id)

@@ -43,11 +43,11 @@ void GameClipView::Initialize()
   bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
   for (int i = (int) allSystems.size(); --i >= 0;)
   {
-    const std::string& name = allSystems[i]->getName();
+    const std::string& name = allSystems[i]->Name();
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
     if (systemIsInIncludeList)
     {
-      FileData::List list = allSystems[i]->MasterRoot().getFilteredItemsRecursively(&videoFilter, false,
+      FileData::List list = allSystems[i]->MasterRoot().GetFilteredItemsRecursively(&videoFilter, false,
                                                                                     allSystems[i]->IncludeAdultGames());
       mDemoFiles.reserve(mDemoFiles.size() + list.size());
       mDemoFiles.insert(mDemoFiles.end(), list.begin(), list.end());
@@ -278,7 +278,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   // TOGGLE FAVORITES - Y
   if (event.YPressed())
   {
-    if (mGame->isGame() && mGame->getSystem()->getHasFavoritesInTheme())
+    if (mGame->IsGame() && mGame->System().HasFavoritesInTheme())
     {
       MetadataDescriptor& md = mGame->Metadata();
       SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
@@ -288,21 +288,21 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
       {
         if (md.Favorite())
         {
-          favoriteSystem->GetFavoriteRoot().addChild(mGame, false);
+          favoriteSystem->GetFavoriteRoot().AddChild(mGame, false);
         }
         else
         {
-          favoriteSystem->GetFavoriteRoot().removeChild(mGame);
+          favoriteSystem->GetFavoriteRoot().RemoveChild(mGame);
         }
 
-        ViewController::Instance().setInvalidGamesList(mGame->getSystem());
+        ViewController::Instance().setInvalidGamesList(&mGame->System());
         ViewController::Instance().setInvalidGamesList(favoriteSystem);
       }
       ViewController::Instance().getSystemListView().manageFavorite();
 
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->getDisplayName(), popupDuration,
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->DisplayName(), popupDuration,
                                             GuiInfoPopup::PopupType::None));
 
         updateHelpPrompts();

@@ -45,7 +45,7 @@ GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& syst
         result.push_back({ emulatorAndCore, displayName, match });
       }
   }
-  else { LOG(LogError) << "[GUI] Can't get default emulator/core for " << system.getFullName(); }
+  else { LOG(LogError) << "[GUI] Can't get default emulator/core for " << system.FullName(); }
 
   return result;
 }

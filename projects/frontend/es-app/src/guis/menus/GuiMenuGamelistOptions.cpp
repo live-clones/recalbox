@@ -75,20 +75,20 @@ void GuiMenuGamelistOptions::RefreshGameMenuContext()
   if (!mGame) return;
 
   FileData* file = mGamelist.getCursor();
-  if ((file == nullptr) || file->isEmpty())
+  if ((file == nullptr) || file->IsEmpty())
     mGame->setText(_("NO GAME"));
-  else if (file->getTopAncestor().ReadOnly())
+  else if (file->TopAncestor().ReadOnly())
     mGame->setText(_("NON EDITABLE GAME"));
-  else if (file->isGame())
+  else if (file->IsGame())
   {
     std::string text = _("EDIT GAME %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
     mGame->setText(text);
   }
-  else if (file->isFolder())
+  else if (file->IsFolder())
   {
     std::string text = _("EDIT FOLDER %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->getName()));
+    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
     mGame->setText(text);
   }
 }
@@ -133,7 +133,7 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   if (!letters.empty())
   {
     // Get current unicode char
-    unsigned int currentUnicode = Strings::UpperChar(mGamelist.getCursor()->getName());
+    unsigned int currentUnicode = Strings::UpperChar(mGamelist.getCursor()->Name());
     // Build list
     for (unsigned int unicode : letters)
       list.push_back({ Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode });
@@ -144,9 +144,9 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
 
 void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
 {
-  game.getPath().Delete();
-  if (game.getParent() != nullptr)
-    game.getParent()->removeChild(&game); //unlink it so list repopulations triggered from onFileChanged won't see it
+  game.FilePath().Delete();
+  if (game.Parent() != nullptr)
+    game.Parent()->RemoveChild(&game); //unlink it so list repopulations triggered from onFileChanged won't see it
 
   gamelistview->onFileChanged(&game, FileChangeType::Removed); //tell the view
 }
@@ -213,7 +213,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::MetaData:
     {
       FileData* file = mGamelist.getCursor();
-      if ((file != nullptr) && (!file->isEmpty()) && (!file->getTopAncestor().ReadOnly()))
+      if ((file != nullptr) && (!file->IsEmpty()) && (!file->TopAncestor().ReadOnly()))
         mWindow.pushGui(new GuiMenuGamelistGameOptions(mWindow, mGamelist, mSystemManager, mSystem, *mGamelist.getCursor()));
       break;
     }

@@ -27,12 +27,12 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, FileData&
 
 	// row 0 is a spacer
 
-	mGameName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.getPath().Filename()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+	mGameName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.FilePath().Filename()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mGameName, Vector2i(0, 1), false, true);
 
 	// row 2 is a spacer
 
-	mSystemName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.getSystem()->getFullName()), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+	mSystemName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.System().FullName()), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mSystemName, Vector2i(0, 3), false, true);
 
 	// row 4 is a spacer
@@ -114,7 +114,7 @@ void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:
     {
-      result->Metadata().SetName(result->getPath().FilenameWithoutExtension());
+      result->Metadata().SetName(result->FilePath().FilenameWithoutExtension());
       break;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:
