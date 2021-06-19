@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
-- Show a message in emulationstation when the upgrade has failed
+- Set grub timeout to 3 seconds (#1750)
+- Show a message in emulationstation when the upgrade has failed (#1772)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
