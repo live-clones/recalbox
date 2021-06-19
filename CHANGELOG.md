@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 - Show a message in emulationstation when the upgrade has failed
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
+- Bump Fbneo 1.0.0.02 (#1688) 
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
@@ -109,6 +110,7 @@ All notable changes to this project will be documented in this file.
 - Send hostname when requesting dhcp address
 - Set PPSSPP Vsync to on, in default config and in pre-upgrade for rpi4
 - Fix gpsp compilation option (#1626)
+
 
 ## [7.2-Reloaded]
 - Bump libretro-mame
