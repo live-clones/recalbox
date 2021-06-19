@@ -6,6 +6,7 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### Version NEXT
+- Add libretro uae4arm core
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 
 ## Version 7.2.2-Reloaded

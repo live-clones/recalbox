@@ -5,7 +5,7 @@
 ################################################################################
 
 # Package generated with :
-# ./scripts/linux/empack.py --force --system amiga600 --extension '.adf .adz .ipf .lha .lhz .lzx .zip .rp9 .dms .fdi .hdf .hdz .m3u' --fullname 'Amiga 600' --platform amiga --theme amiga600 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE
+# ./scripts/linux/empack.py --force --system amiga600 --extension '.adf .adz .ipf .lha .lhz .lzx .zip .rp9 .dms .fdi .hdf .hdz .m3u' --fullname 'Amiga 600' --platform amiga --theme amiga600 1:amiberry:amiberry:BR2_PACKAGE_AMIBERRY 2:libretro:puae:BR2_PACKAGE_LIBRETRO_UAE 3:libretro:uae4arm:BR2_PACKAGE_LIBRETRO_UAE4ARM
 
 # Name the 3 vars as the package requires
 RECALBOX_ROMFS_AMIGA600_SOURCE = 
@@ -21,12 +21,12 @@ SOURCE_ROMDIR_AMIGA600 = $(RECALBOX_ROMFS_AMIGA600_PKGDIR)/roms
 # variables are global across buildroot
 
 
-ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
+ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_LIBRETRO_UAE4ARM),)
 define CONFIGURE_MAIN_AMIGA600_START
 	$(call RECALBOX_ROMFS_CALL_ADD_SYSTEM,$(SYSTEM_XML_AMIGA600),Amiga 600,$(SYSTEM_NAME_AMIGA600),.adf .adz .ipf .lha .lhz .lzx .zip .rp9 .dms .fdi .hdf .hdz .m3u,amiga,amiga600)
 endef
 
-ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
+ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_LIBRETRO_UAE4ARM),)
 define CONFIGURE_AMIGA600_AMIBERRY_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_AMIGA600),amiberry)
 endef
@@ -41,13 +41,19 @@ define CONFIGURE_AMIGA600_AMIBERRY_END
 endef
 endif
 
-ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE),)
+ifneq ($(BR2_PACKAGE_AMIBERRY)$(BR2_PACKAGE_LIBRETRO_UAE)$(BR2_PACKAGE_LIBRETRO_UAE4ARM),)
 define CONFIGURE_AMIGA600_LIBRETRO_START
 	$(call RECALBOX_ROMFS_CALL_START_EMULATOR,$(SYSTEM_XML_AMIGA600),libretro)
 endef
 ifeq ($(BR2_PACKAGE_LIBRETRO_UAE),y)
 define CONFIGURE_AMIGA600_LIBRETRO_PUAE_DEF
 	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),puae,2)
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_LIBRETRO_UAE4ARM),y)
+define CONFIGURE_AMIGA600_LIBRETRO_UAE4ARM_DEF
+	$(call RECALBOX_ROMFS_CALL_ADD_CORE,$(SYSTEM_XML_AMIGA600),uae4arm,3)
 endef
 endif
 
@@ -70,6 +76,7 @@ define RECALBOX_ROMFS_AMIGA600_CONFIGURE_CMDS
 	$(CONFIGURE_AMIGA600_AMIBERRY_END)
 	$(CONFIGURE_AMIGA600_LIBRETRO_START)
 	$(CONFIGURE_AMIGA600_LIBRETRO_PUAE_DEF)
+	$(CONFIGURE_AMIGA600_LIBRETRO_UAE4ARM_DEF)
 	$(CONFIGURE_AMIGA600_LIBRETRO_END)
 	$(CONFIGURE_MAIN_AMIGA600_END)
 endef

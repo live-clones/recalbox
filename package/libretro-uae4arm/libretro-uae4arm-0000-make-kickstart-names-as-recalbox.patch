@@ -1,0 +1,33 @@
+From ac53a284e71849af043d22e2f8cf67a4002ba4b2 Mon Sep 17 00:00:00 2001
+From: Chips-fr <darcelf@gmail.com>
+Date: Thu, 18 Mar 2021 19:07:51 +0100
+Subject: [PATCH] make kickstart names as recalbox
+
+---
+ libretro/core/libretro-core.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/libretro/core/libretro-core.cpp b/libretro/core/libretro-core.cpp
+index 308126f..33f3c4e 100644
+--- a/libretro/core/libretro-core.cpp
++++ b/libretro/core/libretro-core.cpp
+@@ -59,11 +59,11 @@ static retro_environment_t environ_cb;
+ 
+ // Amiga default kickstarts
+ 
+-#define A500_ROM        "kick34005.A500"
+-#define A600_ROM        "kick40063.A600"
+-#define A1200_ROM       "kick40068.A1200"
+-#define CD32_ROM        "kick40060.CD32"
+-#define CD32_ROM_EXT    "kick40060.CD32.ext"
++#define A500_ROM        "kick34005.A500.rom"
++#define A600_ROM        "kick40063.A600.rom"
++#define A1200_ROM       "kick40068.A1200.rom"
++#define CD32_ROM        "kick40060.CD32.rom"
++#define CD32_ROM_EXT    "kick40060.CD32.ext.rom"
+ 
+ bool isCD32 = false;
+ 
+-- 
+2.25.1
+

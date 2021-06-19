@@ -1,0 +1,11 @@
+config BR2_PACKAGE_LIBRETRO_UAE4ARM
+	bool "libretro-uae4arm"
+	depends on BR2_PACKAGE_RETROARCH
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGA600
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGA1200
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGACD32
+	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGACDTV
+	help
+	  A libretro AMIGA emulator core for ARM.
+
+	  http://www.libretro.com

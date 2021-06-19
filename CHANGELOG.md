@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add libretro uae4arm core
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
@@ -31,6 +32,7 @@ All notable changes to this project will be documented in this file.
 - Added tmp directory for docker builds (#1765)
 - CI: do not clone buildroot when running linter (#1765)
 
+- Fix changelog linter (#1759)
 
 ## [7.2.2-Beta2]
 - Upgrade process creates missing directories in /boot (#1734)
