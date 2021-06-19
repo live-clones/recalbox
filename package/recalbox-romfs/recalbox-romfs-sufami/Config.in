@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_SUFAMI
-	bool "recalbox-romfs-sufami"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_SNES9X
-	help
-	  share_init/roms and xml for sufami

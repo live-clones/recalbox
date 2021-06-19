@@ -1,7 +1,6 @@
 config BR2_PACKAGE_PCSX_REARMED
 	bool "pcsx_rearmed"
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_PSX
 	help
 	  A psx emulator core for ARM.
 

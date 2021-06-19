@@ -1,0 +1,20 @@
+=======================================================================
+# RECALBOX: Sistema $(FULLNAME) ($(TYPE:Cabinato Arcade:Console da Tavolo:Console Portatile:Computer:Systema virtuale:Motore grafico:Port))
+=======================================================================
+
+Copia qui le rom per $(FULLNAME).
+I file supportati sono: $(EXTENSIONS)
+
+Questo sistema può essere emulato con $(CORECOUNT) emulatori.
+Tutti gli emulatori sono in questa lista, in ordine di compatibilità/semplicità di utilizzo:
+$(FOREACHCORE)$(EMULATOR)-$(CORE) supporta i file di $(COREEXTENTIONS) e $(CORENETPLAY::NON) è compatibile con Netplay.
+
+Requisiti di sistema:
+- Il Controller è $(PAD:non necessario:opzionale:raccomandato:obbligatorio)
+- La Tastiera è $(KEYBOARD:non necessaria:opzionale:raccomandata:obbligatoria)
+- Il Mouse è $(MOUSE:non necessario:opzionale:raccomandato:obbligatorio)
+
+$(TAGS:ZIP.ONEROM)
+
+$(TAGS:DOC.TEXT)
+$(DOCLINK)

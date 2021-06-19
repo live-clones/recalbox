@@ -1,8 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_AMIGA1200
-	bool "recalbox-romfs-amiga1200"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_AMIBERRY \
-	  || BR2_PACKAGE_LIBRETRO_UAE \
-	  || BR2_PACKAGE_LIBRETRO_UAE4ARM
-	help
-	  share_init/roms and xml for amiga1200

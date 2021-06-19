@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_POTATOR
 	bool "libretro-potator"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_SUPERVISION
 	help
 	  A libretro Watara Supervision emulator core.
 

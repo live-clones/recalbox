@@ -21,6 +21,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test overlay working with dragon lair's
 - [ ] Test a sharp x68000 game and see if there is no message "failed to set last used disc" (#1775)
 - [ ] Bumped px68k (Sharp x68000) (#1775)
+- [ ] Get an es_systems.cfg for your board (7.2.2 max) and compare emulators/core available in this file to those available in this beta. They should all be there :)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
