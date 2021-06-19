@@ -4,10 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear 
 as release notes for end user on a Recalbox upgrade.
 
-## Version 7.2.2-Reloaded
 
-### News
+### Version NEXT
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
+
+## Version 7.2.2-Reloaded
 
 ### Fixes
 - Fix mupen64plus resolution (standalone)

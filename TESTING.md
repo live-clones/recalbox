@@ -14,6 +14,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## [NEXT]
 - [X] While ES is stopped, create a file in /tmp/upgradefailed and check if the error message is displayed when starting ES (#1772)
 - [X] Grub options still accessible on PC (#1750)
+- [ ] Bump Hypseus (#1611)
+  - [ ] Test hypseus on all boards
+  - [ ] Test singe games
+  - [ ] Test overlay working with dragon lair's
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
