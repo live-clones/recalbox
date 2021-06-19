@@ -1,8 +1,6 @@
 config BR2_PACKAGE_GSPLUS
 	bool "gsplus"
 	select BR2_PACKAGE_SDL2
-	select BR2_PACKAGE_RECALBOX_ROMFS_APPLE2GS
-	select BR2_PACKAGE_RECALBOX_ROMFS_APPLE2
 	select BR2_PACKAGE_LIBPCAP
 	help
 	  Apple II GS emulator

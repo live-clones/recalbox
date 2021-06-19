@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_RETRODREAM
 	bool "libretro-retrodream"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_DREAMCAST
 	help
 	  A libretro dreamcast emulator core.
 

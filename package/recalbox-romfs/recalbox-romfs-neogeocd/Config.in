@@ -1,7 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_NEOGEOCD
-	bool "recalbox-romfs-neogeocd"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_FBNEO \
-	  || BR2_PACKAGE_LIBRETRO_NEOCD
-	help
-	  share_init/roms and xml for neogeocd

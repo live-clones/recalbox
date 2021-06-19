@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_PCSX_REARMED
 	bool "libretro-pcsx_rearmed"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_PSX
 	help
 	  A libretro psx emulator core for ARM.
 

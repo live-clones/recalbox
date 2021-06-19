@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_PSP
-	bool "recalbox-romfs-psp"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_PPSSPP
-	help
-	  share_init/roms and xml for psp

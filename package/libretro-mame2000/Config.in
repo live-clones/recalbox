@@ -2,8 +2,6 @@ config BR2_PACKAGE_LIBRETRO_MAME2000
 	bool "libretro-mame2000"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_MAME
-	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEO
 	help
 	  A libretro mame2000 core for ARM.
 
