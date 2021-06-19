@@ -36,7 +36,7 @@ class SystemDeserializer
      * @brief Get Template Configuration filepath
      * @return Template Configuration filepath
      */
-    static Path TemplateConfigurationPath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/es_systems.cfg"; }
+    static Path TemplateConfigurationPath() { return RootFolders::TemplateRootFolder / "system/.emulationstation/systemlist.xml"; }
 
     /*!
      * @brief Deserialize an emulator node and all its tree into an EmulatorList object
@@ -79,7 +79,7 @@ class SystemDeserializer
      * @brief Get User Configuration filepath
      * @return User Configuration filepath
      */
-    static Path UserConfigurationPath()     { return RootFolders::DataRootFolder / "system/.emulationstation/es_systems.cfg"; }
+    static Path UserConfigurationPath()     { return RootFolders::DataRootFolder / "system/.emulationstation/systemlist.xml"; }
 
     /*!
      * @brief Deserialize XML system node into a SystemDescriptor object

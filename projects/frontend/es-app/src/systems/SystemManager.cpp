@@ -124,7 +124,8 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
+  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
+            .SetDescriptorInformation("", "", themeFolder, "");
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   FolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
@@ -153,7 +154,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
+  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
+            .SetDescriptorInformation("", "", themeFolder, "");
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
@@ -182,7 +184,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetInformation("", name, fullName, "", "", themeFolder, false);
+  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
+            .SetDescriptorInformation("", "", themeFolder, "");
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())

@@ -351,7 +351,6 @@ void SystemData::loadTheme()
   catch (ThemeException& e)
   {
     { LOG(LogError) << "[Theme] " << e.what(); }
-    mDescriptor.SetDefaultThemePath();
     mTheme.loadFile(ThemeFolder(), path);
   }
 }

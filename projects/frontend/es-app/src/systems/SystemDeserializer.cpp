@@ -7,14 +7,17 @@
 void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList& emulatorList)
 {
   emulatorList.Clear();
-  for (const auto& emulator : emulators.children("emulator"))
+  for (const XmlNode& emulator : emulators.children("emulator"))
   {
     const std::string& emulatorName = Xml::AttributeAsString(emulator, "name", "");
     EmulatorDescriptor emulatorDescriptor(emulatorName);
-    XmlNode cores = emulator.child("cores");
-    if (cores != nullptr)
-      for (const auto& coreNode : cores.children("core"))
-        emulatorDescriptor.AddCore(coreNode.child_value(), coreNode.attribute("priority").as_int(255));
+    for (const auto& coreNode : emulator.children("core"))
+      emulatorDescriptor.AddCore(Xml::AttributeAsString(coreNode, "name", ""),
+                                 Xml::AttributeAsInt(coreNode, "priority", 255),
+                                 Xml::AttributeAsString(coreNode, "extensions", ""),
+                                 Xml::AttributeAsBool(coreNode, "netplay", false),
+                                 Xml::AttributeAsString(coreNode, "compatibility", ""),
+                                 Xml::AttributeAsString(coreNode, "speed", ""));
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
 }
@@ -25,41 +28,41 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
   systemDescriptor.ClearPlatforms();
 
   XmlNode systemNode = mSystemList[index];
-  // Information
-  systemDescriptor.SetInformation(Xml::AsString(systemNode, "path", ""),
-                                  Xml::AsString(systemNode, "name", ""),
-                                  Xml::AsString(systemNode, "fullname", ""),
-                                  Xml::AsString(systemNode, "command", ""),
-                                  Xml::AsString(systemNode, "extension", ""),
-                                  Xml::AsString(systemNode, "theme", ""),
-                                  Xml::AttributeAsString(systemNode.child("path"), "readonly", "0") == "1");
+  // System Information
+  systemDescriptor.SetSystemInformation(Xml::AttributeAsString(systemNode, "uuid", ""),
+                                        Xml::AttributeAsString(systemNode, "name", ""),
+                                        Xml::AttributeAsString(systemNode, "fullname", ""),
+                                        Xml::AttributeAsString(systemNode, "platforms", ""),
+                                        Xml::AttributeAsBool(systemNode, "readonly", false));
+  // System descriptor
+  XmlNode descriptor = systemNode.child("descriptor");
+  systemDescriptor.SetDescriptorInformation(Xml::AttributeAsString(descriptor, "path", ""),
+                                            Xml::AttributeAsString(descriptor, "extensions", ""),
+                                            Xml::AttributeAsString(descriptor, "theme", ""),
+                                            Xml::AttributeAsString(descriptor, "command", ""));
+  // Scraper information
+  XmlNode scraper = systemNode.child("scraper");
+  systemDescriptor.SetScraperInformation(Xml::AttributeAsInt(scraper, "screenscraper", 0));
+
+  // System properties
+  XmlNode properties = systemNode.child("properties");
+  systemDescriptor.SetPropertiesInformation(Xml::AttributeAsString(properties, "type", ""),
+                                            Xml::AttributeAsString(properties, "pad", ""),
+                                            Xml::AttributeAsString(properties, "keyboard", ""),
+                                            Xml::AttributeAsString(properties, "mouse", ""),
+                                            Xml::AttributeAsBool(properties, "lightgun", false));
 
   // Check
   if (systemDescriptor.IsValid())
   {
     // Emulator tree
     EmulatorList emulatorList;
-    DeserializeEmulatorTree(systemNode.child("emulators"), emulatorList);
+    DeserializeEmulatorTree(systemNode.child("emulatorList"), emulatorList);
     systemDescriptor.SetEmulatorList(emulatorList);
-
-    // Platform list
-    std::vector<std::string> platforms = Strings::Split(Xml::AsString(systemNode, "platform", ""), ' ');
-    for (const auto &platform : platforms)
-    {
-      PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
-      if (platformId == PlatformIds::PlatformId::PLATFORM_IGNORE)
-      {
-        systemDescriptor.ClearPlatforms();
-        systemDescriptor.AddPlatformIdentifiers(platformId);
-        break;
-      }
-      if (!systemDescriptor.AddPlatformIdentifiers(platformId))
-      { LOG(LogError) << "[System] Platform count for system " << systemDescriptor.Name() << " full. " << platform << " ignored!"; }
-    }
     return true;
   }
 
-  { LOG(LogError) << "[System] System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or command!"; }
+  { LOG(LogError) << "[System] System \"" << systemDescriptor.Name() << "\" is missing name, path, extension, or GUID!"; }
   return false;
 }
 
@@ -68,18 +71,23 @@ bool SystemDeserializer::LoadSystemXMLNodes(const XmlDocument& document)
   bool result = false;
   XmlNode systemList = document.child("systemList");
   if (systemList != nullptr)
+  {
+    // Defaults
+    XmlNode defaults = systemList.child("defaults");
+    SystemDescriptor::SetDefaultCommand(Xml::AttributeAsString(defaults, "command", ""));
+
+    // Systems
     for (const XmlNode system : systemList.children("system"))
     {
       // Ignore favorite
-      if (Xml::AsString(system, "name", "") == sFavoriteSystemShortName)
+      if (Xml::AttributeAsString(system, "name", "") == sFavoriteSystemShortName)
         continue;
 
       // At least one node found
       result = true;
 
       // Composite key: fullname + platform
-      std::string key = Xml::AsString(system, "fullname", "");
-      key += Xml::AsString(system, "platform", "");
+      std::string key = Xml::AttributeAsString(system, "uuid", "");
 
       // Already exist in the store ?
       int index = (mSystemMap.find(key) != mSystemMap.end()) ? mSystemMap[key] : -1;
@@ -91,8 +99,10 @@ bool SystemDeserializer::LoadSystemXMLNodes(const XmlDocument& document)
       {
         mSystemMap[key] = (int) mSystemList.size();
         mSystemList.push_back(system);
-      } else mSystemList[index] = system;
+      }
+      else mSystemList[index] = system;
     }
+  }
 
   if (!result) { LOG(LogError) << "[System] missing or empty <systemList> tag!"; }
 

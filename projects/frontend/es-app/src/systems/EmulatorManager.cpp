@@ -66,7 +66,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
           if (list.EmulatorAt(i).CorePriorityAt(j) < priority)
           {
             priority = list.EmulatorAt(i).CorePriorityAt(j);
-            core = list.EmulatorAt(i).CoreAt(j);
+            core = list.EmulatorAt(i).CoreNameAt(j);
             emulator = list.EmulatorAt(i).Name();
           }
 
@@ -231,7 +231,7 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
       if (list.HasNamed(emulator))
         if (list.Named(emulator).CoreCount() == 1)
         {
-          core = list.Named(emulator).CoreAt(0);
+          core = list.Named(emulator).CoreNameAt(0);
           { LOG(LogDebug) << "[Emulator] Core " << core << " guessed from emulator " << emulator << " whish has only one core"; }
           return true;
         }
@@ -315,7 +315,7 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
             lowestPriority = corePriorities[i];
             index = i;
           }
-        result.push_back(descriptor.CoreAt(index));
+        result.push_back(descriptor.CoreNameAt(index));
         corePriorities[index] = 255;
       }
 

@@ -220,6 +220,7 @@ set(ES_SOURCES
         src/systems/EmulatorList.cpp
         src/systems/LightGunDatabase.cpp
         src/systems/SystemData.cpp
+        src/systems/SystemDescriptor.cpp
         src/systems/SystemDeserializer.cpp
         src/systems/SystemManager.cpp
         src/usernotifications/NotificationManager.cpp

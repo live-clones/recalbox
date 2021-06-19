@@ -54,6 +54,40 @@ class Xml
     }
 
     /*!
+     * @brief Get an attribute value from the given xml node, or the default value if the attribute does not exist
+     * @param root Node from which to get child
+     * @param attributename Attribute name from which to get value
+     * @param defaultvalue Default value
+     * @return Fetch value or default value
+     */
+    static int AttributeAsInt(XmlNode root, const char* attributename, int defaultvalue)
+    {
+      XmlAttribute attribute = root.attribute(attributename);
+      int value = defaultvalue;
+      if (attribute != nullptr)
+        if (!Strings::ToInt(attribute.value(), value))
+          value = defaultvalue;
+      return value;
+    }
+
+    /*!
+     * @brief Get an attribute value from the given xml node, or the default value if the attribute does not exist
+     * @param root Node from which to get child
+     * @param attributename Attribute name from which to get value
+     * @param defaultvalue Default value
+     * @return Fetch value or default value
+     */
+    static bool AttributeAsBool(XmlNode root, const char* attributename, bool defaultvalue)
+    {
+      XmlAttribute attribute = root.attribute(attributename);
+      bool value = defaultvalue;
+      if (attribute != nullptr)
+        if (!Strings::ToBool(attribute.value(), value))
+          value = defaultvalue;
+      return value;
+    }
+
+    /*!
      * @brief Append a child node to the given parent node and set the value
      * @param parent Parent node to which to add the child node
      * @param childname Child node name
