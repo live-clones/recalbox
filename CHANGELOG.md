@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)
+- Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
@@ -60,7 +61,6 @@ All notable changes to this project will be documented in this file.
 - Renamed review builds to beta builds (tags only) (#1673)
 - Remove update type from ES user interface (#1673)
 - Add 8bitdo Pro 2 maaping (#1713)
-
 
 ## [7.2.1-Reloaded]
 - Remove game hide in odroidgo2 pre-upgrade.sh

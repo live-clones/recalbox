@@ -47,7 +47,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +#add_dependencies( sound vldp )
  
  add_executable( hypseus hypseus.cpp globals.h )
- target_link_libraries( hypseus plog io timer sound video cpu game ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES})
+ target_link_libraries( hypseus plog io timer sound video cpu game ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} )
 
 --- a/src/vldp/vldp_internal.cpp	2019-04-02 22:00:27.879821269 +0200
 +++ b/src/vldp/vldp_internal.cpp	2019-04-02 22:00:35.959745458 +0200
@@ -64,7 +64,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
 +++ b/src/vldp/vldp.h	2019-04-02 22:00:15.471937796 +0200
 @@ -34,6 +34,8 @@ extern "C" {
  // Ubuntu Linux complains with plain <SDL.h>
- #include <SDL.h> // only used for threading
+ #include <SDL2/SDL.h> // only used for threading
  
 +#include <mpeg2.h>
 +
