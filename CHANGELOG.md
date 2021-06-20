@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump retroarch assets
 - Bump retroarch to version 1.9.3
 - Add libretro uae4arm core
 - Set grub timeout to 3 seconds (#1750)
