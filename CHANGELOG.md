@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Added uae4arm in bios file
 - Fix fba configuration in romfsv2
 - Bump retroarch assets
 - Bump retroarch to version 1.9.3
@@ -11,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 - Show a message in emulationstation when the upgrade has failed
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
-- Bump Fbneo 1.0.0.02 (#1688) 
+- Bump Fbneo 1.0.0.02 (#1688)
 - Fix changelog linter (#1759)
 - New romfs v2
 - Add libretro uae4arm core (#1771)
