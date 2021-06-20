@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Added uae4arm in bios file
+- Fix French spelling and readme files generation
 - Fix fba configuration in romfsv2
 - Bump retroarch assets
 - Bump retroarch to version 1.9.3
