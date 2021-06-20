@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- CRT: Add rpi-dpidac support (#1805)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
 - Added retroachievements for romfsv2 (#1799)
 - Add random path support for emulationstation themes (#1793)
