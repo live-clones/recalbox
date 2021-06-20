@@ -1,8 +1,0 @@
-## RECALBOX - SYSTEM PCENGINE CD ##
-
-Placez ici vos roms pcengine cd.
-
-Les roms doivent avoir l'extension ".cue/.ccd/.chd"
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/consoles-de-salon/pc-engine-cd

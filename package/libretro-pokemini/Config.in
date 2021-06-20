@@ -2,7 +2,6 @@ config BR2_PACKAGE_LIBRETRO_POKEMINI
 	bool "libretro-pokemini"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_POKEMINI
 	help
 	  A libretro Pokémon Mini emulator core.
 

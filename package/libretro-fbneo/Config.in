@@ -2,9 +2,6 @@ config BR2_PACKAGE_LIBRETRO_FBNEO
 	bool "libretro-fbneo"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
-	select BR2_PACKAGE_RECALBOX_ROMFS_FBNEO
-	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEO
-	select BR2_PACKAGE_RECALBOX_ROMFS_NEOGEOCD
 	help
 	  A libretro fbneo emulator core for ARM.
 

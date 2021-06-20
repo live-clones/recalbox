@@ -14,7 +14,6 @@ config BR2_PACKAGE_SCUMMVM
 	select BR2_PACKAGE_FLUIDSYNTH
 	select BR2_PACKAGE_FREETYPE
 	select BR2_PACKAGE_ZLIB
-	select BR2_PACKAGE_RECALBOX_ROMFS_SCUMMVM
 	help
 	  ScummVM point and click
 	  http://wiki.scummvm.org/

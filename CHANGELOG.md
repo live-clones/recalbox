@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
 - Bump Fbneo 1.0.0.02 (#1688) 
 - Fix changelog linter (#1759)
+- New romfs v2
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

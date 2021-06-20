@@ -26,8 +26,6 @@ config BR2_PACKAGE_DOLPHIN_EMU
 	select BR2_PACKAGE_QT5BASE_GIF
 	select BR2_PACKAGE_QT5BASE_JPEG
 	select BR2_PACKAGE_QT5BASE_PNG
-	select BR2_PACKAGE_RECALBOX_ROMFS_GAMECUBE
-	select BR2_PACKAGE_RECALBOX_ROMFS_WII
 	help
 	  A  Nintendo GameCube/Wii emulator.
 	  https://github.com/dolphin-emu/dolphin

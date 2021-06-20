@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RECALBOX_ROMFS_INTELLIVISION
-	bool "recalbox-romfs-intellivision"
-	select BR2_PACKAGE_RECALBOX_ROMS
-	depends on BR2_PACKAGE_LIBRETRO_FREEINTV
-	help
-	  share_init/roms and xml for intellivision

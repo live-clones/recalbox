@@ -1,6 +1,0 @@
-## RECALBOX - SYSTEM RICK DANGEROUS ##
-
-Ce système est un port de Rick Dangerous. data.zip obligatoire.
-
-Consultez la documentation à cette adresse :
-https://recalbox.gitbook.io/documentation/v/francais/emulateurs/ports/rick-dangerous
