@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_STELLA_VERSION = c5f0960304caca4d61ae32c0529112e0bfe4edc5
+LIBRETRO_STELLA_VERSION = 84b3f0280e7a4b443de4908695a9aa3307868e20
 LIBRETRO_STELLA_SITE = $(call github,stella-emu,stella,$(LIBRETRO_STELLA_VERSION))
 LIBRETRO_STELLA_LICENSE = GPL-2.0
 
