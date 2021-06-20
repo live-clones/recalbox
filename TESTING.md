@@ -33,6 +33,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Custom overlays => custom overlays (in share) should always have priority
 - [ ] Check that the retroachievement value is present in the system.xml file (#1799)
 - [ ] Bumped libretro snes9x2002 core, test especially on rpi zero (#1757)
+- [ ] Bumped libretro snes9x2005 core, test especially on rpi zero (#1757)
 
 
 ## [7.2.2]
