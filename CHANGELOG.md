@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix fba configuration in romfsv2
 - Bump retroarch assets
 - Bump retroarch to version 1.9.3
 - Add libretro uae4arm core
