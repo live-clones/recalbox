@@ -1,13 +1,19 @@
 diff --git a/retroarch.c b/retroarch.c
-index ed336c410e..3acdc99c09 100644
+index a12b3741f9..04490fe4f0 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -9789,7 +9789,7 @@ static void netplay_announce(struct rarch_state *p_rarch)
-    frontend_drv =  
+@@ -7672,12 +7672,8 @@ static void netplay_announce(struct rarch_state *p_rarch)
+    frontend_drv =
        (const frontend_ctx_driver_t*)frontend_driver_get_cpu_architecture_str(
              frontend_architecture_tmp, sizeof(frontend_architecture_tmp));
--   snprintf(frontend_architecture, sizeof(frontend_architecture), "%s %s",
+-   strlcpy(frontend_architecture, frontend_drv->ident,
+-         sizeof(frontend_architecture));
+-   strlcat(frontend_architecture, " ",
+-         sizeof(frontend_architecture));
+-   strlcat(frontend_architecture, frontend_architecture_tmp,
+-         sizeof(frontend_architecture));
 +   snprintf(frontend_architecture, sizeof(frontend_architecture), "%s %s@RECALBOX",
-          frontend_drv->ident, frontend_architecture_tmp);
++         frontend_drv->ident, frontend_architecture_tmp);
  
  #ifdef HAVE_DISCORD
+    if (discord_is_ready())

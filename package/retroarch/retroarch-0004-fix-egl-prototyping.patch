@@ -1,5 +1,5 @@
 diff --git a/gfx/drivers_context/vc_egl_ctx.c b/gfx/drivers_context/vc_egl_ctx.c
-index 3c52edb96a..ac22e1e0af 100644
+index 646c79223b..c6545c9e41 100644
 --- a/gfx/drivers_context/vc_egl_ctx.c
 +++ b/gfx/drivers_context/vc_egl_ctx.c
 @@ -78,6 +78,9 @@ typedef struct

@@ -1,16 +1,8 @@
 diff --git a/retroarch.c b/retroarch.c
-index d4a33415cf..ed336c410e 100644
+index d9f0ef0121..a12b3741f9 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -1514,6 +1514,7 @@ enum
-    RA_OPT_EOF_EXIT,
-    RA_OPT_LOG_FILE,
-    RA_OPT_MAX_FRAMES,
-+   RA_OPT_HASH,
-    RA_OPT_MAX_FRAMES_SCREENSHOT,
-    RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
-    RA_OPT_SET_SHADER,
-@@ -35775,6 +35776,7 @@ static void retroarch_print_help(const char *arg0)
+@@ -34459,6 +34459,7 @@ static void retroarch_print_help(const char *arg0)
  
        strlcat(buf, "      --nick=NICK       Picks a username (for use with netplay). "
              "Not mandatory.\n", sizeof(buf));
@@ -18,7 +10,7 @@ index d4a33415cf..ed336c410e 100644
        strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
              "Using .mkv extension is recommended.\n", sizeof(buf));
        strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
-@@ -35875,6 +35877,7 @@ static void retroarch_parse_input_and_config(
+@@ -34560,6 +34561,7 @@ static bool retroarch_parse_input_and_config(
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
  #endif
@@ -26,7 +18,7 @@ index d4a33415cf..ed336c410e 100644
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -36362,6 +36365,11 @@ static void retroarch_parse_input_and_config(
+@@ -35054,6 +35056,11 @@ static bool retroarch_parse_input_and_config(
                 }
                 break;
  
@@ -39,19 +31,31 @@ index d4a33415cf..ed336c410e 100644
                 if (sscanf(optarg, "%ux%u",
                          &p_rarch->recording_width,
 diff --git a/retroarch.h b/retroarch.h
-index 36a81d48a8..2bd8c684f7 100644
+index 71a2718572..0b5582928a 100644
 --- a/retroarch.h
 +++ b/retroarch.h
-@@ -238,6 +238,7 @@ typedef struct global
+@@ -244,6 +244,7 @@ typedef struct global
+       char bps[8192];
        char ips[8192];
        char label[8192];
-       char *remapfile;
 +      uint32_t hash;
     } name;
  
     /* Recording. */
+diff --git a/retroarch_data.h b/retroarch_data.h
+index 673fccf62d..b48918d82e 100644
+--- a/retroarch_data.h
++++ b/retroarch_data.h
+@@ -1255,6 +1255,7 @@ enum
+    RA_OPT_EOF_EXIT,
+    RA_OPT_LOG_FILE,
+    RA_OPT_MAX_FRAMES,
++   RA_OPT_HASH,
+    RA_OPT_MAX_FRAMES_SCREENSHOT,
+    RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
+    RA_OPT_SET_SHADER,
 diff --git a/tasks/task_content.c b/tasks/task_content.c
-index d0c4b725f6..73f1b45d3a 100644
+index e41ae9da53..a29c05c437 100644
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
 @@ -673,6 +673,7 @@ static bool load_content_into_memory(
@@ -88,7 +92,7 @@ index d0c4b725f6..73f1b45d3a 100644
     }
  
     *buf = ret_buf;
-@@ -911,6 +922,7 @@ static bool content_file_load(
+@@ -886,6 +897,7 @@ static bool content_file_load(
  {
     unsigned i;
     retro_ctx_load_content_info_t load_info;
@@ -96,7 +100,7 @@ index d0c4b725f6..73f1b45d3a 100644
     bool used_vfs_fallback_copy = false;
  #ifdef __WINRT__
     rarch_system_info_t *system = runloop_get_system_info();
-@@ -1055,9 +1067,15 @@ static bool content_file_load(
+@@ -1028,9 +1040,15 @@ static bool content_file_load(
  
           RARCH_LOG("[CONTENT LOAD]: %s\n", msg_hash_to_str(
                    MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT));
@@ -115,9 +119,9 @@ index d0c4b725f6..73f1b45d3a 100644
        }
     }
  
-@@ -2461,6 +2479,7 @@ uint32_t content_get_crc(void)
-             (const char*)p_content->pending_rom_crc_path);
-       RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x .\n", (unsigned)p_content->rom_crc);
+@@ -2415,6 +2433,7 @@ uint32_t content_get_crc(void)
+       RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x .\n",
+             (unsigned)p_content->rom_crc);
     }
 +   RARCH_LOG("Called content_get_crc\n");
     return p_content->rom_crc;

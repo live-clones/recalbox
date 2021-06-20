@@ -5,10 +5,19 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
-### Version NEXT
+## Version NEXT
+
+### News
 - Add libretro uae4arm core
+
+### Improvements
+- Bump Retroarch to v1.9.3
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 - Bump Fbneo v1.0.0.02
+- Bump Sharp X68000 core (px68k)
+
+### Fixes
+- Fix message "failed to set last used disc" for core libretro px68k
 
 
 ## Version 7.2.2-Reloaded
@@ -40,6 +49,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix MAME menu is displayed if you add credit with the wiimote
 - Make Mupen64plus Glide64MK2 works on various boards
 - Fix image display on dreamcast when using overlays
+
 
 ## Version 7.2.1-Reloaded
 
