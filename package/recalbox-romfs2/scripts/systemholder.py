@@ -219,7 +219,7 @@ class SystemHolder:
         archSection: str = section + "." + self.__arch
         if ini.hasSection(archSection):
             if ini.hasOption(archSection, key):
-                return ini.getOption(section, key, default)
+                return ini.getOption(archSection, key, default)
 
         # Then Arch Key
         archKey: str = key + "." + self.__arch
