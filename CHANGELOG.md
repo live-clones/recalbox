@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Populate share now uses systemlist.xml to populate ports (#1686)
 - Renamed mrboom to Mr. Boom in romfsv2 (#1686)
 - Fix/improve romfsv2 & cleanup some old packages/scripts (#1686)
+- Bump picodrive libretro core (#1757)
 - Bump snes9x2002 libretro core (#1757)
 - Bump snes9x2005 libretro core (#1757)
 - Added uae4arm in bios file (#1771)

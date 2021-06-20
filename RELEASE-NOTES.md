@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant than stella
 - Add recalbox overlays for all systems!
 - Add LowRes NX virtual console on all boards
+- Add CHD support for Mega CD Games with Picodrive core
 
 ### Improvements
 - Bump Retroarch to v1.9.3
