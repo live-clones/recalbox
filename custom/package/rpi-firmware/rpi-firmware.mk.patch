@@ -1,21 +1,13 @@
 diff --git a/package/rpi-firmware/rpi-firmware.mk b/package/rpi-firmware/rpi-firmware.mk
-index 8b2b2c7154..3b1f4129ce 100644
+index f3bda830be..1c448ff7c7 100644
 --- a/package/rpi-firmware/rpi-firmware.mk
 +++ b/package/rpi-firmware/rpi-firmware.mk
 @@ -4,7 +4,7 @@
  #
  ################################################################################
  
--RPI_FIRMWARE_VERSION = 358f4c271f2bc10931aae8fe0879ffaded8b9c44
-+RPI_FIRMWARE_VERSION = 7d91570f20378afc9414107dccdad70705a8a342
+-RPI_FIRMWARE_VERSION = 1a46874494146f470d7a61b0b6f4f15a07dd8b35
++RPI_FIRMWARE_VERSION = c5b3d8e5f432058bfdb8a781393899abadcff50e
  RPI_FIRMWARE_SITE = $(call github,raspberrypi,firmware,$(RPI_FIRMWARE_VERSION))
  RPI_FIRMWARE_LICENSE = BSD-3-Clause
  RPI_FIRMWARE_LICENSE_FILES = boot/LICENCE.broadcom
-@@ -20,6 +20,7 @@ endif
- 
- ifeq ($(BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTB_OVERLAYS),y)
- define RPI_FIRMWARE_INSTALL_DTB_OVERLAYS
-+	$(INSTALL) -D -m 0644 $(@D)/boot/overlays/overlay_map.dtb $(BINARIES_DIR)/rpi-firmware/overlays/overlay_map.dtb
- 	for ovldtb in  $(@D)/boot/overlays/*.dtbo; do \
- 		$(INSTALL) -D -m 0644 $${ovldtb} $(BINARIES_DIR)/rpi-firmware/overlays/$${ovldtb##*/} || exit 1; \
- 	done
