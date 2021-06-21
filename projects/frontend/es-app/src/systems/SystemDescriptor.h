@@ -31,7 +31,7 @@ class SystemDescriptor
     enum class DeviceRequirement
     {
       Unknown    , //!< ?!
-      Required   , //!< Can't play whithout it!
+      Required   , //!< Can't play without it!
       Recommended, //!< Most games require it
       Optional   , //!< Some games may require it
       None       , //!< Useless
@@ -44,11 +44,13 @@ class SystemDescriptor
       : mPlatformIds{}
       , mPlateformCount(0)
       , mScreenScraperID(0)
+      , mReleaseDate(0)
       , mType(SystemType::Unknown)
       , mPad(DeviceRequirement::Unknown)
       , mKeyboard(DeviceRequirement::Unknown)
       , mMouse(DeviceRequirement::Unknown)
       , mLightgun(false)
+      , mPort(false)
       , mReadOnly(false)
     {
     }
@@ -64,13 +66,11 @@ class SystemDescriptor
     SystemDescriptor& SetSystemInformation(const std::string& guid,
                                            const std::string& name,
                                            const std::string& fullname,
-                                           const std::string& platforms,
-                                           bool readonly)
+                                           const std::string& platforms)
     {
       mGUID = guid;
       mName = name;
       mFullName = fullname;
-      mReadOnly = readonly;
 
       // Platform list
       for (const auto &platform : Strings::Split(platforms, ' '))
@@ -94,12 +94,16 @@ class SystemDescriptor
     SystemDescriptor& SetDescriptorInformation(const std::string& path,
                                                const std::string& extensions,
                                                const std::string& themefolder,
-                                               const std::string& command)
+                                               const std::string& command,
+                                               bool port,
+                                               bool readonly)
     {
       mPath = Path(path);
       mExtensions = extensions;
       mThemeFolder = themefolder;
       mCommand = command;
+      mPort = port;
+      mReadOnly = readonly;
       return *this;
     }
 
@@ -191,7 +195,7 @@ class SystemDescriptor
     DeviceRequirement MouseRequirement() const { return mMouse; }
     bool LightGun() const { return mLightgun; }
 
-    bool IsPort() const { return Strings::Contains(mPath.ToString(), "/ports/"); }
+    bool IsPort() const { return mPort; }
     bool IsReadOnly() const { return mReadOnly; }
 
     int PlatformCount() const { return mPlateformCount; }
@@ -230,9 +234,10 @@ class SystemDescriptor
     DeviceRequirement       mMouse;           //!< Pad state
     bool                    mLightgun;        //!< Support lightgun?
 
-    EmulatorList            mEmulators;      //!< Emulator/core tree
+    EmulatorList            mEmulators;       //!< Emulator/core tree
 
-    bool                    mReadOnly;       //!< This system is a port and is readonly
+    bool                    mPort;            //!< This system is a port
+    bool                    mReadOnly;        //!< This system is a port and is readonly
 
     static SystemType ConvertSystemType(const std::string& systemtype)
     {

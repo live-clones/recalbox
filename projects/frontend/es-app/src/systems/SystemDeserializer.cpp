@@ -32,14 +32,15 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
   systemDescriptor.SetSystemInformation(Xml::AttributeAsString(systemNode, "uuid", ""),
                                         Xml::AttributeAsString(systemNode, "name", ""),
                                         Xml::AttributeAsString(systemNode, "fullname", ""),
-                                        Xml::AttributeAsString(systemNode, "platforms", ""),
-                                        Xml::AttributeAsBool(systemNode, "readonly", false));
+                                        Xml::AttributeAsString(systemNode, "platforms", ""));
   // System descriptor
   XmlNode descriptor = systemNode.child("descriptor");
   systemDescriptor.SetDescriptorInformation(Xml::AttributeAsString(descriptor, "path", ""),
                                             Xml::AttributeAsString(descriptor, "extensions", ""),
                                             Xml::AttributeAsString(descriptor, "theme", ""),
-                                            Xml::AttributeAsString(descriptor, "command", ""));
+                                            Xml::AttributeAsString(descriptor, "command", ""),
+                                            Xml::AttributeAsBool(descriptor, "port", false),
+                                            Xml::AttributeAsBool(descriptor, "readonly", false));
   // Scraper information
   XmlNode scraper = systemNode.child("scraper");
   systemDescriptor.SetScraperInformation(Xml::AttributeAsInt(scraper, "screenscraper", 0));

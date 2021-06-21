@@ -124,8 +124,8 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
-            .SetDescriptorInformation("", "", themeFolder, "");
+  descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetDescriptorInformation("", "", themeFolder, "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   FolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
@@ -154,8 +154,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
-            .SetDescriptorInformation("", "", themeFolder, "");
+  descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetDescriptorInformation("", "", themeFolder, "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
@@ -184,8 +184,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-  descriptor.SetSystemInformation(fullName, name, fullName, "", false)
-            .SetDescriptorInformation("", "", themeFolder, "");
+  descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetDescriptorInformation("", "", themeFolder, "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())
@@ -304,14 +304,11 @@ bool SystemManager::AddPorts()
 
   // Lookup all non-empty arcade platforms
   for (SystemData* system: mVisibleSystemVector)
-    if (system->PlatformCount() == 1)
-      if ((system->PlatformIds(0) > PlatformIds::PlatformId::PORT_START) &&
-          (system->PlatformIds(0) < PlatformIds::PlatformId::PORT_STOP))
-        if (system->HasGame())
-        {
-          ports.push_back(system);
-          system->BuildDoppelgangerMap(doppelganger, false);
-        }
+    if (system->Descriptor().IsPort() && system->HasGame())
+      {
+        ports.push_back(system);
+        system->BuildDoppelgangerMap(doppelganger, false);
+      }
 
   // Non empty?
   if (!ports.empty())
