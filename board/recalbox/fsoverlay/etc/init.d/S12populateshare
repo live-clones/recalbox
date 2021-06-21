@@ -126,10 +126,11 @@ done
 #
 # This loop take Read/Write ports and copy them to the share
 while read -r file; do
-  DSTDIR=$file
-  SRCDIR=${file//share/share_init}
+  FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
+  DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
+  SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
   cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
-done < <(sed -E '/<path\s+readonly="0">/!d;s/^.*>(.*)<.*$/\1/' /recalbox/share_init/system/.emulationstation/es_systems.cfg )
+done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml )
 
 # directories to force directories exists
 # files are linked
