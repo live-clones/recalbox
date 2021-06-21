@@ -1,16 +1,16 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index f2c8cabcff..0abcdce6f3 100644
+index 4c1575f69a..90de73f008 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
-@@ -11,6 +11,7 @@ BLUEZ5_UTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/bluetooth
- BLUEZ5_UTILS_INSTALL_STAGING = YES
- BLUEZ5_UTILS_LICENSE = GPL-2.0+, LGPL-2.1+
+@@ -13,6 +13,7 @@ BLUEZ5_UTILS_LICENSE = GPL-2.0+, LGPL-2.1+
  BLUEZ5_UTILS_LICENSE_FILES = COPYING COPYING.LIB
+ BLUEZ5_UTILS_CPE_ID_VENDOR = bluez
+ BLUEZ5_UTILS_CPE_ID_PRODUCT = bluez
 +BLUEZ5_UTILS_AUTORECONF = YES
  
  BLUEZ5_UTILS_DEPENDENCIES = \
  	$(if $(BR2_PACKAGE_BLUEZ5_UTILS_HEADERS),bluez5_utils-headers) \
-@@ -21,6 +22,7 @@ BLUEZ5_UTILS_CONF_OPTS = \
+@@ -23,6 +24,7 @@ BLUEZ5_UTILS_CONF_OPTS = \
  	--enable-tools \
  	--enable-library \
  	--disable-cups \
@@ -18,9 +18,9 @@ index f2c8cabcff..0abcdce6f3 100644
  	--with-dbusconfdir=/etc
  
  ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS_OBEX),y)
-@@ -133,4 +135,12 @@ else
- BLUEZ5_UTILS_CONF_OPTS += --disable-systemd
- endif
+@@ -140,4 +142,12 @@ define BLUEZ5_UTILS_INSTALL_INIT_SYSV
+ 		$(TARGET_DIR)/etc/init.d/S40bluetooth
+ endef
  
 +define BLUEZ5_UTILS_INSTALL_CONF_FILES
 +	mkdir -p $(TARGET_DIR)/etc/bluetooth

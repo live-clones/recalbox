@@ -9,9 +9,9 @@
 --------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
 827c654896536436b4ca531a671ea6da  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
-c0f2d9a0b89fb42dfd68b3c99d66a16a  package/binutils/binutils.mk
-ba77177afc0d4e22d3740c6099e1533e  package/bluez5_utils/bluez5_utils.mk
-c58b4363395bce52e475eb4f73fe42a7  package/dhcpcd/dhcpcd.mk
+fa8422487675ed76ce98b1e46fa3849d  package/binutils/binutils.mk
+fc62ad5ef004d09e7bc7d770df274fc8  package/bluez5_utils/bluez5_utils.mk
+910e03748d7d47d92fafba340afcd29e  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 ea6a9ddce7bd35b76353b4f64e3f03e5  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
