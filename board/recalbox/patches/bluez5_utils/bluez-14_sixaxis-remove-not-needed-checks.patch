@@ -12,10 +12,10 @@ diff --git a/profiles/input/server.c b/profiles/input/server.c
 index eb3fcf8..101108b 100644
 --- bluez5_utils-5.54/profiles/input/server.c	2020-07-04 22:20:40.219070704 +0200
 +++ bluez5_utils-5.54/profiles/input/server.c	2020-07-04 22:21:23.375189660 +0200
-@@ -134,8 +134,7 @@
+@@ -121,8 +121,7 @@ static bool dev_is_sixaxis(const bdaddr_t *src, const bdaddr_t *dst)
  	pid = btd_device_get_product(device);
  
- 	cp = get_pairing(vid, pid);
+ 	cp = get_pairing(vid, pid, NULL);
 -	if (cp && (cp->type == CABLE_PAIRING_SIXAXIS ||
 -					cp->type == CABLE_PAIRING_DS4))
 +	if (cp && cp->type == CABLE_PAIRING_DS4)
