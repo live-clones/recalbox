@@ -114,57 +114,104 @@ index 9cbddda..86c99c1 100644
      /* See if this device uses the new unified event API */
      if ((ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(keybit)), keybit) >= 0) &&
          (ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(absbit)), absbit) >= 0) &&
-@@ -878,6 +888,56 @@ SDL_JoystickGUID SDL_SYS_JoystickGetGUID(SDL_Joystick * joystick)
-     return joystick->hwdata->guid;
- }
+@@ -1588,6 +1614,103 @@ SDL_JoystickDriver SDL_LINUX_JoystickDriver =
+     LINUX_JoystickGetGamepadMapping
+ };
  
 +const char *
 +SDL_SYS_JoystickDevicePathById(int device_index)
 +{
 +  SDL_joylist_item* joystick = JoystickByDevIndex(device_index);
 +  if(joystick == NULL) return "";
-+  return joystick->hwdata->fname;
++  return joystick->path;
 +}
 +
 +int SDL_SYS_JoystickButtonEventCodeById(int device_index, int button)
 +{
 +  int i;
 +
-+  SDL_joylist_item* joystick = JoystickByDevIndex(device_index);
-+  if(joystick == NULL) return -1;
++  SDL_Joystick *joystick;
++
++  joystick = (SDL_Joystick *) SDL_calloc(sizeof(*joystick), 1);
++  if (joystick == NULL) {
++      SDL_OutOfMemory();
++      return SDL_FALSE;
++  }
++
++  /* We temporarily open the device to check how it's configured. */
++  if (LINUX_JoystickOpen(joystick, device_index) < 0) {
++      SDL_free(joystick);
++      return SDL_FALSE;
++  }
++
 +  for(i=0; i<KEY_MAX; i++) {
 +    if(((int)joystick->hwdata->key_map[i]) == button) {
++      LINUX_JoystickClose(joystick);
++      SDL_free(joystick);
 +      return i;
 +    }
 +  }
++  LINUX_JoystickClose(joystick);
++  SDL_free(joystick);
++
 +  return -1;
 +}
 +
 +int SDL_SYS_JoystickAxisEventCodeById(int device_index, int axis)
 +{
 +  int i;
++  SDL_Joystick *joystick;
 +
-+  SDL_joylist_item* joystick = JoystickByDevIndex(device_index);
-+  if(joystick == NULL) return -1;
++  joystick = (SDL_Joystick *) SDL_calloc(sizeof(*joystick), 1);
++  if (joystick == NULL) {
++      SDL_OutOfMemory();
++      return SDL_FALSE;
++  }
++
++  /* We temporarily open the device to check how it's configured. */
++  if (LINUX_JoystickOpen(joystick, device_index) < 0) {
++      SDL_free(joystick);
++      return SDL_FALSE;
++  }
++
 +  for(i=0; i<ABS_MAX; i++) {
 +    if(((int)joystick->hwdata->abs_map[i]) == axis) {
++      LINUX_JoystickClose(joystick);
++      SDL_free(joystick);
 +      return i;
 +    }
 +  }
++  LINUX_JoystickClose(joystick);
++  SDL_free(joystick);
 +  return -1;
 +}
 +
 +int SDL_SYS_JoystickHatEventCodeById(int device_index, int hat)
 +{
 +  int i;
++  SDL_Joystick *joystick;
 +
-+  SDL_joylist_item* joystick = JoystickByDevIndex(device_index);
-+  if(joystick == NULL) return -1;
++  joystick = (SDL_Joystick *) SDL_calloc(sizeof(*joystick), 1);
++  if (joystick == NULL) {
++      SDL_OutOfMemory();
++      return SDL_FALSE;
++  }
++
++  /* We temporarily open the device to check how it's configured. */
++  if (LINUX_JoystickOpen(joystick, device_index) < 0) {
++      SDL_free(joystick);
++      return SDL_FALSE;
++  }
++
 +  for(i=0; i<ABS_MAX; i++) {
 +    if(((int)joystick->hwdata->hat_map[i]) == hat) {
++      LINUX_JoystickClose(joystick);
++      SDL_free(joystick);
 +      return i;
 +    }
 +  }
++  LINUX_JoystickClose(joystick);
++  SDL_free(joystick);
 +  return -1;
 +}
 +
