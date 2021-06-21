@@ -48,7 +48,6 @@ menu "Recalbox"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-xu4/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-odroidgo2/Config.in"
 menu "Emulationstation"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/python-es-scraper/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-emulationstation2/Config.in"
 endmenu
 menu "Controllers"

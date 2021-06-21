@@ -28,10 +28,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='emulator-launcher script')
     parser.add_argument("-systems", help="System root folder", type=str, required=True)
     parser.add_argument("-force", help="force file overwriting when creating a new system", action="store_true", required=False)
-    parser.add_argument("-mergefrom", help="es_systems.cfg location to read before updating entries", type=str, required=False)
+    parser.add_argument("-mergefrom", help="systemlist.xml location to read before updating entries", type=str, required=False)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-create", help="Create a new system", type=str)
-    group.add_argument("-buildsystems", help="Build es_systems.cfg", type=str)
+    group.add_argument("-buildsystems", help="Build systemlist.cfg", type=str)
     group.add_argument("-installroms", help="disable libretro default keybindings", type=str)
     arguments = parser.parse_args()
 
