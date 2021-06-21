@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Bump bump kodi inputstreamhelper script to 0.5.5 (#1782)
+- Renamed mrboom to Mr. Boom in romfsv2 (#1686)
 - Fix/improve romfsv2 & cleanup some old packages/scripts
 - Added uae4arm in bios file
 - Fix French spelling and readme files generation
