@@ -1,8 +1,8 @@
 diff --git a/boot/grub2/grub2.mk b/boot/grub2/grub2.mk
-index 5fca2315ee..a31cb5cb2f 100644
+index af16ee91e1..b14559b207 100644
 --- a/boot/grub2/grub2.mk
 +++ b/boot/grub2/grub2.mk
-@@ -99,9 +99,9 @@ HOST_GRUB2_CONF_ENV = \
+@@ -118,9 +118,9 @@ HOST_GRUB2_CONF_ENV = \
  GRUB2_CONF_ENV = \
  	CPP="$(TARGET_CC) -E" \
  	TARGET_CC="$(TARGET_CC)" \

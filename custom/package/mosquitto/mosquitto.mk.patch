@@ -1,8 +1,8 @@
 diff --git a/package/mosquitto/mosquitto.mk b/package/mosquitto/mosquitto.mk
-index fcd9cb7de9..e1b9fe1d05 100644
+index 7820e8fea5..43340b8946 100644
 --- a/package/mosquitto/mosquitto.mk
 +++ b/package/mosquitto/mosquitto.mk
-@@ -106,7 +106,7 @@ endef
+@@ -115,7 +115,7 @@ endef
  ifeq ($(BR2_PACKAGE_MOSQUITTO_BROKER),y)
  define MOSQUITTO_INSTALL_INIT_SYSV
  	$(INSTALL) -D -m 0755 package/mosquitto/S50mosquitto \
@@ -11,7 +11,7 @@ index fcd9cb7de9..e1b9fe1d05 100644
  endef
  
  define MOSQUITTO_INSTALL_INIT_SYSTEMD
-@@ -115,7 +115,7 @@ define MOSQUITTO_INSTALL_INIT_SYSTEMD
+@@ -124,7 +124,7 @@ define MOSQUITTO_INSTALL_INIT_SYSTEMD
  endef
  
  define MOSQUITTO_USERS

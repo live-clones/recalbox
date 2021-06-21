@@ -1,5 +1,5 @@
 diff --git a/package/intel-mediasdk/intel-mediasdk.mk b/package/intel-mediasdk/intel-mediasdk.mk
-index a2ffe081db..0b5a03dd2b 100644
+index 5467c96380..54a80c13bf 100644
 --- a/package/intel-mediasdk/intel-mediasdk.mk
 +++ b/package/intel-mediasdk/intel-mediasdk.mk
 @@ -4,7 +4,7 @@

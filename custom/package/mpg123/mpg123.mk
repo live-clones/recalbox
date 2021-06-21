@@ -10,6 +10,7 @@ MPG123_SITE = http://downloads.sourceforge.net/project/mpg123/mpg123/$(MPG123_VE
 MPG123_INSTALL_STAGING = YES
 MPG123_LICENSE = LGPL-2.1
 MPG123_LICENSE_FILES = COPYING
+MPG123_CPE_ID_VENDOR = mpg123
 MPG123_DEPENDENCIES = host-pkgconf
 
 MPG123_CPU = $(if $(BR2_SOFT_FLOAT),generic_nofpu,generic_fpu)
