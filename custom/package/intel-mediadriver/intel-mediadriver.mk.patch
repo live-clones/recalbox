@@ -1,5 +1,5 @@
 diff --git a/package/intel-mediadriver/intel-mediadriver.mk b/package/intel-mediadriver/intel-mediadriver.mk
-index c3157867ed..dd90af8fff 100644
+index 01423b9611..31699430ad 100644
 --- a/package/intel-mediadriver/intel-mediadriver.mk
 +++ b/package/intel-mediadriver/intel-mediadriver.mk
 @@ -6,7 +6,7 @@
