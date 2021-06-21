@@ -94,6 +94,9 @@ class SystemBuilder:
         }
         if not holder.IsDefaultCommand:
             descriptor["command"] = holder.Command
+        if holder.IsPort:
+            descriptor["port"] = "1"
+            descriptor["readonly"] = "1" if holder.IsReadOnly else "0"
         ET.SubElement(system, "descriptor", attrib=descriptor)
 
         # Scraper
