@@ -4,7 +4,6 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
-++++++++++++++++++++++++++++++++  package/mosquitto/0001-default-configuratyion.patch
 ++++++++++++++++++++++++++++++++  package/python-gobject/0001-add-PYTHON_INCLUDES-override.patch
 --------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
 abd0a975a9248559c162c03867b7e8b4  boot/grub2/grub2.mk
