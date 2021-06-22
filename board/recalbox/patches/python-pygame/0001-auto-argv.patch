@@ -1,0 +1,11 @@
+--- ./setup.py.orig	2021-06-21 23:40:01.999828667 +0200
++++ ./setup.py	2021-06-21 23:41:00.366507447 +0200
+@@ -215,7 +215,7 @@
+ 
+ 
+ AUTO_CONFIG = False
+-if consume_arg('-auto'):
++if '-auto' in sys.argv:
+     AUTO_CONFIG = True
+ 
+ import os.path, glob, stat, shutil
