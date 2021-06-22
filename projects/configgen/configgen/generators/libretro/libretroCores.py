@@ -1,3 +1,4 @@
+from __future__ import division
 import recalboxFiles
 from settings.keyValueSettings import keyValueSettings
 
@@ -123,6 +124,22 @@ class LibretroCores:
     def configureSwanstation(coreSettings):
         coreSettings.setOption("duckstation_Controller2.Type", '"DigitalController"')
 
+    @staticmethod
+    def configureGenesisPlusGxWide(coreSettings):
+        from utils.videoMode import getCurrentFramebufferResolution
+        width, height = getCurrentFramebufferResolution()
+        ratio = width / height
+        currentColumns = 10
+        # Ratio to columns (16/9 and more => 10 cols, 1.6 = 16/10 => 6 cols, 1.5 = GOA => 2 cols, 1.34 = 4/3 => 0 cols)
+        if ratio <= 1.6:
+            currentColumns = 6
+        if ratio <= 1.5:
+            currentColumns = 2
+        if ratio <= 1.34:
+            currentColumns = 0
+        coreSettings.setOption("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
+
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         recalbox = self.system.config
@@ -137,6 +154,7 @@ class LibretroCores:
             "parallel_n64": LibretroCores.configurePARALLELN64,
             "np2kai" : LibretroCores.configureNPKAI,
             "swanstation" : LibretroCores.configureSwanstation,
+            "genesisplusgxwide": LibretroCores.configureGenesisPlusGxWide,
         }
 
         # Get handler and execute

@@ -163,3 +163,20 @@ def getCurrentResulution():
             raise ValueError("getCurrentResulution - Couldn't parse output: {}".format(out))
         drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
         return width, height
+
+
+# Return the current resolution as [int, int] from framebuffer
+def getCurrentFramebufferResolution():
+    import re
+    f = open("/sys/class/graphics/fb0/modes", "r")
+    line = f.read()
+    f.close()
+    regex = r".*?([0-9]{3,4})x([0-9]{3,4}).*"
+    matches = re.match(regex, line)
+
+    if not matches:
+        recallog("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
+        raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
+
+    width, height = matches.groups()
+    return int(width), int(height)
