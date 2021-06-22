@@ -1,0 +1,25 @@
+--- ./audio/softsynth/fluidsynth.cpp	2021-06-21 21:19:12.815389364 +0200
++++ ./audio/softsynth/fluidsynth.cpp	2021-06-21 21:22:39.882104277 +0200
+@@ -172,11 +172,11 @@
+ 	return p;
+ }
+ 
+-static int SoundFontMemLoader_read(void *buf, int count, void *handle) {
++static int SoundFontMemLoader_read(void *buf, long long int count, void *handle) {
+ 	return ((Common::SeekableReadStream *) handle)->read(buf, count) == (uint32)count ? FLUID_OK : FLUID_FAILED;
+ }
+ 
+-static int SoundFontMemLoader_seek(void *handle, long offset, int origin) {
++static int SoundFontMemLoader_seek(void *handle, long long offset, int origin) {
+ 	return ((Common::SeekableReadStream *) handle)->seek(offset, origin) ? FLUID_OK : FLUID_FAILED;
+ }
+ 
+@@ -185,7 +185,7 @@
+ 	return FLUID_OK;
+ }
+ 
+-static long SoundFontMemLoader_tell(void *handle) {
++static long long int SoundFontMemLoader_tell(void *handle) {
+ 	return ((Common::SeekableReadStream *) handle)->pos();
+ }
+ #endif
