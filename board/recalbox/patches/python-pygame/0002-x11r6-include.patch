@@ -1,0 +1,12 @@
+--- ./buildconfig/config_unix.py.orig	2021-06-22 09:30:31.087498854 +0200
++++ ./buildconfig/config_unix.py	2021-06-22 09:30:44.694141491 +0200
+@@ -47,9 +47,6 @@
+                     self.cflags += f + ' '
+                 elif f[:3] == '-Wl':
+                     self.cflags += '-Xlinker ' + f + ' '
+-            if self.name == 'SDL':
+-                inc = '-I' + '/usr/X11R6/include'
+-                self.cflags = inc + ' ' + self.cflags
+         except (ValueError, TypeError):
+             print ('WARNING: "%s" failed!' % command)
+             self.found = 0
