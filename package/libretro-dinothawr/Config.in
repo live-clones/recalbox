@@ -2,6 +2,7 @@ config BR2_PACKAGE_LIBRETRO_DINOTHAWR
 	bool "libretro-dinothawr"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_PACKAGE_RECALBOX_ROMFS2
 	help
 	  A libretro block pushing puzzle game.
 
