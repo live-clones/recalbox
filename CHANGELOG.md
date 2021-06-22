@@ -3,9 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Bump bump kodi inputstreamhelper script to 0.5.5 (#1782)
+- Populate share now uses systemlist.xml to populate ports (#1686)
+- Renamed mrboom to Mr. Boom in romfsv2 (#1686)
+- Fix/improve romfsv2 & cleanup some old packages/scripts (#1686)
 - Added uae4arm in bios file
-- Fix French spelling and readme files generation
-- Fix fba configuration in romfsv2
+- Fix French spelling and readme files generation (#1686)
+- Fix fba configuration in romfsv2 (#1686)
 - Bump retroarch assets
 - Bump retroarch to version 1.9.3
 - Add libretro uae4arm core
@@ -16,7 +19,7 @@ All notable changes to this project will be documented in this file.
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
 - Bump Fbneo 1.0.0.02 (#1688)
 - Fix changelog linter (#1759)
-- New romfs v2
+- New romfs v2 (#1686)
 - Add libretro uae4arm core (#1771)
 - Set grub timeout to 3 seconds (#1750)
 - Show a message in emulationstation when the upgrade has failed (#1772)

@@ -20,13 +20,13 @@ When pre-installed games are copied to the target, contents of `systems/<system>
 
 ## Generate system descriptor
 
-Generate the final system descriptor `es_systems.cfg` into the target `/recalbox/share_init/system/.emulationstation/` from all `system.ini`
+Generate the final system descriptor `systemlist.xml` into the target `/recalbox/share_init/system/.emulationstation/` from all `system.ini`
 
 Usage: `python3 romfs.py -systems <systems root folder> -buildsystems <target file path>`
 
 Example:
 - `python3 romfs.py -systems ../systems -buildsystems ../output.xml`
-- `python3 ~/recalbox/packages/recalbox-romfs2/scripts/romfs.py -systems ~/recalbox/packages/recalbox-romfs2/systems -buildsystems ~/recalbox/output/target/recalbox/share_init/system/.emulationstation/es_systems.cfg`
+- `python3 ~/recalbox/packages/recalbox-romfs2/scripts/romfs.py -systems ~/recalbox/packages/recalbox-romfs2/systems -buildsystems ~/recalbox/output/target/recalbox/share_init/system/.emulationstation/systemlist.xml`
 
 ## Copy to target
 

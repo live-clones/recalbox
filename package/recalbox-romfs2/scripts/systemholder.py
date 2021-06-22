@@ -160,6 +160,7 @@ class SystemHolder:
           "en": "EN Documentation link",
         }
         self.__port: bool = False
+        self.__readOnly: bool = False
         self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "")
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
@@ -209,6 +210,9 @@ class SystemHolder:
     def IsPort(self) -> bool: return self.__port
 
     @property
+    def IsReadOnly(self) -> bool: return self.__readOnly
+
+    @property
     def IsDefaultCommand(self) -> bool: return self.__command == self.__COMMAND_DEFAULT
 
     @staticmethod
@@ -251,6 +255,8 @@ class SystemHolder:
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
         self.__port = self.__get(desc, "system", "port", "0", False) == '1'
+        tagada =self.__get(desc, "system", "readonly", "0", False)
+        self.__readOnly = self.__get(desc, "system", "readonly", "0", False) == '1'
 
         # Create Cores
         extensions: Set[str] = set()
