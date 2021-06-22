@@ -2,7 +2,7 @@
 
 #import controllersConfig as controllers
 import os
-import recalboxFiles
+import configgen.recalboxFiles as recalboxFiles
 from xml.dom import minidom
 from xml.etree import ElementTree as ET
 
@@ -45,7 +45,7 @@ def writeKodiControllersConfig(controllers):
         os.makedirs(recalboxFiles.kodiJoystick)
 
     # For each controller
-    for cidx, controllerObj in controllers.iteritems():
+    for cidx, controllerObj in controllers.items():
         # Determine XML file name
         nbButtons = controllerObj.nbbuttons
         nbAxis = controllerObj.getTotalAxisNumber()
@@ -59,7 +59,7 @@ def writeKodiControllersConfig(controllers):
 
         # Loop through controller inputs
         inputs = controllerObj.inputs
-        for iidx, inpt in inputs.iteritems():
+        for iidx, inpt in inputs.items():
             # Skip unmapped inputs
             if not inpt.name in kodiMapping: continue
 

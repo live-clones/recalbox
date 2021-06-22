@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-import ConfigParser
-import recalboxFiles
+from configparser import ConfigParser
+import configgen.recalboxFiles as recalboxFiles
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -53,47 +53,47 @@ DEVICE_ID_PAD_2 = 12
 DEVICE_ID_PAD_3 = 13
 DEVICE_ID_PAD_4 = 14
 sdlIndexToIdPad = {
-        0: DEVICE_ID_PAD_0,
-        1: DEVICE_ID_PAD_1,
-        2: DEVICE_ID_PAD_2,
-        3: DEVICE_ID_PAD_3,
-        4: DEVICE_ID_PAD_4
-        }
+    0: DEVICE_ID_PAD_0,
+    1: DEVICE_ID_PAD_1,
+    2: DEVICE_ID_PAD_2,
+    3: DEVICE_ID_PAD_3,
+    4: DEVICE_ID_PAD_4
+}
 # SDL 2.0.4 inp ids conversion table to NKCodes
 # See https://hg.libsdl.org/SDL/file/e12c38730512/include/SDL_gamecontroller.h#l262
 # See https://github.com/hrydgard/ppsspp/blob/master/SDL/SDLJoystick.h#L91
 sdlNameToNKCode = {
-		"b" : NKCODE_BUTTON_2, # A
-		"a" : NKCODE_BUTTON_3, # B
-		"y" : NKCODE_BUTTON_4, # X
-		"x" : NKCODE_BUTTON_1, # Y
-		"select" : NKCODE_BUTTON_9, # SELECT/BACK
-		"hotkey" : NKCODE_BACK, # GUIDE
-		"start" : NKCODE_BUTTON_10, # START
-		# "7" : NKCODE_BUTTON_?, # L3, unsued
-		# "8" : NKCODE_BUTTON_?, # R3, unsued
-		"l1" : NKCODE_BUTTON_6, # L
-		"r1" : NKCODE_BUTTON_5, # R
-		"up" : NKCODE_DPAD_UP,
-		"down" : NKCODE_DPAD_DOWN,
-		"left" : NKCODE_DPAD_LEFT,
-		"right" : NKCODE_DPAD_RIGHT
+        "b" : NKCODE_BUTTON_2, # A
+        "a" : NKCODE_BUTTON_3, # B
+        "y" : NKCODE_BUTTON_4, # X
+        "x" : NKCODE_BUTTON_1, # Y
+        "select" : NKCODE_BUTTON_9, # SELECT/BACK
+        "hotkey" : NKCODE_BACK, # GUIDE
+        "start" : NKCODE_BUTTON_10, # START
+        # "7" : NKCODE_BUTTON_?, # L3, unsued
+        # "8" : NKCODE_BUTTON_?, # R3, unsued
+        "l1" : NKCODE_BUTTON_6, # L
+        "r1" : NKCODE_BUTTON_5, # R
+        "up" : NKCODE_DPAD_UP,
+        "down" : NKCODE_DPAD_DOWN,
+        "left" : NKCODE_DPAD_LEFT,
+        "right" : NKCODE_DPAD_RIGHT
 }
 
 SDLHatMap = {
-		"up" : NKCODE_DPAD_UP,
-		"down" : NKCODE_DPAD_DOWN,
-		"left" : NKCODE_DPAD_LEFT,
-		"right" : NKCODE_DPAD_RIGHT
+        "up" : NKCODE_DPAD_UP,
+        "down" : NKCODE_DPAD_DOWN,
+        "left" : NKCODE_DPAD_LEFT,
+        "right" : NKCODE_DPAD_RIGHT
 }
 
 SDLJoyAxisMap = {
-		"0" : JOYSTICK_AXIS_X,
-		"1" : JOYSTICK_AXIS_Y,
-		"2" : JOYSTICK_AXIS_Z,
-		"3" : JOYSTICK_AXIS_RZ,
-		"4" : JOYSTICK_AXIS_LTRIGGER,
-		"5" : JOYSTICK_AXIS_RTRIGGER
+        "0" : JOYSTICK_AXIS_X,
+        "1" : JOYSTICK_AXIS_Y,
+        "2" : JOYSTICK_AXIS_Z,
+        "3" : JOYSTICK_AXIS_RZ,
+        "4" : JOYSTICK_AXIS_LTRIGGER,
+        "5" : JOYSTICK_AXIS_RTRIGGER
 }
 
 ppssppMapping =  { 'a' :             {'button': 'Circle'},
@@ -125,83 +125,83 @@ ppssppMapping =  { 'a' :             {'button': 'Circle'},
 # Create the controller configuration file
 # returns its name
 def generateControllerConfig(controller):
-	# Set config file name
-	configFileName = recalboxFiles.ppssppControlsIni
-	Config = ConfigParser.ConfigParser()
-	Config.optionxform = str
-	# We need to read the default file as PPSSPP needs the keyboard defs ine the controlls.ini file otherwise the GYUI won't repond
-	Config.read(recalboxFiles.ppssppControlsInit)
-	# As we start with the default ini file, no need to create the section
-	section = "ControlMapping"
+    # Set config file name
+    configFileName = recalboxFiles.ppssppControlsIni
+    Config = ConfigParser()
+    Config.optionxform = str
+    # We need to read the default file as PPSSPP needs the keyboard defs ine the controlls.ini file otherwise the GYUI won't repond
+    Config.read(recalboxFiles.ppssppControlsInit)
+    # As we start with the default ini file, no need to create the section
+    section = "ControlMapping"
 
-	# Parse controller inputs
-	for index in controller.inputs:
-		inp = controller.inputs[index]
-		if inp.name not in ppssppMapping or inp.type not in ppssppMapping[inp.name]:
-			continue
-		
-		var = ppssppMapping[inp.name][inp.type]
-		
-		#code = inp.code
-		deviceIdPad = sdlIndexToIdPad[controller.index]
-		if inp.type == 'button':
-			pspcode = sdlNameToNKCode[inp.name]
-			val = "{}-{}".format( deviceIdPad, pspcode )
-			val = optionValue(Config, section, var, val)
-			Config.set(section, var, val)
-			
-		elif inp.type == 'axis':
-			# Get the axis code
-			nkAxisId = SDLJoyAxisMap[inp.id]
-			# Apply the magic axis formula
-			pspcode = axisToCode(nkAxisId, int(inp.value))
-			val = "{}-{}".format( deviceIdPad, pspcode )
-			val = optionValue(Config, section, var, val)
-			print "Adding {} to {}".format(var, val)
-			Config.set(section, var, val)
-			
-			# Skip the rest if it's an axis dpad
-			if inp.name in [ 'up', 'down', 'left', 'right' ] : continue
-			# Also need to do the opposite direction manually. The inp.id is the same as up/left, but the direction is opposite
-			if inp.name == 'joystick1up':
-				var = ppssppMapping['joystick1down'][inp.type]
-			elif inp.name == 'joystick1left':
-				var = ppssppMapping['joystick1right'][inp.type]
-			elif inp.name == 'joystick2up':
-				var = ppssppMapping['joystick2down'][inp.type]
-			elif inp.name == 'joystick2left':
-				var = ppssppMapping['joystick2right'][inp.type]
-				
-			pspcode = axisToCode(nkAxisId, -int(inp.value))
-			val = "{}-{}".format( deviceIdPad, pspcode )
-			val = optionValue(Config, section, var, val)
-			Config.set(section, var, val)
-		
-		elif inp.type == 'hat' and inp.name in SDLHatMap:
-			var = ppssppMapping[inp.name][inp.type]
-			pspcode = SDLHatMap[inp.name]
-			val = "{}-{}".format( deviceIdPad, pspcode )
-			val = optionValue(Config, section, var, val)
-			Config.set(section, var, val)
-		
-	cfgfile = open(configFileName,'w+')
-	Config.write(cfgfile)
-	cfgfile.close()
-	return configFileName
+    # Parse controller inputs
+    for index in controller.inputs:
+        inp = controller.inputs[index]
+        if inp.name not in ppssppMapping or inp.type not in ppssppMapping[inp.name]:
+            continue
+
+        var = ppssppMapping[inp.name][inp.type]
+
+        #code = inp.code
+        deviceIdPad = sdlIndexToIdPad[int(controller.index)]
+        if inp.type == 'button':
+            pspcode = sdlNameToNKCode[inp.name]
+            val = "{}-{}".format( deviceIdPad, pspcode )
+            val = optionValue(Config, section, var, val)
+            Config.set(section, var, val)
+
+        elif inp.type == 'axis':
+            # Get the axis code
+            nkAxisId = SDLJoyAxisMap[inp.id]
+            # Apply the magic axis formula
+            pspcode = axisToCode(nkAxisId, int(inp.value))
+            val = "{}-{}".format( deviceIdPad, pspcode )
+            val = optionValue(Config, section, var, val)
+            print("Adding {} to {}".format(var, val))
+            Config.set(section, var, val)
+            
+            # Skip the rest if it's an axis dpad
+            if inp.name in [ 'up', 'down', 'left', 'right' ] : continue
+            # Also need to do the opposite direction manually. The inp.id is the same as up/left, but the direction is opposite
+            if inp.name == 'joystick1up':
+                var = ppssppMapping['joystick1down'][inp.type]
+            elif inp.name == 'joystick1left':
+                var = ppssppMapping['joystick1right'][inp.type]
+            elif inp.name == 'joystick2up':
+                var = ppssppMapping['joystick2down'][inp.type]
+            elif inp.name == 'joystick2left':
+                var = ppssppMapping['joystick2right'][inp.type]
+                
+            pspcode = axisToCode(nkAxisId, -int(inp.value))
+            val = "{}-{}".format( deviceIdPad, pspcode )
+            val = optionValue(Config, section, var, val)
+            Config.set(section, var, val)
+        
+        elif inp.type == 'hat' and inp.name in SDLHatMap:
+            var = ppssppMapping[inp.name][inp.type]
+            pspcode = SDLHatMap[inp.name]
+            val = "{}-{}".format( deviceIdPad, pspcode )
+            val = optionValue(Config, section, var, val)
+            Config.set(section, var, val)
+        
+    cfgfile = open(configFileName,'w+')
+    Config.write(cfgfile)
+    cfgfile.close()
+    return configFileName
 
 
 # Simple rewrite of https://github.com/hrydgard/ppsspp/blob/eaeddc6c23cf86514f45199659ecc7396c91a3c0/Common/KeyMap.cpp#L747
 def axisToCode(axisId, direction) :
-	if direction < 0:
-		direction = 1
-	else:
-		direction = 0
-	return AXIS_BIND_NKCODE_START + axisId * 2 + direction
+    if direction < 0:
+        direction = 1
+    else:
+        direction = 0
+    return AXIS_BIND_NKCODE_START + axisId * 2 + direction
 
 # determine if the option already exists or not
 def optionValue(config, section, option, value):
-	if config.has_option(section, option):
-		return "{},{}".format(config.get(section, option), value)
-	else:
-		return value
+    if config.has_option(section, option):
+        return "{},{}".format(config.get(section, option), value)
+    else:
+        return value
 

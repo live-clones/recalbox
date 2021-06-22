@@ -13,21 +13,20 @@ class UnixSettings():
 
     def load(self, name, default=None):
         separ = self.separator
-        if separ is not '':
+        if separ != '':
             separ += "?"
         if not os.path.isfile(self.settingsFile):
             return default
-        with open(self.settingsFile) as lines:
-            for line in open(self.settingsFile):
-                if name in line:
-                    m = re.match(r"^" + name + separ + "=" + separ + "\"(.+)\"", line)
+        for line in open(self.settingsFile):
+            if name in line:
+                m = re.match(r"^" + name + separ + "=" + separ + "\"(.+)\"", line)
+                if m:
+                    return m.group(1)
+                else:
+                    m = re.match(r"^" + name + separ + "=" + separ + "(.+)", line)
                     if m:
                         return m.group(1)
-                    else:
-                        m = re.match(r"^" + name + separ + "=" + separ + "(.+)", line)
-                        if m:
-                            return m.group(1)
-            return default
+        return default
 
     def save(self, name, value):
         if os.path.isfile(self.settingsFile):
@@ -63,7 +62,7 @@ class UnixSettings():
     def loadFile(self):
         result = dict()
         separ = self.separator
-        if separ is not '':
+        if separ != '':
             separ += "?"
         with open(self.settingsFile) as lines:
             for line in lines:

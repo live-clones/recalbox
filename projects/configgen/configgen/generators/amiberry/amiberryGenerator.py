@@ -2,14 +2,14 @@
 import os.path
 import subprocess
 
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-from generators.amiberry.amiberryConfig import ConfigGenerator
-from generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
-from generators.amiberry.amiberryKickstarts import KickstartManager
-from generators.amiberry.amiberryRomType import RomType
-from generators.amiberry.amiberrySubSystems import SubSystems
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.generators.amiberry.amiberryConfig import ConfigGenerator
+from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
+from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
+from configgen.generators.amiberry.amiberryRomType import RomType
+from configgen.generators.amiberry.amiberrySubSystems import SubSystems
 
 
 class AmiberryGenerator(Generator):
@@ -26,7 +26,7 @@ class AmiberryGenerator(Generator):
     # Generate ADF Arguments
     @staticmethod
     def getADFArguments(rom, system, configFile):
-        from utils.diskCollector import DiskCollector
+        from configgen.utils.diskCollector import DiskCollector
         collector = DiskCollector(rom, 4, True)
         configFile.SetFloppies(system, collector.disks)
         return []

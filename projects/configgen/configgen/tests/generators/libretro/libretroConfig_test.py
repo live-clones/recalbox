@@ -167,7 +167,7 @@ class TestLibretroConfig(unittest.TestCase):
         builder = libretroConfigurations.LibretroConfiguration(self.snes9x, self.threePlayersControllers, "/rom.rom", False, False, keyValueSettings("", False))
         builder.overrideLibretroConfigurationFiles(None, self.retroarchcustomFile)
         retroconf, retroover = builder.createRetroarchConfiguration()
-        self.assertTrue(retroconf['input_libretro_device_p2'] is '257')
+        self.assertTrue(retroconf['input_libretro_device_p2'] == '257')
 
 
 if __name__ == '__main__':

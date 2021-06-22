@@ -9,8 +9,8 @@ import subprocess
 import linecache
 
 ##IMPORT RECALBOX
-import recalboxFiles
-from settings.keyValueSettings import keyValueSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.keyValueSettings import keyValueSettings
 
 ##IMPORT for parsing/xml functions
 ##for regular expression
@@ -20,8 +20,8 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
 ## remove "//" for robustness (if we move from HOME_INIT to HOME later)
-esLightGun = recalboxFiles.esLightGun.replace("//","/")
-GameListFileName= recalboxFiles.GameListFileName
+esLightGun = recalboxFiles.esLightGun.replace("//", "/")
+GameListFileName = recalboxFiles.GameListFileName
 
 # Information game from ES
 GAME_INFO_PATH = "/tmp/es_state.inf"
@@ -96,7 +96,7 @@ KEY_GAME_NAME = "Game"
 ## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
 ## V1.7 TO DO: to integrate a popup to inform about buttons to use from wiimote
 
-def Log(txt): 
+def Log(txt):
     #uncomment/comment the following line to activate/desactivate additional logs on this script
     #print(txt)
     return 0
@@ -118,27 +118,38 @@ class libretroLightGun:
         playerindex = 0
         nodeindex = 0
         ## Take order and number of mouse from udev DB
-        input1, output1, error1 = os.popen3('udevadm info -e | grep /dev/input/mouse')
+        p = subprocess.Popen('udevadm info -e | grep /dev/input/mouse', shell=True,
+                             stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
+        output1 = p.stdout
         for line1 in output1:
-            mousenode = line1.replace("E: DEVNAME=","").rstrip()
+            mousenode = line1.replace("E: DEVNAME=", "").rstrip()
             Log('mouse node found: ' + line1.rstrip())
-            input2, output2, error2 = os.popen3('cat /proc/bus/input/devices |grep -rni ' + mousenode.replace("/dev/input/","").rstrip())
-            input3, output3, error3 = os.popen3('udevadm info ' + mousenode + ' | grep -rni S:')
-            input4, output4, error4 = os.popen3('udevadm info ' + mousenode + ' | grep -rni ID_INPUT_MOUSE')
+
+            p = subprocess.Popen('cat /proc/bus/input/devices | grep -ni {}'.format(mousenode.replace("/dev/input/", "").rstrip()), shell=True,
+                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
+            output2 = p.stdout
+
+            p = subprocess.Popen('udevadm info {} | grep -ni S:'.format(mousenode), shell=True,
+                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
+            output3 = p.stdout
+
+            p = subprocess.Popen('udevadm info {} | grep -ni ID_INPUT_MOUSE'.format(mousenode), shell=True,
+                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
+            output4 = p.stdout
             for line2 in output2:
                 Log('   Handlers found:' + line2.rstrip())
                 device = output3.readline().rstrip()
                 Log("   Device found : " + device)
                 id_input_mouse = output4.readline().rstrip()
                 Log("   Mouse found : " + id_input_mouse)
-                
-                #searh dolphin bar 
+
+                #searh dolphin bar
                 if (re.search("Mayflash_Wiimote_PC_Adapter",device)):
                     self.MouseIndexByPlayer[playerindex] = str(nodeindex)
                     Log('           Player : ' + str(playerindex+1))
                     Log('           Mouse Index for Retroarch/UDEV : ' + self.MouseIndexByPlayer[playerindex])
                     playerindex = playerindex + 1
-                
+
                 #count number of nodes found for the same devices    
                 #we count spaces finally to know number of nodes
                 #and only for MOUSE identified (and not TOUCHPAD for example)

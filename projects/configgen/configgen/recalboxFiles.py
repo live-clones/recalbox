@@ -119,6 +119,8 @@ dosboxConfig = dosboxCustom + '/dosbox.conf'
 
 scummvmSaves = SAVES + '/scummvm'
 
+simcoupeConfig = HOME + '/.simcoupe/SimCoupe.cfg'
+
 viceConfig = CONF + "/vice/vice.conf"
 
 advancemameConfig = CONF + '/advancemame/advmame.rc'

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-from utils.recallog import recallog
+from configgen.utils.recallog import recallog
 
 
 # Set a specific video mode
@@ -43,9 +43,9 @@ def createVideoModeLine(videoMode):
     # pattern (CEA|DMT) [0-9]{1,2} HDMI
     if re.match("^(CEA|DMT) [0-9]{1,2}( HDMI)?$", videoMode):
         return "tvservice -e '{}'".format(videoMode)
-    if re.match("^hdmi_cvt [\d\s]{10,20}$", videoMode):
+    if re.match("^hdmi_cvt [0-9 ]{10,20}$", videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
-    if re.match("^hdmi_timings [\d\s]{48,58}$", videoMode):
+    if re.match("^hdmi_timings [0-9 ]{48,58}$", videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
     recallog("{} is not a valid video mode, abort".format(videoMode))
     return ''
@@ -71,7 +71,7 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
     tvmodes = json.loads(out)
 
     for tvmode in tvmodes:
-        print "Testing {} vs {}".format(tvmode["code"], int(mode))
+        print("Testing {} vs {}".format(tvmode["code"], int(mode)))
         if tvmode["code"] == int(mode):
             return True
 
@@ -80,7 +80,7 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
 
 
 # Switch to prefered mode
-def setPreffered(recalboxSettings):
+def setPrefered(recalboxSettings):
     esVideoMode = recalboxSettings.getOption("system.es.videomode", None)
     # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
     # See https://github.com/raspberrypi/firmware/issues/901
@@ -138,7 +138,7 @@ def checkAutoMode(expectedMode=None):
 
 
 # Return the current resolution
-def getCurrentResulution():
+def getCurrentResolution():
     # This is really dirty, I must admit ...
     # Call tvservice -s
     import subprocess
@@ -149,7 +149,7 @@ def getCurrentResulution():
     try:
         import json
         tvmodes = json.loads(out)
-        print tvmodes
+        print(tvmodes)
         return tvmodes[0]["width"], tvmodes[0]["height"]
     except ValueError:
         # else we're on pi, parse the output
@@ -159,8 +159,8 @@ def getCurrentResulution():
         matches = re.match(regex, out)
         if not matches:
             # We should log the out var and log that it doesn't match any known pattern
-            recallog("getCurrentResulution - Couldn't parse output: {}".format(out))
-            raise ValueError("getCurrentResulution - Couldn't parse output: {}".format(out))
+            recallog("getCurrentResolution - Couldn't parse output: {}".format(out))
+            raise ValueError("getCurrentResolution - Couldn't parse output: {}".format(out))
         drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
         return width, height
 

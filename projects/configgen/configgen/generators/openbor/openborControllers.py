@@ -37,8 +37,7 @@ class OpenborControllers:
     # Returns the value to write in retroarch config file, depending on the type
     @staticmethod
     def getConfigValue(controller, inp):
-        index = OpenborControllers.JOYSTICK_FIRST_VALUE + 1 +\
-                (controller.index * OpenborControllers.JOYSTICK_MAX_ITEM)
+        index = int(OpenborControllers.JOYSTICK_FIRST_VALUE) + 1 + (int(controller.index) * OpenborControllers.JOYSTICK_MAX_ITEM)
         iid = int(inp.id)
         if inp.type == 'button':
             return index + int(iid)

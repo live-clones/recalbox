@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import xml.etree.ElementTree as ET
-import recalboxFiles
+import configgen.recalboxFiles as recalboxFiles
 
 esInputs = recalboxFiles.esInputs
 
@@ -18,7 +18,7 @@ class Input:
 
 
 class Controller:
-    def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes=None, nbhats=None, nbbuttons=None):
+    def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes='0', nbhats=None, nbbuttons=None):
         self.type = type_
         self.configName = configName # type: str
         self.index = index
@@ -85,8 +85,8 @@ class Controller:
             'hat'    : 'h',
         }
 
-        result = "{},{},platform:Linux,".format(self.guid, self.configName.encode("utf-8").replace(',', ' '))
-        for name, input in self.inputs.iteritems():
+        result = "{},{},platform:Linux,".format(self.guid, self.configName.replace(',', ' '))
+        for name, input in self.inputs.items():
             if name in recalboxToSDL:
                 sdlName = recalboxToSDL[name]
                 if input.type in ('button', 'hat', 'axis'):
@@ -110,7 +110,7 @@ class Controller:
 
     def count(self, inputType):
         count = 0
-        for idx, inp in self.inputs.iteritems():
+        for idx, inp in self.inputs.items():
             if inp.type == inputType:
                 count += 1
         return count
@@ -120,7 +120,7 @@ class Controller:
         # Remember : a pad can have 6 axes and 1 hat, but only 4 axes are mapped
         # All those tricks are just to mimic https://github.com/xbmc/peripheral.joystick/blob/master/src/api/udev/JoystickUdev.cpp#L321-L334
         axises = []
-        for idx, inp in self.inputs.iteritems():
+        for idx, inp in self.inputs.items():
             if inp.type == 'axis':
                 # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
                 leftcode = self.inputs["left"].code if "left" in self.inputs else -1
@@ -138,7 +138,7 @@ class Controller:
 
         # Now add hats because they are after all axes
         hats = []
-        for idx, inp in self.inputs.iteritems():
+        for idx, inp in self.inputs.items():
             if inp.type == 'hat':
                 # As of now our patched SDL2 gives the same axes number to up/down and left/right. But it's wrong
                 leftcode = self.inputs["left"].code if "left" in self.inputs else -1
@@ -185,13 +185,13 @@ class Controller:
                                             nbaxes=controller.get("deviceNbAxes"),
                                             nbhats=controller.get("deviceNbHats"),
                                             nbbuttons=controller.get("deviceNbButtons"))
-            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName.encode('utf-8'), controllerInstance.guid,
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
                                                   controllerInstance.nbaxes, controllerInstance.nbhats,
                                                   controllerInstance.nbbuttons)
             #print("Creating CompositeID: " + compositeId)
             controllers[compositeId] = controllerInstance
             # Only for unit tests: allow tests not to know device specifications
-            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName.encode('utf-8'), controllerInstance.guid,
+            compositeId = "{}-{}-{}:{}:{}".format(controllerInstance.configName, controllerInstance.guid,
                                                   '*', '*', '*')
             controllers[compositeId] = controllerInstance
             for inp in controller.findall("input"):
@@ -274,19 +274,18 @@ class Controller:
             result[p10dev] = newController.inputs["start"].code
         return result
 
-
     # Create a controller array with the player id as a key
     @staticmethod
     def loadControllerConfig(p1index, p1guid, p1name, p1dev, p1nbaxes, p1nbhats, p1nbbuttons,
-            p2index, p2guid, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons,
-            p3index, p3guid, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons,
-            p4index, p4guid, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons,
-            p5index, p5guid, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons,
-            p6index, p6guid, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons,
-            p7index, p7guid, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons,
-            p8index, p8guid, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons,
-            p9index, p9guid, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons,
-            p10index, p10guid, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons):
+                             p2index, p2guid, p2name, p2dev, p2nbaxes, p2nbhats, p2nbbuttons,
+                             p3index, p3guid, p3name, p3dev, p3nbaxes, p3nbhats, p3nbbuttons,
+                             p4index, p4guid, p4name, p4dev, p4nbaxes, p4nbhats, p4nbbuttons,
+                             p5index, p5guid, p5name, p5dev, p5nbaxes, p5nbhats, p5nbbuttons,
+                             p6index, p6guid, p6name, p6dev, p6nbaxes, p6nbhats, p6nbbuttons,
+                             p7index, p7guid, p7name, p7dev, p7nbaxes, p7nbhats, p7nbbuttons,
+                             p8index, p8guid, p8name, p8dev, p8nbaxes, p8nbhats, p8nbbuttons,
+                             p9index, p9guid, p9name, p9dev, p9nbaxes, p9nbhats, p9nbbuttons,
+                             p10index, p10guid, p10name, p10dev, p10nbaxes, p10nbhats, p10nbbuttons):
         playerControllers = dict()
         controllers = Controller.loadAllControllersConfig()
 
@@ -363,7 +362,7 @@ class Controller:
     @staticmethod
     def generateSDLGameDBAllControllers(controllers, outputFile = "/tmp/gamecontrollerdb.txt"):
         finalData = ["# Controllers defined in Recalbox"]
-        for idx, controller in controllers.iteritems():
+        for idx, controller in controllers.items():
             finalData.append(controller.generateSDLGameDBLine())
         sdlData = "\n".join(finalData)
         with open(outputFile, "w") as text_file:

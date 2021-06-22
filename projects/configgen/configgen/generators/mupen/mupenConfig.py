@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
-import recalboxFiles
-from settings.unixSettings import UnixSettings
-from utils.videoMode import *
-from utils.architecture import Architecture
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.unixSettings import UnixSettings
+from configgen.utils.videoMode import *
+from configgen.utils.architecture import Architecture
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 
 GlideN64FBEmulation_whitelist = ["ocarina", "empire", "pokemon", "rayman", "donald", "diddy", "beetle", "tennis", "instinct", "gemini", "twins", "majora", "quake", "ridge"]
 GLideN64LegacyBlending_blacklist = ["empire", "beetle", "donkey", "zelda", "bomberman", "party"]
 GLideN64NativeResolution_blacklist = ["majora"]
+
 
 def writeMupenConfig(system, controllers, rom):
     setPaths()
@@ -45,7 +46,7 @@ def writeMupenConfig(system, controllers, rom):
     #Frame buffer size is the factor of N64 native resolution.
     mupenSettings.save('UseNativeResolutionFactor', '1')
     #Resolution
-    from utils.resolutions import ResolutionParser
+    from configgen.utils.resolutions import ResolutionParser
     resolution = ResolutionParser(system.config['videomode'].strip())
     if resolution.isSet and resolution.selfProcess:
         mupenSettings.save('ScreenWidth', "{}".format(resolution.width))

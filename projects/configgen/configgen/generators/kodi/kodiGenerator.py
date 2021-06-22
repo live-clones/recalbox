@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-import kodiConfig
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+import configgen.generators.kodi.kodiConfig as kodiConfig
+
 
 class KodiGenerator(Generator):
     # Main entry of the module

@@ -1,7 +1,7 @@
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-from generators.solarus.solarusControllers import SolarusControllers
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.generators.solarus.solarusControllers import SolarusControllers
 
 
 class SolarusGenerator(Generator):

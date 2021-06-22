@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import recalboxFiles
-import ConfigParser
+import configgen.recalboxFiles as recalboxFiles
+from configparser import ConfigParser
 
 hotkeysCombo = {
     "b":      "Stop", ## to unify the unique combination of Recalbox ;) 
@@ -164,36 +164,36 @@ def generateHotkeys(playersControllers):
     iniValues = dict()
 
     # Find player 1
-    for idx, playerController in playersControllers.iteritems():
+    for idx, playerController in playersControllers.items():
         if playerController.player == "1":
-            print "P1 found"
+            print("P1 found")
             player1 = playerController
             break
 
     if player1 is None:
-        print "no P1"
+        print("no P1")
         raise ValueError("Couldn't find Player 1 input config")
 
     # Read its inputs, get the hotkey
-    for idx, inp in player1.inputs.iteritems():
+    for idx, inp in player1.inputs.items():
         if inp.name == "hotkey":
             HK = inp.id
             break
 
     if HK is None:
-        print "no HK"
+        print("no HK")
         raise ValueError("Couldn't find Player 1 hotkey")
 
     # Now generate the hotkeys
-    for idx, inputobj in player1.inputs.iteritems():
+    for idx, inputobj in player1.inputs.items():
         if inputobj.name in hotkeysCombo:
             propertyName = "Keys/{}".format(hotkeysCombo[inputobj.name])
-            print propertyName
+            print(propertyName)
             propertyValue = "`Button {}` & `Button {}`".format(HK, inputobj.id)
             iniValues[propertyName] = propertyValue
     iniValues["Device"] = '"evdev/0/{}"'.format(player1.realName)
     # Prepare the ini write
-    iniSections = {"Hotkeys1": iniValues }
+    iniSections = {"Hotkeys1": iniValues}
     writeIniFile(recalboxFiles.dolphinHKeys, iniSections)
 
 
@@ -201,18 +201,17 @@ def writeIniFile(filename, sectionsAndValues):
     # filename: file to write
     # sectionsAndValues: a dict indexed on sections on the ini. Each section has a dict of propertyName: propertyValue
 
-    Config = ConfigParser.ConfigParser()
+    Config = ConfigParser()
     # To prevent ConfigParser from converting to lower case
     Config.optionxform = str
 
-
     # Write dynamic config
-    for section, values in sectionsAndValues.iteritems():
+    for section, values in sectionsAndValues.items():
         Config.add_section(section)
-        for propertyName, propertyValue in values.iteritems():
+        for propertyName, propertyValue in values.items():
             Config.set(section, propertyName, propertyValue)
 
     # Open file
-    cfgfile = open(filename,'w')
+    cfgfile = open(filename, 'w')
     Config.write(cfgfile)
     cfgfile.close()

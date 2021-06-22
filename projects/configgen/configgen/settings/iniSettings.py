@@ -70,7 +70,7 @@ class IniSettings:
             return
         region = self.regions[section]
         keysToRemove = []
-        for key in region.iterkeys():
+        for key in region.keys():
             if key.startswith(pattern):
                 keysToRemove.append(key)
         for key in keysToRemove:
@@ -83,16 +83,16 @@ class IniSettings:
             os.makedirs(folder)
         firstSection = True
         with open(self.settingsFile, 'wb+') as sf:
-            for section in sorted(self.regions.iterkeys()):
+            for section in sorted(self.regions.keys()):
                 if firstSection: firstSection = False
                 else: sf.write('\n'.encode("utf-8"))
                 sf.write(('[' + str(section) + ']\n').encode("utf-8"))
                 region = self.regions[section]
                 if self.extraSpaces:
-                    for key in sorted(region.iterkeys()):
+                    for key in sorted(region.keys()):
                         sf.write((key + " = " + str(region[key]) + '\n').encode("utf-8"))
                 else:
-                    for key in sorted(region.iterkeys()):
+                    for key in sorted(region.keys()):
                         sf.write((key + "=" + str(region[key]) + '\n').encode("utf-8"))
 
     def loadFile(self, clear = False):

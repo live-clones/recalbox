@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 import sys
 import os
+import configgen.settings.unixSettings as unixSettings
+import configgen.recalboxFiles as recalboxFiles
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
-import settings.unixSettings as unixSettings
-import recalboxFiles
 
 fbaSettings = unixSettings.UnixSettings(recalboxFiles.fbaCustom)
 

@@ -1,6 +1,6 @@
-import recalboxFiles
 import platform
-import os 
+import os
+import configgen.recalboxFiles as recalboxFiles
 
 class LibretroRetroarch:
 
@@ -198,7 +198,7 @@ class LibretroRetroarch:
     # Return true if the option is considered defined
     def isDefined(self, key):
         recalbox = self.system.config
-        return key in recalbox and (isinstance(recalbox[key], str) or isinstance(recalbox[key], unicode)) and len(recalbox[key]) > 0
+        return key in recalbox and (isinstance(recalbox[key], str) or isinstance(recalbox[key], str)) and len(recalbox[key]) > 0
 
     # Get an option fromp system config or from global config
     # TODO: should be in self.system.config
@@ -227,7 +227,7 @@ class LibretroRetroarch:
         recalbox = self.system.config
 
         # Screen resolution
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(recalbox['videomode'])
         settings.setOption("video_fullscreen", self.TRUE)
         if resolution.isSet and resolution.selfProcess:

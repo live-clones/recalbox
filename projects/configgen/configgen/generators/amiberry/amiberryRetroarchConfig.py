@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import os
 
-import recalboxFiles
-from settings.keyValueSettings import keyValueSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.keyValueSettings import keyValueSettings
 
 '''
 This file mimic the retroarch config, using a separate configuration file for every controller

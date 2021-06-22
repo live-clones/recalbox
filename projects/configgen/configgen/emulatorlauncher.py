@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import argparse
 
-from Emulator import Emulator
-import utils.runner as runner
-import recalboxFiles
+from configgen.Emulator import Emulator
+import configgen.utils.runner as runner
+import configgen.recalboxFiles as recalboxFiles
 
-from controllersConfig import Controller
-from settings.configOverriding import buildOverrideChain
-from settings.keyValueSettings import keyValueSettings
+from configgen.controllersConfig import Controller
+from configgen.settings.configOverriding import buildOverrideChain
+from configgen.settings.keyValueSettings import keyValueSettings
 
 lineAppleGeneratorOverride = None
 
@@ -16,99 +16,99 @@ def getGenerator(emulator):
     # We use a if...elif...else structure in order to instantiate the strict minimum required for an emulator
     # and minimize static imports that are very time consuming, specialy on low-end boards
     if emulator == "libretro":
-        module = __import__("generators.libretro.libretroGenerator", fromlist=["LibretroGenerator"])
+        module = __import__("configgen.generators.libretro.libretroGenerator", fromlist=["LibretroGenerator"])
         generatorClass = getattr(module, "LibretroGenerator")
         return generatorClass()
     elif emulator == "mupen64plus":
-        module = __import__("generators.mupen.mupenGenerator", fromlist=["MupenGenerator"])
+        module = __import__("configgen.generators.mupen.mupenGenerator", fromlist=["MupenGenerator"])
         generatorClass = getattr(module, "MupenGenerator")
         return generatorClass()
     elif emulator == "reicast":
-        module = __import__("generators.reicast.reicastGenerator", fromlist=["ReicastGenerator"])
+        module = __import__("configgen.generators.reicast.reicastGenerator", fromlist=["ReicastGenerator"])
         generatorClass = getattr(module, "ReicastGenerator")
         return generatorClass()
     elif emulator == "dolphin":
-        module = __import__("generators.dolphin.dolphinGenerator", fromlist=["DolphinGenerator"])
+        module = __import__("configgen.generators.dolphin.dolphinGenerator", fromlist=["DolphinGenerator"])
         generatorClass = getattr(module, "DolphinGenerator")
         return generatorClass()
     elif emulator == "ppsspp":
-        module = __import__("generators.ppsspp.ppssppGenerator", fromlist=["PPSSPPGenerator"])
+        module = __import__("configgen.generators.ppsspp.ppssppGenerator", fromlist=["PPSSPPGenerator"])
         generatorClass = getattr(module, "PPSSPPGenerator")
         return generatorClass()
     elif emulator == "amiberry":
-        module = __import__("generators.amiberry.amiberryGenerator", fromlist=["AmiberryGenerator"])
+        module = __import__("configgen.generators.amiberry.amiberryGenerator", fromlist=["AmiberryGenerator"])
         generatorClass = getattr(module, "AmiberryGenerator")
         return generatorClass()
     elif emulator == "daphne":
-        module = __import__("generators.daphne.daphneGenerator", fromlist=["DaphneGenerator"])
+        module = __import__("configgen.generators.daphne.daphneGenerator", fromlist=["DaphneGenerator"])
         generatorClass = getattr(module, "DaphneGenerator")
         return generatorClass()
     elif emulator == "scummvm":
-        module = __import__("generators.scummvm.scummvmGenerator", fromlist=["ScummVMGenerator"])
+        module = __import__("configgen.generators.scummvm.scummvmGenerator", fromlist=["ScummVMGenerator"])
         generatorClass = getattr(module, "ScummVMGenerator")
         return generatorClass()
     elif emulator == "dosbox":
-        module = __import__("generators.dosbox.dosboxGenerator", fromlist=["DosBoxGenerator"])
+        module = __import__("configgen.generators.dosbox.dosboxGenerator", fromlist=["DosBoxGenerator"])
         generatorClass = getattr(module, "DosBoxGenerator")
         return generatorClass()
     elif emulator == "advancemame":
-        module = __import__("generators.advancemame.advMameGenerator", fromlist=["AdvMameGenerator"])
+        module = __import__("configgen.generators.advancemame.advMameGenerator", fromlist=["AdvMameGenerator"])
         generatorClass = getattr(module, "AdvMameGenerator")
         return generatorClass()
     elif emulator == "simcoupe":
-        module = __import__("generators.simcoupe.simcoupeGenerator", fromlist=["SimCoupeGenerator"])
+        module = __import__("configgen.generators.simcoupe.simcoupeGenerator", fromlist=["SimCoupeGenerator"])
         generatorClass = getattr(module, "SimCoupeGenerator")
         return generatorClass()
     elif emulator == "gsplus":
-        module = __import__("generators.gsplus.gsplusGenerator", fromlist=["GSplusGenerator"])
+        module = __import__("configgen.generators.gsplus.gsplusGenerator", fromlist=["GSplusGenerator"])
         generatorClass = getattr(module, "GSplusGenerator")
         return generatorClass()
     elif emulator == "oricutron":
-        module = __import__("generators.oricutron.oricutronGenerator", fromlist=["OricutronGenerator"])
+        module = __import__("configgen.generators.oricutron.oricutronGenerator", fromlist=["OricutronGenerator"])
         generatorClass = getattr(module, "OricutronGenerator")
         return generatorClass()
     elif emulator == "linapple":
         if lineAppleGeneratorOverride is not None:
             return lineAppleGeneratorOverride
-        module = __import__("generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
+        module = __import__("configgen.generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
         generatorClass = getattr(module, "LinappleGenerator")
         import os
         return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                               os.path.join(recalboxFiles.HOME     , '.linapple'))
     elif emulator == "kodi":
-        module = __import__("generators.kodi.kodiGenerator", fromlist=["KodiGenerator"])
+        module = __import__("configgen.generators.kodi.kodiGenerator", fromlist=["KodiGenerator"])
         generatorClass = getattr(module, "KodiGenerator")
         return generatorClass()
     elif emulator == "fba2x":
-        module = __import__("generators.fba2x.fba2xGenerator", fromlist=["Fba2xGenerator"])
+        module = __import__("configgen.generators.fba2x.fba2xGenerator", fromlist=["Fba2xGenerator"])
         generatorClass = getattr(module, "Fba2xGenerator")
         return generatorClass()
     elif emulator == "moonlight":
-        module = __import__("generators.moonlight.moonlightGenerator", fromlist=["MoonlightGenerator"])
+        module = __import__("configgen.generators.moonlight.moonlightGenerator", fromlist=["MoonlightGenerator"])
         generatorClass = getattr(module, "MoonlightGenerator")
         return generatorClass()
     elif emulator == "vice":
-        module = __import__("generators.vice.viceGenerator", fromlist=["ViceGenerator"])
+        module = __import__("configgen.generators.vice.viceGenerator", fromlist=["ViceGenerator"])
         generatorClass = getattr(module, "ViceGenerator")
         return generatorClass()
     elif emulator == "pcsx_rearmed":
-        module = __import__("generators.pcsx.pcsxGenerator", fromlist=["PcsxGenerator"])
+        module = __import__("configgen.generators.pcsx.pcsxGenerator", fromlist=["PcsxGenerator"])
         generatorClass = getattr(module, "PcsxGenerator")
         return generatorClass()
     elif emulator == "openbor":
-        module = __import__("generators.openbor.openborGenerator", fromlist=["OpenborGenerator"])
+        module = __import__("configgen.generators.openbor.openborGenerator", fromlist=["OpenborGenerator"])
         generatorClass = getattr(module, "OpenborGenerator")
         return generatorClass()
     elif emulator == "solarus":
-        module = __import__("generators.solarus.solarusGenerator", fromlist=["SolarusGenerator"])
+        module = __import__("configgen.generators.solarus.solarusGenerator", fromlist=["SolarusGenerator"])
         generatorClass = getattr(module, "SolarusGenerator")
         return generatorClass()
     elif emulator == "pisnes":
-        module = __import__("generators.pisnes.pisnesGenerator", fromlist=["PisnesGenerator"])
+        module = __import__("configgen.generators.pisnes.pisnesGenerator", fromlist=["PisnesGenerator"])
         generatorClass = getattr(module, "PisnesGenerator")
         return generatorClass()
     elif emulator == "supermodel":
-        module = __import__("generators.supermodel.supermodelGenerator", fromlist=["SupermodelGenerator"])
+        module = __import__("configgen.generators.supermodel.supermodelGenerator", fromlist=["SupermodelGenerator"])
         generatorClass = getattr(module, "SupermodelGenerator")
         return generatorClass()
     else:
@@ -370,7 +370,7 @@ def main(arguments):
             returnCode = runner.USERQUIT
 
         return returnCode, not fixedScreenSize
-    
+
     else:
         import sys
         sys.stderr.write("Unknown system: {}".format(systemName))
@@ -381,7 +381,7 @@ def main(arguments):
 Upgrade all generators user's configuration files with new values added
 to their system configuration file upgraded by S11Share:do_upgrade()
 
-Args: 
+Args:
     version (str): New Recalbox version
 
 Returns (bool):

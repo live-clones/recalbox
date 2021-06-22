@@ -1,8 +1,8 @@
 import os
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-from settings.iniSettings import IniSettings
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.settings.iniSettings import IniSettings
 
 
 class PisnesGenerator(Generator):
@@ -64,7 +64,7 @@ class PisnesGenerator(Generator):
             controller = playersControllers[index]
             if controller.player in ('1', '2'):
                 player = controller.player
-                for k,v in self.RECALBOX_TO_PBCS_BUTTON_MAPPING.iteritems():
+                for k,v in self.RECALBOX_TO_PBCS_BUTTON_MAPPING.items():
                     if k in controller.inputs:
                         inp = controller.inputs[k]
                         if inp.type == "button":

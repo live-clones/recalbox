@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import recalboxFiles
-import ConfigParser
+from configparser import ConfigParser
+import configgen.recalboxFiles as recalboxFiles
 
 keyboard_keys = {
     "KEY_UP":         "1073741906 0",
@@ -79,7 +79,7 @@ joystick_axis = {
 
 # Create the controller configuration file
 def generateControllerConfig(_, controllers):
-    Config = ConfigParser.ConfigParser()
+    Config = ConfigParser()
     # To prevent ConfigParser from converting to lower case
     Config.optionxform = str
 
@@ -98,14 +98,14 @@ def generateControllerConfig(_, controllers):
 
         # dirty hack: if quit is same button than another key, force r1 instead
         input_quit = controller.inputs[joystick_keys["KEY_QUIT"]]
-        for propertyName, propertyValue in joystick_keys.iteritems():
+        for propertyName, propertyValue in joystick_keys.items():
             if propertyName != "KEY_QUIT" and propertyValue is not None:
                 inp = controller.inputs[propertyValue]
                 if inp.type == input_quit.type and inp.id == input_quit.id:
                     joystick_keys["KEY_QUIT"] = "r1"
                     break
 
-        for propertyName, keyboardValue in keyboard_keys.iteritems():
+        for propertyName, keyboardValue in keyboard_keys.items():
             # Map buttons
             joystickButtonValue = 0
             if joystick_keys[propertyName] is not None:

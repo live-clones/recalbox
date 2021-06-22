@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import os
-import recalboxFiles
-from generators.amiberry.amiberryRomType import RomType
-from generators.amiberry.amiberrySubSystems import SubSystems
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.amiberry.amiberryRomType import RomType
+from configgen.generators.amiberry.amiberrySubSystems import SubSystems
 
 
 class KickstartManager:

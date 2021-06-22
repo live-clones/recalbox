@@ -46,7 +46,7 @@ class keyValueSettings:
 
     def removeOptionStartingWith(self, pattern):
         keysToRemove = []
-        for key in self.settings.iterkeys():
+        for key in self.settings.keys():
             if key.startswith(pattern):
                 keysToRemove.append(key)
         for key in keysToRemove:
@@ -55,7 +55,7 @@ class keyValueSettings:
     def getOptionSubset(self, startWith):
         result = {}
         swl = len(startWith)
-        for key in self.settings.iterkeys():
+        for key in self.settings.keys():
             if key.startswith(startWith):
                 result[key[swl:]] = self.settings[key]
         return result
@@ -67,20 +67,20 @@ class keyValueSettings:
             os.makedirs(folder)
         with open(self.settingsFile, 'wb+') as sf:
             if self.extraSpaces:
-                for key in sorted(self.settings.iterkeys()):
+                for key in sorted(self.settings.keys()):
                     sf.write((key + " = " + str(self.settings[key]) + '\n').encode("utf-8"))
             else:
-                for key in sorted(self.settings.iterkeys()):
+                for key in sorted(self.settings.keys()):
                     sf.write((key + "=" + str(self.settings[key]) + '\n').encode("utf-8"))
 
-    def loadFile(self, clear = False):
+    def loadFile(self, clear=False):
         import re
         try:
             if clear:
                 self.settings.clear()
             with open(self.settingsFile) as lines:
                 for line in lines:
-                    m = re.match(r'^([^#;].*?)\s?=\s?(.+)$', line.decode("utf-8"))
+                    m = re.match(r'^([^#;].*?)\s?=\s?(.+)$', line)
                     if m:
                         key = m.group(1).strip()
                         value = m.group(2).strip()

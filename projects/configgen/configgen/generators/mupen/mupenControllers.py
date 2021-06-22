@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 import sys
 import os
-import ConfigParser
-from controllersConfig import Input
 from xml.dom import minidom
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
-from settings.unixSettings import UnixSettings
-import recalboxFiles
+from configparser import ConfigParser
+from configgen.controllersConfig import Input
+from configgen.settings.unixSettings import UnixSettings
+import configgen.recalboxFiles as recalboxFiles
 
 # Must read :
 # http://mupen64plus.org/wiki/index.php?title=Mupen64Plus_Plugin_Parameters
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
-Config = ConfigParser.ConfigParser()
+Config = ConfigParser()
 # To prevent ConfigParser from converting to lower case
 Config.optionxform = str
 
@@ -65,17 +61,17 @@ def defineControllerKeys(controller):
     config['AnalogDeadzone'] = mupenmapping['AnalogDeadzone']
 
     # Dirty hack : the inp.xml adds 2 directions per joystick, ES handles just 1
-    fakeSticks = {'joystick2up': 'joystick2down'
-        , 'joystick2left': 'joystick2right'}
+    fakeSticks = {'joystick2up': 'joystick2down',
+                  'joystick2left': 'joystick2right'}
     # Cheat on the controller
-    for realStick, fakeStick in fakeSticks.iteritems():
+    for realStick, fakeStick in fakeSticks.items():
         if realStick in controller.inputs:
-            print fakeStick + "-> " + realStick
-            inputVar = Input(fakeStick
-                             , controller.inputs[realStick].type
-                             , controller.inputs[realStick].id
-                             , str(-int(controller.inputs[realStick].value))
-                             , controller.inputs[realStick].code)
+            print(fakeStick + "-> " + realStick)
+            inputVar = Input(fakeStick,
+                             controller.inputs[realStick].type,
+                             controller.inputs[realStick].id,
+                             str(-int(controller.inputs[realStick].value)),
+                             controller.inputs[realStick].code)
             controller.inputs[fakeStick] = inputVar
 
     for inputIdx in controller.inputs:
@@ -150,8 +146,8 @@ def writeToIni(controller, config):
 
     # Write static config
     Config.add_section(section)
-    Config.set(section, 'plugged', True)
-    Config.set(section, 'plugin', 2)
+    Config.set(section, 'plugged', 'True')
+    Config.set(section, 'plugin', '2')
     Config.set(section, 'AnalogDeadzone', config['AnalogDeadzone'])
     Config.set(section, 'AnalogPeak', "32768,32768")
     Config.set(section, 'Mempak switch', "")

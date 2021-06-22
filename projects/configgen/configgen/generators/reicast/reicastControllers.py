@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-import os
-import ConfigParser
-import recalboxFiles
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from configparser import ConfigParser
+import configgen.recalboxFiles as recalboxFiles
 
 reicastMapping = {'a': {'button': 'btn_b'},
                   'b': {'button': 'btn_a'},
@@ -41,7 +36,7 @@ sections = {'emulator': ['mapping_name', 'btn_escape'],
 def generateControllerConfig(controller):
     # Set config file name
     configFileName = "{}/controllerP{}.cfg".format(recalboxFiles.reicastCustom, controller.player)
-    Config = ConfigParser.ConfigParser()
+    Config = ConfigParser()
     cfgfile = open(configFileName, 'w+')
 
     # create ini sections

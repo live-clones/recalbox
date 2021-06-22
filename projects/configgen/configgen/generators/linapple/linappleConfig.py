@@ -21,7 +21,6 @@ joystick_translator = {
     }
 
 
-
 class LinappleConfig(object):
 
     globalResolutionFile = "/sys/class/graphics/fb0/virtual_size"
@@ -44,7 +43,7 @@ class LinappleConfig(object):
         self.settings = {}
         self.filename = filename
         self.load(filename)
-    
+
     def load(self, filename=None):
         """
         Load settings from the requested configuration file.
@@ -182,7 +181,7 @@ class LinappleConfig(object):
             self.settings['Save State On Exit'] = '0'
 
         # Screen resolution
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
         self.settings['Fullscreen'] = '1'
         if resolution.isSet and resolution.selfProcess:

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-import ppssppConfig
-import ppssppControllers
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+import configgen.generators.ppsspp.ppssppConfig as ppssppConfig
+import configgen.generators.ppsspp.ppssppControllers as ppssppControllers
 
 
 class PPSSPPGenerator(Generator):
@@ -13,7 +13,7 @@ class PPSSPPGenerator(Generator):
         if not system.config['configfile']:
             ppssppConfig.writePPSSPPConfig(system)
             # For each pad detected
-            for index in playersControllers :
+            for index in playersControllers:
                 controller = playersControllers[index]
                 # we only care about player 1
                 if controller.player != "1":
@@ -24,7 +24,7 @@ class PPSSPPGenerator(Generator):
                 cfgFile.close()
                 break
 
-        # the command to run  
+        # the command to run
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])

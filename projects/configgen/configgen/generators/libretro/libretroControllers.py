@@ -139,7 +139,7 @@ class LibretroControllers:
     # Remove all controller configurations
     def cleanUpControllers(self):
         self.settings.removeOptionStartingWith("input_player")
-        for specialkey in self.retroarchspecials.itervalues():
+        for specialkey in self.retroarchspecials.values():
             self.settings.removeOptionStartingWith("input_" + specialkey)
 
     # Write the hotkey for player 1

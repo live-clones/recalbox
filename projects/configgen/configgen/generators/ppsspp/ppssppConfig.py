@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 import sys
 import os
-import recalboxFiles
-from settings.unixSettings import UnixSettings
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.unixSettings import UnixSettings
 
 ppssppSettings = UnixSettings(recalboxFiles.ppssppConfig, separator=' ')
 
@@ -17,10 +14,11 @@ def enabled(key, dictio):
 # return true if the option is considered defined
 def defined(key, dictio):
     return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
-    
+
 
 def writePPSSPPConfig(system):
     writePPSSPPConfigToFile(createPPSSPPConfig(system))
+
 
 def createPPSSPPConfig(system):
     ppssppConfig = dict()

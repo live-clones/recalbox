@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-import Command
+import os
 import platform
-import ConfigParser
-import recalboxFiles
-import supermodelControllers
-from generators.Generator import Generator
-from settings.iniSettings import IniSettings
-from settings.keyValueSettings import keyValueSettings
-from utils.videoMode import *
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+import configgen.generators.supermodel.supermodelControllers as supermodelControllers
+from configgen.generators.Generator import Generator
+from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.utils.videoMode import *
+
 
 class SupermodelGenerator(Generator):
 
@@ -20,10 +20,9 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         MusicVol = supermodelSettings.getOption("music-volume", "")
-        if MusicVol == "100" :
-            None
-        else:
-            musicVolume.append("-music-volume="+MusicVol)
+        print("MusicVol:{} {}".format(MusicVol, recalboxFiles.supermodelConfigFile))
+        if MusicVol != "100":
+            musicVolume.append("-music-volume=" + MusicVol)
         return musicVolume
 
     @staticmethod
@@ -32,7 +31,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         soundState = supermodelSettings.getOption("no-sound", "")
-        if soundState == "1" :
+        if soundState == "1":
             noSound.append("-no-sound")
         return noSound
 
@@ -42,10 +41,8 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         Vol = supermodelSettings.getOption("sound-volume", "")
-        if Vol == "100" :
-            None
-        else:
-            Volume.append("-sound-volume="+Vol)
+        if Vol != "100":
+            Volume.append("-sound-volume=" + Vol)
         return Volume
 
     @staticmethod
@@ -54,7 +51,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         currentDsb = supermodelSettings.getOption("no-dsb", "")
-        if currentDsb == "1" :
+        if currentDsb == "1":
             DSB.append("-no-dsb")
         return DSB
 
@@ -64,7 +61,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         SwitchStereo = supermodelSettings.getOption("flip-stereo", "")
-        if SwitchStereo == "1" :
+        if SwitchStereo == "1":
             flipStereo.append("-flip-stereo")
         return flipStereo
 
@@ -77,7 +74,7 @@ class SupermodelGenerator(Generator):
         if balance == "0":
             None
         else:
-            BalanceSound.append("-balance="+balance)
+            BalanceSound.append("-balance=" + balance)
         return BalanceSound
 
     ## added in version r818 define new or old sound engine 
@@ -101,16 +98,16 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         getConfig = supermodelSettings.getOption("resolution", "")
-        if getConfig == "auto" :
-            width, height = getCurrentResulution()
-            currentResolution = ("{}".format(width))+","+("{}".format(height))
+        if getConfig == "auto":
+            width, height = getCurrentResolution()
+            currentResolution = ("{}".format(width)) + "," + ("{}".format(height))
             reso.append("-fullscreen")
-            reso.append("-res="+currentResolution)
-        elif getConfig == "none" :
+            reso.append("-res=" + currentResolution)
+        elif getConfig == "none":
             reso.append("-fullscreen")
-        else :
+        else:
             reso.append("-fullscreen")
-            reso.append("-res="+getConfig)
+            reso.append("-res=" + getConfig)
         return reso
 
     ## added in version r835 :
@@ -120,7 +117,7 @@ class SupermodelGenerator(Generator):
         ratio = []
         self.system = system
         recalbox = self.system.config
-        if recalbox['ratio'] == "16/9" :
+        if recalbox['ratio'] == "16/9":
             ratio.append("-wide-screen")
             ratio.append("-wide-bg")
         return ratio
@@ -131,7 +128,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         throttle = supermodelSettings.getOption("no-throttle", "")
-        if throttle == "1" :
+        if throttle == "1":
             Throttle.append("-no-throttle")
         return Throttle
 
@@ -141,7 +138,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         MultiTexture = supermodelSettings.getOption("multi-texture", "")
-        if MultiTexture == "1" :
+        if MultiTexture == "1":
             Texture.append("-multi-texture")
         else:
             Texture.append("-no-multi-texture")
@@ -153,26 +150,25 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         QuadRendering = supermodelSettings.getOption("quad-rendering", "")
-        if QuadRendering == "1" :
+        if QuadRendering == "1":
             Rendering.append("-quad-rendering")
         return Rendering
 
     @staticmethod
     def GetEngine(system):
-    # Set new3d engine only if have a nvidia driver else use legacy3d engine
-    # Is nVidia driver on?
+        # Set new3d engine only if have a nvidia driver else use legacy3d engine
+        # Is nVidia driver on?
         arch = platform.machine()
+        hasNVidia = False
         if arch == "x86_64":
             # check if have nvidia driver
             if os.path.exists("/etc/modprobe.d/blacklist.conf"):
-                for line in open("/etc/modprobe.d/blacklist.conf"):
-                    engine = []
-                    if "blacklist nouveau" in line:
-                        # return empty args for new3d engine
-                        engine
-                    else :
-                        engine.append("-legacy3d")
-        return engine
+                with open("/etc/modprobe.d/blacklist.conf") as f:
+                    for line in f:
+                        if "blacklist nouveau" in line:
+                            hasNVidia = True
+                            break
+        return [] if hasNVidia else ['-legacy3d']
 
     @staticmethod
     def GetCrosshairs(system):
@@ -180,14 +176,14 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         Crosshairs = supermodelSettings.getOption("crosshairs", "")
-        ## on default set 3 (for players one and two) if enabled in config file 
-        if Crosshairs == "1" :
+        ## on default set 3 (for players one and two) if enabled in config file
+        if Crosshairs == "1":
             SetCrosshairs.append("-crosshairs=1")
-        elif Crosshairs == "2" :
+        elif Crosshairs == "2":
             SetCrosshairs.append("-crosshairs=3")
         return SetCrosshairs
 
-## Disabled because FPS show only on statut bar 
+## Disabled because FPS show only on statut bar
 #    ## -----CORE-----
 #    @staticmethod
 #    def GetShowsFps(system):
@@ -205,11 +201,11 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         ThreadStatut = supermodelSettings.getOption("multi-threading", "")
-        if ThreadStatut == "1" :
+        if ThreadStatut == "1":
             Thread.append("-no-gpu-thread")
-        elif ThreadStatut == "2" :
+        elif ThreadStatut == "2":
             Thread.append("no-threads")
-        else :
+        else:
             Thread.append("-gpu-multi-threaded")
         return Thread
 
@@ -222,35 +218,35 @@ class SupermodelGenerator(Generator):
         if Frequency == "50":
             None
         else:
-            PpcFrequency.append("-ppc-frequency="+Frequency)
+            PpcFrequency.append("-ppc-frequency=" + Frequency)
         return PpcFrequency
 
 ## Disabled because make crash on few games
     @staticmethod
     def GetSavesState(system):
-        savespath =[]
+        savespath = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         model3saves = "/recalbox/share/saves/model3/"
-        savespath.append("-load-state="+model3saves)
+        savespath.append("-load-state=" + model3saves)
         return savespath
 
     @staticmethod
     def GetLogsPath(system):
-        logpath =[]
+        logpath = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         model3logs = recalboxFiles.supermodelRooFolder + "/Supermodel.log"
-        logpath.append("-log-output="+model3logs)
+        logpath.append("-log-output=" + model3logs)
         return logpath
 
     @staticmethod
     def GetLogsLevel(system):
-        loglevel =[]
+        loglevel = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         loglevelset = supermodelSettings.getOption("log-level", "")
-        loglevel.append("-log-level="+loglevelset)
+        loglevel.append("-log-level=" + loglevelset)
         return loglevel
 
     def generate(self, system, playersControllers, recalboxSettings, args):
@@ -258,7 +254,7 @@ class SupermodelGenerator(Generator):
 
             # Controllers
             supermodelControllers.generateControllerConfig(self, Generator, playersControllers, system)
-            
+
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
         ## add other cmd option for more configuration
         ## -----AUDIO------

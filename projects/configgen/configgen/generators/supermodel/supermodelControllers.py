@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-import Command
-import ConfigParser
-import recalboxFiles
-from settings.keyValueSettings import keyValueSettings
-from settings.iniSettings import IniSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.settings.iniSettings import IniSettings
 
 def generateControllerConfig(self, Generator, playersControllers, system):
 
@@ -393,7 +391,7 @@ def generateControllerConfig(self, Generator, playersControllers, system):
             continue
 
         # increase +1 controller index 
-        padIndex = 'JOY{}'.format(pad.index + 1)
+        padIndex = 'JOY{}'.format(int(pad.index) + 1)
 
         # Add hotkey buttons
         for x in HOTKEY_BUTTONS:
@@ -444,7 +442,7 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         if pad.player == "2":
             continue
 
-        padIndex = 'JOY{}'.format(pad.index + 2)
+        padIndex = 'JOY{}'.format(int(pad.index) + 2)
 
         for x in BUTTONS_P2:
             if BUTTONS_P2[x] in pad.inputs:

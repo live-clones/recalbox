@@ -1,4 +1,4 @@
-from utils.architecture import Architecture
+from configgen.utils.architecture import Architecture
 
 
 class ResolutionParser:
@@ -210,7 +210,7 @@ class ResolutionParser:
 
     def __init__(self, resolution): # type: (str) -> None
         self.__parse(resolution)
-        self.__archtitecture = Architecture()
+        self.__architecture = Architecture()
 
     def __parse(self, resolution): # type: (str) -> None
         if len(resolution) > 0 and resolution not in ("auto", "default"):
@@ -227,7 +227,7 @@ class ResolutionParser:
             return True
         return False
 
-    def __parseWidthHeight(self, resolution): # type: (str) -> bool
+    def __parseTvServiceResolution(self, resolution): # type: (str) -> bool
         try:
             (mode, sindex, _) = resolution.split(' ')
             index = int(sindex)
@@ -242,12 +242,12 @@ class ResolutionParser:
                 self.__Height = h
                 return True
         except Exception as ex:
-            print("{} is not a XxY resolution: {}".format(resolution, ex))
+            print("{} is not a tvservice resolution: {}".format(resolution, ex))
             pass
         self.__Width = 0
         self.__Height = 0
-        return False    
-    def __parseTvServiceResolution(self, resolution): # type: (str) -> bool
+        return False
+    def __parseWidthHeight(self, resolution): # type: (str) -> bool
         try:
             wh = resolution.split('x')
             if len(wh) == 2:
@@ -270,7 +270,7 @@ class ResolutionParser:
 
     @property
     def selfProcess(self): # type: () -> bool
-        return not self.__archtitecture.isSupportingTvService
+        return not self.__architecture.isSupportingTvService
 
     @property
     def width(self): # type: () -> int

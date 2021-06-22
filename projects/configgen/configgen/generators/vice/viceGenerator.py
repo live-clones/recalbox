@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from generators.Generator import Generator
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
 
 
 class ViceGenerator(Generator):
@@ -15,4 +15,4 @@ class ViceGenerator(Generator):
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
 
-        return Command.Command(videomode='default', array=commandArray,  env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so"})
+        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so"})

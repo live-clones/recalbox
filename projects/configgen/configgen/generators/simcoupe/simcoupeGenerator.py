@@ -1,7 +1,7 @@
-import Command
-from generators.Generator import Generator
-from settings.keyValueSettings import keyValueSettings
-import recalboxFiles
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class SimCoupeGenerator(Generator):
@@ -23,7 +23,7 @@ class SimCoupeGenerator(Generator):
         This way, any modification is kept accross emulator launhes
         """
 
-        settings = keyValueSettings('/recalbox/share/system/.simcoupe/SimCoupe.cfg')
+        settings = keyValueSettings(recalboxFiles.simcoupeConfig)
         settings.loadFile(True)
 
         settings.setOption("FilterGUI", "1")                                    # Nice looking GUI

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from generators.Generator import Generator
 import os.path
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
 
 
 class DosBoxGenerator(Generator):
@@ -19,8 +19,8 @@ class DosBoxGenerator(Generator):
         gameDir = args.rom
         batFile = gameDir + "/dosbox.bat"
         gameConfFile = gameDir + "/dosbox.cfg"
-           
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], 
+
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
 			"-userconf",
             "-fullscreen",
 			"-exit", 
@@ -36,7 +36,7 @@ class DosBoxGenerator(Generator):
                 commandArray.append("-forcescaler")
                 commandArray.append("rgb3x")
 
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
         if resolution.isSet and resolution.selfProcess:
             extraConf = "[sdl]\nfullscreen=true\nvsync=true\nfullresolution={}\n".format(resolution.string)

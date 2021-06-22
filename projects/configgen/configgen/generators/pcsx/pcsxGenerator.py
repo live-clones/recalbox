@@ -1,7 +1,7 @@
 import os
-import Command
-import recalboxFiles
-from generators.Generator import Generator
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
 
 
 class PcsxGenerator(Generator):
@@ -68,7 +68,7 @@ class PcsxGenerator(Generator):
                 config.append("bind down =  player{} DOWN".format(player))
                 config.append("bind left =  player{} LEFT".format(player))
                 config.append("bind right =  player{} RIGHT".format(player))
-                for k,v in self.RECALBOX_TO_PCSX_BUTTON_MAPPING.iteritems():
+                for k,v in self.RECALBOX_TO_PCSX_BUTTON_MAPPING.items():
                     if k in controller.inputs:
                         config.append("bind {} =  player{} {}".format(PcsxGenerator.ButtonChar(controller.inputs[k].id), player, v))
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-import Command
-#~ import reicastControllers
-import recalboxFiles
-from generators.Generator import Generator
-import reicastControllers
 import shutil
 import os.path
-import ConfigParser
 import glob
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+import configgen.generators.reicast.reicastControllers as reicastControllers
+from configparser import ConfigParser
+
 
 class ReicastGenerator(Generator):
     # Main entry of the module
@@ -49,7 +49,7 @@ class ReicastGenerator(Generator):
     def generate(self, system, playersControllers, recalboxSettings, args):
         if not system.config['configfile']:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
-            Config = ConfigParser.ConfigParser()
+            Config = ConfigParser()
             Config.optionxform = str
             Config.read(recalboxFiles.reicastConfigInit)
             section = "input"

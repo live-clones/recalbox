@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import os
 
-import recalboxFiles
-from generators.amiberry.amiberryKickstarts import KickstartManager
-from settings.keyValueSettings import keyValueSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGlobalConfig:

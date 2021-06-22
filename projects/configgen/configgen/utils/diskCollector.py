@@ -27,7 +27,6 @@ class DiskCollector:
 
         # Get disks with the same prefix
         diskList = self.getAllDisks(masterPrefix)
-
         # Find best matching disks
         currentDisk = 1
         suffixLen = len(masterSuffix)

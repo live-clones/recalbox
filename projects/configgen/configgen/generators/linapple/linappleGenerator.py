@@ -6,10 +6,10 @@ Created on Mar 6, 2016
 
 import os
 import shutil
-import Command
-from generators.Generator import Generator
-from generators.linapple.linappleConfig import LinappleConfig
-import recalboxFiles
+import configgen.Command as Command
+from configgen.generators.Generator import Generator
+from configgen.generators.linapple.linappleConfig import LinappleConfig
+import configgen.recalboxFiles as recalboxFiles
 
 class LinappleGenerator(Generator):
     """
@@ -64,7 +64,7 @@ class LinappleGenerator(Generator):
 
     def generate(self, system, playersControllers, recalboxSettings, args):
         # Check resources
-        if not self.check_resources(): 
+        if not self.check_resources():
             return
 
         if not system.config['configfile']:
@@ -74,12 +74,9 @@ class LinappleGenerator(Generator):
                 if os.path.exists(usr_conf) \
                 else os.path.join(self.path_init, self.filename)
             config = LinappleConfig(filename=filename)
-            # Adjust configuration
-            if "test" in args:
-                config.setResolutionFile("/nofile")
             config.joysticks(playersControllers)
             config.system(system, args.rom)
-            # Save changes 
+            # Save changes
             config.save(filename=usr_conf)
 
         commandArray = [ recalboxFiles.recalboxBins[system.config['emulator']] ]

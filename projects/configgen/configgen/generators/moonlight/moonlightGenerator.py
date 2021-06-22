@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from controllersConfig import Controller
-from generators.Generator import Generator
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.controllersConfig import Controller
+from configgen.generators.Generator import Generator
 import os.path
 
 

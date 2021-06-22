@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
 import os.path
-from generators.Generator import Generator
-import dolphinControllers
-from settings.iniSettings import IniSettings
-from settings.keyValueSettings import keyValueSettings
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+import configgen.generators.dolphin.dolphinControllers as dolphinControllers
+from configgen.settings.iniSettings import IniSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 class DolphinGenerator(Generator):
 
@@ -143,8 +143,8 @@ class DolphinGenerator(Generator):
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         sensorBarPosition = conf.getOption("wii.sensorbar.position", "$")
-        keyValue = '\x00' if sensorBarPosition == '0' else '\x01'
-        keyString = "BT.BAR"
+        keyValue = '\x00'.encode('utf-8') if sensorBarPosition == '0' else '\x01'.encode('utf-8')
+        keyString = "BT.BAR".encode('utf-8')
         if os.path.exists(recalboxFiles.dolphinSYSCONF):
             with open(recalboxFiles.dolphinSYSCONF, 'rb+') as sysconf:
                 buf = sysconf.read()
@@ -171,7 +171,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.loadFile(True)
 
         # Resolution
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
         if resolution.isSet and resolution.selfProcess:
             dolphinSettings.setOption(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)

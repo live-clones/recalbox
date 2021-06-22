@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import os.path
 
-import Command
-import libretroConfigurations
-import recalboxFiles
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 
-from generators.Generator import Generator
-import libretroLightGuns
+from configgen.generators.Generator import Generator
+from configgen.generators.libretro.libretroLightGuns import libretroLightGun
 
 
 class LibretroGenerator(Generator):
@@ -99,7 +99,7 @@ class LibretroGenerator(Generator):
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         # setup wiimotes lightgun configuration 
-        lightgunConfig = libretroLightGuns.libretroLightGun(system,rom,demo,retroarchConfig, coreConfig)
+        lightgunConfig = libretroLightGun(system,rom,demo,retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
 
         return configuration.getRetroarchConfigurationFileName(),\
@@ -172,7 +172,7 @@ class LibretroGenerator(Generator):
         if core == "px68k":
             # Open configuration
             x68kconfig = os.path.join(recalboxFiles.BIOS, "keropi/config")
-            from settings.iniSettings import IniSettings
+            from configgen.settings.iniSettings import IniSettings
             settings = IniSettings(x68kconfig, False)
             # HDD or floppy disk?
             size = os.path.getsize(rom) >> 20
@@ -181,7 +181,7 @@ class LibretroGenerator(Generator):
                 settings.setOption("WinX68k", "HDD0", rom)
             else:
                 # Floppy
-                from utils.diskCollector import DiskCollector
+                from configgen.utils.diskCollector import DiskCollector
                 collector = DiskCollector(rom, 2, verbose)
                 settings.setOption("WinX68k", "FDD0", collector.disks[0])
                 if collector.Count > 1:
@@ -190,7 +190,7 @@ class LibretroGenerator(Generator):
 
         # quasi88 (Pc88) use retroarch subsystem's to load multiple content
         if core == "quasi88":
-            from utils.diskCollector import DiskCollector
+            from configgen.utils.diskCollector import DiskCollector
             collector = DiskCollector(rom, 6, verbose)
             if collector.Count > 1:
                 roms = ["--subsystem", "pc88_{}_disk".format(collector.Count)]
@@ -221,7 +221,7 @@ class LibretroGenerator(Generator):
 
         # Demo mode: take the first disk, always
         if demo:
-            from utils.diskCollector import DiskCollector
+            from configgen.utils.diskCollector import DiskCollector
             collector = DiskCollector(rom, 6, verbose)
             if collector.Count > 1:
                 return [collector.Disks[0]]

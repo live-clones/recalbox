@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-import Command
-import recalboxFiles
-from generators.Generator import Generator
 import os.path
-import daphneControllers
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+import configgen.generators.daphne.daphneControllers as daphneControllers
 
 
 class DaphneGenerator(Generator):
@@ -17,7 +17,7 @@ class DaphneGenerator(Generator):
         frameFile = args.rom + "/" + romName + ".txt"
         commandsFile = args.rom + "/" + romName + ".commands"
         singeFile = args.rom + "/" + romName + ".singe"
-        # the command to run  
+        # the command to run
         if os.path.exists(singeFile):
             # for a singe game
             commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
@@ -38,7 +38,7 @@ class DaphneGenerator(Generator):
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
 
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
         if resolution.isSet and resolution.selfProcess:
             commandArray.extend(["-x", str(resolution.width), "-y", str(resolution.height)])

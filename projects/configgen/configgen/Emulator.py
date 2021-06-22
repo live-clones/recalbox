@@ -1,5 +1,5 @@
-import recalboxFiles
-from settings.keyValueSettings import keyValueSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class Emulator:
@@ -76,4 +76,3 @@ class Emulator:
             self.config['core'] = core
         if ratio is not None and ratio != 'auto':
             self.config['ratio'] = ratio
-

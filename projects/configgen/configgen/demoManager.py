@@ -3,7 +3,7 @@ import threading
 import os
 import struct
 
-from demoInfo import demoInformation
+from configgen.demoInfo import demoInformation
 
 def Log(txt): # type: (str) -> None
     print(txt)

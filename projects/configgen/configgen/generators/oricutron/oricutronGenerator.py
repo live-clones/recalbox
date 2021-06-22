@@ -1,7 +1,7 @@
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-from settings.keyValueSettings import keyValueSettings
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class OricutronGenerator(Generator):

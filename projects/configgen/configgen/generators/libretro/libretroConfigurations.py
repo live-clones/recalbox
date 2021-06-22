@@ -2,13 +2,13 @@
 import os
 import sys
 
-import recalboxFiles
-from settings.configOverriding import buildOverrideChain
-from settings.keyValueSettings import keyValueSettings
-from libretroRetroarch import LibretroRetroarch
-from libretroCores import LibretroCores
-from libretroControllers import LibretroControllers
-from utils.architecture import Architecture
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.configOverriding import buildOverrideChain
+from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
+from configgen.generators.libretro.libretroCores import LibretroCores
+from configgen.generators.libretro.libretroControllers import LibretroControllers
+from configgen.utils.architecture import Architecture
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 

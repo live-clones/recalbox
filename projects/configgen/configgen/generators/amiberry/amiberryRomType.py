@@ -73,7 +73,9 @@ class RomType:
                 romType = RomType.HDF
             # Zip
             elif romExt == ".zip":
-                fileList = subprocess.check_output(['unzip', '-l', rom]).lower()
+                fileList = subprocess.check_output(
+                        ['unzip', '-l', rom],
+                        encoding="utf-8").lower()
                 if fileList.find(".slave") >= 0:
                     romType = RomType.WHDL
                 elif fileList.find(".ipf") >= 0 or fileList.find(".adf") >= 0:

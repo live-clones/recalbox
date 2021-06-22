@@ -1,4 +1,4 @@
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 class demoInformation:
 

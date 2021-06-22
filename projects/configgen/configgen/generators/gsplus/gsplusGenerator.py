@@ -1,9 +1,9 @@
 import os
 
-import Command
-import recalboxFiles
-from generators.Generator import Generator
-from settings.keyValueSettings import keyValueSettings
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.Generator import Generator
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class GSplusGenerator(Generator):
@@ -11,7 +11,7 @@ class GSplusGenerator(Generator):
     # Generate ADF Arguments
     @staticmethod
     def SeekMultiDisks(rom, disks): # type: (str, int) -> list
-        from utils.diskCollector import DiskCollector
+        from configgen.utils.diskCollector import DiskCollector
         collector = DiskCollector(rom, disks, True)
         return collector.disks
 
@@ -119,7 +119,7 @@ class GSplusGenerator(Generator):
                    "-slot", str(slot)]
 
         # Screen resolution
-        from utils.resolutions import ResolutionParser
+        from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.config['videomode'])
         if resolution.isSet and resolution.selfProcess:
             options.append("-x")

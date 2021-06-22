@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import sys
 import os
-import recalboxFiles
-from settings.unixSettings import UnixSettings
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.unixSettings import UnixSettings
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))

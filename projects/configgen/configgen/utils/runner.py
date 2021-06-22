@@ -16,7 +16,7 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     chosenMode = 'default'
     if not fixedScreenSize and arch.isSupportingTvService:
         print("Calling tvservice")
-        import utils.videoMode as videoMode
+        import configgen.utils.videoMode as videoMode
         chosenMode = videoMode.setVideoMode(command.videomode, command.delay)
 
     # Update environment
@@ -56,8 +56,8 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
         print("Process exitcode: {}".format(exitcode))
         if args.verbose:
             import sys
-            sys.stdout.write(out)
-            sys.stderr.write(err)
+            sys.stdout.write(out.decode('utf-8'))
+            sys.stderr.write(err.decode('utf-8'))
     except Exception as e:
         print("Emulator exited unexpectedly!\nException: {}".format(e))
 
@@ -73,8 +73,8 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
 
     if not fixedScreenSize:
         if chosenMode != 'default':
-            import utils.videoMode as videoMode
-            videoMode.setPreffered(recalboxSettings)
+            import configgen.utils.videoMode as videoMode
+            videoMode.setPrefered(recalboxSettings)
 
     if userQuit: return USERQUIT
     if userWannaPlay: return USERWANNAPLAY

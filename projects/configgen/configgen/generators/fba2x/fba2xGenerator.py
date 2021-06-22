@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import Command
-import fba2xControllers
-import recalboxFiles
-import fba2xConfig
 import shutil
-from generators.Generator import Generator
+import configgen.Command as Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.generators.fba2x import fba2xControllers
+from configgen.generators.fba2x import fba2xConfig
+from configgen.generators.Generator import Generator
 
 
 class Fba2xGenerator(Generator):
@@ -22,7 +22,7 @@ class Fba2xGenerator(Generator):
             # Write configuration to retroarchcustom.cfg
             fba2xConfig.writeFBAConfig(system)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "--configfile", system.config['configfile'], '--logfile', recalboxFiles.logdir+"/fba2x.log"]
+        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "--configfile", system.config['configfile'], '--logfile', recalboxFiles.logdir + "/fba2x.log"]
         if 'args' in system.config and system.config['args'] is not None:
             commandArray.extend(system.config['args'])
         commandArray.append(args.rom)
