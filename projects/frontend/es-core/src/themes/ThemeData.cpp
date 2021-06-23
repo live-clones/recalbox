@@ -373,7 +373,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 	{
 		if (parseSubset(node))
 		{
-			std::string str = resolveSystemVariable(mSystemThemeFolder, node.text().get());
+			std::string str = resolveSystemVariable(mSystemThemeFolder, node.text().get(), mRandomPath);
 			
 			//workaround for an issue in parseincludes introduced by variable implementation
 			if (str.find("//") == std::string::npos)
@@ -569,7 +569,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const std::map<std::str
 		if(typeIt == typeMap.end())
 			throw ThemeException("Unknown property type \"" + std::string(node.name()) + "\" (for element of type " + root.name() + ").", mPaths);
 		
-    std::string str = Strings::Trim(resolveSystemVariable(mSystemThemeFolder, node.text().as_string()));
+    std::string str = Strings::Trim(resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath));
 
 		switch(typeIt->second)
 		{

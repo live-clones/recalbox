@@ -104,9 +104,10 @@ class ThemeData
 	std::string mMenu;
 	std::string mSystemview;
 	std::string mGamelistview;
-    std::string mRegion;
+	std::string mRegion;
 	std::string mGameClipView;
 	std::string mSystemThemeFolder;
+	std::string mRandomPath;
 
     void parseFeatures(const pugi::xml_node& themeRoot);
     void parseIncludes(const pugi::xml_node& themeRoot);
@@ -119,7 +120,7 @@ class ThemeData
     static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
 
     static bool CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset);
-    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path)
+    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath)
     {
       std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
       std::string lc = "en";
@@ -139,6 +140,23 @@ class ThemeData
       Strings::ReplaceAllIn(result, "$language", lc);
       Strings::ReplaceAllIn(result, "$country", cc);
 
+
+      return PickRandomPath(result, randomPath);;
+    }
+
+    static std::string PickRandomPath(std::string value, std::string& randomPath) {
+      if(!Strings::Contains(value, "$random("))
+        return value;
+
+      std::string random = Strings::Extract(value, "$random(", ")", 8, 1);
+
+      if(randomPath == "")
+      {
+        std::vector<std::string> randomValues = Strings::Split(random, ',');
+        randomPath = randomValues[rand() % randomValues.size()];
+      }
+
+      std::string result = Strings::Replace(value, "$random(" + random + ")", randomPath);
       return result;
     }
 
