@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Add configgen support for Hypseus - bump (#1611)
+- Add genesisplusgxwide core on all boards (#1783)
 - Bump bump kodi inputstreamhelper script to 0.5.5 (#1782)
 - Populate share now uses systemlist.xml to populate ports (#1686)
 - Renamed mrboom to Mr. Boom in romfsv2 (#1686)
