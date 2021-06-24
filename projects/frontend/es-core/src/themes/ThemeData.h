@@ -2,6 +2,7 @@
 
 #include <map>
 #include <deque>
+#include <random>
 #include <string>
 #include <utils/os/fs/Path.h>
 #include <RecalboxConf.h>
@@ -108,6 +109,8 @@ class ThemeData
 	std::string mGameClipView;
 	std::string mSystemThemeFolder;
 	std::string mRandomPath;
+	static constexpr const char* sRandomMethod = "$random(";
+
 
     void parseFeatures(const pugi::xml_node& themeRoot);
     void parseIncludes(const pugi::xml_node& themeRoot);
@@ -144,20 +147,25 @@ class ThemeData
       return PickRandomPath(result, randomPath);;
     }
 
-    static std::string PickRandomPath(std::string value, std::string& randomPath) {
-      if(!Strings::Contains(value, "$random("))
+    static std::string PickRandomPath(std::string value, std::string& randomPath)
+    {
+
+      if(!Strings::Contains(value, sRandomMethod))
         return value;
 
-      std::string random = Strings::Extract(value, "$random(", ")", 8, 1);
+      std::string args = Strings::Extract(value, sRandomMethod, ")", 8, 1);
 
-      if(randomPath == "")
+      if(randomPath.empty())
       {
-        std::vector<std::string> randomValues = Strings::Split(random, ',');
-        randomPath = randomValues[rand() % randomValues.size()];
+        std::vector<std::string> paths = Strings::Split(args, ',');
+        std::random_device rd;
+        std::default_random_engine engine(rd());
+        const int max = paths.size();
+        std::uniform_int_distribution<int>  distrib{0, max};
+        randomPath = paths[distrib(engine)];
       }
 
-      std::string result = Strings::Replace(value, "$random(" + random + ")", randomPath);
-      return result;
+      return Strings::Replace(value, sRandomMethod + args + ")", randomPath);
     }
 
     std::map<std::string, ThemeView> mViews;

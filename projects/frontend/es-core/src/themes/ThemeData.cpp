@@ -291,6 +291,7 @@ ThemeData::ThemeData()
 	mVersion = 0;
 	SetThemeHasMenuView(false);
 	mSystemThemeFolder.clear();
+  mRandomPath.clear();
 }
 
 bool ThemeData::CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset)
