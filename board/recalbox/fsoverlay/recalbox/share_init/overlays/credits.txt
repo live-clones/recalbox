@@ -1,0 +1,28 @@
+Crédits :
+
+repack by OlivierDroid92
+
+Thanks to 
+
+toniosj
+
+ARRM (Another Gamelist, Roms manager, and Scraper for Recalbox)
+http://jujuvincebros.fr/telechargements2/file/10-arrm-another-recalbox-roms-manager
+Wiki ARRM : http://www.jujuvincebros.fr/wiki/arrm/
+by nexusone13 
+
+Bezels Systèmes : 
+- MarbleMad (Team ScreenZone)
+- Kam3leon (Team ScreenZone)
+- Orions angel (https://www.youtube.com/channel/UCG1g7PE9yzd4MboQQa9OYWA)
+
+Bezels Arcade :
+- Orions angel (https://www.youtube.com/channel/UCG1g7PE9yzd4MboQQa9OYWA)
+- biscuits99 (https://github.com/biscuits99/rp-video-manager/tree/master/users/arcade-bezels)
+
+Bezels Vectrex :
+- MarbleMad (Team ScreenZone)
+- Chris Parsons (https://drive.google.com/drive/u/0/folders/0BwUJ62zB09ZVakg1b0tuM0VUNFE)
+
+For customs
+https://github.com/thebezelproject
