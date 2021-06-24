@@ -169,7 +169,10 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
 
         // Deserialize text data
         if (jeu.HasMember("noms"))
+        {
           game.mName = ExtractRegionalizedText(jeu["noms"], requiredRegion);
+          game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(jeu["noms"], "ss"));
+        }
         if (jeu.HasMember("synopsis"))
         {
           game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], language);
@@ -721,4 +724,28 @@ void ScreenScraperApis::DecodeString(std::string& raw)
   raw = Strings::Replace(raw, "&lt;", "<");
   raw = Strings::Replace(raw, "&gt;", ">");
   raw = Strings::Replace(raw, "&nbsp;", "\u0160");
+}
+
+std::string ScreenScraperApis::CleanGameName(const std::string& gameName)
+{
+  std::string result;
+  const char* p = gameName.c_str();
+
+  for (int i = gameName.length(); --i >= 0;)
+  {
+    unsigned char C = (unsigned char)*p++;
+    if (((C >= 'a') && (C <= 'z')) ||
+        ((C >= 'A') && (C <= 'Z')) ||
+        ((C >= '0') && (C <= '9')) ||
+        (C == '(') ||
+        (C == ')') ||
+        (C == '[') ||
+        (C == ']') ||
+        (C == ' ') ||
+        (C == '.') ||
+        (C == '_') ||
+        (C == '-')) result.append(1, (char)C);
+  }
+
+  return result;
 }

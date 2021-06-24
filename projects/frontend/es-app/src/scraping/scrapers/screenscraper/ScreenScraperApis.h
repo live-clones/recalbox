@@ -85,6 +85,8 @@ class ScreenScraperApis
     {
       //! Result
       ScrapeResult mResult = ScrapeResult::NotFound;
+      //! ScreenScraper Game Name
+      std::string mScreenScraperName;
       //! Game Name
       std::string mName;
       //! Developer
@@ -288,6 +290,8 @@ class ScreenScraperApis
      * @param raw Raw string, decoded in place
      */
     static void DecodeString(std::string& raw);
+
+    static std::string CleanGameName(const std::string& source);
 
   public:
     /*!

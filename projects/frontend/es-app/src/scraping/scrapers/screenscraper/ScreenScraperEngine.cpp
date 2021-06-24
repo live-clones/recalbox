@@ -611,14 +611,14 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
   // Main image
   if (!game.Metadata().Image().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
-    Path ThumbnailsAbsoluteImagePath = mediaFolder / "images" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mImageMd5 + '.' + sourceData.MediaSources.mImageFormat);
+    Path ThumbnailsAbsoluteImagePath = mediaFolder / "images" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mImageMd5 + '.' + sourceData.MediaSources.mImageFormat);
     ScrapeResult result = DownloadMedia(ThumbnailsAbsoluteImagePath, game,
       sourceData.MediaSources.mImage, &MetadataDescriptor::SetImagePath, md5Set, "images");
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
   // Thumbnail image
-  Path ThumbnailsAbsoluteImagePath = mediaFolder / "thumbnails" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mThumbnailMd5 + '.' + sourceData.MediaSources.mThumbnailFormat);
+  Path ThumbnailsAbsoluteImagePath = mediaFolder / "thumbnails" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mThumbnailMd5 + '.' + sourceData.MediaSources.mThumbnailFormat);
   if (!game.Metadata().Thumbnail().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(ThumbnailsAbsoluteImagePath, game,
@@ -627,7 +627,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
   }
 
   // Video
-  Path VideoAbsoluteVideoPath = mediaFolder / "videos" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mVideoMd5 + '.' + sourceData.MediaSources.mVideoFormat);
+  Path VideoAbsoluteVideoPath = mediaFolder / "videos" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mVideoMd5 + '.' + sourceData.MediaSources.mVideoFormat);
   if (!game.Metadata().Video().Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(VideoAbsoluteVideoPath, game,
@@ -635,7 +635,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  Path MarqueeAbsoluteImagePath = mediaFolder / "marquees" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mMarqueeMd5 + '.' + sourceData.MediaSources.mMarqueeFormat);
+  Path MarqueeAbsoluteImagePath = mediaFolder / "marquees" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mMarqueeMd5 + '.' + sourceData.MediaSources.mMarqueeFormat);
   if (!MarqueeAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(MarqueeAbsoluteImagePath, game,
@@ -643,7 +643,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  Path WheelAbsoluteImagePath = mediaFolder / "wheels" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mWheelMd5 + '.' + sourceData.MediaSources.mWheelFormat);
+  Path WheelAbsoluteImagePath = mediaFolder / "wheels" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mWheelMd5 + '.' + sourceData.MediaSources.mWheelFormat);
   if (!WheelAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(WheelAbsoluteImagePath, game,
@@ -651,7 +651,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  Path ManualAbsoluteImagePath = mediaFolder / "manuals" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mManualMd5 + '.' + sourceData.MediaSources.mManualFormat);
+  Path ManualAbsoluteImagePath = mediaFolder / "manuals" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mManualMd5 + '.' + sourceData.MediaSources.mManualFormat);
   if (!ManualAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(ManualAbsoluteImagePath, game,
@@ -659,7 +659,7 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
     if (result != ScrapeResult::Ok || mAbortRequest) return result;
   }
 
-  Path MapAbsoluteImagePath = mediaFolder / "maps" / (game.Metadata().NameAsString() + '_' + sourceData.MediaSources.mMapsMd5 + '.' + sourceData.MediaSources.mMapsFormat);
+  Path MapAbsoluteImagePath = mediaFolder / "maps" / (sourceData.mScreenScraperName + ' ' + sourceData.MediaSources.mMapsMd5 + '.' + sourceData.MediaSources.mMapsFormat);
   if (!MapAbsoluteImagePath.Exists() || method != ScrappingMethod::IncompleteKeep)
   {
     ScrapeResult result = DownloadMedia(MapAbsoluteImagePath, game,
