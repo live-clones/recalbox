@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Upgrade subdomain as a wildcard
 - Remove Upgrade type selection in Upgrade menu
 - Added message on upgrade fail
+- Added OVERLAYS option as a switch
 
 ## [6.1]
 ### Added

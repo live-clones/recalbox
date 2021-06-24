@@ -53,6 +53,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_HELP_MSG "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu."
     #define MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG "Configure screensaver"
     #define MENUMESSAGE_UI_SCREENSAVER_HELP_MSG "Start the screensaver after N minutes."
+    #define MENUMESSAGE_GAME_OVERLAYS_HELP_MSG "On wide screens, display system images that wrap around emulated screen."
     #define MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
     #define MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG "Shows a help at the bottom of the screen which displays commands you can use."
     #define MENUMESSAGE_UI_HELP_POPUP_DURATION_HELP_MSG "Set duration of help popups, 0 means no popup."

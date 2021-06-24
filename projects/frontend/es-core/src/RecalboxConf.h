@@ -185,6 +185,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(GlobalRatio, std::string, String, sGlobalRatio, "auto")
     DefineGetterSetter(GlobalSmooth, bool, Bool, sGlobalSmooth, true)
+    DefineGetterSetter(GlobalRecalboxOverlays, bool, Bool, sGlobalRecalboxOverlays, true)
     DefineGetterSetter(GlobalRewind, bool, Bool, sGlobalRewind, true)
     DefineGetterSetter(GlobalAutoSave, bool, Bool, sGlobalAutoSave, false)
     DefineGetterSetter(GlobalQuitTwice, bool, Bool, sGlobalQuitTwice, false)
@@ -290,6 +291,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sGlobalRatio                = "global.ratio";
     static constexpr const char* sGlobalSmooth               = "global.smooth";
+    static constexpr const char* sGlobalRecalboxOverlays     = "global.recalboxoverlays";
     static constexpr const char* sGlobalRewind               = "global.rewind";
     static constexpr const char* sGlobalAutoSave             = "global.autosave";
     static constexpr const char* sGlobalShaders              = "global.shaders";
@@ -306,7 +308,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sWifiSSID                   = "wifi.ssid";
     static constexpr const char* sWifiKey                    = "wifi.key";
 
-    static constexpr const char* sSwapValidateAndCancel  = "controllers.swapvalidateandcancel";
+    static constexpr const char* sSwapValidateAndCancel      = "controllers.swapvalidateandcancel";
 
     static constexpr const char* sAudioVolume                = "audio.volume";
     static constexpr const char* sAudioOptions               = "audio.mode";
@@ -329,7 +331,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sClock                      = "emulationstation.clock";
     static constexpr const char* sShowHelp                   = "emulationstation.showhelp";
     static constexpr const char* sShowGameClipHelpItems      = "emulationstation.showgamecliphelpitems";
-    static constexpr const char* sShowGameClipClippingItem  = "emulationstation.showgameclipclippingitem";
+    static constexpr const char* sShowGameClipClippingItem   = "emulationstation.showgameclipclippingitem";
     static constexpr const char* sQuickSystemSelect          = "emulationstation.quicksystemselect";
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";

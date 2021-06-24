@@ -24,6 +24,9 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
     mRatio = AddList<std::string>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
+  // RecalboxOverlays
+  mRecalboxOverlays = AddSwitch(_("RECALBOX OVERLAYS"), RecalboxConf::Instance().GetGlobalRecalboxOverlays(), (int)Components::RecalboxOverlays, this, _(MENUMESSAGE_GAME_OVERLAYS_HELP_MSG));
+
   // smoothing
   mSmooth = AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetGlobalSmooth(), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
 
@@ -118,6 +121,7 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::Smooth: RecalboxConf::Instance().SetGlobalSmooth(status).Save(); break;
+    case Components::RecalboxOverlays: RecalboxConf::Instance().SetGlobalRecalboxOverlays(status).Save(); break;
     case Components::Rewind: RecalboxConf::Instance().SetGlobalRewind(status).Save(); break;
     case Components::AutoSave: RecalboxConf::Instance().SetGlobalAutoSave(status).Save(); break;
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;

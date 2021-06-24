@@ -31,6 +31,7 @@ class GuiMenuGameSettings : public GuiMenuBase
     enum class Components
     {
       Ratio,
+      RecalboxOverlays,
       Smooth,
       Rewind,
       AutoSave,
@@ -48,6 +49,8 @@ class GuiMenuGameSettings : public GuiMenuBase
 
     //! Ratio
     std::shared_ptr<OptionListComponent<std::string>> mRatio;
+    //! RecalboxOverlays
+    std::shared_ptr<SwitchComponent> mRecalboxOverlays;
     //! Smooth
     std::shared_ptr<SwitchComponent> mSmooth;
     //! Rewind
@@ -77,6 +80,8 @@ class GuiMenuGameSettings : public GuiMenuBase
 
     //! Set ratio
     static void SetRatio(const std::string& ratio);
+    //! Set overlays on/off
+    static void SetRecalboxOverlays(bool on);
     //! Set smoothing on/off
     static void SetSmooth(bool on);
     //! Set rewind on/off
