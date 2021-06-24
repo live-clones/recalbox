@@ -8,6 +8,7 @@ SCREENSHOTS = '/recalbox/share/screenshots'
 BIOS = '/recalbox/share/bios'
 BIOS_INIT = '/recalbox/share_init/bios'
 OVERLAYS = '/recalbox/share/overlays'
+RECALBOX_OVERLAYS = '/recalbox/share_init/overlays'
 ROMS = '/recalbox/share/roms'
 
 esInputs = HOME + '/.emulationstation/es_input.cfg'

@@ -42,9 +42,50 @@ class LibretroGenerator(Generator):
 
         return result
 
-    # Build appendable configurations files argument
+    # Overlay management
     @staticmethod
-    def getAppendConfigs(system, rom, externalOverrides):
+    def processOverlays(system, romName, configs):
+        # Overlays are applied only when we are not in wide core
+        if system.config['core'] not in ["genesisplusgxwide"]:
+            # User overlays
+            userOverlayApplied = False
+            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.name)
+            if os.path.isfile(overlayFile):
+                # System global configuration
+                configs.append(overlayFile)
+                userOverlayApplied = True
+            else:
+                overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
+                if os.path.isfile(overlayFile):
+                    # All system global configuration
+                    configs.append(overlayFile)
+                    userOverlayApplied = True
+            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, romName)
+            if os.path.isfile(overlayFile):
+                # Rom file overlay
+                configs.append(overlayFile)
+                userOverlayApplied = True
+            else:
+                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, system.name)
+                if os.path.isfile(overlayFile):
+                    # System overlay
+                    configs.append(overlayFile)
+                    userOverlayApplied = True
+            if not userOverlayApplied:
+                # The recalbox overlays should be added only if
+                # global.recalboxoverlays=1 or system.recalboxoverlays activated
+                if 'recalboxoverlays' in system.config and system.config['recalboxoverlays'] == '1':
+                    # ratio = we can activate when ratio is not 16/9 and 16/10
+                    if 'ratio' not in system.config or system.config['ratio'] not in ["16/9", "16/10"]:
+                        # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
+                        from utils.videoMode import getCurrentFramebufferRatio
+                        if getCurrentFramebufferRatio() > 1.51:
+                            defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.name, system.name)
+                            if os.path.isfile(defaultOverlayFile):
+                                configs.append(defaultOverlayFile)
+
+    # Build appendable configurations files argument
+    def getAppendConfigs(self, system, rom, externalOverrides):
         # Extra configs
         configs = []
         romName = os.path.basename(rom)
@@ -59,26 +100,8 @@ class LibretroGenerator(Generator):
         if os.path.isfile(customGameCfg):
             configs.append(customGameCfg)
 
-        # Overlay management
-        if system.config['core'] not in ["genesisplusgxwide"]:
-            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.name)
-            if os.path.isfile(overlayFile):
-                # System global configuration
-                configs.append(overlayFile)
-            else:
-                overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
-                if os.path.isfile(overlayFile):
-                    # All system global configuration
-                    configs.append(overlayFile)
-            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, romName)
-            if os.path.isfile(overlayFile):
-                # Rom file overlay
-                configs.append(overlayFile)
-            else:
-                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, system.name)
-                if os.path.isfile(overlayFile):
-                    # System overlay
-                    configs.append(overlayFile)
+        # Process overlays
+        self.processOverlays(system, romName, configs)
 
         # In-place override takes priority over all
         if os.path.isfile(externalOverrides):

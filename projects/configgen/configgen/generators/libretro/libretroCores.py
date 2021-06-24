@@ -1,4 +1,3 @@
-from __future__ import division
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -126,9 +125,8 @@ class LibretroCores:
 
     @staticmethod
     def configureGenesisPlusGxWide(coreSettings):
-        from configgen.utils.videoMode import getCurrentFramebufferResolution
-        width, height = getCurrentFramebufferResolution()
-        ratio = width / height
+        from configgen.utils.videoMode import getCurrentFramebufferRatio
+        ratio = getCurrentFramebufferRatio()
         currentColumns = 10
         # Ratio to columns (16/9 and more => 10 cols, 1.6 = 16/10 => 6 cols, 1.5 = GOA => 2 cols, 1.34 = 4/3 => 0 cols)
         if ratio <= 1.6:

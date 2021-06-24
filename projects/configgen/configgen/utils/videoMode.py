@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import division
 import os
 import sys
 from configgen.utils.recallog import recallog
@@ -177,6 +178,17 @@ def getCurrentFramebufferResolution():
     if not matches:
         recallog("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
         raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
-
     width, height = matches.groups()
-    return int(width), int(height)
+
+    f = open("/sys/devices/virtual/graphics/fbcon/rotate", "r")
+    rotate = f.readline().rstrip()
+    f.close()
+    if rotate == "1" or rotate == "3":
+        return int(height), int(width)
+    else:
+        return int(width), int(height)
+
+# Return the current ratio as float from framebuffer
+def getCurrentFramebufferRatio():
+    width, height = getCurrentFramebufferResolution()
+    return width / height

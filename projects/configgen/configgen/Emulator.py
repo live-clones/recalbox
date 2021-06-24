@@ -32,6 +32,7 @@ class Emulator:
         self.config['hash'] = arguments.hash
         self.config['extra'] = arguments.extra
         self.config['showFPS'] = 'true' if recalboxSettings.getOption('global.showfps', '0') == '1' else 'false'
+        self.config['recalboxoverlays'] = recalboxSettings.getOption('global.recalboxoverlays', '1')
         self.updateConfiguration(recalboxSettings.getOptionSubset("global."), recalboxSettings)
         self.updateConfiguration(recalboxSettings.getOptionSubset("{}.".format(self.name)), recalboxSettings)
         self.updateForcedConfig(arguments.emulator, arguments.core, arguments.ratio)
