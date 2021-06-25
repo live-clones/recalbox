@@ -67,6 +67,10 @@ do
 	"EXIT")
 	    kodiLastChance
 	    wait
+	    # Set ES resolution upon Kodi exit
+	    videoMode="`$systemsetting -command load -key system.es.videomode`"
+	    echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
+	    [ $? = "0" ] && tvservice -e "$videoMode"
 	    exit 0 # code for success
 	    ;;
 	"RESTART")
