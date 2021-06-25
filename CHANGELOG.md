@@ -29,6 +29,7 @@ All notable changes to this project will be documented in this file.
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant (#1761)
 - Bump stella2014 core (#1761)
 - Bump stella core (#1761)
+- Fix resolution change when exiting Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
