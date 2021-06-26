@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix missing values for some cores (#1686)
 - Add configgen support for Hypseus - bump (#1611)
 - Add genesisplusgxwide core on all boards (#1783)
 - Bump bump kodi inputstreamhelper script to 0.5.5 (#1782)
