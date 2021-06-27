@@ -7,8 +7,8 @@ build:
   stage: build
   script: 
     - echo "Installing dependencies"
-    - pip install pygame
+    - pip install pygame pytest pytest-cov pytest-subprocess pytest-mock pytest-lazy-fixture
     - echo "Running unittests" 
-    - export PYTHONPATH=$PYTHONPATH:$(pwd)/configgen && python -m runtest discover -v -p "*test*"
+    - export PYTHONPATH=$PYTHONPATH:$(pwd) && pytest --cov=configgen
     - echo "Building configgen" 
     - python setup.py install

@@ -1,0 +1,1 @@
+somegame_;SOMEGAME;tests/tmp/moonlight/moonlight.conf
