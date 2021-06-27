@@ -1,7 +1,7 @@
 # Release notes
 
 This file will be processed and will be distributed with Recalbox Releases.
-The text, located between the first `## Version XXX` and the second one, will appear 
+The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
 
@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro uae4arm core
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
+- Add libretro fbneo core for channel f system
 
 ### Improvements
 - Bump Retroarch to v1.9.3
@@ -46,7 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Make Libretro Parallel N64 works on Odroid XU4
 - Make Mupen64plus Rice works on Odroid XU4, Odroid GO Advanced and Odroid GO Super
 - Fix black screen on Moonlight on RPI4
-- Fix the time conflict between Windows and Recalbox in case of dual-boot 
+- Fix the time conflict between Windows and Recalbox in case of dual-boot
 - Make Mupen64plus GLideN64 works on Raspberry PI3
 - Fix MAME menu is displayed if you add credit with the wiimote
 - Make Mupen64plus Glide64MK2 works on various boards
