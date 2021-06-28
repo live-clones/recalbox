@@ -1,0 +1,79 @@
+diff --git a/pcsx2/gui/AppConfig.cpp b/pcsx2/gui/AppConfig.cpp
+index 0d896e868..3dc0c86e0 100644
+--- a/pcsx2/gui/AppConfig.cpp
++++ b/pcsx2/gui/AppConfig.cpp
+@@ -156,7 +156,7 @@ namespace PathDefs
+ 			// Move all user data file into central configuration directory (XDG_CONFIG_DIR)
+ 			case DocsFolder_User:	return GetUserLocalDataDir();
+ #else
+-			case DocsFolder_User:	return (wxDirName)Path::Combine( wxStandardPaths::Get().GetDocumentsDir(), pxGetAppName() );
++			case DocsFolder_User:	return (wxDirName)Path::Combine( wxStandardPaths::Get().GetDocumentsDir(), ".config/" + pxGetAppName() );
+ #endif
+ 			case DocsFolder_Custom: return CustomDocumentsFolder;
+ 
+@@ -186,37 +186,37 @@ namespace PathDefs
+ 
+ 	wxDirName GetSnapshots()
+ 	{
+-		return GetDocuments() + Base::Snapshots();
++		return wxDirName("/recalbox/share/screenshots");
+ 	}
+ 
+ 	wxDirName GetBios()
+ 	{
+-		return GetDocuments() + Base::Bios();;
++		return wxDirName("/recalbox/share/bios/ps2");
+ 	}
+ 
+ 	wxDirName GetCheats()
+ 	{
+-		return GetDocuments() + Base::Cheats();
++		return wxDirName("/recalbox/share/cheats");
+ 	}
+ 
+ 	wxDirName GetCheatsWS()
+ 	{
+-		return GetDocuments() + Base::CheatsWS();
++		return wxDirName("/recalbox/share/cheats");
+ 	}
+ 	
+ 	wxDirName GetDocs()
+ 	{
+-		return AppRoot() + Base::Docs();
++		return wxDirName("/recalbox/share/system/.config/pcsx2/Docs");
+ 	}
+ 
+ 	wxDirName GetSavestates()
+ 	{
+-		return GetDocuments() + Base::Savestates();
++		return wxDirName("/recalbox/share/saves/ps2");
+ 	}
+ 
+ 	wxDirName GetMemoryCards()
+ 	{
+-		return GetDocuments() + Base::MemoryCards();
++		return wxDirName("/recalbox/share/saves/ps2");
+ 	}
+ 
+ 	wxDirName GetPlugins()
+@@ -234,17 +234,17 @@ namespace PathDefs
+ 
+ 	wxDirName GetSettings()
+ 	{
+-		return GetDocuments() + Base::Settings();
++		return wxDirName("/recalbox/share/.config/pcsx2");
+ 	}
+ 
+ 	wxDirName GetLogs()
+ 	{
+-		return GetDocuments() + Base::Logs();
++		return wxDirName("/recalbox/share/logs");
+ 	}
+ 
+ 	wxDirName GetLangs()
+ 	{
+-		return AppRoot() + Base::Langs();
++		return wxDirName("/recalbox/share/.config/pcsx2/Langs");
+ 	}
+ 
+ 	wxDirName Get( FoldersEnum_t folderidx )
