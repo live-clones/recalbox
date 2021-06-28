@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix DOS extension in romfsv2 (#1686)
 - Fix missing values for some cores (#1686)
 - Bump webmanager v2 to fix non working roms tab since romfsv2
 - Add configgen support for Hypseus - bump (#1611)
