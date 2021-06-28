@@ -40,6 +40,7 @@ recalboxBins =\
     'openbor'     : '/usr/bin/OpenBOR',
     'oricutron'   : '/usr/bin/oricutron/oricutron',
     'pcsx_rearmed': '/usr/bin/pcsx_rearmed',
+    'pcsx2'       : '/usr/bin/PCSX2/PCSX2',
     'pisnes'      : '/usr/bin/pisnes',
     'ppsspp'      : '/usr/bin/PPSSPPSDL',
     'reicast'     : '/usr/bin/reicast.elf',

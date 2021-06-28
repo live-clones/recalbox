@@ -125,6 +125,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.beebem.beebemGenerator", fromlist=["BeebemGenerator"])
         generatorClass = getattr(module, "BeebemGenerator")
         return generatorClass()
+    elif emulator == "pcsx2":
+        module = __import__("configgen.generators.pcsx2.pcsx2Generator", fromlist=["Pcsx2Generator"])
+        generatorClass = getattr(module, "Pcsx2Generator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -287,6 +291,7 @@ def config_upgrade(version):
      "moonlight",
      "mupen64plus",
      "oricutron",
+     "pcsx2",
      "pcsx_rearmed",
      "pisnes",
      "ppsspp",
