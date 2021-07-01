@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Add FBNeo as core of Channel F
 - Fix missing values for some cores (#1686)
 - Bump webmanager v2 to fix non working roms tab since romfsv2
+- Fix more missing values for some cores (#1686)
 - Add configgen support for Hypseus - bump (#1611)
 - Add genesisplusgxwide core on all boards (#1783)
 - Bump bump kodi inputstreamhelper script to 0.5.5 (#1782)
