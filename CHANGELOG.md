@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Added more fixes for romfsv2 (#1686)
 - Fix DOS extension in romfsv2 (#1686)
 - Add FBNeo as core of Channel F
 - Fix missing values for some cores (#1686)
