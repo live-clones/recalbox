@@ -25,6 +25,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test stella2014 on rpizero and rpi2, should be full fps (#1761)
 - [ ] Bumped Stella : Test stella core on all plateforms (#1761)
 - [ ] Test genesisplusgx wide screen core all plateforms (#1783)
+- [ ] Check disable rewind for rpi2 (#1798)
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
