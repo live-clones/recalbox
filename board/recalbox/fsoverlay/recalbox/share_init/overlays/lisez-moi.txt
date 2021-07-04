@@ -1,0 +1,66 @@
+ATTENTION : Ne fonctionne QUE pour une configuration avec écran 16:9 ET en Full HD (1920x1080). 
+Incompatible autres tailles/formats pour le moment.
+
+--------------------------------------------------------------------------
+INSTALLATION
+--------------------------------------------------------------------------
+Collez le contenu du dossier : \overlays
+dans : \share\overlays
+
+--------------------------------------------------------------------------
+CHANGE LOG / Repack / updates by OlivierDroid
+--------------------------------------------------------------------------
+2021/06/XX
+Systeme : mise à jour 
+Amiga 600
+Amiga 1200
+Amiga CD32
+Amiga CD TV
+C64
+GX 4000
+Sega SG1000
+
+2021/04/21
+Systeme : Ajout Vic20
+
+2021/03/19
+Systeme : Ajout system BK
+
+2021/01/13
+Systeme : Ajustements Palm & MSRTurboR
+Systeme : Ajout Pocket Challenge V2 & Pico8
+Arcade : Corrections Atomiswave, Naomi et Naomi GD
+
+2020/12/18
+Systeme : Ajout overlay pour SCV
+Arcade : Corrections shader pour Fbnéo & MAME
+
+2020/12/10
+Arcade : Mise à jour overlay pour Atomiswave
+
+2020/11/27
+Arcade : Ajout overlay pour Boulderdash
+Systeme : Ajout overlay pour 16 jeux SNES 
+
+2020/11/21 : 
+Arcade : Remplacement des overlays pour R-Type
+Arcade : Ajout overlay pour Toki 
+Systeme : Ajout des systemes Easyrpg et Lutro
+
+2020/11/13 : 
+Arcade : Corrections des configurations pour 1941, 1942, 1943, 19XX
+Arcade : Remplacement des overlays pour Atomiswave, Naomi, NaomGD
+Systeme : Corrections des configurations pour Mastersystem
+
+2020/11/01 : 
+Fusion des pack disponibles chez https://www.screenscraper.fr/
+
+--------------------------------------------------------------------------
+COPYRIGHT
+--------------------------------------------------------------------------
+MarbleMad, Bkg2k & voir crédit 
+Merci a toutes la team recalbox pour votre travail
+Utilisation du pack dans un produit commercialisé strictement interdit
+
+
+

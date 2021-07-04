@@ -25,6 +25,12 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test stella2014 on rpizero and rpi2, should be full fps (#1761)
 - [ ] Bumped Stella : Test stella core on all plateforms (#1761)
 - [ ] Test genesisplusgx wide screen core all plateforms (#1783)
+- [ ] Default Overlays (#1787)
+  - [ ] Configuration => global.overlays should work, system overlaod too (snes.overlays=0)
+  - [ ] Board => should not show overlays on gpicase, goadvance
+  - [ ] Screens => should not show overlays when in 4/3 resolution
+  - [ ] Ratio => should not show overlays when game ratio is 16/9 or 16/10
+  - [ ] Custom overlays => custom overlays (in share) should always have priority
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
