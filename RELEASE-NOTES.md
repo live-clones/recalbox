@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
+- Disable rewind for rpi2
 
 
 ## Version 7.2.2-Reloaded
