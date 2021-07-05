@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
 - Added more fixes for romfsv2 (#1686)
 - Fix DOS extension in romfsv2 (#1686)
 - Add FBNeo as core of Channel F
