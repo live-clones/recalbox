@@ -54,6 +54,7 @@ All notable changes to this project will be documented in this file.
 - Add xpi_gamecon module for piboy dmt support (#1817)
 - Add volumed for controlling volume from the wheel (#1817)
 - Bump python-pygame to 2.0.1
+- Bump rpi-firmware to 5.10.43 (#1815)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
