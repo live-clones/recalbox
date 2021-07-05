@@ -41,6 +41,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro LowRes NX core
 - Bump flycast (#1737)
 
+- Bump python to version 3.9 (#1800)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

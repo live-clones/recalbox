@@ -642,7 +642,7 @@ fi
 
 if [[ "$command" == "getEmulatorDefaults" ]]; then
     emulator="$mode"
-    python -c "import json; import sys; sys.path.append('/usr/lib/python2.7/site-packages/configgen'); import emulatorlauncher; print(json.dumps(emulatorlauncher.getDefaultEmulator('$emulator').config))"
+    python -c "import json; import sys; sys.path.append('/usr/lib/python3.9/site-packages/configgen'); import emulatorlauncher; print(json.dumps(emulatorlauncher.getDefaultEmulator('$emulator').config))"
     exit 0
 fi
 
