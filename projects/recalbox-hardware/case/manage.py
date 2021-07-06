@@ -65,7 +65,7 @@ def printUsageAndExit():
     print('       - install : 1 to install, 0 to uninstall')
     print('       - machine : 1 if the script runs from boot. 0 is this is called after a human decision')
     print('       - phase   : 0 hardware install/uninstall. 1 software install/uninstall')
-    exit(0)
+    sys.exit(0)
 
 
 # Main

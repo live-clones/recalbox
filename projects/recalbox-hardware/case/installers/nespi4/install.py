@@ -59,7 +59,7 @@ class Install(InstallBase):
                 os.system("/etc/init.d/S99RetroFlag")
                 logger.hardlog("NesPi4: safe shutdown installed")
             except Exception as e:
-                logger.hardlog("NesPi4: error installing safe shutdown ({})".format(e.message))
+                logger.hardlog("NesPi4: error installing safe shutdown ({})".format(e))
 
         except Exception as e:
             logger.hardlog("NesPi4: Exception = {}".format(e))

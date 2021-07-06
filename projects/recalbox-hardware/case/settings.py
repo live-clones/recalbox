@@ -58,13 +58,13 @@ class keyValueSettings:
 
     def removeOptionStartingWith(self, pattern):
         keysToRemove = []
-        for key in self.readSettings.iterkeys():
+        for key in self.readSettings.keys():
             if key.startswith(pattern):
                 keysToRemove.append(key)
         for key in keysToRemove:
             self.readSettings.pop(key, None)
         keysToRemove = []
-        for key in self.writeSettings.iterkeys():
+        for key in self.writeSettings.keys():
             if key.startswith(pattern):
                 keysToRemove.append(key)
         for key in keysToRemove:
@@ -73,7 +73,7 @@ class keyValueSettings:
     def getOptionSubset(self, startWith):
         result = {}
         swl = len(startWith)
-        for key in self.readSettings.iterkeys():
+        for key in self.readSettings.keys():
             if key.startswith(startWith):
                 result[key[swl:]] = self.readSettings[key]
         return result
@@ -106,7 +106,7 @@ class keyValueSettings:
         # Add missing key/value
         if self.writeSettings:
             outputLines.append('\n')
-        for key in self.writeSettings.iterkeys():
+        for key in self.writeSettings.keys():
             line = key
             line += " = " if self.extraSpaces else "="
             line += self.writeSettings[key] + '\n'
