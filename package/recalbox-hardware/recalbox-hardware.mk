@@ -4,15 +4,15 @@
 #
 ################################################################################
 
-RECALBOX_HARDWARE_VERSION = cf887be378137701c5a688a9f4889d8b280c8b93
+RECALBOX_HARDWARE_VERSION = 25b41d28aaa65991f7539d27e5509460793cb54c
 RECALBOX_HARDWARE_SITE = https://gitlab.com/recalbox/recalbox-hardware
 RECALBOX_HARDWARE_LICENSE = MIT
 RECALBOX_HARDWARE_LICENSE_FILES = LICENSE.md
 RECALBOX_HARDWARE_SITE_METHOD = git
-RECALBOX_HARDWARE_DEPENDENCIES = recalbox-themes
+RECALBOX_HARDWARE_DEPENDENCIES = recalbox-themes host-python3
 
 define RECALBOX_HARDWARE_BUILD_CMDS
-	python -m compileall $(@D)
+	PYTHONPATH="$(PYTHON3_PATH)" $(HOST_DIR)/bin/python$(PYTHON3_VERSION_MAJOR) -m compileall $(@D)
 endef
 
 define RECALBOX_HARDWARE_INSTALL_TARGET_CMDS
