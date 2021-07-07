@@ -56,6 +56,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix MAME menu is displayed if you add credit with the wiimote
 - Make Mupen64plus Glide64MK2 works on various boards
 - Fix image display on dreamcast when using overlays
+- Fix ratio selection for gamecube, wii and supermodel
+- Bump supermodel to r862 and enable build optimisation
 
 
 ## Version 7.2.1-Reloaded
