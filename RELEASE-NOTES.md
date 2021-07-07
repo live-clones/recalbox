@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant than stella
 - Add recalbox overlays for all systems!
+- Add LowRes NX virtual console on all boards
 
 ### Improvements
 - Bump Retroarch to v1.9.3
