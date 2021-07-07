@@ -16,23 +16,23 @@ All notable changes to this project will be documented in this file.
 - Populate share now uses systemlist.xml to populate ports (#1686)
 - Renamed mrboom to Mr. Boom in romfsv2 (#1686)
 - Fix/improve romfsv2 & cleanup some old packages/scripts (#1686)
-- Added uae4arm in bios file
+- Bump picodrive libretro core (#1757)
+- Bump snes9x2002 libretro core (#1757)
+- Bump snes9x2005 libretro core (#1757)
+- Added uae4arm in bios file (#1771)
 - Fix French spelling and readme files generation (#1686)
 - Fix fba configuration in romfsv2 (#1686)
-- Bump retroarch assets
-- Bump retroarch to version 1.9.3
-- Add libretro uae4arm core
+- Bump retroarch assets (#1725)
+- Bump retroarch to version 1.9.3 (#1725)
+- Add libretro uae4arm core (#1771)
 - Set grub timeout to 3 seconds (#1750)
-- Show a message in emulationstation when the upgrade has failed (#1772)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
-- Show a message in emulationstation when the upgrade has failed
+- Show a message in emulationstation when the upgrade has failed (#1772)
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
 - Bump Fbneo 1.0.0.02 (#1688)
 - Fix changelog linter (#1759)
 - New romfs v2 (#1686)
-- Add libretro uae4arm core (#1771)
 - Set grub timeout to 3 seconds (#1750)
-- Show a message in emulationstation when the upgrade has failed (#1772)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant (#1761)
 - Bump stella2014 core (#1761)
