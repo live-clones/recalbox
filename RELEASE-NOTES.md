@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 - Bump Fbneo v1.0.0.02
 - Bump Sharp X68000 core (px68k)
+- Bump Flycast
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
