@@ -88,7 +88,7 @@ function doRbxConfUpgrade {
 
 function upgradeConfiggen {
   NEW_VERSION=$(sed -rn "s/^\s*([0-9a-zA-Z.]*)\s*.*$/\1/p" /recalbox/recalbox.version)
-  python -c "import sys; sys.path.append('/usr/lib/python2.7/site-packages/configgen'); from emulatorlauncher import config_upgrade; config_upgrade('$NEW_VERSION')"
+  python -c "import sys; sys.path.append('/usr/lib/python3.9/site-packages/configgen'); from emulatorlauncher import config_upgrade; config_upgrade('$NEW_VERSION')"
 }
 
 function upgradeTheme {

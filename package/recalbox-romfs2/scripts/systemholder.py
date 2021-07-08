@@ -140,7 +140,7 @@ class SystemHolder:
                 "speed": self.__speed,
             }
 
-    __COMMAND_DEFAULT: str = "python /usr/lib/python2.7/site-packages/configgen/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY%"
+    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY%"
 
     def __init__(self, arch: str, systemIni: str, config: ConfigIn):
         self.__config = config
