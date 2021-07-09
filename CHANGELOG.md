@@ -40,7 +40,6 @@ All notable changes to this project will be documented in this file.
 - Bump stella core (#1761)
 - Add libretro LowRes NX core
 - Bump flycast (#1737)
-
 - Bump python to version 3.9 (#1800)
 - Remove Hyperion (#1800)
 
