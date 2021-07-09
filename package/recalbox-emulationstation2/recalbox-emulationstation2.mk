@@ -9,7 +9,7 @@ RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulation
 RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
 RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer freeimage freetype alsa-lib pulseaudio \
-	libcurl openssl libzip ffmpeg bluez5_utils bluez5_utils-headers procps-ng
+	libcurl openssl libzip ffmpeg procps-ng
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
 RECALBOX_EMULATIONSTATION2_CONF_OPTS = -DRPI_VERSION=3
