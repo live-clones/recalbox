@@ -36,7 +36,7 @@ start_bluetoothd() {
   settings_version="$($systemsetting -command load -key controllers.ps3.driver -default bluez)"
   if [ "$settings_version" != "bluez" ]; then BLUETOOTHD_ARGS="--noplugin=sixaxis"; else BLUETOOTHD_ARGS="--noplugin=sixaxispair"; fi
   start-stop-daemon -S -q -m -p /var/run/bluetoothd.pid  --exec /usr/libexec/bluetooth/bluetoothd -- $BLUETOOTHD_ARGS &
-  ( /recalbox/scripts/bluetoothcontrollers.sh ; $scanCmd ) &
+  ( /recalbox/scripts/bluetooth/bluetoothcontrollers.sh ; $scanCmd ) &
 }
 
 case "$1" in

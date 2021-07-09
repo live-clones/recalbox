@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_SYSTEM
 	bool "Recalbox System"
 	select BR2_PACKAGE_LBA_FINDER
+	select BR2_PACKAGE_RECALBOX_BLUETOOTH
 	help
 	  Install the recalbox system files
 

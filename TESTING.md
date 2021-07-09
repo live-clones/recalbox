@@ -38,7 +38,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped libretro picodrive core, test especially mega cd chd support (#1757)
 - [ ] Bumped Flycast : Test flycast core on all plateforms (#1737)
 - [ ] Test random path support for emulationstation themes (myst theme) (#1793)
-- [ ] Test bluetooth pairing still work (#1800)
+- [ ] Test bluetooth pairing still work (#1800, #1482)
 - [ ] EmulationStation should always start (no phantom screen) (#1774)
   - [ ] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
 - [ ] Video playback on odroidxu4 is not laggy (#1811)
