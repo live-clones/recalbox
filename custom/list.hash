@@ -5,7 +5,6 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/mosquitto/0001-default-configuratyion.patch
-++++++++++++++++++++++++++++++++  package/python-gobject/0001-add-PYTHON_INCLUDES-override.patch
 --------------------------------  package/intel-mediadriver/0001-Drop-hardening-related-flags.patch
 827c654896536436b4ca531a671ea6da  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
@@ -32,9 +31,6 @@ ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
 98987c50f014de063b8e0accf612409f  package/mosquitto/mosquitto.mk
 cfc4ca8da37d658b18f2d7422b09048c  package/mpg123/mpg123.mk
-ff95c370ba8a0b5169ef2eeb2123fa9d  package/python-gobject/Config.in
-9725e324d29555c3223129afd9b4bdf5  package/python-gobject/python-gobject.hash
-9f0df3d1370e0d352b84ed32eb7ceb9c  package/python-gobject/python-gobject.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 2f5ef1257ec42b29f681f151fdf87d80  package/python-pygame/python-pygame.mk
 84069c20ac97c018f5523d8910fd3542  package/rpi-bt-firmware/rpi-bt-firmware.hash
