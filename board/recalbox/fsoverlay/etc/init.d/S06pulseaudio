@@ -9,7 +9,7 @@ start() {
 	umask 077
 	start-stop-daemon -S -b -m -p /var/run/pulse.pid -x \
 		/usr/bin/pulseaudio -- \
-		--exit-idle-time=-1
+		--exit-idle-time=-1 --log-target=syslog
 	echo "OK"
 }
 stop() {
