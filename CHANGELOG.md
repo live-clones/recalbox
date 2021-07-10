@@ -42,6 +42,7 @@ All notable changes to this project will be documented in this file.
 - Bump flycast (#1737)
 - Bump python to version 3.9 (#1800)
 - Remove Hyperion (#1800)
+- Send pulseaudio logs to syslog to ease debug (#1774)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
