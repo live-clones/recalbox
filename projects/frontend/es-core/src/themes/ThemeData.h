@@ -161,7 +161,7 @@ class ThemeData
         std::random_device rd;
         std::default_random_engine engine(rd());
         const int max = paths.size();
-        std::uniform_int_distribution<int>  distrib{0, max};
+        std::uniform_int_distribution<int> distrib{0, max-1};
         randomPath = paths[distrib(engine)];
       }
 
