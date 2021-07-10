@@ -1,5 +1,5 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index 4c1575f69a..90de73f008 100644
+index f2c8cabcff..f0fbe187bf 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
 @@ -13,6 +13,7 @@ BLUEZ5_UTILS_LICENSE = GPL-2.0+, LGPL-2.1+
