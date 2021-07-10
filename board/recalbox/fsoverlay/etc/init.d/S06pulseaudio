@@ -2,11 +2,12 @@
 #
 # Starts pulseaudio.
 #
-
+PA_CONFIG_FILE=/overlay/.configs/pulse/default.pa
 
 start() {
 	printf "Starting pulseaudio: "
 	umask 077
+	grep -q '.nofail' "$PA_CONFIG_FILE" || sed -i '2i.nofail' "$PA_CONFIG_FILE"
 	start-stop-daemon -S -b -m -p /var/run/pulse.pid -x \
 		/usr/bin/pulseaudio -- \
 		--exit-idle-time=-1 --log-target=syslog
@@ -14,8 +15,9 @@ start() {
 }
 stop() {
 	printf "Saving configuration: "
-	echo ".include /etc/pulse/default.pa" >/overlay/.configs/pulse/default.pa
-	pacmd dump |grep -E '(set-default-sink|set-card-profile)' >>/overlay/.configs/pulse/default.pa && echo "OK" || echo "KO"
+	echo ".include /etc/pulse/default.pa" >"$PA_CONFIG_FILE"
+	echo ".nofail" >>"$PA_CONFIG_FILE"
+	pacmd dump |grep -E '(set-default-sink|set-card-profile)' >>"$PA_CONFIG_FILE" && echo "OK" || echo "KO"
 	printf "Stopping pulseaudio: "
 	start-stop-daemon -K -p /var/run/pulse.pid
 	echo "OK"
