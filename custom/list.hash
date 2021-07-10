@@ -6,7 +6,6 @@
 
 ++++++++++++++++++++++++++++++++  package/intel-gmmlib/0001-Drop-hardening-related-flags.patch
 ++++++++++++++++++++++++++++++++  package/intel-mediadriver/0002-cmrtlib-linux-CMakelists.txt-respect-MEDIA_BUILD_FAT.patch
-++++++++++++++++++++++++++++++++  package/python-gobject/0001-add-PYTHON_INCLUDES-override.patch
 --------------------------------  package/intel-mediadriver/0002-build-fix-Werror=format-overflow-under-gcc-10.patch
 --------------------------------  package/intel-mediadriver/0003-cmrtlib-linux-CMakelists.txt-respect-MEDIA_BUILD_FAT.patch
 abd0a975a9248559c162c03867b7e8b4  boot/grub2/grub2.mk
@@ -34,9 +33,6 @@ ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
 21b76767b2417da150274582de45d8cc  package/mosquitto/mosquitto.mk
 1ff3c788068e52e7cd08b78110fa838d  package/mpg123/mpg123.mk
-ff95c370ba8a0b5169ef2eeb2123fa9d  package/python-gobject/Config.in
-9725e324d29555c3223129afd9b4bdf5  package/python-gobject/python-gobject.hash
-9f0df3d1370e0d352b84ed32eb7ceb9c  package/python-gobject/python-gobject.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 2f5ef1257ec42b29f681f151fdf87d80  package/python-pygame/python-pygame.mk
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
