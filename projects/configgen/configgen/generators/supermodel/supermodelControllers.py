@@ -330,10 +330,11 @@ def generateControllerConfig(self, Generator, playersControllers, system):
     ## Set default configuration 
     ## set emulated Net options desactived on default doesn't work on linux at the moment
     ## Network board - experimental build for win32 only
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "addr_out", '"127.0.0.1"')
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "EmulateNet", "0")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "port_in", "1970")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "port_out", "1971")
+    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "Network", "0")
+    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "SimulateNet", "0")
+    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "PortIn", "1970")
+    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "PortOut", "1971")
+    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "AddressOut", '"127.0.0.1"')
 
     ## Set auto triggers activate on default
     ## automatic reload when off-screen
