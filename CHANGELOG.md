@@ -50,6 +50,7 @@ All notable changes to this project will be documented in this file.
 - Improve odroidxu4 OGST video playback (#1811)
 - Fix the theme bands on dreamcast, mastersystem, saturn, sega32x and segacd for OGA (theme jp and us) (#1810)
 
+- Add gamelink overload for gb and gbc (#1808)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
