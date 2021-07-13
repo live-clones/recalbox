@@ -1,0 +1,38 @@
+diff --git a/drivers/spi/spi-s3c64xx.c b/drivers/spi/spi-s3c64xx.c
+index 1d948fee1a03..7827195a2a99 100644
+--- a/drivers/spi/spi-s3c64xx.c
++++ b/drivers/spi/spi-s3c64xx.c
+@@ -675,6 +675,11 @@ static int s3c64xx_spi_transfer_one(struct spi_master *master,
+ 	bpw = xfer->bits_per_word;
+ 	speed = xfer->speed_hz;
+ 
++	if (xfer->len >= 64) {
++		if ((bpw == 8) && ((xfer->len % 4) == 0))
++			bpw = 32;
++	}
++
+ 	if (bpw != sdd->cur_bpw || speed != sdd->cur_speed) {
+ 		sdd->cur_bpw = bpw;
+ 		sdd->cur_speed = speed;
+diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/staging/fbtft/fbtft-io.c
+index 0863d257d762..6b2938798431 100644
+--- a/drivers/staging/fbtft/fbtft-io.c
++++ b/drivers/staging/fbtft/fbtft-io.c
+@@ -15,6 +15,17 @@ int fbtft_write_spi(struct fbtft_par *par, void *buf, size_t len)
+ 
+ 	fbtft_par_dbg_hex(DEBUG_WRITE, par, par->info->device, u8, buf, len,
+ 			  "%s(len=%zu): ", __func__, len);
++	/* Exynos5 SPI FIFO max size is 64 */
++	if ((len >= 64) && ((len % 4) == 0))	{
++		unsigned int i;
++		unsigned char tmp;
++		unsigned char *txbuf = (unsigned char *)buf;
++
++		for (i = 0; i < len; i += 4) {
++			tmp = txbuf[i+0]; txbuf[i+0] = txbuf[i+3]; txbuf[i+3] = tmp;
++			tmp = txbuf[i+1]; txbuf[i+1] = txbuf[i+2]; txbuf[i+2] = tmp;
++		}
++	}
+ 
+ 	if (!par->spi) {
+ 		dev_err(par->info->device,
