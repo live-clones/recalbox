@@ -41,6 +41,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test bluetooth pairing still work (#1800)
 - [ ] EmulationStation should always start (no phantom screen) (#1774)
   - [ ] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
+- [ ] Video playback on odroidxu4 is not laggy (#1811)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
