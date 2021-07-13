@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
+- Fix laggy video playback on Odroid XU4 OGST
 
 
 ## Version 7.2.2-Reloaded
