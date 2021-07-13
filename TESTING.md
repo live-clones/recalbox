@@ -57,6 +57,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
 - [ ] Video playback on odroidxu4 is not laggy (#1811)
+- [ ] Check the theme bands on dreamcast, mastersystem, saturn, sega32x and segacd for OGA (theme jp and us) (#1810)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

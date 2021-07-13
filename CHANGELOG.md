@@ -64,6 +64,8 @@ All notable changes to this project will be documented in this file.
 - Bump production nvidia drivers to 460.84 (#1815)
 - Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
 - Improve odroidxu4 OGST video playback (#1811)
+- Fix the theme bands on dreamcast, mastersystem, saturn, sega32x and segacd for OGA (theme jp and us) (#1810)
+
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
