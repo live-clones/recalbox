@@ -1,0 +1,23 @@
+--- a/modeline.cpp	2021-08-10 23:28:13.246111830 +0200
++++ b/modeline.cpp	2021-08-10 23:28:16.174143821 +0200
+@@ -149,8 +149,8 @@
+ 	// if there's nothing we can do, we're out of range
+ 	else
+ 	{
+-		t_mode->result.weight |= R_OUT_OF_RANGE;
+-		return -1;
++		//t_mode->result.weight |= R_OUT_OF_RANGE;
++		//return -1;
+ 	}
+ 
+ 	// ≈≈≈ Horizontal resolution ≈≈≈
+--- a/switchres.cpp	2021-08-11 00:10:00.113154730 +0200
++++ b/switchres.cpp	2021-08-11 00:09:57.705129262 +0200
+@@ -92,7 +92,7 @@
+ 	// Set display manager default options
+ 	set_screen("auto");
+ 	set_modeline_generation(true);
+-	set_lock_unsupported_modes(true);
++	set_lock_unsupported_modes(false);
+ 	set_lock_system_modes(true);
+ 	set_refresh_dont_care(false);
