@@ -31,6 +31,11 @@ define SDL2_REMOVE_SDL2_CONFIG_CMAKE
 endef
 SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_REMOVE_SDL2_CONFIG_CMAKE
 
+define SDL2_RUN_AUTOGEN
+	$(@D)/autogen.sh
+endef
+SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
+
 # We must enable static build to get compilation successful.
 SDL2_CONF_OPTS += --enable-static
 
