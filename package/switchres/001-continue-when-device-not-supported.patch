@@ -1,0 +1,23 @@
+--- a/custom_video_drmkms.cpp	2021-08-10 15:45:36.851885989 +0200
++++ b/custom_video_drmkms.cpp	2021-08-10 15:45:20.519710399 +0200
+@@ -356,13 +356,18 @@
+ 			drmFreeVersion(version);
+ 
+ 			uint64_t check_dumb = 0;
+-			if (drmGetCap(m_drm_fd, DRM_CAP_DUMB_BUFFER, &check_dumb) < 0)
++			if (drmGetCap(m_drm_fd, DRM_CAP_DUMB_BUFFER, &check_dumb) < 0){
+ 				log_error("DRM/KMS: <%d> (init) [ERROR] ioctl DRM_CAP_DUMB_BUFFER\n", m_id);
++				continue;
++			}
+ 
+-			if (!check_dumb)
++			if (!check_dumb){
+ 				log_error("DRM/KMS: <%d> (init) [ERROR] dumb buffer not supported\n", m_id);
++				continue;
++			}
+ 
+ 			p_res = drmModeGetResources(m_drm_fd);
++			log_verbose("DRM/KMS: <%d> (init) found connectors: %d\n", m_id, p_res->count_connectors);
+ 
+ 			for (int i = 0; i < p_res->count_connectors; i++)
+ 			{
