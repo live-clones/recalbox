@@ -21,6 +21,8 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 088f886550370eb28825c265f21a483f  package/intel-mediadriver/intel-mediadriver.mk
 af0e11b2c97d84fbdf2d952dd00d097e  package/intel-mediasdk/intel-mediasdk.hash
 a2c899308bacca7a9729299585a84a67  package/intel-mediasdk/intel-mediasdk.mk
+bcbaad468953721a974d363a83848090  package/kodi/Config.in
+dcc13c14688db2529be8f52b6acce0ba  package/kodi/kodi.mk
 367247392ba46e25ca5208be66d9add2  package/libcec/libcec.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk
 a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
