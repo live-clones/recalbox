@@ -1,0 +1,13 @@
+diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
+index a5c9db1d7e..1aff7b7e68 100644
+--- a/package/kodi/kodi.mk
++++ b/package/kodi/kodi.mk
+@@ -92,7 +92,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM),y)
+ KODI_CORE_PLATFORM_NAME += gbm
+-KODI_DEPENDENCIES += libinput libxkbcommon mesa3d
++KODI_DEPENDENCIES += libinput libxkbcommon libegl
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_WAYLAND),y)
