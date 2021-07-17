@@ -1,0 +1,11 @@
+--- kodi-19.1-Matrix/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp.orig	2021-07-17 16:07:00.203679449 +0200
++++ kodi-19.1-Matrix/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp	2021-07-17 16:07:42.123610922 +0200
+@@ -87,7 +87,7 @@
+ 
+   if (!m_eglContext.CreatePlatformSurface(
+           m_GBM->GetDevice()->GetSurface()->Get(),
+-          reinterpret_cast<khronos_uintptr_t>(m_GBM->GetDevice()->GetSurface()->Get())))
++          reinterpret_cast<EGLNativeWindowType>(m_GBM->GetDevice()->GetSurface()->Get())))
+   {
+     return false;
+   }

@@ -1,0 +1,156 @@
+diff --git a/package/kodi/Config.in b/package/kodi/Config.in
+index f4cfc6380c..d3f4c70ba5 100644
+--- a/package/kodi/Config.in
++++ b/package/kodi/Config.in
+@@ -22,7 +22,7 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM
+ 	bool
+ 	default y
+ 	depends on BR2_PACKAGE_HAS_LIBGL || BR2_PACKAGE_HAS_LIBGLES
+-	depends on BR2_PACKAGE_MESA3D_GBM
++	depends on BR2_PACKAGE_HAS_LIBEGL
+ 	depends on BR2_PACKAGE_HAS_UDEV # libinput
+ 	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
+ 	select BR2_PACKAGE_LIBINPUT
+@@ -279,86 +279,86 @@ config BR2_PACKAGE_KODI_OPTICALDRIVE
+ 	  Add support for optical drives, to read e.g. DVDs...
+ 
+ menu "Audio decoder addons"
+-	source "package/kodi-audiodecoder-modplug/Config.in"
+-	source "package/kodi-audiodecoder-nosefart/Config.in"
+-	source "package/kodi-audiodecoder-sidplay/Config.in"
+-	source "package/kodi-audiodecoder-snesapu/Config.in"
+-	source "package/kodi-audiodecoder-stsound/Config.in"
+-	source "package/kodi-audiodecoder-timidity/Config.in"
+-	source "package/kodi-audiodecoder-vgmstream/Config.in"
++source "package/kodi-audiodecoder-modplug/Config.in"
++source "package/kodi-audiodecoder-nosefart/Config.in"
++source "package/kodi-audiodecoder-sidplay/Config.in"
++source "package/kodi-audiodecoder-snesapu/Config.in"
++source "package/kodi-audiodecoder-stsound/Config.in"
++source "package/kodi-audiodecoder-timidity/Config.in"
++source "package/kodi-audiodecoder-vgmstream/Config.in"
+ endmenu
+ 
+ menu "Audio encoder addons"
+-	source "package/kodi-audioencoder-flac/Config.in"
+-	source "package/kodi-audioencoder-lame/Config.in"
+-	source "package/kodi-audioencoder-vorbis/Config.in"
+-	source "package/kodi-audioencoder-wav/Config.in"
++source "package/kodi-audioencoder-flac/Config.in"
++source "package/kodi-audioencoder-lame/Config.in"
++source "package/kodi-audioencoder-vorbis/Config.in"
++source "package/kodi-audioencoder-wav/Config.in"
+ endmenu
+ 
+ menu "Peripheral addons"
+-	source "package/kodi-peripheral-joystick/Config.in"
+-	source "package/kodi-peripheral-xarcade/Config.in"
++source "package/kodi-peripheral-joystick/Config.in"
++source "package/kodi-peripheral-xarcade/Config.in"
+ endmenu
+ 
+ menu "Inputstream addons"
+-	source "package/kodi-inputstream-adaptive/Config.in"
+-	source "package/kodi-inputstream-ffmpegdirect/Config.in"
+-	source "package/kodi-inputstream-rtmp/Config.in"
++source "package/kodi-inputstream-adaptive/Config.in"
++source "package/kodi-inputstream-ffmpegdirect/Config.in"
++source "package/kodi-inputstream-rtmp/Config.in"
+ endmenu
+ 
+ menu "PVR addons"
+-	source "package/kodi-pvr-argustv/Config.in"
+-	source "package/kodi-pvr-dvblink/Config.in"
+-	source "package/kodi-pvr-dvbviewer/Config.in"
+-	source "package/kodi-pvr-filmon/Config.in"
+-	source "package/kodi-pvr-hdhomerun/Config.in"
+-	source "package/kodi-pvr-hts/Config.in"
+-	source "package/kodi-pvr-iptvsimple/Config.in"
+-	source "package/kodi-pvr-mediaportal-tvserver/Config.in"
+-	source "package/kodi-pvr-mythtv/Config.in"
+-	source "package/kodi-pvr-nextpvr/Config.in"
+-	source "package/kodi-pvr-njoy/Config.in"
+-	source "package/kodi-pvr-octonet/Config.in"
+-	source "package/kodi-pvr-pctv/Config.in"
+-	source "package/kodi-pvr-stalker/Config.in"
+-	source "package/kodi-pvr-vbox/Config.in"
+-	source "package/kodi-pvr-vdr-vnsi/Config.in"
+-	source "package/kodi-pvr-vuplus/Config.in"
+-	source "package/kodi-pvr-wmc/Config.in"
+-	source "package/kodi-pvr-zattoo/Config.in"
++source "package/kodi-pvr-argustv/Config.in"
++source "package/kodi-pvr-dvblink/Config.in"
++source "package/kodi-pvr-dvbviewer/Config.in"
++source "package/kodi-pvr-filmon/Config.in"
++source "package/kodi-pvr-hdhomerun/Config.in"
++source "package/kodi-pvr-hts/Config.in"
++source "package/kodi-pvr-iptvsimple/Config.in"
++source "package/kodi-pvr-mediaportal-tvserver/Config.in"
++source "package/kodi-pvr-mythtv/Config.in"
++source "package/kodi-pvr-nextpvr/Config.in"
++source "package/kodi-pvr-njoy/Config.in"
++source "package/kodi-pvr-octonet/Config.in"
++source "package/kodi-pvr-pctv/Config.in"
++source "package/kodi-pvr-stalker/Config.in"
++source "package/kodi-pvr-vbox/Config.in"
++source "package/kodi-pvr-vdr-vnsi/Config.in"
++source "package/kodi-pvr-vuplus/Config.in"
++source "package/kodi-pvr-wmc/Config.in"
++source "package/kodi-pvr-zattoo/Config.in"
+ endmenu
+ 
+ menu "Screensavers"
+-	source "package/kodi-screensaver-asteroids/Config.in"
+-	source "package/kodi-screensaver-asterwave/Config.in"
+-	source "package/kodi-screensaver-biogenesis/Config.in"
+-	source "package/kodi-screensaver-cpblobs/Config.in"
+-	source "package/kodi-screensaver-greynetic/Config.in"
+-	source "package/kodi-screensaver-matrixtrails/Config.in"
+-	source "package/kodi-screensaver-pingpong/Config.in"
+-	source "package/kodi-screensaver-pyro/Config.in"
+-	source "package/kodi-screensaver-rsxs/Config.in"
+-	source "package/kodi-screensaver-stars/Config.in"
++source "package/kodi-screensaver-asteroids/Config.in"
++source "package/kodi-screensaver-asterwave/Config.in"
++source "package/kodi-screensaver-biogenesis/Config.in"
++source "package/kodi-screensaver-cpblobs/Config.in"
++source "package/kodi-screensaver-greynetic/Config.in"
++source "package/kodi-screensaver-matrixtrails/Config.in"
++source "package/kodi-screensaver-pingpong/Config.in"
++source "package/kodi-screensaver-pyro/Config.in"
++source "package/kodi-screensaver-rsxs/Config.in"
++source "package/kodi-screensaver-stars/Config.in"
+ endmenu
+ 
+ menu "Skins"
+-	source "package/kodi-skin-confluence/Config.in"
++source "package/kodi-skin-confluence/Config.in"
+ endmenu
+ 
+ menu "Virtual file systems"
+-	source "package/kodi-vfs-libarchive/Config.in"
+-	source "package/kodi-vfs-rar/Config.in"
+-	source "package/kodi-vfs-sftp/Config.in"
++source "package/kodi-vfs-libarchive/Config.in"
++source "package/kodi-vfs-rar/Config.in"
++source "package/kodi-vfs-sftp/Config.in"
+ endmenu
+ 
+ menu "Visualisations"
+-	source "package/kodi-visualisation-fishbmc/Config.in"
+-	source "package/kodi-visualisation-goom/Config.in"
+-	source "package/kodi-visualisation-matrix/Config.in"
+-	source "package/kodi-visualisation-shadertoy/Config.in"
+-	source "package/kodi-visualisation-spectrum/Config.in"
+-	source "package/kodi-visualisation-starburst/Config.in"
+-	source "package/kodi-visualisation-waveform/Config.in"
++source "package/kodi-visualisation-fishbmc/Config.in"
++source "package/kodi-visualisation-goom/Config.in"
++source "package/kodi-visualisation-matrix/Config.in"
++source "package/kodi-visualisation-shadertoy/Config.in"
++source "package/kodi-visualisation-spectrum/Config.in"
++source "package/kodi-visualisation-starburst/Config.in"
++source "package/kodi-visualisation-waveform/Config.in"
+ endmenu
+ 
+ endif # BR2_PACKAGE_KODI
