@@ -4,12 +4,11 @@
 #
 ################################################################################
 
-KERNELFIRMWARES_VERSION = 20200918
-KERNELFIRMWARES_SITE = http://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+KERNELFIRMWARES_VERSION = 20210716
+KERNELFIRMWARES_SOURCE = linux-firmware-$(KERNELFIRMWARES_VERSION).tar.gz
+KERNELFIRMWARES_SITE = https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot
 KERNELFIRMWARES_LICENSE = MULTIPLE
 KERNELFIRMWARES_NON_COMMERCIAL = y
-
-KERNELFIRMWARES_SITE_METHOD = git
 
 define KERNELFIRMWARES_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/lib/firmware
