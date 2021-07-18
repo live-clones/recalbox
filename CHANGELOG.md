@@ -73,6 +73,7 @@ All notable changes to this project will be documented in this file.
 - Bump rpi kernel to 5.10.43 (#1815)
 - Bump linux firmware to 20210716 (#1815)
 - Bump odroidxu4 kernel to 5.4.118 (#1815)
+- Fix rtl8812au wifi driver not installed on target images (#1815)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
