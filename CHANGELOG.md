@@ -59,6 +59,7 @@ All notable changes to this project will be documented in this file.
 - Bump linux firmware to 20210716 (#1815)
 - Bump odroidxu4 kernel to 5.4.118 (#1815)
 - Fix rtl8812au wifi driver not installed on target images (#1815)
+- Disable rtl8812au wifi driver for odroidgo2 (#1815)
 - Bump legacy nvidia drivers to 390.143 (#1815)
 - Bump production nvidia drivers to 460.84 (#1815)
 
