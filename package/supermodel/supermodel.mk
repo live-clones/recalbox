@@ -9,7 +9,7 @@ SUPERMODEL_SITE = svn://svn.code.sf.net/p/model3emu/code/trunk
 SUPERMODEL_SITE_METHOD = svn
 SUPERMODEL_LICENSE = GPL2
 SUPERMODEL_LICENSE_FILES = Docs/LICENSE.txt
-SUPERMODEL_DEPENDENCIES = zlib libpng libogg libvorbis sdl2_net sdl2
+SUPERMODEL_DEPENDENCIES = zlib libpng libogg libvorbis sdl2_net sdl2 libglu
 
 define SUPERMODEL_BUILD_CMDS
 	cp $(@D)/Makefiles/Makefile.UNIX $(@D)/Makefile
