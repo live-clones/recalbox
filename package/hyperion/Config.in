@@ -7,9 +7,8 @@ config BR2_PACKAGE_HYPERION
 	depends on BR2_PACKAGE_QT5BASE_NETWORK
 	depends on BR2_PACKAGE_QT5BASE_WIDGETS
 	depends on BR2_PACKAGE_RPI_FIRMWARE
-	depends on ( BR2_PACKAGE_RPI_USERLAND || BR2_PACKAGE_RPI_USERLAND_TOOLS )
+	depends on BR2_PACKAGE_RPI_USERLAND
 	depends on BR2_PACKAGE_PROTOBUF
-	depends on BR2_PACKAGE_RPI_USERLAND || BR2_PACKAGE_RPI_USERLAND_TOOLS
 	help
 	  Hyperion is an open source ambient light software.
 	  https://github.com/hyperion-project/hyperion

@@ -12,11 +12,6 @@ RASPI2PNG_LICENSE_FILES = LICENSE
 RASPI2PNG_LDFLAGS = -L$(STAGING_DIR)/usr/lib -lbcm_host -lpng -lm -lvchostif
 RASPI2PNG_INCLUDES = -I$(STAGING_DIR)/usr/include/ -I$(STAGING_DIR)/usr/include/interface/vcos/pthreads -I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux
 
-# rpi4
-ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
-RASPI2PNG_DEPENDENCIES = rpi-userland-tools
-endif
-
 # rpi0, 1, 2 and 3
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 RASPI2PNG_DEPENDENCIES = rpi-userland
