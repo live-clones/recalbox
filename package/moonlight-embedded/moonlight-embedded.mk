@@ -21,10 +21,6 @@ ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
 MOONLIGHT_EMBEDDED_DEPENDENCIES += rpi-firmware
 endif
 
-ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
-MOONLIGHT_EMBEDDED_DEPENDENCIES += rpi-userland-tools
-endif
-
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
 define MOONLIGHT_EMBEDDED_CUSTOM_CONFIG_HOOK
 	$(INSTALL) -D $(MOONLIGHT_EMBEDDED_PKGDIR)/moonlight-rpi4.conf $(TARGET_DIR)/recalbox/share_init/system/configs/moonlight/moonlight-board.conf
