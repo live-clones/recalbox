@@ -16,10 +16,6 @@ ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 SCUMMVM_ADDITIONAL_FLAGS += -lbcm_host -lvchostif
 SCUMMVM_CONF_OPTS += --host=raspberrypi
 endif
-ifeq ($(BR2_PACKAGE_RPI_USERLAND_TOOLS),y)
-SCUMMVM_ADDITIONAL_FLAGS += -lbcm_host -lvchostif
-SCUMMVM_CONF_OPTS += --host=raspberrypi
-endif
 
 SCUMMVM_CONF_ENV += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)"
 SCUMMVM_CONF_OPTS += --enable-opengl --disable-debug --enable-optimizations --enable-mt32emu --enable-flac --enable-mad --enable-vorbis --disable-tremor \
