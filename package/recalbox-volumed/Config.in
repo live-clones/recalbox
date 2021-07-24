@@ -1,0 +1,8 @@
+config BR2_PACKAGE_RECALBOX_VOLUMED
+	bool "recalbox-volumed"
+	depends on BR2_PACKAGE_PULSEAUDIO
+	help
+	  Volume control from the wheel
+
+comment "xpi_gamecon_rpi needs PulseAudio"
+	depends on !BR2_PACKAGE_PULSEAUDIO
