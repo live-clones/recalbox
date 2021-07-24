@@ -148,6 +148,9 @@ All notable changes to this project will be documented in this file.
 - rpi3 now uses Mesa software stack (#????)
 
 - Add required bios for DuckStation (#1944)
+- Add xpi_gamecon module for piboy dmt support (#1817)
+- Add xpi_gamecon module for piboy dmg support (#1817)
+- Add volumed for controlling volume from the wheel (#1817)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
@@ -505,7 +508,6 @@ All notable changes to this project will be documented in this file.
 - Fix NOOBS installation
 - Add model3 arcade system
 - Add odroidgo2 build stage in .gitlab-ci.yml
-- Add xpi_gamcon module for piboy dmt support
 - Bump ES
 - Use RELEASE-NOTES.md to generate the message for upgrades
 - Fix picodrive rewind freezes by bumping to the last version
