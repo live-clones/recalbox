@@ -79,7 +79,9 @@ if [ $RC -eq 0 ]; then
     echo "running pre-upgrade script"
     bash /boot/update/pre-upgrade.sh
   fi
-  # clear case setting
+  # clear case setting. This has been moved to initramfs
+  # case reset must kept here for now as init may not be up to date
+  # reader, if you think this is unneeded anymore, that's true. remove it
   echo "clear case setting"
   sed -i -E 's/^case=/;case=/' /boot/recalbox-boot.conf
   # Reboot
