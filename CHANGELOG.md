@@ -131,6 +131,9 @@ All notable changes to this project will be documented in this file.
 - Removed security option (#1913)
 - Remove all .nvmem and .nvmem2 files (#1901)
 - Fix max/min calculation reworked for lightgun/mouse/touchscreen in retroarch using patch (#1885)
+- Add xpi_gamecon module for piboy dmt support (#1817)
+- Add xpi_gamecon module for piboy dmg support (#1817)
+- Add volumed for controlling volume from the wheel (#1817)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
@@ -488,7 +491,6 @@ All notable changes to this project will be documented in this file.
 - Fix NOOBS installation
 - Add model3 arcade system
 - Add odroidgo2 build stage in .gitlab-ci.yml
-- Add xpi_gamcon module for piboy dmt support
 - Bump ES
 - Use RELEASE-NOTES.md to generate the message for upgrades
 - Fix picodrive rewind freezes by bumping to the last version
