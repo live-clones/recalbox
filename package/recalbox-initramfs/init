@@ -3,6 +3,8 @@
 
 #!/bin/ash
 
+safeboot="/overlay_root/.safeboot"
+
 do_splash() {
     img="$1"
     for fbdev in /dev/fb[0-9]; do
@@ -12,7 +14,6 @@ do_splash() {
 }
 
 check_safeboot() {
-    safeboot="/overlay_root/.safeboot"
     if test -e "${safeboot}" ; then
         safebootvalue=`cat "${safeboot}"`
         let safebootvalue++
@@ -30,9 +31,7 @@ check_safeboot() {
 
 check_update() {
     # All update files?
-    mount -o remount,rw /boot_root || return 1
     mkdir -p /boot_root/update/
-    mount -o remount,ro /boot_root || return 1
     if [ -f /boot_root/update/boot.lst ]; then
       while read -r file; do
         if [ ! -f "/boot_root/update/$file" ]; then
@@ -51,8 +50,16 @@ do_clean_overlay() {
     mkdir -p /overlay_root/upper
 }
 
+do_clean_case() {
+    # clear case setting
+    sed -i -E 's/^case=/;case=/' /boot_root/recalbox-boot.conf
+}
+
+do_clean_safeboot() {
+    echo "0" > "${safeboot}"
+}
+
 do_update() {
-    mount -o remount,rw /boot_root || return 1
     # UPDATE!
     if [ -f /boot_root/update/boot.lst ]; then
       # filelist mode
@@ -64,7 +71,6 @@ do_update() {
     fi
     # delete content of /boot_root/update/
     find /boot_root/update/ -mindepth 1 -delete
-    mount -o remount,ro /boot_root || return 1
 }
 
 do_root() {
@@ -91,7 +97,7 @@ do_root() {
 
     # Wait for boot mount to be ready
     timeout=0
-    while ! mount -t vfat -o ro ${toMount} /boot_root ; do
+    while ! mount -t vfat -o rw ${toMount} /boot_root ; do
         echo "Waiting for the root device"
         sleep 1
     done
@@ -119,22 +125,30 @@ do_root() {
         # Partition not available: Mount tmpfs partition
         mount -t tmpfs -o size=128M tmpfs /overlay_root || return 1
     fi
-    # Backup, clean up overlay and reboot
+    # Backup, clean up overlay, clean up case setting and reboot
     if test "$updated" -eq "1" ; then
         do_clean_overlay
+        do_clean_case
+        do_clean_safeboot
         umount /boot_root
+        umount /overlay_root
         sync
         reboot -f
     fi
 
-    # Clean overlay after 3 unsuccessfull boot attempts
+    # Clean overlay and case setting after 3 unsuccessfull boot attempts
     if ! check_safeboot ; then
         do_clean_overlay
+        do_clean_case
     fi
 
     # Create overlay folders and user video folder
     mkdir -p /overlay_root/lower /overlay_root/upper /overlay_root/work /overlay_root/bootvideos /overlay_root/dropbear \
              /overlay_root/.configs || return 1
+
+    # write protect boot device
+    mount -o remount,ro /boot_root || return 1
+
     # Mount the squashfs as overlay "lower" file-system
     mount /boot_root/boot/recalbox /overlay_root/lower || return 1
 
