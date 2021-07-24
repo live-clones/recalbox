@@ -65,6 +65,7 @@ menu "Controllers"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/hid-nintendo/Config.in"
          comment "Piboy DMG XPI Gamecon support"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xpi_gamecon_rpi/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-volumed/Config.in"
 endmenu
 menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/advancemame/Config.in"
