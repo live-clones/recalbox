@@ -4,8 +4,9 @@
 #
 ################################################################################
 
-LIBRETRO_UAE4ARM_VERSION = 4bd3ef71d8ea6f76671a07d75b70ec4288007926
+LIBRETRO_UAE4ARM_VERSION = a63d159ac1ad4cec6f178fb28e8f7413fd6c73e5
 LIBRETRO_UAE4ARM_SITE = $(call github,Chips-fr,uae4arm-rpi,$(LIBRETRO_UAE4ARM_VERSION))
+LIBRETRO_UAE4ARM_BRANCH = master
 LIBRETRO_UAE4ARM_LICENSE = GPL-2.0
 LIBRETRO_UAE4ARM_LICENSE_FILES = COPYING
 
