@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added code to add retroachievements in romfsv2 (#1839)
 - Add avahi deamon as recalbox-system dependency (#1826)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
+- Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
 - Added retroachievements for romfsv2 (#1799)
