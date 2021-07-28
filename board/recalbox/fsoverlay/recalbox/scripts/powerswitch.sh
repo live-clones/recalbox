@@ -239,6 +239,55 @@ pin56_stop()
     fi
 }
 
+# PiBoy power switch debouncer
+piboy_initiate_shutdown() {
+    sleep 0.5
+    if [ "$(cat /dev/shm/piboy_power)" = "shutdown" ]; then
+        recallog "power switch activated, shutdown initiated"
+        poweroff
+        exit 0
+    else
+        recallog "false positive, shutdown aborted"
+    fi
+}
+
+# PiBoy power switch event listener
+piboy_start()
+{
+    local key_power_enable='*type 1 (EV_KEY), code 116 (KEY_POWER), value 1*'
+    local key_power_disable='*type 1 (EV_KEY), code 116 (KEY_POWER), value 0*'
+    local device
+
+    echo "none" >/dev/shm/piboy_power
+
+    while true; do
+        # try to find piboy power intput device
+        device=$(grep -r -l 'PiBoy Power switch' /sys/class/input/event*/device/name | sed 's#/sys/class#/dev#;s#/device.*##')
+        if [ -n "$device" ]; then
+            evtest "$device" | while read -r line; do
+                case $line in
+                    ($key_power_enable)
+                        recallog "power switch enabled"
+                        echo "shutdown" >/dev/shm/piboy_power
+                        (piboy_initiate_shutdown)&
+                        ;;
+                    ($key_power_disable)
+                        echo "none" >/dev/shm/piboy_power
+                        recallog "power switch disabled"
+                        ;;
+                esac
+            done
+        fi
+        recallog "xpi module not loaded?"
+        sleep 5
+    done
+}
+
+piboy_stop()
+{
+  :
+}
+
 # First parameter must be start or stop
 if [[ "$1" != "start" && $1 != "stop" ]]; then
     exit 1
@@ -283,5 +332,9 @@ case "$CONFVALUE" in
     "PIN356PUSHRESET")
         echo "will start pin356_$1"
         pin356_$1 push
+    ;;
+    "PIBOY")
+        recallog "will start piboy_$1"
+        piboy_$1
     ;;
 esac
