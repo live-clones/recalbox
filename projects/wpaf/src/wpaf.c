@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -15,7 +16,7 @@
 #include "fan_driver.h"
 #include "fan_manager.h"
 #include "gui.h"
-#include "oled_driver.h"
+#include "log.h"
 #include "waveshare_poehatb.h"
 
 uint32_t start_wpaf(uint32_t boardid) ;
@@ -36,9 +37,6 @@ void wait_for_all() {
   printf("Fork [%i] ended with code %i\n", pid, status);
 }
 
-// flags
-int verbose_flag;
-
 /*
  * Main
  **/
@@ -58,8 +56,8 @@ void parse_args(int argc, char **argv) {
   static struct option long_options[] =
     {
       /* These options set a flag. */
-      {"verbose", no_argument,       &verbose_flag, 1},
-      {"quiet",   no_argument,       &verbose_flag, 0},
+      {"verbose", no_argument,       0, 'v'},
+      {"quiet",   no_argument,       0, 'q'},
       /* These options don’t set a flag.
          We distinguish them by their indices. */
       {"help",    no_argument,       0, 'h'},
@@ -70,7 +68,7 @@ void parse_args(int argc, char **argv) {
   // put ':' in the starting of the
   // string so that program can
   //distinguish between '?' and ':'
-  while((opt = getopt_long(argc, argv, ":lhb:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, ":lhvqb:", long_options, &option_index)) != -1) {
     switch(opt) {
       case 'h':
         show_help();
@@ -82,6 +80,12 @@ void parse_args(int argc, char **argv) {
       case 'l':
         list_known_boards();
         exit(0);
+      case 'v':
+        log_set_level(LOG_DEBUG);
+        break;
+      case 'q':
+        log_set_quiet(true);
+        break;
       case ':':
         printf("option needs a value\n");
         break;
@@ -93,14 +97,22 @@ void parse_args(int argc, char **argv) {
 }
 
 int get_boardid_from_name(char * board_name) {
-  return 0;
+  int32_t i=0;
+  while(boards[i]) {
+    if (strcmp(board_id[i], board_name) == 0)
+      return i;
+    i++;
+  }
+  return -1;
 }
 
 void list_known_boards() {
+  uint32_t i = 0;
   printf("List of known boards and ids\n");
   printf("----------------------------\n");
-  for(int i = 0; i<NUMBER_OF_BOARDS; i++) {
+  while(boards[i]) {
     printf("%s (%s)\n", board_list[i], board_id[i]);
+    i++;
   }
 }
 
@@ -140,15 +152,15 @@ uint32_t start_wpaf(uint32_t boardid) {
   fclose(fd);
   snprintf(recalbox_string, sizeof(recalbox_string), "Recalbox %s", recalbox_version);
 
-  gui_init(handler->oled, handler->o_handler, handler->o_handler->columns, handler->o_handler->pages);
+  gui_init(handler->display, handler->o_handler, handler->o_handler->columns, handler->o_handler->pages);
 
   while(true) {
     float cputemp = get_cpu_temp();
     snprintf(string_buffer, sizeof(string_buffer), "CPU temp: %.2f", cputemp);
-    gui_clear(handler->oled, handler->o_handler);
+    gui_clear(handler->display, handler->o_handler);
     gui_string(handler->o_handler, 0, 0, string_buffer, &Font12, BLACK, WHITE);
     gui_string(handler->o_handler, 0, 16, recalbox_string, &Font12, BLACK, WHITE);
-    gui_draw(handler->oled, handler->o_handler);
+    gui_draw(handler->display, handler->o_handler);
     sleep(1);
   }
   board->close(handler);

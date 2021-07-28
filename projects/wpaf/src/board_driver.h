@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "oled_driver.h"
+#include "display_driver.h"
 #include "fan_driver.h"
 
 typedef struct {
-  oled_interface * oled;
+  display_interface * display;
   fan_interface * fan;
-  oled_handler * o_handler;
+  display_handler * o_handler;
   fan_handler * f_handler;
 } board_handler;
 

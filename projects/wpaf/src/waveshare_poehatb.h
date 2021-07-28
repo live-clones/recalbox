@@ -2,7 +2,7 @@
 #define __WAVESHARE_POEHATB_H
 
 #include "board_driver.h"
-#include "ssd1306_oled_controller.h"
+#include "ssd1306_display_controller.h"
 
 #define WSPOEHATB_OLED_ADDRESS 0x3c
 #define WSPOEHATB_FAN_ADDRESS 0x20

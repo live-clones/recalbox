@@ -43,8 +43,8 @@ Fan controller functions are derivated from fan_driver.h:
   close(): close files and free structures (on program exit)
 
 For the display, it is quite the same:
-  changeme_oled_controller.h
-  changem_oled_controller.c
+  changeme_display_controller.h
+  changeme_display_controller.c
 
 Once your fan and display controller are created, you can create a new board,
 derivated from board_driver.h. A board controller have only 2 functions:

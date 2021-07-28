@@ -4,18 +4,18 @@
 #include <string.h>
 
 #include "gui.h"
-#include "oled_driver.h"
+#include "display_driver.h"
 #include "fonts.h"
 
-void gui_init(oled_interface * oled, oled_handler * handler,uint32_t columns, uint32_t pages) {
-  oled->set_screen_size(handler, columns, pages);
+void gui_init(display_interface * display, display_handler * handler,uint32_t columns, uint32_t pages) {
+  display->set_screen_size(handler, columns, pages);
 }
 
-void gui_clear(oled_interface * oled, oled_handler * handler) {
+void gui_clear(display_interface * display, display_handler * handler) {
   memset(handler->buffer, 0, handler->pages*handler->columns);
 }
 
-void gui_point(oled_handler * handler, uint32_t x, uint32_t y, uint32_t color) {
+void gui_point(display_handler * handler, uint32_t x, uint32_t y, uint32_t color) {
   if (x > handler->columns || y > handler->pages)
     return;
   if(color == 1){
@@ -25,21 +25,21 @@ void gui_point(oled_handler * handler, uint32_t x, uint32_t y, uint32_t color) {
   }
 }
 
-void gui_draw(oled_interface * oled, oled_handler * handler) {
-  oled->send_buffer(handler);
+void gui_draw(display_interface * display, display_handler * handler) {
+  display->send_buffer(handler);
 }
 
-void gui_partial_draw(oled_interface * oled, oled_handler * handler, uint32_t start_x, uint32_t start_y, uint32_t end_x, uint32_t end_y) {
-  oled->send_partial_buffer(handler, start_x, start_y, end_x, end_y);
+void gui_partial_draw(display_interface * display, display_handler * handler, uint32_t start_x, uint32_t start_y, uint32_t end_x, uint32_t end_y) {
+  display->send_partial_buffer(handler, start_x, start_y, end_x, end_y);
 }
 
 // draw one ASCII character
-void gui_char(oled_handler * handler, uint32_t x, uint32_t y, const char character,
+void gui_char(display_handler * handler, uint32_t x, uint32_t y, const char character,
                  sFONT* Font, uint32_t background_color, uint32_t foreground_color) {
     uint32_t page, column;
 
     if(x > handler->columns || y > handler->pages) {
-      printf("gui°char Input exceeds the normal display range\n");
+      printf("gui_char Input exceeds the normal display range\n");
       return;
     }
 
@@ -69,7 +69,7 @@ void gui_char(oled_handler * handler, uint32_t x, uint32_t y, const char charact
     }/* Write all */
 }
 
-void gui_string(oled_handler * handler, uint32_t x, uint32_t y, const char * string,
+void gui_string(display_handler * handler, uint32_t x, uint32_t y, const char * string,
                       sFONT* Font, uint32_t background_color, uint32_t foreground_color) {
     uint32_t Xpoint = x;
     uint32_t Ypoint = y;
