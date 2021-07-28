@@ -16,6 +16,7 @@ fan_interface pcf8574_interface = {
     &pcf8574_fan_on,
     &pcf8574_fan_off,
     &pcf8574_fan_close,
+    &pcf8574_fan_capabilities,
 };
 
 // initialize i2c
@@ -37,4 +38,8 @@ void pcf8574_fan_off(fan_handler * pcf8574_handler) {
 
 void pcf8574_fan_close(fan_handler * pcf8574_handler) {
   free(pcf8574_handler);
+}
+
+uint32_t pcf8574_fan_capabilities() {
+  return FAN_CAP_SIMPLE;
 }
