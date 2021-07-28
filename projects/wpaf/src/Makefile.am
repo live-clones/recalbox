@@ -9,5 +9,7 @@ wpaf_SOURCES = font16.c  font24.c font12.c font20.c font8.c wpaf.c \
 							 waveshare_poehatb.c \
 							 argon_forty.c argon_forty_fan_controller.c \
 							 wpaf_i2c.c \
+							 xpi_gamecon_fan_controller.c \
+							 piboy.c \
 							 log.c
 
