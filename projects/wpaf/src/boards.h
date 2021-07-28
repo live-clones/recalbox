@@ -3,24 +3,27 @@
 
 #include "board_driver.h"
 #include "waveshare_poehatb.h"
+#include "argon_forty.h"
 
 enum BOARDS {
-  WAVESHARE_POEHATB
+  WAVESHARE_POEHATB,
+  ARGON_FORTY
 };
 
-#define NUMBER_OF_BOARDS 1
-
-
-char board_list[NUMBER_OF_BOARDS][50] = {
+char board_list[][50] = {
   "Waveshare PoE hat (B)",
+  "Argon Forty (One / One M.2)"
 };
 
-char board_id[NUMBER_OF_BOARDS][50] = {
+char board_id[][50] = {
   "wspoehatb",
+  "argonforty"
 };
 
 board_interface *boards[] = {
   &waveshare_poehatb_interface,
+  &argon_forty_interface,
+  NULL
 };
 
 
