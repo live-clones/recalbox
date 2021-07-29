@@ -161,6 +161,7 @@ All notable changes to this project will be documented in this file.
 - Add recalbox-crt package for CRT support (#1805)
 - Bump configgen to support CRT (#1805)
 - Enable crtswitch with kmsdrm in retroarch (#1805)
+- Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm (#1823)
 - Added website meta in rpi imager (#1821)
