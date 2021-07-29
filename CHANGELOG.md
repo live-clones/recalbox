@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
