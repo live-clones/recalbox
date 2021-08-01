@@ -37,6 +37,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped libretro snes9x2005 core, test especially on rpi zero (#1757)
 - [ ] Bumped libretro picodrive core, test especially mega cd chd support (#1757)
 - [ ] Bumped Flycast : Test flycast core on all plateforms (#1737)
+- [ ] Bumped libretro dosbox-oure core (#1644)
 - [ ] Test random path support for emulationstation themes (myst theme) (#1793)
 - [ ] Test bluetooth pairing still work (#1800)
 - [ ] EmulationStation should always start (no phantom screen) (#1774)
