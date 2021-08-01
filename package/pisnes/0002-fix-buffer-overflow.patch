@@ -1,0 +1,26 @@
+From b664d1dc997c28cfc7be8b494cbb5d83bf603aa6 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Mon, 16 Aug 2021 20:42:55 +0200
+Subject: [PATCH] fix: fix buffer overflow
+
+---
+ unix/unix.cpp | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/unix/unix.cpp b/unix/unix.cpp
+index 94e7795..d11a433 100644
+--- a/unix/unix.cpp
++++ b/unix/unix.cpp
+@@ -263,8 +263,7 @@ int main (int argc, char **argv)
+ 	if (argc < 2)
+ 		S9xUsage ();
+ 
+-	char abspath[1000];
+-
++	char abspath[FILENAME_MAX];
+ 	//Set the directory to where the binary is
+ 	realpath(argv[0], abspath);
+ 	char *dirsep = strrchr(abspath, '/');
+-- 
+2.32.0
+
