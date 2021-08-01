@@ -42,9 +42,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] EmulationStation should always start (no phantom screen) (#1774)
   - [ ] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
 - [ ] Video playback on odroidxu4 is not laggy (#1811)
-- [ ] Check the theme bands on dreamcast, mastersystem, saturn, sega32x and segacd for OGA (theme jp and us) (#1810)
-- [.] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
-- [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
 - [ ] Test Tic-80 game downloader works (#1829)
 
 ## [7.2.2]
