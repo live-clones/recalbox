@@ -2,7 +2,7 @@
 
 # TIC-80 Software Downloader
 #
-# This script downloads TIC-80 cartridges from https://tic.computer
+# This script downloads TIC-80 cartridges from https://tic80.com
 # Cartridges are downloaded and stored as .tic files in their respective category directory.
 # The file name format is as follows:
 #   ${cartridgeName} - ${cartridgeId} (${cartridgeDate}).tic
@@ -11,7 +11,7 @@
 # VARIABLES #
 #############
 
-releaseDate=2019.08.03
+releaseDate=2021.08.01
 
 #############
 # FUNCTIONS #
@@ -31,7 +31,7 @@ function chooseCategory {
 # unescapeHTML
 #   converts stdin HTML tags to plain text
 function unescapeHTML {
-  sed 's/&amp;/\&/g; s/&lt;/\</g; s/&gt;/\>/g; s/&quot;/\"/g; s/&#39;/\'"'"'/g; s/&ldquo;/\"/g; s/&rdquo;/\"/g;'
+  sed 's/&amp;/\&/g; s/&lt;/\</g; s/&gt;/\>/g; s/&quot;/\"/g; s/&ldquo;/\"/g; s/&rdquo;/\"/g;'
 }
 
 # categoryId <categoryName>
@@ -54,17 +54,16 @@ function downloadCartridge {
   local id=$1
   local name=$2
   local categoryName=$3
-  local pageContent=$(curl -sL "https://tic.computer/play?cart=${id}")
-  local hash=$(echo "${pageContent}" | sed -n 's|.*href="/cart/\(.*\)/cart.tic".*|\1|p')
+  local pageContent=$(curl -sL "https://tic80.com/play?cart=${id}")
+  local gametitle=$(echo "${name//[$'\t\r\n ']}")
+  local pagelink=$(echo "${pageContent}" | sed -n 's|.*href="/cart/\(.*\)">.*|\1|p')
   local createdAt=$(echo "${pageContent}" | sed -n 's|.*added: <span class="date" value="\([[:digit:]]*\)">.*|\1|p')
   local updatedAt=$(echo "${pageContent}" | sed -n 's|.*updated: <span class="date" value="\([[:digit:]]*\)">.*|\1|p')
   local timestamp=$(date -d @$((${updatedAt:-${createdAt}} / 1000)) +%F_%H-%M)
-  echo -n "Downloading cartridge ${name} in ${categoryName}"
+  echo -n "Downloading cartridge ${gametitle} in ${categoryName}"
   mkdir -p ${categoryName}
-  curl -sLf "https://tic.computer/cart/${hash}/cart.tic" \
-    -o "${categoryName}/${name} - ${id} (${timestamp}).tic" \
-    && echo " [OK]" \
-    || echo " [ERROR]"
+  curl -sLf "https://tic80.com/cart/${pagelink}" -o "${categoryName}/${gametitle} - ${id} (${timestamp}).tic" && echo " [OK]" || echo " [ERROR]"
+
 }
 
 # downloadCategorySoftware <categoryName>
@@ -72,7 +71,7 @@ function downloadCartridge {
 function downloadCategorySoftware {
   local categoryName="$1"
   local categoryId=$(categoryId ${categoryName})
-  local categoryPageContent=$(curl -sLf "https://tic.computer/play?cat=${categoryId}")
+  local categoryPageContent=$(curl -sLf "https://tic80.com/play?cat=${categoryId}")
   IFS=$'\n'
   local cartridgeNames=( $(echo "${categoryPageContent}" | sed -n 's|.*<h2>\(.*\)</h2>|\1|p' | unescapeHTML) )
   local cartridgeIds=( $(echo "${categoryPageContent}" | sed -n 's|.*href="/play?cart=\([[:digit:]]*\)".*|\1|p') )
