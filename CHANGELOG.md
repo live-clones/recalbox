@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
 - Add avahi deamon as recalbox-system dependency (#1826)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Bump Libretro DOSBOX Pure to 0.14 (#1644)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
