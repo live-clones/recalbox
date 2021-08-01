@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Enable crtswitch with kmsdrm in retroarch (#1805)
 - Add Retroarch ASPECT_RATIO_NATIVE_1920 for CRT (#1805)
 - Bump retroarch to version 1.9.7 (#1805)
+- Bump Libretro DOSBOX Pure to 0.14 (#1644)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
