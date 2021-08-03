@@ -3,9 +3,10 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "gui.h"
 #include "display_driver.h"
 #include "fonts.h"
+#include "gui.h"
+#include "log.h"
 
 void gui_init(display_interface * display, display_handler * handler,uint32_t columns, uint32_t pages) {
   display->set_screen_size(handler, columns, pages);
@@ -39,7 +40,7 @@ void gui_char(display_handler * handler, uint32_t x, uint32_t y, const char char
     uint32_t page, column;
 
     if(x > handler->columns || y > handler->pages) {
-      printf("gui_char Input exceeds the normal display range\n");
+      log_debug("gui_char Input exceeds the normal display range");
       return;
     }
 
@@ -75,7 +76,7 @@ void gui_string(display_handler * handler, uint32_t x, uint32_t y, const char * 
     uint32_t Ypoint = y;
 
     if(x > handler->columns || y > handler->pages) {
-      printf("gui_string Input exceeds the normal display range\n");
+      log_debug("gui_string Input exceeds the normal display range");
       return;
     }
 
