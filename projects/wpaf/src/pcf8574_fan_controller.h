@@ -12,4 +12,5 @@ uint32_t pcf8574_fan_capabilities();
 
 extern fan_interface pcf8574_interface;
 
+void* pcf8574_unimplemented(void);
 #endif
