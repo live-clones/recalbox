@@ -1,4 +1,3 @@
-USELIB = USE_WIRINGPI_LIB
 SUBDIRS = src
 
 
