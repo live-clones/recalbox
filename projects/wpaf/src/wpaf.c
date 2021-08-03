@@ -41,7 +41,7 @@ void wait_for_all() {
 	int status;
 	pid_t pid;
 	pid = wait(&status);
-  printf("Fork [%i] ended with code %i\n", pid, status);
+  log_debug("fork [%i] ended with code %i\n", pid, status);
 }
 
 /*
@@ -71,6 +71,8 @@ void parse_args(int argc, char **argv) {
     {
       /* These options set a flag. */
       {"verbose", no_argument,       0, 'v'},
+      {"debug",   no_argument,       0, 'd'},
+      {"trace",   no_argument,       0, 't'},
       {"quiet",   no_argument,       0, 'q'},
       /* These options don’t set a flag.
          We distinguish them by their indices. */
@@ -82,7 +84,8 @@ void parse_args(int argc, char **argv) {
   // put ':' in the starting of the
   // string so that program can
   //distinguish between '?' and ':'
-  while((opt = getopt_long(argc, argv, ":lhvqb:", long_options, &option_index)) != -1) {
+  log_set_level(LOG_INFO);
+  while((opt = getopt_long(argc, argv, ":lhvdtqb:", long_options, &option_index)) != -1) {
     switch(opt) {
       case 'h':
         show_help();
@@ -95,7 +98,13 @@ void parse_args(int argc, char **argv) {
         list_known_boards();
         exit(0);
       case 'v':
+        log_set_level(LOG_ERROR);
+        break;
+      case 'd':
         log_set_level(LOG_DEBUG);
+        break;
+      case 't':
+        log_set_level(LOG_TRACE);
         break;
       case 'q':
         log_set_quiet(true);
@@ -137,21 +146,28 @@ void show_help() {
   printf("  -b,--board=board_id     start wpaf for board_id\n");
   printf("                          board_id can be obtained from list of known boards (-l)\n\n");
   printf("  --verbose               verbose mode\n");
+  printf("  --debug                 debug mode\n");
+  printf("  --trace                 trace mode\n");
 }
 
 /* main routine
  */
-uint32_t start_wpaf(uint32_t boardid) {
+uint32_t start_wpaf(char ** argv, uint32_t boardid) {
+  const char * fan_manager_process_name = "wpaf: fan manager";
+  const char * display_manager_process_name = "wpaf: display manager";
   board_interface * board = boards[boardid];
   board_handler * handler = board->init();
 
   pid_t fan_pid;
   pid_t display_pid;
 
-  if (pid == -1) {
-    perror("can't start fan manager\n");
+  fan_pid = fork();
+  if (fan_pid == -1) {
+    log_error("can't start fan manager");
     return EXIT_FAILURE;
-  }else if (pid == 0) {
+  }else if (fan_pid == 0) {
+    if (prctl(PR_SET_NAME, (unsigned long) fan_manager_process_name) < 0)
+      log_error("%s", strerror(errno));
     start_fan_manager(handler->fan, handler->f_handler);
   }
 
