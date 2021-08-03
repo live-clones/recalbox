@@ -11,5 +11,7 @@ wpaf_SOURCES = font16.c  font24.c font12.c font20.c font8.c wpaf.c \
 							 wpaf_i2c.c \
 							 xpi_gamecon_fan_controller.c \
 							 piboy.c \
+							 pid_controller.c \
+							 display_manager.c \
 							 log.c
 

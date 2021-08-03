@@ -17,6 +17,7 @@
 #include "boards.h"
 #include "board_driver.h"
 #include "cpu_controller.h"
+#include "display_manager.h"
 #include "fan_driver.h"
 #include "fan_manager.h"
 #include "gui.h"
@@ -144,10 +145,8 @@ uint32_t start_wpaf(uint32_t boardid) {
   board_interface * board = boards[boardid];
   board_handler * handler = board->init();
 
-  char string_buffer[256];
-  char recalbox_version[50];
-  char recalbox_string[256];
-  pid_t pid = fork();
+  pid_t fan_pid;
+  pid_t display_pid;
 
   if (pid == -1) {
     perror("can't start fan manager\n");
@@ -156,26 +155,16 @@ uint32_t start_wpaf(uint32_t boardid) {
     start_fan_manager(handler->fan, handler->f_handler);
   }
 
-  /*
-   * get recalbox version from fs
-   */
-  FILE * fd = fopen("/recalbox/recalbox.version", "r");
-  if (fd)
-    fgets(recalbox_version, sizeof(recalbox_version), fd);
-  fclose(fd);
-  snprintf(recalbox_string, sizeof(recalbox_string), "Recalbox %s", recalbox_version);
-
-  gui_init(handler->display, handler->o_handler, handler->o_handler->columns, handler->o_handler->pages);
-
-  while(true) {
-    float cputemp = get_cpu_temp();
-    snprintf(string_buffer, sizeof(string_buffer), "CPU temp: %.2f", cputemp);
-    gui_clear(handler->display, handler->o_handler);
-    gui_string(handler->o_handler, 0, 0, string_buffer, &Font12, BLACK, WHITE);
-    gui_string(handler->o_handler, 0, 16, recalbox_string, &Font12, BLACK, WHITE);
-    gui_draw(handler->display, handler->o_handler);
-    sleep(1);
+  display_pid = fork();
+  if (display_pid == -1) {
+    log_error("can't start display manager");
+    return EXIT_FAILURE;
+  }else if (display_pid == 0) {
+    if (prctl(PR_SET_NAME, (unsigned long) display_manager_process_name) < 0)
+      log_error("%s", strerror(errno));
+    start_display_manager(handler->display, handler->o_handler);
   }
+
   board->close(handler);
 
   wait_for_all();
