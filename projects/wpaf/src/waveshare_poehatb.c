@@ -45,22 +45,16 @@ SSD1306_data_struct wspoehatb_display_data = {
 };
 
 board_handler * wspoehatb_init() {
-  printf("init\n");
   board_handler * board = malloc(sizeof(board_handler));
   board->display = &ssd1306_interface;
   board->fan  = &pcf8574_interface;
 
-  printf("init ssd1306\n");
   board->o_handler = board->display->init(WSPOEHATB_OLED_ADDRESS);
-  printf("init pcf8574\n");
   board->f_handler = board->fan->init(WSPOEHATB_FAN_ADDRESS);
 
-  printf("extra display\n");
   board->o_handler->extra_data = &wspoehatb_display_data;
 
-  printf("reset display\n");
   board->display->reset(board->o_handler);
-  printf("set screen size display\n");
   board->display->set_screen_size(board->o_handler, WSPOEHATB_OLED_X, WSPOEHATB_OLED_Y);
 
   return board;
