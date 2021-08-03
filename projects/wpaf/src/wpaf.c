@@ -1,10 +1,14 @@
+#include <errno.h>
 #include <getopt.h>
+#include <semaphore.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include <sys/mman.h>
+#include <sys/prctl.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -19,7 +23,9 @@
 #include "log.h"
 #include "waveshare_poehatb.h"
 
-uint32_t start_wpaf(uint32_t boardid) ;
+sem_t *semaphore[10];
+
+uint32_t start_wpaf(char ** argv, uint32_t boardid) ;
 int get_boardid_from_name(char * board_name) ;
 void parse_args(int argc, char **argv) ;
 void list_known_boards() ;
@@ -43,11 +49,18 @@ void wait_for_all() {
 int main(int argc, char ** argv) {
   int boardid;
 
+  for(int i=0; i<10; i++) {
+    semaphore[i] = mmap(NULL, sizeof(sem_t), PROT_READ |PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS, -1, 0);
+    if (sem_init(semaphore[i], 1, 1)) {
+      printf("can't init semaphore: %s", strerror(errno));
+    }
+  }
+
   parse_args(argc, argv);
 
   boardid = get_boardid_from_name(arguments.board);
 
-  return start_wpaf(boardid);
+  return start_wpaf(argv, boardid);
 }
 
 void parse_args(int argc, char **argv) {

@@ -21,8 +21,12 @@
  */
 
 #include "log.h"
+#include "wpaf.h"
 
+#include <semaphore.h>
 #define MAX_CALLBACKS 32
+
+extern sem_t *semaphore[10];
 
 typedef struct {
   log_LogFn fn;
@@ -144,7 +148,7 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
     .line  = line,
     .level = level,
   };
-
+  sem_wait(semaphore[LOGGER_SEMAPHORE]);
   lock();
 
   if (!L.quiet && level >= L.level) {
@@ -165,4 +169,5 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
   }
 
   unlock();
+  sem_post(semaphore[LOGGER_SEMAPHORE]);
 }
