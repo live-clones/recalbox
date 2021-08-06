@@ -17,6 +17,7 @@ typedef struct {
 typedef struct {
   board_handler * (*init)(void);
   void (*close)(board_handler *);
+  uint32_t (*get_temp_setpoint)(void);
 } board_interface ;
 
 #endif // __BOARD_DRIVER_H

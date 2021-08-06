@@ -10,7 +10,8 @@
 
 board_interface waveshare_poehatb_interface = {
   &wspoehatb_init,
-  &wspoehatb_close
+  &wspoehatb_close,
+  &wspoehatb_get_temp_setpoint,
 };
 
 SSD1306_data_struct wspoehatb_display_data = {
@@ -63,4 +64,8 @@ board_handler * wspoehatb_init() {
 void wspoehatb_close(board_handler * board) {
   board->display->close(board->o_handler);
   board->fan->close(board->f_handler);
+}
+
+uint32_t wspoehatb_get_temp_setpoint() {
+  return WSPOEHATB_TEMP_SETPOINT;
 }

@@ -10,7 +10,8 @@
 
 board_interface piboy_interface = {
   &piboy_init,
-  &piboy_close
+  &piboy_close,
+  &piboy_get_temp_setpoint,
 };
 
 board_handler * piboy_init() {
@@ -27,4 +28,8 @@ board_handler * piboy_init() {
 void piboy_close(board_handler * board) {
   board->fan->close(board->f_handler);
   board->display->close(board->o_handler);
+}
+
+uint32_t piboy_get_temp_setpoint() {
+  return PIBOY_TEMP_SETPOINT;
 }
