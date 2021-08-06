@@ -1,0 +1,14 @@
+image: gcc:10.3.0
+ 
+stages:
+  - build
+ 
+# FIXME: Re-enable valgrind once running the tests under it doesn’t take forever (it causes timeouts).
+# Re-add valgrind to apt-install line above
+build-distcheck:
+  stage: build
+  script:
+    - apt update && apt -y install libpulse-dev
+    - autoreconf -i
+    - ./configure
+    - make
