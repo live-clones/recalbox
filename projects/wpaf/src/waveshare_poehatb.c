@@ -1,9 +1,11 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 
 #include "board_driver.h"
 #include "fan_driver.h"
+#include "log.h"
 #include "ssd1306_display_controller.h"
 #include "pcf8574_fan_controller.h"
 #include "waveshare_poehatb.h"
@@ -52,6 +54,8 @@ board_handler * wspoehatb_init() {
 
   board->o_handler = board->display->init(WSPOEHATB_OLED_ADDRESS);
   board->f_handler = board->fan->init(WSPOEHATB_FAN_ADDRESS);
+  if (!pcf8574_fan_set_ioport(board->f_handler, WSPOEHATB_PCF8574_IOPORT))
+    log_error("Can't set ioport %d for pcf8574", WSPOEHATB_PCF8574_IOPORT);
 
   board->o_handler->extra_data = &wspoehatb_display_data;
 
