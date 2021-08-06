@@ -7,7 +7,7 @@
 
 typedef struct {
   uint8_t address;
-  void * controller;
+  void * controller_info;
 } fan_handler;
 
 typedef struct {
@@ -19,6 +19,8 @@ typedef struct {
   void (*set_pwm)(fan_handler *, uint8_t); // for FAN_CAP_PWM
   uint32_t (*status)(fan_handler *); // for FAN_CAP_STATUS
 } fan_interface ;
+
+void * fan_func_unimplemented(void);
 
 #define FAN_CAP_SIMPLE 0x00000001 // on/off, usually gpio controlled
 #define FAN_CAP_PWM    0x00000002 // variable fan speed

@@ -1,7 +1,7 @@
 bin_PROGRAMS = wpaf
 wpaf_CFLAGS = -DLOG_USE_COLOR
 wpaf_SOURCES = font16.c  font24.c font12.c font20.c font8.c wpaf.c \
-							 fan_manager.c pcf8574_fan_controller.c \
+							 fan_driver.c fan_manager.c pcf8574_fan_controller.c \
 							 cpu_controller.c \
 							 ssd1306_display_controller.c \
 							 null_display_controller.c \
