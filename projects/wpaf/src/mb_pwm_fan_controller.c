@@ -1,7 +1,10 @@
 /*  
  *  Based on work from Andrew Duncan
  *      The MIT License (MIT)
- */ 
+ * mailbox PWM driver
+ * before using this driver, remove rpi_poe_fan kernel module
+ * rmmod rpi_poe_fan
+ */
 
 #include <fcntl.h>
 #include <inttypes.h>
