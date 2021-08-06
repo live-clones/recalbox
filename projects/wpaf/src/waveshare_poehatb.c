@@ -14,6 +14,7 @@ board_interface waveshare_poehatb_interface = {
   &wspoehatb_init,
   &wspoehatb_close,
   &wspoehatb_get_temp_setpoint,
+  &wspoehatb_query,
 };
 
 SSD1306_data_struct wspoehatb_display_data = {
@@ -72,4 +73,22 @@ void wspoehatb_close(board_handler * board) {
 
 uint32_t wspoehatb_get_temp_setpoint() {
   return WSPOEHATB_TEMP_SETPOINT;
+}
+
+int32_t wspoehatb_query(uint32_t queryid, void * result) {
+  int32_t _d;
+  switch(queryid) {
+      case BOARD_QUERY_TEMP_SETPOINT:
+          _d = WSPOEHATB_TEMP_SETPOINT;
+          memcpy(result, &_d, sizeof(int32_t));
+          break;
+      case BOARD_QUERY_PWM_KP:
+      case BOARD_QUERY_PWM_KI:
+      case BOARD_QUERY_PWM_KD:
+      case BOARD_QUERY_PWM_MIN:
+      case BOARD_QUERY_PWM_MAX:
+      default:
+          return BOARD_QUERY_UNIMPLEMENTED;
+  }
+  return true;
 }

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 
@@ -12,6 +13,7 @@ board_interface argon_forty_interface = {
   &argon_forty_init,
   &argon_forty_close,
   &argon_forty_get_temp_setpoint,
+  &argon_forty_query,
 };
 
 board_handler * argon_forty_init() {
@@ -32,4 +34,41 @@ void argon_forty_close(board_handler * board) {
 
 uint32_t argon_forty_get_temp_setpoint() {
   return ARGON_FORTY_TEMP_SETPOINT;
+}
+
+int32_t argon_forty_query(uint32_t queryid, void * result) {
+  double _k ;
+  int32_t _d;
+  switch(queryid) {
+      case BOARD_QUERY_PWM_KP:
+          _k = ARGON_FORTY_PWM_KP;
+          memcpy(result, &_k, sizeof(double));
+          return true;
+          break;
+      case BOARD_QUERY_PWM_KI:
+          _k = ARGON_FORTY_PWM_KI;
+          memcpy(result, &_k, sizeof(double));
+          return true;
+          break;
+      case BOARD_QUERY_PWM_KD:
+          _k = ARGON_FORTY_PWM_KD;
+          memcpy(result, &_k, sizeof(double));
+          return true;
+          break;
+      case BOARD_QUERY_PWM_MIN:
+          _d = ARGON_FORTY_PWM_MIN;
+          memcpy(result, &_d, sizeof(int32_t));
+          break;
+      case BOARD_QUERY_PWM_MAX:
+          _d = ARGON_FORTY_PWM_MAX;
+          memcpy(result, &_d, sizeof(int32_t));
+          break;
+      case BOARD_QUERY_TEMP_SETPOINT:
+          _d = ARGON_FORTY_TEMP_SETPOINT;
+          memcpy(result, &_d, sizeof(int32_t));
+          break;
+      default:
+          return BOARD_QUERY_UNIMPLEMENTED;
+  }
+  return true;
 }

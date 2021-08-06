@@ -21,5 +21,6 @@ extern board_interface waveshare_poehatb_interface;
 board_handler * wspoehatb_init();
 void wspoehatb_close(board_handler *);
 uint32_t wspoehatb_get_temp_setpoint();
+int32_t wspoehatb_query(uint32_t queryid, void*);
 
 #endif //__WAVESHARE_POEHATB_H
