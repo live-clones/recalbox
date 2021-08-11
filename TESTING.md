@@ -66,6 +66,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test manual refresh
   - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
   - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
