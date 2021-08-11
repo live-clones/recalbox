@@ -49,6 +49,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [.] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
 - [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
 - [ ] Test Tic-80 game downloader works (#1829)
+- [ ] Test that recalbox.local and http://recalbox works again (#1826)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

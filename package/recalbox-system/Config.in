@@ -1,6 +1,8 @@
 config BR2_PACKAGE_RECALBOX_SYSTEM
 	bool "Recalbox System"
 	select BR2_PACKAGE_LBA_FINDER
+	select BR2_PACKAGE_AVAHI_DAEMON
+	select BR2_PACKAGE_AVAHI
 	help
 	  Install the recalbox system files
 
