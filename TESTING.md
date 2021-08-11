@@ -122,6 +122,50 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test command line hash still works
 - [ ] Test that retroarch override configuration works for preinstalled games (#1805)
 - [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
+- [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [ ] Test Saturn on RPI4
+- [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+
+- [ ] Test DS4 joystick works right after starting a rom (#1845)
+- [ ] Bumped libretro fbneo (#1859)
+  - [ ] Test the floppy disk change on FDS
+  - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
+- [ ] Test Netplay lobby window
+  - [ ] Enter/Exit the lobby window: should be almost "instant" now
+  - [ ] Test manual refresh
+  - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
+  - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
+- [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+- [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
+- [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [ ] Check the libretro picodrive core from the bump.
+- [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+
+  - [ ] Test EmuTOS bios for Atari ST (#1868)
+- [ ] Check out the game Rick Dangerous (xrick) (#1891)
+  - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
+- [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
+- [ ] Test libretro-MGBA
+- [ ] Text Libretro PX68K and test .m3u multi-disk
+- [ ] Bump libretro dosbox-pure core to 0.16 (#1644)
+- [ ] Test P2K v2
+  - [ ] Test Mouse emulation on many systems (both joystick & dpad)
+  - [ ] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
+  - [ ] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
+- [ ] Test the TRS-80 Color Computer system (XRoar emulator)
+- [ ] Test the Dragon32/64 system (XRoar emulator)
+- [ ] Test wifi connection by WPS is working (#1909)
+- [ ] Check if the text "No comment available" is correctly spelled (#1911)
+- [ ] Test libretro-MGBA  
+- [ ] Test Oricutron
+- [ ] Test SimCoupé
+- [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
+- [ ] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
+  - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
+  - [ ] fan should be controlled by wpaf
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
