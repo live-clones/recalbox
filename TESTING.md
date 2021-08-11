@@ -118,6 +118,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test GearColeco core
 - [ ] Test Amiberry v4.1.5
   - [ ] Test CDTV with Amiberry
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
