@@ -59,6 +59,15 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+- [ ] Test retroarch v1.9.7 (#1805)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
+- [ ] Test that retroarch override configuration works for preinstalled games (#1805)
+- [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
+- [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [ ] Test Saturn on RPI4
+- [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS
@@ -73,6 +82,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
   - [ ] Check the libretro picodrive core from the bump.
 - [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+
   - [ ] Test EmuTOS bios for Atari ST (#1868)
 - [ ] Check out the game Rick Dangerous (xrick) (#1891)
   - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
@@ -123,6 +133,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check volume wheel works
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
