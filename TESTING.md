@@ -86,6 +86,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
 - [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
+- [ ] Test retroarch v1.9.7 (#1805)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

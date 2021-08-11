@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Bump Libretro MAME to 0.232 (PC 64bits)
 - Bump Retroarch to v1.9.3
+- Bump Retroarch to v1.9.7
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 - Bump Fbneo v1.0.0.02
 - Bump Sharp X68000 core (px68k)
