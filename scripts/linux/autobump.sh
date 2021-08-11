@@ -28,5 +28,6 @@ subproject_bump recalbox-themes RECALBOX_THEMES_VERSION 4601705
 subproject_bump recalbox-manager2 RECALBOX_MANAGER2_VERSION 10464536
 subproject_bump recalbox-hardware RECALBOX_HARDWARE_VERSION 12750999
 subproject_bump recalbox-settings RECALBOX_SETTINGS_VERSION 12966260
+subproject_bump recalbox-wpaf RECALBOX_WPAF_VERSION 21050838
 
 echo "All subprojects bumped to latest commit"
