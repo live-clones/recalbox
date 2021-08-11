@@ -15,5 +15,7 @@ wpaf_SOURCES = font16.c  font24.c font12.c font20.c font8.c wpaf.c \
 							 display_manager.c \
 							 log.c\
 							 mb_pwm_fan_controller.c \
-							 rpi_poe_plus.c
+							 rpi_poe_plus.c \
+							 rpi_pwm_fan_controller.c\
+							 fan_shim.c
 

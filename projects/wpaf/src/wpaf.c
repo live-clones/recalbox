@@ -113,6 +113,7 @@ void parse_args(int argc, char **argv) {
         break;
       case 'T':
         arguments.temp_setpoint = atoi(optarg);
+        break;
       case ':':
         printf("option needs a value\n");
         break;
@@ -174,6 +175,7 @@ uint32_t start_wpaf(char ** argv) {
     return EXIT_FAILURE;
   }else if (fan_pid == 0) {
     strncpy(process_name, "wpaf: fan manager", 0xff);
+    log_debug("fan manager started with pid %d", getpid());
     start_fan_manager(board, handler, &arguments);
   }
 
@@ -183,12 +185,13 @@ uint32_t start_wpaf(char ** argv) {
     return EXIT_FAILURE;
   }else if (display_pid == 0) {
     strncpy(process_name, "wpaf: display manager", 0xff);
+    log_debug("display manager started with pid %d", getpid());
     start_display_manager(board, handler, &arguments);
   }
 
+  wait_for_all();
   board->close(handler);
 
-  wait_for_all();
   return EXIT_SUCCESS;
 }
 

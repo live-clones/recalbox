@@ -1,11 +1,19 @@
+Compatible hardware
+~~~~~~~~~~~~~~~~~~~
+
+- Waveshare PoE Hat B
+- Argon Forty / Argon One
+- Experimental PI PiBoy DMG
+- Raspberry PI PoE+
+- Pimoroni fan SHIM
+
+BOARD SETUP
+~~~~~~~~~~~
+
 Waveshare PoE and Fan - Oled and fan controller
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This program displays CPU temperature on the Waveshare PoE hat screen and
-controls the fan (manual switch set to P0). The fan is started at 50°c and
-stopped at 40°c.
-
-This program can handle OLED sreen and fan of waveshare's PoE hat model B.
+wpaf can handle OLED sreen and fan of waveshare's PoE hat model B.
 
 For this program to work, you have to enable an overlay, in your /boot/config.txt:
 
@@ -15,41 +23,34 @@ then reboot. Then load the i2c-dev kernel module:
 
   modprobe i2c-dev
 
-Compatible hardware
-~~~~~~~~~~~~~~~~~~~
+Argon Forty / One
+~~~~~~~~~~~~~~~~~
 
-- Waveshare PoE Hat B
+wpaf can manage Argon One (w/ or w/o m.2 expansion slot). You juste need to add the configutation
+below to make it works:
 
-Contributing
-~~~~~~~~~~~~
+  dtparam=i2c_arm=on
+  enable_uart=1
 
-Here is a little guide to add support for a new board.
-For this guide you will need the references of the controllers
-found on the board.
-Then, you will need datasheet of those controllers in order to
-control them.
+Raspberry PI PoE+
+~~~~~~~~~~~~~~~~~
 
-A board is composed of a fan and/or a screen.
-(if there is no screen on your board create dummy functions).
+For that board, there is an overlay that manages PoE and fan. Enable by adding this configuration to
+config.txt:
 
-To add support for a new fan controller, you have to create:
-  changeme_fan_controller.h which contains definition of functions,
-  changeme_fan_controller.c which contains code to controll the controller.
+  dtoverlay=rpi-poe-plus
 
-Fan controller functions are derivated from fan_driver.h:
-  init():  initialize the fan controller (send command sequence for example)
-  on():    start the fan
-  off():   stop the fan
-  close(): close files and free structures (on program exit)
+However wpaf is incompatible with rpi_poe_fan kernel module. Be sure to blacklist rpi_poe_fan.
 
-For the display, it is quite the same:
-  changeme_display_controller.h
-  changeme_display_controller.c
+  echo "blacklist rpi_poe_fan" >>/etc/modprobe.d/blacklist.conf
 
-Once your fan and display controller are created, you can create a new board,
-derivated from board_driver.h. A board controller have only 2 functions:
-  init():  initialize fan and display
-  close(): close and free resources on program exit
+Pimoroni fan SHIM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add a new definition in boards.h (both board_list and board_id).
+Make sure PWM is enable on GPIO 18 (pin 12) by enabling that overlay:
 
+  dtoverlay=pwm
+
+Then enable GPIO18 as PWM with
+
+  echo 0 >/sys/class/pwm/pwmchip0/export

@@ -1,0 +1,33 @@
+Contributing
+~~~~~~~~~~~~
+
+Here is a little guide to add support for a new board.
+For this guide you will need the references of the controllers
+found on the board.
+Then, you will need datasheet of those controllers in order to
+control them.
+
+A board is composed of a fan and/or a screen.
+(if there is no screen on your board create dummy functions).
+
+To add support for a new fan controller, you have to create:
+  changeme_fan_controller.h which contains definition of functions,
+  changeme_fan_controller.c which contains code to controll the controller.
+
+Fan controller functions are derivated from fan_driver.h:
+  init():  initialize the fan controller (send command sequence for example)
+  on():    start the fan
+  off():   stop the fan
+  close(): close files and free structures (on program exit)
+
+For the display, it is quite the same:
+  changeme_display_controller.h
+  changeme_display_controller.c
+
+Once your fan and display controller are created, you can create a new board,
+derivated from board_driver.h. A board controller have only 2 functions:
+  init():  initialize fan and display
+  close(): close and free resources on program exit
+
+Add a new definition in boards.h (both board_list and board_id).
+

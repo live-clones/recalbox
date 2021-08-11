@@ -8,7 +8,7 @@
 #define RPI_POE_PLUS_PWM_MAX 255
 #define RPI_POE_PLUS_PWM_KP  3
 #define RPI_POE_PLUS_PWM_KI  0.8
-#define RPI_POE_PLUS_PWM_KD  0.5
+#define RPI_POE_PLUS_PWM_KD  0.1
 
 extern board_interface rpi_poe_plus_interface;
 
