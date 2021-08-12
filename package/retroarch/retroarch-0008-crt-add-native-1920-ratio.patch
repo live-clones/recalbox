@@ -1,0 +1,162 @@
+diff --git a/gfx/video_defines.h b/gfx/video_defines.h
+index 33f94d5..ceaf197 100644
+--- a/gfx/video_defines.h
++++ b/gfx/video_defines.h
+@@ -56,6 +56,7 @@ enum aspect_ratio
+    ASPECT_RATIO_CORE,
+    ASPECT_RATIO_CUSTOM,
+    ASPECT_RATIO_FULL,
++   ASPECT_RATIO_NATIVE_1920,
+ 
+    ASPECT_RATIO_END
+ };
+diff --git a/retroarch.c b/retroarch.c
+index 0642c8c..0e95270 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -30717,6 +30717,20 @@ static bool video_driver_init_internal(
+       scale  = p_rarch->video_driver_state_scale;
+ #endif
+ 
++   RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u\n", geom->base_width,  geom->base_height);
++
++
++  // ASPECT_RATIO_NATIVE_1920 specific values
++  if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920)
++  {
++    double input_fps = p_rarch->video_driver_av_info.timing.fps;
++    if(input_fps > 0.0)
++    {
++      RARCH_LOG("[Video]: Setting fps from core value : %f\n", input_fps);
++      settings->floats.video_refresh_rate = input_fps;
++    }
++    settings->floats.video_scale = 1;
++  }
+    /* Update core-dependent aspect ratio values. */
+    video_driver_set_viewport_square_pixel(geom);
+    video_driver_set_viewport_core();
+@@ -30724,6 +30738,8 @@ static bool video_driver_init_internal(
+          settings->floats.video_aspect_ratio,
+          settings->bools.video_aspect_ratio_auto);
+ 
++   video_driver_set_viewport_native_1920();
++
+    /* Update CUSTOM viewport. */
+    custom_vp = &settings->video_viewport_custom;
+ 
+@@ -30745,7 +30761,7 @@ static bool video_driver_init_internal(
+             aspectratio_lut[new_aspect_idx].value);
+    }
+ 
+-   if (settings->bools.video_fullscreen|| p_rarch->rarch_force_fullscreen)
++   if (settings->uints.video_aspect_ratio_idx != ASPECT_RATIO_NATIVE_1920 && (settings->bools.video_fullscreen|| p_rarch->rarch_force_fullscreen))
+    {
+       width  = settings->uints.video_fullscreen_x;
+       height = settings->uints.video_fullscreen_y;
+@@ -30765,17 +30781,29 @@ static bool video_driver_init_internal(
+          float video_scale = settings->floats.video_scale;
+          if (settings->bools.video_force_aspect)
+          {
++            RARCH_LOG("[Video]: Set width and height to %ux%u video scale = %f\n", width, height, video_scale);
++
+             /* Do rounding here to simplify integer scale correctness. */
+             unsigned base_width =
+                roundf(geom->base_height * p_rarch->video_driver_aspect_ratio);
+             width  = roundf(base_width * video_scale);
+          }
+          else
++         {
+             width  = roundf(geom->base_width   * video_scale);
++         }
+          height    = roundf(geom->base_height  * video_scale);
++         if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920 && height < 224)
++         {
++           height = 240;
++           width = 1920;
++         }
++          RARCH_LOG("[Video]: Set width and height to %ux%u video scale = %f\n", width, height, video_scale);
+       }
+    }
+ 
++
++
+ #ifdef __WINRT__
+    if (settings->bools.video_force_resolution)
+    {
+@@ -30802,7 +30826,8 @@ static bool video_driver_init_internal(
+    video.width                       = width;
+    video.height                      = height;
+    video.fullscreen                  = settings->bools.video_fullscreen ||
+-                                       p_rarch->rarch_force_fullscreen;
++                                       p_rarch->rarch_force_fullscreen ||
++                                       settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920;
+    video.vsync                       = settings->bools.video_vsync &&
+       !runloop_state.force_nonblock;
+    video.force_aspect                = settings->bools.video_force_aspect;
+@@ -31396,6 +31424,20 @@ void video_driver_set_viewport_core(void)
+          (float)geom->base_width / geom->base_height;
+ }
+ 
++void video_driver_set_viewport_native_1920(void)
++{
++   struct rarch_state        *p_rarch   = &rarch_st;
++   struct retro_game_geometry *geom     = &p_rarch->video_driver_av_info.geometry;
++
++   if (!geom || geom->base_width <= 0.0f || geom->base_height <= 0.0f)
++      return;
++
++   int height = geom->base_height >= 224 ? geom->base_height : 240;
++   aspectratio_lut[ASPECT_RATIO_NATIVE_1920].value =
++         (float)1920 / height;
++   RARCH_LOG("[Video]: set ASPECT_RATIO_NATIVE_1920 value to %f\n",aspectratio_lut[ASPECT_RATIO_NATIVE_1920].value);
++}
++
+ void video_driver_set_viewport_full(void)
+ {
+    unsigned width = 0;
+@@ -31486,6 +31524,8 @@ void video_driver_set_aspect_ratio(void)
+    settings_t  *settings       = p_rarch->configuration_settings;
+    unsigned  aspect_ratio_idx  = settings->uints.video_aspect_ratio_idx;
+ 
++   RARCH_LOG("[Video]: Setting aspect ratio\n");
++
+    switch (aspect_ratio_idx)
+    {
+       case ASPECT_RATIO_SQUARE:
+@@ -31496,6 +31536,10 @@ void video_driver_set_aspect_ratio(void)
+          video_driver_set_viewport_core();
+          break;
+ 
++      case ASPECT_RATIO_NATIVE_1920:
++         video_driver_set_viewport_native_1920();
++         break;
++
+       case ASPECT_RATIO_CONFIG:
+          video_driver_set_viewport_config(
+                &p_rarch->video_driver_av_info.geometry,
+diff --git a/retroarch.h b/retroarch.h
+index d49dca4..bcb6048 100644
+--- a/retroarch.h
++++ b/retroarch.h
+@@ -1570,6 +1570,8 @@ void video_driver_set_viewport_core(void);
+ 
+ void video_driver_set_viewport_full(void);
+ 
++void video_driver_set_viewport_native_1920(void);
++
+ void video_driver_reset_custom_viewport(void);
+ 
+ void video_driver_set_rgba(void);
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 182d0b4..f76534e 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -764,6 +764,8 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+       goto error;
+    }
+ 
++   RARCH_LOG("[DRM]: mode selected: %d x %d, %f Hz\n", g_drm_mode->hdisplay, g_drm_mode->vdisplay, drm_calc_refresh_rate(g_drm_mode));
++
+    drm->fb_width    = g_drm_mode->hdisplay;
+    drm->fb_height   = g_drm_mode->vdisplay;
+ 

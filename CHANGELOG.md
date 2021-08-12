@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added code to add retroachievements in romfsv2 (#1839)
 - Add avahi deamon as recalbox-system dependency (#1826)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Add Retroarch ASPECT_RATIO_NATIVE_1920 for CRT (#1805)
 - Bump retroarch to version 1.9.7 (#1805)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
