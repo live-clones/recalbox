@@ -7,6 +7,7 @@ from typing import List
 def buildOverrideChain(rom, configfile) -> List[str]:
     import os
     romFolder = os.path.dirname(rom)
+    romFolder = romFolder.replace("/share_init/", "/share/")
     items = romFolder.split('/')
     result: List[str] = []
     pathToCheck = "/" if romFolder.startswith("/") else ""
