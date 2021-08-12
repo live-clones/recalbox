@@ -1,0 +1,15 @@
+diff --git a/Makefile.common b/Makefile.common
+index 52fdd53..4ea18bc 100644
+--- a/Makefile.common
++++ b/Makefile.common
+@@ -2307,6 +2307,10 @@ ifeq ($(HAVE_CRTSWITCHRES), 1)
+          OBJ += $(DEPS_DIR)/switchres/custom_video_xrandr.o
+          DEFINES += -DSR_WITH_XRANDR
+       endif
++      ifeq ($(HAVE_KMS), 1)
++         OBJ += $(DEPS_DIR)/switchres/custom_video_drmkms.o
++         DEFINES += -DSR_WITH_KMSDRM
++      endif
+    endif
+    ifneq ($(findstring Win32,$(OS)),)
+       DEFINES += -DSR_WIN32_STATIC
