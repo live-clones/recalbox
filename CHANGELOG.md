@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Default values for sprite limits in core configuration (#1842)
 - Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Add Retroarch ASPECT_RATIO_NATIVE_1920 for CRT (#1805)
 - Bump retroarch to version 1.9.7 (#1805)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
