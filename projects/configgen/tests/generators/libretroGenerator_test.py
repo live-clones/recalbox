@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 import shutil
+from pathlib import Path
+
 import pytest
-from configgen.Emulator import Emulator
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 import configgen.generators.libretro.libretroGenerator as libretroGenerator
 import configgen.generators.libretro.libretroLightGuns as libretroLightGuns
+from configgen.Emulator import Emulator
+from configgen.crt.Mode import Mode
 from configgen.generators.libretro.libretroGenerator import LibretroGenerator
 from configgen.settings.keyValueSettings import keyValueSettings
-
 import configgen.controllers.controller as controllersConfig
-
 from tests.generators.FakeArguments import Arguments
 
 
@@ -21,7 +22,6 @@ def emulator():
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
     libretroLightGuns.esLightGun = 'tests/resources/lightgun.cfg'
     libretroLightGuns.GAME_INFO_PATH = 'tests/resources/es_state.inf'
-
     return LibretroGenerator()
 
 
@@ -45,7 +45,6 @@ def system_nes():
 @pytest.fixture
 def system_snes():
     return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x2002')
-
 
 @pytest.fixture
 def system_px68k():
@@ -85,7 +84,8 @@ def test_simple_generate_snes(emulator, system_snes, controller_configuration):
 
 def test_simple_generate_nes_mayflash(emulator_mayflash, system_nes, controller_configuration, mocker):
     mocker.patch('os.path.exists', return_value=True)
-    command = emulator_mayflash.generate(system_nes, controller_configuration, keyValueSettings("", False), Arguments('path/to/duckhunt'))
+    command = emulator_mayflash.generate(system_nes, controller_configuration, keyValueSettings("", False),
+                                         Arguments('path/to/duckhunt'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/fceumm_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
@@ -95,7 +95,8 @@ def test_simple_generate_nes_mayflash(emulator_mayflash, system_nes, controller_
 
 def test_simple_generate_px68k_hdd(emulator, system_px68k, controller_configuration, mocker):
     mocker.patch('os.path.getsize', return_value=2097152)
-    command = emulator.generate(system_px68k, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
+    command = emulator.generate(system_px68k, controller_configuration, keyValueSettings("", False),
+                                Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/px68k_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
@@ -105,7 +106,8 @@ def test_simple_generate_px68k_hdd(emulator, system_px68k, controller_configurat
 
 def test_simple_generate_px68k_floppy(emulator, system_px68k, controller_configuration, mocker):
     mocker.patch('os.path.getsize', return_value=720000)
-    command = emulator.generate(system_px68k, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
+    command = emulator.generate(system_px68k, controller_configuration, keyValueSettings("", False),
+                                Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/px68k_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
@@ -128,7 +130,8 @@ def test_simple_generate_quasi88_multi_disk_1(emulator, system_quasi88, controll
                                             'path/to/test(Disk 3 of 5).zip',
                                             'path/to/test(Disk 4 of 5).zip',
                                             'path/to/test(Disk 5 of 5).zip'])
-    command = emulator.generate(system_quasi88, controller_configuration, keyValueSettings("", False), Arguments('path/to/test(Disk 1 of 5).zip'))
+    command = emulator.generate(system_quasi88, controller_configuration, keyValueSettings("", False),
+                                Arguments('path/to/test(Disk 1 of 5).zip'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/quasi88_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
@@ -147,7 +150,8 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
                                             'path/to/test(Disk 3 of 5)(Disk C).zip',
                                             'path/to/test(Disk 4 of 5)(Disk D).zip',
                                             'path/to/test(Disk 5 of 5)(Disk E).zip'])
-    command = emulator.generate(system_quasi88, controller_configuration, keyValueSettings("", False), Arguments('path/to/test(Disk 1 of 5)(Disk A).zip'))
+    command = emulator.generate(system_quasi88, controller_configuration, keyValueSettings("", False),
+                                Arguments('path/to/test(Disk 1 of 5)(Disk A).zip'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/quasi88_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
@@ -158,3 +162,27 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
                              'path/to/test(Disk 3 of 5)(Disk C).zip',
                              'path/to/test(Disk 4 of 5)(Disk D).zip',
                              'path/to/test(Disk 5 of 5)(Disk E).zip']
+
+
+def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
+    recalbox_conf = keyValueSettings("", True)
+    recalbox_conf.setString("system.crt", "vga666")
+    recalbox_conf.setInt("system.crt.horizontal_offset", -10)
+    recalbox_conf.setInt("system.crt.vertical_offset", -2)
+    recalbox_conf.setInt("system.crt.viewport_width", 1820)
+    recalbox_conf.setString("system.crt", "vga666")
+    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadMode',
+                 side_effect=[Mode("1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1", "50.1"),
+                              Mode("1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1", "60.1")])
+    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadSystem',
+                 return_value={"pal": ("snes:pal:240@50p", 1740, 224), "ntsc": ("snes:ntsc:224@60p", 0, 0)})
+
+    emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
+    generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
+    assert 'crt_switch_timings_ntsc = "1920 1 88 192 200 224 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
+    assert 'crt_switch_timings_pal = "1920 1 88 192 200 240 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
+    assert 'custom_viewport_width_ntsc = 1820' in generated_config
+    assert 'custom_viewport_width_pal = 1740' in generated_config
+    assert 'video_refresh_rate_ntsc = "60.1"' in generated_config
+    assert 'video_refresh_rate_pal = "50.1"' in generated_config
+

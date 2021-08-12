@@ -64,3 +64,4 @@ configgen/tests/settings/tmp/
 configgen/tests/generators/fba2x/tmp/
 configgen/tests/generators/libretro/tmp/
 
+tests/generators/tests/

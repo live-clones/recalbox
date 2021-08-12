@@ -229,9 +229,14 @@ def main(arguments) -> (int, bool):
     # Main Program
     # A generator will configure its emulator, and return a command
     system = getDefaultEmulator(systemName, arguments.emulator, arguments.core)
+    recalboxOptions, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.Name)
+
+    if recalboxOptions.getString("system.crt","") != "":
+        from configgen.crt.CRTEmulatorSelector import CRTEmulatorSelector
+        system = CRTEmulatorSelector().chooseEmulatorAndCoreFor(system, arguments.rom)
+
     if system is not None:
         # Load recalbox.conf
-        recalboxOptions, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.Name)
 
         # Configure attributes
         system.configure(recalboxOptions, arguments)

@@ -126,6 +126,39 @@ class LibretroGenerator(Generator):
         lightgunConfig = libretroLightGun(system, rom, demo, retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
 
+        # crt config
+        if recalboxOptions.hasOption("system.crt"):
+            # Recalbox.conf options
+            v_offset = recalboxOptions.getInt("system.crt.vertical_offset", 0)
+            h_offset = recalboxOptions.getInt("system.crt.horizontal_offset", 0)
+            viewport_width = recalboxOptions.getInt("system.crt.viewport_width", 0)
+
+            # Specific retroarch options
+            retroarchConfig.setString("aspect_ratio_index", "24")
+            retroarchConfig.setString("video_smooth", "false")
+            retroarchConfig.setString("video_aspect_ratio_auto", "false")
+
+            # Retroarch CRT configuration
+            from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
+            from configgen.crt.CRTConfigParser import CRTConfigParser
+            from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
+            libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), h_offset, v_offset, viewport_width)
+            for option in libretro_crt_configurator.createConfigFor(system, rom).items():
+                retroarchConfig.setString(option[0], option[1])
+            # Core configuration
+            from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+            core_config = LibretroCoreConfigCRT().createConfigFor(system)
+            for core_option in core_config.items():
+                coreConfig.setString(core_option[0], core_option[1])
+
+            retroarchConfig.saveFile()
+            coreConfig.saveFile()
+
+            # Most specific code ever (it's here because of *.retroarch.cfg in /recalbox/share_init/roms/vectrex)
+            if system.Name == "vectrex":
+                retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
+                retroarchOverrides.saveFile()
+
         return configuration.getRetroarchConfigurationFileName(),\
                configuration.getRetroarchOverridesFileName(),\
                commandArgs

@@ -160,3 +160,6 @@ pisnesConfigFile = pisnesRootFolder + '/snes9x.cfg'
 supermodelRooFolder = CONF + '/model3'
 supermodelConfigFile = supermodelRooFolder + '/ConfigModel3.ini'
 supermodelControlsIni = supermodelRooFolder + '/Supermodel.ini'
+
+crtFilesRootFolder = '/recalbox/system/configs/crt/'
+crtUserFilesRootFolder = '/recalbox/share/system/configs/crt/'
