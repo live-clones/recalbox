@@ -5,10 +5,10 @@
 ################################################################################
 
 ifneq ($(GITLAB_TOKEN_THEMES),)
-RECALBOX_THEMES_VERSION = 15fce77016bb9a2c477213abfe08ea7484e72892
+RECALBOX_THEMES_VERSION = 6bacc0b7ca4beada223ae9ac2e72a28bfbd13511
 RECALBOX_THEMES_SITE = https://gitlab-ci-token:$(GITLAB_TOKEN_THEMES)@gitlab.com/recalbox/recalbox-themes-prime
 else
-RECALBOX_THEMES_VERSION = dd10b43c5bf48861274a77af9e604b1fa5bcc2ae
+RECALBOX_THEMES_VERSION = 6bacc0b7ca4beada223ae9ac2e72a28bfbd13511
 RECALBOX_THEMES_SITE = https://gitlab.com/recalbox/recalbox-themes
 endif
 RECALBOX_THEMES_SITE_METHOD = git
