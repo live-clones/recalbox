@@ -1,0 +1,5 @@
+config BR2_PACKAGE_SWITCHRES
+	bool "switchres"
+	help
+	  Switchres is a modeline generation engine for emulation.
+	  https://github.com/antonioginer/switchres
