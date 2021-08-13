@@ -64,6 +64,7 @@ All notable changes to this project will be documented in this file.
 - Bump theme (#1827)
 - Fix pisnes crash on launch (#1838)
 - Use xz compression method for squashfs (#1848)
+- Fix simcoupe compilation issue (#1833)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
