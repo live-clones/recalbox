@@ -85,6 +85,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check the libretro picodrive core from the bump.
 
 - [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
+- [ ] Test simcoupé emulator (#1833)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

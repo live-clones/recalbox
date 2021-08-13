@@ -86,6 +86,7 @@ All notable changes to this project will be documented in this file.
 - Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
 - Rework bluetooth scripts (#1482)
 - Use xz compression method for squashfs (#1848)
+- Fix simcoupe compilation issue (#1833)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
