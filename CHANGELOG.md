@@ -48,6 +48,8 @@ All notable changes to this project will be documented in this file.
 - Allow pulseaudio to start when audio card not found (#1774)
 - Improve odroidxu4 OGST video playback (#1811)
 - Bump theme (#1827)
+- Fix the theme bands on dreamcast, mastersystem, saturn, sega32x and segacd for OGA (theme jp and us) (#1810)
+
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
