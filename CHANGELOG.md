@@ -73,6 +73,7 @@ All notable changes to this project will be documented in this file.
 - Bump legacy nvidia drivers to 390.143 (#1815)
 - Bump production nvidia drivers to 460.84 (#1815)
 - Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
+- Add gamelink overload for gb and gbc (#1808)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

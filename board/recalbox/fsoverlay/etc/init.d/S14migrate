@@ -115,3 +115,12 @@ for SAVE_DIR in "SAVEDATA" "PPSSPP_STATE"; do
     rm -rf "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/"
   fi
 done
+
+### Migration 7 [20210813000000]
+### Copy gamelink to the new directory : see https://gitlab.com/recalbox/recalbox/-/issues/1808
+
+for system in gb gbc; do
+  if [ ! -d "/recalbox/share/roms/${SYSTEM}/gamelink/)" ]; then
+    recallog "MIGRATION of gamelink from /recalbox/share_init/roms/${SYSTEM}/gamelink/ to /recalbox/share/roms/${SYSTEM}/gamelink/"
+    cp -r "/recalbox/share_init/roms/${SYSTEM}/gamelink/" "/recalbox/share/roms/${SYSTEM}/gamelink/"
+done
