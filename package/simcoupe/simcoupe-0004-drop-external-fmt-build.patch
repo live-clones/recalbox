@@ -1,0 +1,10 @@
+--- simcoupe-f401f47fb6d6af5dbe7b1d83a520e82cbe9d7ff2/CMakeLists.txt.orig	2021-08-14 00:11:10.065366876 +0200
++++ simcoupe-f401f47fb6d6af5dbe7b1d83a520e82cbe9d7ff2/CMakeLists.txt	2021-08-14 00:11:41.851995815 +0200
+@@ -264,7 +264,6 @@
+   endif()
+ endif()
+ 
+-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Extern/fmt)
+ target_link_libraries(${PROJECT_NAME} fmt)
+ 
+ ########
