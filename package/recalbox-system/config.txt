@@ -44,6 +44,7 @@ temp_soft_limit=70
 [pi4]
 temp_soft_limit=70
 dtoverlay=vc4-kms-v3d
+include recalbox-crt-config.txt
 
 # disable 4k resolution
 hdmi_pixel_freq_limit:0=200000000
