@@ -74,6 +74,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check volume wheel works
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
+- [ ] Check that ES starts on XU4 (#1815)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
