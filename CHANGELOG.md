@@ -47,6 +47,7 @@ All notable changes to this project will be documented in this file.
 - Send pulseaudio logs to syslog to ease debug (#1774)
 - Allow pulseaudio to start when audio card not found (#1774)
 - Improve odroidxu4 OGST video playback (#1811)
+- Bump theme (#1827)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
