@@ -1,17 +1,19 @@
 diff --git a/boot/grub2/grub2.mk b/boot/grub2/grub2.mk
-index af16ee91e1..b14559b207 100644
+index af16ee91e1..52e9199ae9 100644
 --- a/boot/grub2/grub2.mk
 +++ b/boot/grub2/grub2.mk
-@@ -118,9 +118,9 @@ HOST_GRUB2_CONF_ENV = \
+@@ -118,9 +118,11 @@ HOST_GRUB2_CONF_ENV = \
  GRUB2_CONF_ENV = \
  	CPP="$(TARGET_CC) -E" \
  	TARGET_CC="$(TARGET_CC)" \
 -	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
 -	TARGET_CPPFLAGS="$(TARGET_CPPFLAGS) -fno-stack-protector" \
 -	TARGET_LDFLAGS="$(TARGET_LDFLAGS)" \
-+	CFLAGS=" $(TARGET_CFLAGS) -O2" \
-+	CPPFLAGS="$(TARGET_CPPFLAGS) -O2 -fno-stack-protector" \
-+	LDFLAGS="$(TARGET_LDFLAGS) -O2" \
++	CFLAGS="$(TARGET_CFLAGS) -Os" \
++	TARGET_CFLAGS="$(TARGET_CFLAGS) -Os" \
++	CPPFLAGS="$(TARGET_CPPFLAGS) -Os -fno-stack-protector" \
++	TARGET_CPPFLAGS="$(TARGET_CPPFLAGS) -Os -fno-stack-protector" \
++	TARGET_LDFLAGS="$(TARGET_LDFLAGS) -Os" \
  	TARGET_NM="$(TARGET_NM)" \
  	TARGET_OBJCOPY="$(TARGET_OBJCOPY)" \
  	TARGET_STRIP="$(TARGET_CROSS)strip"
