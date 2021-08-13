@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Default values for sprite limits in core configuration (#1842)
 - Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Fix MSX1 folder name (#1840)
+- Added code to add retroachievements in romfsv2 (#1839)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Added website meta in rpi imager (#1821)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
