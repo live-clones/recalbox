@@ -1,0 +1,78 @@
+From f061b9ccc51102f12b6c7e63b5d4cb51386d0c5d Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Fri, 13 Aug 2021 11:55:55 +0200
+Subject: [PATCH 1/2] feat: use gbm wrapper
+
+---
+ CMakeLists.txt | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 80dd534..bb3b56b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -29,17 +29,19 @@ foreach(VARIANT IN LISTS MALI_VARIANT)
+ endforeach()
+ 
+ configure_file(pkgconfig/egl.pc.cmake egl.pc @ONLY)
+-configure_file(pkgconfig/gbm.pc.cmake gbm.pc @ONLY)
++configure_file(src/gbm.pc.cmake gbm.pc @ONLY)
+ configure_file(pkgconfig/glesv1_cm.pc.cmake glesv1_cm.pc @ONLY)
+ configure_file(pkgconfig/glesv2.pc.cmake glesv2.pc @ONLY)
+ 
++add_library(gbm STATIC src/gbm.c)
++
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/egl.pc
+               ${CMAKE_CURRENT_BINARY_DIR}/gbm.pc
+               ${CMAKE_CURRENT_BINARY_DIR}/glesv1_cm.pc
+               ${CMAKE_CURRENT_BINARY_DIR}/glesv2.pc
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ 
+-install(FILES include/gbm.h
++install(FILES src/gbm.h
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ 
+ install(DIRECTORY include/EGL
+@@ -61,6 +63,7 @@ if(MALI_FILE_LENGTH GREATER 0)
+         message(STATUS "FILE: ${FILE}")
+         install(PROGRAMS lib/${MALI_ARCH}/${FILE} DESTINATION ${CMAKE_INSTALL_LIBDIR})
+     endforeach()
++    install(PROGRAMS libgbm.a DESTINATION ${CMAKE_INSTALL_LIBDIR})
+     list(GET MALI_FILE 0 MALI_FILE_FIRST)
+     install_symlink(${MALI_FILE_FIRST} ${CMAKE_INSTALL_LIBDIR}/libmali.so)
+     install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libMali.so)
+@@ -70,5 +73,4 @@ if(MALI_FILE_LENGTH GREATER 0)
+     install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libGLESv1_CM.so.1)
+     install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libGLESv2.so)
+     install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libGLESv2.so.2)
+-    install_symlink(libmali.so ${CMAKE_INSTALL_LIBDIR}/libgbm.so)
+ endif()
+-- 
+2.32.0
+
+
+From f3933646e8de976403ed0b380e10bb40c81afdc9 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Fri, 13 Aug 2021 11:56:23 +0200
+Subject: [PATCH 2/2] fix: fix compile use for missing drm.h
+
+---
+ src/gbm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/gbm.c b/src/gbm.c
+index b868772..aad3a2a 100644
+--- a/src/gbm.c
++++ b/src/gbm.c
+@@ -8,7 +8,7 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <sys/mman.h>
+-#include <xf86drm.h>
++#include <libdrm/drm.h>
+ #include "gbm.h"
+ 
+ void *
+-- 
+2.32.0
+
