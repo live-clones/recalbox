@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
 - Default values for sprite limits in core configuration (#1842)
+- Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Added website meta in rpi imager (#1821)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
