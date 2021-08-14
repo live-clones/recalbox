@@ -95,6 +95,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
   - [ ] Check the libretro picodrive core from the bump.
 
+- [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
