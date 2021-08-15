@@ -22,11 +22,11 @@ OUT=/recalbox/share
 
 # Uncompress directories' content
 for DIR in shaders
-do           
+do
     if test ! -e "$OUT""/""$DIR"; then
         tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
-    fi    
-done  
+    fi
+done
 
 # force the creation of some directories
 for DIR in cheats \
@@ -140,7 +140,7 @@ done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/
 # the user can't delete any directory, otherwise, it will recreate it, with link inside
 # the user can delete links and add its own files
 # to reset the directory or update it, the user has to remove the directory (we are unable to differenciate new files from recalbox update from a file removed by the user)
-for DIR in system/configs overlays 
+for DIR in system/configs overlays
 do
     [ ! -e "$OUT""/""$DIR" ] && mkdir "$OUT""/""$DIR"
     recreatedFolders=$(find "$IN""/""$DIR" -mindepth 1 -maxdepth 1 -type d)
@@ -165,7 +165,7 @@ then
     mkdir -p /recalbox/share/system/ssh
     dropbearkey -t ecdsa -f /tmp/dropbear_ecdsa_host_key
     mv /tmp/dropbear_ecdsa_host_key /recalbox/share/system/ssh/
-    dropbearkey -t rsa   -f /tmp/dropbear_rsa_host_key 
+    dropbearkey -t rsa   -f /tmp/dropbear_rsa_host_key
     mv /tmp/dropbear_rsa_host_key /recalbox/share/system/ssh/
     dropbearkey -t dss   -f /tmp/dropbear_dss_host_key
     mv /tmp/dropbear_dss_host_key /recalbox/share/system/ssh/
@@ -199,4 +199,10 @@ mount --bind /recalbox/share/system/udev/rules.d /run/udev/rules.d
 if [ -e /tmp/newshare ]; then
     /recalbox/scripts/recalbox-create-share.sh stop
     #reboot
+fi
+
+# Copy TIC-80 games downloader file into share
+if test ! -f /recalbox/share/roms/tic80/recalbox-tic80
+then
+    cp /recalbox/share_init/roms/tic80/recalbox-tic80 /recalbox/share/roms/tic80/recalbox-tic80
 fi

@@ -42,6 +42,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] EmulationStation should always start (no phantom screen) (#1774)
   - [ ] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
 - [ ] Video playback on odroidxu4 is not laggy (#1811)
+- [ ] Test Tic-80 game downloader works (#1829)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
@@ -52,7 +53,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test if time not change if you boot on recalbox or windows (#1791)
 - [ ] Test the n64 kubii pad on the mupen64 standalone core (#1512)
 - [ ] Test mupen64plus gliden64_20 on rpi3 (#1700)
-- [ ] Test to change resolution when using mupen64plus (standalone) 
+- [ ] Test to change resolution when using mupen64plus (standalone)
 - [ ] Test mupen64plus on GoA (standalone)
 - [ ] Test mupen64plus + rice on RPI4 (standalone)
 - [ ] Test PSP save path (in share/saves instead of share/bios)
@@ -94,7 +95,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test reicast vanished from rpi4, x86, x86_64 and odroidxu4
 - [ ] Test forgetting all BT devices, especially non-connected devices (switch off/standby)
 - [ ] Test arcade view system all on this system check: mame, naomi, naomigd, atomiswave, model3, daphné, neogeo, fbneo
-- [ ] Test on a game like "god of wars ghost of sparta" the intro video must be fluid 
+- [ ] Test on a game like "god of wars ghost of sparta" the intro video must be fluid
 - [ ] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
 - [ ] Check extensions of WII (*.rvz) & SCV (*.0) roms
 - [ ] Check internal scraper default language
@@ -252,7 +253,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check x86 and x86_64 fresh install with nvidia GFX card works
 - [ ] Check GPIcase config has been reconfigured
 - [ ] Check bluetooth can pair device on first boot, again for b25
-- [ ] Check sound output is HDMI on all rpi boards after a fresh-install 
+- [ ] Check sound output is HDMI on all rpi boards after a fresh-install
 - [ ] Check OgS boot correctly after update from 7.1.1 OgS
 
 
