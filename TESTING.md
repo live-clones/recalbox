@@ -92,6 +92,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test Mouse emulation on many systems (both joystick & dpad)
   - [ ] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
   - [ ] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
+- [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [ ] Check the libretro picodrive core from the bump.
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
