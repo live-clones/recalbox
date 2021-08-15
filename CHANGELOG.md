@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Added website meta in rpi imager (#1821)

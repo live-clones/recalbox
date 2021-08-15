@@ -43,6 +43,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
 - [ ] Video playback on odroidxu4 is not laggy (#1811)
 - [ ] Test Tic-80 game downloader works (#1829)
+- [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [ ] Check the libretro picodrive core from the bump.
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
