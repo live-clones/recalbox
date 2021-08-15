@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Add ti99sim, standalone emulator for the TI-99/4A
 - Added Lowres-nx theme (#1586)
 - Improve P2K
+- Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
