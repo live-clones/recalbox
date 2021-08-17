@@ -73,6 +73,7 @@ All notable changes to this project will be documented in this file.
 - Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
 - Rework bluetooth scripts (#1482)
 - Copy VecX.rmp file into share (#1879)
+- Use xz compression method for squashfs (#1848)
 
 ## [7.2.2-Reloaded]
 - Fix controller #2 in swanstation (#1730)
