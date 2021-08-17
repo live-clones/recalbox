@@ -59,6 +59,7 @@ All notable changes to this project will be documented in this file.
 - Improve odroidxu4 OGST video playback (#1811)
 - Bump theme (#1827)
 - Fix pisnes crash on launch (#1838)
+- Use xz compression method for squashfs (#1848)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
