@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-MGBA (#1873)
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
+- Bump Libretro DOSBOX Pure to 0.16 (#1644)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
