@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
 - Added code to add retroachievements in romfsv2 (#1839)
+- Bump Libretro DOSBOX Pure to 0.15 (#1644)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
