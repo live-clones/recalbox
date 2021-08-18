@@ -1,0 +1,50 @@
+From d17a7fb4d4e8d8e59a6535f11c9f0ccec42b9703 Mon Sep 17 00:00:00 2001
+From: iobus <kylejessemoore+gh2887@gmail.com>
+Date: Tue, 5 Jun 2018 00:42:16 -0400
+Subject: [PATCH] Apparently -fpermissive is not supported with C, so remove
+ that compile flag and fix warnings/errors created by its omission.
+
+---
+ Makefile      | 1 -
+ unix/unix.cpp | 6 +++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index a14724c..8f6c033 100644
+--- a/Makefile
++++ b/Makefile
+@@ -83,7 +83,6 @@ CCFLAGS = $(OPTIMISE) \
+ -DVAR_CYCLES \
+ -DCPU_SHUTDOWN \
+ -DSPC700_SHUTDOWN \
+--fpermissive \
+ -Wno-write-strings \
+ $(CPUDEFINES) \
+ $(SOUNDDEFINES) \
+diff --git a/unix/unix.cpp b/unix/unix.cpp
+index 94e7795..028a50d 100644
+--- a/unix/unix.cpp
++++ b/unix/unix.cpp
+@@ -678,7 +678,7 @@ bool8_32 S9xDeinitUpdate (int Width, int Height)
+ 	    S9xDisplayString (GFX.InfoString, (uint8 *)screen, 512);
+ 
+ 	//Draw to the screen
+-    gles2_draw(screen, 256, Height);
++    gles2_draw((short *)screen, 256, Height);
+     eglSwapBuffers(display, surface);
+ 
+ 	return(TRUE);
+@@ -707,11 +707,11 @@ void _splitpath (const char *path, char *drive, char *dir, char *fname,
+ {
+ 	*drive = 0;
+ 
+-	char *slash = strrchr (path, '/');
++	const char *slash = strrchr (path, '/');
+ 	if (!slash)
+ 	slash = strrchr (path, '\\');
+ 
+-	char *dot = strrchr (path, '.');
++	const char *dot = strrchr (path, '.');
+ 
+ 	if (dot && slash && dot < slash)
+ 	dot = NULL;
