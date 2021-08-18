@@ -25,7 +25,7 @@ class SystemHolder:
             "mandatory": 3,
         }
 
-        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str):
+        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, retroachievements: bool):
             if systemtype not in self.__systemTypes.keys(): raise TypeError("Invalid system type! {}".format(systemtype))
             if pad not in self.__deviceRequirement.keys(): raise TypeError("Invalid pad type! {}".format(pad))
             if keyboard not in self.__deviceRequirement.keys(): raise TypeError("Invalid keyboard type! {}".format(keyboard))
@@ -37,6 +37,7 @@ class SystemHolder:
             self.__mouse = mouse
             self.__lightgun = lightgun
             self.__releasedate = releasedate
+            self.__retroachievements: bool = retroachievements
 
         def serialize(self):
             return {
@@ -45,7 +46,8 @@ class SystemHolder:
                 "keyboard": self.__keyboard,
                 "mouse": self.__mouse,
                 "lightgun": self.__lightgun,
-                "releasedate": self.__releasedate
+                "releasedate": self.__releasedate,
+                "retroachievements": '1' if self.__retroachievements else '0'
             }
 
         @property
@@ -73,7 +75,13 @@ class SystemHolder:
         def MouseEnum(self): return self.__deviceRequirement[self.__mouse]
 
         @property
+        def LightGun(self): return self.__lightgun
+
+        @property
         def ReleaseDate(self): return self.__releasedate
+
+        @property
+        def RetroAchievements(self) -> bool: return self.__retroachievements
 
     class Core:
 
@@ -161,7 +169,7 @@ class SystemHolder:
         }
         self.__port: bool = False
         self.__readOnly: bool = False
-        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "")
+        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", False)
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
         self.__deserialize()
@@ -255,7 +263,6 @@ class SystemHolder:
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
         self.__port = self.__get(desc, "system", "port", "0", False) == '1'
-        tagada =self.__get(desc, "system", "readonly", "0", False)
         self.__readOnly = self.__get(desc, "system", "readonly", "0", False) == '1'
 
         # Create Cores
@@ -297,5 +304,6 @@ class SystemHolder:
             mouse=self.__get(desc, "properties", "device.mouse", "no", True),
             lightgun=self.__get(desc, "properties", "device.lightgun", "no", True),
             releasedate=self.__get(desc, "properties", "release.date", "", True),
+            retroachievements=(self.__get(desc, "properties", "retroachievements", "", True) == '1'),
         )
 
