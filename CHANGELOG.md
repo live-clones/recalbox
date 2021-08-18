@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
+- Add avahi deamon as recalbox-system dependency (#1826)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm
 - Added website meta in rpi imager (#1821)
