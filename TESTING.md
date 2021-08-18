@@ -91,6 +91,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test command line hash still works
 - [ ] Test that retroarch override configuration works for preinstalled games (#1805)
 - [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
+- [ ] Bumped libretro dosbox-pure core (#1644)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
