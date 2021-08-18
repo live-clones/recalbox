@@ -96,7 +96,6 @@ class Thread
      */
     static void* StartThread(void* thread);
 
-  private:
     //! Thread name
     char mName[16 + 1];
     //! Thread handle

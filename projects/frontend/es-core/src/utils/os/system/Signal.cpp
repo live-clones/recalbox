@@ -43,8 +43,9 @@ bool Signal::WaitSignal(long long int milliseconds)
 {
   struct timespec ts = { 0, 0 };
   clock_gettime(CLOCK_REALTIME, &ts);
-  if (milliseconds >1000) { ts.tv_sec += milliseconds / 1000LL; milliseconds %= 1000LL; }
+  if (milliseconds >= 1000) { ts.tv_sec += milliseconds / 1000LL; milliseconds %= 1000LL; }
   ts.tv_nsec += milliseconds * 1000000LL;
+  if (ts.tv_nsec >= 1000000000LL) { ts.tv_sec++; ts.tv_nsec %= 1000000000LL; }
 
   bool result = false;
   pthread_mutex_lock(&mMutex);
