@@ -14,14 +14,18 @@ class Pad
     //! Pad event
     struct Event
     {
-      PadItems Item; //!< Target item
-      char     Pad;  //!< Pad number
-      bool     On;   //!< Item set on/off (true/false)
+      PadItems Item;   //!< Target item
+      int      Value;  //!< Analog value (for axis)
+      bool     On;     //!< Numeric value on/off (true/false)
+      bool     Analog; //!< Use Analog value, not Numeric value
+      char     Pad;    //!< Pad number
     } __attribute__((packed));
 
   private:
     //! Joystick deadzone, in the 0-32767 range
-    static constexpr int sJoystickDeadZone = 23000;
+    static constexpr int sJoystickDeadZone = 12000;
+    //! Axis subrnage
+    static constexpr int sAxisSubRange = 16;
 
     //! Event queue
     Queue<Event> mEventQueue;
@@ -31,9 +35,11 @@ class Pad
     //! Pad configurations references
     const PadConfiguration& mPadConfiguration;
     //! SDL Index to Recalbox Index
-    HashMap<SDL_JoystickID, int> mSdlToRecalboxIndexex;
-    //! SDL Index to Recalbox Index
+    HashMap<SDL_JoystickID, int> mSdlToRecalboxIndex;
+    //! Numerical value previous state
     int mItemOnOff[Input::sMaxInputDevices];
+    //! 32-ranged value previous state
+    unsigned char mItemValues[Input::sMaxInputDevices][16];
     //! Devices readiness
     bool mReady;
 

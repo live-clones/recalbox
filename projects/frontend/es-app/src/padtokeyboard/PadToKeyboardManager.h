@@ -6,6 +6,7 @@
 #include <input/InputManager.h>
 #include <utils/os/system/Thread.h>
 #include <padtokeyboard/pad/MappingConfiguration.h>
+#include <padtokeyboard/mouse/VirtualMouse.h>
 
 class PadToKeyboardManager : private Thread
 {
@@ -21,6 +22,8 @@ class PadToKeyboardManager : private Thread
     Pad mPadReader;
     //! Keyboard event writer
     VirtualKeyboard mKeyboardWriter;
+    //! Mouse event writer
+    VirtualMouse mMouseWriter;
 
     //! This instance has been fully configured and has been started
     bool mValid;

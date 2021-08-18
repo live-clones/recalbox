@@ -147,6 +147,7 @@ set(ES_HEADERS
         src/padtokeyboard/Configuration.h
         src/padtokeyboard/PadToKeyboardManager.h
         src/padtokeyboard/keyboard/VirtualKeyboard.h
+        src/padtokeyboard/mouse/VirtualMouse.h
         src/padtokeyboard/pad/Pad.h
         src/padtokeyboard/pad/MappingConfiguration.h
         src/padtokeyboard/pad/PadItems.h
@@ -327,6 +328,7 @@ set(ES_SOURCES
         # Pad 2 Keyboard
         src/padtokeyboard/PadToKeyboardManager.cpp
         src/padtokeyboard/keyboard/VirtualKeyboard.cpp
+        src/padtokeyboard/mouse/VirtualMouse.cpp
         src/padtokeyboard/pad/Pad.cpp
         src/padtokeyboard/pad/MappingConfiguration.cpp
         src/padtokeyboard/pad/PadConfiguration.cpp

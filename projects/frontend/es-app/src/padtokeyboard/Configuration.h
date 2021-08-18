@@ -7,7 +7,7 @@
 
 struct Configuration
 {
-  const char* RomPath;                                  //!< Rom path
+  const char* RomPath;                            //!< Rom path
   const char* PadDevice[Input::sMaxInputDevices]; //!< Device path (/dev/xxxx)
   const char* PadName[Input::sMaxInputDevices];   //!< Device name
   const char* PadGUID[Input::sMaxInputDevices];   //!< Device GUID
@@ -17,12 +17,12 @@ struct Configuration
    * @brief Constructor
    */
   Configuration()
-    : PadDevice {},
-      PadName {},
-      PadGUID {},
-      Debug(false)
+    : RomPath(nullptr)
+    , PadDevice {}
+    , PadName {}
+    , PadGUID {}
+    , Debug(false)
   {
-    RomPath = nullptr;
     for(int i = Input::sMaxInputDevices; --i >= 0; )
       PadDevice[i] = PadName[i] = PadGUID[i] = nullptr;
   }

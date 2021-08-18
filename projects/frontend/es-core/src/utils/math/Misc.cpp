@@ -2,7 +2,7 @@
 
 float Math::lerp(float _start, float _end, float _fraction)
 {
-  return (_start + ((_end - _start) * clamp(0, 1, _fraction)));
+  return (_start + ((_end - _start) * clamp(_fraction, 0, 1)));
 }
 
 float Math::smoothStep(float _left, float _right, float _x)

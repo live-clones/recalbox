@@ -434,7 +434,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
 {
   if (!path.StartWidth(rootPath))
   {
-    { LOG(LogError) << "[Gamelist] File path \"" << path.ToString() << "\" is outside system path \"" << rootPath.ToString() << "\""; }
+    { LOG(LogError) << "[Gamelist] File path \"" << path.ToString() << "\" is outside system path \"" <<  rootPath.ToString() << "\""; }
     return nullptr;
   }
 

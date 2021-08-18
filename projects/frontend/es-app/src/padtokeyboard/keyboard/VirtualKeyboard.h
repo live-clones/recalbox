@@ -6,6 +6,8 @@
 class VirtualKeyboard
 {
   public:
+    //! Max event in list
+    static constexpr int sMax = 32;
     //! Compact event
     struct Event
     {
@@ -13,24 +15,14 @@ class VirtualKeyboard
       bool  Pressed; //!< True = pressed, False = released
     } __attribute__((packed));
 
-  private:
-    //! Virtual keyboard file descriptor
-    int mFileDescriptor;
+    //! Compact event list
+    struct EventList
+    {
+      int Count;
+      int Delay;
+      Event Events[32];
+    };
 
-    /*!
-     * @brief Close virtual keyboard
-     */
-    void Close() const;
-
-    /*!
-     * @brief Emit low level event into the virtual keyboard
-     * @param type Event type
-     * @param code Event code
-     * @param value Event value
-     */
-    void Emit(int type, int code, int value) const;
-
-  public:
     /*!
      * @brief Constructor
      */
@@ -57,5 +49,22 @@ class VirtualKeyboard
      * @return True if the virtual keyboard is ready
      */
     bool Ready() const { return (mFileDescriptor >= 0); }
+
+  private:
+    //! Virtual keyboard file descriptor
+    int mFileDescriptor;
+
+    /*!
+     * @brief Close virtual keyboard
+     */
+    void Close() const;
+
+    /*!
+     * @brief Emit low level event into the virtual keyboard
+     * @param type Event type
+     * @param code Event code
+     * @param value Event value
+     */
+    void Emit(int type, int code, int value) const;
 };
 

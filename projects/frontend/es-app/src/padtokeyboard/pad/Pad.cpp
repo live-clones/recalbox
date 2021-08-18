@@ -6,14 +6,18 @@
 #include <input/InputDevice.h>
 #include <SDL2/SDL.h>
 #include <input/InputManager.h>
+#include <utils/math/Misc.h>
 
 Pad::Pad(const PadConfiguration& padConfiguration)
   : mConfiguration(nullptr),
     mPadConfiguration(padConfiguration),
-    mSdlToRecalboxIndexex {},
+    mSdlToRecalboxIndex {},
     mItemOnOff {},
+    mItemValues {},
     mReady(false)
 {
+  memset(mItemOnOff, 0, sizeof(mItemOnOff));
+  memset(mItemValues, 0, sizeof(mItemValues));
 }
 
 void Pad::Open(const OrderedDevices& orderedDevices)
@@ -26,7 +30,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
   // Reset
   for(int i = Input::sMaxInputDevices; --i >= 0; )
   {
-    mSdlToRecalboxIndexex[i] = -1;
+    mSdlToRecalboxIndex[i] = -1;
     mItemOnOff[i] = 0;
   }
 
@@ -52,7 +56,7 @@ void Pad::Open(const OrderedDevices& orderedDevices)
         if ((Assigned & (1 << i)) == 0)         // Not yet assigned?
         {
           Assigned |= (1 << i);
-          mSdlToRecalboxIndexex[joystickIdentifier] = i;
+          mSdlToRecalboxIndex[joystickIdentifier] = i;
           { LOG(LogInfo) << "[Pad2Keyboard] "<< joystickIdentifier << ':' << name << " (" << guid << ") assigned as Pad #" << i; }
           break;
         }
@@ -90,7 +94,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYAXISMOTION:
         {
           // Get pad mapping
-          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jaxis.which);
+          int* pindex = mSdlToRecalboxIndex.try_get(sdl.jaxis.which);
           int index = (pindex != nullptr) ? *pindex : -1;
           if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -98,22 +102,36 @@ bool Pad::GetEvent(Pad::Event& event)
           // Get actual direction
           int dir = sdl.jaxis.value;
           dir = dir < -sJoystickDeadZone ? -1 : dir > sJoystickDeadZone ? 1 : 0;
+          int rawDir = sdl.jaxis.value;
+          rawDir = ((rawDir >> 31) * 2) + 1; // -/0+ => -1/+1
 
           // Check mapping
           for (const PadConfiguration::PadItemConfiguration& item : pad.Items)
             if (item.Type == InputEvent::EventType::Axis)
               if (item.Id == sdl.jaxis.axis)
               {
+                // Push raw value
+                if (item.Value == rawDir)
+                {
+                  int current = (int)((float)(Math::absi(sdl.jaxis.value) - sJoystickDeadZone) / ((32767.f - sJoystickDeadZone) / sAxisSubRange));
+                  if (current < 0) current = 0; // Deadzone = nomove
+                  if ((int)mItemValues[index][sdl.jaxis.axis] != current)
+                  {
+                    mEventQueue.Push({ item.Item, current , false, true, (char) index });
+                    mItemValues[index][sdl.jaxis.axis] = (char)current;
+                  }
+                }
+
                 // Axis On?
                 if ((dir == item.Value) && (mItemOnOff[index] & (1 << (int) item.Item)) == 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, true });
+                  mEventQueue.Push({ item.Item, 0, true, false, (char) index });
                   mItemOnOff[index] |= (1 << (int) item.Item);
                 }
-                  // Axis off?
+                // Axis off?
                 else if ((dir == 0) && (mItemOnOff[index] & (1 << (int) item.Item)) != 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, false });
+                  mEventQueue.Push({ item.Item, 0, false, false, (char) index });
                   mItemOnOff[index] &= ~(1 << (int) item.Item);
                 }
               }
@@ -122,7 +140,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYHATMOTION:
         {
           // Get pad mapping
-          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jhat.which);
+          int* pindex = mSdlToRecalboxIndex.try_get(sdl.jhat.which);
           int index = (pindex != nullptr) ? *pindex : -1;
           if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -135,14 +153,14 @@ bool Pad::GetEvent(Pad::Event& event)
                 // Hat bit(s) On?
                 if (((sdl.jhat.value & item.Value) == item.Value) && (mItemOnOff[index] & (1 << (int) item.Item)) == 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, true });
+                  mEventQueue.Push({ item.Item, 1, true, false, (char) index });
                   mItemOnOff[index] |= (1 << (int) item.Item);
                 }
                   // Hat bit(s) off?
                 else if (((sdl.jhat.value & item.Value) != item.Value) &&
                          (mItemOnOff[index] & (1 << (int) item.Item)) != 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, false });
+                  mEventQueue.Push({ item.Item, 0, false, false, (char) index });
                   mItemOnOff[index] &= ~(1 << (int) item.Item);
                 }
               }
@@ -153,7 +171,7 @@ bool Pad::GetEvent(Pad::Event& event)
         case SDL_JOYBUTTONUP:
         {
           // Get pad mapping
-          int* pindex = mSdlToRecalboxIndexex.try_get(sdl.jbutton.which);
+          int* pindex = mSdlToRecalboxIndex.try_get(sdl.jbutton.which);
           int index = (pindex != nullptr) ? *pindex : -1;
           if ((unsigned int) index >= Input::sMaxInputDevices) break;
           const PadConfiguration::PadAllItemConfiguration& pad = mPadConfiguration.Pad(index);
@@ -165,13 +183,13 @@ bool Pad::GetEvent(Pad::Event& event)
                 // Button On?
                 if ((sdl.jbutton.state == SDL_PRESSED) && (mItemOnOff[index] & (1 << (int) item.Item)) == 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, true });
+                  mEventQueue.Push({ item.Item, 1, true, false, (char) index });
                   mItemOnOff[index] |= (1 << (int) item.Item);
                 }
                   // Button off?
                 else if ((sdl.jbutton.state == SDL_RELEASED) && (mItemOnOff[index] & (1 << (int) item.Item)) != 0)
                 {
-                  mEventQueue.Push({ item.Item, (char) index, false });
+                  mEventQueue.Push({ item.Item, 0, false, false, (char) index });
                   mItemOnOff[index] &= ~(1 << (int) item.Item);
                 }
               }
