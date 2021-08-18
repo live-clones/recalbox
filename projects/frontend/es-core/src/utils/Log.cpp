@@ -25,7 +25,10 @@ void Log::open(const char* filename)
 
   // Backup?
   if (logpath.Exists())
-    system(std::string("cp ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data());
+  {
+    system(std::string("rm -f ").append(logpath.ToString()+".backup").data());
+    system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data());
+  }
 
   // Open new log
   sFile = fopen(logpath.ToChars(), "w");
