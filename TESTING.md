@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Bump libretro-mame 0.232 (#1853), test core on x64-86
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)
 - [X] While ES is stopped, create a file in /tmp/upgradefailed and check if the error message is displayed when starting ES (#1772)
 - [X] Grub options still accessible on PC (#1750)
@@ -45,6 +46,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Tic-80 game downloader works (#1829)
 - [ ] Test that recalbox.local and http://recalbox works again (#1826)
 - [ ] Test pisnes core works correctly (#1838)
+- [ ] Test Saturn on RPI4
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
