@@ -65,6 +65,11 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
   - [ ] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
 - [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+- [ ] Test Netplay lobby window
+  - [ ] Enter/Exit the lobby window: should be almost "instant" now
+  - [ ] Test manual refresh
+  - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
+  - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

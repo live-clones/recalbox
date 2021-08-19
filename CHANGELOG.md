@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Add ti99sim, standalone emulator for the TI-99/4A
 - Bump libretro-mame 0.232 (#1853)
 - Add yabasanshiro core on Pi4
+- Improve netplay management
 - Added Lowres-nx theme (#1586)
 - Improve P2K
 - Fixed TIC-80 games downloader (#1829)
