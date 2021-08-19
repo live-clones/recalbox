@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Added extension .d64 and .tap for Vic20 (#1858)
 - Add ti99sim, standalone emulator for the TI-99/4A
 - Bump libretro-mame 0.232 (#1853)
+- Add yabasanshiro core on Pi4
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)

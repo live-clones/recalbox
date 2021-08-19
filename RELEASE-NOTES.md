@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox overlays for all systems!
 - Add LowRes NX virtual console on all boards
 - Add CHD support for Mega CD Games with Picodrive core
+- Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
 
 ### Improvements
 - Bump Libretro MAME to 0.232 (PC 64bits)
