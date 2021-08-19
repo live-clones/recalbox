@@ -39,6 +39,10 @@ as release notes for end user on a Recalbox upgrade.
   - Seamless auto-hashing when Netplay is on
 - Bump Mame 0.235
 - Bump ScummVM to 2.4.0git
+- Add new Pad-to-Keyboard capabilities:
+  - Mouse emulation using joystick or dpad.
+  - Keystroke sequences (like typing a word)
+  - Keystroke combination (like CTRL+C)
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
