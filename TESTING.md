@@ -47,6 +47,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test that recalbox.local and http://recalbox works again (#1826)
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
+- [ ] Test Saturn on RPI4
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
