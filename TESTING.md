@@ -45,6 +45,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Tic-80 game downloader works (#1829)
 - [ ] Test that recalbox.local and http://recalbox works again (#1826)
 - [ ] Test pisnes core works correctly (#1838)
+- [ ] Test Saturn on RPI4
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
