@@ -37,6 +37,10 @@ as release notes for end user on a Recalbox upgrade.
   - More responsive & faster to get client latencies
   - Manual refresh with START
   - Seamless auto-hashing when Netplay is on
+- Add new Pad-to-Keyboard capabilities:
+  - Mouse emulation using joystick or dpad.
+  - Keystroke sequences (like typing a word)
+  - Keystroke combination (like CTRL+C)
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
