@@ -27,6 +27,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Fbneo v1.0.0.02
 - Bump Sharp X68000 core (px68k)
 - Bump Flycast
+- Add new Pad-to-Keyboard capabilities:
+  - Mouse emulation using joystick or dpad.
+  - Keystroke sequences (like typing a word)
+  - Keystroke combination (like CTRL+C)
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
