@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
 - Bump Fbneo 1.0.0.02 (#1859)
 - Add ti99sim, standalone emulator for the TI-99/4A
+- Improve netplay management
 - Added Lowres-nx theme (#1586)
 - Improve P2K
 - Fixed TIC-80 games downloader (#1829)

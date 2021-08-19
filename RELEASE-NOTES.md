@@ -36,6 +36,10 @@ as release notes for end user on a Recalbox upgrade.
   - Mouse emulation using joystick or dpad.
   - Keystroke sequences (like typing a word)
   - Keystroke combination (like CTRL+C)
+- Improve Netplay window
+  - More responsive & faster to get client latencies
+  - Manual refresh with START
+  - Seamless auto-hashing when Netplay is on
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
