@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump libretro-mame 0.232 (#1853)
 - Add yabasanshiro core on Pi4
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
