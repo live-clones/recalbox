@@ -174,7 +174,7 @@ uint32_t start_wpaf(char ** argv) {
     log_error("can't start fan manager");
     return EXIT_FAILURE;
   }else if (fan_pid == 0) {
-    strncpy(process_name, "wpaf: fan manager", 0xff);
+//    strncpy(process_name, "wpaf: fan manager", 0xff);
     log_debug("fan manager started with pid %d", getpid());
     start_fan_manager(board, handler, &arguments);
   }
@@ -184,7 +184,7 @@ uint32_t start_wpaf(char ** argv) {
     log_error("can't start display manager");
     return EXIT_FAILURE;
   }else if (display_pid == 0) {
-    strncpy(process_name, "wpaf: display manager", 0xff);
+ //   strncpy(process_name, "wpaf: display manager", 0xff);
     log_debug("display manager started with pid %d", getpid());
     start_display_manager(board, handler, &arguments);
   }
