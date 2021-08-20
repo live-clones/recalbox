@@ -1,0 +1,98 @@
+diff --git a/include/tms9918a-sdl.hpp b/include/tms9918a-sdl.hpp
+index b77de1b..878d1bd 100644
+--- a/include/tms9918a-sdl.hpp
++++ b/include/tms9918a-sdl.hpp
+@@ -65,6 +65,7 @@ class cSdlTMS9918A :
+ 	int           m_CharUse        [ 256 * 3 ];
+ 	int           m_SpriteCharUse  [ 256 ];
+ 
++	bool          m_Bilinear;
+ 	bool          m_Scale2x;
+ 
+ 	SDL_Window   *m_sdlWindow;
+@@ -87,7 +88,7 @@ class cSdlTMS9918A :
+ 
+ public:
+ 
+-	cSdlTMS9918A( sRGBQUAD[ 17 ], int = 60, bool = false, bool = false, int = 1 );
++	cSdlTMS9918A( sRGBQUAD[ 17 ], int = 60, bool = true, bool = false, bool = false, int = 1 );
+ 
+ 	// iStateObject methods
+ 	virtual bool ParseState( const sStateSection &state ) override;
+diff --git a/src/sdl/main.cpp b/src/sdl/main.cpp
+index 5e88257..354f417 100644
+--- a/src/sdl/main.cpp
++++ b/src/sdl/main.cpp
+@@ -307,6 +307,7 @@ int main( int argc, char *argv[] )
+ 	int samplingRate    = 44100;
+ 	bool useCF7         = true;
+ 	bool useUCSD        = false;
++	bool useBilinear    = false;
+ 	bool useScale2x     = false;
+ 	int volume          = 50;
+ 
+@@ -330,6 +331,7 @@ int main( int argc, char *argv[] )
+ 		{  0,  "bw",                 OPT_VALUE_SET | OPT_SIZE_BOOL, true , &flagMonochrome,  nullptr,         "Display black & white video" },
+ 		{ 's', "sample=*<freq>",     OPT_NONE,                      0,     &samplingRate,    ParseSampleRate, "Select sampling frequency for audio playback" },
+ 		{  0,  "scale=*n",           OPT_VALUE_PARSE_INT,           2,     &flagScale,       nullptr,         "Scale the window width & height by scale" },
++		{  0,  "bilinear",           OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useBilinear,     nullptr,         "Smooth rendering using bilinear filter" },
+ 		{  0,  "scale2x",            OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useScale2x,      nullptr,         "Use the Scale2x algorithm to scale display" },
+ 		{  0,  "ucsd",               OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useUCSD,         nullptr,         "Enable the UCSD p-System device if present" },
+ 		{ 'v', "verbose*=n",         OPT_VALUE_PARSE_INT,           1,     &verbose,         nullptr,         "Display extra information" },
+@@ -452,7 +454,7 @@ int main( int argc, char *argv[] )
+ 
+ 	cRefPtr<cCartridge> consoleROM = consoleFile.empty( ) ? nullptr : new cCartridge( consoleFile );
+ 
+-	cRefPtr<cSdlTMS9918A> vdp = new cSdlTMS9918A( colorTable, refreshRate, useScale2x, fullScreenMode, flagScale );
++	cRefPtr<cSdlTMS9918A> vdp = new cSdlTMS9918A( colorTable, refreshRate, useBilinear, useScale2x, fullScreenMode, flagScale );
+ 
+ 	cRefPtr<iTMS9919> sound = nullptr;
+ 	cRefPtr<iTMS5220> speech = nullptr;
+diff --git a/src/sdl/tms9918a-sdl.cpp b/src/sdl/tms9918a-sdl.cpp
+index 20e3361..e1bffac 100644
+--- a/src/sdl/tms9918a-sdl.cpp
++++ b/src/sdl/tms9918a-sdl.cpp
+@@ -37,7 +37,7 @@
+ 
+ DBG_REGISTER( __FILE__ );
+ 
+-cSdlTMS9918A::cSdlTMS9918A( sRGBQUAD colorTable[ 17 ], int refreshRate, bool useScale2x, bool fullScreen, int scale ) :
++cSdlTMS9918A::cSdlTMS9918A( sRGBQUAD colorTable[ 17 ], int refreshRate, bool bilinear, bool useScale2x, bool fullScreen, int scale ) :
+ 	cBaseObject( "cSdlTMS9918A" ),
+ 	cTMS9918A( refreshRate ),
+ 	m_TextMode( false ),
+@@ -49,6 +49,7 @@ cSdlTMS9918A::cSdlTMS9918A( sRGBQUAD colorTable[ 17 ], int refreshRate, bool use
+ 	m_PatternChanged( ),
+ 	m_CharUse( ),
+ 	m_SpriteCharUse( ),
++	m_Bilinear( bilinear ),
+ 	m_Scale2x( useScale2x ),
+ 	m_sdlWindow( nullptr ),
+ 	m_sdlRenderer( nullptr ),
+@@ -459,7 +460,7 @@ void cSdlTMS9918A::CreateMainWindow( int width, int height, int scale )
+ 
+ 	if( m_sdlWindow == nullptr )
+ 	{
+-		SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "closest" );
++	  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, m_Bilinear ? "linear" : "nearest" );
+ 
+ 		width = std::max( width, VDP_WIDTH * scale );
+ 		height = std::max( height, VDP_HEIGHT * scale );
+@@ -467,7 +468,7 @@ void cSdlTMS9918A::CreateMainWindow( int width, int height, int scale )
+ 		m_sdlWindow = SDL_CreateWindow( "TI-99/sim", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+ 								  width, height, SDL_WINDOW_RESIZABLE );
+ 
+-		m_sdlRenderer = SDL_CreateRenderer( m_sdlWindow, -1, SDL_RENDERER_PRESENTVSYNC );
++		m_sdlRenderer = SDL_CreateRenderer( m_sdlWindow, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
+ 
+ 		SDL_RenderSetLogicalSize( m_sdlRenderer, VDP_WIDTH * scale, VDP_HEIGHT * scale );
+ 		SDL_RenderSetIntegerScale( m_sdlRenderer, SDL_TRUE );
+@@ -486,7 +487,7 @@ void cSdlTMS9918A::CreateMainWindowFullScreen( int scale )
+ 	{
+ 		SDL_ShowCursor( SDL_DISABLE );
+ 
+-		SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
++		SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, m_Bilinear ? "linear" : "nearest" );
+ 
+ 		SDL_CreateWindowAndRenderer( 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &m_sdlWindow, &m_sdlRenderer );
+ 
