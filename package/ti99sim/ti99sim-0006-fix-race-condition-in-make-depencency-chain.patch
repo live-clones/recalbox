@@ -1,0 +1,22 @@
+diff --git a/Makefile.linux b/Makefile.linux
+index 531e2aa..b98ccc4 100644
+--- a/Makefile.linux
++++ b/Makefile.linux
+@@ -90,6 +90,7 @@ ti99sim:
+ 	    fi \
+ 	  fi; \
+ 	  for dir in $(SRC_DIRS); do \
++	    mkdir -p $$dir/$(CFG); \
+ 	    $(MAKE) -sC $$dir $(TI_DATA_DIR); \
+ 	  done \
+ 	fi
+diff --git a/rules.mak b/rules.mak
+index 4dc2dff..ca4d283 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -122,4 +122,4 @@ $(CFG)/%.o : %.m
+ all:
+ 
+ $(CFG):
+-	@mkdir $(CFG)
++	@mkdir -p $(CFG)

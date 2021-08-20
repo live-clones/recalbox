@@ -56,6 +56,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] /dev/dri/ should exists on rpi4
 - [ ] Test the TRS-80 Color Computer system (XRoar emulator)
 - [ ] Test the Dragon32/64 system (XRoar emulator)
+- [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
