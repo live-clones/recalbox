@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Bump Libretro-Beetle-PSX
 - Bump Libretro-MAME2003
 - Add EmuTOS bios for Atari ST (#1868)
+- Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
