@@ -83,6 +83,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Libretro Beetle PSX
 - [ ] Test Libretro-MAME2003  
   - [ ] Test EmuTOS bios for Atari ST (#1868)
+- [ ] Test the TRS-80 Color Computer system (XRoar emulator)
+- [ ] Test the Dragon32/64 system (XRoar emulator)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
