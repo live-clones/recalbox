@@ -75,6 +75,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
 - [ ] Check that ES starts on XU4 (#1815)
+- [ ] Check that ES starts on rpi fresh installation (#1815) 
+  - [ ] /dev/dri/ should exists on rpi4
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

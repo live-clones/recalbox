@@ -69,8 +69,8 @@ All notable changes to this project will be documented in this file.
 - Add xpi_gamecon module for piboy dmt support (#1817)
 - Add volumed for controlling volume from the wheel (#1817)
 - Bump python-pygame to 2.0.1
-- Bump rpi-firmware to 5.10.43 (#1815)
-- Bump rpi kernel to 5.10.43 (#1815)
+- Bump rpi-firmware to 5.10.59 (#1815)
+- Bump rpi kernel to 5.10.59 (#1815)
 - Bump linux firmware to 20210716 (#1815)
 - Bump odroidxu4 kernel to 5.4.118 (#1815)
 - Fix rtl8812au wifi driver not installed on target images (#1815)
