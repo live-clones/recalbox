@@ -1,0 +1,89 @@
+diff --git a/src/sdl/main.cpp b/src/sdl/main.cpp
+index 354f417..cc7c8c9 100644
+--- a/src/sdl/main.cpp
++++ b/src/sdl/main.cpp
+@@ -218,6 +218,15 @@ bool ParseDisk( const char *arg, void * )
+ 	return true;
+ }
+ 
++bool ParseKey( const char* arg, void* ptr )
++{
++  char* end;
++  arg = strchr( arg, '=' ) + 1;
++  int v = (int)strtol(arg, &end, 10);
++  *(int*)ptr = v;
++  return end != arg;
++}
++
+ bool ParseSampleRate( const char *arg, void *ptr )
+ {
+ 	FUNCTION_ENTRY( nullptr, "ParseSampleRate", true );
+@@ -292,6 +301,9 @@ void PrintUsage( )
+ 	fprintf( stdout, "\n" );
+ }
+ 
++int exitHotkey      = 0;
++int exitStart       = 0;
++
+ int main( int argc, char *argv[] )
+ {
+ 	FUNCTION_ENTRY( nullptr, "main", true );
+@@ -331,6 +343,8 @@ int main( int argc, char *argv[] )
+ 		{  0,  "bw",                 OPT_VALUE_SET | OPT_SIZE_BOOL, true , &flagMonochrome,  nullptr,         "Display black & white video" },
+ 		{ 's', "sample=*<freq>",     OPT_NONE,                      0,     &samplingRate,    ParseSampleRate, "Select sampling frequency for audio playback" },
+ 		{  0,  "scale=*n",           OPT_VALUE_PARSE_INT,           2,     &flagScale,       nullptr,         "Scale the window width & height by scale" },
++		{  0,  "hotkey=*n",          OPT_NONE,                      0,     &exitHotkey,      ParseKey,        "Recalbox specific hotkey code" },
++		{  0,  "start=*n",           OPT_NONE,                      0,     &exitStart,       ParseKey,        "Recalbox specific start code" },
+ 		{  0,  "bilinear",           OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useBilinear,     nullptr,         "Smooth rendering using bilinear filter" },
+ 		{  0,  "scale2x",            OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useScale2x,      nullptr,         "Use the Scale2x algorithm to scale display" },
+ 		{  0,  "ucsd",               OPT_VALUE_SET | OPT_SIZE_BOOL, true,  &useUCSD,         nullptr,         "Enable the UCSD p-System device if present" },
+diff --git a/src/sdl/ti994a-sdl.cpp b/src/sdl/ti994a-sdl.cpp
+index 924010c..4dd0322 100644
+--- a/src/sdl/ti994a-sdl.cpp
++++ b/src/sdl/ti994a-sdl.cpp
+@@ -160,6 +160,9 @@ void cSdlTI994A::Reset( )
+ 	}
+ }
+ 
++extern int exitHotkey;
++extern int exitStart;
++
+ void cSdlTI994A::Run( const std::string& imgFile )
+ {
+ 	FUNCTION_ENTRY( this, "cSdlTI994A::Run", true );
+@@ -167,6 +170,7 @@ void cSdlTI994A::Run( const std::string& imgFile )
+ 	StartThread( );
+ 
+ 	int joystick;
++	int exitValue = 0;
+ 
+ 	iTMS9901 *pic = m_PIC;
+ 	cSdlTMS9918A *vdp = dynamic_cast<cSdlTMS9918A *>( m_VDP.get( ));
+@@ -245,11 +249,9 @@ void cSdlTI994A::Run( const std::string& imgFile )
+ 				if( joystick != -1 )
+ 				{
+ 					pic->SetJoystickButton( joystick, true );
+-					/*if( event.jbutton.button > 0 )
+-					{
+-						auto vkey = ( VIRTUAL_KEY_E ) ( VK_0 + std::clamp(( int ) event.jbutton.button, 1, 9 ));
+-						pic->VKeysDown( 0, vkey );
+-					}*/
++					if (event.jbutton.button == exitHotkey) exitValue |= 1;
++					if (event.jbutton.button == exitStart)  exitValue |= 2;
++					if (exitValue == 3) goto done;
+ 				}
+ 				break;
+ 			case SDL_JOYBUTTONUP :
+@@ -257,10 +259,8 @@ void cSdlTI994A::Run( const std::string& imgFile )
+ 				if( joystick != -1 )
+ 				{
+ 					pic->SetJoystickButton( joystick, false );
+-					/*if( event.jbutton.button > 0 )
+-					{
+-						pic->VKeyUp( 0 );
+-					}*/
++					if (event.jbutton.button == exitHotkey) exitValue &= ~1;
++					if (event.jbutton.button == exitStart)  exitValue &= ~2;
+ 				}
+ 				break;
+ 			case SDL_KEYDOWN :

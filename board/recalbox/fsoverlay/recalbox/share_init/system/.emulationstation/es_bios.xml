@@ -488,4 +488,9 @@
     <bios path="neocd/000-lo.lo"                 md5="fc7599f3f871578fe9a0453662d1c966" core="neocd" mandatory="false" hashMatchMandatory="false" note="ZOOM Rom" />
     <bios path="neocd/ng-lo.rom"                 md5="e255264d85d5765013b1b2fa8109dd53" core="neocd" mandatory="false" hashMatchMandatory="false" note="ZOOM Rom" />
   </system>
+  <system fullname="Texas Instrument TI-99/4A" platform="ti994a">
+    <bios path="ti994a/TI-994A.ctg" md5="412ecbf991edcb68edd0e76c2caa4a59" core="ti99sim" mandatory="true"  hashMatchMandatory="false" note="System cartridge" />
+    <bios path="ti994a/spchrom.bin" md5="7adcaf64272248f7a7161cfc02fd5b3f" core="ti99sim" mandatory="false" hashMatchMandatory="false" note="Speech synthesis" />
+    <bios path="ti994a/ti-disk.ctg" md5="04714f43347cefb2a051a77116344b3f" core="ti99sim" mandatory="false" hashMatchMandatory="false" note="Disk Operating System" />
+  </system>
 </biosList>

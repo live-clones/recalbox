@@ -1,0 +1,13 @@
+diff --git a/src/core/support.cpp b/src/core/support.cpp
+index e18cc90..0bceb36 100644
+--- a/src/core/support.cpp
++++ b/src/core/support.cpp
+@@ -339,7 +339,7 @@ std::list<std::filesystem::path> LocateFiles( const std::filesystem::path &direc
+ 
+ std::filesystem::path LocateCartridge( const std::string &folder, const std::string &sha1 )
+ {
+-	auto roms = LocateFiles( folder, ".ctg" );
++	auto roms = LocateFiles( "/recalbox/share/bios/ti994a", ".ctg" );
+ 
+ 	for( auto &name : roms )
+ 	{
