@@ -1,0 +1,71 @@
+diff --git a/src/sdl2/keyboard_sdl2.c b/src/sdl2/keyboard_sdl2.c
+index 2635a523..74ac78e3 100644
+--- a/src/sdl2/keyboard_sdl2.c
++++ b/src/sdl2/keyboard_sdl2.c
+@@ -211,12 +211,7 @@ static void emulator_command(struct ui_sdl2_interface *uisdl2, int cmdkey, _Bool
+ 		     }
+ 		     return;
+ 	case 'k': xroar_set_keymap(1, XROAR_NEXT); return;
+-	case 'l':
+-		     if (shift) {
+-			     xroar_run_file(NULL);
+-		     } else {
+-			     xroar_load_file(NULL);
+-		     }
++	case 'l': xroar_load_snapshot();
+ 		     return;
+ 	case 'm': xroar_set_machine(1, XROAR_NEXT); return;
+ 	case 'p':
+diff --git a/src/xroar.c b/src/xroar.c
+index 3398f444..56b06dcb 100644
+--- a/src/xroar.c
++++ b/src/xroar.c
+@@ -1645,12 +1645,19 @@ void xroar_set_dos(int dos_type) {
+ }
+ 
+ void xroar_save_snapshot(void) {
+-	char *filename = DELEGATE_CALL(xroar_filereq_interface->save_filename, xroar_snap_exts);
++	char *filename = xroar_cfg.snappath;
+ 	if (filename) {
+ 		write_snapshot(filename);
+ 	}
+ }
+ 
++void xroar_load_snapshot(void) {
++  char *filename = xroar_cfg.snappath;
++  if (filename) {
++    xroar_load_file_by_type(filename, 0);
++  }
++}
++
+ void xroar_insert_input_tape_file(const char *filename) {
+ 	if (!filename) return;
+ 	tape_open_reading(xroar_tape_interface, filename);
+@@ -2124,6 +2131,7 @@ static struct xconfig_option const xroar_options[] = {
+ 
+ 	/* Firmware ROM images: */
+ 	{ XC_SET_STRING_F("rompath", &xroar_cfg.rompath) },
++	{ XC_SET_STRING_F("snappath", &xroar_cfg.snappath) },
+ 	{ XC_CALL_ASSIGN_F("romlist", &romlist_assign) },
+ 	{ XC_CALL_NULL("romlist-print", &romlist_print) },
+ 	{ XC_CALL_ASSIGN("crclist", &crclist_assign) },
+diff --git a/src/xroar.h b/src/xroar.h
+index 7b924689..7cca5bc9 100644
+--- a/src/xroar.h
++++ b/src/xroar.h
+@@ -91,6 +91,7 @@ struct xroar_cfg {
+ 	char *becker_port;
+ 	// Files
+ 	char *rompath;
++	char *snappath;
+ 	// Cassettes
+ 	double tape_pan;
+ 	double tape_hysteresis;
+@@ -180,6 +181,7 @@ void xroar_set_cart(_Bool notify, const char *cc_name);
+ void xroar_set_cart_by_id(_Bool notify, int id);
+ void xroar_set_dos(int dos_type);  /* for old snapshots only */
+ void xroar_save_snapshot(void);
++void xroar_load_snapshot(void);
+ void xroar_insert_input_tape_file(const char *filename);
+ void xroar_insert_input_tape(void);
+ void xroar_eject_input_tape(void);
