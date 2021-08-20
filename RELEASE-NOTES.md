@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add Dragon 32/64 system (XRoar standalone emulator)
 - Add TRS-80 Color Computer (XRoar standalone emulator)
+- Add TI-99/4A system, emulated using the ti99sim standalone emulator
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
 - Add libretro fbneo core for channel f system
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
