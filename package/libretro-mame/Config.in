@@ -4,7 +4,7 @@ config BR2_PACKAGE_LIBRETRO_MAME
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_ZLIB
 	help
-	  A libretro mame core for x86_64 - Based on MAME 0.216.
+	  A libretro mame core for x86_64 - Based on MAME 0.232.
 
 	  http://www.libretro.com
 
