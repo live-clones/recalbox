@@ -56,8 +56,8 @@ All notable changes to this project will be documented in this file.
 - Bump theme (#1827)
 - Fix pisnes crash on launch (#1838)
 - Bump python-pygame to 2.0.1
-- Bump rpi-firmware to 5.10.43 (#1815)
-- Bump rpi kernel to 5.10.43 (#1815)
+- Bump rpi-firmware to 5.10.60 (#1815)
+- Bump rpi kernel to 5.10.60 (#1815)
 - Bump linux firmware to 20210716 (#1815)
 - Bump odroidxu4 kernel to 5.4.118 (#1815)
 - Fix rtl8812au wifi driver not installed on target images (#1815)

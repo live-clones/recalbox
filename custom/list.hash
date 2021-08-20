@@ -11,6 +11,8 @@
 --------------------------------  package/intel-mediadriver/0003-cmrtlib-linux-CMakelists.txt-respect-MEDIA_BUILD_FAT.patch
 abd0a975a9248559c162c03867b7e8b4  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
+1427f787b9df870313fbb650d1f4f16b  linux/Config.in
+642e09252cba747db3a2b04b057e6e13  linux/linux.mk
 fa8422487675ed76ce98b1e46fa3849d  package/binutils/binutils.mk
 fc62ad5ef004d09e7bc7d770df274fc8  package/bluez5_utils/bluez5_utils.mk
 910e03748d7d47d92fafba340afcd29e  package/dhcpcd/dhcpcd.mk
@@ -39,6 +41,7 @@ ff95c370ba8a0b5169ef2eeb2123fa9d  package/python-gobject/Config.in
 9f0df3d1370e0d352b84ed32eb7ceb9c  package/python-gobject/python-gobject.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 2f5ef1257ec42b29f681f151fdf87d80  package/python-pygame/python-pygame.mk
+23a7d27ad2e486768475d6685a717747  package/rpi-firmware/Config.in
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 bd7b8a40e74646ca35a6d2c46aeb5d47  package/rpi-firmware/rpi-firmware.hash
 5dece4b7dae97762328f69fa004e7628  package/rpi-firmware/rpi-firmware.mk
