@@ -1,0 +1,77 @@
+diff --git a/src/sdl2/common.c b/src/sdl2/common.c
+index 1bd2f552..204ad2c1 100644
+--- a/src/sdl2/common.c
++++ b/src/sdl2/common.c
+@@ -97,6 +97,10 @@ struct joystick_module * const sdl_js_modlist[] = {
+ 
+ // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
++extern int exit_key_start;
++extern int exit_key_hotkey;
++static int exit_keys = 0;
++
+ void run_sdl_event_loop(struct ui_sdl2_interface *uisdl2) {
+ 	SDL_Event event;
+ 	while (SDL_PollEvent(&event) == 1) {
+@@ -112,6 +116,15 @@ void run_sdl_event_loop(struct ui_sdl2_interface *uisdl2) {
+ 		case SDL_QUIT:
+ 			xroar_quit();
+ 			break;
++		case SDL_JOYBUTTONDOWN:
++		    if (event.jbutton.button == exit_key_hotkey) exit_keys |= 1;
++		    if (event.jbutton.button == exit_key_start) exit_keys |= 2;
++		    if (exit_keys == 3) xroar_quit();
++		    break;
++    case SDL_JOYBUTTONUP:
++		    if (event.jbutton.button == exit_key_hotkey) exit_keys &= ~1;
++		    if (event.jbutton.button == exit_key_start) exit_keys &= ~2;
++		    break;
+ 		case SDL_KEYDOWN:
+ 			sdl_os_fix_keyboard_event(&event);
+ 			sdl_keypress(uisdl2, &event.key.keysym);
+diff --git a/src/sdl2/joystick_sdl2.c b/src/sdl2/joystick_sdl2.c
+index abf0b59d..36589a16 100644
+--- a/src/sdl2/joystick_sdl2.c
++++ b/src/sdl2/joystick_sdl2.c
+@@ -95,6 +95,7 @@ static void sdl_js_physical_init(void) {
+ 	if (initialised)
+ 		return;
+ 	SDL_InitSubSystem(SDL_INIT_JOYSTICK);
++	SDL_JoystickEventState(SDL_ENABLE);
+ 	num_joysticks = SDL_NumJoysticks();
+ 	if (num_joysticks < 1) {
+ 		LOG_DEBUG(1, "\tNo joysticks found\n");
+diff --git a/src/xroar.c b/src/xroar.c
+index 192dd98f..3398f444 100644
+--- a/src/xroar.c
++++ b/src/xroar.c
+@@ -1924,6 +1924,20 @@ static void cfg_mpi_load_cart(const char *arg) {
+ 	free(arg_copy);
+ }
+ 
++/* Called when a "-joy-hk" option is encountered. */
++int exit_key_hotkey = -1;
++static void set_hotkey(int button_id)
++{
++  exit_key_hotkey = button_id;
++}
++
++/* Called when a "-joy-start" option is encountered. */
++int exit_key_start = -1;
++static void set_start(int button_id)
++{
++  exit_key_start = button_id;
++}
++
+ /* Called when a "-joystick" option is encountered. */
+ static void set_joystick(const char *name) {
+ 	// Apply any config to the current joystick config.
+@@ -2154,6 +2168,8 @@ static struct xconfig_option const xroar_options[] = {
+ 	{ XC_SET_STRING_LIST("type", &private_cfg.type_list) },
+ 
+ 	/* Joysticks: */
++	{ XC_CALL_INT("joy-start", &set_start) },
++	{ XC_CALL_INT("joy-hotkey", &set_hotkey) },
+ 	{ XC_CALL_STRING("joy", &set_joystick) },
+ 	{ XC_SET_STRING("joy-desc", &private_cfg.joy_desc) },
+ 	{ XC_CALL_STRING("joy-axis", &set_joystick_axis) },
