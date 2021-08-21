@@ -44,6 +44,7 @@ recalboxBins =\
     'simcoupe'    : '/usr/bin/simcoupe',
     'solarus'     : '/usr/bin/solarus-run',
     'supermodel'  : '/usr/bin/supermodel',
+    'ti99sim'     : '/usr/bin/ti99sim/ti99sim-sdl',
     'vice'        : '/usr/bin/x64',
     'xroar'       : '/usr/bin/xroar',
 }

@@ -115,6 +115,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.xroar.xroarGenerator", fromlist=["XroarGenerator"])
         generatorClass = getattr(module, "XroarGenerator")
         return generatorClass()
+    elif emulator == "ti99sim":
+        module = __import__("configgen.generators.ti99sim.ti99Generator", fromlist=["TI99Generator"])
+        generatorClass = getattr(module, "TI99Generator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -204,6 +208,7 @@ def getDefaultEmulator(targetSystem):
         "samcoupe"       : Emulator(name='samcoupe', emulator='simcoupe', videomode='default'),
         "spectravideo"   : Emulator(name='spectravideo', emulator='libretro', core='bluemsx'),
         "thomson"        : Emulator(name='thomson', emulator='libretro', core='theodore'),
+        "ti994a"         : Emulator(name='ti994a', emulator='ti99sim'),
         "tic80"          : Emulator(name='tic80', emulator='libretro', core='tic80'),
         "trs80coco"      : Emulator(name='trs80coco', emulator='xroar'),
         "vic20"          : Emulator(name='vic20', emulator='libretro', core='vice_xvic'),

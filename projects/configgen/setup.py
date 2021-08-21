@@ -30,6 +30,7 @@ setup(name='recalbox-configgen',
                 'configgen.generators.supermodel',
                 'configgen.generators.solarus',
                 'configgen.generators.xroar',
+                'configgen.generators.ti99sim',
                 'configgen.settings',
                 'configgen.utils'],
       scripts=['configgen/emulatorlauncher.py']
