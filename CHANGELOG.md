@@ -30,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - Bump retroarch to version 1.9.8 (#1885)
 - Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Add recalbox-crt package for CRT support (#1805)
 - Bump configgen to support CRT (#1805)
 - Enable crtswitch with kmsdrm in retroarch (#1805)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)

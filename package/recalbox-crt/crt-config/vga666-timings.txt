@@ -1,0 +1,19 @@
+640 1 30 60 72 480 1 22 5 24 0 0 0 60 1 12800000 1                      #  640x480@60i              ES
+1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1                    # 1920x240@60p              Standard 240p@60HZ, Megadrive NTSC
+1920 1 108 183 282 240 1 28 3 42 0 0 0 50 0 39015450 1                  # 1920x240@50p              Standard 240p@50HZ, Megadrive PAL, PSX PAL
+1920 1 126 183 264 224 1 14 3 20 0 0 0 60 0 39040380 1                  # 1920x224@60p              Standard 224p@60HZ, MAME
+1920 1 118 184 273 224 1 18 3 20 0 0 0 59.18 0 39128336 1               # 1920x224@59.18p           NEO GEO
+1920 1 118 183 272 224 1 11 3 22 0 0 0 60.098812 0 38954848 1           # 1920x224@60.098812p       SNES NTSC
+1920 1 78 183 312 224 1 36 3 50 0 0 0 50 0 39015450 1                   # 1920x224@50p              SNES PAL
+1920 1 118 184 273 480 1 8 6 29 0 0 0 60 1 39146550 1                   # 1920x480@60i              DREAMCAST NTSC, ATOMISWAVE
+1920 1 123 184 268 224 1 13 3 22 0 0 0 60 0 39101992 1                  # 1920x224@59.817333p       PLAYSTATION NTSC
+
+# TODO
+NES PAL
+NES NTSC
+CHECK MASTERSYSTEM
+PSX
+N64
+
+
+# To move the image vertically and horizontally : https://www.epanorama.net/faq/vga2rgb/calc.html
