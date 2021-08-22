@@ -45,6 +45,7 @@ recalboxBins =\
     'solarus'     : '/usr/bin/solarus-run',
     'supermodel'  : '/usr/bin/supermodel',
     'vice'        : '/usr/bin/x64',
+    'xroar'       : '/usr/bin/xroar',
 }
 
 

@@ -1,11 +1,14 @@
-# Check and build an existing chain of o
 #
+# Check and build an existing chain of override file
 #
-def buildOverrideChain(rom, configfile):
+from typing import List
+
+
+def buildOverrideChain(rom, configfile) -> List[str]:
     import os
     romFolder = os.path.dirname(rom)
     items = romFolder.split('/')
-    result = []
+    result: List[str] = []
     pathToCheck = "/" if romFolder.startswith("/") else ""
 
     # Build folder chain

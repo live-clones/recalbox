@@ -111,6 +111,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.supermodel.supermodelGenerator", fromlist=["SupermodelGenerator"])
         generatorClass = getattr(module, "SupermodelGenerator")
         return generatorClass()
+    elif emulator == "xroar":
+        module = __import__("configgen.generators.xroar.xroarGenerator", fromlist=["XroarGenerator"])
+        generatorClass = getattr(module, "XroarGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -184,6 +188,7 @@ def getDefaultEmulator(targetSystem):
         "c64"            : Emulator(name='c64', emulator='libretro', core='vice_x64'),
         "cbm2"           : Emulator(name='cbm2', emulator='libretro', core='vice_xcbm2'),
         "dos"            : Emulator(name='dos', emulator='dosbox', videomode='default'),
+        "dragon"         : Emulator(name='dragon', emulator='xroar'),
         "lowresnx"       : Emulator(name='lowresnx', emulator='libretro', core='lowresnx'),
         "macintosh"      : Emulator(name='macintosh', emulator='libretro', core='minivmac'),
         "msx1"           : Emulator(name='msx1', emulator='libretro', core='bluemsx'),
@@ -200,6 +205,7 @@ def getDefaultEmulator(targetSystem):
         "spectravideo"   : Emulator(name='spectravideo', emulator='libretro', core='bluemsx'),
         "thomson"        : Emulator(name='thomson', emulator='libretro', core='theodore'),
         "tic80"          : Emulator(name='tic80', emulator='libretro', core='tic80'),
+        "trs80coco"      : Emulator(name='trs80coco', emulator='xroar'),
         "vic20"          : Emulator(name='vic20', emulator='libretro', core='vice_xvic'),
         "videopacplus"   : Emulator(name='videopacplus', emulator='libretro', core='o2em'),
         "x1"             : Emulator(name='x1', emulator='libretro', core='xmil'),
