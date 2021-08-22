@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if test "$1" == "start" ; then
+    # Scart DAC
+    # Managing DAC for CRT (vga666, rgb-pi)
+    CONFIG_LINE=$(grep -m 1 -e "^system.crt=.*" /recalbox/share/system/recalbox.conf)
+    DAC=${CONFIG_LINE##*=}
+    CRT_CONFIG_FILE="/boot/recalbox-crt-config.txt"
+    CRT_TIMING_FILE="/boot/timings.txt"
+
+    if [[ "${DAC}" == "vga666" || "${DAC}" == "rgbpi" ]];then
+        # Assuming that it is already configured if /boot/recalbox-crt-config.txt is present
+        if [[ ! -f /boot/recalbox-crt-config.txt ]]; then
+            source /recalbox/scripts/recalbox-utils.sh
+            recallog "[RECALBOX-CRT] Processing ${DAC} configuration."
+            mount -o remount,rw /boot
+            recallog "[RECALBOX-CRT] Installing timings and config in /boot"
+            cp "/boot/crt-config/${DAC}-config.txt" "${CRT_CONFIG_FILE}"
+            cp "/boot/crt-config/vga666-timings.txt" "${CRT_TIMING_FILE}"
+            mount -o remount,ro /boot
+            recallog "[RECALBOX-CRT] Customizing theme for CRT in recalbox.conf"
+            sed -i "s/^emulationstation\.theme\.recalbox-next\.systemview=.*/emulationstation.theme.recalbox-next.systemview=3-crt and tiny screen/g" \
+              /recalbox/share/system/recalbox.conf
+            sed -i "s/^emulationstation\.theme\.recalbox-next\.gamelistview=.*/emulationstation.theme.recalbox-next.gamelistview=6-crt-small screen/g" \
+              /recalbox/share/system/recalbox.conf
+            reboot
+        fi
+    elif [[ "${DAC}" == "" ]]; then
+        if [[ -f "${CRT_CONFIG_FILE}" ]]; then
+            # We should clean
+            source /recalbox/scripts/recalbox-utils.sh
+            recallog "[RECALBOX-CRT] Uninstalling CRT configuration."
+            mount -o remount,rw /boot
+            mkdir /boot/crt-config-save/
+            recallog "[RECALBOX-CRT] Moving timings and config in /boot/crt-config-save"
+            mv "${CRT_CONFIG_FILE}" "${CRT_TIMING_FILE}" /boot/crt-config-save/
+            recallog "[RECALBOX-CRT] Removing CRT theme in recalbox.conf"
+            sed -i "/emulationstation.theme.recalbox-next.systemview=3-crt and tiny screen/d" /recalbox/share/system/recalbox.conf
+            sed -i "/emulationstation.theme.recalbox-next.gamelistview=6-crt-small screen/d" /recalbox/share/system/recalbox.conf
+            mount -o remount,ro /boot
+            reboot
+        fi
+    else
+        # Unsupported
+        source /recalbox/scripts/recalbox-utils.sh
+        recallog "[RECALBOX-CRT] Unable to process ${DAC} configuration. Not supported yet."
+    fi
+fi
