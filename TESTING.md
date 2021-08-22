@@ -99,6 +99,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test retroarch v1.9.7 (#1805)
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
+- [ ] Test that retroarch override configuration works for preinstalled games (#1805)
+- [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

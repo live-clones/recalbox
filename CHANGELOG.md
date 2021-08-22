@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - Default values for sprite limits in core configuration (#1842)
 - Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Add recalbox-crt package for CRT support (#1805)
 - Bump configgen to support CRT (#1805)
 - Enable crtswitch with kmsdrm in retroarch (#1805)
 - Add Retroarch ASPECT_RATIO_NATIVE_1920 for CRT (#1805)
