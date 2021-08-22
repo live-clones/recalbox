@@ -1,0 +1,88 @@
+#!/bin/bash
+
+declare -A ES_CONFIG=( \
+    ["emulationstation.theme.recalbox-next.systemview"]="9-240p" \
+    ["emulationstation.theme.recalbox-next.gamelistview"]="10-240p" \
+    ["emulationstation.theme.recalbox-next.menuset"]="7-240p" \
+    ["emulationstation.theme.recalbox-next.gameclipview"]="3-240p" \
+    ["emulationstation.screensaver.type"]="demo" \
+    ["240ptestsuite.ignore"]="0" \
+    ["global.videomode"]="default" \
+    )
+
+declare -A ES_CLEAN_CONFIG=( \
+    ["system.es.ratio"]="default" \
+    ["system.es.videomode"]="default" \
+    ["240ptestsuite.ignore"]="1" \
+    )
+
+if test "$1" == "start" ; then
+    CONFIG_LINE=$(grep -m 1 -e "^system.crt=.*" /recalbox/share/system/recalbox.conf)
+    DAC=${CONFIG_LINE##*=}
+    CRT_CONFIG_FILE="/boot/recalbox-crt-config.txt"
+    CRT_TIMING_FILE="/boot/timings.txt"
+
+    if [[ "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
+        if [[ ! -f "${CRT_CONFIG_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_CONFIG_FILE}"; then
+            source /recalbox/scripts/recalbox-utils.sh
+            recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
+            mount -o remount,rw /boot
+
+            recallog -s "S13crt" -t "CRT" "Installing timings and config in /boot"
+            cp "/boot/crt-config/${DAC}-config.txt" "${CRT_CONFIG_FILE}"
+            cp "/boot/crt-config/timings.txt" "${CRT_TIMING_FILE}"
+            mount -o remount,ro /boot
+
+            recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
+            killall -9 emulationstation
+
+            echo "" >> /recalbox/share/system/recalbox.conf
+            for KEY in "${!ES_CONFIG[@]}"; do
+                if grep -q -e "^.\?${KEY}=.*" /recalbox/share/system/recalbox.conf; then
+                    sed -i "s/^.\?${KEY}=.*/${KEY}=${ES_CONFIG[$KEY]}/g" \
+                        /recalbox/share/system/recalbox.conf
+                else
+                    echo "${KEY}=${ES_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
+                fi
+            done
+            # Managed by ES
+            #sed -i "s/.\?system\.es\.videomode=.*/system.es.videomode=640x480/g" /recalbox/share/system/recalbox.conf
+            reboot
+        fi
+    elif [[ "${DAC}" == "" ]]; then
+        if [[ -f "${CRT_CONFIG_FILE}" ]] && grep -q "#device=" "${CRT_CONFIG_FILE}"; then
+            # We should clean
+            source /recalbox/scripts/recalbox-utils.sh
+            recallog -s "S13crt" -t "CRT" "Uninstalling CRT configuration."
+            mount -o remount,rw /boot
+            mkdir -p /boot/crt-config-save/
+            recallog -s "S13crt" -t "CRT" "Moving timings and config in /boot/crt-config-save"
+            mv "${CRT_CONFIG_FILE}" "${CRT_TIMING_FILE}" /boot/crt-config-save/
+            touch "${CRT_CONFIG_FILE}"
+            recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
+            rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
+            recallog -s "S13crt" -t "CRT" "Removing configuration in recalbox.conf"
+            killall -9 emulationstation
+            for KEY in "${!ES_CONFIG[@]}"; do
+                sed -i "/${KEY}=${ES_CONFIG[$KEY]}/d" \
+                    /recalbox/share/system/recalbox.conf
+            done
+            
+            echo "" >> /recalbox/share/system/recalbox.conf
+            for KEY in "${!ES_CLEAN_CONFIG[@]}"; do
+                if grep -q -e "${KEY}=.*" /recalbox/share/system/recalbox.conf; then
+                    sed -i "s/${KEY}=.*/${KEY}=${ES_CLEAN_CONFIG[$KEY]}/g" \
+                    /recalbox/share/system/recalbox.conf
+                else
+                    echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
+                fi
+            done
+            mount -o remount,ro /boot
+            reboot
+        fi
+    else
+        # Unsupported
+        source /recalbox/scripts/recalbox-utils.sh
+        recallog -s "S13crt" -t "CRT" "Unable to process ${DAC} configuration. Not supported yet."
+    fi
+fi
