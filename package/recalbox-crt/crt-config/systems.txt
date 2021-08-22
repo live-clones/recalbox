@@ -1,0 +1,36 @@
+# This file list the configuration by system
+# The SYSTEM_ID is the standard one (same as /recalbox/share/roms directories)
+# The REGION is ntsc|pal|all
+# The MODE_ID references a mode in modes.txt
+# The VIEWPORT_WIDTH force the image width (0 for auto)
+# The VIEWPORT_HEIGHT force the image height (0 for auto)
+# Format: SYSTEM_ID,REGION,MODE_ID,VIEWPORT_WIDTH,VIEWPORT_HEIGHT
+snes,pal,snes:nes:pal:240@50.01,0,0
+snes,ntsc,snes:nes:ntsc:224@60.0988,0,0
+nes,pal,snes:nes:pal:240@50.01,0,0
+nes,ntsc,snes:nes:ntsc:224@60.0988,0,0
+saturn,ntsc,standard:all:224@60,0,0
+neogeo,all,neogeo:all:224@59.185606,0,0
+pcengine,all,pcengine:pcenginecd:all:240@59.94,0,0
+pcenginecd,all,pcengine:pcenginecd:all:240@59.94,0,0
+wswanc,all,standard:all:240@60,1920,206
+megadrive,ntsc,megadrive:sega32x:segacd:ntsc:224@59.92274,0,0
+megadrive,pal,megadrive:sega32x:segacd:pal:224@49.701459,0,0
+sega32x,ntsc,megadrive:sega32x:segacd:ntsc:224@59.92274,0,0
+sega32x,pal,megadrive:sega32x:segacd:pal:224@49.701459,0,0
+segacd,ntsc,megadrive:sega32x:segacd:ntsc:224@59.92274,0,0
+segacd,pal,megadrive:sega32x:segacd:pal:224@49.701459,0,0
+sg1000,ntsc,sg1000:ntsc:192@59.922743,0,0
+sg1000,pal,sg1000:pal:192@49.701459,0,0
+mastersystem,ntsc,mastersystem:ntsc:240@59.922743,0,0
+mastersystem,pal,mastersystem:pal:240@49.701459,0,0
+atari2600,ntsc,atari2600:ntsc:228@60,0,0
+atari2600,pal,atari2600:pal:274@50,0,0
+atari5200,all,atari5200:all:240@49.860760,0,0
+atari7800,all,standard:all:224@60,0,0
+atari800,ntsc,standard:all:240@60,0,0
+atari800,pal,atari800:pal:240@49.860760,0,0
+colecovision,all,standard:all:240@60,0,0
+dreamcast,all,standard:all:240@60,0,0
+gamegear,all,gamegear:all:288@50,0,0
+gameboy,all,standard:all:224@60,0,0
