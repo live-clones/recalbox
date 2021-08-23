@@ -55,6 +55,16 @@ All notable changes to this project will be documented in this file.
 - Improve odroidxu4 OGST video playback (#1811)
 - Bump theme (#1827)
 - Fix pisnes crash on launch (#1838)
+- Bump python-pygame to 2.0.1
+- Bump rpi-firmware to 5.10.60 (#1815)
+- Bump rpi kernel to 5.10.60 (#1815)
+- Bump linux firmware to 20210716 (#1815)
+- Bump odroidxu4 kernel to 5.4.118 (#1815)
+- Fix rtl8812au wifi driver not installed on target images (#1815)
+- Disable rtl8812au wifi driver for odroidgo2 (#1815)
+- Bump legacy nvidia drivers to 390.143 (#1815)
+- Bump production nvidia drivers to 460.84 (#1815)
+- Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

@@ -1,0 +1,16 @@
+diff --git a/package/rpi-firmware/Config.in b/package/rpi-firmware/Config.in
+index f5a25c5680..f4d2ddc7d1 100644
+--- a/package/rpi-firmware/Config.in
++++ b/package/rpi-firmware/Config.in
+@@ -84,8 +84,9 @@ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
+ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTB_OVERLAYS
+ 	bool "Install DTB overlays"
+ 	default y
+-	depends on BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS \
+-		|| BR2_LINUX_KERNEL_DTS_SUPPORT
++	depends on (BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS \
++	  || BR2_LINUX_KERNEL_DTS_SUPPORT) && \
++	  !BR2_LINUX_KERNEL_DTS_INSTALL_OVERLAYS
+ 	select BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT \
+ 		if BR2_LINUX_KERNEL_DTS_SUPPORT
+ 	help

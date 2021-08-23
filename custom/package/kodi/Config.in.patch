@@ -1,100 +1,17 @@
 diff --git a/package/kodi/Config.in b/package/kodi/Config.in
-index 31ad8630d6..5025df072d 100644
+index f4cfc6380c..d3f4c70ba5 100644
 --- a/package/kodi/Config.in
 +++ b/package/kodi/Config.in
-@@ -18,6 +18,39 @@ comment "kodi needs python w/ .py modules, a uClibc or glibc toolchain w/ C++, t
- config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
- 	bool
- 
-+config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GL
-+	bool
-+	default y
-+	depends on BR2_ENABLE_LOCALE # libinput
-+	depends on BR2_PACKAGE_HAS_LIBGL
-+	depends on BR2_PACKAGE_HAS_LIBEGL
-+	depends on BR2_PACKAGE_MESA3D_GBM
-+	depends on BR2_PACKAGE_HAS_UDEV
-+	depends on !BR2_PACKAGE_RPI_USERLAND
-+	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
-+
-+config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GLES
-+	bool
-+	default y
-+	depends on BR2_ENABLE_LOCALE # libinput
-+	depends on BR2_PACKAGE_HAS_LIBGLES
-+	depends on BR2_PACKAGE_HAS_UDEV
-+	depends on !BR2_PACKAGE_RPI_USERLAND
-+	depends on !BR2_cortex_a72
-+	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
-+
-+config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
-+	bool
-+	default y
-+	# List of valid CPUs can be found here:
-+	# https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L12
-+	depends on BR2_cortex_a72
-+	depends on !BR2_PACKAGE_RPI_USERLAND
-+	depends on BR2_PACKAGE_HAS_LIBGLES
-+	depends on BR2_PACKAGE_HAS_UDEV # libinput
-+	depends on BR2_PACKAGE_MESA3D_GBM
-+	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
-+
- config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI
+@@ -22,7 +22,7 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM
  	bool
  	default y
-@@ -118,6 +151,22 @@ if BR2_PACKAGE_KODI
- 
- source "package/kodi-platform/Config.in"
- 
-+choice
-+	prompt "Kodi flavor"
-+	default BR2_PACKAGE_KODI_FLAVOR_XBMC
-+	help
-+	  Choose between many flavors
-+	  * xbmc: official Kodi release
-+	  * popcornmix: Raspberry PI optimized release
-+
-+config BR2_PACKAGE_KODI_FLAVOR_XBMC
-+	bool "xbmc"
-+
-+config BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX
-+	bool "popcornmix"
-+
-+endchoice
-+
- config BR2_PACKAGE_KODI_ALSA_LIB
- 	bool "alsa"
- 	select BR2_PACKAGE_ALSA_LIB
-@@ -200,8 +249,27 @@ choice
- 	prompt "platform"
- 	default BR2_PACKAGE_KODI_PLATFORM_X11_OPENGL
- 
-+config BR2_PACKAGE_KODI_PLATFORM_GBM_GL
-+	bool "GBM/GL (w/o X11)"
-+	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GL
-+	select BR2_PACKAGE_LIBGLU
-+	select BR2_PACKAGE_LIBINPUT
-+	select BR2_PACKAGE_LIBXKBCOMMON
-+
-+config BR2_PACKAGE_KODI_PLATFORM_GBM_GLES
-+	bool "GBM/GLES (w/o X11)"
-+	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM_GLES
-+	select BR2_PACKAGE_LIBINPUT
-+	select BR2_PACKAGE_LIBXKBCOMMON
-+
-+config BR2_PACKAGE_KODI_PLATFORM_RBPI4
-+	bool "Raspberry Pi4 only"
-+	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI4
-+	select BR2_PACKAGE_LIBINPUT
-+	select BR2_PACKAGE_LIBXKBCOMMON
-+
- config BR2_PACKAGE_KODI_PLATFORM_RBPI
--	bool "Raspberry Pi"
-+	bool "Raspberry Pi (not 4)"
- 	depends on BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_RBPI
+ 	depends on BR2_PACKAGE_HAS_LIBGL || BR2_PACKAGE_HAS_LIBGLES
+-	depends on BR2_PACKAGE_MESA3D_GBM
++	depends on BR2_PACKAGE_HAS_LIBEGL
+ 	depends on BR2_PACKAGE_HAS_UDEV # libinput
+ 	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
  	select BR2_PACKAGE_LIBINPUT
- 	select BR2_PACKAGE_LIBXKBCOMMON
-@@ -300,84 +368,84 @@ config BR2_PACKAGE_KODI_OPTICALDRIVE
+@@ -279,86 +279,86 @@ config BR2_PACKAGE_KODI_OPTICALDRIVE
  	  Add support for optical drives, to read e.g. DVDs...
  
  menu "Audio decoder addons"
@@ -134,8 +51,10 @@ index 31ad8630d6..5025df072d 100644
  
  menu "Inputstream addons"
 -	source "package/kodi-inputstream-adaptive/Config.in"
+-	source "package/kodi-inputstream-ffmpegdirect/Config.in"
 -	source "package/kodi-inputstream-rtmp/Config.in"
 +source "package/kodi-inputstream-adaptive/Config.in"
++source "package/kodi-inputstream-ffmpegdirect/Config.in"
 +source "package/kodi-inputstream-rtmp/Config.in"
  endmenu
  
@@ -185,7 +104,6 @@ index 31ad8630d6..5025df072d 100644
 -	source "package/kodi-screensaver-asterwave/Config.in"
 -	source "package/kodi-screensaver-biogenesis/Config.in"
 -	source "package/kodi-screensaver-cpblobs/Config.in"
--	source "package/kodi-screensaver-crystalmorph/Config.in"
 -	source "package/kodi-screensaver-greynetic/Config.in"
 -	source "package/kodi-screensaver-matrixtrails/Config.in"
 -	source "package/kodi-screensaver-pingpong/Config.in"
@@ -196,7 +114,6 @@ index 31ad8630d6..5025df072d 100644
 +source "package/kodi-screensaver-asterwave/Config.in"
 +source "package/kodi-screensaver-biogenesis/Config.in"
 +source "package/kodi-screensaver-cpblobs/Config.in"
-+source "package/kodi-screensaver-crystalmorph/Config.in"
 +source "package/kodi-screensaver-greynetic/Config.in"
 +source "package/kodi-screensaver-matrixtrails/Config.in"
 +source "package/kodi-screensaver-pingpong/Config.in"
@@ -211,8 +128,10 @@ index 31ad8630d6..5025df072d 100644
  endmenu
  
  menu "Virtual file systems"
+-	source "package/kodi-vfs-libarchive/Config.in"
 -	source "package/kodi-vfs-rar/Config.in"
 -	source "package/kodi-vfs-sftp/Config.in"
++source "package/kodi-vfs-libarchive/Config.in"
 +source "package/kodi-vfs-rar/Config.in"
 +source "package/kodi-vfs-sftp/Config.in"
  endmenu
@@ -220,12 +139,14 @@ index 31ad8630d6..5025df072d 100644
  menu "Visualisations"
 -	source "package/kodi-visualisation-fishbmc/Config.in"
 -	source "package/kodi-visualisation-goom/Config.in"
+-	source "package/kodi-visualisation-matrix/Config.in"
 -	source "package/kodi-visualisation-shadertoy/Config.in"
 -	source "package/kodi-visualisation-spectrum/Config.in"
 -	source "package/kodi-visualisation-starburst/Config.in"
 -	source "package/kodi-visualisation-waveform/Config.in"
 +source "package/kodi-visualisation-fishbmc/Config.in"
 +source "package/kodi-visualisation-goom/Config.in"
++source "package/kodi-visualisation-matrix/Config.in"
 +source "package/kodi-visualisation-shadertoy/Config.in"
 +source "package/kodi-visualisation-spectrum/Config.in"
 +source "package/kodi-visualisation-starburst/Config.in"

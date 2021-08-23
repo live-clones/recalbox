@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-FFMPEG_VERSION = 4.3.1
+FFMPEG_VERSION = 4.4
 FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.xz
 FFMPEG_SITE = http://ffmpeg.org/releases
 FFMPEG_INSTALL_STAGING = YES
@@ -15,6 +15,8 @@ ifeq ($(BR2_PACKAGE_FFMPEG_GPL),y)
 FFMPEG_LICENSE += and GPL-2.0+
 FFMPEG_LICENSE_FILES += COPYING.GPLv2
 endif
+
+FFMPEG_CPE_ID_VENDOR = ffmpeg
 
 FFMPEG_CONF_OPTS = \
 	--prefix=/usr \
@@ -87,6 +89,13 @@ FFMPEG_CONF_OPTS += --enable-ffplay
 FFMPEG_CONF_ENV += SDL_CONFIG=$(STAGING_DIR)/usr/bin/sdl2-config
 else
 FFMPEG_CONF_OPTS += --disable-ffplay
+endif
+
+ifeq ($(BR2_PACKAGE_LIBV4L),y)
+FFMPEG_DEPENDENCIES += libv4l
+FFMPEG_CONF_OPTS += --enable-libv4l2
+else
+FFMPEG_CONF_OPTS += --disable-libv4l2
 endif
 
 ifeq ($(BR2_PACKAGE_FFMPEG_AVRESAMPLE),y)
@@ -362,13 +371,6 @@ FFMPEG_CONF_OPTS += --enable-libtheora
 FFMPEG_DEPENDENCIES += libtheora
 else
 FFMPEG_CONF_OPTS += --disable-libtheora
-endif
-
-ifeq ($(BR2_PACKAGE_WAVPACK),y)
-FFMPEG_CONF_OPTS += --enable-libwavpack
-FFMPEG_DEPENDENCIES += wavpack
-else
-FFMPEG_CONF_OPTS += --disable-libwavpack
 endif
 
 ifeq ($(BR2_PACKAGE_LIBICONV),y)

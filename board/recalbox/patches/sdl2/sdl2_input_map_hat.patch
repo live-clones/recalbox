@@ -21,11 +21,11 @@
                      if (joystick->hwdata->abs_map[code] != 0xFF) {
 --- ./src/joystick/linux/SDL_sysjoystick_c.h	2019-07-25 06:32:36.000000000 +0200
 +++ ./src/joystick/linux/SDL_sysjoystick_c.h	2020-04-13 23:20:13.034931795 +0200
-@@ -52,6 +52,7 @@
+@@ -53,6 +53,7 @@
      /* Support for the Linux 2.4 unified input interface */
      Uint8 key_map[KEY_MAX];
      Uint8 abs_map[ABS_MAX];
 +    Uint8 hat_map[ABS_MAX];
-     struct axis_correct
-     {
-         int used;
+     SDL_bool has_key[KEY_MAX];
+     SDL_bool has_abs[ABS_MAX];
+ 

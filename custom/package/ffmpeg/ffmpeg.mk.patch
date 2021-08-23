@@ -1,8 +1,8 @@
 diff --git a/package/ffmpeg/ffmpeg.mk b/package/ffmpeg/ffmpeg.mk
-index 6b7437411c..498b42bf57 100644
+index 8ff8ea8c6c..05fabf2029 100644
 --- a/package/ffmpeg/ffmpeg.mk
 +++ b/package/ffmpeg/ffmpeg.mk
-@@ -58,6 +58,11 @@ FFMPEG_CONF_OPTS = \
+@@ -60,6 +60,11 @@ FFMPEG_CONF_OPTS = \
  
  FFMPEG_DEPENDENCIES += host-pkgconf
  

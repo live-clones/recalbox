@@ -1,8 +1,8 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 6ef530fb43..2f9c20a4b7 100644
+index a2e426e578..ab3780bce0 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
-@@ -17,7 +17,6 @@ SDL2_CONF_OPTS += \
+@@ -19,7 +19,6 @@ SDL2_CONF_OPTS += \
  	--disable-arts \
  	--disable-esd \
  	--disable-dbus \
@@ -10,7 +10,19 @@ index 6ef530fb43..2f9c20a4b7 100644
  	--disable-video-wayland
  
  # We are using autotools build system for sdl2, so the sdl2-config.cmake
-@@ -154,6 +153,13 @@ else
+@@ -32,6 +31,11 @@ define SDL2_REMOVE_SDL2_CONFIG_CMAKE
+ endef
+ SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_REMOVE_SDL2_CONFIG_CMAKE
+ 
++define SDL2_RUN_AUTOGEN
++	$(@D)/autogen.sh
++endef
++SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
++
+ # We must enable static build to get compilation successful.
+ SDL2_CONF_OPTS += --enable-static
+ 
+@@ -149,6 +153,13 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  
@@ -24,7 +36,7 @@ index 6ef530fb43..2f9c20a4b7 100644
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
  SDL2_DEPENDENCIES += libdrm
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -161,4 +167,15 @@ else
+@@ -156,4 +167,15 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  

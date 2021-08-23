@@ -1,69 +1,13 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index 80a8d4e6bf..7ac1c51514 100644
+index a5c9db1d7e..1aff7b7e68 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
-@@ -6,8 +6,20 @@
+@@ -92,7 +92,7 @@ endif
  
- # When updating the version, please also update kodi-jsonschemabuilder
- # and kodi-texturepacker
-+# rpi 0/1/2, xu4 and PC
-+ifeq ($(BR2_PACKAGE_KODI_FLAVOR_XBMC),y)
- KODI_VERSION = 18.9-Leia
- KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
-+else ifeq ($(BR2_PACKAGE_KODI_FLAVOR_POPCORNMIX),y)
-+# rpi3
-+ifeq ($(BR2_cortex_a53),y)
-+KODI_VERSION = newclock5_18.9-Leia
-+# rpi4
-+else ifeq ($(BR2_cortex_a72),y)
-+KODI_VERSION = leia_pi4_18.9-Leia
-+endif
-+KODI_SITE = $(call github,popcornmix,xbmc,$(KODI_VERSION))
-+endif
- KODI_LICENSE = GPL-2.0
- KODI_LICENSE_FILES = LICENSE.md
- # needed for binary addons
-@@ -90,6 +102,29 @@ ifeq ($(BR2_ENABLE_LOCALE),)
- KODI_DEPENDENCIES += libiconv
+ ifeq ($(BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM),y)
+ KODI_CORE_PLATFORM_NAME += gbm
+-KODI_DEPENDENCIES += libinput libxkbcommon mesa3d
++KODI_DEPENDENCIES += libinput libxkbcommon libegl
  endif
  
-+# See https://github.com/xbmc/xbmc/blob/master/docs/README.Linux.md
-+# Graphic Buffer Management (no X11)
-+ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GL),y)
-+KODI_CONF_OPTS += \
-+	-DCORE_PLATFORM_NAME=gbm \
-+	-DGBM_RENDER_SYSTEM=gl
-+KODI_DEPENDENCIES += libegl libglu libinput libxkbcommon mesa3d
-+endif
-+
-+ifeq ($(BR2_PACKAGE_KODI_PLATFORM_GBM_GLES),y)
-+KODI_CONF_OPTS += \
-+	-DCORE_PLATFORM_NAME=gbm \
-+	-DGBM_RENDER_SYSTEM=gles
-+KODI_DEPENDENCIES += libgles libinput libxkbcommon
-+# GLES is provided by mali-t62x (odroid-xu4)
-+ifeq ($(BR2_PACKAGE_MALI_T62X),y)
-+KODI_DEPENDENCIES += mali-t62x
-+# GLES is provided by mesa
-+else ifeq ($(BR2_PACKAGE_MESA3D),y)
-+KODI_DEPENDENCIES += mesa3d
-+endif
-+endif
-+
- ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
- # These CPU-specific options are only used on rbpi:
- # https://github.com/xbmc/xbmc/blob/Krypton/project/cmake/scripts/rbpi/ArchSetup.cmake#L13
-@@ -169,6 +204,13 @@ ifeq ($(BR2_TOOLCHAIN_HAS_LIBATOMIC),y)
- KODI_CXX_FLAGS += -latomic
- endif
- 
-+ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI4),y)
-+KODI_CONF_OPTS += \
-+	-DCORE_PLATFORM_NAME=gbm \
-+	-DGBM_RENDER_SYSTEM=gles
-+KODI_DEPENDENCIES += libgles libinput libxkbcommon mesa3d rpi-userland-tools
-+endif
-+
- ifeq ($(BR2_PACKAGE_KODI_PLATFORM_RBPI),y)
- KODI_CONF_OPTS += -DCORE_PLATFORM_NAME=rbpi
- KODI_DEPENDENCIES += libinput libxkbcommon rpi-userland
+ ifeq ($(BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_WAYLAND),y)
