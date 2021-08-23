@@ -18,6 +18,7 @@ fi
 source /recalbox/scripts/recalbox-includes.sh
 
 IN=/recalbox/share_init
+UPGRADE=/recalbox/share_upgrade
 OUT=/recalbox/share
 
 # Uncompress directories' content
@@ -121,7 +122,7 @@ do
 done
 
 # Since 7.2, ports may behave as:
-# - ReadOnly: The port is self-sufficient and stays ib share_init
+# - ReadOnly: The port is self-sufficient and stays in share_init
 # - Read/Write: The user must add content to the port or may extend the port by adding extra-content
 #
 # This loop take Read/Write ports and copy them to the share
@@ -131,6 +132,46 @@ while read -r file; do
   SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
   cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
 done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml )
+
+# Since 7.3, share are versioned
+# so that we can update some file automatically
+#
+RECALBOX_VERSION_FILE="/recalbox/recalbox.version"
+RECALBOX_VERSION=$(cat "$RECALBOX_VERSION_FILE")
+SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
+SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
+if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
+    # Check for new bios stuff
+    readarray -d '' biosFolders < <(find "${UPGRADE}/bios" -mindepth 1 -maxdepth 1 -type d -print0)
+    for biosFolder in "${biosFolders[@]}"
+    do
+        ## Copy content of the updates stuff located in bios
+        sourceFolder="${biosFolder}"
+        biosName=$(echo ${biosFolder##*/})
+        destinationFolder="${OUT}/bios/${biosName}"
+        if [ -e "$sourceFolder" ] ; then
+            cp -R "$sourceFolder/." "$destinationFolder"
+        fi
+    done
+
+    # Run through roms folders
+    readarray -d '' romFolders < <(find "${UPGRADE}/roms" -mindepth 1 -maxdepth 1 -type d -print0)
+    for systemFolder in "${romFolders[@]}"
+    do
+        # Copy content of update folder into the target system rom folder
+        sourceFolder="${systemFolder}"
+        systemName=$(echo ${systemFolder##*/})
+        destinationFolder="${OUT}/roms/${systemName}"
+        if [ -e "$sourceFolder" ] ; then
+            cp -R "$sourceFolder/." "$destinationFolder"
+        fi
+        # Update text files
+        find "$systemFolder" -name "_*.txt" -exec install -D {} "$destinationFolder" \;
+    done
+    # Update version
+    cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
+fi
+
 
 # directories to force directories exists
 # files are linked
