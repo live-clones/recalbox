@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Improve netplay management
 - Fix 'files:' tag in systemlist.xml generator
 - Bump Libretro-PX68K
+- Bump libretro-MGBA
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)

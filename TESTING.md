@@ -70,6 +70,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
 - [ ] Text Libretro PX68K and test .m3u multi-disk  
+- [ ] Test libretro-MGBA  
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
