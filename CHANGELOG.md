@@ -47,6 +47,7 @@ All notable changes to this project will be documented in this file.
 - Bump Libretro-Beetle-PSX
 - Bump Libretro-VICE
 - Bump Libretro-MAME2003-Plus
+- Bump Libretro-MAME2003
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844)
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
