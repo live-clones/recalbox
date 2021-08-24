@@ -49,7 +49,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
-- [ ] Check that ES starts on rpi fresh installation (#1815) 
+- [ ] Check that ES starts on rpi fresh installation (#1815)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
@@ -64,6 +64,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Libretro Beetle PSX
 - [ ] Test Libretro-MAME2003  
 - [ ] Test Libretro-MAME 0.234  
+  - [ ] Test EmuTOS bios for Atari ST (#1868)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
