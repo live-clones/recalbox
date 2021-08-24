@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Add EmuTOS bios for Atari ST (#1868)
 - Add ti99sim, standalone emulator for the TI-99/4A
 - Bump libretro-MGBA
+- Bump Libretro-PX68K
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
