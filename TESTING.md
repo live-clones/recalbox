@@ -102,6 +102,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test command line hash still works
 - [ ] Test Libretro VICE  
 - [ ] Test Libretro MAME2003 Plus
+- [ ] Test Libretro Beetle PSX
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
