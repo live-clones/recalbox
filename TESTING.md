@@ -104,6 +104,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the theme of bbc micro (#1949)
 - [ ] Check the theme of trs80coco (#1945)
 - [ ] Check Recalbox Reloaded video intro is randomly played (#1959)
+- [ ] Test Libretro MAME2003 Plus
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
