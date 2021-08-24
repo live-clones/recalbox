@@ -105,14 +105,14 @@ class IniSettings:
                 with open(self.settingsFile) as lines:
                     lastSection = "default"
                     for line in lines:
-                        m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line.decode("utf-8"))
+                        m = re.match(r'^([^#;].*)\s?=\s?(.+)$', line)
                         if m:
                             key = m.group(1).strip()
                             value = m.group(2).strip()
                             self.setOption(lastSection, key, value)
                             #print("Value: -{}:{}={}-".format(lastSection, key, value))
                         else:
-                            m = re.match(r'^\[(.*)\]', line.decode("utf-8"))
+                            m = re.match(r'^\[(.*)\]', line)
                             if m:
                                 lastSection = m.group(1).strip()
                                 #print("Section: -{}-".format(lastSection))

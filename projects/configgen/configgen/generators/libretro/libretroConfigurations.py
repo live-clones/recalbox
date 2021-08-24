@@ -37,6 +37,7 @@ class LibretroConfiguration:
         self.controllers = controllers
         self.demo = demo
         self.nodefaultkeymap = nodefaultkeymap
+        self.rom = rom
 
     # Config file overriding
     def overrideLibretroConfigurationFiles(self, customOrigin, custom):
@@ -139,7 +140,7 @@ class LibretroConfiguration:
             coreConfig.loadFile(True)
 
         # Configure
-        cores = LibretroCores(self.system, coreConfig, self.controllers)
+        cores = LibretroCores(self.system, coreConfig, self.controllers, self.rom)
         cores.fillCoresConfiguration()
 
         # Override with folder/rom settings

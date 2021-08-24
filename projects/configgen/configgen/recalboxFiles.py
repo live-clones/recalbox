@@ -145,6 +145,8 @@ gsplusConfig = HOME + '/.config/gsplus.cfg'
 
 atari800CustomConfig = HOME + '/.atari800.cfg'
 
+hatariCustomConfig = HOME + '/.hatari/hatari.cfg'
+
 pcsxRootFolder = '/recalbox/share/system/configs/pcsx'
 pcsxConfigFile = pcsxRootFolder + '/pcsx.cfg'
 

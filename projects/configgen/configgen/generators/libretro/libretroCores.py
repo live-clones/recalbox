@@ -4,10 +4,11 @@ from configgen.settings.keyValueSettings import keyValueSettings
 
 class LibretroCores:
 
-    def __init__(self, system, settings, controllers):
+    def __init__(self, system, settings, controllers, rom: str):
         self.system = system
         self.settings = settings
         self.controllers = controllers
+        self.rom = rom
 
     #
     # Core specific configurations
@@ -88,6 +89,71 @@ class LibretroCores:
         a800settings.setOption("STEREO_POKEY", "1")
         a800settings.setOption("BUILTIN_BASIC", "1")
         a800settings.saveFile()
+
+    def configureAtariST(self, _):
+        #print("ATARI DETECTED!")
+        MACHINE_ST = 0
+        MACHINE_STE = 1
+        MACHINE_TT = 2
+        MACHINE_FALCON = 3,
+        MACHINE_MEGA_STE = 4
+
+        # Load config
+        from configgen.settings.iniSettings import IniSettings
+        atariStSettings = IniSettings(recalboxFiles.hatariCustomConfig)
+        atariStSettings.loadFile(True)
+
+        # Auto set machine
+        from typing import Dict
+        # Try identify machine folder
+        machines: Dict[str, int] = \
+        {
+            "atari-st": MACHINE_ST,
+            "/st/": MACHINE_ST,
+            "atariste": MACHINE_STE,
+            "atari-ste": MACHINE_STE,
+            "/ste/": MACHINE_STE,
+            "ataritt": MACHINE_TT,
+            "atari-tt": MACHINE_TT,
+            "/tt/": MACHINE_TT,
+            "atarimegaste": MACHINE_MEGA_STE,
+            "atari-megaste": MACHINE_MEGA_STE,
+            "atari-mega-ste": MACHINE_MEGA_STE,
+            "megaste": MACHINE_MEGA_STE,
+            "mega-ste": MACHINE_MEGA_STE,
+            "falcon": MACHINE_FALCON,
+            "atari-falcon": MACHINE_FALCON,
+        }
+        defaultMachine: int = MACHINE_ST
+        romLower: str = self.rom.lower()
+        for key in machines:
+            if key in romLower:
+                defaultMachine: int = machines[key]
+                break
+        print("MACHINE: {}".format(defaultMachine))
+        atariStSettings.setOption("System", "nMachineType", str(defaultMachine))
+
+        # Select bios
+        import os
+        subdir: str = "atarist"
+        biosPath = os.path.join(recalboxFiles.BIOS, subdir, "st.img")
+        if   defaultMachine == MACHINE_STE     : biosPath = os.path.join(recalboxFiles.BIOS, subdir, "ste.img")
+        elif defaultMachine == MACHINE_TT      : biosPath = os.path.join(recalboxFiles.BIOS, subdir, "tt.img")
+        elif defaultMachine == MACHINE_MEGA_STE: biosPath = os.path.join(recalboxFiles.BIOS, subdir, "megaste.img")
+        elif defaultMachine == MACHINE_FALCON  : biosPath = os.path.join(recalboxFiles.BIOS, subdir, "falcon.img")
+        if not os.path.exists(biosPath):
+            biosPath = os.path.join(recalboxFiles.BIOS, subdir, "tos.img")
+            if not os.path.exists(biosPath):
+                biosPath = os.path.join(recalboxFiles.BIOS, "tos.img")
+                if not os.path.exists(biosPath):
+                    biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+        if "emutos" in self.rom:
+            biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+        atariStSettings.setOption("ROM", "szTosImageFileName", str(biosPath))
+        print("BIOS   : {}".format(biosPath))
+
+        # Save config
+        atariStSettings.saveFile()
 
     @staticmethod
     def configure64DD(coreSettings):
@@ -170,6 +236,7 @@ class LibretroCores:
             "amigacd32"    : LibretroCores.configureAmigaCD32,
             "atari5200"    : LibretroCores.configureAtari5200,
             "atari800"     : LibretroCores.configureAtari800,
+            "atarist"      : self.configureAtariST,
             "amstradcpc"   : LibretroCores.configureAmstradCPC,
             "gx4000"       : LibretroCores.configureAmstradGX4000,
             "spectravideo" : LibretroCores.configureSpectravideo,
