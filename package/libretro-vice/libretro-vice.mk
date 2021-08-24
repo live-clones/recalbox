@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_VICE_VERSION = 503d81a4908548e6b9c3d6d666116502b38f4dc2
+# Version of 19/08/2021
+LIBRETRO_VICE_VERSION = 14332663225a6fa1b9ce8b13e40c4128d732ee61
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 LIBRETRO_VICE_LICENSE = GPL-2.0
 LIBRETRO_VICE_LICENSE_FILES = COPYING
@@ -20,14 +21,16 @@ endif
 define LIBRETRO_VICE_BUILD_EMULATOR
 	find $(@D) -name *.o -delete; \
 	find $(@D) -name *.a -delete; \
-	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
-		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
-		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
+	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)" \
+		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
+		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO)" \
 		SHARED="$(TARGET_SHARED)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/ -f Makefile platform="$(LIBRETRO_VICE_PLATFORM)" EMUTYPE=$(strip $(1));
 endef
 
 define LIBRETRO_VICE_BUILD_CMDS
+	$(SED) "s|-fstack-protector||g" $(@D)/Makefile
+	$(SED) "s|-mthumb-interwork||g" $(@D)/Makefile
 	$(foreach emulator, $(LIBRETRO_VICE_SUBEMULATORS), $(call LIBRETRO_VICE_BUILD_EMULATOR, $(emulator)))
 endef
 
