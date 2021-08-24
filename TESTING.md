@@ -77,6 +77,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
 - [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
 - [ ] Test libretro-MGBA  
+- [ ] Text Libretro PX68K and test .m3u multi-disk  
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
