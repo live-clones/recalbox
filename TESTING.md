@@ -52,6 +52,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
   - [ ] /dev/dri/ should exists on rpi4
+- [ ] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

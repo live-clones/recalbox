@@ -107,8 +107,7 @@ case "${RECALBOX_TARGET}" in
 	# /boot
 	echo "generating boot"
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
-	[ -d "${BINARIES_DIR}/rpi-firmware/overlays" ] && rm -rf "${BINARIES_DIR}/rpi-firmware/overlays"
-	cp -rv "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/rpi-firmware/" || exit 1
+	cp -r "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/rpi-firmware/" || exit 1
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
