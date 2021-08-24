@@ -98,6 +98,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check there is no Dreamcast/Atomiswave/Naomi/Naomi GD on x86 (#1902)
 - [ ] Check the theme of ti994a (#1930)
 - [ ] Test new MITM servers, Montreal & SaoPaulo
+- [ ] Test Libretro Beetle PSX
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
