@@ -196,6 +196,7 @@
                               066f39a7ea5789d5afd59dd7b3104fa6,d41ae4efaa2c97f632dbe75d24d51bea,
                               2a8e39c60317b921eabd7e25b5d74395,ed2647936ce4bd283c4d7dfd7ae09d1c,
                               9e880168d0a004f7f5e852be758f39e4,e5ea0f216fb446f1c4a4f476bc5f03d4" core="hatari" />
+    <bios path="atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" core="hatari" />
   </system>
   <system fullname="Magnavox Odyssey²" platform="o2em">
     <bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />

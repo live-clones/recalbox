@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Bump Fbneo 1.0.0.02 (#1859)
 - Improve netplay management
 - Fix 'files:' tag in systemlist.xml generator
+- Add EmuTOS bios for Atari ST (#1868)
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
