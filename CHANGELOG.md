@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - Add ti99sim, standalone emulator for the TI-99/4A (#1856)
 - Bump libretro-MGBA (#1873)
 - Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
+- Bump Libretro-VICE
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844)
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
