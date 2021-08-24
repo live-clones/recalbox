@@ -78,6 +78,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
 
 - [ ] Text Libretro PX68K and test .m3u multi-disk  
+- [ ] Test libretro-MGBA  
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
