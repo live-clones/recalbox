@@ -49,7 +49,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
-- [ ] Check that ES starts on rpi fresh installation (#1815) 
+- [ ] Check that ES starts on rpi fresh installation (#1815)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
@@ -67,6 +67,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
   - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
 - [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+  - [ ] Test EmuTOS bios for Atari ST (#1868)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
