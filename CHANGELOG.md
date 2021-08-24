@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-mame 0.232 (#1853)
 - Add yabasanshiro core on Pi4
 - Improve netplay management
+- Add ti99sim, standalone emulator for the TI-99/4A
 - Added Lowres-nx theme (#1586)
 - Improve P2K
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 

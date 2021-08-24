@@ -92,6 +92,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test that retroarch override configuration works for preinstalled games (#1805)
 - [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
 - [ ] Bumped libretro dosbox-pure core (#1644)
+- [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
