@@ -79,6 +79,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 - [ ] Text Libretro PX68K and test .m3u multi-disk  
 - [ ] Test libretro-MGBA  
+- [ ] Test Libretro MAME2003 Plus
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
