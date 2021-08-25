@@ -109,7 +109,7 @@ def checkAutoMode(expectedMode=None):
     import re
     regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
-    matches = re.match(regex, out)
+    matches = re.match(str(regex), str(out))
     if not matches:
         # We should log the out var and log that it doesn't match any known pattern
         recallog('auto mode -> had to set default')
@@ -157,7 +157,7 @@ def getCurrentResolution():
         import re
         regex = r".*\[([A-Z]{3,4}) ?(.*[^0-9:]?) ?([0-9]{1,2})?:?([0-9]{1,2})?\], ([0-9]{3,4})x([0-9]{3,4}) @ ([0-9.]{1,6})Hz, (progressive|interlaced).*"
 
-        matches = re.match(regex, out)
+        matches = re.match(str(regex), str(out))
         if not matches:
             # We should log the out var and log that it doesn't match any known pattern
             recallog("getCurrentResolution - Couldn't parse output: {}".format(out))
@@ -176,8 +176,8 @@ def getCurrentFramebufferResolution():
     matches = re.match(regex, line)
 
     if not matches:
-        recallog("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
-        raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(out))
+        recallog("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
+        raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
     width, height = matches.groups()
 
     f = open("/sys/devices/virtual/graphics/fbcon/rotate", "r")
