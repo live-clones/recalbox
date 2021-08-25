@@ -3,7 +3,8 @@ import platform
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.supermodel.supermodelControllers as supermodelControllers
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.videoMode import *
 
@@ -248,7 +249,7 @@ class SupermodelGenerator(Generator):
         loglevel.append("-log-level=" + loglevelset)
         return loglevel
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         if not system.config['configfile']:
 
             # Controllers

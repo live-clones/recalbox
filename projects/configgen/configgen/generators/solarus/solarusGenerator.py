@@ -1,7 +1,9 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.generators.solarus.solarusControllers import SolarusControllers
+from settings.keyValueSettings import keyValueSettings
 
 
 class SolarusGenerator(Generator):
@@ -12,7 +14,7 @@ class SolarusGenerator(Generator):
         recalbox = system.config
         return key in recalbox and recalbox[key] in self.IS_TRUE
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file

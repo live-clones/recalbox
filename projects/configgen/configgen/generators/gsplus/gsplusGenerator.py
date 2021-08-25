@@ -2,7 +2,8 @@ import os
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -78,7 +79,7 @@ class GSplusGenerator(Generator):
         for i in range(1, 33):
             settings.removeOption("s7d{}".format(i))
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches

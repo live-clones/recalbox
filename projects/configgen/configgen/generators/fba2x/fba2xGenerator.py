@@ -2,15 +2,17 @@
 import shutil
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
+from Emulator import Emulator
 from configgen.generators.fba2x import fba2xControllers
 from configgen.generators.fba2x import fba2xConfig
-from configgen.generators.Generator import Generator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings.keyValueSettings import keyValueSettings
 
 
 class Fba2xGenerator(Generator):
     # Main entry of the module
     # Configure fba and return a command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

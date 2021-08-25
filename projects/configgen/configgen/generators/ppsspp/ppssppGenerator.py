@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 import configgen.generators.ppsspp.ppssppConfig as ppssppConfig
 import configgen.generators.ppsspp.ppssppControllers as ppssppControllers
+from settings.keyValueSettings import keyValueSettings
 
 
 class PPSSPPGenerator(Generator):
     # Main entry of the module
     # Configure ppsspp and return a command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         if not system.config['configfile']:
             ppssppConfig.writePPSSPPConfig(system)
             # For each pad detected

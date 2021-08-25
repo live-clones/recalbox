@@ -1,6 +1,8 @@
 import platform
 import os
 import configgen.recalboxFiles as recalboxFiles
+from Emulator import Emulator
+
 
 class LibretroRetroarch:
 

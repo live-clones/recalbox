@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 import configgen.Command as Command
+from Emulator import Emulator
 from configgen.generators.mupen import mupenConfig
 from configgen.generators.mupen import mupenControllers
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings.keyValueSettings import keyValueSettings
 
 
 class MupenGenerator(Generator):
     # Main entry of the module
     # Configure mupen and return a command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         # Settings recalbox default config file if no user defined one
         if not system.config['configfile']:
             # Using recalbox config file

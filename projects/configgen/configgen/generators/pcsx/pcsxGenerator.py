@@ -1,7 +1,9 @@
 import os
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings import keyValueSettings
 
 
 class PcsxGenerator(Generator):
@@ -54,7 +56,7 @@ class PcsxGenerator(Generator):
         return '\\' + hex(int(button) + 0xA0)[1:]
 
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
 
         config = PcsxGenerator.Loadconfiguration()
 

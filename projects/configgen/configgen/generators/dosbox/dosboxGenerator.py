@@ -2,7 +2,9 @@
 import os.path
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings.keyValueSettings import keyValueSettings
 
 
 class DosBoxGenerator(Generator):
@@ -14,7 +16,7 @@ class DosBoxGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         # Find rom path
         gameDir = args.rom
         batFile = gameDir + "/dosbox.bat"

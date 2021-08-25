@@ -1,8 +1,10 @@
 import os
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.iniSettings import IniSettings
+from settings.keyValueSettings import keyValueSettings
 
 
 class PisnesGenerator(Generator):
@@ -45,7 +47,7 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
 
         config = PisnesGenerator.Loadconfiguration()
 

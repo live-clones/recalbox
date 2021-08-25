@@ -1,6 +1,7 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -11,7 +12,7 @@ class OricutronGenerator(Generator):
     def defined(key, dictio):
         return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file

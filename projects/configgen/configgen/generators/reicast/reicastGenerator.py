@@ -4,9 +4,12 @@ import os.path
 import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 import configgen.generators.reicast.reicastControllers as reicastControllers
 from configparser import ConfigParser
+
+from settings.keyValueSettings import keyValueSettings
 
 
 class ReicastGenerator(Generator):
@@ -46,7 +49,7 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         if not system.config['configfile']:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
             Config = ConfigParser()

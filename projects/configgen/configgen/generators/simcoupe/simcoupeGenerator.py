@@ -1,6 +1,7 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -16,7 +17,7 @@ class SimCoupeGenerator(Generator):
     def enabled(key, dictio):
         return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
 
         """
         Load, override keys and save back emulator's configuration file

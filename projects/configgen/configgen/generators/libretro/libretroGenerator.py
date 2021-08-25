@@ -4,9 +4,11 @@ import os.path
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
+from Emulator import Emulator
 
-from configgen.generators.Generator import Generator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.generators.libretro.libretroLightGuns import libretroLightGun
+from settings.keyValueSettings import keyValueSettings
 
 
 class LibretroGenerator(Generator):
@@ -130,7 +132,7 @@ class LibretroGenerator(Generator):
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one

@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
 import configgen.generators.advancemame.advMameControllers as advMameControllers
 import os.path
+
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings.keyValueSettings import keyValueSettings
 
 
 class AdvMameGenerator(Generator):
     # Main entry of the module
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         romName = os.path.basename(os.path.splitext(args.rom)[0])
         commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
 

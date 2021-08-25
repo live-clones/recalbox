@@ -4,12 +4,14 @@ import subprocess
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.generators.amiberry.amiberryConfig import ConfigGenerator
 from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
 from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
 from configgen.generators.amiberry.amiberryRomType import RomType
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
+from settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGenerator(Generator):
@@ -118,7 +120,7 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(args.rom)
 

@@ -1,10 +1,17 @@
 from abc import ABCMeta, abstractmethod
+from typing import Dict
 
+from Emulator import Emulator
+from controllersConfig import Controller
+from settings.keyValueSettings import keyValueSettings
+
+# Type def for convenience
+ControllerDictionary = Dict[str, Controller]
 
 class Generator(object):
     __metaclass__ = ABCMeta
     @abstractmethod
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         pass
     
     #@abstractmethod

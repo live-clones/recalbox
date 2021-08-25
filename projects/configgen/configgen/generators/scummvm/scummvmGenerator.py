@@ -3,8 +3,10 @@ import os.path
 import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
+from Emulator import Emulator
 from configgen.controllersConfig import Controller
-from configgen.generators.Generator import Generator
+from configgen.generators.Generator import Generator, ControllerDictionary
+from settings.keyValueSettings import keyValueSettings
 
 
 class ScummVMGenerator(Generator):
@@ -21,7 +23,7 @@ class ScummVMGenerator(Generator):
 
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
 

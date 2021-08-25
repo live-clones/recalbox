@@ -2,7 +2,8 @@
 import os.path
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.Generator import Generator
+from Emulator import Emulator
+from configgen.generators.Generator import Generator, ControllerDictionary
 import configgen.generators.dolphin.dolphinControllers as dolphinControllers
 from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -244,7 +245,7 @@ class DolphinGenerator(Generator):
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
         if not system.config['configfile']:
             # Controllers
             dolphinControllers.generateControllerConfig(system, playersControllers)
