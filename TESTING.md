@@ -59,6 +59,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Saturn on RPI4
 - [ ] Test Vectrex commands, especially directions (#1879)
 
+- [ ] Bumped libretro fbneo (#1859)
+  - [ ] Test the floppy disk change on FDS 
+  - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
