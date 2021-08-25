@@ -78,7 +78,7 @@ class LibretroGenerator(Generator):
                     # ratio = we can activate when ratio is not 16/9 and 16/10
                     if 'ratio' not in system.config or system.config['ratio'] not in ["16/9", "16/10"]:
                         # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
-                        from utils.videoMode import getCurrentFramebufferRatio
+                        from configgen.utils.videoMode import getCurrentFramebufferRatio
                         if getCurrentFramebufferRatio() > 1.51:
                             defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.name, system.name)
                             if os.path.isfile(defaultOverlayFile):

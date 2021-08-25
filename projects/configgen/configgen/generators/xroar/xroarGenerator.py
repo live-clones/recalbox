@@ -29,7 +29,7 @@ class XroarGenerator(Generator):
                                    "-snappath", os.path.join(snapshotFolder, snapFile)]
 
         # Config file?
-        from settings.configOverriding import buildOverrideChain
+        from configgen.settings.configOverriding import buildOverrideChain
         configList = buildOverrideChain(args.rom, ".xroar.config")
         if len(configList) > 0:
             commandArray.extend(["-c", configList[len(configList) - 1]])
