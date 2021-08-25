@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Add yabasanshiro core on Pi4
+- Added extension .bin for gamegear (#1860)
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
