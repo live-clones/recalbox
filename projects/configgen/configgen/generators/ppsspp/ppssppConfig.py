@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import sys
-import os
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.unixSettings import UnixSettings
 

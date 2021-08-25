@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import sys
 import os
 from xml.dom import minidom
 from configparser import ConfigParser

@@ -52,11 +52,11 @@ class UnixSettings():
                 if name in line:
                     m = re.match(r"^" + name + "\.(.+?)=" + self.separator + "\"(.+)\"", line)
                     if m:
-                        res[m.group(1)] = m.group(2);
+                        res[m.group(1)] = m.group(2)
                     else:
                         m = re.match(r"^" + name + "\.(.+?)=" + self.separator + "(.+)", line)
                         if m:
-                            res[m.group(1)] = m.group(2);
+                            res[m.group(1)] = m.group(2)
         return res
 
     def loadFile(self):

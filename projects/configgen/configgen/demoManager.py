@@ -28,7 +28,9 @@ class InputEventManager:
     EVENT_SIZE   = struct.calcsize(EVENT_FORMAT)
 
     def __init__(self, demoStartButtons):
-        self.fileDescriptors = [None] * self.EVENT_MAXIMUM
+        from typing import List, Union
+        from typing.io import IO
+        self.fileDescriptors: List[Union[IO, None]] = [None] * self.EVENT_MAXIMUM
         self.eventFileNameFlags = 0
         self.startMap = demoStartButtons
         self.eventToStart = dict()

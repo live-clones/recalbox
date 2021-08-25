@@ -20,7 +20,7 @@ class Input:
 class Controller:
     def __init__(self, configName, type_, guid, player, index="-1", realName="", inputs=None, dev=None, nbaxes='0', nbhats=None, nbbuttons=None):
         self.type = type_
-        self.configName = configName # type: str
+        self.configName: str = configName
         self.index = index
         self.realName = realName
         self.guid = guid

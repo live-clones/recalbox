@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import os
 import platform
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles

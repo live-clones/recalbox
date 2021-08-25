@@ -39,7 +39,7 @@ def loadAll(name):
         if name in line:
             m = re.match(r"^" + name + "\.(.+?)=(.+)", line)
             if m:
-                res[m.group(1)] = m.group(2);
+                res[m.group(1)] = m.group(2)
     return res
 
 if __name__ == '__main__':
