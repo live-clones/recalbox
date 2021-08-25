@@ -68,31 +68,15 @@ class RomType(IntEnum):
                 romType = RomType.CDROM
             elif romExt == ".hdf":
                 romType = RomType.HDF
-            # Zip
-            elif romExt == ".zip":
-                fileList = subprocess.check_output(['unzip', '-l', rom], encoding="utf-8").lower()
-                if fileList.find(".slave") >= 0:
+            # Zip & 7z
+            elif romExt in (".zip", ".7z"):
+                fileList = subprocess.check_output(['unzip', '-l', rom] if romExt == ".zip" else ['7zr', 'l', rom], encoding="utf-8").lower()
+                if ".slave" in fileList:
                     romType = RomType.WHDL
-                elif fileList.find(".ipf") >= 0 or fileList.find(".adf") >= 0:
+                elif ".ipf" in fileList or ".adf" in fileList:
                     romType = RomType.DISK
-                elif fileList.find(".iso") >= 0 or fileList.find(".bin") >= 0 or \
-                        fileList.find(".cue") >= 0 or fileList.find(".ccd") >= 0 or \
-                        fileList.find(".nrg") >= 0 or fileList.find(".mds") >= 0 or \
-                        fileList.find(".chd") >= 0:
-                    romType = RomType.CDROM
-                elif fileList.find(".hdf") >= 0:
-                    romType = RomType.HDF
-            # 7z
-            elif romExt == ".7z":
-                fileList = subprocess.check_output(['7zr', 'l', rom], encoding="utf-8").lower()
-                if fileList.find(".slave") >= 0:
-                    romType = RomType.WHDL
-                elif fileList.find(".ipf") >= 0 or fileList.find(".adf") >= 0:
-                    romType = RomType.DISK
-                elif fileList.find(".iso") >= 0 or fileList.find(".bin") >= 0 or \
-                        fileList.find(".cue") >= 0 or fileList.find(".ccd") >= 0 or \
-                        fileList.find(".nrg") >= 0 or fileList.find(".mds") >= 0 or \
-                        fileList.find(".chd") >= 0:
+                elif ".iso" in fileList or ".bin" in fileList or ".cue" in fileList or ".ccd" in fileList or \
+                     ".nrg" in fileList or ".mds" in fileList or ".chd" in fileList:
                     romType = RomType.CDROM
                 elif fileList.find(".hdf") >= 0:
                     romType = RomType.HDF
