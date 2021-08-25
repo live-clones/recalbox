@@ -67,6 +67,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test EmuTOS bios for Atari ST (#1868)
 - [ ] Test the TRS-80 Color Computer system (XRoar emulator)
 - [ ] Test the Dragon32/64 system (XRoar emulator)
+- [ ] Bumped libretro fbneo.
+  - [ ] Test the floppy disk change on FDS (#1859)
+  - [ ] Check who works on the all boards. No loss of fps.
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

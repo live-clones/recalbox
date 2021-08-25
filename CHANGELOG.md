@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Bump Libretro-MAME to v0.234
 - Add EmuTOS bios for Atari ST (#1868)
 - Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
+- Bump Fbneo 1.0.0.02 (#1859)
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
@@ -52,7 +53,6 @@ All notable changes to this project will be documented in this file.
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 - Show a message in emulationstation when the upgrade has failed (#1772)
 - Fix message "failed to set last used disc" for core libretro px68k. Bump core (#1775)
-- Bump Fbneo 1.0.0.02 (#1688)
 - Fix changelog linter (#1759)
 - New romfs v2 (#1686)
 - Set grub timeout to 3 seconds (#1750)
