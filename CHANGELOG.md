@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
-- Add yabasanshiro core on Pi4
+- Fix media filenames for scraper (#1784)
+- Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
 - Added extension .d64 and .tap for Vic20 (#1858)
 - Added Lowres-nx theme (#1586)
@@ -12,14 +13,14 @@ All notable changes to this project will be documented in this file.
 - Added code to add retroachievements in romfsv2 (#1839)
 - Default values for sprite limits in core configuration (#1842)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
-- Add cdtv support for uae4arm
+- Add cdtv support for uae4arm (#1823)
 - Added website meta in rpi imager (#1821)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
 - Added retroachievements for romfsv2 (#1799)
 - Add random path support for emulationstation themes (#1793) (fixed)
 - Added more fixes for romfsv2 (#1686)
 - Fix DOS extension in romfsv2 (#1686)
-- Add FBNeo as core of Channel F
+- Add FBNeo as core of Channel F (#1688)
 - Fix missing values for some cores (#1686)
 - Bump webmanager v2 to fix non working roms tab since romfsv2 (#1686)
 - Add recalbox overlays (#1787)
@@ -50,7 +51,7 @@ All notable changes to this project will be documented in this file.
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant (#1761)
 - Bump stella2014 core (#1761)
 - Bump stella core (#1761)
-- Add libretro LowRes NX core
+- Add libretro LowRes NX core (#1586)
 - Bump flycast (#1737)
 - Bump python to version 3.9 (#1800)
 - Remove Hyperion (#1800)
