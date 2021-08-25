@@ -53,8 +53,8 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
 
   // Seek complete files
   constexpr int sFilesPrefixLength = sizeof(sFilesPrefix) - 1;
-  std::string file(fileWoExt); file.append(extension);
-  size_t filePos = extensionList.find(Strings::ToLowerASCII(fileWoExt) + extension);
+  std::string file(fileWoExt); file.append(extension); file = Strings::ToLowerASCII(file);
+  size_t filePos = extensionList.find(file);
   if (filePos == std::string::npos) return false;
   const char* p = extensionList.data();
   return ((filePos == sFilesPrefixLength) || (p[filePos - 1] == ' ')) &&
