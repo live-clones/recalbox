@@ -58,6 +58,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 
+- [ ] Bumped libretro fbneo (#1859)
+  - [ ] Test the floppy disk change on FDS 
+  - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
