@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 - Add PiBoy DMG support
+- Add gamelink overload for gb and gbc
 
 ### Improvements
 - Bump Amiberry to v4.1.5. Add CDTV support
