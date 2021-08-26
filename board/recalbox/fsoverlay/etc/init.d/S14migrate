@@ -36,7 +36,7 @@ recallog "Running MIGRATIONS..."
 
 declare -A renamedCores
 renamedCores=([catsfc]=snes9x2005 [pocketsnes]=snes9x2002 [snes9x_next]=snes9x2010 [pce]=mednafen_pce_fast [vb]=mednafen_vb [imame]=mame2000 [mame078]=mame2003 [fba]=fbneo [fbalpha]=fbneo [glupen64]=mupen64plus [4do]=opera)
-for oldCoreName in ${!renamedCores[@]}; do 
+for oldCoreName in ${!renamedCores[@]}; do
   sed -i "s/\.core=${oldCoreName}\s*$/.core=${renamedCores[${oldCoreName}]}/" $_SHARE/${recalboxConfPath} \
     || { recallog "ERROR: couldn't replace '${oldCoreName}' by '${renamedCores[${oldCoreName}]}' in $_SHARE/${recalboxConfPath}."; exit 1; }
 done
@@ -115,3 +115,11 @@ for SAVE_DIR in "SAVEDATA" "PPSSPP_STATE"; do
     rm -rf "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/"
   fi
 done
+
+### Migration 7 (20210627010000)
+### Copy Vectrex .rmp file to fix inverted axes into share: see https://gitlab.com/recalbox/recalbox/-/issues/1879
+if test ! -f /recalbox/share/system/.config/retroarch/config/remaps/VecX.rmp
+then
+    recallog "Copy missing VecX.rmp file for Vectrex mapping into share to fix inverted vertical directional inputs."
+    cp /recalbox/share_init/system/.config/retroarch/config/remaps/VecX.rmp /recalbox/share/system/.config/retroarch/config/remaps/
+fi

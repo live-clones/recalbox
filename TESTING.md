@@ -49,7 +49,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
-- [ ] Check that ES starts on rpi fresh installation (#1815) 
+- [ ] Check that ES starts on rpi fresh installation (#1815)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
@@ -57,7 +57,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
-
+- [ ] Test Vectrex commands, especially directions (#1879)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

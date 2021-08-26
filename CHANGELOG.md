@@ -71,9 +71,10 @@ All notable changes to this project will be documented in this file.
 - Bump production nvidia drivers to 460.84 (#1815)
 - Disable Kodi 19 on rpi1, rpi2 and rpi3 due to compatibility issue (#1815)
 - Rework bluetooth scripts (#1482)
+- Copy VecX.rmp file into share (#1879)
 
 ## [7.2.2-Reloaded]
-- Fix controler #2 in swanstation (#1730)
+- Fix controller #2 in swanstation (#1730)
 - Bump mupen64plus Glide64MK2 (#1766)
 - Fix dreamcast overlay offset rpi3 (#1695)
 - Migrate PPSSPP saves to new directory (#1773)
