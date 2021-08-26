@@ -4,7 +4,7 @@ import re
 import os
 
 
-class UnixSettings():
+class UnixSettings:
     def __init__(self, settingsFile, separator='', defaultComment='#'):
         self.settingsFile = settingsFile
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 class SubSystems:
     UNKNOWN = "unknown"
     A600 = "amiga600"
@@ -10,6 +11,3 @@ class SubSystems:
     COMPUTERS = ( A600, A1200 )
     CONSOLES = ( CDTV, CD32 )
     HAVEMOUSE = ( A600, A1200, CDTV, CD32 )
-
-    def __init__(self):
-        raise Exception("Use static fields!")

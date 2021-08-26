@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='simcoupe', videomode='1920x1080', ratio='auto', smooth='1', emulator='simcoupe')
+    return Emulator(name='simcoupe', videoMode='1920x1080', ratio='auto', emulator='simcoupe', core='simcoupe')
 
 
 @pytest.fixture

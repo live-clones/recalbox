@@ -1,10 +1,9 @@
-import os
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.iniSettings import IniSettings
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class PisnesGenerator(Generator):
@@ -30,7 +29,7 @@ class PisnesGenerator(Generator):
     SECTION_GFX  = "Graphics"
 
     @staticmethod
-    def Loadconfiguration():
+    def Loadconfiguration() -> IniSettings:
         # Load configuration
         config = IniSettings(recalboxFiles.pisnesConfigFile, False)
         config.loadFile(True)
@@ -40,6 +39,7 @@ class PisnesGenerator(Generator):
     @staticmethod
     def SaveConfiguration(config):
         # Force path creation
+        import os
         configPath = os.path.dirname(recalboxFiles.pisnesConfigFile)
         if not os.path.exists(configPath):
             os.makedirs(configPath)
@@ -47,7 +47,7 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
 
         config = PisnesGenerator.Loadconfiguration()
 
@@ -56,9 +56,7 @@ class PisnesGenerator(Generator):
         config.setOption(self.SECTION_PATH, "SaveStateFolder", recalboxFiles.SAVES + "/snes")
 
         # Full screen settings
-        key = "integerscale"
-        intScale = key in system.config and system.config[key] in ('1', 'true')
-        config.setOption(self.SECTION_GFX, "MaintainAspectRatio", '1' if intScale else '0')
+        config.setOption(self.SECTION_GFX, "MaintainAspectRatio", '1' if system.IntegerScale else '0')
 
         # controller settings
         # Axis & Hats are hard-coded, so just set buttons
@@ -74,9 +72,10 @@ class PisnesGenerator(Generator):
 
         PisnesGenerator.SaveConfiguration(config)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
+
+        if system.HasArgs: commandArray.extend(system.Args)
+
         commandArray.append(args.rom)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

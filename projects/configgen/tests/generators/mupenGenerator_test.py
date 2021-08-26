@@ -26,7 +26,7 @@ def emulator():
 
 @pytest.fixture
 def system_gliden64():
-    return Emulator(name='n64', videomode='1920x1080', ratio='auto', smooth='1', emulator='mupen64plus', core='gliden64')
+    return Emulator(name='n64', videoMode='1920x1080', ratio='auto', emulator='mupen64plus', core='gliden64')
 
 
 @pytest.fixture

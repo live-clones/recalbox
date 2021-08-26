@@ -16,7 +16,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='dos', videomode='1920x1080', ratio='auto', smooth='1', emulator='dosbox')
+    return Emulator(name='dos', videoMode='1920x1080', ratio='auto', emulator='dosbox', core='dosbox')
 
 
 def test_simple_generate(emulator, system, mocker):

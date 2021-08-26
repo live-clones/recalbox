@@ -1,28 +1,27 @@
 #!/usr/bin/env python
 import os
-import sys
 
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Emulator import Emulator
 from configgen.settings.configOverriding import buildOverrideChain
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.generators.libretro.libretroCores import LibretroCores
 from configgen.generators.libretro.libretroControllers import LibretroControllers
 from configgen.utils.architecture import Architecture
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from configgen.controllersConfig import ControllerDictionary
 
 
 # Libretro configuration
 class LibretroConfiguration:
 
     # constructor
-    def __init__(self, system, controllers, rom, demo, nodefaultkeymap, recalboxSettings):
+    def __init__(self, system: Emulator, controllers: ControllerDictionary, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings):
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
         self.retroarchCustomArchFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture
-        self.retroarchCustomForCoreFile = recalboxFiles.retroarchCustom + '.' + system.config["core"]
-        self.retroarchCustomArchForCoreFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture + '.' + system.config["core"]
+        self.retroarchCustomForCoreFile = recalboxFiles.retroarchCustom + '.' + system.Core
+        self.retroarchCustomArchForCoreFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture + '.' + system.Core
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
         self.retroarchCustomOverrideChain = buildOverrideChain(rom, ".retroarch.cfg")
         self.retroarchCustomOverrideFile = recalboxFiles.retroarchCustom + ".overrides.cfg"
@@ -30,24 +29,24 @@ class LibretroConfiguration:
         self.retroarchCoreCustomOverrideChain = buildOverrideChain(rom, ".core.cfg")
         # Default settings
         self.recalboxSettings = recalboxSettings
-        self.retroarchSettings = keyValueSettings(None, True)
-        self.retroarchOverrides = keyValueSettings(None, True)
-        self.coreSettings = keyValueSettings(None, True)
-        self.system = system
-        self.controllers = controllers
-        self.demo = demo
-        self.nodefaultkeymap = nodefaultkeymap
+        self.retroarchSettings = keyValueSettings("", True)
+        self.retroarchOverrides = keyValueSettings("", True)
+        self.coreSettings = keyValueSettings("", True)
+        self.system: Emulator = system
+        self.controllers: ControllerDictionary = controllers
+        self.demo: bool = demo
+        self.nodefaultkeymap: bool = nodefaultkeymap
         self.rom = rom
 
     # Config file overriding
-    def overrideLibretroConfigurationFiles(self, customOrigin, custom):
+    def overrideLibretroConfigurationFiles(self, customOrigin: str, custom: str):
         self.retroarchCustomOriginFile = customOrigin
         self.retroarchCustomFile = custom
 
-    def overrideCoreConfigurationFiles(self, coreCustom):
+    def overrideCoreConfigurationFiles(self, coreCustom: str):
         self.retroarchCoreCustomFile = coreCustom
 
-    def loadRetroarchConfigurations(self):
+    def loadRetroarchConfigurations(self) -> keyValueSettings:
         retroarchConfig = self.retroarchSettings
         retroarchConfig.clear()
 
@@ -62,7 +61,7 @@ class LibretroConfiguration:
 
         return retroarchConfig
 
-    def loadRetroarchOverrides(self):
+    def loadRetroarchOverrides(self) -> keyValueSettings:
         retroarchOverrides = self.retroarchOverrides
         retroarchOverrides.clear()
 
@@ -88,7 +87,8 @@ class LibretroConfiguration:
 
         return retroarchOverrides
 
-    def getCommandLineArguments(self, retroarchConfig, _):
+    @staticmethod
+    def getCommandLineArguments(retroarchConfig: keyValueSettings, _):
         # No result yet
         result = []
 
@@ -106,7 +106,7 @@ class LibretroConfiguration:
 
         return result
 
-    def createRetroarchConfiguration(self):
+    def createRetroarchConfiguration(self) -> (keyValueSettings, keyValueSettings):
         # Load settings
         retroarchConfig = self.loadRetroarchConfigurations()
 
@@ -114,7 +114,7 @@ class LibretroConfiguration:
         retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxSettings)
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
-        controllers = LibretroControllers(self.system, retroarchConfig, self.controllers, self.nodefaultkeymap)
+        controllers = LibretroControllers(self.system, self.recalboxSettings, retroarchConfig, self.controllers, self.nodefaultkeymap)
         controllers.fillControllersConfiguration()
 
         # Save settings
@@ -131,7 +131,7 @@ class LibretroConfiguration:
         # Return file for testing purpose only
         return retroarchConfig, retroarchOverrides
 
-    def createCoreConfiguration(self):
+    def createCoreConfiguration(self) -> keyValueSettings:
         coreConfig = self.coreSettings
 
         # Load existing core file
@@ -155,22 +155,21 @@ class LibretroConfiguration:
         # Return file for testing purpose only
         return coreConfig
 
-    def getRetroarchConfigurationFileName(self):
-        return self.retroarchSettings.getSettingsFile()
+    def getRetroarchConfigurationFileName(self) -> str:
+        return self.retroarchSettings.SettingsFile
 
-    def getRetroarchOverridesFileName(self):
-        return self.retroarchOverrides.getSettingsFile()
+    def getRetroarchOverridesFileName(self) -> str:
+        return self.retroarchOverrides.SettingsFile
 
     @staticmethod
-    def updateLibretroConfig(version):
+    def updateLibretroConfig(version: str):
         returnValue = True
         returnValue = LibretroConfiguration.removeLibretroConfigUnwantedOptions(version) and returnValue
         returnValue = LibretroConfiguration.updateLibretroConfigCustom(version) and returnValue
         return returnValue
 
     @staticmethod
-    def updateLibretroConfigCustom(version):
-        del version # unused
+    def updateLibretroConfigCustom(_):
         # Version is unused so far, but who knows, one day
         try:
             # Load new initial settings
@@ -192,8 +191,7 @@ class LibretroConfiguration:
             return False
 
     @staticmethod
-    def removeLibretroConfigUnwantedOptions(version):
-        del version # unused
+    def removeLibretroConfigUnwantedOptions(_):
         unwantedOptions = ['extraction_directory']
 
         try:

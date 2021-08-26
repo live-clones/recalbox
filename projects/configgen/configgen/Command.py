@@ -1,21 +1,23 @@
 #!/usr/bin/env python
+from typing import Dict, Optional, List
+
 
 class Command:
-    def __init__(self, videomode, array, env=dict(), delay = 0.5, cwdPath = "/", postExec = None):
+    def __init__(self, videomode, array, env: Optional[Dict[str, str]]=None, delay=0.5, cwdPath="/", postExec=None):
         self.videomode = videomode
         self.array = array
-        self.env = env
+        self.env = env if env is not None else {}
         self.delay = delay
         self.cwdPath = cwdPath
         self.postExec = postExec
         
     def __str__(self):
-        str = list()
+        result: List[str] = []
 
         for varName, varValue in self.env.items():
-            str.append("%s=%s" % (varName, varValue))
+            result.append("%s=%s" % (varName, varValue))
             
         for value in self.array:
-            str.append(value)
+            result.append(value)
 
-        return " ".join(str)
+        return " ".join(result)

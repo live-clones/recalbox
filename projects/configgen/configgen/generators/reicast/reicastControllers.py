@@ -2,38 +2,42 @@
 # -*- coding: utf-8 -*-
 from configparser import ConfigParser
 import configgen.recalboxFiles as recalboxFiles
+from configgen.controllersConfig import Controller
 
-reicastMapping = {'a': {'button': 'btn_b'},
-                  'b': {'button': 'btn_a'},
-                  'x': {'button': 'btn_y'},
-                  'y': {'button': 'btn_x'},
-                  'start': {'button': 'btn_start'},
-                  'hotkey': {'button': 'btn_escape'},
-                  'l1': {'axis': 'axis_trigger_left', 'button': 'btn_trigger_left'},
-                  'r1': {'axis': 'axis_trigger_right', 'button': 'btn_trigger_right'},
-                  'joystick1left': {'axis': 'axis_x'},
-                  'joystick1up': {'axis': 'axis_y'},
-                  # The DPAD can be an axis (for gpio sticks for example) or a hat
-                  'left': {'hat': 'axis_dpad1_x', 'axis': 'axis_x', 'button': 'btn_dpad1_left'},
-                  'up': {'hat': 'axis_dpad1_y', 'axis': 'axis_y', 'button': 'btn_dpad1_up'},
-                  'right': {'button': 'btn_dpad1_right'},
-                  'down': {'button': 'btn_dpad1_down'},
-                  # We are only interested in L2/R2 if they are axis, to have real dreamcasttriggers
-                  'r2': {'axis': 'axis_trigger_right'},
-                  'l2': {'axis': 'axis_trigger_left'}
-                  }
+reicastMapping = \
+{
+    'a': {'button': 'btn_b'},
+    'b': {'button': 'btn_a'},
+    'x': {'button': 'btn_y'},
+    'y': {'button': 'btn_x'},
+    'start': {'button': 'btn_start'},
+    'hotkey': {'button': 'btn_escape'},
+    'l1': {'axis': 'axis_trigger_left', 'button': 'btn_trigger_left'},
+    'r1': {'axis': 'axis_trigger_right', 'button': 'btn_trigger_right'},
+    'joystick1left': {'axis': 'axis_x'},
+    'joystick1up': {'axis': 'axis_y'},
+    # The DPAD can be an axis (for gpio sticks for example) or a hat
+    'left': {'hat': 'axis_dpad1_x', 'axis': 'axis_x', 'button': 'btn_dpad1_left'},
+    'up': {'hat': 'axis_dpad1_y', 'axis': 'axis_y', 'button': 'btn_dpad1_up'},
+    'right': {'button': 'btn_dpad1_right'},
+    'down': {'button': 'btn_dpad1_down'},
+    # We are only interested in L2/R2 if they are axis, to have real dreamcasttriggers
+    'r2': {'axis': 'axis_trigger_right'},
+    'l2': {'axis': 'axis_trigger_left'}
+}
 
-sections = {'emulator': ['mapping_name', 'btn_escape'],
-            'dreamcast': ['btn_a', 'btn_b', 'btn_c', 'btn_d', 'btn_z', 'btn_x', 'btn_y', 'btn_start', 'axis_x', 'axis_y', 'axis_trigger_left', 'axis_trigger_right', 'btn_dpad1_left', 'btn_dpad1_right', 'btn_dpad1_up', 'btn_dpad1_down',
-                          'btn_dpad2_left', 'btn_dpad2_right', 'btn_dpad2_up', 'btn_dpad2_down'],
-            'compat': ['axis_dpad1_x', 'axis_dpad1_y', 'btn_trigger_left', 'btn_trigger_right', 'axis_dpad2_x', 'axis_dpad2_y', 'axis_x_inverted', 'axis_y_inverted', 'axis_trigger_left_inverted', 'axis_trigger_right_inverted']
-
-            }
+sections = \
+{
+    'emulator': ['mapping_name', 'btn_escape'],
+    'dreamcast': ['btn_a', 'btn_b', 'btn_c', 'btn_d', 'btn_z', 'btn_x', 'btn_y', 'btn_start', 'axis_x', 'axis_y', 'axis_trigger_left', 'axis_trigger_right', 'btn_dpad1_left', 'btn_dpad1_right', 'btn_dpad1_up', 'btn_dpad1_down',
+                  'btn_dpad2_left', 'btn_dpad2_right', 'btn_dpad2_up', 'btn_dpad2_down'],
+    'compat': ['axis_dpad1_x', 'axis_dpad1_y', 'btn_trigger_left', 'btn_trigger_right', 'axis_dpad2_x', 'axis_dpad2_y', 'axis_x_inverted', 'axis_y_inverted', 'axis_trigger_left_inverted', 'axis_trigger_right_inverted']
+}
 
 
 # Create the controller configuration file
 # returns its name
-def generateControllerConfig(controller):
+def generateControllerConfig(controller: Controller):
     # Set config file name
     configFileName = "{}/controllerP{}.cfg".format(recalboxFiles.reicastCustom, controller.player)
     Config = ConfigParser()
@@ -44,7 +48,7 @@ def generateControllerConfig(controller):
         Config.add_section(section)
 
     # Add controller name
-    Config.set("emulator", "mapping_name", controller.realName)
+    Config.set('emulator', "mapping_name", controller.realName)
 
     # Parse controller inputs
     for index in controller.inputs:

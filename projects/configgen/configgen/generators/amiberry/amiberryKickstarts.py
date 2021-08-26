@@ -72,18 +72,18 @@ class KickstartManager:
     }
 
     def __init__(self):
-        self.rom = None
-        self.ext = None
+        self.rom: str = ""
+        self.ext: str = ""
 
     @staticmethod
-    def GenerateWHDSymLinks(destinationfolder):
+    def GenerateWHDSymLinks(destinationfolder: str):
         for bios in KickstartManager.BIOS_LIST:
             biosPath = os.path.join(recalboxFiles.BIOS, bios + ".rom")
             biosLink = os.path.join(destinationfolder, bios)
             if not os.path.exists(biosLink) and os.path.exists(biosPath):
                 os.symlink(biosPath, biosLink)
 
-    def GetKickstartsFor(self, subsystem, romtype):
+    def GetKickstartsFor(self, subsystem: SubSystems, romtype: RomType):
         # Select best available kickstart
         biosFile = None
         extFile = None
@@ -129,14 +129,14 @@ class KickstartManager:
         if extFile is None and needExt:
             raise Exception("Extended BIOS not found")
 
-        self.rom = biosFile
-        self.ext = extFile
+        self.rom = biosFile if biosFile is not None else ""
+        self.ext = extFile if extFile is not None else ""
 
-    def GetBIOS(self):
-        return self.rom
+    @property
+    def GetBIOS(self) -> str: return self.rom
 
-    def NeedExtendedBIOS(self):
-        return self.ext is not None
+    @property
+    def NeedExtendedBIOS(self) -> bool: return len(self.ext) != 0
 
-    def GetExtendedBIOS(self):
-        return self.ext
+    @property
+    def GetExtendedBIOS(self) -> str: return self.ext

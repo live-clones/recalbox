@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 import os.path
 import subprocess
+from typing import List, Dict
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.generators.Generator import Generator
 from configgen.generators.amiberry.amiberryConfig import ConfigGenerator
 from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
 from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
 from configgen.generators.amiberry.amiberryRomType import RomType
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGenerator(Generator):
 
     # Generate RP9 Arguments
     @staticmethod
-    def getRP9Arguments(rom, system, _):
+    def getRP9Arguments(rom: str, system: SubSystems, _) -> List[str]:
         if system in SubSystems.COMPUTERS:
             # Package are self-configured so just return the package AS the config file
             # Add -G to force amiberry to run immediately. Otherwise the GUI is shown for some reasons
@@ -27,7 +29,7 @@ class AmiberryGenerator(Generator):
 
     # Generate ADF Arguments
     @staticmethod
-    def getADFArguments(rom, system, configFile):
+    def getADFArguments(rom: str, system: SubSystems, configFile: ConfigGenerator) -> List[str]:
         from configgen.utils.diskCollector import DiskCollector
         collector = DiskCollector(rom, 4, True)
         configFile.SetFloppies(system, collector.disks)
@@ -35,11 +37,11 @@ class AmiberryGenerator(Generator):
 
     # Generate WHDL Arguments
     @staticmethod
-    def getWHDLArguments(_, system, __):
+    def getWHDLArguments(_, system: SubSystems, __) -> List[str]:
         if system in SubSystems.COMPUTERS:
             # Prepare final save folder
             sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
-            finalSaveFolder = os.path.join(recalboxFiles.SAVES, system, "whdl")
+            finalSaveFolder = os.path.join(recalboxFiles.SAVES, str(system), "whdl")
             subprocess.check_output(["mkdir", "-p", finalSaveFolder])
 
             # Copy whdl structure
@@ -61,7 +63,7 @@ class AmiberryGenerator(Generator):
 
     # Generate raw WHD config
     @staticmethod
-    def AddWHDLVolumes(settingFiles, rom):
+    def AddWHDLVolumes(settingFiles: str, rom: str):
         volumes = \
         [
             "rw,DH0:DH0:{},10".format(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/boot-data.zip")),
@@ -77,23 +79,23 @@ class AmiberryGenerator(Generator):
 
     # Generate CDROM Arguments
     @staticmethod
-    def getCDROMArguments(rom, system, configFile):
+    def getCDROMArguments(rom: str, system: SubSystems, configFile: ConfigGenerator) -> List[str]:
         # Set CD image
         configFile.SetCD(system, rom)
         return []
 
     # Generate HDFS Arguments
     @staticmethod
-    def getHDFSArguments(rom, system, configFile):
+    def getHDDFSArguments(rom: str, system: SubSystems, configFile: ConfigGenerator) -> List[str]:
         if system in SubSystems.COMPUTERS:
             # mount an amiga volume DH0 to the mount point given by the rom argument
-            configFile.SetHDFS(system, rom)
+            configFile.SetHDDFS(system, rom)
             return []
         raise Exception("HDFS not allowed on non-computer devices")
 
     # Generate HDF Arguments
     @staticmethod
-    def getHDFArguments(rom, system, configFile):
+    def getHDFArguments(rom: str, system: SubSystems, configFile: ConfigGenerator) -> List[str]:
         if system in SubSystems.COMPUTERS:
             # mount an amiga volume DH0 using the filename given by the rom argument
             configFile.SetHDF(system, rom)
@@ -102,42 +104,41 @@ class AmiberryGenerator(Generator):
 
     # Unknown rom processing
     @staticmethod
-    def unknownRomType(rom, system, configFile):
+    def unknownRomType(rom: str, system: SubSystems, configFile: ConfigGenerator) -> List[str]:
         # Force quit
         raise Exception("Unknown rom type: {}".format(rom))
 
     # Get keyboard layout
     @staticmethod
-    def GetKeyboardLayout(recalboxSettings):
+    def GetKeyboardLayout(recalboxSettings: keyValueSettings):
         # Try to obtain from keyboard layout, then from system language, then fallback to us
         kl = recalboxSettings.getOption("system.kblayout", recalboxSettings.getOption("system.language", "us")[-2:]).lower()
         return kl
 
     # return true if the option is considered enabled (for boolean options)
     @staticmethod
-    def defined(key, dictio):
+    def defined(key: str, dictio: Dict[str, str]):
         return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
 
     # Main entry of the module
     # Return command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(args.rom)
 
         # Get subsystem - Force A1200 with WHDL
-        subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.name
-        needSlowCPU = system.name != subSystem
+        subSystem = SubSystems.A1200 if romType == RomType.WHDL else system.Name
+        needSlowCPU = system.Name != subSystem
 
         # Generate global config file
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
         globalConfig = AmiberryGlobalConfig(globalOverride,
                                             os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
-        scanline = self.defined('shaders', system.config) and system.config['shaders'] == 'scanlines'
-        globalConfig.createGlobalSettings(args.verbose, scanline)
+        globalConfig.createGlobalSettings(args.verbose, system.ShaderSet == 'scanlines')
 
         # Build default command
         settingsFullPath = os.path.join(recalboxFiles.amiberryMountPoint, "conf/default.uae")
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
 
         # Prepare configuration file
         romFile, _ = os.path.splitext(rom)
@@ -147,7 +148,7 @@ class AmiberryGenerator(Generator):
 
         # Load default settings
         configFile.SetDefaultPath(subSystem)
-        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings), system.config['showFPS'] == 'true')
+        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings), system.ShowFPS)
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
         configFile.SetCPU(subSystem, needSlowCPU)
@@ -157,7 +158,7 @@ class AmiberryGenerator(Generator):
         configFile.SetSound(subSystem)
         configFile.SetNetwork(romType in [RomType.WHDL, RomType.HDDFS, RomType.HDF])
         configFile.SetFloppies(subSystem, [])
-        configFile.SetCD(subSystem, None)
+        configFile.SetCD(subSystem, "")
         configFile.SetKickstarts(subSystem, romType)
 
         # Load overriden settings of current system
@@ -175,7 +176,7 @@ class AmiberryGenerator(Generator):
             RomType.DISK: AmiberryGenerator.getADFArguments,
             RomType.WHDL: AmiberryGenerator.getWHDLArguments,
             RomType.CDROM: AmiberryGenerator.getCDROMArguments,
-            RomType.HDDFS: AmiberryGenerator.getHDFSArguments,
+            RomType.HDDFS: AmiberryGenerator.getHDDFSArguments,
             RomType.HDF: AmiberryGenerator.getHDFArguments,
             RomType.PACKAGE: AmiberryGenerator.getRP9Arguments,
         }
@@ -203,7 +204,7 @@ class AmiberryGenerator(Generator):
         if romType == RomType.WHDL:
             AmiberryGenerator.AddWHDLVolumes(settingsFullPath, rom)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray,
+        return Command.Command(videomode=system.VideoMode, array=commandArray,
                                env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so",
                                     "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"},
                                cwdPath=recalboxFiles.amiberryMountPoint, postExec=None)

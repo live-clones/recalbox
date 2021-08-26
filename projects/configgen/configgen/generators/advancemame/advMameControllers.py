@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+from typing import Dict
 
 import configgen.recalboxFiles as recalboxFiles
-from configgen.controllersConfig import Input
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import Input, Controller, ControllerDictionary
 
 advanceMapping = {
     'a' :              'p{}_button2',
@@ -50,7 +52,7 @@ advanceCombo = {
 }
 
 
-def writeConfig(system, controllers, args):
+def writeConfig(system: Emulator, controllers: ControllerDictionary, args):
     finalConfig = getDefaultConfig()
 
     # Write rom path
@@ -60,8 +62,8 @@ def writeConfig(system, controllers, args):
     finalConfig["dir_snap"] = recalboxFiles.screenshotsDir
 
     # misc options
-    finalConfig["display_vsync"] = "yes" if system.config['showFPS'] == 'true' else "no"
-    finalConfig["display_resize"] = "integer" if system.config['integerscale'] == '1' else "mixed"
+    finalConfig["display_vsync"] = "yes" if system.ShowFPS else "no"
+    finalConfig["display_resize"] = "integer" if system.IntegerScale else "mixed"
 
     # Looks like advmame sets the joystick order on the eventId from /dev/input/eventX or /dev/input/jsX, not using SDL. So we should reorder that
     orderedControllers = dict()
@@ -93,13 +95,13 @@ def writeConfig(system, controllers, args):
                 break
 
 
-def getDefaultConfig():
+def getDefaultConfig() -> Dict[str, str]:
     # Open the default file
     with open(recalboxFiles.advancemameConfigOrigin) as f:
         # read the values
         content = f.readlines()
 
-    returnValue = dict()
+    returnValue = {}
     # Reorder to a dict
     for line in content:
         # There may be some empty lines. Lazy method to handle errors on the split that would crash
@@ -113,8 +115,8 @@ def getDefaultConfig():
     return returnValue
 
 
-def getControllerConfig(controller):
-    returnValue = dict()
+def getControllerConfig(controller: Controller) -> Dict[str, str]:
+    returnValue = {}
     # Read the pad and configure
     for inpName, inp in controller.inputs.items():
         if inpName in advanceMapping:
@@ -141,21 +143,19 @@ def getControllerConfig(controller):
     return returnValue
 
 
-def intelligentAppend(sourceDict, index, value):
+def intelligentAppend(sourceDict: Dict[str, str], index: str, value: str) -> Dict[str, str]:
     if index in sourceDict:
         sourceDict[index] += " or {}".format(value)
     else:
         sourceDict[index] = value
     return sourceDict
 
-
-def intelligentExtend(sourceDict, mergeDict):
+def intelligentExtend(sourceDict: Dict[str, str], mergeDict: Dict[str, str]) -> Dict[str, str]:
     for index, value in mergeDict.items():
         sourceDict = intelligentAppend(sourceDict, index, value)
     return sourceDict
 
-
-def generateButton(joyIndex, inputObject):
+def generateButton(joyIndex: str, inputObject: Input) -> str:
     #~ http://www.advancemame.it/doc-advmame#8.9.6
     if inputObject.type == 'button':
         return "joystick_button[{},{}]".format(joyIndex, inputObject.id)
@@ -176,7 +176,7 @@ def generateButton(joyIndex, inputObject):
             return "joystick_digital[{},1,0,0]".format(joyIndex)
 
 
-def generateCombo(joyIndex, inputObject, hkInputObject):
+def generateCombo(joyIndex: str, inputObject: Input, hkInputObject: Input) -> str:
     buttonKey = generateButton(joyIndex, inputObject)
     hotKey = generateButton(joyIndex, hkInputObject)
     return "{} {}".format(hotKey, buttonKey)

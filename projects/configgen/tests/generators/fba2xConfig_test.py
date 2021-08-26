@@ -5,6 +5,7 @@ import unittest
 from configgen.Emulator import Emulator
 from configgen.generators.fba2x import fba2xConfig
 import configgen.settings.unixSettings as unixSettings
+from configgen.mutableEmulator import MutableEmulator
 
 fba2xCustom = 'tests/tmp/fba2x.cfg'
 
@@ -14,9 +15,10 @@ shutil.copyfile('tests/resources/fba2x.cfg.origin', fba2xCustom)
 fbaSettings = unixSettings.UnixSettings(fba2xCustom)
 
 # test Systems
-fba2xNormal = Emulator(name='fba', videomode='4', ratio='auto', smooth='1', emulator='fba2x')
-fba2x43 = Emulator(name='fba', videomode='4', ratio='4/3', smooth='0', shaders='scanlines', emulator='fba2x')
-fba2x169 = Emulator(name='fba', videomode='4', ratio='16/9', emulator='fba2x')
+fba2xNormal = Emulator(name='fba', videoMode='4', ratio='auto', emulator='fba2x', core='fba2x')
+fba2x43 = MutableEmulator(name='fba', videoMode='4', ratio='4/3', emulator='fba2x', core='fba2x')
+fba2x43.SetShaderSet("scanlines").SetSmooth(False)
+fba2x169 = Emulator(name='fba', videoMode='4', ratio='16/9', emulator='fba2x', core='fba2x')
 
 
 class TestFBAConfig(unittest.TestCase):

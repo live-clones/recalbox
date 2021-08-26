@@ -27,7 +27,7 @@ def emulator():
 
 @pytest.fixture
 def system_gliden64():
-    return Emulator(name='psp', videomode='1920x1080', ratio='auto', smooth='1', emulator='ppsspp')
+    return Emulator(name='psp', videoMode='1920x1080', ratio='auto', emulator='ppsspp', core='ppsspp')
 
 
 @pytest.fixture

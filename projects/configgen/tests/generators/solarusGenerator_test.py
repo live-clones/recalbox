@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='solarus', videomode='1920x1080', ratio='auto', smooth='1', emulator='solarus')
+    return Emulator(name='solarus', videoMode='1920x1080', ratio='auto', emulator='solarus', core='solarus')
 
 
 @pytest.fixture

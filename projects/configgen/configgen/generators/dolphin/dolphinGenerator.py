@@ -2,8 +2,9 @@
 import os.path
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.generators.Generator import Generator
 import configgen.generators.dolphin.dolphinControllers as dolphinControllers
 from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -94,7 +95,7 @@ class DolphinGenerator(Generator):
 
     # Get keyboard layout
     @staticmethod
-    def GetLanguage():
+    def GetLanguage() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         # Try to obtain from keyboard layout, then from system language, then fallback to us
@@ -102,7 +103,7 @@ class DolphinGenerator(Generator):
         return kl
 
     @staticmethod
-    def GetEmulationstationLanguage():
+    def GetEmulationstationLanguage() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         # Try to obtain from system language, then fallback to US or 
@@ -111,7 +112,7 @@ class DolphinGenerator(Generator):
 
     # Get netplay username
     @staticmethod
-    def GetNetplay():
+    def GetNetplay() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         speudo = conf.getOption("global.netplay.nickname", "$")
@@ -119,7 +120,7 @@ class DolphinGenerator(Generator):
 
     # Check if Gamecube bios IPL.bin in folders
     @staticmethod
-    def CheckGamecubeIpl():
+    def CheckGamecubeIpl() -> str:
         ipl0 = "/recalbox/share/bios/gamecube/EUR/IPL.bin"
         ipl1 = "/recalbox/share/bios/gamecube/JP/IPL.bin"
         ipl2 = "/recalbox/share/bios/gamecube/USA/IPL.bin"
@@ -131,7 +132,7 @@ class DolphinGenerator(Generator):
 
     # GameCube Controller Adapter for Wii U in Dolphin controllers if realgamecubepads=1 set in recalbox.conf
     @staticmethod
-    def SetGamecubeWiiuAdapter():
+    def SetGamecubeWiiuAdapter() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         adapterStatus = conf.getOption("gamecube.realgamecubepads", "$")
@@ -153,7 +154,7 @@ class DolphinGenerator(Generator):
                 sysconf.seek(keyAddr)
                 sysconf.write(keyValue)
 
-    def mainConfiguration(self, system, args):
+    def mainConfiguration(self, system: Emulator, args):
         # Get Languages
         language = self.GetLanguage()
         systemLanguage = self.GetEmulationstationLanguage()
@@ -173,7 +174,7 @@ class DolphinGenerator(Generator):
 
         # Resolution
         from configgen.utils.resolutions import ResolutionParser
-        resolution = ResolutionParser(system.config['videomode'])
+        resolution = ResolutionParser(system.VideoMode)
         if resolution.isSet and resolution.selfProcess:
             dolphinSettings.setOption(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)
             dolphinSettings.setOption(self.SECTION_ANALYTICS, "Fullscreen", "True")
@@ -224,11 +225,9 @@ class DolphinGenerator(Generator):
         self.SetSensorBarPosition()
 
 
-    def gfxConfiguration(self, system):
+    def gfxConfiguration(self, system: Emulator):
         # Get Ratio
-        self.system = system
-        recalbox = self.system.config
-        gameRatio = self.GAME_RATIO[recalbox['ratio']] if recalbox['ratio'] in self.GAME_RATIO else 0
+        gameRatio = self.GAME_RATIO[system.Ratio] if system.Ratio in self.GAME_RATIO else 0
         
         # Load Configuration
         gfxSettings = IniSettings(recalboxFiles.dolphinGFX, True)
@@ -237,7 +236,7 @@ class DolphinGenerator(Generator):
         # Hardware
         gfxSettings.setOption(self.SECTION_HARDWARE, "VSync", "True")
         # Settings
-        gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.config['showFPS'] == 'true' else "False")
+        gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.ShowFPS else "False")
         gfxSettings.setOption(self.SECTION_SETTINGS, "AspectRatio", gameRatio)
         gfxSettings.setOption(self.SECTION_SETTINGS, "HiresTextures", "True")
         gfxSettings.setOption(self.SECTION_SETTINGS, "CacheHiresTextures", "True")
@@ -245,15 +244,15 @@ class DolphinGenerator(Generator):
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
-        if not system.config['configfile']:
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+        if not system.HasConfigFile:
             # Controllers
-            dolphinControllers.generateControllerConfig(system, playersControllers)
+            dolphinControllers.generateControllerConfig(system, playersControllers, recalboxSettings)
 
             self.mainConfiguration(system, args)
             self.gfxConfiguration(system)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-e", args.rom]
-        if 'args' in system.config and system.config['args'] is not None:
-             commandArray.extend(system.config['args'])
-        return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator], "-e", args.rom]
+        if system.HasArgs: commandArray.extend(system.Args)
+
+        return Command.Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})

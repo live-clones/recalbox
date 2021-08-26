@@ -7,11 +7,11 @@ Created on Mar 6, 2016
 import os
 import shutil
 import configgen.Command as Command
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.generators.linapple.linappleConfig import LinappleConfig
 import configgen.recalboxFiles as recalboxFiles
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class LinappleGenerator(Generator):
@@ -23,22 +23,22 @@ class LinappleGenerator(Generator):
     with current hardware configuration.
     
     Args:
-        path_init (str):
+        pathInit (str):
             Full path name where default settings are stored.
             ('/recalbox/share_init/system/.linapple')
         
-        path_user (str):
+        pathUser (str):
             Full path name where user settings are stored.
             ('/recalbox/share/system/.linapple')
             
     """
-    def __init__(self, path_init, path_user):
-        self.path_init = path_init
-        self.path_user = path_user
+    def __init__(self, pathInit, pathUser):
+        self.pathInit = pathInit
+        self.pathUser = pathUser
         self.resources = ['Master.dsk']
         self.filename = 'linapple.conf'
 
-    def check_resources(self):
+    def check_resources(self) -> bool:
         """
         Check system needed resources
         
@@ -46,20 +46,20 @@ class LinappleGenerator(Generator):
             Returns True if the check suceeded, False otherwise.
         """
         # Create user setting path, if it does not exists
-        if not os.path.exists(self.path_user):
-            os.makedirs(self.path_user)
+        if not os.path.exists(self.pathUser):
+            os.makedirs(self.pathUser)
 
         # Ensure system configuration file is available
-        sys_conf = os.path.join(self.path_init, self.filename)
+        sys_conf = os.path.join(self.pathInit, self.filename)
         if not os.path.exists(sys_conf):
             return False
 
         # Ensure system resources are available
         for r in self.resources:
-            sys_filename = os.path.join(self.path_init, r)
+            sys_filename = os.path.join(self.pathInit, r)
             if not os.path.exists(sys_filename):
                 return False
-            usr_filename = os.path.join(self.path_user, r)
+            usr_filename = os.path.join(self.pathUser, r)
             if not os.path.exists(usr_filename):
                 shutil.copyfile(sys_filename, usr_filename)
 
@@ -70,26 +70,25 @@ class LinappleGenerator(Generator):
         if not self.check_resources():
             return
 
-        if not system.config['configfile']:
+        if not system.HasConfigFile:
             # Load config file
-            usr_conf = os.path.join(self.path_user, self.filename)
+            usr_conf = os.path.join(self.pathUser, self.filename)
             filename = usr_conf \
                 if os.path.exists(usr_conf) \
-                else os.path.join(self.path_init, self.filename)
+                else os.path.join(self.pathInit, self.filename)
             config = LinappleConfig(filename=filename)
             config.joysticks(playersControllers)
             config.system(system, args.rom)
             # Save changes
             config.save(filename=usr_conf)
 
-        commandArray = [ recalboxFiles.recalboxBins[system.config['emulator']] ]
+        commandArray = [ recalboxFiles.recalboxBins[system.Emulator] ]
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)
 
-    def config_upgrade(self, version):
+    def config_upgrade(self, version: str):
         """
         Upgrade the user's configuration file with new values added to the
         system configuration file upgraded by S11Share:do_upgrade()
@@ -106,10 +105,10 @@ class LinappleGenerator(Generator):
 
         # Load system configuration file
         config = LinappleConfig(filename=os.path.join(
-                    self.path_init, self.filename))
+                    self.pathInit, self.filename))
 
         # If an user's configuration file exists, upgrade it
-        usr_conf = os.path.join(self.path_user, self.filename)
+        usr_conf = os.path.join(self.pathUser, self.filename)
         if os.path.exists(usr_conf):
             config_sys = config
             config = LinappleConfig(filename=usr_conf)

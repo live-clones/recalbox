@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Emulator import Emulator
 from configgen.settings.unixSettings import UnixSettings
 from configgen.utils.videoMode import *
 from configgen.utils.architecture import Architecture
+from configgen.controllersConfig import Input
+from configgen.controllersConfig import ControllerDictionary
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 
@@ -12,7 +15,7 @@ GLideN64LegacyBlending_blacklist = ["empire", "beetle", "donkey", "zelda", "bomb
 GLideN64NativeResolution_blacklist = ["majora"]
 
 
-def writeMupenConfig(system, controllers, rom):
+def writeMupenConfig(system: Emulator, controllers: ControllerDictionary, rom: str):
     setPaths()
     writeHotKeyConfig(controllers)
     setIpl64DD(system)
@@ -21,7 +24,7 @@ def writeMupenConfig(system, controllers, rom):
     # ~ mupenSettings.save('ScreenHeight', "")
 
     #Draw or not FPS
-    if system.config['showFPS'] == 'true':
+    if system.ShowFPS:
         mupenSettings.save('ShowFPS', 'True')
         mupenSettings.save('show_fps', '4')
     else:
@@ -47,7 +50,7 @@ def writeMupenConfig(system, controllers, rom):
     mupenSettings.save('UseNativeResolutionFactor', '1')
     #Resolution
     from configgen.utils.resolutions import ResolutionParser
-    resolution = ResolutionParser(system.config['videomode'].strip())
+    resolution = ResolutionParser(system.VideoMode.strip())
     if resolution.isSet and resolution.selfProcess:
         mupenSettings.save('ScreenWidth', "{}".format(resolution.width))
         mupenSettings.save('ScreenHeight', "{}".format(resolution.height))
@@ -71,7 +74,7 @@ def writeMupenConfig(system, controllers, rom):
         if n in romName.lower():
             mupenSettings.save('UseNativeResolutionFactor', '0')
 
-def writeHotKeyConfig(controllers):
+def writeHotKeyConfig(controllers: ControllerDictionary):
     if '1' in controllers:
         if 'hotkey' in controllers['1'].inputs:
             if 'start' in controllers['1'].inputs:
@@ -90,7 +93,7 @@ def writeHotKeyConfig(controllers):
                 mupenSettings.save('Joy Mapping Reset', "\"J{}{}/{}\"".format(controllers['1'].index, createButtonCode(controllers['1'].inputs['hotkey']), createButtonCode(controllers['1'].inputs['a'])))
 
 
-def createButtonCode(button):
+def createButtonCode(button: Input) -> str:
     if button.type == 'axis':
         if button.value == '-1':
             return 'A'+button.id+'-'
@@ -107,9 +110,9 @@ def setPaths():
     mupenSettings.save('SaveStatePath', recalboxFiles.mupenSaves)
     mupenSettings.save('SaveSRAMPath', recalboxFiles.mupenSaves)
 
-def setIpl64DD(system):
+def setIpl64DD(system: Emulator):
     #Set ipl only for n64
-    if system.name == "64dd":
+    if system.Name == "64dd":
         mupenSettings.save("IPL-ROM", "/recalbox/share/bios/64DD_IPL.bin")
-    elif system.name == "n64":
+    elif system.Name == "n64":
         mupenSettings.save("IPL-ROM", "")

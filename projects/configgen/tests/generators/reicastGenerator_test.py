@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import pytest
 import os
-import shutil
 from configgen.Emulator import Emulator
 import configgen.generators.reicast.reicastGenerator as reicastGenerator
 import configgen.generators.reicast.reicastControllers as reicastControllers
@@ -25,7 +24,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='dreamcast', videomode='1920x1080', ratio='auto', smooth='1', emulator='reicast')
+    return Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='reicast', core='reicast')
 
 
 @pytest.fixture

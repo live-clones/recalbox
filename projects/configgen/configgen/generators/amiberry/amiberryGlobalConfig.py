@@ -12,7 +12,7 @@ class AmiberryGlobalConfig:
         self.globalSettingsFile = finalGlobalSettingsFile
         self.userSettingsFile = userGlobalSettingsFile
 
-    def createGlobalSettings(self, verbose, scanline): # type: (bool, bool) -> None
+    def createGlobalSettings(self, verbose: bool, scanline: bool):
         # Load user settings first
         settings = keyValueSettings(self.userSettingsFile)
         settings.loadFile(True)

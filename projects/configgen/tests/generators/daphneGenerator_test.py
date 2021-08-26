@@ -4,7 +4,6 @@ from configgen.Emulator import Emulator
 import configgen.generators.daphne.daphneControllers as daphneGenerator
 from configgen.generators.daphne.daphneGenerator import DaphneGenerator
 from configgen.settings.keyValueSettings import keyValueSettings
-import configgen.utils.architecture
 
 import configgen.controllersConfig as controllersConfig
 from tests.generators.FakeArguments import Arguments
@@ -18,12 +17,12 @@ def emulator(mocker, fake_process):
 
 @pytest.fixture
 def system():
-    return Emulator(name='daphne', videomode='16', ratio='auto', smooth='1', emulator='daphne')
+    return Emulator(name='daphne', videoMode='16', ratio='auto', emulator='daphne', core='daphne')
 
 
 @pytest.fixture
 def system_xy():
-    return Emulator(name='daphne', videomode='1920x1080', ratio='auto', smooth='1', emulator='daphne')
+    return Emulator(name='daphne', videoMode='1920x1080', ratio='auto', emulator='daphne', core='daphne')
 
 
 def test_simple_generate_singe_file(emulator, system, fake_process, mocker):

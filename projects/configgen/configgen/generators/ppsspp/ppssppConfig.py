@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Emulator import Emulator
 from configgen.settings.unixSettings import UnixSettings
 
 ppssppSettings = UnixSettings(recalboxFiles.ppssppConfig, separator=' ')
@@ -18,14 +19,10 @@ def writePPSSPPConfig(system):
     writePPSSPPConfigToFile(createPPSSPPConfig(system))
 
 
-def createPPSSPPConfig(system):
+def createPPSSPPConfig(system: Emulator):
     ppssppConfig = dict()
-    recalboxConfig = system.config
     # Display FPS
-    if enabled('showFPS', recalboxConfig):
-        ppssppConfig['ShowFPSCounter'] = '3' # 1 for Speed%, 2 for FPS, 3 for both
-    else:
-        ppssppConfig['ShowFPSCounter'] = '0'
+    ppssppConfig['ShowFPSCounter'] = '3' if  system.ShowFPS else '0' # 1 for Speed%, 2 for FPS, 3 for both
 
     return ppssppConfig
 

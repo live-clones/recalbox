@@ -2,9 +2,10 @@
 import fnmatch
 import os
 import subprocess
+from enum import IntEnum
 
 
-class RomType:
+class RomType(IntEnum):
 
     UNKNOWN = 0  # Unknown
     DISK = 1     # Disk ADF or IPF, file zipped or 7zipped (ADF only)
@@ -14,21 +15,15 @@ class RomType:
     HDF = 5      # Harddisk file
     PACKAGE = 6  # RP9 all-in-one package
 
-    VALID_EXTENSIONS = ( ".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9", ".hdf" )
-    VALID_CONFIGURATIONS = ( ".uae", )
-
-    def __init__(self):
-        raise Exception("Use static methods!")
-
     @staticmethod
-    def SeekForExtension(path, pattern):
+    def SeekForExtension(path: str, pattern: str) -> bool:
         for _, _, filenames in os.walk(path):
             for _ in fnmatch.filter(filenames, pattern):
                 return True
         return False
 
     @staticmethod
-    def Identify(rom):
+    def Identify(rom: str) -> (str, int, bool):
         romGame, romExt = os.path.splitext(rom)
 
         romType = RomType.UNKNOWN
@@ -36,7 +31,8 @@ class RomType:
         romExt = romExt.lower()
 
         # If the file is a config file, then search for the game file
-        if romExt in RomType.VALID_CONFIGURATIONS:
+        VALID_CONFIGURATIONS = (".uae",)
+        if romExt in VALID_CONFIGURATIONS:
             if os.path.isdir(romGame):
                 romExt = ""
                 rom = romGame
@@ -44,7 +40,8 @@ class RomType:
                 romExt = ".hd"
                 rom = romGame + ".hd"
             else:
-                for ext in RomType.VALID_EXTENSIONS:
+                VALID_EXTENSIONS = (".iso", ".bin", ".cue", ".ccd", ".nrg", ".mds", ".chd", ".adf", ".ipf", ".lha", ".lzh", ".lzx", ".zip", ".7z", ".rp9", ".hdf")
+                for ext in VALID_EXTENSIONS:
                     if os.path.exists(romGame + ext):
                         romExt = ext
                         rom = romGame + ext

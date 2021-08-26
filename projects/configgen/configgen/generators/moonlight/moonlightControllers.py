@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
 import os
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 import configgen.settings.unixSettings as unixSettings
 import configgen.recalboxFiles as recalboxFiles
+from configgen.controllersConfig import Controller
+from configgen.controllersConfig import ControllerDictionary
 
 mlMapping = {   'a' :             {'button': 'btn_east'},
                 'b' :             {'button': 'btn_south'},
@@ -37,7 +35,7 @@ mlMapping = {   'a' :             {'button': 'btn_east'},
 # Returns an array
 # Index = mapping configuration file for player X
 # Value = device path associated to the index
-def writeControllersConfig(_, __, controllers):
+def writeControllersConfig(_, __, controllers: ControllerDictionary):
     config = dict()
     for controller in controllers:
         playerConfig = generateControllerConfig(controller, controllers[controller])
@@ -60,7 +58,7 @@ def writeControllersConfig(_, __, controllers):
 # Index = Moonlight configuration parameter
 # Value = the code extracted from es_input.cfg corresponding to the index
 # ex : ['btn_select'] = 296
-def generateControllerConfig(_, controller):
+def generateControllerConfig(_, controller: Controller):
     config = dict()
    
     for index in controller.inputs:

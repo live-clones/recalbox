@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import xml.etree.ElementTree as ET
+from typing import Dict
+
 import configgen.recalboxFiles as recalboxFiles
 
+# Do not simplify - Allow mocking of Input file path
 esInputs = recalboxFiles.esInputs
-
 
 class Input:
     def __init__(self, name, type_, id_, value, code):
@@ -86,25 +88,25 @@ class Controller:
         }
 
         result = "{},{},platform:Linux,".format(self.guid, self.configName.replace(',', ' '))
-        for name, input in self.inputs.items():
+        for name, inputItem in self.inputs.items():
             if name in recalboxToSDL:
                 sdlName = recalboxToSDL[name]
-                if input.type in ('button', 'hat', 'axis'):
-                    sdlPrefix = typePrefix[input.type]
-                    if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and input.type in ('button', 'hat'):
-                        if input.type == 'hat':
-                            result += "-{}:h{}.{},".format(sdlName, input.id, input.value)
-                            result += "+{}:h{}.{},".format(sdlName, input.id, oppositeHat[int(input.value)])
+                if inputItem.type in ('button', 'hat', 'axis'):
+                    sdlPrefix = typePrefix[inputItem.type]
+                    if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and inputItem.type in ('button', 'hat'):
+                        if inputItem.type == 'hat':
+                            result += "-{}:h{}.{},".format(sdlName, inputItem.id, inputItem.value)
+                            result += "+{}:h{}.{},".format(sdlName, inputItem.id, oppositeHat[int(inputItem.value)])
                         else:
-                            result += "-{}:{}{},".format(sdlName, sdlPrefix, input.id)
-                            result += "+{}:{}{},".format(sdlName, sdlPrefix, input.id)
-                    elif sdlName in ('dpup', 'dpdown', 'dpleft', 'dpright') and input.type == 'axis':
-                        sign = int(input.value) if sdlName in ('dpup', 'dpleft') else -int(input.value)
-                        result += "{}:{}a{},".format(sdlName, '-' if int(input.value) < 0 else '+', input.id)
-                    elif input.type == 'hat':
-                        result += "{}:h{}.{},".format(sdlName, input.id, input.value)
+                            result += "-{}:{}{},".format(sdlName, sdlPrefix, inputItem.id)
+                            result += "+{}:{}{},".format(sdlName, sdlPrefix, inputItem.id)
+                    elif sdlName in ('dpup', 'dpdown', 'dpleft', 'dpright') and inputItem.type == 'axis':
+                        sign = int(inputItem.value) if sdlName in ('dpup', 'dpleft') else -int(inputItem.value)
+                        result += "{}:{}a{},".format(sdlName, '-' if sign < 0 else '+', inputItem.id)
+                    elif inputItem.type == 'hat':
+                        result += "{}:h{}.{},".format(sdlName, inputItem.id, inputItem.value)
                     else:
-                        result += "{}:{}{},".format(sdlName, sdlPrefix, input.id)
+                        result += "{}:{}{},".format(sdlName, sdlPrefix, inputItem.id)
 
         return result
 
@@ -174,7 +176,7 @@ class Controller:
     # Load all controllers from the es_input.cfg
     @staticmethod
     def loadAllControllersConfig():
-        controllers = dict()
+        controllers: ControllerDictionary = dict()
         tree = ET.parse(esInputs)
         root = tree.getroot()
         for controller in root.findall(".//inputConfig"):
@@ -369,6 +371,6 @@ class Controller:
             text_file.write(sdlData)
         return outputFile
 
-if __name__ == '__main__':
-    controllers = Controller.loadAllControllersConfig()
-    Controller.generateSDLGameDBAllControllers(controllers)
+# Type def for convenience
+ControllerDictionary = Dict[str, Controller]
+

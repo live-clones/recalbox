@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 import os
+from typing import List
 
 import configgen.recalboxFiles as recalboxFiles
 from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
 from configgen.generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.controllersConfig import ControllerDictionary
+from configgen.generators.amiberry.amiberryRomType import RomType
 
 
 class ConfigGenerator:
 
-    def __init__(self, targetFileName):
-        self.settingsFileName = targetFileName
-        self.settings = keyValueSettings(None)
+    def __init__(self, targetFileName: str):
+        self.settingsFileName: str = targetFileName
+        self.settings = keyValueSettings("")
 
-    def loadConfigFile(self, filename):
+    def loadConfigFile(self, filename: str):
         self.settings.changeSettingsFile(filename)
         self.settings.loadFile(False)
 
@@ -22,9 +25,9 @@ class ConfigGenerator:
         self.settings.changeSettingsFile(self.settingsFileName)
         self.settings.saveFile()
 
-    def SetDefaultPath(self, subsystem):
-        romsPath = os.path.join(recalboxFiles.ROMS, subsystem)
-        self.settings.setOption("config_description", "Recalbox auto-generated configuration for Amiga " + subsystem)
+    def SetDefaultPath(self, subsystem: SubSystems):
+        romsPath = os.path.join(recalboxFiles.ROMS, str(subsystem))
+        self.settings.setOption("config_description", "Recalbox auto-generated configuration for Amiga " + str(subsystem))
         self.settings.setOption("config_hardware", "true")
         self.settings.setOption("config_host", "true")
         self.settings.setOption("config_version", "4.4.0")
@@ -40,7 +43,7 @@ class ConfigGenerator:
             self.settings.setOption("pcmcia_mb_rom_file", ":ENABLED")
             self.settings.setOption("ide_mb_rom_file", ":ENABLED")
 
-    def SetUI(self, keyboardLayout, showfps):
+    def SetUI(self, keyboardLayout: str, showfps: bool):
         self.settings.setOption("use_gui", "no")
         self.settings.setOption("show_leds", "yes" if showfps else "no")
         # Valid for amiberry?
@@ -48,7 +51,7 @@ class ConfigGenerator:
             keyboardLayout = "us"
         self.settings.setOption("kbd_lang", keyboardLayout)
 
-    def SetInput(self, subsystem):
+    def SetInput(self, subsystem: SubSystems):
         if subsystem in SubSystems.HAVEMOUSE:
             self.settings.setOption("input.joymouse_speed_analog", "2")
             self.settings.setOption("input.joymouse_speed_digital", "10")
@@ -59,7 +62,7 @@ class ConfigGenerator:
         self.settings.setOption("input.analog_joystick_offset", "-1")
         self.settings.setOption("input.autofire_speed", "0")
         
-    def SetJoystick(self, subsystem, controllers):
+    def SetJoystick(self, subsystem: SubSystems, controllers: ControllerDictionary):
         self.settings.setOption("amiberry.use_analogue_remap", "false")
         self.settings.setOption("amiberry.use_retroarch_quit", "true")
         self.settings.setOption("amiberry.use_retroarch_menu", "true")
@@ -88,9 +91,9 @@ class ConfigGenerator:
                     retroarchConfig.generateConfiguration()
                     retroarchConfig.saveConfigurationFile()
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetCPU(self, subsystem, needSlowCPU):
+    def SetCPU(self, subsystem: SubSystems, needSlowCPU: bool):
         if subsystem == SubSystems.A600:
             self.settings.setOption("cpu_speed", "real")
             self.settings.setOption("cpu_type", "68000")
@@ -138,9 +141,9 @@ class ConfigGenerator:
             self.settings.setOption("compfpu", "false")
             self.settings.setOption("cachesize", "0")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetChipset(self, subsystem):
+    def SetChipset(self, subsystem: SubSystems):
         if subsystem == SubSystems.A600:
             self.settings.setOption("chipset", "ecs")
             self.settings.setOption("chipset_refreshrate", "50.000000")
@@ -189,9 +192,9 @@ class ConfigGenerator:
             self.settings.setOption("waiting_blits", "automatic")
             self.settings.setOption("fast_copper", "false")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetMemory(self, subsystem):
+    def SetMemory(self, subsystem: SubSystems):
         if subsystem == SubSystems.A600:
             self.settings.setOption("chipmem_size", "2")
             self.settings.setOption("z3mapping", "uae")
@@ -245,9 +248,9 @@ class ConfigGenerator:
             self.settings.setOption("gfxcard_multithread", "false")
             self.settings.setOption("rtg_modes", "0x112")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetSound(self, subsystem):
+    def SetSound(self, subsystem: SubSystems):
         if subsystem == SubSystems.A600:
             self.settings.setOption("sound_output", "exact")
             self.settings.setOption("sound_channels", "stereo")
@@ -289,9 +292,9 @@ class ConfigGenerator:
             self.settings.setOption("sound_filter_type", "standard")
             self.settings.setOption("sound_volume_cd", "0")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetGraphics(self, subsystem):
+    def SetGraphics(self, subsystem: SubSystems):
         if subsystem == SubSystems.A600:
             self.settings.setOption("gfx_framerate", "0")
             self.settings.setOption("gfx_width", "640")
@@ -345,12 +348,12 @@ class ConfigGenerator:
             self.settings.setOption("gfx_fullscreen_picasso", "false")
             self.settings.setOption("ntsc", "false")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetNetwork(self, network):
+    def SetNetwork(self, network: bool):
         self.settings.setOption("bsdsocket_emu", "true" if network else "false")
 
-    def SetFloppies(self, subsystem, floppyPathList):
+    def SetFloppies(self, subsystem: SubSystems, floppyPathList: List[str]):
         if subsystem in SubSystems.COMPUTERS:
             self.settings.setOption("floppy_speed", "100")
             count = min(len(floppyPathList), 4)
@@ -369,9 +372,9 @@ class ConfigGenerator:
             # No drives on CD32/CDTV
             return
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetCD(self, subsystem, cdpath):
+    def SetCD(self, subsystem: SubSystems, cdpath: str):
         self.settings.setOption("cd_speed", "100")
         if subsystem in SubSystems.COMPUTERS:
             # No CD
@@ -386,9 +389,9 @@ class ConfigGenerator:
             if cdpath:
                 self.settings.setOption("cdimage0", cdpath + ",image")
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetHDDFS(self, subsystem, hdd0mointpoint):
+    def SetHDDFS(self, subsystem: SubSystems, hdd0mointpoint: str):
         if subsystem in SubSystems.COMPUTERS:
             volume, _ = os.path.splitext(os.path.basename(hdd0mointpoint))
             self.settings.setOption("filesystem2", "rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
@@ -397,9 +400,9 @@ class ConfigGenerator:
             # No HDDFS on CD32/CDTV
             return
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetHDF(self, subsystem, hdf):
+    def SetHDF(self, subsystem: SubSystems, hdf: str):
         if subsystem in SubSystems.COMPUTERS:
             self.settings.setOption("filesystem2", "rw,DH0:{},32,1,2,512,0,,ide0_mainboard".format(hdf))
             self.settings.setOption("uaehf0", "hdf,rw,DH0:{},32,1,2,512,0,,ide0_mainboard".format(hdf))
@@ -407,15 +410,15 @@ class ConfigGenerator:
             # No HDF on CD32/CDTV
             return
         else:
-            raise Exception("Unknown subsystem " + subsystem)
+            raise Exception("Unknown subsystem " + str(subsystem))
 
-    def SetKickstarts(self, subsystem, romtype):
+    def SetKickstarts(self, subsystem: SubSystems, romtype: RomType):
         manager = KickstartManager()
         manager.GetKickstartsFor(subsystem, romtype)
-        kickstart = manager.GetBIOS()
+        kickstart = manager.GetBIOS
         self.settings.setOption("kickstart_rom_file", kickstart)
-        if manager.NeedExtendedBIOS():
-            extended = manager.GetExtendedBIOS()
+        if manager.NeedExtendedBIOS:
+            extended = manager.GetExtendedBIOS
             self.settings.setOption("kickstart_ext_rom_file", extended)
 
 

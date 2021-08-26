@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import pytest
-from contextlib import contextmanager
 from configgen.Emulator import Emulator
 import configgen.generators.amiberry.amiberryKickstarts as amiberryKickstarts
 from configgen.generators.amiberry.amiberryGenerator import AmiberryGenerator
@@ -65,17 +64,17 @@ def system_floppy(request):
 
 @pytest.fixture
 def system_a600():
-    return Emulator(name='amiga600', videomode='16', ratio='auto', smooth='1', emulator='amiberry')
+    return Emulator(name='amiga600', videoMode='16', ratio='auto', emulator='amiberry', core='amiberry')
 
 
 @pytest.fixture
 def system_a1200():
-    return Emulator(name='amiga1200', videomode='16', ratio='auto', smooth='1', emulator='amiberry')
+    return Emulator(name='amiga1200', videoMode='16', ratio='auto', emulator='amiberry', core='amiberry')
 
 
 @pytest.fixture
 def system_cd32():
-    return Emulator(name='amigacd32', videomode='16', ratio='auto', smooth='1', emulator='amiberry')
+    return Emulator(name='amigacd32', videoMode='16', ratio='auto', emulator='amiberry', core='amiberry')
 
 
 def test_simple_generate_rom_iso(emulator, system_hddiso, fake_process, mocker, controller_configuration):

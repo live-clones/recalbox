@@ -1,11 +1,16 @@
 #!/usr/bin/env python
+from typing import Dict
+
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.settings.iniSettings import IniSettings
+from configgen.controllersConfig import Controller, Input
+from configgen.controllersConfig import ControllerDictionary
 
-def generateControllerConfig(self, Generator, playersControllers, system):
 
-################ Mapping Conversion Supermodel to Recalbox ################
+def generateControllerConfig(self, playersControllers: ControllerDictionary):
+
+    ################ Mapping Conversion Supermodel to Recalbox ################
 
     # set recalbox Hotkey
     HOTKEY_BUTTONS = \
@@ -198,7 +203,7 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         "InputMagicalLever2":       "joystick1left", #change to joyleft
     }
 
-###### Map an Recalbox direction to the corresponding Supermodel ######
+    ###### Map an Recalbox direction to the corresponding Supermodel ######
 
     TYPE_TO_NAME = \
     {
@@ -215,13 +220,13 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         '8':                        'LEFT',
     }
 
-    SUPERMODEL_DIR = \
+    """SUPERMODEL_DIR = \
     {
         'down':                     'DOWN',
         'left':                     'LEFT',
         'right':                    'RIGHT',
         'up':                       'UP',
-    }
+    }"""
 
     SUPERMODEL_JOY = \
     {
@@ -240,7 +245,7 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         'r2':                       'RZAXIS', 
     }
 
-    def getControllerItem(controller, key):
+    def getControllerItem(controller: Controller, key: str):
         fake = False
         realKey = key
         if key == 'joystick1right':
@@ -270,53 +275,46 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         fakeInput.value = str(-int(fakeInput.value))
         return fakeInput
 
-    def getConfigValue(input):
+    def getConfigValue(inputItem: Input, targetConf: Dict[str, str]):
         # Output format BUTTONX
-        if input.type == 'button':
-            return '{}{}'.format(TYPE_TO_NAME[input.type], int(input.id) + 1)
+        if inputItem.type == 'button':
+            return '{}{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1)
         # Ouput format RYAXIS, RXAXIS, XAXIS, YAXIS
-        if input.type == 'axis':
-            return '{}'.format(SUPERMODEL_JOY[DIGITAL_JOYSTICK_P1[x]])
+        if inputItem.type == 'axis':
+            return '{}'.format(SUPERMODEL_JOY[targetConf[x]])
         # Output format POV1_DOWN
-        if input.type == 'hat':
-            return '{}{}_{}'.format(TYPE_TO_NAME[input.type], int(input.id) + 1, HATS_TO_NAME[input.value])
+        if inputItem.type == 'hat':
+            return '{}{}_{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1, HATS_TO_NAME[inputItem.value])
 
         raise TypeError
 
-    def getConfigValue_2(input):
-        # Output format BUTTONX
-        if input.type == 'button':
-            return '{}{}'.format(TYPE_TO_NAME[input.type], int(input.id) + 1)
-        # Ouput format RYAXIS, RXAXIS, XAXIS, YAXIS
-        if input.type == 'axis':
-            return '{}'.format(SUPERMODEL_JOY[DIGITAL_JOYSTICK_P2[x]])
-        # Output format POV1_DOWN
-        if input.type == 'hat':
-            return '{}{}_{}'.format(TYPE_TO_NAME[input.type], int(input.id) + 1, HATS_TO_NAME[input.value])
+    def getConfigValueJ1(inputItem: Input):
+        return getConfigValue(inputItem, DIGITAL_JOYSTICK_P1)
 
-        raise TypeError
+    def getConfigValueJ2(inputItem):
+        return getConfigValue(inputItem, DIGITAL_JOYSTICK_P2)
 
     # More Games need a Position value of Axis 
-    def getPositionConfigValue(input):
-        if input.type == 'axis':
+    def getPositionConfigValue(inputItem):
+        if inputItem.type == 'axis':
             # Output format XAXIS_NEG/XAXIS_POS ,RXAXIS_NEG/RXAXIS_POS
-            if input.value == '-1':
+            if inputItem.value == '-1':
                 return '{}_NEG'.format(SUPERMODEL_JOY[ANALOG_JOYSTICK_P1[x]])
             else:
                 return '{}_POS'.format(SUPERMODEL_JOY[ANALOG_JOYSTICK_P1[x]])
 
         raise TypeError
     # For R2/L2 axis or button
-    def getAxisOrButton(input):
-        if input.type == 'button':
-            return '{}{}'.format(TYPE_TO_NAME[input.type], int(input.id) + 1)
-        elif input.type == 'axis':
+    def getAxisOrButton(inputItem):
+        if inputItem.type == 'button':
+            return '{}{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1)
+        elif inputItem.type == 'axis':
             return '{}_POS'.format(SUPERMODEL_JOY[BUTTONS_AXIS[x]])
 
         raise TypeError
 
-    def getlightGunConfigValue(input):
-        if input.type == 'axis':
+    def getlightGunConfigValue(inputItem):
+        if inputItem.type == 'axis':
             return 'MOUSE_{}'.format(SUPERMODEL_JOY[MOUSE_GAME[x]])
 
         raise TypeError
@@ -397,48 +395,48 @@ def generateControllerConfig(self, Generator, playersControllers, system):
         # Add hotkey buttons
         for x in HOTKEY_BUTTONS:
             if HOTKEY_BUTTONS[x] in pad.inputs:
-                input = pad.inputs[HOTKEY_BUTTONS[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}+{}_{}"'.format(padIndex, getConfigValue(pad.inputs["hotkey"]), padIndex, getConfigValue(input)))
+                inp = pad.inputs[HOTKEY_BUTTONS[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}+{}_{}"'.format(padIndex, getConfigValueJ1(pad.inputs["hotkey"]), padIndex, getConfigValueJ1(inp)))
 
         # Service and Test menu
         # Set on 0 or 1 in ConfigModel3.ini
         for x in SERVICE_TEST_BUTTON:
             if SERVICE_TEST_BUTTON[x] in pad.inputs:
-                input = pad.inputs[SERVICE_TEST_BUTTON[x]]
+                inp = pad.inputs[SERVICE_TEST_BUTTON[x]]
                 ServiceBtn = supermodelSettings.getOption("service-button", "")
                 if ServiceBtn == "1" :
-                    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValue(input)))
+                    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
                 else:
                     supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, "NONE")
 
         for x in BUTTONS_P1:
             if BUTTONS_P1[x] in pad.inputs:
-                input = pad.inputs[BUTTONS_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValue(input)))
+                inp = pad.inputs[BUTTONS_P1[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
 
         for x in DIGITAL_JOYSTICK_P1:
             if DIGITAL_JOYSTICK_P1[x] in pad.inputs:
-                input = pad.inputs[DIGITAL_JOYSTICK_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValue(input)))
+                inp = pad.inputs[DIGITAL_JOYSTICK_P1[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
 
         for x in ANALOG_JOYSTICK_P1:   
             if ANALOG_JOYSTICK_P1[x] in pad.inputs: # for up/left direction
-                input = pad.inputs[ANALOG_JOYSTICK_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(input)))
+                inp = pad.inputs[ANALOG_JOYSTICK_P1[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(inp)))
             else: # for down/right direction on joystick axis
                 ReverseInput = getControllerItem(pad, ANALOG_JOYSTICK_P1[x])     
-                if ReverseInput != None:
+                if ReverseInput is not None:
                     supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(ReverseInput)))
 
         for x in BUTTONS_AXIS:
             if BUTTONS_AXIS[x] in pad.inputs:
-                input = pad.inputs[BUTTONS_AXIS[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getAxisOrButton(input)))
+                inp = pad.inputs[BUTTONS_AXIS[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getAxisOrButton(inp)))
 
         for x in MOUSE_GAME:
             if MOUSE_GAME[x] in pad.inputs:
-                input = pad.inputs[MOUSE_GAME[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}"'.format(getlightGunConfigValue(input)))
+                inp = pad.inputs[MOUSE_GAME[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}"'.format(getlightGunConfigValue(inp)))
 
         if pad.player == "2":
             continue
@@ -447,13 +445,13 @@ def generateControllerConfig(self, Generator, playersControllers, system):
 
         for x in BUTTONS_P2:
             if BUTTONS_P2[x] in pad.inputs:
-                input = pad.inputs[BUTTONS_P2[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValue_2(input)))
+                inp = pad.inputs[BUTTONS_P2[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
 
         for x in DIGITAL_JOYSTICK_P2:
             if DIGITAL_JOYSTICK_P2[x] in pad.inputs:
-                input = pad.inputs[DIGITAL_JOYSTICK_P2[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValue_2(input)))
+                inp = pad.inputs[DIGITAL_JOYSTICK_P2[x]]
+                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
 
         break
 

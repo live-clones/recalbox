@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-import os
 from configparser import ConfigParser
 import configgen.recalboxFiles as recalboxFiles
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
 
 # This configgen is based on PPSSPP 1.2.2. Therefore, all code/github references are valid at this version, and may not be valid with later updates
 
 # PPSSPP internal "NKCodes" https://github.com/hrydgard/ppsspp/blob/master/ext/native/inp/keycodes.h#L198
 # Will later be used to convert SDL inp ids
+from configgen.controllersConfig import Controller
+
 NKCODE_BUTTON_1 = 188
 NKCODE_BUTTON_2 = 189
 NKCODE_BUTTON_3 = 190
@@ -124,7 +120,7 @@ ppssppMapping =  { 'a' :             {'button': 'Circle'},
 
 # Create the controller configuration file
 # returns its name
-def generateControllerConfig(controller):
+def generateControllerConfig(controller: Controller):
     # Set config file name
     configFileName = recalboxFiles.ppssppControlsIni
     Config = ConfigParser()
@@ -191,7 +187,7 @@ def generateControllerConfig(controller):
 
 
 # Simple rewrite of https://github.com/hrydgard/ppsspp/blob/eaeddc6c23cf86514f45199659ecc7396c91a3c0/Common/KeyMap.cpp#L747
-def axisToCode(axisId, direction) :
+def axisToCode(axisId: int, direction: int) :
     if direction < 0:
         direction = 1
     else:
@@ -199,7 +195,7 @@ def axisToCode(axisId, direction) :
     return AXIS_BIND_NKCODE_START + axisId * 2 + direction
 
 # determine if the option already exists or not
-def optionValue(config, section, option, value):
+def optionValue(config: ConfigParser, section: str, option: str, value: str):
     if config.has_option(section, option):
         return "{},{}".format(config.get(section, option), value)
     else:

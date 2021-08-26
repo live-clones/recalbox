@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import pytest
 from configgen.Emulator import Emulator
-import configgen.generators.libretro.libretroControllers as libretroControllers
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 import configgen.generators.libretro.libretroGenerator as libretroGenerator
 import configgen.generators.libretro.libretroLightGuns as libretroLightGuns
@@ -14,14 +13,14 @@ from tests.generators.FakeArguments import Arguments
 
 
 @pytest.fixture
-def emulator(fake_process):
+def emulator():
     libretroConfigurations.recalboxFiles.retroarchRoot = 'tests/tmp/ra'
     libretroConfigurations.recalboxFiles.retroarchCustom = 'tests/tmp/ra-custom.cfg'
     libretroConfigurations.recalboxFiles.retroarchCoreCustom = 'tests/tmp/ra-core-custom.cfg'
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
     libretroLightGuns.esLightGun = 'tests/resources/lightgun.cfg'
     libretroLightGuns.GAME_INFO_PATH = 'tests/resources/es_state.inf'
-    fake_process.register_subprocess(
+    """fake_process.register_subprocess(
         "udevadm info -e | grep /dev/input/mouse", stdout=["E: DEVNAME=/dev/input/mouse0"]
     )
     fake_process.register_subprocess(
@@ -32,18 +31,18 @@ def emulator(fake_process):
     )
     fake_process.register_subprocess(
         "udevadm info /dev/input/mouse0 | grep -ni ID_INPUT_MOUSE", stdout=["13:E: ID_INPUT_MOUSE=1"]
-    )
+    )"""
 
     return LibretroGenerator()
 
 
 @pytest.fixture
-def emulator_mayflash(fake_process):
+def emulator_mayflash():
     libretroConfigurations.recalboxFiles.retroarchRoot = 'tests/tmp/ra'
     libretroConfigurations.recalboxFiles.retroarchCustom = 'tests/tmp/ra-custom.cfg'
     libretroConfigurations.recalboxFiles.retroarchCoreCustom = 'tests/tmp/ra-core-custom.cfg'
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
-    fake_process.register_subprocess(
+    """fake_process.register_subprocess(
         "udevadm info -e | grep /dev/input/mouse", stdout=["E: DEVNAME=/dev/input/mouse0"]
     )
     fake_process.register_subprocess(
@@ -54,29 +53,29 @@ def emulator_mayflash(fake_process):
     )
     fake_process.register_subprocess(
         "udevadm info /dev/input/mouse0 | grep -ni ID_INPUT_MOUSE", stdout=["13:E: ID_INPUT_MOUSE=1"]
-    )
+    )"""
 
     return LibretroGenerator()
 
 
 @pytest.fixture
 def system_nes():
-    return Emulator(name='nes', videomode='1920x1080', ratio='auto', smooth='1', emulator='libretro', core='fceumm')
+    return Emulator(name='nes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fceumm')
 
 
 @pytest.fixture
 def system_snes():
-    return Emulator(name='snes', videomode='1920x1080', ratio='auto', smooth='1', emulator='libretro', core='snes9x2002')
+    return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x2002')
 
 
 @pytest.fixture
 def system_px68k():
-    return Emulator(name='x68000', videomode='1920x1080', ratio='auto', smooth='1', emulator='libretro', core='px68k')
+    return Emulator(name='x68000', videoMode='1920x1080', ratio='auto', emulator='libretro', core='px68k')
 
 
 @pytest.fixture
 def system_quasi88():
-    return Emulator(name='pc88', videomode='1920x1080', ratio='auto', smooth='1', emulator='libretro', core='quasi88')
+    return Emulator(name='pc88', videoMode='1920x1080', ratio='auto', emulator='libretro', core='quasi88')
 
 
 @pytest.fixture

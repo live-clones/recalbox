@@ -24,7 +24,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='moonlight', videomode='1920x1080', ratio='auto', smooth='1', emulator='moonlight')
+    return Emulator(name='moonlight', videoMode='1920x1080', ratio='auto', emulator='moonlight', core='moonlight')
 
 
 @pytest.fixture
@@ -44,7 +44,6 @@ def controller_configuration():
 
 def test_simple_generate_moonlight(emulator, system, mocker, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('somegame_'))
-    print
     assert command.array == ['/usr/bin/moonlight', 'stream',
                              '-config', 'tests/tmp/moonlight/moonlight.conf',
                              '-app', 'SOMEGAME']

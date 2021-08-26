@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import pytest
-import shutil
 from configgen.Emulator import Emulator
 import configgen.generators.supermodel.supermodelGenerator as supermodelGenerator
 import configgen.generators.supermodel.supermodelControllers as supermodelControllers
@@ -21,7 +20,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='supermodel', videomode='1920x1080', ratio='auto', smooth='1', emulator='supermodel')
+    return Emulator(name='supermodel', videoMode='1920x1080', ratio='auto', emulator='supermodel', core='supermodel')
 
 
 @pytest.fixture

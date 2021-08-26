@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from typing import Dict, IO
 
 import configgen.recalboxFiles as recalboxFiles
 from configparser import ConfigParser
+
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.settings.keyValueSettings import keyValueSettings
 
 hotkeysCombo = {
     "b":      "Stop", ## to unify the unique combination of Recalbox ;) 
@@ -21,19 +26,20 @@ hotkeysCombo = {
 }
 
 # Create the controller configuration file
-def generateControllerConfig(system, playersControllers):
+def generateControllerConfig(system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings):
     generateHotkeys(playersControllers)
-    if system.name == "wii":
-        if 'realwiimotes' in system.config and system.config['realwiimotes'] == '0':
-            generateControllerConfig_emulatedwiimotes(playersControllers, system)
+    if system.Name == "wii":
+        realWiimotes: bool = recalboxSettings.getOption("global.realwiimotes", recalboxSettings.getOption(system.Name + ".realwiimotes", "0")) in ('1', 'true')
+        if realWiimotes:
+            generateControllerConfigEmulatedwiimotes(playersControllers, system)
         else:
-            generateControllerConfig_realwiimotes("WiimoteNew.ini", "Wiimote")
-    elif system.name == "gamecube":
-            generateControllerConfig_gamecube(playersControllers, system)
+            generateControllerConfigRealwiimotes("WiimoteNew.ini", "Wiimote")
+    elif system.Name == "gamecube":
+            generateControllerConfigGamecube(playersControllers, system)
     else:
-        raise ValueError("Invalid system name : '" + system.name + "'")
+        raise ValueError("Invalid system name : '" + system.Name + "'")
 
-def generateControllerConfig_emulatedwiimotes(playersControllers, system):
+def generateControllerConfigEmulatedwiimotes(playersControllers: ControllerDictionary, system: Emulator):
     wiiMapping = {
         'a':           'Buttons/2',         'b':             'Buttons/A',
         'x':           'Buttons/1',         'y':             'Buttons/B',
@@ -54,9 +60,9 @@ def generateControllerConfig_emulatedwiimotes(playersControllers, system):
         'Nunchuk/Stick/Up': 'Nunchuk/Stick/Down',
         'Nunchuk/Stick/Left': 'Nunchuk/Stick/Right'
     }
-    generateControllerConfig_any(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes, system)
+    generateControllerConfigAny(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes, system)
 
-def generateControllerConfig_gamecube(playersControllers, system):
+def generateControllerConfigGamecube(playersControllers: ControllerDictionary, system: Emulator):
     gamecubeMapping = {
         'a':      'Buttons/X',  'b':        'Buttons/A',
         'x':      'Buttons/Y',  'y':        'Buttons/B',
@@ -74,9 +80,9 @@ def generateControllerConfig_gamecube(playersControllers, system):
         'C-Stick/Up':      'C-Stick/Down',
         'C-Stick/Left':    'C-Stick/Right'
     }
-    generateControllerConfig_any(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes, system)
+    generateControllerConfigAny(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes, system)
 
-def generateControllerConfig_realwiimotes(filename, anyDefKey):
+def generateControllerConfigRealwiimotes(filename: str, anyDefKey: str):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
@@ -87,11 +93,10 @@ def generateControllerConfig_realwiimotes(filename, anyDefKey):
     #f.write
     f.close()
 
-def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMapping, anyReverseAxes, system):
+def generateControllerConfigAny(playersControllers: ControllerDictionary, filename: str, anyDefKey: str, anyMapping: Dict[str, str], anyReverseAxes: Dict[str, str], system: Emulator):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
-    #nsamepad = 0
 
     # in case of two pads having the same name, dolphin wants a number to handle this
     double_pads = dict()
@@ -108,12 +113,12 @@ def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMap
         f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
         f.write('Device = "evdev/' + str(nsamepad) + '/' + pad.configName + '"\n')
 
-        if system.name == "wii":
+        if system.Name == "wii":
             f.write("Extension = Nunchuk" + "\n")
             f.write("IR/Center = 15.000000000000000" + "\n")
             f.write("IR/Height = 85.000000000000000" + "\n")
             f.write("Nunchuk/Stick/Dead Zone = 25.000000000000000" + "\n")
-        elif system.name == "gamecube":
+        elif system.Name == "gamecube":
             f.write("Main Stick/Dead Zone = 25.000000000000000" + "\n")
             f.write("C-Stick/Dead Zone = 25.000000000000000" + "\n")
 
@@ -128,37 +133,36 @@ def generateControllerConfig_any(playersControllers, filename, anyDefKey, anyMap
 
             # write the configuration for this key
             if keyname is not None:
-                write_key(f, keyname, inp.type, inp.id, inp.value, pad.nbaxes, False)
+                writeKey(f, keyname, inp.type, inp.id, inp.value, pad.nbaxes, False)
             # write the 2nd part
             if inp.name in { "joystick1up", "joystick1left", "joystick2up", "joystick2left"} and keyname is not None:
-                write_key(f, anyReverseAxes[keyname], inp.type, inp.id, inp.value, pad.nbaxes, True)
+                writeKey(f, anyReverseAxes[keyname], inp.type, inp.id, inp.value, pad.nbaxes, True)
 
         nplayer += 1
-    #f.write
     f.close()
 
-def write_key(f, keyname, input_type, input_id, input_value, input_global_id, reverse):
+def writeKey(f: IO, keyname: str, inputType: str, inputId: str, inputValue: str, inputGlobalId: str, reverse: bool):
     f.write(keyname + " = `")
-    if input_type == "button":
-        f.write("Button " + str(input_id))
-    elif input_type == "hat":
-        if input_value == "1" or input_value == "4": # up or down
-            f.write("Axis " + str(int(input_global_id)+1))
+    if inputType == "button":
+        f.write("Button " + str(inputId))
+    elif inputType == "hat":
+        if inputValue == "1" or inputValue == "4": # up or down
+            f.write("Axis " + str(int(inputGlobalId) + 1))
         else:
-            f.write("Axis " + str(input_global_id))
-        if input_value == "1" or input_value == "8": # up or left
+            f.write("Axis " + str(inputGlobalId))
+        if inputValue == "1" or inputValue == "8": # up or left
             f.write("-")
         else:
             f.write("+")
-    elif input_type == "axis":
-        if (reverse and input_value == "-1") or (not reverse and input_value == "1"):
-            f.write("Axis " + str(input_id) + "+")
+    elif inputType == "axis":
+        if (reverse and inputValue == "-1") or (not reverse and inputValue == "1"):
+            f.write("Axis " + str(inputId) + "+")
         else:
-            f.write("Axis " + str(input_id) + "-")
+            f.write("Axis " + str(inputId) + "-")
     f.write("`\n")
 
 
-def generateHotkeys(playersControllers):
+def generateHotkeys(playersControllers: ControllerDictionary):
     player1 = None
     HK = None
     iniValues = dict()
@@ -197,7 +201,7 @@ def generateHotkeys(playersControllers):
     writeIniFile(recalboxFiles.dolphinHKeys, iniSections)
 
 
-def writeIniFile(filename, sectionsAndValues):
+def writeIniFile(filename: str, sectionsAndValues: Dict[str, Dict[str, str]]):
     # filename: file to write
     # sectionsAndValues: a dict indexed on sections on the ini. Each section has a dict of propertyName: propertyValue
 

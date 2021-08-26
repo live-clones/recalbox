@@ -1,3 +1,8 @@
+from configgen.controllersConfig import Controller, Input
+from configgen.controllersConfig import ControllerDictionary
+from configgen.settings.keyValueSettings import keyValueSettings
+
+
 class OpenborControllers:
 
     JOYSTICK_FIRST_VALUE = 600  # Keep in sync with openbor/engine/sdl/joystiks.c - #define	JOY_LIST_FIRST 600
@@ -31,12 +36,12 @@ class OpenborControllers:
         "HOTKEY"     : "hotkey",
     }
 
-    def __init__(self, controllers):
-        self.controllers = controllers
+    def __init__(self, controllers: ControllerDictionary):
+        self.controllers: ControllerDictionary = controllers
 
     # Returns the value to write in retroarch config file, depending on the type
     @staticmethod
-    def getConfigValue(controller, inp):
+    def getConfigValue(controller: Controller, inp: Input):
         index = int(OpenborControllers.JOYSTICK_FIRST_VALUE) + 1 + (int(controller.index) * OpenborControllers.JOYSTICK_MAX_ITEM)
         iid = int(inp.id)
         if inp.type == 'button':
@@ -54,7 +59,7 @@ class OpenborControllers:
 
         raise TypeError
 
-    def addController(self, controller, settings):
+    def addController(self, controller: Controller, settings: keyValueSettings):
         for o, r in self.OPENBOR_TO_RECALBOX.items():
             value = 0
             key = "JoystickButton-P{}-{}".format(int(controller.player) - 1, o)
@@ -62,7 +67,7 @@ class OpenborControllers:
                 value = self.getConfigValue(controller, controller.inputs[r])
             settings.setOption(key, value)
 
-    def addControllers(self, settings):
+    def addControllers(self, settings: keyValueSettings):
         for player in range(0,4):
             for index, controller in self.controllers.items():
                 if int(controller.player) == player + 1:

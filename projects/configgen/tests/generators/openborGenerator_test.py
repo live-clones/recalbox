@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='openbor', videomode='1920x1080', ratio='auto', smooth='1', emulator='openbor')
+    return Emulator(name='openbor', videoMode='1920x1080', ratio='auto', emulator='openbor', core='openbor')
 
 
 @pytest.fixture

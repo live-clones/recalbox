@@ -5,6 +5,8 @@ Created on Mar 6, 2016
 """
 import os
 
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
 
 joystick_translator = {
         # linapple : recalboxOS
@@ -21,11 +23,12 @@ joystick_translator = {
     }
 
 
-class LinappleConfig(object):
+class LinappleConfig:
 
     globalResolutionFile = "/sys/class/graphics/fb0/virtual_size"
 
-    def setResolutionFile(self, resolutionFile):
+    @staticmethod
+    def setResolutionFile(resolutionFile: str):
         LinappleConfig.globalResolutionFile = resolutionFile
 
     """
@@ -39,7 +42,7 @@ class LinappleConfig(object):
             Configuration path and filename.
 
     """
-    def __init__(self, filename):
+    def __init__(self, filename: str):
         self.settings = {}
         self.filename = filename
         self.load(filename)
@@ -91,7 +94,7 @@ class LinappleConfig(object):
             for k, v in sorted(self.settings.items()):
                 file_out.write('\t{}=\t{}\n'.format(k,v))
 
-    def joysticks(self, controllers):
+    def joysticks(self, controllers: ControllerDictionary):
         """
         Configure linapple joysticks (2) with given controllers.
 
@@ -104,10 +107,13 @@ class LinappleConfig(object):
         self.settings['Joystick 1'] = '0'
         
         # Configure axis and buttons for first two available joysticks
-        joysticks = sorted(controllers.items())[:1]
+        sortedKeys = sorted(controllers.keys())
+        joysticks: ControllerDictionary = {}
+        if len(sortedKeys) != 0: joysticks[sortedKeys[0]] = controllers[sortedKeys[0]]
+        if len(sortedKeys) > 0 : joysticks[sortedKeys[1]] = controllers[sortedKeys[1]]
         # Strange button behaviour with 2 joysticks enabled :-( TBD
         # joysticks = sorted(controllers.items())[:2] 
-        for e, (n, c) in enumerate(joysticks):
+        for e, (n, c) in enumerate(joysticks.items()):
             assert(n == c.player)   # Just if Controller source code changed
             
             # Use the translator to get recalbox value from linapple keyword 
@@ -135,7 +141,7 @@ class LinappleConfig(object):
             
         # Configure extended buttons information
         if self.settings['Joystick 0'] == '1':
-            inputs = joysticks[0][1].inputs
+            inputs = joysticks[sortedKeys[0]].inputs
             for a in ('JoyExitButton0', 'JoyExitButton1'):
                 for r in joystick_translator.get(a, ()):
                     value = inputs.get(r, None)
@@ -150,7 +156,7 @@ class LinappleConfig(object):
                                                 jexit1 != '' and 
                                                 jexit0 != jexit1) else '0'
     
-    def system(self, system, filename):
+    def system(self, system: Emulator, filename: str):
         """
         Configure Recalbox system settings
 
@@ -171,7 +177,7 @@ class LinappleConfig(object):
             self.settings['Disk Image 1'] = ''
             self.settings['Slot 6 Autoload'] = '0'
         
-        if filename and system.config.get('autosave', '0') == '1':
+        if filename and system.AutoSave:
             name = os.path.join(self.settings['Save State Directory'], 
                 os.path.splitext(os.path.split(filename)[1])[0] + '.sve')
             self.settings['Save State Filename'] = name
@@ -182,7 +188,7 @@ class LinappleConfig(object):
 
         # Screen resolution
         from configgen.utils.resolutions import ResolutionParser
-        resolution = ResolutionParser(system.config['videomode'])
+        resolution = ResolutionParser(system.VideoMode)
         self.settings['Fullscreen'] = '1'
         if resolution.isSet and resolution.selfProcess:
             self.settings['Screen Width'] = str(resolution.width)

@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-import sys
-import os
+from typing import Optional
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import Controller, Input
+from configgen.controllersConfig import ControllerDictionary
+from configgen.settings.keyValueSettings import keyValueSettings
 
 class LibretroControllers:
 
@@ -101,15 +102,16 @@ class LibretroControllers:
         'select': 'select'
     }
 
-    def __init__(self, system, settings, controllers, nodefaultkeymap):
+    def __init__(self, system: Emulator, recalboxSettings: keyValueSettings, settings: keyValueSettings, controllers: ControllerDictionary, nodefaultkeymap: bool):
         self.system = system
+        self.recalboxSettings = recalboxSettings
         self.settings = settings
         self.controllers = controllers
-        self.nodefaultkeymap = nodefaultkeymap
+        self.nodefaultkeymap: bool = nodefaultkeymap
 
     # Fill controllers configuration
-    def fillControllersConfiguration(self):
-        recalbox = self.system.config
+    def fillControllersConfiguration(self) -> keyValueSettings:
+        inputDriver: str = self.recalboxSettings.getOption("global.inputdriver", self.recalboxSettings.getOption(self.system.Name + ".inputdriver", 'auto'))
 
         # Cleanup all
         self.cleanUpControllers()
@@ -122,14 +124,13 @@ class LibretroControllers:
         self.setHotKey()
 
         # Set driver
-        if recalbox.get("inputdriver", "auto") in ("auto", None):
-            recalbox["inputdriver"] = self.getInputDriver()
-        self.settings.setOption("input_joypad_driver", recalbox["inputdriver"])
+        if inputDriver == "auto": inputDriver = self.getInputDriver()
+        self.settings.setOption("input_joypad_driver", inputDriver)
 
         return self.settings
 
     # Find the best driver for controllers
-    def getInputDriver(self):
+    def getInputDriver(self) -> str:
         for controller in self.controllers:
             for controllerName in self.sdl2driverControllers:
                 if controllerName in self.controllers[controller].realName:
@@ -150,8 +151,8 @@ class LibretroControllers:
 
     # Return the retroarch analog_dpad_mode
     @staticmethod
-    def getAnalogMode(controller):
-        # if system.name != 'psx':
+    def getAnalogMode(controller) -> str:
+        # if system.Name != 'psx':
         for dirkey in LibretroControllers.retroarchdirs:
             if dirkey in controller.inputs:
                 if controller.inputs[dirkey].type in ("button", "hat"):
@@ -160,7 +161,7 @@ class LibretroControllers:
 
     # Return the playstation analog mode for a controller
     @staticmethod
-    def getAnalogCoreMode(controller):
+    def getAnalogCoreMode(controller) -> str:
         for dirkey in LibretroControllers.retroarchdirs:
             if dirkey in controller.inputs:
                 if controller.inputs[dirkey].type in ("button", "hat"):
@@ -169,7 +170,7 @@ class LibretroControllers:
 
     # Returns the value to write in retroarch config file, depending on the type
     @staticmethod
-    def getConfigValue(inp):
+    def getConfigValue(inp) -> str:
         if inp.type == 'button':
             return inp.id
         if inp.type == 'axis':
@@ -185,7 +186,7 @@ class LibretroControllers:
         raise TypeError
 
     @staticmethod
-    def getControllerItem(controller, key):
+    def getControllerItem(controller: Controller, key: str) -> Optional[Input]:
         fake = False
         realKey = key
         if key == 'joystick1right':
@@ -216,11 +217,11 @@ class LibretroControllers:
         return fakeInput
 
     # Write a configuration for a specified controller
-    def buildController(self, controller, playerIndex):
+    def buildController(self, controller: Controller, playerIndex: str):
         settings = self.settings
 
         # Get specials string or default
-        specials = self.system.config.get("specials", "default")
+        specials = self.system.SpecialKeys
 
         # config['input_device'] = '"%s"' % controller.realName
         for btnkey in self.retroarchbtns:

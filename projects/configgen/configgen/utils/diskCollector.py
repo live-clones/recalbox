@@ -1,12 +1,13 @@
+from typing import List
 
 
 class DiskCollector:
 
-    def __init__(self, rom, maxDisk, verbose): # type: (str, int, bool) -> None
-        self.rom = rom # type: str
-        self.maxDisk = maxDisk # type: int
-        self.disks = []
-        self.verbose = verbose
+    def __init__(self, rom: str, maxDisk: int, verbose: bool):
+        self.rom: str = rom
+        self.maxDisk: int = maxDisk
+        self.disks: List[str] = []
+        self.verbose: bool = verbose
         self.scan()
 
     @property
@@ -65,13 +66,13 @@ class DiskCollector:
                 diskNumber += 1
 
     @staticmethod
-    def getAllDisks(suffix):
+    def getAllDisks(suffix: str):
         diskPattern = suffix.replace("[", "|").replace("]", "[]]").replace("|", "[[]") + '*'
         import glob
         return glob.glob(diskPattern)
 
     @staticmethod
-    def scanDisk(rom): # type: (str) -> (bool, int, str, str)
+    def scanDisk(rom: str) -> (bool, int, str, str):
         try:
             romlower = rom.lower().replace('[', '(').replace(']', ')')
             start = romlower.find('(disk ')

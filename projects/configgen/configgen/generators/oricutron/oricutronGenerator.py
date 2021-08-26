@@ -1,18 +1,13 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class OricutronGenerator(Generator):
 
-    # return true if the option is considered defined
-    @staticmethod
-    def defined(key, dictio):
-        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
-
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
 
         """
         Load, override keys and save back emulator's configuration file
@@ -65,7 +60,7 @@ class OricutronGenerator(Generator):
         settings.setDefaultOption("aratio", "yes")
 
         settings.setOption("scanlines", "no")
-        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
+        if system.ShaderSet == 'scanlines':
             settings.setOption("scanlines", "yes")
 
         # Erase disk/tape
@@ -86,13 +81,12 @@ class OricutronGenerator(Generator):
         else:
             arguments = ["--disk", args.rom]
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--turbotape", "on",  # One of the only options not available in config file
                         "--vsynchack", "on"  # This one too
                         ]
         commandArray.extend(arguments)
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

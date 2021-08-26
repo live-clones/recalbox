@@ -1,48 +1,50 @@
 import os
+from typing import List, Dict
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.Emulator import Emulator
+from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.controllersConfig import Controller, Input, ControllerDictionary
 
 
 class GSplusGenerator(Generator):
 
-    # Generate ADF Arguments
+    # Collect disks
     @staticmethod
-    def SeekMultiDisks(rom, disks): # type: (str, int) -> list
+    def SeekMultiDisks(rom: str, disks: int) -> List[str]:
         from configgen.utils.diskCollector import DiskCollector
         collector = DiskCollector(rom, disks, True)
         return collector.disks
 
     @staticmethod
-    def addJoyItem(option, item, _type, inputs, to): # type: (str, str, str, input, list) -> None
+    def addJoyItem(option: str, item: str, _type: str, inputs: Dict[str, Input], to: List[str]):
         if item in inputs:
             if inputs[item].type == _type:
                 to.append(option)
                 to.append(str(inputs[item].id))
 
-    def addSpecialButtons(self, controller, to):
+    def addSpecialButtons(self, controller: Controller, to: List[str]):
         self.addJoyItem("-joy-bhk", "hotkey", 'button', controller.inputs, to)
         self.addJoyItem("-joy-bstart", "start", 'button', controller.inputs, to)
 
-    def addGeneralButtons(self, controller, to):
+    def addGeneralButtons(self, controller: Controller, to: List[str]):
         self.addJoyItem("-joy-b0", "a", 'button', controller.inputs, to)
         self.addJoyItem("-joy-b1", "b", 'button', controller.inputs, to)
         self.addJoyItem("-joy-b2", "x", 'button', controller.inputs, to)
         self.addJoyItem("-joy-b3", "y", 'button', controller.inputs, to)
 
-    def addJoystickLeft(self, controller, to):
+    def addJoystickLeft(self, controller: Controller, to: List[str]):
         self.addJoyItem("-joy-x", "joystick1left", 'axis', controller.inputs, to)
         self.addJoyItem("-joy-y", "joystick1up", 'axis', controller.inputs, to)
 
-    def addJoystickRight(self, controller, to):
+    def addJoystickRight(self, controller: Controller, to: List[str]):
         self.addJoyItem("-joy-x2", "joystick2left", 'axis', controller.inputs, to)
         self.addJoyItem("-joy-y2", "joystick2up", 'axis', controller.inputs, to)
 
     @staticmethod
-    def addDpadItem(option, item, inputs, to):
+    def addDpadItem(option: str, item: str, inputs: Dict[str, Input], to: List[str]):
         if item in inputs:
             _input = inputs[item]
             if _input.type == 'button':
@@ -59,20 +61,15 @@ class GSplusGenerator(Generator):
                     to.append('-joy-x')
                     to.append(str(_input.id))
 
-    def addDpad(self, controller, to):
+    def addDpad(self, controller: Controller, to):
         self.addDpadItem('up', 'up', controller.inputs, to)
         self.addDpadItem('down', 'down', controller.inputs, to)
         self.addDpadItem('left', 'left', controller.inputs, to)
         self.addDpadItem('right', 'right', controller.inputs, to)
         pass
 
-    # return true if the option is considered defined
     @staticmethod
-    def defined(key, dictio):
-        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
-
-    @staticmethod
-    def clearDisks(settings):
+    def clearDisks(settings: keyValueSettings):
         for i in range(1, 3):
             settings.removeOption("s5d{}".format(i))
             settings.removeOption("s6d{}".format(i))
@@ -121,14 +118,14 @@ class GSplusGenerator(Generator):
 
         # Screen resolution
         from configgen.utils.resolutions import ResolutionParser
-        resolution = ResolutionParser(system.config['videomode'])
+        resolution = ResolutionParser(system.VideoMode)
         if resolution.isSet and resolution.selfProcess:
             options.append("-x")
             options.append(str(resolution.width))
             options.append("-y")
             options.append(str(resolution.height))
 
-        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
+        if system.ShaderSet == 'scanlines':
             options.append("-scanline")
             options.append("40")
 
@@ -144,11 +141,10 @@ class GSplusGenerator(Generator):
                 self.addJoystickRight(controller, joystickOptions)
                 self.addDpad(controller, joystickOptions)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
         commandArray.extend(options)
         commandArray.extend(joystickOptions)
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

@@ -1,23 +1,13 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class SimCoupeGenerator(Generator):
 
-    # return true if the option is considered defined
-    @staticmethod
-    def defined(key, dictio):
-        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
-
-    # return true if the option is considered enabled (for boolean options)
-    @staticmethod
-    def enabled(key, dictio):
-        return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
-
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
 
         """
         Load, override keys and save back emulator's configuration file
@@ -34,11 +24,11 @@ class SimCoupeGenerator(Generator):
         settings.setOption("fullscreen", "yes")                                 # Fullscreen
         settings.setOption("firstrun", "no")                                    # no first-launch nag-screen #1
         settings.setOption("cfgversion", "4")                                   # no first launch nag-screen #2
-        smooth = "yes" if self.enabled('smooth', system.config) else "no"
+        smooth = "yes" if system.Smooth else "no"
         settings.setOption("filter", smooth)                                    # no first launch nag-screen #2
 
         settings.setOption("scanlines", "no")
-        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
+        if system.ShaderSet == 'scanlines':
             settings.setOption("scanlines", "yes")
 
         for index in playersControllers:
@@ -62,9 +52,8 @@ class SimCoupeGenerator(Generator):
 
         settings.saveFile()
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator], args.rom]
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

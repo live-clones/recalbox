@@ -3,6 +3,7 @@
 
 from configparser import ConfigParser
 import configgen.recalboxFiles as recalboxFiles
+from configgen.controllersConfig import ControllerDictionary
 
 keyboard_keys = {
     "KEY_UP":         "1073741906 0",
@@ -78,15 +79,15 @@ joystick_axis = {
 }
 
 # Create the controller configuration file
-def generateControllerConfig(_, controllers):
+def generateControllerConfig(_, controllers: ControllerDictionary):
     Config = ConfigParser()
     # To prevent ConfigParser from converting to lower case
     Config.optionxform = str
 
-# Format is KEY=keyboard1 keyboard2 joystick_btn joystick_axis
-# keyboard1 and keyboard2 are hardcoded values (see above)
-# joystick_btn is computed from controller configuration: hundreds=joystick index, units=button index (+1)
-# joystick_axis too: hundreds=joystick index, units=axis index (+1), sign=direction
+    # Format is KEY=keyboard1 keyboard2 joystick_btn joystick_axis
+    # keyboard1 and keyboard2 are hardcoded values (see above)
+    # joystick_btn is computed from controller configuration: hundreds=joystick index, units=button index (+1)
+    # joystick_axis too: hundreds=joystick index, units=axis index (+1), sign=direction
     section = 'KEYBOARD'
     Config.add_section(section)
 

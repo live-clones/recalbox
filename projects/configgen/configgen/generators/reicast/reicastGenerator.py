@@ -4,12 +4,11 @@ import os.path
 import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
 import configgen.generators.reicast.reicastControllers as reicastControllers
 from configparser import ConfigParser
-
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class ReicastGenerator(Generator):
@@ -49,8 +48,8 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
-        if not system.config['configfile']:
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+        if not system.HasConfigFile:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
             Config = ConfigParser()
             Config.optionxform = str
@@ -73,13 +72,14 @@ class ReicastGenerator(Generator):
             cfgfile.close()
                 
         # the command to run  
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
+
+        if system.HasArgs: commandArray.extend(system.Args)
+
         commandArray.append(args.rom)
         # Here is the trick to make reicast find files :
         # emu.cfg is in $XDG_CONFIG_DIRS or $XDG_CONFIG_HOME. The latter is better
         # VMU will be in $XDG_DATA_HOME because it needs rw access -> /recalbox/share/saves/dreamcast
         # BIOS will be in $XDG_DATA_DIRS
         # controller cfg files are set with an absolute path, so no worry
-        return Command.Command(videomode=system.config['videomode'], array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.reicastSaves, "XDG_DATA_DIRS":recalboxFiles.reicastBios})
+        return Command.Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.reicastSaves, "XDG_DATA_DIRS":recalboxFiles.reicastBios})

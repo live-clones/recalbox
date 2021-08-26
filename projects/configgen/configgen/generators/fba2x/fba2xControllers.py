@@ -1,14 +1,11 @@
 #!/usr/bin/env python
-import sys
 import os
 import configgen.settings.unixSettings as unixSettings
 import configgen.recalboxFiles as recalboxFiles
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from configgen.controllersConfig import Controller
+from configgen.controllersConfig import ControllerDictionary
 
 fbaSettings = unixSettings.UnixSettings(recalboxFiles.fbaCustom)
-
 
 # Map an emulationstation button name to the corresponding fba2x name
 fba4bnts = {'a': 'Y', 'b': 'X', 'x': 'B', 'y': 'A',
@@ -26,8 +23,7 @@ fbaHatToAxis = {'1': 'UP', '2': 'LR', '4': 'UD', '8': 'LR'}
 # Map buttons to the corresponding fba2x specials keys
 fbaspecials = {'start': 'QUIT', 'hotkey': 'HOTKEY'}
 
-
-def writeControllersConfig(_, rom, controllers):
+def writeControllersConfig(_, rom: str, controllers: ControllerDictionary):
     writeIndexes(controllers)
     sixBtnConfig = is6btn(rom)
     for controller in controllers:
@@ -35,9 +31,8 @@ def writeControllersConfig(_, rom, controllers):
         for inp in playerConfig:
             fbaSettings.save(inp, playerConfig[inp])
 
-
 # Create a configuration file for a given controller
-def generateControllerConfig(player, controller, special6=False):
+def generateControllerConfig(player: str, controller: Controller, special6: bool=False):
     config = dict()
     fbaBtns = fba4bnts
     if special6:

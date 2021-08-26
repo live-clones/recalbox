@@ -16,7 +16,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='scummvm', videomode='1920x1080', ratio='auto', smooth='1', emulator='scummvm')
+    return Emulator(name='scummvm', videoMode='1920x1080', ratio='auto', emulator='scummvm', core='scummvm')
 
 
 @pytest.fixture

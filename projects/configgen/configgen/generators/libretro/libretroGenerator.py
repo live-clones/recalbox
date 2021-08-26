@@ -1,57 +1,55 @@
 #!/usr/bin/env python
 import os.path
+from typing import List
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 
 from configgen.generators.Generator import Generator, ControllerDictionary
 from configgen.generators.libretro.libretroLightGuns import libretroLightGun
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class LibretroGenerator(Generator):
+
     # Main entry of the module
-    def config_upgrade(self, version):
+    def config_upgrade(self, version: str) -> bool:
         return libretroConfigurations.LibretroConfiguration.updateLibretroConfig(version)
 
     # Build command ligne arguments for Netplay
     @staticmethod
-    def getNetplayArguments(system):
+    def getNetplayArguments(system: Emulator) -> List[str]:
         # Netplay command holder
         result = []
 
-        if 'netplaymode' in system.config and system.config['netplaymode'] in ('host', 'client'):
-            if system.config['netplaymode'] == 'host':
+        if system.Netplay:
+            if system.NetplayHostMode:
                 result.append("--host")
-                if system.config['hash']:
-                    result.extend(["--hash", system.config['hash']])
-            elif system.config['netplaymode'] == 'client':
-                if system.config['netplay_ip'] is not None:
-                    result.extend(["--connect", system.config['netplay_ip']])
+                if system.HasHash:
+                    result.extend(["--hash", system.Hash])
+            else:
+                if len(system.NetplayIP) != 0:
+                    result.extend(["--connect", system.NetplayIP])
                 else:
                     raise ValueError("You must specify n IP in client mode")
-            else:
-                raise ValueError("Netplay mode should be host or client")
 
-            port = system.config.get('netplay_port', "55435")
             result.append("--port")
-            result.append(port)
-            nick = system.config.get('netplay_nickname', "Anonymous")
+            result.append(str(system.NetplayPort))
             result.append("--nick")
-            result.append(nick)
+            result.append(system.NetplayUsername)
 
         return result
 
     # Overlay management
     @staticmethod
-    def processOverlays(system, romName, configs):
+    def processOverlays(system: Emulator, romName: str, configs: List[str]):
         # Overlays are applied only when we are not in wide core
-        if system.config['core'] not in ["genesisplusgxwide"]:
+        if system.Core not in ["genesisplusgxwide"]:
             # User overlays
             userOverlayApplied = False
-            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.name)
+            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
             if os.path.isfile(overlayFile):
                 # System global configuration
                 configs.append(overlayFile)
@@ -62,13 +60,13 @@ class LibretroGenerator(Generator):
                     # All system global configuration
                     configs.append(overlayFile)
                     userOverlayApplied = True
-            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, romName)
+            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, romName)
             if os.path.isfile(overlayFile):
                 # Rom file overlay
                 configs.append(overlayFile)
                 userOverlayApplied = True
             else:
-                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.name, system.name)
+                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, system.Name)
                 if os.path.isfile(overlayFile):
                     # System overlay
                     configs.append(overlayFile)
@@ -76,29 +74,29 @@ class LibretroGenerator(Generator):
             if not userOverlayApplied:
                 # The recalbox overlays should be added only if
                 # global.recalboxoverlays=1 or system.recalboxoverlays activated
-                if 'recalboxoverlays' in system.config and system.config['recalboxoverlays'] == '1':
+                if system.RecalboxOverlays:
                     # ratio = we can activate when ratio is not 16/9 and 16/10
-                    if 'ratio' not in system.config or system.config['ratio'] not in ["16/9", "16/10"]:
+                    if system.Ratio not in ["16/9", "16/10"]:
                         # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
                         from configgen.utils.videoMode import getCurrentFramebufferRatio
                         if getCurrentFramebufferRatio() > 1.51:
-                            defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.name, system.name)
+                            defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.Name, system.Name)
                             if os.path.isfile(defaultOverlayFile):
                                 configs.append(defaultOverlayFile)
 
     # Build appendable configurations files argument
-    def getAppendConfigs(self, system, rom, externalOverrides):
+    def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str) -> List[str]:
         # Extra configs
         configs = []
         romName = os.path.basename(rom)
 
         # Custom configs - per core - DEPRECATED
-        customCfg = "{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.name)
+        customCfg = "{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.Name)
         if os.path.isfile(customCfg):
             configs.append(customCfg)
 
         # Custom configs - per game - DEPRECATED
-        customGameCfg = "{}/{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.name, romName)
+        customGameCfg = "{}/{}/{}.cfg".format(recalboxFiles.retroarchRoot, system.Name, romName)
         if os.path.isfile(customGameCfg):
             configs.append(customGameCfg)
 
@@ -116,7 +114,7 @@ class LibretroGenerator(Generator):
 
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings):
+    def createConfigurationFile(system: Emulator, playersControllers: ControllerDictionary, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings) -> (str, str, List[str]):
         # Setup system configuration
         configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
@@ -124,7 +122,7 @@ class LibretroGenerator(Generator):
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         # setup wiimotes lightgun configuration 
-        lightgunConfig = libretroLightGun(system,rom,demo,retroarchConfig, coreConfig)
+        lightgunConfig = libretroLightGun(system, rom, demo, retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
 
         return configuration.getRetroarchConfigurationFileName(),\
@@ -133,29 +131,27 @@ class LibretroGenerator(Generator):
 
     # Configure retroarch and return a command
     def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
-        configFileName = system.config.get("configfile", None)
 
         # Set recalbox default config file if no user defined one
         newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxSettings)
-        if configFileName is None:
-            configFileName = newConfigFileName
+        configFileName = system.ConfigFile if system.HasConfigFile else newConfigFileName
 
         # Manage special scummvm roms
         # To keep compatibility with existing scummvm scraping systems as well as with the standalone core,
         # rom may contain the upper folder game_folder.scummvm
         # In such case we must look for the inner file.scummvm and use it instead
         rom = args.rom
-        if system.config['core'] == 'scummvm':
+        if system.Core == 'scummvm':
             if os.path.isdir(args.rom):
                 scummfiles = [fn for fn in os.listdir(args.rom) if fn.endswith('.scummvm')]
                 if len(scummfiles) == 1:
                     rom = os.path.join(args.rom, scummfiles[0])
 
         # Retroarch core on the filesystem
-        retroarchCore = recalboxFiles.retroarchCores + system.config['core'] + recalboxFiles.libretroExt
+        retroarchCore = recalboxFiles.retroarchCores + system.Core + recalboxFiles.libretroExt
 
         # The command to run
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
         # Verbose?
         if args.verbose:
             commandArray.extend(["--verbose"])
@@ -168,31 +164,26 @@ class LibretroGenerator(Generator):
         # Converted command args
         commandArray.extend(commandArgs)
         # Extra system/core arguments
-        commandArray.extend(self.buildExtraArguments(args.system, system.config['core']))
-
-        # Optional arguments from es_systems.cfg
-        if 'extra' in system.config and system.config['extra'] is not None:
-             commandArray.extend(system.config['extra'].split(" "))
+        commandArray.extend(self.buildExtraArguments(args.system, system.Core))
 
         # Optional arguments from recalbox.conf
-        if 'args' in system.config and system.config['args'] is not None:
-             commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
         # Sub-system roms (pc88)
-        roms = self.buildRomArguments(rom, system.config['core'], args.verbose, args.demo)
+        roms = self.buildRomArguments(rom, system.Core, args.verbose, args.demo)
         commandArray.extend(roms)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)
 
     @staticmethod
-    def buildExtraArguments(system, core): # type: (str, str) -> list
+    def buildExtraArguments(system: str, core: str) -> List[str]:
         if system == "neogeocd" and core == "fbneo":
             return ["--subsystem", "neocd"]
 
         return []
 
     @staticmethod
-    def buildRomArguments(rom, core, verbose, demo): # type: (str, str, bool, bool) -> list
+    def buildRomArguments(rom: str, core: str, verbose: bool, demo: bool) -> List[str]:
         # x68000
         if core == "px68k":
             # Open configuration

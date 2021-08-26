@@ -6,6 +6,9 @@ import configgen.recalboxFiles as recalboxFiles
 from xml.dom import minidom
 from xml.etree import ElementTree as ET
 
+from configgen.controllersConfig import Controller, Input
+from configgen.controllersConfig import ControllerDictionary
+
 kodiMapping = {
     'a' :             {'button': 'b'},
     'b' :             {'button': 'a'},
@@ -32,14 +35,14 @@ kodiMapping = {
     'joystick2left' : {},
 }
 
-def getFormattedAxis(inpt, controllerObj):
+def getFormattedAxis(inpt: Input, controllerObj: Controller):
     direction = int(inpt.value)
     primary = '-' if direction < 0 else '+'
     secondary = '+' if direction < 0 else '-'
     axis = str(controllerObj.getAxisNumber(inpt))
     return primary + axis, secondary + axis
 
-def writeKodiControllersConfig(controllers):
+def writeKodiControllersConfig(controllers: ControllerDictionary):
     leftstick = rightstick = None
     if not os.path.isdir(recalboxFiles.kodiJoystick):
         os.makedirs(recalboxFiles.kodiJoystick)

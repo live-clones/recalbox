@@ -3,34 +3,24 @@ import os.path
 import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
-from configgen.controllersConfig import Controller
-from configgen.generators.Generator import Generator, ControllerDictionary
-from settings.keyValueSettings import keyValueSettings
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import Controller, ControllerDictionary
+from configgen.generators.Generator import Generator
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class ScummVMGenerator(Generator):
 
-    # return true if the option is considered defined
-    @staticmethod
-    def defined(key, dictio):
-        return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
-
-    # return true if the option is considered enabled (for boolean options)
-    @staticmethod
-    def enabled(key, dictio):
-        return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
-
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
 
         # Settings recalbox default config file if no user defined one
-        if not system.config['configfile']:
+        if not system.HasConfigFile:
             # Using recalbox config file
-            #system.config['configfile'] = recalboxFiles.mupenCustom
+            #system.ConfigFile = recalboxFiles.mupenCustom
             pass
 
         # Find rom path
@@ -45,8 +35,8 @@ class ScummVMGenerator(Generator):
           romPath = os.path.dirname(args.rom)
           romName = os.path.splitext(os.path.basename(args.rom))[0]
 
-        smooth = "--filtering" if self.enabled('smooth', system.config) else "--no-filtering"
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']],
+        smooth = "--filtering" if system.Smooth else "--no-filtering"
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--fullscreen",
                         "--subtitles",
                         "--joystick=0",
@@ -54,11 +44,10 @@ class ScummVMGenerator(Generator):
                         "--extrapath=/usr/share/scummvm",
                         "--savepath="+recalboxFiles.scummvmSaves,
                         "--path=""{}""".format(romPath)]
-        if self.defined('shaderset', system.config) and system.config['shaderset'] == 'scanlines':
+        if system.ShaderSet == 'scanlines':
             commandArray.append("--gfx-mode=DotMatrix")
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
         commandArray.append("""{}""".format(romName))
 

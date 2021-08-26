@@ -2,12 +2,9 @@
 
 import shutil
 import unittest
-from configgen.Emulator import Emulator
 import configgen.generators.advancemame.advMameControllers as advMameControllers
-from configgen.settings.keyValueSettings import keyValueSettings
 import configgen.controllersConfig as controllersConfig
 
-from tests.generators.FakeArguments import Arguments
 
 controllersConfig.esInputs = 'tests/resources/es_input.cfg'
 

@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='apple2gs', videomode='1920x1080', ratio='auto', smooth='1', emulator='gsplus')
+    return Emulator(name='apple2gs', videoMode='1920x1080', ratio='auto', emulator='gsplus', core='gsplus')
 
 
 @pytest.fixture

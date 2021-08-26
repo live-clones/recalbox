@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='psx', videomode='1920x1080', ratio='auto', smooth='1', emulator='pcsx_rearmed')
+    return Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='pcsx_rearmed', core='pcsx_rearmed')
 
 
 @pytest.fixture

@@ -1,13 +1,15 @@
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Emulator import Emulator
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.controllersConfig import ControllerDictionary
 
 
 class LibretroCores:
 
-    def __init__(self, system, settings, controllers, rom: str):
-        self.system = system
-        self.settings = settings
-        self.controllers = controllers
+    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerDictionary):
+        self.system: Emulator = system
+        self.settings: keyValueSettings = settings
+        self.controllers: ControllerDictionary = controllers
         self.rom = rom
 
     #
@@ -15,27 +17,27 @@ class LibretroCores:
     #
 
     @staticmethod
-    def configureBlueMSX(coreSettings):
+    def configureBlueMSX(coreSettings: keyValueSettings):
         # Default core configuration - Actual value for legacy msx folder
         coreSettings.setOption("bluemsx_msxtype", '"Auto"')
 
     @staticmethod
-    def configureMAME2003plus(coreSettings):
+    def configureMAME2003plus(coreSettings: keyValueSettings):
         coreSettings.setOption("mame2003-plus_analog", '"digital"')
 
     @staticmethod
-    def configureOpera(coreSettings):
+    def configureOpera(coreSettings: keyValueSettings):
         coreSettings.setOption("opera_dsp_threaded", '"enabled"')
 
     @staticmethod
-    def configurePARALLELN64(coreSettings):
+    def configurePARALLELN64(coreSettings: keyValueSettings):
         coreSettings.setOption("parallel-n64-boot-device", '"Default"')
         coreSettings.setOption("parallel-n64-64dd-hardware", '"disabled"')
         coreSettings.setOption("parallel-n64-gfxplugin", '"auto"')
 
     @staticmethod
     # (pc98) force the "joymode" option to have automatic joystick support.
-    def configureNPKAI(coreSettings):
+    def configureNPKAI(coreSettings: keyValueSettings):
         coreSettings.setOption("np2kai_joymode", '"Keypad"')
 
     #
@@ -43,31 +45,31 @@ class LibretroCores:
     #
 
     @staticmethod
-    def configureAmigaCDTV(coreSettings):
+    def configureAmigaCDTV(coreSettings: keyValueSettings):
         coreSettings.setOption("puae_model", '"CDTV"')
 
     @staticmethod
-    def configureAmigaCD32(coreSettings):
+    def configureAmigaCD32(coreSettings: keyValueSettings):
         coreSettings.setOption("puae_model", '"CD32"')
 
     @staticmethod
-    def configureAmiga1200(coreSettings):
+    def configureAmiga1200(coreSettings: keyValueSettings):
         coreSettings.setOption("puae_model", '"A1200"')
 
     @staticmethod
-    def configureAmiga600(coreSettings):
+    def configureAmiga600(coreSettings: keyValueSettings):
         coreSettings.setOption("puae_model", '"A600"')
 
     @staticmethod
-    def configureAmstradCPC(coreSettings):
+    def configureAmstradCPC(coreSettings: keyValueSettings):
         coreSettings.setOption("cap32_model", '"6128"')
 
     @staticmethod
-    def configureAmstradGX4000(coreSettings):
+    def configureAmstradGX4000(coreSettings: keyValueSettings):
         coreSettings.setOption("cap32_model", '"6128+"')
 
     @staticmethod
-    def configureAtari5200(coreSettings):
+    def configureAtari5200(coreSettings: keyValueSettings):
         coreSettings.setOption("atari800_system", '"5200"')
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
@@ -79,7 +81,7 @@ class LibretroCores:
         a800settings.saveFile()
 
     @staticmethod
-    def configureAtari800(coreSettings):
+    def configureAtari800(coreSettings: keyValueSettings):
         coreSettings.setOption("atari800_system", '"130XE (128K)"')
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
@@ -156,41 +158,41 @@ class LibretroCores:
         atariStSettings.saveFile()
 
     @staticmethod
-    def configure64DD(coreSettings):
+    def configure64DD(coreSettings: keyValueSettings):
         coreSettings.setOption("parallel-n64-boot-device", '"64DD IPL"')
         coreSettings.setOption("parallel-n64-64dd-hardware", '"enabled"')
         coreSettings.setOption("parallel-n64-gfxplugin", '"gln64"')
 
     @staticmethod
-    def configureSpectravideo(coreSettings):
+    def configureSpectravideo(coreSettings: keyValueSettings):
         coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
 
     @staticmethod
-    def configureMsx1(coreSettings):
+    def configureMsx1(coreSettings: keyValueSettings):
         coreSettings.setOption("bluemsx_msxtype", '"MSX"')
 
     @staticmethod
-    def configureMsx2(coreSettings):
+    def configureMsx2(coreSettings: keyValueSettings):
         coreSettings.setOption("bluemsx_msxtype", '"MSX2+"')
 
     @staticmethod
-    def configureMsxTurboR(coreSettings):
+    def configureMsxTurboR(coreSettings: keyValueSettings):
         coreSettings.setOption("bluemsx_msxtype", '"MSXturboR"')
 
     @staticmethod
-    def configureOdyssey2(coreSettings):
+    def configureOdyssey2(coreSettings: keyValueSettings):
         coreSettings.setOption("o2em_bios", '"o2rom.bin"')
 
     @staticmethod
-    def configureVideoPacPlus(coreSettings):
+    def configureVideoPacPlus(coreSettings: keyValueSettings):
         coreSettings.setOption("o2em_bios", '"g7400.bin"')
 
     @staticmethod
-    def configureSwanstation(coreSettings):
+    def configureSwanstation(coreSettings: keyValueSettings):
         coreSettings.setOption("duckstation_Controller2.Type", '"DigitalController"')
 
     @staticmethod
-    def configureGenesisPlusGxWide(coreSettings):
+    def configureGenesisPlusGxWide(coreSettings: keyValueSettings):
         from configgen.utils.videoMode import getCurrentFramebufferRatio
         ratio = getCurrentFramebufferRatio()
         currentColumns = 10
@@ -203,10 +205,8 @@ class LibretroCores:
             currentColumns = 0
         coreSettings.setOption("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
 
-
     # Fill cores configuration
     def fillCoresConfiguration(self):
-        recalbox = self.system.config
         settings = self.settings
 
         # Specific configuration handlers per core
@@ -222,7 +222,7 @@ class LibretroCores:
         }
 
         # Get handler and execute
-        core = recalbox["core"]
+        core = self.system.Core
         if core in specificCoreHandlers:
             function = specificCoreHandlers.get(core)
             function(settings)
@@ -250,6 +250,6 @@ class LibretroCores:
         }
 
         # Get handler and execute
-        if self.system.name in specificSystemHandlers:
-            function = specificSystemHandlers.get(self.system.name)
+        if self.system.Name in specificSystemHandlers:
+            function = specificSystemHandlers.get(self.system.Name)
             function(settings)

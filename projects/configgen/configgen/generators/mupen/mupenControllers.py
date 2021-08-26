@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 import os
+from typing import Dict
 from xml.dom import minidom
 from configparser import ConfigParser
-from configgen.controllersConfig import Input
+from configgen.controllersConfig import Input, Controller
 from configgen.settings.unixSettings import UnixSettings
 import configgen.recalboxFiles as recalboxFiles
 
 # Must read :
 # http://mupen64plus.org/wiki/index.php?title=Mupen64Plus_Plugin_Parameters
+from configgen.controllersConfig import ControllerDictionary
 
 mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
 Config = ConfigParser()
@@ -19,16 +21,16 @@ mupenHatToAxis = {'1': 'Up', '2': 'Right', '4': 'Down', '8': 'Left'}
 mupenDoubleAxis = {0: 'X Axis', 1: 'Y Axis'}
 
 
-def getMupenMappingFile():
+def getMupenMappingFile() -> str:
     if os.path.exists(recalboxFiles.mupenMappingUser):
         return recalboxFiles.mupenMappingUser
     else:
         return recalboxFiles.mupenMappingSystem
 
 
-def getMupenMapping():
+def getMupenMapping() -> Dict[str, str]:
     dom = minidom.parse(getMupenMappingFile())
-    dictio = dict()
+    dictio = {}
     for inputs in dom.getElementsByTagName('inputList'):
         for inp in inputs.childNodes:
             if inp.attributes:
@@ -39,7 +41,7 @@ def getMupenMapping():
 
 
 # Write a configuration for a specified controller
-def writeControllersConfig(controllers):
+def writeControllersConfig(controllers: ControllerDictionary):
     if os.path.isfile(recalboxFiles.mupenInput):
         os.remove(recalboxFiles.mupenInput)
 
@@ -51,13 +53,12 @@ def writeControllersConfig(controllers):
         writeToIni(player, config)
 
 
-def defineControllerKeys(controller):
+def defineControllerKeys(controller: Controller) -> Dict[str, str]:
     mupenmapping = getMupenMapping()
 
     # config holds the final pad configuration in the mupen style
     # ex: config['DPad U'] = "button(1)"
-    config = dict()
-    config['AnalogDeadzone'] = mupenmapping['AnalogDeadzone']
+    config = {'AnalogDeadzone': mupenmapping['AnalogDeadzone']}
 
     # Dirty hack : the inp.xml adds 2 directions per joystick, ES handles just 1
     fakeSticks = {'joystick2up': 'joystick2down',
@@ -108,7 +109,7 @@ def defineControllerKeys(controller):
     return config
 
 
-def setControllerLine(_, inp, mupenSettingName):
+def setControllerLine(_, inp: Input, mupenSettingName: str) -> str:
     value = ''
     inputType = inp.type
     if inputType == 'button':
@@ -132,7 +133,7 @@ def setControllerLine(_, inp, mupenSettingName):
     return value
 
 
-def writeToIni(controller, config):
+def writeToIni(controller: Controller, config: Dict[str, str]):
     Config.read(recalboxFiles.mupenInput)
     section = controller.realName
 

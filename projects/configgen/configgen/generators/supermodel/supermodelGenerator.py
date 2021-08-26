@@ -3,8 +3,9 @@ import platform
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.supermodel.supermodelControllers as supermodelControllers
-from Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.videoMode import *
 
@@ -15,7 +16,7 @@ class SupermodelGenerator(Generator):
 
     ## -----AUDIO-----
     @staticmethod
-    def GetMusicVolume(system):
+    def GetMusicVolume(_):
         musicVolume = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -26,7 +27,7 @@ class SupermodelGenerator(Generator):
         return musicVolume
 
     @staticmethod
-    def GetNoSound(system):
+    def GetNoSound(_):
         noSound = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -36,7 +37,7 @@ class SupermodelGenerator(Generator):
         return noSound
 
     @staticmethod
-    def GetVolume(system):
+    def GetVolume(_):
         Volume = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -46,7 +47,7 @@ class SupermodelGenerator(Generator):
         return Volume
 
     @staticmethod
-    def GetDsb(system):
+    def GetDsb(_):
         DSB = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -56,7 +57,7 @@ class SupermodelGenerator(Generator):
         return DSB
 
     @staticmethod
-    def GetFlipStereo(system):
+    def GetFlipStereo(_):
         flipStereo = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -66,20 +67,18 @@ class SupermodelGenerator(Generator):
         return flipStereo
 
     @staticmethod
-    def GetBalance(system):
+    def GetBalance(_):
         BalanceSound = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         balance = supermodelSettings.getOption("balance", "")
-        if balance == "0":
-            None
-        else:
+        if balance != "0":
             BalanceSound.append("-balance=" + balance)
         return BalanceSound
 
     ## added in version r818 define new or old sound engine 
     @staticmethod
-    def GetSoundEngine(system):
+    def GetSoundEngine(_):
         SoundEngine = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -92,7 +91,7 @@ class SupermodelGenerator(Generator):
 
     ## -----VIDEO-----
     @staticmethod
-    def GetResolution(videoConfig):
+    def GetResolution(_):
         ## get current resolution.
         reso = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
@@ -113,17 +112,15 @@ class SupermodelGenerator(Generator):
     ## added in version r835 :
     ## -wide-bg When wide-screen mode is enabled, also expand the 2D background layer to screen width
     @staticmethod
-    def GetScreenRatio(system, self):
+    def GetScreenRatio(system: Emulator):
         ratio = []
-        self.system = system
-        recalbox = self.system.config
-        if recalbox['ratio'] == "16/9":
+        if system.Ratio == "16/9":
             ratio.append("-wide-screen")
             ratio.append("-wide-bg")
         return ratio
 
     @staticmethod
-    def GetThrottle(system):
+    def GetThrottle(_):
         Throttle = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -133,7 +130,7 @@ class SupermodelGenerator(Generator):
         return Throttle
 
     @staticmethod
-    def GetMultiTexture(system):
+    def GetMultiTexture(_):
         Texture = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -145,7 +142,7 @@ class SupermodelGenerator(Generator):
         return Texture
 
     @staticmethod
-    def GetRendering(system):
+    def GetRendering(_):
         Rendering = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -155,7 +152,7 @@ class SupermodelGenerator(Generator):
         return Rendering
 
     @staticmethod
-    def GetEngine(system):
+    def GetEngine(_):
         # Set new3d engine only if have a nvidia driver else use legacy3d engine
         # Is nVidia driver on?
         arch = platform.machine()
@@ -171,7 +168,7 @@ class SupermodelGenerator(Generator):
         return [] if hasNVidia else ['-legacy3d']
 
     @staticmethod
-    def GetCrosshairs(system):
+    def GetCrosshairs(_):
         SetCrosshairs = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -196,7 +193,7 @@ class SupermodelGenerator(Generator):
 #        return ShowFps
 
     @staticmethod
-    def GetThreads(system):
+    def GetThreads(_):
         Thread = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -210,20 +207,18 @@ class SupermodelGenerator(Generator):
         return Thread
 
     @staticmethod
-    def GetPpcFrequency(system):
+    def GetPpcFrequency(_):
         PpcFrequency = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         Frequency = supermodelSettings.getOption("ppc-frequency", "")
-        if Frequency == "50":
-            None
-        else:
+        if Frequency != "50":
             PpcFrequency.append("-ppc-frequency=" + Frequency)
         return PpcFrequency
 
 ## Disabled because make crash on few games
     @staticmethod
-    def GetSavesState(system):
+    def GetSavesState(_):
         savespath = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -232,7 +227,7 @@ class SupermodelGenerator(Generator):
         return savespath
 
     @staticmethod
-    def GetLogsPath(system):
+    def GetLogsPath(_):
         logpath = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -241,7 +236,7 @@ class SupermodelGenerator(Generator):
         return logpath
 
     @staticmethod
-    def GetLogsLevel(system):
+    def GetLogsLevel(_):
         loglevel = []
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
@@ -249,13 +244,12 @@ class SupermodelGenerator(Generator):
         loglevel.append("-log-level=" + loglevelset)
         return loglevel
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
-        if not system.config['configfile']:
-
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+        if not system.HasConfigFile:
             # Controllers
-            supermodelControllers.generateControllerConfig(self, Generator, playersControllers, system)
+            supermodelControllers.generateControllerConfig(self, playersControllers)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], args.rom]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator], args.rom]
         ## add other cmd option for more configuration
         ## -----AUDIO------
         commandArray.extend(self.GetMusicVolume(system))
@@ -267,7 +261,7 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetNoSound(system))
         ## -----VIDEO------
         commandArray.extend(self.GetResolution(system))
-        commandArray.extend(self.GetScreenRatio(system, self))
+        commandArray.extend(self.GetScreenRatio(system))
         commandArray.extend(self.GetThrottle(system))
         commandArray.extend(self.GetMultiTexture(system))
         commandArray.extend(self.GetRendering(system))
@@ -281,6 +275,6 @@ class SupermodelGenerator(Generator):
         commandArray.extend(self.GetLogsPath(system))
         commandArray.extend(self.GetLogsLevel(system))
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        if system.HasArgs: commandArray.extend(system.Args)
+
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

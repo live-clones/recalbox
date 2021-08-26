@@ -1,20 +1,15 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.generators.Generator import Generator
 from configgen.generators.solarus.solarusControllers import SolarusControllers
-from settings.keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class SolarusGenerator(Generator):
 
-    IS_TRUE = ("1", "true")
-
-    def isEnabled(self, system, key):
-        recalbox = system.config
-        return key in recalbox and recalbox[key] in self.IS_TRUE
-
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
 
         """
         Load, override keys and save back emulator's configuration file
@@ -25,7 +20,7 @@ class SolarusGenerator(Generator):
         arguments = ["-fullscreen=yes", "-cursor-visible=no"]
 
         # Filtering?
-        if self.isEnabled(system, "smooth"):
+        if system.Smooth:
             arguments.append("-bilinear-filtering")
 
         # Pad configuration
@@ -35,10 +30,9 @@ class SolarusGenerator(Generator):
         # Rom
         arguments.append(args.rom)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']]]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
         commandArray.extend(arguments)
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

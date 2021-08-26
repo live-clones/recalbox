@@ -3,6 +3,7 @@ import os
 
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.controllersConfig import Input
 
 '''
 This file mimic the retroarch config, using a separate configuration file for every controller
@@ -66,13 +67,13 @@ class AmiberryRetroarchConfig:
         self.settings = keyValueSettings(os.path.join(recalboxFiles.amiberryMountPoint, "conf", self.sanitizeFilename(controller.realName) + ".cfg"), True)
 
     @staticmethod
-    def sanitizeFilename(filename):
+    def sanitizeFilename(filename: str):
         for c in ('\\', '/', ':', '?', '"', '<', '>', '|'):
             filename = filename.replace(c, '')
         return filename
 
     @staticmethod
-    def getInputValue(recalboxInput):
+    def getInputValue(recalboxInput: Input):
         if recalboxInput.type in ('button', 'key'):
             return recalboxInput.id
         if recalboxInput.type == 'axis':

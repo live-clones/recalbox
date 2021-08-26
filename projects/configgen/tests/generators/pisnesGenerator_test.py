@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='snes', videomode='1920x1080', ratio='auto', smooth='1', emulator='pisnes')
+    return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='pisnes', core='pisnes')
 
 
 @pytest.fixture

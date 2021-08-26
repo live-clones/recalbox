@@ -16,7 +16,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='dreamcast', videomode='1920x1080', ratio='auto', smooth='1', emulator='vice')
+    return Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='vice', core='vice')
 
 
 @pytest.fixture

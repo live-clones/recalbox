@@ -1,32 +1,5 @@
-#!/usr/bin/env python
-## Released version: 1.6.6
-##IMPORT STD---------------------------------------------------------------------
-import os
-import sys
-import time
-import logging
-import subprocess
-import linecache
-
-##IMPORT RECALBOX
-import configgen.recalboxFiles as recalboxFiles
-from configgen.settings.keyValueSettings import keyValueSettings
-
-##IMPORT for parsing/xml functions
-##for regular expression
-import re
-##for XML parsing
-import xml.etree.ElementTree as ET
-from xml.dom import minidom
-
-## remove "//" for robustness (if we move from HOME_INIT to HOME later)
-esLightGun = recalboxFiles.esLightGun.replace("//", "/")
-GameListFileName = recalboxFiles.GameListFileName
-
-# Information game from ES
-GAME_INFO_PATH = "/tmp/es_state.inf"
-# Key in informatiojn files
-KEY_GAME_NAME = "Game"
+#!/usr/bin/env python3
+## Released version: 1.7
 
 ##Versions history:
 ##
@@ -94,106 +67,100 @@ KEY_GAME_NAME = "Game"
 ## V1.6.4 : To change way to recalculate the indexation of mouse for retroarch (using udev database)
 ## V1.6.5 : Cleaning + deactivate log by default + to support some keyboards including mouse and identified differently by retroarch (now, we count only header values as js + input + event to anticipate indexation)
 ## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
-## V1.7 TO DO: to integrate a popup to inform about buttons to use from wiimote
+## v1.7   : Optimize
+## V1.8 TO DO: to integrate a popup to inform about buttons to use from wiimote
+from typing import Optional
 
-def Log(txt):
-    #uncomment/comment the following line to activate/desactivate additional logs on this script
-    #print(txt)
-    return 0
-    
+from configgen.Emulator import Emulator
+
+
+def Log(txt: str):
+    print("[Configgen.LightGun] " + txt)
+
 class libretroLightGun:
-    
+    from xml.etree.ElementTree import Element
+    from typing import Union
+
+    # Information game from ES
+    GAME_INFO_PATH = "/tmp/es_state.inf"
+    # Key in informatiojn files
+    KEY_GAME_NAME = "Game"
+
     # constructor
-    def __init__(self, system, rom, demo, retroarchConfig, coreConfig):
+    def __init__(self, system: Emulator, rom: str, demo: bool, retroarchConfig, coreConfig):
         # initial settings
         self.retroarchConfig = retroarchConfig
         self.coreConfig = coreConfig
-        self.system = system
-        self.rom = rom
-        self.demo = demo
-        ## init for all indexes
-        self.MouseIndexByPlayer = ["nul","nul","nul"]
+        self.system: Emulator = system
+        self.rom: str = rom
+        self.demo: bool = demo
+        self.MouseIndexByPlayer = []
+        self.__debug: bool = False
 
-    def findDolphinBarIndexes(self):
-        playerindex = 0
-        nodeindex = 0
-        ## Take order and number of mouse from udev DB
-        p = subprocess.Popen('udevadm info -e | grep /dev/input/mouse', shell=True,
-                             stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
-        output1 = p.stdout
-        for line1 in output1:
-            mousenode = line1.replace("E: DEVNAME=", "").rstrip()
-            Log('mouse node found: ' + line1.rstrip())
+    def findDolphinBarIndexes(self) -> bool:
+        # Lookup mouse sub-device in dolphin bar devices & count them
+        import pyudev
+        context = pyudev.Context()
+        deviceHandlers = {}
+        for device in context.list_devices(subsystem='input', ID_SERIAL="HJZ_Mayflash_Wiimote_PC_Adapter"):
+            if device.device_node is not None:
+                if len([link for link in device.device_links if link.find("mouse") >= 0]) != 0:
+                    sysid = device.parent.sys_number
+                    deviceHandlers[sysid] = 1 if sysid not in deviceHandlers else deviceHandlers[sysid] + 1
+                    if self.__debug: Log(str(device))
 
-            p = subprocess.Popen('cat /proc/bus/input/devices | grep -ni {}'.format(mousenode.replace("/dev/input/", "").rstrip()), shell=True,
-                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
-            output2 = p.stdout
+        # Now store mouse device indexes as required by RetroArch
+        nodeIndex = 0
+        for k, v in deviceHandlers.items():
+            self.MouseIndexByPlayer.append(nodeIndex)
+            nodeIndex = nodeIndex + v
 
-            p = subprocess.Popen('udevadm info {} | grep -ni S:'.format(mousenode), shell=True,
-                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
-            output3 = p.stdout
+        # Pad missing values
+        while len(self.MouseIndexByPlayer) < 4:
+            self.MouseIndexByPlayer.append(-1)
 
-            p = subprocess.Popen('udevadm info {} | grep -ni ID_INPUT_MOUSE'.format(mousenode), shell=True,
-                                 stdout=subprocess.PIPE, close_fds=True, encoding='utf8')
-            output4 = p.stdout
-            for line2 in output2:
-                Log('   Handlers found:' + line2.rstrip())
-                device = output3.readline().rstrip()
-                Log("   Device found : " + device)
-                id_input_mouse = output4.readline().rstrip()
-                Log("   Mouse found : " + id_input_mouse)
+        return len(self.MouseIndexByPlayer) != 0
 
-                #searh dolphin bar
-                if (re.search("Mayflash_Wiimote_PC_Adapter",device)):
-                    self.MouseIndexByPlayer[playerindex] = str(nodeindex)
-                    Log('           Player : ' + str(playerindex+1))
-                    Log('           Mouse Index for Retroarch/UDEV : ' + self.MouseIndexByPlayer[playerindex])
-                    playerindex = playerindex + 1
-
-                #count number of nodes found for the same devices    
-                #we count spaces finally to know number of nodes
-                #and only for MOUSE identified (and not TOUCHPAD for example)
-                if(re.search("ID_INPUT_MOUSE=1",id_input_mouse)):
-                    number_nodes_found = line2.rstrip().count('js') + line2.rstrip().count('event') + line2.rstrip().count('mouse')
-                    nodeindex = nodeindex + number_nodes_found
-                else:
-                    Log("   WARNING: It's not considered as usual mouse by retroarch using udev : ignored in the count of mouse index")
-                Log("") #to jump one line in log
-
-    #find game name from /tmp/es_state.inf 
-    def getGameNameFromESState(self):
-        gameInfo = keyValueSettings(GAME_INFO_PATH, False)
+    # Find game name from /tmp/es_state.inf
+    def getGameNameFromESState(self) -> str:
+        from configgen.settings.keyValueSettings import keyValueSettings
+        gameInfo = keyValueSettings(libretroLightGun.GAME_INFO_PATH, False)
         gameInfo.loadFile(True)
-        game_name = gameInfo.getOption(KEY_GAME_NAME, "Unknown")
+        gameName = gameInfo.getOption(libretroLightGun.KEY_GAME_NAME, "")
         del gameInfo
-        if game_name != '':
-            Log('Game name found, the game name is :' + game_name)
+        if gameName != '':
+            if self.__debug: Log('Game name found, the game name is :' + gameName)
+            pass
         else:
-            Log('System/Game name are not set properly from gamelist/from ES or may be not scrapped ? or empty name ? the game name content is empty ')
-        return game_name
+            import os
+            gameName = os.path.splitext(os.path.basename(self.rom))[0]
+            if self.__debug: Log('System/Game name are not set properly from gamelist/from ES or may be not scrapped ? or empty name ? the game name content is empty ')
+        return gameName
 
-    #set inputs depedening of keyword set or simple value
-    def SetInputs(self,name,value):
-        Log('    ' + name + ' = ' + value)
-        if ("gunp" in value.lower()):
-            index = int(value.lower().strip().split('gunp')[1])-1
+    #set inputs depending of keyword set or simple value
+    def SetInputs(self, name: str, value: str):
+        if self.__debug: Log('    ' + name + ' = ' + value)
+        value = value.strip().lower()
+        if "gunp" in value:
+            index = int(value[4:]) - 1
             ##update value with mouse index of gun for this player
-            value = self.MouseIndexByPlayer[index]
-            if (value == "nul"):
-                value = "99" ##to avoid to take nul value as "0" default value
-                Log('       value set to "99" to avoid issue if we put "nul" !')
-            Log('       updated with Mouse Index: ' + name + ' = ' + value)
-        self.retroarchConfig.setOption(name,value)
+            ivalue: int = self.MouseIndexByPlayer[index]
+            if ivalue < 0:
+                ivalue = 99 ## avoid to take nul value as "0" default value
+                if self.__debug: Log('       value set to "99" to avoid issue if we put "nul" !')
+            value = str(ivalue)
+            if self.__debug: Log('       updated with Mouse Index: ' + name + ' = ' + value)
+        self.retroarchConfig.setOption(name, value)
 
     #to cancel input device (parameter "input_libretro_device_pX") if the corresponding "input_playerX_mouse_index" is already set to 99 by SetInputs function
     def CancelDevicesNotUsed(self):
         for i in range(4):
             value = "0"
-            value = self.retroarchConfig.getOption("input_player" + str(i) + "_mouse_index",value)
+            value = self.retroarchConfig.getOption("input_player" + str(i) + "_mouse_index", value)
             #check if we identified this index as not necessary
-            if(value == "99"):
-                Log('Mouse index cancelled: ' + "input_player" + str(i) + "_mouse_index" + ' = ' + value)
-                Log('Device cancelled and options linked: ' + "input_libretro_device_p" + str(i) + ' = ' + '0')
+            if value == "99":
+                if self.__debug: Log('Mouse index cancelled: ' + "input_player" + str(i) + "_mouse_index" + ' = ' + value)
+                if self.__debug: Log('Device cancelled and options linked: ' + "input_libretro_device_p" + str(i) + ' = ' + '0')
                 self.retroarchConfig.setOption("input_libretro_device_p" + str(i),"0")
                 self.retroarchConfig.setOption("input_player" + str(i) + "_gun_start","nul")
                 self.retroarchConfig.setOption("input_player" + str(i) + "_gun_select","nul")
@@ -204,181 +171,181 @@ class libretroLightGun:
                 self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_right","nul")
                 self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_left","nul")
 
+    @staticmethod
+    def LookupPlatform(root: Element, name: str) -> [Optional[Element], Optional[Element]]:
+        for child in root.iter('system'):
+            for platform in child.iter('platform'):
+                if platform.text == name:
+                    return platform, child
+        return None, None
+
+    def SetOptionsFromNode(self, optionNode: Element):
+        if optionNode is not None:
+            for string in optionNode.iter('string'):
+                if self.__debug: Log('    ' + string.attrib["name"] + ' = ' + string.attrib["value"])
+                self.coreConfig.setOption(string.attrib["name"], '"' + string.attrib["value"] + '"')
+
+    def SetInputsFromNode(self, inputNode: Element):
+        if inputNode is not None:
+            for string in inputNode.iter('string'):
+                self.SetInputs(string.attrib["name"], string.attrib["value"])
+
+    def GetCoreFromNode(self, emulatorNode: Element) -> [Optional[Element], Optional[Element]]:
+        coreNode = None
+        if emulatorNode is not None:
+            if self.__debug: Log('Games Emulator found: ' + emulatorNode.attrib["name"])
+            coreNode = emulatorNode.find('core')
+            if coreNode is not None:
+                if self.__debug: Log('Games Core found: ' + coreNode.text)
+        return emulatorNode, coreNode
+
     # Load all configurations from the lightgun.cfg
-    def SetLightGunConfig(self, system_name,game_name):
-        if(game_name == ''):        
-            Log('Game name empty, Not Configured !!!')
-            return 'Not configured'
-        systems = dict()
-        tree = ET.parse(esLightGun)
+    def SetLightGunConfig(self, system_name: str, game_name: str) -> bool:
+        if game_name == '':
+            if self.__debug: Log('Game name empty, Not Configured !!!')
+            return False
+
+        import xml.etree.ElementTree as ET
+        import configgen.recalboxFiles as recalboxFiles
+        tree = ET.parse(recalboxFiles.esLightGun)
         root = tree.getroot()
         
-        ##rom name cleaning (to be lower case and keep only alphanumeric characters):
-        game_name=game_name.lower()
-        game_name = re.sub(r'[^a-z0-9!]+', '', game_name)
-        
-        ##save lightgun dedicated emulator & core
-        Log('selected emulator by user:' + self.system.config['emulator'])
-        Log('selected core by user:' + self.system.config['core'])
-                    
-        ##1) first step check if system and game is supporting lightgun or not
-        for child in root:
-            if child.tag == 'system':
-                for platform in child.iter('platform'):
-                    if platform.text == system_name:
-                        Log('System found: ' + platform.text)
-                        emulator = child.find('emulator')
-                        Log('Emulator found in system: ' + emulator.attrib["name"])
-                        core = emulator.find('core')
-                        Log('Core found in system: ' + core.text)
-                        if ((platform.text == "mame") and (core.text == self.system.config['core'])) or (platform.text != "mame"):
-                            Log('Need to find this game: ' + game_name)
-                            for games in child.iter('games'):
-                                ##initial value for matching follow-up
-                                best_matching_lenght = 0
-                                best_matching_game_name = ""
-                                for game in games.iter('game'):
-                                    game_pattern = game.find('name')
-                                    ##as optional we have to avoid error if doesn't exist or empty
-                                    tested = ""
-                                    if 'tested' in game.attrib:
-                                        tested = game.attrib["tested"]
-                                    if re.search(game_pattern.text,game_name) and (tested != "nok") :
-                                        #a matching found
-                                        #keep matching to check if best one exist (to manage better case of a game and its versions ;-)
-                                        Log('Pattern that match with game name: ' + game_pattern.text)
-                                        if best_matching_lenght < len(game_pattern.text):
-                                            best_matching_lenght = len(game_pattern.text)
-                                            best_matching_game_name = game_pattern.text
-                                            best_matching_game = game
-                                            
-                                if best_matching_lenght != 0:
-                                    Log('Game name best match with pattern: ' + best_matching_game_name)
-                                    ## now that we are sure to have a matching, we could get the common part
-                                    ## Mandatory under the root
-                                    common_inputs = root.find('common_inputs')
-                                    Log('Common inputs part found to put in retroarchcustom.cfg:')
-                                    for string in common_inputs.iter('string'):
-                                        self.SetInputs(string.attrib["name"],string.attrib["value"])
-                                    
-                                    ## Optional under the root
-                                    common_options = root.find('common_options')
-                                    Log('Common options part found to put in retroarch-core-options.cfg:')
-                                    for string in common_options.iter('string'):
-                                        Log('    ' + string.attrib["name"]+ ' = ' + string.attrib["value"])
-                                        self.coreConfig.setOption(string.attrib["name"],string.attrib["value"])
-                                    
-                                    ## we could get also the inputs from system
-                                    ## optional by sytem
-                                    Log('System inputs to put in retroarchcustom.cfg :')
-                                    inputs = child.find('inputs')
-                                    if inputs is not None:
-                                        for string in inputs.iter('string'):
-                                            self.SetInputs(string.attrib["name"],string.attrib["value"])
-                                    
-                                    ## we could get also the options from system
-                                    ## optional by sytem
-                                    Log('System options to put in retroarch-core-options.cfg :')
-                                    options = child.find('options')
-                                    if options is not None:
-                                        for string in options.iter('string'):
-                                            Log('    ' + string.attrib["name"]+ ' = ' + string.attrib["value"])	
-                                            self.coreConfig.setOption(string.attrib["name"],'"' + string.attrib["value"] + '"')
-                                                                    
-                                    ## now that we are sure to have a matching, we could get the emulator part first
-                                    ## optional by games
-                                    emulator_games = games.find('emulator')
-                                    if emulator_games is not None:
-                                        Log('Games Emulator found: ' + emulator_games.attrib["name"])
-                                        emulator = emulator_games
-                                        core_games = emulator.find('core')
-                                        if core_games is not None:
-                                            Log('Games Core found: ' + core_games.text)
-                                            core = core_games
-                                    
-                                    ## we could get also the inputs from games
-                                    ## optional by games
-                                    Log('Games inputs to put in retroarchcustom.cfg :')
-                                    inputs = games.find('inputs')
-                                    if inputs is not None:
-                                        for string in inputs.iter('string'):
-                                            self.SetInputs(string.attrib["name"],string.attrib["value"])
-                                    
-                                    ## we could get also the options from games
-                                    ## optional by games
-                                    Log('Games options to put in retroarch-core-options.cfg :')
-                                    options = games.find('options')
-                                    if options is not None:
-                                        for string in options.iter('string'):
-                                            Log('    ' + string.attrib["name"]+ ' = ' + string.attrib["value"])	
-                                            self.coreConfig.setOption(string.attrib["name"],'"' + string.attrib["value"] + '"')
-                                    
-                                    ## Now for best matching game, we could get the inputs
-                                    ## optional by game
-                                    inputs = best_matching_game.find('inputs')
-                                    Log('Game inputs to put in retroarchcustom.cfg :')
-                                    if inputs is not None:
-                                        for string in inputs.iter('string'):
-                                            self.SetInputs(string.attrib["name"],string.attrib["value"])
-                                    
-                                    ## and we could get also the options
-                                    ## optional by game
-                                    options = best_matching_game.find('options')
-                                    Log('Game options to put in retroarch-core-options.cfg :')
-                                    if options is not None:
-                                        for string in options.iter('string'):
-                                            Log('    ' + string.attrib["name"]+ ' = ' + string.attrib["value"])
-                                            self.coreConfig.setOption(string.attrib["name"],'"' + string.attrib["value"] + '"')
-                                    
-                                    ## and finally we could also have a specific emulator/core for a game
-                                    ## optional by game
-                                    emulator_game = best_matching_game.find('emulator')
-                                    if emulator_game is not None:
-                                        Log('Game Emulator found: ' + emulator_game.attrib["name"])
-                                        emulator = emulator_game
-                                        core_game = emulator.find('core')
-                                        if core_game is not None:
-                                            Log('Game Core found: ' + core_game.text)
-                                            core = core_game
-                                    ##Cancel Devices where mouse index is finally not set (no enough dolphinbar)
-                                    self.CancelDevicesNotUsed()
-                                    ##save both configurations
-                                    self.retroarchConfig.saveFile()
-                                    self.coreConfig.saveFile()
-                                    ##save lightgun dedicated emulator & core
-                                    self.system.config['emulator'] = emulator.attrib["name"]
-                                    self.system.config['core'] = core.text
-                                    Log('Emulator value :' + self.system.config['emulator'])
-                                    Log('Core value :' + self.system.config['core'])
-                                    Log('Configured')
-                                    return 'configured'
-                                else:
-                                    Log('Not Yet Configured')
-        Log('Not Configured !!!')                    
-        return 'Not configured'
+        ## Rom name cleaning (to be lower case and keep only alphanumeric characters):
+        game_name = "".join([c for c in game_name.lower() if c in 'abcdefghijklmnopqrstuvwxyz0123456789'])
 
-    def createLightGunConfiguration(self):
-        Log('system: ' + self.system.name)
-        Log('rom: ' + self.rom)
+        ## Save lightgun dedicated emulator & core
+        if self.__debug: Log('selected emulator by user:' + self.system.Emulator)
+        if self.__debug: Log('selected core by user:' + self.system.Core)
+                    
+        ## 1) first step check if system and game is supporting lightgun or not
+        platform, system = self.LookupPlatform(root, system_name)
+        if platform is None:
+            if self.__debug: Log('Platform {} not found'.format(system_name))
+            return False
+        if self.__debug: Log('System found: ' + platform.text)
+
+        if ((platform.text == "mame") and (core.text == self.system.Core)) or (platform.text != "mame"):
+            if self.__debug: Log('Need to find this game: ' + game_name)
+            for games in system.iter('games'):
+                ##initial value for matching follow-up
+                best_matching_lenght = 0
+                best_matching_game_name = ""
+                best_matching_game = None
+                for game in games.iter('game'):
+                    game_pattern = game.find('name')
+                    ##as optional we have to avoid error if doesn't exist or empty
+                    tested = game.attrib["tested"] if 'tested' in game.attrib else ""
+                    if game_name.find(game_pattern.text) >= 0 and (tested != "nok"):
+                        #a matching found
+                        #keep matching to check if best one exist (to manage better case of a game and its versions ;-)
+                        if self.__debug: Log('Pattern that match with game name: ' + game_pattern.text)
+                        if best_matching_lenght < len(game_pattern.text):
+                            best_matching_lenght = len(game_pattern.text)
+                            best_matching_game_name = game_pattern.text
+                            best_matching_game = game
+
+                if best_matching_game is not None:
+                    if self.__debug: Log('Lookup default emulator/core')
+                    emulator, core = self.GetCoreFromNode(system.find('emulator'))
+                    if self.__debug:
+                        Log('Emulator found in system: ' + emulator.attrib["name"])
+                        Log('Core found in system: ' + core.text)
+
+                    if self.__debug: Log('Game name best match with pattern: ' + best_matching_game_name)
+                    ## now that we are sure to have a matching, we could get the common part
+                    ## Mandatory under the root
+                    if self.__debug: Log('Common inputs part found to put in retroarchcustom.cfg:')
+                    self.SetInputsFromNode(root.find('common_inputs'))
+
+                    ## Optional under the root
+                    if self.__debug: Log('Common options part found to put in retroarch-core-options.cfg:')
+                    self.SetOptionsFromNode(root.find('common_options'))
+
+                    ## we could get also the inputs from system
+                    ## optional by sytem
+                    if self.__debug: Log('System inputs to put in retroarchcustom.cfg :')
+                    self.SetInputsFromNode(system.find('inputs'))
+
+                    ## we could get also the options from system
+                    ## optional by sytem
+                    if self.__debug: Log('System options to put in retroarch-core-options.cfg :')
+                    self.SetOptionsFromNode(system.find('options'))
+
+                    ## now that we are sure to have a matching, we could get the emulator part first
+                    ## optional by games
+                    emulatorNode, coreNode = self.GetCoreFromNode(games.find('emulator'))
+                    if emulatorNode is not None: emulator = emulatorNode
+                    if coreNode is not None: core = coreNode
+
+                    ## we could get also the inputs from games
+                    ## optional by games
+                    if self.__debug: Log('Games inputs to put in retroarchcustom.cfg :')
+                    self.SetInputsFromNode(games.find('inputs'))
+
+                    ## we could get also the options from games
+                    ## optional by games
+                    if self.__debug: Log('Games options to put in retroarch-core-options.cfg :')
+                    self.SetOptionsFromNode(games.find('options'))
+
+                    ## Now for best matching game, we could get the inputs
+                    ## optional by game
+                    if self.__debug: Log('Game inputs to put in retroarchcustom.cfg :')
+                    self.SetInputsFromNode(best_matching_game.find('inputs'))
+
+                    ## and we could get also the options
+                    ## optional by game
+                    if self.__debug: Log('Game options to put in retroarch-core-options.cfg :')
+                    self.SetOptionsFromNode(best_matching_game.find('options'))
+
+                    ## and finally we could also have a specific emulator/core for a game
+                    ## optional by game
+                    emulatorNode, coreNode = self.GetCoreFromNode(best_matching_game.find('emulator'))
+                    if emulatorNode is not None: emulator = emulatorNode
+                    if coreNode is not None: core = coreNode
+
+                    ##Cancel Devices where mouse index is finally not set (no enough dolphinbar)
+                    self.CancelDevicesNotUsed()
+
+                    ##save both configurations
+                    self.retroarchConfig.saveFile()
+                    self.coreConfig.saveFile()
+
+                    ##save lightgun dedicated emulator & core
+                    self.system.ChangeEmulatorAndCore(emulator.attrib["name"], core.text)
+                    if self.__debug:
+                        Log('Emulator value :' + self.system.Emulator)
+                        Log('Core value :' + self.system.Core)
+                        Log('Configured')
+                    return True
+
+                if self.__debug: Log('Not Yet Configured')
+
+        if self.__debug: Log('Not Configured !!!')
+        return False
+
+    def createLightGunConfiguration(self) -> bool:
+        if self.__debug: Log('system: ' + self.system.Name)
+        if self.__debug: Log('rom: ' + self.rom)
         
         ## to check if Mayflash_Wiimote_PC_Adapter exists and get mouse indexes
-        self.findDolphinBarIndexes()
-        if self.MouseIndexByPlayer[0] == "nul":
+        if not self.findDolphinBarIndexes():
             ##no dolphin bar found, no need to overload configuration in this case
-            Log('No dolphin bar found !!!')
-            Log('Not Configured !!!')                    
-            return 'Not configured'
+            if self.__debug: Log('No dolphin bar found !!!')
+            if self.__debug: Log('Not Configured !!!')
+            return False
         
         ## to check if lightgun.cfg exists or not
-        if os.path.exists(esLightGun) == False:
+        import os
+        import configgen.recalboxFiles as recalboxFiles
+        if not os.path.exists(recalboxFiles.esLightGun):
             ##no xml configuration file found for lightgun
-            Log('No lightgun.cfg xml file found !!!')
-            Log('Not Configured !!!')                    
-            return 'Not configured'
+            if self.__debug: Log('No lightgun.cfg xml file found !!!')
+            if self.__debug: Log('Not Configured !!!')
+            return False
 
         ## get file name from es_state.inf file
         game_name = self.getGameNameFromESState()
 
         ## set LightGun Configuration for the game selected
-        result = self.SetLightGunConfig(self.system.name,game_name)
+        result: bool = self.SetLightGunConfig(self.system.Name, game_name)
         return result

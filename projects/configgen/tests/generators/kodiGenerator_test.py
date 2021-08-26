@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='kodi', videomode='1920x1080', ratio='auto', smooth='1', emulator='kodi')
+    return Emulator(name='kodi', videoMode='1920x1080', ratio='auto', emulator='kodi', core='kodi')
 
 
 @pytest.fixture

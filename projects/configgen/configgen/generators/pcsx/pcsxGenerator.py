@@ -1,9 +1,11 @@
 import os
+from typing import List
+
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
-from Emulator import Emulator
+from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerDictionary
-from settings import keyValueSettings
+from configgen.settings import keyValueSettings
 
 
 class PcsxGenerator(Generator):
@@ -24,7 +26,7 @@ class PcsxGenerator(Generator):
 
 
     @staticmethod
-    def Loadconfiguration():
+    def Loadconfiguration() -> List[str]:
         # Load configuration without 'bind...' lines
         config = []
         try:
@@ -39,7 +41,7 @@ class PcsxGenerator(Generator):
 
 
     @staticmethod
-    def SaveConfiguration(config):
+    def SaveConfiguration(config: List[str]):
         # Force path creation
         configPath = os.path.dirname(recalboxFiles.pcsxConfigFile)
         if not os.path.exists(configPath):
@@ -52,11 +54,11 @@ class PcsxGenerator(Generator):
 
 
     @staticmethod
-    def ButtonChar(button):
+    def ButtonChar(button: str):
         return '\\' + hex(int(button) + 0xA0)[1:]
 
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
 
         config = PcsxGenerator.Loadconfiguration()
 
@@ -76,9 +78,8 @@ class PcsxGenerator(Generator):
 
         PcsxGenerator.SaveConfiguration(config)
 
-        commandArray = [recalboxFiles.recalboxBins[system.config['emulator']], "-cdfile", args.rom]
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator], "-cdfile", args.rom]
 
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command.Command(videomode=system.VideoMode, array=commandArray)

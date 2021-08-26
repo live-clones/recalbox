@@ -20,8 +20,7 @@ class TestAdvancemameGenerator(unittest.TestCase):
         advMameGenerator.recalboxFiles.advancemameConfigmOrigin = ADVMAME_ORIGIN_CFG_FILE
         advMameGenerator.advMameControllers.recalboxFiles.advancemameConfigOrigin = ADVMAME_ORIGIN_CFG_FILE
         self.emulator = AdvMameGenerator()
-        self.system = Emulator(name='advancemame', videomode='16', ratio='auto', smooth='1', emulator='advancemame')
-        self.system.config["integerscale"] = 0
+        self.system = Emulator(name='advancemame', videoMode='16', ratio='auto', emulator='advancemame', core='advancemame')
         # Cloning config files
         shutil.copyfile(ADVMAME_ORIGIN_CFG_FILE, ADVMAME_CUSTOM_CFG_FILE)
 

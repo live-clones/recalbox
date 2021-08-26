@@ -18,7 +18,7 @@ def emulator():
 
 @pytest.fixture
 def system():
-    return Emulator(name='oricatmos', videomode='1920x1080', ratio='auto', smooth='1', emulator='oricutron')
+    return Emulator(name='oricatmos', videoMode='1920x1080', ratio='auto', emulator='oricutron', core='oricutron')
 
 
 @pytest.fixture

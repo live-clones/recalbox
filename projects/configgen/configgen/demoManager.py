@@ -2,6 +2,7 @@
 import threading
 import os
 import struct
+from typing import List, Optional, IO
 
 from configgen.demoInfo import demoInformation
 

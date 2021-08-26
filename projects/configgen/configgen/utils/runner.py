@@ -46,7 +46,7 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     demo = None
     if args.demo:
         print("Running demo manager")
-        import demoManager
+        from configgen import demoManager
         demo = demoManager.DemoManager(proc, args, demoStartButtons)
 
     exitcode = -1

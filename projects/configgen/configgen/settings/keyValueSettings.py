@@ -2,8 +2,8 @@
 
 
 class keyValueSettings:
-    def __init__(self, settingsFile, extraSpaces = False):
-        self.settingsFile = settingsFile
+    def __init__(self, settingsFile: str, extraSpaces = False):
+        self.settingsFile: str = settingsFile
         self.settings = dict()
         self.extraSpaces = extraSpaces # Allow 'key = value' instead of 'key=value' on writing.
 
@@ -21,8 +21,8 @@ class keyValueSettings:
     def changeSettingsFile(self, newfilename):
         self.settingsFile = newfilename
 
-    def getSettingsFile(self):
-        return self.settingsFile
+    @property
+    def SettingsFile(self) -> str: return self.settingsFile
 
     def getOption(self, key, default):
         if key in self.settings:

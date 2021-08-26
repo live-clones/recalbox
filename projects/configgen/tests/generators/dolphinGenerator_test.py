@@ -25,12 +25,12 @@ def emulator():
 
 @pytest.fixture
 def system_wii():
-    return Emulator(name='wii', videomode='1920x1080', ratio='auto', smooth='1', emulator='dolphin')
+    return Emulator(name='wii', videoMode='1920x1080', ratio='auto', emulator='dolphin', core='dolphin')
 
 
 @pytest.fixture
 def system_gamecube():
-    return Emulator(name='gamecube', videomode='1920x1080', ratio='auto', smooth='1', emulator='dolphin')
+    return Emulator(name='gamecube', videoMode='1920x1080', ratio='auto', emulator='dolphin', core='dolphin')
 
 
 @pytest.fixture

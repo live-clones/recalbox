@@ -1,20 +1,17 @@
 from abc import ABCMeta, abstractmethod
-from typing import Dict
 
-from Emulator import Emulator
-from controllersConfig import Controller
-from settings.keyValueSettings import keyValueSettings
-
-# Type def for convenience
-ControllerDictionary = Dict[str, Controller]
+from configgen.Command import Command
+from configgen.Emulator import Emulator
+from configgen.controllersConfig import ControllerDictionary
+from configgen.settings.keyValueSettings import keyValueSettings
 
 class Generator(object):
     __metaclass__ = ABCMeta
     @abstractmethod
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
         pass
     
     #@abstractmethod
-    def config_upgrade(self, version):
+    def config_upgrade(self, version: str):
         print("{} does not support configuration upgrade yet".format(self.__class__.__name__))
         return False

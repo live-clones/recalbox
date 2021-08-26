@@ -1,15 +1,8 @@
 #!/usr/bin/env python
-
-import json
-
 import os
 import shutil
-import sys
 import unittest
 import configgen.controllersConfig as controllersConfig
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 shutil.copyfile(os.path.abspath(os.path.join(os.path.dirname(__file__), "resources/es_input.cfg.origin")),
                 os.path.abspath(os.path.join(os.path.dirname(__file__), "resources/es_input.cfg")))

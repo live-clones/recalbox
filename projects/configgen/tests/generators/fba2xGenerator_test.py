@@ -22,7 +22,7 @@ class TestFBAGenerator(unittest.TestCase):
         fba2xGenerator.fba2xConfig.fbaSettings = unixSettings.UnixSettings(FBA2X_CUSTOM_CFG_FILE)
         fba2xGenerator.fba2xControllers.fbaSettings = unixSettings.UnixSettings(FBA2X_CUSTOM_CFG_FILE)
         self.fba2xGen = Fba2xGenerator()
-        self.system = Emulator(name='fba', videomode='4', ratio='auto', smooth='1', emulator='fba2x')
+        self.system = Emulator(name='fba', videoMode='4', ratio='auto', emulator='fba2x', core='fba2x')
         # Cloning config files
         shutil.copyfile(FBA2X_ORIGIN_CFG_FILE, FBA2X_CUSTOM_CFG_FILE)
 

@@ -2,6 +2,7 @@
 import pytest
 
 import configgen.emulatorlauncher as emulatorlauncher
+from configgen.Emulator import Emulator
 
 
 class FakeArguments:
@@ -25,13 +26,13 @@ class FakeArguments:
 
 
 @pytest.mark.parametrize(
-    "emulator",
+    'emulator',
     [
-        ("libretro"), ("mupen64plus"), ("reicast"), ("dolphin"), ("ppsspp"),
-        ("amiberry"), ("daphne"), ("scummvm"), ("dosbox"), ("advancemame"),
-        ("simcoupe"), ("gsplus"), ("oricutron"), ("linapple"), ("kodi"),
-        ("fba2x"), ("moonlight"), ("vice"), ("pcsx_rearmed"), ("openbor"),
-        ("solarus"), ("pisnes"), ("supermodel")
+        "libretro", "mupen64plus", "reicast",   "dolphin",      "ppsspp",
+        "amiberry", "daphne",      "scummvm",   "dosbox",       "advancemame",
+        "simcoupe", "gsplus",      "oricutron", "linapple",     "kodi",
+        "fba2x",    "moonlight",   "vice",      "pcsx_rearmed", "openbor",
+        "solarus",  "pisnes",      "supermodel"
     ],
 )
 def test_getGenerator(emulator):
@@ -42,14 +43,14 @@ def test_getGenerator(emulator):
 @pytest.mark.parametrize(
     "targetsystem,emulator",
     [
-        ("3ds", {"emulator": "libretro", "core": "citra_canary"}),
-        ("64dd", {"emulator": "libretro", "core": "parallel_n64"}),
+        ("3ds", {'emulator': "libretro", 'core': "citra_canary"}),
+        ("64dd", {'emulator': "libretro", 'core': "parallel_n64"}),
     ],
 )
 def test_getDefaultEmulator(targetsystem, emulator):
-    default_emulator = emulatorlauncher.getDefaultEmulator(targetsystem)
-    assert default_emulator.config["core"] == emulator["core"]
-    assert default_emulator.config["emulator"] == emulator["emulator"]
+    default_emulator: Emulator = emulatorlauncher.getDefaultEmulator(targetsystem, emulator['emulator'], emulator['core'])
+    assert default_emulator.Core == emulator['core']
+    assert default_emulator.Emulator == emulator['emulator']
 
 
 def test_main(mocker):

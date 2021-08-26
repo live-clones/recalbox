@@ -1,54 +1,34 @@
 #!/usr/bin/env python
-import sys
-import os
+from typing import Dict
+
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Emulator import Emulator
 from configgen.settings.unixSettings import UnixSettings
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-
 
 fbaSettings = UnixSettings(recalboxFiles.fbaCustom)
 
 # return true if the option is considered enabled (for boolean options)
-def enabled(key, dictio):
-    return key in dictio and (dictio[key] == '1' or dictio[key] == 'true')
-
+def enabled(key: str, dictio: Dict[str, str]):
+    return key in dictio and dictio[key] in ('1', 'true')
 
 # return true if the option is considered defined
-def defined(key, dictio):
+def defined(key: str, dictio: Dict[str, str]):
     return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
 
+def writeFBAConfigToFile(config: Dict[str, str]):
+    for setting in config:
+        fbaSettings.save(setting, config[setting])
 
-ratioIndexes = {'16/9': '0', '4/3': '1'}
-
-
-def writeFBAConfig(system):
+def writeFBAConfig(system: Emulator):
     writeFBAConfigToFile(createFBAConfig(system))
 
-
 # take a system, and returns a dict of retroarch.cfg compatible parameters
-def createFBAConfig(system):
+def createFBAConfig(system: Emulator) -> Dict[str, str]:
+    ratioIndexes = { '16/9': '0', '4/3': '1' }
     fbaConfig = dict()
-    recalboxConfig = system.config
-    if enabled('smooth', recalboxConfig):
-        fbaConfig['DisplaySmoothStretch'] = '1'
-    else:
-        fbaConfig['DisplaySmoothStretch'] = '0'
-
-    if defined('ratio', recalboxConfig) and recalboxConfig['ratio'] in ratioIndexes:
-        fbaConfig['MaintainAspectRatio'] = ratioIndexes[recalboxConfig['ratio']]
-    else:
-        fbaConfig['MaintainAspectRatio'] = '1'
-
-    if defined('shaders', recalboxConfig) and recalboxConfig['shaders'] == 'scanlines':
-        fbaConfig['DisplayEffect'] = '1'
-    else :
-        fbaConfig['DisplayEffect'] = '0'
+    fbaConfig['DisplaySmoothStretch'] = '1' if system.Smooth else '0'
+    fbaConfig['MaintainAspectRatio'] = ratioIndexes[system.Ratio] if system.Ratio in ratioIndexes else '1'
+    fbaConfig['DisplayEffect'] = '1' if system.ShaderSet == 'scanlines' else '0'
 
     return fbaConfig
 
-
-def writeFBAConfigToFile(config):
-    for setting in config:
-        fbaSettings.save(setting, config[setting])
