@@ -19,7 +19,7 @@ def system():
     return Emulator(name='dos', videoMode='1920x1080', ratio='auto', emulator='dosbox', core='dosbox')
 
 
-def test_simple_generate(emulator, system, mocker):
+def test_simple_generate(emulator, system):
     command = emulator.generate(system, dict(), keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == 'default'
     assert command.array == ['/usr/bin/dosbox', '-userconf', '-fullscreen',

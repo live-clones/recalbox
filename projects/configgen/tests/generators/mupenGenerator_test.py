@@ -4,9 +4,9 @@ import shutil
 from configgen.Emulator import Emulator
 import configgen.generators.mupen.mupenControllers as mupenControllers
 import configgen.generators.mupen.mupenConfig as mupenConfig
+from configgen.generators.mupen import mupenGenerator
 from configgen.generators.mupen.mupenGenerator import MupenGenerator
 from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.settings.unixSettings import UnixSettings
 
 import configgen.controllersConfig as controllersConfig
 
@@ -15,9 +15,8 @@ from tests.generators.FakeArguments import Arguments
 
 @pytest.fixture
 def emulator():
-    #mupenGenerator.recalboxFiles.mupenCustom = 'tests/tmp/mupen64plus.cfg'
-    #mupenConfig.recalboxFiles.mupenCustom = 'tests/tmp/mupen64plus.cfg'
-    mupenConfig.mupenSettings = UnixSettings('tests/tmp/mupen64plus.cfg', separator=' ')
+    mupenGenerator.recalboxFiles.mupenCustom = 'tests/tmp/mupen64plus.cfg'
+    mupenConfig.recalboxFiles.mupenCustom = 'tests/tmp/mupen64plus.cfg'
     mupenControllers.recalboxFiles.mupenMappingSystem = 'tests/tmp/mupen64plus-input.xml'
     mupenControllers.recalboxFiles.mupenInput = 'tests/tmp/mupen64plus-InputAutoCfg.ini'
     shutil.copyfile('tests/resources/input.xml', 'tests/tmp/mupen64plus-input.xml')
@@ -44,7 +43,7 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_mupen_gliden64(emulator, system_gliden64, mocker, controller_configuration):
+def test_simple_generate_mupen_gliden64(emulator, system_gliden64, controller_configuration):
     command = emulator.generate(system_gliden64, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.n64'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/mupen64plus', '--corelib', '/usr/lib/libmupen64plus.so.2.0.0',

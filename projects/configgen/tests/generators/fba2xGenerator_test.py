@@ -3,7 +3,6 @@
 import shutil
 import unittest
 from configgen.Emulator import Emulator
-import configgen.settings.unixSettings as unixSettings
 import configgen.generators.fba2x.fba2xGenerator as fba2xGenerator
 from configgen.generators.fba2x.fba2xGenerator import Fba2xGenerator
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -19,8 +18,6 @@ class TestFBAGenerator(unittest.TestCase):
         # Injecting test file
         fba2xGenerator.recalboxFiles.fbaCustom = FBA2X_CUSTOM_CFG_FILE
         fba2xGenerator.recalboxFiles.fbaCustomOrigin = FBA2X_ORIGIN_CFG_FILE
-        fba2xGenerator.fba2xConfig.fbaSettings = unixSettings.UnixSettings(FBA2X_CUSTOM_CFG_FILE)
-        fba2xGenerator.fba2xControllers.fbaSettings = unixSettings.UnixSettings(FBA2X_CUSTOM_CFG_FILE)
         self.fba2xGen = Fba2xGenerator()
         self.system = Emulator(name='fba', videoMode='4', ratio='auto', emulator='fba2x', core='fba2x')
         # Cloning config files

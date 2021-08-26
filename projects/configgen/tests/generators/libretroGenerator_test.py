@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import shutil
 import pytest
 from configgen.Emulator import Emulator
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
@@ -20,40 +21,18 @@ def emulator():
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
     libretroLightGuns.esLightGun = 'tests/resources/lightgun.cfg'
     libretroLightGuns.GAME_INFO_PATH = 'tests/resources/es_state.inf'
-    """fake_process.register_subprocess(
-        "udevadm info -e | grep /dev/input/mouse", stdout=["E: DEVNAME=/dev/input/mouse0"]
-    )
-    fake_process.register_subprocess(
-        "cat /proc/bus/input/devices | grep -ni mouse0", stdout=["171:H: Handlers=event10 mouse0"]
-    )
-    fake_process.register_subprocess(
-        "udevadm info /dev/input/mouse0 | grep -ni S:", stdout=["4:S: input/by-path/pci-0000:00:15.1-platform-i2c_designware.1-mouse"]
-    )
-    fake_process.register_subprocess(
-        "udevadm info /dev/input/mouse0 | grep -ni ID_INPUT_MOUSE", stdout=["13:E: ID_INPUT_MOUSE=1"]
-    )"""
 
     return LibretroGenerator()
 
 
 @pytest.fixture
 def emulator_mayflash():
+    libretroLightGuns.recalboxFiles.esLightGun = 'tests/tmp/lightgun.cfg'
     libretroConfigurations.recalboxFiles.retroarchRoot = 'tests/tmp/ra'
     libretroConfigurations.recalboxFiles.retroarchCustom = 'tests/tmp/ra-custom.cfg'
     libretroConfigurations.recalboxFiles.retroarchCoreCustom = 'tests/tmp/ra-core-custom.cfg'
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
-    """fake_process.register_subprocess(
-        "udevadm info -e | grep /dev/input/mouse", stdout=["E: DEVNAME=/dev/input/mouse0"]
-    )
-    fake_process.register_subprocess(
-        "cat /proc/bus/input/devices | grep -ni mouse0", stdout=["171:H: Handlers=event10 mouse0"]
-    )
-    fake_process.register_subprocess(
-        "udevadm info /dev/input/mouse0 | grep -ni S:", stdout=["Mayflash_Wiimote_PC_Adapter"]
-    )
-    fake_process.register_subprocess(
-        "udevadm info /dev/input/mouse0 | grep -ni ID_INPUT_MOUSE", stdout=["13:E: ID_INPUT_MOUSE=1"]
-    )"""
+    shutil.copyfile('tests/resources/lightgun.cfg', 'tests/tmp/lightgun.cfg')
 
     return LibretroGenerator()
 
@@ -93,7 +72,7 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_snes(emulator, system_snes, controller_configuration, mocker):
+def test_simple_generate_snes(emulator, system_snes, controller_configuration):
     command = emulator.generate(system_snes, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/snes9x2002_libretro.so',
@@ -132,7 +111,7 @@ def test_simple_generate_px68k_floppy(emulator, system_px68k, controller_configu
                              'path/to/test']
 
 
-def test_simple_generate_quasi88(emulator, system_quasi88, controller_configuration, mocker):
+def test_simple_generate_quasi88(emulator, system_quasi88, controller_configuration):
     command = emulator.generate(system_quasi88, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/quasi88_libretro.so',

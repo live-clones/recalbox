@@ -8,7 +8,6 @@ import configgen.generators.libretro.libretroConfigurations as libretroConfigura
 from configgen.Emulator import Emulator
 
 from configgen.generators.Generator import Generator, ControllerDictionary
-from configgen.generators.libretro.libretroLightGuns import libretroLightGun
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -122,6 +121,7 @@ class LibretroGenerator(Generator):
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         # setup wiimotes lightgun configuration 
+        from configgen.generators.libretro.libretroLightGuns import libretroLightGun
         lightgunConfig = libretroLightGun(system, rom, demo, retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
 

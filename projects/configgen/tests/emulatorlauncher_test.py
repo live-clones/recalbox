@@ -57,5 +57,5 @@ def test_main(mocker):
     mocker.patch('configgen.emulatorlauncher.getGenerator')
     emulatorlauncher.recalboxFiles.savesDir = 'tests/tmp/savedir'
     arguments = FakeArguments()
-    wait, rc = emulatorlauncher.main(arguments)
-    assert rc == True
+    rc, wait = emulatorlauncher.main(arguments)
+    assert rc < 0

@@ -10,7 +10,7 @@ from tests.generators.FakeArguments import Arguments
 
 
 @pytest.fixture
-def emulator(mocker, fake_process):
+def emulator(fake_process):
     daphneGenerator.recalboxFiles.daphneInputIni = 'tests/tmp/dapinput.ini'
     return DaphneGenerator()
 
@@ -25,7 +25,7 @@ def system_xy():
     return Emulator(name='daphne', videoMode='1920x1080', ratio='auto', emulator='daphne', core='daphne')
 
 
-def test_simple_generate_singe_file(emulator, system, fake_process, mocker):
+def test_simple_generate_singe_file(emulator, system, mocker):
     mocker.patch("os.path.exists", return_value=True)
     command = emulator.generate(system, dict(), keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '16'
@@ -54,7 +54,7 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_other_rom(emulator, system, fake_process, controller_configuration):
+def test_simple_generate_other_rom(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
@@ -66,7 +66,7 @@ def test_simple_generate_other_rom(emulator, system, fake_process, controller_co
                              ]
 
 
-def test_simple_generate_rpi_resolution(emulator, system_xy, fake_process, mocker):
+def test_simple_generate_rpi_resolution(emulator, system_xy, mocker):
     mocker.patch("configgen.utils.architecture.Architecture", return_value="rpi3")
     command = emulator.generate(system_xy, dict(), keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'

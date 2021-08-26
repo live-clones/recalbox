@@ -72,6 +72,7 @@
 from typing import Optional
 
 from configgen.Emulator import Emulator
+import configgen.recalboxFiles as recalboxFiles
 
 
 def Log(txt: str):
@@ -79,7 +80,6 @@ def Log(txt: str):
 
 class libretroLightGun:
     from xml.etree.ElementTree import Element
-    from typing import Union
 
     # Information game from ES
     GAME_INFO_PATH = "/tmp/es_state.inf"
@@ -206,7 +206,6 @@ class libretroLightGun:
             return False
 
         import xml.etree.ElementTree as ET
-        import configgen.recalboxFiles as recalboxFiles
         tree = ET.parse(recalboxFiles.esLightGun)
         root = tree.getroot()
         
@@ -223,6 +222,12 @@ class libretroLightGun:
             if self.__debug: Log('Platform {} not found'.format(system_name))
             return False
         if self.__debug: Log('System found: ' + platform.text)
+
+        if self.__debug: Log('Lookup default emulator/core')
+        emulator, core = self.GetCoreFromNode(system.find('emulator'))
+        if self.__debug:
+            Log('Emulator found in system: ' + emulator.attrib["name"])
+            Log('Core found in system: ' + core.text)
 
         if ((platform.text == "mame") and (core.text == self.system.Core)) or (platform.text != "mame"):
             if self.__debug: Log('Need to find this game: ' + game_name)
@@ -245,12 +250,6 @@ class libretroLightGun:
                             best_matching_game = game
 
                 if best_matching_game is not None:
-                    if self.__debug: Log('Lookup default emulator/core')
-                    emulator, core = self.GetCoreFromNode(system.find('emulator'))
-                    if self.__debug:
-                        Log('Emulator found in system: ' + emulator.attrib["name"])
-                        Log('Core found in system: ' + core.text)
-
                     if self.__debug: Log('Game name best match with pattern: ' + best_matching_game_name)
                     ## now that we are sure to have a matching, we could get the common part
                     ## Mandatory under the root

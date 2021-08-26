@@ -175,11 +175,14 @@ def loadRecalboxSettings(rom, systemname):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    # Load global settings
+    # Load boot settings
     recalboot = keyValueSettings("/boot/recalbox-boot.conf", False)
     recalboot.loadFile(True)
     fixedScreenSize = recalboot.getOption("case", "") in ("GPiV1", "GPiV2", "GPiV3")
     del recalboot
+    from configgen.utils.architecture import Architecture
+    arch = Architecture()
+    if not arch.isSupportingTvService: fixedScreenSize = True
 
     # Load global settings
     settings = keyValueSettings(recalboxFiles.recalboxConf, False)
@@ -196,7 +199,7 @@ def loadRecalboxSettings(rom, systemname):
     return settings, fixedScreenSize
 
 
-def main(arguments):
+def main(arguments) -> (int, bool):
     if not arguments.demo:
         demoStartButtons = dict()
         # Read the controller configuration

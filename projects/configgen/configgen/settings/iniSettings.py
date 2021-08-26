@@ -28,6 +28,9 @@ class IniSettings:
         else:
             raise TypeError
 
+    def hasRegion(self, section) -> bool:
+        return section in self.regions
+
     def changeSettingsFile(self, newfilename):
         self.settingsFile = newfilename
 
@@ -41,7 +44,7 @@ class IniSettings:
                 return region[item]
         return default
 
-    def hasOption(self, section, item):
+    def hasOption(self, section, item) -> bool:
         if section in self.regions:
             if item in self.regions[section]:
                 return True

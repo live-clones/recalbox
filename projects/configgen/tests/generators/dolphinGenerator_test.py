@@ -48,13 +48,13 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_wii(emulator, system_wii, controller_configuration, mocker):
+def test_simple_generate_wii(emulator, system_wii, controller_configuration):
     command = emulator.generate(system_wii, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/dolphin-emu', '-e', 'path/to/test']
 
 
-def test_simple_generate_gamecube(emulator, system_gamecube, controller_configuration, mocker):
+def test_simple_generate_gamecube(emulator, system_gamecube, controller_configuration):
     command = emulator.generate(system_gamecube, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/dolphin-emu', '-e', 'path/to/test']

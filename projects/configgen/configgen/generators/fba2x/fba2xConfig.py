@@ -1,26 +1,17 @@
 #!/usr/bin/env python
 from typing import Dict
 
-import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.settings.unixSettings import UnixSettings
-
-fbaSettings = UnixSettings(recalboxFiles.fbaCustom)
 
 # return true if the option is considered enabled (for boolean options)
-def enabled(key: str, dictio: Dict[str, str]):
-    return key in dictio and dictio[key] in ('1', 'true')
+from configgen.settings.iniSettings import IniSettings
 
-# return true if the option is considered defined
-def defined(key: str, dictio: Dict[str, str]):
-    return key in dictio and isinstance(dictio[key], str) and len(dictio[key]) > 0
+sectionGraphics = '[Graphics]'
 
-def writeFBAConfigToFile(config: Dict[str, str]):
+def writeFBAConfig(system: Emulator, fbaSettings: IniSettings):
+    config: Dict[str, str] = createFBAConfig(system)
     for setting in config:
-        fbaSettings.save(setting, config[setting])
-
-def writeFBAConfig(system: Emulator):
-    writeFBAConfigToFile(createFBAConfig(system))
+        fbaSettings.setOption(sectionGraphics, setting, config[setting])
 
 # take a system, and returns a dict of retroarch.cfg compatible parameters
 def createFBAConfig(system: Emulator) -> Dict[str, str]:

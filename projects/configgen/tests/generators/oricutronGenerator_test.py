@@ -36,7 +36,7 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_oricutron_disk(emulator, system, mocker, controller_configuration):
+def test_simple_generate_oricutron_disk(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.dsk'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/oricutron/oricutron',
@@ -45,7 +45,7 @@ def test_simple_generate_oricutron_disk(emulator, system, mocker, controller_con
                              '--disk', 'path/to/test.dsk']
 
 
-def test_simple_generate_oricutron_tape(emulator, system, mocker, controller_configuration):
+def test_simple_generate_oricutron_tape(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.tap'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/oricutron/oricutron',

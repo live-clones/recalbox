@@ -5,6 +5,7 @@ from configgen.generators.mupen import mupenConfig
 from configgen.generators.mupen import mupenControllers
 import configgen.recalboxFiles as recalboxFiles
 from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -15,10 +16,15 @@ class MupenGenerator(Generator):
 
         # Settings recalbox default config file if no user defined one
         if not system.HasConfigFile:
+            # Load config
+            mupenSettings = IniSettings(recalboxFiles.mupenCustom, True)
+            mupenSettings.loadFile(True)
             # Write configuration file
-            mupenConfig.writeMupenConfig(system, playersControllers, args.rom)
-            #  Write controllers configuration files
+            mupenConfig.writeMupenConfig(system, playersControllers, args.rom, mupenSettings)
+            # Write controllers configuration files
             mupenControllers.writeControllersConfig(playersControllers)
+            # Save config
+            mupenSettings.saveFile()
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--corelib", "/usr/lib/libmupen64plus.so.2.0.0",

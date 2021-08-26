@@ -77,31 +77,31 @@ def system_cd32():
     return Emulator(name='amigacd32', videoMode='16', ratio='auto', emulator='amiberry', core='amiberry')
 
 
-def test_simple_generate_rom_iso(emulator, system_hddiso, fake_process, mocker, controller_configuration):
+def test_simple_generate_rom_iso(emulator, system_hddiso, controller_configuration):
     command = emulator.generate(system_hddiso, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.iso'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/amiberry', '-config', '/tmp/amiga/conf/default.uae']
 
 
-def test_simple_generate_rom_zip(emulator, system_hddiso, fake_process, mocker, controller_configuration):
+def test_simple_generate_rom_zip(emulator, system_hddiso, controller_configuration):
     command = emulator.generate(system_hddiso, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.zip'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/amiberry', '-autoload', 'path/to/test.zip']
 
 
-def test_simple_generate_rom_adf(emulator, system_floppy, fake_process, mocker):
+def test_simple_generate_rom_adf(emulator, system_floppy):
     command = emulator.generate(system_floppy, dict(), keyValueSettings("", False), Arguments('path/to/test.adf'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/amiberry', '-config', '/tmp/amiga/conf/default.uae']
 
 
-def test_simple_generate_rom_rp9(emulator, system_floppy, fake_process, mocker):
+def test_simple_generate_rom_rp9(emulator, system_floppy):
     command = emulator.generate(system_floppy, dict(), keyValueSettings("", False), Arguments('path/to/test.rp9'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/amiberry', '-config', 'path/to/test.rp9', '-G']
 
 
-def test_simple_generate_rom_lha(emulator, system_hddiso, fake_process, mocker):
+def test_simple_generate_rom_lha(emulator, system_hddiso):
     command = emulator.generate(system_hddiso, dict(), keyValueSettings("", False), Arguments('path/to/test.lha'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/amiberry', '-autoload', 'path/to/test.lha']

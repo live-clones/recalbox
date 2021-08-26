@@ -34,6 +34,6 @@ def controller_configuration():
                                                              "-1", uuid, "PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", "", "*", "*", "*")
 
 
-def test_simple_generate_apple_ii(emulator, system, mocker, controller_configuration):
+def test_simple_generate_apple_ii(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.array == ['/usr/bin/linapple']

@@ -2,31 +2,23 @@
 import os
 from typing import Dict
 from xml.dom import minidom
-from configparser import ConfigParser
 from configgen.controllersConfig import Input, Controller
-from configgen.settings.unixSettings import UnixSettings
+from configgen.settings.iniSettings import IniSettings
 import configgen.recalboxFiles as recalboxFiles
 
 # Must read :
 # http://mupen64plus.org/wiki/index.php?title=Mupen64Plus_Plugin_Parameters
 from configgen.controllersConfig import ControllerDictionary
 
-mupenSettings = UnixSettings(recalboxFiles.mupenCustom, separator=' ')
-Config = ConfigParser()
-# To prevent ConfigParser from converting to lower case
-Config.optionxform = str
-
 # Mupen doesn't like to have 2 buttons mapped for N64 pad entry. That's why r2 is commented for now. 1 axis and 1 button is ok
 mupenHatToAxis = {'1': 'Up', '2': 'Right', '4': 'Down', '8': 'Left'}
 mupenDoubleAxis = {0: 'X Axis', 1: 'Y Axis'}
-
 
 def getMupenMappingFile() -> str:
     if os.path.exists(recalboxFiles.mupenMappingUser):
         return recalboxFiles.mupenMappingUser
     else:
         return recalboxFiles.mupenMappingSystem
-
 
 def getMupenMapping() -> Dict[str, str]:
     dom = minidom.parse(getMupenMappingFile())
@@ -39,19 +31,19 @@ def getMupenMapping() -> Dict[str, str]:
                         dictio[inp.attributes['name'].value] = inp.attributes['value'].value
     return dictio
 
-
 # Write a configuration for a specified controller
 def writeControllersConfig(controllers: ControllerDictionary):
-    if os.path.isfile(recalboxFiles.mupenInput):
-        os.remove(recalboxFiles.mupenInput)
+    # Do not load previous file
+    padConfig = IniSettings(recalboxFiles.mupenInput)
 
     for controller in controllers:
         player = controllers[controller]
         # Dynamic controller bindings
         config = defineControllerKeys(player)
         # Write to file
-        writeToIni(player, config)
+        writeToIni(player, config, padConfig)
 
+    padConfig.saveFile()
 
 def defineControllerKeys(controller: Controller) -> Dict[str, str]:
     mupenmapping = getMupenMapping()
@@ -133,32 +125,20 @@ def setControllerLine(_, inp: Input, mupenSettingName: str) -> str:
     return value
 
 
-def writeToIni(controller: Controller, config: Dict[str, str]):
-    Config.read(recalboxFiles.mupenInput)
+def writeToIni(controller: Controller, config: Dict[str, str], padConfig: IniSettings):
     section = controller.realName
 
-    # Avoid a crash when writing twice a same section
-    if Config.has_section(section):
-        return None
-
-    # Open file
-    cfgfile = open(recalboxFiles.mupenInput, 'w+')
-
     # Write static config
-    Config.add_section(section)
-    Config.set(section, 'plugged', 'True')
-    Config.set(section, 'plugin', '2')
-    Config.set(section, 'AnalogDeadzone', config['AnalogDeadzone'])
-    Config.set(section, 'AnalogPeak', "32768,32768")
-    Config.set(section, 'Mempak switch', "")
-    Config.set(section, 'Rumblepak switch', "")
-    Config.set(section, 'mouse', "False")
+    padConfig.setOption(section, 'plugged', 'True')
+    padConfig.setOption(section, 'plugin', '2')
+    padConfig.setOption(section, 'AnalogDeadzone', config['AnalogDeadzone'])
+    padConfig.setOption(section, 'AnalogPeak', "32768,32768")
+    padConfig.setOption(section, 'Mempak switch', "")
+    padConfig.setOption(section, 'Rumblepak switch', "")
+    padConfig.setOption(section, 'mouse', "False")
     # Config.set(section, 'name', controller.realName)
     # Config.set(section, 'device', controller.index)
 
     # Write dynamic config
     for inputName in sorted(config):
-        Config.set(section, inputName, config[inputName])
-
-    Config.write(cfgfile)
-    cfgfile.close()
+        padConfig.setOption(section, inputName, config[inputName])
