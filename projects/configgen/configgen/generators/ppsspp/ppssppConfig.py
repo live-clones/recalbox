@@ -7,5 +7,5 @@ def writePPSSPPConfig(system: Emulator):
     settings = IniSettings(recalboxFiles.ppssppConfig, True)
     settings.loadFile(True)
     # Display FPS
-    settings.setOption("CPU", 'ShowFPSCounter', '3' if  system.ShowFPS else '0') # 1 for Speed%, 2 for FPS, 3 for both
+    settings.setInt("CPU", 'ShowFPSCounter', 3 if  system.ShowFPS else 0) # 1 for Speed%, 2 for FPS, 3 for both
     settings.saveFile()

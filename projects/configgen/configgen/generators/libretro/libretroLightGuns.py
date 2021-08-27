@@ -69,10 +69,11 @@
 ## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
 ## v1.7   : Optimize
 ## V1.8 TO DO: to integrate a popup to inform about buttons to use from wiimote
-from typing import Optional
+from typing import Optional, Dict
 
 from configgen.Emulator import Emulator
 import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 def Log(txt: str):
@@ -87,10 +88,10 @@ class libretroLightGun:
     KEY_GAME_NAME = "Game"
 
     # constructor
-    def __init__(self, system: Emulator, rom: str, demo: bool, retroarchConfig, coreConfig):
+    def __init__(self, system: Emulator, rom: str, demo: bool, retroarchConfig: keyValueSettings, coreConfig: keyValueSettings):
         # initial settings
-        self.retroarchConfig = retroarchConfig
-        self.coreConfig = coreConfig
+        self.retroarchConfig: keyValueSettings = retroarchConfig
+        self.coreConfig: keyValueSettings = coreConfig
         self.system: Emulator = system
         self.rom: str = rom
         self.demo: bool = demo
@@ -101,7 +102,7 @@ class libretroLightGun:
         # Lookup mouse sub-device in dolphin bar devices & count them
         import pyudev
         context = pyudev.Context()
-        deviceHandlers = {}
+        deviceHandlers: Dict[str, int] = {}
         for device in context.list_devices(subsystem='input', ID_SERIAL="HJZ_Mayflash_Wiimote_PC_Adapter"):
             if device.device_node is not None:
                 if len([link for link in device.device_links if link.find("mouse") >= 0]) != 0:
@@ -110,7 +111,7 @@ class libretroLightGun:
                     if self.__debug: Log(str(device))
 
         # Now store mouse device indexes as required by RetroArch
-        nodeIndex = 0
+        nodeIndex: int = 0
         for k, v in deviceHandlers.items():
             self.MouseIndexByPlayer.append(nodeIndex)
             nodeIndex = nodeIndex + v
@@ -126,7 +127,7 @@ class libretroLightGun:
         from configgen.settings.keyValueSettings import keyValueSettings
         gameInfo = keyValueSettings(libretroLightGun.GAME_INFO_PATH, False)
         gameInfo.loadFile(True)
-        gameName = gameInfo.getOption(libretroLightGun.KEY_GAME_NAME, "")
+        gameName = gameInfo.getString(libretroLightGun.KEY_GAME_NAME, "")
         del gameInfo
         if gameName != '':
             if self.__debug: Log('Game name found, the game name is :' + gameName)
@@ -150,26 +151,26 @@ class libretroLightGun:
                 if self.__debug: Log('       value set to "99" to avoid issue if we put "nul" !')
             value = str(ivalue)
             if self.__debug: Log('       updated with Mouse Index: ' + name + ' = ' + value)
-        self.retroarchConfig.setOption(name, value)
+        self.retroarchConfig.setString(name, value)
 
     #to cancel input device (parameter "input_libretro_device_pX") if the corresponding "input_playerX_mouse_index" is already set to 99 by SetInputs function
     def CancelDevicesNotUsed(self):
         for i in range(4):
             value = "0"
-            value = self.retroarchConfig.getOption("input_player" + str(i) + "_mouse_index", value)
+            value = self.retroarchConfig.getString("input_player" + str(i) + "_mouse_index", value)
             #check if we identified this index as not necessary
             if value == "99":
                 if self.__debug: Log('Mouse index cancelled: ' + "input_player" + str(i) + "_mouse_index" + ' = ' + value)
                 if self.__debug: Log('Device cancelled and options linked: ' + "input_libretro_device_p" + str(i) + ' = ' + '0')
-                self.retroarchConfig.setOption("input_libretro_device_p" + str(i),"0")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_start","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_select","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_select","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_start","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_up","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_down","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_right","nul")
-                self.retroarchConfig.setOption("input_player" + str(i) + "_gun_dpad_left","nul")
+                self.retroarchConfig.setInt("input_libretro_device_p" + str(i), 0)
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_start", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_select", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_select", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_start", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_up", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_down", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_right", "nul")
+                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_left", "nul")
 
     @staticmethod
     def LookupPlatform(root: Element, name: str) -> [Optional[Element], Optional[Element]]:
@@ -183,7 +184,7 @@ class libretroLightGun:
         if optionNode is not None:
             for string in optionNode.iter('string'):
                 if self.__debug: Log('    ' + string.attrib["name"] + ' = ' + string.attrib["value"])
-                self.coreConfig.setOption(string.attrib["name"], '"' + string.attrib["value"] + '"')
+                self.coreConfig.setString(string.attrib["name"], '"' + string.attrib["value"] + '"')
 
     def SetInputsFromNode(self, inputNode: Element):
         if inputNode is not None:
@@ -335,7 +336,6 @@ class libretroLightGun:
         
         ## to check if lightgun.cfg exists or not
         import os
-        import configgen.recalboxFiles as recalboxFiles
         if not os.path.exists(recalboxFiles.esLightGun):
             ##no xml configuration file found for lightgun
             if self.__debug: Log('No lightgun.cfg xml file found !!!')

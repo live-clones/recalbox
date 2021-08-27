@@ -4,7 +4,7 @@ import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.advancemame.advMameControllers as advMameControllers
 
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -12,7 +12,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 class AdvMameGenerator(Generator):
 
     # Main entry of the module
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         import os.path
         romName = os.path.basename(os.path.splitext(args.rom)[0])
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]

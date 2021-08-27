@@ -4,7 +4,7 @@ import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import Controller, ControllerDictionary
+from configgen.controllers.controller import Controller, ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -13,15 +13,9 @@ class ScummVMGenerator(Generator):
 
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
-        Controller.generateSDLGameDBAllControllers(playersControllers, "/tmp/gamecontrollerdb.txt")
-
-        # Settings recalbox default config file if no user defined one
-        if not system.HasConfigFile:
-            # Using recalbox config file
-            #system.ConfigFile = recalboxFiles.mupenCustom
-            pass
+        Controller.GenerateSDLGameDatabase(playersControllers, "/tmp/gamecontrollerdb.txt")
 
         # Find rom path
         if os.path.isdir(args.rom):
@@ -42,7 +36,7 @@ class ScummVMGenerator(Generator):
                         "--joystick=0",
                         smooth,
                         "--extrapath=/usr/share/scummvm",
-                        "--savepath="+recalboxFiles.scummvmSaves,
+                        "--savepath=" + recalboxFiles.scummvmSaves,
                         "--path=""{}""".format(romPath)]
         if system.ShaderSet == 'scanlines':
             commandArray.append("--gfx-mode=DotMatrix")

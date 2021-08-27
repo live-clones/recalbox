@@ -54,12 +54,12 @@ class Emulator:
         self._netplay: bool = False
 
     def __guessBestStringValue(self, recalboxConf: keyValueSettings, key: str, defaultValue: str) -> str:
-        return recalboxConf.getOption(self._name + '.' + key,
-                                      recalboxConf.getOption("global." + key, defaultValue))
+        return recalboxConf.getString(self._name + '.' + key,
+                                      recalboxConf.getString("global." + key, defaultValue))
 
     def __guessBestBoolValue(self, recalboxConf: keyValueSettings, key: str, defaultValue: bool) -> bool:
-        result: str = recalboxConf.getOption(self._name + '.' + key,
-                                             recalboxConf.getOption("global." + key, '1' if defaultValue else '0'))
+        result: str = recalboxConf.getString(self._name + '.' + key,
+                                             recalboxConf.getString("global." + key, '1' if defaultValue else '0'))
         if result in ('1', "true", "True"): return True
         return False
 
@@ -84,18 +84,18 @@ class Emulator:
         self._translateAPIKey: str   = self.__guessBestStringValue(recalboxSettings, "translate.apikey", self._translateAPIKey)
         self._translateURL: str      = self.__guessBestStringValue(recalboxSettings, "translate.url", self._translateURL)
         self._translateFrom: str     = self.__guessBestStringValue(recalboxSettings, "translate.from", self._translateFrom)
-        self._translateTo: str       = self.__guessBestStringValue(recalboxSettings, "translate.to", recalboxSettings.getOption("system.language", self._translateTo))
+        self._translateTo: str       = self.__guessBestStringValue(recalboxSettings, "translate.to", recalboxSettings.getString("system.language", self._translateTo))
         self._extraArgs: str         = self.__guessBestStringValue(recalboxSettings, "extra", self._extraArgs)
         self._configArgs: str        = self.__guessBestStringValue(recalboxSettings, "args", self._configArgs)
 
         # Vars straight from recalbox.conf
-        self._specialKeys               = recalboxSettings.getOption('system.emulators.specialkeys', self._specialKeys)
-        self._netplayNick               = recalboxSettings.getOption('global.netplay.nickname', self._netplayNick)
-        self._netplayMITM               = recalboxSettings.getOption('global.netplay.relay', self._netplayMITM)
-        self._retroachievements         = recalboxSettings.getOption('global.retroachievements', '1' if self._retroachievements else '0') == '1'
-        self._retroachievementsHardcore = recalboxSettings.getOption('global.retroachievements.hardcore', '1' if self._retroachievements else '0') == '1'
-        self._retroachievementsNickname = recalboxSettings.getOption('global.retroachievements.username', self._retroachievementsNickname)
-        self._retroachievementsPassword = recalboxSettings.getOption('global.retroachievements.password', self._retroachievementsPassword)
+        self._specialKeys               = recalboxSettings.getString('system.emulators.specialkeys', self._specialKeys)
+        self._netplayNick               = recalboxSettings.getString('global.netplay.nickname', self._netplayNick)
+        self._netplayMITM               = recalboxSettings.getString('global.netplay.relay', self._netplayMITM)
+        self._retroachievements         = recalboxSettings.getBool('global.retroachievements', self._retroachievements)
+        self._retroachievementsHardcore = recalboxSettings.getBool('global.retroachievements.hardcore', self._retroachievementsHardcore)
+        self._retroachievementsNickname = recalboxSettings.getString('global.retroachievements.username', self._retroachievementsNickname)
+        self._retroachievementsPassword = recalboxSettings.getString('global.retroachievements.password', self._retroachievementsPassword)
 
         # Vars from arguments
         self._hash                  = arguments.hash
@@ -124,7 +124,7 @@ class Emulator:
             shaderFile = recalboxFiles.shaderPresetRoot + '/' + self._shaderSet + '.cfg'
             shaderContent = keyValueSettings(shaderFile, False)
             shaderContent.loadFile(True)
-            systemShader = shaderContent.getOption(self._name, "")
+            systemShader = shaderContent.getString(self._name, "")
             if len(systemShader) != 0:
                 self._shaderFile = systemShader
 

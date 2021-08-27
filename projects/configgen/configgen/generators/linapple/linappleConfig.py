@@ -4,23 +4,24 @@ Created on Mar 6, 2016
 @author: Laurent Marchelli
 """
 import os
+from typing import Dict, Tuple, List
 
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.inputItem import InputItem
+from configgen.controllers.controller import ControllerPerPlayer, Controller
 
-joystick_translator = {
-        # linapple : recalboxOS
-        'Joy0Axis0' :   ('joystick1left', 'joystick2left', 'left'),
-        'Joy0Axis1' :   ('joystick1up', 'joystick2up', 'up'),
-        'Joy0Button1' : ('a','x'),
-        'Joy0Button2' : ('b','y'),
-        'Joy1Axis0' :   ('joystick1left', 'joystick2left', 'left'),
-        'Joy1Axis1':    ('joystick1up', 'joystick2up', 'up'),
-        'Joy1Button1':  ('l1',),
-        'Joy1Button2':  ('r1',),
-        'JoyExitButton0' : ('select',),
-        'JoyExitButton1' : ('start',)
-    }
+joystick_translator: Dict[str, Tuple[int]] = \
+{
+    # linapple : recalboxOS
+    'Joy0Axis0' :   ( InputItem.ItemJoy1Left, InputItem.ItemJoy2Left, InputItem.ItemLeft ),
+    'Joy0Axis1' :   ( InputItem.ItemJoy1Up, InputItem.ItemJoy2Up, InputItem.ItemUp ),
+    'Joy0Button1' : ( InputItem.ItemA, InputItem.ItemX ),
+    'Joy0Button2' : ( InputItem.ItemB, InputItem.ItemY ),
+    'Joy1Axis0' :   ( InputItem.ItemJoy1Left, InputItem.ItemJoy2Left, InputItem.ItemLeft ),
+    'Joy1Axis1':    ( InputItem.ItemJoy1Up, InputItem.ItemJoy2Up, InputItem.ItemUp ),
+    'Joy1Button1':  ( InputItem.ItemL1, ),
+    'Joy1Button2':  ( InputItem.ItemR1, ),
+}
 
 
 class LinappleConfig:
@@ -43,7 +44,7 @@ class LinappleConfig:
 
     """
     def __init__(self, filename: str):
-        self.settings = {}
+        self.settings: Dict[str, str] = {}
         self.filename = filename
         self.load(filename)
 
@@ -94,7 +95,7 @@ class LinappleConfig:
             for k, v in sorted(self.settings.items()):
                 file_out.write('\t{}=\t{}\n'.format(k,v))
 
-    def joysticks(self, controllers: ControllerDictionary):
+    def joysticks(self, controllers: ControllerPerPlayer):
         """
         Configure linapple joysticks (2) with given controllers.
 
@@ -108,53 +109,38 @@ class LinappleConfig:
         
         # Configure axis and buttons for first two available joysticks
         sortedKeys = sorted(controllers.keys())
-        joysticks: ControllerDictionary = {}
+        joysticks: ControllerPerPlayer = {}
         if len(sortedKeys) != 0: joysticks[sortedKeys[0]] = controllers[sortedKeys[0]]
         if len(sortedKeys) > 0 : joysticks[sortedKeys[1]] = controllers[sortedKeys[1]]
         # Strange button behaviour with 2 joysticks enabled :-( TBD
         # joysticks = sorted(controllers.items())[:2] 
-        for e, (n, c) in enumerate(joysticks.items()):
-            assert(n == c.player)   # Just if Controller source code changed
+        for counter, (playerIndex, controller) in enumerate(joysticks.items()):
+            assert(playerIndex == controller.PlayerIndex)   # Just if Controller source code changed
             
             # Use the translator to get recalbox value from linapple keyword 
-            inputs = c.inputs
-            joy_i = 'Joy{}'.format(e)
-            transl = [(a, r) for (a, r) in joystick_translator.items() 
-                      if a.startswith(joy_i)]
-            for a, r in transl:
-                for i in r:
-                    value = inputs.get(i, None)
-                    if value is None: continue
-                    if a.startswith(joy_i + 'Axis'):
-                        if value.type != 'axis': continue
-                    else:
-                        if value.type != 'button': continue
-                    break
-                # If the input does not have the expected button we should
-                # log the Error before exiting
-                else: assert False
-                self.settings[a] = value.id
-            
+            joy_i = 'Joy{}'.format(counter)
+            transl: List[Tuple[str, Tuple[int]]] = [(linKey, items) for (linKey, items) in joystick_translator.items() if linKey.startswith(joy_i)]
+            for linKey, items in transl:
+                for item in items:
+                    if controller.HasInput(item):
+                        inputItem = controller.Input(item)
+                        if linKey.startswith(joy_i + 'Axis'):
+                            if not inputItem.IsAxis: continue
+                        else:
+                            if not inputItem.IsButton: continue
+                        self.settings[linKey] = str(inputItem.Id)
+                        break
+
             # Enable Joystick
-            self.settings['Joy{}Index'.format(e)] = str(c.index)
-            self.settings['Joystick {}'.format(e)] = '1'
+            self.settings['Joy{}Index'.format(counter)] = str(controller.SdlIndex)
+            self.settings['Joystick {}'.format(counter)] = '1'
             
         # Configure extended buttons information
         if self.settings['Joystick 0'] == '1':
-            inputs = joysticks[sortedKeys[0]].inputs
-            for a in ('JoyExitButton0', 'JoyExitButton1'):
-                for r in joystick_translator.get(a, ()):
-                    value = inputs.get(r, None)
-                    if value is not None and value.type == 'button': 
-                        self.settings[a] = value.id
-                        break
-                else: self.settings[a] = ''
-        
-        jexit0 = self.settings['JoyExitButton0']        
-        jexit1 = self.settings['JoyExitButton1']
-        self.settings['JoyExitEnable'] ='1' if (jexit0 != '' and 
-                                                jexit1 != '' and 
-                                                jexit0 != jexit1) else '0'
+            controller: Controller = joysticks[sortedKeys[0]]
+            if controller.HasHotkey: self.settings['JoyExitButton0'] = str(controller.Hotkey.Id)
+            if controller.HasStart : self.settings['JoyExitButton1'] = str(controller.Start.Id)
+            self.settings['JoyExitEnable'] = '1' if controller.HasHotkey and controller.HasStart else '0'
     
     def system(self, system: Emulator, filename: str):
         """

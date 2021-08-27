@@ -4,220 +4,220 @@ from typing import Dict
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.settings.iniSettings import IniSettings
-from configgen.controllersConfig import Controller, Input
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import Controller, InputItem
+from configgen.controllers.controller import ControllerPerPlayer
 
 
-def generateControllerConfig(self, playersControllers: ControllerDictionary):
+def generateControllerConfig(self, playersControllers: ControllerPerPlayer):
 
     ################ Mapping Conversion Supermodel to Recalbox ################
 
     # set recalbox Hotkey
-    HOTKEY_BUTTONS = \
+    HOTKEY_BUTTONS: Dict[str, int] = \
     {
-        "InputUIExit":              "start", 
-        "InputUISaveState":         "y",
-        "InputUIChangeSlot":        "up",
-        "InputUILoadState":         "x",
-        "InputUIScreenShot":        "l1",
-        "InputUIReset":             "a",
-        "InputUIPause":             "b",
+        "InputUIExit":              InputItem.ItemStart,
+        "InputUISaveState":         InputItem.ItemY,
+        "InputUIChangeSlot":        InputItem.ItemUp,
+        "InputUILoadState":         InputItem.ItemX,
+        "InputUIScreenShot":        InputItem.ItemL1,
+        "InputUIReset":             InputItem.ItemA,
+        "InputUIPause":             InputItem.ItemB,
     }
 
-    SERVICE_TEST_BUTTON = \
+    SERVICE_TEST_BUTTON: Dict[str, int] = \
     {    
-        "InputServiceA":            "r3",
-        "InputTestA":               "l3",
+        "InputServiceA":            InputItem.ItemR3,
+        "InputTestA":               InputItem.ItemL3,
     }
 
 ##################### Player 1 controllers ###############################
 
-    BUTTONS_P1 = \
+    BUTTONS_P1: Dict[str, int] = \
     {
-        "InputCoin1":               "select",
-        "InputStart1":              "start",
+        "InputCoin1":               InputItem.ItemSelect,
+        "InputStart1":              InputItem.ItemStart,
         # Fighting game buttons
-        "InputEscape":              "y",
-        "InputGuard":               "x",
-        "InputKick":                "b",
-        "InputPunch":               "a",
+        "InputEscape":              InputItem.ItemY,
+        "InputGuard":               InputItem.ItemX,
+        "InputKick":                InputItem.ItemB,
+        "InputPunch":               InputItem.ItemA,
         # Spikeout buttons
-        "InputBeat":                "b",
-        "InputCharge":              "x",
-        "InputJump":                "a",
-        "InputShift":               "y",
+        "InputBeat":                InputItem.ItemB,
+        "InputCharge":              InputItem.ItemX,
+        "InputJump":                InputItem.ItemA,
+        "InputShift":               InputItem.ItemY,
         # Virtua Striker buttons
-        "InputLongPass":            "b",
-        "InputShoot":               "y",
-        "InputShortPass":           "a",
+        "InputLongPass":            InputItem.ItemB,
+        "InputShoot":               InputItem.ItemY,
+        "InputShortPass":           InputItem.ItemA,
         # Ski Champ controls
-        "InputSkiPollLeft":         "l1",
-        "InputSkiPollRight":        "r1",
-        "InputSkiSelect1":          "y",
-        "InputSkiSelect2":          "b",
-        "InputSkiSelect3":          "a",
+        "InputSkiPollLeft":         InputItem.ItemL1,
+        "InputSkiPollRight":        InputItem.ItemR1,
+        "InputSkiSelect1":          InputItem.ItemY,
+        "InputSkiSelect2":          InputItem.ItemB,
+        "InputSkiSelect3":          InputItem.ItemA,
         # Magical Truck Adventure controls
-        "InputMagicalPedal1":       "b",
+        "InputMagicalPedal1":       InputItem.ItemB,
         # Handbrake (Dirt Devils, Sega Rally 2)
-        "InputHandBrake":           "y",
+        "InputHandBrake":           InputItem.ItemY,
         # Harley-Davidson controls
-        "InputMusicSelect":         "b",
-        "InputRearBrake":           "a",
+        "InputMusicSelect":         InputItem.ItemB,
+        "InputRearBrake":           InputItem.ItemA,
         # Virtual On buttons
-        "InputTwinJoyShot1":        "x",
-        "InputTwinJoyShot2":        "y",
-        "InputTwinJoyTurbo1":       "l1",
-        "InputTwinJoyTurbo2":       "r1",
+        "InputTwinJoyShot1":        InputItem.ItemX,
+        "InputTwinJoyShot2":        InputItem.ItemY,
+        "InputTwinJoyTurbo1":       InputItem.ItemL1,
+        "InputTwinJoyTurbo2":       InputItem.ItemR1,
         # Virtual On macros
-        "InputTwinJoyCrouch":       "a",
-        "InputTwinJoyJump":         "b",
+        "InputTwinJoyCrouch":       InputItem.ItemA,
+        "InputTwinJoyJump":         InputItem.ItemB,
         # Up/down shifter manual transmission (all racers)
-        "InputGearShiftDown":       "l1",
-        "InputGearShiftUp":         "r1", 
+        "InputGearShiftDown":       InputItem.ItemL1,
+        "InputGearShiftUp":         InputItem.ItemR1,
         # 4-Speed manual transmission (Daytona 2, Sega Rally 2, Scud Race)
         # unsettings N
-        "InputGearShiftN":          "NONE",
+        "InputGearShiftN":          -1,
         # VR4 view change buttons (Daytona 2, Le Mans 24, Scud Race)
-        "InputVR1":                 "y",
-        "InputVR2":                 "x",
-        "InputVR3":                 "a",
-        "InputVR4":                 "b",
+        "InputVR1":                 InputItem.ItemY,
+        "InputVR2":                 InputItem.ItemX,
+        "InputVR3":                 InputItem.ItemA,
+        "InputVR4":                 InputItem.ItemB,
         # Single view change button (Dirt Devils, ECA, Harley-Davidson, Sega Rally 2)
-        "InputViewChange":          "x",
+        "InputViewChange":          InputItem.ItemX,
         # Sega Bass Fishing / Get Bass controls
-        "InputFishingCast":         "y",
-        "InputFishingSelect":       "a",
+        "InputFishingCast":         InputItem.ItemY,
+        "InputFishingSelect":       InputItem.ItemA,
     }
 
-    DIGITAL_JOYSTICK_P1 = \
+    DIGITAL_JOYSTICK_P1: Dict[str, int] = \
     {
-        "InputJoyUp":               "up",
-        "InputJoyDown":             "down",
-        "InputJoyLeft":             "left",
-        "InputJoyRight":            "right",
+        "InputJoyUp":               InputItem.ItemUp,
+        "InputJoyDown":             InputItem.ItemDown,
+        "InputJoyLeft":             InputItem.ItemLeft,
+        "InputJoyRight":            InputItem.ItemRight,
         # Ski Champ controls
-        "InputSkiLeft":             "left",
-        "InputSkiRight":            "right",
-        "InputSkiUp":               "up",
-        "InputSkiDown":             "down",
+        "InputSkiLeft":             InputItem.ItemLeft,
+        "InputSkiRight":            InputItem.ItemRight,
+        "InputSkiUp":               InputItem.ItemUp,
+        "InputSkiDown":             InputItem.ItemDown,
         # Steering wheel
         # Set digital, turn wheel
-        "InputSteeringLeft":        "left",
-        "InputSteeringRight":       "right",
+        "InputSteeringLeft":        InputItem.ItemLeft,
+        "InputSteeringRight":       InputItem.ItemRight,
         # Magical Truck Adventure controls
-        "InputMagicalLeverUp1":     "up",
-        "InputMagicalLeverDown1":   "down",
+        "InputMagicalLeverUp1":     InputItem.ItemUp,
+        "InputMagicalLeverDown1":   InputItem.ItemDown,
         # Sega Bass Fishing / Get Bass controls
-        "InputFishingRodLeft":      "left",
-        "InputFishingRodRight":     "right",
-        "InputFishingRodUp":        "up",
-        "InputFishingRodDown":      "down",
+        "InputFishingRodLeft":      InputItem.ItemLeft,
+        "InputFishingRodRight":     InputItem.ItemRight,
+        "InputFishingRodUp":        InputItem.ItemUp,
+        "InputFishingRodDown":      InputItem.ItemDown,
         # need setting only AXIS don't need a position (POS/NEG)
         # Magical Truck Adventure controls
-        "InputMagicalLever1":       "joystick1up",
+        "InputMagicalLever1":       InputItem.ItemJoy1Up,
         # Steering wheel
-        "InputSteering":            "joystick1left",
+        "InputSteering":            InputItem.ItemJoy1Left,
         # Ski Champ controls
-        "InputSkiX":                "joystick1left",
-        "InputSkiY":                "joystick1up",
+        "InputSkiX":                InputItem.ItemJoy1Left,
+        "InputSkiY":                InputItem.ItemJoy1Up,
         # Sega Bass Fishing / Get Bass controls
-        "InputFishingRodX":         "joystick2left",
-        "InputFishingRodY":         "joystick2up",
-        "InputFishingStickX":       "joystick1left",
-        "InputFishingStickY":       "joystick1up",
+        "InputFishingRodX":         InputItem.ItemJoy2Left,
+        "InputFishingRodY":         InputItem.ItemJoy2Up,
+        "InputFishingStickX":       InputItem.ItemJoy1Left,
+        "InputFishingStickY":       InputItem.ItemJoy1Up,
     }
 
-    BUTTONS_AXIS = \
+    BUTTONS_AXIS: Dict[str, int] = \
     {
         #### NEED A BYPASS BUTTON OR AXIS ####
         # Pedals
-        "InputAccelerator":         "r2",
-        "InputBrake":               "l2",
+        "InputAccelerator":         InputItem.ItemR2,
+        "InputBrake":               InputItem.ItemL2,
         #### NEED A BYPASS BUTTON OR AXIS ####
-        "InputFishingReel":         "l2",
-        "InputFishingTension":      "r2",
+        "InputFishingReel":         InputItem.ItemL2,
+        "InputFishingTension":      InputItem.ItemR2,
     }
 
-    ANALOG_JOYSTICK_P1 = \
+    ANALOG_JOYSTICK_P1: Dict[str, int] = \
     {
         # Need setting all axis position (POS/NEG)
         # Virtual On individual joystick mapping
-        "InputTwinJoyDown1":        "joystick1down",
-        "InputTwinJoyDown2":        "joystick2down",
-        "InputTwinJoyLeft1":        "joystick1left",
-        "InputTwinJoyLeft2":        "joystick2left",
-        "InputTwinJoyRight1":       "joystick1right",
-        "InputTwinJoyRight2":       "joystick2right",
-        "InputTwinJoyUp1":          "joystick1up",
-        "InputTwinJoyUp2":          "joystick2up",
+        "InputTwinJoyDown1":        InputItem.ItemJoy1Down,
+        "InputTwinJoyDown2":        InputItem.ItemJoy2Down,
+        "InputTwinJoyLeft1":        InputItem.ItemJoy1Left,
+        "InputTwinJoyLeft2":        InputItem.ItemJoy2Left,
+        "InputTwinJoyRight1":       InputItem.ItemJoy1Right,
+        "InputTwinJoyRight2":       InputItem.ItemJoy2Right,
+        "InputTwinJoyUp1":          InputItem.ItemJoy1Up,
+        "InputTwinJoyUp2":          InputItem.ItemJoy2Up,
         # 4-Speed manual transmission (Daytona 2, Sega Rally 2, Scud Race)
         # Setting on joystick2
-        "InputGearShift1":          "joystick2up",
-        "InputGearShift2":          "joystick2down",
-        "InputGearShift3":          "joystick2left",
-        "InputGearShift4":          "joystick2right",
+        "InputGearShift1":          InputItem.ItemJoy2Up,
+        "InputGearShift2":          InputItem.ItemJoy2Down,
+        "InputGearShift3":          InputItem.ItemJoy2Left,
+        "InputGearShift4":          InputItem.ItemJoy2Right,
     }
 
-    MOUSE_GAME = \
+    MOUSE_GAME: Dict[str, int] = \
     {
         # Light guns (Lost World)
-        "InputGunX":                "joystick1left",
-        "InputGunY":                "joystick1up",
+        "InputGunX":                InputItem.ItemJoy1Left,
+        "InputGunY":                InputItem.ItemJoy1Up,
         # Analog guns (Ocean Hunter, LA Machineguns)
-        "InputAnalogGunX":          "joystick1left",
-        "InputAnalogGunY":          "joystick1up",
+        "InputAnalogGunX":          InputItem.ItemJoy1Left,
+        "InputAnalogGunY":          InputItem.ItemJoy1Up,
         # Analog joystick (Star Wars Trilogy)
-        "InputAnalogJoyX":          "joystick1left",
-        "InputAnalogJoyY":          "joystick1up",
+        "InputAnalogJoyX":          InputItem.ItemJoy1Left,
+        "InputAnalogJoyY":          InputItem.ItemJoy1Up,
     }
 
-####################### Players 2 controllers ############################
+    ####################### Players 2 controllers ############################
 
-    BUTTONS_P2 = \
+    BUTTONS_P2: Dict[str, int] = \
     {
         # Commons buttons
-        "InputCoin2":               "select",
-        "InputStart2":              "start",
+        "InputCoin2":               InputItem.ItemSelect,
+        "InputStart2":              InputItem.ItemStart,
         # Fighting game buttons
-        "InputEscape2":             "y",
-        "InputGuard2":              "x",
-        "InputKick2":               "b",
-        "InputPunch2":              "a",
+        "InputEscape2":             InputItem.ItemY,
+        "InputGuard2":              InputItem.ItemX,
+        "InputKick2":               InputItem.ItemB,
+        "InputPunch2":              InputItem.ItemA,
         # Virtua Striker buttons
-        "InputLongPass2":           "a",
-        "InputShoot2":              "x",
-        "InputShortPass2":          "b",
+        "InputLongPass2":           InputItem.ItemA,
+        "InputShoot2":              InputItem.ItemX,
+        "InputShortPass2":          InputItem.ItemB,
         # Magical Truck Adventure controls
-        "InputMagicalPedal2":       "b",
+        "InputMagicalPedal2":       InputItem.ItemB,
     }
 
-    DIGITAL_JOYSTICK_P2 = \
+    DIGITAL_JOYSTICK_P2: Dict[str, int] = \
     {
-        "InputJoyDown2":            "down",
-        "InputJoyLeft2":            "left",
-        "InputJoyRight2":           "right",
-        "InputJoyUp2":              "up",
-        "InputMagicalLeverDown2":   "down",
-        "InputMagicalLeverUp2":     "up",
+        "InputJoyDown2":            InputItem.ItemDown,
+        "InputJoyLeft2":            InputItem.ItemLeft,
+        "InputJoyRight2":           InputItem.ItemRight,
+        "InputJoyUp2":              InputItem.ItemUp,
+        "InputMagicalLeverDown2":   InputItem.ItemDown,
+        "InputMagicalLeverUp2":     InputItem.ItemUp,
         # Magical Truck Adventure controls
-        "InputMagicalLever2":       "joystick1left", #change to joyleft
+        "InputMagicalLever2":       InputItem.ItemJoy1Left, #change to joyleft
     }
 
     ###### Map an Recalbox direction to the corresponding Supermodel ######
 
-    TYPE_TO_NAME = \
+    TYPE_TO_NAME: Dict[int, str] = \
     {
-        'axis':                     'AXIS',
-        'button':                   'BUTTON',
-        'hat':                      'POV',
+        InputItem.TypeAxis:   'AXIS',
+        InputItem.TypeButton: 'BUTTON',
+        InputItem.TypeHat:    'POV',
     }
 
-    HATS_TO_NAME = \
+    HATS_TO_NAME: Dict[int, str] = \
     {
-        '1':                        'UP',
-        '2':                        'RIGHT',
-        '4':                        'DOWN',
-        '8':                        'LEFT',
+        1:                        'UP',
+        2:                        'RIGHT',
+        4:                        'DOWN',
+        8:                        'LEFT',
     }
 
     """SUPERMODEL_DIR = \
@@ -228,93 +228,63 @@ def generateControllerConfig(self, playersControllers: ControllerDictionary):
         'up':                       'UP',
     }"""
 
-    SUPERMODEL_JOY = \
+    SUPERMODEL_JOY: Dict[int, str] = \
     {
         # lEFT JOYSTICK
-        'joystick1down':            'YAXIS',
-        'joystick1left':            'XAXIS',
-        'joystick1right':           'XAXIS',
-        'joystick1up':              'YAXIS',
+        InputItem.ItemJoy1Down:            'YAXIS',
+        InputItem.ItemJoy1Left:            'XAXIS',
+        InputItem.ItemJoy1Right:           'XAXIS',
+        InputItem.ItemJoy1Up:              'YAXIS',
         # RIGHT JOYSTICK
-        'joystick2down':            'RYAXIS',
-        'joystick2left':            'RXAXIS',
-        'joystick2right':           'RXAXIS',
-        'joystick2up':              'RYAXIS',
+        InputItem.ItemJoy2Down:            'RYAXIS',
+        InputItem.ItemJoy2Left:            'RXAXIS',
+        InputItem.ItemJoy2Right:           'RXAXIS',
+        InputItem.ItemJoy2Up:              'RYAXIS',
         # AXIS ON L2/R2 BUTTONS
-        'l2':                       'ZAXIS',
-        'r2':                       'RZAXIS', 
+        InputItem.ItemL2:                  'ZAXIS',
+        InputItem.ItemR2:                  'RZAXIS',
     }
 
-    def getControllerItem(controller: Controller, key: str):
-        fake = False
-        realKey = key
-        if key == 'joystick1right':
-            realKey = 'joystick1left'
-            fake = True
-        if key == 'joystick2right':
-            realKey = 'joystick2left'
-            fake = True
-        if key == 'joystick1down':
-            realKey = 'joystick1up'
-            fake = True
-        if key == 'joystick2down':
-            realKey = 'joystick2up'
-            fake = True
-
-        # Not available?
-        if realKey not in controller.inputs:
-            return None
-
-        # Real input?
-        if not fake:
-            return controller.inputs[key]
-
-        # Build a fake input
-        fakeInput = controller.inputs[realKey].clone()
-        fakeInput.name = key
-        fakeInput.value = str(-int(fakeInput.value))
-        return fakeInput
-
-    def getConfigValue(inputItem: Input, targetConf: Dict[str, str]):
+    def getConfigValue(inputItem: InputItem, targetConf: Dict[str, int]):
         # Output format BUTTONX
-        if inputItem.type == 'button':
-            return '{}{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1)
+        if inputItem.IsButton:
+            return '{}{}'.format(TYPE_TO_NAME[inputItem.Type], inputItem.Id + 1)
         # Ouput format RYAXIS, RXAXIS, XAXIS, YAXIS
-        if inputItem.type == 'axis':
+        if inputItem.IsAxis:
             return '{}'.format(SUPERMODEL_JOY[targetConf[x]])
         # Output format POV1_DOWN
-        if inputItem.type == 'hat':
-            return '{}{}_{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1, HATS_TO_NAME[inputItem.value])
+        if inputItem.IsHat:
+            return '{}{}_{}'.format(TYPE_TO_NAME[inputItem.Type], inputItem.Id + 1, HATS_TO_NAME[inputItem.Value])
 
         raise TypeError
 
-    def getConfigValueJ1(inputItem: Input):
+    def getConfigValueJ1(inputItem: InputItem):
         return getConfigValue(inputItem, DIGITAL_JOYSTICK_P1)
 
-    def getConfigValueJ2(inputItem):
+    def getConfigValueJ2(inputItem: InputItem):
         return getConfigValue(inputItem, DIGITAL_JOYSTICK_P2)
 
     # More Games need a Position value of Axis 
-    def getPositionConfigValue(inputItem):
-        if inputItem.type == 'axis':
+    def getPositionConfigValue(inputItem: InputItem):
+        if inputItem.IsAxis:
             # Output format XAXIS_NEG/XAXIS_POS ,RXAXIS_NEG/RXAXIS_POS
-            if inputItem.value == '-1':
+            if inputItem.Value == -1:
                 return '{}_NEG'.format(SUPERMODEL_JOY[ANALOG_JOYSTICK_P1[x]])
             else:
                 return '{}_POS'.format(SUPERMODEL_JOY[ANALOG_JOYSTICK_P1[x]])
 
         raise TypeError
     # For R2/L2 axis or button
-    def getAxisOrButton(inputItem):
-        if inputItem.type == 'button':
-            return '{}{}'.format(TYPE_TO_NAME[inputItem.type], int(inputItem.id) + 1)
-        elif inputItem.type == 'axis':
+    def getAxisOrButton(inputItem: InputItem):
+        if inputItem.IsButton:
+            return '{}{}'.format(TYPE_TO_NAME[inputItem.Type], inputItem.Id + 1)
+        elif inputItem.IsAxis:
             return '{}_POS'.format(SUPERMODEL_JOY[BUTTONS_AXIS[x]])
 
         raise TypeError
 
-    def getlightGunConfigValue(inputItem):
-        if inputItem.type == 'axis':
+    def getlightGunConfigValue(inputItem: InputItem):
+        if inputItem.IsAxis:
             return 'MOUSE_{}'.format(SUPERMODEL_JOY[MOUSE_GAME[x]])
 
         raise TypeError
@@ -328,130 +298,125 @@ def generateControllerConfig(self, playersControllers: ControllerDictionary):
     ## Set default configuration 
     ## set emulated Net options desactived on default doesn't work on linux at the moment
     ## Network board - experimental build for win32 only
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "Network", "0")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "SimulateNet", "0")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "PortIn", "1970")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "PortOut", "1971")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "AddressOut", '"127.0.0.1"')
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "AddressOut", '"127.0.0.1"') \
+                                 .setInt(self.SECTION_GLOBAL, "Network", 0) \
+                                 .setInt(self.SECTION_GLOBAL, "SimulateNet", 0) \
+                                 .setInt(self.SECTION_GLOBAL, "PortIn", 1970) \
+                                 .setInt(self.SECTION_GLOBAL, "PortOut", 1971)
 
     ## Set auto triggers activate on default
     ## automatic reload when off-screen
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputAutoTrigger", "1")
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputAutoTrigger2", "1")
+    supermodelControllersSettings.setInt(self.SECTION_GLOBAL, "InputAutoTrigger", 1) \
+                                 .setInt(self.SECTION_GLOBAL, "InputAutoTrigger2", 1)
 
     # Set sensitivity analog configurable in ConfigModel3.ini
-    sensitivity = supermodelSettings.getOption("sensitivity", "")
     #InputKeySensitivity
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputKeySensitivity", sensitivity)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputKeySensitivity", supermodelSettings.getString("sensitivity", ""))
 
     # Set deadzone analog configurable in ConfigModel3.ini
-    deadzone = supermodelSettings.getOption("deadzone", "")
+    deadzone = supermodelSettings.getString("deadzone", "")
     # joystick1 Player 1
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1XDeadZone", deadzone)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1YDeadZone", deadzone)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy1XDeadZone", deadzone) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1YDeadZone", deadzone)
     # joystick2 player 1
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RXDeadZone", deadzone)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RYDeadZone", deadzone)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy1RXDeadZone", deadzone) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1RYDeadZone", deadzone)
     # triggers R2/L2 player 1
 #    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RZDeadZone", deadzone)
 #    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1ZDeadZone", deadzone)
     # joystick1 Player 2
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2YDeadZone", deadzone)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2ZDeadZone", deadzone)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy2YDeadZone", deadzone) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2ZDeadZone", deadzone)
     # joystick2 Player 2
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RXDeadZone", deadzone)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RYDeadZone", deadzone)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy2RXDeadZone", deadzone) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2RYDeadZone", deadzone)
     # triggers R2/L2 player 2
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RZDeadZone", deadzone)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2XDeadZone", deadzone)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy2RZDeadZone", deadzone) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2XDeadZone", deadzone)
 
 
     # Set Saturation analog configurable in ConfigModel3.ini
-    saturation = supermodelSettings.getOption("saturation", "")
+    saturation = supermodelSettings.getString("saturation", "")
     # joystick1 Players 1
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RXSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RYSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1RZSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1XSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1YSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy1ZSaturation", saturation)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy1RXSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1RYSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1RZSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1XSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1YSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy1ZSaturation", saturation)
     # joystick2 Players 2
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RXSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RYSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2RZSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2XSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2YSaturation", saturation)
-    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, "InputJoy2ZSaturation", saturation)
+    supermodelControllersSettings.setString(self.SECTION_GLOBAL, "InputJoy2RXSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2RYSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2RZSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2XSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2YSaturation", saturation) \
+                                 .setString(self.SECTION_GLOBAL, "InputJoy2ZSaturation", saturation)
 
     for playercontroller in playersControllers:
-        pad = playersControllers[playercontroller]
+        pad: Controller = playersControllers[playercontroller]
         # we only care about player 1
-        if pad.player != "1":
+        if pad.PlayerIndex != 1:
             continue
 
         # increase +1 controller index 
-        padIndex = 'JOY{}'.format(int(pad.index) + 1)
+        padIndex = 'JOY{}'.format(pad.SdlIndex + 1)
 
         # Add hotkey buttons
         for x in HOTKEY_BUTTONS:
-            if HOTKEY_BUTTONS[x] in pad.inputs:
-                inp = pad.inputs[HOTKEY_BUTTONS[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}+{}_{}"'.format(padIndex, getConfigValueJ1(pad.inputs["hotkey"]), padIndex, getConfigValueJ1(inp)))
+            if pad.HasInput(HOTKEY_BUTTONS[x]):
+                inp = pad.Input(HOTKEY_BUTTONS[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}+{}_{}"'.format(padIndex, getConfigValueJ1(pad.Input(InputItem.ItemHotkey)), padIndex, getConfigValueJ1(inp)))
 
         # Service and Test menu
         # Set on 0 or 1 in ConfigModel3.ini
         for x in SERVICE_TEST_BUTTON:
-            if SERVICE_TEST_BUTTON[x] in pad.inputs:
-                inp = pad.inputs[SERVICE_TEST_BUTTON[x]]
-                ServiceBtn = supermodelSettings.getOption("service-button", "")
+            if pad.HasInput(SERVICE_TEST_BUTTON[x]):
+                inp = pad.Input(SERVICE_TEST_BUTTON[x])
+                ServiceBtn = supermodelSettings.setString("service-button", "")
                 if ServiceBtn == "1" :
-                    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
+                    supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
                 else:
-                    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, "NONE")
+                    supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, "NONE")
 
         for x in BUTTONS_P1:
-            if BUTTONS_P1[x] in pad.inputs:
-                inp = pad.inputs[BUTTONS_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
+            if pad.HasInput(BUTTONS_P1[x]):
+                inp = pad.Input(BUTTONS_P1[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
 
         for x in DIGITAL_JOYSTICK_P1:
-            if DIGITAL_JOYSTICK_P1[x] in pad.inputs:
-                inp = pad.inputs[DIGITAL_JOYSTICK_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
+            if pad.HasInput(DIGITAL_JOYSTICK_P1[x]):
+                inp = pad.Input(DIGITAL_JOYSTICK_P1[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
 
-        for x in ANALOG_JOYSTICK_P1:   
-            if ANALOG_JOYSTICK_P1[x] in pad.inputs: # for up/left direction
-                inp = pad.inputs[ANALOG_JOYSTICK_P1[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(inp)))
-            else: # for down/right direction on joystick axis
-                ReverseInput = getControllerItem(pad, ANALOG_JOYSTICK_P1[x])     
-                if ReverseInput is not None:
-                    supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(ReverseInput)))
+        for x in ANALOG_JOYSTICK_P1:
+            if pad.HasInput(ANALOG_JOYSTICK_P1[x]): # for up/left direction
+                inp = pad.Input(ANALOG_JOYSTICK_P1[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getPositionConfigValue(inp)))
 
         for x in BUTTONS_AXIS:
-            if BUTTONS_AXIS[x] in pad.inputs:
-                inp = pad.inputs[BUTTONS_AXIS[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getAxisOrButton(inp)))
+            if pad.HasInput(BUTTONS_AXIS[x]):
+                inp = pad.Input(BUTTONS_AXIS[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getAxisOrButton(inp)))
 
         for x in MOUSE_GAME:
-            if MOUSE_GAME[x] in pad.inputs:
-                inp = pad.inputs[MOUSE_GAME[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}"'.format(getlightGunConfigValue(inp)))
+            if pad.HasInput(MOUSE_GAME[x]):
+                inp = pad.Input(MOUSE_GAME[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}"'.format(getlightGunConfigValue(inp)))
 
-        if pad.player == "2":
+        if pad.PlayerIndex == 2:
             continue
 
-        padIndex = 'JOY{}'.format(int(pad.index) + 2)
+        padIndex = 'JOY{}'.format(pad.SdlIndex + 2)
 
         for x in BUTTONS_P2:
-            if BUTTONS_P2[x] in pad.inputs:
-                inp = pad.inputs[BUTTONS_P2[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
+            if pad.HasInput(BUTTONS_P2[x]):
+                inp = pad.Input(BUTTONS_P2[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
 
         for x in DIGITAL_JOYSTICK_P2:
-            if DIGITAL_JOYSTICK_P2[x] in pad.inputs:
-                inp = pad.inputs[DIGITAL_JOYSTICK_P2[x]]
-                supermodelControllersSettings.setOption(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
+            if pad.HasInput(DIGITAL_JOYSTICK_P2[x]):
+                inp = pad.Input(DIGITAL_JOYSTICK_P2[x])
+                supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ2(inp)))
 
         break
 

@@ -3,7 +3,7 @@ import os.path
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 import configgen.generators.dolphin.dolphinControllers as dolphinControllers
 from configgen.settings.iniSettings import IniSettings
@@ -99,7 +99,7 @@ class DolphinGenerator(Generator):
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         # Try to obtain from keyboard layout, then from system language, then fallback to us
-        kl = conf.getOption("system.kblayout", conf.getOption("system.language", "en")[0:2]).lower()
+        kl = conf.getString("system.kblayout", conf.getString("system.language", "en")[0:2]).lower()
         return kl
 
     @staticmethod
@@ -107,7 +107,7 @@ class DolphinGenerator(Generator):
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
         # Try to obtain from system language, then fallback to US or 
-        esLanguage = conf.getOption("system.language", "$")[0:2].upper()
+        esLanguage = conf.getString("system.language", "$")[0:2].upper()
         return esLanguage
 
     # Get netplay username
@@ -115,7 +115,7 @@ class DolphinGenerator(Generator):
     def GetNetplay() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
-        speudo = conf.getOption("global.netplay.nickname", "$")
+        speudo = conf.getString("global.netplay.nickname", "$")
         return speudo
 
     # Check if Gamecube bios IPL.bin in folders
@@ -135,7 +135,7 @@ class DolphinGenerator(Generator):
     def SetGamecubeWiiuAdapter() -> str:
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
-        adapterStatus = conf.getOption("gamecube.realgamecubepads", "$")
+        adapterStatus = conf.getString("gamecube.realgamecubepads", "$")
         return adapterStatus
 
     # Set Wii sensor bar position in SYSCONF if wii.sensorbar.position=0 (bottom) or =1 (top) set in recalbox.conf
@@ -144,7 +144,7 @@ class DolphinGenerator(Generator):
     def SetSensorBarPosition():
         conf = keyValueSettings(recalboxFiles.recalboxConf)
         conf.loadFile(True)
-        sensorBarPosition = conf.getOption("wii.sensorbar.position", "$")
+        sensorBarPosition = conf.getString("wii.sensorbar.position", "$")
         keyValue = '\x00'.encode('utf-8') if sensorBarPosition == '0' else '\x01'.encode('utf-8')
         keyString = "BT.BAR".encode('utf-8')
         if os.path.exists(recalboxFiles.dolphinSYSCONF):
@@ -170,53 +170,54 @@ class DolphinGenerator(Generator):
         
         # Load Configuration
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
-        dolphinSettings.loadFile(True)
+        dolphinSettings.loadFile(True) \
+                       .defineBool('True', 'False')
 
         # Resolution
         from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.VideoMode)
         if resolution.isSet and resolution.selfProcess:
-            dolphinSettings.setOption(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)
-            dolphinSettings.setOption(self.SECTION_ANALYTICS, "Fullscreen", "True")
+            dolphinSettings.setString(self.SECTION_DISPLAY, "FullscreenResolution", resolution.string)
+            dolphinSettings.setBool(self.SECTION_ANALYTICS, "Fullscreen", True)
         # Logging
-        dolphinSettings.setOption(self.SECTION_DSP, "CaptureLog", "True" if args.verbose else "False")
+        dolphinSettings.setBool(self.SECTION_DSP, "CaptureLog", args.verbose)
         # Force audio backend on Pulse Audio
-        dolphinSettings.setOption(self.SECTION_DSP, "Backend", "Pulse" )
+        dolphinSettings.setString(self.SECTION_DSP, "Backend", "Pulse")
         # Analytics
-        dolphinSettings.setOption(self.SECTION_ANALYTICS, "Enabled", "True")
-        dolphinSettings.setOption(self.SECTION_ANALYTICS, "PermissionAsked", "True")
+        dolphinSettings.setBool(self.SECTION_ANALYTICS, "Enabled", True)
+        dolphinSettings.setBool(self.SECTION_ANALYTICS, "PermissionAsked", True)
         # BluetoothPasstrough
-        dolphinSettings.setOption(self.SECTION_BTPASSTHROUGH, "Enabled", "False")
+        dolphinSettings.setBool(self.SECTION_BTPASSTHROUGH, "Enabled", False)
         # Core
-        dolphinSettings.setOption(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage)
-        dolphinSettings.setOption(self.SECTION_CORE, "WiimoteContinuousScanning", "True")
-        dolphinSettings.setOption(self.SECTION_CORE, "WiiKeyboard", "False")
-        dolphinSettings.setOption(self.SECTION_CORE, "SkipIpl", biosGamecube)
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice0", "12" if padsgamecube == '1' else "6")
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice1", "12" if padsgamecube == '1' else "6")
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice2", "12" if padsgamecube == '1' else "6")
-        dolphinSettings.setOption(self.SECTION_CORE, "SIDevice3", "12" if padsgamecube == '1' else "6")
-        dolphinSettings.setOption(self.SECTION_CORE, "SlotA", "8")
-        dolphinSettings.setOption(self.SECTION_CORE, "SlotB", "8")
+        dolphinSettings.setInt(self.SECTION_CORE, "SelectedLanguage", gamecubeLanguage)
+        dolphinSettings.setBool(self.SECTION_CORE, "WiimoteContinuousScanning", True)
+        dolphinSettings.setBool(self.SECTION_CORE, "WiiKeyboard", False)
+        dolphinSettings.setString(self.SECTION_CORE, "SkipIpl", biosGamecube)
+        dolphinSettings.setInt(self.SECTION_CORE, "SIDevice0", 12 if padsgamecube == '1' else 6)
+        dolphinSettings.setInt(self.SECTION_CORE, "SIDevice1", 12 if padsgamecube == '1' else 6)
+        dolphinSettings.setInt(self.SECTION_CORE, "SIDevice2", 12 if padsgamecube == '1' else 6)
+        dolphinSettings.setInt(self.SECTION_CORE, "SIDevice3", 12 if padsgamecube == '1' else 6)
+        dolphinSettings.setInt(self.SECTION_CORE, "SlotA", 8)
+        dolphinSettings.setInt(self.SECTION_CORE, "SlotB", 8)
         # GameList
-        dolphinSettings.setOption(self.SECTION_GAMELIST, "ColumnID", "True")
+        dolphinSettings.setBool(self.SECTION_GAMELIST, "ColumnID", True)
         # General
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPaths", "2")
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube") 
-        dolphinSettings.setOption(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii")
-        dolphinSettings.setOption(self.SECTION_GENERAL, "RecursiveISOPaths", "True")
+        dolphinSettings.setInt(self.SECTION_GENERAL, "ISOPaths", 2)
+        dolphinSettings.setString(self.SECTION_GENERAL, "ISOPath0", "/recalbox/share/roms/gamecube")
+        dolphinSettings.setString(self.SECTION_GENERAL, "ISOPath1", "/recalbox/share/roms/wii")
+        dolphinSettings.setBool(self.SECTION_GENERAL, "RecursiveISOPaths", True)
         # Interface
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "LanguageCode", language)
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "AutoHideCursor", "True")
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "ConfirmStop", "False")
-        dolphinSettings.setOption(self.SECTION_INTERFACE, "Language", wiiLanguage)
+        dolphinSettings.setString(self.SECTION_INTERFACE, "LanguageCode", language)
+        dolphinSettings.setBool(self.SECTION_INTERFACE, "AutoHideCursor", True)
+        dolphinSettings.setBool(self.SECTION_INTERFACE, "ConfirmStop", False)
+        dolphinSettings.setInt(self.SECTION_INTERFACE, "Language", wiiLanguage)
         # Netplay
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "Nickname", nickname)
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseUPNP", "True")
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexName", nickname)
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "UseIndex", "True")
-        dolphinSettings.setOption(self.SECTION_NETPLAY, "IndexRegion", lobbyServer)
+        dolphinSettings.setString(self.SECTION_NETPLAY, "Nickname", nickname)
+        dolphinSettings.setBool(self.SECTION_NETPLAY, "UseUPNP", True)
+        dolphinSettings.setString(self.SECTION_NETPLAY, "IndexName", nickname)
+        dolphinSettings.setString(self.SECTION_NETPLAY, "TraversalChoice", "traversal")
+        dolphinSettings.setBool(self.SECTION_NETPLAY, "UseIndex", True)
+        dolphinSettings.setString(self.SECTION_NETPLAY, "IndexRegion", lobbyServer)
 
         # Save configuration
         dolphinSettings.saveFile()
@@ -234,17 +235,17 @@ class DolphinGenerator(Generator):
         gfxSettings.loadFile(True)
 
         # Hardware
-        gfxSettings.setOption(self.SECTION_HARDWARE, "VSync", "True")
+        gfxSettings.setBool(self.SECTION_HARDWARE, "VSync", True)
         # Settings
-        gfxSettings.setOption(self.SECTION_SETTINGS, "ShowFPS", "True" if system.ShowFPS else "False")
-        gfxSettings.setOption(self.SECTION_SETTINGS, "AspectRatio", gameRatio)
-        gfxSettings.setOption(self.SECTION_SETTINGS, "HiresTextures", "True")
-        gfxSettings.setOption(self.SECTION_SETTINGS, "CacheHiresTextures", "True")
+        gfxSettings.setBool(self.SECTION_SETTINGS, "ShowFPS", system.ShowFPS)
+        gfxSettings.setInt(self.SECTION_SETTINGS, "AspectRatio", gameRatio)
+        gfxSettings.setBool(self.SECTION_SETTINGS, "HiresTextures", True)
+        gfxSettings.setBool(self.SECTION_SETTINGS, "CacheHiresTextures", True)
 
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         if not system.HasConfigFile:
             # Controllers
             dolphinControllers.generateControllerConfig(system, playersControllers, recalboxSettings)

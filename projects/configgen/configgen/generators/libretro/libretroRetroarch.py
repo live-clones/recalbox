@@ -1,21 +1,18 @@
 import platform
 import os
+from typing import Dict, List
+
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class LibretroRetroarch:
 
-    TRUE = "true"
-    FALSE = "false"
-
-    IS_TRUE = ("1", "true")
-
     # Warning: The values in the array must be exactly at the same index than
     # https://github.com/libretro/RetroArch/blob/master/retroarch.c#L3042
-    RATIO_INDEXES = \
+    RATIO_INDEXES: List[str] = \
     [
         "4/3",
         "16/9",
@@ -44,7 +41,7 @@ class LibretroRetroarch:
     ]
 
     # Define systems not compatible with rewind option
-    SYSTEM_WITH_NO_REWIND = \
+    SYSTEM_WITH_NO_REWIND: List[str] = \
     (
         'virtualboy',
         'sega32x',
@@ -69,24 +66,24 @@ class LibretroRetroarch:
     )
 
     # Define the libretro device type corresponding to the libretro cores, when needed.
-    CORE_TO_PLAYER1_DEVICE = \
+    CORE_TO_PLAYER1_DEVICE: Dict[str, int] = \
     {
-        'cap32': '513',
-        '81': '257',
-        'fuse': '513',
-        'atari800': '513'
+        'cap32': 513,
+        '81': 257,
+        'fuse': 513,
+        'atari800': 513
     }
-    CORE_TO_PLAYER2_DEVICE = \
+    CORE_TO_PLAYER2_DEVICE: Dict[str, int] = \
     {
-        'fuse': '513',
-        'atari800': '513'
+        'fuse': 513,
+        'atari800': 513
     }
 
     # Netplay modes
     NETPLAY_MODES = ('host', 'client')
 
     # Define systems compatible with retroachievements
-    SYSTEM_COMPATIBLE_RETROACHIEVEMENTS = \
+    SYSTEM_COMPATIBLE_RETROACHIEVEMENTS: List[str] = \
     (
         'snes',
         'nes',
@@ -114,7 +111,7 @@ class LibretroRetroarch:
 
     # AI Service language indexes - Keep in sync with
     # https://github.com/libretro/RetroArch/blob/master/translation_defines.h
-    aiLanguages =\
+    aiLanguages: List[str] =\
     [
         "AUTO",
         "EN",
@@ -188,17 +185,17 @@ class LibretroRetroarch:
         except ValueError:
             return "0"
 
-    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerDictionary, demo: bool, recalboxSettings: keyValueSettings):
+    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer, demo: bool, recalboxSettings: keyValueSettings):
         self.recalboxSettings: keyValueSettings = recalboxSettings
         self.system: Emulator = system
         self.settings: keyValueSettings = settings
-        self.controllers: ControllerDictionary = controllers
+        self.controllers: ControllerPerPlayer = controllers
         self.demo: bool = demo
 
     # Is nVidia driver on?
     @staticmethod
     def hasnVidiaDriver() -> bool:
-        arch = platform.machine()
+        arch: str = platform.machine()
         if arch == "x86_64":
             if os.path.exists("/etc/modprobe.d/blacklist.conf"):
                for line in open("/etc/modprobe.d/blacklist.conf"):
@@ -208,130 +205,129 @@ class LibretroRetroarch:
 
     # Fill retroarch configuration
     def fillRetroarchConfiguration(self):
-        settings = self.settings
+        settings: keyValueSettings = self.settings
 
         # Screen resolution
         from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(self.system.VideoMode)
-        settings.setOption("video_fullscreen", self.TRUE)
+        settings.setBool("video_fullscreen", True)
         if resolution.isSet and resolution.selfProcess:
-            settings.setOption("video_fullscreen_x", str(resolution.width))
-            settings.setOption("video_fullscreen_y", str(resolution.height))
+            settings.setInt("video_fullscreen_x", resolution.width) \
+                    .setInt("video_fullscreen_y", resolution.height)
         else:
-            settings.removeOption("video_fullscreen_x")
-            settings.removeOption("video_fullscreen_y")
+            settings.removeOption("video_fullscreen_x") \
+                    .removeOption("video_fullscreen_y")
 
         # AI System
-        aiFrom = self.system.TranslateFrom.upper()
-        aiTo = self.system.TranslateTo.upper()
+        aiFrom: str = self.system.TranslateFrom.upper()
+        aiTo: str = self.system.TranslateTo.upper()
         if len(aiTo) > 2:
             if not aiTo.startswith("ZH") and not aiTo.startswith("AUTO"):  # Keep chinese region
                 aiTo = aiTo[:2]
-        aiKey = self.system.TranslateAPIKey
-        aiUrl = self.system.TranslateURL
-        settings.setOption("ai_service_enable", self.TRUE if self.system.Translate and aiKey != "" else self.FALSE)
-        settings.setDefaultOption("ai_service_mode", "0")
-        settings.setOption("ai_service_source_lang", self.languageIndex(aiFrom))
-        settings.setOption("ai_service_target_lang", self.languageIndex(aiTo))
+        aiKey: str = self.system.TranslateAPIKey
+        aiUrl: str = self.system.TranslateURL
+        settings.setBool("ai_service_enable", self.system.Translate and aiKey != "") \
+                .setDefaultInt("ai_service_mode", 0) \
+                .setString("ai_service_source_lang", self.languageIndex(aiFrom)) \
+                .setString("ai_service_target_lang", self.languageIndex(aiTo))
         if len(aiKey) == 0: aiKey = "RECALBOX"
         if len(aiUrl) == 0: aiUrl = "https://ztranslate.net/service?api_key={}".format(aiKey)
-        settings.setOption("ai_service_url", aiUrl)
+        settings.setString("ai_service_url", aiUrl)
 
         # Threaded video
-        settings.setOption("video_threaded", self.FALSE)
+        settings.setBool("video_threaded", False)
 
         # Enable RetroArch option "quit_press_twice"
-        settings.setOption("quit_press_twice", self.TRUE if self.system.QuitTwice else self.FALSE)
+        settings.setBool("quit_press_twice", self.system.QuitTwice)
 
         # Control new RA 1.7.7 key: do not allow upscaling higher than x4
-        rguiUpscaling = settings.getOption("rgui_internal_upscale_level", "1").strip('"')
-        if rguiUpscaling.isdigit():
-            if int(rguiUpscaling) > 4:
-                settings.setOption("rgui_internal_upscale_level", "4")
+        rguiUpscaling: int = settings.getInt("rgui_internal_upscale_level", 1)
+        if rguiUpscaling > 4:
+            settings.setInt("rgui_internal_upscale_level", 4)
         # Allow extended ASCII
-        settings.setOption("rgui_extended_ascii", self.TRUE)
+        settings.setBool("rgui_extended_ascii", True)
 
         # Smoothing?
-        settings.setOption("video_smooth", self.TRUE if self.system.Smooth else self.FALSE)
+        settings.setBool("video_smooth", self.system.Smooth)
 
         # Shaders?
-        settings.setOption("video_shader_enable", self.TRUE if self.system.HasShaderFile else self.FALSE)
-        settings.setOption("video_shader_dir", os.path.dirname(self.system.ShaderFile) if self.system.HasShaderFile else recalboxFiles.shadersRoot)
+        settings.setBool("video_shader_enable", self.system.HasShaderFile) \
+                .setString("video_shader_dir", os.path.dirname(self.system.ShaderFile) if self.system.HasShaderFile else recalboxFiles.shadersRoot)
         if self.system.HasShaderFile:
-            settings.setOption("video_shader", os.path.basename(self.system.ShaderFile))
+            settings.setString("video_shader", os.path.basename(self.system.ShaderFile))
 
         # Screen ratio
         if self.system.Ratio in self.RATIO_INDEXES:
-            settings.setOption("aspect_ratio_index", self.RATIO_INDEXES.index(self.system.Ratio))
-            settings.setOption("video_aspect_ratio_auto", self.FALSE)
+            settings.setInt("aspect_ratio_index", self.RATIO_INDEXES.index(self.system.Ratio)) \
+                    .setBool("video_aspect_ratio_auto", False)
         elif self.system.Ratio == "none":
             # Do not fix aspect ratio. Let the user play with RA
-            settings.setOption("video_aspect_ratio_auto", self.FALSE)
+            settings.setBool("video_aspect_ratio_auto", False)
         else:
             # default: auto
-            settings.setOption("video_aspect_ratio_auto", self.TRUE)
-            settings.removeOption("aspect_ratio_index")
+            settings.setBool("video_aspect_ratio_auto", True) \
+                    .removeOption("aspect_ratio_index")
 
         # Rewind enabled?
-        hasRewind = self.system.Rewind and self.system.Name not in self.SYSTEM_WITH_NO_REWIND
-        settings.setOption("rewind_enable", self.TRUE if hasRewind else self.FALSE)
+        hasRewind: bool = self.system.Rewind and self.system.Name not in self.SYSTEM_WITH_NO_REWIND
+        settings.setBool("rewind_enable", hasRewind)
 
         # Auto-save (not in demo mode! not in netplay mode!)
-        hasAutoSave = self.system.AutoSave and not self.demo and not self.system.Netplay
-        settings.setOption("savestate_auto_save", self.TRUE if hasAutoSave else self.FALSE)
-        settings.setOption("savestate_auto_load", self.TRUE if hasAutoSave else self.FALSE)
+        hasAutoSave: bool = self.system.AutoSave and not self.demo and not self.system.Netplay
+        settings.setBool("savestate_auto_save", hasAutoSave) \
+                .setBool("savestate_auto_load", hasAutoSave)
 
         # Save folders
-        settings.setOption("savestate_directory", recalboxFiles.savesDir + self.system.Name)
-        settings.setOption("savefile_directory", recalboxFiles.savesDir + self.system.Name)
+        settings.setString("savestate_directory", recalboxFiles.savesDir + self.system.Name) \
+                .setString("savefile_directory", recalboxFiles.savesDir + self.system.Name)
 
         # Extend Controller configurations
         for i in range(0, 11):
-            settings.setOption("input_libretro_device_p{}".format(i), "1")
+            settings.setInt("input_libretro_device_p{}".format(i), 1)
         core = self.system.Core
         # Generic
         if core in self.CORE_TO_PLAYER1_DEVICE:
-          settings.setOption("input_libretro_device_p1", self.CORE_TO_PLAYER1_DEVICE[core])
+          settings.setInt("input_libretro_device_p1", self.CORE_TO_PLAYER1_DEVICE[core])
         if core in self.CORE_TO_PLAYER2_DEVICE:
-          settings.setOption("input_libretro_device_p2", self.CORE_TO_PLAYER2_DEVICE[core])
+          settings.setInt("input_libretro_device_p2", self.CORE_TO_PLAYER2_DEVICE[core])
         # Sens9x2010 case
         if len(self.controllers) > 2 and self.system.Core == 'snes9x2010':
-            settings.setOption("input_libretro_device_p2", "257")
+            settings.setInt("input_libretro_device_p2", 257)
         # Fuse case - Force keyboard as P3
         if self.system.Core == 'fuse':
-            settings.setOption("input_libretro_device_p3", "259")
+            settings.setInt("input_libretro_device_p3", 259)
         # 81 case - Force keyboard as P2
         if self.system.Core == '81':
-            settings.setOption("input_libretro_device_p2", "259")
+            settings.setInt("input_libretro_device_p2", 259)
 
         # Retroachievements (not in demo mode!)
         hasRetroAch = self.system.Retroachievements and not self.demo
-        settings.setOption("cheevos_enable", self.TRUE if hasRetroAch else self.FALSE)
-        settings.setOption("cheevos_hardcore_mode_enable", self.FALSE)
+        settings.setBool("cheevos_enable", hasRetroAch) \
+                .setBool("cheevos_hardcore_mode_enable", False)
         if hasRetroAch and self.system.Name in self.SYSTEM_COMPATIBLE_RETROACHIEVEMENTS:
-            settings.setOption("cheevos_username", self.system.RetroachievementsUsername)
-            settings.setOption("cheevos_password", self.system.RetroachievementsPassword)
-            settings.setOption("cheevos_hardcore_mode_enable", self.TRUE if self.system.RetroachievementsHardcore else self.FALSE)
+            settings.setString("cheevos_username", self.system.RetroachievementsUsername) \
+                    .setString("cheevos_password", self.system.RetroachievementsPassword) \
+                    .setBool("cheevos_hardcore_mode_enable", self.system.RetroachievementsHardcore)
 
         # Integer scale
-        settings.setOption("video_scale_integer", self.TRUE if self.system.IntegerScale else self.FALSE)
+        settings.setBool("video_scale_integer", self.system.IntegerScale)
 
         # Display FPS
-        settings.setOption("fps_show", self.TRUE if self.system.ShowFPS else self.FALSE)
-        settings.setOption("fps_update_interval", "256")
+        settings.setBool("fps_show", self.system.ShowFPS) \
+                .setInt("fps_update_interval", 256)
 
         # Netplay management
-        settings.removeOption("netplay_password")
-        settings.removeOption("netplay_spectate_password")
-        settings.removeOption("netplay_start_as_spectator")
+        settings.removeOption("netplay_password") \
+                .removeOption("netplay_spectate_password") \
+                .removeOption("netplay_start_as_spectator")
         if self.system.Netplay:
-            settings.setOption("netplay_use_mitm_server", self.FALSE)
+            settings.setBool("netplay_use_mitm_server", True)
             if self.system.NetplayHostMode:
                 if self.system.HasNetplayMITM:
-                    settings.setOption("netplay_use_mitm_server", self.TRUE)
-                    settings.setOption("netplay_mitm_server", self.system.NetplayMITM)
+                    settings.setBool("netplay_use_mitm_server", True) \
+                            .setString("netplay_mitm_server", self.system.NetplayMITM)
             else:
-                settings.setOption("netplay_start_as_spectator", self.TRUE if self.system.NetplayViewerOnly else self.FALSE)
+                settings.setBool("netplay_start_as_spectator", self.system.NetplayViewerOnly)
             # Netplay passwords
-            settings.setOption("netplay_password", '"' + self.system.NetplayPlayerPassword + '"')
-            settings.setOption("netplay_spectate_password", '"' + self.system.NetplayViewerPassword + '"')
+            settings.setString("netplay_password", '"' + self.system.NetplayPlayerPassword + '"') \
+                    .setString("netplay_spectate_password", '"' + self.system.NetplayViewerPassword + '"')

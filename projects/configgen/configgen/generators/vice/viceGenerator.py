@@ -2,7 +2,7 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -10,7 +10,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 class ViceGenerator(Generator):
     # Main entry of the module
     # Return command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "-config", recalboxFiles.viceConfig,

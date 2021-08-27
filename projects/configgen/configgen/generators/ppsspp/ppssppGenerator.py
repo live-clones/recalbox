@@ -2,7 +2,7 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 import configgen.generators.ppsspp.ppssppConfig as ppssppConfig
 import configgen.generators.ppsspp.ppssppControllers as ppssppControllers
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -11,7 +11,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 class PPSSPPGenerator(Generator):
     # Main entry of the module
     # Configure ppsspp and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         if not system.HasConfigFile:
             ppssppConfig.writePPSSPPConfig(system)
@@ -19,7 +19,7 @@ class PPSSPPGenerator(Generator):
             for index in playersControllers:
                 controller = playersControllers[index]
                 # we only care about player 1
-                if controller.player != "1":
+                if controller.PlayerIndex != 1:
                     continue
                 ppssppControllers.generateControllerConfig(controller)
                 cfgFile = open(recalboxFiles.ppssppControls, "w")

@@ -1,37 +1,68 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from configparser import ConfigParser
-import configgen.recalboxFiles as recalboxFiles
-from configgen.controllersConfig import Controller
+from typing import Dict
 
-reicastMapping = \
+import configgen.recalboxFiles as recalboxFiles
+from configgen.controllers.inputItem import InputItem
+from configgen.controllers.controller import Controller
+from configgen.settings.iniSettings import IniSettings
+
+reicastMapping: Dict[int, Dict[int, str]] = \
 {
-    'a': {'button': 'btn_b'},
-    'b': {'button': 'btn_a'},
-    'x': {'button': 'btn_y'},
-    'y': {'button': 'btn_x'},
-    'start': {'button': 'btn_start'},
-    'hotkey': {'button': 'btn_escape'},
-    'l1': {'axis': 'axis_trigger_left', 'button': 'btn_trigger_left'},
-    'r1': {'axis': 'axis_trigger_right', 'button': 'btn_trigger_right'},
-    'joystick1left': {'axis': 'axis_x'},
-    'joystick1up': {'axis': 'axis_y'},
+    InputItem.ItemA:        { InputItem.TypeButton: 'btn_b'},
+    InputItem.ItemB:        { InputItem.TypeButton: 'btn_a'},
+    InputItem.ItemX:        { InputItem.TypeButton: 'btn_y'},
+    InputItem.ItemY:        { InputItem.TypeButton: 'btn_x'},
+    InputItem.ItemStart:    { InputItem.TypeButton: 'btn_start'},
+    InputItem.ItemHotkey:   { InputItem.TypeButton: 'btn_escape'},
+    InputItem.ItemL1:       { InputItem.TypeAxis  : 'axis_trigger_left',  InputItem.TypeButton: 'btn_trigger_left'},
+    InputItem.ItemR1:       { InputItem.TypeAxis  : 'axis_trigger_right', InputItem.TypeButton: 'btn_trigger_right'},
+    InputItem.ItemJoy1Left: { InputItem.TypeAxis  : 'axis_x'},
+    InputItem.ItemJoy1Up:   { InputItem.TypeAxis  : 'axis_y'},
     # The DPAD can be an axis (for gpio sticks for example) or a hat
-    'left': {'hat': 'axis_dpad1_x', 'axis': 'axis_x', 'button': 'btn_dpad1_left'},
-    'up': {'hat': 'axis_dpad1_y', 'axis': 'axis_y', 'button': 'btn_dpad1_up'},
-    'right': {'button': 'btn_dpad1_right'},
-    'down': {'button': 'btn_dpad1_down'},
+    InputItem.ItemLeft:     { InputItem.TypeHat   : 'axis_dpad1_x', InputItem.TypeAxis  : 'axis_x', InputItem.TypeButton: 'btn_dpad1_left'},
+    InputItem.ItemUp:       { InputItem.TypeHat   : 'axis_dpad1_y', InputItem.TypeAxis  : 'axis_y', InputItem.TypeButton: 'btn_dpad1_up'},
+    InputItem.ItemRight:    { InputItem.TypeButton: 'btn_dpad1_right'},
+    InputItem.ItemDown:     { InputItem.TypeButton: 'btn_dpad1_down'},
     # We are only interested in L2/R2 if they are axis, to have real dreamcasttriggers
-    'r2': {'axis': 'axis_trigger_right'},
-    'l2': {'axis': 'axis_trigger_left'}
+    InputItem.ItemR2:       { InputItem.TypeAxis  : 'axis_trigger_right'},
+    InputItem.ItemL2:       { InputItem.TypeAxis  : 'axis_trigger_left'}
 }
 
-sections = \
+sections: Dict[str, str] = \
 {
-    'emulator': ['mapping_name', 'btn_escape'],
-    'dreamcast': ['btn_a', 'btn_b', 'btn_c', 'btn_d', 'btn_z', 'btn_x', 'btn_y', 'btn_start', 'axis_x', 'axis_y', 'axis_trigger_left', 'axis_trigger_right', 'btn_dpad1_left', 'btn_dpad1_right', 'btn_dpad1_up', 'btn_dpad1_down',
-                  'btn_dpad2_left', 'btn_dpad2_right', 'btn_dpad2_up', 'btn_dpad2_down'],
-    'compat': ['axis_dpad1_x', 'axis_dpad1_y', 'btn_trigger_left', 'btn_trigger_right', 'axis_dpad2_x', 'axis_dpad2_y', 'axis_x_inverted', 'axis_y_inverted', 'axis_trigger_left_inverted', 'axis_trigger_right_inverted']
+    'mapping_name':                'emulator',
+    'btn_escape':                  'emulator',
+    'btn_a':                       'dreamcast',
+    'btn_b':                       'dreamcast',
+    'btn_c':                       'dreamcast',
+    'btn_d':                       'dreamcast',
+    'btn_z':                       'dreamcast',
+    'btn_x':                       'dreamcast',
+    'btn_y':                       'dreamcast',
+    'btn_start':                   'dreamcast',
+    'axis_x':                      'dreamcast',
+    'axis_y':                      'dreamcast',
+    'axis_trigger_left':           'dreamcast',
+    'axis_trigger_right':          'dreamcast',
+    'btn_dpad1_left':              'dreamcast',
+    'btn_dpad1_right':             'dreamcast',
+    'btn_dpad1_up':                'dreamcast',
+    'btn_dpad1_down':              'dreamcast',
+    'btn_dpad2_left':              'dreamcast',
+    'btn_dpad2_right':             'dreamcast',
+    'btn_dpad2_up':                'dreamcast',
+    'btn_dpad2_down':              'dreamcast',
+    'axis_dpad1_x':                'compat',
+    'axis_dpad1_y':                'compat',
+    'btn_trigger_left':            'compat',
+    'btn_trigger_right':           'compat',
+    'axis_dpad2_x':                'compat',
+    'axis_dpad2_y':                'compat',
+    'axis_x_inverted':             'compat',
+    'axis_y_inverted':             'compat',
+    'axis_trigger_left_inverted':  'compat',
+    'axis_trigger_right_inverted': 'compat'
 }
 
 
@@ -39,41 +70,29 @@ sections = \
 # returns its name
 def generateControllerConfig(controller: Controller):
     # Set config file name
-    configFileName = "{}/controllerP{}.cfg".format(recalboxFiles.reicastCustom, controller.player)
-    Config = ConfigParser()
-    cfgfile = open(configFileName, 'w+')
-
-    # create ini sections
-    for section in sections:
-        Config.add_section(section)
+    configFileName = "{}/controllerP{}.cfg".format(recalboxFiles.reicastCustom, controller.PlayerIndex)
+    configFile = IniSettings(configFileName, True)
+    configFile.loadFile(True)
 
     # Add controller name
-    Config.set('emulator', "mapping_name", controller.realName)
+    configFile.setString('emulator', "mapping_name", controller.DeviceName)
 
     # Parse controller inputs
-    for index in controller.inputs:
-        inp = controller.inputs[index]
-        if inp.name not in reicastMapping:
-            continue
-        if inp.type not in reicastMapping[inp.name]:
-            continue
-        var = reicastMapping[inp.name][inp.type]
-        section = "error"
-        for i in sections:
-            if var in sections[i]:
-                section = i
-                break
+    for item in controller.AvailableInput:
+        if item.Item not in reicastMapping: continue
+        if item.Type not in reicastMapping[item.Item]: continue
+        var: str = reicastMapping[item.Item][item.Type]
+        section: str = "error"
+        if var in sections:
+           section = sections[var]
 
         # Sadly, we don't get the right axis code for Y hats. So, dirty hack time
-        code = inp.code
-        if inp.type == 'hat':
-            if inp.name == 'up':
-                code = int(inp.code) + 1
-            else:
-                code = inp.code
+        code = item.Code
+        if item.Type == InputItem.TypeHat and item.Item == InputItem.ItemUp:
+            code = code + 1
 
-        Config.set(section, var, code)
+        configFile.setInt(section, var, code)
 
-    Config.write(cfgfile)
-    cfgfile.close()
+    configFile.saveFile()
+
     return configFileName

@@ -4,7 +4,7 @@ import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.daphne.daphneControllers as daphneControllers
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -13,7 +13,7 @@ class DaphneGenerator(Generator):
 
     # Main entry of the module
     # Configure daphne and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         if not system.HasConfigFile:
             daphneControllers.generateControllerConfig(system, playersControllers)

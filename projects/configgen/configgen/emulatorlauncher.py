@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 import argparse
+from typing import Dict
 
 from configgen.Emulator import Emulator
 import configgen.utils.runner as runner
 import configgen.recalboxFiles as recalboxFiles
 
-from configgen.controllersConfig import Controller
+from configgen.controllers.controller import Controller, ControllerPerPlayer
 from configgen.settings.configOverriding import buildOverrideChain
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -178,7 +179,7 @@ def loadRecalboxSettings(rom, systemname):
     # Load boot settings
     recalboot = keyValueSettings("/boot/recalbox-boot.conf", False)
     recalboot.loadFile(True)
-    fixedScreenSize = recalboot.getOption("case", "") in ("GPiV1", "GPiV2", "GPiV3")
+    fixedScreenSize = recalboot.getString("case", "") in ("GPiV1", "GPiV2", "GPiV3")
     del recalboot
     from configgen.utils.architecture import Architecture
     arch = Architecture()
@@ -200,31 +201,9 @@ def loadRecalboxSettings(rom, systemname):
 
 
 def main(arguments) -> (int, bool):
-    if not arguments.demo:
-        demoStartButtons = dict()
-        # Read the controller configuration
-        playersControllers = Controller.loadControllerConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes, arguments.p1nbhats, arguments.p1nbbuttons,
-                                                             arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes, arguments.p2nbhats, arguments.p2nbbuttons,
-                                                             arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes, arguments.p3nbhats, arguments.p3nbbuttons,
-                                                             arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes, arguments.p4nbhats, arguments.p4nbbuttons,
-                                                             arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes, arguments.p5nbhats, arguments.p5nbbuttons,
-                                                             arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes, arguments.p6nbhats, arguments.p6nbbuttons,
-                                                             arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes, arguments.p7nbhats, arguments.p7nbbuttons,
-                                                             arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes, arguments.p8nbhats, arguments.p8nbbuttons,
-                                                             arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes, arguments.p9nbhats, arguments.p9nbbuttons,
-                                                             arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes, arguments.p10nbhats, arguments.p10nbbuttons)
-    else:
-        playersControllers = dict()
-        demoStartButtons = Controller.loadDemoConfig(arguments.p1index, arguments.p1guid, arguments.p1name, arguments.p1devicepath, arguments.p1nbaxes, arguments.p1nbhats, arguments.p1nbbuttons,
-                                                     arguments.p2index, arguments.p2guid, arguments.p2name, arguments.p2devicepath, arguments.p2nbaxes, arguments.p2nbhats, arguments.p2nbbuttons,
-                                                     arguments.p3index, arguments.p3guid, arguments.p3name, arguments.p3devicepath, arguments.p3nbaxes, arguments.p3nbhats, arguments.p3nbbuttons,
-                                                     arguments.p4index, arguments.p4guid, arguments.p4name, arguments.p4devicepath, arguments.p4nbaxes, arguments.p4nbhats, arguments.p4nbbuttons,
-                                                     arguments.p5index, arguments.p5guid, arguments.p5name, arguments.p5devicepath, arguments.p5nbaxes, arguments.p5nbhats, arguments.p5nbbuttons,
-                                                     arguments.p6index, arguments.p6guid, arguments.p6name, arguments.p6devicepath, arguments.p6nbaxes, arguments.p6nbhats, arguments.p6nbbuttons,
-                                                     arguments.p7index, arguments.p7guid, arguments.p7name, arguments.p7devicepath, arguments.p7nbaxes, arguments.p7nbhats, arguments.p7nbbuttons,
-                                                     arguments.p8index, arguments.p8guid, arguments.p8name, arguments.p8devicepath, arguments.p8nbaxes, arguments.p8nbhats, arguments.p8nbbuttons,
-                                                     arguments.p9index, arguments.p9guid, arguments.p9name, arguments.p9devicepath, arguments.p9nbaxes, arguments.p9nbhats, arguments.p9nbbuttons,
-                                                     arguments.p10index, arguments.p10guid, arguments.p10name, arguments.p10devicepath, arguments.p10nbaxes, arguments.p10nbhats, arguments.p10nbbuttons)
+
+    demoStartButtons: Dict[int, int] = Controller.LoadDemoControllerConfigurations(**vars(arguments)) if arguments.demo else {}
+    playersControllers: ControllerPerPlayer = Controller.LoadUserControllerConfigurations(**vars(arguments)) if not arguments.demo else {}
 
     systemName = arguments.system
 

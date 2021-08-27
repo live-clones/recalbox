@@ -164,9 +164,9 @@ class demoInformation:
         gameInfo = keyValueSettings(self.GAME_INFO_PATH, False)
         gameInfo.loadFile(True)
 
-        systemName = gameInfo.getOption(self.KEY_SYSTEM_NAME, "Unknown")
-        gameName = gameInfo.getOption(self.KEY_GAME_NAME, "Unknown")
-        gameImagePath = gameInfo.getOption(self.KEY_GAME_IMAGE_PATH, "")
+        systemName = gameInfo.getString(self.KEY_SYSTEM_NAME, "Unknown")
+        gameName = gameInfo.getString(self.KEY_GAME_NAME, "Unknown")
+        gameImagePath = gameInfo.getString(self.KEY_GAME_IMAGE_PATH, "")
         del gameInfo
 
         return systemName, gameName, gameImagePath

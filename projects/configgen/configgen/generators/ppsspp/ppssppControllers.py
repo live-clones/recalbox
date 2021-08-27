@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from configparser import ConfigParser
+from typing import Dict
+
 import configgen.recalboxFiles as recalboxFiles
 
 # This configgen is based on PPSSPP 1.2.2. Therefore, all code/github references are valid at this version, and may not be valid with later updates
 
 # PPSSPP internal "NKCodes" https://github.com/hrydgard/ppsspp/blob/master/ext/native/inp/keycodes.h#L198
 # Will later be used to convert SDL inp ids
-from configgen.controllersConfig import Controller
+from configgen.controllers.inputItem import InputItem
+from configgen.controllers.controller import Controller
+from configgen.settings.iniSettings import IniSettings
 
 NKCODE_BUTTON_1 = 188
 NKCODE_BUTTON_2 = 189
@@ -48,7 +51,9 @@ DEVICE_ID_PAD_1 = 11
 DEVICE_ID_PAD_2 = 12
 DEVICE_ID_PAD_3 = 13
 DEVICE_ID_PAD_4 = 14
-sdlIndexToIdPad = {
+
+sdlIndexToIdPad: Dict[int, int] = \
+{
     0: DEVICE_ID_PAD_0,
     1: DEVICE_ID_PAD_1,
     2: DEVICE_ID_PAD_2,
@@ -58,63 +63,68 @@ sdlIndexToIdPad = {
 # SDL 2.0.4 inp ids conversion table to NKCodes
 # See https://hg.libsdl.org/SDL/file/e12c38730512/include/SDL_gamecontroller.h#l262
 # See https://github.com/hrydgard/ppsspp/blob/master/SDL/SDLJoystick.h#L91
-sdlNameToNKCode = {
-        "b" : NKCODE_BUTTON_2, # A
-        "a" : NKCODE_BUTTON_3, # B
-        "y" : NKCODE_BUTTON_4, # X
-        "x" : NKCODE_BUTTON_1, # Y
-        "select" : NKCODE_BUTTON_9, # SELECT/BACK
-        "hotkey" : NKCODE_BACK, # GUIDE
-        "start" : NKCODE_BUTTON_10, # START
-        # "7" : NKCODE_BUTTON_?, # L3, unsued
-        # "8" : NKCODE_BUTTON_?, # R3, unsued
-        "l1" : NKCODE_BUTTON_6, # L
-        "r1" : NKCODE_BUTTON_5, # R
-        "up" : NKCODE_DPAD_UP,
-        "down" : NKCODE_DPAD_DOWN,
-        "left" : NKCODE_DPAD_LEFT,
-        "right" : NKCODE_DPAD_RIGHT
+sdlNameToNKCode: Dict[int, int] = \
+{
+    InputItem.ItemB      : NKCODE_BUTTON_2, # A
+    InputItem.ItemA      : NKCODE_BUTTON_3, # B
+    InputItem.ItemY      : NKCODE_BUTTON_4, # X
+    InputItem.ItemX      : NKCODE_BUTTON_1, # Y
+    InputItem.ItemSelect : NKCODE_BUTTON_9, # SELECT/BACK
+    InputItem.ItemHotkey : NKCODE_BACK, # GUIDE
+    InputItem.ItemStart  : NKCODE_BUTTON_10, # START
+    # "7" : NKCODE_BUTTON_?, # L3, unsued
+    # "8" : NKCODE_BUTTON_?, # R3, unsued
+    InputItem.ItemL1     : NKCODE_BUTTON_6, # L
+    InputItem.ItemR1     : NKCODE_BUTTON_5, # R
+    InputItem.ItemUp     : NKCODE_DPAD_UP,
+    InputItem.ItemDown   : NKCODE_DPAD_DOWN,
+    InputItem.ItemLeft   : NKCODE_DPAD_LEFT,
+    InputItem.ItemRight  : NKCODE_DPAD_RIGHT
 }
 
-SDLHatMap = {
-        "up" : NKCODE_DPAD_UP,
-        "down" : NKCODE_DPAD_DOWN,
-        "left" : NKCODE_DPAD_LEFT,
-        "right" : NKCODE_DPAD_RIGHT
+SDLHatMap: Dict[int, int] = \
+{
+    InputItem.ItemUp    : NKCODE_DPAD_UP,
+    InputItem.ItemDown  : NKCODE_DPAD_DOWN,
+    InputItem.ItemLeft  : NKCODE_DPAD_LEFT,
+    InputItem.ItemRight : NKCODE_DPAD_RIGHT
 }
 
-SDLJoyAxisMap = {
-        "0" : JOYSTICK_AXIS_X,
-        "1" : JOYSTICK_AXIS_Y,
-        "2" : JOYSTICK_AXIS_Z,
-        "3" : JOYSTICK_AXIS_RZ,
-        "4" : JOYSTICK_AXIS_LTRIGGER,
-        "5" : JOYSTICK_AXIS_RTRIGGER
+SDLJoyAxisMap: Dict[int, int] = \
+{
+    0 : JOYSTICK_AXIS_X,
+    1 : JOYSTICK_AXIS_Y,
+    2 : JOYSTICK_AXIS_Z,
+    3 : JOYSTICK_AXIS_RZ,
+    4 : JOYSTICK_AXIS_LTRIGGER,
+    5 : JOYSTICK_AXIS_RTRIGGER
 }
 
-ppssppMapping =  { 'a' :             {'button': 'Circle'},
-                   'b' :             {'button': 'Cross'},
-                   'x' :             {'button': 'Triangle'},
-                   'y' :             {'button': 'Square'},
-                   'start' :         {'button': 'Start'},
-                   'select' :        {'button': 'Select'},
-                   'hotkey' :        {'button': 'Pause'},
-                   'l1' :            {'button': 'L'},
-                   'r1' :            {'button': 'R'},
-                   'joystick1left' : {'axis': 'An.Left'},
-                   'joystick1up' :   {'axis': 'An.Up'},
-                   'joystick2left' : {'axis': 'RightAn.Left'},
-                   'joystick2up' :   {'axis': 'RightAn.Up'},
-                   # The DPAD can be an axis (for gpio sticks for example) or a hat
-                   'up' :            {'hat': 'Up',    'axis': 'Up',    'button': 'Up'},
-                   'down' :          {'hat': 'Down',  'axis': 'Down',  'button': 'Down'},
-                   'left' :          {'hat': 'Left',  'axis': 'Left',  'button': 'Left'},
-                   'right' :         {'hat': 'Right', 'axis': 'Right', 'button': 'Right'},
-                   # Need to add pseudo inputs as PPSSPP doesn't manually invert axises, and these are not referenced in es_input.cfg
-                   'joystick1right' :{'axis': 'An.Right'},
-                   'joystick1down' : {'axis': 'An.Down'},
-                   'joystick2right' :{'axis': 'RightAn.Right'},
-                   'joystick2down' : {'axis': 'RightAn.Down'}
+ppssppMapping: Dict[int, Dict[int, str]] = \
+{
+    InputItem.ItemA :        { InputItem.TypeButton: 'Circle' },
+    InputItem.ItemB :        { InputItem.TypeButton: 'Cross' },
+    InputItem.ItemX :        { InputItem.TypeButton: 'Triangle' },
+    InputItem.ItemY :        { InputItem.TypeButton: 'Square' },
+    InputItem.ItemStart :    { InputItem.TypeButton: 'Start' },
+    InputItem.ItemSelect :   { InputItem.TypeButton: 'Select' },
+    InputItem.ItemHotkey :   { InputItem.TypeButton: 'Pause' },
+    InputItem.ItemL1 :       { InputItem.TypeButton: 'L' },
+    InputItem.ItemR1 :       { InputItem.TypeButton: 'R' },
+    InputItem.ItemJoy1Left : { InputItem.TypeAxis  : 'An.Left' },
+    InputItem.ItemJoy1Up :   { InputItem.TypeAxis  : 'An.Up' },
+    InputItem.ItemJoy2Left : { InputItem.TypeAxis  : 'RightAn.Left' },
+    InputItem.ItemJoy2Up :   { InputItem.TypeAxis  : 'RightAn.Up' },
+    # The DPAD can be an axis (for gpio sticks for example) or a hat
+    InputItem.ItemUp :       { InputItem.TypeHat: 'Up',    InputItem.TypeAxis: 'Up',    InputItem.TypeButton: 'Up' },
+    InputItem.ItemDown :     { InputItem.TypeHat: 'Down',  InputItem.TypeAxis: 'Down',  InputItem.TypeButton: 'Down' },
+    InputItem.ItemLeft :     { InputItem.TypeHat: 'Left',  InputItem.TypeAxis: 'Left',  InputItem.TypeButton: 'Left' },
+    InputItem.ItemRight :    { InputItem.TypeHat: 'Right', InputItem.TypeAxis: 'Right', InputItem.TypeButton: 'Right' },
+    # Need to add pseudo inputs as PPSSPP doesn't manually invert axises, and these are not referenced in es_input.cfg
+    InputItem.ItemJoy1Right :{ InputItem.TypeAxis: 'An.Right' },
+    InputItem.ItemJoy1Down : { InputItem.TypeAxis: 'An.Down' },
+    InputItem.ItemJoy2Right :{ InputItem.TypeAxis: 'RightAn.Right' },
+    InputItem.ItemJoy2Down : { InputItem.TypeAxis: 'RightAn.Down' }
 }
 
 
@@ -123,66 +133,39 @@ ppssppMapping =  { 'a' :             {'button': 'Circle'},
 def generateControllerConfig(controller: Controller):
     # Set config file name
     configFileName = recalboxFiles.ppssppControlsIni
-    Config = ConfigParser()
-    Config.optionxform = str
-    # We need to read the default file as PPSSPP needs the keyboard defs ine the controlls.ini file otherwise the GYUI won't repond
-    Config.read(recalboxFiles.ppssppControlsInit)
+    configFile = IniSettings(configFileName, True)
+    configFile.loadFile(True)
     # As we start with the default ini file, no need to create the section
     section = "ControlMapping"
 
     # Parse controller inputs
-    for index in controller.inputs:
-        inp = controller.inputs[index]
-        if inp.name not in ppssppMapping or inp.type not in ppssppMapping[inp.name]:
+    for item in controller.AvailableInput:
+        if item.Item not in ppssppMapping or item.Type not in ppssppMapping[item.Item]:
             continue
 
-        var = ppssppMapping[inp.name][inp.type]
+        var: str = ppssppMapping[item.Item][item.Type]
 
-        #code = inp.code
-        deviceIdPad = sdlIndexToIdPad[int(controller.index)]
-        if inp.type == 'button':
-            pspcode = sdlNameToNKCode[inp.name]
-            val = "{}-{}".format( deviceIdPad, pspcode )
-            val = optionValue(Config, section, var, val)
-            Config.set(section, var, val)
+        deviceIdPad = sdlIndexToIdPad[int(controller.SdlIndex)]
+        if item.IsButton:
+            pspcode: int = sdlNameToNKCode[item.Item]
+            val: str = optionValue(configFile, section, var, "{}-{}".format(deviceIdPad, pspcode))
+            configFile.setString(section, var, val)
 
-        elif inp.type == 'axis':
-            # Get the axis code
-            nkAxisId = SDLJoyAxisMap[inp.id]
-            # Apply the magic axis formula
-            pspcode = axisToCode(nkAxisId, int(inp.value))
-            val = "{}-{}".format( deviceIdPad, pspcode )
-            val = optionValue(Config, section, var, val)
-            print("Adding {} to {}".format(var, val))
-            Config.set(section, var, val)
-            
-            # Skip the rest if it's an axis dpad
-            if inp.name in [ 'up', 'down', 'left', 'right' ] : continue
-            # Also need to do the opposite direction manually. The inp.id is the same as up/left, but the direction is opposite
-            if inp.name == 'joystick1up':
-                var = ppssppMapping['joystick1down'][inp.type]
-            elif inp.name == 'joystick1left':
-                var = ppssppMapping['joystick1right'][inp.type]
-            elif inp.name == 'joystick2up':
-                var = ppssppMapping['joystick2down'][inp.type]
-            elif inp.name == 'joystick2left':
-                var = ppssppMapping['joystick2right'][inp.type]
-                
-            pspcode = axisToCode(nkAxisId, -int(inp.value))
-            val = "{}-{}".format( deviceIdPad, pspcode )
-            val = optionValue(Config, section, var, val)
-            Config.set(section, var, val)
+        elif item.IsAxis:
+            nkAxisId = SDLJoyAxisMap[item.Id] # Get the axis code
+            pspcode: int = axisToCode(nkAxisId, item.Value) # Apply the magic axis formula
+            val: str = optionValue(configFile, section, var, "{}-{}".format(deviceIdPad, pspcode))
+            configFile.setString(section, var, val)
+
+        elif item.IsHat and item.Item in SDLHatMap:
+            var: str = ppssppMapping[item.Item][item.Type]
+            pspcode: int = SDLHatMap[item.Item]
+            val: str = "{}-{}".format( deviceIdPad, pspcode )
+            val: str = optionValue(configFile, section, var, val)
+            configFile.setString(section, var, val)
         
-        elif inp.type == 'hat' and inp.name in SDLHatMap:
-            var = ppssppMapping[inp.name][inp.type]
-            pspcode = SDLHatMap[inp.name]
-            val = "{}-{}".format( deviceIdPad, pspcode )
-            val = optionValue(Config, section, var, val)
-            Config.set(section, var, val)
-        
-    cfgfile = open(configFileName,'w+')
-    Config.write(cfgfile)
-    cfgfile.close()
+    configFile.saveFile()
+
     return configFileName
 
 
@@ -195,9 +178,9 @@ def axisToCode(axisId: int, direction: int) :
     return AXIS_BIND_NKCODE_START + axisId * 2 + direction
 
 # determine if the option already exists or not
-def optionValue(config: ConfigParser, section: str, option: str, value: str):
-    if config.has_option(section, option):
-        return "{},{}".format(config.get(section, option), value)
+def optionValue(config: IniSettings, section: str, option: str, value: str) -> str:
+    if config.hasOption(section, option):
+        return "{},{}".format(config.getString(section, option, ""), value)
     else:
         return value
 

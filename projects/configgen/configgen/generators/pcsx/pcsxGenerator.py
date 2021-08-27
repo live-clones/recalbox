@@ -1,29 +1,29 @@
 import os
-from typing import List
+from typing import List, Dict
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.controllers.inputItem import InputItem
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings import keyValueSettings
 
 
 class PcsxGenerator(Generator):
 
-    RECALBOX_TO_PCSX_BUTTON_MAPPING = \
+    RECALBOX_TO_PCSX_BUTTON_MAPPING: Dict[int, str] = \
     {
-        "a": "CROSS",
-        "b": "CIRCLE",
-        "x": "SQUARE",
-        "y": "TRIANGLE",
-        "l1": "L1",
-        "r1": "R1",
-        "l2": "L2",
-        "r2": "R2",
-        "start": "START",
-        "select": "SELECT",
+        InputItem.ItemA: "CROSS",
+        InputItem.ItemB: "CIRCLE",
+        InputItem.ItemX: "SQUARE",
+        InputItem.ItemY: "TRIANGLE",
+        InputItem.ItemL1: "L1",
+        InputItem.ItemR1: "R1",
+        InputItem.ItemL2: "L2",
+        InputItem.ItemR2: "R2",
+        InputItem.ItemStart: "START",
+        InputItem.ItemSelect: "SELECT",
     }
-
 
     @staticmethod
     def Loadconfiguration() -> List[str]:
@@ -39,7 +39,6 @@ class PcsxGenerator(Generator):
 
         return config
 
-
     @staticmethod
     def SaveConfiguration(config: List[str]):
         # Force path creation
@@ -52,34 +51,31 @@ class PcsxGenerator(Generator):
             for line in config:
                 lines.write(line + '\n')
 
-
     @staticmethod
-    def ButtonChar(button: str):
-        return '\\' + hex(int(button) + 0xA0)[1:]
+    def ButtonChar(button: int) -> str:
+        return '\\' + hex(button + 0xA0)[1:]
 
-
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         config = PcsxGenerator.Loadconfiguration()
 
         # controller settings
         for index in playersControllers:
             controller = playersControllers[index]
-            if controller.player in ('1', '2'):
-                player = controller.player
-                config.append("binddev = sdl:{}".format(controller.realName))
+            player = controller.PlayerIndex
+            if player in (1, 2):
+                config.append("binddev = sdl:{}".format(controller.DeviceName))
                 config.append("bind up =  player{} UP".format(player))
                 config.append("bind down =  player{} DOWN".format(player))
                 config.append("bind left =  player{} LEFT".format(player))
                 config.append("bind right =  player{} RIGHT".format(player))
-                for k,v in self.RECALBOX_TO_PCSX_BUTTON_MAPPING.items():
-                    if k in controller.inputs:
-                        config.append("bind {} =  player{} {}".format(PcsxGenerator.ButtonChar(controller.inputs[k].id), player, v))
+                for item in controller.AvailableInput:
+                    if item.Item in self.RECALBOX_TO_PCSX_BUTTON_MAPPING:
+                        value: str = self.RECALBOX_TO_PCSX_BUTTON_MAPPING[item.Item]
+                        config.append("bind {} =  player{} {}".format(PcsxGenerator.ButtonChar(item.Id), player, value))
 
         PcsxGenerator.SaveConfiguration(config)
-
         commandArray = [recalboxFiles.recalboxBins[system.Emulator], "-cdfile", args.rom]
-
         if system.HasArgs: commandArray.extend(system.Args)
 
         return Command.Command(videomode=system.VideoMode, array=commandArray)

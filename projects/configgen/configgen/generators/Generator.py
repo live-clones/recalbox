@@ -2,13 +2,13 @@ from abc import ABCMeta, abstractmethod
 
 from configgen.Command import Command
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
 class Generator(object):
     __metaclass__ = ABCMeta
     @abstractmethod
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         pass
     
     #@abstractmethod

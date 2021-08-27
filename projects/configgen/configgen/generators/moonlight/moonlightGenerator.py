@@ -2,17 +2,17 @@
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import Controller
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.controllers.controller import Controller
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings import keyValueSettings
 
 
 class MoonlightGenerator(Generator):
     # Main entry of the module
     # Configure moonlight and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
         outputFile = recalboxFiles.moonlightCustom + '/gamecontrollerdb.txt'
-        Controller.generateSDLGameDBAllControllers(playersControllers, outputFile)
+        Controller.GenerateSDLGameDatabase(playersControllers, outputFile)
         (gameName,confFile) = self.getRealGameNameAndConfigFile(args.rom)
         commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream','-config',  confFile]
 

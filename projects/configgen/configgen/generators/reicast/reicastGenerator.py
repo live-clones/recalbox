@@ -5,9 +5,10 @@ import glob
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 import configgen.generators.reicast.reicastControllers as reicastControllers
-from configparser import ConfigParser
+
+from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -48,29 +49,27 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         if not system.HasConfigFile:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
-            Config = ConfigParser()
-            Config.optionxform = str
-            Config.read(recalboxFiles.reicastConfigInit)
+            config = IniSettings(recalboxFiles.reicastConfigInit, True)
+            config.loadFile(True)
+
             section = "input"
             # For each pad detected
             for index in playersControllers :
                 controller = playersControllers[index]
                 # Get the event number
-                eventNum = controller.dev.replace('/dev/input/event','')
+                eventNum = controller.DevicePath.replace('/dev/input/event','')
                 # Write its mapping file
                 controllerConfigFile = reicastControllers.generateControllerConfig(controller)
                 # set the evdev_device_id_X
-                Config.set(section, 'evdev_device_id_' + controller.player, eventNum)
+                config.setString(section, 'evdev_device_id_{}'.format(controller.PlayerIndex), eventNum)
                 # Set the evdev_mapping_X
-                Config.set(section, 'evdev_mapping_' + controller.player, controllerConfigFile)
+                config.setString(section, 'evdev_mapping_{}'.format(controller.PlayerIndex), controllerConfigFile)
 
-            cfgfile = open(recalboxFiles.reicastConfig,'w+')
-            Config.write(cfgfile)
-            cfgfile.close()
-                
+            config.saveFile()
+
         # the command to run  
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
 

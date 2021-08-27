@@ -1,85 +1,113 @@
 #!/usr/bin/env python
+from __future__ import  annotations
+
+from typing import Dict
+
 
 class IniSettings:
     def __init__(self, settingsFile, extraSpaces = False):
         self.settingsFile = settingsFile
-        self.regions = dict()
+        self.regions: Dict[str, Dict[str, str]] = dict()
         self.extraSpaces = extraSpaces # Allow 'key = value' instead of 'key=value' on writing.
+        self.__true = '1'
+        self.__false = '0'
 
-    def __getitem__(self, section, item):
-        if isinstance(section, str) and isinstance(item, str):
-            if section in self.regions:
-                region = self.regions[section]
-                if item in region:
-                    return region[item]
-            raise KeyError
-        else:
-            raise TypeError
+    def __getitem__(self, section: str, item: str):
+        if section in self.regions:
+            region = self.regions[section]
+            if item in region:
+                return region[item]
+        raise KeyError
 
-    def clear(self):
+    def defineBool(self, true: str, false: str) -> IniSettings:
+        self.__true = true
+        self.__false = false
+        return self
+
+    def clear(self) -> IniSettings:
         self.regions.clear()
+        return self
 
-    def clearRegion(self, section):
-        if isinstance(section, str):
-            if section in self.regions:
-                self.regions[section].clear()
-            else:
-                raise KeyError
-        else:
-            raise TypeError
+    def clearRegion(self, section: str) -> IniSettings:
+        if section in self.regions:
+            self.regions[section].clear()
+        return self
 
-    def hasRegion(self, section) -> bool:
-        return section in self.regions
-
-    def changeSettingsFile(self, newfilename):
+    def changeSettingsFile(self, newfilename: str) -> IniSettings:
         self.settingsFile = newfilename
+        return self
 
     def getSettingsFile(self):
         return self.settingsFile
 
-    def getOption(self, section, item, default):
+    def getString(self, section: str, item: str, default: str) -> str:
         if section in self.regions:
             region = self.regions[section]
             if item in region:
                 return region[item]
         return default
 
-    def hasOption(self, section, item) -> bool:
+    def getInt(self, section: str, item: str, default: int) -> int:
+        if section in self.regions:
+            region = self.regions[section]
+            if item in region:
+                return int(region[item])
+        return default
+
+    def getBool(self, section: str, item: str, default: bool) -> bool:
+        if section in self.regions:
+            region = self.regions[section]
+            if item in region:
+                return region[item] == '1'
+        return default
+
+    def hasRegion(self, section: str) -> bool:
+        return section in self.regions
+
+    def hasOption(self, section:str, item: str) -> bool:
         if section in self.regions:
             if item in self.regions[section]:
                 return True
         return False
 
-    def setOption(self, section, item, value):
+    def setString(self, section, item: str, value: str) -> IniSettings:
         if section not in self.regions:
-            self.regions[section] = dict()
+            self.regions[section] = {}
         region = self.regions[section]
         region[item] = value
+        return self
 
-    def setDefaultOption(self, section, item, defaultvalue):
+    def setInt(self, section, item: str, value: int) -> IniSettings:
         if section not in self.regions:
-            self.regions[section] = dict()
+            self.regions[section] = {}
         region = self.regions[section]
-        if item not in region:
-            region[item] = defaultvalue
+        region[item] = str(value)
+        return self
 
-    def removeOption(self, section, item):
+    def setBool(self, section, item: str, value: bool) -> IniSettings:
         if section not in self.regions:
-            return
-        self.regions[section].pop(item, None)
-
-    def removeOptionStartingWith(self, section, pattern):
-        if section not in self.regions:
-            return
+            self.regions[section] = {}
         region = self.regions[section]
-        keysToRemove = []
-        for key in region.keys():
-            if key.startswith(pattern):
-                keysToRemove.append(key)
-        for key in keysToRemove:
-            region.pop(key, None)
+        region[item] = '1' if value else '0'
+        return self
 
-    def saveFile(self):
+    def removeOption(self, section: str, item: str) -> IniSettings:
+        if section in self.regions:
+            self.regions[section].pop(item, None)
+        return self
+
+    def removeOptionStartingWith(self, section: str, pattern: str) -> IniSettings:
+        if section in self.regions:
+            region = self.regions[section]
+            keysToRemove = []
+            for key in region.keys():
+                if key.startswith(pattern):
+                    keysToRemove.append(key)
+            for key in keysToRemove:
+                region.pop(key, None)
+        return self
+
+    def saveFile(self) -> IniSettings:
         import os
         folder = os.path.dirname(self.settingsFile)
         if not os.path.exists(folder):
@@ -97,8 +125,9 @@ class IniSettings:
                 else:
                     for key in sorted(region.keys()):
                         sf.write((key + "=" + str(region[key]) + '\n').encode("utf-8"))
+        return self
 
-    def loadFile(self, clear = False):
+    def loadFile(self, clear = False) -> IniSettings:
         import re
         try:
             if clear:
@@ -112,7 +141,7 @@ class IniSettings:
                         if m:
                             key = m.group(1).strip()
                             value = m.group(2).strip()
-                            self.setOption(lastSection, key, value)
+                            self.setString(lastSection, key, value)
                             #print("Value: -{}:{}={}-".format(lastSection, key, value))
                         else:
                             m = re.match(r'^\[(.*)\]', line)
@@ -120,4 +149,4 @@ class IniSettings:
                                 lastSection = m.group(1).strip()
                                 #print("Section: -{}-".format(lastSection))
         finally:
-            return self.regions
+            return self

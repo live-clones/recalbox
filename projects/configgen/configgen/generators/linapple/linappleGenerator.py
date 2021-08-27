@@ -8,7 +8,7 @@ import os
 import shutil
 import configgen.Command as Command
 from configgen.Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.generators.linapple.linappleConfig import LinappleConfig
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -65,7 +65,7 @@ class LinappleGenerator(Generator):
 
         return True
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
         # Check resources
         if not self.check_resources():
             return

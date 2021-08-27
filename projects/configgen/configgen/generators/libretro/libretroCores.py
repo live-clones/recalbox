@@ -1,15 +1,15 @@
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 
 
 class LibretroCores:
 
-    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerDictionary):
+    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer):
         self.system: Emulator = system
         self.settings: keyValueSettings = settings
-        self.controllers: ControllerDictionary = controllers
+        self.controllers: ControllerPerPlayer = controllers
         self.rom = rom
 
     #
@@ -19,26 +19,26 @@ class LibretroCores:
     @staticmethod
     def configureBlueMSX(coreSettings: keyValueSettings):
         # Default core configuration - Actual value for legacy msx folder
-        coreSettings.setOption("bluemsx_msxtype", '"Auto"')
+        coreSettings.setString("bluemsx_msxtype", '"Auto"')
 
     @staticmethod
     def configureMAME2003plus(coreSettings: keyValueSettings):
-        coreSettings.setOption("mame2003-plus_analog", '"digital"')
+        coreSettings.setString("mame2003-plus_analog", '"digital"')
 
     @staticmethod
     def configureOpera(coreSettings: keyValueSettings):
-        coreSettings.setOption("opera_dsp_threaded", '"enabled"')
+        coreSettings.setString("opera_dsp_threaded", '"enabled"')
 
     @staticmethod
     def configurePARALLELN64(coreSettings: keyValueSettings):
-        coreSettings.setOption("parallel-n64-boot-device", '"Default"')
-        coreSettings.setOption("parallel-n64-64dd-hardware", '"disabled"')
-        coreSettings.setOption("parallel-n64-gfxplugin", '"auto"')
+        coreSettings.setString("parallel-n64-boot-device", '"Default"')
+        coreSettings.setString("parallel-n64-64dd-hardware", '"disabled"')
+        coreSettings.setString("parallel-n64-gfxplugin", '"auto"')
 
     @staticmethod
     # (pc98) force the "joymode" option to have automatic joystick support.
     def configureNPKAI(coreSettings: keyValueSettings):
-        coreSettings.setOption("np2kai_joymode", '"Keypad"')
+        coreSettings.setString("np2kai_joymode", '"Keypad"')
 
     #
     # System specific configurations
@@ -46,50 +46,50 @@ class LibretroCores:
 
     @staticmethod
     def configureAmigaCDTV(coreSettings: keyValueSettings):
-        coreSettings.setOption("puae_model", '"CDTV"')
+        coreSettings.setString("puae_model", '"CDTV"')
 
     @staticmethod
     def configureAmigaCD32(coreSettings: keyValueSettings):
-        coreSettings.setOption("puae_model", '"CD32"')
+        coreSettings.setString("puae_model", '"CD32"')
 
     @staticmethod
     def configureAmiga1200(coreSettings: keyValueSettings):
-        coreSettings.setOption("puae_model", '"A1200"')
+        coreSettings.setString("puae_model", '"A1200"')
 
     @staticmethod
     def configureAmiga600(coreSettings: keyValueSettings):
-        coreSettings.setOption("puae_model", '"A600"')
+        coreSettings.setString("puae_model", '"A600"')
 
     @staticmethod
     def configureAmstradCPC(coreSettings: keyValueSettings):
-        coreSettings.setOption("cap32_model", '"6128"')
+        coreSettings.setString("cap32_model", '"6128"')
 
     @staticmethod
     def configureAmstradGX4000(coreSettings: keyValueSettings):
-        coreSettings.setOption("cap32_model", '"6128+"')
+        coreSettings.setString("cap32_model", '"6128+"')
 
     @staticmethod
     def configureAtari5200(coreSettings: keyValueSettings):
-        coreSettings.setOption("atari800_system", '"5200"')
+        coreSettings.setString("atari800_system", '"5200"')
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
-        a800settings.setOption("MACHINE_TYPE", "Atari 5200")
-        a800settings.setOption("RAM_SIZE", "16")
-        a800settings.setOption("STEREO_POKEY", "0")
-        a800settings.setOption("BUILTIN_BASIC", "0")
+        a800settings.setString("MACHINE_TYPE", "Atari 5200")
+        a800settings.setInt("RAM_SIZE", 16)
+        a800settings.setInt("STEREO_POKEY", 0)
+        a800settings.setInt("BUILTIN_BASIC", 0)
         a800settings.saveFile()
 
     @staticmethod
     def configureAtari800(coreSettings: keyValueSettings):
-        coreSettings.setOption("atari800_system", '"130XE (128K)"')
+        coreSettings.setString("atari800_system", '"130XE (128K)"')
 
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
-        a800settings.setOption("MACHINE_TYPE", "Atari XL/XE")
-        a800settings.setOption("RAM_SIZE", "64")
-        a800settings.setOption("STEREO_POKEY", "1")
-        a800settings.setOption("BUILTIN_BASIC", "1")
+        a800settings.setString("MACHINE_TYPE", "Atari XL/XE")
+        a800settings.setInt("RAM_SIZE", 64)
+        a800settings.setInt("STEREO_POKEY", 1)
+        a800settings.setInt("BUILTIN_BASIC", 1)
         a800settings.saveFile()
 
     def configureAtariST(self, _):
@@ -159,37 +159,37 @@ class LibretroCores:
 
     @staticmethod
     def configure64DD(coreSettings: keyValueSettings):
-        coreSettings.setOption("parallel-n64-boot-device", '"64DD IPL"')
-        coreSettings.setOption("parallel-n64-64dd-hardware", '"enabled"')
-        coreSettings.setOption("parallel-n64-gfxplugin", '"gln64"')
+        coreSettings.setString("parallel-n64-boot-device", '"64DD IPL"')
+        coreSettings.setString("parallel-n64-64dd-hardware", '"enabled"')
+        coreSettings.setString("parallel-n64-gfxplugin", '"gln64"')
 
     @staticmethod
     def configureSpectravideo(coreSettings: keyValueSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
+        coreSettings.setString("bluemsx_msxtype", '"SVI - Spectravideo SVI-328 MK2"')
 
     @staticmethod
     def configureMsx1(coreSettings: keyValueSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"MSX"')
+        coreSettings.setString("bluemsx_msxtype", '"MSX"')
 
     @staticmethod
     def configureMsx2(coreSettings: keyValueSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"MSX2+"')
+        coreSettings.setString("bluemsx_msxtype", '"MSX2+"')
 
     @staticmethod
     def configureMsxTurboR(coreSettings: keyValueSettings):
-        coreSettings.setOption("bluemsx_msxtype", '"MSXturboR"')
+        coreSettings.setString("bluemsx_msxtype", '"MSXturboR"')
 
     @staticmethod
     def configureOdyssey2(coreSettings: keyValueSettings):
-        coreSettings.setOption("o2em_bios", '"o2rom.bin"')
+        coreSettings.setString("o2em_bios", '"o2rom.bin"')
 
     @staticmethod
     def configureVideoPacPlus(coreSettings: keyValueSettings):
-        coreSettings.setOption("o2em_bios", '"g7400.bin"')
+        coreSettings.setString("o2em_bios", '"g7400.bin"')
 
     @staticmethod
     def configureSwanstation(coreSettings: keyValueSettings):
-        coreSettings.setOption("duckstation_Controller2.Type", '"DigitalController"')
+        coreSettings.setString("duckstation_Controller2.Type", '"DigitalController"')
 
     @staticmethod
     def configureGenesisPlusGxWide(coreSettings: keyValueSettings):
@@ -203,7 +203,7 @@ class LibretroCores:
             currentColumns = 2
         if ratio <= 1.34:
             currentColumns = 0
-        coreSettings.setOption("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
+        coreSettings.setString("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
 
     # Fill cores configuration
     def fillCoresConfiguration(self):

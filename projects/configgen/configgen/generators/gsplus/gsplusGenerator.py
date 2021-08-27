@@ -1,12 +1,12 @@
 import os
-from typing import List, Dict
+from typing import List
 
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.controllersConfig import Controller, Input, ControllerDictionary
+from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 
 
 class GSplusGenerator(Generator):
@@ -19,53 +19,68 @@ class GSplusGenerator(Generator):
         return collector.disks
 
     @staticmethod
-    def addJoyItem(option: str, item: str, _type: str, inputs: Dict[str, Input], to: List[str]):
-        if item in inputs:
-            if inputs[item].type == _type:
-                to.append(option)
-                to.append(str(inputs[item].id))
-
-    def addSpecialButtons(self, controller: Controller, to: List[str]):
-        self.addJoyItem("-joy-bhk", "hotkey", 'button', controller.inputs, to)
-        self.addJoyItem("-joy-bstart", "start", 'button', controller.inputs, to)
-
-    def addGeneralButtons(self, controller: Controller, to: List[str]):
-        self.addJoyItem("-joy-b0", "a", 'button', controller.inputs, to)
-        self.addJoyItem("-joy-b1", "b", 'button', controller.inputs, to)
-        self.addJoyItem("-joy-b2", "x", 'button', controller.inputs, to)
-        self.addJoyItem("-joy-b3", "y", 'button', controller.inputs, to)
-
-    def addJoystickLeft(self, controller: Controller, to: List[str]):
-        self.addJoyItem("-joy-x", "joystick1left", 'axis', controller.inputs, to)
-        self.addJoyItem("-joy-y", "joystick1up", 'axis', controller.inputs, to)
-
-    def addJoystickRight(self, controller: Controller, to: List[str]):
-        self.addJoyItem("-joy-x2", "joystick2left", 'axis', controller.inputs, to)
-        self.addJoyItem("-joy-y2", "joystick2up", 'axis', controller.inputs, to)
+    def addSpecialButtons(controller: Controller, to: List[str]):
+        if controller.HasHotkey and controller.Hotkey.IsButton:
+            to.append("-joy-bhk")
+            to.append(str(controller.Hotkey.Id))
+        if controller.HasStart and controller.Start.IsButton:
+            to.append("-joy-bstart")
+            to.append(str(controller.Start.Id))
 
     @staticmethod
-    def addDpadItem(option: str, item: str, inputs: Dict[str, Input], to: List[str]):
-        if item in inputs:
-            _input = inputs[item]
-            if _input.type == 'button':
-                to.append('-joy-' + option + '-button')
-                to.append(str(_input.id))
-            if _input.type == 'hat':
-                to.append('-joy-' + option + '-hat')
-                to.append(str((int(_input.id) << 4) + int(_input.value)))
-            if _input.type == 'axis':
-                if option == 'up':
-                    to.append('-joy-y')
-                    to.append(str(_input.id))
-                if option == 'left':
-                    to.append('-joy-x')
-                    to.append(str(_input.id))
+    def addGeneralButtons(controller: Controller, to: List[str]):
+        if controller.HasA and controller.A.IsButton:
+            to.append("-joy-b0")
+            to.append(str(controller.A.Id))
+        if controller.HasB and controller.B.IsButton:
+            to.append("-joy-b1")
+            to.append(str(controller.B.Id))
+        if controller.HasX and controller.X.IsButton:
+            to.append("-joy-b2")
+            to.append(str(controller.X.Id))
+        if controller.HasY and controller.Y.IsButton:
+            to.append("-joy-b3")
+            to.append(str(controller.Y.Id))
+
+    @staticmethod
+    def addJoystickLeft(controller: Controller, to: List[str]):
+        if controller.HasJoy1Left and controller.Joy1Left.IsAxis:
+            to.append("-joy-x")
+            to.append(str(controller.Joy1Left.Id))
+        if controller.HasJoy1Up and controller.Joy1Up.IsAxis:
+            to.append("-joy-y")
+            to.append(str(controller.Joy1Up.Id))
+
+    @staticmethod
+    def addJoystickRight(controller: Controller, to: List[str]):
+        if controller.HasJoy2Left and controller.Joy2Left.IsAxis:
+            to.append("-joy-x2")
+            to.append(str(controller.Joy2Left.Id))
+        if controller.HasJoy2Up and controller.Joy2Up.IsAxis:
+            to.append("-joy-y2")
+            to.append(str(controller.Joy2Up.Id))
+
+    @staticmethod
+    def addDpadItem(option: str, item: InputItem, to: List[str]):
+        if item.IsButton:
+            to.append('-joy-' + option + '-button')
+            to.append(str(item.Id))
+        if item.IsHat:
+            to.append('-joy-' + option + '-hat')
+            to.append(str((item.Id << 4) + item.Value))
+        if item.IsAxis:
+            if option == 'up':
+                to.append('-joy-y')
+                to.append(str(item.Id))
+            if option == 'left':
+                to.append('-joy-x')
+                to.append(str(item.Id))
 
     def addDpad(self, controller: Controller, to):
-        self.addDpadItem('up', 'up', controller.inputs, to)
-        self.addDpadItem('down', 'down', controller.inputs, to)
-        self.addDpadItem('left', 'left', controller.inputs, to)
-        self.addDpadItem('right', 'right', controller.inputs, to)
+        self.addDpadItem('up', controller.Up, to)
+        self.addDpadItem('down', controller.Down, to)
+        self.addDpadItem('left', controller.Left, to)
+        self.addDpadItem('right', controller.Right, to)
         pass
 
     @staticmethod
@@ -76,7 +91,7 @@ class GSplusGenerator(Generator):
         for i in range(1, 33):
             settings.removeOption("s7d{}".format(i))
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
         """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches
@@ -103,7 +118,7 @@ class GSplusGenerator(Generator):
         diskDrive = 1
         self.clearDisks(settings)
         for disk in disks:
-            settings.setOption("s{}d{}".format(slot, diskDrive), disk)
+            settings.setString("s{}d{}".format(slot, diskDrive), disk)
             diskDrive += 1
 
         # Save config file
@@ -133,8 +148,8 @@ class GSplusGenerator(Generator):
         joystickOptions = []
         for index in playersControllers:
             controller = playersControllers[index]
-            if controller.player == "1":
-                joystickOptions = ["-joy", str(controller.index)]
+            if controller.PlayerIndex == 1:
+                joystickOptions = ["-joy", str(controller.SdlIndex)]
                 self.addGeneralButtons(controller, joystickOptions)
                 self.addSpecialButtons(controller, joystickOptions)
                 self.addJoystickLeft(controller, joystickOptions)

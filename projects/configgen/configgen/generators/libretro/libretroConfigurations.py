@@ -9,14 +9,14 @@ from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.generators.libretro.libretroCores import LibretroCores
 from configgen.generators.libretro.libretroControllers import LibretroControllers
 from configgen.utils.architecture import Architecture
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 
 
 # Libretro configuration
 class LibretroConfiguration:
 
     # constructor
-    def __init__(self, system: Emulator, controllers: ControllerDictionary, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings):
+    def __init__(self, system: Emulator, controllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings):
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
         self.retroarchCustomArchFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture
@@ -33,7 +33,7 @@ class LibretroConfiguration:
         self.retroarchOverrides = keyValueSettings("", True)
         self.coreSettings = keyValueSettings("", True)
         self.system: Emulator = system
-        self.controllers: ControllerDictionary = controllers
+        self.controllers: ControllerPerPlayer = controllers
         self.demo: bool = demo
         self.nodefaultkeymap: bool = nodefaultkeymap
         self.rom = rom
@@ -48,7 +48,8 @@ class LibretroConfiguration:
 
     def loadRetroarchConfigurations(self) -> keyValueSettings:
         retroarchConfig = self.retroarchSettings
-        retroarchConfig.clear()
+        retroarchConfig.clear() \
+                       .defineBool('true', 'false')
 
         # Load template config file
         if self.retroarchCustomOriginFile is not None:
@@ -99,8 +100,8 @@ class LibretroConfiguration:
         # - Internal Retroarch configuration/override
         # - Recalbox configuration and overrides
         if retroarchConfig.hasOption("video_shader"):
-            shader = retroarchConfig.getOption("video_shader", None)
-            if shader is not None:
+            shader = retroarchConfig.getString("video_shader", "")
+            if len(shader) != 0:
                 result.append("--set-shader")
                 result.append(shader)
 

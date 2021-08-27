@@ -1,27 +1,30 @@
+from typing import Dict
+
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.controllers.inputItem import InputItem
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class PisnesGenerator(Generator):
 
-    RECALBOX_TO_PBCS_BUTTON_MAPPING = \
+    RECALBOX_TO_PBCS_BUTTON_MAPPING: Dict[int, str] = \
     {
-        "up": "UP",
-        "down": "DOWN",
-        "left": "LEFT",
-        "right": "RIGHT",
-        "a": "A",
-        "b": "B",
-        "x": "X",
-        "y": "Y",
-        "l1": "L",
-        "r1": "R",
-        "start": "START",
-        "select": "SELECT",
+        InputItem.ItemUp    : "UP",
+        InputItem.ItemDown  : "DOWN",
+        InputItem.ItemLeft  : "LEFT",
+        InputItem.ItemRight : "RIGHT",
+        InputItem.ItemA     : "A",
+        InputItem.ItemB     : "B",
+        InputItem.ItemX     : "X",
+        InputItem.ItemY     : "Y",
+        InputItem.ItemL1    : "L",
+        InputItem.ItemR1    : "R",
+        InputItem.ItemStart : "START",
+        InputItem.ItemSelect: "SELECT",
     }
 
     SECTION_PATH = "Path"
@@ -47,35 +50,33 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         config = PisnesGenerator.Loadconfiguration()
 
         # Path settings
-        config.setOption(self.SECTION_PATH, "RomFolder", recalboxFiles.ROMS + "/snes")
-        config.setOption(self.SECTION_PATH, "SaveStateFolder", recalboxFiles.SAVES + "/snes")
+        config.setString(self.SECTION_PATH, "RomFolder", recalboxFiles.ROMS + "/snes")
+        config.setString(self.SECTION_PATH, "SaveStateFolder", recalboxFiles.SAVES + "/snes")
 
         # Full screen settings
-        config.setOption(self.SECTION_GFX, "MaintainAspectRatio", '1' if system.IntegerScale else '0')
+        config.setInt(self.SECTION_GFX, "MaintainAspectRatio", 1 if system.IntegerScale else 0)
 
         # controller settings
         # Axis & Hats are hard-coded, so just set buttons
         for index in playersControllers:
             controller = playersControllers[index]
-            if controller.player in ('1', '2'):
-                player = controller.player
-                for k,v in self.RECALBOX_TO_PBCS_BUTTON_MAPPING.items():
-                    if k in controller.inputs:
-                        inp = controller.inputs[k]
-                        if inp.type == "button":
-                            config.setOption(self.SECTION_PAD, "{}_{}".format(v, player), str(inp.id))
+            player = controller.PlayerIndex
+            if player in (1, 2):
+                for item in controller.AvailableInput:
+                    if item.Item in self.RECALBOX_TO_PBCS_BUTTON_MAPPING:
+                        value: str = self.RECALBOX_TO_PBCS_BUTTON_MAPPING[item.Item]
+                        if item.IsButton: # Axis/Hat won't work :(
+                            config.setInt(self.SECTION_PAD, "{}_{}".format(value, player), item.Id)
 
         PisnesGenerator.SaveConfiguration(config)
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
-
         if system.HasArgs: commandArray.extend(system.Args)
-
         commandArray.append(args.rom)
 
         return Command.Command(videomode=system.VideoMode, array=commandArray)

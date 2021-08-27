@@ -6,7 +6,7 @@ from typing import List, Dict
 import configgen.Command as Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.controllersConfig import ControllerDictionary
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.generators.amiberry.amiberryConfig import ConfigGenerator
 from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
@@ -112,7 +112,7 @@ class AmiberryGenerator(Generator):
     @staticmethod
     def GetKeyboardLayout(recalboxSettings: keyValueSettings):
         # Try to obtain from keyboard layout, then from system language, then fallback to us
-        kl = recalboxSettings.getOption("system.kblayout", recalboxSettings.getOption("system.language", "us")[-2:]).lower()
+        kl = recalboxSettings.getString("system.kblayout", recalboxSettings.getString("system.language", "us")[-2:]).lower()
         return kl
 
     # return true if the option is considered enabled (for boolean options)
@@ -122,7 +122,7 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
         # Get rom type and associated configuration file if any
         rom, romType, romHasUAE = RomType.Identify(args.rom)
 

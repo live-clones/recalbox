@@ -7,7 +7,7 @@ import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 from configgen.Emulator import Emulator
 
-from configgen.generators.Generator import Generator, ControllerDictionary
+from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -113,7 +113,7 @@ class LibretroGenerator(Generator):
 
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system: Emulator, playersControllers: ControllerDictionary, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings) -> (str, str, List[str]):
+    def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings) -> (str, str, List[str]):
         # Setup system configuration
         configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
@@ -130,7 +130,7 @@ class LibretroGenerator(Generator):
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerDictionary, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
 
         # Set recalbox default config file if no user defined one
         newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxSettings)
@@ -194,14 +194,14 @@ class LibretroGenerator(Generator):
             size = os.path.getsize(rom) >> 20
             if size >= 2:
                 # HDD
-                settings.setOption("WinX68k", "HDD0", rom)
+                settings.setString("WinX68k", "HDD0", rom)
             else:
                 # Floppy
                 from configgen.utils.diskCollector import DiskCollector
                 collector = DiskCollector(rom, 2, verbose)
-                settings.setOption("WinX68k", "FDD0", collector.disks[0])
+                settings.setString("WinX68k", "FDD0", collector.disks[0])
                 if collector.Count > 1:
-                    settings.setOption("WinX68k", "FDD1", collector.disks[1])
+                    settings.setString("WinX68k", "FDD1", collector.disks[1])
             settings.saveFile()
 
         # quasi88 (Pc88) use retroarch subsystem's to load multiple content

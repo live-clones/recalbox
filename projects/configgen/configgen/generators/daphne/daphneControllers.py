@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from configparser import ConfigParser
-import configgen.recalboxFiles as recalboxFiles
-from configgen.controllersConfig import ControllerDictionary
+from typing import Dict, Optional, Tuple
 
-keyboard_keys = {
+import configgen.recalboxFiles as recalboxFiles
+from configgen.controllers.inputItem import InputItem
+from configgen.controllers.controller import ControllerPerPlayer
+
+keyboard_keys: Dict[str, str] =\
+{
     "KEY_UP":         "1073741906 0",
     "KEY_DOWN":       "1073741905 0",
     "KEY_LEFT":       "1073741904 0",
@@ -29,17 +33,18 @@ keyboard_keys = {
     "KEY_CONSOLE":    "92 0",
     "KEY_TILT":       "116 0"
 }
-joystick_keys = {
-    "KEY_UP":         "up",
-    "KEY_DOWN":       "down",
-    "KEY_LEFT":       "left",
-    "KEY_RIGHT":      "right",
-    "KEY_BUTTON1":    "b",
-    "KEY_BUTTON2":    "a",
-    "KEY_BUTTON3":    "y",
-    "KEY_START1":     "start",
+joystick_keys: Dict[str, Optional[int]] = \
+{
+    "KEY_UP":         InputItem.ItemUp,
+    "KEY_DOWN":       InputItem.ItemDown,
+    "KEY_LEFT":       InputItem.ItemLeft,
+    "KEY_RIGHT":      InputItem.ItemRight,
+    "KEY_BUTTON1":    InputItem.ItemB,
+    "KEY_BUTTON2":    InputItem.ItemA,
+    "KEY_BUTTON3":    InputItem.ItemY,
+    "KEY_START1":     InputItem.ItemStart,
     "KEY_START2":     None,
-    "KEY_COIN1":      "select",
+    "KEY_COIN1":      InputItem.ItemSelect,
     "KEY_COIN2":      None,
     "KEY_SKILL1":     None,
     "KEY_SKILL2":     None,
@@ -48,16 +53,16 @@ joystick_keys = {
     "KEY_TEST":       None,
     "KEY_RESET":      None,
     "KEY_SCREENSHOT": None,
-    "KEY_QUIT":       "hotkey",
+    "KEY_QUIT":       InputItem.ItemHotkey,
     "KEY_PAUSE":      None,
     "KEY_CONSOLE":    None,
     "KEY_TILT":       None
 }
-joystick_axis = {
-    "KEY_UP":         ["joystick1up","up"],
-    "KEY_DOWN":       ["-joystick1up","down"],
-    "KEY_LEFT":       ["joystick1left","left"],
-    "KEY_RIGHT":      ["-joystick1left","right"],
+joystick_axis: Dict[str, Optional[Tuple[int]]] = {
+    "KEY_UP":         ( InputItem.ItemJoy1Up   , InputItem.ItemUp    ),
+    "KEY_DOWN":       ( InputItem.ItemJoy1Down , InputItem.ItemDown  ),
+    "KEY_LEFT":       ( InputItem.ItemJoy1Left , InputItem.ItemLeft  ),
+    "KEY_RIGHT":      ( InputItem.ItemJoy1Right, InputItem.ItemRight ),
     "KEY_BUTTON1":    None,
     "KEY_BUTTON2":    None,
     "KEY_BUTTON3":    None,
@@ -79,7 +84,7 @@ joystick_axis = {
 }
 
 # Create the controller configuration file
-def generateControllerConfig(_, controllers: ControllerDictionary):
+def generateControllerConfig(_, controllers: ControllerPerPlayer):
     Config = ConfigParser()
     # To prevent ConfigParser from converting to lower case
     Config.optionxform = str
@@ -94,41 +99,40 @@ def generateControllerConfig(_, controllers: ControllerDictionary):
     for index in controllers:
         controller = controllers[index]
         # we only care about player 1
-        if controller.player != "1":
+        if controller.PlayerIndex != 1:
             continue
 
         # dirty hack: if quit is same button than another key, force r1 instead
-        input_quit = controller.inputs[joystick_keys["KEY_QUIT"]]
-        for propertyName, propertyValue in joystick_keys.items():
-            if propertyName != "KEY_QUIT" and propertyValue is not None:
-                inp = controller.inputs[propertyValue]
-                if inp.type == input_quit.type and inp.id == input_quit.id:
-                    joystick_keys["KEY_QUIT"] = "r1"
-                    break
+        quitItem = joystick_keys["KEY_QUIT"]
+        inputQuit: Optional[InputItem] = controller.Input(quitItem) if controller.HasInput(quitItem) else None
+        if inputQuit is None: joystick_keys["KEY_QUIT"] = InputItem.ItemR1
+        else:
+            for key, item in joystick_keys.items():
+                if key != "KEY_QUIT" and item is not None:
+                    inputItem = controller.Input(item)
+                    if inputItem.Type == inputQuit.Type and inputItem.Id == inputQuit.Id:
+                        joystick_keys["KEY_QUIT"] = InputItem.ItemR1
+                        break
 
         for propertyName, keyboardValue in keyboard_keys.items():
             # Map buttons
-            joystickButtonValue = 0
-            if joystick_keys[propertyName] is not None:
-                joystickButtonName = joystick_keys[propertyName]
-                if joystickButtonName in controller.inputs:
-                    inp = controller.inputs[joystickButtonName]
-                    if inp.type == 'button':
-                        joystickButtonValue = (int(index)-1)*100 + int(inp.id) + 1
+            joystickButtonValue: int = 0
+            item: Optional[int] = joystick_keys[propertyName]
+            if item is not None:
+                if controller.HasInput(item):
+                    inputItem = controller.Input(item)
+                    if inputItem.IsButton:
+                        joystickButtonValue = (index - 1) * 100 + inputItem.Id + 1
 
             # Map axis
             joystickAxisValue = 0
             if joystick_axis[propertyName] is not None:
                 joystickAxisNames = joystick_axis[propertyName]
                 for joystickAxisName in joystickAxisNames:
-                    axis_dir = 1
-                    if joystickAxisName.startswith("-"):
-                       axis_dir = -1
-                       joystickAxisName = joystickAxisName[1:]
-                    if joystickAxisName in controller.inputs:
-                        inp = controller.inputs[joystickAxisName]
-                        if inp.type == 'axis':
-                            joystickAxisValue = ((int(index)-1)*100 + int(inp.id) + 1) * int(inp.value) * axis_dir
+                    if controller.HasInput(joystickAxisName):
+                        inputItem: InputItem = controller.Input(joystickAxisName)
+                        if inputItem.IsAxis:
+                            joystickAxisValue = ((index - 1) * 100 + inputItem.Id + 1) * inputItem.Value
                             break
 
             Config.set(section, propertyName, keyboardValue+" "+str(joystickButtonValue)+" "+str(joystickAxisValue))
