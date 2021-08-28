@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
@@ -16,4 +16,4 @@ class KodiGenerator(Generator):
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)

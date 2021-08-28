@@ -1,19 +1,18 @@
+from configgen.Emulator import Emulator
+from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
+from configgen.Command import Command
+import configgen.recalboxFiles as recalboxFiles
+from configgen.settings.configOverriding import buildOverrideChain
+from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class XroarGenerator(Generator):
 
-    IS_TRUE = ("1", "true")
-
-    def isEnabled(self, system, key):
-        recalbox = system.config
-        return key in recalbox and recalbox[key] in self.IS_TRUE
-
-    def generate(self, system, playersControllers, recalboxSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
 
         # Make save dir
         import os
-        import configgen.recalboxFiles as recalboxFiles
         snapshotFolder: str = os.path.join(recalboxFiles.SAVES, args.system, "snapshots")
         printerFolder: str = os.path.join(recalboxFiles.SAVES, args.system, "printer")
         if not os.path.exists(snapshotFolder): os.makedirs(name=snapshotFolder, exist_ok=True)
@@ -21,21 +20,19 @@ class XroarGenerator(Generator):
 
         # Global parameters
         from typing import List
-        import configgen.recalboxFiles as recalboxFiles
-        snapFile = os.path.basename(args.rom) + ".sna"
-        commandArray: List[str] = [recalboxFiles.recalboxBins[system.config['emulator']],
+        snapFile: str = os.path.basename(args.rom) + ".sna"
+        commandArray: List[str] = [recalboxFiles.recalboxBins[system.Emulator],
                                    "-vo", "sdl", "-ui", "sdl", "-ao", "pulse",
                                    "-rompath", os.path.join(recalboxFiles.BIOS, args.system),
                                    "-snappath", os.path.join(snapshotFolder, snapFile)]
 
         # Config file?
-        from configgen.settings.configOverriding import buildOverrideChain
         configList = buildOverrideChain(args.rom, ".xroar.config")
         if len(configList) > 0:
             commandArray.extend(["-c", configList[len(configList) - 1]])
         else:
             # Default machine?
-            defaultMachine = "coco"
+            defaultMachine: str = "coco"
             if args.system == "dragon": defaultMachine = "dragon64"
             if args.system == "trs80coco": defaultMachine = "coco2b"
 
@@ -75,22 +72,19 @@ class XroarGenerator(Generator):
         commandArray.extend(["-lp-file", os.path.join(printerFolder, printerFile)])
 
         # Bilinear filtering
-        if self.isEnabled(system, "smooth"):
+        if system.Smooth:
             commandArray.extend(["-gl-filter", "linear"])
 
         # HK+Start
-        for index in playersControllers:
-            controller = playersControllers[index]
-            if controller.player == "1":
-                if "hotkey" in controller.inputs: commandArray.extend(["-joy-start", controller.inputs["hotkey"].id])
-                if "start"  in controller.inputs: commandArray.extend(["-joy-hotkey", controller.inputs["start"].id])
+        for controller in playersControllers.values():
+            if controller.PlayerIndex == 1:
+                if controller.HasHotkey: commandArray.extend(["-joy-start", controller.Hotkey.Id])
+                if controller.HasStart : commandArray.extend(["-joy-hotkey", controller.Start.Id])
 
         # Add extra arguments
-        if 'args' in system.config and system.config['args'] is not None:
-            commandArray.extend(system.config['args'])
+        if system.HasArgs: commandArray.extend(system.Args)
 
         # finally add rom
         commandArray.extend([args.rom])
 
-        import configgen.Command as Command
-        return Command.Command(videomode=system.config['videomode'], array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)

@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator
@@ -162,4 +162,4 @@ class GSplusGenerator(Generator):
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)

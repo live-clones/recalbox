@@ -2,7 +2,7 @@
 import os.path
 from typing import List
 
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 from configgen.Emulator import Emulator
@@ -173,7 +173,7 @@ class LibretroGenerator(Generator):
         roms = self.buildRomArguments(rom, system.Core, args.verbose, args.demo)
         commandArray.extend(roms)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)
 
     @staticmethod
     def buildExtraArguments(system: str, core: str) -> List[str]:

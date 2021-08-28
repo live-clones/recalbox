@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os.path
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
@@ -51,4 +51,4 @@ class DosBoxGenerator(Generator):
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so"})
+        return Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so"})

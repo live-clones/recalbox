@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import Controller
@@ -20,7 +20,7 @@ class MoonlightGenerator(Generator):
 
         commandArray.append('-app')
         commandArray.append(gameName)
-        return Command.Command(videomode='default', array=commandArray, env={"XDG_DATA_DIRS": recalboxFiles.CONF})
+        return Command(videomode='default', array=commandArray, env={"XDG_DATA_DIRS": recalboxFiles.CONF})
 
     @staticmethod
     def getRealGameNameAndConfigFile(rom: str) -> (str, str):

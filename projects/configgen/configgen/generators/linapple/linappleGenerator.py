@@ -6,7 +6,7 @@ Created on Mar 6, 2016
 
 import os
 import shutil
-import configgen.Command as Command
+from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.generators.linapple.linappleConfig import LinappleConfig
@@ -86,7 +86,7 @@ class LinappleGenerator(Generator):
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)
 
     def config_upgrade(self, version: str):
         """

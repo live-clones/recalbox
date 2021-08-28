@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
@@ -35,4 +35,4 @@ class PPSSPPGenerator(Generator):
         commandArray.append(args.rom)
         # The next line is a reminder on how to quit PPSSPP with just the HK
         #commandArray = [recalboxFiles.recalboxBins[system.Emulator], rom, "--escape-exit"]
-        return Command.Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.ppssppSaves, "SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so", "PPSSPP_GAME_CONTROLLER_DB_PATH": recalboxFiles.ppssppControls}, delay=1)
+        return Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.ppssppSaves, "SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so", "PPSSPP_GAME_CONTROLLER_DB_PATH": recalboxFiles.ppssppControls}, delay=1)

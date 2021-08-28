@@ -3,7 +3,7 @@ import os.path
 import subprocess
 from typing import List, Dict
 
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
@@ -204,7 +204,7 @@ class AmiberryGenerator(Generator):
         if romType == RomType.WHDL:
             AmiberryGenerator.AddWHDLVolumes(settingsFullPath, rom)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray,
+        return Command(videomode=system.VideoMode, array=commandArray,
                                env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so",
                                     "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"},
                                cwdPath=recalboxFiles.amiberryMountPoint, postExec=None)

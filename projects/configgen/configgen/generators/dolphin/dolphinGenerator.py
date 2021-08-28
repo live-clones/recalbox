@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os.path
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
@@ -256,4 +256,4 @@ class DolphinGenerator(Generator):
         commandArray = [recalboxFiles.recalboxBins[system.Emulator], "-e", args.rom]
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})
+        return Command(videomode=system.VideoMode, array=commandArray, env={"XDG_CONFIG_HOME":recalboxFiles.CONF, "XDG_DATA_HOME":recalboxFiles.SAVES})

@@ -2,11 +2,10 @@
 import threading
 import os
 import struct
-from typing import List, Optional, IO
 
 from configgen.demoInfo import demoInformation
 
-def Log(txt): # type: (str) -> None
+def Log(txt: str):
     print(txt)
     #with open("/recalbox/share/system/out.txt", "a") as f:
     #    f.write(txt + '\n')
@@ -30,7 +29,7 @@ class InputEventManager:
 
     def __init__(self, demoStartButtons):
         from typing import List, Union
-        from typing.io import IO
+        from typing import IO
         self.fileDescriptors: List[Union[IO, None]] = [None] * self.EVENT_MAXIMUM
         self.eventFileNameFlags = 0
         self.startMap = demoStartButtons

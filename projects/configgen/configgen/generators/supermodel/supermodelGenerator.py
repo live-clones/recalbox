@@ -2,7 +2,7 @@
 import platform
 from typing import List
 
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.supermodel.supermodelControllers as supermodelControllers
 from configgen.Emulator import Emulator
@@ -279,4 +279,4 @@ class SupermodelGenerator(Generator):
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)

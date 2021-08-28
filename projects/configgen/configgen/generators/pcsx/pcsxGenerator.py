@@ -1,7 +1,7 @@
 import os
 from typing import List, Dict
 
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.inputItem import InputItem
@@ -78,4 +78,4 @@ class PcsxGenerator(Generator):
         commandArray = [recalboxFiles.recalboxBins[system.Emulator], "-cdfile", args.rom]
         if system.HasArgs: commandArray.extend(system.Args)
 
-        return Command.Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray)

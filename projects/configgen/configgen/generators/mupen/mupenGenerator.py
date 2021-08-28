@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import configgen.Command as Command
+from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.mupen import mupenConfig
 from configgen.generators.mupen import mupenControllers
@@ -48,6 +48,6 @@ class MupenGenerator(Generator):
 
         commandArray.append(args.rom)
 
-        return Command.Command(videomode=system.VideoMode,
+        return Command(videomode=system.VideoMode,
                                array=commandArray,
                                env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"})

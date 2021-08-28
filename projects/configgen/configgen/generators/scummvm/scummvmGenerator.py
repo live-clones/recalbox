@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os.path
 import glob
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import Controller, ControllerPerPlayer
@@ -45,4 +45,4 @@ class ScummVMGenerator(Generator):
 
         commandArray.append("""{}""".format(romName))
 
-        return Command.Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so", "SDL_RENDER_VSYNC":"1"})
+        return Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so", "SDL_RENDER_VSYNC":"1"})

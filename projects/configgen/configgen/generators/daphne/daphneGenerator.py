@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os.path
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.daphne.daphneControllers as daphneControllers
 from configgen.Emulator import Emulator
@@ -52,4 +52,4 @@ class DaphneGenerator(Generator):
 
         if os.path.isfile(commandsFile):
             commandArray.extend(open(commandsFile,'r').read().split())
-        return Command.Command(videomode=system.VideoMode, array=commandArray, env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"})
+        return Command(videomode=system.VideoMode, array=commandArray, env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"})

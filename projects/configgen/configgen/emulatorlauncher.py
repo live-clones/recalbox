@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 from typing import Dict, List
-
+import configgen.recalboxFiles as recalboxFiles
 
 lineAppleGeneratorOverride = None
+recalboxFiles = recalboxFiles
 
 def getGenerator(emulator):
 
@@ -66,7 +67,6 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
         generatorClass = getattr(module, "LinappleGenerator")
         import os
-        import configgen.recalboxFiles as recalboxFiles
         return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                               os.path.join(recalboxFiles.HOME     , '.linapple'))
     elif emulator == "kodi":
@@ -166,7 +166,6 @@ def loadRecalboxSettings(rom, systemname):
 
     # Save dir
     import os
-    import configgen.recalboxFiles as recalboxFiles
     dirname = os.path.join(recalboxFiles.savesDir, systemname)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
@@ -223,7 +222,6 @@ def main(arguments) -> (int, bool):
         system.configure(recalboxSettings, arguments)
 
         # Wrong way?
-        import configgen.recalboxFiles as recalboxFiles
         if system.Emulator not in recalboxFiles.recalboxBins:
             import sys
             sys.stderr.write("ERROR : {} is not a known emulator".format(system.Emulator))

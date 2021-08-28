@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import configgen.Command as Command
+from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 import configgen.generators.advancemame.advMameControllers as advMameControllers
 
@@ -28,4 +28,4 @@ class AdvMameGenerator(Generator):
         commandArray.extend(['-cfg', configFile])
         commandArray.append(romName)
 
-        return Command.Command(videomode='default', array=commandArray, env={"TERM": "linux"})
+        return Command(videomode='default', array=commandArray, env={"TERM": "linux"})
