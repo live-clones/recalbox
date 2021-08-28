@@ -23,7 +23,7 @@ BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& syste
 
   addChild(&mList);
 
-	mEmptyListItem.Metadata().SetName(_("EMPTY LIST"));
+	mEmptyListItem.Metadata().SetName(_("YOUR FAVORITES LIST IS EMPTY"));
 	populateList(system.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
