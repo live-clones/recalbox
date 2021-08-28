@@ -1,14 +1,6 @@
 #!/usr/bin/env python
-import argparse
-from typing import Dict
+from typing import Dict, List
 
-from configgen.Emulator import Emulator
-import configgen.utils.runner as runner
-import configgen.recalboxFiles as recalboxFiles
-
-from configgen.controllers.controller import Controller, ControllerPerPlayer
-from configgen.settings.configOverriding import buildOverrideChain
-from configgen.settings.keyValueSettings import keyValueSettings
 
 lineAppleGeneratorOverride = None
 
@@ -74,6 +66,7 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
         generatorClass = getattr(module, "LinappleGenerator")
         import os
+        import configgen.recalboxFiles as recalboxFiles
         return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
                               os.path.join(recalboxFiles.HOME     , '.linapple'))
     elif emulator == "kodi":
@@ -131,6 +124,7 @@ def getDefaultEmulator(systemName: str, emulatorName: str, coreName: str):
     # Keep here **ONLY** spécial configurations
     # Since everything is passed by the frontend,
     # we can build a common Emulator class when it has no particular parameter
+    from configgen.Emulator import Emulator
     emulators = \
     {
         # Nintendo
@@ -172,11 +166,13 @@ def loadRecalboxSettings(rom, systemname):
 
     # Save dir
     import os
+    import configgen.recalboxFiles as recalboxFiles
     dirname = os.path.join(recalboxFiles.savesDir, systemname)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
     # Load boot settings
+    from configgen.settings.keyValueSettings import keyValueSettings
     recalboot = keyValueSettings("/boot/recalbox-boot.conf", False)
     recalboot.loadFile(True)
     fixedScreenSize = recalboot.getString("case", "") in ("GPiV1", "GPiV2", "GPiV3")
@@ -191,7 +187,8 @@ def loadRecalboxSettings(rom, systemname):
     
     if rom is not None:
         # build file names
-        pathSettings = buildOverrideChain(rom, ".recalbox.conf")
+        from configgen.settings.configOverriding import buildOverrideChain
+        pathSettings: List[str] = buildOverrideChain(rom, ".recalbox.conf")
         # Override with path settings
         for pathSetting in pathSettings:
             settings.changeSettingsFile(pathSetting)
@@ -202,6 +199,7 @@ def loadRecalboxSettings(rom, systemname):
 
 def main(arguments) -> (int, bool):
 
+    from configgen.controllers.controller import Controller, ControllerPerPlayer
     demoStartButtons: Dict[int, int] = Controller.LoadDemoControllerConfigurations(**vars(arguments)) if arguments.demo else {}
     playersControllers: ControllerPerPlayer = Controller.LoadUserControllerConfigurations(**vars(arguments)) if not arguments.demo else {}
 
@@ -225,6 +223,7 @@ def main(arguments) -> (int, bool):
         system.configure(recalboxSettings, arguments)
 
         # Wrong way?
+        import configgen.recalboxFiles as recalboxFiles
         if system.Emulator not in recalboxFiles.recalboxBins:
             import sys
             sys.stderr.write("ERROR : {} is not a known emulator".format(system.Emulator))
@@ -233,6 +232,7 @@ def main(arguments) -> (int, bool):
         # Generate all the config files required by the selected emulator
         command = getGenerator(system.Emulator).generate(system, playersControllers, recalboxSettings, arguments)
 
+        import configgen.utils.runner as runner
         returnCode = runner.runCommand(command, arguments, demoStartButtons, recalboxSettings, fixedScreenSize)
 
         # Rerun emulator in play mode
@@ -295,36 +295,40 @@ def config_upgrade(version):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='emulator-launcher script')
+    from configgen.commandline.parser import Parser
+    parser: Parser = Parser()
+
     for i in range(1, 11):
         option = "-p{}".format(i)
-        parser.add_argument("{}index".format(option), help="player{} controller index".format(i), type=int, required=False)
-        parser.add_argument("{}guid".format(option), help="player{} controller SDL2 guid".format(i), type=str, required=False)
-        parser.add_argument("{}name".format(option), help="player{} controller name".format(i), type=str, required=False)
-        parser.add_argument("{}devicepath".format(option), help="player{} controller device".format(i), type=str, required=False)
-        parser.add_argument("{}nbaxes".format(option), help="player{} controller number of axes".format(i), type=str, required=False)
-        parser.add_argument("{}nbhats".format(option), help="player{} controller number of hats".format(i), type=str, required=False)
-        parser.add_argument("{}nbbuttons".format(option), help="player{} controller number of buttons".format(i), type=str, required=False)
-    parser.add_argument("-system", help="select the system to launch", type=str, required=True)
-    parser.add_argument("-rom", help="rom absolute path", type=str, required=False)
-    parser.add_argument("-emulator", help="force emulator", type=str, required=False)
-    parser.add_argument("-core", help="force emulator core", type=str, required=False)
-    parser.add_argument("-ratio", help="force game ratio", type=str, required=False)
-    parser.add_argument("-demo", help="mode demo", type=bool, required=False)
-    parser.add_argument("-demoduration", help="mode demo duration in second", type=int, required=False)
-    parser.add_argument("-demoinfoduration", help="mode demo outscreen duration in second", type=int, required=False)
-    parser.add_argument("-netplay", help="host/client", type=str, required=False)
-    parser.add_argument("-netplay_ip", help="host IP", type=str, required=False)
-    parser.add_argument("-netplay_port", help="host port (not used in client mode)", type=int, required=False)
-    parser.add_argument("-netplay_playerpassword", help="player password", type=str, required=False, default='')
-    parser.add_argument("-netplay_viewerpassword", help="viewer password", type=str, required=False, default='')
-    parser.add_argument("-netplay_vieweronly", help="start as viewer only", action="store_true", required=False, default=False)
-    parser.add_argument("-hash", help="force rom crc", type=str, required=False)
-    parser.add_argument("-extra", help="pass extra argument", type=str, required=False)
-    parser.add_argument("-nodefaultkeymap", help="disable libretro default keybindings", action="store_true", required=False)
-    parser.add_argument("-verbose", help="verbose logging", action="store_true", required=False)
+        mandatory: bool = i == 0
+        parser.AddString("{}index".format(option), "player{} controller index".format(i), mandatory)
+        parser.AddString("{}guid".format(option), "player{} controller SDL2 guid".format(i), mandatory)
+        parser.AddString("{}name".format(option), "player{} controller name".format(i), mandatory)
+        parser.AddString("{}devicepath".format(option), "player{} controller device".format(i), mandatory)
+        parser.AddInt("{}nbaxes".format(option), "player{} controller number of axes".format(i), mandatory)
+        parser.AddInt("{}nbhats".format(option), "player{} controller number of hats".format(i), mandatory)
+        parser.AddInt("{}nbbuttons".format(option), "player{} controller number of buttons".format(i), mandatory)
+    parser.AddString("-system", "select the system to launch", True)
+    parser.AddString("-rom", "rom absolute path", True)
+    parser.AddString("-emulator", "force emulator", True)
+    parser.AddString("-core", "force emulator core", True)
+    parser.AddString("-ratio", "force game ratio", False)
+    parser.AddBool("-demo", "mode demo", False)
+    parser.AddInt("-demoduration", "mode demo duration in second", False)
+    parser.AddInt("-demoinfoduration", "mode demo outscreen duration in second", False)
+    parser.AddString("-netplay", "host/client", False)
+    parser.AddString("-netplay_ip", "host IP", False)
+    parser.AddInt("-netplay_port", "host port (not used in client mode)", False)
+    parser.AddString("-netplay_playerpassword", "player password", False)
+    parser.AddString("-netplay_viewerpassword", "viewer password", False)
+    parser.AddSimple("-netplay_vieweronly", "start as viewer only", False)
+    parser.AddString("-hash", "force rom crc", False)
+    parser.AddString("-extra", "pass extra argument", False)
+    parser.AddSimple("-nodefaultkeymap", "disable libretro default keybindings", False)
+    parser.AddSimple("-verbose", "verbose logging", False)
 
-    args = parser.parse_args()
+    args = parser.Parse()
+
     exitcode, waitNeeded = main(args)
     # Investigate : is this delay still required?
     if waitNeeded:

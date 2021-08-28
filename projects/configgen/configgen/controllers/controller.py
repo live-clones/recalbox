@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from __future__ import annotations
-import xml.etree.ElementTree as ET
 from typing import Dict, List, Optional, ValuesView
 
 # Do not simplify - Allow mocking of Input file path
@@ -320,6 +319,7 @@ class Controller:
     @staticmethod
     def LoadControllerConfigurationFromFile() -> ControllerCollection:
         controllers: ControllerCollection = {}
+        import xml.etree.ElementTree as ET
         tree = ET.parse(esInputs)
         root = tree.getroot()
         for controller in root.findall(".//inputConfig"):

@@ -19,7 +19,6 @@ class demoInformation:
 
     def __init__(self):
         # Avoid static import to speed up  configgen loading
-        self.time = __import__("time")
         self.pygame = __import__("pygame")
         import os
         if not os.path.exists("/dev/input/mice"):
