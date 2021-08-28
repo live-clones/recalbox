@@ -102,6 +102,7 @@ All notable changes to this project will be documented in this file.
 - Add xpi_gamecon module for piboy dmt support (#1817)
 - Add volumed for controlling volume from the wheel (#1817)
 - Add gamelink overload for gb and gbc (#1808)
+- Edited 8bitdo N30 Pro 2 configuration (#1791)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
