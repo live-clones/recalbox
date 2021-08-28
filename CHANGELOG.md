@@ -74,6 +74,7 @@ All notable changes to this project will be documented in this file.
 - Rework bluetooth scripts (#1482)
 - Copy VecX.rmp file into share (#1879)
 - Use xz compression method for squashfs (#1848)
+- Edited 8bitdo N30 Pro 2 configuration (#1791)
 
 ## [7.2.2-Reloaded]
 - Fix controller #2 in swanstation (#1730)
