@@ -59,8 +59,8 @@ static std::string IconTextMap(PadItems padItems, int pad)
       { PadItems::Left,              _("LEFT") },
       { PadItems::Right,             _("RIGHT") },
       { PadItems::Hotkey,            _("HOTKEY") },
-      { PadItems::Start,             _("START") },
-      { PadItems::Select,            _("SELECT") },
+      { PadItems::Start,             "START" },
+      { PadItems::Select,            "SELECT" },
       { PadItems::A,                 _("A") },
       { PadItems::B,                 _("B") },
       { PadItems::X,                 _("X") },
@@ -74,11 +74,11 @@ static std::string IconTextMap(PadItems padItems, int pad)
       { PadItems::J1Up,              _("J1 UP") },
       { PadItems::J1Down,            _("J1 DOWN") },
       { PadItems::J1Left,            _("J1 LEFT") },
-      { PadItems::J1Down,            _("J1 RIGHT") },
+      { PadItems::J1Right,           _("J1 RIGHT") },
       { PadItems::J2Up,              _("J2 UP") },
       { PadItems::J2Down,            _("J2 DOWN") },
       { PadItems::J2Left,            _("J2 LEFT") },
-      { PadItems::J2Down,            _("J2 DOWN") },
+      { PadItems::J2Right,           _("J2 RIGHT") },
     };
 
   std::string result(sIconTextMap.get_or_return_default(padItems));
