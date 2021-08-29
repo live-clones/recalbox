@@ -181,25 +181,25 @@ class Controller:
 
     def HasInput(self, item: int) -> bool: return item in self.__inputs
 
-    def generateSDLGameDBLine(self):
-        oppositeHat = {
-             1 :  4,
-             2 :  8,
-             3 : 12,
-             4 :  1,
-             5 :  0, # Not possible
-             6 :  9,
-             7 :  0, # Not possible
-             8 :  2,
-             9 :  6,
-            10 :  0, # Not possible
-            11 :  0, # Not possible
-            12 :  3,
-            13 :  0, # Not possible
-            14 :  0, # Not possible
-            15 :  0, # Not possible
-        }
+    OppositeHat: Dict[int, int] = {
+         1 :  4,
+         2 :  8,
+         3 : 12,
+         4 :  1,
+         5 :  0, # Not possible
+         6 :  9,
+         7 :  0, # Not possible
+         8 :  2,
+         9 :  6,
+        10 :  0, # Not possible
+        11 :  0, # Not possible
+        12 :  3,
+        13 :  0, # Not possible
+        14 :  0, # Not possible
+        15 :  0, # Not possible
+    }
 
+    def generateSDLGameDBLine(self):
         result = "{},{},platform:Linux,".format(self.__guid, self.__deviceName.replace(',', ' '))
         for name, inputItem in self.__inputs.items():
             sdlName = inputItem.GameDBName
@@ -207,7 +207,7 @@ class Controller:
             if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and inputItem.Type in (InputItem.TypeButton, InputItem.TypeHat):
                 if inputItem.IsHat:
                     result += "-{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
-                    result += "+{}:h{}.{},".format(sdlName, inputItem.Id, oppositeHat[inputItem.Value])
+                    result += "+{}:h{}.{},".format(sdlName, inputItem.Id, self.OppositeHat[inputItem.Value])
                 else:
                     result += "-{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
                     result += "+{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
@@ -309,9 +309,15 @@ class Controller:
             InputItem.ItemJoy2Left: InputItem.ItemJoy2Right,
         }
         if item.Item in opposites:
-            if item.Type == InputItem.TypeAxis:
+            if item.IsAxis:
                 opposite = item.Copy(opposites[item.Item], -item.Value)
                 return opposite.Item, opposite
+            elif item.IsHat:
+                opposite = item.Copy(opposites[item.Item], Controller.OppositeHat[item.Value])
+                return opposite.Item, opposite
+            else:
+                print("[Configgen.Controller] Buttons mapped on analog joystick. Opposite calculation aborted")
+                return item.Item, item
 
         raise ValueError
 
