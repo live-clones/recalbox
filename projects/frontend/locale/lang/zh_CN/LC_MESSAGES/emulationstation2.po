@@ -2979,6 +2979,26 @@ msgstr ""
 msgid "P2K CONTROLS"
 msgstr ""
 
+#
+msgid "THE UPGRADE HAS FAILED"
+msgstr ""
+
+#
+msgid ""
+"The upgrade process has failed. You are back on Recalbox %s.\n"
+"Please retry to upgrade your Recalbox, and contact the team on https://forum."
+"recalbox.com if the problem persists."
+msgstr ""
+
+#
+msgid "RECALBOX OVERLAYS"
+msgstr ""
+
+#
+msgid ""
+"On wide screens, display system images that wrap around emulated screen."
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."
