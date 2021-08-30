@@ -1,14 +1,8 @@
 #!/usr/bin/env python
-import os
 
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.settings.configOverriding import buildOverrideChain
 from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
-from configgen.generators.libretro.libretroCores import LibretroCores
-from configgen.generators.libretro.libretroControllers import LibretroControllers
-from configgen.utils.architecture import Architecture
 from configgen.controllers.controller import ControllerPerPlayer
 
 
@@ -16,19 +10,21 @@ from configgen.controllers.controller import ControllerPerPlayer
 class LibretroConfiguration:
 
     # constructor
-    def __init__(self, system: Emulator, controllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings):
+    def __init__(self, system: Emulator, controllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxOptions: keyValueSettings):
         # Default files
         self.retroarchCustomOriginFile = recalboxFiles.retroarchCustomOrigin
+        from configgen.utils.architecture import Architecture
         self.retroarchCustomArchFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture
         self.retroarchCustomForCoreFile = recalboxFiles.retroarchCustom + '.' + system.Core
         self.retroarchCustomArchForCoreFile = recalboxFiles.retroarchCustom + '.' + Architecture().Architecture + '.' + system.Core
         self.retroarchCustomFile = recalboxFiles.retroarchCustom
+        from configgen.settings.configOverriding import buildOverrideChain
         self.retroarchCustomOverrideChain = buildOverrideChain(rom, ".retroarch.cfg")
         self.retroarchCustomOverrideFile = recalboxFiles.retroarchCustom + ".overrides.cfg"
         self.retroarchCoreCustomFile = recalboxFiles.retroarchCoreCustom
         self.retroarchCoreCustomOverrideChain = buildOverrideChain(rom, ".core.cfg")
         # Default settings
-        self.recalboxSettings = recalboxSettings
+        self.recalboxOptions = recalboxOptions
         self.retroarchSettings = keyValueSettings("", True)
         self.retroarchOverrides = keyValueSettings("", True)
         self.coreSettings = keyValueSettings("", True)
@@ -67,6 +63,7 @@ class LibretroConfiguration:
         retroarchOverrides.clear()
 
         # Load core-specific config file
+        import os
         if os.path.exists(self.retroarchCustomForCoreFile) is not None:
             retroarchOverrides.changeSettingsFile(self.retroarchCustomForCoreFile)
             retroarchOverrides.loadFile()
@@ -112,10 +109,12 @@ class LibretroConfiguration:
         retroarchConfig = self.loadRetroarchConfigurations()
 
         # Configure options
-        retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxSettings)
+        from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
+        retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxOptions)
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
-        controllers = LibretroControllers(self.system, self.recalboxSettings, retroarchConfig, self.controllers, self.nodefaultkeymap)
+        from configgen.generators.libretro.libretroControllers import LibretroControllers
+        controllers = LibretroControllers(self.system, self.recalboxOptions, retroarchConfig, self.controllers, self.nodefaultkeymap)
         controllers.fillControllersConfiguration()
 
         # Save settings
@@ -141,6 +140,7 @@ class LibretroConfiguration:
             coreConfig.loadFile(True)
 
         # Configure
+        from configgen.generators.libretro.libretroCores import LibretroCores
         cores = LibretroCores(self.system, coreConfig, self.controllers, self.rom)
         cores.fillCoresConfiguration()
 

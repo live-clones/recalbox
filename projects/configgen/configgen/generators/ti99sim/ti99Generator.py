@@ -7,7 +7,7 @@ from configgen.Command import Command
 
 class TI99Generator(Generator):
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         # Make save dir
         import os
@@ -48,6 +48,6 @@ class TI99Generator(Generator):
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        commandArray.extend([args.rom]) #, args.rom+".img"])
+        commandArray.extend([args.rom])
 
         return Command(videomode=system.VideoMode, array=commandArray)

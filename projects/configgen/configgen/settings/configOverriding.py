@@ -15,15 +15,12 @@ def buildOverrideChain(rom, configfile) -> List[str]:
     for item in items:
         pathToCheck = os.path.join(pathToCheck, item)
         fileToCheck = os.path.join(pathToCheck, configfile)
-        #print(fileToCheck)
         if os.path.exists(fileToCheck):
             result.append(fileToCheck)
 
     # Add final file
     fileToCheck = "{}{}".format(rom, configfile)
-    #print(fileToCheck)
     if os.path.exists(fileToCheck):
         result.append(fileToCheck)
 
-    #print(result)
     return result

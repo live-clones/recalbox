@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import os
 from typing import Dict
 
 from configgen.controllers.inputItem import InputItem
@@ -84,6 +83,7 @@ sixBtnGames = ['sfa', 'sfz', 'sf2', 'dstlk', 'hsf2', 'msh', 'mshvsf', 'mvsc', 'n
                'xmcota']
 
 def is6btn(rom) -> bool:
+    import os
     rom = os.path.basename(rom)
     for game in sixBtnGames:
         if game in rom:

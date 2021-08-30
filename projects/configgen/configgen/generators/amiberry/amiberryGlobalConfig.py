@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-import os
-
-import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
-from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class AmiberryGlobalConfig:
@@ -14,6 +9,7 @@ class AmiberryGlobalConfig:
 
     def createGlobalSettings(self, verbose: bool, scanline: bool):
         # Load user settings first
+        from configgen.settings.keyValueSettings import keyValueSettings
         settings = keyValueSettings(self.userSettingsFile)
         settings.loadFile(True).defineBool('yes', 'no')
 
@@ -36,6 +32,7 @@ class AmiberryGlobalConfig:
         settings.setDefaultInt("default_scaling_method", -1)
 
         # Forced values
+        import configgen.recalboxFiles as recalboxFiles
         settings.setInt("Quickstart", 1)
         settings.setString("path", recalboxFiles.amiberryMountPoint)
         settings.setString("config_path", recalboxFiles.amiberryMountPoint + "/conf")
@@ -49,9 +46,11 @@ class AmiberryGlobalConfig:
 
         # Hack the settings to add non-unique key/value tupples
         with open(self.globalSettingsFile, "a") as sf:
+            from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
             sf.write("ROMs=" + str(len(KickstartManager.BIOS_LIST)) + '\n')
             for rom in KickstartManager.BIOS_LIST:
                 itype, name = KickstartManager.BIOS_LIST[rom]
+                import os
                 path = os.path.join(recalboxFiles.BIOS, rom + ".rom")
                 sf.write("ROMName=" + name + '\n')
                 sf.write("ROMPath=" + path + '\n')

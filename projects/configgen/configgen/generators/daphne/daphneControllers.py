@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from configparser import ConfigParser
 from typing import Dict, Optional, Tuple
 
 import configgen.recalboxFiles as recalboxFiles
@@ -85,16 +82,14 @@ joystick_axis: Dict[str, Optional[Tuple[int]]] = {
 
 # Create the controller configuration file
 def generateControllerConfig(_, controllers: ControllerPerPlayer):
-    Config = ConfigParser()
-    # To prevent ConfigParser from converting to lower case
-    Config.optionxform = str
+    from configgen.settings.iniSettings import IniSettings
+    config = IniSettings(recalboxFiles.daphneInputIni, True)
 
     # Format is KEY=keyboard1 keyboard2 joystick_btn joystick_axis
     # keyboard1 and keyboard2 are hardcoded values (see above)
     # joystick_btn is computed from controller configuration: hundreds=joystick index, units=button index (+1)
     # joystick_axis too: hundreds=joystick index, units=axis index (+1), sign=direction
     section = 'KEYBOARD'
-    Config.add_section(section)
 
     for index in controllers:
         controller = controllers[index]
@@ -135,8 +130,6 @@ def generateControllerConfig(_, controllers: ControllerPerPlayer):
                             joystickAxisValue = ((index - 1) * 100 + inputItem.Id + 1) * inputItem.Value
                             break
 
-            Config.set(section, propertyName, keyboardValue+" "+str(joystickButtonValue)+" "+str(joystickAxisValue))
+            config.setString(section, propertyName, keyboardValue+" "+str(joystickButtonValue)+" "+str(joystickAxisValue))
 
-    cfgFile = open(recalboxFiles.daphneInputIni, "w")
-    Config.write(cfgFile)
-    cfgFile.close()
+    config.saveFile()

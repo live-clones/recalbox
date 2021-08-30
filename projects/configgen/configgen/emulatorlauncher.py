@@ -195,7 +195,6 @@ def loadRecalboxSettings(rom, systemname):
 
     return settings, fixedScreenSize
 
-
 def main(arguments) -> (int, bool):
 
     from configgen.controllers.controller import Controller, ControllerPerPlayer
@@ -216,10 +215,10 @@ def main(arguments) -> (int, bool):
     system = getDefaultEmulator(systemName, arguments.emulator, arguments.core)
     if system is not None:
         # Load recalbox.conf
-        recalboxSettings, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.Name)
+        recalboxOptions, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.Name)
 
         # Configure attributes
-        system.configure(recalboxSettings, arguments)
+        system.configure(recalboxOptions, arguments)
 
         # Wrong way?
         if system.Emulator not in recalboxFiles.recalboxBins:
@@ -228,10 +227,10 @@ def main(arguments) -> (int, bool):
             return 2, True
 
         # Generate all the config files required by the selected emulator
-        command = getGenerator(system.Emulator).generate(system, playersControllers, recalboxSettings, arguments)
+        command = getGenerator(system.Emulator).generate(system, playersControllers, recalboxOptions, arguments)
 
         import configgen.utils.runner as runner
-        returnCode = runner.runCommand(command, arguments, demoStartButtons, recalboxSettings, fixedScreenSize)
+        returnCode = runner.runCommand(command, arguments, demoStartButtons, recalboxOptions, fixedScreenSize)
 
         # Rerun emulator in play mode
         if returnCode == runner.USERWANNAPLAY:
@@ -299,7 +298,7 @@ if __name__ == '__main__':
     for i in range(1, 11):
         option = "-p{}".format(i)
         mandatory: bool = i == 0
-        parser.AddString("{}index".format(option), "player{} controller index".format(i), mandatory)
+        parser.AddInt("{}index".format(option), "player{} controller index".format(i), mandatory)
         parser.AddString("{}guid".format(option), "player{} controller SDL2 guid".format(i), mandatory)
         parser.AddString("{}name".format(option), "player{} controller name".format(i), mandatory)
         parser.AddString("{}devicepath".format(option), "player{} controller device".format(i), mandatory)

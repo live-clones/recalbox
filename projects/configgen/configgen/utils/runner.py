@@ -7,7 +7,7 @@ USERQUIT = 0x33
 USERWANNAPLAY = 0x77
 
 # Set a specific video mode
-def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSize):
+def runCommand(command, args, demoStartButtons, recalboxOptions, fixedScreenSize):
     global proc
 
     # Switch video mode if required
@@ -74,7 +74,7 @@ def runCommand(command, args, demoStartButtons, recalboxSettings, fixedScreenSiz
     if not fixedScreenSize:
         if chosenMode != 'default':
             import configgen.utils.videoMode as videoMode
-            videoMode.setPrefered(recalboxSettings)
+            videoMode.setPrefered(recalboxOptions)
 
     if userQuit: return USERQUIT
     if userWannaPlay: return USERWANNAPLAY

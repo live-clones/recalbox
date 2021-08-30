@@ -1,14 +1,8 @@
 #!/usr/bin/env python
-import shutil
-import os.path
-import glob
 from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
-import configgen.generators.reicast.reicastControllers as reicastControllers
-
-from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -29,16 +23,20 @@ class ReicastGenerator(Generator):
         try:
             reicastBiosFileInit = recalboxFiles.BIOS_INIT + '/dc_nvmem.bin'
             reicastBiosFile = recalboxFiles.BIOS + '/dc_nvmem.bin'
+            import os.path
             if os.path.isfile(reicastBiosFileInit) and not os.path.isfile(reicastBiosFile):
+                import shutil
                 shutil.copy2(reicastBiosFileInit, reicastBiosFile)
 
             # Copy the VMUs
             if not os.path.exists(recalboxFiles.SAVES + '/dreamcast/reicast/'):
                     os.makedirs(recalboxFiles.SAVES + '/dreamcast/reicast/')
+            import glob
             for srcFile in glob.glob(recalboxFiles.SAVES_INIT + '/dreamcast/reicast/vmu_save_*.bin'):
                 destFile = recalboxFiles.SAVES + '/dreamcast/reicast/' + os.path.basename(srcFile)
                 # Don't copy if the destination already exists
                 if os.path.isfile(destFile): continue
+                import shutil
                 shutil.copy2(srcFile, destFile)
 
             print("ReicastGenerator 's configuration successfully upgraded")
@@ -49,9 +47,10 @@ class ReicastGenerator(Generator):
             return False
 
     # Configure reicast and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         if not system.HasConfigFile:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
+            from configgen.settings.iniSettings import IniSettings
             config = IniSettings(recalboxFiles.reicastConfigInit, True)
             config.loadFile(True)
 
@@ -62,6 +61,7 @@ class ReicastGenerator(Generator):
                 # Get the event number
                 eventNum = controller.DevicePath.replace('/dev/input/event','')
                 # Write its mapping file
+                import configgen.generators.reicast.reicastControllers as reicastControllers
                 controllerConfigFile = reicastControllers.generateControllerConfig(controller)
                 # set the evdev_device_id_X
                 config.setString(section, 'evdev_device_id_{}'.format(controller.PlayerIndex), eventNum)

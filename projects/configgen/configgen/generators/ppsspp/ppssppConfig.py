@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
-from configgen.settings.iniSettings import IniSettings
 
 def writePPSSPPConfig(system: Emulator):
+    from configgen.settings.iniSettings import IniSettings
     settings = IniSettings(recalboxFiles.ppssppConfig, True)
     settings.loadFile(True)
     # Display FPS

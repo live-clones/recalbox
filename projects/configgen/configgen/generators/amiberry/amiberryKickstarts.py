@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import os
 import configgen.recalboxFiles as recalboxFiles
 from configgen.generators.amiberry.amiberryRomType import RomType
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
@@ -78,6 +77,7 @@ class KickstartManager:
     @staticmethod
     def GenerateWHDSymLinks(destinationfolder: str):
         for bios in KickstartManager.BIOS_LIST:
+            import os
             biosPath = os.path.join(recalboxFiles.BIOS, bios + ".rom")
             biosLink = os.path.join(destinationfolder, bios)
             if not os.path.exists(biosLink) and os.path.exists(biosPath):
@@ -89,6 +89,7 @@ class KickstartManager:
         extFile = None
         needExt = False
         tuppleArray = KickstartManager.BIOS_PER_SYSTEM[subsystem]
+        import os
         for tupple in tuppleArray:
             romTypes, biosList = tupple
             if romtype in romTypes:

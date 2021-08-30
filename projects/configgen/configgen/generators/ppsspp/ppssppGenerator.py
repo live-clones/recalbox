@@ -3,17 +3,16 @@ from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
-import configgen.generators.ppsspp.ppssppConfig as ppssppConfig
-import configgen.generators.ppsspp.ppssppControllers as ppssppControllers
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class PPSSPPGenerator(Generator):
     # Main entry of the module
     # Configure ppsspp and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         if not system.HasConfigFile:
+            import configgen.generators.ppsspp.ppssppConfig as ppssppConfig
             ppssppConfig.writePPSSPPConfig(system)
             # For each pad detected
             for index in playersControllers:
@@ -21,6 +20,7 @@ class PPSSPPGenerator(Generator):
                 # we only care about player 1
                 if controller.PlayerIndex != 1:
                     continue
+                import configgen.generators.ppsspp.ppssppControllers as ppssppControllers
                 ppssppControllers.generateControllerConfig(controller)
                 cfgFile = open(recalboxFiles.ppssppControls, "w")
                 cfgFile.write(controller.generateSDLGameDBLine())

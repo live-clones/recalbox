@@ -8,7 +8,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 class Generator(object):
     __metaclass__ = ABCMeta
     @abstractmethod
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         pass
     
     #@abstractmethod

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from typing import Dict
 
 import configgen.recalboxFiles as recalboxFiles
 from configgen.controllers.inputItem import InputItem
 from configgen.controllers.controller import Controller
-from configgen.settings.iniSettings import IniSettings
 
 reicastMapping: Dict[int, Dict[int, str]] = \
 {
@@ -71,6 +69,7 @@ sections: Dict[str, str] = \
 def generateControllerConfig(controller: Controller):
     # Set config file name
     configFileName = "{}/controllerP{}.cfg".format(recalboxFiles.reicastCustom, controller.PlayerIndex)
+    from configgen.settings.iniSettings import IniSettings
     configFile = IniSettings(configFileName, True)
     configFile.loadFile(True)
 

@@ -5,6 +5,7 @@ from configgen.Emulator import Emulator
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
+
 class LibretroControllers:
 
     # Map an emulationstation direction to the corresponding retroarch
@@ -98,9 +99,9 @@ class LibretroControllers:
         InputItem.ItemSelect: 'select'
     }
 
-    def __init__(self, system: Emulator, recalboxSettings: keyValueSettings, settings: keyValueSettings, controllers: ControllerPerPlayer, nodefaultkeymap: bool):
+    def __init__(self, system: Emulator, recalboxOptions: keyValueSettings, settings: keyValueSettings, controllers: ControllerPerPlayer, nodefaultkeymap: bool):
         self.system: Emulator = system
-        self.recalboxSettings: keyValueSettings = recalboxSettings
+        self.recalboxOptions: keyValueSettings = recalboxOptions
         self.settings: keyValueSettings = settings
         self.controllers: ControllerPerPlayer = controllers
         self.nodefaultkeymap: bool = nodefaultkeymap
@@ -109,7 +110,7 @@ class LibretroControllers:
 
     # Fill controllers configuration
     def fillControllersConfiguration(self) -> keyValueSettings:
-        inputDriver: str = self.recalboxSettings.getString("global.inputdriver", self.recalboxSettings.getString(self.system.Name + ".inputdriver", 'auto'))
+        inputDriver: str = self.recalboxOptions.getString("global.inputdriver", self.recalboxOptions.getString(self.system.Name + ".inputdriver", 'auto'))
 
         # Cleanup all
         self.cleanUpControllers()

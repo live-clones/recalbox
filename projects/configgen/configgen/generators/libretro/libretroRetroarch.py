@@ -1,5 +1,3 @@
-import platform
-import os
 from typing import Dict, List
 
 import configgen.recalboxFiles as recalboxFiles
@@ -185,8 +183,8 @@ class LibretroRetroarch:
         except ValueError:
             return "0"
 
-    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer, demo: bool, recalboxSettings: keyValueSettings):
-        self.recalboxSettings: keyValueSettings = recalboxSettings
+    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer, demo: bool, recalboxOptions: keyValueSettings):
+        self.recalboxOptions: keyValueSettings = recalboxOptions
         self.system: Emulator = system
         self.settings: keyValueSettings = settings
         self.controllers: ControllerPerPlayer = controllers
@@ -195,8 +193,10 @@ class LibretroRetroarch:
     # Is nVidia driver on?
     @staticmethod
     def hasnVidiaDriver() -> bool:
+        import platform
         arch: str = platform.machine()
         if arch == "x86_64":
+            import os
             if os.path.exists("/etc/modprobe.d/blacklist.conf"):
                for line in open("/etc/modprobe.d/blacklist.conf"):
                    if "blacklist nouveau" in line:
@@ -251,6 +251,7 @@ class LibretroRetroarch:
         settings.setBool("video_smooth", self.system.Smooth)
 
         # Shaders?
+        import os
         settings.setBool("video_shader_enable", self.system.HasShaderFile) \
                 .setString("video_shader_dir", os.path.dirname(self.system.ShaderFile) if self.system.HasShaderFile else recalboxFiles.shadersRoot)
         if self.system.HasShaderFile:

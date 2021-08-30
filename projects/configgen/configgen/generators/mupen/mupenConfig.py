@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.settings.iniSettings import IniSettings
-from configgen.utils.videoMode import *
-from configgen.utils.architecture import Architecture
 from configgen.controllers.controller import InputItem, ControllerPerPlayer, Controller
 
 GlideN64FBEmulation_whitelist = ["ocarina", "empire", "pokemon", "rayman", "donald", "diddy", "beetle", "tennis", "instinct", "gemini", "twins", "majora", "quake", "ridge"]
@@ -25,6 +22,7 @@ def writeMupenConfig(system: Emulator, controllers: ControllerPerPlayer, rom: st
                  .setInt('Video-Glide64mk2', 'show_fps', 4 if system.ShowFPS else 8)
 
     # Write GlideN64 config
+    import os
     romName = os.path.basename(rom)
 
     # Crop resulted image.
@@ -50,6 +48,7 @@ def writeMupenConfig(system: Emulator, controllers: ControllerPerPlayer, rom: st
 
     # VerticalSync makes video smoother on odroidgo2 and odroidgo3
     # and force 16bpp color quality as H/W does not support 32bpp
+    from configgen.utils.architecture import Architecture
     if Architecture.isGoa2 or Architecture.isGoa3:
         mupenSettings.setBool('Video-General', 'VerticalSync', True)
     if Architecture.isGoa2 or Architecture.isGoa3 or Architecture.isPi4:

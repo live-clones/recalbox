@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-import os
 from typing import Dict
-from xml.dom import minidom
 from configgen.controllers.controller import InputItem, Controller, ControllerPerPlayer
 from configgen.settings.iniSettings import IniSettings
 import configgen.recalboxFiles as recalboxFiles
@@ -14,12 +12,14 @@ mupenHatToAxis = { 1: 'Up', 2: 'Right', 4: 'Down', 8: 'Left'}
 mupenDoubleAxis = {0: 'X Axis', 1: 'Y Axis'}
 
 def getMupenMappingFile() -> str:
+    import os
     if os.path.exists(recalboxFiles.mupenMappingUser):
         return recalboxFiles.mupenMappingUser
     else:
         return recalboxFiles.mupenMappingSystem
 
 def getMupenMapping() -> Dict[str, str]:
+    from xml.dom import minidom
     dom = minidom.parse(getMupenMappingFile())
     dictio: Dict[str, str] = {}
     for inputs in dom.getElementsByTagName('inputList'):

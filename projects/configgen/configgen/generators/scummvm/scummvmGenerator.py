@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-import os.path
-import glob
 from configgen.Command import Command
-import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import Controller, ControllerPerPlayer
 from configgen.generators.Generator import Generator
@@ -13,15 +10,17 @@ class ScummVMGenerator(Generator):
 
     # Main entry of the module
     # Return scummvm command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         # Create a temporary gamecontrollerdb.txt file with controllers mapping
         Controller.GenerateSDLGameDatabase(playersControllers, "/tmp/gamecontrollerdb.txt")
 
         # Find rom path
+        import os.path
         if os.path.isdir(args.rom):
           # rom is a directory: must contains a <game name>.scummvm/.residualvm file
           romPath = args.rom
           romExt = os.path.splitext(romPath)[1]
+          import glob
           romFile = glob.glob(romPath + "/*" + romExt)[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
         else:
@@ -30,6 +29,7 @@ class ScummVMGenerator(Generator):
           romName = os.path.splitext(os.path.basename(args.rom))[0]
 
         smooth = "--filtering" if system.Smooth else "--no-filtering"
+        import configgen.recalboxFiles as recalboxFiles
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--fullscreen",
                         "--subtitles",

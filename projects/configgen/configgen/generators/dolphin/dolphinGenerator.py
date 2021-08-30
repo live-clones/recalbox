@@ -1,12 +1,9 @@
 #!/usr/bin/env python
-import os.path
 from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
-import configgen.generators.dolphin.dolphinControllers as dolphinControllers
-from configgen.settings.iniSettings import IniSettings
 from configgen.settings.keyValueSettings import keyValueSettings
 
 class DolphinGenerator(Generator):
@@ -125,6 +122,7 @@ class DolphinGenerator(Generator):
         ipl1 = "/recalbox/share/bios/gamecube/JP/IPL.bin"
         ipl2 = "/recalbox/share/bios/gamecube/USA/IPL.bin"
         # if os.path? return "True" set "False" for disable "SkipIpl=Video boot intro"
+        import os.path
         if os.path.exists(ipl0) or os.path.exists(ipl1) or os.path.exists(ipl2):
             return "False"
         else:
@@ -147,6 +145,7 @@ class DolphinGenerator(Generator):
         sensorBarPosition = conf.getString("wii.sensorbar.position", "$")
         keyValue = '\x00'.encode('utf-8') if sensorBarPosition == '0' else '\x01'.encode('utf-8')
         keyString = "BT.BAR".encode('utf-8')
+        import os.path
         if os.path.exists(recalboxFiles.dolphinSYSCONF):
             with open(recalboxFiles.dolphinSYSCONF, 'rb+') as sysconf:
                 buf = sysconf.read()
@@ -169,6 +168,7 @@ class DolphinGenerator(Generator):
         padsgamecube = self.SetGamecubeWiiuAdapter()
         
         # Load Configuration
+        from configgen.settings.iniSettings import IniSettings
         dolphinSettings = IniSettings(recalboxFiles.dolphinIni, True)
         dolphinSettings.loadFile(True) \
                        .defineBool('True', 'False')
@@ -231,6 +231,7 @@ class DolphinGenerator(Generator):
         gameRatio = self.GAME_RATIO[system.Ratio] if system.Ratio in self.GAME_RATIO else 0
         
         # Load Configuration
+        from configgen.settings.iniSettings import IniSettings
         gfxSettings = IniSettings(recalboxFiles.dolphinGFX, True)
         gfxSettings.loadFile(True)
 
@@ -245,10 +246,11 @@ class DolphinGenerator(Generator):
         # Save configuration
         gfxSettings.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         if not system.HasConfigFile:
             # Controllers
-            dolphinControllers.generateControllerConfig(system, playersControllers, recalboxSettings)
+            import configgen.generators.dolphin.dolphinControllers as dolphinControllers
+            dolphinControllers.generateControllerConfig(system, playersControllers, recalboxOptions)
 
             self.mainConfiguration(system, args)
             self.gfxConfiguration(system)

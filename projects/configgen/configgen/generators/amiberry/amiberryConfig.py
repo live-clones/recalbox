@@ -1,12 +1,7 @@
 #!/usr/bin/env python
-import os
 from typing import List
 
-import configgen.recalboxFiles as recalboxFiles
-from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
-from configgen.generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
-from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.amiberry.amiberryRomType import RomType
 
@@ -15,6 +10,7 @@ class ConfigGenerator:
 
     def __init__(self, targetFileName: str):
         self.settingsFileName: str = targetFileName
+        from configgen.settings.keyValueSettings import keyValueSettings
         self.settings = keyValueSettings("")
 
     def loadConfigFile(self, filename: str):
@@ -26,6 +22,8 @@ class ConfigGenerator:
         self.settings.saveFile()
 
     def SetDefaultPath(self, subsystem: SubSystems):
+        import configgen.recalboxFiles as recalboxFiles
+        import os
         romsPath = os.path.join(recalboxFiles.ROMS, str(subsystem))
         self.settings.setString("config_description", "Recalbox auto-generated configuration for Amiga " + str(subsystem))
         self.settings.setBool("config_hardware", True)
@@ -87,6 +85,7 @@ class ConfigGenerator:
                     self.settings.setString("joyport{}_mousemap".format(key), "right")
                     self.settings.setString("joyport{}_friendlyname".format(key), controller.DeviceName)
                     self.settings.setString("joyport{}_name".format(key), "JOY{}".format(indexPadSDL))
+                    from configgen.generators.amiberry.amiberryRetroarchConfig import AmiberryRetroarchConfig
                     retroarchConfig = AmiberryRetroarchConfig(controller)
                     retroarchConfig.generateConfiguration()
                     retroarchConfig.saveConfigurationFile()
@@ -393,6 +392,7 @@ class ConfigGenerator:
 
     def SetHDDFS(self, subsystem: SubSystems, hdd0mointpoint: str):
         if subsystem in SubSystems.COMPUTERS:
+            import os
             volume, _ = os.path.splitext(os.path.basename(hdd0mointpoint))
             self.settings.setString("filesystem2", "rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
             self.settings.setString("uaehf0", "dir,rw,DH0:{}:{},0".format(volume, hdd0mointpoint))
@@ -413,6 +413,7 @@ class ConfigGenerator:
             raise Exception("Unknown subsystem " + str(subsystem))
 
     def SetKickstarts(self, subsystem: SubSystems, romtype: RomType):
+        from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
         manager = KickstartManager()
         manager.GetKickstartsFor(subsystem, romtype)
         kickstart = manager.GetBIOS

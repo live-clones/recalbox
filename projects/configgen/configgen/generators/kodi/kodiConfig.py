@@ -1,10 +1,5 @@
 #!/usr/bin/env python
-
-#import controllersConfig as controllers
-import os
 import configgen.recalboxFiles as recalboxFiles
-from xml.dom import minidom
-from xml.etree import ElementTree as ET
 
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 
@@ -43,6 +38,7 @@ def getFormattedAxis(inpt: InputItem, controller: Controller):
 
 def writeKodiControllersConfig(controllers: ControllerPerPlayer):
     leftstick = rightstick = None
+    import os
     if not os.path.isdir(recalboxFiles.kodiJoystick):
         os.makedirs(recalboxFiles.kodiJoystick)
 
@@ -54,6 +50,7 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
         xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controller.DeviceName.strip().replace(' ', '_').replace(':', '_'), nbButtons, nbAxis)
         print(xmlFileName)
 
+        from xml.etree import ElementTree as ET
         buttonmap = ET.Element("buttonmap")
         device = ET.SubElement(buttonmap, "device", name=controller.DeviceName, provider="linux", buttoncount=str(nbButtons), axiscount=str(nbAxis))
         ET.SubElement(device, "configuration")
@@ -104,4 +101,5 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
 
         # Need to write this string to a file
         with open(xmlFileName, "w") as f:
+            from xml.dom import minidom
             f.write(minidom.parseString(ET.tostring(buttonmap)).toprettyxml())

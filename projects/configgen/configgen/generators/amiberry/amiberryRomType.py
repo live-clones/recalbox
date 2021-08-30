@@ -1,11 +1,9 @@
 #!/usr/bin/env python
-import fnmatch
-import os
-import subprocess
 from enum import IntEnum
 
 
 class RomType(IntEnum):
+
 
     UNKNOWN = 0  # Unknown
     DISK = 1     # Disk ADF or IPF, file zipped or 7zipped (ADF only)
@@ -17,6 +15,8 @@ class RomType(IntEnum):
 
     @staticmethod
     def SeekForExtension(path: str, pattern: str) -> bool:
+        import fnmatch
+        import os
         for _, _, filenames in os.walk(path):
             for _ in fnmatch.filter(filenames, pattern):
                 return True
@@ -24,6 +24,7 @@ class RomType(IntEnum):
 
     @staticmethod
     def Identify(rom: str) -> (str, int, bool):
+        import os
         romGame, romExt = os.path.splitext(rom)
 
         romType = RomType.UNKNOWN
@@ -70,6 +71,7 @@ class RomType(IntEnum):
                 romType = RomType.HDF
             # Zip & 7z
             elif romExt in (".zip", ".7z"):
+                import subprocess
                 fileList = subprocess.check_output(['unzip', '-l', rom] if romExt == ".zip" else ['7zr', 'l', rom], encoding="utf-8").lower()
                 if ".slave" in fileList:
                     romType = RomType.WHDL

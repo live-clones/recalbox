@@ -1,4 +1,3 @@
-import os
 from typing import List
 
 from configgen.Command import Command
@@ -91,7 +90,7 @@ class GSplusGenerator(Generator):
         for i in range(1, 33):
             settings.removeOption("s7d{}".format(i))
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args):
         """
         Load, override keys and save back emulator's configuration file
         This way, any modification is kept accross emulator launches
@@ -102,6 +101,7 @@ class GSplusGenerator(Generator):
         settings.loadFile(True)
 
         # Try to guess the best drive
+        import os
         size = os.path.getsize(args.rom) >> 10
         if size == 140: # Probably Apple II software on 5.25" disk
             slot = 6

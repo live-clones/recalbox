@@ -7,7 +7,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 
 class OricutronGenerator(Generator):
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         """
         Load, override keys and save back emulator's configuration file

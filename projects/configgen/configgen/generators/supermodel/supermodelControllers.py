@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 from typing import Dict
 
-import configgen.recalboxFiles as recalboxFiles
-from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.settings.iniSettings import IniSettings
 from configgen.controllers.controller import Controller, InputItem
 from configgen.controllers.controller import ControllerPerPlayer
+import configgen.recalboxFiles as recalboxFiles
 
 
 def generateControllerConfig(self, playersControllers: ControllerPerPlayer):
@@ -290,8 +288,10 @@ def generateControllerConfig(self, playersControllers: ControllerPerPlayer):
         raise TypeError
 
     # Load Configuration
+    from configgen.settings.iniSettings import IniSettings
     supermodelControllersSettings = IniSettings(recalboxFiles.supermodelControlsIni, True)
     supermodelControllersSettings.loadFile(True)
+    from configgen.settings.keyValueSettings import keyValueSettings
     supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
     supermodelSettings.loadFile(True)
 

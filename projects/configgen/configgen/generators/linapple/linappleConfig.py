@@ -3,7 +3,6 @@ Created on Mar 6, 2016
 
 @author: Laurent Marchelli
 """
-import os
 from typing import Dict, Tuple, List
 
 from configgen.Emulator import Emulator
@@ -164,7 +163,8 @@ class LinappleConfig:
             self.settings['Slot 6 Autoload'] = '0'
         
         if filename and system.AutoSave:
-            name = os.path.join(self.settings['Save State Directory'], 
+            import os
+            name = os.path.join(self.settings['Save State Directory'],
                 os.path.splitext(os.path.split(filename)[1])[0] + '.sve')
             self.settings['Save State Filename'] = name
             self.settings['Save State On Exit'] = '1'

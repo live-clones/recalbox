@@ -4,12 +4,9 @@ Created on Mar 6, 2016
 @author: Laurent Marchelli
 """
 
-import os
-import shutil
 from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
-from configgen.generators.linapple.linappleConfig import LinappleConfig
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -46,6 +43,7 @@ class LinappleGenerator(Generator):
             Returns True if the check suceeded, False otherwise.
         """
         # Create user setting path, if it does not exists
+        import os
         if not os.path.exists(self.pathUser):
             os.makedirs(self.pathUser)
 
@@ -61,21 +59,24 @@ class LinappleGenerator(Generator):
                 return False
             usr_filename = os.path.join(self.pathUser, r)
             if not os.path.exists(usr_filename):
+                import shutil
                 shutil.copyfile(sys_filename, usr_filename)
 
         return True
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args):
         # Check resources
         if not self.check_resources():
             return
 
         if not system.HasConfigFile:
             # Load config file
+            import os
             usr_conf = os.path.join(self.pathUser, self.filename)
             filename = usr_conf \
                 if os.path.exists(usr_conf) \
                 else os.path.join(self.pathInit, self.filename)
+            from configgen.generators.linapple.linappleConfig import LinappleConfig
             config = LinappleConfig(filename=filename)
             config.joysticks(playersControllers)
             config.system(system, args.rom)
@@ -104,8 +105,9 @@ class LinappleGenerator(Generator):
             return False
 
         # Load system configuration file
-        config = LinappleConfig(filename=os.path.join(
-                    self.pathInit, self.filename))
+        import os
+        from configgen.generators.linapple.linappleConfig import LinappleConfig
+        config = LinappleConfig(filename=os.path.join(self.pathInit, self.filename))
 
         # If an user's configuration file exists, upgrade it
         usr_conf = os.path.join(self.pathUser, self.filename)

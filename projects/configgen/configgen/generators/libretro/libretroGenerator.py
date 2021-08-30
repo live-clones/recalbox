@@ -1,12 +1,9 @@
 #!/usr/bin/env python
-import os.path
 from typing import List
 
 from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
-import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 from configgen.Emulator import Emulator
-
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -15,6 +12,7 @@ class LibretroGenerator(Generator):
 
     # Main entry of the module
     def config_upgrade(self, version: str) -> bool:
+        import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
         return libretroConfigurations.LibretroConfiguration.updateLibretroConfig(version)
 
     # Build command ligne arguments for Netplay
@@ -49,6 +47,7 @@ class LibretroGenerator(Generator):
             # User overlays
             userOverlayApplied = False
             overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
+            import os.path
             if os.path.isfile(overlayFile):
                 # System global configuration
                 configs.append(overlayFile)
@@ -87,6 +86,7 @@ class LibretroGenerator(Generator):
     def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str) -> List[str]:
         # Extra configs
         configs = []
+        import os.path
         romName = os.path.basename(rom)
 
         # Custom configs - per core - DEPRECATED
@@ -113,9 +113,10 @@ class LibretroGenerator(Generator):
 
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxSettings: keyValueSettings) -> (str, str, List[str]):
+    def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxOptions: keyValueSettings) -> (str, str, List[str]):
         # Setup system configuration
-        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxSettings)
+        import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
+        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
@@ -130,10 +131,10 @@ class LibretroGenerator(Generator):
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args):
 
         # Set recalbox default config file if no user defined one
-        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxSettings)
+        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxOptions)
         configFileName = system.ConfigFile if system.HasConfigFile else newConfigFileName
 
         # Manage special scummvm roms
@@ -142,6 +143,7 @@ class LibretroGenerator(Generator):
         # In such case we must look for the inner file.scummvm and use it instead
         rom = args.rom
         if system.Core == 'scummvm':
+            import os.path
             if os.path.isdir(args.rom):
                 scummfiles = [fn for fn in os.listdir(args.rom) if fn.endswith('.scummvm')]
                 if len(scummfiles) == 1:
@@ -187,6 +189,7 @@ class LibretroGenerator(Generator):
         # x68000
         if core == "px68k":
             # Open configuration
+            import os.path
             x68kconfig = os.path.join(recalboxFiles.BIOS, "keropi/config")
             from configgen.settings.iniSettings import IniSettings
             settings = IniSettings(x68kconfig, False)
@@ -215,6 +218,7 @@ class LibretroGenerator(Generator):
 
         # Vic20 core with split cartridges
         if core == "vice_xvic":
+            import os.path
             rom, romExt = os.path.splitext(rom)
             cartridges = \
             {

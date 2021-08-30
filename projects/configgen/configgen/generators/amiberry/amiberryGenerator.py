@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-import os.path
-import subprocess
 from typing import List, Dict
 
 from configgen.Command import Command
@@ -9,9 +7,6 @@ from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.generators.amiberry.amiberryConfig import ConfigGenerator
-from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
-from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
-from configgen.generators.amiberry.amiberryRomType import RomType
 from configgen.generators.amiberry.amiberrySubSystems import SubSystems
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -40,8 +35,10 @@ class AmiberryGenerator(Generator):
     def getWHDLArguments(_, system: SubSystems, __) -> List[str]:
         if system in SubSystems.COMPUTERS:
             # Prepare final save folder
+            import os.path
             sourceSaveFolder = os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Savegames")
             finalSaveFolder = os.path.join(recalboxFiles.SAVES, str(system), "whdl")
+            import subprocess
             subprocess.check_output(["mkdir", "-p", finalSaveFolder])
 
             # Copy whdl structure
@@ -55,6 +52,7 @@ class AmiberryGenerator(Generator):
             subprocess.check_output(["ln", "-s", finalSaveFolder, sourceSaveFolder])
 
             # Create symlinks
+            from configgen.generators.amiberry.amiberryKickstarts import KickstartManager
             KickstartManager.GenerateWHDSymLinks(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/save-data/Kickstarts"))
 
             # Do not use ["-autowhdload=" + rom] cause it requires a special game configuration
@@ -64,6 +62,7 @@ class AmiberryGenerator(Generator):
     # Generate raw WHD config
     @staticmethod
     def AddWHDLVolumes(settingFiles: str, rom: str):
+        import os.path
         volumes = \
         [
             "rw,DH0:DH0:{},10".format(os.path.join(recalboxFiles.amiberryMountPoint, "whdboot/boot-data.zip")),
@@ -110,9 +109,9 @@ class AmiberryGenerator(Generator):
 
     # Get keyboard layout
     @staticmethod
-    def GetKeyboardLayout(recalboxSettings: keyValueSettings):
+    def GetKeyboardLayout(recalboxOptions: keyValueSettings):
         # Try to obtain from keyboard layout, then from system language, then fallback to us
-        kl = recalboxSettings.getString("system.kblayout", recalboxSettings.getString("system.language", "us")[-2:]).lower()
+        kl = recalboxOptions.getString("system.kblayout", recalboxOptions.getString("system.language", "us")[-2:]).lower()
         return kl
 
     # return true if the option is considered enabled (for boolean options)
@@ -122,8 +121,9 @@ class AmiberryGenerator(Generator):
 
     # Main entry of the module
     # Return command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         # Get rom type and associated configuration file if any
+        from configgen.generators.amiberry.amiberryRomType import RomType
         rom, romType, romHasUAE = RomType.Identify(args.rom)
 
         # Get subsystem - Force A1200 with WHDL
@@ -131,7 +131,9 @@ class AmiberryGenerator(Generator):
         needSlowCPU = system.Name != subSystem
 
         # Generate global config file
+        import os.path
         globalOverride = os.path.join(os.path.dirname(rom), ".amiberry.conf")
+        from configgen.generators.amiberry.amiberryGlobalConfig import AmiberryGlobalConfig
         globalConfig = AmiberryGlobalConfig(globalOverride,
                                             os.path.join(recalboxFiles.amiberryMountPoint, "conf/amiberry.conf"))
         globalConfig.createGlobalSettings(args.verbose, system.ShaderSet == 'scanlines')
@@ -148,7 +150,7 @@ class AmiberryGenerator(Generator):
 
         # Load default settings
         configFile.SetDefaultPath(subSystem)
-        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxSettings), system.ShowFPS)
+        configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxOptions), system.ShowFPS)
         configFile.SetInput(subSystem)
         configFile.SetJoystick(subSystem, playersControllers)
         configFile.SetCPU(subSystem, needSlowCPU)

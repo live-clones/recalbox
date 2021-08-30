@@ -1,4 +1,4 @@
-from configgen.settings.keyValueSettings import keyValueSettings
+
 
 class demoInformation:
 
@@ -160,6 +160,7 @@ class demoInformation:
     __MSGS = [ __MSG3, __MSG5, __MSG1, __MSG4, __MSG2]
 
     def loadGameData(self):
+        from configgen.settings.keyValueSettings import keyValueSettings
         gameInfo = keyValueSettings(self.GAME_INFO_PATH, False)
         gameInfo.loadFile(True)
 

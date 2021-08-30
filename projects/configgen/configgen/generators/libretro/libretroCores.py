@@ -1,4 +1,3 @@
-import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import ControllerPerPlayer
@@ -72,6 +71,7 @@ class LibretroCores:
     def configureAtari5200(coreSettings: keyValueSettings):
         coreSettings.setString("atari800_system", '"5200"')
 
+        import configgen.recalboxFiles as recalboxFiles
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
         a800settings.setString("MACHINE_TYPE", "Atari 5200")
@@ -84,6 +84,7 @@ class LibretroCores:
     def configureAtari800(coreSettings: keyValueSettings):
         coreSettings.setString("atari800_system", '"130XE (128K)"')
 
+        import configgen.recalboxFiles as recalboxFiles
         a800settings = keyValueSettings(recalboxFiles.atari800CustomConfig)
         a800settings.loadFile(True)
         a800settings.setString("MACHINE_TYPE", "Atari XL/XE")

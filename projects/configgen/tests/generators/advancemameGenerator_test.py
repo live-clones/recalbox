@@ -5,6 +5,7 @@ import unittest
 from configgen.Emulator import Emulator
 import configgen.generators.advancemame.advMameGenerator as advMameGenerator
 from configgen.generators.advancemame.advMameGenerator import AdvMameGenerator
+from configgen.generators.advancemame import advMameControllers
 from configgen.settings.keyValueSettings import keyValueSettings
 
 from tests.generators.FakeArguments import Arguments
@@ -18,7 +19,7 @@ class TestAdvancemameGenerator(unittest.TestCase):
         # Injecting test file
         advMameGenerator.recalboxFiles.advancemameConfig = ADVMAME_CUSTOM_CFG_FILE
         advMameGenerator.recalboxFiles.advancemameConfigmOrigin = ADVMAME_ORIGIN_CFG_FILE
-        advMameGenerator.advMameControllers.recalboxFiles.advancemameConfigOrigin = ADVMAME_ORIGIN_CFG_FILE
+        advMameControllers.recalboxFiles.advancemameConfigOrigin = ADVMAME_ORIGIN_CFG_FILE
         self.emulator = AdvMameGenerator()
         self.system = Emulator(name='advancemame', videoMode='16', ratio='auto', emulator='advancemame', core='advancemame')
         # Cloning config files

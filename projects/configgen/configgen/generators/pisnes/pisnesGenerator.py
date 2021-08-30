@@ -50,7 +50,7 @@ class PisnesGenerator(Generator):
         # Save configuration back
         config.saveFile()
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         config = PisnesGenerator.Loadconfiguration()
 

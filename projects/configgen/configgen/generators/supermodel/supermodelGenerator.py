@@ -1,15 +1,12 @@
 #!/usr/bin/env python
-import platform
 from typing import List
 
 from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
-import configgen.generators.supermodel.supermodelControllers as supermodelControllers
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
-from configgen.utils.videoMode import *
 
 
 class SupermodelGenerator(Generator):
@@ -100,6 +97,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings.loadFile(True)
         getConfig = supermodelSettings.getString("resolution", "")
         if getConfig == "auto":
+            from configgen.utils.videoMode import getCurrentResolution
             width, height = getCurrentResolution()
             currentResolution = ("{}".format(width)) + "," + ("{}".format(height))
             reso.append("-fullscreen")
@@ -157,10 +155,12 @@ class SupermodelGenerator(Generator):
     def GetEngine(_) -> List[str]:
         # Set new3d engine only if have a nvidia driver else use legacy3d engine
         # Is nVidia driver on?
+        import platform
         arch = platform.machine()
         hasNVidia = False
         if arch == "x86_64":
             # check if have nvidia driver
+            import os
             if os.path.exists("/etc/modprobe.d/blacklist.conf"):
                 with open("/etc/modprobe.d/blacklist.conf") as f:
                     for line in f:
@@ -246,9 +246,10 @@ class SupermodelGenerator(Generator):
         loglevel.append("-log-level=" + loglevelset)
         return loglevel
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
         if not system.HasConfigFile:
             # Controllers
+            import configgen.generators.supermodel.supermodelControllers as supermodelControllers
             supermodelControllers.generateControllerConfig(self, playersControllers)
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator], args.rom]

@@ -2,7 +2,6 @@
 from __future__ import division
 import os
 import sys
-from configgen.utils.recallog import recallog
 
 
 # Set a specific video mode
@@ -35,7 +34,7 @@ def setVideoMode(videoMode, delay=0.5):
         time.sleep(delay)
         return cmd
     else:
-        recallog("Error: Could not find a suitable video mode")
+        print("Error: Could not find a suitable video mode")
         sys.exit(1)
 
 
@@ -48,7 +47,7 @@ def createVideoModeLine(videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
     if re.match("^hdmi_timings [0-9 ]{48,58}$", videoMode):
         return "vcgencmd {} && tvservice -e 'DMT 87'".format(videoMode)
-    recallog("{} is not a valid video mode, abort".format(videoMode))
+    print("{} is not a valid video mode, abort".format(videoMode))
     return ''
 
 
@@ -56,12 +55,12 @@ def createVideoModeLine(videoMode):
 def isSupported(group="CEA", mode='', drive="HDMI"):
     groups = ['CEA', 'DMT']
     if group not in groups:
-        recallog("Error: {} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
+        print("Error: {} is an unknown group. Can't switch to {} {} {}".format(group, group, mode, drive))
         sys.exit(1)
 
     drives = ['HDMI', 'DVI']
     if drive not in drives:
-        recallog("Error: {} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
+        print("Error: {} is an unknown drive. Can't switch to {} {} {}".format(drive, group, mode, drive))
         sys.exit(1)
 
     import subprocess
@@ -76,13 +75,13 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
         if tvmode["code"] == int(mode):
             return True
 
-    recallog("The resolution for '{} {} {}' is not supported by your monitor".format(group, mode, drive))
+    print("The resolution for '{} {} {}' is not supported by your monitor".format(group, mode, drive))
     return False
 
 
 # Switch to prefered mode
-def setPrefered(recalboxSettings):
-    esVideoMode = recalboxSettings.getOption("system.es.videomode", None)
+def setPrefered(recalboxOptions):
+    esVideoMode = recalboxOptions.getOption("system.es.videomode", None)
     # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
     # See https://github.com/raspberrypi/firmware/issues/901
     # Once this issue is solved, just tvservice -p
@@ -112,29 +111,29 @@ def checkAutoMode(expectedMode=None):
     matches = re.match(str(regex), str(out))
     if not matches:
         # We should log the out var and log that it doesn't match any known pattern
-        recallog('auto mode -> had to set default')
+        print('auto mode -> had to set default')
         return "default"
     drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
 
     # Now the magic
     # if the screen supports CEA 4, and its current format is at least 16:9, go for CEA 4
     if drive not in ["HDMI", "DVI"]:
-        recallog("{} is not among HDMI/DVI, fallback to default".format(drive))
+        print("{} is not among HDMI/DVI, fallback to default".format(drive))
         return "default"
     if expectedMode is not None:
         try:
             autoGroup, autoMode, autoDrive = expectedMode.split()
         except:
-            recallog("{} is not a valid format".format(expectedMode))
+            print("{} is not a valid format".format(expectedMode))
             raise
     else:
         autoGroup, autoMode, autoDrive = ['CEA', 4, drive]
     if isSupported(autoGroup, autoMode, autoDrive):
-        recallog("auto mode -> {} {} {} is valid".format(autoGroup, autoMode, autoDrive))
+        print("auto mode -> {} {} {} is valid".format(autoGroup, autoMode, autoDrive))
         return "{} {} {}".format(autoGroup, autoMode, autoDrive)
     # Otherwise (composite output, 5:4 screens, mini DPI screens etc ...) -> default
     else:
-        recallog("auto mode -> CEA 4 HDMI/DVI not supported, fallback to default")
+        print("auto mode -> CEA 4 HDMI/DVI not supported, fallback to default")
         return "default"
 
 
@@ -160,7 +159,7 @@ def getCurrentResolution():
         matches = re.match(str(regex), str(out))
         if not matches:
             # We should log the out var and log that it doesn't match any known pattern
-            recallog("getCurrentResolution - Couldn't parse output: {}".format(out))
+            print("getCurrentResolution - Couldn't parse output: {}".format(out))
             raise ValueError("getCurrentResolution - Couldn't parse output: {}".format(out))
         drive, details, wRatio, hRatio, width, height, refreshRate, progressiveOrInterlace = matches.groups()
         return width, height
@@ -176,7 +175,7 @@ def getCurrentFramebufferResolution():
     matches = re.match(regex, line)
 
     if not matches:
-        recallog("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
+        print("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
         raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
     width, height = matches.groups()
 

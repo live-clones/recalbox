@@ -1,4 +1,3 @@
-import os
 from typing import List, Dict
 
 from configgen.Command import Command
@@ -42,6 +41,7 @@ class PcsxGenerator(Generator):
     @staticmethod
     def SaveConfiguration(config: List[str]):
         # Force path creation
+        import os
         configPath = os.path.dirname(recalboxFiles.pcsxConfigFile)
         if not os.path.exists(configPath):
             os.makedirs(configPath)
@@ -55,7 +55,7 @@ class PcsxGenerator(Generator):
     def ButtonChar(button: int) -> str:
         return '\\' + hex(button + 0xA0)[1:]
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         config = PcsxGenerator.Loadconfiguration()
 

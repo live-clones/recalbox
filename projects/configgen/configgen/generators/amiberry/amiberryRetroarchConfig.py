@@ -1,9 +1,6 @@
 #!/usr/bin/env python
-import os
 from typing import Dict
 
-import configgen.recalboxFiles as recalboxFiles
-from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import InputItem, Controller
 
 '''
@@ -65,6 +62,9 @@ class AmiberryRetroarchConfig:
 
     def __init__(self, controller: Controller):
         self.controller = controller
+        from configgen.settings.keyValueSettings import keyValueSettings
+        import configgen.recalboxFiles as recalboxFiles
+        import os
         self.settings = keyValueSettings(os.path.join(recalboxFiles.amiberryMountPoint, "conf", self.sanitizeFilename(controller.DeviceName) + ".cfg"), True)
 
     @staticmethod

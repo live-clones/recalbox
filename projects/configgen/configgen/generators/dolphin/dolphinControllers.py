@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from typing import Dict, IO
 
 import configgen.recalboxFiles as recalboxFiles
-from configparser import ConfigParser
-
 from configgen.Emulator import Emulator
 from configgen.controllers.inputItem import InputItem
 from configgen.controllers.controller import ControllerPerPlayer
@@ -28,10 +25,10 @@ hotkeysCombo: Dict[int, str] =\
 }
 
 # Create the controller configuration file
-def generateControllerConfig(system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings):
+def generateControllerConfig(system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings):
     generateHotkeys(playersControllers)
     if system.Name == "wii":
-        realWiimotes: bool = recalboxSettings.getString("global.realwiimotes", recalboxSettings.getString(system.Name + ".realwiimotes", "0")) in ('1', 'true')
+        realWiimotes: bool = recalboxOptions.getString("global.realwiimotes", recalboxOptions.getString(system.Name + ".realwiimotes", "0")) in ('1', 'true')
         if realWiimotes:
             generateControllerConfigEmulatedwiimotes(playersControllers, system)
         else:
@@ -221,18 +218,13 @@ def generateHotkeys(playersControllers: ControllerPerPlayer):
 def writeIniFile(filename: str, sectionsAndValues: Dict[str, Dict[str, str]]):
     # filename: file to write
     # sectionsAndValues: a dict indexed on sections on the ini. Each section has a dict of propertyName: propertyValue
-
-    Config = ConfigParser()
-    # To prevent ConfigParser from converting to lower case
-    Config.optionxform = str
+    from configgen.settings.iniSettings import IniSettings
+    config = IniSettings(filename, True)
 
     # Write dynamic config
     for section, values in sectionsAndValues.items():
-        Config.add_section(section)
         for propertyName, propertyValue in values.items():
-            Config.set(section, propertyName, propertyValue)
+            config.setString(section, propertyName, propertyValue)
 
     # Open file
-    cfgfile = open(filename, 'w')
-    Config.write(cfgfile)
-    cfgfile.close()
+    config.saveFile()

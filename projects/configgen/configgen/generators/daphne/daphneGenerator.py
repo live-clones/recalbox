@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-import os.path
 from configgen.Command import Command
-import configgen.recalboxFiles as recalboxFiles
-import configgen.generators.daphne.daphneControllers as daphneControllers
 from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
@@ -13,16 +10,19 @@ class DaphneGenerator(Generator):
 
     # Main entry of the module
     # Configure daphne and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         if not system.HasConfigFile:
+            import configgen.generators.daphne.daphneControllers as daphneControllers
             daphneControllers.generateControllerConfig(system, playersControllers)
 
+        import os.path
         romName = os.path.splitext(os.path.basename(args.rom))[0]
         frameFile = args.rom + "/" + romName + ".txt"
         commandsFile = args.rom + "/" + romName + ".commands"
         singeFile = args.rom + "/" + romName + ".singe"
         # the command to run
+        import configgen.recalboxFiles as recalboxFiles
         if os.path.exists(singeFile):
             # for a singe game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],

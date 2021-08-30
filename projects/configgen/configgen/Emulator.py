@@ -1,6 +1,5 @@
 from typing import List
 
-import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -63,39 +62,39 @@ class Emulator:
         if result in ('1', "true", "True"): return True
         return False
 
-    def configure(self, recalboxSettings: keyValueSettings, arguments):
+    def configure(self, recalboxOptions: keyValueSettings, arguments):
         # Overriding vars
-        self._emulator: str          = self.__guessBestStringValue(recalboxSettings, "emulator", self._emulator)
-        self._core: str              = self.__guessBestStringValue(recalboxSettings, "core", self._core)
-        self._ratio: str             = self.__guessBestStringValue(recalboxSettings, "ratio", self._ratio)
-        self._videoMode: str         = self.__guessBestStringValue(recalboxSettings, "videomode", self._videoMode)
-        self._shaderFile: str        = self.__guessBestStringValue(recalboxSettings, "shaders", self._shaderFile)
-        self._shaderSet: str         = self.__guessBestStringValue(recalboxSettings, "shaderset", self._shaderSet)
-        self._configFile: str        = self.__guessBestStringValue(recalboxSettings, "configfile", self._configFile)
-        self._showFPS: bool          = self.__guessBestBoolValue  (recalboxSettings, "showfps", self._showFPS)
-        self._smooth: bool           = self.__guessBestBoolValue  (recalboxSettings, "smooth", self._smooth)
-        self._rewind: bool           = self.__guessBestBoolValue  (recalboxSettings, "rewind", self._rewind)
-        self._autoSave: bool         = self.__guessBestBoolValue  (recalboxSettings, "autosave", self._autoSave)
-        self._integerScale: bool     = self.__guessBestBoolValue  (recalboxSettings, "integerscale", self._integerScale)
-        self._quitTwice: bool        = self.__guessBestBoolValue  (recalboxSettings, "quitpresstwice", self._quitTwice)
-        self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxSettings, "recalboxoverlays", self._recalboxOverlays)
-        self._netplay: bool          = self.__guessBestBoolValue  (recalboxSettings, "netplay", self._netplay)
-        self._translate: bool        = self.__guessBestBoolValue  (recalboxSettings, "translate", self._translate)
-        self._translateAPIKey: str   = self.__guessBestStringValue(recalboxSettings, "translate.apikey", self._translateAPIKey)
-        self._translateURL: str      = self.__guessBestStringValue(recalboxSettings, "translate.url", self._translateURL)
-        self._translateFrom: str     = self.__guessBestStringValue(recalboxSettings, "translate.from", self._translateFrom)
-        self._translateTo: str       = self.__guessBestStringValue(recalboxSettings, "translate.to", recalboxSettings.getString("system.language", self._translateTo))
-        self._extraArgs: str         = self.__guessBestStringValue(recalboxSettings, "extra", self._extraArgs)
-        self._configArgs: str        = self.__guessBestStringValue(recalboxSettings, "args", self._configArgs)
+        self._emulator: str          = self.__guessBestStringValue(recalboxOptions, "emulator", self._emulator)
+        self._core: str              = self.__guessBestStringValue(recalboxOptions, "core", self._core)
+        self._ratio: str             = self.__guessBestStringValue(recalboxOptions, "ratio", self._ratio)
+        self._videoMode: str         = self.__guessBestStringValue(recalboxOptions, "videomode", self._videoMode)
+        self._shaderFile: str        = self.__guessBestStringValue(recalboxOptions, "shaders", self._shaderFile)
+        self._shaderSet: str         = self.__guessBestStringValue(recalboxOptions, "shaderset", self._shaderSet)
+        self._configFile: str        = self.__guessBestStringValue(recalboxOptions, "configfile", self._configFile)
+        self._showFPS: bool          = self.__guessBestBoolValue  (recalboxOptions, "showfps", self._showFPS)
+        self._smooth: bool           = self.__guessBestBoolValue  (recalboxOptions, "smooth", self._smooth)
+        self._rewind: bool           = self.__guessBestBoolValue  (recalboxOptions, "rewind", self._rewind)
+        self._autoSave: bool         = self.__guessBestBoolValue  (recalboxOptions, "autosave", self._autoSave)
+        self._integerScale: bool     = self.__guessBestBoolValue  (recalboxOptions, "integerscale", self._integerScale)
+        self._quitTwice: bool        = self.__guessBestBoolValue  (recalboxOptions, "quitpresstwice", self._quitTwice)
+        self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
+        self._netplay: bool          = self.__guessBestBoolValue  (recalboxOptions, "netplay", self._netplay)
+        self._translate: bool        = self.__guessBestBoolValue  (recalboxOptions, "translate", self._translate)
+        self._translateAPIKey: str   = self.__guessBestStringValue(recalboxOptions, "translate.apikey", self._translateAPIKey)
+        self._translateURL: str      = self.__guessBestStringValue(recalboxOptions, "translate.url", self._translateURL)
+        self._translateFrom: str     = self.__guessBestStringValue(recalboxOptions, "translate.from", self._translateFrom)
+        self._translateTo: str       = self.__guessBestStringValue(recalboxOptions, "translate.to", recalboxOptions.getString("system.language", self._translateTo))
+        self._extraArgs: str         = self.__guessBestStringValue(recalboxOptions, "extra", self._extraArgs)
+        self._configArgs: str        = self.__guessBestStringValue(recalboxOptions, "args", self._configArgs)
 
         # Vars straight from recalbox.conf
-        self._specialKeys               = recalboxSettings.getString('system.emulators.specialkeys', self._specialKeys)
-        self._netplayNick               = recalboxSettings.getString('global.netplay.nickname', self._netplayNick)
-        self._netplayMITM               = recalboxSettings.getString('global.netplay.relay', self._netplayMITM)
-        self._retroachievements         = recalboxSettings.getBool('global.retroachievements', self._retroachievements)
-        self._retroachievementsHardcore = recalboxSettings.getBool('global.retroachievements.hardcore', self._retroachievementsHardcore)
-        self._retroachievementsNickname = recalboxSettings.getString('global.retroachievements.username', self._retroachievementsNickname)
-        self._retroachievementsPassword = recalboxSettings.getString('global.retroachievements.password', self._retroachievementsPassword)
+        self._specialKeys               = recalboxOptions.getString('system.emulators.specialkeys', self._specialKeys)
+        self._netplayNick               = recalboxOptions.getString('global.netplay.nickname', self._netplayNick)
+        self._netplayMITM               = recalboxOptions.getString('global.netplay.relay', self._netplayMITM)
+        self._retroachievements         = recalboxOptions.getBool('global.retroachievements', self._retroachievements)
+        self._retroachievementsHardcore = recalboxOptions.getBool('global.retroachievements.hardcore', self._retroachievementsHardcore)
+        self._retroachievementsNickname = recalboxOptions.getString('global.retroachievements.username', self._retroachievementsNickname)
+        self._retroachievementsPassword = recalboxOptions.getString('global.retroachievements.password', self._retroachievementsPassword)
 
         # Vars from arguments
         self._hash                  = arguments.hash
@@ -121,6 +120,7 @@ class Emulator:
 
         # Shaders
         if len(self._shaderSet) != 0 and self._shaderSet != 'none':
+            import configgen.recalboxFiles as recalboxFiles
             shaderFile = recalboxFiles.shaderPresetRoot + '/' + self._shaderSet + '.cfg'
             shaderContent = keyValueSettings(shaderFile, False)
             shaderContent.loadFile(True)

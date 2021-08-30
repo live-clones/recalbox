@@ -2,17 +2,16 @@ from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.Command import Command
-import configgen.recalboxFiles as recalboxFiles
-from configgen.settings.configOverriding import buildOverrideChain
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class XroarGenerator(Generator):
 
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxSettings: keyValueSettings, args) -> Command:
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         # Make save dir
         import os
+        import configgen.recalboxFiles as recalboxFiles
         snapshotFolder: str = os.path.join(recalboxFiles.SAVES, args.system, "snapshots")
         printerFolder: str = os.path.join(recalboxFiles.SAVES, args.system, "printer")
         if not os.path.exists(snapshotFolder): os.makedirs(name=snapshotFolder, exist_ok=True)
@@ -27,6 +26,7 @@ class XroarGenerator(Generator):
                                    "-snappath", os.path.join(snapshotFolder, snapFile)]
 
         # Config file?
+        from configgen.settings.configOverriding import buildOverrideChain
         configList = buildOverrideChain(args.rom, ".xroar.config")
         if len(configList) > 0:
             commandArray.extend(["-c", configList[len(configList) - 1]])
