@@ -76,6 +76,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
 - [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+- [ ] Bumped libretro kronos. No loss of fps (#1849)
 
 - [ ] Text Libretro PX68K and test .m3u multi-disk  
 - [ ] Test libretro-MGBA  
