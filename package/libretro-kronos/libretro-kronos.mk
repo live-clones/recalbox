@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# https://github.com/libretro/yabause/tree/kronos/yabause/src/libretro
-LIBRETRO_KRONOS_VERSION = 95a6176d9c059f8cce87a8aff8e25e98ef9d94a7
+# Commit of 20/08/2021 (https://github.com/libretro/yabause/commit/c538bcac82770c1acb691eeca95688860fd264f0)
+LIBRETRO_KRONOS_VERSION = c538bcac82770c1acb691eeca95688860fd264f0
 LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
 LIBRETRO_KRONOS_LICENSE = GPL-2.0
 

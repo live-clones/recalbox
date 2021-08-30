@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump kronos libretro core (#1849)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
