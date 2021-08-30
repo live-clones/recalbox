@@ -1,0 +1,267 @@
+diff --git a/configuration.c b/configuration.c
+index a8424fb..8094c84 100644
+--- a/configuration.c
++++ b/configuration.c
+@@ -2126,6 +2126,8 @@ static struct config_uint_setting *populate_settings_uint(
+    SETTING_UINT("video_record_quality",            &settings->uints.video_record_quality,    true, RECORD_CONFIG_TYPE_RECORDING_MED_QUALITY, false);
+    SETTING_UINT("video_stream_quality",            &settings->uints.video_stream_quality,    true, RECORD_CONFIG_TYPE_STREAMING_MED_QUALITY, false);
+    SETTING_UINT("video_record_scale_factor",            &settings->uints.video_record_scale_factor,    true, 1, false);
++   SETTING_UINT("recalbox_crt_horizontal_overscan",            &settings->uints.recalbox_crt_horizontal_overscan,    true, 0, false);
++   SETTING_UINT("recalbox_crt_height",            &settings->uints.recalbox_crt_height,    true, 0, false);
+    SETTING_UINT("video_stream_scale_factor",            &settings->uints.video_stream_scale_factor,    true, 1, false);
+    SETTING_UINT("video_windowed_position_x",            &settings->uints.window_position_x,    true, 0, false);
+    SETTING_UINT("video_windowed_position_y",            &settings->uints.window_position_y,    true, 0, false);
+diff --git a/configuration.h b/configuration.h
+index cfac5c8..ef8b99c 100644
+--- a/configuration.h
++++ b/configuration.h
+@@ -210,6 +210,8 @@ typedef struct settings
+       unsigned video_dingux_ipu_filter_type;
+       unsigned video_dingux_refresh_rate;
+       unsigned video_dingux_rs90_softfilter_type;
++      unsigned recalbox_crt_horizontal_overscan;
++      unsigned recalbox_crt_height;
+ #ifdef HAVE_VIDEO_LAYOUT
+       unsigned video_layout_selected_view;
+ #endif
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 182d0b4..4ddab3b 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -712,6 +712,10 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+     * etc, so try to match that. */
+    refresh_mod = 1.0f / (black_frame_insertion + 1.0f);
+ 
++   if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920)
++   {
++      width = 1920;
++   }
+    /* Find desired video mode, and use that.
+     * If not fullscreen, we get desired windowed size,
+     * which is not appropriate. */
+@@ -764,6 +768,8 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+       goto error;
+    }
+ 
++   RARCH_LOG("[DRM]: mode selected: %d x %d, %f Hz\n", g_drm_mode->hdisplay, g_drm_mode->vdisplay, drm_calc_refresh_rate(g_drm_mode));
++
+    drm->fb_width    = g_drm_mode->hdisplay;
+    drm->fb_height   = g_drm_mode->vdisplay;
+ 
+diff --git a/gfx/video_defines.h b/gfx/video_defines.h
+index 33f94d5..ceaf197 100644
+--- a/gfx/video_defines.h
++++ b/gfx/video_defines.h
+@@ -56,6 +56,7 @@ enum aspect_ratio
+    ASPECT_RATIO_CORE,
+    ASPECT_RATIO_CUSTOM,
+    ASPECT_RATIO_FULL,
++   ASPECT_RATIO_NATIVE_1920,
+ 
+    ASPECT_RATIO_END
+ };
+diff --git a/retroarch.c b/retroarch.c
+index bfb908a..3231664 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -30039,6 +30039,8 @@ static void video_driver_set_viewport_square_pixel(struct retro_game_geometry *g
+    aspectratio_lut[ASPECT_RATIO_SQUARE].value = (float)aspect_x / aspect_y;
+ }
+ 
++video_info_t video;
++
+ static bool video_driver_init_internal(
+       struct rarch_state *p_rarch,
+       settings_t *settings,
+@@ -30046,8 +30048,8 @@ static bool video_driver_init_internal(
+       bool verbosity_enabled
+      )
+ {
+-   video_info_t video;
+    unsigned max_dim, scale, width, height;
++   unsigned rotation                      = 0;
+    video_viewport_t *custom_vp            = NULL;
+    input_driver_t *tmp                    = NULL;
+    static uint16_t dummy_pixels[32]       = {0};
+@@ -30070,12 +30072,36 @@ static bool video_driver_init_internal(
+       scale  = p_rarch->video_driver_state_scale;
+ #endif
+ 
++  // ASPECT_RATIO_NATIVE_1920 specific values
++   if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920)
++   {
++         RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
++            geom->base_width,
++            geom->base_height,
++            geom->aspect_ratio,
++            p_rarch->video_driver_av_info.timing.fps,
++            runloop_state.system.rotation);
++
++      double input_fps = p_rarch->video_driver_av_info.timing.fps;
++      if(input_fps > 0.0)
++      {
++         RARCH_LOG("[Video]: Setting fps from core value : %f\n", input_fps);
++         settings->floats.video_refresh_rate = input_fps;
++      }
++      settings->floats.video_scale = 1;
++      settings->bools.video_smooth = false;
++      if(runloop_state.system.rotation == 1){
++         RARCH_LOG("[Video]: setting rotation %u\n", runloop_state.system.rotation);
++         rotation = runloop_state.system.rotation;
++      }
++   }
+    /* Update core-dependent aspect ratio values. */
+    video_driver_set_viewport_square_pixel(geom);
+    video_driver_set_viewport_core();
+    video_driver_set_viewport_config(geom,
+          settings->floats.video_aspect_ratio,
+          settings->bools.video_aspect_ratio_auto);
++   video_driver_set_viewport_native_1920(rotation);
+ 
+    /* Update CUSTOM viewport. */
+    custom_vp = &settings->video_viewport_custom;
+@@ -30098,7 +30124,7 @@ static bool video_driver_init_internal(
+             aspectratio_lut[new_aspect_idx].value);
+    }
+ 
+-   if (settings->bools.video_fullscreen || p_rarch->rarch_force_fullscreen)
++   if (settings->uints.video_aspect_ratio_idx != ASPECT_RATIO_NATIVE_1920 && (settings->bools.video_fullscreen|| p_rarch->rarch_force_fullscreen))
+    {
+       width  = settings->uints.video_fullscreen_x;
+       height = settings->uints.video_fullscreen_y;
+@@ -30170,7 +30196,51 @@ static bool video_driver_init_internal(
+                width = roundf(geom->base_width * video_scale);
+ 
+             height = roundf(geom->base_height * video_scale);
+-
++            
++            // ASPECT_RATIO_NATIVE_1920
++            if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920){
++               // Forced height
++               if (settings->uints.recalbox_crt_height > 0)
++               {
++                  height = settings->uints.recalbox_crt_height;
++                  width = roundf((float)height*geom->base_width/(float)geom->base_height);
++               }
++               else 
++               {
++                  // Rotation
++                  if(rotation == 1)
++                  {
++                     RARCH_LOG("[Video]: rotating\n");
++                     width = geom->base_height;
++                     height = geom->base_width;
++                  }
++                  // Switch to 240p if height is above 224px
++                  if(height < 224)
++                  {
++                     height = 240;
++                     width = roundf(240.0f*geom->base_width/(float)geom->base_height);
++                  }
++                  // Selecting best supported height
++                  uint supported_heights[3] = {224, 240, 480};
++                  uint lastDiff = 480;
++                  uint bestHeight = 0;
++                  for(int supH = 0; supH<3; supH++)
++                  {
++                     if(abs(supported_heights[supH] - height) < lastDiff)
++                     {
++                        bestHeight = supported_heights[supH];
++                        lastDiff = abs(supported_heights[supH] - height);
++                     }
++                  }
++                  // If we have to change the height to a supported one
++                  if(bestHeight != height)
++                  {
++                     height = bestHeight;
++                     width = roundf((float)bestHeight*geom->base_width/(float)geom->base_height);
++                  }
++               }
++            }
++            RARCH_LOG("[Video]: Set width and height to %ux%u video scale = %f\n", width, height, video_scale);
+             /* Cap window size to maximum allowed values */
+             if ((width > max_win_width) || (height > max_win_height))
+             {
+@@ -30218,7 +30288,8 @@ static bool video_driver_init_internal(
+    video.width                       = width;
+    video.height                      = height;
+    video.fullscreen                  = settings->bools.video_fullscreen ||
+-                                       p_rarch->rarch_force_fullscreen;
++                                       p_rarch->rarch_force_fullscreen ||
++                                       settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920;
+    video.vsync                       = settings->bools.video_vsync &&
+       !runloop_state.force_nonblock;
+    video.force_aspect                = settings->bools.video_force_aspect;
+@@ -30803,7 +30874,6 @@ void video_driver_set_viewport_core(void)
+ 
+    if (!geom || geom->base_width <= 0.0f || geom->base_height <= 0.0f)
+       return;
+-
+    /* Fallback to 1:1 pixel ratio if none provided */
+    if (geom->aspect_ratio > 0.0f)
+       aspectratio_lut[ASPECT_RATIO_CORE].value = geom->aspect_ratio;
+@@ -30812,6 +30882,40 @@ void video_driver_set_viewport_core(void)
+          (float)geom->base_width / geom->base_height;
+ }
+ 
++void video_driver_set_viewport_native_1920(unsigned rotation)
++{
++   struct rarch_state        *p_rarch   = &rarch_st;
++   struct retro_game_geometry *geom     = &p_rarch->video_driver_av_info.geometry;
++   unsigned video_horizontal_overscan   = p_rarch->configuration_settings->uints.recalbox_crt_horizontal_overscan;
++
++   if (!geom || geom->base_width <= 0.0f || geom->base_height <= 0.0f)
++      return;
++
++   unsigned width = rotation == 0 ? geom->base_width : geom->base_height;
++   unsigned height = rotation == 0 ? geom->base_height : geom->base_width;
++   
++   RARCH_LOG("[Video]: calculating ratio for 4/3 CRT with height=%u, width=%u, core aspect ratio=%f, video_horizontal_overscan=%u\n", height, width, geom->aspect_ratio, video_horizontal_overscan);
++
++   if (geom->aspect_ratio > 0.0f){
++      unsigned effective_height = height;
++      if(height != video.height && video.height > 0)
++      {
++         // Case of 16/9 consoles, or forced height, we just calculate the ratio with screen height
++
++         effective_height = video.height;
++      }
++      RARCH_LOG("[Video]: effective_height = %u\n",effective_height);
++      aspectratio_lut[ASPECT_RATIO_NATIVE_1920].value = ((double)(1920-video_horizontal_overscan) / (effective_height *(4.0f/3.0f))) * geom->aspect_ratio;
++   }
++   else
++   {
++      /* Fallback to 1:1 pixel ratio if none provided */
++      aspectratio_lut[ASPECT_RATIO_NATIVE_1920].value =
++         ((double)(1920-video_horizontal_overscan) / ((height*(4.0f/3.0f))/width)/width);
++   }
++   RARCH_LOG("[Video]: set ASPECT_RATIO_NATIVE_1920 value to %f\n", aspectratio_lut[ASPECT_RATIO_NATIVE_1920].value);
++}
++
+ void video_driver_set_viewport_full(void)
+ {
+    unsigned width = 0;
+@@ -30912,6 +31016,10 @@ void video_driver_set_aspect_ratio(void)
+          video_driver_set_viewport_core();
+          break;
+ 
++      case ASPECT_RATIO_NATIVE_1920:
++         video_driver_set_viewport_native_1920(runloop_state.system.rotation);
++         break;
++
+       case ASPECT_RATIO_CONFIG:
+          video_driver_set_viewport_config(
+                &p_rarch->video_driver_av_info.geometry,
+diff --git a/retroarch.h b/retroarch.h
+index 4c94dae..ffe0a04 100644
+--- a/retroarch.h
++++ b/retroarch.h
+@@ -1572,6 +1572,8 @@ void video_driver_set_viewport_core(void);
+ 
+ void video_driver_set_viewport_full(void);
+ 
++void video_driver_set_viewport_native_1920(unsigned rotation);
++
+ void video_driver_reset_custom_viewport(void);
+ 
+ void video_driver_set_rgba(void);
