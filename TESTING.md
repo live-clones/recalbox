@@ -59,6 +59,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849)
 
+- [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS 
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
