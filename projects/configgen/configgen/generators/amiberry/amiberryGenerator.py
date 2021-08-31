@@ -149,6 +149,7 @@ class AmiberryGenerator(Generator):
         configFile = ConfigGenerator(settingsFullPath)
 
         # Load default settings
+        configFile.SetDefaults(subSystem)
         configFile.SetDefaultPath(subSystem)
         configFile.SetUI(AmiberryGenerator.GetKeyboardLayout(recalboxOptions), system.ShowFPS)
         configFile.SetInput(subSystem)
@@ -158,7 +159,7 @@ class AmiberryGenerator(Generator):
         configFile.SetMemory(subSystem)
         configFile.SetGraphics(subSystem)
         configFile.SetSound(subSystem)
-        configFile.SetNetwork(romType in [RomType.WHDL, RomType.HDDFS, RomType.HDF])
+        configFile.SetNetwork(romType in (RomType.WHDL, RomType.HDDFS, RomType.HDF))
         configFile.SetFloppies(subSystem, [])
         configFile.SetCD(subSystem, "")
         configFile.SetKickstarts(subSystem, romType)

@@ -33,7 +33,7 @@ class AmiberryGlobalConfig:
 
         # Forced values
         import configgen.recalboxFiles as recalboxFiles
-        settings.setInt("Quickstart", 1)
+        settings.setInt("quickstart", 1)
         settings.setString("path", recalboxFiles.amiberryMountPoint)
         settings.setString("config_path", recalboxFiles.amiberryMountPoint + "/conf")
         settings.setString("controllers_path", recalboxFiles.amiberryMountPoint + "/conf")
@@ -51,7 +51,7 @@ class AmiberryGlobalConfig:
             for rom in KickstartManager.BIOS_LIST:
                 itype, name = KickstartManager.BIOS_LIST[rom]
                 import os
-                path = os.path.join(recalboxFiles.BIOS, rom + ".rom")
+                path = os.path.join(recalboxFiles.BIOS, rom)
                 sf.write("ROMName=" + name + '\n')
                 sf.write("ROMPath=" + path + '\n')
                 sf.write("ROMType=" + str(itype) + '\n')

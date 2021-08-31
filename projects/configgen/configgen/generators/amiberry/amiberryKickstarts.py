@@ -23,6 +23,9 @@ class KickstartManager:
         # Kickstart v3.1 rev 40.68 (1993)(Commodore)(A4000).rom
         "kick40068.A4000": (256, "KS ROM v3.1 (A4000) rev 40.68 (512k)"),
 
+        # Kickstart v1.3 rev 34.5 (1987)(Commodore)(A500-A2000-CDTV)[!].rom
+        "kick34005.CDTV": (256, "CDTV Extended ROM rev 34.5 (256k)"),
+
         # Kickstart v3.1 rev 40.60 (1993)(Commodore)(CD32).rom
         "kick40060.CD32":  (512, "CD32 KS ROM v3.1 rev 40.60 (512k)"),
         # CD32 Extended-ROM rev 40.60 (1993)(Commodore)(CD32).rom 87746be2
@@ -63,9 +66,9 @@ class KickstartManager:
         ],
         SubSystems.CDTV:
         [
-            (   # Not supported yet
-                [],
-                []
+            (   # No choice for the CD32
+                [RomType.CDROM],
+                ["kick34005.A500|kick34005.CDTV"]
             ),
         ],
     }
@@ -78,7 +81,7 @@ class KickstartManager:
     def GenerateWHDSymLinks(destinationfolder: str):
         for bios in KickstartManager.BIOS_LIST:
             import os
-            biosPath = os.path.join(recalboxFiles.BIOS, bios + ".rom")
+            biosPath = os.path.join(recalboxFiles.BIOS, bios)
             biosLink = os.path.join(destinationfolder, bios)
             if not os.path.exists(biosLink) and os.path.exists(biosPath):
                 os.symlink(biosPath, biosLink)
@@ -99,11 +102,11 @@ class KickstartManager:
                     if '|' in biosCouple:
                         bios, ext = biosCouple.split('|', 2)
                         needExt = ext is not None
-                    biosPath = os.path.join(recalboxFiles.BIOS, bios + ".rom")
+                    biosPath = os.path.join(recalboxFiles.BIOS, bios)
                     if os.path.exists(biosPath):
                         biosFile = biosPath
                     if needExt:
-                        extPath = os.path.join(recalboxFiles.BIOS, ext + ".rom")
+                        extPath = os.path.join(recalboxFiles.BIOS, ext)
                         if os.path.exists(extPath):
                             extFile = extPath
                     if biosFile is not None:
@@ -113,8 +116,8 @@ class KickstartManager:
         if subsystem in SubSystems.COMPUTERS:
             # Fallback to AROS 2019?
             if biosFile is None:
-                arosBios = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.rom")
-                arosExt = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.ext.rom")
+                arosBios = os.path.join(recalboxFiles.BIOS, "kick02019.AROS")
+                arosExt = os.path.join(recalboxFiles.BIOS, "kick02019.AROS.ext")
                 if os.path.exists(arosBios) and os.path.exists(arosExt):
                     biosFile = arosBios
                     extFile = arosExt

@@ -81,7 +81,7 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
 
 # Switch to prefered mode
 def setPrefered(recalboxOptions):
-    esVideoMode = recalboxOptions.getOption("system.es.videomode", None)
+    esVideoMode = recalboxOptions.getString("system.es.videomode", None)
     # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
     # See https://github.com/raspberrypi/firmware/issues/901
     # Once this issue is solved, just tvservice -p

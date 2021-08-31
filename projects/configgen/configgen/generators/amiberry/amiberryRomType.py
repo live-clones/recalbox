@@ -4,7 +4,6 @@ from enum import IntEnum
 
 class RomType(IntEnum):
 
-
     UNKNOWN = 0  # Unknown
     DISK = 1     # Disk ADF or IPF, file zipped or 7zipped (ADF only)
     WHDL = 2     # WHDL Folder, zipped-folder, lha'ed-folder
