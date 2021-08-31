@@ -90,6 +90,7 @@ All notable changes to this project will be documented in this file.
 - Rework bluetooth scripts (#1482)
 - Use xz compression method for squashfs (#1848)
 - Edited 8bitdo N30 Pro 2 configuration (#1791)
+- Build SDL2 without HIDAPI support (#1845)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
