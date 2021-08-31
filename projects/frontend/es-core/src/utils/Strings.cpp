@@ -14,31 +14,29 @@ const std::string Strings::Empty;
 
 bool Strings::sInitialize()
 {
-  if (!sInitialized)
+  memset(sSmallToCapital, 0, sizeof(sSmallToCapital));
+  memset(sCapitalToSmall, 0, sizeof(sCapitalToSmall));
+
+  for(int i = (int)(sizeof(UnicodeConverterTable) / sizeof(UnicodeConverterTable[0])); --i >= 0;)
   {
-    memset(sSmallToCapital, 0, sizeof(sSmallToCapital));
-    memset(sCapitalToSmall, 0, sizeof(sCapitalToSmall));
+    const UnicodeConverter& c = UnicodeConverterTable[i];
+    sSmallToCapital[c.Small] = c.Capital;
+    sCapitalToSmall[c.Capital] = c.Small;
 
-    for(int i = (int)(sizeof(UnicodeConverterTable) / sizeof(UnicodeConverterTable[0])); --i >= 0;)
-    {
-      const UnicodeConverter& c = UnicodeConverterTable[i];
-      sSmallToCapital[c.Small] = c.Capital;
-      sCapitalToSmall[c.Capital] = c.Small;
-
-      // This test code ensure every single tuple encodes on the same amount of bytes
-      /*std::string a = unicode2Chars((unsigned int)c.Small);
-      std::string b = unicode2Chars((unsigned int)c.Capital);
-      if (a.length() != b.length())
-        printf("index %d not equal!", i);*/
-    }
+    // This test code ensure every single tuple encodes on the same amount of bytes
+    /*std::string a = unicode2Chars((unsigned int)c.Small);
+    std::string b = unicode2Chars((unsigned int)c.Capital);
+    if (a.length() != b.length())
+      printf("index %d not equal!", i);*/
   }
+
   return true;
 }
 
 std::string Strings::ToLowerUTF8(const std::string& _string)
 {
   std::string result = _string; // Allocate memory once
-  int l = _string.length();
+  int l = (int)_string.length();
 
   for(int cursor = 0; cursor < l; )
   {
@@ -68,9 +66,9 @@ std::string Strings::ToLowerUTF8(const std::string& _string)
                                          ((result[cursor + 2] & 0x3F))];
       if (u != 0)
       {
-        result[cursor + 0] += (char)(((u >> 12) & 0xFF) | 0xE0);
-        result[cursor + 1] += (char)(((u >>  6) & 0x3F) | 0x80);
-        result[cursor + 2] += (char)(((u      ) & 0x3F) | 0x80);
+        result[cursor + 0] = (char)(((u >> 12) & 0xFF) | 0xE0);
+        result[cursor + 1] = (char)(((u >>  6) & 0x3F) | 0x80);
+        result[cursor + 2] = (char)(((u      ) & 0x3F) | 0x80);
       }
       cursor += 3;
     }
@@ -84,7 +82,7 @@ std::string Strings::ToLowerUTF8(const std::string& _string)
 std::string Strings::ToUpperUTF8(const std::string& _string)
 {
   std::string result = _string; // Allocate memory once
-  int l = _string.length();
+  int l = (int)_string.length();
 
   for(int cursor = 0; cursor < l; )
   {
@@ -114,9 +112,9 @@ std::string Strings::ToUpperUTF8(const std::string& _string)
                                          ((result[cursor + 2] & 0x3F))];
       if (u != 0)
       {
-        result[cursor + 0] += (char)(((u >> 12) & 0xFF) | 0xE0);
-        result[cursor + 1] += (char)(((u >>  6) & 0x3F) | 0x80);
-        result[cursor + 2] += (char)(((u      ) & 0x3F) | 0x80);
+        result[cursor + 0] = (char)(((u >> 12) & 0xFF) | 0xE0);
+        result[cursor + 1] = (char)(((u >>  6) & 0x3F) | 0x80);
+        result[cursor + 2] = (char)(((u      ) & 0x3F) | 0x80);
       }
       cursor += 3;
     }
@@ -322,7 +320,7 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 {
 	std::string string = _string;
 
-	for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; )
+	for(int pos = 0; (pos = (int)string.find(_replace, pos)) != (int)std::string::npos; )
 		string.replace(pos, _replace.length(), _with);
 
 	return string;
@@ -332,7 +330,7 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 {
   std::string string = _string;
 
-  for(int pos = 0; (pos = string.find(_replace, pos)) != (int)std::string::npos; )
+  for(int pos = 0; (pos = (int)string.find(_replace, pos)) != (int)std::string::npos; )
     string.replace(pos, 1, _with, _withLength);
 
   return string;
@@ -340,13 +338,13 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
 
 void Strings::ReplaceAllIn(std::string& _string, const char _replace, const char* _with, int _withlength)
 {
-  for(int pos = 0; (pos = _string.find(_replace, pos)) != (int)std::string::npos; pos += _withlength)
+  for(int pos = 0; (pos = (int)_string.find(_replace, pos)) != (int)std::string::npos; pos += _withlength)
     _string.replace(pos, 1, _with, _withlength);
 }
 
 void Strings::ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with)
 {
-  for(int pos = 0; (pos = _string.find(_replace, pos)) != (int)std::string::npos; pos += _with.size())
+  for(int pos = 0; (pos = (int)_string.find(_replace, pos)) != (int)std::string::npos; pos += (int)_with.size())
     _string.replace(pos, _replace.length(), _with);
 }
 
@@ -488,7 +486,7 @@ std::string Strings::ScrambleSymetric(const std::string& _input, const std::stri
 
 	for (size_t i = 0; i < _input.size(); ++i)
 	{
-		buffer[i] = _input[i] ^ (char)(key[i] + (i*17));
+		buffer[i] = (char)(_input[i] ^ (key[i] + (i*17)));
 	}
 
 	return buffer;
@@ -497,11 +495,11 @@ std::string Strings::ScrambleSymetric(const std::string& _input, const std::stri
 std::string Strings::ScrambleSymetric2(const std::string& _input, const std::string& key)
 {
   std::string buffer = _input;
-  int l = key.size();
+  int l = (int)key.size();
 
   for (size_t i = 0; i < _input.size(); ++i)
   {
-    buffer[i] = _input[i] ^ (char)(key[i % l] + (i*17));
+    buffer[i] = (char)(_input[i] ^ (key[i % l] + (i*17)));
   }
 
   return buffer;
@@ -716,7 +714,7 @@ std::string Strings::ToString(bool value)
 
 int Strings::ToHash(const std::string& string)
 {
-  int count = string.size();
+  int count = (int)string.size();
   unsigned int Hash = (unsigned int)count;
   const unsigned char* p = (unsigned char*)string.c_str();
   while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
@@ -725,7 +723,7 @@ int Strings::ToHash(const std::string& string)
 
 int Strings::ToHash(const char* string)
 {
-  int count = strlen(string);
+  int count = (int)strlen(string);
   unsigned int Hash = (unsigned int)count;
   const unsigned char* p = (unsigned char*)string;
   while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
@@ -734,7 +732,7 @@ int Strings::ToHash(const char* string)
 
 unsigned long long Strings::ToHash64(const std::string& string)
 {
-  int count = string.size();
+  int count = (int)string.size();
   unsigned long long Hash = (unsigned long long)count;
   const unsigned char* p = (unsigned char*)string.c_str();
   while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
@@ -743,7 +741,7 @@ unsigned long long Strings::ToHash64(const std::string& string)
 
 unsigned long long Strings::ToHash64(const char* string)
 {
-  int count = strlen(string);
+  int count = (int)strlen(string);
   unsigned long long Hash = (unsigned long long)count;
   const unsigned char* p = (unsigned char*)string;
   while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
@@ -791,7 +789,7 @@ std::string Strings::URLEncode(const std::string& source)
   std::string result;
   const char* p = source.c_str();
 
-  for (int i = source.length(); --i >= 0;)
+  for (int i = (int)source.length(); --i >= 0;)
   {
     unsigned char C = (unsigned char)*p++;
     if (((C >= 'a') && (C <= 'z')) ||
@@ -815,17 +813,17 @@ int Strings::CountChar(const std::string& source, char c)
 {
   int count = 0;
   const char* p = source.c_str();
-  for (int i = source.length(); --i >= 0;)
+  for (int i = (int)source.length(); --i >= 0;)
     if (p[i] == c) count++;
   return count;
 }
 
 std::string Strings::Extract(const std::string& source, const char* starttag, const char* endtag, int starttagl, int endtagl)
 {
-  int start = source.find(starttag, 0, starttagl);
+  int start = (int)source.find(starttag, 0, starttagl);
   if (start != (int)std::string::npos)
   {
-    int stop = source.find(endtag, start + starttagl, endtagl);
+    int stop = (int)source.find(endtag, start + starttagl, endtagl);
     if (stop != (int)std::string::npos)
       return source.substr(start + starttagl, stop - (start + starttagl));
   }
