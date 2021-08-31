@@ -2786,5 +2786,9 @@ msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
 
+#
+msgid "YOUR FAVORITES LIST IS EMPTY"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "رقم التحديث:"
