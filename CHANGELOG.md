@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Fixed Supermodel configuration (#1825)
 - Bump Amiberry to v4.1.5+
 - Bump Mame libretro core to 0.235 (#1889)
+- Bump core standalone scummvm v2.4.0 (#1884)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
