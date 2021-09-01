@@ -141,18 +141,8 @@ RECALBOX_VERSION=$(cat "$RECALBOX_VERSION_FILE")
 SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
 SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
 if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
-    # Check for new bios stuff
-    readarray -d '' biosFolders < <(find "${UPGRADE}/bios" -mindepth 1 -maxdepth 1 -type d -print0)
-    for biosFolder in "${biosFolders[@]}"
-    do
-        ## Copy content of the updates stuff located in bios
-        sourceFolder="${biosFolder}"
-        biosName=$(echo ${biosFolder##*/})
-        destinationFolder="${OUT}/bios/${biosName}"
-        if [ -e "$sourceFolder" ] ; then
-            cp -R "$sourceFolder/." "$destinationFolder"
-        fi
-    done
+    # Copy all bios from share_upgrade to share
+    cp -R "${UPGRADE}/bios/." "${OUT}/bios"
 
     # Run through roms folders
     readarray -d '' romFolders < <(find "${UPGRADE}/roms" -mindepth 1 -maxdepth 1 -type d -print0)

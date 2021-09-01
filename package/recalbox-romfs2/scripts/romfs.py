@@ -31,8 +31,8 @@ if __name__ == '__main__':
     parser.add_argument("-mergefrom", help="systemlist.xml location to read before updating entries", type=str, required=False)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-create", help="Create a new system", type=str)
-    group.add_argument("-buildsystems", help="Build systemlist.cfg", type=str)
-    group.add_argument("-installroms", help="disable libretro default keybindings", type=str)
+    group.add_argument("-buildsystems", help="Build systemlist.xml", type=str)
+    group.add_argument("-installroms", help="Install roms and readme files", type=str)
     arguments = parser.parse_args()
 
     fs = romfs(arguments)
