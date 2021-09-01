@@ -20,7 +20,7 @@ endef
 define LIBRETRO_QUASI88_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/quasi88_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/quasi88_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/quasi88
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/quasi88
 endef
 
 $(eval $(generic-package))

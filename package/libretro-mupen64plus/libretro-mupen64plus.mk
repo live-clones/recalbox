@@ -58,8 +58,8 @@ endef
 define LIBRETRO_MUPEN64PLUS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mupen64plus_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mupen64plus_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/Mupen64plus/hires_texture
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/Mupen64plus/cache
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/Mupen64plus/hires_texture
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/Mupen64plus/cache
 endef
 
 define MUPEN64PLUS_CROSS_FIXUP

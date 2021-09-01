@@ -32,10 +32,10 @@ endef
 define LIBRETRO_MAME2010_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mame2010_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2010_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/mame2010/samples
-	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_init/bios/mame2010
-	rm $(TARGET_DIR)/recalbox/share_init/bios/mame2010/README.txt
-	rm $(TARGET_DIR)/recalbox/share_init/bios/mame2010/mameini.boilerplate
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/samples
+	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010
+	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/README.txt
+	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/mameini.boilerplate
 endef
 
 $(eval $(generic-package))

@@ -21,7 +21,7 @@ endef
 define LIBRETRO_XMIL_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/x1_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/x1_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/xmil
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/xmil
 endef
 
 $(eval $(generic-package))

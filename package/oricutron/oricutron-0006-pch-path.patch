@@ -5,26 +5,26 @@ index cc8e775..ab411f8 100644
 @@ -1651,6 +1651,8 @@ static SDL_bool ishexchar(char c)
    return SDL_FALSE;
  }
- 
-+#define RECALBOX_STATIC_BIOS_ZONE "/recalbox/share_init/bios/oricutron"
+
++#define RECALBOX_STATIC_BIOS_ZONE "/recalbox/share_upgrade/bios/oricutron"
 +
  void load_patches( struct machine *oric, char *fname )
  {
    FILE *f;
 @@ -1658,10 +1660,14 @@ void load_patches( struct machine *oric, char *fname )
    char *tmpname;
- 
+
    // MinGW doesn't have asprintf :-(
 -  tmpname = malloc( strlen( fname ) + 10 );
 +  tmpname = malloc( strlen( fname ) + sizeof(RECALBOX_STATIC_BIOS_ZONE) + 10 );
    if( !tmpname ) return;
- 
+
 -  sprintf( tmpname, "%s.pch", fname );
 +  char *ffilename = fname + strlen(fname);
 +  while(*ffilename != '/') ffilename--; // Safe loop because recalbox path always contains a '/'
 +  ffilename++; // restart after the last '/'
 +
 +  sprintf( tmpname, "%s/%s.pch", RECALBOX_STATIC_BIOS_ZONE, ffilename );
- 
+
    f = fopen( tmpname, "r" );
    free( tmpname );
