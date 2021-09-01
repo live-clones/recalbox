@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
   - Manual refresh with START
   - Seamless auto-hashing when Netplay is on
 - Bump Mame 0.235
+- Bump ScummVM to 2.4.0git
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
