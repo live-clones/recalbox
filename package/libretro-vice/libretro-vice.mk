@@ -39,7 +39,7 @@ endef
 
 define LIBRETRO_VICE_INSTALL_TARGET_CMDS
 	$(foreach emulator, $(LIBRETRO_VICE_SUBEMULATORS), $(call LIBRETRO_VICE_INSTALL_EMULATOR, $(emulator)))
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/vice/SCPU64
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/vice/SCPU64
 endef
 
 define LIBRETRO_VICE_PRE_PATCH_FIXUP

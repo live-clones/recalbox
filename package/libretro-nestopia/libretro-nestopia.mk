@@ -21,7 +21,7 @@ define LIBRETRO_NESTOPIA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/nestopia_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/nestopia_libretro.so
 	# NstDatabase needed for proper emulation (backed into the core)
-	# cp $(@D)/NstDatabase.xml $(TARGET_DIR)/recalbox/share_init/bios
+	# cp $(@D)/NstDatabase.xml $(TARGET_DIR)/recalbox/share_upgrade/bios
 endef
 
 $(eval $(generic-package))

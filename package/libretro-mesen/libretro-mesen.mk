@@ -20,7 +20,7 @@ endef
 define LIBRETRO_MESEN_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/Libretro/mesen_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mesen_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/HdPacks
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/HdPacks
 endef
 
 $(eval $(generic-package))
