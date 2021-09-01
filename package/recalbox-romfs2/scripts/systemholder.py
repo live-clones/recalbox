@@ -295,6 +295,8 @@ class SystemHolder:
 
         # Record extensions
         self.__extensions = ' '.join(extensions)
+        if "files:" in self.__extensions:
+            self.__extensions = "files:" + self.__extensions.replace("files:", "")
 
         # Properties
         self.__properties = SystemHolder.SystemProperties(
