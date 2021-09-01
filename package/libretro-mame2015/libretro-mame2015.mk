@@ -32,8 +32,8 @@ endef
 define LIBRETRO_MAME2015_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mame2015_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2015_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/mame2015/samples
-	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_init/bios/mame2015
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/samples
+	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015
 endef
 
 $(eval $(generic-package))

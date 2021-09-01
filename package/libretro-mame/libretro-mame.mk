@@ -68,7 +68,7 @@ endef
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mamearcade_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/mame/samples
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame/samples
 endef
 
 $(eval $(generic-package))
