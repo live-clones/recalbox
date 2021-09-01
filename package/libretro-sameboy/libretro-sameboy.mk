@@ -21,7 +21,7 @@ define LIBRETRO_SAMEBOY_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/sameboy_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/sameboy_libretro.so
 	$(INSTALL) -D $(@D)/BootROMs/prebuilt/*.bin \
-		$(TARGET_DIR)/recalbox/share_init/bios/
+		$(TARGET_DIR)/recalbox/share_upgrade/bios/
 endef
 
 $(eval $(generic-package))
