@@ -16,7 +16,7 @@ define RECALBOX_ROMFS2_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/.emulationstation
 	cp $(@D)/systemlist.xml $(TARGET_DIR)/recalbox/share_init/system/.emulationstation/
 	$(HOST_DIR)/usr/bin/python3 $(RECALBOX_ROMFS2_PKGDIR)/scripts/romfs.py \
-		-systems $(RECALBOX_ROMFS2_PKGDIR)/systems -installroms $(TARGET_DIR)/recalbox/share_init/roms/
+		-systems $(RECALBOX_ROMFS2_PKGDIR)/systems -installroms $(TARGET_DIR)/recalbox/
 endef
 
 $(eval $(generic-package))
