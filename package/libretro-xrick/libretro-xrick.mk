@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_XRICK_VERSION = 836f7a2ee933476c8062bb9489b749a9949fd2b1
+#Commit of 24/07/2021
+LIBRETRO_XRICK_VERSION = 79bfb278d2bbd919da5ffcd0698f9d5e673f7345
 LIBRETRO_XRICK_SITE = $(call github,libretro,xrick-libretro,$(LIBRETRO_XRICK_VERSION))
 LIBRETRO_XRICK_DEPENDENCIES = recalbox-romfs2
 LIBRETRO_XRICK_LICENSE = GPL-3.0

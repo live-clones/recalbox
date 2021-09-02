@@ -57,7 +57,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
-
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS 
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
@@ -69,6 +68,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
 - [ ] Test SimCoupé
 - [ ] Test Oricutron
+- [ ] Check out the game Rick Dangerous (xrick) (#1891)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
