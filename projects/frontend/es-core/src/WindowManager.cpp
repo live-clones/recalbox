@@ -112,7 +112,7 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
   { LOG(LogInfo) << "[WindowManager] ARB_texture_non_power_of_two: "
                  << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING"); }
 
-  InputManager::Instance().Initialize(this);
+  //InputManager::Instance().Initialize(this);
   ResourceManager::getInstance()->reloadAll();
 
   //keep a reference to the default fonts, so they don't keep getting destroyed/recreated
@@ -133,7 +133,7 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
 
 void WindowManager::Finalize()
 {
-  InputManager::Instance().Finalize();
+  //InputManager::Instance().Finalize();
   ResourceManager::getInstance()->unloadAll();
   Renderer::Instance().Finalize();
 }
@@ -207,9 +207,9 @@ void WindowManager::Update(int deltaTime)
                        "fps, " + Strings::ToString((float) mFrameTimeElapsed / (float) mFrameCountElapsed, 2) + "ms";
 
       // vram
-      float textureVramUsageMb = TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
-      float textureTotalUsageMb = TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
-      float fontVramUsageMb = Font::getTotalMemUsage() / (1024.0f * 1024.0f);
+      float textureVramUsageMb = (float)TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
+      float textureTotalUsageMb = (float)TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
+      float fontVramUsageMb = (float)Font::getTotalMemUsage() / (1024.0f * 1024.0f);
       ss += "\nFont VRAM: " + Strings::ToString(fontVramUsageMb, 2) + " Tex VRAM: " +
             Strings::ToString(textureVramUsageMb, 2) + " Tex Max: " + Strings::ToString(textureTotalUsageMb, 2);
 

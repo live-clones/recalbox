@@ -351,7 +351,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
 void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata)
 {
   DateTime start;
-  game->System().RunGame(mWindow, mSystemManager, *game, emulator, netplaydata);
+  GameRunner::Instance().RunGame(*game, emulator, netplaydata);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
@@ -365,7 +365,8 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
                              TextAlignment::Left);
     mWindow.pushGui(gui);
     return;
-  }}
+  }
+}
 
 void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata, const Vector3f& cameraTarget)
 {

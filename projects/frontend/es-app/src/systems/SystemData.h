@@ -31,29 +31,8 @@ class SystemData : private INoCopy
     };
 
 	private:
-    //! CPU Governance file
-    static constexpr const char* sGovernanceFile = "/recalbox/share_init/system/configs/.governances.cfg";
-
     // Allow manager to access this class
     friend class SystemManager;
-
-    //! Global flag set to true when a game is running and the application
-    //! is frozen until the game exits.
-    static bool sIsGameRunning;
-    //! Governance path
-    static Path sGovernancePath;
-
-    /*!
-     * @brief Automatic Game running flag management
-     */
-    class GameRunner
-    {
-      public:
-        //! Constructor - Set the flag
-        GameRunner() { sIsGameRunning = true; }
-        //! Destructor - Reset the flag
-        ~GameRunner() { sIsGameRunning = false; }
-    };
 
     //! Parent manager
     SystemManager& mSystemManager;
@@ -121,20 +100,6 @@ class SystemData : private INoCopy
      * @param forceCheckFile True to force to check if file exists
      */
     void ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
-
-    /*!
-     * @brief Try to override command with the nearest one found in .system.cfg in folder or parent folders
-     * @param romPath Rom path to fetch .system.cfg from
-     * @param command Command to override
-     */
-    void OverrideCommand(const Path& romPath, std::string& command);
-
-    /*!
-     * @brief Get energy governance for a particular core/emulator
-     * @param core Core/Emulateur
-     * @return Governance
-     */
-    static IBoardInterface::CPUGovernance GetGovernance(const std::string& core);
 
     /*!
      * @brief Get root folder of the given type
@@ -225,16 +190,10 @@ class SystemData : private INoCopy
     int FavoritesCount() const;
     int HiddenCount() const;
 
-    void RunGame(WindowManager& window, SystemManager& systemManager, FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
-
     // Load or re-load theme.
     void loadTheme();
 
     const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
-
-    static std::string demoInitialize(WindowManager& window);
-    static void demoFinalize(WindowManager& window);
-    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
     //! Is this system the "Favorite" system?
     bool IsFavorite() const;
@@ -285,20 +244,6 @@ class SystemData : private INoCopy
      * @return
      */
     SystemManager& Manager() const { return mSystemManager; }
-
-    /*!
-     * @brief Run system command and capture output
-     * @param cmd_utf8 Command to execute
-     * @param debug log output?
-     * @return Return code
-     */
-    static int Run(const std::string& cmd_utf8, bool debug);
-
-    /*!
-     * @brief Check if a game is running
-     * @return True if a game is running
-     */
-    static bool IsGameRunning() { return sIsGameRunning; }
 
     /*!
      * @brief Search for all games containing 'text' and add them to 'result'

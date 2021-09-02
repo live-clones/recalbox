@@ -5,6 +5,7 @@
 
 #include <utils/storage/Queue.h>
 #include <utils/storage/HashMap.h>
+#include <SDL.h>
 #include "PadConfiguration.h"
 #include "PadItems.h"
 
@@ -52,11 +53,17 @@ class Pad
     explicit Pad(const PadConfiguration& padConfiguration);
 
     /*!
+     * @brief Push a raw SDL2 event to be translated in 0, 1 or more pad events
+     * @param event SDL event
+     */
+    void PushSDL2Event(const SDL_Event& event);
+
+    /*!
      * @brief Get next pad event
      * @param event Output event
      * @return True if an event have been read. False if the devices have been released
      */
-    bool GetEvent(Pad::Event& event);
+    bool PopPadEvent(Pad::Event& event);
 
     /*!
      * @brief Open all configured devices from the given ordered device list

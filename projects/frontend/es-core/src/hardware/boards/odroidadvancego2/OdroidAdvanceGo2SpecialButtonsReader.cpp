@@ -9,90 +9,55 @@
 
 OdroidAdvanceGo2SpecialButtonsReader::OdroidAdvanceGo2SpecialButtonsReader(IBoardInterface& boardInterface)
   : mBoardInterface(boardInterface)
+  , mDevice(nullptr)
 {
 }
 
-void OdroidAdvanceGo2SpecialButtonsReader::StartReader()
+void OdroidAdvanceGo2SpecialButtonsReader::StartReader(Sdl2Runner& sdlRunner)
 {
   { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to start."; }
-  Start("OAG2Pad");
+
+  // Create device
+  if (InputManager::Instance().DeviceCount() != 0)
+    mDevice = &InputManager::Instance().GetDeviceConfigurationFromIndex(0);
+
+  // Register SDL2 events
+  int Sdl2EventToRegister[] =
+  {
+    SDL_JOYBUTTONDOWN,
+    SDL_JOYBUTTONUP,
+  };
+  for(int event : Sdl2EventToRegister)
+    sdlRunner.Register(event, this);
 }
 
-void OdroidAdvanceGo2SpecialButtonsReader::StopReader()
+void OdroidAdvanceGo2SpecialButtonsReader::StopReader(Sdl2Runner& sdlRunner)
 {
   { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager requested to stop."; }
-  Stop();
+
+  sdlRunner.UnregisterAll(this);
 }
 
-void OdroidAdvanceGo2SpecialButtonsReader::Break()
+void OdroidAdvanceGo2SpecialButtonsReader::Sdl2EventReceived(const SDL_Event& event)
 {
-  { LOG(LogDebug) << "[OdroidAdvanceGo] Breaking in-game special button manager thread."; }
-  SDL_Event event;
-  event.type = SDL_QUIT;
-  SDL_PushEvent(&event);
-}
-
-void OdroidAdvanceGo2SpecialButtonsReader::Run()
-{
-  { LOG(LogInfo) << "[OdroidAdvanceGo] Running in-game special button manager."; }
-
-  // Allow joystick event
-  InputManager::IntitializeSDL2JoystickSystem();
-
-  // Open joystick 0 - Ignore all other joysticks
-  SDL_Joystick* mainJoystick = SDL_JoystickOpen(0);
-  if (mainJoystick == nullptr)
+  switch (event.type)
   {
-    { LOG(LogError) << "[OdroidAdvanceGo] Cannot open main joystick!"; }
-    return;
-  }
-  // Create device
-  InputDevice device(mainJoystick,
-                     SDL_JoystickInstanceID(mainJoystick),
-                     0,
-                     SDL_JoystickName(mainJoystick),
-                     SDL_JoystickGetGUID(mainJoystick),
-                     SDL_JoystickNumAxes(mainJoystick),
-                     SDL_JoystickNumHats(mainJoystick),
-                     SDL_JoystickNumButtons(mainJoystick));
-  InputManager::LookupDeviceXmlConfiguration(device);
-
-  // Main loop
-  SDL_Event sdl;
-  while(IsRunning())
-  {
-    // This reader runs when the application is running an emulator
-    // and is blocked. Since the main SDL loop is also blocked,
-    // we can safely run our own
-    if (SDL_WaitEvent(&sdl) == 1)
+    case SDL_JOYBUTTONDOWN:
+    case SDL_JOYBUTTONUP:
     {
-      //{ LOG(LogDebug) << "[OdroidAdvanceGo] SDL Event."; }
-      switch (sdl.type)
-      {
-        case SDL_JOYBUTTONDOWN:
-        case SDL_JOYBUTTONUP:
-        {
-          //{ LOG(LogDebug) << "[OdroidAdvanceGo] SDL Button Event."; }
-          InputEvent inputEvent(sdl.jbutton.which, InputEvent::EventType::Button, sdl.jbutton.button, sdl.jbutton.state == SDL_PRESSED ? 1 : 0);
-          //InputManager::LogRawEvent(inputEvent);
-          InputCompactEvent compactEvent = device.ConvertToCompact(inputEvent);
-          //InputManager::LogCompactEvent(compactEvent);
-          mBoardInterface.ProcessSpecialInputs(compactEvent);
-          break;
-        }
-        case SDL_QUIT:
-        {
-          { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager receive quit order."; }
-          break;
-        }
-        default: break;
-      }
+      //{ LOG(LogDebug) << "[OdroidAdvanceGo] SDL Button Event."; }
+      InputEvent inputEvent(event.jbutton.which, InputEvent::EventType::Button, event.jbutton.button, event.jbutton.state == SDL_PRESSED ? 1 : 0);
+      //InputManager::LogRawEvent(inputEvent);
+      InputCompactEvent compactEvent = mDevice->ConvertToCompact(inputEvent);
+      //InputManager::LogCompactEvent(compactEvent);
+      mBoardInterface.ProcessSpecialInputs(compactEvent);
+      break;
     }
+    case SDL_QUIT:
+    {
+      { LOG(LogDebug) << "[OdroidAdvanceGo] In-game special button manager receive quit order."; }
+      break;
+    }
+    default: break;
   }
-
-  // Close joystick
-  SDL_JoystickClose(mainJoystick);
-
-  // Disable joystick events
-  InputManager::FinalizeSDL2JoystickSystem();
 }

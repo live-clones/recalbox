@@ -6,6 +6,8 @@
 #include <input/InputCompactEvent.h>
 #include <hardware/messaging/HardwareMessageSender.h>
 
+class Sdl2Runner;
+
 class IBoardInterface
 {
   public:
@@ -45,13 +47,13 @@ class IBoardInterface
      * @brief Start optional in-game background processes.
      * This method is called when a game starts
      */
-    virtual void StartInGameBackgroundProcesses() = 0;
+    virtual void StartInGameBackgroundProcesses(Sdl2Runner& sdlRunner) = 0;
 
     /*!
      * @brief Stop optional in-game background processes.
      * This method is called when a game stops
      */
-    virtual void StopInGameBackgroundProcesses() = 0;
+    virtual void StopInGameBackgroundProcesses(Sdl2Runner& sdlRunner) = 0;
 
     /*!
      * @brief Has Battery?

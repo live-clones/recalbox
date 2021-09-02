@@ -23,9 +23,9 @@ VirtualMouse::VirtualMouse()
 
 VirtualMouse::~VirtualMouse()
 {
+  Close();
   mSignal.Fire();
   Thread::Stop();
-  Close();
 }
 
 void VirtualMouse::Open()
@@ -71,10 +71,11 @@ void VirtualMouse::Open()
   if (!ok) Close();
 }
 
-void VirtualMouse::Close() const
+void VirtualMouse::Close()
 {
   ioctl(mFileDescriptor, UI_DEV_DESTROY);
   close(mFileDescriptor);
+  mFileDescriptor = -1;
 }
 
 void VirtualMouse::Emit(int type, int code, int value) const
@@ -128,6 +129,7 @@ void VirtualMouse::Run()
   {
     if (sustain == 0) mSignal.WaitSignal();
     else mSignal.WaitSignal(sustain); // Sustain mouse moves
+    if (!IsRunning() || mFileDescriptor < 0) break; // Receive a close signal
 
     // Adjust event
     {

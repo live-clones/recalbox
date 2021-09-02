@@ -37,13 +37,13 @@ class PcComputers: public IBoardInterface
      * @brief Start optional in-game background processes.
      * This method is called when a game starts
      */
-    void StartInGameBackgroundProcesses() final {}
+    void StartInGameBackgroundProcesses(Sdl2Runner&) final {}
 
     /*!
      * @brief Stop optional in-game background processes.
      * This method is called when a game stops
      */
-    void StopInGameBackgroundProcesses() final {}
+    void StopInGameBackgroundProcesses(Sdl2Runner&) final {}
 
     /*!
      * @brief Has Battery?

@@ -160,17 +160,15 @@ void DemoMode::runDemo()
   Path mustExit(MainRunner::sQuitNow);
   while(getRandomGame(game, duration))
   {
-    // Get game's parent system
-    SystemData& system = game->System();
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
-      controllerConfigs = SystemData::demoInitialize(mWindow);
+      controllerConfigs = GameRunner::Instance().demoInitialize();
       Initialized = true;
     }
     // Run game
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
-    if (system.DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
+    if (GameRunner::Instance().DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
     {
       mWindow.DoWake();
       break;
@@ -180,5 +178,5 @@ void DemoMode::runDemo()
   }
   // Finalize (remount ES display)
   if (Initialized)
-    SystemData::demoFinalize(mWindow);
+    GameRunner::Instance().demoFinalize();
 }

@@ -107,7 +107,7 @@ class VirtualMouse final : public Thread
     /*!
      * @brief Close virtual mouse
      */
-    void Close() const;
+    void Close();
 
     /*!
      * @brief Emit low level event into the virtual mouse

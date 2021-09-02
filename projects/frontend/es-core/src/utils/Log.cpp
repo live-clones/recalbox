@@ -87,5 +87,5 @@ Log::~Log()
   // if it's an error, also print to console
   // print all messages if using --debug
   if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
-    fputs(mMessage.c_str(), stderr);
+    fputs(mMessage.c_str(), stdout);
 }

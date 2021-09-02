@@ -26,7 +26,7 @@ InputManager::InputManager()
 
 InputManager::~InputManager()
 {
-  Finalize();
+  //Finalize(); // TODO: move to LifeCycleController
 }
 
 InputManager& InputManager::Instance()
@@ -50,34 +50,42 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
 void InputManager::IntitializeSDL2JoystickSystem()
 {
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
-  SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+  /*if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
+  {
+    LOG(LogError) << "[InputManager] Error initializing SDL Joystick system";
+    return;
+  }*/
   SDL_JoystickEventState(SDL_ENABLE);
   SDL_JoystickUpdate();
+  LOG(LogInfo) << "[InputManager] Initialize SDL Joystick system";
 }
 
 void InputManager::FinalizeSDL2JoystickSystem()
 {
   SDL_JoystickEventState(SDL_DISABLE);
-  SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+  //SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+  LOG(LogInfo) << "[InputManager] Finalize SDL Joystick system";
 }
 
 void InputManager::Finalize()
 {
-  if (!IsInitialized()) return;
-
   ClearAllConfigurations();
   FinalizeSDL2JoystickSystem();
 }
 
-void InputManager::Initialize(WindowManager* window, bool padplugged)
+void InputManager::Initialize()
+{
+  ClearAllConfigurations();
+  IntitializeSDL2JoystickSystem();
+  LoadAllJoysticksConfiguration(std::vector<InputDevice>(), nullptr, false);
+}
+
+void InputManager::Refresh(WindowManager* window, bool padplugged)
 {
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
-
-  Finalize();
   ClearAllConfigurations();
-
-  IntitializeSDL2JoystickSystem();
   LoadAllJoysticksConfiguration(previousList, window, padplugged);
+  LOG(LogInfo) << "[InputManager] Refresh joysticks";
 }
 
 void InputManager::LoadDefaultKeyboardConfiguration()
@@ -115,10 +123,7 @@ void InputManager::LoadDefaultKeyboardConfiguration()
 void InputManager::ClearAllConfigurations()
 {
   // Close SDL devices
-  for (auto& mJoystick : mIdToSdlJoysticks)
-    SDL_JoystickClose(mJoystick.second);
   mIdToSdlJoysticks.clear();
-
   // Delete InputDevices
   mIdToDevices.clear();
 }
@@ -145,6 +150,7 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
 void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, WindowManager* window, bool padplugged)
 {
   int numJoysticks = SDL_NumJoysticks();
+  LOG(LogInfo) << "[InputManager] Joystick count: " << numJoysticks;
   for (int i = 0; i < numJoysticks; i++)
     LoadJoystickConfiguration(i);
 
@@ -205,6 +211,8 @@ std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
 
 void InputManager::LoadJoystickConfiguration(int index)
 {
+  LOG(LogInfo) << "[InputManager] Lond configuration for Joystick #: " << index;
+
   // Open joystick & add to our list
   SDL_Joystick* joy = SDL_JoystickOpen(index);
   if (joy == nullptr) return;
@@ -251,7 +259,7 @@ void InputManager::LoadJoystickConfiguration(int index)
 
   // Store
   mIdToDevices[identifier] = device;
-  { LOG(LogWarning) << "[Input] Added joystick " << SDL_JoystickName(joy)
+  { LOG(LogInfo) << "[Input] Added joystick " << SDL_JoystickName(joy)
                     << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
                     << ", Device Index: " << index
                     << ", Axis: " << SDL_JoystickNumAxes(joy)
@@ -322,7 +330,7 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
 
 InputCompactEvent InputManager::ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down)
 {
-  InputEvent event = InputEvent(button.which, InputEvent::EventType::Button, button.button, down  ? 1 : 0);
+  InputEvent event = InputEvent((int)button.which, InputEvent::EventType::Button, button.button, down  ? 1 : 0);
   return mMousse.ConvertToCompact(event);
 }
 
@@ -342,7 +350,7 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     case SDL_JOYDEVICEREMOVED:
     {
       { LOG(LogInfo) << "[Input] Reinitialize because of joystick added/removed."; }
-      Initialize(window, true);
+      Refresh(window, true);
       for(int i = mNotificationInterfaces.Count(); --i >= 0; )
         mNotificationInterfaces[i]->PadsAddedOrRemoved();
       break;
@@ -379,11 +387,6 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
   if (root != nullptr)
     for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
     {
-      { LOG(LogDebug) << "[Input] Trying " << item.attribute("deviceGUID").value()
-                      << " (UUID: " << item.attribute("deviceName").value()
-                      << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
-                      << " - Hats: " << item.attribute("deviceNbHats").as_int()
-                      << " - Buttons: " << item.attribute("deviceNbButtons").as_int(); }
       // check the guid
       bool guid    = (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0) || device.IsKeyboard();
       bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
@@ -393,7 +396,12 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
       if (guid && name && axes && hats && buttons)
       {
         int loaded = device.LoadFromXml(item);
-        { LOG(LogInfo) << "[Input] Loaded " << loaded << " configuration entries for device " << device.Name(); }
+        { LOG(LogDebug) << "[Input] Loaded " << item.attribute("deviceGUID").value()
+                        << " (UUID: " << item.attribute("deviceName").value()
+                        << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
+                        << " - Hats: " << item.attribute("deviceNbHats").as_int()
+                        << " - Buttons: " << item.attribute("deviceNbButtons").as_int()
+                        << " : " << loaded << " config. entries."; }
         return true;
       }
     }

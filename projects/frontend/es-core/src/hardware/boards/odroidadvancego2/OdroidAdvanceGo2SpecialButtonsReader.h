@@ -3,29 +3,30 @@
 //
 #pragma once
 
-#include <utils/os/system/Thread.h>
 #include <hardware/IBoardInterface.h>
+#include <sdl2/Sdl2Runner.h>
+#include <input/InputDevice.h>
 
-class OdroidAdvanceGo2SpecialButtonsReader : private Thread
+class OdroidAdvanceGo2SpecialButtonsReader : private ISdl2EventNotifier
 {
   public:
     //! Constructor
     explicit OdroidAdvanceGo2SpecialButtonsReader(IBoardInterface& boardInterface);
 
     //! Start reading the power events
-    void StartReader();
+    void StartReader(Sdl2Runner& sdlRunner);
 
     //! Stop reading power events
-    void StopReader();
+    void StopReader(Sdl2Runner& sdlRunner);
 
   private:
     //! Parent board interface
     IBoardInterface& mBoardInterface;
 
-    //! Break the thread
-    void Break() override;
+    // Device
+    InputDevice* mDevice;
 
-    //! Event reader
-    void Run() override;
+    //! Receive SDL events
+    void Sdl2EventReceived(const SDL_Event& event) override;
 };
 

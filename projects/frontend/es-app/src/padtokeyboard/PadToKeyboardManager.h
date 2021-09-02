@@ -3,12 +3,11 @@
 //
 #pragma once
 
-#include <input/InputManager.h>
-#include <utils/os/system/Thread.h>
 #include <padtokeyboard/pad/MappingConfiguration.h>
+#include <sdl2/Sdl2Runner.h>
 #include <padtokeyboard/mouse/VirtualMouse.h>
 
-class PadToKeyboardManager : private Thread
+class PadToKeyboardManager : private ISdl2EventNotifier
 {
   private:
     //! Ordered device configuration
@@ -25,24 +24,28 @@ class PadToKeyboardManager : private Thread
     //! Mouse event writer
     VirtualMouse mMouseWriter;
 
+    //! SDL Runner reverence
+    Sdl2Runner& mSdlRunner;
+
     //! This instance has been fully configured and has been started
     bool mValid;
 
     /*
-     * Thread implementation
+     * ISdl2EventNotifier implementation
      */
 
-    /*!
-     * @brief Main runner
-     */
-    void Run() override;
+     /*!
+      * @brief Receive SDL2 events. One call per event
+      * @param event Received event
+      */
+    void Sdl2EventReceived(const SDL_Event& event) override;
 
   public:
     /*!
      * @brief Buidl a manager using ther given ordered pad configuration
      * @param orderedDevices Ordered devices
      */
-    explicit PadToKeyboardManager(const OrderedDevices& orderedDevices, const Path& rompath);
+    explicit PadToKeyboardManager(const OrderedDevices& orderedDevices, const Path& rompath, Sdl2Runner& sdl2Runner);
 
     /*!
      * @brief Start the Pad 2 keyboard thread

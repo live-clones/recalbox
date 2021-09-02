@@ -10,6 +10,9 @@
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <usernotifications/NotificationManager.h>
 #include <guis/GuiWaitLongExecution.h>
+#include <sdl2/ISdl2EventNotifier.h>
+#include <utils/storage/Queue.h>
+#include <systems/GameRunner.h>
 
 class AudioManager;
 class SystemManager;
@@ -195,7 +198,7 @@ class MainRunner
      * IHardwareEvents implementation
      */
 
-    bool IsApplicationRunning() final { return !SystemData::IsGameRunning(); }
+    bool IsApplicationRunning() final { return !GameRunner::IsGameRunning(); }
 
     /*!
      * @brief Headphone has been pluggen in
@@ -264,6 +267,9 @@ class MainRunner
      * @param runCount Number of time the MainRunner has been run
      */
     MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment);
+
+    //! Destructor
+    ~MainRunner();
 
     /*!
      * @brief Run the game!

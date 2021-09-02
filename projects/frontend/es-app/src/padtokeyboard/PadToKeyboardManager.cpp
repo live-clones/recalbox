@@ -4,12 +4,13 @@
 
 #include "PadToKeyboardManager.h"
 
-PadToKeyboardManager::PadToKeyboardManager(const OrderedDevices& orderedDevices, const Path& rompath)
-  : mConfiguration(orderedDevices),
-    mMappingConfiguration(rompath),
-    mPadConfiguration(),
-    mPadReader(mPadConfiguration),
-    mValid(false)
+PadToKeyboardManager::PadToKeyboardManager(const OrderedDevices& orderedDevices, const Path& rompath, Sdl2Runner& sdl2Runner)
+  : mConfiguration(orderedDevices)
+  , mMappingConfiguration(rompath)
+  , mPadConfiguration()
+  , mPadReader(mPadConfiguration)
+  , mSdlRunner(sdl2Runner)
+  , mValid(false)
 {
 }
 
@@ -19,7 +20,7 @@ void PadToKeyboardManager::StartMapping()
   if (!mMappingConfiguration.Valid()) { { LOG(LogInfo) << "[Pad2Keyboard] No pad2keyb configuration."; } return; }
   { LOG(LogInfo) << "[Pad2Keyboard] user mapping loaded loaded."; }
 
-  // Get pad mapping from /recalbox/share/system/.emulationstation/es_input.cfg
+  // Get pad mapping from ordered devices
   mPadConfiguration.Load(mConfiguration);
   if (!mPadConfiguration.Ready()) { { LOG(LogError) << "[Pad2Keyboard] Cannot load pad configurations."; } return; }
   { LOG(LogInfo) << "[Pad2Keyboard] pad configuration loaded."; }
@@ -39,35 +40,34 @@ void PadToKeyboardManager::StartMapping()
   if (!mMouseWriter.Ready()) { { LOG(LogError) << "[Pad2Keyboard] Cannot create virtual mouse."; } return; }
   { LOG(LogInfo) << "[Pad2Keyboard] Virtual mouse is ready."; }
 
+  // Register SDL2 events
+  int Sdl2EventToRegister[] =
+    {
+      SDL_JOYHATMOTION,
+      SDL_JOYBUTTONDOWN,
+      SDL_JOYBUTTONUP,
+      SDL_JOYAXISMOTION,
+    };
+  for(int event : Sdl2EventToRegister)
+    mSdlRunner.Register(event, this);
+
   // Validate
   mValid = true;
-
-  // Start thread
-  Thread::Start("pad2key");
 }
 
 void PadToKeyboardManager::StopMapping()
 {
-  if (mValid)
-  {
-    mPadReader.Release();
-    Thread::Join();
-  }
+  mSdlRunner.UnregisterAll(this);
 }
 
-void PadToKeyboardManager::Run()
+void PadToKeyboardManager::Sdl2EventReceived(const SDL_Event& sdlevent)
 {
-  pthread_t currentThread = pthread_self();
-  // We'll set the priority to the maximum.
-  sched_param params {};
-  params.sched_priority = sched_get_priority_max(SCHED_FIFO);
-  if (pthread_setschedparam(currentThread, SCHED_FIFO, &params) != 0)
-  { LOG(LogWarning) << "[Pad2Keyboard] Cannot set Pad2Keyboard thread at highest priority!"; }
+  mPadReader.PushSDL2Event(sdlevent);
 
   Pad::Event event {};
   VirtualKeyboard::EventList keyboardEventList {};
   VirtualMouse::Event mouseEvent {};
-  while(mPadReader.GetEvent(event))
+  while(mPadReader.PopPadEvent(event))
   {
     //{ LOG(LogWarning) << "Event read! " << (int)event.Item << " - " << (int)event.Pad << ':' << (int)event.On << ':' << event.Value << '-' << event.Analog; }
     switch(mMappingConfiguration.Translate(event, keyboardEventList, mouseEvent))

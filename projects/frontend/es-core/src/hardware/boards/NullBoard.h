@@ -17,9 +17,9 @@ class NullBoard: public IBoardInterface
 
     void StopGlobalBackgroundProcesses() final {}
 
-    void StartInGameBackgroundProcesses() final {}
+    void StartInGameBackgroundProcesses(Sdl2Runner&) final {}
 
-    void StopInGameBackgroundProcesses() final {}
+    void StopInGameBackgroundProcesses(Sdl2Runner&) final {}
 
     bool HasBattery() final { return false; }
 

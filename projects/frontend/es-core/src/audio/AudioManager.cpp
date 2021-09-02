@@ -68,11 +68,11 @@ void AudioManager::Initialize()
   mCurrentMusic = 0;
   mCurrentMusicSource = MusicSource::None;
 
-  if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
+  /*if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
   {
     { LOG(LogError) << "[AudioManager] Error initializing SDL audio!\n" << SDL_GetError(); }
     return;
-  }
+  }*/
 
   // Open the audio device and pause
   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
@@ -91,7 +91,7 @@ void AudioManager::Finalize()
   Mix_HookMusicFinished(nullptr);
   Mix_HaltMusic();
   Mix_CloseAudio();
-  SDL_QuitSubSystem(SDL_INIT_AUDIO);
+  //SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
   // Free musics/sounds
   ClearCaches();

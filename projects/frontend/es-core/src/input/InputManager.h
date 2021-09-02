@@ -28,23 +28,24 @@ class InputManager
 
     /*!
      * @brief Initialize the InputManager
-     * @param window Main window
      */
-    void Initialize(WindowManager* window, bool padplugged = false);
+    void Initialize();
 
     /*!
      * Finalize the input manager and free all resources
      */
     void Finalize();
 
-    static void IntitializeSDL2JoystickSystem();
-
-    static void FinalizeSDL2JoystickSystem();
+    /*!
+     * @brief Refresh configurations. Reload all joysticks
+     * @param window Main window
+     */
+    void Refresh(WindowManager* window, bool padplugged);
 
     /*!
      * Get number of initialized devices
      */
-    int DeviceCount() const { return mIdToDevices.size(); }
+    int DeviceCount() const { return (int)mIdToDevices.size(); }
 
     /*!
      * @brief Parse an SDL event and generate an InputCompactEvent accordingly
@@ -124,6 +125,16 @@ class InputManager
      * @param interface Interface to remove
      */
     void RemoveNotificationInterface(IInputChange* interface);
+
+    /*!
+     * @brief Initialize SDL's joysticks
+     */
+    static void IntitializeSDL2JoystickSystem();
+
+    /*!
+     * @brief Finalize SDL's joysticks
+     */
+    static void FinalizeSDL2JoystickSystem();
 
   private:
     //! Device list

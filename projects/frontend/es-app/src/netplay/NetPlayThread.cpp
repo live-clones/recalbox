@@ -10,6 +10,7 @@
 #include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopup.h>
 #include <rapidjson/document.h>
+#include <systems/GameRunner.h>
 
 NetPlayThread::NetPlayThread(WindowManager&window)
   : mWindow(window),
@@ -57,7 +58,7 @@ void NetPlayThread::Run()
       while (IsRunning())
       {
         bool enabled = RecalboxConf::Instance().AsBool("global.netplay.active");
-        if (!SystemData::IsGameRunning()) // Do not run while a game is running
+        if (!GameRunner::IsGameRunning()) // Do not run while a game is running
         {
           if (firstLoop && enabled)
           {

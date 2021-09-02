@@ -6,6 +6,7 @@
 #include "IBoardInterface.h"
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <hardware/messaging/HardwareMessageSender.h>
+#include <sdl2/Sdl2Runner.h>
 
 // Forward declaration
 class InputCompactEvent;
@@ -126,21 +127,23 @@ class Board: public StaticLifeCycleControler<Board>
     /*!
      * @brief Start optional in-game background processes.
      * This method is called when a game starts
+     * @param sdlRunner Sdl2Runner object if the board need to interract with SDL inputs
      */
-    void StartInGameBackgroundProcesses()
+    void StartInGameBackgroundProcesses(Sdl2Runner& sdlRunner)
     {
       { LOG(LogInfo) << "[Hardware] Start in-game Hardware processes"; }
-      return mBoard->StartInGameBackgroundProcesses();
+      return mBoard->StartInGameBackgroundProcesses(sdlRunner);
     }
 
     /*!
      * @brief Stop optional in-game background processes.
      * This method is called when a game stops
+     * @param sdlRunner Sdl2Runner object if the board need to interract with SDL inputs
      */
-    void StopInGameBackgroundProcesses()
+    void StopInGameBackgroundProcesses(Sdl2Runner& sdlRunner)
     {
-      { LOG(LogInfo) << "[Hardware] Start in-game Hardware processes"; }
-      return mBoard->StopInGameBackgroundProcesses();
+      { LOG(LogInfo) << "[Hardware] Stop in-game Hardware processes"; }
+      return mBoard->StopInGameBackgroundProcesses(sdlRunner);
     }
 
   private:

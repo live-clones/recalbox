@@ -30,6 +30,11 @@ set(CORE_HEADERS
 		src/themes/ThemeExtras.h
 		src/themes/ThemeException.h
 
+		# SDL2
+		src/sdl2/ISdl2EventNotifier.h
+		src/sdl2/Sdl2Runner.h
+		src/sdl2/Sdl2Init.h
+
 		# Hardware
 		src/hardware/Board.h
 		src/hardware/messaging/HardwareMessage.h
@@ -196,6 +201,10 @@ set(CORE_SOURCES
 		src/utils/sdl2/SyncronousEvent.cpp
 		src/themes/ThemeData.cpp
 		src/themes/ThemeExtras.cpp
+
+		# SDL2
+		src/sdl2/Sdl2Runner.cpp
+		src/sdl2/Sdl2Init.cpp
 
 		# Hardware
 		src/hardware/Board.cpp

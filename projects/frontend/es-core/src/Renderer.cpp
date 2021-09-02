@@ -90,11 +90,11 @@ bool Renderer::CreateSdlSurface()
 {
   { LOG(LogInfo) << "[Renderer] Creating surface..."; }
 
-  if (SDL_Init(SDL_INIT_VIDEO) != 0)
+  /*if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0)
   {
     { LOG(LogError) << "[Renderer] Error initializing SDL!\n	" << SDL_GetError(); }
     return false;
-  }
+  }*/
 
   //hide mouse cursor
   mInitialCursorState = SDL_ShowCursor(0) == 1;
@@ -198,7 +198,7 @@ void Renderer::DestroySdlSurface()
   //show mouse cursor
   SDL_ShowCursor(mInitialCursorState ? 1 : 0);
 
-  SDL_Quit();
+  //SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
 bool Renderer::Initialize(int w, int h)

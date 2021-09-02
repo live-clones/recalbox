@@ -27,6 +27,9 @@
 #include "CommandThread.h"
 #include "netplay/NetPlayThread.h"
 #include "DemoMode.h"
+#include <sdl2/Sdl2Runner.h>
+#include <systems/GameRunner.h>
+#include <sdl2/Sdl2Init.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
@@ -44,6 +47,15 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
   Intro();
   SetLocale(executablePath);
   CheckHomeFolder();
+
+  // Initialize SDL
+  Sdl2Init::Initialize();
+}
+
+MainRunner::~MainRunner()
+{
+  // Finalize SDL
+  Sdl2Init::Finalize();
 }
 
 MainRunner::ExitState MainRunner::Run()
@@ -78,6 +90,7 @@ MainRunner::ExitState MainRunner::Run()
     SystemManager systemManager;
     ApplicationWindow window(systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
+    InputManager::Instance().Initialize();
     mApplicationWindow = &window;
     // Brightness
     if (board.HasBrightnessSupport())
@@ -210,11 +223,12 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
+  GameRunner gameRunner(window, systemManager);
   DemoMode demoMode(window, systemManager);
 
   { LOG(LogDebug) << "[MainRunner] Entering main loop"; }
   Path mustExit(sQuitNow);
-  int lastTime = SDL_GetTicks();
+  int lastTime = (int)SDL_GetTicks();
   for(;;)
   {
     // File watching
@@ -266,13 +280,13 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
       if (DemoMode::hasDemoMode())
         demoMode.runDemo();
 
-      lastTime = SDL_GetTicks();
+      lastTime = (int)SDL_GetTicks();
       // Take a breath
       SDL_Delay(1);
       continue;
     }
 
-    int curTime = SDL_GetTicks();
+    int curTime = (int)SDL_GetTicks();
     int deltaTime = curTime - lastTime;
     lastTime = curTime;
     if (deltaTime > 1000 || deltaTime < 0) // cap deltaTime at 1000
