@@ -1,6 +1,8 @@
+diff --git a/gui.c b/gui.c
+index 6394706..5276130 100644
 --- a/gui.c
---- b/gui.c
-@@ -96,21 +96,21 @@
++++ b/gui.c
+@@ -97,21 +97,21 @@ extern Uint32 cyclespersample;
  #define GIMG_W_AVIR 16
  
  // Images used in the GUI
@@ -37,7 +39,7 @@
  
  SDL_bool soundavailable, soundon;
  #if defined(__linux__)
-@@ -2178,33 +2178,33 @@
+@@ -2203,33 +2203,33 @@ void preinit_gui( struct machine *oric )
    int i;
    for( i=0; i<NUM_TZ; i++ ) tz[i] = NULL;
    for( i=0; i<NUM_GIMG; i++ ) gimgs[i].buf = NULL;
@@ -85,5 +87,5 @@
 -  strcpy( mappingpath, FILEPREFIX"keymap" );
 +  strcpy( mappingpath, "/recalbox/share/system/.config" );
    strcpy( mappingfile, "" );
- }
  
+ #ifndef __APPLE__

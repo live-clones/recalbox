@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ORICUTRON_VERSION = a19fa8ff6e3e4ded7a1b8a5a56aa1f3896c8a1bf
+ORICUTRON_VERSION = cb57f0f2dc5487bc7cf179ed1dd3e228ac5ce8f9
 ORICUTRON_SITE = $(call github,pete-gordon,oricutron,$(ORICUTRON_VERSION))
 ORICUTRON_DEPENDENCIES = sdl2
 ORICUTRON_LICENSE = GPL-2.0
@@ -38,7 +38,7 @@ define ORICUTRON_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
-		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
+		LFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
 		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" \
 			-C $(@D)/ -f Makefile SDL_LIB=sdl2 PLATFORM=$(ORICUTRON_PLATFORM) NOGTK=y
 endef
@@ -53,6 +53,7 @@ define ORICUTRON_INSTALL_TARGET_CMDS
 	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_init/bios/oricutron/
 	# Copy rom symbols (for who wants to play with Oric/ATmos debugger!)
 	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_init/bios/oricutron/
+	cp $(@D)/roms/*.rom $(TARGET_DIR)/recalbox/share_init/bios/oricutron/
 endef
 
 define ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
@@ -64,4 +65,4 @@ endef
 
 ORICUTRON_POST_EXTRACT_HOOKS += ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
 
-$(eval $(autotools-package))
+$(eval $(generic-package))
