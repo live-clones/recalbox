@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Fixed multiple translations in ES (#1880, #1881)
+- Bump SimCoupé to v1.2.5
 - Fixed Supermodel configuration (#1825)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
