@@ -4,20 +4,20 @@
 #
 ################################################################################
 
-SIMCOUPE_VERSION = f401f47fb6d6af5dbe7b1d83a520e82cbe9d7ff2
+SIMCOUPE_VERSION = v1.2.5
 SIMCOUPE_SITE = https://gitlab.com/recalbox/packages/standalone/simcoupe.git
 SIMCOUPE_LICENSE = GPL-2.0
 SIMCOUPE_LICENSE_FILES = License.txt
 SIMCOUPE_SITE_METHOD = git
-SIMCOUPE_DEPENDENCIES = sdl2
+SIMCOUPE_DEPENDENCIES = sdl2 fmt
 
 SIMCOUPE_BIOS_AND_RESOURCES = /usr/share/simcoupe
 
 define SIMCOUPE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/simcoupe $(TARGET_DIR)/usr/bin/simcoupe
-	$(INSTALL) -D $(@D)/Extern/saasound/libSAASound* $(TARGET_DIR)/usr/lib/
-	$(INSTALL) -D $(@D)/Extern/resid/libresid* $(TARGET_DIR)/usr/lib/
-	$(INSTALL) -D $(@D)/Extern/fmt/libfmt* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/_deps/saasound-build/libSAASound* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/_deps/resid-build/libresid* $(TARGET_DIR)/usr/lib/
+	#$(INSTALL) -D $(@D)/Extern/fmt/libfmt* $(TARGET_DIR)/usr/lib/
 	mkdir -p $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)
 	cp -R $(@D)/Resource/** $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)
 endef
