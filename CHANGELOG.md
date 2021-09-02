@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Fixed multiple translations in ES (#1880, #1881)
 - Add Duckstation standalone
 - Bump SimCoupé to v1.2.5
+- Nump Oricutron
 - Fixed Supermodel configuration (#1825)
 - Bump kronos libretro core (#1849)
 - Remove build kronos libretro core for x86 (#1849)

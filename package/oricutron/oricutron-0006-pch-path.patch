@@ -1,6 +1,8 @@
+diff --git a/machine.c b/machine.c
+index cc8e775..ab411f8 100644
 --- a/machine.c
 +++ b/machine.c
-@@ -1459,6 +1459,8 @@
+@@ -1651,6 +1651,8 @@ static SDL_bool ishexchar(char c)
    return SDL_FALSE;
  }
  
@@ -9,7 +11,7 @@
  void load_patches( struct machine *oric, char *fname )
  {
    FILE *f;
-@@ -1466,10 +1468,14 @@
+@@ -1658,10 +1660,14 @@ void load_patches( struct machine *oric, char *fname )
    char *tmpname;
  
    // MinGW doesn't have asprintf :-(
