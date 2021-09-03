@@ -1,0 +1,22 @@
+diff --git a/src/floppy_ipf.c b/src/floppy_ipf.c
+index c615b755..9a770ca2 100644
+--- a/src/floppy_ipf.c
++++ b/src/floppy_ipf.c
+@@ -87,7 +87,7 @@ void IPF_MemorySnapShot_Capture(bool bSave)
+ 	{
+ 		StructSize = sizeof ( IPF_State );	/* 0 if HAVE_CAPSIMAGE is not defined */
+ 		MemorySnapShot_Store(&StructSize, sizeof(StructSize));
+-fprintf ( stderr , "ipf save %d\n" , StructSize );
++//fprintf ( stderr , "ipf save %d\n" , StructSize );
+ 		if ( StructSize > 0 )
+ 			MemorySnapShot_Store(&IPF_State, sizeof(IPF_State));
+ 	}
+@@ -95,7 +95,7 @@ fprintf ( stderr , "ipf save %d\n" , StructSize );
+ 	else						/* Restoring snapshot */
+ 	{
+ 		MemorySnapShot_Store(&StructSize, sizeof(StructSize));
+-fprintf ( stderr , "ipf load %d\n" , StructSize );
++//fprintf ( stderr , "ipf load %d\n" , StructSize );
+ 		if ( ( StructSize == 0 ) && ( sizeof ( IPF_State ) > 0 ) )
+ 		{
+ 			Log_AlertDlg(LOG_ERROR, "This memory snapshot doesn't include IPF data but this version of Hatari was built with IPF support");
