@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Bumped libretro-desmume, test especially on x86_64 (#1897)
 - [ ] Bumped tgbdual-libretro, test on all plateforms("1896)
 - [ ] Bumped libretro-melonDS, test especially on x86_64 (#1895)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)

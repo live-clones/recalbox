@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+-Bump libretro-desmume (#1897)
 - Bump tgbdual-libretro (#1896)
 - Bump libretro-melonDS (#1895)
 - Fixed Supermodel configuration (#1825)
