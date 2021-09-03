@@ -12,6 +12,9 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Bumped libretro-desmume, test especially on x86_64 (#1897)
+- [ ] Bumped tgbdual-libretro, test on all plateforms("1896)
+- [ ] Bumped libretro-melonDS, test especially on x86_64 (#1895)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)
@@ -49,7 +52,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
-- [ ] Check that ES starts on rpi fresh installation (#1815) 
+- [ ] Check that ES starts on rpi fresh installation (#1815)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
@@ -67,6 +70,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
   - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
 - [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+  - [ ] Test EmuTOS bios for Atari ST (#1868)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
