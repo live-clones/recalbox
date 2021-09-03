@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump libretro-melonDS (#1895)
 - Fixed Supermodel configuration (#1825)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
