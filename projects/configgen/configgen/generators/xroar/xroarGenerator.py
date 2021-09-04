@@ -78,8 +78,8 @@ class XroarGenerator(Generator):
         # HK+Start
         for controller in playersControllers.values():
             if controller.PlayerIndex == 1:
-                if controller.HasHotkey: commandArray.extend(["-joy-start", controller.Hotkey.Id])
-                if controller.HasStart : commandArray.extend(["-joy-hotkey", controller.Start.Id])
+                if controller.HasHotkey: commandArray.extend(["-joy-start", str(controller.Hotkey.Id)])
+                if controller.HasStart : commandArray.extend(["-joy-hotkey", str(controller.Start.Id)])
 
         # Add extra arguments
         if system.HasArgs: commandArray.extend(system.Args)

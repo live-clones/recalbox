@@ -117,6 +117,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.hatari.hatariGenerator", fromlist=["HatariGenerator"])
         generatorClass = getattr(module, "HatariGenerator")
         return generatorClass()
+    elif emulator == "duckstation":
+        module = __import__("configgen.generators.duckstation.duckstationGenerator", fromlist=["DuckstationGenerator"])
+        generatorClass = getattr(module, "DuckstationGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError

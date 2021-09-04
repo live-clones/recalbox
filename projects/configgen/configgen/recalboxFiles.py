@@ -27,6 +27,7 @@ recalboxBins =\
     'daphne'      : '/usr/bin/hypseus',
     'dolphin'     : '/usr/bin/dolphin-emu',
     'dosbox'      : '/usr/bin/dosbox',
+    'duckstation' : '/usr/bin/duckstation',
     'fba2x'       : '/usr/bin/fba2x',
     'gsplus'      : '/usr/bin/GSplus',
     'hatari'      : '/usr/bin/hatari',
