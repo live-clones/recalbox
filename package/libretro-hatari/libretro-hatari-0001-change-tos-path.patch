@@ -1,0 +1,86 @@
+diff --git a/libretro/libretro.c b/libretro/libretro.c
+index 5b449743..fe0e5a3a 100644
+--- a/libretro/libretro.c
++++ b/libretro/libretro.c
+@@ -759,10 +759,16 @@ void retro_run(void)
+ 
+ bool retro_load_game(const struct retro_game_info *info)
+ {
+-   // Init
++  /* Set default configuration values */
++  Configuration_SetDefault();
++  /* Now load the values from the configuration file */
++  Configuration_Load("/recalbox/share/system/.hatari/hatari.cfg");
++
++  // Init
+    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, input_descriptors);
+-   path_join(RETRO_TOS, RETRO_DIR, "tos.img");
+-   
++   path_join(RETRO_TOS, "", ConfigureParams.Rom.szTosImageFileName);
++   log_cb(RETRO_LOG_INFO, "TOS image: '%s'\n", RETRO_TOS);
++
+    // Verify if tos.img is present
+    if(!file_exists(RETRO_TOS))
+    {
+diff --git a/src/configuration.c b/src/configuration.c
+index 59bfb6c8..6750d91c 100644
+--- a/src/configuration.c
++++ b/src/configuration.c
+@@ -771,34 +771,34 @@ void Configuration_Load(const char *psFileName)
+ 		return;
+ 	}
+ 
+-	Configuration_LoadSection(psFileName, configs_Log, "[Log]");
+-	Configuration_LoadSection(psFileName, configs_Debugger, "[Debugger]");
+-	Configuration_LoadSection(psFileName, configs_Screen, "[Screen]");
+-	Configuration_LoadSection(psFileName, configs_Joystick0, "[Joystick0]");
+-	Configuration_LoadSection(psFileName, configs_Joystick1, "[Joystick1]");
+-	Configuration_LoadSection(psFileName, configs_Joystick2, "[Joystick2]");
+-	Configuration_LoadSection(psFileName, configs_Joystick3, "[Joystick3]");
+-	Configuration_LoadSection(psFileName, configs_Joystick4, "[Joystick4]");
+-	Configuration_LoadSection(psFileName, configs_Joystick5, "[Joystick5]");
+-	Configuration_LoadSection(psFileName, configs_Keyboard, "[Keyboard]");
++	//Configuration_LoadSection(psFileName, configs_Log, "[Log]");
++	//Configuration_LoadSection(psFileName, configs_Debugger, "[Debugger]");
++	//Configuration_LoadSection(psFileName, configs_Screen, "[Screen]");
++	//Configuration_LoadSection(psFileName, configs_Joystick0, "[Joystick0]");
++	//Configuration_LoadSection(psFileName, configs_Joystick1, "[Joystick1]");
++	//Configuration_LoadSection(psFileName, configs_Joystick2, "[Joystick2]");
++	//Configuration_LoadSection(psFileName, configs_Joystick3, "[Joystick3]");
++	//Configuration_LoadSection(psFileName, configs_Joystick4, "[Joystick4]");
++	//Configuration_LoadSection(psFileName, configs_Joystick5, "[Joystick5]");
++	//Configuration_LoadSection(psFileName, configs_Keyboard, "[Keyboard]");
+ #if WITH_SDL2
+-	Configuration_LoadSection(psFileName, configs_ShortCutWithMod, "[ShortcutsWithModifiers2]");
+-	Configuration_LoadSection(psFileName, configs_ShortCutWithoutMod, "[ShortcutsWithoutModifiers2]");
++	//Configuration_LoadSection(psFileName, configs_ShortCutWithMod, "[ShortcutsWithModifiers2]");
++	//Configuration_LoadSection(psFileName, configs_ShortCutWithoutMod, "[ShortcutsWithoutModifiers2]");
+ #else
+-	Configuration_LoadSection(psFileName, configs_ShortCutWithMod, "[ShortcutsWithModifiers]");
+-	Configuration_LoadSection(psFileName, configs_ShortCutWithoutMod, "[ShortcutsWithoutModifiers]");
++	//Configuration_LoadSection(psFileName, configs_ShortCutWithMod, "[ShortcutsWithModifiers]");
++	//Configuration_LoadSection(psFileName, configs_ShortCutWithoutMod, "[ShortcutsWithoutModifiers]");
+ #endif
+-	Configuration_LoadSection(psFileName, configs_Sound, "[Sound]");
+-	Configuration_LoadSection(psFileName, configs_Memory, "[Memory]");
+-	Configuration_LoadSection(psFileName, configs_Floppy, "[Floppy]");
+-	Configuration_LoadSection(psFileName, configs_HardDisk, "[HardDisk]");
+-	Configuration_LoadSection(psFileName, configs_Acsi, "[ACSI]");
++	//Configuration_LoadSection(psFileName, configs_Sound, "[Sound]");
++	//Configuration_LoadSection(psFileName, configs_Memory, "[Memory]");
++	//Configuration_LoadSection(psFileName, configs_Floppy, "[Floppy]");
++	//Configuration_LoadSection(psFileName, configs_HardDisk, "[HardDisk]");
++	//Configuration_LoadSection(psFileName, configs_Acsi, "[ACSI]");
+ 	Configuration_LoadSection(psFileName, configs_Rom, "[ROM]");
+-	Configuration_LoadSection(psFileName, configs_Rs232, "[RS232]");
+-	Configuration_LoadSection(psFileName, configs_Printer, "[Printer]");
+-	Configuration_LoadSection(psFileName, configs_Midi, "[Midi]");
++	//Configuration_LoadSection(psFileName, configs_Rs232, "[RS232]");
++	//Configuration_LoadSection(psFileName, configs_Printer, "[Printer]");
++	//Configuration_LoadSection(psFileName, configs_Midi, "[Midi]");
+ 	Configuration_LoadSection(psFileName, configs_System, "[System]");
+-	Configuration_LoadSection(psFileName, configs_Video, "[Video]");
++	//Configuration_LoadSection(psFileName, configs_Video, "[Video]");
+ }
+ 
+ 
