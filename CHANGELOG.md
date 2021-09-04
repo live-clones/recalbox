@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Fixed multiple translations in ES (#1880, #1881)
+- Bump libretro-melonDS (#1895)
 - Fixed Supermodel configuration (#1825)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
@@ -11,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Bump Fbneo 1.0.0.02 (#1859)
 - Improve netplay management
 - Fix 'files:' tag in systemlist.xml generator
+- Add EmuTOS bios for Atari ST (#1868)
 - Added Lowres-nx theme (#1586)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
