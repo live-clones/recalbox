@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
   - More responsive & faster to get client latencies
   - Manual refresh with START
   - Seamless auto-hashing when Netplay is on
+- Bump Kronos libretro core
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
