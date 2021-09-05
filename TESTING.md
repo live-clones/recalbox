@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Bumped neocd_libretro, test on all plateforms (#1900)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)
