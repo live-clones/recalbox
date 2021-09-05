@@ -57,6 +57,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
+- [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
 
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS 
