@@ -1,0 +1,26 @@
+diff --git a/src/sdl/Makefile b/src/sdl/Makefile
+index ba10b6e..aa0b4bd 100644
+--- a/src/sdl/Makefile
++++ b/src/sdl/Makefile
+@@ -3,7 +3,7 @@
+ include ../../rules.mak
+ 
+ ifeq ($(OS),OS_LINUX)
+-CFLAGS	+= `sdl2-config --cflags | sed 's|-I/|-isystem/|g'`
++CFLAGS	+= `sdl2-config --cflags`
+ XLIBS	+= `sdl2-config --libs`
+ endif
+ 
+diff --git a/src/util/Makefile b/src/util/Makefile
+index a2c904d..fcc0367 100644
+--- a/src/util/Makefile
++++ b/src/util/Makefile
+@@ -3,7 +3,7 @@
+ include ../../rules.mak
+ 
+ ifeq ($(OS),OS_LINUX)
+-CFLAGS	+= `sdl2-config --cflags | sed 's|-I/|-isystem/|g'`
++CFLAGS	+= `sdl2-config --cflags`
+ XLIBS	+= `sdl2-config --libs`
+ endif
+ 

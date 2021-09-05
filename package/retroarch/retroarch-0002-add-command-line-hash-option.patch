@@ -2,7 +2,7 @@ diff --git a/retroarch.c b/retroarch.c
 index d9f0ef0121..a12b3741f9 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -34459,6 +34459,7 @@ static void retroarch_print_help(const char *arg0)
+@@ -34369,6 +34369,7 @@ static void retroarch_print_help(const char *arg0)
  
        strlcat(buf, "      --nick=NICK       Picks a username (for use with netplay). "
              "Not mandatory.\n", sizeof(buf));
@@ -10,7 +10,7 @@ index d9f0ef0121..a12b3741f9 100644
        strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
              "Using .mkv extension is recommended.\n", sizeof(buf));
        strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
-@@ -34560,6 +34561,7 @@ static bool retroarch_parse_input_and_config(
+@@ -34470,6 +34471,7 @@ static bool retroarch_parse_input_and_config(
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
  #endif
@@ -18,7 +18,7 @@ index d9f0ef0121..a12b3741f9 100644
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -35054,6 +35056,11 @@ static bool retroarch_parse_input_and_config(
+@@ -34993,6 +34995,11 @@ static bool retroarch_parse_input_and_config(
                 }
                 break;
  
@@ -34,7 +34,7 @@ diff --git a/retroarch.h b/retroarch.h
 index 71a2718572..0b5582928a 100644
 --- a/retroarch.h
 +++ b/retroarch.h
-@@ -244,6 +244,7 @@ typedef struct global
+@@ -245,6 +245,7 @@ typedef struct global
        char bps[8192];
        char ips[8192];
        char label[8192];
@@ -46,7 +46,7 @@ diff --git a/retroarch_data.h b/retroarch_data.h
 index 673fccf62d..b48918d82e 100644
 --- a/retroarch_data.h
 +++ b/retroarch_data.h
-@@ -1255,6 +1255,7 @@ enum
+@@ -1262,6 +1262,7 @@ enum
     RA_OPT_EOF_EXIT,
     RA_OPT_LOG_FILE,
     RA_OPT_MAX_FRAMES,
@@ -55,34 +55,34 @@ index 673fccf62d..b48918d82e 100644
     RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
     RA_OPT_SET_SHADER,
 diff --git a/tasks/task_content.c b/tasks/task_content.c
-index e41ae9da53..a29c05c437 100644
+index 70306d1..e56e67b 100644
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
-@@ -673,6 +673,7 @@ static bool load_content_into_memory(
-       int64_t *length)
- {
-    uint8_t *ret_buf           = NULL;
-+   global_t *global           = global_get_ptr();
+@@ -718,6 +718,7 @@ static bool content_file_load_into_memory(
  
-    RARCH_LOG("[CONTENT LOAD]: %s: %s.\n",
-          msg_hash_to_str(MSG_LOADING_CONTENT_FILE), path);
-@@ -710,6 +711,7 @@ static bool load_content_into_memory(
+    *data      = NULL;
+    *data_size = 0;
++   global_t *global = global_get_ptr();
  
-          if (has_patch)
+    RARCH_LOG("[CONTENT LOAD]: %s: %s\n",
+          msg_hash_to_str(MSG_LOADING_CONTENT_FILE), content_path);
+@@ -771,6 +772,7 @@ static bool content_file_load_into_memory(
+           * actually needed */
+          if (content_compressed || has_patch)
           {
 +            p_content->pending_rom_crc = false;
-             p_content->rom_crc = encoding_crc32(0, ret_buf, (size_t)*length);
-             RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x .\n", (unsigned)p_content->rom_crc);
-          }
-@@ -722,7 +724,16 @@ static bool load_content_into_memory(
+             p_content->rom_crc = encoding_crc32(0, content_data,
+                   (size_t)content_size);
+             RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x\n",
+@@ -784,7 +786,16 @@ static bool content_file_load_into_memory(
           }
        }
        else
 -         p_content->rom_crc = 0;
 +         if(global) {
-+             p_content->pending_rom_crc = false;
-+             p_content->rom_crc = global->name.hash;
-+             RARCH_LOG("[CONTENT LOAD MEMORY]: Got hash from command line - 0x%X", global->name.hash);
++            p_content->pending_rom_crc = false;
++            p_content->rom_crc = global->name.hash;
++            RARCH_LOG("[CONTENT LOAD MEMORY]: Got hash from command line - 0x%X", global->name.hash);
 +         }
 +         else
 +         {
@@ -91,35 +91,47 @@ index e41ae9da53..a29c05c437 100644
 +         }
     }
  
-    *buf = ret_buf;
-@@ -886,6 +897,7 @@ static bool content_file_load(
- {
-    unsigned i;
+    *data      = content_data;
+@@ -972,6 +983,7 @@ static bool content_file_load(
+    size_t i;
+    char msg[1024];
     retro_ctx_load_content_info_t load_info;
-+   global_t *global            = global_get_ptr();
-    bool used_vfs_fallback_copy = false;
++   global_t *global                           = global_get_ptr();
+    bool used_vfs_fallback_copy                = false;
  #ifdef __WINRT__
-    rarch_system_info_t *system = runloop_get_system_info();
-@@ -1028,9 +1040,15 @@ static bool content_file_load(
- 
-          RARCH_LOG("[CONTENT LOAD]: %s\n", msg_hash_to_str(
-                   MSG_CONTENT_LOADING_SKIPPED_IMPLEMENTATION_WILL_DO_IT));
--         strlcpy(p_content->pending_rom_crc_path,
--               path, sizeof(p_content->pending_rom_crc_path));
--         p_content->pending_rom_crc      = true;
-+         if(global) {
-+            p_content->pending_rom_crc = false;
-+            p_content->rom_crc = global->name.hash;
-+            RARCH_LOG("[CONTENT LOAD FILE] Got CRC32 from command line: 0x%X .\n", (unsigned)p_content->rom_crc);
-+         } else
-+         {
-+           strlcpy(p_content->pending_rom_crc_path, path, sizeof(p_content->pending_rom_crc_path));
-+           p_content->pending_rom_crc = true;
-+         }
+    rarch_system_info_t *system                = runloop_get_system_info();
+@@ -1114,15 +1126,23 @@ static bool content_file_load(
+              * until value is used */
+             if (i == 0)
+             {
+-               /* If we have a media type, ignore CRC32 calculation. */
+-               if (first_content_type == RARCH_CONTENT_NONE)
+-               {
+-                  strlcpy(p_content->pending_rom_crc_path, content_path,
+-                        sizeof(p_content->pending_rom_crc_path));
+-                  p_content->pending_rom_crc = true;
++               if(global) {
++                  p_content->pending_rom_crc = false;
++                  p_content->rom_crc = global->name.hash;
++                  RARCH_LOG("[CONTENT LOAD FILE] Got CRC32 from command line: 0x%X .\n", (unsigned)p_content->rom_crc);
+                }
+                else
+-                  p_content->rom_crc = 0;
++               {
++                  /* If we have a media type, ignore CRC32 calculation. */
++                  if (first_content_type == RARCH_CONTENT_NONE)
++                  {
++                     strlcpy(p_content->pending_rom_crc_path, content_path,
++                           sizeof(p_content->pending_rom_crc_path));
++                     p_content->pending_rom_crc = true;
++                  }
++                  else
++                     p_content->rom_crc = 0;
++               }
+             }
+          }
        }
-    }
- 
-@@ -2415,6 +2433,7 @@ uint32_t content_get_crc(void)
+@@ -2689,6 +2709,7 @@ uint32_t content_get_crc(void)
        RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x .\n",
              (unsigned)p_content->rom_crc);
     }

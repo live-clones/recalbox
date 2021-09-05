@@ -1,0 +1,1025 @@
+<?xml version="1.0"?>
+<!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" "http://www.logiqx.com/Dats/datafile.dtd">
+<datafile>
+	<header>
+		<name>NaomiGd</name>
+		<description>NaomiGd_NoClones-0.235</description>
+		<category>NaomiGd Arcade</category>
+		<version>V1.0 barhi</version>
+		<date>30/08/21</date>
+		<author>Strodown, Bega48000, Chblitz62</author>
+		<email>strodown@gmail.com</email>
+		<homepage>Recalbox</homepage>
+		<url>https://www.recalbox.com</url>
+		<comment>NaomiGd NoClones Romset 0.235</comment>
+	</header>
+	<game name="azumanga" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Azumanga Daioh Puzzle Bobble (GDL-0018)</description>
+		<year>2002</year>
+		<manufacturer>MOSS (Taito license)</manufacturer>
+		<rom name="317-5091-jpn.pic" size="16384" crc="b71ede16" sha1="0c27f335d4b81b0413301477813651c4cbba9981"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0018" sha1="749a56dd64ab697f17470d8ae797f7e20e9eb646"/>
+	</game>
+	<game name="bdrdown" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Border Down (Rev A) (GDL-0023A)</description>
+		<year>2003</year>
+		<manufacturer>G.Rev</manufacturer>
+		<rom name="317-5097-jpn.pic" size="16384" crc="16d2a748" sha1="5358f89c26427428840fd9af7d584a55db5a76de"/>
+		<rom name="bdrdown-default-eeprom.bin" size="128" crc="5b19727c" sha1="1dd9c721d58e4542d04afe17baa77980d0ed8b6a"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0023a" sha1="1bd2594ca5be9423aad1a848f14d8891c0b2806a"/>
+	</game>
+	<game name="cfield" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Chaos Field (Japan) (GDL-0025)</description>
+		<year>2004</year>
+		<manufacturer>Able</manufacturer>
+		<rom name="317-5102-com.pic" size="16384" crc="8f1d8387" sha1="1f9427aca21b2de44959cd510b5f9105b845a532"/>
+		<rom name="cfield-default-eeprom.bin" size="128" crc="a7acb6bf" sha1="5aae6366bfb3ee3120da405abb93e2007cd94683"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0025" sha1="a43ea67bcba2a32fc99dd2739653564f85f700a3"/>
+	</game>
+	<game name="chocomk" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Musapey's Choco Marker (Rev A) (GDL-0014A)</description>
+		<year>2002</year>
+		<manufacturer>Ecole Software</manufacturer>
+		<rom name="317-5085-jpn.pic" size="16384" crc="677fd544" sha1="cccd4931bfe3fbcfcde6722088961ddf29a45e89"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0014a" sha1="5b7d9c091e033cbd1bb27eea7c91d54086449496"/>
+	</game>
+	<game name="cleoftp" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Cleopatra Fortune Plus (GDL-0012)</description>
+		<year>2002</year>
+		<manufacturer>Altron / Taito</manufacturer>
+		<rom name="317-5083-com.pic" size="16384" crc="096a0fc2" sha1="8498a0d489a8e075268c07e2c076673904b04be9"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0012" sha1="406dfbab95070f4d4e1c4d5a933519dfee78702a"/>
+	</game>
+	<game name="confmiss" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Confidential Mission (GDS-0001)</description>
+		<year>2000</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0298-com.pic" size="16384" crc="15971bf6" sha1="815152ab05edb1789a26898cfd66b5a7c4a1f765"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0001" sha1="ccad52a642dc31ad37df90a1434e468d5386e82f"/>
+	</game>
+	<game name="cvs2" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Capcom Vs. SNK 2 Mark Of The Millennium 2001 (USA) (GDL-0008)</description>
+		<year>2001</year>
+		<manufacturer>Capcom / SNK</manufacturer>
+		<rom name="317-5078-com.pic" size="16384" crc="e7bb621d" sha1="0882d0e12ca4fb81dda2268cd12724a10278c220"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0008" sha1="a45c7df4ca6692ff0d1a34f8269e17760fbd3a04"/>
+	</game>
+	<game name="cvsgd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Capcom Vs. SNK Millennium Fight 2000 Pro (Japan) (GDL-0004)</description>
+		<year>2001</year>
+		<manufacturer>Capcom / SNK</manufacturer>
+		<rom name="317-5076-jpn.pic" size="16384" crc="7c125b10" sha1="557675e33bb45e4969560bbfd61f48d1784a728d"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0004" sha1="3a9c7c4a97461a354addc645a1c275ae6a17daa7"/>
+	</game>
+	<game name="dygolf" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Virtua Golf / Dynamic Golf (Rev A) (GDS-0009A)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0308-com.pic" size="16384" crc="5e1ef2c4" sha1="57fa3efbb24f8b54e62fe0a2133d863cc7638f53"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="epr-22084.ic3" size="65536" crc="18cf58bb" sha1="1494f8215231929e41bbe2a133658d01882fbb0f"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0009a" sha1="ee94d7b7f0b84517a8e1662b477be0be7e04dd1c"/>
+	</game>
+	<game name="ggxx" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Guilty Gear XX (GDL-0011)</description>
+		<year>2002</year>
+		<manufacturer>Arc System Works</manufacturer>
+		<rom name="317-5082-com.pic" size="16384" crc="1b41189b" sha1="efa0bf233ea4f64a8ed1c7a72b37de40ed069f33"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0011" sha1="642177a24a14a1b9afd0aab59a3e0074dfa6e5b8"/>
+	</game>
+	<game name="ggxxac" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Guilty Gear XX Accent Core (Japan) (GDL-0041)</description>
+		<year>2006</year>
+		<manufacturer>Arc System Works</manufacturer>
+		<rom name="317-5126-jpn.pic" size="16384" crc="87c44284" sha1="a53bcead58844fb877bc657dd5b09c1a380872ee"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0041" sha1="a18b75415ef316023665fa9f5d4c95ef2ff27d7b"/>
+	</game>
+	<game name="ggxxrl" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Guilty Gear XX #Reload (Japan, Rev A) (GDL-0019A)</description>
+		<year>2003</year>
+		<manufacturer>Arc System Works</manufacturer>
+		<rom name="317-5092-jpn.pic" size="16384" crc="7ad7b541" sha1="45c1e3da030add3bb07797ee7f22003224ae3f7f"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0019a" sha1="95b017c2faedf19cabfd1e6cd99a67ac27d76422"/>
+	</game>
+	<game name="ggxxsla" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Guilty Gear XX Slash (Japan, Rev A) (GDL-0033A)</description>
+		<year>2005</year>
+		<manufacturer>Arc System Works</manufacturer>
+		<rom name="317-5111-jpn.pic" size="16384" crc="96bcbd42" sha1="af4efdf2a02920af9885d104091da0584fca988c"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0033a" sha1="b156456d645512a70d89d120cc3ce427b47e9fe9"/>
+	</game>
+	<game name="gundmgd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Mobile Suit Gundam: Federation Vs. Zeon (GDL-0001)</description>
+		<year>2001</year>
+		<manufacturer>Capcom / Banpresto</manufacturer>
+		<rom name="317-5069-com.pic" size="16384" crc="44d0b242" sha1="cac31c2ed317e2b44ee93d762188aacea2398949"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="gundmgd-default-eeprom.bin" size="128" crc="dc80fa1e" sha1="5a412576b9fd4899ab0c11f93257600a5eb8b994"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0001" sha1="0430b7c8e6cc82998ded511bc52a9fb2a10002cd"/>
+	</game>
+	<game name="gundmxgd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Mobile Suit Gundam: Federation Vs. Zeon DX (USA, Japan) (GDL-0006)</description>
+		<year>2001</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="317-5079-com.pic" size="16384" crc="8f9fb55d" sha1="ca93814ae7a4e99762dd1c2a743e21402b143811"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="gundmxgd-default-eeprom.bin" size="128" crc="dc0e8d45" sha1="4088d25fdf7399552882b9656b66dff2345c376e"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0006" sha1="4f3e37363a8533995a4579137c7ea01252f8faca"/>
+	</game>
+	<game name="ikaruga" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Ikaruga (GDL-0010)</description>
+		<year>2001</year>
+		<manufacturer>Treasure</manufacturer>
+		<rom name="317-5081-jpn.pic" size="16384" crc="72ca4579" sha1="8a46e92fc4a32016438ea877807928b51b3f3861"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0010" sha1="58a592ba217847808940608548a1bfdf0ae9e713"/>
+	</game>
+	<game name="jingystm" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Jingi Storm - The Arcade (Japan) (GDL-0037)</description>
+		<year>2006</year>
+		<manufacturer>Atrativa Japan</manufacturer>
+		<rom name="317-5122-jpn.pic" size="16384" crc="88983220" sha1="410ee292794c44d2249778c8b6adda023286eb04"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0037" sha1="864f3b16409730f80b132bee0ef497257bc15128"/>
+	</game>
+	<game name="karous" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Karous (Japan) (GDL-0040)</description>
+		<year>2006</year>
+		<manufacturer>Milestone</manufacturer>
+		<rom name="317-5125-com.pic" size="16384" crc="918efc4f" sha1="e32502b8df0b432eebaf0286176dd3bcd3f65dbb"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="karous-default-eeprom.bin" size="128" crc="b017451c" sha1="a16d8e2cde8ebe0e2dd6d0b5c027bcdff56a809b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0040" sha1="16db8962307a7259e4a5321be7e3b76ac391b539"/>
+	</game>
+	<game name="keyboard" sourcefile="naomi.cpp" romof="naomigd">
+		<description>La Keyboard (GDS-0017)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0323-com.pic" size="16384" crc="c8854ef2" sha1="b43b956df142fe4167dcc2ec805921e25bba180f"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="keyboard-default-eeprom.bin" size="128" crc="9262fc90" sha1="6080c029967932cace361d673bf04c805276a7de"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0017" sha1="89457044e9dbed792d4081b85f24d75d0f4d75a7"/>
+	</game>
+	<game name="kurucham" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Kurukuru Chameleon (Japan) (GDL-0034)</description>
+		<year>2006</year>
+		<manufacturer>Able</manufacturer>
+		<rom name="317-5115-jpn.pic" size="16384" crc="e5435e85" sha1="9d5b25de82284e5fcab2cbf7fb73669d1130648a"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0034" sha1="48a7d20811a6658d749c495db8aa802d1172a8db"/>
+	</game>
+	<game name="lupinsho" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Lupin The Third - The Shooting (Rev A) (GDS-0018A)</description>
+		<year>2001</year>
+		<manufacturer>Sega / Eighting</manufacturer>
+		<rom name="317-0325-jpn.pic" size="16384" crc="f71cb2fc" sha1="281b3b3b03edf9a39e380976de528b7c9674de53"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0018a" sha1="c4ed336d4be039bd6673fccd097579f3500d6eca"/>
+	</game>
+	<game name="luptype" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Lupin The Third - The Typing (Rev A) (GDS-0021A)</description>
+		<year>2002</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0332-jpn.pic" size="16384" crc="43e78ecf" sha1="bbe4b036e965fbba6ab79c88cba4ea8f0ea3f9fc"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0021a" sha1="48eee537035359745c697cc511a2639da467af91"/>
+	</game>
+	<game name="meltyb" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Melty Blood Act Cadenza Version B2 (Japan) (GDL-0039A)</description>
+		<year>2006</year>
+		<manufacturer>Ecole Software</manufacturer>
+		<rom name="317-5124-jpn.pic" size="16384" crc="ad162bfa" sha1="0e9740ba65a724eb7cd70fb897e5cd9ac17aa55c"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0039a" sha1="5a405492fbb77f7b7ba1ba14f0e19e19fcce571e"/>
+	</game>
+	<game name="meltybld" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Melty Blood Act Cadenza Ver. A (Japan) (GDL-0028C)</description>
+		<year>2005</year>
+		<manufacturer>Ecole Software</manufacturer>
+		<rom name="317-5104-jpn.pic" size="16384" crc="afa5e709" sha1="c107f6c5b7574f2c7e7ac6ed1fcc37edabdc95e8"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0028c" sha1="9759abdb822b5bff8ad064ebf3a79417c128d377"/>
+	</game>
+	<game name="moeru" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Moeru Casinyo (Japan) (GDL-0013)</description>
+		<year>2002</year>
+		<manufacturer>Altron</manufacturer>
+		<rom name="317-5084-jpn.pic" size="16384" crc="db7dac1e" sha1="b6f7afe9d9d2681005c1abcd4fde24867e65d1e4"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="moeru-default-eeprom.bin" size="128" crc="50ca079f" sha1="788a399017b94d9d1a981ea703af0d4a178dadb6"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0013" sha1="12108adc8292e145aeb6b68c8450f6a626bda5ee"/>
+	</game>
+	<game name="mok" sourcefile="naomi.cpp" romof="naomigd">
+		<description>The Maze of the Kings (GDS-0022)</description>
+		<year>2002</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0333-com.pic" size="16384" crc="15fb7792" sha1="03932ba9b1738d5ab75b2a465cc3254e75f59f63"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0022" sha1="ddd6bf6a93f44f04199b278149ded19b26cdcab4"/>
+	</game>
+	<game name="monkeyba" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Monkey Ball (GDS-0008)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0307-com.pic" size="16384" crc="4046de19" sha1="8adda9f223e926148b36744bbbaa89557544a229"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0008" sha1="91d28f2e304d390f27f3b8a651d53ddd48d6169d"/>
+	</game>
+	<game isbios="yes" name="naomigd" sourcefile="naomi.cpp">
+		<description>Naomi GD-ROM Bios</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+	</game>
+	<game name="ndcfboxa" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Naomi DIMM Firmware Update for CF-BOX (4.01) (GDS-0042A)</description>
+		<year>2009</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0567-exp.pic" size="16384" crc="cd1d2b2d" sha1="78203ee0339f76eb76da08d7de43e7e44e4b7d32"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0042a" sha1="a6f9d402c9f57fc8a5378090e6ff7d2d58810454"/>
+	</game>
+	<game name="psyvar2" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Psyvariar 2 - The Will To Fabricate (Japan) (GDL-0024)</description>
+		<year>2003</year>
+		<manufacturer>Success</manufacturer>
+		<rom name="317-5100-jpn.pic" size="16384" crc="f37a1dbe" sha1="a0b43069c9ecd5633418404344b7750db5371ac4"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="psyvar2-default-eeprom.bin" size="128" crc="9d8661f3" sha1="c696277a7b488bee6ddb33a1d5345a85c1567cbe"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0024" sha1="4898b21fb1f44f34fcf1730f64cb0491e9195327"/>
+	</game>
+	<game name="puyofev" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Puyo Pop Fever (World) (GDS-0034)</description>
+		<year>2003</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0375-com.pic" size="16384" crc="52b56b52" sha1="221590efbb09824621714cb163bda51a921d7d54"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="puyofev-default-eeprom.bin" size="128" crc="42e5fd40" sha1="e805bca22ae192e26965ba00534e6b87a3df238f"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0034" sha1="a051dc280c2d8f67a2d5ca1ecded4354edf0ef36"/>
+	</game>
+	<game name="quizqgd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Quiz Keitai Q mode (GDL-0017)</description>
+		<year>2002</year>
+		<manufacturer>Amedio (Taito license)</manufacturer>
+		<rom name="317-5090-jpn.pic" size="16384" crc="141cced2" sha1="c7fe2fc61be3585e95a2ce4c6d4373ea71e920de"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="quizqgd-default-eeprom.bin" size="128" crc="46c10aa3" sha1="0a082243399a45c1c9d757f59ed660b3b7a9730d"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0017" sha1="2cdf36ca3a1bd25aa1f68240da3e318df375c652"/>
+	</game>
+	<game name="radirgy" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Radirgy (Japan, Rev A) (GDL-0032A)</description>
+		<year>2005</year>
+		<manufacturer>Milestone</manufacturer>
+		<rom name="317-5110-jpn.pic" size="16384" crc="829d06e2" sha1="c53d791e82cc75f2bcd49575185c89d448fed672"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="radirgy-default-eeprom.bin" size="128" crc="8d60a282" sha1="6d81dec88a1ade45e1edf2bdb3683c6cd0651eeb"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0032a" sha1="9316e0ff90fab69f57b23afbb60de7e6344c2a45"/>
+	</game>
+	<game name="senko" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Senko no Ronde (Japan, Rev A) (GDL-0030A)</description>
+		<year>2005</year>
+		<manufacturer>G.Rev</manufacturer>
+		<rom name="317-5107-jpn.pic" size="16384" crc="6bc3fad0" sha1="6d5196265232f4c0715a97acc84d6f7376056894"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="senko-default-eeprom.bin" size="128" crc="b3d3be09" sha1="55af4f6e35f82f683682bf731d3070bc275d6e57"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0030a" sha1="50813f6bde947c5b045a67827ba86b6ab0c29f5c"/>
+	</game>
+	<game name="senkosp" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Senko no Ronde Special (Export, Japan) (GDL-0038)</description>
+		<year>2006</year>
+		<manufacturer>G.Rev</manufacturer>
+		<rom name="317-5123-com.pic" size="16384" crc="7340df6e" sha1="003a94e986335e959f9b1e8905fea8cbfdb5b2a1"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0038" sha1="15955788d403a1991aa1be26ed9ace60fd909622"/>
+	</game>
+	<game name="sfz3ugd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Street Fighter Zero 3 Upper (Japan) (GDL-0002)</description>
+		<year>2001</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="317-5072-com.pic" size="16384" crc="3238ba01" sha1="07c28f17c19eaa652295bbf2d3a96aa27c3748ae"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="sfz3ugd-default-eeprom.bin" size="128" crc="699dd01b" sha1="1a1e6fd1e47ed58a2afbf7f632fccf72a4708531"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0002" sha1="fceb1014a1c673c91a4529fff75aebfd734d5f4e"/>
+	</game>
+	<game name="shaktam" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Shakatto Tambourine (Rev B) (GDS-0002B)</description>
+		<year>2000</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0299-com.pic" size="16384" crc="9e1a8971" sha1="022a1781b5d7346b61defe921dbabf11331834d7"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0002b" sha1="c656497b44d5ca4743aa1a8d836af2bfa3484dd5"/>
+	</game>
+	<game name="shaktamb" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Shakatto Tambourine Cho Powerup Chu (2K1 AUT) (GDS-0016)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0321-com.pic" size="16384" crc="81519e71" sha1="a30d25f81c77384ed26faa67c942802f2f3d7817"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0016" sha1="c44f50ded8054d7d89b00c720120ccc6dd9686e0"/>
+	</game>
+	<game name="shaktmsp" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Shakatto Tambourine Motto Norinori Shinkyoku Tsuika (2K1 SPR) (GDS-0013)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0315-com.pic" size="16384" crc="c225b08b" sha1="37ac664524a9e4e37cc9af1e509759295f659e0d"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0013" sha1="5a40ba644ffb7650e8f9774a9d583b30874e9dee"/>
+	</game>
+	<game name="shikgam2" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Shikigami no Shiro II / The Castle of Shikigami II (GDL-0021)</description>
+		<year>2003</year>
+		<manufacturer>Alfa System</manufacturer>
+		<rom name="317-5095-jpn.pic" size="16384" crc="7c25cb5c" sha1="02797e890030ddf2df470e85ebd6c539f6621e53"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="shikgam2-default-eeprom.bin" size="128" crc="5fb60e27" sha1="a64242083a718f0a4b1d2e4707f5eb7480265719"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0021" sha1="c88bfabcd6ec74fa99c7a6e5cec50f526f074ed2"/>
+	</game>
+	<game name="slashout" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Slashout (GDS-0004)</description>
+		<year>2000</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0302-com.pic" size="16384" crc="fa290329" sha1="76c7266a124b23eaa5747f870cd2cfe881dd23af"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0004" sha1="afcaa4f5efaf9ffad3a687d1d5bd9270bbf94281"/>
+	</game>
+	<game name="spkrbtl" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Spikers Battle (GDS-0005)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0303-com.pic" size="16384" crc="b42999dd" sha1="f285bdf34904517e119bd170b4ed0624eefac7bd"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0005" sha1="a3abd6df5cbe3ec4eadf54c8471caee31dd8c452"/>
+	</game>
+	<game name="sprtjam" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Sports Jam (GDS-0003)</description>
+		<year>2000</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0300-com.pic" size="16384" crc="19a97214" sha1="bcee1af2c16daabc7a0f723e1f9281a7c95600c6"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0003" sha1="79a0d8e1aa3e6f660ef4f302d9d54c1a6d2057e3"/>
+	</game>
+	<game name="ss2005" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Super Shanghai 2005 (Japan, Rev A) (GDL-0031A)</description>
+		<year>2005</year>
+		<manufacturer>Starfish</manufacturer>
+		<rom name="317-5108-jpn.pic" size="16384" crc="4fa7dede" sha1="f9011e951378364a12512d398f76be174dccce69"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="ss2005-default-eeprom.bin" size="128" crc="26bd9003" sha1="f35551c96c49eef5473ff50a94b82ef5110b0f10"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0031a" sha1="6702a3a67c3e40217e382578e4eb8d0ddc5dbbe4"/>
+	</game>
+	<game name="starseek" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Doki Doki Idol Star Seeker (GDL-0005)</description>
+		<year>2001</year>
+		<manufacturer>G.Rev</manufacturer>
+		<rom name="317-5077-jpn.pic" size="16384" crc="19f8d4d0" sha1="d256f26f757d7019cab7950d81992902cdb65e07"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0005" sha1="04bb039110950a5ec99f79a3a2e114fe3cbb86a6"/>
+	</game>
+	<game name="takoron" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Noukone Puzzle Takoron (Japan) (GDL-0042)</description>
+		<year>2006</year>
+		<manufacturer>Compile</manufacturer>
+		<rom name="317-5127-jpn.pic" size="16384" crc="870c55eb" sha1="cd8861726047250882c73a5f0c2480f45c30f21b"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0042" sha1="ca5235d12a677c1ad02f57529c33d221d43e6b07"/>
+	</game>
+	<game name="tetkiwam" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Tetris Kiwamemichi (Japan) (GDL-0020)</description>
+		<year>2004</year>
+		<manufacturer>Success</manufacturer>
+		<rom name="317-5093-jpn.pic" size="16384" crc="a61e1e2a" sha1="ccbec76da6454d4d2384a2adb3f8b62aa1fece24"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="tetkiwam-default-eeprom.bin" size="128" crc="843f2a99" sha1="6615f5f27e76a71f7415f972bbcdf6570b0e953a"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0020" sha1="55813b6487b303da544611f16b9d74b23184590c"/>
+	</game>
+	<game name="trgheart" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Trigger Heart Exelica Ver.A (Japan) (GDL-0036A)</description>
+		<year>2006</year>
+		<manufacturer>Warashi</manufacturer>
+		<rom name="317-5121-jpn.pic" size="16384" crc="cdb9b179" sha1="8f7d1e9a99ad90344449c6ebb623e2968f611ec0"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="trgheart-default-eeprom.bin" size="128" crc="7faff313" sha1="1bc25e4595ef050e82eb820842ba6ccd63b6703e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0036a" sha1="05b0d6fde7282db97fb58ad941090e356e02934c"/>
+	</game>
+	<game name="trizeal" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Trizeal (Japan) (GDL-0026)</description>
+		<year>2004</year>
+		<manufacturer>Triangle Service</manufacturer>
+		<rom name="317-5103-jpn.pic" size="16384" crc="93feaff4" sha1="0b362e9794c83b43e23a3d7299ff0b69f4740481"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="trizeal-default-eeprom.bin" size="128" crc="ac0847ce" sha1="ec12a6bbf074bf3bfe2e9bfe2855b7bd7e699f3c"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0026" sha1="9288904f376a07177975b7c453e2ad2bf491c3e2"/>
+	</game>
+	<game name="undefeat" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Under Defeat (Japan) (GDL-0035)</description>
+		<year>2005</year>
+		<manufacturer>G.Rev</manufacturer>
+		<rom name="317-5117-jpn.pic" size="16384" crc="61e65ca8" sha1="f1a242d3dd1af0df084dd1568320f6b4c51d9e20"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="undefeat-default-eeprom.bin" size="128" crc="9d2b071c" sha1="88d90c23b9c2a6aa61bdf318d074a9cfa5c145e5"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0035" sha1="cee38c3953fad9f05dbbc669eebb465fc4c9db8b"/>
+	</game>
+	<game name="usagiym" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Usagi - Yamashiro Mahjong Hen (Japan) (GDL-0022)</description>
+		<year>2003</year>
+		<manufacturer>Warashi / Mahjong Kobo / Taito</manufacturer>
+		<rom name="317-5096-jpn.pic" size="16384" crc="2d16887b" sha1="32d11691c3d1242b16bc3fbcc0f1157bb16436e0"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="usagiym-default-eeprom.bin" size="128" crc="1fbdf0ca" sha1="5854c693b7d6451cefeb737109aeaf64751fc4f7"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gdl-0022" sha1="8e65d1821e0907ead1e81d97e4685a01e24b2053"/>
+	</game>
+	<game name="vathlete" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Virtua Athletics / Virtua Athlete (GDS-0019)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0330-com.pic" size="16384" crc="33ccf2d1" sha1="669d459fcbb327d2fcf34777d7a731979477fb02"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0019" sha1="ab062cfc0e731ddb1c6bb3acf83650b20b3f7b4a"/>
+	</game>
+	<game name="vtennis2" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Virtua Tennis 2 / Power Smash 2 (Rev A) (GDS-0015A)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0318-com.pic" size="16384" crc="83de4047" sha1="1808ac0d8353b92296de37f98b490a42a0e141cf"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0015a" sha1="5db1ef70b6db63f8a15e1d64cdf0170e80209eb4"/>
+	</game>
+	<game name="vtennisg" sourcefile="naomi.cpp" romof="naomigd">
+		<description>Virtua Tennis / Power Smash (GDS-0011)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0312-com.pic" size="16384" crc="7213684e" sha1="0b1adb2f6b7576534096832752cf7606a52c166e"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0011" sha1="5ae669832805139f973dc86ab7cab66aa8166ac0"/>
+	</game>
+	<game name="wsbbgd" sourcefile="naomi.cpp" romof="naomigd">
+		<description>World Series Baseball / Super Major League (GDS-0010)</description>
+		<year>2001</year>
+		<manufacturer>Sega</manufacturer>
+		<rom name="317-0309-com.pic" size="16384" crc="62d760bf" sha1="9cf247a63250ce1770ec18e76e1637b2e4e442d9"/>
+		<rom name="epr-21576e.ic27" merge="epr-21576e.ic27" size="2097152" crc="08c0add7" sha1="e7c1a7673cb2ccb21748ef44105e46d1bad7266d"/>
+		<rom name="epr-21576g.ic27" merge="epr-21576g.ic27" size="2097152" crc="d2a1c6bf" sha1="6d27d71aec4dfba98f66316ae74a1426d567698a"/>
+		<rom name="epr-21576h.ic27" merge="epr-21576h.ic27" size="2097152" crc="d4895685" sha1="91424d481ff99a8d3f4c45cea6d3f0eada049a6d"/>
+		<rom name="epr-21577e.ic27" merge="epr-21577e.ic27" size="2097152" crc="cf36e97b" sha1="b085305982e7572e58b03a9d35f17ae319c3bbc6"/>
+		<rom name="epr-21577g.ic27" merge="epr-21577g.ic27" size="2097152" crc="25f64af7" sha1="99f9e6cc0642319bd2da492611220540add573e8"/>
+		<rom name="epr-21577h.ic27" merge="epr-21577h.ic27" size="2097152" crc="fdf17452" sha1="5f3e4b677f0046ce690a4f096b0481e5dd8bb6e6"/>
+		<rom name="epr-21578e.ic27" merge="epr-21578e.ic27" size="2097152" crc="087f09a3" sha1="0418eb2cf9766f0b1b874a4e92528779e22c0a4a"/>
+		<rom name="epr-21578g.ic27" merge="epr-21578g.ic27" size="2097152" crc="55413214" sha1="bd2748365a9fc1821c9369aa7155d7c41c4df43e"/>
+		<rom name="epr-21578h.ic27" merge="epr-21578h.ic27" size="2097152" crc="7b452946" sha1="8e9f153bbada24b37066dc45b64a7bf0d4f26a9b"/>
+		<rom name="main_eeprom.bin" merge="main_eeprom.bin" size="128" crc="fea29cbb" sha1="4099f1747aafa07db34f6e072cd9bfaa83bae10e"/>
+		<rom name="x76f100_eeprom.bin" merge="x76f100_eeprom.bin" size="132" crc="3ea24b6a" sha1="3a730ebcf56e0060fef6b1b02eb2eb7cfb7e61dc"/>
+		<disk name="gds-0010" sha1="581a44fb2afab1f8a384ed58559fd6308e787864"/>
+	</game>
+</datafile>

@@ -1,0 +1,28 @@
+diff --git a/Makefile b/Makefile
+index 73cf732..dbb9dec 100644
+--- a/Makefile
++++ b/Makefile
+@@ -54,12 +54,12 @@ DEFINES =  -DAPP_NAME_FULL='"$(APP_NAME) WIP Rev: $(GITREVISION)"'
+ DEFINES += -DAPP_YEAR='"$(APP_YEAR)"' -DVERSION_COPYRIGHTS='$(VERSION_COPYRIGHTS)'
+ 
+ ifneq ($(DEBUG),y)
+-CFLAGS = -Wall -O3
++CFLAGS += -Wall -O3
+ else
+-CFLAGS = -Wall -g -O0
++CFLAGS += -Wall -g -O0
+ endif
+ CFLAGS += $(DEFINES)
+-LFLAGS =
++LFLAGS +=
+ 
+ ifneq ($(NO_GETADDRINFO),)
+ CFLAGS += -DNO_GETADDRINFO=1
+@@ -454,6 +454,7 @@ STRIP :=  $(CROSS_COMPILE)$(STRIP)
+ CFLAGS += -g $(shell PKG_CONFIG_PATH=/usr/$(BASELIBDIR)/pkgconfig pkg-config $(SDL_LIB) --cflags)
+ LFLAGS += -lm -L/usr/$(BASELIBDIR) $(shell PKG_CONFIG_PATH=/usr/$(BASELIBDIR)/pkgconfig pkg-config $(SDL_LIB) --libs) #-lX11
+ CUSTOMOBJS = gui_x11.o
++EXTRAOBJS = oric_ch376_plugin.o ch376.o oric_twilighte_board_plugin.o
+ FILEREQ_OBJ = filereq_sdl.o
+ MSGBOX_OBJ = msgbox_sdl.o
+ TARGET = oricutron

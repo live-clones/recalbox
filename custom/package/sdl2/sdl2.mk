@@ -15,6 +15,7 @@ SDL2_INSTALL_STAGING = YES
 SDL2_CONFIG_SCRIPTS = sdl2-config
 
 SDL2_CONF_OPTS += \
+	--disable-hidapi \
 	--disable-rpath \
 	--disable-arts \
 	--disable-esd \

@@ -1,0 +1,10 @@
+config BR2_PACKAGE_TI99SIM
+	bool "ti99sim"
+	select BR2_PACKAGE_SDL2
+	help
+	  TI-99 Emulator
+
+	  https://www.mrousseau.org/programs/ti99sim/
+
+comment "Ti99Sim needs a toolchain w/ OpenGl, SDL2"
+	depends on BR2_PACKAGE_SDL2
