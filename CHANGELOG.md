@@ -98,6 +98,7 @@ All notable changes to this project will be documented in this file.
 - Edited 8bitdo N30 Pro 2 configuration (#1791)
 - Fix "failed to extract content from compressed" for Rick Dangerous (#1891)
 - Fix and made translatable "No comment availble" text in p2k popup (#1911)
+- Remove Flycast from x86 (#1902)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
