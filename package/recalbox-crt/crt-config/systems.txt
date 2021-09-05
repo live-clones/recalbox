@@ -1,0 +1,5 @@
+snes,pal,snes:pal:240@50.01
+snes,ntsc,snes:ntsc:224@60.0988
+saturn,ntsc,standard:all:224@60
+neogeo,all,neogeo:all:224@59.185606
+pcengine,all,pcengine:all:240@59.94

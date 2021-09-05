@@ -1,25 +1,31 @@
---- ./audio/softsynth/fluidsynth.cpp	2021-06-21 21:19:12.815389364 +0200
-+++ ./audio/softsynth/fluidsynth.cpp	2021-06-21 21:22:39.882104277 +0200
-@@ -172,11 +172,11 @@
- 	return p;
- }
- 
+diff --git a/audio/softsynth/fluidsynth.cpp b/audio/softsynth/fluidsynth.cpp
+index 1945a8e6cb..e63565e815 100644
+--- a/audio/softsynth/fluidsynth.cpp
++++ b/audio/softsynth/fluidsynth.cpp
+@@ -187,7 +187,7 @@ static void *SoundFontMemLoader_open(const char *filename) {
+ #if FS_API_VERSION >= 0x0202
+ static int SoundFontMemLoader_read(void *buf, fluid_long_long_t count, void *handle) {
+ #else
 -static int SoundFontMemLoader_read(void *buf, int count, void *handle) {
 +static int SoundFontMemLoader_read(void *buf, long long int count, void *handle) {
- 	return ((Common::SeekableReadStream *) handle)->read(buf, count) == (uint32)count ? FLUID_OK : FLUID_FAILED;
+ #endif
+        return ((Common::SeekableReadStream *) handle)->read(buf, count) == (uint32)count ? FLUID_OK : FLUID_FAILED;
  }
- 
+@@ -195,7 +195,7 @@ static int SoundFontMemLoader_read(void *buf, int count, void *handle) {
+ #if FS_API_VERSION >= 0x0202
+ static int SoundFontMemLoader_seek(void *handle, fluid_long_long_t offset, int origin) {
+ #else
 -static int SoundFontMemLoader_seek(void *handle, long offset, int origin) {
 +static int SoundFontMemLoader_seek(void *handle, long long offset, int origin) {
- 	return ((Common::SeekableReadStream *) handle)->seek(offset, origin) ? FLUID_OK : FLUID_FAILED;
+ #endif
+        return ((Common::SeekableReadStream *) handle)->seek(offset, origin) ? FLUID_OK : FLUID_FAILED;
  }
- 
-@@ -185,7 +185,7 @@
- 	return FLUID_OK;
- }
- 
+@@ -208,7 +208,7 @@ static int SoundFontMemLoader_close(void *handle) {
+ #if FS_API_VERSION >= 0x0202
+ static fluid_long_long_t SoundFontMemLoader_tell(void *handle) {
+ #else
 -static long SoundFontMemLoader_tell(void *handle) {
 +static long long int SoundFontMemLoader_tell(void *handle) {
- 	return ((Common::SeekableReadStream *) handle)->pos();
- }
  #endif
+        return ((Common::SeekableReadStream *) handle)->pos();
+ }

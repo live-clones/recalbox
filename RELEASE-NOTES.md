@@ -8,6 +8,10 @@ as release notes for end user on a Recalbox upgrade.
 ## Version NEXT
 
 ### News
+- Add Dragon 32/64 system (XRoar standalone emulator)
+- Add TRS-80 Color Computer (XRoar standalone emulator)
+- Add TI-99/4A system, emulated using the ti99sim standalone emulator
+- Add CRT TV and monitors support (vga666)
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
 - Add libretro fbneo core for channel f system
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
@@ -16,9 +20,22 @@ as release notes for end user on a Recalbox upgrade.
 - Add LowRes NX virtual console on all boards
 - Add CHD support for Mega CD Games with Picodrive core
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
+- Add recalbox-wpaf tool for controlling various RPI fan controllers
+- Add PiBoy DMG support
+- Add gamelink overload for gb and gbc
+- Better support for Xbox joysticks like Xbox One S Wireless controller, Xbox Elite Series 2 Wireless controller and Xbox Series X|S Wireless controller
 
 ### Improvements
+- Bump SimCoupé to v1.2.5
+- Bump Oricutron to latest version
+- Bump Amiberry to v4.1.5. Add CDTV support
+- Bump Libretro PX68K (Sharp x68000)
+- Bump libretro MGBA (Gameboy Advance core)
+- Bump Libretro MAME2003 Plus
+- Bump Libretro Beetle PSX
+- Bump Libretro-MAME2003 to include latest fixes
 - Bump Retroarch to v1.9.3
+- Bump Retroarch to v1.9.8
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe
 - Bump Fbneo v1.0.0.02
 - Bump Sharp X68000 core (px68k)
@@ -27,10 +44,17 @@ as release notes for end user on a Recalbox upgrade.
   - More responsive & faster to get client latencies
   - Manual refresh with START
   - Seamless auto-hashing when Netplay is on
+- Bump Mame 0.235
+- Bump ScummVM to 2.4.0git
+- Add new Pad-to-Keyboard capabilities:
+  - Mouse emulation using joystick or dpad.
+  - Keystroke sequences (like typing a word)
+  - Keystroke combination (like CTRL+C)
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
 - Fix laggy video playback on Odroid XU4 OGST
+- Fix message "failed to extract content from compressed" for core libretro xrick
 
 
 ## Version 7.2.2-Reloaded

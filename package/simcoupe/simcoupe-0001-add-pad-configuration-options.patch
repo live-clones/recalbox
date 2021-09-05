@@ -1,8 +1,8 @@
 diff --git a/Base/Options.cpp b/Base/Options.cpp
-index 2cd2c38..41de7c5 100644
+index 4940bcc..9c2c8f2 100644
 --- a/Base/Options.cpp
 +++ b/Base/Options.cpp
-@@ -112,6 +112,18 @@ static bool SetNamedValue(const std::string& option_name, const std::string& str
+@@ -118,6 +118,18 @@ static bool SetNamedValue(const std::string& option_name, const std::string& str
      else if (name == "joytype2") SetValue(g_config.joytype2, str);
      else if (name == "deadzone1") SetValue(g_config.deadzone1, str);
      else if (name == "deadzone2") SetValue(g_config.deadzone2, str);
@@ -21,11 +21,31 @@ index 2cd2c38..41de7c5 100644
      else if (name == "parallel1") SetValue(g_config.parallel1, str);
      else if (name == "parallel2") SetValue(g_config.parallel2, str);
      else if (name == "printeronline") SetValue(g_config.printeronline, str);
+@@ -284,7 +296,19 @@ bool Save()
+         ofs << "mouse=" << to_string(g_config.mouse) << std::endl;
+         ofs << "mouseesc=" << to_string(g_config.mouseesc) << std::endl;
+         ofs << "joydev1=" << to_string(g_config.joydev1) << std::endl;
++        ofs << "joya1=" << to_string(g_config.joya1) << std::endl;
++        ofs << "joyb1=" << to_string(g_config.joyb1) << std::endl;
++        ofs << "joyx1=" << to_string(g_config.joyy1) << std::endl;
++        ofs << "joyy1=" << to_string(g_config.joyb1) << std::endl;
++        ofs << "joyhk1=" << to_string(g_config.joyhkey1) << std::endl;
++        ofs << "joystart1=" << to_string(g_config.joystart1) << std::endl;
+         ofs << "joydev2=" << to_string(g_config.joydev2) << std::endl;
++        ofs << "joya2=" << to_string(g_config.joya2) << std::endl;
++        ofs << "joyb2=" << to_string(g_config.joyb2) << std::endl;
++        ofs << "joyx2=" << to_string(g_config.joyy2) << std::endl;
++        ofs << "joyy2=" << to_string(g_config.joyb2) << std::endl;
++        ofs << "joyhk2=" << to_string(g_config.joyhkey2) << std::endl;
++        ofs << "joystart2=" << to_string(g_config.joystart2) << std::endl;
+         ofs << "joytype1=" << to_string(g_config.joytype1) << std::endl;
+         ofs << "joytype2=" << to_string(g_config.joytype2) << std::endl;
+         ofs << "deadzone1=" << to_string(g_config.deadzone1) << std::endl;
 diff --git a/Base/Options.h b/Base/Options.h
-index 09ce17b..fe0930b 100644
+index 1d6971d..ff4d47f 100644
 --- a/Base/Options.h
 +++ b/Base/Options.h
-@@ -91,6 +91,18 @@ struct Config
+@@ -97,6 +97,18 @@ struct Config
      int joytype2 = 2;                   // Joystick 2 mapping
      int deadzone1 = 20;                 // Joystick 1 deadzone
      int deadzone2 = 20;                 // Joystick 2 deadzone

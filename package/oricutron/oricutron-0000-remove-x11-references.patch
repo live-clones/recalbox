@@ -1,0 +1,26 @@
+diff --git a/gui_x11.c b/gui_x11.c
+index 35c7bd8..862cdae 100644
+--- a/gui_x11.c
++++ b/gui_x11.c
+@@ -38,8 +38,8 @@
+ 
+ #include <limits.h>   /* for INT_MAX */
+ 
+-static Display *display;
+-static Window window;
++//static Display *display;
++//static Window window;
+ 
+ static SDL_bool initialized = SDL_FALSE;
+ 
+@@ -240,8 +240,8 @@ static void init_clipboard(void)
+     /* Save the information for later use */
+     if (info.subsystem == SDL_SYSWM_X11)
+     {
+-      display = info.info.x11.display;
+-      window = info.info.x11.window;
++      //display = info.info.x11.display;
++      //window = info.info.x11.window;
+ 
+       initialized = SDL_TRUE;
+     }

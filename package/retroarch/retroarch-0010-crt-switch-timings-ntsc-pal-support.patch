@@ -1,0 +1,92 @@
+diff --git a/configuration.c b/configuration.c
+index 8094c84..e6dab71 100644
+--- a/configuration.c
++++ b/configuration.c
+@@ -1312,6 +1312,8 @@ static struct config_array_setting *populate_settings_array(settings_t *settings
+    SETTING_ARRAY("discord_app_id",           settings->arrays.discord_app_id, true, DEFAULT_DISCORD_APP_ID, true);
+    SETTING_ARRAY("ai_service_url",           settings->arrays.ai_service_url, true, DEFAULT_AI_SERVICE_URL, true);
+    SETTING_ARRAY("crt_switch_timings",       settings->arrays.crt_switch_timings, false, NULL, true);
++   SETTING_ARRAY("crt_switch_timings_pal",   settings->arrays.crt_switch_timings_pal, false, NULL, true);
++   SETTING_ARRAY("crt_switch_timings_ntsc",  settings->arrays.crt_switch_timings_ntsc, false, NULL, true);
+ #ifdef HAVE_LAKKA
+    SETTING_ARRAY("cpu_main_gov",             settings->arrays.cpu_main_gov, false, NULL, true);
+    SETTING_ARRAY("cpu_menu_gov",             settings->arrays.cpu_menu_gov, false, NULL, true);
+diff --git a/configuration.h b/configuration.h
+index ef8b99c..29778c6 100644
+--- a/configuration.h
++++ b/configuration.h
+@@ -400,6 +400,8 @@ typedef struct settings
+       char ai_service_url[PATH_MAX_LENGTH];
+ 
+       char crt_switch_timings[255];
++      char crt_switch_timings_pal[255];
++      char crt_switch_timings_ntsc[255];
+ #ifdef HAVE_LAKKA
+       char timezone[TIMEZONE_LENGTH];
+       char cpu_main_gov[32];
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 4ddab3b..7342bf7 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -124,8 +124,31 @@ bool gfx_ctx_drm_load_mode(drmModeModeInfoPtr modeInfo)
+    int ret;
+    hdmi_timings_t timings;
+    settings_t *settings = config_get_ptr();
++   float current_fps = settings->floats.video_refresh_rate;
++   char *crt_switch_timings_pal = settings->arrays.crt_switch_timings_pal;
++   char *crt_switch_timings_ntsc = settings->arrays.crt_switch_timings_ntsc;
+    char *crt_switch_timings = settings->arrays.crt_switch_timings;
+ 
++   if(current_fps > 0.1f)
++   {
++      if(abs(60 - current_fps) < abs(50 - current_fps))
++      {
++         if(!string_is_empty(crt_switch_timings_ntsc))
++         {
++            RARCH_LOG("[DRM]: selected crt_switch_timings_ntsc\n");
++            crt_switch_timings = crt_switch_timings_ntsc;
++         }
++      }
++      else
++      {
++         if(!string_is_empty(crt_switch_timings_pal))
++         {
++            RARCH_LOG("[DRM]: selected crt_switch_timings_pal\n");
++            crt_switch_timings = crt_switch_timings_pal;
++         }
++      }
++   }
++
+    if(modeInfo != NULL && !string_is_empty(crt_switch_timings)) {
+       ret = sscanf(crt_switch_timings, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
+                    &timings.h_active_pixels, &timings.h_sync_polarity, &timings.h_front_porch,
+diff --git a/retroarch.c b/retroarch.c
+index c9e8ad0..2f16052 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -30073,14 +30073,17 @@ static bool video_driver_init_internal(
+ #endif
+ 
+   // ASPECT_RATIO_NATIVE_1920 specific values
+-   if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920)
+-   {
+-         RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
+-            geom->base_width,
+-            geom->base_height,
+-            geom->aspect_ratio,
+-            p_rarch->video_driver_av_info.timing.fps,
+-            runloop_state.system.rotation);
++   if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_NATIVE_1920 || 
++      !string_is_empty(settings->arrays.crt_switch_timings_pal)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings_ntsc)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings))
++   {
++      RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
++         geom->base_width,
++         geom->base_height,
++         geom->aspect_ratio,
++         p_rarch->video_driver_av_info.timing.fps,
++         runloop_state.system.rotation);
+ 
+       double input_fps = p_rarch->video_driver_av_info.timing.fps;
+       if(input_fps > 0.0)

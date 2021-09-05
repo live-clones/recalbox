@@ -1,25 +1,27 @@
 diff --git a/Base/CPU.cpp b/Base/CPU.cpp
-index 8855861..8520aca 100644
+index 16c6265..c92eaa4 100644
 --- a/Base/CPU.cpp
 +++ b/Base/CPU.cpp
-@@ -387,9 +387,21 @@ void ExecuteChunk()
- // The main Z80 emulation loop
+@@ -144,8 +144,23 @@ void ExecuteChunk()
+ 
  void Run()
  {
 +    bool NeedCheckAutoRun = true;
 +
-     // Loop until told to quit
++    // Loop until told to quit
      while (UI::CheckEvents())
      {
 +        // Recalbox-Patch - autoboot disk 1
 +        if (NeedCheckAutoRun)
-+        {
-+          if ((GetOption(autoload)) && (IO::IsAtStartupScreen()))
++          if ((GetOption(autoload)) && (IO::TestStartupScreen()))
 +          {
-+              pFloppy1->Insert(GetOption(disk1), true);
-+              NeedCheckAutoRun = false;
++            if (pFloppy1->Insert(GetOption(disk1)))
++            {
++              Frame::SetStatus("{}  inserted into drive 1", pFloppy1->DiskFile());
++              IO::AutoLoad(AutoLoadType::Disk);
++            }
++            NeedCheckAutoRun = false;
 +          }
-+        }
 +
          if (g_fPaused)
              continue;

@@ -1,0 +1,13 @@
+diff --git a/main.c b/main.c
+index 8f3936e..5b0bac7 100644
+--- a/main.c
++++ b/main.c
+@@ -404,7 +404,7 @@ static void load_config( struct start_opts *sto, struct machine *oric )
+   char tbtmp[32];
+   char keymap_file[4096];
+ 
+-  f = fopen( FILEPREFIX"oricutron.cfg", "r" );
++  f = fopen( "/recalbox/share/system/.config/oricutron.cfg", "r" );
+   if( !f ) return;
+ 
+   while( !feof( f ) )

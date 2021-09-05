@@ -2,8 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Bump libretro-melonDS (#1895)
 - Fixed multiple translations in ES (#1880, #1881)
+- Bump SimCoupé to v1.2.5
+- Nump Oricutron
 - Fixed Supermodel configuration (#1825)
+- Bump Amiberry to v4.1.5+
+- Bump Mame libretro core to 0.235 (#1889)
+- Bump core standalone scummvm v2.4.0 (#1884)
+- Bump kronos libretro core (#1849)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
@@ -11,15 +18,36 @@ All notable changes to this project will be documented in this file.
 - Bump Fbneo 1.0.0.02 (#1859)
 - Improve netplay management
 - Fix 'files:' tag in systemlist.xml generator
+- Bump Libretro-PX68K
+- Bump libretro-MGBA
+- Bump Libretro-MAME2003-Plus
+- Bump Libretro-Beetle-PSX
+- Bump Libretro-MAME2003
+- Add EmuTOS bios for Atari ST (#1868)
+- Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
+- Add ti99sim, standalone emulator for the TI-99/4A
 - Added Lowres-nx theme (#1586)
+- Improve P2K
+- Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
+- Bump Libretro DOSBOX Pure to 0.16 (#1644)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
 - Added code to add retroachievements in romfsv2 (#1839)
 - Default values for sprite limits in core configuration (#1842)
+- Bump retroarch to version 1.9.8 (#1885)
+- Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
+- Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Add recalbox-crt package for CRT support (#1805)
+- Bump configgen to support CRT (#1805)
+- Enable crtswitch with kmsdrm in retroarch (#1805)
+- Default values for sprite limits in core configuration (#1842)
+- Bump retroarch to version 1.9.8 (#1885)
 - Set union merge for TESTING.md and RELEASE-NOTES.md (#1870)
 - Add cdtv support for uae4arm (#1823)
 - Added website meta in rpi imager (#1821)
+- CRT: add switchres utility (#1805)
+- CRT: Add rpi-dpidac support (#1805)
 - Fixed GameCube fullname case and added some extensions for 64dd to play extensions (#1686)
 - Added retroachievements for romfsv2 (#1799)
 - Add random path support for emulationstation themes (#1793) (fixed)
@@ -77,6 +105,13 @@ All notable changes to this project will be documented in this file.
 - Rework bluetooth scripts (#1482)
 - Use xz compression method for squashfs (#1848)
 - Edited 8bitdo N30 Pro 2 configuration (#1791)
+- Fix "failed to extract content from compressed" for Rick Dangerous (#1891)
+- Build SDL2 without HIDAPI support (#1845)
+- Add recalbox-wpaf fan controller (#1832)
+- Add xpi_gamecon module for piboy dmt support (#1817)
+- Add volumed for controlling volume from the wheel (#1817)
+- Add gamelink overload for gb and gbc (#1808)
+- Add xpadneo package for handling various xbox wireless controllers (#1609)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

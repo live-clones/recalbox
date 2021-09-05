@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Bump libretro-melonDS : test especially on x64 (#1895)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)
@@ -49,7 +50,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test pisnes core works correctly (#1838)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
-- [ ] Check that ES starts on rpi fresh installation (#1815) 
+- [ ] Check that ES starts on rpi fresh installation (#1815)
 - [ ] Check that ES starts on odroidxu4 (#1815)
   - [ ] Check standalone emulators starts on odroidxu4 (#1815)
 - [ ] Check that ES starts on rpi fresh installation (#1815)
@@ -57,7 +58,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
-
+- [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS 
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
@@ -67,6 +68,60 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
   - [ ] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
 - [ ] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+- [ ] Test SimCoupé
+- [ ] Test Oricutron
+- [ ] Check out the game Rick Dangerous (xrick) (#1891)
+- [ ] Test Amiberry v4.1.5
+  - [ ] Test CDTV with Amiberry
+  - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
+- [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+- [ ] Bumped libretro kronos. No loss of fps (#1849)
+
+- [ ] Text Libretro PX68K and test .m3u multi-disk  
+- [ ] Test libretro-MGBA  
+- [ ] Test Libretro MAME2003 Plus
+- [ ] Test Libretro Beetle PSX
+- [ ] Test Libretro-MAME2003  
+  - [ ] Test EmuTOS bios for Atari ST (#1868)
+- [ ] Test the TRS-80 Color Computer system (XRoar emulator)
+- [ ] Test the Dragon32/64 system (XRoar emulator)
+- [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
+- [ ] Test P2K v2
+  - [ ] Test Mouse emulation on many systems (both joystick & dpad)
+  - [ ] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
+  - [ ] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
+- [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [ ] Check the libretro picodrive core from the bump.
+
+- [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
+- [ ] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
+  - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
+  - [ ] fan should be controlled by wpaf
+- [ ] Check /boot/recalbox-boot.conf case setting is clean after 3 unsuccessful boot attempts (#1817)
+- [ ] Check PiBoy integration (#1817)
+  - [ ] check piboy boots
+  - [ ] check volume wheel works
+  - [ ] check power button switch poweroff piboy
+  - [ ] check joypad/joystick is well recognized
+- [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
+- [ ] Test retroarch v1.9.7 (#1805)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
+- [ ] Test that retroarch override configuration works for preinstalled games (#1805)
+- [ ] Test CRT with a vga666 with system.crt=vga666 in recalbox.conf (#1805)
+- [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [ ] Test Saturn on RPI4
+- [ ] Test retroarch v1.9.8 (#1885)
+  - [ ] Test lightguns on rpi4 and pc
+  - [ ] Test command line hash still works
+- [ ] Bump libretro dosbox-pure core to 0.16 (#1644)
+- [ ] Test xpadneo package (#1609)
+  - [ ] Test Xbox One S Wireless controller
+  - [ ] Test Xbox Elite Series 2 Wireless controller
+  - [ ] Test Xbox Series X|S Wireless controller
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
