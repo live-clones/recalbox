@@ -101,6 +101,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test new MITM servers, Montreal & SaoPaulo
 - [ ] Test Hatari standalone
 - [ ] Test GearColeco core
+- [ ] Check if there is no .nvmem and .nvmem2 files in saves/atomiswave/reicast after an upgrade (#1901)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
