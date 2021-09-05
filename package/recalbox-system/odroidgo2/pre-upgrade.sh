@@ -25,3 +25,7 @@ if [ "$OLDBOOT" = 'odroidgoa-uboot-config' ]; then
   mount -o remount,rw /boot
   sed -i -E '1 s/^.*$/'"$OLDBOOT"'/' /boot/update/boot.ini
 fi
+
+# Remove all .nvmem and .nvmem2 files from saves
+rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem
+rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem2

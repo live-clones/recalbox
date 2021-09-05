@@ -90,6 +90,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test wifi connection by WPS is working (#1909)
 - [ ] Test GearColeco core
 - [ ] Check there is no Dreamcast/Atomiswave/Naomi/Naomi GD on x86 (#1902)
+- [ ] Check if there is no .nvmem and .nvmem2 files in saves/atomiswave/reicast after an upgrade (#1901)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
