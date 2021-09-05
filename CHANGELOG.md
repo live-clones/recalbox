@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Fixed Supermodel configuration (#1825)
 - Bump kronos libretro core (#1849)
 - Remove build kronos libretro core for x86 
+- Bump Mame libretro core to 0.235 (#1889)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
