@@ -130,6 +130,7 @@ All notable changes to this project will be documented in this file.
 - rpi3 now uses Mesa software stack (#????)
 - Add required bios for DuckStation (#1944)
 - Removed security option (#1913)
+- Remove all .nvmem and .nvmem2 files (#1901)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

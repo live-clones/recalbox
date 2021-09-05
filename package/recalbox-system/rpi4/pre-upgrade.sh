@@ -41,7 +41,7 @@ sed -i \
     -e '$aaudio.device=alsa_card.1:hdmi-output-0' /recalbox/share/system/recalbox.conf
 
 # Force VSync on PPSSPP
-# If file is not here, we let the user take care of it 
+# If file is not here, we let the user take care of it
 PPSSPPCONFIGILE="/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/ppsspp.ini"
 if [ -f "${PPSSPPCONFIGILE}" ]; then
   sed -i \
@@ -52,3 +52,6 @@ fi
 # Remove old dats files from bios
 rm -rf /recalbox/share/bios/dc/*.dat.zip
 rm -rf /recalbox/share/bios/mame/*.dat.zip
+# Remove all .nvmem and .nvmem2 files from saves
+rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem
+rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem2
