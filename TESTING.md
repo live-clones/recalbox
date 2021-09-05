@@ -73,6 +73,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check the libretro picodrive core from the bump.
 
   - [ ] Test EmuTOS bios for Atari ST (#1868)
+- [ ] Check out the game Rick Dangerous (xrick) (#1891)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
