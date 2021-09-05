@@ -58,6 +58,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 - [ ] Test Vectrex commands, especially directions (#1879)
+- [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
 
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS 

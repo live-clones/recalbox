@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fixed multiple translations in ES (#1880, #1881)
 - Fixed Supermodel configuration (#1825)
+- Bump kronos libretro core (#1849)
+- Remove build kronos libretro core for x86 
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
