@@ -44,6 +44,7 @@ as release notes for end user on a Recalbox upgrade.
   - Mouse emulation using joystick or dpad.
   - Keystroke sequences (like typing a word)
   - Keystroke combination (like CTRL+C)
+- Bump ScummVM to 2.4.0git
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k
