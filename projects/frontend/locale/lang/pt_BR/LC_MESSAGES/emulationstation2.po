@@ -3107,6 +3107,10 @@ msgstr ""
 msgid "YOUR FAVORITES LIST IS EMPTY"
 msgstr ""
 
+#
+msgid "No comment available"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

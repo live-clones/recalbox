@@ -2746,3 +2746,7 @@ msgstr ""
 #
 msgid "YOUR FAVORITES LIST IS EMPTY"
 msgstr ""
+
+#
+msgid "No comment available"
+msgstr ""

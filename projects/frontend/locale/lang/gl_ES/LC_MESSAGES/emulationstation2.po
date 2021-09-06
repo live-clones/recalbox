@@ -2800,6 +2800,10 @@ msgstr ""
 msgid "YOUR FAVORITES LIST IS EMPTY"
 msgstr ""
 
+#
+msgid "No comment available"
+msgstr ""
+
 #~ msgid "added to favorites"
 #~ msgstr "engadido a favoritos"
 

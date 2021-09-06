@@ -138,7 +138,7 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   // Fill in the grid
   int currentRow = 0;
   int currentCol = 0;
-  std::string defaultComment = _("No comment availble");
+  std::string defaultComment = _("No comment available");
   for(const auto& hint : mapping.HintList())
   {
     int padNumber = hint.first.first;
