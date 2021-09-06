@@ -100,6 +100,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Duckstation
 - [ ] Test new MITM servers, Montreal & SaoPaulo
 - [ ] Test Hatari standalone
+- [ ] Test GearColeco core
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
