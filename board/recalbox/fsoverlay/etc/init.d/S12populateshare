@@ -133,7 +133,8 @@ while read -r file; do
   cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
 done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml )
 
-# Since 7.3, share are versioned
+
+# Since 7.3, share is versioned
 # so that we can update some file automatically
 #
 RECALBOX_VERSION_FILE="/recalbox/recalbox.version"
@@ -144,24 +145,12 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     # Copy all bios from share_upgrade to share
     cp -R "${UPGRADE}/bios/." "${OUT}/bios"
 
-    # Run through roms folders
-    readarray -d '' romFolders < <(find "${UPGRADE}/roms" -mindepth 1 -maxdepth 1 -type d -print0)
-    for systemFolder in "${romFolders[@]}"
-    do
-        # Copy content of update folder into the target system rom folder
-        sourceFolder="${systemFolder}"
-        systemName=$(echo ${systemFolder##*/})
-        destinationFolder="${OUT}/roms/${systemName}"
-        if [ -e "$sourceFolder" ] ; then
-            cp -R "$sourceFolder/." "$destinationFolder"
-        fi
-        # Update text files
-        find "$systemFolder" -name "_*.txt" -exec install -D {} "$destinationFolder" \;
-    done
+    # Copy all readme files from share_upgrade to share
+    cp -R "${UPGRADE}/roms/." "${OUT}/roms"
+
     # Update version
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
 fi
-
 
 # directories to force directories exists
 # files are linked
