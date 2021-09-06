@@ -73,6 +73,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
 - [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
   - [ ] Check the libretro picodrive core from the bump.
+- [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
 
   - [ ] Test EmuTOS bios for Atari ST (#1868)
 - [ ] Check out the game Rick Dangerous (xrick) (#1891)
