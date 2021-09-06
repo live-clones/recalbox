@@ -2,22 +2,25 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Fixed Supermodel configuration (#1825)
 - Bump kronos libretro core (#1849)
-- Remove build kronos libretro core for x86 
+- Remove build kronos libretro core for x86 (#1849)
 - Bump Mame libretro core to 0.235 (#1889)
 - Fix media filenames for scraper (#1784)
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
 - Added extension .d64 and .tap for Vic20 (#1858)
 - Bump Fbneo 1.0.0.02 (#1859)
-- Improve netplay management
-- Fix 'files:' tag in systemlist.xml generator
+- Improve netplay management (#1846)
+- Fix 'files:' tag in systemlist.xml generator (#1876)
 - Add EmuTOS bios for Atari ST (#1868)
 - Add ti99sim, standalone emulator for the TI-99/4A
 - Bump libretro-MGBA
 - Bump Libretro-PX68K
+- Add ti99sim, standalone emulator for the TI-99/4A (#1856)
+- Bump libretro-MGBA (#1873)
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
 - Fixed TIC-80 games downloader (#1829)
