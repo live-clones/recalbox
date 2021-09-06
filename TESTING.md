@@ -91,6 +91,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Duckstation
 - [ ] Test wifi connection by WPS is working (#1909)
 - [ ] Test Hatari standalone
+- [ ] Test GearColeco core
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
