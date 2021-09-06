@@ -62,6 +62,9 @@
     <bios path="dc/naomigd.zip" md5="288cde03a112e7726fa8093e05d46853,416b5914acb3d0b4a190a1d358c8710d,
                                      bd9f19b4be0692e92e272d0eb82402f7,be57d3744e71a3396fb8dc59830e880a" core="flycast" />
   </system>
+  <system fullname="Colecovision" platform="colecovision">
+    <bios path="coleco/boot.rom" md5="2c66f5911e5b42b8ebe113403548eee7" mandatory="true" core="gearcoleco" />
+  </system>
   <system fullname="Commodore 64" platform="c64">
     <bios path="vice/JiffyDOS_C64.bin"             md5="be09394f0576cf81fa8bacf634daf9a2" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
     <bios path="vice/JiffyDOS_C128.bin"            md5="cbbd1bbcb5e4fd8046b6030ab71fc021" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />

@@ -123,6 +123,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test lr-uae4arm still works on other boards (#1943)
 [ ] Check the theme of trs80coco (#1945)
 - [ ] Test Duckstation
+- [ ] Test GearColeco core
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
