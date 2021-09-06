@@ -1,0 +1,22 @@
+diff --git a/platforms/libretro/libretro.cpp b/platforms/libretro/libretro.cpp
+index 70b529e..e543b27 100644
+--- a/platforms/libretro/libretro.cpp
++++ b/platforms/libretro/libretro.cpp
+@@ -249,11 +249,12 @@ void retro_set_video_refresh(retro_video_refresh_t cb)
+ 
+ static void load_bootroms(void)
+ {
+-    char bios_path[4113];
+-
+-    sprintf(bios_path, "%s%ccolecovision.rom", retro_system_directory, slash);
+-
+-    core->GetMemory()->LoadBios(bios_path);
++    core->GetMemory()->LoadBios("/recalbox/share/bios/coleco/boot.rom");
++    if (!core->GetMemory()->IsBiosLoaded())
++    {
++      log_cb(RETRO_LOG_ERROR, "bios/coleco/boot.rom not found! Aborting...\n");
++      abort();
++    }
+ }
+ 
+ static void update_input(void)
