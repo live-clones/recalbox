@@ -48,7 +48,7 @@ class InstallRoms:
 
     def __copyRomContent(self, systemFolder: str, folder: str):
         # Copy roms
-        roms: str = os.path.join(systemFolder, "roms")
+        roms: str = os.path.join(systemFolder, "init/roms")
         system: str = os.path.join(self.__targetInit, folder)
         shutil.rmtree(system, ignore_errors=True)
         shutil.copytree(roms, system, dirs_exist_ok=False)
@@ -69,7 +69,7 @@ class InstallRoms:
 
     def __installParsedFile(self, templatePath: str, source: str, destinationPath: str, filename: str, language: str, holder: SystemHolder):
         # read file lines
-        textPath = os.path.join(source, "roms")
+        textPath = os.path.join(source, "upgrade")
         filePath = self.__find(filename, textPath)
         if filePath is None:
             filePath = os.path.join(templatePath, filename)
@@ -84,13 +84,18 @@ class InstallRoms:
             newLines.extend(self.__parse(line, holder, language))
 
         # Write back
-        systemName: str = source.replace(self.__systemRoot, "")
-        filePath: str = os.path.join(self.__targetUpgrade, holder.RomFolder.replace("%ROOT%", self.__targetUpgrade), filename) if holder.IsPort else os.path.join(self.__targetUpgrade + systemName, filename)
-        # Create readme files only for any non-port system of if readonly is set to 0
-        if holder.IsReadOnly == 0 or holder.IsReadOnly is None:
-            os.makedirs(os.path.join(self.__targetUpgrade, holder.RomFolder.replace("%ROOT%", self.__targetUpgrade)) if holder.IsPort else os.path.join(self.__targetUpgrade + systemName), exist_ok=True)
+        filePath: str = self.__find(".readme.placeholder", source)
+        if filePath is not None:
+            # Some systems don't need to have any readme files, like the read-only ports
+            filePath: str = os.path.join(os.path.dirname(filePath), filename)
             with open(filePath, 'w') as f:
                 f.writelines(newLines)
+
+            # Copy readme files
+            roms: str = os.path.join(source, "upgrade")
+            system: str = os.path.join(self.__targetUpgrade, destinationPath)
+            shutil.rmtree(system, ignore_errors=True)
+            shutil.copytree(roms, system, dirs_exist_ok=False)
 
     def __parse(self, line: str, holder: SystemHolder, language: str) -> List[str]:
         # Core loop?
