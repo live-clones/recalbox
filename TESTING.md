@@ -75,6 +75,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test EmuTOS bios for Atari ST (#1868)
 - [ ] Check out the game Rick Dangerous (xrick) (#1891)
   - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
+- [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
