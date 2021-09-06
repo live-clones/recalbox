@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add Gearcoleco libretro core 
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Add Duckstation standalone
