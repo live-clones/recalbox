@@ -129,6 +129,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Atomik intro video should be played after first boot or right after upgrades (#1977)
 
 - [ ] Test Beebem
+[ ] Check the theme of trs80coco (#1945)
+- [ ] Test Duckstation
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
