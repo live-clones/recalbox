@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Add informations when logging with recallog (#1920)
+- Add Hatari standalone emulator
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Add Duckstation standalone
