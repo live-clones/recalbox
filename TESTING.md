@@ -106,6 +106,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 [ ] Check the theme of trs80coco (#1945)
 - [ ] Check the bios path tom.img for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 - [ ] Test Duckstation
+- [ ] Test Hatari standalone
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
