@@ -1,0 +1,40 @@
+diff --git a/CMakeModules/FindEGL.cmake b/CMakeModules/FindEGL.cmake
+index 48e51728..0decc2b4 100644
+--- a/CMakeModules/FindEGL.cmake
++++ b/CMakeModules/FindEGL.cmake
+@@ -86,6 +86,15 @@ find_library(EGL_LIBRARY
+         ${PKG_EGL_LIBRARY_DIRS}
+ )
+ 
++pkg_check_modules(PKG_MALI QUIET mali)
++
++find_library(MALI_LIBRARY
++    NAMES
++        mali
++    HINTS
++        ${PKG_MALI_LIBRARY_DIRS}
++)
++
+ # NB: We do *not* use the version information from pkg-config, as that
+ #     is the implementation version (eg: the Mesa version)
+ if(EGL_INCLUDE_DIR)
+@@ -118,6 +127,9 @@ endif()
+ cmake_push_check_state(RESET)
+ list(APPEND CMAKE_REQUIRED_LIBRARIES "${EGL_LIBRARY}")
+ list(APPEND CMAKE_REQUIRED_INCLUDES "${EGL_INCLUDE_DIR}")
++if (PKG_MALI_FOUND)
++    list(APPEND CMAKE_REQUIRED_LIBRARIES "${MALI_LIBRARY}")
++endif()
+ 
+ check_cxx_source_compiles("
+ #include <EGL/egl.h>
+@@ -162,6 +174,9 @@ mark_as_advanced(EGL_LIBRARY EGL_INCLUDE_DIR HAVE_EGL)
+ 
+ # compatibility variables
+ set(EGL_LIBRARIES ${EGL_LIBRARY})
++if (PKG_MALI_FOUND)
++    set(EGL_LIBRARIES ${EGL_LIBRARY} ${MALI_LIBRARY})
++endif()
+ set(EGL_INCLUDE_DIRS ${EGL_INCLUDE_DIR})
+ set(EGL_VERSION_STRING ${EGL_VERSION})
+ 
