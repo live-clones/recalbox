@@ -86,6 +86,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test the TRS-80 Color Computer system (XRoar emulator)
 - [ ] Test the Dragon32/64 system (XRoar emulator)
 - [ ] Check if the text "No comment available" is correctly spelled (#1911)
+- [ ] Test Duckstation
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

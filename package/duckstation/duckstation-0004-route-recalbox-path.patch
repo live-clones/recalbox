@@ -1,0 +1,25 @@
+diff --git a/src/core/host_interface.cpp b/src/core/host_interface.cpp
+index d0f25fe4..cdaf6f5b 100644
+--- a/src/core/host_interface.cpp
++++ b/src/core/host_interface.cpp
+@@ -953,6 +953,20 @@ std::string HostInterface::GetUserDirectoryRelativePath(const char* format, ...)
+   std::string formatted_path = StringUtil::StdStringFromFormatV(format, ap);
+   va_end(ap);
+ 
++  // --- Patch begins: Route special directories to Recalbox ones
++
++  int separator = (int)formatted_path.find(FS_OSPATH_SEPARATOR_STR[0]);
++  std::string directory = (separator == std::string::npos) ? formatted_path : formatted_path.substr(0, separator);
++  std::string sub_path = (separator == std::string::npos) ? "" : formatted_path.substr(separator);
++  if (directory == "shaders"    ) return "/recalbox/share/shaders" + sub_path;
++  if (directory == "bios"       ) return "/recalbox/share/bios" + sub_path;
++  if (directory == "memcards"   ) return "/recalbox/share/saves/psx/duckstation/memcards" + sub_path;
++  if (directory == "savestates" ) return "/recalbox/share/saves/psx/duckstation/savestates" + sub_path;
++  if (directory == "cheats"     ) return "/recalbox/share/cheats" + sub_path;
++  if (directory == "screenshots") return "/recalbox/share/screenshots" + sub_path;
++
++  // --- Patch ends
++
+   if (m_user_directory.empty())
+   {
+     return formatted_path;
