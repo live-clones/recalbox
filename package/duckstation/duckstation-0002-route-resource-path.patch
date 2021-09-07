@@ -1,0 +1,22 @@
+diff --git a/src/common/file_system.cpp b/src/common/file_system.cpp
+index 6e846400..49cebc6f 100644
+--- a/src/common/file_system.cpp
++++ b/src/common/file_system.cpp
+@@ -750,6 +750,8 @@ std::string GetDisplayNameFromPath(const std::string_view& path)
+ 
+ std::string_view GetPathDirectory(const std::string_view& path)
+ {
++  return "/usr/share/duckstation";
++  
+   std::string::size_type pos = GetLastSeperatorPosition(path, false);
+   if (pos == std::string_view::npos)
+     return {};
+@@ -2405,6 +2407,8 @@ bool DeleteDirectory(const char* Path, bool Recursive)
+ 
+ std::string GetProgramPath()
+ {
++  return "/usr/share/duckstation"; // Static resources
++
+ #if defined(__linux__)
+   static const char* exeFileName = "/proc/self/exe";
+ 
