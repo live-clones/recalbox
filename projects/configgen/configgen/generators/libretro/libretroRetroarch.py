@@ -322,7 +322,7 @@ class LibretroRetroarch:
                 .removeOption("netplay_spectate_password") \
                 .removeOption("netplay_start_as_spectator")
         if self.system.Netplay:
-            settings.setBool("netplay_use_mitm_server", True)
+            settings.setBool("netplay_use_mitm_server", False)
             if self.system.NetplayHostMode:
                 if self.system.HasNetplayMITM:
                     settings.setBool("netplay_use_mitm_server", True) \
