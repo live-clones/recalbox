@@ -564,4 +564,16 @@
     <bios path="sdose6.rom"     md5="9d85e6b7133f915c021156f4b9cdb512" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E6" />
     <bios path="sdose8.rom"     md5="167f409b7a4b992faabb784b061ab4c6" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E8" />
   </system>
+  <system fullname="TRS-80 Color Computer 1/2" platform="trs80coco">
+    <bios path="trs80coco/bas10.rom"     md5="a74f3d95b395dad7cdca19d560eeea74" core="xroar" mandatory="false" hashMatchMandatory="false" note="CoCo 1 BASIC" />
+    <bios path="trs80coco/bas11.rom"     md5="c73fb4bff9621c5ab17f6220b20db82f" core="xroar" mandatory="true"  hashMatchMandatory="false" note="CoCo 1 BASIC" />
+    <bios path="trs80coco/bas12.rom"     md5="c933316c7d939532a13648850c1c2aa6" core="xroar" mandatory="false" hashMatchMandatory="false" note="CoCo 2 BASIC" />
+    <bios path="trs80coco/bas13.rom"     md5="c2fc43556eb6b7b25bdf5955bd9df825" core="xroar" mandatory="true"  hashMatchMandatory="false" note="CoCo 2 BASIC" />
+    <bios path="trs80coco/extbas10.rom"  md5="fda72f415afe99b36f953bb9bc1253da" core="xroar" mandatory="true"  hashMatchMandatory="false" note="CoCo 1 Extended BASIC" />
+    <bios path="trs80coco/extbas11.rom"  md5="21070aa0496142b886c562bf76d7c113" core="xroar" mandatory="true"  hashMatchMandatory="false" note="CoCo 2 Extended BASIC" />
+    <bios path="trs80coco/mx1600bas.rom" md5="88d1504e93366f498105a846cdbf7fb7" core="xroar" mandatory="false" hashMatchMandatory="false" note="MX1600 BASIC" />
+    <bios path="trs80coco/disk10.rom"    md5="a64b3ef9efcc066b18d35b134068d1cc" core="xroar" mandatory="false" hashMatchMandatory="false" note="RSDos 1.0" />
+    <bios path="trs80coco/disk11.rom"    md5="8cab28f4b7311b8df63c07bb3b59bfd5" core="xroar" mandatory="false" hashMatchMandatory="false" note="RSDos 1.1" />
+    <bios path="trs80coco/hdbdw3bck.rom" md5="ef750d93d24d7bc87a8ecd6e5a15a845" core="xroar" mandatory="false" hashMatchMandatory="false" note="RSDos Becker" />
+  </system>
 </biosList>
