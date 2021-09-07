@@ -1,0 +1,13 @@
+diff --git a/src/frontend-common/common_host_interface.cpp b/src/frontend-common/common_host_interface.cpp
+index b1fbe1fc..74fe4367 100644
+--- a/src/frontend-common/common_host_interface.cpp
++++ b/src/frontend-common/common_host_interface.cpp
+@@ -1071,7 +1071,7 @@ void CommonHostInterface::SetUserDirectory()
+     {
+       const char* home_path = getenv("HOME");
+       if (home_path)
+-        m_user_directory = StringUtil::StdStringFromFormat("%s/.local/share/duckstation", home_path);
++        m_user_directory = StringUtil::StdStringFromFormat("%s/.config/duckstation", home_path);
+     }
+ #elif defined(__APPLE__)
+     // On macOS, default to ~/Library/Application Support/DuckStation.
