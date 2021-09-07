@@ -29,6 +29,7 @@ recalboxBins =\
     'dosbox'      : '/usr/bin/dosbox',
     'fba2x'       : '/usr/bin/fba2x',
     'gsplus'      : '/usr/bin/GSplus',
+    'hatari'      : '/usr/bin/hatari',
     'kodi'        : '/recalbox/scripts/kodilauncher.sh',
     'libretro'    : '/usr/bin/retroarch',
     'linapple'    : '/usr/bin/linapple',
