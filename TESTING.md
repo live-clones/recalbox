@@ -61,7 +61,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
-  - [ ] Test the floppy disk change on FDS 
+  - [ ] Test the floppy disk change on FDS
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
 - [ ] Test Netplay lobby window
   - [ ] Enter/Exit the lobby window: should be almost "instant" now
@@ -77,8 +77,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check out the game Rick Dangerous (xrick) (#1891)
   - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
 - [ ] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
-- [ ] Test libretro-MGBA  
-- [ ] Text Libretro PX68K and test .m3u multi-disk  
+- [ ] Test libretro-MGBA
+- [ ] Text Libretro PX68K and test .m3u multi-disk
 - [ ] Bump libretro dosbox-pure core to 0.16 (#1644)
 - [ ] Test P2K v2
   - [ ] Test Mouse emulation on many systems (both joystick & dpad)
@@ -87,6 +87,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test the TRS-80 Color Computer system (XRoar emulator)
 - [ ] Test the Dragon32/64 system (XRoar emulator)
 - [ ] Test wifi connection by WPS is working (#1909)
+- [ ] Check if the text "No comment available" is correctly spelled (#1911)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
