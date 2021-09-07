@@ -1,0 +1,12 @@
+config BR2_PACKAGE_HATARI
+	bool "recalbox Emulationstation 2"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_LIBZIP
+	help
+	  Atari ST/STE/TT/Falcon emulator.
+
+	  https://hatari.tuxfamily.org/
+
+comment "Emulation station 2 needs a toolchain w/ C++, ALSA and SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2
