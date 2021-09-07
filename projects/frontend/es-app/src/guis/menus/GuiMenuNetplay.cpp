@@ -51,6 +51,8 @@ std::vector<GuiMenuBase::ListEntry<RecalboxConf::Relay>> GuiMenuNetplay::GetMitm
   list.push_back({ _("NONE"), RecalboxConf::Relay::None, currentMitm == RecalboxConf::Relay::None });
   list.push_back({ _("NEW YORK"), RecalboxConf::Relay::NewYork, currentMitm == RecalboxConf::Relay::NewYork });
   list.push_back({ _("MADRID"), RecalboxConf::Relay::Madrid, currentMitm == RecalboxConf::Relay::Madrid });
+  list.push_back({ _("MONTREAL"), RecalboxConf::Relay::Montreal, currentMitm == RecalboxConf::Relay::Montreal });
+  list.push_back({ _("SAOPAULO"), RecalboxConf::Relay::Saopaulo, currentMitm == RecalboxConf::Relay::Saopaulo });
 
   return list;
 }

@@ -42,9 +42,11 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     enum class Relay
     {
-        None,    //!< No relay
-        NewYork, //!< Newyork relay
-        Madrid,  //!< Madrid relay
+        None,     //!< No relay
+        NewYork,  //!< Newyork relay
+        Madrid,   //!< Madrid relay
+        Montreal, //!< Montreal relay
+        Saopaulo, //!< SaoPaulo relay
     };
 
     /*

@@ -61,6 +61,8 @@ RecalboxConf::Relay RecalboxConf::RelayFromString(const std::string& relay)
 {
   if (relay == "nyc") return Relay::NewYork;
   if (relay == "madrid") return Relay::Madrid;
+  if (relay == "montreal") return Relay::Montreal;
+  if (relay == "saopaulo") return Relay::Saopaulo;
   return Relay::None;
 }
 
@@ -68,18 +70,11 @@ const std::string& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
 {
   switch (relay)
   {
-    case Relay::NewYork:
-    {
-      static std::string sNewYork = "nyc";
-      return sNewYork;
-    }
-    case Relay::Madrid:
-    {
-      static std::string sMadrid = "madrid";
-      return sMadrid;
-    }
-    case Relay::None:
-    default: break;
+    case Relay::NewYork:  { static std::string sNewYork = "nyc"; return sNewYork; }
+    case Relay::Madrid:   { static std::string sMadrid = "madrid"; return sMadrid; }
+    case Relay::Montreal: { static std::string sMontreal = "montreal"; return sMontreal; }
+    case Relay::Saopaulo: { static std::string sSauPaulo = "saopaulo"; return sSauPaulo; }
+    case Relay::None: default: break;
   }
   static std::string sDefault = "none";
   return sDefault;
