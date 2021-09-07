@@ -87,6 +87,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
 - [ ] Test the TRS-80 Color Computer system (XRoar emulator)
 - [ ] Test the Dragon32/64 system (XRoar emulator)
+- [ ] Test wifi connection by WPS is working (#1909)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
