@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 - Bump libretro-MGBA (#1873)
 - Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
 - Added Lowres-nx theme (#1586)
-- Fix sram demons of asterborg. Bump core libretro picodrivre (#1844) 
+- Fix sram demons of asterborg. Bump core libretro picodrivre (#1844)
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
 - Disable rewind for DOSBOX Pure (#1644)
 - Improve P2K
@@ -97,6 +97,7 @@ All notable changes to this project will be documented in this file.
 - Edited 8bitdo N30 Pro 2 configuration (#1791)
 - Fix "failed to extract content from compressed" for Rick Dangerous (#1891)
 - Build SDL2 without HIDAPI support (#1845)
+- Fix and made translatable "No comment availble" text in p2k popup (#1911)
 
 ## [7.2.2-Reloaded]
 - Fix controller #2 in swanstation (#1730)
