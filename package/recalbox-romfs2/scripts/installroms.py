@@ -69,7 +69,7 @@ class InstallRoms:
 
     def __installParsedFile(self, templatePath: str, source: str, destinationPath: str, filename: str, language: str, holder: SystemHolder):
         # read file lines
-        textPath = os.path.join(source, "upgrade")
+        textPath = os.path.join(source, "upgrade/roms")
         filePath = self.__find(filename, textPath)
         if filePath is None:
             filePath = os.path.join(templatePath, filename)
@@ -92,7 +92,7 @@ class InstallRoms:
                 f.writelines(newLines)
 
             # Copy readme files
-            roms: str = os.path.join(source, "upgrade")
+            roms: str = os.path.join(source, "upgrade/roms")
             system: str = os.path.join(self.__targetUpgrade, destinationPath)
             shutil.rmtree(system, ignore_errors=True)
             shutil.copytree(roms, system, dirs_exist_ok=False)
