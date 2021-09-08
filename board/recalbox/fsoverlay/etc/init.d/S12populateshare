@@ -148,6 +148,30 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     # Copy all readme files from share_upgrade to share
     cp -R "${UPGRADE}/roms/." "${OUT}/roms"
 
+    # Remove those .xxx files once copy is done in share - this doesn't occur in ports
+    rm -f "${OUT}/roms/.keep"
+    readarray -d '' romFolders < <(find "${OUT}/roms" -mindepth 1 -maxdepth 1 -type d -print0)
+    for systemFolder in "${romFolders[@]}"
+    do
+        systemName=$(echo ${systemFolder##*/})
+        destinationFolder="${OUT}/roms/${systemName}"
+        rm -f "${OUT}/roms/${systemName}/.readme.placeholder"
+    done
+
+    # Do the same in ports
+    readarray -d '' romFolders < <(find "${OUT}/roms/ports" -mindepth 1 -maxdepth 1 -type d -print0)
+    for systemFolder in "${romFolders[@]}"
+    do
+        systemName=$(echo ${systemFolder##*/})
+        destinationFolder="${OUT}/roms/ports/${systemName}"
+        rm -f "${OUT}/roms/ports/${systemName}/.keep"
+        rm -f "${OUT}/roms/ports/${systemName}/.readme.placeholder"
+    done
+
+    # Not sure why but there is 2 .txt file in /roms/ports which should not be here and are a copy of a port - remove them
+    rm -f "${OUT}/roms/ports/_lisezmoi.txt"
+    rm -f "${OUT}/roms/ports/_readme.txt"
+
     # Update version
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
 fi
@@ -219,10 +243,4 @@ mount --bind /recalbox/share/system/udev/rules.d /run/udev/rules.d
 if [ -e /tmp/newshare ]; then
     /recalbox/scripts/recalbox-create-share.sh stop
     #reboot
-fi
-
-# Copy TIC-80 games downloader file into share
-if test ! -f /recalbox/share/roms/tic80/recalbox-tic80
-then
-    cp /recalbox/share_init/roms/tic80/recalbox-tic80 /recalbox/share/roms/tic80/recalbox-tic80
 fi
