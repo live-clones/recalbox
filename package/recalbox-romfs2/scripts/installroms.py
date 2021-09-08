@@ -58,6 +58,7 @@ class InstallRoms:
         sourceSystemPath: str = os.path.join(self.__systemRoot, folder)
         templatePath: str = os.path.join(self.__systemRoot, ".templates/system/roms")
         for fileName, language in self.__README_FILES.items():
+            self.__removePreviousFiles(sourceSystemPath, fileName, language)
             self.__installParsedFile(templatePath, sourceSystemPath, targetSystemPath, fileName, language, holder)
 
     @staticmethod
@@ -66,6 +67,14 @@ class InstallRoms:
             if name in files:
                 return os.path.join(root, name)
         return None
+
+    def __removePreviousFiles(self, source: str, fileName: str, language: str):
+        # Clean any existing readme files if it exists in upgrade directory only
+        source: str = source + "/upgrade"
+        filePath: str = self.__find(fileName, source)
+        if filePath != None and "/upgrade/" in filePath:
+            if (os.path.exists(filePath)):
+                os.remove(filePath)
 
     def __installParsedFile(self, templatePath: str, source: str, destinationPath: str, filename: str, language: str, holder: SystemHolder):
         # read file lines
