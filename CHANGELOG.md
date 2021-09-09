@@ -50,6 +50,7 @@ All notable changes to this project will be documented in this file.
 - Disable webmanager and virtual gamepads for RPI1/Zero salvation (#1841)
 - Bump retroarch to version 1.9.8 (#1885)
 - Add scripts/release/beta_merge.sh that ease the creation of betas (#1806)
+- Patch retroarch to manage ntsc and pal timings and viewport (#1805)
 - Add recalbox-crt package for CRT support (#1805)
 - Bump configgen to support CRT (#1805)
 - Enable crtswitch with kmsdrm in retroarch (#1805)
