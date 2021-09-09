@@ -126,13 +126,17 @@ done
 # - Read/Write: The user must add content to the port or may extend the port by adding extra-content
 #
 # This loop take Read/Write ports and copy them to the share
-while read -r file; do
+IFS_BAK=$IFS
+IFS=$'\n'
+set -f
+for file in $(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml); do
   FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
   DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
   SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
   cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
-done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml )
-
+done
+set +f
+IFS=$IFS_BAK
 
 # Since 7.3, share is versioned
 # so that we can update some file automatically
