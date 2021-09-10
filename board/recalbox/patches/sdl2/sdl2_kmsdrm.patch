@@ -1,0 +1,12 @@
+diff --git a/src/video/kmsdrm/SDL_kmsdrmvideo.c b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+index e84bd5ebc..b218e27f4 100644
+--- a/src/video/kmsdrm/SDL_kmsdrmvideo.c
++++ b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+@@ -1468,7 +1468,7 @@ KMSDRM_DestroyWindow(_THIS, SDL_Window *window)
+ {
+     SDL_WindowData *windata = (SDL_WindowData *) window->driverdata;
+     SDL_DisplayData *dispdata = (SDL_DisplayData *) SDL_GetDisplayForWindow(window)->driverdata;
+-    SDL_VideoData *viddata = windata->viddata;
++    SDL_VideoData *viddata = windata ? windata->viddata : NULL;
+     SDL_bool is_vulkan = window->flags & SDL_WINDOW_VULKAN; /* Is this a VK window? */
+     unsigned int i, j;
