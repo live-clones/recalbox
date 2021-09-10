@@ -546,23 +546,23 @@
   </system>
   <system fullname="Dragon 32/64" platform="dragon">
     <bios path="dragon/d32.rom" md5="3420b96031078a4ef408cad7bf21a33f" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Dragon32 system rom" />
-    <bios path="d64rom1.rom"    md5="5f0bee59710e55f5880e74890912ed78" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Dragon64 system rom #1" />
-    <bios path="d64rom2.rom"    md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Dragon64 system rom #2" />
-    <bios path="d64tano.rom"    md5="be9bc86ee5eb401d0a40d0377f65fefa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Tano system rom #1" />
-    <bios path="d64tano2.rom"   md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Tano system rom #2" />
-    <bios path="d200rom1.rom"   md5="be9bc86ee5eb401d0a40d0377f65fefa" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon 200e system rom #1" />
-    <bios path="d200rom2.rom"   md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon 200e system rom #2" />
-    <bios path="ddos10.rom"     md5="1c965da49b6c5459b8353630aa1482e7" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.0" />
-    <bios path="ddos11c.rom"    md5="d8429af1a12f7438a4bf88a5b934cb3a" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.1" />
-    <bios path="ddos12a.rom"    md5="55e2535dbbed7f1a26b5f263d7c72c63" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.2" />
-    <bios path="ddos40.rom"     md5="9ddc388632cd3c376b164ba5cfc64329" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 4.0" />
-    <bios path="ddos42.rom"     md5="c956a854cbc4b9d1e69c000f78368668" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 4.2" />
-    <bios path="deltados.rom"   md5="024eac3db20f1b5cf98c30a0e4743201" core="xroar" mandatory="false" hashMatchMandatory="false" note="Delta DOS" />
-    <bios path="dplus48.rom"    md5="ee6f24d893a52b8efea9f787855456b5" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 4.8" />
-    <bios path="dplus49b.rom"   md5="56f1b97314e4ca82491c465bb887059e" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 4.9" />
-    <bios path="dplus50.rom"    md5="35de5d28da507ebb213a26e04241d940" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 5.0" />
-    <bios path="sdose6.rom"     md5="9d85e6b7133f915c021156f4b9cdb512" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E6" />
-    <bios path="sdose8.rom"     md5="167f409b7a4b992faabb784b061ab4c6" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E8" />
+    <bios path="dragon/d64rom1.rom"    md5="5f0bee59710e55f5880e74890912ed78" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Dragon64 system rom #1" />
+    <bios path="dragon/d64rom2.rom"    md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Dragon64 system rom #2" />
+    <bios path="dragon/d64tano.rom"    md5="be9bc86ee5eb401d0a40d0377f65fefa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Tano system rom #1" />
+    <bios path="dragon/d64tano2.rom"   md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="true"  hashMatchMandatory="false" note="Tano system rom #2" />
+    <bios path="dragon/d200rom1.rom"   md5="be9bc86ee5eb401d0a40d0377f65fefa" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon 200e system rom #1" />
+    <bios path="dragon/d200rom2.rom"   md5="fd91edce7be5e7c2d88e46b76956a8aa" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon 200e system rom #2" />
+    <bios path="dragon/ddos10.rom"     md5="1c965da49b6c5459b8353630aa1482e7" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.0" />
+    <bios path="dragon/ddos11c.rom"    md5="d8429af1a12f7438a4bf88a5b934cb3a" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.1" />
+    <bios path="dragon/ddos12a.rom"    md5="55e2535dbbed7f1a26b5f263d7c72c63" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 1.2" />
+    <bios path="dragon/ddos40.rom"     md5="9ddc388632cd3c376b164ba5cfc64329" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 4.0" />
+    <bios path="dragon/ddos42.rom"     md5="c956a854cbc4b9d1e69c000f78368668" core="xroar" mandatory="false" hashMatchMandatory="false" note="Dragon DOS 4.2" />
+    <bios path="dragon/deltados.rom"   md5="024eac3db20f1b5cf98c30a0e4743201" core="xroar" mandatory="false" hashMatchMandatory="false" note="Delta DOS" />
+    <bios path="dragon/dplus48.rom"    md5="ee6f24d893a52b8efea9f787855456b5" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 4.8" />
+    <bios path="dragon/dplus49b.rom"   md5="56f1b97314e4ca82491c465bb887059e" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 4.9" />
+    <bios path="dragon/dplus50.rom"    md5="35de5d28da507ebb213a26e04241d940" core="xroar" mandatory="false" hashMatchMandatory="false" note="DOS Plus 5.0" />
+    <bios path="dragon/sdose6.rom"     md5="9d85e6b7133f915c021156f4b9cdb512" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E6" />
+    <bios path="dragon/sdose8.rom"     md5="167f409b7a4b992faabb784b061ab4c6" core="xroar" mandatory="false" hashMatchMandatory="false" note="Super DOS E8" />
   </system>
   <system fullname="TRS-80 Color Computer 1/2" platform="trs80coco">
     <bios path="trs80coco/bas10.rom"     md5="a74f3d95b395dad7cdca19d560eeea74" core="xroar" mandatory="false" hashMatchMandatory="false" note="CoCo 1 BASIC" />
