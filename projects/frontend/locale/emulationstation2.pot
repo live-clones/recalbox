@@ -321,18 +321,6 @@ msgid "START KODI WITH X"
 msgstr ""
 
 #:
-msgid "SECURITY"
-msgstr ""
-
-#:
-msgid "ENFORCE SECURITY"
-msgstr ""
-
-#:
-msgid "ROOT PASSWORD"
-msgstr ""
-
-#:
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr ""
 
@@ -1543,18 +1531,6 @@ msgstr ""
 
 #:
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-#:
-msgid "Manage your recalbox security."
-msgstr ""
-
-#:
-msgid "Change the SSH root password."
-msgstr ""
-
-#:
-msgid "Enforce recalbox security."
 msgstr ""
 
 #:

@@ -10,7 +10,6 @@
 #include "GuiMenuVirtualSystems.h"
 #include "GuiMenuSystemList.h"
 #include "GuiMenuKodiSettings.h"
-#include "GuiMenuSecurity.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 #include <components/OptionListComponent.h>
@@ -45,9 +44,6 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   //Kodi
   if (RecalboxSystem::kodiExists())
     AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
-
-  //Security
-  AddSubMenu(_("SECURITY"), (int)Components::SecuritySubMenu, _(MENUMESSAGE_ADVANCED_SECURITY_HELP_MSG));
 
   // overscan
   mOverscan = AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
@@ -220,7 +216,6 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
-    case Components::SecuritySubMenu: mWindow.pushGui(new GuiMenuSecurity(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::OverclockList:
     case Components::AdultGames:

@@ -62,7 +62,6 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuScraper.h
         src/guis/menus/GuiMenuScreensavers.h
         src/guis/menus/GuiMenuScreenScraperOptions.h
-        src/guis/menus/GuiMenuSecurity.h
         src/guis/menus/GuiMenuSound.h
         src/guis/menus/GuiMenuSwitchKodiNetplay.h
         src/guis/menus/GuiMenuSystem.h
@@ -256,7 +255,6 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuScraper.cpp
         src/guis/menus/GuiMenuScreensavers.cpp
         src/guis/menus/GuiMenuScreenScraperOptions.cpp
-        src/guis/menus/GuiMenuSecurity.cpp
         src/guis/menus/GuiMenuSound.cpp
         src/guis/menus/GuiMenuSwitchKodiNetplay.cpp
         src/guis/menus/GuiMenuSystem.cpp
@@ -390,7 +388,7 @@ target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core resolv)
 
 # special properties for Windows builds
 if (MSVC)
-    # Always compile with the "WINDOWS" subsystem to avoid console window flashing at startup 
+    # Always compile with the "WINDOWS" subsystem to avoid console window flashing at startup
     # when --debug is not set (see es-core/src/main.cpp for explanation).
     # The console will still be shown if launched with --debug.
     # Note that up to CMake 2.8.10 this feature is broken: http://public.kitware.com/Bug/view.php?id=12566

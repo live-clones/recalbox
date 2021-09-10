@@ -151,7 +151,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SystemKbLayout, std::string, String, sSystemKbLayout, "us")
     DefineGetterSetter(SystemManagerEnabled, bool, Bool, sSystemManagerEnabled, true)
 
-    DefineGetterSetter(SecurityEnabled, bool, Bool, sSecurityEnabled, false)
     DefineGetterSetter(Overclocking, std::string, String, sOverclocking, "none")
     DefineGetterSetter(Overscan, bool, Bool, sOverscan, false)
 
@@ -344,7 +343,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemKbLayout             = "system.kblayout";
     static constexpr const char* sSystemManagerEnabled       = "system.manager.enabled";
 
-    static constexpr const char* sSecurityEnabled            = "system.security.enabled";
     static constexpr const char* sOverclocking               = "system.overclocking";
     static constexpr const char* sOverscan                   = "system.overscan";
 
