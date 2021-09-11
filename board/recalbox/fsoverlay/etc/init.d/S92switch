@@ -3,45 +3,46 @@
 NAME="S92switch"
 RUN="/recalbox/scripts/powerswitch.sh"
 BTD_PID=$(ps -eo pid,args | grep "/bin/bash $RUN" | grep -v grep | awk '{print $1}')
+INIT_SCRIPT=$(basename "$0")
 
 # Carry out specific functions when asked to by the system
 case "$1" in
     start)
-        recallog "Starting $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Starting $NAME"
         if [ -z "$BTD_PID" ]; then
             nice -n 19 $RUN start&
             if [ $? -eq 0 ]; then
-                recallog "script $RUN [ STARTED ]"
+                recallog -s "${INIT_SCRIPT}" -t "CONFIG" "script $RUN [ STARTED ]"
             fi
         else
-            recallog "script $RUN already started ["$BTD_PID"]!"
+            recallog -s "${INIT_SCRIPT}" -t "CONFIG" "script $RUN already started ["$BTD_PID"]!"
         fi
       	# GPI case special shutdown script
         InstalledCASE=$(grep -E '^case=' /boot/recalbox-boot.conf | cut -d = -f 2)
         case $InstalledCASE in
             GPiV1:1)
-                recallog "GPi case detected: running shutdown script"
+                recallog -s "${INIT_SCRIPT}" -t "GPI" "GPi case detected: running shutdown script"
                 python /recalbox/system/hardware/case/installers/gpi/assets/recalbox_SafeShutdown_gpi.py &
             ;;
             NESPi4:1)
-                recallog "NESPi4 case detected: running shutdown script"
+                recallog -s "${INIT_SCRIPT}" -t "CASE" "NESPi4 case detected: running shutdown script"
                 python /recalbox/system/hardware/case/installers/nespi4/assets/shutdown.py & 
             ;;
         esac  	
     ;;
     stop)
-        recallog "Stopping $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Stopping $NAME"
         if [ ! -z "$BTD_PID" ]; then
             kill $BTD_PID
             if [ $? -eq 0 ]; then
-                recallog "script $RUN [ STOPPED ]"
+                recallog -s "${INIT_SCRIPT}" -t "CONFIG" "script $RUN [ STOPPED ]"
             fi
             $RUN stop
         elif test -e "/tmp/poweroff.please"; then
-            recallog "script $RUN initiated the poweroff"
+            recallog -s "${INIT_SCRIPT}" -t "CONFIG" "script $RUN initiated the poweroff"
             $RUN stop
         else
-            recallog "script $RUN already stopped !"
+            recallog -s "${INIT_SCRIPT}" -t "CONFIG" "script $RUN already stopped !"
         fi
     ;;
     status)

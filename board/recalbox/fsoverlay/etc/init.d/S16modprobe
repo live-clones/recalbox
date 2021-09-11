@@ -5,6 +5,8 @@ then
   exit 0
 fi
 
+INIT_SCRIPT=$(basename "$0")
+
 while IFS='' read -r line || [[ -n "$line" ]]; do
-    modprobe $line 2>&1 | recallog
+    modprobe $line 2>&1 | recallog -s "${INIT_SCRIPT}" -t "MODULES"
 done < /etc/modules.conf

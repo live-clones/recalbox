@@ -9,11 +9,12 @@ fi
 SKIPVIDEOSPLASHFLAG=/overlay/.configs/skipvideosplash
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 ARCH=$(cat /recalbox/recalbox.arch)
+INIT_SCRIPT=$(basename "$0")
 
 # first boot or upgrade
 if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
   [[ -f "$SKIPVIDEOSPLASHFLAG" ]] && rm "$SKIPVIDEOSPLASHFLAG"
-  recallog "Install in progress. Don't play boot video"
+  recallog -s "${INIT_SCRIPT}" -t "INSTALL" "Install in progress. Don't play boot video"
   exit 0
 fi
 
@@ -46,7 +47,7 @@ fi
 #   takes no argument, power off HDMI port to save energy when running in a GPi case
 turnOffGPiCaseHDMI() {
   if grep -q -E '^case=GPiV1:1' /boot/recalbox-boot.conf; then
-    recallog "GPi case detected: turning HDMI off"
+     recallog -s "${INIT_SCRIPT}" -t "GPI" "GPi case detected: turning HDMI off"
     tvservice -o
   fi
 }

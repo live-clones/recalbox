@@ -2,6 +2,7 @@
 
 source /recalbox/scripts/recalbox-utils.sh
 IMAGE_PATH=$(getInstallUpgradeImagePath)
+INIT_SCRIPT=$(basename "$0")
 
 do_update() {
 
@@ -63,7 +64,7 @@ do_update() {
 
 log() {
   while read -r line; do
-    /usr/bin/recallog -f upgrade.log -e "$line"
+    /usr/bin/recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -f upgrade.log -e "$line"
   done
 }
 

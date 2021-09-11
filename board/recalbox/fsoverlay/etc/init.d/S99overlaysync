@@ -1,8 +1,10 @@
 #!/bin/bash
 # save overlay_tmp to persistent overlay at first boot
+INIT_SCRIPT=$(basename "$0")
+
 log() {
   while read -r line; do
-    /usr/bin/recallog -e "$line"
+    /usr/bin/recallog -s "${INIT_SCRIPT}" -t "SYNC" -e "$line"
   done
 }
 

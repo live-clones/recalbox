@@ -2,6 +2,7 @@
 
 # Clean files
 export RECALBOX_URL=v2/upgrade
+INIT_SCRIPT=$(basename "$0")
 
 function clean {
     [[ "${UPGRADE_DIR}" != "" ]] && rm -rf "${UPGRADE_DIR}"/*
@@ -16,7 +17,7 @@ function cleanBeforeExit {
 # Echo in stderr
 function echoerr {
     >&2 echo $@
-    recallog -f preupgrade.log "$@"
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -f preupgrade.log "$@"
 }
 
 function echoES() {

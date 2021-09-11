@@ -1,13 +1,15 @@
 #!/bin/bash
 
 if [ "$1" = "stop" ]; then
+  INIT_SCRIPT=$(basename "$0")
+
   # Backup recalbox.conf to /boot partition
   mount -o remount,rw /boot
   cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
   sed -i '1s/^/#THIS IS A BACKUP OF RECALBOX.CONF\n#PLEASE DO NOT MAKE ANY CHANGE HERE !!!\n\n\n/' /boot/recalbox-backup.conf
   mount -o remount,ro /boot
   sync
-  recallog "recalbox.conf saved to /boot partition"
+  recallog -s "${INIT_SCRIPT}" -t "BACKUP" "recalbox.conf saved to /boot partition"
   # umount all network configs
   # don't just remount the one of the config in case the config changed
   umount -a -t nfs
