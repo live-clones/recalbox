@@ -8,6 +8,7 @@
 ###################################
 # Start/Stop secondMiniTFT support
 NAME="miniTFTSupport.sh"
+INIT_SCRIPT=$(basename "$0")
 
 #some useful system constants
 fbDevice="/dev/fb1"
@@ -22,32 +23,32 @@ functionFile="/recalbox/share/system/configs/minitftscreen/miniTFTVideosCfg.sh"
 
 #get configuration from recalbox.conf
 tftResolution="$(${systemsetting} -command load -key system.secondminitft.resolution)"
-recallog "Reading system.secondminitft.resolution => ${tftResolution}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.resolution => ${tftResolution}"
 tftType="$(${systemsetting} -command load -key system.secondminitft.type)"
-recallog "Reading system.secondminitft.type => ${tftType}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.type => ${tftType}"
 tftBacklightControl="$(${systemsetting} -command load -key system.secondminitft.backlightcontrol)"
 #recallog "Reading system.secondminitft.backlightcontrol  => ${tftBacklightControl}"
 if [[ "${tftBacklightControl}" ]] ; then
-    recallog "Reading system.secondminitft.backlightcontrol => ${tftBacklightControl}"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.backlightcontrol => ${tftBacklightControl}"
 else
-    recallog "Reading system.secondminitft.backlightcontrol => none (No backlight control)"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.backlightcontrol => none (No backlight control)"
 fi
 
 tftSleepEnabled="$(${systemsetting} -command load -key system.secondminitft.sleepenabled)"
 #recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled}"
 if [[ "${tftSleepEnabled}" == "1" ]] ; then
-    recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode ON"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode ON"
 else
-    recallog "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode OFF"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.sleepenabled  => ${tftSleepEnabled} Sleep mode OFF"
 fi
 
 #system.secondminitft.usemarquee
 tftUseMarquee="$(${systemsetting} -command load -key system.secondminitft.usemarquee)"
 #recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee}"
 if [[ "${tftSleepEnabled}" == "1" ]] ; then
-    recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Use Marquee Image"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Use Marquee Image"
 else
-    recallog "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Do Not Use Marquee Image"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.usemarquee  => ${tftUseMarquee} Do Not Use Marquee Image"
 fi
 
 
@@ -59,7 +60,7 @@ case "${tftResolution}" in
     320p)    tftFullResolution=("-s" "480x320")
              tftScreenResolution="480x320"  ;;
 esac
-recallog "Full Resolution => ${tftFullResolution}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Full Resolution => ${tftFullResolution}"
 
 #force to 320p to keep only 1 videos directory
 #ffmpg will be used to resize
@@ -67,13 +68,13 @@ tftResolution=320p
 
 #get image processing option fot fbv
 imgStretchEnabled="$(${systemsetting} -command load -key system.secondminitft.imagestretchenabled)"
-recallog "Reading system.secondminitft.imagestretchenabled => ${imgStretchEnabled}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.imagestretchenabled => ${imgStretchEnabled}"
 imgEnlargeEnabled="$(${systemsetting} -command load -key system.secondminitft.imageenlargeenabled)"
-recallog "Reading system.secondminitft.imageenlargeenabled => ${imgEnlargeEnabled}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.imageenlargeenabled => ${imgEnlargeEnabled}"
 imgAlphaEnabled="$(${systemsetting} -command load -key system.secondminitft.imagealphaenabled)"
-recallog "Reading  system.secondminitft.imagealphaenabled => ${imgAlphaEnabled}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading  system.secondminitft.imagealphaenabled => ${imgAlphaEnabled}"
 imgIgnoreAspectEnabled="$(${systemsetting} -command load -key system.secondminitft.imageignoreaspectenabled)"
-recallog "Reading system.secondminitft.imageignoreaspectenabled => ${imgIgnoreAspectEnabled}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Reading system.secondminitft.imageignoreaspectenabled => ${imgIgnoreAspectEnabled}"
 
 
 if [[ "${imgStretchEnabled}" == "1" ]] ; then
@@ -96,25 +97,25 @@ if [[ "${imgIgnoreAspectEnabled}" == "1" ]] ; then
 else
     imgIgnoreAspect=""
 fi
-recallog "fbv2 options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
+recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "fbv2 options : ${imgStretch} ${imgEnlarge} ${imgIgnoreAspect} ${imgAlpha}"
 
 #get Videos function and variables
 source "${functionFile}"
 
 do_start() {
-    recallog "... Starting : system.secondminitft.enabled"
+    recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "... Starting : system.secondminitft.enabled"
     #test fot OGST support
     case "${tftType}" in
         overlay)
-            recallog "TFT screen configured through overlays in /boot/recalbox-user-config.txt or /boot/config.ini. Be sure to have your second TFT working"
+            recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "TFT screen configured through overlays in /boot/recalbox-user-config.txt or /boot/config.ini. Be sure to have your second TFT working"
             ;;
         default)
-            recallog "Not OGST Case Screen, be sure to have your second TFT configured thanks to overlays"
+            recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Not OGST Case Screen, be sure to have your second TFT configured thanks to overlays"
             ;;
     esac
     # test if ${fbDevice} is present to be able to display stuff
     if [ -c "${fbDevice}" ]; then
-        recallog "Second Screen detected."
+        recallog -s "${INIT_SCRIPT}" -t "TFT-CONFIG" "Second Screen detected."
 
         #Only if you are using a sounh hat. On rpi pwm cannot be used simultlaneously with sound
         #because sound is generated by PWM !

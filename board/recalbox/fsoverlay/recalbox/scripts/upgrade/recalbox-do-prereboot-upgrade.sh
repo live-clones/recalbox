@@ -60,10 +60,11 @@ function doBootUpgrade() {
     # Upgrade /boot (can't be done partially because of dtb and such)
     mount -o remount, rw /boot
     BOOTFILES="cmdline.txt config.txt recalbox-boot.conf"
+    INIT_SCRIPT=$(basename "$0")
     
     # backup files to keep
     for BOOTFILE in ${BOOTFILES} ; do
-	[[ -e "/boot/${BOOTFILE}" ]] && cp "/boot/${BOOTFILE}" "/boot/${BOOTFILE}.upgrade" | recallog -f preupgrade.log
+	[[ -e "/boot/${BOOTFILE}" ]] && cp "/boot/${BOOTFILE}" "/boot/${BOOTFILE}.upgrade" | recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -f preupgrade.log
     done
     
     echoES "UPGRADING: /BOOT..."
@@ -72,7 +73,7 @@ function doBootUpgrade() {
     
     # restore backup files
     for BOOTFILE in ${BOOTFILES} ; do
-	[[ -e "/boot/${BOOTFILE}.upgrade" ]] && mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}"  | recallog -f preupgrade.log
+	[[ -e "/boot/${BOOTFILE}.upgrade" ]] && mv "/boot/${BOOTFILE}.upgrade" "/boot/${BOOTFILE}"  | recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -f preupgrade.log
     done
     
     mount -o remount, ro /boot

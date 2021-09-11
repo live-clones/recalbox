@@ -3,10 +3,12 @@
 # Main
 if [ "$1" == "start" ]; then
 
+  INIT_SCRIPT=$(basename "$0")
+
   # GPI case? Deactivate HDMI to save energy
   case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
   if [ "${case}" = "GPiV1:1" ]; then
-    recallog "GPi case detected: turning HDMI off"
+    recallog -s "${INIT_SCRIPT}" -t GPI "GPi case detected: turning HDMI off"
     tvservice -o
   fi
 

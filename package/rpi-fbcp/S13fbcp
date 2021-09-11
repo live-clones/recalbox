@@ -9,7 +9,7 @@ CMD=/usr/bin/fbcp
 systemsetting="recalbox_settings"
 
 do_start() {
-    recallog "... Starting : system.fbcp.enabled is set to 1"
+    recallog -s "${INIT_SCRIPT}" -t "CONFIG" "... Starting : system.fbcp.enabled is set to 1"
     start-stop-daemon --start --background --user $RUN_AS --pidfile $PIDFILE --make-pidfile --chuid $RUN_AS --startas $CMD -- -n
 }
 
@@ -22,20 +22,20 @@ case "$1" in
 start)
     enabled="`$systemsetting  -command load -key system.fbcp.enabled`"
     if [ "$enabled" != "0" ];then
-        recallog "Starting $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Starting $NAME"
         do_start
     else
-        recallog "Will not start $NAME : system.fbcp.enabled is set to 0"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Will not start $NAME : system.fbcp.enabled is set to 0"
     fi
 
     
     ;;
 stop)
-    recallog "Stopping $NAME"
+    recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Stopping $NAME"
     do_stop
     ;;
 restart)
-    recallog "Restarting $NAME"
+    recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Restarting $NAME"
     do_stop
     do_start
     ;;
