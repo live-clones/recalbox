@@ -7,15 +7,16 @@ NAME="S94manager"
 RUN_AS=`id -u root`
 CMD=/usr/recalbox-manager/manage.py
 OPTS="runserver 0.0.0.0:80 --settings=project.settings_production --noreload"
+INIT_SCRIPT=$(basename "$0")
 
 systemsetting="recalbox_settings"
 
 do_start() {
     version="`$systemsetting  -command load -key system.manager.version`"
-    recallog "... Starting manager v${version}"
+    recallog -s "${INIT_SCRIPT}" -t "MANAGER" "... Starting manager v${version}"
     case "$version" in
     1)
-        recallog "WARNING: webmanager version 1 is not available anymore. Starting version 2 instead."
+        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "WARNING: webmanager version 1 is not available anymore. Starting version 2 instead."
         ;&
     2)
         cd /usr/recalbox-manager2/ && NODE_ENV=production PORT=80 node dist/server.js &
@@ -29,7 +30,7 @@ do_stop() {
     version="`$systemsetting  -command load -key system.manager.version`"
     case "$version" in
     1)
-        recallog "WARNING: webmanager version 1 is not available anymore. Stopping version 2 instead."
+        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "WARNING: webmanager version 1 is not available anymore. Stopping version 2 instead."
         ;&
     2)
         ps -ef | grep node | grep "dist/server.js" | grep -v grep | awk '{print $2}' | xargs kill
@@ -42,25 +43,25 @@ case "$1" in
 start)
     enabled="`$systemsetting  -command load -key system.security.enabled`"
     if [ "$enabled" == "1" ];then
-        recallog "Will not start $NAME : system.security.enabled is set to 1"
+        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Will not start $NAME : system.security.enabled is set to 1"
         exit 0
     fi
     enabled="`$systemsetting  -command load -key system.manager.enabled`"
     if [ "$enabled" != "0" ];then
-        recallog "Starting $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Starting $NAME"
         do_start
     else
-        recallog "Will not start $NAME : system.manager.enabled is set to 0"
+        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Will not start $NAME : system.manager.enabled is set to 0"
     fi
 
     
     ;;
 stop)
-    recallog "Stopping $NAME"
+    recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Stopping $NAME"
     do_stop
     ;;
 restart)
-    recallog "Restarting $NAME"
+    recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Restarting $NAME"
     do_stop
     do_start
     ;;

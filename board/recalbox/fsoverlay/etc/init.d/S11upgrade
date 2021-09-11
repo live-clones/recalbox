@@ -2,6 +2,7 @@
 
 source /recalbox/scripts/recalbox-utils.sh
 IMAGE_PATH=$(getInstallUpgradeImagePath)
+INIT_SCRIPT=$(basename "$0")
 
 if test "$1" != "start"
 then
@@ -36,27 +37,27 @@ UPDATEFILE_UNCOMPRESSED=${UPDATEFILE::-3}
 SHAREUPDATEDIR=/recalbox/share/system/upgrade/
 
 if [[ -f $UPDATEFILE ]]; then
-  recallog -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
+  recallog -s "${INIT_SCRIPT}" -t "UPGRADE-INFO" -f upgrade.log "upgrade found! moving ${UPDATEFILE} to SHARE as $(basename "${UPDATEFILE_UNCOMPRESSED}")"
   fbv2 -k -i "$IMAGE_PATH/offline-install-0.jpg"
 
   if [ ! -f "$UPDATEFILE_SHA1" ]; then
-    recallog -f upgrade.log "upgrade SHA1 not found, skipping upgrade"
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE-WARN" -f upgrade.log "upgrade SHA1 not found, skipping upgrade"
     failed_clean_exit
   fi
 
-  recallog -f upgrade.log "checking SHA1"
+  recallog -s "${INIT_SCRIPT}" -t "UPGRADE-INFO" -f upgrade.log "checking SHA1"
   if ! ( cd "$UPDATEDIR" && sha1sum -c "$UPDATEFILE_SHA1" ); then
-    recallog -f upgrade.log "SHA1 checking failed, removing stale files. Exiting..."
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -f upgrade.log "SHA1 checking failed, removing stale files. Exiting..."
     failed_clean_exit
   fi
 
   clean_dir "$SHAREUPDATEDIR"
   if ! unxz -c "${UPDATEFILE}" >"$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"; then
-    recallog -f upgrade.log "decompression failed, removing stale files. Exiting..."
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -f upgrade.log "decompression failed, removing stale files. Exiting..."
     failed_clean_exit
   fi
   clean_boot_update
-  recallog -f upgrade.log "proceeding with rest of upgrade process"
+  recallog -s "${INIT_SCRIPT}" -t "UPGRADE-INFO" -f upgrade.log "proceeding with rest of upgrade process"
   ( exec /recalbox/scripts/upgrade/recalbox-squashfs-upgrade.sh )
   exit 0
 elif [[ -f "$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")" ]]; then

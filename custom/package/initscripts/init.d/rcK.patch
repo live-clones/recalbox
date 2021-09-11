@@ -6,7 +6,7 @@ index 59e9c54ff9..6b82cdfdd2 100755
  	    ;;
  	*)
  	    # No sh extension, so fork subprocess.
-+	    recallog -f init.log "stop $i"
++	    recallog -s "rcK" -t "INIT" -f init.log "stop $i"
  	    $i stop
  	    ;;
      esac

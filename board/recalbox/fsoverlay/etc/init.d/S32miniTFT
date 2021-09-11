@@ -7,6 +7,7 @@ NAME="S32miniTFT"
 RUN_AS=`id -u root`
 CMD="/recalbox/scripts/miniTFTSupport.sh"
 systemsetting="recalbox_settings"
+INIT_SCRIPT=$(basename "$0")
 
 #some useful system constants
 fbDevice="/dev/fb1"
@@ -18,7 +19,7 @@ DefaultStopLogo='RBvideos/recalboxIntroExplode.mp4'
 
 #get configuration from recalbox.conf
 tftEnabled="$(${systemsetting} -command load -key system.secondminitft.enabled)"
-recallog "S32mini TFT : Reading system.secondminitft.enabled => ${tftEnabled}"
+recallog -s "${INIT_SCRIPT}" -t "CONFIG" "S32mini TFT : Reading system.secondminitft.enabled => ${tftEnabled}"
 
 
 
@@ -41,7 +42,7 @@ if [ "${tftType}" = "ogst" ]; then
 fi
 
 do_start() {
-    recallog "Starting ${NAME}"
+    recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Starting ${NAME}"
     start-stop-daemon --start --background --user $RUN_AS --pidfile $PIDFILE --make-pidfile --chuid $RUN_AS --startas $CMD -- -n
 }
 
@@ -60,29 +61,29 @@ do_stop() {
 case "$1" in
 start)
     if [ "${tftEnabled}" == "1" ]; then
-        recallog "Starting $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Starting $NAME"
         do_start
     else
-        recallog "$NAME not enabled"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "$NAME not enabled"
     fi
     ;;
 stop)
     if [ "${tftEnabled}" == "1" ]; then
-        recallog "Stopping $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Stopping $NAME"
         do_stop
     else
-        recallog "$NAME not enabled"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "$NAME not enabled"
     fi
     ;;
 restart)
     if [ "${tftEnabled}" == "1" ]; then
-        recallog "Restarting $NAME"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "Restarting $NAME"
         pkill -P "${scriptPID}" &> /dev/null
         echo "Stopping tft support"
         start-stop-daemon --stop --pidfile $PIDFILE
         do_start
     else
-        recallog "$NAME not enabled"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "$NAME not enabled"
     fi
     ;;
 *)

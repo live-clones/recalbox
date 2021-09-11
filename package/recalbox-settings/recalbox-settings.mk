@@ -5,7 +5,7 @@
 ################################################################################
 
 RECALBOX_SETTINGS_SITE = https://gitlab.com/recalbox/recalbox-settings.git
-RECALBOX_SETTINGS_VERSION = 551e216af35cd4cf71582aee6cef31f9380f6bfb
+RECALBOX_SETTINGS_VERSION = dfb46d122b4b87aa0cdd01ddf17c54dd982e3ee0
 RECALBOX_SETTINGS_SITE_METHOD = git
 RECALBOX_SETTINGS_LICENSE = MIT
 
