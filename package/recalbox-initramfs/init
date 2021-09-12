@@ -70,7 +70,8 @@ do_update() {
       rm /boot_root/update/boot.lst
     fi
     # delete content of /boot_root/update/
-    find /boot_root/update/ -mindepth 1 -delete
+    rm -rf /boot_root/update/
+    mkdir /boot_root/update/
 }
 
 do_root() {
