@@ -31,6 +31,7 @@ class DaphneGenerator(Generator):
                 "-fullscreen",
                 "-script", singeFile,
                 "-blend_sprites",
+                "-manymouse",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
         else:

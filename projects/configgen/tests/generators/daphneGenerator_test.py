@@ -34,6 +34,7 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-fullscreen',
                              '-script', 'path/to/test/test.singe',
                              '-blend_sprites',
+                             '-manymouse',
                              '-datadir', '/usr/share/daphne',
                              '-homedir', '/recalbox/share/roms/daphne'
                              ]
