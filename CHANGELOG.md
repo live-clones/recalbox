@@ -131,6 +131,7 @@ All notable changes to this project will be documented in this file.
 - Fix 'UNKNOWN' missing text in EmulationStation (#1954)
 - Fixed dependencies for python-pygame o sdl2_ttf and sdl2_image (#1826)
 - Remove all .nvmem and .nvmem2 files (#1901)
+- Fix max/min calculation reworked for lightgun/mouse/touchscreen in retroarch using patch (#1885)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
