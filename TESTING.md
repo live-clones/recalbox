@@ -96,6 +96,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
   - [ ] fan should be controlled by wpaf
 - [ ] Check the theme of ti994a (#1930)
+- [ ] Check the bios path tom.img for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
