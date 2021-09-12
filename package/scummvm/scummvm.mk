@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-SCUMMVM_VERSION = 24048d0ae7cccfd5f494bea29801faa3a306097b
+#Release version 2.4.0
+SCUMMVM_VERSION = dffa1971c8fb932939ffafe5e8ed53549ebf6992
 SCUMMVM_SITE = $(call github,scummvm,scummvm,$(SCUMMVM_VERSION))
 SCUMMVM_LICENSE = GPL2
 SCUMMVM_LICENSE_FILES = COPYING
