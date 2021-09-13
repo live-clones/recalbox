@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add LowRes NX virtual console on all boards
 - Add CHD support for Mega CD Games with Picodrive core
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
+- Better support for Xbox joysticks like Xbox One S Wireless controller, Xbox Elite Series 2 Wireless controller and Xbox Series X|S Wireless controller
 
 ### Improvements
 - Bump libretro MGBA (Gameboy Advance core)

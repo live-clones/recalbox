@@ -89,6 +89,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test the Dragon32/64 system (XRoar emulator)
 - [ ] Test wifi connection by WPS is working (#1909)
 - [ ] Check if the text "No comment available" is correctly spelled (#1911)
+- [ ] Test xpadneo package (#1609)
+  - [ ] Test Xbox One S Wireless controller
+  - [ ] Test Xbox Elite Series 2 Wireless controller
+  - [ ] Test Xbox Series X|S Wireless controller
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
