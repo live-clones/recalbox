@@ -172,7 +172,10 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
         rm -f "${OUT}/roms/ports/${systemName}/.readme.placeholder"
     done
 
-    # Not sure why but there is 2 .txt file in /roms/ports which should not be here and are a copy of a port - remove them
+    # Not sure why but there is some .txt file in /roms/ports which should not be here and are a copy of a port - remove them
+    rm -f "${OUT}/roms/ports/_leggime.txt"
+    rm -f "${OUT}/roms/ports/_leiame.txt"
+    rm -f "${OUT}/roms/ports/_liesmich.txt"
     rm -f "${OUT}/roms/ports/_lisezmoi.txt"
     rm -f "${OUT}/roms/ports/_readme.txt"
 
