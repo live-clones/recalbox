@@ -1,6 +1,7 @@
 config BR2_PACKAGE_SIMCOUPE
 	bool "simcoupe"
 	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_FMT
 	help
 	  Portable MGT SAM Coupe emulator
 

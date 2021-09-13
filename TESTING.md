@@ -91,6 +91,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check if the text "No comment available" is correctly spelled (#1911)
 - [ ] Test libretro-MGBA  
 - [ ] Test Oricutron
+- [ ] Test SimCoupé
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
