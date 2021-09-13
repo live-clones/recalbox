@@ -93,6 +93,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test libretro-MGBA  
 - [ ] Test Oricutron
 - [ ] Test SimCoupé
+- [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

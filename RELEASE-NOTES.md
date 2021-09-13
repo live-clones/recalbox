@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add LowRes NX virtual console on all boards
 - Add CHD support for Mega CD Games with Picodrive core
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
+- Add gamelink overload for gb and gbc
 
 ### Improvements
 - Bump libretro MGBA (Gameboy Advance core)
