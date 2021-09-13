@@ -4,16 +4,17 @@
 
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="recalbox_settings"
+INIT_SCRIPT=$(basename "$0")
 
 case "$1" in
 	start)
 		enabled="`$systemsetting  -command load -key system.es.atstartup`"
 		if [ "$enabled" != "0" ];then
 			settings_lang="`$systemsetting -command load -key system.language`"
-			recallog "starting emulationstation with lang = $settings_lang"
+			recallog -s "${INIT_SCRIPT}" -t "ES" "starting emulationstation with lang = $settings_lang"
 			command="HOME=/overlay startx"
-			recallog "Starting emulationstation with command : "
-			recallog "$command"
+			recallog -s "${INIT_SCRIPT}" -t "ES" "Starting emulationstation with command : "
+			recallog -s "${INIT_SCRIPT}" -t "ES" "$command"
 			eval $command >> $log &
 		fi
 		;;

@@ -6,7 +6,7 @@ set prompt "#"
 set address [lindex $argv 0]
 set name [lindex $argv 1]
 
-eval exec "recallog \"Pairing bluetooth device $name with mac $address...\""
+eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pairing bluetooth device $name with mac $address...\""
 
 spawn bluetoothctl
 expect -re $prompt
@@ -16,7 +16,7 @@ expect $prompt
 expect {
   "Device has been removed" {
     send "quit\r"
-    eval exec "recallog \"Pairing failed because device was already paired. Please try again.\""
+    eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pairing failed because device was already paired. Please try again.\""
     exit 1
   }
  "Device $address not available" {
@@ -25,7 +25,7 @@ expect {
 
 set timeout 60
 eval exec "echo state=0" > /tmp/bt_state
-eval exec "recallog \"Scanning...\""
+eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Scanning...\""
 send "scan on\r"
 expect $prompt
 expect {
@@ -33,52 +33,52 @@ expect {
   send "scan off\r"
   expect $prompt
   eval exec "echo state=1" > /tmp/bt_state
-  eval exec "recallog \"Device found. Pairing...\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Device found. Pairing...\""
 
   set timeout 10
   expect "Controller"
 
-  eval exec "recallog \"Pairing...\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pairing...\""
   send "pair $address\r"
   expect {
     "Enter PIN code:" {
-      eval exec "recallog \"Pin code asked...\""
+      eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pin code asked...\""
       send "0000\r"
       expect $prompt
-      eval exec "recallog \"Pin code entered!\""
+      eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pin code entered!\""
       exp_continue
     }
     "Pairing successful" {
       expect $prompt
-      eval exec "recallog \"Paired!\""
+      eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Paired!\""
       eval exec "echo state=2" > /tmp/bt_state
     }
     "Failed to pair: org.bluez.Error.AlreadyExists" {
       expect $prompt
-      eval exec "recallog \"Paired!\""
+      eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Paired!\""
       eval exec "echo state=2" > /tmp/bt_state
     }
   }
 
-  eval exec "recallog \"Trusting...\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Trusting...\""
   send "trust $address\r"
   expect "Changing $address trust succeeded"
   expect $prompt
-  eval exec "recallog \"Trusted!\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Trusted!\""
   eval exec "echo state=3" > /tmp/bt_state
 
-  eval exec "recallog \"Connecting...\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Connecting...\""
   send "connect $address\r"
   expect "Connection successful"
   expect $prompt
-  eval exec "recallog \"Connected!\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Connected!\""
   eval exec "echo state=4" > /tmp/bt_state
 
-  eval exec "recallog \"Device $name pairing ended.\""
+  eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Device $name pairing ended.\""
   send "quit\r"
   expect eof
   exit 0
   }
 }
-eval exec "recallog \"Pairing failed because device was not found.\""
+eval exec "recallog -s \"recalpair\" -t \"BLUETOOTH\" \"Pairing failed because device was not found.\""
 exit 1

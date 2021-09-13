@@ -6,6 +6,7 @@ systemsetting="recalbox_settings"
 
 PIDFILE=/var/run/emulationstation.pid
 ESBIN=/usr/bin/emulationstation-starter
+INIT_SCRIPT=$(basename "$0")
 
 scr_msg() {
 	echo "██████╗ ██████╗ █████╗ █████╗ ██╗   ██████╗  █████╗ ██╗  ██╗" > /dev/tty0;
@@ -36,7 +37,7 @@ case "$1" in
 		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"
-		recallog "starting emulationstation with lang = $settings_lang"
+		recallog -s "${INIT_SCRIPT}" -t "ES" "starting emulationstation with lang = $settings_lang"
 		if grep -q rpi4 /recalbox/recalbox.arch; then
 			HOME=/recalbox/share/system LANG="${settings_lang}.UTF-8" SDL_VIDEO_GL_DRIVER=/usr/lib/libGLESv2.so SDL_VIDEO_EGL_DRIVER=/usr/lib/libEGL.so SDL_NOMOUSE=1 start-stop-daemon -S -q -m -p /var/run/emulationstation.pid  --exec "$ESBIN" &
 		elif grep -q odroidxu4 /recalbox/recalbox.arch; then
@@ -47,7 +48,7 @@ case "$1" in
 	fi
 	;;
   stop)
-	recallog "Stopping Emulationstation"
+	recallog -s "${INIT_SCRIPT}" -t "ES" "Stopping Emulationstation"
 	start-stop-daemon -K -q -p "${PIDFILE}"
 	clear > /dev/tty0
 	(echo;echo;echo;echo;echo) > /dev/tty0

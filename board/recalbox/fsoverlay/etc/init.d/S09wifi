@@ -4,6 +4,7 @@ interface=wlan0
 config_file=/recalbox/share/system/recalbox.conf
 config_file_boot=/boot/recalbox-backup.conf
 wpa_file=/etc/wpa_supplicant.conf
+INIT_SCRIPT=$(basename "$0")
 
 # if /recalbox/share is not yet mounted
 if ! [ -f "$config_file" ]; then
@@ -43,7 +44,7 @@ rb_wifi_configure() {
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
 
-    recallog "Configuring wifi for SSID: $settings_ssid"
+    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
     network=`wpa_cli -i ${interface} add_network`
     wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
     wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
@@ -57,10 +58,10 @@ rb_wifi_configure() {
     if [[ "$settings_ip" != "" ]] && \
       [[ "$settings_gateway" != "" ]] && \
       [[ "$settings_netmask" != "" ]] ;then
-      recallog "static ip configuration"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip configuration"
       settings_netmask=$(mask2cidr $settings_netmask)
-      recallog "static ip_address=$settings_ip/$settings_netmask"
-      recallog "static routers=$settings_gateway"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip_address=$settings_ip/$settings_netmask"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static routers=$settings_gateway"
       echo "interface $interface" >> /etc/dhcpcd.conf
       echo "static ip_address=$settings_ip/$settings_netmask" >> /etc/dhcpcd.conf
       echo "static routers=$settings_gateway" >> /etc/dhcpcd.conf
@@ -98,10 +99,10 @@ enable_wifi() {
   pid=$(pgrep wpa_supplicant)
   while kill -0 $pid 2> /dev/null; do sleep 0.2; done; # Prevent race conditions
   {
-    recallog "Wifi: try with default driver"
+    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Try with default driver"
     wpa_supplicant -B -i "$interface" -c "$wpa_file"
   } || {
-    recallog "Wifi: retry with old driver"
+    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi: retry with old driver"
     wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dwext
   }
 
@@ -132,15 +133,15 @@ start() {
 
   if [ -f "$config_file" ]; then
     if [ `egrep "^wifi.enabled" ${config_file}|sed "s/wifi.enabled=//g"` -ne 0  ]; then
-      recallog "Wifi option enabled, trying to configure"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option enabled, trying to configure"
       #sleep 2 # wait a bit to be sure tmpfs is initialized
       enable_wifi
     else
-      recallog "Wifi option disabled"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option disabled"
       stop
     fi
   else
-    recallog "${config_file} not found"
+    recallog -s "${INIT_SCRIPT}" -t "WIFI" "${config_file} not found"
   fi
 }
 

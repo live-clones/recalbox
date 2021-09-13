@@ -1,6 +1,8 @@
 #!/bin/bash
 
 upGradeToRecalboxNextTheme() {
+    INIT_SCRIPT=$(basename "$0")
+
     tmpFile=/tmp/es_setting.cfg.tmp
     # Set theme as recalbox-next + get default values from the share_init version
     # 1st rename ThemeSet value to recalbox-next
@@ -23,6 +25,6 @@ upGradeToRecalboxNextTheme() {
 }
 
 if grep -q 'name="ThemeSet" value="recalbox"' /recalbox/share/system/.emulationstation/es_settings.cfg ; then
-    recallog "Upgrading theme to recalbox-next"
-    upGradeToRecalboxNextTheme && recallog "recalbox-next Succeeded !" || recallog "recalbox-next failed !"
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "Upgrading theme to recalbox-next"
+    upGradeToRecalboxNextTheme && recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "recalbox-next Succeeded !" || recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" "recalbox-next failed !"
 fi

@@ -16,6 +16,8 @@ _SHARE=$_RBX/share
 #
 ## Functions
 #
+INIT_SCRIPT=$(basename "$0")
+
 function shouldUpdate {
   rbxVersion=$_RBX/recalbox.version
   curVersion=$_SHARE/system/logs/lastrecalbox.conf.update
@@ -32,7 +34,7 @@ function containsElement {
 
 function doRecalboxUpgrades {
   if ! shouldUpdate;then
-    recallog -e "No need to upgrade configuration files" && return 0
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -e "No need to upgrade configuration files" && return 0
   fi
   doRbxConfUpgrade
   upgradeConfiggen
@@ -47,7 +49,7 @@ function doRbxConfUpgrade {
 
   # Check if an update is necessary
   if ! shouldUpdate;then
-    recallog -e "recalbox.conf already up-to-date" && return 0
+    recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -e "recalbox.conf already up-to-date" && return 0
   fi
   cfgIn=$_SHAREINIT/system/recalbox.conf
   cfgOut=$_SHARE/system/recalbox.conf
@@ -55,8 +57,8 @@ function doRbxConfUpgrade {
   savefile=${cfgOut}-pre-$(cat $rbxVersion | sed "s+[/ :]++g")
   tmpFile=/tmp/recalbox.conf
 
-  recallog -e "UPDATE : recalbox.conf to $(cat $rbxVersion)"
-  cp $cfgIn $tmpFile || { recallog -e "ERROR : Couldn't copy $cfgIn to $tmpFile" ; return 1 ; }
+  recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -e "recalbox.conf to $(cat $rbxVersion)"
+  cp $cfgIn $tmpFile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE" -e "ERROR : Couldn't copy $cfgIn to $tmpFile" ; return 1 ; }
 
   while read -r line ; do
     name=`echo $line | cut -d '=' -f 1`
@@ -64,26 +66,26 @@ function doRbxConfUpgrade {
     # echo "$name => $value"
     # Don't update forced values
     if containsElement $name $forced ; then
-      recallog "FORCING : $name=$value"
+      recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "FORCING : $name=$value"
       continue
     fi
 
     # Check if the property exists or has to be added
     if grep -qE "^[;]?$name=" $cfgIn; then
-      recallog "ADDING user defined to $cfgOut : $name=$value"
-      sed -i s$'\001'"^[;]\?$name=.*"$'\001'"$name=$value"$'\001' $tmpFile || { recallog "ERROR : Couldn't replace $name=$value in $tmpFile" ; return 1 ; }
+      recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "ADDING user defined to $cfgOut : $name=$value"
+      sed -i s$'\001'"^[;]\?$name=.*"$'\001'"$name=$value"$'\001' $tmpFile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" "Couldn't replace $name=$value in $tmpFile" ; return 1 ; }
     else
-      recallog "ADDING custom property to $cfgOut : $name=$value"
-      echo "$name=$value" >> $tmpFile || { recallog "ERROR : Couldn't write $name=$value in $tmpFile" ; return 1 ; }
+      recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "ADDING custom property to $cfgOut : $name=$value"
+      echo "$name=$value" >> $tmpFile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" "Couldn't write $name=$value in $tmpFile" ; return 1 ; }
     fi
 
   done < <(grep -E "^[[:alnum:]\-]+\.[[:alnum:].\-]+=[[:print:]]+$" $cfgOut)
 
-  cp $cfgOut $savefile || { recallog -e "ERROR : Couldn't backup $cfgOut to $savefile" ; return 1 ; }
+  cp $cfgOut $savefile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -e "Couldn't backup $cfgOut to $savefile" ; return 1 ; }
   rm -f $cfgOut
-  mv $tmpFile $cfgOut || { recallog -e "ERROR : Couldn't apply the new recalbox.conf" ; return 1 ; }
-  cp "$rbxVersion" "$curVersion" || { recallog -e "ERROR : Couldn't set the new recalbox.conf version" ; return 1 ; }
-  recallog "UPDATE done !"
+  mv $tmpFile $cfgOut || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -e "Couldn't apply the new recalbox.conf" ; return 1 ; }
+  cp "$rbxVersion" "$curVersion" || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -e "Couldn't set the new recalbox.conf version" ; return 1 ; }
+  recallog -s "${INIT_SCRIPT}" -t "UPGRADE" "UPGRADE done !"
 }
 
 function upgradeConfiggen {

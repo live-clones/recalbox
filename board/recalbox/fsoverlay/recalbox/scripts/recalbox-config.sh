@@ -1,4 +1,5 @@
 #!/bin/bash
+INIT_SCRIPT=$(basename "$0")
 
 if [ ! "$1" ];then
     echo -e "usage : recalbox-config.sh [command] [args]\nWith command in\n\toverscan [enable|disable]\n\toverclock [none|high|turbo|extrem]\n\taudio [hdmi|jack|auto|string]\n\tlsaudio\n\tcanupdate\n\tupdate\n\twifi [enable|disable] ssid key\n\tstorage [current|list|INTERNAL|ANYEXTERNAL|RAM|DEV UUID]\n\tsetRootPassword [password]\n\tgetRootPassword"
@@ -52,7 +53,7 @@ function isNewer () {
 log=/recalbox/share/system/logs/recalbox.log
 systemsetting="recalbox_settings"
 
-recallog "---- recalbox-config.sh ----"
+recallog -s "${INIT_SCRIPT}" -t "CONFIG"  "---- recalbox-config.sh ----"
 
 if [ "$command" == "getRootPassword" ]; then
     # security disabled, force the default one without changing boot configuration
@@ -130,11 +131,11 @@ if [ -f "$configFile" ];then
     fi
 
     if [ "$mode" == "enable" ];then
-        recallog "enabling overscan"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "enabling overscan"
         sed -i "s/#\?disable_overscan=.*/disable_overscan=0/g" "$configFile"
         sed -i "s/#\?overscan_scale=.*/overscan_scale=1/g" "$configFile"
     elif [ "$mode" == "disable" ];then
-        recallog "disabling overscan"
+        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "disabling overscan"
         sed -i "s/#\?disable_overscan=.*/disable_overscan=1/g" "$configFile"
         sed -i "s/#\?overscan_scale=.*/overscan_scale=0/g" "$configFile"
     else
@@ -349,7 +350,7 @@ if [ -f "$configFile" ];then
         sed -i "s/#\?gpu_freq=.*/gpu_freq=${gpu_freq[$mode]}/g" "$configFile"
         sed -i "s/#\?sdram_schmoo=.*/sdram_schmoo=${sdram_schmoo[$mode]}/g" "$configFile"
     fi
-    recallog "enabled overclock mode : $mode"
+    recallog -s "${INIT_SCRIPT}" -t "OVERCLOCK" "enabled overclock mode : $mode"
 
     postBootConfig
 
@@ -379,18 +380,18 @@ if [ "$command" == "audio" ];then
         elif [ "$mode" == "jack" ];then
             cmdVal="1"
         fi
-        recallog "setting audio output mode : $mode"
+        recallog -s "${INIT_SCRIPT}" -t "AUDIO" "setting audio output mode : $mode"
         amixer cset numid=3 $cmdVal || exit 1
     elif echo "$mode" | grep -qE "^\[[0-9]:[0-9]\]"
     then
         cardId=`echo $mode | sed "s+^\[\([0-9]\)\:\([0-9]\)\].*+\1+g"`
         deviceId=`echo $mode | sed "s+^\[\([0-9]\)\:\([0-9]\)\].*+\2+g"`
-        recallog "setting audio output mode : '$mode' => $cardId $deviceId"
+        recallog -s "${INIT_SCRIPT}" -t "AUDIO" "setting audio output mode : '$mode' => $cardId $deviceId"
         if [[ "${arch}" == "odroidxu4" && "${cardId}${deviceId}" == "00" ]]
         then
             # this is specific to the ODROIDXU4
             # bypass the creation of the .asoundrc file for the default 0,0 device as the asound.conf is just enough
-            recallog "bypass the creation of .asoundrc file"
+            recallog -s "${INIT_SCRIPT}" -t "AUDIO" "bypass the creation of .asoundrc file"
             exit 0
         fi
         cat > /recalbox/share/system/.asoundrc << EOF
@@ -407,7 +408,7 @@ ctl.!default {
 EOF
         exit $?
     else
-        recallog -e "Unknown audio format : $mode"
+        recallog -s "${INIT_SCRIPT}" -t "AUDIO" -e "Unknown audio format : $mode"
         exit 1
     fi
     exit 0
@@ -451,7 +452,7 @@ fi
 
 if [ "$command" == "volume" ];then
     if [ "$mode" != "" ];then
-        recallog "setting audio volume : $mode"
+        recallog -s "${INIT_SCRIPT}" -t "AUDIO" "setting audio volume : $mode"
 
         if ( amixer scontrols | grep -q 'Master' ); then
             # on my pc, the master is turned off at boot
@@ -463,9 +464,9 @@ if [ "$command" == "volume" ];then
         fi
         # Odroids have no sound controller. Too bad, exit 0 anyway
         # Force the sound volume to every mixer on the default sound card
-        for param in `amixer controls | grep -i Playback | cut -d ',' -f 1` ; do recallog "Setting volume for $param" ; amixer -q cset ${param} ${mode}% unmute ; done
+        for param in `amixer controls | grep -i Playback | cut -d ',' -f 1` ; do recallog -s "${INIT_SCRIPT}" -t "AUDIO" "Setting volume for $param" ; amixer -q cset ${param} ${mode}% unmute ; done
         # force unmute S/PDIF (HDMI) if any
-        for param in `amixer controls | grep -i IEC958 | cut -d ',' -f 1` ; do recallog "Force unmute on HDMI" ; amixer -q cset ${param} 100% unmute ; done
+        for param in `amixer controls | grep -i IEC958 | cut -d ',' -f 1` ; do recallog -s "${INIT_SCRIPT}" -t "AUDIO" "Force unmute on HDMI" ; amixer -q cset ${param} 100% unmute ; done
         exit 0
     fi
     exit 12
@@ -482,11 +483,11 @@ if [ "$command" == "module" ];then
     modulename="$extra1"
     map="$extra2 $extra3 $extra4"
     # remove in all cases
-    rmmod /lib/modules/`uname -r`/extra/${modulename}.ko 2>&1 | recallog
+    rmmod /lib/modules/`uname -r`/extra/${modulename}.ko 2>&1 | recallog -s "${INIT_SCRIPT}" -t "MODULES"
 
     if [ "$mode" == "load" ];then
-        echo "`logtime` : loading module $modulename args = $map" 2>&1 | recallog
-        insmod /lib/modules/`uname -r`/extra/${modulename}.ko $map 2>&1 | recallog
+        echo "`logtime` : loading module $modulename args = $map" 2>&1 | recallog -s "${INIT_SCRIPT}" -t "MODULES"
+        insmod /lib/modules/`uname -r`/extra/${modulename}.ko $map 2>&1 | recallog -s "${INIT_SCRIPT}" -t "MODULES"
     [ "$?" ] || exit 1
     fi
     exit 0
@@ -497,7 +498,7 @@ if [ "$command" == "wifi" ]; then
     psk="$4"
 
     if [[ "$mode" == "enable" ]]; then
-        recallog "(re)configure wifi"
+        recallog -s "${INIT_SCRIPT}" -t "WIFI" "(re)configure wifi"
         if [[ $ssid != "" && $psk != "" ]];then
           sed -i "s|^wifi.ssid=.*|wifi.ssid=${ssid}|g" /recalbox/share/system/recalbox.conf
           sed -i "s|^wifi.key=.*|wifi.key=${psk}|g" /recalbox/share/system/recalbox.conf
@@ -509,7 +510,7 @@ if [ "$command" == "wifi" ]; then
         exit $?
     fi
     if [[ "$mode" == "disable" ]]; then
-        recallog "disable wifi"
+        recallog -s "${INIT_SCRIPT}" -t "WIFI" "disable wifi"
         /etc/init.d/S09wifi stop
         exit $?
     fi
@@ -562,15 +563,15 @@ if [[ "$command" == "hiddpair" ]]; then
     if [ "$?" != "0" ]; then
         exit 1
     fi
-    recallog "Unpairing and removing BT device $mac"
+    recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "Unpairing and removing BT device $mac"
     /recalbox/scripts/bluetooth/test-device remove "$mac"
 
-    recallog "pairing $name $mac"
+    recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "pairing $name $mac"
     echo "$name" | grep -i "8Bitdo\|other"
     if [ "$?" -eq "0" ]; then
-        recallog "8Bitdo detected"
+        recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "8Bitdo detected"
         if ! grep -q -i "$mac" /run/udev/rules.d/99-8bitdo.rules; then
-            recallog "adding rule for $mac"
+            recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "adding rule for $mac"
             echo "SUBSYSTEM==\"input\", ATTRS{uniq}==\"$macLowerCase\", MODE=\"0666\", ENV{ID_INPUT_JOYSTICK}=\"1\"" >> "/run/udev/rules.d/99-8bitdo.rules"
         fi
     fi
@@ -579,11 +580,11 @@ if [[ "$command" == "hiddpair" ]]; then
     hcitool con | grep "$mac1"
     if [[ $? == "0" ]]; then
         connected=0
-        recallog "bluetooth : $mac1 connected !"
+        recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "bluetooth : $mac1 connected !"
         /recalbox/scripts/bluetooth/test-device trusted "$mac" yes
     else
         connected=1
-        recallog "bluetooth : $mac1 failed connection"
+        recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "bluetooth : $mac1 failed connection"
     fi
     exit $connected
 fi
@@ -634,7 +635,7 @@ fi
 
 if [[ "$command" == "forgetBT" ]]; then
     for mac in $(bluetoothctl devices | awk '{print $2}') ; do
-        recallog "Unpairing and removing BT device $mac"
+        recallog -s "${INIT_SCRIPT}" -t "BLUETOOTH" "Unpairing and removing BT device $mac"
         /recalbox/scripts/bluetooth/test-device remove "$mac"
     done
     exit 0
@@ -652,11 +653,11 @@ if [[ "$command" == "configbackup" ]]; then
     cp /recalbox/share/system/recalbox.conf /boot/recalbox-backup.conf
     sed -i '1s/^/#THIS IS A BACKUP OF RECALBOX.CONF\n#PLEASE DO NOT MAKE ANY CHANGE HERE !!!\n\n\n/' /boot/recalbox-backup.conf
     postBootConfig
-    recallog "recalbox.conf saved to /boot partition"
+    recallog -s "${INIT_SCRIPT}" -t "BACKUP" "recalbox.conf saved to /boot partition"
     exit 0
 fi
 
 echo "Unknown command $command"
-recallog -e "recalbox-config.sh: unknown command $command"
+recallog -s "${INIT_SCRIPT}" -t "CONFIG" -e "recalbox-config.sh: unknown command $command"
 
 exit 10
