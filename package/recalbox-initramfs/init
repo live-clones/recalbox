@@ -141,6 +141,7 @@ do_root() {
     if ! check_safeboot ; then
         do_clean_overlay
         do_clean_case
+        do_clean_safeboot
     fi
 
     # Create overlay folders and user video folder
