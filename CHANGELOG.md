@@ -101,6 +101,7 @@ All notable changes to this project will be documented in this file.
 - Fix "failed to extract content from compressed" for Rick Dangerous (#1891)
 - Build SDL2 without HIDAPI support (#1845)
 - Fix and made translatable "No comment availble" text in p2k popup (#1911)
+- Fix EmuTOS and arcade dats location (#1921)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
