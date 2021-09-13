@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Add informations when logging with recallog (#1920)
+- Fix click on video in ES (#1887)
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
-- Nump Oricutron
-- Bump SimCoupé to v1.2.5
+- Bump Oricutron (#1893)
+- Bump SimCoupé to v1.2.5 (#1894)
 - Fixed Supermodel configuration (#1825)
 - Bump kronos libretro core (#1849)
 - Remove build kronos libretro core for x86 (#1849)
@@ -21,8 +22,8 @@ All notable changes to this project will be documented in this file.
 - Fix 'files:' tag in systemlist.xml generator (#1876)
 - Add EmuTOS bios for Atari ST (#1868)
 - Add ti99sim, standalone emulator for the TI-99/4A
-- Bump libretro-MGBA
-- Bump Libretro-PX68K
+- Bump libretro-MGBA (#1873)
+- Bump Libretro-PX68K (#1875)
 - Add ti99sim, standalone emulator for the TI-99/4A (#1856)
 - Bump libretro-MGBA (#1873)
 - Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
@@ -30,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844)
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
 - Disable rewind for DOSBOX Pure (#1644)
-- Improve P2K
+- Improve P2K (#1851)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
