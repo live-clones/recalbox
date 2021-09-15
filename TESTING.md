@@ -143,6 +143,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Fix Reicast boot (#1982)
 - [ ] Verify if the roms tab in web manager displays correctly systems and games (#1980)
 
+- [ ] Test Beebem
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
