@@ -114,6 +114,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Libretro VICE  
 - [ ] Check odroidxu4 can start any emulator (#1960)
 
+- [ ] Test Beebem
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
