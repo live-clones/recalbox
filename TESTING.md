@@ -186,6 +186,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test sound in Intellivision games using freeintv core
 - [ ] Test screenshots on rpi3, rpi4, rpi02legacy, odroidxu4 and odroidgo2 (#1970)
 
+- [ ] Test Beebem
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)

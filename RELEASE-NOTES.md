@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for new Raspberry Pi Zero 2
 - Add Hatari standalone emulator (Atari ST/STE/TT/Falcon)
 - Add new ColecoVision libretro core: Gearcoleco
+- Add BBC Micro (Beebem emulator)
 - Add TI-99/4A system, emulated using the ti99sim standalone emulator
 - Add Dragon 32/64 system (XRoar standalone emulator)
 - Add TRS-80 Color Computer (XRoar standalone emulator)
