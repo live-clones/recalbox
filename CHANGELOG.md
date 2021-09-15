@@ -67,6 +67,7 @@ All notable changes to this project will be documented in this file.
 - Add montreal & saopaulo MITM servers
 - Add Gearcoleco libretro core
 - Add Gearcoleco libretro core
+- Add Gearcoleco libretro core 
 - Add Hatari standalone emulator
 - Add beebem emulator
 - Remove px68k core from x86 board (#1875)
