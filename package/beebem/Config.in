@@ -1,0 +1,13 @@
+config BR2_PACKAGE_BEEBEM
+	bool "beebem"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_SDL2_MIXER
+	help
+	  A BBC Micro emulator
+
+	  https://github.com/Bkg2k/beebem-linux
+
+comment "Emulation station 2 needs a toolchain w/ C++ SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2 || !BR2_PACKAGE_SDL2_MIXER || \
+		(!BR2_PACKAGE_HAS_LIBGLES || !BR2_PACKAGE_HAS_LIBGL)
