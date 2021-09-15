@@ -103,6 +103,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the theme of lowres nx (#1950)
 - [ ] Check the theme of bbc micro (#1949)
 
+- [ ] Test Beebem
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
