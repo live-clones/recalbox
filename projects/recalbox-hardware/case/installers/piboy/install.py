@@ -26,7 +26,14 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
-            # Install /boot/recalbox-user-config.txt - most important change first
+            # Install /boot/config.txt - most important change first
+            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/config.txt"
+            os.system("cp /boot/config.txt /boot/config.txt.backup")
+            if os.system("cp {} /boot".format(sourceConfig)) != 0:
+                logger.hardlog("PiBoy: Error installing config.txt")
+                return False
+            logger.hardlog("PiBoy: config.txt installed")
+            # Install /boot/recalbox-user-config.txt
             sourceConfig = self.BASE_SOURCE_FOLDER + "assets/recalbox-user-config.txt"
             os.system("cp /boot/recalbox-user-config.txt /boot/recalbox-user-config.txt.backup")
             if os.system("cp {} /boot".format(sourceConfig)) != 0:
@@ -40,9 +47,8 @@ class Install(InstallBase):
             else:
                 logger.hardlog("PiBoy: boot image NOT installed")
 
-            sed('^\s*dtoverlay=vc4-kms-v3d', 'dtoverlay=vc4-fkms-v3d', '/boot/config.txt')
             sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
-            logger.hardlog("PiBoy: vc4-fkms-v3d installed")
+            logger.hardlog("PiBoy: set video parameter in cmdline.txt")
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -61,6 +67,11 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
+            # Uninstall /boot/config.txt
+            if os.system("cp /boot/config.txt.backup /boot/config.txt") != 0:
+                logger.hardlog("PiBoy: Error uninstalling config.txt")
+                return False
+            logger.hardlog("PiBoy: config.txt uninstalled")
             # Uninstall /boot/recalbox-user-config.txt
             if os.system("cp /boot/recalbox-user-config.txt.backup /boot/recalbox-user-config.txt") != 0:
                 logger.hardlog("PiBoy: Error uninstalling recalbox-user-config.txt")
@@ -68,9 +79,8 @@ class Install(InstallBase):
             logger.hardlog("PiBoy: recalbox-user-config.txt uninstalled")
             os.remove("/boot/boot.ppm")
             logger.hardlog("PiBoy: /boot/boot.ppm uninstalled")
-            sed('^\s*dtoverlay=vc4-fkms-v3d', 'dtoverlay=vc4-kms-v3d', '/boot/config.txt')
             sed(' video=HDMI-A-1:d', '', '/boot/cmdline.txt')
-            logger.hardlog("PiBoy: vc4-fkms-v3d uninstalled, revert to vc4-kms-v3d")
+            logger.hardlog("PiBoy: removed video setting in cmdline.txt")
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -107,20 +117,35 @@ class Install(InstallBase):
 
                 # Set powerswitch.sh config
                 recalboxConf.setOption("system.power.switch", "PIBOY")
+                logger.hardlog("PiBoy: powerswitch configured")
                 # Set wpaf config
                 recalboxConf.setOption("hat.wpaf.enabled", "1")
                 recalboxConf.setOption("hat.wpaf.board", "piboy")
+                logger.hardlog("PiBoy: wpaf configured")
+                recalboxConf.setOption("emulationstation.theme.folder", "recalbox-goa2")
+                logger.hardlog("PiBoy: theme set to recalbox-goa2")
+                recalboxConf.setOption("audio.device", "alsa_card.platform-bcm2835_audio.2:analog-output-headphones")
+                logger.hardlog("PiBoy: audio.device set to alsa_card.platform-bcm2835_audio.2:analog-output-headphones")
                 recalboxConf.saveFile()
-                logger.hardlog("PiBoy: powerswitch configured")
+                # Force default videomode
+                sed(
+                    "([a-zA-Z0-9.].videomode)\\s*=.*",
+                    "\\1=default",
+                    self.RECALBOX_CONF,
+                )
                 # Install /etc/init.d/S25volumed
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S25volumed"
                 if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
                     logger.hardlog("PiBoy: Error installing S25volumed")
                     return ""
                 logger.hardlog("PiBoy: S25volumed installed")
-                with open("/etc/modules.conf", "a") as etcmodules:
-                    etcmodules.write("xpi_gamecon\n")
-                logger.hardlog("PiBoy: xpi_gamecon declared in /etc/modules.conf")
+
+                # Install /recalbox/share/.retroarch.cfg
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-retroarch.cfg"
+                if os.system("cp {} /recalbox/share/.retroarch.cfg".format(sourceConfig)) != 0:
+                    logger.hardlog("PiBoy: Error installing .retroarch.cfg")
+                    return ""
+                logger.hardlog("PiBoy: .retroarch.cfg installed")
 
                 # start piboy service for listening to power event
                 os.system("/etc/init.d/S01piboy start")
@@ -149,8 +174,8 @@ class Install(InstallBase):
             logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
             os.remove("/etc/init.d/S25volumed")
             logger.hardlog("PiBoy: /etc/init.d/S25volumed uninstalled")
-            stripline("xpi_gamecon", "/etc/modules.conf")
-            logger.hardlog("PiBoy: xpi_gamecon removed from /etc/modules.conf")
+            os.remove("/recalbox/share/.retroarch.cfg")
+            logger.hardlog("PiBoy: /recalbox/share/.retroarch.cfg uninstalled")
             # Load recalbox.conf
             recalboxConf = keyValueSettings(self.RECALBOX_CONF, False)
             recalboxConf.loadFile()

@@ -4,6 +4,9 @@
 # Take care of alerting XPI that we should reboot or shutdown
 
 start() {
+	echo "Loading xpi_gamecon module"
+	/sbin/modprobe xpi_gamecon
+	echo "OK"
 	echo "Starting piboy-battery-indicator"
 	start-stop-daemon -S -b /usr/bin/piboy-battery-indicator
 	echo "OK"
@@ -16,7 +19,9 @@ stop() {
 	# which means: last runlevel 3, wanted 6
 	# 6 means reboot
 	# 0 means shutdown
-	if runlevel | grep -q '6$'; then
+	# unknown is also a possible value which occurs when a reboot is
+	# requested during start sequence
+	if runlevel | grep -q -E '(6|unknown)$'; then
 		# reboot requested
 		echo "129" > /sys/kernel/xpi_gamecon/flags; sleep 1
 	fi

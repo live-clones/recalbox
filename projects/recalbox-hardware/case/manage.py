@@ -78,8 +78,9 @@ def Identify():
 
     if board == "rpi4":
         case = DetectNesPi4Case(cases)
-        if case == cases.NONE:
-            case = DetectPiBoyCase(cases)
+
+    if board in ["rpi3", "rpi4"] and case == cases.NONE:
+        case = DetectPiBoyCase(cases)
 
     return case
 
@@ -120,9 +121,6 @@ def mainInstall():
         previousCase, previousPhase = previousCase.split(':')
         previousPhase = int(previousPhase)
 
-    # import logger
-    import logger
-    logger.hardlog("previousCase={} previousPhase={} phase={} machine={}".format(previousCase, previousPhase, phase, machine))
     # Decide whether we install/uninstall or not
     if previousCase == "" or previousPhase < phase or not machine:
 
