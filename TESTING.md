@@ -108,6 +108,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check the deletion of old dates (0.230)
   - [ ] Check the presence of the dats in .zip format (instead of .dat)
 
+- [ ] Test Beebem
+
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
 - [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
