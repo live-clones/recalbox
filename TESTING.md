@@ -59,7 +59,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
-
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS
@@ -74,7 +73,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
   - [ ] Check the libretro picodrive core from the bump.
 - [ ] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
-
   - [ ] Test EmuTOS bios for Atari ST (#1868)
 - [ ] Check out the game Rick Dangerous (xrick) (#1891)
   - [ ] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
@@ -97,6 +95,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
   - [ ] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
   - [ ] fan should be controlled by wpaf
+- [ ] Check the theme of ti994a (#1930)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

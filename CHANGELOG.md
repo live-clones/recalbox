@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Add theme for ti994a (#1930)
 - Add informations when logging with recallog (#1920)
 - Fix click on video in ES (#1887)
 - Remove px68k core from x86 board (#1875)
