@@ -18,6 +18,7 @@ fi
 source /recalbox/scripts/recalbox-includes.sh
 
 IN=/recalbox/share_init
+UPGRADE=/recalbox/share_upgrade
 OUT=/recalbox/share
 
 # Uncompress directories' content
@@ -121,16 +122,66 @@ do
 done
 
 # Since 7.2, ports may behave as:
-# - ReadOnly: The port is self-sufficient and stays ib share_init
+# - ReadOnly: The port is self-sufficient and stays in share_init
 # - Read/Write: The user must add content to the port or may extend the port by adding extra-content
 #
 # This loop take Read/Write ports and copy them to the share
-while read -r file; do
+IFS_BAK=$IFS
+IFS=$'\n'
+set -f
+for file in $(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml); do
   FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
   DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
   SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
   cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
-done < <(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml )
+done
+set +f
+IFS=$IFS_BAK
+
+# Since 7.3, share is versioned
+# so that we can update some file automatically
+#
+RECALBOX_VERSION_FILE="/recalbox/recalbox.version"
+RECALBOX_VERSION=$(cat "$RECALBOX_VERSION_FILE")
+SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
+SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
+if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
+    # Copy all bios from share_upgrade to share
+    cp -R "${UPGRADE}/bios/." "${OUT}/bios"
+
+    # Copy all readme files from share_upgrade to share
+    cp -R "${UPGRADE}/roms/." "${OUT}/roms"
+
+    # Remove those .xxx files once copy is done in share - this doesn't occur in ports
+    rm -f "${OUT}/roms/.keep"
+    readarray -d '' romFolders < <(find "${OUT}/roms" -mindepth 1 -maxdepth 1 -type d -print0)
+    for systemFolder in "${romFolders[@]}"
+    do
+        systemName=$(echo ${systemFolder##*/})
+        destinationFolder="${OUT}/roms/${systemName}"
+        rm -f "${OUT}/roms/${systemName}/.readme.placeholder"
+    done
+
+    # Do the same in ports
+    readarray -d '' romFolders < <(find "${OUT}/roms/ports" -mindepth 1 -maxdepth 1 -type d -print0)
+    for systemFolder in "${romFolders[@]}"
+    do
+        systemName=$(echo ${systemFolder##*/})
+        destinationFolder="${OUT}/roms/ports/${systemName}"
+        rm -f "${OUT}/roms/ports/${systemName}/.keep"
+        rm -f "${OUT}/roms/ports/${systemName}/.readme.placeholder"
+    done
+
+    # Not sure why but there is some .txt file in /roms/ports which should not be here and are a copy of a port - remove them
+    rm -f "${OUT}/roms/ports/_leggime.txt"
+    rm -f "${OUT}/roms/ports/_leiame.txt"
+    rm -f "${OUT}/roms/ports/_liesmich.txt"
+    rm -f "${OUT}/roms/ports/_lisezmoi.txt"
+    rm -f "${OUT}/roms/ports/_readme.txt"
+
+    # Update version
+    cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
+fi
 
 # directories to force directories exists
 # files are linked
@@ -199,10 +250,4 @@ mount --bind /recalbox/share/system/udev/rules.d /run/udev/rules.d
 if [ -e /tmp/newshare ]; then
     /recalbox/scripts/recalbox-create-share.sh stop
     #reboot
-fi
-
-# Copy TIC-80 games downloader file into share
-if test ! -f /recalbox/share/roms/tic80/recalbox-tic80
-then
-    cp /recalbox/share_init/roms/tic80/recalbox-tic80 /recalbox/share/roms/tic80/recalbox-tic80
 fi

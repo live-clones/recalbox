@@ -21,8 +21,8 @@ endef
 define LIBRETRO_PRBOOM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/prboom_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/prboom_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/prboom
-	$(INSTALL) -D $(@D)/prboom.wad $(TARGET_DIR)/recalbox/share_init/bios/prboom
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/prboom
+	$(INSTALL) -D $(@D)/prboom.wad $(TARGET_DIR)/recalbox/share_upgrade/bios/prboom
 endef
 
 $(eval $(generic-package))

@@ -21,8 +21,8 @@ endef
 define LIBRETRO_MAME2003_PLUS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mame2003_plus_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2003_plus_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_init/bios/mame2003-plus/samples
-	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_init/bios/mame2003-plus
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2003-plus/samples
+	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2003-plus
 endef
 
 $(eval $(generic-package))

@@ -24,14 +24,15 @@ class InstallRoms:
 
     def __init__(self, systemRoot: str, target: str, root: str):
         self.__systemRoot = systemRoot
-        self.__target = target
+        self.__targetInit = target + "/share_init/roms"
+        self.__targetUpgrade = target + "/share_upgrade/roms"
         self.__tags = IniSettings(os.path.join(systemRoot, self.__TAGS_FILE), True)
         self.__tags.loadFile(True)
         self.__config = ConfigIn(root)
         self.__arch = self.__config.Arch
 
     def execute(self):
-        print("[ROMFS 2] Copying systems and metadata to {}".format(self.__target))
+        print("[ROMFS 2] Copying systems and metadata to {}".format(self.__targetInit))
 
         # Run though systems folders
         for folder in os.listdir(self.__systemRoot):
@@ -41,21 +42,23 @@ class InstallRoms:
                 if holder.CoreCount < 1:
                     continue
                 print("[ROMFS 2] Copying system {}".format(folder))
-                self.__copyRomContent(subfolder, holder.RomFolder.replace("%ROOT%", self.__target) if holder.IsPort else folder)
+                self.__copyRomContent(subfolder, holder.RomFolder.replace("%ROOT%", self.__targetInit) if holder.IsPort else folder)
+                print("[ROMFS 2] Creating readme files for system {}".format(folder))
                 self.__installReadMe(folder, holder)
 
     def __copyRomContent(self, systemFolder: str, folder: str):
         # Copy roms
-        roms: str = os.path.join(systemFolder, "roms")
-        system: str = os.path.join(self.__target, folder)
+        roms: str = os.path.join(systemFolder, "init/roms")
+        system: str = os.path.join(self.__targetInit, folder)
         shutil.rmtree(system, ignore_errors=True)
         shutil.copytree(roms, system, dirs_exist_ok=False)
 
     def __installReadMe(self, folder: str, holder: SystemHolder):
-        targetSystemPath: str = os.path.join(self.__target, holder.RomFolder.replace("%ROOT%", self.__target) if holder.IsPort else folder)
+        targetSystemPath: str = os.path.join(self.__targetUpgrade, holder.RomFolder.replace("%ROOT%", self.__targetUpgrade) if holder.IsPort else folder)
         sourceSystemPath: str = os.path.join(self.__systemRoot, folder)
         templatePath: str = os.path.join(self.__systemRoot, ".templates/system/roms")
         for fileName, language in self.__README_FILES.items():
+            self.__removePreviousFiles(sourceSystemPath, fileName, language)
             self.__installParsedFile(templatePath, sourceSystemPath, targetSystemPath, fileName, language, holder)
 
     @staticmethod
@@ -65,9 +68,17 @@ class InstallRoms:
                 return os.path.join(root, name)
         return None
 
+    def __removePreviousFiles(self, source: str, fileName: str, language: str):
+        # Clean any existing readme files if it exists in upgrade directory only
+        source: str = source + "/upgrade"
+        filePath: str = self.__find(fileName, source)
+        if filePath != None and "/upgrade/" in filePath:
+            if (os.path.exists(filePath)):
+                os.remove(filePath)
+
     def __installParsedFile(self, templatePath: str, source: str, destinationPath: str, filename: str, language: str, holder: SystemHolder):
         # read file lines
-        textPath = os.path.join(source, "roms")
+        textPath = os.path.join(source, "upgrade/roms")
         filePath = self.__find(filename, textPath)
         if filePath is None:
             filePath = os.path.join(templatePath, filename)
@@ -82,10 +93,18 @@ class InstallRoms:
             newLines.extend(self.__parse(line, holder, language))
 
         # Write back
-        filePath: str = self.__find(".readme.placeholder", destinationPath)
-        filePath: str = os.path.join(os.path.dirname(filePath), filename)
-        with open(filePath, 'w') as f:
-            f.writelines(newLines)
+        filePath: str = self.__find(".readme.placeholder", source)
+        if filePath is not None:
+            # Some systems don't need to have any readme files, like the read-only ports
+            filePath: str = os.path.join(os.path.dirname(filePath), filename)
+            with open(filePath, 'w') as f:
+                f.writelines(newLines)
+
+            # Copy readme files
+            roms: str = os.path.join(source, "upgrade/roms")
+            system: str = os.path.join(self.__targetUpgrade, destinationPath)
+            shutil.rmtree(system, ignore_errors=True)
+            shutil.copytree(roms, system, dirs_exist_ok=False)
 
     def __parse(self, line: str, holder: SystemHolder, language: str) -> List[str]:
         # Core loop?
