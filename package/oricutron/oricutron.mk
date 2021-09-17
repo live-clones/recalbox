@@ -53,6 +53,7 @@ define ORICUTRON_INSTALL_TARGET_CMDS
 	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
 	# Copy rom symbols (for who wants to play with Oric/ATmos debugger!)
 	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
+	cp $(@D)/roms/*.rom $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
 endef
 
 define ORICUTRON_POST_EXTRACT_FIX_SDL2_PATH
