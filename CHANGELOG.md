@@ -117,6 +117,8 @@ All notable changes to this project will be documented in this file.
 - Rework share to upgrade necessary data (#1864)
 - Remove Flycast from x86 (#1902)
 - rpi3 now uses Mesa software stack (#????)
+- Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
+
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

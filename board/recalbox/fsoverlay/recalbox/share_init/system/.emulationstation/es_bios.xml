@@ -172,7 +172,7 @@
     <bios path="lynxboot.img" md5="fcd403db69f54290b51035d82f835e7b" core="handy,mednafen_lynx" />
   </system>
   <system fullname="Atari ST/STE/MegaSTE/TT/Falcon" platform="atarist">
-    <bios path="tos.img|atarist/tos.img" md5="27ac71b59d59f65571b972e0f894054a,5d65c6a384d847a0b8013d5e22ec0887,
+    <bios path="/recalbox/share/bios/tos.img|/recalbox/share/bios/atarist/tos.img" md5="27ac71b59d59f65571b972e0f894054a,5d65c6a384d847a0b8013d5e22ec0887,
                                               f62bc9777f28bc6876422738758db365,d41ae4efaa2c97f632dbe75d24d51bea,
                                               c87a52c277f7952b41c639fc7bf0a43b,e0444d8c51a8093a3f09665d8099c0af,
                                               d0f682ee6237497004339fb02172638b,5491b3755992feaf743ceecaa3b18f34,
@@ -247,7 +247,7 @@
                                            919fd0f045299f101cf7757e5e058c41,b2ecabc15b65afef96331be46f2a2cd4,
                                            e5ea0f216fb446f1c4a4f476bc5f03d4,941baac767269649f92f7918dd5740b8,
                                            b338bacb2fc453bab61bcc1e2cf5076b" core="libretro-hatari" note="FALCON 30/40 bios." />
-      <bios path="atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="libretro-hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
+      <bios path="/recalbox/share_init/bios/atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="libretro-hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
   </system>
   <system fullname="Magnavox Odyssey²" platform="o2em">
     <bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />
