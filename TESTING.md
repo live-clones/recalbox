@@ -99,6 +99,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the theme of ti994a (#1930)
 - [ ] Test new MITM servers, Montreal & SaoPaulo
 - [ ] Test Libretro Beetle PSX
+- [ ] Check the bios path tom.img for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
