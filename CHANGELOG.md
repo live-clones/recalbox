@@ -119,6 +119,7 @@ All notable changes to this project will be documented in this file.
 - rpi3 now uses Mesa software stack (#????)
 - Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 
+- Removed security option (#1913)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
