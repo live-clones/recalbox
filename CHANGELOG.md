@@ -120,6 +120,7 @@ All notable changes to this project will be documented in this file.
 - Updated package versions (#1956)
 - Add Recalbox Reloaded video intro (#1959)
 
+- Removed security option (#1913)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
