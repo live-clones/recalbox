@@ -246,7 +246,10 @@ nightly build rpi3:
 release prod:
   <<: *release_definition
   only:
-    - tags
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG !~ /beta/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
