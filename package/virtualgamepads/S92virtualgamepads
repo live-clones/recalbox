@@ -16,12 +16,6 @@ case "$1" in
       exit 0
     fi
 
-    enabled="`$systemsetting  -command load -key system.security.enabled`"
-    if [ "$enabled" == "1" ];then
-      echo "Virtual-gamepads services: disabled (security)"
-      exit 0
-    fi
-    
     cd /usr/node-virtual-gamepads/
     logswitch="`$systemsetting  -command load -key system.virtual-gamepads.log.enabled`"
     loglevel="`$systemsetting  -command load -key system.virtual-gamepads.log.level`"
