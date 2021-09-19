@@ -216,7 +216,7 @@ case "${RECALBOX_TARGET}" in
 	sync || exit 1
 	;;
 
-	X86|X86_64)
+	X86_64)
 	# /boot
 	rm -rf ${BINARIES_DIR}/pc-boot/boot || exit 1
 	mkdir -p ${BINARIES_DIR}/pc-boot/boot/grub || exit 1
@@ -224,19 +224,13 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/pc-boot/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/pc-boot/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/pc-boot/boot/recalbox" || exit 1
-  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
-
-	# get UEFI files
-	if [[ ${RECALBOX_TARGET} == "X86_64" ]] ; then
-		mkdir -p "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-		cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-		cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-		cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-		genimg=genimage-x86-64.cfg
-	else
-		genimg=genimage-x86.cfg
-	fi
+	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
+	mkdir -p "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	genimg=genimage-x86-64.cfg
 
 	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
