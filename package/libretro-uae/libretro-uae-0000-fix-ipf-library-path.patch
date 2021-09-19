@@ -7,7 +7,7 @@ index 75ab1af..95080d8 100644
  #define CAPSLIB_NAME    "capsimg.dll"
  #else
 -#define CAPSLIB_NAME    "capsimg.so"
-+#define CAPSLIB_NAME    "libcapsimage.so.4"
++#define CAPSLIB_NAME    "libcapsimage.so"
  #endif
  
  /*

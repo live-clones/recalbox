@@ -8,7 +8,7 @@ HATARI_VERSION = de7a0e8ded3070fadbb359b1b9248b935f393db3
 HATARI_SITE = https://github.com/hatari/hatari.git
 HATARI_SITE_METHOD = git
 HATARI_LICENSE = GPL2.0
-HATARI_DEPENDENCIES = sdl2 readline zlib udev libcapsimage
+HATARI_DEPENDENCIES = sdl2 readline zlib udev libcapsimage mtools
 
 ifeq ($(BR2_ENABLE_DEBUG),y)
 HATARI_CONF_OPTS += -DCMAKE_BUILD_TYPE=Debug

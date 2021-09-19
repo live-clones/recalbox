@@ -3,6 +3,7 @@ config BR2_PACKAGE_HATARI
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_SDL2
 	select BR2_PACKAGE_LIBZIP
+	select BR2_PACKAGE_MTOOLS
 	help
 	  Atari ST/STE/TT/Falcon emulator.
 
