@@ -57,13 +57,13 @@ lint commits:
     - npm install -g @commitlint/cli @commitlint/config-conventional
   script: test/lint/commits
 
-lint beta-tests:
-  <<: *lint_definition
-  only:
-    - tags
-  script:
-    - if grep TESTING.md -q -e '^- \[ \]';then echo "Beta test not over" && exit 1; fi
-  allow_failure: true
+# lint beta-tests:
+#   <<: *lint_definition
+#   only:
+#     - tags
+#   script:
+#     - if grep TESTING.md -q -e '^- \[ \]';then echo "Beta test not over" && exit 1; fi
+#   allow_failure: true
 
 lint changelog:
   <<: *lint_definition
