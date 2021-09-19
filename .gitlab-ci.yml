@@ -57,13 +57,13 @@ lint commits:
     - npm install -g @commitlint/cli @commitlint/config-conventional
   script: test/lint/commits
 
-lint beta-tests:
-  <<: *lint_definition
-  only:
-    - tags
-  script:
-    - if grep TESTING.md -q -e '^- \[ \]';then echo "Beta test not over" && exit 1; fi
-  allow_failure: true
+# lint beta-tests:
+#   <<: *lint_definition
+#   only:
+#     - tags
+#   script:
+#     - if grep TESTING.md -q -e '^- \[ \]';then echo "Beta test not over" && exit 1; fi
+#   allow_failure: true
 
 lint changelog:
   <<: *lint_definition
@@ -246,7 +246,10 @@ nightly build rpi3:
 release prod:
   <<: *release_definition
   only:
-    - tags
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG !~ /beta/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
