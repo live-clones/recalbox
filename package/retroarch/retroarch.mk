@@ -54,10 +54,8 @@ RETROARCH_CONF_OPTS += --enable-neon
 endif
 
 # Add dispamnx renderer and no opengl1.1 for Pi, but not for RPI4
-ifeq ($(BR2_PACKAGE_RPI_FIRMWARE),y)
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),)
+ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 RETROARCH_CONF_OPTS += --enable-dispmanx
-endif
 endif
 
 # odroid xu4
