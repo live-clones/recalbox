@@ -103,6 +103,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the theme of bbc micro (#1949)
 
 - [ ] Test Beebem
+[ ] Check the theme of trs80coco (#1945)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Add theme for lowres nx (#1950)
 - Add theme for bbc micro (#1949)
+- Add theme for trs80coco (#1945)
 - Disabled deploy to prod button on betas (#1932)
 - Add theme for ti994a (#1930)
 - Remove x86 32 bits support (#1942)
