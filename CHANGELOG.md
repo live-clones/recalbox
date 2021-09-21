@@ -115,6 +115,7 @@ All notable changes to this project will be documented in this file.
 - Add recalbox-wpaf fan controller (#1832)
 - Rework share to upgrade necessary data (#1864)
 - Remove Flycast from x86 (#1902)
+- rpi3 now uses Mesa software stack (#????)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
