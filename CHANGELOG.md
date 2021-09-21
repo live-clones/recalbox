@@ -120,6 +120,7 @@ All notable changes to this project will be documented in this file.
 - Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 
 - rpi3 now uses Mesa software stack (#????)
+- Add required bios for DuckStation (#1944)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
