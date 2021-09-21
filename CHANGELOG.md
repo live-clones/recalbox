@@ -142,6 +142,8 @@ All notable changes to this project will be documented in this file.
 - Fix ChannelF system with FBNeo roms (#1969)
 - rpi3 now uses Mesa software stack (#????)
 
+- Add required bios for DuckStation (#1944)
+
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
 - Bump mupen64plus Glide64MK2 (#1766)
