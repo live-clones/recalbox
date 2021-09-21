@@ -151,6 +151,7 @@ All notable changes to this project will be documented in this file.
 - Fix Reicast boot.
 - Fix 'Roms' content tab in web manager (#1980)
 - Updated Netflix and YouTube addons in Kodi
+- rpi3 now uses Mesa software stack (#????)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
