@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Saturn on Raspberry pi4 (libretro core: Yabasanshiro)
 - Add gamelink overload for gb and gbc
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
+- Add Xbox One wireless dongles support (xow userspace driver daemon from Medusalix)
 
 ### Improvements
 - Add new Netplay's MITM servers: Montreal & SaoPaulo
