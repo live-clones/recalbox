@@ -5,7 +5,7 @@ from configgen.controllers.controller import ControllerPerPlayer
 
 class LibretroCores:
 
-    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer):
+    def __init__(self, system: Emulator, settings: keyValueSettings, controllers: ControllerPerPlayer, rom: str):
         self.system: Emulator = system
         self.settings: keyValueSettings = settings
         self.controllers: ControllerPerPlayer = controllers
@@ -103,6 +103,7 @@ class LibretroCores:
 
         # Load config
         from configgen.settings.iniSettings import IniSettings
+        import configgen.recalboxFiles as recalboxFiles
         atariStSettings = IniSettings(recalboxFiles.hatariCustomConfig)
         atariStSettings.loadFile(True)
 
@@ -134,7 +135,7 @@ class LibretroCores:
                 defaultMachine: int = machines[key]
                 break
         print("MACHINE: {}".format(defaultMachine))
-        atariStSettings.setOption("System", "nMachineType", str(defaultMachine))
+        atariStSettings.setString("System", "nMachineType", str(defaultMachine))
 
         # Select bios
         import os
@@ -152,7 +153,7 @@ class LibretroCores:
                     biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
         if "emutos" in self.rom:
             biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
-        atariStSettings.setOption("ROM", "szTosImageFileName", str(biosPath))
+        atariStSettings.setString("ROM", "szTosImageFileName", str(biosPath))
         print("BIOS   : {}".format(biosPath))
 
         # Save config
