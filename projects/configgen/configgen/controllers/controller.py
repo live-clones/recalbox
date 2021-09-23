@@ -114,6 +114,16 @@ class Controller:
     def HasR2(self) -> bool: return InputItem.ItemR2 in self.__inputs
 
     @property
+    def L3(self) -> InputItem: return self.__inputs[InputItem.ItemL3]
+    @property
+    def HasL3(self) -> bool: return InputItem.ItemL3 in self.__inputs
+
+    @property
+    def R3(self) -> InputItem: return self.__inputs[InputItem.ItemR3]
+    @property
+    def HasR3(self) -> bool: return InputItem.ItemR3 in self.__inputs
+
+    @property
     def Up(self) -> InputItem: return self.__inputs[InputItem.ItemUp]
     @property
     def HasUp(self) -> bool: return InputItem.ItemUp in self.__inputs

@@ -121,6 +121,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.duckstation.duckstationGenerator", fromlist=["DuckstationGenerator"])
         generatorClass = getattr(module, "DuckstationGenerator")
         return generatorClass()
+    elif emulator == "beebem":
+        module = __import__("configgen.generators.beebem.beebemGenerator", fromlist=["BeebemGenerator"])
+        generatorClass = getattr(module, "BeebemGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError

@@ -5,7 +5,10 @@ import sys
 
 
 # Set a specific video mode
-def setVideoMode(videoMode, delay=0.5):
+from configgen.settings.keyValueSettings import keyValueSettings
+
+
+def setVideoMode(videoMode: str, delay=0.5):
     # The user mentionned default for the videomode
     # video mode can be default, a "CEA 4 HDMI" like, a hdmi_cvt pattern or even a hdmi_timings pattern
     # Anything else should result in a crash
@@ -80,12 +83,12 @@ def isSupported(group="CEA", mode='', drive="HDMI"):
 
 
 # Switch to prefered mode
-def setPrefered(recalboxOptions):
-    esVideoMode = recalboxOptions.getString("system.es.videomode", None)
+def setPrefered(recalboxOptions: keyValueSettings):
+    esVideoMode = recalboxOptions.getString("system.es.videomode", "")
     # Scary bug in tvservice : setting preferred mode on composite makes CEA 1 DVI !
     # See https://github.com/raspberrypi/firmware/issues/901
     # Once this issue is solved, just tvservice -p
-    if esVideoMode is None or esVideoMode == "auto":
+    if esVideoMode in ("", "auto"):
         os.system("tvservice -p")
     else:
         setVideoMode(esVideoMode)
