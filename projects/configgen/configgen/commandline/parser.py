@@ -11,9 +11,7 @@ class Parser:
     class Namespace:
 
         def __init__(self, args: Dict[str, Any]):
-            self.__args: Dict[str, Any] = {}
-            for key, value in args.items():
-                self.__args[key.strip('-')] = value
+            self.__args: Dict[str, Any] = dict(args)
 
         def __getattr__(self, item: str):
             return self.__args[item]
@@ -21,10 +19,14 @@ class Parser:
         def __setattr__(self, key, value):
             if key != "_Namespace__args":
                 raise PermissionError
-            self.__dict__[key] = value
+            for k, v in value.items():
+              self.__dict__[k.strip('-')] = v
 
         def __delattr__(self, item):
             raise PermissionError
+
+        def Kwargs(self):
+            return self.__args
 
 
     def __init__(self):

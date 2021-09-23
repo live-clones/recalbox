@@ -410,7 +410,7 @@ class Controller:
         controllers: ControllerCollection = Controller.LoadControllerConfigurationFromFile()
         for i in range(1, 11):
             index: int     = Controller.__LoadIntFromKwargs('p{}index'.format(i), -1, **kwargs)
-            name: str      = Controller.__LoadStrFromKwargs('p{}name'.format(i), "missong-name", **kwargs)
+            name: str      = Controller.__LoadStrFromKwargs('p{}name'.format(i), "missing-name", **kwargs)
             guid: str      = Controller.__LoadStrFromKwargs('p{}guid'.format(i), "missing-guid", **kwargs)
             dev: str       = Controller.__LoadStrFromKwargs('p{}devicepath'.format(i), "missing-device", **kwargs)
             nbaxes: int    = Controller.__LoadIntFromKwargs('p{}nbaxes'.format(i), -1, **kwargs)
