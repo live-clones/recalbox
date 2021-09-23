@@ -1,0 +1,11 @@
+--- a/dongle/dongle.cpp.orig	2021-09-18 23:26:11.165286869 +0200
++++ b/dongle/dongle.cpp	2021-09-18 23:27:52.328034010 +0200
+@@ -269,7 +269,7 @@
+ 
+             case EVT_CLIENT_LOST:
+                 // Packet is guaranteed not to be empty
+-                handleControllerDisconnect(packet[0]);
++                //handleControllerDisconnect(packet[0]);
+                 break;
+         }
+     }
