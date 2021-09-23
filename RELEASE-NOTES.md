@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 
 ### Improvements
+- Add new Netplay's MITM servers: Montreal & SaoPaulo
 - Bump libretro MGBA (Gameboy Advance core)
 - Bump Libretro PX68K (Sharp x68000)
 - Bump Oricutron to latest version
