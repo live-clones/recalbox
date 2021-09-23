@@ -75,7 +75,11 @@ class InputItemMeta(type):
     __ITEM_JOY2_LEFT  = 22
     __ITEM_JOY2_DOWN  = 23 # Virtual item
     __ITEM_JOY2_RIGHT = 24 # Virtual item
-    __ITEM_LAST       = __ITEM_JOY2_RIGHT
+    __ITEM_LUMUP      = 25
+    __ITEM_LUMDOWN    = 26
+    __ITEM_VOLUP      = 27
+    __ITEM_VOLDOWN    = 28
+    __ITEM_LAST       = __ITEM_VOLDOWN
 
     # Item readonly access
 
@@ -161,7 +165,7 @@ class InputItemMeta(type):
     def ItemLast(cls) -> int: return cls.__ITEM_LAST;
 
     # Converter
-    __NAME_TO_ITEM = \
+    __NAME_TO_ITEM: Dict[str, int] = \
     {
         'a'             : __ITEM_A,
         'b'             : __ITEM_B,
@@ -190,12 +194,16 @@ class InputItemMeta(type):
         'joystick2left' : __ITEM_JOY2_LEFT,
         'joystick2down' : __ITEM_JOY2_DOWN,
         'joystick2right': __ITEM_JOY2_RIGHT,
+        'lum+'          : __ITEM_LUMUP,
+        'lum-'          : __ITEM_LUMDOWN,
+        'vol+'          : __ITEM_VOLUP,
+        'vol-'          : __ITEM_VOLDOWN,
     }
 
     @property
     def ConverterNameToItem(cls) -> Dict[str, int]: return cls.__NAME_TO_ITEM;
 
-    __ITEM_TO_NAME = \
+    __ITEM_TO_NAME: Dict[int, str] = \
     {
         __ITEM_A         : 'a',
         __ITEM_B         : 'b',
@@ -222,12 +230,16 @@ class InputItemMeta(type):
         __ITEM_JOY2_LEFT : 'joystick2left',
         __ITEM_JOY2_DOWN : 'joystick2down',
         __ITEM_JOY2_RIGHT: 'joystick2right',
+        __ITEM_LUMUP     : 'lum+',
+        __ITEM_LUMDOWN   : 'lum-',
+        __ITEM_VOLUP     : 'vol+',
+        __ITEM_VOLDOWN   : 'vol-',
     }
 
     @property
-    def ConverterItemToName(cls) -> Dict[str, int]: return cls.__ITEM_TO_NAME;
+    def ConverterItemToName(cls) -> Dict[int, str]: return cls.__ITEM_TO_NAME;
 
-    __ITEM_TO_GAMEDB_NAME = \
+    __ITEM_TO_GAMEDB_NAME: Dict[int, str] = \
      {
         __ITEM_A         : 'b',
         __ITEM_B         : 'a',
@@ -254,7 +266,14 @@ class InputItemMeta(type):
         __ITEM_JOY2_LEFT : '-rightx',
         __ITEM_JOY2_DOWN : '+righty',
         __ITEM_JOY2_RIGHT: '+rightx',
+        __ITEM_LUMUP     : '',
+        __ITEM_LUMDOWN   : '',
+        __ITEM_VOLUP     : '',
+        __ITEM_VOLDOWN   : '',
      }
+
+    @property
+    def ConverterItemToGameDBName(cls) -> Dict[int, str]: return cls.__ITEM_TO_GAMEDB_NAME;
 
 
 class InputItem(metaclass=InputItemMeta):
@@ -409,13 +428,15 @@ class InputItem(metaclass=InputItemMeta):
     @staticmethod
     def IsValidItem(item: int) -> bool: return InputItem.ItemFirst < item < InputItem.ItemLast
 
+    @property
     def GameDBType(self) -> str:
-        if self.__type == InputItem.__TYPE_AXIS: return 'a'
-        if self.__type == InputItem.__TYPE_HAT: return 'h'
-        if self.__type == InputItem.__TYPE_BUTTON: return 'b'
+        if self.__type == InputItem.TypeAxis: return 'a'
+        if self.__type == InputItem.TypeHat: return 'h'
+        if self.__type == InputItem.TypeButton: return 'b'
         return '?'
 
-    def GameDBName(self) -> str: return InputItem.__ITEM_TO_GAMEDB_NAME[self.__item]
+    @property
+    def GameDBName(self) -> str: return InputItem.ConverterItemToGameDBName[self.__item]
 
     # Copy
 

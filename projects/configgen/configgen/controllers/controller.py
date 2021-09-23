@@ -200,10 +200,11 @@ class Controller:
     }
 
     def generateSDLGameDBLine(self):
-        result = "{},{},platform:Linux,".format(self.__guid, self.__deviceName.replace(',', ' '))
+        result: str = "{},{},platform:Linux,".format(self.__guid, self.__deviceName.replace(',', ' '))
         for name, inputItem in self.__inputs.items():
-            sdlName = inputItem.GameDBName
-            sdlPrefix = inputItem.GameDBType
+            sdlName: str = inputItem.GameDBName
+            if sdlName == '': continue
+            sdlPrefix: str = inputItem.GameDBType
             if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and inputItem.Type in (InputItem.TypeButton, InputItem.TypeHat):
                 if inputItem.IsHat:
                     result += "-{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
@@ -212,7 +213,7 @@ class Controller:
                     result += "-{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
                     result += "+{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
             elif sdlName in ('dpup', 'dpdown', 'dpleft', 'dpright') and inputItem.IsAxis:
-                sign = int(inputItem.Value) if sdlName in ('dpup', 'dpleft') else -int(inputItem.Value)
+                sign: int = int(inputItem.Value) if sdlName in ('dpup', 'dpleft') else -int(inputItem.Value)
                 result += "{}:{}a{},".format(sdlName, '-' if sign < 0 else '+', inputItem.Id)
             elif inputItem.IsHat:
                 result += "{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
@@ -222,7 +223,7 @@ class Controller:
         return result
 
     def count(self, inputType: int):
-        count = 0
+        count: int = 0
         for idx, inp in self.__inputs.items():
             if inp.Type == inputType:
                 count += 1
