@@ -100,6 +100,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test new MITM servers, Montreal & SaoPaulo
 - [ ] Test Libretro Beetle PSX
 - [ ] Check the theme of lowres nx (#1950)
+- [ ] Check the theme of bbc micro (#1949)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
