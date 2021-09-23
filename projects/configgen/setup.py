@@ -35,5 +35,5 @@ setup(name='recalbox-configgen',
                 'configgen.generators.ti99sim',
                 'configgen.settings',
                 'configgen.utils'],
-      scripts=['configgen/emulatorlauncher.py']
+      scripts=['emulatorlauncher.py']
       )
