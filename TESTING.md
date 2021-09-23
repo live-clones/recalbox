@@ -59,6 +59,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+- [ ] Test Xbox One wireless dongle (#1424)
+  - [ ] Check that new Controllers (1914 Xbox One S) don't disconnect after 2 minutes
+
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS
