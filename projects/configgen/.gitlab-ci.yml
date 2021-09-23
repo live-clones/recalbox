@@ -8,7 +8,7 @@ tests:
   stage: tests
   script: 
     - echo "Installing dependencies"
-    - pip install pygame pytest pytest-cov pytest-subprocess pytest-mock pytest-lazy-fixture pyudev
+    - pip install -r requirements.txt
     - echo "Running unittests" 
     - export PYTHONPATH=$PYTHONPATH:$(pwd) && pytest --cov=configgen
 
