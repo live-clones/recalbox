@@ -1,0 +1,11 @@
+--- a/Makefile	2021-09-01 00:41:53.020173380 +0200
++++ b/Makefile	2021-09-01 00:42:03.916002471 +0200
+@@ -35,7 +35,7 @@
+ 	$(LD) -r -b binary -z noexecstack -o $@ $<
+ 
+ firmware.bin:
+-	curl -o driver.cab $(DRIVER_URL)
++	wget -O driver.cab $(DRIVER_URL)
+ 	cabextract -F FW_ACC_00U.bin driver.cab
+ 	echo $(FIRMWARE_HASH) FW_ACC_00U.bin | sha256sum -c
+ 	mv FW_ACC_00U.bin firmware.bin

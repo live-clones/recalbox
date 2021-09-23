@@ -434,4 +434,8 @@ BR2_PACKAGE_JOYCOND=y
 BR2_PACKAGE_FLUIDSYNTH_PULSEAUDIO=y
 BR2_PACKAGE_KODI_PULSEAUDIO=y
 BR2_PACKAGE_PAMIX=y
+<<<<<<< HEAD
 BR2_PACKAGE_XPADNEO=y
+=======
+BR2_PACKAGE_XOW=y
+>>>>>>> feat(xow): add xbox one wireless dongles support (xow userspace driver)

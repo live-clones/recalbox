@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Start xow
+#
+# userspace driver for Xbox One wireless dongles
+#
+systemsetting="recalbox_settings"
+
+start() {
+  if [ "$($systemsetting -command load -key controllers.xow.enabled -default 1)" -eq 1 ]; then
+    echo -n "Starting xow: "
+    start-stop-daemon -b -S -q -m -p /var/run/xow.pid --exec /usr/bin/xow
+    echo "OK"
+  fi
+}
+
+stop() {
+  echo -n "Stopping xow: "
+  start-stop-daemon -K -q -p /var/run/xow.pid
+  echo "OK"
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  restart|reload)
+    stop
+    start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?
