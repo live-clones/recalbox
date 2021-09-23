@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro Gong core on all boards
 - Add PiBoy DMG support
 - Better support for Xbox joysticks like Xbox One S Wireless controller, Xbox Elite Series 2 Wireless controller and Xbox Series X|S Wireless controller
+- Add Xbox One wireless dongles support (xow userspace driver daemon from Medusalix)
 
 ### Improvements
 - Add new Netplay's MITM servers: Montreal & SaoPaulo
