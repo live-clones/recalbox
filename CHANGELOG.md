@@ -196,6 +196,7 @@ All notable changes to this project will be documented in this file.
 - Fix crash of pcsx_rearmed (#1593)
 - Fix non-operational joystick on pcsx_rearmed (#1593)
 - Fix static address configuration where domain name server ip was not set (#1518)
+- Add xow drivers for Xbox One wireless dongles (#1424)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

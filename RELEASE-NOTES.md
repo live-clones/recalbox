@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 - Add libretro Gong core on all boards
 - Add PiBoy DMG support
+- Add Xbox One wireless dongles support (xow userspace driver daemon from Medusalix)
 
 ### Improvements
 - Improve ergonomy in gamelists when "quick system select" is enabled
