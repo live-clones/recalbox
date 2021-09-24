@@ -1,0 +1,15 @@
+diff --git a/src/cfgfile.cpp b/src/cfgfile.cpp
+index ee4d0e56..6e0317a4 100644
+--- a/src/cfgfile.cpp
++++ b/src/cfgfile.cpp
+@@ -4008,6 +4008,10 @@ static int cfgfile_parse_host (struct uae_prefs *p, TCHAR *option, TCHAR *value)
+ 		return 1;
+ 	if (cfgfile_strval(option, value, _T("joyport3submode"), &p->jports[3].submode, joyportsubmodes_lightpen, 0))
+ 		return 1;
++  if (cfgfile_strval(option, value, _T("joyport0mousemap"), &p->jports[0].mousemap, mousemaps, 2))
++    return 1;
++  if (cfgfile_strval(option, value, _T("joyport1mousemap"), &p->jports[1].mousemap, mousemaps, 2))
++    return 1;
+ 	if (cfgfile_strval(option, value, _T("joyport0autofire"), &p->jports[0].autofire, joyaf, 0))
+ 		return 1;
+ 	if (cfgfile_strval(option, value, _T("joyport1autofire"), &p->jports[1].autofire, joyaf, 0))

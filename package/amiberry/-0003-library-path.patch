@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 722e21b1..2e94f218 100644
+index b4dbf4b6..2d1317e0 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -8,9 +8,9 @@ SDL_CONFIG ?= sdl2-config
