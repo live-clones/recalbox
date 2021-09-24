@@ -201,7 +201,7 @@ class DemoTimer(threading.Thread):
                             outScreen = demoInformation()
                             outScreen.display()
                         except Exception as ex:
-                            Log("Error diplaying demo info screen: {}".format(ex))
+                            Log("Error displaying demo info screen: {}".format(ex))
                             duration = 0
         except Exception as ex:
             Log("Demo exited unexpectedly: {}".format(ex))

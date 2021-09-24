@@ -1,11 +1,9 @@
-
-
 class demoInformation:
 
     # Information game from ES
     GAME_INFO_PATH = "/tmp/es_state.inf"
 
-    # Key in informatiojn files
+    # Key in information files
     KEY_SYSTEM_NAME = "System"
     KEY_GAME_NAME = "Game"
     KEY_GAME_IMAGE_PATH = "ImagePath"
@@ -39,9 +37,9 @@ class demoInformation:
         self.gameImage = self.prepareGameData(gameImagePath, h)
 
         # Prepare font
-        self.fontMargin = h / 40
-        self.fontHeight = h / 20
-        self.font1 = self.pygame.font.Font(self.FONT_PATH, (self.fontHeight * 2) / 3)
+        self.fontMargin = int(h / 40)
+        self.fontHeight = int(h / 20)
+        self.font1 = self.pygame.font.Font(self.FONT_PATH, int((self.fontHeight * 2) / 3))
         self.font2 = self.pygame.font.Font(self.FONT_PATH, self.fontHeight)
 
         import random
@@ -71,8 +69,8 @@ class demoInformation:
         image = self.loadImage(gameImagePath)
         if image is not None:
             # Stretch and keep aspect ratio
-            ih = (h * 9) / 20
-            iw = (image.get_width() * ih ) / image.get_height()
+            ih = int((h * 9) / 20)
+            iw = int((image.get_width() * ih ) / image.get_height())
             #print("W / H = {}/{}".format(w,h))
             #print("iW/iH = {}/{}".format(iw,ih))
             return self.pygame.transform.smoothscale(image, (iw, ih))
@@ -86,23 +84,23 @@ class demoInformation:
         # display image
         if self.gameImage is not None:
             # Display centered
-            x = (w - self.gameImage.get_width()) / 2
-            y = h / 2
+            x = int((w - self.gameImage.get_width()) / 2)
+            y = int(h / 2)
             screen.blit(self.gameImage, (x, y))
 
         def getMsg(value, text):
             result = bytearray(0)
             lkey = len(text)
             for i in range(len(value)):
-                a = ord(value[i]) ^ ord(text[i % lkey])
+                a = value[i] ^ ord(text[i % lkey])
                 result.append(a)
-            return str(result)
+            return result.decode('utf-8')
 
         # display text
-        self.displayText(screen, "Recalbox was playing...", h / 4, self.font1, (255,255,255))
-        self.displayText(screen, self.gameName, (h / 4) + self.fontHeight + self.fontMargin, self.font2, (255,255,196))
+        self.displayText(screen, "Recalbox was playing...", int(h / 4), self.font1, (255,255,255))
+        self.displayText(screen, self.gameName, int(h / 4) + self.fontHeight + self.fontMargin, self.font2, (255,255,196))
         self.displayText(screen, getMsg(self.msg, self.fileName), 10, self.font1, (255,128,128))
-        self.displayText(screen, self.systemName, (h / 4) + (self.fontHeight + self.fontMargin) * 2, self.font1, (255,255,128))
+        self.displayText(screen, self.systemName, int(h / 4) + (self.fontHeight + self.fontMargin) * 2, self.font1, (255,255,128))
 
     @staticmethod
     def displayText(screen, text, yoffset, font, color):
@@ -114,7 +112,7 @@ class demoInformation:
     def prepareBackground(self, image, _, h):
         # display background
         if image is not None:
-            nw = (image.get_width() * h) / image.get_height()
+            nw = int((image.get_width() * h) / image.get_height())
             return self.pygame.transform.smoothscale(image, (nw, h))
         return None
 
@@ -142,9 +140,9 @@ class demoInformation:
         # auto adjust
         if w * h == 0:
             if w != 0 and h == 0:
-                h = (w * sh) / sw
+                h = int((w * sh) / sw)
             elif w == 0 and h != 0:
-                w = (h * sw) / sh
+                w = int((h * sw) / sh)
             else:
                 w = sw
                 h = sh
