@@ -28,10 +28,10 @@ index 56b908ed..82b88710 100644
  		default:
  			continue;
 diff --git a/src/osdep/amiberry_gfx.cpp b/src/osdep/amiberry_gfx.cpp
-index 1bb5f0fe..8bd8698c 100644
+index 44f6086c..4d721265 100644
 --- a/src/osdep/amiberry_gfx.cpp
 +++ b/src/osdep/amiberry_gfx.cpp
-@@ -1857,7 +1857,7 @@ int graphics_init(bool mousecapture)
+@@ -1880,7 +1880,7 @@ int graphics_init(bool mousecapture)
  		}
  		check_error_sdl(mon->sdl_window == nullptr, "Unable to create window:");
  
@@ -41,10 +41,10 @@ index 1bb5f0fe..8bd8698c 100644
  		{
  			SDL_SetWindowIcon(mon->sdl_window, icon_surface);
 diff --git a/src/osdep/gui/PanelAbout.cpp b/src/osdep/gui/PanelAbout.cpp
-index 7cccf723..2a59d0b1 100644
+index a9815c0d..26168620 100644
 --- a/src/osdep/gui/PanelAbout.cpp
 +++ b/src/osdep/gui/PanelAbout.cpp
-@@ -23,7 +23,7 @@ void InitPanelAbout(const struct _ConfigCategory& category)
+@@ -24,7 +24,7 @@ void InitPanelAbout(const struct _ConfigCategory& category)
  	SDL_VERSION(&compiled);
  	SDL_GetVersion(&linked);
  	
@@ -52,12 +52,12 @@ index 7cccf723..2a59d0b1 100644
 +	amiberryLogoImage = gcn::Image::load(prefix_with_application_directory_path("/usr/share/amiberry/data/amiberry-logo.png"));
  	icon = new gcn::Icon(amiberryLogoImage);
  	lblEmulatorVersion = new gcn::Label(get_version_string());
- 	std::ostringstream sdl_compiled;
+ 	lblCopyright = new gcn::Label("Copyright (C) 2016-2021 Dimitris Panokostas");
 diff --git a/src/osdep/gui/PanelHD.cpp b/src/osdep/gui/PanelHD.cpp
-index a9d68f05..66febcc6 100644
+index 0f345eba..d5aa8beb 100644
 --- a/src/osdep/gui/PanelHD.cpp
 +++ b/src/osdep/gui/PanelHD.cpp
-@@ -376,7 +376,7 @@ void InitPanelHD(const struct _ConfigCategory& category)
+@@ -369,7 +369,7 @@ void InitPanelHD(const struct _ConfigCategory& category)
  		listCmdProps[row]->setId(tmp);
  		listCmdProps[row]->addActionListener(hdEditActionListener);
  
@@ -67,10 +67,10 @@ index a9d68f05..66febcc6 100644
  		listCmdDelete[row]->setSize(SMALL_BUTTON_HEIGHT, SMALL_BUTTON_HEIGHT);
  		snprintf(tmp, 20, "cmdDel%d", row);
 diff --git a/src/osdep/gui/PanelMisc.cpp b/src/osdep/gui/PanelMisc.cpp
-index 685919cd..0bb4763a 100644
+index 22743f09..ed8c49cb 100644
 --- a/src/osdep/gui/PanelMisc.cpp
 +++ b/src/osdep/gui/PanelMisc.cpp
-@@ -461,7 +461,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
+@@ -464,7 +464,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
  	cmdKeyOpenGUI->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyOpenGUI->setBaseColor(gui_baseCol);
  	cmdKeyOpenGUI->addActionListener(miscActionListener);
@@ -79,7 +79,7 @@ index 685919cd..0bb4763a 100644
  	cmdKeyOpenGUIClear->setBaseColor(gui_baseCol);
  	cmdKeyOpenGUIClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyOpenGUIClear->setId("cmdKeyOpenGUIClear");
-@@ -478,7 +478,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
+@@ -481,7 +481,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
  	cmdKeyForQuit->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyForQuit->setBaseColor(gui_baseCol);
  	cmdKeyForQuit->addActionListener(miscActionListener);
@@ -88,7 +88,7 @@ index 685919cd..0bb4763a 100644
  	cmdKeyForQuitClear->setBaseColor(gui_baseCol);
  	cmdKeyForQuitClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyForQuitClear->setId("cmdKeyForQuitClear");
-@@ -495,7 +495,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
+@@ -498,7 +498,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
  	cmdKeyActionReplay->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyActionReplay->setBaseColor(gui_baseCol);
  	cmdKeyActionReplay->addActionListener(miscActionListener);
@@ -97,7 +97,7 @@ index 685919cd..0bb4763a 100644
  	cmdKeyActionReplayClear->setBaseColor(gui_baseCol);
  	cmdKeyActionReplayClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyActionReplayClear->setId("cmdKeyActionReplayClear");
-@@ -512,7 +512,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
+@@ -515,7 +515,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
  	cmdKeyFullScreen->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyFullScreen->setBaseColor(gui_baseCol);
  	cmdKeyFullScreen->addActionListener(miscActionListener);
@@ -106,7 +106,7 @@ index 685919cd..0bb4763a 100644
  	cmdKeyFullScreenClear->setBaseColor(gui_baseCol);
  	cmdKeyFullScreenClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyFullScreenClear->setId("cmdKeyFullScreenClear");
-@@ -529,7 +529,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
+@@ -532,7 +532,7 @@ void InitPanelMisc(const struct _ConfigCategory& category)
  	cmdKeyMinimize->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyMinimize->setBaseColor(gui_baseCol);
  	cmdKeyMinimize->addActionListener(miscActionListener);
@@ -116,10 +116,10 @@ index 685919cd..0bb4763a 100644
  	cmdKeyMinimizeClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyMinimizeClear->setId("cmdKeyMinimizeClear");
 diff --git a/src/osdep/gui/ShowMessage.cpp b/src/osdep/gui/ShowMessage.cpp
-index 49f0f3cc..71bb902d 100644
+index eb3840e2..2da085c9 100644
 --- a/src/osdep/gui/ShowMessage.cpp
 +++ b/src/osdep/gui/ShowMessage.cpp
-@@ -147,7 +147,7 @@ static void InitShowMessage()
+@@ -152,7 +152,7 @@ static void InitShowMessage()
  	if (gui_font == nullptr)
  	{
  		TTF_Init();
@@ -129,10 +129,10 @@ index 49f0f3cc..71bb902d 100644
  		gui_font->setAntiAlias(false);
  	}
 diff --git a/src/osdep/gui/main_window.cpp b/src/osdep/gui/main_window.cpp
-index c3ef5e85..8b391966 100644
+index 7e1e4018..865cd75a 100644
 --- a/src/osdep/gui/main_window.cpp
 +++ b/src/osdep/gui/main_window.cpp
-@@ -46,45 +46,45 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
+@@ -46,47 +46,47 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
  }
  
  ConfigCategory categories[] = {
@@ -165,8 +165,11 @@ index c3ef5e85..8b391966 100644
  		HelpPanelFloppy
  	},
 -	{"Hard drives/CD", "data/drive.ico", nullptr, nullptr, InitPanelHD, ExitPanelHD, RefreshPanelHD, HelpPanelHD},
--	{"RTG board", "data/expansion.ico", nullptr, nullptr, InitPanelRTG, ExitPanelRTG,
+-	{"Expansions", "data/expansion.ico", nullptr, nullptr, InitPanelExpansions, ExitPanelExpansions,
 +	{"Hard drives/CD", "/usr/share/amiberry/data/drive.ico", nullptr, nullptr, InitPanelHD, ExitPanelHD, RefreshPanelHD, HelpPanelHD},
++	{"Expansions", "/usr/share/amiberry/data/expansion.ico", nullptr, nullptr, InitPanelExpansions, ExitPanelExpansions,
+ 		RefreshPanelExpansions, HelpPanelExpansions},
+-	{"RTG board", "data/expansion.ico", nullptr, nullptr, InitPanelRTG, ExitPanelRTG,
 +	{"RTG board", "/usr/share/amiberry/data/expansion.ico", nullptr, nullptr, InitPanelRTG, ExitPanelRTG,
  		RefreshPanelRTG, HelpPanelRTG
  	},
@@ -198,7 +201,7 @@ index c3ef5e85..8b391966 100644
  #endif
  	{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}
  };
-@@ -259,7 +259,7 @@ void update_gui_screen()
+@@ -262,7 +262,7 @@ void update_gui_screen()
  #else
  void setup_cursor()
  {
@@ -207,7 +210,7 @@ index c3ef5e85..8b391966 100644
  	if (!cursor_surface)
  	{
  		// Load failed. Log error.
-@@ -423,7 +423,7 @@ void amiberry_gui_init()
+@@ -426,7 +426,7 @@ void amiberry_gui_init()
  			GUI_HEIGHT,
  			flags);
  
@@ -216,7 +219,7 @@ index c3ef5e85..8b391966 100644
  		if (icon_surface != nullptr)
  		{
  			SDL_SetWindowIcon(mon->sdl_window, icon_surface);
-@@ -1040,7 +1040,7 @@ void gui_widgets_init()
+@@ -1048,7 +1048,7 @@ void gui_widgets_init()
  
  	try
  	{
