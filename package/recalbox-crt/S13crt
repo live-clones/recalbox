@@ -24,7 +24,7 @@ if test "$1" == "start" ; then
             reboot
         fi
     elif [[ "${DAC}" == "" ]]; then
-        if [[ -f "${CRT_CONFIG_FILE}" ]]; then
+        if [[ -f "${CRT_CONFIG_FILE}" ]] && grep -q "#device=" "${CRT_CONFIG_FILE}"; then
             # We should clean
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Uninstalling CRT configuration."

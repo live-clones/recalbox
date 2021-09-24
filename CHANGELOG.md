@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix crt reboot
 - Add theme for lowres nx (#1950)
 - Add theme for bbc micro (#1949)
 - Add theme for trs80coco (#1945)
