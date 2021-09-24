@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Disabled deploy to prod button on betas (#1932)
 - Add theme for ti994a (#1930)
+- Remove x86 32 bits support (#1942)
 - Add informations when logging with recallog (#1920)
 - Fix click on video in ES (#1887)
 - Add montreal & saopaulo MITM servers

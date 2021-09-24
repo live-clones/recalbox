@@ -140,11 +140,6 @@ build odroidgo2:
   when: manual
   variables:
     ARCH: 'odroidgo2'
-build x86:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'x86'
 build odroidxu4:
   <<: *build_definition
   when: manual
@@ -185,12 +180,6 @@ nightly build odroidgo2:
     - schedules
   variables:
     ARCH: 'odroidgo2'
-nightly build x86:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'x86'
 nightly build odroidxu4:
   <<: *build_definition
   only:
