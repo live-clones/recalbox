@@ -1,5 +1,5 @@
 diff --git a/package/python-pygame/python-pygame.mk b/package/python-pygame/python-pygame.mk
-index 8deb42a90c..f95a4d68a5 100644
+index 8deb42a90c..bfbe4c5d88 100644
 --- a/package/python-pygame/python-pygame.mk
 +++ b/package/python-pygame/python-pygame.mk
 @@ -4,90 +4,34 @@
@@ -23,17 +23,17 @@ index 8deb42a90c..f95a4d68a5 100644
  
  ifeq ($(BR2_PACKAGE_PYTHON_PYGAME_IMAGE),y)
 -PYTHON_PYGAME_OPT_DEPENDS += sdl_image
-+PYTHON_PYGAME_DEPENDENCIES += sdl_image
++PYTHON_PYGAME_DEPENDENCIES += sdl2_image
  endif
  
  ifeq ($(BR2_PACKAGE_PYTHON_PYGAME_FONT),y)
 -PYTHON_PYGAME_OPT_DEPENDS += sdl_ttf
-+PYTHON_PYGAME_DEPENDENCIES += sdl_ttf
++PYTHON_PYGAME_DEPENDENCIES += sdl2_ttf
  endif
  
  ifeq ($(BR2_PACKAGE_PYTHON_PYGAME_MIXER),y)
 -PYTHON_PYGAME_OPT_DEPENDS += sdl_mixer
-+PYTHON_PYGAME_DEPENDENCIES += sdl_mixer
++PYTHON_PYGAME_DEPENDENCIES += sdl2_mixer
  endif
  
 -PYTHON_PYGAME_DEPENDENCIES = sdl $(PYTHON_PYGAME_OPT_DEPENDS)
