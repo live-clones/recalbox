@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_UAE_VERSION = b3efd9c3c003707c8c0dda73543c77588cff1260
+LIBRETRO_UAE_VERSION = 553ff478a29608a3409dc8458a626cc6649de740
 LIBRETRO_UAE_SITE = $(call gitlab,recalbox,packages/libretro/libretro-uae,$(LIBRETRO_UAE_VERSION))
 LIBRETRO_UAE_LICENSE = GPL-2.0
 LIBRETRO_UAE_LICENSE_FILES = COPYING
