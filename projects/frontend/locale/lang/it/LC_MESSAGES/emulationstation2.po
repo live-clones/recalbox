@@ -3109,6 +3109,10 @@ msgstr ""
 msgid "No comment available"
 msgstr ""
 
+#
+msgid "UNKNOWN"
+msgstr ""
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

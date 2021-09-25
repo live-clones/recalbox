@@ -2804,6 +2804,10 @@ msgstr ""
 msgid "No comment available"
 msgstr ""
 
+#
+msgid "UNKNOWN"
+msgstr ""
+
 #~ msgid "added to favorites"
 #~ msgstr "engadido a favoritos"
 

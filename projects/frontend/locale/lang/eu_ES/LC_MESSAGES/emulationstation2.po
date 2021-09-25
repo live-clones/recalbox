@@ -2769,5 +2769,9 @@ msgstr ""
 msgid "No comment available"
 msgstr ""
 
+#
+msgid "UNKNOWN"
+msgstr ""
+
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "EGUNERAKETA BERTSIOA:"
