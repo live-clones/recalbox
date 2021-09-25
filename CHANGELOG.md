@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Configgen: remove hard copy of startup script and make a symlink instead (#1951)
 - Add theme for lowres nx (#1950)
 - Disabled deploy to prod button on betas (#1932)
 - Add theme for ti994a (#1930)
