@@ -60,7 +60,7 @@ class LibretroControllers:
     retroarchspecialsnomenu: Dict[int, str] = \
     {
         InputItem.ItemX        : 'load_state',
-        InputItem.ItemY        :  'save_state',
+        InputItem.ItemY        : 'save_state',
         InputItem.ItemL1       : 'screenshot',
         InputItem.ItemStart    : 'exit_emulator',
         InputItem.ItemUp       : 'state_slot_increase',
@@ -106,7 +106,7 @@ class LibretroControllers:
         self.controllers: ControllerPerPlayer = controllers
         self.nodefaultkeymap: bool = nodefaultkeymap
         self.retroarchspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
-        self.retroarchspecials[InputItem.ItemX] = 'menu_toggle'
+        self.retroarchspecials[InputItem.ItemB] = 'menu_toggle'
 
     # Fill controllers configuration
     def fillControllersConfiguration(self) -> keyValueSettings:
