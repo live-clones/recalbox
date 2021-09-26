@@ -2,6 +2,9 @@ config BR2_PACKAGE_RECALBOX_CONFIGGEN
 	bool "recalbox configgen"
 	select BR2_PACKAGE_PYTHON3
 	select BR2_PACKAGE_PYTHON_PYUDEV
+	select BR2_PACKAGE_PYTHON_PYGAME
+	select BR2_PACKAGE_PYTHON_PYGAME_IMAGE
+	select BR2_PACKAGE_PYTHON_PYGAME_FONT
 	help
 	  The configuration utility for recalbox
 

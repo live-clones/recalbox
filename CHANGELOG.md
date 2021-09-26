@@ -9,13 +9,14 @@ All notable changes to this project will be documented in this file.
 - Add theme for bbc micro (#1949)
 - Add theme for trs80coco (#1945)
 - Refactor configgen (#1886)
+- Add pygame as direct dependency of configgen (#1886)
 - Disabled deploy to prod button on betas (#1932)
 - Add theme for ti994a (#1930)
 - Remove x86 32 bits support (#1942)
 - Add informations when logging with recallog (#1920)
 - Fix click on video in ES (#1887)
-- Add montreal & saopaulo MITM servers
-- Add Hatari standalone emulator
+- Add montreal & saopaulo MITM servers (#1908)
+- Add Hatari standalone emulator (#1907)
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Bump Oricutron (#1893)
@@ -33,16 +34,16 @@ All notable changes to this project will be documented in this file.
 - Improve netplay management (#1846)
 - Fix 'files:' tag in systemlist.xml generator (#1876)
 - Add EmuTOS bios for Atari ST (#1868)
-- Add ti99sim, standalone emulator for the TI-99/4A
+- Add ti99sim, standalone emulator for the TI-99/4A (#1856)
 - Bump libretro-MGBA (#1873)
 - Bump Libretro-PX68K (#1875)
 - Add ti99sim, standalone emulator for the TI-99/4A (#1856)
 - Bump libretro-MGBA (#1873)
-- Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator)
-- Bump Libretro-Beetle-PSX
-- Bump Libretro-MAME2003-Plus
-- Bump Libretro-MAME2003
-- Bump Libretro-VICE
+- Add TRS-80 CoCo & Dragon32/64 systems (XRoar emulator) (#1863)
+- Bump Libretro-Beetle-PSX (#1871)
+- Bump Libretro-MAME2003-Plus (#1872)
+- Bump Libretro-MAME2003 (#1870)
+- Bump Libretro-VICE (#1874)
 - Added Lowres-nx theme (#1586)
 - Fix sram demons of asterborg. Bump core libretro picodrivre (#1844)
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
@@ -126,7 +127,6 @@ All notable changes to this project will be documented in this file.
 - Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 - Updated package versions (#1956)
 - Add Recalbox Reloaded video intro (#1959)
-
 - Removed security option (#1913)
 - Fix 'UNKNOWN' missing text in EmulationStation (#1954)
 - Fixed dependencies for python-pygame o sdl2_ttf and sdl2_image (#1826)
