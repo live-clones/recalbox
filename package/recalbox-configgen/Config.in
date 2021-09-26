@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_CONFIGGEN
 	bool "recalbox configgen"
 	select BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_PYUDEV
 	help
 	  The configuration utility for recalbox
 
