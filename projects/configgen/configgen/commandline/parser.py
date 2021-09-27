@@ -20,7 +20,7 @@ class Parser:
             if key != "_Namespace__args":
                 raise PermissionError
             for k, v in value.items():
-              self.__dict__[k.strip('-')] = v
+              self.__dict__[k] = v
 
         def __delattr__(self, item):
             raise PermissionError
@@ -33,20 +33,20 @@ class Parser:
         self.__commands: Dict[str, ParserCommand] = {}
         self.__processed: Dict[str, ParserCommand] = {}
 
-    def AddString(self, command: str, helpmsg: str, required: bool = True, default: str = "") -> Parser:
-        self.__commands[command] = ParserCommand(command, helpmsg, ParserCommand.Str, True, required).SetDefaultStr(default)
+    def AddString(self, command: str, chelp: str, required: bool = True, default: str = "") -> Parser:
+        self.__commands[command] = ParserCommand(command, chelp, ParserCommand.Str, True, required).SetDefaultStr(default)
         return self
 
-    def AddInt(self, command: str, helpmsg: str, required: bool = True, default: int = 0) -> Parser:
-        self.__commands[command] = ParserCommand(command, helpmsg, ParserCommand.Int, True, required).SetDefaultInt(default)
+    def AddInt(self, command: str, chelp: str, required: bool = True, default: int = 0) -> Parser:
+        self.__commands[command] = ParserCommand(command, chelp, ParserCommand.Int, True, required).SetDefaultInt(default)
         return self
 
-    def AddBool(self, command: str, helpmsg: str, required: bool = True, default: bool = False) -> Parser:
-        self.__commands[command] = ParserCommand(command, helpmsg, ParserCommand.Bool, True, required).SetDefaultBool(default)
+    def AddBool(self, command: str, chelp: str, required: bool = True, default: bool = False) -> Parser:
+        self.__commands[command] = ParserCommand(command, chelp, ParserCommand.Bool, True, required).SetDefaultBool(default)
         return self
 
-    def AddSimple(self, command: str, helpmsg: str, required: bool = True) -> Parser:
-        self.__commands[command] = ParserCommand(command, helpmsg, ParserCommand.Bool, False, required)
+    def AddSimple(self, command: str, chelp: str, required: bool = True) -> Parser:
+        self.__commands[command] = ParserCommand(command, chelp, ParserCommand.Bool, False, required)
         return self
 
     def Parse(self) -> Namespace:
@@ -59,6 +59,7 @@ class Parser:
         while index < len(args):
             # Get new command
             cmd: str = args[index]
+            if cmd[0] == '-': cmd = cmd[1:]
             index += 1
             if not cmd in self.__commands:
                 if cmd in self.__processed: self.__Error("Command '{}' found twice.".format(cmd))
@@ -79,9 +80,12 @@ class Parser:
             self.__processed[cmd] = command
             del self.__commands[cmd]
 
+        # Kodi?
+        isKodi: bool = "system" in result and result["system"] == "kodi"
+
         # Check all required args are there and set default parameters
         for command in self.__commands.values():
-            if command.Required:
+            if command.Required and not isKodi:
                 self.__Error("Missing required argument " + command.Command)
             else:
                 cmd: str = command.Command
