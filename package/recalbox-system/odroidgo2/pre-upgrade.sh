@@ -25,3 +25,7 @@ if [ "$OLDBOOT" = 'odroidgoa-uboot-config' ]; then
   mount -o remount,rw /boot
   sed -i -E '1 s/^.*$/'"$OLDBOOT"'/' /boot/update/boot.ini
 fi
+
+# Remove old dats files from bios
+rm -rf /recalbox/share/bios/dc/*.dat.zip
+rm -rf /recalbox/share/bios/mame/*.dat.zip

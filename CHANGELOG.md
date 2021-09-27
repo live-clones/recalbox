@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Removal of old dats and addition of dats in .zip format (#1958)
 - Configgen: remove hard copy of startup script and make a symlink instead (#1951)
 - Add theme for lowres nx (#1950)
 - Add theme for bbc micro (#1949)
