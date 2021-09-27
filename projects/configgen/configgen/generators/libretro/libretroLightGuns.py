@@ -71,6 +71,8 @@
 ## V1.8 TO DO: to integrate a popup to inform about buttons to use from wiimote
 from typing import Optional, Dict
 
+from pyudev.device._device import Properties, Device
+
 from configgen.Emulator import Emulator
 import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -95,30 +97,28 @@ class libretroLightGun:
         self.system: Emulator = system
         self.rom: str = rom
         self.demo: bool = demo
-        self.MouseIndexByPlayer = []
-        self.__debug: bool = False
+        self.MouseIndexByPlayer = [0, -1, -1, -1]
+        self.__debug: bool = True
+
+    def getOrDefault(self, props: Properties, key: str, default: str) -> str:
+        if key in props: return props[key];
+        return default
 
     def findDolphinBarIndexes(self) -> bool:
         # Lookup mouse sub-device in dolphin bar devices & count them
         import pyudev
-        context = pyudev.Context()
-        deviceHandlers: Dict[str, int] = {}
-        for device in context.list_devices(subsystem='input', ID_SERIAL="HJZ_Mayflash_Wiimote_PC_Adapter"):
-            if device.device_node is not None:
-                if len([link for link in device.device_links if link.find("mouse") >= 0]) != 0:
-                    sysid = device.parent.sys_number
-                    deviceHandlers[sysid] = 1 if sysid not in deviceHandlers else deviceHandlers[sysid] + 1
-                    if self.__debug: Log(str(device))
-
-        # Now store mouse device indexes as required by RetroArch
-        nodeIndex: int = 0
-        for k, v in deviceHandlers.items():
-            self.MouseIndexByPlayer.append(nodeIndex)
-            nodeIndex = nodeIndex + v
-
-        # Pad missing values
-        while len(self.MouseIndexByPlayer) < 4:
-            self.MouseIndexByPlayer.append(-1)
+        player: int = 0
+        mouseIndex: int = 0
+        devices: Dict[str, Device] = {}
+        for device in pyudev.Context().list_devices(subsystem="input", ID_INPUT_MOUSE="1"):
+            if device.sys_name.startswith("event"):
+                devices[device.sys_name] = device
+        for name, device in sorted(devices.items()):
+            if self.getOrDefault(device.properties, "ID_SERIAL", "") == "HJZ_Mayflash_Wiimote_PC_Adapter":
+                self.MouseIndexByPlayer[player] = mouseIndex
+                player += 1
+            mouseIndex += 1
+            if self.__debug: Log(name + " = " + str(device))
 
         return len(self.MouseIndexByPlayer) != 0
 
@@ -146,31 +146,28 @@ class libretroLightGun:
             index = int(value[4:]) - 1
             ##update value with mouse index of gun for this player
             ivalue: int = self.MouseIndexByPlayer[index]
-            if ivalue < 0:
-                ivalue = 99 ## avoid to take nul value as "0" default value
-                if self.__debug: Log('       value set to "99" to avoid issue if we put "nul" !')
             value = str(ivalue)
             if self.__debug: Log('       updated with Mouse Index: ' + name + ' = ' + value)
         self.retroarchConfig.setString(name, value)
 
-    #to cancel input device (parameter "input_libretro_device_pX") if the corresponding "input_playerX_mouse_index" is already set to 99 by SetInputs function
+    # to cancel input device (parameter "input_libretro_device_pX") if the corresponding "input_playerX_mouse_index" is already set to 99 by SetInputs function
     def CancelDevicesNotUsed(self):
         for i in range(4):
-            value = "0"
-            value = self.retroarchConfig.getString("input_player" + str(i) + "_mouse_index", value)
-            #check if we identified this index as not necessary
-            if value == "99":
-                if self.__debug: Log('Mouse index cancelled: ' + "input_player" + str(i) + "_mouse_index" + ' = ' + value)
-                if self.__debug: Log('Device cancelled and options linked: ' + "input_libretro_device_p" + str(i) + ' = ' + '0')
-                self.retroarchConfig.setInt("input_libretro_device_p" + str(i), 0)
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_start", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_select", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_select", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_start", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_up", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_down", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_right", "nul")
-                self.retroarchConfig.setString("input_player" + str(i) + "_gun_dpad_left", "nul")
+            player: str = str(i + 1)
+            value: int = self.retroarchConfig.getInt("input_player" + player + "_mouse_index", -1)
+            # check if we identified this index as not necessary
+            if value < 0:
+                if self.__debug: Log('Mouse index cancelled: ' + "input_player" + player + "_mouse_index" + ' = ' + str(value))
+                if self.__debug: Log('Device cancelled and options linked: ' + "input_libretro_device_p" + player + ' = ' + '0')
+                self.retroarchConfig.setInt("input_libretro_device_p" + player, -1)
+                self.retroarchConfig.setString("input_player" + player + "_gun_start", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_gun_select", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_select", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_start", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_gun_dpad_up", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_gun_dpad_down", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_gun_dpad_right", "nul")
+                self.retroarchConfig.setString("input_player" + player + "_gun_dpad_left", "nul")
 
     @staticmethod
     def LookupPlatform(root: Element, name: str) -> [Optional[Element], Optional[Element]]:

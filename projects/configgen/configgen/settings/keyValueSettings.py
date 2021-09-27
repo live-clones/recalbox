@@ -40,12 +40,12 @@ class keyValueSettings:
 
     def getInt(self, key: str, default: int) -> int:
         if key in self.__settings:
-            return int(self.__settings[key])
+            return int(self.__settings[key].strip('"'))
         return default
 
     def getBool(self, key: str, default: bool) -> bool:
         if key in self.__settings:
-            return self.__settings[key] == self.__true
+            return self.__settings[key].strip('"') == self.__true
         return default
 
     def hasOption(self, key: str):

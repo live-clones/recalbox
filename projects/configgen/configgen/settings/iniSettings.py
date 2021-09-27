@@ -51,14 +51,14 @@ class IniSettings:
         if section in self.regions:
             region = self.regions[section]
             if item in region:
-                return int(region[item])
+                return int(region[item].strip('"'))
         return default
 
     def getBool(self, section: str, item: str, default: bool) -> bool:
         if section in self.regions:
             region = self.regions[section]
             if item in region:
-                return region[item] == '1'
+                return region[item].strip('"') == self.__true
         return default
 
     def hasRegion(self, section: str) -> bool:
@@ -88,7 +88,7 @@ class IniSettings:
         if section not in self.regions:
             self.regions[section] = {}
         region = self.regions[section]
-        region[item] = '1' if value else '0'
+        region[item] = self.__true if value else self.__false
         return self
 
     def removeOption(self, section: str, item: str) -> IniSettings:
