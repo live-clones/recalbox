@@ -61,4 +61,4 @@ class Architecture:
 
     @property
     def isSupportingTvService(self):
-        return self.isPi0or1 or self.isPi2 or self.isPi3
+        return self.isPi0or1 or self.isPi2
