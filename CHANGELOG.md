@@ -134,6 +134,7 @@ All notable changes to this project will be documented in this file.
 - Remove all .nvmem and .nvmem2 files (#1901)
 - Fix max/min calculation reworked for lightgun/mouse/touchscreen in retroarch using patch (#1885)
 - Fix ChannelF system with FBNeo roms (#1969)
+- Improve nespi4case shutdown script (#1381)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
