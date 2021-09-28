@@ -147,6 +147,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test Xbox One S Wireless controller
   - [ ] Test Xbox Elite Series 2 Wireless controller
   - [ ] Test Xbox Series X|S Wireless controller
+- [ ] Test nespi4case new shutdown/reset script works (#1381)
+  - [ ] Power button retracted should shutdown the rpi4
+  - [ ] Reset button while in ES should restart ES
+  - [ ] Reset button while in game should quit that game and go back to ES
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
