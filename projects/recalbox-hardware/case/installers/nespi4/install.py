@@ -46,29 +46,6 @@ class Install(InstallBase):
 
     def InstallSoftware(self, case):
 
-        logger.hardlog("Installing NesPi4 Case software")
-
-        try:
-            os.system("mount -o remount,rw /")
-
-            script = self.BASE_SOURCE_FOLDER + "assets/shutdown.py"
-            try:
-                with open("/etc/init.d/S99RetroFlag", 'w+') as sf:
-                    sf.write("python {} &".format(script))
-                os.chmod("/etc/init.d/S99RetroFlag", 0o755)
-                os.system("/etc/init.d/S99RetroFlag")
-                logger.hardlog("NesPi4: safe shutdown installed")
-            except Exception as e:
-                logger.hardlog("NesPi4: error installing safe shutdown ({})".format(e))
-
-        except Exception as e:
-            logger.hardlog("NesPi4: Exception = {}".format(e))
-            return ""
-
-        finally:
-            os.system("mount -o remount,ro /")
-
-        logger.hardlog("NesPi4 software installed successfully!")
         return case
 
 
@@ -93,22 +70,6 @@ class Install(InstallBase):
 
 
     def UninstallSoftware(self, case):
-
-        try:
-            os.system("mount -o remount,rw /")
-
-            # Uninstall shutdown scripty
-            if os.system("rm -f /etc/init.d/S99RetroFlag") != 0:
-                logger.hardlog("NesPi4: Error uninstalling config.txt")
-                return False
-            logger.hardlog("NesPi4: config.txt uninstalled")
-
-        except Exception as e:
-            logger.hardlog("GPi: Exception = {}".format(e))
-            return case
-
-        finally:
-            os.system("mount -o remount,ro /")
 
         return ""
 
