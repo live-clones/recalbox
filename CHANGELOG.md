@@ -117,9 +117,8 @@ All notable changes to this project will be documented in this file.
 - Rework share to upgrade necessary data (#1864)
 - Remove Flycast from x86 (#1902)
 - Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
-- Updated package versions (#1956)
+- Change Kodi inputstreamhelper source (#1956)
 - Add Recalbox Reloaded video intro (#1959)
-
 - Removed security option (#1913)
 
 ## [7.2.2-Reloaded]
