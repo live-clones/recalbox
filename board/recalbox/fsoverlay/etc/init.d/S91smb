@@ -4,13 +4,8 @@
 #
 
 systemsetting="recalbox_settings"
-securityenabled="`$systemsetting  -command load -key system.security.enabled`"
 
-if [ "$securityenabled" == "1" ];then
-    CONFIGFILE="/etc/samba/smb-secure.conf"
-else
-    CONFIGFILE="/etc/samba/smb.conf"
-fi
+CONFIGFILE="/etc/samba/smb.conf"
 
 # Make directories.
 mkdir -p /var/cache/samba
@@ -40,7 +35,7 @@ start() {
 	[ $RETVAL -eq 0 -a $RETVAL2 -eq 0 ] && touch /var/lock/subsys/smb || \
 	   RETVAL=1
 	return $RETVAL
-}	
+}
 
 stop() {
 	echo -n "Shutting down SMB services: "
@@ -57,20 +52,20 @@ stop() {
 	[ $RETVAL -eq 0 -a $RETVAL2 -eq 0 ] && rm -f /var/lock/subsys/smb
 	echo "done"
 	return $RETVAL
-}	
+}
 
 restart() {
 	stop
 	start
-}	
+}
 
 reload() {
-        echo -n "Reloading smb.conf file: "
+	echo -n "Reloading smb.conf file: "
 	kill -HUP `pidof smbd`
 	RETVAL=$?
 	echo "done"
 	return $RETVAL
-}	
+}
 
 case "$1" in
   start)
