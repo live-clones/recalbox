@@ -41,11 +41,6 @@ do_stop() {
 
 case "$1" in
 start)
-    enabled="`$systemsetting  -command load -key system.security.enabled`"
-    if [ "$enabled" == "1" ];then
-        recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Will not start $NAME : system.security.enabled is set to 1"
-        exit 0
-    fi
     enabled="`$systemsetting  -command load -key system.manager.enabled`"
     if [ "$enabled" != "0" ];then
         recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Starting $NAME"
@@ -54,7 +49,7 @@ start)
         recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Will not start $NAME : system.manager.enabled is set to 0"
     fi
 
-    
+
     ;;
 stop)
     recallog -s "${INIT_SCRIPT}" -t "MANAGER" "Stopping $NAME"
