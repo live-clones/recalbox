@@ -108,7 +108,7 @@ All notable changes to this project will be documented in this file.
 - Bump theme (#1827)
 - Fix pisnes crash on launch (#1838)
 - Bump python-pygame to 2.0.1
-- Bump buildroot to 2021.5 (#1815, #1909)
+- Bump buildroot to 2021.5 (#1815, #1909, #1960)
 - Bump rpi-firmware to 5.10.60 (#1815)
 - Bump rpi kernel to 5.10.60 (#1815, #1867)
 - Bump linux firmware to 20210716 (#1815)
