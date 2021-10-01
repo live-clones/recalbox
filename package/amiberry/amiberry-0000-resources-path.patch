@@ -116,10 +116,10 @@ index 22743f09..ed8c49cb 100644
  	cmdKeyMinimizeClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyMinimizeClear->setId("cmdKeyMinimizeClear");
 diff --git a/src/osdep/gui/ShowMessage.cpp b/src/osdep/gui/ShowMessage.cpp
-index eb3840e2..2da085c9 100644
+index de540394..752d5d37 100644
 --- a/src/osdep/gui/ShowMessage.cpp
 +++ b/src/osdep/gui/ShowMessage.cpp
-@@ -152,7 +152,7 @@ static void InitShowMessage()
+@@ -153,7 +153,7 @@ static void InitShowMessage()
  	if (gui_font == nullptr)
  	{
  		TTF_Init();
@@ -129,7 +129,7 @@ index eb3840e2..2da085c9 100644
  		gui_font->setAntiAlias(false);
  	}
 diff --git a/src/osdep/gui/main_window.cpp b/src/osdep/gui/main_window.cpp
-index 7e1e4018..865cd75a 100644
+index 542241fd..ef768980 100644
 --- a/src/osdep/gui/main_window.cpp
 +++ b/src/osdep/gui/main_window.cpp
 @@ -46,47 +46,47 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
@@ -219,7 +219,7 @@ index 7e1e4018..865cd75a 100644
  		if (icon_surface != nullptr)
  		{
  			SDL_SetWindowIcon(mon->sdl_window, icon_surface);
-@@ -1048,7 +1048,7 @@ void gui_widgets_init()
+@@ -1053,7 +1053,7 @@ void gui_widgets_init()
  
  	try
  	{
