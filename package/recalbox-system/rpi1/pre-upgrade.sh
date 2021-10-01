@@ -34,3 +34,7 @@ fi
 # this next patch can removed post 7.2 as the case
 # reset will be implemented in the caller script
 sed -i -E 's/^case=/;case=/' /boot/recalbox-boot.conf
+
+# Remove old dats files from bios
+rm -rf /recalbox/share/bios/dc/*.dat.zip
+rm -rf /recalbox/share/bios/mame/*.dat.zip
