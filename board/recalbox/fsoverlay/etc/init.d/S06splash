@@ -161,7 +161,7 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm --drm-connector=$conn"
     done
-  elif [[ "$ARCH" == "rpi1" || "$ARCH" == "rpi2" || "$ARCH" == "rpi3" ]]; then
+  elif [[ "$ARCH" == "rpi1" || "$ARCH" == "rpi2" ]]; then
     # on rpi1 2 and 3 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
   else
