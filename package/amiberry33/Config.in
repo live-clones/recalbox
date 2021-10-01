@@ -1,0 +1,16 @@
+config BR2_PACKAGE_AMIBERRY33
+	bool "Amiberry3.3"
+	depends on BR2_PACKAGE_SDL
+	depends on BR2_PACKAGE_RECALBOX_SYSTEM
+	select BR2_PACKAGE_MPG123
+	select BR2_PACKAGE_SDL_TTF
+	select BR2_PACKAGE_SDL_GFX
+	select BR2_PACKAGE_LIBCAPSIMAGE
+	select BR2_PACKAGE_LIBGO2 if BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2
+	help
+	  An Amiga emulator
+
+	  https://github.com/midwan/amiberry
+
+comment "Amiberry 3.3 depends on SDL"
+	depends on !(BR2_PACKAGE_SDL)
