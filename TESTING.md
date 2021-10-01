@@ -116,6 +116,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
 - [ ] Test if FBNeo roms for ChannelF works correctly (#1969)
+- [ ] Check odroidxu4 can start any emulator (#1960)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
