@@ -2779,7 +2779,7 @@ msgid "EDIT GAME %s"
 msgstr "MODIFIER LE JEU %s"
 
 msgid "EDIT FOLDER %s"
-msgstr "MODIFIER LE RÉPERTOIRE %S"
+msgstr "MODIFIER LE RÉPERTOIRE %s"
 
 msgid "RUN WITH"
 msgstr "LANCER AVEC"

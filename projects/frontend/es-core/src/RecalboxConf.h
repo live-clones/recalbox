@@ -213,6 +213,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "default")
     DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "default")
 
+    DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
+
     /*
      * System
      */
@@ -340,6 +342,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";
     static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
+
+    static constexpr const char* sBatteryHidden              = "emulationstation.battery.hidden";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";

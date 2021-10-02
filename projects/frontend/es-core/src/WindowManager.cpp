@@ -278,6 +278,9 @@ void WindowManager::Render(Transform4x4f& transform)
     }
   }
 
+  Renderer::SetMatrix(Transform4x4f::Identity());
+  DisplayBatteryState();
+
   InfoPopupsDisplay(transform);
 }
 
@@ -361,14 +364,46 @@ bool WindowManager::KonamiCode(const InputCompactEvent& input)
   return false;
 }
 
+void WindowManager::DisplayBatteryState()
+{
+  if (!Board::Instance().HasBattery() ||
+      RecalboxConf::Instance().GetBatteryHidden()) return;
+
+  int charge = Board::Instance().BatteryChargePercent();
+  UnicodeChar unicodeIcon = 0xf1b4;
+  if (!Board::Instance().IsBatteryCharging())
+  {
+    if (charge >= 66)      unicodeIcon = 0xF1ba;
+    else if (charge >= 33) unicodeIcon = 0xF1b8;
+    else if (charge >= 15) unicodeIcon = 0xF1b1;
+    else                   unicodeIcon = 0xF1b5;
+  }
+
+  //int charge = 9; UnicodeChar unicodeIcon = 0xF1b1;
+  unsigned int color = 0xFFFFFFFF;
+  if (charge < 15) color = 0xFF8000FF;
+  if ((charge < 10) && ((SDL_GetTicks() >> 8) & 3) == 0) color = 0xFF0000FF;
+
+  Font* font = Font::get(Renderer::Instance().IsSmallResolution() ? (int)FONT_SIZE_LARGE : (int)FONT_SIZE_MEDIUM).get();
+  Font::Glyph& glyph = font->Character(unicodeIcon);
+  float glyphWidth = glyph.texSize.x() * (float) glyph.texture->textureSize.x();
+  float glyphHeight = glyph.texSize.y() * (float) glyph.texture->textureSize.y();
+  float x = Renderer::Instance().DisplayWidthAsFloat() - Math::round(glyphWidth * 1.25f);
+  float y = Math::round(glyphHeight * 0.25f);
+  font->renderCharacter(unicodeIcon, x + 1, y, 1.f, 1.f, 0xFF);
+  font->renderCharacter(unicodeIcon, x - 1, y, 1.f, 1.f, 0xFF);
+  font->renderCharacter(unicodeIcon, x, y + 1, 1.f, 1.f, 0xFF);
+  font->renderCharacter(unicodeIcon, x, y - 1, 1.f, 1.f, 0xFF);
+  font->renderCharacter(unicodeIcon, x, y, 1.f, 1.f, color);
+}
+
 void WindowManager::RenderAll(bool halfLuminosity)
 {
   Transform4x4f transform(Transform4x4f::Identity());
   Render(transform);
   if (halfLuminosity)
   {
-    transform = Transform4x4f::Identity();
-    Renderer::SetMatrix(transform);
+    Renderer::SetMatrix(Transform4x4f::Identity());
     Renderer::DrawRectangle(0.f, 0.f, Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0x00000080);
   }
   Renderer::Instance().SwapBuffers();

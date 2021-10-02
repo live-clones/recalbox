@@ -122,14 +122,15 @@ UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
   assert((c & 0xC0) != 0x80); // character is 10xxxxxx
 
   // if that wasn't it, something crazy happened
-  assert(false);
+  abort();
+  return 0;
 }
 
 
 Font::FontFace::FontFace(ResourceData&& d, int size)
   : data(d), face(nullptr)
 {
-  int err = FT_New_Memory_Face(sLibrary, (const unsigned char*) data.data(), data.size(), 0, &face);
+  int err = FT_New_Memory_Face(sLibrary, (const unsigned char*) data.data(), (int)data.size(), 0, &face);
   (void) err;
   assert(!err);
 
@@ -156,7 +157,7 @@ size_t Font::getMemUsage() const
 {
   size_t memUsage = 0;
   for (const auto& mTexture : mTextures)
-    memUsage += mTexture.textureSize.x() * mTexture.textureSize.y() * 4;
+    memUsage += (size_t)(mTexture.textureSize.x() * mTexture.textureSize.y() * 4);
 
   for (const auto& it : mFaceCache)
     memUsage += it.second->data.size();
@@ -572,7 +573,7 @@ void Font::renderTextCache(TextCache* cache)
     glTexCoordPointer(2, GL_FLOAT, sizeof(TextCache::Vertex), vertexList.verts[0].tex.data());
     glColorPointer(4, GL_UNSIGNED_BYTE, 0, vertexList.colors.data());
 
-    glDrawArrays(GL_TRIANGLES, 0, vertexList.verts.size());
+    glDrawArrays(GL_TRIANGLES, 0, (int)vertexList.verts.size());
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -829,7 +830,7 @@ Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int colo
     vertList.verts = it.second;
 
     vertList.colors.resize(4 * it.second.size());
-    Renderer::BuildGLColorArray(vertList.colors.data(), color, it.second.size());
+    Renderer::BuildGLColorArray(vertList.colors.data(), color, (int)it.second.size());
   }
 
   clearFaceCache();
@@ -846,7 +847,7 @@ Font::buildTextCache(const std::string& text, float offsetX, float offsetY, unsi
 void TextCache::setColor(unsigned int color)
 {
   for (auto& vertexList : vertexLists)
-    Renderer::BuildGLColorArray(vertexList.colors.data(), color, vertexList.verts.size());
+    Renderer::BuildGLColorArray(vertexList.colors.data(), color, (int)vertexList.verts.size());
 }
 
 std::shared_ptr<Font>

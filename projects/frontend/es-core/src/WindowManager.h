@@ -161,4 +161,8 @@ class WindowManager
      */
     void InfoPopupRetarget();
 
+    /*!
+     * @brief Check and display battery icon
+     */
+    static void DisplayBatteryState();
 };
