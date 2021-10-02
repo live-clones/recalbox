@@ -45,6 +45,9 @@ define LIBRETRO_UAE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/puae_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/puae_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/uae_data
+	# Copy RTB files
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios && \
+		cp $(@D)/whdload/WHDLoad_files/Devs/Kickstarts/*.RTB $(TARGET_DIR)/recalbox/share_upgrade/bios/
 endef
 
 $(eval $(generic-package))
