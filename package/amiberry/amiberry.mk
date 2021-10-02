@@ -48,6 +48,9 @@ define AMIBERRY_INSTALL_TARGET_CMDS
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Kickstarts/foo.txt
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Debugs/foo.txt
 	rm $(TARGET_DIR)/usr/share/amiberry/whdboot/save-data/Autoboots/foo.txt
+	# Copy RTB files
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios && \
+		cp $(@D)/whdboot/save-data/Kickstarts/*.RTB $(TARGET_DIR)/recalbox/share_upgrade/bios/
 endef
 
 $(eval $(generic-package))
