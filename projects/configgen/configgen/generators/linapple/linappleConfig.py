@@ -110,7 +110,7 @@ class LinappleConfig:
         sortedKeys = sorted(controllers.keys())
         joysticks: ControllerPerPlayer = {}
         if len(sortedKeys) != 0: joysticks[sortedKeys[0]] = controllers[sortedKeys[0]]
-        if len(sortedKeys) > 0 : joysticks[sortedKeys[1]] = controllers[sortedKeys[1]]
+        if len(sortedKeys) > 1 : joysticks[sortedKeys[1]] = controllers[sortedKeys[1]]
         # Strange button behaviour with 2 joysticks enabled :-( TBD
         # joysticks = sorted(controllers.items())[:2] 
         for counter, (playerIndex, controller) in enumerate(joysticks.items()):
