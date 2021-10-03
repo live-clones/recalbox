@@ -524,19 +524,19 @@ bool SystemManager::AddGenresMetaSystem()
   return true;
 }
 
-bool SystemManager::AddSpecialCollectionsMetaSystems()
+bool SystemManager::AddSpecialCollectionsMetaSystems(bool portableSystem)
 {
   AddAllGamesMetaSystem();
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();
-  AddLightGunMetaSystem();
+  if (!portableSystem) AddLightGunMetaSystem();
   AddGenresMetaSystem();
 
   return true;
 }
 
 // Creates systems from information located in a config file
-bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
+bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool forceReloadFromDisk, bool portableSystem)
 {
   mForceReload = forceReloadFromDisk;
 
@@ -607,7 +607,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Add special systems
   AddFavoriteSystem();
   AddPorts(); // Must be first after "normal systems"
-  AddSpecialCollectionsMetaSystems();
+  AddSpecialCollectionsMetaSystems(portableSystem);
   AddArcadeMetaSystem(); // Must be latest
 
   // Set *all* service vector

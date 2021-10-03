@@ -138,9 +138,10 @@ class SystemManager :
 
     /*!
      * @brief All all special collections
+     * @param True if the current board is a portable system
      * @return Always true
      */
-    bool AddSpecialCollectionsMetaSystems();
+    bool AddSpecialCollectionsMetaSystems(bool portable);
 
     /*!
      * @brief All lightgun system
@@ -287,8 +288,9 @@ class SystemManager :
      * @brief Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
      * @param gamelistWatcher FileNotifier to fill in with gamelist path
      * @param ForeReload force reloading from disk
+     * @param portableSystem true if the current board is a portable system and does not need lightgun
      */
-    bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload);
+    bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload, bool portableSystem);
 
     /*!
      * @brief Get All system list, visibles + hidden

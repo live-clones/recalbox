@@ -221,6 +221,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdultGames:
     case Components::Overscan:
     case Components::ShowFPS:
+    case Components::SecuritySubMenu:
     case Components::Manager: break;
   }
 }

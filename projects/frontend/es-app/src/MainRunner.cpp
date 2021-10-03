@@ -403,7 +403,28 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 
 bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
-  if (!systemManager.LoadSystemConfigurations(gamelistWatcher, forceReloadFromDisk))
+  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"));
+  bool portable = recalboxBootConf.AsString("case") == "GPiV1:1";
+  switch(Board::Instance().GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper: portable = true; break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::Pi400:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
+  }
+
+  if (!systemManager.LoadSystemConfigurations(gamelistWatcher, forceReloadFromDisk, portable))
   {
     { LOG(LogError) << "[MainRunner] Error while parsing systems configuration file!"; }
     { LOG(LogError) << "[MainRunner] IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
