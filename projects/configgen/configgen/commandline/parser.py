@@ -85,9 +85,9 @@ class Parser:
                 self.__Error("Missing required argument " + command.Command)
             else:
                 cmd: str = command.Command
-                if command.Type == ParserCommand.Bool: result[cmd] = command.DefaultAsStr
+                if command.Type == ParserCommand.Str:  result[cmd] = command.DefaultAsStr
                 if command.Type == ParserCommand.Int:  result[cmd] = command.DefaultAsInt
-                if command.Type == ParserCommand.Str:  result[cmd] = command.DefaultAsBool
+                if command.Type == ParserCommand.Bool: result[cmd] = command.DefaultAsBool
 
         namespace: Parser.Namespace = Parser.Namespace(result)
         return namespace

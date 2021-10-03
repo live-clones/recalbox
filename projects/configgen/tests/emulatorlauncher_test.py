@@ -21,7 +21,10 @@ class FakeArguments:
         self.core = "stella"
         self.ratio = "auto"
         self.demo = False
-        self.netplay = self.netplay_ip = self.netplay_port = self.netplay_playerpassword = self.netplay_viewerpassword = self.netplay_vieweronly = False
+        self.netplay = self.netplay_vieweronly = False
+        self.netplay_ip = ""
+        self.netplay_port = 0
+        self.netplay_playerpassword = self.netplay_viewerpassword = ""
         self.hash = self.extra = self.nodefaultkeymap = self.verbose = False
 
 
