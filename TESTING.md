@@ -119,6 +119,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check odroidxu4 can start any emulator (#1960)
 
 - [ ] Test Beebem
+- [ ] Test lr-uae4arm have sound on rpi4 (#1943)
+  - [ ] Test lr-uae4arm still works on other boards (#1943)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
