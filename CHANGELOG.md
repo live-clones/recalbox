@@ -187,6 +187,7 @@ All notable changes to this project will be documented in this file.
 - Added missing standalone Hatari association to bios as required or optional (#1988)
 - Updated Netflix and YouTube addons in Kodi
 - Fix screenshot on KMS compliant boards (#1970)
+- Edited all links to the documentation in all readme files (#1964)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
