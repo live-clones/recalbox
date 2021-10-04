@@ -91,6 +91,7 @@ class SystemBuilder:
             "path": holder.RomFolder,
             "theme": holder.ThemeFolder,
             "extensions": holder.Extensions,
+            "icon": holder.IconUnicode,
         }
         if not holder.IsDefaultCommand:
             descriptor["command"] = holder.Command
