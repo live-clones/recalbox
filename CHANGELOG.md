@@ -169,6 +169,7 @@ All notable changes to this project will be documented in this file.
 - Fix Colecovision bios list (#2007)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
 - Updated Netflix and YouTube addons in Kodi
+- Edited all links to the documentation in all readme files (#1964)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
