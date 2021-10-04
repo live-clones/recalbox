@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Fix pi4 screenshots (raspi2png)
 - Removal of old dats and addition of dats in .zip format (#1958)
 - ES: refactor secondary sdl loop system + simplify input manager (#1904)
+- Add key IconUnicode in romfs2 (#1965)
 - Configgen: remove hard copy of startup script and make a symlink instead (#1951)
 - Add theme for lowres nx (#1950)
 - Add theme for bbc micro (#1949)

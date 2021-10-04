@@ -161,6 +161,7 @@ class SystemHolder:
         self.__theme: str = "Theme folder"
         self.__roms: str = "Roms folder"
         self.__screenscraperId: int = 0 # Screenscraper's system ID
+        self.__iconUnicode: str = "$0" # Icon unicode char in recalbox font
         self.__command: str = "Command template"
         self.__extensions: str = "Global extension list"
         self.__docLinks: Dict[str, str] = {
@@ -215,6 +216,9 @@ class SystemHolder:
     def ScreenScraperId(self) -> int: return self.__screenscraperId
 
     @property
+    def IconUnicode(self) -> str: return self.__iconUnicode
+
+    @property
     def IsPort(self) -> bool: return self.__port
 
     @property
@@ -252,18 +256,19 @@ class SystemHolder:
         desc.loadFile(True)
 
         # System part
-        self.__uuid = self.__get(desc, "system", "uuid", "", True)
-        self.__name = self.__get(desc, "system", "name", "", True)
-        self.__fullname = self.__get(desc, "system", "fullname", "", True)
-        self.__platforms = self.__get(desc, "system", "platforms", "", True)
-        self.__theme = self.__get(desc, "system", "theme.folder", "", True)
-        self.__roms = self.__get(desc, "system", "roms.folder", "", True)
-        self.__screenscraperId = int(self.__get(desc, "system", "screenscraper.id", "0", True))
-        self.__command = self.__get(desc, "system", "command", self.__COMMAND_DEFAULT, False)
+        self.__uuid: str = self.__get(desc, "system", "uuid", "", True)
+        self.__name: str = self.__get(desc, "system", "name", "", True)
+        self.__fullname: str = self.__get(desc, "system", "fullname", "", True)
+        self.__platforms: str = self.__get(desc, "system", "platforms", "", True)
+        self.__theme: str = self.__get(desc, "system", "theme.folder", "", True)
+        self.__roms: str = self.__get(desc, "system", "roms.folder", "", True)
+        self.__screenscraperId: int = int(self.__get(desc, "system", "screenscraper.id", "0", True))
+        self.__iconUnicode: str = self.__get(desc, "system", "icon.unicode", "$0", True)
+        self.__command: str = self.__get(desc, "system", "command", self.__COMMAND_DEFAULT, False)
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
-        self.__port = self.__get(desc, "system", "port", "0", False) == '1'
-        self.__readOnly = self.__get(desc, "system", "readonly", "0", False) == '1'
+        self.__port: bool = self.__get(desc, "system", "port", "0", False) == '1'
+        self.__readOnly: bool = self.__get(desc, "system", "readonly", "0", False) == '1'
 
         # Create Cores
         extensions: Set[str] = set()
