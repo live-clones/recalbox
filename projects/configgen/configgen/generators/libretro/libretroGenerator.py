@@ -121,7 +121,7 @@ class LibretroGenerator(Generator):
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
-        # setup wiimotes lightgun configuration 
+        # setup wiimotes lightgun configuration
         from configgen.generators.libretro.libretroLightGuns import libretroLightGun
         lightgunConfig = libretroLightGun(system, rom, demo, retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
@@ -181,6 +181,8 @@ class LibretroGenerator(Generator):
     def buildExtraArguments(system: str, core: str) -> List[str]:
         if system == "neogeocd" and core == "fbneo":
             return ["--subsystem", "neocd"]
+        if system == "channelf" and core == "fbneo":
+            return ["--subsystem", "chf"]
 
         return []
 
