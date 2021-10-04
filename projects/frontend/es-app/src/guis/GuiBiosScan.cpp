@@ -9,7 +9,6 @@
 #include <components/ScrollableContainer.h>
 #include "components/MenuComponent.h" // for makeButtonGrid
 #include <bios/BiosManager.h>
-#include <views/gamelist/SystemIcons.h>
 #include "GuiBiosScan.h"
 #include "GuiBiosMd5.h"
 #include <algorithm>
@@ -398,9 +397,11 @@ void GuiBiosScan::UpdateBiosList()
         continue;
 
     // Header
-    const char* prefix = SystemIcons::GetIcon(biosList.Name());
+    SystemData* system = mSystemManager.SystemByName(biosList.Name());
+    std::string prefix;
+    if (system != nullptr) prefix = system->Descriptor().IconPrefix();
     int headerIndex = (int)mList->size();
-    mList->add((prefix != nullptr ? prefix : "\uF200 ") + Strings::ToUpperUTF8(biosList.FullName()), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
+    mList->add((!prefix.empty() ? prefix : "\uF200 ") + Strings::ToUpperUTF8(biosList.FullName()), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
     ListContext headerContext = ListContext(&biosList, nullptr);
 
     totalBiosNotFound    += biosList.TotalFileNotFound();

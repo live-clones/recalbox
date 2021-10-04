@@ -8,7 +8,6 @@
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <views/ViewController.h>
 #include <RecalboxConf.h>
-#include <views/gamelist/SystemIcons.h>
 #include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
 #include "GuiNetPlayHostPasswords.h"
@@ -310,8 +309,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 				row.elements.clear();
 				std::string gameName;
 
-				const char* icon = SystemIcons::GetIcon(game->System().Name());
-				if (icon != nullptr) gameName.append(icon);
+        gameName.append(game->System().Descriptor().IconPrefix());
 				gameName.append(game->Metadata().Name());
 
 				ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
@@ -382,7 +380,7 @@ void GuiSearch::populateGridMeta(int i)
 	float height = (mMDDeveloperLabel->getFont()->getLetterHeight() + 2) / mGridLogoAndMD->getSize().y();
 	mGridLogoAndMD->setRowHeightPerc(2, height);
 	mGridLogoAndMD->setRowHeightPerc(4, height);
-	int width = Math::max(mMDDeveloperLabel->getSize().x(), mMDPublisherLabel->getSize().x());
+	int width = (int)Math::max(mMDDeveloperLabel->getSize().x(), mMDPublisherLabel->getSize().x());
 	mGridLogoAndMD->setColWidthPerc(0, (float)width / mGridLogoAndMD->getSize().x());
 	mGridLogoAndMD->getCellAt(0, 2)->resize = true;
 	mGridLogoAndMD->getCellAt(0, 4)->resize = true;

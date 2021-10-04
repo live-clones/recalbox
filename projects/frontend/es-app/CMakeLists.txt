@@ -122,7 +122,6 @@ set(ES_HEADERS
         src/views/gamelist/IGameListView.h
         src/views/gamelist/ISimpleGameListView.h
         src/views/gamelist/GridGameListView.h
-        src/views/gamelist/SystemIcons.h
         src/views/GameClipView.h
         src/views/SystemView.h
         src/views/ViewController.h
@@ -310,7 +309,6 @@ set(ES_SOURCES
         src/views/gamelist/IGameListView.cpp
         src/views/gamelist/ISimpleGameListView.cpp
         src/views/gamelist/GridGameListView.cpp
-        src/views/gamelist/SystemIcons.cpp
         src/views/GameClipView.cpp
         src/views/SystemView.cpp
         src/views/ViewController.cpp

@@ -43,6 +43,7 @@ class SystemDescriptor
     SystemDescriptor()
       : mPlatformIds{}
       , mPlateformCount(0)
+      , mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
       , mType(SystemType::Unknown)
@@ -95,6 +96,7 @@ class SystemDescriptor
                                                const std::string& extensions,
                                                const std::string& themefolder,
                                                const std::string& command,
+                                               const std::string& icon,
                                                bool port,
                                                bool readonly)
     {
@@ -104,6 +106,8 @@ class SystemDescriptor
       mCommand = command;
       mPort = port;
       mReadOnly = readonly;
+      if (!Strings::HexToInt(icon, 0, mIcon)) mIcon = 0;
+
       return *this;
     }
 
@@ -186,6 +190,8 @@ class SystemDescriptor
     const std::string& Extension() const { return mExtensions; }
     const std::string& ThemeFolder() const { return mThemeFolder; }
     const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
+    unsigned int Icon() const { return (unsigned int)mIcon; }
+    std::string IconPrefix() const;
 
     int ScreenScaperID() const { return mScreenScraperID; }
 
@@ -233,6 +239,7 @@ class SystemDescriptor
     std::string             mThemeFolder;     //!< Theme sub-folder
     std::string             mExtensions;      //!< Supported extensions, space separated
     std::string             mCommand;         //!< Emulator command
+    int                     mIcon;            //!< Icon unicode char
     // Scrapper
     int                     mScreenScraperID; //!< ScreenScraper ID
     // Properties

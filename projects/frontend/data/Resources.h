@@ -101,9 +101,6 @@ extern const uint8_t thumbs_up_green_svg_data[];
 extern const uint16_t slider_knob_svg_size;
 extern const uint8_t slider_knob_svg_data[];
 
-extern const uint32_t fontawesome_webfont_ttf_size;
-extern const uint8_t fontawesome_webfont_ttf_data[];
-
 extern const uint16_t busy_1_png_size;
 extern const uint8_t busy_1_png_data[];
 

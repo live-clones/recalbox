@@ -6,7 +6,6 @@
 #include "systems/SystemData.h"
 #include "games/FileSorts.h"
 #include "utils/locale/LocaleHelper.h"
-#include "SystemIcons.h"
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
 
@@ -55,18 +54,18 @@ void BasicGameListView::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-const char * BasicGameListView::getItemIcon(FileData* item)
+std::string BasicGameListView::getItemIcon(FileData* item)
 {
   // Crossed out eye for hidden things
 	if (item->Metadata().Hidden()) return "\uF070 ";
 	// System icon, for Favorite games
 	if ((item->IsGame()) && (mSystem.IsVirtual() || item->Metadata().Favorite()))
-		return SystemIcons::GetIcon(item->System().Name());
+		return item->System().Descriptor().IconPrefix();
 	// Open folder for folders
 	if (item->IsFolder())
 	  return "\uF07C ";
 
-	return nullptr;
+	return std::string();
 }
 
 void BasicGameListView::populateList(const FolderData& folder)
@@ -115,9 +114,9 @@ void BasicGameListView::populateList(const FolderData& folder)
   for (FileData* fd : items)
 	{
     // Select fron icon
-    const char* icon = getItemIcon(fd);
+    std::string icon = getItemIcon(fd);
   	// Get name
-  	std::string name = icon != nullptr ? icon + fd->Name() : fd->Name();
+  	std::string name = !icon.empty() ? icon + fd->Name() : fd->Name();
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)

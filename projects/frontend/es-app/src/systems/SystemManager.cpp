@@ -134,7 +134,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
-            .SetDescriptorInformation("", "", themeFolder, "", false, false);
+            .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
   FolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
@@ -164,7 +164,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
-            .SetDescriptorInformation("", "", themeFolder, "", false, false);
+            .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
@@ -194,7 +194,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
-            .SetDescriptorInformation("", "", themeFolder, "", false, false);
+            .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
   if (!games.empty())
@@ -710,15 +710,11 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
   mHiddenSystemVector.clear();
 }
 
-SystemData *SystemManager::SystemByName(std::string &name)
+SystemData *SystemManager::SystemByName(const std::string &name)
 {
   for (auto *system: mVisibleSystemVector)
-  {
     if (system->Name() == name)
-    {
       return system;
-    }
-  }
   return nullptr;
 }
 

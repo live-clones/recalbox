@@ -258,7 +258,7 @@ class SystemManager :
      * @param name Short name
      * @return System instance of nullptr if not found
      */
-    SystemData* SystemByName(std::string& name);
+    SystemData* SystemByName(const std::string& name);
 
     /*!
      * @brief Get the first non-empty system

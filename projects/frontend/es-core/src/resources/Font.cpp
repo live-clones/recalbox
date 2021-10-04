@@ -332,7 +332,7 @@ void Font::getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_ou
 const std::vector<Path>& getFallbackFontPaths()
 {
   static Path originalPath[] = {
-    Path(":/fontawesome_webfont.ttf"),
+    Path("/usr/share/fonts/truetype/Recalbox_icons.ttf"),
     Path("/usr/share/fonts/truetype/DroidSansFallback.ttf"),// japanese, chinese, korean
     Path("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"),
     Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"),

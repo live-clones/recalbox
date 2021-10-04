@@ -63,5 +63,5 @@ private:
   EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
 
-	const char * getItemIcon(FileData* item);
+	std::string getItemIcon(FileData* item);
 };

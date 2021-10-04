@@ -686,8 +686,11 @@ bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
   const char* src = from.c_str() + index;
 
   if (src[0] != 0)
-    if (src[1] != 0)
+  {
+    if (src[0] == '$') src++;
+    else if (src[1] != 0)
       if ((src[0] == '0') && (src[1] == 'x')) src += 2;
+  }
 
   int Result = 0;
   for (;; src++)
