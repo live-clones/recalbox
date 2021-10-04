@@ -88,7 +88,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test the Dragon32/64 system (XRoar emulator)
 - [ ] Test wifi connection by WPS is working (#1909)
 - [ ] Check if the text "No comment available" is correctly spelled (#1911)
-- [ ] Test libretro-MGBA  
+- [ ] Test libretro-MGBA
 - [ ] Test Oricutron
 - [ ] Test SimCoupé
 - [ ] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
@@ -105,16 +105,17 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the theme of trs80coco (#1945)
 - [ ] Check Recalbox Reloaded video intro is randomly played (#1959)
 - [ ] Test Libretro MAME2003 Plus
-- [ ] Test Libretro-MAME2003  
+- [ ] Test Libretro-MAME2003
 - [ ] Removal of old dats (0.230) and addition of dats in .zip format (#1958)
   - [ ] Check the deletion of old dates (0.230)
   - [ ] Check the presence of the dats in .zip format (instead of .dat)
 - [ ] Check if there is no .nvmem and .nvmem2 files in saves/atomiswave/reicast after an upgrade (#1901)
 - [ ] Test Hatari standalone
-- [ ] Test Libretro VICE  
+- [ ] Test Libretro VICE
 - [ ] Test retroarch v1.9.8 (#1885)
   - [ ] Test lightguns on rpi4 and pc
   - [ ] Test command line hash still works
+- [ ] Test if FBNeo roms for ChannelF works correctly (#1969)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
