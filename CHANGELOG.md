@@ -190,6 +190,7 @@ All notable changes to this project will be documented in this file.
 - Fix mupen64plus on x86_64 running in a small window (#2022)
 - Changed documentation link for all languages and added missing English translation for security tab (#2021)
 - Updated Netflix and YouTube addons in Kodi
+- Fix screenshot on KMS compliant boards (#1970)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
