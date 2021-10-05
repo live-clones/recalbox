@@ -82,7 +82,7 @@ All notable changes to this project will be documented in this file.
 - Fix fba configuration in romfsv2 (#1686)
 - Bump retroarch assets (#1725)
 - Bump retroarch to version 1.9.3 (#1725)
-- Add libretro uae4arm core (#1771)
+- Add libretro uae4arm core (#1771, #1943)
 - Set grub timeout to 3 seconds (#1750)
 - Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
 - Show a message in emulationstation when the upgrade has failed (#1772)
