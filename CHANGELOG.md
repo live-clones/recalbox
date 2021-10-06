@@ -199,6 +199,7 @@ All notable changes to this project will be documented in this file.
 - Edited all links to the documentation in all readme files (#1964)
 - Fix wrong selection of headphones for rpi4 on fresh install (#1922)
 - Fix screenshot on KMS compliant boards (#1970)
+- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
