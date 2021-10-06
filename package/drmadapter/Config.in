@@ -1,0 +1,10 @@
+config BR2_PACKAGE_DRMADAPTER
+	bool "drmadapter"
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  A Firmware to kernel video parameter adapter
+
+	  https://gitlab.com/recalbox/recalbox-drm-video-adapter
+
+comment "Emulation station 2 needs a toolchain w/ C++ SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP
