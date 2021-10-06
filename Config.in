@@ -15,6 +15,7 @@ menu "Recalbox"
   endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dpi-pizero-gpicase/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/drmadapter/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/freeimage/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/guichan/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libenet/Config.in"
