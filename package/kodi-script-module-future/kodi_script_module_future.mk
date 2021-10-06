@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-KODI_SCRIPT_MODULE_FUTURE_VERSION = 0.17.1
-KODI_SCRIPT_MODULE_FUTURE_SOURCE = script.module.future-$(KODI_SCRIPT_MODULE_FUTURE_VERSION).zip
-KODI_SCRIPT_MODULE_FUTURE_SITE = https://mirrors.kodi.tv/addons/krypton/script.module.future
+KODI_SCRIPT_MODULE_FUTURE_VERSION = 0.18.2
+KODI_SCRIPT_MODULE_FUTURE_SOURCE = script.module.future-$(KODI_SCRIPT_MODULE_FUTURE_VERSION)+matrix.1.zip
+KODI_SCRIPT_MODULE_FUTURE_SITE = https://mirrors.kodi.tv/addons/matrix/script.module.future
 KODI_SCRIPT_MODULE_FUTURE_PLUGIN_NAME = script.module.future
 KODI_SCRIPT_MODULE_FUTURE_LICENSE = COPYRIGHT
 

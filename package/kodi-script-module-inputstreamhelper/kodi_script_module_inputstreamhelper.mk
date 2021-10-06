@@ -5,8 +5,8 @@
 ################################################################################
 
 KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_VERSION = 0.5.8
-KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_SOURCE = script.module.inputstreamhelper-$(KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_VERSION).zip
-KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_SITE = https://mirrors.kodi.tv/addons/krypton/script.module.inputstreamhelper
+KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_SOURCE = script.module.inputstreamhelper-$(KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_VERSION)+matrix.1.zip
+KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_SITE = https://mirrors.kodi.tv/addons/matrix/script.module.inputstreamhelper
 KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_PLUGIN_NAME = script.module.inputstreamhelper
 KODI_SCRIPT_MODULE_INPUTSTREAMHELPER_LICENSE = MIT
 
