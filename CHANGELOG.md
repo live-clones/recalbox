@@ -166,6 +166,7 @@ All notable changes to this project will be documented in this file.
 - Fix temperature monitoring for AMD CPUs (#2008)
 - Fix Colecovision bios list (#2007)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
+- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
