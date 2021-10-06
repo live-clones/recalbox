@@ -161,6 +161,7 @@ All notable changes to this project will be documented in this file.
 - Add required bios for DuckStation (#1944)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
 - Fix Reicast boot.
+- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
