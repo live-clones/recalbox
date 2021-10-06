@@ -146,6 +146,7 @@ All notable changes to this project will be documented in this file.
 - Added missing standalone Hatari association to bios as required or optional (#1988)
 - Fix Reicast boot.
 - Fix 'Roms' content tab in web manager (#1980)
+- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
