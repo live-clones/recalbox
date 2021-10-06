@@ -33,9 +33,11 @@ void GameClipView::Initialize()
     public:
       bool ApplyFilter(const FileData& file) const override
       {
-        return  !file.Metadata().VideoAsString().empty();
+        bool showIfHidden = file.Metadata().Hidden() ? RecalboxConf::Instance().GetShowHidden() : true;
+        return  !file.Metadata().VideoAsString().empty() && showIfHidden;
       }
-  } videoFilter;
+  } gameFilterWithoutHidden;
+
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = mSystemManager.GetAllSystemList();
@@ -47,7 +49,7 @@ void GameClipView::Initialize()
     bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
     if (systemIsInIncludeList)
     {
-      FileData::List list = allSystems[i]->MasterRoot().GetFilteredItemsRecursively(&videoFilter, false,
+      FileData::List list = allSystems[i]->MasterRoot().GetFilteredItemsRecursively(&gameFilterWithoutHidden, false,
                                                                                     allSystems[i]->IncludeAdultGames());
       mDemoFiles.reserve(mDemoFiles.size() + list.size());
       mDemoFiles.insert(mDemoFiles.end(), list.begin(), list.end());
