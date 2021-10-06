@@ -39,6 +39,7 @@ All notable changes to this project will be documented in this file.
 - Add libretro Gong core (#1986)
 - Use font for icons in ES (#1965)
 - Add 240ptestsuite system for CRT (#1805)
+- Add drm adpater for Pi4
 - Removal of old dats and addition of dats in .zip format (#1958)
 - ES: refactor secondary sdl loop system + simplify input manager (#1904)
 - Add key IconUnicode in romfs2 (#1965)
