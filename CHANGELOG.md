@@ -145,6 +145,7 @@ All notable changes to this project will be documented in this file.
 - Improve nespi4case shutdown script (#1381)
 - Fix Reicast boot.
 - Fix 'Roms' content tab in web manager (#1980)
+- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

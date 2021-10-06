@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-KODI_SCRIPT_MODULE_IDNA_VERSION = 2.8
-KODI_SCRIPT_MODULE_IDNA_SOURCE = script.module.idna-$(KODI_SCRIPT_MODULE_IDNA_VERSION).zip
-KODI_SCRIPT_MODULE_IDNA_SITE = https://mirrors.kodi.tv/addons/krypton/script.module.idna
+KODI_SCRIPT_MODULE_IDNA_VERSION = 2.10.0
+KODI_SCRIPT_MODULE_IDNA_SOURCE = script.module.idna-$(KODI_SCRIPT_MODULE_IDNA_VERSION)+matrix.1.zip
+KODI_SCRIPT_MODULE_IDNA_SITE = https://mirrors.kodi.tv/addons/matrix/script.module.idna
 KODI_SCRIPT_MODULE_IDNA_PLUGIN_NAME = script.module.idna
 KODI_SCRIPT_MODULE_IDNA_LICENSE = COPYRIGHT
 
