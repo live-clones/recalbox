@@ -10,6 +10,7 @@ SKIPVIDEOSPLASHFLAG=/overlay/.configs/skipvideosplash
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 ARCH=$(cat /recalbox/recalbox.arch)
 INIT_SCRIPT=$(basename "$0")
+FIRSTTIMEFLAG=/overlay/.configs/firsttimevideo
 
 # first boot or upgrade
 if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
@@ -26,6 +27,7 @@ machineArch=$(arch)
 originalVideoPath="/recalbox/system/resources/splash"
 originalSmallVideoPath="${originalVideoPath}/240p"
 customVideoPath="/overlay/bootvideos"
+firstTimeVideo=introRecalboxReloaded.mp4
 
 # get output video size
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
@@ -60,6 +62,12 @@ selectVideo() {
   local whatToPlay
   local videos
   local num_videos
+  if isFirstTime; then
+    [ "${fbdevHeight}" -le 240 ] \
+        && echo "${originalSmallVideoPath}/${firstTimeVideo}" \
+        || echo "${originalVideoPath}/${firstTimeVideo}"
+    return 0
+  fi
   whatToPlay="$($systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf)"
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
 
@@ -76,6 +84,22 @@ selectVideo() {
   num_videos=${#videos[*]}
   # select one randomly
   echo "${videos[$((RANDOM%num_videos))]}"
+}
+
+# isFirstTime
+#   takes no argument and return 0 if its first boot or update
+isFirstTime() {
+  local oldValue
+  local newValue
+  newValue=$(cat /recalbox/recalbox.version)
+  if [ -f "$FIRSTTIMEFLAG" ]; then
+    oldValue=$(cat $FIRSTTIMEFLAG)
+    if [ "$oldValue" = "$newValue" ]; then
+      return 1
+    fi
+  fi
+  echo "$newValue" >"$FIRSTTIMEFLAG"
+  return 0
 }
 
 # showIntroBackground
