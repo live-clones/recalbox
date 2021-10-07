@@ -109,3 +109,9 @@ do
     rm -f "${FDIR}.tar"
     rm -rf "${FDIR}"
 done
+
+# Clear share directory, it must be empty or share cannot be mounted
+if [ "$(find "${TARGET_DIR}/recalbox/share" | wc -l)" -gt 1 ]; then 
+    echo "Files are present in ${TARGET_DIR}/recalbox/share, it must be empty or share cannot be mounted"
+    exit 1
+fi
