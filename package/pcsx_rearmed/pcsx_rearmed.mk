@@ -49,9 +49,9 @@ endif
 define PCSX_REARMED_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/pcsx \
 		$(TARGET_DIR)/usr/bin/pcsx_rearmed
-	$(INSTALL) -D $(@D)/plugins/dfxvideo/gpu_peops.so $(TARGET_DIR)/recalbox/share/system/configs/pcsx/plugins/gpu_peops.so
-	$(INSTALL) -D $(@D)/plugins/gpu_unai/gpu_unai.so $(TARGET_DIR)/recalbox/share/system/configs/pcsx/plugins/gpu_unai.so
-	$(INSTALL) -D $(@D)/plugins/spunull/spunull.so $(TARGET_DIR)/recalbox/share/system/configs/pcsx/plugins/spunull.so
+	$(INSTALL) -D $(@D)/plugins/dfxvideo/gpu_peops.so $(TARGET_DIR)/recalbox/share_init/system/configs/pcsx/plugins/gpu_peops.so
+	$(INSTALL) -D $(@D)/plugins/gpu_unai/gpu_unai.so $(TARGET_DIR)/recalbox/share_init/system/configs/pcsx/plugins/gpu_unai.so
+	$(INSTALL) -D $(@D)/plugins/spunull/spunull.so $(TARGET_DIR)/recalbox/share_init/system/configs/pcsx/plugins/spunull.so
 endef
 
 define PCSX_REARMED_PRE_PATCH_FIXUP
