@@ -130,7 +130,7 @@ All notable changes to this project will be documented in this file.
 - Remove Flycast from x86 (#1902)
 - Fix es_bios.xml for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
 - Updated package versions (#1956)
-- Add Recalbox Reloaded video intro (#1959)
+- Add Recalbox Reloaded video intro (#1959, #1977)
 - Removed security option (#1913)
 - Fix 'UNKNOWN' missing text in EmulationStation (#1954)
 - Fixed dependencies for python-pygame o sdl2_ttf and sdl2_image (#1826)

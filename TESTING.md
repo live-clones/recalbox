@@ -126,6 +126,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Amiberry v4.1.5
   - [ ] Test CDTV with Amiberry
 - [ ] Test OpenBOR inputs are working (#1979)
+- [ ] Atomik intro video should be played after first boot or right after upgrades (#1977)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
