@@ -125,6 +125,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check odroidxu4 can start any emulator (#1960)
 - [ ] Test Amiberry v4.1.5
   - [ ] Test CDTV with Amiberry
+- [ ] Test OpenBOR inputs are working (#1979)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
