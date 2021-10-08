@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<gameList>
+	<game id="" source="">
+		<path>./240pTestSuite-NES-0.22.nes</path>
+		<name>240pTestSuite-NES-0.22</name>
+		<desc>Test your CRT configuration with the NES version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p.png</image>
+		<core>nestopia</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>./240pTestSuite-Sega_Mega_CD-1.22-JP.cue</path>
+		<name>240pTestSuite-Sega_Mega_CD-1.22-JP</name>
+		<desc>Test your CRT configuration with the Sega Mega CD Japanese version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>genesisplusgx</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>./240pTestSuite-Sega_Mega_CD-1.22-EU.cue</path>
+		<name>240pTestSuite-Sega_Mega_CD-1.22-EU</name>
+		<desc>Test your CRT configuration with the Sega Mega CD European version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>genesisplusgx</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-Sega_Mega_CD-1.22-US.cue</path>
+		<name>240pTestSuite-Sega_Mega_CD-1.22-US</name>
+		<desc>Test your CRT configuration with the Sega Mega CD US version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>genesisplusgx</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-SNES-1.061-PAL.sfc</path>
+		<name>240pTestSuite-SNES-1.061-PAL</name>
+		<desc>Test your CRT configuration with the Super Nintendo PAL version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>snes9x</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-SNES-1.061-NTSC.sfc</path>
+		<name>240pTestSuite-SNES-1.061-NTSC</name>
+		<desc>Test your CRT configuration with the Super Nintendo NTSC version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>snes9x</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-PCE_TG16-HuCard-1.10.pce</path>
+		<name>240pTestSuite-PCE_TG16-HuCard-1.10</name>
+		<desc>Test your CRT configuration with the PC Engine version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>mednafen_supergrafx</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-MD_Genesis-1.22.bin</path>
+		<name>240pTestSuite-MD_Genesis-1.22</name>
+		<desc>Test your CRT configuration with the Megadrive / Genesis version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>genesisplusgx</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-GB-0.22.gb</path>
+		<name>240pTestSuite-GB-0.22</name>
+		<desc>Test your CRT configuration with the Game Boy version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>gambatte</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-GBA-0.22.gba</path>
+		<name>240pTestSuite-GBA-0.22</name>
+		<desc>Test your CRT configuration with the Game Boy Advance version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>mgba</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-Dreamcast-1.25.cdi</path>
+		<name>240pTestSuite-Dreamcast-1.25.cdi</name>
+		<desc>Test your CRT configuration with the Dreamcast version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>flycast</core>
+		<emulator>libretro</emulator>
+	</game>
+	<game id="" source="">
+		<path>240pTestSuite-NES-0.22.nes</path>
+		<name>240pTestSuite-NES-0.22</name>
+		<desc>Test your CRT configuration with the NES version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20110101T000000</releasedate>
+		<developer>Artemio Urbina</developer>
+		<publisher>Artemio Urbina</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-all.png</image>
+		<core>nestopia</core>
+		<emulator>libretro</emulator>
+	</game>
+
+</gameList>
