@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Add theme for lowres nx (#1950)
 - Add theme for bbc micro (#1949)
 - Add theme for trs80coco (#1945)
-- Refactor configgen (#1886)
+- Refactor configgen (#1886, #1979)
 - Add pygame as direct dependency of configgen (#1886)
 - Disabled deploy to prod button on betas (#1932)
 - Add theme for ti994a (#1930)
