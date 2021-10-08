@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Use font for icons in ES (#1965)
 - Add drm adpater for Pi4
 - Fix pi4 screenshots (raspi2png)
+- Add 240ptestsuite system for CRT (#1805)
 - Removal of old dats and addition of dats in .zip format (#1958)
 - ES: refactor secondary sdl loop system + simplify input manager (#1904)
 - Add key IconUnicode in romfs2 (#1965)
