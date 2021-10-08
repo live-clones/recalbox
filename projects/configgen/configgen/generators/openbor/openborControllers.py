@@ -58,7 +58,7 @@ class OpenborControllers:
     def addController(self, controller: Controller, settings: keyValueSettings):
         for targetValue, item in self.OPENBOR_TO_RECALBOX.items():
             key = "JoystickButton-P{}-{}".format(controller.PlayerIndex - 1, targetValue)
-            value = self.getConfigValue(controller, controller.Input(item)) if item in controller.AvailableInput else 0
+            value = self.getConfigValue(controller, controller.Input(item)) if any(x.Item == item for x in controller.AvailableInput) else 0
             settings.setInt(key, value)
 
     def addControllers(self, settings: keyValueSettings):
