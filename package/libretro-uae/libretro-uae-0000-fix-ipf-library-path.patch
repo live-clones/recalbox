@@ -1,8 +1,8 @@
 diff --git a/sources/src/caps/caps.c b/sources/src/caps/caps.c
-index 75ab1af..95080d8 100644
+index 41ffe5b..59a2bdb 100644
 --- a/sources/src/caps/caps.c
 +++ b/sources/src/caps/caps.c
-@@ -36,7 +36,7 @@ char CAPSLIB_PATH[RETRO_PATH_MAX];
+@@ -37,7 +37,7 @@ char CAPSLIB_PATH[RETRO_PATH_MAX];
  #ifdef _WIN32
  #define CAPSLIB_NAME    "capsimg.dll"
  #else
@@ -11,7 +11,7 @@ index 75ab1af..95080d8 100644
  #endif
  
  /*
-@@ -72,7 +72,7 @@ static int load_capslib (void)
+@@ -73,7 +73,7 @@ static int load_capslib (void)
      /* This could be done more elegantly ;-) */
  
  #ifdef __LIBRETRO__
