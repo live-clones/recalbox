@@ -13,6 +13,7 @@
 #include <input/InputMapper.h>
 #include <utils/Files.h>
 #include <sdl2/Sdl2Runner.h>
+#include <Renderer.h>
 #include "GameRunner.h"
 
 bool GameRunner::sGameIsRunning = false;
@@ -148,7 +149,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Net
   }
 
   // Reinit
-  mWindowManager.Initialize();
+  mWindowManager.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
   AudioManager::Instance().Reactivate();
   mWindowManager.normalizeNextUpdate();
 
@@ -180,7 +181,7 @@ std::string GameRunner::demoInitialize()
 void GameRunner::demoFinalize()
 {
   // Reinit
-  mWindowManager.Initialize();
+  mWindowManager.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
   AudioManager::Instance().Reactivate();
   mWindowManager.normalizeNextUpdate();
 }

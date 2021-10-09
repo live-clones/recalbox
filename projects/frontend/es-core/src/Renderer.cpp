@@ -87,7 +87,7 @@ Renderer::~Renderer()
 }
 
 
-bool Renderer::CreateSdlSurface()
+bool Renderer::CreateSdlSurface(int width, int height)
 {
   { LOG(LogInfo) << "[Renderer] Creating surface..."; }
 
@@ -114,13 +114,11 @@ bool Renderer::CreateSdlSurface()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
   #endif
 
-  SDL_DisplayMode dispMode;
-  SDL_GetDesktopDisplayMode(0, &dispMode);
-  if (mDisplayWidth == 0)  mDisplayWidth = dispMode.w;
-  if (mDisplayHeight == 0) mDisplayHeight = dispMode.h;
+  mDisplayWidth = width;
+  mDisplayHeight = height;
   mDisplayWidthFloat = (float)mDisplayWidth;
   mDisplayHeightFloat = (float)mDisplayHeight;
-  { LOG(LogInfo) << "[Renderer] Resolution: " << mDisplayWidth << ',' << mDisplayHeight; }
+  { LOG(LogInfo) << "[Renderer] Trying Resolution: " << width << ',' << height; }
 
   mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -137,13 +135,13 @@ bool Renderer::CreateSdlSurface()
   { LOG(LogInfo) << "[Renderer] Created window successfully."; }
 
   //set an icon for the window
-  size_t width = 0;
-  size_t height = 0;
+  size_t icwidth = 0;
+  size_t icheight = 0;
   std::vector<unsigned char> rawData = ImageIO::loadFromMemoryRGBA32(window_icon_256_png_data, window_icon_256_png_size,
-                                                                     width, height);
+                                                                     icwidth, icheight);
   if (!rawData.empty())
   {
-    ImageIO::flipPixelsVert(rawData.data(), width, height);
+    ImageIO::flipPixelsVert(rawData.data(), icwidth, icheight);
 
     //SDL interprets each pixel as a 32-bit number, so our masks must depend on the endianness (byte order) of the machine
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -155,7 +153,7 @@ bool Renderer::CreateSdlSurface()
     Uint32 amask = 0xff000000;
     #endif
     //try creating SDL surface from logo data
-    SDL_Surface* logoSurface = SDL_CreateRGBSurfaceFrom((void*) rawData.data(), (int)width, (int)height, 32, (int) (width * 4),
+    SDL_Surface* logoSurface = SDL_CreateRGBSurfaceFrom((void*) rawData.data(), (int)icwidth, (int)icheight, 32, (int)(icwidth * 4),
                                                         rmask, gmask, bmask, amask);
     if (logoSurface != nullptr)
     {
@@ -482,20 +480,21 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
       }
     }
   }
+  { LOG(LogInfo) << "[Renderer] Resolution got from recalbox.conf: " << w << 'x' << h; }
 }
 
 bool Renderer::Initialize(int w, int h)
 {
-  if ((w | h) == 0) GetResolutionFromConfiguration(w, h);
+  // Get resolution from config if either w or h is nul
+  if ((w * h) == 0) GetResolutionFromConfiguration(w, h);
 
-  mDisplayWidth = w;
-  mDisplayHeight = h;
-
-  bool createdSurface = CreateSdlSurface();
-  if (!createdSurface && ((mDisplayWidth | mDisplayHeight) != 0))
+  bool createdSurface = ((w * h) != 0) ? CreateSdlSurface(w, h) : false;
+  if (!createdSurface)
   {
-    mDisplayWidth = mDisplayHeight = 0;
-    createdSurface = CreateSdlSurface();
+    SDL_DisplayMode dispMode;
+    SDL_GetDesktopDisplayMode(0, &dispMode);
+    { LOG(LogInfo) << "[Renderer] Get resolution from desktop: " << dispMode.w << 'x' << dispMode.h; }
+    createdSurface = CreateSdlSurface(dispMode.w, dispMode.h);
   }
   if (!createdSurface)
     return false;

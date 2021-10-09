@@ -185,7 +185,7 @@ bool RecalboxSystem::launchKodi(WindowManager& window)
     exitCode = WEXITSTATUS(exitCode);
   }
 
-  window.Initialize();
+  window.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
   AudioManager::Instance().Reactivate();
   window.normalizeNextUpdate();
 

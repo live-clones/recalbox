@@ -117,7 +117,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
     {
       emulator = rawemulator;
       core = rawcore;
-      { LOG(LogDebug) << "[Emulator]  From Gamelist.xml" << emulator << '/' << core; }
+      { LOG(LogDebug) << "[Emulator]   From Gamelist.xml" << emulator << '/' << core; }
     }
     else
     {

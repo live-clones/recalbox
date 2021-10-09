@@ -58,7 +58,7 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @brief Create SDL display surface
      * @return True if the surface has been created successfuly
      */
-    bool CreateSdlSurface();
+    bool CreateSdlSurface(int width, int height);
 
     /*!
      * @brief Destroy SDL displaysurface

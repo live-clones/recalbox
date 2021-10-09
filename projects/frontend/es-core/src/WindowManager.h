@@ -42,7 +42,7 @@ class WindowManager
 
     void RenderAll(bool halfLuminosity = false);
 
-    bool Initialize(unsigned int width = 0, unsigned int height = 0, bool initRenderer = true);
+    bool Initialize(unsigned int width, unsigned int height, bool initRenderer = true);
 
     static void Finalize();
 

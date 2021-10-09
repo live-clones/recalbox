@@ -53,7 +53,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param controlersConfig Controller configuration string
      * @return True if the demo exited on user request
      */
-    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
+    static bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
 
     /*!
