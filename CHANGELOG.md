@@ -154,6 +154,7 @@ All notable changes to this project will be documented in this file.
 - rpi3 now uses Mesa software stack (#????)
 - Fix kodi runtime errors on odroidxu4 (#1834)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
+- Fix Reicast boot.
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
