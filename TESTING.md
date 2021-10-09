@@ -133,6 +133,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 [ ] Check the theme of trs80coco (#1945)
 - [ ] Test Duckstation
 - [ ] Verify if the roms tab in web manager displays correctly systems and games (#1980)
+- [ ] Fix Reicast boot (#1982)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
