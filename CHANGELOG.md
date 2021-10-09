@@ -147,6 +147,7 @@ All notable changes to this project will be documented in this file.
 - Improve nespi4case shutdown script (#1381)
 - rpi3 now uses Mesa software stack (#????)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
+- Fix Reicast boot.
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
