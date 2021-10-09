@@ -144,6 +144,7 @@ All notable changes to this project will be documented in this file.
 - Fix ChannelF system with FBNeo roms (#1969)
 - Improve nespi4case shutdown script (#1381)
 - Fix Reicast boot.
+- Fix 'Roms' content tab in web manager (#1980)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
