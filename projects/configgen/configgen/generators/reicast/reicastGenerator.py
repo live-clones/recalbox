@@ -51,7 +51,7 @@ class ReicastGenerator(Generator):
         if not system.HasConfigFile:
             # Write emu.cfg to map joysticks, init with the default emu.cfg
             from configgen.settings.iniSettings import IniSettings
-            config = IniSettings(recalboxFiles.reicastConfigInit, True)
+            config = IniSettings(recalboxFiles.reicastConfig, True)
             config.loadFile(True)
 
             section = "input"
@@ -70,7 +70,7 @@ class ReicastGenerator(Generator):
 
             config.saveFile()
 
-        # the command to run  
+        # the command to run
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
 
         if system.HasArgs: commandArray.extend(system.Args)
