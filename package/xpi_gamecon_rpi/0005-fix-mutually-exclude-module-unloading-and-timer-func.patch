@@ -1,0 +1,65 @@
+From ec7959eea81eb905ae3f7528a0d0f27dbaad8e8f Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sat, 9 Oct 2021 23:39:38 +0200
+Subject: [PATCH 5/5] fix: mutually exclude module unloading and timer function
+
+---
+ xpi_gamecon.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/xpi_gamecon.c b/xpi_gamecon.c
+index 8ab432d..279774e 100644
+--- a/xpi_gamecon.c
++++ b/xpi_gamecon.c
+@@ -2,6 +2,7 @@
+ #include <linux/input.h>
+ #include <linux/of_device.h>
+ #include <linux/module.h>
++#include <linux/spinlock.h>
+ #include <linux/slab.h>
+ 
+ #include <asm/io.h>
+@@ -9,6 +10,7 @@
+ MODULE_AUTHOR("Nathan Scherdin");
+ MODULE_DESCRIPTION("PiBoy DMG Controls driver");
+ MODULE_LICENSE("GPL");
++DEFINE_SPINLOCK(xpi_lock);
+ 
+ static struct gc *gc_base;
+ static const int gc_gpio_clk = 26;
+@@ -176,6 +178,11 @@ static void gc_timer(struct timer_list *t)
+ 	int byteindex;
+ 	long bitindex;
+ 
++	if (!spin_trylock(&xpi_lock)) {
++		printk(KERN_INFO "Unable to hold lock");
++		return;
++	}
++
+ 	gpio_func(gc_gpio_data,1);	//input
+ 
+ 	for(byteindex=0;byteindex<GC_LENGTH;byteindex++){
+@@ -293,6 +300,7 @@ static void gc_timer(struct timer_list *t)
+ 	gpio_func(gc_gpio_data,1);	//input
+ 
+ 	mod_timer(&gc->timer, jiffies + GC_REFRESH_TIME);
++	spin_unlock(&xpi_lock);
+ }
+ 
+ static int __init gc_setup_pad(struct gc *gc)
+@@ -607,10 +615,12 @@ r_sysfs:
+ 
+ static void __exit gc_exit(void)
+ {
++	spin_lock(&xpi_lock);
+ 	if (gc_base){
+ 		del_timer_sync(&gc_base->timer);
+ 		gc_remove(gc_base);
+ 	}
++	spin_unlock(&xpi_lock);
+ 
+ 	iounmap(gpio);
+ 
+-- 
+2.33.0
+
