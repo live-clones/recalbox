@@ -128,6 +128,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Atomik intro video should be played after first boot or right after upgrades (#1977)
 - [ ] Test GearColeco core
 - [ ] Test OpenBOR inputs are working (#1979)
+- [ ] Fix Reicast boot (#1982)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
