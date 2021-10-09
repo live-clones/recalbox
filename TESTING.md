@@ -143,6 +143,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Minus button = select (insert coin)
   - [ ] Plus button = start
   - [ ] Home button = hotkey (quit the emulator)
+- [ ] Fix Reicast boot (#1982)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
