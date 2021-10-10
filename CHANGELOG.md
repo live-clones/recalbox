@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
+- Rework lightgun xml database (#1967)
+- Remove lightgun virtual system from portable boards (#1967)
 - Removal of old dats and addition of dats in .zip format (#1958)
 - ES: refactor secondary sdl loop system + simplify input manager (#1904)
 - Configgen: remove hard copy of startup script and make a symlink instead (#1951)
