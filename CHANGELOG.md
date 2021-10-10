@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Add support for new Raspberry Pi Zero 2 (#2000)
 - Improve ergonomy when "quick system select" is enabled (#2004)
 - Added wiimote (dolphinbar) button configuration for daphne (#1987)
+- Enhance share_upgrade files copy (#1984)
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
