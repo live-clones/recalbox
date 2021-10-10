@@ -141,7 +141,13 @@ class MenuMessages
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG "Switch between seeing the folders structure and seeing all games in a flatten top level."
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."
 
-	static const char* LICENCE_MSG;
+    #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
+    #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."
+    #define MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG "Select emulationstation resolution. Recommended is 480i for better details."
+    #define MENUMESSAGE_ADVANCED_CRT_FORCE_50HZ_HELP_MSG "Force 50HZ for all modes. Enable only if your TV does not support 60HZ."
+
+
+  static const char* LICENCE_MSG;
   static const int   LICENCE_MSG_SIZE;
 
 #define LICENSE_ORIGINAL_TEXT "Redistribution and use of the RECALBOX code or any derivative works are permitted provided that the following conditions are met:\n" \

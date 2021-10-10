@@ -10,6 +10,7 @@
 #include "GuiMenuVirtualSystems.h"
 #include "GuiMenuSystemList.h"
 #include "GuiMenuKodiSettings.h"
+#include "GuiMenuCRT.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -35,6 +36,11 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   // Virtual systems
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
 
+  // CRT
+  auto board = Board::Instance().GetBoardType();
+  if(board == BoardType::Pi3 || board == BoardType::Pi3plus || board == BoardType::Pi4 || board == BoardType::Pi400)
+    AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
+
   // Adult games
   mAdult = AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
@@ -50,6 +56,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // framerate
   mShowFPS = AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
+
 
   // Recalbox Manager
   mWebManager = AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
@@ -96,6 +103,7 @@ std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOv
 
   return list;
 }
+
 
 GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclocks()
 {
@@ -214,6 +222,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
   switch ((Components)id)
   {
     case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
+    case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;

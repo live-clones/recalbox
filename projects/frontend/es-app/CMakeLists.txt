@@ -50,6 +50,7 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuArcadeVirtualSystem.h
         src/guis/menus/GuiMenuBase.h
         src/guis/menus/GuiMenuBootSettings.h
+        src/guis/menus/GuiMenuCRT.h
         src/guis/menus/GuiMenuGamelistOptions.h
         src/guis/menus/GuiMenuGamelistGameOptions.h
         src/guis/menus/GuiMenuGameSettings.h
@@ -243,6 +244,7 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuArcadeVirtualSystem.cpp
         src/guis/menus/GuiMenuBase.cpp
         src/guis/menus/GuiMenuBootSettings.cpp
+        src/guis/menus/GuiMenuCRT.cpp
         src/guis/menus/GuiMenuGamelistOptions.cpp
         src/guis/menus/GuiMenuGamelistGameOptions.cpp
         src/guis/menus/GuiMenuGameSettings.cpp

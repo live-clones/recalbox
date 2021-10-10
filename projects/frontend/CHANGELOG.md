@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [NEXT]
+- Add crt option in advanced settings
 - Upgrade subdomain as a wildcard
 - Remove Upgrade type selection in Upgrade menu
 - Added message on upgrade fail
