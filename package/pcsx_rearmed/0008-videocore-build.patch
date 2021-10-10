@@ -1,0 +1,127 @@
+--- ./configure.orig	2021-10-10 23:46:56.938592368 +0200
++++ ./configure	2021-10-10 23:47:19.611781710 +0200
+@@ -451,12 +451,9 @@
+ fi
+ 
+ # check for VideoCore stuff for Raspberry Pi
+-if [ -d /opt/vc/include -a -d /opt/vc/lib -a "$VIDEOCORE" != "no" ]; then
+-  CFLAGS_GLES="$CFLAGS_GLES -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux"
+-  LDLIBS_GLES="$LDLIBS_GLES -L/opt/vc/lib"
+-  if [ -f /opt/vc/lib/libbcm_host.so ]; then
+-    LDLIBS_GLES="$LDLIBS_GLES -lbcm_host"
+-  fi
++if [ "$VIDEOCORE" != "no" ]; then
++  CFLAGS_GLES="$CFLAGS_GLES -I${ROOT_DIR}/usr/include/interface/vcos/pthreads -I${ROOT_DIR}/usr/include/interface/vmcs_host/linux"
++  LDLIBS_GLES="$LDLIBS_GLES -lbcm_host -lvchostif"
+   need_xlib="yes"
+   VIDEOCORE="yes"
+ fi
+@@ -491,11 +488,6 @@
+   plugins="$plugins plugins/gpu_neon/gpu_neon.so"
+ fi
+ 
+-# check for xlib (only headers needed)
+-if [ "x$need_xlib" = "xyes" ]; then
+-  check_xlib_headers || fail "please install libx11-dev"
+-fi
+-
+ sizeof_long=`check_define_val __SIZEOF_LONG__`
+ if [ "x$sizeof_long" = "x4" ]; then
+   CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64"
+--- ./frontend/libpicofe/gl_platform.c.orig	2021-10-10 23:47:02.001893326 +0200
++++ ./frontend/libpicofe/gl_platform.c	2021-10-10 23:48:59.604507954 +0200
+@@ -14,27 +14,16 @@
+  * couldn't they implement EGL properly? D:
+  */
+ #include <bcm_host.h>
+-#include <X11/Xlib.h>
+ #include <dlfcn.h>
+ 
+-static Display *x11display;
+-static Window x11window;
+ static DISPMANX_DISPLAY_HANDLE_T m_dispmanDisplay;
+ static EGL_DISPMANX_WINDOW_T m_nativeWindow;
+ 
+ static void *x11lib;
+-#define FPTR(f) typeof(f) * p##f
+-static FPTR(XGetGeometry);
+-static FPTR(XGetWindowAttributes);
+-static FPTR(XTranslateCoordinates);
+ 
+ static void get_window_rect(VC_RECT_T *rect)
+ {
+-	XWindowAttributes xattrs_root;
+ 	uint32_t disp_w = 0, disp_h = 0;
+-	int dx = 0, dy = 0;
+-	unsigned int dw = 0, dh = 0, dummy;
+-	Window root, dummyw;
+ 
+ 	graphics_get_display_size(0, &disp_w, &disp_h);
+ 	if (disp_w == 0 || disp_h == 0)
+@@ -44,29 +33,6 @@
+ 	rect->x = rect->y = 0;
+ 	rect->width = disp_w;
+ 	rect->height = disp_h;
+-
+-	if (x11display == NULL || x11window == 0)
+-		return; // use fullscreen
+-
+-	pXGetGeometry(x11display, x11window, &root, &dx, &dy, &dw, &dh,
+-		&dummy, &dummy);
+-	pXGetWindowAttributes(x11display, root, &xattrs_root);
+-
+-	if (dw == xattrs_root.width && dh == xattrs_root.height)
+-		return; // use fullscreen
+-
+-	pXTranslateCoordinates(x11display, x11window, root,
+-		dx, dy, &dx, &dy, &dummyw);
+-
+-	// how to deal with that weird centering thing?
+-	// this is not quite right..
+-	dx += (disp_w - xattrs_root.width) / 2;
+-	dy += (disp_h - xattrs_root.height) / 2;
+-
+-	rect->x = dx;
+-	rect->y = dy;
+-	rect->width = dw;
+-	rect->height = dh;
+ }
+ 
+ static void submit_rect(void)
+@@ -94,21 +60,6 @@
+ 
+ int gl_platform_init(void **display, void **window, int *quirks)
+ {
+-	x11display = NULL;
+-	x11window = 0;
+-
+-	x11lib = dlopen("libX11.so.6", RTLD_LAZY);
+-	if (x11lib != NULL) {
+-		pXGetGeometry = dlsym(x11lib, "XGetGeometry");
+-		pXGetWindowAttributes = dlsym(x11lib, "XGetWindowAttributes");
+-		pXTranslateCoordinates = dlsym(x11lib, "XTranslateCoordinates");
+-		if (pXGetGeometry != NULL && pXGetWindowAttributes != NULL
+-		    && pXTranslateCoordinates != NULL)
+-		{
+-			x11display = *display;
+-			x11window = (Window)*window;
+-		}
+-	}
+ 
+ 	bcm_host_init();
+ 	submit_rect();
+@@ -124,14 +75,6 @@
+ {
+ 	vc_dispmanx_display_close(m_dispmanDisplay);
+ 	bcm_host_deinit();
+-
+-	if (x11lib) {
+-		dlclose(x11lib);
+-		x11lib = NULL;
+-	}
+-
+-	x11display = NULL;
+-	x11window = 0;
+ }
+ 
+ #else
