@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ## [7.3-Reloaded]
 - Added wiimote (dolphinbar) button configuration for daphne (#1987)
+- Enhance share_upgrade files copy (#1984)
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
