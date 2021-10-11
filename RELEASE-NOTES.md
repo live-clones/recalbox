@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add TRS-80 Color Computer (XRoar standalone emulator)
 - Add Duckstation standalone emulator (PSX)
 - Add CRT TV and monitors support (vga666)
+- Add ps2 system with pcsx2 emulator
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
 - Add libretro fbneo core for channel f system
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
