@@ -66,6 +66,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix laggy video playback on Odroid XU4 OGST
 - Fix message "failed to extract content from compressed" for core libretro xrick
 - Fix retroarch 1.9.8 to correct issue on wrong lightgun shooting area
+- Fix static WIFI IP configuration not working
 
 ## Version 7.2.2-Reloaded
 
