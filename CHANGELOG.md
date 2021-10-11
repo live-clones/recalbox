@@ -31,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Add montreal & saopaulo MITM servers (#1908)
 - Add Hatari standalone emulator (#1907)
 - Add montreal & saopaulo MITM servers
-- Add Gearcoleco libretro core 
+- Add Gearcoleco libretro core
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Bump Oricutron (#1893)
@@ -157,6 +157,7 @@ All notable changes to this project will be documented in this file.
 - Fix 'Roms' content tab in web manager (#1980)
 
 - Add required bios for DuckStation (#1944)
+- Added missing standalone Hatari association to bios as required or optional (#1988)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
