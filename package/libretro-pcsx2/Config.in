@@ -1,0 +1,12 @@
+config BR2_PACKAGE_LIBRETRO_PCSX2
+	bool "libretro-pcsx2"
+	depends on BR2_x86_64
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  A Sony PS2 libretro core for X86_64.
+
+	  https://www.libretro.com
+
+comment "Pcsx2 a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
