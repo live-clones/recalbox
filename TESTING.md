@@ -139,6 +139,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Verify if the roms tab in web manager displays correctly systems and games (#1980)
 - [ ] Test mupen64plus starts on odroidxu4 (#1992)
 - [ ] Test dragon (xroar) starts on odroidxu4 (#1992)
+- [ ] Test the wiimote in daphne (#1987)
+  - [ ] Minus button = select (insert coin)
+  - [ ] Plus button = start
+  - [ ] Home button = hotkey (quit the emulator)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
