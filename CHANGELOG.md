@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Bump Genesis-Plus-GX libretro core (#1994)
 
 ## [7.3-Reloaded]
+- Added wiimote (dolphinbar) button configuration for daphne (#1987)
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
