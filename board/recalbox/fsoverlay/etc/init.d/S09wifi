@@ -40,6 +40,7 @@ rb_wifi_configure() {
   settings_ip=`egrep -m1 "^wifi${X}.ip" ${config_file}|sed "s/wifi${X}.ip=//g"`
   settings_gateway=`egrep -m1 "^wifi${X}.gateway" ${config_file}|sed "s/wifi${X}.gateway=//g"`
   settings_netmask=`egrep -m1 "^wifi${X}.netmask" ${config_file}|sed "s/wifi${X}.netmask=//g"`
+  settings_nameservers=`egrep -m1 "^wifi${X}.nameservers" ${config_file}|sed "s/wifi${X}.nameservers=//g"`
 
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
@@ -57,14 +58,17 @@ rb_wifi_configure() {
     sed -i "/\b\($interface\|static\)\b/d" /etc/dhcpcd.conf
     if [[ "$settings_ip" != "" ]] && \
       [[ "$settings_gateway" != "" ]] && \
-      [[ "$settings_netmask" != "" ]] ;then
+      [[ "$settings_netmask" != "" ]] && \
+      [[ "$settings_nameservers" != "" ]]; then
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip configuration"
       settings_netmask=$(mask2cidr $settings_netmask)
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip_address=$settings_ip/$settings_netmask"
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static routers=$settings_gateway"
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static domain_name_servers=$settings_nameservers"
       echo "interface $interface" >> /etc/dhcpcd.conf
       echo "static ip_address=$settings_ip/$settings_netmask" >> /etc/dhcpcd.conf
       echo "static routers=$settings_gateway" >> /etc/dhcpcd.conf
+      echo "static domain_name_servers=$settings_nameservers" >> /etc/dhcpcd.conf
     fi
     mount -o remount,ro /
 
