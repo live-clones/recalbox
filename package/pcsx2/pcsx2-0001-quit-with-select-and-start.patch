@@ -1,0 +1,39 @@
+diff --git a/pcsx2/PAD/Linux/InputManager.cpp b/pcsx2/PAD/Linux/InputManager.cpp
+index 79b117fcc..76d4eb2a6 100644
+--- a/pcsx2/PAD/Linux/InputManager.cpp
++++ b/pcsx2/PAD/Linux/InputManager.cpp
+@@ -24,6 +24,9 @@
+ 
+ InputDeviceManager device_manager;
+ 
++#include <wx/app.h>
++static int exitValue = 0;
++
+ // Needs to be moved to individual device code, as does the keyboard input.
+ void PollForJoystickInput(int cpad)
+ {
+@@ -38,10 +41,24 @@ void PollForJoystickInput(int cpad)
+ 	for (u32 i = 0; i < MAX_KEYS; i++)
+ 	{
+ 		s32 value = gamePad->GetInput((gamePadValues)i);
++
+ 		if (value != 0)
++		{
+ 			g_key_status.press(cpad, i, value);
++			if ((gamePadValues)i == gamePadValues::PAD_START) exitValue |= 1;
++			if ((gamePadValues)i == gamePadValues::PAD_SELECT) exitValue |= 2;
++		}
+ 		else
++		{
+ 			g_key_status.release(cpad, i);
++			if ((gamePadValues)i == gamePadValues::PAD_START) exitValue &= ~1;
++			if ((gamePadValues)i == gamePadValues::PAD_SELECT) exitValue &= ~2;
++		}
++	}
++
++	if (exitValue == 3)
++	{
++		wxApp::GetInstance()->Exit();
+ 	}
+ }
+ 
