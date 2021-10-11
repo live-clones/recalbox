@@ -293,6 +293,12 @@
     <bios path="scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d,924e392ed05558ffdb115408c263dccf" core="pcsx_rearmed" note="Recommended for better compatibility." />
     <bios path="ps1_rom.bin" md5="81bbe60ba7a3d1cea1d48c14cbcc647b" core="swanstation,duckstation" mandatory="false" note="Bios you can grab in PS3 firmware upgrade. Compatible with all regions, can replace all others bios." />
   </system>
+  <system fullname="Playstation 2" platform="ps2">
+    <bios path="ps2/ps2-0230a-20080220.bin" md5="21038400dc633070a78ad53090c53017" core="pcsx2" note="Recommended for better compatibility." />
+    <bios path="ps2/ps2-0230e-20080220.bin" md5="dc69f0643a3030aaa4797501b483d6c4" core="pcsx2" />
+    <bios path="ps2/ps2-0230h-20080220.bin" md5="30d56e79d89fbddf10938fa67fe3f34e" core="pcsx2" />
+    <bios path="ps2/ps2-0230j-20080220.bin" md5="80ac46fa7e77b8ab4366e86948e54f83" core="pcsx2" />
+  </system>
   <system fullname="Fairchild Channel-F" platform="channelf">
     <bios path="sl31254.bin" md5="da98f4bb3242ab80d76629021bb27585" core="freechaf" />
     <bios path="sl31253.bin" md5="ac9804d4c0e9d07e33472e3726ed15c3" core="freechaf" />

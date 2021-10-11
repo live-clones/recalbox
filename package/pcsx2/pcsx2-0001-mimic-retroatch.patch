@@ -1,0 +1,150 @@
+diff --git a/.gitignore b/.gitignore
+index dfc0fbdf9..5f1099d9d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -116,3 +116,6 @@ oprofile_data/
+ CMakeSettings.json
+ /ci-artifacts/
+ /out/
++
++.idea/
++cmake-build-debug/
+\ No newline at end of file
+diff --git a/pcsx2/PAD/Linux/Config.cpp b/pcsx2/PAD/Linux/Config.cpp
+index d51b77832..92cab33c0 100644
+--- a/pcsx2/PAD/Linux/Config.cpp
++++ b/pcsx2/PAD/Linux/Config.cpp
+@@ -97,6 +97,7 @@ void PADLoadConfig()
+ 
+ 	wxString iniName(L"PAD.ini");
+ 	const std::string iniFile = std::string(EmuFolders::Settings.Combine(iniName).GetFullPath()); // default path, just in case
++  printf("OnePAD: Reading %s\n", iniFile.c_str());
+ 	f = fopen(iniFile.c_str(), "r");
+ 	if (f == nullptr)
+ 	{
+@@ -141,7 +142,10 @@ void PADLoadConfig()
+ 
+ 	char sdl2[512];
+ 	while (fscanf(f, "SDL2 = %511[^\n]\n", sdl2) == 1)
+-		g_conf.sdl2_mapping.push_back(std::string(sdl2));
++  {
++    printf("Reconized mapping: '%s'\n", sdl2);
++    g_conf.sdl2_mapping.push_back(std::string(sdl2));
++  }
+ 
+ 	if (!have_user_setting)
+ 		DefaultKeyboardValues();
+diff --git a/pcsx2/PAD/Linux/Global.h b/pcsx2/PAD/Linux/Global.h
+index e94cbe8d2..a6a9cac6e 100644
+--- a/pcsx2/PAD/Linux/Global.h
++++ b/pcsx2/PAD/Linux/Global.h
+@@ -35,8 +35,8 @@
+ 
+ #define PADdefs
+ 
+-static const u32 GAMEPAD_NUMBER = 2;
+-static const u32 MAX_KEYS = 24;
++static constexpr u32 GAMEPAD_NUMBER = 2;
++static constexpr u32 MAX_KEYS = 25;
+ 
+ #include "Config.h"
+ 
+@@ -54,6 +54,7 @@ enum gamePadValues
+ 	PAD_L3,       // Left joystick button (L3)
+ 	PAD_R3,       // Right joystick button (R3)
+ 	PAD_START,    // Start button
++  PAD_HOTKEY,   // Hotkey button
+ 	PAD_UP,       // Directional pad ↑
+ 	PAD_RIGHT,    // Directional pad →
+ 	PAD_DOWN,     // Directional pad ↓
+@@ -82,6 +83,7 @@ static const std::array<gamePadValues, MAX_KEYS> all_keys =
+ 	PAD_L3,       // Left joystick button (L3)
+ 	PAD_R3,       // Right joystick button (R3)
+ 	PAD_START,    // Start button
++  PAD_HOTKEY,   // Hotkey button
+ 	PAD_UP,       // Directional pad ↑
+ 	PAD_RIGHT,    // Directional pad →
+ 	PAD_DOWN,     // Directional pad ↓
+diff --git a/pcsx2/PAD/Linux/InputManager.cpp b/pcsx2/PAD/Linux/InputManager.cpp
+index 79b117fcc..8caadecc0 100644
+--- a/pcsx2/PAD/Linux/InputManager.cpp
++++ b/pcsx2/PAD/Linux/InputManager.cpp
+@@ -24,6 +24,25 @@
+ 
+ InputDeviceManager device_manager;
+ 
++#include <wx/app.h>
++
++// Externs
++extern unsigned int GSmakeSnapshot(char* path);
++namespace Implementations
++{
++	extern void GSwindow_CycleAspectRatio();
++	extern void Sys_TakeSnapshot();
++	extern void Framelimiter_TurboToggle();
++	extern void Framelimiter_SlomoToggle();
++}
++extern void States_CycleSlotForward();
++extern void States_CycleSlotBackward();
++extern void States_FreezeCurrentSlot();
++extern void States_DefrostCurrentSlot();
++
++static int g_buttonStates = 0;
++static int g_buttonChanged = 0;
++
+ // Needs to be moved to individual device code, as does the keyboard input.
+ void PollForJoystickInput(int cpad)
+ {
+@@ -35,13 +54,40 @@ void PollForJoystickInput(int cpad)
+ 
+ 	gamePad->UpdateDeviceState();
+ 
++	g_buttonChanged = 0; // Reset schanges
+ 	for (u32 i = 0; i < MAX_KEYS; i++)
+ 	{
+ 		s32 value = gamePad->GetInput((gamePadValues)i);
++
+ 		if (value != 0)
++		{
+ 			g_key_status.press(cpad, i, value);
++
++			if ((g_buttonStates & (1 << i)) == 0) g_buttonChanged |= 1 << i;
++			g_buttonStates |= 1 << i;
++		}
+ 		else
++		{
+ 			g_key_status.release(cpad, i);
++
++			if ((g_buttonStates & (1 << i)) != 0) g_buttonChanged |= 1 << i;
++			g_buttonStates &= ~(1 << i);
++		}
++	}
++
++	int hotkeyMask = (1 << (int)gamePadValues::PAD_HOTKEY);
++	bool hotKey = (g_buttonStates & hotkeyMask) != 0;
++	if (hotKey & (g_buttonChanged & ~hotkeyMask) != 0)
++	{
++		if      (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_START   ))) != 0) wxApp::GetInstance()->Exit();                 // Exit
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_L1      ))) != 0) Implementations::Sys_TakeSnapshot();          // Screenshot
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_UP      ))) != 0) States_CycleSlotForward();                    // Slot++
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_DOWN    ))) != 0) States_CycleSlotBackward();                   // Slot--
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_SQUARE  ))) != 0) States_FreezeCurrentSlot();                   // Save
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_TRIANGLE))) != 0) States_DefrostCurrentSlot();                  // Load
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_R1      ))) != 0) Implementations::GSwindow_CycleAspectRatio(); // Ratio cycle
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_LEFT    ))) != 0) Implementations::Framelimiter_SlomoToggle();  // Slow motion
++		else if (((g_buttonStates & g_buttonChanged) & (1 << (int)(gamePadValues::PAD_RIGHT   ))) != 0) Implementations::Framelimiter_TurboToggle();  // Turbo mode
+ 	}
+ }
+ 
+diff --git a/pcsx2/PAD/Linux/SDL/joystick.cpp b/pcsx2/PAD/Linux/SDL/joystick.cpp
+index 933bc4f4c..bbd9f452c 100644
+--- a/pcsx2/PAD/Linux/SDL/joystick.cpp
++++ b/pcsx2/PAD/Linux/SDL/joystick.cpp
+@@ -136,6 +136,7 @@ JoystickInfo::JoystickInfo(int id)
+ 	m_pad_to_sdl[PAD_L3] = SDL_CONTROLLER_BUTTON_LEFTSTICK;
+ 	m_pad_to_sdl[PAD_R3] = SDL_CONTROLLER_BUTTON_RIGHTSTICK;
+ 	m_pad_to_sdl[PAD_START] = SDL_CONTROLLER_BUTTON_START;
++  m_pad_to_sdl[PAD_HOTKEY] = SDL_CONTROLLER_BUTTON_GUIDE;
+ 	m_pad_to_sdl[PAD_UP] = SDL_CONTROLLER_BUTTON_DPAD_UP;
+ 	m_pad_to_sdl[PAD_RIGHT] = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+ 	m_pad_to_sdl[PAD_DOWN] = SDL_CONTROLLER_BUTTON_DPAD_DOWN;

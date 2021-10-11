@@ -1,0 +1,13 @@
+--- a/CMakeLists.txt	2021-10-30 19:57:09.000000000 +0200
++++ b/CMakeLists.txt	2021-11-03 11:30:01.205663915 +0100
+@@ -23,10 +23,6 @@
+ check_no_parenthesis_in_path()
+ detectOperatingSystem()
+ check_compiler_version("7.0" "7.0")
+-if(NOT MSVC)
+-   set(CMAKE_C_COMPILER_LAUNCHER ccache)
+-   set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+-endif()
+ 
+ #-------------------------------------------------------------------------------
+ # Include specific module

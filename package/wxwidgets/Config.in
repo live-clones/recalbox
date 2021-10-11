@@ -1,0 +1,15 @@
+config BR2_PACKAGE_WXWIDGETS
+	bool "wxwidgets"
+	select BR2_PACKAGE_LIBPNG
+	select BR2_PACKAGE_JPEG
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_GDK_PIXBUF
+	select BR2_PACKAGE_LIBGTK3
+	select BR2_PACKAGE_LIBGTK3_X11
+	help
+	  Wxwidgets A crossplatform gui library
+
+	  https://github.com/wxWidgets/wxWidgets
+
+comment "wxWidget a toolchain w/ C++, and following librarie : libpng, jpeg, zlib, gdk_pixbuf"
+	depends on !BR2_PACKAGE_LIBPNG || !BR2_PACKAGE_JPEG || !BR2_PACKAGE_ZLIB || !BR2_PACKAGE_GDK_PIXBUF
