@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- fix pcsx2 build
 - Enhance share_upgrade files copy (#1984)
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
