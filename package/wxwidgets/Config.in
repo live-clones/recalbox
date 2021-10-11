@@ -4,6 +4,8 @@ config BR2_PACKAGE_WXWIDGETS
 	select BR2_PACKAGE_JPEG
 	select BR2_PACKAGE_ZLIB
 	select BR2_PACKAGE_GDK_PIXBUF
+	select BR2_PACKAGE_LIBGTK3
+	select BR2_PACKAGE_LIBGTK3_X11
 	help
 	  Wxwidgets A crossplatform gui library
 
