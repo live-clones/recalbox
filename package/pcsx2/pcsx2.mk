@@ -5,7 +5,7 @@
 ################################################################################
 
 PCSX2_VERSION = 54d10d21ecc752a7452402a299836903002dd2db
-PCSX2_SITE = https://gitlab.com/pcsx2/pcsx2.git
+PCSX2_SITE = https://github.com/pcsx2/pcsx2.git
 PCSX2_LICENSE = GPLv2 GPLv3 LGPLv2.1 LGPLv3
 PCSX2_DEPENDENCIES = xserver_xorg-server alsa-lib freetype zlib libpng wxwidgets libaio portaudio libsoundtouch sdl2 libpcap yaml-cpp libsamplerate fmt
 PCSX2_LICENSE_FILES = COPYING.GPLv2
@@ -33,8 +33,8 @@ define PCSX2_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 0755 -D $(@D)/pcsx2/PCSX2 $(TARGET_DIR)/usr/bin/PCSX2/PCSX2
 	cp -pr $(@D)/bin/Langs $(TARGET_DIR)/usr/bin/PCSX2
 	cp $(@D)/bin/GameIndex.yaml $(TARGET_DIR)/usr/bin/PCSX2
-	mkdir -p $(TARGET_DIR)/usr/bin/PCSX2/plugins
-	cp -pr $(@D)/plugins/*/*.so $(TARGET_DIR)/usr/bin/PCSX2/plugins
+	#mkdir -p $(TARGET_DIR)/usr/bin/PCSX2/plugins
+	#cp -pr $(@D)/plugins/*/*.so $(TARGET_DIR)/usr/bin/PCSX2/plugins
 endef
 
 $(eval $(cmake-package))
