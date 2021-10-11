@@ -169,6 +169,7 @@ All notable changes to this project will be documented in this file.
 - Fix temperature monitoring for AMD CPUs (#2008)
 - Disable rewind for rpi2 (#1798)
 
+- Fix static address configuration where domain name server ip was not set (#1518)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
