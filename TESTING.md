@@ -160,6 +160,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] check power button switch poweroff piboy
   - [ ] check joypad/joystick is well recognized
 - [ ] Check disable rewind for rpi2 (#1798)
+- [ ] Test static ip configuration works (manually set ip, netmask, gateway and nameservers) (#1518)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

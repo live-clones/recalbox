@@ -69,6 +69,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix message "failed to extract content from compressed" for core libretro xrick
 - Fix retroarch 1.9.8 to correct issue on wrong lightgun shooting area
 - Fix loads of bugs on pcsx_rearmed on Raspberry PI 0 and 1
+- Fix static WIFI IP configuration not working
 
 ## Version 7.2.2-Reloaded
 
