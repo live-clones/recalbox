@@ -181,6 +181,8 @@ All notable changes to this project will be documented in this file.
 - Fix static address configuration where domain name server ip was not set (#1518)
 - Fix Colecovision bios list (#2007)
 - Add missing generic .p2k for Elektronika BK (#2013)
+- Improve nespi4case shutdown script (#1381)
+- Added missing standalone Hatari association to bios as required or optional (#1988)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
