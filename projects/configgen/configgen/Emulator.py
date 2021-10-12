@@ -64,8 +64,8 @@ class Emulator:
 
     def configure(self, recalboxOptions: keyValueSettings, arguments):
         # Overriding vars
-        self._emulator: str          = self.__guessBestStringValue(recalboxOptions, "emulator", self._emulator)
-        self._core: str              = self.__guessBestStringValue(recalboxOptions, "core", self._core)
+        #self._emulator: str          = self.__guessBestStringValue(recalboxOptions, "emulator", self._emulator)
+        #self._core: str              = self.__guessBestStringValue(recalboxOptions, "core", self._core)
         self._ratio: str             = self.__guessBestStringValue(recalboxOptions, "ratio", self._ratio)
         self._videoMode: str         = self.__guessBestStringValue(recalboxOptions, "videomode", self._videoMode)
         self._shaderFile: str        = self.__guessBestStringValue(recalboxOptions, "shaders", self._shaderFile)
