@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- bump es
 - fix pcsx2 build
 - Enhance share_upgrade files copy (#1984)
 - Fix netplay in configgen (#1972)
