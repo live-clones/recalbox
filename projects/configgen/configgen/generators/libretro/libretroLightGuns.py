@@ -121,7 +121,7 @@ class libretroLightGun:
                 mouseIndex += 1
 
         if self.__debug: self.__Log("  Found {} Dolphinbars among {} Mouses".format(player, mouseIndex))
-        return len(self.__MouseIndexByPlayer) != 0
+        return player != 0
 
     # Find game name from /tmp/es_state.inf
     def __getGameNameFromESState(self) -> str:
