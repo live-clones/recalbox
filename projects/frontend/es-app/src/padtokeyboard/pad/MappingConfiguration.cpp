@@ -137,6 +137,22 @@ void MappingConfiguration::AssignMapping(const std::string& key, const std::stri
             Codes[0] = (short)MouseMove::Down;  mMapping[padNum].Assign(PadItems::J2Down , Types::MouseMove, Codes, 1, 0, comment);
             return;
           }
+          if (strcmp(key.data() + 2, "+j1") == 0)
+          {
+            Codes[0] = (short)MouseMove::Left;  mMapping[padNum].Assign(PadItems::HotKeyJ1Left , Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Right; mMapping[padNum].Assign(PadItems::HotKeyJ1Right, Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Up;    mMapping[padNum].Assign(PadItems::HotKeyJ1Up   , Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Down;  mMapping[padNum].Assign(PadItems::HotKeyJ1Down , Types::MouseMove, Codes, 1, 0, comment);
+            return;
+          }
+          if (strcmp(key.data() + 2, "+j2") == 0)
+          {
+            Codes[0] = (short)MouseMove::Left;  mMapping[padNum].Assign(PadItems::HotKeyJ2Left , Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Right; mMapping[padNum].Assign(PadItems::HotKeyJ2Right, Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Up;    mMapping[padNum].Assign(PadItems::HotKeyJ2Up   , Types::MouseMove, Codes, 1, 0, comment);
+            Codes[0] = (short)MouseMove::Down;  mMapping[padNum].Assign(PadItems::HotKeyJ2Down , Types::MouseMove, Codes, 1, 0, comment);
+            return;
+          }
         }
   }
 
@@ -148,6 +164,7 @@ MappingConfiguration::Types MappingConfiguration::Translate(Pad::Event& event, V
   // Invalid
   if ((unsigned int)event.Pad >= Input::sMaxInputDevices) return Types::None;
 
+  // Translate
   const Mapping& mapping = mMapping[(unsigned char)event.Pad];
   switch(mapping.Type(event.Item))
   {
@@ -440,31 +457,54 @@ bool MappingConfiguration::ParsePadItems(const std::string& value, int& padNum, 
   } __attribute__((packed))
   Translators[] =
   {
-    { __STRL("up"     ), PadItems::Up      }, //!< DPad Up direction
-    { __STRL("right"  ), PadItems::Right   }, //!< DPad Right direction
-    { __STRL("down"   ), PadItems::Down    }, //!< DPad Down direction
-    { __STRL("left"   ), PadItems::Left    }, //!< DPad Left direction
-    { __STRL("a"      ), PadItems::A       }, //!< A Button
-    { __STRL("b"      ), PadItems::B       }, //!< B Button
-    { __STRL("x"      ), PadItems::X       }, //!< X Button
-    { __STRL("y"      ), PadItems::Y       }, //!< Y Button
-    { __STRL("l1"     ), PadItems::L1      }, //!< L1 Button/Trigger
-    { __STRL("r1"     ), PadItems::R1      }, //!< R1 Button/Trigger
-    { __STRL("l2"     ), PadItems::L2      }, //!< L2 Button/Trigger
-    { __STRL("r2"     ), PadItems::R2      }, //!< R2 Button/Trigger
-    { __STRL("l3"     ), PadItems::L3      }, //!< L3 Button/Trigger
-    { __STRL("r3"     ), PadItems::R3      }, //!< R3 Button/Trigger
-    { __STRL("start"  ), PadItems::Start   }, //!< Start button
-    { __STRL("select" ), PadItems::Select  }, //!< Select button
-    { __STRL("hotkey" ), PadItems::Hotkey  }, //!< Hotkey (or Home) button
-    { __STRL("j1up"   ), PadItems::J1Up    }, //!< Joystick 1 (left) Up position
-    { __STRL("j1right"), PadItems::J1Right }, //!< Joystick 1 (left) Right position
-    { __STRL("j1down" ), PadItems::J1Down  }, //!< Joystick 1 (left) Down position
-    { __STRL("j1left" ), PadItems::J1Left  }, //!< Joystick 1 (left) Left position
-    { __STRL("j2up"   ), PadItems::J2Up    }, //!< Joystick 2 (right) Uo positio
-    { __STRL("j2right"), PadItems::J2Right }, //!< Joystick 2 (right) Right position
-    { __STRL("j2down" ), PadItems::J2Down  }, //!< Joystick 2 (right) Down position
-    { __STRL("j2left" ), PadItems::J2Left  }, //!< Joystick 2 (right) Left position
+    { __STRL("up"      ), PadItems::Up            }, //!< DPad Up direction
+    { __STRL("right"   ), PadItems::Right         }, //!< DPad Right direction
+    { __STRL("down"    ), PadItems::Down          }, //!< DPad Down direction
+    { __STRL("left"    ), PadItems::Left          }, //!< DPad Left direction
+    { __STRL("a"       ), PadItems::A             }, //!< A Button
+    { __STRL("b"       ), PadItems::B             }, //!< B Button
+    { __STRL("x"       ), PadItems::X             }, //!< X Button
+    { __STRL("y"       ), PadItems::Y             }, //!< Y Button
+    { __STRL("l1"      ), PadItems::L1            }, //!< L1 Button/Trigger
+    { __STRL("r1"      ), PadItems::R1            }, //!< R1 Button/Trigger
+    { __STRL("l2"      ), PadItems::L2            }, //!< L2 Button/Trigger
+    { __STRL("r2"      ), PadItems::R2            }, //!< R2 Button/Trigger
+    { __STRL("l3"      ), PadItems::L3            }, //!< L3 Button/Trigger
+    { __STRL("r3"      ), PadItems::R3            }, //!< R3 Button/Trigger
+    { __STRL("start"   ), PadItems::Start         }, //!< Start button
+    { __STRL("select"  ), PadItems::Select        }, //!< Select button
+    { __STRL("hotkey"  ), PadItems::Hotkey        }, //!< Hotkey (or Home) button
+    { __STRL("j1up"    ), PadItems::J1Up          }, //!< Joystick 1 (left) Up position
+    { __STRL("j1right" ), PadItems::J1Right       }, //!< Joystick 1 (left) Right position
+    { __STRL("j1down"  ), PadItems::J1Down        }, //!< Joystick 1 (left) Down position
+    { __STRL("j1left"  ), PadItems::J1Left        }, //!< Joystick 1 (left) Left position
+    { __STRL("j2up"    ), PadItems::J2Up          }, //!< Joystick 2 (right) Uo positio
+    { __STRL("j2right" ), PadItems::J2Right       }, //!< Joystick 2 (right) Right position
+    { __STRL("j2down"  ), PadItems::J2Down        }, //!< Joystick 2 (right) Down position
+    { __STRL("j2left"  ), PadItems::J2Left        }, //!< Joystick 2 (right) Left position
+    { __STRL("+up"     ), PadItems::HotKeyUp      }, //!< DPad Up direction
+    { __STRL("+right"  ), PadItems::HotKeyRight   }, //!< DPad Right direction
+    { __STRL("+down"   ), PadItems::HotKeyDown    }, //!< DPad Down direction
+    { __STRL("+left"   ), PadItems::HotKeyLeft    }, //!< DPad Left direction
+    { __STRL("+a"      ), PadItems::HotKeyA       }, //!< A Button
+    { __STRL("+b"      ), PadItems::HotKeyB       }, //!< B Button
+    { __STRL("+x"      ), PadItems::HotKeyX       }, //!< X Button
+    { __STRL("+y"      ), PadItems::HotKeyY       }, //!< Y Button
+    { __STRL("+l1"     ), PadItems::HotKeyL1      }, //!< L1 Button/Trigger
+    { __STRL("+r1"     ), PadItems::HotKeyR1      }, //!< R1 Button/Trigger
+    { __STRL("+l2"     ), PadItems::HotKeyL2      }, //!< L2 Button/Trigger
+    { __STRL("+r2"     ), PadItems::HotKeyR2      }, //!< R2 Button/Trigger
+    { __STRL("+l3"     ), PadItems::HotKeyL3      }, //!< L3 Button/Trigger
+    { __STRL("+r3"     ), PadItems::HotKeyR3      }, //!< R3 Button/Trigger
+    { __STRL("+start"  ), PadItems::HotKeyStart   }, //!< R3 Button/Trigger
+    { __STRL("+j1up"   ), PadItems::HotKeyJ1Up    }, //!< Joystick 1 (left) Up position
+    { __STRL("+j1right"), PadItems::HotKeyJ1Right }, //!< Joystick 1 (left) Right position
+    { __STRL("+j1down" ), PadItems::HotKeyJ1Down  }, //!< Joystick 1 (left) Down position
+    { __STRL("+j1left" ), PadItems::HotKeyJ1Left  }, //!< Joystick 1 (left) Left position
+    { __STRL("+j2up"   ), PadItems::HotKeyJ2Up    }, //!< Joystick 2 (right) Uo positio
+    { __STRL("+j2right"), PadItems::HotKeyJ2Right }, //!< Joystick 2 (right) Right position
+    { __STRL("+j2down" ), PadItems::HotKeyJ2Down  }, //!< Joystick 2 (right) Down position
+    { __STRL("+j2left" ), PadItems::HotKeyJ2Left  }, //!< Joystick 2 (right) Left position
   };
   
   // Check format X:key
@@ -479,7 +519,7 @@ bool MappingConfiguration::ParsePadItems(const std::string& value, int& padNum, 
   for(int i = (int)(sizeof(Translators) / sizeof(PadItemTranslator)); --i >= 0;)
   {
     const PadItemTranslator& translator = Translators[i];
-    if (translator.TextItemLength == (int)(value.length() - 2))
+    if (translator.TextItemLength == (int)value.length() - 2)
       if (strncmp(value.c_str() + 2, translator.TextItem, translator.TextItemLength) == 0)
       {
         padItem = translator.PadItem;

@@ -15,11 +15,11 @@ class Pad
     //! Pad event
     struct Event
     {
-      PadItems Item;   //!< Target item
-      int      Value;  //!< Analog value (for axis)
-      bool     On;     //!< Numeric value on/off (true/false)
-      bool     Analog; //!< Use Analog value, not Numeric value
-      char     Pad;    //!< Pad number
+      PadItems      Item;   //!< Target item
+      int           Value;  //!< Analog value (for axis)
+      bool          On;     //!< Numeric value on/off (true/false)
+      bool          Analog; //!< Use Analog value, not Numeric value
+      unsigned char Pad;    //!< Pad number
     } __attribute__((packed));
 
   private:
@@ -37,6 +37,8 @@ class Pad
     const PadConfiguration& mPadConfiguration;
     //! SDL Index to Recalbox Index
     HashMap<SDL_JoystickID, int> mSdlToRecalboxIndex;
+    //! Hotkey state per device
+    bool mHotkeyOnOff[Input::sMaxInputDevices];
     //! Numerical value previous state
     int mItemOnOff[Input::sMaxInputDevices];
     //! 32-ranged value previous state

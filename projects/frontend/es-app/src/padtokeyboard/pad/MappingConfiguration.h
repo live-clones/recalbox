@@ -3,10 +3,10 @@
 //
 #pragma once
 
-#include "../mouse/VirtualMouse.h"
-#include "../keyboard/VirtualKeyboard.h"
 #include "PadItems.h"
 #include "Pad.h"
+#include "../keyboard/VirtualKeyboard.h"
+#include "../mouse/VirtualMouse.h"
 
 class MappingConfiguration
 {
@@ -35,16 +35,16 @@ class MappingConfiguration
 
     /*!
      * @brief Constructor
-     * @param romPath Rom path, use to search for c onfiguration files
+     * @param romPath Rom path, use to search for configuration files
      */
     explicit MappingConfiguration(const Path& romPath);
 
     /*!
-     * @brief Translate pad event into kayboard or mouse event
+     * @brief Translate pad event into keyboard or mouse event
      * @param event Input event
-     * @param keyboard Keyoard event to fill in (if the mapping maps to a kayboard event)
+     * @param keyboard Keyboard event to fill in (if the mapping maps to a keyboard event)
      * @param mouse Mouse event to fill in (if the mapping mas to a mouse event)
-     * @return Mapping type (keyoard, mouse button or mouse move)
+     * @return Mapping type (keyboard, mouse button or mouse move)
      */
     MappingConfiguration::Types Translate(Pad::Event& event, VirtualKeyboard::EventList& keyboard, VirtualMouse::Event& mouse) const;
 
@@ -158,7 +158,7 @@ class MappingConfiguration
      * @brief Parse keycode name and translate to KEY_XXXXX constants
      * @param keyname Key name ("backspace", "a", "leftshift", ...), uppercase mandatory!
      * @param code Output code.
-     * @param type Target mapping: kayboard, mouse button or mouse move
+     * @param type Target mapping: keyboard, mouse button or mouse move
      * @param count Code count
      * @param delay Delay between key press/release
      * @return True if the keyname has been converted successfully.
