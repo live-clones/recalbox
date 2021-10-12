@@ -125,7 +125,7 @@ All notable changes to this project will be documented in this file.
 - Bump rpi-firmware to 5.10.60 (#1815)
 - Bump rpi kernel to 5.10.60 (#1815, #1867)
 - Bump linux firmware to 20210716 (#1815)
-- Bump odroidxu4 kernel to 5.4.118 (#1815)
+- Bump odroidxu4 kernel to 5.4.150 (#1815, #1834)
 - Fix rtl8812au wifi driver not installed on target images (#1815)
 - Disable rtl8812au wifi driver for odroidgo2 (#1815)
 - Bump legacy nvidia drivers to 390.143 (#1815)
@@ -159,6 +159,7 @@ All notable changes to this project will be documented in this file.
 - Updated Netflix and YouTube addons in Kodi
 
 - Add required bios for DuckStation (#1944)
+- Fix kodi runtime errors on odroidxu4 (#1834)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
