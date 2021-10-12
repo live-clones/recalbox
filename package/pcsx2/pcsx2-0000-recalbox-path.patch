@@ -1,5 +1,5 @@
 diff --git a/pcsx2/gui/AppConfig.cpp b/pcsx2/gui/AppConfig.cpp
-index c1665a0b7..2ca27d199 100644
+index c1665a0b7..fa5474c07 100644
 --- a/pcsx2/gui/AppConfig.cpp
 +++ b/pcsx2/gui/AppConfig.cpp
 @@ -152,8 +152,7 @@ namespace PathDefs
@@ -60,13 +60,13 @@ index c1665a0b7..2ca27d199 100644
  	wxDirName GetSettings()
  	{
 -		return GetDocuments() + Base::Settings();
-+		return wxDirName("/recalbox/share/.config/pcsx2");
++		return wxDirName("/recalbox/share/system/.config/pcsx2");
  	}
  
  	wxDirName GetLogs()
  	{
 -		return GetDocuments() + Base::Logs();
-+		return wxDirName("/recalbox/share/logs");
++		return wxDirName("/recalbox/share/system/logs");
  	}
  
  	wxDirName GetLangs()
@@ -76,7 +76,7 @@ index c1665a0b7..2ca27d199 100644
 -#else
 -		return AppRoot() + Base::Langs();
 -#endif
-+		return wxDirName("/recalbox/share/.config/pcsx2/Langs");
++		return wxDirName("/recalbox/share/system/.config/pcsx2/Langs");
  	}
  
  	wxDirName Get(FoldersEnum_t folderidx)
