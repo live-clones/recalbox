@@ -171,6 +171,8 @@ All notable changes to this project will be documented in this file.
 - Add xpi_gamecon module for piboy dmt support (#1817)
 - Add xpi_gamecon module for piboy dmg support (#1817)
 - Add volumed for controlling volume from the wheel (#1817)
+- Disable rewind for rpi2 (#1798)
+
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
