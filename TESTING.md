@@ -17,6 +17,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)
+- [ ] ps2 system with pcsx2 emulator (#1792)
 - [X] While ES is stopped, create a file in /tmp/upgradefailed and check if the error message is displayed when starting ES (#1772)
 - [X] Grub options still accessible on PC (#1750)
 - [ ] Test uae4arm on any arm board (including CD platforms)(#1771, #1943)
