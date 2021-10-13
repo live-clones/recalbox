@@ -139,6 +139,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Duckstation
 - [ ] Verify if the roms tab in web manager displays correctly systems and games (#1980)
 - [ ] Fix Reicast boot (#1982)
+- [ ] Test mupen64plus starts on odroidxu4 (#1992)
+- [ ] Test dragon (xroar) starts on odroidxu4 (#1992)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
