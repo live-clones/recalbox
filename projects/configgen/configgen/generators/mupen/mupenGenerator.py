@@ -27,6 +27,8 @@ class MupenGenerator(Generator):
             # Save config
             mupenSettings.saveFile()
 
+        commandEnv = {"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"}
+
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--corelib", "/usr/lib/libmupen64plus.so.2.0.0",
                         "--gfx", "/usr/lib/mupen64plus/mupen64plus-video-{}.so".format(system.Core),
@@ -40,6 +42,10 @@ class MupenGenerator(Generator):
         if resolution.isSet and resolution.selfProcess:
             commandArray.extend(["--fullscreen", "--resolution", resolution.string])
 
+        from configgen.utils.architecture import Architecture
+        if Architecture().isXu4:
+            commandEnv["SDL_VIDEODRIVER"] = "kmsdrm_legacy"
+
         # Verbose
         if args.verbose:
             commandArray.append("--verbose")
@@ -50,4 +56,4 @@ class MupenGenerator(Generator):
 
         return Command(videomode=system.VideoMode,
                                array=commandArray,
-                               env={"SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so"})
+                               env=commandEnv)

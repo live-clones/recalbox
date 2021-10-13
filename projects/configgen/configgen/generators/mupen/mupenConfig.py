@@ -49,9 +49,9 @@ def writeMupenConfig(system: Emulator, controllers: ControllerPerPlayer, rom: st
     # VerticalSync makes video smoother on odroidgo2 and odroidgo3
     # and force 16bpp color quality as H/W does not support 32bpp
     from configgen.utils.architecture import Architecture
-    if Architecture.isGoa2 or Architecture.isGoa3:
+    if Architecture().isGoa2 or Architecture().isGoa3:
         mupenSettings.setBool('Video-General', 'VerticalSync', True)
-    if Architecture.isGoa2 or Architecture.isGoa3 or Architecture.isPi4:
+    if Architecture().isGoa2 or Architecture().isGoa3 or Architecture().isPi4:
         mupenSettings.setInt('Video-Rice', 'ColorQuality', 1)
 
     for n in GlideN64FBEmulation_whitelist:

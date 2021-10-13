@@ -81,10 +81,17 @@ class XroarGenerator(Generator):
                 if controller.HasHotkey: commandArray.extend(["-joy-start", str(controller.Hotkey.Id)])
                 if controller.HasStart : commandArray.extend(["-joy-hotkey", str(controller.Start.Id)])
 
+        # envvars
+        commandEnv = {}
+
+        from configgen.utils.architecture import Architecture
+        if Architecture().isXu4:
+            commandEnv["SDL_VIDEODRIVER"] = "kmsdrm_legacy"
+
         # Add extra arguments
         if system.HasArgs: commandArray.extend(system.Args)
 
         # finally add rom
         commandArray.extend([args.rom])
 
-        return Command(videomode=system.VideoMode, array=commandArray)
+        return Command(videomode=system.VideoMode, array=commandArray, env=commandEnv)
