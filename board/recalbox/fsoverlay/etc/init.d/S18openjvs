@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ -c /dev/ttyUSB0 ]; then
+  python -m py_openjvs
+fi

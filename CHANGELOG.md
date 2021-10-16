@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
 - Fix two letter extentions
+- Add OpenJVS python library support for arcade machines
 
 ## [8.0-Electron]
 - Remove non-working shaders
@@ -67,7 +68,6 @@ All notable changes to this project will be documented in this file.
 - Add montreal & saopaulo MITM servers
 - Add Gearcoleco libretro core
 - Add Gearcoleco libretro core
-- Add Gearcoleco libretro core 
 - Add Hatari standalone emulator
 - Add beebem emulator
 - Remove px68k core from x86 board (#1875)
@@ -225,10 +225,6 @@ All notable changes to this project will be documented in this file.
 - Fix screenshot on KMS compliant boards (#1970)
 - Updated Netflix and YouTube addons in Kodi
 - Update URLS in all recalbox.conf files (#2051)
-- Add OpenJVS python library support for arcade machines
-- Fix wrong selection of headphones for rpi4 on fresh install (#1922)
-- Fix screenshot on KMS compliant boards (#1970)
-- Updated Netflix and YouTube addons in Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

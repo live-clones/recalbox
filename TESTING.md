@@ -33,6 +33,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Regular protected wifi (PSK)
   - [ ] Open SSID (passwordless)
 - [ ] Test 2 letters extentions (.md / .st)
+- [ ] Test OpenJVS start only when /dev/ttyUSB0 device is plugged
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
@@ -188,12 +189,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] should display full screen on x86_64
   - [ ] should start on other platforms
 - [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
-- [ ] Test sound in Intellivision games using freeintv core
-
-- [ ] Test Beebem
-- [ ] Test default sound output of rpi devices is set to HDMI (#1922)
-- [ ] Test screenshots on rpi3, rpi4, rpi02legacy, odroidxu4 and odroidgo2 (#1970)
-- [ ] Test OpenJVS start only when /dev/ttyUSB0 device is plugged
 - [ ] Test sound in Intellivision games using freeintv core
 
 - [ ] Test Beebem
