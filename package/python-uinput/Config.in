@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PYTHON_UINPUT
+	bool "python-uinput"
+	depends on BR2_PACKAGE_PYTHON3_PY_PYC
+	help
+	  Library to used to emulate OTG joypad/keyboard/mice.
+
