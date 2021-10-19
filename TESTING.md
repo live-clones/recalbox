@@ -17,6 +17,11 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
 - [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
+
+## [7.3.1]
+- [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
+
+## [7.3]
 - [ ] Check recalbox.log contains script and type information (#1920)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
