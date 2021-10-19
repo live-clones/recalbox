@@ -450,7 +450,7 @@ bool Renderer::GetResolutionFromString(const std::string& resolution, int& w, in
   return false;
 }
 
-void Renderer::GetResolutionFromConfiguration(int& w, int& h)
+void Renderer::GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio)
 {
   switch(Board::Instance().GetBoardType())
   {
@@ -479,6 +479,12 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
         resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
         GetResolutionFromString(resolution, w, h);
       }
+      std::string ratioStr = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationRatio()));
+      float ratio = 0;
+      if (Strings::ToFloat(ratioStr, ratio))
+      {
+        aspectRatio = ratio;
+      }
     }
   }
   { LOG(LogInfo) << "[Renderer] Resolution got from recalbox.conf: " << w << 'x' << h; }
@@ -487,9 +493,11 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
 bool Renderer::Initialize(int w, int h)
 {
   // Get resolution from config if either w or h is nul
-  if ((w * h) == 0) GetResolutionFromConfiguration(w, h);
+  float configAspectRatio = 0;
+  if ((w * h) == 0) GetResolutionFromConfiguration(w, h, configAspectRatio);
 
   bool createdSurface = ((w * h) != 0) ? CreateSdlSurface(w, h) : false;
+
   if (!createdSurface)
   {
     SDL_DisplayMode dispMode;
@@ -500,10 +508,21 @@ bool Renderer::Initialize(int w, int h)
   if (!createdSurface)
     return false;
 
+  if(configAspectRatio!=0){
+    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * configAspectRatio);
+    mVirtualDisplayWidth = (int)(mDisplayHeightFloat * configAspectRatio);
+    mVirtualDisplayWidthFloat = mDisplayHeightFloat * configAspectRatio;
+  }else{
+    mScale = 1;
+    mVirtualDisplayWidth = mDisplayWidth;
+    mVirtualDisplayWidthFloat = mDisplayWidthFloat;
+  }
+
   glViewport(0, 0, mDisplayWidth, mDisplayHeight);
 
   glMatrixMode(GL_PROJECTION);
   glOrtho(0, mDisplayWidth, mDisplayHeight, 0, -1.0, 1.0);
+  glScalef(mScale,1,1);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -525,7 +544,7 @@ void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vert
 
 void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
-  Vector4i box(pos.x(), pos.y(), dim.x(), dim.y());
+  Vector4i box(pos.x()*mScale, pos.y(), dim.x()*mScale, dim.y());
   if (box[2] == 0)
     box[2] = mDisplayWidth - box.x();
   if (box[3] == 0)

@@ -13,7 +13,7 @@
 #include <utils/gl/Colors.h>
 #include <utils/storage/Stack.h>
 
-// Forward declatation
+// Forward declaration
 class Component;
 class Font;
 
@@ -38,6 +38,12 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     float mDisplayWidthFloat;
     //! Display height as float
     float mDisplayHeightFloat;
+    //! Virtual viewport display width as integer
+    int   mVirtualDisplayWidth;
+    //! Virtual viewport display width as float
+    float mVirtualDisplayWidthFloat;
+    //! Aspect ratio
+    float mScale;
 
     //! True if both surface and context have been initialized
     bool mViewPortInitialized;
@@ -75,7 +81,7 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param w Width to fill
      * @param h Height to fill
      */
-    static void GetResolutionFromConfiguration(int& w, int& h);
+    static void GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio);
 
     /*!
      * @brief Get resolution from string
@@ -291,16 +297,16 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      */
 
     //! Get display Width as integer
-    int DisplayWidthAsInt() const { return mDisplayWidth; }
+    int DisplayWidthAsInt() const { return mVirtualDisplayWidth; }
     //! Get display Height as integer
     int DisplayHeightAsInt() const { return mDisplayHeight; }
     //! Get display Width as float
-    float DisplayWidthAsFloat() const { return mDisplayWidthFloat; }
+    float DisplayWidthAsFloat() const { return mVirtualDisplayWidthFloat; }
     //! Get display Height as float
     float DisplayHeightAsFloat() const { return mDisplayHeightFloat; }
 
     // Is small resolution?
-    bool IsSmallResolution() const { return mDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    bool IsSmallResolution() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
 
     //! Check if the Renderer is properly initialized
     bool Initialized() const { return mViewPortInitialized; }
