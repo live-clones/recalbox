@@ -1,6 +1,5 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-
 ## [NEXT]
 - Change image name and descriptions in rpi imager (#2000)
 - Update of the favorite icons outrun and gong (in recalbox font) (#2010)
@@ -8,6 +7,11 @@ All notable changes to this project will be documented in this file.
 - Add public beta release (#1997) (fixed)
 - Add support for new Raspberry Pi Zero 2 (#2000)
 - Improve ergonomy when "quick system select" is enabled
+
+## [7.3.1-Reloaded]
+- Bump Genesis-Plus-GX libretro core (#1994)
+
+## [7.3-Reloaded]
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
