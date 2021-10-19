@@ -1,9 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-
 ## [NEXT]
 - Add support for new Raspberry Pi Zero 2
 - Add public beta release (#1997)
+
+## [7.3.1-Reloaded]
+- Bump Genesis-Plus-GX libretro core (#1994)
+
+## [7.3-Reloaded]
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
