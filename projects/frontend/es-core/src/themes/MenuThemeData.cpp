@@ -17,8 +17,14 @@ void MenuThemeData::Reset()
 MenuThemeData::MenuThemeData()
 {
 	mCurrent = std::make_shared<MenuTheme>();
-	
-	const auto *elem = ThemeData::getCurrent().getElement("menu", "menubg", "menuBackground");
+	const auto *elem = ThemeData::getCurrent().getElement("menu", "menuSize", "menuSize");
+
+	if (elem != nullptr) {
+		if (elem->HasProperty("height"))
+			mCurrent->menuSize.height = elem->AsFloat("height");
+	}
+
+	elem = ThemeData::getCurrent().getElement("menu", "menubg", "menuBackground");
 	
 	if (elem != nullptr)
 	{

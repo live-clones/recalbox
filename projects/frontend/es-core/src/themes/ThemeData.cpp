@@ -266,6 +266,11 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "selectedColor", ElementProperty::Color },
         { "selectorColor", ElementProperty::Color },
       },
+    },
+    { "menuSize",
+      {
+        { "height", ElementProperty::Float },
+      },
     }
   };
   return sElementMap;
