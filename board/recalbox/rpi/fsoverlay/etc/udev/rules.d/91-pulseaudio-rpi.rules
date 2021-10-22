@@ -1,3 +1,6 @@
+SUBSYSTEMS=="platform", DEVPATH=="*/*.hdmi/sound/*", ENV{SOUND_FORM_FACTOR}="internal"
+SUBSYSTEMS=="platform", DEVPATH=="*/*.mailbox/bcm2835_audio/*", ENV{SOUND_FORM_FACTOR}="internal"
+
 SUBSYSTEM!="sound*", GOTO="end"
 ACTION!="change", GOTO="end"
 KERNEL!="card*", GOTO="end"
@@ -5,6 +8,7 @@ ENV{SOUND_FORM_FACTOR}!="internal", GOTO="end"
 
 DRIVERS=="bcm2835_audio", ATTR{id}=="b1", ENV{PULSE_PROFILE_SET}="rpi-hdmi.conf", GOTO="end"
 DRIVERS=="bcm2835_audio", ATTR{id}=="b2", ENV{PULSE_PROFILE_SET}="rpi-hdmi.conf", GOTO="end"
+DRIVERS=="vc4_hdmi", ATTR{id}=="vc4hdmi", ENV{PULSE_PROFILE_SET}="rpi-hdmi.conf", GOTO="end"
 DRIVERS=="vc4_hdmi", ATTR{id}=="vc4hdmi0", ENV{PULSE_PROFILE_SET}="rpi-hdmi.conf", GOTO="end"
 DRIVERS=="vc4_hdmi", ATTR{id}=="vc4hdmi1", ENV{PULSE_PROFILE_SET}="rpi-hdmi.conf", GOTO="end"
 DRIVERS=="bcm2835_audio", ATTR{id}=="Headphones", ENV{PULSE_PROFILE_SET}="rpi-analog.conf", GOTO="end"
