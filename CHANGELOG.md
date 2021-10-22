@@ -226,6 +226,7 @@ All notable changes to this project will be documented in this file.
 - Updated Netflix and YouTube addons in Kodi
 - Update URLS in all recalbox.conf files (#2051)
 - Add OpenJVS python library support for arcade machines
+- Fix wrong selection of headphones for rpi4 on fresh install (#1922)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
