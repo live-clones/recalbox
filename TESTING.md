@@ -150,6 +150,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Home button = hotkey (quit the emulator)
 
 - [ ] Test Beebem
+- [ ] Test default sound output of rpi devices is set to HDMI (#1922)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
