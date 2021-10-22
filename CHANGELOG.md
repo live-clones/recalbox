@@ -168,6 +168,7 @@ All notable changes to this project will be documented in this file.
 - Updated Netflix and YouTube addons in Kodi
 
 - Add required bios for DuckStation (#1944)
+- Fix wrong selection of headphones for rpi4 on fresh install (#1922)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
