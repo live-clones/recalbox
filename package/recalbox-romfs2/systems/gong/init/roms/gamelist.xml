@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <game>
+    <path>./gong.c</path>
+    <name>Gong</name>
+    <desc>Gong is a game similar to the famous arcade game Pong. The game is inspired by table tennis viewed from above, and each player competes by moving the virtual racket up and down. The player can change the direction of the ball based on where the ball hits the racquet, as its speed gradually increases during the round.</desc>
+    <rating>0.9</rating>
+    <releasedate>20210301T000000</releasedate>
+    <developer>Brad Parker</developer>
+    <publisher>Libretro</publisher>
+    <genre>Action / Brick breaker</genre>
+    <players>1</players>
+    <image>./media/images/gong.png</image>
+  </game>
+</gameList>
