@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version 1.0.0.02 (25/08/21)
-LIBRETRO_FBNEO_VERSION = 8ffe13155d3bda53cfa2de32274a291ddd9c9c80
+# Version 1.0.0.02 (24/10/21)
+LIBRETRO_FBNEO_VERSION = 40224a49c9038e7103f199b78dfe3d3f725019aa
 LIBRETRO_FBNEO_SITE = $(call github,libretro,FBNeo,$(LIBRETRO_FBNEO_VERSION))
 LIBRETRO_FBNEO_LICENSE = COPYRIGHT
 LIBRETRO_FBNEO_LICENSE_FILES = LICENSE.md
