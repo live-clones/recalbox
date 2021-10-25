@@ -160,6 +160,11 @@ build rpi3:
   when: manual
   variables:
     ARCH: 'rpi3'
+build rpizero2legacy:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'rpizero2legacy'
 
 # Schedules (nightly)
 nightly build x86_64:
@@ -204,6 +209,12 @@ nightly build rpi3:
     - schedules
   variables:
     ARCH: 'rpi3'
+nightly build rpizero2legacy:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpizero2legacy'
 
 
 ### Release
