@@ -13,6 +13,30 @@
             "website": "https://www.recalbox.com"
         },
         {
+            "name": "Recalbox {{version}} - Pi Zero 2",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpizero2/recalbox-rpizero2.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
+            "extract_size": {{rpi3ExtractSize}},
+            "extract_sha256": "{{rpi3ExtractSha256}}",
+            "image_download_size": {{rpi3ImageDownloadSize}},
+            "image_download_sha256": "{{rpi3ImageDownloadSha256}}",
+            "release_date": "{{releaseDate}}",
+            "website": "https://www.recalbox.com"
+        },
+        {
+            "name": "Recalbox {{version}} - GPiCase + Pi Zero 2",
+            "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpizero2legacy/recalbox-rpizero2legacy.img.xz",
+            "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
+            "extract_size": {{rpizero2legacyExtractSize}},
+            "extract_sha256": "{{rpizero2legacyExtractSha256}}",
+            "image_download_size": {{rpizero2legacyImageDownloadSize}},
+            "image_download_sha256": "{{rpizero2legacyImageDownloadSha256}}",
+            "release_date": "{{releaseDate}}",
+            "website": "https://www.recalbox.com"
+        },
+        {
             "name": "Recalbox {{version}} - Pi3",
             "description": "The retro-gaming OS! Supporting 100+ gaming systems!",
             "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi3/recalbox-rpi3.img.xz",
