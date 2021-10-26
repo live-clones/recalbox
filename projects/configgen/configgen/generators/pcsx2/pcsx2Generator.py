@@ -40,17 +40,59 @@ class Pcsx2Generator(Generator):
     BIOS_HK  = "ps2-0230h-20080220.bin"
 
     @staticmethod
-    def __CheckPs2Bios(rom: str) -> str:
+    def __ConfigurePad(playersControllers: ControllerPerPlayer):
+        with open(Pcsx2Generator.pcsx2ConfigFilePAD, "w") as f:
+            if 1 in playersControllers: f.write("uid[0] = {}\n".format(playersControllers[1].SdlIndex))
+            if 2 in playersControllers: f.write("uid[1] = {}\n".format(playersControllers[2].SdlIndex))
+            if 1 in playersControllers: f.write("SDL2 = {}\n".format(playersControllers[1].generateSDLGameDBLine(False)))
+            if 2 in playersControllers: f.write("SDL2 = {}\n".format(playersControllers[2].generateSDLGameDBLine(False)))
 
+    @staticmethod
+    def __CheckPs2Bios(rom: str) -> str:
         import os.path
         def Exists(romPath: str) -> bool:
             return os.path.exists( '/recalbox/share/bios/ps2/' + romPath)
 
         # Try to get Redump region
-        if "Europe" in rom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
-        if "Australia" in rom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
-        if "USA" in rom and Exists(Pcsx2Generator.BIOS_USA): return Pcsx2Generator.BIOS_USA
-        if "Japan" in rom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_JP
+        lrom = rom.lower()
+        # EU region
+        if   "europe" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "france" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "ireland" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "germany" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "belgium" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "italy" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "greece" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "croatia" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "denmark" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "spain" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "portugal" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "poland" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "finland" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "russia" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "austria" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "netherlands" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "switzerland" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "norway" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "sweden" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "scandinavia" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "australia" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "india" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "south africa" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        # USA region
+        elif "canada" in lrom and Exists(Pcsx2Generator.BIOS_USA): return Pcsx2Generator.BIOS_USA
+        elif "brazil" in lrom and Exists(Pcsx2Generator.BIOS_USA): return Pcsx2Generator.BIOS_USA
+        elif "latin america" in lrom and Exists(Pcsx2Generator.BIOS_USA): return Pcsx2Generator.BIOS_USA
+        # JP region
+        elif "japan" in lrom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_JP
+        elif "korea" in lrom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_JP
+        elif "asia" in lrom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_JP
+        # CH
+        elif "china" in lrom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_HK
+        elif "taiwan" in lrom and Exists(Pcsx2Generator.BIOS_JP): return Pcsx2Generator.BIOS_HK
+        # Shortest name at the end
+        elif "uk" in lrom and Exists(Pcsx2Generator.BIOS_EU): return Pcsx2Generator.BIOS_EU
+        elif "usa" in lrom and Exists(Pcsx2Generator.BIOS_USA): return Pcsx2Generator.BIOS_USA
 
         # Check if PS2 bios bin in folders
         for bios in (Pcsx2Generator.BIOS_USA, Pcsx2Generator.BIOS_EU, Pcsx2Generator.BIOS_JP, Pcsx2Generator.BIOS_HK):
@@ -58,7 +100,7 @@ class Pcsx2Generator(Generator):
                 return bios
         return ""
 
-    def __GetRegConfigure(self, system: Emulator):
+    def __ConfigureReg(self):
         reg = keyValueSettings(Pcsx2Generator.pcsx2ConfigFileReg)
         reg.loadFile(True)
         
@@ -179,7 +221,8 @@ class Pcsx2Generator(Generator):
             self.__ConfigureSound()
             self.__ConfigureUI(system, args.rom)
             self.__ConfigureCore()
-            self.__GetRegConfigure(system)
+            self.__ConfigureReg()
+            self.__ConfigurePad(playersControllers)
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--fullscreen", "--fullboot",

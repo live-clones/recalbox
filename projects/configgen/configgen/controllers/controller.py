@@ -209,26 +209,15 @@ class Controller:
         15 :  0, # Not possible
     }
 
-    def generateSDLGameDBLine(self):
-        result: str = "{},{},platform:Linux,".format(self.__guid, self.__deviceName.replace(',', ' '))
-        for name, inputItem in self.__inputs.items():
+    def generateSDLGameDBLine(self, platform: bool = True):
+        result: str = "{},{},".format(self.__guid, self.__deviceName.replace(',', ' '))
+        if platform: result += "platform:Linux,"
+        for inputItem in self.__inputs.values():
             sdlName: str = inputItem.GameDBName
             if sdlName == '': continue
-            sdlPrefix: str = inputItem.GameDBType
-            if sdlName in ('leftx', 'lefty', 'rightx', 'righty') and inputItem.Type in (InputItem.TypeButton, InputItem.TypeHat):
-                if inputItem.IsHat:
-                    result += "-{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
-                    result += "+{}:h{}.{},".format(sdlName, inputItem.Id, self.OppositeHat[inputItem.Value])
-                else:
-                    result += "-{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
-                    result += "+{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
-            elif sdlName in ('dpup', 'dpdown', 'dpleft', 'dpright') and inputItem.IsAxis:
-                sign: int = int(inputItem.Value) if sdlName in ('dpup', 'dpleft') else -int(inputItem.Value)
-                result += "{}:{}a{},".format(sdlName, '-' if sign < 0 else '+', inputItem.Id)
-            elif inputItem.IsHat:
-                result += "{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
-            else:
-                result += "{}:{}{},".format(sdlName, sdlPrefix, inputItem.Id)
+            if inputItem.IsAxis:  result += "{}:{}a{},".format(sdlName, '-' if inputItem.Value < 0 else '+', inputItem.Id)
+            elif inputItem.IsHat: result += "{}:h{}.{},".format(sdlName, inputItem.Id, inputItem.Value)
+            else:                 result += "{}:{}{},".format(sdlName, inputItem.GameDBType, inputItem.Id)
 
         return result
 
