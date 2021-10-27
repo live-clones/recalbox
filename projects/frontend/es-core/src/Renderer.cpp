@@ -456,6 +456,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
   {
     // Fixed resolutions and/or tvservice available
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::OdroidAdvanceGo:

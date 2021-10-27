@@ -352,6 +352,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::UndetectedYet:
       case BoardType::Unknown:
       case BoardType::Pi0:
+      case BoardType::Pi02:
       case BoardType::Pi1:
       case BoardType::Pi2:
       case BoardType::Pi3:
@@ -412,6 +413,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -569,6 +571,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -612,6 +615,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:

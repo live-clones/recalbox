@@ -329,6 +329,7 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -466,6 +467,7 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -778,6 +780,7 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -818,6 +821,7 @@ std::string PulseAudioController::GetPortDescription(const pa_card_port_info& in
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:

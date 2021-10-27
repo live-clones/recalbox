@@ -12,7 +12,7 @@
 #include "GuiMenuKodiSettings.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
-#include <components/OptionListComponent.h>
+//#include <components/OptionListComponent.h>
 #include <components/SwitchComponent.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
@@ -107,6 +107,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::Pi0: boardFolder = "rpi0"; break;
+    case BoardType::Pi02: boardFolder = "rpi02"; break;
     case BoardType::Pi1: boardFolder = "rpi1"; break;
     case BoardType::Pi2: boardFolder = "rpi2"; break;
     case BoardType::Pi3: boardFolder = "rpi3"; break;

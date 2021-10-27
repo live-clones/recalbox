@@ -313,6 +313,7 @@ void AlsaController::SetDefaultPlayback(int identifier)
       case BoardType::UndetectedYet:
       case BoardType::Unknown:
       case BoardType::Pi0:
+      case BoardType::Pi02:
       case BoardType::Pi4:
       case BoardType::Pi400:
       case BoardType::UnknownPi:

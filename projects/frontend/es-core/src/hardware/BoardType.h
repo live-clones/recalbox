@@ -11,6 +11,7 @@ enum class BoardType
     Unknown,       // Unknown hardware
     // RaspberryPi
     Pi0,           // Pi 0, 0W
+    Pi02,          // Pi0 II
     Pi1,           // Pi 1, A, B, A+, B+
     Pi2,           // Pi 2B
     Pi3,           // Pi 3B

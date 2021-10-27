@@ -40,6 +40,7 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::Pi0:
+    case BoardType::Pi02:
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
@@ -73,6 +74,7 @@ BoardType Board::GetPiModel(unsigned int revision)
   {
     case RaspberryModel::Zero:
     case RaspberryModel::ZeroW: return BoardType::Pi0;
+    case RaspberryModel::Zero2: return BoardType::Pi02;
     case RaspberryModel::OneA:
     case RaspberryModel::OneAPlus:
     case RaspberryModel::OneB:
