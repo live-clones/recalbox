@@ -49,7 +49,7 @@ def Identify():
     with open("/recalbox/recalbox.arch", "r") as sf:
         board = sf.readline()
 
-    if board == "rpi0" or board == "rpi1":
+    if board in ("rpi0", "rpi1", "rpizero2legacy"):
         case = DetectGPiCase(cases)
 
     if board == "rpi4":
