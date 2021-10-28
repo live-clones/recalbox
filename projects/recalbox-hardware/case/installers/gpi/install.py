@@ -30,6 +30,12 @@ class Install(InstallBase):
                     return False
                 logger.hardlog("GPi: recalbox-user-config.txt installed")
 
+                # Remove kms
+                if os.system('sed -i "s|dtoverlay=vc4-kms-v3d||g" /boot/config.txt') != 0:
+                    logger.hardlog("GPi: Error removing kms driver")
+                    return False
+                logger.hardlog("GPi: kms driver removed")
+
                 # Install /boot/cmdline.txt, correct sound issue
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/cmdline.txt"
                 os.system("cp /boot/cmdline.txt /boot/cmdline.txt.backup")
