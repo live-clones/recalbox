@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_HARDWARE_VERSION = c94c2458e6e9bc5590ce53a7238be90df1337eeb
+RECALBOX_HARDWARE_VERSION = 2989ec8bf588d4e674877eeb43eb9c6f6510a3c8
 RECALBOX_HARDWARE_SITE = https://gitlab.com/recalbox/recalbox-hardware
 RECALBOX_HARDWARE_LICENSE = MIT
 RECALBOX_HARDWARE_LICENSE_FILES = LICENSE.md
