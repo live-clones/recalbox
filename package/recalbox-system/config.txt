@@ -50,5 +50,8 @@ dtoverlay=vc4-kms-v3d
 hdmi_pixel_freq_limit:0=200000000
 hdmi_pixel_freq_limit:1=200000000
 
+[board-type=0x12]
+dtoverlay=vc4-kms-v3d
+
 # custom config
 [all]
