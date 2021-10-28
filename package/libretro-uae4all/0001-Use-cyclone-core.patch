@@ -1,0 +1,27 @@
+From 80d2b45e9c6c471ad3b5903cd26a0d4f82ae869c Mon Sep 17 00:00:00 2001
+From: Chips-fr <darcelf@gmail.com>
+Date: Tue, 16 Nov 2021 09:33:10 +0100
+Subject: [PATCH] Use cyclone core
+
+---
+ Makefile.libretro | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.libretro b/Makefile.libretro
+index 74fa095..a57a2fc 100644
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -9,8 +9,8 @@ TARGET = $(NAME)_libretro.so
+ 
+ all: $(TARGET)
+ 
+-#CYCLONE_CORE=1
+-FAME_CORE=1
++CYCLONE_CORE=1
++#FAME_CORE=1
+ FAME_CORE_C=1
+ #LIB7Z=1
+ 
+-- 
+2.20.1
+
