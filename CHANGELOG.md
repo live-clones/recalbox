@@ -19,6 +19,7 @@ All notable changes to this project have been documented in this file since 8.1.
 - Fix 4k resolution issue on 4k tv
 
 ## NEXT
+- Add amiga support for Raspberry Pi Zero and one through new uae4all core (#2051)
 - Add support for GPi CASE 2 (#2042)
 
 ## [8.0.1-Electron]
