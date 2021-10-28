@@ -8,7 +8,7 @@ ifneq ($(GITLAB_TOKEN_THEMES),)
 RECALBOX_THEMES_VERSION = 1d92b2eccb56ef679d4306a504ed54957f887c68
 RECALBOX_THEMES_SITE = https://gitlab-ci-token:$(GITLAB_TOKEN_THEMES)@gitlab.com/recalbox/recalbox-themes-prime
 else
-RECALBOX_THEMES_VERSION = dd10b43c5bf48861274a77af9e604b1fa5bcc2ae
+RECALBOX_THEMES_VERSION = 1d92b2eccb56ef679d4306a504ed54957f887c68
 RECALBOX_THEMES_SITE = https://gitlab.com/recalbox/recalbox-themes
 endif
 RECALBOX_THEMES_SITE_METHOD = git
