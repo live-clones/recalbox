@@ -269,6 +269,7 @@ as release notes for end user on a Recalbox upgrade.
 ## NEXT
 
 ### Improvements
+- Add amiga support for Raspberry Pi Zero and one through new uae4all core
 - Add native support for GPi Case 2 / CM4
 
 
