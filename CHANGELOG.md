@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix KMS mode change on Pi3/4 (#1991)
 - Add public beta release (#1997) (fixed)
+- Add public beta release (#1997)
+- Add support for new Raspberry Pi Zero 2
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
