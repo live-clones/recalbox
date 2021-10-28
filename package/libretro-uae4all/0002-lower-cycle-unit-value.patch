@@ -1,0 +1,30 @@
+From 4bba831e1e5a78bd516b59c5651d2a00b51cce11 Mon Sep 17 00:00:00 2001
+From: Chips-fr <darcelf@gmail.com>
+Date: Sun, 10 Jul 2022 17:02:30 +0200
+Subject: [PATCH 1/1] lower cycle unit value
+
+---
+ src/include/sysdeps.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/include/sysdeps.h b/src/include/sysdeps.h
+index 147be7a..961699d 100644
+--- a/src/include/sysdeps.h
++++ b/src/include/sysdeps.h
+@@ -425,11 +425,11 @@ extern int console_get (char *, int);
+ 
+    We define this value here rather than in events.h so that gencpu.c sees
+    it.  */
+-#define CYCLE_UNIT 512
++#define CYCLE_UNIT 1
+ 
+ /* This one is used by cfgfile.c.  We could reduce the CYCLE_UNIT back to 1,
+    I'm not 100% sure this code is bug free yet.  */
+-#define OFFICIAL_CYCLE_UNIT 512
++#define OFFICIAL_CYCLE_UNIT 1
+ 
+ /*
+  * You can specify numbers from 0 to 5 here. It is possible that higher
+-- 
+2.25.1
+
