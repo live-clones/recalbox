@@ -18,6 +18,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check PiBoy controls are working from fresh (#2133)
 - [ ] Test wifi connection still works (#1768)
 - [ ] Test WPA3 wifi connection works (#1768)
+- [ ] Check amiga support in Raspberry Pi Zero or one (#2051).
 - [ ] Test hardware detection (gpicase, piboy, nespi4case) still works (#2042)
 - [ ] Test gpicase2 is correctly detected and working, look at /boot/hardware.log (#2042)
 
