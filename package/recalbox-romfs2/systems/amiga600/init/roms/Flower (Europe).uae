@@ -1,7 +1,4 @@
 fastmem_size=2
-kickstart_rom_file=/recalbox/share/bios/kick02019.AROS.rom
-kickstart_ext_rom_file=/recalbox/share/bios/kick02019.AROS.ext.rom
 floppy0=/recalbox/share_init/roms/amiga600/Flower (Europe).adf
 floppy_speed=800
 cpu_speed=max
-
