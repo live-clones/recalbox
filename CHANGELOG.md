@@ -52,7 +52,7 @@ All notable changes to this project will be documented in this file.
 - Add yabasanshiro core on Pi4 (#1852)
 - Added extension .bin for gamegear (#1860)
 - Added extension .d64 and .tap for Vic20 (#1858)
-- Bump Fbneo 1.0.0.02 (#1859)
+- Bump Fbneo 1.0.0.02 (#1995)
 - Improve netplay management (#1846)
 - Fix 'files:' tag in systemlist.xml generator (#1876)
 - Add EmuTOS bios for Atari ST (#1868)
