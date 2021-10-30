@@ -61,8 +61,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
-- [ ] Bumped libretro fbneo (#1859)
-  - [ ] Test the floppy disk change on FDS
+- [ ] Bumped libretro fbneo (#1995)
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
 - [ ] Test Netplay lobby window
   - [ ] Enter/Exit the lobby window: should be almost "instant" now
