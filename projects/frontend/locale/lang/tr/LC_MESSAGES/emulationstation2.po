@@ -263,15 +263,6 @@ msgstr "AÇILIŞTA BAŞLASIN"
 msgid "START KODI WITH X"
 msgstr "X İLE BAŞLASIN"
 
-msgid "SECURITY"
-msgstr "GÜVENLİK"
-
-msgid "ENFORCE SECURITY"
-msgstr "GÜVELİĞE GİRİŞ"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT PAROLASI"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SİSTEM YENİDEN BAŞLATILIYOR"
 
@@ -1445,15 +1436,6 @@ msgstr "Kodi yi başlatmak için X düğmesini kullanın. "
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Açılışta Kodi otomatik olarak başlasın. "
-
-msgid "Manage your recalbox security."
-msgstr "Recalbox günvenliğini yönet. "
-
-msgid "Change the SSH root password."
-msgstr "SSH root şifresini değiştir. "
-
-msgid "Enforce recalbox security."
-msgstr "Recalbox güvenliğini uygula."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2888,6 +2870,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "GÜVENLİK"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "GÜVELİĞE GİRİŞ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PAROLASI"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Recalbox günvenliğini yönet. "
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "SSH root şifresini değiştir. "
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Recalbox güvenliğini uygula."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

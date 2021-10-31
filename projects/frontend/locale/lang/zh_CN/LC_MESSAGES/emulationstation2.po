@@ -281,17 +281,6 @@ msgstr "开机自动启动 Kodi"
 msgid "START KODI WITH X"
 msgstr "按X启动Kodi"
 
-msgid "SECURITY"
-msgstr "安全"
-
-#, fuzzy
-msgid "ENFORCE SECURITY"
-msgstr "加强安全"
-
-#, fuzzy
-msgid "ROOT PASSWORD"
-msgstr "管理员密码"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "系统将重新启动"
 
@@ -1428,17 +1417,6 @@ msgstr "用 X 键启动 Kodi。"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "在开机时自动启动 Kodi。"
-
-msgid "Manage your recalbox security."
-msgstr "管理 Recalbox 的安全设置。"
-
-#, fuzzy
-msgid "Change the SSH root password."
-msgstr "更改 SSH 管理员密码。"
-
-#, fuzzy
-msgid "Enforce recalbox security."
-msgstr "加强 Recalbox 的安全性。"
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -3010,6 +2988,28 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "安全"
+
+#, fuzzy
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "加强安全"
+
+#, fuzzy
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "管理员密码"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "管理 Recalbox 的安全设置。"
+
+#, fuzzy
+#~ msgid "Change the SSH root password."
+#~ msgstr "更改 SSH 管理员密码。"
+
+#, fuzzy
+#~ msgid "Enforce recalbox security."
+#~ msgstr "加强 Recalbox 的安全性。"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

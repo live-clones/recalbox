@@ -285,15 +285,6 @@ msgstr "SPUSTIT KODI PŘI STARTU"
 msgid "START KODI WITH X"
 msgstr "START KODI TLAČÍTKEM X"
 
-msgid "SECURITY"
-msgstr "ZABEZPEČENÍ"
-
-msgid "ENFORCE SECURITY"
-msgstr "ZVÝŠENÍ ZABEZPEČENÍ"
-
-msgid "ROOT PASSWORD"
-msgstr "HESLO ROOT"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SYSTEM BUDE NYNÍ RESTARTOVÁN"
 
@@ -1470,15 +1461,6 @@ msgstr "Použít tlačítko X na ovladači pro start Kodi."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automaticky spustit Kodi při startu systému."
-
-msgid "Manage your recalbox security."
-msgstr "Spravovat zabezpečení recalboxu."
-
-msgid "Change the SSH root password."
-msgstr "Změnit heslo root pro SSH."
-
-msgid "Enforce recalbox security."
-msgstr "Vynutit zabezpečení recalboxu."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -3065,6 +3047,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "ZABEZPEČENÍ"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ZVÝŠENÍ ZABEZPEČENÍ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "HESLO ROOT"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Spravovat zabezpečení recalboxu."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Změnit heslo root pro SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Vynutit zabezpečení recalboxu."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

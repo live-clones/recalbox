@@ -262,15 +262,6 @@ msgstr "HASI KODI ABIARAZTEAN"
 msgid "START KODI WITH X"
 msgstr "X SAKATU KODI ABIARAZTEKO"
 
-msgid "SECURITY"
-msgstr "SEGURTASUNA"
-
-msgid "ENFORCE SECURITY"
-msgstr "ZIURTATU SEGURTASUNA"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT PASAHITZA"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SISTEMA BERRABIARAZIKO DA"
 
@@ -1351,15 +1342,6 @@ msgstr "Erabili X botoia Kodi hasteko."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automatikoki hasi Kodi abioan."
-
-msgid "Manage your recalbox security."
-msgstr "Kudeatu zure recalbox segurtasuna."
-
-msgid "Change the SSH root password."
-msgstr "Aldatu SSH root pasahitza."
-
-msgid "Enforce recalbox security."
-msgstr "Betearazi recalbox segurtasuna."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2772,6 +2754,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SEGURTASUNA"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ZIURTATU SEGURTASUNA"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PASAHITZA"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Kudeatu zure recalbox segurtasuna."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Aldatu SSH root pasahitza."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Betearazi recalbox segurtasuna."
 
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "EGUNERAKETA BERTSIOA:"

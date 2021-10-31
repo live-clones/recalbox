@@ -272,15 +272,6 @@ msgstr "تشغيل KODI كاافتراضي"
 msgid "START KODI WITH X"
 msgstr "تشغيل KODI بـX"
 
-msgid "SECURITY"
-msgstr "الأمان"
-
-msgid "ENFORCE SECURITY"
-msgstr "فرض الأمان"
-
-msgid "ROOT PASSWORD"
-msgstr "باسورد الرووت"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "سيتم اعادة تشغيل النظام"
 
@@ -1375,15 +1366,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2797,6 +2779,15 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "الأمان"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "فرض الأمان"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "باسورد الرووت"
 
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "رقم التحديث:"

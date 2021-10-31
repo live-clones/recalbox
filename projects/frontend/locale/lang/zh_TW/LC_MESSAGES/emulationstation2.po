@@ -281,15 +281,6 @@ msgstr "開機自動啟動 KODI"
 msgid "START KODI WITH X"
 msgstr "按 X 鍵快速啟動 KODI"
 
-msgid "SECURITY"
-msgstr "安全防護"
-
-msgid "ENFORCE SECURITY"
-msgstr "啟用安全防護"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT 密碼"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "系統將重新啟動"
 
@@ -1412,15 +1403,6 @@ msgstr "按 X 鍵快速啟動 KODI"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "開機自動進入 KODI 媒體播放中心"
-
-msgid "Manage your recalbox security."
-msgstr "管理你的保密設定"
-
-msgid "Change the SSH root password."
-msgstr "修改SSH連線的root密碼"
-
-msgid "Enforce recalbox security."
-msgstr "強制安全防護設定"
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2953,6 +2935,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "安全防護"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "啟用安全防護"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT 密碼"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "管理你的保密設定"
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "修改SSH連線的root密碼"
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "強制安全防護設定"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

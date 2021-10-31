@@ -281,15 +281,6 @@ msgstr "시작 시 KODI 실행"
 msgid "START KODI WITH X"
 msgstr "X 버튼으로 KODI 실행"
 
-msgid "SECURITY"
-msgstr "보안"
-
-msgid "ENFORCE SECURITY"
-msgstr "보안 강화"
-
-msgid "ROOT PASSWORD"
-msgstr "관리자 비밀번호"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "시스템이 지금 다시 시작됩니다"
 
@@ -1444,15 +1435,6 @@ msgstr "X 버튼을 눌러 KODI를 시작하세요"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "부팅 시 KODI로 자동 시작"
-
-msgid "Manage your recalbox security."
-msgstr "Recalbox의 보안 관리"
-
-msgid "Change the SSH root password."
-msgstr "SSH root 패스워드 변경"
-
-msgid "Enforce recalbox security."
-msgstr "Recalbox 보안 강화"
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2984,6 +2966,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "보안"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "보안 강화"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "관리자 비밀번호"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Recalbox의 보안 관리"
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "SSH root 패스워드 변경"
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Recalbox 보안 강화"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

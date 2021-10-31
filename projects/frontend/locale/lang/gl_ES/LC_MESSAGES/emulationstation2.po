@@ -264,15 +264,6 @@ msgstr "ARRANCAR EN KODI"
 msgid "START KODI WITH X"
 msgstr "INICIAR KODI CON X"
 
-msgid "SECURITY"
-msgstr "SEGURIDADE"
-
-msgid "ENFORCE SECURITY"
-msgstr "REAFIRMAR SEGURIDADE"
-
-msgid "ROOT PASSWORD"
-msgstr "CONTRASINAL DE ROOT"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "O SISTEMA REINICIARASE AGORA"
 
@@ -1361,15 +1352,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2807,6 +2789,15 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SEGURIDADE"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "REAFIRMAR SEGURIDADE"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "CONTRASINAL DE ROOT"
 
 #~ msgid "added to favorites"
 #~ msgstr "engadido a favoritos"

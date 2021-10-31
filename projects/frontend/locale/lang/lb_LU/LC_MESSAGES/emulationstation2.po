@@ -264,15 +264,6 @@ msgstr "KODI BEIM STARTEN"
 msgid "START KODI WITH X"
 msgstr "KODI MAT X STARTEN"
 
-msgid "SECURITY"
-msgstr "SËCHERHEET"
-
-msgid "ENFORCE SECURITY"
-msgstr "SËCHERHEET VERSTÄERKEN"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT PASSWUERT"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "DEN SYSTEM START ELO NEI"
 
@@ -1452,15 +1443,6 @@ msgstr "Benotz den X-Knapp fir Kodi ze starten."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automatësch Kodi booten."
-
-msgid "Manage your recalbox security."
-msgstr "Verwalt deng recalbox Sëcherheet."
-
-msgid "Change the SSH root password."
-msgstr "D'SSH root Passwuert änneren."
-
-msgid "Enforce recalbox security."
-msgstr "Recalbox Sëcherheet verstäerken."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2893,6 +2875,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SËCHERHEET"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "SËCHERHEET VERSTÄERKEN"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PASSWUERT"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Verwalt deng recalbox Sëcherheet."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "D'SSH root Passwuert änneren."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Recalbox Sëcherheet verstäerken."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

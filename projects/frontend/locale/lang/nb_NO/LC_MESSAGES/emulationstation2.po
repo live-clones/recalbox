@@ -259,15 +259,6 @@ msgstr "KODI VED OPPSTART"
 msgid "START KODI WITH X"
 msgstr "START KODI MED X"
 
-msgid "SECURITY"
-msgstr "SIKKERHET"
-
-msgid "ENFORCE SECURITY"
-msgstr "TVUNGEN SIKKERHET"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT PASSORD"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SYSTEMET VIL STARTES PÅ NYTT"
 
@@ -1320,15 +1311,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2742,3 +2724,12 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SIKKERHET"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "TVUNGEN SIKKERHET"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PASSORD"

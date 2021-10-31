@@ -266,15 +266,6 @@ msgstr "KODI LA PORNIRE"
 msgid "START KODI WITH X"
 msgstr "PORNESTE KODI CU X"
 
-msgid "SECURITY"
-msgstr "SECURITATE"
-
-msgid "ENFORCE SECURITY"
-msgstr "APLICA SECURITATE"
-
-msgid "ROOT PASSWORD"
-msgstr "PAROLA ROOT"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SISTEMUL VA REPORNI ACUM"
 
@@ -1344,15 +1335,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2766,3 +2748,12 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SECURITATE"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "APLICA SECURITATE"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "PAROLA ROOT"

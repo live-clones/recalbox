@@ -286,15 +286,6 @@ msgstr "URUCHOMIENIE KODI PRZY STARCIE"
 msgid "START KODI WITH X"
 msgstr "WŁĄCZ KODI UŻYWAJĄC \"X\""
 
-msgid "SECURITY"
-msgstr "BEZPIECZEŃSTWO"
-
-msgid "ENFORCE SECURITY"
-msgstr "ZWIĘKSZ BEZPIECZEŃSTWO"
-
-msgid "ROOT PASSWORD"
-msgstr "HASŁO ADMINISTRATORA"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SYSTEM ZOSTANIE PONOWNIE URUCHOMIONY"
 
@@ -1500,15 +1491,6 @@ msgstr "Użyj klawisza X żeby uruchomić KODI."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automatycznie uruchom KODI po starcie systemu."
-
-msgid "Manage your recalbox security."
-msgstr "Zarządzaj bezpieczeństwem swojego Recalboxa."
-
-msgid "Change the SSH root password."
-msgstr "Zmień hasło roota SSH."
-
-msgid "Enforce recalbox security."
-msgstr "Wzmocnij zabezpieczenia Recalboxa."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -3111,6 +3093,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "BEZPIECZEŃSTWO"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ZWIĘKSZ BEZPIECZEŃSTWO"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "HASŁO ADMINISTRATORA"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Zarządzaj bezpieczeństwem swojego Recalboxa."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Zmień hasło roota SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Wzmocnij zabezpieczenia Recalboxa."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

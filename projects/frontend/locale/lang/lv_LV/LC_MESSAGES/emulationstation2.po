@@ -266,15 +266,6 @@ msgstr "STARTĒT KODI PIE IELĀDES"
 msgid "START KODI WITH X"
 msgstr "STARTĒT KODI AR POGU X"
 
-msgid "SECURITY"
-msgstr "DROŠĪBA"
-
-msgid "ENFORCE SECURITY"
-msgstr "UZLABOTA DROŠĪBA"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT PAROLE"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SISTĒMA TIKS RESTARTĒTA"
 
@@ -1455,15 +1446,6 @@ msgstr "Izmantojiet pogu X, lai sāktu KODI."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automātiski startēt KODI pie sāknēšanas."
-
-msgid "Manage your recalbox security."
-msgstr "Pārvaldīt recalbox drošību."
-
-msgid "Change the SSH root password."
-msgstr "Mainīt SSH root paroli."
-
-msgid "Enforce recalbox security."
-msgstr "ieviest recalbox drošību."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2915,6 +2897,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "DROŠĪBA"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "UZLABOTA DROŠĪBA"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PAROLE"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Pārvaldīt recalbox drošību."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Mainīt SSH root paroli."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "ieviest recalbox drošību."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

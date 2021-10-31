@@ -264,15 +264,6 @@ msgstr "KODI ΣΤΗΝ ΕΚΚΙΝΗΣΗ"
 msgid "START KODI WITH X"
 msgstr "ΕΝΑΡΞΗ KODI ΜΕ X"
 
-msgid "SECURITY"
-msgstr "ΑΣΦΑΛΕΙΑ"
-
-msgid "ENFORCE SECURITY"
-msgstr "ΕΦΑΡΜΟΣΤΕ ΤΗΝ ΑΣΦΑΛΕΙΑ"
-
-msgid "ROOT PASSWORD"
-msgstr "Κωδικός πρόσβασης ρίζας"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "ΘΑ ΓΙΝΕΙ ΕΠΑΝΕΚΚΙΝΗΣΗ ΣΥΣΤΗΜΑΤΟΣ"
 
@@ -1332,15 +1323,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2754,3 +2736,12 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "ΑΣΦΑΛΕΙΑ"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ΕΦΑΡΜΟΣΤΕ ΤΗΝ ΑΣΦΑΛΕΙΑ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "Κωδικός πρόσβασης ρίζας"

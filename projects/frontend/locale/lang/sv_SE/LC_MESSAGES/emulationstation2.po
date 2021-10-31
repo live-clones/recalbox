@@ -261,15 +261,6 @@ msgstr "STARTA KODI VID UPPSTART"
 msgid "START KODI WITH X"
 msgstr "STARTA KODI MED X"
 
-msgid "SECURITY"
-msgstr "SÄKERHET"
-
-msgid "ENFORCE SECURITY"
-msgstr "UPPHÖJD SÄKERHET"
-
-msgid "ROOT PASSWORD"
-msgstr "HUVUDLÖSENORD"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SYSTEMET STARTAR NU OM"
 
@@ -1406,15 +1397,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2903,6 +2885,15 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SÄKERHET"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "UPPHÖJD SÄKERHET"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "HUVUDLÖSENORD"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

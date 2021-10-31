@@ -267,15 +267,6 @@ msgstr "PRADŽIOJE KODI"
 msgid "START KODI WITH X"
 msgstr "PRADŽIOJE KODI X"
 
-msgid "SECURITY"
-msgstr "SAUGA"
-
-msgid "ENFORCE SECURITY"
-msgstr "ĮGALINTI SAUGĄ"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT SLAPTAŽODIS"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "SISTEMOS PALEIDIMAS IŠ NAUJO"
 
@@ -1324,15 +1315,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid "Manage your recalbox security."
-msgstr ""
-
-msgid "Change the SSH root password."
-msgstr ""
-
-msgid "Enforce recalbox security."
 msgstr ""
 
 msgid ""
@@ -2746,3 +2728,12 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "SAUGA"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ĮGALINTI SAUGĄ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT SLAPTAŽODIS"

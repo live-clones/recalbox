@@ -260,15 +260,6 @@ msgstr "شروع با مدیاپلیر"
 msgid "START KODI WITH X"
 msgstr "شروع مدیا پلیر با"
 
-msgid "SECURITY"
-msgstr "امنیت"
-
-msgid "ENFORCE SECURITY"
-msgstr "اعمال موارد امنیتی"
-
-msgid "ROOT PASSWORD"
-msgstr "رمز روت"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "دستگاه راه اندازی مجدد خواهد شد"
 
@@ -1335,15 +1326,6 @@ msgstr "برای شروع مدیا پلیر X را فشار دهید"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "شروع خودکار مدیاپلیر درهنگام روشن شدن دستگاه"
-
-msgid "Manage your recalbox security."
-msgstr "مدیریت تنظیمات دستگاه"
-
-msgid "Change the SSH root password."
-msgstr "تغییر رمز SSH شاخه ی اصلی"
-
-msgid "Enforce recalbox security."
-msgstr "تنظملت امنیتی دستگاه"
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2759,6 +2741,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "امنیت"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "اعمال موارد امنیتی"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "رمز روت"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "مدیریت تنظیمات دستگاه"
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "تغییر رمز SSH شاخه ی اصلی"
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "تنظملت امنیتی دستگاه"
 
 #~ msgid "UPDATE VERSION:"
 #~ msgstr "نسخه بروزرسانی:"

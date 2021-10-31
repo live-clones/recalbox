@@ -264,15 +264,6 @@ msgstr "KODI INDULÁSKOR"
 msgid "START KODI WITH X"
 msgstr "KODI INDÍTÁSA X-EL"
 
-msgid "SECURITY"
-msgstr "BIZTONSÁG"
-
-msgid "ENFORCE SECURITY"
-msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
-
-msgid "ROOT PASSWORD"
-msgstr "ROOT JELSZÓ"
-
 msgid "THE SYSTEM WILL NOW REBOOT"
 msgstr "A RENDSZER ÚJRAINDUL"
 
@@ -1444,15 +1435,6 @@ msgstr "Használd az X gombot a Kodi indításához."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Kodi automaikus indítása bootoláskor."
-
-msgid "Manage your recalbox security."
-msgstr "Recalbox biztonság konfigurálása."
-
-msgid "Change the SSH root password."
-msgstr "SSH root jelszó megváltoztatása."
-
-msgid "Enforce recalbox security."
-msgstr "Recalbox biztonság érvényesítése."
 
 msgid ""
 "Enable or disable overscan.\n"
@@ -2901,6 +2883,24 @@ msgstr ""
 #
 msgid "UNKNOWN"
 msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "BIZTONSÁG"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT JELSZÓ"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Recalbox biztonság konfigurálása."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "SSH root jelszó megváltoztatása."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Recalbox biztonság érvényesítése."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
