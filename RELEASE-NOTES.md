@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro Gong core on all boards
 
 ### Improvements
+- Improve ergonomy in gamelists when "quick system select" is enabled
 - Add new Netplay's MITM servers: Montreal & SaoPaulo
 - Bump libretro MGBA (Gameboy Advance core)
 - Bump Libretro PX68K (Sharp x68000)
