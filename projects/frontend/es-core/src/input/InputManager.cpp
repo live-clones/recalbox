@@ -82,6 +82,7 @@ void InputManager::Initialize()
 
 void InputManager::Refresh(WindowManager* window, bool padplugged)
 {
+  IntitializeSDL2JoystickSystem();
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
   ClearAllConfigurations();
   LoadAllJoysticksConfiguration(previousList, window, padplugged);
