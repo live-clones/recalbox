@@ -15,7 +15,8 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
     mHeaderText(window),
     mHeaderImage(window),
     mBackground(window),
-    mThemeExtras(window)
+    mThemeExtras(window),
+    mVerticalMove(false)
 {
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
@@ -216,10 +217,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     return true;
   }
 
+  // Check vertical move
+  if (event.AnyUpPressed() || event.AnyDownPressed()) mVerticalMove = true;
+  if (event.AnyUpReleased() || event.AnyDownReleased()) mVerticalMove = false;
+
   // MOVE to NEXT GAMELIST
   if (event.AnyRightPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
       clean();
       onFocusLost();
       ViewController::Instance().goToNextGameList();
@@ -230,7 +235,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   // MOVE to PREVIOUS GAMELIST
   if (event.AnyLeftPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
       clean();
       onFocusLost();
       ViewController::Instance().goToPrevGameList();

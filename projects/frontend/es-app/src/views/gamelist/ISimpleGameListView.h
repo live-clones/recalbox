@@ -63,5 +63,7 @@ protected:
 	std::stack<FolderData*> mCursorStack;
 
 private:
+  bool mVerticalMove;
+
   bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
 };
