@@ -1,5 +1,7 @@
 import sys
 from settings import keyValueSettings
+import cases
+
 
 # --------- GPI
 
@@ -14,7 +16,7 @@ def read(path, name):
 
 
 # GPi case
-def DetectGPiCase(cases):
+def DetectGPiCase():
     gpiUsbPath = "1-1"
     if read(gpiUsbPath, "manufacturer") == "RetroFlag":
         if read(gpiUsbPath, "product") == "GPi Case":
@@ -30,7 +32,7 @@ def DetectGPiCase(cases):
 
 # --------- NesPi 4
 
-def DetectNesPi4Case(cases):
+def DetectNesPi4Case():
     gpiUsbPath = "2-1:1.0"
     if read(gpiUsbPath, "modalias") in ("usb:v152Dp0562d0214dc00dsc00dp00ic08isc06ip62in00", "usb:v152Dp0578d0209dc00dsc00dp00ic08isc06ip50in00"):
         return cases.NESPI4
@@ -43,17 +45,16 @@ def DetectNesPi4Case(cases):
 
 # Main identification routine
 def Identify():
-    import cases
     case = cases.NONE
 
     with open("/recalbox/recalbox.arch", "r") as sf:
         board = sf.readline()
 
-    if board in ("rpi0", "rpi1", "rpizero2legacy"):
-        case = DetectGPiCase(cases)
+    if board in ("rpi0", "rpi1", "rpi3", "rpizero2legacy"):
+        case = DetectGPiCase()
 
-    if board == "rpi4":
-        case = DetectNesPi4Case(cases)
+    if case == cases.NONE and board == "rpi4":
+        case = DetectNesPi4Case()
 
     return case
 
@@ -94,11 +95,11 @@ def mainInstall():
         previousCase, previousPhase = previousCase.split(':')
         previousPhase = int(previousPhase)
 
+    # import logger
+    import logger
+    logger.hardlog("previousCase={} previousPhase={} phase={} machine={}".format(previousCase, previousPhase, phase, machine))
     # Decide whether we install/uninstall or not
     if previousCase == "" or previousPhase < phase or not machine:
-
-        # import logger
-        import logger
 
         # Auto-identifying
         logger.hardlog("Current case: " + case)

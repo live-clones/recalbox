@@ -70,6 +70,13 @@ class Install(InstallBase):
 
         if case == "GPiV1":
 
+            board: str = "unknown"
+            with open("/recalbox/recalbox.arch", "r") as sf:
+                board = sf.readline()
+            if board not in ("rpi0", "rpi1", "rpizero2legacy"):
+                os.system("fbv2 -i -k /recalbox/system/resources/splash/gpierror.png")
+                while True: pass  # Infinite loop
+
             logger.hardlog("Installing GPi Case V1 software")
 
             try:
