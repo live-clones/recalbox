@@ -130,6 +130,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test GearColeco core
 - [ ] Test OpenBOR inputs are working (#1979)
 - [ ] Test kodi is perfectly working on odroidxu4 (#1834)
+[ ] Check the theme of trs80coco (#1945)
+- [ ] Test Duckstation
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

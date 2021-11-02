@@ -1,0 +1,13 @@
+diff --git a/dep/glad/CMakeLists.txt b/dep/glad/CMakeLists.txt
+index 24a4fb45..5d6615e6 100644
+--- a/dep/glad/CMakeLists.txt
++++ b/dep/glad/CMakeLists.txt
+@@ -18,7 +18,7 @@ if(WIN32)
+ else()
+   if(USE_EGL)
+     target_sources(glad PRIVATE src/glad_egl.c)
+-    target_link_libraries(glad PRIVATE EGL::EGL)
++    target_link_libraries(glad PRIVATE EGL)
+   endif()
+   if(USE_X11)
+     target_sources(glad PRIVATE src/glad_glx.c)
