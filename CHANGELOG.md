@@ -148,6 +148,7 @@ All notable changes to this project will be documented in this file.
 - Improve nespi4case shutdown script (#1381)
 - rpi3 now uses Mesa software stack (#????)
 - Fix kodi runtime errors on odroidxu4 (#1834)
+- Fix 'Roms' content tab in web manager (#1980)
 
 - Add required bios for DuckStation (#1944)
 
