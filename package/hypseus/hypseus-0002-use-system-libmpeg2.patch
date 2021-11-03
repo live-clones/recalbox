@@ -1,0 +1,28 @@
+diff --git a/.gitignore b/.gitignore
+index 9478c99..ea4bc4d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -8,5 +8,6 @@ hypseus
+ *.a
+ *.res
+ roms
+-build
++build/
++.idea/
+ src/Makefile.vars
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index f3a57c2..f2002b9 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -102,6 +102,11 @@ add_subdirectory(timer)
+ add_subdirectory(video)
+ add_subdirectory(vldp)
+ 
++find_package(SDL2 REQUIRED)
++find_package(SDL2TTF REQUIRED)
++find_package(SDL2_IMAGE REQUIRED)
++find_package(Vorbis REQUIRED)
++
+ add_executable( hypseus hypseus.cpp globals.h )
+ target_link_libraries( hypseus plog io timer sound video cpu game ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} )
+ 
