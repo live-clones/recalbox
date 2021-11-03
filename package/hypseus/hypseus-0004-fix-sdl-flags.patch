@@ -1,0 +1,61 @@
+diff --git a/src/video/video.cpp b/src/video/video.cpp
+index 1ec9c06..1f9412c 100644
+--- a/src/video/video.cpp
++++ b/src/video/video.cpp
+@@ -193,13 +193,13 @@ bool init_display()
+     static bool rz = false;
+     char title[50] = "HYPSEUS Singe: Multiple Arcade Laserdisc Emulator";
+ 
+-    sdl_flags = SDL_WINDOW_SHOWN;
++    sdl_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+     sdl_sb_flags = SDL_WINDOW_ALWAYS_ON_TOP;
+ 
+     // if we were able to initialize the video properly
+     if (SDL_InitSubSystem(SDL_INIT_VIDEO) >= 0) {
+ 
+-        if (g_fullscreen) sdl_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
++        if (g_fullscreen) sdl_flags |= SDL_WINDOW_FULLSCREEN;
+         else if (g_fakefullscreen) sdl_flags |= SDL_WINDOW_MAXIMIZED | SDL_WINDOW_BORDERLESS;
+ 
+         g_overlay_width = g_game->get_video_overlay_width();
+@@ -293,14 +293,14 @@ bool init_display()
+                 // MAC: If we start in fullscreen mode, we have to set the logical
+                 // render size to get the desired aspect ratio.
+                 // Also, we set bilinear filtering
+-                if ((sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0 ||
++                if ((sdl_flags & SDL_WINDOW_FULLSCREEN) != 0 ||
+                     (sdl_flags & SDL_WINDOW_MAXIMIZED) != 0) {
+                     if(!g_fs_scale_nearest)
+                         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+                     SDL_RenderSetLogicalSize(g_renderer, g_draw_width, g_draw_height);
+                 }
+ 
+-                if (g_game->m_sdl_software_scoreboard && !(sdl_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) && !sb) {
++                if (g_game->m_sdl_software_scoreboard && !(sdl_flags & SDL_WINDOW_FULLSCREEN) && !sb) {
+                     g_sb_window = SDL_CreateWindow(NULL, 4, 28, 340, 480, sdl_sb_flags);
+ 
+                     if (!g_sb_window) {
+@@ -985,12 +985,12 @@ void draw_LDP1450_overlay(char *s, int start_x, int y, bool insert, bool reset)
+ // toggles fullscreen mode
+ void vid_toggle_fullscreen()
+ {
+-    Uint32 flags = (SDL_GetWindowFlags(g_window) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
++    Uint32 flags = (SDL_GetWindowFlags(g_window) ^ SDL_WINDOW_FULLSCREEN);
+     if (SDL_SetWindowFullscreen(g_window, flags) < 0) {
+         LOGW << fmt("Toggle fullscreen failed: %s", SDL_GetError());
+         return;
+     }
+-    if ((flags & SDL_WINDOW_FULLSCREEN_DESKTOP) != 0) {
++    if ((flags & SDL_WINDOW_FULLSCREEN) != 0) {
+         SDL_RenderSetLogicalSize(g_renderer, g_draw_width, g_draw_height);
+         return;
+     }
+@@ -1262,7 +1262,7 @@ void take_screenshot()
+         { LOGW << fmt("'%s' is not a directory.", dir); return; }
+ 
+     int flags = SDL_GetWindowFlags(g_window);
+-    if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP || flags & SDL_WINDOW_MAXIMIZED)
++    if (flags & SDL_WINDOW_FULLSCREEN || flags & SDL_WINDOW_MAXIMIZED)
+         { LOGW << "Cannot screenshot in fullscreen render."; return; }
+ 
+     SDL_Rect     screenshot;
