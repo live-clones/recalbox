@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Duckstation standalone emulator (PSX)
 - Add CRT TV and monitors support (vga666)
 - Add ps2 system with pcsx2 emulator
+- Add ps2 system with pcsx2 emulator & libretro-pcsx2 core
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
 - Add libretro fbneo core for channel f system
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
