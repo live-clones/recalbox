@@ -170,6 +170,7 @@ All notable changes to this project will be documented in this file.
 - Disable rewind for rpi2 (#1798)
 
 - Fix static address configuration where domain name server ip was not set (#1518)
+- Fix Colecovision bios list (#2007)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
