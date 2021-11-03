@@ -31,6 +31,8 @@ All notable changes to this project will be documented in this file.
 - Add montreal & saopaulo MITM servers (#1908)
 - Add Hatari standalone emulator (#1907)
 - Add Gearcoleco libretro core 
+- Add montreal & saopaulo MITM servers
+- Add Gearcoleco libretro core
 - Remove px68k core from x86 board (#1875)
 - Fixed multiple translations in ES (#1880, #1881)
 - Bump Oricutron (#1893)
@@ -164,6 +166,7 @@ All notable changes to this project will be documented in this file.
 - Bump pcsx_rearmed to a4da039c0c2f0731057b26398b6729819bbdaaeb (#1593)
 - Fix crash of pcsx_rearmed (#1593)
 - Fix non-operational joystick on pcsx_rearmed (#1593)
+- Fix temperature monitoring for AMD CPUs (#2008)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
