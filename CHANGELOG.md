@@ -157,6 +157,7 @@ All notable changes to this project will be documented in this file.
 - Add required bios for DuckStation (#1944)
 - Fix Reicast boot.
 - Fix temperature monitoring for AMD CPUs (#2008)
+- Fix Colecovision bios list (#2007)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
