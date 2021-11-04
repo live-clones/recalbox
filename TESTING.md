@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
 - [ ] Check recalbox.log contains script and type information (#1920)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)

@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Change image name and descriptions in rpi imager (#2000)
+- Update of the favorite icons outrun and gong (in recalbox font) (#2010)
 - Fix KMS mode change on Pi3/4 (#1991)
 - Add public beta release (#1997) (fixed)
 - Add support for new Raspberry Pi Zero 2 (#2000)
