@@ -66,6 +66,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
 - [ ] Test Saturn on RPI4
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+- [ ] Bumped libretro dosbox pure v0.20 (#1926)
+ - [ ] Check that we have no regression. No loss of fps.
+ - [ ] Check that the rewind is working.
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1995)
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
