@@ -86,6 +86,7 @@ All notable changes to this project will be documented in this file.
 - Bump Libretro DOSBOX Pure to 0.16 (#1644)
 - Disable rewind for DOSBOX Pure (#1644)
 - Improve P2K (#1851)
+- Bump Libretro DOSBOX Pure to 0.20 (#1926)
 - Fixed TIC-80 games downloader (#1829)
 - Fix MSX1 folder name (#1840)
 - Add avahi deamon as recalbox-system dependency (#1826)
