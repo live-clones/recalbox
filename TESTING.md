@@ -85,6 +85,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
 - [ ] Test Xbox One wireless dongle (#1424)
   - [ ] Check that new Controllers (1914 Xbox One S) don't disconnect after 2 minutes
+
+- [ ] Bumped libretro dosbox pure v0.20 (#1926)
+ - [ ] Check that we have no regression. No loss of fps.
+ - [ ] Check that the rewind is working.
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1995)
   - [ ] Check fbneo core works on all boards. No loss of fps, even on pizero.
