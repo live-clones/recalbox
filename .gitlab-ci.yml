@@ -100,7 +100,7 @@ lint changelog:
     - cat RELEASE-NOTES.md
     # Updates type
     - |
-      if [[ "${CI_COMMIT_TAG}" == *"beta"* || "${CI_COMMIT_TAG}" == *"Beta"* ]];then
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "beta";then
         sed -i "s/^updates.type=.*/updates.type=beta/g" package/recalbox-system/*/recalbox.conf
       fi
     # Build
