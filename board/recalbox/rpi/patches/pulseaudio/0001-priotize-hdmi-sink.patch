@@ -1,0 +1,39 @@
+From 6b72fa690cf9c0351fcb6c678bfb022b3c9c3be1 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Fri, 5 Nov 2021 21:05:35 +0100
+Subject: [PATCH] priotize hdmi sink
+
+---
+ src/modules/module-switch-on-connect.c | 2 +-
+ src/pulsecore/sink.c                   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/modules/module-switch-on-connect.c b/src/modules/module-switch-on-connect.c
+index 950ecbee2..7bedae842 100644
+--- a/src/modules/module-switch-on-connect.c
++++ b/src/modules/module-switch-on-connect.c
+@@ -37,7 +37,7 @@
+  * output on them, and even if they do, waking up from sleep or changing
+  * monitor resolution may appear as a plugin event, which causes trouble if the
+  * user doesn't want to use the monitor for audio. */
+-#define DEFAULT_BLACKLIST "hdmi"
++#define DEFAULT_BLACKLIST ""
+ 
+ PA_MODULE_AUTHOR("Michael Terry");
+ PA_MODULE_DESCRIPTION("When a sink/source is added, switch to it or conditionally switch to it");
+diff --git a/src/pulsecore/sink.c b/src/pulsecore/sink.c
+index e89b59655..ed895c8bb 100644
+--- a/src/pulsecore/sink.c
++++ b/src/pulsecore/sink.c
+@@ -3612,7 +3612,7 @@ unsigned pa_device_init_priority(pa_proplist *p) {
+         if (pa_startswith(s, "analog-"))
+             priority += 9;
+         else if (pa_startswith(s, "iec958-"))
+-            priority += 8;
++            priority += 10;
+     }
+ 
+     return priority;
+-- 
+2.33.1
+
