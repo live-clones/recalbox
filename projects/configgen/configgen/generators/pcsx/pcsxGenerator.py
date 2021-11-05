@@ -55,6 +55,15 @@ class PcsxGenerator(Generator):
     def ButtonChar(button: int) -> str:
         return '\\' + hex(button + 0xA0)[1:]
 
+    def EvdevGetJoystickName(self, path):
+        import fcntl
+        buf = ' ' * 128
+        fd = open(path)
+        joystick = fcntl.ioctl(fd, 0x80804506, buf)
+        fd.close()
+
+        return joystick.decode('utf-8').rstrip().replace('\x00', '')
+
     def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
 
         config = PcsxGenerator.Loadconfiguration()
@@ -64,7 +73,7 @@ class PcsxGenerator(Generator):
             controller = playersControllers[index]
             player = controller.PlayerIndex
             if player in (1, 2):
-                config.append("binddev = sdl:{}".format(controller.DeviceName))
+                config.append("binddev = sdl:{}".format(self.EvdevGetJoystickName(controller.DevicePath)))
                 config.append("bind up =  player{} UP".format(player))
                 config.append("bind down =  player{} DOWN".format(player))
                 config.append("bind left =  player{} LEFT".format(player))

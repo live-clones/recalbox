@@ -38,7 +38,8 @@ def controller_configuration():
     )
 
 
-def test_simple_generate_pcsx(emulator, system, controller_configuration):
+def test_simple_generate_pcsx(emulator, system, mocker, controller_configuration):
+    mocker.patch("configgen.generators.pcsx.pcsxGenerator.PcsxGenerator.EvdevGetJoystickName", return_value="Microsoft Xbox 360 controller")
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.dsk'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/pcsx_rearmed', '-cdfile', 'path/to/test.dsk']
