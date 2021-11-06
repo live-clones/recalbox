@@ -1,0 +1,25 @@
+From f8b8e6185952b99418aedd64d2528e763851b11f Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 4 Nov 2021 22:01:44 +0100
+Subject: [PATCH 4/4] configure-no-exit-on-error
+
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 20ff1d5..25249cf 100755
+--- a/configure
++++ b/configure
+@@ -142,7 +142,7 @@ for opt do
+   ;;
+   --enable-icache-emu) enable_icache_emu="yes"
+   ;;
+-  *) echo "ERROR: unknown option $opt"; show_help="yes"
++  *) echo "ERROR: unknown option $opt";
+   ;;
+   esac
+ done
+-- 
+2.33.1
+

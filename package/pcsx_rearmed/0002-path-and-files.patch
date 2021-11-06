@@ -1,6 +1,19 @@
---- a/frontend/main.c	2019-03-25 22:48:57.000000000 +0100
-+++ b/frontend/main.c	2019-07-06 12:29:30.671711454 +0200
-@@ -57,9 +57,9 @@
+From 556af6e4f86f80633d1abe7acdd9fe6e830f69b0 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 4 Nov 2021 22:00:49 +0100
+Subject: [PATCH 2/4] path-and-files
+
+---
+ frontend/main.c | 37 +++++++++++++++++++++++++------------
+ frontend/main.h | 19 +++++++++++--------
+ frontend/menu.c | 25 ++++++++++++++-----------
+ 3 files changed, 50 insertions(+), 31 deletions(-)
+
+diff --git a/frontend/main.c b/frontend/main.c
+index 4631618..03764b2 100644
+--- a/frontend/main.c
++++ b/frontend/main.c
+@@ -57,9 +57,9 @@ int hud_new_msg;
  static void make_path(char *buf, size_t size, const char *dir, const char *fname)
  {
  	if (fname)
@@ -12,7 +25,7 @@
  }
  #define MAKE_PATH(buf, dir, fname) \
  	make_path(buf, sizeof(buf), dir, fname)
-@@ -103,13 +103,13 @@
+@@ -103,13 +103,13 @@ void set_cd_image(const char *fname)
  static void set_default_paths(void)
  {
  #ifndef NO_FRONTEND
@@ -29,7 +42,7 @@
  	strcpy(Config.Gpu, "builtin_gpu");
  	strcpy(Config.Spu, "builtin_spu");
  	strcpy(Config.Cdr, "builtin_cdr");
-@@ -458,17 +458,30 @@
+@@ -463,17 +463,30 @@ void emu_core_ask_exit(void)
  
  #include <sys/stat.h>
  #include <sys/types.h>
@@ -62,7 +75,7 @@
  
  	create_profile_dir(BIOS_DIR);
  	create_profile_dir(MEMCARD_DIR);
-@@ -477,8 +490,8 @@
+@@ -482,8 +495,8 @@ static void check_profile(void) {
  	create_profile_dir(PLUGINS_CFG_DIR);
  	create_profile_dir(CHEATS_DIR);
  	create_profile_dir(PATCHES_DIR);
@@ -73,7 +86,7 @@
  }
  
  static void check_memcards(void)
-@@ -488,7 +501,7 @@
+@@ -493,7 +506,7 @@ static void check_memcards(void)
  	int i;
  
  	for (i = 1; i <= 9; i++) {
@@ -82,7 +95,7 @@
  
  		f = fopen(buf, "rb");
  		if (f == NULL) {
-@@ -591,7 +604,7 @@
+@@ -596,7 +609,7 @@ int main(int argc, char *argv[])
  		// FIXME: this recovery doesn't work, just delete bad config and bail out
  		// SysMessage("could not load plugins, retrying with defaults\n");
  		set_default_paths();
@@ -91,7 +104,7 @@
  		remove(path);
  		SysMessage("Failed loading plugins!");
  		return 1;
-@@ -748,7 +761,7 @@
+@@ -753,7 +766,7 @@ void SysUpdate() {
  
  int get_state_filename(char *buf, int size, int i) {
  	return get_gameid_filename(buf, size,
@@ -100,8 +113,10 @@
  }
  
  int emu_check_state(int slot)
---- a/frontend/main.h	2019-03-25 22:48:57.000000000 +0100
-+++ b/frontend/main.h	2019-07-06 09:43:34.601360353 +0200
+diff --git a/frontend/main.h b/frontend/main.h
+index 7ce9e5d..e02310e 100644
+--- a/frontend/main.h
++++ b/frontend/main.h
 @@ -23,14 +23,17 @@
  
  #define DEFAULT_MEM_CARD_1 "/.pcsx/memcards/card1.mcd"
@@ -120,17 +135,19 @@
 +#define STATES_DIR        RECALBOX_ROOT "saves/pcsx/sstates/"
 +#define SCREENSHOTS_PCSX  RECALBOX_ROOT "screenshots/"
 +#define RECALBOX_PCSX     RECALBOX_ROOT "system/configs/pcsx/"
-+#define PLUGINS_DIR       RECALBOX_PCSX "plugins/"
-+#define PLUGINS_CFG_DIR   PLUGINS_DIR   "cfg/"
++#define PLUGINS_DIR       "/usr/lib/pcsx_rearmed/plugins/"
++#define PLUGINS_CFG_DIR   RECALBOX_PCSX "cfg/"
 +#define CHEATS_DIR        RECALBOX_PCSX "cheats/"
 +#define PATCHES_DIR       RECALBOX_PCSX "patches/"
 +#define CFG_DIR           RECALBOX_PCSX "cfg/"
  
  extern char cfgfile_basename[MAXPATHLEN];
  
---- a/frontend/menu.c	2019-03-25 22:48:57.000000000 +0100
-+++ b/frontend/menu.c	2019-07-06 12:29:50.519903681 +0200
-@@ -473,9 +473,9 @@
+diff --git a/frontend/menu.c b/frontend/menu.c
+index 37956ff..ef4b07f 100644
+--- a/frontend/menu.c
++++ b/frontend/menu.c
+@@ -480,9 +480,9 @@ static char *get_cd_label(void)
  static void make_cfg_fname(char *buf, size_t size, int is_game)
  {
  	if (is_game)
@@ -142,7 +159,7 @@
  }
  
  static void keys_write_all(FILE *f);
-@@ -532,7 +532,7 @@
+@@ -539,7 +539,7 @@ static int menu_do_last_cd_img(int is_get)
  	FILE *f;
  	int i, ret = -1;
  
@@ -151,7 +168,7 @@
  	f = fopen(path, is_get ? "r" : "w");
  	if (f == NULL) {
  		ret = -1;
-@@ -689,14 +689,14 @@
+@@ -696,14 +696,14 @@ fail:
  		if (memcard1_sel == 0)
  			strcpy(Config.Mcd1, "none");
  		else if (memcards[memcard1_sel] != NULL)
@@ -168,7 +185,7 @@
  				MEMCARD_DIR, memcards[memcard2_sel]);
  	}
  	if (strcmp(mcd1_old, Config.Mcd1) || strcmp(mcd2_old, Config.Mcd2))
-@@ -2372,10 +2372,13 @@
+@@ -2409,10 +2409,13 @@ static void scan_bios_plugins(void)
  			continue;
  
  		snprintf(fname, sizeof(fname), "%s/%s", Config.BiosDir, ent->d_name);
@@ -186,7 +203,7 @@
  
  		if (bios_i < ARRAY_SIZE(bioses) - 1) {
  			bioses[bios_i++] = strdup(ent->d_name);
-@@ -2440,7 +2443,7 @@
+@@ -2477,7 +2480,7 @@ do_plugins:
  	closedir(dir);
  
  do_memcards:
@@ -195,7 +212,7 @@
  	if (dir == NULL) {
  		perror("scan_bios_plugins memcards opendir");
  		return;
-@@ -2460,7 +2463,7 @@
+@@ -2497,7 +2500,7 @@ do_memcards:
  		if (ent->d_type != DT_REG && ent->d_type != DT_LNK)
  			continue;
  
@@ -204,3 +221,6 @@
  		if (stat(fname, &st) != 0) {
  			printf("bad memcard file: %s\n", ent->d_name);
  			continue;
+-- 
+2.33.1
+
