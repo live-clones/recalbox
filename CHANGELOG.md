@@ -155,6 +155,9 @@ All notable changes to this project will be documented in this file.
 - Add required bios for DuckStation (#1944)
 - Fix Reicast boot (#1982)
 - Add xow drivers for Xbox One wireless dongles (#1424)
+- Add xpi_gamecon module for piboy dmt support (#1817)
+- Add xpi_gamecon module for piboy dmg support (#1817)
+- Add volumed for controlling volume from the wheel (#1817)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

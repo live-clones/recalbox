@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add recalbox-wpaf tool for controlling various RPI fan controllers
 - Add libretro Gong core on all boards
 - Add Xbox One wireless dongles support (xow userspace driver daemon from Medusalix)
+- Add PiBoy DMG support
 
 ### Improvements
 - Add new Netplay's MITM servers: Montreal & SaoPaulo
