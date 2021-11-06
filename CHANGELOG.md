@@ -167,6 +167,8 @@ All notable changes to this project will be documented in this file.
 - Fix crash of pcsx_rearmed (#1593)
 - Fix non-operational joystick on pcsx_rearmed (#1593)
 - Fix temperature monitoring for AMD CPUs (#2008)
+- Disable rewind for rpi2 (#1798)
+
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
