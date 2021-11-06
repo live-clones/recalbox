@@ -159,6 +159,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus glide64mk2 (#2022)
   - [ ] should display full screen on x86_64
   - [ ] should start on other platforms
+- [ ] Test rpi0, rpi1, rpi2, rpi3, rpi4 and rpizero2legacy since kernel bump (#2014)
+  - [ ] should boot
+  - [ ] sound should play
+  - [ ] display should show
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
