@@ -155,6 +155,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus starts on odroidxu4 (#1992)
 - [ ] Test dragon (xroar) starts on odroidxu4 (#1992)
 - [ ] Test CHD on pcsx_rearmed rpi0/1 (#2020) 
+- [ ] Test rpi0, rpi1, rpi2, rpi3, rpi4 and rpizero2legacy since kernel bump (#2014)
+  - [ ] should boot
+  - [ ] sound should play
+  - [ ] display should show
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
