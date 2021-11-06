@@ -36,7 +36,7 @@ All notable changes to this project will be documented in this file.
 - Fix click on video in ES (#1887)
 - Add montreal & saopaulo MITM servers (#1908)
 - Add Hatari standalone emulator (#1907)
-- Add Gearcoleco libretro core 
+- Add Gearcoleco libretro core
 - Add montreal & saopaulo MITM servers
 - Add Gearcoleco libretro core
 - Remove px68k core from x86 board (#1875)
@@ -176,6 +176,7 @@ All notable changes to this project will be documented in this file.
 - Disable rewind for rpi2 (#1798)
 - Fix static address configuration where domain name server ip was not set (#1518)
 - Fix Colecovision bios list (#2007)
+- Add missing generic .p2k for Elektronika BK (#2013)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
