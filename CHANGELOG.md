@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix default core psx and n64 for x64 (#2018)
 - Fix screenshot for yarntown game on solarus and craft on ports (#2017)
+- Do not play hidden game in screensaver (#1975)
 - Fix dolphin bar detection (#1967)
 - Fix supermodel service button (#2015)
 - Change image name and descriptions in rpi imager (#2000)
