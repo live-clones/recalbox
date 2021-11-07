@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix dolphin bar detection (#1967)
 - Change image name and descriptions in rpi imager (#2000)
 - Update of the favorite icons outrun and gong (in recalbox font) (#2010)
 - Fix KMS mode change on Pi3/4 (#1991)
