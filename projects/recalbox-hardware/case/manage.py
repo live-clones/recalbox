@@ -163,7 +163,6 @@ def mainInstall():
         if picture is not None:
 
             # import logger
-            import logger
             logger.hardlog("Request install script")
 
             # Make temporary link to install script
