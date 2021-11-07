@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 ## [NEXT]
+- Do not play hidden game in screensaver (#1975)
 - Fix dolphin bar detection (#1967)
 - Fix supermodel service button (#2015)
 - Change image name and descriptions in rpi imager (#2000)
