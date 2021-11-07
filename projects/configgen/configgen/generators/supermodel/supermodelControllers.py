@@ -372,7 +372,7 @@ def generateControllerConfig(self, playersControllers: ControllerPerPlayer):
         for x in SERVICE_TEST_BUTTON:
             if pad.HasInput(SERVICE_TEST_BUTTON[x]):
                 inp = pad.Input(SERVICE_TEST_BUTTON[x])
-                ServiceBtn = supermodelSettings.setString("service-button", "")
+                ServiceBtn = supermodelSettings.getString("service-button", "")
                 if ServiceBtn == "1" :
                     supermodelControllersSettings.setString(self.SECTION_GLOBAL, x, '"{}_{}"'.format(padIndex, getConfigValueJ1(inp)))
                 else:
