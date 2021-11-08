@@ -47,7 +47,7 @@ def DetectNesPi4Case():
 # --------- PiBoy
 
 
-def DetectPiBoyCase(cases):
+def DetectPiBoyCase():
     case = cases.NONE
     try:
         logger.hardlog("trying piboy")
@@ -77,10 +77,10 @@ def Identify():
         case = DetectGPiCase()
 
     if board == "rpi4":
-        case = DetectNesPi4Case(cases)
+        case = DetectNesPi4Case()
 
     if board in ["rpi3", "rpi4"] and case == cases.NONE:
-        case = DetectPiBoyCase(cases)
+        case = DetectPiBoyCase()
 
     return case
 
