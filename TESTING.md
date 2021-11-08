@@ -153,6 +153,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Home button = hotkey (quit the emulator)
 - [ ] Test mupen64plus starts on odroidxu4 (#1992)
 - [ ] Test dragon (xroar) starts on odroidxu4 (#1992)
+- [ ] Test CHD on pcsx_rearmed rpi0/1 (#2020) 
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)

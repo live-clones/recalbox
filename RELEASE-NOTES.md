@@ -59,6 +59,7 @@ as release notes for end user on a Recalbox upgrade.
   - Keystroke combination (like CTRL+C)
 - Bump ScummVM to 2.4.0git
 - Bump pcsx_rearmed on Raspberry PI 0 and 1
+  - Add CHD support
 
 ### Fixes
 - Fix message "failed to set last used disc" for core libretro px68k

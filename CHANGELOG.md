@@ -168,6 +168,7 @@ All notable changes to this project will be documented in this file.
 - Fix Reicast boot.
 - Bump pcsx_rearmed to a4da039c0c2f0731057b26398b6729819bbdaaeb (#1593)
 - Fix crash of pcsx_rearmed (#1593)
+- Add CHD support for pcsx_rearmed on rpi0/1 (#2020)
 - Fix non-operational joystick on pcsx_rearmed (#1593)
 - Fix temperature monitoring for AMD CPUs (#2008)
 - Disable rewind for rpi2 (#1798)
