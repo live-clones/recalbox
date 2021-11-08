@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system 'Z-Machine' with new core frotz
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
 - Add support for nVidia Prime Offloading (for laptop with both iGPU and nVidia GPU)
+- Add Nintendo Switch Online N64 & Genesis/Megadrive controllers support
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
