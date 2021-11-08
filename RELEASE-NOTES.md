@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
+- Add Nintendo Switch Online N64 Controller support
 
 ### Improvements
 - Bump libretro pcsx-rearmed
