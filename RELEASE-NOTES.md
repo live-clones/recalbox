@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add demo Astebros (Neofid studio) on megadrive
 - Add the possibility to sort games by release date.
 - Add guncon2 support for CRT tvs
+- Add Nintendo Switch Online N64 & Genesis/Megadrive controllers support
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
