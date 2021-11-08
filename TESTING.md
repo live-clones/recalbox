@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
 - [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
 - [ ] Check recalbox.log contains script and type information (#1920)
@@ -63,7 +64,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
 - [ ] Test Xbox One wireless dongle (#1424)
   - [ ] Check that new Controllers (1914 Xbox One S) don't disconnect after 2 minutes
-
 - [ ] Test DS4 joystick works right after starting a rom (#1845)
 - [ ] Bumped libretro fbneo (#1859)
   - [ ] Test the floppy disk change on FDS

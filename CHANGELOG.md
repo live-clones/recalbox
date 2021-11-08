@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix default core psx and n64 for x64 (#2018)
 - Fix dolphin bar detection (#1967)
 - Fix supermodel service button (#2015)
 - Change image name and descriptions in rpi imager (#2000)
