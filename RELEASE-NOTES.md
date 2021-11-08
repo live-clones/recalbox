@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add multiple PAL/NTSC modes
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
 - Add the possibility to sort games by release date.
+- Add Nintendo Switch Online N64 Controller support
 
 ### Improvements
 - Bump libretro pcsx-rearmed
