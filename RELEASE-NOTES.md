@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Add new system 'Z-Machine' with new core frotz
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
+- Add Nintendo Switch Online N64 Controller support
 
 ### Improvements
 - Bump libretro pcsx-rearmed
