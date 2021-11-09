@@ -194,6 +194,10 @@ class LibretroCores:
         coreSettings.setString("duckstation_Controller2.Type", '"DigitalController"')
 
     @staticmethod
+    def configureDosBoxPure(coreSettings: keyValueSettings):
+        coreSettings.setString("dosbox_pure_savestate", '"rewind"')
+
+    @staticmethod
     def configureGenesisPlusGxWide(coreSettings: keyValueSettings):
         from configgen.utils.videoMode import getCurrentFramebufferRatio
         ratio = getCurrentFramebufferRatio()
@@ -221,6 +225,7 @@ class LibretroCores:
             "np2kai" : LibretroCores.configureNPKAI,
             "swanstation" : LibretroCores.configureSwanstation,
             "genesisplusgxwide": LibretroCores.configureGenesisPlusGxWide,
+            "dosbox_pure" : LibretroCores.configureDosBoxPure,
         }
 
         # Get handler and execute
