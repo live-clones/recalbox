@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_PLUGIN_VIDEO_YOUTUBE_VERSION = 6.8.17
+KODI_PLUGIN_VIDEO_YOUTUBE_VERSION = 6.8.18
 KODI_PLUGIN_VIDEO_YOUTUBE_SOURCE = plugin.video.youtube-$(KODI_PLUGIN_VIDEO_YOUTUBE_VERSION)+matrix.1.zip
 KODI_PLUGIN_VIDEO_YOUTUBE_SITE = https://mirrors.kodi.tv/addons/matrix/plugin.video.youtube
 KODI_PLUGIN_VIDEO_YOUTUBE_PLUGINNAME=plugin.video.youtube
