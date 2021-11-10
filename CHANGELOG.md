@@ -111,6 +111,7 @@ All notable changes to this project will be documented in this file.
 - Added more fixes for romfsv2 (#1686)
 - Fix DOS extension in romfsv2 (#1686)
 - Add FBNeo as core of Channel F (#1688)
+- Add ps2 system with pcsx2 emulator (#1792)
 - Fix missing values for some cores (#1686)
 - Bump webmanager v2 to fix non working roms tab since romfsv2 (#1686)
 - Add recalbox overlays (#1787)
