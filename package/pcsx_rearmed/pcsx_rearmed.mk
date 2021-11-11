@@ -22,6 +22,8 @@ PCSX_REARMED_CONF_ENV += PATH=$(STAGING_DIR)/usr/bin:$$PATH
 
 PCSX_REARMED_CONF_OPTS += --sound-drivers=pulseaudio
 
+PCSX_REARMED_MAKE_OPTS = CHD_SUPPORT=1
+
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 PCSX_REARMED_CONF_OPTS += --enable-neon
 else
