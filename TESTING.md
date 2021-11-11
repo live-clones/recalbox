@@ -155,6 +155,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus starts on odroidxu4 (#1992)
 - [ ] Test dragon (xroar) starts on odroidxu4 (#1992)
 - [ ] Test CHD on pcsx_rearmed rpi0/1 (#2020) 
+- [ ] Test mupen64plus glide64mk2 (#2022)
+  - [ ] should display full screen on x86_64
+  - [ ] should start on other platforms
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
