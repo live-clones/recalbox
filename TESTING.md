@@ -176,6 +176,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 - [ ] Test Beebem
 - [ ] Test default sound output of rpi devices is set to HDMI (#1922)
+- [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
