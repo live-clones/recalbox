@@ -28,11 +28,11 @@ hotkeysCombo: Dict[int, str] =\
 def generateControllerConfig(system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings):
     generateHotkeys(playersControllers)
     if system.Name == "wii":
-        realWiimotes: bool = recalboxOptions.getString("global.realwiimotes", recalboxOptions.getString(system.Name + ".realwiimotes", "0")) in ('1', 'true')
+        realWiimotes: bool = recalboxOptions.getBool("global.realwiimotes", recalboxOptions.getBool("wii.realwiimotes", False))
         if realWiimotes:
-            generateControllerConfigEmulatedwiimotes(playersControllers, system)
-        else:
             generateControllerConfigRealwiimotes("WiimoteNew.ini", "Wiimote")
+        else:
+            generateControllerConfigEmulatedwiimotes(playersControllers, system)
     elif system.Name == "gamecube":
             generateControllerConfigGamecube(playersControllers, system)
     else:
@@ -53,26 +53,19 @@ def generateControllerConfigEmulatedwiimotes(playersControllers: ControllerPerPl
         InputItem.ItemR2:          'Shake/Z',
         InputItem.ItemJoy1Up:      'Nunchuk/Stick/Up',
         InputItem.ItemJoy1Left:    'Nunchuk/Stick/Left',
+        InputItem.ItemJoy1Down:    'Nunchuk/Stick/Down',
+        InputItem.ItemJoy1Right:   'Nunchuk/Stick/Right',
         InputItem.ItemJoy2Up:      'IR/Up',
         InputItem.ItemJoy2Left:    'IR/Left',
+        InputItem.ItemJoy2Down:    'IR/Down',
+        InputItem.ItemJoy2Right:   'IR/Right',
         InputItem.ItemUp:          'D-Pad/Up',
         InputItem.ItemDown:        'D-Pad/Down',
         InputItem.ItemLeft:        'D-Pad/Left',
         InputItem.ItemRight:       'D-Pad/Right'
     }
 
-    wiiReverseAxes: Dict[str, str] = {
-        'D-Pad/Up':   'D-Pad/Down',
-        'D-Pad/Left': 'D-Pad/Right',
-        'IR/Up':      'IR/Down',
-        'IR/Left':    'IR/Right',
-        'Swing/Up':   'Swing/Down',
-        'Swing/Left': 'Swing/Right',
-        'Nunchuk/Stick/Up': 'Nunchuk/Stick/Down',
-        'Nunchuk/Stick/Left': 'Nunchuk/Stick/Right'
-    }
-
-    generateControllerConfigAny(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, wiiReverseAxes, system)
+    generateControllerConfigAny(playersControllers, "WiimoteNew.ini", "Wiimote", wiiMapping, system)
 
 def generateControllerConfigGamecube(playersControllers: ControllerPerPlayer, system: Emulator):
 
@@ -92,19 +85,15 @@ def generateControllerConfigGamecube(playersControllers: ControllerPerPlayer, sy
         InputItem.ItemRight:    'D-Pad/Right',
         InputItem.ItemJoy1Up:   'Main Stick/Up',
         InputItem.ItemJoy1Left: 'Main Stick/Left',
+        InputItem.ItemJoy1Down: 'Main Stick/Down',
+        InputItem.ItemJoy1Right:'Main Stick/Right',
         InputItem.ItemJoy2Up:   'C-Stick/Up',
-        InputItem.ItemJoy2Left: 'C-Stick/Left'
+        InputItem.ItemJoy2Left: 'C-Stick/Left',
+        InputItem.ItemJoy2Down: 'C-Stick/Down',
+        InputItem.ItemJoy2Right:'C-Stick/Right'
     }
 
-    gamecubeReverseAxes = {
-        'D-Pad/Up':        'D-Pad/Down',
-        'D-Pad/Left':      'D-Pad/Right',
-        'Main Stick/Up':   'Main Stick/Down',
-        'Main Stick/Left': 'Main Stick/Right',
-        'C-Stick/Up':      'C-Stick/Down',
-        'C-Stick/Left':    'C-Stick/Right'
-    }
-    generateControllerConfigAny(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, gamecubeReverseAxes, system)
+    generateControllerConfigAny(playersControllers, "GCPadNew.ini", "GCPad", gamecubeMapping, system)
 
 def generateControllerConfigRealwiimotes(filename: str, anyDefKey: str):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
@@ -117,7 +106,12 @@ def generateControllerConfigRealwiimotes(filename: str, anyDefKey: str):
     #f.write
     f.close()
 
-def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filename: str, anyDefKey: str, anyMapping: Dict[int, str], anyReverseAxes: Dict[str, str], system: Emulator):
+def EvdevGetJoystickName(path: str) -> str:
+    import fcntl
+    with open(path) as fd:
+        return fcntl.ioctl(fd, 0x80804506, bytes(128)).decode('utf-8').rstrip().replace('\x00', '')
+
+def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filename: str, anyDefKey: str, anyMapping: Dict[int, str], system: Emulator):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
     nplayer = 1
@@ -135,7 +129,7 @@ def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filenam
         double_pads[pad.DeviceName] = nsamepad + 1
 
         f.write("[" + anyDefKey + str(nplayer) + "]" + "\n")
-        f.write('Device = "evdev/' + str(nsamepad) + '/' + pad.DeviceName + '"\n')
+        f.write('Device = "evdev/' + str(nsamepad) + '/' + EvdevGetJoystickName(pad.DevicePath) + '"\n')
 
         if system.Name == "wii":
             f.write("Extension = Nunchuk" + "\n")
@@ -151,32 +145,22 @@ def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filenam
             if inp.Item in anyMapping:
                 keyname = anyMapping[inp.Item]
                 # write the configuration for this key
-                writeKey(f, keyname, inp, pad.AxisCount, False)
+                writeKey(f, keyname, inp, pad.AxisCount)
                 # write the 2nd part
-                if inp.IsAnalogJoystick:
-                    writeKey(f, anyReverseAxes[keyname], inp, pad.AxisCount, True)
+                #if inp.IsAnalogJoystick:
+                #    writeKey(f, anyReverseAxes[keyname], inp, pad.AxisCount, True)
 
         nplayer += 1
     f.close()
 
-def writeKey(f: IO, keyname: str, inputItem: InputItem, inputGlobalId: int, reverse: bool):
+def writeKey(f: IO, keyname: str, inputItem: InputItem, inputGlobalId: int):
     f.write(keyname + " = `")
     if inputItem.IsButton:
         f.write("Button " + str(inputItem.Id))
     elif inputItem.IsHat:
-        if inputItem.Value == 1 or inputItem.Value == 4: # up or down
-            f.write("Axis " + str(inputGlobalId + 1))
-        else:
-            f.write("Axis " + str(inputGlobalId))
-        if inputItem.Value == 1 or inputItem == 8: # up or left
-            f.write("-")
-        else:
-            f.write("+")
+        f.write("Axis " + str(inputGlobalId + (1 if inputItem.Value in (1, 4) else 0)) + ('-' if inputItem.Value in (1, 8) else '+'))
     elif inputItem.IsAxis:
-        if (reverse and inputItem.Value < 0) or (not reverse and inputItem.Value > 0):
-            f.write("Axis " + str(inputItem.Id) + "+")
-        else:
-            f.write("Axis " + str(inputItem.Id) + "-")
+        f.write("Axis " + str(inputItem.Id) + ('+' if inputItem.Value > 0 else '-'))
     f.write("`\n")
 
 

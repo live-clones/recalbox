@@ -50,13 +50,15 @@ def controller_configuration():
     )
 
 
-def test_simple_generate_wii(emulator, system_wii, controller_configuration):
+def test_simple_generate_wii(emulator, system_wii, mocker, controller_configuration):
+    mocker.patch("configgen.generators.dolphin.dolphinControllers.EvdevGetJoystickName", return_value="Sony PLAYSTATION(R)3 Controller")
     command = emulator.generate(system_wii, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/dolphin-emu', '-e', 'path/to/test']
 
 
-def test_simple_generate_gamecube(emulator, system_gamecube, controller_configuration):
+def test_simple_generate_gamecube(emulator, system_gamecube, mocker, controller_configuration):
+    mocker.patch("configgen.generators.dolphin.dolphinControllers.EvdevGetJoystickName", return_value="Sony PLAYSTATION(R)3 Controller")
     command = emulator.generate(system_gamecube, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/dolphin-emu', '-e', 'path/to/test']
