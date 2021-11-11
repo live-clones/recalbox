@@ -20,6 +20,7 @@ endef
 define LIBRETRO_NESTOPIA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/nestopia_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/nestopia_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fds
 	# NstDatabase needed for proper emulation (backed into the core)
 	# cp $(@D)/NstDatabase.xml $(TARGET_DIR)/recalbox/share_upgrade/bios
 endef

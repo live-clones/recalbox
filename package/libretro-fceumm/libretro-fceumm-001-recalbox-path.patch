@@ -1,0 +1,11 @@
+--- a/src/general.c	2021-11-24 17:20:29.000000000 +0100
++++ b/src/general.c	2021-11-24 17:21:16.000000000 +0100
+@@ -70,7 +70,7 @@
+          break;
+       case FCEUMKF_FDSROM:
+          fill_pathname_join(tmp, BaseDirectory,
+-               "disksys.rom", sizeof(tmp));
++               "fds/disksys.rom", sizeof(tmp));
+          break;
+       case FCEUMKF_PALETTE:
+          fill_pathname_join(tmp, BaseDirectory,

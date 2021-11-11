@@ -1,0 +1,104 @@
+--- a/fMSX/MSX.c	2022-07-07 18:31:48.000000000 +0200
++++ b/fMSX/MSX.c	2022-07-07 19:28:47.000000000 +0200
+@@ -479,11 +479,11 @@
+   else memcpy(RTC,RTCInit,sizeof(RTC));
+ 
+   /* Try loading Kanji alphabet ROM */
+-  if(Kanji=LoadROM("KANJI.ROM",0x20000,0))
++  if(Kanji=LoadROM("msx/KANJI.ROM",0x20000,0))
+   { if(Verbose) printf("KANJI.ROM.."); }
+ 
+   /* Try loading RS232 support ROM to slot */
+-  if(P=LoadROM("RS232.ROM",0x4000,0))
++  if(P=LoadROM("msx/RS232.ROM",0x4000,0))
+   {
+     if(Verbose) printf("RS232.ROM..");
+     MemMap[3][3][2]=P;
+@@ -498,19 +498,19 @@
+   /* If MSX2 or better and DiskROM present...  */
+   /* ...try loading MSXDOS2 cartridge into 3:0 */
+   if(!MODEL(MSX_MSX1)&&(MemMap[3][1][2]!=EmptyRAM)&&!ROMData[2])
+-    if(LoadCart("MSXDOS2.ROM",2,MAP_GEN16))
++    if(LoadCart("msx/MSXDOS2.ROM",2,MAP_GEN16))
+       SetMegaROM(2,0,1,ROMMask[J]-1,ROMMask[J]);
+ 
+   /* If MSX2 or better, load PAINTER cartridge */
+   if(!MODEL(MSX_MSX1))
+   {
+     for(;(J<MAXSLOTS)&&ROMData[J];++J);
+-    if((J<MAXSLOTS)&&LoadCart("PAINTER.ROM",J,0)) ++J;
++    if((J<MAXSLOTS)&&LoadCart("msx/PAINTER.ROM",J,0)) ++J;
+   }
+ 
+   /* Load FMPAC cartridge */
+   for(;(J<MAXSLOTS)&&ROMData[J];++J);
+-  if((J<MAXSLOTS)&&LoadCart("FMPAC.ROM",J,MAP_FMPAC)) ++J;
++  if((J<MAXSLOTS)&&LoadCart("msx/FMPAC.ROM",J,MAP_FMPAC)) ++J;
+ 
+   /* Load Konami GameMaster2/GameMaster cartridges */
+   for(;(J<MAXSLOTS)&&ROMData[J];++J);
+@@ -676,7 +676,7 @@
+     {
+       case MSX_MSX1:
+         if(Verbose) printf("  Opening MSX.ROM...");
+-        P1=LoadROM("MSX.ROM",0x8000,0);
++        P1=LoadROM("msx/MSX.ROM",0x8000,0);
+         PRINTRESULT(P1);
+         if(!P1) NewMode=(NewMode&~MSX_MODEL)|(Mode&MSX_MODEL);
+         else
+@@ -694,10 +694,10 @@
+ 
+       case MSX_MSX2:
+         if(Verbose) printf("  Opening MSX2.ROM...");
+-        P1=LoadROM("MSX2.ROM",0x8000,0);
++        P1=LoadROM("msx/MSX2.ROM",0x8000,0);
+         PRINTRESULT(P1);
+         if(Verbose) printf("  Opening MSX2EXT.ROM...");
+-        P2=LoadROM("MSX2EXT.ROM",0x4000,0);
++        P2=LoadROM("msx/MSX2EXT.ROM",0x4000,0);
+         PRINTRESULT(P2);
+         if(!P1||!P2)
+         {
+@@ -720,10 +720,10 @@
+ 
+       case MSX_MSX2P:
+         if(Verbose) printf("  Opening MSX2P.ROM...");
+-        P1=LoadROM("MSX2P.ROM",0x8000,0);
++        P1=LoadROM("msx/MSX2P.ROM",0x8000,0);
+         PRINTRESULT(P1);
+         if(Verbose) printf("  Opening MSX2PEXT.ROM...");
+-        P2=LoadROM("MSX2PEXT.ROM",0x4000,0);
++        P2=LoadROM("msx/MSX2PEXT.ROM",0x4000,0);
+         PRINTRESULT(P2);
+         if(!P1||!P2)
+         {
+@@ -777,7 +777,7 @@
+ 
+     /* Try loading DiskROM */
+     if(Verbose) printf("  Opening DISK.ROM...");
+-    P1=LoadROM("DISK.ROM",0x4000,0);
++    P1=LoadROM("msx/DISK.ROM",0x4000,0);
+     PRINTRESULT(P1);
+ 
+     /* Change to the working directory */
+@@ -2457,7 +2457,7 @@
+   }
+ 
+   /* Try opening file with SHA1 sums */
+-  if(F=fopen("CARTS.SHA","rb"))
++  if(F=fopen("msx/CARTS.SHA","rb"))
+   {
+     char S1[41],S2[41];
+     SHA1 C;
+@@ -2532,7 +2532,10 @@
+   /* Drop out if no new font requested */
+   if(!FileName) { FreeMemory(FontBuf);FontBuf=0;return(1); }
+   /* Try opening font file */
+-  if(!(F=fopen(FileName,"rb"))) return(0);
++  char tmpName[4096];
++  strcpy(tmpName, "msx/");
++  strcat(tmpName, FileName);
++  if(!(F=fopen(tmpName,"rb"))) return(0);
+   /* Allocate memory for 256 8x8 characters, if needed */
+   if(!FontBuf) FontBuf=GetMemory(256*8);
+   /* Drop out if failed memory allocation */

@@ -21,8 +21,12 @@ endef
 define LIBRETRO_SAMEBOY_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/sameboy_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/sameboy_libretro.so
-	$(INSTALL) -D $(@D)/BootROMs/prebuilt/*.bin \
-		$(TARGET_DIR)/recalbox/share_upgrade/bios/
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/dmg_boot.bin \
+		$(TARGET_DIR)/recalbox/share_upgrade/bios/gb/
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/cgb_boot.bin \
+	$(TARGET_DIR)/recalbox/share_upgrade/bios/gbc/
 endef
 
 $(eval $(generic-package))

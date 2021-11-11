@@ -1,0 +1,20 @@
+--- a/libretroBuildSystem/libretro.c	2021-11-25 07:04:16.000000000 +0100
++++ b/libretroBuildSystem/libretro.c	2021-11-25 07:05:47.000000000 +0100
+@@ -464,7 +464,7 @@
+    
+    //ROM
+    strlcpy(romPath, systemDir, PATH_MAX_LENGTH);
+-   strlcat(romPath, "/", PATH_MAX_LENGTH);
++   strlcat(romPath, "/palm/", PATH_MAX_LENGTH);
+    strlcat(romPath, osVersion, PATH_MAX_LENGTH);
+    strlcat(romPath, ".rom", PATH_MAX_LENGTH);
+    romFile = filestream_open(romPath, RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+@@ -485,7 +485,7 @@
+    
+    //bootloader, will simply be ignored for Tungsten T3
+    strlcpy(bootloaderPath, systemDir, PATH_MAX_LENGTH);
+-   strlcat(bootloaderPath, "/bootloader-dbvz.rom", PATH_MAX_LENGTH);
++   strlcat(bootloaderPath, "/palm/bootloader-dbvz.rom", PATH_MAX_LENGTH);
+    bootloaderFile = filestream_open(bootloaderPath, RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+    if(bootloaderFile){
+       bootloaderSize = filestream_get_size(bootloaderFile);

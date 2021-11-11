@@ -21,6 +21,7 @@ endef
 define LIBRETRO_FCEUMM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/fceumm_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fceumm_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fds
 endef
 
 $(eval $(generic-package))

@@ -1,0 +1,11 @@
+--- a/src/libretro/libretro_host_interface.cpp	2022-07-07 23:03:59.000000000 +0200
++++ b/src/libretro/libretro_host_interface.cpp	2022-07-07 23:06:59.000000000 +0200
+@@ -937,7 +937,7 @@
+   if (!g_retro_environment_callback(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_directory) || !system_directory)
+     return GetProgramDirectoryRelativePath("system");
+   else
+-    return system_directory;
++    return system_directory + "psx/";
+ }
+ 
+ std::unique_ptr<ByteStream> LibretroHostInterface::OpenPackageFile(const char* path, u32 flags)

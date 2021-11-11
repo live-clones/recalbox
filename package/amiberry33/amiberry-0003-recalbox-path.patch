@@ -43,7 +43,7 @@ index 5dc6deee..6edb790e 100644
  		snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
  #else
 -	snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
-+	snprintf(rom_path, MAX_DPATH, "/recalbox/share/bios/", start_path_data);
++	snprintf(rom_path, MAX_DPATH, "/recalbox/share/bios/amiga/", start_path_data);
  #endif
 -	snprintf(rp9_path, MAX_DPATH, "%s/rp9/", start_path_data);
 +	snprintf(rp9_path, MAX_DPATH, "%s/conf/", start_path_data);

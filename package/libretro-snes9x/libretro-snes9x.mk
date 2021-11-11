@@ -21,6 +21,8 @@ endef
 define LIBRETRO_SNES9X_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/snes9x_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/snes9x_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/satellaview
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sufami
 endef
 
 $(eval $(generic-package))

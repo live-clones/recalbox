@@ -1,0 +1,24 @@
+--- a/src/libretro/libretro.cpp	2022-07-08 00:03:57.000000000 +0200
++++ b/src/libretro/libretro.cpp	2022-07-08 00:06:57.000000000 +0200
+@@ -544,7 +544,7 @@
+ 
+ bool retro_load_game(const struct retro_game_info *info)
+ {
+-   std::vector <std::string> required_roms = {"bios7.bin", "bios9.bin", "firmware.bin"};
++   std::vector <std::string> required_roms = {"nds/bios7.bin", "nds/bios9.bin", "nds/firmware.bin"};
+    std::vector <std::string> missing_roms;
+ 
+    // Check if any of the bioses / firmware files are missing
+@@ -577,9 +577,9 @@
+       return false;
+    }
+ 
+-   strcpy(Config::BIOS7Path, "bios7.bin");
+-   strcpy(Config::BIOS9Path, "bios9.bin");
+-   strcpy(Config::FirmwarePath, "firmware.bin");
++   strcpy(Config::BIOS7Path, "nds/bios7.bin");
++   strcpy(Config::BIOS9Path, "nds/bios9.bin");
++   strcpy(Config::FirmwarePath, "nds/firmware.bin");
+ 
+    struct retro_input_descriptor desc[] = {
+       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "Left" },

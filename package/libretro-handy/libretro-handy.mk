@@ -20,6 +20,7 @@ endef
 define LIBRETRO_HANDY_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/handy_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/handy_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/lynx
 endef
 
 $(eval $(generic-package))

@@ -1,0 +1,11 @@
+--- a/libretro/libretro.cpp	2021-11-24 17:29:39.000000000 +0100
++++ b/libretro/libretro.cpp	2021-11-24 17:30:45.000000000 +0100
+@@ -1167,7 +1167,7 @@
+          /* search for BIOS in system directory */
+          bool found = false;
+ 
+-         sprintf(fds_bios_path, "%s%cdisksys.rom", dir, slash);
++         sprintf(fds_bios_path, "%s%c%s%cdisksys.rom", dir, slash, "fds", slash);
+          if (log_cb)
+             log_cb(RETRO_LOG_INFO, "FDS BIOS path: %s\n", fds_bios_path);
+ 

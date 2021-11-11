@@ -36,6 +36,7 @@ endef
 define LIBRETRO_PCSX_REARMED_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/pcsx_rearmed_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/pcsx_rearmed_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/psx
 endef
 
 $(eval $(generic-package))

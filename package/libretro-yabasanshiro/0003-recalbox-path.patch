@@ -1,0 +1,21 @@
+--- a/yabause/src/libretro/libretro.c	2022-07-08 00:40:09.000000000 +0200
++++ b/yabause/src/libretro/libretro.c	2022-07-08 00:41:14.000000000 +0200
+@@ -1041,15 +1041,15 @@
+    }
+ 
+    snprintf(full_path, sizeof(full_path), "%s", info->path);
+-   snprintf(bios_path, sizeof(bios_path), "%s%csaturn_bios.bin", g_system_dir, slash);
++   snprintf(bios_path, sizeof(bios_path), "%s%c%s%csaturn_bios.bin", g_system_dir, slash, "saturn", slash);
+    if (does_file_exist(bios_path) != 1)
+    {
+       log_cb(RETRO_LOG_WARN, "%s NOT FOUND\n", bios_path);
+-      snprintf(bios_path, sizeof(bios_path), "%s%csega_101.bin", g_system_dir, slash);
++      snprintf(bios_path, sizeof(bios_path), "%s%c%s%csega_101.bin", g_system_dir, slash, "saturn", slash);
+       if (does_file_exist(bios_path) != 1)
+       {
+          log_cb(RETRO_LOG_WARN, "%s NOT FOUND\n", bios_path);
+-         snprintf(bios_path, sizeof(bios_path), "%s%cmpr-17933.bin", g_system_dir, slash);
++         snprintf(bios_path, sizeof(bios_path), "%s%c%s%cmpr-17933.bin", g_system_dir, slash, "saturn", slash);
+          if (does_file_exist(bios_path) != 1)
+          {
+             log_cb(RETRO_LOG_WARN, "%s NOT FOUND\n", bios_path);

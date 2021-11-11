@@ -26,6 +26,7 @@ endef
 define LIBRETRO_MELONDS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/melonds_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/melonds_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/nds
 endef
 
 $(eval $(generic-package))

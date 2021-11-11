@@ -1,0 +1,11 @@
+--- a/src/vm/scv/memory.cpp	2021-11-25 06:26:26.000000000 +0100
++++ b/src/vm/scv/memory.cpp	2021-11-25 06:27:42.000000000 +0100
+@@ -71,7 +71,7 @@
+ 	// load bios
+ 	// first try with the file "upd7801.s01"
+ 	FILEIO* fio = new FILEIO();
+-	if(fio->Fopen(create_local_path(_T("upd7801g.s01")), FILEIO_READ_BINARY))
++	if(fio->Fopen(create_local_path(_T("scv/upd7801g.s01")), FILEIO_READ_BINARY))
+ 	{
+ 		bios_found = true;
+ 		fio->Fread(bios, 0x1000, 1);

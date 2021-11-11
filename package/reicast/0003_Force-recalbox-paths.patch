@@ -6,8 +6,8 @@ index 0358c68..150a6fb 100755
  
  settings_t settings;
  
-+std::string recalboxBiosPath = "/recalbox/share/bios/";
-+std::string recalboxNvmemPath = "/recalbox/share/bios/";
++std::string recalboxBiosPath = "/recalbox/share/bios/dc/";
++std::string recalboxNvmemPath = "/recalbox/share/bios/dc/";
 +
  /*
  	libndc

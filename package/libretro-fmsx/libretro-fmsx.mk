@@ -22,7 +22,8 @@ define LIBRETRO_FMSX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/fmsx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fmsx_libretro.so
 	# Copy required ROM images
-	cp -R $(@D)/fMSX/ROMs/* $(TARGET_DIR)/recalbox/share_upgrade/bios
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/msx
+	cp -R $(@D)/fMSX/ROMs/* $(TARGET_DIR)/recalbox/share_upgrade/bios/msx
 endef
 
 $(eval $(generic-package))

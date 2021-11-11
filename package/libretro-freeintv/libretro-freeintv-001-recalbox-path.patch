@@ -1,0 +1,16 @@
+--- a/src/libretro.c	2021-11-25 06:40:29.000000000 +0100
++++ b/src/libretro.c	2021-11-25 06:42:12.000000000 +0100
+@@ -129,11 +129,11 @@
+ 	Environ(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &SystemPath);
+ 
+ 	// load exec
+-	fill_pathname_join(execPath, SystemPath, "exec.bin", PATH_MAX_LENGTH);
++	fill_pathname_join(execPath, SystemPath, "intellivision/exec.bin", PATH_MAX_LENGTH);
+ 	loadExec(execPath);
+ 
+ 	// load grom
+-	fill_pathname_join(gromPath, SystemPath, "grom.bin", PATH_MAX_LENGTH);
++	fill_pathname_join(gromPath, SystemPath, "intellivision/grom.bin", PATH_MAX_LENGTH);
+ 	loadGrom(gromPath);
+ 
+ 	// Setup keyboard input

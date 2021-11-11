@@ -1,0 +1,11 @@
+--- a/libretro/libretro-core.c	2021-11-14 01:36:00.000000000 +0100
++++ b/libretro/libretro-core.c	2021-11-14 11:41:30.000000000 +0100
+@@ -4601,6 +4601,8 @@
+             break;
+       }
+
++      strcat(retro_system_directory, "/amiga")
++
+       path_join(kickstart, retro_system_directory, uae_kickstarts[i].aforever);
+       valid = path_is_valid(kickstart);
+       if (!valid)

@@ -37,6 +37,7 @@ endef
 define LIBRETRO_PICODRIVE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/picodrive_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/picodrive_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/segacd
 endef
 
 $(eval $(generic-package))

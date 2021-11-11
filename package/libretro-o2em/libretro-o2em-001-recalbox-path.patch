@@ -1,0 +1,11 @@
+--- a/libretro.c	2021-11-25 06:03:57.000000000 +0100
++++ b/libretro.c	2021-11-25 06:06:42.000000000 +0100
+@@ -958,7 +958,7 @@
+       char slash = '/';
+ #endif
+ 
+-       snprintf(bios_file_path, sizeof(bios_file_path), "%s%c%s", system_directory_c, slash, bios_file);
++       snprintf(bios_file_path, sizeof(bios_file_path), "%s%c%s%c%s", system_directory_c, slash, "o2em", slash, bios_file);
+ 
+        if (!does_file_exist(bios_file_path))
+        {
