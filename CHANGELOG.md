@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Display battery icon (#1962)
 - Fix dolphin bar detection (#1967)
 - Fix supermodel service button (#2015)
 - Change image name and descriptions in rpi imager (#2000)
