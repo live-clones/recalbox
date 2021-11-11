@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fix letters order in recalbox.conf (#1795)
 - Fix screenshot for yarntown game on solarus and craft on ports (#2017)
 - Fix default core psx and n64 for x64 (#2018)
+- Fix controllers behavior in dolphin
 - Fix dolphin bar detection (#1967)
 - Fix supermodel service button (#2015)
 - Change image name and descriptions in rpi imager (#2000)
