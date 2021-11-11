@@ -687,12 +687,14 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const 
         priority = port.Priority;
         selectedPort = &port;
         selectedCard = &card;
-        targetCard = &card;
-        targetPort = &port;
         { LOG(LogDebug) << "[PulseAudio] Get Best profile, card - port selected : " << selectedCard->Description << " - " << selectedPort->Description; }
       }
     }
   }
+
+  // Store selected
+  targetCard = selectedCard;
+  targetPort = selectedPort;
 
   // Check port
   if (selectedPort == nullptr)
