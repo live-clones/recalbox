@@ -72,21 +72,24 @@ void LightGunDatabase::LoadDatabase()
   if (root != nullptr)
     for (const XmlNode& system : root.children("system"))
     {
-      std::string systemName = Xml::AttributeAsString(system, "name", "<missing name>");
-      { LOG(LogDebug) << "[LightGun] Load system: " << systemName; }
+      std::string systemNames = Xml::AttributeAsString(system, "name", "<missing name>");
+      for(const std::string& systemName : Strings::Split(systemNames, '|', true))
+      {
+        { LOG(LogDebug) << "[LightGun] Load system: " << systemName; }
 
-      // Create system list
-      Strings::Vector& gameList = mSystemLists[systemName];
+        // Create system list
+        Strings::Vector& gameList = mSystemLists[systemName];
 
-      // Run through games
-      std::string gameName;
-      for (const XmlNode& games: system.children("gameList"))
-        for (const XmlNode& game: games.children("game"))
-        {
-          gameName = Xml::AttributeAsString(game, "name", "");
-          if (!gameName.empty() && Xml::AttributeAsBool(game, "tested", false))
-            gameList.push_back(gameName);
-        }
-      { LOG(LogDebug) << "[LightGun] " << gameList.size() << " games found in system " << systemName; }
+        // Run through games
+        std::string gameName;
+        for (const XmlNode& games: system.children("gameList"))
+          for (const XmlNode& game: games.children("game"))
+          {
+            gameName = Xml::AttributeAsString(game, "name", "");
+            if (!gameName.empty() && Xml::AttributeAsBool(game, "tested", false))
+              gameList.push_back(gameName);
+          }
+        { LOG(LogDebug) << "[LightGun] " << gameList.size() << " games found in system " << systemName; }
+      }
     }
 }
