@@ -66,6 +66,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add CHD support
 
 ### Fixes
+- Fix controllers behavior in WII & GC systems (dolphin)
 - Fix message "failed to set last used disc" for core libretro px68k
 - Fix laggy video playback on Odroid XU4 OGST
 - Fix message "failed to extract content from compressed" for core libretro xrick
