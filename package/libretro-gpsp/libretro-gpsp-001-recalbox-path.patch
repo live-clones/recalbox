@@ -1,0 +1,11 @@
+--- a/libretro/libretro.c	2022-12-30 01:22:11.000000000 +0100
++++ b/libretro/libretro.c	2022-12-30 01:22:56.000000000 +0100
+@@ -1024,7 +1024,7 @@
+    if (selected_bios == auto_detect || selected_bios == official_bios)
+    {
+      bios_loaded = true;
+-     strcat(filename_bios, "/gba_bios.bin");
++     strcat(filename_bios, "/gba/gba_bios.bin");
+ 
+      if (load_bios(filename_bios) != 0)
+      {

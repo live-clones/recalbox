@@ -20,6 +20,7 @@ endef
 define LIBRETRO_BEETLE_PSX_HW_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_psx_hw_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_psx_hw_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/psx
 endef
 
 define LIBRETRO_BEETLE_PSX_HW_CROSS_FIXUP

@@ -20,6 +20,7 @@ endef
 define LIBRETRO_FREEINTV_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/freeintv_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/freeintv_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/intellivision
 endef
 
 $(eval $(generic-package))

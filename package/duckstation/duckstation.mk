@@ -65,6 +65,7 @@ DUCKSTATION_CONF_ENV += LDFLAGS=-lpthread
 
 define DUCKSTATION_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/share/duckstation
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/psx
 
 	$(INSTALL) -D $(@D)/buildroot-build/bin/duckstation-nogui $(TARGET_DIR)/usr/bin/duckstation
 	cp -R $(@D)/buildroot-build/bin/database      $(TARGET_DIR)/usr/share/duckstation/

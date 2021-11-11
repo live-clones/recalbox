@@ -33,6 +33,10 @@ endef
 define LIBRETRO_MGBA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mgba_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mgba_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gba
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
 endef
 
 $(eval $(generic-package))

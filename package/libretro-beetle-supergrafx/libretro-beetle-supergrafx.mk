@@ -20,6 +20,7 @@ endef
 define LIBRETRO_BEETLE_SUPERGRAFX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_supergrafx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_supergrafx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/pcengine
 endef
 
 $(eval $(generic-package))

@@ -1,0 +1,11 @@
+--- a/libretro.cpp	2021-11-13 01:24:01.000000000 +0100
++++ b/libretro.cpp	2021-11-13 01:25:07.000000000 +0100
+@@ -209,7 +209,7 @@
+       if (!bios_name_list[i])
+          break;
+
+-      int r = snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory, retro_slash, bios_name_list[i]);
++      int r = snprintf(bios_path, sizeof(bios_path), "%s%c%s%c%s", retro_base_directory, retro_slash, "psx", retro_slash, bios_name_list[i]);
+       if (r >= 4096)
+       {
+          log_cb(RETRO_LOG_ERROR, "Firmware path longer than 4095: %s\n", bios_path);

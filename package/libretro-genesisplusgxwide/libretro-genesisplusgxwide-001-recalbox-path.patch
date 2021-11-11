@@ -1,0 +1,25 @@
+--- a/libretro/libretro.c	2022-12-30 01:05:59.000000000 +0100
++++ b/libretro/libretro.c	2022-12-30 01:12:50.000000000 +0100
+@@ -3253,14 +3253,14 @@
+    fill_pathname_join(AR_ROM,     dir, "areplay.bin",   sizeof(AR_ROM));
+    fill_pathname_join(SK_ROM,     dir, "sk.bin",        sizeof(SK_ROM));
+    fill_pathname_join(SK_UPMEM,   dir, "sk2chip.bin",   sizeof(SK_UPMEM));
+-   fill_pathname_join(MD_BIOS,    dir, "bios_MD.bin",   sizeof(MD_BIOS));
+-   fill_pathname_join(GG_BIOS,    dir, "bios.gg",       sizeof(GG_BIOS));
+-   fill_pathname_join(MS_BIOS_EU, dir, "bios_E.sms",    sizeof(MS_BIOS_EU));
+-   fill_pathname_join(MS_BIOS_US, dir, "bios_U.sms",    sizeof(MS_BIOS_US));
+-   fill_pathname_join(MS_BIOS_JP, dir, "bios_J.sms",    sizeof(MS_BIOS_JP));
+-   fill_pathname_join(CD_BIOS_EU, dir, "bios_CD_E.bin", sizeof(CD_BIOS_EU));
+-   fill_pathname_join(CD_BIOS_US, dir, "bios_CD_U.bin", sizeof(CD_BIOS_US));
+-   fill_pathname_join(CD_BIOS_JP, dir, "bios_CD_J.bin", sizeof(CD_BIOS_JP));
++   fill_pathname_join(MD_BIOS,    strcat(dir, slash, "megadrive"),    "bios_MD.bin",   sizeof(MD_BIOS));
++   fill_pathname_join(GG_BIOS,    strcat(dir, slash, "gamegear"),     "bios.gg",       sizeof(GG_BIOS));
++   fill_pathname_join(MS_BIOS_EU, strcat(dir, slash, "mastersystem"), "bios_E.sms",    sizeof(MS_BIOS_EU));
++   fill_pathname_join(MS_BIOS_US, strcat(dir, slash, "mastersystem"), "bios_U.sms",    sizeof(MS_BIOS_US));
++   fill_pathname_join(MS_BIOS_JP, strcat(dir, slash, "mastersystem"), "bios_J.sms",    sizeof(MS_BIOS_JP));
++   fill_pathname_join(CD_BIOS_EU, strcat(dir, slash, "segacd"),       "bios_CD_E.bin", sizeof(CD_BIOS_EU));
++   fill_pathname_join(CD_BIOS_US, strcat(dir, slash, "segacd"),       "bios_CD_U.bin", sizeof(CD_BIOS_US));
++   fill_pathname_join(CD_BIOS_JP, strcat(dir, slash, "segacd"),       "bios_CD_J.bin", sizeof(CD_BIOS_JP));
+    fill_pathname_join(CART_BRAM,  dir, "cart.brm",      sizeof(CART_BRAM));
+ 
+    check_variables(true);

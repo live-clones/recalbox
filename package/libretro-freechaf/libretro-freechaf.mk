@@ -26,6 +26,7 @@ endef
 define LIBRETRO_FREECHAF_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/freechaf_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/freechaf_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/channelf
 endef
 
 $(eval $(generic-package))

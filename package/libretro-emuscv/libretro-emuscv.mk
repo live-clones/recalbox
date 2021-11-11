@@ -21,6 +21,7 @@ endef
 define LIBRETRO_EMUSCV_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/emuscv_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/emuscv_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/scv
 endef
 
 $(eval $(generic-package))

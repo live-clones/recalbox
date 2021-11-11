@@ -39,6 +39,7 @@ define LIBRETRO_UAE4ARM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/uae4arm_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/uae4arm_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/uae_data
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/amiga
 endef
 
 $(eval $(generic-package))

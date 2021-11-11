@@ -22,6 +22,10 @@ endef
 define LIBRETRO_GENESISPLUSGX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/genesis_plus_gx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/genesisplusgx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gamegear
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mastersystem
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/megadrive
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/segacd
 endef
 
 $(eval $(generic-package))

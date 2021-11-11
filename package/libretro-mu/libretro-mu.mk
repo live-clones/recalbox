@@ -22,6 +22,7 @@ endef
 define LIBRETRO_MU_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretroBuildSystem/mu_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mu_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/palm
 endef
 
 $(eval $(generic-package))

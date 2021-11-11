@@ -49,6 +49,7 @@ define LIBRETRO_UAE_INSTALL_TARGET_CMDS
 	# Copy RTB files
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios && \
 		cp $(@D)/whdload/WHDLoad_files/Devs/Kickstarts/*.RTB $(TARGET_DIR)/recalbox/share_upgrade/bios/
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/amiga
 endef
 
 $(eval $(generic-package))

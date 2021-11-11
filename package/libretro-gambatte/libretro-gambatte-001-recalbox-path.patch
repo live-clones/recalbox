@@ -1,0 +1,17 @@
+--- a/libgambatte/libretro/libretro.cpp	2021-11-25 19:58:42.000000000 +0100
++++ b/libgambatte/libretro/libretro.cpp	2021-11-25 19:59:48.000000000 +0100
+@@ -625,12 +625,12 @@
+    
+    if (isgbc)
+    {
+-      path += "gbc_bios.bin";
++      path += "gbc/gbc_bios.bin";
+       size = 0x900;
+    }
+    else
+    {
+-      path += "gb_bios.bin";
++      path += "gb/gb_bios.bin";
+       size = 0x100;
+    }
+ 

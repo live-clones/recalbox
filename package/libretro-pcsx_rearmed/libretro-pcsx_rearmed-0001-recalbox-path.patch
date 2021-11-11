@@ -1,0 +1,20 @@
+--- a/frontend/libretro.c	2022-07-07 23:34:13.000000000 +0200
++++ b/frontend/libretro.c	2022-07-07 23:36:08.000000000 +0200
+@@ -2828,7 +2828,7 @@
+       if ((strncasecmp(ent->d_name, "scph", 4) != 0) && (strncasecmp(ent->d_name, "psx", 3) != 0))
+          continue;
+ 
+-      snprintf(path, path_size, "%s%c%s", dirpath, SLASH, ent->d_name);
++      snprintf(path, path_size, "%s%c%s%c%s", dirpath, SLASH, "psx", SLASH, ent->d_name);
+       ret = try_use_bios(path);
+       if (ret)
+          break;
+@@ -2928,7 +2928,7 @@
+ 
+          for (i = 0; i < sizeof(bios) / sizeof(bios[0]); i++)
+          {
+-            snprintf(path, sizeof(path), "%s%c%s.bin", dir, SLASH, bios[i]);
++            snprintf(path, sizeof(path), "%s%c%s%c%s.bin", dir, SLASH, "psx", SLASH, bios[i]);
+             found_bios = try_use_bios(path);
+             if (found_bios)
+                break;

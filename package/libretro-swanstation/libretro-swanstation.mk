@@ -64,6 +64,7 @@ LIBRETRO_SWANSTATION_CONF_OPTS += -DCMAKE_LINKER_EXE_FLAGS="$(COMPILER_COMMONS_L
 define LIBRETRO_SWANSTATION_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/swanstation_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/swanstation_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/psx
 endef
 
 $(eval $(cmake-package))

@@ -19,6 +19,8 @@ endef
 define LIBRETRO_ATARI800_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/atari800_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/atari800_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari800
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari5200
 endef
 
 $(eval $(generic-package))

@@ -1,0 +1,11 @@
+--- a/libretro.cpp	2022-07-07 17:37:45.000000000 +0200
++++ b/libretro.cpp	2022-07-07 17:45:19.000000000 +0200
+@@ -924,7 +924,7 @@
+   { "pcfx.disable_softreset", MDFNSF_NOFLAGS, "When RUN+SEL are pressed simultaneously, disable both buttons temporarily.", NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, FXINPUT_SettingChanged },
+ 
+   { "pcfx.cpu_emulation", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU emulation mode.", NULL, MDFNST_ENUM, "auto", NULL, NULL, NULL, NULL, V810Mode_List },
+-  { "pcfx.bios", MDFNSF_EMU_STATE, "Path to the ROM BIOS", NULL, MDFNST_STRING, "pcfx.rom" },
++  { "pcfx.bios", MDFNSF_EMU_STATE, "Path to the ROM BIOS", NULL, MDFNST_STRING, "pcfx/pcfx.rom" },
+   { "pcfx.fxscsi", MDFNSF_EMU_STATE, "Path to the FX-SCSI ROM", "Intended for developers only.", MDFNST_STRING, "0" },
+   { "pcfx.disable_bram", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "Disable internal and external BRAM.", "It is intended for viewing games' error screens that may be different from simple BRAM full and uninitialized BRAM error screens, though it can cause the game to crash outright.", MDFNST_BOOL, "0" },
+   { "pcfx.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "Emulated CD-ROM speed.", "Setting the value higher than 2, the default, will decrease loading times in most games by some degree.", MDFNST_UINT, "2", "2", "10" },

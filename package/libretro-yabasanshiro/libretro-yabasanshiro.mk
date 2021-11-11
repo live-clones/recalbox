@@ -45,6 +45,7 @@ endef
 define LIBRETRO_YABASANSHIRO_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/yabause/src/libretro/yabasanshiro_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/yabasanshiro_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/saturn
 endef
 
 $(eval $(generic-package))

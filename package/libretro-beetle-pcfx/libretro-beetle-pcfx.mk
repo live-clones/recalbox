@@ -24,6 +24,7 @@ endef
 define LIBRETRO_BEETLE_PCFX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_pcfx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_pcfx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/pcfx
 endef
 
 $(eval $(generic-package))
