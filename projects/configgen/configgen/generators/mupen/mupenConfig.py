@@ -41,14 +41,18 @@ def writeMupenConfig(system: Emulator, controllers: ControllerPerPlayer, rom: st
     mupenSettings.setInt('Video-GLideN64', 'UseNativeResolutionFactor', 1)
     # Resolution
     from configgen.utils.resolutions import ResolutionParser
-    resolution = ResolutionParser(system.VideoMode.strip())
+    from configgen.utils.architecture import Architecture
+    if not Architecture().isX64:
+        resolution = ResolutionParser(system.VideoMode.strip())
+    else:
+        from configgen.utils.videoMode import getCurrentResolution
+        resolution = ResolutionParser('x'.join(list(map(str, getCurrentResolution()))))
     if resolution.isSet and resolution.selfProcess:
         mupenSettings.setString('Video-General', 'ScreenWidth', "{}".format(resolution.width))
         mupenSettings.setString('Video-General', 'ScreenHeight', "{}".format(resolution.height))
 
     # VerticalSync makes video smoother on odroidgo2 and odroidgo3
     # and force 16bpp color quality as H/W does not support 32bpp
-    from configgen.utils.architecture import Architecture
     if Architecture().isGoa2 or Architecture().isGoa3:
         mupenSettings.setBool('Video-General', 'VerticalSync', True)
     if Architecture().isGoa2 or Architecture().isGoa3 or Architecture().isPi4:
