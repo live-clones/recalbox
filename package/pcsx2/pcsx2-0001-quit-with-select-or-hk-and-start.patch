@@ -1,0 +1,82 @@
+diff --git a/pcsx2/PAD/Linux/Global.h b/pcsx2/PAD/Linux/Global.h
+index 71e4a8a52..255bb24c3 100644
+--- a/pcsx2/PAD/Linux/Global.h
++++ b/pcsx2/PAD/Linux/Global.h
+@@ -34,8 +34,8 @@
+ 
+ #define PADdefs
+ 
+-static const u32 GAMEPAD_NUMBER = 2;
+-static const u32 MAX_KEYS = 24;
++static constexpr u32 GAMEPAD_NUMBER = 2;
++static constexpr u32 MAX_KEYS = 25;
+ 
+ #include "Config.h"
+ 
+@@ -53,6 +53,7 @@ enum gamePadValues
+ 	PAD_L3,       // Left joystick button (L3)
+ 	PAD_R3,       // Right joystick button (R3)
+ 	PAD_START,    // Start button
++  PAD_HOTKEY,   // Hotkey button
+ 	PAD_UP,       // Directional pad ↑
+ 	PAD_RIGHT,    // Directional pad →
+ 	PAD_DOWN,     // Directional pad ↓
+@@ -81,6 +82,7 @@ static const std::array<gamePadValues, MAX_KEYS> all_keys =
+ 	PAD_L3,       // Left joystick button (L3)
+ 	PAD_R3,       // Right joystick button (R3)
+ 	PAD_START,    // Start button
++  PAD_HOTKEY,   // Hotkey button
+ 	PAD_UP,       // Directional pad ↑
+ 	PAD_RIGHT,    // Directional pad →
+ 	PAD_DOWN,     // Directional pad ↓
+diff --git a/pcsx2/PAD/Linux/InputManager.cpp b/pcsx2/PAD/Linux/InputManager.cpp
+index 79b117fcc..038739855 100644
+--- a/pcsx2/PAD/Linux/InputManager.cpp
++++ b/pcsx2/PAD/Linux/InputManager.cpp
+@@ -24,6 +24,9 @@
+ 
+ InputDeviceManager device_manager;
+ 
++#include <wx/app.h>
++static int exitValue = 0;
++
+ // Needs to be moved to individual device code, as does the keyboard input.
+ void PollForJoystickInput(int cpad)
+ {
+@@ -38,10 +41,24 @@ void PollForJoystickInput(int cpad)
+ 	for (u32 i = 0; i < MAX_KEYS; i++)
+ 	{
+ 		s32 value = gamePad->GetInput((gamePadValues)i);
++
+ 		if (value != 0)
++		{
+ 			g_key_status.press(cpad, i, value);
++			if ((gamePadValues)i == gamePadValues::PAD_START) exitValue |= 1;
++			if ((gamePadValues)i == gamePadValues::PAD_SELECT || (gamePadValues)i == gamePadValues::PAD_HOTKEY) exitValue |= 2;
++		}
+ 		else
++		{
+ 			g_key_status.release(cpad, i);
++			if ((gamePadValues)i == gamePadValues::PAD_START) exitValue &= ~1;
++			if ((gamePadValues)i == gamePadValues::PAD_SELECT || (gamePadValues)i == gamePadValues::PAD_HOTKEY) exitValue &= ~2;
++		}
++	}
++
++	if (exitValue == 3)
++	{
++		wxApp::GetInstance()->Exit();
+ 	}
+ }
+ 
+diff --git a/pcsx2/PAD/Linux/SDL/joystick.cpp b/pcsx2/PAD/Linux/SDL/joystick.cpp
+index 933bc4f4c..bbd9f452c 100644
+--- a/pcsx2/PAD/Linux/SDL/joystick.cpp
++++ b/pcsx2/PAD/Linux/SDL/joystick.cpp
+@@ -136,6 +136,7 @@ JoystickInfo::JoystickInfo(int id)
+ 	m_pad_to_sdl[PAD_L3] = SDL_CONTROLLER_BUTTON_LEFTSTICK;
+ 	m_pad_to_sdl[PAD_R3] = SDL_CONTROLLER_BUTTON_RIGHTSTICK;
+ 	m_pad_to_sdl[PAD_START] = SDL_CONTROLLER_BUTTON_START;
++  m_pad_to_sdl[PAD_HOTKEY] = SDL_CONTROLLER_BUTTON_GUIDE;
+ 	m_pad_to_sdl[PAD_UP] = SDL_CONTROLLER_BUTTON_DPAD_UP;
+ 	m_pad_to_sdl[PAD_RIGHT] = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+ 	m_pad_to_sdl[PAD_DOWN] = SDL_CONTROLLER_BUTTON_DPAD_DOWN;

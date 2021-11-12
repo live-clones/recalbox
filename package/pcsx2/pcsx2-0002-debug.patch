@@ -1,0 +1,12 @@
+diff --git a/.gitignore b/.gitignore
+index dfc0fbdf9..5f1099d9d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -116,3 +116,6 @@ oprofile_data/
+ CMakeSettings.json
+ /ci-artifacts/
+ /out/
++
++.idea/
++cmake-build-debug/
+\ No newline at end of file
