@@ -185,9 +185,12 @@ std::string GameRunner::demoInitialize()
 void GameRunner::demoFinalize()
 {
   // Reinit
+  Sdl2Init::Finalize();
+  Sdl2Init::Initialize();
   mWindowManager.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
-  AudioManager::Instance().Reactivate();
   mWindowManager.normalizeNextUpdate();
+  AudioManager::Instance().Reactivate();
+  InputManager::Instance().Refresh(&mWindowManager, false);
 }
 
 bool
