@@ -83,8 +83,10 @@ int main(int argc, char* argv[], char** env)
       {
         { LOG(LogInfo) << "[Main] Rebooting system"; }
         #ifndef DEBUG
-        if (system("shutdown -r now") != 0)
+        if (system("reboot") != 0)
           { LOG(LogError) << "[Main] Error rebooting system"; }
+        #else
+        { LOG(LogError) << "[Main] Fake reboot performed!"; }
         #endif
         return 0;
       }
@@ -95,6 +97,8 @@ int main(int argc, char* argv[], char** env)
         #ifndef DEBUG
         if (system("shutdown -h now") != 0)
           { LOG(LogError) << "[Main] Error shutting system down"; }
+        #else
+        { LOG(LogError) << "[Main] Fake shutdown performed!"; }
         #endif
         return 0;
       }
