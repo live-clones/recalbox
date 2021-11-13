@@ -13,6 +13,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [NEXT]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
+- [ ] Check screenshot for yarntown game on solarus and craft on ports (#2017)
 - [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
 - [ ] Check recalbox.log contains script and type information (#1920)
