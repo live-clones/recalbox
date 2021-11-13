@@ -75,7 +75,11 @@ int main(int argc, char* argv[], char** env)
     switch(exitState)
     {
       case MainRunner::ExitState::Quit:
-      case MainRunner::ExitState::FatalError: return 0;
+      case MainRunner::ExitState::FatalError:
+      {
+        { LOG(LogInfo) << "[Main] Regular Quit (or Fatal Error)"; }
+        return 0;
+      }
       case MainRunner::ExitState::Relaunch:
       case MainRunner::ExitState::RelaunchNoUpdate: continue;
       case MainRunner::ExitState::NormalReboot:

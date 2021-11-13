@@ -58,7 +58,8 @@ void GameClipView::Initialize()
 
   // Second seed - must never be negative
   mSeed = ((int) (DateTime() - DateTime(1970, 1, 1)).TotalMilliseconds()) & 0x7FFFFFFF;
-  VideoEngine::Instance().StopVideo(true);
+  if (VideoEngine::IsInstantiated())
+    VideoEngine::Instance().StopVideo(true);
 }
 
 int GameClipView::GetFirstOccurenceInHistory(FileData* game)

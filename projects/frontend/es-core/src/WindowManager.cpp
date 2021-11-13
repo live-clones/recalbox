@@ -417,9 +417,9 @@ void WindowManager::CloseAll()
 
 void WindowManager::DoWake()
 {
+  mTimeSinceLastInput = 0;
   if (mSleeping)
   {
-    mTimeSinceLastInput = 0;
     mSleeping = false;
     exitScreenSaver();
     NotificationManager::Instance().Notify(Notification::WakeUp, Strings::ToString(mTimeSinceLastInput));

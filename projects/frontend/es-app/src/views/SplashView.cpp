@@ -56,18 +56,21 @@ void SplashView::Render(const Transform4x4f& parentTrans)
 void SplashView::SetMaximum(int maximum)
 {
   mSystemCount = maximum;
+  mWindow.DoWake(); // Kill screensaver
   mWindow.RenderAll();
 }
 
 void SplashView::SetProgress(int value)
 {
   mSystemLoaded = value;
+  mWindow.DoWake(); // Kill screensaver
   mWindow.RenderAll();
 }
 
 void SplashView::Increment()
 {
   if (++mSystemLoaded >= mSystemCount) mSystemLoaded = mSystemCount - 1;
+  mWindow.DoWake(); // Kill screensaver
   mWindow.RenderAll();
 }
 

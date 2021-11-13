@@ -180,6 +180,7 @@ MainRunner::ExitState MainRunner::Run()
     WindowManager::Finalize();
     mApplicationWindow = nullptr;
 
+    { LOG(LogInfo) << "[MainRunner] Quit requested (outer) [" << (int)sRequestedExitState << ']'; }
     switch(exitState)
     {
       case ExitState::Quit:
@@ -297,7 +298,10 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 
     // Quit Request?
     if (sQuitRequested)
+    {
+      { LOG(LogInfo) << "[MainRunner] Quit requested (inner) [" << (int)sRequestedExitState << ']'; }
       return sRequestedExitState;
+    }
 
     // Quit pending?
     switch(mPendingExit)

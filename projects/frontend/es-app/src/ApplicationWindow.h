@@ -65,6 +65,7 @@ class ApplicationWindow: public WindowManager
     {
       deleteAllGui();
       mViewController.goToQuitScreen();
+      DoWake(); // Avoid screensaver to run
       RenderAll();
     }
 };
