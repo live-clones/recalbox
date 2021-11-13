@@ -162,6 +162,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64plus glide64mk2 (#2022)
   - [ ] should display full screen on x86_64
   - [ ] should start on other platforms
+- [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
