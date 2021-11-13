@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [NEXT]
+- Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)
 - Do not play hidden game in screensaver (#1975)
 - Fix letters order in recalbox.conf (#1795)
