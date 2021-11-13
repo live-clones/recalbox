@@ -163,231 +163,449 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] should display full screen on x86_64
   - [ ] should start on other platforms
 - [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
+- [X] Check recalbox.log contains script and type information (#1920)
+- [X] Checking .bin files are seen in the gamegear system (#1860)
+- [X] Checking .d64 and .tap files are seen in the vic20 system (#1858)
+- [X] Checking .bin files are seen in the gamegear system (#1860)
+- [X] Checking .d64 and .tap files are seen in the vic20 system (#1858)
+- [X] Test Supermodel and gamecube, wii ratio global and by system (#447)
+- [X] While ES is stopped, create a file in /tmp/upgradefailed and check if the error message is displayed when starting ES (#1772)
+- [X] Grub options still accessible on PC (#1750)
+- [X] Test uae4arm on any arm board (including CD platforms)(#1771, #1943)
+- [X] Bump Hypseus (#1611)
+  - [X] Test hypseus on all boards
+  - [X] Test singe games
+  - [X] Test overlay working with dragon lair's
+- [X] Test a sharp x68000 game and see if there is no message "failed to set last used disc" (#1775)
+- [X] Bumped px68k (Sharp x68000) (#1775)
+- [X] Get an es_systems.cfg for your board (7.2.2 max) and compare emulators/core available in this file to those available in this beta. They should all be there :) (#1686)
+- [X] Test stella2014 on rpizero and rpi2, should be full fps (#1761)
+- [X] Bumped Stella : Test stella core on all plateforms (#1761)
+- [X] Test genesisplusgx wide screen core all plateforms (#1783)
+- [X] Default Overlays (#1787)
+  - [X] Configuration => global.overlays should work, system overlaod too (snes.overlays=0)
+  - [X] Board => should not show overlays on gpicase, goadvance
+  - [X] Screens => should not show overlays when in 4/3 resolution
+  - [X] Ratio => should not show overlays when game ratio is 16/9 or 16/10
+  - [X] Custom overlays => custom overlays (in share) should always have priority
+- [X] Check that the retroachievement value is present in the system.xml file (#1799)
+- [X] Bumped libretro snes9x2002 core, test especially on rpi zero (#1757)
+- [X] Bumped libretro snes9x2005 core, test especially on rpi zero (#1757)
+- [X] Bumped libretro picodrive core, test especially mega cd chd support (#1757)
+- [X] Bumped Flycast : Test flycast core on all plateforms (#1737)
+- [X] Test random path support for emulationstation themes (myst theme) (#1793)
+- [X] Test bluetooth pairing still work (#1800, #1482)
+- [X] EmulationStation should always start (no phantom screen) (#1774)
+  - [X] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
+- [X] Video playback on odroidxu4 is not laggy (#1811)
+- [X] Test Tic-80 game downloader works (#1829)
+- [X] Test that recalbox.local and http://recalbox works again (#1826)
+- [X] Test pisnes core works correctly (#1838)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+  - [X] /dev/dri/ should exists on rpi4
+- [X] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
+- [X] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [X] Test Saturn on RPI4
+- [X] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+- [X] Test DS4 joystick works right after starting a rom (#1845)
+- [X] Bumped libretro fbneo (#1859)
+  - [X] Test the floppy disk change on FDS
+  - [X] Check fbneo core works on all boards. No loss of fps, even on pizero.
+- [X] Test Netplay lobby window
+  - [X] Enter/Exit the lobby window: should be almost "instant" now
+  - [X] Test manual refresh
+  - [X] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
+  - [X] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
+- [X] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+- [X] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
+- [X] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [X] Check the libretro picodrive core from the bump.
+- [X] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+  - [X] Test EmuTOS bios for Atari ST (#1868)
+- [X] Check out the game Rick Dangerous (xrick) (#1891)
+  - [X] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
+- [X] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
+- [X] Test libretro-MGBA
+- [X] Text Libretro PX68K and test .m3u multi-disk
+- [X] Bump libretro dosbox-pure core to 0.16 (#1644)
+- [X] Test P2K v2
+  - [X] Test Mouse emulation on many systems (both joystick & dpad)
+  - [X] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
+  - [X] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
+- [X] Test the TRS-80 Color Computer system (XRoar emulator)
+- [X] Test the Dragon32/64 system (XRoar emulator)
+- [X] Test wifi connection by WPS is working (#1909)
+- [X] Check if the text "No comment available" is correctly spelled (#1911)
+- [X] Test libretro-MGBA
+- [X] Test Oricutron
+- [X] Test SimCoupé
+- [X] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
+- [X] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
+  - [X] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
+  - [X] fan should be controlled by wpaf
+- [X] Check there is no Dreamcast/Atomiswave/Naomi/Naomi GD on x86 (#1902)
+- [X] Check the theme of ti994a (#1930)
+- [X] Test new MITM servers, Montreal & SaoPaulo
+- [X] Test Libretro Beetle PSX
+- [X] Check the bios path tom.img for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
+- [X] Check the theme of lowres nx (#1950)
+- [X] Check the theme of bbc micro (#1949)
+- [X] Check the theme of trs80coco (#1945)
+- [X] Check Recalbox Reloaded video intro is randomly played (#1959)
+- [X] Test Libretro MAME2003 Plus
+- [X] Test Libretro-MAME2003
+- [X] Removal of old dats (0.230) and addition of dats in .zip format (#1958)
+  - [X] Check the deletion of old dates (0.230)
+  - [X] Check the presence of the dats in .zip format (instead of .dat)
+- [X] Check if there is no .nvmem and .nvmem2 files in saves/atomiswave/reicast after an upgrade (#1901)
+- [X] Test Hatari standalone
+- [X] Test Libretro VICE
+- [X] Test retroarch v1.9.8 (#1885)
+  - [X] Test lightguns on rpi4 and pc
+  - [X] Test command line hash still works
+- [X] Test lr-uae4arm have sound on rpi4 (#1943)
+  - [X] Test lr-uae4arm still works on other boards (#1943)
+- [X] Test uae4arm on any arm board (including CD platforms)(#1771)
+- [X] Bump Hypseus (#1611)
+  - [X] Test hypseus on all boards
+  - [X] Test singe games
+  - [X] Test overlay working with dragon lair's
+- [X] Test a sharp x68000 game and see if there is no message "failed to set last used disc" (#1775)
+- [X] Bumped px68k (Sharp x68000) (#1775)
+- [X] Get an es_systems.cfg for your board (7.2.2 max) and compare emulators/core available in this file to those available in this beta. They should all be there :) (#1686)
+- [X] Test stella2014 on rpizero and rpi2, should be full fps (#1761)
+- [X] Bumped Stella : Test stella core on all plateforms (#1761)
+- [X] Test genesisplusgx wide screen core all plateforms (#1783)
+- [X] Default Overlays (#1787)
+  - [X] Configuration => global.overlays should work, system overlaod too (snes.overlays=0)
+  - [X] Board => should not show overlays on gpicase, goadvance
+  - [X] Screens => should not show overlays when in 4/3 resolution
+  - [X] Ratio => should not show overlays when game ratio is 16/9 or 16/10
+  - [X] Custom overlays => custom overlays (in share) should always have priority
+- [X] Check that the retroachievement value is present in the system.xml file (#1799)
+- [X] Bumped libretro snes9x2002 core, test especially on rpi zero (#1757)
+- [X] Bumped libretro snes9x2005 core, test especially on rpi zero (#1757)
+- [X] Bumped libretro picodrive core, test especially mega cd chd support (#1757)
+- [X] Bumped Flycast : Test flycast core on all plateforms (#1737)
+- [X] Test random path support for emulationstation themes (myst theme) (#1793)
+- [X] Test bluetooth pairing still work (#1800, #1482)
+- [X] EmulationStation should always start (no phantom screen) (#1774)
+  - [X] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
+- [X] Video playback on odroidxu4 is not laggy (#1811)
+- [X] Test Tic-80 game downloader works (#1829)
+- [X] Test that recalbox.local and http://recalbox works again (#1826)
+- [X] Test pisnes core works correctly (#1838)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+  - [X] /dev/dri/ should exists on rpi4
+- [X] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
+- [X] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [X] Test Saturn on RPI4
+- [X] Bumped libretro kronos. No loss of fps (#1849) and remove build x86
+- [X] Test DS4 joystick works right after starting a rom (#1845)
+- [X] Bumped libretro fbneo (#1859)
+  - [X] Test the floppy disk change on FDS
+  - [X] Check fbneo core works on all boards. No loss of fps, even on pizero.
+- [X] Test Netplay lobby window
+  - [X] Enter/Exit the lobby window: should be almost "instant" now
+  - [X] Test manual refresh
+  - [X] Once the netplay is on, newly added romw should be hashed automatically in the next reboot
+  - [X] When setting Netplay on, ES should check if some roms need to be hashed: Set netplay off, then add roms, then refresh lists, then set netplay on
+- [X] Check there are no slowdown on x86 and x86_64 due to new compression method (#1848)
+- [X] Test vanilla image on rpi1 and rpi zero, experience should be good (#1841)
+- [X] Check no message "sram appears to be faulty" for game demons of asterborg on megadrive (#1844)
+  - [X] Check the libretro picodrive core from the bump.
+- [X] Bumped Scummvm version 2.4.0. Check that there is no regression (#1884)
+  - [X] Test EmuTOS bios for Atari ST (#1868)
+- [X] Check out the game Rick Dangerous (xrick) (#1891)
+  - [X] Bump core libretro Mame in 0.235. Test on x86 and x64 (#1889)
+- [X] Test the TI-99/4A system & emulator. Only cartridges (.ctg) are supported (#1856)
+- [X] Test libretro-MGBA
+- [X] Text Libretro PX68K and test .m3u multi-disk
+- [X] Bump libretro dosbox-pure core to 0.16 (#1644)
+- [X] Test P2K v2
+  - [X] Test Mouse emulation on many systems (both joystick & dpad)
+  - [X] Test keystroke sequences (type a whole word in a game or in a micro-computer basic)
+  - [X] Test keystroke combinations (you may try CONTROL+C in some 8bit games)
+- [X] Test the TRS-80 Color Computer system (XRoar emulator)
+- [X] Test the Dragon32/64 system (XRoar emulator)
+- [X] Test wifi connection by WPS is working (#1909)
+- [X] Check if the text "No comment available" is correctly spelled (#1911)
+- [X] Test libretro-MGBA
+- [X] Test Oricutron
+- [X] Test SimCoupé
+- [X] Test gamelink overload for gb and gbc (put two player games in the gamelink folder. Tetris example) (#1808)
+- [X] Enable hat.wpaf.enabled recalbox.conf key and set a supported RPI board name (#1832)
+  - [X] hat configuration should be set accordingly (usually /boot/recalbox-user-config.txt)
+  - [X] fan should be controlled by wpaf
+- [X] Check there is no Dreamcast/Atomiswave/Naomi/Naomi GD on x86 (#1902)
+- [X] Check the theme of ti994a (#1930)
+- [X] Test new MITM servers, Montreal & SaoPaulo
+- [X] Test Libretro Beetle PSX
+- [X] Check the bios path tom.img for Atari ST/STE/MegaSTE/TT/Falcon (#1916)
+- [X] Check the theme of lowres nx (#1950)
+- [X] Check the theme of bbc micro (#1949)
+- [X] Check the theme of trs80coco (#1945)
+- [X] Check Recalbox Reloaded video intro is randomly played (#1959)
+- [X] Test Libretro MAME2003 Plus
+- [X] Test Libretro-MAME2003
+- [X] Removal of old dats (0.230) and addition of dats in .zip format (#1958)
+  - [X] Check the deletion of old dates (0.230)
+  - [X] Check the presence of the dats in .zip format (instead of .dat)
+- [X] Check if there is no .nvmem and .nvmem2 files in saves/atomiswave/reicast after an upgrade (#1901)
+- [X] Test random path support for emulationstation themes (myst theme) (#1793)
+- [X] Test bluetooth pairing still work (#1800, #1482)
+- [X] EmulationStation should always start (no phantom screen) (#1774)
+  - [X] if ES does not start, check pulseaudio is started with: `ps aux |grep pulseaudio` and post `/var/log/messages` log
+- [X] Video playback on odroidxu4 is not laggy (#1811)
+- [X] Test Tic-80 game downloader works (#1829)
+- [X] Test that recalbox.local and http://recalbox works again (#1826)
+- [X] Test pisnes core works correctly (#1838)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+- [X] Check that ES starts on odroidxu4 (#1815)
+  - [X] Check standalone emulators starts on odroidxu4 (#1815)
+- [X] Check that ES starts on rpi fresh installation (#1815)
+  - [X] /dev/dri/ should exists on rpi4
+- [X] Custom overlays (dtbo found in /boot/overlays/) should be present (#1867)
+- [X] Sprite limits options should not be set anymore for retroarch cores (check retroarch-core-options.cfg) (#1842)
+- [X] Test Saturn on RPI4 (#1852)
+
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
-- [ ] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
-- [ ] Test libretro-parallel-n64 with default conf on rpi and odroidxu4 boards (#1712)
-- [ ] Test mupen64plus rice with default conf on odroidgo2 and odroidxu4 boards (#1712)
-- [ ] Test moonlight on rpi4/kms (#1628)
-- [ ] Test if time not change if you boot on recalbox or windows (#1791)
-- [ ] Test the n64 kubii pad on the mupen64 standalone core (#1512)
-- [ ] Test mupen64plus gliden64_20 on rpi3 (#1700)
-- [ ] Test to change resolution when using mupen64plus (standalone)
-- [ ] Test mupen64plus on GoA (standalone)
-- [ ] Test mupen64plus + rice on RPI4 (standalone)
-- [ ] Test PSP save path (in share/saves instead of share/bios)
-- [ ] Test the game castlevania and other on the different boards (# 1756)
-- [ ] Test mupen64plus glide64mk2 on rpi4, odroidxu4, x86, x86_64 (#1766)
+- [X] Test standalone mupen64plus on rpi and odroidxu4 boards (#1712)
+- [X] Test libretro-parallel-n64 with default conf on rpi and odroidxu4 boards (#1712)
+- [X] Test mupen64plus rice with default conf on odroidgo2 and odroidxu4 boards (#1712)
+- [X] Test moonlight on rpi4/kms (#1628)
+- [X] Test if time not change if you boot on recalbox or windows (#1791)
+- [X] Test the n64 kubii pad on the mupen64 standalone core (#1512)
+- [X] Test mupen64plus gliden64_20 on rpi3 (#1700)
+- [X] Test to change resolution when using mupen64plus (standalone)
+- [X] Test mupen64plus on GoA (standalone)
+- [X] Test mupen64plus + rice on RPI4 (standalone)
+- [X] Test PSP save path (in share/saves instead of share/bios)
+- [X] Test the game castlevania and other on the different boards (# 1756)
+- [X] Test mupen64plus glide64mk2 on rpi4, odroidxu4, x86, x86_64 (#1766)
 
 ## [7.2.2-Beta2]
-- [ ] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
-- [ ] Test libretro-mupen64plus-nx works on x86 and x86_64 (#1407)
-- [ ] Test there are no regressions for libretro-mupen64plus-nx on all platforms (#1407)
-- [ ] Test RA for libretro swanstation (#1744)
-- [ ] Test in libretro-mame push select with wiimote in lightgun games if the menu doesn't not appear (#1787)
-- [ ] Test there are no regression for fbneo 1.0.0.02 (#1688)
+- [X] Test upgrade from stock 7.2.1 to 7.2.2 on XU4 (#1734)
+- [X] Test libretro-mupen64plus-nx works on x86 and x86_64 (#1407)
+- [X] Test there are no regressions for libretro-mupen64plus-nx on all platforms (#1407)
+- [X] Test RA for libretro swanstation (#1744)
+- [X] Test in libretro-mame push select with wiimote in lightgun games if the menu doesn't not appear (#1787)
+- [X] Test there are no regression for fbneo 1.0.0.02 (#1688)
 
 
 ## [7.2.2-Beta1]
-- [ ] Check sound of boot video (#1596)
-- [ ] Check sound is still working on PC
-- [ ] Check OGST on xu4 works right after activating it in /boot/config.ini (#1678)
-- [ ] Check PC x86_64 can boot from EFI (#1710)
-- [ ] Check rtl8812au/rtl8821au wifi drivers (#1718)
-- [ ] Check Cudy W650 works on rpi2, rpi3, odroixu4, x86 and x86_64
-- [ ] Check HID bluetooth device maps to HCI (#1704)
-- [ ] Test that update type has been removed from the menu in ES (#1673)
-- [ ] Check overlay dc rpi3 (#1695)
+- [X] Check sound of boot video (#1596)
+- [X] Check sound is still working on PC
+- [X] Check OGST on xu4 works right after activating it in /boot/config.ini (#1678)
+- [X] Check PC x86_64 can boot from EFI (#1710)
+- [X] Check rtl8812au/rtl8821au wifi drivers (#1718)
+- [X] Check Cudy W650 works on rpi2, rpi3, odroixu4, x86 and x86_64
+- [X] Check HID bluetooth device maps to HCI (#1704)
+- [X] Test that update type has been removed from the menu in ES (#1673)
+- [X] Check overlay dc rpi3 (#1695)
 
 
 ## [7.2.1-Reloaded]
-- [ ] Check that games are not hidden when upgrading to 7.2.1 from 7.2
-- [ ] Run any game on PPSSPP rpi4 and check is vsync is on.
-- [ ] Test odroidxu4 fan speeds are set on boot (#1662)
-- [ ] Run games from the search window when its video snap is playing. Should not crash anymore.
-- [ ] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
-- [ ] Switch one theme option, let ES to reboot, then check if the option is ok
-- [ ] Switch theme and let ES to reboot, then check the theme is displayed properly
-- [ ] Hide a game with metadata. Relaunch ES or Reboot. Display hidden game and check if your last hidden game stall have its metadata
-- [ ] Ensure updates check is ON in update menu. Run Gameclip screensaver immediately after ES is ready. Wait for 2 minutes max: Update popup should not appear until you exit the screensaver
-- [ ] Test pixel perfect option: set/unset the option, quit then reenter the menu, it should be displayed properly
-- [ ] Test reicast vanished from rpi4, x86, x86_64 and odroidxu4
-- [ ] Test forgetting all BT devices, especially non-connected devices (switch off/standby)
-- [ ] Test arcade view system all on this system check: mame, naomi, naomigd, atomiswave, model3, daphné, neogeo, fbneo
-- [ ] Test on a game like "god of wars ghost of sparta" the intro video must be fluid
-- [ ] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
-- [ ] Check extensions of WII (*.rvz) & SCV (*.0) roms
-- [ ] Check internal scraper default language
-- [ ] Check ES won't freeze anymore when running a game while a vidoe is playing
-- [ ] Check ES won't crash anymore when loading heavy themes
-- [ ] Check ES display a popup when changing the HOSTNAME entry in network menu
-- [ ] Check ES fetches an IPv4 when connecting WIFI (SSIF/Key or WPS)
-- [ ] Check core libretro swanstation for psx (#1640) and check bios swanstation for psx
-- [ ] Test ports CaveStory for x86 and x86_64 (#1665)
-- [ ] Tester que les videos fonctionnent dans kodi sous rpi4
-- [ ] Tester un dongle USB realtek sur l'odroidgo2 (module r8188eu)
-- [ ] Check rtl88x2bu realtek wifi driver works again
-- [ ] Check bluetooth pairing works as expected
-- [ ] Test pad 8bitdo with lastest firmware (mode start+b) (#1624)
-- [ ] Test volume is at max on boot for all outputs (#1634)
-- [ ] Test gpsp (GBA) runs full speed on rpi0 (#1626)
+- [X] Check that games are not hidden when upgrading to 7.2.1 from 7.2
+- [X] Run any game on PPSSPP rpi4 and check is vsync is on.
+- [X] Test odroidxu4 fan speeds are set on boot (#1662)
+- [X] Run games from the search window when its video snap is playing. Should not crash anymore.
+- [X] Switch one theme option, then cancel the ES reboot. Leave the menu. Enter the option menu again. Switch another option and let ES to reboot. Then check both options are OK
+- [X] Switch one theme option, let ES to reboot, then check if the option is ok
+- [X] Switch theme and let ES to reboot, then check the theme is displayed properly
+- [X] Hide a game with metadata. Relaunch ES or Reboot. Display hidden game and check if your last hidden game stall have its metadata
+- [X] Ensure updates check is ON in update menu. Run Gameclip screensaver immediately after ES is ready. Wait for 2 minutes max: Update popup should not appear until you exit the screensaver
+- [X] Test pixel perfect option: set/unset the option, quit then reenter the menu, it should be displayed properly
+- [X] Test reicast vanished from rpi4, x86, x86_64 and odroidxu4
+- [X] Test forgetting all BT devices, especially non-connected devices (switch off/standby)
+- [X] Test arcade view system all on this system check: mame, naomi, naomigd, atomiswave, model3, daphné, neogeo, fbneo
+- [X] Test on a game like "god of wars ghost of sparta" the intro video must be fluid
+- [X] Check if boot videos play full speed on rpi1, 2 and 3 (#1627)
+- [X] Check extensions of WII (*.rvz) & SCV (*.0) roms
+- [X] Check internal scraper default language
+- [X] Check ES won't freeze anymore when running a game while a vidoe is playing
+- [X] Check ES won't crash anymore when loading heavy themes
+- [X] Check ES display a popup when changing the HOSTNAME entry in network menu
+- [X] Check ES fetches an IPv4 when connecting WIFI (SSIF/Key or WPS)
+- [X] Check core libretro swanstation for psx (#1640) and check bios swanstation for psx
+- [X] Test ports CaveStory for x86 and x86_64 (#1665)
+- [X] Tester que les videos fonctionnent dans kodi sous rpi4
+- [X] Tester un dongle USB realtek sur l'odroidgo2 (module r8188eu)
+- [X] Check rtl88x2bu realtek wifi driver works again
+- [X] Check bluetooth pairing works as expected
+- [X] Test pad 8bitdo with lastest firmware (mode start+b) (#1624)
+- [X] Test volume is at max on boot for all outputs (#1634)
+- [X] Test gpsp (GBA) runs full speed on rpi0 (#1626)
 
 
 ## [7.2-Reloaded]
 ## Pending Features
-- [ ] Bump Libretro-mame => test core with Romset 0.230
-- [ ] Supermodel => Model3 emulator => test with romset 0.230 and test bypass configgen option add 'model3.configfile=dummy' in 'recalbox.conf' and check if '/recalbox/share/system/configs/model3/supermodel.ini' is not rewritten
-- [ ] colecovision Netplay with FBNeo core
-- [ ] Test & evaluate MelonDS on Pi4
-- [ ] GameClip => Test gameclip screensaver with some available videos => Test all options
-- [ ] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
-- [ ] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
-- [ ] Test & evaluate libretro-mupen64plus-next on odroidxu4
-- [ ] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
-- [ ] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
-- [ ] Test Nintendo switch joycons and combined joycons
-- [ ] DosBox Pure added => test this new core
-- [ ] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
-- [ ] Revalider tous les menus sur la liste système
-- [ ] Revalider tous les menus sur les listes de jeux
-- [ ] Test Craft (Minecraft clone) on ports (pc only)
-- [ ] Odroid GO Super => check it works (uses same image as Go Advanced)
-- [ ] Test and validate Paralleln64 on Pi3
-- [ ] Test Watara Supervision emulator on all boards
-- [ ] Test Elektronika Emulator emulator on all boards
-- [ ] Test vibrations work with pcsx_rearmed (must be enabled if upgrading,
+- [X] Bump Libretro-mame => test core with Romset 0.230
+- [X] Supermodel => Model3 emulator => test with romset 0.230 and test bypass configgen option add 'model3.configfile=dummy' in 'recalbox.conf' and check if '/recalbox/share/system/configs/model3/supermodel.ini' is not rewritten
+- [X] colecovision Netplay with FBNeo core
+- [X] Test & evaluate MelonDS on Pi4
+- [X] GameClip => Test gameclip screensaver with some available videos => Test all options
+- [X] GameClip => Test gameclip screensaver with no video (fresh install?) or by selecting only systems with no videos at all
+- [X] New slides during install => Fresh install on all patforms. All platforms must show the 8 slides, except on GPI which keeps the "creating share" video
+- [X] Test & evaluate libretro-mupen64plus-next on odroidxu4
+- [X] Add Super Cassette Vision core => Test this core and report bugs/improvements to Maaax
+- [X] Add libretro neocd core => test this core with cue/bin, cue/iso and chd
+- [X] Test Nintendo switch joycons and combined joycons
+- [X] DosBox Pure added => test this new core
+- [X] Pulseaudio - Check audio works everywhere and switch automatically when new output (jack, bluetooth) is connected
+- [X] Revalider tous les menus sur la liste système
+- [X] Revalider tous les menus sur les listes de jeux
+- [X] Test Craft (Minecraft clone) on ports (pc only)
+- [X] Odroid GO Super => check it works (uses same image as Go Advanced)
+- [X] Test and validate Paralleln64 on Pi3
+- [X] Test Watara Supervision emulator on all boards
+- [X] Test Elektronika Emulator emulator on all boards
+- [X] Test vibrations work with pcsx_rearmed (must be enabled if upgrading,
       check `pcsx_rearmed_vibration` in file system/configs/retrarch/core/retroarch-core-options.cfg)
-- [ ] Test Videopack system
-- [ ] Test Vic20 system
-- [ ] Test all sound modes
-- [ ] Test externalscreen.sh with a first screen that is 2K/4K but has not FullHD resolution
+- [X] Test Videopack system
+- [X] Test Vic20 system
+- [X] Test all sound modes
+- [X] Test externalscreen.sh with a first screen that is 2K/4K but has not FullHD resolution
 
 ## Non Regression
-- [ ] Vérifier que le settings "Show FPS" fonctionne correctement
-- [ ] Vérifier que la nouvelle façon de gerer les O/C fonctionne correctement (verifier les vitesses réelles en SSH)
-- [ ] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
-- [ ] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
-- [ ] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
-- [ ] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
-- [ ] New roms management => Test option in game menu to show/hide preinstalled games
-- [ ] New roms management => Fresh install: Test all ports
-- [ ] Added rpi-400 dts => check pi400 boots correctly
-- [ ] mupen64plus bump => test standalone core deeply on all boards
-- [ ] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
-- [ ] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
-- [ ] Bump Stella => Deeply retest Stella core
-- [ ] BR2020.11 - Check hyperion still works (ian57 a le matos)
-- [ ] BR2020.11 - Test libretro-fmsx
-- [ ] BR2020.11 - Test libretro-mupen64plus-nx on rpi2 (as libretro-mupen64plus is disabled)
-- [ ] BR2020.11 - Test libretro-gpsp
-- [ ] BR2020.11 - Test advancemame
-- [ ] BR2020.11 - Test libretro-mu
-- [ ] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
-- [ ] BR2020.11 - Test moonlight-embedded
-- [ ] BR2020.11 - Test openbor
-- [ ] BR2020.11 - Test mpv (splash video) still works
-- [ ] BR2020.11 - Test ppsspp
-- [ ] BR2020.11 - Test libretro-81
-- [ ] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
-- [ ] BR2020.11 - Test libretro-flycast
-- [ ] Verify wm8960 audio hat works for all boards with kernel 5.10 (ian57 a le matos)
-- [ ] BR2020.11 - Check splash video on rpi1, 2 and 3
-- [ ] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
-- [ ] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
-- [ ] BR2020.11 - Check that Odroid GO2 boots correctly
-- [ ] BR2020.11 - Check that PC with intel chipsets works properly
-- [ ] BR2020.11 - Check Xorg AMDGPU driver works properly (see with david)
-- [ ] BR2020.11 - Check Xorg OpenChrome driver works properly (see with david)
-- [ ] BR2020.11 - Check libretro-mame works properly (0.226)
-- [ ] BR2020.11 - Check libretro-melonds works properly
-- [ ] BR2020.11 - Test pcsx_rearmed on rpi1 works
-- [ ] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
-- [ ] BR2020.11 - Check nvidia drivers version 390 works properly
-- [ ] BR2020.11 - Check nvidia drivers version 440 works properly
-- [ ] BR2020.11 - Check bluetooth pairing
-- [ ] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
-- [ ] Bump Hatari => Retest all game format on Atari ST core
-- [ ] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
-- [ ] Headphone output should be selectable in ES on rpi4
-- [ ] Bump Beetle-Saturn: check launching virtual cop 1 and 2 (europe versions) + additional random saturn games to confirm bump and patch are globally ok
-- [ ] Patch Retroarch: check 2 lightgun players games is possible now on x86_64 and still ok on board as Pi2/3/4 and XU4
-- [ ] Patch Flycast: check that new crosshair for lightgun game is now not transparent/blend - best visibility in games as The Maze of kings
-- [ ] Lightgun feature: check fun by your prefered lightgun games in priority ;-) check one game in 1 player and/or 2 players and by "lightgun" system  - check documentation also.
-- [ ] Offline/online upgrade still works (check config.txt and recalbox-user-config.txt)
-  - [ ] begin an upgrade download and remove ethernet cable while download => no upgrade + clean files
-  - [ ] begin an upgrade download and poweroff during the download => no upgrade + clean files
-  - [ ] put an image and a sha1sum file with wrong sha1 sum in /boot => no upgrade + clean files
-  - [ ] put an image in share (offline upgrade) => no upgrade
-  - [ ] put an image and a sha1sum file with wrong sha1 sum in share => no upgrade
-  - [ ] put an image and a sha1sum file with good sha1 sum in share => UPGRADE
-  - [ ] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
-  - [ ] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
-- [ ] Pulseaudio - Check audio works in PPSSPP (#1511)
-- [ ] Check if recalbox can connect on open network (passwordless SSID)
-- [ ] Check 8Bitdo SN30 pro / SF30 pro mapping
-- [ ] Check Palmos palmos52-en-t3.rom is correctly recognized
-- [ ] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
-- [ ] Bump Libretro-uae: Check new CHD support on amigacd32 & amigacdtv
-- [ ] Vérifier que le pi4 ne démarre pas en 4k sur un ecran 4k
-- [ ] Check Odroid GO 2 image compatibility
-  - [ ] Check Odroid GO 2 has no performance regression
-  - [ ] Check Odroid GO 2 with uboot < 3/12/2020 still works after offline upgrade (boot.ini rewrite)
-  - [ ] Check boot logo are displayed correctly
-- [ ] Check Odroid GO 2 shaders now work
-- [ ] Check RetroArch shortcuts all work on Odroid GO 2
-- [ ] Check boot video is not played while slides are displayed after changing external share
-- [ ] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
-- [ ] Check libretro-paralleln64 works on Odroid GO 2 & GO Super
-- [ ] Vérifier que les GO2/GO3 bootent quelque soit le firmware de la console
-- [ ] Bump Fbneo => Test games namco for exemple the outfoxies (the different versions)
-- [ ] Tester Paralleln64 on Pi4
-- [ ] Check the order of the O / C options (Pi1,Pi2,PI3,Pi3B+,PI4)
-- [ ] Update es_bios.xml (add bios Elektronika BK)
-- [ ] vérifier que le son est correct sur rpi2 et rpi3
-  - [ ] `pacmd list-modules |grep -A1 'name: <module-udev-detect>' |grep -q tsched=0 && echo "OK" ||echo "PAS OK"`
-- [ ] vérifier que l'option "multichannel output" n'est plus visible sur les PI (0 à 4)
-- [ ] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
-- [ ] Vérifier que la fonction d'oubli de manettes bluetooth soit opérationnelle
-- [ ] Check fix bios md5 for DMG_BOOT.bin (nintendo gb) and CGB_BOOT.bin (nintendo gbc)
-- [ ] Bump Np2kai => Test game for PC9801
-- [ ] Vérifier que le screenshot fonctionne sur toutes les boards
-- [ ] Check update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
-- [ ] Bump Quasi88 => Test game for PC8800
-- [ ] Tester le driver nVidia 460.67
-- [ ] Tester PPSSPP (psp) sur la Go2/GoS (doit être plus rapide)
-- [ ] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
-  - [ ] Vérifier qu'un appairage fonctionne
-  - [ ] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
-- [ ] Update lightgun.xml => Test Point Blank for fbneo (lightgun)
-- [ ] Vérifier que le GPi émet du son (#1476)
-- [ ] Vérifier que le ventilateur s'éteint à l'arrêt du nespi4case
-- [ ] Vérifier que Killer instinct fonctionne à 60fps sur libretro-mame
-- [ ] Vérifier que le gpicase dispose des profiles définis dans rpi-analog.conf
-  - [ ] `test $(pacmd list-cards |grep -e '^\s*output:' |wc -l) -eq 2 && echo "ok" || echo "pas ok"`
-  - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=rpi-analog.conf && echo "ok" || echo "pas ok"`
-- [ ] Vérifier que l'odroidxu4 dispose des profiles définis dans odroidxu4-hdmi.conf
-  - [ ] `pacmd list-cards |grep -e '^\s*output:' |grep -q 'Digital Stereo Output' && echo "ok" || echo "pas ok"`
-  - [ ] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=odroidxu4-hdmi.conf && echo "ok" || echo "pas ok"`
-- [ ] Check the path of the bios neogeocd in the bios checker (ES)
-- [ ] Check x86 and x86_64 fresh install with nvidia GFX card works
-- [ ] Check GPIcase config has been reconfigured
-- [ ] Check bluetooth can pair device on first boot, again for b25
-- [ ] Check sound output is HDMI on all rpi boards after a fresh-install
-- [ ] Check OgS boot correctly after update from 7.1.1 OgS
+- [X] Vérifier que le settings "Show FPS" fonctionne correctement
+- [X] Vérifier que la nouvelle façon de gerer les O/C fonctionne correctement (verifier les vitesses réelles en SSH)
+- [X] Réécriture des menus => vérifier l'affichage, et le fonctionnement de chaque entrée dans les menus recalbox
+- [X] Amiberry Bump => Deeply retest amiberry: test all rom types, check default configuration, ...
+- [X] Fix glxinfo not found => mesa3d-demos : test on ssh command glxinfo
+- [X] Port Bump => xrick, tyrquake, reminiscense, prboom, mrboom, ecwolf, dinothawr, 2048 : test all cores
+- [X] New roms management => Test option in game menu to show/hide preinstalled games
+- [X] New roms management => Fresh install: Test all ports
+- [X] Added rpi-400 dts => check pi400 boots correctly
+- [X] mupen64plus bump => test standalone core deeply on all boards
+- [X] Enabled mupen64plus with rice for odroidgo2 => test it works thoroughly
+- [X] Check that mupen64plus standalone with gliden64 fully works on rpi2 and rpi3
+- [X] Bump Stella => Deeply retest Stella core
+- [X] BR2020.11 - Check hyperion still works (ian57 a le matos)
+- [X] BR2020.11 - Test libretro-fmsx
+- [X] BR2020.11 - Test libretro-mupen64plus-nx on rpi2 (as libretro-mupen64plus is disabled)
+- [X] BR2020.11 - Test libretro-gpsp
+- [X] BR2020.11 - Test advancemame
+- [X] BR2020.11 - Test libretro-mu
+- [X] BR2020.11 - Check libretro-pcsx_rearmed works properly (bumped)
+- [X] BR2020.11 - Test moonlight-embedded
+- [X] BR2020.11 - Test openbor
+- [X] BR2020.11 - Test mpv (splash video) still works
+- [X] BR2020.11 - Test ppsspp
+- [X] BR2020.11 - Test libretro-81
+- [X] BR2020.11 - Check reicast has no significant slowdown (compiled without lto)
+- [X] BR2020.11 - Test libretro-flycast
+- [X] Verify wm8960 audio hat works for all boards with kernel 5.10 (ian57 a le matos)
+- [X] BR2020.11 - Check splash video on rpi1, 2 and 3
+- [X] BR2020.11 - Check xu4 works perfectly (freeze, video problem, usb problem). Check `dmesg` for errors
+- [X] BR2020.11 - Check reicast-old has no significant slowdown on Odroid XU4(compiled without lto)
+- [X] BR2020.11 - Check that Odroid GO2 boots correctly
+- [X] BR2020.11 - Check that PC with intel chipsets works properly
+- [X] BR2020.11 - Check Xorg AMDGPU driver works properly (see with david)
+- [X] BR2020.11 - Check Xorg OpenChrome driver works properly (see with david)
+- [X] BR2020.11 - Check libretro-mame works properly (0.226)
+- [X] BR2020.11 - Check libretro-melonds works properly
+- [X] BR2020.11 - Test pcsx_rearmed on rpi1 works
+- [X] Test rtl8189fs, rtl8821au and rtl88x2bu wifi drivers work properly on rpi1, rpi2, odroidxu4, x86 and x86_64
+- [X] BR2020.11 - Check nvidia drivers version 390 works properly
+- [X] BR2020.11 - Check nvidia drivers version 440 works properly
+- [X] BR2020.11 - Check bluetooth pairing
+- [X] BR2020.11 - Check PC Legacy boot works (GRUB loading... boot loop)
+- [X] Bump Hatari => Retest all game format on Atari ST core
+- [X] RB should start successfully on any video output of the rpi4 (hdmi0 or hdmi1, switching needs reboot)
+- [X] Headphone output should be selectable in ES on rpi4
+- [X] Bump Beetle-Saturn: check launching virtual cop 1 and 2 (europe versions) + additional random saturn games to confirm bump and patch are globally ok
+- [X] Patch Retroarch: check 2 lightgun players games is possible now on x86_64 and still ok on board as Pi2/3/4 and XU4
+- [X] Patch Flycast: check that new crosshair for lightgun game is now not transparent/blend - best visibility in games as The Maze of kings
+- [X] Lightgun feature: check fun by your prefered lightgun games in priority ;-) check one game in 1 player and/or 2 players and by "lightgun" system  - check documentation also.
+- [X] Offline/online upgrade still works (check config.txt and recalbox-user-config.txt)
+  - [X] begin an upgrade download and remove ethernet cable while download => no upgrade + clean files
+  - [X] begin an upgrade download and poweroff during the download => no upgrade + clean files
+  - [X] put an image and a sha1sum file with wrong sha1 sum in /boot => no upgrade + clean files
+  - [X] put an image in share (offline upgrade) => no upgrade
+  - [X] put an image and a sha1sum file with wrong sha1 sum in share => no upgrade
+  - [X] put an image and a sha1sum file with good sha1 sum in share => UPGRADE
+  - [X] check /boot/recalbox-user-config.txt exists and /boot/config.txt includes it (rpi only)
+  - [X] add or change a parameter in /boot/recalbox-user-config.txt and check it is taken into account (rpi only)
+- [X] Pulseaudio - Check audio works in PPSSPP (#1511)
+- [X] Check if recalbox can connect on open network (passwordless SSID)
+- [X] Check 8Bitdo SN30 pro / SF30 pro mapping
+- [X] Check Palmos palmos52-en-t3.rom is correctly recognized
+- [X] Check that no `/var/db/dhcpcd/eth0.lease: No such file or directory` appears in /var/log
+- [X] Bump Libretro-uae: Check new CHD support on amigacd32 & amigacdtv
+- [X] Vérifier que le pi4 ne démarre pas en 4k sur un ecran 4k
+- [X] Check Odroid GO 2 image compatibility
+  - [X] Check Odroid GO 2 has no performance regression
+  - [X] Check Odroid GO 2 with uboot < 3/12/2020 still works after offline upgrade (boot.ini rewrite)
+  - [X] Check boot logo are displayed correctly
+- [X] Check Odroid GO 2 shaders now work
+- [X] Check RetroArch shortcuts all work on Odroid GO 2
+- [X] Check boot video is not played while slides are displayed after changing external share
+- [X] Vérifier la vitesse du core duckstation (PSX) sur Go2 et GoS
+- [X] Check libretro-paralleln64 works on Odroid GO 2 & GO Super
+- [X] Vérifier que les GO2/GO3 bootent quelque soit le firmware de la console
+- [X] Bump Fbneo => Test games namco for exemple the outfoxies (the different versions)
+- [X] Tester Paralleln64 on Pi4
+- [X] Check the order of the O / C options (Pi1,Pi2,PI3,Pi3B+,PI4)
+- [X] Update es_bios.xml (add bios Elektronika BK)
+- [X] Vérifier que le son est correct sur rpi2 et rpi3
+  - [X] `pacmd list-modules |grep -A1 'name: <module-udev-detect>' |grep -q tsched=0 && echo "OK" ||echo "PAS OK"`
+- [X] vérifier que l'option "multichannel output" n'est plus visible sur les PI (0 à 4)
+- [X] vérifier que le son est bien routé vers headphone ou HDMI (avec ou sans distortion)
+- [X] Vérifier que la fonction d'oubli de manettes bluetooth soit opérationnelle
+- [X] Check fix bios md5 for DMG_BOOT.bin (nintendo gb) and CGB_BOOT.bin (nintendo gbc)
+- [X] Bump Np2kai => Test game for PC9801
+- [X] Vérifier que le screenshot fonctionne sur toutes les boards
+- [X] Check update screenshot mixv2recalbox of ports (2048, Dinothawr, Mrboom, Quake, Rick Dangerous)
+- [X] Bump Quasi88 => Test game for PC8800
+- [X] Tester le driver nVidia 460.67
+- [X] Tester PPSSPP (psp) sur la Go2/GoS (doit être plus rapide)
+- [X] Vérifier que le service bluetooth démarre et récup ses anciens settings (sur mise à jour uniquement)
+  - [X] Vérifier qu'un appairage fonctionne
+  - [X] Vérifier qu'un appareil précédement appairé (avant la mise à jour) est connecté
+- [X] Update lightgun.xml => Test Point Blank for fbneo (lightgun)
+- [X] Vérifier que le GPi émet du son (#1476)
+- [X] Vérifier que le ventilateur s'éteint à l'arrêt du nespi4case
+- [X] Vérifier que Killer instinct fonctionne à 60fps sur libretro-mame
+- [X] Vérifier que le gpicase dispose des profiles définis dans rpi-analog.conf
+  - [X] `test $(pacmd list-cards |grep -e '^\s*output:' |wc -l) -eq 2 && echo "ok" || echo "pas ok"`
+  - [X] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=rpi-analog.conf && echo "ok" || echo "pas ok"`
+- [X] Vérifier que l'odroidxu4 dispose des profiles définis dans odroidxu4-hdmi.conf
+  - [X] `pacmd list-cards |grep -e '^\s*output:' |grep -q 'Digital Stereo Output' && echo "ok" || echo "pas ok"`
+  - [X] `udevadm info -qall -p /sys/class/sound/card0 |grep -q PULSE_PROFILE_SET=odroidxu4-hdmi.conf && echo "ok" || echo "pas ok"`
+- [X] Check the path of the bios neogeocd in the bios checker (ES)
+- [X] Check x86 and x86_64 fresh install with nvidia GFX card works
+- [X] Check GPIcase config has been reconfigured
+- [X] Check bluetooth can pair device on first boot, again for b25
+- [X] Check sound output is HDMI on all rpi boards after a fresh-install
+- [X] Check OgS boot correctly after update from 7.1.1 OgS
 
 
 ## Technique
-- [ ] Packages that require libgo2 compiles well
-- [ ] /usr/lib/libgo2.so should provides go2_ symbols
-- [ ] Validate libretro-mupen64plus-next compiles on all boards
-- [ ] BR2020.11 - Test kodi-audiodecoder-timidity (how ?)
-- [ ] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
-- [ ] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
-- [ ] Test S024kdetector still does its job
-- [ ] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
-- [ ] Check that there are no regression with kernel 5.10 on rpi boards
-- [ ] Tester que le GPi ou NesPi4 case s'installent correctement (via installation fraiche)
+- [X] Packages that require libgo2 compiles well
+- [X] /usr/lib/libgo2.so should provides go2_ symbols
+- [X] Validate libretro-mupen64plus-next compiles on all boards
+- [X] BR2020.11 - Test kodi-audiodecoder-timidity (how ?)
+- [X] BR2020.11 - Check that kernel patchs are applied on linux and (cutom) linux-headers
+- [X] BR2020.11 - Check that hardware works properly on x86 and x86_64 (no kernel and defconfig modified)
+- [X] Test S024kdetector still does its job
+- [X] Check if WPA-PSK-SHA256 key mgmt works (`wpa_cli status |grep -q key_mgmt=WPA2-PSK-SHA256 && echo "OK"`)
+- [X] Check that there are no regression with kernel 5.10 on rpi boards
+- [X] Tester que le GPi ou NesPi4 case s'installent correctement (via installation fraiche)
 
 
 ## [7.1-Reloaded]
