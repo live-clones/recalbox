@@ -9,6 +9,7 @@ BIOS = '/recalbox/share/bios'
 BIOS_INIT = '/recalbox/share_init/bios'
 OVERLAYS = '/recalbox/share/overlays'
 RECALBOX_OVERLAYS = '/recalbox/share_init/overlays'
+RECALBOX_240P_OVERLAYS = '/recalbox/share_init/240poverlays'
 ROMS = '/recalbox/share/roms'
 
 esInputs = HOME + '/.emulationstation/es_input.cfg'

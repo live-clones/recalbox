@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 from typing import List
 
-from configgen.Command import Command
 import configgen.recalboxFiles as recalboxFiles
+from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -41,49 +41,58 @@ class LibretroGenerator(Generator):
 
     # Overlay management
     @staticmethod
-    def processOverlays(system: Emulator, romName: str, configs: List[str]):
+    def processOverlays(system: Emulator, romName: str, configs: List[str], recalboxOptions: keyValueSettings):
+        import os.path
+        # If we are in crt mode, we only allow recalbox default 240p overlays
+        if recalboxOptions.hasOption("system.crt"):
+            if system.RecalboxOverlays:
+                crtOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_240P_OVERLAYS, system.Name,
+                                                           system.Name)
+                if os.path.isfile(crtOverlayFile):
+                    configs.append(crtOverlayFile)
         # Overlays are applied only when we are not in wide core
-        if system.Core not in ["genesisplusgxwide"]:
-            # User overlays
-            userOverlayApplied = False
-            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
-            import os.path
-            if os.path.isfile(overlayFile):
-                # System global configuration
-                configs.append(overlayFile)
-                userOverlayApplied = True
-            else:
-                overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
+        else:
+            if system.Core not in ["genesisplusgxwide"]:
+                # User overlays
+                userOverlayApplied = False
+                overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
                 if os.path.isfile(overlayFile):
-                    # All system global configuration
+                    # System global configuration
                     configs.append(overlayFile)
                     userOverlayApplied = True
-            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, romName)
-            if os.path.isfile(overlayFile):
-                # Rom file overlay
-                configs.append(overlayFile)
-                userOverlayApplied = True
-            else:
-                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, system.Name)
+                else:
+                    overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
+                    if os.path.isfile(overlayFile):
+                        # All system global configuration
+                        configs.append(overlayFile)
+                        userOverlayApplied = True
+                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, romName)
                 if os.path.isfile(overlayFile):
-                    # System overlay
+                    # Rom file overlay
                     configs.append(overlayFile)
                     userOverlayApplied = True
-            if not userOverlayApplied:
-                # The recalbox overlays should be added only if
-                # global.recalboxoverlays=1 or system.recalboxoverlays activated
-                if system.RecalboxOverlays:
-                    # ratio = we can activate when ratio is not 16/9 and 16/10
-                    if system.Ratio not in ["16/9", "16/10"]:
-                        # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
-                        from configgen.utils.videoMode import getCurrentFramebufferRatio
-                        if getCurrentFramebufferRatio() > 1.51:
-                            defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.Name, system.Name)
-                            if os.path.isfile(defaultOverlayFile):
-                                configs.append(defaultOverlayFile)
+                else:
+                    overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, system.Name)
+                    if os.path.isfile(overlayFile):
+                        # System overlay
+                        configs.append(overlayFile)
+                        userOverlayApplied = True
+                if not userOverlayApplied:
+                    # The recalbox overlays should be added only if
+                    # global.recalboxoverlays=1 or system.recalboxoverlays activated
+                    if system.RecalboxOverlays:
+                        # ratio = we can activate when ratio is not 16/9 and 16/10
+                        if system.Ratio not in ["16/9", "16/10"]:
+                            # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
+                            from configgen.utils.videoMode import getCurrentFramebufferRatio
+                            if getCurrentFramebufferRatio() > 1.51:
+                                defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.Name,
+                                                                           system.Name)
+                                if os.path.isfile(defaultOverlayFile):
+                                    configs.append(defaultOverlayFile)
 
     # Build appendable configurations files argument
-    def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str) -> List[str]:
+    def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str, recalboxOptions: keyValueSettings) -> List[str]:
         # Extra configs
         configs = []
         import os.path
@@ -100,7 +109,7 @@ class LibretroGenerator(Generator):
             configs.append(customGameCfg)
 
         # Process overlays
-        self.processOverlays(system, romName, configs)
+        self.processOverlays(system, romName, configs, recalboxOptions)
 
         # In-place override takes priority over all
         if os.path.isfile(externalOverrides):
@@ -111,12 +120,51 @@ class LibretroGenerator(Generator):
 
         return ["--appendconfig", "|".join(configs)]
 
+    # Create crt configuration
+    @staticmethod
+    def createCrtConfiguration(system: Emulator, rom: str, recalboxOptions: keyValueSettings,
+                               retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
+                               retroarchOverrides: keyValueSettings):
+        # Recalbox.conf options
+        v_offset = recalboxOptions.getInt("system.crt.vertical_offset", 0)
+        h_offset = recalboxOptions.getInt("system.crt.horizontal_offset", 0)
+        viewport_width = recalboxOptions.getInt("system.crt.viewport_width", 0)
+
+        # Specific retroarch options
+        retroarchConfig.setString("aspect_ratio_index", "24")
+        retroarchConfig.setString("video_smooth", "false")
+        retroarchConfig.setString("video_aspect_ratio_auto", "false")
+
+        # Retroarch CRT configuration
+        from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
+        from configgen.crt.CRTConfigParser import CRTConfigParser
+        from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
+        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), h_offset, v_offset,
+                                                      viewport_width)
+        for option in libretro_crt_configurator.createConfigFor(system, rom).items():
+            retroarchConfig.setString(option[0], option[1])
+        # Core configuration
+        from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+        core_config = LibretroCoreConfigCRT().createConfigFor(system)
+        for core_option in core_config.items():
+            coreConfig.setString(core_option[0], core_option[1])
+
+        retroarchConfig.saveFile()
+        coreConfig.saveFile()
+
+        # Most specific code ever (it's here because of *.retroarch.cfg in /recalbox/share_init/roms/vectrex)
+        if system.Name == "vectrex":
+            retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
+            retroarchOverrides.saveFile()
+
     # Create configuration file
     @staticmethod
-    def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool, nodefaultkeymap: bool, recalboxOptions: keyValueSettings) -> (str, str, List[str]):
+    def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool,
+                                nodefaultkeymap: bool, recalboxOptions: keyValueSettings) -> (str, str, List[str]):
         # Setup system configuration
         import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
-        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo, nodefaultkeymap, recalboxOptions)
+        configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo,
+                                                                     nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
@@ -128,46 +176,22 @@ class LibretroGenerator(Generator):
 
         # crt config
         if recalboxOptions.hasOption("system.crt"):
-            # Recalbox.conf options
-            v_offset = recalboxOptions.getInt("system.crt.vertical_offset", 0)
-            h_offset = recalboxOptions.getInt("system.crt.horizontal_offset", 0)
-            viewport_width = recalboxOptions.getInt("system.crt.viewport_width", 0)
+            LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
+                                                     retroarchOverrides)
 
-            # Specific retroarch options
-            retroarchConfig.setString("aspect_ratio_index", "24")
-            retroarchConfig.setString("video_smooth", "false")
-            retroarchConfig.setString("video_aspect_ratio_auto", "false")
-
-            # Retroarch CRT configuration
-            from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
-            from configgen.crt.CRTConfigParser import CRTConfigParser
-            from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
-            libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), h_offset, v_offset, viewport_width)
-            for option in libretro_crt_configurator.createConfigFor(system, rom).items():
-                retroarchConfig.setString(option[0], option[1])
-            # Core configuration
-            from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
-            core_config = LibretroCoreConfigCRT().createConfigFor(system)
-            for core_option in core_config.items():
-                coreConfig.setString(core_option[0], core_option[1])
-
-            retroarchConfig.saveFile()
-            coreConfig.saveFile()
-
-            # Most specific code ever (it's here because of *.retroarch.cfg in /recalbox/share_init/roms/vectrex)
-            if system.Name == "vectrex":
-                retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
-                retroarchOverrides.saveFile()
-
-        return configuration.getRetroarchConfigurationFileName(),\
-               configuration.getRetroarchOverridesFileName(),\
+        return configuration.getRetroarchConfigurationFileName(), \
+               configuration.getRetroarchOverridesFileName(), \
                commandArgs
 
     # Configure retroarch and return a command
-    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args):
+    def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings,
+                 args):
 
         # Set recalbox default config file if no user defined one
-        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers, args.rom, args.demo, args.nodefaultkeymap, recalboxOptions)
+        newConfigFileName, overrideFileName, commandArgs = self.createConfigurationFile(system, playersControllers,
+                                                                                        args.rom, args.demo,
+                                                                                        args.nodefaultkeymap,
+                                                                                        recalboxOptions)
         configFileName = system.ConfigFile if system.HasConfigFile else newConfigFileName
 
         # Manage special scummvm roms
@@ -193,7 +217,7 @@ class LibretroGenerator(Generator):
         # Core & config
         commandArray.extend(["-L", retroarchCore, "--config", configFileName])
         # Extra configs - pass in-place override last
-        commandArray.extend(self.getAppendConfigs(system, rom, overrideFileName))
+        commandArray.extend(self.getAppendConfigs(system, rom, overrideFileName, recalboxOptions))
         # Netplay mode
         commandArray.extend(self.getNetplayArguments(system))
         # Converted command args
@@ -256,14 +280,14 @@ class LibretroGenerator(Generator):
             import os.path
             rom, romExt = os.path.splitext(rom)
             cartridges = \
-            {
-                ".20": "-cart2",
-                ".40": "-cart4",
-                ".60": "-cart6",
-                ".70": "-cart6",
-                ".a0": "-cartA",
-                ".b0": "-cartB",
-            }
+                {
+                    ".20": "-cart2",
+                    ".40": "-cart4",
+                    ".60": "-cart6",
+                    ".70": "-cart6",
+                    ".a0": "-cartA",
+                    ".b0": "-cartB",
+                }
             if romExt in cartridges:
                 carts = []
                 for ext in cartridges:

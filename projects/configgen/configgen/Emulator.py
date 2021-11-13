@@ -3,6 +3,17 @@ from typing import List
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
+class NetplayArguments :
+    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str, netplay_viewerpassword:str, netplay_vieweronly:str):
+        self.hash = hash
+        self.netplay = netplay
+        self.netplay_ip = netplay_ip
+        self.netplay_port = netplay_port
+        self.netplay_playerpassword = netplay_playerpassword
+        self.netplay_viewerpassword = netplay_viewerpassword
+        self.netplay_vieweronly = netplay_vieweronly
+
+
 class Emulator:
 
     def __init__(self, name: str, emulator: str, core: str, videoMode: str='CEA 4 HDMI', ratio:str='auto'):
@@ -62,7 +73,7 @@ class Emulator:
         if result in ('1', "true", "True"): return True
         return False
 
-    def configure(self, recalboxOptions: keyValueSettings, arguments):
+    def configure(self, recalboxOptions: keyValueSettings, arguments: NetplayArguments):
         # Overriding vars
         #self._emulator: str          = self.__guessBestStringValue(recalboxOptions, "emulator", self._emulator)
         #self._core: str              = self.__guessBestStringValue(recalboxOptions, "core", self._core)
