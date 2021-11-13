@@ -180,6 +180,7 @@ All notable changes to this project will be documented in this file.
 - Add missing generic .p2k for Elektronika BK (#2013)
 - Improve nespi4case shutdown script (#1381)
 - Added missing standalone Hatari association to bios as required or optional (#1988)
+- Changed documentation link for all languages and added missing English translation for security tab (#2021)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
