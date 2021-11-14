@@ -131,7 +131,7 @@ All notable changes to this project will be documented in this file.
 - Fix changelog linter (#1759)
 - New romfs v2 (#1686)
 - Set grub timeout to 3 seconds (#1750)
-- Bump Hypseus to version 2.4.8 (DirtBagXon) to support Singe (#1611)
+- Bump core hypseus singe v2.6.17 and add patch name path too long (#1828)
 - Add stella2014 core on RPI1/Zero and RPI2 as it is more performant (#1761)
 - Bump stella2014 core (#1761)
 - Bump stella core (#1761)

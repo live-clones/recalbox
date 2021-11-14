@@ -1,0 +1,13 @@
+diff --git a/src/video/video.cpp b/src/video/video.cpp
+index 741419d..3f33982 100644
+--- a/src/video/video.cpp
++++ b/src/video/video.cpp
+@@ -193,7 +193,7 @@ bool init_display()
+     static bool rz = false;
+     char title[50] = "HYPSEUS Singe: Multiple Arcade Laserdisc Emulator";
+ 
+-    sdl_flags = SDL_WINDOW_SHOWN;
++    sdl_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+     sdl_sb_flags = SDL_WINDOW_ALWAYS_ON_TOP;
+ 
+     // if we were able to initialize the video properly
