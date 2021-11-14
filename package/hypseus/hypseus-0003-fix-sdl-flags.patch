@@ -1,5 +1,5 @@
 diff --git a/src/video/video.cpp b/src/video/video.cpp
-index 1ec9c06..1f9412c 100644
+index 741419d..24e8f67 100644
 --- a/src/video/video.cpp
 +++ b/src/video/video.cpp
 @@ -193,13 +193,13 @@ bool init_display()

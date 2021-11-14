@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-HYPSEUS_VERSION = v2.6.18-RPi
+HYPSEUS_VERSION = v2.6.18
 HYPSEUS_SITE = $(call github,DirtBagXon,hypseus-singe,$(HYPSEUS_VERSION))
 HYPSEUS_LICENSE = GPL3
 HYPSEUS_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf zlib libogg libvorbis libmpeg2
