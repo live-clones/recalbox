@@ -238,7 +238,7 @@ def test_given_any_system_returns_overscan_active(mocker, system_snes: Emulator)
     givenDefaultsModes(mocker)
     givenDefaultsSystems(mocker)
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
-    assert libretro_config["video_crop_overscan"] is "false"
+    assert libretro_config["video_crop_overscan"] == '"false"'
 
 
 def test_given_a_vertical_game_and_no_viewport_info_returns_core_1920_ratio(mocker, system_mame):

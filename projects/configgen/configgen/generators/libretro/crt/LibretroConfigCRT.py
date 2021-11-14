@@ -77,10 +77,11 @@ class LibretroConfigCRT:
                                          "custom_viewport_y": "",
                                          "custom_viewport_y_ntsc": "",
                                          "custom_viewport_y_pal": "",
-                                         "video_crop_overscan": "false",
+                                         "video_crop_overscan": '"false"',
                                          "menu_driver": '"rgui"',
                                          "video_smooth": '"false"',
-                                         "video_shader_enable": '"false"'
+                                         "video_shader_enable": '"false"',
+                                         "video_vsync": '"true"'
                                          }
         arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus"]
         core: str = system.Core
