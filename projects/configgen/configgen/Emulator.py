@@ -32,7 +32,7 @@ class Emulator:
         self._autoSave: bool = False
         self._integerScale: bool = False
         self._quitTwice: bool = False
-        self._recalboxOverlays: bool = False
+        self._recalboxOverlays: bool = True
         self._translate: bool = False
         self._translateAPIKey: str = "RECALBOX"
         self._translateURL: str = "https://ztranslate.net/service?api_key={}"
