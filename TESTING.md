@@ -36,10 +36,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [X] While ES is stopped, create a file in /tmp/upgradefailed and check if the error message is displayed when starting ES (#1772)
 - [X] Grub options still accessible on PC (#1750)
 - [ ] Test uae4arm on any arm board (including CD platforms)(#1771, #1943)
-- [ ] Bump Hypseus (#1611)
+- [ ] Bump Hypseus (#1828)
   - [ ] Test hypseus on all boards
   - [ ] Test singe games
-  - [ ] Test overlay working with dragon lair's
 - [ ] Test a sharp x68000 game and see if there is no message "failed to set last used disc" (#1775)
 - [ ] Bumped px68k (Sharp x68000) (#1775)
 - [ ] Get an es_systems.cfg for your board (7.2.2 max) and compare emulators/core available in this file to those available in this beta. They should all be there :) (#1686)
