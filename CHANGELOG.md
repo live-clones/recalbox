@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 ## [NEXT]
+- Added 8.0-Electron introduction video (#2028)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)
@@ -28,8 +29,6 @@ All notable changes to this project will be documented in this file.
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)
-
-## [7.3-Reloaded]
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
