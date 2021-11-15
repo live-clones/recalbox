@@ -33,8 +33,8 @@ GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
   if (mOriginalDac != mDac->getSelected()
-  || mOriginalEsResolution != mEsResolution->getSelected()
-  || mOriginalForce50Hz != mForce50Hz->getState())
+  || mOriginalEsResolution != mEsResolution->getSelected())
+  //|| mOriginalForce50Hz != mForce50Hz->getState())
     RequestReboot();
 }
 
