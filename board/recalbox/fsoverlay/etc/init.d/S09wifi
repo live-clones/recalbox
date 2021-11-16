@@ -5,6 +5,7 @@ config_file=/recalbox/share/system/recalbox.conf
 config_file_boot=/boot/recalbox-backup.conf
 wpa_file=/etc/wpa_supplicant.conf
 INIT_SCRIPT=$(basename "$0")
+system_setting="recalbox_settings"
 
 # if /recalbox/share is not yet mounted
 if ! [ -f "$config_file" ]; then
@@ -35,12 +36,12 @@ mask2cidr() {
 # Function to create wifi profiles based on user settings
 rb_wifi_configure() {
   [ "$1" = "1" ] && X="" || X="$1"
-  settings_ssid=`egrep -m1 "^wifi${X}.ssid" ${config_file}|sed "s/wifi${X}.ssid=//g"`
-  settings_key=`egrep -m1 "^wifi${X}.key" ${config_file}|sed "s/wifi${X}.key=//g"`
-  settings_ip=`egrep -m1 "^wifi${X}.ip" ${config_file}|sed "s/wifi${X}.ip=//g"`
-  settings_gateway=`egrep -m1 "^wifi${X}.gateway" ${config_file}|sed "s/wifi${X}.gateway=//g"`
-  settings_netmask=`egrep -m1 "^wifi${X}.netmask" ${config_file}|sed "s/wifi${X}.netmask=//g"`
-  settings_nameservers=`egrep -m1 "^wifi${X}.nameservers" ${config_file}|sed "s/wifi${X}.nameservers=//g"`
+  settings_ssid=$("$system_setting" -command load -key "wifi${X}.ssid" -source "$config_file")
+  settings_key=$("$system_setting" -command load -key "wifi${X}.key" -source "$config_file")
+  settings_ip=$("$system_setting" -command load -key "wifi${X}.ip" -source "$config_file")
+  settings_gateway=$("$system_setting" -command load -key "wifi${X}.gateway" -source "$config_file")
+  settings_netmask=$("$system_setting" -command load -key "wifi${X}.netmask" -source "$config_file")
+  settings_nameservers=$("$system_setting" -command load -key "wifi${X}.nameservers" -source "$config_file")
 
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
@@ -48,13 +49,18 @@ rb_wifi_configure() {
     recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
     network=`wpa_cli -i ${interface} add_network`
     wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
-    wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
+    if [ -n "$settings_key" ]; then
+        # Connect to protected wifi
+        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
+        wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
+    else
+        # Connect to open ssid
+        wpa_cli -i "$interface" set_network "$network" key_mgmt NONE || exit 1
+    fi
     wpa_cli -i "$interface" set_network "$network" scan_ssid 1 || exit 1
-    wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
     wpa_cli -i "$interface" enable_network "$network" || exit 1
 
     # static ip configuration in dhcpcd.conf
-    mount -o remount,rw /
     sed -i "/\b\($interface\|static\)\b/d" /etc/dhcpcd.conf
     if [[ "$settings_ip" != "" ]] && \
       [[ "$settings_gateway" != "" ]] && \
@@ -70,7 +76,6 @@ rb_wifi_configure() {
       echo "static routers=$settings_gateway" >> /etc/dhcpcd.conf
       echo "static domain_name_servers=$settings_nameservers" >> /etc/dhcpcd.conf
     fi
-    mount -o remount,ro /
 
   fi
 
@@ -115,7 +120,7 @@ enable_wifi() {
   wpa_drop_all_networks
   wpa_cli -i "$interface" set update_config 1
 
-  settings_region=`egrep "^wifi.region" ${config_file}|sed "s/wifi.region=//g"`
+  settings_region=$("$system_setting" -command load -key "wifi.region" -source "$config_file")
   wpa_cli -i "$interface" set country "$settings_region"
 
   # iterate through all network ...
@@ -124,9 +129,7 @@ enable_wifi() {
   done
 
   # write wpa_supplicant configuration
-  mount -o remount,rw /
-    wpa_cli -i "$interface" save_config
-  mount -o remount,ro /
+  wpa_cli -i "$interface" save_config
 }
 
 start() {
@@ -136,10 +139,12 @@ start() {
   fi
 
   if [ -f "$config_file" ]; then
-    if [ `egrep "^wifi.enabled" ${config_file}|sed "s/wifi.enabled=//g"` -ne 0  ]; then
+    if [ "$("$system_setting" -command load -key "wifi.enabled" -source "$config_file")" -ne 0 ]; then
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option enabled, trying to configure"
       #sleep 2 # wait a bit to be sure tmpfs is initialized
+      mount -o remount,rw /
       enable_wifi
+      mount -o remount,ro /
     else
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option disabled"
       stop
