@@ -1,0 +1,6 @@
+#!/bin/ash
+
+# Main
+if [ "$1" == "start" ]; then
+  /usr/bin/drmadapter
+fi
