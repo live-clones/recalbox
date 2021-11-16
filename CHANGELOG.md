@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - Removal of the boot video Hyperspaces (#2040)
 - Add CoreElec and LibreElec patch to make kodi works with recent WiveDevine (#2034)
 - Bump rpi linux to 5.10.79 (#2030)
+- Allow wifi connection to open ssid (#2029)
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)
