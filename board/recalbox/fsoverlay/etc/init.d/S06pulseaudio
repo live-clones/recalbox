@@ -8,9 +8,9 @@ start() {
 	printf "Starting pulseaudio: "
 	umask 077
 	grep -q '.nofail' "$PA_CONFIG_FILE" || sed -i '2i.nofail' "$PA_CONFIG_FILE"
-	start-stop-daemon -S -b -m -p /var/run/pulse.pid -x \
+	start-stop-daemon -S -x \
 		/usr/bin/pulseaudio -- \
-		--exit-idle-time=-1 --log-target=syslog
+		--exit-idle-time=-1 --log-target=syslog --daemonize --use-pid-file
 	echo "OK"
 }
 stop() {
@@ -19,7 +19,7 @@ stop() {
 	echo ".nofail" >>"$PA_CONFIG_FILE"
 	pacmd dump |grep -E '(set-default-sink|set-card-profile)' >>"$PA_CONFIG_FILE" && echo "OK" || echo "KO"
 	printf "Stopping pulseaudio: "
-	start-stop-daemon -K -p /var/run/pulse.pid
+	pacmd exit
 	echo "OK"
 }
 restart() {
