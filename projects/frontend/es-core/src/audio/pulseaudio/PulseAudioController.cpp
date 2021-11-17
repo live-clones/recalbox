@@ -30,7 +30,8 @@ void PulseAudioController::Initialize()
   // Connect to pulseaudio server
   PulseContextConnect();
   // Enumerate all output devices
-  PulseEnumerateCards();
+  if (mConnectionState == ConnectionState::Ready)
+    PulseEnumerateCards();
 
   // Subscribe to changes
   //PulseSubscribe();
@@ -125,12 +126,14 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 		case PA_CONTEXT_FAILED:
 		case PA_CONTEXT_TERMINATED:
     {
+      { LOG(LogInfo) << "[PulseAudio] Disconnected from PulseAudio server."; }
       This.mConnectionState = ConnectionState::Closed;
       This.mSignal.Fire();
       break;
     }
 		case PA_CONTEXT_READY:
     {
+      { LOG(LogInfo) << "[PulseAudio] Connected to PulseAudio server."; }
       This.mConnectionState =ConnectionState::Ready;
       This.mSignal.Fire();
       break;
@@ -519,7 +522,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
 
     pa_operation* profileOp = pa_context_set_card_profile_by_index(mPulseAudioContext, card->Index, selectedProfile->Name.data(), SetProfileCallback,this);
     // Wait for response
-    mSignal.WaitSignal();
+    mSignal.WaitSignal(sTimeOut);
     // Release
     pa_operation_unref(profileOp);
   }
@@ -535,7 +538,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
     // Set port
     pa_operation* op = pa_context_set_sink_port_by_index(mPulseAudioContext, sink.Index, port->Name.data(), SetPortCallback, this);
     // Wait for result
-    mSignal.WaitSignal();
+    mSignal.WaitSignal(sTimeOut);
     // Release
     pa_operation_unref(op);
     { LOG(LogDebug) << "[PulseAudio] Sink '" << sink.Name << "' has been switched to port " << port->Name; }
@@ -543,7 +546,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
     // Set sink the default one
     op = pa_context_set_default_sink(mPulseAudioContext, sink.Name.data(), SetSinkCallback, this);
     // Wait for result
-    mSignal.WaitSignal();
+    mSignal.WaitSignal(sTimeOut);
     // Release
     pa_operation_unref(op);
     { LOG(LogDebug) << "[PulseAudio] Sink '" << sink.Name << "' has been set as default sink."; }
@@ -584,7 +587,7 @@ void PulseAudioController::SetVolume(int volume)
       // Set volume
       pa_operation* op = pa_context_set_sink_volume_by_index(mPulseAudioContext, sink.Index, &volumeStructure, SetVolumeCallback, this);
       // Wait for result
-      mSignal.WaitSignal();
+      mSignal.WaitSignal(sTimeOut);
       // Release
       pa_operation_unref(op);
     }
@@ -619,8 +622,8 @@ void PulseAudioController::Run()
 void PulseAudioController::PulseContextConnect()
 {
   // Wait for response
-  mSignal.WaitSignal();
-  { LOG(LogInfo) << "[PulseAudio] Connected to Server."; }
+  mSignal.WaitSignal(sTimeOut);
+  { LOG(LogInfo) << "[PulseAudio] Connection to PulseAudio complete."; }
 }
 
 void PulseAudioController::PulseContextDisconnect()
@@ -641,7 +644,7 @@ void PulseAudioController::PulseEnumarateSinks()
   { LOG(LogInfo) << "[PulseAudio] Enumerating Sinks"; }
   pa_operation* sinkOp = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
   // Wait for response
-  mSignal.WaitSignal();
+  mSignal.WaitSignal(sTimeOut);
   // Release
   pa_operation_unref(sinkOp);
 
@@ -653,7 +656,7 @@ void PulseAudioController::PulseEnumarateSinks()
       // Set volume
       pa_context_set_sink_mute_by_index(mPulseAudioContext, sink.Index, 0, SetMuteCallback, this);
       // Wait for result
-      mSignal.WaitSignal();
+      mSignal.WaitSignal(sTimeOut);
     }
 }
 
@@ -733,7 +736,7 @@ void PulseAudioController::SetDefaultProfiles()
 
     pa_operation* profileOp = pa_context_set_card_profile_by_index(mPulseAudioContext, card.Index, selectedProfile->Name.data(), SetProfileCallback, this);
     // Wait for response
-    mSignal.WaitSignal();
+    mSignal.WaitSignal(sTimeOut);
     // Release
     pa_operation_unref(profileOp);
   }
@@ -749,7 +752,7 @@ void PulseAudioController::PulseEnumerateCards()
   { LOG(LogInfo) << "[PulseAudio] Enumerating Cards."; }
   pa_operation* cardOp = pa_context_get_card_info_list(mPulseAudioContext, EnumerateCardCallback, this);
   // Wait for response
-  mSignal.WaitSignal();
+  mSignal.WaitSignal(sTimeOut);
   // Release
   pa_operation_unref(cardOp);
 
@@ -855,5 +858,6 @@ void PulseAudioController::Refresh()
   // API Sync'
   Mutex::AutoLock locker(mAPISyncer);
 
-  PulseEnumerateCards();
+  if (mConnectionState == ConnectionState::Ready)
+    PulseEnumerateCards();
 }

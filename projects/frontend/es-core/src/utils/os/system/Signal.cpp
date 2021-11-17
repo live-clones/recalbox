@@ -47,7 +47,7 @@ bool Signal::WaitSignal(long long int milliseconds)
   ts.tv_nsec += milliseconds * 1000000LL;
   if (ts.tv_nsec >= 1000000000LL) { ts.tv_sec++; ts.tv_nsec %= 1000000000LL; }
 
-  bool result = false;
+  bool result = true;
   pthread_mutex_lock(&mMutex);
   while(!mSignal)
   {

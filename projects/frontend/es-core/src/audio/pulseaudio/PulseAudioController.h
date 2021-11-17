@@ -57,6 +57,9 @@ class PulseAudioController: public IAudioController, private Thread
     void Refresh() override;
 
   private:
+    //! Timeout
+    static constexpr int sTimeOut = 800; //! 800ms timeout
+
     struct Sink
     {
       std::vector<std::string> PortNames; //!< Available port list
