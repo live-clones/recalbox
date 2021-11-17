@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-XROAR_VERSION = 0.37
+XROAR_VERSION = ea92dbb8dcb706c45d559935b912de021c0f0a07
 XROAR_SITE = https://www.6809.org.uk/git/xroar.git
 XROAR_SITE_METHOD = git
 XROAR_DEPENDENCIES = sdl2
