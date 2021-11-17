@@ -58,8 +58,19 @@ class XroarGenerator(Generator):
                 "/coco2bus/": "coco2bus",
                 "/coco2-ntsc/": "coco2bus",
                 "/coco2b-ntsc/": "coco2bus",
+                "(coco 3)": "coco3p", # Coco3 roms from archive site are tagged "(coco 3)"
+                "/coco3/": "coco3p",
+                "/coco3b/": "coco3p",
+                "/coco3-pal/": "coco3p",
+                "/coco3b-pal/": "coco3p",
+                "/coco3us/": "coco3",
+                "/coco3bus/": "coco3",
+                "/coco3-ntsc/": "coco3",
+                "/coco3b-ntsc/": "coco3",
                 "/mx/": "mx1600",
                 "/mx1600/": "mx1600",
+                "/mc10/": "mc10",
+                "/mc-10/": "mc10",
             }
             for key in machines:
                 if key in args.rom:
