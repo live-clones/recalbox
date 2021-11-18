@@ -6,7 +6,7 @@ from configgen.Emulator import Emulator
 # return true if the option is considered enabled (for boolean options)
 from configgen.settings.iniSettings import IniSettings
 
-sectionGraphics = '[Graphics]'
+sectionGraphics = 'Graphics'
 
 def writeFBAConfig(system: Emulator, fbaSettings: IniSettings):
     config: Dict[str, int] = createFBAConfig(system)

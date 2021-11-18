@@ -26,7 +26,7 @@ fba6bnts: Dict[int, str] = \
     InputItem.ItemR1: 'R',
 }
 
-sectionJoystick = '[Joystick]'
+sectionJoystick = 'Joystick'
 
 def writeControllersConfig(_, rom: str, controllers: ControllerPerPlayer, fbaSettings: IniSettings):
     writeIndexes(controllers, fbaSettings)
@@ -52,8 +52,8 @@ def generateControllerConfig(player: int, controller: Controller, special6: bool
     if controller.HasJoy1Left : config['JA_LR_{}'.format(player)] = controller.Joy1Left.Id
 
     # Start & select
-    if controller.HasStart : config['START_{}'.format(player)] = controller.Hotkey.Id
-    if controller.HasSelect: config['SELECT_{}'.format(player)] = controller.Start.Id
+    if controller.HasStart : config['START_{}'.format(player)] = controller.Start.Id
+    if controller.HasSelect: config['SELECT_{}'.format(player)] = controller.Select.Id
 
     # Hotcket & quit for player 1
     if player == 1:
