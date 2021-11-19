@@ -14,6 +14,7 @@ set(CORE_HEADERS
 		src/input/InputMapper.h
 		src/input/InputStack.h
 		src/input/OrderedDevices.h
+		src/input/AutoMapper.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
 		src/Renderer.h
@@ -190,6 +191,7 @@ set(CORE_SOURCES
 		src/input/InputManager.cpp
 		src/input/InputMapper.cpp
 		src/input/InputStack.cpp
+		src/input/AutoMapper.cpp
 		src/utils/Log.cpp
 		src/Renderer.cpp
 		src/RootFolders.cpp

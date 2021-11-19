@@ -228,30 +228,9 @@ InputDevice::Entry InputDevice::GetMatchedEntry(InputEvent input) const
   return Entry::None;
 }
 
-bool InputDevice::LoadAutoConfiguration(const std::string& originalConfiguration)
+bool InputDevice::LoadAutoConfiguration(const std::string& configuration)
 {
   bool result = false;
-
-  static HashMap<std::string, bool> sXBox360HardPatchableDevices
-  ({
-     { "030000006f0e00001304000000010000", false },
-     { "030000006f0e0000a40200000f010000", false },
-     { "030000005e0400008e02000010010000", false },
-     { "030000005e0400008e02000014010000", false },
-     { "030000005e040000ea02000001030000", false },
-     { "030000005e040000a102000000010000", false },
-  });
-
-  std::string configuration(originalConfiguration);
-  // Hard-patch for XBox360 & clone mapping
-  if (sXBox360HardPatchableDevices.contains(GUID()))
-  {
-    configuration = "a:b0,b:b1,x:b2,y:b3,back:b8,start:b9,guide:b8," \
-                    "dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1," \
-                    "leftshoulder:b4,rightshoulder:b5,lefttrigger:b6,righttrigger:b7,leftstick:b11,rightstick:b12," \
-                    "leftx:a0,lefty:a1,rightx:a2,righty:a3,";
-    { LOG(LogWarning) << "[InputDevice] XBox mapping hard patched from " << originalConfiguration << " to " << configuration; }
-  }
 
   { LOG(LogInfo) << "[InputDevice] Autoconfiguration from " << configuration; }
   Strings::Vector mappingList = Strings::Split(configuration, ',');

@@ -8,6 +8,7 @@
 #include "SDL2/SDL_joystick.h"
 #include "WindowManager.h"
 #include "InputMapper.h"
+#include "AutoMapper.h"
 #include <algorithm>
 #include <guis/GuiInfoPopup.h>
 #include <utils/locale/LocaleHelper.h>
@@ -234,19 +235,12 @@ void InputManager::LoadJoystickConfiguration(int index)
   // Try to load from configuration file
   if (!LookupDeviceXmlConfiguration(device))
   {
-    bool autoConfigured = false;
-    SDL_GameController* gamepad = SDL_GameControllerOpen(index);
-    if (gamepad != nullptr)
+    std::string autoMapping = AutoMapper(index).GetSDLMapping();
+    bool autoConfigured = !autoMapping.empty();
+    if (autoConfigured)
     {
-      // Try to autoconfigure the gamepad
-      char* sdlMapping = SDL_GameControllerMappingForGUID(SDL_JoystickGetGUID(joy));
-      std::string conf(sdlMapping != nullptr ? sdlMapping : "");
-      SDL_free(sdlMapping);
-      autoConfigured = device.LoadAutoConfiguration(conf);
-      SDL_GameControllerClose(gamepad);
-      // Write configuration so that the configgen can read it
-      if (autoConfigured)
-        WriteDeviceXmlConfiguration(device);
+      autoConfigured = device.LoadAutoConfiguration(autoMapping);
+      WriteDeviceXmlConfiguration(device);
     }
 
     if (!autoConfigured)
