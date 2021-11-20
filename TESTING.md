@@ -27,6 +27,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] 240p (CRT)
 - [ ] Check that the Hyperspaces boot video is no longer displayed (#2040)
 - [ ] Test there is no "cannot allocate memory in static TLS block" error when playing video in Netflix or Prime (#2034)
+- [ ] Test both HDMI output are not too bright on rpi4 (#2030)
+- [ ] Test all rpi based boards still start (#2030)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
