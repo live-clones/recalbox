@@ -18,6 +18,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
 - [ ] Test there is no "cannot allocate memory in static TLS block" error when playing video in Netflix or Prime (#2034)
+- [ ] Test both HDMI output are not too bright on rpi4 (#2030)
+- [ ] Test all rpi based boards still start (#2030)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
