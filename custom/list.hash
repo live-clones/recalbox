@@ -28,6 +28,10 @@ f98cb8196d1a3b5b6b84b730ba6aa87e  package/intel-mediadriver/0001-Drop-hardening-
 bac8a0467cea672556f92cd3e1e30b9c  package/intel-mediasdk/Config.in
 af0e11b2c97d84fbdf2d952dd00d097e  package/intel-mediasdk/intel-mediasdk.hash
 a2c899308bacca7a9729299585a84a67  package/intel-mediasdk/intel-mediasdk.mk
+1519bdd51ce0598504886be14e01d5e9  package/kodi-inputstream-adaptive/kodi-inputstream-adaptive.hash
+bf6b702fe33dcbcbbce343f3c3858086  package/kodi-inputstream-adaptive/kodi-inputstream-adaptive.mk
+efc13d77634de9dd30a1ba9917ce01f0  package/kodi-peripheral-joystick/kodi-peripheral-joystick.hash
+9233aed50880c2f44bb00fab68055390  package/kodi-peripheral-joystick/kodi-peripheral-joystick.mk
 bcbaad468953721a974d363a83848090  package/kodi/Config.in
 dcc13c14688db2529be8f52b6acce0ba  package/kodi/kodi.mk
 367247392ba46e25ca5208be66d9add2  package/libcec/libcec.mk
