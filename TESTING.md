@@ -187,6 +187,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] should display full screen on x86_64
   - [ ] should start on other platforms
 - [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
+- [ ] Test sound in Intellivision games using freeintv core
 
 - [ ] Test Beebem
 - [ ] Test default sound output of rpi devices is set to HDMI (#1922)
