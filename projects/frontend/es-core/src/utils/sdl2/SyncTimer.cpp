@@ -9,7 +9,7 @@ void SyncTimer::Run()
   while(Thread::IsRunning())
   {
     // Wait for the required time
-    if (mSignal.WaitSignal(mMilliseconds))
+    if (!mSignal.WaitSignal(mMilliseconds))
       break; // A cancel signal is received
 
     // Send the callback event
