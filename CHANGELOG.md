@@ -1,7 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+
 ## [NEXT]
 - Added 8.0-Electron introduction video (#2028)
+- Bump FreeIntv core (fix sound glitches)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)

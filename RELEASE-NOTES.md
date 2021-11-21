@@ -48,6 +48,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Fbneo v1.0.0.02
 - Bump Sharp X68000 core (px68k)
 - Bump Flycast
+- Bump FreeIntv core (fix audio glitches)
 - Improve Netplay window
   - More responsive & faster to get client latencies
   - Manual refresh with START
