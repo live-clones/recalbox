@@ -234,6 +234,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   {
     // File watching
     fileNotifier.CheckAndDispatch();
+    InputManager::Instance().WatchJoystickAddRemove(&window);
 
     // SDL
     SDL_Event event;
@@ -253,8 +254,8 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         case SDL_KEYDOWN:
         case SDL_KEYUP:
         case SDL_JOYAXISMOTION:
-        case SDL_JOYDEVICEADDED:
-        case SDL_JOYDEVICEREMOVED:
+        //case SDL_JOYDEVICEADDED:
+        //case SDL_JOYDEVICEREMOVED:
         case SDL_MOUSEBUTTONDOWN:
         case SDL_MOUSEBUTTONUP:
         {

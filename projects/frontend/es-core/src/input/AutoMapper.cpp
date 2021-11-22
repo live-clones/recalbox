@@ -376,6 +376,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
 
   // Then, maps buttons, since we need to take L2/R2 from button first
   int buttonIndex = 0;
+  bool mainButtons = false;
   const char buttonNames[] = { 'a', 'b', 'x', 'y' };
   for(int i = 0; i < KEY_MAX; i++)
     if (((test_bit(i, bit[EV_KEY])) != 0))
@@ -387,7 +388,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
         case BTN_C:
         case BTN_NORTH:
         case BTN_WEST:
-        case BTN_Z: if (buttonIndex < 4) result.append(1, buttonNames[buttonIndex]).append(":b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
+        case BTN_Z: if (buttonIndex < 4) result.append(1, buttonNames[buttonIndex]).append(":b").append(Strings::ToString(buttonIndex)).append(1, ','); mainButtons = true; break;
         case BTN_TL: result.append("leftshoulder:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
         case BTN_TR: result.append("rightshoulder:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
         case BTN_TL2: result.append("lefttrigger:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
@@ -402,7 +403,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
       buttonIndex++;
     }
   // No standard buttons = no mapping at all!
-  if (buttonIndex == 0) return std::string();
+  if (!mainButtons) return std::string();
 
   // Finally axis
   if (firstAxisConsumed)

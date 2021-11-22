@@ -116,7 +116,6 @@ class FileSystemWatcher
      */
     void filterEvents(std::vector<FileSystemEvent>& events);
 
-  private:
     unsigned char mEventBuffer[MAX_EVENTS * (EVENT_SIZE + 16)];
     std::queue<FileSystemEvent> mEventQueue;
     HashMap<int, Path> mDirectorieMap;

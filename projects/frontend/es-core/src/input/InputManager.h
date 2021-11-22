@@ -5,14 +5,17 @@
 #include <input/InputDevice.h>
 #include <input/OrderedDevices.h>
 #include <utils/os/fs/Path.h>
+#include <utils/os/fs/watching/FileSystemWatcher.h>
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Array.h>
+#include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
+#include <utils/os/fs/watching/FileNotifier.h>
 #include "IInputChange.h"
 
 class WindowManager;
 class InputMapper;
 
-class InputManager
+class InputManager : public IFileSystemWatcherNotification
 {
   public:
     /*!
@@ -136,6 +139,11 @@ class InputManager
      */
     static void FinalizeSDL2JoystickSystem();
 
+    /*!
+     * @brief Check if there is a move in /dev/input
+     */
+    void WatchJoystickAddRemove(WindowManager* window);
+
   private:
     //! Device list
     typedef Array<InputDevice> InputDeviceList;
@@ -156,6 +164,11 @@ class InputManager
 
     //! Notification interfaces
     Array<IInputChange*> mNotificationInterfaces;
+
+    //! /dev/input watcher
+    FileNotifier mFileNotifier;
+    //! Joystick change pendings
+    bool mJoystickChangePending;
 
     /*!
      * @brief Default constructor
@@ -240,4 +253,16 @@ class InputManager
      * @return Device configuration
      */
     InputDevice& GetDeviceConfigurationFromId(SDL_JoystickID deviceId);
+
+    /*
+     * IFileSystemWatcherNotification implementation
+     */
+
+    /*!
+     * @brief Receive file event
+     * @param event Event type
+     * @param path Path
+     * @param time Timestamp
+     */
+    void FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time) override;
 };

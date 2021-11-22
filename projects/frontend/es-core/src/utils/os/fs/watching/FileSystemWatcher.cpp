@@ -82,7 +82,7 @@ bool FileSystemWatcher::GetNextEvent(FileSystemEvent& fsevent)
 {
   std::vector<FileSystemEvent> newEvents;
 
-  int length = readEventsIntoBuffer();
+  int length = (int)readEventsIntoBuffer();
   if (length != 0)
   {
     readEventsFromBuffer(length, newEvents);
@@ -101,7 +101,6 @@ bool FileSystemWatcher::GetNextEvent(FileSystemEvent& fsevent)
 ssize_t FileSystemWatcher::readEventsIntoBuffer()
 {
   ssize_t length = 0;
-  length = 0;
   int timeout = 0;
   int nFdsReady = epoll_wait(mEpollFd, mEpollEvents, MAX_EPOLL_EVENTS, timeout);
 

@@ -20,9 +20,13 @@ InputManager::InputManager()
   : mIndexToId {}
   , mKeyboard(nullptr, InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
   , mMousse(nullptr, InputEvent::sMousseDevice, 0, "Mousse", KEYBOARD_GUID_STRING, 0, 0, 5)
+  , mJoystickChangePending(false)
 {
   // Create keyboard
   LoadDefaultKeyboardConfiguration();
+  // Watcher
+  mFileNotifier.SetEventNotifier(EventType::Remove | EventType::Create, this);
+  mFileNotifier.WatchFile(Path("/dev/input"));
 }
 
 InputManager::~InputManager()
@@ -345,6 +349,8 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     case SDL_JOYDEVICEREMOVED:
     {
       { LOG(LogInfo) << "[Input] Reinitialize because of joystick added/removed."; }
+      SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+      SDL_InitSubSystem(SDL_INIT_JOYSTICK);
       Refresh(window, true);
       for(int i = mNotificationInterfaces.Count(); --i >= 0; )
         mNotificationInterfaces[i]->PadsAddedOrRemoved();
@@ -500,6 +506,27 @@ void InputManager::RemoveNotificationInterface(IInputChange* interface)
   int index = mNotificationInterfaces.IndexOf(interface);
   if (index >= 0)
     mNotificationInterfaces.Delete(index);
+}
+
+void InputManager::FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time)
+{
+  (void)time;
+  LOG(LogWarning) << "[/dev/input] Event " << (int)event << " : " << path.ToString();
+  if (Strings::StartsWith(path.Filename(), "event"))
+    mJoystickChangePending = true;
+}
+
+void InputManager::WatchJoystickAddRemove(WindowManager* window)
+{
+  mFileNotifier.CheckAndDispatch();
+  if (mJoystickChangePending)
+  {
+    // Reset Joystick to force refresh
+    SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    Refresh(window, true);
+    mJoystickChangePending = false;
+  }
 }
 
 
