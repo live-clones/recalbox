@@ -17,6 +17,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
 - [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
 - [ ] Test libretro core Gong on all boards (#1986)
+- [ ] Check that the Hyperspaces boot video is no longer displayed (#2040)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
