@@ -24,6 +24,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the visibility of the TIC 80 logo with the systems themes (#2043)
   - [ ] Legacy
   - [ ] 240p (CRT)
+- [ ] Check that the Hyperspaces boot video is no longer displayed (#2040)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
