@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Added wiimote (dolphinbar) button configuration for daphne (#1987)
 - Enhance share_upgrade files copy (#1984)
 - Add missing wifi linux firmwares for rpi3 and rpi4 (#2044)
+- Fix TIC80 logo visibility problem according to the system theme used (#2043)
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)

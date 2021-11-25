@@ -21,6 +21,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test ES theme is changed depending of LCD or HDMI (#2045)
 - [ ] Test rpi3 & rpi4 wifi still works (#2044)
 - [ ] Test rpi3 or rpi4 can use wifi cards that requires linux firmwares (like realtek) (#2044)
+- [ ] Check the visibility of the TIC 80 logo with the systems themes (#2043)
+  - [ ] Legacy
+  - [ ] 240p (CRT)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
