@@ -10,6 +10,13 @@ KERNELFIRMWARES_SITE = https://git.kernel.org/pub/scm/linux/kernel/git/firmware/
 KERNELFIRMWARES_LICENSE = MULTIPLE
 KERNELFIRMWARES_NON_COMMERCIAL = y
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
+define KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
+	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915
+endef
+KERNELFIRMWARES_PRE_INSTALL_TARGET_HOOKS += KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
+endif
+
 define KERNELFIRMWARES_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/lib/firmware
 	cp -pr $(@D)/* $(TARGET_DIR)/lib/firmware/
