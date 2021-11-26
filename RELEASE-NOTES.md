@@ -53,6 +53,11 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 - Fix to not reload recalbox.conf file in manager on save
 - Fix kodi running at startup
+### Improvements
+- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
+
+### Fixes
+- Fix savestate in libretro fuse (ZX Spectrum core)
 
 
 ## Version 8.0.2-Electron
