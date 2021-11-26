@@ -133,12 +133,19 @@ class Install(InstallBase):
                     "\\1=default",
                     self.RECALBOX_CONF,
                 )
-                # Install /etc/init.d/S25volumed
-                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S25volumed"
+                # Install /etc/init.d/S06volumed
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S06volumed"
                 if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
-                    logger.hardlog("PiBoy: Error installing S25volumed")
+                    logger.hardlog("PiBoy: Error installing S06volumed")
                     return ""
-                logger.hardlog("PiBoy: S25volumed installed")
+                logger.hardlog("PiBoy: S06volumed installed")
+
+                # Install /etc/init.d/S15piboydisplay
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S15piboydisplay"
+                if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
+                    logger.hardlog("PiBoy: Error installing S15piboydisplay")
+                    return ""
+                logger.hardlog("PiBoy: S15piboydisplay installed")
 
                 # Install /recalbox/share/.retroarch.cfg
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-retroarch.cfg"
@@ -150,7 +157,9 @@ class Install(InstallBase):
                 # start piboy service for listening to power event
                 os.system("/etc/init.d/S01piboy start")
                 # start volumed service for volume wheel to work properly
-                os.system("/etc/init.d/S25volumed start")
+                os.system("/etc/init.d/S06volumed start")
+                # start piboydisplay to manage lcd display and theme
+                os.system("/etc/init.d/S15piboydisplay start")
 
             except Exception as e:
                 logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -172,8 +181,10 @@ class Install(InstallBase):
             logger.hardlog("PiBoy: /etc/init.d/S01piboy uninstalled")
             os.remove("/usr/bin/piboy-battery-indicator")
             logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
-            os.remove("/etc/init.d/S25volumed")
-            logger.hardlog("PiBoy: /etc/init.d/S25volumed uninstalled")
+            os.remove("/etc/init.d/S06volumed")
+            logger.hardlog("PiBoy: /etc/init.d/S06volumed uninstalled")
+            os.remove("/etc/init.d/S15piboydisplay")
+            logger.hardlog("PiBoy: /etc/init.d/S15piboydisplay uninstalled")
             os.remove("/recalbox/share/.retroarch.cfg")
             logger.hardlog("PiBoy: /recalbox/share/.retroarch.cfg uninstalled")
             # Load recalbox.conf
