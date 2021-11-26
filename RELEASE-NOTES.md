@@ -44,6 +44,11 @@ as release notes for end user on a Recalbox upgrade.
 
 
 - Fix to not reload recalbox.conf file in manager on save
+### Improvements
+- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
+
+### Fixes
+- Fix savestate in libretro fuse (ZX Spectrum core)
 
 ## Version 8.0.2-Electron
 
