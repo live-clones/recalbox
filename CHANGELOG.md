@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Improve ergonomy when "quick system select" is enabled (#2004)
 - Added wiimote (dolphinbar) button configuration for daphne (#1987)
 - Enhance share_upgrade files copy (#1984)
+- Add missing wifi linux firmwares for rpi3 and rpi4 (#2044)
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)
