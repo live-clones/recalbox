@@ -21,6 +21,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test all rpi based boards still start (#2030)
 - [ ] Test there is no "cannot allocate memory in static TLS block" error when playing video in Netflix or Prime (#2034)
 - [ ] Check that the Hyperspaces boot video is no longer displayed (#2040)
+- [ ] Test rpi3 & rpi4 wifi still works (#2044)
+- [ ] Test rpi3 or rpi4 can use wifi cards that requires linux firmwares (like realtek) (#2044)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
