@@ -51,17 +51,15 @@ def DetectPiBoyCase():
     case = cases.NONE
     try:
         logger.hardlog("trying piboy")
-        os.system("modprobe xpi_gamecon")
-        time.sleep(0.5)
-        with open("/sys/kernel/xpi_gamecon/status") as xpistatus:
-            status = int(xpistatus.readline())
-            logger.hardlog("status = {}".format(status))
-            if status in (70, 198):
-                case = cases.PIBOY
-            else:
-                raise "piboy not detected"
+        import subprocess
+        status = int(subprocess.run(['/usr/bin/piboy-tester'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
+        logger.hardlog(f"status = {status}")
+        if status in (70, 198):
+            case = cases.PIBOY
+            # load module now, or piboy may shutdown
+            subprocess.run(['modprobe', 'xpi_gamecon'])
     except:
-        os.system("rmmod xpi_gamecon") # keep module loaded if piboy detected, remove otherwise
+        pass
     return case
 
 # --------- Main
