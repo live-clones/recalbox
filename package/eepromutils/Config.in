@@ -1,0 +1,5 @@
+config BR2_PACKAGE_EEPROMUTILS
+	bool "eepromutils"
+	help
+	  Utils for eeprom
+	  https://github.com/raspberrypi/hats/tree/master/eepromutils
