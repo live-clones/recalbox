@@ -28,6 +28,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] 240p (CRT)
 - [ ] Test LCD switch off if piboy connected to hdmi (#2045)
 - [ ] Test ES theme is changed depending of LCD or HDMI (#2045)
+- [ ] Check there is no lockup on boot on rpi3 & rpi4 (#2045)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
