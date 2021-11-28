@@ -1,0 +1,4 @@
+config BR2_PACKAGE_RECALBOX_PIBOY
+	bool "recalbox-piboy"
+	help
+	  PiBoy DMG tester
