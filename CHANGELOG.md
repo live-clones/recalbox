@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 ## [NEXT]
+- Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
