@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Removal of the boot video Hyperspaces (#2040)
 - Add missing wifi linux firmwares for rpi3 and rpi4 (#2044)
 - Fix TIC80 logo visibility problem according to the system theme used (#2043)
+- Allow wifi connection to open ssid (#2029)
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)
