@@ -5,20 +5,17 @@ source /recalbox/scripts/recalbox-utils.sh
 ARCH=$(getArchName)
 
 case "$ARCH" in
-  rpi1|rpi2|rpi3)
+  rpi1|rpi2|rpizero2legacy)
       /usr/bin/raspi2png.real "$@"
-    ;;
-  rpi4)
-      /usr/bin/ffmpeg -device /dev/dri/card1 -y -f kmsgrab -i - -vf 'hwdownload,format=bgr0' -frames:v 1 -f image2 -vcodec png "$2"
     ;;
   x86|x86_64)
       /usr/bin/ffmpeg -f x11grab -framerate 1 -video_size "$(DISPLAY=:0 xrandr |grep \* |awk '{print $1}')" -i :0.0 -vframes 1 -vcodec png "$2"
     ;;
-  odroidxu4)
-      /usr/bin/ffmpeg -y -f kmsgrab -i - -vf 'hwdownload,format=bgr0' -frames:v 1 -f image2 -vcodec png "$2"
-    ;;
-  odroidgo2)
-      /usr/bin/ffmpeg -y -f kmsgrab -i - -vf 'hwdownload,format=bgr0,transpose=1' -frames:v 1 -f image2 -vcodec png "$2"
+  *)
+      /usr/bin/kmsgrab "$2"
+      if [ "$ARCH" = "odroidgo2" ] && [ $? -eq 0 ]; then
+        ffmpeg -y -i "$2" -vf transpose=1 /tmp/temp.png && mv -f /tmp/temp.png "$2"
+      fi
     ;;
 esac
 
