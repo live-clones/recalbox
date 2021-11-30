@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 ## [NEXT]
+- Fix xbox pad mapping (#2037)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)
