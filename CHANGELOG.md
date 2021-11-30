@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Added wiimote (dolphinbar) button configuration for daphne (#1987)
 - Enhance share_upgrade files copy (#1984)
 - Bump rpi linux to 5.10.79 (#2030)
+- Add CoreElec and LibreElec patch to make kodi works with recent WiveDevine (#2034)
 
 ## [7.3.1-Reloaded]
 - Bump Genesis-Plus-GX libretro core (#1994)
