@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Bump Genesis-Plus-GX libretro core (#1994)
 
 ## [7.3-Reloaded]
+- Add libretro-pcsx2 core
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)
@@ -102,6 +103,7 @@ All notable changes to this project will be documented in this file.
 - Added more fixes for romfsv2 (#1686)
 - Fix DOS extension in romfsv2 (#1686)
 - Add FBNeo as core of Channel F (#1688)
+- Add ps2 system with pcsx2 emulator (#1792)
 - Fix missing values for some cores (#1686)
 - Bump webmanager v2 to fix non working roms tab since romfsv2 (#1686)
 - Add recalbox overlays (#1787)
