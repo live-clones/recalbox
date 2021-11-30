@@ -1,0 +1,8 @@
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_MYCONNPY
+	bool "kodi-script-module-myconnpy"
+	default n
+	depends on BR2_PACKAGE_KODI
+	help
+	  Kodi Myconnpy script module
+
+	  https://kodi.tv
