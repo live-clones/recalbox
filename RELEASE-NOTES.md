@@ -5,7 +5,7 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
-## Version NEXT
+## Version 8.0-Electron
 
 ### News
 - Add Demons of Asteborg Demo on Megadrive
@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Duckstation standalone emulator (PSX)
 - Add ps2 system with pcsx2 emulator
 - Add ps2 system with pcsx2 emulator & libretro-pcsx2 core
+- Add CRT TV and monitors support (vga666)
 - Add genesisplusgxwide, the genesis/megadrive widescreen core!
 - Add libretro fbneo core for channel f system
 - Add libretro uae4arm core, an Amiga core optimized for ARM boards!
