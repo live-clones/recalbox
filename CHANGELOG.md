@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
+- Added 8.0-Electron introduction video (#2028)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)
@@ -34,6 +35,7 @@ All notable changes to this project will be documented in this file.
 
 ## [7.3-Reloaded]
 - Add libretro-pcsx2 core
+- Bump Genesis-Plus-GX libretro core (#1994)
 - Fix netplay in configgen (#1972)
 - Remove any files in share before making the image (#1976)
 - Rework lightgun xml database (#1967)

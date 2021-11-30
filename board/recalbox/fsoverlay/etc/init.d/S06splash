@@ -27,7 +27,7 @@ machineArch=$(arch)
 originalVideoPath="/recalbox/system/resources/splash"
 originalSmallVideoPath="${originalVideoPath}/240p"
 customVideoPath="/overlay/bootvideos"
-firstTimeVideo=introRecalboxReloaded.mp4
+firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 
 # get output video size
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
