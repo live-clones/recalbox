@@ -1,5 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+
 ## [NEXT]
 - Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
@@ -62,7 +63,7 @@ All notable changes to this project will be documented in this file.
 - Add Gearcoleco libretro core
 - Add montreal & saopaulo MITM servers
 - Add Gearcoleco libretro core
-- Add Gearcoleco libretro core 
+- Add Gearcoleco libretro core
 - Add Hatari standalone emulator
 - Add beebem emulator
 - Remove px68k core from x86 board (#1875)
@@ -219,6 +220,7 @@ All notable changes to this project will be documented in this file.
 - Fix wrong selection of headphones for rpi4 on fresh install (#1922)
 - Fix screenshot on KMS compliant boards (#1970)
 - Updated Netflix and YouTube addons in Kodi
+- Update URLS in all recalbox.conf files (#2051)
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)
