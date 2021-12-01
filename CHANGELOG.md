@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
 - Added 8.0-Electron introduction video (#2028)
+- Bump FreeIntv core (fix sound glitches)
 - Added Demons of Asteborg (#2026)
 - Fix recalbox-hardware case detection (#2019)
 - Display battery icon (#1962)
