@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [8.0-Electron]
+- Remove non-working shaders
 - Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
 - Added 8.0-Electron introduction video (#2028)
