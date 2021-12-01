@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [NEXT]
+## [8.0-Electron]
 - Fix rotation on pifba for Rpizero2 (#2032)
 - Fix xbox pad mapping (#2037)
 - Added 8.0-Electron introduction video (#2028)
@@ -30,11 +30,6 @@ All notable changes to this project will be documented in this file.
 - Fix TIC80 logo visibility problem according to the system theme used (#2043)
 - Allow wifi connection to open ssid (#2029)
 - Improve pulseaudio startup (#1905)
-
-## [7.3.1-Reloaded]
-- Bump Genesis-Plus-GX libretro core (#1994)
-
-## [7.3-Reloaded]
 - Add libretro-pcsx2 core
 - Bump Genesis-Plus-GX libretro core (#1994)
 - Fix netplay in configgen (#1972)
