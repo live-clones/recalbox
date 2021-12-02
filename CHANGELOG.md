@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 [8.0.1-Electron]
 
 - Fix fbneo screenscraper id (#2077)
+- Fix PC88 & Spectravideo scraping
 
 ## [8.0-Electron]
 - Remove non-working shaders
