@@ -19,6 +19,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix Linapple slowness (internla resolution fixed to Apple II resolution)
+## Version NEXT
+
+### News
+
+### Improvements
+
+### Fixes
+- Fix PC88 & Spectravideo scraping
 
 
 ## Version 8.0-Electron
