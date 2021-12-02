@@ -14,6 +14,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix shader crt-pi for rpi
+## Version NEXT
+
+### News
+
+### Improvements
+
+### Fixes
+- Fix PC88 & Spectravideo scraping
 
 
 ## Version 8.0-Electron
