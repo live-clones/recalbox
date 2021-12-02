@@ -26,11 +26,13 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+### News
 
 ### Improvements
 
 ### Fixes
 - Fix shader crt-pi for rpi
+- Fix PC88 & Spectravideo scraping
 
 
 ## Version 8.0-Electron
