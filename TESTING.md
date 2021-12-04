@@ -63,8 +63,9 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
+- [ ] Test CEC on rpi3 & rpi4 (control of kodi through TV remote controller) (#1637)
 
-## [7.3]
+## [8.0]
 - [ ] Check recalbox.log contains script and type information (#1920)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
@@ -216,10 +217,30 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] should start on other platforms
 - [ ] Test XBox controllers (and clones & others) in Dolphin (GC & WII)
 - [ ] Test sound in Intellivision games using freeintv core
-
 - [ ] Test Beebem
 - [ ] Test default sound output of rpi devices is set to HDMI (#1922)
 - [ ] Test screenshots on rpi3, rpi4, rpi02legacy, odroidxu4 and odroidgo2 (#1970)
+- [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
+- [ ] Check screenshot for yarntown game on solarus and craft on ports (#2017)
+- [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
+- [ ] Check the favorite icons of outrun and gong (in the ports system) (#2010)
+- [ ] Test libretro core Gong on all boards (#1986)
+- [ ] Test both HDMI output are not too bright on rpi4 (#2030)
+- [ ] Test all rpi based boards still start (#2030)
+- [ ] Test there is no "cannot allocate memory in static TLS block" error when playing video in Netflix or Prime (#2034)
+- [ ] Check that the Hyperspaces boot video is no longer displayed (#2040)
+- [ ] Test rpi3 & rpi4 wifi still works (#2044)
+- [ ] Test rpi3 or rpi4 can use wifi cards that requires linux firmwares (like realtek) (#2044)
+- [ ] Check the visibility of the TIC 80 logo with the systems themes (#2043)
+  - [ ] Legacy
+  - [ ] 240p (CRT)
+- [ ] Test LCD switch off if piboy connected to hdmi (#2045)
+- [ ] Test ES theme is changed depending of LCD or HDMI (#2045)
+- [ ] Check there is no lockup on boot on rpi3 & rpi4 (#2045)
+- [ ] Test Wifi connection still works (#2029)
+  - [ ] Regular protected wifi (PSK)
+  - [ ] Open SSID (passwordless)
+- [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
