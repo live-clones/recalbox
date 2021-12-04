@@ -1,5 +1,5 @@
 diff --git a/package/libcec/libcec.mk b/package/libcec/libcec.mk
-index 6591bc009a..c0305a87c3 100644
+index 6591bc009a..ac6f9f657a 100644
 --- a/package/libcec/libcec.mk
 +++ b/package/libcec/libcec.mk
 @@ -24,6 +24,10 @@ ifeq ($(BR2_PACKAGE_PYTHON)$(BR2_PACKAGE_PYTHON3),y)
@@ -13,3 +13,12 @@ index 6591bc009a..c0305a87c3 100644
  ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
  LIBCEC_DEPENDENCIES += rpi-userland
  LIBCEC_CONF_OPTS += \
+@@ -31,6 +35,8 @@ LIBCEC_CONF_OPTS += \
+ 	-DCMAKE_CXX_FLAGS="$(TARGET_CXXFLAGS) \
+ 		-I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux \
+ 		-I$(STAGING_DIR)/usr/include/interface/vcos/pthreads"
++else
++LIBCEC_CONF_OPTS += -DHAVE_LINUX_API=1
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_XLIB_LIBXRANDR),y)
