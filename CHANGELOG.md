@@ -55,6 +55,8 @@ All notable changes to this project will be documented in this file.
 
 - Add default configuration for Kodi (#1927)
 - Fix WPA3 wifi connection (#1768)
+## [NEXT]
+- Fix no CEC on rpi3/rpi4 in Kodi (#1637)
 
 ## [8.0-Electron]
 - Remove non-working shaders
