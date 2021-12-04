@@ -35,6 +35,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix PC88 & Spectravideo scraping
 
 - Fix "Configuration" tab save feature in manager.
+## Next
+
+### Fixes
+- Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
 
 ## Version 8.0-Electron
 
