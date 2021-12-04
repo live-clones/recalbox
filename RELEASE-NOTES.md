@@ -40,6 +40,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix shader crt-pi for rpi
+## Next
+
+### Fixes
+- Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
 
 ## Version 8.0-Electron
 

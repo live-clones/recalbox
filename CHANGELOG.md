@@ -38,6 +38,8 @@ All notable changes to this project will be documented in this file.
 - Fix PPSSPP black screen on piboy dmg (#2058)
 
 - Add default configuration for Kodi (#1927)
+## [NEXT]
+- Fix no CEC on rpi3/rpi4 in Kodi (#1637)
 
 ## [8.0-Electron]
 - Remove non-working shaders
