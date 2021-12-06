@@ -36,6 +36,8 @@ All notable changes to this project will be documented in this file.
 - Fix Mupen64plus black screen on piboy dmg (#2058)
 - Fix PPSSPP black screen on piboy dmg (#2058)
 - Fixed piboy pad not detected in Kodi (#2084)
+## [8.0.1-Electron]
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
 
 ## [8.0-Electron]
 - Remove non-working shaders
