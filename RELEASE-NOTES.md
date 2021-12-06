@@ -16,6 +16,14 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix BT controllers not being reconized in ES 
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
+## Version 8.0.1-Electron
+
+### News
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+
+### Improvements
+
+### Fixes
 
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
@@ -104,6 +112,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix loads of bugs on pcsx_rearmed on Raspberry PI 0 and 1
 - Fix static WIFI IP configuration not working
 - Fix non-working shaders (removed)
+
 
 ## Version 7.2.2-Reloaded
 
