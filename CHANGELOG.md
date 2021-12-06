@@ -35,6 +35,8 @@ All notable changes to this project will be documented in this file.
 - Add mupen64plus glide64mk2 as default core for rpi3 (#2082)
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
+## [8.0.1-Electron]
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
 
 ## [8.0-Electron]
 - Remove non-working shaders

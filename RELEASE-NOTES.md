@@ -20,6 +20,14 @@ as release notes for end user on a Recalbox upgrade.
 - Fix crash on Mupen64plus GLideN64 o RPI3
 - Fix crash on Mupen64plus GLideN64 on RPI3
 - Add Mupen64plus GLide64MK2 on RPI3
+## Version 8.0.1-Electron
+
+### News
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+
+### Improvements
+
+### Fixes
 
 ## Version 8.0.1-Electron
 - Fix Duckstation's menu: Navigate with your controler
@@ -107,6 +115,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix loads of bugs on pcsx_rearmed on Raspberry PI 0 and 1
 - Fix static WIFI IP configuration not working
 - Fix non-working shaders (removed)
+
 
 ## Version 7.2.2-Reloaded
 
