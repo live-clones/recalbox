@@ -16,6 +16,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check no tearing effect on odroidgo2 (#2100)
 ## [8.0.1]
 - [ ] Check the crt-pi shader that it is working (#2065)
+## [8.0.1]
+- [ ] Check in the crt system menu the addition of the Recalbox RGB Dual on pi3 and pi4 (#2064)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
