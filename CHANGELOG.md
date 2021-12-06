@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
   - smooth option is off by default but can be enabled
   - update modes and systems database
   - fix neogeo games
+- Improve text for favorites list in system (#2062)
 
 ## [8.0-Electron]
 - Remove non-working shaders
