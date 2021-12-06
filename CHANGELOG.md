@@ -34,6 +34,8 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
 - Fix RetroFlag scripts to turn off cases (#2067)
+## [8.0.1-Electron]
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
 
 ## [8.0-Electron]
 - Remove non-working shaders
