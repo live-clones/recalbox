@@ -3088,7 +3088,7 @@ msgid ""
 msgstr ""
 
 #
-msgid "YOUR FAVORITES LIST IS EMPTY"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 msgstr ""
 
 #

@@ -22,7 +22,7 @@ BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& syste
 
   addChild(&mList);
 
-	mEmptyListItem.Metadata().SetName(_("YOUR FAVORITES LIST IS EMPTY"));
+	mEmptyListItem.Metadata().SetName(_("YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."));
 	populateList(system.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
@@ -163,7 +163,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 				tmp.push(ptr);
 				ptr = ptr->Parent();
 			}
-			
+
 			// flip the stack and put it in mCursorStack
 			mCursorStack = std::stack<FolderData*>();
 			while(!tmp.empty())

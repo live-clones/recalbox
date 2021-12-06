@@ -3142,7 +3142,7 @@ msgid "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
 
 #
-msgid "YOUR FAVORITES LIST IS EMPTY"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 msgstr ""
 
 #
