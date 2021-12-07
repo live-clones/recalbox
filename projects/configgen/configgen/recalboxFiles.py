@@ -152,6 +152,8 @@ atari800CustomConfig = HOME + '/.atari800.cfg'
 
 hatariCustomConfig = HOME + '/.hatari/hatari.cfg'
 
+duckstationConfig = HOME + "/.config/duckstation/settings.ini"
+
 pcsxRootFolder = '/recalbox/share/system/configs/pcsx'
 pcsxConfigFile = pcsxRootFolder + '/pcsx.cfg'
 

@@ -11,13 +11,11 @@ from configgen.settings.keyValueSettings import keyValueSettings
 
 class DuckstationGenerator(Generator):
 
-    __ConfigurationFile: str = recalboxFiles.HOME + "/.config/duckstation/settings.ini"
-
     __HatToDirections: Dict[int, str] = \
     {
         1: "Up",
         2: "Right",
-        4: "Down,",
+        4: "Down",
         8: "Left"
     }
 
@@ -38,7 +36,7 @@ class DuckstationGenerator(Generator):
 
         # Config file
         from configgen.settings.iniSettings import IniSettings
-        configFile = IniSettings(self.__ConfigurationFile, True)
+        configFile = IniSettings(recalboxFiles.duckstationConfig, True)
         configFile.defineBool("true", "false") \
                   .loadFile(True)
 
@@ -59,40 +57,41 @@ class DuckstationGenerator(Generator):
         configFile.setString("Logging", "LogLevel", "Info" if args.verbose else "Error")
 
         # Controllers
-        for index in playersControllers:
-            controller = playersControllers[index]
-            cs: str = "Controller{}/".format(controller.SdlIndex)                   # physical (sdl) pad index
-            duckController: str = "Controller{}".format(controller.PlayerIndex - 1) # duckstation pad index
-            # Digital or analog?
-            configFile.setString(duckController, "Type", "AnalogController" if controller.HasJoy1Left else "DigitalController")
-            configFile.setBool(duckController, "AnalogDPadInDigitalMode", controller.HasJoy1Left)
-            # Digital part
-            if controller.HasUp      : configFile.setString(duckController, "ButtonUp"      , cs + self.__BuildInput(controller.Up))
-            if controller.HasRight   : configFile.setString(duckController, "ButtonRight"   , cs + self.__BuildInput(controller.Right))
-            if controller.HasDown    : configFile.setString(duckController, "ButtonDown"    , cs + self.__BuildInput(controller.Down))
-            if controller.HasLeft    : configFile.setString(duckController, "ButtonLeft"    , cs + self.__BuildInput(controller.Left))
-            if controller.HasSelect  : configFile.setString(duckController, "ButtonSelect"  , cs + self.__BuildInput(controller.Select))
-            if controller.HasStart   : configFile.setString(duckController, "ButtonStart"   , cs + self.__BuildInput(controller.Start))
-            if controller.HasB       : configFile.setString(duckController, "ButtonCross"   , cs + self.__BuildInput(controller.B))
-            if controller.HasA       : configFile.setString(duckController, "ButtonCircle"  , cs + self.__BuildInput(controller.A))
-            if controller.HasX       : configFile.setString(duckController, "ButtonTriangle", cs + self.__BuildInput(controller.X))
-            if controller.HasY       : configFile.setString(duckController, "ButtonSquare"  , cs + self.__BuildInput(controller.Y))
-            if controller.HasL1      : configFile.setString(duckController, "ButtonL1"      , cs + self.__BuildInput(controller.L1))
-            if controller.HasR1      : configFile.setString(duckController, "ButtonR1"      , cs + self.__BuildInput(controller.R1))
-            if controller.HasL2      : configFile.setString(duckController, "ButtonL2"      , cs + self.__BuildInput(controller.L2))
-            if controller.HasR2      : configFile.setString(duckController, "ButtonR2"      , cs + self.__BuildInput(controller.R2))
-            # Analog part
-            if controller.HasJoy1Left: configFile.setString(duckController, "AxisLeftX"     , cs + self.__BuildInput(controller.Joy1Left, True))
-            if controller.HasJoy1Up  : configFile.setString(duckController, "AxisLeftY"     , cs + self.__BuildInput(controller.Joy1Up  , True))
-            if controller.HasJoy2Left: configFile.setString(duckController, "AxisRightX"    , cs + self.__BuildInput(controller.Joy2Left, True))
-            if controller.HasJoy2Up  : configFile.setString(duckController, "AxisRightY"    , cs + self.__BuildInput(controller.Joy2Up  , True))
-            # Hotkey for player one?
-            if controller.PlayerIndex == 1:
-                if controller.HasHotkey: configFile.setString(duckController, "ButtonHotkey"  , cs + self.__BuildInput(controller.Hotkey))
+        for index in range(8):
+            duckController: str = "Controller{}".format(index+1) # duckstation pad index
+            if index+1 in playersControllers:
+              controller = playersControllers[index+1]
+              cs: str = "Controller{}/".format(controller.SdlIndex)                   # physical (sdl) pad index
+              # Digital or analog?
+              configFile.setString(duckController, "Type", "AnalogController" if controller.HasJoy1Left else "DigitalController")
+              configFile.setBool(duckController, "AnalogDPadInDigitalMode", controller.HasJoy1Left)
+              # Digital part
+              if controller.HasUp      : configFile.setString(duckController, "ButtonUp"      , cs + self.__BuildInput(controller.Up))
+              if controller.HasRight   : configFile.setString(duckController, "ButtonRight"   , cs + self.__BuildInput(controller.Right))
+              if controller.HasDown    : configFile.setString(duckController, "ButtonDown"    , cs + self.__BuildInput(controller.Down))
+              if controller.HasLeft    : configFile.setString(duckController, "ButtonLeft"    , cs + self.__BuildInput(controller.Left))
+              if controller.HasSelect  : configFile.setString(duckController, "ButtonSelect"  , cs + self.__BuildInput(controller.Select))
+              if controller.HasStart   : configFile.setString(duckController, "ButtonStart"   , cs + self.__BuildInput(controller.Start))
+              if controller.HasB       : configFile.setString(duckController, "ButtonCross"   , cs + self.__BuildInput(controller.B))
+              if controller.HasA       : configFile.setString(duckController, "ButtonCircle"  , cs + self.__BuildInput(controller.A))
+              if controller.HasX       : configFile.setString(duckController, "ButtonTriangle", cs + self.__BuildInput(controller.X))
+              if controller.HasY       : configFile.setString(duckController, "ButtonSquare"  , cs + self.__BuildInput(controller.Y))
+              if controller.HasL1      : configFile.setString(duckController, "ButtonL1"      , cs + self.__BuildInput(controller.L1))
+              if controller.HasR1      : configFile.setString(duckController, "ButtonR1"      , cs + self.__BuildInput(controller.R1))
+              if controller.HasL2      : configFile.setString(duckController, "ButtonL2"      , cs + self.__BuildInput(controller.L2))
+              if controller.HasR2      : configFile.setString(duckController, "ButtonR2"      , cs + self.__BuildInput(controller.R2))
+              # Analog part
+              if controller.HasJoy1Left: configFile.setString(duckController, "AxisLeftX"     , cs + self.__BuildInput(controller.Joy1Left, True))
+              if controller.HasJoy1Up  : configFile.setString(duckController, "AxisLeftY"     , cs + self.__BuildInput(controller.Joy1Up  , True))
+              if controller.HasJoy2Left: configFile.setString(duckController, "AxisRightX"    , cs + self.__BuildInput(controller.Joy2Left, True))
+              if controller.HasJoy2Up  : configFile.setString(duckController, "AxisRightY"    , cs + self.__BuildInput(controller.Joy2Up  , True))
+              # Hotkey for player one?
+              if controller.PlayerIndex == 1:
+                  if controller.HasHotkey: configFile.setString(duckController, "ButtonHotkey"  , cs + self.__BuildInput(controller.Hotkey))
+            else:
+              configFile.setString(duckController, "Type", "None")
 
         # Save config
-        configFile.saveFile()
-        configFile.changeSettingsFile("/recalbox/share/system/duckstation.cfg")
         configFile.saveFile()
 
         # Command line arguments
