@@ -30,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - Add mupen64plus glide64mk2 as default core for rpi3 (#2082)
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
+- Fix RetroFlag scripts to turn off cases (#2067)
 
 ## [8.0-Electron]
 - Remove non-working shaders
