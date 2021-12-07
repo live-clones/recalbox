@@ -4,6 +4,15 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 8.0.1-Electron
+
+### News
+
+
+### Improvements
+
+### Fixes
+- Fix shader crt-pi for rpi
 
 ## Version 8.0-Electron
 
