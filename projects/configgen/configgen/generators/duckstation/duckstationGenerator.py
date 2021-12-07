@@ -24,7 +24,7 @@ class DuckstationGenerator(Generator):
     def __BuildInput(self, inp: InputItem, signless: bool = False) -> str:
         if inp.IsButton: return "Button{}".format(inp.Id)
         if inp.IsAxis  : return "{}Axis{}".format(('' if signless else ('+' if int(inp.Value) >= 0 else '-')), inp.Id)
-        if inp.IsHat   : return "Axis{} {}".format(inp.Id, self.__HatToDirections[int(inp.Value)])
+        if inp.IsHat   : return "Hat{} {}".format(inp.Id, self.__HatToDirections[int(inp.Value)])
         return "Unknown"
 
     def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args) -> Command:
@@ -61,8 +61,8 @@ class DuckstationGenerator(Generator):
         # Controllers
         for index in playersControllers:
             controller = playersControllers[index]
-            cs: str = "Controller{}/".format(controller.PlayerIndex - 1)
-            duckController: str = "Controller{}".format(controller.PlayerIndex)
+            cs: str = "Controller{}/".format(controller.SdlIndex)                   # physical (sdl) pad index
+            duckController: str = "Controller{}".format(controller.PlayerIndex - 1) # duckstation pad index
             # Digital or analog?
             configFile.setString(duckController, "Type", "AnalogController" if controller.HasJoy1Left else "DigitalController")
             configFile.setBool(duckController, "AnalogDPadInDigitalMode", controller.HasJoy1Left)
