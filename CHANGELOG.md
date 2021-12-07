@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 - Fix Linapple slowness
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix RetroFlag scripts to turn off cases (#2067)
+## [8.0.1-Electron]
+- Fix shader crt-pi for rpi (#2065)
 
 ## [8.0-Electron]
 - Remove non-working shaders
