@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix shader crt-pi for rpi
 - Fix PC88 & Spectravideo scraping
 
+- Fix "Configuration" tab save feature in manager.
 
 ## Version 8.0-Electron
 
