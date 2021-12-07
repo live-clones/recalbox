@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [NEXT]
 - Updated support script to fix the systemlist.xml extension (#2071)
+- Fix RetroFlag scripts to turn off cases (#2067)
 
 ## [8.0-Electron]
 - Remove non-working shaders
