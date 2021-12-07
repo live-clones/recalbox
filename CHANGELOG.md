@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Fix Mupen64plus black screen on piboy dmg (#2058)
 - Fix PPSSPP black screen on piboy dmg (#2058)
 - Fix PC88 & Spectravideo scraping
+- Fix saving from configuration tab in manager (#1999)
 
 ## [8.0-Electron]
 - Remove non-working shaders
