@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
 - Fix two letter extentions (.md/.st)
+- Fix "Configuration" tab save feature in manager.
 
 ## Version 8.0-Electron
 
