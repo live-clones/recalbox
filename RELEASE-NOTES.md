@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - PiBoy DMG pad is now detected in Kodi
 - Fix Duckstation's menu: Navigate with your controler
 
+- Fix RetroFlag scripts to use with cases
 
 ## Version 8.0-Electron
 
