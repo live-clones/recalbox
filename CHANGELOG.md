@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Fix audio switch to DualShock 4 when connecting the joystick (#2083)
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
+- Fix RetroFlag scripts to turn off cases (#2067)
 
 ## [8.0-Electron]
 - Remove non-working shaders
