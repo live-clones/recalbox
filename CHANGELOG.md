@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Fix shader crt-pi for rpi (#2065)
 - Fix theme gameclipview in 240p (#2106)
 - Fix fix demoInfo cropped message (#2109)
+- Fix RetroFlag scripts to turn off cases (#2067)
 
 ## [8.0-Electron]
 - Remove non-working shaders

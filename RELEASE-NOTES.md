@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix shader crt-pi for rpi
+- Fix RetroFlag scripts to use with cases
 
 ## Version 8.0-Electron
 
