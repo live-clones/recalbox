@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix Linapple slowness (internla resolution fixed to Apple II resolution)
 
+- Fix RetroFlag scripts to use with cases
 
 ## Version 8.0-Electron
 

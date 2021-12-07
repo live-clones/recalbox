@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 - Fix fbneo screenscraper id (#2077)
 - Fix Linapple slowness
+- Fix RetroFlag scripts to turn off cases (#2067)
 
 ## [8.0-Electron]
 - Remove non-working shaders

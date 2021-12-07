@@ -25,8 +25,8 @@ try:
   else:
     print("Unrecognized mode")
 except KeyboardInterrupt:
-    print ""
+    print("")
 
 finally:
-    print "cleaning up gpio"
+    print("cleaning up gpio")
     GPIO.cleanup()

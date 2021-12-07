@@ -26,7 +26,7 @@ POWEREN = 4
 LED = 14
 
 GPIO.setwarnings(False)		# no warnings
-GPIO.setmode(GPIO.BCM)		# set up BCM GPIO numbering 
+GPIO.setmode(GPIO.BCM)		# set up BCM GPIO numbering
 
 GPIO.setup(RESETPLUS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # GPIO on pin 3 is the GPIO 2 in BCM mode
@@ -48,7 +48,7 @@ def onoff_mode(channel):
 		shutdownstring="shutdown -h now"
 		offreset(speed, shutdownstring)
 		print('shutdown')
-	
+
 	elif channel == RESETPLUS:
 		timer = 0
 		flag = True
@@ -139,7 +139,7 @@ def offreset(speed, shutdownstring):
 		flag = False
 		for pid in pids:
 				try:
-					print pid
+					print(pid)
 					commandpath = open(os.path.join('/proc', pid, 'cmdline'), 'rb').read()
 					if "emulationstation" in commandpath:
 						flag = True
@@ -149,7 +149,7 @@ def offreset(speed, shutdownstring):
 
 # threaded blinking function for LED
 def blink(speed):
-	while True:  
+	while True:
 			GPIO.output(LED, False)
 			time.sleep(speed)
 			GPIO.output(LED, True)
