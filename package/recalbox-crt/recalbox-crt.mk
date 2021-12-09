@@ -9,6 +9,7 @@ RECALBOX_CRT_LICENSE = MIT
 
 define RECALBOX_CRT_INSTALL_TARGET_CMDS
 	mkdir -p $(BINARIES_DIR)/rpi-firmware/crt-config/
+	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/recalboxrgbdual-config.txt $(BINARIES_DIR)/rpi-firmware/crt-config/
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/rgbpi-config.txt $(BINARIES_DIR)/rpi-firmware/crt-config/
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/vga666-config.txt $(BINARIES_DIR)/rpi-firmware/crt-config/
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/pi2scart-config.txt $(BINARIES_DIR)/rpi-firmware/crt-config/
