@@ -32,6 +32,9 @@ All notable changes to this project will be documented in this file.
 - Fix audio switch to DualShock 4 when connecting the joystick (#2083)
 ## [Next]
 - Bump rpi kernel to 5.10.83 (#2058)
+- Use KMS driver on PiBoy DMG (#2058)
+- Fix Mupen64plus black screen on piboy dmg (#2058)
+- Fix PPSSPP black screen on piboy dmg (#2058)
 
 ## [8.0-Electron]
 - Remove non-working shaders
