@@ -46,6 +46,8 @@ All notable changes to this project will be documented in this file.
   - 480i for naomi, atomiswave and dreamcast
   - add recalbox-rgb-dual module
 - Improve text for favorites list in system (#2062)
+## [Next]
+- Bump rpi kernel to 5.10.83 (#2058)
 
 ## [8.0-Electron]
 - Remove non-working shaders
