@@ -5,15 +5,10 @@
 #include "NetPlayData.h"
 #include <RecalboxConf.h>
 #include <RootFolders.h>
-#include <recalbox/RecalboxSystem.h>
-#include <usernotifications/NotificationManager.h>
-#include <VideoEngine.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
 #include <themes/ThemeException.h>
-#include <padtokeyboard/PadToKeyboardManager.h>
 #include <utils/Zip.h>
-#include <input/InputMapper.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager),
@@ -294,7 +289,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
     if (games != nullptr)
       for (const XmlNode fileNode : games.children())
       {
-        ItemType type;
+        ItemType type = ItemType::Empty;
         std::string name = fileNode.name();
         if (name == "game") type = ItemType::Game;
         else if (name == "folder") type = ItemType::Folder;

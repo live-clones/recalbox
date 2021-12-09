@@ -50,8 +50,6 @@ class RecalboxSystem
 
     static bool kodiExists();
 
-    static bool launchKodi(WindowManager&window);
-
     static bool backupRecalboxConf();
 
     static bool enableWifi(std::string ssid, std::string key);

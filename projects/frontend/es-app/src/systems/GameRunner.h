@@ -55,6 +55,11 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      */
     static bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
+    /*!
+     * @brief Run kodi
+     * @return True if Kodi ran fine, false otherwise
+     */
+    bool RunKodi();
 
     /*!
      * @brief Instruct threads that a game is currently running

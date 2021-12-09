@@ -164,50 +164,6 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
   return false;
 }
 
-bool RecalboxSystem::launchKodi(WindowManager& window)
-{
-  { LOG(LogInfo) << "[System] Attempting to launch kodi..."; }
-
-  AudioManager::Instance().Deactivate();
-
-  InputMapper mapper(nullptr);
-  //OrderedDevices controllers = InputManager::Instance().GenerateConfiguration(mapper);
-  std::string commandline = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
-  std::string command = "configgen -system kodi -rom '' " + commandline;
-
-  WindowManager::Finalize();
-
-  NotificationManager::Instance().NotifyKodi();
-
-  int exitCode = system(command.c_str());
-  if (WIFEXITED(exitCode))
-  {
-    exitCode = WEXITSTATUS(exitCode);
-  }
-
-  window.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
-  AudioManager::Instance().Reactivate();
-  window.normalizeNextUpdate();
-
-  // handle end of kodi
-  switch (exitCode)
-  {
-    case 10: // reboot code
-    {
-      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
-      return true;
-    }
-    case 11: // shutdown code
-    {
-      MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);
-      return true;
-    }
-    default: break;
-  }
-
-  return exitCode == 0;
-}
-
 bool RecalboxSystem::backupRecalboxConf()
 {
   std::string cmd(sConfigScript);

@@ -14,6 +14,7 @@
 #include <utils/Files.h>
 #include <sdl2/Sdl2Runner.h>
 #include <sdl2/Sdl2Init.h>
+#include <MainRunner.h>
 #include "GameRunner.h"
 
 bool GameRunner::sGameIsRunning = false;
@@ -274,4 +275,33 @@ std::string GameRunner::NetplayOption(const FileData& game, const NetPlayData& n
   }
 
   return "";
+}
+
+bool GameRunner::RunKodi()
+{
+  { LOG(LogInfo) << "[System] Attempting to launch kodi..."; }
+
+  std::string commandline = demoInitialize();
+  std::string command = "configgen -system kodi -rom '' " + commandline;
+
+  NotificationManager::Instance().NotifyKodi();
+
+  bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+  int exitCode = Run(command.c_str(), debug);
+  if (WIFEXITED(exitCode))
+  {
+    exitCode = WEXITSTATUS(exitCode);
+  }
+
+  demoFinalize();
+
+  // handle end of kodi
+  switch (exitCode)
+  {
+    case 10: { MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot); return true; }
+    case 11: { MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);     return true; }
+    default: break;
+  }
+
+  return exitCode == 0;
 }

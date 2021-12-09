@@ -15,7 +15,7 @@
 #include <guis/menus/GuiMenuAdvancedSettings.h>
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
-#include "GuiMenuRetroAchievements.h"
+#include <systems/GameRunner.h>
 #include "GuiMenuScraper.h"
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -89,7 +89,7 @@ void GuiMenu::SubMenuSelected(int id)
 {
   switch((Components)id)
   {
-    case Components::Kodi: if (!RecalboxSystem::launchKodi(mWindow)) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
+    case Components::Kodi: if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
     case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow)); break;
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;

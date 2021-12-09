@@ -12,6 +12,7 @@
 #include <guis/GuiSearch.h>
 #include <guis/GuiSettings.h>
 #include <guis/menus/GuiMenuSwitchKodiNetplay.h>
+#include <systems/GameRunner.h>
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -238,7 +239,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         else
         {
           launchKodi = true;
-          if (!RecalboxSystem::launchKodi(mWindow)) { LOG(LogWarning) << "[SystemView] Kodi terminated with non-zero result!"; }
+          if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[SystemView] Kodi terminated with non-zero result!"; }
           launchKodi = false;
         }
       }
