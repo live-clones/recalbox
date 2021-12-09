@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
   - update modes and systems database
   - fix neogeo games
 - Improve text for favorites list in system (#2062)
+## [Next]
+- Bump rpi kernel to 5.10.83 (#2058)
 
 ## [8.0-Electron]
 - Remove non-working shaders
