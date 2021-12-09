@@ -67,3 +67,5 @@ dpi_timings=640 1 80 80 80 480 1 13 13 13 0 0 0 70 0 32000000 1
 #dpi_timings=640 1 130 130 130 480 1 13 13 13 0 0 0 60 0 32000000 1
 #dpi_timings=640 1 56 4 42 480 1 16 4 12 0 0 0 60 0 22800000 1			#alternate 60hz setting for Pi4 only.
 enable_dpi_lcd=1
+
+dtoverlay=vc4-kms-dpi-piboydmg

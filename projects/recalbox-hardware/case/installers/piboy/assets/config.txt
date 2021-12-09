@@ -40,11 +40,11 @@ include recalbox-oc-config.txt
 # Raise the first security limit up to 70° instead of 60° for pi3 and pi4
 [pi3]
 temp_soft_limit=70
-dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-kms-v3d
 
 [pi4]
 temp_soft_limit=70
-dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-kms-v3d
 include recalbox-crt-config.txt
 
 # disable 4k resolution
