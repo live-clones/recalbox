@@ -38,6 +38,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Open SSID (passwordless)
 - [ ] Test linapple on low-end boards (pi0-pi3)  
 - [ ] Kernel bump - test RPI are booting normally (#2058)
+- [ ] Test piboy dmg works flawlessly (#2058)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
