@@ -7,12 +7,14 @@ declare -A ES_CONFIG=( \
     ["emulationstation.theme.recalbox-next.gameclipview"]="3-240p" \
     ["emulationstation.screensaver.type"]="demo" \
     ["240ptestsuite.ignore"]="0" \
+    ["global.smooth"]="0" \
     ["global.videomode"]="default" \
     )
 
 declare -A ES_CLEAN_CONFIG=( \
     ["system.es.ratio"]="default" \
     ["system.es.videomode"]="default" \
+    ["global.smooth"]="1" \
     ["240ptestsuite.ignore"]="1" \
     )
 
@@ -22,7 +24,7 @@ if test "$1" == "start" ; then
     CRT_CONFIG_FILE="/boot/recalbox-crt-config.txt"
     CRT_TIMING_FILE="/boot/timings.txt"
 
-    if [[ "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
         if [[ ! -f "${CRT_CONFIG_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_CONFIG_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
