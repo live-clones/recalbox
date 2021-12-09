@@ -33,6 +33,10 @@ All notable changes to this project will be documented in this file.
 - Fix RetroFlag scripts to turn off cases (#2067)
 ## [8.0.1-Electron]
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
+  - 480i default mode
+  - smooth option is off by default but can be enabled
+  - update modes and systems database
+  - fix neogeo games
 
 ## [8.0-Electron]
 - Remove non-working shaders
