@@ -62,7 +62,6 @@ def test_given_any_config_should_create_default_config_with_no_graphical_filters
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), 0, 0, 0).createConfigFor(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
         "/recalbox/share/roms/wswanc/arkbl2.zip")
-    assert libretro_config["video_smooth"] == '"false"'
     assert libretro_config["video_shader_enable"] == '"false"'
 
 

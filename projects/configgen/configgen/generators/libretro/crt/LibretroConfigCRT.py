@@ -60,6 +60,7 @@ class LibretroConfigCRT:
 
     def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
         config: typing.Dict[str, str] = {"aspect_ratio_index": "24",
+                                         "video_aspect_ratio_auto": '"false"',
                                          "crt_switch_timings_pal": "",
                                          "crt_switch_timings_ntsc": "",
                                          "video_refresh_rate_pal": '"60"',
@@ -79,7 +80,6 @@ class LibretroConfigCRT:
                                          "custom_viewport_y_pal": "",
                                          "video_crop_overscan": '"false"',
                                          "menu_driver": '"rgui"',
-                                         "video_smooth": '"false"',
                                          "video_shader_enable": '"false"',
                                          "video_vsync": '"true"'
                                          }

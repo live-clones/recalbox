@@ -130,11 +130,6 @@ class LibretroGenerator(Generator):
         h_offset = recalboxOptions.getInt("system.crt.horizontal_offset", 0)
         viewport_width = recalboxOptions.getInt("system.crt.viewport_width", 0)
 
-        # Specific retroarch options
-        retroarchConfig.setString("aspect_ratio_index", "24")
-        retroarchConfig.setString("video_smooth", "false")
-        retroarchConfig.setString("video_aspect_ratio_auto", "false")
-
         # Retroarch CRT configuration
         from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
         from configgen.crt.CRTConfigParser import CRTConfigParser
