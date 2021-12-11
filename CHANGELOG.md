@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [NEXT]
+- Fix Linapple slowness
+
 ## [8.0-Electron]
 - Remove non-working shaders
 - Fix rotation on pifba for Rpizero2 (#2032)

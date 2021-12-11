@@ -32,6 +32,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test Wifi connection still works (#2029)
   - [ ] Regular protected wifi (PSK)
   - [ ] Open SSID (passwordless)
+- [ ] Test linapple on low-end boards (pi0-pi3)  
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)

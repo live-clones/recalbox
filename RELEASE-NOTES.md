@@ -5,6 +5,12 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
+## Version NEXT
+
+### Fixes
+- Fix Linapple slowness (internla resolution fixed to Apple II resolution)
+
+
 ## Version 8.0-Electron
 
 ### News
