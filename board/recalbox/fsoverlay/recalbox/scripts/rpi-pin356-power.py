@@ -140,7 +140,7 @@ def offreset(speed, shutdownstring):
 		for pid in pids:
 				try:
 					print pid
-					commandpath = open(os.path.join('/proc', pid, 'cmdline'), 'rb').read()
+					commandpath = open(os.path.join('/proc', pid, 'cmdline'), 'r').read()
 					if "emulationstation" in commandpath:
 						flag = True
 				except IOError:
