@@ -9,7 +9,7 @@ class LibretroCoreConfigCRT:
     def createConfigFor(self, system: Emulator) -> typing.Dict[str, str]:
         lines = dict()
         if system.Name in ["mastersystem", "segacd", "sg1000", "megadrive"]:
-            lines["genesis_plus_gx_overscan"] = '"full"'
+            lines["genesis_plus_gx_overscan"] = '"top/bottom"'
         if system.Name == "gamegear":
             lines["genesis_plus_gx_overscan"] = '"disabled"'
         if system.Name == "sega32x":

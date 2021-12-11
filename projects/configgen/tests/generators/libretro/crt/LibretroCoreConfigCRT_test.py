@@ -29,13 +29,13 @@ def segaEmulator(name):
 def test_given_sega_systems_should_create_core_config_with_overscan():
     core_configurator = LibretroCoreConfigCRT()
     sega_system = segaEmulator('megadrive')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"full"'}
+    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
     sega_system = segaEmulator('sg1000')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"full"'}
+    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
     sega_system = segaEmulator('mastersystem')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"full"'}
+    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
     sega_system = segaEmulator('segacd')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"full"'}
+    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
     sega_system = segaEmulator('gamegear')
     assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"disabled"'}
 

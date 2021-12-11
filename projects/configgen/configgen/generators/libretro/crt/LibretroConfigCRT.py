@@ -38,10 +38,8 @@ class LibretroConfigCRT:
                 config["custom_viewport_width" + region] = viewport_width if viewport_width > 0 else mode.width
                 config[
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
-                config["custom_viewport_x" + region] = (
-                                                               mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (
-                                                               mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
+                config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
         else:
             if rotation == 1:
                 config["aspect_ratio_index"] = '25'
