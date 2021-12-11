@@ -162,7 +162,7 @@ def retroarch(nwcommand):
 	except socket.error:
 		print('Failed to create socket')
 		sys.exit()
-	s.sendto(nwcommand, (IPADDR, PORTNUM))
+	s.sendto(nwcommand.encode(), (IPADDR, PORTNUM))
 
 if mode == "onoff" :
 	# Allow Nespi+ to detect the end of the shutdown for proper power-off
