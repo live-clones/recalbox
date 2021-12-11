@@ -1,5 +1,6 @@
 import logger
 import os
+import subprocess
 import sys
 import time
 from settings import keyValueSettings
@@ -51,8 +52,11 @@ def DetectPiBoyCase():
     case = cases.NONE
     try:
         logger.hardlog("trying piboy")
-        import subprocess
-        status = int(subprocess.run(['/usr/bin/piboy-tester'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
+        if os.path.isfile('/sys/kernel/xpi_gamecon/status'):
+            with open('/sys/kernel/xpi_gamecon/status', 'r') as f:
+                status = int(f.readline())
+        else:
+            status = int(subprocess.run(['/usr/bin/piboy-tester'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
         logger.hardlog(f"status = {status}")
         if status in (70, 198):
             case = cases.PIBOY
@@ -144,7 +148,6 @@ def mainInstall():
         settings.setOption(caseKey, "{}:{}".format(case, phase))
 
         # Save settings
-        import subprocess
         subprocess.call(["mount", "-o", "remount,rw", "/boot"])
         settings.saveFile()
 

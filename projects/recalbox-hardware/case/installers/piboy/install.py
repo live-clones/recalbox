@@ -26,6 +26,7 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
+            os.system("mount -o remount,rw /")
             # Install /boot/config.txt - most important change first
             sourceConfig = self.BASE_SOURCE_FOLDER + "assets/config.txt"
             os.system("cp /boot/config.txt /boot/config.txt.backup")
@@ -50,12 +51,23 @@ class Install(InstallBase):
             sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: set video parameter in cmdline.txt")
 
+            # Install /etc/init.d/S01piboy
+            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S01piboy"
+            if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
+                logger.hardlog("PiBoy: Error installing S01piboy")
+                return ""
+            logger.hardlog("PiBoy: S01piboy installed")
+            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-battery-indicator"
+            if os.system("cp {} /usr/bin/".format(sourceConfig)) != 0:
+                logger.hardlog("PiBoy: Error installing piboy-battery-indicator")
+                return ""
+            logger.hardlog("PiBoy: piboy-battery-indicator installed")
+
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
             return False
 
         finally:
-            os.system("mount -o remount,ro /boot")
             # write 129 to flags in order to reboot properly (instead of shutdown)
             with open("/sys/kernel/xpi_gamecon/flags", "w") as xpiflags:
                 xpiflags.write("129\n")
@@ -81,6 +93,10 @@ class Install(InstallBase):
             logger.hardlog("PiBoy: /boot/boot.ppm uninstalled")
             sed(' video=HDMI-A-1:d', '', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: removed video setting in cmdline.txt")
+            os.remove("/etc/init.d/S01piboy")
+            logger.hardlog("PiBoy: /etc/init.d/S01piboy uninstalled")
+            os.remove("/usr/bin/piboy-battery-indicator")
+            logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -100,17 +116,6 @@ class Install(InstallBase):
 
             try:
                 os.system("mount -o remount,rw /")
-                # Install /etc/init.d/S01piboy
-                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S01piboy"
-                if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
-                    logger.hardlog("PiBoy: Error installing S01piboy")
-                    return ""
-                logger.hardlog("PiBoy: S01piboy installed")
-                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-battery-indicator"
-                if os.system("cp {} /usr/bin/".format(sourceConfig)) != 0:
-                    logger.hardlog("PiBoy: Error installing piboy-battery-indicator")
-                    return ""
-                logger.hardlog("PiBoy: piboy-battery-indicator installed")
                 # Load recalbox.conf
                 recalboxConf = keyValueSettings(self.RECALBOX_CONF, False)
                 recalboxConf.loadFile()
@@ -154,8 +159,6 @@ class Install(InstallBase):
                     return ""
                 logger.hardlog("PiBoy: .retroarch.cfg installed")
 
-                # start piboy service for listening to power event
-                os.system("/etc/init.d/S01piboy start")
                 # start volumed service for volume wheel to work properly
                 os.system("/etc/init.d/S06volumed start")
                 # start piboydisplay to manage lcd display and theme
@@ -177,10 +180,6 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /")
-            os.remove("/etc/init.d/S01piboy")
-            logger.hardlog("PiBoy: /etc/init.d/S01piboy uninstalled")
-            os.remove("/usr/bin/piboy-battery-indicator")
-            logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
             os.remove("/etc/init.d/S06volumed")
             logger.hardlog("PiBoy: /etc/init.d/S06volumed uninstalled")
             os.remove("/etc/init.d/S15piboydisplay")
