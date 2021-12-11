@@ -35,6 +35,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test 2 letters extentions (.md / .st)
 - [ ] Test piboy pad is detected in Kodi (#2084)
 - [ ] Test audio not switched to DualShock 4 when connecting the joypad by USB (#2083)
+- [ ] Test linapple on low-end boards (pi0-pi3)  
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)

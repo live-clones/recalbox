@@ -12,6 +12,12 @@ as release notes for end user on a Recalbox upgrade.
 - Fix two letter extentions (.md/.st)
 - PiBoy DMG pad is now detected in Kodi
 
+## Version NEXT
+
+### Fixes
+- Fix Linapple slowness (internla resolution fixed to Apple II resolution)
+
+
 ## Version 8.0-Electron
 
 ### News
