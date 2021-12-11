@@ -131,7 +131,7 @@ def killthatshit():
 
 # clean stop of ES then shutdown -h or -r
 def offreset(speed, shutdownstring):
-	thread.start_new_thread( blink, (speed, ))
+	_thread.start_new_thread( blink, (speed, ))
 	flag=True
 	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
 	os.system("/etc/init.d/S31emulationstation stop")
