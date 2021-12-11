@@ -19,7 +19,9 @@
 #define BLOCK_SIZE (4*1024)
 #define GC_LENGTH 12
 #define BITRATE 7
-
+#define MAX_RETRIES 10
+#define EXIT_SUCCESS 0
+#define EXIT_ERROR 1
 
 int  mem_fd;
 void *gpio_map;
@@ -87,7 +89,7 @@ void gpio_func(int pin, int state)
 int main(int argc, char **argv)
 {
   int byteindex;
-  int ret=0;
+  int ret=0,retry;
   long bitindex;
   unsigned char data[32];
   static uint8_t index;
@@ -96,84 +98,87 @@ int main(int argc, char **argv)
   // Set up gpi pointer for direct register access
   setup_io();
 
-
   gpio_func(gc_gpio_clk,0);  //output
-  gpio_func(gc_gpio_data,1);  //input
-  
-  for(byteindex=0;byteindex<GC_LENGTH;byteindex++){
-    data[byteindex]=0;
-    for(bitindex=0;bitindex<8;bitindex++){
-      data[byteindex]<<=1;
-  
-      //set clock pin
-      GPIO_SET |= gc_clk_bit;
-      usleep(BITRATE);
-      GPIO_CLR |= gc_clk_bit;
-      usleep(BITRATE);
-      data[byteindex] |= GPIO_STATUS & gc_data_bit ? 1 : 0;
-    }
-    //printf("%d=%x\n", byteindex, data[byteindex]);
-  }
 
-  gpio_func(gc_gpio_data,0);  //output
+  for(retry=0;retry<MAX_RETRIES;retry++) {
+    gpio_func(gc_gpio_data,1);  //input
 
-  GPIO_SET |= gc_clk_bit;
-  usleep(BITRATE);
-  GPIO_CLR |= gc_clk_bit;
-  usleep(BITRATE);
-
-  if(data[0] && !check_crc16(data)){
-    uint8_t len = 0;
-    if(data[0]==0xA5){
-      unsigned char val=0x80;
-      len = 2;
-      //version_val = 0x0100;
-      //val = values.fan_val | (values.flags_val&0x1 ? 0x00 : 0x80);
-      data[GC_LENGTH] = val;
-      data[GC_LENGTH+1] = ~val;
-      data[GC_LENGTH+2] = 0;
-      data[GC_LENGTH+3] = 0;
-    }
-    else
-    if(data[0]==0x5A){
-      len = 4;
-      //version_val = 0x0101;
-      data[GC_LENGTH+0] = 0xC0 | (index&0x3);
-      data[GC_LENGTH+1] = 0;
-      calc_crc16(&data[GC_LENGTH],2);
-      index++;
-    }
-    else{
-      len = 4;
-      //version_val = ((data[0]&0xC0)<<2) | (data[0]&0x3F);
-      data[GC_LENGTH+0] = 0xC0 | (index&0x3);
-      data[GC_LENGTH+1] = 0;
-      calc_crc16(&data[GC_LENGTH],2);
-      index++;
-    }
-
-    for(byteindex=GC_LENGTH;byteindex<GC_LENGTH+len;byteindex++){
+    for(byteindex=0;byteindex<GC_LENGTH;byteindex++){
+      data[byteindex]=0;
       for(bitindex=0;bitindex<8;bitindex++){
-        if(data[byteindex]&(0x80>>bitindex))
-          GPIO_SET |= gc_data_bit;
-        else
-          GPIO_CLR |= gc_data_bit;
+        data[byteindex]<<=1;
+
         //set clock pin
         GPIO_SET |= gc_clk_bit;
         usleep(BITRATE);
         GPIO_CLR |= gc_clk_bit;
         usleep(BITRATE);
+        data[byteindex] |= GPIO_STATUS & gc_data_bit ? 1 : 0;
       }
+      //printf("%d=%x\n", byteindex, data[byteindex]);
     }
-  }else {
-    fprintf(stderr, "CRC error\n");
-    ret=1;
+
+    gpio_func(gc_gpio_data,0);  //output
+
+    GPIO_SET |= gc_clk_bit;
+    usleep(BITRATE);
+    GPIO_CLR |= gc_clk_bit;
+    usleep(BITRATE);
+
+    if(data[0] && !check_crc16(data)){
+      uint8_t len = 0;
+      if(data[0]==0xA5){
+        unsigned char val=0x80;
+        len = 2;
+        //version_val = 0x0100;
+        //val = values.fan_val | (values.flags_val&0x1 ? 0x00 : 0x80);
+        data[GC_LENGTH] = val;
+        data[GC_LENGTH+1] = ~val;
+        data[GC_LENGTH+2] = 0;
+        data[GC_LENGTH+3] = 0;
+      }
+      else
+      if(data[0]==0x5A){
+        len = 4;
+        //version_val = 0x0101;
+        data[GC_LENGTH+0] = 0xC0 | (index&0x3);
+        data[GC_LENGTH+1] = 0;
+        calc_crc16(&data[GC_LENGTH],2);
+        index++;
+      }
+      else{
+        len = 4;
+        //version_val = ((data[0]&0xC0)<<2) | (data[0]&0x3F);
+        data[GC_LENGTH+0] = 0xC0 | (index&0x3);
+        data[GC_LENGTH+1] = 0;
+        calc_crc16(&data[GC_LENGTH],2);
+        index++;
+      }
+
+      for(byteindex=GC_LENGTH;byteindex<GC_LENGTH+len;byteindex++){
+        for(bitindex=0;bitindex<8;bitindex++){
+          if(data[byteindex]&(0x80>>bitindex))
+            GPIO_SET |= gc_data_bit;
+          else
+            GPIO_CLR |= gc_data_bit;
+          //set clock pin
+          GPIO_SET |= gc_clk_bit;
+          usleep(BITRATE);
+          GPIO_CLR |= gc_clk_bit;
+          usleep(BITRATE);
+        }
+      }
+      // read successful
+      gpio_func(gc_gpio_clk,1);  //input
+      printf("%d\n", data[5]&0xc6);
+      return EXIT_SUCCESS;
+    }else {
+      fprintf(stderr, "try %d, CRC error\n", retry);
+    }
   }
-
   gpio_func(gc_gpio_clk,1);  //input
-  printf("%d\n", data[5]&0xc6);
-  return ret;
-
+  fprintf(stderr, "piboy not found\n");
+  return EXIT_ERROR;
 }
 
 //
