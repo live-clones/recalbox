@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
-import thread
+import _thread
 import datetime
 import socket
 import sys
