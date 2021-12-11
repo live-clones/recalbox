@@ -42,8 +42,10 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     int   mVirtualDisplayWidth;
     //! Virtual viewport display width as float
     float mVirtualDisplayWidthFloat;
-    //! Aspect ratio
+    //! X Scaling
     float mScale;
+    //! Aspect ratio
+    float mAspectRatio;
 
     //! True if both surface and context have been initialized
     bool mViewPortInitialized;
@@ -119,6 +121,12 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @return true if everything is working fine, false otherwise
      */
     bool Initialize(int w, int h);
+
+    /*!
+     * @brief Reinitialize video using previous parameters
+     * @return true if everything is working fine, false otherwise
+     */
+    bool ReInitialize();
 
     /*!
      * Finalize GL viewport

@@ -70,6 +70,10 @@ Renderer::Renderer(int width, int height, bool windowed)
   , mDisplayHeight(0)
   , mDisplayWidthFloat(0.0f)
   , mDisplayHeightFloat(0.0f)
+  , mVirtualDisplayWidth(0)
+  , mVirtualDisplayWidthFloat(0.0f)
+  , mScale(0.0f)
+  , mAspectRatio(0.0f)
   , mViewPortInitialized(false)
   , mInitialCursorState(false)
   , mWindowed(windowed)
@@ -490,11 +494,16 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio
   { LOG(LogInfo) << "[Renderer] Resolution got from recalbox.conf: " << w << 'x' << h; }
 }
 
+bool Renderer::ReInitialize()
+{
+  // Reinitialize with real resolution settings
+  return Initialize(mDisplayWidth, mDisplayHeight);
+}
+
 bool Renderer::Initialize(int w, int h)
 {
   // Get resolution from config if either w or h is nul
-  float configAspectRatio = 0;
-  if ((w * h) == 0) GetResolutionFromConfiguration(w, h, configAspectRatio);
+  if ((w * h) == 0) GetResolutionFromConfiguration(w, h, mAspectRatio);
 
   bool createdSurface = ((w * h) != 0) ? CreateSdlSurface(w, h) : false;
 
@@ -508,11 +517,14 @@ bool Renderer::Initialize(int w, int h)
   if (!createdSurface)
     return false;
 
-  if(configAspectRatio!=0){
-    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * configAspectRatio);
-    mVirtualDisplayWidth = (int)(mDisplayHeightFloat * configAspectRatio);
-    mVirtualDisplayWidthFloat = mDisplayHeightFloat * configAspectRatio;
-  }else{
+  if (mAspectRatio != 0)
+  {
+    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * mAspectRatio);
+    mVirtualDisplayWidth = (int)(mDisplayHeightFloat * mAspectRatio);
+    mVirtualDisplayWidthFloat = mDisplayHeightFloat * mAspectRatio;
+  }
+  else
+  {
     mScale = 1;
     mVirtualDisplayWidth = mDisplayWidth;
     mVirtualDisplayWidthFloat = mDisplayWidthFloat;
@@ -544,7 +556,7 @@ void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vert
 
 void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
-  Vector4i box(pos.x()*mScale, pos.y(), dim.x()*mScale, dim.y());
+  Vector4i box((int)(pos.x() * mScale), pos.y(), (int)(dim.x() * mScale), dim.y());
   if (box[2] == 0)
     box[2] = mDisplayWidth - box.x();
   if (box[3] == 0)

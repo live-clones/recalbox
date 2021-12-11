@@ -96,6 +96,22 @@ void WindowManager::deleteAllGui()
   mGuiStack.Clear();
 }
 
+bool WindowManager::ReInitialize()
+{
+  // Reinit video
+  if (!Renderer::Instance().ReInitialize())
+  {
+    { LOG(LogError) << "[WindowManager] Renderer failed to initialize!"; }
+    return false;
+  }
+  // Reload resources
+  ResourceManager::getInstance()->reloadAll();
+  // Update help system
+  UpdateHelpSystem();
+
+  return true;
+}
+
 bool WindowManager::Initialize(unsigned int width, unsigned int height, bool initRenderer)
 {
   if (initRenderer)

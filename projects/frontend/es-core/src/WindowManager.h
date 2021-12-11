@@ -44,6 +44,8 @@ class WindowManager
 
     bool Initialize(unsigned int width, unsigned int height, bool initRenderer = true);
 
+    bool ReInitialize();
+
     static void Finalize();
 
     void normalizeNextUpdate() { mNormalizeNextUpdate = true; }

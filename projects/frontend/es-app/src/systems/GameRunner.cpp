@@ -13,7 +13,6 @@
 #include <input/InputMapper.h>
 #include <utils/Files.h>
 #include <sdl2/Sdl2Runner.h>
-#include <Renderer.h>
 #include <sdl2/Sdl2Init.h>
 #include "GameRunner.h"
 
@@ -152,7 +151,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Net
   // Reinit
   Sdl2Init::Finalize();
   Sdl2Init::Initialize();
-  mWindowManager.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
+  mWindowManager.ReInitialize();
   mWindowManager.normalizeNextUpdate();
   AudioManager::Instance().Reactivate();
   InputManager::Instance().Refresh(&mWindowManager, false);
@@ -187,7 +186,7 @@ void GameRunner::demoFinalize()
   // Reinit
   Sdl2Init::Finalize();
   Sdl2Init::Initialize();
-  mWindowManager.Initialize(Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt());
+  mWindowManager.ReInitialize();
   mWindowManager.normalizeNextUpdate();
   AudioManager::Instance().Reactivate();
   InputManager::Instance().Refresh(&mWindowManager, false);

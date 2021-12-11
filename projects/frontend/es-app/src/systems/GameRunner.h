@@ -37,7 +37,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @brief INitialize demo launching
      * @return Controller configuration string
      */
-    std::string demoInitialize();
+    static std::string demoInitialize();
 
     /*!
      * @brief Finalize demo run
