@@ -32,6 +32,8 @@ All notable changes to this project will be documented in this file.
 - Fix PC88 & Spectravideo scraping
 - Fix saving from configuration tab in manager (#1999)
 
+- Add default configuration for Kodi (#1927)
+
 ## [8.0-Electron]
 - Remove non-working shaders
 - Fix rotation on pifba for Rpizero2 (#2032)
