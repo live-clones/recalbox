@@ -45,10 +45,17 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
   if (!Strings::StartsWith(extensionList, LEGACY_STRING(sFilesPrefix)))
   {
     // Seek in regular extensions
-    size_t extensionPos = extensionList.find(extension);
-    if (extensionPos == std::string::npos) return false;
-    const char* p = extensionList.data();
-    return (extensionPos + extension.size() == extensionList.size()) || (p[extensionPos + extension.size()] == ' ');
+    int start = 0;
+    while(start < (int)extensionList.size())
+    {
+      size_t extensionPos = extensionList.find(extension, start);
+      if (extensionPos == std::string::npos) return false;
+      const char* p = extensionList.data();
+      char endChar = p[extensionPos + extension.size()];
+      if (endChar == ' ' || endChar == 0) return true;
+      start += (int)(extensionPos + extension.size());
+    }
+    return false;
   }
 
   // Seek complete files
