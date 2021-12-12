@@ -18,6 +18,15 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Linapple slowness (internla resolution fixed to Apple II resolution)
 
 - Fix RetroFlag scripts to use with cases
+## Version 8.0.1-Electron
+
+### News
+
+
+### Improvements
+
+### Fixes
+- Fix shader crt-pi for rpi
 
 ## Version 8.0-Electron
 
