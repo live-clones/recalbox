@@ -8,6 +8,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+### Fix
+- Fix Duckstation's menu: Navigate with your controler
 
 ### Fix
 - Add a better text when you are stuck in the favorites list in any system.
