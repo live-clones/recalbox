@@ -9,14 +9,11 @@ as release notes for end user on a Recalbox upgrade.
 ### Fix
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
+- Fix controllers in Duckstations (access menu with HK+B)
 - Fix two letter extentions (.md/.st)
 - Fix "Configuration" tab save feature in manager.
-### News
-
-### Improvements
-
-### Fixes
 - Fix PC88 & Spectravideo scraping
+- Fix rotated DPAD in PCSX2 (PS2 emulator)
 
 
 ## Version 8.0-Electron

@@ -1,14 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [NEXT]
+## [8.0.1-Electron]
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
 - Fix two letter extentions
 - Fix saving from configuration tab in manager (#1999)
-[8.0.1-Electron]
-
+- Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix fbneo screenscraper id (#2077)
 - Fix PC88 & Spectravideo scraping
 
