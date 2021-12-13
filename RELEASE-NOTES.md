@@ -7,7 +7,7 @@ as release notes for end user on a Recalbox upgrade.
 ## Version NEXT
 
 ### Fix
-
+- Add a better text when you are stuck in the favorites list in any system.
 
 ## Version 8.0-Electron
 
