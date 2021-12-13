@@ -1,5 +1,5 @@
 diff --git a/.gitignore b/.gitignore
-index dfc0fbdf9..5f1099d9d 100644
+index dfc0fbdf96..5f1099d9d5 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -116,3 +116,6 @@ oprofile_data/
@@ -11,7 +11,7 @@ index dfc0fbdf9..5f1099d9d 100644
 +cmake-build-debug/
 \ No newline at end of file
 diff --git a/pcsx2/PAD/Linux/Config.cpp b/pcsx2/PAD/Linux/Config.cpp
-index d51b77832..92cab33c0 100644
+index d51b778327..92cab33c0c 100644
 --- a/pcsx2/PAD/Linux/Config.cpp
 +++ b/pcsx2/PAD/Linux/Config.cpp
 @@ -97,6 +97,7 @@ void PADLoadConfig()
@@ -35,7 +35,7 @@ index d51b77832..92cab33c0 100644
  	if (!have_user_setting)
  		DefaultKeyboardValues();
 diff --git a/pcsx2/PAD/Linux/Global.h b/pcsx2/PAD/Linux/Global.h
-index e94cbe8d2..a6a9cac6e 100644
+index e94cbe8d2d..c792e2485e 100644
 --- a/pcsx2/PAD/Linux/Global.h
 +++ b/pcsx2/PAD/Linux/Global.h
 @@ -35,8 +35,8 @@
@@ -49,24 +49,28 @@ index e94cbe8d2..a6a9cac6e 100644
  
  #include "Config.h"
  
-@@ -54,6 +54,7 @@ enum gamePadValues
- 	PAD_L3,       // Left joystick button (L3)
- 	PAD_R3,       // Right joystick button (R3)
- 	PAD_START,    // Start button
-+  PAD_HOTKEY,   // Hotkey button
- 	PAD_UP,       // Directional pad ↑
- 	PAD_RIGHT,    // Directional pad →
- 	PAD_DOWN,     // Directional pad ↓
-@@ -82,6 +83,7 @@ static const std::array<gamePadValues, MAX_KEYS> all_keys =
- 	PAD_L3,       // Left joystick button (L3)
- 	PAD_R3,       // Right joystick button (R3)
- 	PAD_START,    // Start button
-+  PAD_HOTKEY,   // Hotkey button
- 	PAD_UP,       // Directional pad ↑
- 	PAD_RIGHT,    // Directional pad →
- 	PAD_DOWN,     // Directional pad ↓
+@@ -65,7 +65,8 @@ enum gamePadValues
+ 	PAD_R_UP,     // Right joystick (Up) ↑
+ 	PAD_R_RIGHT,  // Right joystick (Right) →
+ 	PAD_R_DOWN,   // Right joystick (Down) ↓
+-	PAD_R_LEFT    // Right joystick (Left) ←
++	PAD_R_LEFT,   // Right joystick (Left) ←
++	PAD_HOTKEY,   // Hotkey button
+ };
+ 
+ static const std::array<gamePadValues, MAX_KEYS> all_keys =
+@@ -93,7 +94,8 @@ static const std::array<gamePadValues, MAX_KEYS> all_keys =
+ 	PAD_R_UP,     // Right joystick (Up) ↑
+ 	PAD_R_RIGHT,  // Right joystick (Right) →
+ 	PAD_R_DOWN,   // Right joystick (Down) ↓
+-	PAD_R_LEFT    // Right joystick (Left) ←
++	PAD_R_LEFT,   // Right joystick (Left) ←
++	PAD_HOTKEY,   // Hotkey button
+ };
+ 
+ enum PadOptions
 diff --git a/pcsx2/PAD/Linux/InputManager.cpp b/pcsx2/PAD/Linux/InputManager.cpp
-index 79b117fcc..8caadecc0 100644
+index 79b117fccf..8caadecc07 100644
 --- a/pcsx2/PAD/Linux/InputManager.cpp
 +++ b/pcsx2/PAD/Linux/InputManager.cpp
 @@ -24,6 +24,25 @@
@@ -137,14 +141,14 @@ index 79b117fcc..8caadecc0 100644
  }
  
 diff --git a/pcsx2/PAD/Linux/SDL/joystick.cpp b/pcsx2/PAD/Linux/SDL/joystick.cpp
-index 933bc4f4c..bbd9f452c 100644
+index 933bc4f4c7..a682de91c0 100644
 --- a/pcsx2/PAD/Linux/SDL/joystick.cpp
 +++ b/pcsx2/PAD/Linux/SDL/joystick.cpp
-@@ -136,6 +136,7 @@ JoystickInfo::JoystickInfo(int id)
- 	m_pad_to_sdl[PAD_L3] = SDL_CONTROLLER_BUTTON_LEFTSTICK;
- 	m_pad_to_sdl[PAD_R3] = SDL_CONTROLLER_BUTTON_RIGHTSTICK;
- 	m_pad_to_sdl[PAD_START] = SDL_CONTROLLER_BUTTON_START;
-+  m_pad_to_sdl[PAD_HOTKEY] = SDL_CONTROLLER_BUTTON_GUIDE;
- 	m_pad_to_sdl[PAD_UP] = SDL_CONTROLLER_BUTTON_DPAD_UP;
- 	m_pad_to_sdl[PAD_RIGHT] = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
- 	m_pad_to_sdl[PAD_DOWN] = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+@@ -148,6 +148,7 @@ JoystickInfo::JoystickInfo(int id)
+ 	m_pad_to_sdl[PAD_R_RIGHT] = SDL_CONTROLLER_AXIS_RIGHTX;
+ 	m_pad_to_sdl[PAD_R_DOWN] = SDL_CONTROLLER_AXIS_RIGHTY;
+ 	m_pad_to_sdl[PAD_R_LEFT] = SDL_CONTROLLER_AXIS_RIGHTX;
++	m_pad_to_sdl[PAD_HOTKEY] = SDL_CONTROLLER_BUTTON_GUIDE;
+ 
+ 	if (SDL_IsGameController(id))
+ 	{

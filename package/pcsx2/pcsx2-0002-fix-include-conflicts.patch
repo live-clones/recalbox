@@ -1,5 +1,5 @@
 diff --git a/pcsx2/CDVD/CDVD.cpp b/pcsx2/CDVD/CDVD.cpp
-index d1e3c3823..0c785f98a 100644
+index d1e3c38237..0c785f98a0 100644
 --- a/pcsx2/CDVD/CDVD.cpp
 +++ b/pcsx2/CDVD/CDVD.cpp
 @@ -25,7 +25,7 @@
@@ -12,7 +12,7 @@ index d1e3c3823..0c785f98a 100644
  #include "ps2/BiosTools.h"
  
 diff --git a/pcsx2/DebugTools/Debug.h b/pcsx2/DebugTools/Debug.h
-index 65e2c8768..8d33203f6 100644
+index 65e2c87683..8d33203f67 100644
 --- a/pcsx2/DebugTools/Debug.h
 +++ b/pcsx2/DebugTools/Debug.h
 @@ -16,7 +16,7 @@
@@ -25,7 +25,7 @@ index 65e2c8768..8d33203f6 100644
  
  extern FILE *emuLog;
 diff --git a/pcsx2/DebugTools/DebugInterface.cpp b/pcsx2/DebugTools/DebugInterface.cpp
-index eeedeb33a..ac2d93ef9 100644
+index eeedeb33af..ac2d93ef98 100644
 --- a/pcsx2/DebugTools/DebugInterface.cpp
 +++ b/pcsx2/DebugTools/DebugInterface.cpp
 @@ -20,12 +20,13 @@
@@ -44,7 +44,7 @@ index eeedeb33a..ac2d93ef9 100644
  R5900DebugInterface r5900Debug;
  R3000DebugInterface r3000Debug;
 diff --git a/pcsx2/PAD/Linux/Config.h b/pcsx2/PAD/Linux/Config.h
-index 26f46f0ed..39fae8d9b 100644
+index 26f46f0ed6..39fae8d9b1 100644
 --- a/pcsx2/PAD/Linux/Config.h
 +++ b/pcsx2/PAD/Linux/Config.h
 @@ -12,10 +12,9 @@
@@ -60,7 +60,7 @@ index 26f46f0ed..39fae8d9b 100644
  class PADconf
  {
 diff --git a/pcsx2/PAD/Linux/Global.h b/pcsx2/PAD/Linux/Global.h
-index a6a9cac6e..fb8c54277 100644
+index c792e2485e..ea54c15075 100644
 --- a/pcsx2/PAD/Linux/Global.h
 +++ b/pcsx2/PAD/Linux/Global.h
 @@ -12,7 +12,6 @@
@@ -81,7 +81,7 @@ index a6a9cac6e..fb8c54277 100644
  enum gamePadValues
  {
 diff --git a/pcsx2/gui/App.h b/pcsx2/gui/App.h
-index c54fa9f6a..1675038d1 100644
+index c54fa9f6ac..1675038d13 100644
 --- a/pcsx2/gui/App.h
 +++ b/pcsx2/gui/App.h
 @@ -36,7 +36,7 @@
@@ -94,7 +94,7 @@ index c54fa9f6a..1675038d1 100644
  #include "System/SysThreads.h"
  
 diff --git a/pcsx2/gui/CpuUsageProvider.cpp b/pcsx2/gui/CpuUsageProvider.cpp
-index d5db2b1db..223fb6e6a 100644
+index d5db2b1dbd..223fb6e6ad 100644
 --- a/pcsx2/gui/CpuUsageProvider.cpp
 +++ b/pcsx2/gui/CpuUsageProvider.cpp
 @@ -22,8 +22,9 @@
