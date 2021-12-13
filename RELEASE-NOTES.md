@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Mupen64plus GLide64MK2 on RPI3
 
 ## Version 8.0.1-Electron
+- Fix Duckstation's menu: Navigate with your controler
 
 ### News
 
