@@ -10,6 +10,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
 ### Improvements
 - Bump libretro-mupen64plus-next
+### Fix
+- Fix Duckstation's menu: Navigate with your controler
 
 ### Fix
 - Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI

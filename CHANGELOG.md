@@ -64,6 +64,8 @@ All notable changes to this project will be documented in this file.
 - Bump rockchip-mali (#2123)
 - Bump libretro-mupen64plus-next (#2123)
 - Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
+## [NEXT]
+- Fix duckstation mapping & menu navigation
 
 ## [8.0-Electron]
 - Remove non-working shaders
