@@ -1,5 +1,6 @@
 import os
 import logger
+import shutil
 from filemanipulation import sed, stripline
 from installers.base.install import InstallBase
 from settings import keyValueSettings
@@ -27,41 +28,19 @@ class Install(InstallBase):
         try:
             os.system("mount -o remount,rw /boot")
             os.system("mount -o remount,rw /")
-            # Install /boot/config.txt - most important change first
-            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/config.txt"
-            os.system("cp /boot/config.txt /boot/config.txt.backup")
-            if os.system("cp {} /boot".format(sourceConfig)) != 0:
-                logger.hardlog("PiBoy: Error installing config.txt")
-                return False
-            logger.hardlog("PiBoy: config.txt installed")
-            # Install /boot/recalbox-user-config.txt
-            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/recalbox-user-config.txt"
-            os.system("cp /boot/recalbox-user-config.txt /boot/recalbox-user-config.txt.backup")
-            if os.system("cp {} /boot".format(sourceConfig)) != 0:
-                logger.hardlog("PiBoy: Error installing recalbox-user-config.txt")
-                return False
-            logger.hardlog("PiBoy: recalbox-user-config.txt installed")
-            # install boot image
-            sourcePpm = self.BASE_SOURCE_FOLDER + "assets/piboy.ppm"
-            if os.system("cp -r {} /boot/boot.ppm".format(sourcePpm)) == 0:
-                logger.hardlog("PiBoy: boot image installed")
-            else:
-                logger.hardlog("PiBoy: boot image NOT installed")
+            files = {
+                '/boot/recalbox-user-config.txt': '/boot/recalbox-user-config.txt.backup',
+                self.BASE_SOURCE_FOLDER + 'assets/recalbox-user-config.txt': '/boot/recalbox-user-config.txt',
+                self.BASE_SOURCE_FOLDER + 'assets/piboy.ppm': '/boot/boot.ppm',
+                self.BASE_SOURCE_FOLDER + 'assets/S01piboy': '/etc/init.d',
+                self.BASE_SOURCE_FOLDER + 'assets/piboy-battery-indicator': '/usr/bin',
+            }
+            for source_file, dest_file in files.items():
+                installed_file = shutil.copy(source_file, dest_file)
+                logger.hardlog(f"PiBoy: {installed_file} installed")
 
             sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: set video parameter in cmdline.txt")
-
-            # Install /etc/init.d/S01piboy
-            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S01piboy"
-            if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
-                logger.hardlog("PiBoy: Error installing S01piboy")
-                return ""
-            logger.hardlog("PiBoy: S01piboy installed")
-            sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-battery-indicator"
-            if os.system("cp {} /usr/bin/".format(sourceConfig)) != 0:
-                logger.hardlog("PiBoy: Error installing piboy-battery-indicator")
-                return ""
-            logger.hardlog("PiBoy: piboy-battery-indicator installed")
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -79,11 +58,7 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /boot")
-            # Uninstall /boot/config.txt
-            if os.system("cp /boot/config.txt.backup /boot/config.txt") != 0:
-                logger.hardlog("PiBoy: Error uninstalling config.txt")
-                return False
-            logger.hardlog("PiBoy: config.txt uninstalled")
+            os.system("mount -o remount,rw /")
             # Uninstall /boot/recalbox-user-config.txt
             if os.system("cp /boot/recalbox-user-config.txt.backup /boot/recalbox-user-config.txt") != 0:
                 logger.hardlog("PiBoy: Error uninstalling recalbox-user-config.txt")
@@ -145,12 +120,12 @@ class Install(InstallBase):
                     return ""
                 logger.hardlog("PiBoy: S06volumed installed")
 
-                # Install /etc/init.d/S15piboydisplay
-                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S15piboydisplay"
+                # Install /etc/init.d/S15piboyswitch
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/S15piboyswitch"
                 if os.system("cp {} /etc/init.d/".format(sourceConfig)) != 0:
-                    logger.hardlog("PiBoy: Error installing S15piboydisplay")
+                    logger.hardlog("PiBoy: Error installing S15piboyswitch")
                     return ""
-                logger.hardlog("PiBoy: S15piboydisplay installed")
+                logger.hardlog("PiBoy: S15piboyswitch installed")
 
                 # Install /recalbox/share/.retroarch.cfg
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/piboy-retroarch.cfg"
@@ -161,8 +136,8 @@ class Install(InstallBase):
 
                 # start volumed service for volume wheel to work properly
                 os.system("/etc/init.d/S06volumed start")
-                # start piboydisplay to manage lcd display and theme
-                os.system("/etc/init.d/S15piboydisplay start")
+                # start S15piboyswitch to manage lcd display and theme
+                os.system("/etc/init.d/S15piboyswitch start")
 
             except Exception as e:
                 logger.hardlog("PiBoy: Exception = {}".format(e))
@@ -182,8 +157,8 @@ class Install(InstallBase):
             os.system("mount -o remount,rw /")
             os.remove("/etc/init.d/S06volumed")
             logger.hardlog("PiBoy: /etc/init.d/S06volumed uninstalled")
-            os.remove("/etc/init.d/S15piboydisplay")
-            logger.hardlog("PiBoy: /etc/init.d/S15piboydisplay uninstalled")
+            os.remove("/etc/init.d/S15piboyswitch")
+            logger.hardlog("PiBoy: /etc/init.d/S15piboyswitch uninstalled")
             os.remove("/recalbox/share/.retroarch.cfg")
             logger.hardlog("PiBoy: /recalbox/share/.retroarch.cfg uninstalled")
             # Load recalbox.conf

@@ -1,0 +1,4 @@
+# rpi3 uses card0
+ACTION=="change", SUBSYSTEM=="drm", KERNEL=="card0", RUN+="/usr/bin/piboy-display card0"
+# rpi4 uses card1
+ACTION=="change", SUBSYSTEM=="drm", KERNEL=="card1", RUN+="/usr/bin/piboy-display card1"

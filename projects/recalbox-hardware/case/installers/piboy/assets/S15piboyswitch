@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# PiBoy DMG switch service
+# Take care of
+# * switching off LCD display if HDMI connected
+# * unset in-case pad when HDMI connected
+# * audio switching between in-case and HDMI
+
+start() {
+  local theme
+  theme="$(recalbox_settings  -command load -key emulationstation.theme.folder -default recalbox-goa2)"
+
+  if grep -q -E '^connected' /sys/class/drm/card?-HDMI-A-*/status; then
+    # disable LCD display
+    echo 0 >/sys/kernel/xpi_gamecon/flags
+    
+    # change ES theme
+    if [ "$theme" = "recalbox-goa2" ]; then
+      recalbox_settings -command save -key emulationstation.theme.folder -value recalbox-next
+    fi
+
+    # remove piboy pad definition in ES
+    sed -i '/^emulationstation.pad.=.*:PiBoy DMG Controller/d' /recalbox/share/system/recalbox.conf
+
+    # unset in-case audio output
+    recalbox_settings -command save -key audio.device -value '' 
+
+  else
+    # keep LCD enable change ES theme
+    if [ "$theme" = "recalbox-next" ]; then
+      recalbox_settings -command save -key emulationstation.theme.folder -value recalbox-goa2
+    fi
+
+    # force in-case audio output
+    recalbox_settings -command save -key audio.device -value 'alsa_card.platform-bcm2835_audio:analog-output'
+
+  fi
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  *)
+    echo "Usage: $0 start" 
+    exit 1
+esac
+
+exit $?
