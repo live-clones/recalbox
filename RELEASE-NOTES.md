@@ -10,6 +10,12 @@ as release notes for end user on a Recalbox upgrade.
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
 
+## Version NEXT
+
+### Fixes
+- Fix Linapple slowness (internla resolution fixed to Apple II resolution)
+
+
 ## Version 8.0-Electron
 
 ### News

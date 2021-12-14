@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
+- Fix Linapple slowness
 
 ## [8.0-Electron]
 - Remove non-working shaders
