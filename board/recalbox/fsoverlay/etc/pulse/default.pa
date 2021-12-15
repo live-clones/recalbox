@@ -29,7 +29,7 @@ load-module module-card-restore
 ### stored in /usr/share/application
 load-module module-augment-properties
 
-load-module module-switch-on-connect
+load-module module-switch-on-connect blacklist="Sony_Interactive_Entertainment_Wireless_Controller"
 
 ### Load audio drivers statically
 ### (it's probably better to not load these drivers manually, but instead
