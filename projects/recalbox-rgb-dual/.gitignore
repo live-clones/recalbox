@@ -8,6 +8,6 @@ cmake-build-*
 Module.symvers
 modules.order
 built-in.a
-rpi-dpidac.ko
+recalboxrgbdual.ko
 *.mod*
 *.o

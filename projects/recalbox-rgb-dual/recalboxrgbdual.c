@@ -2,6 +2,8 @@
  * Copyright (C) 2018 Hugh Cole-Baker
  *
  * Hugh Cole-Baker <sigmaris@gmail.com>
+ * cpasjuste
+ * digitalLumberjack <digitalLumberjack@recalbox.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -11,6 +13,7 @@
 
 #include <linux/module.h>
 #include <linux/platform_device.h>
+#include <linux/gpio/consumer.h>
 
 #include <video/display_timing.h>
 #include <video/of_display_timing.h>
@@ -43,7 +46,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
                      &vm.vactive, &vsync, &vm.vfront_porch, &vm.vsync_len, &vm.vback_porch,
                      &interlace, &vm.pixelclock, &ratio);
         if (ret != 13) {
-            printk(KERN_WARNING "[RPI-DPIDAC]: malformed mode requested, skipping (%s)\n", line);
+            printk(KERN_WARNING "[RECALBOXRGBDUAL]: malformed mode requested, skipping (%s)\n", line);
             return NULL;
         }
 
@@ -55,7 +58,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
         // create/init display mode, convert from video mode
         mode = drm_mode_create(connector->dev);
         if (mode == NULL) {
-            printk(KERN_WARNING "[RPI-DPIDAC]: drm_mode_create failed, skipping (%s)\n", line);
+            printk(KERN_WARNING "[RECALBOXRGBDUAL]: drm_mode_create failed, skipping (%s)\n", line);
             return NULL;
         }
 
@@ -79,14 +82,14 @@ int dpidac_load_timings(struct drm_connector *connector) {
 
     fp = filp_open(timings_path, O_RDONLY, 0);
     if (IS_ERR(fp) || !fp) {
-        printk(KERN_WARNING "[RPI-DPIDAC]: timings file not found, skipping custom modes loading\n");
+        printk(KERN_WARNING "[RECALBOXRGBDUAL]: timings file not found, skipping custom modes loading\n");
         return 0;
     }
 
     read_size = kernel_read(fp, &read_buf, READ_SIZE_MAX, &fp->f_pos);
     if (read_size <= 0) {
         filp_close(fp, NULL);
-        printk(KERN_WARNING "[RPI-DPIDAC]: empty timings file found, skipping custom modes loading\n");
+        printk(KERN_WARNING "[RECALBOXRGBDUAL]: empty timings file found, skipping custom modes loading\n");
         return 0;
     }
     filp_close(fp, NULL);
@@ -99,7 +102,7 @@ int dpidac_load_timings(struct drm_connector *connector) {
                 line[line_len - 1] = '\0';
                 if ((mode = dpidac_display_mode_from_timings(connector, line)) != NULL) {
                     mode->type = mode_count ? DRM_MODE_TYPE_DRIVER : DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-                    //printk(KERN_INFO "[RPI-DPIDAC]: \t" DRM_MODE_FMT, DRM_MODE_ARG(mode));
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: \t" DRM_MODE_FMT, DRM_MODE_ARG(mode));
                     drm_mode_probed_add(connector, mode);
                     mode_count++;
                 }
@@ -135,7 +138,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
 
     i = dpidac_load_timings(connector);
     if (i) {
-        //printk(KERN_INFO "[RPI-DPIDAC]: dpidac_get_modes: %i custom modes loaded\n", i);
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
         return i;
     } else if (timings) {
         for (i = 0; i < timings->num_timings; i++) {
@@ -155,13 +158,13 @@ static int dpidac_get_modes(struct drm_connector *connector) {
             drm_mode_set_name(mode);
             drm_mode_probed_add(connector, mode);
         }
-        //printk(KERN_INFO "[RPI-DPIDAC]: dpidac_get_modes: %i modes loaded from dtb overlay\n", i);
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i modes loaded from dtb overlay\n", i);
     } else {
         /* Since there is no timing data, use XGA standard modes */
         i = drm_add_modes_noedid(connector, 1920, 1200);
         /* And prefer a mode pretty much anyone can handle */
         drm_set_preferred_mode(connector, 1024, 768);
-        //printk(KERN_INFO "[RPI-DPIDAC]: dpidac_get_modes: fallback to XGA mode...\n");
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: fallback to XGA mode...\n");
     }
 
     return i;
@@ -205,7 +208,7 @@ static int dpidac_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags
     }
 
     of_property_read_u32(vga->bridge.of_node, "vc4-vga666-mode", &mode);
-    printk(KERN_INFO "[RPI-DPIDAC]: vc4-vga666 mode: %i\n", mode);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: vc4-vga666 mode: %i\n", mode);
     if(mode == 6) {
         bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
     }
@@ -230,6 +233,12 @@ static const struct drm_bridge_funcs dpidac_bridge_funcs = {
         .attach        = dpidac_attach,
 };
 
+// https://gist.github.com/0xff07/d286f45649a7e05c32c4523631bd15e0
+struct auto60hz {
+    struct gpio_desc *gpio;
+    int gpio_state;
+} auto60hz;
+
 static int dpidac_probe(struct platform_device *pdev) {
     struct dpidac *vga;
 
@@ -239,11 +248,20 @@ static int dpidac_probe(struct platform_device *pdev) {
     platform_set_drvdata(pdev, vga);
 
     vga->timings = of_get_display_timings(pdev->dev.of_node);
-    printk(KERN_INFO "[RPI-DPIDAC]: display-timings from DT: %p\n", vga->timings);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: display-timings from DT: %p\n", vga->timings);
 
     vga->bridge.funcs = &dpidac_bridge_funcs;
     vga->bridge.of_node = pdev->dev.of_node;
 
+    /* ICI Charger le gpio 
+    auto60hz.gpio = devm_gpiod_get(&(pdev->dev), NULL, GPIOD_IN);
+    if (IS_ERR(auto60hz.gpio)) {
+        pr_err("Error when assigning GPIO.\n");
+	    return -22;
+    }
+    auto60hz.gpio_state = !gpiod_get_value(auto60hz.gpio);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: gpio: %i\n", auto60hz.gpio_state);
+    */
     drm_bridge_add(&vga->bridge);
 
     return 0;
@@ -262,7 +280,7 @@ static int dpidac_remove(struct platform_device *pdev) {
 }
 
 static const struct of_device_id dpidac_match[] = {
-        {.compatible = "raspberrypi,dpidac"},
+        {.compatible = "raspberrypi,recalboxrgbdual"},
         {},
 };
 MODULE_DEVICE_TABLE(of, dpidac_match);
@@ -271,13 +289,13 @@ static struct platform_driver dpidac_driver = {
         .probe  = dpidac_probe,
         .remove = dpidac_remove,
         .driver = {
-                .name        = "rpi-dpidac",
+                .name        = "recalboxrgbdual",
                 .of_match_table    = dpidac_match,
         },
 };
 
 module_platform_driver(dpidac_driver);
 
-MODULE_AUTHOR("Hugh Cole-Baker and cpasjuste");
-MODULE_DESCRIPTION("Raspberry Pi DPI DAC bridge driver");
+MODULE_AUTHOR("Hugh Cole-Baker and cpasjuste and digitalLumberjack");
+MODULE_DESCRIPTION("Raspberry Pi Recalbox RGB Dual driver");
 MODULE_LICENSE("GPL");

@@ -1,5 +1,5 @@
 ifneq (${KERNELRELEASE},)
-	obj-m += rpi-dpidac.o
+	obj-m += recalboxrgbdual.o
 else
 	KERNELDIR        ?= /lib/modules/$(shell uname -r)/build
 	MODULE_DIR       ?= $(shell pwd)

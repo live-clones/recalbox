@@ -1,4 +1,4 @@
-obj-m := rpi-dpidac.o
+obj-m := recalboxrgbdual.o
 
 all:
 	make ARCH="${ARCH}" CROSS_COMPILE="${CROSS_COMPILE}" -C ${KERNELDIR} M=$(PWD) modules

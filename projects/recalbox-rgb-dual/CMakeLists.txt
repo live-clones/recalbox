@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 # https://gitioc.upc.edu/open-source/xenomai-cmake/blob/master/cmake-modules/FindKernelHeaders.cmake
 # https://stackoverflow.com/questions/50877135/cmake-specify-linux-kernel-module-output-build-directory
 
-project(rpi-dpidac VERSION 0.1.0 LANGUAGES C)
+project(recalboxrgbdual VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
@@ -34,17 +34,17 @@ include_directories(
         ${KERNELHEADERS_DIR}/include
 )
 
-set(MODULE_FILE rpi-dpidac.ko)
+set(MODULE_FILE recalboxrgbdual.ko)
 set(KBUILD_CMD $(MAKE) -C ${KERNELHEADERS_DIR} modules M=${CMAKE_CURRENT_BINARY_DIR} src=${CMAKE_CURRENT_SOURCE_DIR})
 
 # Generate the Kbuild file through cmake.
-FILE(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/Kbuild "obj-m := rpi-dpidac.o")
+FILE(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/Kbuild "obj-m := recalboxrgbdual.o")
 
 add_custom_command(OUTPUT ${MODULE_FILE}
         COMMAND ${KBUILD_CMD}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        DEPENDS rpi-dpidac.c VERBATIM)
+        DEPENDS recalboxrgbdual.c VERBATIM)
 
-add_custom_target(rpi-dpidac ALL DEPENDS ${MODULE_FILE})
+add_custom_target(recalboxrgbdual ALL DEPENDS ${MODULE_FILE})
 # Parse c files
-add_library(dummy_target rpi-dpidac.c)
+add_library(dummy_target recalboxrgbdual.c)
