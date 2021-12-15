@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Fix annoying error popup when kodi starts (#2097)
 - Fix 'This title is not available to watch instantly' error on Netflix (#2088)
 - GSplus can be started for Apple 2 emulator (#2087)
+- Fixed piboy pad not detected in Kodi (#2084)
 
 ## [8.0-Electron]
 - Remove non-working shaders
