@@ -1,0 +1,10 @@
+config BR2_PACKAGE_RECALBOX_RGB_DUAL
+	bool "Recalbox RGB Dual dts and driver"
+	depends on BR2_LINUX_KERNEL
+	select DRM_KMS_HELPER
+	help
+	  Support for Recalbox RGB Dual, the dual scart and vga dac
+	  for Rasbperry Pi 4, 400, 3 and Zero2
+
+comment "Recalbox RGB Dual needs a kernel and headers"
+	depends on !BR2_LINUX_KERNEL
