@@ -1,4 +1,4 @@
-From 5dff6fa2f30644f93128b30b92d6251a12514e36 Mon Sep 17 00:00:00 2001
+From bc81e07fb70c767045b0e4fbb4bf6e8d5cd44549 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Sun, 25 Jul 2021 21:56:04 +0200
 Subject: [PATCH 4/4] feat: add power button input device
@@ -8,10 +8,10 @@ Subject: [PATCH 4/4] feat: add power button input device
  1 file changed, 48 insertions(+)
 
 diff --git a/xpi_gamecon.c b/xpi_gamecon.c
-index fa1ac49..8ab432d 100644
+index bbafc3d..09461be 100644
 --- a/xpi_gamecon.c
 +++ b/xpi_gamecon.c
-@@ -73,6 +73,7 @@ int gc_btn_size = sizeof(gc_btn);
+@@ -69,6 +69,7 @@ int gc_btn_size = sizeof(gc_btn)/sizeof(gc_btn[0]);
  struct gc {
  	struct input_dev *dev;
  	struct input_dev *volume_dev;
@@ -19,7 +19,7 @@ index fa1ac49..8ab432d 100644
  	struct timer_list timer;
  	int used;
  	struct mutex mutex;
-@@ -170,6 +171,7 @@ static void gc_timer(struct timer_list *t)
+@@ -166,6 +167,7 @@ static void gc_timer(struct timer_list *t)
  	unsigned char data[32];
  	struct input_dev *dev = gc->dev;
  	struct input_dev *volume_dev = gc->volume_dev;
@@ -27,7 +27,7 @@ index fa1ac49..8ab432d 100644
  
  	int byteindex;
  	long bitindex;
-@@ -265,6 +267,9 @@ static void gc_timer(struct timer_list *t)
+@@ -260,6 +262,9 @@ static void gc_timer(struct timer_list *t)
  		input_report_abs(volume_dev, ABS_VOLUME, data[6]);		//Y Axis
  		input_sync(volume_dev);
  
@@ -37,7 +37,7 @@ index fa1ac49..8ab432d 100644
  		batt_val = (int)(data[7]*5)+2950;		//Battery Voltage
  		cur_val = (int)((signed char)data[8])*50;	//Current
  		percent_val = data[9];				//battery percentage
-@@ -380,6 +385,43 @@ err_free_dev:
+@@ -375,6 +380,43 @@ err_free_dev:
  	return err;
  }
  
@@ -81,7 +81,7 @@ index fa1ac49..8ab432d 100644
  static struct gc __init *gc_probe(void)
  {
  	struct gc *gc;
-@@ -400,10 +442,14 @@ static struct gc __init *gc_probe(void)
+@@ -395,10 +437,14 @@ static struct gc __init *gc_probe(void)
  	if (err) goto err_unreg_devs;
  	err = gc_setup_volume(gc);
  	if (err) goto err_unreg_devs;
@@ -96,7 +96,7 @@ index fa1ac49..8ab432d 100644
  	kfree(gc);
   err_out:
  	return ERR_PTR(err);
-@@ -415,6 +461,8 @@ static void gc_remove(struct gc *gc)
+@@ -410,6 +456,8 @@ static void gc_remove(struct gc *gc)
  		input_unregister_device(gc->dev);
  	if (gc->volume_dev)
  		input_unregister_device(gc->volume_dev);
@@ -106,5 +106,5 @@ index fa1ac49..8ab432d 100644
  }
  
 -- 
-2.32.0
+2.34.1
 
