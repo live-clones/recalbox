@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fix duckstation controls (#2066)
 - Fix two letter extentions
 - Fixed piboy pad not detected in Kodi (#2084)
+- Fix audio switch to DualShock 4 when connecting the joystick (#2083)
 
 ## [8.0-Electron]
 - Remove non-working shaders
