@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix RetroFlag scripts to use with cases
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
+- PiBoy DMG pad is now detected in Kodi
 
 ## Version 8.0-Electron
 
