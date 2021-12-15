@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
 - Fix two letter extentions
+- Fixed piboy pad not detected in Kodi (#2084)
 
 ## [8.0-Electron]
 - Remove non-working shaders
