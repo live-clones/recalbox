@@ -117,3 +117,17 @@ def test_given_c64_system_should_create_core_config_with_c64config():
 def test_given_gameboy_system_should_create_core_config_with_color():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gambatte')
     assert LibretroCoreConfigCRT().createConfigFor(gb) == {"gambatte_gb_colorization": '"auto"'}
+
+def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
+    core_configurator = LibretroCoreConfigCRT()
+    emulators = [
+        Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast'),
+        Emulator(name='naomigd', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast'),
+        Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast'),
+        Emulator(name='atomiswave', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast'),
+    ]
+
+    for emulator in emulators:
+        assert core_configurator.createConfigFor(emulator) == {"reicast_internal_resolution": '"640x480"',
+                                                               "reicast_cable_type": '"TV (RGB)"'}
+

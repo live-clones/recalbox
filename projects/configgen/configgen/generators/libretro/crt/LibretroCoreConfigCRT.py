@@ -46,6 +46,9 @@ class LibretroCoreConfigCRT:
             lines["vice_c64_model"] = '"C64 PAL auto"'
         if system.Name == "gb":
             lines["gambatte_gb_colorization"] = '"auto"'
+        if system.Name in ["dreamcast", "naomi", "naomigd", "atomiswave"]:
+            lines["reicast_internal_resolution"] = '"640x480"'
+            lines["reicast_cable_type"] = '"TV (RGB)"'
 
         log = "Forcing core configuration: "
         for config in lines.items():
