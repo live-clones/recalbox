@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix shader crt-pi for rpi
 - Fix annoying error popup when kodi starts
+- Fix 'This title is not available to watch instantly' error with Netflix in Kodi
 
 ## Version 8.0-Electron
 
