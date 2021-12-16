@@ -152,7 +152,6 @@ def getDefaultEmulator(systemName: str, emulatorName: str, coreName: str):
         # Atari
 
         # Computers
-        "apple2"         : Emulator(name='apple2', emulator='linapple', core='linapple', videoMode='default'),
         "oricatmos"      : Emulator(name='oricatmos', emulator='oricutron', core='oricutron', videoMode='default'),
         "samcoupe"       : Emulator(name='samcoupe', emulator='simcoupe', core='simcoupe', videoMode='default'),
 
