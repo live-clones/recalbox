@@ -44,6 +44,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test DPAD in PCSX2
 - [ ] Test pairing & standby (entering/quitting) of BT controllers
 - [ ] No error popup when starting kodi (one or more items...) #2097
+- [ ] Test GSPlus can start Apple II games (#2087)
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
