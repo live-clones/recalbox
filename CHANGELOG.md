@@ -56,6 +56,7 @@ All notable changes to this project will be documented in this file.
   - configuration in now in /boot/crt/
   - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
+- Fix 'This title is not available to watch instantly' error on Netflix (#2088)
 
 - Add default configuration for Kodi (#1927)
 - Fix annoying error popup when kodi starts (#2097)
