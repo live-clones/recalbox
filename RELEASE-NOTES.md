@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
 
 - Fix annoying error popup when kodi starts
+- Fix 'This title is not available to watch instantly' error with Netflix in Kodi
 
 ## Version 8.0-Electron
 
