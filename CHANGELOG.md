@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Fix BT controllers not being reconized in ES 
 - Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
 - Fix annoying error popup when kodi starts (#2097)
+- Fix 'This title is not available to watch instantly' error on Netflix (#2088)
 
 ## [8.0-Electron]
 - Remove non-working shaders
