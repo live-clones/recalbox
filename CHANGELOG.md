@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
+- Fix two letter extentions
 
 ## [8.0-Electron]
 - Remove non-working shaders
