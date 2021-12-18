@@ -39,7 +39,7 @@ void SystemView::addSystem(SystemData * it)
 	if (!(it)->HasVisibleGame()) return;
 
 	const ThemeData& theme = (it)->Theme();
-	
+
 	if(mViewNeedsReload)
 			getViewElements(theme);
 
@@ -248,7 +248,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 				listInput(1);
 				return true;
 			}
-			break;	
+			break;
 		}
 		if (event.ValidPressed())
 		{
@@ -287,7 +287,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
     }
 
-		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
+		if ((event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none") || (RecalboxConf::Instance().AsString("emulationstation.menu") == "none" && mWindow.KonamiCode(event)))
 		{
 		  GuiMenuQuit::PushQuitGui(mWindow);
 		}
@@ -341,13 +341,13 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 	float endPos = target; // directly
     float dist = std::abs(endPos - startPos);
-	
+
     if(std::abs(target + posMax - startPos) < dist)
 		endPos = target + posMax; // loop around the end (0 -> max)
     if(std::abs(target - posMax - startPos) < dist)
 		endPos = target - posMax; // loop around the start (max - 1 -> -1)
 
-	
+
 	// animate mSystemInfo's opacity (fade out, wait, fade back in)
 	cancelAnimation(1);
 	cancelAnimation(2);
@@ -470,24 +470,24 @@ void SystemView::Render(const Transform4x4f& parentTrans)
 {
 	if(size() == 0)
 		return;  // nothing to render
-	
+
 	// draw the list elements (titles, backgrounds, logos)
 	Transform4x4f trans = getTransform() * parentTrans;
 
 	auto systemInfoZIndex = mSystemInfo.getZIndex();
 	auto minMax = std::minmax(mCarousel.zIndex, systemInfoZIndex);
-	
+
 	renderExtras(trans, INT16_MIN, minMax.first);
 	renderFade(trans);
-	
+
 	if (mCarousel.zIndex > mSystemInfo.getZIndex()) {
 		renderInfoBar(trans);
 	} else {
 		renderCarousel(trans);
 	}
-	
+
 	renderExtras(trans, minMax.first, minMax.second);
-	
+
 	if (mCarousel.zIndex > mSystemInfo.getZIndex()) {
 		renderCarousel(trans);
 	} else {
@@ -516,7 +516,7 @@ bool SystemView::getHelpPrompts(Help& help)
   }
 
 	return true;
-}	
+}
 
 void SystemView::ApplyHelpStyle()
 {
@@ -529,25 +529,25 @@ void SystemView::onThemeChanged(const ThemeData& theme)
   { LOG(LogDebug) << "[SystemView] Theme Changed"; }
 	mViewNeedsReload = true;
 	populate();
-}	
+}
 
 //  Get the ThemeElements that make up the SystemView.
 void  SystemView::getViewElements(const ThemeData& theme)
 {
   { LOG(LogDebug) << "[SystemView] Get View Elements"; }
 		getDefaultElements();
-		
+
 		const ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");
 		if (carouselElem != nullptr)
 			getCarouselFromTheme(carouselElem);
-		
+
 		const ThemeElement* sysInfoElem = theme.getElement("system", "systemInfo", "text");
 		if (sysInfoElem != nullptr)
 			mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
-		
+
 		mViewNeedsReload = false;
 		}
-		
+
 //  Render system carousel
 void SystemView::renderCarousel(const Transform4x4f& trans)
 {
@@ -561,12 +561,12 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 
 	Renderer::SetMatrix(carouselTrans);
 	Renderer::DrawRectangle(0.0, 0.0, mCarousel.size.x(), mCarousel.size.y(), mCarousel.color);
-	
+
 	// draw logos
 	Vector2f logoSpacing(0.0, 0.0); // NB: logoSpacing will include the size of the logo itself as well!
 	float xOff;
 	float yOff;
-	
+
 	switch (mCarousel.type)
 	{
 		case CarouselType::VerticalWheel:
@@ -605,7 +605,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 
 	int center = (int)(mCamOffset);
 	int logoCount = Math::min(mCarousel.maxLogoCount, (int)mEntries.size());
-	
+
 	// Adding texture loading buffers depending on scrolling speed and status
 	int bufferIndex = getScrollingVelocity() + 1;
 
@@ -670,14 +670,14 @@ void SystemView::renderInfoBar(const Transform4x4f& trans)
 
 // Draw background extras
 void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upper)
-{	
+{
 	int extrasCenter = (int)mExtrasCamOffset;
 
 	Renderer::Instance().PushClippingRect(Vector2i::Zero(), mSize.toInt());
-	
+
 	// Adding texture loading buffers depending on scrolling speed and status
 	int bufferIndex = getScrollingVelocity() + 1;
-	
+
 	for (int i = extrasCenter + logoBuffersLeft[bufferIndex]; i <= extrasCenter + logoBuffersRight[bufferIndex]; i++)
 	{
 		int index = i;

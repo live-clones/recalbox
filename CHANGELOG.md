@@ -17,6 +17,9 @@ All notable changes to this project have been documented in this file since 8.1.
 ## [8.0.2-Electron]
 - Fix 4k resolution issue on 4k tv
 
+## [NEXT]
+- Show main menu with quit option only when setting is set to display no menu (#2093)
+
 ## [8.0.1-Electron]
 - Fix release notes
 - Fix es typo (#2137)
@@ -35,6 +38,7 @@ All notable changes to this project have been documented in this file since 8.1.
 - Remove recalbox.conf CRT configuration (#2129)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
+## [NEXT]
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)

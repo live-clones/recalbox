@@ -59,6 +59,8 @@ class WindowManager
 
     void DoWake();
 
+    static bool KonamiCode(const InputCompactEvent& input);
+
     /*!
      * @brief Add new popup to dysplay list
      * @param infoPopup Popup to add to displayu list
@@ -105,8 +107,6 @@ class WindowManager
     void renderScreenSaver();
 
     static void exitScreenSaver();
-
-    static bool KonamiCode(const InputCompactEvent& input);
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
