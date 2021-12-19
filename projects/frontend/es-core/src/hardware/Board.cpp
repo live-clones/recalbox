@@ -7,16 +7,19 @@
 #include <sys/utsname.h>
 #include <hardware/boards/NullBoard.h>
 #include <hardware/boards/pc/PcComputers.h>
+#include "hardware/crt/CrtAdapterDetector.h"
+#include "hardware/crt/CrtNull.h"
 
 Board::Board(IHardwareNotifications& notificationInterface)
   : StaticLifeCycleControler("Board")
   , mType(BoardType::UndetectedYet)
   , mSender(notificationInterface)
   , mBoard(GetBoardInterface(mSender))
+  , mCrtBoard(GetCrtBoard())
 {
 }
 
-IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
+IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
 {
   BoardType model = GetBoardType();
   switch(model)
@@ -24,18 +27,18 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
     case BoardType::OdroidAdvanceGo:
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected."; }
-      return new OdroidAdvanceGo2Board(messageSender, model);
+      return *(new OdroidAdvanceGo2Board(messageSender, model));
     }
     case BoardType::OdroidAdvanceGoSuper:
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected."; }
-      return new OdroidAdvanceGo2Board(messageSender, model);
+      return *(new OdroidAdvanceGo2Board(messageSender, model));
     }
     case BoardType::PCx86:
     case BoardType::PCx64:
     {
       { LOG(LogInfo) << "[Hardware] x86 or x64 PC detected."; }
-      return new PcComputers(messageSender);
+      return *(new PcComputers(messageSender));
     }
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
@@ -52,7 +55,7 @@ IBoardInterface* Board::GetBoardInterface(HardwareMessageSender& messageSender)
   }
 
   { LOG(LogInfo) << "[Hardware] Default hardware interface created."; }
-  return new NullBoard(messageSender);
+  return *(new NullBoard(messageSender));
 }
 
 BoardType Board::GetPiModel(unsigned int revision)
@@ -170,4 +173,29 @@ BoardType Board::GetBoardType()
   }
 
   return mType;
+}
+
+ICrtInterface& Board::GetCrtBoard()
+{
+  switch(GetBoardType())
+  {
+    case BoardType::Pi02:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::Pi400: return CrtAdapterDetector::GetCrtBoard();
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::UnknownPi:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
+  }
+
+  return *(new CrtNull(false));
 }

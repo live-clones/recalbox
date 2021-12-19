@@ -4,6 +4,7 @@
 #include "BoardType.h"
 #include "hardware/messaging/IHardwareNotifications.h"
 #include "IBoardInterface.h"
+#include "hardware/crt/ICrtInterface.h"
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <hardware/messaging/HardwareMessageSender.h>
 #include <sdl2/Sdl2Runner.h>
@@ -23,7 +24,8 @@ class Board: public StaticLifeCycleControler<Board>
     //! Destructor
     ~Board()
     {
-      delete mBoard;
+      delete &mBoard;
+      delete &mCrtBoard;
     }
 
     /*!
@@ -33,76 +35,82 @@ class Board: public StaticLifeCycleControler<Board>
     BoardType GetBoardType();
 
     /*!
+     * @brief Get Crt board interface
+     * @return Crt board interface
+     */
+    ICrtInterface& CrtBoard() const { return mCrtBoard; }
+
+    /*!
      * @brief Get brightness support
      * @return True if the current board support brightness, false otherwise
      */
-    bool HasBrightnessSupport() { return mBoard->HasBrightnessSupport(); }
+    bool HasBrightnessSupport() { return mBoard.HasBrightnessSupport(); }
 
     /*!
      * @brief Set brightness
      * @param step Step value from 0 to 8
      */
-    void SetBrightness(int step) { mBoard->SetBrightness(step); }
+    void SetBrightness(int step) { mBoard.SetBrightness(step); }
 
     /*!
      * @brief Set lowerst brightness available or even switch off the screen
      * @param step Step value from 0 to 8
      */
-    void SetLowestBrightness() { mBoard->SetLowestBrightness(); };
+    void SetLowestBrightness() { mBoard.SetLowestBrightness(); };
 
     /*!
      * @brief Check if the current board has battery
      * @return
      */
-    bool HasBattery() { return mBoard->HasBattery(); }
+    bool HasBattery() { return mBoard.HasBattery(); }
 
     /*!
      * @brief Get battery charge in percent
      * @return Battery charge (-1 = no battery)
      */
-    int BatteryChargePercent() { return mBoard->BatteryChargePercent(); }
+    int BatteryChargePercent() { return mBoard.BatteryChargePercent(); }
 
     /*!
      * @brief Check if the battery is charging
      * @return True = charging, False = discharging or no battery
      */
-    bool IsBatteryCharging() { return mBoard->IsBatteryCharging(); }
+    bool IsBatteryCharging() { return mBoard.IsBatteryCharging(); }
 
     /*!
      * @brief Set CPU governance
      * @param cpuGovernance CPU governance
      */
-    void SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance) { mBoard->SetCPUGovernance(cpuGovernance); }
+    void SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance) { mBoard.SetCPUGovernance(cpuGovernance); }
 
     /*!
      * @brief Check if this board has extra volume +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    bool HasPhysicalVolumeButtons() { return mBoard->HasMappableVolumeButtons(); }
+    bool HasPhysicalVolumeButtons() { return mBoard.HasMappableVolumeButtons(); }
 
     /*!
      * @brief Check if this board has extra brightness +/- buttons
      * @return True if such buttons are available, false otherwise
      */
-    bool HasPhysicalBrightnessButtons() { return mBoard->HasMappableBrightnessButtons(); }
+    bool HasPhysicalBrightnessButtons() { return mBoard.HasMappableBrightnessButtons(); }
 
     /*!
      * @brief Check if the current board supports suspend/resume operations
      * @return True if the board supports suspend/resume operations, false otherwise
      */
-    bool HasSuspendResume() { return mBoard->HasSuspendResume(); }
+    bool HasSuspendResume() { return mBoard.HasSuspendResume(); }
 
     /*!
      * @brief Suspend!
      */
-    void Suspend() { mBoard->Suspend(); }
+    void Suspend() { mBoard.Suspend(); }
 
     /*!
      * @brief Process special input if any
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise
      */
-    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) { return mBoard->ProcessSpecialInputs(inputEvent); }
+    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) { return mBoard.ProcessSpecialInputs(inputEvent); }
 
     /*!
      * @brief Start optional global background processes
@@ -111,7 +119,7 @@ class Board: public StaticLifeCycleControler<Board>
     void StartGlobalBackgroundProcesses()
     {
       { LOG(LogInfo) << "[Hardware] Start global Hardware processes"; }
-      return mBoard->StartGlobalBackgroundProcesses();
+      return mBoard.StartGlobalBackgroundProcesses();
     }
 
     /*!
@@ -121,7 +129,7 @@ class Board: public StaticLifeCycleControler<Board>
     void StopGlobalBackgroundProcesses()
     {
       { LOG(LogInfo) << "[Hardware] Stop global Hardware processes"; }
-      return mBoard->StopGlobalBackgroundProcesses();
+      return mBoard.StopGlobalBackgroundProcesses();
     }
 
     /*!
@@ -132,7 +140,7 @@ class Board: public StaticLifeCycleControler<Board>
     void StartInGameBackgroundProcesses(Sdl2Runner& sdlRunner)
     {
       { LOG(LogInfo) << "[Hardware] Start in-game Hardware processes"; }
-      return mBoard->StartInGameBackgroundProcesses(sdlRunner);
+      return mBoard.StartInGameBackgroundProcesses(sdlRunner);
     }
 
     /*!
@@ -143,25 +151,22 @@ class Board: public StaticLifeCycleControler<Board>
     void StopInGameBackgroundProcesses(Sdl2Runner& sdlRunner)
     {
       { LOG(LogInfo) << "[Hardware] Stop in-game Hardware processes"; }
-      return mBoard->StopInGameBackgroundProcesses(sdlRunner);
+      return mBoard.StopInGameBackgroundProcesses(sdlRunner);
     }
 
   private:
-    //static constexpr const char* sBatteryCapacityPath1 = "/sys/class/power_supply/BAT0/capacity";
-    //static constexpr const char* sBatteryCapacityPath2 = "/sys/class/power_supply/battery/capacity";
-    //static constexpr const char* sBatteryStatusPath1 = "/sys/class/power_supply/BAT0/status";
-    //static constexpr const char* sBatteryStatusPath2 = "/sys/class/power_supply/battery/status";
-
     //! Board type
     BoardType mType;
     //! Synchronous message sender
     HardwareMessageSender mSender;
     //! Real hardware board interface implementation
-    IBoardInterface* mBoard;
+    IBoardInterface& mBoard;
+    //! CRT Interface
+    ICrtInterface& mCrtBoard;
 
     //! Get board interface
-    IBoardInterface* GetBoardInterface(HardwareMessageSender& messageSender);
-
+    IBoardInterface& GetBoardInterface(HardwareMessageSender& messageSender);
+    
     /*!
      * Raspberry model (real models)
      * https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md
@@ -194,4 +199,11 @@ class Board: public StaticLifeCycleControler<Board>
      * @return RPi model
      */
     static BoardType GetPiModel(unsigned int revision);
+
+    /*!
+     * @brief Get a valid instance of Crt board
+     * @return Crt board implementation
+     */
+    ICrtInterface& GetCrtBoard();
+
 };

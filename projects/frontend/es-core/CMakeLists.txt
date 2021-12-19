@@ -49,6 +49,14 @@ set(CORE_HEADERS
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.h
+		src/hardware/crt/CrtAdapterDetector.h
+		src/hardware/crt/CrtAdapterType.h
+		src/hardware/crt/ICrtInterface.h
+		src/hardware/crt/CrtNull.h
+		src/hardware/crt/CrtPi2Scart.h
+		src/hardware/crt/CrtRGBPi.h
+		src/hardware/crt/CrtVga666.h
+		src/hardware/crt/CrtRGBDual.h
 		src/hardware/messaging/MessageTypes.h
 
 		# Audio
@@ -218,6 +226,7 @@ set(CORE_SOURCES
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.cpp
+		src/hardware/crt/CrtAdapterDetector.cpp
 
 		# Audio
 		src/audio/AudioManager.cpp
