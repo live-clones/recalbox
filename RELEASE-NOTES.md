@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - PiBoy DMG pad is now detected in Kodi
 - Fix no sound issue on some PCs
 
+- Fix annoying error popup when kodi starts
 
 ## Version 8.0-Electron
 
