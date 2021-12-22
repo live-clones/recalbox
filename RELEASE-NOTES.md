@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 - Fix libretro mame2015 for OGA/OGS
 
+- Fix to not reload recalbox.conf file in manager on save
 
 ## Version 8.0.2-Electron
 
