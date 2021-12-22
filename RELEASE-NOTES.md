@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix shader crt-pi for rpi
+- Fix annoying error popup when kodi starts
 
 ## Version 8.0-Electron
 
