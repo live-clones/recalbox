@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix default game image in theme
 
 
+- Fix to not reload recalbox.conf file in manager on save
 
 ## Version 8.0.2-Electron
 
