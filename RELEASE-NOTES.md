@@ -59,6 +59,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 
+- Fix to not reload recalbox.conf file in manager on save
+
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
