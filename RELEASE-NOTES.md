@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix BT controllers not being reconized in ES 
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
 
+- Fix annoying error popup when kodi starts
 
 ## Version 8.0-Electron
 
