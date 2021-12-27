@@ -307,7 +307,13 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 	}
 }
 
-void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata, const Vector3f& cameraTarget, bool forceLaunch)
+void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceLaunch)
+{
+  mGameLinkedData = data;
+  LaunchCheck(game, cameraTarget, forceLaunch);
+}
+
+void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, bool forceLaunch)
 {
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
@@ -337,7 +343,7 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
       Gui* gui = new GuiMsgBox(mWindow,
                                text,
                                _("YES"),
-                               [this, game, netplaydata, &cameraTarget] { LaunchCheck(game, netplaydata, cameraTarget, true); },
+                               [this, game, &cameraTarget] { LaunchCheck(game, cameraTarget, true); },
                                _("NO"),
                                nullptr);
       mWindow.pushGui(gui);
@@ -345,13 +351,52 @@ void ViewController::LaunchCheck(FileData* game, const NetPlayData& netplaydata,
     }
   }
 
-  LaunchAnimated(game, emulator, netplaydata, cameraTarget);
+  if (mGameLinkedData.Crt().IsRegionConfigured())
+  {
+    if (mGameLinkedData.Crt().MustChoosePALorNTSC(game->System()))
+    {
+      static int lastChoice = 0;
+      Gui* gui = (
+                  new GuiMsgBox(mWindow,
+                                _("Choose the video standard:"),
+                                _("AUTO"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Auto); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                _("PAL"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Pal); LaunchCheck(game, cameraTarget, true); lastChoice = 1; },
+                                _("NTSC"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Ntsc); LaunchCheck(game, cameraTarget, true); lastChoice = 2; }
+                               )
+                 )->SetDefaultButton(lastChoice);
+      mWindow.pushGui(gui);
+      return;
+    }
+  }
+  if (mGameLinkedData.Crt().IsInterlacedConfigured())
+  {
+    if (mGameLinkedData.Crt().MustChoose240or480i(game->System()))
+    {
+      static int lastChoice = 0;
+      Gui* gui = (
+                  new GuiMsgBox(mWindow,
+                                _("Choose the video output:"),
+                                _("240P"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                _("480I"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                               )
+                )->SetDefaultButton(lastChoice);
+      mWindow.pushGui(gui);
+      return;
+    }
+  }
+
+  LaunchAnimated(game, emulator, cameraTarget);
 }
 
-void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata)
+void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator)
 {
   DateTime start;
-  GameRunner::Instance().RunGame(*game, emulator, netplaydata);
+  GameRunner::Instance().RunGame(*game, emulator, mGameLinkedData);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
@@ -368,7 +413,7 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
   }
 }
 
-void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplaydata, const Vector3f& cameraTarget)
+void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const Vector3f& cameraTarget)
 {
   Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
 
@@ -388,11 +433,11 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
   std::string transitionTheme = ThemeData::getCurrent().getTransition();
   if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
-	auto launchFactory = [this, game, origCamera, netplaydata, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
+	auto launchFactory = [this, game, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
 	{
-		return [this, game, origCamera, backAnimation, netplaydata, emulator]
+		return [this, game, origCamera, backAnimation, emulator]
 		{
-		  LaunchActually(game, emulator, netplaydata);
+		  LaunchActually(game, emulator);
 
       mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });

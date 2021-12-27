@@ -53,7 +53,9 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                             Xml::AttributeAsString(properties, "keyboard", ""),
                                             Xml::AttributeAsString(properties, "mouse", ""),
                                             Xml::AttributeAsString(properties, "releasedate", ""),
-                                            Xml::AttributeAsBool(properties, "lightgun", false));
+                                            Xml::AttributeAsBool(properties, "lightgun", false),
+                                            Xml::AttributeAsBool(properties, "interlaced", false),
+                                            Xml::AttributeAsBool(properties, "multiregion", false));
 
   // Check
   if (systemDescriptor.IsValid())

@@ -56,8 +56,8 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
       std::string& ip = mitm ? mLobbyGame.mMitmIp : mLobbyGame.mIp;
       int port = mitm ? mLobbyGame.mMitmPort : mLobbyGame.mPort;
 
-      NetPlayData netplay(mLobbyGame.mCoreShortName, ip, port, playerPassword, viewerPassword, mJoinAs->getSelected() == PasswordType::Viewer);
-      ViewController::Instance().LaunchCheck(mLobbyGame.mGame, netplay, Vector3f());
+      GameLinkedData data(mLobbyGame.mCoreShortName, ip, port, playerPassword, viewerPassword, mJoinAs->getSelected() == PasswordType::Viewer);
+      ViewController::Instance().Launch(mLobbyGame.mGame, data, Vector3f());
     }
     // Close window
     Close();

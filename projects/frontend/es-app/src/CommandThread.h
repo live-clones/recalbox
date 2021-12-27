@@ -42,7 +42,7 @@ class CommandThread: private Thread, private ISynchronousEvent
      * @brief Read an UDP packets and convert the buffer to a string
      * @return Received string
      */
-    std::string ReadUDP();
+    std::string ReadUDP() const;
 
     /*
      * Thread overrides

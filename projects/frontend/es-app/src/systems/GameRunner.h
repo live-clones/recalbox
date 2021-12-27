@@ -7,7 +7,8 @@
 #pragma once
 
 #include <WindowManager.h>
-#include "SystemManager.h"
+#include <systems/SystemManager.h>
+#include <systems/GameLinkedData.h>
 
 class GameRunner : public StaticLifeCycleControler<GameRunner>
 {
@@ -31,7 +32,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param netplay Netplay data
      * @return True if the game ran fine, false otherwise
      */
-    bool RunGame(FileData& game, const EmulatorData& emulator, const NetPlayData& netplay);
+    bool RunGame(FileData& game, const EmulatorData& emulator, const GameLinkedData& data);
 
     /*!
      * @brief INitialize demo launching

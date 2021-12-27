@@ -150,7 +150,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 {
   if (mState == State::LaunchGame)
   {
-    ViewController::Instance().LaunchCheck(mGame, NetPlayData(), Vector3f());
+    ViewController::Instance().Launch(mGame, GameLinkedData(), Vector3f());
     mState = State::GoToSystem;
   }
 

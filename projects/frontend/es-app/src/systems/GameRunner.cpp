@@ -85,7 +85,7 @@ int GameRunner::Run(const std::string& cmd_utf8, bool debug)
   return exitcode;
 }
 
-bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const NetPlayData& netplay)
+bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const GameLinkedData& data)
 {
   // Automatic running flag management
   GameRunning IAmRunning;
@@ -106,7 +106,21 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Net
   const std::string rom = game.FilePath().MakeEscaped();
   const std::string basename = game.FilePath().FilenameWithoutExtension();
   const std::string rom_raw = game.FilePath().ToString();
-  const std::string& core = netplay.NetplayMode() == NetPlayData::Mode::Client ? netplay.CoreName() : emulator.Core();
+  const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
+  std::string crt;
+  if (data.Crt().IsInterlacedConfigured()) crt.append("-crtmode ").append(data.Crt().Interlaced() ? "interlaced" : "progressive");
+  if (data.Crt().IsRegionConfigured())
+  {
+    if (!crt.empty()) crt.append(1, ' ');
+    crt.append("-crtregion ");
+    switch(data.Crt().Region())
+    {
+      case CrtData::VideoRegion::Pal: crt.append("pal"); break;
+      case CrtData::VideoRegion::Ntsc: crt.append("ntsc"); break;
+      case CrtData::VideoRegion::Auto:
+      default: crt.append("auto"); break;
+    }
+  }
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
@@ -116,7 +130,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Net
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
-  Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, netplay));
+  Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
+  Strings::ReplaceAllIn(command, "%CRT%", crt);
 
   bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
   if (debug) command.append(" -verbose");

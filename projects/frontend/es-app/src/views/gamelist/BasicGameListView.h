@@ -50,7 +50,7 @@ public:
   static Regions::List AvailableRegionsInGames(FileData::List& list);
 
 protected:
-	void launch(FileData* game) override { ViewController::Instance().LaunchCheck(game, NetPlayData(), Vector3f()); }
+	void launch(FileData* game) override { ViewController::Instance().Launch(game, GameLinkedData(), Vector3f()); }
 
   FileData* getEmptyListItem() override { return &mEmptyListItem; }
 

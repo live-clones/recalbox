@@ -6,6 +6,7 @@
 #include "views/gamelist/IGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
+#include <systems/GameLinkedData.h>
 
 class SystemData;
 
@@ -16,10 +17,18 @@ public:
 	ViewController(WindowManager& window, SystemManager& systemManager);
   ~ViewController() override = default;
 
-	/*!
-	 * @brief Wake up the system if it is in a sleeping state
-	 */
-	void WakeUp() { mWindow.DoWake(); }
+    /*!
+     * @brief Wake up the system if it is in a sleeping state
+     */
+    void WakeUp() { mWindow.DoWake(); }
+
+    /*!
+     * @brief Check bios and call LaunchAnimated
+     * @param game game to launch
+     * @param netplay optional netplay data
+     * @param centerCameraOn optional camera target point
+     */
+    void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn, bool forceLaunch = false);
 
 	// If a basic view detected a metadata change, it can request to recreate
 	// the current gamelist view (as it may change to be detailed).
@@ -44,30 +53,7 @@ public:
 
 	void updateFavorite(SystemData* system, FileData* file);
 
-    /*!
-     * @brief Check bios and call LaunchAnimated
-     * @param game game to launch
-     * @param netplay optional netplay data
-     * @param centerCameraOn optional camera target point
-     */
-    void LaunchCheck(FileData* game, const NetPlayData& netplay, const Vector3f& centerCameraOn, bool forceLaunch = false);
-
-    /*!
-     * @brief Run animation and call LaunchActually
-     * @param game game to launch
-     * @param netplay optional netplay data
-     * @param centerCameraOn optional camera target point
-     */
-	  void LaunchAnimated(FileData* game, const EmulatorData& emulator, const NetPlayData& netplay, const Vector3f& centerCameraOn);
-
-    /*!
-     * @brief Actually run the game :)
-     * @param game game to launch
-     * @param netplay optional netplay data
-     */
-    void LaunchActually(FileData* game, const EmulatorData& emulator, const NetPlayData& netplay);
-
-    bool ProcessInput(const InputCompactEvent& event) override;
+  bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
 
@@ -112,6 +98,9 @@ private:
 	void playViewTransition();
 	int getSystemId(SystemData* system);
 
+  //! Game linked data internal instance
+  GameLinkedData mGameLinkedData;
+
   //! SystemManager instance
 	SystemManager& mSystemManager;
 
@@ -127,4 +116,27 @@ private:
 	bool mLockInput;
 
 	State mState;
+
+    /*!
+     * @brief Check bios and call LaunchAnimated
+     * @param game game to launch
+     * @param netplay optional netplay data
+     * @param centerCameraOn optional camera target point
+     */
+    void LaunchCheck(FileData* game, const Vector3f& centerCameraOn, bool forceLaunch = false);
+
+    /*!
+     * @brief Run animation and call LaunchActually
+     * @param game game to launch
+     * @param netplay optional netplay data
+     * @param centerCameraOn optional camera target point
+     */
+    void LaunchAnimated(FileData* game, const EmulatorData& emulator, const Vector3f& centerCameraOn);
+
+    /*!
+     * @brief Actually run the game :)
+     * @param game game to launch
+     * @param netplay optional netplay data
+     */
+    void LaunchActually(FileData* game, const EmulatorData& emulator);
 };

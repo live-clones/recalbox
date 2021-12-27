@@ -57,11 +57,11 @@ void CommandThread::Run()
   }
 }
 
-std::string CommandThread::ReadUDP()
+std::string CommandThread::ReadUDP() const
 {
   sockaddr_in si_other = {};
   char buffer[2048];
-  int size, slen = sizeof(si_other);
+  long size, slen = sizeof(si_other);
   if ((size = recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen)) > 0)
     return std::string(buffer, size);
   return std::string();
@@ -98,6 +98,6 @@ void CommandThread::ReceiveSyncCallback(const SDL_Event& event)
   FileData* game = (FileData*)event.user.data1;
 
   ViewController::Instance().WakeUp();
-  ViewController::Instance().LaunchCheck(game, NetPlayData(), Vector3f());
+  ViewController::Instance().Launch(game, GameLinkedData(), Vector3f());
 }
 

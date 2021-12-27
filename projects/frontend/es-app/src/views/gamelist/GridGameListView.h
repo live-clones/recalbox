@@ -21,7 +21,7 @@ public:
 
 protected:
 	void populateList(const FolderData& folder) final;
-	void launch(FileData* game) override { ViewController::Instance().LaunchCheck(game, NetPlayData(), Vector3f()); }
+	void launch(FileData* game) override { ViewController::Instance().Launch(game, GameLinkedData(), Vector3f()); }
 
 	ImageGridComponent<FileData*> mGrid;
 };

@@ -153,3 +153,11 @@ void GuiMsgBox::CloseAndCall(const std::function<void()>& func)
 	if (func) func();
 }
 
+GuiMsgBox* GuiMsgBox::SetDefaultButton(int index)
+{
+  if ((unsigned int)index < (unsigned int)mButtons.size())
+    mButtonGrid->setCursorTo(mButtons[index]);
+
+  return this;
+}
+

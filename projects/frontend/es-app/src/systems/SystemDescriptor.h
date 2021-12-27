@@ -51,6 +51,8 @@ class SystemDescriptor
       , mKeyboard(DeviceRequirement::Unknown)
       , mMouse(DeviceRequirement::Unknown)
       , mLightgun(false)
+      , mCrtInterlaced(false)
+      , mCrtMultiRegion(false)
       , mPort(false)
       , mReadOnly(false)
     {
@@ -127,7 +129,9 @@ class SystemDescriptor
                                                const std::string& keyboard,
                                                const std::string& mouse,
                                                const std::string& releasedate,
-                                               bool lightgun)
+                                               bool lightgun,
+                                               bool interlaced,
+                                               bool multiregion)
     {
       mType = ConvertSystemType(systemtype);
       mPad = ConvertDeviceRequirement(pad);
@@ -136,6 +140,8 @@ class SystemDescriptor
       if (Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
         mReleaseDate = 0;
       mLightgun = lightgun;
+      mCrtInterlaced = interlaced;
+      mCrtMultiRegion = multiregion;
       return *this;
     }
 
@@ -200,6 +206,8 @@ class SystemDescriptor
     DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
     DeviceRequirement MouseRequirement() const { return mMouse; }
     bool LightGun() const { return mLightgun; }
+    bool CrtInterlaced() const { return mCrtInterlaced; }
+    bool CrtMultiRegion() const { return mCrtMultiRegion; }
 
     bool HasNetPlayCores() const
     {
@@ -248,7 +256,9 @@ class SystemDescriptor
     DeviceRequirement       mPad;             //!< Pad state
     DeviceRequirement       mKeyboard;        //!< Pad state
     DeviceRequirement       mMouse;           //!< Pad state
-    bool                    mLightgun;        //!< Support lightgun?
+    bool                    mLightgun;        //!< Support lightgun ?
+    bool                    mCrtInterlaced;   //!< Support 480i/p ?
+    bool                    mCrtMultiRegion;  //!< PAL/NTSC ?
 
     EmulatorList            mEmulators;       //!< Emulator/core tree
 

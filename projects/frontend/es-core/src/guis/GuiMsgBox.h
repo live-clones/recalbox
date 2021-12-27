@@ -28,6 +28,8 @@ class GuiMsgBox : public Gui
               const std::string& name1);
     GuiMsgBox(WindowManager& window, const std::string& text);
 
+    GuiMsgBox* SetDefaultButton(int index);
+
   protected:
     bool ProcessInput(const InputCompactEvent& event) override;
     void onSizeChanged() override;

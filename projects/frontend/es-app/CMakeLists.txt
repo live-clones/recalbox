@@ -24,6 +24,8 @@ set(ES_HEADERS
         src/systems/GameRunner.h
         src/systems/LightGunDatabase.h
         src/systems/NetPlayData.h
+        src/systems/CrtData.h
+        src/systems/GameLinkedData.h
         src/systems/SystemData.h
         src/systems/SystemDescriptor.h
         src/systems/SystemDeserializer.h
