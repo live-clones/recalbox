@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - Fix duckstation controls (#2066)
 - Fix two letter extentions
 - Fix saving from configuration tab in manager (#1999)
+[8.0.1-Electron]
+
+- Fix fbneo screenscraper id (#2077)
 
 ## [8.0-Electron]
 - Remove non-working shaders
