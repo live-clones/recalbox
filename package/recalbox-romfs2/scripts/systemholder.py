@@ -25,19 +25,21 @@ class SystemHolder:
             "mandatory": 3,
         }
 
-        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, retroachievements: bool):
+        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, retroachievements: bool, crtinterlaced: bool, crtmultiregion: bool):
             if systemtype not in self.__systemTypes.keys(): raise TypeError("Invalid system type! {}".format(systemtype))
             if pad not in self.__deviceRequirement.keys(): raise TypeError("Invalid pad type! {}".format(pad))
             if keyboard not in self.__deviceRequirement.keys(): raise TypeError("Invalid keyboard type! {}".format(keyboard))
             if mouse not in self.__deviceRequirement.keys(): raise TypeError("Invalid mouse type! {}".format(mouse))
             if lightgun not in self.__deviceRequirement.keys(): raise TypeError("Invalid lightgun type! {}".format(lightgun))
-            self.__type = systemtype
-            self.__pad = pad
-            self.__keyboard = keyboard
-            self.__mouse = mouse
-            self.__lightgun = lightgun
-            self.__releasedate = releasedate
+            self.__type: str = systemtype
+            self.__pad: str = pad
+            self.__keyboard: str = keyboard
+            self.__mouse: str = mouse
+            self.__lightgun: str = lightgun
+            self.__releasedate: str = releasedate
             self.__retroachievements: bool = retroachievements
+            self.__interlaced: bool = crtinterlaced
+            self.__multiregion: bool = crtmultiregion
 
         def serialize(self):
             return {
@@ -47,7 +49,9 @@ class SystemHolder:
                 "mouse": self.__mouse,
                 "lightgun": self.__lightgun,
                 "releasedate": self.__releasedate,
-                "retroachievements": '1' if self.__retroachievements else '0'
+                "retroachievements": '1' if self.__retroachievements else '0',
+                "interlaced": '1' if self.__interlaced else '0',
+                "multiregion": '1' if self.__multiregion else '0'
             }
 
         @property
@@ -78,10 +82,19 @@ class SystemHolder:
         def LightGun(self): return self.__lightgun
 
         @property
+        def LightGunEnum(self): return self.__deviceRequirement[self.__lightgun]
+
+        @property
         def ReleaseDate(self): return self.__releasedate
 
         @property
         def RetroAchievements(self) -> bool: return self.__retroachievements
+
+        @property
+        def CrtInterlaced(self) -> bool: return self.__interlaced
+
+        @property
+        def CrtMultiRegion(self) -> bool: return self.__multiregion
 
     class Core:
 
@@ -102,8 +115,8 @@ class SystemHolder:
             self.__netplay: bool = netplay
             if len(compatibility) == 0: compatibility = "unknown"
             if compatibility not in self.__CompatibilityValues.keys(): raise TypeError("Invalid compatibility! {}".format(compatibility))
-            self.__compatibility = compatibility
-            self.__speed = speed
+            self.__compatibility: str = compatibility
+            self.__speed: str = speed
             pass
 
         @property
@@ -148,7 +161,7 @@ class SystemHolder:
                 "speed": self.__speed,
             }
 
-    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY%"
+    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY% %CRT%"
 
     def __init__(self, arch: str, systemIni: str, config: ConfigIn):
         self.__config = config
@@ -170,7 +183,7 @@ class SystemHolder:
         }
         self.__port: bool = False
         self.__readOnly: bool = False
-        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", False)
+        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", False, False, False)
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
         self.__deserialize()
@@ -311,6 +324,8 @@ class SystemHolder:
             mouse=self.__get(desc, "properties", "device.mouse", "no", True),
             lightgun=self.__get(desc, "properties", "device.lightgun", "no", True),
             releasedate=self.__get(desc, "properties", "release.date", "", True),
-            retroachievements=(self.__get(desc, "properties", "retroachievements", "", True) == '1'),
+            retroachievements=(self.__get(desc, "properties", "retroachievements", "0", True) == '1'),
+            crtinterlaced=(self.__get(desc, "properties", "crt.interlaced", "0", True) == '1'),
+            crtmultiregion=(self.__get(desc, "properties", "crt.multiregion", "0", True) == '1'),
         )
 
