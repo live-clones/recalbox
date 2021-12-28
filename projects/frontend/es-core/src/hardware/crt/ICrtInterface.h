@@ -30,37 +30,37 @@ class ICrtInterface
      * @brief Check if a CRT adpater is attached
      * @return True if a CRT adapter is attached, false otherwise
      */
-    virtual bool IsCrtAdapterAttached() = 0;
+    virtual bool IsCrtAdapterAttached() const = 0;
 
     /*!
      * @brief Get CRT adapter
      * @return CRT adater
      */
-    virtual CrtAdapterType GetCrtAdapter() = 0;
+    virtual CrtAdapterType GetCrtAdapter() const = 0;
 
     /*!
      * @brief Check if the adapter supports 31khz
      * @return True if the adapter supports 31khz
      */
-    virtual bool Has31KhzSupport() = 0;
+    virtual bool Has31KhzSupport() const = 0;
 
     /*!
      * @brief Get horizontal frequency
      * @return Horitontal frequency
      */
-    virtual HorizontalFrequency GetHorizontalFrequency() = 0;
+    virtual HorizontalFrequency GetHorizontalFrequency() const = 0;
 
     /*!
      * @brief Check if the adapter has forced 50hs support
      * @return True if the adapter support forcing 50hz mode, false otherwise
      */
-    virtual bool HasForced50hzSupport() = 0;
+    virtual bool HasForced50hzSupport() const = 0;
 
     /*!
      * @brief Check if the adapter force 50hz mode
      * @return True if the adapter force 50hz mode, otherwize automatic mode
      */
-    virtual bool MustForce50Hz() = 0;
+    virtual bool MustForce50Hz() const = 0;
 
     /*!
      * @brief Check if this board has been automatically detected

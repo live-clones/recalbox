@@ -145,7 +145,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG "Select emulationstation resolution. Recommended is 480i for better details."
     #define MENUMESSAGE_ADVANCED_CRT_FORCE_50HZ_HELP_MSG "Force 50HZ for all modes. Enable only if your TV does not support 60HZ."
-
+    #define MENUMESSAGE_ADVANCED_CRT_GAME_OPTION_HELP_MSG "Let you choice between PAL/NTSC or 240p/480i at launch, depending on the system."
 
   static const char* LICENCE_MSG;
   static const int   LICENCE_MSG_SIZE;

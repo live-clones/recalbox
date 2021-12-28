@@ -37,8 +37,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
 
   // CRT
-  auto board = Board::Instance().GetBoardType();
-  if(board == BoardType::Pi3 || board == BoardType::Pi3plus || board == BoardType::Pi4 || board == BoardType::Pi400)
+  if (Board::Instance().CanHaveCRTBoard())
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // Adult games
@@ -213,7 +212,8 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
     case Components::SecuritySubMenu:
-    case Components::FactoryReset: break;
+    case Components::FactoryReset:
+    case Components::CrtSubMenu: break;
   }
 }
 

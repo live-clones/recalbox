@@ -80,6 +80,30 @@ const std::string& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
   return sDefault;
 }
 
+CrtAdapterType RecalboxConf::CrtAdapterFromString(const std::string& adapter)
+{
+  if (adapter == "recalboxrgbdual") return CrtAdapterType::RGBDual;
+  if (adapter == "pi2scart"       ) return CrtAdapterType::Pi2Scart;
+  if (adapter == "rgbpi"          ) return CrtAdapterType::RGBPi;
+  if (adapter == "vga666"         ) return CrtAdapterType::Vga666;
+  return CrtAdapterType::None;
+}
+
+const std::string& RecalboxConf::CrtAdapterFromEnum(CrtAdapterType adapter)
+{
+  switch(adapter)
+  {
+    case CrtAdapterType::RGBDual:  { static std::string adapterString("recalboxrgbdual"); return adapterString; }
+    case CrtAdapterType::Pi2Scart: { static std::string adapterString("pi2scart"); return adapterString; }
+    case CrtAdapterType::RGBPi:    { static std::string adapterString("rgbpi"); return adapterString; }
+    case CrtAdapterType::Vga666:   { static std::string adapterString("vga666"); return adapterString; }
+    case CrtAdapterType::None:
+    default: break;
+  }
+  static std::string sDefault = "";
+  return sDefault;
+}
+
 DefineSystemGetterSetterImplementation(Emulator, std::string, String, sSystemEmulator, "")
 DefineSystemGetterSetterImplementation(Core, std::string, String, sSystemCore, "")
 DefineSystemGetterSetterImplementation(Ratio, std::string, String, sSystemRatio, GetGlobalRatio())

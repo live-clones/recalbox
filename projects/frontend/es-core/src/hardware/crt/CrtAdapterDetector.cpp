@@ -32,11 +32,7 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
   else
   {
     // User config
-    std::string crtAdapter = RecalboxConf::Instance().GetSystemCRT();
-    if (crtAdapter == "recalboxrgbdual") result = CrtAdapterType::RGBDual;
-    else if (crtAdapter == "vga666") result = CrtAdapterType::Vga666;
-    else if (crtAdapter == "rgbpi") result = CrtAdapterType::RGBPi;
-    else if (crtAdapter == "pi2scart") result = CrtAdapterType::Pi2Scart;
+    result = RecalboxConf::Instance().GetSystemCRT();
   }
 
   return result;
@@ -44,7 +40,7 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
 
 ICrtInterface& CrtAdapterDetector::GetCrtBoard()
 {
-  bool automatic;
+  bool automatic = false;
   switch(DetectCrtAdapter(automatic))
   {
     case CrtAdapterType::Vga666: return *(new CrtVga666(automatic));

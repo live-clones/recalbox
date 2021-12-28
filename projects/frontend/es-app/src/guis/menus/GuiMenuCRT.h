@@ -14,8 +14,9 @@ class SwitchComponent;
 template<class T> class OptionListComponent;
 
 class GuiMenuCRT : public GuiMenuBase
-                          , private IOptionListComponent<std::string>
-                          , private ISwitchComponent
+                 , private IOptionListComponent<CrtAdapterType>
+                 , private IOptionListComponent<std::string>
+                 , private ISwitchComponent
 {
   public:
     /*!
@@ -23,20 +24,22 @@ class GuiMenuCRT : public GuiMenuBase
      * @param window Global window
      */
     explicit GuiMenuCRT(WindowManager& window);
+
+    //! Default destructor
     ~GuiMenuCRT() override;
+
   private:
     enum class Components
     {
       CRTDac,
       EsResolution,
       Force50HZ,
+      GameOptions,
     };
 
     //! Dac selection
-    bool mReboot;
-    //! Dac selection
-    std::shared_ptr<OptionListComponent<std::string>> mDac;
-    std::string mOriginalDac;
+    std::shared_ptr<OptionListComponent<CrtAdapterType>> mDac;
+    CrtAdapterType mOriginalDac;
     //! Es resolution
     std::shared_ptr<OptionListComponent<std::string>> mEsResolution;
     std::string mOriginalEsResolution;
@@ -45,15 +48,33 @@ class GuiMenuCRT : public GuiMenuBase
     bool mOriginalForce50Hz;
 
     //! Get dacs
-    std::vector<ListEntry<std::string>> GetDacEntries();
+    static std::vector<ListEntry<CrtAdapterType>> GetDacEntries();
     //! Get resolutions
-    std::vector<ListEntry<std::string>> GetEsResolutionEntries();
+    static std::vector<ListEntry<std::string>> GetEsResolutionEntries();
+
+    /*!
+     * @brief Get Horizontal frequency display test
+     * @return Text
+     */
+    static std::string GetHorizontalFrequency();
+
+    /*!
+     * @brief Get 50hz display test
+     * @return Texg
+     */
+    static std::string Get50hz();
 
     /*
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const CrtAdapterType& value) override;
+
+    /*
+     * IOptionListComponent<Overclocking> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const std::string & value) override;
 
     /*
      * ISwitchComponent implementation

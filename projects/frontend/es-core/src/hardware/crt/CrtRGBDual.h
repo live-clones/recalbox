@@ -16,22 +16,22 @@ class CrtRGBDual : public ICrtInterface
     explicit CrtRGBDual(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
 
     //! An RGB Dual is attached
-    bool IsCrtAdapterAttached() override { return true; }
+    bool IsCrtAdapterAttached() const override { return true; }
 
     //! This adapter is an RGB Dual
-    CrtAdapterType GetCrtAdapter() override { return CrtAdapterType::RGBDual; }
+    CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBDual; }
 
     //! RGB Dual has support for 31khz
-    bool Has31KhzSupport() override { return true; }
+    bool Has31KhzSupport() const override { return true; }
 
     //! Return select output frequency
-    HorizontalFrequency GetHorizontalFrequency() override { return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15; }
+    HorizontalFrequency GetHorizontalFrequency() const override { return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15; }
 
     //! This adapter has no support of forced 50hz
-    bool HasForced50hzSupport() override { return true; }
+    bool HasForced50hzSupport() const override { return true; }
 
     //! Get 50hz switch state
-    bool MustForce50Hz() override { return GetRGBDual50hzSwitchState(); }
+    bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
 
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/nowhere/or/elsewhere";

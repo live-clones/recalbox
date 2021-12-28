@@ -35,6 +35,12 @@ class Board: public StaticLifeCycleControler<Board>
     BoardType GetBoardType();
 
     /*!
+     * @brief Check if the current board can have a CRT plugged in
+     * @return True f the current board is compatible with CRT adapter, false otherwise
+     */
+    bool CanHaveCRTBoard();
+
+    /*!
      * @brief Get Crt board interface
      * @return Crt board interface
      */
@@ -205,5 +211,4 @@ class Board: public StaticLifeCycleControler<Board>
      * @return Crt board implementation
      */
     ICrtInterface& GetCrtBoard();
-
 };

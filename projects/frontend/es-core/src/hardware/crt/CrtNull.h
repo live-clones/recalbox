@@ -14,17 +14,17 @@ class CrtNull : public ICrtInterface
     //! Constructor
     explicit CrtNull(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
 
-    bool IsCrtAdapterAttached() override { return false; }
+    bool IsCrtAdapterAttached() const override { return false; }
 
-    CrtAdapterType GetCrtAdapter() override { return CrtAdapterType::None; }
+    CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::None; }
 
-    bool Has31KhzSupport() override { return false; }
+    bool Has31KhzSupport() const override { return false; }
 
-    HorizontalFrequency GetHorizontalFrequency() override { return ICrtInterface::HorizontalFrequency::KHz15; }
+    HorizontalFrequency GetHorizontalFrequency() const override { return ICrtInterface::HorizontalFrequency::KHz15; }
 
-    bool HasForced50hzSupport() override { return false; }
+    bool HasForced50hzSupport() const override { return false; }
 
-    bool MustForce50Hz() override { return false; }
+    bool MustForce50Hz() const override { return false; }
 };
 
 

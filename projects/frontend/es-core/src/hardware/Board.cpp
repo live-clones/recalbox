@@ -177,13 +177,18 @@ BoardType Board::GetBoardType()
 
 ICrtInterface& Board::GetCrtBoard()
 {
+  return CanHaveCRTBoard() ? CrtAdapterDetector::GetCrtBoard() : *(new CrtNull(false));
+}
+
+bool Board::CanHaveCRTBoard()
+{
   switch(GetBoardType())
   {
     case BoardType::Pi02:
     case BoardType::Pi3:
     case BoardType::Pi3plus:
     case BoardType::Pi4:
-    case BoardType::Pi400: return CrtAdapterDetector::GetCrtBoard();
+    case BoardType::Pi400: return true;
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::UndetectedYet:
@@ -197,5 +202,5 @@ ICrtInterface& Board::GetCrtBoard()
     default: break;
   }
 
-  return *(new CrtNull(false));
+  return false;
 }

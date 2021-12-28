@@ -23,7 +23,7 @@ class IniFile
     explicit IniFile(const Path& confpath, const Path& fallbackpath);
 
     //! Destructor
-    ~IniFile()
+    virtual ~IniFile()
     {
       Save();
     }

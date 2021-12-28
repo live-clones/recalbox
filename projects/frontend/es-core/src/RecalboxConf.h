@@ -5,12 +5,12 @@
 
 #include <utils/IniFile.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
-//#include <games/classifications/Genres.h>
 #include <games/FileSorts.h>
 #include <scraping/ScraperTools.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperEnums.h>
 #include <scraping/scrapers/screenscraper/Languages.h>
 #include <audio/AudioMode.h>
+#include "hardware/crt/CrtAdapterType.h"
 
 // Forward declaration
 class SystemData;
@@ -103,6 +103,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType)
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
+    DefineGetterSetterEnum(SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
 
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
@@ -195,8 +196,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
-    DefineGetterSetter(SystemCRT, std::string, String, sSystemCRT, "")
     DefineGetterSetter(SystemCRTForce50HZ, bool, Bool, sSystemCRTForce50HZ, false)
+    DefineGetterSetter(SystemCRTGameOptions, bool, Bool, sSystemCRTGameOptions, false)
     DefineGetterSetter(GlobalInputDriver, std::string, String, sGlobalInputDriver, "auto")
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
@@ -309,8 +310,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalHidePreinstalled     = "global.hidepreinstalledgames";
     static constexpr const char* sGlobalIntegerScale         = "global.integerscale";
     static constexpr const char* sGlobalShowFPS              = "global.showfps";
+
     static constexpr const char* sSystemCRT                  = "system.crt";
     static constexpr const char* sSystemCRTForce50HZ         = "system.crt.force50hz";
+    static constexpr const char* sSystemCRTGameOptions       = "system.crt.gameoptions";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 
@@ -431,11 +434,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static std::string GetCountry();
 
     /*
-     * En,umeration getter/setter
+     * Enumeration getter/setter
      */
 
     static Menu MenuFromString(const std::string& menu);
     static const std::string& MenuFromEnum(Menu menu);
     static Relay RelayFromString(const std::string& relay);
     static const std::string& RelayFromEnum(Relay relay);
+    static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
+    static const std::string& CrtAdapterFromEnum(CrtAdapterType adapter);
 };
