@@ -11,6 +11,13 @@ as release notes for end user on a Recalbox upgrade.
 - Add missing systemlist.xml in support archive
 - Fix two letter extentions (.md/.st)
 - Fix "Configuration" tab save feature in manager.
+### News
+
+### Improvements
+
+### Fixes
+- Fix PC88 & Spectravideo scraping
+
 
 ## Version 8.0-Electron
 

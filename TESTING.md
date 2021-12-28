@@ -12,6 +12,9 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Test internal scraper on PC88 & Spectravideo
+
+## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
 - [ ] Check screenshot for yarntown game on solarus and craft on ports (#2017)
 - [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
