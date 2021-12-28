@@ -1,5 +1,5 @@
 diff --git a/pcsx2/gui/AppConfig.cpp b/pcsx2/gui/AppConfig.cpp
-index c8edbcf02..2b663af28 100644
+index c8edbcf02c..2b663af28e 100644
 --- a/pcsx2/gui/AppConfig.cpp
 +++ b/pcsx2/gui/AppConfig.cpp
 @@ -152,8 +152,7 @@ namespace PathDefs
