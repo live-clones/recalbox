@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Fix theme gameclipview in 240p (#2106)
 - Fix fix demoInfo cropped message (#2109)
 - Fix RetroFlag scripts to turn off cases (#2067)
+- Fix tearing effect on odroidgo2 (#2100)
 
 ## [8.0-Electron]
 - Remove non-working shaders
