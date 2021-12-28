@@ -358,13 +358,13 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
       static int lastChoice = 0;
       Gui* gui = (
                   new GuiMsgBox(mWindow,
-                                _("Choose the video standard:"),
+                                _("Game refresh rate"),
                                 _("AUTO"),
                                 [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Auto); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                _("PAL"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Pal); LaunchCheck(game, cameraTarget, true); lastChoice = 1; },
-                                _("NTSC"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Ntsc); LaunchCheck(game, cameraTarget, true); lastChoice = 2; }
+                                _("60Hz"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Ntsc); LaunchCheck(game, cameraTarget, true); lastChoice = 1; },
+                                _("50Hz"),
+                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Pal); LaunchCheck(game, cameraTarget, true); lastChoice = 2; }
                                )
                  )->SetDefaultButton(lastChoice);
       mWindow.pushGui(gui);
@@ -378,10 +378,10 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
       static int lastChoice = 0;
       Gui* gui = (
                   new GuiMsgBox(mWindow,
-                                _("Choose the video output:"),
-                                _("240P"),
+                                _("Game resolution"),
+                                _("240p"),
                                 [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                _("480I"),
+                                _("480i"),
                                 [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
                                )
                 )->SetDefaultButton(lastChoice);
