@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - Add 240ptestsuite Playstation for CRT (#2117)
 - Fix BT controllers not being reconized in ES 
 - Add DRM info in support archive (#2102)
+- Fix tearing effect on odroidgo2 (#2100)
 
 ## [8.0-Electron]
 - Remove non-working shaders
