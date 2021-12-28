@@ -1,16 +1,16 @@
-From d0b4281c40fa5ccfcde1e1e13b2e059dc5b0eb19 Mon Sep 17 00:00:00 2001
+From 41118c39ca3cf03afb7e358a03892378cf4dd2b3 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
-Date: Thu, 15 Jul 2021 23:03:32 +0200
-Subject: [PATCH] feat: adapt go2 patch for sdl 2.0.14
+Date: Tue, 28 Dec 2021 12:10:49 +0100
+Subject: [PATCH] sdl2 odroid go advance
 
 ---
  Makefile.in                                   |  2 +-
- configure.ac                                  |  7 ++-
- .../SDL_kmsdrm_legacy_opengles.c              | 17 +++++-
+ configure.ac                                  |  7 +-
+ .../SDL_kmsdrm_legacy_opengles.c              | 19 +++++-
  .../kmsdrm_legacy/SDL_kmsdrm_legacy_sym.h     |  1 +
- .../kmsdrm_legacy/SDL_kmsdrm_legacy_video.c   | 61 +++++++++++++++++--
- .../kmsdrm_legacy/SDL_kmsdrm_legacy_video.h   |  7 +++
- 6 files changed, 86 insertions(+), 9 deletions(-)
+ .../kmsdrm_legacy/SDL_kmsdrm_legacy_video.c   | 66 +++++++++++++++++--
+ .../kmsdrm_legacy/SDL_kmsdrm_legacy_video.h   |  7 ++
+ 6 files changed, 93 insertions(+), 9 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
 index 57871bed..53132e11 100644
@@ -44,7 +44,7 @@ index b7e519b8..c4b1dbbe 100644
          if test x$libdrm_avail = xyes -a x$libgbm_avail = xyes; then
              video_kmsdrm=yes
 diff --git a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_opengles.c b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_opengles.c
-index 89080189..f565905e 100644
+index 89080189..638e24e5 100644
 --- a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_opengles.c
 +++ b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_opengles.c
 @@ -33,6 +33,9 @@
@@ -65,7 +65,7 @@ index 89080189..f565905e 100644
  
      /* Recreate the GBM / EGL surfaces if the display mode has changed */
      if (windata->egl_surface_dirty) {
-@@ -104,7 +108,18 @@ KMSDRM_LEGACY_GLES_SwapWindow(_THIS, SDL_Window * window) {
+@@ -104,11 +108,24 @@ KMSDRM_LEGACY_GLES_SwapWindow(_THIS, SDL_Window * window) {
          SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Locked GBM surface %p", (void *)windata->next_bo); */
      }
  
@@ -85,6 +85,12 @@ index 89080189..f565905e 100644
      if (!fb_info) {
          return 0;
      }
+ 
++    viddata->rga_buffer_index = (viddata->rga_buffer_index + 1) % RGA_BUFFERS_MAX;
++
+     if (!windata->curr_bo) {
+         /* On the first swap, immediately present the new front buffer. Before
+            drmModePageFlip can be used the CRTC has to be configured to use
 diff --git a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_sym.h b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_sym.h
 index 8c41608f..e784f3f9 100644
 --- a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_sym.h
@@ -98,7 +104,7 @@ index 8c41608f..e784f3f9 100644
  
  #undef SDL_KMSDRM_LEGACY_MODULE
 diff --git a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c
-index 36b1899b..974e6832 100644
+index 36b1899b..369924a8 100644
 --- a/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c
 +++ b/src/video/kmsdrm_legacy/SDL_kmsdrm_legacy_video.c
 @@ -49,6 +49,9 @@
@@ -111,23 +117,28 @@ index 36b1899b..974e6832 100644
  static int
  check_modestting(int devindex)
  {
-@@ -257,6 +260,41 @@ KMSDRM_LEGACY_FBDestroyCallback(struct gbm_bo *bo, void *data)
+@@ -257,6 +260,46 @@ KMSDRM_LEGACY_FBDestroyCallback(struct gbm_bo *bo, void *data)
      SDL_free(fb_info);
  }
  
 +static void
 +KMSDRM_LEGACY_InitRotateBuffer(_THIS, int frameWidth, int frameHeight)
 +{
++    int l_frameHeight = frameHeight;
 +    SDL_VideoData *viddata = ((SDL_VideoData *)_this->driverdata);
 +
 +    // initialize 2D raster graphic acceleration unit (RGA)
 +    c_RkRgaInit();
 +
++    if(l_frameHeight % 32 != 0) {
++      l_frameHeight = (frameHeight + 32) & (~31);
++    }
++
 +    // create buffers for RGA
 +    for (int i = 0; i < RGA_BUFFERS_MAX; ++i)
 +    {
 +        viddata->rga_buffers[i] = KMSDRM_LEGACY_gbm_bo_create(viddata->gbm,
-+              frameWidth, (frameHeight == 480) ? frameHeight : (frameHeight + 32) & ~31,
++              frameWidth, l_frameHeight,
 +              GBM_FORMAT_XRGB8888, GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
 +        assert(viddata->rga_buffers[i]);
 +
@@ -141,7 +152,7 @@ index 36b1899b..974e6832 100644
 +    src_info.rotation = HAL_TRANSFORM_ROT_270;
 +
 +    // swap width and height here because our source buffer (user side render buffer) is 480x320 or 854x480
-+    rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, (frameHeight == 480) ? frameHeight : (frameHeight + 32) & ~31, frameWidth, RK_FORMAT_BGRA_8888);
++    rga_set_rect(&src_info.rect, 0, 0, frameHeight, frameWidth, l_frameHeight, frameWidth, RK_FORMAT_BGRA_8888);
 +
 +    dst_info.fd = -1;
 +    dst_info.mmuFlag = 1;
@@ -153,7 +164,7 @@ index 36b1899b..974e6832 100644
  KMSDRM_LEGACY_FBInfo *
  KMSDRM_LEGACY_FBFromBO(_THIS, struct gbm_bo *bo)
  {
-@@ -390,8 +428,8 @@ KMSDRM_LEGACY_CreateSurfaces(_THIS, SDL_Window * window)
+@@ -390,8 +433,8 @@ KMSDRM_LEGACY_CreateSurfaces(_THIS, SDL_Window * window)
      SDL_VideoData *viddata = ((SDL_VideoData *)_this->driverdata);
      SDL_WindowData *windata = (SDL_WindowData *)window->driverdata;
      SDL_DisplayData *dispdata = (SDL_DisplayData *) SDL_GetDisplayForWindow(window)->driverdata;
@@ -164,7 +175,7 @@ index 36b1899b..974e6832 100644
      Uint32 surface_fmt = GBM_FORMAT_XRGB8888;
      Uint32 surface_flags = GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING;
  #if SDL_VIDEO_OPENGL_EGL
-@@ -584,8 +622,8 @@ KMSDRM_LEGACY_VideoInit(_THIS)
+@@ -584,8 +627,8 @@ KMSDRM_LEGACY_VideoInit(_THIS)
  
      /* Setup the single display that's available */
  
@@ -175,7 +186,7 @@ index 36b1899b..974e6832 100644
      display.desktop_mode.refresh_rate = dispdata->mode.vrefresh;
  #if 1
      display.desktop_mode.format = SDL_PIXELFORMAT_ARGB8888;
-@@ -703,8 +741,8 @@ KMSDRM_LEGACY_GetDisplayModes(_THIS, SDL_VideoDisplay * display)
+@@ -703,8 +746,8 @@ KMSDRM_LEGACY_GetDisplayModes(_THIS, SDL_VideoDisplay * display)
            modedata->mode_index = i;
          }
  
@@ -186,7 +197,7 @@ index 36b1899b..974e6832 100644
          mode.refresh_rate = conn->modes[i].vrefresh;
          mode.format = SDL_PIXELFORMAT_ARGB8888;
          mode.driverdata = modedata;
-@@ -757,6 +795,7 @@ KMSDRM_LEGACY_CreateWindow(_THIS, SDL_Window * window)
+@@ -757,6 +800,7 @@ KMSDRM_LEGACY_CreateWindow(_THIS, SDL_Window * window)
      SDL_VideoData *viddata = (SDL_VideoData *)_this->driverdata;
      SDL_WindowData *windata;
      SDL_VideoDisplay *display;
@@ -194,7 +205,7 @@ index 36b1899b..974e6832 100644
  
  #if SDL_VIDEO_OPENGL_EGL
      if (!_this->egl_data) {
-@@ -818,6 +857,9 @@ KMSDRM_LEGACY_CreateWindow(_THIS, SDL_Window * window)
+@@ -818,6 +862,9 @@ KMSDRM_LEGACY_CreateWindow(_THIS, SDL_Window * window)
      SDL_SetMouseFocus(window);
      SDL_SetKeyboardFocus(window);
  
@@ -204,7 +215,7 @@ index 36b1899b..974e6832 100644
      return 0;
  
  error:
-@@ -857,6 +899,13 @@ KMSDRM_LEGACY_DestroyWindow(_THIS, SDL_Window * window)
+@@ -857,6 +904,13 @@ KMSDRM_LEGACY_DestroyWindow(_THIS, SDL_Window * window)
      window->driverdata = NULL;
  
      SDL_free(windata);
@@ -244,5 +255,5 @@ index 28e1bc4f..795b5da1 100644
  
  
 -- 
-2.32.0
+2.34.1
 
