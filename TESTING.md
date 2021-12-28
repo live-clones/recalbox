@@ -13,6 +13,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [NEXT]
 - [ ] Test internal scraper on PC88 & Spectravideo
+- [ ] Check no tearing effect on odroidgo2 (#2100)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
