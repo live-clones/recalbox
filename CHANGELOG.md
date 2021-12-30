@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Fix theme gameclipview in 240p (#2106)
 - Fix fix demoInfo cropped message (#2109)
 - Fix BT controllers not being reconized in ES 
+- Add DRM info in support archive (#2102)
 
 ## [8.0-Electron]
 - Remove non-working shaders
