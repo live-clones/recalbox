@@ -105,13 +105,10 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
 
   std::string selectedResolution = RecalboxConf::Instance().GetEmulationstationVideoMode();
 
-  bool r240p = selectedResolution == "1920x240";
-  bool r480i = selectedResolution == "640x480";
-  bool rdef = !r240p && !r480i;
+  bool rdef = selectedResolution == "default" || selectedResolution == "640x480";
 
-  list.push_back({ "240p (compatible mode)", "default", rdef });
-  list.push_back({ "480i (recommended)", "640x480", r480i });
-  list.push_back({ "240p", "1920x240", r240p });
+  list.push_back({ "480i (recommended)", "default", rdef });
+  list.push_back({ "240p", "1920x240", !rdef });
 
   return list;
 }
