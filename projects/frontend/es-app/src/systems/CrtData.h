@@ -22,19 +22,19 @@ class CrtData
     //! Default constructor
     CrtData()
       : mRegionConfigured(false)
-      , mInterlacedConfigured(false)
+      , mHighResolutionConfigured(false)
       , mRegion(VideoRegion::Auto)
-      , mInterlaced(false)
+      , mHighResoution(false)
     {
     }
 
     /*!
-     * @brief Check if there is a CRT board and the user requested to choose individual 480i options
+     * @brief Check if there is a CRT board and the user requested to choose individual 480 or 240 options
      * @return True if the class needs to be configured, false otherwise
      */
-    bool IsInterlacedConfigured() const
+    bool IsHighResolutionConfigured() const
     {
-      if (!mInterlacedConfigured)
+      if (!mHighResolutionConfigured)
         if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
           if (RecalboxConf::Instance().GetSystemCRTGameOptions())
             return true;
@@ -66,12 +66,12 @@ class CrtData
 
     /*!
      * @brief Configure crt data
-     * @param i480 True for 480i, false for 240p
+     * @param highRez True for 480, false for 240
      */
-    void Configure480i(bool i480)
+    void ConfigureHighResolution(bool highRez)
     {
-      mInterlaced = i480;
-      mInterlacedConfigured = true;
+      mHighResoution = highRez;
+      mHighResolutionConfigured = true;
     }
 
     /*!
@@ -86,20 +86,31 @@ class CrtData
     }
 
     /*!
-     * @brief Check if the target system requires choosing between 240p or 480i
+     * @brief Check if the target system requires choosing between 240 or 480
      * @param system target system
      * @return True if the choice is required, false otherwise
      */
-    bool MustChoose240or480i(const SystemData& system) const
+    bool MustChooseHighResolution(const SystemData& system) const
     {
-      return system.Descriptor().CrtInterlaced();
+      return system.Descriptor().CrtHighResolution();
     }
+/*
+  *//*!
+  * @brief Check if high resolution is a progressive one
+  * @return True if high resolution is a progressive one, false otherwise
+  *//*
+  bool HighResolutionIsProgressive() const
+  {
+
+    if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+
+  }*/
 
     /*
      * Accesors
      */
 
-    bool Interlaced() const { return mInterlaced; }
+    bool HighResolution() const { return mHighResoution; }
 
     VideoRegion Region() const { return mRegion; }
 
@@ -107,9 +118,9 @@ class CrtData
     //! NTSC configured
     bool mRegionConfigured;
     //! 480i configured
-    bool mInterlacedConfigured;
+    bool mHighResolutionConfigured;
     //! Video system (default: auto
     VideoRegion mRegion;
-    //! 480e? (default: 240p)
-    bool mInterlaced;
+    //! 480? (default: 240p)
+    bool mHighResoution;
 };

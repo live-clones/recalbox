@@ -130,7 +130,7 @@ class SystemDescriptor
                                                const std::string& mouse,
                                                const std::string& releasedate,
                                                bool lightgun,
-                                               bool interlaced,
+                                               bool multiresolution,
                                                bool multiregion)
     {
       mType = ConvertSystemType(systemtype);
@@ -140,7 +140,7 @@ class SystemDescriptor
       if (Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
         mReleaseDate = 0;
       mLightgun = lightgun;
-      mCrtInterlaced = interlaced;
+      mCrtInterlaced = multiresolution;
       mCrtMultiRegion = multiregion;
       return *this;
     }
@@ -206,7 +206,7 @@ class SystemDescriptor
     DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
     DeviceRequirement MouseRequirement() const { return mMouse; }
     bool LightGun() const { return mLightgun; }
-    bool CrtInterlaced() const { return mCrtInterlaced; }
+    bool CrtHighResolution() const { return mCrtInterlaced; }
     bool CrtMultiRegion() const { return mCrtMultiRegion; }
 
     bool HasNetPlayCores() const

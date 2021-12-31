@@ -15,7 +15,7 @@
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), nullptr)
   , mOriginalDac(RecalboxConf::Instance().GetSystemCRT())
-  , mOriginalForce50Hz(RecalboxConf::Instance().GetSystemCRTForce50HZ())
+  , mOriginal31kHzResolution(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz())
 {
   // Selected Dac
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
@@ -24,14 +24,17 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
-  AddText(_("OUTPUT FREQUENCY"), GetHorizontalFrequency());
+  if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
 
   // Force 50HZ
   if (Board::Instance().CrtBoard().HasForced50hzSupport()) AddText(_("FORCE 50HZ"), Get50hz());
-  else mForce50Hz = AddSwitch(_("FORCE 50HZ"), RecalboxConf::Instance().GetSystemCRTForce50HZ(), (int)Components::Force50HZ, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_50HZ_HELP_MSG));
 
   // Game options
   AddSwitch(_("GAME OPTION AT LAUNCH"), RecalboxConf::Instance().GetSystemCRTGameOptions(), (int)Components::GameOptions, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_OPTION_HELP_MSG));
+
+  // 31khz resolution
+  if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
 
   mOriginalEsResolution = RecalboxConf::Instance().GetEmulationstationVideoMode();
 }
@@ -40,14 +43,13 @@ GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
   if (mOriginalDac != mDac->getSelected()
-  || mOriginalEsResolution != mEsResolution->getSelected()
-  || (mForce50Hz != nullptr && mOriginalForce50Hz != mForce50Hz->getState()))
+  || mOriginalEsResolution != mEsResolution->getSelected())
     RequestReboot();
 }
 
 std::string GuiMenuCRT::Get50hz()
 {
-  std::string result = Board::Instance().CrtBoard().MustForce50Hz() ? _("YES") : _("NO");
+  std::string result = Board::Instance().CrtBoard().MustForce50Hz() ? _("ON") : _("OFF");
   result.append(1, ' ').append(_("(Hardware managed)"));
   return result;
 }
@@ -113,6 +115,19 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   return list;
 }
 
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetGamesResolutionOn31kHzEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+
+  std::string selectedResolution = RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz();
+
+  list.push_back({ "480p", "480p", selectedResolution == "480p" || selectedResolution == "" });
+  list.push_back({ "240p (double freq)", "240p", selectedResolution == "240p" });
+
+  return list;
+}
+
+
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
 {
   (void)index;
@@ -141,13 +156,17 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
     RecalboxConf::Instance().SetEmulationstationRatio(value == "1920x240" ? "1.3334" : "default").Save();
     RecalboxConf::Instance().SetEmulationstationVideoMode(value).Save();
   }
+  if ((Components)id == Components::GamesResolutionOn31kHz)
+  {
+    if(m31kHzResolution != nullptr){
+      RecalboxConf::Instance().SetSystemCRTGamesResolutionOn31kHz(value).Save();
+    }
+  }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
 {
-  if ((Components)id == Components::Force50HZ)
-    RecalboxConf::Instance().SetSystemCRTForce50HZ(status).Save();
-  else if ((Components)id == Components::GameOptions)
+  if ((Components)id == Components::GameOptions)
     RecalboxConf::Instance().SetSystemCRTGameOptions(status).Save();
 }
 

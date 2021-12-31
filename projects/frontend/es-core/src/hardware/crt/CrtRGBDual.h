@@ -34,8 +34,8 @@ class CrtRGBDual : public ICrtInterface
     bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
 
   private:
-    static constexpr const char* sRGBDual31khzSwitch = "/sys/nowhere/or/elsewhere";
-    static constexpr const char* sRGBDual50hzSwitch = "/sys/nowhere/or/elsewhere";
+    static constexpr const char* sRGBDual31khzSwitch = "/31";
+    static constexpr const char* sRGBDual50hzSwitch = "/50";
 
     //! Get 31khz switch state on RGB dual board
     static bool GetRGBDual31khzSwitchState() { return Files::LoadFile(Path(sRGBDual31khzSwitch)) == "1"; }

@@ -371,18 +371,21 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
       return;
     }
   }
-  if (mGameLinkedData.Crt().IsInterlacedConfigured())
+  if (mGameLinkedData.Crt().IsHighResolutionConfigured())
   {
-    if (mGameLinkedData.Crt().MustChoose240or480i(game->System()))
+    if (mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
     {
+      const bool highResProgressive = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
       static int lastChoice = 0;
       Gui* gui = (
                   new GuiMsgBox(mWindow,
                                 _("Game resolution"),
                                 _("240p"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                _("480i"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().Configure480i(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                [this, game, &cameraTarget] {
+                                  mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                _(highResProgressive ? "480p" : "480i"),
+                                [this, game, &cameraTarget] {
+                                  mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
                                )
                 )->SetDefaultButton(lastChoice);
       mWindow.pushGui(gui);

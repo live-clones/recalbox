@@ -33,8 +33,8 @@ class GuiMenuCRT : public GuiMenuBase
     {
       CRTDac,
       EsResolution,
-      Force50HZ,
       GameOptions,
+      GamesResolutionOn31kHz,
     };
 
     //! Dac selection
@@ -43,14 +43,16 @@ class GuiMenuCRT : public GuiMenuBase
     //! Es resolution
     std::shared_ptr<OptionListComponent<std::string>> mEsResolution;
     std::string mOriginalEsResolution;
-    //! Force 50 HZ
-    std::shared_ptr<SwitchComponent> mForce50Hz;
-    bool mOriginalForce50Hz;
+    //! 31kHz games resolution
+    std::shared_ptr<OptionListComponent<std::string>> m31kHzResolution;
+    std::string mOriginal31kHzResolution;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries();
     //! Get resolutions
     static std::vector<ListEntry<std::string>> GetEsResolutionEntries();
+    //! Get 31kHz resolution
+    static std::vector<ListEntry<std::string>> GetGamesResolutionOn31kHzEntries();
 
     /*!
      * @brief Get Horizontal frequency display test
