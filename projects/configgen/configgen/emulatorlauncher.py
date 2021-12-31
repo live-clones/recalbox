@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from pathlib import Path
 from typing import Dict, List
 import configgen.recalboxFiles as recalboxFiles
 
@@ -230,7 +231,7 @@ def main(arguments) -> (int, bool):
     system = getDefaultEmulator(systemName, arguments.emulator, arguments.core)
     recalboxOptions, fixedScreenSize = loadRecalboxSettings(arguments.rom, system.Name)
 
-    if recalboxOptions.getString("system.crt","") != "":
+    if arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0:
         from configgen.crt.CRTEmulatorSelector import CRTEmulatorSelector
         system = CRTEmulatorSelector().chooseEmulatorAndCoreFor(system, arguments.rom)
 
@@ -344,6 +345,10 @@ if __name__ == '__main__':
     parser.AddString(command="extra", chelp="pass extra argument", required=False)
     parser.AddSimple(command="nodefaultkeymap", chelp="disable libretro default keybindings", required=False)
     parser.AddSimple(command="verbose", chelp="verbose logging", required=False)
+    parser.AddString(command="crtadaptor", chelp="Plugged crt adaptor", required=False)
+    parser.AddString(command="crtregion", chelp="Selected crt region", required=False)
+    parser.AddString(command="crtresolutiontype", chelp="progressive, interlaced, or auto", required=False)
+    parser.AddString(command="crtscreentype", chelp="15kHz, 31kHz", required=False)
 
     args = parser.Parse()
 

@@ -44,7 +44,7 @@ class LibretroGenerator(Generator):
     def processOverlays(system: Emulator, romName: str, configs: List[str], recalboxOptions: keyValueSettings):
         import os.path
         # If we are in crt mode, we only allow recalbox default 240p overlays
-        if recalboxOptions.hasOption("system.crt"):
+        if system.CRTEnabled:
             if system.RecalboxOverlays:
                 crtOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_240P_OVERLAYS, system.Name,
                                                            system.Name)
@@ -170,7 +170,7 @@ class LibretroGenerator(Generator):
         lightgunConfig.createLightGunConfiguration()
 
         # crt config
-        if recalboxOptions.hasOption("system.crt"):
+        if system.CRTEnabled:
             LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
                                                      retroarchOverrides)
 

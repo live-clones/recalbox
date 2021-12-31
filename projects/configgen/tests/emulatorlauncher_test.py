@@ -31,6 +31,11 @@ class FakeArguments:
         self.netplay_playerpassword = self.netplay_viewerpassword = ""
         self.hash = self.extra = self.nodefaultkeymap = self.verbose = False
 
+        self.crtregion = ""
+        self.crtresolutiontype = ""
+        self.crtscreentype = ""
+        self.crtadaptor = ""
+
 
 @pytest.mark.parametrize(
     'emulator',
@@ -75,6 +80,7 @@ def test_select_crt_emulator_when_crt_enabled(mocker):
     mocker.patch('configgen.emulatorlauncher.loadRecalboxSettings', return_value=(recalboxConf, False))
 
     arguments = FakeArguments()
+    arguments.crtadaptor = "recalboxrgbdual"
     arguments.system = "snes"
     arguments.emulator = "pisnes"
     arguments.core = "anycore"

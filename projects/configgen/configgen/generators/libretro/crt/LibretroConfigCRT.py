@@ -2,7 +2,7 @@ import typing
 from pathlib import Path
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTConfiguration
+from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTRegion, CRTScreenType, CRTResolutionType
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.crt.Mode import Mode
 from configgen.utils.recallog import recallog
@@ -39,7 +39,8 @@ class LibretroConfigCRT:
                 config[
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                config["custom_viewport_y" + region] = (
+                                                               mode.height - viewport_height) // 2 if viewport_height > 0 else 0
         else:
             if rotation == 1:
                 config["aspect_ratio_index"] = '25'
@@ -56,13 +57,26 @@ class LibretroConfigCRT:
             return mode_viewport_width
         return self.viewport_width
 
+    def get_default_mode_name_for_config(self, screentype: CRTScreenType, region: CRTRegion,
+                                         resolutiontype: CRTResolutionType):
+        if screentype == CRTScreenType.k31:
+            if resolutiontype == CRTResolutionType.DoubleFreq:
+                return "1920@31KHz-double:all:240@60"
+            else:
+                return "default@31kHz:all:480@60"
+        else:
+            if region == "ntsc":
+                return "default:ntsc:240@60"
+            else:
+                return "default:pal:288@50"
+
     def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
         config: typing.Dict[str, str] = {"aspect_ratio_index": "24",
                                          "video_aspect_ratio_auto": '"false"',
                                          "crt_switch_timings_pal": "",
                                          "crt_switch_timings_ntsc": "",
-                                         "video_refresh_rate_pal": '"60"',
-                                         "video_refresh_rate_ntsc": '"50"',
+                                         "video_refresh_rate_pal": '"50"',
+                                         "video_refresh_rate_ntsc": '"60"',
                                          "crt_switch_timings": "",
                                          "custom_viewport_width": "",
                                          "custom_viewport_width_ntsc": "",
@@ -79,66 +93,113 @@ class LibretroConfigCRT:
                                          "video_crop_overscan": '"false"',
                                          "menu_driver": '"rgui"',
                                          "video_shader_enable": '"false"',
-                                         "video_vsync": '"true"'
+                                         "video_vsync": '"true"',
+                                         "video_black_frame_insertion": '"0"'
                                          }
         arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus"]
         core: str = system.Core
-        default: bool = False
+        default: bool = True
         game_name: str = Path(rom).stem
-
+        recallog(
+            "Starting configuration for game {} on system {}, screentype {}, resolutiontype {}, region {}".format(
+                game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTRegion),
+            log_type="CRT")
+        if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
+            config.update({"video_black_frame_insertion": '"1"'})
         if core in arcade_cores and system.Name != "neogeocd":
             config_core: str = core
             if config_core == "mame2003_plus":
                 config_core = "mame2003"
-            game_config: CRTConfiguration = self.crt_config_parser.loadArcadeGame(game_name)
-            if len(game_config) > 0:
-                if config_core in game_config:
-                    mode_id = game_config[config_core][0]
+            if system.CRTScreenType == CRTScreenType.k31:
+                defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTRegion,
+                                                                         system.CRTResolutionType)
+                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                    config.update(
+                        self.createConfigForMode(region, self.crt_mode_processor.processMode(
+                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
+                                                 self.viewport_width, 0, 0))
+                recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
+                default = False
+            else:
+                game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
+                if game_config is not None:
+                    mode_id = game_config[1]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), self.h_offset,
                                                                self.v_offset)
-                    rotation = game_config[config_core][3]
+                    rotation = game_config[4]
                     recallog(
                         "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
                                                                                              "vertical" if rotation == 1 else ""),
                         log_type="CRT")
 
                     config.update(
-                        self.createConfigForMode("all", mode, self.select_width(game_config[config_core][1],rotation),
-                                                 game_config[config_core][2], rotation))
+                        self.createConfigForMode("all", mode, self.select_width(game_config[2], rotation),
+                                                 game_config[3], rotation))
+                    default = False
                 else:
-                    recallog("Core configuration {} not found for game {}".format(core, game_name), log_type="CRT")
-                    default = True
-            else:
-                recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
-                default = True
+                    recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
         else:
-            system_config = self.crt_config_parser.loadSystem(system.Name)
-            if len(system_config) > 0:
-                for region_mode in system_config.items():
-                    print(region_mode)
-                    region = region_mode[0]
-                    mode_id = region_mode[1][0]
+            if system.CRTRegion == CRTRegion.AUTO:
+                recallog("AUTO region selected", log_type="CRT")
+                for region in [CRTRegion.PAL, CRTRegion.NTSC, CRTRegion.ALL]:
+                    system_config = self.crt_config_parser.findSystem(system.Name, region, system.CRTScreenType,
+                                                                      system.CRTResolutionType)
+                    if system_config is not None:
+                        mode_id = system_config[3]
+                        mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
+                                                                   self.h_offset,
+                                                                   self.v_offset)
+                        recallog(
+                            "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
+                                                                                        mode_id),
+                            log_type="CRT")
+                        config.update(
+                            self.createConfigForMode(region, mode, self.select_width(system_config[4]),
+                                                     system_config[5], 0))
+                        default = False
+                    else:
+                        recallog(
+                            "System config not found : {} {} {} {}".format(system.Name, region, system.CRTScreenType,
+                                                                           system.CRTResolutionType), log_type="CRT")
+            else:
+                recallog("Forced region {}".format(system.CRTRegion), log_type="CRT")
+                system_config = self.crt_config_parser.findSystem(system.Name, system.CRTRegion, system.CRTScreenType,
+                                                                  system.CRTResolutionType)
+                if system_config is not None:
+                    mode_id = system_config[3]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), self.h_offset,
                                                                self.v_offset)
-                    recallog(
-                        "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core, mode_id),
-                        log_type="CRT")
-                    config.update(
-                        self.createConfigForMode(region, mode, self.select_width(region_mode[1][1]),
-                                                 region_mode[1][2], 0))
-            else:
-                recallog("System configuration not found for {}".format(system.Name), log_type="CRT")
-                default = True
+                    for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                        recallog(
+                            "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
+                                                                                        mode_id),
+                            log_type="CRT")
+                        config.update(
+                            self.createConfigForMode(region, mode, self.select_width(system_config[4]),
+                                                     system_config[5], 0))
+                    default = False
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
-            config.update(
-                self.createConfigForMode("pal", self.crt_mode_processor.processMode(
-                    self.crt_config_parser.loadMode("default:pal:240@50"), self.h_offset, self.v_offset),
-                                         self.viewport_width, 0, 0))
-            config.update(
-                self.createConfigForMode("ntsc", self.crt_mode_processor.processMode(
-                    self.crt_config_parser.loadMode("default:ntsc:240@60"), self.h_offset, self.v_offset),
-                                         self.viewport_width, 0, 0))
+            width = 0 if system.CRTScreenType == CRTScreenType.k15 else 640
+            if system.CRTRegion == CRTRegion.AUTO:
+                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                    defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, region,
+                                                                             system.CRTResolutionType)
+                    config.update(
+                        self.createConfigForMode(region, self.crt_mode_processor.processMode(
+                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
+                                                 width, 0, 0))
+                    recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
+
+            else:
+                defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, system.CRTRegion,
+                                                                         system.CRTResolutionType)
+                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                    config.update(
+                        self.createConfigForMode(region, self.crt_mode_processor.processMode(
+                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
+                                                 width, 0, 0))
+                    recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
         if system.Name in ["wswan", "wswanc"]:
             config["video_vsync"] = '"false"'
         return config

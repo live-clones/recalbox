@@ -1,10 +1,12 @@
-from typing import List
+from enum import Enum
+from typing import List, Union
 
+from configgen.crt.CRTConfigParser import CRTRegion, CRTResolutionType, CRTScreenType
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
-class NetplayArguments :
-    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str, netplay_viewerpassword:str, netplay_vieweronly:str):
+class ExtraArguments :
+    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str, netplay_viewerpassword:str, netplay_vieweronly:str, crtregion:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -12,6 +14,10 @@ class NetplayArguments :
         self.netplay_playerpassword = netplay_playerpassword
         self.netplay_viewerpassword = netplay_viewerpassword
         self.netplay_vieweronly = netplay_vieweronly
+        self.crtregion = crtregion
+        self.crtresolutiontype = crtresolutiontype
+        self.crtscreentype = crtscreentype
+        self.crtadaptor = crtadaptor
 
 
 class Emulator:
@@ -60,6 +66,12 @@ class Emulator:
         self._netplayViewerPassword: str = ""
         self._netplayViewerOnly: bool = False
 
+        # CRT arguments
+        self._crtregion: CRTRegion = CRTRegion.AUTO
+        self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
+        self._crtscreentype: CRTScreenType = CRTScreenType.k15
+        self._crtenabled: bool = False
+
         # Computed vars
         self._netplay: bool = False
 
@@ -73,7 +85,7 @@ class Emulator:
         if result in ('1', "true", "True"): return True
         return False
 
-    def configure(self, recalboxOptions: keyValueSettings, arguments: NetplayArguments):
+    def configure(self, recalboxOptions: keyValueSettings, arguments: ExtraArguments):
         # Overriding vars
         #self._emulator: str          = self.__guessBestStringValue(recalboxOptions, "emulator", self._emulator)
         #self._core: str              = self.__guessBestStringValue(recalboxOptions, "core", self._core)
@@ -115,6 +127,12 @@ class Emulator:
         self._netplayPlayerPassword = arguments.netplay_playerpassword
         self._netplayViewerPassword = arguments.netplay_viewerpassword
         self._netplayViewerOnly     = arguments.netplay_vieweronly
+
+        # CRT arguments
+        self._crtregion: CRTRegion = CRTRegion.fromString(arguments.crtregion)
+        self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
+        self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
+        self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
@@ -266,3 +284,15 @@ class Emulator:
 
     @property
     def TranslateTo(self) -> str: return self._translateTo
+
+    @property
+    def CRTRegion(self) -> CRTRegion: return self._crtregion
+
+    @property
+    def CRTResolutionType(self) -> CRTResolutionType: return self._crtresolutiontype
+
+    @property
+    def CRTScreenType(self) -> CRTScreenType: return self._crtscreentype
+
+    @property
+    def CRTEnabled(self) -> bool: return self._crtenabled

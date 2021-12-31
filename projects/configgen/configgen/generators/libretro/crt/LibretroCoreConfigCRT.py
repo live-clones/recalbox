@@ -1,6 +1,7 @@
 import typing
 
 from configgen.Emulator import Emulator
+from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType
 from configgen.utils.recallog import recallog
 
 
@@ -47,11 +48,21 @@ class LibretroCoreConfigCRT:
         if system.Name == "gb":
             lines["gambatte_gb_colorization"] = '"auto"'
         if system.Name in ["dreamcast", "naomi", "naomigd", "atomiswave"]:
-            lines["reicast_internal_resolution"] = '"640x480"'
+            if system.CRTScreenType == CRTScreenType.k15:
+                if system.CRTResolutionType == CRTResolutionType.Progressive:
+                    rez = "320x240"
+                else:
+                    rez = "640x480"
+            else:
+                if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
+                    rez = "320x240"
+                else:
+                    rez = "640x480"
+            lines["reicast_internal_resolution"] = '"{}"'.format(rez)
             lines["reicast_cable_type"] = '"TV (RGB)"'
 
         log = "Forcing core configuration: "
         for config in lines.items():
-            log = "{} {}={}".format(log, config[0], config[1])
+            log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')
         recallog(log, log_type="CRT")
         return lines

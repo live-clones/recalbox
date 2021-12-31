@@ -2,6 +2,7 @@ import pytest
 
 from configgen.Emulator import Emulator
 from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+from tests.generators.libretro.crt.LibretroConfigCRT_test import configureForCrt
 
 
 def test_given_snes_stella_sufami_system_should_create_core_config():
@@ -128,6 +129,35 @@ def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
     ]
 
     for emulator in emulators:
-        assert core_configurator.createConfigFor(emulator) == {"reicast_internal_resolution": '"640x480"',
+        assert core_configurator.createConfigFor(emulator) == {"reicast_internal_resolution": '"320x240"',
                                                                "reicast_cable_type": '"TV (RGB)"'}
 
+
+def test_given_dreamcast_should_select_core_resolution_480_from_mode_on15khz_interlaced(mocker):
+    core_configurator = LibretroCoreConfigCRT()
+
+    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="interlaced", crtregion="auto", crtscreentype="15kHz")
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
+                                                               "reicast_cable_type": '"TV (RGB)"'}
+
+
+def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(mocker):
+    core_configurator = LibretroCoreConfigCRT()
+
+    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="progressive", crtregion="auto", crtscreentype="15kHz")
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
+                                                               "reicast_cable_type": '"TV (RGB)"'}
+
+def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz(mocker):
+    core_configurator = LibretroCoreConfigCRT()
+
+    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="progressive", crtregion="auto", crtscreentype="31kHz")
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
+                                                               "reicast_cable_type": '"TV (RGB)"'}
+
+def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz_doublefreq(mocker):
+    core_configurator = LibretroCoreConfigCRT()
+
+    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="doublefreq", crtregion="auto", crtscreentype="31kHz")
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
+                                                               "reicast_cable_type": '"TV (RGB)"'}

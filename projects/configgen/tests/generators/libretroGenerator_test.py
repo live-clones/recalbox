@@ -7,11 +7,12 @@ import configgen.generators.libretro.libretroConfigurations as libretroConfigura
 import configgen.generators.libretro.libretroGenerator as libretroGenerator
 import configgen.generators.libretro.libretroLightGuns as libretroLightGuns
 from configgen.Command import Command
-from configgen.Emulator import Emulator, NetplayArguments
+from configgen.Emulator import Emulator, ExtraArguments
 from configgen.crt.Mode import Mode
 from configgen.generators.libretro.libretroGenerator import LibretroGenerator
 from configgen.settings.keyValueSettings import keyValueSettings
 import configgen.controllers.controller as controllersConfig
+from tests.Givens import givenThoseFiles
 from tests.generators.FakeArguments import Arguments
 
 
@@ -48,7 +49,7 @@ def system_gb_with_overlays():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
     recalbox_conf = keyValueSettings("", True)
     recalbox_conf.setString("global.recalboxoverlays", "1")
-    gb.configure(recalbox_conf, NetplayArguments("", "", "", "", "", "", ""))
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", ""))
     return gb
 
 @pytest.fixture
@@ -175,20 +176,20 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
 
 def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
     recalbox_conf = keyValueSettings("", True)
-    recalbox_conf.setString("system.crt", "vga666")
     recalbox_conf.setInt("system.crt.horizontal_offset", -10)
     recalbox_conf.setInt("system.crt.vertical_offset", -2)
     recalbox_conf.setInt("system.crt.viewport_width", 1820)
-    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadMode',
-                 side_effect=[Mode("1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1", "50.1"),
-                              Mode("1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1", "60.1")])
-    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadSystem',
-                 return_value={"pal": ("snes:pal:240@50p", 1740, 224), "ntsc": ("snes:ntsc:224@60p", 0, 0)})
+    givenThoseFiles(mocker, {
+        "/recalbox/share/system/configs/crt/systems.txt": "snes,pal,15kHz,progressive,snes:224@50p,1740,224\nsnes,ntsc,15kHz,progressive,snes:224@60p,0,0",
+        "/recalbox/share/system/configs/crt/modes.txt": "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:224@50p,1920 1 78 192 210 224 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
+
+    system_snes.configure(recalbox_conf,
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual"))
 
     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
     assert 'crt_switch_timings_ntsc = "1920 1 88 192 200 224 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
-    assert 'crt_switch_timings_pal = "1920 1 88 192 200 240 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
+    assert 'crt_switch_timings_pal = "1920 1 88 192 200 224 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
     assert 'custom_viewport_width_ntsc = 1820' in generated_config
     assert 'custom_viewport_width_pal = 1740' in generated_config
     assert 'video_refresh_rate_ntsc = "60.1"' in generated_config
@@ -196,13 +197,14 @@ def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, co
 
 def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_with_overlays, controller_configuration):
     recalbox_conf = keyValueSettings("", True)
-    recalbox_conf.setString("system.crt", "vga666")
     recalbox_conf.setString("global.recalboxoverlays", "1")
-    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadMode',
-                 side_effect=[Mode("1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1", "50.1"),
-                              Mode("1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1", "60.1")])
-    mocker.patch('configgen.crt.CRTConfigParser.CRTConfigParser.loadSystem',
-                 return_value={"pal": ("gb:pal:240@50p", 1740, 224), "ntsc": ("gb:ntsc:224@60p", 0, 0)})
+
+    system_gb_with_overlays.configure(recalbox_conf,
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual"))
+
+    givenThoseFiles(mocker, {
+        "/recalbox/share/system/configs/crt/systems.txt": "gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",
+        "/recalbox/share/system/configs/crt/modes.txt": "gb:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,501\ngb:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1"})
 
     # Easy way to fake overlay file on file system
     mocker.patch('os.path.isfile', return_value=True)
