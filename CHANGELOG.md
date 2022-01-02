@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix fbneo screenscraper id (#2077)
 - Fix PC88 & Spectravideo scraping
+- Fix BT controllers not being reconized in ES 
 
 ## [8.0-Electron]
 - Remove non-working shaders
