@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Bump rockchip-mali (#2123)
 - Fix demoInfo cropped message (#2109)
 - Add 240ptestsuite Playstation for CRT (#2117)
+- Fix BT controllers not being reconized in ES 
 
 ## [8.0-Electron]
 - Remove non-working shaders
