@@ -1,0 +1,15 @@
+config BR2_PACKAGE_RPI_DTOVERLAY
+	bool "rpi-dtoverlay"
+	depends on BR2_arm
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	depends on !BR2_STATIC_LIBS
+	help
+	  dtoverlay binary from Raspberry Pi Userland.
+
+	  https://github.com/raspberrypi/userland/
+
+comment "rpi-dtoverlay needs a toolchain w/ C++, threads, dynamic library"
+	depends on BR2_arm
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || \
+		BR2_STATIC_LIBS
