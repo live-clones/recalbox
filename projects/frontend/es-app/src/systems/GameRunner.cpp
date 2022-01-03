@@ -108,42 +108,6 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   const std::string basename = game.FilePath().FilenameWithoutExtension();
   const std::string rom_raw = game.FilePath().ToString();
   const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
-  const auto& crtBoard = CrtAdapterDetector::GetCrtBoard();
-  std::string crt;
-  if (crtBoard.IsCrtAdapterAttached()) {
-    crt.append(" -crtadaptor ").append("present");
-    crt.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
-    // Resolution type
-    if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
-    {
-      // force 240p only if 240p is selected
-      if(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240p")
-        crt.append(" -crtresolutiontype ").append(data.Crt().HighResolution() ? "progressive" : "doublefreq");
-      else
-        crt.append(" -crtresolutiontype ").append("progressive");
-      crt.append(" -crtregion ntsc");
-    }
-    else {
-      crt.append(" -crtresolutiontype ").append(data.Crt().HighResolution() ? "interlaced" : "progressive");
-      crt.append(" -crtregion ");
-      // Force pal if switch 50hz
-      if(crtBoard.MustForce50Hz())
-      {
-        crt.append("pal");
-      }
-      else
-      {
-        switch(data.Crt().Region())
-        {
-          case CrtData::VideoRegion::Pal: crt.append("pal"); break;
-          case CrtData::VideoRegion::Ntsc: crt.append("ntsc"); break;
-          case CrtData::VideoRegion::Auto:
-          default: crt.append("auto"); break;
-        }
-      }
-    }
-  }
-
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
@@ -154,7 +118,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
-  Strings::ReplaceAllIn(command, "%CRT%", crt);
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt()));
 
   bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
   if (debug) command.append(" -verbose");
@@ -254,6 +218,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", "");
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(GameLinkedData().Crt()));
 
   // Add demo stuff
   command.append(" -demo 1");
@@ -342,4 +307,46 @@ bool GameRunner::RunKodi()
   }
 
   return exitCode == 0;
+}
+
+std::string GameRunner::BuildCRTOptions(const CrtData& data)
+{
+  std::string result;
+
+  const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
+  if (crtBoard.IsCrtAdapterAttached()) {
+    result.append(" -crtadaptor ").append("present");
+    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
+    // Resolution type
+    if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    {
+      // force 240p only if 240p is selected
+      if(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240p")
+        result.append(" -crtresolutiontype ").append(data.HighResolution() ? "progressive" : "doublefreq");
+      else
+        result.append(" -crtresolutiontype ").append("progressive");
+      result.append(" -crtregion ntsc");
+    }
+    else {
+      result.append(" -crtresolutiontype ").append(data.HighResolution() ? "interlaced" : "progressive");
+      result.append(" -crtregion ");
+      // Force pal if switch 50hz
+      if(crtBoard.MustForce50Hz())
+      {
+        result.append("pal");
+      }
+      else
+      {
+        switch(data.Region())
+        {
+          case CrtData::VideoRegion::Pal: result.append("pal"); break;
+          case CrtData::VideoRegion::Ntsc: result.append("ntsc"); break;
+          case CrtData::VideoRegion::Auto:
+          default: result.append("auto"); break;
+        }
+      }
+    }
+  }
+
+  return result;
 }

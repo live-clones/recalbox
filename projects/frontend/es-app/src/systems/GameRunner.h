@@ -81,6 +81,13 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
     static bool sGameIsRunning;
 
     /*!
+     * @brief Build CRT options from the CRT interface
+     * @param data CRT Data
+     * @return Option string
+     */
+    static std::string BuildCRTOptions(const CrtData& data);
+
+    /*!
     * @brief Automatic Game running flag management
     */
     class GameRunning
