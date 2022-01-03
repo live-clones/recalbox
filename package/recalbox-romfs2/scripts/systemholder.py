@@ -25,7 +25,7 @@ class SystemHolder:
             "mandatory": 3,
         }
 
-        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, retroachievements: bool, crtinterlaced: bool, crtmultiregion: bool):
+        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, retroachievements: bool, crtmultiresolution: bool, crtmultiregion: bool):
             if systemtype not in self.__systemTypes.keys(): raise TypeError("Invalid system type! {}".format(systemtype))
             if pad not in self.__deviceRequirement.keys(): raise TypeError("Invalid pad type! {}".format(pad))
             if keyboard not in self.__deviceRequirement.keys(): raise TypeError("Invalid keyboard type! {}".format(keyboard))
@@ -38,7 +38,7 @@ class SystemHolder:
             self.__lightgun: str = lightgun
             self.__releasedate: str = releasedate
             self.__retroachievements: bool = retroachievements
-            self.__interlaced: bool = crtinterlaced
+            self.__multiresolution: bool = crtmultiresolution
             self.__multiregion: bool = crtmultiregion
 
         def serialize(self):
@@ -50,8 +50,8 @@ class SystemHolder:
                 "lightgun": self.__lightgun,
                 "releasedate": self.__releasedate,
                 "retroachievements": '1' if self.__retroachievements else '0',
-                "interlaced": '1' if self.__interlaced else '0',
-                "multiregion": '1' if self.__multiregion else '0'
+                "crt.multiresolution": '1' if self.__multiresolution else '0',
+                "crt.multiregion": '1' if self.__multiregion else '0'
             }
 
         @property
@@ -91,7 +91,7 @@ class SystemHolder:
         def RetroAchievements(self) -> bool: return self.__retroachievements
 
         @property
-        def CrtInterlaced(self) -> bool: return self.__interlaced
+        def CrtMultiresolution(self) -> bool: return self.__multiresolution
 
         @property
         def CrtMultiRegion(self) -> bool: return self.__multiregion
@@ -325,7 +325,7 @@ class SystemHolder:
             lightgun=self.__get(desc, "properties", "device.lightgun", "no", True),
             releasedate=self.__get(desc, "properties", "release.date", "", True),
             retroachievements=(self.__get(desc, "properties", "retroachievements", "0", True) == '1'),
-            crtinterlaced=(self.__get(desc, "properties", "crt.interlaced", "0", True) == '1'),
+            crtmultiresolution=(self.__get(desc, "properties", "crt.multiresolution", "0", True) == '1'),
             crtmultiregion=(self.__get(desc, "properties", "crt.multiregion", "0", True) == '1'),
         )
 
