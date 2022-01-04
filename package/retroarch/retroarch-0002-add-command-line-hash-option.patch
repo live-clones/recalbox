@@ -1,52 +1,8 @@
 diff --git a/retroarch.c b/retroarch.c
-index d9f0ef0121..a12b3741f9 100644
+index 0f9151d..9d35617 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -34369,6 +34369,7 @@ static void retroarch_print_help(const char *arg0)
- 
-       strlcat(buf, "      --nick=NICK       Picks a username (for use with netplay). "
-             "Not mandatory.\n", sizeof(buf));
-+      puts("      --hash=HASH       Force a ROM hash. Not mandatory.");
-       strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
-             "Using .mkv extension is recommended.\n", sizeof(buf));
-       strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
-@@ -34470,6 +34471,7 @@ static bool retroarch_parse_input_and_config(
-       { "ips",                1, NULL, RA_OPT_IPS },
-       { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
- #endif
-+      { "hash",               1, NULL, RA_OPT_HASH },
-       { "detach",             0, NULL, 'D' },
-       { "features",           0, NULL, RA_OPT_FEATURES },
-       { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -34993,6 +34995,11 @@ static bool retroarch_parse_input_and_config(
-                }
-                break;
- 
-+            case RA_OPT_HASH:
-+               sscanf(optarg, "%8X", &global->name.hash);
-+               RARCH_LOG("Got CRC32 from command line: 0x%x .\n", global->name.hash);
-+               break;
-+
-             case RA_OPT_SIZE:
-                if (sscanf(optarg, "%ux%u",
-                         &p_rarch->recording_width,
-diff --git a/retroarch.h b/retroarch.h
-index 71a2718572..0b5582928a 100644
---- a/retroarch.h
-+++ b/retroarch.h
-@@ -245,6 +245,7 @@ typedef struct global
-       char bps[8192];
-       char ips[8192];
-       char label[8192];
-+      uint32_t hash;
-    } name;
- 
-    /* Recording. */
-diff --git a/retroarch_data.h b/retroarch_data.h
-index 673fccf62d..b48918d82e 100644
---- a/retroarch_data.h
-+++ b/retroarch_data.h
-@@ -1262,6 +1262,7 @@ enum
+@@ -273,6 +273,7 @@ enum
     RA_OPT_EOF_EXIT,
     RA_OPT_LOG_FILE,
     RA_OPT_MAX_FRAMES,
@@ -54,35 +10,76 @@ index 673fccf62d..b48918d82e 100644
     RA_OPT_MAX_FRAMES_SCREENSHOT,
     RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
     RA_OPT_SET_SHADER,
+@@ -4185,6 +4186,7 @@ static void retroarch_print_help(const char *arg0)
+             "Not mandatory.\n", sizeof(buf));
+       strlcat(buf, "  -r, --record=FILE     Path to record video file.\n        "
+             "Using .mkv extension is recommended.\n", sizeof(buf));
++      strlcat(buf, "      --hash=HASH       Force a ROM hash. Not mandatory.", sizeof(buf));
+       strlcat(buf, "      --recordconfig    Path to settings used during recording.\n", sizeof(buf));
+       strlcat(buf, "      --size=WIDTHxHEIGHT\n"
+             "                        Overrides output video size when recording.\n", sizeof(buf));
+@@ -4291,6 +4293,7 @@ static bool retroarch_parse_input_and_config(
+       { "ips",                1, NULL, RA_OPT_IPS },
+       { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
+ #endif
++      { "hash",               1, NULL, RA_OPT_HASH },
+       { "detach",             0, NULL, 'D' },
+       { "features",           0, NULL, RA_OPT_FEATURES },
+       { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
+@@ -4794,7 +4797,10 @@ static bool retroarch_parse_input_and_config(
+                configuration_set_string(settings,
+                      settings->paths.username, optarg);
+                break;
+-
++            case RA_OPT_HASH:
++               sscanf(optarg, "%8X", &runloop_st->name.hash);
++               RARCH_LOG("Got CRC32 from command line: 0x%x .\n", runloop_st->name.hash);
++               break;
+             case RA_OPT_SIZE:
+                if (sscanf(optarg, "%ux%u",
+                         &recording_st->width,
+diff --git a/runloop.h b/runloop.h
+index 9883fb6..a281f3f 100644
+--- a/runloop.h
++++ b/runloop.h
+@@ -256,6 +256,7 @@ struct runloop
+       char bps[8192];
+       char ips[8192];
+       char label[8192];
++      uint32_t hash;
+    } name;
+ 
+    bool is_inited;
+
 diff --git a/tasks/task_content.c b/tasks/task_content.c
-index 70306d1..e56e67b 100644
+index 72e3f53..82354af 100644
 --- a/tasks/task_content.c
 +++ b/tasks/task_content.c
-@@ -718,6 +718,7 @@ static bool content_file_load_into_memory(
+@@ -716,6 +716,7 @@ static bool content_file_load_into_memory(
  
     *data      = NULL;
     *data_size = 0;
-+   global_t *global = global_get_ptr();
++   runloop_state_t *runloop_st                 = runloop_state_get_ptr();
  
-    RARCH_LOG("[CONTENT LOAD]: %s: %s\n",
+    RARCH_LOG("[Content]: %s: \"%s\".\n",
           msg_hash_to_str(MSG_LOADING_CONTENT_FILE), content_path);
-@@ -771,6 +772,7 @@ static bool content_file_load_into_memory(
+@@ -769,6 +770,7 @@ static bool content_file_load_into_memory(
            * actually needed */
           if (content_compressed || has_patch)
           {
 +            p_content->pending_rom_crc = false;
              p_content->rom_crc = encoding_crc32(0, content_data,
                    (size_t)content_size);
-             RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x\n",
-@@ -784,7 +786,16 @@ static bool content_file_load_into_memory(
+             RARCH_LOG("[Content]: CRC32: 0x%x.\n",
+@@ -782,7 +784,16 @@ static bool content_file_load_into_memory(
           }
        }
        else
 -         p_content->rom_crc = 0;
-+         if(global) {
++         if(runloop_st) {
 +            p_content->pending_rom_crc = false;
-+            p_content->rom_crc = global->name.hash;
-+            RARCH_LOG("[CONTENT LOAD MEMORY]: Got hash from command line - 0x%X", global->name.hash);
++            p_content->rom_crc = runloop_st->name.hash;
++            RARCH_LOG("[CONTENT LOAD MEMORY]: Got hash from command line - 0x%X", runloop_st->name.hash);
 +         }
 +         else
 +         {
@@ -92,27 +89,26 @@ index 70306d1..e56e67b 100644
     }
  
     *data      = content_data;
-@@ -972,6 +983,7 @@ static bool content_file_load(
+@@ -970,6 +981,7 @@ static bool content_file_load(
     size_t i;
     char msg[1024];
     retro_ctx_load_content_info_t load_info;
-+   global_t *global                           = global_get_ptr();
++   runloop_state_t *runloop_st                 = runloop_state_get_ptr();
     bool used_vfs_fallback_copy                = false;
  #ifdef __WINRT__
-    rarch_system_info_t *system                = runloop_get_system_info();
-@@ -1114,15 +1126,23 @@ static bool content_file_load(
-              * until value is used */
+    rarch_system_info_t *system                = &runloop_state_get_ptr()->system;
+@@ -1113,14 +1125,23 @@ static bool content_file_load(
              if (i == 0)
              {
--               /* If we have a media type, ignore CRC32 calculation. */
+                /* If we have a media type, ignore CRC32 calculation. */
 -               if (first_content_type == RARCH_CONTENT_NONE)
 -               {
 -                  strlcpy(p_content->pending_rom_crc_path, content_path,
 -                        sizeof(p_content->pending_rom_crc_path));
 -                  p_content->pending_rom_crc = true;
-+               if(global) {
++               if(runloop_st) {
 +                  p_content->pending_rom_crc = false;
-+                  p_content->rom_crc = global->name.hash;
++                  p_content->rom_crc = runloop_st->name.hash;
 +                  RARCH_LOG("[CONTENT LOAD FILE] Got CRC32 from command line: 0x%X .\n", (unsigned)p_content->rom_crc);
                 }
                 else
@@ -131,11 +127,3 @@ index 70306d1..e56e67b 100644
              }
           }
        }
-@@ -2689,6 +2709,7 @@ uint32_t content_get_crc(void)
-       RARCH_LOG("[CONTENT LOAD]: CRC32: 0x%x .\n",
-             (unsigned)p_content->rom_crc);
-    }
-+   RARCH_LOG("Called content_get_crc\n");
-    return p_content->rom_crc;
- }
- 
