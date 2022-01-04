@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
 - Fix RetroFlag scripts to turn off cases (#2067)
+- Fix shader crt-pi for rpi (#2065)
 
 ## [8.0-Electron]
 - Remove non-working shaders

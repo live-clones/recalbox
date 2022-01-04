@@ -38,3 +38,6 @@ sed -i -E 's/^case=/;case=/' /boot/recalbox-boot.conf
 # Remove old dats files from bios
 rm -rf /recalbox/share/bios/dc/*.dat.zip
 rm -rf /recalbox/share/bios/mame/*.dat.zip
+
+# Remove shaders files
+rm -rf /recalbox/share/shaders/crt-pi.glslp
