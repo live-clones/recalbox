@@ -38,3 +38,24 @@ rm -rf /recalbox/share/bios/mame/*.dat.zip
 # Remove all .nvmem and .nvmem2 files from saves
 rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem
 rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem2
+
+# Remove all 240ptestsuite roms from share, now in share_init since 8.0.1
+rm -rf /recalbox/share/roms/240ptestsuite/media
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Dreamcast-1.25.cdi
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-GB-0.22.gb
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-GBA-0.22.gba
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-MD_Genesis-1.22.bin
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-NES-0.22.nes
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-PCE_TG16-HuCard-1.10.pce
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-SNES-1.061-NTSC.sfc
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-SNES-1.061-PAL.sfc
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-EU.cue
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-EU.iso
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-JP.cue
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-JP.iso
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-US.cue
+rm -f /recalbox/share/roms/240ptestsuite/240pTestSuite-Sega_Mega_CD-1.22-US.iso
+rm -f /recalbox/share/roms/240ptestsuite/240p_SegaCD_Track-02.wav
+rm -f /recalbox/share/roms/240ptestsuite/240p_SegaCD_Track-03.wav
+rm -f /recalbox/share/roms/240ptestsuite/LICENCE.md
+rm -f /recalbox/share/roms/240ptestsuite/gamelist.xml
