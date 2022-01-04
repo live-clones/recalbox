@@ -4,7 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version NEXT
+# Version 8.1
+- Retroach has been bumped to 1.9.14
+
+## Version 8.0.1
 
 ### Fix
 - Add a better text when you are stuck in the favorites list in any system.

@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [8.1-Electron]
+- Bump retroarch to 1.9.14
+
 ## [8.0.1-Electron]
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)

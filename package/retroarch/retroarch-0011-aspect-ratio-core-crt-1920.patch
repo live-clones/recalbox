@@ -10,26 +10,26 @@ index 38f8b58..7f2e84c 100644
  
     ASPECT_RATIO_END
  };
-diff --git a/retroarch.c b/retroarch.c
-index 152812c..73c8bb0 100644
---- a/retroarch.c
-+++ b/retroarch.c
-@@ -30835,10 +30835,17 @@ void video_driver_set_viewport_core(void)
+
+diff --git a/gfx/video_driver.c b/gfx/video_driver.c
+index 69baa26..9b8a72a 100644
+--- a/gfx/video_driver.c
++++ b/gfx/video_driver.c
+@@ -2025,10 +2025,17 @@ void video_driver_set_viewport_core(void)
  
     /* Fallback to 1:1 pixel ratio if none provided */
     if (geom->aspect_ratio > 0.0f)
 +   {
        aspectratio_lut[ASPECT_RATIO_CORE].value = geom->aspect_ratio;
--   else
 +      aspectratio_lut[ASPECT_RATIO_CORE_CRT_1920].value = geom->aspect_ratio * 6;
 +   }
-+   else {
+    else
++   {
        aspectratio_lut[ASPECT_RATIO_CORE].value =
           (float)geom->base_width / geom->base_height;
 +      aspectratio_lut[ASPECT_RATIO_CORE_CRT_1920].value =
 +         6 * (float)geom->base_width / geom->base_height;
 +   }
-+
  }
  
- void video_driver_set_viewport_full(void)
+ void video_driver_set_rgba(void)
