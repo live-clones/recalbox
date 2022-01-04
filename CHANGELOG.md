@@ -21,6 +21,7 @@ All notable changes to this project have been documented in this file since 8.1.
 
 ## NEXT
 - Add support for GPi CASE 2 (#2042)
+- Bump retroarch to 1.9.14
 
 ## [8.0.1-Electron]
 - Fix release notes
