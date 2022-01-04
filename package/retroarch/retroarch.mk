@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version 1.9.8
-RETROARCH_VERSION = v1.9.8
+# Version 1.9.14
+RETROARCH_VERSION = v1.9.14
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
@@ -257,3 +257,12 @@ RETROARCH_LIBRETRO_BOARD=$(RECALBOX_SYSTEM_PLATFORM)
 else
 RETROARCH_LIBRETRO_BOARD=$(RETROARCH_LIBRETRO_PLATFORM)
 endif
+
+# Hack to patch the CRLF files
+define RETROARCH_CRLF_PATH
+	sed -i -E -e "s|\r$$||g" $(@D)/runloop.h
+	sed -i -E -e "s|\r$$||g" $(@D)/gfx/video_driver.c
+	sed -i -E -e "s|\r$$||g" $(@D)/driver.c
+endef
+
+RETROARCH_PRE_PATCH_HOOKS += RETROARCH_CRLF_PATH
