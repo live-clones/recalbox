@@ -1,8 +1,8 @@
-diff --git a/retroarch.c b/retroarch.c
-index b6730f6..24905bf 100644
---- a/retroarch.c
-+++ b/retroarch.c
-@@ -7705,7 +7705,7 @@ static void netplay_announce(struct rarch_state *p_rarch)
+diff --git a/network/netplay/netplay_frontend.c b/network/netplay/netplay_frontend.c
+index 2959de4..83f3749 100644
+--- a/network/netplay/netplay_frontend.c
++++ b/network/netplay/netplay_frontend.c
+@@ -7168,7 +7168,7 @@ static void netplay_announce(void)
              frontend_architecture_tmp, sizeof(frontend_architecture_tmp));
     snprintf(frontend_architecture, 
           sizeof(frontend_architecture),

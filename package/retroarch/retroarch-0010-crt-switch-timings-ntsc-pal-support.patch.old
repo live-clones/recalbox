@@ -119,77 +119,16 @@ index ec394ef..7f2e84c 100644
     unsigned full_width;
     unsigned full_height;
  } video_viewport_t;
- 
-diff --git a/driver.c b/driver.c
-index 99e8cfb..e1624ea 100644
---- a/driver.c
-+++ b/driver.c
-@@ -440,6 +440,7 @@ void drivers_init(
-       *location_st             = location_state_get_ptr();
-    bool video_is_threaded      = VIDEO_DRIVER_IS_THREADED_INTERNAL(video_st);
-    gfx_display_t *p_disp       = disp_get_ptr();
-+   struct retro_game_geometry *geom       = &video_st->av_info.geometry;
- #if defined(HAVE_GFX_WIDGETS)
-    bool video_font_enable      = settings->bools.video_font_enable;
-    bool menu_enable_widgets    = settings->bools.menu_enable_widgets;
-@@ -453,7 +454,46 @@ void drivers_init(
-    if (menu_st)
-       menu_st->data_own = true;
- #endif
--
-+   double core_fps = video_st->av_info.timing.fps;
-+
-+   if (!string_is_empty(settings->arrays.crt_switch_timings_pal)|| 
-+      !string_is_empty(settings->arrays.crt_switch_timings_ntsc)|| 
-+      !string_is_empty(settings->arrays.crt_switch_timings))
-+   {
-+      RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
-+         geom->base_width,
-+         geom->base_height,
-+         geom->aspect_ratio,
-+         core_fps,
-+         runloop_st->system.rotation);
-+      if(core_fps > 0.0)
-+      {
-+         // We should override core fps with configuration ones.
-+         if(abs(60 - core_fps) < abs(50 - core_fps))
-+         {
-+            // We are NTSC
-+            if(settings->floats.video_refresh_rate_ntsc > 0.1)
-+            {
-+               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_ntsc;
-+               RARCH_LOG("[Video]: Setting video_refresh_rate from config value NTSC: %f\n", settings->floats.video_refresh_rate_ntsc);
-+            }
-+         }
-+         else
-+         {
-+            // We are PAL
-+            if(settings->floats.video_refresh_rate_pal > 0.1)
-+            {
-+               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_pal;
-+               RARCH_LOG("[Video]: Setting video_refresh_rate from config value PAL: %f\n", settings->floats.video_refresh_rate_pal);
-+            }
-+         }
-+      }
-+      settings->floats.video_scale = 1;
-+      if(runloop_st->system.rotation == 1){
-+         RARCH_LOG("[Video]: setting rotation %u\n", runloop_st->system.rotation);
-+         //rotation = runloop_state.system.rotation;
-+      }
-+   }
-    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
-       driver_adjust_system_rates(
-                                  settings->bools.vrr_runloop_enable,
-diff --git a/gfx/video_driver.c b/gfx/video_driver.c
-index c5f974a..c80c51d 100644
---- a/gfx/video_driver.c
-+++ b/gfx/video_driver.c
-@@ -3272,10 +3272,38 @@ bool video_driver_init_internal(bool *video_is_threaded, bool verbosity_enabled)
- 
+diff --git a/retroarch.c b/retroarch.c
+index dd3c488..4e0ea82 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -30080,9 +30080,38 @@ static bool video_driver_init_internal(
     /* Update CUSTOM viewport. */
     custom_vp = &settings->video_viewport_custom;
-+   float core_fps = settings->floats.video_refresh_rate;
  
++   float core_fps = settings->floats.video_refresh_rate;
++
     if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_CUSTOM)
     {
        float default_aspect = aspectratio_lut[ASPECT_RATIO_CORE].value;
@@ -223,3 +162,60 @@ index c5f974a..c80c51d 100644
        aspectratio_lut[ASPECT_RATIO_CUSTOM].value =
           (custom_vp->width && custom_vp->height) ?
           (float)custom_vp->width / custom_vp->height : default_aspect;
+@@ -32999,6 +33028,8 @@ static void drivers_init(struct rarch_state *p_rarch,
+ #endif
+    bool video_is_threaded      = VIDEO_DRIVER_IS_THREADED_INTERNAL();
+    gfx_display_t *p_disp       = &p_rarch->dispgfx;
++   struct retro_game_geometry *geom       = &p_rarch->video_driver_av_info.geometry;
++
+ #if defined(HAVE_GFX_WIDGETS)
+    bool video_font_enable      = settings->bools.video_font_enable;
+    bool menu_enable_widgets    = settings->bools.menu_enable_widgets;
+@@ -33013,6 +33044,47 @@ static void drivers_init(struct rarch_state *p_rarch,
+       menu_st->data_own = true;
+ #endif
+ 
++   double core_fps = p_rarch->video_driver_av_info.timing.fps;
++
++   if (!string_is_empty(settings->arrays.crt_switch_timings_pal)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings_ntsc)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings))
++   {
++      RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
++         geom->base_width,
++         geom->base_height,
++         geom->aspect_ratio,
++         p_rarch->video_driver_av_info.timing.fps,
++         runloop_state.system.rotation);
++      if(core_fps > 0.0)
++      {
++         // We should override core fps with configuration ones.
++         if(abs(60 - core_fps) < abs(50 - core_fps))
++         {
++            // We are NTSC
++            if(settings->floats.video_refresh_rate_ntsc > 0.1)
++            {
++               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_ntsc;
++               RARCH_LOG("[Video]: Setting video_refresh_rate from config value NTSC: %f\n", settings->floats.video_refresh_rate_ntsc);
++            }
++         }
++         else
++         {
++            // We are PAL
++            if(settings->floats.video_refresh_rate_pal > 0.1)
++            {
++               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_pal;
++               RARCH_LOG("[Video]: Setting video_refresh_rate from config value PAL: %f\n", settings->floats.video_refresh_rate_pal);
++            }
++         }
++      }
++      settings->floats.video_scale = 1;
++      if(runloop_state.system.rotation == 1){
++         RARCH_LOG("[Video]: setting rotation %u\n", runloop_state.system.rotation);
++         //rotation = runloop_state.system.rotation;
++      }
++   }
++
+    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
+       driver_adjust_system_rates(p_rarch,
+                                  settings->bools.vrr_runloop_enable,
