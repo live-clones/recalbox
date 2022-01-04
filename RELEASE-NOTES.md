@@ -63,6 +63,12 @@ as release notes for end user on a Recalbox upgrade.
 - Fix TV Remote controller (CEC) not working with Kodi on Raspberry Pi3 and Pi4
 - Fix Raspberry Pi Zero 2 performances issues
 - Add Mupen64plus GLide64MK2 on RPI3
+# Version 8.1
+- Retroach has been bumped to 1.9.14
+
+## Version 8.0.1
+
+### Fix
 - Add a better text when you are stuck in the favorites list in any system.
 - Fix controllers in Duckstation (access menu with HK+B)
 - Fix frontend not displaying two letter extentions games (.md/.st)
