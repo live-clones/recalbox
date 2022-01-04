@@ -99,7 +99,7 @@ class demoInformation:
         # display text
         self.displayText(screen, "Recalbox was playing...", int(h / 4), self.font1, (255,255,255))
         self.displayText(screen, self.gameName, int(h / 4) + self.fontHeight + self.fontMargin, self.font2, (255,255,196))
-        self.displayText(screen, getMsg(self.msg, self.fileName), 10, self.font1, (255,128,128))
+        self.displayText(screen, getMsg(self.msg, self.fileName), self.fontHeight + self.fontMargin, self.font1, (255,128,128))
         self.displayText(screen, self.systemName, int(h / 4) + (self.fontHeight + self.fontMargin) * 2, self.font1, (255,255,128))
 
     @staticmethod
