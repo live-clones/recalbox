@@ -128,7 +128,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Fix
 - Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
 # Version 8.1
-- Retroach has been bumped to 1.9.14
+- Retroarch has been bumped to 1.9.14
+- Retroarch assets has been bumped
 
 ## Version 8.0.1
 
