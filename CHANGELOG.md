@@ -17,6 +17,7 @@ All notable changes to this project have been documented in this file since 8.1.
 ## [8.0.2-Electron]
 - Fix 4k resolution issue on 4k tv
 - Bump retroarch to 1.9.14
+- Bump retroarch to 1.9.14 and bump retroarch assets (#2108)
 
 ## NEXT
 - Add support for GPi CASE 2 (#2042)
