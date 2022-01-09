@@ -18,6 +18,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix BT controllers not being reconized in ES 
 - Fix no sound issue on some PCs
 - Fix crash on Mupen64plus GLideN64 o RPI3
+- Fix crash on Mupen64plus GLideN64 on RPI3
+- Add Mupen64plus GLide64MK2 on RPI3
 
 ## Version 8.0.1-Electron
 
