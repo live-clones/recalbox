@@ -1,8 +1,17 @@
+From 3c911d35b80e6fe52586137c0675ce8f82481423 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sun, 9 Jan 2022 17:47:26 +0100
+Subject: [PATCH] sdl2-lib
+
+---
+ src/CMakeLists.txt | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 5064af0..60c3dd3 100644
+index 5138f3ef..ea782ecd 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -269,8 +269,8 @@ endif(WIN32)
+@@ -322,8 +322,8 @@ endif(WIN32)
  
  if(SDL)
    include(FindPkgConfig)
@@ -13,7 +22,7 @@ index 5064af0..60c3dd3 100644
    add_definitions(
  	-DUSE_SDL
    )
-@@ -487,9 +487,9 @@ if( CMAKE_BUILD_TYPE STREQUAL "Debug")
+@@ -559,9 +559,9 @@ if(GLIDEN64_BUILD_TYPE STREQUAL "Debug")
  
    if(SDL)
          if (NOHQ)
@@ -25,16 +34,18 @@ index 5064af0..60c3dd3 100644
  	endif (NOHQ)
    else(SDL)
  	if (NOHQ)
-@@ -519,9 +519,9 @@ if( CMAKE_BUILD_TYPE STREQUAL "Release")
- 
+@@ -573,9 +573,9 @@ if(GLIDEN64_BUILD_TYPE STREQUAL "Debug")
+ else(GLIDEN64_BUILD_TYPE STREQUAL "Debug")
    if(SDL)
- 	if (NOHQ)
--	  target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal )
-+	  target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal )
- 	else (NOHQ)
--	  target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal GLideNHQ )
-+	  target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal GLideNHQ )
- 	endif (NOHQ)
+         if (NOHQ)
+-          target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal )
++          target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal )
+         else (NOHQ)
+-          target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal GLideNHQ )
++          target_link_libraries(${GLideN64_DLL_NAME} ${OPENGL_LIBRARIES} ${SDL2_LIBRARIES} ${FREETYPE_LIBRARIES} ${LOG_LIB} ${GLIDENUI_LIBRARIES} osal GLideNHQ )
+         endif (NOHQ)
    else(SDL)
- 	if (NOHQ)
+         if (NOHQ)
+-- 
+2.34.1
 
