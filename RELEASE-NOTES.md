@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
 - Fix BT controllers not being reconized in ES 
 - Fix no sound issue on some PCs
+- Fix crash on Mupen64plus GLideN64 o RPI3
 
 ## Version 8.0.1-Electron
 
