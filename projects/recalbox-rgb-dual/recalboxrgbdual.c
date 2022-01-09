@@ -33,6 +33,14 @@
 
 static char read_buf[READ_SIZE_MAX];
 static const char *timings_path = "/boot/timings.txt";
+static const char *config_path = "/boot/rrgbdual-config.txt";
+
+static struct rrgbdualconfiguration {
+    int resolution;
+    int voffset;
+    int hoffset;
+} configuration;
+
 
 static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_connector *connector, const char *line) {
     int ret, hsync, vsync, interlace, ratio;
@@ -117,6 +125,62 @@ int dpidac_load_timings(struct drm_connector *connector) {
     return mode_count;
 }
 
+static int dpidac_load_config(const char * configfile) {
+    struct file *fp = NULL;
+    ssize_t read_size = 0;
+    size_t cursor = 0;
+    char line[LINE_SIZE_MAX];
+    char optionname[LINE_SIZE_MAX];
+    int optionvalue = 0;
+    size_t line_start = 0;
+    size_t line_len = 0;
+    int scanret = 0;
+
+    fp = filp_open(config_path, O_RDONLY, 0);
+    if (IS_ERR(fp) || !fp) {
+        printk(KERN_WARNING "[RECALBOXRGBDUAL]: config file not found, skipping configuration loading\n");
+        return 0;
+    }
+
+    read_size = kernel_read(fp, &read_buf, READ_SIZE_MAX, &fp->f_pos);
+    if (read_size <= 0) {
+        filp_close(fp, NULL);
+        printk(KERN_WARNING "[RECALBOXRGBDUAL]: empty config file found, skipping configuration loading\n");
+        return 0;
+    }
+    filp_close(fp, NULL);
+    for (cursor = 0; cursor < read_size; cursor++) {
+        line[cursor - line_start] = read_buf[cursor];
+        line_len++;
+        if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0') {
+            if (line_len > 1 && line[0] != '#') {
+                line[line_len - 1] = '\0';
+                scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
+                if (scanret != 2) {
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: malformed config line, skipping (%s)\n", line);
+                } else {
+                    if(strcmp(optionname,"resolution") == 0){
+                        printk(KERN_INFO "[RECALBOXRGBDUAL]: setting resolution to %d\n", optionvalue);
+                        configuration.resolution = optionvalue;
+                    }
+                    if(strcmp(optionname,"vertical_offset") == 0){
+                        printk(KERN_INFO "[RECALBOXRGBDUAL]: setting vertical_offset to %d\n", optionvalue);
+                        configuration.voffset = optionvalue;
+                    }
+                    if(strcmp(optionname,"horizontal_offset") == 0){
+                        printk(KERN_INFO "[RECALBOXRGBDUAL]: setting horizontal_offset to %d\n", optionvalue);
+                        configuration.hoffset = optionvalue;
+                    }
+                }
+            }
+            line_start += line_len;
+            line_len = 0;
+            memset(line, 0, 128);
+        }
+    }
+    return 0;
+}
+
 struct dpidac {
     struct drm_bridge bridge;
     struct drm_connector connector;
@@ -139,7 +203,7 @@ static const struct videomode p240 = {
 	.vfront_porch = 4,
 	.vsync_len = 5,
 	.vback_porch = 14,
-    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
 static const struct videomode p288 = { 
@@ -152,8 +216,35 @@ static const struct videomode p288 = {
 	.vfront_porch = 3,
 	.vsync_len = 2,
 	.vback_porch = 19,
-    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
+
+static const struct videomode i576 = { 
+    .pixelclock = 14875000, 
+    .hactive = 768,
+	.hfront_porch = 24,
+	.hsync_len = 72,
+	.hback_porch = 88,
+	.vactive = 576,
+	.vfront_porch = 6,
+	.vsync_len = 5,
+	.vback_porch = 38,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+};
+
+static const struct videomode i480 = { 
+    .pixelclock = 13054080, 
+    .hactive = 640,
+	.hfront_porch = 24,
+	.hsync_len = 64,
+	.hback_porch = 104,
+	.vactive = 480,
+	.vfront_porch = 3,
+	.vsync_len = 6,
+	.vback_porch = 34,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+};
+
 
 static const struct videomode p480 = { 
     .pixelclock = 25452000, 
@@ -165,7 +256,7 @@ static const struct videomode p480 = {
 	.vfront_porch = 11,
 	.vsync_len = 2,
 	.vback_porch = 32,
-    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
 static inline struct dpidac *drm_bridge_to_dpidac(struct drm_bridge *bridge) {
@@ -176,7 +267,7 @@ static inline struct dpidac *drm_connector_to_dpidac(struct drm_connector *conne
     return container_of(connector, struct dpidac, connector);
 }
 
-static void dpidac_apply_default_mode(struct drm_connector *connector, struct videomode* vm) {
+static void dpidac_apply_default_mode(struct drm_connector *connector, const struct videomode* vm) {
     struct drm_device *dev = connector->dev;
     struct drm_display_mode *mode = drm_mode_create(dev);
 
@@ -192,7 +283,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     struct dpidac *vga = drm_connector_to_dpidac(connector);
     struct display_timings *timings = vga->timings;
     int i;
-
+    dpidac_load_config(config_path);
     i = dpidac_load_timings(connector);
     if (i) {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
@@ -204,11 +295,21 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         } else {
             if(dip50Hz.gpio_state == 0){
                 // 50hz
-                printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
-                dpidac_apply_default_mode(connector, &p288);
-            }else {
-                printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
-                dpidac_apply_default_mode(connector, &p240);
+                if(configuration.resolution == 240){
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
+                    dpidac_apply_default_mode(connector, &p288);
+                } else {
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 576i mode\n", i);
+                    dpidac_apply_default_mode(connector, &i576);
+                }
+            } else {
+                if(configuration.resolution == 240){
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
+                    dpidac_apply_default_mode(connector, &p240);
+                }else {
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480i mode\n", i);
+                    dpidac_apply_default_mode(connector, &i480);
+                }
             }
         }
     }
