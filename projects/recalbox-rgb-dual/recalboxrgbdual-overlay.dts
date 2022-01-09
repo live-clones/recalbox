@@ -12,7 +12,7 @@
 					brcm,pull = <2>; // Pull up
 				};
 				fancontrol_gpio: fancontrol_gpio_conf {
-					brcm,pins = <27>; // GPIO 27
+					brcm,pins = <26>; // GPIO 27
 					brcm,function = <1>; // Output
 					brcm,pull = <0>;
 				};
@@ -34,53 +34,6 @@
                 status = "okay";
                 pinctrl-0 = <&dipswitch_gpio>, <&fancontrol_gpio>;
                 pinctrl-names = "default";
-
-				display-timings {
-					native-mode = <&t_240p60>;
-
-					t_240p60: t_240p60 {
-						clock-frequency = <6400000>;
-						hactive = <320>;
-						hfront-porch = <17>;
-						hsync-len = <30>;
-						hsync-active = <0>;
-						hback-porch = <34>;
-						vactive = <240>;
-						vfront-porch = <1>;
-						vsync-len = <3>;
-						vsync-active = <0>;
-						vback-porch = <22>;
-					};
-					
-					t_480i60: t_480i60 {
-						clock-frequency = <12800000>;
-						interlaced;
-						hactive = <640>;
-						hfront-porch = <30>;
-						hsync-len = <60>;
-						hsync-active = <0>;
-						hback-porch = <72>;
-						vactive = <480>;
-						vfront-porch = <22>;
-						vsync-len = <5>;
-						vsync-active = <0>;
-						vback-porch = <24>;
-					};
-					
-					t_vga: t_vga {
-						clock-frequency = <25180000>;
-						hactive = <640>;
-						hfront-porch = <16>;
-						hsync-len = <96>;
-						hsync-active = <0>;
-						hback-porch = <48>;
-						vactive = <480>;
-						vfront-porch = <10>;
-						vsync-len = <2>;
-						vsync-active = <0>;
-						vback-porch = <33>;
-					};
-				};
 
 				ports {
 					#address-cells = <1>;

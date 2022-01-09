@@ -103,6 +103,7 @@ int dpidac_load_timings(struct drm_connector *connector) {
                 if ((mode = dpidac_display_mode_from_timings(connector, line)) != NULL) {
                     mode->type = mode_count ? DRM_MODE_TYPE_DRIVER : DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: \t" DRM_MODE_FMT, DRM_MODE_ARG(mode));
+                    
                     drm_mode_probed_add(connector, mode);
                     mode_count++;
                 }
@@ -122,12 +123,68 @@ struct dpidac {
     struct display_timings *timings;
 };
 
+
+static struct gpiodesc {
+    struct gpio_desc *gpio;
+    int gpio_state;
+} dip50Hz, dip31kHz, fancontrol;
+
+static const struct videomode p240 = { 
+    .pixelclock = 6400000, 
+    .hactive = 320,
+	.hfront_porch = 8,
+	.hsync_len = 30,
+	.hback_porch = 42,
+	.vactive = 240,
+	.vfront_porch = 4,
+	.vsync_len = 5,
+	.vback_porch = 14,
+    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+};
+
+static const struct videomode p288 = { 
+    .pixelclock = 7363200, 
+    .hactive = 384,
+	.hfront_porch = 16,
+	.hsync_len = 32,
+	.hback_porch = 40,
+	.vactive = 288,
+	.vfront_porch = 3,
+	.vsync_len = 2,
+	.vback_porch = 19,
+    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+};
+
+static const struct videomode p480 = { 
+    .pixelclock = 25452000, 
+    .hactive = 640,
+	.hfront_porch = 24,
+	.hsync_len = 96,
+	.hback_porch = 48,
+	.vactive = 480,
+	.vfront_porch = 11,
+	.vsync_len = 2,
+	.vback_porch = 32,
+    .flags = DISPLAY_FLAGS_HSYNC_HIGH | DISPLAY_FLAGS_VSYNC_HIGH
+};
+
 static inline struct dpidac *drm_bridge_to_dpidac(struct drm_bridge *bridge) {
     return container_of(bridge, struct dpidac, bridge);
 }
 
 static inline struct dpidac *drm_connector_to_dpidac(struct drm_connector *connector) {
     return container_of(connector, struct dpidac, connector);
+}
+
+static void dpidac_apply_default_mode(struct drm_connector *connector, struct videomode* vm) {
+    struct drm_device *dev = connector->dev;
+    struct drm_display_mode *mode = drm_mode_create(dev);
+
+    drm_display_mode_from_videomode(vm, mode);
+    mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+
+    drm_mode_set_name(mode);
+    drm_mode_probed_add(connector, mode);
 }
 
 static int dpidac_get_modes(struct drm_connector *connector) {
@@ -140,33 +197,21 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     if (i) {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
         return i;
-    } else if (timings) {
-        for (i = 0; i < timings->num_timings; i++) {
-            struct drm_display_mode *mode = drm_mode_create(dev);
-            struct videomode vm;
-
-            if (videomode_from_timings(timings, &vm, i))
-                break;
-
-            drm_display_mode_from_videomode(&vm, mode);
-
-            mode->type = DRM_MODE_TYPE_DRIVER;
-
-            if (timings->native_mode == i)
-                mode->type |= DRM_MODE_TYPE_PREFERRED;
-
-            drm_mode_set_name(mode);
-            drm_mode_probed_add(connector, mode);
-        }
-        printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i modes loaded from dtb overlay\n", i);
     } else {
-        /* Since there is no timing data, use XGA standard modes */
-        i = drm_add_modes_noedid(connector, 1920, 1200);
-        /* And prefer a mode pretty much anyone can handle */
-        drm_set_preferred_mode(connector, 1024, 768);
-        printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: fallback to XGA mode...\n");
+        if(dip31kHz.gpio_state == 0){
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
+            dpidac_apply_default_mode(connector, &p480);
+        } else {
+            if(dip50Hz.gpio_state == 0){
+                // 50hz
+                printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
+                dpidac_apply_default_mode(connector, &p288);
+            }else {
+                printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
+                dpidac_apply_default_mode(connector, &p240);
+            }
+        }
     }
-
     return i;
 }
 
@@ -232,11 +277,6 @@ static int dpidac_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags
 static const struct drm_bridge_funcs dpidac_bridge_funcs = {
         .attach        = dpidac_attach,
 };
-
-struct gpiodesc {
-    struct gpio_desc *gpio;
-    int gpio_state;
-} dip50Hz, dip31kHz, fancontrol;
 
 
 static int dpidac_probe(struct platform_device *pdev) {
