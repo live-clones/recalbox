@@ -3,16 +3,37 @@
 
 / {
 	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
-
 	fragment@0 {
+			target = <&gpio>;
+			__overlay__ {
+				dipswitch_gpio: dipswitch_gpio_conf {
+					brcm,pins = <10 27>; // GPIO 10
+					brcm,function = <0>; // Input
+					brcm,pull = <2>; // Pull up
+				};
+				fancontrol_gpio: fancontrol_gpio_conf {
+					brcm,pins = <27>; // GPIO 27
+					brcm,function = <1>; // Output
+					brcm,pull = <0>;
+				};
+			};
+	};
+	fragment@1 {
 		target-path = "/";
 		__overlay__ {
+
 			bridge: bridge {
 				compatible = "raspberrypi,recalboxrgbdual";
 				#address-cells = <1>;
 				#size-cells = <0>;
 
 				vc4-vga666-mode = <6>;
+
+                dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
+                fancontrol-gpios = <&gpio 26 0>;
+                status = "okay";
+                pinctrl-0 = <&dipswitch_gpio>, <&fancontrol_gpio>;
+                pinctrl-names = "default";
 
 				display-timings {
 					native-mode = <&t_240p60>;
@@ -95,7 +116,7 @@
 		};
 	};
 
-	fragment@1 {
+	fragment@2 {
 		target = <&dpi>;
 		__overlay__  {
 			status = "okay";
@@ -107,7 +128,7 @@
 		};
 	};
 
-	fragment@2 {
+	fragment@3 {
 		target = <&dpi>;
 		__overlay__  {
 			status = "okay";

@@ -233,11 +233,11 @@ static const struct drm_bridge_funcs dpidac_bridge_funcs = {
         .attach        = dpidac_attach,
 };
 
-// https://gist.github.com/0xff07/d286f45649a7e05c32c4523631bd15e0
-struct auto60hz {
+struct gpiodesc {
     struct gpio_desc *gpio;
     int gpio_state;
-} auto60hz;
+} dip50Hz, dip31kHz, fancontrol;
+
 
 static int dpidac_probe(struct platform_device *pdev) {
     struct dpidac *vga;
@@ -253,15 +253,36 @@ static int dpidac_probe(struct platform_device *pdev) {
     vga->bridge.funcs = &dpidac_bridge_funcs;
     vga->bridge.of_node = pdev->dev.of_node;
 
-    /* ICI Charger le gpio 
-    auto60hz.gpio = devm_gpiod_get(&(pdev->dev), NULL, GPIOD_IN);
-    if (IS_ERR(auto60hz.gpio)) {
+    /* Switch 50 HZ */
+    dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
+    if (IS_ERR(dip50Hz.gpio)) {
         pr_err("Error when assigning GPIO.\n");
-	    return -22;
     }
-    auto60hz.gpio_state = !gpiod_get_value(auto60hz.gpio);
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: gpio: %i\n", auto60hz.gpio_state);
-    */
+    dip50Hz.gpio_state = gpiod_get_value(dip50Hz.gpio);
+
+    /* Switch 31kHz */
+    dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
+    if (IS_ERR(dip31kHz.gpio)) {
+        pr_err("Error when assigning GPIO.\n");
+    }
+    dip31kHz.gpio_state = gpiod_get_value(dip31kHz.gpio);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
+    
+    /* Fan control */
+    fancontrol.gpio = devm_gpiod_get(&(pdev->dev), "fancontrol", GPIOD_OUT_LOW);
+    if (IS_ERR(fancontrol.gpio)) {
+        pr_err("Error when assigning GPIO.\n");
+    }
+    fancontrol.gpio_state = gpiod_get_value(fancontrol.gpio);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: fancontrol: %i\n", fancontrol.gpio_state);
+    
+    gpiod_export(dip50Hz.gpio, false);
+    gpiod_export_link(&pdev->dev, "dipswitch-50hz", dip50Hz.gpio);
+    gpiod_export(dip31kHz.gpio, false);
+    gpiod_export_link(&pdev->dev, "dipswitch-31khz", dip31kHz.gpio);
+    gpiod_export(fancontrol.gpio, false);
+    gpiod_export_link(&pdev->dev, "fancontrol", fancontrol.gpio);
+
     drm_bridge_add(&vga->bridge);
 
     return 0;
