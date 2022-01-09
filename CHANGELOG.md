@@ -33,6 +33,8 @@ All notable changes to this project will be documented in this file.
 - Bump mupen64plus-core in order to resolve gliden64 crash on pi3 (#2082)
 - Bump mupen64plus-gliden64 (#2082)
 - Fix dependencies on mupen64plus-video-gles2n64 and mupen64plus-video-gles2rice on rpi3 (#2082)
+- Bump mupen64plus glide64mk2 (#2082)
+- Add mupen64plus glide64mk2 as default core for rpi3 (#2082)
 
 ## [8.0-Electron]
 - Remove non-working shaders
