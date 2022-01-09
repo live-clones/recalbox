@@ -20,6 +20,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Verify support archive contains pulseaudio info (#2118)
 - [ ] Test SoF audio card - dedicated user will test
 - [ ] Test mupen64plus gliden64 should not crash on rpi3 (#2082)
+- [ ] Verify gles2_n64 and gles2_rice are available on rpi3 (#2082)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
