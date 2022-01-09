@@ -85,6 +85,7 @@ for FILE in music bios extractions kodi saves saves/amiga screenshots userscript
             system/.emulationstation/{es_input.cfg,es_settings.cfg} \
             system/{.hatari,.kodi,.atari800.cfg} \
             system/configs/{advancemame,daphne,dolphin-emu,dosbox,fba,kodi,moonlight,mupen64,openbor,ppsspp,reicast,retroarch,shadersets,xarcade2jstick,scummvm} \
+            system/configs/mupen64/{GLideN64.custom.ini,GLideN64.ini,Glide64mk2.ini,InputAutoCfg.ini,RiceVideoLinux.ini,font.ttf,gles2n64.conf,gles2n64rom.conf} \
             system/recalbox.conf \
             bios/{amiga,Databases,dc,fba,fbneo,keropi,Machines,mame,mame2000,mame2003,mame2003-plus,mame2010,mame2015,mame2016,np2kai,oricutron,prboom,quasi88,xmil}
 do
