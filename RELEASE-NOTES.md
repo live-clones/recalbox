@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix PC88 & Spectravideo scraping
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
+- Fix crash on Mupen64plus GLideN64 o RPI3
 
 ## Version 8.0.1-Electron
 

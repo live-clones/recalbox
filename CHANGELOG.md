@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Add 240ptestsuite Playstation for CRT (#2117)
 - GSplus can be started for Apple 2 emulator (#2087)
 - Bump mupen64plus-core in order to resolve gliden64 crash on pi3 (#2082)
+- Bump mupen64plus-gliden64 (#2082)
 
 ## [8.0-Electron]
 - Remove non-working shaders
