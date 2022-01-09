@@ -34,13 +34,13 @@ class CrtRGBDual : public ICrtInterface
     bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
 
   private:
-    static constexpr const char* sRGBDual31khzSwitch = "/31";
-    static constexpr const char* sRGBDual50hzSwitch = "/50";
+    static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
+    static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";
 
     //! Get 31khz switch state on RGB dual board
-    static bool GetRGBDual31khzSwitchState() { return Files::LoadFile(Path(sRGBDual31khzSwitch)) == "1"; }
+    static bool GetRGBDual31khzSwitchState() { return Files::LoadFile(Path(sRGBDual31khzSwitch)) == "0\n"; }
     //! Get 50hz switch state on RGB dual board
-    static bool GetRGBDual50hzSwitchState() { return Files::LoadFile(Path(sRGBDual50hzSwitch)) == "1"; }
+    static bool GetRGBDual50hzSwitchState() { return Files::LoadFile(Path(sRGBDual50hzSwitch)) == "0\n"; }
 };
 
 
