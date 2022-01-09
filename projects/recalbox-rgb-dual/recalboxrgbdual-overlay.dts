@@ -22,7 +22,7 @@
 		target-path = "/";
 		__overlay__ {
 
-			bridge: bridge {
+			bridge: recalboxrgbdual {
 				compatible = "raspberrypi,recalboxrgbdual";
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -31,7 +31,6 @@
 
                 dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
                 fancontrol-gpios = <&gpio 26 0>;
-                status = "okay";
                 pinctrl-0 = <&dipswitch_gpio>, <&fancontrol_gpio>;
                 pinctrl-names = "default";
 
