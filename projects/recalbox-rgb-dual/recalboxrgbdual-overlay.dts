@@ -12,7 +12,7 @@
 					brcm,pull = <2>; // Pull up
 				};
 				fancontrol_gpio: fancontrol_gpio_conf {
-					brcm,pins = <26>; // GPIO 27
+					brcm,pins = <26>; // GPIO 26
 					brcm,function = <1>; // Output
 					brcm,pull = <0>;
 				};
