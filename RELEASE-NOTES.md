@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
   - Full keyboard is available for the emulated computer
   - Use F12 as ESC replacement to quit 
 - Bump libretro fuse to v1.6.0 (ZX Spectrum core)
+ Bump Hypseus Singe
 
 ### Fixes
 ## Version 8.0.3-Electron

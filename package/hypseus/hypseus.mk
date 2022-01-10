@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-HYPSEUS_VERSION = v2.6.18
+HYPSEUS_VERSION = v2.8.1
 HYPSEUS_SITE = $(call github,DirtBagXon,hypseus-singe,$(HYPSEUS_VERSION))
 HYPSEUS_LICENSE = GPL3
 HYPSEUS_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf zlib libogg libvorbis libmpeg2
@@ -16,7 +16,7 @@ HYPSEUS_CONF_OPTS = ../src -DBUILD_SHARED_LIBS=OFF
 # Post-install: create link to configuration file
 define HYPSEUS_CONFIG_LINK
 	ln -fs /recalbox/share/system/configs/daphne/dapinput.ini $(TARGET_DIR)/usr/share/daphne/hypinput.ini
-	ln -fs /recalbox/share/roms/daphne/singe $(TARGET_DIR)/usr/share/daphne/singe
+	ln -fs /recalbox/share/roms/daphne/roms $(TARGET_DIR)/usr/share/daphne/singe
 endef
 
 HYPSEUS_POST_INSTALL_TARGET_HOOKS += HYPSEUS_CONFIG_LINK
