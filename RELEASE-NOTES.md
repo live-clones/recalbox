@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Disable Retroarch's keyboard shortcut when running computer systems:
   - Full keyboard is available for the emulated computer
   - Use F12 as ESC replacement to quit 
+- Bump Hypseus Singe to the latest version.
 
 ### Fixes
 ## NEXT
