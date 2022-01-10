@@ -17,6 +17,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [8.0.1]
 - [ ] Check the crt-pi shader that it is working (#2065)
+- [ ] Test SoF audio card - dedicated user will test
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)

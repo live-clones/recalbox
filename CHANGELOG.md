@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Fix BT controllers not being reconized in ES 
 - Add DRM info in support archive (#2102)
 - Fix tearing effect on odroidgo2 (#2100)
+- Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
 
 ## [8.0-Electron]
 - Remove non-working shaders
