@@ -214,7 +214,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
 
     DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "default")
-    DefineGetterSetter(EmulationstationRatio, std::string, String, sEsRatio, "default")
     DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "default")
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
@@ -356,7 +355,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sBatteryHidden              = "emulationstation.battery.hidden";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
-    static constexpr const char* sEsRatio                    = "system.es.ratio";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";

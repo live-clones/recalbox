@@ -6,6 +6,7 @@
 #include "../data/Resources.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
+#include <hardware/crt/CrtAdapterDetector.h>
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof
@@ -454,7 +455,7 @@ bool Renderer::GetResolutionFromString(const std::string& resolution, int& w, in
   return false;
 }
 
-void Renderer::GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio)
+void Renderer::GetResolutionFromConfiguration(int& w, int& h)
 {
   switch(Board::Instance().GetBoardType())
   {
@@ -483,12 +484,6 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio
         resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
         GetResolutionFromString(resolution, w, h);
       }
-      std::string ratioStr = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationRatio()));
-      float ratio = 0;
-      if (Strings::ToFloat(ratioStr, ratio))
-      {
-        aspectRatio = ratio;
-      }
     }
   }
   { LOG(LogInfo) << "[Renderer] Resolution got from recalbox.conf: " << w << 'x' << h; }
@@ -503,9 +498,12 @@ bool Renderer::ReInitialize()
 bool Renderer::Initialize(int w, int h)
 {
   // Get resolution from config if either w or h is nul
-  if ((w * h) == 0) GetResolutionFromConfiguration(w, h, mAspectRatio);
-
-  bool createdSurface = ((w * h) != 0) ? CreateSdlSurface(w, h) : false;
+  bool isCrt = CrtAdapterDetector::GetCrtBoard().IsCrtAdapterAttached();
+  bool createdSurface = false;
+  if ((w * h) == 0 && !isCrt) {
+    GetResolutionFromConfiguration(w, h);
+    createdSurface = CreateSdlSurface(w, h);
+  }
 
   if (!createdSurface)
   {
@@ -517,14 +515,11 @@ bool Renderer::Initialize(int w, int h)
   if (!createdSurface)
     return false;
 
-  if (mAspectRatio != 0)
-  {
-    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * mAspectRatio);
-    mVirtualDisplayWidth = (int)(mDisplayHeightFloat * mAspectRatio);
-    mVirtualDisplayWidthFloat = mDisplayHeightFloat * mAspectRatio;
-  }
-  else
-  {
+  if(isCrt) {
+    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334);
+    mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334);
+    mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334;
+  } else {
     mScale = 1;
     mVirtualDisplayWidth = mDisplayWidth;
     mVirtualDisplayWidthFloat = mDisplayWidthFloat;

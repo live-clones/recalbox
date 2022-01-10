@@ -83,7 +83,7 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param w Width to fill
      * @param h Height to fill
      */
-    static void GetResolutionFromConfiguration(int& w, int& h, float& aspectRatio);
+    static void GetResolutionFromConfiguration(int& w, int& h);
 
     /*!
      * @brief Get resolution from string

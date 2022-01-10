@@ -144,7 +144,6 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
       if (oldValue != CrtAdapterType::None)
       {
         RecalboxConf::Instance().SetSystemCRT(CrtAdapterType::None).Save();
-        RecalboxConf::Instance().SetEmulationstationRatio("default").Save();
         RecalboxConf::Instance().SetEmulationstationVideoMode("default").Save();
         mEsResolution->select("default");
       }
@@ -160,7 +159,6 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
-    RecalboxConf::Instance().SetEmulationstationRatio(value == "1920x240" ? "1.3334" : "default").Save();
     RecalboxConf::Instance().SetEmulationstationVideoMode(value).Save();
   }
   if ((Components)id == Components::GamesResolutionOn31kHz)
