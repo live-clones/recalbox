@@ -114,6 +114,15 @@ as release notes for end user on a Recalbox upgrade.
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
 - Fix no sound issue on some PCs
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+### Improvements
+- Bump libretro-mupen64plus-next
+
+### Improvements
+
+- Add manufacturer property in systemlist.xml
+
+### Fix
 - Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
 - Add a better text when you are stuck in the favorites list in any system.
 - Fix controllers in Duckstation (access menu with HK+B)
