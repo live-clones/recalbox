@@ -54,6 +54,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Bump EmuSCV to fix zipped games load
 
+- Bump Hypseus Singe to the latest version.
+
 ### Fixes
 
 
