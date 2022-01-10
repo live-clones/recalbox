@@ -8,20 +8,15 @@ declare -A ES_CONFIG=( \
     ["emulationstation.screensaver.type"]="demo" \
     ["240ptestsuite.ignore"]="0" \
     ["global.smooth"]="0" \
-    ["global.videomode"]="default" \
     )
 
 declare -A ES_CLEAN_CONFIG=( \
-    ["system.es.ratio"]="default" \
-    ["system.es.videomode"]="default" \
     ["global.smooth"]="1" \
     ["240ptestsuite.ignore"]="1" \
     )
 
 function configure_es {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
-    killall -9 emulationstation
-
     echo "" >> /recalbox/share/system/recalbox.conf
     for KEY in "${!ES_CONFIG[@]}"; do
         if grep -q -e "^.\?${KEY}=.*" /recalbox/share/system/recalbox.conf; then
@@ -37,7 +32,6 @@ function unconfigure {
     recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
     rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
     recallog -s "S13crt" -t "CRT" "Removing configuration in recalbox.conf"
-    killall -9 emulationstation
     for KEY in "${!ES_CONFIG[@]}"; do
         sed -i "/${KEY}=${ES_CONFIG[$KEY]}/d" \
             /recalbox/share/system/recalbox.conf
@@ -62,8 +56,9 @@ if test "$1" == "start" ; then
     RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
     RRGBDUAL_LASTBOOT="/boot/.stamprrgbdual"
 
-    if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && ! -f "${RRGBDUAL_LASTBOOT}"; then
-        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic configuration."
+    # RRGBD installation
+    if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
+        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
         configure_es
         mount -o remount,rw /boot
         touch "${RRGBDUAL_LASTBOOT}"
@@ -72,8 +67,9 @@ if test "$1" == "start" ; then
         exit 0
     fi
 
-    if ! grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && -f "${RRGBDUAL_LASTBOOT}"; then
-        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic removal."
+    # RRGBD uninstallation
+    if ! grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ -f "${RRGBDUAL_LASTBOOT}" ]; then
+        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic uninstallation."
         unconfigure
         mount -o remount,rw /boot
         rm "${RRGBDUAL_LASTBOOT}"
