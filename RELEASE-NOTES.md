@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix BT controllers not being reconized in ES 
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
+- Fix no sound issue on some PCs
 
 ## Version 8.0.1-Electron
 
