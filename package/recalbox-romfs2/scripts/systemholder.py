@@ -111,12 +111,13 @@ class SystemHolder:
             "low" : 4,
         }
 
-        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, compatibility: str, speed: str):
+        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, ignored: str, netplay: bool, compatibility: str, speed: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
             self.__core: str = core
             self.__extensions: List[str] = extensions.split(' ')
+            self.__ignored: List[str] = ignored.split(',')
             self.__netplay: bool = netplay
             if len(compatibility) == 0: compatibility = "unknown"
             if compatibility not in self.__CompatibilityValues.keys(): raise TypeError("Invalid compatibility! {}".format(compatibility))
@@ -145,6 +146,10 @@ class SystemHolder:
             return self.__extensions
 
         @property
+        def ignored(self) -> List[str]:
+            return self.__ignored
+
+        @property
         def netplay(self) -> bool:
             return self.__netplay
 
@@ -161,6 +166,7 @@ class SystemHolder:
                 "name": self.__core,
                 "priority": str(self.__priority),
                 "extensions": ' '.join(self.__extensions),
+                "ignored": ' '.join(self.__ignored),
                 "netplay": '1' if self.__netplay else '0',
                 "compatibility": self.__compatibility,
                 "speed": self.__speed,
@@ -182,6 +188,7 @@ class SystemHolder:
         self.__iconUnicode: str = "$0" # Icon unicode char in recalbox font
         self.__command: str = "Command template"
         self.__extensions: str = "Global extension list"
+        self.__ignored: str = "Ignored content"
         self.__docLinks: Dict[str, str] = {
           "fr": "FR Documentation link",
           "en": "EN Documentation link",
@@ -229,6 +236,9 @@ class SystemHolder:
 
     @property
     def Extensions(self) -> str: return self.__extensions
+
+    @property
+    def Ignored(self) -> str: return self.__ignored
 
     @property
     def ScreenScraperId(self) -> int: return self.__screenscraperId
@@ -301,6 +311,7 @@ class SystemHolder:
                     emulator=self.__get(desc, coreSection, "emulator", "", True),
                     core=self.__get(desc, coreSection, "core", "", True),
                     extensions=self.__get(desc, coreSection, "extensions", "", True),
+                    ignored=self.__get(desc, coreSection, "ignoredFiles", "", False),
                     netplay=(self.__get(desc, coreSection, "netplay", "", True) == '1'),
                     compatibility=self.__get(desc, coreSection, "compatibility", "", True),
                     speed=self.__get(desc, coreSection, "speed", "", True),
