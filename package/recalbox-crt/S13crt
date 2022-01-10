@@ -18,11 +18,69 @@ declare -A ES_CLEAN_CONFIG=( \
     ["240ptestsuite.ignore"]="1" \
     )
 
+function configure_es {
+    recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
+    killall -9 emulationstation
+
+    echo "" >> /recalbox/share/system/recalbox.conf
+    for KEY in "${!ES_CONFIG[@]}"; do
+        if grep -q -e "^.\?${KEY}=.*" /recalbox/share/system/recalbox.conf; then
+            sed -i "s/^.\?${KEY}=.*/${KEY}=${ES_CONFIG[$KEY]}/g" \
+                /recalbox/share/system/recalbox.conf
+        else
+            echo "${KEY}=${ES_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
+        fi
+    done
+}
+
+function unconfigure {
+    recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
+    rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
+    recallog -s "S13crt" -t "CRT" "Removing configuration in recalbox.conf"
+    killall -9 emulationstation
+    for KEY in "${!ES_CONFIG[@]}"; do
+        sed -i "/${KEY}=${ES_CONFIG[$KEY]}/d" \
+            /recalbox/share/system/recalbox.conf
+    done
+    
+    echo "" >> /recalbox/share/system/recalbox.conf
+    for KEY in "${!ES_CLEAN_CONFIG[@]}"; do
+        if grep -q -e "${KEY}=.*" /recalbox/share/system/recalbox.conf; then
+            sed -i "s/${KEY}=.*/${KEY}=${ES_CLEAN_CONFIG[$KEY]}/g" \
+            /recalbox/share/system/recalbox.conf
+        else
+            echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
+        fi
+    done
+}
+
 if test "$1" == "start" ; then
     CONFIG_LINE=$(grep -m 1 -e "^system.crt=.*" /recalbox/share/system/recalbox.conf)
     DAC=${CONFIG_LINE##*=}
     CRT_CONFIG_FILE="/boot/recalbox-crt-config.txt"
     CRT_TIMING_FILE="/boot/timings.txt"
+    RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
+    RRGBDUAL_LASTBOOT="/boot/.stamprrgbdual"
+
+    if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && ! -f "${RRGBDUAL_LASTBOOT}"; then
+        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic configuration."
+        configure_es
+        mount -o remount,rw /boot
+        touch "${RRGBDUAL_LASTBOOT}"
+        mount -o remount,ro /boot
+        es start
+        exit 0
+    fi
+
+    if ! grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && -f "${RRGBDUAL_LASTBOOT}"; then
+        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic removal."
+        unconfigure
+        mount -o remount,rw /boot
+        rm "${RRGBDUAL_LASTBOOT}"
+        mount -o remount,ro /boot
+        es start
+        exit 0
+    fi
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
         if [[ ! -f "${CRT_CONFIG_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_CONFIG_FILE}"; then
@@ -34,21 +92,7 @@ if test "$1" == "start" ; then
             cp "/boot/crt-config/${DAC}-config.txt" "${CRT_CONFIG_FILE}"
             cp "/boot/crt-config/timings.txt" "${CRT_TIMING_FILE}"
             mount -o remount,ro /boot
-
-            recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
-            killall -9 emulationstation
-
-            echo "" >> /recalbox/share/system/recalbox.conf
-            for KEY in "${!ES_CONFIG[@]}"; do
-                if grep -q -e "^.\?${KEY}=.*" /recalbox/share/system/recalbox.conf; then
-                    sed -i "s/^.\?${KEY}=.*/${KEY}=${ES_CONFIG[$KEY]}/g" \
-                        /recalbox/share/system/recalbox.conf
-                else
-                    echo "${KEY}=${ES_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
-                fi
-            done
-            # Managed by ES
-            #sed -i "s/.\?system\.es\.videomode=.*/system.es.videomode=640x480/g" /recalbox/share/system/recalbox.conf
+            configure_es
             reboot
         fi
     elif [[ "${DAC}" == "" ]]; then
@@ -61,24 +105,9 @@ if test "$1" == "start" ; then
             recallog -s "S13crt" -t "CRT" "Moving timings and config in /boot/crt-config-save"
             mv "${CRT_CONFIG_FILE}" "${CRT_TIMING_FILE}" /boot/crt-config-save/
             touch "${CRT_CONFIG_FILE}"
-            recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
-            rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
-            recallog -s "S13crt" -t "CRT" "Removing configuration in recalbox.conf"
-            killall -9 emulationstation
-            for KEY in "${!ES_CONFIG[@]}"; do
-                sed -i "/${KEY}=${ES_CONFIG[$KEY]}/d" \
-                    /recalbox/share/system/recalbox.conf
-            done
-            
-            echo "" >> /recalbox/share/system/recalbox.conf
-            for KEY in "${!ES_CLEAN_CONFIG[@]}"; do
-                if grep -q -e "${KEY}=.*" /recalbox/share/system/recalbox.conf; then
-                    sed -i "s/${KEY}=.*/${KEY}=${ES_CLEAN_CONFIG[$KEY]}/g" \
-                    /recalbox/share/system/recalbox.conf
-                else
-                    echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >> /recalbox/share/system/recalbox.conf
-                fi
-            done
+           
+            unconfigure
+
             mount -o remount,ro /boot
             reboot
         fi
