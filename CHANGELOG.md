@@ -84,6 +84,8 @@ All notable changes to this project have been documented in this file since 8.1.
   - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
 - Fix 'This title is not available to watch instantly' error on Netflix (#2088)
+- Add manufacturer property in systemlist.xml (#2101)
+
 - Add default configuration for Kodi (#1927)
 - Fix annoying error popup when kodi starts (#2097)
 - Fix 'All Games' label in EmulationSttion (#2124)
