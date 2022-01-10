@@ -11,14 +11,15 @@
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
 #include <components/SwitchComponent.h>
+#include <hardware/crt/CrtAdapterDetector.h>
 
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), nullptr)
-  , mOriginalDac(RecalboxConf::Instance().GetSystemCRT())
+  , mOriginalDac(CrtAdapterDetector::GetCrtBoard().GetCrtAdapter())
   , mOriginal31kHzResolution(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz())
 {
   // Selected Dac
-  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
+  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(mOriginalDac == CrtAdapterType::RGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
   mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
@@ -69,11 +70,15 @@ std::string GuiMenuCRT::GetHorizontalFrequency()
   return result;
 }
 
-std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries()
+std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bool onlyRgbDual)
 {
   std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> list;
+  if(onlyRgbDual){
+    list.push_back( { "Recalbox RGB Dual", CrtAdapterType::RGBDual, true } );
+    return list;
+  }
 
-  CrtAdapterType selectedDac = RecalboxConf::Instance().GetSystemCRT();
+  CrtAdapterType selectedDac = CrtAdapterDetector::GetCrtBoard().GetCrtAdapter();
 
   static struct
   {
@@ -133,7 +138,7 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
   (void)index;
   if ((Components)id == Components::CRTDac)
   {
-    CrtAdapterType oldValue = RecalboxConf::Instance().GetSystemCRT();
+    CrtAdapterType oldValue = CrtAdapterDetector::GetCrtBoard().GetCrtAdapter();
     if (value == CrtAdapterType::None)
     {
       if (oldValue != CrtAdapterType::None)
@@ -144,7 +149,9 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
         mEsResolution->select("default");
       }
     }
-    else RecalboxConf::Instance().SetSystemCRT(value).Save();
+    else if (value != CrtAdapterType::RGBDual){
+      RecalboxConf::Instance().SetSystemCRT(value).Save();
+    }
   }
 }
 
