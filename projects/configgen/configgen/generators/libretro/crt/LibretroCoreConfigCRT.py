@@ -4,6 +4,44 @@ from configgen.Emulator import Emulator
 from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType
 from configgen.utils.recallog import recallog
 
+CoreToRegionMap = {
+    "genesisplusgx":
+        {
+            "prop_name": "genesis_plus_gx_region_detect",
+            "values": {"auto": "auto", "ntsc": "ntsc-u", "pal": "pal"}
+        },
+    "snes9x":
+        {
+            "prop_name": "snes9x_region",
+            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+        },
+    "picodrive":
+        {
+            "prop_name": "nestopia_favored_system",
+            "values": {"auto": "Auto", "ntsc": "US", "pal": "Europe"}
+        },
+    "nestopia":
+        {
+            "prop_name": "nestopia_favored_system",
+            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+        },
+    "stella":
+        {
+            "prop_name": "stella_console",
+            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+        },
+    "swanstation":
+        {
+            "prop_name": "duckstation_Console.Region",
+            "values": {"auto": "Auto", "ntsc": "NTSC-U", "pal": "PAL"}
+        },
+    "o2em":
+        {
+            "prop_name": "duckstation_Console.Region",
+            "values": {"auto": "auto", "ntsc": "NTSC", "pal": "PAL"}
+        }
+}
+
 
 class LibretroCoreConfigCRT:
 
@@ -61,6 +99,10 @@ class LibretroCoreConfigCRT:
             lines["reicast_internal_resolution"] = '"{}"'.format(rez)
             lines["reicast_cable_type"] = '"TV (RGB)"'
 
+        if system.Core in CoreToRegionMap:
+            if system.CRTRegion in CoreToRegionMap[system.Core]["values"]:
+                lines[CoreToRegionMap[system.Core]["prop_name"]] = CoreToRegionMap[system.Core]["values"][
+                    system.CRTRegion]
         log = "Forcing core configuration: "
         for config in lines.items():
             log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')

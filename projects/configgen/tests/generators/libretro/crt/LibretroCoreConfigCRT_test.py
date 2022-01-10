@@ -1,7 +1,7 @@
 import pytest
 
 from configgen.Emulator import Emulator
-from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT, CoreToRegionMap
 from tests.generators.libretro.crt.LibretroConfigCRT_test import configureForCrt
 
 
@@ -11,7 +11,7 @@ def test_given_snes_stella_sufami_system_should_create_core_config():
               Emulator(name='satellaview', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
               Emulator(name='sufami', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x')]
     for snes in sneses:
-        assert core_configurator.createConfigFor(snes) == {"snes9x_overscan": '"disabled"'}
+        assert core_configurator.createConfigFor(snes)["snes9x_overscan"] == '"disabled"'
 
 
 def test_given_nes_system_should_create_core_config():
@@ -19,32 +19,38 @@ def test_given_nes_system_should_create_core_config():
     neses = [Emulator(name='nes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='nestopia'),
              Emulator(name='fds', videoMode='1920x1080', ratio='auto', emulator='libretro', core='nestopia')]
     for nes in neses:
-        assert core_configurator.createConfigFor(nes) == {"nestopia_overscan_h": '"disabled"',
-                                                          "nestopia_overscan_v": '"disabled"'}
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_h"] == '"disabled"'
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_v"] == '"disabled"'
 
 
-def segaEmulator(name):
+def segaEmulatorWithGenesis(name):
     return Emulator(name=name, videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx')
+
+
+@pytest.fixture
+def system_dreamcast():
+    return Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='libretro',
+                    core='flycast')
 
 
 def test_given_sega_systems_should_create_core_config_with_overscan():
     core_configurator = LibretroCoreConfigCRT()
-    sega_system = segaEmulator('megadrive')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
-    sega_system = segaEmulator('sg1000')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
-    sega_system = segaEmulator('mastersystem')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
-    sega_system = segaEmulator('segacd')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"top/bottom"'}
-    sega_system = segaEmulator('gamegear')
-    assert core_configurator.createConfigFor(sega_system) == {"genesis_plus_gx_overscan": '"disabled"'}
+    sega_system = segaEmulatorWithGenesis('megadrive')
+    assert core_configurator.createConfigFor(sega_system)["genesis_plus_gx_overscan"] == '"top/bottom"'
+    sega_system = segaEmulatorWithGenesis('sg1000')
+    assert core_configurator.createConfigFor(sega_system)["genesis_plus_gx_overscan"] == '"top/bottom"'
+    sega_system = segaEmulatorWithGenesis('mastersystem')
+    assert core_configurator.createConfigFor(sega_system)["genesis_plus_gx_overscan"] == '"top/bottom"'
+    sega_system = segaEmulatorWithGenesis('segacd')
+    assert core_configurator.createConfigFor(sega_system)["genesis_plus_gx_overscan"] == '"top/bottom"'
+    sega_system = segaEmulatorWithGenesis('gamegear')
+    assert core_configurator.createConfigFor(sega_system)["genesis_plus_gx_overscan"] == '"disabled"'
 
 
 def test_given_sega32x_system_should_create_core_config_with_overscan():
     core_configurator = LibretroCoreConfigCRT()
     sega_system = Emulator(name='sega32x', videoMode='1920x1080', ratio='auto', emulator='libretro', core='picodrive')
-    assert core_configurator.createConfigFor(sega_system) == {"picodrive_overscan": '"disabled"'}
+    assert core_configurator.createConfigFor(sega_system)["picodrive_overscan"] == '"disabled"'
 
 
 def test_given_atari2600_systems_should_create_core_config_with_overscan():
@@ -78,11 +84,8 @@ def test_given_n64_systems_should_create_core_config_for_parallel_resolution():
 
 def test_given_psx_systems_should_create_core_config():
     psx = Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swanstation')
-    assert LibretroCoreConfigCRT().createConfigFor(psx) == {
-        "duckstation_Display.AspectRatio": '"Auto"',
-        "duckstation_Display.CropMode": '"None"',
-        "duckstation_Console.Region": '"Auto"'
-    }
+    assert LibretroCoreConfigCRT().createConfigFor(psx)["duckstation_Display.AspectRatio"] == '"Auto"'
+    assert LibretroCoreConfigCRT().createConfigFor(psx)["duckstation_Display.CropMode"] == '"None"'
 
 
 def test_given_gba_systems_should_create_core_config_with_gba_model():
@@ -111,13 +114,14 @@ def test_given_msx_systems_should_create_core_config_with_overscan_disabled():
 def test_given_c64_system_should_create_core_config_with_c64config():
     c64 = Emulator(name='c64', videoMode='1920x1080', ratio='auto', emulator='libretro', core='whatever')
     assert LibretroCoreConfigCRT().createConfigFor(c64) == {"vice_zoom_mode": '"disabled"',
-                                                             "vice_zoom_mode_crop": '"4:3"',
-                                                             "vice_c64_model": '"C64 PAL auto"'}
+                                                            "vice_zoom_mode_crop": '"4:3"',
+                                                            "vice_c64_model": '"C64 PAL auto"'}
 
 
 def test_given_gameboy_system_should_create_core_config_with_color():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gambatte')
     assert LibretroCoreConfigCRT().createConfigFor(gb) == {"gambatte_gb_colorization": '"auto"'}
+
 
 def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
     core_configurator = LibretroCoreConfigCRT()
@@ -133,31 +137,49 @@ def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
                                                                "reicast_cable_type": '"TV (RGB)"'}
 
 
-def test_given_dreamcast_should_select_core_resolution_480_from_mode_on15khz_interlaced(mocker):
+def test_given_dreamcast_should_select_core_resolution_480_from_mode_on15khz_interlaced(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="interlaced", crtregion="auto", crtscreentype="15kHz")
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="interlaced", crtregion="auto",
+                                crtscreentype="15kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
-                                                               "reicast_cable_type": '"TV (RGB)"'}
+                                                            "reicast_cable_type": '"TV (RGB)"'}
 
 
-def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(mocker):
+def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="progressive", crtregion="auto", crtscreentype="15kHz")
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtregion="auto",
+                                crtscreentype="15kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
-                                                               "reicast_cable_type": '"TV (RGB)"'}
+                                                            "reicast_cable_type": '"TV (RGB)"'}
 
-def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz(mocker):
+
+def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="progressive", crtregion="auto", crtscreentype="31kHz")
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtregion="auto",
+                                crtscreentype="31kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
-                                                               "reicast_cable_type": '"TV (RGB)"'}
+                                                            "reicast_cable_type": '"TV (RGB)"'}
 
-def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz_doublefreq(mocker):
+
+def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz_doublefreq(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(segaEmulator("dreamcast"), crtresolutiontype="doublefreq", crtregion="auto", crtscreentype="31kHz")
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="doublefreq", crtregion="auto",
+                                crtscreentype="31kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
-                                                               "reicast_cable_type": '"TV (RGB)"'}
+                                                            "reicast_cable_type": '"TV (RGB)"'}
+
+
+def test_given_multiregion_emulator_should_add_the_core_region_when_forced(mocker):
+    core_configurator = LibretroCoreConfigCRT()
+
+    for region in ["auto", "ntsc", "pal"]:
+        for core in CoreToRegionMap.keys():
+            emulator = configureForCrt(
+                Emulator("whatever", videoMode='1920x1080', ratio='auto', emulator='libretro', core=core),
+                crtregion=region)
+            assert core_configurator.createConfigFor(emulator)[CoreToRegionMap[core]["prop_name"]] == \
+                   CoreToRegionMap[core]["values"][region]
