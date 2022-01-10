@@ -51,6 +51,7 @@ All notable changes to this project will be documented in this file.
 - Improve text for favorites list in system (#2062)
 - Fix 'All Games' label in EmulationSttion (#2124)
 - Bump rockchip-mali (#2123)
+- Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
 
 ## [8.0-Electron]
 - Remove non-working shaders
