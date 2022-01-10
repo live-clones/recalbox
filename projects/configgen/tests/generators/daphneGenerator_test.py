@@ -34,7 +34,10 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-fullscreen',
                              '-script', 'path/to/test/test.singe',
                              '-blend_sprites',
+                             '-retropath',
                              '-manymouse',
+                             '-grabmouse',
+                             '-opengl',
                              '-datadir', '/usr/share/daphne',
                              '-homedir', '/recalbox/share/roms/daphne'
                              ]
@@ -64,6 +67,7 @@ def test_simple_generate_other_rom(emulator, system, controller_configuration):
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
                              '-useoverlaysb', '2',
+                             '-opengl',
                              '-datadir', '/usr/share/daphne',
                              '-homedir', '/recalbox/share/roms/daphne'
                              ]
@@ -77,6 +81,7 @@ def test_simple_generate_rpi_resolution(emulator, system_xy, mocker):
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
                              '-useoverlaysb', '2',
+                             '-opengl',
                              '-datadir', '/usr/share/daphne',
                              '-homedir', '/recalbox/share/roms/daphne',
                              '-x', '1920',
