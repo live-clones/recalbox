@@ -77,3 +77,5 @@ rm -f /recalbox/share/roms/240ptestsuite/240p_SegaCD_Track-02.wav
 rm -f /recalbox/share/roms/240ptestsuite/240p_SegaCD_Track-03.wav
 rm -f /recalbox/share/roms/240ptestsuite/LICENCE.md
 rm -f /recalbox/share/roms/240ptestsuite/gamelist.xml
+# Remove shaders files
+rm -f /recalbox/share/shaders/crt-pi.glslp

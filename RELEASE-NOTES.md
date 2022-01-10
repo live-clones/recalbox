@@ -15,6 +15,15 @@ as release notes for end user on a Recalbox upgrade.
 - Fix PC88 & Spectravideo scraping
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 
+## Version 8.0.1-Electron
+
+### News
+
+
+### Improvements
+
+### Fixes
+- Fix shader crt-pi for rpi
 
 ## Version 8.0-Electron
 
