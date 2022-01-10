@@ -37,6 +37,16 @@ as release notes for end user on a Recalbox upgrade.
 - Fix TV Remote controller (CEC) not working with Kodi on Raspberry Pi3 and Pi4
 - Fix Raspberry Pi Zero 2 performances issues
 - Add Mupen64plus GLide64MK2 on RPI3
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+### Improvements
+- Bump libretro-mupen64plus-next
+
+### Improvements
+
+- Add manufacturer property in systemlist.xml
+
+### Fix
+- Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
 - Add a better text when you are stuck in the favorites list in any system.
 - Fix controllers in Duckstation (access menu with HK+B)
 - Fix frontend not displaying two letter extentions games (.md/.st)

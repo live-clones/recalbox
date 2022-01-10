@@ -39,6 +39,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test mupen64 on Pi3 and Pi4 - Should be fullscreen in all cases
 
 ## [8.0]
+- [ ] Check that systemlist.xml as a manufacturer property for all systems
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
 - [ ] Check screenshot for yarntown game on solarus and craft on ports (#2017)
 - [ ] Check that the mednafen psx hw and glide64mk2 cores appear as the default core on x64 (#2018)
