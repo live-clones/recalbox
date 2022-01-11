@@ -51,10 +51,10 @@ function unconfigure {
 if test "$1" == "start" ; then
     CONFIG_LINE=$(grep -m 1 -e "^system.crt=.*" /recalbox/share/system/recalbox.conf)
     DAC=${CONFIG_LINE##*=}
-    CRT_CONFIG_FILE="/boot/recalbox-crt-config.txt"
-    CRT_TIMING_FILE="/boot/timings.txt"
+    CRT_CONFIG_FILE="/boot/crt/recalbox-crt-config.txt"
+    DAC_DIRECTORY="/boot/crt/dacs"
     RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
-    RRGBDUAL_LASTBOOT="/boot/.stamprrgbdual"
+    RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
 
     # RRGBD installation
     if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
@@ -78,6 +78,7 @@ if test "$1" == "start" ; then
         exit 0
     fi
 
+    # Other dacs
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
         if [[ ! -f "${CRT_CONFIG_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_CONFIG_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
@@ -85,8 +86,7 @@ if test "$1" == "start" ; then
             mount -o remount,rw /boot
 
             recallog -s "S13crt" -t "CRT" "Installing timings and config in /boot"
-            cp "/boot/crt-config/${DAC}-config.txt" "${CRT_CONFIG_FILE}"
-            cp "/boot/crt-config/timings.txt" "${CRT_TIMING_FILE}"
+            cp "${DAC_DIRECTORY}/${DAC}-config.txt" "${CRT_CONFIG_FILE}"
             mount -o remount,ro /boot
             configure_es
             reboot
@@ -97,9 +97,7 @@ if test "$1" == "start" ; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Uninstalling CRT configuration."
             mount -o remount,rw /boot
-            mkdir -p /boot/crt-config-save/
-            recallog -s "S13crt" -t "CRT" "Moving timings and config in /boot/crt-config-save"
-            mv "${CRT_CONFIG_FILE}" "${CRT_TIMING_FILE}" /boot/crt-config-save/
+            rm "${CRT_CONFIG_FILE}"
             touch "${CRT_CONFIG_FILE}"
            
             unconfigure
