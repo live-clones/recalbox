@@ -81,7 +81,8 @@ class CrtData
     bool MustChoosePALorNTSC(const SystemData& system) const
     {
       return system.Descriptor().CrtMultiRegion() &&        // System must support multi-region
-             !Board::Instance().CrtBoard().MustForce50Hz(); // & hardware must not force 50hz
+             !Board::Instance().CrtBoard().MustForce50Hz() && // & hardware must not force 50hz
+             Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
     }
 
     /*!
