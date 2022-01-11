@@ -1,2 +1,2 @@
 #device=vga666
-dtoverlay=vc4-vga666
+dtoverlay=recalboxrgbdual-thirdparty
