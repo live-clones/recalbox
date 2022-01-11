@@ -53,6 +53,8 @@ rb_wifi_configure() {
         # Connect to protected wifi
         wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
         wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
+        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" || exit 1
+        wpa_cli -i "$interface" set_network "$network" ieee80211w 1 || exit 1
     else
         # Connect to open ssid
         wpa_cli -i "$interface" set_network "$network" key_mgmt NONE || exit 1
@@ -107,13 +109,7 @@ enable_wifi() {
   # start wpa_supplicant
   pid=$(pgrep wpa_supplicant)
   while kill -0 $pid 2> /dev/null; do sleep 0.2; done; # Prevent race conditions
-  {
-    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Try with default driver"
-    wpa_supplicant -B -i "$interface" -c "$wpa_file"
-  } || {
-    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi: retry with old driver"
-    wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dwext
-  }
+  wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dnl80211,wext -f /var/log/wpa_supplicant.log
 
 
   # clear wpa_supplicant configuration and rebuild
