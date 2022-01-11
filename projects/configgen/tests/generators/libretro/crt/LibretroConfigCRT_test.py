@@ -298,7 +298,7 @@ def test_given_wonderswan_systems_should_create_config_with_vsync_deactivated(mo
 def configureForCrt(emulator: Emulator, crtregion="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
                     crtadaptor="recalboxrgbdual"):
     emulator.configure(keyValueSettings(""),
-                       ExtraArguments("", "", "", "", "", "", "", crtregion, crtresolutiontype, crtscreentype, crtadaptor))
+                       ExtraArguments("", "", "", "", "", "", "", crtregion, crtresolutiontype, crtscreentype, crtadaptor,0,0,0))
     return emulator
 
 

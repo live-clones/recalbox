@@ -10,8 +10,8 @@ from configgen.utils.recallog import recallog
 
 class LibretroConfigCRT:
 
-    def __init__(self, crt_config_parser: CRTConfigParser, crt_mode_processor: CRTModeOffsetter, h_offset: int = 0,
-                 v_offset: int = 0, viewport_width: int = 0):
+    def __init__(self, crt_config_parser: CRTConfigParser, crt_mode_processor: CRTModeOffsetter, v_offset: int = 0,
+                 h_offset: int = 0, viewport_width: int = 0):
         self.crt_config_parser = crt_config_parser
         self.crt_mode_processor = crt_mode_processor
         self.h_offset = h_offset

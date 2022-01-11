@@ -49,7 +49,7 @@ def system_gb_with_overlays():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
     recalbox_conf = keyValueSettings("", True)
     recalbox_conf.setString("global.recalboxoverlays", "1")
-    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", ""))
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", 0, 0, 0))
     return gb
 
 @pytest.fixture
@@ -176,15 +176,12 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
 
 def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
     recalbox_conf = keyValueSettings("", True)
-    recalbox_conf.setInt("system.crt.horizontal_offset", -10)
-    recalbox_conf.setInt("system.crt.vertical_offset", -2)
-    recalbox_conf.setInt("system.crt.viewport_width", 1820)
     givenThoseFiles(mocker, {
         "/recalbox/share/system/configs/crt/systems.txt": "snes,pal,15kHz,progressive,snes:224@50p,1740,224\nsnes,ntsc,15kHz,progressive,snes:224@60p,0,0",
         "/recalbox/share/system/configs/crt/modes.txt": "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:224@50p,1920 1 78 192 210 224 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
 
     system_snes.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual"))
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual", -2, -10, 1820))
 
     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
@@ -200,7 +197,7 @@ def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_wi
     recalbox_conf.setString("global.recalboxoverlays", "1")
 
     system_gb_with_overlays.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual"))
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual",0,0,0))
 
     givenThoseFiles(mocker, {
         "/recalbox/share/system/configs/crt/systems.txt": "gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",

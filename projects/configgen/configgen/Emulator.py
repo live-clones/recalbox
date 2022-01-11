@@ -6,7 +6,10 @@ from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class ExtraArguments :
-    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str, netplay_viewerpassword:str, netplay_vieweronly:str, crtregion:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str):
+    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
+                 netplay_viewerpassword:str, netplay_vieweronly:str,
+                 crtregion:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
+                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -18,6 +21,9 @@ class ExtraArguments :
         self.crtresolutiontype = crtresolutiontype
         self.crtscreentype = crtscreentype
         self.crtadaptor = crtadaptor
+        self.crtverticaloffset = crtverticaloffset
+        self.crthorizontaloffset = crthorizontaloffset
+        self.crtviewportwidth = crtviewportwidth
 
 
 class Emulator:
@@ -71,6 +77,9 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
         self._crtscreentype: CRTScreenType = CRTScreenType.k15
         self._crtenabled: bool = False
+        self._crtverticaloffset: int = 0
+        self._crthorizontaloffset: int = 0
+        self._crtviewportwidth: int = 1840
 
         # Computed vars
         self._netplay: bool = False
@@ -133,6 +142,9 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
+        self._crtverticaloffset =arguments.crtverticaloffset
+        self._crthorizontaloffset = arguments.crthorizontaloffset
+        self._crtviewportwidth = arguments.crtviewportwidth
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
@@ -296,3 +308,12 @@ class Emulator:
 
     @property
     def CRTEnabled(self) -> bool: return self._crtenabled
+
+    @property
+    def CRTVerticalOffset(self) -> int: return self._crtverticaloffset
+
+    @property
+    def CRTHorizontalOffset(self) -> int: return self._crthorizontaloffset
+
+    @property
+    def CRTViewportWidth(self) -> int: return self._crtviewportwidth
