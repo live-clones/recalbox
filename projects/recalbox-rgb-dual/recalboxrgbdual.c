@@ -270,12 +270,14 @@ static inline struct dpidac *drm_connector_to_dpidac(struct drm_connector *conne
     return container_of(connector, struct dpidac, connector);
 }
 
-static void dpidac_apply_default_mode(struct drm_connector *connector, const struct videomode* vm) {
+static void dpidac_apply_mode(struct drm_connector *connector, const struct videomode* vm, bool preferred) {
     struct drm_device *dev = connector->dev;
     struct drm_display_mode *mode = drm_mode_create(dev);
 
     drm_display_mode_from_videomode(vm, mode);
-    mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+    mode->type = DRM_MODE_TYPE_DRIVER;
+    if(preferred)
+        mode->type |= DRM_MODE_TYPE_PREFERRED;
 
     drm_mode_set_name(mode);
     drm_mode_probed_add(connector, mode);
@@ -292,24 +294,34 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     } else {
         if(dip31kHz.gpio_state == 0){
             printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
-            dpidac_apply_default_mode(connector, &p480);
+            dpidac_apply_mode(connector, &p480, true);
         } else {
             if(dip50Hz.gpio_state == 0){
                 // 50hz
                 if(configuration.resolution == 480){
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 576i mode\n", i);
-                    dpidac_apply_default_mode(connector, &i576);
+                    dpidac_apply_mode(connector, &i576, true);
+                    dpidac_apply_mode(connector, &p288, false);
                 } else {
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
-                    dpidac_apply_default_mode(connector, &p288);
+                    dpidac_apply_mode(connector, &p288, true);
+                    dpidac_apply_mode(connector, &i576, false);
                 }
             } else {
                 if(configuration.resolution == 480){
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480i mode\n", i);
-                    dpidac_apply_default_mode(connector, &i480);
+                    dpidac_apply_mode(connector, &i480, true);
+                    dpidac_apply_mode(connector, &p240, false);
+                    dpidac_apply_mode(connector, &p288, false);
+                    dpidac_apply_mode(connector, &i576, false);
+
                 }else {
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
-                    dpidac_apply_default_mode(connector, &p240);
+                    dpidac_apply_mode(connector, &p240, true);
+                    dpidac_apply_mode(connector, &i480, false);
+                    dpidac_apply_mode(connector, &p288, false);
+                    dpidac_apply_mode(connector, &i576, false);
+
                 }
             }
         }
