@@ -32,15 +32,95 @@
 #define LINE_SIZE_MAX 256
 
 static char read_buf[READ_SIZE_MAX];
-static const char *timings_path = "/boot/timings.txt";
-static const char *config_path = "/boot/rrgbdual-config.txt";
+static const char *timings_path = "/boot/crt/timings.txt";
+static const char *config_path = "/boot/crt/recalbox-crt-options.cfg";
 
+// Global config
 static struct rrgbdualconfiguration {
     int resolution;
     int voffset;
     int hoffset;
 } configuration;
 
+
+struct dpidac {
+    struct drm_bridge bridge;
+    struct drm_connector connector;
+    struct display_timings *timings;
+};
+
+// Gpio status
+static struct gpiodesc {
+    struct gpio_desc *gpio;
+    int gpio_state;
+} dip50Hz, dip31kHz, fancontrol;
+
+// Default modes.
+static const struct videomode p240 = {
+    .pixelclock = 6400000, 
+    .hactive = 320,
+	.hfront_porch = 8,
+	.hsync_len = 30,
+	.hback_porch = 42,
+	.vactive = 240,
+	.vfront_porch = 4,
+	.vsync_len = 5,
+	.vback_porch = 14,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+static const struct videomode p288 = {
+    .pixelclock = 7363200, 
+    .hactive = 384,
+	.hfront_porch = 16,
+	.hsync_len = 32,
+	.hback_porch = 40,
+	.vactive = 288,
+	.vfront_porch = 3,
+	.vsync_len = 2,
+	.vback_porch = 19,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+static const struct videomode i576 = {
+    .pixelclock = 14875000, 
+    .hactive = 768,
+	.hfront_porch = 24,
+	.hsync_len = 72,
+	.hback_porch = 88,
+	.vactive = 576,
+	.vfront_porch = 6,
+	.vsync_len = 5,
+	.vback_porch = 38,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+};
+
+static const struct videomode i480 = {
+    .pixelclock = 13054080, 
+    .hactive = 640,
+	.hfront_porch = 24,
+	.hsync_len = 64,
+	.hback_porch = 104,
+	.vactive = 480,
+	.vfront_porch = 3,
+	.vsync_len = 6,
+	.vback_porch = 34,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+};
+
+
+static const struct videomode p480 = {
+    .pixelclock = 25452000, 
+    .hactive = 640,
+	.hfront_porch = 24,
+	.hsync_len = 96,
+	.hback_porch = 48,
+	.vactive = 480,
+	.vfront_porch = 11,
+	.vsync_len = 2,
+	.vback_porch = 32,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
 
 static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_connector *connector, const char *line) {
     int ret, hsync, vsync, interlace, ratio;
@@ -181,83 +261,6 @@ static int dpidac_load_config(const char * configfile) {
     return 0;
 }
 
-struct dpidac {
-    struct drm_bridge bridge;
-    struct drm_connector connector;
-    struct display_timings *timings;
-};
-
-
-static struct gpiodesc {
-    struct gpio_desc *gpio;
-    int gpio_state;
-} dip50Hz, dip31kHz, fancontrol;
-
-static const struct videomode p240 = { 
-    .pixelclock = 6400000, 
-    .hactive = 320,
-	.hfront_porch = 8,
-	.hsync_len = 30,
-	.hback_porch = 42,
-	.vactive = 240,
-	.vfront_porch = 4,
-	.vsync_len = 5,
-	.vback_porch = 14,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-};
-
-static const struct videomode p288 = { 
-    .pixelclock = 7363200, 
-    .hactive = 384,
-	.hfront_porch = 16,
-	.hsync_len = 32,
-	.hback_porch = 40,
-	.vactive = 288,
-	.vfront_porch = 3,
-	.vsync_len = 2,
-	.vback_porch = 19,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-};
-
-static const struct videomode i576 = { 
-    .pixelclock = 14875000, 
-    .hactive = 768,
-	.hfront_porch = 24,
-	.hsync_len = 72,
-	.hback_porch = 88,
-	.vactive = 576,
-	.vfront_porch = 6,
-	.vsync_len = 5,
-	.vback_porch = 38,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
-};
-
-static const struct videomode i480 = { 
-    .pixelclock = 13054080, 
-    .hactive = 640,
-	.hfront_porch = 24,
-	.hsync_len = 64,
-	.hback_porch = 104,
-	.vactive = 480,
-	.vfront_porch = 3,
-	.vsync_len = 6,
-	.vback_porch = 34,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
-};
-
-
-static const struct videomode p480 = { 
-    .pixelclock = 25452000, 
-    .hactive = 640,
-	.hfront_porch = 24,
-	.hsync_len = 96,
-	.hback_porch = 48,
-	.vactive = 480,
-	.vfront_porch = 11,
-	.vsync_len = 2,
-	.vback_porch = 32,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-};
 
 static inline struct dpidac *drm_bridge_to_dpidac(struct drm_bridge *bridge) {
     return container_of(bridge, struct dpidac, bridge);
@@ -279,9 +282,7 @@ static void dpidac_apply_default_mode(struct drm_connector *connector, const str
 }
 
 static int dpidac_get_modes(struct drm_connector *connector) {
-    struct drm_device *dev = connector->dev;
     struct dpidac *vga = drm_connector_to_dpidac(connector);
-    struct display_timings *timings = vga->timings;
     int i;
     dpidac_load_config(config_path);
     i = dpidac_load_timings(connector);
@@ -295,25 +296,25 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         } else {
             if(dip50Hz.gpio_state == 0){
                 // 50hz
-                if(configuration.resolution == 240){
-                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
-                    dpidac_apply_default_mode(connector, &p288);
-                } else {
+                if(configuration.resolution == 480){
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 576i mode\n", i);
                     dpidac_apply_default_mode(connector, &i576);
+                } else {
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
+                    dpidac_apply_default_mode(connector, &p288);
                 }
             } else {
-                if(configuration.resolution == 240){
-                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
-                    dpidac_apply_default_mode(connector, &p240);
-                }else {
+                if(configuration.resolution == 480){
                     printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480i mode\n", i);
                     dpidac_apply_default_mode(connector, &i480);
+                }else {
+                    printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
+                    dpidac_apply_default_mode(connector, &p240);
                 }
             }
         }
     }
-    return i;
+    return 1;
 }
 
 static const struct drm_connector_helper_funcs dpidac_con_helper_funcs = {
@@ -382,48 +383,54 @@ static const struct drm_bridge_funcs dpidac_bridge_funcs = {
 
 static int dpidac_probe(struct platform_device *pdev) {
     struct dpidac *vga;
+    u32 rgbdual = 0;
 
     vga = devm_kzalloc(&pdev->dev, sizeof(*vga), GFP_KERNEL);
     if (!vga)
         return -ENOMEM;
     platform_set_drvdata(pdev, vga);
 
-    vga->timings = of_get_display_timings(pdev->dev.of_node);
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: display-timings from DT: %p\n", vga->timings);
-
     vga->bridge.funcs = &dpidac_bridge_funcs;
     vga->bridge.of_node = pdev->dev.of_node;
 
+    of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-dual", &rgbdual);
 
-    /* Switch 31kHz */
-    dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
-    if (IS_ERR(dip31kHz.gpio)) {
-        pr_err("Error when assigning GPIO.\n");
+    if(rgbdual == 1){
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
+
+        /* Switch 31kHz */
+        dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
+        if (IS_ERR(dip31kHz.gpio)) {
+            pr_err("Error when assigning GPIO.\n");
+        }
+        dip31kHz.gpio_state = gpiod_get_value(dip31kHz.gpio);
+        gpiod_export(dip31kHz.gpio, false);
+        gpiod_export_link(&pdev->dev, "dipswitch-31khz", dip31kHz.gpio);
+
+        /* Switch 50 HZ */
+        dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
+        if (IS_ERR(dip50Hz.gpio)) {
+            pr_err("Error when assigning GPIO.\n");
+        }
+        dip50Hz.gpio_state = gpiod_get_value(dip50Hz.gpio);
+        gpiod_export(dip50Hz.gpio, false);
+        gpiod_export_link(&pdev->dev, "dipswitch-50hz", dip50Hz.gpio);
+
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
+
+        /* Fan control */
+        fancontrol.gpio = devm_gpiod_get(&(pdev->dev), "fancontrol", GPIOD_OUT_LOW);
+        if (IS_ERR(fancontrol.gpio)) {
+            pr_err("Error when assigning GPIO.\n");
+        }
+        fancontrol.gpio_state = gpiod_get_value(fancontrol.gpio);
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: fancontrol: %i\n", fancontrol.gpio_state);
+        gpiod_export(fancontrol.gpio, false);
+        gpiod_export_link(&pdev->dev, "fancontrol", fancontrol.gpio);
+    } else {
+        dip50Hz.gpio_state = 1;
+        dip31kHz.gpio_state = 1;
     }
-    dip31kHz.gpio_state = gpiod_get_value(dip31kHz.gpio);
-    gpiod_export(dip31kHz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-31khz", dip31kHz.gpio);
-
-    /* Switch 50 HZ */
-    dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
-    if (IS_ERR(dip50Hz.gpio)) {
-        pr_err("Error when assigning GPIO.\n");
-    }
-    dip50Hz.gpio_state = gpiod_get_value(dip50Hz.gpio);
-    gpiod_export(dip50Hz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-50hz", dip50Hz.gpio);
-
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
-
-    /* Fan control */
-    fancontrol.gpio = devm_gpiod_get(&(pdev->dev), "fancontrol", GPIOD_OUT_LOW);
-    if (IS_ERR(fancontrol.gpio)) {
-        pr_err("Error when assigning GPIO.\n");
-    }
-    fancontrol.gpio_state = gpiod_get_value(fancontrol.gpio);
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: fancontrol: %i\n", fancontrol.gpio_state);
-    gpiod_export(fancontrol.gpio, false);
-    gpiod_export_link(&pdev->dev, "fancontrol", fancontrol.gpio);
 
     drm_bridge_add(&vga->bridge);
 
@@ -432,11 +439,6 @@ static int dpidac_probe(struct platform_device *pdev) {
 
 static int dpidac_remove(struct platform_device *pdev) {
     struct dpidac *vga = platform_get_drvdata(pdev);
-
-    if (vga->timings) {
-        display_timings_release(vga->timings);
-    }
-
     drm_bridge_remove(&vga->bridge);
 
     return 0;
