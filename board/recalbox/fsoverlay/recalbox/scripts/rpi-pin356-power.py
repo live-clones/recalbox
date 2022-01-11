@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
-import thread
+import _thread
 import datetime
 import socket
 import sys
@@ -131,7 +131,7 @@ def killthatshit():
 
 # clean stop of ES then shutdown -h or -r
 def offreset(speed, shutdownstring):
-	thread.start_new_thread( blink, (speed, ))
+	_thread.start_new_thread( blink, (speed, ))
 	flag=True
 	pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
 	os.system("/etc/init.d/S31emulationstation stop")
@@ -140,7 +140,7 @@ def offreset(speed, shutdownstring):
 		for pid in pids:
 				try:
 					print pid
-					commandpath = open(os.path.join('/proc', pid, 'cmdline'), 'rb').read()
+					commandpath = open(os.path.join('/proc', pid, 'cmdline'), 'r').read()
 					if "emulationstation" in commandpath:
 						flag = True
 				except IOError:
@@ -162,7 +162,7 @@ def retroarch(nwcommand):
 	except socket.error:
 		print('Failed to create socket')
 		sys.exit()
-	s.sendto(nwcommand, (IPADDR, PORTNUM))
+	s.sendto(nwcommand.encode(), (IPADDR, PORTNUM))
 
 if mode == "onoff" :
 	# Allow Nespi+ to detect the end of the shutdown for proper power-off
