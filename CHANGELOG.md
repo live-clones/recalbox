@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 - Add pulseaudio info in support archive (#2118)
 - Fix 'All Games' label in EmulationSttion (#2124)
 - Bump rockchip-mali (#2123)
+- Fix demoInfo cropped message (#2109)
+- Add 240ptestsuite Playstation for CRT (#2117)
 
 ## [8.0-Electron]
 - Remove non-working shaders
