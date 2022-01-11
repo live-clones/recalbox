@@ -10,8 +10,10 @@ All notable changes to this project will be documented in this file.
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix fbneo screenscraper id (#2077)
 - Fix PC88 & Spectravideo scraping
-- Fix move 240pTestSuite to share_init
+- Fix move 240pTestSuite to share_init (#2110)
 - Fix shader crt-pi for rpi (#2065)
+- Fix theme gameclipview in 240p (#2106)
+- Fix fix demoInfo cropped message (#2109)
 
 ## [8.0-Electron]
 - Remove non-working shaders
