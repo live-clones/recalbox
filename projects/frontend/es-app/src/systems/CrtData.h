@@ -36,8 +36,7 @@ class CrtData
     {
       if (!mHighResolutionConfigured)
         if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
-          if (RecalboxConf::Instance().GetSystemCRTGameOptions())
-            return true;
+          return true;
       return false;
     }
 
