@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 
 ### Fixes
+- Fix WPA3 wifi connection
 
 ## Version 8.0.1-Electron
 - Fix Duckstation's menu: Navigate with your controler
