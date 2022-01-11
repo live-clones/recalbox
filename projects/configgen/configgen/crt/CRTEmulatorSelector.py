@@ -34,18 +34,21 @@ class CRTEmulatorSelector:
             extensionToSystem = {
                 ".nes": "nes",
                 ".sfc": "snes",
-                ".cue": "segacd",
                 ".bin": "megadrive",
                 ".gb": "gb",
                 ".gba": "gba",
                 ".cdi": "dreamcast",
-                ".pce": "pcengine"
+                ".pce": "pcengine",
             }
             for supportedSystem in extensionToSystem.items():
                 if rom.endswith(supportedSystem[0]):
                     selected_emulator = Emulator(supportedSystem[1], emulator.Emulator, emulator.Core,
                                                  emulator.VideoMode,
                                                  emulator.Ratio)
+            if rom.endswith(".cue"):
+                system = "playstation" if emulator.Core == "swanstation" else "segacd"
+                selected_emulator = Emulator(system, emulator.Emulator, emulator.Core, emulator.VideoMode,
+                                             emulator.Ratio)
 
         recallog("Selected emulator for system {} : {} {} {}".format(emulator.Name, selected_emulator.Name,
                                                                      selected_emulator.Emulator,

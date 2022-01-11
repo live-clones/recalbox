@@ -75,6 +75,7 @@ def test_given_a_240ptestsuite_game_then_change_to_the_corresponfing_system():
         "gba": (Emulator("240ptestsuite", "libretro", "mgba"), "rom.gba"),
         "dreamcast": (Emulator("240ptestsuite", "libretro", "flycast"), "rom.cdi"),
         "megadrive": (Emulator("240ptestsuite", "libretro", "genesisplusgx"), "rom.bin"),
+        "playstation": (Emulator("240ptestsuite", "libretro", "swanstation"), "rom.cue"),
     }
     for system in gamesIn240PSuite.items():
         exprected_system = system[0]
