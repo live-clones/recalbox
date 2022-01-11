@@ -1,2 +1,2 @@
 #device=pi2scart
-dtoverlay=vc4-vga666
+dtoverlay=recalboxrgbdual-thirdparty
