@@ -51,6 +51,7 @@ All notable changes to this project will be documented in this file.
 - Fix PPSSPP black screen on piboy dmg (#2058)
 
 - Add default configuration for Kodi (#1927)
+- Fix WPA3 wifi connection (#1768)
 
 ## [8.0-Electron]
 - Remove non-working shaders
