@@ -1,4 +1,2 @@
 #device=recalboxrgbdual
 dtoverlay=recalboxrgbdual
-audio_pwm_mode=2
-dtoverlay=audremap,pins_18_19
