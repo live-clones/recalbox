@@ -66,6 +66,7 @@ All notable changes to this project will be documented in this file.
 - Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
 ## [NEXT]
 - Fix duckstation mapping & menu navigation
+- Fix WPA3 wifi connection (#1768)
 
 ## [8.0-Electron]
 - Remove non-working shaders
