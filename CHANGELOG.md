@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 - Fix tearing effect on odroidgo2 (#2100)
 - Add DRM info in support archive (#2102)
 - Add pulseaudio info in support archive (#2118)
+- Fix demoInfo cropped message (#2109)
+- Add 240ptestsuite Playstation for CRT (#2117)
 
 ## [8.0-Electron]
 - Remove non-working shaders

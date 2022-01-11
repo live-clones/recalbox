@@ -198,4 +198,22 @@ As a secondary target, the suite aims to provide tools for calibrating colors, b
 		<core>flycast</core>
 		<emulator>libretro</emulator>
 	</game>
+	<game id="" source="">
+		<path>240pTestSuitePS1-EMU.cue</path>
+		<name>240pTestSuite Playstation</name>
+		<desc>Test your CRT configuration with the Playstation version of the 240P TEST SUITE! The 240p test suite is a homebrew software suite for video game consoles developed to help in the evaluation of upscalers, upscan converters and line doublers.
+
+			It has tests designed with the processing of 240p signals in mind, although when possible it includes other video modes and specific tests for them. These have been tested with video processors on real hardware and a variety of displays, including CRTs and Arcade monitors via RGB.
+
+			As a secondary target, the suite aims to provide tools for calibrating colors, black and white levels for specific console outputs and setups.</desc>
+		<rating>1</rating>
+		<releasedate>20201918T000000</releasedate>
+		<developer>Filip Aláč</developer>
+		<publisher>Filip Aláč</publisher>
+		<genre>Calibration</genre>
+		<players>1</players>
+		<image>./media/images/240p-playstation.png</image>
+		<core>swanstation</core>
+		<emulator>libretro</emulator>
+	</game>
 </gameList>
