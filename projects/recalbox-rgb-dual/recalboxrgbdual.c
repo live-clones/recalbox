@@ -248,16 +248,16 @@ static int dpidac_load_config(const char *configfile) {
         if (scanret != 2) {
           printk(KERN_INFO "[RECALBOXRGBDUAL]: malformed config line, skipping (%s)\n", line);
         } else {
-          if (strcmp(optionname, "resolution") == 0) {
+          if (strcmp(optionname, "options.es.resolution") == 0) {
             printk(KERN_INFO "[RECALBOXRGBDUAL]: setting resolution to %d\n", optionvalue);
             configuration.resolution = optionvalue;
           }
-          if (strcmp(optionname, "vertical_offset") == 0) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting vertical_offset to %d\n", optionvalue);
+          if (strcmp(optionname, "mode.offset.vertical") == 0) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting mode.offset.vertical to %d\n", optionvalue);
             configuration.voffset = optionvalue;
           }
-          if (strcmp(optionname, "horizontal_offset") == 0) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting horizontal_offset to %d\n", optionvalue);
+          if (strcmp(optionname, "mode.offset.horizontal") == 0) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting mode.offset.horizontal to %d\n", optionvalue);
             configuration.hoffset = optionvalue;
           }
         }
