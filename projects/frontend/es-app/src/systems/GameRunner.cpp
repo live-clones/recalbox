@@ -321,7 +321,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data)
     if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
       // force 240p only if 240p is selected
-      if(CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240p")
+      if(CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240")
         result.append(" -crtresolutiontype ").append(data.HighResolution() ? "progressive" : "doublefreq");
       else
         result.append(" -crtresolutiontype ").append("progressive");
