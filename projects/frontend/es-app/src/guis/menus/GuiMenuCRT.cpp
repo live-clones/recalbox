@@ -16,8 +16,9 @@
 
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
-  , mOriginalDac(Board::Instance().CrtBoard().GetCrtAdapter())
 {
+  // If we run on Recalbox RGB Dual, we ignore the configuration
+  mOriginalDac = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
   // Selected Dac
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(mOriginalDac == CrtAdapterType::RGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
@@ -49,10 +50,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
-  if (mOriginalDac != mDac->getSelected())
+  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected())
     RequestReboot();
-  if (mOriginalEsResolution != mEsResolution->getSelected())
-    RequestRelaunch();
 }
 
 std::string GuiMenuCRT::Get50hz()
@@ -85,7 +84,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
     return list;
   }
 
-  CrtAdapterType selectedDac = Board::Instance().CrtBoard().GetCrtAdapter();
+  CrtAdapterType selectedDac = CrtConf::Instance().GetSystemCRT();
 
   static struct
   {
