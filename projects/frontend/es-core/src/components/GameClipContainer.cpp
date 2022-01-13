@@ -442,7 +442,7 @@ bool GameClipContainer::getHelpPrompts(Help& help)
       .Set(HelpType::Start, _("LAUNCH"))
       .Set(HelpType::Y, mGame->Metadata().Favorite() ? _("Remove from favorite") : _( "Favorite"))
       .Set(HelpType::LeftRight, _("CHANGE"))
-      .Set(HelpType::Select, _("SHOW IN LIST"));
+      .Set(HelpType::Select, _("GO TO GAME"));
 
   return true;
 }

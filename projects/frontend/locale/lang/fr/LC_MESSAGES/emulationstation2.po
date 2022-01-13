@@ -3087,6 +3087,10 @@ msgstr ""
 msgid "UNKNOWN"
 msgstr ""
 
+#
+msgid "GO TO GAME"
+msgstr "ALLER AU JEU"
+
 #~ msgid "SECURITY"
 #~ msgstr "SÉCURITÉ"
 

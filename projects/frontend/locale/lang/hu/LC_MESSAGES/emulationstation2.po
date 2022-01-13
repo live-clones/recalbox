@@ -2884,6 +2884,10 @@ msgstr ""
 msgid "UNKNOWN"
 msgstr ""
 
+#
+msgid "GO TO GAME"
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "BIZTONSÁG"
 
