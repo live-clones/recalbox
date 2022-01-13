@@ -42,7 +42,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
     m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
 
   // Screen Adjustments
-  AddSubMenu(_("SCREEN CALIBRATION"), (int)Components::Adjustment);
+  //AddSubMenu(_("SCREEN CALIBRATION"), (int)Components::Adjustment);
 
   mOriginalEsResolution = CrtConf::Instance().GetSystemCRTResolution();
 }
