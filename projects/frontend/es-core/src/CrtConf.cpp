@@ -23,10 +23,15 @@ void CrtConf::OnSave()
 
 CrtAdapterType CrtConf::CrtAdapterFromString(const std::string& adapter)
 {
-  if (adapter == "recalboxrgbdual") return CrtAdapterType::RGBDual;
-  if (adapter == "pi2scart"       ) return CrtAdapterType::Pi2Scart;
-  if (adapter == "rgbpi"          ) return CrtAdapterType::RGBPi;
-  if (adapter == "vga666"         ) return CrtAdapterType::Vga666;
+  std::string foundAdapter = adapter;
+  if(foundAdapter.empty())
+  {
+    foundAdapter = RecalboxConf::Instance().AsString("system.crt");
+  }
+  if (foundAdapter == "recalboxrgbdual") return CrtAdapterType::RGBDual;
+  if (foundAdapter == "pi2scart"       ) return CrtAdapterType::Pi2Scart;
+  if (foundAdapter == "rgbpi"          ) return CrtAdapterType::RGBPi;
+  if (foundAdapter == "vga666"         ) return CrtAdapterType::Vga666;
   return CrtAdapterType::None;
 }
 

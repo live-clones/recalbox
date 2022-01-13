@@ -151,9 +151,7 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
         mEsResolution->select("default");
       }
     }
-    else if (value != CrtAdapterType::RGBDual){
-      CrtConf::Instance().SetSystemCRT(value).Save();
-    }
+    CrtConf::Instance().SetSystemCRT(value).Save();
   }
 }
 
