@@ -47,6 +47,7 @@ bd7b8a40e74646ca35a6d2c46aeb5d47  package/rpi-firmware/rpi-firmware.hash
 5dece4b7dae97762328f69fa004e7628  package/rpi-firmware/rpi-firmware.mk
 c000be55a21b27a8f4c62c7b71479f98  package/rtl8189fs/rtl8189fs.hash
 e6ccb91b62b07c5a2ed276c24994465c  package/rtl8189fs/rtl8189fs.mk
+ed4d3dacedc22f17bb2f28449bac7c0a  package/sdl2/sdl2.hash
 3ed13cc8d0a3e1b4723b64b311a54921  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
