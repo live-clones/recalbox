@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [8.0.1-Electron]
 - Fix 4k issue on splashvideo
 - Fix pin 5/6 power script (#2067)
+- Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
