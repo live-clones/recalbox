@@ -477,6 +477,24 @@ class Path
     PathList GetDirectoryContent() const;
 
     /*!
+     * @brief Check if the current folder contains at least a file
+     * @return True if it contains at least a file, false otherwise
+     */
+    bool ContainsFile();
+
+    /*!
+     * @brief Check if the current folder contains at least a folder
+     * @return True if it contains at least a folder, false otherwise
+     */
+    bool ContainsFolders();
+
+    /*!
+     * @brief Check if the current folder contains at least a file or a folder
+     * @return True if it contains at least a file or a folder, false otherwise
+     */
+    bool ContainsFileOrFolders();
+
+    /*!
      * @brief Rename a from "from" to "to"
      * @param from Source path
      * @param to Destination path

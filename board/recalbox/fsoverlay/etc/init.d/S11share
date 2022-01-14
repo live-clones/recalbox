@@ -189,6 +189,10 @@ executeNetworkMountDirective() {
       "SCREENSHOTS") mountPoint="/recalbox/share/screenshots" ;;
       "SHADERS") mountPoint="/recalbox/share/shaders" ;;
       "SCRIPTS") mountPoint="/recalbox/share/userscripts" ;;
+      "ROMS0") mountPoint="/recalbox/share/externals/network0" ;;
+      "ROMS1") mountPoint="/recalbox/share/externals/network1" ;;
+      "ROMS2") mountPoint="/recalbox/share/externals/network2" ;;
+      "ROMS3") mountPoint="/recalbox/share/externals/network3" ;;
       *)
         echo "Invalid mount target '${target}'. Ignoring directive 'sharenetwork_${1}=${directive}'." | tee -a "${logFile}" >&2
         return 2
@@ -199,11 +203,11 @@ executeNetworkMountDirective() {
       "nfs")
         defaultMountOptions="-o port=2049,nolock,proto=tcp"
         [ -n "${mountOptions}" ] && mountOptions=",${mountOptions}"
-        commandToRun="mount ${defaultMountOptions}${mountOptions} ${remoteHost}:${remotePath} ${mountPoint}"
+        commandToRun="mkdir -p ${mountPoint} && mount ${defaultMountOptions}${mountOptions} ${remoteHost}:${remotePath} ${mountPoint}"
         ;;
       "smb")
         [ -n "${mountOptions}" ] && mountOptions="-o ${mountOptions}"
-        commandToRun="mount.cifs ${mountOptions} //${remoteHost}/${remotePath} ${mountPoint}"
+        commandToRun="mkdir -p ${mountPoint} && mount.cifs ${mountOptions} //${remoteHost}/${remotePath} ${mountPoint}"
         ;;
       *)
         echo "Invalid directive type '${directiveType}'. Ignoring directive 'sharenetwork_${1}=${directive}'." | tee -a "${logFile}" >&2
@@ -314,14 +318,12 @@ case "${shareDeviceMode}" in
   "RAM")
     mountTmpfs
     ;;
-  "NETWORK")
-    mountInternal # this allows network mounts for some targets only (roms, saves, bios, music, …)
-    mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err
-    ;;
-  "INTERNAL"|*)
+  "INTERNAL"|"NETWORK"|*) # this allows network mounts for some targets only (roms, saves, bios, music, …)
     mountInternal
     ;;
 esac
+# Mount remote folders & additionel shares
+mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err
 
 # Now, let's mount delayed usbmount devices
 ls /var/run/usbmount.delay |

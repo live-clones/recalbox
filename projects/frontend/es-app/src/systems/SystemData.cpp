@@ -469,9 +469,17 @@ void SystemData::UpdateLastPlayedGame(FileData& updated)
 
 RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
 {
-  for(RootFolderData* root : mRootOfRoot.SubRoots())
-    if (root->RootType() == type)
-      return root;
+  for(RootFolderData* rootFolder : mRootOfRoot.SubRoots())
+    if (rootFolder->RootType() == type)
+      return rootFolder;
+  return nullptr;
+}
+
+RootFolderData* SystemData::GetRootFolder(const Path& root)
+{
+  for(RootFolderData* rootFolder : mRootOfRoot.SubRoots())
+    if (rootFolder->FilePath() == root)
+      return rootFolder;
   return nullptr;
 }
 
@@ -485,7 +493,7 @@ RootFolderData& SystemData::CreateRootFolder(const Path& startpath, RootFolderDa
 RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership,
                                                     RootFolderData::Types type)
 {
-  RootFolderData* lookup = GetRootFolder(type);
+  RootFolderData* lookup = GetRootFolder(startpath);
   if (lookup != nullptr) return *lookup;
 
   return CreateRootFolder(startpath, childownership, type);
@@ -493,8 +501,7 @@ RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, Root
 
 FolderData& SystemData::GetFavoriteRoot()
 {
-  if (!IsFavorite())
-  {LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
+  if (!IsFavorite()) {LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
   return LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
 }
 

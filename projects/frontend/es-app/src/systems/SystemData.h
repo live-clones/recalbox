@@ -101,10 +101,17 @@ class SystemData : private INoCopy
 
     /*!
      * @brief Get root folder of the given type
-     * @param type Type to lookup
+     * @param type root type
      * @return Found root or nullptr
      */
     RootFolderData* GetRootFolder(RootFolderData::Types type);
+
+    /*!
+     * @brief Get root folder of the given type
+     * @param root root path
+     * @return Found root or nullptr
+     */
+    RootFolderData* GetRootFolder(const Path& root);
 
     /*!
      * @brief Create new root folder
