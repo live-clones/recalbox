@@ -23,7 +23,10 @@ set(ES_HEADERS
         src/systems/EmulatorList.h
         src/systems/EmulatorManager.h
         src/systems/GameRunner.h
+        src/systems/IMountMonitorNotifications.h
+        src/systems/IRomFolderChangeNotification.h
         src/systems/LightGunDatabase.h
+        src/systems/MountMonitor.h
         src/systems/NetPlayData.h
         src/systems/CrtData.h
         src/systems/GameLinkedData.h
@@ -229,6 +232,7 @@ set(ES_SOURCES
         src/systems/EmulatorList.cpp
         src/systems/GameRunner.cpp
         src/systems/LightGunDatabase.cpp
+        src/systems/MountMonitor.cpp
         src/systems/SystemData.cpp
         src/systems/SystemDescriptor.cpp
         src/systems/SystemDeserializer.cpp

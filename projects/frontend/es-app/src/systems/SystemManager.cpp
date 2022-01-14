@@ -23,14 +23,21 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
   if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
   {
     std::string rootTag(sRootTag);
+    // Share_init roms
     Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareInitRomRoot));
     if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
+
     if (port != PortTypes::ShareInitOnly)
     {
+      // Share roms
       root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareRomRoot));
       if (root.Exists()) roots[root.ToString()] = false;
-      root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sRemoteRomRoot));
-      if (root.Exists()) roots[root.ToString()] = false;
+      // External mount points
+      for(const Path& externalRoms : mMountPoints)
+      {
+        root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, externalRoms.ToString()));
+        if (root.Exists()) roots[root.ToString()] = false;
+      }
     }
   }
   else
@@ -45,8 +52,8 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
       if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
       if (port != PortTypes::ShareInitOnly)
       {
-        root = Path(sShareRomRoot) / relative;  if (root.Exists()) roots[root.ToString()] = false;
-        root = Path(sRemoteRomRoot) / relative; if (root.Exists()) roots[root.ToString()] = false;
+        root = Path(sShareRomRoot) / relative;
+        if (root.Exists()) roots[root.ToString()] = false;
       }
     }
     else
@@ -101,6 +108,10 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
 
     // Populate items from gamelist.xml
     result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
+
+    #ifdef DEBUG
+    { LOG(LogInfo) << "[System] " << root.CountAll(true, true) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
+    #endif
 
     // Game In Png?
     if ((properties & SystemData::Properties::GameInPng) != 0)
@@ -568,14 +579,19 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       {
         // Get weight
         int weight = weights.GetInt(descriptor.FullName(), 0);
-        // Add system name and watch gamelist
+        // Add system name and raw rompath
         mAllDeclaredSystemShortNames.push_back(descriptor.Name());
+        mAllDeclaredSystemRomPathes.push_back(descriptor.RomPath());
         // Push weighted system
         threadPool.PushFeed(descriptor, weight);
       }
       else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
     }
   }
+
+  // Initialize external mount points first so that they can be used in system loading
+  InitializeMountPoints();
+
   // Run the threadpool and automatically wait for all jobs to complete
   int count = threadPool.PendingJobs();
   if (mProgressInterface != nullptr)
@@ -682,7 +698,7 @@ void SystemManager::UpdateAllSystems()
   DateTime start;
 
   if (mProgressInterface != nullptr)
-    mProgressInterface->SetMaximum(mAllSystemVector.size());
+    mProgressInterface->SetMaximum((int)mAllSystemVector.size());
   // Create automatic thread-pool
   ThreadPool<SystemData*, bool> threadPool(this, "System-Save", false, 20);
   // Push system to process
@@ -798,4 +814,91 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
       results.push_back(sr.Data);
 
   return results;
+}
+
+void SystemManager::DeviceUnmount(const Path& mountpoint)
+{
+  for(const SystemData* system : mAllSystemVector)
+    for(const RootFolderData* root : system->MasterRoot().SubRoots())
+      if (root->FilePath().StartWidth(mountpoint))
+        if (root->HasGame())
+        {
+          LOG(LogWarning) << "[SystemManager] " << mountpoint.ToString() << " used at least in " << system->FullName();
+          mRomFolderChangeNotificationInterface.RomPathRemoved(mountpoint.Directory());
+          return;
+        }
+}
+
+void SystemManager::DeviceMount(const Path& mountpoint)
+{
+  Path romPath;
+  if (CheckMountPoint(mountpoint, romPath))
+  {
+    LOG(LogInfo) << "[SystemManager] " << mountpoint.ToString() << " contains rom folder " << romPath.ToString();
+    mRomFolderChangeNotificationInterface.RomPathAdded(romPath);
+  }
+  else
+  {
+    LOG(LogWarning) << "[SystemManager] " << mountpoint.ToString() << " does not contain any known rom folder";
+    mRomFolderChangeNotificationInterface.NoRomPathFound(mountpoint);
+  }
+}
+
+bool SystemManager::CheckMountPoint(const Path& root, Path& outputRomPath)
+{
+  static const Path pathes[] =
+  {
+    Path("recalbox/roms"),
+    Path("roms"),
+    Path(""),
+  };
+
+  // Check known inner path
+  for(const Path& romPath : pathes)
+  {
+    Path main = root / romPath;
+    if (main.Exists())
+      for(const Path& rawPath : mAllDeclaredSystemRomPathes) // Then check system path
+      {
+        Path systemPath(Strings::Replace(rawPath.ToString(), sRootTag, main.ToString()));
+        if (systemPath.Exists())
+          if (systemPath.ContainsFile())
+          {
+            outputRomPath = main;
+            return true;
+          }
+      }
+  }
+
+  return false;
+}
+
+void SystemManager::InitializeMountPoints()
+{
+  Path romPath;
+  for(const Path& root : mMountPointMonitoring.MountPoints())
+    if (CheckMountPoint(root, romPath))
+    {
+      mMountPoints.push_back(romPath);
+      LOG(LogInfo) << "[SystemManager] " << romPath.ToString() << " identified as a valid rom folder";
+    }
+}
+
+void SystemManager::CreateRomFoldersIn(const Path& path)
+{
+  Path shareUpgrade(sShareUpgradeRomRoot);
+  Path::PathList romFolders = shareUpgrade.GetDirectoryContent();
+  // Create share folder
+  for(const Path& romFolder : romFolders)
+    if (romFolder.IsDirectory())
+    {
+      Path destination = path / "recalbox/roms" / romFolder.Filename();
+      destination.CreatePath();
+      // Copy
+      Path::PathList templates = romFolder.GetDirectoryContent();
+      for(const Path& file : templates)
+        if (file.Extension() == ".txt")
+          if (Strings::StartsWith(file.Filename(),LEGACY_STRING("_")))
+            Files::SaveFile(destination / file.Filename(), Files::LoadFile(file));
+    }
 }
