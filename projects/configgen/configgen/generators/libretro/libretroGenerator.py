@@ -131,10 +131,7 @@ class LibretroGenerator(Generator):
         from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
         from configgen.crt.CRTConfigParser import CRTConfigParser
         from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
-        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(),
-                                                      system.CRTVerticalOffset,
-                                                      system.CRTHorizontalOffset,
-                                                      system.CRTViewportWidth)
+        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter())
         for option in libretro_crt_configurator.createConfigFor(system, rom).items():
             retroarchConfig.setString(option[0], option[1])
         # Core configuration

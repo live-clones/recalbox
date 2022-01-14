@@ -10,13 +10,9 @@ from configgen.utils.recallog import recallog
 
 class LibretroConfigCRT:
 
-    def __init__(self, crt_config_parser: CRTConfigParser, crt_mode_processor: CRTModeOffsetter, v_offset: int = 0,
-                 h_offset: int = 0, viewport_width: int = 0):
+    def __init__(self, crt_config_parser: CRTConfigParser, crt_mode_processor: CRTModeOffsetter):
         self.crt_config_parser = crt_config_parser
         self.crt_mode_processor = crt_mode_processor
-        self.h_offset = h_offset
-        self.v_offset = v_offset
-        self.viewport_width = viewport_width
 
     def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, rotation: int) -> \
             typing.Dict[
@@ -31,9 +27,16 @@ class LibretroConfigCRT:
             config["crt_switch_timings_" + region] = '"' + mode.timings() + '"'
             config["video_refresh_rate_" + region] = '"{}"'.format(mode.refresh_rate)
 
-        if viewport_height > 0 or viewport_width > 0:
-            config["aspect_ratio_index"] = '23'
-            extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
+        config["aspect_ratio_index"] = '23'
+        extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
+
+        if rotation == 1:
+            config["video_smooth"] = '"true"'
+
+        if rotation == 1 and (viewport_height + viewport_width == 0):
+            # Change the ratio to 1920 core only if no viewport info is given
+            config["aspect_ratio_index"] = '25'
+        else:
             for region in extension:
                 config["custom_viewport_width" + region] = viewport_width if viewport_width > 0 else mode.width
                 config[
@@ -41,13 +44,10 @@ class LibretroConfigCRT:
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
                 config["custom_viewport_y" + region] = (
                                                                mode.height - viewport_height) // 2 if viewport_height > 0 else 0
-        else:
-            if rotation == 1:
-                config["aspect_ratio_index"] = '25'
-                config["video_smooth"] = '"true"'
+
         return config
 
-    def select_width(self, mode_viewport_width: int, rotation: int = 0):
+    def select_width(self, system: Emulator, mode_viewport_width: int, rotation: int = 0):
         if rotation:
             if mode_viewport_width > 0:
                 return mode_viewport_width
@@ -55,7 +55,7 @@ class LibretroConfigCRT:
                 return 0
         if mode_viewport_width > 0:
             return mode_viewport_width
-        return self.viewport_width
+        return system.CRTViewportWidth
 
     def get_default_mode_name_for_config(self, screentype: CRTScreenType, region: CRTRegion,
                                          resolutiontype: CRTResolutionType):
@@ -71,7 +71,7 @@ class LibretroConfigCRT:
                 return "default:pal:288@50"
 
     def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
-        config: typing.Dict[str, str] = {"aspect_ratio_index": "24",
+        config: typing.Dict[str, str] = {"aspect_ratio_index": "23",
                                          "video_aspect_ratio_auto": '"false"',
                                          "crt_switch_timings_pal": "",
                                          "crt_switch_timings_ntsc": "",
@@ -116,16 +116,15 @@ class LibretroConfigCRT:
                 for region in [CRTRegion.PAL, CRTRegion.NTSC]:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
-                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
-                                                 self.viewport_width, 0, 0))
+                            self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset, system.CRTVerticalOffset),
+                                                 system.CRTViewportWidth, 0, 0))
                 recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
                 default = False
             else:
                 game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
                 if game_config is not None:
                     mode_id = game_config[1]
-                    mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), self.h_offset,
-                                                               self.v_offset)
+                    mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), system.CRTHorizontalOffset, system.CRTVerticalOffset)
                     rotation = game_config[4]
                     recallog(
                         "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
@@ -133,7 +132,7 @@ class LibretroConfigCRT:
                         log_type="CRT")
 
                     config.update(
-                        self.createConfigForMode("all", mode, self.select_width(game_config[2], rotation),
+                        self.createConfigForMode("all", mode, self.select_width(system, game_config[2], rotation),
                                                  game_config[3], rotation))
                     default = False
                 else:
@@ -147,14 +146,14 @@ class LibretroConfigCRT:
                     if system_config is not None:
                         mode_id = system_config[3]
                         mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
-                                                                   self.h_offset,
-                                                                   self.v_offset)
+                                                                   system.CRTHorizontalOffset,
+                                                                   system.CRTVerticalOffset)
                         recallog(
                             "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
                                                                                         mode_id),
                             log_type="CRT")
                         config.update(
-                            self.createConfigForMode(region, mode, self.select_width(system_config[4]),
+                            self.createConfigForMode(region, mode, self.select_width(system, system_config[4]),
                                                      system_config[5], 0))
                         default = False
                     else:
@@ -167,15 +166,14 @@ class LibretroConfigCRT:
                                                                   system.CRTResolutionType)
                 if system_config is not None:
                     mode_id = system_config[3]
-                    mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), self.h_offset,
-                                                               self.v_offset)
+                    mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), system.CRTHorizontalOffset, system.CRTVerticalOffset)
                     for region in [CRTRegion.PAL, CRTRegion.NTSC]:
                         recallog(
                             "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
                                                                                         mode_id),
                             log_type="CRT")
                         config.update(
-                            self.createConfigForMode(region, mode, self.select_width(system_config[4]),
+                            self.createConfigForMode(region, mode, self.select_width(system, system_config[4]),
                                                      system_config[5], 0))
                     default = False
         if default:
@@ -187,7 +185,7 @@ class LibretroConfigCRT:
                                                                              system.CRTResolutionType)
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
-                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
+                            self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset, system.CRTVerticalOffset),
                                                  width, 0, 0))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
 
@@ -197,7 +195,7 @@ class LibretroConfigCRT:
                 for region in [CRTRegion.PAL, CRTRegion.NTSC]:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
-                            self.crt_config_parser.loadMode(defaultMode), self.h_offset, self.v_offset),
+                            self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset, system.CRTVerticalOffset),
                                                  width, 0, 0))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
         if system.Name in ["wswan", "wswanc"]:
