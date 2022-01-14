@@ -16,10 +16,10 @@ CrtView::CrtView(WindowManager& window)
   : Gui(window)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
-  , mEvent(this)
   , mOriginalVOffset(CrtConf::Instance().GetSystemCRTVerticalOffset())
   , mOriginalHOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset())
   , mOriginalViewportWidth(CrtConf::Instance().GetSystemCRTViewportWidth())
+  , mEvent(this)
 {
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());

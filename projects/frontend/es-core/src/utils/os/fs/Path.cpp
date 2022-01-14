@@ -35,7 +35,7 @@ void Path::Normalize()
   // Remove single colon
   if (mPath.find(sSingleDotPath) != std::string::npos)
     mPath = Strings::Replace(mPath, sSingleDotPath, sSeparatorString);
-  int size = mPath.size();
+  int size = (int)mPath.size();
   if (size == 1 && mPath[0] == '.')
     mPath.clear();
   if (size > 2)
@@ -147,7 +147,7 @@ Path Path::operator/(const Path& path) const
 Path Path::Directory() const
 {
   const char* p = mPath.c_str(); // Char pointer is faster
-  for(int i=mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
       if (i != 0)
         return (strcmp(p + i + 1, "..") == 0) ?
@@ -159,7 +159,7 @@ Path Path::Directory() const
 std::string Path::Filename() const
 {
   const char* p = mPath.c_str(); // Char pointer is faster
-  for(int i=mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
         return mPath.substr(i + 1);
   return mPath;
@@ -171,7 +171,7 @@ std::string Path::FilenameWithoutExtension() const
   int startExt = 0;
   // Extract filename
   const char* p = mPath.c_str(); // Char pointer is faster
-  for(int i=mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
     {
       start = i + 1;
@@ -181,7 +181,7 @@ std::string Path::FilenameWithoutExtension() const
 
   // Remove extention
   while(p[++startExt] == '.');
-  for(int i=mPath.size(); --i >= startExt;)
+  for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
       return mPath.substr(start, i - start);
 
@@ -194,7 +194,7 @@ std::string Path::Extension() const
   int startExt = 0;
   // Extract filename
   const char* p = mPath.c_str(); // Char pointer is faster
-  for(int i=mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
     {
       startExt = i;
@@ -203,7 +203,7 @@ std::string Path::Extension() const
 
   // Get extention
   while(p[++startExt] == '.');
-  for(int i=mPath.size(); --i >= startExt;)
+  for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
       return mPath.substr(i);
 
@@ -216,7 +216,7 @@ Path Path::ChangeExtension(const std::string& newext) const
   int startExt = 0;
   // Extract filename
   const char* p = mPath.c_str(); // Char pointer is faster
-  for(int i=mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
     {
       startExt = i;
@@ -225,7 +225,7 @@ Path Path::ChangeExtension(const std::string& newext) const
 
   // Get extention
   while(p[++startExt] == '.');
-  for(int i=mPath.size(); --i >= startExt;)
+  for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
     {
       Path newPath(mPath.substr(0, i));
@@ -370,7 +370,7 @@ Path Path::ToCanonical() const
   strncpy(path, IsResolved ? ResolveSymbolicLink(canonical.ToChars()).c_str() : canonical.ToChars(), PATH_MAX);
 
   // Reverse search - everything to the right of the index is already processed
-  for(int i = mPath.size(); --i >= 0;)
+  for(int i = (int)mPath.size(); --i >= 0;)
     if (path[i] == sSeparator)
     {
       path[i] = '\0';                                       // Temporarily close the string
@@ -378,7 +378,7 @@ Path Path::ToCanonical() const
         if (S_ISLNK(info.st_mode))
         {
           std::string resolved = ResolveSymbolicLink(path); // Resolve the path
-          int newIndex = resolved.size();                   // Save the index right after the new resolved path
+          int newIndex = (int)resolved.size();                   // Save the index right after the new resolved path
           resolved.append(1, sSeparator);                // Add separator
           resolved.append(path + i + 1);                 // Add remaining path
           i = newIndex;                                     // Start the scan in the resolved path
@@ -410,7 +410,7 @@ Path Path::Cwd()
 {
   char path[PATH_MAX];
   if (getcwd(path, sizeof(path)) != nullptr) return Path(path); // Got it!
-  return Path::Empty;                                                // Not lucky...
+  return Path::Empty;                                           // Not lucky...
 }
 
 Path::PathList Path::GetDirectoryContent() const
@@ -479,10 +479,10 @@ std::string Path::MakeEscaped() const
 
   static std::string invalidChars = " '\"\\!$^&*(){}[]?;<>";
   const char* invalids = invalidChars.c_str();
-  for(int i = escaped.size(); --i >= 0; )
+  for(int i = (int)escaped.size(); --i >= 0; )
   {
     char c = escaped.c_str()[i];
-    for(int j = invalidChars.size(); --j >= 0; )
+    for(int j = (int)invalidChars.size(); --j >= 0; )
       if (c == invalids[j])
       {
         escaped.insert(i, "\\");
@@ -520,5 +520,98 @@ bool Path::Delete() const
 bool Path::Rename(const Path& from, const Path& to)
 {
   return rename(from.ToChars(), to.ToChars()) == 0;
+}
+
+bool Path::ContainsFile()
+{
+  constexpr unsigned int dot    = (unsigned int)sDotDirectory;
+  constexpr unsigned int dotdot = (unsigned int)sDotDirectory | ((unsigned int)sDotDirectory << 8);
+
+  DIR* dir = opendir(mPath.c_str());
+  bool found = false;
+  if(dir != nullptr)
+  {
+    const struct dirent* entry = nullptr;
+    // loop over all files in the directory
+    while((entry = readdir(dir)) != nullptr)
+    {
+      // Ignore "." and ".."
+      unsigned int strint = *((unsigned int*)entry->d_name);
+      if ((strint &   0xFFFF) == dot   ) continue;
+      if ((strint & 0xFFFFFF) == dotdot) continue;
+
+      // File?
+      if (entry->d_type == DT_REG)
+      {
+        found = true;
+        break;
+      }
+    }
+    closedir(dir);
+  }
+
+  return found;
+}
+
+bool Path::ContainsFolders()
+{
+  constexpr unsigned int dot    = (unsigned int)sDotDirectory;
+  constexpr unsigned int dotdot = (unsigned int)sDotDirectory | ((unsigned int)sDotDirectory << 8);
+
+  DIR* dir = opendir(mPath.c_str());
+  bool found = false;
+  if(dir != nullptr)
+  {
+    const struct dirent* entry = nullptr;
+    // loop over all files in the directory
+    while((entry = readdir(dir)) != nullptr)
+    {
+      // Ignore "." and ".."
+      unsigned int strint = *((unsigned int*)entry->d_name);
+      if ((strint &   0xFFFF) == dot   ) continue;
+      if ((strint & 0xFFFFFF) == dotdot) continue;
+
+      // Folder?
+      if (entry->d_type == DT_DIR)
+      {
+        found = true;
+        break;
+      }
+    }
+    closedir(dir);
+  }
+
+  return found;
+}
+
+bool Path::ContainsFileOrFolders()
+{
+  constexpr unsigned int dot    = (unsigned int)sDotDirectory;
+  constexpr unsigned int dotdot = (unsigned int)sDotDirectory | ((unsigned int)sDotDirectory << 8);
+
+  DIR* dir = opendir(mPath.c_str());
+  bool found = false;
+  if(dir != nullptr)
+  {
+    const struct dirent* entry = nullptr;
+    // loop over all files in the directory
+    while((entry = readdir(dir)) != nullptr)
+    {
+      // Ignore "." and ".."
+      unsigned int strint = *((unsigned int*)entry->d_name);
+      if ((strint &   0xFFFF) == dot   ) continue;
+      if ((strint & 0xFFFFFF) == dotdot) continue;
+
+      // File or Folder?
+      if (entry->d_type == DT_REG || entry->d_type == DT_DIR)
+      {
+        found = true;
+        break;
+      }
+    }
+    closedir(dir);
+  }
+
+  return found;
 }
 
