@@ -60,7 +60,7 @@ function migrate {
         mount -o remount,rw /boot
         echo "adapter.type = ${DAC}" > ${CRT_OPTIONS_FILE}
         mount -o remount,ro /boot
-        sed -i "/recalbox.crt=.*/d" "${RECALBOX_CONF}"
+        sed -i "/system\.crt=.*/d" "${RECALBOX_CONF}"
     fi
 }
 
