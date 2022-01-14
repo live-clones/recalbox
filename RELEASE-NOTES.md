@@ -49,6 +49,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix wifi password that could not contain & character
 
+## Version 8.0.3-Electron
+- Fix kodi sound on Raspberry Pi 3
 
 ## Version 8.0.2-Electron
 
