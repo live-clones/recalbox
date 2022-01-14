@@ -16,6 +16,9 @@ declare -A ES_CLEAN_CONFIG=( \
     )
 
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
+CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
+CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
+DAC_DIRECTORY="/boot/crt/dacs"
 
 function configure_es {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
@@ -50,9 +53,22 @@ function unconfigure {
     done
 }
 
+function migrate {
+    CONFIG_LINE=$(grep -m 1 -e "^system\.crt=.*" "${RECALBOX_CONF}")
+    DAC=${CONFIG_LINE##*=}
+    if [ "${DAC}" != "" ];then
+        mount -o remount,rw /boot
+        echo "adapter.type = ${DAC}" > ${CRT_OPTIONS_FILE}
+        mount -o remount,ro /boot
+        sed -i "/system\.crt=.*/d" "${RECALBOX_CONF}"
+    fi
+}
+
 if test "$1" == "start" ; then
     RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
     RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
+
+    migrate
 
     # RRGBD installation
     if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
@@ -61,7 +77,6 @@ if test "$1" == "start" ; then
         mount -o remount,rw /boot
         touch "${RRGBDUAL_LASTBOOT}"
         mount -o remount,ro /boot
-        es start
         exit 0
     fi
 
@@ -76,11 +91,8 @@ if test "$1" == "start" ; then
     fi
 
     # Other dacs
-    CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
-    CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
     CONFIG_LINE=$(grep -m 1 -e "^adapter\.type = .*" "${CRT_OPTIONS_FILE}")
     DAC=${CONFIG_LINE##*"= "}
-    DAC_DIRECTORY="/boot/crt/dacs"
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
