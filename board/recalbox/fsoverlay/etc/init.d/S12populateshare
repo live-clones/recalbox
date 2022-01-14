@@ -32,6 +32,7 @@ done
 # force the creation of some directories
 for DIR in cheats \
            themes \
+           externals/{usb0,usb1,usb2,usb3,usb4,usb5,usb6,usb7,network0,network1,network2,network3} \
            system/.cache \
            system/.config/lirc \
            system/.config/residualvm \
