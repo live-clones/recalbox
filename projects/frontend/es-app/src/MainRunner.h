@@ -30,6 +30,7 @@ class MainRunner
   , private IFileSystemWatcherNotification
   , public IHardwareNotifications
   , private ILongExecution<HardwareTriggeredSpecialOperations, bool>
+  , private IRomFolderChangeNotification
 {
   public:
     //! Pending Exit
@@ -94,6 +95,11 @@ class MainRunner
 
     //! Window reference
     ApplicationWindow* mApplicationWindow;
+
+    //! Known added devices
+    HashSet<std::string> mAddedDevices;
+    //! Known removed devices
+    HashSet<std::string> mRemovedDevices;
 
     /*!
      * @brief Reset last exit state
@@ -295,4 +301,25 @@ class MainRunner
      * @param state True to set debug logs on
      */
     static void SetDebugLogs(bool state);
+    /*
+     * RomFolderChangeNotification implementaton
+     */
+
+    /*!
+     * @brief Notify a new rompath has been added
+     * @param root rompath added
+     */
+    void RomPathAdded(const DeviceMount& root) override;
+
+    /*!
+     * @brief Notify an existing reompath has been removed
+     * @param root rompath removed
+     */
+    void RomPathRemoved(const DeviceMount& root) override;
+
+    /*!
+     * @brief Notify a device has been added with no valid rom path found
+     * @param deviceRoot Device mount point
+     */
+    void NoRomPathFound(const DeviceMount& deviceRoot) override;
 };

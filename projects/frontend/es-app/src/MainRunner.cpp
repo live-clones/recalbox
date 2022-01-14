@@ -87,7 +87,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Initialize main Window and ViewController
-    SystemManager systemManager;
+    SystemManager systemManager(*this);
     ApplicationWindow window(systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     InputManager::Instance().Initialize();
@@ -800,4 +800,56 @@ void MainRunner::VolumeIncrease(BoardType board, float percent)
   AudioController::Instance().SetVolume(value);
   RecalboxConf::Instance().SetAudioVolume(value);
   RecalboxConf::Instance().Save();
+}
+
+void MainRunner::RomPathAdded(const DeviceMount& device)
+{
+  if (mAddedDevices.contains(device.Device().ToString()))
+  {
+    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (add)"; }
+    return;
+  }
+  mAddedDevices.insert(device.Device().ToString());
+
+  std::string text = _("The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games.");
+  Strings::ReplaceAllIn(text, "%NAME%", device.Name());
+  GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); }, _("LATER"), []{});
+  mApplicationWindow->pushGui(msgBox);
+}
+
+void MainRunner::RomPathRemoved(const DeviceMount& device)
+{
+  if (mRemovedDevices.contains(device.Device().ToString()))
+  {
+    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (remove)"; }
+    return;
+  }
+  mRemovedDevices.erase(device.Device().ToString());
+
+  (void)device;
+  std::string text = _("A device containing roms has been unplugged! EmulationStation must relaunch to remove unavailable games.");
+  GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); }, _("LATER"), []{});
+  mApplicationWindow->pushGui(msgBox);
+}
+
+void MainRunner::NoRomPathFound(const DeviceMount& device)
+{
+  if (mAddedDevices.contains(device.Device().ToString()))
+  {
+    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (add)"; }
+    return;
+  }
+  mAddedDevices.insert(device.Device().ToString());
+
+  auto lambda = [this, device]
+  {
+    // Initialize device
+    SystemManager::CreateRomFoldersIn(device.MountPoint());
+    mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Your USB device has been initialized! You can unplug it and copy your games on it."),
+                                                      30, GuiInfoPopup::PopupType::Recalbox));
+  };
+  std::string text = _("The USB device %NAME% with no rom folder has been plugged in. Would you like to create rom folders on this device?");
+  Strings::ReplaceAllIn(text, "%NAME%", device.Name());
+  GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("YES"), lambda, _("NO"), [] { });
+  mApplicationWindow->pushGui(msgBox);
 }
