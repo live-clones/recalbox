@@ -1,19 +1,22 @@
 #pragma once
 
-#include "SystemData.h"
-#include "SystemDescriptor.h"
-#include "EmulatorManager.h"
+#include <systems/SystemData.h>
+#include <systems/SystemDescriptor.h>
+#include <systems/EmulatorManager.h>
+#include <systems/MountMonitor.h>
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/cplusplus/INoCopy.h>
 #include <views/IProgressInterface.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <utils/os/system/Mutex.h>
+#include "IRomFolderChangeNotification.h"
 
 class SystemManager :
   private INoCopy, // No copy allowed
   public IThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
-  public IThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
+  public IThreadPoolWorkerInterface<SystemData*, bool>, // Multi-threaded system unloading
+  public IMountMonitorNotifications
 {
   public:
     //! Convenient alias for System list
@@ -48,8 +51,8 @@ class SystemManager :
     static constexpr const char* sShareRomRoot = "/recalbox/share/roms";
     //! Read-only share roms
     static constexpr const char* sShareInitRomRoot = "/recalbox/share_init/roms";
-    //! Remote roms
-    static constexpr const char* sRemoteRomRoot = "/recalbox/share/romsnetwork";
+    //! Update share roms
+    static constexpr const char* sShareUpgradeRomRoot = "/recalbox/share_upgrade/roms";
 
     //! Special process of ports
     enum class PortTypes
@@ -59,6 +62,17 @@ class SystemManager :
         ShareOnly,     //!< From share only
     };
 
+    enum class RomStructure
+    {
+      None,   //!< No rom structure at all
+      Empty,  //!< Rom structure exists but empty
+      Filled, //!< Rom structure with roms inside
+    };
+
+    //! Mount points
+    Path::PathList mMountPoints;
+    //! Mount point monitoring
+    MountMonitor mMountPointMonitoring;
     //! Emulator manager
     EmulatorManager mEmulatorManager;
     //! Emulator manager guard
@@ -75,12 +89,40 @@ class SystemManager :
 
     //! All declared system names
     std::vector<std::string> mAllDeclaredSystemShortNames;
+    //! All declared system rom path
+    Path::PathList mAllDeclaredSystemRomPathes;
 
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
+    //! Rom path change notifications interface
+    IRomFolderChangeNotification& mRomFolderChangeNotificationInterface;
 
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
+
+    /*!
+     * @brief Check if there are at least one file from the given path whose extension is in the given set
+     * @param path Path (folder) to check files in
+     * @param extensionSet Extension list to check files against
+     * @return True if a file with a matchng extension has been found, false otherwise
+     */
+    static bool HasFileWithExt(const Path& path, HashSet<std::string>& extensionSet);
+
+    //! Build all extention set from all systems
+    HashSet<std::string> BuildAllExtensions();
+
+    /*!
+     * @brief Check if the root folder contains at least a valid rom path and return it
+     * @param root Root mount point
+     * @param romPath Output rom path found
+     * @return True if a rom path has been found and stored in romPath. False otherwise
+     */
+    RomStructure CheckMountPoint(const DeviceMount& root, Path& romPath);
+
+    /*!
+     * @brief Initialize initial mount points
+     */
+    void InitializeMountPoints();
 
     /*!
      * @brief Create and add the favorite meta-system
@@ -156,7 +198,7 @@ class SystemManager :
      * @param systemDescriptor System descriptor
      * @return Rom source folders and associated RW/RO states
      */
-    static RomSources GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port);
+    RomSources GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port);
 
     /*!
      * @brief Create regular system from a SystemDescriptor object
@@ -240,13 +282,31 @@ class SystemManager :
 	 */
     static void SystemSorting(std::vector<SystemData*>& systems, const std::vector<SystemData *>& originalSystems);
 
+    /*
+     * IMountMonitorNotifications implementation
+     */
+
+    /*!
+     * @brief Notify a new device partition has been mounted
+     * @param root Mount Point
+     */
+    void NotifyDeviceMount(const DeviceMount& root) override;
+
+    /*!
+     * @brief Notify a new device partition has been unmounted
+     * @param root Mount Point
+     */
+    void NotifyDeviceUnmount(const DeviceMount& root) override;
+
   public:
     /*!
      * @brief constructor
      */
-    SystemManager()
-     : mProgressInterface(nullptr),
-       mForceReload(false)
+    explicit SystemManager(IRomFolderChangeNotification& interface)
+      : mMountPointMonitoring(this)
+      , mProgressInterface(nullptr)
+      , mRomFolderChangeNotificationInterface(interface)
+      , mForceReload(false)
     {
     }
 
@@ -396,4 +456,10 @@ class SystemManager :
 
     //! Sort or resort system list
     void SystemSorting();
+
+    /*!
+     * @brief Create an empty rom structure in
+     * @param path
+     */
+    static void CreateRomFoldersIn(const Path& path);
 };

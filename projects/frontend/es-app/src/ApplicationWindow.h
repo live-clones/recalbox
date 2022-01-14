@@ -29,8 +29,8 @@ class ApplicationWindow: public WindowManager
      * @param systemManager Systeme manager instance
      */
     explicit ApplicationWindow(SystemManager& systemManager)
-      : mViewController(*this, systemManager),
-        mClosed(false)
+      : mViewController(*this, systemManager)
+      , mClosed(false)
     {
     }
 
