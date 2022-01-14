@@ -9,24 +9,25 @@
 #define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
 SplashView::SplashView(WindowManager& window)
-  : Gui(window),
-    mLogo(window, true, true),
-    mLoading(window, _("LOADING..."), Font::get(Renderer::Instance().IsSmallResolution() ? (int)(FONT_SIZE_LOADING) : (int)(FONT_SIZE_MEDIUM)), 0),
-    mSystemCount(0),
-    mSystemLoaded(0)
+  : Gui(window)
+  , mLogo(window, true, true)
+  , mLoading(window, _("LOADING..."), Font::get(Renderer::Instance().IsSmallResolution() ? (int)(FONT_SIZE_LOADING) : (int)(FONT_SIZE_MEDIUM)), 0)
+  , mSystemCount(0)
+  , mSystemLoaded(0)
+  , mIsRGBDual(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
 {
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   mLogo.setResize(Renderer::Instance().DisplayWidthAsFloat() * 0.3f, 0.0f);
-  mLogo.setImage(Path(":/splash.svg"));
+  mLogo.setImage(Path(mIsRGBDual ? ":/crt/logo.png" : ":/splash.svg"));
   mLogo.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mLogo.getSize().x()) / 2,
                      (Renderer::Instance().DisplayHeightAsFloat() - mLogo.getSize().y()) / 2 * 0.6f);
 
   mLoading.setHorizontalAlignment(TextAlignment::Center);
   mLoading.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() / 10.0f);
   mLoading.setPosition(0.0f, Renderer::Instance().DisplayHeightAsFloat() * 0.8f, 0.0f);
-  mLoading.setColor(0x656565FF);
+  mLoading.setColor(mIsRGBDual ? 0x9A9A9AFF : 0x656565FF);
 }
 
 void SplashView::Render(const Transform4x4f& parentTrans)
@@ -34,17 +35,17 @@ void SplashView::Render(const Transform4x4f& parentTrans)
   Transform4x4f trans = (parentTrans * getTransform()).round();
   Renderer::SetMatrix(trans);
 
-  Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0xFFFFFFFF);
+  Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), mIsRGBDual ? 0x35495EFF : 0xFFFFFFFF);
 
   int w = (int)(Renderer::Instance().DisplayWidthAsFloat() / (Renderer::Instance().IsSmallResolution() ? 5.0f : 10.0f));
   int h = (int)(Renderer::Instance().DisplayHeightAsFloat() / (Renderer::Instance().IsSmallResolution() ? 70.0f : 80.0f));
   int x = (int)((Renderer::Instance().DisplayWidthAsFloat() - (float)w) / 2.0f);
   int y = (int)(Renderer::Instance().DisplayHeightAsFloat() * 0.9f);
-  Renderer::DrawRectangle(x, y, w, h, 0xC0C0C0FF);
+  Renderer::DrawRectangle(x, y, w, h, mIsRGBDual ? 0x404040FF : 0xC0C0C0FF);
   if (mSystemCount != 0)
   {
     w = (w * mSystemLoaded) / mSystemCount;
-    Renderer::DrawRectangle(x, y, w, h, 0x606060FF);
+    Renderer::DrawRectangle(x, y, w, h, mIsRGBDual ? 0xA0A0A0FF : 0x606060FF);
   }
 
   mLogo.Render(trans);

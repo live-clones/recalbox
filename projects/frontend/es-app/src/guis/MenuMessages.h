@@ -144,7 +144,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG "Select emulationstation resolution. Recommended is 480i for better details."
-    #define MENUMESSAGE_ADVANCED_CRT_GAME_OPTION_HELP_MSG "Let you choice between PAL/NTSC or 240p/480i at launch, depending on the system."
+    #define MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG "Let you choice between PAL/NTSC at launch, depending on the system."
+    #define MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG "Let you choice between 240p, 480i, or 480p at launch, depending on the system."
     #define MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG "Select the game resolution when playing on a 31kHz display. The 240p will generate a special mode for 31kHz mode that will produce a 240p image. May not be compatible with all 31kHz screens."
 
   static const char* LICENCE_MSG;

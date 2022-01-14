@@ -94,7 +94,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   std::string filteredExtensions = originalFilteredExtensions;
   if ((folderPath / ".system.cfg").Exists())
   {
-    IniFile subSystem(folderPath / ".system.cfg");
+    IniFile subSystem(folderPath / ".system.cfg", false);
     filteredExtensions = subSystem.AsString("extensions", originalFilteredExtensions);
   }
 

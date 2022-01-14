@@ -177,11 +177,12 @@ BoardType Board::GetBoardType()
 
 ICrtInterface& Board::GetCrtBoard()
 {
-  return CanHaveCRTBoard() ? CrtAdapterDetector::GetCrtBoard() : *(new CrtNull(false));
+  return *(CanHaveCRTBoard() ? CrtAdapterDetector::CreateCrtBoard() : new CrtNull(false));
 }
 
 bool Board::CanHaveCRTBoard()
 {
+  return true;
   switch(GetBoardType())
   {
     case BoardType::Pi02:

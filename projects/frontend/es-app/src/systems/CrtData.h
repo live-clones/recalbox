@@ -7,6 +7,7 @@
 #pragma once
 
 #include <hardware/Board.h>
+#include <CrtConf.h>
 
 class CrtData
 {
@@ -36,7 +37,8 @@ class CrtData
     {
       if (!mHighResolutionConfigured)
         if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
-          return true;
+          if (CrtConf::Instance().GetSystemCRTGameResolutionSelect())
+            return true;
       return false;
     }
 
@@ -48,7 +50,7 @@ class CrtData
     {
       if (!mRegionConfigured)
         if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
-          if (RecalboxConf::Instance().GetSystemCRTGameOptions())
+          if (CrtConf::Instance().GetSystemCRTGameRegionSelect())
             return true;
       return false;
     }

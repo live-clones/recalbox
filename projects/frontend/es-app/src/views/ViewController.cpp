@@ -29,7 +29,8 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 	, mCurrentView(&mSplashView)
 	, mSystemListView(window, systemManager)
 	, mSplashView(window)
-	, mGameClipView()
+	, mGameClipView(nullptr)
+  , mCrtView(nullptr)
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
@@ -136,6 +137,26 @@ void ViewController::quitGameClipView()
   }
 
   mState.gameClipRunning = false;
+  updateHelpPrompts();
+}
+
+void ViewController::goToCrtView()
+{
+  mCurrentView = (mCrtView = new CrtView(mWindow));
+  mCurrentView->onShow();
+}
+
+void ViewController::quitCrtView()
+{
+  delete mCrtView;
+  switch (mState.viewing)
+  {
+    case ViewMode::SystemList: goToSystemView(mSystemListView.getSelected()); break;
+    case ViewMode::GameList:   goToGameList(mState.getSystem()); break;
+    case ViewMode::None:
+    case ViewMode::SplashScreen:
+    default: break;
+  }
   updateHelpPrompts();
 }
 

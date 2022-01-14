@@ -275,7 +275,7 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
 
   // Reset case to force detection again
-  IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"));
+  IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
   recalboxBoot.SetString("case", "");
   recalboxBoot.Save();
 

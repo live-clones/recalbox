@@ -17,6 +17,8 @@ set(CORE_HEADERS
 		src/input/AutoMapper.h
 		src/utils/Log.h
 		src/utils/locale/LocaleHelper.h
+		src/CrtConf.h
+		src/RecalboxConf.h
 		src/Renderer.h
 		src/RootFolders.h
         src/themes/MenuThemeData.h
@@ -185,6 +187,8 @@ set(CORE_HEADERS
         src/utils/hash/Md5.h
 		src/utils/hash/Crc32.h
 		src/utils/hash/Crc32File.h
+
+		src/components/GameClipNoVideoContainer.h
 )
 
 set(CORE_SOURCES
@@ -201,6 +205,8 @@ set(CORE_SOURCES
 		src/input/InputStack.cpp
 		src/input/AutoMapper.cpp
 		src/utils/Log.cpp
+		src/CrtConf.cpp
+		src/RecalboxConf.cpp
 		src/Renderer.cpp
 		src/RootFolders.cpp
         src/themes/MenuThemeData.cpp
@@ -319,7 +325,9 @@ set(CORE_SOURCES
         src/utils/hash/Md5.cpp
 		src/utils/hash/Crc32.cpp
 		src/utils/hash/Crc32File.cpp
-        src/components/GameClipNoVideoContainer.cpp src/components/GameClipNoVideoContainer.h)
+
+        src/components/GameClipNoVideoContainer.cpp
+)
 
 file(GLOB_RECURSE EMBEDDED_ASSET_SOURCES ${emulationstation-all_SOURCE_DIR}/data/*.cpp)
 
@@ -328,6 +336,6 @@ list(APPEND CORE_SOURCES ${EMBEDDED_ASSET_SOURCES})
 set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
 
 include_directories(${COMMON_INCLUDE_DIRS})
-add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS} src/RecalboxConf.cpp src/RecalboxConf.h)
+add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS})
 target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl zip procps)
 

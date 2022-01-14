@@ -11,16 +11,17 @@ class IniFile
   public:
     /*!
      * @brief Constructor
-     * @param initialConfigOnly true if only the original file has to be loaded
+     * @param confpath File to load
+     * @param extraSpace Extra spaces rou nd the "=" sign
      */
-    explicit IniFile(const Path& confpath);
+    explicit IniFile(const Path& confpath, bool extraSpace);
 
     /*!
      * @brief Constructor
      * @param confpath File to load
      * @param fallbackpath File to load if confpath has not been loaded
      */
-    explicit IniFile(const Path& confpath, const Path& fallbackpath);
+    explicit IniFile(const Path& confpath, const Path& fallbackpath, bool extraSpace);
 
     //! Destructor
     virtual ~IniFile()
@@ -128,9 +129,10 @@ class IniFile
      * @param line Text line to seek for key/value
      * @param key Extracted key if found
      * @param value Extracted value if found
+     * @param isCommented Set tu true if the key/value is commented using ';', false otherwise
      * @return true if a valid key=value has been found
      */
-    static bool IsValidKeyValue(const std::string& line, std::string& key, std::string& value);
+    static bool IsValidKeyValue(const std::string& line, std::string& key, std::string& value, bool& isCommented);
 
     /*!
      * @brief Check if this instance has loaded a file and has keys and values
@@ -157,6 +159,8 @@ class IniFile
     Path mFilePath;
     //! Fallback File path
     Path mFallbackFilePath;
+    //! Extra spaces
+    bool mExtraSpace;
     //! This object is valid and has keys/values
     bool mValid;
 

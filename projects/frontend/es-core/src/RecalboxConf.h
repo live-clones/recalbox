@@ -10,7 +10,6 @@
 #include <scraping/scrapers/screenscraper/ScreenScraperEnums.h>
 #include <scraping/scrapers/screenscraper/Languages.h>
 #include <audio/AudioMode.h>
-#include "hardware/crt/CrtAdapterType.h"
 
 // Forward declaration
 class SystemData;
@@ -19,10 +18,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 {
   public:
     /*!
-     * @brief Confstructor
+     * @brief Constructor
      * @param initialConfigOnly true if only the original file has to be loaded
      */
-    explicit RecalboxConf();
+    RecalboxConf();
 
     /*!
      * @brief Called when file has been saved
@@ -53,9 +52,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Shortcuts
      */
 
-    #define DefineGetterSetter(name, type, type2, key, defaultValue) \
+    #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
-      RecalboxConf& Set##name(const type& value) { Set##type2(key, value); return *this; }
+      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; }
+
+    #define DefineGetterSetter(name, type, type2, key, defaultValue) \
+      DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)
 
     #define DefineListGetterSetter(name, key, defaultValue) \
       Strings::Vector Get##name() const { return Strings::Split(AsString(key, defaultValue), ','); } \
@@ -82,9 +84,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type GetSystem##name(const SystemData& system) const; \
       RecalboxConf& SetSystem##name(const SystemData& system, const type& value);
 
-    #define DefineGetterSetterEnum(name, enumType, key, adapterPrefix) \
+    #define DefineGetterSetterEnumGeneric(clazz, name, enumType, key, adapterPrefix) \
       enumType Get##name() const { return adapterPrefix##FromString(AsString(key, "")); } \
-      RecalboxConf& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); return *this; }
+      clazz& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); return *this; }
+
+    #define DefineGetterSetterEnum(name, enumType, key, adapterPrefix) \
+       DefineGetterSetterEnumGeneric(RecalboxConf, name, enumType, key, adapterPrefix)
 
     #define DefineEmulationStationSystemGetterSetterNumericEnumDeclaration(name, enumType) \
       enumType GetSystem##name(const SystemData& system) const; \
@@ -103,7 +108,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType)
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
-    DefineGetterSetterEnum(SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
 
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
@@ -196,8 +200,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
-    DefineGetterSetter(SystemCRTGameOptions, bool, Bool, sSystemCRTGameOptions, false)
-    DefineGetterSetter(SystemCRTGamesResolutionOn31kHz, std::string, String, sSystemCRTGamesResolutionOn31kHz, "")
     DefineGetterSetter(GlobalInputDriver, std::string, String, sGlobalInputDriver, "auto")
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
@@ -309,11 +311,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalHidePreinstalled     = "global.hidepreinstalledgames";
     static constexpr const char* sGlobalIntegerScale         = "global.integerscale";
     static constexpr const char* sGlobalShowFPS              = "global.showfps";
-
-    static constexpr const char* sSystemCRT                  = "system.crt";
-    static constexpr const char* sSystemCRTForce50HZ         = "system.crt.force50hz";
-    static constexpr const char* sSystemCRTGameOptions       = "system.crt.gameoptions";
-    static constexpr const char* sSystemCRTGamesResolutionOn31kHz   = "system.crt.gamesResolutionOn31kHz";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 
@@ -440,6 +437,4 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const std::string& MenuFromEnum(Menu menu);
     static Relay RelayFromString(const std::string& relay);
     static const std::string& RelayFromEnum(Relay relay);
-    static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
-    static const std::string& CrtAdapterFromEnum(CrtAdapterType adapter);
 };

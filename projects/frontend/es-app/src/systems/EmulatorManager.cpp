@@ -147,7 +147,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   int count = path.ItemCount();
   for (int i = 0; i < count; ++i)
   {
-    IniFile configuration(Path(path.UptoItem(i)) / ".recalbox.conf");
+    IniFile configuration(Path(path.UptoItem(i)) / ".recalbox.conf", false);
     if (configuration.IsValid())
     {
       // Get values
@@ -165,7 +165,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   }
 
   // Get file config
-  IniFile configuration(game.FilePath().ChangeExtension(game.FilePath().Extension() + ".recalbox.conf"));
+  IniFile configuration(game.FilePath().ChangeExtension(game.FilePath().Extension() + ".recalbox.conf"), false);
   if (configuration.IsValid())
   {
     // Get values

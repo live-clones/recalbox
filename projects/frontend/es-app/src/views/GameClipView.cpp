@@ -13,9 +13,18 @@
 #include <usernotifications/NotificationManager.h>
 
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
-  : Gui(window), mWindow(window), mSystemManager(systemManager), mRecalboxConf(RecalboxConf::Instance()),
-    mRandomDevice(), mRandomGenerator(mRandomDevice()), mGameRandomizer(0, 1U << 30U), mGameClipContainer(window),
-    mNoVideoContainer(window), systemIndex(-1), mVideoDuration(0)
+  : Gui(window)
+  , mEvent(this)
+  , mWindow(window)
+  , mSystemManager(systemManager)
+  , mRecalboxConf(RecalboxConf::Instance())
+  , mRandomDevice()
+  , mRandomGenerator(mRandomDevice())
+  , mGameRandomizer(0, 1U << 30U)
+  , mGameClipContainer(window)
+  , mNoVideoContainer(window)
+  , systemIndex(-1)
+  , mVideoDuration(0)
 {
   Initialize();
 }
@@ -37,7 +46,6 @@ void GameClipView::Initialize()
         return  !file.Metadata().VideoAsString().empty() && showIfHidden;
       }
   } gameFilterWithoutHidden;
-
 
   // Build system list filtered by user config
   const std::vector<SystemData*>& allSystems = mSystemManager.GetAllSystemList();
@@ -162,7 +170,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
   if (mState == State::Quit)
   {
-    ViewController::Instance().quitGameClipView();
+    mEvent.Call(); // Asynchronous delete!
     mState = State::Terminated;
   }
 
@@ -324,7 +332,7 @@ void GameClipView::StartGameClip()
 void GameClipView::StopGameClipView()
 {
   NotificationManager::Instance().Notify(Notification::StopGameClip);
-  if(State::EmptyPlayList != mState)
+  if (State::EmptyPlayList != mState)
     VideoEngine::Instance().StopVideo(true);
   mGameClipContainer.CleanVideo();
 }
@@ -355,3 +363,10 @@ bool GameClipView::getHelpPrompts(Help& help)
   }
   return true;
 }
+
+void GameClipView::ReceiveSyncCallback(const SDL_Event& event)
+{
+  (void)event;
+  ViewController::Instance().quitGameClipView();
+}
+

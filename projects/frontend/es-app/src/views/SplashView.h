@@ -16,6 +16,9 @@ class SplashView : public Gui, public IProgressInterface
     int mSystemCount;
     int mSystemLoaded;
 
+    //! RGB Dual identified?
+    bool mIsRGBDual;
+
   public:
     /*!
      * @brief Constructor

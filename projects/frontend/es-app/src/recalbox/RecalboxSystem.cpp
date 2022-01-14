@@ -245,7 +245,7 @@ bool RecalboxSystem::saveWifiWps()
 
 bool RecalboxSystem::getWifiConfiguration(std::string& ssid, std::string& psk)
 {
-  IniFile wpaConfiguration(Path("/etc/wpa_supplicant.conf"));
+  IniFile wpaConfiguration(Path("/etc/wpa_supplicant.conf"), false);
   ssid = Strings::Trim(wpaConfiguration.AsString("ssid"), " \"");
   psk = Strings::Trim(wpaConfiguration.AsString("psk"), " \"");
   return !ssid.empty() && !psk.empty();

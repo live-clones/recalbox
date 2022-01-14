@@ -299,10 +299,11 @@ std::string Strings::Trim(const std::string& _string)
 	const size_t strBegin = _string.find_first_not_of(" \t");
 	const size_t strEnd   = _string.find_last_not_of(" \t");
 
-	if(strBegin == std::string::npos)
-		return "";
+	if(strBegin == std::string::npos) return std::string();
 
-	return _string.substr(strBegin, strEnd - strBegin + 1);
+  if (strBegin != 0 || strEnd != _string.size() - 1)
+  	return _string.substr(strBegin, strEnd - strBegin + 1);
+  return _string;
 } // Trim
 
 std::string Strings::Trim(const std::string& _string, const char* _trimwhat)
@@ -310,10 +311,11 @@ std::string Strings::Trim(const std::string& _string, const char* _trimwhat)
   const size_t strBegin = _string.find_first_not_of(_trimwhat);
   const size_t strEnd   = _string.find_last_not_of(_trimwhat);
 
-  if(strBegin == std::string::npos)
-    return "";
+  if(strBegin == std::string::npos) return std::string();
 
-  return _string.substr(strBegin, strEnd - strBegin + 1);
+  if (strBegin != 0 || strEnd != _string.size() - 1)
+    return _string.substr(strBegin, strEnd - strBegin + 1);
+  return _string;
 } // Trim
 
 std::string Strings::Replace(const std::string& _string, const std::string& _replace, const std::string& _with)

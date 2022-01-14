@@ -8,6 +8,9 @@ class FileData;
 class IFilter
 {
   public:
+    //! Destructor
+    virtual ~IFilter() = default;
+
     /*!
      * @brief Filter a FileData entry
      * @param file FileData to filter

@@ -13,6 +13,7 @@
 #include <hardware/crt/CrtRGBPi.h>
 #include <hardware/crt/CrtPi2Scart.h>
 #include <hardware/crt/CrtRGBDual.h>
+#include <CrtConf.h>
 
 CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
 {
@@ -32,24 +33,24 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
   else
   {
     // User config
-    result = RecalboxConf::Instance().GetSystemCRT();
+    result = CrtConf::Instance().GetSystemCRT();
   }
 
   return result;
 }
 
-ICrtInterface& CrtAdapterDetector::GetCrtBoard()
+ICrtInterface* CrtAdapterDetector::CreateCrtBoard()
 {
   bool automatic = false;
   switch(DetectCrtAdapter(automatic))
   {
-    case CrtAdapterType::Vga666: return *(new CrtVga666(automatic));
-    case CrtAdapterType::RGBPi: return *(new CrtRGBPi(automatic));
-    case CrtAdapterType::Pi2Scart: return *(new CrtPi2Scart(automatic));
-    case CrtAdapterType::RGBDual: return *(new CrtRGBDual(automatic));
+    case CrtAdapterType::Vga666: return new CrtVga666(automatic);
+    case CrtAdapterType::RGBPi: return new CrtRGBPi(automatic);
+    case CrtAdapterType::Pi2Scart: return new CrtPi2Scart(automatic);
+    case CrtAdapterType::RGBDual: return new CrtRGBDual(automatic);
     case CrtAdapterType::None:
     default: break;
   }
 
-  return *(new CrtNull(automatic));
+  return new CrtNull(automatic);
 }

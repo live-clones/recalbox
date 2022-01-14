@@ -17,6 +17,7 @@ class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
                  , private IOptionListComponent<std::string>
                  , private ISwitchComponent
+                 , private IGuiMenuBase
 {
   public:
     /*!
@@ -33,8 +34,10 @@ class GuiMenuCRT : public GuiMenuBase
     {
       CRTDac,
       EsResolution,
-      GameOptions,
+      GameRegion,
+      GameResolution,
       GamesResolutionOn31kHz,
+      Adjustment,
     };
 
     //! Dac selection
@@ -45,7 +48,6 @@ class GuiMenuCRT : public GuiMenuBase
     std::string mOriginalEsResolution;
     //! 31kHz games resolution
     std::shared_ptr<OptionListComponent<std::string>> m31kHzResolution;
-    std::string mOriginal31kHzResolution;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
@@ -83,6 +85,12 @@ class GuiMenuCRT : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };
 
 

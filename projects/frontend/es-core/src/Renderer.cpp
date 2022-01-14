@@ -6,7 +6,6 @@
 #include "../data/Resources.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
-#include <hardware/crt/CrtAdapterDetector.h>
 
 #ifdef USE_OPENGL_ES
   #define glOrtho glOrthof
@@ -486,7 +485,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
       }
     }
   }
-  { LOG(LogInfo) << "[Renderer] Resolution got from recalbox.conf: " << w << 'x' << h; }
+  { LOG(LogInfo) << "[Renderer] Get resolution from recalbox.conf: " << w << 'x' << h; }
 }
 
 bool Renderer::ReInitialize()
@@ -497,13 +496,15 @@ bool Renderer::ReInitialize()
 
 bool Renderer::Initialize(int w, int h)
 {
+  { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
+
   // Get resolution from config if either w or h is nul
-  bool isCrt = CrtAdapterDetector::GetCrtBoard().IsCrtAdapterAttached();
+  bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   bool createdSurface = false;
-  if ((w * h) == 0 && !isCrt) {
+  if ((w * h) == 0 && !isCrt)
     GetResolutionFromConfiguration(w, h);
-    createdSurface = CreateSdlSurface(w, h);
-  }
+
+  if ((w * h) != 0) createdSurface = CreateSdlSurface(w, h);
 
   if (!createdSurface)
   {
@@ -516,9 +517,9 @@ bool Renderer::Initialize(int w, int h)
     return false;
 
   if(isCrt) {
-    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334);
-    mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334);
-    mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334;
+    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334f);
+    mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334f);
+    mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334f;
   } else {
     mScale = 1;
     mVirtualDisplayWidth = mDisplayWidth;
@@ -551,7 +552,7 @@ void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vert
 
 void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
-  Vector4i box((int)(pos.x() * mScale), pos.y(), (int)(dim.x() * mScale), dim.y());
+  Vector4i box((int)(pos.x() * mScale), pos.y(), (int)((float)dim.x() * mScale), dim.y());
   if (box[2] == 0)
     box[2] = mDisplayWidth - box.x();
   if (box[3] == 0)

@@ -2,7 +2,7 @@
 
 #include "Resources.h"
 
-const uint32_t res2hNrOfFiles = 136;
+const uint32_t res2hNrOfFiles = 139;
 const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/option_arrow.svg", option_arrow_svg_size, option_arrow_svg_data},
     {":/arrow.svg", arrow_svg_size, arrow_svg_data},
@@ -139,7 +139,10 @@ const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/help/joystick_leftright_L.svg", help__joystick_leftright_L_svg_size, help__joystick_leftright_L_svg_data},
     {":/help/joystick_up.svg", help__joystick_up_svg_size, help__joystick_up_svg_data},
     {":/help/joystick_updown_R.svg", help__joystick_updown_R_svg_size, help__joystick_updown_R_svg_data},
-    {":/help/joystick_down_L.svg", help__joystick_down_L_svg_size, help__joystick_down_L_svg_data}
+    {":/help/joystick_down_L.svg", help__joystick_down_L_svg_size, help__joystick_down_L_svg_data},
+    {":/crt/pattern480.png", crt__pattern480_png_size, crt__pattern480_png_data},
+    {":/crt/pattern240.png", crt__pattern240_png_size, crt__pattern240_png_data},
+    {":/crt/logo.png", crt__logo_png_size, crt__logo_png_data}
 };
 
 res2hMapType::value_type mapTemp[] = {
@@ -278,7 +281,10 @@ res2hMapType::value_type mapTemp[] = {
     std::make_pair(":/help/joystick_leftright_L.svg", res2hFiles[132]),
     std::make_pair(":/help/joystick_up.svg", res2hFiles[133]),
     std::make_pair(":/help/joystick_updown_R.svg", res2hFiles[134]),
-    std::make_pair(":/help/joystick_down_L.svg", res2hFiles[135])
+    std::make_pair(":/help/joystick_down_L.svg", res2hFiles[135]),
+    std::make_pair(":/crt/pattern480.png", res2hFiles[136]),
+    std::make_pair(":/crt/pattern240.png", res2hFiles[137]),
+    std::make_pair(":/crt/logo.png", res2hFiles[138])
 };
 
 res2hMapType res2hMap(mapTemp, mapTemp + sizeof mapTemp / sizeof mapTemp[0]);

@@ -120,6 +120,7 @@ set(ES_HEADERS
         src/scraping/scrapers/thegamedb/TheGameDBEngine.h
 
         # Views
+        src/views/crt/CrtView.h
         src/views/gamelist/BasicGameListView.h
         src/views/gamelist/DetailedGameListView.h
         src/views/gamelist/IGameListView.h
@@ -308,6 +309,7 @@ set(ES_SOURCES
         src/scraping/scrapers/thegamedb/TheGameDBEngine.cpp
 
         # Views
+        src/views/crt/CrtView.cpp
         src/views/gamelist/BasicGameListView.cpp
         src/views/gamelist/DetailedGameListView.cpp
         src/views/gamelist/IGameListView.cpp

@@ -6,6 +6,7 @@
 #include "views/gamelist/IGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
+#include "views/crt/CrtView.h"
 #include <systems/GameLinkedData.h>
 
 class SystemData;
@@ -45,6 +46,8 @@ public:
   void goToSystemView(SystemData* system);
 	void goToGameClipView();
 	void quitGameClipView();
+  void goToCrtView();
+  void quitCrtView();
 	void selectGamelistAndCursor(FileData* file);
 	void goToStart();
   void goToQuitScreen();
@@ -109,6 +112,7 @@ private:
 	SystemView mSystemListView;
 	SplashView mSplashView;
 	GameClipView* mGameClipView;
+  CrtView* mCrtView;
 	std::map<SystemData*, bool> mInvalidGameList;
 	
 	Transform4x4f mCamera;

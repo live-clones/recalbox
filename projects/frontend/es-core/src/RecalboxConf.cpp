@@ -7,7 +7,7 @@ static Path recalboxConfFileInit("/recalbox/share_init/system/recalbox.conf");
 constexpr const int RecalboxConf::sNetplayDefaultPort;
 
 RecalboxConf::RecalboxConf()
-  : IniFile(recalboxConfFile, recalboxConfFileInit),
+  : IniFile(recalboxConfFile, recalboxConfFileInit, false),
     StaticLifeCycleControler<RecalboxConf>("RecalboxConf")
 {
 }
@@ -77,30 +77,6 @@ const std::string& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
     case Relay::None: default: break;
   }
   static std::string sDefault = "none";
-  return sDefault;
-}
-
-CrtAdapterType RecalboxConf::CrtAdapterFromString(const std::string& adapter)
-{
-  if (adapter == "recalboxrgbdual") return CrtAdapterType::RGBDual;
-  if (adapter == "pi2scart"       ) return CrtAdapterType::Pi2Scart;
-  if (adapter == "rgbpi"          ) return CrtAdapterType::RGBPi;
-  if (adapter == "vga666"         ) return CrtAdapterType::Vga666;
-  return CrtAdapterType::None;
-}
-
-const std::string& RecalboxConf::CrtAdapterFromEnum(CrtAdapterType adapter)
-{
-  switch(adapter)
-  {
-    case CrtAdapterType::RGBDual:  { static std::string adapterString("recalboxrgbdual"); return adapterString; }
-    case CrtAdapterType::Pi2Scart: { static std::string adapterString("pi2scart"); return adapterString; }
-    case CrtAdapterType::RGBPi:    { static std::string adapterString("rgbpi"); return adapterString; }
-    case CrtAdapterType::Vga666:   { static std::string adapterString("vga666"); return adapterString; }
-    case CrtAdapterType::None:
-    default: break;
-  }
-  static std::string sDefault = "";
   return sDefault;
 }
 

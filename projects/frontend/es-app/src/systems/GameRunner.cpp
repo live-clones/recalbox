@@ -22,7 +22,7 @@ bool GameRunner::sGameIsRunning = false;
 
 IBoardInterface::CPUGovernance GameRunner::GetGovernance(const std::string& core)
 {
-  static IniFile governanceFile((Path(sGovernanceFile)));
+  static IniFile governanceFile(Path(sGovernanceFile), false);
 
   std::string governance = governanceFile.AsString(core);
 
@@ -321,7 +321,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data)
     if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
       // force 240p only if 240p is selected
-      if(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240p")
+      if(CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240p")
         result.append(" -crtresolutiontype ").append(data.HighResolution() ? "progressive" : "doublefreq");
       else
         result.append(" -crtresolutiontype ").append("progressive");

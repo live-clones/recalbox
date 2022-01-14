@@ -6,17 +6,17 @@
 //
 
 #include "GuiMenuCRT.h"
+#include "views/ViewController.h"
 #include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
-#include <systems/SystemManager.h>
 #include <components/SwitchComponent.h>
 #include <hardware/crt/CrtAdapterDetector.h>
+#include <CrtConf.h>
 
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
-  : GuiMenuBase(window, _("CRT SETTINGS"), nullptr)
-  , mOriginalDac(CrtAdapterDetector::GetCrtBoard().GetCrtAdapter())
-  , mOriginal31kHzResolution(RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz())
+  : GuiMenuBase(window, _("CRT SETTINGS"), this)
+  , mOriginalDac(Board::Instance().CrtBoard().GetCrtAdapter())
 {
   // Selected Dac
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(mOriginalDac == CrtAdapterType::RGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
@@ -30,22 +30,29 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Force 50HZ
   if (Board::Instance().CrtBoard().HasForced50hzSupport()) AddText(_("FORCE 50HZ"), Get50hz());
 
-  // Game options
-  AddSwitch(_("GAME OPTION AT LAUNCH"), RecalboxConf::Instance().GetSystemCRTGameOptions(), (int)Components::GameOptions, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_OPTION_HELP_MSG));
+  // Game Region selection
+  AddSwitch(_("SELECT GAME REGION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameRegionSelect(), (int)Components::GameRegion, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG));
+
+  // Game Resolution selection
+  AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));
 
   // 31khz resolution
   if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
 
-  mOriginalEsResolution = RecalboxConf::Instance().GetEmulationstationVideoMode();
+  // Screen Adjustments
+  AddSubMenu(_("SCREEN CALIBRATION"), (int)Components::Adjustment);
+
+  mOriginalEsResolution = CrtConf::Instance().GetSystemCRTResolution();
 }
 
 GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
-  if (mOriginalDac != mDac->getSelected()
-  || mOriginalEsResolution != mEsResolution->getSelected())
+  if (mOriginalDac != mDac->getSelected())
     RequestReboot();
+  if (mOriginalEsResolution != mEsResolution->getSelected())
+    RequestRelaunch();
 }
 
 std::string GuiMenuCRT::Get50hz()
@@ -78,7 +85,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
     return list;
   }
 
-  CrtAdapterType selectedDac = CrtAdapterDetector::GetCrtBoard().GetCrtAdapter();
+  CrtAdapterType selectedDac = Board::Instance().CrtBoard().GetCrtAdapter();
 
   static struct
   {
@@ -110,12 +117,10 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
 
-  std::string selectedResolution = RecalboxConf::Instance().GetEmulationstationVideoMode();
+  bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
 
-  bool rdef = selectedResolution == "default" || selectedResolution == "640x480";
-
-  list.push_back({ "480i (recommended)", "default", rdef });
-  list.push_back({ "240p", "1920x240", !rdef });
+  list.push_back({ "240p", "240", rdef });
+  list.push_back({ "480i (recommended)", "480", !rdef });
 
   return list;
 }
@@ -124,32 +129,31 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetGamesResolutionO
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
 
-  std::string selectedResolution = RecalboxConf::Instance().GetSystemCRTGamesResolutionOn31kHz();
+  std::string selectedResolution = CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz();
 
-  list.push_back({ "480p", "480p", selectedResolution == "480p" || selectedResolution == "" });
-  list.push_back({ "240p (double freq)", "240p", selectedResolution == "240p" });
+  list.push_back({ "480p", "480p", selectedResolution == "480" || selectedResolution.empty() });
+  list.push_back({ "240p (double freq)", "240", selectedResolution == "240" });
 
   return list;
 }
-
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
 {
   (void)index;
   if ((Components)id == Components::CRTDac)
   {
-    CrtAdapterType oldValue = CrtAdapterDetector::GetCrtBoard().GetCrtAdapter();
+    CrtAdapterType oldValue = Board::Instance().CrtBoard().GetCrtAdapter();
     if (value == CrtAdapterType::None)
     {
       if (oldValue != CrtAdapterType::None)
       {
-        RecalboxConf::Instance().SetSystemCRT(CrtAdapterType::None).Save();
+        CrtConf::Instance().SetSystemCRT(CrtAdapterType::None).Save();
         RecalboxConf::Instance().SetEmulationstationVideoMode("default").Save();
         mEsResolution->select("default");
       }
     }
     else if (value != CrtAdapterType::RGBDual){
-      RecalboxConf::Instance().SetSystemCRT(value).Save();
+      CrtConf::Instance().SetSystemCRT(value).Save();
     }
   }
 }
@@ -159,19 +163,27 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
-    RecalboxConf::Instance().SetEmulationstationVideoMode(value).Save();
+    CrtConf::Instance().SetSystemCRTResolution(value).Save();
   }
   if ((Components)id == Components::GamesResolutionOn31kHz)
   {
     if(m31kHzResolution != nullptr){
-      RecalboxConf::Instance().SetSystemCRTGamesResolutionOn31kHz(value).Save();
+      CrtConf::Instance().SetSystemCRTGamesResolutionOn31kHz(value).Save();
     }
   }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
 {
-  if ((Components)id == Components::GameOptions)
-    RecalboxConf::Instance().SetSystemCRTGameOptions(status).Save();
+  if ((Components)id == Components::GameRegion)
+    CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();
+  if ((Components)id == Components::GameResolution)
+    CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
+}
+
+void GuiMenuCRT::SubMenuSelected(int id)
+{
+  if ((Components)id == Components::Adjustment)
+    ViewController::Instance().goToCrtView();
 }
 

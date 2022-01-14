@@ -413,6 +413,15 @@ extern const uint8_t help__joystick_updown_R_svg_data[];
 extern const uint16_t help__joystick_down_L_svg_size;
 extern const uint8_t help__joystick_down_L_svg_data[];
 
+extern const uint16_t crt__pattern480_png_size;
+extern const uint8_t crt__pattern480_png_data[];
+
+extern const uint16_t crt__pattern240_png_size;
+extern const uint8_t crt__pattern240_png_data[];
+
+extern const uint32_t crt__logo_png_size;
+extern const uint8_t crt__logo_png_data[];
+
 struct Res2hEntry {
     const std::string relativeFileName;
     const uint32_t size;

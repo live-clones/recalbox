@@ -241,6 +241,9 @@ class SystemManager :
     {
     }
 
+    //! Destructor
+    virtual ~SystemManager() = default;
+
     /*!
      * @brief Set the progress interface
      * @param interface

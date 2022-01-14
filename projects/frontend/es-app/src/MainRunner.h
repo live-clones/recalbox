@@ -10,7 +10,6 @@
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <usernotifications/NotificationManager.h>
 #include <guis/GuiWaitLongExecution.h>
-#include <sdl2/ISdl2EventNotifier.h>
 #include <utils/storage/Queue.h>
 #include <systems/GameRunner.h>
 
@@ -87,6 +86,8 @@ class MainRunner
 
     //! Recalbox configuration
     RecalboxConf mConfiguration;
+    //! Crt configuration
+    CrtConf mCrtConfiguration;
 
     //! Nofitication manager
     NotificationManager mNotificationManager;
@@ -269,7 +270,7 @@ class MainRunner
     MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment);
 
     //! Destructor
-    ~MainRunner();
+    virtual ~MainRunner();
 
     /*!
      * @brief Run the game!

@@ -15,7 +15,7 @@
 #include <components/GameClipNoVideoContainer.h>
 #include "RecalboxConf.h"
 
-class GameClipView : public Gui
+class GameClipView : public Gui, public ISynchronousEvent
 {
     enum class State
     {
@@ -37,6 +37,8 @@ class GameClipView : public Gui
     };
 
   private:
+    //! Synchronous event
+    SyncronousEvent mEvent;
 
     //! Window
     WindowManager& mWindow;
@@ -94,6 +96,16 @@ class GameClipView : public Gui
     void StopGameClipView();
 
     void ChangeGameClip(Direction direction);
+
+    /*
+     * Synchronous event
+     */
+
+    /*!
+     * @brief Receive SDL event from the main thread
+     * @param event SDL event
+     */
+    void ReceiveSyncCallback(const SDL_Event& event) override;
 
   public:
     static const char* getName()

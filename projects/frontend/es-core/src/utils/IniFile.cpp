@@ -8,39 +8,39 @@
 #include <utils/Files.h>
 #include "utils/Log.h"
 
-IniFile::IniFile(const Path& path, const Path& fallbackpath)
-  : mFilePath(path),
-    mFallbackFilePath(fallbackpath),
-    mValid(Load())
+IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace)
+  : mFilePath(path)
+  , mFallbackFilePath(fallbackpath)
+  , mExtraSpace(extraSpace)
+  , mValid(Load())
 {
 }
 
-IniFile::IniFile(const Path& path)
-  : mFilePath(path),
-    mFallbackFilePath(),
-    mValid(Load())
+IniFile::IniFile(const Path& path, bool extraSpace)
+  : mFilePath(path)
+  , mFallbackFilePath()
+  , mExtraSpace(extraSpace)
+  , mValid(Load())
 {
 }
 
-bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::string& value)
+bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::string& value, bool& isCommented)
 {
   static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
   if (!line.empty()) // Ignore empty line
   {
-    bool comment = (line[0] == ';' || line[0] == '#');
+    bool comment = (line[0] == '#');
     if (!comment)
     {
       size_t separatorPos = line.find('=');
       if (separatorPos != std::string::npos) // Expect a key=value line
       {
-        size_t validated = line.find_first_not_of(_allowedCharacters);
-        if (validated == std::string::npos || validated >= separatorPos) // Unknown characters after the = ?
-        {
-          key = Strings::Trim(line.substr(0, separatorPos));
-          value = line.substr(separatorPos + 1);
-          return true;
-        }
-        else { LOG(LogWarning) << "[IniFile] Invalid key: `" << line << '`'; }
+        key = Strings::Trim(line.substr(0, separatorPos));
+        isCommented = (!key.empty() && key[0] == ';');
+        if (isCommented) key.erase(0, 1);
+        value = Strings::Trim(line.substr(separatorPos + 1));
+        if (key.find_first_not_of(_allowedCharacters) == std::string::npos) return true;
+        { LOG(LogWarning) << "[IniFile] Invalid key: `" << key << '`'; }
       }
       else { LOG(LogError) << "[IniFile] Invalid line: `" << line << '`'; }
     }
@@ -62,9 +62,11 @@ bool IniFile::Load()
 
   // Get key/value
   std::string key, value;
+  bool comment = false;
   for (std::string& line : lines)
-    if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), key, value))
-      mConfiguration[key] = value;
+    if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), key, value, comment))
+      if (!comment)
+        mConfiguration[key] = value;
 
   OnLoad();
   return !mConfiguration.empty();
@@ -83,20 +85,26 @@ bool IniFile::Save()
   Strings::Vector lines = Strings::Split(content, '\n');
 
   // Save new value if exists
+  std::string lineKey;
+  std::string lineVal;
+  std::string equal(mExtraSpace ? " = " : "=");
   for (auto& it : mPendingWrites)
   {
     // Write new kay/value
     std::string key = it.first;
     std::string val = it.second;
     bool lineFound = false;
+    bool commented = false;
     for (auto& line : lines)
-      if (Strings::StartsWith(line, key + "=") || Strings::StartsWith(line, ";" + key + "="))
-      {
-        line = key.append("=").append(val);
-        lineFound = true;
-      }
+      if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), lineKey, lineVal, commented))
+        if (lineKey == key)
+        {
+          line = key.append(equal).append(val);
+          lineFound = true;
+          break;
+        }
     if (!lineFound)
-      lines.push_back(key.append("=").append(val));
+      lines.push_back(key.append(equal).append(val));
 
     // Move from Pendings to regular Configuration
     mConfiguration[key] = val;
@@ -105,11 +113,9 @@ bool IniFile::Save()
 
   // Save new
   bool boot = mFilePath.StartWidth("/boot/");
-  if (boot)
-    if (system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
-  Files::SaveFile(mFilePath, Strings::Join(lines, '\n'));
-  if (boot)
-    if (system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
+  if (boot && system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
+  Files::SaveFile(mFilePath, Strings::Join(lines, '\n').append(1, '\n'));
+  if (boot && system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
 
   OnSave();
   return true;
