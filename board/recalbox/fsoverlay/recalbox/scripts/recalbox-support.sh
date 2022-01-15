@@ -126,6 +126,13 @@ d_cp "${DHOME}/.kodi/userdata/remotes"                                          
 d_cp "${DHOME}/.kodi/userdata/addon_data/peripheral.joystick/resources/buttonmaps/xml/linux" "${DKODI}"
 test -e "${DHOME}/.kodi/temp/kodi.log" && tail -4000 "${DHOME}/.kodi/temp/kodi.log" > "${DKODI}/kodi.log"
 
+# pulseaudio
+PA_CMDS="list-modules list-sinks list-sources list-clients list-cards list-samples stat dump"
+for PA_CMD in $PA_CMDS; do
+    echo "=========== $PA_CMD ============" >>"${DSYSTEM}/pulseaudio.txt"
+    pacmd "$PA_CMD" >>"${DSYSTEM}/pulseaudio.txt" 2>&1
+done
+
 if ! (cd "${GTMP}" && tar cf -  "${REPORTNAME}" | gzip -c > "${OUTPUTFILE}")
 then
     echo "Reporting zip creation failed" >&2
