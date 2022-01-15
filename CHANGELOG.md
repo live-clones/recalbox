@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Fix fix demoInfo cropped message (#2109)
 - Fix RetroFlag scripts to turn off cases (#2067)
 - Fix tearing effect on odroidgo2 (#2100)
+- Add DRM info in support archive (#2102)
 
 ## [8.0-Electron]
 - Remove non-working shaders
