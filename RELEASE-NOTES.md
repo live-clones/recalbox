@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add system Philips CD-I (libretro core : cdi2015)
 - Add Iris driver for Intel iGPUs on x64 version
 - Add Libretro BSnes and BSnes HD cores
+- Add Twitch as Kodi plugin
 
 ### Improvements
 
