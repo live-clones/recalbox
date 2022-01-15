@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add game regions flag in gamelist
 - Add resolution menu in Advanced Settings > Resolutions
 - Add Libretro BSnes and BSnes HD cores
+- Add Twitch as Kodi plugin
 
 ### Improvements
 
