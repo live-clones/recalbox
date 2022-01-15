@@ -455,6 +455,8 @@
   <system fullname="Nintendo Super Gameboy" platform="gb,gbc">
     <bios path="sgb_bios.bin"  md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
     <bios path="sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
+    <bios path="SGB1.sfc" md5="b15ddb15721c657d82c5bab6db982ee9" mandatory="true" core="bsnes" />
+    <bios path="SGB2.sfc" md5="8ecd73eb4edf7ed7e81aef1be80031d5" mandatory="true" core="bsnes" />
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
     <bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
