@@ -1,0 +1,10 @@
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_PYTHON_TWITCH
+	bool "kodi-script-python-twitch"
+	default n
+	depends on BR2_PACKAGE_KODI
+	select BR2_PACKAGE_PYTHON_SIX
+	select BR2_PACKAGE_PYTHON_REQUESTS
+	help
+	  Kodi Python Twitch script module
+
+	  https://kodi.wiki/view/Add-on:Python-twitch_for_Kodi

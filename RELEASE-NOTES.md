@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Display game regions flag in gamelist
 - Make default no image in gamelist themable
 - Add resolution menu in Advanced Settings > Resolutions
+- Add Twitch as Kodi plugin
 
 ### Improvements
 
