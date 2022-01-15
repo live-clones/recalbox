@@ -48,6 +48,8 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add system Philips CD-I (libretro core : cdi2015)
 
+- Add Twitch as Kodi plugin
+
 ### Improvements
 - Bump EmuSCV to fix zipped games load
 

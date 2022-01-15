@@ -1,0 +1,11 @@
+config BR2_PACKAGE_KODI_PLUGIN_VIDEO_TWITCH
+	bool "kodi-plugin-video-twitch"
+	default y
+	depends on BR2_PACKAGE_KODI
+	select BR2_PACKAGE_PYTHON_SIX
+	select BR2_PACKAGE_PYTHON_REQUESTS
+	select BR2_PACKAGE_KODI_SCRIPT_PYTHON_TWITCH
+	help
+	  Kodi Twitch Plugin
+
+	  source https://kodi.tv/addon/plugins-video-add-ons/twitch
