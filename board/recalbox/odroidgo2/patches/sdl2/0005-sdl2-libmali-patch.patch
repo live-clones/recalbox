@@ -1,0 +1,60 @@
+From 241efc729eeedfe48762c95b9221eea0eaa23349 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sun, 16 Jan 2022 12:40:23 +0100
+Subject: [PATCH 5/5] sdl2 libmali patch
+
+---
+ src/video/SDL_egl.c                   |  2 +-
+ src/video/kmsdrm/SDL_kmsdrmopengles.c | 15 +++++++++++----
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/src/video/SDL_egl.c b/src/video/SDL_egl.c
+index e10cf7c70..f7cf2751a 100644
+--- a/src/video/SDL_egl.c
++++ b/src/video/SDL_egl.c
+@@ -1041,7 +1041,7 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
+         return NULL;
+     }
+ 
+-    _this->egl_data->egl_swapinterval = 0;
++    _this->egl_data->egl_swapinterval = 1;
+ 
+     if (SDL_EGL_MakeCurrent(_this, egl_surface, egl_context) < 0) {
+         /* Save the SDL error set by SDL_EGL_MakeCurrent */
+diff --git a/src/video/kmsdrm/SDL_kmsdrmopengles.c b/src/video/kmsdrm/SDL_kmsdrmopengles.c
+index ca3556385..150227575 100644
+--- a/src/video/kmsdrm/SDL_kmsdrmopengles.c
++++ b/src/video/kmsdrm/SDL_kmsdrmopengles.c
+@@ -44,11 +44,17 @@ KMSDRM_GLES_DefaultProfileConfig(_THIS, int *mask, int *major, int *minor)
+ {
+     /* if SDL was _also_ built with the Raspberry Pi driver (so we're
+        definitely a Pi device), default to GLES2. */
+-#if SDL_VIDEO_DRIVER_RPI
+-    *mask = SDL_GL_CONTEXT_PROFILE_ES;
+-    *major = 2;
+-    *minor = 0;
++    /* JohnnyonFlame: We want to use GLESv2 as a default for compatibility
++       with SDL 2.0.10 builds, but offer the ability to use the OpenGL defaults
++       if ever needed. */
++#ifndef SDL_VIDEO_DRIVER_RPI
++    if (!SDL_getenv("SDL_DEFAULT_CONTEXT_PROFILE"))
+ #endif
++    {
++        *mask = SDL_GL_CONTEXT_PROFILE_ES;
++        *major = 2;
++        *minor = 0;
++    }
+ }
+ 
+ int
+@@ -75,6 +81,7 @@ SDL_EGL_CreateContext_impl(KMSDRM)
+ 
+ int KMSDRM_GLES_SetSwapInterval(_THIS, int interval) {
+ 
++  interval = 1;
+     if (!_this->egl_data) {
+         return SDL_SetError("EGL not initialized");
+     }
+-- 
+2.34.1
+
