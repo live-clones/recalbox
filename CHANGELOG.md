@@ -49,6 +49,7 @@ All notable changes to this project will be documented in this file.
   - configuration in now in /boot/crt/
   - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
+- Fix 'All Games' label in EmulationSttion (#2124)
 
 ## [8.0-Electron]
 - Remove non-working shaders
