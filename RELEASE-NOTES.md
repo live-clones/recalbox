@@ -20,6 +20,8 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add core libretro vitaquake2 for x64
 
+- Add Libretro BSnes and BSnes HD cores
+
 ### Improvements
 
 ### Fixes
