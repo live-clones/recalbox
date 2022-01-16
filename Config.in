@@ -3,6 +3,7 @@ menu "Recalbox"
     comment "CPU/GPU specific options"
     menu "Rockchip"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mali/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mali-bifrost-vulkan/Config.in"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mpp/Config.in"
     endmenu
     comment "Board specific options"
