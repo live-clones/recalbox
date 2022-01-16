@@ -1,5 +1,5 @@
-config BR2_PACKAGE_LIBRETRO_BSNES
-	bool "libretro-bsnes"
+config BR2_PACKAGE_LIBRETRO_BSNES_HD
+	bool "libretro-bsnes-hd"
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	depends on BR2_PACKAGE_RECALBOX_ROMFS2
@@ -9,5 +9,5 @@ config BR2_PACKAGE_LIBRETRO_BSNES
 
 	  http://www.libretro.com
 
-comment "LIBRETRO_BSNES needs a toolchain w/ C++"
+comment "LIBRETRO_BSNES_HD needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
