@@ -52,7 +52,7 @@ class LibretroGenerator(Generator):
                     configs.append(crtOverlayFile)
         # Overlays are applied only when we are not in wide core
         else:
-            if system.Core not in ["genesisplusgxwide"]:
+            if system.Core not in ["genesisplusgxwide", "bsneshd"]:
                 # User overlays
                 userOverlayApplied = False
                 overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
