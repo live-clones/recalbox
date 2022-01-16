@@ -108,7 +108,7 @@ class MainRunner
     /*!
      * @brief Display Intro
      */
-    void Intro();
+    void Intro(bool debug);
 
     /*!
      * @brief Check home folder existence
@@ -267,7 +267,7 @@ class MainRunner
      * @param windowed No fullscreen
      * @param runCount Number of time the MainRunner has been run
      */
-    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment);
+    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug);
 
     //! Destructor
     virtual ~MainRunner();

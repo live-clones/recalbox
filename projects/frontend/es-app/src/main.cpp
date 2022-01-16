@@ -6,7 +6,7 @@
 #include <utils/Log.h>
 #include "MainRunner.h"
 
-bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed)
+bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool debug)
 {
   for (int i = 1; i < argc; i++)
   {
@@ -30,6 +30,7 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     else if (strcmp(argv[i], "--debug") == 0)
     {
       Log::setReportingLevel(LogLevel::LogDebug);
+      debug = true;
     }
     else if (strcmp(argv[i], "--windowed") == 0)
     {
@@ -61,14 +62,14 @@ int main(int argc, char* argv[], char** env)
   // Get arguments
   unsigned int width = 0;
   unsigned int height = 0;
-  bool windowed = false;
-  if (!parseArgs(argc, argv, width, height, windowed))
+  bool windowed = false, debug = false;
+  if (!parseArgs(argc, argv, width, height, windowed, debug))
     return 0;
 
   for(int loopCount = 0;; ++loopCount)
   {
     // Start the runner
-    MainRunner runner(argv[0], width, height, windowed, loopCount, env);
+    MainRunner runner(argv[0], width, height, windowed, loopCount, env, debug);
     MainRunner::ExitState exitState = runner.Run();
 
     { LOG(LogInfo) << "[Main] EmulationStation cleanly shutting down."; }

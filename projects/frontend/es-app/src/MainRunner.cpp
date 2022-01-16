@@ -35,7 +35,7 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment)
+MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug)
   : mRequestedWidth(width)
   , mRequestedHeight(height)
   , mRequestWindowed(windowed)
@@ -44,7 +44,7 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
 {
-  Intro();
+  Intro(debug);
   SetLocale(executablePath);
   CheckHomeFolder();
 
@@ -458,12 +458,48 @@ void onExit()
   Log::close();
 }
 
-void MainRunner::Intro()
+void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
+{
+  (void)userdata;
+  const char* cat = "Unknown";
+  switch(category)
+  {
+    case SDL_LOG_CATEGORY_APPLICATION: cat = "Application"; break;
+    case SDL_LOG_CATEGORY_ERROR: cat = "Error"; break;
+    case SDL_LOG_CATEGORY_ASSERT: cat = "Assert"; break;
+    case SDL_LOG_CATEGORY_SYSTEM: cat = "System"; break;
+    case SDL_LOG_CATEGORY_AUDIO: cat = "Audio"; break;
+    case SDL_LOG_CATEGORY_VIDEO: cat = "Video"; break;
+    case SDL_LOG_CATEGORY_RENDER: cat = "Render"; break;
+    case SDL_LOG_CATEGORY_INPUT: cat = "Input"; break;
+    case SDL_LOG_CATEGORY_TEST: cat = "Test"; break;
+    default: break;
+  }
+  const char*  subType = "Unknown";
+  switch(priority)
+  {
+    case SDL_LOG_PRIORITY_VERBOSE: subType = "Verbose"; break;
+    case SDL_LOG_PRIORITY_DEBUG: subType = "Debug"; break;
+    case SDL_LOG_PRIORITY_INFO: subType = "Info"; break;
+    case SDL_LOG_PRIORITY_WARN: subType = "Warning"; break;
+    case SDL_LOG_PRIORITY_ERROR: subType = "Error"; break;
+    case SDL_LOG_PRIORITY_CRITICAL: subType = "Critical"; break;
+    case SDL_NUM_LOG_PRIORITIES:
+    default: break;
+  }
+  LOG(LogDebug) << "[SDL2] (" << cat << ':' << subType << ") " << message;
+}
+
+void MainRunner::Intro(bool debug)
 {
   atexit(&onExit); // Always close the log on exit
 
-  if (mConfiguration.AsBool("emulationstation.debuglogs", false))
+  if (debug || mConfiguration.AsBool("emulationstation.debuglogs", false))
+  {
     Log::setReportingLevel(LogLevel::LogDebug);
+    SDL_LogSetOutputFunction(Sdl2Log, nullptr);
+    SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
+  }
 
   { LOG(LogInfo) << "[MainRunner] EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING; }
 }
