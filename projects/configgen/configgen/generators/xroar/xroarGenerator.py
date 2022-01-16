@@ -84,10 +84,6 @@ class XroarGenerator(Generator):
         # envvars
         commandEnv = {}
 
-        from configgen.utils.architecture import Architecture
-        if Architecture().isXu4:
-            commandEnv["SDL_VIDEODRIVER"] = "kmsdrm_legacy"
-
         # Add extra arguments
         if system.HasArgs: commandArray.extend(system.Args)
 

@@ -42,10 +42,6 @@ class MupenGenerator(Generator):
         if resolution.isSet and resolution.selfProcess:
             commandArray.extend(["--fullscreen", "--resolution", resolution.string])
 
-        from configgen.utils.architecture import Architecture
-        if Architecture().isXu4:
-            commandEnv["SDL_VIDEODRIVER"] = "kmsdrm_legacy"
-
         # Verbose
         if args.verbose:
             commandArray.append("--verbose")
