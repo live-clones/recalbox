@@ -348,7 +348,7 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(HelpType::Start, _("OPTIONS"));
   if (!IsFavoriteSystem())
-    help.Set(HelpType::Select, RecalboxConf::Instance().GetFavoritesOnly() ? _("ALL GAMES") : _("FAVORITES ONLY"));
+    help.Set(HelpType::Select, RecalboxConf::Instance().GetFavoritesOnly() ? _("All Games") : _("FAVORITES ONLY"));
 
   return true;
 }
