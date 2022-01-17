@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Add geometry screen for crt (#2129)
 - Fix S31emulationstation typo (#2129)
 - Remove recalbox.conf CRT configuration (#2129)
+- Fix 4k issue on splashvideo
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
