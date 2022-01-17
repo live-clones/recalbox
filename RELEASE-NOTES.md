@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
 
 - New option in UI menu : hide PORTS collection
+- Add recalbox.conf option to force resolution of splash videos on x64
 ### Improvements
 
 - Bump EmuSCV to fix zipped games load
