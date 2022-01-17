@@ -156,10 +156,15 @@ playVideoOnOneScreen() {
 # * filename to play
 playVideo() {
   local conn
+  local resolution
+  local drmmode=""
+
   if [[ "$machineArch" =~ x86 ]]; then
+    resolution="$($systemsetting -command load -key system.splash.resolution -source /boot/recalbox-backup.conf)"
+    if [ "$resolution" != "" ] ; then drmmode="--drm-mode=$resolution" ; fi
     # on x86 and x86_64, find connected monitors and play video on all of them
     findConnectedConnectors |while read -r conn; do
-      playVideoOnOneScreen "$1" "--vo=drm --drm-connector=$conn"
+      playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
   elif [[ "$ARCH" == "rpi1" || "$ARCH" == "rpi2" ]]; then
     # on rpi1 2 and 3 we need to force output
