@@ -329,26 +329,58 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data)
         result.append(" -crtresolutiontype ").append(data.HighResolution() ? "progressive" : "doublefreq");
       else
         result.append(" -crtresolutiontype ").append("progressive");
-      result.append(" -crtregion ntsc");
+      result.append(" -crtvideostandard ntsc");
     }
-    else {
+    else
+    {
       result.append(" -crtresolutiontype ").append(data.HighResolution() ? "interlaced" : "progressive");
-      result.append(" -crtregion ");
-      // Force pal if switch 50hz
-      if(crtBoard.MustForce50Hz())
-      {
-        result.append("pal");
-      }
-      else
-      {
-        switch(data.Region())
+
+        result.append(" -crtvideostandard ");
+        // Force pal if switch 50hz
+        if (crtBoard.MustForce50Hz())
         {
-          case CrtData::VideoRegion::Pal: result.append("pal"); break;
-          case CrtData::VideoRegion::Ntsc: result.append("ntsc"); break;
-          case CrtData::VideoRegion::Auto:
-          default: result.append("auto"); break;
+            result.append("pal");
+        } else
+        {
+            switch (data.VideoStandard())
+            {
+                case CrtData::CrtVideoStandard::PAL:
+                    result.append("pal");
+                    break;
+                case CrtData::CrtVideoStandard::NTSC:
+                    result.append("ntsc");
+                    break;
+                case CrtData::CrtVideoStandard::AUTO:
+                default:
+                    result.append("auto");
+                    break;
+            }
         }
-      }
+
+        result.append(" -crtregion ");
+        // Force eu if switch 50hz
+        if (crtBoard.MustForce50Hz())
+        {
+            result.append("eu");
+        } else
+        {
+            switch (data.Region())
+            {
+                case CrtData::CrtRegion::EU:
+                    result.append("eu");
+                    break;
+                case CrtData::CrtRegion::US:
+                    result.append("us");
+                    break;
+                case CrtData::CrtRegion::JP:
+                    result.append("jp");
+                    break;
+                case CrtData::CrtRegion::AUTO:
+                default:
+                    result.append("auto");
+                    break;
+            }
+        }
     }
   }
 

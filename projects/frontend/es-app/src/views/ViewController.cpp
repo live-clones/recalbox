@@ -19,6 +19,7 @@
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
+#include <guis/menus/GuiCheckMenu.h>
 #include <utils/locale/LocaleHelper.h>
 #include <usernotifications/NotificationManager.h>
 
@@ -372,44 +373,79 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
     }
   }
 
-  if (mGameLinkedData.Crt().IsRegionConfigured())
+  if (mGameLinkedData.Crt().IsRegionOrStandardConfigured())
   {
     if (mGameLinkedData.Crt().MustChoosePALorNTSC(game->System()))
     {
-      static int lastChoice = 0;
-      Gui* gui = (
-                  new GuiMsgBox(mWindow,
-                                _("Game refresh rate"),
-                                _("AUTO"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Auto); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                _("60Hz"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Ntsc); LaunchCheck(game, cameraTarget, true); lastChoice = 1; },
-                                _("50Hz"),
-                                [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureNTSC(CrtData::VideoRegion::Pal); LaunchCheck(game, cameraTarget, true); lastChoice = 2; }
-                               )
-                 )->SetDefaultButton(lastChoice);
-      mWindow.pushGui(gui);
-      return;
+        if(game->System().Name() == "megadrive")
+        {
+            static int lastChoiceMulti60 = 0;
+            mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                             _("Game refresh rate"),
+                                             lastChoiceMulti60,
+                                             _("AUTO"),
+                                             _("AUTO"),
+                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::AUTO);
+                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 0;},
+                                             _("60Hz (US)"),
+                                             _("60Hz (US)"),
+                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::US);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
+                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 1;},
+                                             _("60Hz (JP)"),
+                                             _("60Hz (JP)"),
+                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::JP);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
+                LaunchCheck(game, cameraTarget, true);lastChoiceMulti60 = 2;},
+                                             _("50Hz (EU)"),
+                                             _("50Hz (EU)"),
+                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::EU);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::PAL);
+                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 3;}
+                ));
+        } else
+        {
+            static int lastChoice = 0;
+            mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                         _("Game refresh rate"),
+                                         lastChoice,
+                                         _("AUTO"),
+                                         _("AUTO"),
+                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::AUTO);
+                LaunchCheck(game, cameraTarget, true); lastChoice = 0;},
+                                         _("60Hz"),
+                                         _("60Hz"),
+                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
+                LaunchCheck(game, cameraTarget, true); lastChoice = 1;},
+                                         _("50Hz"),
+                                         _("50Hz"),
+                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
+                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::PAL);
+                LaunchCheck(game, cameraTarget, true);lastChoice = 2;}
+                ));
+        }
+        return;
     }
   }
   if (mGameLinkedData.Crt().IsHighResolutionConfigured())
   {
     if (mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
     {
-      const bool highResProgressive = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
-      static int lastChoice = 0;
-      Gui* gui = (
-                  new GuiMsgBox(mWindow,
-                                _("Game resolution"),
-                                _("240p"),
-                                [this, game, &cameraTarget] {
-                                  mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                _(highResProgressive ? "480p" : "480i"),
-                                [this, game, &cameraTarget] {
-                                  mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
-                               )
-                )->SetDefaultButton(lastChoice);
-      mWindow.pushGui(gui);
+        const bool highResProgressive = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
+        static int lastChoice = 0;
+        mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                         _("Game resolution"),
+                                         lastChoice,
+                                         _("240p"),
+                                         _("240p"),
+                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                         _(highResProgressive ? "480p" : "480i"),
+                                         _(highResProgressive ? "480p" : "480i"),
+                                         [this, game, &cameraTarget] {mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                         ));
       return;
     }
   }

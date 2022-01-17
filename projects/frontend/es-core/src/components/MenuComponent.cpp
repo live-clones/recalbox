@@ -276,3 +276,9 @@ std::shared_ptr<ImageComponent> makeArrow(WindowManager&window)
     
     return bracket;
 }
+
+void MenuComponent::SetDefaultButton(int index)
+{
+    if ((unsigned int)index < (unsigned int)mButtons.size())
+        mButtonGrid->setCursorTo(mButtons[index]);
+}

@@ -105,7 +105,12 @@ class MenuComponent : public Component
     void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
 
     inline void setCursorToList() { mGrid.setCursorTo(mList); }
+    inline int getButtonsSize() { return mButtons.size(); }
     inline void setCursorToButtons() { assert(mButtonGrid); mGrid.setCursorTo(mButtonGrid); }
+    inline void setCursorToButton(int index) {
+        setCursorToButtons();
+        mGrid.moveCursor(Vector2i(index, 0));
+    }
     inline void clear() { mList->clear(); }
 
     bool getHelpPrompts(Help& help) override;
@@ -130,7 +135,9 @@ class MenuComponent : public Component
       updateSize();
     }
 
-  protected:
+    void SetDefaultButton(int index);
+
+protected:
     inline ComponentList* getList() const { return mList.get(); }
 
   private:

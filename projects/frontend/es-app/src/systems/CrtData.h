@@ -13,18 +13,27 @@ class CrtData
 {
   public:
     //! Video system
-    enum class VideoRegion
+    enum class CrtRegion
     {
-      Auto, //!< Automatic selection
-      Pal,  //!< Forced Pal
-      Ntsc, //!< Forced Ntsc
+      AUTO, //!< Automatic selection
+      JP,  //!< Forced Japan
+      US, //!< Forced US
+      EU, //!< Forced Europe
+    };
+
+    enum class CrtVideoStandard
+    {
+        AUTO, //!< Automatic selection
+        PAL,  //!< Forced Pal
+        NTSC, //!< Forced Ntsc
     };
 
     //! Default constructor
     CrtData()
-      : mRegionConfigured(false)
+      : mRegionOrVideoStandardConfigured(false)
       , mHighResolutionConfigured(false)
-      , mRegion(VideoRegion::Auto)
+      , mVideoStandard(CrtVideoStandard::AUTO)
+      , mRegion(CrtRegion::AUTO)
       , mHighResoution(false)
     {
     }
@@ -46,9 +55,9 @@ class CrtData
      * @brief Check if there is a CRT board and the user requested to choose individual NTSC options
      * @return True if the class needs to be configured, false otherwise
      */
-    bool IsRegionConfigured() const
+    bool IsRegionOrStandardConfigured() const
     {
-      if (!mRegionConfigured)
+      if (!mRegionOrVideoStandardConfigured)
         if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
           if (CrtConf::Instance().GetSystemCRTGameRegionSelect())
             return true;
@@ -59,10 +68,16 @@ class CrtData
      * @brief Configure crt data
      * @param ntsc True for NTSC, false for PAL
      */
-    void ConfigureNTSC(VideoRegion video)
+    void ConfigureVideoStandard(CrtVideoStandard standard)
     {
-      mRegion = video;
-      mRegionConfigured = true;
+        mVideoStandard = standard;
+        mRegionOrVideoStandardConfigured = true;
+    }
+
+    void ConfigureRegion(CrtRegion region)
+    {
+        mRegion = region;
+        mRegionOrVideoStandardConfigured = true;
     }
 
     /*!
@@ -114,15 +129,17 @@ class CrtData
 
     bool HighResolution() const { return mHighResoution; }
 
-    VideoRegion Region() const { return mRegion; }
+    CrtVideoStandard VideoStandard() const { return mVideoStandard; }
+    CrtRegion Region() const { return mRegion; }
 
   private:
     //! NTSC configured
-    bool mRegionConfigured;
+    bool mRegionOrVideoStandardConfigured;
     //! 480i configured
     bool mHighResolutionConfigured;
     //! Video system (default: auto
-    VideoRegion mRegion;
+    CrtVideoStandard mVideoStandard;
+    CrtRegion mRegion;
     //! 480? (default: 240p)
     bool mHighResoution;
 };

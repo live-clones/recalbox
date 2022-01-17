@@ -126,7 +126,7 @@ void ComponentList::updateCameraOffset()
 {
 	// move the camera to scroll
 	const float totalHeight = getTotalRowHeight();
-	if(totalHeight > mSize.y())
+	if(totalHeight > mSize.y() && !mEntries.empty())
 	{
 		float target = mSelectorBarOffset + getRowHeight(mEntries[mCursor].data)/2 - (mSize.y() / 2);
 
