@@ -26,6 +26,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Check it runs in the proper resolution
 - [ ] odroidgoa and odroidgos is working (#2123)
 - [ ] check duckstation is working (#2123)
+- [ ] check ppsspp is working (#2123)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
