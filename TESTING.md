@@ -19,6 +19,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check the crt-pi shader that it is working (#2065)
 - [ ] Verify support archive contains pulseaudio info (#2118)
 - [ ] odroidgoa and odroidgos is working (#2123)
+- [ ] check duckstation is working (#2123)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
