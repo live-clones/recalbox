@@ -165,10 +165,15 @@ getCrtMpvOptions() {
 # * filename to play
 playVideo() {
   local conn
+  local resolution
+  local drmmode=""
+
   if [[ "$machineArch" =~ x86 ]]; then
+    resolution="$($systemsetting -command load -key system.splash.resolution -source /boot/recalbox-backup.conf)"
+    if [ "$resolution" != "" ] ; then drmmode="--drm-mode=$resolution" ; fi
     # on x86 and x86_64, find connected monitors and play video on all of them
     findConnectedConnectors |while read -r conn; do
-      playVideoOnOneScreen "$1" "--vo=drm --drm-connector=$conn"
+      playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
   elif grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product; then
     # On recalbox RGB Dual we will try to get 640x480i for videos 
