@@ -2085,7 +2085,7 @@ msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr ""
 
 #:
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
 
 #:
