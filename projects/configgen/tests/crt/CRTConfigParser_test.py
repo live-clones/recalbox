@@ -2,7 +2,7 @@ from unittest.mock import mock_open
 
 import pytest
 
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTRegion, CRTScreenType, CRTResolutionType
+from configgen.crt.CRTConfigParser import CRTConfigParser, CRTVideoStandard, CRTScreenType, CRTResolutionType
 from configgen.crt.Mode import Mode
 
 
@@ -39,23 +39,23 @@ def test_given_a_malformed_file_load_mode_should_throw(mocker):
 def test_given_a_single_line_file_parse_systems_file_should_returns_a_dict_with_the_system_id_the_region_and_mode_id(
         mocker):
     givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,0,0")
-    config = CRTConfigParser().findSystem("snes", CRTRegion.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
     assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 0, 0)
 
 
 def test_given_a_multi_line_file_parse_systems_file_should_returns_a_dict_with_the_system_id_the_region_and_mode_id(
         mocker):
     givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,0,0\nsnes,ntsc,15kHz,progressive,snes:224@60p,0,0")
-    config = CRTConfigParser().findSystem("snes", CRTRegion.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
     assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 0, 0)
-    config = CRTConfigParser().findSystem("snes", CRTRegion.NTSC, CRTScreenType.k15, CRTResolutionType.Progressive)
+    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.NTSC, CRTScreenType.k15, CRTResolutionType.Progressive)
     assert config == ("ntsc", "15kHz", "progressive", "snes:224@60p", 0, 0)
 
 
 def test_given_a_systems_with_overscans_should_returns_the_overscans(
         mocker):
     givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,10,20")
-    config = CRTConfigParser().findSystem("snes", CRTRegion.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
     assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 10, 20)
 
 

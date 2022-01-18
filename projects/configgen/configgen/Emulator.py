@@ -1,15 +1,15 @@
 from enum import Enum
 from typing import List, Union
 
-from configgen.crt.CRTConfigParser import CRTRegion, CRTResolutionType, CRTScreenType
+from configgen.crt.CRTConfigParser import CRTVideoStandard, CRTResolutionType, CRTScreenType, CRTRegion
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
-class ExtraArguments :
+class ExtraArguments:
     def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
                  netplay_viewerpassword:str, netplay_vieweronly:str,
-                 crtregion:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
-                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int):
+                 crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
+                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto"):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -17,6 +17,7 @@ class ExtraArguments :
         self.netplay_playerpassword = netplay_playerpassword
         self.netplay_viewerpassword = netplay_viewerpassword
         self.netplay_vieweronly = netplay_vieweronly
+        self.crtvideostandard = crtvideostandard
         self.crtregion = crtregion
         self.crtresolutiontype = crtresolutiontype
         self.crtscreentype = crtscreentype
@@ -73,6 +74,7 @@ class Emulator:
         self._netplayViewerOnly: bool = False
 
         # CRT arguments
+        self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.AUTO
         self._crtregion: CRTRegion = CRTRegion.AUTO
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
         self._crtscreentype: CRTScreenType = CRTScreenType.k15
@@ -138,6 +140,7 @@ class Emulator:
         self._netplayViewerOnly     = arguments.netplay_vieweronly
 
         # CRT arguments
+        self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.fromString(arguments.crtvideostandard)
         self._crtregion: CRTRegion = CRTRegion.fromString(arguments.crtregion)
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
@@ -296,6 +299,9 @@ class Emulator:
 
     @property
     def TranslateTo(self) -> str: return self._translateTo
+
+    @property
+    def CRTVideoStandard(self) -> CRTVideoStandard: return self._crtvideostandard
 
     @property
     def CRTRegion(self) -> CRTRegion: return self._crtregion

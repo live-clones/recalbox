@@ -49,7 +49,7 @@ def system_gb_with_overlays():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
     recalbox_conf = keyValueSettings("", True)
     recalbox_conf.setString("global.recalboxoverlays", "1")
-    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", 0, 0, 0))
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", 0, 0, 0, "auto"))
     return gb
 
 @pytest.fixture
@@ -181,7 +181,7 @@ def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, co
         "/recalbox/share/system/configs/crt/modes.txt": "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:224@50p,1920 1 78 192 210 224 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
 
     system_snes.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual", -2, -10, 1820))
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual", -2, -10, 1820, "auto"))
 
     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
@@ -197,7 +197,8 @@ def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_wi
     recalbox_conf.setString("global.recalboxoverlays", "1")
 
     system_gb_with_overlays.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual",0,0,0))
+                                      ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz",
+                                                     "recalboxrgbdual", 0, 0, 0, "auto"))
 
     givenThoseFiles(mocker, {
         "/recalbox/share/system/configs/crt/systems.txt": "gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",

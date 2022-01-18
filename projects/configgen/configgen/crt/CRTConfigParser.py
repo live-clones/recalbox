@@ -11,7 +11,7 @@ CRTSystemMode = typing.Tuple[str, str, str, str, int, int]
 CRTArcadeMode = typing.Tuple[str, str, int, int, int]
 
 
-class CRTRegion(str, Enum):
+class CRTVideoStandard(str, Enum):
     PAL = "pal"
     NTSC = "ntsc"
     AUTO = "auto"
@@ -20,9 +20,25 @@ class CRTRegion(str, Enum):
     @staticmethod
     def fromString(value: str):
         if value == "pal":
-            return CRTRegion.PAL
+            return CRTVideoStandard.PAL
         if value == "ntsc":
-            return CRTRegion.NTSC
+            return CRTVideoStandard.NTSC
+        return CRTVideoStandard.AUTO
+
+class CRTRegion(str, Enum):
+    AUTO = "auto"
+    EU = "eu"
+    US = "us"
+    JP = "jp"
+
+    @staticmethod
+    def fromString(value: str):
+        if value == "eu":
+            return CRTRegion.EU
+        if value == "us":
+            return CRTRegion.US
+        if value == "jp":
+            return CRTRegion.JP
         return CRTRegion.AUTO
 
 
@@ -98,7 +114,7 @@ class CRTConfigParser:
             raise Exception("Mode not found")
         return mode
 
-    def findSystem(self, system: str, region: CRTRegion, screenType: CRTScreenType,
+    def findSystem(self, system: str, region: CRTVideoStandard, screenType: CRTScreenType,
                    rezType: CRTResolutionType) -> typing.Optional[CRTSystemMode]:
         for line in self.find_lines_begining_with_in_configs(
                 "{},{},{},{}".format(system, region, screenType, rezType), "systems.txt"):

@@ -1,7 +1,7 @@
 import pytest
 
 from configgen.Emulator import Emulator
-from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT, CoreToRegionMap
+from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT, VideoStandardToRegionMap
 from tests.generators.libretro.crt.LibretroConfigCRT_test import configureForCrt
 
 
@@ -140,7 +140,7 @@ def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
 def test_given_dreamcast_should_select_core_resolution_480_from_mode_on15khz_interlaced(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="interlaced", crtregion="auto",
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="interlaced", crtvideostandard="auto",
                                 crtscreentype="15kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
@@ -149,7 +149,7 @@ def test_given_dreamcast_should_select_core_resolution_480_from_mode_on15khz_int
 def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtregion="auto",
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtvideostandard="auto",
                                 crtscreentype="15kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
@@ -158,7 +158,7 @@ def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(moc
 def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtregion="auto",
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtvideostandard="auto",
                                 crtscreentype="31kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
@@ -167,7 +167,7 @@ def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz(mocker,
 def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz_doublefreq(mocker, system_dreamcast):
     core_configurator = LibretroCoreConfigCRT()
 
-    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="doublefreq", crtregion="auto",
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="doublefreq", crtvideostandard="auto",
                                 crtscreentype="31kHz")
     assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
@@ -177,9 +177,40 @@ def test_given_multiregion_emulator_should_add_the_core_region_when_forced(mocke
     core_configurator = LibretroCoreConfigCRT()
 
     for region in ["auto", "ntsc", "pal"]:
-        for core in CoreToRegionMap.keys():
+        for core in VideoStandardToRegionMap.keys():
             emulator = configureForCrt(
                 Emulator("whatever", videoMode='1920x1080', ratio='auto', emulator='libretro', core=core),
-                crtregion=region)
-            assert core_configurator.createConfigFor(emulator)[CoreToRegionMap[core]["prop_name"]] == \
-                   CoreToRegionMap[core]["values"][region]
+                crtvideostandard=region)
+            assert core_configurator.createConfigFor(emulator)[VideoStandardToRegionMap[core]["prop_name"]] == \
+                   VideoStandardToRegionMap[core]["values"][region]
+
+
+def test_given_megadrive_and_jp_region_should_return_the_jp_region():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="jp", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'ntsc-j'
+
+def test_given_megadrive_and_us_region_should_return_the_us_region():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="us", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'ntsc-u'
+
+def test_given_megadrive_and_eu_region_should_return_the_eu_region():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="pal", crtregion="eu", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'pal'
+
+def test_given_megadrive_and_eu_region_should_return_the_eu_region_even_if_mode_is_ntsc():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="eu", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'pal'
+
+def test_given_megadrive_and_auto_region_should_return_the_auto_region():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="auto", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'auto'

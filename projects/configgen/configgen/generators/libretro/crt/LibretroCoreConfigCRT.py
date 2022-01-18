@@ -1,45 +1,53 @@
 import typing
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType
+from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType, CRTVideoStandard, CRTRegion
 from configgen.utils.recallog import recallog
 
-CoreToRegionMap = {
+VideoStandardToRegionMap = {
     "genesisplusgx":
         {
             "prop_name": "genesis_plus_gx_region_detect",
-            "values": {"auto": "auto", "ntsc": "ntsc-u", "pal": "pal"}
+            "values": {CRTVideoStandard.AUTO: "auto", CRTVideoStandard.NTSC: "ntsc-u", CRTVideoStandard.PAL: "pal"}
         },
     "snes9x":
         {
             "prop_name": "snes9x_region",
-            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+            "values": {CRTVideoStandard.AUTO: "auto", CRTVideoStandard.NTSC: "ntsc", CRTVideoStandard.PAL: "pal"}
         },
     "picodrive":
         {
             "prop_name": "nestopia_favored_system",
-            "values": {"auto": "Auto", "ntsc": "US", "pal": "Europe"}
+            "values": {CRTVideoStandard.AUTO: "Auto", CRTVideoStandard.NTSC: "US", CRTVideoStandard.PAL: "Europe"}
         },
     "nestopia":
         {
             "prop_name": "nestopia_favored_system",
-            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+            "values": {CRTVideoStandard.AUTO: "auto", CRTVideoStandard.NTSC: "ntsc", CRTVideoStandard.PAL: "pal"}
         },
     "stella":
         {
             "prop_name": "stella_console",
-            "values": {"auto": "auto", "ntsc": "ntsc", "pal": "pal"}
+            "values": {CRTVideoStandard.AUTO: "auto", CRTVideoStandard.NTSC: "ntsc", CRTVideoStandard.PAL: "pal"}
         },
     "swanstation":
         {
             "prop_name": "duckstation_Console.Region",
-            "values": {"auto": "Auto", "ntsc": "NTSC-U", "pal": "PAL"}
+            "values": {CRTVideoStandard.AUTO: "Auto", CRTVideoStandard.NTSC: "NTSC-U", CRTVideoStandard.PAL: "PAL"}
         },
     "o2em":
         {
             "prop_name": "duckstation_Console.Region",
-            "values": {"auto": "auto", "ntsc": "NTSC", "pal": "PAL"}
+            "values": {CRTVideoStandard.AUTO: "auto", CRTVideoStandard.NTSC: "NTSC", CRTVideoStandard.PAL: "PAL"}
         }
+}
+
+RegionToCoreRegionMap = {
+    "genesisplusgx":
+        {
+            "prop_name": "genesis_plus_gx_region_detect",
+            "values": {CRTRegion.AUTO: "auto", CRTRegion.JP: "ntsc-j", CRTRegion.US: "ntsc-u", CRTRegion.EU: "pal"}
+        },
 }
 
 
@@ -99,10 +107,15 @@ class LibretroCoreConfigCRT:
             lines["reicast_internal_resolution"] = '"{}"'.format(rez)
             lines["reicast_cable_type"] = '"TV (RGB)"'
 
-        if system.Core in CoreToRegionMap:
-            if system.CRTRegion in CoreToRegionMap[system.Core]["values"]:
-                lines[CoreToRegionMap[system.Core]["prop_name"]] = CoreToRegionMap[system.Core]["values"][
-                    system.CRTRegion]
+        if system.Core in VideoStandardToRegionMap:
+            if system.CRTVideoStandard in VideoStandardToRegionMap[system.Core]["values"]:
+                lines[VideoStandardToRegionMap[system.Core]["prop_name"]] = \
+                    VideoStandardToRegionMap[system.Core]["values"][system.CRTVideoStandard]
+        if system.Name == "megadrive":
+            if system.Core in RegionToCoreRegionMap:
+                if system.CRTRegion in RegionToCoreRegionMap[system.Core]["values"]:
+                    lines[RegionToCoreRegionMap[system.Core]["prop_name"]] = \
+                        RegionToCoreRegionMap[system.Core]["values"][system.CRTRegion]
         log = "Forcing core configuration: "
         for config in lines.items():
             log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')

@@ -31,6 +31,7 @@ class FakeArguments:
         self.netplay_playerpassword = self.netplay_viewerpassword = ""
         self.hash = self.extra = self.nodefaultkeymap = self.verbose = False
 
+        self.crtvideostandard = ""
         self.crtregion = ""
         self.crtresolutiontype = ""
         self.crtscreentype = ""

@@ -15,11 +15,11 @@ SYSTEMS_TXT = "/recalbox/share/system/configs/crt/systems.txt"
 ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 
-def configureForCrt(emulator: Emulator, crtregion="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
-                    crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0):
+def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
+                    crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0, crtregion="auto"):
     emulator.configure(keyValueSettings(""),
-                       ExtraArguments("", "", "", "", "", "", "", crtregion, crtresolutiontype, crtscreentype,
-                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width))
+                       ExtraArguments("", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
+                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion))
     return emulator
 
 
@@ -364,7 +364,7 @@ def test_given_sega_systems_when_31khz_and_doublefreq_selected_should_create_con
 def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="15kHz", crtresolutiontype="progressive",
-                                crtregion="pal")
+                                crtvideostandard="pal")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                         "/recalbox/share/roms/dreamcast/arkbl2.zip")
@@ -378,7 +378,7 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode(m
 def test_given_15kHz_and_force60hz_selected_should_create_config_with_ntsc_mode(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="15kHz", crtresolutiontype="progressive",
-                                crtregion="ntsc")
+                                crtvideostandard="ntsc")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                         "/recalbox/share/roms/dreamcast/arkbl2.zip")
@@ -392,7 +392,7 @@ def test_given_15kHz_and_force60hz_selected_should_create_config_with_ntsc_mode(
 def test_given_sega_systems_when_15khz_and_interlaced_and_force_50hz_should_create_config_with_480i_pal_mode(mocker,
                                                                                                              system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
-    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="interlaced", crtregion="pal")
+    dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="interlaced", crtvideostandard="pal")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                         "/recalbox/share/roms/dreamcast/arkbl2.zip")
@@ -408,7 +408,7 @@ def test_given_any_systems_when_31kHz_with_no_mode_found_should_default_to_31kHz
         SYSTEMS_TXT: "",
         MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
-    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtregion="pal", crtscreentype="31kHz")
+    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtvideostandard="pal", crtscreentype="31kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                         "/recalbox/share/roms/snes/Mario.zip")
@@ -428,7 +428,7 @@ def test_given_any_systems_when_31kHz_and_doublefreq_with_no_mode_found_should_d
         SYSTEMS_TXT: "",
         MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@60,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60"
     })
-    snes = configureForCrt(system_snes, crtresolutiontype="doublefreq", crtregion="pal", crtscreentype="31kHz")
+    snes = configureForCrt(system_snes, crtresolutiontype="doublefreq", crtvideostandard="pal", crtscreentype="31kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                         "/recalbox/share/roms/snes/Mario.zip")
@@ -446,7 +446,7 @@ def test_given_any_systems_when_15kHz_and_auto_region_with_no_mode_found_should_
         SYSTEMS_TXT: "",
         MODES_TXT: "default:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\ndefault:pal:288@50,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1,50"
     })
-    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtregion="auto", crtscreentype="15kHz")
+    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtvideostandard="auto", crtscreentype="15kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                         "/recalbox/share/roms/snes/Mario.zip")
@@ -463,7 +463,7 @@ def test_given_any_systems_when_15kHz_and_forced_region_with_no_mode_found_shoul
         SYSTEMS_TXT: "",
         MODES_TXT: "default:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\ndefault:pal:288@50,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1,50"
     })
-    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtregion="pal", crtscreentype="15kHz")
+    snes = configureForCrt(system_snes, crtresolutiontype="interlaced", crtvideostandard="pal", crtscreentype="15kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                         "/recalbox/share/roms/snes/Mario.zip")
@@ -480,7 +480,7 @@ def test_given_a_arcade_game_and_31kHz_screen_and_doublefreq_then_return_default
         MODES_TXT: "1920@31KHz-double:all:240@60,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
 
-    mamecrt = configureForCrt(system_mame, crtresolutiontype="doublefreq", crtregion="auto", crtscreentype="31kHz")
+    mamecrt = configureForCrt(system_mame, crtresolutiontype="doublefreq", crtvideostandard="auto", crtscreentype="31kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         mamecrt, "/recalbox/share/roms/mame/arkbl2.zip")
@@ -498,7 +498,7 @@ def test_given_a_nes_game_should_return_viewport_info(mocker, system_mame):
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\nsnes:nes:pal:288@50.01,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39070212 1,50.01"})
 
     nes_crt = configureForCrt(Emulator("nes", "libretro", "nestopia", "", "auto"), crtresolutiontype="progressive",
-                              crtregion="auto", crtscreentype="15kHz", viewport_width=1840)
+                              crtvideostandard="auto", crtscreentype="15kHz", viewport_width=1840)
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         nes_crt, "/recalbox/share/roms/nes/nes.zip")

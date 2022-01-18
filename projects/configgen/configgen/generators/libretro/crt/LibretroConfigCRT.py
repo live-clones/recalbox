@@ -2,7 +2,7 @@ import typing
 from pathlib import Path
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTRegion, CRTScreenType, CRTResolutionType
+from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTVideoStandard, CRTScreenType, CRTResolutionType
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.crt.Mode import Mode
 from configgen.utils.recallog import recallog
@@ -57,7 +57,7 @@ class LibretroConfigCRT:
             return mode_viewport_width
         return system.CRTViewportWidth
 
-    def get_default_mode_name_for_config(self, screentype: CRTScreenType, region: CRTRegion,
+    def get_default_mode_name_for_config(self, screentype: CRTScreenType, region: CRTVideoStandard,
                                          resolutiontype: CRTResolutionType):
         if screentype == CRTScreenType.k31:
             if resolutiontype == CRTResolutionType.DoubleFreq:
@@ -102,7 +102,7 @@ class LibretroConfigCRT:
         game_name: str = Path(rom).stem
         recallog(
             "Starting configuration for game {} on system {}, screentype {}, resolutiontype {}, region {}".format(
-                game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTRegion),
+                game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTVideoStandard),
             log_type="CRT")
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
@@ -111,9 +111,9 @@ class LibretroConfigCRT:
             if config_core == "mame2003_plus":
                 config_core = "mame2003"
             if system.CRTScreenType == CRTScreenType.k31:
-                defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTRegion,
+                defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTVideoStandard,
                                                                          system.CRTResolutionType)
-                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset, system.CRTVerticalOffset),
@@ -138,9 +138,9 @@ class LibretroConfigCRT:
                 else:
                     recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
         else:
-            if system.CRTRegion == CRTRegion.AUTO:
+            if system.CRTVideoStandard == CRTVideoStandard.AUTO:
                 recallog("AUTO region selected", log_type="CRT")
-                for region in [CRTRegion.PAL, CRTRegion.NTSC, CRTRegion.ALL]:
+                for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC, CRTVideoStandard.ALL]:
                     system_config = self.crt_config_parser.findSystem(system.Name, region, system.CRTScreenType,
                                                                       system.CRTResolutionType)
                     if system_config is not None:
@@ -161,13 +161,13 @@ class LibretroConfigCRT:
                             "System config not found : {} {} {} {}".format(system.Name, region, system.CRTScreenType,
                                                                            system.CRTResolutionType), log_type="CRT")
             else:
-                recallog("Forced region {}".format(system.CRTRegion), log_type="CRT")
-                system_config = self.crt_config_parser.findSystem(system.Name, system.CRTRegion, system.CRTScreenType,
+                recallog("Forced region {}".format(system.CRTVideoStandard), log_type="CRT")
+                system_config = self.crt_config_parser.findSystem(system.Name, system.CRTVideoStandard, system.CRTScreenType,
                                                                   system.CRTResolutionType)
                 if system_config is not None:
                     mode_id = system_config[3]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), system.CRTHorizontalOffset, system.CRTVerticalOffset)
-                    for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                    for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                         recallog(
                             "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
                                                                                         mode_id),
@@ -179,8 +179,8 @@ class LibretroConfigCRT:
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
             width = 0 if system.CRTScreenType == CRTScreenType.k15 else 640
-            if system.CRTRegion == CRTRegion.AUTO:
-                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+            if system.CRTVideoStandard == CRTVideoStandard.AUTO:
+                for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, region,
                                                                              system.CRTResolutionType)
                     config.update(
@@ -190,9 +190,9 @@ class LibretroConfigCRT:
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
 
             else:
-                defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, system.CRTRegion,
+                defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, system.CRTVideoStandard,
                                                                          system.CRTResolutionType)
-                for region in [CRTRegion.PAL, CRTRegion.NTSC]:
+                for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset, system.CRTVerticalOffset),
