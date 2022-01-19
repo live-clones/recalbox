@@ -19,7 +19,7 @@ SplashView::SplashView(WindowManager& window)
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
-  mLogo.setResize(Renderer::Instance().DisplayWidthAsFloat() * 0.3f, 0.0f);
+  mLogo.setResize(Renderer::Instance().DisplayWidthAsFloat() * (mIsRGBDual ? 0.5f : 0.3f), 0.0f);
   mLogo.setImage(Path(mIsRGBDual ? ":/crt/logo.png" : ":/splash.svg"));
   mLogo.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mLogo.getSize().x()) / 2,
                      (Renderer::Instance().DisplayHeightAsFloat() - mLogo.getSize().y()) / 2 * 0.6f);
