@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [8.0.1-Electron]
 - Fix pin 5/6 power script (#2067)
+- Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
 - Updated support script to fix the systemlist.xml extension (#2071)
 - Fix duckstation controls (#2066)
@@ -36,6 +37,18 @@ All notable changes to this project will be documented in this file.
 - Fix Mupen64plus black screen on piboy dmg (#2058)
 - Fix PPSSPP black screen on piboy dmg (#2058)
 - Fixed piboy pad not detected in Kodi (#2084)
+## [8.0.1-Electron]
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
+  - game refresh rate selection
+  - game resolution selection
+  - smooth option is off by default but can be enabled
+  - update modes and systems database
+  - fix neogeo games
+  - 480i for naomi, atomiswave and dreamcast
+  - add recalboxrgbdual module kernel module
+  - configuration in now in /boot/crt/
+  - add dipswitch support for 15khz/31khz and 50hz modes
+- Improve text for favorites list in system (#2062)
 
 ## [8.0-Electron]
 - Remove non-working shaders

@@ -29,3 +29,4 @@ dist
 
 # this is (over)written by `recaldocker.sh` or `.gitlab-ci.yml`
 /board/recalbox/fsoverlay/recalbox/recalbox.version
+scripts/release/recalbox*
