@@ -30,6 +30,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix shader crt-pi for rpi
 - Fix RetroFlag scripts to use with cases
 - GSplus can be started for Apple 2 emulator
+## Next
+
+### Fixes
+- Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
 
 ## Version 8.0-Electron
 

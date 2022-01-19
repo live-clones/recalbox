@@ -35,6 +35,8 @@ LIBCEC_CONF_OPTS += \
 	-DCMAKE_CXX_FLAGS="$(TARGET_CXXFLAGS) \
 		-I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux \
 		-I$(STAGING_DIR)/usr/include/interface/vcos/pthreads"
+else
+LIBCEC_CONF_OPTS += -DHAVE_LINUX_API=1
 endif
 
 ifeq ($(BR2_PACKAGE_XLIB_LIBXRANDR),y)
