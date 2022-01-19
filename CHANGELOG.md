@@ -35,6 +35,7 @@ All notable changes to this project will be documented in this file.
 - Use KMS driver on PiBoy DMG (#2058)
 - Fix Mupen64plus black screen on piboy dmg (#2058)
 - Fix PPSSPP black screen on piboy dmg (#2058)
+- Fixed piboy pad not detected in Kodi (#2084)
 
 ## [8.0-Electron]
 - Remove non-working shaders
