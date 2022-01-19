@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix shader crt-pi for rpi
 - Fix RetroFlag scripts to use with cases
+- GSplus can be started for Apple 2 emulator
 
 ## Version 8.0-Electron
 

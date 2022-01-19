@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Add pulseaudio info in support archive (#2118)
 - Fix demoInfo cropped message (#2109)
 - Add 240ptestsuite Playstation for CRT (#2117)
+- GSplus can be started for Apple 2 emulator (#2087)
 
 ## [8.0-Electron]
 - Remove non-working shaders
