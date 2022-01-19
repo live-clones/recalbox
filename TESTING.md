@@ -18,6 +18,10 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## [8.0.1]
 - [ ] Check the crt-pi shader that it is working (#2065)
 - [ ] Verify support archive contains pulseaudio info (#2118)
+- [ ] Test mupen64plus gliden64 should not crash on rpi3 (#2082)
+- [ ] Verify gles2_n64 and gles2_rice are available on rpi3 (#2082)
+- [ ] Check glide64mk2 is the default core for rpi3 and is working (more or less) flawlessly (#2082)
+- [ ] Check mupen64plus is still running on all boards (#2082)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
