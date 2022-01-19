@@ -39,12 +39,15 @@ All notable changes to this project will be documented in this file.
 - Fixed piboy pad not detected in Kodi (#2084)
 ## [8.0.1-Electron]
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
-  - 480i default mode
+  - game refresh rate selection
+  - game resolution selection
   - smooth option is off by default but can be enabled
   - update modes and systems database
   - fix neogeo games
   - 480i for naomi, atomiswave and dreamcast
-  - add recalbox-rgb-dual module
+  - add recalboxrgbdual module kernel module
+  - configuration in now in /boot/crt/
+  - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
 
 ## [8.0-Electron]
