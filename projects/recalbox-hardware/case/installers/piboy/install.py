@@ -39,6 +39,7 @@ class Install(InstallBase):
                 installed_file = shutil.copy(source_file, dest_file)
                 logger.hardlog(f"PiBoy: {installed_file} installed")
 
+            sed('\s*video=[^ ]+', '', '/boot/cmdline.txt')
             sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: set video parameter in cmdline.txt")
 
