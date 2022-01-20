@@ -9,6 +9,9 @@ as release notes for end user on a Recalbox upgrade.
 - Add delete game options
 
 ### Improvements
+
+- Bump EmuSCV to fix zipped games load
+
 ### Fixes
 
 ## Version 8.0.2-Electron
