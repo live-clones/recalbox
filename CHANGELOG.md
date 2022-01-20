@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [8.0.1-Electron]
+- Remove recalbox.conf CRT configuration
 - Fix es revision
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
