@@ -47,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add system Philips CD-I (libretro core : cdi2015)
 
 ### Improvements
+- Bump EmuSCV to fix zipped games load
 
 ### Fixes
 
