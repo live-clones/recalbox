@@ -31,6 +31,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] check libretro-parallel-n64 is working (#2123)
 - [ ] check libretro-yabasanshiro is working (#2123)
 - [ ] check scummvm is working (#2123)
+- [ ] No more black screen on piboy after its installation (#2133)
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)
