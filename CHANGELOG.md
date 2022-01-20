@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Fix mupen64plus resolution on odroid (#2128)
 - Fix mupen64plus resolution on pi3 & pi4 (#2144)
 - Bump SDL2 to 2.0.20 (#2104)
+- Remove recalbox.conf CRT configuration
 - Fix es revision
 - Add S15lowramdevices script that disable manager and virtual gamepads for rpizero2 (#2134)
 - Set videomode to default for rpizero2 legacy and 720p for rpizero2 standalone (#2134)
