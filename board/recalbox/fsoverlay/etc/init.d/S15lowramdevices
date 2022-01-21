@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if test "$1" == "start"; then
+  if grep -q "Raspberry Pi Zero 2 W" /proc/cpuinfo && grep -q "system.manager.enabled=1" /recalbox/share/system/recalbox.conf;then
+    INIT_SCRIPT=$(basename "$0")
+    recallog -s "${INIT_SCRIPT}" -t "LOWRAMEDEVICES" "Disabling manager and virtual gamepad for RPiZero2"
+    sed -i "s/system\.manager\.enabled=.*/system.manager.enabled=0/g" /recalbox/share/system/recalbox.conf
+    sed -i "s/system\.virtual-gamepads\.enabled=.*/system.virtual-gamepads.enabled=0/g" /recalbox/share/system/recalbox.conf
+  fi
+fi
