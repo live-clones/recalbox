@@ -7,6 +7,7 @@ as release notes for end user on a Recalbox upgrade.
 ## Version NEXT
 
 ### Fix
+- Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
 - Fix controllers in Duckstations (access menu with HK+B)
@@ -15,7 +16,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix PC88 & Spectravideo scraping
 - Fix rotated DPAD in PCSX2 (PS2 emulator)
 - Fix tearing effect on Odroid GO Advance and Odroid GO Super
-- Fix crash on Mupen64plus GLideN64 o RPI3
 - Fix crash on Mupen64plus GLideN64 on RPI3
 - Add Mupen64plus GLide64MK2 on RPI3
 - Fix automatic audio switch to PlayStation DS4 joypad jack
