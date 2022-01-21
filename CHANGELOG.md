@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [8.0.1-Electron]
 - Fix es revision
+- Set videomode to default for rpizero2 legacy and 720p for rpizero2 standalone (#2134)
+- Remove useless migrations scripts (#2134)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
