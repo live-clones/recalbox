@@ -52,6 +52,7 @@ All notable changes to this project will be documented in this file.
 - Improve text for favorites list in system (#2062)
 
 - Add default configuration for Kodi (#1927)
+- Fix annoying error popup when kodi starts (#2097)
 
 ## [8.0-Electron]
 - Remove non-working shaders

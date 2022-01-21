@@ -45,6 +45,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
 - PiBoy DMG pad is now detected in Kodi
+- Fix annoying error popup when kodi starts
 
 ## Version 8.0-Electron
 

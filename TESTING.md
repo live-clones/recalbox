@@ -53,6 +53,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Kernel bump - test RPI are booting normally (#2058)
 - [ ] Test piboy dmg works flawlessly (#2058)
 - [ ] Test piboy pad is detected in Kodi (#2084)
+- [ ] No error popup when starting kodi (one or more items...) #2097
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
