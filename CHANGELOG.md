@@ -51,6 +51,8 @@ All notable changes to this project will be documented in this file.
   - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
 
+- Add default configuration for Kodi (#1927)
+
 ## [8.0-Electron]
 - Remove non-working shaders
 - Fix rotation on pifba for Rpizero2 (#2032)
