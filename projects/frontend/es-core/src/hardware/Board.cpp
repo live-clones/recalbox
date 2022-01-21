@@ -182,7 +182,7 @@ ICrtInterface& Board::GetCrtBoard()
 
 bool Board::CanHaveCRTBoard()
 {
-  //return true;
+  return true;
   switch(GetBoardType())
   {
     case BoardType::Pi02:

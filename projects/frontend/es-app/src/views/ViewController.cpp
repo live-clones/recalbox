@@ -143,13 +143,14 @@ void ViewController::quitGameClipView()
 
 void ViewController::goToCrtView()
 {
-  mCurrentView = (mCrtView = new CrtView(mWindow));
-  mCurrentView->onShow();
+  mCrtView = new CrtView(mWindow);
+  mCrtView->onShow();
 }
 
 void ViewController::quitCrtView()
 {
   delete mCrtView;
+  mCrtView = nullptr;
   switch (mState.viewing)
   {
     case ViewMode::SystemList: goToSystemView(mSystemListView.getSelected()); break;
@@ -578,6 +579,8 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
   // Normal processing
   if(mState.gameClipRunning)
     mGameClipView->ProcessInput(event);
+  else if (mCrtView != nullptr)
+    mCrtView->ProcessInput(event);
   else
     mCurrentView->ProcessInput(event);
 
@@ -592,10 +595,17 @@ void ViewController::Update(int deltaTime)
 
 void ViewController::Render(const Transform4x4f& parentTrans)
 {
-    if(mState.gameClipRunning) {
-        mGameClipView->Render(parentTrans);
-        return;
-    }
+  if (mState.gameClipRunning)
+  {
+    mGameClipView->Render(parentTrans);
+    return;
+  }
+
+  if (mCrtView != nullptr)
+  {
+    mCrtView->Render(parentTrans);
+    return;
+  }
 
   Transform4x4f trans = mCamera * parentTrans;
   Transform4x4f transInverse(Transform4x4f::Identity());
@@ -734,6 +744,7 @@ void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
 
 bool ViewController::getHelpPrompts(Help& help)
 {
+  if (mCrtView != nullptr) return mCrtView->getHelpPrompts(help);
 	return mCurrentView->getHelpPrompts(help);
 }
 

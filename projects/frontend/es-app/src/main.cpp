@@ -6,7 +6,7 @@
 #include <utils/Log.h>
 #include "MainRunner.h"
 
-bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool debug)
+bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool& debug)
 {
   for (int i = 1; i < argc; i++)
   {

@@ -61,9 +61,9 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
 
     std::vector<ListEntry<ScrappingMethod>> GetScrapingMethods();
     std::vector<ListEntry<SystemData*>> GetSystemsEntries();
-    std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetImagesEntries();
-    std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetThumbnailsEntries();
-    std::vector<ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> GetVideosEntries();
+    static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetImagesEntries();
+    static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetThumbnailsEntries();
+    static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> GetVideosEntries();
     std::vector<ListEntry<ScreenScraperEnums::ScreenScraperRegionPriority>> GetRegionOptionsEntries();
     std::vector<ListEntry<Regions::GameRegions>> GetRegionsEntries();
     std::vector<ListEntry<Languages>> GetLanguagesEntries();

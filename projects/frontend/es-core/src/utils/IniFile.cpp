@@ -179,7 +179,7 @@ void IniFile::SetUInt(const std::string& name, unsigned int value)
   mPendingWrites[name] = Strings::ToString((long long)value);
 }
 
-void IniFile::SetInt(const std::string& name, unsigned int value)
+void IniFile::SetInt(const std::string& name, int value)
 {
   mPendingWrites[name] = Strings::ToString(value);
 }

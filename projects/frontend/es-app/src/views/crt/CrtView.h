@@ -15,6 +15,9 @@ class CrtView : public Gui, private ISynchronousEvent
      */
     explicit CrtView(WindowManager& window);
 
+    //! Destructor
+    ~CrtView() override;
+
     /*
      * IComponent implementation
      */
@@ -25,27 +28,39 @@ class CrtView : public Gui, private ISynchronousEvent
      */
     void Render(const Transform4x4f& parentTrans) override;
 
+    //! Process input events
+    bool ProcessInput(const InputCompactEvent& event) override;
+
+    //! Help bar
+    bool getHelpPrompts(Help& help) override;
+
   private:
+    //! Timing file path
+    static constexpr const char* sTimingFile = "/boot/crt/timings.txt";
+
     //! Pattern image
     ImageComponent mPattern;
 
+    //! Inner grid
+    ComponentGrid mGrid;
+    //! Horizontal offset text
+    std::shared_ptr<TextComponent> mHorizontalOffsetText;
+    //! Vertical offset text
+    std::shared_ptr<TextComponent> mVerticalOffsetText;
+    //! Viewport text
+    std::shared_ptr<TextComponent> mViewportText;
+
     //! Synchronous event
     SyncronousEvent mEvent;
+
+    //! Viewport ratio
+    int mStep;
 
     //! Update viewport
     void UpdateViewport();
 
     //! Update position
     void UpdatePosition();
-
-    /*
-     *  Component overriding
-     */
-
-    bool getHelpPrompts(Help& help) override;
-
-    bool ProcessInput(const InputCompactEvent& event) override;
-
 
     /*
      * Synchronous event

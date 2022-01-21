@@ -100,7 +100,7 @@ class IniFile
      * @param name Key
      * @param value Value to set
      */
-    void SetInt(const std::string &name, unsigned int value);
+    void SetInt(const std::string &name, int value);
 
     /*!
      * @brief Set the value as a string list, comma separated, of the given key
