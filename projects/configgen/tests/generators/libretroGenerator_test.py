@@ -181,12 +181,12 @@ def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, co
         "/recalbox/share/system/configs/crt/modes.txt": "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:224@50p,1920 1 78 192 210 224 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
 
     system_snes.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual", -2, -10, 1820, "auto"))
+                          ExtraArguments("", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual", -2, -2, 1820, "auto"))
 
     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
-    assert 'crt_switch_timings_ntsc = "1920 1 88 192 200 224 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
-    assert 'crt_switch_timings_pal = "1920 1 88 192 200 224 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
+    assert 'crt_switch_timings_ntsc = "1920 1 90 192 198 224 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
+    assert 'crt_switch_timings_pal = "1920 1 90 192 198 224 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
     assert 'custom_viewport_width_ntsc = 1820' in generated_config
     assert 'custom_viewport_width_pal = 1740' in generated_config
     assert 'video_refresh_rate_ntsc = "60.1"' in generated_config

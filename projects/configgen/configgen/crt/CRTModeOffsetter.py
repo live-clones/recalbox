@@ -5,6 +5,7 @@ from configgen.utils.recallog import recallog
 class CRTModeOffsetter:
 
     def processMode(self, mode: Mode, horizontal_offset: int, vertical_offset: int) -> Mode:
+        horizontal_offset *= mode.width // 320
         if mode.h_front_porch - horizontal_offset < 1:
             horizontal_offset = mode.h_front_porch - 1
         if mode.h_front_porch - horizontal_offset > mode.h_back_porch + horizontal_offset:
