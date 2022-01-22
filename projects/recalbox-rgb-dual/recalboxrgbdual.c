@@ -323,18 +323,21 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     if (dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
       dpidac_apply_mode(connector, &p480, true);
+      return 1;
     } else {
       if (dip50Hz.gpio_state == 0) {
         // 50hz
           printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz modes\n", i);
           dpidac_apply_mode(connector, &p288, true);
           dpidac_apply_mode(connector, &i576, false);
+          return 2;
       } else {
           printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n", i);
           dpidac_apply_mode(connector, &p240, true);
           dpidac_apply_mode(connector, &i480, false);
           dpidac_apply_mode(connector, &p288, false);
           dpidac_apply_mode(connector, &i576, false);
+          return 4;
       }
     }
   }
