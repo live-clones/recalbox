@@ -1,0 +1,25 @@
+From f7f336d7abd2047399774bb58d4051fcc71262e3 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sat, 22 Jan 2022 09:40:22 +0100
+Subject: [PATCH 3/3] fix missing extern log_cb definition
+
+---
+ mupen64plus-core/src/backends/file_storage.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/mupen64plus-core/src/backends/file_storage.c b/mupen64plus-core/src/backends/file_storage.c
+index 9fbbf43..b07b515 100644
+--- a/mupen64plus-core/src/backends/file_storage.c
++++ b/mupen64plus-core/src/backends/file_storage.c
+@@ -32,6 +32,8 @@
+ 
+ #include <mupen64plus-next_common.h>
+ 
++extern retro_log_printf_t log_cb;
++
+ int open_file_storage(struct file_storage* fstorage, size_t size, const char* filename)
+ {
+     /* ! Take ownership of filename ! */
+-- 
+2.34.1
+

@@ -60,6 +60,7 @@ All notable changes to this project will be documented in this file.
 - Fix annoying error popup when kodi starts (#2097)
 - Fix 'All Games' label in EmulationSttion (#2124)
 - Bump rockchip-mali (#2123)
+- Bump libretro-mupen64plus-next (#2123)
 
 ## [8.0-Electron]
 - Remove non-working shaders
