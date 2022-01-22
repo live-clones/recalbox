@@ -1899,7 +1899,7 @@ msgstr "顯示最後遊玩的系統"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "每個類型的虛擬系統"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "展示一個“所有遊戲”系統，其中包含所有系統的所有主題。"
 
 msgid "Show multiplayer games (all games playable by two or more players)."

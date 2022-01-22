@@ -1982,7 +1982,7 @@ msgstr "最期にプレイしたシステムを表示する"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "ジャンルごとの仮想システム"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
 "すべてのシステムのすべてのテーマを含む「すべてのゲーム」をシステム表示しま"
 "す。"

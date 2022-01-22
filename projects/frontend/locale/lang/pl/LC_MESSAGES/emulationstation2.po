@@ -2019,7 +2019,7 @@ msgstr "POKAŻ OSTATNIO URUCHAMIANE GRY JAKO SYSTEM"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "WIRTUALNE SYSTEMY NA GATUNEK"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "Wyświetla wszystkie gry ze wszystkich systemów jako jeden system."
 
 msgid "Show multiplayer games (all games playable by two or more players)."

@@ -2006,7 +2006,7 @@ msgstr "MONTRER LES DERNIERS JEUX JOUÉS"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "SYSTÈMES VIRTUELS PAR GENRES"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "Ajoute un système qui contient tous les jeux de tous les systèmes."
 
 msgid "Show multiplayer games (all games playable by two or more players)."

@@ -1953,7 +1953,7 @@ msgstr ""
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr ""
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
 
 msgid "Show multiplayer games (all games playable by two or more players)."

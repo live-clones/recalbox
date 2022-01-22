@@ -1884,7 +1884,7 @@ msgstr "Visa senast spelade spelkonsoller"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "Virtuella spelkonsoller per genre"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "Visa alla spel, från alla spelkonsoller"
 
 msgid "Show multiplayer games (all games playable by two or more players)."

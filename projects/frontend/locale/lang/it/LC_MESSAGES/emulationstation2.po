@@ -2011,7 +2011,7 @@ msgstr "MOSTRA SISTEMA 'ULTIMI GIOCATI'"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "SISTEMI VIRTUALI PER GENERE"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
 "Mostra un sistema \"tutti i giochi\" con tutti i giochi di tutti i sistemi."
 

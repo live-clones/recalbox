@@ -1981,7 +1981,7 @@ msgstr "SHOW LAST PLAYED SYSTEM"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "VIRTUAL SYSTEMS PER GENRE"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "Show an 'all-games' system with all games from all systems."
 
 msgid "Show multiplayer games (all games playable by two or more players)."

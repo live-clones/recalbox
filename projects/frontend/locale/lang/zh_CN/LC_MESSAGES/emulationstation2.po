@@ -1934,7 +1934,7 @@ msgstr "显示最后游玩的系统"
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "显示每种类型的虚拟系统"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "显示一个“所有游戏”系统，其中包含所有游戏系统中的所有游戏。"
 
 msgid "Show multiplayer games (all games playable by two or more players)."

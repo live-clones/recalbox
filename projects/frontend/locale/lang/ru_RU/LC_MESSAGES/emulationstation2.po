@@ -2028,7 +2028,7 @@ msgstr "ПОКАЗАТЬ СИСТЕМУ \"ПОСЛЕДНИЕ ИГРЫ\""
 msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "ВИРТУАЛЬНЫЕ СИСТЕМЫ ПО ЖАНРАМ"
 
-msgid "Show a 'all-games' system with all ames from all systems."
+msgid "Show a 'all-games' system with all games from all systems."
 msgstr "Показать систему \"все игры\" со всеми играми из всех систем."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
