@@ -55,6 +55,7 @@ static struct gpiodesc {
 } dip50Hz, dip31kHz, fancontrol;
 
 // Default modes.
+// 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
 static const struct videomode p240 = {
     .pixelclock = 6400000,
     .hactive = 320,
@@ -68,6 +69,7 @@ static const struct videomode p240 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
+// 288p@50 : 384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200
 static const struct videomode p288 = {
     .pixelclock = 7363200,
     .hactive = 384,
@@ -81,6 +83,7 @@ static const struct videomode p288 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
+// 576i@50 : 768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1
 static const struct videomode i576 = {
     .pixelclock = 14875000,
     .hactive = 768,
@@ -94,6 +97,7 @@ static const struct videomode i576 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
 };
 
+// 480i@60 : 640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1
 static const struct videomode i480 = {
     .pixelclock = 13054080,
     .hactive = 640,
@@ -107,7 +111,7 @@ static const struct videomode i480 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
 };
 
-
+// 480p@60 : 640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1
 static const struct videomode p480 = {
     .pixelclock = 25452000,
     .hactive = 640,
@@ -322,31 +326,15 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     } else {
       if (dip50Hz.gpio_state == 0) {
         // 50hz
-        if (configuration.resolution == 480) {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 576i mode\n", i);
-          dpidac_apply_mode(connector, &i576, true);
-          dpidac_apply_mode(connector, &p288, false);
-        } else {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz 288p mode\n", i);
+          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz modes\n", i);
           dpidac_apply_mode(connector, &p288, true);
           dpidac_apply_mode(connector, &i576, false);
-        }
       } else {
-        if (configuration.resolution == 480) {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480i mode\n", i);
-          dpidac_apply_mode(connector, &i480, true);
-          dpidac_apply_mode(connector, &p240, false);
-          dpidac_apply_mode(connector, &p288, false);
-          dpidac_apply_mode(connector, &i576, false);
-
-        } else {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 240p mode\n", i);
+          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n", i);
           dpidac_apply_mode(connector, &p240, true);
           dpidac_apply_mode(connector, &i480, false);
           dpidac_apply_mode(connector, &p288, false);
           dpidac_apply_mode(connector, &i576, false);
-
-        }
       }
     }
   }
