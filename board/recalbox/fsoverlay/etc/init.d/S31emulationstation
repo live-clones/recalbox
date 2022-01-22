@@ -16,7 +16,7 @@ scr_msg() {
 	echo "██║  ██║██████╗╚█████╗██║  ██║█████╗██████╔╝╚█████╔╝██╔╝ ██╗" > /dev/tty0;
 	echo "╚═╝  ╚═╝╚═════╝ ╚════╝╚═╝  ╚═╝╚════╝╚═════╝  ╚════╝ ╚═╝  ╚═╝" > /dev/tty0;
 	echo "                                                                 " > /dev/tty0;
-	echo " Plase wait! DO NOT power off until the system is completely" > /dev/tty0;
+	echo " Please wait! DO NOT power off until the system is completely" > /dev/tty0;
 	echo " shut-down or you may damage your Recalbox." > /dev/tty0;
 }
 
