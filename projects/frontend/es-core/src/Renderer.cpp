@@ -4,6 +4,7 @@
 #include "utils/Log.h"
 #include "ImageIO.h"
 #include "../data/Resources.h"
+#include "CrtConf.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
 
@@ -504,6 +505,30 @@ bool Renderer::Initialize(int w, int h)
   if ((w * h) == 0 && !isCrt)
     GetResolutionFromConfiguration(w, h);
 
+  if (isCrt)
+  {
+    // Es will choose its own resolution. The desktop mode cannot be trusted.
+    if (CrtConf::Instance().GetSystemCRTResolution() == "480")
+    {
+      if(Board::Instance().CrtBoard().MustForce50Hz())
+      {
+        w = 768;
+        h = 576;
+      } else {
+        w = 640;
+        h = 480;
+      }
+    } else {
+      if(Board::Instance().CrtBoard().MustForce50Hz())
+      {
+        w = 384;
+        h = 288;
+      } else {
+        w = 320;
+        h = 240;
+      }
+    }
+  }
   if ((w * h) != 0) createdSurface = CreateSdlSurface(w, h);
 
   if (!createdSurface)
