@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Remove useless migrations scripts (#2134)
 - Remove recalbox.conf CRT configuration
 - Fix es revision
+- Add geometry screen for crt (#2129)
 - Fix S31emulationstation typo (#2129)
 - Remove recalbox.conf CRT configuration (#2129)
 - Fix pin 5/6 power script (#2067)
