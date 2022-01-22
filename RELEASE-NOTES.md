@@ -7,6 +7,10 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.0.1-Electron
 
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+### Improvements
+- Bump libretro-mupen64plus-next
+
+### Fix
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
 - Fix controllers in Duckstations (access menu with HK+B)

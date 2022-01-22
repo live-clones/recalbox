@@ -56,6 +56,7 @@ All notable changes to this project will be documented in this file.
 - Fix 'All Games' label in EmulationSttion (#2124)
 - Fix duckstation mapping & menu navigation
 - Bump rockchip-mali (#2123)
+- Bump libretro-mupen64plus-next (#2123)
 
 ## [8.0-Electron]
 - Remove non-working shaders

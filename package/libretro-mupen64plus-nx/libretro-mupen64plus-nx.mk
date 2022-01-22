@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_MUPEN64PLUS_NX_VERSION = 8fb474275aaca2e92e025c6a60af3e47cfdd185c
+LIBRETRO_MUPEN64PLUS_NX_VERSION = 350f90a73cf0f5d65357ce982ccbaa3b22fc3569
 LIBRETRO_MUPEN64PLUS_NX_SITE = $(call github,libretro,mupen64plus-libretro-nx,$(LIBRETRO_MUPEN64PLUS_NX_VERSION))
 LIBRETRO_MUPEN64PLUS_NX_LICENSE = GPLv3
 LIBRETRO_MUPEN64PLUS_NX_DEPENDENCIES += host-nasm
