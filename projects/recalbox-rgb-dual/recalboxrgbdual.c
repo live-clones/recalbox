@@ -127,8 +127,8 @@ static const struct videomode p480 = {
 
 
 static void dpidac_apply_offsets(struct videomode *vm) {
-    vm->hfront_porch -= (configuration.hoffset/6);
-    vm->hback_porch += (configuration.hoffset/6);
+    vm->hfront_porch -= configuration.hoffset;
+    vm->hback_porch += configuration.hoffset;
     vm->vfront_porch -= configuration.voffset;
     vm->vback_porch += configuration.voffset;
 }
