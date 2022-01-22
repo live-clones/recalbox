@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Remove useless migrations scripts (#2134)
 - Remove recalbox.conf CRT configuration
 - Fix es revision
+- Fix S31emulationstation typo (#2129)
+- Remove recalbox.conf CRT configuration (#2129)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
