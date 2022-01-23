@@ -47,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
 - PiBoy DMG pad is now detected in Kodi
 - Fix annoying error popup when kodi starts
+- Fix 'This title is not available to watch instantly' error with Netflix in Kodi
 
 ## Version 8.0-Electron
 
