@@ -15,6 +15,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test internal scraper on PC88 & Spectravideo
 - [ ] Check no tearing effect on odroidgo2 (#2100)
 - [ ] Check in the crt system menu the addition of the Recalbox RGB Dual on pi3 and pi4 (#2064)
+- [ ] Check PiBoy controls are working from fresh (#2133)
 
 ## [8.0.1]
 - [ ] Check the crt-pi shader that it is working (#2065)
