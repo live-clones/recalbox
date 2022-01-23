@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [8.0.1-Electron]
 - Fix es revision
+- Fix bbc and model3 wheel icons (#2131)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
