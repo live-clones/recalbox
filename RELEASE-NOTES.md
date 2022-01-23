@@ -33,6 +33,8 @@ as release notes for end user on a Recalbox upgrade.
 - PiBoy DMG pad is now detected in Kodi
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
+- Fix no sound issue on some PCs
+
 
 ## Version 8.0-Electron
 
