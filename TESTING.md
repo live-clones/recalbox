@@ -14,7 +14,6 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 ## [NEXT]
 - [ ] Test internal scraper on PC88 & Spectravideo
 - [ ] Check no tearing effect on odroidgo2 (#2100)
-## [8.0.1]
 - [ ] Check in the crt system menu the addition of the Recalbox RGB Dual on pi3 and pi4 (#2064)
 
 ## [8.0.1]
@@ -24,6 +23,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Verify gles2_n64 and gles2_rice are available on rpi3 (#2082)
 - [ ] Check glide64mk2 is the default core for rpi3 and is working (more or less) flawlessly (#2082)
 - [ ] Check mupen64plus is still running on all boards (#2082)
+  - [ ] Check it runs in the proper resolution
 
 ## [8.0]
 - [ ] Check letters order in recalbox.conf for odroidgo2, odroidxu4 and rpi4 (#1795)

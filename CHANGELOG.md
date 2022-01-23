@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [8.0.1-Electron]
 - Fix es typo (#2137)
 - Fix bbc and model3 wheel icons (#2131)
+- Fix mupen64plus resolution on odroid (#2128)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
@@ -30,16 +31,13 @@ All notable changes to this project will be documented in this file.
 - Fix dependencies on mupen64plus-video-gles2n64 and mupen64plus-video-gles2rice on rpi3 (#2082)
 - Bump mupen64plus glide64mk2 (#2082)
 - Add mupen64plus glide64mk2 as default core for rpi3 (#2082)
-## [NEXT]
 - Fix no CEC on rpi3/rpi4 in Kodi (#1637)
 - Fix audio switch to DualShock 4 when connecting the joystick (#2083)
-## [Next]
 - Bump rpi kernel to 5.10.83 (#2058)
 - Use KMS driver on PiBoy DMG (#2058)
 - Fix Mupen64plus black screen on piboy dmg (#2058)
 - Fix PPSSPP black screen on piboy dmg (#2058)
 - Fixed piboy pad not detected in Kodi (#2084)
-## [8.0.1-Electron]
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400 (#2064)
   - game refresh rate selection
   - game resolution selection
