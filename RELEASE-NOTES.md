@@ -4,12 +4,9 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version NEXT
+## Version 8.0.1-Electron
 
-### News
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
-
-### Fix
 - Add a better text when you are stuck in the favorites list in any system.
 - Add missing systemlist.xml in support archive
 - Fix controllers in Duckstations (access menu with HK+B)
@@ -23,24 +20,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add Mupen64plus GLide64MK2 on RPI3
 - Fix automatic audio switch to PlayStation DS4 joypad jack
 - Fix Mupen64plus and PPSSPP on PiBoy DMG
-## Version 8.0.1-Electron
 - Fix Duckstation's menu: Navigate with your controler
-
-### News
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
-
-### Improvements
-
-### Fixes
-
-## Version 8.0.1-Electron
-
-### News
-
-
-### Improvements
-
-### Fixes
 - Fix shader crt-pi for rpi
 - Fix RetroFlag scripts to use with cases
 - GSplus can be started for Apple 2 emulator

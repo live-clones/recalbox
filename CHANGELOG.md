@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Fix es typo (#2137)
 - Fix bbc and model3 wheel icons (#2131)
 - Fix mupen64plus resolution on odroid (#2128)
+- Bump SDL2 to 2.0.20 (#2104)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
@@ -50,7 +51,6 @@ All notable changes to this project will be documented in this file.
   - add dipswitch support for 15khz/31khz and 50hz modes
 - Improve text for favorites list in system (#2062)
 - Fix 'This title is not available to watch instantly' error on Netflix (#2088)
-
 - Add default configuration for Kodi (#1927)
 - Fix annoying error popup when kodi starts (#2097)
 - Fix 'All Games' label in EmulationSttion (#2124)
