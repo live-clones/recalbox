@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Add default configuration for Kodi (#1927)
 - Fix annoying error popup when kodi starts (#2097)
 - Fix 'All Games' label in EmulationSttion (#2124)
+- Fix duckstation mapping & menu navigation
 
 ## [8.0-Electron]
 - Remove non-working shaders
