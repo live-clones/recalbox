@@ -61,7 +61,7 @@ class LibretroConfigCRT:
                                          resolutiontype: CRTResolutionType):
         if screentype == CRTScreenType.k31:
             if resolutiontype == CRTResolutionType.DoubleFreq:
-                return "1920@31KHz-double:all:240@60"
+                return "1920@31KHz-double:all:240@120"
             else:
                 return "default@31kHz:all:480@60"
         else:

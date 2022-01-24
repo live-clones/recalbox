@@ -426,7 +426,7 @@ def test_given_any_systems_when_31kHz_and_doublefreq_with_no_mode_found_should_d
                                                                                                                 system_snes):
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "",
-        MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@60,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60"
+        MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60"
     })
     snes = configureForCrt(system_snes, crtresolutiontype="doublefreq", crtvideostandard="pal", crtscreentype="31kHz")
 
@@ -477,7 +477,7 @@ def test_given_any_systems_when_15kHz_and_forced_region_with_no_mode_found_shoul
 def test_given_a_arcade_game_and_31kHz_screen_and_doublefreq_then_return_default_doublefreq_mode(mocker, system_mame):
     givenThoseFiles(mocker, {
         ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,0,0,1",
-        MODES_TXT: "1920@31KHz-double:all:240@60,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+        MODES_TXT: "1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
 
     mamecrt = configureForCrt(system_mame, crtresolutiontype="doublefreq", crtvideostandard="auto", crtscreentype="31kHz")
