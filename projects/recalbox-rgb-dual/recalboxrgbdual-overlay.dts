@@ -9,7 +9,7 @@
 				dipswitch_gpio: dipswitch_gpio_conf {
 					brcm,pins = <10 27>; // GPIO 10
 					brcm,function = <0>; // Input
-					brcm,pull = <2>; // Pull up
+					brcm,pull = <2 2>; // Pull up
 				};
 				fancontrol_gpio: fancontrol_gpio_conf {
 					brcm,pins = <26>; // GPIO 26
