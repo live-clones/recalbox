@@ -162,7 +162,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
       return NULL;
     }
 
-    dpidac_apply_offsets(&vm);
+    //dpidac_apply_offsets(&vm);
     drm_display_mode_from_videomode(&vm, mode);
 
     return mode;
