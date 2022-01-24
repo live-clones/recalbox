@@ -26,6 +26,16 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Mupen64plus and PPSSPP on PiBoy DMG
 - Fix Duckstation's menu: Navigate with your controler
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+- Fix WPA3 wifi connection
+
+## Version 8.0.1-Electron
+
+### News
+
+
+### Improvements
+
+### Fixes
 - Fix shader crt-pi for rpi
 - Fix RetroFlag scripts to use with cases
 - GSplus can be started for Apple 2 emulator
