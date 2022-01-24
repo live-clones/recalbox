@@ -7,7 +7,7 @@
 # Format: SYSTEM_ID,REGION,MODE_ID,VIEWPORT_WIDTH,VIEWPORT_HEIGHT
 snes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,239
 snes,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,239
-snes,ntsc,31kHz,doublefreq,1920@31KHz-double:all:240@60,0,239
+snes,all,31kHz,doublefreq,1920@31KHz-double:all:240@120,0,239
 nes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0
 nes,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,240
 neogeocd,all,15kHz,progressive,neogeocd:all:224@59.94,0,0
