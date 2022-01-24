@@ -127,21 +127,33 @@ static const struct videomode p480 = {
 
 
 static void dpidac_apply_offsets(struct videomode *vm) {
-  if(vm->hfront_porch - configuration.hoffset >= 0){
+  if((int)vm->hfront_porch - configuration.hoffset >= 1){
     vm->hfront_porch -= configuration.hoffset;
     vm->hback_porch += configuration.hoffset;
   } else {
-    // minimum front porch = 0
-    vm->hfront_porch = 0;
-    vm->hback_porch += vm->hfront_porch;
+    // minimum front porch = 1
+    vm->hback_porch += vm->hfront_porch-1;
+    vm->hfront_porch = 1;
   }
-  if(vm->vfront_porch - configuration.voffset >= 0) {
+  if((int)vm->vfront_porch - configuration.voffset >= 1) {
     vm->vfront_porch -= configuration.voffset;
     vm->vback_porch += configuration.voffset;
-  }else {
+  } else {
+    vm->vback_porch += (vm->vfront_porch-1);
+    vm->vfront_porch = 1;
+  }
+}
+
+static void dpidac_validate_mode(struct videomode *vm) {
+  if((int)vm->hfront_porch - configuration.hoffset < 1){
     // minimum front porch = 0
-    vm->vfront_porch = 0;
-    vm->vback_porch += vm->vfront_porch;
+    vm->hback_porch += vm->hfront_porch-1;
+    vm->hfront_porch = 1;
+  }
+  if((int)vm->vfront_porch - configuration.voffset < 1) {
+    // minimum front porch = 0
+    vm->vback_porch += vm->vfront_porch-1;
+    vm->vfront_porch = 1;
   }
 }
 
@@ -174,7 +186,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
       return NULL;
     }
 
-    //dpidac_apply_offsets(&vm);
+    dpidac_validate_mode(&vm);
     drm_display_mode_from_videomode(&vm, mode);
 
     return mode;
@@ -243,14 +255,14 @@ static int dpidac_load_config(const char *configfile) {
 
   fp = filp_open(config_path, O_RDONLY, 0);
   if (IS_ERR(fp) || !fp) {
-    printk(KERN_WARNING "[RECALBOXRGBDUAL]: config file not found, skipping configuration loading\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: config file not found, skipping configuration loading\n");
     return 0;
   }
 
   read_size = kernel_read(fp, &read_buf, READ_SIZE_MAX, &fp->f_pos);
   if (read_size <= 0) {
     filp_close(fp, NULL);
-    printk(KERN_WARNING "[RECALBOXRGBDUAL]: empty config file found, skipping configuration loading\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: empty config file found, skipping configuration loading\n");
     return 0;
   }
   filp_close(fp, NULL);
@@ -261,9 +273,7 @@ static int dpidac_load_config(const char *configfile) {
       if (line_len > 1 && line[0] != '#') {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
-        if (scanret != 2) {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: malformed config line, skipping (%s)\n", line);
-        } else {
+        if (scanret == 2) {
           if (strcmp(optionname, "options.es.resolution") == 0) {
             printk(KERN_INFO "[RECALBOXRGBDUAL]: setting resolution to %d\n", optionvalue);
             configuration.resolution = optionvalue;
@@ -314,7 +324,6 @@ static void dpidac_apply_mode(struct drm_connector *connector, const struct vide
   vmcopy.vsync_len = vm->vsync_len;
 
   dpidac_apply_offsets(&vmcopy);
-
   drm_display_mode_from_videomode(&vmcopy, mode);
   mode->type = DRM_MODE_TYPE_DRIVER;
   if (preferred)
