@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Add S15lowramdevices script that disable manager and virtual gamepads for rpizero2 (#2134)
 - Set videomode to default for rpizero2 legacy and 720p for rpizero2 standalone (#2134)
 - Remove useless migrations scripts (#2134)
+- Migration of crt horizontal offsets (#2129)
 - Add geometry screen for crt (#2129)
 - Fix S31emulationstation typo (#2129)
 - Remove recalbox.conf CRT configuration (#2129)
