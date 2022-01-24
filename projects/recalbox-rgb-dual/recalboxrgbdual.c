@@ -127,10 +127,22 @@ static const struct videomode p480 = {
 
 
 static void dpidac_apply_offsets(struct videomode *vm) {
+  if(vm->hfront_porch - configuration.hoffset >= 0){
     vm->hfront_porch -= configuration.hoffset;
     vm->hback_porch += configuration.hoffset;
+  } else {
+    // minimum front porch = 0
+    vm->hfront_porch = 0;
+    vm->hback_porch += vm->hfront_porch;
+  }
+  if(vm->vfront_porch - configuration.voffset >= 0) {
     vm->vfront_porch -= configuration.voffset;
     vm->vback_porch += configuration.voffset;
+  }else {
+    // minimum front porch = 0
+    vm->vfront_porch = 0;
+    vm->vback_porch += vm->vfront_porch;
+  }
 }
 
 
