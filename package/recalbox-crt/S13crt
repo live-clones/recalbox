@@ -18,6 +18,7 @@ declare -A ES_CLEAN_CONFIG=( \
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
 CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
 CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
+TIMINGS_FILE="/boot/crt/timings.txt"
 DAC_DIRECTORY="/boot/crt/dacs"
 
 function configure_es {
@@ -77,6 +78,12 @@ function migrateOldHorizontalOffset {
     fi
 }
 
+function rmTimings {
+    mount -o remount,rw /boot
+    rm -rf "${TIMINGS_FILE}"
+    mount -o remount,ro /boot
+}
+
 if test "$1" == "start" ; then
     RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
     RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
@@ -84,6 +91,7 @@ if test "$1" == "start" ; then
     # To remove after 8.0.1
     migrate
     migrateOldHorizontalOffset
+    rmTimings
 
     # RRGBD installation
     if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
