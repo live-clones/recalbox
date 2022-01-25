@@ -26,7 +26,11 @@ case "$1" in
             ;;
             NESPi4:1)
                 recallog -s "${INIT_SCRIPT}" -t "CASE" "NESPi4 case detected: running shutdown script"
-                python /recalbox/system/hardware/case/installers/nespi4/assets/shutdown.py & 
+                python /recalbox/system/hardware/case/installers/nespi4/assets/shutdown.py &
+            ;;
+            GPi2:1)
+                recallog -s "${INIT_SCRIPT}" -t "CASE" "GPi2 case detected: running shutdown script"
+                python /recalbox/system/hardware/case/installers/gpi2/assets/SafeShutdown.py &
             ;;
         esac  	
     ;;
