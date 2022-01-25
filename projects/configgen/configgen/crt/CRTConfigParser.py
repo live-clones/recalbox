@@ -107,8 +107,9 @@ class CRTConfigParser:
 
     def loadMode(self, mode_id: str) -> Mode:
         mode: typing.Optional[Mode] = None
-        for line in self.find_lines_begining_with_in_configs(mode_id, "modes.txt"):
-            mode = self.parseModeLine(line)
+        modes = self.find_lines_begining_with_in_configs(mode_id, "modes.txt")
+        if len(modes) >= 1:
+            mode = self.parseModeLine(modes[0])
         if mode is None:
             recallog("Mode not found : {}".format(mode_id), log_type="CRT")
             raise Exception("Mode not found")
