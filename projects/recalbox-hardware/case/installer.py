@@ -8,6 +8,7 @@ MODULES = {
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
     "installers.retroflags.install": (cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
+    "installers.gpi2.install": (cases.GPI2,),
 }
 
 def processHardware(install, case, previousCase):

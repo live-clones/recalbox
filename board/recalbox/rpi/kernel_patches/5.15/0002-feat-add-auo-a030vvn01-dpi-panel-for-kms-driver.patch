@@ -1,4 +1,4 @@
-From 20a64b5d9ad8c7c8756b4a41ba3448ca8344a25e Mon Sep 17 00:00:00 2001
+From 2a69ef9dc33ac0b9a0a6e1f6b12b3778395c27f9 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Tue, 25 Jan 2022 23:05:52 +0100
 Subject: [PATCH 2/6] feat: add auo a030vvn01 dpi panel for kms driver
@@ -73,7 +73,7 @@ index 000000000000..677e21114e3b
 +       };
 +};
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 64c199a21222..09ba3b04a57b 100644
+index 43fc956eeacd..63c4923697a0 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
 @@ -2522,6 +2522,32 @@ static const struct panel_desc xpi_piboydmg = {
