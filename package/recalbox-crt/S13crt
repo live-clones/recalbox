@@ -66,6 +66,17 @@ function migrate {
 }
 
 function migrateOldHorizontalOffset {
+    CONFIG_LINE=$(grep -m 1 -e "^viewport\.width = [0-9]\+" "${CRT_OPTIONS_FILE}")
+    [ $? != 0 ] && return
+    WIDTH=${CONFIG_LINE##*"= "}
+    if [ "${WIDTH}" -ge 1200 ];then
+        NEWWIDTH=$((WIDTH - 1840))
+        recallog -s "S13crt" -t "CRT" "Processing viewport.width migration from ${WIDTH} to ${NEWWIDTH}"
+        mount -o remount,rw /boot
+        sed -i "s/viewport\.width = .*/viewport.width = ${NEWWIDTH}/g" "${CRT_OPTIONS_FILE}"
+        mount -o remount,ro /boot
+    fi
+
     CONFIG_LINE=$(grep -m 1 -e "^mode\.offset\.horizontal = -\?[0-9]\+" "${CRT_OPTIONS_FILE}")
     [ $? != 0 ] && return
     OFFSET=${CONFIG_LINE##*"= "}
