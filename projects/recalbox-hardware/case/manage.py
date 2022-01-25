@@ -1,6 +1,7 @@
 import logger
 import os
 import subprocess
+import RPi.GPIO as GPIO
 import sys
 import time
 from settings import keyValueSettings
@@ -33,6 +34,58 @@ def DetectGPiCase():
                 return cases.GPI_V3
 
     return cases.NONE
+
+# GPi case 2
+def DetectGPiCase2():
+    logger.hardlog("trying GPi2")
+    hdmiPin = 18
+    card = "card1-HDMI-A-1"
+
+    def init():
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(hdmiPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    def cleanup():
+        GPIO.setup(hdmiPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+    def detect(card):
+        try:
+            with open(f"/sys/class/drm/{card}/edid", 'rb') as f:
+                edid = f.read(128)
+                f.close()
+                if edid[8] == 0x64 and edid[9] == 0x8b:
+                    logger.hardlog('gpi2: success reading edid!')
+                    return True
+        except Exception as e:
+            logger.hardlog(f"gpi2: error reading edid: {e}")
+        return False
+
+    def is_hdmi_connected(card):
+        try:
+            with open(f"/sys/class/drm/{card}/status") as f:
+                line = f.readline().strip()
+                if line == "connected":
+                    logger.hardlog(f"gpi2: {card} status connected")
+                    return True
+        except Exception as e:
+            logger.hardlog(f"gpi2: error reading {card} status: {e}")
+        return False
+
+    detected = cases.NONE
+    import re
+    pattern = re.compile("Compute Module 4")
+
+    for i, line in enumerate(open('/proc/cpuinfo')):
+        if any(re.finditer(pattern, line)):
+            logger.hardlog("gpi2: compute module 4 found!")
+            init()
+            time.sleep(0.1)
+            if is_hdmi_connected(card) and detect(card):
+                detected = cases.GPI2
+
+            cleanup()
+
+    return detected
 
 # --------- NesPi 4
 
@@ -80,6 +133,9 @@ def Identify():
 
     if board in ("rpi4", "rpi4_64"):
         case = DetectNesPi4Case()
+
+    if board in ("rpi4", "rpi4_64") and case == cases.NONE:
+        case = DetectGPiCase2()
 
     if board in ("rpi3", "rpi4", "rpi4_64") and case == cases.NONE:
         case = DetectPiBoyCase()
