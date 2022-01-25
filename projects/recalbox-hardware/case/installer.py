@@ -7,6 +7,7 @@ MODULES = {
     "installers.nespi4.install": (cases.NESPI4,),
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
+    "installers.gpi2.install": (cases.GPI2,),
 }
 
 
