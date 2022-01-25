@@ -87,6 +87,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
 - If you still have an issue with black screen after this upgrade, please follow the instructions on https://fix.recalbox.com
+## NEXT
+
+### Improvements
+- Add native support for GPi Case 2 / CM4
 
 
 ## Version 8.0.1-Electron
