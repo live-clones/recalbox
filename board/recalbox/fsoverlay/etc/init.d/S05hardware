@@ -18,6 +18,8 @@ if [ "$1" == "start" ]; then
 
   # Cases - Don't try to detect if already done or if recalbox rgb dual is plugged
   if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! lsmod | grep -q "^recalboxrgbdual";then
+    sleep 1
+    udevadm settle --timeout=30
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
   fi
 
