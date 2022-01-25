@@ -4,6 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## NEXT
+
+### Improvements
+- Add native support for GPi Case 2 / CM4
+
 ## Version 8.0.1-Electron
 
 - Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400

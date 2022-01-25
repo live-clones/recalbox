@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## NEXT
+- Add support for GPi CASE 2 (#2042)
+
 ## [8.0.1-Electron]
 - Fix es typo (#2137)
 - Fix bbc and model3 wheel icons (#2131)

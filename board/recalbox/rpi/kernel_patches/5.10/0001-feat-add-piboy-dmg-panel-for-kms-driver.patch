@@ -1,7 +1,7 @@
-From d27afb7b8d20eee929f8d235850069799294e9ab Mon Sep 17 00:00:00 2001
+From 9c11c3a7ccdb384ef4361122f10f854217b632b6 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Thu, 9 Dec 2021 22:48:17 +0100
-Subject: [PATCH] feat: add piboy dmg panel for kms driver
+Subject: [PATCH 1/2] feat: add piboy dmg panel for kms driver
 
 ---
  arch/arm/boot/dts/overlays/Makefile           |  1 +
