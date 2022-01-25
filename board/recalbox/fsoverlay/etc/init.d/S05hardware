@@ -67,6 +67,8 @@ do_start() {
 
   # Cases - Don't try to detect if already done or if recalbox rgb dual is plugged
   if [ "$STEP" != "1" ] && ! isRecalboxRGBDual; then
+    sleep 1
+    udevadm settle --timeout=30
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
   fi
 
