@@ -19280,3 +19280,5 @@ zunkyou,mame2003,arcade:224@60.000000,0,0,0
 zwackery,mame2003,arcade:480@60.000000,0,0,0
 zzyzzyx2,mame2003,arcade:224@60.000000,0,0,1
 zzyzzyxx,mame2003,arcade:224@60.000000,0,0,1
+espgal,mame2003,arcade:224@59.170000,0,0,1
+espgalbl,mame2003,arcade:224@60.000000,0,0,1
