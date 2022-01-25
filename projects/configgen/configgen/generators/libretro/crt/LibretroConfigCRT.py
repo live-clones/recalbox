@@ -55,7 +55,7 @@ class LibretroConfigCRT:
                 return 0
         if mode_viewport_width > 0:
             return mode_viewport_width
-        return system.CRTViewportWidth
+        return 1840 + (system.CRTViewportWidth*6)
 
     def get_default_mode_name_for_config(self, screentype: CRTScreenType, region: CRTVideoStandard,
                                          resolutiontype: CRTResolutionType):

@@ -158,7 +158,7 @@ def test_given_no_viewport_config_returns_viewport_values_from_mode(mocker, syst
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
-    snes = configureForCrt(system_snes, viewport_width=1840)
+    snes = configureForCrt(system_snes, viewport_width=0)
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         snes, "Mario.smc")
 
@@ -498,7 +498,7 @@ def test_given_a_nes_game_should_return_viewport_info(mocker, system_mame):
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\nsnes:nes:pal:288@50.01,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39070212 1,50.01"})
 
     nes_crt = configureForCrt(Emulator("nes", "libretro", "nestopia", "", "auto"), crtresolutiontype="progressive",
-                              crtvideostandard="auto", crtscreentype="15kHz", viewport_width=1840)
+                              crtvideostandard="auto", crtscreentype="15kHz", viewport_width=0)
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         nes_crt, "/recalbox/share/roms/nes/nes.zip")

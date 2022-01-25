@@ -81,7 +81,7 @@ class Emulator:
         self._crtenabled: bool = False
         self._crtverticaloffset: int = 0
         self._crthorizontaloffset: int = 0
-        self._crtviewportwidth: int = 1840
+        self._crtviewportwidth: int = 0
 
         # Computed vars
         self._netplay: bool = False
