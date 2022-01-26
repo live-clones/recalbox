@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 - Fix es typo (#2137)
 - Fix bbc and model3 wheel icons (#2131)
 - Fix mupen64plus resolution on odroid (#2128)
+- Fix mupen64plus resolution on pi3 & pi4 (#2144)
 - Bump SDL2 to 2.0.20 (#2104)
 - Fix es revision
 - Add S15lowramdevices script that disable manager and virtual gamepads for rpizero2 (#2134)
