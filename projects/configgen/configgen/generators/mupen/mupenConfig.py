@@ -39,16 +39,26 @@ def writeMupenConfig(system: Emulator, controllers: ControllerPerPlayer, rom: st
     mupenSettings.setBool('Video-GLideN64', 'EnableLegacyBlending', True)
     # Frame buffer size is the factor of N64 native resolution.
     mupenSettings.setInt('Video-GLideN64', 'UseNativeResolutionFactor', 1)
+
     # Resolution
     from configgen.utils.resolutions import ResolutionParser
     resolution = ResolutionParser(system.VideoMode.strip())
     if not resolution.isSet:
-        from configgen.utils.videoMode import getCurrentResolution
-        w, h = getCurrentResolution()
+        from configgen.utils.architecture import Architecture
+        arch = Architecture()
+        import configgen.utils.videoMode as videoMode
+        if arch.isSupportingTvService:
+            w, h = videoMode.getCurrentResolution()
+        else:
+            w, h = videoMode.getCurrentFramebufferResolution()
         resolution = ResolutionParser(str(w) + 'x' + str(h))
+
     if resolution.isSet and resolution.selfProcess:
+        print("Set resolution: {}x{}".format(resolution.width, resolution.height))
         mupenSettings.setString('Video-General', 'ScreenWidth', "{}".format(resolution.width))
         mupenSettings.setString('Video-General', 'ScreenHeight', "{}".format(resolution.height))
+    else:
+        print("No resolution available. Let default or latest resolution: {}x{}".format(mupenSettings.getString('Video-General', 'ScreenWidth', "UNSET"), mupenSettings.getString('Video-General', 'ScreenHeight', "UNSET")))
 
     # VerticalSync makes video smoother on odroidgo2 and odroidgo3
     # and force 16bpp color quality as H/W does not support 32bpp

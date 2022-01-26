@@ -177,10 +177,12 @@ def getCurrentFramebufferResolution():
     regex = r".*?([0-9]{3,4})x([0-9]{3,4}).*"
     matches = re.match(regex, line)
 
-    if not matches:
+    if matches:
+        width, height = matches.groups()
+    else:
         print("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
-        raise ValueError("getCurrentFramebufferResolution - Couldn't parse output: {}".format(line))
-    width, height = matches.groups()
+        with open("/sys/class/graphics/fb0/virtual_size", 'r') as f:
+            width, height = f.readline().split(',', 2)
 
     f = open("/sys/devices/virtual/graphics/fbcon/rotate", "r")
     rotate = f.readline().rstrip()
