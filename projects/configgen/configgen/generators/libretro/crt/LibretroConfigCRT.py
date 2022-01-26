@@ -178,7 +178,10 @@ class LibretroConfigCRT:
                     default = False
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
-            width = 0 if system.CRTScreenType == CRTScreenType.k15 else 640
+            if system.CRTScreenType == CRTScreenType.k31 and system.CRTResolutionType == CRTResolutionType.Progressive:
+                width = 640
+            else:
+                 width = 0
             if system.CRTVideoStandard == CRTVideoStandard.AUTO:
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, region,

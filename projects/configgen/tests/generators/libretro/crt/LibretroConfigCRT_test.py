@@ -420,6 +420,8 @@ def test_given_any_systems_when_31kHz_with_no_mode_found_should_default_to_31kHz
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
     assert libretro_config["custom_viewport_width_ntsc"] == 640
     assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_height_ntsc"] == 480
+    assert libretro_config["custom_viewport_height_pal"] == 480
 
 
 def test_given_any_systems_when_31kHz_and_doublefreq_with_no_mode_found_should_default_to_31kHz_doublefreq_mode(mocker,
@@ -438,6 +440,10 @@ def test_given_any_systems_when_31kHz_and_doublefreq_with_no_mode_found_should_d
     assert libretro_config["video_refresh_rate_pal"] == '"60"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
     assert libretro_config["video_black_frame_insertion"] == '"1"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
+    assert libretro_config["custom_viewport_width_pal"] == 1920
+    assert libretro_config["custom_viewport_height_ntsc"] == 240
+    assert libretro_config["custom_viewport_height_pal"] == 240
 
 
 def test_given_any_systems_when_15kHz_and_auto_region_with_no_mode_found_should_select_15kHz_default_mode(mocker,
