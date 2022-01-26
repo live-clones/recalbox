@@ -2,10 +2,14 @@
 
 if test "$1" == "start" ; then
   # Cases - Don't try to detect if already done
-  grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf || python /recalbox/system/hardware/case/manage.pyc "" 1 1 1
+
+  if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! lsmod | grep -q "^recalboxrgbdual";then
+    INIT_SCRIPT=$(basename "$0")
+    recallog -s "${INIT_SCRIPT}" -t HARDWARE "Starting hardware detection"
+    python /recalbox/system/hardware/case/manage.pyc "" 1 1 1
+  fi
   # Installation image
   if [ -f /tmp/.install.sh ]; then
-      ( /tmp/.install.sh finalize ) &
+    ( /tmp/.install.sh finalize ) &
   fi
 fi
-
