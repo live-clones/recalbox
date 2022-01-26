@@ -8,7 +8,6 @@ if [ "$1" == "start" ]; then
   # GPI case? Deactivate HDMI to save energy
   case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
   if [ "${case}" = "GPiV1:1" ]; then
-    recallog -s "${INIT_SCRIPT}" -t GPI "GPi case detected: turning HDMI off"
     tvservice -o
   fi
 
@@ -17,8 +16,10 @@ if [ "$1" == "start" ]; then
     /recalbox/system/hardware/videocard/nvidia-install
   fi
 
-  # Cases - Don't try to detect if already done
-  grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf || python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
+  # Cases - Don't try to detect if already done or if recalbox rgb dual is plugged
+  if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! lsmod | grep -q "^recalboxrgbdual";then
+    python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
+  fi
 
   # Installation image
   if [ -f /tmp/.install.sh ]; then
