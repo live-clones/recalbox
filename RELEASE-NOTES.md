@@ -6,40 +6,26 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.0.1-Electron
 
-- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
-### Improvements
-- Bump libretro-mupen64plus-next
-
-### Fix
-- Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
+- Fix controllers not being detected after controller sleep mode or unplug/replug
+- Fix black screens with some HDMI screens on Raspberry Pi3 and Pi4
+- Fix TV Remote controller (CEC) not working with Kodi on Raspberry Pi3 and Pi4
+- Fix Raspberry Pi Zero 2 performances issues
+- Add Mupen64plus GLide64MK2 on RPI3
 - Add a better text when you are stuck in the favorites list in any system.
-- Add missing systemlist.xml in support archive
-- Fix controllers in Duckstations (access menu with HK+B)
-- Fix two letter extentions (.md/.st)
+- Fix controllers in Duckstation (access menu with HK+B)
+- Fix frontend not displaying two letter extentions games (.md/.st)
 - Fix "Configuration" tab save feature in manager.
 - Fix PC88 & Spectravideo scraping
-- Fix rotated DPAD in PCSX2 (PS2 emulator)
-- Fix tearing effect on Odroid GO Advance and Odroid GO Super
+- Fix rotated Digital Pad in PCSX2 (PS2 emulator)
+- Fix tearing effect in frontend on Odroid GO Advance and Odroid GO Super
 - Fix crash on Mupen64plus GLideN64 on RPI3
-- Add Mupen64plus GLide64MK2 on RPI3
 - Fix automatic audio switch to PlayStation DS4 joypad jack
 - Fix Mupen64plus and PPSSPP on PiBoy DMG
 - Fix Duckstation's menu: Navigate with your controler
-- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
 - Fix WPA3 wifi connection
-
-## Version 8.0.1-Electron
-
-### News
-
-
-### Improvements
-
-### Fixes
-- Fix shader crt-pi for rpi
-- Fix RetroFlag scripts to use with cases
-- GSplus can be started for Apple 2 emulator
-- Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
+- Fix shader crt-pi for Raspberry Pi boards
+- Fix Pin 5/6 and RetroFlag safe shutdown scripts to use with cases
+- Add GSplus emulator to run Apple 2
 - PiBoy DMG pad is now detected in Kodi
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
