@@ -92,6 +92,12 @@ class Install(InstallBase):
                     logger.hardlog("GPi2: Error installing .retroarch.cfg")
                     return ""
                 logger.hardlog("GPi2: .retroarch.cfg installed")
+                # Install modified es_input.cfg
+                sourceConfig = self.BASE_SOURCE_FOLDER + "assets/es_input.cfg"
+                if os.system(f"cp {sourceConfig} /recalbox/share/system/.emulationstation/es_input.cfg") != 0:
+                    logger.hardlog("GPi2: Error installing es_input.cfg")
+                    return ""
+                logger.hardlog("GPi2: es_input.cfg installed")
 
             except Exception as e:
                 logger.hardlog("GPi2: Exception = {}".format(e))
