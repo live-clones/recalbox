@@ -1,0 +1,32 @@
+--- a/src/core/Settings.cpp	2022-01-27 00:09:23.000000000 +0100
++++ b/src/core/Settings.cpp	2022-01-27 18:24:12.000000000 +0100
+@@ -251,10 +251,10 @@
+     oss << it->first << " = \"" << it->second << "\"\n";
+   }
+ 
+-  it = entries.find(key_fullscreen);
+-  if (it != entries.end()) {
+-    oss << it->first << " = " << it->second << "\n";
+-  }
++  //it = entries.find(key_fullscreen);
++  //if (it != entries.end()) {
++  //  oss << it->first << " = " << it->second << "\n";
++  //}
+ 
+   it = entries.find(key_sound_volume);
+   if (it != entries.end()) {
+@@ -322,10 +322,10 @@
+     }
+ 
+     // Fullscreen.
+-    auto fullscreen = get_boolean(key_fullscreen);
+-    if (fullscreen.second) {
+-      Video::set_fullscreen(fullscreen.first);
+-    }
++    //auto fullscreen = get_boolean(key_fullscreen);
++    //if (fullscreen.second) {
++    //  Video::set_fullscreen(fullscreen.first);
++    //}
+   }
+ 
+   if (Sound::is_initialized()) {
