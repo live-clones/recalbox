@@ -7,10 +7,15 @@ All notable changes to this project will be documented in this file.
 - Fix mupen64plus resolution on odroid (#2128)
 - Fix mupen64plus resolution on pi3 & pi4 (#2144)
 - Bump SDL2 to 2.0.20 (#2104)
+- Remove recalbox.conf CRT configuration
 - Fix es revision
 - Add S15lowramdevices script that disable manager and virtual gamepads for rpizero2 (#2134)
 - Set videomode to default for rpizero2 legacy and 720p for rpizero2 standalone (#2134)
 - Remove useless migrations scripts (#2134)
+- Migration of crt horizontal offsets (#2129)
+- Add geometry screen for crt (#2129)
+- Fix S31emulationstation typo (#2129)
+- Remove recalbox.conf CRT configuration (#2129)
 - Fix pin 5/6 power script (#2067)
 - Add pulse support for ffmpeg
 - Improve text for favorites list in system (#2062)
