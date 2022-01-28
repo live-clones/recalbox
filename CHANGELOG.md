@@ -127,6 +127,8 @@ All notable changes to this project will be documented in this file.
 - Add Hatari standalone emulator
 - Add beebem emulator
 - Remove px68k core from x86 board (#1875)
+## [NEXT]
+- Bump libretro-desmume (#1897)
 - Fixed multiple translations in ES (#1880, #1881)
 - Bump Oricutron (#1893)
 - Bump SimCoupé to v1.2.5 (#1894)
