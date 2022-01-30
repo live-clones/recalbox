@@ -1,7 +1,7 @@
 diff --git a/package/rpi-firmware/cmdline.txt b/package/rpi-firmware/cmdline.txt
-index 155a54693b..e75bdd83e4 100644
+index 155a54693b..9133bf9dad 100644
 --- a/package/rpi-firmware/cmdline.txt
 +++ b/package/rpi-firmware/cmdline.txt
 @@ -1 +1 @@
 -root=/dev/mmcblk0p2 rootwait console=tty1 console=ttyAMA0,115200
-+dwc_otg.fiq_fix_enable=1 sdhci-bcm2708.sync_after_dma=0 dwc_otg.lpm_enable=0 console=tty3 consoleblank=0 loglevel=3 elevator=deadline vt.global_cursor_default=0 logo.nologo splash label=RECALBOX rootwait fastboot noswap video=HDMI-A-1:D video=HDMI-A-2:D
++dwc_otg.fiq_fix_enable=1 sdhci-bcm2708.sync_after_dma=0 dwc_otg.lpm_enable=0 console=tty3 consoleblank=0 loglevel=3 elevator=deadline vt.global_cursor_default=0 logo.nologo splash label=RECALBOX rootwait fastboot noswap
