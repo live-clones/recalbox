@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [8.0.2-Electron]
+- Fix 4k resolution issue on 4k tv
+
 ## [8.0.1-Electron]
 - Fix release notes
 - Fix es typo (#2137)
