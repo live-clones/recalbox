@@ -3,10 +3,6 @@ set -euo pipefail
 
 # Be sure to run the project in an empty directory for the first time.
 
-# This script will fetch every open issue on recalbox/recalbox that has the label Testing::Beta
-# For each issue it will get related merge requests, fetch the remote, and proceed to a merge in the beta branch of the project
-# Once branches are merged, it will change subprojects versions in recalbox packages, push branches, and create the tag and the release
-
 ## TODO: Add pipeline state
 
 if [ -z "${1:-}" ]; then
@@ -38,7 +34,7 @@ function tagmessage() {
 
 tagmessage "# Beta ${TAG}\n
 
-### List of issues embedded in the beta and related merge requests:
+### List of embedded Merge Requests:
 
 "
 
@@ -86,113 +82,88 @@ function get_add_fetch_remote() {
 
 
 echo -e "\n--------------------------------------------
-Checking all issues with label Testing::Beta
+Checking all merge with label Testing::Beta
 --------------------------------------------"
 
-ISSUES=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/issues?labels=Testing::Beta&state=opened&per_page=100" | jq -c '.[]')
+MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/merge_requests?labels=Testing::Beta&state=opened&per_page=100" | jq -c '.[]')
+
+    
 if [ $? != 0 ]; then 
-    echo "Unable to fetch issues, exiting"
+    echo "Unable to fetch merge requests, exiting"
     exit 1
 fi
-[ $DEBUG -eq 1 ] && echo "$ISSUES"
+[ $DEBUG -eq 1 ] && echo "${MERGE_REQUESTS}"
 
-readarray issuesArray < <(echo "${ISSUES}")
+readarray mrArray < <(echo "${MERGE_REQUESTS}")
 
-for issue in "${issuesArray[@]}";do
-    # Each issue will be inspected
-    project_id=$( echo "${issue}" | jq ".project_id" )
-    issue_id=$( echo "${issue}" | jq -r ".iid" )
-    issue_title=$( echo "${issue}" | jq -r ".title" )
-    issue_link=$( echo "${issue}" | jq -r ".web_url" )
-    issue_ref=$( echo "${issue}" | jq -r ".references.full" )
-    issue_assignee=$( echo "${issue}" | jq -r ".assignee.username" )
-    if [[ "${issue_assignee}" == "null" ]];then issue_assignee="";fi
+for mr in "${mrArray[@]}";do
+    MR_COMMENT=":rocket: Merged in [${TAG}](https://gitlab.com/recalbox/recalbox/-/tags/${TAG}):"
 
-    # Getting current issue related merge requests
-    MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/${project_id}/issues/${issue_id}/related_merge_requests?state=opened&per_page=100" | jq -c '.[]')
-    if [ $? != 0 ]; then 
-        echo "Unable to fetch merge requests, exiting"
-        exit 1
+    project_id=$( echo "${mr}" | jq ".project_id" )
+    # Don't merge already merged issues
+    mr_state=$( echo "${mr}" | jq -r ".state" )
+    if [[ "${mr_state}" != "opened" ]]; then
+        continue
     fi
-    mr_count=$( echo "${MERGE_REQUESTS}" | wc -l )
+    mr_title=$( echo "${mr}" | jq -r ".title" )
+    mr_ref=$( echo "${mr}" | jq -r ".references.full" )
+    if [[ "${mr_ref}" == "${MR_SKIP}" ]];then
+        continue
+    fi
+    mr_relative_ref=$( echo "${mr}" | jq -r ".references.relative" )
+    mr_assignee=$( echo "${mr}" | jq -r ".assignee.username" )
+    if [[ "${mr_assignee}" == "null" ]];then mr_assignee="";fi
 
-    echo -e "\n\n\e[32mIssue\e[0m ${issue_ref} assigneed to ${issue_assignee}\n\tTitle: ${issue_title}\n\tTotal merge requests (open and closed): ${mr_count}\n\tLink: ${issue_link}"
-    tagmessage "- **Issue**: ${issue_title} [(${issue_ref})](${issue_link}) ${issue_assignee:+"assigned to @${issue_assignee}"}"
+    mr_link=$( echo "${mr}" | jq -r ".web_url" )
+    mr_sha=$( echo "${mr}" | jq -r ".sha" )
+    mr_source_branch=$( echo "${mr}" | jq -r ".source_branch" )
+    mr_source_project_id=$( echo "${mr}" | jq -r ".source_project_id" )
+    echo -e "\t\e[34mMerge request\e[0m ${mr_ref} assigneed to ${mr_assignee}\n\t\tTitle: ${mr_title}\n\t\tLink: ${mr_link}"
+    tagmessage "  - **Merge request**: ${mr_title} [(${mr_ref})](${mr_link}) ${mr_assignee:+"assigneed to @${mr_assignee}"}"
 
-    [ $DEBUG -eq 1 ] && echo "${MERGE_REQUESTS}"
+    [ $DEBUG -eq 1 ] && (echo "${mr}" | jq )
 
-    readarray mrArray < <(echo "${MERGE_REQUESTS}")
 
-    ISSUE_COMMENT=":rocket: Merged in [${TAG}](https://gitlab.com/recalbox/recalbox/-/tags/${TAG}):"
-    for mr in "${mrArray[@]}";do
-        # Each Merge Request on the issue may be merged
+    group=${mr_ref%/*}
+    project_and_mr=${mr_ref#*/}
+    project=${project_and_mr%!*}
 
-        # Don't merge already merged issues
-        mr_state=$( echo "${mr}" | jq -r ".state" )
-        if [[ "${mr_state}" != "opened" ]]; then
-            continue
+    MR_COMMENT=":rocket: Merged in [${TAG}](https://gitlab.com/recalbox/recalbox/-/tags/${TAG}): https://gitlab.com/${group}/${project}/-/commit/${mr_sha}"
+
+    if [[ "${MERGE}" == 1 ]];then
+
+        # Add remote, reset beta branch if necessary and fetch source branch
+        get_add_fetch_remote "${project}" "${mr_source_project_id}" "${mr_source_branch}" "\t\t"
+
+        echo -e "\t\tMerging ${CURRENT_REMOTE}/${mr_source_branch} to ${project}"
+        cd "${CURDIR}/${project}"
+        #git merge "${CURRENT_REMOTE}/${mr_source_branch}" --no-squash | sed "s/^/\t\t/"
+        echo -e "\t\t\t\e[0m- Deleting temp branch\e[2m"
+        (git branch -D temp 2>&1 || true) | sed "s/^/\t\t\t/"
+        
+        echo -e "\t\t\t\e[0m- Checking out merge request branch on temp branch\e[2m"
+        git checkout -b temp "${CURRENT_REMOTE}/${mr_source_branch}" 2>&1 | sed "s/^/\t\t\t/"
+
+        echo -e "\t\t\t\e[0m- Rebasing on beta\e[2m"
+        set +e
+        git rebase "beta" 2>&1 | sed "s/^/\t\t\t/"
+        if [[ "$?" != "0" ]];then
+            echo -e "\t\t\t\e[0m\e[31m- Please resolve conflicts on temp branch of project ${project}\e[0m\n\t\t\tPress ENTER to continue..."
+            read a
         fi
-        mr_title=$( echo "${mr}" | jq -r ".title" )
-        mr_ref=$( echo "${mr}" | jq -r ".references.full" )
-        if [[ "${mr_ref}" == "${MR_SKIP}" ]];then
-            continue
-        fi
-        mr_relative_ref=$( echo "${mr}" | jq -r ".references.relative" )
-        mr_assignee=$( echo "${mr}" | jq -r ".assignee.username" )
-        if [[ "${mr_assignee}" == "null" ]];then mr_assignee="";fi
+        set -e
+        echo -e "\t\t\t\e[0m- Checking out beta\e[2m"
+        git checkout beta 2>&1 | sed "s/^/\t\t\t/"
 
-        mr_link=$( echo "${mr}" | jq -r ".web_url" )
-        mr_sha=$( echo "${mr}" | jq -r ".sha" )
-        mr_source_branch=$( echo "${mr}" | jq -r ".source_branch" )
-        mr_source_project_id=$( echo "${mr}" | jq -r ".source_project_id" )
-        echo -e "\t\e[34mMerge request\e[0m ${mr_ref} assigneed to ${mr_assignee}\n\t\tTitle: ${mr_title}\n\t\tLink: ${mr_link}"
-        tagmessage "  - **Merge request**: ${mr_title} [(${mr_ref})](${mr_link}) ${mr_assignee:+"assigneed to @${mr_assignee}"}"
+        echo -e "\t\t\t\e[0m- Merging temp branch on beta\e[2m"
+        git merge temp 2>&1 | sed "s/^/\t\t\t/"
+    fi
 
-        [ $DEBUG -eq 1 ] && (echo "${mr}" | jq )
-
-
-        group=${mr_ref%/*}
-        project_and_mr=${mr_ref#*/}
-        project=${project_and_mr%!*}
-
-        ISSUE_COMMENT="${ISSUE_COMMENT}
-- ${mr_link} on https://gitlab.com/${group}/${project}/-/commit/${mr_sha}"
-
-        if [[ "${MERGE}" == 1 ]];then
-
-            # Add remote, reset beta branch if necessary and fetch source branch
-            get_add_fetch_remote "${project}" "${mr_source_project_id}" "${mr_source_branch}" "\t\t"
-
-            echo -e "\t\tMerging ${CURRENT_REMOTE}/${mr_source_branch} to ${project}"
-            cd "${CURDIR}/${project}"
-            #git merge "${CURRENT_REMOTE}/${mr_source_branch}" --no-squash | sed "s/^/\t\t/"
-            echo -e "\t\t\t\e[0m- Deleting temp branch\e[2m"
-            (git branch -D temp 2>&1 || true) | sed "s/^/\t\t\t/"
-            
-            echo -e "\t\t\t\e[0m- Checking out merge request branch on temp branch\e[2m"
-            git checkout -b temp "${CURRENT_REMOTE}/${mr_source_branch}" 2>&1 | sed "s/^/\t\t\t/"
-
-            echo -e "\t\t\t\e[0m- Rebasing on beta\e[2m"
-            set +e
-            git rebase "beta" 2>&1 | sed "s/^/\t\t\t/"
-            if [[ "$?" != "0" ]];then
-                echo -e "\t\t\t\e[0m\e[31m- Please resolve conflicts on temp branch of project ${project}\e[0m\n\t\t\tPress ENTER to continue..."
-                read a
-            fi
-            set -e
-            echo -e "\t\t\t\e[0m- Checking out beta\e[2m"
-            git checkout beta 2>&1 | sed "s/^/\t\t\t/"
-
-            echo -e "\t\t\t\e[0m- Merging temp branch on beta\e[2m"
-            git merge temp 2>&1 | sed "s/^/\t\t\t/"
-        fi
-
-    done
     if [[ "${COMMENT}" == 1 ]];then
-        echo -e "Issue Comment: ${ISSUE_COMMENT}" | sed "s/^/\t/"
+        echo -e "Merge Request Comment: ${MR_COMMENT}" | sed "s/^/\t/"
         COMMENT_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-            "https://gitlab.com/api/v4/projects/2396494/issues/${issue_id}/discussions" \
-            --data-urlencod "body=${ISSUE_COMMENT}" | jq -c '.[]')
+            "https://gitlab.com/api/v4/projects/2396494/merge_requests/${mr_id}/discussions" \
+            --data-urlencod "body=${MR_COMMENT}" | jq -c '.[]')
     fi
 done
 
@@ -200,92 +171,15 @@ done
 
 if [[ "${MERGE}" == 1 ]];then
 
-    echo -e "\n\n\e[32mChanging subprojects revisions\e[0m in packages of recalbox"
-    get_add_fetch_remote recalbox 2396494 beta "\t"
-
-    if [[ -f "${CURDIR}/recalbox-emulationstation/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-emulationstation"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_EMULATIONSTATION2_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_EMULATIONSTATION2_VERSION = .*/RECALBOX_EMULATIONSTATION2_VERSION = ${commit_sha1}/" package/recalbox-emulationstation2/recalbox-emulationstation2.mk
-    fi
-    if [[ -f "${CURDIR}/recalbox-configgen/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-configgen"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_CONFIGGEN_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_CONFIGGEN_VERSION = .*/RECALBOX_CONFIGGEN_VERSION = ${commit_sha1}/" package/recalbox-configgen/recalbox-configgen.mk
-    fi
-    if [[ -f "${CURDIR}/recalbox-themes-prime/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-themes-prime"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_THEMES_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_THEMES_VERSION = .*/RECALBOX_THEMES_VERSION = ${commit_sha1}/" package/recalbox-themes/recalbox-themes.mk
-    fi
-    if [[ -f "${CURDIR}/recalbox-hardware/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-hardware"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_HARDWARE_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_HARDWARE_VERSION = .*/RECALBOX_HARDWARE_VERSION = ${commit_sha1}/" package/recalbox-hardware/recalbox-hardware.mk
-    fi
-    if [[ -f "${CURDIR}/recalbox-manager/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-manager"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_MANAGER2_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_MANAGER2_VERSION = .*/RECALBOX_MANAGER2_VERSION = ${commit_sha1}/" package/recalbox-manager2/recalbox-manager2.mk
-    fi
-    if [[ -f "${CURDIR}/recalbox-piboy/.stamp_reseted" ]];then
-        cd "${CURDIR}/recalbox-piboy"
-        commit_sha1=$(git rev-parse HEAD)
-        cd "${CURDIR}/recalbox"
-        echo -e "\tChanging RECALBOX_PIBOY_VERSION to ${commit_sha1}"
-        sed -i "s/^RECALBOX_PIBOY_VERSION = .*/RECALBOX_PIBOY_VERSION = ${commit_sha1}/" package/recalbox-piboy/recalbox-piboy.mk
-    fi
     # Commit subprojects version
     cd "${CURDIR}/recalbox"
-    if [[ $(git ls-files -m | wc -l) != "0" ]];then
-        echo -e "\tCommit subprojects version in .mk files"
-        git add package/recalbox-hardware/recalbox-hardware.mk package/recalbox-emulationstation2/recalbox-emulationstation2.mk package/recalbox-configgen/recalbox-configgen.mk package/recalbox-themes/recalbox-themes.mk package/recalbox-manager2/recalbox-manager2.mk package/recalbox-piboy/recalbox-piboy.mk | sed "s/^/\t/"
-        git commit -m "ci(beta): bumping subprojects to last beta version" | sed "s/^/\t/"
-    else
-        echo -e "\tNo subprojects modifications to commit"
-    fi
 
     # Push all beta branches
     if [[ "${PUSH}" == "1" ]];then
         echo -e "\n\n\e[32mPushing your beta branches\e[0m"
         cd "${CURDIR}/recalbox"
         git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        if [[ -f "${CURDIR}/recalbox-emulationstation/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-emulationstation"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
-        if [[ -f "${CURDIR}/recalbox-configgen/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-configgen"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
-        if [[ -f "${CURDIR}/recalbox-themes-prime/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-themes-prime"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
-        if [[ -f "${CURDIR}/recalbox-hardware/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-hardware"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
-        if [[ -f "${CURDIR}/recalbox-manager/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-manager"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
-        if [[ -f "${CURDIR}/recalbox-piboy/.stamp_reseted" ]];then
-            cd "${CURDIR}/recalbox-piboy"
-            git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-        fi
 
-        cd "${CURDIR}/recalbox"
         tagmessage "\n### TESTING.md\n"
         git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
         
