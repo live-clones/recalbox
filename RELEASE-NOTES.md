@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
 - Add Pi400 power button support (Fn + F10 to turn off)
 - Display game regions flag in gamelist
+- Make default no image in gamelist themable
 
 ### Improvements
 

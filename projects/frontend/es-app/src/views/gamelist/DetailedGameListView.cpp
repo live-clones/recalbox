@@ -8,6 +8,7 @@
 DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system)
 : BasicGameListView(window, systemManager, system),
   mImage(window),
+  mNoImage(window),
   mVideo(window),
   mLblRating(window),
   mLblReleaseDate(window),
@@ -66,6 +67,8 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mImage.setMaxSize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
   mImage.setDefaultZIndex(30);
   addChild(&mImage);
+
+  mNoImage.setImage(Path(":/no_image.png"));
 
   // video
   mVideo.setOrigin(0.5f, 0.5f);
@@ -145,6 +148,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 
 
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mNoImage.applyTheme(theme, getName(), "default_image_path", ThemeProperties::Path);
   mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
 
   initMDLabels();
@@ -456,8 +460,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
-  static Path noImage(":/no_image.png");
-  mImage.setImage(file->Metadata().Image().Exists() ? file->Metadata().Image() : noImage);
+  mImage.setImage(file->Metadata().Image().Exists() ? file->Metadata().Image() : mNoImage.getImage());
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
