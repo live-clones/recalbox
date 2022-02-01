@@ -527,10 +527,10 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
       game.Metadata().SetAdult(sourceData.mAdult);
       mTextInfo++;
     }
-  if (!sourceData.mRegion.empty())
+  if (!sourceData.mRomRegions == 0)
     if (game.Metadata().Region() == 0 || method != ScrappingMethod::IncompleteKeep)
     {
-      game.Metadata().SetRegionAsString(sourceData.mRegion);
+      game.Metadata().SetRegion(sourceData.mRomRegions);
       mTextInfo++;
     }
   if (!sourceData.mCrc.empty()) // Always set CRC if not empty

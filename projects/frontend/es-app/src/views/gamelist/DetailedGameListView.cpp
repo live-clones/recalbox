@@ -28,6 +28,10 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mLastPlayed(window),
   mPlayCount(window),
   mFavorite(window),
+  mRegion1(window),
+  mRegion2(window),
+  mRegion3(window),
+  mRegion4(window),
   mDescContainer(window),
   mDescription(window),
   mSettings(RecalboxConf::Instance())
@@ -107,6 +111,15 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
     addChild(&mFavorite);
   }
 
+  mRegion1.setDefaultZIndex(40);
+  addChild(&mRegion1);
+  mRegion2.setDefaultZIndex(40);
+  addChild(&mRegion2);
+  mRegion3.setDefaultZIndex(40);
+  addChild(&mRegion3);
+  mRegion4.setDefaultZIndex(40);
+  addChild(&mRegion4);
+
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
   mDescContainer.setSize(mSize.x() * (0.50f - 2 * padding), mSize.y() - mDescContainer.getPosition().y());
   mDescContainer.setAutoScroll(true);
@@ -126,6 +139,10 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
   BasicGameListView::onThemeChanged(theme);
 
+  mRegion1.applyTheme(theme, getName(), "md_region1", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mRegion2.applyTheme(theme, getName(), "md_region2", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mRegion3.applyTheme(theme, getName(), "md_region3", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mRegion4.applyTheme(theme, getName(), "md_region4", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
   mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
 
@@ -426,6 +443,28 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mLastPlayed.setValue(file->Metadata().LastPlayed());
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
   mFavorite.setValue(file->Metadata().Favorite() ? _("YES") : _("NO"));
+
+  std::string regions = Regions::Serialize4Regions(file->Metadata().Region());
+  Strings::SplitQuotted(regions, ',');
+  int i = 1;
+  mRegion1.setImage(Path(""));
+  mRegion2.setImage(Path(""));
+  mRegion3.setImage(Path(""));
+  mRegion4.setImage(Path(""));
+  for(auto& region: Strings::SplitQuotted(regions, ','))
+  {
+    if (Strings::Empty == region) continue;
+    if(i == 1)
+      mRegion1.setImage(Path(":/regions/" + region + ".svg"));
+    if(i == 2)
+      mRegion2.setImage(Path(":/regions/" + region + ".svg"));
+    if(i == 3)
+      mRegion3.setImage(Path(":/regions/" + region + ".svg"));
+    if(i == 4)
+      mRegion4.setImage(Path(":/regions/" + region + ".svg"));
+    i++;
+  }
+
 
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
