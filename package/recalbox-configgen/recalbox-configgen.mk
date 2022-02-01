@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-RECALBOX_CONFIGGEN_VERSION = fe8e0374fa4fb43b29ffec24b6f6c83c4cd328eb
-RECALBOX_CONFIGGEN_SITE = https://gitlab.com/recalbox/recalbox-configgen.git
-RECALBOX_CONFIGGEN_SITE_METHOD = git
+RECALBOX_CONFIGGEN_VERSION = custom
+RECALBOX_CONFIGGEN_SITE = $(TOPDIR)/../projects/configgen
+RECALBOX_CONFIGGEN_SITE_METHOD = local
 
 RECALBOX_CONFIGGEN_LICENSE = GPLv2
 RECALBOX_CONFIGGEN_DEPENDENCIES = python3 python-pyudev python-pygame

@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [8.1-Electron]
+- Add configgen repository in monorepo
 - Add recalbox-hardware repository in monorepo
 - Add recalbox-rgb-dual repository in monorepo
 
