@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-RECALBOX_HARDWARE_VERSION = 2efefae6636e4bceee17d9fe51b5e83b7a421192
-RECALBOX_HARDWARE_SITE = https://gitlab.com/recalbox/recalbox-hardware
+RECALBOX_HARDWARE_VERSION = custom
+RECALBOX_HARDWARE_SITE = $(TOPDIR)/../projects/recalbox-hardware
+RECALBOX_HARDWARE_SITE_METHOD = local
 RECALBOX_HARDWARE_LICENSE = MIT
 RECALBOX_HARDWARE_LICENSE_FILES = LICENSE.md
-RECALBOX_HARDWARE_SITE_METHOD = git
 RECALBOX_HARDWARE_DEPENDENCIES = recalbox-themes host-python3
 
 define RECALBOX_HARDWARE_BUILD_CMDS
