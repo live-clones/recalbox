@@ -50,12 +50,12 @@ lint buildroot:
     - pip install six
   script: test/lint/buildroot
 
-lint commits:
-  <<: *lint_definition
-  image: node:14.11
-  before_script:
-    - npm install -g @commitlint/cli @commitlint/config-conventional
-  script: test/lint/commits
+# lint commits:
+#   <<: *lint_definition
+#   image: node:14.11
+#   before_script:
+#     - npm install -g @commitlint/cli @commitlint/config-conventional
+#   script: test/lint/commits
 
 # lint beta-tests:
 #   <<: *lint_definition
