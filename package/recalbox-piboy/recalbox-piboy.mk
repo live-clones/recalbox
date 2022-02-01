@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-RECALBOX_PIBOY_VERSION = cd5a99233e63d4ab293a93707c20a66a453322a0
-RECALBOX_PIBOY_SITE = https://gitlab.com/recalbox/recalbox-piboy.git
-RECALBOX_PIBOY_SITE_METHOD = git
+RECALBOX_PIBOY_VERSION = custom
+RECALBOX_PIBOY_SITE = $(TOPDIR)/../projects/piboy
+RECALBOX_PIBOY_SITE_METHOD = local
 RECALBOX_PIBOY_LICENSE = GPL-3.0
 RECALBOX_PIBOY_LICENSE_FILES = LICENSE
 

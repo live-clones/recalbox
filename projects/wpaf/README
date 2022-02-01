@@ -1,0 +1,56 @@
+Compatible hardware
+~~~~~~~~~~~~~~~~~~~
+
+- Waveshare PoE Hat B
+- Argon Forty / Argon One
+- Experimental PI PiBoy DMG
+- Raspberry PI PoE+
+- Pimoroni fan SHIM
+
+BOARD SETUP
+~~~~~~~~~~~
+
+Waveshare PoE and Fan - Oled and fan controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+wpaf can handle OLED sreen and fan of waveshare's PoE hat model B.
+
+For this program to work, you have to enable an overlay, in your /boot/config.txt:
+
+  dtparam=i2c1=on
+
+then reboot. Then load the i2c-dev kernel module:
+
+  modprobe i2c-dev
+
+Argon Forty / One
+~~~~~~~~~~~~~~~~~
+
+wpaf can manage Argon One (w/ or w/o m.2 expansion slot). You juste need to add the configutation
+below to make it works:
+
+  dtparam=i2c_arm=on
+  enable_uart=1
+
+Raspberry PI PoE+
+~~~~~~~~~~~~~~~~~
+
+For that board, there is an overlay that manages PoE and fan. Enable by adding this configuration to
+config.txt:
+
+  dtoverlay=rpi-poe-plus
+
+However wpaf is incompatible with rpi_poe_fan kernel module. Be sure to blacklist rpi_poe_fan.
+
+  echo "blacklist rpi_poe_fan" >>/etc/modprobe.d/blacklist.conf
+
+Pimoroni fan SHIM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Make sure PWM is enable on GPIO 18 (pin 12) by enabling that overlay:
+
+  dtoverlay=pwm
+
+Then enable GPIO18 as PWM with
+
+  echo 0 >/sys/class/pwm/pwmchip0/export
