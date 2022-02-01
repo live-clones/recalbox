@@ -951,3 +951,52 @@ std::string Strings::ToHumanSize(long long int size)
   size >>= 10;
   return ToString((float)size / 1024.f, 2).append("TB", 2);
 }
+
+static const char Base64Values[] =
+{
+  00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+  00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+  00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 62, 00, 00, 00, 63,
+  52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 00, 00, 00, 00, 00, 00,
+  00, 00, 01, 02, 03, 04, 05, 06, 07,  8,  9, 10, 11, 12, 13, 14,
+  15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 00, 00, 00, 00, 00,
+  00, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+};
+
+std::string Strings::Decode64(const std::string& base64)
+{
+  std::string result;
+
+  // Align on 3 char
+  int len = (int)base64.size() & -4;
+  int off7 = 0;
+
+  // Padding?
+  bool padded = (base64[off7 + len - 1] == '=');
+  if (padded) len -= 4;
+
+  // 3 char loop
+  for (int L = len >> 2; --L >= 0; off7 += 4)
+  {
+    int V = (Base64Values[(unsigned int)(unsigned char)base64[off7]] << 18) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 1]] << 12) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 2]] << 6) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 3]]);
+    result.append(1, (char)(V >> 16));
+    result.append(1, (char)(V >> 8));
+    result.append(1, (char)V);
+  }
+  // remaining
+  if (padded)
+  {
+    int V = (Base64Values[(unsigned int)(unsigned char)base64[off7]] << 10) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 1]] << 4) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 2]] >> 2);
+    result.append(1, (char)(V >> 8));
+    if (base64[off7 + 2] != '=')
+      result.append(1, (char)V);
+  }
+
+  return result;
+}

@@ -56,7 +56,7 @@ class IniFile
      * @param name key to check
      * @return True if the key is defined
      */
-    bool IsDefined(const std::string& name) const
+    [[nodiscard]] bool IsDefined(const std::string& name) const
     {
       return !mPendingDelete.contains(name) && (mConfiguration.contains(name) || mPendingWrites.contains(name));
     }
@@ -66,7 +66,7 @@ class IniFile
      * @param name Key
      * @return Value or empty string if the key does not exist
      */
-    std::string AsString(const std::string& name) const;
+    [[nodiscard]] std::string AsString(const std::string& name) const;
 
     /*!
      * @brief Get string value from the given key or return the default value
@@ -74,7 +74,22 @@ class IniFile
      * @param defaultValue Default value
      * @return Value or default value if the key does not exist
      */
-    std::string AsString(const std::string &name, const std::string &defaultValue) const;
+    [[nodiscard]] std::string AsString(const std::string &name, const std::string &defaultValue) const;
+
+    /*!
+     * @brief Get string value from the given key
+     * @param name Key
+     * @return Value or empty string if the key does not exist
+     */
+    std::string AsString(const char* name) const;
+
+    /*!
+     * @brief Get string value from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value
+     * @return Value or default value if the key does not exist
+     */
+    std::string AsString(const char* name, const char* defaultValue) const;
 
     /*!
      * @brief Get boolean value from the given key or return the default value
@@ -82,7 +97,15 @@ class IniFile
      * @param defaultValue Default value (optional, false by default)
      * @return Value or default value if the key does not exist
      */
-    bool AsBool(const std::string& name, bool defaultValue = false) const;
+    [[nodiscard]] bool AsBool(const std::string& name, bool defaultValue = false) const;
+
+    /*!
+     * @brief Get boolean value from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value (optional, false by default)
+     * @return Value or default value if the key does not exist
+     */
+    bool AsBool(const char* name, bool defaultValue = false) const;
 
     /*!
      * @brief Get value as unsigned int from the given key or return the default value
@@ -90,7 +113,7 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    unsigned int AsUInt(const std::string& name, unsigned int defaultValue = 0) const;
+    [[nodiscard]] unsigned int AsUInt(const std::string& name, unsigned int defaultValue = 0) const;
 
     /*!
      * @brief Get value as signed int from the given key or return the default value
@@ -98,7 +121,15 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    int AsInt(const std::string& name, int defaultValue = 0) const;
+    [[nodiscard]] int AsInt(const std::string& name, int defaultValue = 0) const;
+
+    /*!
+     * @brief Get value as signed int from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value (optional, 0 by default)
+     * @return Value or default value if the key does not exist
+     */
+    int AsInt(const char* name, int defaultValue = 0) const;
 
     /*!
      * @brief Set the value as string of the given key
@@ -136,26 +167,33 @@ class IniFile
     void SetList(const std::string &name, const std::vector<std::string> &values);
 
     /*!
+     * @brief Check if the given key exists in the configuration file
+     * @param name Key to check
+     * @return True if the key exists, false otherwise
+     */
+    [[nodiscard]] bool Exists(const std::string& name) const { return mConfiguration.contains(name); }
+
+    /*!
      * @brief Check if a value is in the given named list
      * @param name Key from which to obtain the list
      * @param value Value to seek for in the list
      * @return True if the list exists and the value is found. False otherwise
      */
-    bool isInList(const std::string &name, const std::string &value) const;
+    [[nodiscard]] bool isInList(const std::string &name, const std::string &value) const;
 
     /*!
      * @brief Check if there is at least one key starting with the given string
      * @param startWidth String
      * @return True if at least one key starts with the given string
      */
-    bool HasKeyStartingWith(const std::string& startWidth) const;
+    [[nodiscard]] bool HasKeyStartingWith(const std::string& startWidth) const;
 
     /*!
      * @brief Check if the given key exists
      * @param key Key name
      * @return True if the jey exists
      */
-    bool HasKey(const std::string& key) const;
+    [[nodiscard]] bool HasKey(const std::string& key) const;
 
     /*!
      * @brief Get all keys ending with the given string
@@ -178,7 +216,7 @@ class IniFile
      * @brief Check if this instance has loaded a file and has keys and values
      * @return True if at least one key/value pair has been loaded
      */
-    bool IsValid() const { return mValid; }
+    [[nodiscard]] bool IsValid() const { return mValid; }
 
     /*!
      * @brief Called after loading the file
@@ -188,7 +226,7 @@ class IniFile
     /*!
      * @brief Called after saving the file
      */
-    virtual void OnSave() {}
+    virtual void OnSave() const {}
 
   private:
     //! Configuration map: key, value - Read from file
@@ -217,6 +255,6 @@ class IniFile
      * @param key Key
      * @return Value or empty string if the key does not exists
      */
-    const std::string& ExtractValue(const std::string& key) const;
+    [[nodiscard]] const std::string& ExtractValue(const std::string& key) const;
 };
 

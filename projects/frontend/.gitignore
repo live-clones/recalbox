@@ -9,6 +9,7 @@
 
 # Compiled Dynamic libraries
 *.so
+*.so.SOVERSION
 
 # Compiled Static libraries
 *.lai
@@ -23,6 +24,7 @@ emulationstation
 emulationstation_test
 md5zip
 pad2keyb
+webapi-server
 
 # build tags
 es-app/src/EmulationStation.h

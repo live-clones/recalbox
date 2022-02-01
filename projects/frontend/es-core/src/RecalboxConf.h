@@ -28,7 +28,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     /*!
      * @brief Called when file has been saved
      */
-    void OnSave() override;
+    void OnSave() const override;
 
     /*
      * Enums

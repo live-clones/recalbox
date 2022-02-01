@@ -22,8 +22,15 @@ NotificationManager::NotificationManager(char** environment)
   : StaticLifeCycleControler<NotificationManager>("NotificationManager"),
     mMQTTClient("recalbox-emulationstation", nullptr),
     mEnvironment(environment)
+  , mProcessing(false)
 {
   LoadScriptList();
+  Thread::Start("EventNotifier");
+}
+
+NotificationManager::~NotificationManager()
+{
+  Thread::Stop();
 }
 
 const char* NotificationManager::ActionToString(Notification action)
@@ -179,6 +186,63 @@ void NotificationManager::RunScripts(Notification action, const std::string& par
   }
 }
 
+JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::NotificationRequest& request)
+{
+  std::string emulator;
+  std::string core;
+  JSONBuilder builder;
+
+  builder.Open();
+
+  // Action
+  builder.Field("Action", ActionToString(request.mAction))
+         .Field("Parameter", request.mActionParameters)
+         .Field("Version", LEGACY_STRING("2.0"));
+  // System
+  if (request.mSystemData != nullptr)
+  {
+    builder.OpenObject("System")
+           .Field("System", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->FullName())
+           .Field("SystemId", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->Name());
+    if (!request.mSystemData->IsVirtual())
+      if (request.mSystemData->Manager().Emulators().GetDefaultEmulator(*request.mSystemData, emulator, core))
+        builder.OpenObject("DefaultEmulator")
+               .Field("Emulator", emulator)
+               .Field("Core", core)
+               .CloseObject();
+    builder.CloseObject();
+  }
+  // Game
+  if (request.mFileData != nullptr)
+  {
+    builder.OpenObject("Game")
+           .Field("Game", request.mFileData->Name())
+           .Field("GamePath", request.mFileData->RomPath().ToString())
+           .Field("IsFolder", request.mFileData->IsFolder())
+           .Field("ImagePath", request.mFileData->Metadata().Image().ToString())
+           .Field("ThumbnailPath", request.mFileData->Metadata().Thumbnail().ToString())
+           .Field("VideoPath", request.mFileData->Metadata().Video().ToString())
+           .Field("Developer", request.mFileData->Metadata().Developer())
+           .Field("Publisher", request.mFileData->Metadata().Publisher())
+           .Field("Players", request.mFileData->Metadata().PlayersAsString())
+           .Field("Region", request.mFileData->Metadata().RegionAsString())
+           .Field("Genre", request.mFileData->Metadata().Genre())
+           .Field("GenreId", request.mFileData->Metadata().GenreIdAsString())
+           .Field("Favorite", request.mFileData->Metadata().Favorite())
+           .Field("Hidden", request.mFileData->Metadata().Hidden())
+           .Field("Adult", request.mFileData->Metadata().Adult());
+    if (request.mFileData->System().Manager().Emulators().GetGameEmulator(*request.mFileData, emulator, core))
+      builder.OpenObject("SelectedEmulator")
+             .Field("Emulator", emulator)
+             .Field("Core", core)
+             .CloseObject();
+    builder.CloseObject();
+  }
+  builder.Close();
+
+  return builder;
+}
+
 void NotificationManager::BuildStateCommons(std::string& output, const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
 {
   // Build status file
@@ -278,36 +342,74 @@ void NotificationManager::BuildStateCompatibility(std::string& output, Notificat
   }
 }
 
+void NotificationManager::Break()
+{
+  mSignal.Fire();
+}
+
+void NotificationManager::Run()
+{
+  mSignal.WaitSignal();
+  if (IsRunning())
+  {
+    // Get request
+    mSyncer.Lock();
+    mProcessing = true;
+    NotificationRequest* request = !mRequestQueue.Empty() ? mRequestQueue.Pop() : nullptr;
+    mSyncer.UnLock();
+
+    // Process
+    if (request != nullptr)
+    {
+      if (*request != mPreviousRequest)
+      {
+        // Build all
+        std::string output("Version=2.0"); output.append(eol);
+        BuildStateCommons(output, request->mSystemData, request->mFileData, request->mAction, request->mActionParameters);
+        BuildStateGame(output, request->mFileData, request->mAction);
+        BuildStateSystem(output, request->mSystemData, request->mAction);
+        BuildStateCompatibility(output, request->mAction);
+        // Save
+        Files::SaveFile(Path(sStatusFilePath), output);
+        // MQTT notification
+        mMQTTClient.Send(sEventTopic, ActionToString(request->mAction));
+
+        // Build json event
+        JSONBuilder json = BuildJsonPacket(*request);
+        // MQTT notification
+        mMQTTClient.Send(sEventJsonTopic, json);
+
+        // Run scripts
+        const std::string& notificationParameter = (request->mFileData != nullptr) ? request->mFileData->RomPath().ToString() :
+                                                   ((request->mSystemData != nullptr) ? request->mSystemData->Name() : request->mActionParameters);
+        RunScripts(request->mAction, notificationParameter);
+
+        mPreviousRequest = *request;
+      }
+
+      // Recycle
+      mRequestProvider.Recycle(request);
+    }
+
+    // En processing
+    mSyncer.Lock();
+    mProcessing = true;
+    mSyncer.UnLock();
+  }
+}
+
 void NotificationManager::Notify(const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
 {
-//  why ?
-//  if (VideoEngine::IsInstantiated())
-//    VideoEngine::Instance().StopVideo();
+  // Build new parameter bag
+  NotificationRequest* request = mRequestProvider.Obtain();
+  request->Set(system, game, action, actionParameters);
 
-  const std::string& notificationParameter = (game != nullptr) ? game->RomPath().ToString() :
-                                             ((system != nullptr) ? system->Name() : actionParameters);
-
-  // Check if it is the same event than in previous call
-  ParamBag newBag(system, game, action, actionParameters);
-  if (newBag != mPreviousParamBag)
+  // Push new param bag
   {
-    // Build all
-    std::string output("Version=2.0"); output.append(eol);
-    BuildStateCommons(output, system, game, action, actionParameters);
-    BuildStateGame(output, game, action);
-    BuildStateSystem(output, system, action);
-    BuildStateCompatibility(output, action);
-
-    // Save
-    Files::SaveFile(Path(sStatusFilePath), output);
-
-    // MQTT notification
-    mMQTTClient.Send(sEventTopic, ActionToString(action));
-
-    // Run scripts
-    RunScripts(action, notificationParameter);
+    Mutex::AutoLock locker(mSyncer);
+    mRequestQueue.Push(request);
+    mSignal.Fire();
   }
-  mPreviousParamBag = newBag;
 }
 
 void NotificationManager::RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent)
@@ -378,4 +480,14 @@ bool NotificationManager::HasValidExtension(const Path& path)
          (ext == ".py3");
 }
 
-
+void NotificationManager::WaitCompletion()
+{
+  for(;;)
+  {
+    mSyncer.Lock();
+    bool havePendings = !mRequestQueue.Empty();
+    mSyncer.UnLock();
+    if (!havePendings && !mProcessing) break;
+    Thread::Sleep(100);
+  }
+}

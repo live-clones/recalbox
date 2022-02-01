@@ -204,6 +204,8 @@ class Strings
      * @return String representation
      */
     /**/ static std::string ToHumanSize(long long size);
+
+    static std::string Decode64(const std::string& base64);
 };
 
 #pragma clang diagnostic pop

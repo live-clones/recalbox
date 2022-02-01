@@ -20,7 +20,7 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   try
   {
     if (mOriginalTocken = mMqtt.connect(connectOptions, nullptr, *this); mOriginalTocken != nullptr)
-      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
+      { mMqtt.start_consuming(); LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
     else
       { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (init) !"; }
   }
@@ -28,6 +28,11 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   {
     { LOG(LogError) << "[MQTT] Connection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (catch) ! reason: " << e.what(); }
   }
+}
+
+MqttClient::~MqttClient()
+{
+  mMqtt.stop_consuming();
 }
 
 bool MqttClient::Send(const std::string& topic, const std::string& message)

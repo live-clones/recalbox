@@ -1,5 +1,10 @@
 Recalbox Emulationstation
 ================
+
+Moved to the monorepo : https://gitlab.com/recalbox/recalbox/-/tree/master/projects/frontend/
+
+
+
 Your are on the Emulationstation github for the recalbox.
 The frontend has been modified for the need of the recalbox.
 
