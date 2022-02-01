@@ -17,7 +17,7 @@ stages:
   - release
 
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_STRATEGY: none
 
 
 # Lint
@@ -80,9 +80,16 @@ lint changelog:
 
 # Test
 tests configgen:
-  <<: *only-default
+  <<: *lint_definition
   stage: lint
   image: python:3.9-slim
+  only:
+    refs:
+      - master
+      - merge_requests
+      - tags
+    changes:
+      - projects/configgen/**/*
   script: 
     - cd projects/configgen
     - echo "Installing dependencies"
@@ -93,14 +100,18 @@ tests configgen:
     - python setup.py install
 
 tests emulationstation:
-  <<: *only-default
+  <<: *lint_definition
   stage: lint
   image: docker:latest
   services:
     - docker:dind
-  #only:
-  #  changes:
-  #    - projects/frontend/**/*
+  only:
+    refs:
+      - master
+      - merge_requests
+      - tags
+    changes:
+      - projects/frontend/**/*
   script:
     - cd projects/frontend
     - docker build . 
