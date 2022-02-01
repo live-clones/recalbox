@@ -77,7 +77,21 @@ lint changelog:
     - git remote show target || git remote add target "${CI_MERGE_REQUEST_PROJECT_URL}"
     - git fetch target "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
     - if git diff --exit-code "target/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" -- CHANGELOG.md; then echo "You forgot the CHANGELOG.md" && exit 1; fi
-  
+
+# Test
+tests configgen:
+  <<: *only-default
+  stage: lint
+  image: python:3.9-slim
+  script: 
+    - cd projects/configgen
+    - echo "Installing dependencies"
+    - pip install -r requirements.txt
+    - echo "Running unittests" 
+    - export PYTHONPATH=$PYTHONPATH:$(pwd) && pytest --cov=configgen
+    - echo "Building configgen" 
+    - python setup.py install
+
 # Build
 
 .build_template: &build_definition
