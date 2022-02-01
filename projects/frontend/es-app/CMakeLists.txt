@@ -58,6 +58,7 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuGamelistGameOptions.h
         src/guis/menus/GuiMenuGameSettings.h
         src/guis/menus/GuiMenuKodiSettings.h
+        src/guis/menus/GuiMenuNas.h
         src/guis/menus/GuiMenuNetplay.h
         src/guis/menus/GuiMenuNetwork.h
         src/guis/menus/GuiMenuPads.h
@@ -254,6 +255,7 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuGamelistGameOptions.cpp
         src/guis/menus/GuiMenuGameSettings.cpp
         src/guis/menus/GuiMenuKodiSettings.cpp
+        src/guis/menus/GuiMenuNas.cpp
         src/guis/menus/GuiMenuNetplay.cpp
         src/guis/menus/GuiMenuNetwork.cpp
         src/guis/menus/GuiMenuPads.cpp

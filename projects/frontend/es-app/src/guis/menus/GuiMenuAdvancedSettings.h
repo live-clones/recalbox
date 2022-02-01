@@ -55,6 +55,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       CrtSubMenu,
       Manager,
       FactoryReset,
+      NasSubmenu,
     };
 
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";

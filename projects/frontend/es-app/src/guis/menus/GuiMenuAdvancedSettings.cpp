@@ -11,6 +11,7 @@
 #include "GuiMenuSystemList.h"
 #include "GuiMenuKodiSettings.h"
 #include "GuiMenuCRT.h"
+#include "GuiMenuNas.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -39,6 +40,8 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   // CRT
   if (Board::Instance().CanHaveCRTBoard())
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
+
+  AddSubMenu(_("RETRONAS SETTINGS"), (int)Components::NasSubmenu, "");
 
   // Adult games
   mAdult = AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
@@ -223,6 +226,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
   {
     case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
     case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
+    case Components::NasSubmenu: mWindow.pushGui(new GuiMenuNas(mWindow)); break;
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
