@@ -5,6 +5,7 @@
 
 #include <utils/os/fs/Path.h>
 #include <utils/storage/HashMap.h>
+#include <utils/storage/Set.h>
 
 class IniFile
 {
@@ -36,11 +37,27 @@ class IniFile
     bool Save();
 
     /*!
+     * @brief Delete (comment) key
+     * @param name Key name
+     */
+    void Delete(const std::string &name);
+
+    /*!
+     * @brief Check if a key is defined in this configuration
+     * @param name key to check
+     * @return True if the key is defined
+     */
+    bool IsDefined(const std::string& name) const
+    {
+      return !mPendingDelete.contains(name) && (mConfiguration.contains(name) || mPendingWrites.contains(name));
+    }
+
+    /*!
      * @brief Get string value from the given key
      * @param name Key
      * @return Value or empty string if the key does not exist
      */
-    std::string AsString(const std::string &name) const;
+    std::string AsString(const std::string& name) const;
 
     /*!
      * @brief Get string value from the given key or return the default value
@@ -155,6 +172,8 @@ class IniFile
     HashMap<std::string, std::string> mConfiguration;
     //! Configuration map: key, value - Pending writes
     HashMap<std::string, std::string> mPendingWrites;
+    //! Configuration set: key - Pending deleted (commented)
+    HashSet<std::string> mPendingDelete;
     //! File path
     Path mFilePath;
     //! Fallback File path
