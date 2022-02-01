@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-RECALBOX_EMULATIONSTATION2_VERSION = 4d33cc3c034fff45ebc3affc0e6398670d411539
-RECALBOX_EMULATIONSTATION2_SITE = https://gitlab.com/recalbox/recalbox-emulationstation.git
-RECALBOX_EMULATIONSTATION2_SITE_METHOD = git
+RECALBOX_EMULATIONSTATION2_VERSION = custom
+RECALBOX_EMULATIONSTATION2_SITE = $(TOPDIR)/../projects/frontend
+RECALBOX_EMULATIONSTATION2_SITE_METHOD = local
 RECALBOX_EMULATIONSTATION2_LICENSE = MIT
 RECALBOX_EMULATIONSTATION2_DEPENDENCIES = sdl2 sdl2_mixer freeimage freetype alsa-lib pulseaudio \
 	libcurl openssl libzip ffmpeg procps-ng

@@ -92,6 +92,22 @@ tests configgen:
     - echo "Building configgen" 
     - python setup.py install
 
+tests emulationstation:
+  <<: *only-default
+  stage: lint
+  image: docker:latest
+  services:
+    - docker:dind
+  #only:
+  #  changes:
+  #    - projects/frontend/**/*
+  script:
+    - cd projects/frontend
+    - docker build . 
+  artifacts:
+    reports:
+      junit: ./**/report.xml
+
 # Build
 
 .build_template: &build_definition
