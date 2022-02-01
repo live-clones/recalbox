@@ -139,7 +139,7 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
 
 void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring, ScreenScraperApis::Game& game, Path path)
 {
-  Regions::GameRegions romRegion = Regions::GameRegions::Unknown;
+  unsigned int romRegion;
   rapidjson::Document json;
   json.Parse(jsonstring.c_str());
   if (!json.HasParseError())
@@ -155,23 +155,24 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           const rapidjson::Value& rom = jeu["rom"];
           if (rom.HasMember("romregions"))
           {
-            romRegion = Regions::DeserializeRegion(rom["romregions"].GetString());
-            if(Regions::GameRegions::Unknown == romRegion)
-              romRegion = Regions::DeserializeCustomRegion(rom["romregions"].GetString());
+            // todo romRegions and fileNAmeRegions
+            romRegion = Regions::Deserialize4Regions(rom["romregions"].GetString());
+            std::string romRegionjson = rom["romregions"].GetString();
+            std::string romRegionSerial = Regions::Serialize4Regions(romRegion);
+            game.mRomRegions = romRegion;
           }
             if (rom.HasMember("romcrc"))
               game.mCrc = rom["romcrc"].GetString();
         }
         std::string requiredRegion = ScreenScraperApis::GetRequiredRegion(romRegion, path,
                                                                           mConfiguration.GetFavoriteRegion());
-        game.mRegion = requiredRegion;
         const std::string language = LanguagesTools::SerializeLanguage(mConfiguration.GetFavoriteLanguage());
 
         // Deserialize text data
         if (jeu.HasMember("noms"))
         {
-          game.mName = ExtractRegionalizedText(jeu["noms"], requiredRegion);
-          game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(jeu["noms"], "ss"));
+          game.mName = ExtractRegionalizedText(jeu["noms"], requiredRegion, romRegion);
+          game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(jeu["noms"], "ss", romRegion));
         }
         if (jeu.HasMember("synopsis"))
         {
@@ -186,7 +187,7 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
           game.mPlayers = jeu["joueurs"]["text"].GetString();
         if (jeu.HasMember("dates"))
         {
-          std::string dateTime = ExtractRegionalizedText(jeu["dates"], requiredRegion);
+          std::string dateTime = ExtractRegionalizedText(jeu["dates"], requiredRegion, romRegion);
           if (!DateTime::ParseFromString("%yyyy-%MM-%dd", dateTime, game.mReleaseDate))
             if (!DateTime::ParseFromString("%yyyy-%MM", dateTime, game.mReleaseDate))
               DateTime::ParseFromString("%yyyy", dateTime, game.mReleaseDate);
@@ -302,20 +303,23 @@ void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring
     }
 }
 
-std::string ScreenScraperApis::GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion){
+std::string ScreenScraperApis::GetRequiredRegion(unsigned int romRegion, const Path& path, Regions::GameRegions favoriteRegion){
+
   if(RecalboxConf::Instance().GetScreenScraperRegionPriority() == ScreenScraperEnums::ScreenScraperRegionPriority::DetectedRegion)
   {
-    Regions::GameRegions regionFromFile = Regions::ExtractRegionsFromFileName(path);
-    if(regionFromFile != Regions::GameRegions::Unknown)
-      return  Regions::SerializeRegion(regionFromFile);
+    //check if favorite region is in regions detected
+    if (Regions::IsIn4Regions(romRegion, favoriteRegion))
+      return Regions::SerializeRegion(favoriteRegion);
 
-    if(romRegion != Regions::GameRegions::Unknown)
-    return Regions::SerializeRegion(romRegion);
+    // return first region detected
+    return Regions::SerializeRegion((Regions::GameRegions) (romRegion >> 0 & 0xFF));
   }
+
+  // return favorite
   return Regions::SerializeRegion(favoriteRegion);
 }
 
-std::string ScreenScraperApis::ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion)
+std::string ScreenScraperApis::ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion, unsigned int romRegion)
 {
   // required first
   for(const auto& object : array.GetArray())
