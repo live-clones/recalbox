@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [8.1-Electron]
+- Add wpaf repository in monorepo
 - Add piboy repository in monorepo
 - Add frontend repository in monorepo
 - Add configgen repository in monorepo
