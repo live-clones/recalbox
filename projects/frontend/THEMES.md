@@ -337,19 +337,19 @@ Just remember, *this only works if the elements have the same type!*
  	
  ##### gameclip
   * image `name="background"` - 40 !!!!!!!!!!!!
-  * image `name="recalboxlogo"` - 50
+  * image `name="recalboxLogo"` - 50
   * image `name="clippingImage"` - 50
+  * image `name="favoriteIcon"` - 50
   
   * Extra Elements `extra="true"` - 10
   
   * Media
     * video `name="md_video"` - 30
     * image `name="md_image"` - 50
-    * image `name="favoriteIcon"` - 50
   	* image `name="md_thumbnail"` - 50 - disabled
   	
   	
-  * Metadata - 40 - disabled
+  * Metadata - 50 - disabled
   	* Labels
   		* text `name="md_lbl_gameName"`
   		* text `name="md_lbl_systemName"`
@@ -361,18 +361,20 @@ Just remember, *this only works if the elements have the same type!*
   		* text `name="md_lbl_players"`
   		* text `name="md_lbl_lastplayed"`
   		* text `name="md_lbl_playcount"`
-  	* Values
-  		* text `name="md_gameName"` - 50 - displayed
-  		* text `name="md_systemName"` - 50 - displayed
-  		* rating `name="md_rating"`
-  		* datetime `name="md_releasedate"` - 50 - displayed
-  		* text `name="md_developer"`
-  		* text `name="md_publisher"`
-  		* text `name="md_genre"`
-  		* text `name="md_players"`
-  		* datetime `name="md_lastplayed"`
-  		* text `name="md_playcount"`
-  		* text `name="md_description"`
+  	* Values - 50
+  		* text `name="md_gameName"`
+  		* text `name="md_systemName"`
+  		* datetime `name="md_releasedate"`
+
+  		* rating `name="md_rating"` - displayed
+  		* text `name="md_developer"` - displayed
+  		* text `name="md_publisher"` - displayed
+  		* text `name="md_genre"` - displayed
+  		* text `name="md_players"` - displayed
+  		* datetime `name="md_lastplayed"` - displayed
+  		* text `name="md_playcount"` - displayed
+  		* text `name="md_description"` - displayed
+  		
   * System Logo/Text - 50
   	* text `name="logoText"`
   	* image `name="logo"`

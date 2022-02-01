@@ -32,6 +32,7 @@ private:
     void initMDValues();
 
     ImageComponent mImage;
+    ImageComponent mNoImage;
     VideoComponent mVideo;
     std::vector<ImageComponent *> mFolderContent;
     std::vector<ImageComponent *> mRegions;

@@ -138,6 +138,7 @@ void GameClipContainer::initComponents()
   mGameName.setOrigin(1, 1);
   mGameName.setSize(mSize.x() * 0.6f, mSize.y() * 0.03f);
   mGameName.setZIndex(50);
+  mGameName.setDefaultZIndex(50);
   mGameName.setHorizontalAlignment(TextAlignment::Right);
   mGameName.setColor(0xFFFFFFFF);
 
@@ -153,6 +154,7 @@ void GameClipContainer::initComponents()
   mSystemName.setOrigin(1, 1);
   mSystemName.setSize(mSize.x() * 0.7f, mSize.y() * 0.03f);
   mSystemName.setZIndex(50);
+  mSystemName.setDefaultZIndex(50);
   mSystemName.setHorizontalAlignment(TextAlignment::Right);
   mSystemName.setFont(Font::get(FONT_SIZE_SMALL));
   mSystemName.setColor(0xFFFFFFFF);
@@ -161,6 +163,7 @@ void GameClipContainer::initComponents()
   mReleaseDate.setPosition(mSize.x() * 0.97f, releasePosY);
   mReleaseDate.setSize(mSize.x() * 0.7f, mSize.y() * 0.03f);
   mReleaseDate.setZIndex(50);
+  mReleaseDate.setDefaultZIndex(50);
   mReleaseDate.setOrigin(1, 1);
   mReleaseDate.setHorizontalAlignment(TextAlignment::Right);
   mReleaseDate.setFont(Font::get(FONT_SIZE_SMALL));
@@ -176,7 +179,7 @@ void GameClipContainer::initMDLabels()
   {
     textLabel->setFont(Font::get(FONT_SIZE_SMALL));
     textLabel->setDisabled(true);
-    textLabel->setDefaultZIndex(40);
+    textLabel->setDefaultZIndex(50);
   }
 }
 
@@ -196,9 +199,9 @@ void GameClipContainer::initMDValues()
   mFavorite.setFont(defaultFont);
   mDescription.setFont(defaultFont);
 
-  for (unsigned int i = 0; i < (unsigned int) labels.size(); i++)
+  for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
   {
-    values[i]->setDefaultZIndex(40);
+    values[i]->setDefaultZIndex(50);
     values[i]->setDisabled(true);
   }
 }
@@ -228,7 +231,6 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
       addChild(extra);
     }
 
-
     if (mHeaderImage.hasImage())
     {
       removeChild(&mHeaderText);
@@ -244,19 +246,20 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
                       ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
                       ThemeProperties::Rotation);
 
-    if (mSystem->HasFavoritesInTheme())
-    {
-      mFavoriteIcon.applyTheme(theme, GameClipView::getName(), "md_favoriteIcon",
-                               ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
-                               ThemeProperties::Rotation);
-    }
-
     mThumbnail.applyTheme(theme, GameClipView::getName(), "md_thumbnail",
                           ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
                           ThemeProperties::Rotation);
-    mRecalboxLogo.applyTheme(theme, GameClipView::getName(), "md_recalboxlogo", ThemeProperties::All);
-    mClippingImage.applyTheme(mGame->System().Theme(), GameClipView::getName(), "md_clippingImage",
-                              ThemeProperties::Path);
+
+    if (mSystem->HasFavoritesInTheme())
+    {
+      mFavoriteIcon.applyTheme(theme, GameClipView::getName(), "favoriteIcon",
+                               ThemeProperties::All);
+    }
+
+    mRecalboxLogo.applyTheme(theme, GameClipView::getName(), "recalboxLogo", ThemeProperties::All);
+
+    mClippingImage.applyTheme(mGame->System().Theme(), GameClipView::getName(), "clippingImage",
+                              ThemeProperties::Path | ThemeProperties::Size);
 
     std::vector<TextComponent*> labels = getMDLabels();
     std::vector<std::string> names({
@@ -286,7 +289,6 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
     std::vector<Component*> values = getMDValues();
     names = {
       "md_gameName",
-      "md_systemName",
       "md_rating",
       "md_releasedate",
       "md_developer",
@@ -308,6 +310,8 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
       values[i]->applyTheme(theme, GameClipView::getName(), names[i], ThemeProperties::All ^ ThemeProperties::Text);
     }
 
+    mSystemName.applyTheme(theme, GameClipView::getName(), "md_systemName",
+    ThemeProperties::All);
     mDescContainer.applyTheme(theme, GameClipView::getName(), "md_description",
                               ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex);
     mDescription.setSize(mDescContainer.getSize().x(), 0.0);
@@ -345,8 +349,6 @@ void GameClipContainer::Render(const Transform4x4f& parentTrans)
   Vector2f videoCenter = mVideo.getCenter();
   ThemeData theme = mGame->System().Theme();
   mClippingImage.setPosition(videoCenter.x(), videoCenter.y());
-  if (theme.getGameClipView() != ThemeData::getNoTheme())
-    mClippingImage.applyTheme(theme, GameClipView::getName(), "md_clippingImage", ThemeProperties::All);
 
   renderChildren(parentTrans);
 }
@@ -377,7 +379,6 @@ std::vector<Component*> GameClipContainer::getMDValues()
 {
   std::vector<Component*> ret;
   ret.push_back(&mGameName);
-  ret.push_back(&mSystemName);
   ret.push_back(&mRating);
   ret.push_back(&mReleaseDate);
   ret.push_back(&mDeveloper);
@@ -397,11 +398,11 @@ void GameClipContainer::setGameInfo(FileData* game)
 {
   mGame = game;
   mSystem = &mGame->System();
+  mSystemName.setValue(mGame->System().FullName());
 
   onThemeChanged(mSystem->Theme());
 
   mGameName.setValue(mGame->Metadata().Name());
-  mSystemName.setValue(mGame->System().FullName());
   mRating.setValue(mGame->Metadata().RatingAsString());
   mReleaseDate.setValue(mGame->Metadata().ReleaseDateAsString());
   mDeveloper.setValue(mGame->Metadata().Developer());
