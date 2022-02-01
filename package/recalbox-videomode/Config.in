@@ -1,0 +1,11 @@
+config BR2_PACKAGE_RECALBOX_VIDEOMODE
+	bool "recalbox videomode"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_SDL2
+	help
+	  A simple resolution list utility
+
+	  https://github.com/recalbox/recalbox
+
+comment "videomode needs a toolchain w/ C++ and SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2
