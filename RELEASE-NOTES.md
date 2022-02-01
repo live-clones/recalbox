@@ -6,6 +6,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.1-Electron
 ### News
+- Add resolution menu in Advanced Settings > Resolutions
+
 ### Improvements
 ### Fixes
 

@@ -3156,3 +3156,43 @@ msgstr ""
 #
 msgid "GO TO GAME"
 msgstr ""
+
+#
+msgid "Global resolution is the resolution used by default when specific resolutions are undefined."
+msgstr ""
+
+#
+msgid "Select the resolution EmulationStation will use."
+msgstr ""
+
+#
+msgid "Select the resolution used by specific systems."
+msgstr ""
+
+#
+msgid "Select resolution to use with this system."
+msgstr ""
+
+#
+msgid "RESOLUTIONS"
+msgstr ""
+
+#
+msgid "GLOBAL RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATIONSTATION RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATORS SPECIFIC RESOLUTIONS"
+msgstr ""
+
+#
+msgid "UNDEFINED (USE GLOBAL)"
+msgstr ""
+
+#
+msgid "SYSTEM DEFAULT"
+msgstr ""

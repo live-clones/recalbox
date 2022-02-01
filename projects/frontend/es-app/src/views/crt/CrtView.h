@@ -49,13 +49,14 @@ class CrtView : public Gui, private ISynchronousEvent
     std::shared_ptr<TextComponent> mVerticalOffsetText;
     //! Viewport text
     std::shared_ptr<TextComponent> mViewportText;
+
+    //! Synchronous event
+    SyncronousEvent mEvent;
+
     //! Original config
     int mOriginalVOffset;
     int mOriginalHOffset;
     int mOriginalViewportWidth;
-
-    //! Synchronous event
-    SyncronousEvent mEvent;
 
     //! Viewport ratio
     int mStep;
