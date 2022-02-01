@@ -112,6 +112,37 @@ const BiosList& BiosManager::SystemBios(const std::string& name)
   return sEmptyBiosList;
 }
 
+BiosManager::LookupResult BiosManager::Lookup(const std::string& name, const std::string& md5, const Bios*& outputBios)
+{
+  outputBios = nullptr;
+
+  // MD5 first
+  for(const BiosList& biosList : mSystemBiosList)
+    for(int i = biosList.BiosCount(); --i >= 0; )
+    {
+      const Bios& bios = biosList.BiosAt(i);
+      if (bios.IsMD5Known(md5))
+      {
+        outputBios = &bios;
+        return (bios.BiosStatus() == Bios::Status::HashMatching) ? LookupResult::AlreadyExists : LookupResult::Found;
+      }
+    }
+
+  // Name & no matching mandatory
+  for(const BiosList& biosList : mSystemBiosList)
+    for(int i = biosList.BiosCount(); --i >= 0; )
+    {
+      const Bios& bios = biosList.BiosAt(i);
+      if (name == bios.Filepath().Filename() && !bios.IsHashMatchingMandatory())
+      {
+        outputBios = &bios;
+        return LookupResult::Found;
+      }
+    }
+
+  return LookupResult::NotFound;
+}
+
 void BiosManager::GenerateReport() const
 {
   std::string report = "==============================================================\r\n"
@@ -121,7 +152,6 @@ void BiosManager::GenerateReport() const
                        "==============================================================\r\n\r\n";
   Strings::ReplaceAllIn(report, "#ARCH#", Files::LoadFile(Path("/recalbox/recalbox.arch")));
   Strings::ReplaceAllIn(report, "#DATE#", DateTime().ToLongFormat());
-
   for(const BiosList& biosList : mSystemBiosList)
   {
     std::string subReport = biosList.GenerateReport();
@@ -131,4 +161,3 @@ void BiosManager::GenerateReport() const
 
   Files::SaveFile(RootFolders::DataRootFolder / sReportPath, report);
 }
-

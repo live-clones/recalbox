@@ -166,6 +166,10 @@ class EmulatorDescriptor
     //! Core count
     int mCoreCount;
 
+    //! Give access to private part from the webmanager process class
+    friend class RequestHandlerTools;
+
+    //! Get core at index
     const Core& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
 
     /*!

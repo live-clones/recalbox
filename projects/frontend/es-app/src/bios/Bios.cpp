@@ -188,10 +188,21 @@ std::string Bios::Filename(bool shorten) const
   return result;
 }
 
+bool Bios::IsMD5Known(const std::string& newmd5) const
+{
+  Md5Hash md5(newmd5);
+  if (md5.IsValid())
+    for(const Md5Hash& hash : mHashes)
+      if (hash.IsValid())
+        if (hash.IsMatching(md5))
+          return true;
+
+  return false;
+}
+
 std::string Bios::GenerateReport() const
 {
   std::string report;
-
   switch(mStatus)
   {
     case Status::FileNotFound:

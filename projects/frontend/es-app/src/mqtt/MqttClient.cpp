@@ -5,8 +5,9 @@
 #include "MqttClient.h"
 #include <mqtt/paho/cpp/connect_options.h>
 
-MqttClient::MqttClient(const char* clientId)
-  : mMqtt("tcp://127.0.0.1:1883", clientId, 0, nullptr)
+MqttClient::MqttClient(const char* clientId, IMqttReceiver* receiver)
+  : mMqtt("tcp://127.0.0.1:1883", clientId, 0, nullptr),
+    mReceiver(receiver)
 {
   // Set options
   mqtt::connect_options connectOptions;
@@ -17,11 +18,17 @@ MqttClient::MqttClient(const char* clientId)
   try
   {
     mOriginalTocken = mMqtt.connect(connectOptions, nullptr, *this);
+    mMqtt.start_consuming();
   }
   catch(std::exception& e)
   {
     { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (ctor) !"; }
   }
+}
+
+MqttClient::~MqttClient()
+{
+  mMqtt.stop_consuming();
 }
 
 bool MqttClient::Send(const std::string& topic, const std::string& message)
@@ -96,3 +103,17 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
   }
 }
 
+bool MqttClient::Subscribe(const char* topic)
+{
+  try
+  {
+    mMqtt.subscribe(topic, 0, nullptr, *this);
+    mMqtt.set_message_callback([this](mqtt::const_message_ptr msg) { if (mReceiver != nullptr) mReceiver->MqttReceive(msg->get_topic(), msg->get_payload_str()); });
+    return true;
+  }
+  catch(std::exception& e)
+  {
+    LOG(LogError) << "[MQTT] Sending messageConnexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (send) !";
+  }
+  return false;
+}

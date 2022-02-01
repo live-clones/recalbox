@@ -35,7 +35,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     /*!
      * @brief Called when file has been saved
      */
-    void OnSave() override;
+    void OnSave() const override;
 
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
     DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, std::string, String, sSystemCRTResolution, "240")

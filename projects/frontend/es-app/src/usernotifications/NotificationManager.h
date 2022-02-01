@@ -4,8 +4,12 @@
 #pragma once
 
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <utils/storage/Queue.h>
+#include <utils/storage/MessageFactory.h>
 #include <systems/SystemData.h>
 #include <mqtt/MqttClient.h>
+#include <utils/json/JSONBuilder.h>
+#include <utils/os/system/Signal.h>
 
 enum class Notification
 {
@@ -35,7 +39,7 @@ enum class Notification
 
 DEFINE_BITFLAG_ENUM(Notification, int)
 
-class NotificationManager : public StaticLifeCycleControler<NotificationManager>
+class NotificationManager : public StaticLifeCycleControler<NotificationManager>, private Thread
 {
   private:
     /*!
@@ -54,9 +58,9 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     typedef std::vector<const ScriptData*> RefScriptList;
 
     /*!
-     * @brief Struture to hold a bag of parameters
+     * @brief Hold a notification request
      */
-    struct ParamBag
+    struct NotificationRequest
     {
       //! Action parameters
       std::string mActionParameters;
@@ -70,7 +74,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
       /*!
        * @brief Default constructor
        */
-      ParamBag()
+      NotificationRequest()
         : mActionParameters(),
           mSystemData(nullptr),
           mFileData(nullptr),
@@ -79,18 +83,30 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
       }
 
       /*!
-       * @brief Full constructor
+       * @brief Sata data
        * @param systemData System
        * @param fileData Game
        * @param action Action
        * @param actionParameters Optional action parameters
        */
-      ParamBag(const SystemData* systemData, const FileData* fileData, Notification action, const std::string& actionParameters)
-        : mActionParameters(actionParameters),
-          mSystemData(systemData),
-          mFileData(fileData),
-          mAction(action)
+      void Set(const SystemData* systemData, const FileData* fileData, Notification action, const std::string& actionParameters)
       {
+        mActionParameters = actionParameters;
+        mSystemData = systemData;
+        mFileData = fileData;
+        mAction = action;
+      }
+
+      NotificationRequest& operator =(const NotificationRequest& source)
+      {
+        if (&source != this)
+        {
+          mActionParameters = source.mActionParameters;
+          mSystemData = source.mSystemData;
+          mFileData = source.mFileData;
+          mAction = source.mAction;
+        }
+        return *this;
       }
 
       /*!
@@ -98,7 +114,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
        * @param compareTo Structure to compare against
        * @return True if at least one field is not equal
        */
-      bool operator != (const ParamBag& compareTo) const
+      bool operator !=(const NotificationRequest& compareTo) const
       {
         return ((mAction != compareTo.mAction) ||
                 (mSystemData != compareTo.mSystemData) ||
@@ -110,8 +126,10 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! Script folder
     static constexpr const char* sScriptPath = "/recalbox/share/userscripts";
 
-    //! MQTT Topic
-    static constexpr const char* sEventTopic = "Recalbox/EmulationStation/Event";
+    //! MQTT Topic - event only
+    static constexpr const char* sEventTopic     = "Recalbox/EmulationStation/Event";
+    //! MQTT Topic - complete event w/ data in JSON form
+    static constexpr const char* sEventJsonTopic = "Recalbox/EmulationStation/EventJson";
 
     // MQTT client
     MqttClient mMQTTClient;
@@ -125,11 +143,22 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! All available scripts
     ScriptList mScriptList;
 
+    //! Request provider
+    MessageFactory<NotificationRequest> mRequestProvider;
+    //! Request synchronized queue
+    Queue<NotificationRequest*> mRequestQueue;
+    //! Queue syncer'
+    Mutex mSyncer;
+    //! Thread signal
+    Signal mSignal;
     //! Previous data
-    ParamBag mPreviousParamBag;
+    NotificationRequest mPreviousRequest;
 
     //! Environement
     char** mEnvironment;
+
+    //! In-process flag
+    volatile bool mProcessing;
 
     /*!
      * @brief Convert an Action into a string
@@ -244,12 +273,36 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @return True if the path has a valid extension
      */
     static bool HasValidExtension(const Path& path);
+
+    /*!
+     * @brief Build a JSON packet from the given request
+     * @param request Request to process
+     * @return JSon packet
+     */
+    static JSONBuilder BuildJsonPacket(const NotificationRequest& request);
+
+    /*
+     * Thread implementation
+     */
+
+    //! Stop the thread
+    void Break() override;
+
+    //! Main runner
+    void Run() override;
+
   public:
 
     /*!
      * @brief Default constructor
      */
     explicit NotificationManager(char* environement[]);
+
+    //! Destructor
+    ~NotificationManager() override;
+
+    //! Wait for the queue to be empty
+    void WaitCompletion();
 
     /*!
      * @brief Start Kodi notification

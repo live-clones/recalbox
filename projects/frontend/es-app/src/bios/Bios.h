@@ -102,7 +102,7 @@ class Bios
          * @param other Md5 to compare to
          * @return True if both hashes match
          */
-        bool IsMatching(const Md5Hash& other)
+        bool IsMatching(const Md5Hash& other) const
         {
           return memcmp(mBytes, other.mBytes, sizeof(mBytes)) == 0;
         }
@@ -217,6 +217,14 @@ class Bios
       }
       return "unknown";
     }
+
+    /*!
+     * @brief Check the given md5 against the known md5 list
+     * and return true if a matching is found
+     * @param md5 MD5 to check
+     * @return True if the given md5 match one of the known MD5
+     */
+    bool IsMD5Known(const std::string& md5) const;
 
     /*!
      * @brief Get bios name

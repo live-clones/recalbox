@@ -64,12 +64,12 @@ String Files::LoadFile(const Path& path, long long from, long long size)
 }
 
 // TODO: convert to open/write/close
-bool Files::SaveFile(const Path& path, const std::string& content)
+bool Files::SaveFile(const Path& path, const void* data, int size)
 {
   FILE* f = fopen(path.ToChars(), "wb");
   if (f != nullptr)
   {
-    bool ok = (fwrite(content.c_str(), content.size(), 1, f) == 1);
+    bool ok = (fwrite(data, size, 1, f) == 1);
     fclose(f);
     return ok;
   }
