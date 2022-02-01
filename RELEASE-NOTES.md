@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add CRT check menu footer
 - Display game regions flag in gamelist
 - Make default no image in gamelist themable
+- Add resolution menu in Advanced Settings > Resolutions
 
 ### Improvements
 
@@ -38,6 +39,7 @@ as release notes for end user on a Recalbox upgrade.
 - Disable Retroarch's keyboard shortcut when running computer systems:
   - Full keyboard is available for the emulated computer
   - Use F12 as ESC replacement to quit 
+- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
 
 ### Fixes
 
@@ -47,11 +49,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
-
-### Improvements
-- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
-
-### Fixes
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 - Fix libretro mame2015 for OGA/OGS

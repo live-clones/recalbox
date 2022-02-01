@@ -3276,3 +3276,43 @@ msgstr ""
 #
 msgid "WARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."
 msgstr ""
+
+#
+msgid "Global resolution is the resolution used by default when specific resolutions are undefined."
+msgstr ""
+
+#
+msgid "Select the resolution EmulationStation will use."
+msgstr ""
+
+#
+msgid "Select the resolution used by specific systems."
+msgstr ""
+
+#
+msgid "Select resolution to use with this system."
+msgstr ""
+
+#
+msgid "RESOLUTIONS"
+msgstr ""
+
+#
+msgid "GLOBAL RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATIONSTATION RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATORS SPECIFIC RESOLUTIONS"
+msgstr ""
+
+#
+msgid "USE GLOBAL"
+msgstr ""
+
+#
+msgid "NATIVE"
+msgstr ""

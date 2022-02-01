@@ -153,7 +153,13 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG "Configure emulators to approach a zero lag experience."
     #define MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 
-  static const char* LICENCE_MSG;
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_FRONTEND_HELP_MSG "Select the resolution EmulationStation will use."
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_EMULATORS_HELP_MSG "Select the resolution used by specific systems."
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_SYSTEM_HELP_MSG "Select resolution to use with this system."
+
+    static const char* LICENCE_MSG;
   static const int   LICENCE_MSG_SIZE;
 
 #define LICENSE_ORIGINAL_TEXT "Redistribution and use of the RECALBOX code or any derivative works are permitted provided that the following conditions are met:\n" \
