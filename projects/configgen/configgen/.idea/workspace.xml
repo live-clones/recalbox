@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="096fcf09-cced-4cf6-926e-09115f4570ac" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generators/linapple/linappleConfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/generators/linapple/linappleConfig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/generators/linapple/test_linappleGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/generators/linapple/test_linappleGenerator.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/configgen$Unittests_in_tests.coverage" NAME="Unittests in tests Coverage Results" MODIFIED="1549195280016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/configgen$emulatorlauncher.coverage" NAME="emulatorlauncher Coverage Results" MODIFIED="1550838242572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JupyterTrust" id="f8a11869-a31a-4ce6-92cf-2c3d53e0d93f" />
+  <component name="ProjectId" id="1OzdkkQkJnLytcBflshpXPCdGyB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="pyconsole" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/generators/libretro" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/generators" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/generators/pisnes" />
+      <recent name="$PROJECT_DIR$/generators/pcsx" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.Unit tests">
+    <configuration name="Unit tests" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="runtest" />
+      <option name="PARAMETERS" value="discover -v -p &quot;*test*&quot;" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="emulatorlauncher" />
+      <option name="PARAMETERS" value="-p1index 0 -p1guid 03000000790000000600000010010000 -p1name &quot;DragonRise Inc.   Generic   USB  Joystick  &quot; -p1nbaxes 7 -p1devicepath /dev/input/event0" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="amiberry.romtype" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="generators.amiberry.amiberryRomType" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="emulatorlauncher linapple" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="emulatorlauncher" />
+      <option name="PARAMETERS" value="-p1index 0 -p1guid 030000005e0400008e02000014010000 -p1name &quot;Xbox 360 Controller&quot; -p1nbaxes 4 -p1nbhats 1 -p1nbbuttons 13 -p1devicepath /dev/input/event0 -system apple2 -rom &quot;/recalbox/share/roms/apple2/do/A-E (1982)(Broderbund)(Side A)[cr Arobas].do&quot; -emulator linapple -core linapple -ratio auto" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="emulatorlauncher openbor" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="emulatorlauncher" />
+      <option name="PARAMETERS" value="-p1index 0 -p1guid 030000004c0500006802000011810000 -p1name &quot;Sony PLAYSTATION(R)3 Controller&quot; -p1nbaxes 6 -system openbor -rom &quot;/recalbox/share/roms/mame/MAME 2010/bjtwin.zip&quot; -emulator openbor -core openbor -ratio auto" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="emulatorlauncher supermodel" type="PythonConfigurationType" factoryName="Python">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="emulatorlauncher" />
+      <option name="PARAMETERS" value="-p1index 0 -p1guid 030000004c0500006802000011810000 -p1name &quot;Sony PLAYSTATION(R)3 Controller&quot; -p1nbaxes 6 -p1nbhats 0 -p1nbbuttons 17 -system openbor -rom &quot;/recalbox/share/roms/mame/MAME 2010/bjtwin.zip&quot; -emulator supermodel -core supermodel -ratio auto" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="emulatorlauncher" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="emulatorlauncher" />
+      <option name="PARAMETERS" value="-p1index 1 -p1guid 030000004c0500006802000011810000 -p1name &quot;Sony PLAYSTATION(R)3 Controller&quot; -p1nbaxes 6 -p1devicepath /dev/input/event2 -p2index 0 -p2guid 030000004c050000da0c000011010000 -p2name &quot;Sony Interactive Entertainment Controller&quot; -p2nbaxes 2 -p2devicepath /dev/input/event0 -rom &quot;/recalbox/share/roms/snes/DonkeyKongClassic (Shiru).smc&quot; -emulator default -core default -ratio auto -demo 1 -demoduration 90 -demoinfoduration 6 -system snes" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="utils.diskCollector" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="configgen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="utils.diskCollector" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.emulatorlauncher" />
+      <item itemvalue="Python.Unit tests" />
+      <item itemvalue="Python.emulatorlauncher linapple" />
+      <item itemvalue="Python.emulatorlauncher openbor" />
+      <item itemvalue="Python.emulatorlauncher supermodel" />
+      <item itemvalue="Python.utils.diskCollector" />
+      <item itemvalue="Python.amiberry.romtype" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="096fcf09-cced-4cf6-926e-09115f4570ac" name="Default Changelist" comment="" />
+      <created>1547228515974</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1547228515974</updated>
+      <workItem from="1547228517434" duration="2844000" />
+      <workItem from="1547396444301" duration="14742000" />
+      <workItem from="1547502443005" duration="712000" />
+      <workItem from="1547547716839" duration="2898000" />
+      <workItem from="1547622192853" duration="8586000" />
+      <workItem from="1547754228084" duration="1879000" />
+      <workItem from="1547826224836" duration="599000" />
+      <workItem from="1547840510997" duration="17334000" />
+      <workItem from="1547970486594" duration="93560000" />
+      <workItem from="1548437123233" duration="1144000" />
+      <workItem from="1548582801529" duration="632000" />
+      <workItem from="1548593555556" duration="736000" />
+      <workItem from="1548603031601" duration="16919000" />
+      <workItem from="1548743882817" duration="10033000" />
+      <workItem from="1548969712504" duration="1366000" />
+      <workItem from="1549003475179" duration="16535000" />
+      <workItem from="1549194583356" duration="1922000" />
+      <workItem from="1549218305480" duration="1441000" />
+      <workItem from="1549392463583" duration="599000" />
+      <workItem from="1549480252225" duration="613000" />
+      <workItem from="1549485132625" duration="1317000" />
+      <workItem from="1549653011619" duration="2397000" />
+      <workItem from="1550044763837" duration="1798000" />
+      <workItem from="1550058736532" duration="11115000" />
+      <workItem from="1550091465385" duration="1357000" />
+      <workItem from="1550125817496" duration="12548000" />
+      <workItem from="1550148815894" duration="7254000" />
+      <workItem from="1550163623112" duration="1961000" />
+      <workItem from="1550172647057" duration="530000" />
+      <workItem from="1550173321878" duration="744000" />
+      <workItem from="1550217504781" duration="118000" />
+      <workItem from="1550217687223" duration="51000" />
+      <workItem from="1550218338382" duration="1223000" />
+      <workItem from="1550231754967" duration="6000" />
+      <workItem from="1550232607036" duration="3969000" />
+      <workItem from="1550256499961" duration="5631000" />
+      <workItem from="1550300935931" duration="5091000" />
+      <workItem from="1550664186318" duration="4609000" />
+      <workItem from="1550755075832" duration="1311000" />
+      <workItem from="1550834038324" duration="10682000" />
+      <workItem from="1551208096606" duration="6229000" />
+      <workItem from="1551526129649" duration="725000" />
+      <workItem from="1551610807952" duration="552000" />
+      <workItem from="1551619497216" duration="961000" />
+      <workItem from="1551807777228" duration="599000" />
+      <workItem from="1551815515442" duration="523000" />
+      <workItem from="1551855260565" duration="1955000" />
+      <workItem from="1552155644620" duration="897000" />
+      <workItem from="1552164300956" duration="504000" />
+      <workItem from="1552164823525" duration="4250000" />
+      <workItem from="1552204353178" duration="8274000" />
+      <workItem from="1552228609690" duration="522000" />
+      <workItem from="1552300073822" duration="3678000" />
+      <workItem from="1552339337595" duration="2371000" />
+      <workItem from="1552396395903" duration="9222000" />
+      <workItem from="1552741239620" duration="687000" />
+      <workItem from="1552937220516" duration="1082000" />
+      <workItem from="1553011799875" duration="1432000" />
+      <workItem from="1553106251219" duration="1249000" />
+      <workItem from="1553327774183" duration="7693000" />
+      <workItem from="1553359834760" duration="925000" />
+      <workItem from="1553366557248" duration="12000" />
+      <workItem from="1553413749495" duration="2015000" />
+      <workItem from="1553536994304" duration="1951000" />
+      <workItem from="1553624214339" duration="4787000" />
+      <workItem from="1553772510662" duration="35000" />
+      <workItem from="1553772627150" duration="1900000" />
+      <workItem from="1553853059503" duration="1060000" />
+      <workItem from="1553872315144" duration="3861000" />
+      <workItem from="1554057245522" duration="3920000" />
+      <workItem from="1554140909241" duration="599000" />
+      <workItem from="1554219906970" duration="6451000" />
+      <workItem from="1554310646986" duration="4568000" />
+      <workItem from="1554374642316" duration="4420000" />
+      <workItem from="1554396443951" duration="10385000" />
+      <workItem from="1554550896247" duration="95000" />
+      <workItem from="1554551018082" duration="6120000" />
+      <workItem from="1555134397284" duration="6265000" />
+      <workItem from="1555245254105" duration="1621000" />
+      <workItem from="1555246894384" duration="1777000" />
+      <workItem from="1555261032926" duration="54000" />
+      <workItem from="1555262098844" duration="32000" />
+      <workItem from="1555262332361" duration="31000" />
+      <workItem from="1555271788721" duration="2376000" />
+      <workItem from="1555661561210" duration="1462000" />
+      <workItem from="1555745453950" duration="18000" />
+      <workItem from="1555761716876" duration="3207000" />
+      <workItem from="1556311296094" duration="602000" />
+      <workItem from="1556469304911" duration="4227000" />
+      <workItem from="1556809357262" duration="1903000" />
+      <workItem from="1556907466572" duration="670000" />
+      <workItem from="1557295363499" duration="17322000" />
+      <workItem from="1557337881168" duration="4670000" />
+      <workItem from="1557419784268" duration="1373000" />
+      <workItem from="1557601032012" duration="34000" />
+      <workItem from="1557601094239" duration="3674000" />
+      <workItem from="1557653925498" duration="5710000" />
+      <workItem from="1557779929476" duration="2217000" />
+      <workItem from="1558205139732" duration="840000" />
+      <workItem from="1558608706821" duration="5960000" />
+      <workItem from="1558705067401" duration="2734000" />
+      <workItem from="1558732509747" duration="4816000" />
+      <workItem from="1558810613853" duration="2266000" />
+      <workItem from="1559061588911" duration="1893000" />
+      <workItem from="1559231421500" duration="14000" />
+      <workItem from="1559231462991" duration="3136000" />
+      <workItem from="1559371972129" duration="944000" />
+      <workItem from="1559766195608" duration="10000" />
+      <workItem from="1559944486647" duration="1868000" />
+      <workItem from="1559976794513" duration="30190000" />
+      <workItem from="1560253836202" duration="2572000" />
+      <workItem from="1560774127774" duration="628000" />
+      <workItem from="1560873341125" duration="679000" />
+      <workItem from="1560875696240" duration="87000" />
+      <workItem from="1561187342307" duration="460000" />
+      <workItem from="1561188673684" duration="45000" />
+      <workItem from="1561192368558" duration="891000" />
+      <workItem from="1561702505872" duration="2444000" />
+      <workItem from="1562072412720" duration="520000" />
+      <workItem from="1562486200296" duration="6622000" />
+      <workItem from="1562494798056" duration="377000" />
+      <workItem from="1562495369768" duration="5449000" />
+      <workItem from="1562569364436" duration="630000" />
+      <workItem from="1562604084377" duration="703000" />
+      <workItem from="1562651059818" duration="2789000" />
+      <workItem from="1562663448521" duration="13434000" />
+      <workItem from="1562786993979" duration="2625000" />
+      <workItem from="1563283210067" duration="263000" />
+      <workItem from="1564068569160" duration="2699000" />
+      <workItem from="1564950169870" duration="5000" />
+      <workItem from="1564984209511" duration="29000" />
+      <workItem from="1564984259898" duration="225000" />
+      <workItem from="1564984509943" duration="6000" />
+      <workItem from="1565001124000" duration="1442000" />
+      <workItem from="1565203959244" duration="2253000" />
+      <workItem from="1565270524771" duration="612000" />
+      <workItem from="1565702976844" duration="26000" />
+      <workItem from="1565898112990" duration="636000" />
+      <workItem from="1566039441959" duration="195000" />
+      <workItem from="1566121250410" duration="3424000" />
+      <workItem from="1567580582072" duration="3749000" />
+      <workItem from="1567596927858" duration="2734000" />
+      <workItem from="1567623166702" duration="5027000" />
+      <workItem from="1567950156610" duration="2696000" />
+      <workItem from="1568112058383" duration="12031000" />
+      <workItem from="1568393537981" duration="8438000" />
+      <workItem from="1568450865957" duration="621000" />
+      <workItem from="1568492317393" duration="615000" />
+      <workItem from="1568531260399" duration="13355000" />
+      <workItem from="1568573991062" duration="605000" />
+      <workItem from="1568717132309" duration="627000" />
+      <workItem from="1568871771393" duration="696000" />
+      <workItem from="1568883166721" duration="5060000" />
+      <workItem from="1568922496962" duration="3837000" />
+      <workItem from="1569166781957" duration="2585000" />
+      <workItem from="1569324013709" duration="44000" />
+      <workItem from="1569333372811" duration="4831000" />
+      <workItem from="1569347219844" duration="999000" />
+      <workItem from="1569348230836" duration="6764000" />
+      <workItem from="1569421245725" duration="654000" />
+      <workItem from="1569428989959" duration="9193000" />
+      <workItem from="1570131947093" duration="40000" />
+      <workItem from="1570268886513" duration="3495000" />
+      <workItem from="1570294999554" duration="8075000" />
+      <workItem from="1570309360025" duration="599000" />
+      <workItem from="1570353466003" duration="19856000" />
+      <workItem from="1570568154571" duration="1797000" />
+      <workItem from="1571222413639" duration="1256000" />
+      <workItem from="1572198464012" duration="651000" />
+      <workItem from="1572212740563" duration="160000" />
+      <workItem from="1572273033745" duration="243000" />
+      <workItem from="1573293386936" duration="669000" />
+      <workItem from="1573752295161" duration="202000" />
+      <workItem from="1573752519234" duration="54000" />
+      <workItem from="1573934898923" duration="1439000" />
+      <workItem from="1574071418861" duration="913000" />
+      <workItem from="1575462349697" duration="620000" />
+      <workItem from="1575534713468" duration="59000" />
+      <workItem from="1575534808427" duration="56000" />
+      <workItem from="1577047724018" duration="682000" />
+      <workItem from="1577383125919" duration="87000" />
+      <workItem from="1577383233002" duration="11425000" />
+      <workItem from="1579467208616" duration="537000" />
+      <workItem from="1580410727832" duration="9000" />
+      <workItem from="1580410758782" duration="910000" />
+      <workItem from="1580579839056" duration="1305000" />
+      <workItem from="1580671662601" duration="3461000" />
+      <workItem from="1582397991093" duration="37000" />
+      <workItem from="1582800920049" duration="2849000" />
+      <workItem from="1582820078229" duration="2000" />
+      <workItem from="1582832569277" duration="1117000" />
+      <workItem from="1583163460212" duration="4294000" />
+      <workItem from="1583355616941" duration="3000" />
+      <workItem from="1583670902653" duration="7489000" />
+      <workItem from="1584125414279" duration="609000" />
+      <workItem from="1584440579300" duration="1234000" />
+      <workItem from="1584519630264" duration="21000" />
+      <workItem from="1585576087598" duration="1293000" />
+      <workItem from="1585900407153" duration="368000" />
+      <workItem from="1586365219746" duration="744000" />
+      <workItem from="1586460445292" duration="834000" />
+      <workItem from="1586533308647" duration="6000" />
+      <workItem from="1587377097409" duration="1565000" />
+      <workItem from="1587380129932" duration="2480000" />
+      <workItem from="1587403655855" duration="3205000" />
+      <workItem from="1587501299954" duration="3106000" />
+      <workItem from="1587881837239" duration="761000" />
+      <workItem from="1588014079820" duration="51000" />
+      <workItem from="1588320111698" duration="2235000" />
+      <workItem from="1589103107739" duration="16000" />
+      <workItem from="1589103144286" duration="1201000" />
+      <workItem from="1589795229516" duration="606000" />
+      <workItem from="1589883349862" duration="3027000" />
+      <workItem from="1590076224515" duration="1242000" />
+      <workItem from="1590165441009" duration="633000" />
+      <workItem from="1590475046443" duration="619000" />
+      <workItem from="1590645924897" duration="378000" />
+      <workItem from="1590651342712" duration="3277000" />
+      <workItem from="1590660626451" duration="12000" />
+      <workItem from="1590830666766" duration="16000" />
+      <workItem from="1590997833209" duration="12102000" />
+      <workItem from="1591038013073" duration="5831000" />
+      <workItem from="1591203568933" duration="610000" />
+      <workItem from="1591208280731" duration="203000" />
+      <workItem from="1591369472963" duration="1535000" />
+      <workItem from="1591465816189" duration="599000" />
+      <workItem from="1591549865410" duration="3708000" />
+      <workItem from="1591558451100" duration="40771000" />
+      <workItem from="1591601254892" duration="3931000" />
+      <workItem from="1591886977538" duration="13427000" />
+      <workItem from="1592052258965" duration="13931000" />
+      <workItem from="1592254626571" duration="26000" />
+      <workItem from="1592396680531" duration="7929000" />
+      <workItem from="1593343898712" duration="50856000" />
+      <workItem from="1593926897991" duration="2799000" />
+      <workItem from="1593944639387" duration="35558000" />
+      <workItem from="1594236269854" duration="824000" />
+      <workItem from="1594414614686" duration="4041000" />
+      <workItem from="1594463616486" duration="1239000" />
+      <workItem from="1594577792919" duration="12010000" />
+      <workItem from="1594749523744" duration="17939000" />
+      <workItem from="1595192133480" duration="1415000" />
+      <workItem from="1595318957750" duration="6000" />
+      <workItem from="1595350699946" duration="1569000" />
+      <workItem from="1595408798303" duration="21000" />
+      <workItem from="1595432800231" duration="2344000" />
+      <workItem from="1595446311187" duration="4200000" />
+      <workItem from="1595492758226" duration="90000" />
+      <workItem from="1595745734429" duration="3352000" />
+      <workItem from="1595934680036" duration="4311000" />
+      <workItem from="1596128738234" duration="3351000" />
+      <workItem from="1596271499812" duration="207000" />
+      <workItem from="1596303896690" duration="1300000" />
+      <workItem from="1597350351295" duration="6783000" />
+      <workItem from="1597785046345" duration="605000" />
+      <workItem from="1597835130532" duration="2508000" />
+      <workItem from="1597875143400" duration="639000" />
+      <workItem from="1598003554699" duration="171000" />
+      <workItem from="1598006772235" duration="960000" />
+      <workItem from="1598038297367" duration="49000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598038345370">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="738" y="362" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1598038345370" />
+    <state x="955" y="506" width="641" height="395" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1592072278832">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="955" y="506" width="641" height="395" key="#com.intellij.fileTypes.FileTypeChooser/0.48.2560.1311@0.48.2560.1311" timestamp="1592072278832" />
+    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1598038329453">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="1012" y="496" width="527" height="415" key="#com.intellij.ide.util.TreeClassChooserDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1598038329453" />
+    <state x="963" y="441" width="626" height="525" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1596128643789">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="963" y="441" width="626" height="525" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.48.2560.1311@0.48.2560.1311" timestamp="1596128643789" />
+    <state width="760" height="506" key="DebuggerActiveHint" timestamp="1597482595792">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="760" height="506" key="DebuggerActiveHint/0.48.2560.1311@0.48.2560.1311" timestamp="1597482595792" />
+    <state x="1063" y="462" width="497" height="483" key="FileChooserDialogImpl" timestamp="1593370446934">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="1063" y="462" width="497" height="483" key="FileChooserDialogImpl/0.48.2560.1311@0.48.2560.1311" timestamp="1593370446934" />
+    <state width="2514" height="445" key="GridCell.Tab.0.bottom" timestamp="1598038286055">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.0.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286055" />
+    <state width="2514" height="445" key="GridCell.Tab.0.center" timestamp="1598038286054">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.0.center/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286054" />
+    <state width="2514" height="445" key="GridCell.Tab.0.left" timestamp="1598038286053">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.0.left/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286053" />
+    <state width="2514" height="445" key="GridCell.Tab.0.right" timestamp="1598038286054">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.0.right/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286054" />
+    <state width="2514" height="445" key="GridCell.Tab.1.bottom" timestamp="1598038286058">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.1.bottom/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286058" />
+    <state width="2514" height="445" key="GridCell.Tab.1.center" timestamp="1598038286056">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.1.center/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286056" />
+    <state width="2514" height="445" key="GridCell.Tab.1.left" timestamp="1598038286056">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.1.left/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286056" />
+    <state width="2514" height="445" key="GridCell.Tab.1.right" timestamp="1598038286057">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state width="2514" height="445" key="GridCell.Tab.1.right/0.48.2560.1311@0.48.2560.1311" timestamp="1598038286057" />
+    <state x="769" y="339" key="SettingsEditor" timestamp="1593370487334">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="769" y="339" key="SettingsEditor/0.48.2560.1311@0.48.2560.1311" timestamp="1593370487334" />
+    <state x="991" y="304" width="1158" height="964" key="find.popup" timestamp="1598007011705">
+      <screen x="0" y="48" width="2560" height="1311" />
+    </state>
+    <state x="991" y="304" width="1158" height="964" key="find.popup/0.48.2560.1311@0.48.2560.1311" timestamp="1598007011705" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/generators/kodi/kodiConfig.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/generators/libretro/libretroGenerator_test.py</url>
+          <line>69</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/diskCollector.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/generators/amiberry/amiberryRomType.py</url>
+          <line>119</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/generators/amiberry/amiberryRomType.py</url>
+          <line>64</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/generators/linapple/linappleConfig.py</url>
+          <line>116</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/configgen$emulatorlauncher.coverage" NAME="emulatorlauncher Coverage Results" MODIFIED="1585589138879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+    <SUITE FILE_PATH="coverage/configgen$amiberry_romtype.coverage" NAME="amiberry.romtype Coverage Results" MODIFIED="1595351592309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/configgen$Unit_test.coverage" NAME="Unit test Coverage Results" MODIFIED="1598038063914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+    <SUITE FILE_PATH="coverage/configgen$emulatorlauncher_linapple.coverage" NAME="emulatorlauncher linapple Coverage Results" MODIFIED="1596128836524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+    <SUITE FILE_PATH="coverage/configgen$emulatorlauncher_openbor.coverage" NAME="emulatorlauncher openbor Coverage Results" MODIFIED="1592422145061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+    <SUITE FILE_PATH="coverage/configgen$utils_disks.coverage" NAME="utils.diskCollector Coverage Results" MODIFIED="1594646118128" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/configgen$emulatorlauncher_supermodel.coverage" NAME="emulatorlauncher supermodel Coverage Results" MODIFIED="1597482508845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
+  </component>
+</project>

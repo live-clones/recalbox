@@ -1,0 +1,7 @@
+pygame
+pytest
+pytest-cov
+pytest-subprocess
+pytest-lazy-fixture
+pytest-mock
+pyudev
