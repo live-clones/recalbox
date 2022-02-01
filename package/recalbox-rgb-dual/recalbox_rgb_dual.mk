@@ -4,8 +4,9 @@
 #
 ################################################################################
 
-RECALBOX_RGB_DUAL_VERSION = eaa5379b8f3a373ec6cfd623ca8fbeac86769aee
-RECALBOX_RGB_DUAL_SITE = $(call gitlab,recalbox,recalbox-rgb-dual,$(RECALBOX_RGB_DUAL_VERSION))
+RECALBOX_RGB_DUAL_VERSION = custom
+RECALBOX_RGB_DUAL_SITE = $(TOPDIR)/../projects/recalbox-rgb-dual
+RECALBOX_RGB_DUAL_SITE_METHOD = local
 RECALBOX_RGB_DUAL_LICENSE = GPL
 RECALBOX_RGB_DUAL_DEPENDENCIES = linux
 
