@@ -128,7 +128,8 @@ class WindowManager
     bool mNormalizeNextUpdate;
     bool mSleeping;
     bool mRenderedHelpPrompts;
-
+    bool mShutdownRequested;
+    bool mGuiShutdownOpened;
     /*!
      * @brief Delete GUI pending for deletion
      */

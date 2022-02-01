@@ -118,6 +118,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG "Select virtual systems to show."
     #define MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG "Select vitual systems per genre to show."
     #define MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG "Enable/Disable Arcade virtual system and set its options"
+    #define MENUMESSAGE_ADVANCED_AUTOMATIC_SHUTDOWN_MSG "Configure inactivity time for automatic shutdown"
 
     #define MENUMESSAGE_ADVANCED_KODI_HELP_MSG "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
     #define MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."

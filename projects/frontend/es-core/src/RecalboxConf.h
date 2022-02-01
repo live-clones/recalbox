@@ -149,6 +149,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
+    DefineGetterSetter(AutomaticShutdownTime, int, Int, sAutomaticShutdownTime, 0)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
@@ -358,6 +359,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemLanguage             = "system.language";
     static constexpr const char* sSystemKbLayout             = "system.kblayout";
     static constexpr const char* sSystemManagerEnabled       = "system.manager.enabled";
+    static constexpr const char* sAutomaticShutdownTime      = "system.automatic.shutdown.time";
 
     static constexpr const char* sOverclocking               = "system.overclocking";
     static constexpr const char* sOverscan                   = "system.overscan";

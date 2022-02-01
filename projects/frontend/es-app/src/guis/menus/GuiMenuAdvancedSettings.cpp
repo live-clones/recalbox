@@ -33,6 +33,10 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   // Boot
   AddSubMenu(_("BOOT SETTINGS"), (int)Components::BootSubMenu, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
 
+  // Automatic shutdown time
+  if (!Board::Instance().HasSuspendResume())
+    mAutomaticShutdownTime = AddList<int>(_("SHUTDOWN AFTER INACTIVITY"), (int)Components::AutomaticShutdown, this, GetAutomaticShutdownTime(), _(MENUMESSAGE_ADVANCED_AUTOMATIC_SHUTDOWN_MSG));
+
   // Virtual systems
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
 
@@ -285,4 +289,25 @@ void GuiMenuAdvancedSettings::DoResetFactory()
   // Reset!
   if (system("shutdown -r now") != 0)
   { LOG(LogError) << "[ResetFactory] Error rebooting system"; }
+}
+
+std::vector<GuiMenuBase::ListEntry<int>>GuiMenuAdvancedSettings::GetAutomaticShutdownTime()
+{
+  std::vector<ListEntry<int>> list;
+
+  int autoShutdownTime = RecalboxConf::Instance().GetAutomaticShutdownTime();
+  list.push_back({ _("never"), 0, autoShutdownTime == 0 });
+  list.push_back({ _("15 minutes"), 15, autoShutdownTime == 15 });
+  list.push_back({ _("30 minutes"), 30, autoShutdownTime == 30 });
+  list.push_back({ _("1 hour"), 60, autoShutdownTime == 60 });
+  list.push_back({ _("2 hours"), 120, autoShutdownTime == 120 });
+
+  return list;
+}
+
+
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const int& value)
+{
+  (void)index;
+  if ((Components)id == Components::AutomaticShutdown) RecalboxConf::Instance().SetAutomaticShutdownTime(value).Save();
 }

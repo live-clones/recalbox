@@ -29,6 +29,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
                               , private IOptionListComponent<Overclocking>
                               , private ISwitchComponent
                               , private IGuiMenuBase
+                              , private IOptionListComponent<int>
 {
   public:
     /*!
@@ -55,6 +56,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       CrtSubMenu,
       Manager,
       FactoryReset,
+      AutomaticShutdown
     };
 
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";
@@ -74,7 +76,8 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     bool mLastHazardous;
     //! Is there at least a valid O/C?
     bool mValidOverclock;
-
+    //! Time before automatic shutdown
+    std::shared_ptr<OptionListComponent<int>> mAutomaticShutdownTime;
     //! Overclock
     std::shared_ptr<OptionListComponent<Overclocking>> mOverclock;
     //! Adult
@@ -85,6 +88,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mShowFPS;
     //! Enable Webmanager
     std::shared_ptr<SwitchComponent> mWebManager;
+    //! automatic shutdown time
+    std::vector<ListEntry<int>> GetAutomaticShutdownTime();
+
 
     //! Get O/C list for the current board
     static OverclockList AvailableOverclocks();
@@ -109,6 +115,13 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const Overclocking& value) override;
+
+    /*
+     * IOptionListComponent<int> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const int& value) override;
+
 
     /*
      * ISwitchComponent implementation

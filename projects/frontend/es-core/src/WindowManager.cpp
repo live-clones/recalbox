@@ -7,6 +7,7 @@
 #include <themes/MenuThemeData.h>
 #include <views/ViewController.h>
 #include <usernotifications/NotificationManager.h>
+#include <MainRunner.h>
 
 WindowManager::WindowManager()
   : mHelp(*this),
@@ -19,7 +20,9 @@ WindowManager::WindowManager()
     mTimeSinceLastInput(0),
     mNormalizeNextUpdate(false),
     mSleeping(false),
-    mRenderedHelpPrompts(false)
+    mRenderedHelpPrompts(false),
+    mShutdownRequested(false),
+    mGuiShutdownOpened(false)
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   mBackgroundOverlay.setImage(menuTheme->menuBackground.fadePath);
@@ -162,6 +165,16 @@ void WindowManager::textInput(const char* text)
 
 bool WindowManager::ProcessInput(const InputCompactEvent& event)
 {
+  if(mGuiShutdownOpened)
+  {
+    if(event.ValidPressed())
+        mGuiShutdownOpened = false;
+    else
+        return true;
+  }
+
+  mTimeSinceLastInput = 0;
+
   if (mSleeping && !GameClipView::IsGameClipEnabled())
   {
     // wake up
@@ -169,7 +182,6 @@ bool WindowManager::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  mTimeSinceLastInput = 0;
   if (peekGui() != nullptr)
   {
     peekGui()->ProcessInput(event);
@@ -253,6 +265,25 @@ void WindowManager::Update(int deltaTime)
 
 void WindowManager::Render(Transform4x4f& transform)
 {
+  int automaticShutdownTime = RecalboxConf::Instance().GetAutomaticShutdownTime() * 60000;
+
+  if (automaticShutdownTime != 0 && !isProcessing() && !mShutdownRequested && !Board::Instance().HasSuspendResume())
+  {
+    if (automaticShutdownTime <= (int) mTimeSinceLastInput)
+    {
+      { LOG(LogInfo) << "[WindowManager] The system will shutdown after inactivity"; }
+      mShutdownRequested = true;
+      MainRunner::RequestQuit(MainRunner::ExitState::Shutdown);
+      return;
+    }
+
+    if(!mGuiShutdownOpened && automaticShutdownTime - 120 * 1000 <= (int) mTimeSinceLastInput)
+    {
+      mGuiShutdownOpened = true;
+      displayMessage(_("System will shutdown soon. Cancel it ?"));
+    }
+  }
+
   mRenderedHelpPrompts = false;
 
   // draw only bottom and top of GuiStack (if they are different)
@@ -415,6 +446,9 @@ void WindowManager::DisplayBatteryState()
 
 void WindowManager::RenderAll(bool halfLuminosity)
 {
+  if(mShutdownRequested && !Board::Instance().HasSuspendResume())
+    return;
+
   Transform4x4f transform(Transform4x4f::Identity());
   Render(transform);
   if (halfLuminosity)
