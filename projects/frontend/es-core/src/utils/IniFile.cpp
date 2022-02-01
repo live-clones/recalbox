@@ -72,10 +72,20 @@ bool IniFile::Load()
   return !mConfiguration.empty();
 }
 
+static bool MakeBootReadOnly()
+{
+  return system("mount -o remount,ro /boot") == 0;
+}
+
+static bool MakeBootReadWrite()
+{
+  return system("mount -o remount,rw /boot") == 0;
+}
+
 bool IniFile::Save()
 {
   // No change?
-  if (mPendingWrites.empty()) return true;
+  if (mPendingWrites.empty() && mPendingDelete.empty()) return true;
 
   // Load file
   std::string content = Files::LoadFile(mFilePath);
@@ -111,11 +121,23 @@ bool IniFile::Save()
     mPendingWrites.erase(key);
   }
 
+  // Delete (comment) keys
+  for (auto& deletedKey : mPendingDelete)
+  {
+    bool commented = false;
+    for (auto& line : lines)
+      if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), lineKey, lineVal, commented))
+        if (lineKey == deletedKey)
+          if (!commented)
+            line = std::string(1, ';').append(deletedKey).append(equal).append(lineVal);
+  }
+  mPendingDelete.clear();
+
   // Save new
   bool boot = mFilePath.StartWidth("/boot/");
-  if (boot && system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
+  if (boot && MakeBootReadWrite()) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
   Files::SaveFile(mFilePath, Strings::Join(lines, '\n').append(1, '\n'));
-  if (boot && system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
+  if (boot && MakeBootReadOnly()) LOG(LogError) << "[IniFile] Error remounting boot partition (RO)";
 
   OnSave();
   return true;
@@ -164,28 +186,38 @@ int IniFile::AsInt(const std::string& name, int defaultValue) const
   return defaultValue;
 }
 
+void IniFile::Delete(const std::string& name)
+{
+  mPendingDelete.insert(name);
+}
+
 void IniFile::SetString(const std::string& name, const std::string& value)
 {
+  mPendingDelete.erase(name);
   mPendingWrites[name] = value;
 }
 
 void IniFile::SetBool(const std::string& name, bool value)
 {
+  mPendingDelete.erase(name);
   mPendingWrites[name] = value ? "1" : "0";
 }
 
 void IniFile::SetUInt(const std::string& name, unsigned int value)
 {
+  mPendingDelete.erase(name);
   mPendingWrites[name] = Strings::ToString((long long)value);
 }
 
 void IniFile::SetInt(const std::string& name, int value)
 {
+  mPendingDelete.erase(name);
   mPendingWrites[name] = Strings::ToString(value);
 }
 
 void IniFile::SetList(const std::string& name, const std::vector<std::string>& values)
 {
+  mPendingDelete.erase(name);
   mPendingWrites[name] = Strings::Join(values, ',');
 }
 
@@ -231,4 +263,5 @@ bool IniFile::HasKeyStartingWith(const std::string& startWidth)
 
   return false;
 }
+
 

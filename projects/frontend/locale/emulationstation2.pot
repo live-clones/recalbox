@@ -3240,7 +3240,7 @@ msgstr ""
 
 #
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""#
+msgstr ""
 
 msgid "DELETE SCREENSHOT, CONFIRM?"
 msgstr ""
@@ -3248,7 +3248,47 @@ msgstr ""
 #
 msgid "DELETE SCREENSHOT"
 msgstr ""
+
 #
 msgid "This option display a menu which allows to DELETE game data."
 msgstr ""
 
+#
+msgid "Global resolution is the resolution used by default when specific resolutions are undefined."
+msgstr ""
+
+#
+msgid "Select the resolution EmulationStation will use."
+msgstr ""
+
+#
+msgid "Select the resolution used by specific systems."
+msgstr ""
+
+#
+msgid "Select resolution to use with this system."
+msgstr ""
+
+#
+msgid "RESOLUTIONS"
+msgstr ""
+
+#
+msgid "GLOBAL RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATIONSTATION RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATORS SPECIFIC RESOLUTIONS"
+msgstr ""
+
+#
+msgid "USE GLOBAL"
+msgstr ""
+
+#
+msgid "NATIVE"
+msgstr ""
