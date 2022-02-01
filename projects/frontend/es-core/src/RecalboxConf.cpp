@@ -89,6 +89,8 @@ DefineSystemGetterSetterImplementation(AutoSave, bool, Bool, sSystemAutoSave, Ge
 DefineSystemGetterSetterImplementation(Shaders, std::string, String, sSystemShaders, GetGlobalShaders())
 DefineSystemGetterSetterImplementation(ShaderSet, std::string, String, sSystemShaderSet, GetGlobalShaderSet())
 DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, "")
+DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclude, false)
+DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
 
 DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, false)
 DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, sSystemFlatFolders, false)

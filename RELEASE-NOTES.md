@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - New option in UI menu : hide PORTS collection
 - Add resolution menu in Advanced Settings > Resolutions
+- New Random game picker in demo mode (less cycling)
 
 ### Improvements
 
@@ -32,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 - Fix libretro mame2015 for OGA/OGS
 - Fix default game image in theme
+
 
 
 ## Version 8.0.2-Electron
