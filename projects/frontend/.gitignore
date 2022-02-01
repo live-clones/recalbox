@@ -1,0 +1,62 @@
+# OS files
+.DS_Store
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.mo
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Dependency makefiles
+*.d
+
+# Compiled executable
+emulationstation
+emulationstation_test
+md5zip
+pad2keyb
+
+# build tags
+es-app/src/EmulationStation.h
+
+# build directory
+build
+Debug
+Release
+MinSizeRel
+RelWithDebInfo
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+Makefile
+CPackConfig.cmake
+CPackSourceConfig.cmake
+cmake-build-debug/
+
+# Eclipse generated files
+.cproject
+.project
+.settings/
+
+.vscode
+.idea/
+.vscode/
+*.iml
+*.txt.user*
+
+# po backup
+*.po~
+*.cbp
+*.cmake
+test_exe
+/test_detail.xml
