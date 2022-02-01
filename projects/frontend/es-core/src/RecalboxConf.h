@@ -54,7 +54,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
-      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; }
+      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; }\
+      clazz& Delete##name() { Delete(key); return *this; } \
+      bool IsDefined##name() const { return IsDefined(key); }
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
       DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)
@@ -70,7 +72,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.Name()).append(1, '.').append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.Name()).append(1, '.').append(key), value); return *this; }
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.Name()).append(1, '.').append(key), value); return *this; } \
+      RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(std::string(system.Name()).append(1, '.').append(key)); return *this; } \
+      bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(std::string(system.Name()).append(1, '.').append(key)); }
 
     #define DefineEmulationStationSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), defaultValue); } \
@@ -78,7 +82,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
-      RecalboxConf& SetSystem##name(const SystemData& system, const type& value);
+      RecalboxConf& SetSystem##name(const SystemData& system, const type& value); \
+      RecalboxConf& DeleteSystem##name(const SystemData& system); \
+      bool IsDefinedSystem##name(const SystemData& system) const;
 
     #define DefineEmulationStationSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
@@ -219,8 +225,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
     DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
 
-    DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "default")
-    DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "default")
+    DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "")
+    DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "")
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
@@ -236,6 +242,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(AutoSave, bool, Bool, sSystemAutoSave)
     DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
     DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
+    DefineSystemGetterSetterDeclaration(VideoMode, std::string, String, sSystemVideoMode)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -284,6 +291,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
+    static constexpr const char* sSystemVideoMode            = "videomode";
 
     /*
      * Collection Keys

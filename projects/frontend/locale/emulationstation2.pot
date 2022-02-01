@@ -3166,6 +3166,7 @@ msgid "GO TO GAME"
 msgstr ""
 
 #
+<<<<<<< HEAD
 msgid "DELETE GAME %s"
 msgstr ""
 
@@ -3224,4 +3225,44 @@ msgstr ""
 
 #
 msgid "An USB device with no rom folder has been plugged in. Would you like to create rom folders on this device?"
+msgstr ""
+
+#
+msgid "Global resolution is the resolution used by default when specific resolutions are undefined."
+msgstr ""
+
+#
+msgid "Select the resolution EmulationStation will use."
+msgstr ""
+
+#
+msgid "Select the resolution used by specific systems."
+msgstr ""
+
+#
+msgid "Select resolution to use with this system."
+msgstr ""
+
+#
+msgid "RESOLUTIONS"
+msgstr ""
+
+#
+msgid "GLOBAL RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATIONSTATION RESOLUTION"
+msgstr ""
+
+#
+msgid "EMULATORS SPECIFIC RESOLUTIONS"
+msgstr ""
+
+#
+msgid "USE GLOBAL"
+msgstr ""
+
+#
+msgid "NATIVE"
 msgstr ""

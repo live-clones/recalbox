@@ -13,6 +13,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add game regions flag in gamelist
 
 - New option in UI menu : hide PORTS collection
+- Add resolution menu in Advanced Settings > Resolutions
+
 ### Improvements
 
 - Bump EmuSCV to fix zipped games load

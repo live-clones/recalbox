@@ -11,6 +11,7 @@
 #include "GuiMenuSystemList.h"
 #include "GuiMenuKodiSettings.h"
 #include "GuiMenuCRT.h"
+#include "GuiMenuResolutionSettings.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -46,9 +47,15 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Adult games
   AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  // RESOLUTION
+  if (Renderer::GetResolutionList().size() > 1 && Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None)
+    AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
 
   // Custom config for systems
   AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
+
+  // Adult games
+  AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   //Kodi
   if (RecalboxSystem::kodiExists())
@@ -223,7 +230,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::SecuritySubMenu:
     case Components::FactoryReset:
     case Components::CrtSubMenu:
-    default: break;
+    case Components::ResolutionSubMenu: break;
   }
 }
 
@@ -236,6 +243,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
+    case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::OverclockList:
     case Components::AdultGames:

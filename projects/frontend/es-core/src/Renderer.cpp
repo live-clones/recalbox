@@ -497,6 +497,8 @@ bool Renderer::ReInitialize()
 
 bool Renderer::Initialize(int w, int h)
 {
+  GetResolutionList();
+
   { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
 
   // Get resolution from config if either w or h is nul
@@ -565,6 +567,51 @@ bool Renderer::Initialize(int w, int h)
 void Renderer::Finalize()
 {
   DestroySdlSurface();
+}
+
+const Renderer::ResolutionList& Renderer::GetResolutionList()
+{
+  static ResolutionList resolutions;
+  if (resolutions.empty())
+  {
+    SDL_DisplayMode mode = { SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, nullptr };
+    int displayCount = SDL_GetNumVideoDisplays();
+    { LOG(LogInfo) << "[Renderer] Number of displays: " << displayCount; }
+    for (int i = 0; i < displayCount; ++i)
+    {
+      { LOG(LogInfo) << "[Renderer]   Display: " << i; }
+      int modesCount = SDL_GetNumDisplayModes(i);
+      for (int m = 0; m < modesCount; ++m)
+        if (SDL_GetDisplayMode(i, m, &mode) == 0)
+        {
+          resolutions.push_back({ mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate });
+          { LOG(LogInfo) << "[Renderer]     Resolution: " << resolutions.back().ToStringAll(); }
+        }
+    }
+  }
+
+  return resolutions;
+}
+
+const Renderer::ResolutionList& Renderer::GetFilteredResolutionList()
+{
+  static ResolutionList resolutions;
+  if (resolutions.empty())
+  {
+    for (const Resolution& resolution: GetResolutionList())
+    {
+      bool found = false;
+      for (const Resolution& alreadyIn: resolutions)
+        if ((alreadyIn.Height == resolution.Height) && (alreadyIn.Width == resolution.Width))
+        {
+          found = true;
+          break;
+        }
+      if (!found && resolution.Bpp >= 15) resolutions.push_back(resolution);
+    }
+  }
+
+  return resolutions;
 }
 
 void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vertCount)
@@ -850,5 +897,6 @@ void Renderer::DrawTexturedTriangles(GLuint id, const Vertex vertices[], Colors:
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 }
+
 
 
