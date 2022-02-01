@@ -1,0 +1,3112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: zh-CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
+msgstr "Recalbox 现在有新版本了"
+
+msgid "DOWNLOADED"
+msgstr "已下载"
+
+msgid "NEW VERSION:"
+msgstr "新版本："
+
+msgid "UPDATE CHANGELOG:"
+msgstr "更新日志："
+
+msgid "CANCEL"
+msgstr "取消"
+
+msgid "Rating"
+msgstr "评分"
+
+msgid "Released"
+msgstr "已发行"
+
+msgid "Developer"
+msgstr "开发者"
+
+msgid "Publisher"
+msgstr "出版商"
+
+msgid "Genre"
+msgstr "类型"
+
+#, fuzzy
+msgid "Players"
+msgstr "玩家"
+
+msgid "NO GAMES FOUND - SKIP"
+msgstr "未发现游戏 - 跳过"
+
+msgid "RETRY"
+msgstr "重试"
+
+msgid "SKIP"
+msgstr "跳过"
+
+#, fuzzy
+msgid "SEARCH FOR"
+msgstr "以何标题搜索"
+
+msgid "SEARCH"
+msgstr "搜索"
+
+msgid "SCRAPING IN PROGRESS"
+msgstr "正在进行抓取"
+
+msgid "SYSTEM"
+msgstr "游戏系统"
+
+msgid "subtitle text"
+msgstr "字幕文本"
+
+#, fuzzy
+msgid "INPUT"
+msgstr "输入"
+
+msgid "search"
+msgstr "搜索"
+
+msgid "STOP"
+msgstr "停止"
+
+msgid "stop (progress saved)"
+msgstr "停止 (进度已保存)"
+
+#, fuzzy
+msgid "GAME %i OF %i"
+msgstr "游戏%i，共%i个"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.COM FOR MORE INFORMATION."
+msgstr ""
+"无法找到任何游戏！\n"
+"请在系统设置文件中检查相关游戏目录的设置，\n"
+"并确保在这些游戏目录中至少有一个游戏。\n"
+"访问 recalbox.com 获取更多信息。"
+
+msgid "%i GAME SUCCESSFULLY SCRAPED!"
+msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
+msgstr[0] "成功抓取%i个游戏！"
+
+msgid "%i GAME SKIPPED."
+msgid_plural "%i GAMES SKIPPED."
+msgstr[0] "跳过了%i个游戏。"
+
+msgid "ESTIMATED TIME: "
+msgstr "预计时间："
+
+msgid "ELAPSED TIME: "
+msgstr "运行时间："
+
+msgid "COMPLETE!"
+msgstr "完成！"
+
+msgid "PLEASE VISIT"
+msgstr "请访问"
+
+msgid "ONLY 1 SCRAPPING ENGINE"
+msgstr "只有一个抓取引擎"
+
+msgid "%i SCRAPPING ENGINES"
+msgstr "%i 个抓取引擎"
+
+msgid ""
+"Scraping complete! {PROCESSED} games processed.\n"
+"\n"
+"{SUCCESS} game(s) scraped or updated\n"
+"{NOTFOUND} game(s) not found...\n"
+"{ERRORS} request/download errors\n"
+"\n"
+"{TEXTINFO} Text information updated\n"
+"{IMAGES} images and {VIDEOS} videos downloaded\n"
+"{MEDIASIZE} of media saved\n"
+"Now, EmulationStation is going to relaunch to update all gamelists."
+msgstr ""
+"抓取完成！{PROCESSED} 个游戏已处理。\n"
+"\n"
+"{SUCCESS} 个游戏已成功抓取或更新。\n"
+"{NOTFOUND} 个游戏未能找到……\n"
+"{ERRORS} 个请求/下载出现错误。\n"
+"\n"
+"{TEXTINFO} 条文本信息已更新。\n"
+"{IMAGES} 个图片和 {VIDEOS} 个视频已下载。\n"
+"共保存了 {MEDIASIZE} 的媒体文件。\n"
+"EmulationStation 将重新启动以更新所有游戏列表。"
+
+msgid ""
+"You reached your daily quota of scraping request.\n"
+"All your today's scrapes have been saved anyway.\n"
+"\n"
+"Start scraping again tomorrow.\n"
+"Dont forget to select 'update' and not 'scrape all'"
+msgstr ""
+"您已达到每日抓取请求限额！所有已完成的抓取都将保存。\n"
+"\n"
+"请明天再来尝试吧。不要忘记选择“更新”而不是“全部搜刮”。"
+
+msgid ""
+"Your share partition is almost full.\n"
+"The scraper stopped automatically.\n"
+"\n"
+"Remove unused games, media, files to make room before running the scraper "
+"again!"
+msgstr ""
+"您的共享分区几乎已满！\n"
+"抓取已自动停止。\n"
+"\n"
+"删除不需要的游戏，媒体，和文件以腾出空间，然后再运行抓取！"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "EDIT METADATA"
+msgstr "编辑元数据"
+
+msgid "MORE DETAILS"
+msgstr "更多信息"
+
+msgid "SCRAPE"
+msgstr "抓取"
+
+msgid "SAVE"
+msgstr "保存"
+
+msgid ""
+"THIS WILL DELETE A FILE!\n"
+"ARE YOU SURE?"
+msgstr ""
+"此操作将删除一个文件！\n"
+"确定吗？"
+
+msgid "YES"
+msgstr "是"
+
+msgid "NO"
+msgstr "否"
+
+msgid "DELETE"
+msgstr "删除"
+
+msgid "SAVE CHANGES?"
+msgstr "保存更改吗?"
+
+msgid "BACK"
+msgstr "返回"
+
+msgid "CLOSE"
+msgstr "关闭"
+
+msgid "MAIN MENU"
+msgstr "主菜单"
+
+msgid "KODI MEDIA CENTER"
+msgstr "Kodi 媒体中心"
+
+msgid "SYSTEM SETTINGS"
+msgstr "系统设置"
+
+msgid "VERSION"
+msgstr "版本"
+
+msgid "DISK USAGE"
+msgstr "磁盘使用情况"
+
+msgid "STORAGE DEVICE"
+msgstr "存储设备"
+
+msgid "LANGUAGE"
+msgstr "语言"
+
+msgid "OVERCLOCK"
+msgstr "超频"
+
+msgid "EXTREM (1100Mhz)"
+msgstr "极高（1.1GHz）"
+
+msgid "TURBO (1000Mhz)"
+msgstr "很高（1GHz）"
+
+msgid "HIGH (950Mhz)"
+msgstr "高（950MHz）"
+
+msgid "NONE (700Mhz)"
+msgstr "默频（700MHz）"
+
+msgid "TURBO (1050Mhz)+"
+msgstr "很高（1.05GHz以上）"
+
+msgid "HIGH (1050Mhz)"
+msgstr "高（1.05GHz）"
+
+msgid "NONE (900Mhz)"
+msgstr "默频（900MHz）"
+
+msgid "NONE (1200Mhz)"
+msgstr "默频（1.2GHz）"
+
+msgid "NONE"
+msgstr "无"
+
+#. NEW SETTINGS ORGANIZATION
+msgid "UPDATES"
+msgstr "更新"
+
+msgid "AUTO UPDATES"
+msgstr "自动更新"
+
+msgid "START UPDATE"
+msgstr "开始更新"
+
+msgid "KODI SETTINGS"
+msgstr "Kodi 设置"
+
+msgid "ENABLE KODI"
+msgstr "启用 Kodi"
+
+msgid "KODI AT START"
+msgstr "开机自动启动 Kodi"
+
+msgid "START KODI WITH X"
+msgstr "按X启动Kodi"
+
+msgid "THE SYSTEM WILL NOW REBOOT"
+msgstr "系统将重新启动"
+
+msgid "GAMES SETTINGS"
+msgstr "游戏设置"
+
+msgid "GAME RATIO"
+msgstr "游戏宽高比"
+
+msgid "SMOOTH GAMES"
+msgstr "平滑游戏画面"
+
+msgid "REWIND"
+msgstr "回滚"
+
+msgid "AUTO SAVE/LOAD"
+msgstr "自动存/读档"
+
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr "按两次退出游戏"
+
+msgid "SHADERS SET"
+msgstr "着色器组"
+
+msgid "SCANLINES"
+msgstr "扫描线"
+
+msgid "RETRO"
+msgstr "复古"
+
+msgid "RETROACHIEVEMENTS SETTINGS"
+msgstr "RetroAchievements 设置"
+
+msgid "RETROACHIEVEMENTS"
+msgstr "RetroAchievements"
+
+msgid "HARDCORE MODE"
+msgstr "极限模式"
+
+msgid "USERNAME"
+msgstr "用户名"
+
+msgid "PASSWORD"
+msgstr "密码"
+
+msgid "ADVANCED"
+msgstr "高级"
+
+msgid "REALLY UPDATE GAMES LISTS ?"
+msgstr "确定更新游戏列表吗?"
+
+msgid "UPDATE GAMES LISTS"
+msgstr "更新游戏列表"
+
+msgid "CONTROLLERS SETTINGS"
+msgstr "控制器设置"
+
+msgid "UI SETTINGS"
+msgstr "用户界面设置"
+
+msgid "OVERSCAN"
+msgstr "过扫描"
+
+msgid "SCREENSAVER AFTER"
+msgstr "屏幕保护延时"
+
+#, fuzzy
+msgid "CAROUSEL ANIMATION"
+msgstr "旋转动画"
+
+msgid "TRANSITION STYLE"
+msgstr "过渡样式"
+
+msgid "SCREENSAVER BEHAVIOR"
+msgstr "屏幕保护效果"
+
+msgid "SHOW FRAMERATE"
+msgstr "显示帧频"
+
+msgid "CLOCK IN MENU"
+msgstr "菜单时钟"
+
+msgid "ON-SCREEN HELP"
+msgstr "显示帮助"
+
+msgid "QUICK SYSTEM SELECT"
+msgstr "快速系统选择"
+
+msgid "THEME SET"
+msgstr "主题设置"
+
+msgid "THEME CONFIGURATION"
+msgstr "主题配置"
+
+#, fuzzy
+msgid "THEME COLORSET"
+msgstr "主题颜色组"
+
+msgid "THEME ICONSET"
+msgstr "主题图标组"
+
+msgid "THEME MENU"
+msgstr "主题菜单"
+
+msgid "THEME SYSTEMVIEW"
+msgstr "主题系统界面"
+
+msgid "THEME GAMELISTVIEW"
+msgstr "主题游戏列表"
+
+msgid "THEME GAMECLIPVIEW"
+msgstr "游戏主题"
+
+#, fuzzy
+msgid "THEME REGION"
+msgstr "主题地域"
+
+msgid "THIS THEME HAS NO OPTION"
+msgstr "这个主题没有任何选项"
+
+msgid "SOUND SETTINGS"
+msgstr "声音设置"
+
+msgid "SYSTEM VOLUME"
+msgstr "系统音量"
+
+msgid "FRONTEND MUSIC"
+msgstr "前端音乐"
+
+msgid "OUTPUT DEVICE"
+msgstr "输出设备"
+
+msgid "HDMI"
+msgstr "HDMI"
+
+#, fuzzy
+msgid "JACK"
+msgstr "音频插座"
+
+msgid "AUTO"
+msgstr "自动"
+
+msgid "NETWORK SETTINGS"
+msgstr "网络设置"
+
+msgid "CONNECTED"
+msgstr "已连接"
+
+msgid "NOT CONNECTED"
+msgstr "未连接"
+
+msgid "STATUS"
+msgstr "状态"
+
+msgid "IP ADDRESS"
+msgstr "IP 地址"
+
+msgid "HOSTNAME"
+msgstr "主机名称"
+
+msgid "ENABLE WIFI"
+msgstr "启用无线网络"
+
+msgid "WIFI SSID"
+msgstr "无线网络 SSID"
+
+msgid "MANUAL INPUT"
+msgstr "手动输入"
+
+msgid "WIFI KEY"
+msgstr "无线网络密钥"
+
+msgid "WIFI ENABLED"
+msgstr "无线网络已启用"
+
+msgid "WIFI CONFIGURATION ERROR"
+msgstr "无线网络配置错误"
+
+msgid "SCRAPER"
+msgstr "数据抓取"
+
+msgid "SCRAPE FROM"
+msgstr "抓取来源"
+
+msgid "SCRAPE RATINGS"
+msgstr "抓取评分"
+
+msgid "SCRAPE NOW"
+msgstr "开始抓取"
+
+msgid "QUIT"
+msgstr "退出"
+
+msgid "REALLY RESTART?"
+msgstr "确定重新启动吗?"
+
+msgid "RESTART SYSTEM"
+msgstr "重新启动系统"
+
+msgid "REALLY SHUTDOWN?"
+msgstr "确定要关机吗?"
+
+msgid "SHUTDOWN SYSTEM"
+msgstr "关闭系统"
+
+msgid "DEFAULT (%1%)"
+msgstr "默认（%1%）"
+
+msgid "Emulator"
+msgstr "模拟器"
+
+msgid "Core"
+msgstr "核心"
+
+msgid ""
+"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
+"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
+"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
+"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
+"SNES CONTROLLER."
+msgstr ""
+"您将要进行控制器的配置。如果您的手柄仅有一个摇杆，请在配置方向键后按住 A 键跳"
+"过摇杆配置。如果您没有专用或多余的按键作为 HOTKEY/热键，请用 SELECT/选择键。"
+"按住 A 键可跳过您没有的按键的设置。所有按键的名称均基于超级任天堂手柄。"
+
+#. GUIMENU
+msgid "CONFIGURE A CONTROLLER"
+msgstr "配置一个控制器"
+
+#. Bluetooth
+msgid "CONTROLLER PAIRED"
+msgstr "控制器已配对"
+
+msgid "UNABLE TO PAIR CONTROLLER"
+msgstr "无法配对控制器"
+
+msgid "AN ERROR OCCURED"
+msgstr "出现了错误"
+
+msgid "NO CONTROLLERS FOUND"
+msgstr "未找到控制器"
+
+#, fuzzy
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "配对一个蓝牙控制器"
+
+msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
+msgstr "控制器连接已被删除"
+
+msgid "FORGET BLUETOOTH CONTROLLERS"
+msgstr "忘记蓝牙控制器"
+
+msgid "INPUT P%i"
+msgstr "输入 P%i"
+
+msgid "CHOOSE"
+msgstr "选择"
+
+msgid "SELECT"
+msgstr "选择"
+
+msgid "OPTIONS"
+msgstr "选项"
+
+msgid "JUMP TO LETTER"
+msgstr "按字母跳转"
+
+msgid "SORT GAMES BY"
+msgstr "游戏排序方式"
+
+#. FAVORITES
+msgid "FAVORITES ONLY"
+msgstr "仅显示收藏项"
+
+msgid "EDIT THIS GAME'S METADATA"
+msgstr "编辑此游戏的元数据"
+
+msgid "SCRAPE THESE GAMES"
+msgstr "为这些游戏抓取数据"
+
+msgid "All Games"
+msgstr "所有游戏"
+
+#. MISSING SCRAPPER TRANSLATIONS
+msgid "Only missing image"
+msgstr "仅缺少图片"
+
+msgid "FILTER"
+msgstr "筛选"
+
+msgid "SCRAPE THESE SYSTEMS"
+msgstr "为这些系统抓取数据"
+
+msgid "SYSTEMS"
+msgstr "系统"
+
+msgid "USER DECIDES ON CONFLICTS"
+msgstr "数据冲突时人工干预"
+
+msgid "START"
+msgstr "开始"
+
+#, fuzzy
+msgid ""
+"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
+"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+"CONTINUE ANYWAY?"
+msgstr ""
+"警告：您选择的一些系统没有平台数据。\n"
+"结果可能比原来的更不准确！\n"
+"仍然继续吗？"
+
+msgid "NO GAMES FIT THAT CRITERIA."
+msgstr "没有符合要求的游戏。"
+
+msgid "REALLY UPDATE?"
+msgstr "确定进行更新吗?"
+
+msgid "NETWORK CONNECTION NEEDED"
+msgstr "需要连接到互联网"
+
+msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+msgstr "更新下载完毕，系统将重新启动"
+
+msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+msgstr "更新失败，系统将重新启动"
+
+msgid "NO UPDATE AVAILABLE"
+msgstr "无可用更新"
+
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr "出现了错误 - 已下载"
+
+#, fuzzy
+msgid "enter emulator"
+msgstr "输入模拟器"
+
+#, fuzzy
+msgid "enter core"
+msgstr "输入核心"
+
+msgid "Ratio"
+msgstr "宽高比"
+
+msgid "enter ratio"
+msgstr "输入宽高比"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "enter game name"
+msgstr "输入游戏名称"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "enter description"
+msgstr "输入描述"
+
+msgid "Image"
+msgstr "图片"
+
+msgid "enter path to image"
+msgstr "输入图片路径"
+
+msgid "Thumbnail"
+msgstr "缩略图"
+
+msgid "enter path to thumbnail"
+msgstr "输入缩略图路径"
+
+msgid "enter rating"
+msgstr "输入评分"
+
+msgid "Release date"
+msgstr "发行日期"
+
+msgid "enter release date"
+msgstr "输入发行日期"
+
+msgid "enter game developer"
+msgstr "输入游戏开发者"
+
+msgid "enter game publisher"
+msgstr "输入游戏发行商"
+
+#, fuzzy
+msgid "enter game genre"
+msgstr "输入游戏类型/流派"
+
+msgid "enter number of players"
+msgstr "输入游戏玩家人数"
+
+msgid "Favorite"
+msgstr "收藏"
+
+#, fuzzy
+msgid "enter favorite"
+msgstr "作为收藏"
+
+msgid "Region"
+msgstr "地域"
+
+#, fuzzy
+msgid "enter region"
+msgstr "输入地域"
+
+msgid "Romtype"
+msgstr "ROM 类型"
+
+msgid "enter romtype"
+msgstr "输入 ROM 类型"
+
+msgid "Hidden"
+msgstr "隐藏"
+
+msgid "set hidden"
+msgstr "设置隐藏"
+
+msgid "Play count"
+msgstr "游戏运行次数"
+
+msgid "enter number of times played"
+msgstr "输入游戏运行次数"
+
+msgid "Last played"
+msgstr "最近运行"
+
+msgid "enter last played date"
+msgstr "输入最后游戏运行日期"
+
+msgid "%i GAME AVAILABLE"
+msgid_plural "%i GAMES AVAILABLE"
+msgstr[0] "%i个可用游戏"
+
+msgid "%i FAVORITE"
+msgid_plural "%i FAVORITES"
+msgstr[0] "%i个收藏"
+
+msgid "SCROLL"
+msgstr "滚动"
+
+msgid "LAUNCH"
+msgstr "运行"
+
+msgid "Times played"
+msgstr "游戏运行次数"
+
+msgid "MENU"
+msgstr "菜单"
+
+msgid "START KODI"
+msgstr "启动 Kodi"
+
+msgid "FILENAME, ASCENDING"
+msgstr "文件名（升序）"
+
+msgid "FILENAME, DESCENDING"
+msgstr "文件名（降序）"
+
+msgid "RATING, ASCENDING"
+msgstr "评分（升序）"
+
+msgid "RATING, DESCENDING"
+msgstr "评分（降序）"
+
+msgid "TIMES PLAYED, ASCENDING"
+msgstr "游戏运行次数（升序）"
+
+msgid "TIMES PLAYED, DESCENDING"
+msgstr "游戏运行次数（降序）"
+
+msgid "LAST PLAYED, ASCENDING"
+msgstr "最近运行（升序）"
+
+msgid "LAST PLAYED, DESCENDING"
+msgstr "最近运行（降序）"
+
+#, fuzzy
+msgid "WORKING..."
+msgstr "进行中……"
+
+#, fuzzy
+msgid "CHANGE"
+msgstr "改变"
+
+msgid "never"
+msgstr "从未"
+
+msgid "just now"
+msgstr "刚刚"
+
+msgid "%i sec ago"
+msgid_plural "%i secs ago"
+msgstr[0] "%i秒前"
+
+msgid "%i min ago"
+msgid_plural "%i mins ago"
+msgstr[0] "%i分钟前"
+
+msgid "%i hour ago"
+msgid_plural "%i hours ago"
+msgstr[0] "%i小时前"
+
+msgid "%i day ago"
+msgid_plural "%i days ago"
+msgstr[0] "%i天前"
+
+msgid "unknown"
+msgstr "未知"
+
+msgid "SELECT ALL"
+msgstr "全选"
+
+msgid "SELECT NONE"
+msgstr "全不选"
+
+msgid "%i SELECTED"
+msgid_plural "%i SELECTED"
+msgstr[0] "已选择%i个"
+
+msgid "UP"
+msgstr "上"
+
+msgid "DOWN"
+msgstr "下"
+
+msgid "LEFT"
+msgstr "左"
+
+msgid "RIGHT"
+msgstr "右"
+
+msgid "JOYSTICK 1 UP"
+msgstr "摇杆 1 上"
+
+msgid "JOYSTICK 1 LEFT"
+msgstr "摇杆 1 左"
+
+msgid "JOYSTICK 2 UP"
+msgstr "摇杆 2 上"
+
+msgid "JOYSTICK 2 LEFT"
+msgstr "摇杆 2 左"
+
+#, fuzzy
+msgid "PAGE UP"
+msgstr "上一页"
+
+#, fuzzy
+msgid "PAGE DOWN"
+msgstr "下一页"
+
+msgid "HOTKEY"
+msgstr "Hotkey"
+
+#, fuzzy
+msgid "CONFIGURING"
+msgstr "配置"
+
+msgid "KEYBOARD"
+msgstr "键盘"
+
+msgid "GAMEPAD %i"
+msgstr "手柄 %i"
+
+msgid "INPUT REQUIRED"
+msgstr "需要输入"
+
+msgid "(skipped)"
+msgstr "（跳过）"
+
+msgid "UP/DOWN TO SKIP"
+msgstr "按 UP 或DOWN 以跳过"
+
+#, fuzzy
+msgid "A TO UNSET"
+msgstr "按 A 键清除设置"
+
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "按 下 键以跳过并保留 [%1%]"
+
+#, fuzzy
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "按 上键 或 下键 以跳过并保留 [%1%]"
+
+#. Config controllers missing translation
+msgid "PRESS ANYTHING"
+msgstr "按任意键"
+
+#, fuzzy
+msgid "ALREADY TAKEN"
+msgstr "已被使用"
+
+msgid "DISCARD CHANGES"
+msgstr "放弃更改"
+
+msgid "WELCOME"
+msgstr "欢迎"
+
+msgid "CONFIGURE INPUT"
+msgstr "输入配置"
+
+msgid "%i GAMEPAD DETECTED"
+msgid_plural "%i GAMEPADS DETECTED"
+msgstr[0] "检测到%i个手柄"
+
+msgid "NO GAMEPADS DETECTED"
+msgstr "未检测到游戏手柄"
+
+msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
+msgstr "请按住您设备上的一个按键来配置它。"
+
+msgid "PRESS F4 TO QUIT AT ANY TIME."
+msgstr "任何时候按 F4 均可退出。"
+
+msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
+msgstr "按 Esc 键或 Hotkey 键取消。"
+
+msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
+msgstr "您想启动 Kodi 媒体中心吗?"
+
+msgid "LOADING..."
+msgstr "载入中……"
+
+msgid "PLEASE WAIT..."
+msgstr "请稍候……"
+
+msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
+msgstr "确定要不保存元数据就关机吗?"
+
+msgid "FAST SHUTDOWN SYSTEM"
+msgstr "快速关闭系统"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.FR FOR MORE INFORMATION."
+msgstr ""
+"无法找到任何游戏！\n"
+"请在系统设置文件中检查相关游戏目录的设置，\n"
+"并确保在这些游戏目录中至少有一个游戏。\n"
+"访问 recalbox.com 获取更多信息。"
+
+msgid "ON SCREEN KEYBOARD"
+msgstr "屏幕键盘"
+
+msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
+msgstr "按 Shift 键切换大小写和特殊符号"
+
+msgid "SPACE"
+msgstr "空格"
+
+msgid "DELETE A CHAR"
+msgstr "删除一个字符"
+
+#, fuzzy
+msgid "SHIFT"
+msgstr "Shift 键"
+
+msgid "STOP EDITING"
+msgstr "停止编辑"
+
+msgid "MOVE CURSOR"
+msgstr "移动鼠标"
+
+msgid "EDIT"
+msgstr "编辑"
+
+#, fuzzy
+msgid "ACCEPT RESULT"
+msgstr "接受结果"
+
+msgid "FILENAME"
+msgstr "文件名"
+
+msgid "RATING"
+msgstr "评分"
+
+#, fuzzy
+msgid "TIMES PLAYED"
+msgstr "游戏时间"
+
+#, fuzzy
+msgid "LAST PLAYED"
+msgstr "最近游戏"
+
+msgid "NUMBER OF PLAYERS"
+msgstr "游戏人数"
+
+msgid "DEVELOPER"
+msgstr "开发者"
+
+msgid "GENRE"
+msgstr "流派"
+
+msgid "SHOW HIDDEN"
+msgstr "显示隐藏"
+
+msgid "SHOW FOLDERS CONTENT"
+msgstr "显示文件夹内容"
+
+msgid "EXTREM (1400Mhz)"
+msgstr "极高 (1.4GHz)"
+
+msgid "TURBO (1350Mhz)"
+msgstr "很高 (1.35GHz)"
+
+msgid "HIGH (1300Mhz)"
+msgstr "高 (1.3GHz)"
+
+msgid ""
+"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE "
+"THEM AT YOUR OWN RISK.\n"
+"IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
+msgstr ""
+"很高和极高的超频预设可能会导致系统不稳定，造成的一切后果需您自行承担。如果您"
+"选择继续，系统将会立即重启。"
+
+msgid "%i GAME HIDDEN"
+msgid_plural "%i GAMES HIDDEN"
+msgstr[0] "%i个游戏被隐藏"
+
+msgid "Start kodi media player."
+msgstr "启动 Kodi 媒体播放器"
+
+msgid ""
+"Select the language for your recalbox, select an external drive to store "
+"your games and configurations, check your current version and the free space "
+"on your drive"
+msgstr ""
+"选择 Recalbox 的语言，选择一个外置存储设备来存储游戏和配置文件，检查当前版本"
+"和存储设备上的可用空间"
+
+msgid "Shows your current recalboxOS version."
+msgstr "显示当前 recalboxOS 的版本。"
+
+msgid ""
+"Show how much space is used on your SHARE partition, located either on the "
+"SDCARD or on an external drive. The information shows how much GB are used "
+"and how much GB your storage has overall (example 13GB/26GB)."
+msgstr ""
+"显示 SHARE 分区上有多少空间被使用了。这个分区位于SD卡或外置驱动器上。会以GB为"
+"单位显示已用量及存储设备总空间（例如13GB/26GB）。"
+
+msgid ""
+"Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first "
+"boot, with this option enabled, recalbox will create a '/recalbox' folder "
+"with all system files inside."
+msgstr ""
+"选择一个外置存储设备来存储 ROM、游戏存档、配置文件等等。\n"
+"请使用一个FAT32格式的存储设备。系统不会为您格式化存储设备。当这个选项被启用"
+"时，Recalbox 会在首次开机时会创建路径为\"/recalbox\"的文件夹以保存所有系统文"
+"件。"
+
+msgid ""
+"Select your language. A reboot is needed to set this configuration active."
+msgstr "选择您的语言。必须重启来使更改生效。"
+
+msgid ""
+"Manage your recalbox updates. Select the update type. Activate update check."
+msgstr "管理 Recalbox 更新。选择更新类型。激活更新检测。"
+
+msgid "Check if an update is available, and start the update process."
+msgstr "检测有无更新，然后开始更新。"
+
+msgid ""
+"Stable updates will check for updates on stable recalbox releases. Stable "
+"updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking "
+"our unstable repository. You can test and validate with us the very last "
+"version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-"
+"os issue board (https://github.com/recalbox/recalbox-os/issues)"
+msgstr ""
+"稳定更新模式只会检测和获取稳定版 Recalbox 更新源。\n"
+"稳定版更新都经 Recalbox 团队及测试者测试及批准。\n"
+"不稳定更新模式会检测和获取不稳定版更新源，让您体验 Recalbox 的最新功能。您可"
+"以和我们一起测试及验证 Recalbox 的最新版本。\n"
+"如果您选择不稳定更新模式，还请慷慨地在 recalbox-os issue 讨论版（https://"
+"github.com/recalbox/recalbox-os/issues）向我们报告您使用过程中遇到的任何问"
+"题。"
+
+msgid ""
+"Automatically check if an update is avaialble. If so, it notifies you with a "
+"message."
+msgstr "自动检查更新。若有更新，您会收到提醒。"
+
+msgid "Shows the current available update version."
+msgstr "显示当前可用更新的版本。"
+
+msgid "Shows the current available update changelog."
+msgstr "显示当前可用更新的更新日志。"
+
+msgid ""
+"Configure games display, ratio, filters (shaders), auto save and load and "
+"retroachievement account."
+msgstr ""
+"配置游戏显示、宽高比、滤镜（着色器）、自动存/读档、和 RetroAchievement 账户。"
+
+msgid ""
+"The game ratio is the ratio between image width and image height. Use AUTO "
+"to let the emulator choose the original game ratio, that will give you the "
+"best retrogaming experience."
+msgstr ""
+"游戏宽高比是显示图像的宽度及高度的比例。选择自动（AUTO）以让模拟器自动选择原"
+"生宽高比；这通常会最优化游戏体验。"
+
+msgid ""
+"Smooth the game image. This option makes the image smoother, using bilinear "
+"filtering."
+msgstr "平滑游戏画面。这个选项使用双线性过滤平滑显示输出。"
+
+#, fuzzy
+msgid ""
+"This option allows you to rewind the game if you get killed by a monster, or "
+"if you make any other mistake. Use the HOTKEY + LEFT command within the game "
+"to rewind."
+msgstr ""
+"此选项允许您在被怪物杀死、或犯下其他任何错误时让时光倒转。在游戏中可以使用 "
+"Hotkey + 左键 来进行回滚。"
+
+msgid ""
+"Auto save the state when you quit a game, and auto load last saved state "
+"when you start a game."
+msgstr "在您退出游戏时自动存档，并在开始游戏时自动读取最后的存档。"
+
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr "按两次按钮来结束游戏并回到主菜单。"
+
+msgid ""
+"Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
+"4x, etc. This option scales the image up to the greatest integer scale below "
+"the set resolution. So for instance, if you set your fullscreen resolution "
+"to 1920x1080 and enable integer scaling, it will only scale a 320x240 image "
+"up to 1280x960, and leave black borders all around. This is to maintain a "
+"1:1 pixel ratio with the original source image, so that pixels are not "
+"unevenly duplicated."
+msgstr ""
+"整数放大只按整数倍（如2倍，3倍等）放大画面。这个选项将按整数倍将画面缩放到最"
+"接近、但仍小于等于设定分辨率的值。例如，如果设置的全屏分辨率是1920×1080且启用"
+"整数放大，则320×240分辨率的游戏画面只会被放大到1280×960；画面四周会留下黑边。"
+"这个设置的目的是保持原始像素和显示像素的1:1对应，避免不均匀的像素复制。"
+
+msgid ""
+"Shaders are like filters for the game rendering. You can select a shader set "
+"here, which is a collection of shaders selected for each system. You can "
+"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+msgstr ""
+"着色器（Shader）如同游戏渲染用的滤镜般。您可以在此选择一个着色器组——为每个系"
+"统准备的一套着色器。您也可以在游戏过程中用快捷键 Hotkey + L2 或 Hotkey + R2 "
+"来切换着色器。"
+
+msgid "Enable or disable RetroAchievements in games."
+msgstr "在游戏中启用或关闭 RetroAchievements 。"
+
+msgid ""
+"Hardcore mode disables *all* savestate and rewind functions within the "
+"emulator: you will not be able to save and reload at any time. You will have "
+"to complete the game and get the achievements first time, just like on the "
+"original console. In reward for this, you will earn both the standard and "
+"the hardcore achievement, in effect earning double points! A regular game "
+"worth 400 points, is now worth 800 if you complete it on hardcore! For "
+"example: if you complete the game for 400 points, you then have the "
+"opportunity to earn another 400 on hardcore."
+msgstr ""
+"极限模式会禁用*一切*模拟器的存档和回滚功能；任何时候都不能保存或载入存档。您"
+"必须像在原始游戏机上般，一次完成游戏和/或取得成就。作为回报，您会同时获得普通"
+"成就和极限模式成就：这相当于双倍分数！如果一个游戏的成就分数是400分，极限模式"
+"下可得800分。如果您已在普通模式下获得这400分，您可以在极限模式下获取另400分。"
+
+msgid ""
+"The website retroachievements.org proposes challenges/achievements/trophies "
+"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
+"PCEngine and more! Create your account on retroachievements.org and start "
+"your quest for achievements!"
+msgstr ""
+"retroachievements.org 网站提供怀旧游戏平台上的挑战、成就、和奖杯，覆盖红白"
+"机、超级任天堂、GB、GBC、GBA、Mega Drive/Genesis、PCEngine/TurboGrafx-16 等"
+"等！在 retroachievements.org 上创建账号，开启您的成就搜寻之旅！"
+
+msgid "Add and configure up to 5 controllers."
+msgstr "添加和配置至多5个控制器。"
+
+msgid ""
+"Configure an associated controller. Your controller has to be associated / "
+"plugged before."
+msgstr "配置一个已配对的控制器或手柄。控制器需曾配对或连接过这台 Recalbox。"
+
+msgid ""
+"Pair a bluetooth controller with your recalbox. Your controller must be in "
+"pairing mode."
+msgstr "配对一个蓝牙控制器。控制器需要在配对模式中。"
+
+msgid ""
+"Forget all paired bluetooth controllers. You will have to pair your "
+"controllers again, but this option can help if you have issues to reconnect "
+"a controller, which is already paired."
+msgstr ""
+"忘记所有曾配对过的蓝牙控制器。您需要重新配对控制器，但这可以解决某些已配对过"
+"的控制器无法连接的问题。"
+
+msgid ""
+"Configure your EmulationStation experience. Select transition types, help "
+"prompts, screensaver behavior. You can also deactivate the onscreen keyboard "
+"if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist "
+"from this menu."
+msgstr ""
+"配置 EmulationStation 的体验。选择过渡类型，帮助提示，屏保效果。您也可以在此"
+"禁用屏幕键盘（若您连接了物理键盘）。\n"
+"如果您在上次启动后添加了新游戏，您也可以在此刷新游戏列表。"
+
+msgid "Configure screensaver"
+msgstr "设置屏幕保护程序"
+
+#, fuzzy
+msgid "Start the screensaver after N minutes."
+msgstr "在 N 分钟后开启屏保。"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
+"turn the screen black, DEMO will launch demo mode."
+msgstr ""
+"设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK 会将屏幕调黑；DEMO 会启动演示模"
+"式。"
+
+msgid ""
+"Shows a help at the bottom of the screen which displays commands you can use."
+msgstr "在屏幕下方显示帮助信息，提醒您哪些操作可用。"
+
+msgid ""
+"When enabled, you can switch between systems while browsing a gamelist by "
+"pressing LEFT or RIGHT."
+msgstr "开启后，您可以在查看游戏列表时用 左 键或 右 键切换系统。"
+
+msgid ""
+"The onscreen keyboard is necessary to type text if you only have controllers "
+"plugged into your recalbox. You can disable it if you have a real keyboard "
+"connected."
+msgstr ""
+"若您只有控制器，您需要屏幕键盘来输入文字。若您连接了物理键盘，您可以关闭屏幕"
+"键盘。"
+
+#, fuzzy
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr "选择是否在切换时使用动态旋转动画。"
+
+msgid ""
+"Select the type of transition that occurs when you start a game. INSTANT "
+"will do nothing, FADE will fade to dark, and SLIDE will zoom on the game "
+"cover (or name if there is no scrape information)"
+msgstr ""
+"选择开始游戏时的过渡动画。INSTANT 模式会瞬间跳转（无过渡）；FADE 模式会渐变至"
+"黑色；SLIDE 模式会向游戏封面放大（若无抓取信息，则使用游戏名称）。"
+
+msgid "Select a theme for your recalbox."
+msgstr "为 Recalbox 选择一个主题。"
+
+#, fuzzy
+msgid "Select exisiting colorset options for this theme."
+msgstr "为这个主题选择已有的颜色组。"
+
+msgid "Select exisiting iconset options for this theme."
+msgstr "为这个主题选择已有的图标组。"
+
+msgid "Select exisiting menu style options for this theme."
+msgstr "为这个主题选择已有的菜单样式选项。"
+
+msgid "Select exisiting system view options for this theme."
+msgstr "为这个主题选择已有的系统界面选项。"
+
+msgid "Select exisiting gamelist view options for this theme."
+msgstr "为这个主题选择已有的游戏列表选项。"
+
+msgid "Configure theme options if available."
+msgstr "若可用，配置主题选项。"
+
+msgid ""
+"Select Region of logos, pictures for system that are different for some "
+"countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+"为系统选择不同地域的图标和图像。一些游戏系统在不同地域有不同的名称和外观，例"
+"如 Megadrive 在美国以 Genesis 的名义发售。"
+
+msgid "Updates the gamelists, if you added games since the last boot."
+msgstr "更新游戏列表。若您在上次开机后添加了新的游戏，您会需要更新列表。"
+
+msgid "Configure the sound options of your recalbox."
+msgstr "配置 Recalbox 的声音选项。"
+
+msgid "Set the volume of the sound output for the frontend and the games."
+msgstr "设置系统前端和游戏的音量输出。"
+
+msgid ""
+"Enable or disable the frontend music. You can add your own music as mp3, or "
+"ogg format in the 'musics' directory of your recalbox."
+msgstr ""
+"启用或关闭前端背景音乐。您可以在“musics”目录下添加 mp3 或 ogg 格式的音乐作为"
+"背景音乐。"
+
+msgid "Select your output device. Only HDMI and JACK are supported."
+msgstr "选择您的输出设备。仅支持 HDMI 和 3.5mm 接口。"
+
+msgid ""
+"Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the "
+"WIFI."
+msgstr ""
+"配置 Recalbox 的网络选项。查看网络情况和IP地址，设置主机名称，和配置无线网"
+"络。"
+
+msgid ""
+"Displays CONNECTED, if you are connected, by checking if your recalbox can "
+"access the recalbox.com update server."
+msgstr "检查您能否连接 recalbox.com 的更新服务器。若能，会显示“已连接”。"
+
+msgid "The IP address of your recalbox within your local network."
+msgstr "Recalbox 在本地网络上的IP地址。"
+
+msgid ""
+"Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be "
+"used when you reactivate it"
+msgstr ""
+"启用或禁用无线网络。如果您关闭了无线网络，之前的 SSID 和密码会被记住，便于您"
+"再次启用无线网络时使用。"
+
+msgid "The name of your recalbox in your local network"
+msgstr "Recalbox 在本地网络上的名称。"
+
+msgid "SSID (WIFI Name) of your network."
+msgstr "网络的 SSID (无线网络名称)。"
+
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr "如果目标网络被隐藏或未列出，手动输入SSID（网络名称）"
+
+msgid "Private key of your WIFI network."
+msgstr "无线网络的私有密钥。"
+
+msgid ""
+"Get informations and visual for your games. The scraper downloads metadata "
+"and visuals for your games from different servers and enhances the user "
+"experience in EmulationStation completely."
+msgstr ""
+"为游戏抓取有关信息和图像。数据抓取会从不同的服务器下载游戏的元数据和有关图"
+"像，大大增强 EmulationStation 的使用体验。"
+
+msgid ""
+"Select a server to scrape from. The SCREENSCRAPER server is recommended and "
+"is based on www.screenscraper.fr and scrapes game data in your language, if "
+"available."
+msgstr ""
+"选择一个服务器为抓取源。我们推荐使用 Screenscraper：它基于www.screenscraper."
+"fr，并会尝试用您的语言提供游戏数据（若有）。"
+
+msgid "Begin the scrape process with the configuration shown below."
+msgstr "使用下列配置开始抓取。"
+
+msgid "Scrape and display game ratings."
+msgstr "抓取并显示游戏评分。"
+
+msgid ""
+"Advanced settings. Please make sure you really know what you're doing, "
+"before changing any values in this menu."
+msgstr ""
+"高级设置。在修改这个菜单里的任何选项前，请确认您明白设置项的意义和后果。"
+
+msgid ""
+"Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind "
+"that overclocking your board can void your warranty."
+msgstr ""
+"超频设备，获得更高性能。\n"
+"超频设置已经过社区测试和验证可行。请仍牢记超频可能会让您丧失设备保修。"
+
+msgid ""
+"Select which system to show when the recalbox frontend starts. The default "
+"value is 'favorites'."
+msgstr "选择 Recalbox 前端启动时显示哪个系统。默认值为“收藏”。"
+
+msgid ""
+"On boot, recalbox will show the list of games of the selected system rather "
+"than the system view."
+msgstr "开机后，Recalbox 会显示所选系统的游戏列表，而非系统界面。"
+
+msgid ""
+"Only show games contained in the gamelist.xml file (located in your roms "
+"directories).\n"
+"This option highly speeds up boot time, but new games will not be detected."
+msgstr ""
+"只显示 gamelist.xml（位于 ROM 所在目录中）里列出的游戏。这会大大提升开机速"
+"度，但新添加的游戏不会被检测到。"
+
+msgid ""
+"This option allows you to set the selected system to fixed mode. With this "
+"option activated, the user cannot access other systems."
+msgstr "这个选项可以锁定指定的系统。启用后，用户将无法访问其它系统。"
+
+msgid ""
+"Always display the basic gamelist view, even if you have scraped your games."
+msgstr "总是显示基本版游戏列表，即使您已为游戏抓取额外信息。"
+
+msgid ""
+"Override global options like emulator, core, ratio and more for each "
+"available system in your recalbox."
+msgstr "用针对每一台系统的设定覆盖全局设定，如模拟器、核心、宽高比等等。"
+
+msgid ""
+"Configure boot options that make your recalbox boot straight into a system "
+"or into Kodi, lock a user to a single system, or directly show the gamelist."
+msgstr ""
+"设置启动项：可以让 Recalbox 开机后直接进入一个游戏系统或 Kodi，或直接显示游戏"
+"列表。"
+
+msgid ""
+"Enable or disable Kodi, customize the Kodi startup, enable the X button to "
+"start Kodi"
+msgstr "启用或禁用 Kodi，个性化 Kodi 启动项，启用“按X启动Kodi”"
+
+msgid ""
+"Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
+"with the X button, or start it automatically at boot. The menu entry will be "
+"removed as well."
+msgstr ""
+"启用或禁用 Kodi。如果 Kodi 被禁用，您将无法按 X 启动 Kodi 或让其开机时自动启"
+"动；有关菜单项也会被移除。"
+
+msgid "Use the X button to start Kodi."
+msgstr "用 X 键启动 Kodi。"
+
+msgid "Automatically start into Kodi on boot."
+msgstr "在开机时自动启动 Kodi。"
+
+msgid ""
+"Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger "
+"than your screen. Before setting the overscan, try to configure your TV to "
+"have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when "
+"you plug your SD card into your computer."
+msgstr ""
+"启用或关闭过扫描（Overscan）。如果显示图像大于您的屏幕，或者屏幕上有黑边，过"
+"扫描可以解决这些问题。在设置过扫描前，请先尝试把您的屏幕设置为像素1:1输出。您"
+"可以在 boot.txt 中定义更详细的过扫描设置（需要另一台电脑访问主要存储设备）。"
+
+msgid "Show the framerate in EmulationStation and in game."
+msgstr "在 EmulationStation 和游戏中显示帧频。"
+
+#, fuzzy
+msgid ""
+"Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if "
+"you are on windows, http://recalbox.local , if you are on Linux or Mac, or "
+"directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage "
+"games, saves, and scrapes!"
+msgstr ""
+"启用或禁用 Recalbox 管理器。这是一个本地网络程序，在 Windows 上位于 http://"
+"recalbox、Linux 或 Mac 上位于 http://recalbox.local、或在任何系统上位于"
+"Recalbox 的本地IP地址（通常格式如同 http://192.168.1.xx）。\n"
+"您可以通过管理器配置许多选项，例如管理游戏、存档、和信息抓取等等。"
+
+#, fuzzy
+msgid ""
+"Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox "
+"via http requests."
+msgstr ""
+"启用或禁用 Recalbox API。这是一个基于表现层状态转换（REST）的API，开放终端点"
+"以允许通过 HTTP 请求控制您的 Recalbox。"
+
+msgid "Select which emulator to use when you start a game for this system."
+msgstr "选择启动此系统的游戏时要使用哪一个模拟器。"
+
+msgid ""
+"Select which core to use for the selected emulator. For example, the "
+"LIBRETRO emulator has many cores to run Super Nintendo games. The default "
+"core you choose here can also be overridden in game specific settings."
+msgstr ""
+"选择使用这个模拟器时要使用哪个核心。例如，LIBRETRO 模拟器有多个运行超级任天堂"
+"游戏用的核心。默认核心设置可以被针对游戏的设置覆盖。"
+
+msgid ""
+"Select a letter and the listing will go directly on the first game starting "
+"with this letter."
+msgstr "选择一个字母；列表会自动跳转到以该字母开头的第一个游戏。"
+
+#, fuzzy
+msgid ""
+"Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr "选择游戏的排序依据（如首字母等）。"
+
+msgid ""
+"Switch between seing or not only the favorites games. To add a game in the "
+"favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+"在只显示收藏游戏和显示所有游戏间切换。您可以选中一个游戏，然后按 Y 键来将游戏"
+"加入或移出收藏。"
+
+msgid ""
+"Switch between seing or not the hidden games. To hide a game, edit its data "
+"and select 'Hide'."
+msgstr "在显示和不显示隐藏游戏间切换。若要隐藏游戏，编辑其信息并选择“隐藏”。"
+
+msgid ""
+"Switch between seeing the folders structure and seeing all games in a "
+"flatten top level."
+msgstr "在显示目录结构和将所有游戏在单个页面中列出间切换。"
+
+msgid ""
+"This option display a menu which allows to change game data and many others "
+"options."
+msgstr "这个选项将打开一个用于更改游戏数据和其它有关选项的菜单。"
+
+msgid "USE COMPOSED VISUALS"
+msgstr "使用合成图像"
+
+msgid "CHECK UPDATES"
+msgstr "检测更新"
+
+msgid "AVAILABLE UPDATE"
+msgstr "可用更新"
+
+msgid "UPDATE CHANGELOG"
+msgstr "更新日志"
+
+msgid "UPDATE TYPE"
+msgstr "更新类型"
+
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr "整数比例（保留原生像素比）"
+
+msgid "ADVANCED SETTINGS"
+msgstr "高级设置"
+
+msgid "BOOT SETTINGS"
+msgstr "启动设置"
+
+msgid "GAMELIST ONLY"
+msgstr "仅游戏列表"
+
+msgid "BOOT ON SYSTEM"
+msgstr "启动至系统"
+
+msgid "BOOT ON GAMELIST"
+msgstr "启动至游戏列表"
+
+msgid "HIDE SYSTEM VIEW"
+msgstr "隐藏系统界面"
+
+msgid "EMULATOR ADVANCED CONFIGURATION"
+msgstr "模拟器高级设置"
+
+msgid "ADVANCED EMULATOR CONFIGURATION"
+msgstr "高级模拟器设置"
+
+msgid "HELP"
+msgstr "帮助"
+
+msgid "THE SYSTEM IS UP TO DATE"
+msgstr "系统已是最新版本"
+
+msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "强制使用基本版游戏列表"
+
+msgid "Now playing"
+msgstr "正在播放"
+
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "设置帮助弹窗的显示时长。0代表无弹窗。"
+
+msgid "HELP POPUP DURATION"
+msgstr "帮助弹窗显示时长"
+
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "设置音乐弹窗的显示时长。0代表无弹窗。"
+
+msgid "MUSIC POPUP DURATION"
+msgstr "音乐弹窗显示时长"
+
+msgid "POPUP SETTINGS"
+msgstr "弹窗设置"
+
+msgid "POPUP POSITION"
+msgstr "弹窗位置"
+
+msgid "Select the position of popups on screen."
+msgstr "选择弹窗在屏幕上的位置。"
+
+msgid "Set position and duration of popups."
+msgstr "设置弹窗的位置和显示时长。"
+
+#, fuzzy
+msgid "TOP/RIGHT"
+msgstr "右上"
+
+#, fuzzy
+msgid "BOTTOM/RIGHT"
+msgstr "右下"
+
+#, fuzzy
+msgid "BOTTOM/LEFT"
+msgstr "左下"
+
+#, fuzzy
+msgid "TOP/LEFT"
+msgstr "左上"
+
+msgid "NETPLAY"
+msgstr "联机游戏"
+
+msgid "NETPLAY SETTINGS"
+msgstr "联机游戏设置"
+
+msgid "NETPLAY LOBBY"
+msgstr "联机游戏大厅"
+
+msgid "Enable or disable Netplay in games."
+msgstr "启用或禁用联机游戏。"
+
+msgid "PORT"
+msgstr "端口"
+
+msgid "NICKNAME"
+msgstr "昵称"
+
+msgid "RELAY SERVER"
+msgstr "中继服务器"
+
+msgid "Enable or disable connections throught relay servers."
+msgstr "启用或禁用通过中继服务器连接。"
+
+#, fuzzy
+msgid ""
+"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
+"Megadrive and more!"
+msgstr ""
+"通过 Retroarch 在线玩诸如红白机、超级任天堂、FinalBurn、AlphaMegadrive/"
+"Genesis 等等主机上的游戏！"
+
+msgid "KODI/NETPLAY"
+msgstr "Kodi / 联机游戏"
+
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "无游戏或无连接"
+
+msgid "HASH NOW"
+msgstr "开始计算散列值"
+
+#, fuzzy
+msgid "HASH THESE SYSTEMS"
+msgstr "为这些系统计算散列值"
+
+msgid ""
+"Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "为您游戏列表里的游戏添加散列值以在联机游戏中获得更准确的结果。"
+
+msgid "HASH ROMS"
+msgstr "为 ROM 计算散列值"
+
+msgid "Only missing hashs"
+msgstr "仅缺少散列"
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Country"
+msgstr "国家"
+
+msgid "Latency"
+msgstr "延迟"
+
+#, fuzzy
+msgid "Host arch."
+msgstr "主机架构"
+
+msgid "Core ver."
+msgstr "核心版本"
+
+#, fuzzy
+msgid "RA ver."
+msgstr "RA 版本"
+
+#, fuzzy
+msgid "Can join"
+msgstr "可以加入"
+
+#, fuzzy
+msgid "Rom and core match"
+msgstr "ROM 和核心对应"
+
+msgid "Rom, hash and core match"
+msgstr "ROM、散列、和核心对应"
+
+msgid "No rom match"
+msgstr "无 ROM 对应"
+
+#, fuzzy
+msgid "No core match"
+msgstr "无核心对应"
+
+#, fuzzy
+msgid "Match"
+msgstr "对应"
+
+msgid "No Match"
+msgstr "无对应"
+
+msgid "Rom file"
+msgstr "ROM 文件"
+
+msgid "Rom hash"
+msgstr "ROM 散列"
+
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "这可能要花上一小会儿，确定吗？"
+
+msgid "good"
+msgstr "好"
+
+msgid "bad"
+msgstr "差"
+
+#, fuzzy
+msgid "medium"
+msgstr "一般"
+
+msgid "NETPLAY POPUP DURATION"
+msgstr "联机游戏弹窗显示时长"
+
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "设置联机游戏弹窗的显示时长。0代表无弹窗。"
+
+msgid "Player"
+msgstr "玩家"
+
+msgid "Game"
+msgstr "游戏"
+
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "一个 Recalbox 好友开始了一场联机游戏！"
+
+msgid "Add a clock in the main menu."
+msgstr "在主菜单中加入时钟。"
+
+#. UPGRADE PROCESS
+msgid "UPGRADING"
+msgstr "升级中"
+
+msgid "PREPARING"
+msgstr "准备中"
+
+msgid "VERIFYING"
+msgstr "确认中"
+
+#, fuzzy
+msgid "EMPTY LIST"
+msgstr "清空列表"
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr "自动"
+
+#, fuzzy
+msgid "Square pixel"
+msgstr "正方形像素"
+
+msgid "Retroarch Config"
+msgstr "Retroarch 配置"
+
+#, fuzzy
+msgid "Retroarch Custom"
+msgstr "Retroarch 个性化"
+
+msgid "Core provided"
+msgstr "提供的核心"
+
+#, fuzzy
+msgid "Do not set"
+msgstr "不要设置"
+
+#. Bios
+msgid "BIOS CHECKING"
+msgstr "检查 BIOS"
+
+msgid ""
+"Scan and check all your BIOS files and report everything in a comprehensive "
+"way."
+msgstr "扫描检查所有BIOS文件，并全面报告所有內容。"
+
+msgid "RESCAN"
+msgstr "重新扫描"
+
+msgid "Rescan all bios files"
+msgstr "重新扫描所有 BIOS 文件"
+
+msgid ""
+"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr "模拟器 %i 可能无法正常工作，直到所有必需的BIOS都可用！"
+
+msgid ""
+"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
+"AVAILABLE!"
+msgstr "%i 模拟器可能无法正常工作，直到所有必需的BIOS都可用！"
+
+msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr "恭喜你！所有模拟器均可正常使用！"
+
+msgid "%i BIOS NOT FOUND"
+msgstr "％i个 BIOS 未找到"
+
+msgid "%i NON-MATCHING BIOS FOUND"
+msgstr "找到了％个不匹配的 BIOS"
+
+#, fuzzy
+msgid "%i GOOD BIOS FOUND!"
+msgstr "找到了％i个可用的 BIOS！"
+
+msgid "File Path"
+msgstr "文件路径"
+
+msgid "Mandatory"
+msgstr "强制"
+
+msgid "Must match MD5"
+msgstr "必须匹配MD5"
+
+msgid "File found ?"
+msgstr "文件已存在？"
+
+msgid "Matching MD5 ?"
+msgstr "匹配MD5？"
+
+msgid "NOTE"
+msgstr "注意"
+
+msgid ""
+"This bios is required in order to run the emulator properly. You won't be "
+"able to run any games with the emulator/core above."
+msgstr ""
+"此BIOS是正确运行模拟器所必需的。使用上面的模拟器/核心，您将无法运行任何游戏。"
+
+msgid ""
+"This bios is not mandatory in most cases. The emulator will run properly "
+"unless you want to use features requiring this particular bios file."
+msgstr ""
+"在大多数情况下，此BIOS不是必需的。模拟器将正常运行，除非您想使用需要特定功能"
+"的BIOS。"
+
+msgid ""
+"Your bios file does not match any known MD5. However, there are chances of "
+"getting the emulator running fine."
+msgstr ""
+"您的 BIOS 文件的 MD5 散列值与任何已知的散列值都不匹配。很有可能一切都会正常运"
+"行。"
+
+msgid ""
+"Your bios file does not match any known MD5 but this is not required. So "
+"there are strong chances of getting everything running fine."
+msgstr ""
+"虽然您的 BIOS 文件的 MD5 散列值与任何已知的散列值都不匹配，这并非必须。很有可"
+"能一切都会正常运行。"
+
+msgid ""
+"Your bios file does match one of the known MD5. Everything will run fine!"
+msgstr "您的 BIOS 文件匹配了一条已知 MD5 散列值。一切应当正常！"
+
+msgid "MD5 LIST"
+msgstr "MD5 列表"
+
+msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
+msgstr "恭喜！下列所有内核/模拟器都可以正常运行！"
+
+msgid ""
+"Cores/emulators listed below won't probably work until required bios are "
+"made available."
+msgstr "在提供所需的BIOS文件前，下列内核/模拟器都无法正常工作！"
+
+msgid ""
+"Cores/emulators listed below may work in most cases, unless you use features "
+"requiring special bios."
+msgstr ""
+"在大多数情况下，除非您想使用需要特定功能的BIOS。否则以下内核/模拟器将正常运"
+"行。"
+
+msgid "BIOS OK"
+msgstr "BIOS 正常"
+
+msgid "BIOS UNSAFE"
+msgstr "BIOS 不安全"
+
+msgid "BIOS KO"
+msgstr "BIOS 正常"
+
+msgid "BIOS NOT FOUND"
+msgstr "找不到 BIOS"
+
+msgid "MD5 OK"
+msgstr "MD5 正常"
+
+msgid "MD5 NOT OK"
+msgstr "MD5 不正常"
+
+msgid "BROWSE"
+msgstr "浏览"
+
+msgid "Your bios' MD5"
+msgstr "你的 BIOS 的 MD5"
+
+msgid "Known MD5 List"
+msgstr "已知的 MD5 列表"
+
+msgid "MY SYSTEMS"
+msgstr "我的系统"
+
+msgid "ALL SYSTEMS"
+msgstr "所有系统"
+
+msgid ""
+"EmulationStation has detected external changes on a gamelist file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"EmulationStation 检测到了对游戏列表文件的更改。\n"
+"为了避免数据丢失，EmulationStation 将重新启动并加载所有文件。"
+
+msgid ""
+"EmulationStation has detected external changes on a theme file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"EmulationStation 检测到了对主题文件的更改。\n"
+"为了避免数据丢失，EmulationStation 将重新启动并加载所有文件。"
+
+msgid "VIRTUAL SYSTEMS"
+msgstr "虚拟系统"
+
+msgid "SHOW ALL-GAMES SYSTEM"
+msgstr "显示全部游戏系统"
+
+msgid "SHOW MULTIPLAYER SYSTEM"
+msgstr "显示多人游戏系统"
+
+msgid "SHOW LAST-PLAYED SYSTEM"
+msgstr "显示最后游玩的系统"
+
+msgid "VIRTUAL SYSTEMS PER GENRE"
+msgstr "显示每种类型的虚拟系统"
+
+msgid "Show a 'all-games' system with all games from all systems."
+msgstr "显示一个“所有游戏”系统，其中包含所有游戏系统中的所有游戏。"
+
+msgid "Show multiplayer games (all games playable by two or more players)."
+msgstr "显示多人游戏（所有可由双人或多人游玩的游戏）。"
+
+msgid "Show last played games."
+msgstr "显示最后玩过的游戏。"
+
+msgid "Select virtual systems to show."
+msgstr "选择要显示的虚拟系统。"
+
+msgid "Select vitual systems per genre to show."
+msgstr "按流派选择要显示的虚拟系统。"
+
+msgid "HIDE ADULT GAMES"
+msgstr "隐藏成人游戏"
+
+msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
+msgstr "在所有的系统中隐藏成人游戏"
+
+msgid "Hide games flagged as adult games."
+msgstr "隐藏标记为成人游戏的游戏。"
+
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr "突出特定地域的游戏……"
+
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr "突出显示特定地域的所有游戏，并淡化其他地域的游戏。"
+
+#, fuzzy
+msgid ""
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
+msgstr ""
+"选择您游戏名称的来源。信任搜刮数据库，或从原始文件名或未修饰的文件名中获取它"
+"们（在 () 或 [] 没有修饰）。"
+
+msgid ""
+"Try to extract game region from its filename when possible. Support long and "
+"short region game (JP or Japan, EU or Europe, ...)"
+msgstr ""
+"尽可能尝试从文件名中提取游戏的地域，支持长短地域名称（如 JP 或 Japan，EU 或 "
+"Europe 等）。"
+
+#, fuzzy
+msgid "GET GAME NAME FROM"
+msgstr "从何处获取游戏名称"
+
+msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
+msgstr "从文件名获取地域（若可能）"
+
+msgid "Scraper results"
+msgstr "抓取结果"
+
+msgid "Raw filename"
+msgstr "原始文件名"
+
+msgid "Undecorated filename"
+msgstr "未修饰的文件名"
+
+msgid "OPEN-SOURCE LICENSE"
+msgstr "开源许可证"
+
+msgid "SELECT IMAGE TYPE"
+msgstr "选择图片类型"
+
+msgid "In-game screenshot"
+msgstr "游戏截图"
+
+#, fuzzy
+msgid "Title screenshot"
+msgstr "标题截图"
+
+msgid "Clear logo"
+msgstr "清除 logo"
+
+#, fuzzy
+msgid "Marquee"
+msgstr "选框"
+
+msgid "ScreenScraper Mix V1"
+msgstr "ScreenScraper Mix V1"
+
+msgid "ScreenScraper Mix V2"
+msgstr "ScreenScraper Mix V2"
+
+msgid "SCRAPE IMAGE"
+msgstr "抓取图片"
+
+msgid "SELECT THUMBNAIL TYPE"
+msgstr "选择缩略图类型"
+
+msgid "No thumbnail"
+msgstr "没有缩略图"
+
+msgid "SCRAPE THUMBNAIL"
+msgstr "抓取缩略图"
+
+msgid "SELECT VIDEO TYPE"
+msgstr "选择视频类型"
+
+msgid "No video"
+msgstr "没有视频"
+
+msgid "Original video"
+msgstr "原始视频"
+
+msgid "Optimized/Normalized video"
+msgstr "优化/标准化的视频"
+
+msgid "SCRAPE VIDEO"
+msgstr "抓取视频"
+
+msgid "SELECT FAVORITE REGION"
+msgstr "选择喜欢的地域"
+
+msgid "FAVORITE REGION"
+msgstr "喜欢的地域"
+
+msgid "SELECT FAVORITE LANGUAGE"
+msgstr "选择喜欢的语言"
+
+msgid "FAVORITE LANGUAGE"
+msgstr "喜欢的语言"
+
+msgid "SYSTEM NAME"
+msgstr "系统名称"
+
+msgid "PUBLISHER"
+msgstr "出版商"
+
+msgid "DEFAULT"
+msgstr "默认"
+
+msgid ""
+"It seems that your game didn't start at all!\n"
+"\n"
+"It's most likely due to either:\n"
+"- bad rom\n"
+"- missing/bad mandatory bios files\n"
+"- missing/bad optional BIOS files (but required for this very game)"
+msgstr ""
+"你的游戏似乎并没有启动！\n"
+"\n"
+"这可能是由于以下问题造成的：\n"
+"- 损坏的 ROM 文件\n"
+"- 必须的 BIOS 文件缺失或损坏\n"
+"- 此游戏必需的可选 BIOS 文件缺失或损坏"
+
+msgid ""
+"At least one mandatory BIOS is missing for %emulator%!\n"
+"Your game '%game%' will very likely not run at all until required BIOS are "
+"put in the expected folder.\n"
+"\n"
+"Do you want to launch the game anyway?"
+msgstr ""
+"您缺少至少一个 %emulator% 必须的 BIOS 文件！\n"
+"在将所需的 BIOS 文件放入对应文件夹之前，游戏 '%game%' 很有可能无法运行。\n"
+"\n"
+"您是否仍要启动游戏？"
+
+msgid "BACKSPACE"
+msgstr "退格"
+
+#, fuzzy
+msgid "FAST WHEEL"
+msgstr "快转轮盘"
+
+msgid "CHANGE CHARSET"
+msgstr "更改字符集"
+
+#, fuzzy
+msgid "MOVE WHEEL"
+msgstr "移动轮盘"
+
+msgid "FAST CURSOR"
+msgstr "快速光标"
+
+msgid "No missing hash found!"
+msgstr "没有发现丢失的散列值！"
+
+msgid "%i missing hashes have been calculated!"
+msgstr "%i 个丢失的散列值已被计算！"
+
+msgid "DOWNLOAD GAME MANUALS"
+msgstr "下载游戏手册"
+
+msgid "DOWNLOAD GAME MAPS"
+msgstr "下载游戏地图"
+
+msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr "安装 PAD-2 键盘配置"
+
+msgid ""
+"You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr ""
+"我们强烈建议您更新 Recalbox.\n"
+"我们不会为旧版本提供任何支持！"
+
+msgid " has been plugged!"
+msgstr " 已被接入！"
+
+msgid "Ready to play!"
+msgstr "准备开始游戏！"
+
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr "尚未配置！按任意键进入配置窗口。"
+
+msgid " has been unplugged!"
+msgstr " 已被断开！"
+
+msgid "Remove from favorite"
+msgstr "从收藏中移除"
+
+msgid "Default output"
+msgstr "默认输出"
+
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "街机模拟器"
+
+#, fuzzy
+msgid "BETWEEN %1 AND %2"
+msgstr "介于%1和%2之间"
+
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "启用街机模拟器"
+
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "隐藏原始系统"
+
+msgid "INCLUDE NEO-GEO"
+msgstr "包含 NEO-GEO"
+
+msgid "POSITION"
+msgstr "位置"
+
+msgid "PREDEFINED PASSWORDS"
+msgstr "预设密码"
+
+msgid "VALIDATE"
+msgstr "验证"
+
+msgid "PASSWORD #%i"
+msgstr "密码#%i"
+
+msgid "PASSWORD REQUIRED"
+msgstr "要求密码"
+
+msgid "PLAYER"
+msgstr "玩家"
+
+msgid "VIEWER-ONLY"
+msgstr "仅限旁观者"
+
+#, fuzzy
+msgid "JOIN AS"
+msgstr "以何身份加入"
+
+msgid "CHOOSE PASSWORD"
+msgstr "选择密码"
+
+msgid "EDIT PASSWORDS"
+msgstr "编辑密码"
+
+msgid "GAME PASSWORDS"
+msgstr "游戏密码"
+
+msgid "SET PLAYER PASSWORD"
+msgstr "设置玩家密码"
+
+msgid "SET VIEWER PASSWORD"
+msgstr "设置旁观者密码"
+
+msgid "CHOOSE PLAYER PASSWORD"
+msgstr "选择玩家密码"
+
+msgid "CHOOSE VIEWER-ONLY PASSWORD"
+msgstr "选择旁观者密码"
+
+msgid "GAME PROTECTION"
+msgstr "游戏保护"
+
+msgid "JOIN NETPLAY GAME"
+msgstr "加入联机游戏"
+
+#, fuzzy
+msgid "SEARCH IN..."
+msgstr "在何处搜索……"
+
+msgid "DOWNLOADING UPDATE..."
+msgstr "正在下载更新……"
+
+msgid ""
+"We're downloading Recalbox version %s!\n"
+"\n"
+"Once the download is complete, Recalbox will reboot and start installing the "
+"new version.\n"
+"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox "
+"until the installation is complete."
+msgstr ""
+"我们正在下载 Recalbox 版本 %s！\n"
+"\n"
+"下载完成后，Recalbox 会重新启动并开始安装新版本。\n"
+"标准安装过程大约需要5到10分钟。在安装完成前，请勿重新启动或关闭 Recalbox！"
+
+msgid "REBOOT IN %s"
+msgstr "在%秒后重新启动"
+
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr "下载 Recalbox %s 时出错……请稍后重试！"
+
+msgid "ALL"
+msgstr "全部"
+
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr "至少输入3个字符"
+
+msgid "AUTOMATIC WPS CONNECTION"
+msgstr "WPS 自动连接"
+
+msgid "Connecting to WIFI..."
+msgstr "正在连接至无线网络……"
+
+msgid "Disconnecting from WIFI..."
+msgstr "断开无线网络连接……"
+
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr "没有找到 WPS 配置！"
+
+msgid "Hostname changes will not be effective until next reboot"
+msgstr "更改主机名将在下次重启后生效"
+
+msgid "Enable/Disable Arcade virtual system and set its options"
+msgstr "启用/禁用街机模拟器系统并设置选项"
+
+msgid "Fetching WIFI parameters"
+msgstr "获取无线网络参数"
+
+msgid "EDIT MANUALLY"
+msgstr "手动编辑"
+
+msgid "Headphones"
+msgstr "耳机"
+
+#, fuzzy
+msgid "NETPLAY MITM"
+msgstr "联机游戏中间人"
+
+msgid "RECALBOX API"
+msgstr "RECALBOX API/应用程序和接口"
+
+msgid "RECALBOX MANAGER"
+msgstr "Recalbox 管理器"
+
+msgid "Reseting WIFI configuration..."
+msgstr "正在重置无线网络配置.……"
+
+msgid "WPS CONFIGURATION SUCCESSFUL!"
+msgstr "WPS 配置成功！"
+
+msgid "WPS CONNECTION"
+msgstr "WPS 配置"
+
+msgid "Waiting for IP address... (%is)"
+msgstr "正在等待 IP 地址…… (%is)"
+
+msgid "Waiting for WPS configuration..."
+msgstr "正在等待WPS配置……"
+
+msgid "SCREENSAVER"
+msgstr "屏幕保护程序"
+
+msgid "SHADERS"
+msgstr "着色器"
+
+#, fuzzy
+msgid "SYSTEMS TO SHOW IN DEMO"
+msgstr "DEMO 中展示的系统"
+
+msgid "Saving WIFI configuration"
+msgstr "保存无线网络设置"
+
+msgid "Scanning WIFI networks..."
+msgstr "扫描无线网络"
+
+msgid "THEME"
+msgstr "主题"
+
+msgid ""
+"Shaders are like filters for the game rendering. You can select a raw shader "
+"file here. This setting may be overloaded by shaderset if not definied to "
+"'none'."
+msgstr ""
+"着色器（Shader）如同游戏渲染用的滤镜般。您可以在此选择一个原始着色器文件。如"
+"果未定义为“无”/“none”，则本设置可能会被着色器组设置覆盖。"
+
+msgid "Select your keyboard layout."
+msgstr "选择键盘布局。"
+
+msgid "Mute (no sound)"
+msgstr "静音（无声）"
+
+msgid "Internal Speakers"
+msgstr "内置扬声器"
+
+msgid "Headphone Jack"
+msgstr "耳机接口"
+
+msgid "Internal Speakers + Headphone Jack"
+msgstr "内置扬声器 + 耳机接口"
+
+#, fuzzy
+msgid "black"
+msgstr "黑色"
+
+#, fuzzy
+msgid "demo"
+msgstr "体验版"
+
+#, fuzzy
+msgid "dim"
+msgstr "暗淡"
+
+msgid "gameclip"
+msgstr "游戏剪辑"
+
+msgid "Action (All)"
+msgstr "动作类（全部）"
+
+msgid "Action RPG"
+msgstr "动作 RPG"
+
+msgid "Adventure (All)"
+msgstr "冒险类（全部）"
+
+msgid "Artillery"
+msgstr "火炮"
+
+msgid "Auto-battler"
+msgstr "自动战斗"
+
+msgid "Battle Royale"
+msgstr "生存"
+
+msgid "Beat'em All"
+msgstr "快打游戏"
+
+msgid "Board game"
+msgstr "棋类游戏"
+
+msgid "Build & Management"
+msgstr "建设和经营"
+
+msgid "Casino"
+msgstr "赌博"
+
+msgid "Casual game"
+msgstr "休闲"
+
+msgid "Competition Sport"
+msgstr "竞技体育"
+
+#, fuzzy
+msgid "Demo from Demo Screne"
+msgstr "场景体验"
+
+msgid "Digital Cards"
+msgstr "卡牌"
+
+msgid "Dungeon Crawler"
+msgstr "地牢探索"
+
+msgid "Educative"
+msgstr "教育"
+
+msgid "Favorites"
+msgstr "收藏"
+
+msgid "Fighting"
+msgstr "格斗"
+
+msgid "Fighting/Violent Sport"
+msgstr "格斗/暴力运动"
+
+msgid "First Person Shooter"
+msgstr "第一人称射击"
+
+msgid "Fishing & Hunting"
+msgstr "钓鱼/狩猎"
+
+#, fuzzy
+msgid "Graphical Adventure"
+msgstr "图形冒险"
+
+msgid "Infiltration"
+msgstr "潜行"
+
+#, fuzzy
+msgid "Interactive Movie"
+msgstr "互动剧情"
+
+msgid "JRPG"
+msgstr "日式RPG"
+
+msgid "Life Simulation"
+msgstr "生活模拟"
+
+msgid "MMORPG"
+msgstr "MMORPG"
+
+msgid "Multi Game Compilation"
+msgstr "多游戏合集"
+
+msgid "Multiplayer Online Battle Arena"
+msgstr "多人在线竞技大厅"
+
+msgid "Multiplayer Party Game"
+msgstr "多人聚会游戏"
+
+#, fuzzy
+msgid "Party based RPG"
+msgstr "派对RPG"
+
+msgid "Pinball"
+msgstr "弹珠游戏"
+
+msgid "Platform Shooter"
+msgstr "平台射击"
+
+msgid "Platform"
+msgstr "平台游戏"
+
+msgid "Puzzle & Logic"
+msgstr "益智/推理"
+
+msgid "RPG (All)"
+msgstr "RPG类（全部）"
+
+msgid "Racing"
+msgstr "竞速"
+
+msgid "Real Time 3D Adventure"
+msgstr "实时3D冒险"
+
+msgid "Real Time Strategy"
+msgstr "实时策略"
+
+msgid "Rythm & Music"
+msgstr "音乐/节奏"
+
+msgid "Science Fiction Simulation"
+msgstr "科幻模拟"
+
+msgid "Shoot with Gun"
+msgstr "枪类射击"
+
+msgid "Shoot'em Up"
+msgstr "清版射击"
+
+msgid "Simulation (All)"
+msgstr "模拟类（全部）"
+
+msgid "Sport Simulation"
+msgstr "体育模拟"
+
+msgid "Sports (All)"
+msgstr "体育类（全部）"
+
+msgid "Strategy (All)"
+msgstr "策略（全部）"
+
+msgid "Survival"
+msgstr "生存"
+
+msgid "Tactical RPG"
+msgstr "策略RPG"
+
+msgid "Textual Adventure"
+msgstr "文字冒险"
+
+msgid "Tower Defense"
+msgstr "塔防"
+
+msgid "Trivia"
+msgstr "益智问答"
+
+msgid "Turn Based Strategy"
+msgstr "回合制策略"
+
+msgid "Vehicle Simulation"
+msgstr "模拟驾驶"
+
+msgid "Visual Novel"
+msgstr "视觉小说"
+
+msgid "Wargame"
+msgstr "战争"
+
+msgid "eXplore, eXpand, eXploit & eXterminate"
+msgstr "探索，扩展，开发和消灭"
+
+msgid ""
+"Welcome to RECALBOX for Odroid Go Advance!\n"
+"This little presentation will show you how to use the 6 special buttons "
+"available right under the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"欢迎使用 Recalbox ODROID-GO Advance 版！\n"
+"这个演示将向您展示如何使用屏幕下方的6个特殊按键。\n"
+"\n"
+"按任意键开始！"
+
+msgid ""
+"The leftmost button is the SELECT button, marked with a 'I', also available "
+"on most modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other "
+"buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr ""
+"最左边的是 SELECT/选择键，标记为“I”；大多数现代游戏手柄上也有这个按键。\n"
+"它同时是 HOTKEY/热键，在大多数模拟器中可以与其他按键组合使用。\n"
+"例如，您可以同时按下热键和 START/开始键来退出当前游戏。\n"
+"\n"
+"请按下 SELECT/选择键。"
+
+msgid ""
+"Next to the SELECT button is the START button, marked with an 'II'.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr ""
+"在 SELECT/选择键旁边是 START/开始键，标记为“II”。\n"
+"在 Recalbox 界面中，开始键可以打开主菜单；在游戏中，它的功能与大部分游戏机上"
+"的 START 键无异。\n"
+"\n"
+"请按下 START/开始键。"
+
+msgid ""
+"Then, there are 2 buttons marked with a 'III' and a 'IV'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+" Press either volume up or down"
+msgstr ""
+"然后，有两个标记为“III”和“VI”的按键。\n"
+"用它可以在 Recalbox 界面或游戏中随时调整音量大小。\n"
+"\n"
+"请按下任意一个音量调节键。"
+
+msgid ""
+"The last two buttons marked 'V' and 'VI' are useful to make your screen "
+"darker or brighter.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down (V/VI)"
+msgstr ""
+"最后两个标记为“V”和“VI”的按键可用于调节屏幕亮度。\n"
+"请注意，屏幕越亮，耗电量就越大！\n"
+"\n"
+"请按下任意一个亮度调节键。"
+
+#, fuzzy
+msgid ""
+"Now you're ready to start your RETROGAMING experience with Recalbox! Press "
+"button B to start... and PLAY AGAIN!"
+msgstr ""
+"现在您可以开始 Recalbox 的复古游戏体验了！按B键开始……回到过去，再玩一遍！"
+
+msgid "WELCOME TO RECALBOX!"
+msgstr "欢迎来到 Recalbox！"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"关于 POWER/电源键您应该知道的事情。\n"
+"若您快速短按电源键（像点击鼠标那样），您的主机将进入睡眠模式。再短按一下，您"
+"的主机就会回到启动状态！这在 Recalbox 界面和游戏中都可用。\n"
+"\n"
+"请按B键继续。"
+
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully.\n"
+"Just in case, holding the POWER button down more than 5s perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"如果按下 POWER/电源键超过2秒，主机将会关闭。如果您在游戏中这样做，Recalbox 将"
+"在关闭电源前正常关闭当前的模拟器。\n"
+"请注意，若您按住电源键超过5秒，主机将会硬关机。\n"
+"\n"
+"请按B键继续。"
+
+msgid ""
+"One more thing to know: If you plug in or unplug your headphones in the jack "
+"connector, Recalbox will automatically switch the audio output. Convenient.\n"
+"\n"
+"Press button B, as usual."
+msgstr ""
+"还有一件要注意的事：如果你插入或拔出耳机，Recalbox会自动切换音频输出。很方"
+"便，不是吗？\n"
+"\n"
+"请按B键继续。"
+
+msgid "HIDE PREINSTALLED GAMES"
+msgstr "隐藏预装游戏"
+
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr "隐藏所有预装游戏。更改此选项将重新启动 EmulationStation。"
+
+msgid "SHOW IN LIST"
+msgstr "在列表中显示"
+
+msgid "System"
+msgstr "系统"
+
+msgid "Added to favorites"
+msgstr "已加入收藏"
+
+msgid "Removed from favorites"
+msgstr "已从收藏中移除"
+
+msgid "Gameclips cannot be played. No video availabe for your selection"
+msgstr "无法播放游戏剪辑。没有可供您选择的视频。"
+
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr "EmulationStation 必须重新启动来应用您做出的更改。"
+
+msgid "PAIRING %s ..."
+msgstr "正在配对 %s ……"
+
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr "正在扫描蓝牙设备……"
+
+msgid "GAME OPTIONS"
+msgstr "游戏选项"
+
+msgid "NO GAME SELECTED"
+msgstr "未选中任何游戏"
+
+#, fuzzy
+msgid "GAME %s"
+msgstr "游戏 %s"
+
+msgid "FOLDER %s"
+msgstr "文件夹 %s"
+
+msgid "EDIT GAME %s"
+msgstr "编辑游戏 %s"
+
+msgid "EDIT FOLDER %s"
+msgstr "编辑文件夹 %s"
+
+#, fuzzy
+msgid "RUN WITH"
+msgstr "以何运行"
+
+msgid "NON EDITABLE GAME"
+msgstr "不可编辑的游戏"
+
+msgid "auto select"
+msgstr "自动选择"
+
+msgid ""
+"Welcome to RECALBOX for Odroid Go Super!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"欢迎使用 Recalbox ODROID-GO Super 版！\n"
+"这个演示将向您展示如何使用屏幕周围的各种特殊按键。\n"
+"\n"
+"按任意键开始！"
+
+msgid ""
+"The top-left black button is the SELECT button, also available on most "
+"modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other "
+"buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr ""
+"左上角的黑色按键的是 SELECT/选择键；大多数现代游戏手柄上也有这个按键。\n"
+"它同时是 HOTKEY/热键，在大多数模拟器中可以与其他按键组合使用。\n"
+"例如，您可以同时按下热键和 START/开始键来退出当前游戏。\n"
+"\n"
+"请按下 SELECT/选择键。"
+
+msgid ""
+"At the opposite side of the SELECT button is the START button.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr ""
+"在 SELECT/选择键旁边的是 START/开始键。在 Recalbox 界面中，开始键可以打开主菜"
+"单；在游戏中，它的功能与游戏机上的 START 键无异。\n"
+"\n"
+"请按下 START/开始键。"
+
+msgid ""
+"Then, on the top of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+" Press any button to continue"
+msgstr ""
+"在主机上方，有两个标记为“–”和“+”的按键。用它可以随时调整音量大小，无论您在 "
+"Recalbox 界面中还是游戏中。\n"
+"\n"
+"请按下任意一个音量调节键。"
+
+msgid ""
+"The two bottom-left gray buttons control the screen brightness.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down button"
+msgstr ""
+"左下角的两个灰色按键可用于调节屏幕亮度。\n"
+"请注意，屏幕越亮，耗电量就越大！\n"
+"\n"
+"请按下任意一个亮度调节键。"
+
+msgid ""
+"Finally, the two bottom-right gray buttons are third left & right triggers "
+"(L3/R3), only usefull in some emulators or to record videos.\n"
+"\n"
+" Press either L3 or R3"
+msgstr ""
+"最后，在右下角的两个灰色按键是第三对触发按键 L3 和 R3. 它们只在部分模拟器中有"
+"用，或者也可以用来录像。\n"
+"\n"
+"请按下 L3 或 R3 键。"
+
+msgid "DRIVER"
+msgstr "驱动"
+
+#, fuzzy
+msgid ""
+"Change the driver if your pad is not working at all or not working properly "
+"in-game."
+msgstr "更换游戏手柄的驱动程序。如果您的游戏手柄无法正常工作，您可以尝试一下。"
+
+#, fuzzy
+msgid "In Memory!"
+msgstr "在内存中！"
+
+#, fuzzy
+msgid "Internal Share Partition"
+msgstr "内部共享分区"
+
+#, fuzzy
+msgid "Network Share"
+msgstr "网络共享"
+
+#, fuzzy
+msgid "Device %d - %l (%f)"
+msgstr "第 %d 到 %l 个设备（共%f个）"
+
+msgid "Any External Device"
+msgstr "任何外部设备"
+
+msgid "SCRAPER OPTIONS"
+msgstr ""
+
+msgid "SCREENSCRAPER OPTIONS"
+msgstr ""
+
+msgid "DETECTED REGION"
+msgstr ""
+
+msgid "SELECT REGION PRIORITY"
+msgstr ""
+
+msgid "LATER"
+msgstr ""
+
+msgid "A reboot is required to apply pending changes."
+msgstr ""
+
+msgid "SHOW LIGHTGUN SYSTEM"
+msgstr ""
+
+msgid "Show all available games playable with a lightgun."
+msgstr ""
+
+msgid ""
+"WARNING! This option erase all recalbox and emulator configurations! Use it "
+"carefully!"
+msgstr ""
+
+msgid "RESET TO FACTORY SETTINGS"
+msgstr ""
+
+msgid "WARNING!"
+msgstr ""
+
+msgid ""
+"RESET TO FACTORY SETTINGS\n"
+"\n"
+"YOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\n"
+"ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
+"KEPT.\n"
+"\n"
+"THIS OPERATION CANNOT BE UNDONE!\n"
+"ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
+msgstr ""
+
+msgid ""
+"YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
+"\n"
+"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr ""
+
+msgid "SWAP VALIDATE/CANCEL BUTTONS"
+msgstr ""
+
+msgid "AUDIO MODE"
+msgstr ""
+
+msgid "Select sound to play. Musics, videos sound, both or none"
+msgstr ""
+
+msgid "Musics or videos sound"
+msgstr ""
+
+msgid "Musics and videos sound"
+msgstr ""
+
+msgid "Musics only"
+msgstr ""
+
+msgid "Videos sound only"
+msgstr ""
+
+msgid "No sound"
+msgstr ""
+
+msgid "BRIGHTNESS -"
+msgstr ""
+
+msgid "BRIGHTNESS +"
+msgstr ""
+
+msgid "Adult"
+msgstr ""
+
+msgid "Waking up!"
+msgstr ""
+
+msgid "Bye bye!"
+msgstr ""
+
+#
+msgid "LightGun Games"
+msgstr ""
+
+#
+msgid "NEW YORK"
+msgstr ""
+
+#
+msgid "MADRID"
+msgstr ""
+
+#
+msgid "AUTOMATIC"
+msgstr ""
+
+#
+msgid "SYSTEM DRIVER"
+msgstr ""
+
+#
+msgid "GAME LIBRARY DRIVER"
+msgstr ""
+
+#
+msgid "Allow to swap validate button B/X and cancel button B/O"
+msgstr ""
+
+#
+msgid "Select exisiting game clip view options for this theme."
+msgstr ""
+
+#
+msgid "Analog Output"
+msgstr ""
+
+#
+msgid "HDMI / DisplayPort"
+msgstr ""
+
+#
+msgid "box2D"
+msgstr ""
+
+#
+msgid "box3d"
+msgstr ""
+
+#
+msgid "P2K CONTROLS"
+msgstr ""
+
+#
+msgid "THE UPGRADE HAS FAILED"
+msgstr ""
+
+#
+msgid ""
+"The upgrade process has failed. You are back on Recalbox %s.\n"
+"Please retry to upgrade your Recalbox, and contact the team on https://forum."
+"recalbox.com if the problem persists."
+msgstr ""
+
+#
+msgid "RECALBOX OVERLAYS"
+msgstr ""
+
+#
+msgid ""
+"On wide screens, display system images that wrap around emulated screen."
+msgstr ""
+
+#
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+
+#
+msgid "No comment available"
+msgstr ""
+
+#
+msgid "UNKNOWN"
+msgstr ""
+
+#
+msgid "GO TO GAME"
+msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "安全"
+
+#, fuzzy
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "加强安全"
+
+#, fuzzy
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "管理员密码"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "管理 Recalbox 的安全设置。"
+
+#, fuzzy
+#~ msgid "Change the SSH root password."
+#~ msgstr "更改 SSH 管理员密码。"
+
+#, fuzzy
+#~ msgid "Enforce recalbox security."
+#~ msgstr "加强 Recalbox 的安全性。"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr "设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK会将屏幕调黑。"
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "更新版本："
+
+#~ msgid "Rom found"
+#~ msgstr "发现 ROM"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "将系统复制到另一设备上。\n"
+#~ "警告！这会擦除目标设备上的一切数据。"
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "抓取完成！{PROCESSED} 个游戏已处理。\n"
+#~ "\n"
+#~ "{SUCCESS} 个游戏已成功抓取或更新。\n"
+#~ "{NOTFOUND} 个游戏未能找到……\n"
+#~ "{ERRORS} 个请求/下载出现错误。\n"
+#~ "\n"
+#~ "{TEXTINFO} 条文本信息已更新。\n"
+#~ "{IMAGES} 个图片和 {VIDEOS} 个视频已下载。\n"
+#~ "共保存了 {MEDIASIZE} 的媒体文件。\n"
+#~ "EmulationStation 将重新启动以更新所有游戏列表。"
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "您已达到每日抓取请求限额！所有已完成的抓取都将保存。\n"
+#~ "\n"
+#~ "请明天再来尝试吧。不要忘记选择“更新”而不是“全部搜刮”。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "选择您游戏名称的来源。信任搜刮数据库，或从原始文件名或未修饰的文件名中获取"
+#~ "它们（在 () 或 [] 没有修饰）。"
+
+#~ msgid "Scrapper results"
+#~ msgstr "抓取结果"
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "实时策略"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "如果按下 POWER/电源键超过2秒，主机将会关闭。如果您在游戏中这样做，"
+#~ "Recalbox 将在关闭电源前正常关闭当前的模拟器。\n"
+#~ "请注意，若您按住电源键超过5秒，主机将会硬关机。\n"
+#~ "\n"
+#~ "请按B键继续。"
+
+#~ msgid "added to favorites"
+#~ msgstr "已添加到收藏"
+
+#~ msgid "removed from favorites"
+#~ msgstr "已从收藏中移除"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "无法播放游戏剪辑。\n"
+#~ "\n"
+#~ "没有可供您选择的视频。"

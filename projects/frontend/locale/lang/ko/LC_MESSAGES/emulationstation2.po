@@ -1,0 +1,3087 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
+msgstr "새로운 업데이트를 사용할 수 있습니다."
+
+msgid "DOWNLOADED"
+msgstr "다운로드 완료"
+
+msgid "NEW VERSION:"
+msgstr "신규 버전"
+
+msgid "UPDATE CHANGELOG:"
+msgstr "업데이트 변경내용:"
+
+msgid "CANCEL"
+msgstr "취소"
+
+msgid "Rating"
+msgstr "평점"
+
+msgid "Released"
+msgstr "발매일"
+
+msgid "Developer"
+msgstr "개발사"
+
+msgid "Publisher"
+msgstr "퍼블리셔"
+
+msgid "Genre"
+msgstr "장르"
+
+msgid "Players"
+msgstr "플레이어 수"
+
+msgid "NO GAMES FOUND - SKIP"
+msgstr "발견된 게임 없음 - 건너뛰기"
+
+msgid "RETRY"
+msgstr "재시도"
+
+msgid "SKIP"
+msgstr "건너뛰기"
+
+msgid "SEARCH FOR"
+msgstr "검색 중"
+
+msgid "SEARCH"
+msgstr "검색"
+
+msgid "SCRAPING IN PROGRESS"
+msgstr "스크랩 진행 중"
+
+msgid "SYSTEM"
+msgstr "시스템"
+
+msgid "subtitle text"
+msgstr "자막"
+
+msgid "INPUT"
+msgstr "입력"
+
+msgid "search"
+msgstr "검색"
+
+msgid "STOP"
+msgstr "중단"
+
+msgid "stop (progress saved)"
+msgstr "중단 (진행 저장됨)"
+
+msgid "GAME %i OF %i"
+msgstr "게임 %i / %i"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.COM FOR MORE INFORMATION."
+msgstr ""
+"시스템을 찾을 수 없습니다.\n"
+"설정 파일에서 시스템 경로가 맞는지 확인하세요.\n"
+"게임 폴더에는 확장자가 정확한 게임이 한 개 이상 있어야 합니다. \n"
+"\n"
+"더 자세한 정보는 recalbox.com 에서 확인하세요."
+
+msgid "%i GAME SUCCESSFULLY SCRAPED!"
+msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
+msgstr[0] "%i 개의 게임을 스크랩했습니다."
+
+msgid "%i GAME SKIPPED."
+msgid_plural "%i GAMES SKIPPED."
+msgstr[0] "%i 개의 게임을 건너뛰었습니다."
+
+msgid "ESTIMATED TIME: "
+msgstr "예상 시간: "
+
+msgid "ELAPSED TIME: "
+msgstr "경과 시간:"
+
+msgid "COMPLETE!"
+msgstr "완료!"
+
+msgid "PLEASE VISIT"
+msgstr "방문해 주세요"
+
+msgid "ONLY 1 SCRAPPING ENGINE"
+msgstr "단 1개의 엔진 스크랩 중"
+
+msgid "%i SCRAPPING ENGINES"
+msgstr "%i개의 엔진 스크랩 중"
+
+msgid ""
+"Scraping complete! {PROCESSED} games processed.\n"
+"\n"
+"{SUCCESS} game(s) scraped or updated\n"
+"{NOTFOUND} game(s) not found...\n"
+"{ERRORS} request/download errors\n"
+"\n"
+"{TEXTINFO} Text information updated\n"
+"{IMAGES} images and {VIDEOS} videos downloaded\n"
+"{MEDIASIZE} of media saved\n"
+"Now, EmulationStation is going to relaunch to update all gamelists."
+msgstr ""
+"스크래핑 완료 {PROCESSED} 게임 처리됨.\n"
+"\n"
+"{SUCCESS} 게임이 스크래핑되거나 업데이트됨.\n"
+"{NOTFOUND} 게임을 찾을 수 없음.\n"
+"{ERRORS} 다운로드 에러\n"
+"\n"
+"{TEXTINFO} 텍스트 정보 업데이트\n"
+"{IMAGES} 개의 이미지 {VIDEOS} 비디오 다운로드 됨.\n"
+"{MEDIASIZE} 개의 미디어 저장됨.\n"
+"에뮬레이션스테이션은 이제 모든 게임리스트를 업데이트하기 위해 다시 시작됨."
+
+msgid ""
+"You reached your daily quota of scraping request.\n"
+"All your today's scrapes have been saved anyway.\n"
+"\n"
+"Start scraping again tomorrow.\n"
+"Dont forget to select 'update' and not 'scrape all'"
+msgstr ""
+"일별 스크랩 요청 할당량에 도달했습니다!\n"
+"완료된 스크랩들이 모두 저장되었습니다.\n"
+"\n"
+"내일 다시 스크랩 해보세요.\n"
+"'전체 스크랩' 대신 '업데이트'를 선택하는 것을 잊지 마십시오."
+
+msgid ""
+"Your share partition is almost full.\n"
+"The scraper stopped automatically.\n"
+"\n"
+"Remove unused games, media, files to make room before running the scraper "
+"again!"
+msgstr ""
+"공유 파티션이 거의 꽉 찼습니다!\n"
+"스크렙이 자동으로 멈춥니다.\n"
+"\n"
+"스크랩을 다시 실행하기 전에 사용하지 않는 게임, 미디어 및 기타 파일을 제거하"
+"여 공간을 확보하십시오!"
+
+msgid "OK"
+msgstr "확인"
+
+msgid "EDIT METADATA"
+msgstr "게임 정보 편집"
+
+msgid "MORE DETAILS"
+msgstr "자세히 보기"
+
+msgid "SCRAPE"
+msgstr "스크랩"
+
+msgid "SAVE"
+msgstr "저장"
+
+msgid ""
+"THIS WILL DELETE A FILE!\n"
+"ARE YOU SURE?"
+msgstr ""
+"파일을 삭제합니다.\n"
+"정말로 진행하시겠습니까?"
+
+msgid "YES"
+msgstr "예"
+
+msgid "NO"
+msgstr "아니오"
+
+msgid "DELETE"
+msgstr "삭제"
+
+msgid "SAVE CHANGES?"
+msgstr "변경 사항을 저장 하시겠습니까?"
+
+msgid "BACK"
+msgstr "뒤로"
+
+msgid "CLOSE"
+msgstr "닫기"
+
+msgid "MAIN MENU"
+msgstr "메인 메뉴"
+
+msgid "KODI MEDIA CENTER"
+msgstr "KODI 미디어 센터"
+
+msgid "SYSTEM SETTINGS"
+msgstr "시스템 설정"
+
+msgid "VERSION"
+msgstr "버전"
+
+msgid "DISK USAGE"
+msgstr "디스크 사용량"
+
+msgid "STORAGE DEVICE"
+msgstr "저장 장치"
+
+msgid "LANGUAGE"
+msgstr "언어"
+
+msgid "OVERCLOCK"
+msgstr "오버클럭"
+
+msgid "EXTREM (1100Mhz)"
+msgstr "익스트림 (1100Mhz)"
+
+msgid "TURBO (1000Mhz)"
+msgstr "터보 (1000Mhz)"
+
+msgid "HIGH (950Mhz)"
+msgstr "높음 (950Mhz)"
+
+msgid "NONE (700Mhz)"
+msgstr "기본 (700Mhz)"
+
+msgid "TURBO (1050Mhz)+"
+msgstr "터보 (1050Mhz)+"
+
+msgid "HIGH (1050Mhz)"
+msgstr "높음 (1050Mhz)"
+
+msgid "NONE (900Mhz)"
+msgstr "기본 (900Mhz)"
+
+msgid "NONE (1200Mhz)"
+msgstr "기본 (1200Mhz)"
+
+msgid "NONE"
+msgstr "없음"
+
+#. NEW SETTINGS ORGANIZATION
+msgid "UPDATES"
+msgstr "업데이트"
+
+msgid "AUTO UPDATES"
+msgstr "자동 업데이트"
+
+msgid "START UPDATE"
+msgstr "업데이트 시작"
+
+msgid "KODI SETTINGS"
+msgstr "KODI 설정"
+
+msgid "ENABLE KODI"
+msgstr "KODI 활성화"
+
+msgid "KODI AT START"
+msgstr "시작 시 KODI 실행"
+
+msgid "START KODI WITH X"
+msgstr "X 버튼으로 KODI 실행"
+
+msgid "THE SYSTEM WILL NOW REBOOT"
+msgstr "시스템이 지금 다시 시작됩니다"
+
+msgid "GAMES SETTINGS"
+msgstr "게임 설정"
+
+msgid "GAME RATIO"
+msgstr "화면 비율"
+
+msgid "SMOOTH GAMES"
+msgstr "부드러운 게임"
+
+msgid "REWIND"
+msgstr "되감기"
+
+msgid "AUTO SAVE/LOAD"
+msgstr "자동 저장/불러오기"
+
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr "두번 둘러서 게임 종료"
+
+msgid "SHADERS SET"
+msgstr "셰이더 선택"
+
+msgid "SCANLINES"
+msgstr "스캔 라인"
+
+msgid "RETRO"
+msgstr "레트로"
+
+msgid "RETROACHIEVEMENTS SETTINGS"
+msgstr "RETROACHIEVEMENTS 설정"
+
+msgid "RETROACHIEVEMENTS"
+msgstr "RETROACHIEVEMENTS"
+
+msgid "HARDCORE MODE"
+msgstr "하드코어 모드"
+
+msgid "USERNAME"
+msgstr "사용자 이름"
+
+msgid "PASSWORD"
+msgstr "비밀번호"
+
+msgid "ADVANCED"
+msgstr "고급"
+
+msgid "REALLY UPDATE GAMES LISTS ?"
+msgstr "게임목록을 업데이트 하시겠습니까?"
+
+msgid "UPDATE GAMES LISTS"
+msgstr "게임 목록 갱신"
+
+msgid "CONTROLLERS SETTINGS"
+msgstr "컨트롤러 설정"
+
+msgid "UI SETTINGS"
+msgstr "사용자 인터페이스 설정"
+
+msgid "OVERSCAN"
+msgstr "오버 스캔"
+
+msgid "SCREENSAVER AFTER"
+msgstr "화면 보호기 작동"
+
+msgid "CAROUSEL ANIMATION"
+msgstr "슬라이드 애니메이션"
+
+msgid "TRANSITION STYLE"
+msgstr "화면 전환 방식"
+
+msgid "SCREENSAVER BEHAVIOR"
+msgstr "화면보호기 동작방식"
+
+msgid "SHOW FRAMERATE"
+msgstr "프레임 속도 표시"
+
+msgid "CLOCK IN MENU"
+msgstr "메뉴에 시계 표시"
+
+msgid "ON-SCREEN HELP"
+msgstr "도움말 표시"
+
+msgid "QUICK SYSTEM SELECT"
+msgstr "빠른 시스템 선택"
+
+msgid "THEME SET"
+msgstr "테마 선택"
+
+msgid "THEME CONFIGURATION"
+msgstr "테마 설정"
+
+msgid "THEME COLORSET"
+msgstr "테마 색상세트"
+
+msgid "THEME ICONSET"
+msgstr "테마 아이콘세트"
+
+msgid "THEME MENU"
+msgstr "테마 메뉴"
+
+msgid "THEME SYSTEMVIEW"
+msgstr "테마 시스템뷰"
+
+msgid "THEME GAMELISTVIEW"
+msgstr "테마 게임리스트뷰"
+
+msgid "THEME GAMECLIPVIEW"
+msgstr "게임클립뷰 테마"
+
+msgid "THEME REGION"
+msgstr "테마 지역"
+
+msgid "THIS THEME HAS NO OPTION"
+msgstr "테마 옵션 없음"
+
+msgid "SOUND SETTINGS"
+msgstr "사운드 설정"
+
+msgid "SYSTEM VOLUME"
+msgstr "시스템 음량"
+
+msgid "FRONTEND MUSIC"
+msgstr "배경 음악"
+
+msgid "OUTPUT DEVICE"
+msgstr "출력 기기"
+
+msgid "HDMI"
+msgstr "HDMI"
+
+msgid "JACK"
+msgstr "JACK"
+
+msgid "AUTO"
+msgstr "자동"
+
+msgid "NETWORK SETTINGS"
+msgstr "네트워크 설정"
+
+msgid "CONNECTED"
+msgstr "연결됨"
+
+msgid "NOT CONNECTED"
+msgstr "연결되지 않음"
+
+msgid "STATUS"
+msgstr "상태"
+
+msgid "IP ADDRESS"
+msgstr "IP 주소"
+
+msgid "HOSTNAME"
+msgstr "호스트명"
+
+msgid "ENABLE WIFI"
+msgstr "WIFI 활성화"
+
+msgid "WIFI SSID"
+msgstr "WIFI SSID"
+
+msgid "MANUAL INPUT"
+msgstr "수동 입력"
+
+msgid "WIFI KEY"
+msgstr "WIFI KEY"
+
+msgid "WIFI ENABLED"
+msgstr "WIFI 활성화됨"
+
+msgid "WIFI CONFIGURATION ERROR"
+msgstr "WIFI 설정 오류"
+
+msgid "SCRAPER"
+msgstr "스크랩"
+
+msgid "SCRAPE FROM"
+msgstr "스크랩 출처"
+
+msgid "SCRAPE RATINGS"
+msgstr "평점 스크랩"
+
+msgid "SCRAPE NOW"
+msgstr "스크랩 시작"
+
+msgid "QUIT"
+msgstr "종료"
+
+msgid "REALLY RESTART?"
+msgstr "재부팅하시겠습니까?"
+
+msgid "RESTART SYSTEM"
+msgstr "시스템 재부팅"
+
+msgid "REALLY SHUTDOWN?"
+msgstr "종료하시겠습니까?"
+
+msgid "SHUTDOWN SYSTEM"
+msgstr "시스템 종료"
+
+msgid "DEFAULT (%1%)"
+msgstr "기본값 (%1%)"
+
+msgid "Emulator"
+msgstr "에뮬레이터"
+
+msgid "Core"
+msgstr "코어"
+
+msgid ""
+"YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, "
+"CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. "
+"IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP "
+"ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE "
+"SNES CONTROLLER."
+msgstr ""
+"컨트롤러 설정을 시작합니다. 조이스틱이 하나 밖에 없다면, 방향키만 설정한 후 "
+"아무 버튼이나 길게 눌러 나머지 설정을 건너 뛰십시오. 단축키에 설정할 버튼이 "
+"모자랄 경우, 셀렉트 버튼을 선택합니다. 해당사항이 없는 버튼은 아무 버튼이나 "
+"길게 누르면 해당 버튼을 설정하지 않고 건너뛸 수 있습니다. 버튼 이름은 슈퍼패"
+"미컴 컨트롤러 기준입니다."
+
+#. GUIMENU
+msgid "CONFIGURE A CONTROLLER"
+msgstr "컨트롤러 설정"
+
+#. Bluetooth
+msgid "CONTROLLER PAIRED"
+msgstr "컨트롤러 페어링 완료"
+
+msgid "UNABLE TO PAIR CONTROLLER"
+msgstr "컨트롤러 페어링 불가"
+
+msgid "AN ERROR OCCURED"
+msgstr "오류 발생됨"
+
+msgid "NO CONTROLLERS FOUND"
+msgstr "발견된 컨트롤러 없음"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "블루투스 컨트롤러 페어링"
+
+msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
+msgstr "컨트롤러와의 연결이 삭제되었습니다."
+
+msgid "FORGET BLUETOOTH CONTROLLERS"
+msgstr "블루투스 컨트롤러 삭제"
+
+msgid "INPUT P%i"
+msgstr "입력 P%i"
+
+msgid "CHOOSE"
+msgstr "고르기"
+
+msgid "SELECT"
+msgstr "선택"
+
+msgid "OPTIONS"
+msgstr "옵션"
+
+msgid "JUMP TO LETTER"
+msgstr "문자로 이동"
+
+msgid "SORT GAMES BY"
+msgstr "정렬순서"
+
+#. FAVORITES
+msgid "FAVORITES ONLY"
+msgstr "즐겨찾기만 표시"
+
+msgid "EDIT THIS GAME'S METADATA"
+msgstr "게임 정보 편집"
+
+msgid "SCRAPE THESE GAMES"
+msgstr "이 게임들을 스크랩"
+
+msgid "All Games"
+msgstr "모든 게임"
+
+#. MISSING SCRAPPER TRANSLATIONS
+msgid "Only missing image"
+msgstr "이미지가 없는 게임만"
+
+msgid "FILTER"
+msgstr "필터"
+
+msgid "SCRAPE THESE SYSTEMS"
+msgstr "이 시스템들을 스크랩"
+
+msgid "SYSTEMS"
+msgstr "시스템"
+
+msgid "USER DECIDES ON CONFLICTS"
+msgstr "중복된 데이터를 직접 선택"
+
+msgid "START"
+msgstr "시작"
+
+msgid ""
+"WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS "
+"MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+"CONTINUE ANYWAY?"
+msgstr ""
+"경고: 선택한 시스템 중 일부는 플랫폼 셋이 없어서 스크랩 정확도가 낮을 수 있습"
+"니다. 계속 하시겠습니까?"
+
+msgid "NO GAMES FIT THAT CRITERIA."
+msgstr "조건에 맞는 게임이 없습니다."
+
+msgid "REALLY UPDATE?"
+msgstr "업데이트 하시겠습니까?"
+
+msgid "NETWORK CONNECTION NEEDED"
+msgstr "인터넷 연결 필요함"
+
+msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+msgstr "업데이트 다운로드 완료, 시스템을 다시 시작합니다."
+
+msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+msgstr "업데이트 실패, 시스템을 다시 시작합니다."
+
+msgid "NO UPDATE AVAILABLE"
+msgstr "사용 가능한 업데이트 없음"
+
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr "에러 발생 - 다운로드"
+
+msgid "enter emulator"
+msgstr "에뮬레이터 선택"
+
+msgid "enter core"
+msgstr "코어 선택"
+
+msgid "Ratio"
+msgstr "화면 비율"
+
+msgid "enter ratio"
+msgstr "비율 선택"
+
+msgid "Name"
+msgstr "이름"
+
+msgid "enter game name"
+msgstr "게임 이름 입력"
+
+msgid "Description"
+msgstr "설명"
+
+msgid "enter description"
+msgstr "설명 입력"
+
+msgid "Image"
+msgstr "이미지"
+
+msgid "enter path to image"
+msgstr "이미지 경로 입력"
+
+msgid "Thumbnail"
+msgstr "미리보기"
+
+msgid "enter path to thumbnail"
+msgstr "미리보기 경로 입력"
+
+msgid "enter rating"
+msgstr "평점 입력"
+
+msgid "Release date"
+msgstr "발매일"
+
+msgid "enter release date"
+msgstr "발매일 입력"
+
+msgid "enter game developer"
+msgstr "개발사 입력"
+
+msgid "enter game publisher"
+msgstr "퍼블리셔 입력"
+
+msgid "enter game genre"
+msgstr "장르 입력"
+
+msgid "enter number of players"
+msgstr "플레이어 수 입력"
+
+msgid "Favorite"
+msgstr "즐겨찾기"
+
+msgid "enter favorite"
+msgstr "즐겨찾기 입력"
+
+msgid "Region"
+msgstr "지역"
+
+msgid "enter region"
+msgstr "지역"
+
+msgid "Romtype"
+msgstr "롬 형식"
+
+msgid "enter romtype"
+msgstr "롬 형식 입력"
+
+msgid "Hidden"
+msgstr "숨김"
+
+msgid "set hidden"
+msgstr "숨김 설정"
+
+msgid "Play count"
+msgstr "플레이 횟수"
+
+msgid "enter number of times played"
+msgstr "플레이 횟수 입력"
+
+msgid "Last played"
+msgstr "마지막 플레이"
+
+msgid "enter last played date"
+msgstr "마지막 플레이한 날짜 입력"
+
+msgid "%i GAME AVAILABLE"
+msgid_plural "%i GAMES AVAILABLE"
+msgstr[0] ""
+"%i 개의 게임 사용 가능\n"
+"%i 개의 게임 사용 가능"
+
+msgid "%i FAVORITE"
+msgid_plural "%i FAVORITES"
+msgstr[0] ""
+"%i 개의 즐겨찾기\n"
+"%i 개의 즐겨찾기"
+
+msgid "SCROLL"
+msgstr "스크롤"
+
+msgid "LAUNCH"
+msgstr "실행"
+
+msgid "Times played"
+msgstr "플레이 횟수"
+
+msgid "MENU"
+msgstr "메뉴"
+
+msgid "START KODI"
+msgstr "KODI 시작"
+
+msgid "FILENAME, ASCENDING"
+msgstr "파일명, 오름차순"
+
+msgid "FILENAME, DESCENDING"
+msgstr "파일명, 내림차순"
+
+msgid "RATING, ASCENDING"
+msgstr "평점, 오름차순"
+
+msgid "RATING, DESCENDING"
+msgstr "평점, 내림차순"
+
+msgid "TIMES PLAYED, ASCENDING"
+msgstr "플레이 횟수, 오름차순"
+
+msgid "TIMES PLAYED, DESCENDING"
+msgstr "플레이 횟수, 내림차순"
+
+msgid "LAST PLAYED, ASCENDING"
+msgstr "최근 플레이, 오름차순"
+
+msgid "LAST PLAYED, DESCENDING"
+msgstr "최근 플레이, 내림차순"
+
+msgid "WORKING..."
+msgstr "작업 중..."
+
+msgid "CHANGE"
+msgstr "변경"
+
+msgid "never"
+msgstr "없음"
+
+msgid "just now"
+msgstr "방금 전"
+
+msgid "%i sec ago"
+msgid_plural "%i secs ago"
+msgstr[0] ""
+"%i 초 전\n"
+"%i 초 전"
+
+msgid "%i min ago"
+msgid_plural "%i mins ago"
+msgstr[0] ""
+"%i 분 전\n"
+"%i 분 전"
+
+msgid "%i hour ago"
+msgid_plural "%i hours ago"
+msgstr[0] ""
+"%i 시간 전\n"
+"%i 시간 전"
+
+msgid "%i day ago"
+msgid_plural "%i days ago"
+msgstr[0] ""
+"%i 일 전\n"
+"%i 일 전"
+
+msgid "unknown"
+msgstr "알 수 없음"
+
+msgid "SELECT ALL"
+msgstr "모두 선택"
+
+msgid "SELECT NONE"
+msgstr "모두 선택 안함"
+
+msgid "%i SELECTED"
+msgid_plural "%i SELECTED"
+msgstr[0] ""
+"%i 개 선택됨\n"
+"%i 개 선택됨"
+
+msgid "UP"
+msgstr "위"
+
+msgid "DOWN"
+msgstr "아래"
+
+msgid "LEFT"
+msgstr "왼쪽"
+
+msgid "RIGHT"
+msgstr "오른쪽"
+
+msgid "JOYSTICK 1 UP"
+msgstr "조이스틱 1 위"
+
+msgid "JOYSTICK 1 LEFT"
+msgstr "조이스틱 1 왼쪽"
+
+msgid "JOYSTICK 2 UP"
+msgstr "조이스틱 2 위"
+
+msgid "JOYSTICK 2 LEFT"
+msgstr "조이스틱 2 왼쪽"
+
+msgid "PAGE UP"
+msgstr "이전 페이지"
+
+msgid "PAGE DOWN"
+msgstr "다음 페이지"
+
+msgid "HOTKEY"
+msgstr "단축키"
+
+msgid "CONFIGURING"
+msgstr "설정 중"
+
+msgid "KEYBOARD"
+msgstr "키보드"
+
+msgid "GAMEPAD %i"
+msgstr "게임 패드 %i"
+
+msgid "INPUT REQUIRED"
+msgstr "입력 필요"
+
+msgid "(skipped)"
+msgstr "(취소됨)"
+
+msgid "UP/DOWN TO SKIP"
+msgstr "위/아래로 이동"
+
+msgid "A TO UNSET"
+msgstr "A키로 해제"
+
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "아래로 이동하고 유지 [%1%]"
+
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "위/아래로 이동하고 유지[%1%]"
+
+#. Config controllers missing translation
+msgid "PRESS ANYTHING"
+msgstr "아무 버튼이나 누르세요."
+
+msgid "ALREADY TAKEN"
+msgstr "이미 설정되었습니다."
+
+msgid "DISCARD CHANGES"
+msgstr "변경 취소"
+
+msgid "WELCOME"
+msgstr "환영합니다."
+
+msgid "CONFIGURE INPUT"
+msgstr "입력 설정"
+
+msgid "%i GAMEPAD DETECTED"
+msgid_plural "%i GAMEPADS DETECTED"
+msgstr[0] "%i 개의 게임패드를 찾았습니다."
+
+msgid "NO GAMEPADS DETECTED"
+msgstr "게임패드를 찾지 못했습니다"
+
+msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
+msgstr "장치를 설정하려면 게임 패드의 A 버튼을 누르고 있으세요."
+
+msgid "PRESS F4 TO QUIT AT ANY TIME."
+msgstr "언제든지 F4 를 누르면 종료합니다."
+
+msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
+msgstr "ESC 또는 단축키를 누르면 취소합니다."
+
+msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
+msgstr "KODI 미디어 센터를 실행하시겠습니까?"
+
+msgid "LOADING..."
+msgstr "불러오는 중..."
+
+msgid "PLEASE WAIT..."
+msgstr "잠시 기다려 주십시오..."
+
+msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
+msgstr "게임 정보를 저장하지 않고 시스템을 종료하시겠습니까?"
+
+msgid "FAST SHUTDOWN SYSTEM"
+msgstr "빠른 시스템 종료"
+
+msgid ""
+"WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND "
+"YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.FR FOR MORE INFORMATION."
+msgstr ""
+"시스템을 찾을 수 없습니다.\n"
+"설정 파일에서 시스템 경로가 맞는지 확인하세요.\n"
+"게임 폴더에는 확장자가 정확한 게임이 한 개 이상 있어야 합니다. \n"
+"\n"
+"더 자세한 정보는 recalbox.com 에서 확인하세요."
+
+msgid "ON SCREEN KEYBOARD"
+msgstr "가상 키보드"
+
+msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
+msgstr "대문자, 소문자, 특수문자를 위한 쉬프트"
+
+msgid "SPACE"
+msgstr "스페이스"
+
+msgid "DELETE A CHAR"
+msgstr "문자 삭제"
+
+msgid "SHIFT"
+msgstr "쉬프트"
+
+msgid "STOP EDITING"
+msgstr "편집 중단"
+
+msgid "MOVE CURSOR"
+msgstr "커서 이동"
+
+msgid "EDIT"
+msgstr "편집"
+
+msgid "ACCEPT RESULT"
+msgstr "결과 동의"
+
+msgid "FILENAME"
+msgstr "파일명"
+
+msgid "RATING"
+msgstr "평점"
+
+msgid "TIMES PLAYED"
+msgstr "실행 횟수"
+
+msgid "LAST PLAYED"
+msgstr "마지막 실행"
+
+msgid "NUMBER OF PLAYERS"
+msgstr "플레이어 수"
+
+msgid "DEVELOPER"
+msgstr "개발사"
+
+msgid "GENRE"
+msgstr "장르"
+
+msgid "SHOW HIDDEN"
+msgstr "숨김 표시"
+
+msgid "SHOW FOLDERS CONTENT"
+msgstr "폴더 콘텐츠 보여주기"
+
+msgid "EXTREM (1400Mhz)"
+msgstr "익스트림 (1400Mhz)"
+
+msgid "TURBO (1350Mhz)"
+msgstr "터보 (1350Mhz)"
+
+msgid "HIGH (1300Mhz)"
+msgstr "높음 (1050Mhz)"
+
+msgid ""
+"TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE "
+"THEM AT YOUR OWN RISK.\n"
+"IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
+msgstr ""
+"터보 및 익스트림 오버클럭을 사용할 시 생기는 문제에 대한 책임은 본인에게 있습"
+"니다.\n"
+"계속하려면 시스템을 다시 시작합니다."
+
+msgid "%i GAME HIDDEN"
+msgid_plural "%i GAMES HIDDEN"
+msgstr[0] "%i 의 게임들이 숨겨져 있습니다."
+
+msgid "Start kodi media player."
+msgstr "KODI 시작하기"
+
+msgid ""
+"Select the language for your recalbox, select an external drive to store "
+"your games and configurations, check your current version and the free space "
+"on your drive"
+msgstr ""
+"recalbox의 언어를 선택하세요. 게임 및 설정요소를 저장할 외부 드라이브를 선택"
+"합니다. 현재 시스템의 버전과 드라이브의 여유 공간을 확인하십시오."
+
+msgid "Shows your current recalboxOS version."
+msgstr "recalboxOS의 버전을 표시합니다"
+
+msgid ""
+"Show how much space is used on your SHARE partition, located either on the "
+"SDCARD or on an external drive. The information shows how much GB are used "
+"and how much GB your storage has overall (example 13GB/26GB)."
+msgstr ""
+"SD CARD 혹는 외장 드라이브 파티션의 사용한 공간의 크기를 표시합니다. 이 정보"
+"는 사용한 공간과 저장소의 용량(예 : 13GB / 26GB)을 보여줍니다."
+
+msgid ""
+"Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first "
+"boot, with this option enabled, recalbox will create a '/recalbox' folder "
+"with all system files inside."
+msgstr ""
+"Rom, 세이브 파일, 설정 등을 저장할 외장 드라이브를 선택하십시오.\n"
+"FAT32 형식의 드라이브를 사용하십시오. 시스템이 드라이브를 포맷하지 않습니다. "
+"이 옵션이 활성화 되어 있다면 처음 시작시 recalbox는 루트에 모든 시스템 파일"
+"이 들어있는 '/recalbox' 폴더를 만듭니다."
+
+msgid ""
+"Select your language. A reboot is needed to set this configuration active."
+msgstr "언어를 선택하십시오. 변경한 설정은 재부팅 후에 적용됩니다."
+
+msgid ""
+"Manage your recalbox updates. Select the update type. Activate update check."
+msgstr ""
+"Recalbox의 업데이트를 관리합니다. 업데이트 유형을 선택하고, 업데이트 확인을 "
+"활성화하십시오."
+
+msgid "Check if an update is available, and start the update process."
+msgstr "업데이트가 있는지 확인하고, 업데이트를 시작합니다."
+
+msgid ""
+"Stable updates will check for updates on stable recalbox releases. Stable "
+"updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking "
+"our unstable repository. You can test and validate with us the very last "
+"version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-"
+"os issue board (https://github.com/recalbox/recalbox-os/issues)"
+msgstr ""
+"Stable 업데이트는 recalbox의 정식버전의 업데이트를 확인합니다. Stable 업데이"
+"트는 recalbox 팀과 테스터의 점검 후 이뤄집니다.\n"
+"Unstable 업데이트를 사용하면 unstable 저장소에서 최신 버전을 가져올 수 있습니"
+"다. Recalbox의 최신 버전을 테스트하고 유효성을 검사 할 수 있습니다.\n"
+"\n"
+"Unstable 업데이트를 선택하는 경우 recalbox-os 이슈 게시판(https://github.com/"
+"recalbox/recalbox-os/issues)에서 문제사항을 알려주세요."
+
+msgid ""
+"Automatically check if an update is avaialble. If so, it notifies you with a "
+"message."
+msgstr ""
+"업데이트가 있는지 자동으로 확인합니다. 업데이트가 가능한 경우 메시지로 알려줍"
+"니다."
+
+msgid "Shows the current available update version."
+msgstr "현재 사용 가능한 업데이트 버전을 표시합니다."
+
+msgid "Shows the current available update changelog."
+msgstr "현재 사용 가능한 업데이트 변경 내역을 표시합니다."
+
+msgid ""
+"Configure games display, ratio, filters (shaders), auto save and load and "
+"retroachievement account."
+msgstr ""
+"게임 디스플레이, 비율, 필터(쉐이더), 자동 저장 및 로드, retroachievement 계정"
+"을 설정할 수 있습니다."
+
+msgid ""
+"The game ratio is the ratio between image width and image height. Use AUTO "
+"to let the emulator choose the original game ratio, that will give you the "
+"best retrogaming experience."
+msgstr ""
+"게임 비율은 이미지의 폭과 높이 비율입니다. 에뮬레이터가 원래의 게임 비율을 사"
+"용하도록 AUTO를 선택하면, 최고의 레트로 게임 경험을 얻을 수 있습니다."
+
+msgid ""
+"Smooth the game image. This option makes the image smoother, using bilinear "
+"filtering."
+msgstr ""
+"게임 이미지를 부드럽게 합니다. 이 옵션은 바이너리 필터링을 사용하여 이미지를 "
+"더 부드럽게 만듭니다."
+
+msgid ""
+"This option allows you to rewind the game if you get killed by a monster, or "
+"if you make any other mistake. Use the HOTKEY + LEFT command within the game "
+"to rewind."
+msgstr ""
+"이 옵션을 사용하면 게임에서 죽거나 실수했을 때 되감기를 할 수 있습니다. 게임 "
+"내에서 HOTKEY + LEFT를 입력하세요."
+
+msgid ""
+"Auto save the state when you quit a game, and auto load last saved state "
+"when you start a game."
+msgstr ""
+"게임 종료 시 자동으로 상태를 저장하고, 게임을 시작할 때 마지막으로 저장된 상"
+"태를 자동으로 로드합니다."
+
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr "버튼을 두번 둘러서 게임을 종료하고 메인 메뉴로 돌아가기"
+
+msgid ""
+"Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
+"4x, etc. This option scales the image up to the greatest integer scale below "
+"the set resolution. So for instance, if you set your fullscreen resolution "
+"to 1920x1080 and enable integer scaling, it will only scale a 320x240 image "
+"up to 1280x960, and leave black borders all around. This is to maintain a "
+"1:1 pixel ratio with the original source image, so that pixels are not "
+"unevenly duplicated."
+msgstr ""
+"이 옵션은 이미지를 설정된 해상도보다 큰 최대 배율(2x, 3x, 4x 등과 같은 정수배"
+"율)로 조정합니다. 예를 들어 320x240 해상도의 게임을 1920x1080으로 설정하고 옵"
+"션에 체크하면, 이미지의 크기를 최대 1280x960으로 조정하고 검은 색 테두리를 모"
+"두 남겨 둡니다. 이것은 원본 소스 이미지와 1 : 1의 픽셀 비율을 유지하여 픽셀"
+"이 불균등하게 복제되는 것을 방지해 줍니다."
+
+msgid ""
+"Shaders are like filters for the game rendering. You can select a shader set "
+"here, which is a collection of shaders selected for each system. You can "
+"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+msgstr ""
+"셰이더는 게임 렌더링 위에 필터와 같은 효과를 줄 수 있습니다. 쉐이더 모음을 통"
+"해 각 시스템별로 쉐이더 값을 줄 수 있습니다. HOTKEY + L2 또는 HOTKEY + R2를 "
+"사용하면 게임 내에서 쉐이더를 변경할 수 있습니다."
+
+msgid "Enable or disable RetroAchievements in games."
+msgstr "게임에서 RetroAchievements를 활성화/비활성화 합니다."
+
+msgid ""
+"Hardcore mode disables *all* savestate and rewind functions within the "
+"emulator: you will not be able to save and reload at any time. You will have "
+"to complete the game and get the achievements first time, just like on the "
+"original console. In reward for this, you will earn both the standard and "
+"the hardcore achievement, in effect earning double points! A regular game "
+"worth 400 points, is now worth 800 if you complete it on hardcore! For "
+"example: if you complete the game for 400 points, you then have the "
+"opportunity to earn another 400 on hardcore."
+msgstr ""
+"하드코어 모드는 에뮬레이터 내의 '모든 저장 및 되감기 기능'을 비활성화합니다. "
+"즉시 저장 로드 기능이 사라집니다. 본래의 콘솔에서와 같이 게임을 클리어해야 합"
+"니다.이에 대한 보상으로, 표준 및 하드 코어 업적을 모두 얻게되어 더블 포인트"
+"를 얻습니다. 400 포인트의 평범한 게임은 하드 코어로 완성하면 800점이됩니다! "
+"당신이 400점을 받기 위해 게임을 클리어하였다면, 추가로 하드코어 포인트 400점"
+"을 더 얻을 수 있습니다."
+
+msgid ""
+"The website retroachievements.org proposes challenges/achievements/trophies "
+"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
+"PCEngine and more! Create your account on retroachievements.org and start "
+"your quest for achievements!"
+msgstr ""
+"Retroachievements.org에서는 NES, SNES, GB, GBC, GBA, Genesis / Megadrive, "
+"TurboGrafx16 / PCEngine 등과 같은 게임 플랫폼에서의 도전 과제 / 업적 / 트로피"
+"를 지원합니다! 사이트에 계정을 만들고 업적달성에 도전하세요."
+
+msgid "Add and configure up to 5 controllers."
+msgstr "5개 이상의 컨트롤러를 추가 구성합니다."
+
+msgid ""
+"Configure an associated controller. Your controller has to be associated / "
+"plugged before."
+msgstr ""
+"연결된 컨트롤러를 구성합니다. 컨트롤러를 연결하거나 플러그를 꽂아야 합니다."
+
+msgid ""
+"Pair a bluetooth controller with your recalbox. Your controller must be in "
+"pairing mode."
+msgstr ""
+"블루투스 컨트롤러를 recalbox와 페어링하십시오. 컨트롤러가 페어링 모드 상태여"
+"야 합니다."
+
+msgid ""
+"Forget all paired bluetooth controllers. You will have to pair your "
+"controllers again, but this option can help if you have issues to reconnect "
+"a controller, which is already paired."
+msgstr ""
+"페어링 된 모든 블루투스 컨트롤러에 대한 정보를 삭제합니다. 기존에 페어링 된 "
+"컨트롤러가 작동되지 않을 경우에 이 옵션의 사용을 권장합니다."
+
+msgid ""
+"Configure your EmulationStation experience. Select transition types, help "
+"prompts, screensaver behavior. You can also deactivate the onscreen keyboard "
+"if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist "
+"from this menu."
+msgstr ""
+"EmulationStation 환경을 설정합니다. 전환 방식, 도움말, 화면 보호기 동작을 선"
+"택하십시오. Recalbox에 실제 키보드가 연결된 경우 가상 키보드를 비활성화 할 수"
+"도 있습니다.\n"
+"부팅 이후 게임을 추가 한 경우, 여기에서 새로고침하여 새 게임을 확인할 수 있습"
+"니다."
+
+msgid "Configure screensaver"
+msgstr "스크린 세이버 설정"
+
+msgid "Start the screensaver after N minutes."
+msgstr "N분 후 화면 보호기 시작"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
+"turn the screen black, DEMO will launch demo mode."
+msgstr ""
+"화면 보호기 동작을 설정하세요. DIM은 화면 조명을 줄이고, BLACK은 화면을 검은"
+"색으로 바꾸고, DEMO는 데모 모드를 시작합니다."
+
+msgid ""
+"Shows a help at the bottom of the screen which displays commands you can use."
+msgstr "화면 하단에 사용 가능한 명령어를 도움말 형태로 표시합니다."
+
+msgid ""
+"When enabled, you can switch between systems while browsing a gamelist by "
+"pressing LEFT or RIGHT."
+msgstr "이 기능을 사용하면 좌우 버튼으로 게임 시스템을 전환할 수 있습니다."
+
+msgid ""
+"The onscreen keyboard is necessary to type text if you only have controllers "
+"plugged into your recalbox. You can disable it if you have a real keyboard "
+"connected."
+msgstr ""
+"가상 키보드는 recalbox에 컨트롤러만 연결되어 있을때 사용이 가능합니다. 실제 "
+"키보드가 연결되었을 경우 비활성화 됩니다."
+
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr "전환 중에 슬라이드 애니메이션으로 표시될지 여부를 선택하십시오."
+
+msgid ""
+"Select the type of transition that occurs when you start a game. INSTANT "
+"will do nothing, FADE will fade to dark, and SLIDE will zoom on the game "
+"cover (or name if there is no scrape information)"
+msgstr ""
+"게임을 시작할 때 발생하는 화면전환 유형을 선택합니다. INSTANT는 아무 것도 하"
+"지 않으며, FADE는 어두워지고, SLIDE는 게임 커버를 확대한다(또는 스크랩 정보"
+"가 없는 경우 이름)."
+
+msgid "Select a theme for your recalbox."
+msgstr "Recalbox의 테마를 선택하세요."
+
+msgid "Select exisiting colorset options for this theme."
+msgstr "이 테마에 대해 기존 색상 세트 옵션을 선택하십시오."
+
+msgid "Select exisiting iconset options for this theme."
+msgstr "이 테마에 대해 기존의 아이콘 세트 옵션을 선택합니다."
+
+msgid "Select exisiting menu style options for this theme."
+msgstr "이 테마에 대해 기존 메뉴 스타일 옵션을 선택합니다."
+
+msgid "Select exisiting system view options for this theme."
+msgstr "이 테마에 대해 기존 시스템 보기 옵션을 선택합니다."
+
+msgid "Select exisiting gamelist view options for this theme."
+msgstr "이 테마에 대해 기존의 게임 목록 보기 옵션을 선택합니다."
+
+msgid "Configure theme options if available."
+msgstr "가능한 경우 테마 옵션을 구성하십시오."
+
+msgid ""
+"Select Region of logos, pictures for system that are different for some "
+"countries. E.g. Megadrive in EU / Genesis in US"
+msgstr ""
+"일부 국가에서는 시스템에 대해 다른 로고 지역, 사진을 선택합니다. 예) 미국의 "
+"Genesys / 유럽연합의 MegaDrive"
+
+msgid "Updates the gamelists, if you added games since the last boot."
+msgstr "마지막 부팅 이후 추가된 게임이 있다면, 게임리스트를 업데이트합니다."
+
+msgid "Configure the sound options of your recalbox."
+msgstr "Recalbox의 사운드 옵션을 설정합니다."
+
+msgid "Set the volume of the sound output for the frontend and the games."
+msgstr "Recalbox 및 게임의 사운드 볼륨을 설정합니다."
+
+msgid ""
+"Enable or disable the frontend music. You can add your own music as mp3, or "
+"ogg format in the 'musics' directory of your recalbox."
+msgstr ""
+"시스템 음악을 활성/비활성 할 수 있습니다. 'musics' 디렉토리에 mp3나 ogg 형식"
+"의 자신의 음악을 추가할 수 있습니다."
+
+msgid "Select your output device. Only HDMI and JACK are supported."
+msgstr "출력 장치를 선택하십시오. HDMI 및 JACK 만 지원됩니다."
+
+msgid ""
+"Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the "
+"WIFI."
+msgstr ""
+"Recalbox의 네트워크 옵션을 구성하십시오.\n"
+"네트워크 상태 및 IP 주소를 확인하고, 호스트이름을 설정하고 WIFI를 구성할 수 "
+"있습니다."
+
+msgid ""
+"Displays CONNECTED, if you are connected, by checking if your recalbox can "
+"access the recalbox.com update server."
+msgstr "recalbox.com 업데이트 서버에 접속할 수 있으면 CONNECTED가 표시됩니다."
+
+msgid "The IP address of your recalbox within your local network."
+msgstr "로컬 네트워크에서 표시되는 recalbox의 IP주소"
+
+msgid ""
+"Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be "
+"used when you reactivate it"
+msgstr ""
+"WIFI를  활성/비활성 합니다.\n"
+"WIFI를 비활성화 하여도 기존의 SSID와 비밀번호는 삭제되지 않습니다."
+
+msgid "The name of your recalbox in your local network"
+msgstr "로컬 네트워크에서 표시되는 recalbox의 이름"
+
+msgid "SSID (WIFI Name) of your network."
+msgstr "네트워크 상의 SSID (WIFI 이름)"
+
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr "SSID가 숨겨져 있거나 목록에 없는 경우 이름을 입력하십시오."
+
+msgid "Private key of your WIFI network."
+msgstr "WIFI 비밀번호"
+
+msgid ""
+"Get informations and visual for your games. The scraper downloads metadata "
+"and visuals for your games from different servers and enhances the user "
+"experience in EmulationStation completely."
+msgstr ""
+"게임에 대한 정보와 이미지를 얻습니다. 스크래퍼는 다른 서버에서 게임 정보와 이"
+"미지 정보를 다운받아, EmulationStation의 사용자 경험을 향상시킵니다."
+
+msgid ""
+"Select a server to scrape from. The SCREENSCRAPER server is recommended and "
+"is based on www.screenscraper.fr and scrapes game data in your language, if "
+"available."
+msgstr ""
+"스크랩 할 서버를 선택하십시오.  www.screenscraper.fr 을 기반으로 하는 "
+"SCREENSCRAPER를 권장하며, 가능하다면 설정된 언어로 된 게임 데이터를 스크랩 "
+"할 수 있습니다."
+
+msgid "Begin the scrape process with the configuration shown below."
+msgstr "다음과 같은 설정으로 스크랩을 시작합니다."
+
+msgid "Scrape and display game ratings."
+msgstr "스크랩 및 게임 등급 표시."
+
+msgid ""
+"Advanced settings. Please make sure you really know what you're doing, "
+"before changing any values in this menu."
+msgstr "고급 설정. 이 메뉴가 무엇을 바꾸는 지 알지 못한다면 변경하지 마세요."
+
+msgid ""
+"Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind "
+"that overclocking your board can void your warranty."
+msgstr ""
+"보드를 오버 클럭하여 성능을 향상시킵니다.\n"
+"오버 클럭 설정은 커뮤니티에서 테스트 하여 검증된 값입니다. 보드를 오버 클럭 "
+"할 경우 제품 보증을 받을 수 없음에 유의하시기 바랍니다."
+
+msgid ""
+"Select which system to show when the recalbox frontend starts. The default "
+"value is 'favorites'."
+msgstr ""
+"Recalbox가 시작할 때 보여질 화면을 선택합니다. 기본값은 '즐겨 찾기'입니다."
+
+msgid ""
+"On boot, recalbox will show the list of games of the selected system rather "
+"than the system view."
+msgstr ""
+"부팅시, 리콜박스가 게임시스템 목록이 아닌, 설정된 게임 시스템의 게임리스트를 "
+"표기합니다."
+
+msgid ""
+"Only show games contained in the gamelist.xml file (located in your roms "
+"directories).\n"
+"This option highly speeds up boot time, but new games will not be detected."
+msgstr ""
+"gamelist.xml 파일에 포함된 게임만 표시합니다 (ROM 디렉토리에 위치).\n"
+"이 옵션을 사용하면 부팅 시간이 크게 단축되지만 새로운 게임은 검색되지 않습니"
+"다."
+
+msgid ""
+"This option allows you to set the selected system to fixed mode. With this "
+"option activated, the user cannot access other systems."
+msgstr ""
+"이 옵션을 사용하면 선택된 시스템으로 고정됩니다. 옵션 활성화 시 다른 시스템으"
+"로 접근이 불가능해 집니다."
+
+msgid ""
+"Always display the basic gamelist view, even if you have scraped your games."
+msgstr "스크랩된 게임이 있을 경우에도, 항상 기본 게임 화면보기로 설정합니다."
+
+msgid ""
+"Override global options like emulator, core, ratio and more for each "
+"available system in your recalbox."
+msgstr "Recalbox의 에뮬레이터, 코어, 화면비 등의 전역 설정을 재정의 합니다."
+
+msgid ""
+"Configure boot options that make your recalbox boot straight into a system "
+"or into Kodi, lock a user to a single system, or directly show the gamelist."
+msgstr ""
+"부팅 옵션을 설정합니다. KODI로 바로 부팅하거나 특정 게임시스템에서 시작되게 "
+"할 수 있고, 게임 목록을 바로 보여줄 수 도 있습니다."
+
+msgid ""
+"Enable or disable Kodi, customize the Kodi startup, enable the X button to "
+"start Kodi"
+msgstr ""
+"KODI의 활성화 여부를 결정합니다. KODI로 시작하도록 설정할 수 있고, X버튼을 누"
+"르면 KODI가 실행됩니다."
+
+msgid ""
+"Enable or disable Kodi. If kodi is disabled, you won't be able to start it "
+"with the X button, or start it automatically at boot. The menu entry will be "
+"removed as well."
+msgstr ""
+"KODI의 활성화 여부를 결정합니다. 비활성화시, X버튼을 눌러도 시작되지 않으며, "
+"부팅시 자동으로 시작되지 않습니다. 메뉴항목에서 제거됩니다."
+
+msgid "Use the X button to start Kodi."
+msgstr "X 버튼을 눌러 KODI를 시작하세요"
+
+msgid "Automatically start into Kodi on boot."
+msgstr "부팅 시 KODI로 자동 시작"
+
+msgid ""
+"Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger "
+"than your screen. Before setting the overscan, try to configure your TV to "
+"have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when "
+"you plug your SD card into your computer."
+msgstr ""
+"오버 스캔 활성화 여부를 결정합니다.\n"
+"화면에 검은 여백이 생기거나 이미지가 화면보다 큰 경우, 오버 스캔을 사용하면 "
+"도움이 될 수 있습니다. 오버 스캔을 설정하기 전에 TV를 1:1 비율로 변경하세"
+"요.\n"
+"오버 스캔 설정은 boot.txt 파일에서도 설정할 수 있습니다. 이 파일은 SD카드를 "
+"컴퓨터에 연결하여 확인 가능합니다."
+
+msgid "Show the framerate in EmulationStation and in game."
+msgstr "EmulationStation과 게임에서 프레임을 표시합니다."
+
+msgid ""
+"Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if "
+"you are on windows, http://recalbox.local , if you are on Linux or Mac, or "
+"directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage "
+"games, saves, and scrapes!"
+msgstr ""
+"Recalbox Manager의 활성 여부를 결정합니다.\n"
+"Recalbox Manager는 같은 네트워크 상의 PC등에서 리콜박스와 연결해 사용할 수 있"
+"는 웹 어플리케이션입니다.\n"
+"http://recalbox(Windows), http://recalbox.local(Linux 또는 Mac), 또는 "
+"recalbox IP (http://192.168.XXX.XXX)를 통해 접속할 수 있습니다."
+
+msgid ""
+"Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox "
+"via http requests."
+msgstr ""
+"Recalbox API의 사용 여부를 결정합니다. \n"
+"Recalbox API는 http 요청을 통해 리콜박스를 제어하기 위한 REST API입니다."
+
+msgid "Select which emulator to use when you start a game for this system."
+msgstr "이 게임 시스템에서 사용될 에뮬레이터를 선택하세요."
+
+msgid ""
+"Select which core to use for the selected emulator. For example, the "
+"LIBRETRO emulator has many cores to run Super Nintendo games. The default "
+"core you choose here can also be overridden in game specific settings."
+msgstr ""
+"선택한 에뮬레이터에 사용할 코어를 선택하세요. 예를 들어, LIBRETRO 에뮬레이터"
+"의 경우 Super Nintendo 게임을 실행할 수 있는 다양한 코어가 존재합니다. 선택"
+"된 기본 코어는 게임 별 설정에서 재정의 할 수 있습니다."
+
+msgid ""
+"Select a letter and the listing will go directly on the first game starting "
+"with this letter."
+msgstr ""
+"문자를 선택하시면 목록이 이 문자로 시작하는 첫번째 게임에 바로 갈 것입니다."
+
+msgid ""
+"Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr "게임 목록이 정렬되는 방식(알파벳 순, 표기법...)을 선택합니다."
+
+msgid ""
+"Switch between seing or not only the favorites games. To add a game in the "
+"favorite list, select the game and toggle its state using 'Y'."
+msgstr ""
+"즐겨 찾기 게임만 보이거나 보이지 않게 선택합니다. 즐겨 찾기 목록에 게임을 추"
+"가하려면 게임을 선택하고'Y'를 사용하여 상태를 전환합니다."
+
+msgid ""
+"Switch between seing or not the hidden games. To hide a game, edit its data "
+"and select 'Hide'."
+msgstr ""
+"숨겨진 게임을 보이거나 보이지 않게 선택합니다. 게임을 숨기려면 데이터를 편집"
+"하고' 숨기기'를 선택하십시오."
+
+msgid ""
+"Switch between seeing the folders structure and seeing all games in a "
+"flatten top level."
+msgstr "폴더 구조 보는것과 모든 게임 보는 방법 변경"
+
+msgid ""
+"This option display a menu which allows to change game data and many others "
+"options."
+msgstr ""
+"이 옵션은 게임 데이터 및 기타 많은 옵션을 변경할 수 있는 메뉴를 표시합니다."
+
+msgid "USE COMPOSED VISUALS"
+msgstr "합성된 비주얼 사용"
+
+msgid "CHECK UPDATES"
+msgstr "업데이트 확인"
+
+msgid "AVAILABLE UPDATE"
+msgstr "사용 가능한 업데이트"
+
+msgid "UPDATE CHANGELOG"
+msgstr "업데이트 변경 내역"
+
+msgid "UPDATE TYPE"
+msgstr "업데이트 유형"
+
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr "정수배 확대 (픽셀 맞춤)"
+
+msgid "ADVANCED SETTINGS"
+msgstr "고급 설정"
+
+msgid "BOOT SETTINGS"
+msgstr "부팅 설정"
+
+msgid "GAMELIST ONLY"
+msgstr "게임 목록만"
+
+msgid "BOOT ON SYSTEM"
+msgstr "시스템으로 부팅"
+
+msgid "BOOT ON GAMELIST"
+msgstr "게임리스트로 부팅"
+
+msgid "HIDE SYSTEM VIEW"
+msgstr "시스템 뷰 감추기"
+
+msgid "EMULATOR ADVANCED CONFIGURATION"
+msgstr "에뮬레이터 고급 설정"
+
+msgid "ADVANCED EMULATOR CONFIGURATION"
+msgstr "고급 에뮬레이터 설정"
+
+msgid "HELP"
+msgstr "도움말"
+
+msgid "THE SYSTEM IS UP TO DATE"
+msgstr "최신 시스템입니다."
+
+msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "강제로 기본 게임목록 보기"
+
+msgid "Now playing"
+msgstr "플레이중"
+
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "도움말 알림창 지속시간 설정, 0으로 설정시 알림 해제"
+
+msgid "HELP POPUP DURATION"
+msgstr "도움말 알림창 지속시간"
+
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "배경음악 알림창 지속시간 설정, 0으로 설정시 알림 해제"
+
+msgid "MUSIC POPUP DURATION"
+msgstr "음악 알림창 지속시간"
+
+msgid "POPUP SETTINGS"
+msgstr "알림창 설정"
+
+msgid "POPUP POSITION"
+msgstr "알림창 위치"
+
+msgid "Select the position of popups on screen."
+msgstr "화면상 알림창 위치 선택"
+
+msgid "Set position and duration of popups."
+msgstr "알림창 위치 지속시간 설정"
+
+msgid "TOP/RIGHT"
+msgstr "상/우"
+
+msgid "BOTTOM/RIGHT"
+msgstr "하/우"
+
+msgid "BOTTOM/LEFT"
+msgstr "하/좌"
+
+msgid "TOP/LEFT"
+msgstr "상/좌"
+
+msgid "NETPLAY"
+msgstr "넷플레이"
+
+msgid "NETPLAY SETTINGS"
+msgstr "넷플레이 설정"
+
+msgid "NETPLAY LOBBY"
+msgstr "넷플레이 로비"
+
+msgid "Enable or disable Netplay in games."
+msgstr "게임에서 넷플레이 활성/비활성 여부"
+
+msgid "PORT"
+msgstr "포트"
+
+msgid "NICKNAME"
+msgstr "닉네임"
+
+msgid "RELAY SERVER"
+msgstr "릴레이 서버"
+
+msgid "Enable or disable connections throught relay servers."
+msgstr "릴레이 서버를 통한 연결 사용 또는 사용 안 함."
+
+msgid ""
+"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
+"Megadrive and more!"
+msgstr ""
+"패미컴, 슈퍼패미컴, 파이널번알파, 메가드라이브 등의 에뮬을 네트워크에 연결하"
+"여 온라인으로 같이 게임을 할 수 있습니다."
+
+msgid "KODI/NETPLAY"
+msgstr "코디/넷플레이"
+
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "게임이 없거나 연결이 되지 않음"
+
+msgid "HASH NOW"
+msgstr "지금 해시함"
+
+msgid "HASH THESE SYSTEMS"
+msgstr "이 시스템을 해시함"
+
+msgid ""
+"Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr ""
+"Netplay에서 보다 정확한 결과를 얻으려면 게임리스트에 Roms의 해시를 추가하십시"
+"오."
+
+msgid "HASH ROMS"
+msgstr "해시된 롬들"
+
+msgid "Only missing hashs"
+msgstr "해시만 없음"
+
+msgid "Username"
+msgstr "사용자이름"
+
+msgid "Country"
+msgstr "지역"
+
+msgid "Latency"
+msgstr "응답속도"
+
+msgid "Host arch."
+msgstr "호스트 아치"
+
+msgid "Core ver."
+msgstr "코어 버전."
+
+msgid "RA ver."
+msgstr "RA 버전."
+
+msgid "Can join"
+msgstr "조인 가능"
+
+msgid "Rom and core match"
+msgstr "롬과 코어 매치"
+
+msgid "Rom, hash and core match"
+msgstr "롬, 해시와 코어가 일치"
+
+msgid "No rom match"
+msgstr "일치하는 롬 없음"
+
+msgid "No core match"
+msgstr "일치하는 코어 없음"
+
+msgid "Match"
+msgstr "매치"
+
+msgid "No Match"
+msgstr "일치하는것 없음"
+
+msgid "Rom file"
+msgstr "롬 파일"
+
+msgid "Rom hash"
+msgstr "롬 해시"
+
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "시간이 좀 걸릴 수 있습니다.. 진행 하시겠습니까?"
+
+msgid "good"
+msgstr "좋음"
+
+msgid "bad"
+msgstr "나쁨"
+
+msgid "medium"
+msgstr "중간"
+
+msgid "NETPLAY POPUP DURATION"
+msgstr "넷플레이 팝업 지속시간"
+
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "넷플레이 팝업 지속시간을 설정합니다. 값이 0 이면 팝업하지 않습니다."
+
+msgid "Player"
+msgstr "사용자"
+
+msgid "Game"
+msgstr "게임"
+
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "리콜박스 친구가 넷플레이 게임을 시작했습니다!"
+
+msgid "Add a clock in the main menu."
+msgstr "메인 메뉴에 시계 추가"
+
+#. UPGRADE PROCESS
+msgid "UPGRADING"
+msgstr "업그레이드 중"
+
+msgid "PREPARING"
+msgstr "준비 중"
+
+msgid "VERIFYING"
+msgstr "검증 중"
+
+msgid "EMPTY LIST"
+msgstr "리스트 없음"
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr "오토"
+
+msgid "Square pixel"
+msgstr "사각 픽셀"
+
+msgid "Retroarch Config"
+msgstr "레트로아크 설정"
+
+msgid "Retroarch Custom"
+msgstr "레트로아크 사용자지정"
+
+msgid "Core provided"
+msgstr "코어 제공"
+
+msgid "Do not set"
+msgstr "설정하지 마세요"
+
+#. Bios
+msgid "BIOS CHECKING"
+msgstr "바이오스 확인중"
+
+msgid ""
+"Scan and check all your BIOS files and report everything in a comprehensive "
+"way."
+msgstr "모든 바이오스 파일을 검색 및 확인하고 모든 것을 포괄적으로 보고합니다."
+
+msgid "RESCAN"
+msgstr "재검색"
+
+msgid "Rescan all bios files"
+msgstr "모든 바이오스파일 재검색"
+
+msgid ""
+"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr ""
+"에뮬레이터 %s는 모든 바이오스를 사용가능하게 만들 때까지 정상동작하지 않습니"
+"다!"
+
+msgid ""
+"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
+"AVAILABLE!"
+msgstr ""
+"%i 에뮬레이터들은 모든 바이오스를 사용가능하게 만들 때까지 정상동작하지 않습"
+"니다!"
+
+msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr "축하합니다! 모든 에뮬레이터들이 정상동작합니다!"
+
+msgid "%i BIOS NOT FOUND"
+msgstr "%i BIOS 없음"
+
+msgid "%i NON-MATCHING BIOS FOUND"
+msgstr "%i개의 일치되지 않는 바이오스를 찾았습니다"
+
+msgid "%i GOOD BIOS FOUND!"
+msgstr "%i 정상 바이오스를 찾았습니다!"
+
+msgid "File Path"
+msgstr "파일 경로"
+
+msgid "Mandatory"
+msgstr "필수"
+
+msgid "Must match MD5"
+msgstr "MD5 일치 해야함."
+
+msgid "File found ?"
+msgstr "파일이 존재합니까?"
+
+msgid "Matching MD5 ?"
+msgstr "MD5가 일치합니까?"
+
+msgid "NOTE"
+msgstr "참고"
+
+msgid ""
+"This bios is required in order to run the emulator properly. You won't be "
+"able to run any games with the emulator/core above."
+msgstr ""
+"이 BIOS는 에뮬레이터를 올바르게 실행하기 위해 필요하다. 위의 에뮬레이터/코어"
+"로는 어떤 게임도 실행할 수 없을 것이다."
+
+msgid ""
+"This bios is not mandatory in most cases. The emulator will run properly "
+"unless you want to use features requiring this particular bios file."
+msgstr ""
+"대부분의 경우 이 BIOS는 필수 사항이 아니다. 이 특정 BIOS를 필요로 하는 기능"
+"을 사용하지 않는 한 에뮬레이터가 제대로 실행될 것이다."
+
+msgid ""
+"Your bios file does not match any known MD5. However, there are chances of "
+"getting the emulator running fine."
+msgstr ""
+"BIOS 파일이 알려진 MD5 해시와 일치하지 않습니다. 이 문제를 해결하면 모든 것"
+"이 잘 동작할 수 있습니다."
+
+msgid ""
+"Your bios file does not match any known MD5 but this is not required. So "
+"there are strong chances of getting everything running fine."
+msgstr ""
+"BIOS 파일이 알려진 MD5와 일치하지 않지만 필수 사항은 아닙니다. 이 문제를 해결"
+"하면 모든 것이 잘 동작할 수 있습니다."
+
+msgid ""
+"Your bios file does match one of the known MD5. Everything will run fine!"
+msgstr ""
+"BIOS 파일은 알려진 MD5 해시 중 하나와 일치합니다. 모든 게 잘 동작할 것입니다!"
+
+msgid "MD5 LIST"
+msgstr "MD5 리스트"
+
+msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
+msgstr "축하합니다, 아래에 나열된 모든 코어/에뮬레이터가 완벽하게 작동함!"
+
+msgid ""
+"Cores/emulators listed below won't probably work until required bios are "
+"made available."
+msgstr ""
+"아래에 나열된 코어/에뮬레이터는 필요한 바이오스가 사용 가능할 때까지 작동하"
+"지 않을 수 있습니다."
+
+msgid ""
+"Cores/emulators listed below may work in most cases, unless you use features "
+"requiring special bios."
+msgstr ""
+"대부분의 경우, 특별한 BIOS가 필요한 기능을 사용하지 않는 한 아래의 코어/에뮬"
+"레이터가 제대로 실행됩니다."
+
+msgid "BIOS OK"
+msgstr "바이오스 정상"
+
+msgid "BIOS UNSAFE"
+msgstr "바이오스 불안정"
+
+msgid "BIOS KO"
+msgstr "바이오스 정상"
+
+msgid "BIOS NOT FOUND"
+msgstr "바이오스 찾지 못함"
+
+msgid "MD5 OK"
+msgstr "MD5 정상"
+
+msgid "MD5 NOT OK"
+msgstr "MD5 비정상"
+
+msgid "BROWSE"
+msgstr "검색"
+
+msgid "Your bios' MD5"
+msgstr "바이오스들의 MD5"
+
+msgid "Known MD5 List"
+msgstr "알려진 MD5 목록"
+
+msgid "MY SYSTEMS"
+msgstr "내 시스템"
+
+msgid "ALL SYSTEMS"
+msgstr "모든 시스템"
+
+msgid ""
+"EmulationStation has detected external changes on a gamelist file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"에뮬레이션 스테이션이 게임 목록 파일의 외부 변경을 감지했습니다.\n"
+"데이터 손실을 방지하기 위해 에뮬레이션 스테이션이 모든 파일을 다시 시작하고 "
+"다시 로드합니다."
+
+msgid ""
+"EmulationStation has detected external changes on a theme file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all "
+"files."
+msgstr ""
+"에뮬레이션 스테이션이 테마 파일에 대한 외부 변경을 감지했습니다.\n"
+"데이터 손실을 방지하기 위해 에뮬레이션 스테이션이 모든 파일을 다시 시작하고 "
+"다시 로드합니다."
+
+msgid "VIRTUAL SYSTEMS"
+msgstr "가상 시스템"
+
+msgid "SHOW ALL-GAMES SYSTEM"
+msgstr "모든 게임 시스템 보기"
+
+msgid "SHOW MULTIPLAYER SYSTEM"
+msgstr "멀티플레이어 시스템 보기"
+
+msgid "SHOW LAST-PLAYED SYSTEM"
+msgstr "마지막으로 실행한 시스템 보기"
+
+msgid "VIRTUAL SYSTEMS PER GENRE"
+msgstr "장르별 가상 시스템"
+
+msgid "Show a 'all-games' system with all games from all systems."
+msgstr "모든 시스템의 모든 게임이 포함된 '전체 게임' 시스템을 표시합니다."
+
+msgid "Show multiplayer games (all games playable by two or more players)."
+msgstr ""
+"멀티플레이어 게임 표시(두 명 이상의 플레이어가 플레이할 수 있는 모든 게임)"
+
+msgid "Show last played games."
+msgstr "마지막으로 실행한 게임을 표시합니다."
+
+msgid "Select virtual systems to show."
+msgstr "표시할 가상 시스템을 선택합니다."
+
+msgid "Select vitual systems per genre to show."
+msgstr "표시할 장르별 가상 시스템을 선택합니다."
+
+msgid "HIDE ADULT GAMES"
+msgstr "성인 게임 숨기기"
+
+msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
+msgstr "모든 시스템에서 성인 게임 숨기기"
+
+msgid "Hide games flagged as adult games."
+msgstr "성인 게임으로 지정된 게임을 숨깁니다."
+
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr "지역의 게임 강조 표시..."
+
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr "특정 지역의 모든 게임을 강조 표시하고 다른 게임은 페이드 아웃합니다."
+
+msgid ""
+"Select the source of your game name. Trust the scraping database or get them "
+"from filename, raw or undecorated (without decoration in () or [] )."
+msgstr ""
+"게임 이름의 원본을 선택하십시오. 스크래핑 데이터베이스를 신뢰하거나 원본이나 "
+"장식이 없는 파일 이름에서 가져옵니다(() 또는 []의 장식이 없는 경우)."
+
+msgid ""
+"Try to extract game region from its filename when possible. Support long and "
+"short region game (JP or Japan, EU or Europe, ...)"
+msgstr ""
+"가능하면 파일 이름에서 게임 지역을 추출해 보십시오. 원어 및 약어 지역 이름"
+"(JP, 일본, EU 또는 유럽 등)이 지원됩니다."
+
+msgid "GET GAME NAME FROM"
+msgstr "게임 이름 가져오기"
+
+msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
+msgstr "가능한 경우 파일 이름에서 지역 가져오기"
+
+msgid "Scraper results"
+msgstr "스크래퍼 결과들"
+
+msgid "Raw filename"
+msgstr "원본 파일이름"
+
+msgid "Undecorated filename"
+msgstr "장식없는 파일이름"
+
+msgid "OPEN-SOURCE LICENSE"
+msgstr "오픈소스 라이센스"
+
+msgid "SELECT IMAGE TYPE"
+msgstr "그림 형식 선택"
+
+msgid "In-game screenshot"
+msgstr "게임 내 스크린샷"
+
+msgid "Title screenshot"
+msgstr "제목 스크린샷"
+
+msgid "Clear logo"
+msgstr "로고 제거"
+
+msgid "Marquee"
+msgstr ""
+
+msgid "ScreenScraper Mix V1"
+msgstr "스크린스크래퍼 혼합 V1"
+
+msgid "ScreenScraper Mix V2"
+msgstr "스크린스크래퍼 혼합 V2"
+
+msgid "SCRAPE IMAGE"
+msgstr "스크랩 이미지"
+
+msgid "SELECT THUMBNAIL TYPE"
+msgstr "썸네일 유형 선택"
+
+msgid "No thumbnail"
+msgstr "썸네일 없음"
+
+msgid "SCRAPE THUMBNAIL"
+msgstr "썸네일 스크랩"
+
+msgid "SELECT VIDEO TYPE"
+msgstr "VIDEO TYPE 선택"
+
+msgid "No video"
+msgstr "비디오 없음"
+
+msgid "Original video"
+msgstr "원본 비디오"
+
+msgid "Optimized/Normalized video"
+msgstr "최적화/정규화된 비디오"
+
+msgid "SCRAPE VIDEO"
+msgstr "비디오 스크랩"
+
+msgid "SELECT FAVORITE REGION"
+msgstr "선호 지역 선택"
+
+msgid "FAVORITE REGION"
+msgstr "선호 지역"
+
+msgid "SELECT FAVORITE LANGUAGE"
+msgstr "즐겨찾는 언어를 선택"
+
+msgid "FAVORITE LANGUAGE"
+msgstr "즐겨찾는 언어"
+
+msgid "SYSTEM NAME"
+msgstr "시스템 이름"
+
+msgid "PUBLISHER"
+msgstr "배급사"
+
+msgid "DEFAULT"
+msgstr "기본"
+
+msgid ""
+"It seems that your game didn't start at all!\n"
+"\n"
+"It's most likely due to either:\n"
+"- bad rom\n"
+"- missing/bad mandatory bios files\n"
+"- missing/bad optional BIOS files (but required for this very game)"
+msgstr ""
+"게임이 전혀 시작되지 않은 것 같습니다!\n"
+"\n"
+"그 원인은 다음과 같은 두 가지 때문일 수 있습니다.\n"
+"- 불량 ROM\n"
+"- 필수 BIOS 파일 누락/불량\n"
+"- BIOS 파일 누락/불량(단, 이 게임에 필요)"
+
+msgid ""
+"At least one mandatory BIOS is missing for %emulator%!\n"
+"Your game '%game%' will very likely not run at all until required BIOS are "
+"put in the expected folder.\n"
+"\n"
+"Do you want to launch the game anyway?"
+msgstr ""
+"%emulator%에 대해 하나 이상의 필수 BIOS가 없습니다!\n"
+"필요한 BIOS 파일이 예상 폴더에 저장될 때까지 '%game%' 게임이 실행되지 않을 가"
+"능성이 높습니다.\n"
+"\n"
+"어쨌든 게임을 시작하시겠습니까?"
+
+msgid "BACKSPACE"
+msgstr "백스페이스"
+
+msgid "FAST WHEEL"
+msgstr "빠른 휠"
+
+msgid "CHANGE CHARSET"
+msgstr "문자 집합 변경"
+
+msgid "MOVE WHEEL"
+msgstr "휠 이동"
+
+msgid "FAST CURSOR"
+msgstr "빠른 커서"
+
+msgid "No missing hash found!"
+msgstr "누락된 해시를 찾을 수 없습니다!"
+
+msgid "%i missing hashes have been calculated!"
+msgstr "%i 누락된 해시가 계산되었습니다!"
+
+msgid "DOWNLOAD GAME MANUALS"
+msgstr "게임 설명서 다운로드"
+
+msgid "DOWNLOAD GAME MAPS"
+msgstr "게임 지도 다운로드"
+
+msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr "PAD-2 키보드 설정 설치"
+
+msgid ""
+"You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr ""
+"리콜박스를 업데이트하는 것이 좋습니다.\n"
+"이전 버전에 대한 지원이 제공되지 않습니다!"
+
+msgid " has been plugged!"
+msgstr "연결되었습니다!"
+
+msgid "Ready to play!"
+msgstr "실행 준비!"
+
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr "설정이 완료되지 않았습니다! 버튼을 눌러 설정창으로 들어가세요."
+
+msgid " has been unplugged!"
+msgstr "분리되었습니다!"
+
+msgid "Remove from favorite"
+msgstr "즐겨찾기에서 지우기"
+
+msgid "Default output"
+msgstr "기본 출력"
+
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "아케이드 가상 시스템"
+
+msgid "BETWEEN %1 AND %2"
+msgstr "%1 과 %2 사이"
+
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "아케이드 가상 시스템 활성화"
+
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "오리지널 시스템 숨김"
+
+msgid "INCLUDE NEO-GEO"
+msgstr "네오지오 포함"
+
+msgid "POSITION"
+msgstr "위치"
+
+msgid "PREDEFINED PASSWORDS"
+msgstr "사전정의된 암호"
+
+msgid "VALIDATE"
+msgstr "확인"
+
+msgid "PASSWORD #%i"
+msgstr "암호 #%i"
+
+msgid "PASSWORD REQUIRED"
+msgstr "비밀번호 필요"
+
+msgid "PLAYER"
+msgstr "플레이어"
+
+msgid "VIEWER-ONLY"
+msgstr "관전자 전용"
+
+msgid "JOIN AS"
+msgstr "참여"
+
+msgid "CHOOSE PASSWORD"
+msgstr "암호 선택"
+
+msgid "EDIT PASSWORDS"
+msgstr "암호 수정"
+
+msgid "GAME PASSWORDS"
+msgstr "게임 암호"
+
+msgid "SET PLAYER PASSWORD"
+msgstr "플레이어 암호"
+
+msgid "SET VIEWER PASSWORD"
+msgstr "관전자 암호"
+
+msgid "CHOOSE PLAYER PASSWORD"
+msgstr "플레이어 암호 선택"
+
+msgid "CHOOSE VIEWER-ONLY PASSWORD"
+msgstr "관전자 전용 암호 선택"
+
+msgid "GAME PROTECTION"
+msgstr "게임 보호"
+
+msgid "JOIN NETPLAY GAME"
+msgstr "넷플레이 게임 참가"
+
+msgid "SEARCH IN..."
+msgstr "검색..."
+
+msgid "DOWNLOADING UPDATE..."
+msgstr "업데이트 다운로드하는 중..."
+
+msgid ""
+"We're downloading Recalbox version %s!\n"
+"\n"
+"Once the download is complete, Recalbox will reboot and start installing the "
+"new version.\n"
+"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox "
+"until the installation is complete."
+msgstr ""
+"%s 리콜박스 버전을 다운로드하고 있습니다!\n"
+"\n"
+"다운로드가 완료되면 리콜박스가 재부팅되고 새 버전 설치가 시작됩니다.\n"
+"일반적인 설치에는 약 5-10분이 소요됩니다. 설치가 완료될 때까지 다시 부팅하거"
+"나 전원을 끄지 마십시오."
+
+msgid "REBOOT IN %s"
+msgstr "%s초 내 재부팅"
+
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr "리콜박스 다운로드 오류 %s... 나중에 다시 시도하십시오!"
+
+msgid "ALL"
+msgstr "전체"
+
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr "최소 3자 이상 입력"
+
+msgid "AUTOMATIC WPS CONNECTION"
+msgstr "WPS 자동 연결"
+
+msgid "Connecting to WIFI..."
+msgstr "WiFi에 연결 중..."
+
+msgid "Disconnecting from WIFI..."
+msgstr "WiFi 연결 해제 중..."
+
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr "WPS설정을 찾을 수 없습니다!"
+
+msgid "Hostname changes will not be effective until next reboot"
+msgstr "다음 재부팅할 때까지 호스트 이름 변경 내용이 적용되지 않음"
+
+msgid "Enable/Disable Arcade virtual system and set its options"
+msgstr "아케이드 가상 시스템 사용/미사용 및 옵션 설정"
+
+msgid "Fetching WIFI parameters"
+msgstr "WiFi 매개 변수를 가져오는 중"
+
+msgid "EDIT MANUALLY"
+msgstr "직접 수정"
+
+msgid "Headphones"
+msgstr "헤드폰"
+
+msgid "NETPLAY MITM"
+msgstr "넷플레이 MITM"
+
+msgid "RECALBOX API"
+msgstr "리콜박스 API"
+
+msgid "RECALBOX MANAGER"
+msgstr "리콜박스 관리자"
+
+msgid "Reseting WIFI configuration..."
+msgstr "WiFi 구성을 재설정하는 중..."
+
+msgid "WPS CONFIGURATION SUCCESSFUL!"
+msgstr "WPS 설정 성공!"
+
+msgid "WPS CONNECTION"
+msgstr "WPS 연결"
+
+msgid "Waiting for IP address... (%is)"
+msgstr "IP 주소를 기다리는 중... (%is)"
+
+msgid "Waiting for WPS configuration..."
+msgstr "WPS 설정을 기다리는 중..."
+
+msgid "SCREENSAVER"
+msgstr "스크린세이버"
+
+msgid "SHADERS"
+msgstr "셰이더"
+
+msgid "SYSTEMS TO SHOW IN DEMO"
+msgstr "데모에 표시할 시스템"
+
+msgid "Saving WIFI configuration"
+msgstr "WiFi 설정 저장 중"
+
+msgid "Scanning WIFI networks..."
+msgstr "WIFI 네트워크 검색중..."
+
+msgid "THEME"
+msgstr "테마"
+
+msgid ""
+"Shaders are like filters for the game rendering. You can select a raw shader "
+"file here. This setting may be overloaded by shaderset if not definied to "
+"'none'."
+msgstr ""
+"셰이더는 게임 렌더링을 위한 필터와 같습니다. 여기서 원본 셰이더 파일을 선택"
+"할 수 있습니다. 이 설정은 '없음'으로 정의되지 않은 경우 쉐이더 세트에 의해 덮"
+"여쓰여질  수 있습니다."
+
+msgid "Select your keyboard layout."
+msgstr "키보드 배열 선택"
+
+msgid "Mute (no sound)"
+msgstr "음소거(무음)"
+
+msgid "Internal Speakers"
+msgstr "내부 스피커"
+
+msgid "Headphone Jack"
+msgstr "헤드폰 잭"
+
+msgid "Internal Speakers + Headphone Jack"
+msgstr "내부 스피커 + 헤드폰 잭"
+
+msgid "black"
+msgstr "검정"
+
+msgid "demo"
+msgstr "데모"
+
+msgid "dim"
+msgstr "밝기"
+
+msgid "gameclip"
+msgstr "게임 클립"
+
+msgid "Action (All)"
+msgstr "액션 (전체)"
+
+msgid "Action RPG"
+msgstr "RPG 액션"
+
+msgid "Adventure (All)"
+msgstr "어드밴쳐 (전체)"
+
+msgid "Artillery"
+msgstr "포격"
+
+msgid "Auto-battler"
+msgstr "오토 배틀러"
+
+msgid "Battle Royale"
+msgstr "배틀 로얄"
+
+msgid "Beat'em All"
+msgstr "진행형 격투 게임"
+
+msgid "Board game"
+msgstr "보드 게임"
+
+msgid "Build & Management"
+msgstr "빌딩 및 관리"
+
+msgid "Casino"
+msgstr "카지노"
+
+msgid "Casual game"
+msgstr "캐주얼"
+
+msgid "Competition Sport"
+msgstr "경쟁 스포츠"
+
+msgid "Demo from Demo Screne"
+msgstr "데모 장면의 데모"
+
+msgid "Digital Cards"
+msgstr "디지털 카드"
+
+msgid "Dungeon Crawler"
+msgstr "던젼 크롤러"
+
+msgid "Educative"
+msgstr "교육"
+
+msgid "Favorites"
+msgstr "즐겨찾기"
+
+msgid "Fighting"
+msgstr "대전 격투"
+
+msgid "Fighting/Violent Sport"
+msgstr "대전 격투/폭력적인 스포츠"
+
+msgid "First Person Shooter"
+msgstr "1인칭 슈팅"
+
+msgid "Fishing & Hunting"
+msgstr "낙시 및 사냥"
+
+msgid "Graphical Adventure"
+msgstr "어드벤처"
+
+msgid "Infiltration"
+msgstr "스텔스"
+
+msgid "Interactive Movie"
+msgstr "인터랙티브 영화"
+
+msgid "JRPG"
+msgstr "일본RPG"
+
+msgid "Life Simulation"
+msgstr "생활 시뮬레이션"
+
+msgid "MMORPG"
+msgstr "MMORPG"
+
+msgid "Multi Game Compilation"
+msgstr "멀티 게임 컴플라이언스"
+
+msgid "Multiplayer Online Battle Arena"
+msgstr "멀티플레이어 온라인 배틀 아레나"
+
+msgid "Multiplayer Party Game"
+msgstr "다중 파티 게임"
+
+msgid "Party based RPG"
+msgstr "파티기반 RPG"
+
+msgid "Pinball"
+msgstr "핀볼"
+
+msgid "Platform Shooter"
+msgstr "플랫폼 슈터"
+
+msgid "Platform"
+msgstr "플랫폼"
+
+msgid "Puzzle & Logic"
+msgstr "퍼즐 및 논리"
+
+msgid "RPG (All)"
+msgstr "RPG (전체"
+
+msgid "Racing"
+msgstr "경주"
+
+msgid "Real Time 3D Adventure"
+msgstr "실시간 3D 모험"
+
+msgid "Real Time Strategy"
+msgstr "실시간 전략"
+
+msgid "Rythm & Music"
+msgstr "리듬 및 음악"
+
+msgid "Science Fiction Simulation"
+msgstr "공상 과학 시뮬레이션"
+
+msgid "Shoot with Gun"
+msgstr "슈팅"
+
+msgid "Shoot'em Up"
+msgstr "진행형 슈팅"
+
+msgid "Simulation (All)"
+msgstr "시뮬레이션 (전체)"
+
+msgid "Sport Simulation"
+msgstr "스포츠 시뮬레이션"
+
+msgid "Sports (All)"
+msgstr "스포츠 (전체)"
+
+msgid "Strategy (All)"
+msgstr "전략 (전체)"
+
+msgid "Survival"
+msgstr "서바이벌"
+
+msgid "Tactical RPG"
+msgstr "전술 RPG"
+
+msgid "Textual Adventure"
+msgstr "텍스트 어드벤처"
+
+msgid "Tower Defense"
+msgstr "타워 디펜스"
+
+msgid "Trivia"
+msgstr "잡학"
+
+msgid "Turn Based Strategy"
+msgstr "턴제 전략"
+
+msgid "Vehicle Simulation"
+msgstr "자동차 시뮬레이션"
+
+msgid "Visual Novel"
+msgstr "비주얼 노벨"
+
+msgid "Wargame"
+msgstr "전쟁"
+
+msgid "eXplore, eXpand, eXploit & eXterminate"
+msgstr "탐험, 확장, 개발 및 말살 (4X)"
+
+msgid ""
+"Welcome to RECALBOX for Odroid Go Advance!\n"
+"This little presentation will show you how to use the 6 special buttons "
+"available right under the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"ODROID-GO 어드밴스을 위한 리콜박스에 오신 것을 환영합니다!\n"
+"이 작은 프레젠테이션에서는 화면 바로 아래에 있는 6개의 특수 버튼을 사용하는 "
+"방법에 대해 설명합니다.\n"
+"\n"
+"시작하려면 아무 버튼이나 누르세요!"
+
+msgid ""
+"The leftmost button is the SELECT button, marked with a 'I', also available "
+"on most modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other "
+"buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr ""
+"가장 왼쪽 버튼은 'I'로 표시된 SELECT 버튼이며, 대부분의 최신 패드에서도 사용"
+"할 수 있습니다.\n"
+"또한 대부분의 에뮬레이터에서 다른 버튼과 함께 사용할 수 있는 HOTKEY 버튼입니"
+"다.\n"
+"예를 들어 HOTKEY+START를 사용하여 현재 게임을 종료할 수 있습니다.\n"
+"\n"
+"SELECT 버튼을 누릅니다."
+
+msgid ""
+"Next to the SELECT button is the START button, marked with an 'II'.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr ""
+"SELECT 버튼 옆에는 'II'로 표시된 START(시작) 버튼이 있습니다.\n"
+"이 아이콘을 사용하여 리콜박스 인터페이스에서 메인 메뉴를 열고 게임 내 대부분"
+"의 콘솔에서 사용할 수 있는 일반 START 버튼으로 사용합니다.\n"
+"\n"
+"START 버튼을 누릅니다."
+
+msgid ""
+"Then, there are 2 buttons marked with a 'III' and a 'IV'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+" Press either volume up or down"
+msgstr ""
+"그리고 'III'와 'IV'로 표시된 2개의 버튼이 있습니다.\n"
+"리콜박스 인터페이스나 게임 내에서는 언제든지 볼륨을 올리거나 낮출 수 있습니"
+"다.\n"
+"\n"
+"볼륨을 위 또는 아래로 누릅니다."
+
+msgid ""
+"The last two buttons marked 'V' and 'VI' are useful to make your screen "
+"darker or brighter.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down (V/VI)"
+msgstr ""
+"'V' 및 'VI'로 표시된 마지막 두 개의 버튼은 화면을 어둡게 또는 밝게 만드는 데 "
+"유용합니다.\n"
+"화면이 밝을수록 더 많은 전력을 소비하게 됩니다!\n"
+"\n"
+"밝기를 위 또는 아래로 누릅니다."
+
+msgid ""
+"Now you're ready to start your RETROGAMING experience with Recalbox! Press "
+"button B to start... and PLAY AGAIN!"
+msgstr ""
+"이제 리콜박스로 레트로 게이밍 경험을 시작할 준비가 되었습니다! B 버튼을 눌러 "
+"시작합니다... 그리고 다시 플레이하세요!"
+
+msgid "WELCOME TO RECALBOX!"
+msgstr "리콜박스에 오신 것을 환영합니다!"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"전원 버튼에 대해 알아야 할 몇 가지 사항.\n"
+"마우스를 클릭하는 것처럼 빠르게 누르면 콘솔이 절전 모드로 전환됩니다. 한 번 "
+"더 짧게 누르면 콘솔이 즉시 다시 시작됩니다! 리콜박스 인터페이스와 게임 내에서"
+"도 작동합니다!\n"
+"\n"
+"계속하려면 B 버튼을 누르십시오."
+
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully.\n"
+"Just in case, holding the POWER button down more than 5s perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"전원 버튼을 2초 이상 누르면 콘솔의 전원이 꺼집니다. 게임 내에서는 전원을 끄"
+"기 전에 현재 에뮬레이터를 정상적으로 닫습니다.\n"
+"전원 버튼을 5초 이상 누르고 있으면 강제종료가 수행됩니다."
+
+msgid ""
+"One more thing to know: If you plug in or unplug your headphones in the jack "
+"connector, Recalbox will automatically switch the audio output. Convenient.\n"
+"\n"
+"Press button B, as usual."
+msgstr ""
+"한 가지 더 명심해야 할 사항: 잭 커넥터에서 헤드폰을 꽂거나 빼면 자동으로 오디"
+"오 출력이 전환됩니다. 편리하지 않나요?\n"
+"\n"
+"평소와 같이 B 버튼을 누릅니다."
+
+msgid "HIDE PREINSTALLED GAMES"
+msgstr "사전 설치된 게임 숨기기"
+
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""
+"사전 설치된 모든 게임을 숨 깁니다. 이 옵션을 변경하면 에뮬레이션스테이션이 다"
+"시 시작됩니다."
+
+msgid "SHOW IN LIST"
+msgstr "목록 보기"
+
+msgid "System"
+msgstr "시스템"
+
+msgid "Added to favorites"
+msgstr "즐겨찾기에 추가됨"
+
+msgid "Removed from favorites"
+msgstr "즐겨찾기에서 제거됨"
+
+msgid "Gameclips cannot be played. No video availabe for your selection"
+msgstr "게임 클립을 재생할 수 없습니다. 선택한 동영상이 없습니다."
+
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr ""
+
+msgid "PAIRING %s ..."
+msgstr ""
+
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr ""
+
+msgid "GAME OPTIONS"
+msgstr ""
+
+msgid "NO GAME SELECTED"
+msgstr ""
+
+msgid "GAME %s"
+msgstr ""
+
+msgid "FOLDER %s"
+msgstr ""
+
+msgid "EDIT GAME %s"
+msgstr ""
+
+msgid "EDIT FOLDER %s"
+msgstr ""
+
+msgid "RUN WITH"
+msgstr ""
+
+msgid "NON EDITABLE GAME"
+msgstr ""
+
+msgid "auto select"
+msgstr ""
+
+msgid ""
+"Welcome to RECALBOX for Odroid Go Super!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+
+msgid ""
+"The top-left black button is the SELECT button, also available on most "
+"modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other "
+"buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr ""
+
+msgid ""
+"At the opposite side of the SELECT button is the START button.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr ""
+
+msgid ""
+"Then, on the top of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+" Press any button to continue"
+msgstr ""
+
+msgid ""
+"The two bottom-left gray buttons control the screen brightness.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down button"
+msgstr ""
+
+msgid ""
+"Finally, the two bottom-right gray buttons are third left & right triggers "
+"(L3/R3), only usefull in some emulators or to record videos.\n"
+"\n"
+" Press either L3 or R3"
+msgstr ""
+
+msgid "DRIVER"
+msgstr ""
+
+msgid ""
+"Change the driver if your pad is not working at all or not working properly "
+"in-game."
+msgstr ""
+
+msgid "In Memory!"
+msgstr ""
+
+msgid "Internal Share Partition"
+msgstr ""
+
+msgid "Network Share"
+msgstr ""
+
+msgid "Device %d - %l (%f)"
+msgstr ""
+
+msgid "Any External Device"
+msgstr ""
+
+msgid "SCRAPER OPTIONS"
+msgstr ""
+
+msgid "SCREENSCRAPER OPTIONS"
+msgstr ""
+
+msgid "DETECTED REGION"
+msgstr ""
+
+msgid "SELECT REGION PRIORITY"
+msgstr ""
+
+msgid "LATER"
+msgstr ""
+
+msgid "A reboot is required to apply pending changes."
+msgstr ""
+
+msgid "SHOW LIGHTGUN SYSTEM"
+msgstr ""
+
+msgid "Show all available games playable with a lightgun."
+msgstr ""
+
+msgid ""
+"WARNING! This option erase all recalbox and emulator configurations! Use it "
+"carefully!"
+msgstr ""
+
+msgid "RESET TO FACTORY SETTINGS"
+msgstr ""
+
+msgid "WARNING!"
+msgstr ""
+
+msgid ""
+"RESET TO FACTORY SETTINGS\n"
+"\n"
+"YOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\n"
+"ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE "
+"KEPT.\n"
+"\n"
+"THIS OPERATION CANNOT BE UNDONE!\n"
+"ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
+msgstr ""
+
+msgid ""
+"YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
+"\n"
+"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr ""
+
+msgid "SWAP VALIDATE/CANCEL BUTTONS"
+msgstr ""
+
+msgid "AUDIO MODE"
+msgstr ""
+
+msgid "Select sound to play. Musics, videos sound, both or none"
+msgstr ""
+
+msgid "Musics or videos sound"
+msgstr ""
+
+msgid "Musics and videos sound"
+msgstr ""
+
+msgid "Musics only"
+msgstr ""
+
+msgid "Videos sound only"
+msgstr ""
+
+msgid "No sound"
+msgstr ""
+
+msgid "BRIGHTNESS -"
+msgstr ""
+
+msgid "BRIGHTNESS +"
+msgstr ""
+
+msgid "Adult"
+msgstr ""
+
+msgid "Waking up!"
+msgstr ""
+
+msgid "Bye bye!"
+msgstr ""
+
+#
+msgid "LightGun Games"
+msgstr ""
+
+#
+msgid "NEW YORK"
+msgstr ""
+
+#
+msgid "MADRID"
+msgstr ""
+
+#
+msgid "AUTOMATIC"
+msgstr ""
+
+#
+msgid "SYSTEM DRIVER"
+msgstr ""
+
+#
+msgid "GAME LIBRARY DRIVER"
+msgstr ""
+
+#
+msgid "Allow to swap validate button B/X and cancel button B/O"
+msgstr ""
+
+#
+msgid "Select exisiting game clip view options for this theme."
+msgstr ""
+
+#
+msgid "Analog Output"
+msgstr ""
+
+#
+msgid "HDMI / DisplayPort"
+msgstr ""
+
+#
+msgid "box2D"
+msgstr ""
+
+#
+msgid "box3d"
+msgstr ""
+
+#
+msgid "P2K CONTROLS"
+msgstr ""
+
+#
+msgid "THE UPGRADE HAS FAILED"
+msgstr ""
+
+#
+msgid ""
+"The upgrade process has failed. You are back on Recalbox %s.\n"
+"Please retry to upgrade your Recalbox, and contact the team on https://forum."
+"recalbox.com if the problem persists."
+msgstr ""
+
+#
+msgid "RECALBOX OVERLAYS"
+msgstr ""
+
+#
+msgid ""
+"On wide screens, display system images that wrap around emulated screen."
+msgstr ""
+
+#
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+
+#
+msgid "No comment available"
+msgstr ""
+
+#
+msgid "UNKNOWN"
+msgstr ""
+
+#
+msgid "GO TO GAME"
+msgstr ""
+
+#~ msgid "SECURITY"
+#~ msgstr "보안"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "보안 강화"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "관리자 비밀번호"
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Recalbox의 보안 관리"
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "SSH root 패스워드 변경"
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Recalbox 보안 강화"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "화면 보호기의 동작을 설정하세요. DIM은 화면을 어둡게 하고 BLACK은 화면을 "
+#~ "검정색으로 바꿉니다."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "업데이트 버젼:"
+
+#~ msgid "Rom found"
+#~ msgstr "롬 확인됨."
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "다른 장치에 현재 시스템을 복사하십시오. 경고! 대상 장치의 모든 데이터를 지"
+#~ "웁니다."
+
+#~ msgid ""
+#~ "Scrapping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "스크래핑 완료 {PROCESSED} 게임 처리됨.\n"
+#~ "\n"
+#~ "{SUCCESS} 게임이 스크래핑되거나 업데이트됨.\n"
+#~ "{NOTFOUND} 게임을 찾을 수 없음.\n"
+#~ "{ERRORS} 다운로드 에러\n"
+#~ "\n"
+#~ "{TEXTINFO} 텍스트 정보 업데이트\n"
+#~ "{IMAGES} 개의 이미지 {VIDEOS} 비디오 다운로드 됨.\n"
+#~ "{MEDIASIZE} 개의 미디어 저장됨.\n"
+#~ "에뮬레이션스테이션은 이제 모든 게임리스트를 업데이트하기 위해 다시 시작됨."
+
+#~ msgid ""
+#~ "You reached your daily quota of scrapping request.\n"
+#~ "All your today's scrapes have been saved anyway.\n"
+#~ "\n"
+#~ "Start scrapping again tomorrow.\n"
+#~ "Dont forget to select 'update' and not 'scrape all'"
+#~ msgstr ""
+#~ "일별 스크랩 요청 할당량에 도달했습니다!\n"
+#~ "완료된 스크랩들이 모두 저장되었습니다.\n"
+#~ "\n"
+#~ "내일 다시 스크랩 해보세요.\n"
+#~ "'전체 스크랩' 대신 '업데이트'를 선택하는 것을 잊지 마십시오."
+
+#~ msgid ""
+#~ "Select the source of your game name. Trust the scrapping database or get "
+#~ "them from filename, raw or undecorated (without decoration in () or [] )."
+#~ msgstr ""
+#~ "게임 이름의 원본을 선택하십시오. 스크래핑 데이터베이스를 신뢰하거나 원본이"
+#~ "나 장식이 없는 파일 이름에서 가져옵니다(() 또는 []의 장식이 없는 경우)."
+
+#~ msgid "Scrapper results"
+#~ msgstr "스크래퍼 결과들"
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "실시간 전략"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "전원 버튼을 2초 이상 누르면 콘솔의 전원이 꺼집니다. 게임 내에서는 전원을 "
+#~ "끄기 전에 현재 에뮬레이터를 정상적으로 닫습니다.\n"
+#~ "전원 버튼을 5초 이상 누르고 있으면 강제종료가 수행됩니다."
+
+#~ msgid "added to favorites"
+#~ msgstr "즐겨찾기에 추가됨"
+
+#~ msgid "removed from favorites"
+#~ msgstr "즐겨찾기에서 제거됨"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "게임 클립을 재생할 수 없습니다.\n"
+#~ "\n"
+#~ "선택한 동영상이 없습니다."
