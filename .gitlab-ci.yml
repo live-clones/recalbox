@@ -102,7 +102,9 @@ tests configgen:
 tests emulationstation:
   <<: *lint_definition
   stage: lint
-  image: docker:latest
+  image: docker:latest  
+  tags:
+    - build
   services:
     - docker:dind
   only:
