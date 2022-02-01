@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - New Random game picker in demo mode (less cycling)
 - Add Pi400 power button support (Fn + F10 to turn off)
 - Add game regions flag in gamelist
+- Add resolution menu in Advanced Settings > Resolutions
 
 ### Improvements
 

@@ -48,6 +48,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       BootSubMenu,
       VirtualSubMenu,
       AdultGames,
+      ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,
       SecuritySubMenu,
