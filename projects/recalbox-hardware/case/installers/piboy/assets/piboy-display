@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CARD=$1
+
+connected_display=$(grep '^connected' /sys/class/drm/${CARD}*/status | wc -l)
+
+if [ "$connected_display" -eq 2 ]; then
+  # echo external display plugged
+  echo 0 >/sys/kernel/xpi_gamecon/flags
+else
+  # echo external display unplugged
+  echo 1 >/sys/kernel/xpi_gamecon/flags
+fi

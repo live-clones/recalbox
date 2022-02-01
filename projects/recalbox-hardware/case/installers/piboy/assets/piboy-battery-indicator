@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+import os
+import queue
+import sys
+import threading
+import time
+
+LED = "/sys/kernel/xpi_gamecon/green"
+PERCENT = "/sys/kernel/xpi_gamecon/percent"
+AMPS = "/sys/kernel/xpi_gamecon/amps"
+
+
+def start():
+    """battery percent poller"""
+    led_thread = threading.Thread(target=led_worker)
+    led_thread.start()
+    while True:
+        try:
+            with open(PERCENT, encoding="utf-8") as percentfd:
+                percent = int(percentfd.readline())
+                if is_charging() is False:
+                    if percent < 2:
+                        led_queue.put("0,0.1;100,0.1;0,0.1;100,0.1;0,0.1;100,0.1;0,0.1;100,0.1")
+                        led_queue.put("0,0.1;100,0.1;0,0.1;100,0.1;0,0.1;100,0.1;0,0.1;100,0.1")
+                    elif percent < 5:
+                        led_queue.put("5,0.1;100,0.1;5,0.1;100,0.1;5,0.1;100,0.1;5,0.1;100,0.1")
+                    elif percent < 10:
+                        led_queue.put("10,0.1;100,0.1;10,0.1;100,0.1")
+                    elif percent < 15:
+                        led_queue.put("15,0.1;100,0.1")
+                    else:
+                        led_queue.put("100,1.0")
+        except FileNotFoundError:
+            time.sleep(5)
+        time.sleep(2)
+
+
+def is_charging():
+    """return true if piboy is charging else false"""
+    with open(AMPS, encoding="utf-8") as ampsfd:
+        amps = int(ampsfd.readline())
+        if amps < 0:
+            return False
+        return True
+
+
+def led_worker():
+    """thread that flash green led"""
+    while True:
+        item = led_queue.get()
+        data = item.split(";")
+        while len(data):
+            led_level, wait_time = data.pop(0).split(",")
+            set_led_level(led_level)
+            time.sleep(float(wait_time))
+        led_queue.task_done()
+
+
+def set_led_level(level):
+    """set the led level, between 0 and 100"""
+    with open(LED, "w") as led:
+        led.write(level)
+
+
+# Entry point
+if __name__ == "__main__":
+    led_queue = queue.Queue()
+    sys.exit(start())

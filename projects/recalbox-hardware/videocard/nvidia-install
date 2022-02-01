@@ -1,0 +1,154 @@
+#!/bin/bash
+
+## nvidia-driver installation script ##
+
+# only symlink if source file exist
+# try_symlink src dst
+try_symlink() {
+	echo "ln $1 $2"
+	[ -f "$1" ] && ln -sf "$1" "$2"
+}
+
+# try_symlink_lib src dst src_ext
+try_symlink_lib() {
+	[ ! -f "$1.$3" ] && return
+	echo "ln $1.$3 $2.$3" && ln -sf "$1.$3" "$2.$3"
+	echo "ln $1.$3 $2" && ln -sf "$1.$3" "$2"
+	echo "ln $1.$3 $2.0" && ln -sf "$1.$3" "$2.0"
+	echo "ln $1.$3 $2.1" && ln -sf "$1.$3" "$2.1"
+	echo "ln $1.$3 $2.2" && ln -sf "$1.$3" "$2.2"
+}
+
+# get nvidia gpu model
+# "lspci -d::0300" only list vga class devices 
+gpu=("$(lspci -vmm -d10de::0300 | sed -E '/^Device/!d;s/.*\[([^]]+)\].*/\1/' | head -n 1)")
+# "lspci -nd10de::0300" only list nvidia vendor and vga class devices
+gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut -d ":" -f 2 | sed '/^$/d' | head -n 1)")
+# if has intel igpu and nvidia gpu serie M you need optimus technologie is not compatible for a moment in recalbox
+igpu=("$(lspci -d8086::0300)")
+
+# check the compatibility of the graphics card with the driver version "460.67" then "390.116"
+supportList460=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-460.txt))
+supportList390=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+
+# check the version
+nvidia460=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
+nvidia390=("$(echo /usr/lib/extra/nvidia-3* |cut -d'-' -f 2)")
+
+# nouveau conflict with nvidia-drm
+blacklistFile="/etc/modprobe.d/blacklist.conf"
+# check if driver 'nouveau' is already blacklisted
+if grep -q 'blacklist nouveau' "${blacklistFile}"; then
+	echo -e "driver 'nouveau' is already blacklisted\nNvdia-driver work with:\nGPU: ${gpu}, id: ${gpuid}"
+	exit 0
+fi
+
+# check if gpu/igpu duo 
+if [ "${gpu}" ] && [ "${igpu}" ]; then
+	echo -e "you need prime technologie for install nvidia driver\nGPU:${gpu},id ${gpuid}\nIGPU:\n${igpu},\nIs unsupported, skipping nvidia driver installation."
+	exit 0
+	else
+	# detect/configure nvidia driver version to install
+		if [ -n "${gpuid}" ] && [ -n "${supportList460}" ]; then
+	        nvver="${nvidia460}"
+	        echo "${supportList460}"
+        elif [ -n "${gpuid}" ] && [ -n "${supportList390}" ]; then
+	        nvver="${nvidia390}"
+	        echo "${supportList390}"
+        fi
+fi
+
+# set paths/vars
+libs="/usr/lib"
+xorg="${libs}/xorg/modules"
+nvkern="/lib/modules/`uname -r`/extra"
+nvlibs="${libs}/extra/nvidia-${nvver}"
+nvxorg="${nvlibs}/xorg"
+nvegl=($(ls "${libs}"/extra/nvidia-${nvver} | grep libEGL.so | tail -c 6))
+nvgl=($(ls "${libs}"/extra/nvidia-${nvver} | grep libGL.so | tail -c 6))
+nvgles1=($(ls "${libs}"/extra/nvidia-${nvver} | grep libGLESv1_CM.so | tail -c 6))
+nvgles2=($(ls "${libs}"/extra/nvidia-${nvver} | grep libGLESv2.so | tail -c 6))
+nvway=($(ls "${libs}"/extra/nvidia-${nvver} | grep libnvidia-egl-wayland.so | tail -c 6))
+
+# is gpu compatible ?
+if [ -n "${nvver}" ]; then
+	echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
+else
+	echo "GPU: ${gpu}, id: ${gpuid}, is unknown or unsupported, skipping nvidia driver installation"
+	exit 0
+fi
+# proceed installation
+mount -o remount, rw /
+echo "blacklist nouveau" >> "${blacklistFile}"
+echo "options nvidia-drm modeset=1" >> "/etc/modprobe.d/nvidia-drm.conf"
+
+echo "Installing..."
+
+##
+# install/symlink xorg modules
+##
+# 390/460
+try_symlink "${nvxorg}/drivers/nvidia_drv.so" "${xorg}/drivers/nvidia_drv.so"
+# 390
+try_symlink_lib "${nvxorg}/libnvidia-wfb.so" "${xorg}/libnvidia-wfb.so" "${nvver}"
+try_symlink_lib "${nvxorg}/extensions/libglx.so" "${xorg}/extensions/libglx.so" "${nvver}"
+# 460
+try_symlink_lib "${nvxorg}/extensions/libglxserver_nvidia.so" "${xorg}/extensions/libglxserver_nvidia.so" "${nvver}"
+
+##
+# install/symlink modules
+##
+# 390/460
+try_symlink_lib "${nvlibs}/libEGL.so" "${libs}/libEGL.so" "${nvegl}"
+try_symlink_lib "${nvlibs}/libEGL_nvidia.so" "${libs}/libEGL_nvidia.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libGL.so" "${libs}/libGL.so" "${nvgl}"
+try_symlink_lib "${nvlibs}/libGLESv1_CM.so" "${libs}/libGLESv1_CM.so" "${nvgles1}"
+try_symlink_lib "${nvlibs}/libGLESv1_CM_nvidia.so" "${libs}/libGLESv1_CM_nvidia.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libGLESv2.so" "${libs}/libGLESv2.so" "${nvgles2}"
+try_symlink_lib "${nvlibs}/libGLESv2_nvidia.so" "${libs}/libGLESv2_nvidia.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libGLX_nvidia.so" "${libs}/libGLX_nvidia.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libOpenCL.so" "${libs}/libOpenCL.so" "1.0.0"
+try_symlink_lib "${nvlibs}/libvdpau_nvidia.so" "${libs}/libvdpau_nvidia.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-egl-wayland.so" "${libs}/libnvidia-egl-wayland.so" "${nvway}"
+try_symlink_lib "${nvlibs}/libnvidia-ml.so" "${libs}/libnvidia-ml.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libGLX.so" "${libs}/libGLX.so" "0"
+try_symlink_lib "${nvlibs}/libGLdispatch.so" "${libs}/libGLdispatch.so" "0"
+try_symlink_lib "${nvlibs}/libnvidia-eglcore.so" "${libs}/libnvidia-eglcore.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-glcore.so" "${libs}/libnvidia-glcore.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-glsi.so" "${libs}/libnvidia-glsi.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-tls.so" "${libs}/libnvidia-tls.so" "${nvver}"
+# try_symlink_lib "${nvlibs}/libcuda.so" "${libs}/libcuda.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvcuvid.so" "${libs}/libnvcuvid.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-fatbinaryloader.so" "${libs}/libnvidia-fatbinaryloader.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-opencl.so" "${libs}/libnvidia-opencl.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-compiler.so" "${libs}/libnvidia-compiler.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-encode.so" "${libs}/libnvidia-encode.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-ptxjitcompiler.so" "${libs}/libnvidia-ptxjitcompiler.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-gtk2.so" "${libs}/libnvidia-gtk2.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-gtk3.so" "${libs}/libnvidia-gtk3.so" "${nvver}"
+try_symlink_lib "${nvlibs}/libnvidia-ngx.so" "${libs}/libnvidia-ngx.so" "${nvver}"
+
+##
+# install/symlink kernel modules
+##
+try_symlink "${nvkern}/nvidia.ko.${nvver}" "${nvkern}/nvidia.ko"
+try_symlink "${nvkern}/nvidia-drm.ko.${nvver}" "${nvkern}/nvidia-drm.ko"
+try_symlink "${nvkern}/nvidia-modeset.ko.${nvver}" "${nvkern}/nvidia-modeset.ko"
+try_symlink "${nvkern}/nvidia-uvm.ko.${nvver}" "${nvkern}/nvidia-uvm.ko"
+
+##
+# run depmod to regenerate modules.dep
+##
+depmod -a
+
+##
+# install/symlink binaries and config files
+##
+try_symlink "/usr/share/glvnd/egl_vendor.d/10_nvidia.json.${nvver}" "/usr/share/glvnd/egl_vendor.d/10_nvidia.json"
+try_symlink "/usr/share/glvnd/egl_vendor.d/10_nvidia_wayland.json.${nvver}" "/usr/share/glvnd/egl_vendor.d/10_nvidia_wayland.json"
+try_symlink "/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf.${nvver}" "/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf"
+try_symlink "/usr/bin/nvidia-settings.${nvver}" "/usr/bin/nvidia-settings"
+try_symlink "/usr/bin/nvidia-smi.${nvver}" "/usr/bin/nvidia-smi"
+
+mount -o remount, ro /
+echo "Done."
