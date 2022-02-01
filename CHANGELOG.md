@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Add frontend repository in monorepo
 - Add configgen repository in monorepo
 - Add recalbox-hardware repository in monorepo
+- Add monorepo information in README.md
 - Add recalbox-rgb-dual repository in monorepo
 
 ## [8.0.2-Electron]
