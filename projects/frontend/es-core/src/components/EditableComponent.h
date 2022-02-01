@@ -98,6 +98,8 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
      * @brief Called when the edited text is cancelled.
      */
     void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk) final;
+
+    std::string Text() const { return mText; }
 };
 
 

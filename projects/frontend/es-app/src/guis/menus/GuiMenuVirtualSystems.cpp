@@ -11,6 +11,7 @@
 #include <MainRunner.h>
 #include <guis/MenuMessages.h>
 #include "GuiMenuArcadeVirtualSystem.h"
+#include "GuiMenuCollections.h"
 #include <guis/menus/GuiMenuVirtualSystemPerGenre.h>
 #include <systems/SystemManager.h>
 
@@ -42,6 +43,7 @@ GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManage
 
   AddSubMenu(_("VIRTUAL SYSTEMS PER GENRE"), (int)Components::VirtualPerGenre, _(MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG));
   AddSubMenu(_("ARCADE VIRTUAL SYSTEM"), (int)Components::VirtualArcade, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
+  AddSubMenu(_("SMART COLLECTIONS"), (int)Components::SmartCollection, "");
 }
 
 GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
@@ -58,6 +60,7 @@ void GuiMenuVirtualSystems::SubMenuSelected(int id)
 {
   if ((Components)id == Components::VirtualPerGenre) mWindow.pushGui(new GuiMenuVirtualSystemPerGenre(mWindow));
   else if ((Components)id == Components::VirtualArcade) mWindow.pushGui(new GuiMenuArcadeVirtualSystem(mWindow, mSystemManager));
+  else if ((Components)id == Components::SmartCollection) mWindow.pushGui(new GuiMenuCollections(mWindow, mSystemManager));
 }
 
 void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
@@ -70,6 +73,7 @@ void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
     case Components::LightGun: RecalboxConf::Instance().SetCollectionHide("lightgun", !status).Save(); break;
     case Components::Ports: RecalboxConf::Instance().SetCollectionHide("ports", !status).Save(); break;
     case Components::VirtualPerGenre:
+    case Components::SmartCollection:
     case Components::VirtualArcade: break;
   }
 }

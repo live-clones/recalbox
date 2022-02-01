@@ -5,6 +5,7 @@
 #include "SystemManager.h"
 #include "SystemDescriptor.h"
 #include "SystemDeserializer.h"
+#include "SmartCollection.h"
 #include "LightGunDatabase.h"
 #include "games/classifications/Versions.h"
 #include <systems/SystemSorting.h>
@@ -651,6 +652,80 @@ bool SystemManager::AddLightGunMetaSystem()
   return false;
 }
 
+bool SystemManager::AddSearchCollections()
+{
+  bool added = false;
+  for (Path& file : Path(SmartCollection::sXmlPath).GetDirectoryContent())
+  {
+    XmlDocument document;
+    std::string xlsPath = file.ToString();
+    XmlResult result = document.load_file(xlsPath.c_str());
+    if (!result)
+    {
+      { LOG(LogError) << "[SearchCollection] Could not parse " << xlsPath << " file!"; }
+      return false;
+    }
+
+    XmlNode collections = document.child("collections");
+
+      if (collections != nullptr)
+      {
+        for (XmlNode& collectionNode : collections.children("collection"))
+        {
+          SmartCollection collection(collectionNode);
+          if (AddSearchCollection(collection)) added = true;
+        }
+      }
+  }
+  return added;
+}
+
+bool SystemManager::AddSearchCollection(SmartCollection& collection)
+{
+  // Get theme name
+  std::string theme = RecalboxConf::Instance().GetCollectionTheme("collection");
+  FileData::List allGames;
+  FileData::StringMap doppelganger;
+
+  // Filter and insert items
+  for(const SystemData* system : mVisibleSystemVector)
+    if (!system->IsVirtual() && collection.ContainsSystem(*system))
+    {
+      for (const RootFolderData* root : system->MasterRoot().SubRoots())
+        if (!root->Virtual())
+        {
+          FileData::List list = root->GetFilteredItemsRecursively(&collection, true, system->IncludeAdultGames());
+          allGames.reserve(allGames.size() + list.size());
+          allGames.insert(allGames.end(), list.begin(), list.end());
+        }
+      // dopplegagner must be build using file only
+      // Let the virtual system re-create all intermediate folder
+      // ... and destroy them properly
+      system->BuildDoppelgangerMap(doppelganger, false);
+    }
+
+  // Not empty?
+  if (!allGames.empty())
+  {
+    std::string fullname = Strings::ToUpperUTF8(collection.FullName());
+
+    // Create!
+    SystemData::Properties props = SystemData::Properties::Virtual |
+                                   SystemData::Properties::AlwaysFlat;
+    SystemData* collectionSystem = CreateMetaSystem(collection.Identifier(), fullname, theme, allGames, props, doppelganger);
+
+    { LOG(LogInfo) << "[System] Creating " << fullname << " collection"; }
+
+    // And add the system
+    mVisibleSystemVector.insert(mVisibleSystemVector.end(), collectionSystem);
+    RecalboxConf::Instance().SetSystemSort(*SystemByName(collection.Identifier()), collection.Sort());
+
+    return true;
+  }
+  return false;
+}
+
+
 bool SystemManager::AddAllGamesMetaSystem()
 {
   class Filter: public IFilter
@@ -728,6 +803,7 @@ bool SystemManager::AddGenresMetaSystem()
 
 bool SystemManager::AddSpecialCollectionsMetaSystems(bool portableSystem)
 {
+  AddSearchCollections();
   AddAllGamesMetaSystem();
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();

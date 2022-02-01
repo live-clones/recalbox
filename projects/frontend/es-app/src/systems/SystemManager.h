@@ -4,6 +4,8 @@
 #include <systems/SystemDescriptor.h>
 #include <emulators/EmulatorManager.h>
 #include "hardware/devices/mount/MountMonitor.h"
+#include <systems/MountMonitor.h>
+#include "SmartCollection.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/cplusplus/INoCopy.h>
@@ -198,6 +200,9 @@ class SystemManager :
      * @return Always true
      */
     bool AddLightGunMetaSystem();
+
+    bool AddSearchCollections();
+    bool AddSearchCollection(SmartCollection& collection);
 
     /*!
      * @brief Get valid rom source for the given system descriptor
