@@ -207,6 +207,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
     DefineGetterSetter(GlobalInputDriver, std::string, String, sGlobalInputDriver, "auto")
+    DefineGetterSetter(GlobalDemoDuration, int, Int, sGlobalDemoDuration, 90)
+    DefineGetterSetter(GlobalDemoInfoScreen, int, Int, sGlobalDemoInfoScreen, 6)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
@@ -239,6 +241,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
     DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
     DefineSystemGetterSetterDeclaration(VideoMode, std::string, String, sSystemVideoMode)
+    DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
+    DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -288,6 +292,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
     static constexpr const char* sSystemVideoMode            = "videomode";
+    static constexpr const char* sSystemDemoInclude          = "demo.include";
+    static constexpr const char* sSystemDemoDuration         = "demo.duration";
 
     /*
      * Collection Keys
@@ -319,6 +325,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalHidePreinstalled     = "global.hidepreinstalledgames";
     static constexpr const char* sGlobalIntegerScale         = "global.integerscale";
     static constexpr const char* sGlobalShowFPS              = "global.showfps";
+    static constexpr const char* sGlobalDemoDuration         = "global.demo.duration";
+    static constexpr const char* sGlobalDemoInfoScreen       = "global.demo.infoscreenduration";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 

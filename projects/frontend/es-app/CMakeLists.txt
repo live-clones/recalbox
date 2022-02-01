@@ -11,6 +11,7 @@ set(ES_HEADERS
         src/games/IFilter.h
         src/games/FileData.h
         src/games/FolderData.h
+        src/games/GameRandomSelector.h
         src/games/EmptyData.h
         src/games/RootFolderData.h
         src/games/MetadataDescriptor.h
@@ -220,6 +221,7 @@ set(ES_SOURCES
         src/systems/PlatformId.cpp
         src/games/FileData.cpp
         src/games/FolderData.cpp
+        src/games/GameRandomSelector.cpp
         src/games/MetadataDescriptor.cpp
         src/games/classifications/Genres.cpp
         src/games/classifications/Regions.cpp

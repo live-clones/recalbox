@@ -5,13 +5,16 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.1-Electron
+
 ### News
 - Add resolution menu in Advanced Settings > Resolutions
+- New Random game picker in demo mode (less cycling)
 
 ### Improvements
 ### Fixes
 ## NEXT
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
+
 
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4

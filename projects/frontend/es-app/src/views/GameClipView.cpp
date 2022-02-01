@@ -17,64 +17,30 @@ GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
   , mEvent(this)
   , mWindow(window)
   , mSystemManager(systemManager)
-  , mRecalboxConf(RecalboxConf::Instance())
-  , mRandomDevice()
-  , mRandomGenerator(mRandomDevice())
-  , mGameRandomizer(0, 1U << 30U)
+  , mGameRandomSelector(systemManager, &mFilter)
+  , mHistoryPosition(0)
+  , mDirection(Direction::Next)
+  , mGame(nullptr)
   , mGameClipContainer(window)
   , mNoVideoContainer(window)
   , systemIndex(-1)
   , mVideoDuration(0)
 {
-  Initialize();
+
+  if (VideoEngine::IsInstantiated())
+    VideoEngine::Instance().StopVideo(true);
 }
 
 GameClipView::~GameClipView()
 {
-  mDemoFiles.clear();
   mHistory.clear();
-}
-
-void GameClipView::Initialize()
-{
-  class Filter : public IFilter
-  {
-    public:
-      bool ApplyFilter(const FileData& file) const override
-      {
-        bool showIfHidden = file.Metadata().Hidden() ? RecalboxConf::Instance().GetShowHidden() : true;
-        return  !file.Metadata().VideoAsString().empty() && showIfHidden;
-      }
-  } gameFilterWithoutHidden;
-
-  // Build system list filtered by user config
-  const std::vector<SystemData*>& allSystems = mSystemManager.GetAllSystemList();
-
-  bool systemListExists = !mRecalboxConf.AsString("global.demo.systemlist").empty();
-  for (int i = (int) allSystems.size(); --i >= 0;)
-  {
-    const std::string& name = allSystems[i]->Name();
-    bool systemIsInIncludeList = !systemListExists || mRecalboxConf.isInList("global.demo.systemlist", name);
-    if (systemIsInIncludeList)
-    {
-      FileData::List list = allSystems[i]->MasterRoot().GetFilteredItemsRecursively(&gameFilterWithoutHidden, false,
-                                                                                    allSystems[i]->IncludeAdultGames());
-      mDemoFiles.reserve(mDemoFiles.size() + list.size());
-      mDemoFiles.insert(mDemoFiles.end(), list.begin(), list.end());
-    }
-  }
-
-  // Second seed - must never be negative
-  mSeed = ((int) (DateTime() - DateTime(1970, 1, 1)).TotalMilliseconds()) & 0x7FFFFFFF;
-  if (VideoEngine::IsInstantiated())
-    VideoEngine::Instance().StopVideo(true);
 }
 
 int GameClipView::GetFirstOccurenceInHistory(FileData* game)
 {
   for (int i = 0; i < (int) mHistory.size(); ++i)
   {
-    if (game == mHistory.at(i))
+    if (game->Metadata().Video() == mHistory.at(i)->Metadata().Video())
     {
       return i;
     }
@@ -107,29 +73,11 @@ void GameClipView::GetNextGame()
 {
   if (mHistoryPosition == 0)
   {
-    int tryNum = 0;
-    int maxPosition = -1;
-    int finalIndex = 0;
-    // if already in list, could try 10 times and return the oldest game in list
-    while (tryNum <= 10)
+    for(int i = 10; --i >= 0; )
     {
-      int index = ((mGameRandomizer(mRandomGenerator) + mSeed) & 0x7FFFFFFF) % (int) mDemoFiles.size();
-      mSeed++;
-      int gamePosition = GetFirstOccurenceInHistory(mDemoFiles[index]);
-      if (gamePosition == -1)
-      {
-        finalIndex = index;
-        mGame = mDemoFiles[finalIndex];
-        return;
-      }
-      else if (gamePosition > maxPosition)
-      {
-        maxPosition = gamePosition;
-        finalIndex = index;
-      }
-      tryNum++;
+      mGame = mGameRandomSelector.NextGame();
+      if (GetFirstOccurenceInHistory(mGame) < 0) break;
     }
-    mGame = mDemoFiles[finalIndex];
   }
   else
   {
@@ -180,7 +128,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
     return;
   }
 
-  if (mState == State::NoGameSelected && mDemoFiles.empty())
+  if (mState == State::NoGameSelected && mGameRandomSelector.HasValidSystems())
   {
     mState = State::EmptyPlayList;
     updateHelpPrompts();
@@ -209,8 +157,6 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
     if (!mGame->Metadata().Video().Exists() ||  mTimer.GetMilliSeconds() > 3000)
     {
       { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
-      // remove game from list
-      mDemoFiles.erase(mDemoFiles.begin() + mDemoFilesIndex);
       VideoEngine::Instance().StopVideo(false);
       mState = State::NoGameSelected;
       return;
