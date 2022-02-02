@@ -24,6 +24,13 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
+### News
+
+
+### Improvements
+
+### Fixes
+- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 
 
 ## Version 8.0.2-Electron
