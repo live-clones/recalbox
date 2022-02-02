@@ -33,6 +33,15 @@ as release notes for end user on a Recalbox upgrade.
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 
 
+### News
+
+
+### Improvements
+
+### Fixes
+- Fix remove gamecontrollerdb.txt for duckstation
+
+
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
