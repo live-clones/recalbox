@@ -82,6 +82,34 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### Fix
+## NEXT
+
+### News
+
+### Improvements
+- Bump libretro mame2015
+
+### Fix
+- Fix libretro mame2015 for OGA/OGS
+
+## Version 8.0.1-Electron
+
+### News
+- Add support Recalbox RGB Dual for rpi3, rpi4 and rpi400
+
+### Improvements
+- Bump libretro-mupen64plus-next
+
+### Fixes
+- Fix shader crt-pi for rpi
+- Fix RetroFlag scripts to use with cases
+- GSplus can be started for Apple 2 emulator
+- Fix TV Remote controller not working with Kodi on Raspberry PI3 and PI4
+- PiBoy DMG pad is now detected in Kodi
+- Fix annoying error popup when kodi starts
+- Fix 'This title is not available to watch instantly' error with Netflix in Kodi
+- Fix no sound issue on some PCs
+- Fix memory issues on Raspberry Pi Zero 2 plugged on HDMI
 - Add a better text when you are stuck in the favorites list in any system.
 - Fix controllers in Duckstation (access menu with HK+B)
 - Fix frontend not displaying two letter extentions games (.md/.st)
