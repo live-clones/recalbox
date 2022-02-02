@@ -46,6 +46,7 @@ class SystemDescriptor
       , mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
+      , mManufacturer()
       , mType(SystemType::Unknown)
       , mPad(DeviceRequirement::Unknown)
       , mKeyboard(DeviceRequirement::Unknown)
@@ -129,6 +130,7 @@ class SystemDescriptor
                                                const std::string& keyboard,
                                                const std::string& mouse,
                                                const std::string& releasedate,
+                                               const std::string& manufacturer,
                                                bool lightgun,
                                                bool multiresolution,
                                                bool multiregion)
@@ -137,8 +139,9 @@ class SystemDescriptor
       mPad = ConvertDeviceRequirement(pad);
       mKeyboard = ConvertDeviceRequirement(keyboard);
       mMouse = ConvertDeviceRequirement(mouse);
-      if (Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
+      if (!Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
         mReleaseDate = 0;
+      mManufacturer = manufacturer;
       mLightgun = lightgun;
       mCrtInterlaced = multiresolution;
       mCrtMultiRegion = multiregion;
@@ -201,6 +204,9 @@ class SystemDescriptor
 
     int ScreenScaperID() const { return mScreenScraperID; }
 
+    int ReleaseDate() const { return mReleaseDate; }
+    const std::string& Manufacturer() const { return mManufacturer; }
+
     SystemType Type() const { return mType; }
     DeviceRequirement PadRequirement() const { return mPad; }
     DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
@@ -252,6 +258,7 @@ class SystemDescriptor
     int                     mScreenScraperID; //!< ScreenScraper ID
     // Properties
     int                     mReleaseDate;     //!< Release date in numeric format yyyymm
+    std::string             mManufacturer;    //!< Manufacturer ("Nintendo")
     SystemType              mType;            //!< System type
     DeviceRequirement       mPad;             //!< Pad state
     DeviceRequirement       mKeyboard;        //!< Pad state

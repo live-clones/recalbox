@@ -27,6 +27,7 @@ struct Overclocking
 
 class GuiMenuAdvancedSettings : public GuiMenuBase
                               , private IOptionListComponent<Overclocking>
+                              , private IOptionListComponent<SystemSorting>
                               , private ISwitchComponent
                               , private IGuiMenuBase
 {
@@ -45,6 +46,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     {
       DebugLogs,
       OverclockList,
+      SystemSort,
       BootSubMenu,
       VirtualSubMenu,
       AdultGames,
@@ -72,6 +74,8 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     Overclocking mDefaultOverclock;
     //! Original overclock value
     std::string mOriginalOverclock;
+    //! Original Sorting type
+    SystemSorting mOriginalSort;
     //! Last overclock hazardous?
     bool mLastHazardous;
     //! Is there at least a valid O/C?
@@ -79,6 +83,16 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
 
     //! Overclock
     std::shared_ptr<OptionListComponent<Overclocking>> mOverclock;
+    //! System Sort
+    std::shared_ptr<OptionListComponent<SystemSorting>> mSort;
+    //! Adult
+    std::shared_ptr<SwitchComponent> mAdult;
+    //! Overscan
+    std::shared_ptr<SwitchComponent> mOverscan;
+    //! Show FPS
+    std::shared_ptr<SwitchComponent> mShowFPS;
+    //! Enable Webmanager
+    std::shared_ptr<SwitchComponent> mWebManager;
 
     //! Get O/C list for the current board
     static OverclockList AvailableOverclocks();
@@ -98,6 +112,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     //! Do Reset Factory
     static void DoResetFactory();
 
+    //! Get Sorting List
+    std::vector<ListEntry<SystemSorting>> GetSortingEntries();
+
     /*
      * IOptionListComponent<Overclocking> implementation
      */
@@ -115,6 +132,12 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
      */
 
     void SubMenuSelected(int id) override;
+
+    /*
+     * IOptionListComponent<SystemSorting> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const SystemSorting& value) override;
 };
 
 

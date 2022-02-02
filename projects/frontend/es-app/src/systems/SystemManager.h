@@ -73,6 +73,8 @@ class SystemManager :
 
     //! Visible system, including virtual system (Arcade)
     std::vector<SystemData*> mVisibleSystemVector;
+    //! Original of Visible system (copy)
+    std::vector<SystemData*> mOriginalVisibleSystemVector;
     //! Hidden system, just here to hold their own children
     std::vector<SystemData*> mHiddenSystemVector;
     //! ALL systems, visible and hidden
@@ -270,6 +272,12 @@ class SystemManager :
      * @param root Mount Point
      */
     void DeviceUnmount(const Path& root) override;
+	/*!
+	 * @brief Sort systems based on conf option
+	 * @param systems Systemlist to be sorted
+	 * @param originalSystems original Systemlist
+	 */
+    static void SystemSorting(std::vector<SystemData*>& systems, const std::vector<SystemData *>& originalSystems);
 
   public:
     /*!
@@ -432,5 +440,7 @@ class SystemManager :
      * @param path
      */
     static void CreateRomFoldersIn(const Path& path);
-};
 
+    //! Sort or resort system list
+    void SystemSorting();
+};

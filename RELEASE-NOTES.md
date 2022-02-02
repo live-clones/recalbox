@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Iris driver for Intel iGPUs on x64 version
 - Add Libretro BSnes and BSnes HD cores
 - Add Twitch as Kodi plugin
+- Add system sorting options in Advanced Settings
 
 ### Improvements
 

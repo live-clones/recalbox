@@ -53,6 +53,7 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                             Xml::AttributeAsString(properties, "keyboard", ""),
                                             Xml::AttributeAsString(properties, "mouse", ""),
                                             Xml::AttributeAsString(properties, "releasedate", ""),
+                                            Xml::AttributeAsString(properties, "manufacturer", ""),
                                             Xml::AttributeAsBool(properties, "lightgun", false),
                                             Xml::AttributeAsBool(properties, "crt.multiresolution", false),
                                             Xml::AttributeAsBool(properties, "crt.multiregion", false));

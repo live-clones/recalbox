@@ -10,6 +10,7 @@
 #include <scraping/scrapers/screenscraper/ScreenScraperEnums.h>
 #include <scraping/scrapers/screenscraper/Languages.h>
 #include <audio/AudioMode.h>
+#include "systems/SystemSorting.h"
 
 // Forward declaration
 class SystemData;
@@ -114,6 +115,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType, sScreenScraperThumbnail, ScreenScraperEnums::ScreenScraperImageType)
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
+    DefineGetterSetterEnum(SystemSorting, SystemSorting, sSystemSorting, SystemSorting)
 
     DefineGetterSetter(DebugLogs, bool, Bool, sDebugLogs, false)
 
@@ -370,6 +372,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";
     static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
 
+    static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
+
     static constexpr const char* sBatteryHidden              = "emulationstation.battery.hidden";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
@@ -461,4 +465,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const std::string& MenuFromEnum(Menu menu);
     static Relay RelayFromString(const std::string& relay);
     static const std::string& RelayFromEnum(Relay relay);
+    static SystemSorting SystemSortingFromString(const std::string& systemSorting);
+    static const std::string& SystemSortingFromEnum(SystemSorting systemSorting);
 };
