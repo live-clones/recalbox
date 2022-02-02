@@ -201,6 +201,8 @@ class SystemData : private INoCopy
     //! Is this system the "Ports" system?
     bool IsPorts() const;
 
+    bool IsScreenshots() const;
+
     //! Is this system virtual?
     bool IsVirtual() const;
 

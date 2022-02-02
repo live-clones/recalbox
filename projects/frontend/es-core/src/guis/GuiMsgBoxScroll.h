@@ -37,7 +37,9 @@ public:
 	void onSizeChanged() override;
   bool getHelpPrompts(Help& help)  override { return mGrid.getHelpPrompts(help); }
 
-private:
+  GuiMsgBoxScroll* SetDefaultButton(int index);
+
+  private:
 	void deleteMeAndCall(const std::function<void()>& func);
 
 	NinePatchComponent mBackground;
@@ -49,4 +51,5 @@ private:
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 	std::function<void()> mAcceleratorFunc;
 	std::shared_ptr<ScrollableContainer> mMsgContainer;
+
 };

@@ -334,7 +334,8 @@ void SystemData::UpdateGamelistXml()
         FileData::List fileList = root->GetAllItemsRecursively(true, true);
         FileData::List folderList = root->GetAllFolders();
         // Nothing to process?
-        if (fileList.empty()) return;
+        if (fileList.empty() && !root->HasDeletedChildren())
+          return;
 
         /*
          * Create gamelist
@@ -349,7 +350,11 @@ void SystemData::UpdateGamelistXml()
         for (const FileData* folder : folderList)
           folder->Metadata().Serialize(gameList, folder->FilePath(), root->FilePath());
         for (const FileData* file : fileList)
+        {
+          if (root->GetDeletedChildren().contains(file->FilePath().ToString()))
+            continue;
           file->Metadata().Serialize(gameList, file->FilePath(), root->FilePath());
+        }
 
         /*
          * Custom thread-safe writer
@@ -405,6 +410,11 @@ bool SystemData::IsFavorite() const
 bool SystemData::IsPorts() const
 {
   return (mProperties & Properties::Ports) != 0;
+}
+
+bool SystemData::IsScreenshots() const
+{
+    return "Screenshots" == mDescriptor.FullName();
 }
 
 bool SystemData::IsVirtual() const

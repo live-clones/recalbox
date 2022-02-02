@@ -6,6 +6,7 @@
 #include "utils/Log.h"
 #include "systems/SystemData.h"
 #include "GameNameMapManager.h"
+#include "GameFilesUtils.h"
 #include <algorithm>
 #include <utils/Files.h>
 
@@ -37,6 +38,12 @@ void FolderData::RemoveChild(FileData* file)
       mChildren.erase(it);
       return;
     }
+}
+
+void FolderData::deleteChild(FileData* file)
+{
+  mDeletedChildren.insert(file->FilePath().ToString());
+  RemoveChild(file);
 }
 
 static bool IsMatching(const std::string& fileWoExt, const std::string& extension, const std::string& extensionList)
@@ -106,9 +113,11 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   Path::PathList items = folderPath.GetDirectoryContent();
 
-  FileSet blacklist{};
-  bool containsMultiDiskFile = ContainsMultiDiskFile(filteredExtensions);
-  if (containsMultiDiskFile) ExtractUselessFiles(items, blacklist);
+  HashSet<std::string> blacklist{};
+  bool containsMultiDiskFile = GameFilesUtils::ContainsMultiDiskFile(filteredExtensions);
+  if (containsMultiDiskFile)
+    for(const auto& itemPath : items)
+      GameFilesUtils::ExtractUselessFiles(itemPath, blacklist);
 
   for (Path& filePath : items)
   {
@@ -117,7 +126,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
     if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
 
-    if (containsMultiDiskFile && blacklist.contains(filePath.Filename())) continue;
+    if (containsMultiDiskFile && blacklist.contains(filePath.ToString())) continue;
 
     // and Extension
     std::string extension = Strings::ToLowerASCII(filePath.Extension());
@@ -767,6 +776,8 @@ FileData::List FolderData::GetAllFavorites(bool includefolders, bool includeadul
 
 bool FolderData::IsDirty() const
 {
+  if (HasDeletedChildren())
+    return true;
   for (FileData* fd : mChildren)
   {
     if (fd->IsFolder() && CastFolder(fd)->IsDirty())

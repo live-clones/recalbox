@@ -2,6 +2,7 @@
 #include <RecalboxConf.h>
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
+#include <games/GameFilesUtils.h>
 #include "guis/GuiMetaDataEd.h"
 #include "views/ViewController.h"
 #include "components/SwitchComponent.h"
@@ -11,6 +12,7 @@
 #include "guis/menus/GuiMenuQuit.h"
 #include "GuiMenu.h"
 #include "GuiMenuGamelistGameOptions.h"
+#include "GuiMenuGamelistGameDeleteOptions.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
   :	GuiMenuBase(window, _("OPTIONS"), this)
@@ -25,6 +27,19 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   {
     mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
     RefreshGameMenuContext();
+
+    if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() && !mSystem.IsScreenshots())
+    {
+      std::string text = _("DELETE GAME %s");
+      Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
+      mDeleteGame = AddSubMenu(text, (int) Components::Delete);
+    }
+
+    if (mSystem.IsScreenshots())
+    {
+        AddSubMenu(_("DELETE SCREENSHOT"), (int)Components::DeleteScreeshots);
+    }
+
   }
 
   // Jump to letter
@@ -226,6 +241,25 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
                       _("NO"), nullptr ));
       break;
     }
+    case Components::Delete:
+    {
+        mWindow.pushGui(new GuiMenuGamelistGameDeleteOptions(mWindow, mGamelist, *mGamelist.getCursor()));
+      break;
+    }
+    case Components::DeleteScreeshots:
+    {
+        mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOTS, CONFIRM?"), _("YES"), [this]
+        {
+            mGamelist.getCursor()->FilePath().Delete();
+            FolderData* folder = mGamelist.getCursor()->Parent();
+            folder->deleteChild(mGamelist.getCursor());
+            mGamelist.onFileChanged(mGamelist.getCursor(), FileChangeType::Removed);
+            mGamelist.refreshList();
+            mWindow.deleteAllGui();
+
+        }, _("NO"), {}));
+        break;
+    }
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Adult:
@@ -253,6 +287,8 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::MetaData:
     case Components::MainMenu:
     case Components::UpdateGamelist:
+    case Components::Delete:
+    case Components::DeleteScreeshots:
     case Components::Quit: break;
   }
 

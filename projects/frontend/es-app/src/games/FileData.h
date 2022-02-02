@@ -144,9 +144,15 @@ class FileData
     Path P2KPath() const { return mPath.ChangeExtension(mPath.Extension() + ".p2k.cfg"); }
 
     /*!
-     * @brief Check if Pad2Keyboard configuration file exists
-     * @return Trie if the Pad2Keyboard configuration file exists
+     * @brief Get recalbox.conf configuration file path
+     * @return recalbox.conf configuration file path
      */
+    Path RecalboxConfPath() const { return mPath.ChangeExtension(mPath.Extension() + ".recalbox.conf"); }
+
+      /*!
+       * @brief Check if Pad2Keyboard configuration file exists
+       * @return Trie if the Pad2Keyboard configuration file exists
+       */
     bool HasP2K() const;
 
     /*!

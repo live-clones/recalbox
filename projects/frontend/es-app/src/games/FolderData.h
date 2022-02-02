@@ -12,6 +12,8 @@ class FolderData : public FileData
 
     using FileData::CalculateHash;
 
+    HashSet<std::string> mDeletedChildren;
+
   protected:
     //! Current folder child list
     FileData::List mChildren;
@@ -185,11 +187,16 @@ class FolderData : public FileData
      */
     void RemoveChild(FileData* file);
 
+    void deleteChild(FileData* file);
+
     /*!
      * Return true if this FileData is a folder and has at lease one child
      * @return Boolean result
      */
     bool HasChildren() const { return !mChildren.empty(); }
+
+    const HashSet<std::string> GetDeletedChildren() const { return mDeletedChildren; }
+    bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
 
     /*!
      * Run through filesystem's folders, seeking for games, and when found, add them into the current tree
