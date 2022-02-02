@@ -3161,7 +3161,6 @@ msgstr ""
 msgid "DELETE GAME %s"
 msgstr ""
 
-
 #
 msgid "GAME FILES (ROM | DISK IMAGE)"
 msgstr ""
@@ -3200,4 +3199,40 @@ msgstr ""
 
 #
 msgid "DELETE SELECTED FILES, CONFIRM?"
+msgstr ""
+
+#
+msgid "RELEASE DATE"
+msgstr ""
+
+#
+msgid "TYPE, THEN NAME"
+msgstr ""
+
+#
+msgid "TYPE, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "MANUFACTURER, THEN NAME"
+msgstr ""
+
+#
+msgid "MANUFACTURER, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "TYPE, THEN MANUFACTURER, THEN NAME"
+msgstr ""
+
+#
+msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "SYSTEM SORTING"
+msgstr ""
+
+#
+msgid "Default: use original or custom systemlist.xml order\nSystem Type: order by Console/Handheld/Computer/Arcade/Other\nRelease Date: order by release date asc\nManufacturer: order by manufacturer (e.g. Sega)\nSpecial Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""

@@ -6,6 +6,7 @@
 #include "SystemDescriptor.h"
 #include "SystemDeserializer.h"
 #include "LightGunDatabase.h"
+#include <systems/SystemSorting.h>
 #include <utils/Log.h>
 #include <RecalboxConf.h>
 #include <utils/os/system/ThreadPool.h>
@@ -14,7 +15,6 @@
 #include <utils/Files.h>
 #include <algorithm>
 #include <utils/locale/LocaleHelper.h>
-
 
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {
@@ -134,6 +134,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
@@ -164,6 +165,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetPropertiesInformation("engine", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -194,6 +196,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName, "")
+            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -545,7 +548,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Is there at least
   if (!loaded)
   {
-    { LOG(LogError) << "[System] No es_systems.cfg file available!"; }
+    { LOG(LogError) << "[System] No systemlist.xml file available!"; }
     GenerateExampleConfigurationFile(SystemDeserializer::UserConfigurationPath());
     return false;
   }
@@ -609,6 +612,10 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   AddPorts(); // Must be first after "normal systems"
   AddSpecialCollectionsMetaSystems(portableSystem);
   AddArcadeMetaSystem(); // Must be latest
+
+  // Sort systems based on conf option
+  mOriginalVisibleSystemVector = mVisibleSystemVector;
+  SystemSorting(mVisibleSystemVector, mOriginalVisibleSystemVector);
 
   // Set *all* service vector
   for(SystemData* service : mVisibleSystemVector) mAllSystemVector.push_back(service);
@@ -798,4 +805,26 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
       results.push_back(sr.Data);
 
   return results;
+}
+
+void SystemManager::SystemSorting()
+{
+  SystemSorting(mVisibleSystemVector, mOriginalVisibleSystemVector);
+}
+
+void SystemManager::SystemSorting(std::vector<SystemData *>& systems, const std::vector<SystemData *>& originalSystems)
+{
+	switch (RecalboxConf::Instance().GetSystemSorting())
+  {
+    case SystemSorting::Name:                                       { std::sort(systems.begin(), systems.end(), SortingName()); break; }
+    case SystemSorting::ReleaseDate:                                { std::sort(systems.begin(), systems.end(), SortingReleaseDate()); break; }
+    case SystemSorting::SystemTypeThenName:                         { std::sort(systems.begin(), systems.end(), Sorting1Type2Name()); break; }
+    case SystemSorting::SystemTypeThenReleaseDate:                  { std::sort(systems.begin(), systems.end(), Sorting1Type2ReleaseDate()); break; }
+    case SystemSorting::ManufacturerThenName:                       { std::sort(systems.begin(), systems.end(), Sorting1Manufacturer2Name()); break; }
+    case SystemSorting::ManufacturerThenReleaseData:                { std::sort(systems.begin(), systems.end(), Sorting1Manufacturer2ReleaseDate()); break; }
+    case SystemSorting::SystemTypeThenManufacturerThenName:         { std::sort(systems.begin(), systems.end(), Sorting1Type2Manufacturer3Name()); break; }
+    case SystemSorting::SystemTypeThenManufacturerThenReleasdeDate: { std::sort(systems.begin(), systems.end(), Sorting1Type2Manufacturer3ReleaseDate()); break; }
+    case SystemSorting::Default:
+    default: systems = originalSystems; break;
+  }
 }

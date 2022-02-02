@@ -40,18 +40,9 @@ const std::string& RecalboxConf::MenuFromEnum(RecalboxConf::Menu menu)
 {
   switch (menu)
   {
-    case Menu::Bartop:
-    {
-      static std::string sBartop = "bartop";
-      return sBartop;
-    }
-    case Menu::None:
-    {
-      static std::string sNone = "none";
-      return sNone;
-    }
-    case Menu::Default:
-    default: break;
+    case Menu::Bartop: { static std::string sBartop = "bartop"; return sBartop; }
+    case Menu::None:   { static std::string sNone = "none"; return sNone; }
+    case Menu::Default: default: break;
   }
   static std::string sDefault = "default";
   return sDefault;
@@ -75,6 +66,38 @@ const std::string& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
     case Relay::Montreal: { static std::string sMontreal = "montreal"; return sMontreal; }
     case Relay::Saopaulo: { static std::string sSauPaulo = "saopaulo"; return sSauPaulo; }
     case Relay::None: default: break;
+  }
+  static std::string sDefault = "none";
+  return sDefault;
+}
+
+SystemSorting RecalboxConf::SystemSortingFromString(const std::string& systemSorting)
+{
+  if (systemSorting == "default")                        return SystemSorting::Default;
+  if (systemSorting == "name")                           return SystemSorting::Name;
+  if (systemSorting == "releasedate")                    return SystemSorting::ReleaseDate;
+  if (systemSorting == "1type2name")                     return SystemSorting::SystemTypeThenName;
+  if (systemSorting == "1type2releasedate")              return SystemSorting::SystemTypeThenReleaseDate;
+  if (systemSorting == "1manufacturer2name")             return SystemSorting::ManufacturerThenName;
+  if (systemSorting == "1manufacturer2releasedate")      return SystemSorting::ManufacturerThenReleaseData;
+  if (systemSorting == "1type2manufacturer3name")        return SystemSorting::SystemTypeThenManufacturerThenName;
+  if (systemSorting == "1type2manufacturer3releasedate") return SystemSorting::SystemTypeThenManufacturerThenReleasdeDate;
+  return SystemSorting::Default;
+}
+
+const std::string& RecalboxConf::SystemSortingFromEnum(SystemSorting systemSorting)
+{
+  switch (systemSorting)
+  {
+    case SystemSorting::Default:                                    { static std::string string("default"); return string; }
+    case SystemSorting::Name:                                       { static std::string string("name"); return string; }
+    case SystemSorting::ReleaseDate:                                { static std::string string("releasedate"); return string; }
+    case SystemSorting::SystemTypeThenName:                         { static std::string string("1type2name"); return string; }
+    case SystemSorting::SystemTypeThenReleaseDate:                  { static std::string string("1type2releasedate"); return string; }
+    case SystemSorting::ManufacturerThenName:                       { static std::string string("1manufacturer2name"); return string; }
+    case SystemSorting::ManufacturerThenReleaseData:                { static std::string string("1manufacturer2releasedate"); return string; }
+    case SystemSorting::SystemTypeThenManufacturerThenName:         { static std::string string("1type2manufacturer3name"); return string; }
+    case SystemSorting::SystemTypeThenManufacturerThenReleasdeDate: { static std::string string("1type2manufacturer3releasedate"); return string; }
   }
   static std::string sDefault = "none";
   return sDefault;
