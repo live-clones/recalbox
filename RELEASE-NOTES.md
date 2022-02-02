@@ -16,6 +16,16 @@ as release notes for end user on a Recalbox upgrade.
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 
 
+
+### News
+- Add core libretro vitaquake2 for x64
+
+### Improvements
+
+### Fixes
+
+
+
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
