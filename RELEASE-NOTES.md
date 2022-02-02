@@ -4,6 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 8.1-Electron
+### News
+### Improvements
+### Fixes
+
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
