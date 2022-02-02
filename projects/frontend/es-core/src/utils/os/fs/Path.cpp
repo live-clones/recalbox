@@ -512,6 +512,8 @@ bool Path::CreatePath() const
 bool Path::Delete() const
 {
   if (!Exists()) return true;
+  if(IsDirectory()) return (rmdir(mPath.c_str()) == 0);
+
   return (unlink(mPath.c_str()) == 0);
 }
 

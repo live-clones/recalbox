@@ -3196,3 +3196,47 @@ msgstr ""
 #
 msgid "SYSTEM DEFAULT"
 msgstr ""
+
+#
+msgid "DELETE GAME %s"
+msgstr ""
+
+#
+msgid "GAME FILES (ROM | DISK IMAGE)"
+msgstr ""
+
+#
+msgid "MEDIA FILES"
+msgstr ""
+
+#
+msgid "CONFIGURATION AND PATCH FILES"
+msgstr ""
+
+#
+msgid "SAVE FILES"
+msgstr ""
+
+#
+msgid "DELETE ALL GAME FILES"
+msgstr ""
+
+#
+msgid "DELETE ALL GAME FILES, CONFIRM?"
+msgstr ""
+
+#
+msgid "SELECT FILES TO DELETE"
+msgstr ""
+
+#
+msgid "DELETE SELECTION"
+msgstr ""
+
+#
+msgid "DELETE SELECTED FILES"
+msgstr ""
+
+#
+msgid "DELETE SELECTED FILES, CONFIRM?"
+msgstr ""

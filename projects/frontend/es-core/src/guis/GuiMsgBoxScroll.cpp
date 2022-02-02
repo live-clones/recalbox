@@ -121,3 +121,11 @@ void GuiMsgBoxScroll::deleteMeAndCall(const std::function<void()>& func)
 	if(func) func();
 }
 
+GuiMsgBoxScroll* GuiMsgBoxScroll::SetDefaultButton(int index)
+{
+  if ((unsigned int)index < (unsigned int)mButtons.size())
+    mButtonGrid->setCursorTo(mButtons[index]);
+
+  return this;
+}
+

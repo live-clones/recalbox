@@ -12,6 +12,7 @@ set(ES_HEADERS
         src/games/FileData.h
         src/games/FolderData.h
         src/games/GameRandomSelector.h
+        src/games/GameFilesUtils.h
         src/games/EmptyData.h
         src/games/RootFolderData.h
         src/games/MetadataDescriptor.h
@@ -56,6 +57,8 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuBootSettings.h
         src/guis/menus/GuiMenuCRT.h
         src/guis/menus/GuiMenuGamelistOptions.h
+        src/guis/menus/GuiMenuGamelistGameDeleteOptions.h
+        src/guis/menus/GuiMenuGamelistGameDeleteSelectionOptions.h
         src/guis/menus/GuiMenuGamelistGameOptions.h
         src/guis/menus/GuiMenuGameSettings.h
         src/guis/menus/GuiMenuKodiSettings.h
@@ -222,6 +225,7 @@ set(ES_SOURCES
         src/games/FileData.cpp
         src/games/FolderData.cpp
         src/games/GameRandomSelector.cpp
+        src/games/GameFilesUtils.cpp
         src/games/MetadataDescriptor.cpp
         src/games/classifications/Genres.cpp
         src/games/classifications/Regions.cpp
@@ -255,6 +259,8 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuBootSettings.cpp
         src/guis/menus/GuiMenuCRT.cpp
         src/guis/menus/GuiMenuGamelistOptions.cpp
+        src/guis/menus/GuiMenuGamelistGameDeleteOptions.cpp
+        src/guis/menus/GuiMenuGamelistGameDeleteSelectionOptions.cpp
         src/guis/menus/GuiMenuGamelistGameOptions.cpp
         src/guis/menus/GuiMenuGameSettings.cpp
         src/guis/menus/GuiMenuKodiSettings.cpp
