@@ -106,6 +106,7 @@ for mr in "${mrArray[@]}";do
         continue
     fi
     mr_title=$( echo "${mr}" | jq -r ".title" )
+    mr_iid=$( echo "${mr}" | jq -r ".iid" )
     mr_ref=$( echo "${mr}" | jq -r ".references.full" )
     if [[ "${mr_ref}" == "${MR_SKIP}" ]];then
         continue
@@ -162,7 +163,7 @@ for mr in "${mrArray[@]}";do
     if [[ "${COMMENT}" == 1 ]];then
         echo -e "Merge Request Comment: ${MR_COMMENT}" | sed "s/^/\t/"
         COMMENT_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-            "https://gitlab.com/api/v4/projects/2396494/merge_requests/${mr_id}/discussions" \
+            "https://gitlab.com/api/v4/projects/2396494/merge_requests/${mr_iid}/notes" \
             --data-urlencod "body=${MR_COMMENT}" | jq -c '.[]')
     fi
 done
