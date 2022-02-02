@@ -1,0 +1,16 @@
+diff --git a/src/osd/retro/retromain.c b/src/osd/retro/retromain.c
+index 751ea4432a..07f97ffa00 100755
+--- a/src/osd/retro/retromain.c
++++ b/src/osd/retro/retromain.c
+@@ -1859,9 +1859,9 @@ static int execute_game(char* path)
+       Add_Option(MgameName);
+ #elif defined(WANT_PHILIPS_CDI)
+    // test whether cdimono1.zip in retroarch bios dir.
+-   sprintf(tmp_dir, "%s%ccdimono1.zip", retro_system_directory, slash);
++   sprintf(tmp_dir, "%s%ccdi%ccdimono1.zip", retro_system_directory, slash, slash);
+    if(access(tmp_dir, F_OK ) == 0) {
+-      sprintf(tmp_dir, "%s", retro_system_directory);
++      sprintf(tmp_dir, "%s%ccdi", retro_system_directory, slash);
+       Add_Option((char*)(tmp_dir));
+    } else { // test whether cdimono1.zip in game dir with chd files.
+       sprintf(tmp_dir, "%s%ccdimono1.zip", MgamePath, slash);

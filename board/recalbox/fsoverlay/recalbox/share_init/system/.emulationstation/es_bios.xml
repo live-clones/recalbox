@@ -585,4 +585,7 @@
     <bios path="trs80coco/disk11.rom"    md5="8cab28f4b7311b8df63c07bb3b59bfd5" core="xroar" mandatory="false" hashMatchMandatory="false" note="RSDos 1.1" />
     <bios path="trs80coco/hdbdw3bck.rom" md5="ef750d93d24d7bc87a8ecd6e5a15a845" core="xroar" mandatory="false" hashMatchMandatory="false" note="RSDos Becker" />
   </system>
+    <system fullname="Philips CD-I" platform="cdi">
+    <bios path="cdi/cdimono1.zip"     md5="ce590c4787460161359f2b680136cb60,bbe6636ac11d3744f0710e8e820187e7" core="cdi2015" mandatory="true" hashMatchMandatory="false" />
+  </system>
 </biosList>
