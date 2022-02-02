@@ -171,7 +171,12 @@ void MenuComponent::addButton(const std::string& name, const std::string& helpTe
 
 void MenuComponent::updateGrid()
 {
-  if(mButtonGrid) mGrid.removeEntry(mButtonGrid);
+  Vector2i buttonGridCursor = Vector2i(0, 0);
+  if(mButtonGrid)
+  {
+    buttonGridCursor = mButtonGrid->getCursor();
+    mGrid.removeEntry(mButtonGrid);
+  }
   if(mFooter) mGrid.removeEntry(mFooter);
 
   mButtonGrid.reset();
@@ -180,6 +185,7 @@ void MenuComponent::updateGrid()
   {
       mButtonGrid = makeButtonGrid(mWindow, mButtons);
       mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
+     mButtonGrid->setCursor(buttonGridCursor);
   }
   if (mFooter) mGrid.setEntry(mFooter, Vector2i(0,3), false, false);
 }

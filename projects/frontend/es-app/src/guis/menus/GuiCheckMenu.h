@@ -15,6 +15,7 @@ class GuiCheckMenu : public GuiMenuBase
     //! Constructor
     GuiCheckMenu(WindowManager& window,
                  const std::string& title,
+                 const std::string& footer,
                  int lastChoice,
                  const std::string& name1,
                  const std::string& help1,
@@ -25,6 +26,7 @@ class GuiCheckMenu : public GuiMenuBase
 
     GuiCheckMenu(WindowManager& window,
                  const std::string& title,
+                 const std::string& footer,
                  int lastChoice,
                  const std::string& name1,
                  const std::string& help1,
@@ -38,6 +40,7 @@ class GuiCheckMenu : public GuiMenuBase
 
     GuiCheckMenu(WindowManager& window,
                  const std::string& title,
+                 const std::string& footer,
                  int lastChoice,
                  const std::string& name1,
                  const std::string& help1,
@@ -52,11 +55,7 @@ class GuiCheckMenu : public GuiMenuBase
                  const std::string& help4,
                  const std::function<void()>& func4);
 
-    void Update(int deltaTime) override;
-
 private:
-    //! Menu initialized flag
-    bool mMenuInitialized;
 
     bool ProcessInput(const InputCompactEvent& event) override;
     void CloseAndCall(const std::function<void()>& func);
@@ -65,5 +64,5 @@ private:
                const std::string& name2, const std::string& help2, const std::function<void()>& func2,
                const std::string& name3, const std::string& help3, const std::function<void()>& func3,
                const std::string& name4, const std::string& help4, const std::function<void()>& func4,
-               int lastChoice);
+               int lastChoice, const std::string& footer);
 };
