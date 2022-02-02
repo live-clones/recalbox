@@ -14,7 +14,6 @@
 #include "GuiMenuResolutionSettings.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
-//#include <components/OptionListComponent.h>
 #include <components/SwitchComponent.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
@@ -25,6 +24,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   : GuiMenuBase(window, _("ADVANCED SETTINGS"), this)
   , mSystemManager(systemManager)
   , mDefaultOverclock({ "none", _("NONE"), false, 0})
+  , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
@@ -33,6 +33,9 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Boot
   AddSubMenu(_("BOOT SETTINGS"), (int)Components::BootSubMenu, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
+
+  // System sort
+  mSort = AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
 
   // Virtual systems
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
@@ -213,6 +216,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
     case Components::OverclockList:
     case Components::BootSubMenu:
+    case Components::SystemSort:
     case Components::VirtualSubMenu:
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
@@ -234,6 +238,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;
     case Components::FactoryReset: ResetFactory(); break;
+    case Components::SystemSort:
     case Components::OverclockList:
     case Components::AdultGames:
     case Components::Overscan:
@@ -292,4 +297,31 @@ void GuiMenuAdvancedSettings::DoResetFactory()
   // Reset!
   if (system("shutdown -r now") != 0)
   { LOG(LogError) << "[ResetFactory] Error rebooting system"; }
+}
+
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const SystemSorting& value)
+{
+  (void)index;
+  (void)id;
+  RecalboxConf::Instance().SetSystemSorting(value).Save();
+
+  mSystemManager.SystemSorting();
+  ViewController::Instance().getSystemListView().Sort();
+}
+
+std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuAdvancedSettings::GetSortingEntries()
+{
+  mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
+  return std::vector<ListEntry<SystemSorting>>
+  ({
+    { _("DEFAULT")                                    , SystemSorting::Default                                    , mOriginalSort == SystemSorting::Default },
+    { _("NAME")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
+    { _("RELEASE DATE")                               , SystemSorting::ReleaseDate                                , mOriginalSort == SystemSorting::ReleaseDate },
+    { _("TYPE, THEN NAME")                            , SystemSorting::SystemTypeThenName                         , mOriginalSort == SystemSorting::SystemTypeThenName },
+    { _("TYPE, THEN RELEASE DATE")                    , SystemSorting::SystemTypeThenReleaseDate                  , mOriginalSort == SystemSorting::SystemTypeThenReleaseDate },
+    { _("MANUFACTURER, THEN NAME")                    , SystemSorting::ManufacturerThenName                       , mOriginalSort == SystemSorting::ManufacturerThenName },
+    { _("MANUFACTURER, THEN RELEASE DATE")            , SystemSorting::ManufacturerThenReleaseData                , mOriginalSort == SystemSorting::ManufacturerThenReleaseData },
+    { _("TYPE, THEN MANUFACTURER, THEN NAME")         , SystemSorting::SystemTypeThenManufacturerThenName         , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenName },
+    { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
+  });
 }

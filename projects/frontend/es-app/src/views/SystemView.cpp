@@ -26,10 +26,10 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
     mCamOffset(0),
     mExtrasCamOffset(0),
     mExtrasFadeOpacity(0.0f),
-    lastSystem(nullptr),
+    mCurrentSystem(nullptr),
     mViewNeedsReload(true),
     mShowing(false),
-		launchKodi(false)
+    launchKodi(false)
 {
 	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 }
@@ -158,11 +158,25 @@ void SystemView::addSystem(SystemData * it)
 	this->add(e);
 }
 
+void SystemView::Sort()
+{
+  std::vector<Entry> newEntries;
+  for(auto* const system : mSystemManager.GetVisibleSystemList())
+    for(auto& systemView : mEntries)
+      if (systemView.object == system)
+      {
+        newEntries.push_back(systemView);
+        break;
+      }
+  mEntries = newEntries;
+  goToSystem(mCurrentSystem, false);
+}
+
 void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (const auto& it : mSystemManager.GetVisibleSystemList())
+	for (const auto it : mSystemManager.GetVisibleSystemList())
 		addSystem(it);
 }
 
@@ -284,8 +298,8 @@ void SystemView::onCursorChanged(const CursorState& state)
 {
   (void)state;
 
-	if(lastSystem != getSelected()){
-		lastSystem = getSelected();
+	if(mCurrentSystem != getSelected()){
+    mCurrentSystem = getSelected();
     AudioManager::Instance().StartPlaying(getSelected()->Theme());
 	}
 	// update help style

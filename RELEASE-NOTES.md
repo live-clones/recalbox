@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add resolution menu in Advanced Settings > Resolutions
 - New Random game picker in demo mode (less cycling)
+- Add system sorting options in Advanced Settings
 
 ### Improvements
 ### Fixes

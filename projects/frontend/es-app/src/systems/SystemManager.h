@@ -66,6 +66,8 @@ class SystemManager :
 
     //! Visible system, including virtual system (Arcade)
     std::vector<SystemData*> mVisibleSystemVector;
+    //! Original of Visible system (copy)
+    std::vector<SystemData*> mOriginalVisibleSystemVector;
     //! Hidden system, just here to hold their own children
     std::vector<SystemData*> mHiddenSystemVector;
     //! ALL systems, visible and hidden
@@ -231,6 +233,13 @@ class SystemManager :
 
     void ThreadPoolTick(int completed, int total) override;
 
+	/*!
+	 * @brief Sort systems based on conf option
+	 * @param systems Systemlist to be sorted
+	 * @param originalSystems original Systemlist
+	 */
+    static void SystemSorting(std::vector<SystemData*>& systems, const std::vector<SystemData *>& originalSystems);
+
   public:
     /*!
      * @brief constructor
@@ -384,5 +393,7 @@ class SystemManager :
 
     //! Auto-scrape game image
     static void AutoScrape(SystemData* pData);
-};
 
+    //! Sort or resort system list
+    void SystemSorting();
+};

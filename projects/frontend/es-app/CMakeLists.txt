@@ -32,6 +32,7 @@ set(ES_HEADERS
         src/systems/SystemDescriptor.h
         src/systems/SystemDeserializer.h
         src/systems/SystemManager.h
+        src/systems/SystemSorting.h
         src/usernotifications/NotificationManager.h
 
         # GuiComponents
@@ -237,6 +238,7 @@ set(ES_SOURCES
         src/systems/SystemDescriptor.cpp
         src/systems/SystemDeserializer.cpp
         src/systems/SystemManager.cpp
+        src/systems/SystemSorting.cpp
         src/usernotifications/NotificationManager.cpp
 
         # GuiComponents
