@@ -15,11 +15,17 @@ declare -A ES_CLEAN_CONFIG=( \
     ["240ptestsuite.ignore"]="1" \
     )
 
+declare -A CONFIG_CONTENT=( \
+    ["recalboxrgbdual"]="#device=recalboxrgbdual\ndtoverlay=recalboxrgbdual" \
+    ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty" \
+    ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty" \
+    ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19" \
+    )
+
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
 CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
 CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
 TIMINGS_FILE="/boot/crt/timings.txt"
-DAC_DIRECTORY="/boot/crt/dacs"
 
 function configure_es {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
@@ -135,7 +141,7 @@ if test "$1" == "start" ; then
             mount -o remount,rw /boot
 
             recallog -s "S13crt" -t "CRT" "Installing config in /boot/crt/"
-            cp "${DAC_DIRECTORY}/${DAC}-config.txt" "${CRT_DAC_FILE}"
+            echo -e "${CONFIG_CONTENT[$DAC]}" > ${CRT_DAC_FILE}
             mount -o remount,ro /boot
             configure_es
             reboot
