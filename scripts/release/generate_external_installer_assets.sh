@@ -23,10 +23,13 @@ function exitWithUsage {
   echo "    ├─ rpi3/"
   echo "    │  ├─ recalbox-rpi3.img.xz"
   echo "    │  └─ boot.tar.xz"
-  echo "    └─ rpi4/"
+  echo "    ├─ rpi4/"
   echo "    │  ├─ recalbox-rpi4.img.xz"
   echo "    │  └─ boot.tar.xz"
-  echo "    ├─ rpizero2legacy/"
+  echo "    ├─ rpizero2/"
+  echo "    │  ├─ recalbox-rpizero2.img.xz"
+  echo "    │  └─ boot.tar.xz"
+  echo "    └─ rpizero2legacy/"
   echo "       ├─ recalbox-rpizero2legacy.img.xz"
   echo "       └─ boot.tar.xz"
   echo
@@ -89,7 +92,7 @@ function generateRaspberryPiImagerAssets {
   metadata[version]=${CI_COMMIT_REF_NAME}
   metadata[releaseDate]=$(date +%Y-%m-%d)
 
-  for arch in rpi1 rpi2 rpi3 rpi4 rpizero2legacy; do
+  for arch in rpi1 rpi2 rpi3 rpi4 rpizero2legacy rpizero2; do
     local imageFile="${params[imagesDir]}/${arch}/recalbox-${arch}.img.xz"
     # Fetch info regarding image downloads (XZ-compressed Recalbox image)
     metadata["${arch}ImageDownloadSize"]=$(stat -c '%s' "${imageFile}")
@@ -108,21 +111,25 @@ function generateRaspberryPiImagerAssets {
         -e "s|{{releaseDate}}|${metadata[releaseDate]}|" \
         -e "s|{{rpi1ExtractSize}}|${metadata[rpi1ExtractSize]}|" \
         -e "s|{{rpizero2legacyExtractSize}}|${metadata[rpizero2legacyExtractSize]}|" \
+        -e "s|{{rpizero2ExtractSize}}|${metadata[rpizero2ExtractSize]}|" \
         -e "s|{{rpi2ExtractSize}}|${metadata[rpi2ExtractSize]}|" \
         -e "s|{{rpi3ExtractSize}}|${metadata[rpi3ExtractSize]}|" \
         -e "s|{{rpi4ExtractSize}}|${metadata[rpi4ExtractSize]}|" \
         -e "s|{{rpi1ExtractSha256}}|${metadata[rpi1ExtractSha256]}|" \
         -e "s|{{rpizero2legacyExtractSha256}}|${metadata[rpizero2legacyExtractSha256]}|" \
+        -e "s|{{rpizero2ExtractSha256}}|${metadata[rpizero2ExtractSha256]}|" \
         -e "s|{{rpi2ExtractSha256}}|${metadata[rpi2ExtractSha256]}|" \
         -e "s|{{rpi3ExtractSha256}}|${metadata[rpi3ExtractSha256]}|" \
         -e "s|{{rpi4ExtractSha256}}|${metadata[rpi4ExtractSha256]}|" \
         -e "s|{{rpi1ImageDownloadSize}}|${metadata[rpi1ImageDownloadSize]}|" \
         -e "s|{{rpizero2legacyImageDownloadSize}}|${metadata[rpizero2legacyImageDownloadSize]}|" \
+        -e "s|{{rpizero2ImageDownloadSize}}|${metadata[rpizero2ImageDownloadSize]}|" \
         -e "s|{{rpi2ImageDownloadSize}}|${metadata[rpi2ImageDownloadSize]}|" \
         -e "s|{{rpi3ImageDownloadSize}}|${metadata[rpi3ImageDownloadSize]}|" \
         -e "s|{{rpi4ImageDownloadSize}}|${metadata[rpi4ImageDownloadSize]}|" \
         -e "s|{{rpi1ImageDownloadSha256}}|${metadata[rpi1ImageDownloadSha256]}|" \
         -e "s|{{rpizero2legacyImageDownloadSha256}}|${metadata[rpizero2legacyImageDownloadSha256]}|" \
+        -e "s|{{rpizero2ImageDownloadSha256}}|${metadata[rpizero2ImageDownloadSha256]}|" \
         -e "s|{{rpi2ImageDownloadSha256}}|${metadata[rpi2ImageDownloadSha256]}|" \
         -e "s|{{rpi3ImageDownloadSha256}}|${metadata[rpi3ImageDownloadSha256]}|" \
         -e "s|{{rpi4ImageDownloadSha256}}|${metadata[rpi4ImageDownloadSha256]}|" \

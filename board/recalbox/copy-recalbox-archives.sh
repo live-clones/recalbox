@@ -103,7 +103,7 @@ RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
-    RPI0|RPI1|RPI2|RPI3|RPI4|RPIZERO2LEGACY)
+    RPI0|RPI1|RPI2|RPI3|RPI4|RPIZERO2LEGACY|RPIZERO2)
 	# /boot
 	echo "generating boot"
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
