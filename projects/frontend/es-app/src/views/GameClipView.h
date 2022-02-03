@@ -57,7 +57,7 @@ class GameClipView : public Gui, public ISynchronousEvent
 
     GameRandomSelector mGameRandomSelector;
 
-    static constexpr int MAX_HISTORY = 60;
+    static constexpr int MAX_HISTORY = 10;
     int mHistoryPosition;
     std::vector<FileData*> mHistory;
     Direction mDirection;
@@ -75,8 +75,6 @@ class GameClipView : public Gui, public ISynchronousEvent
     int systemIndex;
 
     int mVideoDuration;
-
-    int GetFirstOccurenceInHistory(FileData* game);
 
     void InsertIntoHistory(FileData* game);
 

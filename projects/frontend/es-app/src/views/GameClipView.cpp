@@ -36,18 +36,6 @@ GameClipView::~GameClipView()
   mHistory.clear();
 }
 
-int GameClipView::GetFirstOccurenceInHistory(FileData* game)
-{
-  for (int i = 0; i < (int) mHistory.size(); ++i)
-  {
-    if (game->Metadata().Video() == mHistory.at(i)->Metadata().Video())
-    {
-      return i;
-    }
-  }
-  return -1;
-}
-
 void GameClipView::InsertIntoHistory(FileData* game)
 {
   mHistory.insert(mHistory.begin(), game);
@@ -73,13 +61,9 @@ void GameClipView::GetNextGame()
 {
   if (mHistoryPosition == 0)
   {
-    for(int i = 10; --i >= 0; )
-    {
-      mGame = mGameRandomSelector.NextGame();
-      if (GetFirstOccurenceInHistory(mGame) < 0) break;
-    }
-  }
-  else
+    mGame = mGameRandomSelector.NextGame();
+
+  } else
   {
     mHistoryPosition--;
     // security
