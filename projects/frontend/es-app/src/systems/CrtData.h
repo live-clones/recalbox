@@ -45,7 +45,7 @@ class CrtData
     bool IsHighResolutionConfigured() const
     {
       if (!mHighResolutionConfigured)
-        if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
+        if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
           if (CrtConf::Instance().GetSystemCRTGameResolutionSelect())
             return true;
       return false;
@@ -58,7 +58,7 @@ class CrtData
     bool IsRegionOrStandardConfigured() const
     {
       if (!mRegionOrVideoStandardConfigured)
-        if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
+        if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
           if (CrtConf::Instance().GetSystemCRTGameRegionSelect())
             return true;
       return false;
