@@ -278,6 +278,17 @@ template<typename T> class Array : private Allocator
       return -1;
     }
 
+    void Swap(int left, int right)
+    {
+      if ((unsigned int)left  < (unsigned int)fCount &&
+          (unsigned int)right < (unsigned int)fCount)
+      {
+        T tmp = __GET(left);
+        __GET(left) = __GET(right);
+        __GET(right) = tmp;
+      }
+    }
+
     void AddItems(const T* item, int count) { T* insertAt = Expand(fCount, count); memcpy(insertAt, item, sizeof(T) * count); }
     void Insert(const T& item, int index) { *Expand(index, 1) = item; }
     void Insert(const T& item, int index, int count) { T* insertAt = Expand(index, count); for(; --count >= 0;) insertAt[count] = item; }

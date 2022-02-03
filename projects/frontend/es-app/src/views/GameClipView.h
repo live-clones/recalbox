@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <random>
 #include <games/FileData.h>
 #include <systems/PlatformId.h>
 #include <systems/SystemManager.h>
@@ -14,6 +13,7 @@
 #include <components/GameClipContainer.h>
 #include <components/GameClipNoVideoContainer.h>
 #include "RecalboxConf.h"
+#include "games/GameRandomSelector.h"
 
 class GameClipView : public Gui, public ISynchronousEvent
 {
@@ -37,6 +37,16 @@ class GameClipView : public Gui, public ISynchronousEvent
     };
 
   private:
+    class Filter : public IFilter
+    {
+      public:
+        bool ApplyFilter(const FileData& file) const override
+        {
+          bool showIfHidden = !file.Metadata().Hidden() || RecalboxConf::Instance().GetShowHidden();
+          return  !file.Metadata().VideoAsString().empty() && showIfHidden;
+        }
+    } mFilter;
+
     //! Synchronous event
     SyncronousEvent mEvent;
 
@@ -45,25 +55,14 @@ class GameClipView : public Gui, public ISynchronousEvent
 
     SystemManager& mSystemManager;
 
-    RecalboxConf& mRecalboxConf;
+    GameRandomSelector mGameRandomSelector;
 
-    std::vector<FileData*> mDemoFiles;
-    int mDemoFilesIndex = 0;
-
-    static constexpr int MAX_HISTORY = 60;
-    int mHistoryPosition = 0;
+    static constexpr int MAX_HISTORY = 10;
+    int mHistoryPosition;
     std::vector<FileData*> mHistory;
-    //FileData *mHistory[MAX_HISTORY]{};
-    Direction mDirection = Direction::Next;
+    Direction mDirection;
 
-    //! Random device to seed random generator
-    std::random_device mRandomDevice;
-    //! Random generator
-    std::mt19937 mRandomGenerator;
-    //! Random repartition (game)
-    std::uniform_int_distribution<int> mGameRandomizer;
-
-    FileData* mGame {};
+    FileData* mGame;
 
     HighResolutionTimer mTimer;
 
@@ -75,15 +74,9 @@ class GameClipView : public Gui, public ISynchronousEvent
 
     int systemIndex;
 
-    int mSeed {};
-
     int mVideoDuration;
 
-    int GetFirstOccurenceInHistory(FileData* game);
-
     void InsertIntoHistory(FileData* game);
-
-    void Initialize();
 
     void GetGame();
 
@@ -108,6 +101,7 @@ class GameClipView : public Gui, public ISynchronousEvent
     void ReceiveSyncCallback(const SDL_Event& event) override;
 
   public:
+
     static const char* getName()
     { return "gameclip"; }
 

@@ -406,6 +406,28 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
   return gameCount;
 }
 
+int FolderData::countItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const
+{
+  int result = 0;
+  for (FileData* fd : mChildren)
+  {
+    if (fd->IsFolder())
+    {
+      int subCount = CastFolder(fd)->countItemsRecursively(filter, includefolders, includeadult);
+      result += subCount;
+      if (subCount > 1)
+        if (includefolders)
+          result++; // Include folders iif it contains more than one game.
+    }
+    else if (fd->IsGame())
+    {
+      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()))
+        result++;
+    }
+  }
+  return result;
+}
+
 int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const
 {
   int result = 0;
