@@ -1,4 +1,0 @@
-#device=rgbpi
-dtoverlay=recalboxrgbdual-thirdparty,mode6
-audio_pwm_mode=2
-dtoverlay=audremap,pins_18_19
