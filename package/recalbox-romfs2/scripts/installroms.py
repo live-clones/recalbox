@@ -66,8 +66,6 @@ class InstallRoms:
                 return
             raise Exception("You should use a %ROOT% in rom folder")
 
-
-
     def getAbsolutePathTarget(self, holder:SystemHolder, root_to_replace:str, file_name:str):
         if "%ROOT%" in holder.RomFolder:
             return os.path.join(holder.RomFolder.replace("%ROOT%", root_to_replace), file_name)
@@ -76,7 +74,7 @@ class InstallRoms:
         raise Exception("You should use a %ROOT% in rom folder")
 
     def __installReadMe(self, system_folder: str, holder: SystemHolder):
-        template_dir: str = os.path.join(self.__systemRoot, ".templates/system/roms")
+        template_dir: str = os.path.join(self.__systemRoot, ".templates/readme")
         absolute_system_folder = os.path.join(self.__systemRoot, system_folder)
 
         # Check if placeholder
