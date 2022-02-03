@@ -1,2 +1,0 @@
-#device=vga666
-dtoverlay=recalboxrgbdual-thirdparty
