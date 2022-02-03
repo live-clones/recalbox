@@ -187,6 +187,9 @@ ICrtInterface& Board::GetCrtBoard()
 
 bool Board::CanHaveCRTBoard()
 {
+  #ifdef DEBUG
+  return true;
+  #else
   switch(GetBoardType())
   {
     case BoardType::Pi02:
@@ -208,4 +211,5 @@ bool Board::CanHaveCRTBoard()
   }
 
   return false;
+  #endif
 }
