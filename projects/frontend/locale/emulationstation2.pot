@@ -2998,8 +2998,16 @@ msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
 
 #
+msgid "SHOW PORTS SYSTEM"
+msgstr ""
+
+#
 msgid "Show all available games playable with a lightgun."
 msgstr ""
+
+#
+msgid "Show a 'ports' system with all ports in the same place."
+msgstr""
 
 #
 msgid "WARNING! This option erase all recalbox and emulator configurations! Use it carefully!"

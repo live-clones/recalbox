@@ -331,7 +331,7 @@ bool SystemManager::AddPorts()
       mHiddenSystemVector.push_back(port);
     }
 
-    if (!RecalboxConf::Instance().GetCollectionHide("ports"))
+    if ((!RecalboxConf::Instance().GetCollectionHide("ports")) || (mVisibleSystemVector.size() == 1))
     {
       // Create meta-system
       SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
@@ -545,7 +545,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Is there at least
   if (!loaded)
   {
-    { LOG(LogError) << "[System] No es_systems.cfg file available!"; }
+    { LOG(LogError) << "[System] No systemlist.xml file available!"; }
     GenerateExampleConfigurationFile(SystemDeserializer::UserConfigurationPath());
     return false;
   }
