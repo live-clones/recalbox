@@ -8,6 +8,7 @@
 #include "SplashView.h"
 #include "views/crt/CrtView.h"
 #include <emulators/run/GameLinkedData.h>
+#include "systems/NetPlayData.h"
 
 class SystemData;
 
