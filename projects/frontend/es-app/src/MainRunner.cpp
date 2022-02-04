@@ -124,6 +124,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
       return ExitState::FatalError;
     ResetForceReloadState();
+    //systemManager.SearchTextInGames(FolderData::FastSearchContext::Name, "SUP", 100);
 
     // Scrapers
     ScraperFactory scraperFactory;
