@@ -54,3 +54,39 @@ MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::strin
   mMetaString.AddItems(newString.data(), (int)newString.size() + 1); // Include zero terminal
   return result;
 }
+
+void MetadataStringHolder::FindText(const std::string& text, MetadataStringHolder::FoundTextList& output, int context)
+{
+  const char* fdn = mMetaString.BufferReadOnly();             // Keep filedata name pointer for fast result computation
+  const char* tts = text.c_str();                             // Keep text pointer for fast search reset
+  int lmax = (int)mMetaString.Count() - (int)text.size() + 1; // MAximum byte to search in
+
+  for(const char* p = fdn; --lmax >= 0; ++p)                  // Run through the game name, straight forward
+    if ((*p | 0x20) == (*tts))                                // Try to catch the first char
+      for (const char* s = tts, *ip = p; ; )                  // Got it, run through both string
+      {
+        const char c = *(++s);
+        if ((c != 0) && ((*(++ip) | 0x20) != c) ) break;      // Chars are not equal, exit the inner loop
+        if (c == 0)
+        {
+          output.Add(IndexFromPos((int) (p - fdn), context)); // Chars are equal, got a zero terminal? Found it!
+          break;
+        }
+      }
+}
+
+MetadataStringHolder::IndexAndDistance MetadataStringHolder::IndexFromPos(int pos, int context)
+{
+  // Out of bounds?
+  if ((unsigned int)pos > (unsigned int)mMetaString.Count()) return { -1, -1, -1 };
+  // Last item? (avoid the end computation in the main loop)
+  if (pos >= mIndexes.Last()) return { mIndexes.Count() - 1, (short)(pos - mIndexes.Last()), (short)context };
+
+  for(int left = 0, right = mIndexes.Count() - 2; ; )
+  {
+    int pivot = (left + right) >> 1;
+    if (pos < mIndexes[pivot]) right = pivot;
+    else if (pos >= mIndexes[pivot + 1]) left = pivot;
+    else return { pivot, (short)(pos - mIndexes[pivot]), (short)context };
+  }
+}
