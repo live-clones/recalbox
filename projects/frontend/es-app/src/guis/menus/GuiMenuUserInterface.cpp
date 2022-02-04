@@ -14,6 +14,7 @@
 GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("UI SETTINGS"), this)
   , mSystemManager(systemManager)
+  , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
 {
   // Brightness
   if (Board::Instance().HasBrightnessSupport())
@@ -45,6 +46,10 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
 
   // Swap validate and cancel buttons
   mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG));
+
+  // System sort
+  mSort = AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
+
 }
 
 void GuiMenuUserInterface::ReloadGamelists()
@@ -80,6 +85,7 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Clock:
     case Components::SwapValidateAndCancel:
     case Components::Help:
+    case Components::SystemSort:
     case Components::QuickSelect: break;
   }
 }
@@ -112,6 +118,35 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
     case Components::ThemeConfig:
     case Components::UpdateGamelist:
     case Components::ScreenSaver:
+    case Components::SystemSort:
     case Components::Brightness: break;
   }
+}
+
+
+void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const SystemSorting& value)
+{
+    (void)index;
+    (void)id;
+    RecalboxConf::Instance().SetSystemSorting(value).Save();
+
+    mSystemManager.SystemSorting();
+    ViewController::Instance().getSystemListView().Sort();
+}
+
+std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSortingEntries()
+{
+    mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
+    return std::vector<ListEntry<SystemSorting>>
+    ({
+        { _("DEFAULT")                                    , SystemSorting::Default                                    , mOriginalSort == SystemSorting::Default },
+        { _("NAME")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
+        { _("RELEASE DATE")                               , SystemSorting::ReleaseDate                                , mOriginalSort == SystemSorting::ReleaseDate },
+        { _("TYPE, THEN NAME")                            , SystemSorting::SystemTypeThenName                         , mOriginalSort == SystemSorting::SystemTypeThenName },
+        { _("TYPE, THEN RELEASE DATE")                    , SystemSorting::SystemTypeThenReleaseDate                  , mOriginalSort == SystemSorting::SystemTypeThenReleaseDate },
+        { _("MANUFACTURER, THEN NAME")                    , SystemSorting::ManufacturerThenName                       , mOriginalSort == SystemSorting::ManufacturerThenName },
+        { _("MANUFACTURER, THEN RELEASE DATE")            , SystemSorting::ManufacturerThenReleaseData                , mOriginalSort == SystemSorting::ManufacturerThenReleaseData },
+        { _("TYPE, THEN MANUFACTURER, THEN NAME")         , SystemSorting::SystemTypeThenManufacturerThenName         , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenName },
+        { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
+    });
 }
