@@ -30,7 +30,12 @@ customVideoPath="/overlay/bootvideos"
 firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 
 # get output video size
-fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
+
+# Low definiton devices
+if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
+   && ! grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product; then
+  LOWDEF=1
+fi
 
 ## -1 : Video will be stopped when emulationstation is ready to start.
 ##  0 : All the video will be played before emulationstation start (default)
@@ -63,7 +68,7 @@ selectVideo() {
   local videos
   local num_videos
   if isFirstTime; then
-    [ "${fbdevHeight}" -le 240 ] \
+    [ -n "${LOWDEF}" ] \
         && echo "${originalSmallVideoPath}/${firstTimeVideo}" \
         || echo "${originalVideoPath}/${firstTimeVideo}"
     return 0
@@ -72,7 +77,7 @@ selectVideo() {
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
 
   if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "recalbox" ]; then
-    [ "${fbdevHeight}" -le 240 ] && videoSearchPath+=("$originalSmallVideoPath") || videoSearchPath+=("$originalVideoPath")
+    [ -n "${LOWDEF}" ] && videoSearchPath+=("$originalSmallVideoPath") || videoSearchPath+=("$originalVideoPath")
   fi
   if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "custom" ]; then
     videoSearchPath+=("$customVideoPath")
@@ -105,7 +110,7 @@ isFirstTime() {
 # showIntroBackground
 #   displays our intro background via the framebuffer
 showIntroBackground() {
-  if [ "${fbdevHeight}" -le 320 ] ; then
+  if [ -n "${LOWDEF}" ] ; then
     fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
   else
     fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
@@ -150,6 +155,17 @@ playVideoOnOneScreen() {
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }
 
+# find best mode for crt
+getCrtMpvOptions() {
+  local connector="1.VGA-1"
+  if [[ "$machineArch" == "rpi3" ]]; then connector="VGA-1"; fi
+  if mpv --drm-mode=help | grep -q "640x480"; then
+    echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+    return
+  fi
+  echo "--vo=drm --drm-connector=${connector}"
+}
+
 # playVideo
 #   select all screen and run playVideoOnOneScreen for each connected screen
 # intput:
@@ -166,6 +182,9 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
+  elif grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product; then
+    # On recalbox RGB Dual we will try to get 640x480i for videos 
+    playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
   elif [[ "$ARCH" == "rpi1" ]]; then
     # on rpi1 2 and 3 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
