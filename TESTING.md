@@ -12,6 +12,7 @@ Toutes les cases doivent être cochées avant la release stable.
 Pour les pending features, elles ne seront activées que si les beta testeurs les valident selon les critères de qualité de Recalbox.
 
 ## [NEXT]
+- [ ] Test libretro-gambatte all boards
 - [ ] Test internal scraper on PC88 & Spectravideo
 - [ ] Check no tearing effect on odroidgo2 (#2100)
 - [ ] Check in the crt system menu the addition of the Recalbox RGB Dual on pi3 and pi4 (#2064)
