@@ -177,11 +177,6 @@ build rpi1:
   when: manual
   variables:
     ARCH: 'rpi1'
-build rpi2:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi2'
 build rpi3:
   <<: *build_definition
   when: manual
@@ -229,12 +224,6 @@ nightly build rpi1:
     - schedules
   variables:
     ARCH: 'rpi1'
-nightly build rpi2:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpi2'
 nightly build rpi3:
   <<: *build_definition
   only:
