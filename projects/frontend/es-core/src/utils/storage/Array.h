@@ -79,6 +79,7 @@ template<typename T> class Array : private Allocator
 #endif
 
     typedef int (Comparer)(const T&, const T&);
+    typedef bool (Equaler)(const T&, const T&);
   public:
 
     Array() : Allocator(__OBJSZ, __InitialCapacity, __InitialGranularity, true), fCount(0) { }
@@ -131,8 +132,24 @@ template<typename T> class Array : private Allocator
       if (fCount > 1) QuickSort(0, fCount-1, compare);
     }
 
-    // Read operator
+    // Remove duplicates
+    void RemoveDups(Equaler equal)
+    {
+      for(int i = fCount - 1; --i >= 0; )
+        for(int j = fCount; --j > i; )
+          if (equal(__GET(i), __GET(j)))
+            Contract(j, 1);
+    }
+
+    //! Read operator
     T operator[] (int index) const
+    {
+      if ((unsigned int)index >= (unsigned int)fCount) LOG_AND_EXIT("Array Index out of bound!");
+      return __GET(index);
+    }
+
+    //! Get const reference
+    const T& ConstRef(int index) const
     {
       if ((unsigned int)index >= (unsigned int)fCount) LOG_AND_EXIT("Array Index out of bound!");
       return __GET(index);

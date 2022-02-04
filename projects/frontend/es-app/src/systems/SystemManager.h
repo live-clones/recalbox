@@ -95,6 +95,9 @@ class SystemManager :
     //! All declared system rom path
     HashSet<std::string> mAllDeclaredSystemExtensionSet;
 
+    //! Fast search cache
+    std::vector<FolderData::FastSearchItemSerie> mFastSearchSeries;
+
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
     //! Rom path change notifications interface
@@ -326,12 +329,27 @@ class SystemManager :
      */
     void NotifyDeviceUnmount(const DeviceMount& root) override;
 
+    /*
+     * Fast search cache management
+     */
+
+    /*!
+     * @brief Create fast search caches
+     * @param resultIndexes Index to get context from
+     * @param searchableSystems Searchable systems
+     */
+    void CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems);
+
+    //! Remove all cache
+    void DeleteFastSearchCache();
+
   public:
     /*!
      * @brief constructor
      */
     explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<std::string>& watcherIgnoredFiles)
       : mMountPointMonitoring(this)
+      : mFastSearchSeries((int)FolderData::FastSearchContext::All)
       , mProgressInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
@@ -474,21 +492,12 @@ class SystemManager :
     [[nodiscard]] const EmulatorManager& Emulators() const { return mEmulatorManager; }
 
     /*!
-     * @brief Fasqt Search result Quick sort
-     * @param items Item to sort
-     * @param low Range low index
-     * @param high Range high index
-     */
-    static void SearchResultQuickSortAscending(FolderData::ResultList& items, int low, int high);
-
-    /*!
      * @brief Search games from text
      * @param text Text to search for
-     * @param maxpersystem Maximum results per system
      * @param maxglobal Maximum results
      * @return Sorted game found list
      */
-    FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal, SystemData* systemData);
+    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxglobal);
 
     /*!
      * @brief Autoscrape system with game in png
