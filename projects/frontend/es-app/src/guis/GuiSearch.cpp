@@ -299,7 +299,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 
 	if (search.length()>2)
 	{
-		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), search, 100, 500);
+		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");

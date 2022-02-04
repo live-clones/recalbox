@@ -9,6 +9,7 @@
 #include <WindowManager.h>
 #include <systems/SystemManager.h>
 #include <systems/GameLinkedData.h>
+#include <systems/NetPlayData.h>
 
 class GameRunner : public StaticLifeCycleControler<GameRunner>
 {

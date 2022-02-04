@@ -8,6 +8,7 @@
 #include <systems/SystemData.h>
 #include <games/FileData.h>
 #include "EmulatorList.h"
+#include "EmulatorData.h"
 
 class EmulatorManager : public INoCopy
 {

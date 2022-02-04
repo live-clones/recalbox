@@ -115,14 +115,6 @@ class FolderData : public FileData
      */
     static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
-    /*!
-     * @brief Search text into the game name, returning the index of the text
-     * @param text text to search for
-     * @param fd FileData to search in
-     * @return Index of the text found, or -1
-     */
-    static int FastSearchText(const std::string& text, const std::string& into);
-
     static bool ContainsMultiDiskFile(const std::string& extensions)
     {
       return Strings::Contains(extensions, ".m3u") || Strings::Contains(extensions, ".cue") ||
@@ -154,18 +146,98 @@ class FolderData : public FileData
         All,
     };
 
-    /*!
-     * @brief Fast search data holder
-     */
+    //! Fast Search Item
     struct FastSearchItem
     {
-      int Distance;   // Distance of the found text
-      FileData* Data; // FileData object
+      const FileData* Game; //!< Game data
+      int             Next; //!< Next
 
-      FastSearchItem(int distance, FileData* data) : Distance(distance), Data(data) {}
+      //! Constructor
+      FastSearchItem()
+        : Game(nullptr)
+        , Next(-1)
+      {
+      }
+
+      //! Constructor
+      FastSearchItem(const FileData* game, int next)
+        : Game(game)
+        , Next(next)
+      {
+      }
+
+      //! Copy constructor
+      FastSearchItem(const FastSearchItem&) = default;
+      //! Move constructor
+      FastSearchItem(FastSearchItem&&) = default;
+
+      //! Copy assignator
+      FastSearchItem& operator = (const FastSearchItem&) = default;
+      //! Move assignator
+      FastSearchItem& operator = (FastSearchItem&&) = default;
     };
-    //! Result list alias
-    typedef std::vector<FastSearchItem> ResultList;
+
+    //! Serie structure
+    class FastSearchItemSerie
+    {
+      public:
+        //! Constructor
+        FastSearchItemSerie()
+          : mValid(false)
+        {
+        }
+
+        //! Constructor
+        explicit FastSearchItemSerie(int count)
+          : mItems(count, 10240)
+          , mValid(false)
+        {
+          for(int c = count; --c >= 0; )
+            mItems(c) = FolderData::FastSearchItem();
+        }
+
+        //! Copy constructor
+        FastSearchItemSerie(const FastSearchItemSerie&) = default;
+        //! Move constructor
+        FastSearchItemSerie(FastSearchItemSerie&&) = default;
+
+        //! Copy assignator
+        FastSearchItemSerie& operator = (const FastSearchItemSerie&) = default;
+        //! Move assignator
+        FastSearchItemSerie& operator = (FastSearchItemSerie&&) = default;
+
+        void Set(const FileData* game, int index)
+        {
+          if (mItems(index).Game == nullptr)
+          {
+            mItems(index).Game = game;
+            mValid = true;
+          }
+          else
+          {
+            int nextIndex = mItems.Count();
+            mItems.Add(mItems[index]);
+            mItems(index) = FastSearchItem(game, nextIndex);
+          }
+        }
+
+        FastSearchItem* Get(int index)
+        {
+          return &mItems(index);
+        }
+
+        FastSearchItem* Next(FastSearchItem* item)
+        {
+          if (item->Next >= 0) return &mItems(item->Next);
+          return nullptr;
+        }
+
+        bool Empty() const { return !mValid; }
+
+      private:
+        Array<FastSearchItem> mItems;
+        bool mValid;
+    };
 
     /*!
      * Constructor
@@ -434,13 +506,52 @@ class FolderData : public FileData
     void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
 
     /*!
-     * @brief Search for all games containing 'text' and add them to 'result'
-     * @param context Field in which to search text for
-     * @param text Test to search for
-     * @param results Result list
-     * @param remaining Maximum results
+     * @brief Lookup games whose path index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
      */
-    void FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const;
+    void LookupGamesFromPath(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Lookup games whose name index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
+     */
+    void LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Lookup games whose description index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
+     */
+    void LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Lookup games whose developer index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
+     */
+    void LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Lookup games whose publisher index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
+     */
+    void LookupGamesFromPublisher(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Lookup games whose any index matches one of the given indexes
+     * @param index Index to seek into
+     * @param games Output list
+     */
+    void LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    void BuildFastSearchSeriesPath(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesName(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesDescription(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesDeveloper(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesPublisher(FastSearchItemSerie& into) const;
 };
 
 

@@ -21,6 +21,17 @@ class MetadataStringHolder
     //! 8bits string index
     typedef char Index8;
 
+    //! Fast search result structure
+    struct IndexAndDistance
+    {
+      Index32 Index;    //!< Index
+      short   Distance; //!< Distance to the text found, in characters
+      short   Context;  //!< User context
+    };
+
+    //! Search results
+    typedef Array<IndexAndDistance> FoundTextList;
+
     /*!
      * @brief Constructor
      * @param capacity Initial capacity
@@ -76,6 +87,13 @@ class MetadataStringHolder
     //! Is the given index valid?
     bool IsValid(int index) const { return index < mIndexes.Count(); }
 
+    /*!
+     * @brief Search text and return a list of index (and distance for sorting)
+     * @param text Text to search for
+     * @param output Output list to fill with found results
+     */
+    void FindText(const std::string& text, FoundTextList& output, int context);
+
   private:
     //! Synchronizer
     Mutex mSyncher;
@@ -85,6 +103,13 @@ class MetadataStringHolder
     Array<Index32> mIndexes;
     //! Temporary dictionnary string => indexes
     HashMap<std::string, Index32> mStringToIndexes;
+
+    /*!
+     * @brief Get the index of the sub-string at the given char position from metastring
+     * @param pos Char position in the metastringh
+     * @return Index or -1 if the position is OOB
+     */
+    IndexAndDistance IndexFromPos(int pos, int context);
 };
 
 

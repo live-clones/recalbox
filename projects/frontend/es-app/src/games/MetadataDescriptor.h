@@ -548,16 +548,7 @@ class MetadataDescriptor
      * Convenient Accessors
      */
 
-    //bool IsGame()   const { return _Type == ObjectType::Game;   }
-    //bool IsFolder() const { return _Type == ObjectType::Folder; }
-    bool IsDirty()  const { return mDirty;                }
-
-    /*
-     * Convenient Methods
-     */
-
-    //static bool AreGames(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsGame(); }
-    //static bool AreFolders(const MetadataDescriptor& md1, const MetadataDescriptor& md2) { return (md1._Type == md2._Type) && md1.IsFolder(); }
+    bool IsDirty()  const { return mDirty; }
 
     /*
      * Special modifiers
@@ -576,5 +567,66 @@ class MetadataDescriptor
      * @return first static internal field descriptor reference
      */
     const MetadataFieldDescriptor* GetMetadataFieldDescriptors(int& count) { return GetMetadataFieldDescriptors(mType, count); }
+
+    /*
+     * Index accessors
+     */
+
+    MetadataStringHolder::Index32 FileIndex() const { return -1; }
+    MetadataStringHolder::Index32 NameIndex() const { return mName; }
+    MetadataStringHolder::Index32 DescriptionIndex() const { return mDescription; }
+    MetadataStringHolder::Index32 DeveloperIndex() const { return mDeveloper; }
+    MetadataStringHolder::Index32 PublisherIndex() const { return mPublisher; }
+
+    static int FileIndexCount() { return sFileHolder.ObjectCount(); }
+    static int NameIndexCount() { return sNameHolder.ObjectCount(); }
+    static int DescriptionIndexCount() { return sDescriptionHolder.ObjectCount(); }
+    static int DeveloperIndexCount() { return sDeveloperHolder.ObjectCount(); }
+    static int PublisherIndexCount() { return sPublisherHolder.ObjectCount(); }
+
+    /*
+     * Search
+     */
+
+    bool IsMatchingFileIndex(MetadataStringHolder::Index32 index) const { (void)index; return false; }
+    bool IsMatchingNameIndex(MetadataStringHolder::Index32 index) const { return mName == index; }
+    bool IsMatchingDescriptionIndex(MetadataStringHolder::Index32 index) const { return mDescription == index; }
+    bool IsMatchingDeveloperIndex(MetadataStringHolder::Index32 index) const { return mDeveloper == index; }
+    bool IsMatchingPublisherIndex(MetadataStringHolder::Index32 index) const { return mPublisher == index; }
+
+    /*!
+     * @brief Search text in game names
+     * @param originaltext Text to search for
+     * @param output Result container
+     */
+    static void SearchInNames(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sNameHolder.FindText(originaltext, output, context); }
+
+    /*!
+     * @brief Search text in descriptions
+     * @param originaltext Text to search for
+     * @param output Result container
+     */
+    static void SearchInDescription(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDescriptionHolder.FindText(originaltext, output, context); }
+
+    /*!
+     * @brief Search text in developer names
+     * @param originaltext Text to search for
+     * @param output Result container
+     */
+    static void SearchInDeveloper(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDeveloperHolder.FindText(originaltext, output, context); }
+
+    /*!
+     * @brief Search text in publisher names
+     * @param originaltext Text to search for
+     * @param output Result container
+     */
+    static void SearchInPublisher(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sPublisherHolder.FindText(originaltext, output, context); }
+
+    /*!
+     * @brief Search text in file names
+     * @param originaltext Text to search for
+     * @param output Result container
+     */
+    static void SearchInPath(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { (void)originaltext; (void)output; (void)context; }
 };
 

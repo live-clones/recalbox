@@ -113,6 +113,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
       return ExitState::FatalError;
     ResetForceReloadState();
+    //systemManager.SearchTextInGames(FolderData::FastSearchContext::Name, "SUP", 100);
 
     // Run kodi at startup?
     GameRunner gameRunner(window, systemManager);
@@ -135,7 +136,7 @@ MainRunner::ExitState MainRunner::Run()
       // Start Video engine
       { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
       VideoEngine videoEngine;
-      // Start Neyplay thread
+      // Start Netplay thread
       { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
 

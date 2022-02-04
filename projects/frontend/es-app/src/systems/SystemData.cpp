@@ -577,12 +577,6 @@ bool SystemData::HasVisibleGame() const
   return false;
 }
 
-void SystemData::FastSearch(FolderData::FastSearchContext context, const std::string& text, FolderData::ResultList& results, int& remaining)
-{
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->FastSearch(context, text, results, remaining);
-}
-
 Path::PathList SystemData::WritableGamelists()
 {
   Path::PathList result;
@@ -614,3 +608,32 @@ bool SystemData::IncludeAdultGames() const
            RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
 }
 
+void SystemData::LookupGames(FolderData::FastSearchContext context, const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(const RootFolderData* root : mRootOfRoot.SubRoots())
+    switch(context)
+    {
+      case FolderData::FastSearchContext::Path: root->LookupGamesFromPath(index, games); break;
+      case FolderData::FastSearchContext::Name: root->LookupGamesFromName(index, games); break;
+      case FolderData::FastSearchContext::Description: root->LookupGamesFromDescription(index, games); break;
+      case FolderData::FastSearchContext::Developer: root->LookupGamesFromDeveloper(index, games); break;
+      case FolderData::FastSearchContext::Publisher: root->LookupGamesFromPublisher(index, games); break;
+      case FolderData::FastSearchContext::All: root->LookupGamesFromAll(index, games); break;
+      default: break;
+    }
+}
+
+void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, FolderData::FastSearchContext context) const
+{
+  for(const RootFolderData* root : mRootOfRoot.SubRoots())
+    switch(context)
+    {
+      case FolderData::FastSearchContext::Path: root->BuildFastSearchSeriesPath(into); break;
+      case FolderData::FastSearchContext::Name: root->BuildFastSearchSeriesName(into); break;
+      case FolderData::FastSearchContext::Description: root->BuildFastSearchSeriesDescription(into); break;
+      case FolderData::FastSearchContext::Developer: root->BuildFastSearchSeriesDeveloper(into); break;
+      case FolderData::FastSearchContext::Publisher: root->BuildFastSearchSeriesPublisher(into); break;
+      case FolderData::FastSearchContext::All:
+      default: break;
+    }
+}

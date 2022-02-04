@@ -76,6 +76,9 @@ class SystemManager :
     //! All declared system names
     std::vector<std::string> mAllDeclaredSystemShortNames;
 
+    //! Fast search cache
+    std::vector<FolderData::FastSearchItemSerie> mFastSearchSeries;
+
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
 
@@ -240,17 +243,32 @@ class SystemManager :
 	 */
     static void SystemSorting(std::vector<SystemData*>& systems, const std::vector<SystemData *>& originalSystems);
 
+    /*
+     * Fast search cache management
+     */
+
+    /*!
+     * @brief Create fast search caches
+     * @param resultIndexes Index to get context from
+     * @param searchableSystems Searchable systems
+     */
+    void CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems);
+
+    //! Remove all cache
+    void DeleteFastSearchCache();
+
   public:
     /*!
      * @brief constructor
      */
     SystemManager()
-     : mProgressInterface(nullptr),
-       mForceReload(false)
+      : mFastSearchSeries((int)FolderData::FastSearchContext::All)
+      , mProgressInterface(nullptr)
+      , mForceReload(false)
     {
     }
 
-    //! Destructor
+    //! default destructor
     virtual ~SystemManager() = default;
 
     /*!
@@ -375,21 +393,12 @@ class SystemManager :
     const EmulatorManager& Emulators() const { return mEmulatorManager; }
 
     /*!
-     * @brief Fasqt Search result Quick sort
-     * @param items Item to sort
-     * @param low Range low index
-     * @param high Range high index
-     */
-    static void SearchResultQuickSortAscending(FolderData::ResultList& items, int low, int high);
-
-    /*!
      * @brief Search games from text
      * @param text Text to search for
-     * @param maxpersystem Maximum results per system
      * @param maxglobal Maximum results
      * @return Sorted game found list
      */
-    FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal);
+    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxglobal);
 
     //! Auto-scrape game image
     static void AutoScrape(SystemData* pData);

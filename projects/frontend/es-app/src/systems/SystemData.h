@@ -8,8 +8,6 @@
 #include "games/FileSorts.h"
 #include "EmulatorList.h"
 #include "SystemDescriptor.h"
-#include "NetPlayData.h"
-#include "EmulatorData.h"
 #include <themes/ThemeData.h>
 
 class SystemManager;
@@ -250,11 +248,17 @@ class SystemData : private INoCopy
     /*!
      * @brief Search for all games containing 'text' and add them to 'result'
      * @param context Field in which to search text for
-     * @param text Test to search for
-     * @param results Result list
-     * @param remaining Maximum results
+     * @param indexes item indexes resulting from a fast search
+     * @param games Resulting game list
      */
-    void FastSearch(FolderData::FastSearchContext context, const std::string& text, FolderData::ResultList& results, int& remaining);
+    void LookupGames(FolderData::FastSearchContext context, const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
+    /*!
+     * @brief Fill in the given Item series with all filedata recursively
+     * @param into Item series to fill in
+     * @param context Context for indexes
+     */
+    void BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, FolderData::FastSearchContext context) const;
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)
