@@ -16,24 +16,12 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   , mSystemManager(systemManager)
   , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
 {
-  // Brightness
-  if (Board::Instance().HasBrightnessSupport())
-    mBrightness = AddSlider(_("BRIGHTNESS"), 0.f, 8.f, 1.f, (float)RecalboxConf::Instance().GetBrightness(), "", (int)Components::Brightness, this);
-
   // Screensavers
   AddSubMenu(_("SCREENSAVER"), (int)Components::ScreenSaver, _(MENUMESSAGE_UI_SCREENSAVER_HELP_MSG));
 
-  // display clock
-  mClock = AddSwitch(_("CLOCK IN MENU"), RecalboxConf::Instance().GetClock(), (int)Components::Clock, this, _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
-
-  // show help
-  mHelp = AddSwitch(_("ON-SCREEN HELP"), RecalboxConf::Instance().GetShowHelp(), (int)Components::Help, this, _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
-
-  // Popup settings
-  AddSubMenu(_("POPUP SETTINGS"), (int)Components::Popups, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
-
-  // quick system select (left/right in game list view)
-  mQuickSelect = AddSwitch(_("QUICK SYSTEM SELECT"), RecalboxConf::Instance().GetQuickSystemSelect(), (int)Components::QuickSelect, this, _(MENUMESSAGE_UI_QUICK_HELP_MSG));
+  // Brightness
+  if (Board::Instance().HasBrightnessSupport())
+      mBrightness = AddSlider(_("BRIGHTNESS"), 0.f, 8.f, 1.f, (float)RecalboxConf::Instance().GetBrightness(), "", (int)Components::Brightness, this);
 
   // Theme
   AddSubMenu(_("THEME"), (int)Components::Theme, _(MENUMESSAGE_UI_THEME_HELP_MSG));
@@ -41,15 +29,26 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   // Theme Options
   AddSubMenu(_("THEME CONFIGURATION"), (int)Components::ThemeConfig, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
 
-  // Game List Update
-  AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
+  // System sort
+  mSort = AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
+
+  // quick system select (left/right in game list view)
+  mQuickSelect = AddSwitch(_("QUICK SYSTEM SELECT"), RecalboxConf::Instance().GetQuickSystemSelect(), (int)Components::QuickSelect, this, _(MENUMESSAGE_UI_QUICK_HELP_MSG));
+
+  // show help
+  mHelp = AddSwitch(_("ON-SCREEN HELP"), RecalboxConf::Instance().GetShowHelp(), (int)Components::Help, this, _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
 
   // Swap validate and cancel buttons
   mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG));
 
-  // System sort
-  mSort = AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
+  // display clock
+  mClock = AddSwitch(_("CLOCK IN MENU"), RecalboxConf::Instance().GetClock(), (int)Components::Clock, this, _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
 
+  // Popup settings
+  AddSubMenu(_("POPUP SETTINGS"), (int)Components::Popups, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
+
+  // Game List Update
+  AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 }
 
 void GuiMenuUserInterface::ReloadGamelists()
