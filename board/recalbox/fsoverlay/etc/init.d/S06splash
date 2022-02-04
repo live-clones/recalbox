@@ -150,6 +150,15 @@ playVideoOnOneScreen() {
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }
 
+# find best mode for crt
+getCrtMpvOptions() {
+  if mpv --drm-mode=help | grep -q "640x480"; then
+    echo "--vo=drm --drm-connector=1.VGA-1 --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+    return
+  fi
+  echo "--vo=drm --drm-connector=1.VGA-1"
+}
+
 # playVideo
 #   select all screen and run playVideoOnOneScreen for each connected screen
 # intput:
@@ -166,6 +175,9 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
+  elif grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product; then
+    # On recalbox RGB Dual we will try to get 640x480i for videos 
+    playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
   elif [[ "$ARCH" == "rpi1" ]]; then
     # on rpi1 2 and 3 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
