@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
 
+- New option in UI menu : hide PORTS collection
 ### Improvements
 
 - Bump EmuSCV to fix zipped games load

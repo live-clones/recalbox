@@ -208,6 +208,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
     DefineGetterSetter(CollectionAllGames, bool, Bool, sCollectionAllGames, false)
     DefineGetterSetter(CollectionLightGun, bool, Bool, sCollectionLightGun, false)
+    DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, false)
 
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
     DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
@@ -412,6 +413,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionMultiplayer      = "emulationstation.collection.multiplayer";
     static constexpr const char* sCollectionAllGames         = "emulationstation.collection.allgames";
     static constexpr const char* sCollectionLightGun         = "emulationstation.collection.lightgun";
+    static constexpr const char* sCollectionPorts            = "emulationstation.collection.ports";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";
