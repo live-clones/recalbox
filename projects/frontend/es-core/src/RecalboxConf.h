@@ -203,6 +203,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
     DefineGetterSetter(GlobalInputDriver, std::string, String, sGlobalInputDriver, "auto")
+    DefineGetterSetter(GlobalZeroLag, bool, Bool, sGlobalZeroLag, false)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
@@ -314,6 +315,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalHidePreinstalled     = "global.hidepreinstalledgames";
     static constexpr const char* sGlobalIntegerScale         = "global.integerscale";
     static constexpr const char* sGlobalShowFPS              = "global.showfps";
+    static constexpr const char* sGlobalZeroLag              = "global.zerolag";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 
