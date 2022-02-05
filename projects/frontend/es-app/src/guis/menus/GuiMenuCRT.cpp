@@ -37,6 +37,9 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Game Resolution selection
   AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));
 
+  // Zero Lag
+  AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
+
   // 31khz resolution
   if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
@@ -176,6 +179,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();
   if ((Components)id == Components::GameResolution)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
+  if ((Components)id == Components::ZeroLag)
+    RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
 }
 
 void GuiMenuCRT::SubMenuSelected(int id)

@@ -37,6 +37,7 @@ class GuiMenuCRT : public GuiMenuBase
       GameRegion,
       GameResolution,
       GamesResolutionOn31kHz,
+      ZeroLag,
       Adjustment,
     };
 
