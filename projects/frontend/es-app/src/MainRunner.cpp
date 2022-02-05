@@ -494,16 +494,27 @@ void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char 
   LOG(LogDebug) << "[SDL2] (" << cat << ':' << subType << ") " << message;
 }
 
-void MainRunner::Intro(bool debug)
+void MainRunner::SetDebugLogs(bool state)
 {
-  atexit(&onExit); // Always close the log on exit
-
-  if (debug || mConfiguration.AsBool("emulationstation.debuglogs", false))
+  if (state)
   {
     Log::setReportingLevel(LogLevel::LogDebug);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }
+  else
+  {
+    Log::setReportingLevel(LogLevel::LogInfo);
+    SDL_LogSetOutputFunction(nullptr, nullptr);
+    SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_ERROR);
+  }
+}
+
+void MainRunner::Intro(bool debug)
+{
+  atexit(&onExit); // Always close the log on exit
+
+  SetDebugLogs(debug || mConfiguration.GetDebugLogs());
 
   { LOG(LogInfo) << "[MainRunner] EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING; }
 }

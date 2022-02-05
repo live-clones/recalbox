@@ -120,7 +120,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt()));
 
-  bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+  bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
 
   { LOG(LogInfo) << "[Run] Command: " << command; }
@@ -226,7 +226,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   command.append(" -demoduration ").append(Strings::ToString(duration));
   command.append(" -demoinfoduration ").append(Strings::ToString(infoscreenduration));
 
-  bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+  bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug)
     command.append(" -verbose");
 
@@ -290,7 +290,7 @@ bool GameRunner::RunKodi()
 
   NotificationManager::Instance().NotifyKodi();
 
-  bool debug = RecalboxConf::Instance().AsBool("emulationstation.debuglogs");
+  bool debug = RecalboxConf::Instance().GetDebugLogs();
   int exitCode = Run(command.c_str(), debug);
   if (WIFEXITED(exitCode))
   {
