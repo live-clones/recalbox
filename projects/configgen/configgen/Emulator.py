@@ -47,6 +47,7 @@ class Emulator:
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
         self._translate: bool = False
+        self._zerolag: bool = False
         self._translateAPIKey: str = "RECALBOX"
         self._translateURL: str = "https://ztranslate.net/service?api_key={}"
         self._translateFrom: str = "auto"
@@ -116,6 +117,7 @@ class Emulator:
         self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
         self._netplay: bool          = self.__guessBestBoolValue  (recalboxOptions, "netplay", self._netplay)
         self._translate: bool        = self.__guessBestBoolValue  (recalboxOptions, "translate", self._translate)
+        self._zerolag: bool          = self.__guessBestBoolValue  (recalboxOptions, "zerolag", self._zerolag)
         self._translateAPIKey: str   = self.__guessBestStringValue(recalboxOptions, "translate.apikey", self._translateAPIKey)
         self._translateURL: str      = self.__guessBestStringValue(recalboxOptions, "translate.url", self._translateURL)
         self._translateFrom: str     = self.__guessBestStringValue(recalboxOptions, "translate.from", self._translateFrom)
@@ -205,6 +207,9 @@ class Emulator:
 
     @property
     def RecalboxOverlays(self) -> bool: return self._recalboxOverlays
+
+    @property
+    def ZeroLag(self) -> bool: return self._zerolag
 
     @property
     def Args(self) -> List[str]: return self._args
