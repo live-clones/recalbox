@@ -27,6 +27,10 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
+  #if defined(BETA) || defined(DEBUG)
+  AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this);
+  #endif
+
   // Overclock choice
   mOverclock = AddList<Overclocking>(_("OVERCLOCK"), (int)Components::OverclockList, this, GetOverclockEntries(), _(MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG));
 
@@ -41,7 +45,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // Adult games
-  mAdult = AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   // Custom config for systems
   AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
@@ -51,14 +55,14 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
 
   // overscan
-  mOverscan = AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
+  AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
 
   // framerate
-  mShowFPS = AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
+  AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
 
 
   // Recalbox Manager
-  mWebManager = AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
+  AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
 
   //Security
   AddSubMenu(_("RESET TO FACTORY SETTINGS"), (int)Components::FactoryReset, _(MENUMESSAGE_ADVANCED_FACTORY_RESET));
@@ -197,6 +201,11 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
 {
   switch ((Components)id)
   {
+    case Components::DebugLogs:
+    {
+      MainRunner::SetDebugLogs(status);
+      RecalboxConf::Instance().SetDebugLogs(status).Save();
+    }
     case Components::AdultGames: RecalboxConf::Instance().SetFilterAdultGames(status).Save(); break;
     case Components::Overscan:
     {
@@ -213,7 +222,8 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::KodiSubMenu:
     case Components::SecuritySubMenu:
     case Components::FactoryReset:
-    case Components::CrtSubMenu: break;
+    case Components::CrtSubMenu:
+    default: break;
   }
 }
 
@@ -232,7 +242,9 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::Overscan:
     case Components::ShowFPS:
     case Components::SecuritySubMenu:
-    case Components::Manager: break;
+    case Components::Manager:
+    case Components::DebugLogs:
+    default: break;
   }
 }
 
