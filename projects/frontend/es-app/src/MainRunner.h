@@ -289,4 +289,10 @@ class MainRunner
      * @param executablePath Path to current executable
      */
     static void SetLocale(const std::string& executablePath);
+
+    /*!
+     * @brief Set debug log state
+     * @param state True to set debug logs on
+     */
+    static void SetDebugLogs(bool state);
 };

@@ -28,6 +28,10 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   , mLastHazardous(false)
   , mValidOverclock(false)
 {
+  #if defined(BETA) || defined(DEBUG)
+  AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this);
+  #endif
+
   // Overclock choice
   mOverclock = AddList<Overclocking>(_("OVERCLOCK"), (int)Components::OverclockList, this, GetOverclockEntries(), _(MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG));
 
@@ -204,6 +208,11 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
 {
   switch ((Components)id)
   {
+    case Components::DebugLogs:
+    {
+      MainRunner::SetDebugLogs(status);
+      RecalboxConf::Instance().SetDebugLogs(status).Save();
+    }
     case Components::AdultGames: RecalboxConf::Instance().SetFilterAdultGames(status).Save(); break;
     case Components::Overscan:
     {
@@ -221,7 +230,8 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::SecuritySubMenu:
     case Components::FactoryReset:
     case Components::CrtSubMenu:
-    case Components::ResolutionSubMenu: break;
+    case Components::ResolutionSubMenu:
+    default: break;
   }
 }
 
@@ -241,7 +251,9 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::Overscan:
     case Components::ShowFPS:
     case Components::SecuritySubMenu:
-    case Components::Manager: break;
+    case Components::Manager:
+    case Components::DebugLogs:
+    default: break;
   }
 }
 
