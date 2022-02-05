@@ -111,6 +111,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
     DefineGetterSetterEnum(SystemSorting, SystemSorting, sSystemSorting, SystemSorting)
 
+    DefineGetterSetter(DebugLogs, bool, Bool, sDebugLogs, false)
+
     DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
 
     DefineGetterSetter(WifiEnabled, bool, Bool, sWifiEnabled, false)
@@ -432,6 +434,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sUpdatesType                = "updates.type";
 
     static constexpr const char* sPadHeader                  = "emulationstation.pad";
+
+    static constexpr const char* sDebugLogs                  = "emulationstation.debuglogs";
 
     static constexpr const int sNetplayDefaultPort           = 55435;
 
