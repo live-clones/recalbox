@@ -43,6 +43,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
   private:
     enum class Components
     {
+      DebugLogs,
       OverclockList,
       BootSubMenu,
       VirtualSubMenu,
