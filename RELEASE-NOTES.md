@@ -17,6 +17,8 @@ as release notes for end user on a Recalbox upgrade.
 - New Random game picker in demo mode (less cycling)
 - Add BSNES core (performance build) (PC and RPi4/400)
 - Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
+- Add mc10 and coco3 model to trs80 color computer xroar emulator
+- Add CRT check menu footer
 
 ### Improvements
 
@@ -34,6 +36,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
+- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
+- Fix libretro mame2015 for OGA/OGS
+- Fix to not reload recalbox.conf file in manager on save
+- Fix kodi running at startup
 
 
 ## Version 8.0.2-Electron
