@@ -19,6 +19,11 @@ as release notes for end user on a Recalbox upgrade.
 - Add BSNES core (performance build) (PC and RPi4/400)
 - Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
 - Add Pi400 power button support (Fn + F10 to turn off)
+- New option in UI menu : hide PORTS collection
+- Add recalbox.conf option to force resolution of splash videos on x64
+- New Random game picker in demo mode (less cycling)
+- Add mc10 and coco3 model to trs80 color computer xroar emulator
+- Add CRT check menu footer
 
 ### Improvements
 
@@ -43,6 +48,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix savestate in libretro fuse (ZX Spectrum core)
+- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
+- Fix libretro mame2015 for OGA/OGS
+- Fix to not reload recalbox.conf file in manager on save
+- Fix kodi running at startup
 
 ## Version 8.0.3-Electron
 - Fix kodi sound on Raspberry Pi 3

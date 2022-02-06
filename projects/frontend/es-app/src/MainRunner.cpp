@@ -115,9 +115,10 @@ MainRunner::ExitState MainRunner::Run()
     ResetForceReloadState();
 
     // Run kodi at startup?
+    GameRunner gameRunner(window, systemManager);
     if (RecalboxSystem::kodiExists())
       if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
-        GameRunner::Instance().RunKodi();
+        gameRunner.RunKodi();
 
     // Scrapers
     ScraperFactory scraperFactory;
@@ -224,7 +225,6 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
-  GameRunner gameRunner(window, systemManager);
   DemoMode demoMode(window, systemManager);
 
   { LOG(LogDebug) << "[MainRunner] Entering main loop"; }
