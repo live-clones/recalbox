@@ -77,6 +77,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
 - Fix some ZeroCD wifi adapters not working like Odroid Wifi Module 5B adapter
+- Fix kodi running at startup
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
 - Fix reversal of buttons A and B on SF 30 PRO controller
