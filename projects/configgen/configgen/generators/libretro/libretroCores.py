@@ -150,9 +150,9 @@ class LibretroCores:
             if not os.path.exists(biosPath):
                 biosPath = os.path.join(recalboxFiles.BIOS, "tos.img")
                 if not os.path.exists(biosPath):
-                    biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+                    biosPath = os.path.join(recalboxFiles.BIOS, subdir, "emutos.img")
         if "emutos" in self.rom:
-            biosPath = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+            biosPath = os.path.join(recalboxFiles.BIOS, subdir, "emutos.img")
         atariStSettings.setString("ROM", "szTosImageFileName", str(biosPath))
         print("BIOS   : {}".format(biosPath))
 

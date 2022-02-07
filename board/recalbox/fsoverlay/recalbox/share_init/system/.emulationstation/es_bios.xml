@@ -248,7 +248,7 @@
                                            919fd0f045299f101cf7757e5e058c41,b2ecabc15b65afef96331be46f2a2cd4,
                                            e5ea0f216fb446f1c4a4f476bc5f03d4,941baac767269649f92f7918dd5740b8,
                                            b338bacb2fc453bab61bcc1e2cf5076b" core="hatari,libretro-hatari" note="FALCON 30/40 bios." />
-      <bios path="/recalbox/share_init/bios/atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="hatari,libretro-hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
+      <bios path="atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="hatari,libretro-hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
   </system>
   <system fullname="Magnavox Odyssey²" platform="o2em">
     <bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />

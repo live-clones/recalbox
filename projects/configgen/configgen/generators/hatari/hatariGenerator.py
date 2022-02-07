@@ -157,8 +157,8 @@ class HatariGenerator(Generator):
             if not os.path.exists(biosFile):
                 biosFile = os.path.join(recalboxFiles.BIOS, "tos.img")
                 if not os.path.exists(biosFile):
-                    biosFile = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+                    biosFile = os.path.join(recalboxFiles.BIOS, subdir, "emutos.img")
         if "emutos" in rom:
-            biosFile = os.path.join(recalboxFiles.BIOS_INIT, subdir, "emutos.img")
+            biosFile = os.path.join(recalboxFiles.BIOS, subdir, "emutos.img")
         config.setString("ROM", "szTosImageFileName", str(biosFile))
         print("BIOS   : {}".format(biosFile))
