@@ -51,7 +51,7 @@ class Pcsx2Generator(Generator):
     def __CheckPs2Bios(rom: str) -> str:
         import os.path
         def Exists(romPath: str) -> bool:
-            return os.path.exists( '/recalbox/share/bios/ps2/' + romPath)
+            return os.path.exists(os.path.join(recalboxFiles.BIOS, "ps2", romPath))
 
         # Try to get Redump region
         lrom = rom.lower()
@@ -103,7 +103,7 @@ class Pcsx2Generator(Generator):
     def __ConfigureReg(self):
         reg = keyValueSettings(Pcsx2Generator.pcsx2ConfigFileReg)
         reg.loadFile(True)
-        
+
         # Override Reg Configuration
         reg.setString("DocumentsFolderMode", "User")
         reg.setString("CustomDocumentsFolder", "/usr/bin/PCSX2")
@@ -136,7 +136,7 @@ class Pcsx2Generator(Generator):
 
         # Save configuration
         vm.saveFile()
- 
+
     @staticmethod
     def __ConfigureUI(system: Emulator, rom: str):
         # Game Ratio
