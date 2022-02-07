@@ -7,12 +7,13 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.1-Electron
 ### News
 - Add delete game options
+- Add core libretro vitaquake2 for x64
 
 ### Improvements
-
 - Bump EmuSCV to fix zipped games load
 
 ### Fixes
+
 
 ## Version 8.0.2-Electron
 - Fix 4k resolution issues on RPi4
