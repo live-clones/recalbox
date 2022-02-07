@@ -46,7 +46,9 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // RESOLUTION
-  if (Renderer::GetResolutionList().size() > 1 && Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None)
+  if (Renderer::GetResolutionList().size() > 1 &&
+      Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None &&
+      Board::Instance().GetBoardType() != BoardType::PCx64)
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
 
   // Custom config for systems
