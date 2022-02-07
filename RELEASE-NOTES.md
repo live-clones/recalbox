@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add resolution menu in Advanced Settings > Resolutions
 - New Random game picker in demo mode (less cycling)
 - Add system Philips CD-I (libretro core : cdi2015)
+- Add Iris driver for Intel iGPUs on x64 version
 
 ### Improvements
 
