@@ -6,15 +6,19 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.1-Electron
 ### News
+
 - Add delete game options
 - Add core libretro vitaquake2 for x64
 
 ### Improvements
+
 - Bump EmuSCV to fix zipped games load
+- Bump libretro mame2015
 
 ### Fixes
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
+- Fix libretro mame2015 for OGA/OGS
 
 
 ## Version 8.0.2-Electron
