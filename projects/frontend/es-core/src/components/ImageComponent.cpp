@@ -54,7 +54,7 @@ void ImageComponent::resize() {
             mSize = textureSize;
 
             Vector2f resizeScale((mTargetSize.x() / mSize.x()), (mTargetSize.y() / mSize.y()));
-            
+
             if (resizeScale.x() < resizeScale.y()) {
                 mSize[0] *= resizeScale.x();
                 mSize[1] *= resizeScale.x();

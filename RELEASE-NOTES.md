@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Add delete game options
 - Add core libretro vitaquake2 for x64
+- Add game regions flag in gamelist
 
 - New option in UI menu : hide PORTS collection
 ### Improvements
