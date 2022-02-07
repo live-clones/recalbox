@@ -14,17 +14,21 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
+- Bump libretro mame 0.239
 
 ### Fixes
+
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 - Fix libretro mame2015 for OGA/OGS
 
 
 ## Version 8.0.2-Electron
+
 - Fix 4k resolution issues on RPi4
 - We are sorry but we must rollback the "fix" of the black screen as it caused other issues.
 - If you still have an issue with black screen after this upgrade, please follow the instructions on https://fix.recalbox.com
+
 
 ## Version 8.0.1-Electron
 
@@ -52,7 +56,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix annoying error popup when kodi starts
 - Fix 'This title is not available to watch instantly' error with Netflix in Kodi
 - Fix no sound issue on some PCs
-
 
 ## Version 8.0-Electron
 
