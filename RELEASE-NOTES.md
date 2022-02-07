@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Twitch as Kodi plugin
 - Add system sorting options in Advanced Settings
 - Add system sorting options in ES
+- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
 
 ### Improvements
 
