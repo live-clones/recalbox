@@ -125,11 +125,15 @@ bool Renderer::CreateSdlSurface(int width, int height)
   mDisplayHeightFloat = (float)mDisplayHeight;
   { LOG(LogInfo) << "[Renderer] Trying Resolution: " << width << ',' << height; }
 
+  int flags = SDL_WINDOW_OPENGL;
+  if (!mWindowed) flags |= Board::Instance().GetBoardType() == BoardType::PCx64 ?
+                           SDL_WINDOW_FULLSCREEN_DESKTOP :
+                           SDL_WINDOW_FULLSCREEN;
   mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                 mDisplayWidth,
                                 mDisplayHeight,
-                                SDL_WINDOW_OPENGL | (mWindowed ? 0 : SDL_WINDOW_FULLSCREEN));
+                                flags);
 
   if (mSdlWindow == nullptr)
   {
