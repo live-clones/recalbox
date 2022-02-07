@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Add CRT check menu footer
+- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 
 
 ## Version 8.0.2-Electron
