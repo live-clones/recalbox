@@ -73,6 +73,10 @@ class ComponentGrid : public Component
 
     void setCursorTo(const std::shared_ptr<Component>& comp);
 
+    inline void setCursor(const Vector2i cursor) { mCursor = cursor; }
+
+    inline Vector2i getCursor() { return mCursor; }
+
     inline void setUnhandledInputCallback(const std::function<bool(const InputCompactEvent&)>& func)
     { mUnhandledInputCallback = func; }
 

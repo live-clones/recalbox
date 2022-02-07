@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV to fix zipped games load
 
 ### Fixes
+- Add CRT check menu footer
 
 
 ## Version 8.0.2-Electron

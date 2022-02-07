@@ -383,6 +383,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
             static int lastChoiceMulti60 = 0;
             mWindow.pushGui(new GuiCheckMenu(mWindow,
                                              _("Game refresh rate"),
+                                             game->Name(),
                                              lastChoiceMulti60,
                                              _("AUTO"),
                                              _("AUTO"),
@@ -410,6 +411,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
             static int lastChoice = 0;
             mWindow.pushGui(new GuiCheckMenu(mWindow,
                                          _("Game refresh rate"),
+                                         game->Name(),
                                          lastChoice,
                                          _("AUTO"),
                                          _("AUTO"),
@@ -439,6 +441,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
         static int lastChoice = 0;
         mWindow.pushGui(new GuiCheckMenu(mWindow,
                                          _("Game resolution"),
+                                         game->Name(),
                                          lastChoice,
                                          _("240p"),
                                          _("240p"),
