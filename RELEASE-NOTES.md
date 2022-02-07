@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Libretro BSnes and BSnes HD cores
 - Add Twitch as Kodi plugin
 - Add system sorting options in Advanced Settings
+- Add system sorting options in ES
 
 ### Improvements
 
