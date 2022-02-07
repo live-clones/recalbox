@@ -66,14 +66,14 @@ DUCKSTATION_CONF_ENV += LDFLAGS=-lpthread
 define DUCKSTATION_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/share/duckstation
 
-	# Don't use provided controller db
-	rm -f $(TARGET_DIR)/usr/share/duckstation/database/gamecontrollerdb.txt
-
 	$(INSTALL) -D $(@D)/buildroot-build/bin/duckstation-nogui $(TARGET_DIR)/usr/bin/duckstation
 	cp -R $(@D)/buildroot-build/bin/database      $(TARGET_DIR)/usr/share/duckstation/
 	cp -R $(@D)/buildroot-build/bin/inputprofiles $(TARGET_DIR)/usr/share/duckstation/
 	cp -R $(@D)/buildroot-build/bin/resources     $(TARGET_DIR)/usr/share/duckstation/
 	cp -R $(@D)/buildroot-build/bin/shaders       $(TARGET_DIR)/usr/share/duckstation/
+
+	# Don't use provided controller db
+	rm -f $(TARGET_DIR)/usr/share/duckstation/database/gamecontrollerdb.txt
 endef
 
 $(eval $(cmake-package))
