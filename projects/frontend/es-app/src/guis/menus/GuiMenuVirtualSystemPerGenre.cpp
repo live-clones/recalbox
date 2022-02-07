@@ -38,6 +38,6 @@ GuiMenuVirtualSystemPerGenre::~GuiMenuVirtualSystemPerGenre()
       RecalboxConf::Instance().SetCollection(component.second, component.first->getState());
       relaunch = true;
     }
-  if (relaunch) RequestReboot();
+  if (relaunch) RequestRelaunch();
 }
 
