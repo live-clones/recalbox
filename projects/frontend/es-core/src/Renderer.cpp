@@ -129,7 +129,7 @@ bool Renderer::CreateSdlSurface(int width, int height)
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                 mDisplayWidth,
                                 mDisplayHeight,
-                                SDL_WINDOW_OPENGL | (mWindowed ? 0 : SDL_WINDOW_FULLSCREEN));
+                                SDL_WINDOW_OPENGL | (mWindowed ? 0 : SDL_WINDOW_FULLSCREEN_DESKTOP));
 
   if (mSdlWindow == nullptr)
   {
