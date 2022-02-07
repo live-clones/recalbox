@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<gameList>
+	<folder>
+		<path>baseq2</path>
+		<name>baseq2</name>
+	</folder>
+	<game>
+		<path>baseq2/pak0.pak</path>
+		<hash>E259EFA1</hash>
+		<lastplayed>20220131T100346</lastplayed>
+		<playcount>4</playcount>
+		<genreid>138</genreid>
+		<genre>Shooter / 1st person-Shooter</genre>
+		<publisher>Activision</publisher>
+		<developer>id Software</developer>
+		<releasedate>19970101T000000</releasedate>
+		<image>media/images/baseq2/quake2.png</image>
+		<desc>A sequel in name only, this follow up to id's 1996 Quake, is a first-person shooter revolving around the Earth-Strogg war. The Strogg alien race threatens the Earth, but Earth has launched a counter-offensive, Operation Alien Overlord. Overlord takes the battle to the Strogg homeworld with the ultimate objective of securing their capital city and killing their ruler.
+
+As a FPS, Quake II contains a variety of weapons including the fall back Blaster, the Railgun, and the secret BFG10K. Health, armor, and ammunition pick-ups can be found during levels, as can the classic Quake's Quad Damage power-up. Game play involves mowing down alien opponents as the player progresses through levels, completing in-game objectives. Quake II also comes with multiplayer support for Deathmatches.</desc>
+		<rating>0.80000</rating>
+		<name>Quake 2</name>
+	</game>
+</gameList>
