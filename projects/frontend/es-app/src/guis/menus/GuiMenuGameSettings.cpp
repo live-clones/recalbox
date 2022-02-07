@@ -62,7 +62,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
 GuiMenuGameSettings::~GuiMenuGameSettings()
 {
   if (mHidePreinstalled->getState() != mOriginalPreinstalled)
-    RequestReboot();
+    RequestRelaunch();
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetRatioEntries()
