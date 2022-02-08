@@ -130,7 +130,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
 
     PadToKeyboardManager padToKeyboard(controllers, game.FilePath(), sdl2Runner);
     padToKeyboard.StartMapping();
-    if (padToKeyboard.IsValid()) command.append(" -nodefaultkeymap");
+    if (padToKeyboard.IsValid() ||
+        game.System().Descriptor().Type() == SystemDescriptor::SystemType::Computer) command.append(" -nodefaultkeymap");
     NotificationManager::Instance().Notify(game, Notification::RunGame);
 
     Board::Instance().SetCPUGovernance(GetGovernance(core));

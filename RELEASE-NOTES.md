@@ -33,6 +33,9 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro mame 0.239
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 - Bump Hatari: updated cpu emulation and lots of small fixes
+- Disable Retroarch's keyboard shortcut when running computer systems:
+  - Full keyboard is available for the emulated computer
+  - Use F12 as ESC replacement to quit 
 
 ### Fixes
 
