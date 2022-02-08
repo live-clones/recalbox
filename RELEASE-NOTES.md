@@ -61,6 +61,9 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)
 - Bump Hatari: updated cpu emulation and lots of small fixes
 - Bump Libretro SwanStation
+- Disable Retroarch's keyboard shortcut when running computer systems:
+  - Full keyboard is available for the emulated computer
+  - Use F12 as ESC replacement to quit 
 
 ### Fixes
 
