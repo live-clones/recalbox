@@ -3166,7 +3166,6 @@ msgid "GO TO GAME"
 msgstr ""
 
 #
-<<<<<<< HEAD
 msgid "DELETE GAME %s"
 msgstr ""
 
