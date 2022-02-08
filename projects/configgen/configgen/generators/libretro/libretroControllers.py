@@ -224,7 +224,7 @@ class LibretroControllers:
                 settings.setString("input_player%s_%s" % (controller.PlayerIndex, self.retroarchbtns[btnkey]), '"nul"')
             for dirkey in self.retroarchdirs:
                 settings.setString("input_player%s_%s" % (controller.PlayerIndex, self.retroarchdirs[dirkey]), '"nul"')
-            settings.setString("input_enable_hotkey", '"nul"')
+            settings.setString("input_enable_hotkey", '"f12"')
         else:
             for btnkey in self.retroarchbtns:
                 settings.removeOption("input_player%s_%s" % (controller.PlayerIndex, self.retroarchbtns[btnkey]))

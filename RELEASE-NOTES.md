@@ -22,6 +22,9 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
+- Disable Retroarch's keyboard shortcut when running computer systems:
+  - Full keyboard is available for the emulated computer
+  - Use F12 as ESC replacement to quit 
 
 ### Fixes
 ## NEXT
