@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - New option in UI menu : hide PORTS collection
 - Add recalbox.conf option to force resolution of splash videos on x64
 - New Random game picker in demo mode (less cycling)
+- Add Pi400 power button support (Fn + F10 to turn off)
 
 ### Improvements
 

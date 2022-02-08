@@ -51,6 +51,8 @@ set(CORE_HEADERS
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.h
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.h
+		src/hardware/boards/pi400/Pi400PowerEventReader.h
+		src/hardware/boards/pi400/Pi400Board.h
 		src/hardware/crt/CrtAdapterDetector.h
 		src/hardware/crt/CrtAdapterType.h
 		src/hardware/crt/ICrtInterface.h
@@ -232,6 +234,7 @@ set(CORE_SOURCES
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2PowerEventReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo2SpecialButtonsReader.cpp
 		src/hardware/boards/odroidadvancego2/OdroidAdvanceGo3VolumeReader.cpp
+		src/hardware/boards/pi400/Pi400PowerEventReader.cpp
 		src/hardware/crt/CrtAdapterDetector.cpp
 
 		# Audio
