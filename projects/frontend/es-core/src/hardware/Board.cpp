@@ -9,6 +9,7 @@
 #include <hardware/boards/pc/PcComputers.h>
 #include "hardware/crt/CrtAdapterDetector.h"
 #include "hardware/crt/CrtNull.h"
+#include <hardware/boards/pi400/Pi400Board.h>
 
 Board::Board(IHardwareNotifications& notificationInterface)
   : StaticLifeCycleControler("Board")
@@ -50,6 +51,10 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    {
+        { LOG(LogInfo) << "[Hardware] Pi400 detected."; }
+        return *(new Pi400Board(messageSender));
+    }
     case BoardType::UnknownPi:
     default: break;
   }
