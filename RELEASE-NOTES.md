@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
+- Add Pi400 power button support (Fn + F10 to turn off)
 
 ### Improvements
 
