@@ -63,6 +63,10 @@ public:
 	void manageFavorite();
 	void addSystem(SystemData * it);
 
+  SystemData& CurrentSystem() const { return *mCurrentSystem; }
+
+  void Sort();
+
 protected:
 	void onCursorChanged(const CursorState& state) override;
 
@@ -86,7 +90,7 @@ private:
 	float mCamOffset;
 	float mExtrasCamOffset;
 	float mExtrasFadeOpacity;
-	SystemData* lastSystem;
+	SystemData* mCurrentSystem;
 	bool mViewNeedsReload;
 	bool mShowing;
 	bool launchKodi;

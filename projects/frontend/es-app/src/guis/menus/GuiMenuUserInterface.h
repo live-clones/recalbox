@@ -13,6 +13,7 @@ class GuiMenuUserInterface : public GuiMenuBase
                            , private IGuiMenuBase
                            , private ISliderComponent
                            , private ISwitchComponent
+                           , private IOptionListComponent<SystemSorting>
 {
   public:
     /*!
@@ -40,6 +41,7 @@ class GuiMenuUserInterface : public GuiMenuBase
       QuickSelect,
       Theme,
       ThemeConfig,
+      SystemSort,
       UpdateGamelist,
     };
 
@@ -56,6 +58,12 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mHelp;
     //! Show Quick Help
     std::shared_ptr<SwitchComponent> mQuickSelect;
+    //! Original Sorting type
+    SystemSorting mOriginalSort;
+    //! System Sort
+    std::shared_ptr<OptionListComponent<SystemSorting>> mSort;
+    //! Get Sorting List
+    std::vector<ListEntry<SystemSorting>> GetSortingEntries();
 
     /*!
      * @brief Reload gamelists
@@ -79,5 +87,11 @@ class GuiMenuUserInterface : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
+
+    /*
+     * IOptionListComponent<SystemSorting> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const SystemSorting& value) override;
 };
 
