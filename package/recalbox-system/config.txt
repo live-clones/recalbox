@@ -45,7 +45,7 @@ include crt/recalbox-crt-config.txt
 
 [pi4]
 temp_soft_limit=70
-dtoverlay=vc4-kms-v3d
+dtoverlay=vc4-kms-v3d-pi4
 include crt/recalbox-crt-config.txt
 
 # disable 4k resolution
