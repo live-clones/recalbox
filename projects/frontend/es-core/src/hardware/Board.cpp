@@ -41,21 +41,21 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
       { LOG(LogInfo) << "[Hardware] x86 or x64 PC detected."; }
       return *(new PcComputers(messageSender));
     }
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi02:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
+    case BoardType::UndetectedYet: { LOG(LogInfo) << "[Hardware] Undetected hardware."; break; }
+    case BoardType::Unknown: { LOG(LogInfo) << "[Hardware] Unknown hardware."; break; }
+    case BoardType::Pi0: { LOG(LogInfo) << "[Hardware] Pi zero detected."; break; }
+    case BoardType::Pi02: { LOG(LogInfo) << "[Hardware] Pi zero 2 detected."; break; }
+    case BoardType::Pi1: { LOG(LogInfo) << "[Hardware] Pi 1 detected."; break; }
+    case BoardType::Pi2: { LOG(LogInfo) << "[Hardware] Pi 2 detected."; break; }
+    case BoardType::Pi3: { LOG(LogInfo) << "[Hardware] Pi 3 detected."; break; }
+    case BoardType::Pi3plus: { LOG(LogInfo) << "[Hardware] Pi 3B+ detected."; break; }
+    case BoardType::Pi4: { LOG(LogInfo) << "[Hardware] Pi 4 detected."; break; }
     case BoardType::Pi400:
     {
-        { LOG(LogInfo) << "[Hardware] Pi400 detected."; }
-        return *(new Pi400Board(messageSender));
+      { LOG(LogInfo) << "[Hardware] Pi 400 detected."; }
+      return *(new Pi400Board(messageSender));
     }
-    case BoardType::UnknownPi:
+    case BoardType::UnknownPi: { LOG(LogInfo) << "[Hardware] Unknown raspberry pi detected."; break; }
     default: break;
   }
 
