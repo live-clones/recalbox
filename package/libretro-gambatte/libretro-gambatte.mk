@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_GAMBATTE_VERSION = dd1cf9fdbadbdceee50ff0600321251c823c3ca5
+LIBRETRO_GAMBATTE_VERSION = da1d376156f4b2f85876fb18b9cd9e23f06a95a8
 LIBRETRO_GAMBATTE_SITE = $(call github,libretro,gambatte-libretro,$(LIBRETRO_GAMBATTE_VERSION))
 LIBRETRO_GAMBATTE_LICENSE = GPL-2.0
 LIBRETRO_GAMBATTE_LICENSE_FILES = COPYING
