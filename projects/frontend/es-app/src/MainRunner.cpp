@@ -539,6 +539,7 @@ void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
 
 void MainRunner::RequestQuit(MainRunner::ExitState requestedState, bool forceReloadFromDisk)
 {
+  ViewController::Instance().quitGameClipView();
   sQuitRequested = true;
   sRequestedExitState = requestedState;
   sForceReloadFromDisk = forceReloadFromDisk;

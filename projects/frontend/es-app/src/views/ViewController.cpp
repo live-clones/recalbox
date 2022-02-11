@@ -118,6 +118,8 @@ void ViewController::goToGameClipView()
 
 void ViewController::quitGameClipView()
 {
+  if(!mState.gameClipRunning) return;
+
   WakeUp();
   delete mGameClipView;
   if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
