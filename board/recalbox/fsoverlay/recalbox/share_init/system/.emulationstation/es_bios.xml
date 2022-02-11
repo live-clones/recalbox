@@ -590,4 +590,7 @@
     <bios path="trs80coco/alice32.rom"   md5="79ea46603d716578d5f2b52eb4c33ca2" core="xroar" mandatory="false" hashMatchMandatory="false" note="Alice" />
     <bios path="trs80coco/alice4k.rom"   md5="78af465c2f31cf4e05dec1efda77da01" core="xroar" mandatory="false" hashMatchMandatory="false" note="Alice" />
   </system>
+    <system fullname="Philips CD-I" platform="cdi">
+    <bios path="cdi/cdimono1.zip"     md5="ce590c4787460161359f2b680136cb60,bbe6636ac11d3744f0710e8e820187e7" core="cdi2015" mandatory="true" hashMatchMandatory="false" />
+  </system>
 </biosList>
