@@ -17,9 +17,6 @@ class MetadataFieldDescriptor;
 class MetadataDescriptor
 {
   private:
-    //! Default value storage for fast default detection
-    static MetadataDescriptor sDefault;
-
     #ifdef _METADATA_STATS_
     static int LivingClasses;
     static int LivingFolders;
@@ -62,6 +59,7 @@ class MetadataDescriptor
     static MetadataStringHolder sFileHolder;
 
     // Please keep field ordered by type size to reduce alignment padding
+    MetadataStringHolder::Index32 mRomFile;      //!< Rom file
     MetadataStringHolder::Index32 mName;         //!< Name as simple string
     MetadataStringHolder::Index32 mDescription;  //!< Description, multiline text
     MetadataStringHolder::Index32 mImageFile;    //!< Image file
@@ -73,15 +71,16 @@ class MetadataDescriptor
     MetadataStringHolder::Index32 mGenre;        //!< Genres, comma separated
     MetadataStringHolder::Index32 mDeveloper;    //!< Developer name index
     MetadataStringHolder::Index32 mPublisher;    //!< Publisher name index
-    MetadataStringHolder::Index32 mRegion;       //!< Rom/Game Region
+    unsigned int                  mRegion;       //!< Rom/Game Region
     int                           mPlayers;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int                           mRomCrc32;     //!< Rom Crc32
+    MetadataStringHolder::Index16 mRomPath;      //!< Rom path
     MetadataStringHolder::Index16 mImagePath;    //!< Image path
     MetadataStringHolder::Index16 mThumbnailPath;//!< Thumbnail path
     MetadataStringHolder::Index16 mVideoPath;    //!< Video path
     MetadataStringHolder::Index16 mEmulator;     //!< Specific emulator
     MetadataStringHolder::Index16 mCore;         //!< Specific core
-    short                         mPlaycount;    //!< Play counter
+    short                         mPlayCount;    //!< Play counter
     GameGenres                    mGenreId;      //!< Normalized Genre
     MetadataStringHolder::Index8  mRatio;        //!< Specific screen ratio
     ItemType                      mType:4;       //!< Metadata type
@@ -90,11 +89,8 @@ class MetadataDescriptor
     bool                          mAdult:1;      //!< Adult state
     bool                          mDirty:1;      //!< Dirty flag (modified data flag)
 
-    /*!
-     * Build an empty object filled with default values
-     * @return Object filled with default values
-     */
-    static MetadataDescriptor BuildDefaultValueMetadataDescriptor();
+    //! Default value storage for fast default detection
+    static const MetadataDescriptor& Default();
 
     /*!
      * Return the first static internal field descriptor reference
@@ -170,8 +166,9 @@ class MetadataDescriptor
     /*!
      * Default constructor
      */
-    explicit MetadataDescriptor(const std::string& defaultName, ItemType type)
-      : mName(-1)
+    explicit MetadataDescriptor(const Path& path, const std::string& defaultName, ItemType type)
+      : mRomFile(-1)
+      , mName(-1)
       , mDescription(-1)
       , mImageFile(-1)
       , mThumbnailFile(-1)
@@ -185,12 +182,13 @@ class MetadataDescriptor
       , mRegion(0)
       , mPlayers((1 << 16) + 1)
       , mRomCrc32(0)
+      , mRomPath(-1)
       , mImagePath(-1)
       , mThumbnailPath(-1)
       , mVideoPath(-1)
       , mEmulator(-1)
       , mCore(-1)
-      , mPlaycount(0)
+      , mPlayCount(0)
       , mGenreId(GameGenres::None)
       , mRatio(-1)
       , mType(type)
@@ -199,6 +197,7 @@ class MetadataDescriptor
       , mAdult(false)
       , mDirty(false)
     {
+      SetRomPath(path);
       SetName(defaultName);
       #ifdef _METADATA_STATS_
       LivingClasses++;
@@ -263,6 +262,8 @@ class MetadataDescriptor
       if (_Type == ItemType::Folder) LivingFolders--;
       #endif
 
+      mRomFile       = source.mRomFile      ;
+      mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
@@ -282,7 +283,7 @@ class MetadataDescriptor
       mGenreId       = source.mGenreId      ;
       mPlayers       = source.mPlayers      ;
       mReleaseDate   = source.mReleaseDate  ;
-      mPlaycount     = source.mPlaycount    ;
+      mPlayCount     = source.mPlayCount    ;
       mLastPlayed    = source.mLastPlayed   ;
       mRomCrc32      = source.mRomCrc32     ;
       mFavorite      = source.mFavorite     ;
@@ -311,6 +312,8 @@ class MetadataDescriptor
       if (_Type == ItemType::Folder) LivingFolders--;
       #endif
 
+      mRomFile       = source.mRomFile      ;
+      mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
@@ -329,7 +332,7 @@ class MetadataDescriptor
       mGenreId       = source.mGenreId      ;
       mPlayers       = source.mPlayers      ;
       mReleaseDate   = source.mReleaseDate  ;
-      mPlaycount     = source.mPlaycount    ;
+      mPlayCount     = source.mPlayCount    ;
       mLastPlayed    = source.mLastPlayed   ;
       mRomCrc32      = source.mRomCrc32     ;
       mFavorite      = source.mFavorite     ;
@@ -374,11 +377,13 @@ class MetadataDescriptor
 
     ItemType Type() const { return mType; }
 
+    Path         Rom()         const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
+    Path         RomFileOnly() const { return sFileHolder.GetPath(mRomFile);        }
     std::string  Name()        const { return sNameHolder.GetString(mName);                 }
     std::string  Description() const { return sDescriptionHolder.GetString(mDescription);   }
-    Path         Image()       const { return Path(sPathHolder.GetString(mImagePath)) / sFileHolder.GetString(mImageFile); }
-    Path         Thumbnail()   const { return Path(sPathHolder.GetString(mThumbnailPath)) / sFileHolder.GetString(mThumbnailFile); }
-    Path         Video()       const { return Path(sPathHolder.GetString(mVideoPath)) / sFileHolder.GetString(mVideoFile); }
+    Path         Image()       const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
+    Path         Thumbnail()   const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
+    Path         Video()       const { return sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile); }
     std::string  Developer()   const { return sDeveloperHolder.GetString(mDeveloper);       }
     std::string  Publisher()   const { return sPublisherHolder.GetString(mPublisher);       }
     std::string  Genre()       const { return sGenreHolder.GetString(mGenre);               }
@@ -392,7 +397,7 @@ class MetadataDescriptor
     int                PlayerMin()       const { return mPlayers & 0xFFFF;                 }
     unsigned int       ReleaseDateEpoc() const { return mReleaseDate;                      }
     DateTime           ReleaseDate()     const { return DateTime((long long)mReleaseDate); }
-    int                PlayCount()       const { return mPlaycount;                        }
+    int                PlayCount()       const { return mPlayCount;                        }
     unsigned int       LastPlayedEpoc()  const { return mLastPlayed;                       }
     DateTime           LastPlayed()      const { return DateTime((long long)mLastPlayed);  }
     unsigned int       Region()          const { return mRegion;                           }
@@ -414,14 +419,15 @@ class MetadataDescriptor
      * String accessors
      */
 
+    std::string RomAsString()         const { return (sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile)).ToString(); }
     std::string NameAsString()        const { return sNameHolder.GetString(mName);                 }
     std::string EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     std::string CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
     std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio);               }
     std::string DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
-    std::string ImageAsString()       const { return (Path(sPathHolder.GetString(mImagePath)) / sFileHolder.GetString(mImageFile)).ToString(); }
-    std::string ThumbnailAsString()   const { return (Path(sPathHolder.GetString(mThumbnailPath)) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
-    std::string VideoAsString()       const { return (Path(sPathHolder.GetString(mVideoPath)) / sFileHolder.GetString(mVideoFile)).ToString(); }
+    std::string ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
+    std::string ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
+    std::string VideoAsString()       const { return (sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile)).ToString(); }
     std::string DeveloperAsString()   const { return sDeveloperHolder.GetString(mDeveloper);       }
     std::string PublisherAsString()   const { return sPublisherHolder.GetString(mPublisher);       }
     std::string GenreAsString()       const { return sGenreHolder.GetString(mGenre);               }
@@ -430,7 +436,7 @@ class MetadataDescriptor
     std::string RatingAsString()      const { return Strings::ToString(mRating, 2);                        }
     std::string PlayersAsString()     const { return IntToRange(mPlayers);                                 }
     std::string ReleaseDateAsString() const { return mReleaseDate != 0 ? DateTime((long long)mReleaseDate).ToCompactISO8601() : ""; }
-    std::string PlayCountAsString()   const { return Strings::ToString(mPlaycount);                           }
+    std::string PlayCountAsString()   const { return Strings::ToString(mPlayCount);                           }
     std::string LastPlayedAsString()  const { return mLastPlayed != 0 ? DateTime((long long)mLastPlayed).ToCompactISO8601() : ""; }
     std::string FavoriteAsString()    const { return mFavorite ? "true" : "false";                         }
     std::string RomCrc32AsString()    const { std::string r; IntToHex(mRomCrc32, r); return r;             }
@@ -442,6 +448,12 @@ class MetadataDescriptor
      * Setters
      */
 
+    void SetRomPath(const Path& image)
+    {
+      mRomPath = sPathHolder.AddString16(image.Directory().ToString());
+      mRomFile = sFileHolder.AddString32(image.Filename());
+      mDirty = true;
+    }
     void SetImagePath(const Path& image)
     {
       mImagePath = sPathHolder.AddString16(image.Directory().ToString());
@@ -492,6 +504,7 @@ class MetadataDescriptor
      * String setters
      */
 
+    void SetRomPathAsString(const std::string& image)           { SetRomPath(Path(image));           }
     void SetImagePathAsString(const std::string& image)         { SetImagePath(Path(image));         }
     void SetThumbnailPathAsString(const std::string& thumbnail) { SetThumbnailPath(Path(thumbnail)); }
     void SetVideoPathAsString(const std::string& video)         { SetVideoPath(Path(video));         }
@@ -513,7 +526,7 @@ class MetadataDescriptor
     void SetHiddenAsString(const std::string& hidden)           { SetHidden(hidden == "true");                                             }
     void SetAdultAsString(const std::string& adult)             { SetAdult(adult == "true");                                             }
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c = 0; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
-    void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlaycount = (short)p; mDirty = true; } }
+    void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlayCount = (short)p; mDirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
     void SetRegionAsString(const std::string& region)           { mRegion = (int)Regions::Deserialize4Regions(region); mDirty = true; }
 
@@ -521,28 +534,29 @@ class MetadataDescriptor
      * Defaults
      */
 
-    bool IsDefaultName()            const { return sDefault.mName == mName;               }
-    bool IsDefaultEmulator()        const { return sDefault.Emulator() == Emulator();     }
-    bool IsDefaultCore()            const { return sDefault.Core() == Core();             }
-    bool IsDefaultRatio()           const { return sDefault.Ratio() == Ratio();           }
-    bool IsDefaultDescription()     const { return sDefault.mDescription == mDescription; }
-    bool IsDefaultImage()           const { return sDefault.Image() == Image();           }
-    bool IsDefaultThumbnail()       const { return sDefault.Thumbnail() == Thumbnail();   }
-    bool IsDefaultVideo()           const { return sDefault.Video() == Video();           }
-    bool IsDefaultDeveloper()       const { return sDefault.mDeveloper == mDeveloper;     }
-    bool IsDefaultPublisher()       const { return sDefault.mPublisher == mPublisher;     }
-    bool IsDefaultGenre()           const { return sDefault.mGenre == mGenre;             }
-    bool IsDefaultRegion()          const { return sDefault.Region() == Region();         }
-    bool IsDefaultRating()          const { return sDefault.mRating == mRating;           }
-    bool IsDefaultPlayerRange()     const { return sDefault.mPlayers == mPlayers;         }
-    bool IsDefaultReleaseDateEpoc() const { return sDefault.mReleaseDate == mReleaseDate; }
-    bool IsDefaultPlayCount()       const { return sDefault.mPlaycount == mPlaycount;     }
-    bool IsDefaultLastPlayedEpoc()  const { return sDefault.mLastPlayed == mLastPlayed;   }
-    bool IsDefaultRomCrc32()        const { return sDefault.mRomCrc32 == mRomCrc32;       }
-    bool IsDefaultFavorite()        const { return sDefault.mFavorite == mFavorite;       }
-    bool IsDefaultHidden()          const { return sDefault.mHidden == mHidden;           }
-    bool IsDefaultAdult()           const { return sDefault.mAdult == mAdult;             }
-    bool IsDefaultGenreId()         const { return sDefault.mGenreId == mGenreId;         }
+    bool IsDefaultRom()             const { return Default().mRomFile == mRomFile && Default().mRomPath == mRomPath; }
+    bool IsDefaultName()            const { return Default().mName == mName;               }
+    bool IsDefaultEmulator()        const { return Default().mEmulator == mEmulator;       }
+    bool IsDefaultCore()            const { return Default().mCore == mCore;               }
+    bool IsDefaultRatio()           const { return Default().mRatio == mRatio;           }
+    bool IsDefaultDescription()     const { return Default().mDescription == mDescription; }
+    bool IsDefaultImage()           const { return Default().mImageFile == mImageFile && Default().mImagePath == mImagePath; }
+    bool IsDefaultThumbnail()       const { return Default().mThumbnailFile == mThumbnailFile && Default().mThumbnailPath == mThumbnailPath; }
+    bool IsDefaultVideo()           const { return Default().mVideoFile == mVideoFile && Default().mVideoPath == mVideoPath; }
+    bool IsDefaultDeveloper()       const { return Default().mDeveloper == mDeveloper;     }
+    bool IsDefaultPublisher()       const { return Default().mPublisher == mPublisher;     }
+    bool IsDefaultGenre()           const { return Default().mGenre == mGenre;             }
+    bool IsDefaultRegion()          const { return Default().mRegion == mRegion;           }
+    bool IsDefaultRating()          const { return Default().mRating == mRating;           }
+    bool IsDefaultPlayerRange()     const { return Default().mPlayers == mPlayers;         }
+    bool IsDefaultReleaseDateEpoc() const { return Default().mReleaseDate == mReleaseDate; }
+    bool IsDefaultPlayCount()       const { return Default().mPlayCount == mPlayCount;     }
+    bool IsDefaultLastPlayedEpoc()  const { return Default().mLastPlayed == mLastPlayed;   }
+    bool IsDefaultRomCrc32()        const { return Default().mRomCrc32 == mRomCrc32;       }
+    bool IsDefaultFavorite()        const { return Default().mFavorite == mFavorite;       }
+    bool IsDefaultHidden()          const { return Default().mHidden == mHidden;           }
+    bool IsDefaultAdult()           const { return Default().mAdult == mAdult;             }
+    bool IsDefaultGenreId()         const { return Default().mGenreId == mGenreId;         }
 
     /*
      * Convenient Accessors
@@ -554,8 +568,8 @@ class MetadataDescriptor
      * Special modifiers
      */
 
-    void IncPlaycount() { mPlaycount++; mDirty = true; }
-    void SetLastplayedNow() { mLastPlayed = (unsigned int)DateTime().ToEpochTime(); mDirty = true; }
+    void IncPlayCount() { mPlayCount++; mDirty = true; }
+    void SetLastPlayedNow() { mLastPlayed = (unsigned int)DateTime().ToEpochTime(); mDirty = true; }
 
     /*
      * Metadata FieldManagement Methods
@@ -572,7 +586,7 @@ class MetadataDescriptor
      * Index accessors
      */
 
-    MetadataStringHolder::Index32 FileIndex() const { return -1; }
+    MetadataStringHolder::Index32 FileIndex() const { return mRomFile; }
     MetadataStringHolder::Index32 NameIndex() const { return mName; }
     MetadataStringHolder::Index32 DescriptionIndex() const { return mDescription; }
     MetadataStringHolder::Index32 DeveloperIndex() const { return mDeveloper; }
@@ -588,7 +602,7 @@ class MetadataDescriptor
      * Search
      */
 
-    bool IsMatchingFileIndex(MetadataStringHolder::Index32 index) const { (void)index; return false; }
+    bool IsMatchingFileIndex(MetadataStringHolder::Index32 index) const { return mRomFile == index; }
     bool IsMatchingNameIndex(MetadataStringHolder::Index32 index) const { return mName == index; }
     bool IsMatchingDescriptionIndex(MetadataStringHolder::Index32 index) const { return mDescription == index; }
     bool IsMatchingDeveloperIndex(MetadataStringHolder::Index32 index) const { return mDeveloper == index; }
@@ -627,6 +641,12 @@ class MetadataDescriptor
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInPath(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { (void)originaltext; (void)output; (void)context; }
+    static void SearchInPath(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sFileHolder.FindText(originaltext, output, context); }
+
+    /*
+     * Part comparers
+     */
+
+    bool AreRomEqual(const MetadataDescriptor& other) const { return mRomFile == other.mRomFile && mRomPath == other.mRomPath; }
 };
 

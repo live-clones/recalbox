@@ -27,7 +27,7 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, FileData&
 
 	// row 0 is a spacer
 
-	mGameName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.FilePath().Filename()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+	mGameName = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.RomPath().Filename()), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
 	mGrid.setEntry(mGameName, Vector2i(0, 1), false, true);
 
 	// row 2 is a spacer
@@ -114,7 +114,7 @@ void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:
     {
-      result->Metadata().SetName(result->FilePath().FilenameWithoutExtension());
+      result->Metadata().SetName(result->RomPath().FilenameWithoutExtension());
       break;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:

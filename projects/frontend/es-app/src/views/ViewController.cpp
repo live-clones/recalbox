@@ -343,7 +343,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
   {
-    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->FilePath().ToString() << '!'; }
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->RomPath().ToString() << '!'; }
     return;
   }
 

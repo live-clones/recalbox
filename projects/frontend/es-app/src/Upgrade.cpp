@@ -199,7 +199,7 @@ std::string Upgrade::ReplaceMachineParameters(const std::string& url, const std:
 
 bool Upgrade::ValidateVersion(const std::string& version)
 {
-  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.- ()/";
+  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._- ()/";
   if (!version.empty())
     if (version[0] >= '0' && version[0] <= '9')
       return (version.find_first_not_of(_allowedCharacters) == std::string::npos);

@@ -65,9 +65,12 @@ void SystemManager::AutoScrape(SystemData* system)
   FileData::List games = system->MasterRoot().GetAllItemsRecursively(false, true);
   for(FileData* game : games)
     if (game->IsGame())
-      if (Strings::ToLowerASCII(game->FilePath().Extension()) == png)
-        if (game->Metadata().Image().IsEmpty())
-          game->Metadata().SetImagePath(game->FilePath());
+      if (game->Metadata().Image().IsEmpty())
+      {
+        Path path(game->RomPath());
+        if (Strings::ToLowerASCII(path.Extension()) == png)
+          game->Metadata().SetImagePath(path);
+      }
 }
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
@@ -177,7 +180,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     {
       { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
       for (auto* fd : all)
-        result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+        result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
     }
   }
 
@@ -205,7 +208,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
     for (auto* fd : games)
-      result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+      result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
   }
 
   result->loadTheme();

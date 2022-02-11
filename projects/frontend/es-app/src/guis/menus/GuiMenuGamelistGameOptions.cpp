@@ -25,7 +25,7 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   if (mGame.IsGame())
   {
     std::string gameName(game.Name());
-    gameName.append(" (").append(game.FilePath().Filename()).append(1, ')');
+    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
     SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
   }
   else if (mGame.IsFolder())

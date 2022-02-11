@@ -199,7 +199,7 @@ void NotificationManager::BuildStateCommons(std::string& output, const SystemDat
   // Permanent game infos
   if (game != nullptr)
     output.append("Game=").append(game->Name()).append(eol)
-          .append("GamePath=").append(game->FilePath().ToString()).append(eol)
+          .append("GamePath=").append(game->RomPath().ToString()).append(eol)
           .append("ImagePath=").append(game->Metadata().Image().ToString()).append(eol);
   else
     output.append("Game=").append(eol)
@@ -282,7 +282,7 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
 //  if (VideoEngine::IsInstantiated())
 //    VideoEngine::Instance().StopVideo();
 
-  const std::string& notificationParameter = (game != nullptr) ? game->FilePath().ToString() :
+  const std::string& notificationParameter = (game != nullptr) ? game->RomPath().ToString() :
                                              ((system != nullptr) ? system->Name() : actionParameters);
 
   // Check if it is the same event than in previous call

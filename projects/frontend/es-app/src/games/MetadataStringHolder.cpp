@@ -29,12 +29,32 @@ void MetadataStringHolder::Finalize()
 
 std::string MetadataStringHolder::GetString(Index32 index)
 {
+  if (index < 0) return std::string();
+
+  // Synchronize
+  Mutex::AutoLock locker(mSyncher);
+
   // Out of range
   if ((unsigned int)index >= (unsigned int)mIndexes.Count()) return std::string();
   // Regular string
   if (index < mIndexes.Count() - 1) return std::string(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
   // Last item is zero terminal
-  return std::string(&mMetaString(mIndexes[index]), mMetaString.ByteSize() - 1 - mIndexes[index]);
+  return std::string(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
+}
+
+Path MetadataStringHolder::GetPath(MetadataStringHolder::Index32 index)
+{
+  if (index < 0) return Path::Empty;
+
+  // Synchronize
+  Mutex::AutoLock locker(mSyncher);
+
+  // Out of range
+  if ((unsigned int)index >= (unsigned int)mIndexes.Count()) return Path::Empty;
+  // Regular string
+  if (index < mIndexes.Count() - 1) return Path(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
+  // Last item is zero terminal
+  return Path(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
 }
 
 MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::string& newString)

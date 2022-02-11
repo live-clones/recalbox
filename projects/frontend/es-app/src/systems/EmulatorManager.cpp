@@ -15,7 +15,7 @@ bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& 
 
 bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
 {
-  { LOG(LogDebug) << "[Emulator] Get game's emulator for " << game.FilePath().ToString(); }
+  { LOG(LogDebug) << "[Emulator] Get game's emulator for " << game.RomPath().ToString(); }
 
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(game.System(), emulator, core);
@@ -32,7 +32,7 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulato
   }
   else { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
 
-  { LOG(LogDebug) << "[Emulator] Final game's emulator for " << game.FilePath().ToString() << " : " << emulator << "-" << core; }
+  { LOG(LogDebug) << "[Emulator] Final game's emulator for " << game.RomPath().ToString() << " : " << emulator << "-" << core; }
 
   return Ok;
 }
@@ -142,7 +142,8 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   std::string keyCore = game.System().Name() + ".core";
 
   // Get game directory
-  Path path = game.FilePath().Directory();
+  Path romPath(game.RomPath());
+  Path path = romPath.Directory();
   // Run through all folder starting from root
   int count = path.ItemCount();
   for (int i = 0; i < count; ++i)
@@ -165,7 +166,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   }
 
   // Get file config
-  IniFile configuration(game.FilePath().ChangeExtension(game.FilePath().Extension() + ".recalbox.conf"), false);
+  IniFile configuration(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"), false);
   if (configuration.IsValid())
   {
     // Get values

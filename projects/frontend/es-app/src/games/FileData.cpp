@@ -10,8 +10,7 @@ FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
 	: mTopAncestor(ancestor),
     mParent(nullptr),
     mType(type),
-    mPath(path),
-    mMetadata(DisplayName(), type) // TODO: Move clean name into metadata
+    mMetadata(path, DisplayName(), type) // TODO: Move clean name into metadata
 {
 
 }
@@ -22,7 +21,7 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 
 std::string FileData::DisplayName() const
 {
-	std::string stem = mPath.FilenameWithoutExtension();
+	std::string stem = mMetadata.RomFileOnly().FilenameWithoutExtension();
 	if (mType == ItemType::Game)
     if (GameNameMapManager::HasRenaming(System()))
       stem = GameNameMapManager::Rename(System(), stem);
@@ -56,13 +55,15 @@ SystemData& FileData::System() const
 
 FileData& FileData::CalculateHash()
 {
+  Path path(mMetadata.Rom());
+
   if (mType != ItemType::Game) return *this;
-  if (mPath.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
+  if (path.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
 
   bool done = false;
-  if (Strings::ToLowerASCII(mPath.Extension()) == ".zip")
+  if (Strings::ToLowerASCII(path.Extension()) == ".zip")
   {
-    Zip zip(mPath);
+    Zip zip(path);
     if (zip.Count() == 1)
     {
       mMetadata.SetRomCrc32(zip.Crc32(0));
@@ -74,7 +75,7 @@ FileData& FileData::CalculateHash()
   {
     // Hash file
     unsigned int result = 0;
-    if (Crc32File(mPath).Crc32(result))
+    if (Crc32File(path).Crc32(result))
       mMetadata.SetRomCrc32((int) result);
   }
 

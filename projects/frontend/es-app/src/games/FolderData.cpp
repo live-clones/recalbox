@@ -42,7 +42,7 @@ void FolderData::RemoveChild(FileData* file)
 
 void FolderData::deleteChild(FileData* file)
 {
-  mDeletedChildren.insert(file->FilePath().ToString());
+  mDeletedChildren.insert(file->RomPath().ToString());
   RemoveChild(file);
 }
 
@@ -77,7 +77,7 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
 
 void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, FileData::StringMap& doppelgangerWatcher)
 {
-  const Path& folderPath = FilePath();
+  const Path folderPath(RomPath());
   if (!folderPath.IsDirectory())
   {
     { LOG(LogWarning) << "[FolderData] Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!"; }
@@ -113,7 +113,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   Path::PathList items = folderPath.GetDirectoryContent();
 
-  HashSet<std::string> blacklist{};
+  HashSet<std::string> blacklist;
   bool containsMultiDiskFile = GameFilesUtils::ContainsMultiDiskFile(filteredExtensions);
   if (containsMultiDiskFile)
     for(const auto& itemPath : items)
@@ -164,7 +164,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
         //ignore folders that do not contain games
         if (newFolder->HasChildren())
         {
-          const std::string& key = newFolder->FilePath().ToString();
+          const std::string key = newFolder->RomPath().ToString();
           if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
           {
             AddChild(newFolder, true);
@@ -308,10 +308,10 @@ void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
     {
       CastFolder(fd)->BuildDoppelgangerMap(doppelganger, includefolder);
       if (includefolder)
-        doppelganger[fd->FilePath().ToString()] = fd;
+        doppelganger[fd->RomPath().ToString()] = fd;
     }
     else
-      doppelganger[fd->FilePath().ToString()] = fd;
+      doppelganger[fd->RomPath().ToString()] = fd;
   }
 }
 
@@ -603,7 +603,8 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
   {
-    std::string filename = path.empty() ? fd->FilePath().ToString() : path + '/' + fd->FilePath().Filename();
+    Path filePath(fd->RomPath());
+    std::string filename = path.empty() ? filePath.ToString() : path + '/' + filePath.Filename();
 
     if (fd->IsFolder())
     {
@@ -622,7 +623,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
           return fd;
       if ((attributes & SearchAttributes::ByName) != 0)
       {
-        filename = path.empty() ? fd->FilePath().FilenameWithoutExtension() : path + '/' + fd->FilePath().FilenameWithoutExtension();
+        filename = path.empty() ? filePath.FilenameWithoutExtension() : path + '/' + filePath.FilenameWithoutExtension();
         if (strcasecmp(filename.c_str(), item.c_str()) == 0)
           return fd;
       }

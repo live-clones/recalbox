@@ -72,7 +72,7 @@ ScraperFactory::ScraperType ScraperFactory::GetScraperType(const std::string& sc
 
 void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
 {
-  std::string name = game.FilePath().FilenameWithoutExtension();
+  std::string name = game.RomPath().FilenameWithoutExtension();
 
   // Remove (text)
   for(unsigned long pos = 0; (pos = name.find('(', pos)) != std::string::npos; )
@@ -101,7 +101,7 @@ void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
 
 void ScraperFactory::ExtractRegionFromFilename(FileData& game)
 {
-  Regions::GameRegions region = Regions::ExtractRegionsFromFileName(game.FilePath());
+  Regions::GameRegions region = Regions::ExtractRegionsFromFileName(game.RomPath());
   if (region != Regions::GameRegions::Unknown)
     game.Metadata().SetRegion((int)region);
 }

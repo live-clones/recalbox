@@ -36,7 +36,7 @@ std::string GameFilesUtils::GetGameDeleteText(FileData& game) {
         .append(Strings::ToString((int) GetGameExtraFiles(game).size()))
         .append("\n");
 
-    if(saveFilesCount)
+    if(saveFilesCount > 0)
         text.append(_("SAVES FILES"))
         .append(": x")
         .append(Strings::ToString((int)GetGameSaveFiles(game).size()))
@@ -51,7 +51,7 @@ HashSet<std::string> GameFilesUtils::GetGameSubFiles(FileData& game)
   HashSet<std::string> list;
   if (game.IsGame())
   {
-    ExtractUselessFiles(game.FilePath(), list);
+    ExtractUselessFiles(game.RomPath(), list);
   }
   return list;
 }
@@ -65,7 +65,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   {
     for (const auto& path : directory.GetDirectoryContent())
     {
-      if (path.FilenameWithoutExtension() == game.FilePath().FilenameWithoutExtension())
+      if (path.FilenameWithoutExtension() == game.RomPath().FilenameWithoutExtension())
       {
         AddIfExist(path, list);
         // for next savestate screenshot feat
@@ -80,7 +80,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
 HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
-  const Path& path = fileData.FilePath();
+  const Path path = fileData.RomPath();
   if (fileData.IsGame())
   {
     for (const auto& file: path.Directory().GetDirectoryContent())
@@ -124,7 +124,7 @@ bool GameFilesUtils::IsMediaShared(FileData& fileData, const Path& mediaPath)
 
   for (const auto& other : fileData.System().getGames())
   {
-    if (fileData.FilePath() == other->FilePath())
+    if (fileData.AreRomEqual(*other))
     {
       continue;
     }
@@ -165,8 +165,8 @@ void GameFilesUtils::ExtractUselessFiles(const Path& path, HashSet<std::string>&
 
 void GameFilesUtils::ExtractUselessFilesFromCue(const Path& path, HashSet<std::string>& list)
 {
-  std::string file = Files::LoadFile(path);
-  for (const std::string& line : Strings::Split(file, '\n'))
+  std::string cuefile = Files::LoadFile(path);
+  for (const std::string& line : Strings::Split(cuefile, '\n'))
     if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
     {
       Path file = path.Directory() / ExtractFileNameFromLine(line);
@@ -190,8 +190,8 @@ void GameFilesUtils::ExtractUselessFilesFromCcd(const Path& path, HashSet<std::s
 
 void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::string>& list)
 {
-  std::string file = Files::LoadFile(path);
-  for (std::string line : Strings::Split(file, '\n'))
+  std::string m3ufile = Files::LoadFile(path);
+  for (std::string line : Strings::Split(m3ufile, '\n'))
   {
     if (line.empty()) continue;
 
@@ -245,7 +245,7 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 
   HashSet<std::string> files;
   HashSet<std::string> mediaFiles = GetMediaFiles(fileData);
-  files.insert(fileData.FilePath().ToString());
+  files.insert(fileData.RomPath().ToString());
 
   for (const auto& path : GetGameExtraFiles(fileData))
   {
@@ -276,8 +276,8 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
   }
 
   bool mainFileDeleted = false;
-  Path gamePath = fileData.FilePath();
-  Path root = fileData.TopAncestor().FilePath();
+  Path gamePath = fileData.RomPath();
+  Path root = fileData.TopAncestor().RomPath();
   for (const auto& path : paths)
   {
     if (path== gamePath.ToString())
@@ -352,5 +352,4 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
 
   DeleteFoldersRecIfEmpty(parent);
-
 }

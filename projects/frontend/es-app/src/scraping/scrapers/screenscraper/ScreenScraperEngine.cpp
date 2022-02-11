@@ -139,7 +139,7 @@ bool ScreenScraperEngine::ThreadPoolRunJob(FileData*& feed)
   if (engineIndex >= 0)
   {
     // Process the scrape in this thread, allocated and fired automatically by the threadpool
-    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->FilePath().ToString(); }
+    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->RomPath().ToString(); }
     Engine& engine = mEngines[engineIndex];
     if (!engine.IsAborted())
     {
@@ -273,11 +273,11 @@ ScrapeResult ScreenScraperEngine::Engine::Scrape(ScrappingMethod method, FileDat
       ScreenScraperApis::Game gameResult;
       gameResult.mResult = ScrapeResult::NotFound;
 
-      { LOG(LogDebug) << "[ScreenScraper] Start scraping data for " << game.FilePath().ToString(); }
+      { LOG(LogDebug) << "[ScreenScraper] Start scraping data for " << game.RomPath().ToString(); }
       if (mAbortRequest) break;
 
       // Get file size
-      long long size = game.FilePath().Size();
+      long long size = game.RomPath().Size();
       if (size <= 0) break;
       if (mAbortRequest) break;
 
@@ -352,8 +352,9 @@ std::string ScreenScraperEngine::Engine::ComputeMD5(const Path& path)
 ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   // Get MD5
-  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.FilePath()) : std::string();
-  { LOG(LogDebug) << "[ScreenScraper] MD5 of " << game.FilePath().ToString() << " : " << md5; }
+  Path path(game.RomPath());
+  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(path) : std::string();
+  { LOG(LogDebug) << "[ScreenScraper] MD5 of " << path.ToString() << " : " << md5; }
 
   // Get crc32
   std::string crc32;
@@ -363,7 +364,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
   {
     int ssid = game.System().Descriptor().ScreenScaperID();
     // Call!
-    result = mCaller.GetGameInformation(ssid, game.FilePath(), crc32, md5, size);
+    result = mCaller.GetGameInformation(ssid, path, crc32, md5, size);
   }
 
   return result.mResult;
@@ -371,9 +372,10 @@ ScrapeResult ScreenScraperEngine::Engine::RequestGameInfo(ScreenScraperApis::Gam
 
 ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
-  if (Strings::ToLowerASCII(game.FilePath().Extension()) == ".zip")
+  Path path(game.RomPath());
+  if (Strings::ToLowerASCII(path.Extension()) == ".zip")
   {
-    Zip zip(game.FilePath());
+    Zip zip(path);
     if (zip.Count() == 1) // Ignore multi-file archives
     {
       // Get real name
@@ -381,7 +383,7 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
       // Get MD5
       std::string md5 = zip.Md5(0);
-      { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.FilePath().ToString() << "] : " << md5; }
+      { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << path.ToString() << "] : " << md5; }
 
       // Get crc32
       int crc32i = zip.Crc32(0);
@@ -404,8 +406,8 @@ ScrapeResult ScreenScraperEngine::Engine::RequestZipGameInfo(ScreenScraperApis::
 
 bool ScreenScraperEngine::Engine::NeedScrapping(ScrappingMethod method, FileData& game)
 {
-  const Path rootMediaPath = game.TopAncestor().FilePath() / "media";
-  const std::string gameFile = game.FilePath().FilenameWithoutExtension();
+  const Path rootMediaPath = game.TopAncestor().RomPath() / "media";
+  const std::string gameFile = game.RomPath().FilenameWithoutExtension();
   switch(method)
   {
     case ScrappingMethod::All: return true;
@@ -552,12 +554,10 @@ ScreenScraperEngine::Engine::StoreTextData(ScrappingMethod method, const ScreenS
 }
 
 ScrapeResult ScreenScraperEngine::Engine::DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
-  const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, std::string mediaType)
+  const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, const std::string& mediaType)
 {
-
-  bool mediaIsPresent;
   md5Set.mMutex.Lock();
-  mediaIsPresent = md5Set.mSet.contains(AbsoluteImagePath.ToString());
+  bool mediaIsPresent = md5Set.mSet.contains(AbsoluteImagePath.ToString());
   if (!mediaIsPresent)
   {
     md5Set.mSet.insert(AbsoluteImagePath.ToString());
@@ -602,10 +602,11 @@ ScreenScraperEngine::Engine::DownloadAndStoreMedia(ScrappingMethod method, const
                                                    FileData& game, MutexSet& md5Set)
 {
   bool ok = false;
-  const Path rootFolder(game.TopAncestor().FilePath());
-  const Path relativePath = game.FilePath().MakeRelative(rootFolder, ok);
-  const std::string gameName = ok ? (relativePath.Directory() / game.FilePath().FilenameWithoutExtension()).ToString()
-                                  : game.FilePath().FilenameWithoutExtension();
+  Path path(game.RomPath());
+  const Path rootFolder(game.TopAncestor().RomPath());
+  const Path relativePath = path.MakeRelative(rootFolder, ok);
+  const std::string gameName = ok ? (relativePath.Directory() / path.FilenameWithoutExtension()).ToString()
+                                  : path.FilenameWithoutExtension();
   const Path mediaFolder = rootFolder / "media";
 
   // Main image

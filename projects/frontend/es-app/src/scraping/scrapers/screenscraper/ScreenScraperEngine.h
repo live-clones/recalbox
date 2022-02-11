@@ -111,7 +111,7 @@ class ScreenScraperEngine
          * @return Scrape result
          */
         ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
-                                   const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, std::string mediaType);
+                                   const std::string& media, SetPathMethodType pathSetter, MutexSet& md5Set, const std::string& mediaType);
 
       public:
         explicit Engine(ScreenScraperApis::IConfiguration* configuration)

@@ -295,7 +295,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     FileData* fd = getCursor();
     if (fd != nullptr)
       if (fd->HasP2K())
-        mWindow.pushGui(new GuiControlHints(mWindow, fd->FilePath()));
+        mWindow.pushGui(new GuiControlHints(mWindow, fd->RomPath()));
     return true;
   }
 

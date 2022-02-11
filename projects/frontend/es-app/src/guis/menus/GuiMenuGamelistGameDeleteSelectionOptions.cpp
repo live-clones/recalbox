@@ -16,7 +16,7 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
   {
     // Footer
     std::string gameName(game.Name());
-    gameName.append(" (").append(game.FilePath().Filename()).append(1, ')');
+    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
     SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
 
     // Delete
@@ -51,7 +51,7 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
 std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOptions::GetGameFileEntries()
 {
   std::vector<ListEntry<Path>> list;
-  list.push_back({ mGame.FilePath().Filename(),  mGame.FilePath(), true });
+  list.push_back({ mGame.RomPath().Filename(),  mGame.RomPath(), true });
 
   for (const auto& file : GameFilesUtils::GetGameSubFiles(mGame))
   {

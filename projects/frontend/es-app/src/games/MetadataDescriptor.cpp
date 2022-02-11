@@ -40,6 +40,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
     {
       static const MetadataFieldDescriptor sGameMetadataDescriptors[] =
       {
+        MetadataFieldDescriptor("path"       , DefaultValueEmpty    , _("Path")        , _("enter game path")             , MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true),
         MetadataFieldDescriptor("name"       , DefaultValueEmpty    , _("Name")        , _("enter game name")             , MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true),
         MetadataFieldDescriptor("rating"     , DefaultValueRating   , _("Rating")      , _("enter rating")                , MetadataFieldDescriptor::DataType::Rating , MetadataFieldDescriptor::EditableType::Rating , &MetadataDescriptor::IsDefaultRating         , &MetadataDescriptor::RatingAsString      , &MetadataDescriptor::SetRatingAsString       , false, true),
         MetadataFieldDescriptor("favorite"   , DefaultValueFavorite , _("Favorite")    , _("enter favorite")              , MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultFavorite       , &MetadataDescriptor::FavoriteAsString    , &MetadataDescriptor::SetFavoriteAsString     , false, true),
@@ -71,6 +72,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
     {
       static const MetadataFieldDescriptor sFolderMetadataDescriptors[] =
       {
+        MetadataFieldDescriptor("path"       , ""        , _("Path")        , _("enter game path")             , MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::None  , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true),
         MetadataFieldDescriptor("name"       , ""        , _("Name")        , _("enter game name")             , MetadataFieldDescriptor::DataType::String, MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true),
         MetadataFieldDescriptor("hidden"     , "false"   , _("Hidden")      , _("set hidden")                  , MetadataFieldDescriptor::DataType::Bool  , MetadataFieldDescriptor::EditableType::Switch, &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString      , &MetadataDescriptor::SetHiddenAsString       , false, true),
         MetadataFieldDescriptor("desc"       , ""        , _("Description") , _("enter description")           , MetadataFieldDescriptor::DataType::Text  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString , &MetadataDescriptor::SetDescription          , false, false),
@@ -89,25 +91,27 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
   return nullptr;
 }
 
-MetadataDescriptor MetadataDescriptor::sDefault = MetadataDescriptor::BuildDefaultValueMetadataDescriptor();
-
-MetadataDescriptor MetadataDescriptor::BuildDefaultValueMetadataDescriptor()
+const MetadataDescriptor& MetadataDescriptor::Default()
 {
-  MetadataDescriptor defaultData("default", ItemType::Game);
-  int count = 0;
-  const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ItemType::Game, count);
+  static bool initialized = false;
+  static MetadataDescriptor defaultData(Path::Empty, "default", ItemType::Game);
 
-  if (fields != nullptr)
-    for (; --count >= 0; )
-    {
-      // Get field descriptor
-      const MetadataFieldDescriptor& field = fields[count];
+  if (!initialized)
+  {
+    int count = 0;
+    const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ItemType::Game, count);
 
-      // Set default value
-      (defaultData.*field.SetValueMethod())(field.DefaultValue());
-    }
-  else
-    LOG(LogError) << "[MetadataDescriptor] Error building static object";
+    if (fields != nullptr)
+      for (; --count >= 0;)
+      {
+        // Get field descriptor
+        const MetadataFieldDescriptor& field = fields[count];
+
+        // Set default value
+        (defaultData.*field.SetValueMethod())(field.DefaultValue());
+      }
+    else LOG(LogError) << "[MetadataDescriptor] Error building static object";
+  }
 
   return defaultData;
 }

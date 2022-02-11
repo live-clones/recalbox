@@ -163,7 +163,7 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
 
 void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
 {
-  game.FilePath().Delete();
+  game.RomPath().Delete();
   if (game.Parent() != nullptr)
     game.Parent()->RemoveChild(&game); //unlink it so list repopulations triggered from onFileChanged won't see it
 
@@ -254,7 +254,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     {
         mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
         {
-            mGamelist.getCursor()->FilePath().Delete();
+            mGamelist.getCursor()->RomPath().Delete();
             FolderData* folder = mGamelist.getCursor()->Parent();
             folder->deleteChild(mGamelist.getCursor());
             mGamelist.onFileChanged(mGamelist.getCursor(), FileChangeType::Removed);

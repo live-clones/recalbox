@@ -106,7 +106,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:
     {
-      result->Metadata().SetName(result->FilePath().FilenameWithoutExtension());
+      result->Metadata().SetName(result->RomPath().FilenameWithoutExtension());
       break;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:
@@ -121,7 +121,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
 
   // update subtitle
   std::string ss = Strings::Format(_("GAME %i OF %i").c_str(), index, total) +
-                   " - " + Strings::ToUpperASCII(result->FilePath().Filename());
+                   " - " + Strings::ToUpperASCII(result->RomPath().Filename());
   mSubtitle->setText(ss);
 
   // Update game data

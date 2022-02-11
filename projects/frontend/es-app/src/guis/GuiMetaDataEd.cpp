@@ -43,7 +43,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
-  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.FilePath().Filename()),
+  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.RomPath().Filename()),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
