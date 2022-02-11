@@ -5,6 +5,7 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.1-Electron
+
 ### News
 
 - Add delete game options
@@ -13,6 +14,8 @@ as release notes for end user on a Recalbox upgrade.
 
 - New option in UI menu : hide PORTS collection
 - Add recalbox.conf option to force resolution of splash videos on x64
+- New Random game picker in demo mode (less cycling)
+
 ### Improvements
 
 - Bump EmuSCV to fix zipped games load
@@ -28,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 
 - Fix to not reload recalbox.conf file in manager on save
+
 
 ## Version 8.0.2-Electron
 

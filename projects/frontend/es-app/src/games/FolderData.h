@@ -68,6 +68,12 @@ class FolderData : public FileData
      * @return Total amount of items (not including folders!)
      */
     int countItemsRecursively(Filter includes, bool includefolders, bool includeadult) const;
+    /*!
+     * Count all items recursively
+     * @param includes Count only items matching these filters
+     * @return Total amount of items (not including folders!)
+     */
+    int countItemsRecursively(IFilter* filter, bool includefolders, bool includeadult) const;
 
     /*!
      * Get all items
@@ -304,6 +310,14 @@ class FolderData : public FileData
      * @return List of filtered items
      */
     int CountFilteredItemsRecursively(Filter filters, bool includefolders, bool includeadult) const { return countItemsRecursively(filters, includefolders, includeadult); }
+    /*!
+     * Count filtered items recursively starting from the current folder
+     * @param filters Filter to apply
+     * @param includefolders True to include subfolders in the result
+     * @return List of filtered items
+     */
+    int CountFilteredItemsRecursively(IFilter* filters, bool includefolders, bool includeadult) const { return countItemsRecursively(filters, includefolders, includeadult); }
+
     /*!
      * Count filtered items from the current folder
      * @param filters Filter to apply
