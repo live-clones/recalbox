@@ -1,0 +1,40 @@
+################################################################################
+#
+# CDI2015
+#
+################################################################################
+
+#Commit version of 26/12/21
+LIBRETRO_CDI2015_VERSION = 3fa75d01ff02d08815cde442a5a79cdbbf8142e7
+LIBRETRO_CDI2015_SITE = $(call github,libretro,mame2015-libretro,$(LIBRETRO_CDI2015_VERSION))
+LIBRETRO_CDI2015_LICENSE = MAME
+LIBRETRO_CDI2015_NON_COMMERCIAL = y
+
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
+LIBRETRO_CDI2015_CFLAGSO = $(COMPILER_COMMONS_CFLAGS_NOLTO)
+LIBRETRO_CDI2015_CXXFLAGSO = $(COMPILER_COMMONS_CXXFLAGS_NOLTO)
+LIBRETRO_CDI2015_LDFLAGS = $(COMPILER_COMMONS_LDFLAGS_NOLTO)
+else
+LIBRETRO_CDI2015_CFLAGSO = $(COMPILER_COMMONS_CFLAGS_SO)
+LIBRETRO_CDI2015_CXXFLAGSO = $(COMPILER_COMMONS_CXXFLAGS_SO)
+LIBRETRO_CDI2015_LDFLAGS = $(COMPILER_COMMONS_LDFLAGS_SO)
+endif
+
+LIBRETRO_CDI2015_OPTS += SUBTARGET=cdi
+
+define LIBRETRO_CDI2015_BUILD_CMDS
+		$(SED) "s|^CONLYFLAGS =|CONLYFLAGS = $(LIBRETRO_CDI2015_CFLAGSO)|g" $(@D)/Makefile
+		$(SED) "s|^CPPONLYFLAGS =|CPPONLYFLAGS = $(LIBRETRO_CDI2015_CXXFLAGSO)|g" $(@D)/Makefile
+		$(SED) "s|^LDFLAGS =|LDFLAGS = $(LIBRETRO_CDI2015_LDFLAGS) -lm|g" $(@D)/Makefile
+		$(SED) "s|-O2|-O3|g" $(@D)/Makefile
+		$(MAKE) REALCC="$(TARGET_CC)" CC="$(TARGET_CC)" CXX="$(TARGET_CXX)" LD="$(TARGET_CC)" AR="$(TARGET_CC)-ar" \
+				-C $(@D)/ -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)" $(LIBRETRO_CDI2015_OPTS)
+endef
+
+define LIBRETRO_CDI2015_INSTALL_TARGET_CMDS
+		$(INSTALL) -D $(@D)/cdi2015_libretro.so \
+				$(TARGET_DIR)/usr/lib/libretro/cdi2015_libretro.so
+		mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/cdi
+endef
+
+$(eval $(generic-package))

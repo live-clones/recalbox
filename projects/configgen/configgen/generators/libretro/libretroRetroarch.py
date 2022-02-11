@@ -60,6 +60,7 @@ class LibretroRetroarch:
         'naomi',
         'ngpc',
         'pcfx',
+        'cdi',
     )
 
     # Define the libretro device type corresponding to the libretro cores, when needed.
