@@ -34,7 +34,7 @@ GuiMenuArcadeVirtualSystem::~GuiMenuArcadeVirtualSystem()
       (mIncludeNeoGeo->getState() != mOriginalIncludeNeogeo) ||
       (mHideOriginals->getState() != mOriginalHideOriginals) ||
       (mPosition->getSelected() != mOriginalPosition))
-    RequestReboot();
+    RequestRelaunch();
 }
 
 std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPositionEntries()
