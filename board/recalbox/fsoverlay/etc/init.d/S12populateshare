@@ -139,7 +139,7 @@ done
 set +f
 IFS=$IFS_BAK
 
-# Since 7.3, share is versioned
+# Since 8.0, share is versioned
 # so that we can update some file automatically
 #
 RECALBOX_VERSION_FILE="/recalbox/recalbox.version"
