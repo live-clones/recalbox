@@ -1,26 +1,37 @@
 diff --git a/src/sdl2/keyboard_sdl2.c b/src/sdl2/keyboard_sdl2.c
-index 2635a523..74ac78e3 100644
+index 8db78987..3c11205f 100644
 --- a/src/sdl2/keyboard_sdl2.c
 +++ b/src/sdl2/keyboard_sdl2.c
-@@ -211,12 +211,7 @@ static void emulator_command(struct ui_sdl2_interface *uisdl2, int cmdkey, _Bool
- 		     }
- 		     return;
- 	case 'k': xroar_set_keymap(1, XROAR_NEXT); return;
+@@ -242,14 +242,8 @@ static void emulator_command(struct ui_sdl2_interface *uisdl2, int cmdkey, _Bool
+ 	case 'k':
+ 		xroar_set_keyboard_type(1, XROAR_NEXT);
+ 		return;
+-#ifndef HAVE_WASM
 -	case 'l':
--		     if (shift) {
--			     xroar_run_file(NULL);
--		     } else {
--			     xroar_load_file(NULL);
--		     }
+-		if (shift) {
+-			xroar_run_file(NULL);
+-		} else {
+-			xroar_load_file(NULL);
+-		}
+-		return;
 +	case 'l': xroar_load_snapshot();
- 		     return;
- 	case 'm': xroar_set_machine(1, XROAR_NEXT); return;
- 	case 'p':
++		     return;
+ 	case 'm':
+ 		xroar_set_menubar(XROAR_NEXT);
+ 		return;
+@@ -261,7 +255,6 @@ static void emulator_command(struct ui_sdl2_interface *uisdl2, int cmdkey, _Bool
+ 	case 'q':
+ 		xroar_quit();
+ 		return;
+-#endif
+ 	case 'r':
+ 		if (shift) {
+ 			xroar_hard_reset();
 diff --git a/src/xroar.c b/src/xroar.c
-index 3398f444..56b06dcb 100644
+index db27cb95..7c09be26 100644
 --- a/src/xroar.c
 +++ b/src/xroar.c
-@@ -1645,12 +1645,19 @@ void xroar_set_dos(int dos_type) {
+@@ -1826,12 +1826,19 @@ void xroar_set_cart(_Bool notify, const char *cc_name) {
  }
  
  void xroar_save_snapshot(void) {
@@ -41,29 +52,29 @@ index 3398f444..56b06dcb 100644
  void xroar_insert_input_tape_file(const char *filename) {
  	if (!filename) return;
  	tape_open_reading(xroar_tape_interface, filename);
-@@ -2124,6 +2131,7 @@ static struct xconfig_option const xroar_options[] = {
+@@ -2478,6 +2485,7 @@ static struct xconfig_option const xroar_options[] = {
  
  	/* Firmware ROM images: */
- 	{ XC_SET_STRING_F("rompath", &xroar_cfg.rompath) },
-+	{ XC_SET_STRING_F("snappath", &xroar_cfg.snappath) },
- 	{ XC_CALL_ASSIGN_F("romlist", &romlist_assign) },
- 	{ XC_CALL_NULL("romlist-print", &romlist_print) },
+ 	{ XC_SET_STRING_NE("rompath", &xroar_cfg.rompath) },
++	{ XC_SET_STRING_NE("snappath", &xroar_cfg.snappath) },
+ 	{ XC_CALL_ASSIGN_NE("romlist", &romlist_assign) },
+ 	{ XC_CALL_NONE("romlist-print", &romlist_print) },
  	{ XC_CALL_ASSIGN("crclist", &crclist_assign) },
 diff --git a/src/xroar.h b/src/xroar.h
-index 7b924689..7cca5bc9 100644
+index 706c47b4..602ef5c1 100644
 --- a/src/xroar.h
 +++ b/src/xroar.h
-@@ -91,6 +91,7 @@ struct xroar_cfg {
+@@ -90,6 +90,7 @@ struct xroar_cfg {
  	char *becker_port;
  	// Files
  	char *rompath;
 +	char *snappath;
+ 	char *load_hd[2];
+ 	char *load_sd;
  	// Cassettes
- 	double tape_pan;
- 	double tape_hysteresis;
-@@ -180,6 +181,7 @@ void xroar_set_cart(_Bool notify, const char *cc_name);
+@@ -184,6 +185,7 @@ void xroar_connect_cart(void);
+ void xroar_set_cart(_Bool notify, const char *cc_name);
  void xroar_set_cart_by_id(_Bool notify, int id);
- void xroar_set_dos(int dos_type);  /* for old snapshots only */
  void xroar_save_snapshot(void);
 +void xroar_load_snapshot(void);
  void xroar_insert_input_tape_file(const char *filename);

@@ -20,6 +20,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro mame 0.239
 
 ### Fixes
+## NEXT
+- Add mc10 and coco3 model to trs80 color computer xroar emulator
 
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
