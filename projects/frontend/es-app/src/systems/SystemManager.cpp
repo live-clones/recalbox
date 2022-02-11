@@ -334,7 +334,7 @@ bool SystemManager::AddPorts()
       mHiddenSystemVector.push_back(port);
     }
 
-    if (!RecalboxConf::Instance().GetCollectionHide("ports"))
+    if ((!RecalboxConf::Instance().GetCollectionHide("ports")) || (mVisibleSystemVector.size() == 1))
     {
       // Create meta-system
       SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
