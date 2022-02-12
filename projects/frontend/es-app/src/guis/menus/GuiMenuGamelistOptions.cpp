@@ -28,16 +28,20 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
     mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
     RefreshGameMenuContext();
 
-    if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() && !mSystem.IsScreenshots())
+    if(!mGamelist.getCursor()->IsEmpty())
     {
-      std::string text = _("DELETE GAME %s");
-      Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
-      mDeleteGame = AddSubMenu(text, (int) Components::Delete);
-    }
+      if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
+          !mSystem.IsScreenshots())
+      {
+        std::string text = _("DELETE GAME %s");
+        Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
+        AddSubMenu(text, (int) Components::Delete);
+      }
 
-    if (mSystem.IsScreenshots())
-    {
-        AddSubMenu(_("DELETE SCREENSHOT"), (int)Components::DeleteScreeshots);
+      if (mSystem.IsScreenshots())
+      {
+        AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshots);
+      }
     }
 
   }

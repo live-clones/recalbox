@@ -36,7 +36,7 @@ class GameFilesUtils
 
     static bool IsMediaShared(FileData& system, const Path& mediaPath);
 
-    static void DeleteFoldersRecIfEmpty(const Path& currentDirectory
+    static void DeleteFoldersRecIfEmpty(FolderData* folderData
       , const Path& gameTopAncestorPath);
 };
 
