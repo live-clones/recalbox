@@ -60,7 +60,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mFavoritesOnly;
     std::shared_ptr<SwitchComponent> mShowHidden;
     std::shared_ptr<TextComponent> mGame;
-    std::shared_ptr<TextComponent> mDeleteGame;
 
     //! Refresh first menu entry
     void RefreshGameMenuContext();
