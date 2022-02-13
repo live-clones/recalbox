@@ -586,6 +586,8 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
         // Add system name and raw rompath
         mAllDeclaredSystemShortNames.push_back(descriptor.Name());
         mAllDeclaredSystemRomPathes.push_back(descriptor.RomPath());
+        for(const std::string& ext : Strings::Split(descriptor.Extension(), ' ', true))
+          mAllDeclaredSystemExtensionSet.insert(ext);
         // Push weighted system
         threadPool.PushFeed(descriptor, weight);
       }
@@ -881,15 +883,6 @@ void SystemManager::NotifyDeviceMount(const DeviceMount& mountpoint)
   }
 }
 
-HashSet<std::string> SystemManager::BuildAllExtensions()
-{
-  HashSet<std::string> result;
-  for(const SystemData* system : mAllSystemVector)
-    for(const std::string& ext : Strings::Split(system->Descriptor().Extension(), ' ', true))
-      result.insert(ext);
-  return result;
-}
-
 bool SystemManager::HasFileWithExt(const Path& path, HashSet<std::string>& extensionSet)
 {
   DIR* dir = opendir(path.ToChars());
@@ -901,6 +894,9 @@ bool SystemManager::HasFileWithExt(const Path& path, HashSet<std::string>& exten
     // File and extension in list?
     if (entry->d_type == DT_REG)
       found = (extensionSet.contains(Path(entry->d_name).Extension()));
+    else if (entry->d_type == DT_DIR)
+      if (entry->d_name[0] != '.')
+        found = HasFileWithExt(path / entry->d_name, extensionSet);
   }
   closedir(dir);
 
@@ -917,7 +913,6 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
   };
 
   RomStructure result = RomStructure::None;
-  HashSet<std::string> extentions = BuildAllExtensions();
 
   // Check known inner path
   for(const Path& romPath : pathes)
@@ -930,7 +925,7 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
         if (systemPath.Exists())
         {
           result = RomStructure::Empty;
-          if (HasFileWithExt(systemPath, extentions))
+          if (HasFileWithExt(systemPath, mAllDeclaredSystemExtensionSet))
           {
             LOG(LogInfo) << "[SystemManager] " << systemPath.ToString() << " identified as a valid rom folder";
             outputRomPath = main;

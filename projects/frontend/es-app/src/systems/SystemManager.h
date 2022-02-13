@@ -91,6 +91,8 @@ class SystemManager :
     std::vector<std::string> mAllDeclaredSystemShortNames;
     //! All declared system rom path
     Path::PathList mAllDeclaredSystemRomPathes;
+    //! All declared system rom path
+    HashSet<std::string> mAllDeclaredSystemExtensionSet;
 
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
@@ -107,9 +109,6 @@ class SystemManager :
      * @return True if a file with a matchng extension has been found, false otherwise
      */
     static bool HasFileWithExt(const Path& path, HashSet<std::string>& extensionSet);
-
-    //! Build all extention set from all systems
-    HashSet<std::string> BuildAllExtensions();
 
     /*!
      * @brief Check if the root folder contains at least a valid rom path and return it
