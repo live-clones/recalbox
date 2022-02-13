@@ -63,7 +63,8 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
 
 void GuiMenuGamelistGameDeleteOptions::DeleteAllFiles()
 {
-  GameFilesUtils::DeleteAllFiles(mGame, mView);
+  GameFilesUtils::DeleteAllFiles(mGame);
+  mView.removeEntry(&mGame);
   mWindow.deleteAllGui();
 }
 

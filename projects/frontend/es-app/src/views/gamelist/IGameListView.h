@@ -70,6 +70,8 @@ class IGameListView : public Gui
     virtual int getCursorIndexMax() = 0;
     virtual void setCursorIndex(int) = 0;
 
+    virtual void removeEntry(FileData* fileData) = 0;
+
     virtual const char* getName() const = 0;
 
     void ApplyHelpStyle() override;

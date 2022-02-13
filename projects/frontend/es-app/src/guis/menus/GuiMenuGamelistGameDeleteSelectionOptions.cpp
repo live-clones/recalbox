@@ -117,8 +117,8 @@ void GuiMenuGamelistGameDeleteSelectionOptions::DeleteSelectedFiles()
     mediaList.insert(path.ToString());
   }
 
-  GameFilesUtils::DeleteSelectedFiles(mGame, list, mediaList, mView);
-
+  GameFilesUtils::DeleteSelectedFiles(mGame, list, mediaList);
+  mView.removeEntry(&mGame);
   mWindow.deleteAllGui();
 }
 

@@ -9,6 +9,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include "GameFilesUtils.h"
 #include "FileData.h"
+#include "utils/cplusplus/StaticLifeCycleControler.h"
 
 std::string GameFilesUtils::GetGameDeletetext(FileData& game) {
     int gameFilesCount = 1 + (int)GetGameSubFiles(game).size();
@@ -238,7 +239,7 @@ void GameFilesUtils::AddIfExist(const Path& path, HashSet<std::string>& list)
     list.insert(path.ToString());
 }
 
-void GameFilesUtils::DeleteAllFiles(FileData& fileData, IGameListView& view)
+void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 {
 
   HashSet<std::string> files;
@@ -260,10 +261,10 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData, IGameListView& view)
     files.insert(path);
   }
 
-  DeleteSelectedFiles(fileData, files, mediaFiles, view);
+  DeleteSelectedFiles(fileData, files, mediaFiles);
 }
 
-void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths,  IGameListView& view)
+void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths)
 {
   { LOG(LogDebug) << "[DELETE] Begin delete of \"" << fileData.Name() << "\" deletion"; }
 
@@ -312,16 +313,7 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
   {
     FolderData* folder = fileData.Parent();
     folder->deleteChild(&fileData);
-    DeleteFoldersRecIfEmpty(folder, root);
-
-    int cursorIndex = view.getCursorIndex();
-    view.onFileChanged(&fileData, FileChangeType::Removed);
-    view.refreshList();
-
-    if(cursorIndex > 0)
-    {
-      view.setCursorIndex(cursorIndex - 1);
-    }
+    DeleteFoldersRecIfEmpty(folder);
 
   } else if (mediaIsDirty)
   {
@@ -330,11 +322,11 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
   }
 }
 
-void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData, const Path& gameTopAncestorPath)
+void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
   if (folderData->IsRoot() || folderData->HasChildren())
   {
-    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " is not empty and cannot be deleted"; }
+    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
     return;
   }
 
@@ -342,8 +334,8 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData, const Path&
   Path currentFolder = folderData->FilePath();
   currentFolder.Delete();
   parent->RemoveChild(folderData);
-  { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and been deleted"; }
+  { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
 
-  DeleteFoldersRecIfEmpty(parent, gameTopAncestorPath);
+  DeleteFoldersRecIfEmpty(parent);
 
 }

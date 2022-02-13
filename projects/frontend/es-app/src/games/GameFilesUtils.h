@@ -31,13 +31,12 @@ class GameFilesUtils
     static void AddIfExist(const Path& path, HashSet<std::string>& list);
     static constexpr int sMaxGdiFileSize = (10 << 10); // 10 Kb
 
-    static void DeleteSelectedFiles(FileData& fileData, HashSet<std::string>&, HashSet<std::string>&,  IGameListView& view);
-    static void DeleteAllFiles(FileData& fileData, IGameListView& view);
+    static void DeleteSelectedFiles(FileData& fileData, HashSet<std::string>&, HashSet<std::string>&);
+    static void DeleteAllFiles(FileData& fileData);
 
     static bool IsMediaShared(FileData& system, const Path& mediaPath);
 
-    static void DeleteFoldersRecIfEmpty(FolderData* folderData
-      , const Path& gameTopAncestorPath);
+    static void DeleteFoldersRecIfEmpty(FolderData* folderData);
 };
 
 
