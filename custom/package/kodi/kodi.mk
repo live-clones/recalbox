@@ -8,7 +8,7 @@
 # and kodi-texturepacker
 KODI_VERSION_MAJOR = 19.1
 KODI_VERSION_NAME = Matrix
-KODI_VERSION = $(KODI_VERSION_MAJOR)-$(KODI_VERSION_NAME)
+KODI_VERSION = e976cd0e3ad9ed0e4ff80e2f97e2fce1922717be
 KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
 KODI_LICENSE = GPL-2.0
 KODI_LICENSE_FILES = LICENSE.md
@@ -40,6 +40,7 @@ KODI_DEPENDENCIES = \
 	libcurl \
 	libdrm \
 	libegl \
+	libegl \
 	libfribidi \
 	libplist \
 	lzo \
@@ -51,7 +52,8 @@ KODI_DEPENDENCIES = \
 	sqlite \
 	taglib \
 	tinyxml \
-	zlib
+	zlib \
+	giflib
 
 # taken from tools/depends/target/*/*-VERSION
 KODI_LIBDVDCSS_VERSION = 1.4.2-Leia-Beta-5

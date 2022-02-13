@@ -101,6 +101,7 @@ menuconfig BR2_PACKAGE_KODI
 	select BR2_PACKAGE_TAGLIB
 	select BR2_PACKAGE_TINYXML
 	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_GIFLIB
 	select BR2_TOOLCHAIN_GLIBC_GCONV_LIBS_COPY if BR2_TOOLCHAIN_USES_GLIBC # runtime UTF conversion support
 	help
 	  Kodi is an award-winning free and open source (GPL) software
