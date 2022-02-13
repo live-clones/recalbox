@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add libretro-beetle-saturn Netplay
 - Add delete game options
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
@@ -22,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
+- Bump libretro beetle saturn
 
 ### Fixes
 ## NEXT
