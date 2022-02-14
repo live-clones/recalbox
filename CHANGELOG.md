@@ -306,6 +306,7 @@ All notable changes to this project have been documented in this file since 8.1.
 - Fix screenshot on KMS compliant boards (#1970)
 - Updated Netflix and YouTube addons in Kodi
 - Update URLS in all recalbox.conf files (#2051)
+- Fix resolution change when exiting Kodi
 
 ## [7.2.2-Reloaded]
 - Fix controler #2 in swanstation (#1730)

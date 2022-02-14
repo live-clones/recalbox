@@ -249,6 +249,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
   - [ ] Regular protected wifi (PSK)
   - [ ] Open SSID (passwordless)
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)
+- [ ] Test: Set ES resolution to 720p. Open Kodi at 1080p. Exit Kodi.
 
 ## [7.2.2]
 - [X] Test ppsspp saves are copied in share on upgrade (#1773)
