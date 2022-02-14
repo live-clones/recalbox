@@ -8,6 +8,7 @@
 ++++++++++++++++++++++++++++++++  package/intel-mediadriver/0002-cmrtlib-linux-CMakelists.txt-respect-MEDIA_BUILD_FAT.patch
 --------------------------------  package/intel-mediadriver/0002-build-fix-Werror=format-overflow-under-gcc-10.patch
 --------------------------------  package/intel-mediadriver/0003-cmrtlib-linux-CMakelists.txt-respect-MEDIA_BUILD_FAT.patch
+++++++++++++++++++++++++++++++++  package/python-daemon/0001-fix-socket-exception.patch
 abd0a975a9248559c162c03867b7e8b4  boot/grub2/grub2.mk
 bebf5922f3fcd58aa3d3316f053e556c  boot/syslinux/syslinux.mk
 1427f787b9df870313fbb650d1f4f16b  linux/Config.in

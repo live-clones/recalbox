@@ -1,0 +1,9 @@
+config BR2_PACKAGE_PYTHON_OPENJVS
+	bool "python-openjvs"
+	depends on BR2_PACKAGE_PYTHON3_PY_PYC
+	select BR2_PACKAGE_PYTHON_SERIAL # runtime
+	select BR2_PACKAGE_PYTHON_UINPUT # runtime
+	select BR2_PACKAGE_PYTHON_DAEMON # runtime
+	help
+	  Library used to support JVS arcade protocol.
+

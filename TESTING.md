@@ -68,6 +68,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Test piboy pad is detected in Kodi (#2084)
 - [ ] No error popup when starting kodi (one or more items...) #2097
 - [ ] Test Duckstation's menus with a pad  
+- [ ] Test OpenJVS start only when /dev/ttyUSB0 device is plugged
 
 ## [7.3.1]
 - [ ] Bumped libretro core Genesis-Plus-GX. Check core works on all boards. No loss of fps, even on pizero (#1994)

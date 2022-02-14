@@ -96,6 +96,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro Gong core on all boards
 - Add Xbox One wireless dongles support (xow userspace driver daemon from Medusalix)
 - Add PiBoy DMG support
+- Add OpenJVS python library support for arcade machines
 
 ### Improvements
 - Improve ergonomy in gamelists when "quick system select" is enabled

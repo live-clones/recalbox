@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", KERNEL=="ttyUSB0", ACTION=="add", RUN+="/usr/bin/python -m py_openjvs"

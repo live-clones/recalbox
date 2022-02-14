@@ -87,6 +87,7 @@ All notable changes to this project have been documented in this file since 8.1.
 - Fix no sound issue on some PCs with Sound Open Firmware compatible audio hardware (#2099)
 - Fix WPA3 wifi connection (#1768)
 - Fix Solarus issue with fullscreen (#1888)
+- Add OpenJVS python library support for arcade machines
 
 ## [8.0-Electron]
 - Remove non-working shaders

@@ -1,0 +1,13 @@
+--- a/daemon/daemon.py	2019-01-19 08:22:59.000000000 +0100
++++ b/daemon/daemon.py	2021-10-27 11:23:08.504649669 +0200
+@@ -761,9 +761,8 @@
+         """
+     result = False
+ 
+-    file_socket = socket.fromfd(fd, socket.AF_INET, socket.SOCK_RAW)
+-
+     try:
++        file_socket = socket.fromfd(fd, socket.AF_INET, socket.SOCK_RAW)
+         file_socket.getsockopt(socket.SOL_SOCKET, socket.SO_TYPE)
+     except socket.error as exc:
+         exc_errno = exc.args[0]
