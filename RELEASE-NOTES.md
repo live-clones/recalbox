@@ -12,7 +12,6 @@ as release notes for end user on a Recalbox upgrade.
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
 - Add system Philips CD-I (libretro core : cdi2015)
-
 - New option in UI menu : hide PORTS collection
 - Add recalbox.conf option to force resolution of splash videos on x64
 - New Random game picker in demo mode (less cycling)
@@ -24,14 +23,13 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro mame 0.239
 
 ### Fixes
-## NEXT
-- Add mc10 and coco3 model to trs80 color computer xroar emulator
 
+- Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
 - Fix libretro mame2015 for OGA/OGS
-
 - Fix to not reload recalbox.conf file in manager on save
+- Deleting the netplay system configuration in recalbox.conf
 
 
 ## Version 8.0.2-Electron
