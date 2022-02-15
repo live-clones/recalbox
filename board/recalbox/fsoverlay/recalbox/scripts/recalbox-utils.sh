@@ -57,7 +57,6 @@ getInstallUpgradeImagePath() {
   fi
 }
 
-
 # Get the best CRT MPV Options
 getCrtMpvOptions() {
   local connector="1.VGA-1"
@@ -85,4 +84,15 @@ isRecalboxRGBDual() {
   else
     return 1
   fi
+}
+
+# Returns true if the platform may need to force enable DRM connector.
+# This is related to black screen issue
+doesBoardNeedKMSEnabler() {
+  case "$(getArchName)" in
+    rpizero2|rpi3|rpi4|rpi4_64)
+      return 0 ;;
+    *)
+      return 1 ;;
+  esac
 }
