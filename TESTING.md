@@ -75,6 +75,7 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 
 ## [8.0]
 - [ ] Check recalbox.log contains script and type information (#1920)
+- [ ] Bumped libretro-melonDS, test especially on x64 (#1895)
 - [ ] Checking .bin files are seen in the gamegear system (#1860)
 - [ ] Checking .d64 and .tap files are seen in the vic20 system (#1858)
 - [ ] Test Supermodel and gamecube, wii ratio global and by system (#447)

@@ -151,6 +151,8 @@ All notable changes to this project have been documented in this file since 8.1.
 - Add Hatari standalone emulator
 - Add beebem emulator
 - Remove px68k core from x86 board (#1875)
+## [NEXT]
+- Bumped libretro-melonDS (#1895)
 - Fixed multiple translations in ES (#1880, #1881)
 - Bump Oricutron (#1893)
 - Bump SimCoupé to v1.2.5 (#1894)
