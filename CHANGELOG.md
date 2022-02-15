@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [8.0.3-Electron]
+- Fix black screen/no signal on rpi4
+
 ## [8.0.2-Electron]
 - Fix 4k resolution issue on 4k tv
 
