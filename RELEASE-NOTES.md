@@ -52,6 +52,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add go to game from search results and add search games from gamelist menu
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
 - Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
+- Fix black screen/no signal on Pi3 & Pi4
 
 ### Improvements
 
