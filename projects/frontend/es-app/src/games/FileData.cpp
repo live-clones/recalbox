@@ -80,3 +80,16 @@ FileData& FileData::CalculateHash()
 
   return *this;
 }
+
+std::string FileData::Regions()
+{
+  std::string regions =Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(FilePath()));
+  if( regions == Strings::Empty)
+    regions = Regions::Serialize4Regions(Regions::ExtractRegionsFromTosecName(FilePath()));
+  if( regions == Strings::Empty)
+    regions = Regions::Serialize4Regions(Regions::ExtractRegionsFromName(Strings::ToLowerASCII(Name())));
+  if( regions == Strings::Empty)
+    regions = Regions::Serialize4Regions(Metadata().Region());
+
+  return regions;
+}

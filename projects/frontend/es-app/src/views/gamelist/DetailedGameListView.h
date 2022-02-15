@@ -34,6 +34,7 @@ private:
     ImageComponent mImage;
     VideoComponent mVideo;
     std::vector<ImageComponent *> mFolderContent;
+    std::vector<ImageComponent *> mRegions;
 
     TextComponent mLblRating, mLblReleaseDate, mLblDeveloper, mLblPublisher, mLblGenre, mLblPlayers, mLblLastPlayed, mLblPlayCount, mLblFavorite;
     TextComponent mFolderName;
@@ -63,6 +64,7 @@ private:
     std::vector<Component*> getScrappedFolderComponents();
     void setFolderInfo(FolderData* folder);
     void setGameInfo(FileData* file);
+    void setRegions(FileData* file);
     void setScrappedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
     static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);

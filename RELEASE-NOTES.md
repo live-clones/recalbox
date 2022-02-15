@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - New Random game picker in demo mode (less cycling)
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
+- Display game regions flag in gamelist
 
 ### Improvements
 
