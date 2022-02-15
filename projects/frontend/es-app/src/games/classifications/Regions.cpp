@@ -258,7 +258,7 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        //     { "uzbekistan", GameRegions::UZ},
        //     { "vietnam", GameRegions::VN},
             { "taiwan", GameRegions::TW},
-       { "usa", GameRegions::USA},
+       { "usa", GameRegions::US},
        { "asia", GameRegions::ASI},
      });
 
@@ -520,7 +520,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::UZ, "Uzbekistan" },
 //       { GameRegions::VN, "Vietnam" },
        { GameRegions::TW, "Taiwan" },
-       { GameRegions::USA, "USA" },
+       { GameRegions::US, "USA" },
        { GameRegions::ASI, "Asia" },
      });
 
@@ -770,7 +770,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::MD, "md" }, // Moldova
        //       { GameRegions::UA, "ua" }, // Ukraine
        //       { GameRegions::LK, "lk" }, // Sri Lanka
-              { GameRegions::SK, "sk" }, // Slovakia
+       { GameRegions::SK, "sk" }, // Slovakia
        //       { GameRegions::AL, "al" }, // Albania
        //       { GameRegions::XK, "xk" }, // Kosovo
        //       { GameRegions::ME, "me" }, // Montenegro
@@ -782,8 +782,8 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::TR, "tr" }, // Turkey
        //       { GameRegions::UZ, "uz" }, // Uzbekistan
        //       { GameRegions::VN, "vn" }, // Vietnam
-              { GameRegions::TW, "tw" }, // Taiwan
-       { GameRegions::USA, "usa" }, // USA
+       { GameRegions::TW, "tw" }, // Taiwan
+       { GameRegions::US, "us" }, // USA
        { GameRegions::ASI, "asi" }, // Asia
      });
 
@@ -1046,8 +1046,15 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "uz", GameRegions::UZ }, // Uzbekistan
 //       { "vn", GameRegions::VN }, // Vietnam
 //       { "tw", GameRegions::TW }, // Taiwan
-       { "usa", GameRegions::USA }, // usa
+       { "us", GameRegions::US }, // usa
        { "asi", GameRegions::ASI }, // Asia
+
+       // non iso existing regions
+       { "sp", Regions::GameRegions::ES }, // ScreenScraper spanish region
+       { "j", Regions::GameRegions::JP },
+       { "f", Regions::GameRegions::FR },
+       { "e", Regions::GameRegions::EU },
+       { "u", Regions::GameRegions::US },
      });
 
   GameRegions* found = sRegionNameToRegion.try_get(region);
@@ -1063,11 +1070,22 @@ unsigned int Regions::Deserialize4Regions(const std::string& regions)
   for(int start = 0; start < (int)regions.size(); )
   {
     int pos = regions.find(',', start + 1);
-    if (pos == (int)std::string::npos) pos = (int)regions.size();
-    GameRegions region = DeserializeRegion(regions.substr(start, pos - start));
-    if (region != GameRegions::Unknown)
-      result = (result << 8) | (unsigned int)region;
+    if (pos == (int)std::string::npos)
+      pos = (int)regions.size();
+    std::string subRegion = Strings::Replace(regions.substr(start, pos - start), ",", "");
     start = pos;
+    GameRegions region = FullNameToRegions(subRegion);
+    if (region != GameRegions::Unknown)
+    {
+      result = (result << 8) | (unsigned int) region;
+      continue;
+    }
+    region = DeserializeRegion(subRegion);
+    if (region != GameRegions::Unknown)
+    {
+      result = (result << 8) | (unsigned int) region;
+      continue;
+    }
   }
   return result;
 }
@@ -1105,32 +1123,11 @@ Regions::GameRegions Regions::ExtractRegionsFromFileName(const Path& path)
     if (result != GameRegions::Unknown) return result;
     result = DeserializeRegion(region);
     if (result != GameRegions::Unknown) return result;
-    result = DeserializeCustomRegion(region);
-    if (result != GameRegions::Unknown)
-      return result;
 
     // Try next
     start = stop + 1;
   }
   return GameRegions::Unknown;
-}
-
-Regions::GameRegions Regions::DeserializeCustomRegion(const std::string& region)
-{
-  static HashMap<std::string, Regions::GameRegions> sRegionNameToRegion
-    ({
-       { "sp", Regions::GameRegions::ES }, // ScreenScraper spanish region
-       { "J", Regions::GameRegions::JP },
-       { "F", Regions::GameRegions::FR },
-       { "E", Regions::GameRegions::EU },
-       { "U", Regions::GameRegions::USA },
-     });
-
-  Regions::GameRegions* found = sRegionNameToRegion.try_get(Strings::ToUpperUTF8(region));
-  if (found != nullptr)
-    return *found;
-
-  return Regions::GameRegions::Unknown;
 }
 
 const Regions::List& Regions::AvailableRegions()
@@ -1140,7 +1137,7 @@ const Regions::List& Regions::AvailableRegions()
   ({
      GameRegions::Unknown, // No region
      GameRegions::WOR, // World
-     GameRegions::USA, // USA
+     GameRegions::US, // USA
      GameRegions::EU,  // Europe
      GameRegions::AME, // Latin America
      GameRegions::ASI, // Asia
@@ -1191,4 +1188,71 @@ Regions::GameRegions Regions::GameRegionsFromString(const std::string& gameRegio
 const std::string& Regions::GameRegionsFromEnum(Regions::GameRegions gameRegions)
 {
   return SerializeRegion(gameRegions);
+}
+
+//https://datomatic.no-intro.org/stuff/The%20Official%20No-Intro%20Convention%20(20071030).pdf
+// [BIOS flag] Title (Region) (Languages) (Version) (Devstatus) (Additional)(Special) (License) [Status]
+// Region is mandatory
+unsigned int Regions::ExtractRegionsFromNoIntroName(const Path& path)
+{
+  std::string fileName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  const size_t strBegin = fileName.find_first_of('(') + 1;const size_t strEnd   = fileName.find_first_of(')');
+  std::string regions = fileName.substr(strBegin , strEnd - strBegin);
+  regions = Strings::Replace(regions, " ", "");
+
+  return Deserialize4Regions(regions);
+}
+
+// https://www.tosecdev.org/tosec-naming-convention
+// Legend of TOSEC, The (1986)(Devstudio)(JP)(en) - set released in Japan and in English.
+unsigned int Regions::ExtractRegionsFromTosecName(const Path& path)
+{
+  unsigned int result = 0;
+  std::string fileName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+
+  for(;;)
+  {
+    const size_t strBegin = fileName.find_first_of('(') + 1;
+    const size_t strEnd = fileName.find_first_of(')');
+    std::string regions = fileName.substr(strBegin, strEnd - strBegin);
+    regions = Strings::Replace(regions, " ", "");
+
+    for (int start = 0; start < (int) regions.size();)
+    {
+      int pos = regions.find('-', start + 1);
+      // if splitter not found -> only one loop
+      if (pos == (int) std::string::npos)
+        pos = (int) regions.size();
+
+      std::string subRegion = Strings::Replace(regions.substr(start, pos - start), "-", "");
+      start = pos;
+      GameRegions region = FullNameToRegions(subRegion);
+      if (region != GameRegions::Unknown)
+      {
+        result = (result << 8) | (unsigned int) region;
+        continue;
+      }
+      region = DeserializeRegion(subRegion);
+      if (region != GameRegions::Unknown)
+      {
+        result = (result << 8) | (unsigned int) region;
+        continue;
+      }
+    }
+
+    if(result != 0 || strEnd == fileName.size() -1)
+      break;
+    
+    fileName = fileName.substr(strEnd + 1, fileName.size() -1);
+  }
+  return result;
+}
+
+unsigned int Regions::ExtractRegionsFromName(const std::string& string)
+{
+  const size_t strBegin = string.find_first_of('[') + 1;const size_t strEnd   = string.find_first_of(']');
+  std::string regions = string.substr(strBegin , strEnd - strBegin);
+  regions = Strings::Replace(regions, " ", "");
+
+  return Deserialize4Regions(regions);
 }

@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add BSNES core (performance build) (PC and RPi4/400)
 - Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
 - Add Pi400 power button support (Fn + F10 to turn off)
+- Display game regions flag in gamelist
 
 ### Improvements
 

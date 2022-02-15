@@ -160,6 +160,8 @@ class FileData
      * @return This
      */
     FileData& CalculateHash();
+
+    std::string Regions();
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)
