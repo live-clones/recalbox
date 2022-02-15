@@ -38,6 +38,9 @@ as release notes for end user on a Recalbox upgrade.
   - Use F12 as ESC replacement to quit 
 
 ### Fixes
+## Version 8.0.3-Electron
+- Fix kodi sound on Raspberry Pi 3
+- Fix black screen/no signal on Pi4
 
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
