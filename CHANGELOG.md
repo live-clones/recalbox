@@ -5,6 +5,7 @@ See `git log` for the project history.
 All notable changes to this project have been documented in this file since 8.1.
 
 ## [8.1-Electron]
+- Add Netplay for saturn x64 only
 - Add wpaf repository in monorepo
 - Add piboy repository in monorepo
 - Enhance linter performance on ci
