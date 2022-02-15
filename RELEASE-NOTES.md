@@ -51,6 +51,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.0.3-Electron
 - Fix kodi sound on Raspberry Pi 3
+- Fix black screen/no signal on Pi4
 
 ## Version 8.0.2-Electron
 
