@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
   - As for USB devices, games are merged into your game list seamlessly
 - Add scraper progress bar
 - Add display by filename in gamelist option
+- Fix black screen/no signal on Pi3 & Pi4
 
 ### Improvements
 
