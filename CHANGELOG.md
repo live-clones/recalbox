@@ -14,6 +14,9 @@ All notable changes to this project have been documented in this file since 8.1.
 - Add monorepo information in README.md
 - Add recalbox-rgb-dual repository in monorepo
 
+## [8.0.3-Electron]
+- Fix black screen/no signal on rpi4
+
 ## [8.0.2-Electron]
 - Fix 4k resolution issue on 4k tv
 
