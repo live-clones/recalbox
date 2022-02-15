@@ -8,6 +8,10 @@ if test "$1" == "start" ; then
     recallog -s "${INIT_SCRIPT}" -t HARDWARE "Starting hardware detection"
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 1
   fi
+
+  # Force enable DRM connectors
+  ( /usr/bin/kms-manager >/dev/null 2>&1 ) &
+
   # Installation image
   if [ -f /tmp/.install.sh ]; then
     ( /tmp/.install.sh finalize ) &
