@@ -44,6 +44,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add go to game from search results and add search games from gamelist menu
 - Removed shortcut on select button to display favorites only. The option is available in the gamelist menu (start)
 - Removed shortcut on x to launch kodi. The option is available in the system menu (start)
+- Fix black screen/no signal on Pi3 & Pi4
 
 ### Improvements
 
