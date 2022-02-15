@@ -258,7 +258,7 @@ class Regions
         UZ, // Uzbekistan
         VN, // Vietnam
         TW, // Taiwan
-        USA, // USA
+        US, // USA
         ASI, // Asia
         __Count
     };
@@ -314,8 +314,6 @@ class Regions
      */
     static GameRegions ExtractRegionsFromFileName(const Path& path);
 
-    static GameRegions DeserializeCustomRegion(const std::string& region);
-
     /*!
      * @brief Check and clamp the value inside valid range
      * @param region Region to check
@@ -343,5 +341,9 @@ class Regions
 
     static GameRegions GameRegionsFromString(const std::string& gameRegions);
     static const std::string& GameRegionsFromEnum(GameRegions gameRegions);
+
+    static unsigned int StringRegionsFromPath(const Path& path);
+
+    static unsigned int StringRegionsFromName(const std::string& string);
 };
 

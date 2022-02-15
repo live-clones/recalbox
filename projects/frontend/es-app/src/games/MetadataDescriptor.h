@@ -55,7 +55,7 @@ class MetadataDescriptor
     Path*        mVideo;        //!< Video path
     float        mRating;       //!< Rating from 0.0 to 1.0
     GameGenres   mGenreId;      //!< Normalized Genre
-    int          mRegion;       //!< Rom/Game Region
+    unsigned int mRegion;       //!< Rom/Game Region
     int          mPlayers;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int          mReleaseDate;  //!< Release data (epoch)
     int          mPlaycount;    //!< Play counter
@@ -480,7 +480,7 @@ class MetadataDescriptor
     int                PlayCount()       const { return mPlaycount;                        }
     unsigned int       LastPlayedEpoc()  const { return mLastPlayed;                       }
     DateTime           LastPlayed()      const { return DateTime((long long)mLastPlayed);  }
-    int                Region()          const { return mRegion;                           }
+    unsigned int       Region()          const { return mRegion;                           }
     int                RomCrc32()        const { return mRomCrc32;                         }
     bool               Favorite()        const { return mFavorite;                         }
     bool               Hidden()          const { return mHidden;                           }

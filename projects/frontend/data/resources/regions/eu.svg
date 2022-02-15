@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="71px"
+   height="48px"
+   viewBox="0 0 71 48"
+   version="1.1"
+   id="svg24"
+   sodipodi:docname="nz.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata28">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     id="namedview26"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="35.5"
+     inkscape:cy="36.851714"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg24" />
+  <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title2">Europe</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs6" />
+  <g
+     style="fill:none;fill-rule:nonzero;stroke:none;stroke-width:1"
+     transform="translate(0.49000019,-0.20339025)"
+     id="g20">
+    <path
+       d="M 64.17,0.62 H 5.85 C 2.9006207,0.98373371 0.55205746,3.2628612 0.1,6.2 v 35.72 c 0.49388474,3.241996 3.2806015,5.637892 6.56,5.64 h 56.72 c 3.667171,0 6.64,-2.972829 6.64,-6.64 V 7.21 C 70.018564,3.849475 67.506656,1.0198212 64.17,0.62 Z"
+       id="Shape"
+       inkscape:connector-curvature="0"
+       style="fill:#4758A9" />
+  </g>
+  <g
+     id="use18-6"
+     style="fill:#ffcc00"
+     transform="matrix(2.9681186,0,0,2.9681186,35.733632,6.4743755)">
+    <g
+       id="g982">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path978" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use980" />
+    </g>
+    <g
+       id="g988">
+      <g
+         id="use984"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1102" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1104" />
+      </g>
+      <g
+         id="use986"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1108" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1110" />
+      </g>
+    </g>
+    <g
+       id="use990"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1252">
+        <path
+           id="path1248"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1250"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1258">
+        <path
+           id="path1254"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1256"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use20"
+     style="fill:#ffcc00"
+     transform="matrix(2.9681186,0,0,2.9681186,35.733632,42.091791)">
+    <g
+       id="g998">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path994" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use996" />
+    </g>
+    <g
+       id="g1004">
+      <g
+         id="use1000"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1114" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1116" />
+      </g>
+      <g
+         id="use1002"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1120" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1122" />
+      </g>
+    </g>
+    <g
+       id="use1006"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1266">
+        <path
+           id="path1262"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1264"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1272">
+        <path
+           id="path1268"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1270"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use22"
+     style="fill:#ffcc00"
+     transform="matrix(2.9681186,0,0,2.9681186,17.924936,24.283092)">
+    <g
+       id="g1014">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1010" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use1012" />
+    </g>
+    <g
+       id="g1020">
+      <g
+         id="use1016"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1126" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1128" />
+      </g>
+      <g
+         id="use1018"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1132" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1134" />
+      </g>
+    </g>
+    <g
+       id="use1022"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1280">
+        <path
+           id="path1276"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1278"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1286">
+        <path
+           id="path1282"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1284"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use24"
+     style="fill:#ffcc00"
+     transform="matrix(-2.4012585,-1.7446163,1.7446163,-2.4012585,27.047768,8.9947787)">
+    <g
+       id="g1030">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1026" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use1028" />
+    </g>
+    <g
+       id="g1036">
+      <g
+         id="use1032"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1138" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1140" />
+      </g>
+      <g
+         id="use1034"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1144" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1146" />
+      </g>
+    </g>
+    <g
+       id="use1038"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1294">
+        <path
+           id="path1290"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1292"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1300">
+        <path
+           id="path1296"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1298"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use26"
+     style="fill:#ffcc00"
+     transform="matrix(-2.4012585,1.7446163,-1.7446163,-2.4012585,20.44534,15.597208)">
+    <g
+       id="g1046">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1042" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use1044" />
+    </g>
+    <g
+       id="g1052">
+      <g
+         id="use1048"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1150" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1152" />
+      </g>
+      <g
+         id="use1050"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1156" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1158" />
+      </g>
+    </g>
+    <g
+       id="use1054"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1308">
+        <path
+           id="path1304"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1306"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1314">
+        <path
+           id="path1310"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1312"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use28"
+     style="fill:#ffcc00"
+     transform="matrix(0.91719913,2.8228485,-2.8228485,0.91719913,20.448625,33.448634)">
+    <g
+       id="g1062">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1058" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use1060" />
+    </g>
+    <g
+       id="g1068">
+      <g
+         id="use1064"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1162" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1164" />
+      </g>
+      <g
+         id="use1066"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1168" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1170" />
+      </g>
+    </g>
+    <g
+       id="use1070"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1322">
+        <path
+           id="path1318"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1320"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1328">
+        <path
+           id="path1324"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1326"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="use30"
+     style="fill:#ffcc00"
+     transform="matrix(0.91719913,2.8228485,-2.8228485,0.91719913,26.890469,39.422794)">
+    <g
+       id="g1078">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1074" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="use1076" />
+    </g>
+    <g
+       id="g1084">
+      <g
+         id="use1080"
+         transform="rotate(72)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1174" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1176" />
+      </g>
+      <g
+         id="use1082"
+         transform="rotate(144)">
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           id="path1180" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           id="use1182" />
+      </g>
+    </g>
+    <g
+       id="use1086"
+       transform="scale(-1,1)">
+      <g
+         transform="rotate(72)"
+         id="g1336">
+        <path
+           id="path1332"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1334"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="rotate(144)"
+         id="g1342">
+        <path
+           id="path1338"
+           d="M 0,-1 -0.3,0 0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path1340"
+           d="M 0,-1 0.3,0 -0.2,0.1 Z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1014-6"
+     transform="matrix(-2.9681186,0,0,2.9681186,53.863464,23.962964)">
+    <path
+       id="path1010-1"
+       d="M 0,-1 -0.3,0 0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="use1012-8"
+       d="M 0,-1 0.3,0 -0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1020-0"
+     transform="matrix(-2.9681186,0,0,2.9681186,53.863464,23.962964)">
+    <g
+       transform="rotate(72)"
+       id="use1016-1">
+      <path
+         id="path1126-5"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1128-7"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="rotate(144)"
+       id="use1018-8">
+      <path
+         id="path1132-7"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1134-8"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     transform="matrix(2.9681186,0,0,2.9681186,53.863464,23.962964)"
+     id="use1022-3">
+    <g
+       id="g1280-0"
+       transform="rotate(72)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1276-5" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1278-4" />
+    </g>
+    <g
+       id="g1286-6"
+       transform="rotate(144)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1282-5" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1284-6" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1030-2"
+     transform="matrix(2.4012585,-1.7446163,-1.7446163,-2.4012585,44.740631,8.6746504)">
+    <path
+       id="path1026-2"
+       d="M 0,-1 -0.3,0 0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="use1028-3"
+       d="M 0,-1 0.3,0 -0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1036-9"
+     transform="matrix(2.4012585,-1.7446163,-1.7446163,-2.4012585,44.740631,8.6746504)">
+    <g
+       transform="rotate(72)"
+       id="use1032-6">
+      <path
+         id="path1138-8"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1140-1"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="rotate(144)"
+       id="use1034-8">
+      <path
+         id="path1144-9"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1146-9"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     transform="matrix(-2.4012585,1.7446163,-1.7446163,-2.4012585,44.740631,8.6746504)"
+     id="use1038-3">
+    <g
+       id="g1294-3"
+       transform="rotate(72)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1290-0" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1292-7" />
+    </g>
+    <g
+       id="g1300-4"
+       transform="rotate(144)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1296-6" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1298-3" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1046-9"
+     transform="matrix(2.4012585,1.7446163,1.7446163,-2.4012585,51.34306,15.27708)">
+    <path
+       id="path1042-1"
+       d="M 0,-1 -0.3,0 0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="use1044-7"
+       d="M 0,-1 0.3,0 -0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1052-8"
+     transform="matrix(2.4012585,1.7446163,1.7446163,-2.4012585,51.34306,15.27708)">
+    <g
+       transform="rotate(72)"
+       id="use1048-7">
+      <path
+         id="path1150-7"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1152-5"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="rotate(144)"
+       id="use1050-3">
+      <path
+         id="path1156-0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1158-0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     transform="matrix(-2.4012585,-1.7446163,1.7446163,-2.4012585,51.34306,15.27708)"
+     id="use1054-2">
+    <g
+       id="g1308-1"
+       transform="rotate(72)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1304-8" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1306-0" />
+    </g>
+    <g
+       id="g1314-5"
+       transform="rotate(144)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1310-2" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1312-1" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1062-8"
+     transform="matrix(-0.91719913,2.8228485,2.8228485,0.91719913,51.339775,33.128506)">
+    <path
+       id="path1058-6"
+       d="M 0,-1 -0.3,0 0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="use1060-1"
+       d="M 0,-1 0.3,0 -0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1068-2"
+     transform="matrix(-0.91719913,2.8228485,2.8228485,0.91719913,51.339775,33.128506)">
+    <g
+       transform="rotate(72)"
+       id="use1064-7">
+      <path
+         id="path1162-3"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1164-6"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="rotate(144)"
+       id="use1066-1">
+      <path
+         id="path1168-5"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1170-3"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     transform="matrix(0.91719913,-2.8228485,2.8228485,0.91719913,51.339775,33.128506)"
+     id="use1070-4">
+    <g
+       id="g1322-1"
+       transform="rotate(72)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1318-5" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1320-2" />
+    </g>
+    <g
+       id="g1328-2"
+       transform="rotate(144)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1324-5" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1326-7" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1078-4"
+     transform="matrix(-0.91719913,2.8228485,2.8228485,0.91719913,44.897931,39.102666)">
+    <path
+       id="path1074-8"
+       d="M 0,-1 -0.3,0 0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+    <path
+       id="use1076-4"
+       d="M 0,-1 0.3,0 -0.2,0.1 Z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="fill:#ffcc00"
+     id="g1084-9"
+     transform="matrix(-0.91719913,2.8228485,2.8228485,0.91719913,44.897931,39.102666)">
+    <g
+       transform="rotate(72)"
+       id="use1080-9">
+      <path
+         id="path1174-6"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1176-9"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="rotate(144)"
+       id="use1082-4">
+      <path
+         id="path1180-8"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+      <path
+         id="use1182-4"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <g
+     style="fill:#ffcc00"
+     transform="matrix(0.91719913,-2.8228485,2.8228485,0.91719913,44.897931,39.102666)"
+     id="use1086-9">
+    <g
+       id="g1336-8"
+       transform="rotate(72)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1332-3" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1334-6" />
+    </g>
+    <g
+       id="g1342-0"
+       transform="rotate(144)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 -0.3,0 0.2,0.1 Z"
+         id="path1338-7" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,-1 0.3,0 -0.2,0.1 Z"
+         id="path1340-0" />
+    </g>
+  </g>
+</svg>
