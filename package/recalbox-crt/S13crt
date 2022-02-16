@@ -21,11 +21,17 @@ declare -A CONFIG_CONTENT=( \
     ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty" \
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19" \
     )
+RGBDUAL_FORCE_HEADPHONE_CONTENT="#device=recalboxrgbdual\ndtoverlay=headphones"
 
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
 CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
 CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
 TIMINGS_FILE="/boot/crt/timings.txt"
+SWITCH_31KHZ_FILE="/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value"
+
+RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
+RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
+RRGBDUAL_31KHZ_LASTBOOT="/boot/crt/.stamprrgbdual31khz"
 
 function configure_es {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
@@ -102,22 +108,76 @@ function rmTimings {
 }
 
 if test "$1" == "start" ; then
-    RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
-    RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
 
     # To remove after 8.0.1
     migrate
     migrateOldHorizontalOffset
     rmTimings
 
-    # RRGBD installation
-    if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}" && [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
-        recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
-        configure_es
-        mount -o remount,rw /boot
-        touch "${RRGBDUAL_LASTBOOT}"
-        mount -o remount,ro /boot
+    # RRGBD is present
+    if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}"; then
+        # Installation
+        if [ ! -f "${RRGBDUAL_LASTBOOT}" ]; then
+            recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
+            configure_es
+            mount -o remount,rw /boot
+            touch "${RRGBDUAL_LASTBOOT}"
+            mount -o remount,ro /boot
+            exit 0
+        fi
+
+        # RRGBD 31khz switch means we must force jack audio
+        # Should be done at least one boot after the first boot (installation),
+        # so the RRGBDUAL_LASTBOOT must be present
+        # and RRGBDUAL_31KHZ_LASTBOOT should not be present
+        if [ -f "${RRGBDUAL_LASTBOOT}" ] && \
+            [ ! -f "${RRGBDUAL_31KHZ_LASTBOOT}" ] && \
+            [ "$(cat ${SWITCH_31KHZ_FILE})" == "0" ]; then
+            recallog -s "S13crt" -t "CRT" "Setting Recalbox RGB Dual jack sound as 31kHz dipswtich is ON."
+            mount -o remount,rw /boot
+            touch "${RRGBDUAL_31KHZ_LASTBOOT}"
+            if ! grep -q "audio.forcejack" "${CRT_OPTIONS_FILE}";then
+                echo -e "\naudio.forcejack = 1" >> "${CRT_OPTIONS_FILE}"
+            fi
+            mount -o remount,ro /boot
+        fi
+
+        # Jack have been set (from 31khz above or from ES)
+        if grep -q "audio.forcejack = 1" "${CRT_OPTIONS_FILE}" && ! grep -q "dtoverlay=headphones" "${CRT_DAC_FILE}"; then
+            mount -o remount,rw /boot
+            recallog -s "S13crt" -t "CRT" "Forcing Recalbox RGB Dual jack sound."
+            echo -e "${RGBDUAL_FORCE_HEADPHONE_CONTENT}" > ${CRT_DAC_FILE}
+            mount -o remount,ro /boot
+            reboot
+            exit 0
+        fi
+        # Jack have been unset
+        if ! grep -q "audio.forcejack = 1" "${CRT_OPTIONS_FILE}" && grep -q "dtoverlay=headphones" "${CRT_DAC_FILE}"; then
+            mount -o remount,rw /boot
+            recallog -s "S13crt" -t "CRT" "Unforcing Recalbox RGB Dual jack sound."
+            rm "${CRT_DAC_FILE}"
+            mount -o remount,ro /boot
+            reboot
+            exit 0
+        fi
+
+        # RRGBD specific 31khz uninstallation
+        # Only if Recalbox rgb dual is present, and the 31khz has been modified, 
+        # and the switch is back to state UP
+        if [ -f "${RRGBDUAL_LASTBOOT}" ] && \
+            [ -f "${RRGBDUAL_31KHZ_LASTBOOT}" ] && \
+            [ "$(cat $SWITCH_31KHZ_FILE)" == "1" ]; then
+            recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual 31kHz automatic uninstallation."
+            mount -o remount,rw /boot
+            rm "${RRGBDUAL_31KHZ_LASTBOOT}"
+            sed -i "/audio\.forcejack = 1/d" "${CRT_OPTIONS_FILE}"
+            rm ${CRT_DAC_FILE}
+            mount -o remount,ro /boot
+            reboot
+            exit 0
+        fi
         exit 0
+    # End RRGBD
     fi
 
     # RRGBD uninstallation
@@ -126,10 +186,10 @@ if test "$1" == "start" ; then
         unconfigure
         mount -o remount,rw /boot
         rm "${RRGBDUAL_LASTBOOT}"
+        rm "${CRT_DAC_FILE}"
         mount -o remount,ro /boot
         exit 0
     fi
-
     # Other dacs
     CONFIG_LINE=$(grep -m 1 -e "^adapter\.type = .*" "${CRT_OPTIONS_FILE}")
     DAC=${CONFIG_LINE##*"= "}
