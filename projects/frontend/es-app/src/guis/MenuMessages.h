@@ -152,6 +152,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
     #define MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG "Select the game resolution when playing on a 31kHz display. The 240p will generate a special mode for 31kHz mode that will produce a 240p image. May not be compatible with all 31kHz screens."
     #define MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG "Configure emulators to approach a zero lag experience."
+    #define MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."
