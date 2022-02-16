@@ -28,8 +28,10 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, -5)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalOffset, int, Int, sSystemCRTVerticalOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTViewportWidth, int, Int, sSystemCRTViewportWidth, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
 
-  private:
+
+private:
     static constexpr const char* sSystemCRT                       = "adapter.type";
     static constexpr const char* sSystemCRTResolution             = "options.es.resolution";
     static constexpr const char* sSystemCRTGameRegionSelect       = "options.regionselect";
@@ -38,6 +40,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTHorizontalOffset       = "mode.offset.horizontal";
     static constexpr const char* sSystemCRTVerticalOffset         = "mode.offset.vertical";
     static constexpr const char* sSystemCRTViewportWidth          = "viewport.width";
+    static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
+
 
     static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
     static const std::string& CrtAdapterFromEnum(CrtAdapterType adapter);
