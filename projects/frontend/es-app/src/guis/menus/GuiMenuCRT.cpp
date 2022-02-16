@@ -17,10 +17,11 @@
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
-  // If we run on Recalbox RGB Dual, we ignore the configuration
-  mOriginalDac = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
+  bool isRGBDual =  Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
+  mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
   // Selected Dac
-  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(mOriginalDac == CrtAdapterType::RGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
+  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(isRGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
   mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
@@ -44,6 +45,12 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
 
+  // Force Jack
+  mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
+  mForceJack = mOriginalForceJack;
+  if(isRGBDual)
+    AddSwitch(_("FORCE SOUND ON JACK"), mOriginalForceJack, (int)Components::ForceJack, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG));
+
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
 
@@ -53,7 +60,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
-  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected())
+  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected() || mOriginalForceJack != mForceJack)
     RequestReboot();
 }
 
@@ -179,6 +186,11 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();
   if ((Components)id == Components::GameResolution)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
+  if ((Components)id == Components::ForceJack)
+  {
+    mForceJack = status;
+    CrtConf::Instance().SetSystemCRTForceJack(status).Save();
+  }
   if ((Components)id == Components::ZeroLag)
     RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
 }
