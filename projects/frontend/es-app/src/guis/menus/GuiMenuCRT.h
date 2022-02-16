@@ -38,6 +38,7 @@ class GuiMenuCRT : public GuiMenuBase
       GameResolution,
       GamesResolutionOn31kHz,
       ZeroLag,
+      ForceJack,
       Adjustment,
     };
 
@@ -49,6 +50,9 @@ class GuiMenuCRT : public GuiMenuBase
     std::string mOriginalEsResolution;
     //! 31kHz games resolution
     std::shared_ptr<OptionListComponent<std::string>> m31kHzResolution;
+    //! Force jack audio
+    bool mForceJack;
+    bool mOriginalForceJack;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
