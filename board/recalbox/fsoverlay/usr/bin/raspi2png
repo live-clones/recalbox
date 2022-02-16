@@ -5,7 +5,7 @@ source /recalbox/scripts/recalbox-utils.sh
 ARCH=$(getArchName)
 
 case "$ARCH" in
-  rpi1|rpi2|rpizero2legacy)
+  rpi1|rpizero2legacy)
       /usr/bin/raspi2png.real "$@"
     ;;
   x86|x86_64)
