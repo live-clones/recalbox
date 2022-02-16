@@ -100,6 +100,37 @@ tests emulationstation:
     reports:
       junit: ./**/report.xml
 
+tests buildroot patches:
+  stage: lint
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  tags:
+    - build
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - package/*/*.patch
+      - board/recalbox/patches/*/*.patch
+  before_script:
+    - apk update && apk add git
+  script:
+    - export ARCH=rpi4
+    - git remote show target || git remote add target "${CI_MERGE_REQUEST_PROJECT_URL}"
+    - git fetch target "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    - docker build -t "recalbox-${ARCH}" .
+    - WORKDIR="$(pwd)" OUTPUTDIR="$(pwd)/output"
+    - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" "recalbox-${ARCH}" make recalbox-${ARCH}_defconfig 2>&1
+    - |
+      for PKG in $(git diff --name-only "target/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" | grep -E '^(board/recalbox/patches|package/)' | sed -E 's#board/recalbox/patches/([^/]+)/.*#\1#;s#package/([^/]+)/.*#\1#' | sort | uniq); do
+        echo "Testing patches for $PKG"
+        docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" \
+                                          -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
+                                          -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
+                                          -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
+                                          "recalbox-${ARCH}" make $PKG-patch 2>&1 ||exit 1
+      done
+
 # Build
 
 .build_template: &build_definition
