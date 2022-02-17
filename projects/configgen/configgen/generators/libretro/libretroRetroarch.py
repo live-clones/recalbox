@@ -332,3 +332,6 @@ class LibretroRetroarch:
             # Netplay passwords
             settings.setString("netplay_password", '"' + self.system.NetplayPlayerPassword + '"') \
                     .setString("netplay_spectate_password", '"' + self.system.NetplayViewerPassword + '"')
+
+        # Experimental features
+        settings.setBool("recalbox_experimental", self.system.RecalboxExperimental)
