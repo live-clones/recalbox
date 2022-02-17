@@ -1,8 +1,8 @@
 diff --git a/src/configuration.c b/src/configuration.c
-index 3750be06..07561c74 100644
+index ab3ee57c..4e6f44fc 100644
 --- a/src/configuration.c
 +++ b/src/configuration.c
-@@ -97,6 +97,7 @@ static const struct Config_Tag configs_Screen[] =
+@@ -99,6 +99,7 @@ static const struct Config_Tag configs_Screen[] =
  	{ "nZoomFactor", Float_Tag, &ConfigureParams.Screen.nZoomFactor },
  	{ "bUseSdlRenderer", Bool_Tag, &ConfigureParams.Screen.bUseSdlRenderer },
  	{ "bUseVsync", Bool_Tag, &ConfigureParams.Screen.bUseVsync },
@@ -10,7 +10,7 @@ index 3750be06..07561c74 100644
  	{ NULL , Error_Tag, NULL }
  };
  
-@@ -764,6 +765,7 @@ void Configuration_SetDefault(void)
+@@ -772,6 +773,7 @@ void Configuration_SetDefault(void)
  	ConfigureParams.Screen.bShowStatusbar = true;
  	ConfigureParams.Screen.bShowDriveLed = true;
  	ConfigureParams.Screen.bCrop = false;
@@ -19,10 +19,10 @@ index 3750be06..07561c74 100644
  	 * on all resolutions (like real Atari monitor would do) by
  	 * allowing ST low resolution to be doubled (see screen.c)
 diff --git a/src/includes/configuration.h b/src/includes/configuration.h
-index e8395065..81cb39ef 100644
+index 4968bcaa..0cbbd21d 100644
 --- a/src/includes/configuration.h
 +++ b/src/includes/configuration.h
-@@ -304,6 +304,7 @@ typedef struct
+@@ -306,6 +306,7 @@ typedef struct
    bool bResizable;
    bool bUseVsync;
    bool bUseSdlRenderer;
@@ -31,10 +31,10 @@ index e8395065..81cb39ef 100644
    int nSpec512Threshold;
    int nForceBpp;
 diff --git a/src/screen.c b/src/screen.c
-index bdc69417..f580190f 100644
+index e9d54266..b9455e1b 100644
 --- a/src/screen.c
 +++ b/src/screen.c
-@@ -347,10 +347,12 @@ void Screen_SetTextureScale(int width, int height, int win_width, int win_height
+@@ -342,10 +342,12 @@ void Screen_SetTextureScale(int width, int height, int win_width, int win_height
  		 */
  		scale = (scale_w + scale_h) / 2.0;
  
