@@ -10,11 +10,12 @@ fi
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
+echo '{"extends": ["@commitlint/config-conventional"], "rules": { "body-max-line-length": [2, "always", 1000] }}' > .commitlintrc.json
+
 if [ x${CI_COMMIT_REF_NAME} = xmaster -o x${CURRENT_BRANCH} = xmaster ]; then
   commitlint --from=HEAD~5
 else
   if [ -n "${GITLAB_CI}" ]; then
-    sed -i "s/'body-max-line-length': \[2, 'always', 100\],/'body-max-line-length': [2, 'always', 1000],/" '/usr/local/lib/node_modules/@commitlint/config-conventional/index.js'
     git fetch -q origin master
     commitlint --from=origin/master
   else
