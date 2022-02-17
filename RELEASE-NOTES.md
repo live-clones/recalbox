@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
+- Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 
 ### Fixes
 
