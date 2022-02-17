@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro mame 0.239
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 - Bump libretro fuse to v1.6.0 (ZX Spectrum core)
+- Bump Hatari: updated cpu emulation and lots of small fixes
 
 ### Fixes
 
