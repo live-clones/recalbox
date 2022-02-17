@@ -6,30 +6,29 @@ set -euo pipefail
 ## TODO: Add pipeline state
 
 if [ -z "${1:-}" ]; then
-    echo "Usage : bash beta_merges.sh GITLAB_TOKEN TAG [MERGE] [COMMENT_ON_MR] [PUSH] [DEBUG]
+    echo "Usage : bash beta_merges.sh GITLAB_TOKEN TAG [MERGE] [PUSH]
     Show info: bash beta_merges.sh XXXXX '7.3-beta6'
     Show infos and merge : bash beta_merges.sh XXXXX '7.3-beta6' 1
-    Show infos and merge and comment and push : bash beta_merges.sh XXXXX '7.3-beta6' 1 1 1
-    Show infos and merge and comment and push and debug : bash beta_merges.sh XXXXX '7.3-beta6' 1 1 1 1" && exit 1
+    Show infos and merge and push : bash beta_merges.sh XXXXX '7.3-beta6' 1 1" && exit 1
 fi
 
 TOKEN="${1}"
 TAG="${2:-}"
 MERGE="${3:-0}"
-COMMENT="${4:-0}"
-PUSH="${5:-0}"
-DEBUG="${6:-0}"
+PUSH="${4:-0}"
 MR_SKIP=""
-
-if [[ "${DEBUG}" == "1" ]];then set -x;fi
 
 CURDIR=$(pwd)
 
 rm -f */.stamp_reseted
 rm -f .tag_message.md
+rm -f .mr_comments
 
 function tagmessage() {
     echo -e "${1}" >> "${CURDIR}/.tag_message.md"
+}
+function mrcomment() {
+    echo -e "${1}" >> "${CURDIR}/.mr_comments"
 }
 
 tagmessage "# Beta ${TAG}\n
@@ -72,6 +71,8 @@ function get_add_fetch_remote() {
         else
             git reset --hard recalbox/main 2>&1 | sed "s/^/${tabs}/"
         fi
+        echo "RELEASE-NOTES.md merge=union" > .gitattributes
+        git add .gitattributes && git commit -m "chore(beta): add union merge for RELEASE-NOTES.md"
         echo "1" > "${CURDIR}/${project}/.stamp_reseted"
     fi
 
@@ -92,7 +93,6 @@ if [ $? != 0 ]; then
     echo "Unable to fetch merge requests, exiting"
     exit 1
 fi
-[ $DEBUG -eq 1 ] && echo "${MERGE_REQUESTS}"
 
 readarray mrArray < <(echo "${MERGE_REQUESTS}")
 
@@ -121,9 +121,6 @@ for mr in "${mrArray[@]}";do
     mr_source_project_id=$( echo "${mr}" | jq -r ".source_project_id" )
     echo -e "\t\e[34mMerge request\e[0m ${mr_ref} assigneed to ${mr_assignee}\n\t\tTitle: ${mr_title}\n\t\tLink: ${mr_link}"
     tagmessage "  - **Merge request**: ${mr_title} [(${mr_ref})](${mr_link}) ${mr_assignee:+"assigneed to @${mr_assignee}"}"
-
-    [ $DEBUG -eq 1 ] && (echo "${mr}" | jq )
-
 
     group=${mr_ref%/*}
     project_and_mr=${mr_ref#*/}
@@ -160,44 +157,46 @@ for mr in "${mrArray[@]}";do
         git merge temp 2>&1 | sed "s/^/\t\t\t/"
     fi
 
-    if [[ "${COMMENT}" == 1 ]];then
-        echo -e "Merge Request Comment: ${MR_COMMENT}" | sed "s/^/\t/"
-        COMMENT_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-            "https://gitlab.com/api/v4/projects/2396494/merge_requests/${mr_iid}/notes" \
-            --data-urlencod "body=${MR_COMMENT}" | jq -c '.[]')
-    fi
+    echo -e "Merge Request Comment: ${MR_COMMENT}" | sed "s/^/\t/"
+    mrcomment "${mr_iid}|${MR_COMMENT}"
 done
 
 # Change subprojects versions
 
-if [[ "${MERGE}" == 1 ]];then
-
-    # Commit subprojects version
-    cd "${CURDIR}/recalbox"
-
+if [[ "${MERGE}" == 1 ]] && [[ "${PUSH}" == "1" ]];then
     # Push all beta branches
-    if [[ "${PUSH}" == "1" ]];then
-        echo -e "\n\n\e[32mPushing your beta branches\e[0m"
-        cd "${CURDIR}/recalbox"
-        git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
+    echo -e "\n\n\e[32mPushing your beta branches\e[0m"
+    cd "${CURDIR}/recalbox"
+    git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
 
-        tagmessage "\n### TESTING.md\n"
-        git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
-        
-        cd "${CURDIR}"
-        if [[ "${TAG}" != "" ]];then
-            # Create tag
-            echo -e "\n\n\e[32mCreating TAG\e[0m ${TAG}"
-            TAG_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-            "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=beta" | jq -c '.[]')
+    #tagmessage "\n### TESTING.md\n"
+    #git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
+    
+    cd "${CURDIR}"
+    if [[ "${TAG}" != "" ]];then
+        # Create tag
+        echo -e "\n\n\e[32mCreating TAG\e[0m ${TAG}"
+        TAG_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
+        "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=beta" | jq -c '.[]')
 
-            echo -e "\n\n\e[32mCreating RELEASE\e[0m ${TAG}"
+        echo -e "\n\n\e[32mCreating RELEASE\e[0m ${TAG}"
 
-            RELEASE_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-            --data-urlencode "description=$(cat "${CURDIR}/.tag_message.md")" \
-            -d "name=${TAG}" \
-            -d "tag_name=${TAG}" \
-            "https://gitlab.com/api/v4/projects/2396494/releases/" | jq -c '.[]')
-        fi
+        RELEASE_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
+        --data-urlencode "description=$(cat "${CURDIR}/.tag_message.md")" \
+        -d "name=${TAG}" \
+        -d "tag_name=${TAG}" \
+        "https://gitlab.com/api/v4/projects/2396494/releases/" | jq -c '.[]')
     fi
 fi
+
+echo -e "\n\n\e[32mCommit merge request comments ?\e[0m\nEnter to continue, CTRL+C to cancel."
+read a
+
+while IFS= read -r line; do
+    ID="${line%|*}"
+    MESSAGE="${line#*|}"
+    echo "Commenting MR !${ID} : ${MESSAGE}"
+    COMMENT_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
+    "https://gitlab.com/api/v4/projects/2396494/merge_requests/${ID}/notes" \
+    --data-urlencod "body=${MESSAGE}" | jq -c '.[]')
+done < "${CURDIR}/.mr_comments"
