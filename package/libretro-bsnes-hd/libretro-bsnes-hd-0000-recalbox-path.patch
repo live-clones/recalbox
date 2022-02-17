@@ -1,0 +1,11 @@
+--- a/bsnes/target-libretro/libretro.cpp	2022-02-14 07:08:08.000000000 +0100
++++ b/bsnes/target-libretro/libretro.cpp	2022-02-14 07:09:16.000000000 +0100
+@@ -873,7 +873,7 @@
+ 	{
+ 		const char *system_dir;
+ 		environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_dir);
+-		string sgb_full_path = string(system_dir, "/", sgb_bios).transform("\\", "/");
++		string sgb_full_path = string(system_dir, "/sgb/", sgb_bios).transform("\\", "/");
+ 		if (!file::exists(sgb_full_path)) {
+ 			return false;
+ 		}

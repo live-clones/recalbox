@@ -211,6 +211,10 @@ class LibretroCores:
             currentColumns = 0
         coreSettings.setString("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
 
+    @staticmethod
+    def configureBsnesHd(coreSettings: keyValueSettings):
+        coreSettings.setString("bsnes_mode7_wsMode", '"all"')
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         settings = self.settings
@@ -226,6 +230,7 @@ class LibretroCores:
             "swanstation" : LibretroCores.configureSwanstation,
             "genesisplusgxwide": LibretroCores.configureGenesisPlusGxWide,
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
+            "bsneshd": LibretroCores.configureBsnesHd,
         }
 
         # Get handler and execute

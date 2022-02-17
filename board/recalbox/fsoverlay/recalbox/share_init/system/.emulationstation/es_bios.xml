@@ -132,7 +132,7 @@
     <bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />
   </system>
   <system fullname="Satellaview" platform="satellaview">
-    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s" />
+    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s,bsnes,bsnes-hd" />
   </system>
   <system fullname="Sufami Turbo" platform="sufami">
     <bios path="STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="true" core="snes9x" />
@@ -455,6 +455,8 @@
   <system fullname="Nintendo Super Gameboy" platform="gb,gbc">
     <bios path="sgb_bios.bin"  md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
     <bios path="sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
+    <bios path="sgb/SGB1.sfc" md5="b15ddb15721c657d82c5bab6db982ee9" mandatory="true" core="bsnes" />
+    <bios path="sgb/SGB2.sfc" md5="8ecd73eb4edf7ed7e81aef1be80031d5" mandatory="true" core="bsnes" />
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
     <bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />

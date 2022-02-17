@@ -15,6 +15,8 @@ as release notes for end user on a Recalbox upgrade.
 - New option in UI menu : hide PORTS collection
 - Add recalbox.conf option to force resolution of splash videos on x64
 - New Random game picker in demo mode (less cycling)
+- Add BSNES core (performance build) (PC and RPi4/400)
+- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
 
 ### Improvements
 

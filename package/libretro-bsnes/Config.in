@@ -1,0 +1,13 @@
+config BR2_PACKAGE_LIBRETRO_BSNES
+	bool "libretro-bsnes"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_PACKAGE_RECALBOX_ROMFS2
+	help
+	  Super Nintendo (SNES) emulator focused on performance,
+	  features, and ease of use.
+
+	  http://www.libretro.com
+
+comment "LIBRETRO_BSNES needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
