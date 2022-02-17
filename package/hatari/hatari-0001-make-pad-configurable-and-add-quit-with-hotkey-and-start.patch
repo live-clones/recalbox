@@ -1,8 +1,8 @@
 diff --git a/src/configuration.c b/src/configuration.c
-index 3b91b19a..3750be06 100644
+index cf3f23a1..ab3ee57c 100644
 --- a/src/configuration.c
 +++ b/src/configuration.c
-@@ -107,6 +107,15 @@ static const struct Config_Tag configs_Joystick0[] =
+@@ -109,6 +109,15 @@ static const struct Config_Tag configs_Joystick0[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[0].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[0].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[0].nJoyId },
@@ -18,7 +18,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[0].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[0].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[0].nKeyCodeLeft },
-@@ -122,6 +131,15 @@ static const struct Config_Tag configs_Joystick1[] =
+@@ -124,6 +133,15 @@ static const struct Config_Tag configs_Joystick1[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[1].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[1].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[1].nJoyId },
@@ -34,7 +34,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[1].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[1].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[1].nKeyCodeLeft },
-@@ -137,6 +155,15 @@ static const struct Config_Tag configs_Joystick2[] =
+@@ -139,6 +157,15 @@ static const struct Config_Tag configs_Joystick2[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[2].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[2].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[2].nJoyId },
@@ -50,7 +50,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[2].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[2].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[2].nKeyCodeLeft },
-@@ -152,6 +179,15 @@ static const struct Config_Tag configs_Joystick3[] =
+@@ -154,6 +181,15 @@ static const struct Config_Tag configs_Joystick3[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[3].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[3].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[3].nJoyId },
@@ -66,7 +66,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[3].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[3].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[3].nKeyCodeLeft },
-@@ -167,6 +203,15 @@ static const struct Config_Tag configs_Joystick4[] =
+@@ -169,6 +205,15 @@ static const struct Config_Tag configs_Joystick4[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[4].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[4].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[4].nJoyId },
@@ -82,7 +82,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[4].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[4].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[4].nKeyCodeLeft },
-@@ -182,6 +227,15 @@ static const struct Config_Tag configs_Joystick5[] =
+@@ -184,6 +229,15 @@ static const struct Config_Tag configs_Joystick5[] =
  	{ "bEnableAutoFire", Bool_Tag, &ConfigureParams.Joysticks.Joy[5].bEnableAutoFire },
  	{ "bEnableJumpOnFire2", Bool_Tag, &ConfigureParams.Joysticks.Joy[5].bEnableJumpOnFire2 },
  	{ "nJoyId", Int_Tag, &ConfigureParams.Joysticks.Joy[5].nJoyId },
@@ -98,7 +98,7 @@ index 3b91b19a..3750be06 100644
  	{ "kUp", Key_Tag, &ConfigureParams.Joysticks.Joy[5].nKeyCodeUp },
  	{ "kDown", Key_Tag, &ConfigureParams.Joysticks.Joy[5].nKeyCodeDown },
  	{ "kLeft", Key_Tag, &ConfigureParams.Joysticks.Joy[5].nKeyCodeLeft },
-@@ -608,6 +662,15 @@ void Configuration_SetDefault(void)
+@@ -614,6 +668,15 @@ void Configuration_SetDefault(void)
  		ConfigureParams.Joysticks.Joy[i].nKeyCodeLeft = SDLK_LEFT;
  		ConfigureParams.Joysticks.Joy[i].nKeyCodeRight = SDLK_RIGHT;
  		ConfigureParams.Joysticks.Joy[i].nKeyCodeFire = SDLK_RCTRL;
@@ -115,10 +115,10 @@ index 3b91b19a..3750be06 100644
  	if (SDL_NumJoysticks() > 0)
  	{
 diff --git a/src/includes/configuration.h b/src/includes/configuration.h
-index a400e2c8..e8395065 100644
+index 8d220655..4968bcaa 100644
 --- a/src/includes/configuration.h
 +++ b/src/includes/configuration.h
-@@ -167,6 +167,9 @@ typedef struct
+@@ -169,6 +169,9 @@ typedef struct
    bool bEnableJumpOnFire2;
    int nJoyId;
    int nKeyCodeUp, nKeyCodeDown, nKeyCodeLeft, nKeyCodeRight, nKeyCodeFire;

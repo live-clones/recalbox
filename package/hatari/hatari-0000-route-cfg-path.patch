@@ -1,8 +1,8 @@
 diff --git a/src/configuration.c b/src/configuration.c
-index 15daca88..3b91b19a 100644
+index 451debca..cf3f23a1 100644
 --- a/src/configuration.c
 +++ b/src/configuration.c
-@@ -775,12 +775,13 @@ void Configuration_SetDefault(void)
+@@ -783,12 +783,13 @@ void Configuration_SetDefault(void)
  	                 sizeof(ConfigureParams.Video.AviRecordFile),
  	                 psWorkingDir, "hatari", "avi");
  
