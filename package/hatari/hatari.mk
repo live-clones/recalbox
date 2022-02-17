@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-HATARI_VERSION = de7a0e8ded3070fadbb359b1b9248b935f393db3
+HATARI_VERSION = e2c9e277ebf33989857083f43d5f8b3c2f20d03a
 HATARI_SITE = https://github.com/hatari/hatari.git
 HATARI_SITE_METHOD = git
 HATARI_LICENSE = GPL2.0
