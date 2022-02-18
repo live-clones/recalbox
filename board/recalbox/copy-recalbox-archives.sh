@@ -110,7 +110,7 @@ case "${RECALBOX_TARGET}" in
 	cp -r "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/rpi-firmware/" || exit 1
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
   [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
