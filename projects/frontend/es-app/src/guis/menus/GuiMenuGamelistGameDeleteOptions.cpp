@@ -46,7 +46,7 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
         AddText(_("SAVE FILES"), fileCount);
     }
 
-    AddSubMenu(_("ADVANCE DELETE"), mTheme.menuIconSet.advanced, (int)Components::Advanced, "");
+    AddSubMenu(_("ADVANCED DELETE"), mTheme.menuIconSet.advanced, (int)Components::Advanced, "");
 
     mMenu.addButton(_("OK"), "", [this]
     {
@@ -58,12 +58,14 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
 
     mMenu.addButton(_("CANCEL"), "", [this] { Close(); });
     mMenu.setCursorToButtons();
+    mMenu.SetDefaultButton(1);
   }
 }
 
 void GuiMenuGamelistGameDeleteOptions::DeleteAllFiles()
 {
-  GameFilesUtils::DeleteAllFiles(mGame, mView);
+  GameFilesUtils::DeleteAllFiles(mGame);
+  mView.removeEntry(&mGame);
   mWindow.deleteAllGui();
 }
 

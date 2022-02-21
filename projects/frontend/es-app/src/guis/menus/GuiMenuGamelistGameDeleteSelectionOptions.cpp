@@ -8,7 +8,7 @@
 #include "utils/locale/LocaleHelper.h"
 
 GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOptions(WindowManager& window, IGameListView& view, FileData& game)
-  : GuiMenuBase(window, _("ADVANCED DELETE"), nullptr)
+  : GuiMenuBase(window, _("SELECT FILES TO DELETE"), nullptr)
   , mView(view)
   , mGame(game)
 {
@@ -35,6 +35,7 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
 
     mMenu.addButton(_("CANCEL"), "", [this] { Close(); });
     mMenu.setCursorToButtons();
+    mMenu.SetDefaultButton(1);
   }
 }
 
@@ -117,8 +118,8 @@ void GuiMenuGamelistGameDeleteSelectionOptions::DeleteSelectedFiles()
     mediaList.insert(path.ToString());
   }
 
-  GameFilesUtils::DeleteSelectedFiles(mGame, list, mediaList, mView);
-
+  GameFilesUtils::DeleteSelectedFiles(mGame, list, mediaList);
+  mView.removeEntry(&mGame);
   mWindow.deleteAllGui();
 }
 

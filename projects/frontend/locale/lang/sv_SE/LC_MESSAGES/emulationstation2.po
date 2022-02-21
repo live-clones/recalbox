@@ -2919,23 +2919,7 @@ msgid "SAVE FILES"
 msgstr ""
 
 #
-msgid "DELETE ALL GAME FILES"
-msgstr ""
-
-#
-msgid "DELETE ALL GAME FILES, CONFIRM?"
-msgstr ""
-
-#
 msgid "SELECT FILES TO DELETE"
-msgstr ""
-
-#
-msgid "DELETE SELECTION"
-msgstr ""
-
-#
-msgid "DELETE SELECTED FILES"
 msgstr ""
 
 #
@@ -2981,6 +2965,30 @@ msgid ""
 "Release Date: order by release date asc\n"
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
+msgstr ""
+
+#
+msgid "DELETE ALL FILES"
+msgstr ""
+
+#
+msgid "ADVANCED DELETE"
+msgstr ""
+
+#
+msgid "DELETE ALL FILES, CONFIRM?"
+msgstr ""
+
+#
+msgid "DELETE SCREENSHOT, CONFIRM?"
+msgstr ""
+
+#
+msgid "DELETE SCREENSHOT"
+msgstr ""
+
+#
+msgid "This option display a menu which allows to DELETE game data."
 msgstr ""
 
 #~ msgid "SECURITY"
