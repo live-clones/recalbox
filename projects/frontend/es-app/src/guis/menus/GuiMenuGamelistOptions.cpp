@@ -28,16 +28,20 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
     mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
     RefreshGameMenuContext();
 
-    if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() && !mSystem.IsScreenshots())
+    if(!mGamelist.getCursor()->IsEmpty())
     {
-      std::string text = _("DELETE GAME %s");
-      Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
-      mDeleteGame = AddSubMenu(text, (int) Components::Delete);
-    }
+      if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
+          !mSystem.IsScreenshots())
+      {
+        std::string text = _("DELETE GAME %s");
+        Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
+        AddSubMenu(text, (int) Components::Delete, _(MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG));
+      }
 
-    if (mSystem.IsScreenshots())
-    {
-        AddSubMenu(_("DELETE SCREENSHOT"), (int)Components::DeleteScreeshots);
+      if (mSystem.IsScreenshots())
+      {
+        AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
+      }
     }
 
   }
@@ -246,9 +250,9 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         mWindow.pushGui(new GuiMenuGamelistGameDeleteOptions(mWindow, mGamelist, *mGamelist.getCursor()));
       break;
     }
-    case Components::DeleteScreeshots:
+    case Components::DeleteScreeshot:
     {
-        mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOTS, CONFIRM?"), _("YES"), [this]
+        mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
         {
             mGamelist.getCursor()->FilePath().Delete();
             FolderData* folder = mGamelist.getCursor()->Parent();
@@ -288,7 +292,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::MainMenu:
     case Components::UpdateGamelist:
     case Components::Delete:
-    case Components::DeleteScreeshots:
+    case Components::DeleteScreeshot:
     case Components::Quit: break;
   }
 

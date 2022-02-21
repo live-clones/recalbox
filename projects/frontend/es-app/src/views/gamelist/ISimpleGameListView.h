@@ -31,6 +31,7 @@ public:
 	virtual int getCursorIndexMax() = 0;
 	void setCursor(FileData*) override = 0;
 	virtual void setCursorIndex(int) = 0;
+  virtual void removeEntry(FileData* fileData) = 0;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 

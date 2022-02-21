@@ -23,6 +23,7 @@ public:
 	int getCursorIndexMax() override {	return mList.size() - 1; }
 	void setCursor(FileData* file) override;
 	void setCursorIndex(int index) override;
+  virtual void removeEntry(FileData* fileData) override;
 
 	const char* getName() const override { return "basic"; }
 
