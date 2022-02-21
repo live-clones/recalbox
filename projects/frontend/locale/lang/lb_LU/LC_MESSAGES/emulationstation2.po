@@ -2722,7 +2722,15 @@ msgstr ""
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr ""
 
+#
+msgid "SHOW PORTS SYSTEM"
+msgstr ""
+
 msgid "Show all available games playable with a lightgun."
+msgstr ""
+
+#
+msgid "Show a 'ports' system with all ports in the same place."
 msgstr ""
 
 msgid ""
@@ -2922,6 +2930,47 @@ msgstr ""
 
 #
 msgid "DELETE SELECTED FILES, CONFIRM?"
+msgstr ""
+
+#
+msgid "RELEASE DATE"
+msgstr ""
+
+#
+msgid "TYPE, THEN NAME"
+msgstr ""
+
+#
+msgid "TYPE, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "MANUFACTURER, THEN NAME"
+msgstr ""
+
+#
+msgid "MANUFACTURER, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "TYPE, THEN MANUFACTURER, THEN NAME"
+msgstr ""
+
+#
+msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
+msgstr ""
+
+#
+msgid "SYSTEM SORTING"
+msgstr ""
+
+#
+msgid ""
+"Default: use original or custom systemlist.xml order\n"
+"System Type: order by Console/Handheld/Computer/Arcade/Other\n"
+"Release Date: order by release date asc\n"
+"Manufacturer: order by manufacturer (e.g. Sega)\n"
+"Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
 
 #~ msgid "SECURITY"
