@@ -679,8 +679,12 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
     // The application is running and is on screen.
     // Display little window to notify the user
     if (milliseconds < 500)
-      mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
-                                    ->Execute(HardwareTriggeredSpecialOperations::Suspend, _("Entering standby...")));
+    {
+      // Only if supported. Otherwise does nothing
+      if (Board::Instance().HasSuspendResume())
+        mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
+                                      ->Execute(HardwareTriggeredSpecialOperations::Suspend, _("Entering standby...")));
+    }
     else
       mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
                                     ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
@@ -689,7 +693,11 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
   {
     // The application is not Running, execute orders immediately
     if (milliseconds < 500)
-      Board::Instance().Suspend();
+    {
+      // Only if supported. Otherwise does nothing
+      if (Board::Instance().HasSuspendResume())
+        Board::Instance().Suspend();
+    }
     else
     {
       Files::SaveFile(Path(sQuitNow), std::string());
