@@ -9,6 +9,7 @@ RECALBOX_CRT_LICENSE = MIT
 
 define RECALBOX_CRT_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/empty-file.txt $(BINARIES_DIR)/rpi-firmware/crt/recalbox-crt-config.txt
+	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/empty-file.txt $(BINARIES_DIR)/rpi-firmware/crt/recalbox-crt-options.cfg
 	$(INSTALL) -D -m 0744 $(RECALBOX_CRT_PKGDIR)/S13crt $(TARGET_DIR)/etc/init.d/
 	mkdir -p $(TARGET_DIR)/recalbox/system/configs/crt/
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/crt/
