@@ -11,11 +11,6 @@
 					brcm,function = <0>; // Input
 					brcm,pull = <2 2>; // Pull up
 				};
-				fancontrol_gpio: fancontrol_gpio_conf {
-					brcm,pins = <26>; // GPIO 26
-					brcm,function = <1>; // Output
-					brcm,pull = <0>;
-				};
 			};
 	};
 	fragment@1 {
@@ -31,8 +26,7 @@
 				recalbox-rgb-dual = <1>;
 
                 dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
-                fancontrol-gpios = <&gpio 26 0>;
-                pinctrl-0 = <&dipswitch_gpio>, <&fancontrol_gpio>;
+                pinctrl-0 = <&dipswitch_gpio>;
                 pinctrl-names = "default";
 
 				ports {
@@ -123,6 +117,39 @@
 		target = <&audio>;
 		__overlay__  {
 			brcm,disable-headphones = <0>;
+		};
+	};
+
+	fragment@8 {
+		target-path = "/";
+		__overlay__ {
+			fan0: gpio-fan@0 {
+				compatible = "gpio-fan";
+				gpios = <&gpio 26 0>;
+				gpio-fan,speed-map = <0    0>,
+									 <5000 1>;
+				#cooling-cells = <2>;
+			};
+		};
+	};
+
+	fragment@9 {
+		target = <&cpu_thermal>;
+		polling-delay = <5000>;	/* milliseconds */
+		__overlay__ {
+			trips {
+				cpu_hot: trip-point@0 {
+					temperature = <60000>;	/* (millicelsius) Fan started at 60°C */
+					hysteresis = <10000>;	/* (millicelsius) Fan stopped at 50°C */
+					type = "active";
+				};
+			};
+			cooling-maps {
+				map0 {
+					trip = <&cpu_hot>;
+					cooling-device = <&fan0 1 1>;
+				};
+			};
 		};
 	};
 	
