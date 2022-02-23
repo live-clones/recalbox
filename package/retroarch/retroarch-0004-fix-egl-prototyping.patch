@@ -1,8 +1,8 @@
 diff --git a/gfx/drivers_context/vc_egl_ctx.c b/gfx/drivers_context/vc_egl_ctx.c
-index 646c79223b..c6545c9e41 100644
+index 16f312ae39..3242f65684 100644
 --- a/gfx/drivers_context/vc_egl_ctx.c
 +++ b/gfx/drivers_context/vc_egl_ctx.c
-@@ -78,6 +78,9 @@ typedef struct
+@@ -74,6 +74,9 @@ typedef struct
     PFNEGLDESTROYIMAGEKHRPROC peglDestroyImageKHR;
  } vc_ctx_data_t;
  

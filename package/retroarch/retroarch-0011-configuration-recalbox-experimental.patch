@@ -1,0 +1,37 @@
+diff --git a/config.def.h b/config.def.h
+index 9cc425ae56..b5ae377345 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1636,6 +1636,8 @@ static const bool enable_device_vibration    = false;
+ 
+ #define DEFAULT_AI_SERVICE_URL "http://localhost:4404/"
+ 
++#define DEFAULT_RECALBOX_EXPERIMENTAL false
++
+ #if defined(HAVE_FFMPEG) || defined(HAVE_MPV)
+ #define DEFAULT_BUILTIN_MEDIAPLAYER_ENABLE true
+ #else
+diff --git a/configuration.c b/configuration.c
+index eaa49fb369..2c1dcd8041 100644
+--- a/configuration.c
++++ b/configuration.c
+@@ -2007,6 +2007,7 @@ static struct config_bool_setting *populate_settings_bool(
+    SETTING_BOOL("ai_service_enable",     &settings->bools.ai_service_enable, true, DEFAULT_AI_SERVICE_ENABLE, false);
+    SETTING_BOOL("ai_service_pause",      &settings->bools.ai_service_pause, true, DEFAULT_AI_SERVICE_PAUSE, false);
+    SETTING_BOOL("wifi_enabled",          &settings->bools.wifi_enabled, true, DEFAULT_WIFI_ENABLE, false);
++   SETTING_BOOL("recalbox_experimental", &settings->bools.recalbox_experimental, true, DEFAULT_RECALBOX_EXPERIMENTAL, false);
+    SETTING_BOOL("gamemode_enable",       &settings->bools.gamemode_enable, true, DEFAULT_GAMEMODE_ENABLE, false);
+ 
+    *size = count;
+diff --git a/configuration.h b/configuration.h
+index f79a62edac..9515c20e1f 100644
+--- a/configuration.h
++++ b/configuration.h
+@@ -920,6 +920,7 @@ typedef struct settings
+ 
+       bool ai_service_enable;
+       bool ai_service_pause;
++      bool recalbox_experimental;
+ 
+       bool gamemode_enable;
+    } bools;

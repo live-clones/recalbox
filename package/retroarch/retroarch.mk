@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version 1.9.8
-RETROARCH_VERSION = v1.9.8
+# Version 1.10.0
+RETROARCH_VERSION = v1.10.0
 RETROARCH_SITE = git://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
@@ -72,7 +72,7 @@ endif
 
 # rpi4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
-RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-kms
+RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-opengles3_1 --enable-kms
 endif
 
 # x86 : SSE
@@ -81,7 +81,7 @@ RETROARCH_CONF_OPTS += --enable-sse
 endif
 
 # Common
-RETROARCH_CONF_OPTS += --enable-rgui --enable-xmb --enable-ozone
+RETROARCH_CONF_OPTS += --enable-rgui --enable-xmb --enable-ozone --enable-materialui
 RETROARCH_CONF_OPTS += --enable-threads --enable-dylib
 RETROARCH_CONF_OPTS += --enable-flac --enable-lua
 RETROARCH_CONF_OPTS += --enable-networking
