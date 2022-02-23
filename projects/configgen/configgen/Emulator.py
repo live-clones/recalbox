@@ -63,6 +63,8 @@ class Emulator:
         self._retroachievementsHardcore: bool = False
         self._retroachievementsNickname: str = ""
         self._retroachievementsPassword: str = ""
+        self._recalboxexperimental: str = ""
+        self._updatestype : str = "stable"
 
         # Vars from arguments
         self._hash: str = "default"
@@ -129,6 +131,9 @@ class Emulator:
         self._retroachievementsHardcore = recalboxOptions.getBool('global.retroachievements.hardcore', self._retroachievementsHardcore)
         self._retroachievementsNickname = recalboxOptions.getString('global.retroachievements.username', self._retroachievementsNickname)
         self._retroachievementsPassword = recalboxOptions.getString('global.retroachievements.password', self._retroachievementsPassword)
+        self._recalboxexperimental      = recalboxOptions.getString('global.experimental', self._recalboxexperimental)
+        self._updatestype               = recalboxOptions.getString('updates.type', self._updatestype)
+
 
         # Vars from arguments
         self._hash                  = arguments.hash
@@ -323,3 +328,7 @@ class Emulator:
 
     @property
     def CRTViewportWidth(self) -> int: return self._crtviewportwidth
+
+    @property
+    def RecalboxExperimental(self) -> bool:
+        return self._recalboxexperimental == "1" or (self._recalboxexperimental == "" and self._updatestype != "stable")
