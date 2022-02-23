@@ -107,6 +107,15 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
     addChild(&mFavorite);
   }
 
+  for (int i = 4; --i >= 0; )
+  {
+    auto* img = new ImageComponent(window);
+    addChild(img); // normalised functions required to be added first
+    img->setDefaultZIndex(40);
+    img->setDisabled(true);
+    mRegions.push_back(img);
+  }
+
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
   mDescContainer.setSize(mSize.x() * (0.50f - 2 * padding), mSize.y() - mDescContainer.getPosition().y());
   mDescContainer.setAutoScroll(true);
@@ -125,6 +134,15 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
 void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
   BasicGameListView::onThemeChanged(theme);
+
+  for (int i = 0; i < (int) mRegions.size(); i++)
+  {
+    char strbuf[256];
+    snprintf(strbuf, 256, "md_region%d", i + 1);
+    mRegions[i]->applyTheme(theme, getName(), strbuf,
+                                  ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Path);
+  }
+
 
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
   mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
@@ -328,9 +346,13 @@ void DetailedGameListView::DoUpdateGameInformation()
     }
     else
     {
-      if (isFolder)
-        setFolderInfo((FolderData*)file);
-      else
+       if (isFolder)
+       {
+         setFolderInfo((FolderData*) file);
+         for(int i = (int)mRegions.size(); --i >= 0; )
+           mRegions[i]->setImage(Path());
+       }
+       else
         setGameInfo(file);
       switchDisplay(!isFolder);
     }
@@ -417,6 +439,10 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
 
 void DetailedGameListView::setGameInfo(FileData* file)
 {
+  if(mSystem.Name() != "imageviewer")
+    setRegions(file);
+
+  
   mRating.setValue(file->Metadata().RatingAsString());
   mReleaseDate.setValue(file->Metadata().ReleaseDate());
   mDeveloper.setValue(file->Metadata().Developer().empty() ? _("UNKNOWN") : file->Metadata().Developer());
@@ -561,6 +587,36 @@ DetailedGameListView::~DetailedGameListView()
   for(int i = (int)mFolderContent.size(); --i >= 0; )
     delete mFolderContent[i];
   mFolderContent.clear();
+
+  for(int i = (int)mRegions.size(); --i >= 0; )
+    delete mRegions[i];
+  mRegions.clear();
+}
+
+void DetailedGameListView::setRegions(FileData* file)
+{
+  Strings::Vector regionList = Strings::SplitQuotted(file->Regions(), ',');
+
+  // reinit non used region flags
+  for(unsigned long idx = 0; idx < mRegions.size(); idx++)
+  {
+    if(regionList.size() <= idx)
+      mRegions[idx]->setImage(Path());
+  }
+
+  if(regionList.empty())
+  {
+    mRegions[0]->setImage(Path());
+    return;
+  }
+
+  int i = 0;
+  for(auto& region: regionList)
+  {
+    if(mRegions[i]->getImagePath() != Path(":/regions/" + region + ".svg"))
+      mRegions[i]->setImage(Path(":/regions/" + region + ".svg"));
+    i++;
+  }
 }
 
 
