@@ -52,7 +52,7 @@ struct dpidac {
 static struct gpiodesc {
   struct gpio_desc *gpio;
   int gpio_state;
-} dip50Hz, dip31kHz, fancontrol;
+} dip50Hz, dip31kHz;
 
 // Default modes.
 // 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
@@ -466,15 +466,6 @@ static int dpidac_probe(struct platform_device *pdev) {
 
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
 
-    /* Fan control */
-    fancontrol.gpio = devm_gpiod_get(&(pdev->dev), "fancontrol", GPIOD_OUT_LOW);
-    if (IS_ERR(fancontrol.gpio)) {
-      pr_err("Error when assigning GPIO.\n");
-    }
-    fancontrol.gpio_state = gpiod_get_value(fancontrol.gpio);
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: fancontrol: %i\n", fancontrol.gpio_state);
-    gpiod_export(fancontrol.gpio, false);
-    gpiod_export_link(&pdev->dev, "fancontrol", fancontrol.gpio);
   } else {
     dip50Hz.gpio_state = 1;
     dip31kHz.gpio_state = 1;
