@@ -103,14 +103,15 @@ RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
-    RPI0|RPI1|RPI3|RPI4|RPIZERO2LEGACY|RPIZERO2)
+    RPI0|RPI1|RPI3|RPI4|RPI4_64|RPIZERO2LEGACY|RPIZERO2)
 	# /boot
 	echo "generating boot"
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
 	cp -r "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/rpi-firmware/" || exit 1
 	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
+  [ -f "${BINARIES_DIR}/zImage" ] && KERNEL=zImage || KERNEL=Image 
+	cp "${BINARIES_DIR}/${KERNEL}" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
   [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
