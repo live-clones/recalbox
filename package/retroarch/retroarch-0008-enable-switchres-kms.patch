@@ -1,8 +1,8 @@
 diff --git a/Makefile.common b/Makefile.common
-index 52fdd53..4ea18bc 100644
+index 34cc06ead5..d5860adf48 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -2307,6 +2307,10 @@ ifeq ($(HAVE_CRTSWITCHRES), 1)
+@@ -2328,6 +2328,10 @@ ifeq ($(HAVE_CRTSWITCHRES), 1)
           OBJ += $(DEPS_DIR)/switchres/custom_video_xrandr.o
           DEFINES += -DSR_WITH_XRANDR
        endif

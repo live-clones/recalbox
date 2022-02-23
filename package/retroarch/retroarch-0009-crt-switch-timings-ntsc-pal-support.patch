@@ -1,8 +1,8 @@
 diff --git a/configuration.c b/configuration.c
-index a8424fb..2b502f1 100644
+index df6b5288f8..eaa49fb369 100644
 --- a/configuration.c
 +++ b/configuration.c
-@@ -1312,6 +1312,8 @@ static struct config_array_setting *populate_settings_array(settings_t *settings
+@@ -1424,6 +1424,8 @@ static struct config_array_setting *populate_settings_array(settings_t *settings
     SETTING_ARRAY("discord_app_id",           settings->arrays.discord_app_id, true, DEFAULT_DISCORD_APP_ID, true);
     SETTING_ARRAY("ai_service_url",           settings->arrays.ai_service_url, true, DEFAULT_AI_SERVICE_URL, true);
     SETTING_ARRAY("crt_switch_timings",       settings->arrays.crt_switch_timings, false, NULL, true);
@@ -11,7 +11,7 @@ index a8424fb..2b502f1 100644
  #ifdef HAVE_LAKKA
     SETTING_ARRAY("cpu_main_gov",             settings->arrays.cpu_main_gov, false, NULL, true);
     SETTING_ARRAY("cpu_menu_gov",             settings->arrays.cpu_menu_gov, false, NULL, true);
-@@ -1897,6 +1899,8 @@ static struct config_float_setting *populate_settings_float(
+@@ -2025,6 +2027,8 @@ static struct config_float_setting *populate_settings_float(
     SETTING_FLOAT("video_scale",              &settings->floats.video_scale, false, 0.0f, false);
     SETTING_FLOAT("crt_video_refresh_rate",   &settings->floats.crt_video_refresh_rate, true, DEFAULT_CRT_REFRESH_RATE, false);
     SETTING_FLOAT("video_refresh_rate",       &settings->floats.video_refresh_rate, true, DEFAULT_REFRESH_RATE, false);
@@ -20,7 +20,7 @@ index a8424fb..2b502f1 100644
     SETTING_FLOAT("audio_rate_control_delta", audio_get_float_ptr(AUDIO_ACTION_RATE_CONTROL_DELTA), true, DEFAULT_RATE_CONTROL_DELTA, false);
     SETTING_FLOAT("audio_max_timing_skew",    &settings->floats.audio_max_timing_skew, true, DEFAULT_MAX_TIMING_SKEW, false);
     SETTING_FLOAT("audio_volume",             &settings->floats.audio_volume, true, DEFAULT_AUDIO_VOLUME, false);
-@@ -2073,10 +2077,18 @@ static struct config_uint_setting *populate_settings_uint(
+@@ -2210,10 +2214,18 @@ static struct config_uint_setting *populate_settings_uint(
  #endif
     SETTING_UINT("audio_out_rate",               &settings->uints.audio_output_sample_rate, true, DEFAULT_OUTPUT_RATE, false);
     SETTING_UINT("custom_viewport_width",        &settings->video_viewport_custom.width, false, 0 /* TODO */, false);
@@ -40,10 +40,10 @@ index a8424fb..2b502f1 100644
     SETTING_UINT("video_hard_sync_frames",       &settings->uints.video_hard_sync_frames, true, DEFAULT_HARD_SYNC_FRAMES, false);
     SETTING_UINT("video_frame_delay",            &settings->uints.video_frame_delay,      true, DEFAULT_FRAME_DELAY, false);
 diff --git a/configuration.h b/configuration.h
-index cfac5c8..f3b442f 100644
+index dea12077b5..f79a62edac 100644
 --- a/configuration.h
 +++ b/configuration.h
-@@ -309,6 +309,8 @@ typedef struct settings
+@@ -346,6 +346,8 @@ typedef struct settings
        float video_scale;
        float video_aspect_ratio;
        float video_refresh_rate;
@@ -52,7 +52,7 @@ index cfac5c8..f3b442f 100644
        float crt_video_refresh_rate;
        float video_font_size;
        float video_msg_pos_x;
-@@ -398,6 +400,8 @@ typedef struct settings
+@@ -440,6 +442,8 @@ typedef struct settings
        char ai_service_url[PATH_MAX_LENGTH];
  
        char crt_switch_timings[255];
@@ -61,11 +61,71 @@ index cfac5c8..f3b442f 100644
  #ifdef HAVE_LAKKA
        char timezone[TIMEZONE_LENGTH];
        char cpu_main_gov[32];
+diff --git a/driver.c b/driver.c
+index 8c600caec7..350bacb6fd 100644
+--- a/driver.c
++++ b/driver.c
+@@ -440,6 +440,7 @@ void drivers_init(
+       *location_st             = location_state_get_ptr();
+    bool video_is_threaded      = VIDEO_DRIVER_IS_THREADED_INTERNAL(video_st);
+    gfx_display_t *p_disp       = disp_get_ptr();
++   struct retro_game_geometry *geom       = &video_st->av_info.geometry;
+ #if defined(HAVE_GFX_WIDGETS)
+    bool video_font_enable      = settings->bools.video_font_enable;
+    bool menu_enable_widgets    = settings->bools.menu_enable_widgets;
+@@ -453,7 +454,46 @@ void drivers_init(
+    if (menu_st)
+       menu_st->data_own = true;
+ #endif
+-
++   double core_fps = video_st->av_info.timing.fps;
++
++   if (!string_is_empty(settings->arrays.crt_switch_timings_pal)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings_ntsc)|| 
++      !string_is_empty(settings->arrays.crt_switch_timings))
++   {
++      RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
++         geom->base_width,
++         geom->base_height,
++         geom->aspect_ratio,
++         core_fps,
++         runloop_st->system.rotation);
++      if(core_fps > 0.0)
++      {
++         // We should override core fps with configuration ones.
++         if(abs(60 - core_fps) < abs(50 - core_fps))
++         {
++            // We are NTSC
++            if(settings->floats.video_refresh_rate_ntsc > 0.1)
++            {
++               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_ntsc;
++               RARCH_LOG("[Video]: Setting video_refresh_rate from config value NTSC: %f\n", settings->floats.video_refresh_rate_ntsc);
++            }
++         }
++         else
++         {
++            // We are PAL
++            if(settings->floats.video_refresh_rate_pal > 0.1)
++            {
++               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_pal;
++               RARCH_LOG("[Video]: Setting video_refresh_rate from config value PAL: %f\n", settings->floats.video_refresh_rate_pal);
++            }
++         }
++      }
++      settings->floats.video_scale = 1;
++      if(runloop_st->system.rotation == 1){
++         RARCH_LOG("[Video]: setting rotation %u\n", runloop_st->system.rotation);
++         //rotation = runloop_state.system.rotation;
++      }
++   }
+    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
+       driver_adjust_system_rates(
+                                  settings->bools.vrr_runloop_enable,
 diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
-index 182d0b4..74df96b 100644
+index a8268cf964..427edb2ce7 100644
 --- a/gfx/drivers_context/drm_ctx.c
 +++ b/gfx/drivers_context/drm_ctx.c
-@@ -124,8 +124,31 @@ bool gfx_ctx_drm_load_mode(drmModeModeInfoPtr modeInfo)
+@@ -122,8 +122,31 @@ bool gfx_ctx_drm_load_mode(drmModeModeInfoPtr modeInfo)
     int ret;
     hdmi_timings_t timings;
     settings_t *settings = config_get_ptr();
@@ -98,10 +158,10 @@ index 182d0b4..74df96b 100644
        ret = sscanf(crt_switch_timings, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
                     &timings.h_active_pixels, &timings.h_sync_polarity, &timings.h_front_porch,
 diff --git a/gfx/video_defines.h b/gfx/video_defines.h
-index ec394ef..7f2e84c 100644
+index 35726bdcdf..0a950a81bf 100644
 --- a/gfx/video_defines.h
 +++ b/gfx/video_defines.h
-@@ -144,9 +144,17 @@ enum text_alignment
+@@ -149,9 +149,17 @@ enum text_alignment
  typedef struct video_viewport
  {
     int x;
@@ -119,16 +179,16 @@ index ec394ef..7f2e84c 100644
     unsigned full_width;
     unsigned full_height;
  } video_viewport_t;
-diff --git a/retroarch.c b/retroarch.c
-index dd3c488..4e0ea82 100644
---- a/retroarch.c
-+++ b/retroarch.c
-@@ -30080,9 +30080,38 @@ static bool video_driver_init_internal(
+diff --git a/gfx/video_driver.c b/gfx/video_driver.c
+index 2f42d87009..8f3cd687ee 100644
+--- a/gfx/video_driver.c
++++ b/gfx/video_driver.c
+@@ -3278,10 +3278,38 @@ bool video_driver_init_internal(bool *video_is_threaded, bool verbosity_enabled)
+ 
     /* Update CUSTOM viewport. */
     custom_vp = &settings->video_viewport_custom;
- 
 +   float core_fps = settings->floats.video_refresh_rate;
-+
+ 
     if (settings->uints.video_aspect_ratio_idx == ASPECT_RATIO_CUSTOM)
     {
        float default_aspect = aspectratio_lut[ASPECT_RATIO_CORE].value;
@@ -162,60 +222,3 @@ index dd3c488..4e0ea82 100644
        aspectratio_lut[ASPECT_RATIO_CUSTOM].value =
           (custom_vp->width && custom_vp->height) ?
           (float)custom_vp->width / custom_vp->height : default_aspect;
-@@ -32999,6 +33028,8 @@ static void drivers_init(struct rarch_state *p_rarch,
- #endif
-    bool video_is_threaded      = VIDEO_DRIVER_IS_THREADED_INTERNAL();
-    gfx_display_t *p_disp       = &p_rarch->dispgfx;
-+   struct retro_game_geometry *geom       = &p_rarch->video_driver_av_info.geometry;
-+
- #if defined(HAVE_GFX_WIDGETS)
-    bool video_font_enable      = settings->bools.video_font_enable;
-    bool menu_enable_widgets    = settings->bools.menu_enable_widgets;
-@@ -33013,6 +33044,47 @@ static void drivers_init(struct rarch_state *p_rarch,
-       menu_st->data_own = true;
- #endif
- 
-+   double core_fps = p_rarch->video_driver_av_info.timing.fps;
-+
-+   if (!string_is_empty(settings->arrays.crt_switch_timings_pal)|| 
-+      !string_is_empty(settings->arrays.crt_switch_timings_ntsc)|| 
-+      !string_is_empty(settings->arrays.crt_switch_timings))
-+   {
-+      RARCH_LOG("[Video]: NATIVE Core provided resolution @ %ux%u, aspect ratio %f, framerate %f, rotation: %u\n",
-+         geom->base_width,
-+         geom->base_height,
-+         geom->aspect_ratio,
-+         p_rarch->video_driver_av_info.timing.fps,
-+         runloop_state.system.rotation);
-+      if(core_fps > 0.0)
-+      {
-+         // We should override core fps with configuration ones.
-+         if(abs(60 - core_fps) < abs(50 - core_fps))
-+         {
-+            // We are NTSC
-+            if(settings->floats.video_refresh_rate_ntsc > 0.1)
-+            {
-+               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_ntsc;
-+               RARCH_LOG("[Video]: Setting video_refresh_rate from config value NTSC: %f\n", settings->floats.video_refresh_rate_ntsc);
-+            }
-+         }
-+         else
-+         {
-+            // We are PAL
-+            if(settings->floats.video_refresh_rate_pal > 0.1)
-+            {
-+               settings->floats.video_refresh_rate = settings->floats.video_refresh_rate_pal;
-+               RARCH_LOG("[Video]: Setting video_refresh_rate from config value PAL: %f\n", settings->floats.video_refresh_rate_pal);
-+            }
-+         }
-+      }
-+      settings->floats.video_scale = 1;
-+      if(runloop_state.system.rotation == 1){
-+         RARCH_LOG("[Video]: setting rotation %u\n", runloop_state.system.rotation);
-+         //rotation = runloop_state.system.rotation;
-+      }
-+   }
-+
-    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
-       driver_adjust_system_rates(p_rarch,
-                                  settings->bools.vrr_runloop_enable,
