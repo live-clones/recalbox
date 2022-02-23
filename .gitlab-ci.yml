@@ -155,6 +155,8 @@ tests buildroot patches:
     - |
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "beta";then
         sed -i "s/^updates.type=.*/updates.type=beta/g" package/recalbox-system/*/recalbox.conf
+      elif echo "${CI_COMMIT_TAG:-""}" | grep -qi "unstable";then
+        sed -i "s/^updates.type=.*/updates.type=unstable/g" package/recalbox-system/*/recalbox.conf
       fi
     - |
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "recalboxrgbdual";then
@@ -367,16 +369,19 @@ release recalboxrgbdual:
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
 
-release nightly:
+release public unstable:
   <<: *release_definition
   only:
-    - schedules
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /unstable/i
+  when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-nightly
+    BUCKET: recalbox-archive-unstable
   environment:
-    name: nightly/${CI_COMMIT_REF_SLUG}
-
+    name: unstable/${CI_COMMIT_REF_SLUG}
 
 release branch:
   <<: *release_definition
