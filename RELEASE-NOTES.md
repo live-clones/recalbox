@@ -4,45 +4,9 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.1-Electron
+## Version 8-recalboxrgbdual-2
 
-### News
-
-- Add delete game options
-- Add core libretro vitaquake2 for x64
-- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
-- Add system Philips CD-I (libretro core : cdi2015)
-- Add Iris driver for Intel iGPUs on x64 version
-- New option in UI menu : hide PORTS collection
-- Add recalbox.conf option to force resolution of splash videos on x64
-- New Random game picker in demo mode (less cycling)
-- Add BSNES core (performance build) (PC and RPi4/400)
-- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
-- Add Pi400 power button support (Fn + F10 to turn off)
-- Display game regions flag in gamelist
-- Make default no image in gamelist themable
-- Add Twitch as Kodi plugin
-- Add resolution menu in Advanced Settings > Resolutions
-
-### Improvements
-
-- Bump EmuSCV to fix zipped games load
-- Bump libretro mame2015
-- Bump libretro mame 0.239
-- Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
-- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
-- Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)
-
-### Fixes
-
-- Add mc10 and coco3 model to trs80 color computer xroar emulator
-- Add CRT check menu footer
-- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
-- Fix libretro mame2015 for OGA/OGS
-- Fix to not reload recalbox.conf file in manager on save
-- Deleting the netplay system configuration in recalbox.conf
-- Fix savestate in libretro fuse (ZX Spectrum core)
-
+- Add slides on installation
 
 ## Version 8.0.2-Electron
 
