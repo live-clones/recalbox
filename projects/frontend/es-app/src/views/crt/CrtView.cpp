@@ -183,8 +183,11 @@ void CrtView::UpdatePosition()
     };
   static constexpr int sHorizontalFrontPorch = 2;
   static constexpr int sHorizontalBackPorch = 4;
+  static constexpr int sVerticalLinesActive = 5;
   static constexpr int sVerticalFrontPorch = 7;
   static constexpr int sVerticalBackPorch = 9;
+  static constexpr int sInterlaced = 14;
+
 
   int hOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset();
   int vOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
@@ -208,11 +211,22 @@ void CrtView::UpdatePosition()
     {
       values(sHorizontalFrontPorch) -= hOffset;
       values(sHorizontalBackPorch) += hOffset;
+    } else {
+      values(sHorizontalBackPorch) += values(sHorizontalFrontPorch) -1;
+      values(sHorizontalFrontPorch) = 1;
     }
-    if (values[sVerticalFrontPorch] - vOffset > 0 && values[sVerticalBackPorch] + vOffset > 0)
+    int min_voffset = 1;
+    if(values[sVerticalLinesActive] == 480 && values[sInterlaced] == 1){
+      // Horribeul special case for 480i
+      min_voffset = 2;
+    }
+    if (values[sVerticalFrontPorch] - vOffset >= min_voffset && values[sVerticalBackPorch] + vOffset >= min_voffset)
     {
       values(sVerticalFrontPorch) -= vOffset;
       values(sVerticalBackPorch) += vOffset;
+    } else {
+      values(sVerticalBackPorch) += values(sVerticalFrontPorch) -min_voffset;
+      values(sVerticalFrontPorch) = min_voffset;
     }
 
     for(int i = (int)items.size(); --i >= 0; )
