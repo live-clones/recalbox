@@ -157,6 +157,11 @@ build x86_64:
   when: manual
   variables:
     ARCH: 'x86_64'
+build rpi4_64:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'rpi4_64'
 build rpi4:
   <<: *build_definition
   when: manual
@@ -200,6 +205,12 @@ nightly build x86_64:
     - schedules
   variables:
     ARCH: 'x86_64'
+nightly build rpi4_64:
+  <<: *build_definition
+  only:
+    - schedules
+  variables:
+    ARCH: 'rpi4_64'
 nightly build rpi4:
   <<: *build_definition
   only:
