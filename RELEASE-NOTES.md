@@ -7,7 +7,8 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.1-Electron
 
 ### News
-
+- Experimental: select the video mode refresh rate (60Hz, 50Hz) depending on the game region
+- Retroach has been bumped to 1.9.14
 - Add delete game options
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
