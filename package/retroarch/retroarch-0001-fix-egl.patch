@@ -1,8 +1,8 @@
 diff --git a/Makefile.common b/Makefile.common
-index 2c555ad17a..f431963667 100644
+index e8176efac8..34cc06ead5 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -1397,7 +1397,7 @@ ifeq ($(HAVE_KMS), 1)
+@@ -1431,7 +1431,7 @@ ifeq ($(HAVE_KMS), 1)
  ifeq ($(HAVE_ODROIDGO2), 1)
     OBJ += gfx/drivers_context/drm_go2_ctx.o
  endif
