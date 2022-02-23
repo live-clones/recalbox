@@ -332,3 +332,10 @@ class LibretroRetroarch:
             # Netplay passwords
             settings.setString("netplay_password", '"' + self.system.NetplayPlayerPassword + '"') \
                     .setString("netplay_spectate_password", '"' + self.system.NetplayViewerPassword + '"')
+
+        # Experimental features
+        settings.setBool("recalbox_experimental", self.system.RecalboxExperimental)
+        if self.system.RecalboxExperimental:
+            settings.setInt("video_max_swapchain_images", 2)
+        else:
+            settings.setInt("video_max_swapchain_images", 3)
