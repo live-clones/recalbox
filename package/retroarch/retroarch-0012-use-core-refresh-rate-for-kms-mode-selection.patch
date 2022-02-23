@@ -1,0 +1,26 @@
+diff --git a/driver.c b/driver.c
+index 350bacb6fd..5d26c1af94 100644
+--- a/driver.c
++++ b/driver.c
+@@ -493,6 +493,8 @@ void drivers_init(
+          RARCH_LOG("[Video]: setting rotation %u\n", runloop_st->system.rotation);
+          //rotation = runloop_state.system.rotation;
+       }
++   } else if(core_fps > 0.0 && settings->bools.recalbox_experimental) {
++      settings->floats.video_refresh_rate = core_fps;
+    }
+    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
+       driver_adjust_system_rates(
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 427edb2ce7..3ff1fe9035 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -785,6 +785,8 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+       goto error;
+    }
+ 
++   RARCH_LOG("[KMS]: Mode selected : (%s), %f Hz\n", g_drm_mode->name, drm_calc_refresh_rate(g_drm_mode));
++
+    drm->fb_width    = g_drm_mode->hdisplay;
+    drm->fb_height   = g_drm_mode->vdisplay;
+ 
