@@ -44,7 +44,6 @@ as release notes for end user on a Recalbox upgrade.
 - Deleting the netplay system configuration in recalbox.conf
 - Fix savestate in libretro fuse (ZX Spectrum core)
 
-
 ## Version 8.0.2-Electron
 
 - Fix 4k resolution issues on RPi4
