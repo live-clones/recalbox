@@ -70,8 +70,13 @@ RETROARCH_CONF_OPTS += --enable-odroidgo2 --enable-opengles --enable-opengles3 -
 RETROARCH_DEPENDENCIES += librga
 endif
 
+# rpi3
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
+RETROARCH_CONF_OPTS += --enable-opengles --disable-videocore --enable-kms
+endif
+
 # rpi4
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-opengles3_1 --enable-kms
 endif
 
