@@ -9,6 +9,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include "GameFilesUtils.h"
 #include "FileData.h"
+#include "utils/cplusplus/StaticLifeCycleControler.h"
 
 std::string GameFilesUtils::GetGameDeletetext(FileData& game) {
     int gameFilesCount = 1 + (int)GetGameSubFiles(game).size();
@@ -238,7 +239,7 @@ void GameFilesUtils::AddIfExist(const Path& path, HashSet<std::string>& list)
     list.insert(path.ToString());
 }
 
-void GameFilesUtils::DeleteAllFiles(FileData& fileData, IGameListView& view)
+void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 {
 
   HashSet<std::string> files;
@@ -260,11 +261,13 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData, IGameListView& view)
     files.insert(path);
   }
 
-  DeleteSelectedFiles(fileData, files, mediaFiles, view);
+  DeleteSelectedFiles(fileData, files, mediaFiles);
 }
 
-void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths,  IGameListView& view)
+void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths)
 {
+  { LOG(LogDebug) << "[DELETE] Begin delete of \"" << fileData.Name() << "\" deletion"; }
+
   bool mainFileDeleted = false;
   Path gamePath = fileData.FilePath();
   Path root = fileData.TopAncestor().FilePath();
@@ -273,53 +276,66 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
     if (path== gamePath.ToString())
       mainFileDeleted = true;
     Path(path).Delete();
+    { LOG(LogDebug) << "[DELETE] Game file" << path << " has been deleted"; }
   }
 
+  bool mediaIsDirty = false;
   for (const auto& mediaPath : mediaPaths)
   {
     Path path = Path(mediaPath);
     if (path == fileData.Metadata().Image())
+    {
       fileData.Metadata().SetImagePath(Path::Empty);
+      mediaIsDirty = true;
+    }
     if (path == fileData.Metadata().Video().ToString())
+    {
       fileData.Metadata().SetVideoPath(Path::Empty);
+      mediaIsDirty = true;
+    }
     if (path == fileData.Metadata().Thumbnail().ToString())
+    {
       fileData.Metadata().SetThumbnailPath(Path::Empty);
+      mediaIsDirty = true;
+    }
 
     if (path.Exists() && !IsMediaShared(fileData, path))
     {
       Path(mediaPath).Delete();
-    }
+      { LOG(LogDebug) << "[DELETE] Game media file" << mediaPath << " has been deleted"; }
+
+    } else { LOG(LogDebug) << "[DELETE] Game media file not exist or is shared" << mediaPath; }
+
   }
 
   // remmove fileData
   if (mainFileDeleted)
   {
-    Path currentDirectory = fileData.FilePath();
-    Path root = fileData.TopAncestor().FilePath();
-
-    fileData.FilePath().Delete();
-    DeleteFoldersRecIfEmpty(currentDirectory.Directory(), root);
-
-    //clean gamelist
     FolderData* folder = fileData.Parent();
     folder->deleteChild(&fileData);
-    view.onFileChanged(&fileData, FileChangeType::Removed);
-    view.refreshList();
+    DeleteFoldersRecIfEmpty(folder);
+
+  } else if (mediaIsDirty)
+  {
+    //clean gamelist metadata
     fileData.Metadata().SetDirty();
   }
 }
 
-void GameFilesUtils::DeleteFoldersRecIfEmpty(const Path& currentDirectory, const Path& gameTopAncestorPath)
+void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
-  if (currentDirectory == gameTopAncestorPath)
-    return;
-
-  Path parent = currentDirectory.Directory();
-  if (currentDirectory.GetDirectoryContent().empty())
+  if (folderData->IsRoot() || folderData->HasChildren())
   {
-    currentDirectory.Delete();
-    DeleteFoldersRecIfEmpty(parent, gameTopAncestorPath);
-  }
-  else
+    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
     return;
+  }
+
+  FolderData* parent = folderData->Parent();
+  Path currentFolder = folderData->FilePath();
+  currentFolder.Delete();
+  parent->RemoveChild(folderData);
+  { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
+
+  DeleteFoldersRecIfEmpty(parent);
+
 }

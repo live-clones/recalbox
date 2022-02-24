@@ -3120,24 +3120,8 @@ msgid "SAVE FILES"
 msgstr "FICHIERS DE SAUVEGARDE"
 
 #
-msgid "DELETE ALL GAME FILES"
-msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
-
-#
-msgid "DELETE ALL GAME FILES, CONFIRM?"
-msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU, CONFIRMER ?"
-
-#
 msgid "SELECT FILES TO DELETE"
 msgstr "SELECTIONNER LES FICHIERS À SUPPRIMER"
-
-#
-msgid "DELETE SELECTION"
-msgstr "SUPPRIMER LA SELECTION"
-
-#
-msgid "DELETE SELECTED FILES"
-msgstr "SUPPRIMER LES FICHIERS SELECTIONNÉS"
 
 #
 msgid "DELETE SELECTED FILES, CONFIRM?"
@@ -3183,6 +3167,46 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+
+#
+msgid "DELETE ALL FILES"
+msgstr "SUPPRIMER TOUS LES FICHIERS"
+
+#
+msgid "ADVANCED DELETE"
+msgstr "SUPPRESSION AVANCÉE"
+
+#
+msgid "DELETE ALL FILES, CONFIRM?"
+msgstr "SUPPRIMER TOUS LES FICHIERS, CONFIRMER ?"
+
+#
+msgid "DELETE SCREENSHOT, CONFIRM?"
+msgstr "SUPPRIMER LA CAPTURE, CONFIRMER ?"
+
+#
+msgid "DELETE SCREENSHOT"
+msgstr "SUPPRIMER LA CAPTURE"
+
+#
+msgid "This option display a menu which allows to DELETE game data."
+msgstr "Cette option affiche un menu qui permet d'effacer les données du jeu"
+
+#
+#~ msgid "DELETE ALL GAME FILES"
+#~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
+
+#
+#~ msgid "DELETE ALL GAME FILES, CONFIRM?"
+#~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU, CONFIRMER ?"
+
+#
+#~ msgid "DELETE SELECTION"
+#~ msgstr "SUPPRIMER LA SELECTION"
+
+#
+#~ msgid "DELETE SELECTED FILES"
+#~ msgstr "SUPPRIMER LES FICHIERS SELECTIONNÉS"
 
 #~ msgid "SECURITY"
 #~ msgstr "SÉCURITÉ"

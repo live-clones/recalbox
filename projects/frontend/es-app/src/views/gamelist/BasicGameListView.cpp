@@ -175,6 +175,19 @@ void BasicGameListView::setCursor(FileData* cursor)
 	}
 }
 
+void BasicGameListView::removeEntry(FileData* fileData)
+{
+  int cursorIndex = getCursorIndex();
+  onFileChanged(fileData, FileChangeType::Removed);
+  refreshList();
+
+  if(cursorIndex > 0)
+  {
+    setCursorIndex(cursorIndex - 1);
+  }
+}
+
+
 Regions::List BasicGameListView::AvailableRegionsInGames()
 {
   bool regionIndexes[256];
