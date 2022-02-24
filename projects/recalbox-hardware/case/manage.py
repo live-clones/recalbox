@@ -131,13 +131,13 @@ def Identify():
     if board in ("rpi0", "rpi1", "rpi3", "rpizero2legacy"):
         case = DetectGPiCase()
 
-    if board == "rpi4":
+    if board in ("rpi4", "rpi4_64"):
         case = DetectNesPi4Case()
 
-    if board == "rpi4" and case == cases.NONE:
+    if board in ("rpi4", "rpi4_64") and case == cases.NONE:
         case = DetectGPiCase2()
 
-    if board in ["rpi3", "rpi4"] and case == cases.NONE:
+    if board in ("rpi3", "rpi4", "rpi4_64") and case == cases.NONE:
         case = DetectPiBoyCase()
 
     return case
