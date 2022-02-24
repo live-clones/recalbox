@@ -263,7 +263,7 @@ esac
 # Compress the generated .img
 if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
     echo "Compressing ${RECALBOX_IMG} ... "
-    xz -9 -e --threads=0 "${RECALBOX_IMG}"
+    xz -9 -e --threads=0 "${RECALBOX_IMG}" || exit 1
 else
     echo "Couldn't move recalbox.img or compress it"
     exit 1
