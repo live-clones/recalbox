@@ -47,6 +47,10 @@ private:
     DateTimeComponent mLastPlayed;
     TextComponent mPlayCount;
     TextComponent mFavorite;
+    ImageComponent mRegion1;
+    ImageComponent mRegion2;
+    ImageComponent mRegion3;
+    ImageComponent mRegion4;
 
     std::vector<TextComponent*> getMDLabels();
     std::vector<Component*> getMDValues();

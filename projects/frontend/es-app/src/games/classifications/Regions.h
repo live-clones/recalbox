@@ -258,7 +258,7 @@ class Regions
         UZ, // Uzbekistan
         VN, // Vietnam
         TW, // Taiwan
-        USA, // USA
+        US, // USA
         ASI, // Asia
         __Count
     };

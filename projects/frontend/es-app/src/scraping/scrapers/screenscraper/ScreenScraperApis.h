@@ -101,7 +101,9 @@ class ScreenScraperApis
       std::string mGenre;
       //! Rom region
       std::string mRegion;
-      //! Rom region
+      //! Rom regions
+      unsigned int mRomRegions;
+      //! Rom crc
       std::string mCrc;
       //! Pad2Keyboard
       std::string mP2k;
@@ -234,7 +236,7 @@ class ScreenScraperApis
      */
     void DeserializeGameInformation(const std::string& json, Game& game, Path path);
 
-    static std::string GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion);
+    static std::string GetRequiredRegion(unsigned intromRegion, const Path& path, Regions::GameRegions favoriteRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of regionalized texts, regarding the given preferred region
@@ -242,7 +244,7 @@ class ScreenScraperApis
      * @param requiredRegion Required region
      * @return Best-matching text
      */
-    static std::string ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion);
+    static std::string ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion, unsigned int romRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of localized texts, regarding the given preferred language

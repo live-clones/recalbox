@@ -258,7 +258,7 @@ Regions::GameRegions Regions::FullNameToRegions(const std::string& region)
        //     { "uzbekistan", GameRegions::UZ},
        //     { "vietnam", GameRegions::VN},
             { "taiwan", GameRegions::TW},
-       { "usa", GameRegions::USA},
+       { "usa", GameRegions::US},
        { "asia", GameRegions::ASI},
      });
 
@@ -520,7 +520,7 @@ const std::string& Regions::RegionFullName(Regions::GameRegions region)
 //       { GameRegions::UZ, "Uzbekistan" },
 //       { GameRegions::VN, "Vietnam" },
        { GameRegions::TW, "Taiwan" },
-       { GameRegions::USA, "USA" },
+       { GameRegions::US, "USA" },
        { GameRegions::ASI, "Asia" },
      });
 
@@ -770,7 +770,7 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::MD, "md" }, // Moldova
        //       { GameRegions::UA, "ua" }, // Ukraine
        //       { GameRegions::LK, "lk" }, // Sri Lanka
-              { GameRegions::SK, "sk" }, // Slovakia
+       { GameRegions::SK, "sk" }, // Slovakia
        //       { GameRegions::AL, "al" }, // Albania
        //       { GameRegions::XK, "xk" }, // Kosovo
        //       { GameRegions::ME, "me" }, // Montenegro
@@ -782,8 +782,8 @@ const std::string& Regions::SerializeRegion(Regions::GameRegions region)
        //       { GameRegions::TR, "tr" }, // Turkey
        //       { GameRegions::UZ, "uz" }, // Uzbekistan
        //       { GameRegions::VN, "vn" }, // Vietnam
-              { GameRegions::TW, "tw" }, // Taiwan
-       { GameRegions::USA, "usa" }, // USA
+       { GameRegions::TW, "tw" }, // Taiwan
+       { GameRegions::US, "us" }, // USA
        { GameRegions::ASI, "asi" }, // Asia
      });
 
@@ -1046,8 +1046,16 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
 //       { "uz", GameRegions::UZ }, // Uzbekistan
 //       { "vn", GameRegions::VN }, // Vietnam
 //       { "tw", GameRegions::TW }, // Taiwan
-       { "usa", GameRegions::USA }, // usa
+       { "us", GameRegions::US }, // usa
        { "asi", GameRegions::ASI }, // Asia
+
+       // non iso existing regions
+       { "usa", GameRegions::US }, // us
+       { "sp", Regions::GameRegions::ES }, // ScreenScraper spanish region
+       { "J", Regions::GameRegions::JP },
+       { "F", Regions::GameRegions::FR },
+       { "E", Regions::GameRegions::EU },
+       { "U", Regions::GameRegions::US },
      });
 
   GameRegions* found = sRegionNameToRegion.try_get(region);
@@ -1063,8 +1071,10 @@ unsigned int Regions::Deserialize4Regions(const std::string& regions)
   for(int start = 0; start < (int)regions.size(); )
   {
     int pos = regions.find(',', start + 1);
-    if (pos == (int)std::string::npos) pos = (int)regions.size();
-    GameRegions region = DeserializeRegion(regions.substr(start, pos - start));
+    if (pos == (int)std::string::npos)
+      pos = (int)regions.size();
+    std::string subRegion = Strings::Replace(regions.substr(start, pos - start), ",", "");
+    GameRegions region = DeserializeRegion(subRegion);
     if (region != GameRegions::Unknown)
       result = (result << 8) | (unsigned int)region;
     start = pos;
@@ -1123,7 +1133,7 @@ Regions::GameRegions Regions::DeserializeCustomRegion(const std::string& region)
        { "J", Regions::GameRegions::JP },
        { "F", Regions::GameRegions::FR },
        { "E", Regions::GameRegions::EU },
-       { "U", Regions::GameRegions::USA },
+       { "U", Regions::GameRegions::US },
      });
 
   Regions::GameRegions* found = sRegionNameToRegion.try_get(Strings::ToUpperUTF8(region));
@@ -1140,7 +1150,7 @@ const Regions::List& Regions::AvailableRegions()
   ({
      GameRegions::Unknown, // No region
      GameRegions::WOR, // World
-     GameRegions::USA, // USA
+     GameRegions::US, // USA
      GameRegions::EU,  // Europe
      GameRegions::AME, // Latin America
      GameRegions::ASI, // Asia
