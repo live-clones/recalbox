@@ -89,7 +89,7 @@ class GameRandomSelector
         {
           if (--mIndex < 0) mIndex = mGames.Count() - 1;
           FileData* game = mGames[mIndex];
-          { LOG(LogDebug) << "[GameRandomizer] Game selected: " << game->Name() << " (" << game->FilePath().ToString() << ") in " << game->System().FullName(); }
+          { LOG(LogDebug) << "[GameRandomizer] Game selected: " << game->Name() << " (" << game->RomPath().ToString() << ") in " << game->System().FullName(); }
           return game;
         }
 
