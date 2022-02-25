@@ -78,7 +78,7 @@ FileData& FileData::CalculateHash()
 
 std::string FileData::Regions()
 {
-  std::string fileName = FilePath().FilenameWithoutExtension();
+  std::string fileName = mMetadata.RomFileOnly();
   Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);
   if (!regions.HasRegion())
     regions = Regions::ExtractRegionsFromTosecName(fileName);
