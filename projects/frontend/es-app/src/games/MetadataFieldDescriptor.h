@@ -31,16 +31,15 @@ class MetadataFieldDescriptor
     {
         // Simple types
         String,  //!< std::string
-        PString, //!< Pointer to std::string
         Int,     //!< int
+        Short,   //!< short
         Bool,    //!< bool
         Float,   //!< float
 
         // Derived types
         Text,    //!< Multiline text (std::string)
-        PList,   //!< Pointer to String list, space separated (std::string)
+        List,    //!< Simple text from a fixed list
         Path,    //!< File path (std::string)
-        PPath,   //!< Pointer to File path (std::string)
         Rating,  //!< Floating point value between 0.0 and 1.0 (float)
         Date,    //!< Epoc (int)
         Range,   //!< Integer range: LSW:from MSW:to
@@ -52,7 +51,7 @@ class MetadataFieldDescriptor
     std::string               _DefaultValue;         //!< default value
     std::string               _DisplayName;          //!< displayed as this in editors
     std::string               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
-    int                       _Offset;               //!< Offset of the real field in the target Metadata structure
+    //int                       _Offset;               //!< Offset of the real field in the target Metadata structure
     DataType                  _Type;                 //!< Datatype
     EditableType              _EditType;             //!< Editable type
     IsDefaultValueMethodType  _IsDefaultValueMethod; //!< Is Default value?
@@ -67,7 +66,7 @@ class MetadataFieldDescriptor
     const std::string&        DefaultValue()         const { return _DefaultValue;         } //!< default value
     const std::string&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
     const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
-    int                       Offset()               const { return _Offset;               } //!< Offset of the real field in the target Metadata structure
+    //int                       Offset()               const { return _Offset;               } //!< Offset of the real field in the target Metadata structure
     DataType                  Type()                 const { return _Type;                 } //!< Datatype
     EditableType              EditType()             const { return _EditType;             } //!< Editable type
     IsDefaultValueMethodType  IsDefaultValueMethod() const { return _IsDefaultValueMethod; } //!< Is Default value?
@@ -81,7 +80,7 @@ class MetadataFieldDescriptor
                             const std::string&        defaultValue,
                             const std::string&        displayName,
                             const std::string&        displayPrompt,
-                            int                       offset,
+                            //int                       offset,
                             DataType                  type,
                             EditableType              edittype,
                             IsDefaultValueMethodType  isDefaultValueMethod,
@@ -93,7 +92,7 @@ class MetadataFieldDescriptor
         _DefaultValue(defaultValue),
         _DisplayName(displayName),
         _DisplayPrompt(displayPrompt),
-        _Offset(offset),
+        //_Offset(offset),
         _Type(type),
         _EditType(edittype),
         _IsDefaultValueMethod(isDefaultValueMethod),
