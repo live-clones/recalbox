@@ -359,7 +359,7 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   }
 
   FolderData* parent = folderData->Parent();
-  Path currentFolder = folderData->FilePath();
+  Path currentFolder = folderData->RomPath();
   currentFolder.Delete();
   parent->RemoveChild(folderData);
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
