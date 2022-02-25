@@ -158,6 +158,28 @@ void SystemView::addSystem(SystemData * it)
 	this->add(e);
 }
 
+SystemData* SystemView::Prev()
+{
+  SystemData* prev = mSystemManager.PreviousVisible(mCurrentSystem);
+  while(!prev->HasVisibleGame()) {
+    prev = mSystemManager.PreviousVisible(prev);
+  }
+
+  return prev;
+}
+
+void SystemView::RemoveCurrentSystem()
+{
+  std::vector<Entry> newEntries;
+    for(auto& systemView : mEntries)
+      if (systemView.object == mCurrentSystem && mCurrentSystem->HasVisibleGame())
+      {
+        newEntries.push_back(systemView);
+        break;
+      }
+  mEntries = newEntries;
+}
+
 void SystemView::Sort()
 {
   std::vector<Entry> newEntries;

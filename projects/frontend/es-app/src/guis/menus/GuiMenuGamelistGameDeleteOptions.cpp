@@ -32,10 +32,10 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
         AddText(_("MEDIA FILES"), fileCount);
     }
 
-    mExtraFiles = GameFilesUtils::GetGamExtraFiles(mGame);
+    mExtraFiles = GameFilesUtils::GetGameExtraFiles(mGame);
     if(!mExtraFiles.empty()) {
-        fileCount = Strings::Replace(_N("%i file", "%i files", (int) GameFilesUtils::GetGamExtraFiles(mGame).size()), "%i",
-                                     Strings::ToString((int) GameFilesUtils::GetGamExtraFiles(mGame).size()));
+        fileCount = Strings::Replace(_N("%i file", "%i files", (int) GameFilesUtils::GetGameExtraFiles(mGame).size()), "%i",
+                                     Strings::ToString((int) GameFilesUtils::GetGameExtraFiles(mGame).size()));
         AddText(_("CONFIGURATION AND PATCH FILES"), fileCount);
     }
 

@@ -3235,6 +3235,14 @@ msgid "NATIVE"
 msgstr ""
 
 #
+msgid ""
+"No file selected,\n"
+"you must at least choose one."
+msgstr ""
+"Aucun fichier selectionné,\n"
+"vous devez au moins en choisir un."
+
+#
 #~ msgid "DELETE ALL GAME FILES"
 #~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
 

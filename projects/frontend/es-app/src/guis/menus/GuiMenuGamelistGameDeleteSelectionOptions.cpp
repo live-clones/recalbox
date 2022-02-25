@@ -27,13 +27,22 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
 
     mMenu.addButton(_("OK"), "", [this]
     {
-      mWindow.pushGui((new GuiMsgBoxScroll(mWindow, _("DELETE SELECTED FILES, CONFIRM?"), ComputeMessage(), _("YES"), [this]
+      if(mGameFiles->getSelectedObjects().empty() && mSaves->getSelectedObjects().empty() && mExtras->getSelectedObjects().empty() &&
+      mMedias->getSelectedObjects().empty())
+      {
+        mWindow.pushGui(
+          (new GuiMsgBox(mWindow, _("No file selected,\nyou must at least choose one."), _("BACK"), TextAlignment::Left)));
+        mMenu.SetDefaultButton(1);
+
+      }
+      else
+          mWindow.pushGui((new GuiMsgBoxScroll(mWindow, _("DELETE SELECTED FILES, CONFIRM?"), ComputeMessage(), _("YES"), [this]
       {
         DeleteSelectedFiles();
-      }, _("NO"), {}, "", nullptr, TextAlignment::Left))->SetDefaultButton(1));
+      }, _("BACK"), {}, "", nullptr, TextAlignment::Left))->SetDefaultButton(1));
     });
 
-    mMenu.addButton(_("CANCEL"), "", [this] { Close(); });
+    mMenu.addButton(_("BACK"), "", [this] { Close(); });
     mMenu.setCursorToButtons();
     mMenu.SetDefaultButton(1);
   }
@@ -74,7 +83,7 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
 std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOptions::GetExtraEntries()
 {
   std::vector<ListEntry<Path>> list;
-  for (const auto& patch : GameFilesUtils::GetGamExtraFiles(mGame))
+  for (const auto& patch : GameFilesUtils::GetGameExtraFiles(mGame))
   {
     Path path = Path(patch);
       list.push_back({ path.Filename(), path, true });

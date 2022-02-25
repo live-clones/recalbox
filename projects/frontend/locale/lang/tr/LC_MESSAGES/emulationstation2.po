@@ -3018,6 +3018,12 @@ msgstr ""
 msgid "NATIVE"
 msgstr ""
 
+#
+msgid ""
+"No file selected,\n"
+"you must at least choose one."
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "GÜVENLİK"
 

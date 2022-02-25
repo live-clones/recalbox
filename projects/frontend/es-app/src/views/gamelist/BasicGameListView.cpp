@@ -177,6 +177,19 @@ void BasicGameListView::setCursor(FileData* cursor)
 
 void BasicGameListView::removeEntry(FileData* fileData)
 {
+
+  if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame())
+  {
+    FolderData* selected = mCursorStack.top();
+
+    // remove current folder from stack
+    mCursorStack.pop();
+
+    FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
+    populateList(cursor);
+
+  }
+
   int cursorIndex = getCursorIndex();
   onFileChanged(fileData, FileChangeType::Removed);
   refreshList();
