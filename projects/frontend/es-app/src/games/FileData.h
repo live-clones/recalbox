@@ -49,13 +49,6 @@ class FileData
     //! Item type - Const ensure mType cannot be modified after being set by the constructor, so that it's alays safe to use c-style cast for FolderData sub-class.
     const ItemType mType;
 
-  private:
-    //! Item path on the filesystem
-    Path mPath;
-    //! Metadata
-    MetadataDescriptor mMetadata;
-
-  protected:
     /*!
      * Constructor for subclasses only
      * @param type
@@ -63,6 +56,12 @@ class FileData
      * @param system Parent system
      */
     FileData(ItemType type, const Path& path, RootFolderData& ancestor);
+
+  private:
+    //! Item path on the filesystem
+    Path mPath;
+    //! Metadata
+    MetadataDescriptor mMetadata;
 
   public:
     /*!
@@ -76,7 +75,7 @@ class FileData
      * Getters
      */
 
-    inline const std::string& Name() const { return mMetadata.Name(); }
+    inline std::string Name() const { return mMetadata.Name(); }
     inline std::string Hash() const { return mMetadata.RomCrc32AsString(); }
     inline ItemType Type() const { return mType; }
     inline const Path& FilePath() const { return mPath; }
@@ -104,13 +103,13 @@ class FileData
      * Get Thumbnail path if there is one, or Image path.
      * @return file path (may be empty)
      */
-    inline const Path& ThumbnailOrImagePath() const { return mMetadata.Thumbnail().IsEmpty() ? mMetadata.Image() : mMetadata.Thumbnail(); }
+    inline Path ThumbnailOrImagePath() const { return mMetadata.HasThumnnail() ? mMetadata.Thumbnail() : mMetadata.Image(); }
 
     /*!
      * Return true if at least one image is available (thumbnail or regular image)
      * @return Boolean result
      */
-    inline bool HasThumbnailOrImage() const { return !(mMetadata.Thumbnail().IsEmpty() && mMetadata.Image().IsEmpty()); }
+    inline bool HasThumbnailOrImage() const { return (mMetadata.HasThumnnail() || mMetadata.HasImage()); }
 
     /*!
      * const Metadata accessor for Read operations

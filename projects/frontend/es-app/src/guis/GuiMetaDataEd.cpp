@@ -348,7 +348,7 @@ void GuiMetaDataEd::save()
 {
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
-    if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::PList)
+    if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::List)
     {
       (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
     }

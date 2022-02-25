@@ -5,6 +5,7 @@
 #include "NetPlayData.h"
 #include <RecalboxConf.h>
 #include <RootFolders.h>
+#include <usernotifications/NotificationManager.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
 #include <themes/ThemeException.h>

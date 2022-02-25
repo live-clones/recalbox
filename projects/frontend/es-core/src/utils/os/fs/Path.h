@@ -55,8 +55,8 @@ class Path
      * @param path string path
      */
     explicit Path(const std::string& path)
+      : mPath(path)
     {
-      mPath = path;
       Normalize();
     }
 
@@ -65,8 +65,8 @@ class Path
      * @param path string path
      */
     explicit Path(const char* path)
+      : mPath(path)
     {
-      mPath = path;
       Normalize();
     }
 
@@ -75,8 +75,8 @@ class Path
      * @param path source path
      */
     explicit Path(std::string&& path)
+      : mPath(std::move(path))
     {
-      mPath = std::move(path);
       Normalize();
     }
 
@@ -85,8 +85,8 @@ class Path
      * @param path source path
      */
     Path(const Path& path)
+      : mPath(path.mPath)
     {
-      mPath = path.mPath;
     }
 
     /*!
@@ -94,8 +94,8 @@ class Path
      * @param path source path
      */
     Path(Path&& path) noexcept
+      : mPath(std::move(path.mPath))
     {
-      mPath = std::move(path.mPath);
     }
 
     /*

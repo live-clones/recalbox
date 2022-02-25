@@ -607,6 +607,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   DateTime stop;
   { LOG(LogInfo) << "[System] Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
 
+  // Cleanup metadata
+  MetadataDescriptor::CleanupHolders();
+
   // Add special systems
   AddFavoriteSystem();
   AddPorts(); // Must be first after "normal systems"

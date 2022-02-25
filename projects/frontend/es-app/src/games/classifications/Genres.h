@@ -10,7 +10,7 @@
 #include <utils/os/fs/Path.h>
 #include <utils/storage/HashMap.h>
 
-enum class GameGenres : int // Must be an int
+enum class GameGenres : short // Must be an short
 {
   None                            = 0x0000, //!< No genre
   Action                          = 0x0100, //!< Generic Action games

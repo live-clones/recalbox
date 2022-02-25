@@ -341,12 +341,12 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
   if (folderData->IsRoot() || folderData->HasChildren())
   {
-    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
+    { LOG(LogDebug) << "[DELETE] Directory " << folderData->RomPath().ToString() << " folder is not empty or root, it cannot be deleted"; }
     return;
   }
 
   FolderData* parent = folderData->Parent();
-  Path currentFolder = folderData->FilePath();
+  Path currentFolder = folderData->RomPath();
   currentFolder.Delete();
   parent->RemoveChild(folderData);
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
