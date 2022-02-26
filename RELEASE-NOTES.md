@@ -71,6 +71,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
+- Fix some ZeroCD wifi adapters not working like Odroid Wifi Module 5B adapter
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
 - Fix wifi password that could not contain & character
