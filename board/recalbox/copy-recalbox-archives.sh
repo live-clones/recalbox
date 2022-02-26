@@ -118,7 +118,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rpi-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
+		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
 	# recalbox.tar.xz (formerly boot.tar.xz)
 	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" . ||
