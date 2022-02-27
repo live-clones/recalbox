@@ -377,7 +377,7 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 FileData* GuiNetPlay::FindGame(const std::string& game)
 {
   for (auto* tmp : mSystemManager.GetAllSystemList())
-    if (RecalboxConf::Instance().isInList("global.netplay.systems", tmp->Name()))
+    if (tmp->Descriptor().HasNetPlayCores())
     {
       FileData* result = tmp->MasterRoot().LookupGame(game, FileData::SearchAttributes::ByName |
                                                             FileData::SearchAttributes::ByHash);
