@@ -21,7 +21,7 @@ NetPlayThread::NetPlayThread(WindowManager&window)
 
 std::string NetPlayThread::getLobbyListCommand()
 {
-  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::Instance().AsString("global.netplay.lobby");
+  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::Instance().GetNetplayLobby();
   return command;
 }
 
@@ -57,7 +57,7 @@ void NetPlayThread::Run()
 
       while (IsRunning())
       {
-        bool enabled = RecalboxConf::Instance().AsBool("global.netplay.active");
+        bool enabled = RecalboxConf::Instance().GetNetplayEnabled();
         if (!GameRunner::IsGameRunning()) // Do not run while a game is running
         {
           if (firstLoop && enabled)
@@ -106,7 +106,7 @@ bool NetPlayThread::Sleep(bool& enabled)
 {
   for (int i = 30; --i >= 0 && IsRunning();)
   {
-    bool stillEnabled = RecalboxConf::Instance().AsBool("global.netplay.active");
+    bool stillEnabled = RecalboxConf::Instance().GetNetplayEnabled();
     if (enabled != stillEnabled)
     {
       enabled = stillEnabled;
