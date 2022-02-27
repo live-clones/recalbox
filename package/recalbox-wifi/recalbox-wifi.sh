@@ -1,9 +1,9 @@
 #!/bin/bash
 
-interface=wlan0
+global_interface=/var/run/wpa_supplicant_global
 config_file=/recalbox/share/system/recalbox.conf
 config_file_boot=/boot/recalbox-backup.conf
-wpa_file=/etc/wpa_supplicant.conf
+wpa_file=/overlay/.configs/wpa_supplicant.conf
 INIT_SCRIPT=$(basename "$0")
 system_setting="recalbox_settings"
 
@@ -33,9 +33,14 @@ mask2cidr() {
     echo "$nbits"
 }
 
+wpa_supplicant_command() {
+  wpa_cli -g "${global_interface}" "$@"
+}
+
 # Function to create wifi profiles based on user settings
 rb_wifi_configure() {
   [ "$1" = "1" ] && X="" || X="$1"
+  local interface="$2"
   settings_ssid=$("$system_setting" -command load -key "wifi${X}.ssid" -source "$config_file")
   settings_key=$("$system_setting" -command load -key "wifi${X}.key" -source "$config_file")
   settings_ip=$("$system_setting" -command load -key "wifi${X}.ip" -source "$config_file")
@@ -47,7 +52,7 @@ rb_wifi_configure() {
   if [[ "$settings_ssid" != "" ]] ;then
 
     recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
-    network=`wpa_cli -i ${interface} add_network`
+    network=$(wpa_cli -i "$interface" add_network)
     wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
     if [ -n "$settings_key" ]; then
         # Connect to protected wifi
@@ -69,28 +74,30 @@ rb_wifi_configure() {
       [[ "$settings_netmask" != "" ]] && \
       [[ "$settings_nameservers" != "" ]]; then
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip configuration"
-      settings_netmask=$(mask2cidr $settings_netmask)
+      settings_netmask=$(mask2cidr "$settings_netmask")
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip_address=$settings_ip/$settings_netmask"
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static routers=$settings_gateway"
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "static domain_name_servers=$settings_nameservers"
-      echo "interface $interface" >> /etc/dhcpcd.conf
-      echo "static ip_address=$settings_ip/$settings_netmask" >> /etc/dhcpcd.conf
-      echo "static routers=$settings_gateway" >> /etc/dhcpcd.conf
-      echo "static domain_name_servers=$settings_nameservers" >> /etc/dhcpcd.conf
+      {
+        echo "interface $interface"
+        echo "static ip_address=$settings_ip/$settings_netmask"
+        echo "static routers=$settings_gateway"
+        echo "static domain_name_servers=$settings_nameservers"
+      } >> /etc/dhcpcd.conf
     fi
-
   fi
-
 }
 
 # function to drop all of the wpa_suppliment networks
-wpa_drop_all_networks() {
+cleanup_interface() {
+  # clear wpa_supplicant configuration and rebuild
+  local interface="$1"
   # limit any infinite loop to 10 max
   for i in {1..10}; do
 
     # get the last network id
-    netid=`wpa_cli -i $interface list_networks | tail -n1` 
-    netid=$(echo $netid | tr " " "\n")
+    netid=$(wpa_cli -i "$interface" list_networks | tail -n1)
+    netid=$(echo "$netid" | tr " " "\n")
 
     # exit at the header record
     if [[ $netid == network* ]]; then
@@ -102,18 +109,8 @@ wpa_drop_all_networks() {
   done
 }
 
-enable_wifi() {
-  # enable interface
-  ifconfig "$interface" up
-
-  # start wpa_supplicant
-  pid=$(pgrep wpa_supplicant)
-  while kill -0 $pid 2> /dev/null; do sleep 0.2; done; # Prevent race conditions
-  wpa_supplicant -B -i "$interface" -c "$wpa_file" -Dnl80211,wext -f /var/log/wpa_supplicant.log
-
-
-  # clear wpa_supplicant configuration and rebuild
-  wpa_drop_all_networks
+configure_interface() {
+  local interface="$1"
   wpa_cli -i "$interface" set update_config 1
 
   settings_region=$("$system_setting" -command load -key "wifi.region" -source "$config_file")
@@ -121,58 +118,36 @@ enable_wifi() {
 
   # iterate through all network ...
   for i in {1..3}; do
-    rb_wifi_configure $i
+    rb_wifi_configure "$i" "$interface"
   done
 
   # write wpa_supplicant configuration
   wpa_cli -i "$interface" save_config
 }
 
-start() {
-  # turn on rf signals
-  if [ -c /dev/rfkill ]; then
-    rfkill unblock all
-  fi
+# start wpa_supplicant
+enable_wifi() {
+  local interface
+  pgrep wpa_supplicant >/dev/null || wpa_supplicant -B -M -i wlan* -c "$wpa_file" -Dnl80211,wext -u -f /var/log/wpa_supplicant.log -g "${global_interface}"
+  while ! wpa_cli -g "${global_interface}" interface; do
+    sleep 0.2
+  done
+  # enable wifi for plugged interface
+  wpa_cli -g /var/run/wpa_supplicant_global interface | sed '1,/^Available interface/d' | while read -r interface; do
+    configure_interface "$interface"
+  done
+}
 
-  if [ -f "$config_file" ]; then
-    if [ "$("$system_setting" -command load -key "wifi.enabled" -source "$config_file")" -ne 0 ]; then
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option enabled, trying to configure"
-      #sleep 2 # wait a bit to be sure tmpfs is initialized
-      mount -o remount,rw /
-      enable_wifi
-      mount -o remount,ro /
-    else
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option disabled"
-      stop
+# stop wpa_supplicant
+disable_wifi() {
+  wpa_supplicant_command terminate
+  local COUNT=50
+  while pgrep wpa_supplicant >/dev/null; do
+    sleep 0.2;
+    COUNT=$((COUNT-1))
+    if [ "$COUNT" -eq 0 ]; then
+      pkill -9 wpa_supplicant
+      break
     fi
-  else
-    recallog -s "${INIT_SCRIPT}" -t "WIFI" "${config_file} not found"
-  fi
+  done
 }
-
-stop() {
-  # stop wpa_supplicant
-  killall -q wpa_supplicant
-
-  # disable interface
-  ifconfig "$interface" down
-}
-
-# Main
-case "$1" in
-  start)
-    start
-	;;
-  stop)
-    stop
-	;;
-  restart|reload)
-    stop
-    start
-	;;
-  *)
-    echo "Usage $0 {start|stop|restart}"
-    exit 1
-esac
-
-exit $?

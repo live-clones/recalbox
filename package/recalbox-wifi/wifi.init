@@ -1,0 +1,57 @@
+#!/bin/bash
+
+source /recalbox/scripts/recalbox-wifi.sh
+
+config_file=/recalbox/share/system/recalbox.conf
+config_file_boot=/boot/recalbox-backup.conf
+INIT_SCRIPT=$(basename "$0")
+system_setting="recalbox_settings"
+
+# if /recalbox/share is not yet mounted
+if ! [ -f "$config_file" ]; then
+  # use the boot version of the file
+  config_file="$config_file_boot"
+fi
+
+start() {
+  # turn on rf signals
+  if [ -c /dev/rfkill ]; then
+    rfkill unblock all
+  fi
+
+  if [ -f "$config_file" ]; then
+    if [ "$("$system_setting" -command load -key "wifi.enabled" -source "$config_file")" -ne 0 ]; then
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option enabled, trying to configure"
+      enable_wifi
+    else
+      recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option disabled"
+      stop
+    fi
+  else
+    recallog -s "${INIT_SCRIPT}" -t "WIFI" "${config_file} not found"
+  fi
+}
+
+stop() {
+  # stop wpa_supplicant
+  disable_wifi
+}
+
+# Main
+case "$1" in
+  start)
+    start
+	;;
+  stop)
+    stop
+	;;
+  restart|reload)
+    stop
+    start
+	;;
+  *)
+    echo "Usage $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?
