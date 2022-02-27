@@ -282,8 +282,8 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // NETPLAY
-  if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
-      && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->System().Name())))
+  if (event.XPressed() && RecalboxConf::Instance().GetNetplayEnabled()
+      && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
     clean();
     FileData* cursor = getCursor();
@@ -326,8 +326,8 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(Help::Valid(), _("LAUNCH"));
 
-  bool netplay = RecalboxConf::Instance().AsBool("global.netplay.active");
-  if (netplay && (RecalboxConf::Instance().isInList("global.netplay.systems", getCursor()->System().Name())))
+  bool netplay = RecalboxConf::Instance().GetNetplayEnabled();
+  if (netplay && getCursor()->System().Descriptor().HasNetPlayCores())
     help.Set(HelpType::X, _("NETPLAY"));
   else
   {

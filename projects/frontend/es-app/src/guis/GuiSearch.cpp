@@ -200,8 +200,8 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     FileData* cursor = mSearchResults[mList->getCursor()];
 
     // NETPLAY
-    if ((event.XPressed()) && (RecalboxConf::Instance().AsBool("global.netplay.active"))
-        && (RecalboxConf::Instance().isInList("global.netplay.systems", cursor->System().Name())))
+    if ((event.XPressed()) && (RecalboxConf::Instance().GetNetplayEnabled())
+        && cursor->System().Descriptor().HasNetPlayCores())
     {
       mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
       return true;
