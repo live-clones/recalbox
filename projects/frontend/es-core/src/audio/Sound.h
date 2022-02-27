@@ -3,7 +3,7 @@
 
 #include <map>
 #include <memory>
-#include "SDL_mixer.h"
+#include <SDL2/SDL_mixer.h>
 #include <utils/os/fs/Path.h>
 
 class ThemeData;
