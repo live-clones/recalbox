@@ -47,6 +47,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       BootSubMenu,
       VirtualSubMenu,
       AdultGames,
+      ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,
       SecuritySubMenu,
@@ -77,14 +78,6 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
 
     //! Overclock
     std::shared_ptr<OptionListComponent<Overclocking>> mOverclock;
-    //! Adult
-    std::shared_ptr<SwitchComponent> mAdult;
-    //! Overscan
-    std::shared_ptr<SwitchComponent> mOverscan;
-    //! Show FPS
-    std::shared_ptr<SwitchComponent> mShowFPS;
-    //! Enable Webmanager
-    std::shared_ptr<SwitchComponent> mWebManager;
 
     //! Get O/C list for the current board
     static OverclockList AvailableOverclocks();

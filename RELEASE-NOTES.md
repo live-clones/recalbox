@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - Display game regions flag in gamelist
 - Make default no image in gamelist themable
 - Add Twitch as Kodi plugin
+- Add resolution menu in Advanced Settings > Resolutions
 
 ### Improvements
 
@@ -29,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro mame2015
 - Bump libretro mame 0.239
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
+- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
 
 ### Fixes
 
@@ -38,11 +40,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix libretro mame2015 for OGA/OGS
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
-
-### Improvements
-- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
-
-### Fixes
 - Fix savestate in libretro fuse (ZX Spectrum core)
 
 

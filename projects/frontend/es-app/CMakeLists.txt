@@ -68,6 +68,8 @@ set(ES_HEADERS
         src/guis/menus/GuiMenuPads.h
         src/guis/menus/GuiMenuPadsPair.h
         src/guis/menus/GuiMenuPopupSettings.h
+        src/guis/menus/GuiMenuResolutionByEmulator.h
+        src/guis/menus/GuiMenuResolutionSettings.h
         src/guis/menus/GuiMenuRetroAchievements.h
         src/guis/menus/GuiMenuScraper.h
         src/guis/menus/GuiMenuScreensavers.h
@@ -269,6 +271,8 @@ set(ES_SOURCES
         src/guis/menus/GuiMenuPads.cpp
         src/guis/menus/GuiMenuPadsPair.cpp
         src/guis/menus/GuiMenuPopupSettings.cpp
+        src/guis/menus/GuiMenuResolutionSettings.cpp
+        src/guis/menus/GuiMenuResolutionByEmulator.cpp
         src/guis/menus/GuiMenuRetroAchievements.cpp
         src/guis/menus/GuiMenuScraper.cpp
         src/guis/menus/GuiMenuScreensavers.cpp
