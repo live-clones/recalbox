@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Pi400 power button support (Fn + F10 to turn off)
 - Display game regions flag in gamelist
 - Make default no image in gamelist themable
+- Add Twitch as Kodi plugin
 
 ### Improvements
 
