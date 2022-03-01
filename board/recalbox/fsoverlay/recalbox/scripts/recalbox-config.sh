@@ -457,6 +457,8 @@ if [ "$command" == "wifi" ]; then
     if [[ "$mode" == "enable" ]]; then
         recallog -s "${INIT_SCRIPT}" -t "WIFI" "(re)configure wifi"
         if [[ $ssid != "" && $psk != "" ]];then
+          ssid=$(echo "$ssid" | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')
+          psk=$(echo "$psk" | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')
           sed -i "s|^wifi.ssid=.*|wifi.ssid=${ssid}|g" /recalbox/share/system/recalbox.conf
           sed -i "s|^wifi.key=.*|wifi.key=${psk}|g" /recalbox/share/system/recalbox.conf
         fi

@@ -99,6 +99,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Vectrex overlays load for preinstalled games
 - Fix wifi not connecting when inserting the wifi controller afterwards
 - Fix extension bin for the watara supervision system (libretro potator)
+- Fix wifi password that could not contain & character
+
 
 ## Version 8.0.2-Electron
 
