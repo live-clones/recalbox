@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro MAMA 2003 Plus
 - Bump libretro FBNeo
 - Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
+- Bump Beetle Saturn (add netplay support)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
