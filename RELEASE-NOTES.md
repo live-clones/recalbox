@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
