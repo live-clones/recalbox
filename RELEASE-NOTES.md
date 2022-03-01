@@ -72,6 +72,8 @@ as release notes for end user on a Recalbox upgrade.
 - Deleting the netplay system configuration in recalbox.conf
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
+- Fix wifi password that could not contain & character
+
 
 ## Version 8.0.2-Electron
 
