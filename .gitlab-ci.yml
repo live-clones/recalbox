@@ -125,6 +125,10 @@ tests emulationstation:
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "beta";then
         sed -i "s/^updates.type=.*/updates.type=beta/g" package/recalbox-system/*/recalbox.conf
       fi
+    - |
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "recalboxrgbdual";then
+        sed -i "s/^updates.type=.*/updates.type=recalboxrgbdual/g" package/recalbox-system/*/recalbox.conf
+      fi
     # Build
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
@@ -276,14 +280,14 @@ release prod:
     refs:
       - tags
     variables:
-      - $CI_COMMIT_TAG !~ /beta/i
+      - $CI_COMMIT_TAG !~ /beta/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
     BUCKET: recalbox-archive-stable
   environment:
     name: prod
-    url: https://download.recalbox.com
+    url: https://www.recalbox.com/download/
 
 release alpha:
   <<: *release_definition
@@ -306,6 +310,20 @@ release public beta:
     BUCKET: recalbox-archive-beta
   environment:
     name: beta/${CI_COMMIT_REF_SLUG}
+
+release recalboxrgbdual:
+  <<: *release_definition
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /recalboxrgbdual/i
+  when: manual
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-recalboxrgbdual
+  environment:
+    name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
 
 release nightly:
   <<: *release_definition
