@@ -901,7 +901,7 @@ void SystemManager::NotifyDeviceUnmount(const DeviceMount& mountpoint)
 {
   for(const SystemData* system : mAllSystemVector)
     for(const RootFolderData* root : system->MasterRoot().SubRoots())
-      if (root->FilePath().StartWidth(mountpoint.MountPoint()))
+      if (root->RomPath().StartWidth(mountpoint.MountPoint()))
         if (root->HasGame())
         {
           { LOG(LogWarning) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " used at least in " << system->FullName(); }

@@ -478,7 +478,7 @@ RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
 RootFolderData* SystemData::GetRootFolder(const Path& root)
 {
   for(RootFolderData* rootFolder : mRootOfRoot.SubRoots())
-    if (rootFolder->FilePath() == root)
+    if (rootFolder->RomPath() == root)
       return rootFolder;
   return nullptr;
 }

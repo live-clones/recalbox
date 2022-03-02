@@ -3089,6 +3089,43 @@ msgid ""
 "you must at least choose one."
 msgstr ""
 
+#
+msgid ""
+"The device %NAME% containing roms has been plugged in! EmulationStation must "
+"relaunch to load new games."
+msgstr ""
+
+#
+msgid ""
+"A device containing roms has been unplugged! EmulationStation must relaunch "
+"to remove unavailable games."
+msgstr ""
+
+#
+msgid ""
+"Your USB device has been initialized! You can unplug it and copy your games "
+"on it."
+msgstr ""
+
+#
+msgid ""
+"The USB device %NAME% with no rom folder has been plugged in. Would you like "
+"to create rom folders on this device?"
+msgstr ""
+
+#
+msgid ""
+"Initialization failed! Your USB device is full or contains errors. Please "
+"repair or use another device."
+msgstr ""
+
+#
+msgid ""
+"WARNING: You device may not have been properly unplugged and has consistency "
+"errors. As a result, it's been mounted as read-only. You should plug your "
+"device in a Window PC and use the repair tool."
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "安全防護"
 
