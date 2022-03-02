@@ -6,6 +6,7 @@
 #include "components/TextComponent.h"
 #include <scraping/scrapers/IScraperEngine.h>
 #include <components/ButtonComponent.h>
+#include "components/ProgressBarComponent.h"
 
 class ScraperSearchComponent;
 class TextComponent;
@@ -45,6 +46,8 @@ private:
   std::shared_ptr<ButtonComponent> mButton;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
   std::shared_ptr<TextComponent> mFinalReport;
+  std::shared_ptr<ComponentGrid> mProgressGrid;
+  std::shared_ptr<ProgressBarComponent> mBar;
 
 	// Running state
 	enum class State

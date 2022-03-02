@@ -22,7 +22,7 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
     mSystemManager(systemManager),
     mSearchQueue(systems),
     mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 7))
+    mGrid(window, Vector2i(1, 8))
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -50,17 +50,29 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
 	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow);
 	mGrid.setEntry(mSearchComp, Vector2i(0, 3), false, true);
 
+  // Progress bar
+  mProgressGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(3, 3));
+  mBar = std::make_shared<ProgressBarComponent>(mWindow, 1);
+  mProgressGrid->setEntry(mBar, Vector2i(1, 1), false, true);
+  mGrid.setEntry(mProgressGrid, Vector2i(0,4), false, true);
+  mProgressGrid->setColWidthPerc(0, 0.02f);
+  mProgressGrid->setColWidthPerc(1, 0.96f);
+  mProgressGrid->setColWidthPerc(2, 0.02f);
+  mProgressGrid->setRowHeightPerc(0, 0.2f);
+  mProgressGrid->setRowHeightPerc(1, 0.6f);
+  mProgressGrid->setRowHeightPerc(2, 0.2f);
+
   mTiming = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
-  mGrid.setEntry(mTiming, Vector2i(0, 4), false, true);
+  mGrid.setEntry(mTiming, Vector2i(0, 5), false, true);
 
   mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
-  mGrid.setEntry(mDatabaseMessage, Vector2i(0, 5), false, true);
+  mGrid.setEntry(mDatabaseMessage, Vector2i(0, 6), false, true);
 
   mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this));
   std::vector<std::shared_ptr<ButtonComponent>> buttons;
 	buttons.push_back(mButton);
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
-	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
+	mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
 
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
@@ -83,9 +95,10 @@ void GuiScraperRun::onSizeChanged()
 	mGrid.setRowHeightPerc(0, mTitle->getFont()->getLetterHeight() * 2.0f / mSize.y(), false);
 	mGrid.setRowHeightPerc(1, (mSystem->getFont()->getLetterHeight() + 2.0f) / mSize.y(), false);
 	mGrid.setRowHeightPerc(2, mSubtitle->getFont()->getHeight() * 1.75f / mSize.y(), false);
-  mGrid.setRowHeightPerc(4, mTiming->getFont()->getHeight() * 1.5f / mSize.y(), false);
-  mGrid.setRowHeightPerc(5, mDatabaseMessage->getFont()->getHeight() * 1.5f / mSize.y(), false);
-	mGrid.setRowHeightPerc(6, mButtonGrid->getSize().y() / mSize.y(), false);
+  mGrid.setRowHeightPerc(4, 0.04f, false);
+  mGrid.setRowHeightPerc(5, mTiming->getFont()->getHeight() * 1.5f / mSize.y(), false);
+  mGrid.setRowHeightPerc(6, mDatabaseMessage->getFont()->getHeight() * 1.5f / mSize.y(), false);
+  mGrid.setRowHeightPerc(7, mButtonGrid->getSize().y() / mSize.y(), false);
 	mGrid.setSize(mSize);
 }
 
@@ -120,30 +133,34 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   mSystem->setText(Strings::ToUpperASCII(result->System().FullName()));
 
   // update subtitle
-  std::string ss = Strings::Format(_("GAME %i OF %i").c_str(), index, total) +
-                   " - " + Strings::ToUpperASCII(result->FilePath().Filename());
-  mSubtitle->setText(ss);
+  mSubtitle->setText(Strings::ToUpperASCII(result->FilePath().Filename()));
+
+  mBar->setMaxValue(total);
+  mBar->setCurrentValue(index);
 
   // Update game data
   mSearchComp->UpdateInfoPane(result);
 
   // Update timings
   TimeSpan elapsed = DateTime() - mStart;
-  std::string time = _("ELAPSED TIME: ")
-                     .append(elapsed.ToStringFormat("%H:%mm:%ss"))
-                     .append(" - ")
-                     .append(_("ESTIMATED TIME: "));
+
+  std::string status = Strings::Format(_("GAME %i OF %i").c_str(), index, total)
+    .append(" - ").append(_("ELAPSED TIME: "))
+    .append(elapsed.ToStringFormat("%H:%mm:%ss"))
+    .append(" - ")
+    .append(_("ESTIMATED TIME: "));
+
   if ((mScraper->ScrapesProcessed() > 10 || mScraper->ScrapesTotal() <= 10) && elapsed.TotalSeconds() > 10)
   {
     long long millisecondPerGame = elapsed.TotalMilliseconds() / mScraper->ScrapesProcessed();
     TimeSpan estimated(millisecondPerGame * mScraper->ScrapesStillPending());
     if (mScraper->ScrapesProcessed() < mScraper->ScrapesTotal())
-      time.append(estimated.ToStringFormat("%H:%mm:%ss"));
+      status.append(estimated.ToStringFormat("%H:%mm:%ss"));
     else
-      time.append(_("COMPLETE!"));
+      status.append(_("COMPLETE!"));
   }
-  else time.append("---");
-  mTiming->setText(time);
+  else status.append("---");
+  mTiming->setText(status);
 
   // Update database message
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
