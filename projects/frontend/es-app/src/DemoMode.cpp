@@ -28,6 +28,8 @@ void DemoMode::runDemo()
   bool Initialized = false;
   std::string controllerConfigs;
 
+  mGameSelector.Initialize();
+
   Path mustExit(MainRunner::sQuitNow);
   for(FileData* game = mGameSelector.NextGame(duration);
       game != nullptr;

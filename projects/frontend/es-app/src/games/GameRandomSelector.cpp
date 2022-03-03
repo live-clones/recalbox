@@ -25,6 +25,7 @@ void GameRandomSelector::InitializeSystems()
   // Fill system array with weighted systems using a log(games)
   // A system with 50 games will appear 4 times in the list
   // A system with 5000 games will appear 9 times in the list
+  mSystemArray.Clear();
   for(const SystemData* system : mSystemManager.GetVisibleSystemList())
   {
     // Demo system?
