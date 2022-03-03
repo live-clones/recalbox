@@ -235,6 +235,7 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-xrick/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-yabasanshiro/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-yabause/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-ppsspp/Config.in"
 endmenu
 endif
 endmenu
