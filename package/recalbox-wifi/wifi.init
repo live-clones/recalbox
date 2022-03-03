@@ -22,6 +22,7 @@ start() {
   if [ -f "$config_file" ]; then
     if [ "$("$system_setting" -command load -key "wifi.enabled" -source "$config_file")" -ne 0 ]; then
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option enabled, trying to configure"
+      set_default_config
       enable_wifi
     else
       recallog -s "${INIT_SCRIPT}" -t "WIFI" "Wifi option disabled"

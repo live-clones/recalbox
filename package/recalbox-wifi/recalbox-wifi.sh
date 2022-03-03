@@ -34,7 +34,7 @@ mask2cidr() {
 }
 
 wpa_supplicant_command() {
-  wpa_cli -g "${global_interface}" "$@"
+  wpa_cli -g "${global_interface}" "$@" >/dev/null
 }
 
 # Function to create wifi profiles based on user settings
@@ -52,22 +52,23 @@ rb_wifi_configure() {
   if [[ "$settings_ssid" != "" ]] ;then
 
     recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
-    network=$(wpa_cli -i "$interface" add_network)
-    wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
+    network=$(wpa_cli -i "$interface" add_network >/dev/null)
+    wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" >/dev/null || exit 1
     if [ -n "$settings_key" ]; then
         # Connect to protected wifi
-        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
-        wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
-        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" || exit 1
-        wpa_cli -i "$interface" set_network "$network" ieee80211w 1 || exit 1
+        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" >/dev/null || exit 1
+        wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE >/dev/null || exit 1
+        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" >/dev/null || exit 1
+        wpa_cli -i "$interface" set_network "$network" ieee80211w 1 >/dev/null || exit 1
     else
         # Connect to open ssid
-        wpa_cli -i "$interface" set_network "$network" key_mgmt NONE || exit 1
+        wpa_cli -i "$interface" set_network "$network" key_mgmt NONE >/dev/null || exit 1
     fi
-    wpa_cli -i "$interface" set_network "$network" scan_ssid 1 || exit 1
-    wpa_cli -i "$interface" enable_network "$network" || exit 1
+    wpa_cli -i "$interface" set_network "$network" scan_ssid 1 >/dev/null || exit 1
+    wpa_cli -i "$interface" enable_network "$network" >/dev/null || exit 1
 
     # static ip configuration in dhcpcd.conf
+    mount -o remount,rw /
     sed -i "/\b\($interface\|static\)\b/d" /etc/dhcpcd.conf
     if [[ "$settings_ip" != "" ]] && \
       [[ "$settings_gateway" != "" ]] && \
@@ -85,6 +86,7 @@ rb_wifi_configure() {
         echo "static domain_name_servers=$settings_nameservers"
       } >> /etc/dhcpcd.conf
     fi
+    mount -o remount,ro /
   fi
 }
 
@@ -96,7 +98,7 @@ cleanup_interface() {
   for i in {1..10}; do
 
     # get the last network id
-    netid=$(wpa_cli -i "$interface" list_networks | tail -n1)
+    netid=$(wpa_cli -i "$interface" list_networks | tail -n1 | cut -d '	' -f 1)
     netid=$(echo "$netid" | tr " " "\n")
 
     # exit at the header record
@@ -105,31 +107,32 @@ cleanup_interface() {
     fi
 
     # remove network id
-    wpa_cli -i "$interface" remove_network "$netid" || exit 1
+    wpa_cli -i "$interface" remove_network "$netid" >/dev/null
   done
 }
 
 configure_interface() {
   local interface="$1"
-  wpa_cli -i "$interface" set update_config 1
+  wpa_cli -i "$interface" set update_config 1 >/dev/null
 
   settings_region=$("$system_setting" -command load -key "wifi.region" -source "$config_file")
-  wpa_cli -i "$interface" set country "$settings_region"
+  wpa_cli -i "$interface" set country "$settings_region" >/dev/null
 
+  cleanup_interface "$interface"
   # iterate through all network ...
   for i in {1..3}; do
     rb_wifi_configure "$i" "$interface"
   done
 
   # write wpa_supplicant configuration
-  wpa_cli -i "$interface" save_config
+  wpa_cli -i "$interface" save_config >/dev/null
 }
 
 # start wpa_supplicant
 enable_wifi() {
   local interface
   pgrep wpa_supplicant >/dev/null || wpa_supplicant -B -M -i wlan* -c "$wpa_file" -Dnl80211,wext -u -f /var/log/wpa_supplicant.log -g "${global_interface}"
-  while ! wpa_cli -g "${global_interface}" interface; do
+  while ! wpa_supplicant_command interface; do
     sleep 0.2
   done
   # enable wifi for plugged interface
@@ -150,4 +153,10 @@ disable_wifi() {
       break
     fi
   done
+}
+
+set_default_config() {
+  [ ! -s "${wpa_file}" ] && echo "# WPA config file" >"${wpa_file}"
+  sed -i -e '/^ap_scan=/{h;s/=.*/=1/};${x;/^$/{s//ap_scan=1/;H};x}' "${wpa_file}"
+  sed -i -e '/^ctrl_interface=/{h;s#=.*#=/var/run/wpa_supplicant#};${x;/^$/{s##ctrl_interface=/var/run/wpa_supplicant#;H};x}' "${wpa_file}"
 }
