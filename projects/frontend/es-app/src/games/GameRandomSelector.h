@@ -34,6 +34,9 @@ class GameRandomSelector
     //! Check if there is at least one non-empty system
     bool HasValidSystems() { return mSystemArray.Empty(); }
 
+    //! Initialize systemes
+    void Initialize() { InitializeSystems(); }
+
   private:
     class SystemContent
     {
