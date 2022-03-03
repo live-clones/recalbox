@@ -79,11 +79,23 @@ class MetadataStringHolder
     std::string GetString(Index32 index);
 
     /*!
+     * @brief Get a string from its index
+     * @param index String index
+     * @return String
+     */
+    std::string GetString(Index32 index, const std::string& defaultValue)
+    {
+      std::string result = GetString(index);
+      if (result.empty()) return defaultValue;
+      return result;
+    }
+
+    /*!
      * @brief Get a path from the string at the given index
      * @param index String index
      * @return Path
      */
-     Path GetPath(Index32 index);
+    Path GetPath(Index32 index);
 
     //! Get storage size
     int StorageSize() const { return mMetaString.Capacity() + mIndexes.ByteSize(); }

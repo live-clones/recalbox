@@ -423,7 +423,7 @@ class MetadataDescriptor
     std::string NameAsString()        const { return sNameHolder.GetString(mName);                 }
     std::string EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     std::string CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
-    std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio);               }
+    std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio, DefaultValueRatio); }
     std::string DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
     std::string ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
     std::string ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
