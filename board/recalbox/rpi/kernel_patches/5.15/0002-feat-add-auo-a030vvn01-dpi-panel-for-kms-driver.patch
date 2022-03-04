@@ -1,0 +1,130 @@
+From fe4f6b07e9c3d9167b26c571579c3e984c793038 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Tue, 25 Jan 2022 23:05:52 +0100
+Subject: [PATCH 2/5] feat: add auo a030vvn01 dpi panel for kms driver
+
+---
+ arch/arm/boot/dts/overlays/Makefile           |  1 +
+ .../vc4-kms-dpi-a030vvn01-0-overlay.dts       | 44 +++++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 35 +++++++++++++++
+ 3 files changed, 80 insertions(+)
+ create mode 100644 arch/arm/boot/dts/overlays/vc4-kms-dpi-a030vvn01-0-overlay.dts
+
+diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
+index 2ece11693a7f..2636fdff85b4 100644
+--- a/arch/arm/boot/dts/overlays/Makefile
++++ b/arch/arm/boot/dts/overlays/Makefile
+@@ -240,6 +240,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
+ 	vc4-kms-dpi-hyperpixel4sq.dtbo \
+ 	vc4-kms-dpi-panel.dtbo \
+ 	vc4-kms-dpi-piboydmg.dtbo \
++	vc4-kms-dpi-a030vvn01-0.dtbo \
+ 	vc4-kms-dsi-7inch.dtbo \
+ 	vc4-kms-dsi-lt070me05000.dtbo \
+ 	vc4-kms-dsi-lt070me05000-v2.dtbo \
+diff --git a/arch/arm/boot/dts/overlays/vc4-kms-dpi-a030vvn01-0-overlay.dts b/arch/arm/boot/dts/overlays/vc4-kms-dpi-a030vvn01-0-overlay.dts
+new file mode 100644
+index 000000000000..677e21114e3b
+--- /dev/null
++++ b/arch/arm/boot/dts/overlays/vc4-kms-dpi-a030vvn01-0-overlay.dts
+@@ -0,0 +1,44 @@
++/*
++ * vc4-kms-dpi-a030vvn01-1-overlay.dts
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/bcm2835.h>
++
++/ {
++       compatible = "brcm,bcm2835";
++
++       fragment@0 {
++               target-path = "/";
++               __overlay__ {
++                       panel: panel {
++                               compatible = "auo,a030vvn01", "simple-panel";
++
++                               port {
++                                       panel_in: endpoint {
++                                               remote-endpoint = <&dpi_out>;
++                                       };
++                               };
++                       };
++               };
++       };
++
++       fragment@1 {
++               target = <&dpi>;
++               __overlay__  {
++                       status = "okay";
++
++                       pinctrl-names = "default";
++                       pinctrl-0 = <&dpi_18bit_cpadhi_gpio0>;
++
++                       port {
++                               dpi_out: endpoint {
++                                       remote-endpoint = <&panel_in>;
++                               };
++                       };
++               };
++       };
++};
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 43fc956eeacd..dfb925763153 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2522,6 +2522,38 @@ static const struct panel_desc xpi_piboydmg = {
+ 	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
++static const struct display_timing auo_a030vvn01_timing = {
++	.pixelclock = { 24000000, 24000000, 28220000},
++	.hactive = { 640, 640, 640 },
++	.hfront_porch = { 41, 41, 50 },
++	.hback_porch = { 41, 41, 50 },
++	.hsync_len = { 40, 40, 50},
++	.vactive = { 480, 480, 480 },
++	.vfront_porch = { 18, 18, 30},
++	.vback_porch = { 18, 18, 30 },
++	.vsync_len = { 9, 9, 18 },
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
++};
++
++static const struct panel_desc auo_a030vvn01 = {
++	.timings = &auo_a030vvn01_timing,
++	.num_timings = 1,
++	.bpc = 6,
++	.size = {
++		.width = 60,
++		.height = 45,
++	},
++	.delay = {
++		.prepare = 50,
++		.enable = 200,
++		.disable = 110,
++		.unprepare = 200,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
++	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
++};
++
+ static const struct display_timing innolux_at056tn53v1_timing = {
+ 	.pixelclock = { 39700000, 39700000, 39700000},
+ 	.hactive = { 640, 640, 640 },
+@@ -4771,6 +4803,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "xpi,piboydmg",
+ 		.data = &xpi_piboydmg,
++	}, {
++		.compatible = "auo,a030vvn01",
++		.data = &auo_a030vvn01,
+ 	}, {
+ 		.compatible = "innolux,at056tn53v1",
+ 		.data = &innolux_at056tn53v1,
+-- 
+2.35.1
+

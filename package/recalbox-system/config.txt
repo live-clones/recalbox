@@ -44,6 +44,7 @@ dtoverlay=vc4-kms-v3d
 include crt/recalbox-crt-config.txt
 
 [pi4]
+arm_64bit=0
 temp_soft_limit=70
 dtoverlay=vc4-kms-v3d
 include crt/recalbox-crt-config.txt

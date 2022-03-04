@@ -1,0 +1,19 @@
+diff --git a/Makefile b/Makefile
+index 429672f9..cbc1697e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -45,8 +45,13 @@ endif
+ 
+ # Raspberry Pi 4 CPU flags
+ ifneq (,$(findstring rpi4,$(PLATFORM)))
+-    CPUFLAGS = -mcpu=cortex-a72 -mfpu=neon-fp-armv8
++    CPUFLAGS = -mcpu=cortex-a72
++# Raspberry Pi 4 32bits CPU flags
++ifeq (,$(findstring 64,$(PLATFORM)))
++	CPUFLAGS += -mfpu=neon-fp-armv8
++endif
+ endif
++
+ #
+ # DispmanX Common flags (RPI-specific)
+ #
