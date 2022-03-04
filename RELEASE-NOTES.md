@@ -47,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro Quasi88 (Nec PC-8800)
 - Bump libretro MAMA 2003 Plus
 - Bump libretro FBNeo
+- Bump libretro mGBA (based on mGBA v0.9.3)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
