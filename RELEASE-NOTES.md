@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
   - Fix zipped rom handling
   - Handle multi-roms (.0 .1 ...) in a single zip file
 - Bump Retroarch to v1.10.0
+- Bump libretro mGBA (based on mGBA v0.9.3)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
