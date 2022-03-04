@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro DosBox Pure to v0.26
 - Bump libretro NX Engine (Cave Story) - Lots of small bug fixes!
 - Bump Amiberry to v1.4.6 (fix some graphic glitches)
+- Bump libretro Quasi88 (Nec PC-8800)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
