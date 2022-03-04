@@ -46,6 +46,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro SameBoy
 - Bump libretro Quasi88 (Nec PC-8800)
 - Bump libretro Picodrive - lots of small fixes & improvements
+- Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
