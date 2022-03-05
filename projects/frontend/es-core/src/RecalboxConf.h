@@ -161,6 +161,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
     DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
+    DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
@@ -378,6 +379,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sFilterAdultGames           = "emulationstation.filteradultgames";
     static constexpr const char* sFavoritesOnly              = "emulationstation.favoritesonly";
     static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
+    static constexpr const char* sShowOnlyLatestVersion      = "emulationstation.showonlylatestversion";
 
     static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
 
