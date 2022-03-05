@@ -4,6 +4,8 @@
 #include "views/ViewController.h"
 #include "animations/LambdaAnimation.h"
 #include "utils/locale/LocaleHelper.h"
+#include "games/GameFilesUtils.h"
+#include "games/classifications/Versions.h"
 
 DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system)
 : BasicGameListView(window, systemManager, system),
@@ -29,6 +31,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mLastPlayed(window),
   mPlayCount(window),
   mFavorite(window),
+  mVersion(window),
   mDescContainer(window),
   mDescription(window),
   mSettings(RecalboxConf::Instance())
@@ -110,6 +113,10 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
     addChild(&mFavorite);
   }
 
+  addChild(&mVersion);
+  mVersion.setZIndex(40);
+  mVersion.setDefaultZIndex(40);
+
   for (int i = 4; --i >= 0; )
   {
     auto* img = new ImageComponent(window);
@@ -145,6 +152,8 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     mRegions[i]->applyTheme(theme, getName(), strbuf,
                                   ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Path);
   }
+
+  mVersion.applyTheme(theme, getName(), "md_version",ThemeProperties::All);
 
 
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
@@ -456,6 +465,8 @@ void DetailedGameListView::setGameInfo(FileData* file)
   mLastPlayed.setValue(file->Metadata().LastPlayed());
   mPlayCount.setValue(file->Metadata().PlayCountAsString());
   mFavorite.setValue(file->Metadata().Favorite() ? _("YES") : _("NO"));
+  Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(file->FilePath().Filename());
+  mVersion.setValue(Versions::Serialize(version));
 
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
