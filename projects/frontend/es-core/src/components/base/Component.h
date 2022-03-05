@@ -28,7 +28,7 @@ class Component: public IComponent
 
     /*!
      * @brief Called from SDL in text input mode
-     * @param text Latest text
+     * @param text LatestRev text
      * @param cursor position
      */
     virtual void textInput(const char* text);

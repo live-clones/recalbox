@@ -19,6 +19,7 @@ set(ES_HEADERS
         src/games/MetadataFieldDescriptor.h
         src/games/classifications/Genres.h
         src/games/classifications/Regions.h
+        src/games/classifications/Versions.h
         src/systems/EmulatorData.h
         src/systems/EmulatorDescriptor.h
         src/systems/EmulatorList.h
@@ -230,6 +231,7 @@ set(ES_SOURCES
         src/games/MetadataDescriptor.cpp
         src/games/classifications/Genres.cpp
         src/games/classifications/Regions.cpp
+        src/games/classifications/Versions.cpp
         src/systems/EmulatorManager.cpp
         src/systems/EmulatorList.cpp
         src/systems/GameRunner.cpp

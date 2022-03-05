@@ -65,6 +65,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   if (!system.IsFavorite())
     mShowHidden = AddSwitch(_("SHOW HIDDEN"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
 
+
+  if (!system.IsFavorite())
+  AddSwitch(_("ONLY LATEST REVISION") + " (WIP)", RecalboxConf::Instance().GetLatestRevOnly(), (int)Components::LatestRevOnly, this, "");
+
   // flat folders
   if (!system.IsFavorite())
     if (!system.IsAlwaysFlat())
@@ -270,6 +274,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::Regions:
     case Components::FavoritesOnly:
     case Components::ShowHidden:
+    case Components::LatestRevOnly:
     case Components::FlatFolders: break;
   }
 }
@@ -280,6 +285,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   {
     case Components::Adult: RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save(); break;
     case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); break;
+    case Components::LatestRevOnly:
+      RecalboxConf::Instance().SetLatestRevOnly(status).Save();
+      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      break;
     case Components::ShowHidden:
       RecalboxConf::Instance().SetShowHidden(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
