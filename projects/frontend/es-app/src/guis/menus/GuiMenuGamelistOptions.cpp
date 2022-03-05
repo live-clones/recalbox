@@ -46,6 +46,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   }
 
+  // Display filename
+  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+
+
   // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
@@ -275,6 +279,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::FavoritesOnly:
     case Components::ShowHidden:
     case Components::LatestRevOnly:
+    case Components::DisplayByFileName:
     case Components::FlatFolders: break;
   }
 }
@@ -291,6 +296,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
       break;
     case Components::ShowHidden:
       RecalboxConf::Instance().SetShowHidden(status).Save();
+      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      break;
+      case Components::DisplayByFileName:
+      RecalboxConf::Instance().SetDisplayByFileName(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;

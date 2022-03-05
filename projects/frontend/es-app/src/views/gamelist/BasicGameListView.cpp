@@ -116,14 +116,16 @@ void BasicGameListView::populateList(const FolderData& folder)
     // Select fron icon
     std::string icon = getItemIcon(fd);
   	// Get name
-  	std::string name = !icon.empty() ? icon + fd->Name() : fd->Name();
+
+  	std::string name = RecalboxConf::Instance().GetDisplayByFileName() ?  fd->FilePath().Filename() : fd->Name();
+  	std::string line = !icon.empty() ? icon + name : name;
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)
   	  if (!Regions::IsIn4Regions(fd->Metadata().Region(), currentRegion))
   	    colorIndexOffset = 2;
     // Store
-		mList.add(name, fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
+		mList.add(line, fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
 		// Attribuite analysis
 		if (fd->IsGame())
     {
