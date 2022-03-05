@@ -162,6 +162,13 @@ class FileData
     FileData& CalculateHash();
 
     std::string Regions();
+
+    std::string FileNameWitouthTag() const
+    {
+      const size_t strBegin = FilePath().Filename().find_first_of('(');
+      return FilePath().Filename().substr(0, strBegin);
+
+    }
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

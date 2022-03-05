@@ -49,6 +49,7 @@ private:
     DateTimeComponent mLastPlayed;
     TextComponent mPlayCount;
     TextComponent mFavorite;
+    TextComponent mVersion;
 
     std::vector<TextComponent*> getMDLabels();
     std::vector<Component*> getMDValues();

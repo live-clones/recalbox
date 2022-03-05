@@ -36,6 +36,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Regions,
       FavoritesOnly,
       ShowHidden,
+      LatestRevOnly,
       FlatFolders,
       MetaData,
       UpdateGamelist,
