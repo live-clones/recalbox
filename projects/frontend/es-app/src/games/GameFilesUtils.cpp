@@ -10,11 +10,12 @@
 #include "GameFilesUtils.h"
 #include "FileData.h"
 #include "utils/cplusplus/StaticLifeCycleControler.h"
+#include <views/ViewController.h>
 
-std::string GameFilesUtils::GetGameDeletetext(FileData& game) {
+std::string GameFilesUtils::GetGameDeleteText(FileData& game) {
     int gameFilesCount = 1 + (int)GetGameSubFiles(game).size();
     int mediaFilesCount = (int)GetMediaFiles(game).size();
-    int extraFilesCount = (int)GetGamExtraFiles(game).size();
+    int extraFilesCount = (int) GetGameExtraFiles(game).size();
     int saveFilesCount = (int)GetGameSaveFiles(game).size();
 
     std::string text = game.DisplayName().append("\n\n")
@@ -32,7 +33,7 @@ std::string GameFilesUtils::GetGameDeletetext(FileData& game) {
     if(extraFilesCount > 0)
         text.append(_("CONF | PATCHES FILES"))
         .append(": x")
-        .append(Strings::ToString((int)GetGamExtraFiles(game).size()))
+        .append(Strings::ToString((int) GetGameExtraFiles(game).size()))
         .append("\n");
 
     if(saveFilesCount)
@@ -76,7 +77,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   return list;
 }
 
-HashSet<std::string> GameFilesUtils::GetGamExtraFiles(FileData& fileData)
+HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
   const Path& path = fileData.FilePath();
@@ -246,7 +247,7 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
   HashSet<std::string> mediaFiles = GetMediaFiles(fileData);
   files.insert(fileData.FilePath().ToString());
 
-  for (const auto& path : GetGamExtraFiles(fileData))
+  for (const auto& path : GetGameExtraFiles(fileData))
   {
     files.insert(path);
   }
@@ -266,7 +267,13 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 
 void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths)
 {
+  SystemData& systemData = fileData.System();
   { LOG(LogDebug) << "[DELETE] Begin delete of \"" << fileData.Name() << "\" deletion"; }
+  if(paths.empty() && mediaPaths.empty())
+  {
+    { LOG(LogDebug) << "[DELETE] no file to delete for game " << fileData.Name(); }
+    return;
+  }
 
   bool mainFileDeleted = false;
   Path gamePath = fileData.FilePath();
@@ -319,6 +326,14 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
   {
     //clean gamelist metadata
     fileData.Metadata().SetDirty();
+  }
+
+  if(!systemData.HasVisibleGame())
+  {
+    { LOG(LogDebug) << "[DELETE] System " << systemData.Name() << " has no more visible games"; }
+    ViewController::Instance().getSystemListView().RemoveCurrentSystem();
+    SystemData* prev = ViewController::Instance().getSystemListView().Prev();
+    ViewController::Instance().goToSystemView(prev);
   }
 }
 
