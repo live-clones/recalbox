@@ -3319,3 +3319,11 @@ msgstr ""
 #
 msgid "WARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."
 msgstr ""
+#
+msgid "DISPLAY BY FILENAME"
+msgstr ""
+
+#
+msgid "Display games by file names."
+msgstr "Afficher les jeux par noms de fichier"
+
