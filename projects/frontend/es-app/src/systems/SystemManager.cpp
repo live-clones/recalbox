@@ -6,6 +6,7 @@
 #include "SystemDescriptor.h"
 #include "SystemDeserializer.h"
 #include "LightGunDatabase.h"
+#include "games/classifications/Versions.h"
 #include <systems/SystemSorting.h>
 #include <utils/Log.h>
 #include <RecalboxConf.h>
@@ -113,6 +114,39 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     #ifdef DEBUG
     { LOG(LogInfo) << "[System] " << root.CountAll(true, true) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
     #endif
+
+
+    // compute dynamic latest metadata
+    HashMap<std::string, std::string> latestFiles{};
+    for (FileData* fd : result->getAllGames())
+    {
+      if (!fd->IsGame()) continue;
+
+      Versions::GameVersions v1 = Versions::ExtractGameVersionNoIntro(fd->FilePath().Filename());
+
+        std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath())));
+
+        if(!latestFiles.contains(gameNameWithRegion))
+        {
+          latestFiles.insert_or_assign(gameNameWithRegion, fd->FilePath().Filename());
+        }
+        else
+        {
+          Versions::GameVersions v2 = Versions::ExtractGameVersionNoIntro(latestFiles.get_or_return_default(gameNameWithRegion));
+
+          if((int) v1 > (int) v2)
+            latestFiles.insert_or_assign(gameNameWithRegion, fd->FilePath().Filename());
+        }
+    }
+    for (FileData* fd : result->getAllGames())
+    {
+      if (!fd->IsGame()) continue;
+
+      std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath())));
+
+      if(latestFiles.contains(gameNameWithRegion) && latestFiles.get_or_return_default(gameNameWithRegion) != fd->FilePath().Filename())
+        fd->Metadata().SetLatestVersion(false);
+    }
 
     // Game In Png?
     if ((properties & SystemData::Properties::GameInPng) != 0)

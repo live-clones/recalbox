@@ -369,7 +369,8 @@ int FolderData::getItemsRecursively(FileData::List& to, IFilter* filter, bool in
     }
     else if (fd->IsGame())
     {
-      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()))
+      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
       {
         to.push_back(fd);
         gameCount++;
@@ -396,7 +397,8 @@ int FolderData::getItemsRecursively(FileData::List& to, Filter includes, bool in
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
       {
         to.push_back(fd);
         gameCount++;
@@ -421,7 +423,8 @@ int FolderData::countItemsRecursively(IFilter* filter, bool includefolders, bool
     }
     else if (fd->IsGame())
     {
-      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()))
+      if (filter->ApplyFilter(*fd) && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
         result++;
     }
   }
@@ -447,7 +450,8 @@ int FolderData::countItemsRecursively(Filter includes, bool includefolders, bool
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
         result++;
     }
   }
@@ -505,7 +509,8 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+            fd->Metadata().LatestVersion()))
             isolatedFile = item;
         }
       }
@@ -521,7 +526,8 @@ int FolderData::getItems(FileData::List& to, Filter includes, bool includefolder
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0  && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0  && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
       {
         to.push_back(fd);
         gameCount++;
@@ -551,7 +557,8 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
           if (item->Metadata().Hidden()) current |= Filter::Hidden;
           if (item->Metadata().Favorite()) current |= Filter::Favorite;
           if (current == 0) current = Filter::Normal;
-          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()))
+          if ((current & includes) != 0 && (includeadult || !item->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+            fd->Metadata().LatestVersion()))
             isolatedFile = item;
         }
       }
@@ -567,7 +574,8 @@ int FolderData::countItems(Filter includes, bool includefolders, bool includeadu
       if (fd->Metadata().Hidden()) current |= Filter::Hidden;
       if (fd->Metadata().Favorite()) current |= Filter::Favorite;
       if (current == 0) current = Filter::Normal;
-      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()))
+      if ((current & includes) != 0 && (includeadult || !fd->Metadata().Adult()) && (!RecalboxConf::Instance().GetShowOnlyLatestVersion() ||
+        fd->Metadata().LatestVersion()))
         result++;
     }
   }
