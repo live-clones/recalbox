@@ -18728,7 +18728,7 @@ const char* GameNameMapManager::mMameNameToRealName[GameNameMapManager::sMameLis
 	"pokonl97", "Poker Only '97 (ver. 3.3)", 
 	"pokrdice", "Poker Dice", 
 	"polar", "Polar Explorer", 
-	"polaris", "Polaris (Latest version)", 
+	"polaris", "Polaris (LatestVersion version)",
 	"polarisa", "Polaris (First revision)", 
 	"polarisbr", "Polaris (Brazil)", 
 	"polariso", "Polaris (Original version)", 

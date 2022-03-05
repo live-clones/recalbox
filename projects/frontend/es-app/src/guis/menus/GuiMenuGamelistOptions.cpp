@@ -50,6 +50,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   // Display filename
   AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
+  if (!system.IsFavorite())
+    AddSwitch(_("SHOW ONLY LATEST VERSION") + " (BETA)", RecalboxConf::Instance().GetShowOnlyLatestVersion(), (int)Components::ShowOnlyLatestVersion, this, _(MENUMESSAGE_GAMELISTOPTION_ONLY_LASt_VERSION));
+
+
 
   // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
@@ -74,7 +78,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   if (!system.IsFavorite())
     mShowHidden = AddSwitch(_("SHOW HIDDEN"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
 
-  // flat folders
+    // flat folders
   if (!system.IsFavorite())
     if (!system.IsAlwaysFlat())
       mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
@@ -285,6 +289,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::FavoritesOnly:
     case Components::ShowHidden:
     case Components::DisplayByFileName:
+    case Components::ShowOnlyLatestVersion:
     case Components::FlatFolders: break;
   }
 }
@@ -294,8 +299,9 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::Adult: RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save(); break;
-    case Components::FavoritesOnly:
-      RecalboxConf::Instance().SetFavoritesOnly(status).Save();
+    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); break;
+    case Components::ShowOnlyLatestVersion:
+      RecalboxConf::Instance().SetShowOnlyLatestVersion(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
     case Components::ShowHidden:
