@@ -58,7 +58,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix to not reload recalbox.conf file in manager on save
 - Deleting the netplay system configuration in recalbox.conf
 - Fix savestate in libretro fuse (ZX Spectrum core)
-
+- Fix Vectrex overlays load for preinstalled games
 
 ## Version 8.0.2-Electron
 
