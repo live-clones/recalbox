@@ -11,6 +11,7 @@ INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 ARCH=$(cat /recalbox/recalbox.arch)
 INIT_SCRIPT=$(basename "$0")
 FIRSTTIMEFLAG=/overlay/.configs/firsttimevideo
+source /recalbox/scripts/recalbox-utils.sh
 
 # first boot or upgrade
 if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
@@ -119,11 +120,6 @@ showIntroBackground() {
   sleep 1
 }
 
-# findConnectedConnectors
-#   returns a list of connected connectors (using mpv)
-findConnectedConnectors() {
-  grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
-}
 
 # start mpv then show the background (aka pacman screen)
 # $1 timeout
@@ -153,17 +149,6 @@ playVideoOnOneScreen() {
   options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
-}
-
-# find best mode for crt
-getCrtMpvOptions() {
-  local connector="1.VGA-1"
-  if [[ "$machineArch" == "rpi3" ]]; then connector="VGA-1"; fi
-  if mpv --drm-mode=help | grep -q "640x480"; then
-    echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
-    return
-  fi
-  echo "--vo=drm --drm-connector=${connector}"
 }
 
 # playVideo
