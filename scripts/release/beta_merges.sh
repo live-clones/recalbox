@@ -16,6 +16,8 @@ TOKEN="${1}"
 TAG="${2:-}"
 MERGE="${3:-0}"
 PUSH="${4:-0}"
+BRANCH_NAME="${5:-"beta"}"
+LABEL="${5:-"Testing::Beta"}"
 MR_SKIP=""
 
 CURDIR=$(pwd)
@@ -86,7 +88,7 @@ echo -e "\n--------------------------------------------
 Checking all merge with label Testing::Beta
 --------------------------------------------"
 
-MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/merge_requests?labels=Testing::Beta&state=opened&per_page=100" | jq -c '.[]')
+MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/merge_requests?labels=${LABEL}&state=opened&per_page=100" | jq -c '.[]')
 
     
 if [ $? != 0 ]; then 
@@ -167,7 +169,8 @@ if [[ "${MERGE}" == 1 ]] && [[ "${PUSH}" == "1" ]];then
     # Push all beta branches
     echo -e "\n\n\e[32mPushing your beta branches\e[0m"
     cd "${CURDIR}/recalbox"
-    git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
+    #git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
+    git push recalbox beta:${BRANCH_NAME} -f 2>&1 | sed "s/^/\t/"
 
     #tagmessage "\n### TESTING.md\n"
     #git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
@@ -177,7 +180,7 @@ if [[ "${MERGE}" == 1 ]] && [[ "${PUSH}" == "1" ]];then
         # Create tag
         echo -e "\n\n\e[32mCreating TAG\e[0m ${TAG}"
         TAG_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-        "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=beta" | jq -c '.[]')
+        "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=${BRANCH_NAME}" | jq -c '.[]')
 
         echo -e "\n\n\e[32mCreating RELEASE\e[0m ${TAG}"
 
