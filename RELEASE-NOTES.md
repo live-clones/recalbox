@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Bump Retroarch to v1.10.0
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
