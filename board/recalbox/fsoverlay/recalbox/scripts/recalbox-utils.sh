@@ -56,3 +56,32 @@ getInstallUpgradeImagePath() {
     echo "/recalbox/system/resources"
   fi
 }
+
+
+# Get the best CRT MPV Options
+getCrtMpvOptions() {
+  local connector="1.VGA-1"
+  local arch="$(getArchName)"
+  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then connector="VGA-1"; fi
+  if mpv --drm-mode=help | grep -q "640x480"; then
+    echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+    return
+  fi
+  echo "--vo=drm --drm-connector=${connector}"
+}
+
+# findConnectedConnectors
+#   returns a list of connected connectors (using mpv)
+findConnectedConnectors() {
+  grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
+}
+
+
+# Check if we are on Recalbox RGB Dual
+isRecalboxRGBDual() {
+  if grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product;then
+    return 0
+  else
+    return 1
+  fi
+}
