@@ -233,7 +233,11 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   for(;;)
   {
     // File watching
-    fileNotifier.CheckAndDispatch();
+    bool isPauseGamelistWatch = systemManager.IsPauseGamelistWatcher();
+    fileNotifier.CheckAndDispatch(isPauseGamelistWatch);
+    if(isPauseGamelistWatch)
+      systemManager.PauseWatchingGamelistXml(false);
+
     InputManager::Instance().WatchJoystickAddRemove(&window);
 
     // SDL

@@ -28,10 +28,10 @@ FileNotifier& FileNotifier::ResetEventNotifier()
   return *this;
 }
 
-void FileNotifier::CheckAndDispatch()
+void FileNotifier::CheckAndDispatch(bool pauseGamelistWatcher)
 {
   FileSystemEvent fileSystemEvent;
-  if (!mInotify.GetNextEvent(fileSystemEvent))
+  if (!mInotify.GetNextEvent(fileSystemEvent, pauseGamelistWatcher))
     return;
 
   EventType currentEvent = (EventType)fileSystemEvent.mMask;

@@ -25,7 +25,7 @@ class FileNotifier
     /*!
      * @brief Check event and call Notifiers
      */
-    void CheckAndDispatch();
+    void CheckAndDispatch(bool pauseGamelistWatcher = false);
 
     /*!
      * @brief Watch recursively all files starting from the given path

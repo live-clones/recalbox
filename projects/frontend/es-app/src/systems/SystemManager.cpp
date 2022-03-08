@@ -982,3 +982,8 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
 
   return !error;
 }
+
+void SystemManager::PauseWatchingGamelistXml(bool pause)
+{
+    mPauseGamelistWatcher = pause;
+}

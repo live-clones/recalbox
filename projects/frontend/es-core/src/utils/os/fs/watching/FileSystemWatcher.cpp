@@ -78,7 +78,7 @@ void FileSystemWatcher::WatchFile(const Path& file)
   else { LOG(LogError) << "[FileWatcher] Can´t watch Path! Path does not exist. Path: " << file.ToString(); }
 }
 
-bool FileSystemWatcher::GetNextEvent(FileSystemEvent& fsevent)
+bool FileSystemWatcher::GetNextEvent(FileSystemEvent& fsevent, bool pauseGamelistWatcher)
 {
   std::vector<FileSystemEvent> newEvents;
 
@@ -86,7 +86,7 @@ bool FileSystemWatcher::GetNextEvent(FileSystemEvent& fsevent)
   if (length != 0)
   {
     readEventsFromBuffer(length, newEvents);
-    filterEvents(newEvents);
+    filterEvents(newEvents, pauseGamelistWatcher);
   }
 
   if (!mEventQueue.empty())
@@ -147,9 +147,13 @@ void FileSystemWatcher::readEventsFromBuffer(int length, std::vector<FileSystemE
   }
 }
 
-void FileSystemWatcher::filterEvents(std::vector<FileSystemEvent>& events)
+void FileSystemWatcher::filterEvents(std::vector<FileSystemEvent>& events, bool ignoreGameList)
 {
   for (const FileSystemEvent& currentEvent : events)
+  {
+    if(ignoreGameList && currentEvent.mPath.FilenameWithoutExtension() == "gamelist")
+      return;
     mEventQueue.push(currentEvent);
+  }
 }
 

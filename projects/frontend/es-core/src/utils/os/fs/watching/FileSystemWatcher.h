@@ -80,7 +80,7 @@ class FileSystemWatcher
      * @param fsevent Event structure filled in with the next event if available
      * @return True if the fsevent structure has been filled with a valid event, false otherwise
      */
-    bool GetNextEvent(FileSystemEvent& fsevent);
+    bool GetNextEvent(FileSystemEvent& fsevent, bool pauseGamelistWatcher);
 
   private:
     //! Max events
@@ -114,7 +114,7 @@ class FileSystemWatcher
      * @brief Filter events
      * @param events events ot filter
      */
-    void filterEvents(std::vector<FileSystemEvent>& events);
+    void filterEvents(std::vector<FileSystemEvent>& events, bool pauseGamelistWatcher);
 
     unsigned char mEventBuffer[MAX_EVENTS * (EVENT_SIZE + 16)];
     std::queue<FileSystemEvent> mEventQueue;

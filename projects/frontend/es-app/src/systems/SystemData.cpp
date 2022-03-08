@@ -354,6 +354,7 @@ void SystemData::UpdateGamelistXml()
           if (root->GetDeletedChildren().contains(file->FilePath().ToString()))
             continue;
           file->Metadata().Serialize(gameList, file->FilePath(), root->FilePath());
+
         }
 
         /*
@@ -372,6 +373,8 @@ void SystemData::UpdateGamelistXml()
          */
         Path xmlWritePath(getGamelistPath(*root, true));
         xmlWritePath.Directory().CreatePath();
+
+        mSystemManager.PauseWatchingGamelistXml(true);
         document.save(Writer);
 
         // Save

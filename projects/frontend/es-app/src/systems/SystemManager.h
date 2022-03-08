@@ -102,6 +102,8 @@ class SystemManager :
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
 
+    bool mPauseGamelistWatcher = false;
+
     /*!
      * @brief Check if there are at least one file from the given path whose extension is in the given set
      * @param path Path (folder) to check files in
@@ -462,4 +464,8 @@ class SystemManager :
      * @return True if th  path have been created successfully, false otherwise
      */
     static bool CreateRomFoldersIn(const DeviceMount& device);
+
+    void PauseWatchingGamelistXml(bool pause);
+
+    bool IsPauseGamelistWatcher() { return mPauseGamelistWatcher; }
 };
