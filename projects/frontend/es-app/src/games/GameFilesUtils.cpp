@@ -10,40 +10,7 @@
 #include "GameFilesUtils.h"
 #include "FileData.h"
 #include "utils/cplusplus/StaticLifeCycleControler.h"
-
-std::string GameFilesUtils::GetGameDeletetext(FileData& game) {
-    int gameFilesCount = 1 + (int)GetGameSubFiles(game).size();
-    int mediaFilesCount = (int)GetMediaFiles(game).size();
-    int extraFilesCount = (int)GetGamExtraFiles(game).size();
-    int saveFilesCount = (int)GetGameSaveFiles(game).size();
-
-    std::string text = game.DisplayName().append("\n\n")
-    .append(_("GAME FILES (ROM | DISK IMAGE)"))
-    .append(": x")
-    .append(Strings::ToString(gameFilesCount))
-    .append("\n");
-
-    if(mediaFilesCount > 0)
-        text.append(_("MEDIA FiLES"))
-        .append(": x")
-        .append(Strings::ToString((int)GetMediaFiles(game).size()))
-        .append("\n");
-
-    if(extraFilesCount > 0)
-        text.append(_("CONF | PATCHES FILES"))
-        .append(": x")
-        .append(Strings::ToString((int)GetGamExtraFiles(game).size()))
-        .append("\n");
-
-    if(saveFilesCount)
-        text.append(_("SAVES FILES"))
-        .append(": x")
-        .append(Strings::ToString((int)GetGameSaveFiles(game).size()))
-        .append("\n");
-
-    return text;
-}
-
+#include <views/ViewController.h>
 
 HashSet<std::string> GameFilesUtils::GetGameSubFiles(FileData& game)
 {
@@ -62,7 +29,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
 
   if (game.IsGame())
   {
-    for (const auto& path : directory.GetDirectoryContent())
+    for (const auto& path: directory.GetDirectoryContent())
     {
       if (path.FilenameWithoutExtension() == game.FilePath().FilenameWithoutExtension())
       {
@@ -76,7 +43,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   return list;
 }
 
-HashSet<std::string> GameFilesUtils::GetGamExtraFiles(FileData& fileData)
+HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
   const Path& path = fileData.FilePath();
@@ -96,6 +63,33 @@ HashSet<std::string> GameFilesUtils::GetGamExtraFiles(FileData& fileData)
 
     AddIfExist(fileData.P2KPath(), list);
     AddIfExist(fileData.RecalboxConfPath(), list);
+
+    // retroarch override conf by game
+    //core configs
+    for (const Path& configCorePath: Path("/recalbox/share/system/.config/retroarch/config").GetDirectoryContent())
+    {
+      if (configCorePath.IsDirectory())
+      {
+        for (const Path& subPath: configCorePath.GetDirectoryContent())
+        {
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+            AddIfExist(subPath, list);
+        }
+      }
+    }
+
+    //remap configs
+    for (const Path& remapCorePath: Path("/recalbox/share/system/.config/retroarch/config/remaps/").GetDirectoryContent())
+    {
+      if (remapCorePath.IsDirectory())
+      {
+        for (const Path& subPath: remapCorePath.GetDirectoryContent())
+        {
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+            AddIfExist(subPath, list);
+        }
+      }
+    }
   }
 
   return list;
@@ -106,14 +100,16 @@ HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
   HashSet<std::string> list;
   if (fileData.Metadata().Image().Exists())
   {
-      list.insert(fileData.Metadata().Image().ToString());
+    list.insert(fileData.Metadata().Image().ToString());
   }
-    if (fileData.Metadata().Video().Exists()) {
-        list.insert(fileData.Metadata().Video().ToString());
-    }
-    if (fileData.Metadata().Thumbnail().Exists()) {
-        list.insert(fileData.Metadata().Thumbnail().ToString());
-    }
+  if (fileData.Metadata().Video().Exists())
+  {
+    list.insert(fileData.Metadata().Video().ToString());
+  }
+  if (fileData.Metadata().Thumbnail().Exists())
+  {
+    list.insert(fileData.Metadata().Thumbnail().ToString());
+  }
 
   return list;
 }
@@ -121,7 +117,7 @@ HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
 bool GameFilesUtils::IsMediaShared(FileData& fileData, const Path& mediaPath)
 {
 
-  for (const auto& other : fileData.System().getGames())
+  for (const auto& other: fileData.System().getGames())
   {
     if (fileData.FilePath() == other->FilePath())
     {
@@ -165,7 +161,7 @@ void GameFilesUtils::ExtractUselessFiles(const Path& path, HashSet<std::string>&
 void GameFilesUtils::ExtractUselessFilesFromCue(const Path& path, HashSet<std::string>& list)
 {
   std::string file = Files::LoadFile(path);
-  for (const std::string& line : Strings::Split(file, '\n'))
+  for (const std::string& line: Strings::Split(file, '\n'))
     if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
     {
       Path file = path.Directory() / ExtractFileNameFromLine(line);
@@ -190,7 +186,7 @@ void GameFilesUtils::ExtractUselessFilesFromCcd(const Path& path, HashSet<std::s
 void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::string>& list)
 {
   std::string file = Files::LoadFile(path);
-  for (std::string line : Strings::Split(file, '\n'))
+  for (std::string line: Strings::Split(file, '\n'))
   {
     if (line.empty()) continue;
 
@@ -206,7 +202,7 @@ void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::s
 void GameFilesUtils::ExtractUselessFilesFromGdi(const Path& path, HashSet<std::string>& list)
 {
   std::string file = Files::LoadFile(path);
-  for (const std::string& line : Strings::Split(file, '\n'))
+  for (const std::string& line: Strings::Split(file, '\n'))
   {
     AddIfExist(Path(ExtractFileNameFromLine(line)), list);
   }
@@ -225,7 +221,7 @@ std::string GameFilesUtils::ExtractFileNameFromLine(const std::string& line)
   }
 
   // 2 check every words separated by space that contains dot
-  for (const std::string& word : Strings::Split(line, ' ', true))
+  for (const std::string& word: Strings::Split(line, ' ', true))
   {
     if (Strings::Contains(word, "."))
       return word;
@@ -246,17 +242,17 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
   HashSet<std::string> mediaFiles = GetMediaFiles(fileData);
   files.insert(fileData.FilePath().ToString());
 
-  for (const auto& path : GetGamExtraFiles(fileData))
+  for (const auto& path: GetGameExtraFiles(fileData))
   {
     files.insert(path);
   }
 
-  for (const auto& path : GetGameSaveFiles(fileData))
+  for (const auto& path: GetGameSaveFiles(fileData))
   {
     files.insert(path);
   }
 
-  for (const auto& path : GetGameSubFiles(fileData))
+  for (const auto& path: GetGameSubFiles(fileData))
   {
     files.insert(path);
   }
@@ -264,23 +260,30 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
   DeleteSelectedFiles(fileData, files, mediaFiles);
 }
 
-void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths)
+void
+GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& paths, HashSet<std::string>& mediaPaths)
 {
+  SystemData& systemData = fileData.System();
   { LOG(LogDebug) << "[DELETE] Begin delete of \"" << fileData.Name() << "\" deletion"; }
+  if (paths.empty() && mediaPaths.empty())
+  {
+    { LOG(LogDebug) << "[DELETE] no file to delete for game " << fileData.Name(); }
+    return;
+  }
 
   bool mainFileDeleted = false;
   Path gamePath = fileData.FilePath();
   Path root = fileData.TopAncestor().FilePath();
-  for (const auto& path : paths)
+  for (const auto& path: paths)
   {
-    if (path== gamePath.ToString())
+    if (path == gamePath.ToString())
       mainFileDeleted = true;
     Path(path).Delete();
     { LOG(LogDebug) << "[DELETE] Game file" << path << " has been deleted"; }
   }
 
   bool mediaIsDirty = false;
-  for (const auto& mediaPath : mediaPaths)
+  for (const auto& mediaPath: mediaPaths)
   {
     Path path = Path(mediaPath);
     if (path == fileData.Metadata().Image())
@@ -304,7 +307,9 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
       Path(mediaPath).Delete();
       { LOG(LogDebug) << "[DELETE] Game media file" << mediaPath << " has been deleted"; }
 
-    } else { LOG(LogDebug) << "[DELETE] Game media file not exist or is shared" << mediaPath; }
+    }
+    else
+    { LOG(LogDebug) << "[DELETE] Game media file not exist or is shared" << mediaPath; }
 
   }
 
@@ -315,10 +320,19 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string
     folder->deleteChild(&fileData);
     DeleteFoldersRecIfEmpty(folder);
 
-  } else if (mediaIsDirty)
+  }
+  else if (mediaIsDirty)
   {
     //clean gamelist metadata
     fileData.Metadata().SetDirty();
+  }
+
+  if (!systemData.HasVisibleGame())
+  {
+    { LOG(LogDebug) << "[DELETE] System " << systemData.Name() << " has no more visible games"; }
+    ViewController::Instance().getSystemListView().RemoveCurrentSystem();
+    SystemData* prev = ViewController::Instance().getSystemListView().Prev();
+    ViewController::Instance().goToSystemView(prev);
   }
 }
 
@@ -326,7 +340,10 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
   if (folderData->IsRoot() || folderData->HasChildren())
   {
-    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
+    {
+      LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString()
+                    << " folder is not empty or root, it cannot be deleted";
+    }
     return;
   }
 

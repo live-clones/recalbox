@@ -3292,3 +3292,7 @@ msgstr ""
 #
 msgid "NATIVE"
 msgstr ""
+#
+msgid "No file selected,\nyou must at least choose one."
+msgstr ""
+
