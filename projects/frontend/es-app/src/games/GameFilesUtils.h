@@ -10,9 +10,8 @@
 class GameFilesUtils
 {
   public:
-    static std::string GetGameDeletetext(FileData& game);
     static HashSet<std::string> GetGameSubFiles(FileData& game);
-    static HashSet<std::string> GetGamExtraFiles(FileData& game);
+    static HashSet<std::string> GetGameExtraFiles(FileData& fileData);
     static HashSet<std::string> GetGameSaveFiles(FileData& game);
     static HashSet<std::string> GetMediaFiles(FileData& fileData);
 

@@ -65,6 +65,8 @@ public:
 
   SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
+  SystemData* Prev();
+  void RemoveCurrentSystem();
   void Sort();
 
 protected:

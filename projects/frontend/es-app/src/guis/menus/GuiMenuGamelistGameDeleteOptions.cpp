@@ -32,10 +32,10 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
         AddText(_("MEDIA FILES"), fileCount);
     }
 
-    mExtraFiles = GameFilesUtils::GetGamExtraFiles(mGame);
+    mExtraFiles = GameFilesUtils::GetGameExtraFiles(mGame);
     if(!mExtraFiles.empty()) {
-        fileCount = Strings::Replace(_N("%i file", "%i files", (int) GameFilesUtils::GetGamExtraFiles(mGame).size()), "%i",
-                                     Strings::ToString((int) GameFilesUtils::GetGamExtraFiles(mGame).size()));
+        fileCount = Strings::Replace(_N("%i file", "%i files", (int) GameFilesUtils::GetGameExtraFiles(mGame).size()), "%i",
+                                     Strings::ToString((int) GameFilesUtils::GetGameExtraFiles(mGame).size()));
         AddText(_("CONFIGURATION AND PATCH FILES"), fileCount);
     }
 
@@ -88,7 +88,9 @@ void GuiMenuGamelistGameDeleteOptions::SubMenuSelected(int id)
 
 std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
 {
-  std::string message = _("GAME FILES (ROM | DISK IMAGE)").append("\n");
+  std::string message = _("Game").append(": ").append(mGame.Name()).append("\n\n");
+
+  message.append(_("GAME FILES (ROM | DISK IMAGE)").append("\n"));
   message.append(mGame.FilePath().ToString()).append("\n");
   for(const auto& path : mGameFiles)
   {
