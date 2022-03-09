@@ -187,6 +187,8 @@ if test "$1" == "start" ; then
         mount -o remount,rw /boot
         rm "${RRGBDUAL_LASTBOOT}"
         rm "${CRT_DAC_FILE}"
+        # In case of manual selection before the detection of Recalbox RGB Dual
+        sed -i "/adapter\.type = */d" "${CRT_OPTIONS_FILE}"
         mount -o remount,ro /boot
         exit 0
     fi
