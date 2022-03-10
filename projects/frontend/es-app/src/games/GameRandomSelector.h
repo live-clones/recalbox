@@ -55,7 +55,7 @@ class GameRandomSelector
           , mDuration(RecalboxConf::Instance().GetSystemDemoDuration(*system))
         {
           // Get adult flag
-          bool adult = RecalboxConf::Instance().GetSystemFilterAdult(*system);
+          bool adult = !RecalboxConf::Instance().GetSystemFilterAdult(*system);
           // Load games
           std::vector<FileData*> games = filter != nullptr ?
                                          system->MasterRoot().GetFilteredItemsRecursively(filter, false, adult) :
@@ -80,7 +80,7 @@ class GameRandomSelector
         static int GetSystemGameCount(const SystemData* system, IFilter* filter)
         {
           // Get adult flag
-          bool adult = RecalboxConf::Instance().GetSystemFilterAdult(*system);
+          bool adult = !RecalboxConf::Instance().GetSystemFilterAdult(*system);
           // Load games
           return filter != nullptr ?
                  system->MasterRoot().CountFilteredItemsRecursively(filter, false, adult) :

@@ -115,7 +115,7 @@ DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclu
 DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
 DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, "")
 
-DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, false)
+DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, GetFilterAdultGames())
 DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, sSystemFlatFolders, false)
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(Sort, FileSorts::Sorts, sSystemSort, FileSorts::Sorts::FileNameAscending)
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(RegionFilter, Regions::GameRegions, sSystemRegionFilter, Regions::GameRegions::Unknown)
