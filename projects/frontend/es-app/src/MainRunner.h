@@ -103,6 +103,8 @@ class MainRunner
     //! Known removed devices
     HashSet<std::string> mRemovedDevices;
 
+    HashSet<std::string> mIgnoredFiles;
+
     /*!
      * @brief Reset last exit state
      */
@@ -272,6 +274,16 @@ class MainRunner
      * @param result Not used
      */
     void Completed(const HardwareTriggeredSpecialOperations& parameter, const bool& result) override;
+
+    bool IsFileIgnored(const std::string& path)
+    {
+      bool isIgnored = mIgnoredFiles.contains(path);
+      if(isIgnored) {
+        mIgnoredFiles.erase(path);
+      }
+
+      return isIgnored;
+    }
 
   public:
     /*!
