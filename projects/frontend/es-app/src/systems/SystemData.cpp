@@ -352,11 +352,12 @@ void SystemData::UpdateGamelistXml()
          */
         for (const FileData* folder : folderList)
           folder->Metadata().Serialize(gameList, folder->FilePath(), root->FilePath());
-        for (const FileData* file : fileList)
+        for (FileData* file : fileList)
         {
           if (root->GetDeletedChildren().contains(file->FilePath().ToString()))
             continue;
           file->Metadata().Serialize(gameList, file->FilePath(), root->FilePath());
+          file->Metadata().UnDirty();
         }
 
         /*
@@ -375,6 +376,7 @@ void SystemData::UpdateGamelistXml()
          */
         Path xmlWritePath(getGamelistPath(*root, true));
         xmlWritePath.Directory().CreatePath();
+        mSystemManager.AddWatcherIgnoredFiles(xmlWritePath.ToString());
         document.save(Writer);
 
         // Save
