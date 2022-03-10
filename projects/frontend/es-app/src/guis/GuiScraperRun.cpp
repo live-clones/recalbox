@@ -158,7 +158,9 @@ void GuiScraperRun::finish()
     case ScrapeResult::FatalError:
     default: break;
   }
-	mIsProcessing = false;
+  mIsProcessing = false;
+  for(const auto& systemData : mSearchQueue)
+    systemData->UpdateGamelistXml();
 }
 
 void GuiScraperRun::GameResult(int index, int total, FileData* result)

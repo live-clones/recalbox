@@ -95,7 +95,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Initialize main Window and ViewController
-    SystemManager systemManager(*this);
+    SystemManager systemManager(*this, mIgnoredFiles);
     ApplicationWindow window(systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     InputManager::Instance().Initialize();
@@ -630,6 +630,9 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
       mPendingExit = PendingExit::MustExit;
     else if ((event & (EventType::Remove | EventType::CloseWrite)) != 0)
     {
+      if(IsFileIgnored(path.ToString()))
+        return;
+
       std::string name = path.Filename();
       if (name == "gamelist.xml" || name == "gamelist.zip")
         mPendingExit = PendingExit::GamelistChanged;
