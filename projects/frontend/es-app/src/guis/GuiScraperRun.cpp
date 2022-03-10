@@ -104,12 +104,11 @@ void GuiScraperRun::onSizeChanged()
 
 void GuiScraperRun::finish()
 {
-  bool running = mScraper->IsRunning();
   mScraper->Abort(true);
+  for(const auto& systemData : mSearchQueue)
+    systemData->UpdateGamelistXml();
   mWindow.CloseAll();
-  if (!running) // Don't reboot on user abortion
-    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
-	mIsProcessing = false;
+  mIsProcessing = false;
 }
 
 void GuiScraperRun::GameResult(int index, int total, FileData* result)
