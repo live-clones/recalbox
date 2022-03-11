@@ -55,9 +55,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
-      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; }\
       clazz& Delete##name() { Delete(key); return *this; } \
-      bool IsDefined##name() const { return IsDefined(key); }
+      bool IsDefined##name() const { return IsDefined(key); } \
+      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; } \
+      bool Has##name() const { return HasKey(key); }
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
       DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)
@@ -247,6 +248,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(AutoSave, bool, Bool, sSystemAutoSave)
     DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
     DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
+    DefineSystemGetterSetterDeclaration(Ignore, bool, Bool, sSystemIgnore)
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
     DefineSystemGetterSetterDeclaration(VideoMode, std::string, String, sSystemVideoMode)
@@ -292,6 +294,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemSmooth               = "smooth";
     static constexpr const char* sSystemRewind               = "rewind";
     static constexpr const char* sSystemAutoSave             = "autosave";
+    static constexpr const char* sSystemIgnore               = "ignore";
     static constexpr const char* sSystemShaders              = "shaders";
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
