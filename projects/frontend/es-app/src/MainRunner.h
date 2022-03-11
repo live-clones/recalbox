@@ -319,4 +319,9 @@ class MainRunner
      * @param deviceRoot Device mount point
      */
     void NoRomPathFound(const DeviceMount& deviceRoot) override;
+
+    /*!
+     * @brief Install CRT features
+     */
+    void InstallCRTFeatures();
 };
