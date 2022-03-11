@@ -71,7 +71,7 @@ GuiInfoPopup::GuiInfoPopup(WindowManager&window, const std::string& message, int
 	float posX = 0.0f, posY = 0.0f;
 
   mCorner = Corner::TopRight;
-  posX = Renderer::Instance().DisplayWidthAsFloat() * 0.98f - mGrid.getSize().x() * 0.98f;
+  posX = Renderer::Instance().DisplayWidthAsFloat() * (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None ? 0.98f : 0.94f) - mGrid.getSize().x();
   posY = Renderer::Instance().DisplayHeightAsFloat();
 
 	setPosition(posX, posY, 0);
@@ -110,7 +110,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::TopRight:
     case Corner::TopLeft:
     {
-      float targetY = Renderer::Instance().DisplayHeightAsFloat() * 0.02f + (float)mTargetOffset;
+      float targetY = Renderer::Instance().DisplayHeightAsFloat() * (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None ? 0.02f : 0.06f) + (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;
@@ -119,7 +119,7 @@ void GuiInfoPopup::Update(int delta)
     case Corner::BottomRight:
     case Corner::BottomLeft:
     {
-      float targetY = Renderer::Instance().DisplayHeightAsFloat() * 0.98f - mSize.y() - (float)mTargetOffset;
+      float targetY = Renderer::Instance().DisplayHeightAsFloat() * (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::None ? 0.98f : 0.94f) - mSize.y() - (float)mTargetOffset;
       float diff = (mPosition.y() - targetY) * .90f;
       if (diff >= -2.0f && diff <= 2.0f) diff = 0;
       mPosition.y() = targetY + diff;
