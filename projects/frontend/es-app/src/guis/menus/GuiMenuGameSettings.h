@@ -72,25 +72,6 @@ class GuiMenuGameSettings : public GuiMenuBase
     //! Get shader sets List
     static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
 
-    //! Set ratio
-    static void SetRatio(const std::string& ratio);
-    //! Set overlays on/off
-    static void SetRecalboxOverlays(bool on);
-    //! Set smoothing on/off
-    static void SetSmooth(bool on);
-    //! Set rewind on/off
-    static void SetRewind(bool on);
-    //! Set auto save on/off
-    static void SetAutoSave(bool on);
-    //! Set press quit twice on/off
-    static void SetQuitTwice(bool on);
-    //! Set integer scale on/off
-    static void SetIntegerScale(bool on);
-    //! Set raw shaders pastatic th
-    static void SetShaders(const std::string& shaders);
-    //! Set shader preset nastatic me
-    static void SetShaderSet(const std::string& shaderset);
-
     /*
      * IGuiMenuBase implementation
      */
