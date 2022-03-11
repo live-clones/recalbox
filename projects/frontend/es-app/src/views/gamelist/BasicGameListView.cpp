@@ -147,6 +147,35 @@ void BasicGameListView::setCursorIndex(int index)
 
 	mList.setCursorIndex(index);
 }
+void BasicGameListView::setCursorStack(FileData* cursor)
+{
+  std::stack<FolderData*> reverseCursorStack;
+
+  for (FileData* file: mSystem.getGames())
+  {
+    if (file->IsGame() && file == cursor)
+    {
+      FolderData* parent = file->Parent();
+      while(!parent->IsTopMostRoot())
+      {
+        reverseCursorStack.push(parent);
+        parent = parent->Parent();
+      }
+
+      while(!reverseCursorStack.empty())
+      {
+        mCursorStack.push(reverseCursorStack.top());
+        reverseCursorStack.pop();
+
+        FolderData& tmp = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
+        populateList(tmp);
+      }
+
+      return;
+    }
+
+  }
+}
 
 void BasicGameListView::setCursor(FileData* cursor)
 {

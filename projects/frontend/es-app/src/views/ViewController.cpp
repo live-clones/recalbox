@@ -169,6 +169,7 @@ void ViewController::selectGamelistAndCursor(FileData *file) {
   SystemData& system = file->System();
   goToGameList(&system);
   IGameListView* view = getGameListView(&system).get();
+  view->setCursorStack(file);
   view->setCursor(file);
 }
 

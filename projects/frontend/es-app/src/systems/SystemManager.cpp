@@ -797,7 +797,7 @@ void SystemManager::SearchResultQuickSortAscending(FolderData::ResultList& items
   if (Low < high) SearchResultQuickSortAscending(items, Low, high);
 }
 
-FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxpersystem, int maxglobal)
+FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxpersystem, int maxglobal, SystemData* systemData)
 {
   std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
 
@@ -805,12 +805,17 @@ FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext co
   FolderData::ResultList searchResults;
   searchResults.reserve(5000);
   for(auto *system : mVisibleSystemVector)
+  {
+    if (systemData != nullptr && systemData != system)
+      continue;
+
     if (system->IsSearchable())
     {
       int maximumResultPerSystem = maxpersystem;
 
       system->FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
     }
+  }
 
   // Sort results
   if (searchResults.size() > 1)

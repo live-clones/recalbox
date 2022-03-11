@@ -44,6 +44,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       DisplayByFileName,
       MainMenu,
       Quit,
+      Search,
     };
 
     //! System reference

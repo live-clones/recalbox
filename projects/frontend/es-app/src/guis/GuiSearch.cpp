@@ -188,6 +188,13 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 	  launch();
 	  return true;
   }
+  else if (event.SelectPressed())
+  {
+    GoToGame();
+    Close();
+    mWindow.CloseAll();
+    return true;
+  }
   if (!mSearchResults.empty())
   {
     FileData* cursor = mSearchResults[mList->getCursor()];
@@ -262,6 +269,7 @@ bool GuiSearch::getHelpPrompts(Help& help)
         .Set(HelpType::R, _("KEYBOARD"));
     if (!mList->isEmpty())
       help.Set(Help::Valid(), _("LAUNCH"))
+          .Set(HelpType::Select, _("GO TO GAME"))
           .Set(HelpType::X, _("NETPLAY"))
           .Set(HelpType::Y,
                mSearchResults[mList->getCursor()]->Metadata().Favorite() ? _("Remove from favorite") : _("Favorite"));
@@ -299,7 +307,9 @@ void GuiSearch::PopulateGrid(const std::string& search)
 
 	if (search.length()>2)
 	{
-		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), search, 100, 500);
+    ViewController::State viewControllerState = ViewController::Instance().getState();
+    SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
+		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), search, 100, 500, systemData);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");
@@ -417,6 +427,18 @@ void GuiSearch::launch()
     int index = mList->getCursor();
     Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
     ViewController::Instance().Launch(mSearchResults[index], GameLinkedData(), target);
+  }
+}
+
+void GuiSearch::GoToGame()
+{
+  if (mList->size() != 0)
+  {
+    VideoEngine::Instance().StopVideo(true);
+    mResultVideo->setVideo(Path::Empty, 0, 0);
+
+    int index = mList->getCursor();
+    ViewController::Instance().selectGamelistAndCursor(mSearchResults[index]);
   }
 }
 
