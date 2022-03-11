@@ -111,6 +111,7 @@ DefineSystemGetterSetterImplementation(Rewind, bool, Bool, sSystemRewind, GetGlo
 DefineSystemGetterSetterImplementation(AutoSave, bool, Bool, sSystemAutoSave, GetGlobalAutoSave())
 DefineSystemGetterSetterImplementation(Shaders, std::string, String, sSystemShaders, GetGlobalShaders())
 DefineSystemGetterSetterImplementation(ShaderSet, std::string, String, sSystemShaderSet, GetGlobalShaderSet())
+DefineSystemGetterSetterImplementation(Ignore, bool, Bool, sSystemIgnore, false)
 DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclude, false)
 DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
 DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, "")
