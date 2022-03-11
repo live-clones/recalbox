@@ -68,6 +68,9 @@ MainRunner::ExitState MainRunner::Run()
     // Save power for battery-powered devices
     board.SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
 
+    // Install CRT features if they are still unset
+    InstallCRTFeatures();
+
     // Audio controller
     AudioController audioController;
     audioController.SetVolume(audioController.GetVolume());
@@ -861,4 +864,22 @@ void MainRunner::NoRomPathFound(const DeviceMount& device)
   Strings::ReplaceAllIn(text, "%NAME%", device.Name());
   GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("YES"), lambda, _("NO"), [] { });
   mApplicationWindow->pushGui(msgBox);
+}
+
+void MainRunner::InstallCRTFeatures()
+{
+  if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
+  {
+    RecalboxConf& conf = RecalboxConf::Instance();
+    if (!conf.HasScreenSaverType()) conf.SetScreenSaverType("demo");
+    std::string recalboxTheme = "recalbox-next";
+    if (conf.GetThemeFolder() == recalboxTheme)
+    {
+      conf.SetThemeSystemView(recalboxTheme, "9-240p");
+      conf.SetThemeGamelistView(recalboxTheme, "10-240p");
+      conf.SetThemeMenuSet(recalboxTheme, "7-240p");
+      conf.SetThemeGameClipView(recalboxTheme, "3-240p");
+    }
+    conf.SetBool("240ptestsuite.ignore", false);
+  }
 }
