@@ -325,4 +325,9 @@ class MainRunner
      * @param state True to set debug logs on
      */
     static void SetDebugLogs(bool state);
+
+    /*!
+     * @brief Install CRT features
+     */
+    void InstallCRTFeatures();
 };
