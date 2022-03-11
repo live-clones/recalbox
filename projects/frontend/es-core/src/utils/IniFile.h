@@ -139,7 +139,14 @@ class IniFile
      * @param startWidth String
      * @return True if at least one key starts with the given string
      */
-    bool HasKeyStartingWith(const std::string& startWidth);
+    bool HasKeyStartingWith(const std::string& startWidth) const;
+
+    /*!
+     * @brief Check if the given key exists
+     * @param key Key name
+     * @return True if the jey exists
+     */
+    bool HasKey(const std::string& key) const;
 
     /*!
      * @brief Check if the given line is a valide 'key=value'
