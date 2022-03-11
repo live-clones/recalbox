@@ -356,6 +356,16 @@ public:
 
   unsigned int getSelectedIndex() const { return getSelectedId(); }
 
+  void setSelectedIndex(int index)
+  {
+    if ((unsigned int)index < mEntries.size() && !mMultiSelect)
+    {
+      mEntries[getSelectedIndex()].selected = false;
+      mEntries[index].selected = true;
+      onSelectedChanged();
+    }
+  }
+
 private:
 	unsigned int getSelectedId() const
 	{
@@ -370,7 +380,7 @@ private:
 		return 0;
 	}
 
-	void open()
+  void open()
 	{
 		mWindow.pushGui(new OptionListPopup(mWindow, this, mName));
 	}
