@@ -43,6 +43,8 @@ class GuiMenuThemeOptions : public GuiMenuBase
     std::string mOriginalTransition;
     //! Theme original value
     std::string mOriginalTheme;
+    //! Recalbox theme indx
+    int mRecalboxThemeIndex;
 
     //! Get O/C List
     std::vector<ListEntry<std::string>> GetTransitionEntries();
