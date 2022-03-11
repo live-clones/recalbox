@@ -448,7 +448,7 @@ class SystemManager :
      * @param maxglobal Maximum results
      * @return Sorted game found list
      */
-    FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal);
+    FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal, SystemData* systemData);
 
     //! Auto-scrape game image
     static void AutoScrape(SystemData* pData);

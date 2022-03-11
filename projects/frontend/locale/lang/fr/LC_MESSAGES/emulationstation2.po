@@ -3288,6 +3288,10 @@ msgid "Display games by file names."
 msgstr "Afficher les jeux par noms de fichier"
 
 #
+msgid "SEARCH GAMES HERE"
+msgstr "CHERCHER DES JEUX ICI"
+
+#
 #~ msgid "DELETE ALL GAME FILES"
 #~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
 

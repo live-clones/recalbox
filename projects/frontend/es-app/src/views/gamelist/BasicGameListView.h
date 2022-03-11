@@ -21,6 +21,7 @@ public:
   FileData* getCursor() override { return mList.getSelected(); }
 	int getCursorIndex() override { return mList.getCursorIndex(); }
 	int getCursorIndexMax() override {	return mList.size() - 1; }
+	void setCursorStack(FileData* file) override;
 	void setCursor(FileData* file) override;
 	void setCursorIndex(int index) override;
   virtual void removeEntry(FileData* fileData) override;

@@ -42,6 +42,8 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
 
     void launch();
 
+    void GoToGame();
+
     void initGridsNStuff();
 
     void ResizeGridLogo();
@@ -78,6 +80,7 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
     std::shared_ptr<TextComponent> mResultDesc;
     std::shared_ptr<OptionListComponent<FolderData::FastSearchContext>> mSearchChoices;
     FileData::List mSearchResults;
+    SystemData* mSystemData;
 
     //! Just-open flag
     bool mJustOpen;

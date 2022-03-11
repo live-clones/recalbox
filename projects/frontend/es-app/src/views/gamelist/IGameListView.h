@@ -64,6 +64,7 @@ class IGameListView : public Gui
     virtual int Count() const = 0;
     virtual bool IsEmpty() const  = 0;
     virtual FileData* getCursor() = 0;
+    virtual void setCursorStack(FileData*) = 0;
     virtual void setCursor(FileData*) = 0;
 
     virtual int getCursorIndex() = 0;
