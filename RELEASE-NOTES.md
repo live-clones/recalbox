@@ -35,6 +35,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Bump libretro Caprice32 (Amstrad):
+  - Update to Caprice 4.5.2
+  - Lots of fixes & improvement with latest Retroarch versions
 - Bump Retroarch to v1.10.0
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
