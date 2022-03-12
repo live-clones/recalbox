@@ -74,9 +74,16 @@ playSlides() {
   fi  
 }
 
+# Play Recalbox RGB Dual installation video
+playRRGBDInstallVideo() {
+  mpv $(getCrtMpvOptions) --really-quiet /recalbox/system/resources/install/install-recalbox-rgb-dual.mp4 &
+}
+
 # Start
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
-if [ "${fbdevHeight}" -le 320 ] && ! isRecalboxRGBDual; then
+if isRecalboxRGBDual; then
+  playRRGBDInstallVideo
+elif [ "${fbdevHeight}" -le 320 ];then
   playVideo
 else  
   playSlides
