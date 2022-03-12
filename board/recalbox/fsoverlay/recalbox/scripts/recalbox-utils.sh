@@ -62,7 +62,10 @@ getInstallUpgradeImagePath() {
 getCrtMpvOptions() {
   local connector="1.VGA-1"
   local arch="$(getArchName)"
-  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then connector="VGA-1"; fi
+  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then 
+    echo "--vo=drm --drm-connector=VGA-1"
+    return
+  fi
   if mpv --drm-mode=help | grep -q "640x480"; then
     echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
     return
