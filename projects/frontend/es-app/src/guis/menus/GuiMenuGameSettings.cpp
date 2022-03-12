@@ -20,7 +20,8 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   , mSystemManager(systemManager)
 {
   // Screen ratio choice
-  if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
+  bool isCrt = Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None;
+  if (! isCrt && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
     mRatio = AddList<std::string>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // RecalboxOverlays
@@ -39,13 +40,16 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   mQuitTwice = AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::QuitTwice, this, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
 
   // Integer Scale
-  mIntegerScale = AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalIntegerScale(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
+  if(!isCrt)
+    mIntegerScale = AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalIntegerScale(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
 
   // Shaders
-  mShaders = AddList<std::string>(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+  if(!isCrt)
+    mShaders = AddList<std::string>(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
-  mShaderSet = AddList<std::string>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+  if(!isCrt)
+    mShaderSet = AddList<std::string>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 
   // Retroachievements
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
