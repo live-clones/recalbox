@@ -3142,6 +3142,14 @@ msgid ""
 "you must at least choose one."
 msgstr ""
 
+#
+msgid "DISPLAY BY FILENAME"
+msgstr ""
+
+#
+msgid "Display games by file names."
+msgstr "Afficher les jeux par noms de fichier"
+
 #~ msgid "SECURITY"
 #~ msgstr "安全"
 

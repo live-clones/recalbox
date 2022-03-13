@@ -30,6 +30,8 @@ as release notes for end user on a Recalbox upgrade.
   - Games are merged into your game list seamlessly
 - Add support for additional network rom folders (up to 4)
   - As for USB devices, games are merged into your game list seamlessly
+- Add scraper progress bar
+- Add display by filename in gamelist option
 
 ### Improvements
 
