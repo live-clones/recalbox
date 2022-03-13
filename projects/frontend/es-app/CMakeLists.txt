@@ -24,7 +24,11 @@ set(ES_HEADERS
         src/systems/EmulatorList.h
         src/systems/EmulatorManager.h
         src/systems/GameRunner.h
+        src/systems/IMountMonitorNotifications.h
+        src/systems/IRomFolderChangeNotification.h
         src/systems/LightGunDatabase.h
+        src/systems/MountDevice.h
+        src/systems/MountMonitor.h
         src/systems/NetPlayData.h
         src/systems/CrtData.h
         src/systems/GameLinkedData.h
@@ -234,6 +238,7 @@ set(ES_SOURCES
         src/systems/EmulatorList.cpp
         src/systems/GameRunner.cpp
         src/systems/LightGunDatabase.cpp
+        src/systems/MountMonitor.cpp
         src/systems/SystemData.cpp
         src/systems/SystemDescriptor.cpp
         src/systems/SystemDeserializer.cpp
@@ -406,7 +411,7 @@ endif ()
 # define target
 include_directories(${COMMON_INCLUDE_DIRS} src src/mqtt/paho/c src/mqtt/paho/cpp)
 add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS})
-target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core resolv)
+target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core resolv blkid)
 
 # special properties for Windows builds
 if (MSVC)

@@ -53,6 +53,7 @@ ed4d3dacedc22f17bb2f28449bac7c0a  package/sdl2/sdl2.hash
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
 7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
+837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
 5fc4f4800b19ccbd3403b530e5496880  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
 7c04e662b37e09a98c46141cf08fb247  system/skeleton/etc/passwd

@@ -23,6 +23,13 @@ as release notes for end user on a Recalbox upgrade.
 - Make default no image in gamelist themable
 - Add Twitch as Kodi plugin
 - Add resolution menu in Advanced Settings > Resolutions
+- Add support for external rom folders on USB devices (up to 8 volumes/partitions)
+  - Hotplug: EmulationStation automatically reconize USB device containing roms!
+  - Initialization: Ask the user when USB device with no rom folders at all
+  - Roms folders are reconized in the root of the usb device or in `roms` or `recalbox/roms`
+  - Games are merged into your game list seamlessly
+- Add support for additional network rom folders (up to 4)
+  - As for USB devices, games are merged into your game list seamlessly
 
 ### Improvements
 
