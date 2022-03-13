@@ -83,7 +83,7 @@ tests emulationstation:
   stage: lint
   image: docker:latest  
   tags:
-    - build
+    - lintstage
   services:
     - docker:dind
   only:
@@ -105,7 +105,7 @@ tests buildroot patches:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   tags:
-    - build
+    - lintstage
   only:
     refs:
       - merge_requests
