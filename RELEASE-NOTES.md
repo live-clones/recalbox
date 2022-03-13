@@ -47,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 - Bump libretro fuse to v1.6.0 (ZX Spectrum core)
 - Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)
+- Bump Hatari: updated cpu emulation and lots of small fixes
 
 ### Fixes
 
