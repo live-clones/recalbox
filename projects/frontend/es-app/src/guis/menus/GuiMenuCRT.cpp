@@ -17,14 +17,16 @@
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
-  bool isRGBDual =  Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
   // Selected Dac
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(isRGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
-  mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mOriginalEsResolution = is31kHz ? "480p" : CrtConf::Instance().GetSystemCRTResolution();
+  mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
   if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
@@ -42,7 +44,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
 
   // 31khz resolution
-  if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+  if (is31kHz)
     m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
 
   // Force Jack
@@ -54,7 +56,6 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
 
-  mOriginalEsResolution = CrtConf::Instance().GetSystemCRTResolution();
 }
 
 GuiMenuCRT::~GuiMenuCRT()
@@ -122,9 +123,15 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries()
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
+
+  if(only31kHz)
+  {
+    list.push_back({ "480p", "480p", true });
+    return list;
+  }
 
   bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
 
