@@ -450,7 +450,7 @@
   </system>
   <system fullname="Nintendo Gameboy" platform="gb">
     <bios path="gb_bios.bin"  md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte" />
-    <bios path="dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2" mandatory="false" core="sameboy,mesen_s" />
+    <bios path="dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2,60f1d849a435e9053b8ac0fd5776804a" mandatory="false" core="sameboy,mesen_s" />
   </system>
   <system fullname="Nintendo Super Gameboy" platform="gb,gbc">
     <bios path="sgb_bios.bin"  md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
@@ -460,7 +460,7 @@
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
     <bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
-    <bios path="cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a" mandatory="false" core="sameboy,mesen_s" />
+    <bios path="cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a,6b68be48dab6a7298a8c07e00c136b4e" mandatory="false" core="sameboy,mesen_s" />
   </system>
   <system fullname="Pentagon 128/512/1024 (ZX Spectrum clone)" platform="zxspectrum">
     <bios path="fuse/128p-0.rom" md5="a249565f03b98d004ee7f019570069cd" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
