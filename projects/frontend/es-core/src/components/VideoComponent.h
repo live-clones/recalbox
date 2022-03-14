@@ -136,4 +136,8 @@ class VideoComponent : public Component
     static constexpr int DEFAULT_VIDEOEFFET = 500;
     static constexpr int DEFAULT_VIDEOLOOP  = 1;
     static constexpr bool DEFAULT_VIDEODECODEAUDIO  = false;
+
+    bool IsStoped() const { return mState == State::StopVideo; }
+    bool IsDisabled() const { return mDisabled; }
+
 };

@@ -99,6 +99,8 @@ void ViewController::goToSystemView(SystemData* system)
 
 	playViewTransition();
 
+  mSystemListView.PlayVideo();
+
   NotificationManager::Instance().Notify(*system, Notification::SystemBrowsing);
 }
 

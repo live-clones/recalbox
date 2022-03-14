@@ -17,7 +17,7 @@ class GameRandomSelector
 {
   public:
     //! Constructor
-    explicit GameRandomSelector(SystemManager& systemManager, IFilter* filter);
+    explicit GameRandomSelector(SystemManager& systemManager, IFilter* filter, SystemData* systemData);
 
     /*!
      * @brief Get next game
@@ -113,6 +113,9 @@ class GameRandomSelector
 
     //! System manager instance
     SystemManager& mSystemManager;
+
+    SystemData* mSystemData;
+
 
     // Optionnal game filter
     IFilter* mFilter;

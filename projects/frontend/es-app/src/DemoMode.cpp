@@ -10,7 +10,7 @@
 DemoMode::DemoMode(WindowManager& window, SystemManager& systemManager)
   : mWindow(window)
   , mSystemManager(systemManager)
-  , mGameSelector(systemManager, nullptr)
+  , mGameSelector(systemManager, nullptr, nullptr)
   , mInfoScreenDuration(RecalboxConf::Instance().GetGlobalDemoInfoScreen())
 {
 }

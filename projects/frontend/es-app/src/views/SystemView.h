@@ -5,6 +5,8 @@
 #include "components/IList.h"
 #include "resources/TextureResource.h"
 #include "themes/ThemeExtras.h"
+#include "games/GameRandomSelector.h"
+#include "components/VideoComponent.h"
 
 class SystemManager;
 class SystemData;
@@ -69,10 +71,23 @@ public:
   void RemoveCurrentSystem();
   void Sort();
 
-protected:
+  void PlayVideo();
+
+  protected:
 	void onCursorChanged(const CursorState& state) override;
 
 private:
+
+    class Filter : public IFilter
+    {
+      public:
+        bool ApplyFilter(const FileData& file) const override
+        {
+          bool showIfHidden = !file.Metadata().Hidden() || RecalboxConf::Instance().GetShowHidden();
+          return  !file.Metadata().VideoAsString().empty() && showIfHidden;
+        }
+    } mFilter;
+
 	void getViewElements(const ThemeData& theme);
 	void getDefaultElements();
 	void getCarouselFromTheme(const ThemeElement* elem);
@@ -96,4 +111,9 @@ private:
 	bool mViewNeedsReload;
 	bool mShowing;
 	bool launchKodi;
+
+  GameRandomSelector* mGameRandomSelector;
+  VideoComponent mVideo;
+
+    void PickGame();
 };

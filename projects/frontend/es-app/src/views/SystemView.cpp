@@ -9,10 +9,13 @@
 #include <usernotifications/NotificationManager.h>
 #include "guis/menus/GuiMenu.h"
 #include "audio/AudioManager.h"
+#include "utils/cplusplus/StaticLifeCycleControler.h"
 #include <guis/GuiSearch.h>
 #include <guis/GuiSettings.h>
 #include <guis/menus/GuiMenuSwitchKodiNetplay.h>
 #include <systems/GameRunner.h>
+#include <VideoEngine.h>
+
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -29,7 +32,8 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
     mCurrentSystem(nullptr),
     mViewNeedsReload(true),
     mShowing(false),
-    launchKodi(false)
+    launchKodi(false),
+    mVideo(window)
 {
 	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 }
@@ -251,19 +255,22 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 		}
 		if (event.ValidPressed())
 		{
-			stopScrolling();
+      mVideo.setVideo(Path::Empty, 0, 0);
+      stopScrolling();
       ViewController::Instance().goToGameList(getSelected());
-			return true;
+      return true;
 		}
         if (event.YPressed() && GameClipView::IsGameClipEnabled())
         {
-            mWindow.DoSleep();
-            ViewController::Instance().goToGameClipView();
+          mVideo.setVideo(Path::Empty, 0, 0);
+          mWindow.DoSleep();
+          ViewController::Instance().goToGameClipView();
             return true;
         }
 
     if (event.XPressed())
     {
+      mVideo.setVideo(Path::Empty, 0, 0);
       bool kodiExists = RecalboxSystem::kodiExists();
       bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
       bool kodiX = RecalboxConf::Instance().GetKodiXButton();
@@ -299,6 +306,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 		if (event.R1Pressed())
     {
+      mVideo.setVideo(Path::Empty, 0, 0);
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       return true;
     }
@@ -323,6 +331,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 	if(mCurrentSystem != getSelected()){
     mCurrentSystem = getSelected();
     AudioManager::Instance().StartPlaying(getSelected()->Theme());
+    PlayVideo();
 	}
 	// update help style
 	updateHelpPrompts();
@@ -493,6 +502,14 @@ void SystemView::Render(const Transform4x4f& parentTrans)
 		renderInfoBar(trans);
 	}
 	renderExtras(trans, minMax.second, INT16_MAX);
+
+  mVideo.Render(trans);
+
+  if(!mVideo.IsDisabled() && mVideo.IsStoped())
+  {
+    PickGame();
+  }
+
 }
 
 bool SystemView::getHelpPrompts(Help& help)
@@ -823,4 +840,41 @@ void SystemView::manageFavorite()
   // Add or remove system
   if (hasFavorite && favorite->FavoritesCount() == 0) removeFavoriteSystem();
   else if (!hasFavorite && favorite->FavoritesCount() > 0) addSystem(favorite);
+}
+
+void SystemView::PlayVideo()
+{
+
+  mVideo.setOrigin(0.5, 0.5);
+  mVideo.setPosition(mSize.x() * 0.5f, mSize.y() * 0.25f);
+  mVideo.setDefaultZIndex(30);
+  mVideo.setDisabled(true);
+
+  mVideo.applyTheme(mCurrentSystem->Theme(), "system", "md_video",
+                    ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
+                    ThemeProperties::Rotation);
+
+
+  if(mVideo.IsDisabled()) return;
+  mGameRandomSelector = new GameRandomSelector(mSystemManager, &mFilter, mCurrentSystem);
+  PickGame();
+}
+
+void SystemView::PickGame()
+{
+  if(mGameRandomSelector == nullptr) return;
+  
+  FileData* game = mGameRandomSelector->NextGame();
+
+  for(int i = 0; i<10; i++)
+  {
+
+    if(game->Metadata().Video().Exists())
+      break;
+
+    FileData* game = mGameRandomSelector->NextGame();
+  }
+
+
+  mVideo.setVideo(game->Metadata().Video(), 2000, 1, AudioModeTools::CanDecodeVideoSound());
 }

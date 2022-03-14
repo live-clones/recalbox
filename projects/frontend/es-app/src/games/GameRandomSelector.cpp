@@ -12,11 +12,14 @@
 std::random_device GameRandomSelector::sRandomDevice;
 std::mt19937 GameRandomSelector::sRandomGenerator(sRandomDevice());
 
-GameRandomSelector::GameRandomSelector(SystemManager& systemManager, IFilter* filter)
+GameRandomSelector::GameRandomSelector(SystemManager& systemManager, IFilter* filter, SystemData* systemData)
   : mSystemManager(systemManager)
   , mFilter(filter)
   , mSystemIndex(0)
+  , mSystemData(systemData)
+
 {
+
   InitializeSystems();
 }
 
@@ -27,8 +30,12 @@ void GameRandomSelector::InitializeSystems()
   // A system with 5000 games will appear 9 times in the list
   for(const SystemData* system : mSystemManager.GetVisibleSystemList())
   {
+    // for systemView video
+    if(mSystemData != nullptr && mSystemData != system)
+      continue;
+
     // Demo system?
-    if (!RecalboxConf::Instance().isInList("global.demo.systemlist", system->Name()) &&
+    if (mSystemData == nullptr && !RecalboxConf::Instance().isInList("global.demo.systemlist", system->Name()) &&
         !RecalboxConf::Instance().GetSystemDemoInclude(*system)) continue;
     // Has game?
     int gameCount = SystemContent::GetSystemGameCount(system, mFilter);
