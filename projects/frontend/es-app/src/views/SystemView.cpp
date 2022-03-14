@@ -267,7 +267,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       bool kodiExists = RecalboxSystem::kodiExists();
       bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
       bool kodiX = RecalboxConf::Instance().GetKodiXButton();
-      bool netplay = RecalboxConf::Instance().AsBool("global.netplay.active");
+      bool netplay = RecalboxConf::Instance().GetNetplayEnabled();
 
       if (kodiExists && kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
       {
@@ -501,8 +501,8 @@ bool SystemView::getHelpPrompts(Help& help)
 	    .Set(Help::Valid(), _("SELECT"));
 
 	if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetKodiXButton())
-    help.Set(HelpType::X, RecalboxConf::Instance().AsBool("global.netplay.active") ? _("KODI/NETPLAY") : _("START KODI"));
-	else if (RecalboxConf::Instance().AsBool("global.netplay.active"))
+    help.Set(HelpType::X, RecalboxConf::Instance().GetNetplayEnabled() ? _("KODI/NETPLAY") : _("START KODI"));
+	else if (RecalboxConf::Instance().GetNetplayEnabled())
 	  help.Set(HelpType::X, _("NETPLAY"));
 
 	help.Set(HelpType::Select, _("QUIT"))
