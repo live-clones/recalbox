@@ -35,6 +35,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Bump EmuSCV (Super Cassette Vision)
+  - Fix zipped rom handling
+  - Handle multi-roms (.0 .1 ...) in a single zip file
 - Bump Retroarch to v1.10.0
 - Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
 - Bump libretro Picodrive - lots of small fixes & improvements
