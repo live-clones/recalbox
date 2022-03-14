@@ -65,7 +65,7 @@ class LibretroCores:
 
     @staticmethod
     def configureAmstradGX4000(coreSettings: keyValueSettings):
-        coreSettings.setString("cap32_model", '"6128+"')
+        coreSettings.setString("cap32_model", '"6128+ (experimental)"')
 
     @staticmethod
     def configureAtari5200(coreSettings: keyValueSettings):
