@@ -77,6 +77,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix some ZeroCD wifi adapters not working like Odroid Wifi Module 5B adapter
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
+- Fix reversal of buttons A and B on SF 30 PRO controller
 
 ## Version 8.0.2-Electron
 
