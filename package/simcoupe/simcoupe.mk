@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SIMCOUPE_VERSION = v1.2.5
+SIMCOUPE_VERSION = v1.2.8
 SIMCOUPE_SITE = https://gitlab.com/recalbox/packages/standalone/simcoupe.git
 SIMCOUPE_LICENSE = GPL-2.0
 SIMCOUPE_LICENSE_FILES = License.txt
@@ -15,8 +15,9 @@ SIMCOUPE_BIOS_AND_RESOURCES = /usr/share/simcoupe
 
 define SIMCOUPE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/simcoupe $(TARGET_DIR)/usr/bin/simcoupe
-	$(INSTALL) -D $(@D)/_deps/saasound-build/libSAASound* $(TARGET_DIR)/usr/lib/
-	$(INSTALL) -D $(@D)/_deps/resid-build/libresid* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/_deps/spectrum-build/libspectrum.so* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/_deps/saasound-build/libSAASound.so* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/_deps/resid-build/libresid.so* $(TARGET_DIR)/usr/lib/
 	#$(INSTALL) -D $(@D)/Extern/fmt/libfmt* $(TARGET_DIR)/usr/lib/
 	mkdir -p $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)
 	cp -R $(@D)/Resource/** $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)
@@ -49,6 +50,6 @@ SIMCOUPE_CONF_OPTS += -DCMAKE_CXX_COMPILER="$(TARGET_CXX)"
 SIMCOUPE_CONF_OPTS += -DCMAKE_LINKER="$(TARGET_LD)"
 SIMCOUPE_CONF_OPTS += -DCMAKE_C_FLAGS="$(COMPILER_COMMONS_CFLAGS_SO)"
 SIMCOUPE_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAGS_SO)"
-SIMCOUPE_CONF_OPTS += -DCMAKE_LINKER_EXE_FLAGS="$(COMPILER_COMMONS_LDFLAGS_SO)"
+SIMCOUPE_CONF_OPTS += -DCMAKE_EXE_LINKER_FLAGS="$(COMPILER_COMMONS_LDFLAGS_SO)"
 
 $(eval $(cmake-package))

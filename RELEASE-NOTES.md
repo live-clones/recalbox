@@ -51,6 +51,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro MAMA 2003 Plus
 - Bump libretro FBNeo
 - Bump libretro mGBA (based on mGBA v0.9.3)
+- Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239

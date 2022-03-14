@@ -1,5 +1,5 @@
 diff --git a/Base/Options.cpp b/Base/Options.cpp
-index 4940bcc..9c2c8f2 100644
+index 0b155f8..782ae75 100644
 --- a/Base/Options.cpp
 +++ b/Base/Options.cpp
 @@ -118,6 +118,18 @@ static bool SetNamedValue(const std::string& option_name, const std::string& str
