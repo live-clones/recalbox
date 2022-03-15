@@ -119,12 +119,19 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
     for(const auto& itemPath : items)
       GameFilesUtils::ExtractUselessFiles(itemPath, blacklist);
 
+  std::string ignorelist(1, ','); ignorelist.append(System().Descriptor().IgnoredFiles()).append(1, ',');
+
   for (Path& filePath : items)
   {
     // Get file
     std::string stem = filePath.FilenameWithoutExtension();
     if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
+
+    // Force to hide ignored files
+    std::string ignorefile(1, ','); ignorefile.append(filePath.Filename()).append(1, ',');
+    if (Strings::Contains(ignorelist, ignorefile))
+      continue;
 
     if (containsMultiDiskFile && blacklist.contains(filePath.ToString())) continue;
 
