@@ -287,6 +287,8 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       }
     }
 
+    std::string ignorelist(1, ','); ignorelist.append(mDescriptor.IgnoredFiles()).append(1, ',');
+
     const Path& relativeTo = root.FilePath();
     XmlNode games = gameList.child("gameList");
     if (games != nullptr)
@@ -302,6 +304,11 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         if (forceCheckFile)
           if (!path.Exists())
             continue;
+
+        // Force to hide ignored files
+        std::string ignorefile(1, ','); ignorefile.append(path.Filename()).append(1, ',');
+        if (Strings::Contains(ignorelist, ignorefile))
+          continue;
 
         FileData* file = LookupOrCreateGame(root, relativeTo, path, type, doppelgangerWatcher);
         if (file == nullptr)

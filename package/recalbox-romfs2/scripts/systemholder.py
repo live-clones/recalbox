@@ -25,7 +25,7 @@ class SystemHolder:
             "mandatory": 3,
         }
 
-        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, manufacturer : str, retroachievements: bool, crtmultiresolution: bool, crtmultiregion: bool):
+        def __init__(self, systemtype: str, pad: str, keyboard: str, mouse: str, lightgun: str, releasedate: str, manufacturer : str, retroachievements: bool, crtmultiresolution: bool, crtmultiregion: bool, ignoredfiles: str):
             if systemtype not in self.__systemTypes.keys(): raise TypeError("Invalid system type! {}".format(systemtype))
             if pad not in self.__deviceRequirement.keys(): raise TypeError("Invalid pad type! {}".format(pad))
             if keyboard not in self.__deviceRequirement.keys(): raise TypeError("Invalid keyboard type! {}".format(keyboard))
@@ -41,6 +41,7 @@ class SystemHolder:
             self.__retroachievements: bool = retroachievements
             self.__multiresolution: bool = crtmultiresolution
             self.__multiregion: bool = crtmultiregion
+            self.__ignoredfiles: List[str] = ignoredfiles.split(',')
 
         def serialize(self):
             return {
@@ -53,7 +54,8 @@ class SystemHolder:
                 "manufacturer": self.__manufacturer,
                 "retroachievements": '1' if self.__retroachievements else '0',
                 "crt.multiresolution": '1' if self.__multiresolution else '0',
-                "crt.multiregion": '1' if self.__multiregion else '0'
+                "crt.multiregion": '1' if self.__multiregion else '0',
+                "ignoredfiles": ','.join(self.__ignoredfiles)
             }
 
         @property
@@ -100,6 +102,9 @@ class SystemHolder:
 
         @property
         def CrtMultiRegion(self) -> bool: return self.__multiregion
+
+        @property
+        def IgnoredFiles(self) -> List[str]: return self.__ignoredfiles
 
     class Core:
 
@@ -193,7 +198,7 @@ class SystemHolder:
         }
         self.__port: bool = False
         self.__readOnly: bool = False
-        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", "virtual", False, False, False)
+        self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", "virtual", False, False, False, "")
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
         self.__deserialize()
@@ -335,5 +340,6 @@ class SystemHolder:
             retroachievements=(self.__get(desc, "properties", "retroachievements", "0", True) == '1'),
             crtmultiresolution=(self.__get(desc, "properties", "crt.multiresolution", "0", True) == '1'),
             crtmultiregion=(self.__get(desc, "properties", "crt.multiregion", "0", True) == '1'),
+            ignoredfiles=self.__get(desc, "properties", "ignoredfiles", "", False),
         )
 
