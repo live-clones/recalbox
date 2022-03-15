@@ -57,7 +57,8 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                             Xml::AttributeAsString(properties, "manufacturer", ""),
                                             Xml::AttributeAsBool(properties, "lightgun", false),
                                             Xml::AttributeAsBool(properties, "crt.multiresolution", false),
-                                            Xml::AttributeAsBool(properties, "crt.multiregion", false));
+                                            Xml::AttributeAsBool(properties, "crt.multiregion", false),
+                                            Xml::AttributeAsString(properties, "ignoredfiles", ""));
 
   // Check
   if (systemDescriptor.IsValid())
