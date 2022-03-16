@@ -319,4 +319,10 @@ class MainRunner
      * @param deviceRoot Device mount point
      */
     void NoRomPathFound(const DeviceMount& deviceRoot) override;
+
+    /*!
+     * @brief Set debug log state
+     * @param state True to set debug logs on
+     */
+    static void SetDebugLogs(bool state);
 };
