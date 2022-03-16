@@ -89,6 +89,7 @@ as release notes for end user on a Recalbox upgrade.
   - Use F12 as ESC replacement to quit 
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
 - Bump libretro Dosbox-Pure 0.9.1
+- Bump Realtek 8821-CU driver
 
 ### Fixes
 
