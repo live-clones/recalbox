@@ -43,10 +43,6 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Zero Lag
   AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
 
-  // 31khz resolution
-  if (is31kHz)
-    m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
-
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
   mForceJack = mOriginalForceJack;
@@ -141,17 +137,6 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetGamesResolutionOn31kHzEntries()
-{
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
-
-  std::string selectedResolution = CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz();
-
-  list.push_back({ "480p", "480p", selectedResolution == "480" || selectedResolution.empty() });
-  list.push_back({ "240p (double freq)", "240", selectedResolution == "240" });
-
-  return list;
-}
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
 {
@@ -178,12 +163,6 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
   if ((Components)id == Components::EsResolution)
   {
     CrtConf::Instance().SetSystemCRTResolution(value).Save();
-  }
-  if ((Components)id == Components::GamesResolutionOn31kHz)
-  {
-    if(m31kHzResolution != nullptr){
-      CrtConf::Instance().SetSystemCRTGamesResolutionOn31kHz(value).Save();
-    }
   }
 }
 
