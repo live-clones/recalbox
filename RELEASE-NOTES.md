@@ -97,6 +97,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump nvidia legacy drivers to 390.147
 - Bump nvidia production drivers to 510.68.02
 - Bump libretro Dosbox-Pure 0.9.1
+  - Use F12 as ESC replacement to quit 
+- Bump Realtek 8821-CU driver
 
 ### Fixes
 
