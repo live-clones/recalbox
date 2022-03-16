@@ -107,6 +107,8 @@ as release notes for end user on a Recalbox upgrade.
 -Bump libretro Pscx-Rearmed
   - Use F12 as ESC replacement to quit
 - Bump libretro Dosbox-Pure 0.9.1
+  - Use F12 as ESC replacement to quit 
+- Bump Realtek 8821-CU driver
 
 ### Fixes
 
