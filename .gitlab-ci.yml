@@ -357,7 +357,6 @@ release public beta:
   environment:
     name: beta/${CI_COMMIT_REF_SLUG}
 
-<<<<<<< HEAD
 release recalboxrgbdual:
   <<: *release_definition
   only:

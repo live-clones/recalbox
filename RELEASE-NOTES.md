@@ -4,80 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.1-Electron
+## Version 8-recalboxrgbdual-5
 
-### News
-
-- Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
-- Add delete game options
-- Add core libretro vitaquake2 for x64
-- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
-- Add system Philips CD-I (libretro core : cdi2015)
-- Add Iris driver for Intel iGPUs on x64 version
-- New option in UI menu : hide PORTS collection
-- Add recalbox.conf option to force resolution of splash videos on x64
-- New Random game picker in demo mode (less cycling)
-- Add BSNES core (performance build) (PC and RPi4/400)
-- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
-- Add Pi400 power button support (Fn + F10 to turn off)
-- Display game regions flag in gamelist
-- Make default no image in gamelist themable
-- Add Twitch as Kodi plugin
-- Add resolution menu in Advanced Settings > Resolutions
-- Add support for external rom folders on USB devices (up to 8 volumes/partitions)
-  - Hotplug: EmulationStation automatically reconize USB device containing roms!
-  - Initialization: Ask the user when USB device with no rom folders at all
-  - Roms folders are reconized in the root of the usb device or in `roms` or `recalbox/roms`
-  - Games are merged into your game list seamlessly
-- Add support for additional network rom folders (up to 4)
-  - As for USB devices, games are merged into your game list seamlessly
-- Add scraper progress bar
-- Add display by filename in gamelist option
-
-### Improvements
-
-- Bump EmuSCV (Super Cassette Vision)
-  - Fix zipped rom handling
-  - Handle multi-roms (.0 .1 ...) in a single zip file
-- Bump libretro Caprice32 (Amstrad):
-  - Update to Caprice 4.5.2
-  - Lots of fixes & improvement with latest Retroarch versions
-- Bump Retroarch to v1.10.0
-- Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
-- Bump libretro Picodrive - lots of small fixes & improvements
-- Bump libretro DosBox Pure to v0.26
-- Bump libretro NX Engine (Cave Story) - Lots of small bug fixes!
-- Bump Amiberry to v1.4.6 (fix some graphic glitches)
-- Bump libretro Quasi88 (Nec PC-8800)
-- Bump libretro MAMA 2003 Plus
-- Bump libretro FBNeo
-- Bump libretro mGBA (based on mGBA v0.9.3)
-- Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
-- Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
-- Bump Beetle Saturn (add netplay support)
-- Bump EmuSCV to fix zipped games load
-- Bump libretro mame2015
-- Bump libretro mame 0.239
-- Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
-- Bump libretro fuse to v1.6.0 (ZX Spectrum core)
-- Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)
-- Bump Hatari: updated cpu emulation and lots of small fixes
-- Bump Libretro SwanStation
-- Disable Retroarch's keyboard shortcut when running computer systems:
-  - Full keyboard is available for the emulated computer
-  - Use F12 as ESC replacement to quit 
-
-### Fixes
-
-- Add mc10 and coco3 model to trs80 color computer xroar emulator
-- Add CRT check menu footer
-- Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
-- Fix libretro mame2015 for OGA/OGS
-- Fix to not reload recalbox.conf file in manager on save
-- Deleting the netplay system configuration in recalbox.conf
-- Fix some ZeroCD wifi adapters not working like Odroid Wifi Module 5B adapter
-- Fix savestate in libretro fuse (ZX Spectrum core)
-- Fix Vectrex overlays load for preinstalled games
+- Add resolution choice on game launch on 31kHz
+- Fix Raspberry Pi 3 31kHz timings and boot video
 
 ## Version 8.0.2-Electron
 
