@@ -438,19 +438,19 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
   }
   if (mGameLinkedData.Crt().IsHighResolutionConfigured())
   {
-    if (mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
+    const bool is31Khz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
+    if (is31Khz || mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
     {
-        const bool highResProgressive = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
         static int lastChoice = 0;
         mWindow.pushGui(new GuiCheckMenu(mWindow,
                                          _("Game resolution"),
                                          game->Name(),
                                          lastChoice,
-                                         _("240p"),
-                                         _("240p"),
+                                         is31Khz ? _("240p@120") : _("240p"),
+                                         is31Khz ? _("240p@120") : _("240p"),
                                          [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                         _(highResProgressive ? "480p" : "480i"),
-                                         _(highResProgressive ? "480p" : "480i"),
+                                         is31Khz ? _("480p@60") : _("480i"),
+                                         is31Khz ? _("480p@60") : _("480i"),
                                          [this, game, &cameraTarget] {mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
                                          ));
       return;
