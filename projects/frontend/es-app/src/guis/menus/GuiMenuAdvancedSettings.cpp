@@ -290,8 +290,9 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     "/overlay/.config",                   // Old system configurations
     "/boot/recalbox-backup.conf",         // Recalbox configuration backup
     "/boot/crt/recalbox-crt-config.txt",  // CRT Configuration
-    "/boot/crt/recalbox-crt-options.cfg",  // CRT options
-    "/boot/crt/.stamprrgbdual"            // Recalbox RGB Dual auto install
+    "/boot/crt/recalbox-crt-options.cfg", // CRT options
+    "/boot/crt/.stamprrgbdual",           // Recalbox RGB Dual auto install
+    "/boot/crt/.stamprrgbdual31khz"       // Recalbox RGB Dual auto install
   });
 
   // Make boot partition writable
