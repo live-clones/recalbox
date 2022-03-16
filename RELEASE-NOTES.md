@@ -100,6 +100,7 @@ as release notes for end user on a Recalbox upgrade.
   - Use F12 as ESC replacement to quit
 - Bump Hypseus Singe (Daphne) - Add support for Singe 2 games
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
+- Bump Realtek 8821-CU driver
 
 ### Fixes
 
