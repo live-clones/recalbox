@@ -11,6 +11,7 @@
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <utils/os/system/Mutex.h>
 #include "IRomFolderChangeNotification.h"
+#include <utils/storage/Set.h>
 
 class SystemManager :
   private INoCopy, // No copy allowed
@@ -99,6 +100,10 @@ class SystemManager :
     //! Rom path change notifications interface
     IRomFolderChangeNotification& mRomFolderChangeNotificationInterface;
 
+    HashSet<std::string> mWatcherIgnoredFiles;
+
+  private:
+
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
 
@@ -122,6 +127,8 @@ class SystemManager :
      * @brief Initialize initial mount points
      */
     void InitializeMountPoints();
+
+    bool mPauseGamelistWatcher = false;
 
     /*!
      * @brief Create and add the favorite meta-system
@@ -462,4 +469,7 @@ class SystemManager :
      * @return True if th  path have been created successfully, false otherwise
      */
     static bool CreateRomFoldersIn(const DeviceMount& device);
+
+    HashSet<std::string>& GetWatcherIgnoredFiles()  { return mWatcherIgnoredFiles; }
+
 };

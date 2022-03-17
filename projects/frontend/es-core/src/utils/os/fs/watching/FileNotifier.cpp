@@ -38,7 +38,7 @@ void FileNotifier::CheckAndDispatch()
 
   if ((mInotify.EventMask() & currentEvent) != 0)
   {
-    if (mEventNotifier != nullptr)
-      mEventNotifier->FileSystemWatcherNotification(currentEvent, fileSystemEvent.mPath, fileSystemEvent.mEventTime);
+    if (mEventNotifier != nullptr && !mEventNotifier->IsFileIgnored(fileSystemEvent.mPath.ToString()))
+        mEventNotifier->FileSystemWatcherNotification(currentEvent, fileSystemEvent.mPath, fileSystemEvent.mEventTime);
   }
 }

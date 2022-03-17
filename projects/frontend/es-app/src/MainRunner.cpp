@@ -233,6 +233,12 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   for(;;)
   {
     // File watching
+    for(const auto path : systemManager.GetWatcherIgnoredFiles())
+    {
+      mIgnoredFiles.insert(path);
+    }
+    systemManager.GetWatcherIgnoredFiles().clear();
+
     fileNotifier.CheckAndDispatch();
     InputManager::Instance().WatchJoystickAddRemove(&window);
 

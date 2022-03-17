@@ -27,6 +27,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
   public:
     GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game);
 
+    ~GuiMenuGamelistGameOptions() override;
   private:
     enum class Components
     {
