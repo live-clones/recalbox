@@ -28,7 +28,7 @@
 #include "netplay/NetPlayThread.h"
 #include "DemoMode.h"
 #include <sdl2/Sdl2Runner.h>
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;

@@ -2,7 +2,7 @@
 
 #include <systems/SystemData.h>
 #include <systems/SystemDescriptor.h>
-#include <systems/EmulatorManager.h>
+#include <emulators/EmulatorManager.h>
 #include <systems/MountMonitor.h>
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>

@@ -7,7 +7,7 @@
 #include "views/SystemView.h"
 #include "SplashView.h"
 #include "views/crt/CrtView.h"
-#include <systems/GameLinkedData.h>
+#include <emulators/run/GameLinkedData.h>
 
 class SystemData;
 

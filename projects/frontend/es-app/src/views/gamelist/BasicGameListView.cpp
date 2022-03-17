@@ -182,7 +182,7 @@ void BasicGameListView::removeEntry(FileData* fileData)
 
   if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame())
   {
-    FolderData* selected = mCursorStack.top();
+    //FolderData* selected = mCursorStack.top();
 
     // remove current folder from stack
     mCursorStack.pop();

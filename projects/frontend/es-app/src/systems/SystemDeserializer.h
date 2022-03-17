@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 #include <RootFolders.h>
-#include "EmulatorList.h"
+#include <emulators/EmulatorList.h>
 #include "SystemDescriptor.h"
 
 class SystemDeserializer

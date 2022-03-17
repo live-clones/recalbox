@@ -5,7 +5,7 @@
 #include "components/SwitchComponent.h"
 #include <components/OptionListComponent.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
-#include <systems/NetPlayData.h>
+#include <emulators/run/NetPlayData.h>
 #include "utils/locale/LocaleHelper.h"
 #include "GuiNetPlayEditPasswords.h"
 #include <views/ViewController.h>

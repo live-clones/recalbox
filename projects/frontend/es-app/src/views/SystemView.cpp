@@ -12,7 +12,7 @@
 #include <guis/GuiSearch.h>
 #include <guis/GuiSettings.h>
 #include <guis/menus/GuiMenuSwitchKodiNetplay.h>
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };

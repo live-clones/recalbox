@@ -5,7 +5,7 @@
 
 #include <systems/PlatformId.h>
 #include <utils/os/fs/Path.h>
-#include "EmulatorList.h"
+#include <emulators/EmulatorList.h>
 
 class SystemDescriptor
 {

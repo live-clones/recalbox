@@ -8,7 +8,7 @@
 
 #include <WindowManager.h>
 #include <systems/SystemManager.h>
-#include <systems/GameLinkedData.h>
+#include <emulators/run/GameLinkedData.h>
 
 class GameRunner : public StaticLifeCycleControler<GameRunner>
 {

@@ -1,5 +1,5 @@
 #include <RecalboxConf.h>
-#include "views/gamelist/GridGameListView.h"
+#include "views/gamelist/GridGameListView.h_"
 #include "WindowManager.h"
 #include "utils/locale/LocaleHelper.h"
 

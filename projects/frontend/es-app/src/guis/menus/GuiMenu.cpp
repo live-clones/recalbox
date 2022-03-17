@@ -15,7 +15,7 @@
 #include <guis/menus/GuiMenuAdvancedSettings.h>
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 #include "GuiMenuScraper.h"
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
