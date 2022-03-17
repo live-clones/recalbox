@@ -11,7 +11,7 @@
 #include <usernotifications/NotificationManager.h>
 #include <guis/GuiWaitLongExecution.h>
 #include <utils/storage/Queue.h>
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 
 class AudioManager;
 class SystemManager;

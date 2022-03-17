@@ -2,14 +2,14 @@
 
 #include <string>
 #include <utils/cplusplus/INoCopy.h>
-#include "games/RootFolderData.h"
-#include "WindowManager.h"
-#include "PlatformId.h"
-#include "games/FileSorts.h"
-#include "EmulatorList.h"
-#include "SystemDescriptor.h"
-#include "NetPlayData.h"
-#include "EmulatorData.h"
+#include <emulators/EmulatorList.h>
+#include <emulators/EmulatorData.h>
+#include <emulators/run/NetPlayData.h>
+#include <games/RootFolderData.h>
+#include <WindowManager.h>
+#include <systems/PlatformId.h>
+#include <systems/SystemDescriptor.h>
+#include <games/FileSorts.h>
 #include <themes/ThemeData.h>
 
 class SystemManager;

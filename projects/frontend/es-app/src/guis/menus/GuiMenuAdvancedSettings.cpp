@@ -212,6 +212,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     {
       MainRunner::SetDebugLogs(status);
       RecalboxConf::Instance().SetDebugLogs(status).Save();
+      break;
     }
     case Components::AdultGames: RecalboxConf::Instance().SetFilterAdultGames(status).Save(); break;
     case Components::Overscan:

@@ -9,7 +9,7 @@
 #include <guis/GuiNetPlay.h>
 #include <utils/locale/LocaleHelper.h>
 #include <systems/SystemManager.h>
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 
 GuiMenuSwitchKodiNetplay::GuiMenuSwitchKodiNetplay(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("KODI/NETPLAY"), this)

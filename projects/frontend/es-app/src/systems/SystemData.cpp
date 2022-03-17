@@ -2,7 +2,7 @@
 #include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
 #include "utils/Log.h"
-#include "NetPlayData.h"
+#include <emulators/run/NetPlayData.h>
 #include <RecalboxConf.h>
 #include <RootFolders.h>
 #include <utils/Strings.h>

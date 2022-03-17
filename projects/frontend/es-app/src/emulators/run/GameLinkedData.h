@@ -6,8 +6,8 @@
 //
 #pragma once
 
-#include <systems/NetPlayData.h>
-#include <systems/CrtData.h>
+#include <emulators/run/NetPlayData.h>
+#include <emulators/run/CrtData.h>
 
 class GameLinkedData
 {

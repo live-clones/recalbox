@@ -10,7 +10,7 @@
 #include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopup.h>
 #include <rapidjson/document.h>
-#include <systems/GameRunner.h>
+#include <emulators/run/GameRunner.h>
 
 NetPlayThread::NetPlayThread(WindowManager&window)
   : mWindow(window),
