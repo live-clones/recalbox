@@ -1,5 +1,5 @@
 diff --git a/package/initscripts/init.d/rcS b/package/initscripts/init.d/rcS
-index de411534da..b4411c02a4 100755
+index de411534da..d25094a751 100755
 --- a/package/initscripts/init.d/rcS
 +++ b/package/initscripts/init.d/rcS
 @@ -20,6 +20,7 @@ for i in /etc/init.d/S??* ;do
