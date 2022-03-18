@@ -123,12 +123,14 @@ tests buildroot patches:
     - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" "recalbox-${ARCH}" make recalbox-${ARCH}_defconfig 2>&1
     - |
       for PKG in $(git diff --name-only "target/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" | grep -E '^(board/recalbox/patches|package/)' | sed -E 's#board/recalbox/patches/([^/]+)/.*#\1#;s#package/([^/]+)/.*#\1#' | sort | uniq); do
-        echo "Testing patches for $PKG"
-        docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" \
+        if [ -d "package/$PKG" ] || [ -d "buildroot/package/$PKG" ]; then
+          echo "Testing patches for $PKG"
+          docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" \
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
                                           "recalbox-${ARCH}" make $PKG-patch 2>&1 ||exit 1
+        fi
       done
 
 # Build
