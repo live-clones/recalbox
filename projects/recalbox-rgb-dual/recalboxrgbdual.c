@@ -69,6 +69,21 @@ static const struct videomode p240 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
+// 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
+static const struct videomode p1920x240 = {
+    .pixelclock = 38937600,
+    .hactive = 1920,
+    .hfront_porch = 80,
+    .hsync_len = 184,
+    .hback_porch = 312,
+    .vactive = 240,
+    .vfront_porch = 1,
+    .vsync_len = 3,
+    .vback_porch = 16,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+
 // 288p@50 : 384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200
 static const struct videomode p288 = {
     .pixelclock = 7363200,
@@ -80,6 +95,20 @@ static const struct videomode p288 = {
     .vfront_porch = 3,
     .vsync_len = 2,
     .vback_porch = 19,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+// 1920x288p@50 : 1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1
+static const struct videomode p1920x288 = {
+    .pixelclock = 39062400,
+    .hactive = 1920,
+    .hfront_porch = 80,
+    .hsync_len = 184,
+    .hback_porch = 312,
+    .vactive = 288,
+    .vfront_porch = 4,
+    .vsync_len = 3,
+    .vback_porch = 18,
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
@@ -128,6 +157,7 @@ static const struct videomode p480 = {
 
 static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int voffset) {
 
+  hoffset *= vm->hactive / 320;
   if((int)vm->hfront_porch - hoffset >= 1){
     vm->hfront_porch -= hoffset;
     vm->hback_porch += hoffset;
@@ -348,11 +378,13 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         // 50hz
           printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz modes\n", i);
           dpidac_apply_module_mode(connector, &p288, true);
+          dpidac_apply_module_mode(connector, &p1920x288, false);
           dpidac_apply_module_mode(connector, &i576, false);
           return 2;
       } else {
           printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n");
           dpidac_apply_module_mode(connector, &p240, true);
+          dpidac_apply_module_mode(connector, &p1920x240, false);
           dpidac_apply_module_mode(connector, &i480, false);
           dpidac_apply_module_mode(connector, &p288, false);
           dpidac_apply_module_mode(connector, &i576, false);
