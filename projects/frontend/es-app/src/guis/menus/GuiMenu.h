@@ -19,6 +19,7 @@ class GuiMenu : public GuiMenuBase
       Kodi,
       System,
       Update,
+      RecalboxRGBDual,
       Games,
       Controllers,
       UISettings,

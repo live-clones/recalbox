@@ -127,6 +127,9 @@ MenuThemeData::MenuThemeData()
 		if (elem->HasProperty("iconSystem"))
 			mCurrent->menuIconSet.system = elem->AsString("iconSystem");
 
+		if (elem->HasProperty("iconRecalboxRGBDual"))
+			mCurrent->menuIconSet.recalboxrgbdual = elem->AsString("iconRecalboxRGBDual");
+
 		if (elem->HasProperty("iconUpdates"))
 			mCurrent->menuIconSet.updates = elem->AsString("iconUpdates");
 
