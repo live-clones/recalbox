@@ -89,6 +89,13 @@ if test "$1" == "start" ; then
 
     rmTimings
 
+    # create the directory if we are upgrading from 8.0.2
+    if [ ! -d /boot/crt/ ];then
+        mount -o remount,rw /boot
+        mkdir -p /boot/crt/
+        mount -o remount,ro /boot
+    fi
+
     # RRGBD is present
     if grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}"; then
         # Installation
