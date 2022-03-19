@@ -10,6 +10,11 @@ as release notes for end user on a Recalbox upgrade.
 
 - Add libretro PSP emulator (libretro ppsspp)
 - Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
+- Recalbox RGB Dual: add recalbox rgb dual menu in main menu
+- Recalbox RGB Dual: enhance image quality in frontend
+- Recalbox RGB Dual: enhance calibration screen accuracy
+- Recalbox RGB Dual: fix option management when upgrading from 8.0.2
+
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
