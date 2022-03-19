@@ -13,6 +13,7 @@
 #include <guis/menus/GuiMenuSound.h>
 #include <guis/menus/GuiMenuNetwork.h>
 #include <guis/menus/GuiMenuAdvancedSettings.h>
+#include <guis/menus/GuiMenuCRT.h>
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
 #include <emulators/run/GameRunner.h>
@@ -36,6 +37,10 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   // Update menu
   if (!bartop)
     AddSubMenu(_("UPDATES"), mTheme.menuIconSet.updates, (int)Components::Update, _(MENUMESSAGE_UPDATE_HELP_MSG));
+
+  // Recalbox RGB Dual menu
+  if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
+    AddSubMenu(_("RECALBOX RGB DUAL"), mTheme.menuIconSet.recalboxrgbdual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
 
   // Games menu
   AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
@@ -92,6 +97,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Kodi: if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
     case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow)); break;
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
+    case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
