@@ -50,6 +50,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro Quasi88 (Nec PC-8800)
 - Bump libretro MAMA 2003 Plus
 - Bump libretro FBNeo
+- Bump libretro melonDS
 - Bump libretro mGBA (based on mGBA v0.9.3)
 - Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
 - Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
