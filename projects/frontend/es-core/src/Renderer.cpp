@@ -529,9 +529,9 @@ bool Renderer::Initialize(int w, int h)
       } else {
         if(Board::Instance().CrtBoard().MustForce50Hz())
         {
-          w = 384; h = 288;
+          w = 1920; h = 288;
         } else {
-          w = 320; h = 240;
+          w = 1920; h = 240;
         }
       }
     }
