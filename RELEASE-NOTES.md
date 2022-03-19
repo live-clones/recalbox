@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
   - Update to Caprice 4.5.2
   - Lots of fixes & improvement with latest Retroarch versions
 - Bump Retroarch to v1.10.0
+- Bump libretro melonDS
 - Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
 - Bump libretro Picodrive - lots of small fixes & improvements
 - Bump libretro DosBox Pure to v0.26
