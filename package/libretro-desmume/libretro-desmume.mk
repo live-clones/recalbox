@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_DESMUME_VERSION = 6f520c816303a00a777817dc6a1a8d04ced336ea
+LIBRETRO_DESMUME_VERSION = 7b16293ebb8e272ce28d62efc39573b129cea61d
 LIBRETRO_DESMUME_SITE = $(call github,libretro,desmume,$(LIBRETRO_DESMUME_VERSION))
 LIBRETRO_DESMUME_DEPENDENCIES = libpcap
 LIBRETRO_DESMUME_LICENSE = GPL-2.0+
