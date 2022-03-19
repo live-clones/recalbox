@@ -342,6 +342,8 @@ class Renderer : public StaticLifeCycleControler<Renderer>
 
     // Is small resolution?
     bool IsSmallResolution() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    // Return true image width
+    int RealDisplayWidthAsInt() const { return mDisplayWidth; }
 
     //! Check if the Renderer is properly initialized
     bool Initialized() const { return mViewPortInitialized; }
