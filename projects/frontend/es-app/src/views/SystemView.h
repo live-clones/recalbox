@@ -95,5 +95,4 @@ private:
 	SystemData* mCurrentSystem;
 	bool mViewNeedsReload;
 	bool mShowing;
-	bool launchKodi;
 };

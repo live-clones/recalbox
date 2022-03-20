@@ -20,8 +20,6 @@ GuiMenuKodiSettings::GuiMenuKodiSettings(WindowManager& window)
   // Run Kodi at startup
   mKodiAtStartup = AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::RunAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
 
-  // Run kodi using X
-  mKodiX = AddSwitch(_("START KODI WITH X"), RecalboxConf::Instance().GetKodiXButton(), (int)Components::ButtonX, this, _(MENUMESSAGE_ADVANCED_KODI_X_HELP_MSG));
 }
 
 void GuiMenuKodiSettings::SwitchComponentChanged(int id, bool status)
@@ -30,6 +28,5 @@ void GuiMenuKodiSettings::SwitchComponentChanged(int id, bool status)
   {
     case Components::Enabled: RecalboxConf::Instance().SetKodiEnabled(status).Save(); break;
     case Components::RunAtStartup: RecalboxConf::Instance().SetKodiAtStartup(status).Save(); break;
-    case Components::ButtonX: RecalboxConf::Instance().SetKodiXButton(status).Save(); break;
   }
 }
