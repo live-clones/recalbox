@@ -7,7 +7,7 @@ index 350bacb6fd..5d26c1af94 100644
           //rotation = runloop_state.system.rotation;
        }
 +   } else if(core_fps > 0.0 && settings->bools.recalbox_experimental) {
-+      settings->floats.video_refresh_rate = core_fps;
++      settings->floats.video_refresh_rate = core_fps < 40 ? core_fps * 2 : core_fps;
     }
     if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
        driver_adjust_system_rates(
