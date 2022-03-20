@@ -546,6 +546,7 @@ class MetadataDescriptor
 
     // Special setter to force dirty
     void SetDirty() { mDirty = true; }
+    void UnDirty() { mDirty = true; }
 
     /*
      * Volatile setters - do not set the Dirty flag for auto-saving
@@ -631,6 +632,7 @@ class MetadataDescriptor
 
     void IncPlaycount() { mPlaycount++; mDirty = true; }
     void SetLastplayedNow() { mLastPlayed = (unsigned int)DateTime().ToEpochTime(); mDirty = true; }
+
 
     /*
      * Metadata FieldManagement Methods
