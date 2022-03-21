@@ -117,6 +117,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi password that could not contain & character
 
 - Fix missing arcade systems for virtual systems
+- Fix reversal of buttons A and B on SF 30 PRO controller
+- Add buttons x and y for keyboard
 
 ## Version 8.0.2-Electron
 
