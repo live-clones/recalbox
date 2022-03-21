@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_EMUSCV_VERSION = 48be767a901c30b02de533cce2e008f24f015f82
+#Commit version of 2022-03-20
+LIBRETRO_EMUSCV_VERSION = 112c83930a1959e3d6f81693be1bacae98360539
 LIBRETRO_EMUSCV_SITE = $(call gitlab,recalbox,packages/libretro/libretro-emuscv,$(LIBRETRO_EMUSCV_VERSION))
 LIBRETRO_EMUSCV_LICENSE = GPL-3.0
 LIBRETRO_EMUSCV_LICENSE_FILES = licence.txt
