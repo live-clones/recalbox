@@ -879,10 +879,18 @@ void MainRunner::InstallCRTFeatures()
     std::string recalboxTheme = "recalbox-next";
     if (conf.GetThemeFolder() == recalboxTheme)
     {
-      conf.SetThemeSystemView(recalboxTheme, "9-240p");
-      conf.SetThemeGamelistView(recalboxTheme, "10-240p");
-      conf.SetThemeMenuSet(recalboxTheme, "7-240p");
+      if(!Strings::Contains(conf.GetThemeSystemView(recalboxTheme), "240p"))
+        conf.SetThemeSystemView(recalboxTheme, "9-240p");
+
+      if(!Strings::Contains(conf.GetThemeMenuSet(recalboxTheme), "240p"))
+        conf.SetThemeMenuSet(recalboxTheme, "7-240p");
+
+      if(!Strings::Contains(conf.GetThemeGameClipView(recalboxTheme), "240p"))
       conf.SetThemeGameClipView(recalboxTheme, "3-240p");
+
+      if(!Strings::Contains(conf.GetThemeGamelistView(recalboxTheme), "240p"))
+        conf.SetThemeGamelistView(recalboxTheme, "10-240p");
+
     }
     conf.SetBool("240ptestsuite.ignore", false);
   }
