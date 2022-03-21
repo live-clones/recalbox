@@ -83,6 +83,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
 - Fix wifi not connecting when inserting the wifi controller afterwards
+- Fix reversal of buttons A and B on SF 30 PRO controller
+- Add buttons x and y for keyboard
 
 ## Version 8.0.2-Electron
 
