@@ -607,7 +607,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
       if (currentAudio == IAudioController::sAutoSwitch)
       {
         // Switch to headphone
-        std::string Headphones = "alsa_card.0:analog-output-headphones";
+        std::string Headphones = "alsa_output.platform-rk817-sound.multichannel-output:analog-output-headphones";
         if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Headphones);
         if (IsApplicationRunning()) AudioManager::Instance().Reactivate();
@@ -651,7 +651,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
       if (currentAudio == IAudioController::sAutoSwitch)
       {
         // Switch back to speakers
-        std::string Speakers = "alsa_card.0:multichannel-output";
+        std::string Speakers = "alsa_output.platform-rk817-sound.multichannel-output:multichannel-output";
         if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
         AudioController::Instance().SetDefaultPlayback(Speakers);
         if (IsApplicationRunning()) AudioManager::Instance().Reactivate();

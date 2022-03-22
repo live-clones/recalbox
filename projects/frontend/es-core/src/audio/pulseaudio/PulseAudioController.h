@@ -60,14 +60,6 @@ class PulseAudioController: public IAudioController, private Thread
     //! Timeout
     static constexpr int sTimeOut = 800; //! 800ms timeout
 
-    struct Sink
-    {
-      std::vector<std::string> PortNames; //!< Available port list
-      std::string Name;                   //!< Device name
-      int Channels;                       //!< Channel count
-      int Index;                          //!< Device index in pulseaudio context
-    };
-
     struct Profile
     {
       std::string Name;        //!< Device name
@@ -87,10 +79,19 @@ class PulseAudioController: public IAudioController, private Thread
       bool Available;                //!< Available? (plugged)
     };
 
+    struct Sink
+    {
+      std::string Name;                   //!< Device name
+      std::string Description;            //!< Device description
+      std::vector<Port> Ports;            //!< Available port list
+      int Channels;                       //!< Channel count
+      int Index;                          //!< Device index in pulseaudio context
+      int CardIndex;                      //!< Card ID this sink is linked to
+    };
+
     struct Card
     {
       std::vector<Port> Ports; //!< Available port list
-      std::vector<Sink> Sinks; //!< Available sink list
       std::string Name;        //!< Card name
       std::string Description; //!< Card Description
       int Index;               //!< Device index in pulseaudio context
@@ -118,6 +119,8 @@ class PulseAudioController: public IAudioController, private Thread
 
     //! Card list
     std::vector<Card> mCards;
+    //! Sink list
+    std::vector<Sink> mSinks;
     //! Internal Syncer
     Mutex mSyncer;
 
@@ -154,6 +157,10 @@ class PulseAudioController: public IAudioController, private Thread
     static const Port* LookupPort(const Card& card, const std::string& name);
 
     static bool HasPort(const Sink& sink, const Port& port);
+
+    const Sink* LookupSink(const std::string& name);
+
+    static const Port* LookupPort(const Sink& sink, const std::string& name);
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
@@ -237,7 +244,7 @@ class PulseAudioController: public IAudioController, private Thread
      * @param index Object index
      * @param userdata This
      */
-    static void SubsciptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata);
+    static void SubscriptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata);
 
     /*!
      * @brief Callback called when volume is changed
@@ -271,7 +278,7 @@ class PulseAudioController: public IAudioController, private Thread
     void PulseEnumerateCards();
 
     //! Enumerates outputs (sinks)
-    void PulseEnumarateSinks();
+    void PulseEnumerateSinks();
 
     //! Subscribe to all pulse audio events
     void PulseSubscribe();
@@ -295,11 +302,19 @@ class PulseAudioController: public IAudioController, private Thread
     static std::string GetCardDescription(const pa_card_info& info);
 
     /*!
+     * @brief Get card by card index
+     * @param index Card index
+     * @return Card
+     */
+    const Card* GetCardByIndex(int index);
+
+    /*!
      * @brief Build the best port name from the port properties
      * @param info Port info structure
      * @return Port name
      */
     static std::string GetPortDescription(const pa_card_port_info& info, AudioIcon& icon);
+    static std::string GetPortDescription(const pa_sink_port_info& info, AudioIcon& icon);
 
     /*!
      * @brief Get icon from port information
@@ -307,4 +322,5 @@ class PulseAudioController: public IAudioController, private Thread
      * @return Icon
      */
     static AudioIcon GetPortIcon(const pa_card_port_info& info);
+    static AudioIcon GetPortIcon(const pa_sink_port_info& info);
 };
