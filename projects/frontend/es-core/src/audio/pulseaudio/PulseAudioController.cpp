@@ -29,10 +29,8 @@ void PulseAudioController::Initialize()
 {
   // Connect to pulseaudio server
   PulseContextConnect();
-  // Enumerate all output devices
-  if (mConnectionState == ConnectionState::Ready)
-    PulseEnumerateCards();
-
+  // Enumerate all sinks and cards
+  Refresh();
   // Subscribe to changes
   //PulseSubscribe();
 
@@ -146,7 +144,7 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 	}
 }
 
-void PulseAudioController::SubsciptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata)
+void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata)
 {
   (void)context;
   // Get class
@@ -183,6 +181,22 @@ void PulseAudioController::SubsciptionCallback(pa_context *context, pa_subscript
   { LOG(LogError) << "[PulseAudio] EVENT! Type: " << typeStr << " - Event: " << eventStr << " - Index: " << index; }
 }
 
+AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
+{
+#if PA_CHECK_VERSION(14,0,0)
+  switch(info.type)
+  {
+    case PA_DEVICE_PORT_TYPE_SPEAKER: return AudioIcon::Speakers; break;
+    case PA_DEVICE_PORT_TYPE_HEADPHONES: return AudioIcon::Headphones; break;
+    case PA_DEVICE_PORT_TYPE_HDMI:
+    case PA_DEVICE_PORT_TYPE_TV:
+    case PA_DEVICE_PORT_TYPE_VIDEO:
+      return AudioIcon::Screens;
+  }
+#endif
+  return AudioIcon::Unidentified;
+}
+
 AudioIcon PulseAudioController::GetPortIcon(const pa_card_port_info& info)
 {
   const char* icon = pa_proplist_gets(info.proplist, "device.icon_name");
@@ -213,7 +227,8 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
   newCard.Name = info->name;
   newCard.Description = GetCardDescription(*info);
   newCard.Index = (int)info->index;
-  newCard.HasActioveProfile = false;
+  newCard.HasActiveProfile = false;
+  newCard.Ports.clear();
 
   { LOG(LogDebug) << "[PulseAudio] Card #" << newCard.Index << " : " << newCard.Name; }
 
@@ -241,6 +256,7 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
     newPort.Available = portInfo.available != PA_PORT_AVAILABLE_NO;
     newPort.Priority = (int)portInfo.priority;
     newPort.InternalIndex = (int)newCard.Ports.size();
+    newPort.Profiles.clear();
 
     { LOG(LogDebug) << "[PulseAudio]   Port " << newPort.Description << " (" << newPort.Name << ") - Available " << (newPort.Available ? "YES" : "NO") << " - Priority " << newPort.Priority; }
 
@@ -259,7 +275,7 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
       { LOG(LogDebug) << "[PulseAudio]     Profile " << newProfile.Description << " (" << newProfile.Name << ") - Available " << (newProfile.Available ? "YES" : "NO") << " - Priority " << newProfile.Priority; }
 
       // Check if this profile is the active one
-      newCard.HasActioveProfile |= (newProfile.Name == activeProfileName);
+      newCard.HasActiveProfile |= (newProfile.Name == activeProfileName);
 
       // Add profile to the port
       newPort.Profiles.push_back(newProfile);
@@ -290,33 +306,34 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
 
   Sink newSink;
   newSink.Name = info->name;
+  newSink.Description = info->description;
   newSink.Index = (int)info->index;
+  newSink.CardIndex = (int)info->card;
   newSink.Channels = info->channel_map.channels;
+  newSink.Ports.clear();
 
   { LOG(LogInfo) << "[PulseAudio] Sink #" << newSink.Index << ' ' << newSink.Name << " found."; }
 
   // Collect available ports
   for(int i = (int)info->n_ports; --i >= 0; )
   {
-    newSink.PortNames.push_back(info->ports[i]->name);
-    { LOG(LogInfo) << "[PulseAudio]   Port " << info->ports[i]->name << " - " << info->ports[i]->description; }
+    pa_sink_port_info& portInfo = *info->ports[i];
+
+    Port newPort;
+    newPort.Name = portInfo.name;
+    newPort.Icon = GetPortIcon(portInfo);
+    newPort.Description = GetPortDescription(portInfo, newPort.Icon);
+    newPort.Available = portInfo.available != PA_PORT_AVAILABLE_NO;
+    newPort.Priority = (int)portInfo.priority;
+    This.mSyncer.Lock();
+    newSink.Ports.push_back(newPort);
+    This.mSyncer.UnLock();
+    { LOG(LogInfo) << "[PulseAudio] Port " << info->ports[i]->name << " - " << info->ports[i]->description; }
   }
 
-  // Attach the sink to it's parent card
-  bool attached = false;
-  for(Card& card : This.mCards)
-    if (card.Index == (int)info->card)
-    {
-      This.mSyncer.Lock();
-      card.Sinks.push_back(newSink);
-      This.mSyncer.UnLock();
-      attached = true;
-      { LOG(LogInfo) << "[PulseAudio] Sink #" << newSink.Index << ' ' << newSink.Name << " attached to card #" << card.Index << ' ' << card.Name; }
-    }
-
-  // Attached?
-  if (!attached)
-  { LOG(LogWarning) << "[PulseAudio] Sink #" << newSink.Index << ' ' << newSink.Name << " has no parent card!"; }
+  This.mSyncer.Lock();
+  This.mSinks.push_back(newSink);
+  This.mSyncer.UnLock();
 }
 
 void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& list)
@@ -359,25 +376,35 @@ IAudioController::DeviceList PulseAudioController::GetPlaybackList()
 
   AddSpecialPlaybacks(result);
 
-  for(const Card& card : mCards)
-    for(const Port& port : card.Ports)
+  for(const Sink& sink: mSinks)
+  {
+    const Card* card = GetCardByIndex(sink.CardIndex);
+    // Classic audio sink (card + port + profile)
+    if (card != nullptr && sink.Ports.size() > 0)
     {
-      bool available = false;
-      for(const Profile& profile : port.Profiles)
-        available |= profile.Available;
-
-      std::string device = mCards.size() > 1 ? std::string(card.Description).append(" - ").append(_S(port.Description)) : port.Description;
-      switch(port.Icon)
+      for(const Port& port : card->Ports)
       {
-        case AudioIcon::Auto: device.append(" \uf1e0"); break;
-        case AudioIcon::Unidentified: device.append(" \uf1b0"); break;
-        case AudioIcon::Speakers: device.append(" \uf1e1"); break;
-        case AudioIcon::Headphones: device.append(" \uf1e2"); break;
-        case AudioIcon::Screens: device.append(" \uf1e3"); break;
+        bool available = port.Available;
+        for(const Profile& profile : port.Profiles)
+          available |= profile.Available;
+
+        std::string device = port.Description + " - " + card->Description;
+        switch(port.Icon)
+        {
+          case AudioIcon::Auto: device.append(" \uf1e0"); break;
+          case AudioIcon::Unidentified: device.append(" \uf1b0"); break;
+          case AudioIcon::Speakers: device.append(" \uf1e1"); break;
+          case AudioIcon::Headphones: device.append(" \uf1e2"); break;
+          case AudioIcon::Screens: device.append(" \uf1e3"); break;
+        }
+        std::string displayable = available ? std::string("\u26ab ").append(device).append(" \u26ab") : std::string("\u26aa ").append(device).append(" \u26aa") ;
+        result.push_back({ displayable, sink.Name+":"+port.Name, AudioIcon::Auto });
       }
-      std::string displayable = available ? std::string("\u26ab ").append(device).append(" \u26ab") : std::string("\u26aa ").append(device).append(" \u26aa") ;
-      result.push_back({ displayable, std::string(card.Name).append(1, ':').append(port.Name), port.Icon });
     }
+    // PulseAudio Filter (eg. stereo to mono)
+    else
+      result.push_back({ std::string("\u26ab ").append(sink.Description).append(" \u26ab"), sink.Name+":", AudioIcon::Auto });
+  }
 
   return result;
 }
@@ -418,11 +445,29 @@ const PulseAudioController::Port* PulseAudioController::LookupPort(const Card& c
 
 bool PulseAudioController::HasPort(const PulseAudioController::Sink& sink, const PulseAudioController::Port& port)
 {
-  for(const std::string& portname : sink.PortNames)
-    if (portname == port.Name)
+  for(const Port& sinkPort : sink.Ports)
+    if (sinkPort.Name == port.Name)
       return true;
 
   return false;
+}
+
+const PulseAudioController::Sink* PulseAudioController::LookupSink(const std::string& name)
+{
+  for(const Sink& sink : mSinks)
+    if (name == sink.Name)
+      return &sink;
+
+  return nullptr;
+}
+
+const PulseAudioController::Port* PulseAudioController::LookupPort(const Sink& sink, const std::string& name)
+{
+  for(const Port& port : sink.Ports)
+    if (name == port.Name)
+      return &port;
+
+  return nullptr;
 }
 
 bool PulseAudioController::IsPortAvailable(const std::string& portName)
@@ -453,12 +498,12 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
         if (system(headphonePlugged? "amixer sset 'Playback Path' HP" :"amixer sset 'Playback Path' SPK") != 0)
         { LOG(LogError) << "[PulseAudio] Error setting playback path on GoA/GoA"; }
       }
-      else if (originalPlaybackName == "alsa_card.0:analog-output-headphones")
+      else if (originalPlaybackName == "alsa_output.platform-rk817-sound.multichannel-output:analog-output-headphones")
       {
         if (system("amixer sset 'Playback Path' HP") != 0)
         { LOG(LogError) << "[PulseAudio] Error setting playback path on GoA/GoA"; }
       }
-      else if (originalPlaybackName == "alsa_card.0:multichannel-output")
+      else if (originalPlaybackName == "alsa_output.platform-rk817-sound.multichannel-output:multichannel-output")
       {
         if (system("amixer sset 'Playback Path' SPK") != 0)
         { LOG(LogError) << "[PulseAudio] Error setting playback path on GoA/GoA"; }
@@ -496,66 +541,76 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
   if (allProcessed) return playbackName; // AjustSpecialPlayback did some tricks, no need to go further
 
   const Card* card = nullptr;
+  const Sink* sink = nullptr;
   const Port* port = nullptr;
   {
     Mutex::AutoLock lock(mSyncer);
 
     { LOG(LogInfo) << "[PulseAudio] Switching to " << playbackName; }
 
-    std::string cardName;
+    std::string sinkName;
     std::string portName;
-    if (!Strings::SplitAt(playbackName, ':', cardName, portName, true))
+    if (!Strings::SplitAt(playbackName, ':', sinkName, portName, true))
     { LOG(LogError) << "[PulseAudio] Invalid playbackname: " << playbackName; }
 
-    // Lookup cards/port
-    card = LookupCard(cardName);
-    if (card != nullptr) port = LookupPort(*card, portName);
+    sink = LookupSink(sinkName);
 
-    // Get best profile regading available card/port
-    const Profile* selectedProfile = GetBestProfile(card, port);
+    // Bail out if sink not available anymore
+    // This can happend when migrating or when audio cards have changed
+    if (!sink)
+    {
+      LOG(LogWarning) << "[PulseAudio] Invalid sink: " << sinkName;
+      return playbackName;
+    }
 
-    if (card == nullptr) { LOG(LogError) << "[PulseAudio] No sound card available!"; return playbackName; }
-    if (port == nullptr) { LOG(LogError) << "[PulseAudio] No port '" << portName << "' available on sound card " << card->Description; return playbackName; }
-    if (selectedProfile == nullptr) { LOG(LogError) << "[PulseAudio] No profile available!"; return playbackName; }
+    card = GetCardByIndex(sink->CardIndex);
 
-    { LOG(LogInfo) << "[PulseAudio] Activating profile " << selectedProfile->Description << " for card #" << card->Index << ' ' << card->Name; }
+    // Set best profile of card (higher priority)
+    if (card)
+    {
+      port = LookupPort(*card, portName);
+      // Get best profile regarding available card/port
+      const Card* cardTemp = card;
+      const Port* portTemp = port;
+      const Profile* selectedProfile = GetBestProfile(cardTemp, portTemp);
+      if (portTemp == nullptr) { LOG(LogError) << "[PulseAudio] No port '" << portName << "' available on sound card " << card->Description; return playbackName; }
+      if (selectedProfile == nullptr) { LOG(LogError) << "[PulseAudio] No profile available!"; return playbackName; }
 
-    pa_operation* profileOp = pa_context_set_card_profile_by_index(mPulseAudioContext, card->Index, selectedProfile->Name.data(), SetProfileCallback,this);
-    // Wait for response
-    mSignal.WaitSignal(sTimeOut);
-    // Release
-    pa_operation_unref(profileOp);
-  }
+      { LOG(LogInfo) << "[PulseAudio] Activating profile " << selectedProfile->Description << " for card #" << card->Index << ' ' << card->Name; }
 
-  // Refesh sinks
-  PulseEnumarateSinks();
-
-  for(const Sink& sink : card->Sinks)
-  {
-    Mutex::AutoLock lock(mSyncer);
-    //if (!HasPort(sink, *port)) continue; // Sink contains the target port?
+      pa_operation* profileOp = pa_context_set_card_profile_by_index(mPulseAudioContext, card->Index, selectedProfile->Name.data(), SetProfileCallback,this);
+      // Wait for response
+      mSignal.WaitSignal(sTimeOut);
+      // Release
+      pa_operation_unref(profileOp);
+    }
 
     // Set port
-    pa_operation* op = pa_context_set_sink_port_by_index(mPulseAudioContext, sink.Index, port->Name.data(), SetPortCallback, this);
-    // Wait for result
-    mSignal.WaitSignal(sTimeOut);
-    // Release
-    pa_operation_unref(op);
-    { LOG(LogDebug) << "[PulseAudio] Sink '" << sink.Name << "' has been switched to port " << port->Name; }
+    if (port)
+    {
+      pa_operation* op = pa_context_set_sink_port_by_name(mPulseAudioContext, sink->Name.data(), port->Name.data(), SetPortCallback, this);
+      // Wait for result
+      mSignal.WaitSignal(sTimeOut);
+      // Release
+      pa_operation_unref(op);
+      { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been switched to port " << port->Name; }
+    }
 
     // Set sink the default one
-    op = pa_context_set_default_sink(mPulseAudioContext, sink.Name.data(), SetSinkCallback, this);
+    pa_operation* op = pa_context_set_default_sink(mPulseAudioContext, sink->Name.data(), SetSinkCallback, this);
     // Wait for result
     mSignal.WaitSignal(sTimeOut);
     // Release
     pa_operation_unref(op);
-    { LOG(LogDebug) << "[PulseAudio] Sink '" << sink.Name << "' has been set as default sink."; }
+    { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been set as default sink."; }
 
-    break;
   }
 
   // Return new  playback
-  return std::string(card->Name).append(1, ':').append(port->Name);
+  if (port != nullptr)
+    return std::string(sink->Name).append(1, ':').append(port->Name);
+  else
+    return std::string(sink->Name).append(1, ':');
 }
 
 int PulseAudioController::GetVolume()
@@ -577,20 +632,19 @@ void PulseAudioController::SetVolume(int volume)
 
   Mutex::AutoLock lock(mSyncer);
 
-  for(Card& card : mCards)
-    for(Sink& sink : card.Sinks)
-    {
-      pa_cvolume volumeStructure;
-      pa_cvolume_init(&volumeStructure);
-      pa_cvolume_set(&volumeStructure, sink.Channels, (PA_VOLUME_NORM * volume) / 100);
+  for(Sink& sink : mSinks)
+  {
+    pa_cvolume volumeStructure;
+    pa_cvolume_init(&volumeStructure);
+    pa_cvolume_set(&volumeStructure, sink.Channels, (PA_VOLUME_NORM * volume) / 100);
 
-      // Set volume
-      pa_operation* op = pa_context_set_sink_volume_by_index(mPulseAudioContext, sink.Index, &volumeStructure, SetVolumeCallback, this);
-      // Wait for result
-      mSignal.WaitSignal(sTimeOut);
-      // Release
-      pa_operation_unref(op);
-    }
+    // Set volume
+    pa_operation* op = pa_context_set_sink_volume_by_index(mPulseAudioContext, sink.Index, &volumeStructure, SetVolumeCallback, this);
+    // Wait for result
+    mSignal.WaitSignal(sTimeOut);
+    // Release
+    pa_operation_unref(op);
+  }
 }
 
 void PulseAudioController::Break()
@@ -631,33 +685,6 @@ void PulseAudioController::PulseContextDisconnect()
   // Disconnect from pulse server
   pa_context_disconnect(mPulseAudioContext);
   { LOG(LogInfo) << "[PulseAudio] Disconnected to Server."; }
-}
-
-void PulseAudioController::PulseEnumarateSinks()
-{
-  mSyncer.Lock();
-  for(Card& card : mCards)
-    card.Sinks.clear();
-  mSyncer.UnLock();
-
-  // Enumerate sinks
-  { LOG(LogInfo) << "[PulseAudio] Enumerating Sinks"; }
-  pa_operation* sinkOp = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
-  // Wait for response
-  mSignal.WaitSignal(sTimeOut);
-  // Release
-  pa_operation_unref(sinkOp);
-
-  // Unmute all sinks
-  for(Card& card : mCards)
-    for(Sink& sink : card.Sinks)
-    {
-      { LOG(LogDebug) << "[PulseAudio] Unmute Sink #" << sink.Index << " - " << sink.Name; }
-      // Set volume
-      pa_context_set_sink_mute_by_index(mPulseAudioContext, sink.Index, 0, SetMuteCallback, this);
-      // Wait for result
-      mSignal.WaitSignal(sTimeOut);
-    }
 }
 
 const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const PulseAudioController::Card*& targetCard, const PulseAudioController::Port*& targetPort)
@@ -721,7 +748,7 @@ void PulseAudioController::SetDefaultProfiles()
 {
   for(Card& card : mCards)
   {
-    if (card.HasActioveProfile) continue;
+    if (card.HasActiveProfile) continue;
     if (card.Ports.empty()) { LOG(LogWarning) << "[PulseAudio] Card #" << card.Index << ' ' << card.Name << " has no port!"; continue; }
 
     { LOG(LogInfo) << "[PulseAudio] Card #" << card.Index << ' ' << card.Name << " has no profile activated."; }
@@ -742,6 +769,21 @@ void PulseAudioController::SetDefaultProfiles()
   }
 }
 
+void PulseAudioController::PulseEnumerateSinks()
+{
+  mSyncer.Lock();
+  mSinks.clear();
+  mSyncer.UnLock();
+
+  // Enumerate cards
+  { LOG(LogInfo) << "[PulseAudio] Enumerating Sinks"; }
+  pa_operation* sinkOp = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
+  // Wait for response
+  mSignal.WaitSignal(sTimeOut);
+  // Release
+  pa_operation_unref(sinkOp);
+}
+
 void PulseAudioController::PulseEnumerateCards()
 {
   mSyncer.Lock();
@@ -759,15 +801,13 @@ void PulseAudioController::PulseEnumerateCards()
   // Activate the best profile on every card if they do not have default profile
   SetDefaultProfiles();
 
-  // Enumerate sinks
-  PulseEnumarateSinks();
 }
 
 void PulseAudioController::PulseSubscribe()
 {
   { LOG(LogInfo) << "[PulseAudio] Subscribing to events"; }
 
-  pa_context_set_subscribe_callback(mPulseAudioContext, SubsciptionCallback, this);
+  pa_context_set_subscribe_callback(mPulseAudioContext, SubscriptionCallback, this);
   pa_context_subscribe(mPulseAudioContext, PA_SUBSCRIPTION_MASK_ALL, nullptr, nullptr);
 }
 
@@ -796,7 +836,7 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
     {
       result = cardName;
       Strings::ReplaceAllIn(result, "bcm2835", "");
-      Strings::ReplaceAllIn(result, "v4-hdmi", "HDMI");
+      Strings::ReplaceAllIn(result, "vc4-hdmi", "HDMI");
       break;
     }
     case BoardType::OdroidAdvanceGo:
@@ -815,6 +855,50 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
   if (result.empty()) result.append("Card #").append(Strings::ToString(info.index));
 
   return Strings::Trim(result);
+}
+
+const PulseAudioController::Card* PulseAudioController::GetCardByIndex(int index) 
+{
+  for(Card& card : mCards)
+    if (card.Index == index)
+      return &card;
+  return nullptr;
+}
+
+std::string PulseAudioController::GetPortDescription(const pa_sink_port_info& info, AudioIcon& icon)
+{
+  std::string result = info.description;
+  std::string low(Strings::ToLowerASCII(result));
+
+  // Change
+  switch(Board::Instance().GetBoardType())
+  {
+    case BoardType::Pi0:
+    case BoardType::Pi02:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::Pi400:
+    case BoardType::UnknownPi: break;
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    {
+      if (low == "multichannel output")
+      {
+        result = "Internal Speakers";
+        icon = AudioIcon::Speakers;
+      }
+    }
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    default: break;
+  }
+
+  return result;
 }
 
 std::string PulseAudioController::GetPortDescription(const pa_card_port_info& info, AudioIcon& icon)
@@ -859,5 +943,8 @@ void PulseAudioController::Refresh()
   Mutex::AutoLock locker(mAPISyncer);
 
   if (mConnectionState == ConnectionState::Ready)
+  {
+    PulseEnumerateSinks();
     PulseEnumerateCards();
+  }
 }
