@@ -44,3 +44,14 @@ for SAVE_DIR in "SAVEDATA" "PPSSPP_STATE"; do
     rm -rf "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/"
   fi
 done
+
+### Migration 7 [20220323142920] Added in 8.1
+### Rename all Amiga bios following commit cd57bb7bcc3c65392f15a1b9f19c5c9799400be4
+AMIGABIOS=(kick33180.A500.rom kick34005.A500.rom kick37175.A500.rom kick40063.A600.rom kick02019.AROS.ext.rom kick02019.AROS.rom kick39106.A1200.rom kick40068.A1200.rom kick40068.A4000.rom kick34005.CDTV.rom kick40060.CD32.rom kick40060.CD32.ext.rom)
+
+for file in "${AMIGABIOS[@]}"; do
+  if [ -f "${_SHARE}/bios/${file}" ]; then
+    recallog -s "${INIT_SCRIPT}" -t "MIGRATION-INFO" "MIGRATION of AMIGA bios - renaming ${_SHARE}/bios/${file}"
+    mv "${_SHARE}/bios/${file}" "${_SHARE}/bios/${file%.rom}"
+  fi
+done
