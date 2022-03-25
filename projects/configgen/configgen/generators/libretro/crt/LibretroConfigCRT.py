@@ -119,7 +119,8 @@ class LibretroConfigCRT:
                                          "menu_driver": '"rgui"',
                                          "video_shader_enable": '"false"',
                                          "video_vsync": '"true"',
-                                         "video_black_frame_insertion": '"0"'
+                                         "video_black_frame_insertion": '"0"',
+                                         "audio_driver": '"pulse"'
                                          }
         arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus"]
         core: str = system.Core
@@ -129,8 +130,11 @@ class LibretroConfigCRT:
             "Starting configuration for game {} on system {}, screentype {}, resolutiontype {}, region {}".format(
                 game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTVideoStandard),
             log_type="CRT")
+
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
+        if system.Name == "psx":
+            config.update({"audio_driver": '"alsathread"'})
         if core in arcade_cores and system.Name != "neogeocd":
             config_core: str = core
             if config_core == "mame2003_plus":
