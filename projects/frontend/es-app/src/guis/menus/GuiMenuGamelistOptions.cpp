@@ -13,6 +13,7 @@
 #include "GuiMenu.h"
 #include "GuiMenuGamelistGameOptions.h"
 #include "GuiMenuGamelistGameDeleteOptions.h"
+#include "guis/GuiSearch.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
   :	GuiMenuBase(window, _("OPTIONS"), this)
@@ -52,6 +53,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
+
+  // open search wheel for this system
+  if (!system.IsFavorite())
+  AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
 	// Sorting
 	if (!system.IsSelfSorted())
@@ -268,6 +273,11 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         }, _("NO"), {}));
         break;
     }
+    case Components::Search:
+    {
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
+      break;
+    }
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Adult:
@@ -297,6 +307,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::Regions:
     case Components::Sorts:
     case Components::JumpToLetter:
+    case Components::Search:
     case Components::MetaData:
     case Components::MainMenu:
     case Components::UpdateGamelist:

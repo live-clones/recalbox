@@ -301,6 +301,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
 
   if (event.StartPressed())
   {
+    clean();
     mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager));
     return true;
   }

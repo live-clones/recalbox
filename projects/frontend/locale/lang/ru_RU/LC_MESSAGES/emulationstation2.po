@@ -3189,6 +3189,10 @@ msgstr ""
 msgid "Display games by file names."
 msgstr "Afficher les jeux par noms de fichier"
 
+#
+msgid "SEARCH GAMES HERE"
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "БЕЗОПАСНОСТЬ"
 
