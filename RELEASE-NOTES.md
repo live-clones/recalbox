@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: enhance image quality in frontend
 - Recalbox RGB Dual: enhance calibration screen accuracy
 - Recalbox RGB Dual: fix option management when upgrading from 8.0.2
+- Recalbox RGB Dual: fix playstation pal games performance
 
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
