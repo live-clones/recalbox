@@ -653,5 +653,24 @@ def test_given_31kHz_and_should_create_neogeo_config_with_default_mode_but_best_
     assert libretro_config["custom_viewport_width_pal"] == 640
     assert libretro_config["custom_viewport_height_ntsc"] == 448
     assert libretro_config["custom_viewport_height_pal"] == 448
+
+
 #
 # test_given_default_should_take_in_account_viewport_width
+# Issue with metal gear solid pal
+def test_given_psx_when_starting_a_game_then_use_alsamixer(
+        mocker, system_snes):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx@60.0988,0,0",
+        MODES_TXT: "psx@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988"
+    })
+
+    psx = configureForCrt(
+        Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swanstation'),
+        crtresolutiontype="progressive", crtvideostandard="auto",
+        crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(psx,
+                                                                                               "/recalbox/share/roms/psx/Mario.zip")
+
+    assert libretro_config["audio_driver"] == '"alsathread"'
