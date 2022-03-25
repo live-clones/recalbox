@@ -186,7 +186,7 @@ def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, co
     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
     assert 'crt_switch_timings_ntsc = "1920 1 90 192 198 224 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
-    assert 'crt_switch_timings_pal = "1920 1 90 192 198 224 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
+    assert 'crt_switch_timings_pal = "1920 1 60 192 228 224 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
     assert 'custom_viewport_width_ntsc = 1780' in generated_config
     assert 'custom_viewport_width_pal = 1740' in generated_config
     assert 'video_refresh_rate_ntsc = "60.1"' in generated_config
