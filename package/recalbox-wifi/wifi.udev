@@ -1,0 +1,7 @@
+SUBSYSTEM!="net", GOTO="end"
+ACTION!="add", GOTO="end"
+KERNEL!="wlan*", GOTO="end"
+
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", KERNEL=="wlan*" RUN+="/recalbox/scripts/recalbox-start-wifi"
+
+LABEL="end"

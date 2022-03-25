@@ -1,0 +1,7 @@
+config BR2_PACKAGE_RECALBOX_WIFI
+	bool "recalbox wifi"
+	select BR2_PACKAGE_WPA_SUPPLICANT
+	select BR2_PACKAGE_WPA_SUPPLICANT_CLI
+	select BR2_PACKAGE_WPA_SUPPLICANT_DBUS
+	help
+	  The wifi utilities for recalbox
