@@ -50,3 +50,7 @@ def test_given_horizontal_offset_will_adapt_to_320_horizontal_resolution(mocker)
 def test_given_horizontal_offset_will_adapt_to_640_horizontal_resolution_by_x2(mocker):
     mode = Mode("640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1")
     assert CRTModeOffsetter().processMode(mode, -2, -2) == Mode("640 1 28 64 100 480 1 5 6 32 0 0 0 60 1 13054080 1")
+
+def test_given_a_pal_mode_and_horizontal_offset_then_adapt_the_offset(mocker):
+    mode = Mode("1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1")
+    assert CRTModeOffsetter().processMode(mode, -10, 0) == Mode("1920 1 110 184 282 288 1 4 3 18 0 0 0 50 0 39062400 1")
