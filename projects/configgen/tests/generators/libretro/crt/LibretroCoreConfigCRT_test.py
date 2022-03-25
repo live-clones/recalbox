@@ -214,3 +214,24 @@ def test_given_megadrive_and_auto_region_should_return_the_auto_region():
         Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
         crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="auto", crtscreentype="15kHz")
     assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'auto'
+
+def test_given_quake2_should_set_resolution_the_resolution_to_240p_in15khz():
+    quake2 = configureForCrt(
+        Emulator(name='quake2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='vitaquake2'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtregion="auto", crtscreentype="15kHz")
+
+    assert LibretroCoreConfigCRT().createConfigFor(quake2)["vitaquakeii_resolution"] == '"320x240"'
+
+def test_given_quake2_should_set_resolution_the_resolution_to_480p_in31khz():
+    quake2 = configureForCrt(
+        Emulator(name='quake2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='vitaquake2'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtregion="auto", crtscreentype="31kHz")
+
+    assert LibretroCoreConfigCRT().createConfigFor(quake2)["vitaquakeii_resolution"] == '"640x480"'
+
+def test_given_quake2_should_set_resolution_the_resolution_to_240p_in31_double_freq():
+    quake2 = configureForCrt(
+        Emulator(name='quake2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='vitaquake2'),
+        crtresolutiontype="doublefreq", crtvideostandard="auto", crtregion="auto", crtscreentype="31kHz")
+
+    assert LibretroCoreConfigCRT().createConfigFor(quake2)["vitaquakeii_resolution"] == '"320x240"'
