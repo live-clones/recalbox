@@ -14,7 +14,7 @@ class TextComponent;
 class GuiScraperRun : public Gui, public INotifyScrapeResult
 {
 public:
-	GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method);
+	GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method);
 	~GuiScraperRun() override = default;
 
 	void onSizeChanged() override;
@@ -31,6 +31,9 @@ private:
 
 	//! Start time
 	DateTime mStart;
+
+  //! Last scrapping result
+  ScrapeResult mResult;
 
 	SystemManager::SystemList mSearchQueue;
 

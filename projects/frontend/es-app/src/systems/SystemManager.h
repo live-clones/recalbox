@@ -462,6 +462,13 @@ class SystemManager :
     void SystemSorting();
 
     /*!
+     * @brief Lookup a game by filepath in the whole system list
+     * @param filePath file path to lookup
+     * @return FileData or nullptr if no game is found
+     */
+    FileData* LookupGameByFilePath(const std::string& filePath);
+
+    /*!
      * @brief Create an empty rom structure in
      * @param device Source device
      * @return True if th  path have been created successfully, false otherwise

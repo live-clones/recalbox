@@ -3330,4 +3330,11 @@ msgstr ""
 #
 msgid "SEARCH GAMES HERE"
 msgstr ""
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
+
+#
+msgid "A fatal error occured while scraping your game! It may be related to server issues or bad login/password.\n\nTry again in a few moment or fix your credentials if required."
+msgstr ""

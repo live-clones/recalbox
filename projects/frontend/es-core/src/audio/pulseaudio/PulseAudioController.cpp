@@ -183,6 +183,7 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
 
 AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
 {
+#if PA_CHECK_VERSION(14,0,0)
   switch(info.type)
   {
     case PA_DEVICE_PORT_TYPE_SPEAKER: return AudioIcon::Speakers; break;
@@ -192,6 +193,7 @@ AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
     case PA_DEVICE_PORT_TYPE_VIDEO:
       return AudioIcon::Screens;
   }
+#endif
   return AudioIcon::Unidentified;
 }
 

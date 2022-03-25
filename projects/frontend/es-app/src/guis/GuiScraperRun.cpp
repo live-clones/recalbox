@@ -17,12 +17,13 @@
 #include "themes/MenuThemeData.h"
 #include "MenuMessages.h"
 
-GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)
-  :	Gui(window),
-    mSystemManager(systemManager),
-    mSearchQueue(systems),
-    mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 8))
+GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method)
+  :	Gui(window)
+  , mSystemManager(systemManager)
+  , mResult(ScrapeResult::NotScraped)
+  , mSearchQueue(systems)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(1, 8))
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -108,7 +109,17 @@ void GuiScraperRun::finish()
   for(const auto& systemData : mSearchQueue)
     systemData->UpdateGamelistXml();
   mWindow.CloseAll();
-  mIsProcessing = false;
+  switch(mResult)
+  {
+    case ScrapeResult::Ok: MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); break;
+    case ScrapeResult::NotScraped:
+    case ScrapeResult::NotFound:
+    case ScrapeResult::QuotaReached:
+    case ScrapeResult::DiskFull:
+    case ScrapeResult::FatalError:
+    default: break;
+  }
+	mIsProcessing = false;
 }
 
 void GuiScraperRun::GameResult(int index, int total, FileData* result)
@@ -172,14 +183,13 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
 {
   mGrid.removeEntry(mSearchComp);
   std::string finalReport;
-  switch(reason)
+  switch(mResult = reason)
   {
     case ScrapeResult::Ok:
     case ScrapeResult::NotScraped:
     case ScrapeResult::NotFound:
-    case ScrapeResult::FatalError:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_POPUP;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_POPUP);
       finalReport = Strings::Replace(finalReport, "{PROCESSED}", Strings::ToString(mScraper->ScrapesTotal()));
       finalReport = Strings::Replace(finalReport, "{SUCCESS}", Strings::ToString(mScraper->ScrapesSuccessful()));
       finalReport = Strings::Replace(finalReport, "{NOTFOUND}", Strings::ToString(mScraper->ScrapesNotFound()));
@@ -197,14 +207,19 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
       finalReport = Strings::ToUpperUTF8(finalReport);
       break;
     }
+    case ScrapeResult::FatalError:
+    {
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_FATAL);
+      break;
+    }
     case ScrapeResult::QuotaReached:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_QUOTA;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_QUOTA);
       break;
     }
     case ScrapeResult::DiskFull:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_DISKFULL;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_DISKFULL);
       break;
     }
   }
@@ -212,11 +227,8 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
   mGrid.setEntry(mFinalReport, Vector2i(0, 3), false, true);
 
   // Update button?
-  if (mScraper->ScrapesStillPending() == 0)
-  {
-    mButton->setText(_("CLOSE"), _("CLOSE"));
-    mSearchComp->SetRunning(false);
-  }
+  mButton->setText(_("CLOSE"), _("CLOSE"));
+  mSearchComp->SetRunning(false);
 
   // Scripts
   NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));

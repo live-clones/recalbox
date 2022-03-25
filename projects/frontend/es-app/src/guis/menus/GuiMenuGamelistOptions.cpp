@@ -3,16 +3,17 @@
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
 #include <games/GameFilesUtils.h>
-#include "guis/GuiMetaDataEd.h"
-#include "views/ViewController.h"
-#include "components/SwitchComponent.h"
-#include "utils/locale/LocaleHelper.h"
-#include "guis/MenuMessages.h"
-#include "guis/GuiMsgBox.h"
-#include "guis/menus/GuiMenuQuit.h"
-#include "GuiMenu.h"
-#include "GuiMenuGamelistGameOptions.h"
-#include "GuiMenuGamelistGameDeleteOptions.h"
+#include <guis/GuiMetaDataEd.h>
+#include <views/ViewController.h>
+#include <components/SwitchComponent.h>
+#include <utils/locale/LocaleHelper.h>
+#include <guis/MenuMessages.h>
+#include <guis/GuiMsgBox.h>
+#include <guis/menus/GuiMenuQuit.h>
+#include <guis/menus/GuiMenu.h>
+#include <guis/menus/GuiMenuGamelistGameOptions.h>
+#include <guis/menus/GuiMenuGamelistGameDeleteOptions.h>
+#include <scraping/ScraperSeamless.h>
 #include "guis/GuiSearch.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
@@ -149,6 +150,7 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
   if (std::find(availableSorts.begin(), availableSorts.end(), currentSort) == availableSorts.end())
     currentSort = FileSorts::Sorts::FileNameAscending;
 
+  list.reserve(availableSorts.size());
   for(FileSorts::Sorts sort : availableSorts)
     list.push_back({ FileSorts::Name(sort), sort, sort == currentSort });
 
@@ -260,22 +262,24 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::Delete:
     {
-        mWindow.pushGui(new GuiMenuGamelistGameDeleteOptions(mWindow, mGamelist, *mGamelist.getCursor()));
+      FileData* game = mGamelist.getCursor();
+      if (ScraperSeamless::Instance().IsScraping(game)) mWindow.pushGui(new GuiMsgBox(mWindow, _("This game is currently updating its metadata. Retry in a few seconds."), _("OK"), nullptr ));
+      else mWindow.pushGui(new GuiMenuGamelistGameDeleteOptions(mWindow, mGamelist, *game));
       break;
     }
     case Components::DeleteScreeshot:
     {
-        mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
-        {
-            mGamelist.getCursor()->FilePath().Delete();
-            FolderData* folder = mGamelist.getCursor()->Parent();
-            folder->deleteChild(mGamelist.getCursor());
-            mGamelist.onFileChanged(mGamelist.getCursor(), FileChangeType::Removed);
-            mGamelist.refreshList();
-            mWindow.deleteAllGui();
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
+      {
+          mGamelist.getCursor()->FilePath().Delete();
+          FolderData* folder = mGamelist.getCursor()->Parent();
+          folder->deleteChild(mGamelist.getCursor());
+          mGamelist.onFileChanged(mGamelist.getCursor(), FileChangeType::Removed);
+          mGamelist.refreshList();
+          mWindow.deleteAllGui();
 
-        }, _("NO"), {}));
-        break;
+      }, _("NO"), {}));
+      break;
     }
     case Components::Search:
     {
@@ -305,13 +309,17 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
     case Components::ShowHidden:
+    {
       RecalboxConf::Instance().SetShowHidden(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
-      case Components::DisplayByFileName:
+    }
+    case Components::DisplayByFileName:
+    {
       RecalboxConf::Instance().SetDisplayByFileName(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
+    }
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::Regions:
     case Components::Sorts:

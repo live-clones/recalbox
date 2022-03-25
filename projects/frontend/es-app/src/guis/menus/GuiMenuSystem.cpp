@@ -55,7 +55,16 @@ std::vector<GuiMenuBase::ListEntry<StorageDevices::Device>> GuiMenuSystem::GetSt
 
   mOriginalStorage = mStorageDevices.GetStorageDevice();
   for(const StorageDevices::Device& device : mStorageDevices.GetStorageDevices())
-    list.push_back({ device.DisplayName, device, device.Current });
+  {
+    std::string display = device.DisplayName;
+    if (device.Size != 0)
+      display.append(" (Free ")
+             .append(device.HumanFree())
+             .append(1, '/')
+             .append(device.HumanSize())
+             .append(1, ')');
+    list.push_back({ display, device, device.Current });
+  }
 
   return list;
 }

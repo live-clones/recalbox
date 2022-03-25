@@ -7,21 +7,23 @@
 #include "components/ImageComponent.h"
 #include "components/VideoComponent.h"
 #include "systems/SystemData.h"
+#include "components/BusyComponent.h"
 
 class DetailedGameListView : public BasicGameListView, public ITextListComponentOverlay<FileData*>
 {
 public:
     DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
 
-    ~DetailedGameListView();
+    ~DetailedGameListView() override;
 
     void onThemeChanged(const ThemeData& theme) override;
 
     const char* getName() const override { return "detailed"; }
 
     void Update(int deltatime) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
-    void DoUpdateGameInformation() final;
+    void DoUpdateGameInformation(bool update) final;
 
 protected:
     void launch(FileData* game) override;
@@ -57,7 +59,12 @@ private:
     ScrollableContainer mDescContainer;
     TextComponent mDescription;
 
+    BusyComponent mBusy;
+
     RecalboxConf& mSettings;
+
+    //! Fade between mImage & mNoImage
+    int mFadeBetweenImage;
 
     bool switchDisplay(bool isGame);
     bool switchToFolderScrappedDisplay();
@@ -65,11 +72,18 @@ private:
     std::vector<Component*> getGameComponents(bool includeMainComponents = true);
     std::vector<Component*> getScrappedFolderComponents();
     void setFolderInfo(FolderData* folder);
-    void setGameInfo(FileData* file);
+    void setGameInfo(FileData* file, bool update);
     void setRegions(FileData* file);
     void setScrappedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
     static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);
+
+    /*!
+     * @brief Set fading (or not) between NoImage & Image, regarding game data
+     * @param game Game data
+     * @param update Data are updating from a previous display
+     */
+    void SetImageFading(FileData* game, bool update);
 
     /*
      * ITextListComponentOverlay<FileData*> implementation

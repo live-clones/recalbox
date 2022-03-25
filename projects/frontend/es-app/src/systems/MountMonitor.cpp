@@ -10,6 +10,7 @@
 #include <utils/Log.h>
 #include <sys/poll.h>
 #include "utils/Files.h"
+#include <blkid/blkid.h>
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   : mEvent(this)
@@ -92,7 +93,6 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
   return result;
 }
 
-#include <blkid/blkid.h>
 std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
 {
   blkid_probe pr = blkid_new_probe_from_filename(devicePath.ToChars());

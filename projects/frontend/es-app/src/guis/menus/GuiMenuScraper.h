@@ -12,6 +12,7 @@
 
 class GuiMenuScraper : public GuiMenuBase
                                , private IOptionListComponent<ScraperNameOptions>
+                               , private IOptionListComponent<ScraperType>
                                , private IGuiMenuBase
 {
   public:
@@ -27,19 +28,29 @@ class GuiMenuScraper : public GuiMenuBase
         Systems,
     };
 
-    std::shared_ptr<OptionListComponent<ScraperFactory::ScraperType>> mScrapers;
-    std::shared_ptr<OptionListComponent<ScraperNameOptions>> mScrapeNameOptions;
-    std::shared_ptr<OptionListComponent<ScrappingMethod>> mScrapingMethod;
+    std::shared_ptr<OptionListComponent<ScraperType>> mScrapers;
+    std::shared_ptr<OptionListComponent<ScrapingMethod>> mScrapingMethod;
     std::shared_ptr<OptionListComponent<SystemData*>> mSystems;
 
-    std::vector<ListEntry<ScrappingMethod>> GetScrapingMethods();
+    //! SystemManager reference
+    SystemManager& mSystemManager;
+
+    static std::vector<ListEntry<ScrapingMethod>> GetScrapingMethods();
     std::vector<ListEntry<SystemData*>> GetSystemsEntries();
-    std::vector<ListEntry<ScraperFactory::ScraperType>> GetScrapersEntries();
-    std::vector<ListEntry<ScraperNameOptions>> GetNameOptionsEntries();
+    static std::vector<ListEntry<ScraperType>> GetScrapersEntries();
+    static std::vector<ListEntry<ScraperNameOptions>> GetNameOptionsEntries();
+
+    /*
+     * IOptionListComponent<ScraperNameOptions> implementation
+     */
 
     void OptionListComponentChanged(int id, int index, const ScraperNameOptions& value) override;
 
-    SystemManager& mSystemManager;
+    /*
+     * IOptionListComponent<ScraperFactory::ScraperType> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const ScraperType& value) override;
 
     void SubMenuSelected(int id) override;
 

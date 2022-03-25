@@ -80,8 +80,10 @@ template<class FeedObject, class ResultObject> class ThreadPool
 
         void Run() override;
 
+        void Break() override { Fire(); }
+
         /*!
-         * @brief Set the signal to wxake up the thread
+         * @brief Set the signal to wake up the thread
          */
         void Fire() { mSignal.Fire(); }
     };
@@ -185,6 +187,16 @@ template<class FeedObject, class ResultObject> class ThreadPool
     }
 
     /*!
+     * @brief Cancel all pending jobs
+     */
+    void CancelPendingJobs()
+    {
+      mStackMutex.Lock();
+      mQueue.clear();
+      mStackMutex.UnLock();
+    }
+
+    /*!
      * @brief Populate working queue with feed objects
      * @param feed Feed object
      * @param Priority: higher priorities are executed first
@@ -195,7 +207,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
       mQueue.push_back(IndexedFeed(mIndex++, feed, priority));
       mStackMutex.UnLock();
       if (mPermanent)
-        for(auto& thread : mThreads)
+        for(WorkerThread* thread : mThreads)
           thread->Fire();
     }
 
@@ -350,3 +362,4 @@ void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
       break;
   }
 }
+

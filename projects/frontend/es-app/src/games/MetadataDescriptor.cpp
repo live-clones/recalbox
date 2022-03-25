@@ -258,6 +258,8 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   else if (name == FolderNodeIdentifier) mType = ItemType::Folder;
   else return false; // Unidentified node
 
+  mTimeStamp = (unsigned int)Xml::AttributeAsInt(from, "timestamp", 0);
+
   #ifdef _METADATA_STATS_
     if (_Type == ItemType::Game) LivingGames++;
     if (_Type == ItemType::Folder) LivingFolders++;
@@ -391,6 +393,8 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
 
   // Add empty node game/folder
   XmlNode node = parentNode.append_child(mType == ItemType::Game ? GameNodeIdentifier.c_str() : FolderNodeIdentifier.c_str());
+  Xml::AddAttribute(node, "source", "Recalbox");
+  Xml::AddAttribute(node, "timestamp", mTimeStamp);
 
   // Add path
   bool dummy = false;
@@ -562,6 +566,7 @@ void MetadataDescriptor::FreeAll()
       case MetadataFieldDescriptor::DataType::PString:
       {
         FreePString(*((std::string**)source));
+        *((std::string**)source) = nullptr;
         break;
       }
       case MetadataFieldDescriptor::DataType::Rating:

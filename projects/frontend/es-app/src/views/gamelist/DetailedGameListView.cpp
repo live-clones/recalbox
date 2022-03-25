@@ -6,35 +6,38 @@
 #include "utils/locale/LocaleHelper.h"
 #include "games/GameFilesUtils.h"
 #include "games/classifications/Versions.h"
+#include "scraping/ScraperSeamless.h"
 
 DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system)
-: BasicGameListView(window, systemManager, system),
-  mImage(window),
-  mNoImage(window),
-  mVideo(window),
-  mLblRating(window),
-  mLblReleaseDate(window),
-  mLblDeveloper(window),
-  mLblPublisher(window),
-  mLblGenre(window),
-  mLblPlayers(window),
-  mLblLastPlayed(window),
-  mLblPlayCount(window),
-  mLblFavorite(window),
-  mFolderName(window),
-  mRating(window, 0.f),
-  mReleaseDate(window),
-  mDeveloper(window),
-  mPublisher(window),
-  mGenre(window),
-  mPlayers(window),
-  mLastPlayed(window),
-  mPlayCount(window),
-  mFavorite(window),
-  mVersion(window),
-  mDescContainer(window),
-  mDescription(window),
-  mSettings(RecalboxConf::Instance())
+  : BasicGameListView(window, systemManager, system)
+  , mImage(window)
+  , mNoImage(window)
+  , mVideo(window)
+  , mLblRating(window)
+  , mLblReleaseDate(window)
+  , mLblDeveloper(window)
+  , mLblPublisher(window)
+  , mLblGenre(window)
+  , mLblPlayers(window)
+  , mLblLastPlayed(window)
+  , mLblPlayCount(window)
+  , mLblFavorite(window)
+  , mFolderName(window)
+  , mRating(window, 0.f)
+  , mReleaseDate(window)
+  , mDeveloper(window)
+  , mPublisher(window)
+  , mGenre(window)
+  , mPlayers(window)
+  , mLastPlayed(window)
+  , mPlayCount(window)
+  , mFavorite(window)
+  , mVersion(window)
+  , mDescContainer(window)
+  , mDescription(window)
+  , mBusy(window)
+  , mSettings(RecalboxConf::Instance())
+  , mFadeBetweenImage(-1)
 {
   //mList.SetOverlayInterface(this);
 
@@ -69,9 +72,15 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mImage.setPosition(mSize.x() * 0.25f, mList.getPosition().y() + mSize.y() * 0.2125f);
   mImage.setMaxSize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
   mImage.setDefaultZIndex(30);
-  addChild(&mImage);
 
-  mNoImage.setImage(Path(":/no_image.png"));
+  // no image
+  mNoImage.setOrigin(mImage.getOrigin());
+  mNoImage.setPosition(mImage.getPosition());
+  mNoImage.setMaxSize(mImage.getSize());
+  mNoImage.setDefaultZIndex(30);
+
+  addChild(&mNoImage);
+  addChild(&mImage);
 
   // video
   mVideo.setOrigin(0.5f, 0.5f);
@@ -79,6 +88,11 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   mVideo.setMaxSize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
   mVideo.setDefaultZIndex(30);
   addChild(&mVideo);
+
+  // Busy
+  mBusy.setPosition(mImage.getPosition());
+  mBusy.setSize(mImage.getSize());
+  mBusy.setText("UPDATING...");
 
   // metadata labels + values
   mLblRating.setText(_("Rating") + ": ");
@@ -157,6 +171,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 
 
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mNoImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
   mNoImage.applyTheme(theme, getName(), "default_image_path", ThemeProperties::Path);
   mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
 
@@ -215,6 +230,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   mDescription.setSize(mDescContainer.getSize().x(), 0);
   mDescription.applyTheme(theme, getName(), "md_description",
                           ThemeProperties::All ^ (ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::Origin | ThemeProperties::Text));
+  mBusy.SetFont(mDescription.getFont());
 
   if (theme.isFolderHandled())
   {
@@ -337,7 +353,7 @@ void DetailedGameListView::initMDValues()
   mDescContainer.setSize(mDescContainer.getSize().x(), mSize.y() - mDescContainer.getPosition().y());
 }
 
-void DetailedGameListView::DoUpdateGameInformation()
+void DetailedGameListView::DoUpdateGameInformation(bool update)
 {
   FileData* file = (mList.size() == 0 || mList.isScrolling()) ? nullptr : mList.getSelected();
 
@@ -366,7 +382,7 @@ void DetailedGameListView::DoUpdateGameInformation()
            mRegions[i]->setImage(Path());
        }
        else
-        setGameInfo(file);
+        setGameInfo(file, update);
       switchDisplay(!isFolder);
     }
   }
@@ -405,6 +421,7 @@ std::vector<Component*> DetailedGameListView::getGameComponents(bool includeMain
   std::vector<Component*> comps = getMDValues();
   if (includeMainComponents)
   {
+    comps.push_back(&mNoImage);
     comps.push_back(&mImage);
     comps.push_back(&mVideo);
     comps.push_back(&mDescription);
@@ -417,6 +434,7 @@ std::vector<Component*> DetailedGameListView::getGameComponents(bool includeMain
 std::vector<Component*> DetailedGameListView::getScrappedFolderComponents()
 {
   std::vector<Component*> comps;
+  comps.push_back(&mNoImage);
   comps.push_back(&mImage);
   comps.push_back(&mVideo);
   comps.push_back(&mDescription);
@@ -450,11 +468,46 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
   mVideo.setVideo(Path::Empty, 0, 0);
 }
 
-void DetailedGameListView::setGameInfo(FileData* file)
+void DetailedGameListView::SetImageFading(FileData* game, bool update)
+{
+  // Setup
+  mNoImage.setImage(Path(":/no_image.png"));
+  mNoImage.setDisabled(false);
+
+  bool imageExists = game->Metadata().Image().Exists();
+  if (game->IsFolder())
+  {
+    // Just set the image if it exists - if not, a folder preview is displayed
+    mImage.setImage(game->Metadata().Image());
+    // Let no image display if the image does not exists
+    mNoImage.setDisabled(imageExists);
+    mNoImage.setOpacity(255);
+  }
+  else
+  {
+    // Check equality with previous image
+    bool didntExist = !mImage.getImagePath().Exists();
+    // Set new image
+    mImage.setImage(imageExists ? game->Metadata().Image() : Path::Empty);
+    // if updating from no image, let's fade
+    if (update && imageExists && didntExist) // Start fading!
+    {
+      mFadeBetweenImage = 255;
+      mImage.setOpacity(255 - mFadeBetweenImage);
+      mNoImage.setOpacity(mFadeBetweenImage);
+    }
+    else // Just disable no image if the image exists
+    {
+      mNoImage.setDisabled(imageExists);
+      mNoImage.setOpacity(255);
+    }
+  }
+}
+
+void DetailedGameListView::setGameInfo(FileData* file, bool update)
 {
   if(mSystem.Name() != "imageviewer")
     setRegions(file);
-
   
   mRating.setValue(file->Metadata().RatingAsString());
   mReleaseDate.setValue(file->Metadata().ReleaseDate());
@@ -471,12 +524,17 @@ void DetailedGameListView::setGameInfo(FileData* file)
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
-  mImage.setImage(file->Metadata().Image().Exists() ? file->Metadata().Image() : mNoImage.getImage());
+  SetImageFading(file, update);
+
+  mBusy.setPosition(mImage.getPosition());
+  mBusy.setSize(mImage.getSize());
+  mBusy.setOrigin(mImage.getOrigin());
+
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
-  { LOG(LogDebug) << "[GamelistView] Set " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->FilePath().ToString(); }
+  { LOG(LogDebug) << "[GamelistView] Set video '" << file->Metadata().Video().ToString() << "' for " << file->Metadata().Name() << " => " << file->FilePath().ToString(); }
 
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
@@ -484,7 +542,7 @@ void DetailedGameListView::setGameInfo(FileData* file)
 
 void DetailedGameListView::setScrappedFolderInfo(FileData* file)
 {
-  mImage.setImage(file->Metadata().Image());
+  SetImageFading(file, false);
   mVideo.setVideo(Path::Empty, 0, 0);
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
@@ -562,11 +620,35 @@ std::vector<Component*> DetailedGameListView::getMDValues()
 
 void DetailedGameListView::Update(int deltatime)
 {
+  BasicGameListView::Update(deltatime);
+
+  mBusy.Enable(mIsScraping);
+  mBusy.Update(deltatime);
+
+  if (mFadeBetweenImage >= 0)
+  {
+    mFadeBetweenImage -= deltatime;
+    int f = mFadeBetweenImage < 0 ? 0 : mFadeBetweenImage;
+    mImage.setOpacity(255 - f);
+    mNoImage.setOpacity(f);
+  }
+
+  // Cancel video
   if (mList.isScrolling())
     mVideo.setVideo(Path::Empty, 0, 0);
-
-  Component::Update(deltatime);
 }
+
+void DetailedGameListView::Render(const Transform4x4f& parentTrans)
+{
+  Transform4x4f trans = parentTrans * getTransform();
+
+  renderChildren(trans);
+
+  Renderer::SetMatrix(trans);
+  //Renderer::DrawRectangle(mBusy.getPosition().x(), mBusy.getPosition().y(), mBusy.getSize().x(), mBusy.getSize().y(), 0x00000080);
+  mBusy.Render(trans);
+}
+
 
 void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color)
 {
@@ -632,5 +714,6 @@ void DetailedGameListView::setRegions(FileData* file)
     i++;
   }
 }
+
 
 

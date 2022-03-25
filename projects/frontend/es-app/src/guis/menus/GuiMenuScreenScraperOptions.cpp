@@ -7,24 +7,25 @@
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuScreenScraperOptions.h"
 
-GuiMenuScreenScraperOptions::GuiMenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager)
-: GuiMenuBase(window, _("SCREENSCRAPER OPTIONS"), nullptr),
-mSystemManager(systemManager)
+GuiMenuScreenScraperOptions::GuiMenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager, ScraperType scraperType)
+  : GuiMenuBase(window, _("SCREENSCRAPER OPTIONS"), nullptr)
+  , mSystemManager(systemManager)
+  , mType(scraperType)
 {
-  mImage = AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), "");
-  mThumbnail = AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), "");
-  mVideo = AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), "");
 
-  mExtractRegionMethod = AddList<ScreenScraperEnums::ScreenScraperRegionPriority>(_("SELECT REGION PRIORITY"), (int)Components::RegionPriority, this, GetRegionOptionsEntries(), _(""));
-  mRegion = AddList<Regions::GameRegions>(_("SELECT FAVORITE REGION"), (int)Components::Region, this, GetRegionsEntries(), "");
-  mLanguage = AddList<Languages>(_("SELECT FAVORITE LANGUAGE"), (int)Components::Language, this, GetLanguagesEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperRegionPriority>(_("SELECT REGION PRIORITY"), (int)Components::RegionPriority, this, GetRegionOptionsEntries(), _(""));
+  AddList<Regions::GameRegions>(_("SELECT FAVORITE REGION"), (int)Components::Region, this, GetRegionsEntries(), "");
+  AddList<Languages>(_("SELECT FAVORITE LANGUAGE"), (int)Components::Language, this, GetLanguagesEntries(), "");
 
-  mManual = AddSwitch(_("DOWNLOAD GAME MANUALS"), RecalboxConf::Instance().GetScreenScraperWantManual(), (int)Components::Manuals, this, "");
-  mMaps = AddSwitch(_("DOWNLOAD GAME MAPS"), RecalboxConf::Instance().GetScreenScraperWantMaps(), (int)Components::Maps, this, "");
-  mP2k = AddSwitch(_("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"), RecalboxConf::Instance().GetScreenScraperWantP2K(), (int)Components::PK2, this, "");
+  AddSwitch(_("DOWNLOAD GAME MANUALS"), RecalboxConf::Instance().GetScreenScraperWantManual(), (int)Components::Manuals, this, "");
+  AddSwitch(_("DOWNLOAD GAME MAPS"), RecalboxConf::Instance().GetScreenScraperWantMaps(), (int)Components::Maps, this, "");
+  AddSwitch(_("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"), RecalboxConf::Instance().GetScreenScraperWantP2K(), (int)Components::PK2, this, "");
 
-  mLogin = AddEditable(_("USERNAME"), RecalboxConf::Instance().GetScreenScraperLogin(), (int)Components::Login, this, false);
-  mPassword = AddEditable(_("PASSWORD"), RecalboxConf::Instance().GetScreenScraperPassword(), (int)Components::Password, this, true);
+  AddEditable(_("USERNAME"), GetLogin(), (int)Components::Login, this, false);
+  AddEditable(_("PASSWORD"), GetPassword(), (int)Components::Password, this, true);
 }
 
 std::vector<GuiMenuBase::ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GuiMenuScreenScraperOptions::GetImagesEntries()
@@ -88,7 +89,8 @@ std::vector<GuiMenuBase::ListEntry<Regions::GameRegions>> GuiMenuScreenScraperOp
     confRegion = Regions::GameRegions::WOR;
 
   std::vector<ListEntry<Regions::GameRegions>> list;
-  for(Regions::GameRegions region : Regions::AvailableRegions()){
+  for(Regions::GameRegions region : Regions::AvailableRegions())
+  {
     if(Regions::GameRegions::Unknown == region) continue;
     list.push_back({ Regions::RegionFullName(region), region , region == confRegion });
   }
@@ -99,7 +101,8 @@ std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetL
 {
   Languages  scrapingLanguage = LanguagesTools::GetScrapingLanguage();
   std::vector<ListEntry<Languages>> list;
-  for(Languages language : LanguagesTools::AvailableLanguages()){
+  for(Languages language : LanguagesTools::AvailableLanguages())
+  {
     if(Languages::Unknown == language)
       continue;
     list.push_back({ LanguagesTools::LanguagesFullName(language), language , language == scrapingLanguage });
@@ -109,8 +112,8 @@ std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetL
 
 void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const std::string& text)
 {
-  if ((Components)id == Components::Login) RecalboxConf::Instance().SetScreenScraperLogin(text).Save();
-  else if ((Components)id == Components::Password) RecalboxConf::Instance().SetScreenScraperPassword(text).Save();
+  if ((Components)id == Components::Login) SetLogin(text);
+  else if ((Components)id == Components::Password) SetPassword(text);
 }
 
 void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
@@ -118,9 +121,9 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
 {
   (void)index;
   if((Components)id == Components::Image)
-    RecalboxConf::Instance().SetScreenScraperMainMedia(value);
+    RecalboxConf::Instance().SetScreenScraperMainMedia(value).Save();
   if((Components)id == Components::Thumbnail)
-    RecalboxConf::Instance().SetScreenScraperThumbnail(value);
+    RecalboxConf::Instance().SetScreenScraperThumbnail(value).Save();
 }
 
 void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
@@ -128,7 +131,7 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
 {
   (void)index;
   if((Components)id == Components::Video)
-    RecalboxConf::Instance().SetScreenScraperVideo(value);
+    RecalboxConf::Instance().SetScreenScraperVideo(value).Save();
 }
 
 void GuiMenuScreenScraperOptions::SwitchComponentChanged(int id, bool status)
@@ -143,7 +146,7 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
 {
   (void)index;
   if((Components)id == Components::RegionPriority)
-    RecalboxConf::Instance().SetScreenScraperRegionPriority(value);
+    RecalboxConf::Instance().SetScreenScraperRegionPriority(value).Save();
 }
 
 void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
@@ -151,7 +154,7 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
 {
   (void)index;
   if((Components)id == Components::Region)
-    RecalboxConf::Instance().SetScreenScraperRegion(value);
+    RecalboxConf::Instance().SetScreenScraperRegion(value).Save();
 }
 
 void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
@@ -159,5 +162,51 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
 {
   (void)index;
   if((Components)id == Components::Language)
-    RecalboxConf::Instance().SetScreenScraperLanguage(value);
+    RecalboxConf::Instance().SetScreenScraperLanguage(value).Save();
+}
+
+std::string GuiMenuScreenScraperOptions::GetLogin()
+{
+  switch(mType)
+  {
+    case ScraperType::ScreenScraper: return RecalboxConf::Instance().GetScreenScraperLogin();
+    case ScraperType::Recalbox: return RecalboxConf::Instance().GetRecalboxScraperLogin();
+    case ScraperType::TheGameDB:
+    default: break;
+  }
+  return std::string();
+}
+
+std::string GuiMenuScreenScraperOptions::GetPassword()
+{
+  switch(mType)
+  {
+    case ScraperType::ScreenScraper: return RecalboxConf::Instance().GetScreenScraperPassword();
+    case ScraperType::Recalbox: return RecalboxConf::Instance().GetRecalboxScraperPassword();
+    case ScraperType::TheGameDB:
+    default: break;
+  }
+  return std::string();
+}
+
+void GuiMenuScreenScraperOptions::SetLogin(const std::string& login)
+{
+  switch(mType)
+  {
+    case ScraperType::ScreenScraper: RecalboxConf::Instance().SetScreenScraperLogin(login).Save(); break;
+    case ScraperType::Recalbox: RecalboxConf::Instance().SetRecalboxScraperLogin(login).Save(); break;
+    case ScraperType::TheGameDB:
+    default: break;
+  }
+}
+
+void GuiMenuScreenScraperOptions::SetPassword(const std::string& password)
+{
+  switch(mType)
+  {
+    case ScraperType::ScreenScraper: RecalboxConf::Instance().SetScreenScraperPassword(password).Save(); break;
+    case ScraperType::Recalbox: RecalboxConf::Instance().SetRecalboxScraperPassword(password).Save(); break;
+    case ScraperType::TheGameDB:
+    default: break;
+  }
 }

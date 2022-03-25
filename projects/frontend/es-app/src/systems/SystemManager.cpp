@@ -1021,3 +1021,13 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
 
   return !error;
 }
+
+FileData* SystemManager::LookupGameByFilePath(const std::string& filePath)
+{
+  for (const SystemData* system : GetAllSystemList())
+  {
+    FileData* result = system->MasterRoot().LookupGameByFilePath(filePath);
+    if (result != nullptr) return result;
+  }
+  return nullptr;
+}

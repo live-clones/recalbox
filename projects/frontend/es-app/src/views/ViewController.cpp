@@ -245,7 +245,7 @@ void ViewController::goToGameList(SystemData* system)
 
   NotificationManager::Instance().Notify(*getGameListView(system)->getCursor(), Notification::GamelistBrowsing);
   // for reload cursor video path if present
-  getGameListView(system)->DoUpdateGameInformation();
+  getGameListView(system)->DoUpdateGameInformation(false);
 }
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)
