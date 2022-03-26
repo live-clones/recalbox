@@ -28,15 +28,12 @@ class GuiMenuKodiSettings : public GuiMenuBase
     {
       Enabled,
       RunAtStartup,
-      ButtonX,
     };
 
     //! Enable kodi
     std::shared_ptr<SwitchComponent> mKodiEnabled;
     //! Run kodi at startup
     std::shared_ptr<SwitchComponent> mKodiAtStartup;
-    //! Run kodi with X key
-    std::shared_ptr<SwitchComponent> mKodiX;
 
     /*
      * ISwitchComponent implementation

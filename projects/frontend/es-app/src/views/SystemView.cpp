@@ -11,7 +11,6 @@
 #include "audio/AudioManager.h"
 #include <guis/GuiSearch.h>
 #include <guis/GuiSettings.h>
-#include <guis/menus/GuiMenuSwitchKodiNetplay.h>
 #include <emulators/run/GameRunner.h>
 
 // buffer values for scrolling velocity (left, stopped, right)
@@ -28,8 +27,7 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
     mExtrasFadeOpacity(0.0f),
     mCurrentSystem(nullptr),
     mViewNeedsReload(true),
-    mShowing(false),
-    launchKodi(false)
+    mShowing(false)
 {
 	setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 }
@@ -262,28 +260,10 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
             return true;
         }
 
-    if (event.XPressed())
+    if (event.XPressed() && RecalboxConf::Instance().GetNetplayEnabled() && !mWindow.HasGui())
     {
-      bool kodiExists = RecalboxSystem::kodiExists();
-      bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
-      bool kodiX = RecalboxConf::Instance().GetKodiXButton();
-      bool netplay = RecalboxConf::Instance().GetNetplayEnabled();
-
-      if (kodiExists && kodiEnabled && kodiX && !launchKodi && !mWindow.HasGui())
-      {
-        if (netplay) mWindow.pushGui(new GuiMenuSwitchKodiNetplay(mWindow, mSystemManager));
-        else
-        {
-          launchKodi = true;
-          if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[SystemView] Kodi terminated with non-zero result!"; }
-          launchKodi = false;
-        }
-      }
-      else if (netplay && !mWindow.HasGui())
-      {
-        auto* netplayGui = new GuiNetPlay(mWindow, mSystemManager);
-        mWindow.pushGui(netplayGui);
-      }
+      auto* netplayGui = new GuiNetPlay(mWindow, mSystemManager);
+      mWindow.pushGui(netplayGui);
     }
 
 		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
@@ -500,9 +480,7 @@ bool SystemView::getHelpPrompts(Help& help)
 	help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
 	    .Set(Help::Valid(), _("SELECT"));
 
-	if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetKodiXButton())
-    help.Set(HelpType::X, RecalboxConf::Instance().GetNetplayEnabled() ? _("KODI/NETPLAY") : _("START KODI"));
-	else if (RecalboxConf::Instance().GetNetplayEnabled())
+	if(RecalboxConf::Instance().GetNetplayEnabled())
 	  help.Set(HelpType::X, _("NETPLAY"));
 
 	help.Set(HelpType::Select, _("QUIT"))
