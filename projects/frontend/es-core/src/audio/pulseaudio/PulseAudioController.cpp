@@ -227,7 +227,7 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
   newCard.Name = info->name;
   newCard.Description = GetCardDescription(*info);
   newCard.Index = (int)info->index;
-  newCard.HasActioveProfile = false;
+  newCard.HasActiveProfile = false;
   newCard.Ports.clear();
 
   { LOG(LogDebug) << "[PulseAudio] Card #" << newCard.Index << " : " << newCard.Name; }
@@ -275,7 +275,7 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
       { LOG(LogDebug) << "[PulseAudio]     Profile " << newProfile.Description << " (" << newProfile.Name << ") - Available " << (newProfile.Available ? "YES" : "NO") << " - Priority " << newProfile.Priority; }
 
       // Check if this profile is the active one
-      newCard.HasActioveProfile |= (newProfile.Name == activeProfileName);
+      newCard.HasActiveProfile |= (newProfile.Name == activeProfileName);
 
       // Add profile to the port
       newPort.Profiles.push_back(newProfile);
@@ -379,10 +379,10 @@ IAudioController::DeviceList PulseAudioController::GetPlaybackList()
   for(const Sink& sink: mSinks)
   {
     const Card* card = GetCardByIndex(sink.CardIndex);
-    // Classic audio sink (card + port)
+    // Classic audio sink (card + port + profile)
     if (card != nullptr && sink.Ports.size() > 0)
     {
-      for(const Port& port : sink.Ports)
+      for(const Port& port : card->Ports)
       {
         bool available = port.Available;
         for(const Profile& profile : port.Profiles)
@@ -748,7 +748,7 @@ void PulseAudioController::SetDefaultProfiles()
 {
   for(Card& card : mCards)
   {
-    if (card.HasActioveProfile) continue;
+    if (card.HasActiveProfile) continue;
     if (card.Ports.empty()) { LOG(LogWarning) << "[PulseAudio] Card #" << card.Index << ' ' << card.Name << " has no port!"; continue; }
 
     { LOG(LogInfo) << "[PulseAudio] Card #" << card.Index << ' ' << card.Name << " has no profile activated."; }

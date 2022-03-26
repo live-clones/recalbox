@@ -95,7 +95,7 @@ class PulseAudioController: public IAudioController, private Thread
       std::string Name;        //!< Card name
       std::string Description; //!< Card Description
       int Index;               //!< Device index in pulseaudio context
-      bool HasActioveProfile;  //!< Has an active profile already set?
+      bool HasActiveProfile;   //!< Has an active profile already set?
     };
 
     //! Pulseaudio connection state
