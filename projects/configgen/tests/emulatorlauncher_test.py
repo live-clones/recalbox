@@ -39,6 +39,7 @@ class FakeArguments:
         self.crtverticaloffset = "0"
         self.crthorizontaloffset = "0"
         self.crtviewportwidth = "1840"
+        self.crtscanlines = False
 
 
 @pytest.mark.parametrize(

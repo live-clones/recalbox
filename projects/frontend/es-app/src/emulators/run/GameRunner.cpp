@@ -333,6 +333,9 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
       else
         result.append(" -crtresolutiontype ").append("progressive");
       result.append(" -crtvideostandard ntsc");
+      // Scanlines
+      if(CrtConf::Instance().GetSystemCRTScanlines31kHz())
+        result.append(" -crtscanlines 1");
     }
     else
     {

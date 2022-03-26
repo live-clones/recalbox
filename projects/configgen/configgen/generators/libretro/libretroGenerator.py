@@ -185,7 +185,6 @@ class LibretroGenerator(Generator):
                                                                      nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
-        commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         # setup wiimotes lightgun configuration
         from configgen.generators.libretro.libretroLightGuns import libretroLightGun
@@ -198,6 +197,8 @@ class LibretroGenerator(Generator):
                                                      retroarchOverrides)
         # zerolag config
         LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
+
+        commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \
                configuration.getRetroarchOverridesFileName(), \
