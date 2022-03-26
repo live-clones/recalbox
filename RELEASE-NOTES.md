@@ -16,6 +16,8 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix option management when upgrading from 8.0.2
 - Recalbox RGB Dual: fix playstation games performance
 - Recalbox RGB Dual: fix quake 2 resolution
+- Recalbox RGB Dual: add scanlines option in menu for 480p on 31kHz
+- Recalbox RGB Dual: add game resolution option in menu for demo games
 
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super

@@ -9,7 +9,7 @@ class ExtraArguments:
     def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
                  netplay_viewerpassword:str, netplay_vieweronly:str,
                  crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
-                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto"):
+                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -25,6 +25,7 @@ class ExtraArguments:
         self.crtverticaloffset = crtverticaloffset
         self.crthorizontaloffset = crthorizontaloffset
         self.crtviewportwidth = crtviewportwidth
+        self.crtscanlines = crtscanlines
 
 
 class Emulator:
@@ -85,6 +86,7 @@ class Emulator:
         self._crtverticaloffset: int = 0
         self._crthorizontaloffset: int = 0
         self._crtviewportwidth: int = 0
+        self._crtscanlines: bool = False
 
         # Computed vars
         self._netplay: bool = False
@@ -155,6 +157,7 @@ class Emulator:
         self._crtverticaloffset =arguments.crtverticaloffset
         self._crthorizontaloffset = arguments.crthorizontaloffset
         self._crtviewportwidth = arguments.crtviewportwidth
+        self._crtscanlines = arguments.crtscanlines
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
@@ -333,6 +336,9 @@ class Emulator:
 
     @property
     def CRTViewportWidth(self) -> int: return self._crtviewportwidth
+
+    @property
+    def CRTScanlines(self) -> bool: return self._crtscanlines
 
     @property
     def RecalboxExperimental(self) -> bool:

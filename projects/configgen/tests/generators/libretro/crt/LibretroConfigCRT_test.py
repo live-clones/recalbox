@@ -17,10 +17,10 @@ ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
                     crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0,
-                    crtregion="auto"):
+                    crtregion="auto", crtscanlines=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
-                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion))
+                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion, crtscanlines))
     return emulator
 
 
@@ -674,3 +674,25 @@ def test_given_psx_when_starting_a_game_then_use_alsamixer(
                                                                                                "/recalbox/share/roms/psx/Mario.zip")
 
     assert libretro_config["audio_driver"] == '"alsathread"'
+
+
+def test_given_31kHz_and_scanlines_on_should_create_scanlines_config(mocker, system_dreamcast):
+    givenThoseFiles(mocker, SEGA_CONFIGURATION)
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
+                                crtvideostandard="all", crtscanlines=True)
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "/recalbox/share/roms/dreamcast/arkbl2.zip")
+
+    assert libretro_config["video_shader_enable"] == '"true"'
+    assert libretro_config["video_shader_dir"] == '"/recalbox/share/shaders/"'
+    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgb-scanlines.glslp'
+
+def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_double_freq(mocker, system_dreamcast):
+    givenThoseFiles(mocker, SEGA_CONFIGURATION)
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="doublefreq",
+                                crtvideostandard="all", crtscanlines=True)
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast, "/recalbox/share/roms/dreamcast/arkbl2.zip")
+
+    assert libretro_config["video_shader_enable"] == '"false"'
