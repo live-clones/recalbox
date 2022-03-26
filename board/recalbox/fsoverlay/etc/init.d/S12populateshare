@@ -21,13 +21,6 @@ IN=/recalbox/share_init
 UPGRADE=/recalbox/share_upgrade
 OUT=/recalbox/share
 
-# Uncompress directories' content
-for DIR in shaders
-do
-    if test ! -e "$OUT""/""$DIR"; then
-        tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
-    fi
-done
 
 # force the creation of some directories
 for DIR in cheats \
@@ -180,6 +173,12 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     rm -f "${OUT}/roms/ports/_liesmich.txt"
     rm -f "${OUT}/roms/ports/_lisezmoi.txt"
     rm -f "${OUT}/roms/ports/_readme.txt"
+
+    # Update shaders
+    for DIR in shaders
+    do
+        tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
+    done
 
     # Update version
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
