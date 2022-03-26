@@ -1,11 +1,22 @@
+from os.path import exists
+
 from configgen.crt.Mode import Mode
 from configgen.utils.recallog import recallog
 
 
 class CRTModeOffsetter:
 
+    switchFile = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value"
+
     def processMode(self, mode: Mode, horizontal_offset: int, vertical_offset: int) -> Mode:
-        if abs(50 - mode.framerate) < 2:
+        # Todo remove when we will have a specific screen for pal calibration
+        shouldOffsetPal = True
+        if exists(self.switchFile):
+            with open(self.switchFile) as f:
+                content = f.read()
+                if content == "0\n":
+                    shouldOffsetPal = False
+        if shouldOffsetPal and abs(50 - mode.framerate) < 2:
             horizontal_offset += 5
         horizontal_offset *= mode.width // 320
         if mode.h_front_porch - horizontal_offset < 1:
