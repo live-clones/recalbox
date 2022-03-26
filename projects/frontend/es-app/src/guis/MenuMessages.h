@@ -152,6 +152,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
     #define MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG "Configure emulators to approach a zero lag experience."
     #define MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG "Run the demos in 240p resolution on you 31kHz monitor."
+    #define MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG "Add scanlines when running games in 480p on 31kHz screen."
     #define MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG "Force sound on jack. Auto-enabled when 31kHz switch is ON"
     #define MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG "Recalbox RGB Dual options and configuration."
 
