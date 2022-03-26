@@ -24,6 +24,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, std::string, String, sSystemCRTResolution, "240")
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, -5)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalOffset, int, Int, sSystemCRTVerticalOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTViewportWidth, int, Int, sSystemCRTViewportWidth, 0)
@@ -35,6 +36,7 @@ private:
     static constexpr const char* sSystemCRTResolution             = "options.es.resolution";
     static constexpr const char* sSystemCRTGameRegionSelect       = "options.regionselect";
     static constexpr const char* sSystemCRTGameResolutionSelect   = "options.resolutionselect";
+    static constexpr const char* sSystemCRTRunDemoIn240pOn31kHz   = "options.31khz.demo240pOn31khz";
     static constexpr const char* sSystemCRTHorizontalOffset       = "mode.offset.horizontal";
     static constexpr const char* sSystemCRTVerticalOffset         = "mode.offset.vertical";
     static constexpr const char* sSystemCRTViewportWidth          = "viewport.width";

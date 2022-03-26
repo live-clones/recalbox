@@ -36,6 +36,7 @@ class GuiMenuCRT : public GuiMenuBase
       EsResolution,
       GameRegion,
       GameResolution,
+      DemoIn240pOn31kHz,
       ZeroLag,
       ForceJack,
       Adjustment,

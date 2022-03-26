@@ -40,6 +40,10 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Game Resolution selection
   AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));
 
+  // Demo Game Resolution on 31khz
+  if(is31kHz)
+    AddSwitch(_("RUN DEMOS IN 240P@120"), CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz(), (int)Components::DemoIn240pOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+
   // Zero Lag
   AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
 
@@ -172,6 +176,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();
   if ((Components)id == Components::GameResolution)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
+  if ((Components)id == Components::DemoIn240pOn31kHz)
+    CrtConf::Instance().SetSystemCRTRunDemoIn240pOn31kHz(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;
