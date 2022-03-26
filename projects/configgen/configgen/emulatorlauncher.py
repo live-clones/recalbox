@@ -353,6 +353,7 @@ if __name__ == '__main__':
     parser.AddInt(command="crtverticaloffset", chelp="vertical offset on CRT", required=False)
     parser.AddInt(command="crthorizontaloffset", chelp="horizontal offset on CRT", required=False)
     parser.AddInt(command="crtviewportwidth", chelp="screen width on crt", required=False)
+    parser.AddBool(command="crtscanlines", chelp="scanline on 31khz", required=False)
 
     args = parser.Parse()
 

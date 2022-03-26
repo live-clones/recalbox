@@ -131,6 +131,10 @@ class LibretroConfigCRT:
                 game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTVideoStandard),
             log_type="CRT")
 
+        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines and system.CRTResolutionType == CRTResolutionType.Progressive:
+            config.update({"video_shader_enable": '"true"'})
+            config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
+            config.update({"video_shader": '/recalbox/share/shaders/rrgb-scanlines.glslp'})
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
         if system.Name == "psx":
