@@ -111,20 +111,20 @@ class LibretroCoreConfigCRT:
             if system.CRTVideoStandard in VideoStandardToRegionMap[system.Core]["values"]:
                 lines[VideoStandardToRegionMap[system.Core]["prop_name"]] = \
                     VideoStandardToRegionMap[system.Core]["values"][system.CRTVideoStandard]
-        if system.Name == "megadrive":
+        if system.Name == "megadrive" and system.CRTRegion != CRTRegion.AUTO:
             if system.Core in RegionToCoreRegionMap:
                 if system.CRTRegion in RegionToCoreRegionMap[system.Core]["values"]:
                     lines[RegionToCoreRegionMap[system.Core]["prop_name"]] = \
                         RegionToCoreRegionMap[system.Core]["values"][system.CRTRegion]
         if system.Name == "quake2":
             if system.CRTScreenType == CRTScreenType.k15:
-                    rez = "320x240"
+                rez = "320x240"
             else:
                 if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
                     rez = "320x240"
                 else:
                     rez = "640x480"
-            lines["vitaquakeii_resolution"] =  '"{}"'.format(rez)
+            lines["vitaquakeii_resolution"] = '"{}"'.format(rez)
         log = "Forcing core configuration: "
         for config in lines.items():
             log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')
