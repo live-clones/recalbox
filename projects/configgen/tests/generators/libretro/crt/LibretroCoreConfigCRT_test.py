@@ -209,11 +209,17 @@ def test_given_megadrive_and_eu_region_should_return_the_eu_region_even_if_mode_
         crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="eu", crtscreentype="15kHz")
     assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'pal'
 
-def test_given_megadrive_and_auto_region_should_return_the_auto_region():
+def test_given_megadrive_auto_standard_and_auto_region_should_return_the_auto_region():
+    megadrive = configureForCrt(
+        Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtregion="auto", crtscreentype="15kHz")
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'auto'
+
+def test_given_megadrive_force_ntsc_and_auto_region_should_return_the_auto_region():
     megadrive = configureForCrt(
         Emulator(name='megadrive', videoMode='1920x1080', ratio='auto', emulator='libretro', core='genesisplusgx'),
         crtresolutiontype="progressive", crtvideostandard="ntsc", crtregion="auto", crtscreentype="15kHz")
-    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'auto'
+    assert LibretroCoreConfigCRT().createConfigFor(megadrive)["genesis_plus_gx_region_detect"] == 'ntsc-u'
 
 def test_given_quake2_should_set_resolution_the_resolution_to_240p_in15khz():
     quake2 = configureForCrt(
