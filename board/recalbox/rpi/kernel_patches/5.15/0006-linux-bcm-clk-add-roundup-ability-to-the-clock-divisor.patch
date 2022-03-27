@@ -1,0 +1,58 @@
+From 9e66a0290180447bfea576fd145d84996fdbc643 Mon Sep 17 00:00:00 2001
+From: digitalLumberjack <digitallumberjack@gmail.com>
+Date: Fri, 10 Jun 2022 22:03:03 +0200
+Subject: [PATCH 6/6] linux bcm clk add roundup ability to the clock divisor
+
+The commit reverted the round up ability for the bcm clock divisor.
+
+It made clocks for low definitons having bad calculation.
+---
+ drivers/clk/bcm/clk-bcm2835.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/clk/bcm/clk-bcm2835.c b/drivers/clk/bcm/clk-bcm2835.c
+index 9ed157b0a37a..732a98faf143 100644
+--- a/drivers/clk/bcm/clk-bcm2835.c
++++ b/drivers/clk/bcm/clk-bcm2835.c
+@@ -938,7 +938,8 @@ static int bcm2835_clock_is_on(struct clk_hw *hw)
+ 
+ static u32 bcm2835_clock_choose_div(struct clk_hw *hw,
+ 				    unsigned long rate,
+-				    unsigned long parent_rate)
++				    unsigned long parent_rate,
++				    bool round_up)
+ {
+ 	struct bcm2835_clock *clock = bcm2835_clock_from_hw(hw);
+ 	const struct bcm2835_clock_data *data = clock->data;
+@@ -950,6 +951,10 @@ static u32 bcm2835_clock_choose_div(struct clk_hw *hw,
+ 
+ 	rem = do_div(temp, rate);
+ 	div = temp;
++
++	/* Round up and mask off the unused bits */
++	if (round_up && ((div & unused_frac_mask) != 0 || rem != 0))
++		div += unused_frac_mask + 1;
+ 	div &= ~unused_frac_mask;
+ 
+ 	/* different clamping limits apply for a mash clock */
+@@ -1106,7 +1111,7 @@ static int bcm2835_clock_set_rate_and_parent(struct clk_hw *hw,
+ 	struct bcm2835_clock *clock = bcm2835_clock_from_hw(hw);
+ 	struct bcm2835_cprman *cprman = clock->cprman;
+ 	const struct bcm2835_clock_data *data = clock->data;
+-	u32 div = bcm2835_clock_choose_div(hw, rate, parent_rate);
++	u32 div = bcm2835_clock_choose_div(hw, rate, parent_rate, false);
+ 	u32 ctl;
+ 
+ 	spin_lock(&cprman->regs_lock);
+@@ -1172,7 +1177,7 @@ static unsigned long bcm2835_clock_choose_div_and_prate(struct clk_hw *hw,
+ 
+ 	if (!(BIT(parent_idx) & data->set_rate_parent)) {
+ 		*prate = clk_hw_get_rate(parent);
+-		*div = bcm2835_clock_choose_div(hw, rate, *prate);
++		*div = bcm2835_clock_choose_div(hw, rate, *prate, true);
+ 
+ 		*avgrate = bcm2835_clock_rate_from_divisor(clock, *prate, *div);
+ 
+-- 
+2.36.1
+
