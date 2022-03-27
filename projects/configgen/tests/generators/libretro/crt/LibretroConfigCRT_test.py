@@ -20,7 +20,8 @@ def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutionty
                     crtregion="auto", crtscanlines=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
-                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion, crtscanlines))
+                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion,
+                                      crtscanlines))
     return emulator
 
 
@@ -484,7 +485,7 @@ def test_given_any_systems_when_15kHz_and_forced_region_with_no_mode_found_shoul
 def test_given_a_arcade_game_and_31kHz_screen_and_doublefreq_then_return_default_doublefreq_mode(mocker, system_mame):
     givenThoseFiles(mocker, {
         ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,0,0,1",
-        MODES_TXT: "1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+        MODES_TXT: "arcade:224@60.000000,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
 
     mamecrt = configureForCrt(system_mame, crtresolutiontype="doublefreq", crtvideostandard="auto",
@@ -635,7 +636,8 @@ def test_given_31kHz_and_should_create_neogeo_config_with_default_mode_but_best_
                                                                                                                  system_snes):
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "neogeo,all,15kHz,progressive,neogeo:all:224@59.185606,0,0",
-        MODES_TXT: "neogeo:all:224@59.185606,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39147727 1,59.185606\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+        ARCADE_TXT: "dino,fbneo,arcade:224@59.637405,0,0,0",
+        MODES_TXT: "arcade:224@59.637405,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\nneogeo:all:224@59.185606,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39147727 1,59.185606\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
     snes = configureForCrt(
         Emulator(name='neogeo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
@@ -643,7 +645,32 @@ def test_given_31kHz_and_should_create_neogeo_config_with_default_mode_but_best_
         crtscreentype="31kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
-                                                                                               "/recalbox/share/roms/snes/Mario.zip")
+                                                                                               "/recalbox/share/roms/neogeo/dino.zip")
+
+    assert libretro_config["crt_switch_timings_pal"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 640
+    assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_height_ntsc"] == 448
+    assert libretro_config["custom_viewport_height_pal"] == 448
+
+
+def test_given_31kHz_and_arcade_game_should_create_arcade_config_with_default_mode_but_best_viewport_size_selected_from_mode(
+        mocker,
+        system_snes):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "dino,fbneo,arcade:224@59.637405,0,0,0",
+        MODES_TXT: "arcade:224@59.637405,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="auto",
+        crtscreentype="31kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/dino.zip")
 
     assert libretro_config["crt_switch_timings_pal"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
@@ -688,11 +715,13 @@ def test_given_31kHz_and_scanlines_on_should_create_scanlines_config(mocker, sys
     assert libretro_config["video_shader_dir"] == '"/recalbox/share/shaders/"'
     assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgb-scanlines.glslp'
 
+
 def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_double_freq(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="doublefreq",
                                 crtvideostandard="all", crtscanlines=True)
 
-    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast, "/recalbox/share/roms/dreamcast/arkbl2.zip")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "/recalbox/share/roms/dreamcast/arkbl2.zip")
 
     assert libretro_config["video_shader_enable"] == '"false"'
