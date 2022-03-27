@@ -17,6 +17,8 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix quake 2 resolution
 - Recalbox RGB Dual: add scanlines option in menu for 480p on 31kHz
 - Recalbox RGB Dual: add game resolution option in menu for demo games
+- Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
+- Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 
 - Add delete game options
 - Add core libretro vitaquake2 for x64
