@@ -36,10 +36,6 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries(
   for(const auto& playback : playbackList)
     list.push_back({ playback.DisplayableName, playback.InternalName, currentDevice == playback.InternalName });
 
-  // Sort
-  if (!list.empty())
-    std::sort(list.begin(), list.end(), [](const ListEntry<std::string>& a, const ListEntry<std::string>& b) -> bool { return a.mText > b.mText; });
-
   return list;
 }
 

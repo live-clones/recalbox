@@ -160,7 +160,9 @@ class PulseAudioController: public IAudioController, private Thread
 
     const Sink* LookupSink(const std::string& name);
 
-    static const Port* LookupPort(const Sink& sink, const std::string& name);
+    const Sink* GetSinkFromCardPort(const Card* card, const Port* port);
+
+    static const Profile* LookupProfile(const Card& card, const std::string& name);
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
@@ -295,6 +297,14 @@ class PulseAudioController: public IAudioController, private Thread
     const Profile* GetBestProfile(const Card*& card, const Port*& port);
 
     /*!
+     * @brief Get overall best profile, regarding the given information
+     * @param card Card
+     * @param port Port
+     * @return Best profile or null if no profile is available
+     */
+    const Profile* GetBestProfile2(const Card* card, const Port* port);
+
+    /*!
      * @brief Build the best card name from the card property set
      * @param info Card info structure
      * @return Card name
@@ -323,4 +333,12 @@ class PulseAudioController: public IAudioController, private Thread
      */
     static AudioIcon GetPortIcon(const pa_card_port_info& info);
     static AudioIcon GetPortIcon(const pa_sink_port_info& info);
+
+    /*!
+     * @brief Count available profiles for a specific port
+     * @param Port
+     * @return uint count
+     */
+    uint CountAvailableProfiles(const Port& port);
+
 };
