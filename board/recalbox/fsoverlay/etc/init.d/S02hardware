@@ -5,6 +5,16 @@ if [ "$1" == "start" ]; then
 
   INIT_SCRIPT=$(basename "$0")
 
+  # Recalbox RGB Dual must remove hdmi force hotplug
+  if lsmod | grep -q "^recalboxrgbdual" && ! grep -q "^hdmi_force_hotplug=0$" /boot/recalbox-user-config.txt;then
+    mount -o remount,rw /boot
+    echo -e "\nhdmi_force_hotplug=0" >> /boot/recalbox-user-config.txt
+    mount -o remount,ro /boot
+    reboot
+    sleep 2
+    exit 0
+  fi
+
   # GPI case? Deactivate HDMI to save energy
   case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
   if [ "${case}" = "GPiV1:1" ]; then
