@@ -37,7 +37,6 @@ class GuiMenuGameSettings : public GuiMenuBase
       AutoSave,
       QuitTwice,
       IntegerScale,
-      HidePreinstalled,
       Shaders,
       Softpatching,
       ShaderSet,
@@ -64,15 +63,10 @@ class GuiMenuGameSettings : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mQuitTwice;
     //! Integer scale
     std::shared_ptr<SwitchComponent> mIntegerScale;
-    //! Hide preinstalled games
-    std::shared_ptr<SwitchComponent> mHidePreinstalled;
     //! Shaders
     std::shared_ptr<OptionListComponent<std::string>> mShaders;
     //! Shader Set
     std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
-
-    // Original preinstalled games
-    bool mOriginalPreinstalled;
 
     //! Get Ratio List
     static std::vector<ListEntry<std::string>> GetRatioEntries();

@@ -53,12 +53,21 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 
 void ViewController::goToStart()
 {
+  CheckFilters();
+
   std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
 
-  if ((selectedSystem == nullptr) || !selectedSystem->HasGame())
+  if ((selectedSystem == nullptr) || !selectedSystem->HasVisibleGame())
     selectedSystem = mSystemManager.FirstNonEmptySystem();
+
+  if (selectedSystem == nullptr)
+  {
+
+    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [this] { ResetFilters();}));
+    return;
+  }
 
   if (RecalboxConf::Instance().GetStartupHideSystemView())
     goToGameList(selectedSystem);
@@ -69,6 +78,38 @@ void ViewController::goToStart()
     else
       goToSystemView(selectedSystem);
   }
+}
+
+bool ViewController::CheckFilters()
+{
+
+  if(mSystemManager.FirstNonEmptySystem() == nullptr)
+  {
+    ResetFilters();
+    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nAll filters have been reseted.", _("OK"), []{}));
+    return false;
+  }
+  return true;
+}
+
+void ViewController::ResetFilters()
+{
+  RecalboxConf& conf = RecalboxConf::Instance();
+
+  conf.SetShowOnlyLatestVersion(false);
+  conf.SetFavoritesOnly(false);
+  conf.SetGlobalHidePreinstalled(false);
+  conf.SetHideNoGames(false);
+  conf.SetFilterAdultGames(false);
+  for (auto* systemData : mSystemManager.GetAllSystemList())
+  {
+    const SystemData& sys = *systemData;
+    if (conf.GetSystemFilterAdult(sys))
+      conf.SetSystemFilterAdult(sys, false);
+  }
+
+  conf.SetCollectionHide("ports",false);
+//  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 }
 
 int ViewController::getSystemId(SystemData* system)
@@ -86,9 +127,10 @@ void ViewController::goToQuitScreen()
 
 void ViewController::goToSystemView(SystemData* system)
 {
+  CheckFilters();
   mSystemListView.setPosition((float)getSystemId(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
-  if (!system->HasGame()) {
+  if (!system->HasVisibleGame()) {
     system = mSystemManager.FirstNonEmptySystem();
   }
 
@@ -134,7 +176,9 @@ void ViewController::quitGameClipView()
       goToSystemView(mSystemListView.getSelected());
       break;
     case ViewMode::GameList:
-      goToGameList(mState.getSystem());
+      if(mState.getSystem()->HasVisibleGame())
+        goToGameList(mState.getSystem());
+      else goToStart();
       break;
     case ViewMode::None:
     case ViewMode::SplashScreen:
@@ -180,10 +224,14 @@ void ViewController::goToNextGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* next = mSystemManager.NextVisible(system);
+
+  CheckFilters();
+  SystemData* next = mSystemManager.NextVisible(system);
 	while(!next->HasVisibleGame()) {
 		next = mSystemManager.NextVisible(next);
+
 	}
+
   AudioManager::Instance().StartPlaying(next->Theme());
 
 	goToGameList(next);
@@ -194,10 +242,13 @@ void ViewController::goToPrevGameList()
 	assert(mState.viewing == ViewMode::GameList);
 	SystemData* system = getState().getSystem();
 	assert(system);
-	SystemData* prev = mSystemManager.PreviousVisible(system);
+
+  CheckFilters();
+  SystemData* prev = mSystemManager.PreviousVisible(system);
 	while(!prev->HasVisibleGame()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
+
   AudioManager::Instance().StartPlaying(prev->Theme());
 	goToGameList(prev);
 }

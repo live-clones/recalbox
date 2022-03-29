@@ -13,6 +13,7 @@
 #include "GuiMenu.h"
 #include "GuiMenuGamelistGameOptions.h"
 #include "GuiMenuGamelistGameDeleteOptions.h"
+#include "GuiMenuGameFilters.h"
 #include "guis/GuiSearch.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
@@ -47,38 +48,30 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   }
 
-  // Display filename
-  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  RefreshGameMenuContext();
 
-  if (!system.IsFavorite())
-    AddSwitch(_("SHOW ONLY LATEST VERSION") + " (BETA)", RecalboxConf::Instance().GetShowOnlyLatestVersion(), (int)Components::ShowOnlyLatestVersion, this, _(MENUMESSAGE_GAMELISTOPTION_ONLY_LASt_VERSION));
-
-
-
-  // Jump to letter
+    // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
   AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
-	// Sorting
+  // filters
+  AddSubMenu(_("GAMES FILTERS"),  (int)Components::Filters, Strings::Empty);
+
+  // Display filename
+  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+
+  // Sorting
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
-	// Adult games
-  mAdult = AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetSystemFilterAdult(mSystem), (int)Components::Adult, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   // Region filter
   mListRegion = AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
 
-  if (!system.IsFavorite())
-    mFavoritesOnly = AddSwitch(_("FAVORITES ONLY"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
-
-  if (!system.IsFavorite())
-    mShowHidden = AddSwitch(_("SHOW HIDDEN"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
-
-    // flat folders
+  // flat folders
   if (!system.IsFavorite())
     if (!system.IsAlwaysFlat())
       mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
@@ -282,14 +275,13 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       break;
     }
+    case Components::Filters:
+      mWindow.pushGui(new GuiMenuGameFilters(mWindow, mSystem));
+      break;
     case Components::JumpToLetter:
     case Components::Sorts:
-    case Components::Adult:
     case Components::Regions:
-    case Components::FavoritesOnly:
-    case Components::ShowHidden:
     case Components::DisplayByFileName:
-    case Components::ShowOnlyLatestVersion:
     case Components::FlatFolders: break;
   }
 }
@@ -298,17 +290,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::Adult: RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save(); break;
-    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); break;
-    case Components::ShowOnlyLatestVersion:
-      RecalboxConf::Instance().SetShowOnlyLatestVersion(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
-      break;
-    case Components::ShowHidden:
-      RecalboxConf::Instance().SetShowHidden(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
-      break;
-      case Components::DisplayByFileName:
+    case Components::DisplayByFileName:
       RecalboxConf::Instance().SetDisplayByFileName(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
       break;
@@ -320,6 +302,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::MetaData:
     case Components::MainMenu:
     case Components::UpdateGamelist:
+    case Components::Filters:
     case Components::Delete:
     case Components::DeleteScreeshot:
     case Components::Quit: break;
@@ -329,5 +312,5 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   mGamelist.refreshList();
   mGamelist.setCursor(game);
   RefreshGameMenuContext();
-}
 
+}

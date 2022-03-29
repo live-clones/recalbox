@@ -42,8 +42,7 @@ class GameClipView : public Gui, public ISynchronousEvent
       public:
         bool ApplyFilter(const FileData& file) const override
         {
-          bool showIfHidden = !file.Metadata().Hidden() || RecalboxConf::Instance().GetShowHidden();
-          return  !file.Metadata().VideoAsString().empty() && showIfHidden;
+          return  !file.Metadata().VideoAsString().empty() && file.IsDisplayable();
         }
     } mFilter;
 
