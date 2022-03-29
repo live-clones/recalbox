@@ -22,7 +22,7 @@ BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& syste
 
   addChild(&mList);
 
-	mEmptyListItem.Metadata().SetName(_("YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."));
+	mEmptyListItem.Metadata().SetName(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."));
 	populateList(system.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
@@ -75,17 +75,15 @@ void BasicGameListView::populateList(const FolderData& folder)
   mHeaderText.setText(mSystem.FullName());
 
   // Default filter
-  FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
-  // Add hidden?
-  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
+  FileData::Filter includesFilter = FileData::Filter::Normal | FileData::Filter::Favorite;
   // Favorites only?
-  if (RecalboxConf::Instance().GetFavoritesOnly()) filter = FileData::Filter::Favorite;
+  if (RecalboxConf::Instance().GetFavoritesOnly()) includesFilter = FileData::Filter::Favorite;
 
   // Get items
   bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().GetSystemFlatFolders(mSystem));
   FileData::List items;
-  if (flatfolders) folder.GetItemsRecursivelyTo(items, filter, false, mSystem.IncludeAdultGames());
-  else folder.GetItemsTo(items, filter, true, mSystem.IncludeAdultGames());
+  if (flatfolders) folder.GetItemsRecursivelyTo(items, includesFilter, mSystem.Excludes(), false);
+  else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
 
   // Check emptyness
   if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item

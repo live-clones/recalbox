@@ -65,6 +65,8 @@ class MetadataDescriptor
     bool         mHidden;       //!< Hidden game
     bool         mAdult;        //!< Adult state
     bool         mLatestVerion = true; //!< Latest version state
+    bool         mPreinstalled; //!< preinstalled game state
+    bool         mNoGame;       //!< no game state
     bool         mDirty;        //!< Dirty flag (modified data flag)
 
     ItemType     mType;         //!< Metadata type
@@ -251,6 +253,9 @@ class MetadataDescriptor
         mFavorite(false),
         mHidden(false),
         mAdult(false),
+        mLatestVerion(true),
+        mPreinstalled(false),
+        mNoGame(false),
         mDirty(false),
         mType(type)
     {
@@ -487,6 +492,8 @@ class MetadataDescriptor
     bool               Hidden()          const { return mHidden;                           }
     bool               Adult()           const { return mAdult;                            }
     bool               LatestVersion()   const { return mLatestVerion;                     }
+    bool               PreInstalled()    const { return mPreinstalled;                     }
+    bool               NoGame()          const { return mNoGame;                           }
     GameGenres         GenreId()         const { return mGenreId;                          }
 
     /*
@@ -546,6 +553,8 @@ class MetadataDescriptor
     void SetAdult(bool adult)                           { mAdult = adult; mDirty = true;                                }
     void SetGenreId(GameGenres genre)                   { mGenreId = genre; mDirty = true;                              }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                }
+    void SetPreinstalled(bool preInstalled)             { mPreinstalled = preInstalled;                                 }
+    void SetNoGame(bool noGame)                         { mNoGame = noGame;                                             }
 
     // Special setter to force dirty
     void SetDirty() { mDirty = true; }

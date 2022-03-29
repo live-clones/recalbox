@@ -64,7 +64,7 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   {
     if(!system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
       if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
-        if (system->HasGame())
+        if (system->HasScrapableGame())
           list.push_back({ system->FullName(), system, false });
   }
   return list;

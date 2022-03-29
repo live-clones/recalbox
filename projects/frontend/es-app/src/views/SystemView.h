@@ -61,7 +61,8 @@ public:
 	void populate();
 	void removeFavoriteSystem();
 	void manageFavorite();
-	void addSystem(SystemData * it);
+
+    void addSystem(SystemData * it);
 
   SystemData& CurrentSystem() const { return *mCurrentSystem; }
 

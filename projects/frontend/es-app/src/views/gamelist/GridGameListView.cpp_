@@ -35,8 +35,8 @@ void GridGameListView::populateList(const FolderData& folder)
 {
 	mGrid.clear();
 	bool favoritesOnly = RecalboxConf::Instance().GetFavoritesOnly();
-	FileData::List files = favoritesOnly ? folder.GetAllFavorites(true, folder.System().IncludeAdultGames()) : folder.GetAllDisplayableItems(true,
-                                                                                                                           folder.System().IncludeAdultGames());
+	FileData::List files = favoritesOnly ? folder.GetAllFavorites(true, FileData::Filter::None) : folder.GetAllDisplayableItems(true,
+                                                                                                                              FileData::Filter::None);
 	for (FileData* fd : files)
 	{
 		mGrid.add(fd->Name(), fd->ThumbnailOrImagePath(), fd);

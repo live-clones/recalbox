@@ -32,17 +32,14 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     {
       JumpToLetter,
       Sorts,
-      Adult,
       Regions,
-      FavoritesOnly,
-      ShowHidden,
-      ShowOnlyLatestVersion,
       FlatFolders,
       MetaData,
       UpdateGamelist,
       Delete,
       DeleteScreeshot,
       DisplayByFileName,
+      Filters,
       MainMenu,
       Quit,
       Search,
@@ -58,10 +55,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::shared_ptr<OptionListComponent<unsigned int>> mJumpToLetterList;
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;
     std::shared_ptr<OptionListComponent<Regions::GameRegions>> mListRegion;
-    std::shared_ptr<SwitchComponent> mAdult;
     std::shared_ptr<SwitchComponent> mFlatFolders;
-    std::shared_ptr<SwitchComponent> mFavoritesOnly;
-    std::shared_ptr<SwitchComponent> mShowHidden;
     std::shared_ptr<TextComponent> mGame;
 
     //! Refresh first menu entry
