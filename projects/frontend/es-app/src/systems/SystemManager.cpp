@@ -21,13 +21,12 @@
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {
   RomSources roots;
-  bool hide = RecalboxConf::Instance().GetGlobalHidePreinstalled();
   if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
   {
     std::string rootTag(sRootTag);
     // Share_init roms
     Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareInitRomRoot));
-    if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
+    if (root.Exists() && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
 
     if (port != PortTypes::ShareInitOnly)
     {
@@ -51,7 +50,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
     if (ok)
     {
       Path root = Path(sShareInitRomRoot) / relative;
-      if (root.Exists() && !hide && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
+      if (root.Exists() && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
       if (port != PortTypes::ShareInitOnly)
       {
         root = Path(sShareRomRoot) / relative;
@@ -71,7 +70,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
 void SystemManager::AutoScrape(SystemData* system)
 {
   std::string png(LEGACY_STRING(".png"));
-  FileData::List games = system->MasterRoot().GetAllItemsRecursively(false, true);
+  FileData::List games = system->MasterRoot().GetAllItemsRecursively(false, FileData::Filter::None);
   for(FileData* game : games)
     if (game->IsGame())
       if (Strings::ToLowerASCII(game->FilePath().Extension()) == png)
@@ -112,13 +111,14 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
 
     #ifdef DEBUG
-    { LOG(LogInfo) << "[System] " << root.CountAll(true, true) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
+    { LOG(LogInfo) << "[System] " << root.CountAll(true, result->Excludes()) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
     #endif
 
+    FileData::List allGames = result->getAllGames();
 
     // compute dynamic latest metadata
-    HashMap<std::string, std::string> latestFiles{};
-    for (FileData* fd : result->getAllGames())
+    HashMap<std::string, std::string> latestFiles;
+    for (FileData* fd : allGames)
     {
       if (!fd->IsGame()) continue;
 
@@ -138,7 +138,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
             latestFiles.insert_or_assign(gameNameWithRegion, fd->FilePath().Filename());
         }
     }
-    for (FileData* fd : result->getAllGames())
+    for (FileData* fd : allGames)
     {
       if (!fd->IsGame()) continue;
 
@@ -146,6 +146,12 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
 
       if(latestFiles.contains(gameNameWithRegion) && latestFiles.get_or_return_default(gameNameWithRegion) != fd->FilePath().Filename())
         fd->Metadata().SetLatestVersion(false);
+
+      if (fd->IsNoGame())
+        fd->Metadata().SetNoGame(true);
+
+      if (fd->IsPreinstalled())
+        fd->Metadata().SetPreinstalled(true);
     }
 
     // Game In Png?
@@ -415,7 +421,7 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
         for (const RootFolderData* root : system->MasterRoot().SubRoots())
           if (!root->Virtual())
           {
-            FileData::List list = root->GetFilteredItemsRecursively(filter, true, system->IncludeAdultGames());
+            FileData::List list = root->GetFilteredItemsRecursively(filter, true);
             allGames.reserve(allGames.size() + list.size());
             allGames.insert(allGames.end(), list.begin(), list.end());
           }
@@ -473,7 +479,7 @@ bool SystemManager::AddLightGunMetaSystem()
         for (const RootFolderData* root : system->MasterRoot().SubRoots())
           if (!root->Virtual())
           {
-            FileData::List list = root->GetFilteredItemsRecursively(&database, true, system->IncludeAdultGames());
+            FileData::List list = root->GetFilteredItemsRecursively(&database, true);
             allGames.reserve(allGames.size() + list.size());
             allGames.insert(allGames.end(), list.begin(), list.end());
           }
@@ -514,7 +520,10 @@ bool SystemManager::AddAllGamesMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData&) const override { return true; }
+      bool ApplyFilter(const FileData& fileData) const override
+      {
+        return fileData.IsDisplayable();
+      }
   } filter;
   return AddManuallyFilteredMetasystem(&filter, nullptr, sAllGamesSystemShortName, sAllGamesSystemFullName,
                                        SystemData::Properties::None);
@@ -525,7 +534,10 @@ bool SystemManager::AddMultiplayerMetaSystems()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override { return file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1; }
+      bool ApplyFilter(const FileData& file) const override
+      {
+        return file.IsDisplayable() && (file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1);
+      }
   } filter;
   return AddManuallyFilteredMetasystem(&filter, nullptr, sMultiplayerSystemShortName, sMultiplayerSystemFullName,
                                        SystemData::Properties::None);
@@ -536,7 +548,10 @@ bool SystemManager::AddLastPlayedMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override { return file.Metadata().LastPlayedEpoc() != 0; }
+      bool ApplyFilter(const FileData& file) const override
+      {
+        return file.IsDisplayable() && file.Metadata().LastPlayedEpoc() != 0;
+      }
   } filter;
   return AddManuallyFilteredMetasystem(&filter, nullptr, sLastPlayedSystemShortName, sLastPlayedSystemFullName,
                                        SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat, FileSorts::Sorts::LastPlayedDescending);
@@ -559,8 +574,9 @@ bool SystemManager::AddGenresMetaSystem()
       }
       bool ApplyFilter(const FileData& file) const override
       {
-        if (mSubGenre) return (file.Metadata().GenreId() == mGenre);
-        return Genres::TopGenreMatching(file.Metadata().GenreId(), mGenre);
+        bool isDisplayable = file.IsDisplayable();
+        if (mSubGenre) return isDisplayable && file.Metadata().GenreId() == mGenre;
+        return isDisplayable && Genres::TopGenreMatching(file.Metadata().GenreId(), mGenre);
       }
   };
 
@@ -797,7 +813,7 @@ int SystemManager::getVisibleSystemIndex(const std::string &name)
 SystemData* SystemManager::FirstNonEmptySystem()
 {
   for (auto &system : mVisibleSystemVector)
-    if (system->HasGame())
+    if (system->HasVisibleGame())
       return system;
 
   return nullptr;

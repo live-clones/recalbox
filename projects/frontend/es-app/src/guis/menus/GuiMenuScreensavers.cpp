@@ -41,7 +41,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuScreensavers::GetSystemE
   std::vector<ListEntry<std::string>> list;
 
   for (auto* it : mSystemManager.GetAllSystemList())
-    if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
+    if (!it->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE) && it->HasVisibleGame())
       list.push_back({ it->FullName(), it->Name(), RecalboxConf::Instance().IsInScreenSaverSystemList(it->Name()) });
 
   return list;

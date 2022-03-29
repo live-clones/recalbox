@@ -199,7 +199,8 @@ void SystemView::populate()
 	mEntries.clear();
 
 	for (const auto it : mSystemManager.GetVisibleSystemList())
-		addSystem(it);
+    if (it->HasVisibleGame())
+      addSystem(it);
 }
 
 void SystemView::goToSystem(SystemData* system, bool animate)
