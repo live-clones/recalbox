@@ -97,7 +97,9 @@ public:
 	 */
 	IProgressInterface& GetProgressInterface() { return mSplashView; }
 
-private:
+  bool CheckFilters();
+
+  private:
 	void playViewTransition();
 	int getSystemId(SystemData* system);
 
@@ -143,4 +145,6 @@ private:
      * @param netplay optional netplay data
      */
     void LaunchActually(FileData* game, const EmulatorData& emulator);
+
+    void ResetFilters();
 };

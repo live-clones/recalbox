@@ -57,12 +57,12 @@ class GameRandomSelector
           : mIndex(0)
           , mDuration(RecalboxConf::Instance().GetSystemDemoDuration(*system))
         {
-          // Get adult flag
-          bool adult = !RecalboxConf::Instance().GetSystemFilterAdult(*system);
+          FileData::Filter excludes = system->Excludes();
+
           // Load games
           std::vector<FileData*> games = filter != nullptr ?
-                                         system->MasterRoot().GetFilteredItemsRecursively(filter, false, adult) :
-                                         system->MasterRoot().GetAllItemsRecursively(false, adult);
+                                         system->MasterRoot().GetFilteredItemsRecursively(filter, false) :
+                                         system->MasterRoot().GetAllItemsRecursively(false, excludes);
           mGames.AddItems(games.data(), (int)games.size());
           // Randomize list
 
@@ -82,12 +82,11 @@ class GameRandomSelector
          */
         static int GetSystemGameCount(const SystemData* system, IFilter* filter)
         {
-          // Get adult flag
-          bool adult = !RecalboxConf::Instance().GetSystemFilterAdult(*system);
+          FileData::Filter excludes = system->Excludes();
           // Load games
           return filter != nullptr ?
-                 system->MasterRoot().CountFilteredItemsRecursively(filter, false, adult) :
-                 system->MasterRoot().CountAll(false, adult);
+                 system->MasterRoot().CountFilteredItemsRecursively(filter, false) :
+                 system->MasterRoot().CountAll(false, excludes);
         }
 
         /*!

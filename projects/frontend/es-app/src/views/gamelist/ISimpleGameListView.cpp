@@ -306,15 +306,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     return true;
   }
 
-  if (event.SelectPressed() && !IsFavoriteSystem())
-  {
-    RecalboxConf::Instance().SetFavoritesOnly(!RecalboxConf::Instance().GetFavoritesOnly());
-    refreshList();
-    updateInfoPanel();
-    updateHelpPrompts();
-    return true;
-  }
-
   bool result = IGameListView::ProcessInput(event);
 
   return result;
@@ -348,8 +339,6 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
   help.Set(HelpType::Start, _("OPTIONS"));
-  if (!IsFavoriteSystem())
-    help.Set(HelpType::Select, RecalboxConf::Instance().GetFavoritesOnly() ? _("All Games") : _("FAVORITES ONLY"));
 
   return true;
 }

@@ -29,7 +29,11 @@ class FileData
       Normal   = 1, //!< Include normal files (not hidden, not favorite)
       Favorite = 2, //!< Include favorites
       Hidden   = 4, //!< Include hidden
-      All      = 7, //!< Include all
+      Adult    = 8,
+      NotLatest= 16,
+      NoGame   = 32,
+      PreInstalled = 64,
+      All      = 127, //!< Include all
     };
 
     //! Search attribute enumeration
@@ -162,6 +166,16 @@ class FileData
     FileData& CalculateHash();
 
     std::string Regions();
+
+    bool IsDisplayable() const;
+
+    bool IsNoGame() const{
+      return Strings::StartsWith(Name(), "ZZZ") || Strings::Contains(FilePath().ToString(), "[BIOS]");
+    }
+
+    bool IsPreinstalled() const{
+      return Strings::Contains(FilePath().ToString(), "share_init");
+    }
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

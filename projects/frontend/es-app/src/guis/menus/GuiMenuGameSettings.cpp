@@ -18,7 +18,6 @@
 GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("GAMES SETTINGS"), this)
   , mSystemManager(systemManager)
-  , mOriginalPreinstalled(false)
 {
   // Screen ratio choice
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
@@ -54,16 +53,10 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
     AddSubMenu(_("RETROACHIEVEMENTS SETTINGS"), (int)Components::RetroAchivements, _(MENUMESSAGE_RA_HELP_MSG));
     AddSubMenu(_("NETPLAY SETTINGS"), (int)Components::Netplay, _(MENUMESSAGE_NP_HELP_MSG));
   }
-
-  // Hide preinstalled games
-  mHidePreinstalled = AddSwitch(_("HIDE PREINSTALLED GAMES"), mOriginalPreinstalled = RecalboxConf::Instance().GetGlobalHidePreinstalled(), (int)Components::HidePreinstalled, this, _(MENUMESSAGE_GAME_HIDE_PREINSTALLED));
 }
 
 GuiMenuGameSettings::~GuiMenuGameSettings()
-{
-  if (mHidePreinstalled->getState() != mOriginalPreinstalled)
-    RequestRelaunch();
-}
+{}
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetRatioEntries()
 {
@@ -126,7 +119,6 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
     case Components::AutoSave: RecalboxConf::Instance().SetGlobalAutoSave(status).Save(); break;
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
     case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
-    case Components::HidePreinstalled: RecalboxConf::Instance().SetGlobalHidePreinstalled(status).Save(); break;
     case Components::Ratio:
     case Components::Shaders:
     case Components::ShaderSet:

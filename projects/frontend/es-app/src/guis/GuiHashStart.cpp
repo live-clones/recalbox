@@ -130,7 +130,7 @@ void GuiHashStart::Start()
       if (!root->ReadOnly())
       {
         // Run through games
-        FileData::List games = root->GetAllItems(true, true);
+        FileData::List games = root->GetAllItems(true, system->Excludes());
         for (FileData* game : games)
           if (game->Metadata().RomCrc32() == 0 || forceAll)
             mThreadPool.PushFeed(game);
