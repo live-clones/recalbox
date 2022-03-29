@@ -173,7 +173,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(KodiEnabled, bool, Bool, sKodiEnabled, true)
     DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
-    DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, true)
+    DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, false)
 
     DefineGetterSetter(ScraperSource, std::string, String, sScrapperSource, "Screenscraper")
 
