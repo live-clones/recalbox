@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add scraper progress bar
 - Add display by filename in gamelist option
 - Add go to game from search results and add search games from gamelist menu
+- Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
 
 ### Improvements
 
