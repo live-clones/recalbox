@@ -19,7 +19,8 @@ BusyComponent::BusyComponent(WindowManager&window)
 : Component(window),
   mBackground(window, Path(":/frame.png")),
   mGrid(window,Vector2i(5, 3)),
-  mThreadMessagechanged(false)
+  mThreadMessagechanged(false),
+  mEnabled(true)
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
@@ -49,7 +50,10 @@ void BusyComponent::setText(std::string txt)
 	}
 }
 
-void BusyComponent::Render(const Transform4x4f& parentTrans) {
+void BusyComponent::Render(const Transform4x4f& parentTrans)
+{
+  if (!mEnabled) return;
+
   if (mMutex.Lock())
   {
 		if(mThreadMessagechanged)

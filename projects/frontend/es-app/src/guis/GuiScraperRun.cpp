@@ -16,13 +16,52 @@
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 #include "MenuMessages.h"
+#include "recalbox/RecalboxStorageWatcher.h"
 
-GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method)
-  :	Gui(window),
-    mSystemManager(systemManager),
-    mSearchQueue(systems),
-    mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 8))
+GuiScraperRun* GuiScraperRun::sInstance = nullptr;
+
+void GuiScraperRun::CreateOrShow(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer)
+{
+  if (IsRunning())
+    Show(window);
+  else
+    window.pushGui(sInstance = new GuiScraperRun(window, systemManager, systems, method, freezer));
+}
+
+void GuiScraperRun::Show(WindowManager& window)
+{
+  if (sInstance != nullptr)
+  {
+    window.pushGui(sInstance);
+    window.InfoPopupRemove(&sInstance->mPopup);
+  }
+}
+
+void GuiScraperRun::Hide(WindowManager& window)
+{
+  if (sInstance != nullptr)
+  {
+    window.RemoveGui(sInstance);
+    window.InfoPopupAdd(&sInstance->mPopup, true);
+    window.CloseAll();
+  }
+}
+
+void GuiScraperRun::Terminate()
+{
+  if (sInstance != nullptr)
+    sInstance->Close();
+  sInstance = nullptr;
+}
+
+GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer)
+  :	Gui(window)
+  , mSystemManager(systemManager)
+  , mResult(ScrapeResult::NotScraped)
+  , mSearchQueue(systems)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(1, 8))
+  , mPopup(window)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	
@@ -68,9 +107,11 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
   mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mDatabaseMessage, Vector2i(0, 6), false, true);
 
-  mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this));
-  std::vector<std::shared_ptr<ButtonComponent>> buttons;
-	buttons.push_back(mButton);
+  std::vector<std::shared_ptr<ButtonComponent>> buttons
+  {
+    mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this)),
+    std::make_shared<ButtonComponent>(mWindow, _("RUN IN BACKGROUND"), _("RUN IN BACKGROUND"), [this] { GuiScraperRun::Hide(mWindow); })
+  };
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
 
@@ -84,7 +125,7 @@ GuiScraperRun::GuiScraperRun(WindowManager&window, SystemManager& systemManager,
   NotificationManager::Instance().Notify(Notification::ScrapStart);
 
   // Create scraper and run!
-	mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource());
+	mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource(), freezer);
 	mScraper->RunOn(method, systems, this, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
@@ -105,9 +146,18 @@ void GuiScraperRun::onSizeChanged()
 void GuiScraperRun::finish()
 {
   mScraper->Abort(true);
-  for(const auto& systemData : mSearchQueue)
-    systemData->UpdateGamelistXml();
+  Terminate();
   mWindow.CloseAll();
+  switch(mResult)
+  {
+    case ScrapeResult::Ok: MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true); break;
+    case ScrapeResult::NotScraped:
+    case ScrapeResult::NotFound:
+    case ScrapeResult::QuotaReached:
+    case ScrapeResult::DiskFull:
+    case ScrapeResult::FatalError:
+    default: break;
+  }
   mIsProcessing = false;
 }
 
@@ -127,6 +177,9 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
       break;
     }
   }
+
+  // Update popup
+  mPopup.SetScrapedGame(*result, index, total);
 
   // update title
   mSystem->setText(Strings::ToUpperASCII(result->System().FullName()));
@@ -161,6 +214,9 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   else status.append("---");
   mTiming->setText(status);
 
+  // Check free space
+  RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), result->FilePath());
+
   // Update database message
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
 
@@ -172,14 +228,13 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
 {
   mGrid.removeEntry(mSearchComp);
   std::string finalReport;
-  switch(reason)
+  switch(mResult = reason)
   {
     case ScrapeResult::Ok:
     case ScrapeResult::NotScraped:
     case ScrapeResult::NotFound:
-    case ScrapeResult::FatalError:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_POPUP;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_POPUP);
       finalReport = Strings::Replace(finalReport, "{PROCESSED}", Strings::ToString(mScraper->ScrapesTotal()));
       finalReport = Strings::Replace(finalReport, "{SUCCESS}", Strings::ToString(mScraper->ScrapesSuccessful()));
       finalReport = Strings::Replace(finalReport, "{NOTFOUND}", Strings::ToString(mScraper->ScrapesNotFound()));
@@ -197,28 +252,41 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
       finalReport = Strings::ToUpperUTF8(finalReport);
       break;
     }
+    case ScrapeResult::FatalError:
+    {
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_FATAL);
+      break;
+    }
     case ScrapeResult::QuotaReached:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_QUOTA;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_QUOTA);
       break;
     }
     case ScrapeResult::DiskFull:
     {
-      finalReport = MENUMESSAGE_SCRAPER_FINAL_DISKFULL;
+      finalReport = _(MENUMESSAGE_SCRAPER_FINAL_DISKFULL);
       break;
     }
   }
   mFinalReport->setText(finalReport);
   mGrid.setEntry(mFinalReport, Vector2i(0, 3), false, true);
 
+  // Update popup
+  mPopup.ScrapingComplete(reason);
+
   // Update button?
-  if (mScraper->ScrapesStillPending() == 0)
-  {
-    mButton->setText(_("CLOSE"), _("CLOSE"));
-    mSearchComp->SetRunning(false);
-  }
+  mButton->setText(_("CLOSE"), _("CLOSE"));
+  mSearchComp->SetRunning(false);
 
   // Scripts
   NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));
+
+  // Hiden?
+  if (mWindow.InfoPopupIsShown(&mPopup))
+  {
+    std::string text = _("Your scraping session completed. Press OK to show the results.");
+    GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { Show(mWindow); mButtonGrid->resetCursor(); });
+    mWindow.pushGui(msgBox);
+  }
 }
 

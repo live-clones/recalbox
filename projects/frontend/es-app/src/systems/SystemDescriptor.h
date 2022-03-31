@@ -116,7 +116,7 @@ class SystemDescriptor
 
     /*!
      * @brief Set scraper information
-     * @param screenscraperId ScreenScrapper system identifier
+     * @param screenscraperId ScreenScraper system identifier
      * @return This
      */
     SystemDescriptor& SetScraperInformation(int screenscraperId)
@@ -254,7 +254,7 @@ class SystemDescriptor
     std::string             mExtensions;      //!< Supported extensions, space separated
     std::string             mCommand;         //!< Emulator command
     int                     mIcon;            //!< Icon unicode char
-    // Scrapper
+    // Scraper
     int                     mScreenScraperID; //!< ScreenScraper ID
     // Properties
     int                     mReleaseDate;     //!< Release date in numeric format yyyymm

@@ -5,7 +5,7 @@
  * Created on 6 février 2015, 11:40
  */
 
-#include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <arpa/nameser.h>
 #include <resolv.h>
 #include <utils/Http.h>
@@ -14,6 +14,7 @@
 #include "Upgrade.h"
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
+#include <guis/GuiInfoPopup.h>
 
 std::string Upgrade::mDomainName;
 std::string Upgrade::mRemoteVersion;
@@ -105,7 +106,7 @@ void Upgrade::ReceiveSyncCallback(const SDL_Event& event)
   (void)event;
 
   // Volatile popup
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopup::PopupType::Recalbox));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopupBase::PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())

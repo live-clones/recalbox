@@ -19,7 +19,7 @@ ScrollableContainer::ScrollableContainer(WindowManager&window)
 
 void ScrollableContainer::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }

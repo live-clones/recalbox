@@ -13,22 +13,23 @@ Vector2i ImageComponent::getTextureSize() const {
 }
 
 ImageComponent::ImageComponent(WindowManager&window, bool forceLoad, bool dynamic)
-  : Component(window),
-    mTargetSize(0, 0),
-    mPath(""),
-    mFlipX(false),
-    mFlipY(false),
-    mTargetIsMax(false),
-    mVertices{ { { 0, 0 }, { 0, 0 } } },
-    mColors{ 0 },
-    mColorShift(0xFFFFFFFF),
-    mOriginColor(0),
-    mFadeOpacity(0.0f),
-    mFading(false),
-    mForceLoad(forceLoad),
-    mDynamic(dynamic)
+  : Component(window)
+  , mTargetSize(0, 0)
+  , mPath()
+  , mFlipX(false)
+  , mFlipY(false)
+  , mTargetIsMax(false)
+  , mVertices{ { { 0, 0 }, { 0, 0 } } }
+  , mColors{ 0 }
+  , mColorShift(0xFFFFFFFF)
+  , mOriginColor(0)
+  , mFadeOpacity(0.0f)
+  , mColorNotSet(true)
+  , mFading(false)
+  , mForceLoad(forceLoad)
+  , mDynamic(dynamic)
+  , mVisible(true)
 {
-	mColorNotSet = true;
   updateColors();
 }
 
@@ -223,11 +224,10 @@ void ImageComponent::updateColors() {
     Renderer::BuildGLColorArray(mColors, mColorShift, 6);
 }
 
-void ImageComponent::Render(const Transform4x4f& parentTrans) {
-    if(mDisabled)
-    {
-        return;
-    }
+void ImageComponent::Render(const Transform4x4f& parentTrans)
+{
+    if(mThemeDisabled || !mVisible)
+      return;
 
     Transform4x4f trans = parentTrans * getTransform();
     Renderer::SetMatrix(trans);
@@ -356,7 +356,7 @@ void ImageComponent::applyTheme(const ThemeData& theme, const std::string& view,
 
     if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
     {
-        mDisabled = elem->AsBool("disabled");
+      mThemeDisabled = elem->AsBool("disabled");
     }
 }
 

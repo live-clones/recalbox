@@ -5,6 +5,8 @@
 
 #include <string>
 #include <utils/os/fs/Path.h>
+#include <utils/os/system/Mutex.h>
+#include <utils/datetime/DateTime.h>
 #include "curl/curl.h"
 
 class Http
@@ -25,40 +27,6 @@ class Http
          */
         virtual void DownloadProgress(const Http& http, long long currentSize, long long expectedSize) = 0;
     };
-
-  private:
-    //! Maximum data kept in memory before flushing to file
-    static constexpr int sMaxDataKeptInRam = (2 << 20); // 20Mb
-
-    //! Request result, or temporary buffer waiting for disk flush
-    std::string mResultHolder;
-    //! Store request result into this file if it's not empty
-    Path        mResultFile;
-
-    //! CURL Handle for all requests. Allocated once
-    CURL* mHandle;
-    //! Download intarface
-    IDownload* mIDownload;
-    //! Real content size
-    long long mContentSize;
-    //! Expected content size
-    long long mContentLength;
-    //! HTTP return code of last request
-    int   mLastReturnCode;
-    //! Cancel flag
-    bool mCancel;
-
-    /*!
-     * @brief CURL callback when recveiving data
-     * @param ptr Data pointer
-     * @param size Data size multiplier (always 1)
-     * @param nmemb Data size (real)
-     * @param userdata Userdata pointer (pointer to class instance)
-     * @return Must return nmemb when fully processed. Any other value means an error
-     */
-    static size_t WriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
-
-  public:
 
     /*!
      * @brief Default constructor
@@ -111,4 +79,83 @@ class Http
      * @return Content size
      */
     long long GetLastContentSize() const { return mContentSize; }
+
+    /*!
+     * @brief Set basic authentication
+     * @param login Login
+     * @param password Password
+     */
+    void SetBasicAuth(const std::string& login, const std::string& password);
+
+    /*!
+     * @brief Unset basic authentication
+     */
+    void CancelBasicAuth();
+
+    /*!
+     * @brief Get average bandwidth based on download storage
+     * @return Actuel bandwidth or negative value if there is not enough informations
+     */
+    static double GetAverageBandwidth();
+
+  private:
+    //! Maximum data kept in memory before flushing to file
+    static constexpr int sMaxDataKeptInRam = (2 << 20); // 20Mb
+
+    //! Login (basic auth)
+    std::string mLogin;
+    //! Password (basic auth)
+    std::string mPassword;
+    //! Request result, or temporary buffer waiting for disk flush
+    std::string mResultHolder;
+    //! Store request result into this file if it's not empty
+    Path        mResultFile;
+
+    //! CURL Handle for all requests. Allocated once
+    CURL* mHandle;
+    //! Download intarface
+    IDownload* mIDownload;
+    //! Real content size
+    long long mContentSize;
+    //! Expected content size
+    long long mContentLength;
+    //! HTTP return code of last request
+    int   mLastReturnCode;
+    //! Cancel flag
+    bool mCancel;
+
+    //! Maximum bandwidth stored information
+    static constexpr int sMaxBandwidthInfo = 64;
+    //! Donwload structure for bandwidth computations
+    struct DownloadInfo
+    {
+      long long Size; //!< Downloaded bytes
+      long long Time; //!< Elapsed time in millisecond
+    };
+    //! Download information storage
+    static DownloadInfo sDownloadStorage[sMaxBandwidthInfo];
+    //! Valid information count in the above array
+    static int sDownloadCount;
+    //! Next slot to write download info in
+    static int sDownloadIndex;
+    //! Storage protection
+    static Mutex sDownloadLocker;
+
+    /*!
+     * @brief CURL callback when recveiving data
+     * @param ptr Data pointer
+     * @param size Data size multiplier (always 1)
+     * @param nmemb Data size (real)
+     * @param userdata Userdata pointer (pointer to class instance)
+     * @return Must return nmemb when fully processed. Any other value means an error
+     */
+    static size_t WriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
+
+    /*!
+     * @brief Store download information
+     * @param start Start time
+     * @param stop Stop time
+     * @param size Downloaded size
+     */
+    static void StoreDownloadInfo(const DateTime& start, const DateTime& stop, long long size);
 };

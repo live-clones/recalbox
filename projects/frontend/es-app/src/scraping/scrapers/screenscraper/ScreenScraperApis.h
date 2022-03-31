@@ -10,76 +10,12 @@
 #include <scraping/ScrapeResult.h>
 #include <games/classifications/Genres.h>
 #include <games/classifications/Regions.h>
-#include "ScreenScraperEnums.h"
-#include "Languages.h"
-
+#include <scraping/scrapers/screenscraper/IConfiguration.h>
+#include <scraping/scrapers/screenscraper/IEndPointProvider.h>
 
 class ScreenScraperApis
 {
   public:
-    /*!
-     * @brief Interface to retrieve credentials
-     */
-    class IConfiguration
-    {
-      public:
-        //!Image type
-        enum class Image
-        {
-          None,             //!< No image
-          ScreenshotIngame, //!< In-game screenshot
-          ScreenshotTitle,  //!< Title screenshot
-          Wheel,            //!< Wheel
-          Marquee,          //!< Marquee
-          Box2d,            //!< Box 2d (front)
-          Box3d,            //!< Box 3d (front)
-          MixV1,            //!< Server-side mix v1
-          MixV2,            //!< Server-side mix v2
-        };
-        //! Video type
-        enum class Video
-        {
-          None,      //!< No video
-          Raw,       //!< Unprocessed video
-          Optimized, //!< Optimized video
-        };
-
-        //! Get Login
-        virtual std::string GetLogin() const = 0;
-        //! Get password
-        virtual std::string GetPassword() const = 0;
-        //! Get favorite language
-        virtual Languages GetFavoriteLanguage() const = 0;
-        //! Get favorite region
-        virtual Regions::GameRegions GetFavoriteRegion() const = 0;
-        //! Get main image type
-        virtual ScreenScraperEnums::ScreenScraperImageType GetImageType() const = 0;
-        //! Get thumbnail image type
-        virtual ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const = 0;
-        //! GetVideo type
-        virtual ScreenScraperEnums::ScreenScraperVideoType GetVideo() const = 0;
-        //! Check if marquee are required
-        virtual bool GetWantMarquee() const = 0;
-        //! Check if wheel are required
-        virtual bool GetWantWheel() const = 0;
-        //! Check if marquee are required
-        virtual bool GetWantManual() const = 0;
-        //! Check if wheel are required
-        virtual bool GetWantMaps() const = 0;
-        //! Check if p2k are required
-        virtual bool GetWantP2K() const = 0;
-    };
-
-    //! User object (reduced to Recalbox needs)
-    struct User
-    {
-      int mThreads = 1;        //! maxthreads
-      int mRequestDone = 0;    //! requeststoday
-      int mMaxRatePerMin = 0;  //! maxrequestspermin
-      int mMaxRatePerDay = 0;  //! maxrequestsperday
-      std::string mRegion;     //! favregion
-    };
-
     //! Game object
     struct Game
     {
@@ -117,122 +53,61 @@ class ScreenScraperApis
       //! Media Urls
       struct MediaUrl
       {
+        struct Media
+        {
+          //! source Url
+          std::string mUrl;
+          //! file format
+          std::string mFormat;
+          //! md5
+          std::string mMd5;
+          //! size
+          long long mSize;
+        };
+
         //! Main image
-        std::string mImage;
-        //! Main image file format
-        std::string mImageFormat;
-        //! main image md5
-        std::string mImageMd5;
-        //! Main image size
-        long long mImageSize;
-
+        Media mImage;
         //! Thumbnail image
-        std::string mThumbnail;
-        //! Thumbnail image file format
-        std::string mThumbnailFormat;
-        //! Thumbnail image file md5
-        std::string mThumbnailMd5;
-        //! Thumbnail image
-        long long mThumbnailSize;
-
+        Media mThumbnail;
         //! Video
-        std::string mVideo;
-        //! Video file format
-        std::string mVideoFormat;
-        //! Video file md5
-        std::string mVideoMd5;
-        //! Video
-        long long mVideoSize;
-
+        Media mVideo;
         //! Marquee
-        std::string mMarquee;
-        //! Marquee file format
-        std::string mMarqueeFormat;
-        //! Marquee file md5
-        std::string mMarqueeMd5;
-        //! Marquee
-        long long mMarqueeSize;
-
-        //! Wheel
-        std::string mWheel;
-        //! Wheel file format
-        std::string mWheelFormat;
-        //! Wheel file md5
-        std::string mWheelMd5;
-        //! Wheel
-        long long mWheelSize;
-
-        //! Manual
-        std::string mManual;
-        //! Manual file format
-        std::string mManualFormat;
-        //! Manual file md5
-        std::string mManualMd5;
-        //! Manual
-        long long mManualSize;
-
-        //! Maps
-        std::string mMaps;
-        //! Maps file format
-        std::string mMapsFormat;
-        //! Maps file md5
-        std::string mMapsMd5;
-        //! Maps
-        long long mMapsSize;
+        Media mMarquee;
+        //! Wheel (clear logo)
+        Media mWheel;
+        //! Game Manual
+        Media mManual;
+        //! Game Maps
+        Media mMaps;
       }
       MediaSources;
     };
 
   private:
-    static constexpr const char* API_DEV_U = "\xF1\x5A\xA8\x46\x25\xDE\x48\x2A";
-    static constexpr const char* API_DEV_P = "\xC0\x0C\x80\x45\x30\xD6\x7F\x6A\x69\xB5\x02\x9D\xAD\x6B\xA3\x33\xE6\x7A\xE8\x4E";
-    static constexpr const char* API_DEV_K = "\x83\x2E\xA9\xF4\x05\x67\xC1\xDB\xB1\x65\xC7\x0D\xFE\x29\xA3\x48";
-
     //! Credential interface
     IConfiguration& mConfiguration;
+    //! Endpoint provider
+    IEndPointProvider& mEndPointProvider;
+
+    // Client initialized status
+    bool mClientInitialized;
 
     //! Htpp client
     Http mClient;
-
-    //! Api type
-    enum class Api
-    {
-      UserInfo, //!< Get user information
-      GameInfo, //!< Get game information
-    };
-
-    //! X-Or the Space Sheriff
-    static std::string XOrTheSpaceSheriff(const std::string& _input, const std::string& key)
-    {
-      std::string buffer = _input;
-      for (int i = (int) _input.size(); --i >= 0;)
-        buffer[i] = (char) ((unsigned char)_input[i] ^ (unsigned char)(key[i % key.size()] + (i * 17)));
-      return buffer;
-    }
-
-    /*!
-     * @brief Build the common URL part of all apis
-     * @param api Api type
-     * @return Url
-     */
-    std::string BuildUrlCommon(Api api);
-
-    /*!
-     * @brief Build a jeuInfo url
-     * @param system ScreenScraper system id
-     * @param path File path
-     * @param crc32 optionnal CRC32
-     * @param md5 optionnal MD5
-     * @return Url
-     */
-    std::string BuildUrlGameInfo(int system, const Path& path, const std::string& crc32, const std::string& md5, long long size);
 
     /*!
      * @brief Deserialize a gameinfo request JSON result into a Game object
      * @param json Input json
      * @param game Output Game object
      */
-    void DeserializeGameInformation(const std::string& json, Game& game, Path path);
+    void DeserializeGameInformationInner(const rapidjson::Value& json, Game& game, const Path& path);
+
+    /*!
+     * @brief Deserialize a gameinfo request JSON result into a Game object
+     * @param json Input json
+     * @param game Output Game object
+     */
+    void DeserializeGameInformationOuter(const std::string& json, Game& game, const Path& path);
 
     static std::string GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion);
 
@@ -291,30 +166,49 @@ class ScreenScraperApis
      */
     static void DecodeString(std::string& raw);
 
+    /*!
+     * @brief Return a clean game name, removing all non file authorized chars
+     * @param source Original game
+     * @return Clean name
+     */
     static std::string CleanGameName(const std::string& source);
+
+    /*!
+     * @brief Check if the http client is initialized & initialize if required
+     */
+    void InitializeClient()
+    {
+      if (!mClientInitialized)
+      {
+        if (mEndPointProvider.RequireBasicAuth())
+          mClient.SetBasicAuth(mConfiguration.GetLogin(), mConfiguration.GetPassword());
+        mClientInitialized = true;
+      }
+    }
 
   public:
     /*!
      * @brief Constructor
      * @param credentials
      */
-    explicit ScreenScraperApis(IConfiguration* credentials)
+    explicit ScreenScraperApis(IConfiguration* credentials, IEndPointProvider* endPointProvider)
       : mConfiguration(*credentials)
+      , mEndPointProvider(*endPointProvider)
+      , mClientInitialized(false)
     {
     }
 
     //! Get user
-    User GetUserInformation();
+    ScreenScraperUser GetUserInformation();
 
     /*!
      * @brief Get Game informations
-     * @param system ScreenScraper system id
-     * @param path File path
+     * @param file Game to work on
      * @param crc32 optionnal CRC32
      * @param md5 optionnal MD5
      * @return Game structure with the result code in the mResult field
      */
-    Game GetGameInformation(int system, const Path& path, const std::string& crc32, const std::string& md5, long long size);
+    Game GetGameInformation(const FileData& file, const std::string& crc32, const std::string& md5, long long size);
 
     /*!
      * @brief Download a media into a target file
@@ -322,6 +216,6 @@ class ScreenScraperApis
      * @param to Filepath
      * @return ScrapeResult Request status
      */
-    ScrapeResult GetMedia(const std::string& mediaurl, const Path& to, long long& size);
+    ScrapeResult GetMedia(const FileData& game, const std::string& mediaurl, const Path& to, long long& size);
 };
 

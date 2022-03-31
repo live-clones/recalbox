@@ -309,7 +309,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
 
 void VideoComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }

@@ -103,6 +103,27 @@ const std::string& RecalboxConf::SystemSortingFromEnum(SystemSorting systemSorti
   return sDefault;
 }
 
+ScraperType RecalboxConf::ScraperTypeFromString(const std::string& menu)
+{
+  if (menu == "ScreenScraper") return ScraperType::ScreenScraper;
+  if (menu == "Recalbox")      return ScraperType::Recalbox;
+  if (menu == "TheGameDB")     return ScraperType::TheGameDB;
+  return ScraperType::ScreenScraper;
+}
+
+const std::string& RecalboxConf::ScraperTypeFromEnum(ScraperType type)
+{
+  static std::string defaultString("ScreenScraper");
+  switch(type)
+  {
+    case ScraperType::ScreenScraper: { return defaultString; }
+    case ScraperType::Recalbox: { static std::string string("Recalbox"); return string; }
+    case ScraperType::TheGameDB: { static std::string string("TheGameDB"); return string; }
+    default: break;
+  }
+  return defaultString;
+}
+
 DefineSystemGetterSetterImplementation(Emulator, std::string, String, sSystemEmulator, "")
 DefineSystemGetterSetterImplementation(Core, std::string, String, sSystemCore, "")
 DefineSystemGetterSetterImplementation(Ratio, std::string, String, sSystemRatio, GetGlobalRatio())

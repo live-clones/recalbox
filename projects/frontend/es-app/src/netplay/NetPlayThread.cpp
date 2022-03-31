@@ -3,12 +3,13 @@
 //
 
 #include "NetPlayThread.h"
+#include <guis/GuiInfoPopup.h>
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
 #include <views/ViewController.h>
 #include <utils/locale/LocaleHelper.h>
 #include <utils/sdl2/SyncronousEventService.h>
-#include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <rapidjson/document.h>
 #include <emulators/run/GameRunner.h>
 
@@ -99,7 +100,7 @@ void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
   int popupDuration = RecalboxConf::Instance().GetPopupNetplay();
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopup::PopupType::Netplay));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopupBase::PopupType::Netplay));
 }
 
 bool NetPlayThread::Sleep(bool& enabled)

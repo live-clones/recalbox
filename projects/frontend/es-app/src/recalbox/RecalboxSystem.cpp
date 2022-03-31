@@ -61,14 +61,6 @@ unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
   return (unsigned long)(getFreeSpace(mountpoint) >> 30);
 }
 
-std::string RecalboxSystem::SizeToString(unsigned long long size)
-{
-  if ((size >> 30) != 0) return std::to_string((int)(size >> 30)) + "GB";
-  if ((size >> 20) != 0) return std::to_string((int)(size >> 20)) + "MB";
-  if ((size >> 10) != 0) return std::to_string((int)(size >> 10)) + "KB";
-  return std::to_string((int)size) + 'B';
-}
-
 std::string RecalboxSystem::getFreeSpaceInfo()
 {
   std::string sharePart = sSharePath;
@@ -83,13 +75,13 @@ std::string RecalboxSystem::getFreeSpaceInfo()
     }
     else
     {
-      unsigned long long total = ((unsigned long long)fiData.f_blocks * (unsigned long long)fiData.f_bsize);
-      unsigned long long free = ((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize);
+      long long total = ((long long)fiData.f_blocks * (long long)fiData.f_bsize);
+      long long free = ((long long)fiData.f_bfree * (long long)fiData.f_bsize);
       if (total != 0)
       {
-        unsigned long long used = total - free;
+        long long used = total - free;
         int percent = (int)(used * 100 / total);
-        result = SizeToString(used) + '/' + SizeToString(total) + " (" + std::to_string(percent) + "%)";
+        result = Strings::ToHumanSize(used) + '/' + Strings::ToHumanSize(total) + " (" + std::to_string(percent) + "%)";
       }
     }
   }

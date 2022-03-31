@@ -390,10 +390,10 @@ void GuiMetaDataEd::save()
 void GuiMetaDataEd::fetch()
 {
   save();
-  mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mGame, this));
+  mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mSystemManager, mGame, this));
 }
 
-void GuiMetaDataEd::ScrappingComplete(FileData& /*game*/)
+void GuiMetaDataEd::ScrapingComplete(FileData& /*game*/)
 {
   for (int i = 0; i < (int)mEditors.size(); i++)
   {

@@ -6,13 +6,7 @@
 #include <utils/cplusplus/INoCopy.h>
 #include <systems/SystemManager.h>
 #include <scraping/INotifyScrapeResult.h>
-
-enum class ScrappingMethod
-{
-  All,                 //<! Scrape all
-  IncompleteKeep,      //<! Scrape only missing information, keeping information already here
-  IncompleteOverwrite, //<! Scrape only missing information, and update information already here
-};
+#include <scraping/scrapers/ScrapingMethod.h>
 
 class IScraperEngine : private INoCopy
 {
@@ -30,17 +24,17 @@ class IScraperEngine : private INoCopy
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    virtual bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
+    virtual bool RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList,
                        INotifyScrapeResult* notifyTarget, long long diskMinimumFree) = 0;
 
     /*!
-   * @brief Run the scraper using the given methods, on the given single game and report progress using notifyTarget
-   * @param method Scraping method
-   * @param singleGame Single game to scrape
-   * @param notifyTarget Interface for reporting scraping progression
-   * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
-   */
-    virtual bool RunOn(ScrappingMethod method, FileData& singleGame,
+     * @brief Run the scraper using the given methods, on the given single game and report progress using notifyTarget
+     * @param method Scraping method
+     * @param singleGame Single game to scrape
+     * @param notifyTarget Interface for reporting scraping progression
+     * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
+     */
+    virtual bool RunOn(ScrapingMethod method, FileData& singleGame,
                        INotifyScrapeResult* notifyTarget, long long diskMinimumFree) = 0;
 
     /*!
