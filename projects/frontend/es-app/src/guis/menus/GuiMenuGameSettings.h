@@ -39,6 +39,7 @@ class GuiMenuGameSettings : public GuiMenuBase
       IntegerScale,
       HidePreinstalled,
       Shaders,
+      Softpatching,
       ShaderSet,
       RetroAchivements,
       Netplay,
@@ -55,6 +56,8 @@ class GuiMenuGameSettings : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mSmooth;
     //! Rewind
     std::shared_ptr<SwitchComponent> mRewind;
+    //! Shaders
+    std::shared_ptr<OptionListComponent<std::string>> mSoftpatching;
     //! Auto-save
     std::shared_ptr<SwitchComponent> mAutoSave;
     //! Press twice to quit
@@ -75,6 +78,8 @@ class GuiMenuGameSettings : public GuiMenuBase
     static std::vector<ListEntry<std::string>> GetRatioEntries();
     //! Get Shaders List
     static std::vector<ListEntry<std::string>> GetShadersEntries();
+    //! Get Softpatching List
+    static std::vector<ListEntry<std::string>> GetSoftpatchingEntries();
     //! Get shader sets List
     static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
 

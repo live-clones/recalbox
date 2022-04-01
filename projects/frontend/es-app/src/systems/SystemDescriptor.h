@@ -224,6 +224,18 @@ class SystemDescriptor
       return false;
     }
 
+    bool IsSoftpatching(std::string emulatorName, std::string coreName) const
+    {
+      for(int i = mEmulators.Count(); --i >= 0; )
+      {
+        if(mEmulators.EmulatorAt(i).Name() != emulatorName) continue;
+        for (int j = mEmulators.EmulatorAt(i).CoreCount(); --j >= 0;)
+          if (mEmulators.EmulatorAt(i).CoreNameAt(j) == coreName && mEmulators.EmulatorAt(i).CoreSoftpatching(j))
+            return true;
+      }
+      return false;
+    }
+
     bool IsPort() const { return mPort; }
     bool IsReadOnly() const { return mReadOnly; }
 

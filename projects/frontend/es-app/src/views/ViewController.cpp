@@ -23,6 +23,8 @@
 #include <utils/locale/LocaleHelper.h>
 #include <usernotifications/NotificationManager.h>
 
+#include <games/GameFilesUtils.h>
+
 ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController")
 	, Gui(window)
@@ -455,6 +457,26 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
                                          ));
       return;
     }
+  }
+  bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
+  if(RecalboxConf::Instance().GetGlobalSoftpatching() == "manual" && coreIsSoftpatching && !mGameLinkedData.ConfigurablePath().IsConfigured())
+  if(GameFilesUtils::HasSoftPatch(game))
+  {
+    static int lastChoice = 0;
+    mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                     _("Automatic patch was detected"),
+                                     game->Name(),
+                                     lastChoice,
+                                     "launch with",
+                                     "launch with",
+                                     [this, game, &cameraTarget] {
+                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                     "launch without",
+                                     "launch without",
+                                     [this, game, &cameraTarget] {
+                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                    ));
+    return;
   }
 
   LaunchAnimated(game, emulator, cameraTarget);
