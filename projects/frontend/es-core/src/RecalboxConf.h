@@ -209,6 +209,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalQuitTwice, bool, Bool, sGlobalQuitTwice, false)
     DefineGetterSetter(GlobalHidePreinstalled, bool, Bool, sGlobalHidePreinstalled, false)
     DefineGetterSetter(GlobalIntegerScale, bool, Bool, sGlobalIntegerScale, false)
+    DefineGetterSetter(GlobalSoftpatching, std::string, String, sSoftpatching, "auto")
     DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
@@ -330,6 +331,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalRecalboxOverlays     = "global.recalboxoverlays";
     static constexpr const char* sGlobalRewind               = "global.rewind";
     static constexpr const char* sGlobalAutoSave             = "global.autosave";
+    static constexpr const char* sSoftpatching               = "global.softpatching";
     static constexpr const char* sGlobalShaders              = "global.shaders";
     static constexpr const char* sGlobalShaderSet            = "global.shaderset";
     static constexpr const char* sGlobalQuitTwice            = "global.quitpresstwice";
