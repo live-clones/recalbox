@@ -226,7 +226,7 @@ if test "$1" == "start" ; then
     # Other dacs
 
     # If the file exists, make it unix lf
-    if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -l "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ];then
+    if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ];then
         mount -o remount,rw /boot
         dos2unix "${CRT_OPTIONS_FILE}"
         mount -o remount,ro /boot
