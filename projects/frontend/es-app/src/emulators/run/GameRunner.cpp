@@ -104,12 +104,27 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
 
   std::string command = game.System().Descriptor().Command();
 
-  const std::string rom = game.FilePath().MakeEscaped();
+  Path rom = game.FilePath();
+
+  if(!data.Patch().PatchFile().IsEmpty())
+  {
+    rom = Path("/tmp")/Path(game.FilePath().Filename());
+
+    std::string patchCommand = std::string("python3.9 /recalbox/scripts/lipx.py -ab ");
+    patchCommand.append(game.FilePath().MakeEscaped());
+    patchCommand.append(" ");
+    patchCommand.append(data.Patch().PatchFile().MakeEscaped());
+    patchCommand.append(" ");
+    patchCommand.append(rom.MakeEscaped());
+
+    system(patchCommand.data());
+  }
+
   const std::string basename = game.FilePath().FilenameWithoutExtension();
   const std::string rom_raw = game.FilePath().ToString();
   const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
 
-  Strings::ReplaceAllIn(command, "%ROM%", rom);
+  Strings::ReplaceAllIn(command, "%ROM%", rom.MakeEscaped());
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
   Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
@@ -159,6 +174,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     else LOG(LogInfo) << "[Run] No error running " << game.FilePath().ToString();
   }
 
+  if (!data.Patch().PatchFile().IsEmpty())
+    rom.Delete();
   // Reinit
   Sdl2Init::Finalize();
   Sdl2Init::Initialize();
