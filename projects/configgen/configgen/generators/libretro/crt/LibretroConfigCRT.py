@@ -93,7 +93,11 @@ class LibretroConfigCRT:
             if system.CRTScreenType == CRTScreenType.k31:
                 if system.CRTResolutionType == CRTResolutionType.Progressive:
                     width = 640 * width / 1920
-                    height = height * 2
+                    if height * 2 < 480:
+                        height = height * 2
+                if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
+                    if height > 240:
+                        height = 240
             return width, height
         if system.CRTScreenType == CRTScreenType.k31 and system.CRTResolutionType == CRTResolutionType.Progressive:
             return 640, 0
