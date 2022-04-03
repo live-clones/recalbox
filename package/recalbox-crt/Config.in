@@ -1,6 +1,5 @@
 config BR2_PACKAGE_RECALBOX_CRT
 	bool "recalbox crt"
-	select BR2_PACKAGE_RPI_DPIDAC
 	select BR2_PACKAGE_RECALBOX_RGB_DUAL
 
 	help
