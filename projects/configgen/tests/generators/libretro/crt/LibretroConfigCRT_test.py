@@ -658,8 +658,7 @@ def test_given_31kHz_and_should_create_neogeo_config_with_default_mode_but_best_
 
 
 def test_given_31kHz_and_arcade_game_should_create_arcade_config_with_default_mode_but_best_viewport_size_selected_from_mode(
-        mocker,
-        system_snes):
+        mocker):
     givenThoseFiles(mocker, {
         ARCADE_TXT: "dino,fbneo,arcade:224@59.637405,0,0,0",
         MODES_TXT: "arcade:224@59.637405,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
@@ -726,13 +725,39 @@ def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_do
 
     assert libretro_config["video_shader_enable"] == '"false"'
 
-# Bug when starter outrunner
-def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_double_freq(mocker, system_dreamcast):
-    givenThoseFiles(mocker, SEGA_CONFIGURATION)
-    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="doublefreq",
-                                crtvideostandard="all", crtscanlines=True)
+# Bug outrunner having 960px height
+def test_given_weird_mode_game_is_started_in_480_it_does_not_double_the_height(mocker, system_dreamcast):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "paperboy,mame2010,arcade:384@60.096154,0,0,0",
+        MODES_TXT: "arcade:384@60.096154,1920 1 80 184 312 384 1 2 6 33 0 0 0 60 1 39233551 1,60.34\narcade:224@59.637405,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='mame', videoMode='1920x1080', ratio='auto', emulator='libretro', core='mame2010'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="31kHz")
 
-    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
-                                                                                               "/recalbox/share/roms/dreamcast/arkbl2.zip")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/paperboy.zip")
 
-    assert libretro_config["video_shader_enable"] == '"false"'
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 640
+    assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_height_ntsc"] == 384
+    assert libretro_config["custom_viewport_height_pal"] == 384
+
+    emulator = configureForCrt(
+        Emulator(name='mame', videoMode='1920x1080', ratio='auto', emulator='libretro', core='mame2010'),
+        crtresolutiontype="doublefreq", crtvideostandard="ntsc",
+        crtscreentype="31kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/paperboy.zip")
+
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
+    assert libretro_config["custom_viewport_width_pal"] == 1920
+    assert libretro_config["custom_viewport_height_ntsc"] == 240
+    assert libretro_config["custom_viewport_height_pal"] == 240
+
