@@ -55,7 +55,7 @@ class GameLinkedData
     const CrtData& Crt() const { return mCrtData; }
 
     //! Get writable Patch data
-    PatchData& ConfigurablePath() { return mPatchData; }
+    PatchData& ConfigurablePatch() { return mPatchData; }
 
     //! Get read only Patch data
     const PatchData& Patch() const { return mPatchData; }

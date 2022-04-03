@@ -459,7 +459,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
     }
   }
   bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
-  if(RecalboxConf::Instance().GetGlobalSoftpatching() == "manual" && coreIsSoftpatching && !mGameLinkedData.ConfigurablePath().IsConfigured())
+  if(RecalboxConf::Instance().GetGlobalSoftpatching() == "manual" && coreIsSoftpatching && !mGameLinkedData.ConfigurablePatch().IsConfigured())
   if(GameFilesUtils::HasSoftPatch(game))
   {
     static int lastChoice = 0;
@@ -470,14 +470,21 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
                                      "launch with",
                                      "launch with",
                                      [this, game, &cameraTarget] {
-                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                       mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
                                      "launch without",
                                      "launch without",
                                      [this, game, &cameraTarget] {
-                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                       mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
                                     ));
     return;
   }
+
+  if(RecalboxConf::Instance().GetGlobalSoftpatching() == "disabled" && !mGameLinkedData.ConfigurablePatch().IsConfigured())
+  {
+    mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
+    LaunchCheck(game, cameraTarget, true);
+  }
+
 
   LaunchAnimated(game, emulator, cameraTarget);
 }

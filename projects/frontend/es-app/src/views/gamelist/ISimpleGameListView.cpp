@@ -8,6 +8,7 @@
 #include "WindowManager.h"
 #include "views/ViewController.h"
 #include "utils/locale/LocaleHelper.h"
+#include "guis/menus/GuiMenuGameAdvanceLaunch.h"
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : IGameListView(window, system),
@@ -306,12 +307,10 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     return true;
   }
 
-  if (event.SelectPressed() && !IsFavoriteSystem())
+  if (event.SelectPressed())
   {
-    RecalboxConf::Instance().SetFavoritesOnly(!RecalboxConf::Instance().GetFavoritesOnly());
-    refreshList();
-    updateInfoPanel();
-    updateHelpPrompts();
+    clean();
+    mWindow.pushGui(new GuiMenuGameAdvanceLaunch(mWindow, mSystem));
     return true;
   }
 

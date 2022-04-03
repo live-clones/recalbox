@@ -99,6 +99,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSoftpat
   std::string currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
   list.emplace_back( _("AUTO"), "auto", currentOption == "auto" );
   list.emplace_back( _("MANUAL"), "manual", currentOption == "manual" );
+  list.emplace_back( _("DISABLED"), "disabled", currentOption == "disabled" );
 
   return list;
 }

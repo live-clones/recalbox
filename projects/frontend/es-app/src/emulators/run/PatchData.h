@@ -13,7 +13,14 @@ class PatchData
         mPatchConfigured(false)
     {};
 
+    Path PatchFile() const { return mPatchFile; }
     bool DisabledSofpatching() const { return mDisabledSoftpatching; }
+
+    void SetPatchFile(const Path& patchFile)
+    {
+      mPatchFile = patchFile;
+      mPatchConfigured = true;
+    }
 
     void SetDisabledSoftPatching(bool softpatch)
     { mDisabledSoftpatching = softpatch;
@@ -26,6 +33,7 @@ class PatchData
     }
 
   private:
+    Path mPatchFile;
     bool mDisabledSoftpatching;
     bool mPatchConfigured;
 };
