@@ -50,6 +50,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add display by filename in gamelist option
 - Add go to game from search results and add search games from gamelist menu
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
+- Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 
 ### Improvements
 
