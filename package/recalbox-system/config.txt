@@ -55,6 +55,7 @@ hdmi_pixel_freq_limit:1=200000000
 
 [board-type=0x12]
 dtoverlay=vc4-kms-v3d
+include crt/recalbox-crt-config.txt
 
 # custom config
 [all]
