@@ -67,6 +67,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV (Super Cassette Vision)
   - Fix zipped rom handling
   - Handle multi-roms (.0 .1 ...) in a single zip file
+  - Correction of the CRC32 entry
+  - Add the new LupinIII md5 so that it is recognised and mapped correctly in memory
 - Bump libretro Caprice32 (Amstrad):
   - Update to Caprice 4.5.2
   - Lots of fixes & improvement with latest Retroarch versions
