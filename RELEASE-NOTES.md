@@ -8,7 +8,6 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
-- Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
 - Recalbox RGB Dual: add recalbox rgb dual menu in main menu
 - Recalbox RGB Dual: enhance image quality in frontend
 - Recalbox RGB Dual: enhance calibration screen accuracy
@@ -19,32 +18,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: add game resolution option in menu for demo games
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
-
-- Add delete game options
-- Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
-- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
-- Add system Philips CD-I (libretro core : cdi2015)
-- Add Iris driver for Intel iGPUs on x64 version
-- New option in UI menu : hide PORTS collection
-- Add recalbox.conf option to force resolution of splash videos on x64
-- New Random game picker in demo mode (less cycling)
-- Add BSNES core (performance build) (PC and RPi4/400)
-- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
-- Add Pi400 power button support (Fn + F10 to turn off)
-- Display game regions flag in gamelist
-- Make default no image in gamelist themable
-- Add Twitch as Kodi plugin
-- Add resolution menu in Advanced Settings > Resolutions
-- Add support for external rom folders on USB devices (up to 8 volumes/partitions)
-  - Hotplug: EmulationStation automatically reconize USB device containing roms!
-  - Initialization: Ask the user when USB device with no rom folders at all
-  - Roms folders are reconized in the root of the usb device or in `roms` or `recalbox/roms`
-  - Games are merged into your game list seamlessly
-- Add support for additional network rom folders (up to 4)
-  - As for USB devices, games are merged into your game list seamlessly
-- Add scraper progress bar
-- Add display by filename in gamelist option
-- Add go to game from search results and add search games from gamelist menu
 
 ### Improvements
 
