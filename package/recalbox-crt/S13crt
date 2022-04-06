@@ -17,8 +17,8 @@ declare -A ES_CLEAN_CONFIG=( \
 
 declare -A CONFIG_CONTENT=( \
     ["recalboxrgbdual"]="#device=recalboxrgbdual\ndtoverlay=recalboxrgbdual" \
-    ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty" \
-    ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty" \
+    ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones" \
+    ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones" \
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19" \
     )
 
