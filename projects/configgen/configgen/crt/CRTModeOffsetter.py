@@ -17,7 +17,7 @@ class CRTModeOffsetter:
                 if content == "0\n":
                     shouldOffsetPal = False
         if shouldOffsetPal and abs(50 - mode.framerate) < 2:
-            horizontal_offset += 5
+            horizontal_offset += 3
         horizontal_offset *= mode.width // 320
         if mode.h_front_porch - horizontal_offset < 1:
             horizontal_offset = mode.h_front_porch - 1
