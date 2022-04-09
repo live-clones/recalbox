@@ -139,7 +139,7 @@ void CrtView::ReceiveSyncCallback(const SDL_Event& event)
 void CrtView::UpdateViewport() {
   // Reference
   int reference = ((Renderer::Instance().DisplayWidthAsInt()) * 1840) / 1920;
-  const int hOffSetMultiplier = Renderer::Instance().RealDisplayWidthAsInt() / 320;
+  const int hOffSetMultiplier = Renderer::Instance().DisplayWidthAsInt() / 320;
   int hoffsetDiff = (CrtConf::Instance().GetSystemCRTHorizontalOffset() - mOriginalHOffset)*hOffSetMultiplier;
   int voffsetDiff = CrtConf::Instance().GetSystemCRTVerticalOffset() - mOriginalVOffset;
 
