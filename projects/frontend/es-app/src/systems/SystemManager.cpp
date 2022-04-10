@@ -987,3 +987,11 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
 
   return !error;
 }
+
+int SystemManager::GameCount()
+{
+  int result = 0;
+  for(const SystemData* system : mAllSystemVector)
+    result += system->GameCount();
+  return result;
+}
