@@ -14,6 +14,7 @@
 Board::Board(IHardwareNotifications& notificationInterface)
   : StaticLifeCycleControler("Board")
   , mType(BoardType::UndetectedYet)
+  , mMemory(0)
   , mSender(notificationInterface)
   , mBoard(GetBoardInterface(mSender))
   , mCrtBoard(GetCrtBoard())
@@ -63,6 +64,23 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
   return *(new NullBoard(messageSender));
 }
 
+int Board::GetPiMemory(unsigned int revision)
+{
+  int  memorySize     = ((int)revision >> 20) & 0x7;;
+
+  switch(memorySize)
+  {
+    case 0: return 256;
+    case 1: return 512;
+    case 2: return 1024;
+    case 3: return 2048;
+    case 4: return 4096;
+    default: break;
+  }
+
+  return 8192;
+}
+
 BoardType Board::GetPiModel(unsigned int revision)
 {
   // Split - uuuuuuuuFMMMCCCCPPPPTTTTTTTTRRRR
@@ -109,6 +127,12 @@ BoardType Board::GetPiModel(unsigned int revision)
 #define HARDWARE_STRING "Hardware"
 
 #define SizeLitteral(x) (sizeof(x) - 1)
+
+int Board::TotalMemory()
+{
+  if (mType == BoardType::UndetectedYet) GetBoardType();
+  return mMemory;
+}
 
 BoardType Board::GetBoardType()
 {
@@ -160,6 +184,7 @@ BoardType Board::GetBoardType()
           {
             { LOG(LogInfo) << "[Hardware] Pi revision " << revision; }
             mType = GetPiModel(irevision);
+            mMemory = GetPiMemory(irevision);
           }
           if (hardware == "Hardkernel ODROID-GO3")
           {
