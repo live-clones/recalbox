@@ -3412,6 +3412,18 @@ msgid "Please select one or more systems to scrape!"
 msgstr ""
 
 #
+msgid "Your system has not enough memory to handle %SYSTEMS% systems. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!"
+msgstr ""
+
+#
+msgid "Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!"
+msgstr ""
+
+#
+msgid "WARNING! SYSTEM OVERLOAD!"
+msgstr ""
+
+#
 msgid "Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!"
 msgstr ""
 
