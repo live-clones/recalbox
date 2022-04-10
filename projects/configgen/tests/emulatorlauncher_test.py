@@ -38,6 +38,8 @@ class FakeArguments:
         self.crtadaptor = ""
         self.crtverticaloffset = "0"
         self.crthorizontaloffset = "0"
+        self.crtverticalpaloffset = "0"
+        self.crthorizontalpaloffset = "0"
         self.crtviewportwidth = "1840"
         self.crtscanlines = False
 

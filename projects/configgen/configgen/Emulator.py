@@ -9,7 +9,8 @@ class ExtraArguments:
     def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
                  netplay_viewerpassword:str, netplay_vieweronly:str,
                  crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
-                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False):
+                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False,
+                 crtverticalpaloffset: int=0, crthorizontalpaloffset: int=0):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -24,6 +25,8 @@ class ExtraArguments:
         self.crtadaptor = crtadaptor
         self.crtverticaloffset = crtverticaloffset
         self.crthorizontaloffset = crthorizontaloffset
+        self.crtverticalpaloffset = crtverticalpaloffset
+        self.crthorizontalpaloffset = crthorizontalpaloffset
         self.crtviewportwidth = crtviewportwidth
         self.crtscanlines = crtscanlines
 
@@ -85,6 +88,8 @@ class Emulator:
         self._crtenabled: bool = False
         self._crtverticaloffset: int = 0
         self._crthorizontaloffset: int = 0
+        self._crtverticalpaloffset: int = 0
+        self._crthorizontalpaloffset: int = 0
         self._crtviewportwidth: int = 0
         self._crtscanlines: bool = False
 
@@ -154,8 +159,10 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
-        self._crtverticaloffset =arguments.crtverticaloffset
+        self._crtverticaloffset = arguments.crtverticaloffset
         self._crthorizontaloffset = arguments.crthorizontaloffset
+        self._crtverticalpaloffset = arguments.crtverticalpaloffset
+        self._crthorizontalpaloffset = arguments.crthorizontalpaloffset
         self._crtviewportwidth = arguments.crtviewportwidth
         self._crtscanlines = arguments.crtscanlines
 
@@ -333,6 +340,12 @@ class Emulator:
 
     @property
     def CRTHorizontalOffset(self) -> int: return self._crthorizontaloffset
+
+    @property
+    def CRTVerticalPalOffset(self) -> int: return self._crtverticalpaloffset
+
+    @property
+    def CRTHorizontalPalOffset(self) -> int: return self._crthorizontalpaloffset
 
     @property
     def CRTViewportWidth(self) -> int: return self._crtviewportwidth

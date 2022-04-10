@@ -73,7 +73,7 @@ class LibretroConfigCRT:
             else:
                 return "default:pal:288@50"
 
-    def get_best_dimensions_for_arcade(self, system: Emulator, game:str, core: str):
+    def get_best_dimensions_for_arcade(self, system: Emulator, game: str, core: str):
         width = 0
         height = 0
         arcade_config = self.crt_config_parser.findArcadeGame(game, core)
@@ -103,8 +103,7 @@ class LibretroConfigCRT:
             return 640, 0
         return 0, 0
 
-
-    def get_best_dimensions_for_default(self, system: Emulator, arcadeGame: str="", core: str="") -> (int, int):
+    def get_best_dimensions_for_default(self, system: Emulator, arcadeGame: str = "", core: str = "") -> (int, int):
         width = 0
         height = 0
         for region in [CRTVideoStandard.ALL, CRTVideoStandard.NTSC, CRTVideoStandard.PAL]:
@@ -112,7 +111,7 @@ class LibretroConfigCRT:
                 system_config = self.crt_config_parser.findArcadeGame(arcadeGame, core)
             else:
                 system_config = self.crt_config_parser.findSystem(system.Name, region, CRTScreenType.k15,
-                                                              CRTResolutionType.Progressive)
+                                                                  CRTResolutionType.Progressive)
             if system_config is not None:
                 width = system_config[4]
                 height = system_config[5]
@@ -189,7 +188,9 @@ class LibretroConfigCRT:
                                                  self.crt_mode_processor.processMode(
                                                      self.crt_config_parser.loadMode(defaultMode),
                                                      system.CRTHorizontalOffset,
-                                                     system.CRTVerticalOffset),
+                                                     system.CRTVerticalOffset,
+                                                     system.CRTHorizontalPalOffset,
+                                                     system.CRTVerticalPalOffset),
                                                  width,
                                                  height,
                                                  0)
@@ -201,7 +202,9 @@ class LibretroConfigCRT:
                 if game_config is not None:
                     mode_id = game_config[1]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
-                                                               system.CRTHorizontalOffset, system.CRTVerticalOffset)
+                                                               system.CRTHorizontalOffset, system.CRTVerticalOffset,
+                                                               system.CRTHorizontalPalOffset,
+                                                               system.CRTVerticalPalOffset)
                     rotation = game_config[4]
                     recallog(
                         "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
@@ -224,7 +227,9 @@ class LibretroConfigCRT:
                         mode_id = system_config[3]
                         mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
                                                                    system.CRTHorizontalOffset,
-                                                                   system.CRTVerticalOffset)
+                                                                   system.CRTVerticalOffset,
+                                                                   system.CRTHorizontalPalOffset,
+                                                                   system.CRTVerticalPalOffset)
                         recallog(
                             "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
                                                                                         mode_id),
@@ -245,7 +250,9 @@ class LibretroConfigCRT:
                 if system_config is not None:
                     mode_id = system_config[3]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
-                                                               system.CRTHorizontalOffset, system.CRTVerticalOffset)
+                                                               system.CRTHorizontalOffset, system.CRTVerticalOffset,
+                                                               system.CRTHorizontalPalOffset,
+                                                               system.CRTVerticalPalOffset)
                     for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                         recallog(
                             "Setting {} mode for system {} running with {} : {}".format(region, system.Name, core,
@@ -266,7 +273,9 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset,
-                            system.CRTVerticalOffset),
+                            system.CRTVerticalOffset,
+                            system.CRTHorizontalPalOffset,
+                            system.CRTVerticalPalOffset),
                                                  width, height, 0))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
 
@@ -280,7 +289,9 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset,
-                            system.CRTVerticalOffset),
+                            system.CRTVerticalOffset,
+                            system.CRTHorizontalPalOffset,
+                            system.CRTVerticalPalOffset),
                                                  width, height, 0))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
         if system.Name in ["wswan", "wswanc"]:

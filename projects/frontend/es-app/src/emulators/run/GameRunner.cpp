@@ -320,6 +320,8 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
     result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
     result.append(" -crtverticaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
     result.append(" -crthorizontaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
+    result.append(" -crtverticalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalPALOffset()));
+    result.append(" -crthorizontalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalPALOffset()));
     result.append(" -crtviewportwidth ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
 
     // Resolution type

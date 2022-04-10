@@ -155,6 +155,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG "Add scanlines when running games in 480p on 31kHz screen."
     #define MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG "Force sound on jack. Auto-enabled when 31kHz switch is ON"
     #define MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG "Recalbox RGB Dual options and configuration."
+    #define MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG "If you PAL images are not centered, you can override the default horizontal offset here."
+    #define MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG "If you PAL images are not centered, you can override the default vertical offset here."
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

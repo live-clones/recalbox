@@ -61,6 +61,14 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
 
+  if(!Board::Instance().CrtBoard().MustForce50Hz())
+  {
+    // PAL offsets until when have a PAL calibration screen
+    // Only displayed when we are in 60Hz, the calibration screen set thoses values if we are in 50Hz
+    AddSlider(_("PAL HORIZONTAL OFFSET"), -30, 30, 1, CrtConf::Instance().GetSystemCRTHorizontalPALOffset(), ".0", (int)Components::HorizontalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG));
+    AddSlider(_("PAL VERTICAL OFFSET"), -10, 10, 1, CrtConf::Instance().GetSystemCRTVerticalPALOffset(), ".0", (int)Components::VerticalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG));
+  }
+
 }
 
 GuiMenuCRT::~GuiMenuCRT()
@@ -203,3 +211,15 @@ void GuiMenuCRT::SubMenuSelected(int id)
   }
 }
 
+
+void GuiMenuCRT::SliderMoved(int id, float value)
+{
+  if ((Components)id == Components::HorizontalPalOffset)
+  {
+    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(value).Save();
+  }
+  if ((Components)id == Components::VerticalPalOffset)
+  {
+    CrtConf::Instance().SetSystemCRTVerticalPALOffset(value).Save();
+  }
+}

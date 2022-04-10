@@ -28,6 +28,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTScanlines31kHz, bool, Bool, sSystemCRTScanlines31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, -5)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalOffset, int, Int, sSystemCRTVerticalOffset, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalPALOffset, int, Int, sSystemCRTHorizontalPALOffset, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalPALOffset, int, Int, sSystemCRTVerticalPALOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTViewportWidth, int, Int, sSystemCRTViewportWidth, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
 
@@ -41,6 +43,8 @@ private:
     static constexpr const char* sSystemCRTScanlines31kHz         = "options.31khz.scanlines";
     static constexpr const char* sSystemCRTHorizontalOffset       = "mode.offset.horizontal";
     static constexpr const char* sSystemCRTVerticalOffset         = "mode.offset.vertical";
+    static constexpr const char* sSystemCRTHorizontalPALOffset    = "mode.offset.horizontal.pal";
+    static constexpr const char* sSystemCRTVerticalPALOffset      = "mode.offset.vertical.pal";
     static constexpr const char* sSystemCRTViewportWidth          = "viewport.width";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
 

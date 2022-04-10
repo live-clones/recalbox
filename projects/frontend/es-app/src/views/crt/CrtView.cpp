@@ -126,6 +126,12 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   {
     CrtConf::Instance().SetSystemCRTHorizontalOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset() + 1);
   }
+  // If we are in force 50HZ, then we copy the offsets to pal ones
+  if(Board::Instance().CrtBoard().MustForce50Hz())
+  {
+    CrtConf::Instance().SetSystemCRTVerticalPALOffset(CrtConf::Instance().GetSystemCRTVerticalOffset());
+    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset());
+  }
   UpdateViewport();
   return true;
 }

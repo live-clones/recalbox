@@ -511,7 +511,7 @@ bool Renderer::Initialize(int w, int h)
   if ((w * h) == 0 && !isCrt)
     GetResolutionFromConfiguration(w, h);
 
-  if (isCrt)
+  if (isCrt && (w * h) == 0)
   {
     // Es will choose its own resolution. The desktop mode cannot be trusted.
     if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
