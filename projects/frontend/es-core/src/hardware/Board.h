@@ -35,6 +35,13 @@ class Board: public StaticLifeCycleControler<Board>
     BoardType GetBoardType();
 
     /*!
+     * @brief Get memory in megabyte
+     * 0 means the memory amount is unknown
+     * @return total memory in megabyte
+     */
+    int TotalMemory();
+
+    /*!
      * @brief Check if the current board can have a CRT plugged in
      * @return True f the current board is compatible with CRT adapter, false otherwise
      */
@@ -163,6 +170,8 @@ class Board: public StaticLifeCycleControler<Board>
   private:
     //! Board type
     BoardType mType;
+    //! Board memory (Only RPi for now)
+    int mMemory;
     //! Synchronous message sender
     HardwareMessageSender mSender;
     //! Real hardware board interface implementation
@@ -205,6 +214,13 @@ class Board: public StaticLifeCycleControler<Board>
      * @return RPi model
      */
     static BoardType GetPiModel(unsigned int revision);
+
+    /*!
+     * @brief Extract RPi memory size
+     * @param revision raw revision number
+     * @return memory size en megabyte
+     */
+    static int GetPiMemory(unsigned int revision);
 
     /*!
      * @brief Get a valid instance of Crt board

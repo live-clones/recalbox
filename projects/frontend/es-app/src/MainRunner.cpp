@@ -150,6 +150,8 @@ MainRunner::ExitState MainRunner::Run()
       CheckAndInitializeInput(window);
       // Wizard
       CheckFirstTimeWizard(window);
+      // Alert
+      CheckAlert(window, systemManager);
 
       // Bios
       BiosManager biosManager;
@@ -338,6 +340,31 @@ void MainRunner::CheckAndInitializeInput(WindowManager& window)
     ViewController::Instance().goToStart();
   else
     window.pushGui(new GuiDetectDevice(window, true, [] { ViewController::Instance().goToStart(); }));
+}
+
+void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
+{
+  int memory = Board::Instance().TotalMemory();
+  int maxSystem = 10 * (memory / 256);
+  int maxGames = 5000 * (memory / 256);
+  if (memory != 0 && memory <= 512)
+  {
+    if (((int)systemManager.GetVisibleSystemList().size() > maxSystem))
+
+    {
+      std::string text = _("Your system has not enough memory to handle %SYSTEMS%. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!");
+      Strings::ReplaceAllIn(text, "%SYSTEMS%", Strings::ToString((int)systemManager.GetVisibleSystemList().size()));
+      Strings::ReplaceAllIn(text, "%MAXSYSTEMS%", Strings::ToString(maxSystem));
+      window.pushGui(new GuiMsgBoxScroll(window, _("WARNING! SYSTEM OVERLOAD!"), text, _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
+    }
+    else if (systemManager.GameCount() > maxGames)
+    {
+      std::string text = _("Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!");
+      Strings::ReplaceAllIn(text, "%GAMES%", Strings::ToString((int)systemManager.GameCount()));
+      Strings::ReplaceAllIn(text, "%MAXGAMES%", Strings::ToString(maxGames));
+      window.pushGui(new GuiMsgBoxScroll(window, _("WARNING! SYSTEM OVERLOAD!"), text, _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
+    }
+  }
 }
 
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
