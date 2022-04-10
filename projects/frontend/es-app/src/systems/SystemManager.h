@@ -364,6 +364,12 @@ class SystemManager :
     bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload, bool portableSystem);
 
     /*!
+     * @brief Get total games
+     * @return Total games
+     */
+    int GameCount();
+
+    /*!
      * @brief Get All system list, visibles + hidden
      * @return System list
      */
