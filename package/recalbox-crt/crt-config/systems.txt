@@ -51,7 +51,7 @@ n64,ntsc,15kHz,progressive,n64:ntsc:240@59.82,0,0
 n64,pal,15kHz,progressive,standard:pal:240@50,0,0
 3do,ntsc,15kHz,progressive,default:ntsc:240@60,0,0
 3do,pal,15kHz,progressive,standard:pal:240@50,0,0
-saturn,ntsc,15kHz,progressive,standard:ntsc:224@60,0,0
+saturn,ntsc,15kHz,progressive,standard:ntsc:240@60,0,0
 saturn,pal,15kHz,progressive,standard:pal:240@50,0,0
 atomiswave,all,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0
 amiga1200,all,15kHz,progressive,standard:pal:240@50,0,0
