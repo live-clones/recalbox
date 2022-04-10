@@ -203,6 +203,13 @@ class MainRunner
     static void CheckAndInitializeInput(WindowManager& window);
 
     /*!
+     * @brief Check if something must retain user's attention
+     * @param window Main window
+     * @param systemManager System Manager
+     */
+    static void CheckAlert(WindowManager& window, SystemManager& systemManager);
+
+    /*!
      * @brief Main SDL event loop w/ UI update/refresh
      * @param window Main window
      * @param systemManager System Manager

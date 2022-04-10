@@ -3319,6 +3319,7 @@ msgstr ""
 #
 msgid "WARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."
 msgstr ""
+
 #
 msgid "DISPLAY BY FILENAME"
 msgstr ""
@@ -3429,4 +3430,16 @@ msgstr ""
 
 #
 msgid "We're not able to retrieve your Patron level! Sorry for the inconvenience, we're already working on a fix!"
+msgstr ""
+
+#
+msgid "Your system has not enough memory to handle %SYSTEMS% systems. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!"
+msgstr ""
+
+#
+msgid "Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!"
+msgstr ""
+
+#
+msgid "WARNING! SYSTEM OVERLOAD!"
 msgstr ""

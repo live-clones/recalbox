@@ -66,6 +66,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 
 - Improve region processing in the internal scraper
+- Alert the user if too much systems or games are loaded regarding available memory
 - Bump EmuSCV (Super Cassette Vision)
   - Fix zipped rom handling
   - Handle multi-roms (.0 .1 ...) in a single zip file
