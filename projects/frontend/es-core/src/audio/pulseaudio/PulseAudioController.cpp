@@ -206,6 +206,8 @@ AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
     case PA_DEVICE_PORT_TYPE_VIDEO:
       return AudioIcon::Screens;
   }
+#else
+  (void)info;
 #endif
   return AudioIcon::Unidentified;
 }
