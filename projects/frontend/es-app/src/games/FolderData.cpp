@@ -453,11 +453,11 @@ int FolderData::countExcludesItemsRecursively(Filter includes, Filter excludes, 
   {
     if (fd->IsFolder())
     {
-      int subCount = CastFolder(fd)->countItemsRecursively(includes, excludes, includefolders);
+      int subCount = CastFolder(fd)->countExcludesItemsRecursively(includes, excludes, includefolders);
       result += subCount;
       if (subCount > 1)
         if (includefolders)
-          result++; // Include folders iif it contains more than one game.
+          result++; // Include folders if it contains more than one game.
     }
     else if (fd->IsGame())
     {
