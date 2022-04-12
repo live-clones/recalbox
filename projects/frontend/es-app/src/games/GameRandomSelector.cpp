@@ -36,7 +36,7 @@ void GameRandomSelector::InitializeSystems()
     if (gameCount <= 0) continue;
 
     // Get system weight
-    int weightedGameCount = (int)ceil(log((double)gameCount));
+    int weightedGameCount = (int)ceil(log((double)gameCount)) + 1;
     { LOG(LogDebug) << "[GameRandomizer] System " << system->FullName() << " added with a weight of " << weightedGameCount << " for " << gameCount << " games."; }
     // ... and copy the system as many times as it's weighted
     for(; --weightedGameCount >= 0; ) mSystemArray.Add(system);
@@ -69,15 +69,6 @@ FileData* GameRandomSelector::NextGame()
   // Get next games
   FileData* game = mGamesMap[system].NextGame();
   return game;
-}
-
-FileData* GameRandomSelector::NextGame(int& duration)
-{
-  FileData* result = NextGame();
-  if (result != nullptr)
-    duration = mGamesMap[&result->System()].Duration();
-
-  return result;
 }
 
 
