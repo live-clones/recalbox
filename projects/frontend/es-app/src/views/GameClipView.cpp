@@ -112,7 +112,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
     return;
   }
 
-  if (mState == State::NoGameSelected && mGameRandomSelector.HasValidSystems())
+  if (mState == State::NoGameSelected && !mGameRandomSelector.HasValidSystems())
   {
     mState = State::EmptyPlayList;
     updateHelpPrompts();

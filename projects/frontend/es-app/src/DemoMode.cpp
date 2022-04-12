@@ -24,16 +24,15 @@ void DemoMode::runDemo()
 {
   if (!hasDemoMode()) return;
 
-  int duration = 0;
   bool Initialized = false;
   std::string controllerConfigs;
 
   mGameSelector.Initialize();
 
   Path mustExit(MainRunner::sQuitNow);
-  for(FileData* game = mGameSelector.NextGame(duration);
+  for(FileData* game = mGameSelector.NextGame();
       game != nullptr;
-      game = mGameSelector.NextGame(duration))
+      game = mGameSelector.NextGame())
   {
     // Initialize (shutdown ES display)
     if (!Initialized)
@@ -41,6 +40,8 @@ void DemoMode::runDemo()
       controllerConfigs = GameRunner::demoInitialize();
       Initialized = true;
     }
+
+    int duration = RecalboxConf::Instance().GetSystemDemoDuration(game->System());
     // Run game
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
     if (GameRunner::DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
