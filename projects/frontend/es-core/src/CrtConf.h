@@ -24,20 +24,30 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, std::string, String, sSystemCRTResolution, "240")
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTGamesResolutionOn31kHz, std::string, String, sSystemCRTGamesResolutionOn31kHz, "")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTScanlines31kHz, bool, Bool, sSystemCRTScanlines31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, -5)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalOffset, int, Int, sSystemCRTVerticalOffset, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalPALOffset, int, Int, sSystemCRTHorizontalPALOffset, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalPALOffset, int, Int, sSystemCRTVerticalPALOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTViewportWidth, int, Int, sSystemCRTViewportWidth, 0)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
 
-  private:
+
+private:
     static constexpr const char* sSystemCRT                       = "adapter.type";
     static constexpr const char* sSystemCRTResolution             = "options.es.resolution";
     static constexpr const char* sSystemCRTGameRegionSelect       = "options.regionselect";
     static constexpr const char* sSystemCRTGameResolutionSelect   = "options.resolutionselect";
-    static constexpr const char* sSystemCRTGamesResolutionOn31kHz = "options.31khz.gameresolution";
+    static constexpr const char* sSystemCRTRunDemoIn240pOn31kHz   = "options.31khz.demo240pOn31khz";
+    static constexpr const char* sSystemCRTScanlines31kHz         = "options.31khz.scanlines";
     static constexpr const char* sSystemCRTHorizontalOffset       = "mode.offset.horizontal";
     static constexpr const char* sSystemCRTVerticalOffset         = "mode.offset.vertical";
+    static constexpr const char* sSystemCRTHorizontalPALOffset    = "mode.offset.horizontal.pal";
+    static constexpr const char* sSystemCRTVerticalPALOffset      = "mode.offset.vertical.pal";
     static constexpr const char* sSystemCRTViewportWidth          = "viewport.width";
+    static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
+
 
     static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
     static const std::string& CrtAdapterFromEnum(CrtAdapterType adapter);

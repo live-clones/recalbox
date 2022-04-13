@@ -148,6 +148,33 @@ class LibretroGenerator(Generator):
             retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
             retroarchOverrides.saveFile()
 
+    # Create zerolag configuration
+    @staticmethod
+    def createZeroLagConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
+        defaults = {
+            "video_max_swapchain_images": "3",
+            "video_hard_sync": "false",
+            "video_hard_sync_frames": "0",
+            "video_frame_delay_auto": "false",
+            "run_ahead_secondary_instance": "false",
+            "run_ahead_enabled": "false",
+            "run_ahead_frames": "1"
+        }
+        activated = {
+            "video_max_swapchain_images": "1",
+            "video_hard_sync": "true",
+            "video_hard_sync_frames": "1",
+            "video_frame_delay_auto": "true",
+            "run_ahead_secondary_instance": "false",
+            "run_ahead_enabled": "true",
+            "run_ahead_frames": "1"
+        }
+        ZeroLagSupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
+        configToSet = activated if system.ZeroLag and system.Name in ZeroLagSupportedSystems else defaults
+        for option in configToSet.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+
     # Create configuration file
     @staticmethod
     def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool,
@@ -158,7 +185,6 @@ class LibretroGenerator(Generator):
                                                                      nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
-        commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         # setup wiimotes lightgun configuration
         from configgen.generators.libretro.libretroLightGuns import libretroLightGun
@@ -169,6 +195,10 @@ class LibretroGenerator(Generator):
         if system.CRTEnabled:
             LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
                                                      retroarchOverrides)
+        # zerolag config
+        LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
+
+        commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \
                configuration.getRetroarchOverridesFileName(), \

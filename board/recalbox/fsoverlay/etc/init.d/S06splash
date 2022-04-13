@@ -11,6 +11,7 @@ INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 ARCH=$(cat /recalbox/recalbox.arch)
 INIT_SCRIPT=$(basename "$0")
 FIRSTTIMEFLAG=/overlay/.configs/firsttimevideo
+source /recalbox/scripts/recalbox-utils.sh
 
 # first boot or upgrade
 if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
@@ -30,7 +31,12 @@ customVideoPath="/overlay/bootvideos"
 firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 
 # get output video size
-fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
+
+# Low definiton devices
+if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
+   && ! isRecalboxRGBDual; then
+  LOWDEF=1
+fi
 
 ## -1 : Video will be stopped when emulationstation is ready to start.
 ##  0 : All the video will be played before emulationstation start (default)
@@ -63,7 +69,7 @@ selectVideo() {
   local videos
   local num_videos
   if isFirstTime; then
-    [ "${fbdevHeight}" -le 240 ] \
+    [ -n "${LOWDEF}" ] \
         && echo "${originalSmallVideoPath}/${firstTimeVideo}" \
         || echo "${originalVideoPath}/${firstTimeVideo}"
     return 0
@@ -72,7 +78,7 @@ selectVideo() {
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
 
   if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "recalbox" ]; then
-    [ "${fbdevHeight}" -le 240 ] && videoSearchPath+=("$originalSmallVideoPath") || videoSearchPath+=("$originalVideoPath")
+    [ -n "${LOWDEF}" ] && videoSearchPath+=("$originalSmallVideoPath") || videoSearchPath+=("$originalVideoPath")
   fi
   if [ "$whatToPlay" = "all" ] || [ "$whatToPlay" = "custom" ]; then
     videoSearchPath+=("$customVideoPath")
@@ -105,7 +111,7 @@ isFirstTime() {
 # showIntroBackground
 #   displays our intro background via the framebuffer
 showIntroBackground() {
-  if [ "${fbdevHeight}" -le 320 ] ; then
+  if [ -n "${LOWDEF}" ] ; then
     fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
   else
     fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
@@ -114,11 +120,6 @@ showIntroBackground() {
   sleep 1
 }
 
-# findConnectedConnectors
-#   returns a list of connected connectors (using mpv)
-findConnectedConnectors() {
-  grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
-}
 
 # start mpv then show the background (aka pacman screen)
 # $1 timeout
@@ -166,6 +167,9 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
+  elif isRecalboxRGBDual; then
+    # On recalbox RGB Dual we will try to get 640x480i for videos 
+    playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
   elif [[ "$ARCH" == "rpi1" ]]; then
     # on rpi1 2 and 3 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"

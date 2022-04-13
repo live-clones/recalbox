@@ -32,6 +32,7 @@ struct IconElement {
 struct MenuIconElement {
   Path kodi;
   Path system;
+  Path recalboxrgbdual;
   Path updates;
   Path games;
   Path controllers;

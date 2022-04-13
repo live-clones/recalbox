@@ -8,6 +8,22 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Recalbox RGB Dual: fix PAL game offsets
+- Recalbox RGB Dual: fix resolution on Playstation PAL games
+- Recalbox RGB Dual: fix calibration screen steps
+
+- Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
+- Recalbox RGB Dual: add recalbox rgb dual menu in main menu
+- Recalbox RGB Dual: enhance image quality in frontend
+- Recalbox RGB Dual: enhance calibration screen accuracy
+- Recalbox RGB Dual: fix option management when upgrading from 8.0.2
+- Recalbox RGB Dual: fix playstation games performance
+- Recalbox RGB Dual: fix quake 2 resolution
+- Recalbox RGB Dual: add scanlines option in menu for 480p on 31kHz
+- Recalbox RGB Dual: add game resolution option in menu for demo games
+- Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
+- Recalbox RGB Dual: fix region selection for megadrive on 31kHz
+
 - Add delete game options
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !

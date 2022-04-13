@@ -17,13 +17,16 @@
 GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
-  // If we run on Recalbox RGB Dual, we ignore the configuration
-  mOriginalDac = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
+  bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
+  // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
+  mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
   // Selected Dac
-  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(mOriginalDac == CrtAdapterType::RGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
+  mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(isRGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
-  mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mOriginalEsResolution = is31kHz ? "480p" : CrtConf::Instance().GetSystemCRTResolution();
+  mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
   if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
@@ -37,20 +40,41 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Game Resolution selection
   AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));
 
-  // 31khz resolution
-  if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
-    m31kHzResolution = AddList<std::string>(_("GAMES RESOLUTION"), (int)Components::GamesResolutionOn31kHz, this, GetGamesResolutionOn31kHzEntries(), _(MENUMESSAGE_ADVANCED_CRT_GAMES_REZ_ON_31KHZ_HELP_MSG));
+  if(is31kHz)
+  {
+    // Demo Game Resolution on 31khz
+    AddSwitch(_("RUN DEMOS IN 240P@120"), CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz(), (int)Components::DemoIn240pOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+
+    // Scanlines on 31kHz resolution
+    AddSwitch(_("SCANLINES IN 480P"), CrtConf::Instance().GetSystemCRTScanlines31kHz(), (int)Components::ScanlinesOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+  }
+
+  // Zero Lag
+  AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
+
+  // Force Jack
+  mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
+  mForceJack = mOriginalForceJack;
+  if(isRGBDual)
+    AddSwitch(_("FORCE SOUND ON JACK"), mOriginalForceJack, (int)Components::ForceJack, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG));
 
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
 
-  mOriginalEsResolution = CrtConf::Instance().GetSystemCRTResolution();
+  if(!Board::Instance().CrtBoard().MustForce50Hz())
+  {
+    // PAL offsets until when have a PAL calibration screen
+    // Only displayed when we are in 60Hz, the calibration screen set thoses values if we are in 50Hz
+    AddSlider(_("PAL HORIZONTAL OFFSET"), -30, 30, 1, CrtConf::Instance().GetSystemCRTHorizontalPALOffset(), ".0", (int)Components::HorizontalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG));
+    AddSlider(_("PAL VERTICAL OFFSET"), -10, 10, 1, CrtConf::Instance().GetSystemCRTVerticalPALOffset(), ".0", (int)Components::VerticalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG));
+  }
+
 }
 
 GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
-  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected())
+  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected() || mOriginalForceJack != mForceJack)
     RequestReboot();
 }
 
@@ -112,9 +136,15 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries()
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
+
+  if(only31kHz)
+  {
+    list.push_back({ "480p", "480p", true });
+    return list;
+  }
 
   bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
 
@@ -124,17 +154,6 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetGamesResolutionOn31kHzEntries()
-{
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
-
-  std::string selectedResolution = CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz();
-
-  list.push_back({ "480p", "480p", selectedResolution == "480" || selectedResolution.empty() });
-  list.push_back({ "240p (double freq)", "240", selectedResolution == "240" });
-
-  return list;
-}
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
 {
@@ -162,12 +181,6 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
   {
     CrtConf::Instance().SetSystemCRTResolution(value).Save();
   }
-  if ((Components)id == Components::GamesResolutionOn31kHz)
-  {
-    if(m31kHzResolution != nullptr){
-      CrtConf::Instance().SetSystemCRTGamesResolutionOn31kHz(value).Save();
-    }
-  }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
@@ -176,6 +189,17 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();
   if ((Components)id == Components::GameResolution)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
+  if ((Components)id == Components::DemoIn240pOn31kHz)
+    CrtConf::Instance().SetSystemCRTRunDemoIn240pOn31kHz(status).Save();
+  if ((Components)id == Components::ScanlinesOn31kHz)
+    CrtConf::Instance().SetSystemCRTScanlines31kHz(status).Save();
+  if ((Components)id == Components::ZeroLag)
+    RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
+  if ((Components)id == Components::ForceJack)
+  {
+    mForceJack = status;
+    CrtConf::Instance().SetSystemCRTForceJack(status).Save();
+  }
 }
 
 void GuiMenuCRT::SubMenuSelected(int id)
@@ -187,3 +211,15 @@ void GuiMenuCRT::SubMenuSelected(int id)
   }
 }
 
+
+void GuiMenuCRT::SliderMoved(int id, float value)
+{
+  if ((Components)id == Components::HorizontalPalOffset)
+  {
+    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(value).Save();
+  }
+  if ((Components)id == Components::VerticalPalOffset)
+  {
+    CrtConf::Instance().SetSystemCRTVerticalPALOffset(value).Save();
+  }
+}

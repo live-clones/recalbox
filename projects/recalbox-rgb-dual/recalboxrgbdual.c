@@ -52,7 +52,7 @@ struct dpidac {
 static struct gpiodesc {
   struct gpio_desc *gpio;
   int gpio_state;
-} dip50Hz, dip31kHz, fancontrol;
+} dip50Hz, dip31kHz;
 
 // Default modes.
 // 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
@@ -69,6 +69,21 @@ static const struct videomode p240 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
+// 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
+static const struct videomode p1920x240 = {
+    .pixelclock = 38937600,
+    .hactive = 1920,
+    .hfront_porch = 80,
+    .hsync_len = 184,
+    .hback_porch = 312,
+    .vactive = 240,
+    .vfront_porch = 1,
+    .vsync_len = 3,
+    .vback_porch = 16,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+
 // 288p@50 : 384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200
 static const struct videomode p288 = {
     .pixelclock = 7363200,
@@ -80,6 +95,20 @@ static const struct videomode p288 = {
     .vfront_porch = 3,
     .vsync_len = 2,
     .vback_porch = 19,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
+// 1920x288p@50 : 1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1
+static const struct videomode p1920x288 = {
+    .pixelclock = 39062400,
+    .hactive = 1920,
+    .hfront_porch = 80,
+    .hsync_len = 184,
+    .hback_porch = 312,
+    .vactive = 288,
+    .vfront_porch = 4,
+    .vsync_len = 3,
+    .vback_porch = 18,
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
@@ -126,37 +155,36 @@ static const struct videomode p480 = {
 };
 
 
-static void dpidac_apply_offsets(struct videomode *vm) {
-  if((int)vm->hfront_porch - configuration.hoffset >= 1){
-    vm->hfront_porch -= configuration.hoffset;
-    vm->hback_porch += configuration.hoffset;
+static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int voffset) {
+
+  hoffset *= vm->hactive / 320;
+  if((int)vm->hfront_porch - hoffset >= 1){
+    vm->hfront_porch -= hoffset;
+    vm->hback_porch += hoffset;
   } else {
     // minimum front porch = 1
     vm->hback_porch += vm->hfront_porch-1;
     vm->hfront_porch = 1;
   }
-  if((int)vm->vfront_porch - configuration.voffset >= 1) {
-    vm->vfront_porch -= configuration.voffset;
-    vm->vback_porch += configuration.voffset;
+  // Horribeul special case for 480i
+  int min_voffset = 1;
+  if(vm->pixelclock == 13054080){
+    min_voffset = 2;
+  }
+  if((int)vm->vfront_porch - voffset >= min_voffset) {
+    vm->vfront_porch -= voffset;
+    vm->vback_porch += voffset;
   } else {
-    vm->vback_porch += (vm->vfront_porch-1);
-    vm->vfront_porch = 1;
+    vm->vback_porch += (vm->vfront_porch-min_voffset);
+    vm->vfront_porch = min_voffset;
   }
-}
+  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %d - %d %d %d\n", 
+  vm->vactive, 
+  vm->vfront_porch,
+  vm->vsync_len,
+  vm->vback_porch);
 
-static void dpidac_validate_mode(struct videomode *vm) {
-  if((int)vm->hfront_porch - configuration.hoffset < 1){
-    // minimum front porch = 0
-    vm->hback_porch += vm->hfront_porch-1;
-    vm->hfront_porch = 1;
-  }
-  if((int)vm->vfront_porch - configuration.voffset < 1) {
-    // minimum front porch = 0
-    vm->vback_porch += vm->vfront_porch-1;
-    vm->vfront_porch = 1;
-  }
 }
-
 
 static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_connector *connector, const char *line) {
   int ret, hsync, vsync, interlace, ratio;
@@ -186,7 +214,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
       return NULL;
     }
 
-    dpidac_validate_mode(&vm);
+    dpidac_offset_and_validate(&vm,0,0);
     drm_display_mode_from_videomode(&vm, mode);
 
     return mode;
@@ -307,7 +335,7 @@ static inline struct dpidac *drm_connector_to_dpidac(struct drm_connector *conne
 
 
 
-static void dpidac_apply_mode(struct drm_connector *connector, const struct videomode *vm, bool preferred) {
+static void dpidac_apply_module_mode(struct drm_connector *connector, const struct videomode *vm, bool preferred) {
   struct drm_device *dev = connector->dev;
   struct drm_display_mode *mode = drm_mode_create(dev);
   struct videomode vmcopy;
@@ -323,7 +351,7 @@ static void dpidac_apply_mode(struct drm_connector *connector, const struct vide
   vmcopy.vactive = vm->vactive;
   vmcopy.vsync_len = vm->vsync_len;
 
-  dpidac_apply_offsets(&vmcopy);
+  dpidac_offset_and_validate(&vmcopy, configuration.hoffset, configuration.voffset);
   drm_display_mode_from_videomode(&vmcopy, mode);
   mode->type = DRM_MODE_TYPE_DRIVER;
   if (preferred)
@@ -343,21 +371,23 @@ static int dpidac_get_modes(struct drm_connector *connector) {
   } else {
     if (dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
-      dpidac_apply_mode(connector, &p480, true);
+      dpidac_apply_module_mode(connector, &p480, true);
       return 1;
     } else {
       if (dip50Hz.gpio_state == 0) {
         // 50hz
           printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz modes\n", i);
-          dpidac_apply_mode(connector, &p288, true);
-          dpidac_apply_mode(connector, &i576, false);
+          dpidac_apply_module_mode(connector, &p288, true);
+          dpidac_apply_module_mode(connector, &p1920x288, false);
+          dpidac_apply_module_mode(connector, &i576, false);
           return 2;
       } else {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n", i);
-          dpidac_apply_mode(connector, &p240, true);
-          dpidac_apply_mode(connector, &i480, false);
-          dpidac_apply_mode(connector, &p288, false);
-          dpidac_apply_mode(connector, &i576, false);
+          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n");
+          dpidac_apply_module_mode(connector, &p240, true);
+          dpidac_apply_module_mode(connector, &p1920x240, false);
+          dpidac_apply_module_mode(connector, &i480, false);
+          dpidac_apply_module_mode(connector, &p288, false);
+          dpidac_apply_module_mode(connector, &i576, false);
           return 4;
       }
     }
@@ -466,15 +496,6 @@ static int dpidac_probe(struct platform_device *pdev) {
 
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
 
-    /* Fan control */
-    fancontrol.gpio = devm_gpiod_get(&(pdev->dev), "fancontrol", GPIOD_OUT_LOW);
-    if (IS_ERR(fancontrol.gpio)) {
-      pr_err("Error when assigning GPIO.\n");
-    }
-    fancontrol.gpio_state = gpiod_get_value(fancontrol.gpio);
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: fancontrol: %i\n", fancontrol.gpio_state);
-    gpiod_export(fancontrol.gpio, false);
-    gpiod_export_link(&pdev->dev, "fancontrol", fancontrol.gpio);
   } else {
     dip50Hz.gpio_state = 1;
     dip31kHz.gpio_state = 1;

@@ -126,6 +126,12 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   {
     CrtConf::Instance().SetSystemCRTHorizontalOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset() + 1);
   }
+  // If we are in force 50HZ, then we copy the offsets to pal ones
+  if(Board::Instance().CrtBoard().MustForce50Hz())
+  {
+    CrtConf::Instance().SetSystemCRTVerticalPALOffset(CrtConf::Instance().GetSystemCRTVerticalOffset());
+    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset());
+  }
   UpdateViewport();
   return true;
 }
@@ -139,7 +145,8 @@ void CrtView::ReceiveSyncCallback(const SDL_Event& event)
 void CrtView::UpdateViewport() {
   // Reference
   int reference = ((Renderer::Instance().DisplayWidthAsInt()) * 1840) / 1920;
-  int hoffsetDiff = CrtConf::Instance().GetSystemCRTHorizontalOffset() - mOriginalHOffset;
+  const int hOffSetMultiplier = Renderer::Instance().DisplayWidthAsInt() / 320;
+  int hoffsetDiff = (CrtConf::Instance().GetSystemCRTHorizontalOffset() - mOriginalHOffset)*hOffSetMultiplier;
   int voffsetDiff = CrtConf::Instance().GetSystemCRTVerticalOffset() - mOriginalVOffset;
 
   mPattern.setSize((float) (reference + CrtConf::Instance().GetSystemCRTViewportWidth()), mPattern.getSize().y());
@@ -172,8 +179,8 @@ void CrtView::UpdatePosition()
 {
   static const char* modes15khz[] =
       {
-          "320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1",
-          "384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200 1",
+          "1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1",
+          "1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1",
           "640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1",
           "768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1",
       };
@@ -183,10 +190,13 @@ void CrtView::UpdatePosition()
     };
   static constexpr int sHorizontalFrontPorch = 2;
   static constexpr int sHorizontalBackPorch = 4;
+  static constexpr int sVerticalLinesActive = 5;
   static constexpr int sVerticalFrontPorch = 7;
   static constexpr int sVerticalBackPorch = 9;
+  static constexpr int sInterlaced = 14;
 
-  int hOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset();
+  const int hOffSetMultiplier = Renderer::Instance().RealDisplayWidthAsInt() / 320;
+  int hOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset() * hOffSetMultiplier;
   int vOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
 
 
@@ -208,11 +218,22 @@ void CrtView::UpdatePosition()
     {
       values(sHorizontalFrontPorch) -= hOffset;
       values(sHorizontalBackPorch) += hOffset;
+    } else {
+      values(sHorizontalBackPorch) += values(sHorizontalFrontPorch) -1;
+      values(sHorizontalFrontPorch) = 1;
     }
-    if (values[sVerticalFrontPorch] - vOffset > 0 && values[sVerticalBackPorch] + vOffset > 0)
+    int min_voffset = 1;
+    if(values[sVerticalLinesActive] == 480 && values[sInterlaced] == 1){
+      // Horribeul special case for 480i
+      min_voffset = 2;
+    }
+    if (values[sVerticalFrontPorch] - vOffset >= min_voffset && values[sVerticalBackPorch] + vOffset >= min_voffset)
     {
       values(sVerticalFrontPorch) -= vOffset;
       values(sVerticalBackPorch) += vOffset;
+    } else {
+      values(sVerticalBackPorch) += values(sVerticalFrontPorch) -min_voffset;
+      values(sVerticalFrontPorch) = min_voffset;
     }
 
     for(int i = (int)items.size(); --i >= 0; )

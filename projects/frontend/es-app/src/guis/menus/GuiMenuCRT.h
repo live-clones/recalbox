@@ -16,6 +16,7 @@ template<class T> class OptionListComponent;
 class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
                  , private IOptionListComponent<std::string>
+                 , private ISliderComponent
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -36,8 +37,13 @@ class GuiMenuCRT : public GuiMenuBase
       EsResolution,
       GameRegion,
       GameResolution,
-      GamesResolutionOn31kHz,
+      DemoIn240pOn31kHz,
+      ScanlinesOn31kHz,
+      ZeroLag,
+      ForceJack,
       Adjustment,
+      HorizontalPalOffset,
+      VerticalPalOffset,
     };
 
     //! Dac selection
@@ -46,15 +52,14 @@ class GuiMenuCRT : public GuiMenuBase
     //! Es resolution
     std::shared_ptr<OptionListComponent<std::string>> mEsResolution;
     std::string mOriginalEsResolution;
-    //! 31kHz games resolution
-    std::shared_ptr<OptionListComponent<std::string>> m31kHzResolution;
+    //! Force jack audio
+    bool mForceJack;
+    bool mOriginalForceJack;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
     //! Get resolutions
-    static std::vector<ListEntry<std::string>> GetEsResolutionEntries();
-    //! Get 31kHz resolution
-    static std::vector<ListEntry<std::string>> GetGamesResolutionOn31kHzEntries();
+    static std::vector<ListEntry<std::string>> GetEsResolutionEntries(bool only31kHz);
 
     /*!
      * @brief Get Horizontal frequency display test
@@ -79,6 +84,12 @@ class GuiMenuCRT : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const std::string & value) override;
+
+    /*
+     * IOptionListComponent<int> implementation
+     */
+
+    void SliderMoved(int id, float value) override;
 
     /*
      * ISwitchComponent implementation

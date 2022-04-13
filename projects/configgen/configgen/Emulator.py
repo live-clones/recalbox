@@ -9,7 +9,8 @@ class ExtraArguments:
     def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
                  netplay_viewerpassword:str, netplay_vieweronly:str,
                  crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
-                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto"):
+                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False,
+                 crtverticalpaloffset: int=0, crthorizontalpaloffset: int=0):
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -24,7 +25,10 @@ class ExtraArguments:
         self.crtadaptor = crtadaptor
         self.crtverticaloffset = crtverticaloffset
         self.crthorizontaloffset = crthorizontaloffset
+        self.crtverticalpaloffset = crtverticalpaloffset
+        self.crthorizontalpaloffset = crthorizontalpaloffset
         self.crtviewportwidth = crtviewportwidth
+        self.crtscanlines = crtscanlines
 
 
 class Emulator:
@@ -47,6 +51,7 @@ class Emulator:
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
         self._translate: bool = False
+        self._zerolag: bool = False
         self._translateAPIKey: str = "RECALBOX"
         self._translateURL: str = "https://ztranslate.net/service?api_key={}"
         self._translateFrom: str = "auto"
@@ -83,7 +88,10 @@ class Emulator:
         self._crtenabled: bool = False
         self._crtverticaloffset: int = 0
         self._crthorizontaloffset: int = 0
+        self._crtverticalpaloffset: int = 0
+        self._crthorizontalpaloffset: int = 0
         self._crtviewportwidth: int = 0
+        self._crtscanlines: bool = False
 
         # Computed vars
         self._netplay: bool = False
@@ -116,6 +124,7 @@ class Emulator:
         self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
         self._netplay: bool          = self.__guessBestBoolValue  (recalboxOptions, "netplay", self._netplay)
         self._translate: bool        = self.__guessBestBoolValue  (recalboxOptions, "translate", self._translate)
+        self._zerolag: bool          = self.__guessBestBoolValue  (recalboxOptions, "zerolag", self._zerolag)
         self._translateAPIKey: str   = self.__guessBestStringValue(recalboxOptions, "translate.apikey", self._translateAPIKey)
         self._translateURL: str      = self.__guessBestStringValue(recalboxOptions, "translate.url", self._translateURL)
         self._translateFrom: str     = self.__guessBestStringValue(recalboxOptions, "translate.from", self._translateFrom)
@@ -150,9 +159,12 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
-        self._crtverticaloffset =arguments.crtverticaloffset
+        self._crtverticaloffset = arguments.crtverticaloffset
         self._crthorizontaloffset = arguments.crthorizontaloffset
+        self._crtverticalpaloffset = arguments.crtverticalpaloffset
+        self._crthorizontalpaloffset = arguments.crthorizontalpaloffset
         self._crtviewportwidth = arguments.crtviewportwidth
+        self._crtscanlines = arguments.crtscanlines
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
@@ -205,6 +217,9 @@ class Emulator:
 
     @property
     def RecalboxOverlays(self) -> bool: return self._recalboxOverlays
+
+    @property
+    def ZeroLag(self) -> bool: return self._zerolag
 
     @property
     def Args(self) -> List[str]: return self._args
@@ -327,7 +342,16 @@ class Emulator:
     def CRTHorizontalOffset(self) -> int: return self._crthorizontaloffset
 
     @property
+    def CRTVerticalPalOffset(self) -> int: return self._crtverticalpaloffset
+
+    @property
+    def CRTHorizontalPalOffset(self) -> int: return self._crthorizontalpaloffset
+
+    @property
     def CRTViewportWidth(self) -> int: return self._crtviewportwidth
+
+    @property
+    def CRTScanlines(self) -> bool: return self._crtscanlines
 
     @property
     def RecalboxExperimental(self) -> bool:

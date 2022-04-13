@@ -118,7 +118,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
-  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt()));
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
@@ -219,7 +219,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", "");
-  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(GameLinkedData().Crt()));
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(GameLinkedData().Crt(), true));
 
   // Add demo stuff
   command.append(" -demo 1");
@@ -310,7 +310,7 @@ bool GameRunner::RunKodi()
   return exitCode == 0;
 }
 
-std::string GameRunner::BuildCRTOptions(const CrtData& data)
+std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
 {
   std::string result;
 
@@ -320,17 +320,24 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data)
     result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
     result.append(" -crtverticaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
     result.append(" -crthorizontaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
+    result.append(" -crtverticalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalPALOffset()));
+    result.append(" -crthorizontalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalPALOffset()));
     result.append(" -crtviewportwidth ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
 
     // Resolution type
     if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
-      // force 240p only if 240p is selected
-      if(CrtConf::Instance().GetSystemCRTGamesResolutionOn31kHz() == "240")
+      // force 240p only if game resolution select is active and 240p is selected
+      if(demo)
+        result.append(" -crtresolutiontype ").append(CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz() ? "doublefreq" : "progressive");
+      else if(CrtConf::Instance().GetSystemCRTGameResolutionSelect())
         result.append(" -crtresolutiontype ").append(data.HighResolution() ? "progressive" : "doublefreq");
       else
         result.append(" -crtresolutiontype ").append("progressive");
       result.append(" -crtvideostandard ntsc");
+      // Scanlines
+      if(CrtConf::Instance().GetSystemCRTScanlines31kHz())
+        result.append(" -crtscanlines 1");
     }
     else
     {
