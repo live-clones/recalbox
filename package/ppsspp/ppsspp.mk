@@ -5,10 +5,11 @@
 ################################################################################
 
 PPSSPP_VERSION = 8c72cc119ee2f1a65d5524276eadd4dbdd838dbb
-PPSSPP_SITE = git://github.com/hrydgard/ppsspp.git
+PPSSPP_SITE = https://github.com/hrydgard/ppsspp.git
 PPSSPP_LICENSE = GPL-2.0
 PPSSPP_LICENSE_FILES = LICENSE.TXT
 
+PPSSPP_SITE_METHOD = git
 PPSSPP_GIT_SUBMODULES=y
 PPSSPP_DEPENDENCIES = sdl2 zlib libzip zip ffmpeg snappy
 

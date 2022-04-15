@@ -5,7 +5,8 @@
 ################################################################################
 
 RGB_PI_VERSION = 637a3917ed8b3cf0c19314d9ee4ce5242837c5ae
-#RGB_PI_SITE = git://github.com/mortaca/RGB-Pi
+#RGB_PI_SITE = https://github.com/mortaca/RGB-Pi.git
+#RGB_PI_SITE_METHOD = git
 RGB_PI_SITE = $(call github,mortaca,rgb-pi,$(RGB_PI_VERSION))
 RGB_PI_LICENSE = GPL-2.0
 RGB_PI_LICENSE_FILES = LICENSE

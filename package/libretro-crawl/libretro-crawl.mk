@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_CRAWL_VERSION = cc2530f377a3a5d686d4b6a360d88b01de0fbc59
-LIBRETRO_CRAWL_SITE = git://github.com/libretro/crawl-ref.git
+LIBRETRO_CRAWL_SITE = https://github.com/libretro/crawl-ref.git
 LIBRETRO_CRAWL_DEPENDENCIES = recalbox-romfs2
 LIBRETRO_CRAWL_LICENSE = GPL-2.0+, MIT, BSD-2-clause, BSD-3-clause, Public domain, ZLIB
 LIBRETRO_CRAWL_LICENSE_FILES = crawl-ref/license.txt

@@ -6,8 +6,9 @@
 
 # commit of 31/10/2021
 PCSX_REARMED_VERSION = a4da039c0c2f0731057b26398b6729819bbdaaeb
-PCSX_REARMED_SITE = git://github.com/notaz/pcsx_rearmed.git
+PCSX_REARMED_SITE = https://github.com/notaz/pcsx_rearmed.git
 PCSX_REARMED_DEPENDENCIES = sdl libpng zlib pulseaudio libgles
+PCSX_REARMED_SITE_METHOD=git
 PCSX_REARMED_GIT_SUBMODULES = YES
 PCSX_REARMED_LICENSE = GPL-2.0
 PCSX_REARMED_LICENSE_FILES = COPYING
