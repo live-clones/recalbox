@@ -49,7 +49,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro NX Engine (Cave Story) - Lots of small bug fixes!
 - Bump Amiberry to v1.4.6 (fix some graphic glitches)
 - Bump libretro Quasi88 (Nec PC-8800)
-- Bump libretro MAMA 2003 Plus
+- Bump libretro MAME 2003 Plus
 - Bump libretro FBNeo
 - Bump libretro mGBA (based on mGBA v0.9.3)
 - Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
@@ -57,7 +57,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Beetle Saturn (add netplay support)
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
-- Bump libretro mame 0.239
+- Bump libretro mame 0.242
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 - Bump libretro fuse to v1.6.0 (ZX Spectrum core)
 - Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)

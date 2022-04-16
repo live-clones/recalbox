@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Romset 0.239
-LIBRETRO_MAME_VERSION = ec47e94c7eed598e87a6da898821b5c8024c21a5
+# Romset 0.242
+LIBRETRO_MAME_VERSION = b7dd999590717638ceade2e24d16d63147aa12ad
 LIBRETRO_MAME_SITE = $(call github,libretro,mame,$(LIBRETRO_MAME_VERSION))
 LIBRETRO_MAME_LICENSE = MAME
 LIBRETRO_MAME_NON_COMMERCIAL = y
