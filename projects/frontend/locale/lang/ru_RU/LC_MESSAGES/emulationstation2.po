@@ -226,7 +226,7 @@ msgstr "СИСТЕМНЫЕ НАСТРОЙКИ"
 msgid "VERSION"
 msgstr "ВЕРСИЯ"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "ИСПОЛЬЗОВАНИЕ ДИСКА"
 
 msgid "STORAGE DEVICE"
@@ -3193,88 +3193,22 @@ msgstr "Afficher les jeux par noms de fichier"
 msgid "SEARCH GAMES HERE"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "БЕЗОПАСНОСТЬ"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "УСИЛЕННАЯ БЕЗОПАСНОСТЬ"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ПАРОЛЬ АДМИНИСТРАТОРА"
+#
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr ""
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Управление безопасностью recalbox."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Сменить пароль root SSH."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Улучшить безопасность recalbox."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Установка поведения заставки. DIM — уменьшает яркость экрана. BLACK  — "
-#~ "полностью выключает экран."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "ВЕРСИЯ ОБНОВЛЕНИЯ:"
-
-#~ msgid "Rom found"
-#~ msgstr "Ром найден"
-
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Скопировать текущую систему на другое устройство.\n"
-#~ "Внимание! Это сотрет все данные на целевом устройстве."
-
-#~ msgid ""
-#~ "Scrapping complete! {PROCESSED} games processed.\n"
-#~ "\n"
-#~ "{SUCCESS} game(s) scraped or updated\n"
-#~ "{NOTFOUND} game(s) not found...\n"
-#~ "{ERRORS} request/download errors\n"
-#~ "\n"
-#~ "{TEXTINFO} Text information updated\n"
-#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
-#~ "{MEDIASIZE} of media saved\n"
-#~ "Now, EmulationStation is going to relaunch to update all gamelists."
-#~ msgstr ""
-#~ "Загрузка завершена! Обработано игр: {PROCESSED}\n"
-#~ "\n"
-#~ "Загружено или обновлено: {SUCCESS}\n"
-#~ "Не найдено: {NOTFOUND}\n"
-#~ "Ошибок загрузки: {ERRORS}\n"
-#~ "\n"
-#~ "Текстовой информации: {TEXTINFO}\n"
-#~ "Изображений: {IMAGES}; Видео: {VIDEOS}\n"
-#~ "Общий объём: {MEDIASIZE}\n"
-#~ "EmulationStation будет перезапущена для обновления списков игр."
-
-#~ msgid ""
-#~ "You reached your daily quota of scrapping request.\n"
-#~ "All your today's scrapes have been saved anyway.\n"
-#~ "\n"
-#~ "Start scrapping again tomorrow.\n"
-#~ "Dont forget to select 'update' and not 'scrape all'"
-#~ msgstr ""
-#~ "Вы достигли дневной квоты на загрузку данных.\n"
-#~ "Все текущие загруженные данные сохранены.\n"
-#~ "\n"
-#~ "Продолжите загрузку завтра.\n"
-#~ "Не забудьте выбрать \"обновить\" вместо \"загрузить всё\""
-
-#~ msgid "Scrapper results"
-#~ msgstr "Результаты парсера"
-
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Стратегия Реального Времени"
-
-#~ msgid "added to favorites"
-#~ msgstr "добавлено в избраное"
-
-#~ msgid "removed from favorites"
-#~ msgstr "удалено из избраного"
+#
+msgid "Please select one or more systems to scrape!"
+msgstr ""

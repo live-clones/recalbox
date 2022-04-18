@@ -201,7 +201,7 @@ msgstr "SISTEMAREN KONFIGURAZIOA"
 msgid "VERSION"
 msgstr "BERTSIOA"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "DISKO ERABILERA"
 
 msgid "STORAGE DEVICE"
@@ -2955,6 +2955,26 @@ msgstr "Afficher les jeux par noms de fichier"
 
 #
 msgid "SEARCH GAMES HERE"
+msgstr ""
+
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
+
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
+
+#
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr ""
+
+#
+msgid "Please select one or more systems to scrape!"
 msgstr ""
 
 #~ msgid "SECURITY"

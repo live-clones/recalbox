@@ -19,6 +19,8 @@ public:
 	TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                 Vector3f pos, Vector2f size, unsigned int bgcolor);
 
+  ~TextComponent() override = default;
+
 	void setFont(const std::shared_ptr<Font>& font);
 	void setUppercase(bool uppercase);
 	void onSizeChanged() override;
@@ -68,4 +70,5 @@ private:
 	bool mUppercase;
 	bool mAutoCalcExtentX;
   bool mAutoCalcExtentY;
+  bool mClipped;
 };

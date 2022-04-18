@@ -11,29 +11,28 @@
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuNetwork.h"
 #include "GuiMenuScreenScraperOptions.h"
+#include <emulators/run/GameRunner.h>
 
 GuiMenuScraper::GuiMenuScraper(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("SCRAPER"), this),
   mSystemManager(systemManager)
 {
-  mScrapers = AddList<ScraperFactory::ScraperType>(_("SCRAPE FROM"), (int)Components::Scraper, nullptr, GetScrapersEntries(), _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
+  mScrapers = AddList<ScraperType>(_("SCRAPE FROM"), (int)Components::Scraper, this, GetScrapersEntries(), _(MENUMESSAGE_SCRAPER_FROM_HELP_MSG));
   AddSubMenu(_("SCRAPER OPTIONS"), (int)Components::ScraperOptions);
-  mScrapeNameOptions  = AddList<ScraperNameOptions>(_("GET GAME NAME FROM"), (int)Components::ScrapeNameFrom, this,
-                                                    GetNameOptionsEntries(), _(MENUMESSAGE_SCRAPER_GET_NAME_FROM_HELP_MSG));
-  mScrapingMethod = AddList<ScrappingMethod>(_("FILTER"), (int)Components::ScrapingMethod, nullptr, GetScrapingMethods(), "");
+  AddList<ScraperNameOptions>(_("GET GAME NAME FROM"), (int)Components::ScrapeNameFrom, this,
+                              GetNameOptionsEntries(), _(MENUMESSAGE_SCRAPER_GET_NAME_FROM_HELP_MSG));
+  mScrapingMethod = AddList<ScrapingMethod>(_("FILTER"), (int)Components::ScrapingMethod, nullptr, GetScrapingMethods(), "");
   mSystems = AddMultiList<SystemData*>(_("SYSTEMS"), (int)Components::Systems, nullptr, GetSystemsEntries(), "");
 
   // Buttons
-  mMenu.addButton(_("SCRAPE NOW"), "start", [this] { pressedStart();});
+  mMenu.addButton(_("SCRAPE NOW"), "start", [this] { start(); });
 }
 
-std::vector<GuiMenuBase::ListEntry<ScraperFactory::ScraperType>> GuiMenuScraper::GetScrapersEntries()
+std::vector<GuiMenuBase::ListEntry<ScraperType>> GuiMenuScraper::GetScrapersEntries()
 {
-  std::vector<ListEntry<ScraperFactory::ScraperType>> list;
-  for(std::basic_string<char> scraper : ScraperFactory::GetScraperList())
-  {
-    list.push_back({ scraper, ScraperFactory::ScraperType::ScreenScraper, true });
-  }
+  std::vector<ListEntry<ScraperType>> list;
+  for(const auto& kv : ScraperFactory::GetScraperList())
+    list.push_back({ kv.second, kv.first, kv.first == RecalboxConf::Instance().GetScraperSource() });
   return list;
 }
 
@@ -49,11 +48,11 @@ std::vector<GuiMenuBase::ListEntry<ScraperNameOptions>> GuiMenuScraper::GetNameO
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<ScrappingMethod>> GuiMenuScraper::GetScrapingMethods()
+std::vector<GuiMenuBase::ListEntry<ScrapingMethod>> GuiMenuScraper::GetScrapingMethods()
 {
-  std::vector<ListEntry<ScrappingMethod>> list;
-  list.push_back({ _("All Games"), ScrappingMethod::All, false });
-  list.push_back({ _("Only missing image"), ScrappingMethod::IncompleteKeep, true });
+  std::vector<ListEntry<ScrapingMethod>> list;
+  list.push_back({ _("All Games"), ScrapingMethod::All, false });
+  list.push_back({ _("Only missing image"), ScrapingMethod::AllIfNoithingExists, true });
   return list;
 }
 
@@ -70,45 +69,40 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   return list;
 }
 
+void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperType& value)
+{
+  (void)index;
+  if ((Components)id == Components::Scraper)
+    RecalboxConf::Instance().SetScraperSource(value).Save();
+}
+
 void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperNameOptions & value)
 {
   (void)index;
   if ((Components)id == Components::ScrapeNameFrom)
-    RecalboxConf::Instance().SetScraperNameOptions(value);
+    RecalboxConf::Instance().SetScraperNameOptions(value).Save();
 }
 
 void GuiMenuScraper::SubMenuSelected(int id)
 {
   if ((Components)id == Components::ScraperOptions)
-  switch (mScrapers->getSelected())
-  {
-    case ScraperFactory::ScraperType::TheGameDB:
-    case ScraperFactory::ScraperType::ScreenScraper:
-        mWindow.pushGui(new GuiMenuScreenScraperOptions(mWindow, mSystemManager)); break;
-  }
-}
-
-void GuiMenuScraper::pressedStart()
-{
-    for (auto& system : mSystems->getSelectedObjects())
+    switch (mScrapers->getSelected())
     {
-      if (!system->HasPlatform())
-      {
-        mWindow.pushGui(new GuiMsgBox(mWindow,
-                                      _("WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\nCONTINUE ANYWAY?"),
-                                      _("YES"), std::bind(&GuiMenuScraper::start, this), _("NO"),
-                                      nullptr));
-        return;
-      }
+      case ScraperType::TheGameDB:
+      case ScraperType::Recalbox:
+      case ScraperType::ScreenScraper:
+          mWindow.pushGui(new GuiMenuScreenScraperOptions(mWindow, mSystemManager, RecalboxConf::Instance().GetScraperSource())); break;
     }
-    start();
 }
 
 void GuiMenuScraper::start()
 {
-  GuiScraperRun* gsm = new GuiScraperRun(mWindow, mSystemManager, mSystems->getSelectedObjects(),
-
-                                         mScrapingMethod->getSelected());
-  mWindow.pushGui(gsm);
-  Close();
+  if (mSystems->getSelectedObjects().empty())
+  {
+    std::string text = _("Please select one or more systems to scrape!");
+    GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), nullptr);
+    mWindow.pushGui(msgBox);
+  }
+  else
+    GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected(), &GameRunner::Instance());
 }

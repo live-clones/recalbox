@@ -6,25 +6,30 @@
 //
 
 #include "GuiMenuSystem.h"
+#include <guis/menus/GuiMenuDiskUsage.h>
 #include <guis/MenuMessages.h>
 #include <components/OptionListComponent.h>
 #include <components/SwitchComponent.h>
+#include <systems/SystemManager.h>
 #include <Upgrade.h>
 #include <utils/Files.h>
 #include <recalbox/RecalboxSystem.h>
-#include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
 
-GuiMenuSystem::GuiMenuSystem(WindowManager& window)
-  : GuiMenuBase(window, _("SYSTEM SETTINGS"), nullptr)
+GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager)
+  : GuiMenuBase(window, _("SYSTEM SETTINGS"), this)
+  , mSystemManager(systemManager)
 {
   // Version
   std::string version = Upgrade::CurrentVersion();
   mVersion = AddText(_("VERSION"), version, _(MENUMESSAGE_VERSION_HELP_MSG));
 
   // Share space
-  mFreeSpace = AddText(_("DISK USAGE"), RecalboxSystem::getFreeSpaceInfo(),
-                       RecalboxSystem::isFreeSpaceLimit() ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
+  MountMonitor::DeviceMountReferences mounts = systemManager.GetMountMonitor().AllMountPoints();
+  if (mounts.size() == 1)
+    AddText(_("DISK USAGE (FREE/TOTAL)"), mounts[0]->DisplayableFreeSpace(), RecalboxSystem::isFreeSpaceLimit() ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
+  else
+    AddSubMenu(_("DISK USAGE (FREE/TOTAL)"), (int)Components::DiskUsage);
 
   // Storage device
   mStorages = AddList<StorageDevices::Device>(_("STORAGE DEVICE"), (int)Components::Storage, this, GetStorageEntries(), _(MENUMESSAGE_STORAGE_DEVICE_HELP_MSG));
@@ -55,7 +60,16 @@ std::vector<GuiMenuBase::ListEntry<StorageDevices::Device>> GuiMenuSystem::GetSt
 
   mOriginalStorage = mStorageDevices.GetStorageDevice();
   for(const StorageDevices::Device& device : mStorageDevices.GetStorageDevices())
-    list.push_back({ device.DisplayName, device, device.Current });
+  {
+    std::string display = device.DisplayName;
+    if (device.Size != 0)
+      display.append(" (Free ")
+             .append(device.HumanFree())
+             .append(1, '/')
+             .append(device.HumanSize())
+             .append(1, ')');
+    list.push_back({ display, device, device.Current });
+  }
 
   return list;
 }
@@ -112,6 +126,7 @@ void GuiMenuSystem::OptionListComponentChanged(int id, int index, const std::str
   (void)index;
   switch((Components)id)
   {
+    case Components::DiskUsage:
     case Components::Storage: break;
     case Components::Culture: RecalboxConf::Instance().SetSystemLanguage(value).Save(); break;
     case Components::Keyboard: RecalboxConf::Instance().SetSystemKbLayout(value).Save(); break;
@@ -124,8 +139,15 @@ void GuiMenuSystem::OptionListComponentChanged(int id, int index, const StorageD
   switch((Components)id)
   {
     case Components::Storage: mStorageDevices.SetStorageDevice(value); break;
+    case Components::DiskUsage:
     case Components::Culture:
     case Components::Keyboard: break;
   }
+}
+
+void GuiMenuSystem::SubMenuSelected(int id)
+{
+  if ((Components)id == Components::DiskUsage)
+    mWindow.pushGui(new GuiMenuDiskUsage(mWindow, mSystemManager.GetMountMonitor()));
 }
 

@@ -20,6 +20,8 @@ public:
   {
   }
 
+  virtual ~ImageComponent() = default;
+
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
   void setImage(const Path& path, bool tile = false);
   Path getImage() const { return mPath; };
@@ -69,7 +71,20 @@ public:
 	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
 
   bool getHelpPrompts(Help& help) override;
-private:
+
+  /*!
+   * @brief Set component visibility
+   * @param enabled True (default) to render the component, false to hide it
+   */
+  void SetVisible(bool visible) { mVisible = visible; }
+
+  /*!
+   * @brief Set component visibility
+   * @param enabled True (default) to render the component, false to hide it
+   */
+  bool Visible() const { return mVisible; }
+
+  private:
 	Vector2f mTargetSize;
 
 	Path mPath;
@@ -93,12 +108,13 @@ private:
 
 	unsigned int mColorShift;
 	unsigned int mOriginColor;
-	bool mColorNotSet;
 
 	std::shared_ptr<TextureResource> mTexture;
 	unsigned char mFadeOpacity;
+  bool mColorNotSet;
 	bool mFading;
 	bool mForceLoad;
 	bool mDynamic;
+  bool mVisible;
 };
 

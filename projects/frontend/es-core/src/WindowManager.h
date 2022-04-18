@@ -7,7 +7,7 @@
 #include <resources/Font.h>
 #include <input/InputManager.h>
 
-class GuiInfoPopup;
+class GuiInfoPopupBase;
 
 class WindowManager
 {
@@ -23,6 +23,8 @@ class WindowManager
     ~WindowManager();
 
     void pushGui(Gui* gui);
+
+    void RemoveGui(Gui* gui);
 
     void displayMessage(const std::string& message, bool urgent = true);
 
@@ -61,9 +63,25 @@ class WindowManager
 
     /*!
      * @brief Add new popup to dysplay list
-     * @param infoPopup Popup to add to displayu list
+     * @param infoPopup Popup to add to display list
+     * @param first Force popup to take the first place
+     *
      */
-    void InfoPopupAdd(GuiInfoPopup* infoPopup);
+    void InfoPopupAdd(GuiInfoPopupBase* infoPopup, bool first = false);
+
+    /*!
+     * @brief Remove the info popup at the given index and restack
+     * the whole list so that there no hole
+     * @param infoPopup popup to remove
+     */
+    void InfoPopupRemove(GuiInfoPopupBase* infoPopup);
+
+    /*!
+     * @brief Check if the given popup is on screen
+     * @param infoPopup popup to remove
+     * @result True if the popup is on screen
+     */
+    bool InfoPopupIsShown(GuiInfoPopupBase* infoPopup);
 
     /*!
      * @brief Close all gui
@@ -110,7 +128,7 @@ class WindowManager
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
-    Array<GuiInfoPopup*> mInfoPopups;
+    Array<GuiInfoPopupBase*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;
     Strings::Vector mMessages;

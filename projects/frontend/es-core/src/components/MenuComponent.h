@@ -1,15 +1,16 @@
 #pragma once
 
-#include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <utils/Strings.h>
-#include "components/NinePatchComponent.h"
-#include "components/ComponentList.h"
-#include "components/TextComponent.h"
-#include "components/ComponentGrid.h"
-#include "WindowManager.h"
-#include "themes/MenuThemeData.h"
-#include "guis/GuiMsgBoxScroll.h"
-#include "DateTimeComponent.h"
+#include <components/NinePatchComponent.h>
+#include <components/ComponentList.h>
+#include <components/TextComponent.h>
+#include <components/ComponentGrid.h>
+#include <WindowManager.h>
+#include <themes/MenuThemeData.h>
+#include <guis/GuiMsgBoxScroll.h>
+#include <components/DateTimeComponent.h>
+#include <guis/GuiInfoPopup.h>
 
 class ButtonComponent;
 class ImageComponent;
@@ -36,7 +37,7 @@ class MenuComponent : public Component
       return [this, label, help] () {
         int dur = RecalboxConf::Instance().GetPopupHelp();
         if (dur != 0)
-          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopup::PopupType::Help));
+          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopupBase::PopupType::Help));
         return true;
       };
     }

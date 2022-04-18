@@ -11,13 +11,13 @@
 #include "guis/menus/GuiMenuGameAdvanceLaunch.h"
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
-  : IGameListView(window, system),
-    mSystemManager(systemManager),
-    mHeaderText(window),
-    mHeaderImage(window),
-    mBackground(window),
-    mThemeExtras(window),
-    mVerticalMove(false)
+  : IGameListView(window, system)
+  , mSystemManager(systemManager)
+  , mHeaderText(window)
+  , mHeaderImage(window)
+  , mBackground(window)
+  , mThemeExtras(window)
+  , mVerticalMove(false)
 {
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
@@ -124,14 +124,15 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   }
 
   int cursor = getCursorIndex();
-  if (RecalboxConf::Instance().AsBool(mSystem.Name() + ".flatfolder")) populateList(mSystem.MasterRoot());
+  if (RecalboxConf::Instance().GetSystemFlatFolders(mSystem)) populateList(mSystem.MasterRoot());
   else refreshList();
 
   setCursorIndex(cursor);
   updateInfoPanel();
 }
 
-bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
+bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
+{
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 
   // RUN GAME or ENTER FOLDER
@@ -206,7 +207,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->DisplayName(), popupDuration,
-                                            GuiInfoPopup::PopupType::None));
+                                            GuiInfoPopupBase::PopupType::None));
 
       // Reload to refresh the favorite icon
       int cursorPlace = getCursorIndex();

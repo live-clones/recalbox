@@ -6,6 +6,9 @@
 #include <utils/os/system/Signal.h>
 #include <utils/Files.h>
 
+// Forward declaration
+class WindowManager;
+
 class Upgrade: private Thread, private ISynchronousEvent
 {
   public:

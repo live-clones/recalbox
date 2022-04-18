@@ -6,13 +6,16 @@
 //
 
 #include <fcntl.h>
-#include <systems/MountMonitor.h>
-#include <utils/Log.h>
+#include "MountMonitor.h"
+#include "utils/Log.h"
 #include <sys/poll.h>
 #include "utils/Files.h"
+#include <blkid/blkid.h>
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   : mEvent(this)
+  , mShareMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
+  , mShareRomsMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mPendingMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mInterface(interface)
 {
@@ -71,28 +74,40 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
     // Physical USB device?
     if (device.StartWidth(std::string(LEGACY_STRING("/dev/")))) // starting with /dev/
     {
-      if (mountPoint == sSharePath) continue;                   // Don't store real share
-      #ifndef DEBUG
-      if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
-      #endif
-      result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
-      { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+      if (mountPoint == sSharePath)
+      {
+        mShareMountPoint = DeviceMount(device, mountPoint, "Share", type, options); // so store it in the list
+        { LOG(LogDebug) << "[MountMonitor] share: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+      }
+      else
+      {
+        #ifndef DEBUG
+        if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
+        #endif
+        result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
+        { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+      }
     }
     // Network?
     if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
+    {
       if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
       {
-        result.push_back(
-          DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+        result.push_back(DeviceMount(device, mountPoint, "Network " + type, type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
+      else if (mountPoint.StartWidth(sShareRomsPath))
+      {
+        mShareRomsMountPoint = DeviceMount(device, mountPoint, "Share's Roms", type, options); // so store it in the list
+        { LOG(LogDebug) << "[MountMonitor] share/roms: " << device.ToString() << " mounted to " << mountPoint.ToString();  }
+      }
+    }
   }
 
   // Final result
   return result;
 }
 
-#include <blkid/blkid.h>
 std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
 {
   blkid_probe pr = blkid_new_probe_from_filename(devicePath.ToChars());
@@ -156,4 +171,37 @@ void MountMonitor::Process(DeviceMountList& oldList, const DeviceMountList& newL
     mPendingMountPoint = mp;
     mEvent.Call((int)Action::Mount);
   }
+}
+
+const DeviceMount* MountMonitor::SizeOf(const Path& path)
+{
+  // In mount point list?
+  for(DeviceMount& device : mMountPoints)
+    if (!device.MountPoint().IsEmpty())
+      if (path.StartWidth(device.MountPoint()))
+        return &device.UpdateSize();
+  // Share/roms?
+  if (!mShareRomsMountPoint.MountPoint().IsEmpty())
+    if (path.StartWidth(mShareRomsMountPoint.MountPoint()))
+      return &mShareRomsMountPoint.UpdateSize();
+  // Share?
+  if (!mShareMountPoint.MountPoint().IsEmpty())
+    if (path.StartWidth(mShareMountPoint.MountPoint()))
+      return &mShareMountPoint.UpdateSize();
+  // Nothing...
+  return nullptr;
+}
+
+MountMonitor::DeviceMountReferences MountMonitor::AllMountPoints()
+{
+  DeviceMountReferences references;
+  // Add share
+  references.push_back(&mShareMountPoint);
+  // Add rom mount point
+  if (!mShareRomsMountPoint.MountPoint().IsEmpty())
+    references.push_back(&mShareRomsMountPoint);
+  // Add all mountpoints
+  for(DeviceMount& device : mMountPoints)
+    references.push_back(&device.UpdateSize());
+  return references;
 }

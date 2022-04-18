@@ -2,103 +2,69 @@
 // Created by bkg2k on 07/12/2019.
 //
 
-#include <EmulationStation.h>
 #include <utils/Strings.h>
 #include <utils/os/system/Thread.h>
 #include "ScreenScraperApis.h"
 #include <utils/Log.h>
 #include <games/classifications/Regions.h>
 #include <scraping/ScraperFactory.h>
+#include <scraping/ScraperSeamless.h>
 
-std::string ScreenScraperApis::BuildUrlCommon(ScreenScraperApis::Api api)
+ScreenScraperUser ScreenScraperApis::GetUserInformation()
 {
-  // Url
-  std::string result("https://www.screenscraper.fr/api2/");
-  // Api
-  switch(api)
-  {
-    case Api::UserInfo: result.append("ssuserInfos.php?"); break;
-    case Api::GameInfo: result.append("jeuInfos.php?"); break;
-  }
-  // Format
-  result.append("output=json");
-  // Dev
-  result.append("&devid=").append(XOrTheSpaceSheriff(API_DEV_U, API_DEV_K));
-  result.append("&devpassword=").append(XOrTheSpaceSheriff(API_DEV_P, API_DEV_K));
-  // Software
-  result.append("&softname=").append(Strings::URLEncode("Emulationstation-Recalbox-" + Strings::Trim(PROGRAM_VERSION_STRING)));
-  // Credentials
-  result.append("&ssid=").append(mConfiguration.GetLogin());
-  result.append("&sspassword=").append(mConfiguration.GetPassword());
+  ScreenScraperUser user;
 
-  return result;
-}
-
-std::string ScreenScraperApis::BuildUrlGameInfo(int system, const Path& path, const std::string& crc32,
-                                                const std::string& md5, long long size)
-{
-  // Build the common part
-  std::string result(BuildUrlCommon(Api::GameInfo));
-
-  // Add gameinfo properties
-  result.append("&romtype=rom");
-  result.append("&systemeid=").append(Strings::ToString(system));
-  result.append("&romnom=").append(Strings::URLEncode(path.Filename()));
-  result.append("&romtaille=").append(Strings::ToString(size));
-  if (!crc32.empty())
-    result.append("&crc=").append(crc32);
-  if (!md5.empty())
-    result.append("&md5=").append(md5);
-
-  return result;
-}
-
-ScreenScraperApis::User ScreenScraperApis::GetUserInformation()
-{
-  User user {};
+  InitializeClient();
   std::string output;
-  if (mClient.Execute(BuildUrlCommon(Api::UserInfo), output))
+  if (mClient.Execute(mEndPointProvider.GetUserInfoUrl(mConfiguration.GetLogin(), mConfiguration.GetPassword()), output))
   {
-    { LOG(LogDebug) << "[ScreenScraper] GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode() << "\n" << output; }
+    { LOG(LogDebug) << "[ScreenScraperApis] GetUserInfo: HTTP Result code = " << mClient.GetLastHttpResponseCode() << "\n" << output; }
 
     rapidjson::Document json;
     json.Parse(output.c_str());
-    if (!json.HasParseError())
-      if (json.HasMember("response"))
+    if (!json.HasParseError() && json.HasMember("response"))
+    {
+      const rapidjson::Value& response = json["response"];
+      if (response.HasMember("ssuser"))
       {
-        const rapidjson::Value& response = json["response"];
-        if (response.HasMember("ssuser"))
-        {
-          const rapidjson::Value& ssuser = response["ssuser"];
-          if (ssuser.HasMember("maxthreads"))
-            if (!Strings::ToInt(ssuser["maxthreads"].GetString(), user.mThreads)) user.mThreads = 1;
-          if (ssuser.HasMember("requeststoday"))
-            if (!Strings::ToInt(ssuser["requeststoday"].GetString(), user.mRequestDone)) user.mRequestDone = 0;
-          if (ssuser.HasMember("maxrequestspermin"))
-            if (!Strings::ToInt(ssuser["maxrequestspermin"].GetString(), user.mMaxRatePerMin)) user.mMaxRatePerMin = 0;
-          if (ssuser.HasMember("maxrequestsperday"))
-            if (!Strings::ToInt(ssuser["maxrequestsperday"].GetString(), user.mMaxRatePerDay)) user.mMaxRatePerDay = 0;
-          if (ssuser.HasMember("favregion")) ssuser["favregion"].GetString();
-        }
+        const rapidjson::Value& ssuser = response["ssuser"];
+        user.mThreads = 1;
+        user.mRequestDone = 0;
+        user.mMaxRatePerMin = 0;
+        user.mMaxRatePerDay = 0;
+        if (ssuser.HasMember("maxthreads")) Strings::ToInt(ssuser["maxthreads"].GetString(), user.mThreads);
+        if (ssuser.HasMember("requeststoday")) Strings::ToInt(ssuser["requeststoday"].GetString(), user.mRequestDone);
+        if (ssuser.HasMember("maxrequestspermin")) Strings::ToInt(ssuser["maxrequestspermin"].GetString(), user.mMaxRatePerMin);
+        if (ssuser.HasMember("maxrequestsperday")) Strings::ToInt(ssuser["maxrequestsperday"].GetString(), user.mMaxRatePerDay);
+        if (ssuser.HasMember("favregion")) ssuser["favregion"].GetString();
       }
+    }
   }
   return user;
 }
 
 ScreenScraperApis::Game
-ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::string& crc32, const std::string& md5, long long size)
+ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& crc32, const std::string& md5, long long size)
 {
   Game game {};
   // 3 retry max
+  InitializeClient();
   for(int i = 3; --i >= 0; )
   {
+    std::string url;
+    if (mEndPointProvider.RequireSeparateRequests())
+      url = md5.empty() ?
+            mEndPointProvider.GetGameInfoUrlByName(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, md5, size) :
+            mEndPointProvider.GetGameInfoUrlByMD5(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, md5, size);
+    else
+      url = mEndPointProvider.GetGameInfoUrl(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, crc32, md5, size);
     std::string output;
-    std::string url(BuildUrlGameInfo(system, path, crc32, md5, size));
     if (mClient.Execute(url, output))
     {
       switch(mClient.GetLastHttpResponseCode())
       {
         case   0:
+        case 500: LOG(LogError) << "[ScreenScraperApis] Server error 500, retrying..."; Thread::Sleep(5000); continue;
         case 429: Thread::Sleep(5000); continue;
         case 426:
         case 423:
@@ -111,196 +77,202 @@ ScreenScraperApis::GetGameInformation(int system, const Path& path, const std::s
         case 200: game.mResult = ScrapeResult::Ok; break;
         default:
         {
-          { LOG(LogError) << "[ScreenScraper] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
+          { LOG(LogError) << "[ScreenScraperApis] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
           game.mResult = ScrapeResult::FatalError;
           break;
         }
       }
       // Error?
-      if (game.mResult != ScrapeResult::Ok)
-      {
-        { LOG(LogError) << "[ScreenScraper] Media URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
-        break;
-      }
-      if (output.empty())
-      {
-        { LOG(LogError) << "[ScreenScraper] Empty response, retrying..."; }
-        continue;
-      }
-
-      // Deserialize
-      DeserializeGameInformation(output, game, path);
-      break;
+      if (game.mResult != ScrapeResult::Ok) { LOG(LogError) << "[ScreenScraperApis] URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
     }
-    else { LOG(LogError) << "[ScreenScraper] Error executing HTTP request onto " << url; }
+    else { LOG(LogError) << "[ScreenScraperApis] Error executing HTTP request #1 onto " << url; }
+
+    // Deserialize
+    if (!output.empty()) DeserializeGameInformationOuter(output, game, file.FilePath());
+    break;
   }
   return game;
 }
 
-void ScreenScraperApis::DeserializeGameInformation(const std::string& jsonstring, ScreenScraperApis::Game& game, Path path)
+void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& json, ScreenScraperApis::Game& game, const Path& path)
 {
   Regions::GameRegions romRegion = Regions::GameRegions::Unknown;
+  // Rom infos
+  if (json.HasMember("rom"))
+  {
+    const rapidjson::Value& rom = json["rom"];
+    if (rom.HasMember("romregions"))
+    {
+      romRegion = Regions::DeserializeRegion(rom["romregions"].GetString());
+    }
+    if (rom.HasMember("romcrc"))
+      game.mCrc = rom["romcrc"].GetString();
+  }
+  std::string requiredRegion = ScreenScraperApis::GetRequiredRegion(romRegion, path,
+                                                                    mConfiguration.GetFavoriteRegion());
+  game.mRegion = requiredRegion;
+  const std::string language = LanguagesTools::SerializeLanguage(mConfiguration.GetFavoriteLanguage());
+
+  // Deserialize text data
+  if (json.HasMember("noms"))
+  {
+    game.mName = ExtractRegionalizedText(json["noms"], requiredRegion);
+    game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(json["noms"], "ss"));
+  }
+  if (json.HasMember("synopsis"))
+  {
+    game.mSynopsis = ExtractLocalizedText(json["synopsis"], language);
+    DecodeString(game.mSynopsis);
+  }
+  if (json.HasMember("editeur"))
+    game.mPublisher = json["editeur"]["text"].GetString();
+  if (json.HasMember("developpeur"))
+    game.mDeveloper = json["developpeur"]["text"].GetString();
+  if (json.HasMember("joueurs"))
+    game.mPlayers = json["joueurs"]["text"].GetString();
+  if (json.HasMember("dates"))
+  {
+    std::string dateTime = ExtractRegionalizedText(json["dates"], requiredRegion);
+    if (!DateTime::ParseFromString("%yyyy-%MM-%dd", dateTime, game.mReleaseDate))
+      if (!DateTime::ParseFromString("%yyyy-%MM", dateTime, game.mReleaseDate))
+        DateTime::ParseFromString("%yyyy", dateTime, game.mReleaseDate);
+  }
+  if (json.HasMember("genres"))
+  {
+    game.mGenre = ExtractLocalizedGenre(json["genres"], language);
+    game.mGenreId = ExtractNormalizedGenre(json["genres"]);
+    game.mAdult = ExtractAdultState(json["genres"]);
+  }
+  if (json.HasMember("sp2kcfg"))
+  {
+    game.mP2k = json["sp2kcfg"].GetString();
+  }
+  if (json.HasMember("note"))
+  {
+    int rating = 0;
+    game.mRating = (float) (Strings::ToInt(json["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
+  }
+
+  // Deserialize media url
+  if (json.HasMember("medias"))
+  {
+    const rapidjson::Value& medias = json["medias"];
+
+    // Image
+    const char* type  = "mixrbv1"; // default to screenshot
+    const char* type2 = nullptr;   // No default type2
+    switch (mConfiguration.GetImageType())
+    {
+      case ScreenScraperEnums::ScreenScraperImageType::None: break;
+      case ScreenScraperEnums::ScreenScraperImageType::ScreenshotIngame: type = "ss"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Box2d: type = "box-2D"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Box3d: type = "box-3D"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::MixV2: type = "mixrbv2"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Marquee: type = "screenmarqueesmall"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Unknown:
+      case ScreenScraperEnums::ScreenScraperImageType::MixV1: type = "mixrbv1"; break;
+    }
+    if (mConfiguration.GetImageType() != ScreenScraperEnums::ScreenScraperImageType::None)
+    {
+      game.MediaSources.mImage.mUrl = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mImage.mFormat, game.MediaSources.mImage.mSize, game.MediaSources.mImage.mMd5);
+      if (game.MediaSources.mImage.mUrl.empty() && type2 != nullptr)
+        game.MediaSources.mImage.mUrl = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mImage.mFormat, game.MediaSources.mImage.mSize, game.MediaSources.mImage.mMd5);
+    }
+
+    // Thumbnail
+    type  = "box-2D"; // default to screenshot
+    type2 = nullptr;   // No default type2
+    switch (mConfiguration.GetThumbnailType())
+    {
+      case ScreenScraperEnums::ScreenScraperImageType::None: break;
+      case ScreenScraperEnums::ScreenScraperImageType::ScreenshotIngame: type = "ss"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Box2d: type = "box-2D"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Box3d: type = "box-3D"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::MixV1: type = "mixrbv1"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::MixV2: type = "mixrbv2"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Marquee: type = "screenmarqueesmall"; break;
+      case ScreenScraperEnums::ScreenScraperImageType::Unknown: type = "none"; break;
+    }
+    if (mConfiguration.GetThumbnailType() != ScreenScraperEnums::ScreenScraperImageType::None)
+    {
+      game.MediaSources.mThumbnail.mUrl = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mThumbnail.mFormat, game.MediaSources.mThumbnail.mSize, game.MediaSources.mThumbnail.mMd5);
+      if (game.MediaSources.mThumbnail.mUrl.empty() && type2 != nullptr)
+        game.MediaSources.mThumbnail.mUrl = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mThumbnail.mFormat, game.MediaSources.mThumbnail.mSize, game.MediaSources.mThumbnail.mMd5);
+    }
+
+    // Video
+    type = nullptr;
+    type2 = nullptr;
+    switch (mConfiguration.GetVideo())
+    {
+      case ScreenScraperEnums::ScreenScraperVideoType::None: break;
+      case ScreenScraperEnums::ScreenScraperVideoType::Raw: type = "video"; break;
+      case ScreenScraperEnums::ScreenScraperVideoType::Optimized: type = "video-normalized"; type2 = "video"; break;
+    }
+    if (mConfiguration.GetVideo() != ScreenScraperEnums::ScreenScraperVideoType::None)
+    {
+      game.MediaSources.mVideo.mUrl = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideo.mFormat, game.MediaSources.mVideo.mSize, game.MediaSources.mVideo.mMd5);
+      if (game.MediaSources.mVideo.mUrl.empty() && type2 != nullptr)
+        game.MediaSources.mVideo.mUrl = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideo.mFormat, game.MediaSources.mVideo.mSize, game.MediaSources.mVideo.mMd5);
+    }
+
+    // Marquee
+    if (mConfiguration.GetWantMarquee())
+    {
+      game.MediaSources.mMarquee.mUrl = ExtractMedia(medias, "screenmarquee", requiredRegion, game.MediaSources.mMarquee.mFormat, game.MediaSources.mMarquee.mSize, game.MediaSources.mMarquee.mMd5);
+      if (game.MediaSources.mMarquee.mUrl.empty() && type2 != nullptr)
+        game.MediaSources.mMarquee.mUrl = ExtractMedia(medias, "screenmarqueesmall", requiredRegion, game.MediaSources.mMarquee.mFormat, game.MediaSources.mMarquee.mSize, game.MediaSources.mMarquee.mMd5);
+    }
+
+    // Wheel
+    if (mConfiguration.GetWantWheel())
+    {
+      game.MediaSources.mWheel.mUrl = ExtractMedia(medias, "wheel-hs", requiredRegion, game.MediaSources.mWheel.mFormat, game.MediaSources.mWheel.mSize, game.MediaSources.mWheel.mMd5);
+      if (game.MediaSources.mWheel.mUrl.empty() && type2 != nullptr)
+        game.MediaSources.mWheel.mUrl = ExtractMedia(medias, "wheel", requiredRegion, game.MediaSources.mWheel.mFormat, game.MediaSources.mWheel.mSize, game.MediaSources.mWheel.mMd5);
+    }
+
+    // Manual
+    if (mConfiguration.GetWantManual())
+      game.MediaSources.mManual.mUrl = ExtractMedia(medias, "manuel", requiredRegion, game.MediaSources.mManual.mFormat, game.MediaSources.mManual.mSize, game.MediaSources.mManual.mMd5);
+
+    // Maps
+    if (mConfiguration.GetWantMaps())
+      game.MediaSources.mMaps.mUrl = ExtractMedia(medias, "maps", std::string(), game.MediaSources.mMaps.mFormat, game.MediaSources.mMaps.mSize, game.MediaSources.mMaps.mMd5);
+  }
+}
+
+void ScreenScraperApis::DeserializeGameInformationOuter(const std::string& jsonstring, ScreenScraperApis::Game& game, const Path& path)
+{
   rapidjson::Document json;
   json.Parse(jsonstring.c_str());
   if (!json.HasParseError())
+  {
+    // ScreenScraper response
     if (json.HasMember("response"))
     {
       const rapidjson::Value& response = json["response"];
       if (response.HasMember("jeu"))
       {
-        const rapidjson::Value& jeu = response["jeu"];
-        // Rom infos
-        if (jeu.HasMember("rom"))
-        {
-          const rapidjson::Value& rom = jeu["rom"];
-          if (rom.HasMember("romregions"))
-          {
-            romRegion = Regions::DeserializeRegion(rom["romregions"].GetString());
-          }
-            if (rom.HasMember("romcrc"))
-              game.mCrc = rom["romcrc"].GetString();
-        }
-        std::string requiredRegion = ScreenScraperApis::GetRequiredRegion(romRegion, path,
-                                                                          mConfiguration.GetFavoriteRegion());
-        game.mRegion = requiredRegion;
-        const std::string language = LanguagesTools::SerializeLanguage(mConfiguration.GetFavoriteLanguage());
-
-        // Deserialize text data
-        if (jeu.HasMember("noms"))
-        {
-          game.mName = ExtractRegionalizedText(jeu["noms"], requiredRegion);
-          game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(jeu["noms"], "ss"));
-        }
-        if (jeu.HasMember("synopsis"))
-        {
-          game.mSynopsis = ExtractLocalizedText(jeu["synopsis"], language);
-          DecodeString(game.mSynopsis);
-        }
-        if (jeu.HasMember("editeur"))
-          game.mPublisher = jeu["editeur"]["text"].GetString();
-        if (jeu.HasMember("developpeur"))
-          game.mDeveloper = jeu["developpeur"]["text"].GetString();
-        if (jeu.HasMember("joueurs"))
-          game.mPlayers = jeu["joueurs"]["text"].GetString();
-        if (jeu.HasMember("dates"))
-        {
-          std::string dateTime = ExtractRegionalizedText(jeu["dates"], requiredRegion);
-          if (!DateTime::ParseFromString("%yyyy-%MM-%dd", dateTime, game.mReleaseDate))
-            if (!DateTime::ParseFromString("%yyyy-%MM", dateTime, game.mReleaseDate))
-              DateTime::ParseFromString("%yyyy", dateTime, game.mReleaseDate);
-        }
-        if (jeu.HasMember("genres"))
-        {
-          game.mGenre = ExtractLocalizedGenre(jeu["genres"], language);
-          game.mGenreId = ExtractNormalizedGenre(jeu["genres"]);
-          game.mAdult = ExtractAdultState(jeu["genres"]);
-        }
-        if (jeu.HasMember("sp2kcfg"))
-        {
-          game.mP2k = jeu["sp2kcfg"].GetString();
-        }
-        if (jeu.HasMember("note"))
-        {
-          int rating = 0;
-          game.mRating = (float) (Strings::ToInt(jeu["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
-        }
-
-        // Deserialize media url
-        if (jeu.HasMember("medias"))
-        {
-          const rapidjson::Value& medias = jeu["medias"];
-
-          // Image
-          const char* type  = "mixrbv1"; // default to screenshot
-          const char* type2 = nullptr;   // No default type2
-          switch (mConfiguration.GetImageType())
-          {
-            case ScreenScraperEnums::ScreenScraperImageType::None: break;
-            case ScreenScraperEnums::ScreenScraperImageType::ScreenshotIngame: type = "ss"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Box2d: type = "box-2D"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Box3d: type = "box-3D"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::MixV2: type = "mixrbv2"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Marquee: type = "screenmarqueesmall"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Unknown:
-            case ScreenScraperEnums::ScreenScraperImageType::MixV1: type = "mixrbv1"; break;
-          }
-          if (mConfiguration.GetImageType() != ScreenScraperEnums::ScreenScraperImageType::None)
-          {
-            game.MediaSources.mImage = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize, game.MediaSources.mImageMd5);
-            if (game.MediaSources.mImage.empty() && type2 != nullptr)
-              game.MediaSources.mImage = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mImageFormat, game.MediaSources.mImageSize, game.MediaSources.mImageMd5);
-          }
-
-          // Thumbnail
-          type  = "box-2D"; // default to screenshot
-          type2 = nullptr;   // No default type2
-          switch (mConfiguration.GetThumbnailType())
-          {
-            case ScreenScraperEnums::ScreenScraperImageType::None: break;
-            case ScreenScraperEnums::ScreenScraperImageType::ScreenshotIngame: type = "ss"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::ScreenshotTitle: type = "sstitle"; type2 = "ss"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Box2d: type = "box-2D"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Box3d: type = "box-3D"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::MixV1: type = "mixrbv1"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::MixV2: type = "mixrbv2"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Wheel: type = "wheel-hd"; type2 = "wheel"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Marquee: type = "screenmarqueesmall"; break;
-            case ScreenScraperEnums::ScreenScraperImageType::Unknown: type = "none"; break;
-          }
-          if (mConfiguration.GetThumbnailType() != ScreenScraperEnums::ScreenScraperImageType::None)
-          {
-            game.MediaSources.mThumbnail = ExtractMedia(medias, type, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize, game.MediaSources.mThumbnailMd5);
-            if (game.MediaSources.mThumbnail.empty() && type2 != nullptr)
-              game.MediaSources.mThumbnail = ExtractMedia(medias, type2, requiredRegion, game.MediaSources.mThumbnailFormat, game.MediaSources.mThumbnailSize, game.MediaSources.mThumbnailMd5);
-          }
-
-          // Video
-          type = nullptr;
-          type2 = nullptr;
-          switch (mConfiguration.GetVideo())
-          {
-            case ScreenScraperEnums::ScreenScraperVideoType::None: break;
-            case ScreenScraperEnums::ScreenScraperVideoType::Raw: type = "video"; break;
-            case ScreenScraperEnums::ScreenScraperVideoType::Optimized: type = "video-normalized"; type2 = "video"; break;
-          }
-          if (mConfiguration.GetVideo() != ScreenScraperEnums::ScreenScraperVideoType::None)
-          {
-            game.MediaSources.mVideo = ExtractMedia(medias, type, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize, game.MediaSources.mVideoMd5);
-            if (game.MediaSources.mVideo.empty() && type2 != nullptr)
-              game.MediaSources.mVideo = ExtractMedia(medias, type2, std::string(), game.MediaSources.mVideoFormat, game.MediaSources.mVideoSize, game.MediaSources.mVideoMd5);
-          }
-
-          // Marquee
-          if (mConfiguration.GetWantMarquee())
-          {
-            game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarquee", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize, game.MediaSources.mMarqueeMd5);
-            if (game.MediaSources.mMarquee.empty() && type2 != nullptr)
-              game.MediaSources.mMarquee = ExtractMedia(medias, "screenmarqueesmall", requiredRegion, game.MediaSources.mMarqueeFormat, game.MediaSources.mMarqueeSize, game.MediaSources.mMarqueeMd5);
-          }
-
-          // Wheel
-          if (mConfiguration.GetWantWheel())
-          {
-            game.MediaSources.mWheel = ExtractMedia(medias, "wheel-hs", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize, game.MediaSources.mWheelMd5);
-            if (game.MediaSources.mWheel.empty() && type2 != nullptr)
-              game.MediaSources.mWheel = ExtractMedia(medias, "wheel", requiredRegion, game.MediaSources.mWheelFormat, game.MediaSources.mWheelSize, game.MediaSources.mWheelMd5);
-          }
-
-          // Manual
-          if (mConfiguration.GetWantManual())
-            game.MediaSources.mManual = ExtractMedia(medias, "manuel", requiredRegion, game.MediaSources.mManualFormat, game.MediaSources.mManualSize, game.MediaSources.mManualMd5);
-
-          // Maps
-          if (mConfiguration.GetWantMaps())
-            game.MediaSources.mMaps = ExtractMedia(medias, "maps", std::string(), game.MediaSources.mMapsFormat, game.MediaSources.mMapsSize, game.MediaSources.mMapsMd5);
-        }
+        const rapidjson::Value& gameJson = response["jeu"];
+        DeserializeGameInformationInner(gameJson, game, path);
       }
     }
+    // Recalbox
+    if (json.HasMember("data"))
+    {
+      const rapidjson::Value& gameJson = json["data"];
+      DeserializeGameInformationInner(gameJson, game, path);
+    }
+  }
 }
 
-std::string ScreenScraperApis::GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion){
+std::string ScreenScraperApis::GetRequiredRegion(Regions::GameRegions romRegion, const Path& path, Regions::GameRegions favoriteRegion)
+{
   if(RecalboxConf::Instance().GetScreenScraperRegionPriority() == ScreenScraperEnums::ScreenScraperRegionPriority::DetectedRegion)
   {
     Regions::GameRegions regionFromFile = Regions::ExtractRegionsFromFileName(path);
@@ -345,7 +317,7 @@ std::string ScreenScraperApis::ExtractRegionalizedText(const rapidjson::Value& a
     return object["text"].GetString();
 
   // WTFH?!
-  { LOG(LogError) << "[ScreenScraper] Can't find regionalized text!"; }
+  { LOG(LogError) << "[ScreenScraperApis] Can't find regionalized text!"; }
   return std::string();
 }
 
@@ -366,7 +338,7 @@ std::string ScreenScraperApis::ExtractLocalizedText(const rapidjson::Value& arra
     return object["text"].GetString();
 
   // WTFH?!
-  { LOG(LogError) << "[ScreenScraper] Can't find localized text!"; }
+  { LOG(LogError) << "[ScreenScraperApis] Can't find localized text!"; }
   return std::string();
 }
 
@@ -590,7 +562,6 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
   size = 0;
   md5.clear();
 
-
   if (!region.empty())
   {
     // Prefered first
@@ -666,20 +637,24 @@ std::string ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, cons
       }
 
   // WTFH?!
-  { LOG(LogDebug) << "[ScreenScraper] Can't find media url matching: " << type << " / " << region; }
+  { LOG(LogDebug) << "[ScreenScraperApis] Can't find media url matching: " << type << " / " << region; }
   return std::string();
 }
 
-ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path& to, long long& size)
+ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const std::string& mediaurl, const Path& to, long long& size)
 {
   ScrapeResult result = ScrapeResult::FatalError;
   size = 0;
+  std::string url = Strings::StartsWith(mediaurl,LEGACY_STRING("http")) ? mediaurl : mEndPointProvider.GetUrlBase() + mediaurl;
+  InitializeClient();
+  mEndPointProvider.AddQueryParametersToMediaRequest(&game, size, url);
   for(int i = 3; --i >= 0; )
   {
-    if (mClient.Execute(mediaurl, to))
+    if (mClient.Execute(url, to))
       switch (mClient.GetLastHttpResponseCode())
       {
         case 0:
+        case 500:
         case 429: Thread::Sleep(5000); continue;
         case 426:
         case 423:
@@ -692,7 +667,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
         case 200: result = ScrapeResult::Ok; size = mClient.GetLastContentSize(); break;
         default:
         {
-          { LOG(LogError) << "[ScreenScraper] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
+          { LOG(LogError) << "[ScreenScraperApis] Unexpected HTTP return code " << mClient.GetLastHttpResponseCode(); }
           result = ScrapeResult::FatalError;
           break;
         }
@@ -701,7 +676,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const std::string& mediaurl, const Path
   }
 
   if (result != ScrapeResult::Ok)
-  { LOG(LogError) << "[ScreenScraper] Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
+  { LOG(LogError) << "[ScreenScraperApis] Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
 
   // Delete wrong files
   if (to.Size() <= 256)
@@ -729,7 +704,7 @@ std::string ScreenScraperApis::CleanGameName(const std::string& gameName)
   std::string result;
   const char* p = gameName.c_str();
 
-  for (int i = gameName.length(); --i >= 0;)
+  for (int i = (int)gameName.length(); --i >= 0;)
   {
     unsigned char C = (unsigned char)*p++;
     if (((C >= 'a') && (C <= 'z')) ||

@@ -25,8 +25,11 @@
 #include "EmulationStation.h"
 #include "Upgrade.h"
 #include "CommandThread.h"
-#include "netplay/NetPlayThread.h"
+#include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
+#include "utils/network/DnsClient.h"
+#include <guis/GuiInfoPopup.h>
+#include <scraping/ScraperSeamless.h>
 #include <sdl2/Sdl2Runner.h>
 #include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
@@ -123,10 +126,6 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState;
     try
     {
-      // Start Video engine
-      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
-      VideoEngine videoEngine;
-
       // Run kodi at startup?
       GameRunner gameRunner(window, systemManager);
       //if (RecalboxSystem::kodiExists())
@@ -139,9 +138,15 @@ MainRunner::ExitState MainRunner::Run()
       // Start the socket server
       { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);
-      // Start Neyplay thread
+      // Start Video engine
+      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
+      VideoEngine videoEngine;
+      // Start Netplay thread
       { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
+
+      // Seamless scraper
+      ScraperSeamless seamlessScraper;
 
       // Update?
       CheckUpdateMessage(window);
@@ -651,7 +656,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }
@@ -695,7 +700,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }

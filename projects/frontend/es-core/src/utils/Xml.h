@@ -88,6 +88,71 @@ class Xml
     }
 
     /*!
+     * @brief Add new attribute
+     * @param root Root node to add attribute
+     * @param attributename Attribute name
+     * @param value Attribute value
+     */
+    static void AddAttribute(XmlNode root, const char* attributename, const char* value)
+    {
+      XmlAttribute attribute = root.append_attribute(attributename);
+      if (attribute != nullptr)
+        attribute.set_value(value);
+    }
+
+    /*!
+     * @brief Add new attribute
+     * @param root Root node to add attribute
+     * @param attributename Attribute name
+     * @param value Attribute value
+     */
+    static void AddAttribute(XmlNode root, const char* attributename, const std::string& value)
+    {
+      XmlAttribute attribute = root.append_attribute(attributename);
+      if (attribute != nullptr)
+        attribute.set_value(value.data());
+    }
+
+    /*!
+     * @brief Add new attribute
+     * @param root Root node to add attribute
+     * @param attributename Attribute name
+     * @param value Attribute value
+     */
+    static void AddAttribute(XmlNode root, const char* attributename, int value)
+    {
+      XmlAttribute attribute = root.append_attribute(attributename);
+      if (attribute != nullptr)
+        attribute.set_value(value);
+    }
+
+    /*!
+     * @brief Add new attribute
+     * @param root Root node to add attribute
+     * @param attributename Attribute name
+     * @param value Attribute value
+     */
+    static void AddAttribute(XmlNode root, const char* attributename, unsigned int value)
+    {
+      XmlAttribute attribute = root.append_attribute(attributename);
+      if (attribute != nullptr)
+        attribute.set_value(value);
+    }
+
+    /*!
+     * @brief Add new attribute
+     * @param root Root node to add attribute
+     * @param attributename Attribute name
+     * @param value Attribute value
+     */
+    static void AddAttribute(XmlNode root, const char* attributename, bool value)
+    {
+      XmlAttribute attribute = root.append_attribute(attributename);
+      if (attribute != nullptr)
+        attribute.set_value(value);
+    }
+
+    /*!
      * @brief Append a child node to the given parent node and set the value
      * @param parent Parent node to which to add the child node
      * @param childname Child node name

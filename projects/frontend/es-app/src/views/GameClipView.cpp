@@ -8,8 +8,8 @@
 #include "GameClipView.h"
 #include "utils/Log.h"
 #include <views/ViewController.h>
-#include <audio/AudioManager.h>
 #include "utils/locale/LocaleHelper.h"
+#include <guis/GuiInfoPopup.h>
 #include <usernotifications/NotificationManager.h>
 
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
@@ -244,7 +244,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->DisplayName(), popupDuration,
-                                            GuiInfoPopup::PopupType::None));
+                                            GuiInfoPopupBase::PopupType::None));
 
         updateHelpPrompts();
     }

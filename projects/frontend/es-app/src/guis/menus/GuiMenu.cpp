@@ -18,6 +18,7 @@
 #include "guis/menus/GuiMenuQuit.h"
 #include <emulators/run/GameRunner.h>
 #include "GuiMenuScraper.h"
+#include <guis/GuiScraperRun.h>
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("MAIN MENU"), this)
@@ -81,7 +82,7 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   // Animation
   auto fadeFunc = [this](float t)
   {
-    setOpacity(lerp<float>(0, 255, t));
+    setOpacity((int)lerp<float>(0, 255, t));
     setPosition(getPosition().x(),
                 lerp<float>(Renderer::Instance().DisplayHeightAsFloat(), (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2, t));
   };
@@ -95,7 +96,7 @@ void GuiMenu::SubMenuSelected(int id)
   switch((Components)id)
   {
     case Components::Kodi: if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
-    case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow)); break;
+    case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow, mSystemManager)); break;
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
     case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
@@ -103,7 +104,14 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;
-    case Components::Scraper: mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager)); break;
+    case Components::Scraper:
+    {
+      if (GuiScraperRun::IsRunning())
+        GuiScraperRun::CreateOrShow(mWindow, mSystemManager, SystemManager::SystemList(), ScrapingMethod::All, &GameRunner::Instance());
+      else
+        mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager));
+      break;
+    }
     case Components::Advanced: mWindow.pushGui(new GuiMenuAdvancedSettings(mWindow, mSystemManager)); break;
     case Components::Bios: mWindow.pushGui(new GuiBiosScan(mWindow, mSystemManager)); break;
     case Components::License:

@@ -136,7 +136,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
 
   if(data.Patch().DisabledSofpatching())
-    Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt()));
+    Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
 
 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
