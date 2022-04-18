@@ -112,6 +112,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi password that could not contain & character
 - Fix theme Philips CD-i
 - Add controller.svg for atomiswave, naomi and naomigd
+- Fix missing arcade systems for virtual systems
 
 ## Version 8.0.2-Electron
 
