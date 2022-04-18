@@ -99,6 +99,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix savestate in libretro fuse (ZX Spectrum core)
 - Fix Vectrex overlays load for preinstalled games
 - Fix wifi not connecting when inserting the wifi controller afterwards
+- Fix missing arcade systems for virtual systems
 
 ## Version 8.0.2-Electron
 
