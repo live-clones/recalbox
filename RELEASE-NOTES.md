@@ -16,7 +16,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix PAL auto game offsets
 - Recalbox RGB Dual: enhance resolution on Playstation PAL games
 - Recalbox RGB Dual: fix calibration screen steps
-
 - Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
 - Recalbox RGB Dual: add recalbox rgb dual menu in main menu
 - Recalbox RGB Dual: enhance image quality in frontend
@@ -93,6 +92,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
 - Bump nvidia legacy drivers to 390.147
 - Bump nvidia production drivers to 510.68.02
+- Bump libretro Dosbox-Pure 0.9.1
 
 ### Fixes
 
