@@ -105,6 +105,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro SameBoy
 - Bump Parallel N64 to add Raspberry Pi 4 64 bits support
 -Bump libretro Pscx-Rearmed
+  - Use F12 as ESC replacement to quit
+- Bump libretro Dosbox-Pure 0.9.1
 
 ### Fixes
 
