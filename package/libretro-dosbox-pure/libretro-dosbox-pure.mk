@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit version 0.26 (2022-01-23)
-LIBRETRO_DOSBOX_PURE_VERSION = d22a43d80a4dd17d64bcbd3977c85d06ac2c0dfe
+#Commit version 0.9.1 (2022-04-26)
+LIBRETRO_DOSBOX_PURE_VERSION = bb760cb34b93eb7d16701462aa23686f80be8530
 LIBRETRO_DOSBOX_PURE_SITE = $(call gitlab,recalbox,packages/libretro/libretro-dosbox-pure,$(LIBRETRO_DOSBOX_PURE_VERSION))
 LIBRETRO_DOSBOX_PURE_LICENSE = GPL-2.0
 LIBRETRO_DOSBOX_PURE_LICENSE_FILES = LICENSE
