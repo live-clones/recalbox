@@ -9,9 +9,9 @@ for i in {01..30}; do touch /tmp/video/cu/video-custom-$i.mp4; done
 originalVideoPath=/tmp/video/rb
 customVideoPath=/tmp/video/cu
 
-echo "TEST 1"
+echo "TEST 5"
 selectVideo
 echo
-echo "TEST 2"
+echo "TEST 12"
 findConnectedConnectors
 echo
