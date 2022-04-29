@@ -88,7 +88,7 @@ for FILE in music bios extractions kodi saves saves/amiga screenshots userscript
             bios/{amiga,Databases,dc,fba,fbneo,keropi,Machines,mame,mame2000,mame2003,mame2003-plus,mame2010,mame2015,mame2016,np2kai,oricutron,prboom,quasi88,xmil}
 do
     # not wanted for kodi
-    test -e "$IN""/""$FILE" && test ! -e "$OUT""/""$FILE" && cp -r "$IN""/""$FILE" "$OUT""/""$FILE"
+    test -e "$IN""/""$FILE" && test ! -e "$OUT""/""$FILE" && rsync --size-only -r "$IN""/""$FILE" "$OUT""/""$FILE"
 done
 
 # Since 7.2, rom folders are no longer copied to the SHARE partition
@@ -121,24 +121,6 @@ do
     done
 done
 
-# Since 7.2, ports may behave as:
-# - ReadOnly: The port is self-sufficient and stays in share_init
-# - Read/Write: The user must add content to the port or may extend the port by adding extra-content
-#
-# This loop take Read/Write ports and copy them to the share
-recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[6] - Copying read-write ports"
-IFS_BAK=$IFS
-IFS=$'\n'
-set -f
-for file in $(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml); do
-  FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
-  DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
-  SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
-  cp -r "$SRCDIR" "$(dirname "$DSTDIR")"
-done
-set +f
-IFS=$IFS_BAK
-
 # Since 8.0, share is versioned
 # so that we can update some file automatically
 #
@@ -148,13 +130,19 @@ SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
 SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
 if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.0] - The system has been updated, copying share_init"
+    # Starting the video
+    source /recalbox/scripts/recalbox-utils.sh
+    IMAGE_PATH=$(getInstallUpgradeImagePath)
+    killall mpv
+    mpv $(getMpvOptions) --loop "${IMAGE_PATH}/creating-share.mp4" & echo $! > /tmp/.mpv.pid
+
     # Copy all bios from share_upgrade to share
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.1] - BIOS"
-    cp -R "${UPGRADE}/bios/." "${OUT}/bios"
+    rsync --size-only -r "${UPGRADE}/bios/." "${OUT}/bios"
 
     # Copy all readme files from share_upgrade to share
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.2] - ROMS"
-    cp -R "${UPGRADE}/roms/." "${OUT}/roms"
+    rsync --size-only -r "${UPGRADE}/roms/." "${OUT}/roms"
 
     # Remove those .xxx files once copy is done in share - this doesn't occur in ports
     rm -f "${OUT}/roms/.keep"
@@ -186,15 +174,37 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     rm -f "${OUT}/roms/ports/_readme.txt"
 
     # Update shaders
-    recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.5] - Updating shaders"
-    for DIR in shaders
-    do
-        tar xJf "$IN""/""$DIR".tar.xz -C "$OUT""/"
+    shaders_md5_file="${OUT}/shaders/.last-upgrade.md5"
+    shaders_tar="${IN}/shaders.tar.xz"
+    if ! md5sum -c "${shaders_md5_file}";then
+        recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.5.1] - Updating shaders"
+        tar xJf "${shaders_tar}" -C "${OUT}/"
+        md5sum "${shaders_tar}" > "${shaders_md5_file}"
+        recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.5.2] - Saving shader version"
+    fi
+
+    # Since 7.2, ports may behave as:
+    # - ReadOnly: The port is self-sufficient and stays in share_init
+    # - Read/Write: The user must add content to the port or may extend the port by adding extra-content
+    #
+    # This loop take Read/Write ports and copy them to the share
+    recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.6] - Copying read-write ports"
+    IFS_BAK=$IFS
+    IFS=$'\n'
+    set -f
+    for file in $(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml); do
+    FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
+    DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
+    SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
+    rsync --size-only -r "$SRCDIR" "$(dirname "$DSTDIR")"
     done
+    set +f
+    IFS=$IFS_BAK
 
     # Update version
-    recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.6] - Copy version to share"
+    recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.7] - Copy version to share"
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
+    kill $(cat /tmp/.mpv.pid)
 fi
 
 # directories to force directories exists
@@ -216,7 +226,7 @@ do
         TDIR="$OUT""/""$DIR""/""$BNAME"
         if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
         then
-            cp -r "$SUBDIR" "$TDIR"
+            rsync --size-only -r "$SUBDIR" "$TDIR"
         fi
     done
 done
