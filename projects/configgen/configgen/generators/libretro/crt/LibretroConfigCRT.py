@@ -15,7 +15,7 @@ class LibretroConfigCRT:
         self.crt_config_parser = crt_config_parser
         self.crt_mode_processor = crt_mode_processor
 
-    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus"]
+    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015"]
 
     def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, rotation: int) -> \
             typing.Dict[
@@ -178,6 +178,8 @@ class LibretroConfigCRT:
             config_core: str = core
             if config_core == "mame2003_plus":
                 config_core = "mame2003"
+            if config_core == "mame2015":
+                config_core = "mame2010"
             game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
             rotation = game_config[4] if game_config is not None else 0
 
