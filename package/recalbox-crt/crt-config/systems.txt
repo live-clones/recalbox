@@ -57,8 +57,8 @@ atomiswave,all,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0
 amiga1200,all,15kHz,progressive,standard:pal:240@50,0,0
 amigacd32,all,15kHz,progressive,standard:pal:240@50,0,0
 amigacdtv,all,15kHz,progressive,standard:pal:240@50,0,0
-psx,ntsc,15kHz,progressive,psx:ntsc:240@59.826,0,0
-psx,pal,15kHz,progressive,psx1960:pal:288@49.761,1953,0
+psx,ntsc,15kHz,progressive,psx2560:ntsc:240@59.826,2560,0
+psx,pal,15kHz,progressive,psx2560:pal:288@49.761,2560,0
 64dd,all,15kHz,progressive,n64:ntsc:240@59.82,0,0
 amstradcpc,all,15kHz,progressive,standard:pal:288@50,0,272
 fds,all,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0
@@ -84,3 +84,5 @@ atari7800,ntsc,15kHz,progressive,default:ntsc:240@60,0,223
 atari7800,pal,15kHz,progressive,standard:pal:288@50,0,272
 supervision,all,15kHz,progressive,standard:ntsc:224@60,960,160
 scv,all,15kHz,progressive,standard:ntsc:240@60,0,216
+atarist,pal,15kHz,progressive,default:pal:288@50,0,200
+atarist,ntsc,15kHz,progressive,default:ntsc:240@60,0,200
