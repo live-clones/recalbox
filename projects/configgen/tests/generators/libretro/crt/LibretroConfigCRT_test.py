@@ -791,3 +791,15 @@ def test_given_a_vertical_game_in_31khz_returns_vertical_configuration_with_rati
 
     assert libretro_config["aspect_ratio_index"] == "22"
     assert libretro_config["video_smooth"] == '"true"'
+
+def test_given_mame2015_game_returns_mame2010_game_mode(mocker, system_fbneo: Emulator):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,0,0,0\narkbl2,mame2010,arcade:240@60.000000,0,0,0",
+        MODES_TXT: "arcade:240@60.000000,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60\narcade:224@60.000000,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"
+    })
+
+    system_fbneo = Emulator(name='mame', videoMode='1920x1080', ratio='auto', emulator='libretro', core='mame2015')
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
+        system_fbneo, "/recalbox/share/roms/mame/arkbl2.zip")
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1"'
