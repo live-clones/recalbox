@@ -241,3 +241,11 @@ def test_given_quake2_should_set_resolution_the_resolution_to_240p_in31_double_f
         crtresolutiontype="doublefreq", crtvideostandard="auto", crtregion="auto", crtscreentype="31kHz")
 
     assert LibretroCoreConfigCRT().createConfigFor(quake2)["vitaquakeii_resolution"] == '"320x240"'
+
+def test_given_atarist_should_set_the_overscan_options():
+    atarist = configureForCrt(
+        Emulator(name='atarist', videoMode='1920x1080', ratio='auto', emulator='libretro', core='hatari'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtregion="auto", crtscreentype="15kHz")
+    config = LibretroCoreConfigCRT().createConfigFor(atarist)
+    assert config["hatari_video_crop_overscan"] == '"true"'
+    assert config["hatari_video_hires"] == '"false"'
