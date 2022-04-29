@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 
 - Add GAME FILTER menu to filter games in lists based on several criteria
+- Recalbox RGB Dual: fix 31kHz vertical games ratio
 - Recalbox RGB Dual: fix atari st resolution
 - Recalbox RGB Dual: add PAL specific offset
 - Recalbox RGB Dual: fix PAL game offsets
