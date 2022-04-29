@@ -129,7 +129,6 @@ class LibretroCoreConfigCRT:
             lines["hatari_video_crop_overscan"] = '"true"'
             lines["hatari_video_hires"] = '"false"'
 
-
         log = "Forcing core configuration: "
         for config in lines.items():
             log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')
