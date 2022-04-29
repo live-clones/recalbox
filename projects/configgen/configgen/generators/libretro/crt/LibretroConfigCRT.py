@@ -35,18 +35,19 @@ class LibretroConfigCRT:
 
         if rotation == 1:
             config["video_smooth"] = '"true"'
-
-        if rotation == 1 and (viewport_height + viewport_width == 0):
-            # Change the ratio to 1920 core only if no viewport info is given
-            config["aspect_ratio_index"] = '25'
+            if viewport_height + viewport_width == 0:
+                # Change the ratio to 1920 core only if no viewport info is given
+                config["aspect_ratio_index"] = '25'
+            if mode.width / mode.height < 1.5:
+                # Change the ratio to core as we are 4/3 like mode (not super res)
+                config["aspect_ratio_index"] = '22'
         else:
             for region in extension:
                 config["custom_viewport_width" + region] = viewport_width if viewport_width > 0 else mode.width
                 config[
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (
-                                                               mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
 
         return config
 
@@ -177,6 +178,9 @@ class LibretroConfigCRT:
             config_core: str = core
             if config_core == "mame2003_plus":
                 config_core = "mame2003"
+            game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
+            rotation = game_config[4] if game_config is not None else 0
+
             if system.CRTScreenType == CRTScreenType.k31:
                 defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTVideoStandard,
                                                                          system.CRTResolutionType)
@@ -193,19 +197,18 @@ class LibretroConfigCRT:
                                                      system.CRTVerticalPalOffset),
                                                  width,
                                                  height,
-                                                 0)
+                                                 rotation)
                     )
                 recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
                 default = False
             else:
-                game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
                 if game_config is not None:
+                    rotation = game_config[4]
                     mode_id = game_config[1]
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
                                                                system.CRTHorizontalOffset, system.CRTVerticalOffset,
                                                                system.CRTHorizontalPalOffset,
                                                                system.CRTVerticalPalOffset)
-                    rotation = game_config[4]
                     recallog(
                         "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
                                                                                              "vertical" if rotation == 1 else ""),
