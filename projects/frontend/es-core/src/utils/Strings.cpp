@@ -382,7 +382,8 @@ bool Strings::StartsWith(const std::string& _string, const char* _start, int len
 
 bool Strings::EndsWith(const std::string& _string, const std::string& _end)
 {
-	return (_string.find(_end) == (_string.size() - _end.size()));
+  if (_string.size() < _end.size()) return false;
+	return (strncmp(_string.data() + _string.size() - _end.size(), _end.data(), _end.size()) == 0);
 }
 
 std::string Strings::RemoveParenthesis(const std::string& _string)

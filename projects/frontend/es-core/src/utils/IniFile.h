@@ -37,6 +37,15 @@ class IniFile
     bool Save();
 
     /*!
+     * @brief Cancel all pending changes
+     */
+    void Cancel()
+    {
+      mPendingDelete.clear();
+      mPendingWrites.clear();
+    }
+
+    /*!
      * @brief Delete (comment) key
      * @param name Key name
      */
@@ -147,6 +156,13 @@ class IniFile
      * @return True if the jey exists
      */
     bool HasKey(const std::string& key) const;
+
+    /*!
+     * @brief Get all keys ending with the given string
+     * @param startWidth String
+     * @return Key list
+     */
+    std::vector<std::string> GetKeyEndingWith(const std::string& startWidth);
 
     /*!
      * @brief Check if the given line is a valide 'key=value'
