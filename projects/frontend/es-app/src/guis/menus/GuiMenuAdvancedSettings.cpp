@@ -12,6 +12,7 @@
 #include "GuiMenuKodiSettings.h"
 #include "GuiMenuCRT.h"
 #include "GuiMenuResolutionSettings.h"
+#include "ResolutionAdapter.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -48,7 +49,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // RESOLUTION
-  if (Renderer::GetResolutionList().size() > 1 &&
+  if (mResolutionAdapter.Resolutions().size() > 1 &&
       !isCrt &&
       Board::Instance().GetBoardType() != BoardType::PCx64)
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));

@@ -17,6 +17,8 @@
 #include <MainRunner.h>
 #include <hardware/crt/CrtAdapterDetector.h>
 #include "GameRunner.h"
+#include "Resolutions.h"
+#include "ResolutionAdapter.h"
 
 bool GameRunner::sGameIsRunning = false;
 
@@ -120,13 +122,18 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
 
+  // Forced resolution
+  Resolutions::SimpleResolution targetResolution { 0, 0 };
+  if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetSystemVideoMode(game.System()), targetResolution))
+    command.append(" -resolution ").append(targetResolution.ToString());
+
+  // Debug
   bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
 
   bool isDisabledSoftpatching = data.Patch().DisabledSofpatching();
   if (isDisabledSoftpatching) command.append(" -disabledsoftpatching");
 
-  { LOG(LogInfo) << "[Run] Command: " << command; }
   int exitCode = -1;
   {
     Sdl2Runner sdl2Runner;
@@ -136,6 +143,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     if (padToKeyboard.IsValid() ||
         game.System().Descriptor().Type() == SystemDescriptor::SystemType::Computer) command.append(" -nodefaultkeymap");
     NotificationManager::Instance().Notify(game, Notification::RunGame);
+
+    { LOG(LogInfo) << "[Run] Command: " << command; }
 
     Board::Instance().SetCPUGovernance(GetGovernance(core));
     Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
