@@ -134,7 +134,7 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     source /recalbox/scripts/recalbox-utils.sh
     IMAGE_PATH=$(getInstallUpgradeImagePath)
     killall mpv
-    mpv $(getCrtMpvOptions) --loop "${IMAGE_PATH}/creating-share.mp4" & echo $! > /tmp/.mpv.pid
+    mpv $(getMpvOptions) --loop "${IMAGE_PATH}/creating-share.mp4" & echo $! > /tmp/.mpv.pid
 
     # Copy all bios from share_upgrade to share
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.1] - BIOS"
