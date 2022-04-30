@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 
+- Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64
 - New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
