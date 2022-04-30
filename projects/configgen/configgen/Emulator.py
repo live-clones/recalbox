@@ -6,11 +6,12 @@ from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class ExtraArguments:
-    def __init__(self, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
+    def __init__(self, resolution:str, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
                  netplay_viewerpassword:str, netplay_vieweronly:str,
                  crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
                  crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False,
                  crtverticalpaloffset: int=0, crthorizontalpaloffset: int=0):
+        self.resolution = resolution
         self.hash = hash
         self.netplay = netplay
         self.netplay_ip = netplay_ip
@@ -33,7 +34,7 @@ class ExtraArguments:
 
 class Emulator:
 
-    def __init__(self, name: str, emulator: str, core: str, videoMode: str='CEA 4 HDMI', ratio:str='auto'):
+    def __init__(self, name: str, emulator: str, core: str, videoMode: str="default", ratio:str='auto'):
         self._name: str = name
         # Overriding vars - **Always define dezfault values here and ONLY here**
         self._emulator: str = emulator
@@ -168,6 +169,10 @@ class Emulator:
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
+
+        # Video mode direct override
+        if len(arguments.resolution) > 0:
+            self._videoMode = arguments.resolution
 
         # Generate args array
         self._args = []

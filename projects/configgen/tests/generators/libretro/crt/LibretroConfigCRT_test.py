@@ -19,7 +19,7 @@ def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutionty
                     crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0,
                     crtregion="auto", crtscanlines=False):
     emulator.configure(keyValueSettings(""),
-                       ExtraArguments("", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
+                       ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
                                       crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion,
                                       crtscanlines))
     return emulator
