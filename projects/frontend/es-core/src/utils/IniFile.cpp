@@ -276,3 +276,17 @@ bool IniFile::HasKey(const std::string& key) const
 
   return false;
 }
+
+Strings::Vector IniFile::GetKeyEndingWith(const std::string& endWidth)
+{
+  Strings::Vector result;
+  for (auto& it : mPendingWrites)
+    if (Strings::EndsWith(it.first, endWidth))
+      result.push_back(it.first);
+
+  for (auto& it : mConfiguration)
+    if (Strings::EndsWith(it.first, endWidth))
+      result.push_back(it.first);
+
+  return result;
+}

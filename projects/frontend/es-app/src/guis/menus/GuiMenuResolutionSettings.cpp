@@ -7,6 +7,7 @@
 
 #include "GuiMenuResolutionSettings.h"
 #include "GuiMenuResolutionByEmulator.h"
+#include "ResolutionAdapter.h"
 #include <guis/MenuMessages.h>
 #include <systems/SystemManager.h>
 
@@ -28,7 +29,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetG
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> result;
   result.push_back({ _("NATIVE"), "default", !RecalboxConf::Instance().IsDefinedGlobalVideoMode() || RecalboxConf::Instance().GetGlobalVideoMode() == "default" });
-  for(const Renderer::Resolution& resolution : Renderer::GetFilteredResolutionList())
+  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions())
   {
     std::string reso = resolution.ToString();
     result.push_back({ reso, reso, reso == RecalboxConf::Instance().GetGlobalVideoMode() });
@@ -41,7 +42,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetF
   std::vector<GuiMenuBase::ListEntry<std::string>> result;
   result.push_back({ _("USE GLOBAL"), "", !RecalboxConf::Instance().IsDefinedEmulationstationVideoMode() });
   result.push_back({ _("NATIVE"), "default", RecalboxConf::Instance().GetEmulationstationVideoMode() == "default" });
-  for(const Renderer::Resolution& resolution : Renderer::GetFilteredResolutionList())
+  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions())
   {
     std::string reso = resolution.ToString();
     result.push_back({ reso, reso, reso == RecalboxConf::Instance().GetEmulationstationVideoMode() });

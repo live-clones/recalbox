@@ -114,7 +114,7 @@ DefineSystemGetterSetterImplementation(ShaderSet, std::string, String, sSystemSh
 DefineSystemGetterSetterImplementation(Ignore, bool, Bool, sSystemIgnore, false)
 DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclude, false)
 DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
-DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, "")
+DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, GetGlobalVideoMode())
 
 DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, GetFilterAdultGames())
 DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, sSystemFlatFolders, false)
