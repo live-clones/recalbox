@@ -117,26 +117,28 @@ MainRunner::ExitState MainRunner::Run()
       return ExitState::FatalError;
     ResetForceReloadState();
 
-    // Run kodi at startup?
-    if (RecalboxSystem::kodiExists())
-      if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
-        GameRunner::Instance().RunKodi();
-
     // Scrapers
     ScraperFactory scraperFactory;
 
     ExitState exitState;
     try
     {
+      // Start Video engine
+      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
+      VideoEngine videoEngine;
+
+      // Run kodi at startup?
+      GameRunner gameRunner(window, systemManager);
+      //if (RecalboxSystem::kodiExists())
+      if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
+        gameRunner.RunKodi();
+      
       // Start update thread
       { LOG(LogDebug) << "[MainRunner] Launching Network thread"; }
       Upgrade networkThread(window);
       // Start the socket server
       { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);
-      // Start Video engine
-      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
-      VideoEngine videoEngine;
       // Start Neyplay thread
       { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
@@ -227,7 +229,6 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
-  GameRunner gameRunner(window, systemManager);
   DemoMode demoMode(window, systemManager);
 
   { LOG(LogDebug) << "[MainRunner] Entering main loop"; }
