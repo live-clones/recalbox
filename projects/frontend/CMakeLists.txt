@@ -66,6 +66,15 @@ if(BCMHOST_FOUND)
 endif()
 
 #-------------------------------------------------------------------------------
+option(USE_DRMKMS "Use DRM/KMS backend." OFF)
+
+if (USE_DRMKMS)
+    add_definitions("-DUSE_KMSDRM=1")
+    execute_process(COMMAND pkg-config libdrm --cflags OUTPUT_VARIABLE LIBDRM_INCLUDE OUTPUT_STRIP_TRAILING_WHITESPACE)
+    execute_process(COMMAND pkg-config libdrm --libs OUTPUT_VARIABLE LIBDRM_LIBRARY OUTPUT_STRIP_TRAILING_WHITESPACE)
+endif()
+
+#-------------------------------------------------------------------------------
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     #check for G++ 4.7+
@@ -81,12 +90,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     #set up compiler flags for GCC
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
         # -fsanitize=address -fsanitize-address-use-after-scope
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LIBDRM_INCLUDE} -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBDRM_INCLUDE} -std=c++11 -DDEBUG -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -DDEBUG -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")
 	else()
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${RECALBOX_PRODUCTION_BUILD} -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${RECALBOX_PRODUCTION_BUILD} -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${RECALBOX_PRODUCTION_BUILD} ${LIBDRM_INCLUDE} -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${RECALBOX_PRODUCTION_BUILD} ${LIBDRM_INCLUDE} -std=c++11 -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")  #-s = strip binary
 	endif()
 endif()
@@ -137,6 +146,7 @@ set(COMMON_LIBRARIES
 	${SDLMIXER_LIBRARY}
     ${CURL_LIBRARIES}
     ${PULSEAUDIO_LIBRARY}
+    ${LIBDRM_LIBRARY}
     pugixml
     nanosvg
     liboping

@@ -5,6 +5,7 @@
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "CrtConf.h"
+#include "ResolutionAdapter.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
 
@@ -209,256 +210,6 @@ void Renderer::DestroySdlSurface()
   //SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-bool Renderer::GetResolutionFromString(const std::string& resolution, int& w, int& h)
-{
-  //! Small resolution structure
-  struct Resolution
-  {
-    int Width;  //!< Width in pixels
-    int Height; //!< Height in pixels
-  };
-
-  static HashMap<int, Resolution> CeaModes
-  ({
-    { 1, { 640, 480 } },
-    { 2, { 640, 480 } },
-    { 3, { 854, 480 } },
-    { 4, { 1280, 720 } },
-    { 5, { 1920, 1080 } },
-    { 6, { 640, 480 } },
-    { 7, { 854, 480 } },
-    { 8, { 320, 240 } },
-    { 9, { 426, 240 } },
-    { 10, { 640, 480 } },
-    { 11, { 854, 480 } },
-    { 12, { 320, 240 } },
-    { 13, { 426, 240 } },
-    { 14, { 640, 480 } },
-    { 15, { 854, 480 } },
-    { 16, { 1920, 1080 } },
-    { 17, { 768, 576 } },
-    { 18, { 1024, 576 } },
-    { 19, { 1280, 720 } },
-    { 20, { 1920, 1080 } },
-    { 21, { 768, 576 } },
-    { 22, { 1024, 576 } },
-    { 23, { 384, 288 } },
-    { 24, { 512, 288 } },
-    { 25, { 768, 576 } },
-    { 26, { 1024, 576 } },
-    { 27, { 384, 288 } },
-    { 28, { 512, 288 } },
-    { 29, { 768, 576 } },
-    { 30, { 1024, 576 } },
-    { 31, { 1920, 1080 } },
-    { 32, { 1920, 1080 } },
-    { 33, { 1920, 1080 } },
-    { 34, { 1920, 1080 } },
-    { 35, { 640, 480 } },
-    { 36, { 854, 480 } },
-    { 37, { 768, 576 } },
-    { 38, { 1024, 576 } },
-    { 39, { 1920, 1080 } },
-    { 40, { 1920, 1080 } },
-    { 41, { 1280, 720 } },
-    { 42, { 768, 576 } },
-    { 43, { 1024, 576 } },
-    { 44, { 768, 576 } },
-    { 45, { 1024, 576 } },
-    { 46, { 1920, 1080 } },
-    { 47, { 1280, 720 } },
-    { 48, { 640, 480 } },
-    { 49, { 854, 480 } },
-    { 50, { 640, 480 } },
-    { 51, { 854, 480 } },
-    { 52, { 768, 576 } },
-    { 53, { 1024, 576 } },
-    { 54, { 768, 576 } },
-    { 55, { 1024, 576 } },
-    { 56, { 640, 480 } },
-    { 57, { 854, 480 } },
-    { 58, { 640, 480 } },
-    { 59, { 854, 480 } },
-    { 60, { 1280, 720 } },
-    { 61, { 1280, 720 } },
-    { 62, { 1280, 720 } },
-    { 63, { 1920, 1080 } },
-    { 64, { 1920, 1080 } },
-  });
-
-  static HashMap<int, Resolution> DmtModes
-  ({
-    { 1, { 640, 350 } },
-    { 2, { 640, 400 } },
-    { 3, { 720, 400 } },
-    { 4, { 640, 480 } },
-    { 5, { 640, 480 } },
-    { 6, { 640, 480 } },
-    { 7, { 640, 480 } },
-    { 8, { 800, 600 } },
-    { 9, { 800, 600 } },
-    { 10, { 800, 600 } },
-    { 11, { 800, 600 } },
-    { 12, { 800, 600 } },
-    { 13, { 800, 600 } },
-    { 14, { 848, 480 } },
-    { 15, { 1024, 768 } },
-    { 16, { 1024, 768 } },
-    { 17, { 1024, 768 } },
-    { 18, { 1024, 768 } },
-    { 19, { 1024, 768 } },
-    { 20, { 1024, 768 } },
-    { 21, { 1152, 864 } },
-    { 22, { 1280, 768 } },
-    { 23, { 1280, 768 } },
-    { 24, { 1280, 768 } },
-    { 25, { 1280, 768 } },
-    { 26, { 1280, 768 } },
-    { 27, { 1280, 800 } },
-    { 28, { 1280, 800 } },
-    { 29, { 1280, 800 } },
-    { 30, { 1280, 800 } },
-    { 31, { 1280, 800 } },
-    { 32, { 1280, 960 } },
-    { 33, { 1280, 960 } },
-    { 34, { 1280, 960 } },
-    { 35, { 1280, 1024 } },
-    { 36, { 1280, 1024 } },
-    { 37, { 1280, 1024 } },
-    { 38, { 1280, 1024 } },
-    { 39, { 1360, 768 } },
-    { 40, { 1360, 768 } },
-    { 41, { 1400, 1050 } },
-    { 42, { 1400, 1050 } },
-    { 43, { 1400, 1050 } },
-    { 44, { 1400, 1050 } },
-    { 45, { 1400, 1050 } },
-    { 46, { 1440, 900 } },
-    { 47, { 1440, 900 } },
-    { 48, { 1440, 900 } },
-    { 49, { 1440, 900 } },
-    { 50, { 1440, 900 } },
-    { 51, { 1600, 1200 } },
-    { 52, { 1600, 1200 } },
-    { 53, { 1600, 1200 } },
-    { 54, { 1600, 1200 } },
-    { 55, { 1600, 1200 } },
-    { 56, { 1600, 1200 } },
-    { 57, { 1680, 1050 } },
-    { 58, { 1680, 1050 } },
-    { 59, { 1680, 1050 } },
-    { 60, { 1680, 1050 } },
-    { 61, { 1680, 1050 } },
-    { 62, { 1792, 1344 } },
-    { 63, { 1792, 1344 } },
-    { 64, { 1792, 1344 } },
-    { 65, { 1856, 1392 } },
-    { 66, { 1856, 1392 } },
-    { 67, { 1856, 1392 } },
-    { 68, { 1920, 1200 } },
-    { 69, { 1920, 1200 } },
-    { 70, { 1920, 1200 } },
-    { 71, { 1920, 1200 } },
-    { 72, { 1920, 1200 } },
-    { 73, { 1920, 1440 } },
-    { 74, { 1920, 1440 } },
-    { 75, { 1920, 1440 } },
-    { 76, { 2560, 1600 } },
-    { 77, { 2560, 1600 } },
-    { 78, { 2560, 1600 } },
-    { 79, { 2560, 1600 } },
-    { 80, { 2560, 1600 } },
-    { 81, { 1366, 768 } },
-    { 82, { 1920, 1080 } },
-    { 83, { 1600, 900 } },
-    { 84, { 2048, 1152 } },
-    { 85, { 1280, 720 } },
-    { 86, { 1366, 768 } },
-  });
-
-  static HashMap<std::string, Resolution> Named
-  ({
-    { "nhd" , { 640, 360 } },
-    { "qhd" , { 960, 540 } },
-    { "hd" , { 1280, 720 } },
-    { "hd+" , { 1600, 900 } },
-    { "fhd" , { 1920, 1080 } },
-    { "wqhd" , { 2560, 1440 } },
-    { "qhd+" , { 3200, 1800 } },
-    { "4k uhd" , { 3840, 2160 } },
-
-    { "qqvga" , { 160, 120 } },
-    { "hqvga" , { 240, 160 } },
-    { "qvga" , { 320, 240 } },
-    { "wqvga" , { 384, 240 } },
-    { "hvga" , { 480, 320 } },
-    { "vga" , { 640, 480 } },
-    { "wvga" , { 768, 480 } },
-    { "fwvga" , { 854, 480 } },
-    { "svga" , { 800, 600 } },
-    { "wsvga" , { 1024, 576 } },
-    { "dvga" , { 960, 640 } },
-
-    { "xga" , { 1024, 768 } },
-    { "wxga" , { 1280, 768 } },
-    { "fwxga" , { 1366, 768 } },
-    { "xga+" , { 1152, 864 } },
-    { "wxga+" , { 1440, 900 } },
-    { "sxga" , { 1280, 1024 } },
-    { "wsxga" , { 1440, 960 } },
-    { "sxga+" , { 1400, 1050 } },
-    { "wsxga+" , { 1680, 1050 } },
-    { "uxga" , { 1600, 1200 } },
-    { "wuxga" , { 1920, 1200 } },
-
-    { "qwxga" , { 2048, 1152 } },
-    { "qxga" , { 2048, 1536 } },
-    { "wqxga" , { 2560, 1600 } },
-    { "qsxga" , { 2560, 2048 } },
-    { "wqsxga" , { 3200, 2048 } },
-    { "quxga" , { 3200, 2400 } },
-    { "wquxga" , { 3840, 2400 } },
-  });
-
-  // Named resolution?
-  Resolution* reso = Named.try_get(resolution);
-  if (reso != nullptr)
-  {
-    w = reso->Width;
-    h = reso->Height;
-    return true;
-  }
-
-  // Width x Height?
-  std::string swidth, sheight;
-  int width = 0, height = 0;
-  if (Strings::SplitAt(resolution, 'x', swidth, sheight, true))
-    if (Strings::ToInt(swidth, width) && Strings::ToInt(sheight, height))
-    {
-      w = width;
-      h = height;
-      return true;
-    }
-
-  // Raspberry syntax?
-  std::string mode, sindex, tail;
-  int index =0;
-  if (Strings::SplitAt(resolution, ' ', mode, sindex, true))
-    if (Strings::ToInt(sindex, 0, ' ', index))
-    {
-      if (mode == "cea") reso = CeaModes.try_get(index);
-      if (mode == "dmt") reso = DmtModes.try_get(index);
-      if (reso != nullptr)
-      {
-        w = reso->Width;
-        h = reso->Height;
-        return true;
-      }
-    }
-
-  return false;
-}
-
 void Renderer::GetResolutionFromConfiguration(int& w, int& h)
 {
   switch(Board::Instance().GetBoardType())
@@ -482,11 +233,18 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     case BoardType::PCx64:
     default:
     {
+      ResolutionAdapter adapter;
+      Resolutions::SimpleResolution output { 0, 0 };
       std::string resolution = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationVideoMode()));
-      if (!GetResolutionFromString(resolution, w, h))
+      if (!adapter.AdjustResolution(0, resolution, output))
       {
         resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
-        GetResolutionFromString(resolution, w, h);
+        adapter.AdjustResolution(0, resolution, output);
+      }
+      if (output.IsValid())
+      {
+        w = output.Width;
+        h = output.Height;
       }
     }
   }
@@ -501,8 +259,6 @@ bool Renderer::ReInitialize()
 
 bool Renderer::Initialize(int w, int h)
 {
-  GetResolutionList();
-
   { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
 
   // Get resolution from config if either w or h is nul
@@ -572,51 +328,6 @@ bool Renderer::Initialize(int w, int h)
 void Renderer::Finalize()
 {
   DestroySdlSurface();
-}
-
-const Renderer::ResolutionList& Renderer::GetResolutionList()
-{
-  static ResolutionList resolutions;
-  if (resolutions.empty())
-  {
-    SDL_DisplayMode mode = { SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, nullptr };
-    int displayCount = SDL_GetNumVideoDisplays();
-    { LOG(LogInfo) << "[Renderer] Number of displays: " << displayCount; }
-    for (int i = 0; i < displayCount; ++i)
-    {
-      { LOG(LogInfo) << "[Renderer]   Display: " << i; }
-      int modesCount = SDL_GetNumDisplayModes(i);
-      for (int m = 0; m < modesCount; ++m)
-        if (SDL_GetDisplayMode(i, m, &mode) == 0)
-        {
-          resolutions.push_back({ mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate });
-          { LOG(LogInfo) << "[Renderer]     Resolution: " << resolutions.back().ToStringAll(); }
-        }
-    }
-  }
-
-  return resolutions;
-}
-
-const Renderer::ResolutionList& Renderer::GetFilteredResolutionList()
-{
-  static ResolutionList resolutions;
-  if (resolutions.empty())
-  {
-    for (const Resolution& resolution: GetResolutionList())
-    {
-      bool found = false;
-      for (const Resolution& alreadyIn: resolutions)
-        if ((alreadyIn.Height == resolution.Height) && (alreadyIn.Width == resolution.Width))
-        {
-          found = true;
-          break;
-        }
-      if (!found && resolution.Bpp >= 15) resolutions.push_back(resolution);
-    }
-  }
-
-  return resolutions;
 }
 
 void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vertCount)

@@ -19,27 +19,6 @@ class Font;
 
 class Renderer : public StaticLifeCycleControler<Renderer>
 {
-  public:
-    //! Resolution structure
-    struct Resolution
-    {
-      int Width;
-      int Height;
-      int Bpp;
-      int Frequency;
-
-      std::string ToString() const { return Strings::ToString(Width).append(1, 'x')
-                                                                    .append(Strings::ToString(Height)); }
-      std::string ToStringAll() const { return Strings::ToString(Width).append(1, 'x')
-                                                                       .append(Strings::ToString(Height))
-                                                                       .append(1, ' ')
-                                                                       .append(Strings::ToString(Bpp))
-                                                                       .append(LEGACY_STRING("Bpp @"))
-                                                                       .append(Strings::ToString(Frequency))
-                                                                       .append(LEGACY_STRING("Hz")); }
-    };
-    typedef std::vector<Resolution> ResolutionList;
-
   private:
     //! New clipping rectangle stack
     Stack<Rectangle> mClippings;
@@ -320,12 +299,6 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param id GL Texture identifier
      */
     static void DestroyGLTexture(GLuint id);
-
-    //! Get resolution list
-    static const Renderer::ResolutionList& GetResolutionList();
-
-    //! Get resolution list
-    static const Renderer::ResolutionList& GetFilteredResolutionList();
 
     /*
      * Accessors
