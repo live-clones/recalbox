@@ -351,6 +351,7 @@ if __name__ == '__main__':
     parser.AddString(command="crtregion", chelp="Selected crt region: us,jp,eu", required=False)
     parser.AddString(command="crtresolutiontype", chelp="progressive, interlaced, or auto", required=False)
     parser.AddString(command="crtscreentype", chelp="15kHz, 31kHz", required=False)
+    parser.AddString(command="resolution", chelp="forced resolution", required=False)
     parser.AddInt(command="crtverticaloffset", chelp="vertical offset on CRT", required=False)
     parser.AddInt(command="crthorizontaloffset", chelp="horizontal offset on CRT", required=False)
     parser.AddInt(command="crtverticalpaloffset", chelp="pal vertical offset on CRT", required=False)
