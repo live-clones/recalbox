@@ -31,7 +31,11 @@ class DaphneGenerator(Generator):
                 "-fullscreen",
                 "-script", singeFile,
                 "-blend_sprites",
+                "-retropath",
+                "-grabmouse",
                 "-manymouse",
+                "-opengl",
+                "-texturestream",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
         else:
@@ -41,8 +45,15 @@ class DaphneGenerator(Generator):
                 "-framefile", frameFile,
                 "-fullscreen",
                 "-useoverlaysb", "2",
+                "-opengl",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
+
+        #from configgen.utils.architecture import Architecture
+        #if Architecture().isX64:
+        #    commandArray.extend(["-vulkan"])
+        #else:
+        #    commandArray.extend(["-opengl"])
 
         from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.VideoMode)
