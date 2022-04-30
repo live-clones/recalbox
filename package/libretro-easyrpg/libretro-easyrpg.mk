@@ -5,8 +5,9 @@
 ################################################################################
 
 LIBRETRO_EASYRPG_VERSION = 0799b06790d83f0d62ece88cebb842454f8468a9
-LIBRETRO_EASYRPG_SITE = git://github.com/EasyRPG/Player.git
+LIBRETRO_EASYRPG_SITE = https://github.com/EasyRPG/Player.git
 LIBRETRO_EASYRPG_DEPENDENCIES = pixman libpng zlib fmt freetype mpg123 wildmidi libvorbis libogg opusfile libsndfile libxmp-lite liblcf speexdsp
+LIBRETRO_EASYRPG_SITE_METHOD=git
 LIBRETRO_EASYRPG_GIT_SUBMODULES=y
 LIBRETRO_EASYRPG_LICENSE = GPL-3.0
 LIBRETRO_EASYRPG_LICENSE_FILES = COPYING

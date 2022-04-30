@@ -6,7 +6,7 @@
 
 # Version 1.10.0
 RETROARCH_VERSION = v1.10.0
-RETROARCH_SITE = git://github.com/libretro/RetroArch.git
+RETROARCH_SITE = https://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1

@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_FREECHAF_VERSION = 923a42b30fcda9b0d2ef84916b7b0e0d1760df2b
-LIBRETRO_FREECHAF_SITE = git://github.com/libretro/FreeChaF.git
+LIBRETRO_FREECHAF_SITE = https://github.com/libretro/FreeChaF.git
 LIBRETRO_FREECHAF_LICENSE = GPL-3.0
 LIBRETRO_FREECHAF_LICENSE_FILES = LICENSE
 

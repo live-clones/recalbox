@@ -5,7 +5,7 @@
 ################################################################################
 
 LIBRETRO_MRBOOM_VERSION = c59553c8ea025515b2e77cea6056b5108acf867d
-LIBRETRO_MRBOOM_SITE = git://github.com/libretro/mrboom-libretro.git
+LIBRETRO_MRBOOM_SITE = https://github.com/libretro/mrboom-libretro.git
 LIBRETRO_MRBOOM_LICENSE = MIT
 LIBRETRO_MRBOOM_LICENSE_FILES = LICENSE
 

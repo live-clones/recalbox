@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-HYPERION_SITE = git://github.com/hyperion-project/hyperion.git
+HYPERION_SITE = https://github.com/hyperion-project/hyperion.git
 HYPERION_VERSION = 205f2fb30e23bdce83f7271c25ffd4b79aedc43e
 HYPERION_LICENSE = MIT
 HYPERION_SITE_METHOD = git

@@ -5,9 +5,10 @@
 ################################################################################
 
 LIBRETRO_NEOCD_VERSION = aedbf12d4df2d2ee4dbc584ecb5102bab29aff59
-LIBRETRO_NEOCD_SITE = git://github.com/libretro/neocd_libretro.git
+LIBRETRO_NEOCD_SITE = https://github.com/libretro/neocd_libretro.git
 LIBRETRO_NEOCD_LICENSE = LGPLv3
 
+LIBRETRO_NEOCD_SITE_METHOD=git
 LIBRETRO_NEOCD_GIT_SUBMODULES=y
 
 define LIBRETRO_NEOCD_BUILD_CMDS
