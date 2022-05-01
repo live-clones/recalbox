@@ -41,6 +41,7 @@ a367ace0e2e042b2a822c2c2438a1ffa  package/luajit/Config.in
 1ff3c788068e52e7cd08b78110fa838d  package/mpg123/mpg123.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 2f5ef1257ec42b29f681f151fdf87d80  package/python-pygame/python-pygame.mk
+ea99bcbf8d38079db6b1bb9951270867  package/python-rpi-gpio/Config.in
 23a7d27ad2e486768475d6685a717747  package/rpi-firmware/Config.in
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 bd7b8a40e74646ca35a6d2c46aeb5d47  package/rpi-firmware/rpi-firmware.hash
