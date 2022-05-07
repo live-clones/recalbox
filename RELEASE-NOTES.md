@@ -84,6 +84,7 @@ as release notes for end user on a Recalbox upgrade.
   - Use F12 as ESC replacement to quit
 - Bump Hypseus Singe (Daphne) - Add support for Singe 2 games
 - Bump nvidia legacy drivers to 390.147
+- Bump nvidia production drivers to 510.68.02
 
 ### Fixes
 
