@@ -86,3 +86,12 @@ isRecalboxRGBDual() {
     return 1
   fi
 }
+
+# Get the best MPV Options
+getMpvOptions() {
+  if isRecalboxRGBDual; then
+    getCrtMpvOptions
+  else
+    echo ""
+  fi
+}
