@@ -149,6 +149,9 @@ if test "$1" == "start" ; then
 
     # RRGBD is present
     if rrgbdIsPlugged; then
+        # Disable HDMI output
+        echo "off" > /sys/class/drm/card1-HDMI-A-1/status
+        echo "off" > /sys/class/drm/card1-HDMI-A-2/status
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
