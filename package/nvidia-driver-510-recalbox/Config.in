@@ -1,9 +1,9 @@
-comment "nvidia-driver-460 needs a glibc toolchain"
+comment "nvidia-driver-510 needs a glibc toolchain"
 	depends on BR2_i386 || BR2_x86_64
 	depends on !BR2_TOOLCHAIN_USES_GLIBC
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX
-	bool "nvidia-driver-460-recalbox"
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX
+	bool "nvidia-driver-510-recalbox"
 	depends on BR2_i386 || BR2_x86_64
 	depends on BR2_TOOLCHAIN_USES_GLIBC
 	help
@@ -12,12 +12,12 @@ config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX
 
 	  http://www.nvidia.com/
 
-if BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX
+if BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX
 
-comment "nvidia-driver-460 X.org drivers needs a modular Xorg server"
+comment "nvidia-driver-510 X.org drivers needs a modular Xorg server"
 	depends on !BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_XORG
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_XORG
 	bool "X.org drivers"
 	default y
 	depends on BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR
@@ -30,21 +30,21 @@ config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_XORG
 	select BR2_PACKAGE_HAS_LIBEGL_WAYLAND if !BR2_PACKAGE_MESA3D
 	select BR2_PACKAGE_HAS_LIBGLES if !BR2_PACKAGE_MESA3D
 
-if BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_XORG
+if BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_XORG
 
 # recalbox - enable both mesa and nvidia
 if !BR2_PACKAGE_MESA3D
 config BR2_PACKAGE_PROVIDES_LIBGL
-	default "nvidia-driver-460"
+	default "nvidia-driver-510"
 
 config BR2_PACKAGE_PROVIDES_LIBEGL
-	default "nvidia-driver-460"
+	default "nvidia-driver-510"
 
 config BR2_PACKAGE_PROVIDES_LIBGLES
-	default "nvidia-driver-460"
+	default "nvidia-driver-510"
 endif
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_PRIVATE_LIBS
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_PRIVATE_LIBS
 	bool "Install private libraries"
 	help
 	  Two libraries require special agreement with NVidia to
@@ -55,32 +55,32 @@ config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_PRIVATE_LIBS
 	  Say 'y' here if you plan on running a program that uses
 	  those private libraries.
 
-endif # BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_XORG
+endif # BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_XORG
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_CUDA
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_CUDA
 	bool "CUDA support"
 
-if BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_CUDA
+if BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_CUDA
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_OPENCL
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_OPENCL
 	bool "OpenCL support"
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_CUDA_PROGS
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_CUDA_PROGS
 	bool "CUDA MPS server and control"
 	help
 	  Say 'y' here if you need to run more than one program
 	  doing CUDA at the same time. The MPS server will be
 	  launched automatically when needed.
 
-endif # BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_CUDA
+endif # BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_CUDA
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_NGX
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_NGX
 	bool "NGX support"
 
 comment "nvidia kernel module needs a kernel to be built"
 	depends on !BR2_LINUX_KERNEL
 
-config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_MODULE
+config BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX_MODULE
 	bool "nvidia kernel module"
 	depends on BR2_LINUX_KERNEL
 	select BR2_LINUX_NEEDS_MODULES # not using kernel-module infra
@@ -92,4 +92,4 @@ config BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_MODULE
 	  provides Unified Memory access to the GPU and CPU memories for
 	  CUDA programs.
 
-endif # BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX
+endif # BR2_PACKAGE_NVIDIA_DRIVER_510_RECALBOX
