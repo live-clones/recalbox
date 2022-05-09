@@ -58,6 +58,14 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
         fi
 fi
 
+# is gpu compatible ?
+if [ -n "${nvver}" ]; then
+	echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
+else
+	echo "GPU: ${gpu}, id: ${gpuid}, is unknown or unsupported, skipping nvidia driver installation"
+	exit 0
+fi
+
 # set paths/vars
 libs="/usr/lib"
 xorg="${libs}/xorg/modules"
@@ -70,13 +78,6 @@ nvgles1=$(find "${libs}/extra/nvidia-${nvver}/" -name "libGLESv1_CM.so.*" | sed 
 nvgles2=$(find "${libs}/extra/nvidia-${nvver}/" -name "libGLESv2.so.*" | sed -E 's/^.*\.so\.//')
 nvway=$(find "${libs}/extra/nvidia-${nvver}/" -name "libnvidia-egl-wayland.so.*" | sed -E 's/^.*\.so\.//')
 
-# is gpu compatible ?
-if [ -n "${nvver}" ]; then
-	echo "GPU: ${gpu}, id: ${gpuid}, driver: ${nvver}"
-else
-	echo "GPU: ${gpu}, id: ${gpuid}, is unknown or unsupported, skipping nvidia driver installation"
-	exit 0
-fi
 # proceed installation
 mount -o remount, rw /
 echo "blacklist nouveau" >> "${blacklistFile}"
