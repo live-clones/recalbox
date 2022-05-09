@@ -221,10 +221,10 @@ def main(arguments) -> (int, bool):
 
     # Cleanup extraction folder
     if arguments.demo:
-        import glob
+        import shutil
         import os
-        for extractedFile in glob.glob("/recalbox/share/extractions/*"):
-            os.remove(extractedFile)
+        shutil.rmtree("/recalbox/share/extractions/")
+        os.mkdir("/recalbox/share/extractions/")
 
     # Main Program
     # A generator will configure its emulator, and return a command
