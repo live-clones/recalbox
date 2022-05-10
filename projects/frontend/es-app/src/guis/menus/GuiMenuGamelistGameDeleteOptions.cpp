@@ -58,7 +58,7 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
 
     mMenu.addButton(_("CANCEL"), "", [this] { Close(); });
     mMenu.setCursorToButtons();
-    mMenu.SetDefaultButton(1);
+    mMenu.SetDefaultButton(0);
   }
 }
 
@@ -88,38 +88,39 @@ void GuiMenuGamelistGameDeleteOptions::SubMenuSelected(int id)
 
 std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
 {
-  std::string message = _("Game").append(": ").append(mGame.Name()).append("\n\n");
-
-  message.append(_("GAME FILES (ROM | DISK IMAGE)").append("\n"));
-  message.append(mGame.FilePath().ToString()).append("\n");
+  std::string message = _("Game").append(": ").append(mGame.Name()).append("\n");
+  message.append("You are about to delete this files, confirm ?\n\n");
+  message.append(mGame.FilePath().Filename()).append("\n");
   for(const auto& path : mGameFiles)
   {
-    message.append(path).append("\n");
+    message.append(Path(path).Filename()).append("\n");
   }
   if(!mExtraFiles.empty())
   {
-    message.append("\n").append(_("CONF | PATCHES")).append("\n");
     for (const auto& path: mExtraFiles)
     {
-      message.append(path).append("\n");
+      message.append(Path(path).Filename()).append("\n");
     }
   }
 
   if(!mSaveFiles.empty())
   {
-    message.append("\n").append(_("SAVES")).append("\n");
     for (const auto& path: mSaveFiles)
     {
-      message.append(path).append("\n");
+      message.append(Path(path).Filename()).append("\n");
     }
   }
 
   if(!mMediaFiles.empty())
   {
-    message.append("\n").append(_("MEDIA")).append("\n");
     for (const auto& path: mMediaFiles)
     {
-      message.append(path).append("\n");
+      if(Strings::Contains(path, "/media/images/"))
+        message.append(_("image")).append("\n");
+      if(Strings::Contains(path, "/media/thumbnails/"))
+        message.append(_("thumbnails")).append("\n");
+      if(Strings::Contains(path, "/media/videos/"))
+        message.append(_("video")).append("\n");
     }
   }
   return message;
