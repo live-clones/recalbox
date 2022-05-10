@@ -101,12 +101,6 @@ void ViewController::ResetFilters()
   conf.SetGlobalHidePreinstalled(false);
   conf.SetHideNoGames(false);
   conf.SetFilterAdultGames(false);
-  for (auto* systemData : mSystemManager.GetAllSystemList())
-  {
-    const SystemData& sys = *systemData;
-    if (conf.GetSystemFilterAdult(sys))
-      conf.SetSystemFilterAdult(sys, false);
-  }
 
   conf.SetCollectionHide("ports",false);
 //  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);

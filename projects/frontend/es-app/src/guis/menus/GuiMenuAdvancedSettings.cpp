@@ -58,9 +58,6 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   if(!isCrt)
     AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
 
-  // Adult games
-  AddSwitch(_("HIDE ADULT GAMES IN ALL SYSTEMS"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::AdultGames, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
-
   //Kodi
   if (RecalboxSystem::kodiExists())
     AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
@@ -219,7 +216,6 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
       RecalboxConf::Instance().SetDebugLogs(status).Save();
       break;
     }
-    case Components::AdultGames: RecalboxConf::Instance().SetFilterAdultGames(status).Save(); break;
     case Components::Overscan:
     {
       RecalboxConf::Instance().SetOverscan(status);
@@ -253,7 +249,6 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::OverclockList:
-    case Components::AdultGames:
     case Components::Overscan:
     case Components::ShowFPS:
     case Components::SecuritySubMenu:
