@@ -51,6 +51,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add display by filename in gamelist option
 - Add go to game from search results and add search games from gamelist menu
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
+- Add Amiga 500 Mini controller configuration
 
 ### Improvements
 
