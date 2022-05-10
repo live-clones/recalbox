@@ -51,12 +51,12 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
 std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOptions::GetGameFileEntries()
 {
   std::vector<ListEntry<Path>> list;
-  list.push_back({ mGame.FilePath().Filename(),  mGame.FilePath(), true });
+  list.push_back({ mGame.FilePath().Filename(),  mGame.FilePath(), false });
 
   for (const auto& file : GameFilesUtils::GetGameSubFiles(mGame))
   {
     Path path = Path(file);
-    list.push_back({ path.Filename(), path, true });
+    list.push_back({ path.Filename(), path, false });
   }
   return list;
 }
@@ -66,15 +66,15 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
   std::vector<ListEntry<Path>> list;
    if (mGame.Metadata().Image().Exists())
     {
-        list.push_back({ "image", mGame.Metadata().Image(), true });
+        list.push_back({ "image", mGame.Metadata().Image(), false });
     }
     if (mGame.Metadata().Thumbnail().Exists())
     {
-        list.push_back({ "thumbnail", mGame.Metadata().Thumbnail(), true });
+        list.push_back({ "thumbnail", mGame.Metadata().Thumbnail(), false });
     }
     if (mGame.Metadata().Video().Exists())
     {
-        list.push_back({ "video", mGame.Metadata().Video(), true });
+        list.push_back({ "video", mGame.Metadata().Video(), false });
     }
 
   return list;
@@ -86,7 +86,7 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
   for (const auto& patch : GameFilesUtils::GetGameExtraFiles(mGame))
   {
     Path path = Path(patch);
-      list.push_back({ path.Filename(), path, true });
+      list.push_back({ path.Filename(), path, false });
   }
   return list;
 }
@@ -98,7 +98,7 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
   for (const auto& patch : GameFilesUtils::GetGameSaveFiles(mGame))
   {
     Path path = Path(patch);
-    list.push_back({ path.Filename(), path, true });
+    list.push_back({ path.Filename(), path, false });
   }
   return list;
 }
@@ -145,18 +145,20 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
 {
   std::string message = _("Game").append(": ").append(mGame.Name()).append("\n\n");
 
-  message.append(_("GAME FILES (ROM | DISK IMAGE)").append("\n"));
-  message.append(mGame.FilePath().ToString()).append("\n");
-  for(const Path& path : mGameFiles->getSelectedObjects())
+  if(!mGameFiles->getSelectedObjects().empty())
   {
-    message.append(path.ToString()).append("\n");
+    message.append(_("GAME FILES (ROM | DISK IMAGE)").append("\n"));
+    for (const Path& path: mGameFiles->getSelectedObjects())
+    {
+      message.append(path.Filename()).append("\n");
+    }
   }
   if(!mExtras->getSelectedObjects().empty())
   {
     message.append("\n").append(_("CONF | PATCHES")).append("\n");
     for (const Path& path: mExtras->getSelectedObjects())
     {
-      message.append(path.ToString()).append("\n");
+      message.append(path.Filename()).append("\n");
     }
   }
 
@@ -165,7 +167,7 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
     message.append("\n").append(_("SAVES")).append("\n");
     for (const Path& path: mSaves->getSelectedObjects())
     {
-      message.append(path.ToString()).append("\n");
+      message.append(path.Filename()).append("\n");
     }
   }
 
@@ -174,7 +176,7 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
     message.append("\n").append(_("MEDIA")).append("\n");
     for (const Path& path: mMedias->getSelectedObjects())
     {
-      message.append(path.ToString()).append("\n");
+      message.append(path.Filename()).append("\n");
     }
   }
 
