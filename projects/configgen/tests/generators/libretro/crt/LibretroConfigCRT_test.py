@@ -54,6 +54,15 @@ def givenDefaultsModesAndSystems(mocker):
         MODES_TXT: "default:pal:288@50,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50\ndefault:ntsc:240@60,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,50\n"
     })
 
+def test_given_any_system_should_avoid_fullscreen_dimensions(mocker, system_snes):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
+        MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
+
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
+    assert config_lines["video_fullscreen"] == '"true"'
+    assert config_lines["video_fullscreen_x"] == ''
+    assert config_lines["video_fullscreen_y"] == ''
 
 def test_given_any_config_should_create_default_config_with_no_graphical_filters(mocker):
     givenDefaultsModesAndSystems(mocker)
@@ -525,6 +534,7 @@ def test_given_a_nes_game_should_return_viewport_info(mocker, system_fbneo):
     assert libretro_config["custom_viewport_height_pal"] == 240
     assert libretro_config["custom_viewport_x_pal"] == 40
     assert libretro_config["custom_viewport_y_pal"] == 24
+
 
 
 def test_given_15kHz_and_force50hz_selected_and_no_pal_config_should_create_config_with_default_pal_mode_but_best_viewport_size_selected_from_ntsc(
