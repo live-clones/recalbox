@@ -29,7 +29,7 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemData& system
    if (!system.IsFavorite())
     AddSwitch(_("SHOW HIDDEN GAMES "), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
 
-  AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetSystemFilterAdult(mSystem), (int)Components::Adult, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::Adult, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   AddSwitch(_("HIDE PREINSTALLED GAMES"), RecalboxConf::Instance().GetGlobalHidePreinstalled(), (int)Components::HidePreinstalled, this, _(MENUMESSAGE_GAME_HIDE_PREINSTALLED));
 
@@ -109,7 +109,7 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)
       ManageSystems();
       break;
     case Components::Adult:
-      RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save();
+      RecalboxConf::Instance().SetFilterAdultGames(status).Save();
       ManageSystems();
       break;
     case Components::HidePreinstalled:
