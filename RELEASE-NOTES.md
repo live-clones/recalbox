@@ -22,6 +22,8 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: add game resolution option in menu for demo games
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
+
+- Add slangs shaders support on retroarch
 - Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
