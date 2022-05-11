@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Add remote playlists (Patrons)
 - Add seamless scraping (Patrons)
+- Add slangs shaders support on retroarch
 - Fix swanstation memory card compatibility option for saving on network
 - Add libretro PSP emulator (libretro ppsspp)
 - Add delete game options
