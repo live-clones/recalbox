@@ -22,7 +22,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
                                  , private IEditableComponent
                                  , private IRatingComponent
                                  , private IGuiMenuBase
-                                 , private GuiScraperSingleGameRun::IScrappingComplete
+                                 , private GuiScraperSingleGameRun::IScrapingComplete
 {
   public:
     GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game);
@@ -125,10 +125,10 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     void SubMenuSelected(int id) override;
 
     /*
-     * GuiScraperSingleGameRun::IScrappingComplete implementation
+     * GuiScraperSingleGameRun::IScrapingComplete implementation
      */
 
-    void ScrappingComplete(FileData& game) override;
+    void ScrapingComplete(FileData& game) override;
 };
 
 

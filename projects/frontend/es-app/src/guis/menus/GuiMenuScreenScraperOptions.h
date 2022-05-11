@@ -22,7 +22,7 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
 {
   public:
 
-    explicit GuiMenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager);
+    explicit GuiMenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager, ScraperType scraperType);
 
   private:
     enum class Components
@@ -39,34 +39,21 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
         Login,
         Password,
     };
-  private:
-
-    std::shared_ptr<EditableComponent> mLogin;
-    std::shared_ptr<EditableComponent> mPassword;
-    std::shared_ptr<SwitchComponent>                      mP2k;
-    std::shared_ptr<SwitchComponent>                      mMaps;
-    std::shared_ptr<SwitchComponent>                      mManual;
-    std::shared_ptr<SwitchComponent>                      mExtractRegionFromRom;
-    std::shared_ptr<OptionListComponent<ScreenScraperEnums::ScreenScraperImageType>>     mImage;
-    std::shared_ptr<OptionListComponent<ScreenScraperEnums::ScreenScraperImageType>>     mThumbnail;
-    std::shared_ptr<OptionListComponent<ScreenScraperEnums::ScreenScraperVideoType>>     mVideo;
-    std::shared_ptr<OptionListComponent<ScreenScraperEnums::ScreenScraperRegionPriority>>       mExtractRegionMethod;
-    std::shared_ptr<OptionListComponent<Regions::GameRegions>>     mRegion;
-    std::shared_ptr<OptionListComponent<Languages>>     mLanguage;
-    std::shared_ptr<SwitchComponent> mApproveResults;
 
     //! System Manager instance
     SystemManager& mSystemManager;
 
+    //! Scraper type
+    ScraperType mType;
 
-    std::vector<ListEntry<ScrappingMethod>> GetScrapingMethods();
-    std::vector<ListEntry<SystemData*>> GetSystemsEntries();
+    static std::vector<ListEntry<ScrapingMethod>> GetScrapingMethods();
+    static std::vector<ListEntry<SystemData*>> GetSystemsEntries();
     static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetImagesEntries();
     static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperImageType>> GetThumbnailsEntries();
     static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> GetVideosEntries();
-    std::vector<ListEntry<ScreenScraperEnums::ScreenScraperRegionPriority>> GetRegionOptionsEntries();
-    std::vector<ListEntry<Regions::GameRegions>> GetRegionsEntries();
-    std::vector<ListEntry<Languages>> GetLanguagesEntries();
+    static std::vector<ListEntry<ScreenScraperEnums::ScreenScraperRegionPriority>> GetRegionOptionsEntries();
+    static std::vector<ListEntry<Regions::GameRegions>> GetRegionsEntries();
+    static std::vector<ListEntry<Languages>> GetLanguagesEntries();
 
     void EditableComponentTextChanged(int id, const std::string& text) override;
     void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperImageType& value) override;
@@ -76,4 +63,16 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const Languages& value) override;
 
     void SwitchComponentChanged(int id, bool status) override;
+
+    //! Get login regarding scraper type
+    std::string GetLogin();
+
+    //! Get password regarding scraper type
+    std::string GetPassword();
+
+    //! Get login regarding scraper type
+    void SetLogin(const std::string& login);
+
+    //! Get password regarding scraper type
+    void SetPassword(const std::string& password);
 };

@@ -220,7 +220,7 @@ msgstr "系统设置"
 msgid "VERSION"
 msgstr "版本"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "磁盘使用情况"
 
 msgid "STORAGE DEVICE"
@@ -3191,120 +3191,22 @@ msgstr "Afficher les jeux par noms de fichier"
 msgid "SEARCH GAMES HERE"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "安全"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#, fuzzy
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "加强安全"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#, fuzzy
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "管理员密码"
+#
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr ""
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "管理 Recalbox 的安全设置。"
-
-#, fuzzy
-#~ msgid "Change the SSH root password."
-#~ msgstr "更改 SSH 管理员密码。"
-
-#, fuzzy
-#~ msgid "Enforce recalbox security."
-#~ msgstr "加强 Recalbox 的安全性。"
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr "设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK会将屏幕调黑。"
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "更新版本："
-
-#~ msgid "Rom found"
-#~ msgstr "发现 ROM"
-
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "将系统复制到另一设备上。\n"
-#~ "警告！这会擦除目标设备上的一切数据。"
-
-#~ msgid ""
-#~ "Scrapping complete! {PROCESSED} games processed.\n"
-#~ "\n"
-#~ "{SUCCESS} game(s) scraped or updated\n"
-#~ "{NOTFOUND} game(s) not found...\n"
-#~ "{ERRORS} request/download errors\n"
-#~ "\n"
-#~ "{TEXTINFO} Text information updated\n"
-#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
-#~ "{MEDIASIZE} of media saved\n"
-#~ "Now, EmulationStation is going to relaunch to update all gamelists."
-#~ msgstr ""
-#~ "抓取完成！{PROCESSED} 个游戏已处理。\n"
-#~ "\n"
-#~ "{SUCCESS} 个游戏已成功抓取或更新。\n"
-#~ "{NOTFOUND} 个游戏未能找到……\n"
-#~ "{ERRORS} 个请求/下载出现错误。\n"
-#~ "\n"
-#~ "{TEXTINFO} 条文本信息已更新。\n"
-#~ "{IMAGES} 个图片和 {VIDEOS} 个视频已下载。\n"
-#~ "共保存了 {MEDIASIZE} 的媒体文件。\n"
-#~ "EmulationStation 将重新启动以更新所有游戏列表。"
-
-#~ msgid ""
-#~ "You reached your daily quota of scrapping request.\n"
-#~ "All your today's scrapes have been saved anyway.\n"
-#~ "\n"
-#~ "Start scrapping again tomorrow.\n"
-#~ "Dont forget to select 'update' and not 'scrape all'"
-#~ msgstr ""
-#~ "您已达到每日抓取请求限额！所有已完成的抓取都将保存。\n"
-#~ "\n"
-#~ "请明天再来尝试吧。不要忘记选择“更新”而不是“全部搜刮”。"
-
-#, fuzzy
-#~ msgid ""
-#~ "Select the source of your game name. Trust the scrapping database or get "
-#~ "them from filename, raw or undecorated (without decoration in () or [] )."
-#~ msgstr ""
-#~ "选择您游戏名称的来源。信任搜刮数据库，或从原始文件名或未修饰的文件名中获取"
-#~ "它们（在 () 或 [] 没有修饰）。"
-
-#~ msgid "Scrapper results"
-#~ msgstr "抓取结果"
-
-#~ msgid "Real Time Stratégy"
-#~ msgstr "实时策略"
-
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "如果按下 POWER/电源键超过2秒，主机将会关闭。如果您在游戏中这样做，"
-#~ "Recalbox 将在关闭电源前正常关闭当前的模拟器。\n"
-#~ "请注意，若您按住电源键超过5秒，主机将会硬关机。\n"
-#~ "\n"
-#~ "请按B键继续。"
-
-#~ msgid "added to favorites"
-#~ msgstr "已添加到收藏"
-
-#~ msgid "removed from favorites"
-#~ msgstr "已从收藏中移除"
-
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "无法播放游戏剪辑。\n"
-#~ "\n"
-#~ "没有可供您选择的视频。"
+#
+msgid "Please select one or more systems to scrape!"
+msgstr ""

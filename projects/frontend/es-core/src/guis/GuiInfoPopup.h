@@ -1,73 +1,37 @@
 //
-// Created by xizor on 30/03/18.
+// Created by bkg2k on 26/03/2022.
+//
+// As part of the RECALBOX Project
+// http://www.recalbox.com
 //
 #pragma once
 
-#include "guis/Gui.h"
-#include "components/NinePatchComponent.h"
-#include "components/ComponentGrid.h"
-#include "WindowManager.h"
-#include "utils/Log.h"
-#include "utils/math/Vectors.h"
+#include <components/ComponentGrid.h>
+#include <WindowManager.h>
+#include <guis/GuiInfoPopupBase.h>
+#include <utils/Log.h>
 
 class TextComponent;
 
-class GuiInfoPopup : public Gui
+class GuiInfoPopup : public GuiInfoPopupBase
 {
   public:
-    enum class Corner
-    {
-      TopLeft,
-      TopRight,
-      BottomRight,
-      BottomLeft,
-    };
+    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, GuiInfoPopupBase::PopupType icon);
 
-    enum class PopupType
-    {
-      None,     //!< No icon
-      Music,    //!< Music icon
-      Help,     //!< Help icon
-      Netplay,  //!< Netplay logo
-      Recalbox, //!< Recalbox logo
-      Pads,     //!< Joystick logo
-      Reboot,   //!< Pending reboot
-    };
-
-    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon);
-    ~GuiInfoPopup() override = default;
-    void Update(int delta) override;
-    void Render(const Transform4x4f& parentTrans) override;
-    inline void stop() { mRunning = false; };
-
-    /*!
-     * @brief Set initial target offset, relative to the selected corner
-     * @param offset target offset
-     */
-    void SetOffset(int offset) { mTargetOffset = offset; }
-
-    /*!
-     * @brief Slide target offset from the given amount of pixels
-     * @param offset
-     */
-    void SlideOffset(int size);
-
-    //! Popup must be closed?
-    bool TimeOut() const { return !mRunning; }
-
-    PopupType Type() const { return mType; }
+  protected:
+    float AddComponents(WindowManager& window, ComponentGrid& grid, float maxWidth, float maxHeight, int paddingX, int paddingY) override;
 
   private:
-    ComponentGrid mGrid;
-    NinePatchComponent mFrame;
+    //! Text message
+    std::string mMessage;
+    //! Icon
+    GuiInfoPopupBase::PopupType mIcon;
+
+    //! MEssage component
     std::shared_ptr<TextComponent> mMsgText;
+    //! Icon component
     std::shared_ptr<TextComponent> mMsgIcon;
-    unsigned int mFrameColor;
-    PopupType mType;
-    Corner mCorner;
-    int mTargetOffset;
-    int mDuration;
-    int maxAlpha;
-    int mStartTime;
-    bool mRunning;
 };
+
+
+

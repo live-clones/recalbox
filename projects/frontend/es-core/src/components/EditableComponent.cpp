@@ -131,7 +131,7 @@ void EditableComponent::setUppercase(bool uppercase)
 
 void EditableComponent::Render(const Transform4x4f& parentTrans)
 {
-  if(mDisabled) return;
+  if(mThemeDisabled) return;
   Transform4x4f trans = parentTrans * getTransform();
 
   Renderer::SetMatrix(trans);

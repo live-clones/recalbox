@@ -37,7 +37,12 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
       for(const Path& externalRoms : mMountPoints)
       {
         root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, externalRoms.ToString()));
-        if (root.Exists()) roots[root.ToString()] = false;
+        if (root.Exists())
+        {
+          const DeviceMount* mount = mMountPointMonitoring.SizeOf(root);
+          bool readOnly = (mount != nullptr && mount->ReadOnly());
+          roots[root.ToString()] = readOnly;
+        }
       }
     }
   }
@@ -1044,4 +1049,14 @@ int SystemManager::GameCount()
   for(const SystemData* system : mAllSystemVector)
     result += system->GameCount();
   return result;
+}
+
+FileData* SystemManager::LookupGameByFilePath(const std::string& filePath)
+{
+  for (const SystemData* system : GetAllSystemList())
+  {
+    FileData* result = system->MasterRoot().LookupGameByFilePath(filePath);
+    if (result != nullptr) return result;
+  }
+  return nullptr;
 }

@@ -6,16 +6,25 @@
 //
 #pragma once
 
-#include <utils/os/system/Thread.h>
-#include <systems/IMountMonitorNotifications.h>
+#include "utils/os/system/Thread.h"
+#include "IMountMonitorNotifications.h"
 #include "utils/sdl2/SyncronousEvent.h"
 #include "MountDevice.h"
 
 class MountMonitor : private Thread, private ISynchronousEvent
 {
   public:
+    //! Recalbox Mount point root
+    static constexpr const char* sRecalboxRootMountPoint = "/recalbox/share/externals";
+    //! Share path
+    static constexpr const char* sSharePath = "/recalbox/share";
+    //! Share roms path
+    static constexpr const char* sShareRomsPath = "/recalbox/share/roms";
+
     //! Mount info list
     typedef std::vector<DeviceMount> DeviceMountList;
+    //! Mount info list
+    typedef std::vector<DeviceMount*> DeviceMountReferences;
 
     //! Constructor
     explicit MountMonitor(IMountMonitorNotifications* interface);
@@ -26,13 +35,22 @@ class MountMonitor : private Thread, private ISynchronousEvent
     //! Get current mount point list
     const DeviceMountList& MountPoints() const { return mMountPoints; }
 
+    /*!
+     * @brief Get size of a registered mount point
+     * @param path Mount point path
+     * @return DeviceMount class with free & total size updated or nullptr if path is unknown
+     */
+    const DeviceMount* SizeOf(const Path& path);
+
+    /*!
+     * @brief Update all mount points and return a reference list
+     * @return Mount point reference list
+     */
+    DeviceMountReferences AllMountPoints();
+
   private:
     //! Mount point list file
     static constexpr const char* sMountPointFile = "/proc/mounts";
-    //! Recalbox Mount point root
-    static constexpr const char* sRecalboxRootMountPoint = "/recalbox/share/externals";
-    //! Share path
-    static constexpr const char* sSharePath = "/recalbox/share";
 
     //! Action used in synchronous event
     enum class Action
@@ -46,6 +64,10 @@ class MountMonitor : private Thread, private ISynchronousEvent
 
     //! Current path list
     DeviceMountList mMountPoints;
+    //! Share special mount point
+    DeviceMount mShareMountPoint;
+    //! Share/roms special mount point
+    DeviceMount mShareRomsMountPoint;
     //! Mount point to process
     DeviceMount mPendingMountPoint;
 
@@ -56,7 +78,7 @@ class MountMonitor : private Thread, private ISynchronousEvent
      * @brief Load moint points in /media and return them as a path list
      * @return Path list
      */
-    static DeviceMountList LoadMountPoints();
+    DeviceMountList LoadMountPoints();
 
     /*!
      * @brief Compare old list and new list an generate add/remove events accordingly

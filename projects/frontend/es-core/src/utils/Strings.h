@@ -188,6 +188,14 @@ class Strings
     static std::string UnicodeToUtf8(const std::vector<unsigned int>& unicodes);
 
     static std::vector<unsigned int> Utf8ToUnicode(const std::string& utf8);
+
+    /*!
+     * @brief Transform the given size in its best human-readable string representation
+     * exemple: 13KB, 25.6MB, 859.41GB, ...
+     * @param size Source size in byte
+     * @return String representation
+     */
+    static std::string ToHumanSize(long long size);
 };
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

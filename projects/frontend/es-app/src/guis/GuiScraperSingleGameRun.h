@@ -10,13 +10,16 @@
 class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
 {
   public:
-    class IScrappingComplete
+    class IScrapingComplete
     {
       public:
-        virtual void ScrappingComplete(FileData& game) = 0;
+        virtual void ScrapingComplete(FileData& game) = 0;
     };
 
   private:
+    //! SystemManager reference
+    SystemManager& mSystemManager;
+
     //! Scraper interface
     IScraperEngine* mScraper;
 
@@ -24,7 +27,7 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     FileData& mGame;
 
     //! Notification interface
-    IScrappingComplete* mNotifier;
+    IScrapingComplete* mNotifier;
 
     /*
      * Components
@@ -40,7 +43,7 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     std::shared_ptr<ComponentGrid> mButtonGrid;
 
   public:
-    explicit GuiScraperSingleGameRun(WindowManager&window, FileData& game, IScrappingComplete* notifier);
+    explicit GuiScraperSingleGameRun(WindowManager&window, SystemManager& systemManager, FileData& game, IScrapingComplete* notifier);
 
     void onSizeChanged() override;
 

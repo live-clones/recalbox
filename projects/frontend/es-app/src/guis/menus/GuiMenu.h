@@ -1,6 +1,7 @@
 #pragma once
 
-#include "guis/menus/GuiMenuBase.h"
+#include <guis/menus/GuiMenuBase.h>
+#include <scraping/scrapers/IScraperEngineFreezer.h>
 
 // Forward declarations
 class WindowManager;

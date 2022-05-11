@@ -6,20 +6,21 @@
 #include "themes/ThemeData.h"
 
 TextComponent::TextComponent(WindowManager&window)
-	: Component(window),
-    mFont(Font::get(FONT_SIZE_MEDIUM)),
-    mColor(0x000000FF),
-    mOriginColor(0x000000FF),
-    mBgColor(0),
-    mLineSpacing(1.5f),
-    mColorOpacity(0xFF),
-    mBgColorOpacity(0),
-    mHorizontalAlignment(TextAlignment::Left),
-    mVerticalAlignment(TextAlignment::Center),
-    mRenderBackground(false),
-    mUppercase(false),
-    mAutoCalcExtentX(true),
-    mAutoCalcExtentY(true)
+	: Component(window)
+  , mFont(Font::get(FONT_SIZE_MEDIUM))
+  , mColor(0x000000FF)
+  , mOriginColor(0x000000FF)
+  , mBgColor(0)
+  , mLineSpacing(1.5f)
+  , mColorOpacity(0xFF)
+  , mBgColorOpacity(0)
+  , mHorizontalAlignment(TextAlignment::Left)
+  , mVerticalAlignment(TextAlignment::Center)
+  , mRenderBackground(false)
+  , mUppercase(false)
+  , mAutoCalcExtentX(true)
+  , mAutoCalcExtentY(true)
+  , mClipped(false)
 {
   mPosition = Vector3f::Zero();
   mSize = Vector2f::Zero();
@@ -121,7 +122,7 @@ void TextComponent::setUppercase(bool uppercase)
 
 void TextComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }

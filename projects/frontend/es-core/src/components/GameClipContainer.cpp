@@ -80,16 +80,16 @@ void GameClipContainer::initComponents()
   initMDLabels();
 
   mDescription.setSize(mDescContainer.getSize().x(), 0);
-  mDescContainer.setDisabled(true);
+  mDescContainer.setThemeDisabled(true);
   mDescription.setPosition(0, 0);
 
   mHeaderText.setDefaultZIndex(50);
-  mHeaderText.setDisabled(true);
+  mHeaderText.setThemeDisabled(true);
   mHeaderImage.setDefaultZIndex(50);
-  mHeaderImage.setDisabled(true);
+  mHeaderImage.setThemeDisabled(true);
 
   mThumbnail.setDefaultZIndex(50);
-  mThumbnail.setDisabled(true);
+  mThumbnail.setThemeDisabled(true);
 
   // init visible components for default view
   const float padding = 0.01f;
@@ -178,7 +178,7 @@ void GameClipContainer::initMDLabels()
   for (auto& textLabel : labels)
   {
     textLabel->setFont(Font::get(FONT_SIZE_SMALL));
-    textLabel->setDisabled(true);
+    textLabel->setThemeDisabled(true);
     textLabel->setDefaultZIndex(50);
   }
 }
@@ -202,7 +202,7 @@ void GameClipContainer::initMDValues()
   for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
   {
     values[i]->setDefaultZIndex(50);
-    values[i]->setDisabled(true);
+    values[i]->setThemeDisabled(true);
   }
 }
 

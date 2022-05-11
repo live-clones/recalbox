@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <random>
 
 #include "Sound.h"
