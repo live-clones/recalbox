@@ -8,6 +8,7 @@
 
 #include <emulators/run/NetPlayData.h>
 #include <emulators/run/CrtData.h>
+#include <emulators/run/PatchData.h>
 
 class GameLinkedData
 {
@@ -53,10 +54,18 @@ class GameLinkedData
     //! Get read only Crt object
     const CrtData& Crt() const { return mCrtData; }
 
+    //! Get writable Patch data
+    PatchData& ConfigurablePatch() { return mPatchData; }
+
+    //! Get read only Patch data
+    const PatchData& Patch() const { return mPatchData; }
+
   private:
     //! Netplay data
     NetPlayData mNetPlayData;
 
     //! CRT data
     CrtData mCrtData;
+
+    PatchData mPatchData;
 };
