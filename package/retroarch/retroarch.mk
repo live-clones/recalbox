@@ -89,7 +89,7 @@ endif
 RETROARCH_CONF_OPTS += --enable-rgui --enable-xmb --enable-ozone --enable-materialui
 RETROARCH_CONF_OPTS += --enable-threads --enable-dylib
 RETROARCH_CONF_OPTS += --enable-flac --enable-lua
-RETROARCH_CONF_OPTS += --enable-networking
+RETROARCH_CONF_OPTS += --enable-networking --enable-slang
 
 # Package dependant
 
