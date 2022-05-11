@@ -66,7 +66,7 @@ endif
 # odroid go advance
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
 RETROARCH_COMPILER_COMMONS_CFLAGS += "-DEGL_NO_X11"
-RETROARCH_CONF_OPTS += --enable-odroidgo2 --enable-opengles --enable-opengles3 --enable-kms
+RETROARCH_CONF_OPTS += --enable-odroidgo2 --enable-opengles --enable-opengles3 --enable-kms --enable-slang
 RETROARCH_DEPENDENCIES += librga
 endif
 
@@ -77,7 +77,7 @@ endif
 
 # rpi4
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
-RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-opengles3_1 --enable-kms
+RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-opengles3_1 --enable-kms --enable-slang
 endif
 
 # x86 : SSE
@@ -89,7 +89,7 @@ endif
 RETROARCH_CONF_OPTS += --enable-rgui --enable-xmb --enable-ozone --enable-materialui
 RETROARCH_CONF_OPTS += --enable-threads --enable-dylib
 RETROARCH_CONF_OPTS += --enable-flac --enable-lua
-RETROARCH_CONF_OPTS += --enable-networking --enable-slang
+RETROARCH_CONF_OPTS += --enable-networking
 
 # Package dependant
 
