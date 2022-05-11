@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 
 - Add seamless scraping for Patrons
+- Add slangs shaders support on retroarch
 - Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
