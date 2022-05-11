@@ -31,6 +31,8 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 - Add remote playlists (Patrons)
 - Add seamless scraping (Patrons)
+
+- Add slangs shaders support on retroarch
 - Fix swanstation memory card compatibility option for saving on network
 - Add libretro PSP emulator (libretro ppsspp)
 - Add delete game options
