@@ -419,7 +419,7 @@ ScreenScraperSingleEngine::DownloadAndStoreMedia(FileData& game, bool noKeep, co
                                                  const std::string& name, MediaType mediaType, SetPathMethodType pathSetter,
                                                  const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set)
 {
-  Path path = target / subPath / std::string(name).append(1, ' ').append(mediaSource.mMd5).append(1, ' ').append(mediaSource.mFormat);
+  Path path = target / subPath / std::string(name).append(1, ' ').append(mediaSource.mMd5).append(1, '.').append(mediaSource.mFormat);
   bool exists = path.Exists();
   if (!exists || noKeep)
     return DownloadMedia(path, game, mediaSource.mUrl, pathSetter, md5Set, mediaType);

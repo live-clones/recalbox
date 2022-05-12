@@ -63,6 +63,8 @@ void ScreenScraperEngineBase::Initialize()
   mAllocatedEngines = 0;
   mMethod = ScrapingMethod::All;
   mNotifier = nullptr;
+  for(ScreenScraperSingleEngine& engine : mEngines)
+    engine.Initialize(false);
 
   // Reset live stats
   mTotal = 0;
