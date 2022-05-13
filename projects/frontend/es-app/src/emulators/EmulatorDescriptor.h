@@ -79,6 +79,8 @@ class EmulatorDescriptor
     const std::string& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
     //! Get core Netplay
     bool CoreNetplay(int index) const { return CoreAt(index).mNetplay; }
+    //! Get core Softpatching
+    bool CoreSoftpatching(int index) const { return CoreAt(index).mSoftpatching; }
     //! Get core Speed
     Speed CoreSpeed(int index) const { return CoreAt(index).mSpeed; }
     //! Get core Compatibility
@@ -98,7 +100,8 @@ class EmulatorDescriptor
                  const std::string& extensions,
                  bool netplay,
                  const std::string& compatibility,
-                 const std::string& speed)
+                 const std::string& speed,
+                 bool softpatching)
     {
       if (mCoreCount < sMaximumCores)
       {
@@ -109,6 +112,7 @@ class EmulatorDescriptor
         core.mCompatibility = ConvertCompatibility(compatibility);
         core.mSpeed = ConvertSpeed(speed);
         core.mNetplay = netplay;
+        core.mSoftpatching = softpatching;
       }
       else { LOG(LogError) << "[Emulator] Core " << name << " cannot be added to emulator " << mEmulator; }
     }
@@ -123,6 +127,7 @@ class EmulatorDescriptor
       Compatibility mCompatibility; //!< Compatibility rate
       Speed mSpeed;                 //!< Average speed
       bool mNetplay;                //!< Netplay compatible?
+      bool mSoftpatching;           //!< Softpathing compatible?
 
       //! Constructor
       Core()
@@ -130,6 +135,7 @@ class EmulatorDescriptor
         , mCompatibility(Compatibility::Unknown)
         , mSpeed(Speed::Unknown)
         , mNetplay(false)
+        , mSoftpatching(false)
       {
       }
 
@@ -142,6 +148,7 @@ class EmulatorDescriptor
         mCompatibility = Compatibility::Unknown;
         mSpeed = Speed::Unknown;
         mNetplay = false;
+        mSoftpatching = false;
       }
     };
 

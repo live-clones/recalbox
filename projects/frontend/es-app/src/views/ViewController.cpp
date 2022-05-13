@@ -23,6 +23,8 @@
 #include <utils/locale/LocaleHelper.h>
 #include <usernotifications/NotificationManager.h>
 
+#include <games/GameFilesUtils.h>
+
 ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController")
 	, Gui(window)
@@ -455,6 +457,30 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
                                          ));
       return;
     }
+  }
+  bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
+  if(RecalboxConf::Instance().GetGlobalSoftpatching() == "disabled")
+  {
+    mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true);
+  }
+  else if(RecalboxConf::Instance().GetGlobalSoftpatching() == "confirm" && coreIsSoftpatching
+  && !mGameLinkedData.ConfigurablePath().IsConfigured() && GameFilesUtils::HasSoftPatch(game))
+  {
+    static int lastChoice = 0;
+    mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                     _("A patch has been detected"),
+                                     game->Name(),
+                                     lastChoice,
+                                     _("original"),
+                                     _("original"),
+                                     [this, game, &cameraTarget] {
+                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                     _("patched"),
+                                     _("patched"),
+                                     [this, game, &cameraTarget] {
+                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(false); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                    ));
+    return;
   }
 
   LaunchAnimated(game, emulator, cameraTarget);

@@ -17,7 +17,9 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
                                  Xml::AttributeAsString(coreNode, "extensions", ""),
                                  Xml::AttributeAsBool(coreNode, "netplay", false),
                                  Xml::AttributeAsString(coreNode, "compatibility", ""),
-                                 Xml::AttributeAsString(coreNode, "speed", ""));
+                                 Xml::AttributeAsString(coreNode, "speed", ""),
+                                 Xml::AttributeAsBool(coreNode, "softpatching", false));
+
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
 }

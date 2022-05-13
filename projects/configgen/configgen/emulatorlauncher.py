@@ -345,6 +345,7 @@ if __name__ == '__main__':
     parser.AddString(command="extra", chelp="pass extra argument", required=False)
     parser.AddSimple(command="nodefaultkeymap", chelp="disable libretro default keybindings", required=False)
     parser.AddSimple(command="verbose", chelp="verbose logging", required=False)
+    parser.AddSimple(command="disabledsoftpatching", chelp="disabled softpatching", required=False)
     parser.AddString(command="crtadaptor", chelp="Plugged crt adaptor", required=False)
     parser.AddString(command="crtvideostandard", chelp="Selected crt video standard, auto, pal, ntsc", required=False)
     parser.AddString(command="crtregion", chelp="Selected crt region: us,jp,eu", required=False)
