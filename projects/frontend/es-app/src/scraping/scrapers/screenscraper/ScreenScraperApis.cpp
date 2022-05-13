@@ -65,6 +65,7 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
       {
         case   0:
         case 429:
+        case 499:
         case 504:
         case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; Thread::Sleep(5000); continue;
         case 426:
@@ -656,6 +657,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const std::string
       {
         case 0:
         case 429:
+        case 499:
         case 504:
         case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; Thread::Sleep(5000); continue;
         case 426:
