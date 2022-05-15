@@ -57,6 +57,9 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
   { LOG(LogDebug) << "[MountMonitor] Loading available mount points"; }
   DeviceMountList result;
 
+  // Device actually mounted on /recalbox/share
+  Path shareDevice;
+
   // Get all valid mount point
   for(const std::string& line : Strings::Split(Files::LoadFile(Path(sMountPointFile)), '\n')) // For every entry
   {
@@ -71,7 +74,11 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
     // Physical USB device?
     if (device.StartWidth(std::string(LEGACY_STRING("/dev/")))) // starting with /dev/
     {
-      if (mountPoint == sSharePath) continue;                   // Don't store real share
+      if (mountPoint == sSharePath)
+      {
+        shareDevice = device; // Store share device
+        continue; // Don't store real share
+      }
       #ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
       #endif
@@ -87,6 +94,11 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
   }
+
+  // Seek & destroy any Mount device that match the share device
+  for(int i = (int)result.size(); --i >= 0;)
+    if (result[i].Device() == shareDevice)
+      result.erase(result.begin() + i);
 
   // Final result
   return result;
