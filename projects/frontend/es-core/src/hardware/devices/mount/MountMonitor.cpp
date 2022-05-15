@@ -60,6 +60,9 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
   { LOG(LogDebug) << "[MountMonitor] Loading available mount points"; }
   DeviceMountList result;
 
+  // Device actually mounted on /recalbox/share
+  Path shareDevice;
+
   // Get all valid mount point
   for(const std::string& line : Strings::Split(Files::LoadFile(Path(sMountPointFile)), '\n')) // For every entry
   {
@@ -76,33 +79,29 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
     {
       if (mountPoint == sSharePath)
       {
-        mShareMountPoint = DeviceMount(device, mountPoint, "Share", type, options); // so store it in the list
-        { LOG(LogDebug) << "[MountMonitor] share: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+        shareDevice = device; // Store share device
+        continue; // Don't store real share
       }
-      else
-      {
-        #ifndef DEBUG
-        if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
-        #endif
-        result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
-        { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
-      }
+      #ifndef DEBUG
+      if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
+      #endif
+      result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
+      { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
     }
     // Network?
     if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
-    {
       if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
       {
-        result.push_back(DeviceMount(device, mountPoint, "Network " + type, type, options)); // so store it in the list
+        result.push_back(
+          DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
-      else if (mountPoint.StartWidth(sShareRomsPath))
-      {
-        mShareRomsMountPoint = DeviceMount(device, mountPoint, "Share's Roms", type, options); // so store it in the list
-        { LOG(LogDebug) << "[MountMonitor] share/roms: " << device.ToString() << " mounted to " << mountPoint.ToString();  }
-      }
-    }
   }
+
+  // Seek & destroy any Mount device that match the share device
+  for(int i = (int)result.size(); --i >= 0;)
+    if (result[i].Device() == shareDevice)
+      result.erase(result.begin() + i);
 
   // Final result
   return result;
