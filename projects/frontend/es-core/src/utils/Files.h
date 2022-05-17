@@ -4,6 +4,11 @@
 
 class Files
 {
+  private:
+    static constexpr long sBufferSizeBits = 20;
+    static constexpr long sBufferSize = 1 << sBufferSizeBits;
+    static constexpr long sBufferSizeMask = (sBufferSize - 1);
+
   public:
     /*!
      * @brief Load the whole content of a file into a string
@@ -48,4 +53,21 @@ class Files
     {
       return AppendToFile(path, content.c_str(), content.length());
     }
+
+    /*!
+     * @brief Copy a single file
+     * @param from Source file
+     * @param to Destination file (fullpath)
+     * @return True if the copy is successful, false otherwise
+     */
+    static bool CopyFile(const Path& from, const Path& to);
+
+    /*!
+     * @brief Copy a whole folder, including all files and folders
+     * @param from Source folder
+     * @param to Destination folder (fullpath)
+     * @param recurse Set to true to copy all files & folders recusively
+     * @return True if the copy is successful, false otherwise
+     */
+    static bool CopyFolder(const Path& from, const Path& to, bool recurse);
 };

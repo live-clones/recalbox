@@ -41,8 +41,8 @@ maxWaitFromConfig() {
   local sharewaitValue=$(sed -nr 's/^sharewait=([0-9]+).*$/\1/p' "${bootConfigFile}")
 
   case "${shareDeviceMode}" in
-    "NETWORK") local defaultValue="20" ;;
-    *) local defaultValue="7" ;;
+    "NETWORK") local defaultValue="30" ;;
+    *) local defaultValue="30" ;;
   esac
   echo ${sharewaitValue:-${defaultValue}}
 }
