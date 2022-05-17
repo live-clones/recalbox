@@ -146,7 +146,7 @@ void StorageDevices::AnalyseMounts()
     Strings::Vector items = Strings::Split(line, ' ', true);
     if (items.size() < 6)
     {
-      LOG(LogError) << "[Storage] Uncomplete mount line: " << line;
+      LOG(LogError) << "[Storage] Incomplete mount line: " << line;
       continue;
     }
     if (items[2] == "/recalbox/share") mShareInRAM =  (items[4] == "tmpfs");
