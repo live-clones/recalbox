@@ -86,3 +86,60 @@ bool Files::AppendToFile(const Path& path, const void* data, int size)
   }
   return false;
 }
+
+bool Files::CopyFile(const Path& from, const Path& to)
+{
+  // Source exists?
+  if (!from.Exists()) return false;
+  // Make destination
+  if (!to.Directory().CreatePath()) return false;
+
+  bool result = false;
+  int fdr = open(from.ToChars(), O_RDONLY);
+  int fdw = open(to.ToChars(), O_CREAT | O_WRONLY);
+  if (fdr >= 0 && fdw >= 0)
+    for(;;)
+    {
+      unsigned char buffer[sBufferSize]; // 1Mb buffer
+      long l = lseek(fdr, 0, SEEK_END);
+      lseek(fdr, 0, SEEK_SET);
+      for(long i = l >> sBufferSizeBits; --i >= 0;)
+      {
+        if (read(fdr, buffer, sBufferSize) != sBufferSize) break; // Error
+        if (write(fdw, buffer, sBufferSize) != sBufferSize) break; // Error
+      }
+      if ((l &= sBufferSizeMask) != 0)
+      {
+        if (read(fdr, buffer, l) != l) break; // Error
+        if (write(fdw, buffer, l) != l) break; // Error
+      }
+      result = true; // Success
+      break;
+    }
+  if (fdr >= 0) close(fdr);
+  if (fdw >= 0) close(fdw);
+
+  return result;
+}
+
+bool Files::CopyFolder(const Path& from, const Path& to, bool recurse)
+{
+  // Source exists?
+  if (!from.Exists()) return false;
+  // Make destination
+  if (!to.Directory().CreatePath()) return false;
+
+  // Get everything
+  for(const Path& path : from.GetDirectoryContent())
+  {
+    if (path.IsFile()) if (!CopyFile(path, to / path.Filename())) return false;
+    if (path.IsDirectory())
+    {
+      if (recurse) { if (!CopyFolder(path, to / path.Filename(), true)) return false; }
+      else { if (!(to / path.Filename()).CreatePath()) return false; }
+    }
+  }
+  return true;
+}
+
+

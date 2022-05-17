@@ -24,6 +24,44 @@ enum class HardwareTriggeredSpecialOperations
   PowerOff, //!< The hardware require a Power-off
 };
 
+//! USB Initialization state
+enum class USBInitializationAction
+{
+  None,           //! Do nothing
+  OnlyRomFolders, //!< Only make roms folder for rom multi-sources
+  CompleteShare,  //!< Initialize (copy) the whole current configuration to move to external share
+};
+
+class USBInitialization
+{
+  public:
+    //! Default constructor
+    USBInitialization(USBInitializationAction action, const DeviceMount* device)
+      : mAction(action)
+      , mDevice(device)
+    {
+    }
+
+    //! Default constructor
+    USBInitialization()
+      : mAction(USBInitializationAction::None)
+      , mDevice(nullptr)
+    {
+    }
+
+    //! Get action
+    USBInitializationAction Action() const { return mAction; }
+
+    //! Get device
+    const DeviceMount& Device() const { return *mDevice; }
+
+  private:
+    //! Action to execute on the device
+    USBInitializationAction mAction;
+    // Device to initialize
+    const DeviceMount* mDevice;
+};
+
 class MainRunner
   : private INoCopy
   , private ISynchronousEvent
@@ -31,6 +69,7 @@ class MainRunner
   , public IHardwareNotifications
   , private ILongExecution<HardwareTriggeredSpecialOperations, bool>
   , private IRomFolderChangeNotification
+  , private ILongExecution<USBInitialization, bool>
 {
   public:
     //! Pending Exit
@@ -266,6 +305,25 @@ class MainRunner
      */
     void Completed(const HardwareTriggeredSpecialOperations& parameter, const bool& result) override;
 
+    /*
+     * ILongExecution<bool, bool> implementation
+     */
+
+    /*!
+     * @brief Dummy execution of sleeps, allowing UI to draw special operation wait-windows
+     * @param from Source window
+     * @param parameter Operation
+     * @return Not used
+     */
+    bool Execute(GuiWaitLongExecution<USBInitialization, bool>& from, const USBInitialization& parameter) final;
+
+    /*!
+     * @brief Called when special wait-window close so that we can execute the required operation
+     * @param parameter Operation required
+     * @param result Not used
+     */
+    void Completed(const USBInitialization& parameter, const bool& result) final;
+
   public:
     /*!
      * @brief Constructor
@@ -278,7 +336,7 @@ class MainRunner
     MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug);
 
     //! Destructor
-    virtual ~MainRunner();
+    ~MainRunner() override;
 
     /*!
      * @brief Run the game!
@@ -329,5 +387,5 @@ class MainRunner
     /*!
      * @brief Install CRT features
      */
-    void InstallCRTFeatures();
+    static void InstallCRTFeatures();
 };
