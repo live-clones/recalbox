@@ -25,14 +25,8 @@ class GameRandomSelector
      */
     FileData* NextGame();
 
-    /*!
-     * @brief Get next game and demo duration
-     * @return Next game
-     */
-    FileData* NextGame(int& duration);
-
     //! Check if there is at least one non-empty system
-    bool HasValidSystems() { return mSystemArray.Empty(); }
+    bool HasValidSystems() { return !mSystemArray.Empty(); }
 
     //! Initialize systemes
     void Initialize() { InitializeSystems(); }
@@ -44,7 +38,6 @@ class GameRandomSelector
         //! Defgault constructor
         SystemContent()
           : mIndex(0)
-          , mDuration(0)
         {
         }
 
@@ -55,7 +48,6 @@ class GameRandomSelector
          */
         SystemContent(const SystemData* system, IFilter* filter)
           : mIndex(0)
-          , mDuration(RecalboxConf::Instance().GetSystemDemoDuration(*system))
         {
           // Get adult flag
           bool adult = !RecalboxConf::Instance().GetSystemFilterAdult(*system);
@@ -102,16 +94,11 @@ class GameRandomSelector
           return game;
         }
 
-        //! Return demo duration
-        int Duration() const { return mDuration; }
-
       private:
         //! Map system => gamelist (lazy init)
         Array<FileData*> mGames;
         //! Current index
         int mIndex;
-        //! Demo duration
-        int mDuration;
     };
 
     //! System manager instance
