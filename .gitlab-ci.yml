@@ -154,8 +154,8 @@ tests buildroot patches:
     - cat RELEASE-NOTES.md
     # Updates type
     - |
-      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "beta";then
-        sed -i "s/^updates.type=.*/updates.type=beta/g" package/recalbox-system/*/recalbox.conf
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "alpha";then
+        sed -i "s/^updates.type=.*/updates.type=alpha/g" package/recalbox-system/*/recalbox.conf
       fi
     - |
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "recalboxrgbdual";then
@@ -233,63 +233,6 @@ build rpizero2:
   variables:
     ARCH: 'rpizero2'
 
-# Schedules (nightly)
-nightly build x86_64:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'x86_64'
-nightly build rpi4_64:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpi4_64'
-nightly build rpi4:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpi4'
-nightly build odroidgo2:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'odroidgo2'
-nightly build odroidxu4:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'odroidxu4'
-nightly build rpi1:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpi1'
-nightly build rpi3:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpi3'
-nightly build rpizero2legacy:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpizero2legacy'
-nightly build rpizero2:
-  <<: *build_definition
-  only:
-    - schedules
-  variables:
-    ARCH: 'rpizero2'
-
-
 ### Release
 
 .release_template: &release_definition
@@ -322,7 +265,7 @@ release prod:
     refs:
       - tags
     variables:
-      - $CI_COMMIT_TAG !~ /beta/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i
+      - $CI_COMMIT_TAG !~ /alpha/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
@@ -342,17 +285,6 @@ release alpha:
   environment:
     name: alpha/${CI_COMMIT_REF_SLUG}
 
-release public beta:
-  <<: *release_definition
-  only:
-    - tags
-  when: manual
-  variables:
-    DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-beta
-  environment:
-    name: beta/${CI_COMMIT_REF_SLUG}
-
 release recalboxrgbdual:
   <<: *release_definition
   only:
@@ -366,17 +298,6 @@ release recalboxrgbdual:
     BUCKET: recalbox-archive-recalboxrgbdual
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
-
-release nightly:
-  <<: *release_definition
-  only:
-    - schedules
-  variables:
-    DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-nightly
-  environment:
-    name: nightly/${CI_COMMIT_REF_SLUG}
-
 
 release branch:
   <<: *release_definition
