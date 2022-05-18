@@ -21,7 +21,7 @@ class GuiMenuGameFilters : public GuiMenuBase
      * @param system Target system
      * @param systemManager System manager
      */
-    GuiMenuGameFilters(WindowManager&window, SystemData& system);
+    GuiMenuGameFilters(WindowManager&window);
 
     ~GuiMenuGameFilters() override;
 
@@ -36,23 +36,8 @@ class GuiMenuGameFilters : public GuiMenuBase
       ShowOnlyLatestVersion,
     };
 
-    //! System reference
-    SystemData& mSystem;
-    //! Gamelist UI reference
-    IGameListView& mGamelist;
-
     std::shared_ptr<TextComponent> mGame;
     std::shared_ptr<SwitchComponent> mFavoritesOnly;
-
-    //! Refresh first menu entry
-    void RefreshGameMenuContext();
-
-    //! Get available letter List
-    std::vector<ListEntry<unsigned int>> GetLetterEntries();
-    //! Get available sort List
-    std::vector<ListEntry<FileSorts::Sorts>> GetSortEntries();
-    //! Get available region List
-    std::vector<ListEntry<Regions::GameRegions>> GetRegionEntries();
 
     /*
      * ISwitchComponent implementation

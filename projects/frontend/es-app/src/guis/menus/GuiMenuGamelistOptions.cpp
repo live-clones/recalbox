@@ -13,7 +13,6 @@
 #include "GuiMenu.h"
 #include "GuiMenuGamelistGameOptions.h"
 #include "GuiMenuGamelistGameDeleteOptions.h"
-#include "GuiMenuGameFilters.h"
 #include "guis/GuiSearch.h"
 
 GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
@@ -45,7 +44,6 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
       }
     }
-
   }
 
   RefreshGameMenuContext();
@@ -56,12 +54,6 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   // open search wheel for this system
   if (!system.IsFavorite())
   AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
-
-  // filters
-  AddSubMenu(_("GAMES FILTERS"),  (int)Components::Filters, Strings::Empty);
-
-  // Display filename
-  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   // Sorting
 	if (!system.IsSelfSorted())
@@ -275,13 +267,9 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       break;
     }
-    case Components::Filters:
-      mWindow.pushGui(new GuiMenuGameFilters(mWindow, mSystem));
-      break;
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
-    case Components::DisplayByFileName:
     case Components::FlatFolders: break;
   }
 }
@@ -290,10 +278,6 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::DisplayByFileName:
-      RecalboxConf::Instance().SetDisplayByFileName(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
-      break;
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::Regions:
     case Components::Sorts:
@@ -302,7 +286,6 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::MetaData:
     case Components::MainMenu:
     case Components::UpdateGamelist:
-    case Components::Filters:
     case Components::Delete:
     case Components::DeleteScreeshot:
     case Components::Quit: break;

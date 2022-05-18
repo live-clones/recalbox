@@ -38,8 +38,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       UpdateGamelist,
       Delete,
       DeleteScreeshot,
-      DisplayByFileName,
-      Filters,
       MainMenu,
       Quit,
       Search,

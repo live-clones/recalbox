@@ -43,6 +43,8 @@ class GuiMenuUserInterface : public GuiMenuBase
       ThemeConfig,
       SystemSort,
       UpdateGamelist,
+      Filters,
+      DisplayByFileName
     };
 
     //! System Manager
