@@ -96,7 +96,7 @@ bool Files::CopyFile(const Path& from, const Path& to)
 
   bool result = false;
   int fdr = open(from.ToChars(), O_RDONLY);
-  int fdw = open(to.ToChars(), O_CREAT | O_WRONLY);
+  int fdw = open(to.ToChars(), O_CREAT | O_WRONLY, 0777);
   if (fdr >= 0 && fdw >= 0)
     for(;;)
     {
