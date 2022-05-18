@@ -148,6 +148,7 @@ tests buildroot patches:
     - cp "${YOUTUBE_API_KEYS}" "./api_keys.json"
     # Release Note generation
     - echo -e "Recalbox ${RECALBOX_VERSION}\n" > /tmp/RELEASE-NOTES.md
+    - cp RELEASE-NOTES.md RELEASE-NOTES-FULL.md
     - awk '/^## Version/ { flag=!flag; count+=1; next } flag && count < 2 {print}' RELEASE-NOTES.md >> /tmp/RELEASE-NOTES.md
     - mv /tmp/RELEASE-NOTES.md RELEASE-NOTES.md
     - cat RELEASE-NOTES.md
@@ -155,6 +156,8 @@ tests buildroot patches:
     - |
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "beta";then
         sed -i "s/^updates.type=.*/updates.type=beta/g" package/recalbox-system/*/recalbox.conf
+      elif echo "${CI_COMMIT_TAG:-""}" | grep -qi "unstable";then
+        sed -i "s/^updates.type=.*/updates.type=unstable/g" package/recalbox-system/*/recalbox.conf
       fi
     # Build
     - docker build -t "recalbox-${ARCH}" .
@@ -169,6 +172,7 @@ tests buildroot patches:
     - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
     - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
+    - cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
     - rm -rf "${DIST_DIR}" "${OUTPUTDIR}/images/recalbox"
   after_script:
@@ -318,7 +322,7 @@ release prod:
     refs:
       - tags
     variables:
-      - $CI_COMMIT_TAG !~ /beta/i
+      - $CI_COMMIT_TAG !~ /beta/i && $CI_COMMIT_TAG !~ /unstable/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
@@ -349,16 +353,19 @@ release public beta:
   environment:
     name: beta/${CI_COMMIT_REF_SLUG}
 
-release nightly:
+release public unstable:
   <<: *release_definition
   only:
-    - schedules
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /unstable/i
+  when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-nightly
+    BUCKET: recalbox-archive-unstable
   environment:
-    name: nightly/${CI_COMMIT_REF_SLUG}
-
+    name: unstable/${CI_COMMIT_REF_SLUG}
 
 release branch:
   <<: *release_definition
