@@ -157,9 +157,11 @@ tests buildroot patches:
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "alpha";then
         sed -i "s/^updates.type=.*/updates.type=alpha/g" package/recalbox-system/*/recalbox.conf
       fi
-    - |
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "recalboxrgbdual";then
         sed -i "s/^updates.type=.*/updates.type=recalboxrgbdual/g" package/recalbox-system/*/recalbox.conf
+      fi
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "patron";then
+        sed -i "s/^updates.type=.*/updates.type=patron/g" package/recalbox-system/*/recalbox.conf
       fi
     # Build
     - docker build -t "recalbox-${ARCH}" .
@@ -265,7 +267,7 @@ release prod:
     refs:
       - tags
     variables:
-      - $CI_COMMIT_TAG !~ /alpha/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i
+      - $CI_COMMIT_TAG !~ /alpha/i && $CI_COMMIT_TAG !~ /recalboxrgbdual/i && $CI_COMMIT_TAG !~ /patron/i
   when: manual
   variables:
     DEPLOY_TYPE: prod
@@ -298,6 +300,20 @@ release recalboxrgbdual:
     BUCKET: recalbox-archive-recalboxrgbdual
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
+
+release patron edition:
+  <<: *release_definition
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /patron/i
+  when: manual
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-patron
+  environment:
+    name: patron/${CI_COMMIT_REF_SLUG}
 
 release branch:
   <<: *release_definition
