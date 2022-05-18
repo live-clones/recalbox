@@ -26,12 +26,12 @@ public:
 	// Called whenever the theme changes.
 	void onThemeChanged(const ThemeData& theme) override;
 
-	FileData* getCursor() override = 0;
-	virtual int getCursorIndex() = 0;
-	virtual int getCursorIndexMax() = 0;
-	void setCursor(FileData*) override = 0;
-	virtual void setCursorIndex(int) = 0;
-  virtual void removeEntry(FileData* fileData) = 0;
+	//FileData* getCursor() override = 0;
+	//virtual int getCursorIndex() = 0;
+	//virtual int getCursorIndexMax() = 0;
+	//void setCursor(FileData*) override = 0;
+	//virtual void setCursorIndex(int) = 0;
+  //virtual void removeEntry(FileData* fileData) = 0;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 
@@ -63,7 +63,7 @@ protected:
 
 	std::stack<FolderData*> mCursorStack;
 
-private:
+  private:
   bool mVerticalMove;
 
   bool IsFavoriteSystem() { return mSystem.IsFavorite(); }

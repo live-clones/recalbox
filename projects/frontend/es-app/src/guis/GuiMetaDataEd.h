@@ -7,7 +7,7 @@
 #include <systems/SystemData.h>
 #include <views/gamelist/IGameListView.h>
 
-class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComplete
+class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingComplete
 {
   public:
     class IMetaDataAction
@@ -49,7 +49,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrappingComp
     IMetaDataAction* mActions;
 
     /*
-     * GuiScraperSingleGameRun::IScrappingCommplete
+     * GuiScraperSingleGameRun::IScrapingCommplete
      */
-    void ScrappingComplete(FileData& game) override;
+    void ScrapingComplete(FileData& game) override;
 };

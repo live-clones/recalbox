@@ -2,10 +2,11 @@
 
 #include <SDL.h>
 #include <views/SystemView.h>
-#include "RecalboxConf.h"
-#include "RootFolders.h"
-#include "utils/sdl2/SyncronousEventService.h"
-#include "utils/locale/LocaleHelper.h"
+#include <RecalboxConf.h>
+#include <RootFolders.h>
+#include <utils/sdl2/SyncronousEventService.h>
+#include <utils/locale/LocaleHelper.h>
+#include <guis/GuiInfoPopup.h>
 #include <utils/Strings.h>
 
 AudioManager* AudioManager::sInstance;
@@ -261,7 +262,7 @@ void AudioManager::PlayRandomMusic()
   {
     // Create music popup
     mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,
-                                          GuiInfoPopup::PopupType::Music));
+                                              GuiInfoPopupBase::PopupType::Music));
   }
 }
 

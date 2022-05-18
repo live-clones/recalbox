@@ -227,9 +227,16 @@ class FolderData : public FileData
      * Lookup for a given game in the current tree
      * @param item item to search for, either a hash or a path (w/ or w/o file extension)
      * @param attributes Compare item against hashes, filenames or filenames with extension
-     * @return First mathing game or nullptr
+     * @return First matching game or nullptr
      */
     FileData* LookupGame(const std::string& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
+
+    /*!
+     * @brief Lookup a game by file path recusively
+     * @param filepath Filepath to look for
+     * @return FileData if a game is found, nullptr otherwise
+     */
+    FileData* LookupGameByFilePath(const std::string& filepath) const;
 
     /*!
      * Return true if contain at least one game

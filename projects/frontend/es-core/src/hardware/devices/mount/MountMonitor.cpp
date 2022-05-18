@@ -6,13 +6,16 @@
 //
 
 #include <fcntl.h>
-#include <systems/MountMonitor.h>
-#include <utils/Log.h>
+#include "MountMonitor.h"
+#include "utils/Log.h"
 #include <sys/poll.h>
 #include "utils/Files.h"
+#include <blkid/blkid.h>
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   : mEvent(this)
+  , mShareMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
+  , mShareRomsMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mPendingMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mInterface(interface)
 {
@@ -104,7 +107,6 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
   return result;
 }
 
-#include <blkid/blkid.h>
 std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
 {
   blkid_probe pr = blkid_new_probe_from_filename(devicePath.ToChars());
@@ -168,4 +170,37 @@ void MountMonitor::Process(DeviceMountList& oldList, const DeviceMountList& newL
     mPendingMountPoint = mp;
     mEvent.Call((int)Action::Mount);
   }
+}
+
+const DeviceMount* MountMonitor::SizeOf(const Path& path)
+{
+  // In mount point list?
+  for(DeviceMount& device : mMountPoints)
+    if (!device.MountPoint().IsEmpty())
+      if (path.StartWidth(device.MountPoint()))
+        return &device.UpdateSize();
+  // Share/roms?
+  if (!mShareRomsMountPoint.MountPoint().IsEmpty())
+    if (path.StartWidth(mShareRomsMountPoint.MountPoint()))
+      return &mShareRomsMountPoint.UpdateSize();
+  // Share?
+  if (!mShareMountPoint.MountPoint().IsEmpty())
+    if (path.StartWidth(mShareMountPoint.MountPoint()))
+      return &mShareMountPoint.UpdateSize();
+  // Nothing...
+  return nullptr;
+}
+
+MountMonitor::DeviceMountReferences MountMonitor::AllMountPoints()
+{
+  DeviceMountReferences references;
+  // Add share
+  references.push_back(&mShareMountPoint);
+  // Add rom mount point
+  if (!mShareRomsMountPoint.MountPoint().IsEmpty())
+    references.push_back(&mShareRomsMountPoint);
+  // Add all mountpoints
+  for(DeviceMount& device : mMountPoints)
+    references.push_back(&device.UpdateSize());
+  return references;
 }

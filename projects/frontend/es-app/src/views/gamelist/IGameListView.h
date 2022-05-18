@@ -71,6 +71,8 @@ class IGameListView : public Gui
     virtual int getCursorIndexMax() = 0;
     virtual void setCursorIndex(int) = 0;
 
+    virtual void OnGameSelected() = 0;
+
     virtual void removeEntry(FileData* fileData) = 0;
 
     virtual const char* getName() const = 0;
@@ -79,7 +81,7 @@ class IGameListView : public Gui
 
     void updateInfoPanel();
 
-    virtual void DoUpdateGameInformation() = 0;
+    virtual void DoUpdateGameInformation(bool update) = 0;
 
     virtual void populateList(const FolderData& folder) = 0;
     virtual void refreshList() = 0;

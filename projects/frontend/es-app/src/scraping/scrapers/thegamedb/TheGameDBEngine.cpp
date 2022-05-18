@@ -9,7 +9,7 @@ void TheGameDBEngine::Initialize()
 
 }
 
-bool TheGameDBEngine::RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList,
+bool TheGameDBEngine::RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList,
                             INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
   (void)method;
@@ -20,7 +20,7 @@ bool TheGameDBEngine::RunOn(ScrappingMethod method, const SystemManager::SystemL
   return false;
 }
 
-bool TheGameDBEngine::RunOn(ScrappingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
+bool TheGameDBEngine::RunOn(ScrapingMethod method, FileData& singleGame, INotifyScrapeResult* notifyTarget,
                             long long diskMinimumFree)
 {
   (void)method;

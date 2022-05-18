@@ -7,72 +7,127 @@
 #include <scraping/scrapers/IScraperEngine.h>
 #include <components/ButtonComponent.h>
 #include "components/ProgressBarComponent.h"
+#include <guis/GuiInfoPopupScraper.h>
 
 class ScraperSearchComponent;
 class TextComponent;
 
-class GuiScraperRun : public Gui, public INotifyScrapeResult
+class GuiScraperRun : public Gui
+                    , public INotifyScrapeResult
 {
-public:
-	GuiScraperRun(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrappingMethod method);
-	~GuiScraperRun() override = default;
+  public:
+    /*!
+     * @brief Public Constructor - Create or show an existing instance
+     * @param window Window manager
+     * @param systemManager System manager
+     * @param systems Syustem list to scrape
+     * @param method Scrapping method
+     * @param freezer Freeze interface
+     */
+    static void CreateOrShow(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer);
 
-	void onSizeChanged() override;
-	bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
+    /*!
+     * @brief Show a existing instance
+     * @param window Window manager
+     */
+    static void Show(WindowManager& window);
 
-private:
-	void finish();
+    /*!
+     * @brief Show a existing instance
+     * @param window Window manager
+     */
+    static void Hide(WindowManager& window);
 
-  //! SystemManager instance
-	SystemManager& mSystemManager;
+    /*!
+     * @brief Check if an instance is running
+     * @return
+     */
+    static bool IsRunning() { return sInstance != nullptr; }
 
-	//! Scraper interface
-	IScraperEngine* mScraper;
+    /*!
+     * @brief Terminate the running instance
+     * @param window Window manager
+     */
+    static void Terminate();
 
-	//! Start time
-	DateTime mStart;
+    //! Destructor
+    ~GuiScraperRun() override = default;
 
-	SystemManager::SystemList mSearchQueue;
+    void onSizeChanged() override;
+    bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
 
-	NinePatchComponent mBackground;
-	ComponentGrid mGrid;
+  private:
+    /*!
+     * @brief Private Constructor
+     * @param window Window manager
+     * @param systemManager System manager
+     * @param systems Syustem list to scrape
+     * @param method Scrapping method
+     * @param freezer Freeze interface
+     */
+    GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer);
 
-	std::shared_ptr<TextComponent> mTitle;
-	std::shared_ptr<TextComponent> mSystem;
-	std::shared_ptr<TextComponent> mSubtitle;
-	std::shared_ptr<ScraperSearchComponent> mSearchComp;
-	std::shared_ptr<TextComponent> mTiming;
-  std::shared_ptr<TextComponent> mDatabaseMessage;
-  std::shared_ptr<ButtonComponent> mButton;
-	std::shared_ptr<ComponentGrid> mButtonGrid;
-  std::shared_ptr<TextComponent> mFinalReport;
-  std::shared_ptr<ComponentGrid> mProgressGrid;
-  std::shared_ptr<ProgressBarComponent> mBar;
+    void finish();
 
-	// Running state
-	enum class State
-  {
-	  Running,     //!< Running (scraping)
-	  StopPending, //!< Stop pending
-	  Stopped,     //!< Stopped, display statistics
-	  OverQuota,   //!< Stopped, over quota
-	  DiskFull,    //!< Stopped, disk full
-  };
+    //! Instance
+    static GuiScraperRun* sInstance;
 
-	/*
-	 * INotifyScrapeResult implementation
-	 */
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
-  /*!
-   * @brief Notify a game has been scraped
-   * @param index Game index
-   * @param total Total game to scrape
-   * @param result Result object
-   */
-  void GameResult(int index, int total, FileData* result) override;
+    //! Scraper interface
+    IScraperEngine* mScraper;
 
-  /*!
-   * @brief Scraper site quota reached. Scraping is being aborted immediately.
-   */
-  void ScrapingComplete(ScrapeResult reason) override;
+    //! Start time
+    DateTime mStart;
+
+    //! Last scrapping result
+    ScrapeResult mResult;
+
+    SystemManager::SystemList mSearchQueue;
+
+    NinePatchComponent mBackground;
+    ComponentGrid mGrid;
+
+    std::shared_ptr<TextComponent> mTitle;
+    std::shared_ptr<TextComponent> mSystem;
+    std::shared_ptr<TextComponent> mSubtitle;
+    std::shared_ptr<ScraperSearchComponent> mSearchComp;
+    std::shared_ptr<TextComponent> mTiming;
+    std::shared_ptr<TextComponent> mDatabaseMessage;
+    std::shared_ptr<ButtonComponent> mButton;
+    std::shared_ptr<ComponentGrid> mButtonGrid;
+    std::shared_ptr<TextComponent> mFinalReport;
+    std::shared_ptr<ComponentGrid> mProgressGrid;
+    std::shared_ptr<ProgressBarComponent> mBar;
+
+    //! Self-owned Scraper popup
+    GuiInfoPopupScraper mPopup;
+
+    //! Running state
+    enum class State
+    {
+      Running,     //!< Running (scraping)
+      StopPending, //!< Stop pending
+      Stopped,     //!< Stopped, display statistics
+      OverQuota,   //!< Stopped, over quota
+      DiskFull,    //!< Stopped, disk full
+    };
+
+    /*
+     * INotifyScrapeResult implementation
+     */
+
+    /*!
+     * @brief Notify a game has been scraped
+     * @param index Game index
+     * @param total Total game to scrape
+     * @param result Result object
+     */
+    void GameResult(int index, int total, FileData* result) override;
+
+    /*!
+     * @brief Scraper site quota reached. Scraping is being aborted immediately.
+     */
+    void ScrapingComplete(ScrapeResult reason) override;
 };

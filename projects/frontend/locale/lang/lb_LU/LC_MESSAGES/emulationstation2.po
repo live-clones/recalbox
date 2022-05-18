@@ -203,7 +203,7 @@ msgstr "SYSTEM ASTELLUNGEN"
 msgid "VERSION"
 msgstr "VERSIOUN"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "DISK AUSLAASCHTUNG"
 
 msgid "STORAGE DEVICE"
@@ -1345,7 +1345,7 @@ msgid ""
 "is based on www.screenscraper.fr and scrapes game data in your language, if "
 "available."
 msgstr ""
-"Wiel een Server fir vun deem ze scrappen. Den SCREENSCRAPER Server ass "
+"Wiel een Server fir vun deem ze scrapen. Den SCREENSCRAPER Server ass "
 "recommandéiert an baséiert op www.screenscraper.fr deen deng Spiller an "
 "denger Sprooch scrapt, falls disponibel."
 
@@ -3076,6 +3076,18 @@ msgstr "Afficher les jeux par noms de fichier"
 
 #
 msgid "SEARCH GAMES HERE"
+msgstr ""
+
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
+
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
 msgstr ""
 
 #~ msgid "SECURITY"

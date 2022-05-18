@@ -1,20 +1,24 @@
 #include <RecalboxConf.h>
-#include "views/gamelist/BasicGameListView.h"
-#include "views/ViewController.h"
-#include "Renderer.h"
-#include "themes/ThemeData.h"
-#include "systems/SystemData.h"
-#include "games/FileSorts.h"
-#include "utils/locale/LocaleHelper.h"
+#include <views/gamelist/BasicGameListView.h>
+#include <views/ViewController.h>
+#include <Renderer.h>
+#include <themes/ThemeData.h>
+#include <systems/SystemData.h>
+#include <games/FileSorts.h>
+#include <utils/locale/LocaleHelper.h>
+#include <scraping/ScraperSeamless.h>
+#include <recalbox/RecalboxStorageWatcher.h>
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
 
 BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
-	: ISimpleGameListView(window, systemManager, system),
-	  mList(window),
-	  mHasGenre(false),
-    mEmptyListItem(&system),
-    mPopulatedFolder(nullptr)
+	: ISimpleGameListView(window, systemManager, system)
+	, mList(window)
+  , mElapsedTimeOnGame(0)
+  , mIsScraping(false)
+	, mHasGenre(false)
+  , mEmptyListItem(&system)
+  , mPopulatedFolder(nullptr)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
@@ -68,6 +72,15 @@ std::string BasicGameListView::getItemIcon(FileData* item)
 	return std::string();
 }
 
+std::string BasicGameListView::GetDisplayName(FileData* game)
+{
+  // Select Icon
+  std::string result = getItemIcon(game);
+  // Get name
+  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game->FilePath().Filename() : game->Name());
+  return result;
+}
+
 void BasicGameListView::populateList(const FolderData& folder)
 {
   mPopulatedFolder = &folder;
@@ -111,31 +124,58 @@ void BasicGameListView::populateList(const FolderData& folder)
   //mList.reserve(items.size()); // TODO: Reserve memory once
   for (FileData* fd : items)
 	{
-    // Select fron icon
-    std::string icon = getItemIcon(fd);
-  	// Get name
-
-  	std::string name = RecalboxConf::Instance().GetDisplayByFileName() ?  fd->FilePath().Filename() : fd->Name();
-  	std::string line = !icon.empty() ? icon + name : name;
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)
   	  if (!Regions::IsIn4Regions(fd->Metadata().Region(), currentRegion))
   	    colorIndexOffset = 2;
     // Store
-		mList.add(line, fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
-		// Attribuite analysis
-		if (fd->IsGame())
-    {
-      if (fd->Metadata().GenreId() != GameGenres::None)
-        mHasGenre = true;
-    }
+		mList.add(GetDisplayName(fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
+		// Attribute analysis
+		if (fd->IsGame() && fd->Metadata().GenreId() != GameGenres::None)
+      mHasGenre = true;
 	}
 }
 
 FileData::List BasicGameListView::getFileDataList()
 {
 	return mList.getObjects();
+}
+
+// Called when a game is selected in the list whatever how
+void BasicGameListView::OnGameSelected()
+{
+  // Reset seamless scraping timer
+  FileData* game = getCursor();
+  if (game != nullptr && game->IsGame()) mElapsedTimeOnGame = 0;
+
+  // Update current game information
+  DoUpdateGameInformation(false);
+}
+
+void BasicGameListView::Update(int delta)
+{
+  Component::Update(delta);
+
+  // Need busy animation?
+  ScraperSeamless& scraper = ScraperSeamless::Instance();
+  FileData* game = getCursor();
+  mIsScraping = false;
+  if (game != nullptr)
+    if (game->IsGame())
+    {
+      // Currently scraping?
+      mIsScraping = (scraper.HowLong(game) > sMaxScrapingTimeBeforeBusyAnim);
+      // Or start scraping?
+      if (mElapsedTimeOnGame >= 0) // Valid timer?
+        if ((mElapsedTimeOnGame += delta) > sMaxHoveringTimeBeforeScraping) // Enough time on game?
+        {
+          // Shutdown timer for the current game
+          mElapsedTimeOnGame = -1;
+          // Push game into the seamless scraper
+          scraper.Push(game, this);
+        }
+    }
 }
 
 void BasicGameListView::setCursorIndex(int index)
@@ -238,7 +278,7 @@ Regions::List BasicGameListView::AvailableRegionsInGames()
   for(int i = (int)mList.size(); --i >= 0; )
   {
     const FileData& fd = *mList.getSelectedAt(i);
-    int fourRegions = fd.Metadata().Region();
+    unsigned int fourRegions = fd.Metadata().Region();
     // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
     regionIndexes[(fourRegions >>  0) & 0xFF] = true;
     regionIndexes[(fourRegions >>  8) & 0xFF] = true;
@@ -263,7 +303,7 @@ Regions::List BasicGameListView::AvailableRegionsInGames(FileData::List& fdList)
   // Run through all games
   for(const FileData* fd : fdList)
   {
-    int fourRegions = fd->Metadata().Region();
+    unsigned int fourRegions = fd->Metadata().Region();
     // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
     regionIndexes[(fourRegions >>  0) & 0xFF] = true;
     regionIndexes[(fourRegions >>  8) & 0xFF] = true;
@@ -279,4 +319,31 @@ Regions::List BasicGameListView::AvailableRegionsInGames(FileData::List& fdList)
   if (list.size() == 1 && regionIndexes[0])
     list.clear();
   return list;
+}
+
+void BasicGameListView::StageCompleted(FileData* game, IScraperEngineStage::Stage stage)
+{
+  // Got result, from the seamless scraper, update game data!
+  if (game == getCursor())
+    switch(stage)
+    {
+      case Stage::Text:
+      {
+        DoUpdateGameInformation(false);
+        // G
+        mList.changeTextAt(mList.getCursorIndex(), GetDisplayName(game));
+        break;
+      }
+      case Stage::Images: DoUpdateGameInformation(true); break;
+      case Stage::Video: DoUpdateGameInformation(false); break;
+      case Stage::Completed: RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), game->FilePath()); break;
+      default: break;
+    }
+  else
+    if (stage == Stage::Text)
+      for(int i = mList.Count(); -- i>= 0; )
+        if (mList.getObjects(i) == game)
+          mList.changeTextAt(i, GetDisplayName(game));
+
+  { LOG(LogDebug) << "[Scraper] Scraper stage: " << (int)stage; }
 }

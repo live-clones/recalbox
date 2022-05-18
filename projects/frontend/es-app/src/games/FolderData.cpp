@@ -674,6 +674,24 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   return nullptr;
 }
 
+FileData* FolderData::LookupGameByFilePath(const std::string& filepath) const
+{
+  // Recursively look for the game in subfolders too
+  for (FileData* fd : mChildren)
+    if (fd->IsFolder())
+    {
+      FolderData* folder = CastFolder(fd);
+      FileData* result = folder->LookupGameByFilePath(filepath);
+      if (result != nullptr)
+        return result;
+    }
+    else
+      if (filepath == fd->FilePath().ToString())
+        return fd;
+
+  return nullptr;
+}
+
 FileData* FolderData::GetNextFavoriteTo(FileData* reference)
 {
   // Look for position index. If not found, start from the begining

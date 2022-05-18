@@ -3,9 +3,9 @@
 
 namespace PlatformIds
 {
-  static const std::map<std::string, PlatformId>& getScrappingPlatforms()
+  static const std::map<std::string, PlatformId>& getScrapingPlatforms()
   {
-    static std::map<std::string, PlatformId> _ScrappingPlatforms =
+    static std::map<std::string, PlatformId> _ScrapingPlatforms =
     {
       { "unknown"         , PlatformId::PLATFORM_UNKNOWN          }, // nothing set
                                                            
@@ -135,12 +135,12 @@ namespace PlatformIds
       { "invalid"         , PlatformId::PLATFORM_COUNT            }, // Invalid
     };
 
-    return _ScrappingPlatforms;
+    return _ScrapingPlatforms;
   }
 
   PlatformId getPlatformId(const std::string& str)
   {
-    const std::map<std::string, PlatformId>& platforms = getScrappingPlatforms();
+    const std::map<std::string, PlatformId>& platforms = getScrapingPlatforms();
 
     auto it = platforms.find(str);
     if (it != platforms.end())
@@ -151,7 +151,7 @@ namespace PlatformIds
 
   std::string getPlatformName(PlatformId id)
   {
-    for(const auto& it : getScrappingPlatforms())
+    for(const auto& it : getScrapingPlatforms())
       if (it.second == id)
         return it.first;
 

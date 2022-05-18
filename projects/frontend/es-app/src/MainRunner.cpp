@@ -25,13 +25,16 @@
 #include "EmulationStation.h"
 #include "Upgrade.h"
 #include "CommandThread.h"
-#include "netplay/NetPlayThread.h"
+#include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
-#include <recalbox/StorageDevices.h>
+#include "utils/network/DnsClient.h"
+#include "hardware/devices/storage/StorageDevices.h"
 #include <guis/GuiInfoPopup.h>
+#include <scraping/ScraperSeamless.h>
 #include <sdl2/Sdl2Runner.h>
 #include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
+#include <patreon/PatronInfo.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
@@ -125,10 +128,6 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState = ExitState::Quit;
     try
     {
-      // Start Video engine
-      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
-      VideoEngine videoEngine;
-
       // Run kodi at startup?
       GameRunner gameRunner(window, systemManager);
       //if (RecalboxSystem::kodiExists())
@@ -141,9 +140,15 @@ MainRunner::ExitState MainRunner::Run()
       // Start the socket server
       { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);
-      // Start Neyplay thread
+      // Start Video engine
+      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
+      VideoEngine videoEngine;
+      // Start Netplay thread
       { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
+
+      // Seamless scraper
+      ScraperSeamless seamlessScraper;
 
       // Update?
       CheckUpdateMessage(window);
@@ -166,6 +171,9 @@ MainRunner::ExitState MainRunner::Run()
       externalNotificationFolder.CreatePath();
       fileNotifier.WatchFile(externalNotificationFolder)
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
+
+      // PatronInfo
+      PatronInfo patronInfo(this);
 
       // Main SDL loop
       exitState = MainLoop(window, systemManager, fileNotifier);
@@ -654,7 +662,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }
@@ -698,7 +706,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }
@@ -981,5 +989,15 @@ void MainRunner::Completed(const USBInitialization& parameter, const bool& resul
         mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, _("Initialization failed! Your USB device is full or contains errors. Please repair or use another device."), _("OK"), nullptr));
       break;
     }
+  }
+}
+
+void MainRunner::PatreonState(bool state, const std::string& patreonName)
+{
+  (void)patreonName;
+  if (state)
+  {
+    std::string message = Strings::Replace(_("Welcome back %s!\nYou are now connected to your recalbox patron account, and all exclusives features are available!"), "%s", PatronInfo::Instance().Name());
+    mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, GuiInfoPopupBase::PopupType::Help));
   }
 }

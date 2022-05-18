@@ -897,3 +897,20 @@ Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter,
 
   return output;
 }
+
+std::string Strings::ToHumanSize(long long int size)
+{
+  // Bytes
+  if (size < (1 << 10)) return ToString((int)size).append(1, 'B');
+  // KB
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("KB", 2);
+  // MB
+  size >>= 10;
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("MB", 2);
+  // GB
+  size >>= 10;
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("GB", 2);
+  // TB
+  size >>= 10;
+  return ToString((float)size / 1024.f, 2).append("TB", 2);
+}

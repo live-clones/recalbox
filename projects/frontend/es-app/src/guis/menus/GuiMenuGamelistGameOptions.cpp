@@ -193,10 +193,10 @@ void GuiMenuGamelistGameOptions::RatingChanged(int id, float value)
 void GuiMenuGamelistGameOptions::SubMenuSelected(int id)
 {
   if ((Components)id == Components::Scrape)
-    mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mGame, this));
+    mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mSystemManager, mGame, this));
 }
 
-void GuiMenuGamelistGameOptions::ScrappingComplete(FileData& game)
+void GuiMenuGamelistGameOptions::ScrapingComplete(FileData& game)
 {
   mName->setText(game.Metadata().Name());
   mRating->setValue(game.Metadata().Rating());

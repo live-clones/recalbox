@@ -9,8 +9,10 @@
 #include <WindowManager.h>
 #include <systems/SystemManager.h>
 #include <emulators/run/GameLinkedData.h>
+#include <scraping/scrapers/IScraperEngineFreezer.h>
 
 class GameRunner : public StaticLifeCycleControler<GameRunner>
+                 , public IScraperEngineFreezer
 {
   public:
     /*!
@@ -164,6 +166,12 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @return Netplay option string
      */
     static std::string NetplayOption(const FileData& game, const NetPlayData& netplay);
+
+    /*
+     * IScraperEngineFreezer implementation
+     */
+
+    bool MustFreeze() override { return sGameIsRunning; }
 };
 
 
