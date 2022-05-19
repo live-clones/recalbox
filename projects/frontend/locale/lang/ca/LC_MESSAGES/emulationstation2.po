@@ -203,7 +203,7 @@ msgstr "PARÀMETRES DEL SISTEMA"
 msgid "VERSION"
 msgstr "VERSIÓ"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "ÚS DEL DISC"
 
 msgid "STORAGE DEVICE"
@@ -3144,27 +3144,16 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "SEGURETAT"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "FES COMPLIR LA SEGURETAT"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "CONTRASENYA DE ROOT"
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Gestiona la seguretat del recalbox."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Canvia la contrasenya SSH de l'usuari root."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Força la seguretat del recalbox."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Defineix el comportament del protector de pantalla. DIM reduirà la "
-#~ "brillantor de pantalla, i BLACK posarà la pantalla de color negre."

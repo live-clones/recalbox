@@ -1,7 +1,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <WindowManager.h>
 #include <Renderer.h>
-#include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiMsgBox.h>
 #include <themes/MenuThemeData.h>
@@ -45,6 +45,13 @@ void WindowManager::pushGui(Gui* gui)
 {
   mGuiStack.Push(gui);
   UpdateHelpSystem();
+}
+
+void WindowManager::RemoveGui(Gui* gui)
+{
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    if (mGuiStack[i] == gui)
+      mGuiStack.PopAt(i);
 }
 
 void WindowManager::displayMessage(const std::string& message, bool urgent)
@@ -259,14 +266,14 @@ void WindowManager::Render(Transform4x4f& transform)
   if (!mGuiStack.Empty())
   {
     int stackSize = (int)mGuiStack.Count();
-    auto* previous = stackSize > 1 ? mGuiStack[stackSize - 2] : nullptr;
-    auto* top = mGuiStack.Peek();
+    Gui* previous = stackSize > 1 ? mGuiStack[stackSize - 2] : nullptr;
+    Gui* top = mGuiStack.Peek();
 
     mBackgroundOverlay.Render(transform);
     if (top->IsOverlay())
       if (stackSize > 1 && previous != nullptr) previous->Render(transform);
 
-    if (!mRenderedHelpPrompts && top->MustRenderOverHelpSystem())
+    if (top->MustRenderOverHelpSystem())
       renderHelpPromptsEarly();
 
     top->Render(transform);
@@ -480,18 +487,36 @@ void WindowManager::InfoPopupRetarget()
   }
 }
 
-void WindowManager::InfoPopupAdd(GuiInfoPopup* infoPopup)
+void WindowManager::InfoPopupAdd(GuiInfoPopupBase* infoPopup, bool first)
 {
-  mInfoPopups.Add(infoPopup);
+  infoPopup->Initialize();
+  if (first)mInfoPopups.Insert(infoPopup, 0);
+  else mInfoPopups.Add(infoPopup);
   InfoPopupsShrink();
   InfoPopupRetarget();
 }
 
+bool WindowManager::InfoPopupIsShown(GuiInfoPopupBase* infoPopup)
+{
+  for(int i = mInfoPopups.Count(); --i >= 0;)
+    if (mInfoPopups[i] == infoPopup)
+      return true;
+  return false;
+}
+
+void WindowManager::InfoPopupRemove(GuiInfoPopupBase* infoPopup)
+{
+  for(int i = mInfoPopups.Count(); --i >= 0;)
+    if (mInfoPopups[i] == infoPopup)
+      InfoPopupsRemove(i);
+}
+
 void WindowManager::InfoPopupsRemove(int index)
 {
-  GuiInfoPopup* popup = mInfoPopups[index];
+  GuiInfoPopupBase* popup = mInfoPopups[index];
   mInfoPopups.Delete(index); // Delete pointer
-  delete popup; // Delete object
+  if (!popup->SelfProcessed())
+    delete popup; // Delete object
 
   // Move other popups
   InfoPopupRetarget();
@@ -502,7 +527,7 @@ void WindowManager::InfoPopupsUpdate(int delta)
   for(int i = mInfoPopups.Count(); --i >= 0;)
   {
     mInfoPopups[i]->Update(delta);
-    if (mInfoPopups[i]->TimeOut())
+    if (mInfoPopups[i]->TimeOut() && !mInfoPopups[i]->SelfProcessed())
       InfoPopupsRemove(i);
   }
 }
@@ -512,3 +537,4 @@ void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
   for(int i = mInfoPopups.Count(); --i >= 0;)
     mInfoPopups[i]->Render(transform);
 }
+

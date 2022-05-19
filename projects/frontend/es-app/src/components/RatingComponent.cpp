@@ -94,7 +94,7 @@ void RatingComponent::updateVertices()
 
 void RatingComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }

@@ -67,21 +67,23 @@ template<class FeedObject, class ResultObject> class ThreadPool
     class WorkerThread: public Thread
     {
       private:
-        //! Signal to start new jobs
-        Signal      mSignal;
-        //! Manager
-        ThreadPool& mParent;
+        Signal      mSignal;   //!< Signal to start new jobs
+        ThreadPool& mParent;   //!< Manager
+        int         mPriority; //! Relative priority
 
       public:
-        explicit WorkerThread(ThreadPool& parent)
+        explicit WorkerThread(ThreadPool& parent, int relativePriority)
           : mParent(parent)
+          , mPriority(relativePriority)
         {
         }
 
         void Run() override;
 
+        void Break() override { Fire(); }
+
         /*!
-         * @brief Set the signal to wxake up the thread
+         * @brief Set the signal to wake up the thread
          */
         void Fire() { mSignal.Fire(); }
     };
@@ -185,6 +187,16 @@ template<class FeedObject, class ResultObject> class ThreadPool
     }
 
     /*!
+     * @brief Cancel all pending jobs
+     */
+    void CancelPendingJobs()
+    {
+      mStackMutex.Lock();
+      mQueue.clear();
+      mStackMutex.UnLock();
+    }
+
+    /*!
      * @brief Populate working queue with feed objects
      * @param feed Feed object
      * @param Priority: higher priorities are executed first
@@ -195,7 +207,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
       mQueue.push_back(IndexedFeed(mIndex++, feed, priority));
       mStackMutex.UnLock();
       if (mPermanent)
-        for(auto& thread : mThreads)
+        for(WorkerThread* thread : mThreads)
           thread->Fire();
     }
 
@@ -242,8 +254,9 @@ template<class FeedObject, class ResultObject> class ThreadPool
      * Using 0 set the actual value to ncpu * 2
      * @param async Do not wait for end of all thread, exit immediately.
      * if async is used, WaitForCompletion must be used to ensure all worker thread have finished.
+     * @param priority Relative priority
      */
-    void Run(int threadCount, bool async);
+    void Run(int threadCount, bool async, int priority = 0);
 
     /*!
      * @brief Wait for completion of all worker threads
@@ -284,7 +297,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
 };
 
 template<class FeedObject, class ResultObject>
-void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async)
+void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async, int priority)
 {
   // Set thread count
   if (threadCount <= 0)
@@ -305,7 +318,7 @@ void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async)
   // Create and run threads
   for(int i = threadCount; --i >= 0; )
   {
-    WorkerThread* worker = new WorkerThread(*this);
+    WorkerThread* worker = new WorkerThread(*this, priority);
     std::string name = mThreadPoolName;
     name += '#';
     name += std::to_string(i);
@@ -322,6 +335,7 @@ template<class FeedObject, class ResultObject>
 void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
 {
   int loop = -1;
+  nice(-mPriority);
   while(IsRunning())
   {
     // Wait start signal
@@ -350,3 +364,4 @@ void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
       break;
   }
 }
+

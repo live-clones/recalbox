@@ -7,8 +7,9 @@
 #pragma once
 
 #include <string>
-#include <utils/os/fs/Path.h>
-#include <utils/Strings.h>
+#include "utils/os/fs/Path.h"
+#include "utils/Strings.h"
+#include <sys/statvfs.h>
 
 //! Device mount info
 class DeviceMount
@@ -25,6 +26,8 @@ class DeviceMount
       , mMountPoint(mountpoint)
       , mName(name)
       , mType(type)
+      , mTotalSize(0)
+      , mFreeSize(0)
       , mReadOnly(false)
     {
       for(const std::string& option : Strings::Split(options, ','))
@@ -33,6 +36,43 @@ class DeviceMount
           mReadOnly = true;
           break;
         }
+    }
+
+    /*
+     * Tool
+     */
+
+    std::string DisplayableDeviceName() const
+    {
+      return std::string(mName)
+             .append(" (", 2)
+             .append(mDevice.ToString())
+             .append(1, ')');
+    }
+
+    std::string DisplayableFreeSpace() const
+    {
+      return Strings::ToHumanSize(mFreeSize)
+             .append(1, '/')
+             .append(Strings::ToHumanSize(mTotalSize))
+             .append(" (", 2)
+             .append(mTotalSize == 0 ? std::string("Unknown") : Strings::ToString((mFreeSize * 100) / mTotalSize))
+             .append("%)", 2);
+    }
+
+    /*!
+     * @brief Update size & free
+     * @return This
+     */
+    DeviceMount& UpdateSize()
+    {
+      struct statvfs fiData {};
+      if ((statvfs(mMountPoint.ToChars(), &fiData)) >= 0)
+      {
+        mTotalSize = ((long long)fiData.f_blocks * (long long)fiData.f_bsize);
+        mFreeSize = ((long long)fiData.f_bfree * (long long)fiData.f_bsize);
+      }
+      return *this;
     }
 
     /*
@@ -47,6 +87,10 @@ class DeviceMount
     const std::string& Name() const { return mName; }
     //! Get file system type
     const std::string& Type() const { return mType; }
+    //! Total size
+    long long TotalSize() const { return mTotalSize; }
+    //! Free size
+    long long FreeSize() const { return mFreeSize; }
     //! Get file system read-only status
     bool ReadOnly() const { return mReadOnly; }
 
@@ -64,5 +108,7 @@ class DeviceMount
     Path        mMountPoint; //!< Mount point (/recalbox/share/externals/...)
     std::string mName;       //!< Volume name
     std::string mType;       //!< FS type (ntfs, ext, ...)
+    long long   mTotalSize;  //!< Total size in byte
+    long long   mFreeSize;   //!< Free size in byte
     bool        mReadOnly;   //!< Read only?
 };

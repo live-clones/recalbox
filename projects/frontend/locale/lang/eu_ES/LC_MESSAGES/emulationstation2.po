@@ -201,7 +201,7 @@ msgstr "SISTEMAREN KONFIGURAZIOA"
 msgid "VERSION"
 msgstr "BERTSIOA"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "DISKO ERABILERA"
 
 msgid "STORAGE DEVICE"
@@ -3024,23 +3024,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "SEGURTASUNA"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ZIURTATU SEGURTASUNA"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT PASAHITZA"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Kudeatu zure recalbox segurtasuna."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Aldatu SSH root pasahitza."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Betearazi recalbox segurtasuna."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "EGUNERAKETA BERTSIOA:"

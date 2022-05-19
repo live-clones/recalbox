@@ -25,11 +25,15 @@
 #include "EmulationStation.h"
 #include "Upgrade.h"
 #include "CommandThread.h"
-#include "netplay/NetPlayThread.h"
+#include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
+#include "utils/network/DnsClient.h"
+#include <guis/GuiInfoPopup.h>
+#include <scraping/ScraperSeamless.h>
 #include <sdl2/Sdl2Runner.h>
 #include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
+#include <patreon/PatronInfo.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
@@ -123,9 +127,8 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState;
     try
     {
-      // Start Video engine
-      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
-      VideoEngine videoEngine;
+      // Patron Information
+      PatronInfo patronInfo(this);
 
       // Run kodi at startup?
       GameRunner gameRunner(window, systemManager);
@@ -139,9 +142,15 @@ MainRunner::ExitState MainRunner::Run()
       // Start the socket server
       { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);
-      // Start Neyplay thread
+      // Start Video engine
+      { LOG(LogDebug) << "[MainRunner] Launching Video engine"; }
+      VideoEngine videoEngine;
+      // Start Netplay thread
       { LOG(LogDebug) << "[MainRunner] Launching Netplay thread"; }
       NetPlayThread netPlayThread(window);
+
+      // Seamless scraper
+      ScraperSeamless seamlessScraper;
 
       // Update?
       CheckUpdateMessage(window);
@@ -621,7 +630,7 @@ void MainRunner::HeadphonePluggedIn(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }
@@ -665,7 +674,7 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
         { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
         if (popupDuration != 0 && mApplicationWindow != nullptr)
           mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
-                                                popupDuration, GuiInfoPopup::PopupType::Music));
+                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
       }
       break;
     }
@@ -883,12 +892,54 @@ void MainRunner::InstallCRTFeatures()
         conf.SetThemeMenuSet(recalboxTheme, "7-240p");
 
       if(!Strings::Contains(conf.GetThemeGameClipView(recalboxTheme), "240p"))
-      conf.SetThemeGameClipView(recalboxTheme, "3-240p");
+        conf.SetThemeGameClipView(recalboxTheme, "3-240p");
 
       if(!Strings::Contains(conf.GetThemeGamelistView(recalboxTheme), "240p"))
         conf.SetThemeGamelistView(recalboxTheme, "10-240p");
-
     }
     conf.SetBool("240ptestsuite.ignore", false);
   }
+}
+
+void MainRunner::PatreonState(PatronAuthenticationResult result, int level, const std::string& name)
+{
+  std::string message;
+  switch(result)
+  {
+    case PatronAuthenticationResult::Patron:
+    {
+      message = _("Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!");
+      Strings::ReplaceAllIn(message, "%NAME%", name);
+      Strings::ReplaceAllIn(message, "%LEVEL%", Strings::ToString(level));
+      break;
+    }
+    case PatronAuthenticationResult::FormerPatron:
+    {
+      message = _("Hello %NAME%, your private key is linked to a Patreon account which is no longer a Recalbox Patron.\nWe still hope to see you back soon as a Recalbox Patron!\nDelete your private key to suppress this message.");
+      Strings::ReplaceAllIn(message, "%NAME%", name);
+      break;
+    }
+    case PatronAuthenticationResult::Invalid:
+    {
+      message = _("Your private key does not allow to retrieve your Patreon information. Go to recalbox.com/patreon to generate a new valid key!");
+      break;
+    }
+    case PatronAuthenticationResult::NetworkError:
+    {
+      message = _("Sorry we're not able to retrieve your Patron level because no network is available!");
+      break;
+    }
+    case PatronAuthenticationResult::HttpError:
+    case PatronAuthenticationResult::ApiError:
+    {
+      message = _("We're not able to retrieve your Patron level! Sorry for the inconvenience, we're already working on a fix!");
+      break;
+    }
+    case PatronAuthenticationResult::NoPatron:
+    case PatronAuthenticationResult::Unknown:
+    default: break;
+  }
+
+  if (!message.empty())
+    mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, GuiInfoPopupBase::PopupType::Help));
 }

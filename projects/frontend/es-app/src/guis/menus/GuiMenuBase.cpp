@@ -13,6 +13,7 @@
 #include <components/SwitchComponent.h>
 #include <components/SliderComponent.h>
 #include <components/EditableComponent.h>
+#include <patreon/PatronInfo.h>
 
 GuiMenuBase::GuiMenuBase(WindowManager& window, const std::string& title, IGuiMenuBase* interface)
   : Gui(window)
@@ -57,7 +58,8 @@ void GuiMenuBase::Update(int deltaTime)
   if (!mMenuInitialized)
   {
     // footer
-    mMenu.setFooter(!mFooter.empty() ? mFooter : "RECALBOX VERSION " + Strings::ToUpperASCII(PROGRAM_VERSION_STRING));
+
+    mMenu.setFooter(!mFooter.empty() ? mFooter : "RECALBOX VERSION " + Strings::ToUpperASCII(PROGRAM_VERSION_STRING) + (PatronInfo::Instance().IsPatron() ? " - PATRON FLAVOR": ""));
     // Position
     mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);
 
@@ -244,7 +246,7 @@ void GuiMenuBase::RebootPending(WindowManager* window)
   static bool pending = false;
   if (!pending)
   {
-    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, GuiInfoPopup::PopupType::Reboot));
+    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, GuiInfoPopupBase::PopupType::Reboot));
     pending = true;
   }
 }

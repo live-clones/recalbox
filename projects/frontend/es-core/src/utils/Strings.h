@@ -83,13 +83,17 @@ class Strings
 
     static std::string Trim(const std::string& _string, const char* _trimwhat);
 
+    static std::string Replace(const std::string& _string, char _replace, char _with);
+
     static std::string Replace(const std::string& _string, const std::string& _replace, const std::string& _with);
 
     static std::string Replace(const std::string& _string, const std::string& _replace, const char* _with, int _withLength);
 
-    static void ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with);
+    static std::string& ReplaceAllIn(std::string& _string, char _replace, char _with);
 
-    static void ReplaceAllIn(std::string& _string, char _replace, const char* _with, int _withlength);
+    static std::string& ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with);
+
+    static std::string& ReplaceAllIn(std::string& _string, char _replace, const char* _with, int _withlength);
 
     static std::string Extract(const std::string& source, const char* starttag, const char* endtag, int starttagl, int endtagl);
 
@@ -188,6 +192,14 @@ class Strings
     static std::string UnicodeToUtf8(const std::vector<unsigned int>& unicodes);
 
     static std::vector<unsigned int> Utf8ToUnicode(const std::string& utf8);
+
+    /*!
+     * @brief Transform the given size in its best human-readable string representation
+     * exemple: 13KB, 25.6MB, 859.41GB, ...
+     * @param size Source size in byte
+     * @return String representation
+     */
+    static std::string ToHumanSize(long long size);
 };
 
 #endif // ES_CORE_UTILS_STRING_UTIL_H

@@ -203,7 +203,7 @@ msgstr "ΡΥΘΜΙΣΕΙΣ ΣΥΣΤΗΜΑΤΟΣ"
 msgid "VERSION"
 msgstr "ΕΚΔΟΣΗ"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "ΧΩΡΟΣ ΣΤΟΝ ΔΙΣΚΟ"
 
 msgid "STORAGE DEVICE"
@@ -3006,11 +3006,16 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "ΑΣΦΑΛΕΙΑ"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ΕΦΑΡΜΟΣΤΕ ΤΗΝ ΑΣΦΑΛΕΙΑ"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "Κωδικός πρόσβασης ρίζας"
+

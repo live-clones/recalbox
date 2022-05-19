@@ -55,12 +55,13 @@ class MetadataDescriptor
     Path*        mVideo;        //!< Video path
     float        mRating;       //!< Rating from 0.0 to 1.0
     GameGenres   mGenreId;      //!< Normalized Genre
-    unsigned int mRegion;       //!< Rom/Game Region
+    Regions::RegionPack mRegion;       //!< Rom/Game Region
     int          mPlayers;      //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int          mReleaseDate;  //!< Release data (epoch)
     int          mPlaycount;    //!< Play counter
     unsigned int mLastPlayed;   //!< Last time played (epoch)
     int          mRomCrc32;     //!< Rom Crc32
+    unsigned int mTimeStamp;    //!< Last scrape timestamp
     bool         mFavorite;     //!< Favorite game
     bool         mHidden;       //!< Hidden game
     bool         mAdult;        //!< Adult state
@@ -236,7 +237,7 @@ class MetadataDescriptor
         mImage(),
         mDeveloper(),
         mPublisher(),
-        mGenre(),
+        mGenre(nullptr),
         mEmulator(nullptr),
         mCore(nullptr),
         mRatio(nullptr),
@@ -244,12 +245,13 @@ class MetadataDescriptor
         mVideo(nullptr),
         mRating(0.0f),
         mGenreId(GameGenres::None),
-        mRegion(0),
+        mRegion(),
         mPlayers((1 << 16) + 1),
         mReleaseDate(0),
         mPlaycount(0),
         mLastPlayed(0),
         mRomCrc32(0),
+        mTimeStamp(0),
         mFavorite(false),
         mHidden(false),
         mAdult(false),
@@ -270,38 +272,45 @@ class MetadataDescriptor
      * Copy constructor
      * @param source Source to copy data from
      */
-    #ifdef _METADATA_STATS_
     MetadataDescriptor(const MetadataDescriptor& source)
-      : _Name        (source._Name       ),
-        _Description (source._Description),
-        _Image       (source._Image      ),
-        _Developer   (source._Developer  ),
-        _Publisher   (source._Publisher  ),
-        _Genre       (source._Genre      ),
-        _Emulator    (source._Emulator   ),
-        _Core        (source._Core       ),
-        _Ratio       (source._Ratio      ),
-        _Thumbnail   (source._Thumbnail  ),
-        _Video       (source._Video      ),
-        _Region      (source._Region     ),
-        _Rating      (source._Rating     ),
-        _GenreId     (source._GenreId    ),
-        _Players     (source._Players    ),
-        _ReleaseDate (source._ReleaseDate),
-        _Playcount   (source._Playcount  ),
-        _LastPlayed  (source._LastPlayed ),
-        _RomCrc32    (source._RomCrc32   ),
-        _Favorite    (source._Favorite   ),
-        _Hidden      (source._Hidden     ),
-        _Adult       (source._Adult      ),
-        _Dirty       (source._Dirty      ),
-        _Type        (source._Type       )
+     : mGenre(nullptr)
+     , mEmulator(nullptr)
+     , mCore(nullptr)
+     , mRatio(nullptr)
+     , mThumbnail(nullptr)
+     , mVideo(nullptr)
     {
+      if (source.mEmulator != nullptr)  mEmulator  = new std::string(*source.mEmulator);
+      if (source.mCore != nullptr)      mCore      = new std::string(*source.mCore);
+      if (source.mRatio != nullptr)     mRatio     = new std::string(*source.mRatio);
+      if (source.mThumbnail != nullptr) mThumbnail = new Path(*source.mThumbnail);
+      if (source.mVideo != nullptr)     mVideo     = new Path(*source.mVideo);
+      if (source.mGenre != nullptr)     mGenre     = new std::string(*source.mGenre);
+      mName        = source.mName       ;
+      mDescription = source.mDescription;
+      mImage       = source.mImage      ;
+      mDeveloper   = source.mDeveloper  ;
+      mPublisher   = source.mPublisher  ;
+      mRegion      = source.mRegion     ;
+      mRating      = source.mRating     ;
+      mGenreId     = source.mGenreId    ;
+      mPlayers     = source.mPlayers    ;
+      mReleaseDate = source.mReleaseDate;
+      mPlaycount   = source.mPlaycount  ;
+      mLastPlayed  = source.mLastPlayed ;
+      mRomCrc32    = source.mRomCrc32   ;
+      mTimeStamp   = source.mTimeStamp  ;
+      mFavorite    = source.mFavorite   ;
+      mHidden      = source.mHidden     ;
+      mAdult       = source.mAdult      ;
+      mDirty       = source.mDirty      ;
+      mType        = source.mType       ;
+      #ifdef _METADATA_STATS_
       LivingClasses++;
       if (_Type == ItemType::Game) LivingGames++;
       if (_Type == ItemType::Folder) LivingFolders++;
+      #endif
     }
-    #endif
 
     /*!
      * Move constructor
@@ -327,23 +336,24 @@ class MetadataDescriptor
         mPlaycount(source.mPlaycount),
         mLastPlayed(source.mLastPlayed),
         mRomCrc32(source.mRomCrc32),
+        mTimeStamp(source.mTimeStamp),
         mFavorite(source.mFavorite),
         mHidden(source.mHidden),
         mAdult(source.mAdult),
         mDirty(source.mDirty),
         mType(source.mType)
     {
-      #ifdef _METADATA_STATS_
-      LivingClasses++;
-      if (_Type == ItemType::Game) LivingGames++;
-      if (_Type == ItemType::Folder) LivingFolders++;
-      #endif
       source.mEmulator  = nullptr;
       source.mCore      = nullptr;
       source.mRatio     = nullptr;
       source.mThumbnail = nullptr;
       source.mVideo     = nullptr;
       source.mGenre     = nullptr;
+      #ifdef _METADATA_STATS_
+      LivingClasses++;
+      if (_Type == ItemType::Game) LivingGames++;
+      if (_Type == ItemType::Folder) LivingFolders++;
+      #endif
     }
 
     /*!
@@ -441,6 +451,7 @@ class MetadataDescriptor
      * Deserialize data from a given Xml node
      * @param from XML Node to deserialize from
      * @param relativeTo Root path
+     * @param timestamp last scraping timestamp
      * @return True of the node has been successfully deserialized
      */
     bool Deserialize(XmlNode from, const Path& relativeTo);
@@ -458,6 +469,13 @@ class MetadataDescriptor
      * @param source Metadata object from which to merge data
      */
     void Merge(const MetadataDescriptor& source);
+
+    /*
+     * Last scraping Timestamp
+     */
+
+    unsigned int TimeStamp() const { return mTimeStamp; }
+    void SetTimeStamp() { mTimeStamp = (unsigned int)DateTime().ToEpochTime(); }
 
     /*
      * Accessors
@@ -486,7 +504,7 @@ class MetadataDescriptor
     int                PlayCount()       const { return mPlaycount;                        }
     unsigned int       LastPlayedEpoc()  const { return mLastPlayed;                       }
     DateTime           LastPlayed()      const { return DateTime((long long)mLastPlayed);  }
-    unsigned int       Region()          const { return mRegion;                           }
+    Regions::RegionPack Region()          const { return mRegion;                           }
     int                RomCrc32()        const { return mRomCrc32;                         }
     bool               Favorite()        const { return mFavorite;                         }
     bool               Hidden()          const { return mHidden;                           }
@@ -546,7 +564,7 @@ class MetadataDescriptor
       mPlayers = (max << 16) + min;
       mDirty = true;
     }
-    void SetRegion(int regions)                         { mRegion = regions; mDirty = true;                             }
+    void SetRegion(Regions::RegionPack regions)         { mRegion = regions; mDirty = true;                             }
     void SetRomCrc32(int romcrc32)                      { mRomCrc32 = romcrc32; mDirty = true;                          }
     void SetFavorite(bool favorite)                     { mFavorite = favorite; mDirty = true;                          }
     void SetHidden(bool hidden)                         { mHidden = hidden; mDirty = true;                              }
@@ -593,7 +611,7 @@ class MetadataDescriptor
     void SetRomCrc32AsString(const std::string& romcrc32)       { int c = 0; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
     void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlaycount = p; mDirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
-    void SetRegionAsString(const std::string& region)           { mRegion = (int)Regions::Deserialize4Regions(region); mDirty = true; }
+    void SetRegionAsString(const std::string& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
 
     /*
      * Defaults
@@ -610,7 +628,7 @@ class MetadataDescriptor
     bool IsDefaultDeveloper()       const { return sDefault.mDeveloper == mDeveloper;   }
     bool IsDefaultPublisher()       const { return sDefault.mPublisher == mPublisher;   }
     bool IsDefaultGenre()           const { return sDefault.mGenre == mGenre;       }
-    bool IsDefaultRegion()          const { return sDefault.Region() == Region();     }
+    bool IsDefaultRegion()          const { return sDefault.Region().Pack == Region().Pack;     }
     bool IsDefaultRating()          const { return sDefault.mRating == mRating;      }
     bool IsDefaultPlayerRange()     const { return sDefault.mPlayers == mPlayers;     }
     bool IsDefaultReleaseDateEpoc() const { return sDefault.mReleaseDate == mReleaseDate; }

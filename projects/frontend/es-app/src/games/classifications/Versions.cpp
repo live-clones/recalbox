@@ -3,6 +3,8 @@
 //
 
 #include "Versions.h"
+#include <utils/storage/HashMap.h>
+#include <utils/Strings.h>
 
 std::string& Versions::Serialize(Versions::GameVersions versions)
 {

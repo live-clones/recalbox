@@ -204,7 +204,7 @@ msgstr "Systeem instellingen"
 msgid "VERSION"
 msgstr "Versie"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "Geheugen verbruik"
 
 msgid "STORAGE DEVICE"
@@ -3136,30 +3136,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "Beveiliging"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "Forceer Beveiliging"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "Root Wachtwoord"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Check je recalbox beveiliging"
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Verander het SSH root wachtwoord."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Forceer recalbox beveiliging."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Stel de screensaver in. DIM zal het scherm dimmen, en ZWART maakt je "
-#~ "scherm zwart."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "UPDATE VERSIE:"

@@ -54,7 +54,7 @@ class FileData
     const ItemType mType;
 
   private:
-    //! Item path on the filesystem
+    //! Item path on the filesystem - *MUST* bne initialized before metadata
     Path mPath;
     //! Metadata
     MetadataDescriptor mMetadata;
@@ -165,6 +165,10 @@ class FileData
      */
     FileData& CalculateHash();
 
+    /*!
+     * @brief Get region string
+     * @return
+     */
     std::string Regions();
 
     /*!
@@ -188,6 +192,14 @@ class FileData
     bool IsPreinstalled() const{
       return Strings::Contains(FilePath().ToString(), "share_init");
     }
+
+    /*!
+     * @brief Update metadata from the given FileData.
+     * This method update only if both rom path are equals!
+     * @param from Source data
+     * @return True if metadata have been updated, false otherwise
+     */
+    bool UpdateMetadataFrom(FileData& from);
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

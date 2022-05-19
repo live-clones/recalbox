@@ -206,7 +206,7 @@ msgstr "SISTEMOS NUSTATYMAI"
 msgid "VERSION"
 msgstr "VERSIJA"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "DISKO NAUDOJIMAS"
 
 msgid "STORAGE DEVICE"
@@ -2998,11 +2998,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "SAUGA"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ĮGALINTI SAUGĄ"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT SLAPTAŽODIS"

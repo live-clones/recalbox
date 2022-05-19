@@ -110,6 +110,7 @@ class MenuMessages
     #define MENUMESSAGE_SCRAPER_RATINGS_HELP_MSG "Scrape and display game ratings."
     #define MENUMESSAGE_SCRAPER_FINAL_POPUP "Scraping complete! {PROCESSED} games processed.\n\n{SUCCESS} game(s) scraped or updated\n{NOTFOUND} game(s) not found...\n{ERRORS} request/download errors\n\n{TEXTINFO} Text information updated\n{IMAGES} images and {VIDEOS} videos downloaded\n{MEDIASIZE} of media saved\nNow, EmulationStation is going to relaunch to update all gamelists."
     #define MENUMESSAGE_SCRAPER_FINAL_QUOTA "You reached your daily quota of scraping request.\nAll your today's scrapes have been saved anyway.\n\nStart scraping again tomorrow.\nDont forget to select 'update' and not 'scrape all'"
+    #define MENUMESSAGE_SCRAPER_FINAL_FATAL "A fatal error occured while scraping your game! It may be related to server issues or bad login/password.\n\nTry again in a few moment or fix your credentials if required."
     #define MENUMESSAGE_SCRAPER_FINAL_DISKFULL "Your share partition is almost full.\nThe scraper stopped automatically.\n\nRemove unused games, media, files to make room before running the scraper again!"
 
     #define MENUMESSAGE_ADVANCED_HELP_MSG "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."

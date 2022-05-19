@@ -203,7 +203,7 @@ msgstr "DEFINIÇÕES DO SISTEMA"
 msgid "VERSION"
 msgstr "VERSÃO"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "ESPAÇO DISPONÍVEL"
 
 msgid "STORAGE DEVICE"
@@ -3164,30 +3164,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "SEGURANÇA"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "REFORÇAR SEGURANÇA "
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "PALAVRA-PASSE DE ROOT"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Gerencie sua segurança Recalbox."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Altere a palavra-passe SSH root."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Reforçar a segurança da Recalbox."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Escolha o comportamento do protetor de tela: DIM reduzirá o brilho da "
-#~ "tela, PRETO tornará a tela preta."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "VERSÃO ATUALIZADA:"

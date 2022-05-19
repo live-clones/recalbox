@@ -181,7 +181,8 @@ std::string GameRunner::demoInitialize()
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   { LOG(LogInfo) << "[DemoMode] Controllers config : " << controlersConfig; }
 
-  VideoEngine::Instance().StopVideo(false);
+  if (VideoEngine::IsInstantiated())
+    VideoEngine::Instance().StopVideo(false);
   AudioManager::Instance().Deactivate();
   WindowManager::Finalize();
 

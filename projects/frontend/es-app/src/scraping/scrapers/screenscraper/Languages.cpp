@@ -32,12 +32,12 @@ const std::string& LanguagesTools::LanguagesFullName(Languages language)
     {Languages::SV, "Svenska"},
   });
 
-const std::string* found = sLanguagesToFullName.try_get(language);
-if (found != nullptr)
-return *found;
+  const std::string* found = sLanguagesToFullName.try_get(language);
+  if (found != nullptr)
+    return *found;
 
-static std::string sUnknown("Unknown Language");
-return sUnknown;
+  static std::string sUnknown("Unknown Language");
+  return sUnknown;
 }
 
 const LanguagesTools::List& LanguagesTools::AvailableLanguages()

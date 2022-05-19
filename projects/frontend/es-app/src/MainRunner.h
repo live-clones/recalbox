@@ -12,6 +12,7 @@
 #include <guis/GuiWaitLongExecution.h>
 #include <utils/storage/Queue.h>
 #include <emulators/run/GameRunner.h>
+#include <patreon/IPatreonNotification.h>
 
 class AudioManager;
 class SystemManager;
@@ -31,6 +32,7 @@ class MainRunner
   , public IHardwareNotifications
   , private ILongExecution<HardwareTriggeredSpecialOperations, bool>
   , private IRomFolderChangeNotification
+  , private IPatreonNotification
 {
   public:
     //! Pending Exit
@@ -266,6 +268,18 @@ class MainRunner
      */
     void Completed(const HardwareTriggeredSpecialOperations& parameter, const bool& result) override;
 
+    /*
+     * IPatreonNotification implementation
+     */
+
+    /*!
+     * @brief Notify of the current user status
+     * @param result Authentication result (user status)
+     * @param level Patron level
+     * @param patreonName Patreon name
+     */
+    void PatreonState(PatronAuthenticationResult result, int level, const std::string& patreonName) final;
+
   public:
     /*!
      * @brief Constructor
@@ -329,5 +343,5 @@ class MainRunner
     /*!
      * @brief Install CRT features
      */
-    void InstallCRTFeatures();
+    static void InstallCRTFeatures();
 };
