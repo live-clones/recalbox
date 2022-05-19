@@ -7,23 +7,26 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
-#include <recalbox/StorageDevices.h>
+#include "hardware/devices/storage/StorageDevices.h"
 
 // Forward declaration
 template<class T> class OptionListComponent;
 class SwitchComponent;
 class TextComponent;
+class SystemManager;
 
 class GuiMenuSystem : public GuiMenuBase
                     , private IOptionListComponent<std::string>
                     , private IOptionListComponent<StorageDevices::Device>
+                    , private IGuiMenuBase
 {
   public:
     /*!
      * @brief Default constructor
      * @param window Global window
+     * @param systemManager System manager
      */
-    explicit GuiMenuSystem(WindowManager& window);
+    explicit GuiMenuSystem(WindowManager& window, SystemManager& systemManager);
 
     //! Destructeur
     ~GuiMenuSystem() override;
@@ -31,6 +34,7 @@ class GuiMenuSystem : public GuiMenuBase
   private:
     enum class Components
     {
+      DiskUsage,
       Storage,
       Culture,
       Keyboard,
@@ -54,11 +58,12 @@ class GuiMenuSystem : public GuiMenuBase
     //! Culture list
     typedef std::vector<Culture> CultureList;
 
+    //! System manager reference
+    SystemManager& mSystemManager;
+
     //! Storage devices
     StorageDevices mStorageDevices;
 
-    //! Version
-    std::shared_ptr<TextComponent> mVersion;
     //! Share Free Space
     std::shared_ptr<TextComponent> mFreeSpace;
     //! Available storages
@@ -94,6 +99,11 @@ class GuiMenuSystem : public GuiMenuBase
 
     void OptionListComponentChanged(int id, int index, const StorageDevices::Device& value) override;
 
+    /*
+     * IGuiMenuBase implementation
+     */
+
+    void SubMenuSelected(int id) override;
 };
 
 

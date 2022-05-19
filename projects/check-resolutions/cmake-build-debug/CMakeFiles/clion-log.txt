@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/bkg2k/Development/Recalbox/recalbox-rpi4_64/projects/check-resolutions Select CMakeLists.txt

@@ -318,6 +318,16 @@ std::string Strings::Trim(const std::string& _string, const char* _trimwhat)
   return _string;
 } // Trim
 
+std::string Strings::Replace(const std::string& _string, char _replace, char _with)
+{
+  std::string string = _string;
+
+  for(int i = (int)string.size(); --i >= 0; )
+    if (string[i] == _replace)
+      string[i] = _with;
+  return string;
+}
+
 std::string Strings::Replace(const std::string& _string, const std::string& _replace, const std::string& _with)
 {
 	std::string string = _string;
@@ -338,16 +348,26 @@ std::string Strings::Replace(const std::string& _string, const std::string& _rep
   return string;
 }
 
-void Strings::ReplaceAllIn(std::string& _string, const char _replace, const char* _with, int _withlength)
+std::string& Strings::ReplaceAllIn(std::string& _string, const char _replace, const char _with)
+{
+  for(int i = (int)_string.size(); --i >= 0; )
+    if (_string[i] == _replace)
+      _string[i] = _with;
+  return _string;
+}
+
+std::string& Strings::ReplaceAllIn(std::string& _string, const char _replace, const char* _with, int _withlength)
 {
   for(int pos = 0; (pos = (int)_string.find(_replace, pos)) != (int)std::string::npos; pos += _withlength)
     _string.replace(pos, 1, _with, _withlength);
+  return _string;
 }
 
-void Strings::ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with)
+std::string& Strings::ReplaceAllIn(std::string& _string, const std::string& _replace, const std::string& _with)
 {
   for(int pos = 0; (pos = (int)_string.find(_replace, pos)) != (int)std::string::npos; pos += (int)_with.size())
     _string.replace(pos, _replace.length(), _with);
+  return _string;
 }
 
 bool Strings::StartsWith(const std::string& _string, const std::string& _start)
@@ -895,4 +915,21 @@ Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter,
   output.push_back(std::string(Last, (int)(End - Last)));
 
   return output;
+}
+
+std::string Strings::ToHumanSize(long long int size)
+{
+  // Bytes
+  if (size < (1 << 10)) return ToString((int)size).append(1, 'B');
+  // KB
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("KB", 2);
+  // MB
+  size >>= 10;
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("MB", 2);
+  // GB
+  size >>= 10;
+  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("GB", 2);
+  // TB
+  size >>= 10;
+  return ToString((float)size / 1024.f, 2).append("TB", 2);
 }

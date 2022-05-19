@@ -6,6 +6,9 @@
 #include <utils/os/system/Signal.h>
 #include <utils/Files.h>
 
+// Forward declaration
+class WindowManager;
+
 class Upgrade: private Thread, private ISynchronousEvent
 {
   public:
@@ -40,6 +43,12 @@ class Upgrade: private Thread, private ISynchronousEvent
      * @return Current version
      */
     static std::string CurrentVersion() { return Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n"); }
+
+    /*!
+     * @brief Return trimmed current version.
+     * @return Current version
+     */
+    static std::string CurrentArch() { return Strings::Replace(Strings::Trim(Files::LoadFile(Path(sLocalArchFile)), " \t\r\n"), '_', '/'); }
 
     /*!
      * @brief Return remote releasenote

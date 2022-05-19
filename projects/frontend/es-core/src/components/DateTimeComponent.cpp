@@ -120,7 +120,7 @@ void DateTimeComponent::Update(int deltaTime)
 
 void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }

@@ -61,14 +61,6 @@ unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
   return (unsigned long)(getFreeSpace(mountpoint) >> 30);
 }
 
-std::string RecalboxSystem::SizeToString(unsigned long long size)
-{
-  if ((size >> 30) != 0) return std::to_string((int)(size >> 30)) + "GB";
-  if ((size >> 20) != 0) return std::to_string((int)(size >> 20)) + "MB";
-  if ((size >> 10) != 0) return std::to_string((int)(size >> 10)) + "KB";
-  return std::to_string((int)size) + 'B';
-}
-
 std::string RecalboxSystem::getFreeSpaceInfo()
 {
   std::string sharePart = sSharePath;
@@ -83,13 +75,13 @@ std::string RecalboxSystem::getFreeSpaceInfo()
     }
     else
     {
-      unsigned long long total = ((unsigned long long)fiData.f_blocks * (unsigned long long)fiData.f_bsize);
-      unsigned long long free = ((unsigned long long)fiData.f_bfree * (unsigned long long)fiData.f_bsize);
+      long long total = ((long long)fiData.f_blocks * (long long)fiData.f_bsize);
+      long long free = ((long long)fiData.f_bfree * (long long)fiData.f_bsize);
       if (total != 0)
       {
-        unsigned long long used = total - free;
+        long long used = total - free;
         int percent = (int)(used * 100 / total);
-        result = SizeToString(used) + '/' + SizeToString(total) + " (" + std::to_string(percent) + "%)";
+        result = Strings::ToHumanSize(used) + '/' + Strings::ToHumanSize(total) + " (" + std::to_string(percent) + "%)";
       }
     }
   }
@@ -98,12 +90,17 @@ std::string RecalboxSystem::getFreeSpaceInfo()
   return result;
 }
 
+bool RecalboxSystem::isFreeSpaceUnderLimit(long long size)
+{
+  return size < GetMinimumFreeSpaceOnSharePartition();
+}
+
 bool RecalboxSystem::isFreeSpaceLimit()
 {
   std::string sharePart = sSharePath;
   if (!sharePart.empty())
   {
-    return getFreeSpace(sharePart) < GetMinimumFreeSpaceOnSharePartition();
+    return (long long)getFreeSpace(sharePart) < GetMinimumFreeSpaceOnSharePartition();
   }
   else
   {
@@ -264,8 +261,7 @@ bool RecalboxSystem::getIpV4Address(std::string& result)
         char addressBuffer[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
         LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer;
-        if (Strings::Contains(ifa->ifa_name, "eth") ||
-            Strings::Contains(ifa->ifa_name, "wlan"))
+        if (strcmp(ifa->ifa_name, "lo") != 0)
         {
           result = std::string(addressBuffer);
           freeifaddrs(ifAddrStruct);
@@ -290,8 +286,7 @@ bool RecalboxSystem::getIpV6Address(std::string& result)
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
         LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer;
-        if (Strings::Contains(ifa->ifa_name, "eth") ||
-            Strings::Contains(ifa->ifa_name, "wlan"))
+        if (strcmp(ifa->ifa_name, "lo") != 0)
         {
           result = std::string(addressBuffer);
           freeifaddrs(ifAddrStruct);
@@ -315,7 +310,8 @@ std::string RecalboxSystem::getIpAddress()
 
 bool RecalboxSystem::hasIpAdress(bool interface)
 {
-  const char* itfName = interface ? "wlan0" : "eth0";
+  //const char* itfName = interface ? "wlan0" : "eth0";
+  const char* itfLoopback = "lo";
 
   bool result = false;
   struct ifaddrs* ifAddrStruct = nullptr;
@@ -329,7 +325,7 @@ bool RecalboxSystem::hasIpAdress(bool interface)
       void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
       char addressBuffer[INET_ADDRSTRLEN];
       inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-      if (strstr(ifa->ifa_name, itfName) == ifa->ifa_name)
+      if (strcmp(ifa->ifa_name, "lo") != 0)
       {
         result = true;
         break;
@@ -346,7 +342,7 @@ bool RecalboxSystem::hasIpAdress(bool interface)
         void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-        if (strstr(ifa->ifa_name, itfName) == ifa->ifa_name)
+        if (strcmp(ifa->ifa_name, "lo") != 0)
         {
           result = true;
           break;

@@ -1064,70 +1064,69 @@ Regions::GameRegions Regions::DeserializeRegion(const std::string& region)
   return GameRegions::Unknown;
 }
 
-unsigned int Regions::Deserialize4Regions(const std::string& regions)
+Regions::RegionPack Regions::Deserialize4Regions(const std::string& regions)
 {
-  unsigned int result = 0;
+  RegionPack result;
   for(int start = 0; start < (int)regions.size(); )
   {
-    int pos = regions.find(',', start + 1);
+    int pos = (int)regions.find(',', start + 1);
     if (pos == (int)std::string::npos)
       pos = (int)regions.size();
     std::string subRegion = Strings::Replace(regions.substr(start, pos - start), ",", "");
     start = pos;
     GameRegions region = FullNameToRegions(subRegion);
+    if (region == GameRegions::Unknown)
+      region = DeserializeRegion(subRegion);
     if (region != GameRegions::Unknown)
-    {
-      result = (result << 8) | (unsigned int) region;
-      continue;
-    }
-    region = DeserializeRegion(subRegion);
-    if (region != GameRegions::Unknown)
-    {
-      result = (result << 8) | (unsigned int) region;
-      continue;
-    }
+      result.Push(region);
   }
   return result;
 }
 
-std::string Regions::Serialize4Regions(unsigned int regions)
+std::string Regions::Serialize4Regions(Regions::RegionPack regions)
 {
   std::string result;
-  for(int i = 4; --i >= 0;)
-  {
-    GameRegions region = (GameRegions)(regions & 0xFF);
+  for(const Regions::GameRegions region : regions.Regions)
     if (region != GameRegions::Unknown)
     {
       if (!result.empty()) result.append(1, ',');
       result.append(SerializeRegion(region));
     }
-    regions >>= 8;
-  }
   return result;
 }
 
-Regions::GameRegions Regions::ExtractRegionsFromFileName(const Path& path)
+Regions::RegionPack Regions::ExtractRegionsFromFileName(const Path& path)
 {
-  const std::string& pathString = path.ToString();
-  for(int start = 0;;)
+  std::string fileName = path.FilenameWithoutExtension();
+
+  RegionPack result = ExtractRegionsFromNoIntroName(fileName);
+  if (!result.HasRegion())
+    result = ExtractRegionsFromTosecName(fileName);
+  if (!result.HasRegion())
   {
-    // Lookup (...)
-    start = pathString.find('(', start);
-    if (start == (int)std::string::npos) break;
-    int stop = pathString.find(')', start);
-    if (stop == (int)std::string::npos) break;
+    const std::string fileString = path.FilenameWithoutExtension();
+    for (int start = 0;;)
+    {
+      // Lookup (...)
+      start = (int)fileString.find('(', start);
+      if (start == (int)std::string::npos) break;
+      int stop = (int)fileString.find(')', start);
+      if (stop == (int)std::string::npos) break;
 
-    // Match long/short name?
-    std::string region = Strings::ToLowerASCII(pathString.substr(start + 1, stop - (start + 1)));
-    GameRegions result = FullNameToRegions(region);
-    if (result != GameRegions::Unknown) return result;
-    result = DeserializeRegion(region);
-    if (result != GameRegions::Unknown) return result;
+      // Match long/short name?
+      std::string regionString = Strings::ToLowerASCII(fileString.substr(start + 1, stop - (start + 1)));
+      GameRegions region = FullNameToRegions(regionString);
+      if (region == GameRegions::Unknown)
+        region = DeserializeRegion(regionString);
+      if (region != GameRegions::Unknown)
+        result.Push(region);
 
-    // Try next
-    start = stop + 1;
+      // Try next
+      start = stop + 1;
+    }
   }
-  return GameRegions::Unknown;
+
+  return result;
 }
 
 const Regions::List& Regions::AvailableRegions()
@@ -1193,10 +1192,10 @@ const std::string& Regions::GameRegionsFromEnum(Regions::GameRegions gameRegions
 //https://datomatic.no-intro.org/stuff/The%20Official%20No-Intro%20Convention%20(20071030).pdf
 // [BIOS flag] Title (Region) (Languages) (Version) (Devstatus) (Additional)(Special) (License) [Status]
 // Region is mandatory
-unsigned int Regions::ExtractRegionsFromNoIntroName(const Path& path)
+Regions::RegionPack Regions::ExtractRegionsFromNoIntroName(const std::string& fileName)
 {
-  std::string fileName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
-  const size_t strBegin = fileName.find_first_of('(') + 1;const size_t strEnd   = fileName.find_first_of(')');
+  const size_t strBegin = fileName.find_first_of('(') + 1;
+  const size_t strEnd   = fileName.find_first_of(')', strBegin);
   std::string regions = fileName.substr(strBegin , strEnd - strBegin);
   regions = Strings::Replace(regions, " ", "");
 
@@ -1205,53 +1204,45 @@ unsigned int Regions::ExtractRegionsFromNoIntroName(const Path& path)
 
 // https://www.tosecdev.org/tosec-naming-convention
 // Legend of TOSEC, The (1986)(Devstudio)(JP)(en) - set released in Japan and in English.
-unsigned int Regions::ExtractRegionsFromTosecName(const Path& path)
+Regions::RegionPack Regions::ExtractRegionsFromTosecName(const std::string& fileName)
 {
-  unsigned int result = 0;
-  std::string fileName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  RegionPack result;
 
-  for(;;)
+  int strBegin = (int)fileName.find_first_of('(');
+  int strEnd = (int)fileName.find_first_of(')', strBegin);
+  for(; strBegin != (int)std::string::npos && strEnd != (int)std::string::npos;)
   {
-    const size_t strBegin = fileName.find_first_of('(') + 1;
-    const size_t strEnd = fileName.find_first_of(')');
-    std::string regions = fileName.substr(strBegin, strEnd - strBegin);
+    std::string regions = fileName.substr(strBegin + 1, strEnd - strBegin - 1);
     regions = Strings::Replace(regions, " ", "");
 
     for (int start = 0; start < (int) regions.size();)
     {
-      int pos = regions.find('-', start + 1);
+      int pos = (int)regions.find('-', start + 1);
       // if splitter not found -> only one loop
       if (pos == (int) std::string::npos)
         pos = (int) regions.size();
 
-      std::string subRegion = Strings::Replace(regions.substr(start, pos - start), "-", "");
-      start = pos;
+      std::string subRegion = Strings::ToLowerASCII(regions.substr(start, pos - start));
       GameRegions region = FullNameToRegions(subRegion);
+      if (region == GameRegions::Unknown)
+        region = DeserializeRegion(subRegion);
       if (region != GameRegions::Unknown)
-      {
-        result = (result << 8) | (unsigned int) region;
-        continue;
-      }
-      region = DeserializeRegion(subRegion);
-      if (region != GameRegions::Unknown)
-      {
-        result = (result << 8) | (unsigned int) region;
-        continue;
-      }
+        result.Push(region);
+
+      start = pos + 1;
     }
 
-    if(result != 0 || strEnd == fileName.size() -1)
-      break;
-    
-    fileName = fileName.substr(strEnd + 1, fileName.size() -1);
+    strBegin = (int)fileName.find_first_of('(', strEnd);
+    strEnd = (int)fileName.find_first_of(')', strBegin);
   }
   return result;
 }
 
-unsigned int Regions::ExtractRegionsFromName(const std::string& string)
+Regions::RegionPack Regions::ExtractRegionsFromName(const std::string& string)
 {
-  const size_t strBegin = string.find_first_of('[') + 1;const size_t strEnd   = string.find_first_of(']');
-  std::string regions = string.substr(strBegin , strEnd - strBegin);
+  const size_t strBegin = string.find_first_of('[') + 1;
+  const size_t strEnd   = string.find_first_of(']');
+  std::string regions = Strings::ToLowerASCII(string.substr(strBegin , strEnd - strBegin));
   regions = Strings::Replace(regions, " ", "");
 
   return Deserialize4Regions(regions);

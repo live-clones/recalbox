@@ -8,7 +8,7 @@
 #include "components/MenuComponent.h"
 #include <utils/Files.h>
 #include <utils/locale/LocaleHelper.h>
-#include <utils/Http.h>
+#include "utils/network/Http.h"
 #include <MainRunner.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f

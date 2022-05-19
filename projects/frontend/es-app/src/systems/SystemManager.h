@@ -3,7 +3,7 @@
 #include <systems/SystemData.h>
 #include <systems/SystemDescriptor.h>
 #include <emulators/EmulatorManager.h>
-#include <systems/MountMonitor.h>
+#include "hardware/devices/mount/MountMonitor.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
 #include <RootFolders.h>
 #include <utils/cplusplus/INoCopy.h>
@@ -312,6 +312,9 @@ class SystemManager :
     //! Destructor
     ~SystemManager() override = default;
 
+    //! Access Mount monitor
+    MountMonitor& GetMountMonitor() { return  mMountPointMonitoring; }
+
     /*!
      * @brief Set the progress interface
      * @param interface
@@ -455,6 +458,13 @@ class SystemManager :
 
     //! Sort or resort system list
     void SystemSorting();
+
+    /*!
+     * @brief Lookup a game by filepath in the whole system list
+     * @param filePath file path to lookup
+     * @return FileData or nullptr if no game is found
+     */
+    FileData* LookupGameByFilePath(const std::string& filePath);
 
     /*!
      * @brief Create an empty rom structure in

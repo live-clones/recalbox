@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 
+- Add seamless scraping for Patrons
 - Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
@@ -58,6 +59,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Improve region processing in the internal scraper
 - Bump EmuSCV (Super Cassette Vision)
   - Fix zipped rom handling
   - Handle multi-roms (.0 .1 ...) in a single zip file
@@ -91,6 +93,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
+- Fix lots of issues in the internal scraper
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708

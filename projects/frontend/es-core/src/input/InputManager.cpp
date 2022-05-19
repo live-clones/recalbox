@@ -1,16 +1,17 @@
-#include "InputManager.h"
-#include "InputDevice.h"
-#include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
-#include "RootFolders.h"
-#include "Input.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_joystick.h"
-#include "WindowManager.h"
-#include "InputMapper.h"
-#include "AutoMapper.h"
 #include <algorithm>
+#include <input/InputManager.h>
+#include <input/InputDevice.h>
+#include <utils/Log.h>
+#include <RootFolders.h>
+#include <input/Input.h>
+#include <WindowManager.h>
+#include <input/InputMapper.h>
+#include <input/AutoMapper.h>
 #include <guis/GuiInfoPopup.h>
+#include <guis/GuiInfoPopupBase.h>
 #include <utils/locale/LocaleHelper.h>
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
@@ -183,7 +184,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
       else text.append(_("Not configured yet! Press a button to enter the configuration window."));
       current.erase(current.begin() + index);
 
-      GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+      GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopupBase::PopupType::Pads);
       window->InfoPopupAdd(popup);
     }
   }
@@ -202,7 +203,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
       text.append(_(" has been unplugged!"));
       previous.erase(previous.begin() + index);
 
-      GuiInfoPopup* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopup::PopupType::Pads);
+      GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, GuiInfoPopupBase::PopupType::Pads);
       window->InfoPopupAdd(popup);
     }
   }

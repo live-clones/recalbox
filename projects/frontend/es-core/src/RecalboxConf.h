@@ -11,6 +11,7 @@
 #include <scraping/scrapers/screenscraper/Languages.h>
 #include <audio/AudioMode.h>
 #include "systems/SystemSorting.h"
+#include <scraping/ScraperType.h>
 
 // Forward declaration
 class SystemData;
@@ -108,7 +109,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)value); return *this; }
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
-    DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScrapperGetNameFrom, ScraperTools::ScraperNameOptions)
+    DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScraperGetNameFrom, ScraperTools::ScraperNameOptions)
     DefineGetterSetterEnum(ScreenScraperRegionPriority, ScreenScraperEnums::ScreenScraperRegionPriority, sScreenScraperRegionPriority, ScreenScraperEnums::ScreenScraperRegionPriority)
     DefineGetterSetterEnum(ScreenScraperRegion, Regions::GameRegions, sScreenScraperRegion, Regions::GameRegions)
     DefineGetterSetterEnum(ScreenScraperLanguage, Languages, sScreenScraperLanguage, LanguagesTools::Language)
@@ -177,7 +178,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
     DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, false)
 
-    DefineGetterSetter(ScraperSource, std::string, String, sScrapperSource, "Screenscraper")
+    DefineGetterSetterEnum(ScraperSource, ScraperType, sScraperSource, ScraperType)
+    DefineGetterSetter(ScraperAuto, bool, Bool, sScraperAuto, true)
+
+    DefineGetterSetter(RecalboxPrivateKey, std::string, String, sRecalboxPrivateKey, "")
 
     DefineGetterSetter(ScreenScraperLogin, std::string, String, sScreenScraperLogin, "")
     DefineGetterSetter(ScreenScraperPassword, std::string, String, sScreenScraperPassword, "")
@@ -238,6 +242,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "")
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
+
+    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
     /*
      * System
@@ -328,6 +334,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Keys
      */
 
+    static constexpr const char* sExperimental               = "global.experimental";
+
     static constexpr const char* sGlobalRatio                = "global.ratio";
     static constexpr const char* sGlobalSmooth               = "global.smooth";
     static constexpr const char* sGlobalRecalboxOverlays     = "global.recalboxoverlays";
@@ -402,8 +410,11 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sKodiAtStartup              = "kodi.atstartup";
     static constexpr const char* sKodiXButton                = "kodi.xbutton";
 
-    static constexpr const char* sScrapperSource             = "scraper.source";
-    static constexpr const char* sScrapperGetNameFrom        = "scraper.getnamefrom";
+    static constexpr const char* sScraperSource              = "scraper.source";
+    static constexpr const char* sScraperAuto              = "scraper.auto";
+    static constexpr const char* sScraperGetNameFrom         = "scraper.getnamefrom";
+
+    static constexpr const char* sRecalboxPrivateKey         = "privatekey";
 
     static constexpr const char* sScreenScraperLogin         = "scraper.screenscraper.user";
     static constexpr const char* sScreenScraperPassword      = "scraper.screenscraper.password";
@@ -478,4 +489,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const std::string& RelayFromEnum(Relay relay);
     static SystemSorting SystemSortingFromString(const std::string& systemSorting);
     static const std::string& SystemSortingFromEnum(SystemSorting systemSorting);
+    static ScraperType ScraperTypeFromString(const std::string& menu);
+    static const std::string& ScraperTypeFromEnum(ScraperType type);
 };

@@ -5,7 +5,7 @@ file(GLOB GOOGLETEST_SOURCES googletest/src/gtest-all.cc)
 file(GLOB_RECURSE TESTS_SOURCES tests/*.cpp)
 
 # Tested code & dependencies
-file(GLOB_RECURSE TESTED_PATH ../es-core/src/utils/*.cpp ../es-core/src/RootFolders.cpp)
+file(GLOB_RECURSE TESTED_PATH ../es-app/src/games/classifications/*.cpp ../es-core/src/utils/*.cpp ../es-core/src/RootFolders.cpp)
 # All tested code
 set(ALL_TESTED_SOURCES ${TESTED_PATH})
 
@@ -27,4 +27,4 @@ add_executable(
         ${ALL_TESTED_SOURCES}
 )
 
-target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps)
+target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv)

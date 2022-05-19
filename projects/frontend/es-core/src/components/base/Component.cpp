@@ -22,7 +22,7 @@ Component::Component(WindowManager& window)
     mZIndex(0),
     mOpacity(255),
     mIsProcessing(false),
-    mDisabled(false)
+    mThemeDisabled(false)
 {
 }
 
@@ -71,7 +71,7 @@ void Component::Update(int deltaTime)
 
 void Component::Render(const Transform4x4f& parentTrans)
 {
-    if(mDisabled)
+    if(mThemeDisabled)
     {
         return;
     }
@@ -97,14 +97,14 @@ void Component::setPosition(float x, float y, float z)
 {
 	mPosition.Set(x, y, z);
 	onPositionChanged();
-	mDisabled = false;
+	mThemeDisabled = false;
 }
 
 void Component::setOrigin(float x, float y)
 {
 	mOrigin.Set(x, y);
 	onOriginChanged();
-	mDisabled = false;
+	mThemeDisabled = false;
 }
 
 void Component::setRotationOrigin(float x, float y)
@@ -377,7 +377,7 @@ void Component::applyTheme(const ThemeData& theme, const std::string& view, cons
 
     if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
     {
-        mDisabled = elem->AsBool("disabled");
+      mThemeDisabled = elem->AsBool("disabled");
     }
 }
 

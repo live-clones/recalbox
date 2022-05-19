@@ -205,7 +205,7 @@ msgstr "SISTĒMAS IESTATĪJUMI"
 msgid "VERSION"
 msgstr "VERSIJA"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "DISKS"
 
 msgid "STORAGE DEVICE"
@@ -3167,40 +3167,14 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "DROŠĪBA"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "UZLABOTA DROŠĪBA"
-
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT PAROLE"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Pārvaldīt recalbox drošību."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "Mainīt SSH root paroli."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "ieviest recalbox drošību."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Iestatīt ekrānsaudzētāja darbību. DIM samazinās ekrāna gaismu, bet režīms "
-#~ "MELNS izslēdz ekrāna gaismu."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "ATJAUNINĀT VERSIJU:"
-
-#~ msgid "Rom found"
-#~ msgstr "Lasāmatmiņas datne atrasta"
-
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Kopēt pašreizējo sistēmu citā ierīcē.\n"
-#~ "Brīdinājums! Tas izdzēsīs visus datus mērķa ierīcē."
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""

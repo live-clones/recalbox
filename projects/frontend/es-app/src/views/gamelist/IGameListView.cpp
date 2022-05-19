@@ -12,7 +12,7 @@ void IGameListView::updateInfoPanel()
   if (IsEmpty()) return;
 
   NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
-  DoUpdateGameInformation();
+  OnGameSelected();
 }
 
 void IGameListView::ApplyHelpStyle()

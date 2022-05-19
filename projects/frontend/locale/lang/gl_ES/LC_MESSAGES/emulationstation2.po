@@ -203,7 +203,7 @@ msgstr "AXUSTES DO SISTEMA"
 msgid "VERSION"
 msgstr "VERSIÓN"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "USO DO DISCO"
 
 msgid "STORAGE DEVICE"
@@ -3059,17 +3059,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "SEGURIDADE"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "REAFIRMAR SEGURIDADE"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "CONTRASINAL DE ROOT"
-
-#~ msgid "added to favorites"
-#~ msgstr "engadido a favoritos"
-
-#~ msgid "removed from favorites"
-#~ msgstr "eliminado de favoritos"

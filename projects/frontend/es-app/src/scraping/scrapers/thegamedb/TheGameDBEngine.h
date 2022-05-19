@@ -4,6 +4,7 @@
 #pragma once
 
 #include <scraping/scrapers/IScraperEngine.h>
+#include <scraping/scrapers/IScraperEngineFreezer.h>
 
 class TheGameDBEngine : public IScraperEngine
 {
@@ -25,7 +26,7 @@ class TheGameDBEngine : public IScraperEngine
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    bool RunOn(ScrappingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
+    bool RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
                long long diskMinimumFree) override;
 
     /*!
@@ -35,7 +36,7 @@ class TheGameDBEngine : public IScraperEngine
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    bool RunOn(ScrappingMethod method, FileData& singleGame,
+    bool RunOn(ScrapingMethod method, FileData& singleGame,
                INotifyScrapeResult* notifyTarget, long long diskMinimumFree) override;
 
     //! Get total to scrape (pendings + processed)
@@ -85,5 +86,5 @@ class TheGameDBEngine : public IScraperEngine
     bool IsRunning() const override;
 
   public:
-    TheGameDBEngine() = default;
+    explicit TheGameDBEngine(IScraperEngineFreezer* freezer) { (void)freezer; };
 };

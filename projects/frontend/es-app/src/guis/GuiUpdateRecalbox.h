@@ -13,7 +13,7 @@
 #include <utils/os/system/Thread.h>
 #include <utils/sdl2/ISynchronousEvent.h>
 #include <utils/sdl2/SyncronousEvent.h>
-#include <utils/Http.h>
+#include "utils/network/Http.h"
 
 class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent, private Http::IDownload
 {

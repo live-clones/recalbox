@@ -202,7 +202,7 @@ msgstr "SİSTEM AYARLARI"
 msgid "VERSION"
 msgstr "SÜRÜM"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "KALAN DEPO"
 
 msgid "STORAGE DEVICE"
@@ -3140,30 +3140,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "GÜVENLİK"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "GÜVELİĞE GİRİŞ"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT PAROLASI"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Recalbox günvenliğini yönet. "
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "SSH root şifresini değiştir. "
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Recalbox güvenliğini uygula."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Ekran koruyucu davranışını ayarlayın. DIM ekran ışığını azaltacak ve "
-#~ "SİYAH ekran siyahını alacaktır"
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "GÜNCELLEME VERSİYONU:"
