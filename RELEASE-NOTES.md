@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add seamless scraping for Patrons
 - Add GAME FILTER menu to filter games in lists based on several criteria
 - Recalbox RGB Dual: fix PAL game offsets
 - Recalbox RGB Dual: fix resolution on Playstation PAL games
@@ -24,8 +25,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: add game resolution option in menu for demo games
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
-
-- Add seamless scraping for Patrons
 - Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
@@ -106,6 +105,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi not connecting when inserting the wifi controller afterwards
 - Fix extension bin for the watara supervision system (libretro potator)
 - Fix wifi password that could not contain & character
+- Fix extension .bin for Nintendo 64DD
 - Fix reversal of buttons A and B on SF 30 PRO controller
 - Add buttons x and y for keyboard
 - Fix black screen/no signal on Pi3 & Pi4
