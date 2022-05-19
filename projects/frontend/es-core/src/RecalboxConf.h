@@ -242,6 +242,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
+    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
+
     /*
      * System
      */
@@ -330,6 +332,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     /*
      * Keys
      */
+
+    static constexpr const char* sExperimental               = "global.experimental";
 
     static constexpr const char* sGlobalRatio                = "global.ratio";
     static constexpr const char* sGlobalSmooth               = "global.smooth";

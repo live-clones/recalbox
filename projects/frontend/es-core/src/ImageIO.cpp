@@ -53,9 +53,19 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
           //free bitmap data
           FreeImage_Unload(fiBitmap);
         }
-        else { LOG(LogError) << "[Image] Error - Failed to load image from memory!"; }
+        else
+        {
+          LOG(LogError) << "[Image] Error - Failed to load image from memory!";
+          width = height = 1;
+          rawData.resize(4, 0);
+        }
       }
-      else { LOG(LogError) << "[Image] Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << "!"; }
+      else
+      {
+        LOG(LogError) << "[Image] Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << "!";
+        width = height = 1;
+        rawData.resize(4, 0);
+      }
       //free FIMEMORY again
       FreeImage_CloseMemory(fiMemory);
     }
@@ -64,6 +74,14 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
   {
     { LOG(LogError) << "[Image] Exception caught loading image data!"; }
     { LOG(LogError) << "[Image] Exception: " << ex.what(); }
+    width = height = 1;
+    rawData.resize(4, 0);
+  }
+  catch(...)
+  {
+    { LOG(LogError) << "[Image] Unknown exception caught loading image data!"; }
+    width = height = 1;
+    rawData.resize(4, 0);
   }
 	return rawData;
 }

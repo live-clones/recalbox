@@ -72,7 +72,9 @@ bool Http::Execute(const std::string& url, const Path& output)
     WriteCallback(nullptr, 0, 0, this);
     curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
     StoreDownloadInfo(start, DateTime(), mContentSize);
-    return res == CURLcode::CURLE_OK;
+    bool ok = (res == CURLcode::CURLE_OK);
+    if (!ok) output.Delete();
+    return ok;
   }
   return false;
 }

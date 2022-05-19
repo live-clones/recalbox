@@ -63,7 +63,8 @@ const HashMap<ScraperType, std::string>& ScraperFactory::GetScraperList()
   static bool RecalboxChecked = false;
   if (!RecalboxChecked && ScraperSeamless::Instance().IsAuthenticated())
   {
-    //_List[ScraperType::Recalbox] = "Recalbox";
+    if (RecalboxConf::Instance().GetExperimental())
+      _List[ScraperType::Recalbox] = "Recalbox";
     RecalboxChecked = true;
   }
   return _List;
