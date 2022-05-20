@@ -1,23 +1,57 @@
-#!/bin/ash
+#!/bin/bash
 
-# Main
-if [ "$1" == "start" ]; then
+. /recalbox/scripts/recalbox-utils.sh
 
-  INIT_SCRIPT=$(basename "$0")
+######################################################
+# BOARD SPECIFIC HARDWARE STARTUP & SHUTDOWN SCRIPTS #
+######################################################
+## GPiV1
+GPiV1_startup() {
+  # Deactivate HDMI to save energy
+  tvservice -o
+}
 
-  # GPI case? Deactivate HDMI to save energy
-  case=$(sed -n 's/^case=\(.*\)/\1/p' /boot/recalbox-boot.conf)
-  if [ "${case}" = "GPiV1:1" ]; then
-    tvservice -o
-  fi
+## PiBoy
+PiBoy_startup() {
+	echo "Loading xpi_gamecon module"
+	/sbin/modprobe xpi_gamecon
+	echo "OK"
+	echo "Starting piboy-battery-indicator"
+	start-stop-daemon -S -b /usr/bin/piboy-battery-indicator
+	echo "OK"
+}
+PiBoy_shutdown() {
+  printf "Stopping piboy: "
+	sync
+	# runlevel gives output like
+	# 3 6
+	# which means: last runlevel 3, wanted 6
+	# 6 means reboot
+	# 0 means shutdown
+	# unknown is also a possible value which occurs when a reboot is
+	# requested during start sequence
+	if runlevel | grep -q -E '(6|unknown)$'; then
+		# reboot requested
+		echo "129" > /sys/kernel/xpi_gamecon/flags; sleep 1
+	fi
+	if runlevel | grep -q '0$'; then
+		# shutdown requested
+		echo "0" > /sys/kernel/xpi_gamecon/flags
+		/sbin/rmmod xpi_gamecon
+	fi
+	echo "OK"
+}
+
+do_start() {
+  local BOARD=$(getBoardName)
+  local STEP=$(getStepNumber)
+  local ARCH=$(uname -m)
 
   # Video cards
-  if [ "$(uname -m)" == "x86_64" ]; then
-    /recalbox/system/hardware/videocard/nvidia-install
-  fi
+  [ "$ARCH" = "x86_64" ] && /recalbox/system/hardware/videocard/nvidia-install
 
   # Cases - Don't try to detect if already done or if recalbox rgb dual is plugged
-  if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! lsmod | grep -q "^recalboxrgbdual";then
+  if [ "$STEP" != "1" ] && ! isRecalboxRGBDual; then
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
   fi
 
@@ -28,4 +62,25 @@ if [ "$1" == "start" ]; then
   if [ -f /tmp/.install.sh ]; then
     ( /tmp/.install.sh initialize ) &
   fi
-fi
+
+  # do board specific startup
+  if [ "$(type -t "${BOARD}_startup")" = function ]; then
+    recallog "doing startup for board $BOARD"
+    "${BOARD}_startup"
+  fi
+}
+
+do_stop() {
+  local BOARD=$(getBoardName)
+  # do board specific shutdown
+  if [ "$(type -t "${BOARD}_shutdown")" = function ]; then
+    recallog "doing shutdown for board $BOARD"
+    "${BOARD}_shutdown"
+  fi
+}
+
+################## Main ########################
+case $1 in
+  start) do_start;;
+  stop) do_stop;;
+esac
