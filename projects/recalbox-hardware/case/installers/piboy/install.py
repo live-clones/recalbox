@@ -32,8 +32,6 @@ class Install(InstallBase):
                 '/boot/recalbox-user-config.txt': '/boot/recalbox-user-config.txt.backup',
                 self.BASE_SOURCE_FOLDER + 'assets/recalbox-user-config.txt': '/boot/recalbox-user-config.txt',
                 self.BASE_SOURCE_FOLDER + 'assets/piboy.ppm': '/boot/boot.ppm',
-                self.BASE_SOURCE_FOLDER + 'assets/S01piboy': '/etc/init.d',
-                self.BASE_SOURCE_FOLDER + 'assets/piboy-battery-indicator': '/usr/bin',
             }
             for source_file, dest_file in files.items():
                 installed_file = shutil.copy(source_file, dest_file)
@@ -69,10 +67,6 @@ class Install(InstallBase):
             logger.hardlog("PiBoy: /boot/boot.ppm uninstalled")
             sed(' video=HDMI-A-1:d', '', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: removed video setting in cmdline.txt")
-            os.remove("/etc/init.d/S01piboy")
-            logger.hardlog("PiBoy: /etc/init.d/S01piboy uninstalled")
-            os.remove("/usr/bin/piboy-battery-indicator")
-            logger.hardlog("PiBoy: piboy-battery-indicator uninstalled")
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
