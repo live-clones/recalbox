@@ -272,7 +272,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   }
 
 
-  if (main && !game.System().hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
+  if (main)
   {
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("SCRAPE"), _("SCRAPE"), std::bind(&GuiMetaDataEd::fetch, this)));
   }
