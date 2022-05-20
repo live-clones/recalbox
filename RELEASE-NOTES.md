@@ -126,6 +126,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Neo-Geo CD file extensions
 - Fix extension .bin for Gameboy and Gameboy Color
 - Fix netplay for mame
+- Fix PiBoy DMG losts its joystick controller and volume control after first boot
+
 
 ## Version 8.0.2-Electron
 
