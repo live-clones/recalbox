@@ -214,7 +214,7 @@ def loadRecalboxSettings(rom, systemname):
 def main(arguments) -> (int, bool):
 
     from configgen.controllers.controller import Controller, ControllerPerPlayer
-    demoStartButtons: Dict[int, int] = Controller.LoadDemoControllerConfigurations(**vars(arguments)) if arguments.demo else {}
+    demoStartButtons: Dict[str, int] = Controller.LoadDemoControllerConfigurations(**vars(arguments)) if arguments.demo else {}
     playersControllers: ControllerPerPlayer = Controller.LoadUserControllerConfigurations(**vars(arguments)) if not arguments.demo else {}
 
     systemName = arguments.system

@@ -17,10 +17,11 @@ class Parser:
             return self.__args[item]
 
         def __setattr__(self, key, value):
-            if key != "_Namespace__args":
-                raise PermissionError
-            for k, v in value.items():
-              self.__dict__[k] = v
+            if key == "_Namespace__args":
+              for k, v in value.items():
+                self.__dict__[k] = v
+            else:
+              self.__dict__[key] = value
 
         def __delattr__(self, item):
             raise PermissionError
