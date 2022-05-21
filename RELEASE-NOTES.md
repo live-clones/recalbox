@@ -12,7 +12,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix PAL game offsets
 - Recalbox RGB Dual: fix resolution on Playstation PAL games
 - Recalbox RGB Dual: fix calibration screen steps
-
 - Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
 - Recalbox RGB Dual: add recalbox rgb dual menu in main menu
 - Recalbox RGB Dual: enhance image quality in frontend
@@ -24,7 +23,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: add game resolution option in menu for demo games
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
-
 - Fix swanstation memory card compatibility option for saving on network
 - Add delete game options
 - Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
@@ -104,6 +102,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi password that could not contain & character
 - Fix reversal of buttons A and B on SF 30 PRO controller
 - Add buttons x and y for keyboard
+- Delete platforms value for romfs
 
 ## Version 8.0.2-Electron
 
