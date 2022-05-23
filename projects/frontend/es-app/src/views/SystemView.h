@@ -61,16 +61,21 @@ public:
 	void populate();
 	void removeFavoriteSystem();
 	void manageFavorite();
-	void addSystem(SystemData * it);
+
+  /*!
+  * @brief Add a system to system view
+  * @param System data
+  */
+  void addSystem(SystemData * it);
 
   SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
   SystemData* Prev();
   void RemoveCurrentSystem();
   void Sort();
+  void onCursorChanged(const CursorState& state) override;
 
-protected:
-	void onCursorChanged(const CursorState& state) override;
+  protected:
 
 private:
 	void getViewElements(const ThemeData& theme);

@@ -2951,6 +2951,46 @@ msgstr "Afficher les jeux par noms de fichier"
 msgid "SEARCH GAMES HERE"
 msgstr ""
 
+#
+msgid "GAME FILTERS"
+msgstr ""
+
+#
+msgid "SHOW ONLY LATEST VERSION"
+msgstr ""
+
+#
+msgid "SHOW ONLY FAVORITES"
+msgstr ""
+
+#
+msgid "SHOW HIDDEN GAMES"
+msgstr ""
+
+#
+msgid "HIDE NO GAMES"
+msgstr ""
+
+#
+msgid "Hide non final versions of a same game."
+msgstr ""
+
+#
+msgid "Hide all pre-installed games."
+msgstr ""
+
+#
+msgid "Hide no executable games. for example bios"
+msgstr ""
+
+#
+msgid "Display game by file name instead of game name."
+msgstr ""
+
+#
+msgid "Filtering games you want to show."
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "SECURITATE"
 

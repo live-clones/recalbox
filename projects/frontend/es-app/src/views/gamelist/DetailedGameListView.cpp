@@ -418,7 +418,7 @@ void DetailedGameListView::setFolderInfo(FolderData* folder)
 {
   char strbuf[256];
 
-  FileData::List games = folder->GetAllDisplayableItemsRecursively(false, folder->System().IncludeAdultGames());
+  FileData::List games = folder->GetAllDisplayableItemsRecursively(false, folder->System().Excludes());
   snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
   mFolderName.setText(folder->Name() + " - " + strbuf);
 

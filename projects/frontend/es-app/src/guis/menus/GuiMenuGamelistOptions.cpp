@@ -44,35 +44,24 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
       }
     }
-
   }
 
-  // Display filename
-  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
+  RefreshGameMenuContext();
 
-
-  // Jump to letter
+    // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
   AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
-	// Sorting
+  // Sorting
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
-	// Adult games
-  mAdult = AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetSystemFilterAdult(mSystem), (int)Components::Adult, this, _(MENUMESSAGE_GAMELISTOPTION_HIDE_ADULT_MSG));
 
   // Region filter
   mListRegion = AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
-
-  if (!system.IsFavorite())
-    mFavoritesOnly = AddSwitch(_("FAVORITES ONLY"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_GAMELISTOPTION_FAVORITES_ONLY_MSG));
-
-  if (!system.IsFavorite())
-    mShowHidden = AddSwitch(_("SHOW HIDDEN"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_HIDDEN_MSG));
 
   // flat folders
   if (!system.IsFavorite())
@@ -280,11 +269,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::JumpToLetter:
     case Components::Sorts:
-    case Components::Adult:
     case Components::Regions:
-    case Components::FavoritesOnly:
-    case Components::ShowHidden:
-    case Components::DisplayByFileName:
     case Components::FlatFolders: break;
   }
 }
@@ -293,16 +278,6 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::Adult: RecalboxConf::Instance().SetSystemFilterAdult(mSystem, status).Save(); break;
-    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); break;
-    case Components::ShowHidden:
-      RecalboxConf::Instance().SetShowHidden(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
-      break;
-      case Components::DisplayByFileName:
-      RecalboxConf::Instance().SetDisplayByFileName(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
-      break;
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::Regions:
     case Components::Sorts:
@@ -320,5 +295,5 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   mGamelist.refreshList();
   mGamelist.setCursor(game);
   RefreshGameMenuContext();
-}
 
+}

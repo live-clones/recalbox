@@ -7,6 +7,7 @@
 #include "GuiMenuPopupSettings.h"
 #include "GuiMenuScreensavers.h"
 #include "GuiMenuThemeConfiguration.h"
+#include "GuiMenuGameFilters.h"
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
@@ -47,6 +48,13 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   // Popup settings
   AddSubMenu(_("POPUP SETTINGS"), (int)Components::Popups, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
 
+  // filters
+  AddSubMenu(_("GAME FILTERS"),  (int)Components::Filters, _(MENUMESSAGE_UI_GAME_FILTERS_MSG));
+
+  // Display filename
+  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
+
+
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 }
@@ -80,11 +88,15 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); break;
     case Components::ThemeConfig: mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
     case Components::UpdateGamelist: ReloadGamelists(); break;
+    case Components::Filters:
+      mWindow.pushGui(new GuiMenuGameFilters(mWindow));
+      break;
     case Components::Brightness:
     case Components::Clock:
     case Components::SwapValidateAndCancel:
     case Components::Help:
     case Components::SystemSort:
+    case Components::DisplayByFileName:
     case Components::QuickSelect: break;
   }
 }
@@ -101,6 +113,8 @@ void GuiMenuUserInterface::SliderMoved(int id, float value)
 
 void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
 {
+  SystemData* systemData = ViewController::Instance().getState().getSystem();
+
   switch((Components)id)
   {
     case Components::Clock: RecalboxConf::Instance().SetClock(status).Save(); break;
@@ -112,12 +126,18 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
       updateHelpPrompts();
       break;
     }
+    case Components::DisplayByFileName:
+      RecalboxConf::Instance().SetDisplayByFileName(status).Save();
+      ViewController::Instance().getGameListView(systemData)->refreshList();
+      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      break;
     case Components::Popups:
     case Components::Theme:
     case Components::ThemeConfig:
     case Components::UpdateGamelist:
     case Components::ScreenSaver:
     case Components::SystemSort:
+    case Components::Filters:
     case Components::Brightness: break;
   }
 }

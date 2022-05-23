@@ -133,6 +133,9 @@ std::string SystemData::getLocalizedText(const std::string& source)
 
 void SystemData::overrideFolderInformation(FileData* folderdata)
 {
+  if (folderdata->IsPreinstalled())
+    folderdata->Metadata().SetPreinstalled(true);
+
   // Override image
   bool imageOverriden = false;
   Path fullPath = folderdata->FilePath() / ".folder.picture.svg";
@@ -331,7 +334,7 @@ void SystemData::UpdateGamelistXml()
         /*
          * Get all folder & games in a flat storage
          */
-        FileData::List fileList = root->GetAllItemsRecursively(true, true);
+        FileData::List fileList = root->GetAllItemsRecursively(true, FileData::Filter::None);
         FileData::List folderList = root->GetAllFolders();
         // Nothing to process?
         if (fileList.empty() && !root->HasDeletedChildren())
@@ -513,55 +516,55 @@ int SystemData::GameCount() const
 {
   int result = 0;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAll(false, IncludeAdultGames());
+    result += root->CountAll(false, FileData::Filter::None);
   return result;
 }
 
 int SystemData::GameAndFolderCount() const
 {
   int result = 0;
+  FileData::Filter excludes = Excludes();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAll(true, IncludeAdultGames());
+    result += root->CountAll(true, excludes);
   return result;
 }
 
 int SystemData::FavoritesCount() const
 {
   int result = 0;
+  FileData::Filter excludes = Excludes();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAllFavorites(false, IncludeAdultGames());
+    result += root->CountAllFavorites(false, excludes);
   return result;
 }
 
 int SystemData::HiddenCount() const
 {
   int result = 0;
+  FileData::Filter excludes = Excludes();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAllHidden(false, IncludeAdultGames());
+    result += root->CountAllHidden(false, excludes);
   return result;
 }
 
 FileData::List SystemData::getFavorites() const
 {
   FileData::Filter filter = FileData::Filter::Favorite;
-  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
-  bool adult = IncludeAdultGames();
-
+  FileData::Filter excludes = Excludes();
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetItemsRecursivelyTo(result, filter, false, adult);
+    root->GetItemsRecursivelyTo(result, filter, excludes, false);
   return result;
 }
 
 FileData::List SystemData::getGames() const
 {
   FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
-  if (RecalboxConf::Instance().GetShowHidden()) filter |= FileData::Filter::Hidden;
-  bool adult = IncludeAdultGames();
+  FileData::Filter excludes = Excludes();
 
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetItemsRecursivelyTo(result, filter, false, adult);
+  root->GetItemsRecursivelyTo(result, filter, excludes, false);
   return result;
 }
 
@@ -569,16 +572,22 @@ FileData::List SystemData::getAllGames() const
 {
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetItemsRecursivelyTo(result, FileData::Filter::All, false, true);
+    root->GetItemsRecursivelyTo(result, FileData::Filter::All, FileData::Filter::None, false);
   return result;
 }
 
 bool SystemData::HasVisibleGame() const
 {
-  bool displayHidden = RecalboxConf::Instance().GetShowHidden();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (displayHidden) { if (root->HasGame()) return true; }
-    else               { if (root->HasVisibleGame()) return true; }
+    if (root->HasVisibleGame()) return true;
+
+  return false;
+}
+
+bool SystemData::HasScrapableGame() const
+{
+  for(const RootFolderData* root : mRootOfRoot.SubRoots())
+    if (root->HasSacrapableGame()) return true;
 
   return false;
 }
@@ -609,8 +618,9 @@ FileData::List SystemData::getFolders() const
 FileData::List SystemData::getTopGamesAndFolders() const
 {
   FileData::List result;
+  FileData::Filter excludes = Excludes();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetItemsTo(result, FileData::Filter::All, true, IncludeAdultGames());
+    root->GetItemsTo(result, FileData::Filter::All, excludes, true);
   return result;
 }
 
@@ -618,5 +628,29 @@ bool SystemData::IncludeAdultGames() const
 {
   return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
            RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
+}
+
+FileData::Filter SystemData::Excludes() const
+{
+  RecalboxConf& conf = RecalboxConf::Instance();
+
+  // Default excludes filter
+  FileData::Filter excludesFilter = FileData::Filter::None;
+  // ignore hidden?
+  if (!conf.GetShowHidden())
+    excludesFilter |= FileData::Filter::Hidden;
+  // ignore non Latest version
+  if (conf.GetShowOnlyLatestVersion())
+    excludesFilter |= FileData::Filter::NotLatest;
+  // ignore pre installed games ?
+  if (conf.GetGlobalHidePreinstalled())
+    excludesFilter |= FileData::Filter::PreInstalled;
+  // ignore adult games ?
+  if(!IncludeAdultGames())
+    excludesFilter |= FileData::Filter::Adult;
+  // ignore no games ?
+  if(conf.GetHideNoGames())
+    excludesFilter |= FileData::Filter::NoGame;
+  return excludesFilter;
 }
 

@@ -17,7 +17,7 @@ class DemoMode
     //! SystemManager instance
     SystemManager& mSystemManager;
 
-    //! Game selecto
+    //! Game selector
     GameRandomSelector mGameSelector;
 
     //! Out-screen duration

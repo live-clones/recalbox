@@ -192,6 +192,12 @@ class SystemData : private INoCopy
 
     bool HasGame() const;
     bool HasVisibleGame() const;
+
+    /*!
+    * @brief Check if system has no only RO games
+    * @return if has no only RO games
+    */
+    bool HasScrapableGame() const;
     int GameCount() const;
     int GameAndFolderCount() const;
     int FavoritesCount() const;
@@ -262,6 +268,12 @@ class SystemData : private INoCopy
      * @param remaining Maximum results
      */
     void FastSearch(FolderData::FastSearchContext context, const std::string& text, FolderData::ResultList& results, int& remaining);
+
+    /*!
+     * @brief Get excludes filter
+     * @return excludes Filter
+     */
+    FileData::Filter Excludes() const;
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)
