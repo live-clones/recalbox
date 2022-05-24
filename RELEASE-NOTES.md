@@ -106,6 +106,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Realtek 8821-CU driver
 -Bump libretro Pscx-Rearmed
 - Bump libretro SameBoy
+- Bump Parallel N64 to add Raspberry Pi 4 64 bits support
 
 ### Fixes
 
