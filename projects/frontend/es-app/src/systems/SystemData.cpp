@@ -2,6 +2,7 @@
 #include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
 #include "utils/Log.h"
+#include "games/GameFilesUtils.h"
 #include <emulators/run/NetPlayData.h>
 #include <RecalboxConf.h>
 #include <RootFolders.h>
@@ -209,10 +210,22 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       }
     }
 
-    const Path& relativeTo = root.FilePath();
     XmlNode games = gameList.child("gameList");
+    const Path& relativeTo = root.FilePath();
+    HashSet<std::string> blacklist{};
+
     if (games != nullptr)
-      for (const XmlNode fileNode : games.children())
+    {
+      // build game subfiles blacklist
+      std::string extensions = mDescriptor.Extension();
+      if (GameFilesUtils::ContainsMultiDiskFile(extensions))
+        for (const XmlNode fileNode: games.children())
+        {
+          Path path = relativeTo / Xml::AsString(fileNode, "path", "");
+          GameFilesUtils::ExtractUselessFiles(path, blacklist);
+        }
+
+      for (const XmlNode fileNode: games.children())
       {
         ItemType type = ItemType::Empty;
         std::string name = fileNode.name();
@@ -225,16 +238,23 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
           if (!path.Exists())
             continue;
 
+        if (blacklist.contains(path.ToString()))
+          continue;
+
         FileData* file = LookupOrCreateGame(root, relativeTo, path, type, doppelgangerWatcher);
         if (file == nullptr)
         {
-          { LOG(LogError) << "[Gamelist] Error finding/creating FileData for \"" << path.ToString() << "\", skipping."; }
+          {
+            LOG(LogError) << "[Gamelist] Error finding/creating FileData for \"" << path.ToString()
+                          << "\", skipping.";
+          }
           continue;
         }
 
         // load the metadata
         file->Metadata().Deserialize(fileNode, relativeTo);
       }
+    }
   }
   catch (std::exception& ex)
   {
