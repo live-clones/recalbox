@@ -12,7 +12,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix PAL game offsets
 - Recalbox RGB Dual: fix resolution on Playstation PAL games
 - Recalbox RGB Dual: fix calibration screen steps
-
 - Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
 - Recalbox RGB Dual: add recalbox rgb dual menu in main menu
 - Recalbox RGB Dual: enhance image quality in frontend
@@ -113,6 +112,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add buttons x and y for keyboard
 - Fix black screen/no signal on Pi3 & Pi4
 - Fix Neo-Geo CD file extensions
+- Fix netplay for mame
 
 ## Version 8.0.2-Electron
 
