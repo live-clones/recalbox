@@ -123,6 +123,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Neo-Geo CD file extensions
 - Fix extension .bin for Gameboy and Gameboy Color
 - Fix extension .bin for Gameboy Advance
+- Fix netplay for mame
 
 ## Version 8.0.2-Electron
 
