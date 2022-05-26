@@ -104,6 +104,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
 - Bump Realtek 8821-CU driver
 -Bump libretro Pscx-Rearmed
+- Bump libretro SameBoy
 
 ### Fixes
 
