@@ -1,0 +1,10 @@
+--- a/Makefile	2022-10-06 23:10:00.000000000 +0200
++++ b/Makefile	2022-10-06 23:13:00.000000000 +0200
+@@ -1,5 +1,5 @@
+-CFLAGS  += -Wall -Wextra -pedantic -Wno-format -std=c99 $(shell pkg-config --cflags libusb-1.0) $(shell pkg-config --cflags udev)
+-LDFLAGS += -lpthread -ludev $(shell pkg-config --libs libusb-1.0) $(shell pkg-config --libs udev)
++CFLAGS  += -Wall -Wextra -pedantic -Wno-format -std=c99 $(shell PKG_CONFIG_PATH=$(STAGING_DIR)/usr/lib/pkgconfig/ pkg-config --cflags libusb-1.0) $(shell PKG_CONFIG_PATH=$(STAGING_DIR)/usr/lib/pkgconfig/ pkg-config --cflags udev)
++LDFLAGS += -lpthread -ludev $(shell PKG_CONFIG_PATH=$(STAGING_DIR)/usr/lib/pkgconfig/ pkg-config --libs libusb-1.0) $(shell PKG_CONFIG_PATH=$(STAGING_DIR)/usr/lib/pkgconfig/ pkg-config --libs udev)
+ 
+ ifeq ($(DEBUG), 1)
+ 	CFLAGS += -O0 -g
