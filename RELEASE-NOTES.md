@@ -111,6 +111,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix reversal of buttons A and B on SF 30 PRO controller
 - Add buttons x and y for keyboard
 - Fix black screen/no signal on Pi3 & Pi4
+- Fix Neo-Geo CD file extensions
 
 ## Version 8.0.2-Electron
 
