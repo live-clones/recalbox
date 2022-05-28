@@ -181,6 +181,19 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
   { LOG(LogError) << "[PulseAudio] EVENT! Type: " << typeStr << " - Event: " << eventStr << " - Index: " << index; }
 }
 
+void PulseAudioController::GetServerInfoCallback(pa_context *context, const pa_server_info* i, void* userdata)
+{
+  (void)context;
+  PulseAudioController& This = *(PulseAudioController*)userdata;
+
+  // Store default sink name
+  This.mSyncer.Lock();
+  This.mServerInfo.DefaultSinkName = i->default_sink_name;
+  This.mSyncer.UnLock();
+
+  This.mSignal.Fire();
+}
+
 AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
 {
 #if PA_CHECK_VERSION(14,0,0)
@@ -228,6 +241,10 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
   newCard.Description = GetCardDescription(*info);
   newCard.Index = (int)info->index;
   newCard.HasActiveProfile = false;
+  if (info->active_profile)
+    newCard.ActiveProfile = info->active_profile->name;
+  else
+    newCard.ActiveProfile = "";
   newCard.Ports.clear();
 
   { LOG(LogDebug) << "[PulseAudio] Card #" << newCard.Index << " : " << newCard.Name; }
@@ -310,6 +327,11 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
   newSink.Index = (int)info->index;
   newSink.CardIndex = (int)info->card;
   newSink.Channels = info->channel_map.channels;
+  newSink.State = info->state;
+  if (info->active_port)
+    newSink.ActivePort = info->active_port->name;
+  else
+    newSink.ActivePort = "";
   newSink.Ports.clear();
 
   { LOG(LogInfo) << "[PulseAudio] Sink #" << newSink.Index << ' ' << newSink.Name << " found."; }
@@ -509,6 +531,15 @@ const PulseAudioController::Sink* PulseAudioController::GetSinkFromCardPort(cons
   return nullptr;
 }
 
+const PulseAudioController::Sink* PulseAudioController::GetSinkFromName(const std::string& name)
+{
+  for(const Sink& sink : mSinks)
+    if (sink.Name == name)
+      return &sink;
+
+  return nullptr;
+}
+
 bool PulseAudioController::IsPortAvailable(const std::string& portName)
 {
   bool available = false;
@@ -518,6 +549,43 @@ bool PulseAudioController::IsPortAvailable(const std::string& portName)
         available = port.Available;
 
   return available;
+}
+
+std::string PulseAudioController::GetDefaultSink()
+{
+  // Enumerate cards
+  { LOG(LogInfo) << "[PulseAudio] Get server info"; }
+  pa_operation* serverInfoOp = pa_context_get_server_info(mPulseAudioContext, GetServerInfoCallback, this);
+  // Wait for response
+  mSignal.WaitSignal(sTimeOut);
+  // Release
+  pa_operation_unref(serverInfoOp);
+  return mServerInfo.DefaultSinkName;
+}
+
+std::string PulseAudioController::GetActivePlaybackName()
+{
+  std::string playbackName = "";
+  std::string sinkName = GetDefaultSink();
+
+  if (sinkName == "")
+    return "";
+
+  const Card* card = GetCardByIndex(GetSinkFromName(sinkName)->CardIndex);
+
+  // Classic audio sink (card + port + profile)
+  if (card != nullptr && card->Ports.size() > 0)
+  {
+    playbackName.append(card->Name).append(":");
+    playbackName.append(GetSinkFromName(sinkName)->ActivePort);
+    playbackName.append(":");
+    playbackName.append(card->ActiveProfile);
+  }
+  // PulseAudio Filter (eg. stereo to mono)
+  else
+    playbackName.append(sinkName).append(":");
+  
+  return playbackName;
 }
 
 std::string PulseAudioController::AdjustSpecialPlayback(const std::string& originalPlaybackName, bool& allprocessed)
