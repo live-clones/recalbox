@@ -28,7 +28,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries(
 {
   std::vector<ListEntry<std::string>> list;
 
-  std::string currentDevice = RecalboxConf::Instance().GetAudioOuput();
+  std::string currentDevice = AudioController::Instance().GetActivePlaybackName();
   IAudioController::DeviceList playbackList = AudioController::Instance().GetPlaybackList();
   std::vector<std::string> availableAudio;
 

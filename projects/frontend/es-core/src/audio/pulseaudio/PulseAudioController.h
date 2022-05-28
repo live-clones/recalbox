@@ -40,6 +40,12 @@ class PulseAudioController: public IAudioController, private Thread
     std::string SetDefaultPlayback(const std::string& playbackName) override;
 
     /*!
+     * @brief Get current running playback name
+     * @return Actual playback name in the form of card:profile:port
+     */
+    std::string GetActivePlaybackName();
+
+    /*!
      * @brief Get volume level, from 0 to 100
      * @return Volume level
      */
@@ -87,16 +93,24 @@ class PulseAudioController: public IAudioController, private Thread
       int Channels;                       //!< Channel count
       int Index;                          //!< Device index in pulseaudio context
       int CardIndex;                      //!< Card ID this sink is linked to
+      int State;                          //!< Current sink state (RUNNING, SUSPENDED, ...)
+      std::string ActivePort;             //!< Selected port
     };
 
     struct Card
     {
-      std::vector<Port> Ports; //!< Available port list
-      std::string Name;        //!< Card name
-      std::string Description; //!< Card Description
-      int Index;               //!< Device index in pulseaudio context
-      bool HasActiveProfile;   //!< Has an active profile already set?
+      std::vector<Port> Ports;   //!< Available port list
+      std::string Name;          //!< Card name
+      std::string Description;   //!< Card Description
+      int Index;                 //!< Device index in pulseaudio context
+      bool HasActiveProfile;     //!< Has an active profile already set?
+      std::string ActiveProfile; //!< Name of active profile
     };
+
+    typedef struct ServerInfo
+    {
+      std::string DefaultSinkName; //!< Name of the current selected and running sink
+    } ServerInfo;
 
     //! Pulseaudio connection state
     enum class ConnectionState
@@ -121,6 +135,8 @@ class PulseAudioController: public IAudioController, private Thread
     std::vector<Card> mCards;
     //! Sink list
     std::vector<Sink> mSinks;
+    //! Server Information
+    ServerInfo mServerInfo;
     //! Internal Syncer
     Mutex mSyncer;
 
@@ -162,7 +178,11 @@ class PulseAudioController: public IAudioController, private Thread
 
     const Sink* GetSinkFromCardPort(const Card* card, const Port* port);
 
+    const Sink * GetSinkFromName(const std::string& name);
+
     static const Profile* LookupProfile(const Card& card, const std::string& name);
+
+    std::string GetDefaultSink();
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
@@ -255,6 +275,14 @@ class PulseAudioController: public IAudioController, private Thread
      * @param userdata This
      */
     static void SetVolumeCallback(pa_context *context, int success, void *userdata);
+
+    /*!
+     * @brief Callback called to get server information
+     * @param context Pulseaudio context
+     * @param success Success flag
+     * @param userdata This
+     */
+    static void GetServerInfoCallback(pa_context *context, const pa_server_info *i, void *userdata);
 
     /*
      * Thread implementation

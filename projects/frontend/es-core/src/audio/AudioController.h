@@ -74,4 +74,9 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Force the implementation to refresh all its internal objects
      */
     void Refresh() { mController.Refresh(); }
+
+    /*!
+     * @brief Return the current active audio output name
+     */
+    std::string GetActivePlaybackName() const { return mController.GetActivePlaybackName(); }
 };
