@@ -93,3 +93,26 @@ std::string FileData::Regions()
 
   return regions;
 }
+
+bool FileData::IsDisplayable() const
+{
+  RecalboxConf& conf = RecalboxConf::Instance();
+
+  if(IsFolder())
+    return false;
+  if(conf.GetShowOnlyLatestVersion() && !Metadata().LatestVersion())
+    return false;
+  if(conf.GetFavoritesOnly() && !Metadata().Favorite())
+    return false;
+
+  if(!conf.GetShowHidden() && Metadata().Hidden())
+    return false;
+  if(conf.GetHideNoGames() && Metadata().NoGame())
+    return false;
+  if(conf.GetFilterAdultGames() && Metadata().Adult())
+    return false;
+  if(conf.GetGlobalHidePreinstalled() && Metadata().PreInstalled())
+    return false;
+
+  return true;
+}

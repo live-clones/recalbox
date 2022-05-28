@@ -47,7 +47,6 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       OverclockList,
       BootSubMenu,
       VirtualSubMenu,
-      AdultGames,
       ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,

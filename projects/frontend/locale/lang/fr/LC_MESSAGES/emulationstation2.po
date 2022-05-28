@@ -3292,6 +3292,46 @@ msgid "SEARCH GAMES HERE"
 msgstr "CHERCHER DES JEUX ICI"
 
 #
+msgid "GAME FILTERS"
+msgstr "FILTRES DE JEU"
+
+#
+msgid "SHOW ONLY LATEST VERSION"
+msgstr "SEULEMENT DERNIÈRE VERSION"
+
+#
+msgid "SHOW ONLY FAVORITES"
+msgstr "SEULEMENT LES FAVORIS"
+
+#
+msgid "SHOW HIDDEN GAMES"
+msgstr "AFFICHER LES JEUX CACHÉS"
+
+#
+msgid "HIDE NO GAMES"
+msgstr "CACHER LES NON JEUX"
+
+#
+msgid "Hide non final versions of a same game."
+msgstr "Masque toutes les versions non finales d'un jeu. exemple beta, sample"
+
+#
+msgid "Hide all pre-installed games."
+msgstr "Permet de masquer tous les jeux pré-installés dans recalbox"
+
+#
+msgid "Hide no executable games. for example bios"
+msgstr "Cacher tous les non jeux. par exemple bios, zzz"
+
+#
+msgid "Display game by file name instead of game name."
+msgstr "Afficher les jeux par nom de fichier au lieu du nom de jeu"
+
+#
+msgid "Filtering games you want to show."
+msgstr "Filter les jeux que vous voulez afficher."
+
+#
 #~ msgid "DELETE ALL GAME FILES"
 #~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
 

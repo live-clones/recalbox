@@ -132,12 +132,12 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
 
 bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
+  FileData* cursor = getCursor();
 
   // RUN GAME or ENTER FOLDER
   if (event.ValidPressed())
   {
     clean();
-    FileData* cursor = getCursor();
     if (cursor->IsGame())
     {
       //Sound::getFromTheme(getTheme(), getName(), "launch")->play();
@@ -182,9 +182,9 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
   }
 
   // TOGGLE FAVORITES
-  if (event.YPressed())
+  if (event.YPressed() && !cursor->IsPreinstalled())
   {
-    FileData* cursor = getCursor();
+
     if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
     {
       MetadataDescriptor& md = cursor->Metadata();
@@ -306,15 +306,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event) {
     return true;
   }
 
-  if (event.SelectPressed() && !IsFavoriteSystem())
-  {
-    RecalboxConf::Instance().SetFavoritesOnly(!RecalboxConf::Instance().GetFavoritesOnly());
-    refreshList();
-    updateInfoPanel();
-    updateHelpPrompts();
-    return true;
-  }
-
   bool result = IGameListView::ProcessInput(event);
 
   return result;
@@ -336,8 +327,9 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
       if (fd->HasP2K())
         help.Set(HelpType::X, _("P2K CONTROLS"));
   }
-
-  help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
+  FileData* fd = getCursor();
+  if (!fd->IsPreinstalled())
+    help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
     help.Set(Help::Cancel(), _("BACK"));
@@ -348,8 +340,6 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
   help.Set(HelpType::Start, _("OPTIONS"));
-  if (!IsFavoriteSystem())
-    help.Set(HelpType::Select, RecalboxConf::Instance().GetFavoritesOnly() ? _("All Games") : _("FAVORITES ONLY"));
 
   return true;
 }

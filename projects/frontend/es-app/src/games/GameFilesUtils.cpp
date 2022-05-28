@@ -117,7 +117,7 @@ HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
 bool GameFilesUtils::IsMediaShared(FileData& fileData, const Path& mediaPath)
 {
 
-  for (const auto& other: fileData.System().getGames())
+  for (const auto& other: fileData.System().getAllGames())
   {
     if (fileData.FilePath() == other->FilePath())
     {
