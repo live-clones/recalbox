@@ -123,6 +123,9 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
 
+  bool isDisabledSoftpatching = data.Patch().DisabledSofpatching();
+  if (isDisabledSoftpatching) command.append(" -disabledsoftpatching");
+
   { LOG(LogInfo) << "[Run] Command: " << command; }
   int exitCode = -1;
   {

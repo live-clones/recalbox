@@ -53,6 +53,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add go to game from search results and add search games from gamelist menu
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
 - Add Amiga 500 Mini controller configuration
+- Add softpatching manager in game settings
 
 ### Improvements
 

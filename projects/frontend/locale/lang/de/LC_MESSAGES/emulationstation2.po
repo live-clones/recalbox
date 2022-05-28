@@ -3341,6 +3341,33 @@ msgstr ""
 msgid "Filtering games you want to show."
 msgstr ""
 
+#
+msgid ""
+"If a game patch (hack, trad) has same name as a rom, it will be be auto "
+"patched.\n"
+"This menu allow to deactivate the auto patch or to have a confirm box"
+msgstr ""
+
+#
+msgid "DISABLE"
+msgstr ""
+
+#
+msgid "CONFIRM"
+msgstr ""
+
+#
+msgid "A patch has been detected"
+msgstr ""
+
+#
+msgid "original"
+msgstr ""
+
+#
+msgid "patched"
+msgstr ""
+
 #~ msgid "SECURITY"
 #~ msgstr "SICHERHEIT"
 

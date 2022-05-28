@@ -235,6 +235,11 @@ class LibretroGenerator(Generator):
         # Verbose?
         if args.verbose:
             commandArray.extend(["--verbose"])
+
+        # Disabled softpatching
+        if args.disabledsoftpatching:
+            commandArray.extend(["--no-patch"])
+
         # Core & config
         commandArray.extend(["-L", retroarchCore, "--config", configFileName])
         # Extra configs - pass in-place override last
