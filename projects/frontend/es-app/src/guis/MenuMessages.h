@@ -34,6 +34,7 @@ class MenuMessages
     #define MENUMESSAGE_GAME_SHADERS_HELP_MSG "Shaders are like filters for the game rendering. You can select a raw shader file here. This setting may be overloaded by shaderset if not definied to 'none'."
     #define MENUMESSAGE_GAME_SHADERSET_HELP_MSG "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
     #define MENUMESSAGE_GAME_HIDE_PREINSTALLED "Hide all pre-installed games. Changing this option makes EmulationStation to relaunch."
+    #define MENUMESSAGE_GAME_SOFTPATCHING "If a game patch (hack, trad) has same name as a rom, it will be be auto patched.\nThis menu allow to deactivate the auto patch or to have a confirm box"
 
     #define MENUMESSAGE_RA_ONOFF_HELP_MSG "Enable or disable RetroAchievements in games."
     #define MENUMESSAGE_RA_HARDCORE_HELP_MSG "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."

@@ -111,13 +111,14 @@ class SystemHolder:
             "low" : 4,
         }
 
-        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, compatibility: str, speed: str):
+        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
             self.__core: str = core
             self.__extensions: List[str] = extensions.split(' ')
             self.__netplay: bool = netplay
+            self.__softpatching: bool = softpatching
             if len(compatibility) == 0: compatibility = "unknown"
             if compatibility not in self.__CompatibilityValues.keys(): raise TypeError("Invalid compatibility! {}".format(compatibility))
             self.__compatibility: str = compatibility
@@ -146,7 +147,11 @@ class SystemHolder:
 
         @property
         def netplay(self) -> bool:
-            return self.__netplay
+            return self.__netplay\
+
+        @property
+        def softpatching(self) -> bool:
+            return self.__softpatching
 
         @property
         def compatibility(self) -> str:
@@ -162,6 +167,7 @@ class SystemHolder:
                 "priority": str(self.__priority),
                 "extensions": ' '.join(self.__extensions),
                 "netplay": '1' if self.__netplay else '0',
+                "softpatching": '1' if self.__softpatching else '0',
                 "compatibility": self.__compatibility,
                 "speed": self.__speed,
             }
@@ -302,6 +308,7 @@ class SystemHolder:
                     core=self.__get(desc, coreSection, "core", "", True),
                     extensions=self.__get(desc, coreSection, "extensions", "", True),
                     netplay=(self.__get(desc, coreSection, "netplay", "", True) == '1'),
+                    softpatching=(self.__get(desc, coreSection, "softpatching", "", True) == '1'),
                     compatibility=self.__get(desc, coreSection, "compatibility", "", True),
                     speed=self.__get(desc, coreSection, "speed", "", True),
                 )

@@ -6,7 +6,6 @@
 #include <utils/os/fs/Path.h>
 #include <utils/Files.h>
 #include <systems/SystemData.h>
-#include <utils/locale/LocaleHelper.h>
 #include "GameFilesUtils.h"
 #include "FileData.h"
 #include "utils/cplusplus/StaticLifeCycleControler.h"
@@ -93,6 +92,25 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
   }
 
   return list;
+}
+
+bool GameFilesUtils::HasSoftPatch(const FileData* fileData)
+{
+  const Path& path = fileData->FilePath();
+  if (fileData->IsGame())
+
+    for (const auto& file: path.Directory().GetDirectoryContent())
+
+      if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
+      {
+        std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+        if ((Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
+            Strings::Contains(extension, ".ips")) && path.Exists())
+          return true;
+      }
+
+  return false;
 }
 
 HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)

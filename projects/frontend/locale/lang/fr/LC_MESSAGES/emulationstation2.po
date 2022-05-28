@@ -3332,6 +3332,35 @@ msgid "Filtering games you want to show."
 msgstr "Filter les jeux que vous voulez afficher."
 
 #
+msgid ""
+"If a game patch (hack, trad) has same name as a rom, it will be be auto "
+"patched.\n"
+"This menu allow to deactivate the auto patch or to have a confirm box"
+msgstr ""
+"Si un patch de jeu (hack, trad) porte le même nom qu'une rom, elle sera automatiquement patchée.\n"
+"Ce menu permet de désactiver le patch automatique ou d'avoir une boîte de confirmation"
+
+#
+msgid "DISABLE"
+msgstr "DESACTIVER"
+
+#
+msgid "CONFIRM"
+msgstr "CONFIRMER"
+
+#
+msgid "A patch has been detected"
+msgstr "Un patch a été détecté"
+
+#
+msgid "original"
+msgstr "original"
+
+#
+msgid "patched"
+msgstr "patché"
+
+#
 #~ msgid "DELETE ALL GAME FILES"
 #~ msgstr "SUPPRIMER TOUS LES FICHIERS DU JEU"
 

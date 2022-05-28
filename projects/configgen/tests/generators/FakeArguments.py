@@ -9,3 +9,4 @@ class Arguments:
         self.verbose = verbose
         self.system = 'virtual'
         self.test = False
+        self.disabledsoftpatching = False

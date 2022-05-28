@@ -33,6 +33,9 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   // rewind
   mRewind = AddSwitch(_("REWIND"), RecalboxConf::Instance().GetGlobalRewind(), (int)Components::Rewind, this,_(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
+  // Softpatching
+  mSoftpatching = AddList<std::string>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
+
   // autosave
   mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
@@ -86,6 +89,22 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaders
   return list;
 }
 
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSoftpatchingEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+
+  std::string currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
+  if(currentOption != "auto" && currentOption != "confirm" && currentOption != "disable")
+    currentOption = "auto";
+
+  
+  list.emplace_back( _("AUTO"), "auto", currentOption == "auto" );
+  list.emplace_back( _("CONFIRM"), "confirm", currentOption == "confirm" );
+  list.emplace_back( _("DISABLE"), "disable", currentOption == "disable");
+
+  return list;
+}
+
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaderPresetsEntries()
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
@@ -109,6 +128,8 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const st
 {
   (void)index;
   if ((Components)id == Components::Ratio) RecalboxConf::Instance().SetGlobalRatio(value).Save();
+  else if ((Components)id == Components::Softpatching)
+    RecalboxConf::Instance().SetGlobalSoftpatching(value).Save();
   else if ((Components)id == Components::Shaders) RecalboxConf::Instance().SetGlobalShaders(value).Save();
   else if ((Components)id == Components::ShaderSet) RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
 }
@@ -124,6 +145,7 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
     case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
     case Components::Ratio:
+    case Components::Softpatching:
     case Components::Shaders:
     case Components::ShaderSet:
     case Components::RetroAchivements:
