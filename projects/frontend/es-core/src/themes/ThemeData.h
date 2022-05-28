@@ -143,6 +143,28 @@ class ThemeData
       Strings::ReplaceAllIn(result, "$language", lc);
       Strings::ReplaceAllIn(result, "$country", cc);
 
+       // Handle system+x and system-x variables (up to +10/-10)
+      const std::vector<SystemData*> systems = mSystemManager.GetAllSystemList();
+      int size = systems.size();
+      int index = 0;
+
+      for(int i = 0; i < size; ++i){
+          if (systems[i]->ThemeFolder() == systemThemeFolder)
+          {
+            index = i;
+          }
+      }
+          
+      for(int i = 0; i < 10; ++i)
+      {
+        int positiveOffset = index + i;
+        if( positiveOffset > size - 1) positiveOffset -= size;
+        Strings::ReplaceAllIn(result, "$system+"+i, systems[positiveOffset]->ThemeFolder());
+        
+        int negativeOffset = index - i;
+        if( negativeOffset < 0) negativeOffset += size;
+        Strings::ReplaceAllIn(result, "$system-"+i, systems[negativeOffset]->ThemeFolder());
+      }
 
       return PickRandomPath(result, randomPath);;
     }
