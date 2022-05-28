@@ -28,7 +28,7 @@ fan_handler * xpi_gamecon_fan_init() {
 
 // enable fan
 void xpi_gamecon_fan_on(fan_handler * xpi_gamecon_handler) {
-  __xpi_gamecon_set_fan_speed(xpi_gamecon_handler, 100);
+  __xpi_gamecon_set_fan_speed(xpi_gamecon_handler, 255);
 }
 // disable fan
 void xpi_gamecon_fan_off(fan_handler * xpi_gamecon_handler) {
@@ -50,8 +50,8 @@ void xpi_gamecon_fan_set_pwm(fan_handler * handler, uint8_t value) {
 void __xpi_gamecon_set_fan_speed(fan_handler * xpi_gamecon_handler, uint8_t speed) {
   FILE * fan_fd;
   
-  if (speed > 100)
-    speed = 100;
+  if (speed > 255)
+    speed = 255;
   
   log_debug("Setting xpi fan to %d", speed);
   fan_fd = fopen(XPI_GAMECON_FAN_FILE, "w");
