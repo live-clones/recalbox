@@ -101,7 +101,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi not connecting when inserting the wifi controller afterwards
 - Fix extension bin for the watara supervision system (libretro potator)
 - Fix wifi password that could not contain & character
-
+- Fix reversal of buttons A and B on SF 30 PRO controller
+- Add buttons x and y for keyboard
 
 ## Version 8.0.2-Electron
 
