@@ -121,6 +121,7 @@ if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-81/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-2048/Config.in"
+        source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-a5200/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-atari800/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-bk-emulator/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-freeintv/Config.in"
