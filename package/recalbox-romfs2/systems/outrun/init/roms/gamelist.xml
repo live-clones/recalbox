@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<gameList>
+  <provider>
+    <System>PC Dos</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="152353" source="ScreenScraper.fr">
+    <path>epr-10187.88</path>
+    <name>OutRun</name>
+    <desc>OutRun is a racing game originating in the arcades. The player can race across varied terrain in a readily available Ferrari, complete with a female passenger, over a series of short tracks.
+
+Gameplay is viewed form just above and behind the car. The roads are full of sharp bends and hazards, contact with which can cause the car to roll and lose the player's time. On each section of track there is a fork in the road, allowing the player to choose which direction he or she wishes to go in. The player has to to complete five track sections in total, out of the fifteen in the game.</desc>
+    <releasedate>19890101T000000</releasedate>
+    <developer>Sega</developer>
+    <publisher>Sega</publisher>
+    <genre>Simulation</genre>
+    <image>./media/images/outrun.png</image>
+    <genreid>40</genreid>
+    <rating>0.80000</rating>
+  </game>
+</gameList>
