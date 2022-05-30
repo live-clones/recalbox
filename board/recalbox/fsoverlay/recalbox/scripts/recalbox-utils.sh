@@ -79,7 +79,8 @@ findConnectedConnectors() {
 
 # Check if we are on Recalbox RGB Dual
 isRecalboxRGBDual() {
-  if grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product;then
+  local firmwareFile=/sys/firmware/devicetree/base/hat/product
+  if [ -e "$firmwareFile" ] && grep -q "Recalbox RGB Dual" "$firmwareFile";then
     return 0
   else
     return 1

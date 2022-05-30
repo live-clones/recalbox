@@ -7,7 +7,9 @@ PA_CONFIG_FILE=/overlay/.configs/pulse/default.pa
 start() {
 	printf "Starting pulseaudio: "
 	umask 077
-	grep -q '.nofail' "$PA_CONFIG_FILE" || sed -i '2i.nofail' "$PA_CONFIG_FILE"
+	if [ -f "$PA_CONFIG_FILE" ]; then
+		grep -q '.nofail' "$PA_CONFIG_FILE" || sed -i '2i.nofail' "$PA_CONFIG_FILE"
+	fi
 	start-stop-daemon -S -x \
 		/usr/bin/pulseaudio -- \
 		--exit-idle-time=-1 --log-target=syslog --daemonize --use-pid-file
