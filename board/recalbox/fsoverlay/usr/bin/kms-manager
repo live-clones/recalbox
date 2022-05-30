@@ -1,0 +1,112 @@
+#!/bin/bash
+#
+# "it's not a bug, it's a bugfix"
+#
+# This script will check for not connected DRM connectors. It will simply
+# exit if at least one connector is connected when the script starts.
+# Else, it will temporaly force enable sequentially all DRM connectors.
+# If one of them gets a valid EDID (not zero file size), it is force set.
+# All other connectors will be set to detect.
+#
+# If Recalbox RGB Dual is detected then all HDMI connectors are disabled.
+# 
+
+source /recalbox/scripts/recalbox-utils.sh
+doesBoardNeedKMSManager || exit 0
+
+CARD_SKIP=(Writeback)
+APPNAME=$(basename "${0:-kms-manager}")
+
+are_any_card_connected() {
+  is_drm_available || return 1
+  grep -q '^connected' "${CARD_PATH[@]/%//status}"
+}
+
+is_drm_available() {
+  if [ -d /sys/class/drm ]; then
+    refresh_card_list
+    return 0
+  fi
+  return 1
+}
+
+set_force_enable_card() {
+  echo 'on' > "$1/status"
+}
+
+set_detect_card() {
+  echo 'detect' > "$1/status"
+}
+
+list_cards() {
+  local card
+  local card_skip
+  for card in "${CARD_PATH[@]}"; do
+    for card_skip in "${CARD_SKIP[@]}"; do
+      if ! echo "$card" | grep -q "$card_skip"; then
+        echo "$card"
+      fi
+    done
+  done
+}
+
+is_edid_found() {
+  test "$(wc -c "$1/edid" | awk '{print $1}')" -ne 0
+}
+
+disable_force_enable_but_card() {
+  local card
+  local card_skip
+  for card in "${CARD_PATH[@]}"; do
+    if [ "$card" != "$1" ]; then
+      for card_skip in "${CARD_SKIP[@]}"; do
+        if ! echo "$card" | grep -q "$card_skip"; then
+          set_detect_card "$card"
+        fi
+      done
+    fi
+  done
+}
+
+log_info() {
+  echo "$1" | recallog -s "$APPNAME" -t "INFO"
+}
+
+refresh_card_list() {
+  # refresh card list
+  readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-*" -maxdepth 1 2>/dev/null)
+}
+
+# when running Recalbox RGB Dual, we forcibly disable HDMI output!
+if isRecalboxRGBDual; then
+  # Disable HDMI output
+  log_info "Recalbox RGB Dual detected, disabling HDMI connectors"
+  echo "off" > /sys/class/drm/card1-HDMI-A-1/status
+  echo "off" > /sys/class/drm/card1-HDMI-A-2/status
+  exit
+fi
+
+timeout=30
+while ! are_any_card_connected; do
+  log_info "no DRM card connected, entering force detection loop"
+  for card in $(list_cards); do
+    log_info "testing $card"
+    set_force_enable_card "$card"
+    sleep 0.5
+    if is_edid_found "$card"; then
+      log_info "EDID found on $card, will use it"
+      disable_force_enable_but_card "$card"
+      exit 0
+    fi
+    log_info "reverting $card"
+    set_detect_card "$card"
+  done
+  timeout=$((timeout-1))
+  if [ "$timeout" -eq 0 ]; then
+    log_info "No DRM card could be found connected, exiting..."
+    exit 1
+  fi
+  sleep 1
+done
+log_info "DRM card already connected, nothing to do"
+
