@@ -83,7 +83,6 @@ class SystemBuilder:
             "uuid": holder.Uuid,
             "name": holder.Name,
             "fullname": holder.FullName,
-            "platforms": holder.Platform,
         })
 
         # Descriptor
