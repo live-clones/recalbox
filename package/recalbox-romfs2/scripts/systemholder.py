@@ -181,7 +181,6 @@ class SystemHolder:
         self.__uuid: str = "uuid"
         self.__name: str = "Name"
         self.__fullname: str = "Fullname"
-        self.__platforms: str = "Platform list"
         self.__theme: str = "Theme folder"
         self.__roms: str = "Roms folder"
         self.__screenscraperId: int = 0 # Screenscraper's system ID
@@ -220,9 +219,6 @@ class SystemHolder:
 
     @property
     def FullName(self) -> str: return self.__fullname
-
-    @property
-    def Platform(self) -> str: return self.__platforms
 
     @property
     def ThemeFolder(self) -> str: return self.__theme
@@ -283,7 +279,6 @@ class SystemHolder:
         self.__uuid: str = self.__get(desc, "system", "uuid", "", True)
         self.__name: str = self.__get(desc, "system", "name", "", True)
         self.__fullname: str = self.__get(desc, "system", "fullname", "", True)
-        self.__platforms: str = self.__get(desc, "system", "platforms", "", True)
         self.__theme: str = self.__get(desc, "system", "theme.folder", "", True)
         self.__roms: str = self.__get(desc, "system", "roms.folder", "", True)
         self.__screenscraperId: int = int(self.__get(desc, "system", "screenscraper.id", "0", True))
