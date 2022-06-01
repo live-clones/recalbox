@@ -64,5 +64,4 @@ class GuiMenuScraper : public GuiMenuBase
 
     void SwitchComponentChanged(int id, bool status) override;
 
-    void start();
 };

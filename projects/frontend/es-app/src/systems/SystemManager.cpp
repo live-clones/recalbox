@@ -190,13 +190,8 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-<<<<<<< HEAD
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false)
-=======
-  descriptor.SetSystemInformation(fullName, name, fullName, "")
             .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false, "")
->>>>>>> feat(es): add ignored attribute from systemlist
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
@@ -226,13 +221,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-<<<<<<< HEAD
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("engine", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false)
-=======
-  descriptor.SetSystemInformation(fullName, name, fullName, "")
             .SetPropertiesInformation("engine", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false, "")
->>>>>>> feat(es): add ignored attribute from systemlist
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -262,13 +252,8 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
 
   SystemDescriptor descriptor;
-<<<<<<< HEAD
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false)
-=======
-  descriptor.SetSystemInformation(fullName, name, fullName, "")
             .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false, "")
->>>>>>> feat(es): add ignored attribute from systemlist
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 

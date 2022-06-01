@@ -30,11 +30,11 @@
 #include "utils/network/DnsClient.h"
 #include <guis/GuiInfoPopup.h>
 #include <scraping/ScraperSeamless.h>
-#include <recalbox/StorageDevices.h>
 #include <sdl2/Sdl2Runner.h>
 #include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
 #include <patreon/PatronInfo.h>
+#include <hardware/devices/storage/StorageDevices.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
@@ -929,7 +929,7 @@ void MainRunner::PatreonState(PatronAuthenticationResult result, int level, cons
   {
     case PatronAuthenticationResult::Patron:
     {
-      message = _("Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!");
+      message = _("Welcome back %NAME%!\nYou're a Boss Level %LEVEL%!\nYou are now connected to your recalbox patron account, and all exclusives features are available!");
       Strings::ReplaceAllIn(message, "%NAME%", name);
       Strings::ReplaceAllIn(message, "%LEVEL%", Strings::ToString(level));
       break;
