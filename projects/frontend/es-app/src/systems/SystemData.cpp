@@ -215,7 +215,6 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
     const Path& relativeTo = root.FilePath();
     XmlNode games = gameList.child("gameList");
-    const Path& relativeTo = root.FilePath();
     HashSet<std::string> blacklist{};
 
     if (games != nullptr)
