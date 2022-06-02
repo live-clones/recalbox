@@ -185,20 +185,15 @@ void GameFilesUtils::ExtractUselessFilesFromCue(const Path& path, HashSet<std::s
       Path file = path.Directory() / ExtractFileNameFromLine(line);
       AddIfExist(file, list);
 
-      AddIfExist(path.ChangeExtension(".sbi"), list);
-
     }
 }
 
 void GameFilesUtils::ExtractUselessFilesFromCcd(const Path& path, HashSet<std::string>& list)
 {
-  std::string file = path.FilenameWithoutExtension();
-  AddIfExist(Path(file + ".cue"), list);
-  AddIfExist(Path(file + ".bin"), list);
-  AddIfExist(Path(file + ".sub"), list);
-  AddIfExist(Path(file + ".img"), list);
-
-  AddIfExist(path.ChangeExtension(".sbi"), list);
+  AddIfExist(path.ChangeExtension(".cue"), list);
+  AddIfExist(path.ChangeExtension(".bin"), list);
+  AddIfExist(path.ChangeExtension(".sub"), list);
+  AddIfExist(path.ChangeExtension(".img"), list);
 }
 
 void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::string>& list)
@@ -211,7 +206,6 @@ void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::s
     line = Strings::Trim(line, "\r");
     Path file = path.Directory() / Path(line);
     AddIfExist(file, list);
-    AddIfExist(file.ChangeExtension(".sbi"), list);
 
     ExtractUselessFiles(file, list);
   }
