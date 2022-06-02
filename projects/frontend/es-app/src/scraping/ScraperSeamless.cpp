@@ -27,17 +27,11 @@ ScraperSeamless::ScraperSeamless()
   , mBusyEngines(0)
   , mSender(this)
   , mPool(this, "SeamlessScrape", true)
-  , mAuthenticated(false)
 {
-  // Authentication is done on every request
-  // But we do a pre-authent to not run the background scraper on non-registered users
-  if ((mAuthenticated = Authenticate()))
-  {
-    // Run the thread pool for texture loading
-    mPool.Run(sScrapingEngineCount, true);
+  // Run the thread pool for texture loading
+  mPool.Run(sScrapingEngineCount, true);
 
-    { LOG(LogInfo) << "[SeamlessScraping] SeamlessScraper started"; }
-  }
+  { LOG(LogInfo) << "[SeamlessScraping] SeamlessScraper started"; }
 }
 
 FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
@@ -66,20 +60,6 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
 bool ScraperSeamless::Authenticate()
 {
   return PatronInfo::Instance().IsPatron();
-  /*bool result = false;
-  std::string output;
-  Http authenticate;
-
-  authenticate.SetBearer(GetBearer());
-
-  if (authenticate.Execute(mEndPoints.GetUserInfoUrl(Strings::Empty, Strings::Empty), output))
-  {
-    result = authenticate.GetLastHttpResponseCode() == 200;
-    { LOG(LogInfo) << "[SeamlessScraping] " << (result ? "Successfully" : "Not") << " authenticated"; }
-  }
-  else { LOG(LogInfo) << "[SeamlessScraping] Authentication request failed"; }
-
-  return result;*/
 }
 
 void ScraperSeamless::ReceiveSyncCallback(const SDL_Event& event)
@@ -99,7 +79,7 @@ void ScraperSeamless::StageCompleted(FileData* game, IScraperEngineStage::Stage 
 
 void ScraperSeamless::Push(FileData* game, IScraperEngineStage* interface)
 {
-  if (mAuthenticated && !game->TopAncestor().ReadOnly() && RecalboxConf::Instance().GetScraperAuto())
+  if (Authenticate() && !game->TopAncestor().ReadOnly() && RecalboxConf::Instance().GetScraperAuto())
   {
     // Need to run scrape again?
     long long ts = (long long)game->Metadata().TimeStamp();

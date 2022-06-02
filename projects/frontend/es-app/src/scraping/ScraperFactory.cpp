@@ -63,7 +63,7 @@ const HashMap<ScraperType, std::string>& ScraperFactory::GetScraperList()
     //{ ScraperType::TheGameDB, "TheGamesDB" },
   };
   static bool RecalboxChecked = false;
-  if (!RecalboxChecked && ScraperSeamless::Instance().IsAuthenticated())
+  if (!RecalboxChecked)
   {
     if (PatronInfo::Instance().IsPatron()
         #ifdef BETA

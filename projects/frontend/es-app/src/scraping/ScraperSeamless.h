@@ -57,9 +57,6 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
       return result != nullptr ? (int)(SDL_GetTicks() - (*result).StartTick) : -1;
     }
 
-    //! Get authentication status
-    bool IsAuthenticated() const { return mAuthenticated; }
-
   private:
     //! Storage class
     struct Information
@@ -92,8 +89,6 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     Mutex mRunningScrapesLoker;
     //! Thread pool
     ThreadPool<FileData*, FileData*> mPool;
-    //! Authenticated?
-    bool mAuthenticated;
 
     //! Basic authentication
     bool Authenticate();
