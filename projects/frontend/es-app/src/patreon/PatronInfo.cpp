@@ -25,8 +25,8 @@ void PatronInfo::Initialize()
 {
   if (!mToken.empty())
   {
-    DateTime start;
-    while((DateTime() - start).TotalSeconds() < sNetworkTimeout )
+    unsigned int start = SDL_GetTicks();
+    while(SDL_GetTicks() - start < sNetworkTimeout)
     {
       Http http;
       http.SetBearer(mToken);
@@ -90,7 +90,7 @@ void PatronInfo::Initialize()
       }
     }
 
-    if ((DateTime() - start).TotalSeconds() >= sNetworkTimeout)
+    if (SDL_GetTicks() - start >= sNetworkTimeout)
     {
       LOG(LogError) << "[Patreon] No network";
       mResult = PatronAuthenticationResult::NetworkError;
