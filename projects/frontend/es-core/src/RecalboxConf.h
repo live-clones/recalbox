@@ -132,6 +132,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
     DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
 
+    DefineGetterSetter(MusicRemoteEnable, bool, Bool, sMusicDisableRemote, true)
+
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
     DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")
     DefineListGetterSetter(ScreenSaverSystemList, sScreenSaverSystemList, "")
@@ -366,6 +368,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sAudioOptions               = "audio.mode";
     static constexpr const char* sAudioOuput                 = "audio.device";
 
+    static constexpr const char* sMusicDisableRemote         = "music.remoteplaylist.enable";
+
     static constexpr const char* sScreenSaverTime            = "emulationstation.screensaver.time";
     static constexpr const char* sScreenSaverType            = "emulationstation.screensaver.type";
     static constexpr const char* sScreenSaverSystemList      = "global.demo.systemlist";
@@ -411,7 +415,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sKodiXButton                = "kodi.xbutton";
 
     static constexpr const char* sScraperSource              = "scraper.source";
-    static constexpr const char* sScraperAuto              = "scraper.auto";
+    static constexpr const char* sScraperAuto                = "scraper.auto";
     static constexpr const char* sScraperGetNameFrom         = "scraper.getnamefrom";
 
     static constexpr const char* sRecalboxPrivateKey         = "privatekey";

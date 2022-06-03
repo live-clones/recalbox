@@ -27,6 +27,8 @@
 #include "CommandThread.h"
 #include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
+#include <utils/network/DnsClient.h>
+#include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
 #include <guis/GuiInfoPopup.h>
 #include <scraping/ScraperSeamless.h>
@@ -129,6 +131,8 @@ MainRunner::ExitState MainRunner::Run()
     {
       // Patron Information
       PatronInfo patronInfo(this);
+      // Remote music
+      RemotePlaylist remotePlaylist;
 
       // Run kodi at startup?
       GameRunner gameRunner(window, systemManager);
