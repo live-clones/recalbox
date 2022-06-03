@@ -58,10 +58,10 @@ class RecalboxSystem
 
     /*!
      * @brief Chech if the interface has a valid IP
-     * @param interface false = ethernet, true = WIFI
+     * @param onlyWIFI false = all interface, true = wlan0 only
      * @return True if the interface has a valid IP
      */
-    static bool hasIpAdress(bool interface);
+    static bool hasIpAdress(bool onlyWIFI);
 
     static std::string getIpAddress();
 

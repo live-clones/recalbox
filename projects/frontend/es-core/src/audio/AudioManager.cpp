@@ -1,4 +1,5 @@
 #include "AudioManager.h"
+#include "music/RemotePlaylist.h"
 
 #include <SDL.h>
 #include <views/SystemView.h>
@@ -167,12 +168,12 @@ bool AudioManager::PlayMusic(AudioManager::AudioHandle handle, bool loop)
 
 void AudioManager::PauseMusic()
 {
-    Music::Pause();
+  Music::Pause();
 }
 
 void AudioManager::ResumeMusic()
 {
-    Music::Resume();
+  Music::Resume();
 }
 
 void AudioManager::StopAll()
@@ -202,8 +203,17 @@ void AudioManager::PlayRandomMusic()
   const char* log = "No music found.";
   MusicSource source = MusicSource::None;
 
+  // Remote music?
+  RemotePlaylist::TrackInfo* remoteTrack = RemotePlaylist::Instance().GetNextTrack();
+  if (remoteTrack != nullptr)
+  {
+    musicToPlay = LoadMusic(remoteTrack->LocalPath());
+    log = "Remote track.";
+    source = MusicSource::RemoteTrack;
+  }
+
   // check Theme music first
-  if (!mThemeMusic.IsEmpty())
+  if (source == MusicSource::None && !mThemeMusic.IsEmpty())
   {
     musicToPlay = LoadMusic(mThemeMusic);
     log = "Theme music found (Background).";
@@ -260,9 +270,18 @@ void AudioManager::PlayRandomMusic()
   int popupDuration = RecalboxConf::Instance().GetPopupMusic();
   if (popupDuration != 0)
   {
+    if (popupDuration < 10) popupDuration = 10;
     // Create music popup
-    mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,
-                                              GuiInfoPopupBase::PopupType::Music));
+    if (source == MusicSource::RemoteTrack)
+    {
+      std::string text(_("Now playing:\n"));
+      text.append(remoteTrack->Name()).append(1, '\n')
+          .append(_("(")).append(remoteTrack->MixTaper()).append(_(")"));
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, text, popupDuration, GuiInfoPopupBase::PopupType::Music));
+    }
+    else
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,
+                                                GuiInfoPopupBase::PopupType::Music));
   }
 }
 
@@ -316,6 +335,8 @@ Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
 void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
 {
   (void)event;
+  if (mCurrentMusicSource == MusicSource::RemoteTrack)
+    RemotePlaylist::Instance().TrackConsumed();
   mCurrentMusic = 0;
   PlayRandomMusic();
 }

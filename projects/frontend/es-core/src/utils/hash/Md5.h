@@ -81,6 +81,7 @@ class MD5
   public:
     MD5();
     MD5(const std::string& text);
+    void reset() { init(); }
     void update(const unsigned char *buf, size_type length);
     void update(const char *buf, size_type length);
     MD5& finalize();
