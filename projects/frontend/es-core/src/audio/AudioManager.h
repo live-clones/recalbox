@@ -24,9 +24,10 @@ class AudioManager : private ISynchronousEvent
     enum class MusicSource
     {
         None,        //!< Not selected yet
-        ThemeSystem, //!< Theme music for thiescurrent system
+        ThemeSystem, //!< Theme music for the current system
         Theme,       //!< Theme musics
         User,        //!< User musics
+        RemoteTrack, //!< Remote track
     };
 
     //! Max tries to find a different music to play
@@ -154,8 +155,8 @@ class AudioManager : private ISynchronousEvent
      */
     bool PlayMusic(AudioHandle handle, bool loop);
 
-    void PauseMusic();
-    void ResumeMusic();
+    static void PauseMusic();
+    static void ResumeMusic();
     /*!
      * @brief Stop all sounds and musics
      */

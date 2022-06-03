@@ -36,7 +36,7 @@ class Http
     /*!
      * @brief Destructor
      */
-    ~Http();
+    virtual ~Http();
 
     /*!
      * @brief Execute an HTTP Request ang get the result into a string
@@ -158,6 +158,32 @@ class Http
      * @return Must return nmemb when fully processed. Any other value means an error
      */
     static size_t WriteCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
+
+    /*!
+     * @brief CURL callback when receiving data, class instance compatible
+     * @param data Data pointer
+     * @param length Data length
+     * @return Must return length when fully processed. Any other value means an error
+     */
+    size_t DoDataReceived(const char* data, int length);
+
+    /*!
+     * @brief Data downloaded
+     * @param data Data pointer
+     * @param length Data length
+     * @return Must return length when fully processed. Any other value means an error
+     */
+    virtual void DataReceived(const char* data, int length) { (void)data; (void)length; }
+
+    /*!
+     * @brief Called when data start to download
+     */
+    virtual void DataStart() {}
+
+    /*!
+     * @brief Called when all data are dowloaded
+     */
+    virtual void DataEnd() {}
 
     /*!
      * @brief Store download information

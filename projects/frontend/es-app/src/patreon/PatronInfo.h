@@ -52,8 +52,8 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
     void Run() override { Initialize(); }
 
   private:
-    //! Timeout in seconds
-    static constexpr const int sNetworkTimeout = 200;
+    //! Timeout in milliseconds
+    static constexpr const int sNetworkTimeout = 240 * 1000;
     //! Patreon api base url
     static constexpr const char *sRootDomainName = "https://api-patreon.recalbox.com";
 

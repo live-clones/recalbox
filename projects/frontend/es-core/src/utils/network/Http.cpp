@@ -45,12 +45,15 @@ bool Http::Execute(const std::string& url, std::string& output)
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = Path::Empty;
+    DataStart();
     curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
     CURLcode res = curl_easy_perform(mHandle);
     curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
     StoreDownloadInfo(start, DateTime(), mContentSize);
     output = std::move(mResultHolder);
-    return res == CURLcode::CURLE_OK;
+    bool ok = (res == CURLcode::CURLE_OK);
+    if (ok) DataEnd();
+    return ok;
   }
   return false;
 }
@@ -67,6 +70,7 @@ bool Http::Execute(const std::string& url, const Path& output)
     mResultHolder.clear();
     mResultFile = output;
     mResultFile.Delete();
+    DataStart();
     curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
     CURLcode res = curl_easy_perform(mHandle);
     WriteCallback(nullptr, 0, 0, this);
@@ -74,6 +78,7 @@ bool Http::Execute(const std::string& url, const Path& output)
     StoreDownloadInfo(start, DateTime(), mContentSize);
     bool ok = (res == CURLcode::CURLE_OK);
     if (!ok) output.Delete();
+    else DataEnd();
     return ok;
   }
   return false;
@@ -89,34 +94,42 @@ size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
 {
   Http& This = *((Http*)userdata);
 
+  return This.DoDataReceived(ptr, (int)(size * nmemb));
+}
+
+size_t Http::DoDataReceived(const char* data, int length)
+{
   // Always store into the string
-  This.mResultHolder.append(ptr, size * nmemb);
-  This.mContentSize += (long long)(size * nmemb);
+  mResultHolder.append(data, length);
+  mContentSize += (long long)(length);
 
   // Get content length
-  if (This.mContentLength == 0)
+  if (mContentLength == 0)
   {
     double contentLength = 0;
-    curl_easy_getinfo(This.mHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &contentLength);
-    This.mContentLength = (long long)contentLength;
+    curl_easy_getinfo(mHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &contentLength);
+    mContentLength = (long long)contentLength;
   }
 
   // Callback?
-  if (This.mIDownload != nullptr)
-    This.mIDownload->DownloadProgress(This, This.mContentSize, This.mContentLength);
+  if (mIDownload != nullptr)
+    mIDownload->DownloadProgress(*this, mContentSize, mContentLength);
+
+  // Inherited procesing
+  DataReceived(data, length);
 
   // Should flush?
-  if (!This.mResultFile.IsEmpty())
-    if (This.mResultHolder.length() > sMaxDataKeptInRam || (size * nmemb) == 0)
+  if (!mResultFile.IsEmpty())
+    if (mResultHolder.length() > sMaxDataKeptInRam || length == 0)
     {
       // Try flushing to disk
-      if (!Files::AppendToFile(This.mResultFile, This.mResultHolder.c_str(), (int)This.mResultHolder.length()))
+      if (!Files::AppendToFile(mResultFile, mResultHolder.c_str(), (int)mResultHolder.length()))
         return 0; // Error flushing to disk
       // Clear the string
-      This.mResultHolder.clear();
+      mResultHolder.clear();
     }
 
-  return This.mCancel ? 0 : size * nmemb;
+  return mCancel ? 0 : length;
 }
 
 void Http::Cancel()
@@ -145,7 +158,7 @@ void Http::SetBearer(const std::string& bearer)
     // Hold strings
     mBearer = bearer;
     // Set bearer auth
-    struct curl_slist *list = NULL;
+    struct curl_slist *list = nullptr;
     const std::string header = std::string("Authorization: Bearer ")+bearer;
     list = curl_slist_append(list, header.c_str());
 
@@ -194,4 +207,3 @@ double Http::GetAverageBandwidth()
   }
   return (double)accumulatedBytes / ((double)accumulatedTime / 1000.0);
 }
-
