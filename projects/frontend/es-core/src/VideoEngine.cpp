@@ -8,7 +8,7 @@
 
 #define PIXEL_FORMAT AV_PIX_FMT_RGBA
 
-#define RETURN_ERROR(x, y) do{ LOG(LogError) << x; return y; }while(false)
+#define RETURN_ERROR(x, y) do{ LOG(LogError) << "[Video Engine]" << x; return y; }while(false)
 
 static unsigned char converted_data[(192000 * 3) / 2];
 static unsigned char* converted = &converted_data[0];

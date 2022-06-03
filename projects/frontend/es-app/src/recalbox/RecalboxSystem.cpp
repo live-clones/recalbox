@@ -308,11 +308,8 @@ std::string RecalboxSystem::getIpAddress()
   return result;
 }
 
-bool RecalboxSystem::hasIpAdress(bool interface)
+bool RecalboxSystem::hasIpAdress(bool onlyWIFI)
 {
-  //const char* itfName = interface ? "wlan0" : "eth0";
-  const char* itfLoopback = "lo";
-
   bool result = false;
   struct ifaddrs* ifAddrStruct = nullptr;
   getifaddrs(&ifAddrStruct);
@@ -325,7 +322,8 @@ bool RecalboxSystem::hasIpAdress(bool interface)
       void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
       char addressBuffer[INET_ADDRSTRLEN];
       inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-      if (strcmp(ifa->ifa_name, "lo") != 0)
+      if ((strcmp(ifa->ifa_name, "lo") != 0 && !onlyWIFI) ||
+          (strncmp(ifa->ifa_name,STRING_AND_LENGTH("wlan")) == 0 && onlyWIFI))
       {
         result = true;
         break;
@@ -342,7 +340,8 @@ bool RecalboxSystem::hasIpAdress(bool interface)
         void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-        if (strcmp(ifa->ifa_name, "lo") != 0)
+        if ((strcmp(ifa->ifa_name, "lo") != 0 && !onlyWIFI) ||
+            (strncmp(ifa->ifa_name,STRING_AND_LENGTH("wlan")) == 0 && onlyWIFI))
         {
           result = true;
           break;
