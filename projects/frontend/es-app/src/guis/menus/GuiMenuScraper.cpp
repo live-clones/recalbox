@@ -69,10 +69,9 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   std::vector<ListEntry<SystemData*>> list;
   for(SystemData* system : mSystemManager.GetVisibleSystemList())
   {
-    if(!system->hasPlatformId(PlatformIds::PlatformId::PLATFORM_IGNORE))
-      if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
-        if (system->HasScrapableGame())
-          list.push_back({ system->FullName(), system, false });
+    if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
+      if (system->HasScrapableGame())
+        list.push_back({ system->FullName(), system, false });
   }
   return list;
 }

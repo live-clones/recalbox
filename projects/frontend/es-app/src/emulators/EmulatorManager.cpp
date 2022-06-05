@@ -323,10 +323,7 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
 
 std::string EmulatorManager::KeyFrom(const SystemData& system)
 {
-  std::string result(system.FullName());
-  for(int i = system.PlatformCount(); --i >= 0; )
-    result.append(Strings::ToString((int)system.PlatformIds(i)));
-  return result;
+  return system.Descriptor().GUID();
 }
 
 void EmulatorManager::PatchNames(std::string& emulator, std::string& core)

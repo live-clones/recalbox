@@ -33,8 +33,7 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
   // System Information
   systemDescriptor.SetSystemInformation(Xml::AttributeAsString(systemNode, "uuid", ""),
                                         Xml::AttributeAsString(systemNode, "name", ""),
-                                        Xml::AttributeAsString(systemNode, "fullname", ""),
-                                        Xml::AttributeAsString(systemNode, "platforms", ""));
+                                        Xml::AttributeAsString(systemNode, "fullname", ""));
   // System descriptor
   XmlNode descriptor = systemNode.child("descriptor");
   systemDescriptor.SetDescriptorInformation(Xml::AttributeAsString(descriptor, "path", ""),
