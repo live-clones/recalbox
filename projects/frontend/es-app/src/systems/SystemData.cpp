@@ -26,7 +26,8 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
 
   try
   {
-    root.PopulateRecursiveFolder(root, Strings::ToLowerASCII(mDescriptor.Extension()), doppelgangerWatcher);
+    std::string ignoreList(1, ','); ignoreList.append(mDescriptor.IgnoredFiles()).append(1, ',');
+    root.PopulateRecursiveFolder(root, Strings::ToLowerASCII(mDescriptor.Extension()), ignoreList, doppelgangerWatcher);
   }
   catch (std::exception& ex)
   {
@@ -210,7 +211,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       }
     }
 
-    std::string ignorelist(1, ','); ignorelist.append(mDescriptor.IgnoredFiles()).append(1, ',');
+    std::string ignoreList(1, ','); ignoreList.append(mDescriptor.IgnoredFiles()).append(1, ',');
 
     XmlNode games = gameList.child("gameList");
     const Path& relativeTo = root.FilePath();
@@ -242,8 +243,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
         if (blacklist.contains(path.ToString()))
           continue;
-
-	// Force to hide ignored files
+        // Force to hide ignored files
         const std::string fileName = path.Filename();
         int p = (int)ignoreList.find(fileName);
         if (p != (int)std::string::npos)

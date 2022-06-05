@@ -204,7 +204,7 @@ class FolderData : public FileData
      */
     bool HasChildren() const { return !mChildren.empty(); }
 
-    const HashSet<std::string> GetDeletedChildren() const { return mDeletedChildren; }
+    const HashSet<std::string>& GetDeletedChildren() const { return mDeletedChildren; }
     bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
 
     /*!
@@ -213,7 +213,7 @@ class FolderData : public FileData
      * @param systemData System to attach to
      * @param doppelgangerWatcher Map used to check duplicate games
      */
-    void PopulateRecursiveFolder(RootFolderData& root, const std::string& filteredExtensions, FileData::StringMap& doppelgangerWatcher);
+    void PopulateRecursiveFolder(RootFolderData& root, const std::string& filteredExtensions, const std::string& ignoreList, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * Get next favorite game, starting from the reference entry
