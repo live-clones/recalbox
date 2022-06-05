@@ -27,13 +27,13 @@ class InputEventManager:
     EVENT_FORMAT = "llHHI"
     EVENT_SIZE   = struct.calcsize(EVENT_FORMAT)
 
-    def __init__(self, demoStartButtons):
+    def __init__(self, demoStartButtons: dict[str, int]):
         from typing import List, Union
         from typing import IO
         self.fileDescriptors: List[Union[IO, None]] = [None] * self.EVENT_MAXIMUM
         self.eventFileNameFlags = 0
-        self.startMap = demoStartButtons
-        self.eventToStart = dict()
+        self.eventToStart: dict[str, int] = demoStartButtons
+        self.eventIndexToStart: dict[int, int] = dict()
         self.updateAvailableEvents()
 
     def __exit__(self):
@@ -68,8 +68,8 @@ class InputEventManager:
             fcntl = __import__("fcntl")
             fcntl.fcntl(self.fileDescriptors[index], fcntl.F_SETFL, fcntl.fcntl(self.fileDescriptors[index], fcntl.F_GETFL) | os.O_NONBLOCK)
             Log("Opened " + name)
-            if name in self.startMap:
-                self.eventToStart[index] = int(self.startMap[name])
+            if name in self.eventToStart:
+                self.eventIndexToStart[index] = self.eventToStart[name]
         except IOError:
             Log("Open error")
             pass
@@ -104,8 +104,8 @@ class InputEventManager:
                             # Keyboard: Return or pad Return
                             if eventCode == 96 or eventCode == 28:
                                 return InputEvents.PLAY
-                            if i in self.eventToStart:
-                                if eventCode == self.eventToStart[i]:
+                            if i in self.eventIndexToStart:
+                                if eventCode == self.eventIndexToStart[i]:
                                     return InputEvents.PLAY
                             return InputEvents.OTHER
                         # mouse move

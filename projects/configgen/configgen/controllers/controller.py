@@ -383,8 +383,8 @@ class Controller:
             i += 1
 
     @staticmethod
-    def LoadDemoControllerConfigurations(**kwargs) -> Dict[int, int]:
-        startPerPlayer: Dict[int, int] = {}
+    def LoadDemoControllerConfigurations(**kwargs) -> Dict[str, int]:
+        startPerEvent: Dict[str, int] = {}
 
         controllers: ControllerCollection = Controller.LoadControllerConfigurationFromFile()
         for i in range(1, 11):
@@ -398,9 +398,9 @@ class Controller:
 
             newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, name, dev, nbaxes, nbhats, nbbuttons)
             if newController:
-                startPerPlayer[i] = newController.__inputs[InputItem.ItemStart].Id
+                startPerEvent[dev] = newController.__inputs[InputItem.ItemStart].Code
 
-        return startPerPlayer
+        return startPerEvent
 
     @staticmethod
     def LoadUserControllerConfigurations(**kwargs) -> ControllerPerPlayer:
