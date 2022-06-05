@@ -17,4 +17,4 @@ set(FFMPEGLIBS avcodec avformat swresample avutil swscale avdevice)
 
 include_directories(${COMMON_INCLUDE_DIRS})
 add_library(es-core STATIC ${CORE_SOURCES} ${CORE_HEADERS})
-target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} curl zip procps)
+target_link_libraries(es-core ${COMMON_LIBRARIES} ${FFMPEGLIBS} resolv curl zip procps)

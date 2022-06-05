@@ -37,7 +37,12 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
       for(const Path& externalRoms : mMountPoints)
       {
         root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, externalRoms.ToString()));
-        if (root.Exists()) roots[root.ToString()] = false;
+        if (root.Exists())
+        {
+          const DeviceMount* mount = mMountPointMonitoring.SizeOf(root);
+          bool readOnly = (mount != nullptr && mount->ReadOnly());
+          roots[root.ToString()] = readOnly;
+        }
       }
     }
   }
@@ -124,7 +129,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
 
       Versions::GameVersions v1 = Versions::ExtractGameVersionNoIntro(fd->FilePath().Filename());
 
-        std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath())));
+        std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath().FilenameWithoutExtension())));
 
         if(!latestFiles.contains(gameNameWithRegion))
         {
@@ -142,7 +147,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     {
       if (!fd->IsGame()) continue;
 
-      std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath())));
+      std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath().FilenameWithoutExtension())));
 
       if(latestFiles.contains(gameNameWithRegion) && latestFiles.get_or_return_default(gameNameWithRegion) != fd->FilePath().Filename())
         fd->Metadata().SetLatestVersion(false);
@@ -1036,4 +1041,14 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
       }
 
   return !error;
+}
+
+FileData* SystemManager::LookupGameByFilePath(const std::string& filePath)
+{
+  for (const SystemData* system : GetAllSystemList())
+  {
+    FileData* result = system->MasterRoot().LookupGameByFilePath(filePath);
+    if (result != nullptr) return result;
+  }
+  return nullptr;
 }

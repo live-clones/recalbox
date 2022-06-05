@@ -263,6 +263,54 @@ class Regions
         __Count
     };
 
+    // Packed regions
+    union RegionPack
+    {
+      int         Pack;                  //! Packed regions
+      GameRegions Regions[sizeof(Pack)]; //! Individual regions
+
+      //! Initializer
+      RegionPack() : Pack(0)
+      {
+      }
+
+      //! Push a new region in an empty slot
+      void Push(GameRegions region)
+      {
+        for(GameRegions& slot : Regions)
+          if (slot == GameRegions::Unknown)
+          {
+            slot = region;
+            break;
+          }
+      }
+
+      //! Reset
+      void Reset() { Pack = 0; }
+
+      //! Has any regions?
+      bool HasRegion() const { return Pack != 0; }
+
+      //! Has a particular region?
+      bool HasRegion(GameRegions r) const
+      {
+        for(GameRegions region : Regions)
+          if (region == r)
+            return true;
+        return false;
+      }
+
+      //! Get first available region
+      GameRegions First() const
+      {
+        for(GameRegions region : Regions)
+          if (region != GameRegions::Unknown)
+            return region;
+        return GameRegions::Unknown;
+      }
+    };
+
+    //! Region list
     typedef std::vector<GameRegions> List;
 
     /*!
@@ -296,23 +344,23 @@ class Regions
     /*!
      * @brief Deserialize up to 4 regions from a comma separated string
      * @param regions Regions, comma separated
-     * @return Up to 4 regions, one per byte (0 = Unknown)
+     * @return Region pack (up to 4)
      */
-    static unsigned int Deserialize4Regions(const std::string& regions);
+    static Regions::RegionPack Deserialize4Regions(const std::string& regions);
 
     /*!
      * @brief Serialize up to 4 regions into their string representation, comma separated
      * @param regions Compact regions (1 per byte)
      * @return String representation, comma separated
      */
-    static std::string Serialize4Regions(unsigned int regions);
+    static std::string Serialize4Regions(Regions::RegionPack regions);
 
     /*!
      * @brief Extract one region from file name
      * @param path
      * @return
      */
-    static GameRegions ExtractRegionsFromFileName(const Path& path);
+    static Regions::RegionPack ExtractRegionsFromFileName(const Path& path);
 
     /*!
      * @brief Check and clamp the value inside valid range
@@ -342,9 +390,9 @@ class Regions
     static GameRegions GameRegionsFromString(const std::string& gameRegions);
     static const std::string& GameRegionsFromEnum(GameRegions gameRegions);
 
-    static unsigned int ExtractRegionsFromNoIntroName(const Path& path);
-    static unsigned int ExtractRegionsFromTosecName(const Path& path);
+    static Regions::RegionPack ExtractRegionsFromNoIntroName(const std::string& fileName);
+    static Regions::RegionPack ExtractRegionsFromTosecName(const std::string& fileName);
 
-    static unsigned int ExtractRegionsFromName(const std::string& string);
+    static Regions::RegionPack ExtractRegionsFromName(const std::string& string);
 };
 

@@ -20,17 +20,17 @@ class RecalboxSystem
 
     static bool MakeBootReadWrite();
 
-    static unsigned long long GetMinimumFreeSpaceOnSharePartition() { return 3LL << 30; } // 3Gb
+    static long long GetMinimumFreeSpaceOnSharePartition() { return 3LL << 30; } // 3Gb
 
     static unsigned long long getFreeSpace(const std::string& mountpoint);
 
     static unsigned long getFreeSpaceGB(const std::string& mountpoint);
 
-    static std::string SizeToString(unsigned long long size);
-
     static std::string getFreeSpaceInfo();
 
     static bool isFreeSpaceLimit();
+
+    static bool isFreeSpaceUnderLimit(long long size);
 
     static std::string getRootPassword();
 

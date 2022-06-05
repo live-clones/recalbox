@@ -12,6 +12,8 @@
 
 class GuiMenuScraper : public GuiMenuBase
                                , private IOptionListComponent<ScraperNameOptions>
+                               , private IOptionListComponent<ScraperType>
+                               , private ISwitchComponent
                                , private IGuiMenuBase
 {
   public:
@@ -21,28 +23,44 @@ class GuiMenuScraper : public GuiMenuBase
     enum class Components
     {
         Scraper,
+        ScraperAuto,
         ScraperOptions,
         ScrapeNameFrom,
         ScrapingMethod,
         Systems,
     };
 
-    std::shared_ptr<OptionListComponent<ScraperFactory::ScraperType>> mScrapers;
-    std::shared_ptr<OptionListComponent<ScraperNameOptions>> mScrapeNameOptions;
-    std::shared_ptr<OptionListComponent<ScrappingMethod>> mScrapingMethod;
+    std::shared_ptr<OptionListComponent<ScraperType>> mScrapers;
+    std::shared_ptr<OptionListComponent<ScrapingMethod>> mScrapingMethod;
     std::shared_ptr<OptionListComponent<SystemData*>> mSystems;
 
-    std::vector<ListEntry<ScrappingMethod>> GetScrapingMethods();
-    std::vector<ListEntry<SystemData*>> GetSystemsEntries();
-    std::vector<ListEntry<ScraperFactory::ScraperType>> GetScrapersEntries();
-    std::vector<ListEntry<ScraperNameOptions>> GetNameOptionsEntries();
-
-    void OptionListComponentChanged(int id, int index, const ScraperNameOptions& value) override;
-
+    //! SystemManager reference
     SystemManager& mSystemManager;
+
+    static std::vector<ListEntry<ScrapingMethod>> GetScrapingMethods();
+    std::vector<ListEntry<SystemData*>> GetSystemsEntries();
+    static std::vector<ListEntry<ScraperType>> GetScrapersEntries();
+    static std::vector<ListEntry<ScraperNameOptions>> GetNameOptionsEntries();
 
     void SubMenuSelected(int id) override;
 
-    void pressedStart();
     void start();
+
+    /*
+     * IOptionListComponent<ScraperNameOptions> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const ScraperNameOptions& value) override;
+
+    /*
+     * IOptionListComponent<ScraperFactory::ScraperType> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const ScraperType& value) override;
+
+    /*
+     * ISwitchInterface implementation
+     */
+
+    void SwitchComponentChanged(int id, bool status) override;
 };

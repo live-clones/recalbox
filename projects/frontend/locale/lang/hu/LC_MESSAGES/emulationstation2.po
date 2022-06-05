@@ -203,7 +203,7 @@ msgstr "RENDSZERBEÁLLÍTÁSOK"
 msgid "VERSION"
 msgstr "VERZIÓ"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "LEMEZHASZNÁLAT"
 
 msgid "STORAGE DEVICE"
@@ -3153,30 +3153,16 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "BIZTONSÁG"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT JELSZÓ"
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Recalbox biztonság konfigurálása."
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "SSH root jelszó megváltoztatása."
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Recalbox biztonság érvényesítése."
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Képernyőkímélő viselkedése. DIM csökkenti a fényerőt, a BLACK lekapcsolja "
-#~ "a kijelzőt."
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "FRISSÍTÉS VERZIÓ:"

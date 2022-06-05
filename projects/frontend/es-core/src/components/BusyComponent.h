@@ -1,12 +1,12 @@
 #pragma once
 
 #include <utils/os/system/Mutex.h>
-#include "components/base/Component.h"
-#include "components/ComponentGrid.h"
-#include "components/NinePatchComponent.h"
+#include <components/base/Component.h>
+#include <components/ComponentGrid.h>
+#include <components/NinePatchComponent.h>
+#include <components/TextComponent.h>
 
 class AnimatedImageComponent;
-class TextComponent;
 
 class BusyComponent : public Component
 {
@@ -22,6 +22,14 @@ public:
 	float RealWidth() const { return mBackground.getSize().x(); }
   float RealHeight() const { return mBackground.getSize().y(); }
 
+  void Enable(bool enable) { mEnabled = enable; }
+
+  void SetFont(std::shared_ptr<Font> font)
+  {
+    mText->setFont(font);
+    onSizeChanged();
+  }
+
 private:
 	NinePatchComponent mBackground;
 	ComponentGrid mGrid;
@@ -32,4 +40,5 @@ private:
 	Mutex mMutex;
 	bool mThreadMessagechanged;
 	std::string threadMessage;
+  bool mEnabled;
 };

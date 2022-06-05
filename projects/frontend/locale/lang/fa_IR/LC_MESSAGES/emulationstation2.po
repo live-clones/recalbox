@@ -199,7 +199,7 @@ msgstr "تنظیمات سیستم"
 msgid "VERSION"
 msgstr "نسخه"
 
-msgid "DISK USAGE"
+msgid "DISK USAGE (FREE/TOTAL)"
 msgstr "میزان حافظه استفاده شده"
 
 msgid "STORAGE DEVICE"
@@ -3011,33 +3011,15 @@ msgstr ""
 msgid "patched"
 msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "امنیت"
+#
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "اعمال موارد امنیتی"
+#
+msgid ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "رمز روت"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "مدیریت تنظیمات دستگاه"
-
-#~ msgid "Change the SSH root password."
-#~ msgstr "تغییر رمز SSH شاخه ی اصلی"
-
-#~ msgid "Enforce recalbox security."
-#~ msgstr "تنظملت امنیتی دستگاه"
-
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "نسخه بروزرسانی:"
-
-#~ msgid "Rom found"
-#~ msgstr "بازی پیدا شد"
-
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "تنظیمات این دستگاه را بر روی دستگاه دیگر کپی کن \n"
-#~ "اخطار ! ای کار باعث پاک شدن تمامی اطلاعات دستگاه مقصد می شود"

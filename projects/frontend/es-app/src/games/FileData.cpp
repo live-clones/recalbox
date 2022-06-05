@@ -7,13 +7,12 @@
 #include <utils/hash/Crc32File.h>
 
 FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
-	: mTopAncestor(ancestor),
-    mParent(nullptr),
-    mType(type),
-    mPath(path),
-    mMetadata(DisplayName(), type) // TODO: Move clean name into metadata
+	: mTopAncestor(ancestor)
+  , mParent(nullptr)
+  , mType(type)
+  , mPath(path)
+  , mMetadata(DisplayName(), type)
 {
-
 }
 
 FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemType::Game, path, ancestor)
@@ -83,15 +82,23 @@ FileData& FileData::CalculateHash()
 
 std::string FileData::Regions()
 {
-  std::string regions =Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(FilePath()));
-  if( regions == Strings::Empty)
-    regions = Regions::Serialize4Regions(Regions::ExtractRegionsFromTosecName(FilePath()));
-  if( regions == Strings::Empty)
-    regions = Regions::Serialize4Regions(Regions::ExtractRegionsFromName(Strings::ToLowerASCII(Name())));
-  if( regions == Strings::Empty)
-    regions = Regions::Serialize4Regions(Metadata().Region());
+  std::string fileName = FilePath().FilenameWithoutExtension();
+  Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);
+  if (!regions.HasRegion())
+    regions = Regions::ExtractRegionsFromTosecName(fileName);
+  if (!regions.HasRegion())
+    regions = Regions::ExtractRegionsFromName(Strings::ToLowerASCII(Name()));
+  if (!regions.HasRegion())
+    regions = Metadata().Region();
 
-  return regions;
+  return Regions::Serialize4Regions(regions);
+}
+
+bool FileData::UpdateMetadataFrom(FileData& from)
+{
+  if (from.FilePath() != FilePath()) return false;
+  mMetadata = std::move(from.mMetadata);
+  return true;
 }
 
 bool FileData::IsDisplayable() const
