@@ -352,6 +352,8 @@ GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& pa
     SystemData* prev = ViewController::Instance().getSystemListView().Prev();
     ViewController::Instance().goToSystemView(prev);
   }
+
+  systemData.UpdateGamelistXml();
 }
 
 void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)

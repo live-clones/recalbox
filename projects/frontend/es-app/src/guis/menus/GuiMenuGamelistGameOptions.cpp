@@ -71,6 +71,12 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
     AddSubMenu(_("SCRAPE"), (int)Components::Scrape);
 }
 
+GuiMenuGamelistGameOptions::~GuiMenuGamelistGameOptions()
+{
+  if(mGame.Parent()->IsDirty())
+    mSystem.UpdateGamelistXml();
+}
+
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::GetRatioEntries()
 {
   std::vector<ListEntry<std::string>> list;
