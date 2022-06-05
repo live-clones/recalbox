@@ -160,14 +160,14 @@ class ThemeData
       {
         int positiveOffset = index + i;
         while( positiveOffset > size - 1) positiveOffset -= size;
-        Strings::ReplaceAllIn(result, "$system+"+i, systems[positiveOffset]->ThemeFolder());
+        Strings::ReplaceAllIn(result, "$system+"+positiveOffset, systems[positiveOffset]->ThemeFolder());
         
         int negativeOffset = index - i;
         while( negativeOffset < 0) negativeOffset += size;
-        Strings::ReplaceAllIn(result, "$system-"+i, systems[negativeOffset]->ThemeFolder());
+        Strings::ReplaceAllIn(result, "$system-"+negativeOffset, systems[negativeOffset]->ThemeFolder());
       }
 
-      return PickRandomPath(result, randomPath);;
+      return PickRandomPath(result, randomPath);
     }
 
     static std::string PickRandomPath(std::string value, std::string& randomPath)
