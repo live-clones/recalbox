@@ -48,4 +48,9 @@ class IAudioController
      * @brief Force the implementation to refresh all its internal objects
      */
     virtual void Refresh() = 0;
+
+    /*!
+     * @brief Get current running audio output name
+     */
+    virtual std::string GetActivePlaybackName() = 0;
 };
