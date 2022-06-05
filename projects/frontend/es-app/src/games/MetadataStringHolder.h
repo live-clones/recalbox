@@ -10,6 +10,7 @@
 #include <utils/storage/Array.h>
 #include <utils/storage/HashMap.h>
 #include <utils/os/system/Mutex.h>
+#include <cassert>
 
 class MetadataStringHolder
 {
@@ -61,14 +62,14 @@ class MetadataStringHolder
      * @param newString String to add
      * @return String index
      */
-    Index16 AddString16(const std::string& newString) { return (Index16)AddString32(newString); }
+    Index16 AddString16(const std::string& newString) { Index32 index = AddString32(newString); assert((index >> 16) == 0); return (Index16)index; }
 
     /*!
      * @brief Add a string and return its index in 32bit format
      * @param newString String to add
      * @return String index
      */
-    Index8 AddString8(const std::string& newString) { return (Index8)AddString32(newString); }
+    Index8 AddString8(const std::string& newString) { Index32 index = AddString32(newString); assert((index >> 8) == 0); return (Index8)index; }
 
 
     /*!
@@ -77,6 +78,25 @@ class MetadataStringHolder
      * @return String
      */
     std::string GetString(Index32 index);
+
+    /*!
+     * @brief Get a string from its index
+     * @param index String index
+     * @return String
+     */
+    std::string GetString(Index32 index, const std::string& defaultValue)
+    {
+      std::string result = GetString(index);
+      if (result.empty()) return defaultValue;
+      return result;
+    }
+
+    /*!
+     * @brief Get a path from the string at the given index
+     * @param index String index
+     * @return Path
+     */
+    Path GetPath(Index32 index);
 
     //! Get storage size
     int StorageSize() const { return mMetaString.Capacity() + mIndexes.ByteSize(); }

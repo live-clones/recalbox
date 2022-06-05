@@ -77,7 +77,7 @@ std::string BasicGameListView::GetDisplayName(FileData* game)
   // Select Icon
   std::string result = getItemIcon(game);
   // Get name
-  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game->FilePath().Filename() : game->Name());
+  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game->RomPath().Filename() : game->Name());
   return result;
 }
 
@@ -124,6 +124,12 @@ void BasicGameListView::populateList(const FolderData& folder)
   //mList.reserve(items.size()); // TODO: Reserve memory once
   for (FileData* fd : items)
 	{
+    // Select fron icon
+    std::string icon = getItemIcon(fd);
+  	// Get name
+
+  	std::string name = RecalboxConf::Instance().GetDisplayByFileName() ?  fd->RomPath().Filename() : fd->Name();
+  	std::string line = !icon.empty() ? icon + name : name;
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)
@@ -336,7 +342,7 @@ void BasicGameListView::StageCompleted(FileData* game, IScraperEngineStage::Stag
       }
       case Stage::Images: DoUpdateGameInformation(true); break;
       case Stage::Video: DoUpdateGameInformation(false); break;
-      case Stage::Completed: RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), game->FilePath()); break;
+      case Stage::Completed: RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), game->RomPath()); break;
       default: break;
     }
   else
