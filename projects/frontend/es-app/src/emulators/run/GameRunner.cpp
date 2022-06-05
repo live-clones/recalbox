@@ -106,9 +106,10 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
 
   std::string command = game.System().Descriptor().Command();
 
-  const std::string rom = game.FilePath().MakeEscaped();
-  const std::string basename = game.FilePath().FilenameWithoutExtension();
-  const std::string rom_raw = game.FilePath().ToString();
+  Path path(game.RomPath());
+  const std::string rom = path.MakeEscaped();
+  const std::string basename = path.FilenameWithoutExtension();
+  const std::string rom_raw = path.ToString();
   const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
@@ -139,7 +140,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     Sdl2Runner sdl2Runner;
     sdl2Runner.Register(SDL_KEYDOWN, &mSdl2Callback);
 
-    PadToKeyboardManager padToKeyboard(controllers, game.FilePath(), sdl2Runner);
+    PadToKeyboardManager padToKeyboard(controllers, path, sdl2Runner);
     padToKeyboard.StartMapping();
     if (padToKeyboard.IsValid() ||
         game.System().Descriptor().Type() == SystemDescriptor::SystemType::Computer) command.append(" -nodefaultkeymap");
@@ -162,7 +163,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     padToKeyboard.StopMapping();
 
     if (exitCode != 0) { LOG(LogWarning) << "[Run] Non-Zero exit code " << exitCode << " !"; }
-    else LOG(LogInfo) << "[Run] No error running " << game.FilePath().ToString();
+    else LOG(LogInfo) << "[Run] No error running " << path.ToString();
   }
 
   // Reinit
@@ -174,11 +175,11 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   InputManager::Instance().Refresh(&mWindowManager, false);
 
   // Update number of times the game has been launched
-  game.Metadata().IncPlaycount();
+  game.Metadata().IncPlayCount();
 
   // Update last played time
   mSystemManager.UpdateLastPlayedSystem(game);
-  game.Metadata().SetLastplayedNow();
+  game.Metadata().SetLastPlayedNow();
 
   return exitCode == 0;
 }
@@ -220,9 +221,10 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
 
   std::string command = game.System().Descriptor().Command();
 
-  const std::string rom = game.FilePath().MakeEscaped();
-  const std::string basename = game.FilePath().FilenameWithoutExtension();
-  const std::string rom_raw = game.FilePath().ToString();
+  Path path(game.RomPath());
+  const std::string rom = path.MakeEscaped();
+  const std::string basename = path.FilenameWithoutExtension();
+  const std::string rom_raw = path.ToString();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
