@@ -2984,6 +2984,10 @@ msgid "GAME FILTERS"
 msgstr ""
 
 #
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
+
+#
 msgid "SHOW ONLY LATEST VERSION"
 msgstr ""
 
@@ -3047,10 +3051,6 @@ msgid "patched"
 msgstr ""
 
 #
-msgid "This game is currently updating its metadata. Retry in a few seconds."
-msgstr ""
-
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
@@ -3058,3 +3058,44 @@ msgid ""
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
 
+#
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr ""
+
+#
+msgid "Please select one or more systems to scrape!"
+msgstr ""
+
+#
+msgid ""
+"Welcome back %NAME%!\n"
+"Patron level %LEVEL%\n"
+"You are now connected to your recalbox patron account, and all exclusives "
+"features are available!"
+msgstr ""
+
+#
+msgid ""
+"Hello %NAME%, your private key is linked to a Patreon account which is no "
+"longer a Recalbox Patron.\n"
+"We still hope to see you back soon as a Recalbox Patron!\n"
+"Delete your private key to suppress this message."
+msgstr ""
+
+#
+msgid ""
+"Your private key does not allow to retrieve your Patreon information. Go to "
+"recalbox.com/patreon to generate a new valid key!"
+msgstr ""
+
+#
+msgid ""
+"Sorry we're not able to retrieve your Patron level because no network is "
+"available!"
+msgstr ""
+
+#
+msgid ""
+"We're not able to retrieve your Patron level! Sorry for the inconvenience, "
+"we're already working on a fix!"
+msgstr ""

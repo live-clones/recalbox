@@ -3296,6 +3296,12 @@ msgid "GAME FILTERS"
 msgstr "FILTRES DE JEU"
 
 #
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr ""
+"Le jeu est en train de mettre à jour ses meta-données, réésseyez dans "
+"quelques secondes."
+
+#
 msgid "SHOW ONLY LATEST VERSION"
 msgstr "SEULEMENT DERNIÈRE VERSION"
 
@@ -3337,8 +3343,10 @@ msgid ""
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
-"Si un patch de jeu (hack, trad) porte le même nom qu'une rom, elle sera automatiquement patchée.\n"
-"Ce menu permet de désactiver le patch automatique ou d'avoir une boîte de confirmation"
+"Si un patch de jeu (hack, trad) porte le même nom qu'une rom, elle sera "
+"automatiquement patchée.\n"
+"Ce menu permet de désactiver le patch automatique ou d'avoir une boîte de "
+"confirmation"
 
 #
 msgid "DISABLE"
@@ -3361,45 +3369,70 @@ msgid "patched"
 msgstr "patché"
 
 #
-msgid "This game is currently updating its metadata. Retry in a few seconds."
-msgstr "Le jeu est en train de mettre à jour ses meta-données, réésseyez dans quelques secondes."
-
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
-"Une erreur est apparue pendant le scpaing de vos jeux! C'est très possiblement "
-"un mauvais login/mot de passe.\n"
+"Une erreur est apparue pendant le scpaing de vos jeux! C'est très "
+"possiblement un mauvais login/mot de passe.\n"
 "\n"
 "Réssayez dans un moment ou mettez à jour vos login et mot de passe."
 
 #
 msgid "Your scraping session completed. Press OK to show the results."
-msgstr "Votre session de scrape est terminée. Appuyez sur OK pour voir les resultats."
+msgstr ""
+"Votre session de scrape est terminée. Appuyez sur OK pour voir les resultats."
 
 #
 msgid "Please select one or more systems to scrape!"
 msgstr "Selectionnez un ou plusieurs systèmes à scraper!"
 
 #
-msgid "Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!"
-msgstr "Bienvenue %NAME%!\nPatron niveau %LEVEL%\nVous êtes maintenant connecté à votre compte patreon de Recalbox et toutes les fonctionnalités exclusives sont disponibles!"
+msgid ""
+"Welcome back %NAME%!\n"
+"Patron level %LEVEL%\n"
+"You are now connected to your recalbox patron account, and all exclusives "
+"features are available!"
+msgstr ""
+"Bienvenue %NAME%!\n"
+"Patron niveau %LEVEL%\n"
+"Vous êtes maintenant connecté à votre compte patreon de Recalbox et toutes "
+"les fonctionnalités exclusives sont disponibles!"
 
 #
-msgid "Hello %NAME%, your private key is linked to a Patreon account which is no longer a Recalbox Patron.\nWe still hope to see you back soon as a Recalbox Patron!\nDelete your private key to suppress this message."
-msgstr "Bonjour %NAME%, votre clef privée est liée à un compte Patreon qui n'est plus patron de Recalbox.\nNous espérons toujours vous revoir bientôt en tant que patron de Recalbox!\nSupprimez votre clef privée pour faire disparaitre ce message."
+msgid ""
+"Hello %NAME%, your private key is linked to a Patreon account which is no "
+"longer a Recalbox Patron.\n"
+"We still hope to see you back soon as a Recalbox Patron!\n"
+"Delete your private key to suppress this message."
+msgstr ""
+"Bonjour %NAME%, votre clef privée est liée à un compte Patreon qui n'est "
+"plus patron de Recalbox.\n"
+"Nous espérons toujours vous revoir bientôt en tant que patron de Recalbox!\n"
+"Supprimez votre clef privée pour faire disparaitre ce message."
 
 #
-msgid "Your private key does not allow to retrieve your Patreon information. Go to recalbox.com/patreon to generate a new valid key!"
-msgstr "Votre clef privée ne permet pas de retrouver vos information Patreon. Allez sur recalbox.com/patreon et régénérez une nouvelle clef!"
+msgid ""
+"Your private key does not allow to retrieve your Patreon information. Go to "
+"recalbox.com/patreon to generate a new valid key!"
+msgstr ""
+"Votre clef privée ne permet pas de retrouver vos information Patreon. Allez "
+"sur recalbox.com/patreon et régénérez une nouvelle clef!"
 
 #
-msgid "Sorry we're not able to retrieve your Patron level because no network is available!"
-msgstr "Nous ne pouvons pas acceder à vos information Patreon car il n'y a aucun reseau disponible!"
+msgid ""
+"Sorry we're not able to retrieve your Patron level because no network is "
+"available!"
+msgstr ""
+"Nous ne pouvons pas acceder à vos information Patreon car il n'y a aucun "
+"reseau disponible!"
 
 #
-msgid "We're not able to retrieve your Patron level! Sorry for the inconvenience, we're already working on a fix!"
-msgstr "Nous ne pouvons pas acceder à vos information Patreon. Nous vous prions de nous excuser pour le désagrément, nous travaillons déjà sur le problème!"
+msgid ""
+"We're not able to retrieve your Patron level! Sorry for the inconvenience, "
+"we're already working on a fix!"
+msgstr ""
+"Nous ne pouvons pas acceder à vos information Patreon. Nous vous prions de "
+"nous excuser pour le désagrément, nous travaillons déjà sur le problème!"
