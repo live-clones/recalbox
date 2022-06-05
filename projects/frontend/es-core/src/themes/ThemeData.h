@@ -8,6 +8,7 @@
 #include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
+#include "SystemManager.h"
 
 template<typename T> class TextListComponent;
 
@@ -158,11 +159,11 @@ class ThemeData
       for(int i = 0; i < 10; ++i)
       {
         int positiveOffset = index + i;
-        if( positiveOffset > size - 1) positiveOffset -= size;
+        while( positiveOffset > size - 1) positiveOffset -= size;
         Strings::ReplaceAllIn(result, "$system+"+i, systems[positiveOffset]->ThemeFolder());
         
         int negativeOffset = index - i;
-        if( negativeOffset < 0) negativeOffset += size;
+        while( negativeOffset < 0) negativeOffset += size;
         Strings::ReplaceAllIn(result, "$system-"+i, systems[negativeOffset]->ThemeFolder());
       }
 
