@@ -178,22 +178,6 @@ class FileData
     bool IsDisplayable() const;
 
     /*!
-     * @brief Check if file data is not a game
-     * @return no game state
-     */
-    bool IsNoGame() const{
-      return Strings::StartsWith(Name(), "ZZZ") || Strings::Contains(FilePath().ToString(), "[BIOS]");
-    }
-
-    /*!
-     * @brief Check if file data is preinstalled game
-     * @return is preinstalled state
-     */
-    bool IsPreinstalled() const{
-      return Strings::Contains(FilePath().ToString(), "share_init");
-    }
-
-    /*!
      * @brief Update metadata from the given FileData.
      * This method update only if both rom path are equals!
      * @param from Source data
