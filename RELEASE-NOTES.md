@@ -64,6 +64,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Amiga 500 Mini controller configuration
 - Add softpatching manager in game settings
 - Add new Atari 5200 core (libretro core: a5200)
+- Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 
 ### Improvements
 
