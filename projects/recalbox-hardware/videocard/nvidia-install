@@ -58,6 +58,12 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
         fi
 fi
 
+# unload nouveau. udev may have loaded it first
+if lsmod | grep -q ^nouveau; then
+  echo 0 > /sys/class/vtconsole/vtcon1/bind
+  rmmod nouveau
+fi
+
 # set paths/vars
 libs="/usr/lib"
 xorg="${libs}/xorg/modules"
@@ -151,4 +157,9 @@ try_symlink "/usr/bin/nvidia-settings.${nvver}" "/usr/bin/nvidia-settings"
 try_symlink "/usr/bin/nvidia-smi.${nvver}" "/usr/bin/nvidia-smi"
 
 mount -o remount, ro /
+
+# reload udev to load nvidia kernel modules
+/etc/init.d/S02udev stop
+/etc/init.d/S02udev start
+
 echo "Done."
