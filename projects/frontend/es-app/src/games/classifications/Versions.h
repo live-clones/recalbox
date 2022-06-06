@@ -72,16 +72,14 @@ class Versions
       VirtualConsole = 1000,
     };
 
-    GameVersions mGameVersion;
-    int mVersionNumber;
-
     /*!
      * @brief extract game version from no intro game
      * @param File name
      * @return game versions
      */
-    static Versions::GameVersions ExtractGameVersionNoIntro(std::string fileName);
+    static Versions::GameVersions ExtractGameVersionNoIntro(const std::string& fileName);
 
+  private:
     /*!
      * @brief Deserialize game version
      * @param string tag

@@ -125,41 +125,34 @@ Versions::GameVersions Versions::Deserialize(const std::string& tag)
 
     });
 
-  GameVersions* found = sVesionTagToVersion.try_get(Strings::ToLowerASCII(tag));
+
+  GameVersions* found = sVesionTagToVersion.try_get(tag);
   if (found != nullptr)
     return *found;
 
-  if( Strings::Contains(Strings::ToLowerASCII(tag), "virtual console") ||
-    Strings::Contains(Strings::ToLowerASCII(tag), "switch online") ||
-    Strings::Contains(Strings::ToLowerASCII(tag), "classic mini"))
-  {
+  if (Strings::Contains(tag, "virtual console") ||
+      Strings::Contains(tag, "switch online") ||
+      Strings::Contains(tag, "classic mini"))
     return GameVersions::VirtualConsole;
-  }
 
   return GameVersions::Unknown;
 }
 
-Versions::GameVersions Versions::ExtractGameVersionNoIntro(std::string filename)
+Versions::GameVersions Versions::ExtractGameVersionNoIntro(const std::string& filename)
 {
-  std::string name = filename;
-  for(;;)
+  for(int end = 0;;)
   {
-    if(!Strings::Contains(name, "(") || !Strings::Contains(name, ")") )
-      break;
+    int begin = (int)filename.find('(', end);
+    if (begin == (int)std::string::npos) break;
+    end = (int)filename.find(')', begin);
+    if (end == (int)std::string::npos) break;
 
-    const size_t strBegin = name.find_first_of('(');
-    const size_t strEnd = name.find_first_of(')');
-    std::string tag = Strings::ToLowerASCII(name.substr(strBegin +1, strEnd - strBegin - 1));
-    if(strEnd == name.size() -1 || tag.empty())
-      break;
+    std::string tag = Strings::ToLowerASCII(filename.substr(begin +1, end - begin - 1));
+    if (tag.empty()) break;
 
     GameVersions gameVersions = Deserialize(tag);
     if(gameVersions != GameVersions::Unknown)
-    {
       return gameVersions;
-    }
-
-    name = name.substr(strEnd + 1, name.size() -1);
   }
   return GameVersions::None;
 }
