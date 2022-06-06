@@ -65,7 +65,7 @@ class MetadataDescriptor
     bool         mFavorite;     //!< Favorite game
     bool         mHidden;       //!< Hidden game
     bool         mAdult;        //!< Adult state
-    bool         mLatestVerion = true; //!< Latest version state
+    bool         mLatestVerion; //!< Latest version state
     bool         mPreinstalled; //!< preinstalled game state
     bool         mNoGame;       //!< no game state
     bool         mDirty;        //!< Dirty flag (modified data flag)
@@ -286,25 +286,28 @@ class MetadataDescriptor
       if (source.mThumbnail != nullptr) mThumbnail = new Path(*source.mThumbnail);
       if (source.mVideo != nullptr)     mVideo     = new Path(*source.mVideo);
       if (source.mGenre != nullptr)     mGenre     = new std::string(*source.mGenre);
-      mName        = source.mName       ;
-      mDescription = source.mDescription;
-      mImage       = source.mImage      ;
-      mDeveloper   = source.mDeveloper  ;
-      mPublisher   = source.mPublisher  ;
-      mRegion      = source.mRegion     ;
-      mRating      = source.mRating     ;
-      mGenreId     = source.mGenreId    ;
-      mPlayers     = source.mPlayers    ;
-      mReleaseDate = source.mReleaseDate;
-      mPlaycount   = source.mPlaycount  ;
-      mLastPlayed  = source.mLastPlayed ;
-      mRomCrc32    = source.mRomCrc32   ;
-      mTimeStamp   = source.mTimeStamp  ;
-      mFavorite    = source.mFavorite   ;
-      mHidden      = source.mHidden     ;
-      mAdult       = source.mAdult      ;
-      mDirty       = source.mDirty      ;
-      mType        = source.mType       ;
+      mName         = source.mName        ;
+      mDescription  = source.mDescription ;
+      mImage        = source.mImage       ;
+      mDeveloper    = source.mDeveloper   ;
+      mPublisher    = source.mPublisher   ;
+      mRegion       = source.mRegion      ;
+      mRating       = source.mRating      ;
+      mGenreId      = source.mGenreId     ;
+      mPlayers      = source.mPlayers     ;
+      mReleaseDate  = source.mReleaseDate ;
+      mPlaycount    = source.mPlaycount   ;
+      mLastPlayed   = source.mLastPlayed  ;
+      mRomCrc32     = source.mRomCrc32    ;
+      mTimeStamp    = source.mTimeStamp   ;
+      mFavorite     = source.mFavorite    ;
+      mHidden       = source.mHidden      ;
+      mAdult        = source.mAdult       ;
+      mDirty        = source.mDirty       ;
+      mLatestVerion = source.mLatestVerion;
+      mNoGame       = source.mNoGame      ;
+      mPreinstalled = source.mPreinstalled;
+      mType         = source.mType        ;
       #ifdef _METADATA_STATS_
       LivingClasses++;
       if (_Type == ItemType::Game) LivingGames++;
@@ -340,6 +343,9 @@ class MetadataDescriptor
         mFavorite(source.mFavorite),
         mHidden(source.mHidden),
         mAdult(source.mAdult),
+        mLatestVerion(source.mLatestVerion),
+        mPreinstalled(source.mPreinstalled),
+        mNoGame(source.mNoGame),
         mDirty(source.mDirty),
         mType(source.mType)
     {
