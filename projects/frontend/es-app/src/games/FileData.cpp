@@ -118,7 +118,7 @@ bool FileData::IsDisplayable() const
     return false;
   if(conf.GetFilterAdultGames() && Metadata().Adult())
     return false;
-  if(conf.GetGlobalHidePreinstalled() && Metadata().PreInstalled())
+  if(conf.GetGlobalHidePreinstalled() && TopAncestor().PreInstalled())
     return false;
 
   return true;

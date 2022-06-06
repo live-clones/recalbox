@@ -28,6 +28,7 @@ class RootFolderData : public FolderData
       , mSystem(system)
       , mChildOwnership(childownership)
       , mType(type)
+      , mPreinstalled(Strings::Contains(startpath.ToString(), "/share_init"))
     {
     }
 
@@ -71,6 +72,9 @@ class RootFolderData : public FolderData
     //! Virtual folder?
     bool Virtual() const { return (mType == Types::Virtual); }
 
+    //! Preinstalled folder?
+    bool PreInstalled() const { return mPreinstalled; }
+
     //! Has sub root?
     bool HasSubRoots() const
     {
@@ -103,6 +107,8 @@ class RootFolderData : public FolderData
     Ownership mChildOwnership;
     //! This folder and all its subtree is readonly
     Types mType;
+    //! Preinstalled folder?
+    bool mPreinstalled;
 
     // Hide addChild
     using FolderData::AddChild;
