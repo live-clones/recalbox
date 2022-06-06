@@ -512,7 +512,7 @@ bool FolderData::HasSacrapableGame() const
 {
   for (FileData* fd : mChildren)
   {
-    if ( (fd->IsGame() && !fd->Metadata().PreInstalled()) || (fd->IsFolder() && CastFolder(fd)->HasSacrapableGame()))
+    if ( (fd->IsGame() && !fd->TopAncestor().PreInstalled()) || (fd->IsFolder() && CastFolder(fd)->HasSacrapableGame()))
       return true;
   }
   return false;
@@ -615,7 +615,7 @@ void FolderData::ParseAllItems(IParser& parser)
   }
 }
 
-bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::Filter excludes) const
+bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::Filter excludes)
 {
   Filter currentIncludes = Filter::None;
   if (fd->Metadata().Favorite())
@@ -630,7 +630,7 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::NoGame;
   if (!fd->Metadata().LatestVersion())
     currentExcludes |= Filter::NotLatest;
-  if (fd->Metadata().PreInstalled())
+  if (fd->TopAncestor().PreInstalled())
     currentExcludes |= Filter::PreInstalled;
   if (!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
 
