@@ -3,6 +3,7 @@
 #include <utils/storage/Set.h>
 #include "FileData.h"
 #include "IFilter.h"
+#include "IParser.h"
 
 class FolderData : public FileData
 {
@@ -313,6 +314,12 @@ class FolderData : public FileData
      * @param ascending True for ascending sort, false for descending.
      */
     static void Sort(FileData::List& items, FileData::Comparer comparer, bool ascending);
+
+    /*!
+     * @brief Run through all item recursively and call the Parser interface on each item
+     * @param parser Parser interface
+     */
+    void ParseAllItems(IParser& parser);
 
     /*!
      * Count filtered items recursively starting from the current folder
