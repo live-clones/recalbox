@@ -464,8 +464,29 @@ class SystemManager :
      */
     FileData::List searchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxpersystem, int maxglobal, SystemData* systemData);
 
-    //! Auto-scrape game image
-    static void AutoScrape(SystemData* pData);
+    /*!
+     * @brief Autoscrape system with game in png
+     * @param system System to scrape
+     */
+    static void CheckAutoScraping(SystemData& system);
+
+    /*!
+     * @brief Override folder informations?
+     * @param system System to check folders from
+     */
+    static void CheckFolderOverriding(SystemData& system);
+
+    /*!
+     * @brief Check missing hashed and calculate them all
+     * @param system System to check for missing hashes
+     */
+    static void CheckMissingHashed(SystemData& system);
+
+    /*!
+     * @brief Build dynamic metadata for the given system
+     * @param system System for which to build dynamic metadata
+     */
+    static void BuildDynamicMetadata(SystemData& system);
 
     //! Sort or resort system list
     void SystemSorting();
