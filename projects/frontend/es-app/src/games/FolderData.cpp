@@ -602,6 +602,19 @@ int FolderData::countItems(Filter includes, Filter excludes, bool includefolders
   return result;
 }
 
+void FolderData::ParseAllItems(IParser& parser)
+{
+  for (FileData* fd : mChildren)
+  {
+    parser.Parse(*fd);
+    if (fd->IsFolder())
+    {
+      FolderData* folder = CastFolder(fd);
+      folder->ParseAllItems(parser);
+    }
+  }
+}
+
 bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::Filter excludes) const
 {
   Filter currentIncludes = Filter::None;
