@@ -93,84 +93,6 @@ void SystemData::loadTheme()
   }
 }
 
-std::string SystemData::getLocalizedText(const std::string& source)
-{
-  // Extract prefered language/region
-  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-
-  // Get start
-  std::string key = "[";
-  key += locale;
-  key += "]";
-  unsigned long start = source.find(key);
-  if (start == std::string::npos)
-  {
-    std::string language = (locale.length() == 5) ? locale.substr(0, 2) : "en";
-    key = "[";
-    key += language;
-    key += "]";
-    start = source.find(key);
-    if (start == std::string::npos)
-    {
-      key = "[en]";
-      start = source.find(key);
-      if (start == std::string::npos)
-        return source;
-    }
-  }
-
-  // Get end
-  unsigned long stop = source.find('[', start + key.length());
-  if (stop == std::string::npos) stop = source.length();
-
-  // Trimming
-  start = source.find_first_not_of(" \t\n\r", start + key.length());
-  if (start == std::string::npos) return "";
-  stop = source.find_last_not_of(" \t\n\r", stop);
-
-  return source.substr(start, stop - start);
-}
-
-void SystemData::overrideFolderInformation(FileData* folderdata)
-{
-  if (folderdata->IsPreinstalled())
-    folderdata->Metadata().SetPreinstalled(true);
-
-  // Override image
-  bool imageOverriden = false;
-  Path fullPath = folderdata->FilePath() / ".folder.picture.svg";
-
-  MetadataDescriptor& metadata = folderdata->Metadata();
-
-  if (fullPath.Exists())
-  {
-    metadata.SetVolatileImagePath(fullPath);
-    imageOverriden = true;
-  }
-  else
-  {
-    fullPath = folderdata->FilePath() / ".folder.picture.png";
-    if (fullPath.Exists())
-    {
-      metadata.SetVolatileImagePath(fullPath);
-      imageOverriden = true;
-    }
-  }
-
-  // Override description oly if the image has been overriden
-  if (imageOverriden)
-  {
-    fullPath = folderdata->FilePath() / ".folder.description.txt";
-    std::string text = Files::LoadFile(fullPath);
-    if (text.length() != 0)
-    {
-      text = getLocalizedText(text);
-      if (text.length() != 0)
-        metadata.SetVolatileDescription(text);
-    }
-  }
-}
-
 FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path& rootPath, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher) const
 {
   if (!path.StartWidth(rootPath))
@@ -407,6 +329,11 @@ void SystemData::UpdateGamelistXml()
       }
 }
 
+bool SystemData::IsAutoScrapable() const
+{
+  return (mProperties & Properties::GameInPng) != 0;
+}
+
 bool SystemData::IsFavorite() const
 {
   return (mProperties & Properties::Favorite) != 0;
@@ -628,8 +555,7 @@ FileData::List SystemData::getTopGamesAndFolders() const
 
 bool SystemData::IncludeAdultGames() const
 {
-  return !(RecalboxConf::Instance().AsBool("emulationstation.filteradultgames") ||
-           RecalboxConf::Instance().AsBool("emulationstation." + mDescriptor.Name() + ".filteradultgames"));
+  return !RecalboxConf::Instance().GetSystemFilterAdult(*this);
 }
 
 FileData::Filter SystemData::Excludes() const

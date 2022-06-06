@@ -72,15 +72,172 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
   return roots;
 }
 
-void SystemManager::AutoScrape(SystemData* system)
+void SystemManager::CheckAutoScraping(SystemData& system)
 {
-  std::string png(LEGACY_STRING(".png"));
-  FileData::List games = system->MasterRoot().GetAllItemsRecursively(false, FileData::Filter::None);
-  for(FileData* game : games)
-    if (game->IsGame())
-      if (Strings::ToLowerASCII(game->FilePath().Extension()) == png)
-        if (game->Metadata().Image().IsEmpty())
-          game->Metadata().SetImagePath(game->FilePath());
+  class : public IParser
+  {
+    public:
+      void Parse(FileData& game) override
+      {
+        static std::string png(LEGACY_STRING(".png"));
+        if (game.IsGame())
+          if (game.Metadata().Image().IsEmpty())
+            if (Strings::ToLowerASCII(game.FilePath().Extension()) == png)
+              game.Metadata().SetImagePath(game.FilePath());
+      }
+  } autoScraper;
+
+  if ((system.IsAutoScrapable()))
+    system.MasterRoot().ParseAllItems(autoScraper);
+}
+
+void SystemManager::CheckFolderOverriding(SystemData& system)
+{
+  class : public IParser
+  {
+    private:
+      /*!
+       * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
+       * if the current language is not found, the method looks for [en].
+       * if still not found, the whole text is returned
+       * @param source Source text
+       * @return localized text
+       */
+      static std::string LocalizedText(const std::string& source)
+      {
+        // Extract prefered language/region
+        std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
+
+        // Get start
+        std::string key(1, ']');
+        key.append(locale).append(1, ']');
+        unsigned long start = source.find(key);
+        if (start == std::string::npos)
+        {
+          std::string language = (locale.length() == 5) ? locale.substr(0, 2) : "en";
+          key.clear();
+          key.append(1, '[').append(language).append(1, ']');
+          start = source.find(key);
+          if (start == std::string::npos)
+          {
+            key = "[en]";
+            start = source.find(key);
+            if (start == std::string::npos)
+              return source;
+          }
+        }
+
+        // Get end
+        unsigned long stop = source.find('[', start + key.length());
+        if (stop == std::string::npos) stop = source.length();
+
+        // Trimming
+        start = source.find_first_not_of(" \t\n\r", start + key.length());
+        if (start == std::string::npos) return "";
+        stop = source.find_last_not_of(" \t\n\r", stop);
+
+        return source.substr(start, stop - start);
+      }
+
+    public:
+      /*!
+       * @brief Looks for folder override files in the given folder.
+       * If overriden images/texts are found, thay are loaded to override empty or gamelist information
+       * The methods looks for:
+       * - .folder.picture.svg or .folder.picture.png
+       * - .folder.description.txt
+       * @param game folder data to override
+       */
+      void Parse(FileData& game) override
+      {
+        if (game.IsFolder())
+        {
+          // Override image
+          Path fullPath = game.FilePath() / ".folder.picture.png";
+          if (fullPath.Exists())
+          {
+            game.Metadata().SetVolatileImagePath(fullPath);
+            fullPath = game.FilePath() / ".folder.description.txt";
+            std::string text = Files::LoadFile(fullPath);
+            if (!text.empty())
+            {
+              text = LocalizedText(text);
+              if (text.length() != 0)
+                game.Metadata().SetVolatileDescription(text);
+            }
+          }
+        }
+      }
+  } overrider;
+
+  system.MasterRoot().ParseAllItems(overrider);
+}
+
+void SystemManager::CheckMissingHashed(SystemData& system)
+{
+  class : public IParser
+  {
+    public:
+      void Parse(FileData& game) override
+      {
+        if (game.IsGame())
+          if (game.Metadata().RomCrc32() == 0)
+            game.CalculateHash();
+      }
+  } missingHashes;
+
+  if (RecalboxConf::Instance().GetNetplayEnabled())
+    if (system.Descriptor().HasNetPlayCores())
+      system.MasterRoot().ParseAllItems(missingHashes);
+}
+
+void SystemManager::BuildDynamicMetadata(SystemData& system)
+{
+  class : public IParser
+  {
+    private:
+      //! Mini structure to store a game and its version
+      struct VersionedGame
+      {
+        FileData*              Game;
+        Versions::GameVersions Version;
+        VersionedGame(FileData& game, Versions::GameVersions version)
+          : Game(&game)
+          , Version(version)
+        {}
+      };
+      //! Keep the highest versioned FileData instance for a given key (game+regions)
+      HashMap<std::string, VersionedGame> mHighestVersions;
+
+    public:
+      void Parse(FileData& game) override
+      {
+        if (game.IsGame())
+        {
+          // Highest version
+          Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(game.FilePath().Filename());
+          std::string key = game.ScrappableName().append(Strings::ToHexa((int)Regions::ExtractRegionsFromNoIntroName(game.FilePath().FilenameWithoutExtension()).Pack));
+          VersionedGame* previous = mHighestVersions.try_get(key);
+          if (previous == nullptr)
+          {
+            game.Metadata().SetLatestVersion(true);
+            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+          }
+          else if (version > previous->Version)
+          {
+            previous->Game->Metadata().SetLatestVersion(false);
+            game.Metadata().SetLatestVersion(true);
+            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+          }
+
+          // Not a game?
+          game.Metadata().SetNoGame(Strings::StartsWith(game.Name(),LEGACY_STRING("ZZZ")) ||
+                                    Strings::StartsWith(game.FilePath().Filename(), LEGACY_STRING("[BIOS]")));
+        }
+      }
+  } dynamicMetadata;
+
+  system.MasterRoot().ParseAllItems(dynamicMetadata);
 }
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
@@ -116,68 +273,20 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     result->ParseGamelistXml(root, doppelgangerWatcher, forceLoad);
 
     #ifdef DEBUG
-    { LOG(LogInfo) << "[System] " << root.CountAll(true, result->Excludes()) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
+    { LOG(LogInfo) << "[System] " << root.CountAll(false, FileData::Filter::None) << " games found for " << systemDescriptor.FullName() << " in " << rootPath.first; }
     #endif
-
-    FileData::List allGames = result->getAllGames();
-
-    // compute dynamic latest metadata
-    HashMap<std::string, std::string> latestFiles;
-    for (FileData* fd : allGames)
-    {
-      if (!fd->IsGame()) continue;
-
-      Versions::GameVersions v1 = Versions::ExtractGameVersionNoIntro(fd->FilePath().Filename());
-
-        std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath().FilenameWithoutExtension())));
-
-        if(!latestFiles.contains(gameNameWithRegion))
-        {
-          latestFiles.insert_or_assign(gameNameWithRegion, fd->FilePath().Filename());
-        }
-        else
-        {
-          Versions::GameVersions v2 = Versions::ExtractGameVersionNoIntro(latestFiles.get_or_return_default(gameNameWithRegion));
-
-          if((int) v1 > (int) v2)
-            latestFiles.insert_or_assign(gameNameWithRegion, fd->FilePath().Filename());
-        }
-    }
-    for (FileData* fd : allGames)
-    {
-      if (!fd->IsGame()) continue;
-
-      std::string gameNameWithRegion = fd->ScrappableName().append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fd->FilePath().FilenameWithoutExtension())));
-
-      if(latestFiles.contains(gameNameWithRegion) && latestFiles.get_or_return_default(gameNameWithRegion) != fd->FilePath().Filename())
-        fd->Metadata().SetLatestVersion(false);
-
-      if (fd->IsNoGame())
-        fd->Metadata().SetNoGame(true);
-
-      if (fd->IsPreinstalled())
-        fd->Metadata().SetPreinstalled(true);
-    }
-
-    // Game In Png?
-    if ((properties & SystemData::Properties::GameInPng) != 0)
-      AutoScrape(result);
-
-    // Autohash
-    if (RecalboxConf::Instance().GetNetplayEnabled())
-      if (systemDescriptor.HasNetPlayCores())
-        if (root.HasMissingHashRecursively())
-        {
-          LOG(LogInfo) << "[System] Calculating missing hashes of " << systemDescriptor.FullName();
-          root.CalculateMissingHashRecursively();
-        }
-
-    // Overrides?
-    FileData::List allFolders = result->getFolders();
-    for(auto* folder : allFolders)
-      SystemData::overrideFolderInformation(folder);
   } // Let the doppelgangerWatcher to free its memory ASAP
 
+  // Hashing
+  CheckMissingHashed(*result);
+  // Game In Png?
+  CheckAutoScraping(*result);
+  // Overrides?
+  CheckFolderOverriding(*result);
+  // Dynamic data
+  BuildDynamicMetadata(*result);
+
+  // Load theme
   result->loadTheme();
 
   return result;
@@ -281,7 +390,7 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
   try
   {
     SystemData* newSys = CreateRegularSystem(systemDescriptor, mForceReload);
-    if (newSys->GameCount() == 0)
+    if (!newSys->HasGame())
     {
       { LOG(LogWarning) << "[System] System \"" << systemDescriptor.Name() << "\" has no games! Ignoring it."; }
       delete newSys;

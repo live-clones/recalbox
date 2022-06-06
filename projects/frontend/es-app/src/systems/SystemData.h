@@ -3,8 +3,6 @@
 #include <string>
 #include <utils/cplusplus/INoCopy.h>
 #include <emulators/EmulatorList.h>
-#include <emulators/EmulatorData.h>
-#include <emulators/run/NetPlayData.h>
 #include <games/RootFolderData.h>
 #include <WindowManager.h>
 #include <systems/PlatformId.h>
@@ -63,25 +61,6 @@ class SystemData : private INoCopy
      * @param properties System properties
      */
     SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
-
-    /*!
-     * @brief Get localized text inside a text. Look for [lg] tags to mark start/end of localized texts
-     * if the current language is not found, the method looks for [en].
-     * if still not found, the whole text is returned
-     * @param source Source text
-     * @return localized text
-     */
-    static std::string getLocalizedText(const std::string& source);
-
-    /*!
-     * @brief Looks for folder override files in the given folder.
-     * If overriden images/texts are found, thay are loaded to override empty or gamelist information
-     * The methods looks for:
-     * - .folder.picture.svg or .folder.picture.png
-     * - .folder.description.txt
-     * @param folderdata folder data to override
-     */
-    static void overrideFolderInformation(FileData* folderdata);
 
     /*!
      * @brief Lookup an existing game entry (or create it) in the current system.
@@ -202,6 +181,9 @@ class SystemData : private INoCopy
     void loadTheme();
 
     const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
+
+    //! Is this system auto scrapable? (Games in png?)
+    bool IsAutoScrapable() const;
 
     //! Is this system the "Favorite" system?
     bool IsFavorite() const;

@@ -464,7 +464,7 @@ class FolderData : public FileData
      * @brief Check if game filtered
      * @return file data filtered state
      */
-    bool IsFiltered(FileData* fd, Filter includes, Filter excludes) const;
+    static bool IsFiltered(FileData* fd, Filter includes, Filter excludes) ;
 };
 
 
