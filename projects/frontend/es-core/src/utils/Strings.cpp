@@ -386,30 +386,35 @@ bool Strings::EndsWith(const std::string& _string, const std::string& _end)
 	return (strncmp(_string.data() + _string.size() - _end.size(), _end.data(), _end.size()) == 0);
 }
 
-std::string Strings::RemoveParenthesis(const std::string& _string)
+std::string Strings::RemoveParenthesis(const std::string& str)
 {
-	static const char remove[4] = { '(', ')', '[', ']' };
-	std::string       string = _string;
-	bool              done = false;
+	std::string s = str;
 
-	while(!done)
-	{
-		done = true;
+  // Remove () starting from the end to minimize char moves
+  for(int end = (int)s.rfind(')'); end != (int)std::string::npos; )
+  {
+    int start = (int)s.rfind('(', end);
+    if (start == (int)std::string::npos) break;
+    while(s[++end] == ' '); // Trim right
+    while(s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = (int)s.rfind(')', start - 1);
+  }
 
-		for(int i = 0; i < (int)sizeof(remove); i += 2)
-		{
-      size_t end   = string.find_first_of(remove[i + 1]);
-      size_t start = string.find_last_of( remove[i + 0], end);
+  // Remove [] starting from the end to minimize char moves
+  for(int end = (int)s.rfind(']'); end != (int)std::string::npos; )
+  {
+    int start = (int)s.rfind('[', end);
+    if (start == (int)std::string::npos) break;
+    while(s[++end] == ' '); // Trim right
+    while(s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = (int)s.rfind(']', start - 1);
+  }
 
-			if((start != std::string::npos) && (end != std::string::npos))
-			{
-				string.erase(start, end - start + 1);
-				done = false;
-			}
-		}
-	}
-
-	return Trim(string);
+  return s;
 }
 
 Strings::Vector Strings::Split(const std::string& _string, char splitter, int max, bool multipleSplittersAsOne)
