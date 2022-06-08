@@ -10,8 +10,13 @@ as release notes for end user on a Recalbox upgrade.
 
 - Add seamless scraping for Patrons
 - Add GAME FILTER menu to filter games in lists based on several criteria
-- Recalbox RGB Dual: fix PAL game offsets
-- Recalbox RGB Dual: fix resolution on Playstation PAL games
+- Recalbox RGB Dual: fix arcade games when 50Hz mode is forced
+- Recalbox RGB Dual: add mame2015 support
+- Recalbox RGB Dual: fix 31kHz vertical arcade games ratio
+- Recalbox RGB Dual: fix atari st resolution
+- Recalbox RGB Dual: add PAL specific offset in the menu
+- Recalbox RGB Dual: fix PAL auto game offsets
+- Recalbox RGB Dual: enhance resolution on Playstation PAL games
 - Recalbox RGB Dual: fix calibration screen steps
 
 - Recalbox RGB Dual: on 31kHz add the resolution choice on game launch

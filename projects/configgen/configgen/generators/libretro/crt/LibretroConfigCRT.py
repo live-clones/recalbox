@@ -15,7 +15,7 @@ class LibretroConfigCRT:
         self.crt_config_parser = crt_config_parser
         self.crt_mode_processor = crt_mode_processor
 
-    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus"]
+    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015"]
 
     def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, rotation: int) -> \
             typing.Dict[
@@ -35,18 +35,19 @@ class LibretroConfigCRT:
 
         if rotation == 1:
             config["video_smooth"] = '"true"'
-
-        if rotation == 1 and (viewport_height + viewport_width == 0):
-            # Change the ratio to 1920 core only if no viewport info is given
-            config["aspect_ratio_index"] = '25'
+            if viewport_height + viewport_width == 0:
+                # Change the ratio to 1920 core only if no viewport info is given
+                config["aspect_ratio_index"] = '25'
+            if mode.width / mode.height < 1.5:
+                # Change the ratio to core as we are 4/3 like mode (not super res)
+                config["aspect_ratio_index"] = '22'
         else:
             for region in extension:
                 config["custom_viewport_width" + region] = viewport_width if viewport_width > 0 else mode.width
                 config[
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (
-                                                               mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
 
         return config
 
@@ -103,12 +104,12 @@ class LibretroConfigCRT:
             return 640, 0
         return 0, 0
 
-    def get_best_dimensions_for_default(self, system: Emulator, arcadeGame: str = "", core: str = "") -> (int, int):
+    def get_best_dimensions_for_default(self, system: Emulator, game: str = "", core: str = "") -> (int, int):
         width = 0
         height = 0
         for region in [CRTVideoStandard.ALL, CRTVideoStandard.NTSC, CRTVideoStandard.PAL]:
-            if arcadeGame != "" and core != "":
-                system_config = self.crt_config_parser.findArcadeGame(arcadeGame, core)
+            if game != "" and core in self.arcade_cores:
+                return self.get_best_dimensions_for_arcade(system, game, core)
             else:
                 system_config = self.crt_config_parser.findSystem(system.Name, region, CRTScreenType.k15,
                                                                   CRTResolutionType.Progressive)
@@ -151,6 +152,9 @@ class LibretroConfigCRT:
                                          "custom_viewport_y_ntsc": "",
                                          "custom_viewport_y_pal": "",
                                          "video_crop_overscan": '"false"',
+                                         "video_fullscreen": '"true"',
+                                         "video_fullscreen_x": '',
+                                         "video_fullscreen_y": '',
                                          "menu_driver": '"rgui"',
                                          "video_shader_enable": '"false"',
                                          "video_vsync": '"true"',
@@ -173,14 +177,22 @@ class LibretroConfigCRT:
             config.update({"video_black_frame_insertion": '"1"'})
         if system.Name == "psx":
             config.update({"audio_driver": '"alsathread"'})
+
+        config_core: str = core
+        if config_core == "mame2003_plus":
+            config_core = "mame2003"
+        if config_core == "mame2015":
+            config_core = "mame2010"
+
+        # Arcade
         if core in self.arcade_cores and system.Name != "neogeocd":
-            config_core: str = core
-            if config_core == "mame2003_plus":
-                config_core = "mame2003"
+            game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
+            rotation = game_config[4] if game_config is not None else 0
+
             if system.CRTScreenType == CRTScreenType.k31:
                 defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTVideoStandard,
                                                                          system.CRTResolutionType)
-                width, height = self.get_best_dimensions_for_arcade(system, game_name, config_core)
+                width, height = self.get_best_dimensions_for_default(system, game_name, config_core)
 
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     config.update(
@@ -193,31 +205,33 @@ class LibretroConfigCRT:
                                                      system.CRTVerticalPalOffset),
                                                  width,
                                                  height,
-                                                 0)
+                                                 rotation)
                     )
                 recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
                 default = False
             else:
-                game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
-                if game_config is not None:
-                    mode_id = game_config[1]
-                    mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
-                                                               system.CRTHorizontalOffset, system.CRTVerticalOffset,
-                                                               system.CRTHorizontalPalOffset,
-                                                               system.CRTVerticalPalOffset)
-                    rotation = game_config[4]
-                    recallog(
-                        "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
-                                                                                             "vertical" if rotation == 1 else ""),
-                        log_type="CRT")
+                # Arcade 15kHz
+                if system.CRTVideoStandard == CRTVideoStandard.AUTO or system.CRTVideoStandard == CRTVideoStandard.NTSC:
+                    if game_config is not None:
+                        rotation = game_config[4]
+                        mode_id = game_config[1]
+                        mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
+                                                                   system.CRTHorizontalOffset, system.CRTVerticalOffset,
+                                                                   system.CRTHorizontalPalOffset,
+                                                                   system.CRTVerticalPalOffset)
+                        recallog(
+                            "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
+                                                                                                 "vertical" if rotation == 1 else ""),
+                            log_type="CRT")
 
-                    config.update(
-                        self.createConfigForMode("all", mode, self.select_width(system, game_config[2], rotation),
-                                                 game_config[3], rotation))
-                    default = False
-                else:
-                    recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
+                        config.update(
+                            self.createConfigForMode("all", mode, self.select_width(system, game_config[2], rotation),
+                                                     game_config[3], rotation))
+                        default = False
+                    else:
+                        recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
         else:
+            # Consoles
             if system.CRTVideoStandard == CRTVideoStandard.AUTO:
                 recallog("AUTO region selected", log_type="CRT")
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC, CRTVideoStandard.ALL]:
@@ -269,7 +283,8 @@ class LibretroConfigCRT:
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, region,
                                                                              system.CRTResolutionType)
-                    width, height = self.get_best_dimensions_for_default(system)
+
+                    width, height = self.get_best_dimensions_for_default(system, game_name, config_core)
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system.CRTHorizontalOffset,
@@ -283,7 +298,7 @@ class LibretroConfigCRT:
                 # This mode will be forced for all roms.
                 defaultMode: str = self.get_default_mode_name_for_config(system.CRTScreenType, system.CRTVideoStandard,
                                                                          system.CRTResolutionType)
-                width, height = self.get_best_dimensions_for_default(system)
+                width, height = self.get_best_dimensions_for_default(system, game_name, config_core)
 
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC]:
                     config.update(
