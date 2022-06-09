@@ -7,6 +7,7 @@
 #pragma once
 
 #include "GuiMenuBase.h"
+#include "ResolutionAdapter.h"
 
 class SystemManager;
 
@@ -32,8 +33,11 @@ class GuiMenuResolutionSettings : public GuiMenuBase
     //! System manager reference
     SystemManager& mSystemManager;
 
-    static std::vector<ListEntry<std::string>> GetGlobalResolutionEntries();
-    static std::vector<ListEntry<std::string>> GetFrontEndResolutionEntries();
+    // Resolution Adapter
+    ResolutionAdapter mResolutionAdapter;
+
+    std::vector<ListEntry<std::string>> GetGlobalResolutionEntries();
+    std::vector<ListEntry<std::string>> GetFrontEndResolutionEntries();
 
     /*
      * IOptionListComponent<Overclocking> implementation

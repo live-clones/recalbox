@@ -7,6 +7,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
+#include "ResolutionAdapter.h"
 
 // Forward declaration
 class SystemManager;
@@ -66,6 +67,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
 
     //! System Manager
     SystemManager& mSystemManager;
+
+    // Resolution Adapter
+    ResolutionAdapter mResolutionAdapter;
 
     //! Default overclock value
     Overclocking mDefaultOverclock;
