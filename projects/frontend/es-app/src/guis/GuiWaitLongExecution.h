@@ -25,7 +25,10 @@ template<typename intype, typename outtype> class ILongExecution
     virtual void Completed(const intype& parameter, const outtype& result) = 0;
 };
 
-template<typename intype, typename outtype> class GuiWaitLongExecution : public Gui, public Thread, private ISynchronousEvent
+template<typename intype, typename outtype> class GuiWaitLongExecution
+  : public Gui
+  , public Thread
+  , private ISynchronousEvent
 {
   public:
     explicit GuiWaitLongExecution(WindowManager& window, ILongExecution<intype, outtype>& executor)

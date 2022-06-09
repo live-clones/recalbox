@@ -27,7 +27,7 @@
 #include "CommandThread.h"
 #include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
-#include "utils/network/DnsClient.h"
+#include <hardware/devices/storage/StorageDevices.h>
 #include <guis/GuiInfoPopup.h>
 #include <scraping/ScraperSeamless.h>
 #include <sdl2/Sdl2Runner.h>
@@ -124,7 +124,7 @@ MainRunner::ExitState MainRunner::Run()
     // Scrapers
     ScraperFactory scraperFactory;
 
-    ExitState exitState;
+    ExitState exitState = ExitState::Quit;
     try
     {
       // Patron Information
@@ -521,7 +521,8 @@ void MainRunner::SetDebugLogs(bool state)
 
 void MainRunner::Intro(bool debug)
 {
-  atexit(&onExit); // Always close the log on exit
+  if (atexit(&onExit) != 0) // Always close the log on exit
+    { LOG(LogError) << "[MainRunner] Error setting exit function!"; }
 
   SetDebugLogs(debug || mConfiguration.GetDebugLogs());
 
@@ -754,7 +755,7 @@ bool MainRunner::Execute(GuiWaitLongExecution<HardwareTriggeredSpecialOperations
     case HardwareTriggeredSpecialOperations::Suspend:
     case HardwareTriggeredSpecialOperations::Resume:
     case HardwareTriggeredSpecialOperations::PowerOff:
-    default: sleep(1); // Just sleep one second
+    default: Thread::Sleep(1000); // Just sleep one second
   }
   return false; // unused
 }
@@ -820,15 +821,6 @@ void MainRunner::VolumeIncrease(BoardType board, float percent)
 
 void MainRunner::RomPathAdded(const DeviceMount& device)
 {
-  /*mRemovedDevices.erase(device.Device().ToString());
-  mAddedEmptyDevices.erase(device.Device().ToString());
-  if (mAddedDevices.contains(device.Device().ToString()))
-  {
-    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (add)"; }
-    return;
-  }
-  mAddedDevices.insert(device.Device().ToString());*/
-
   std::string text = _("The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games.");
   Strings::ReplaceAllIn(text, "%NAME%", device.Name());
   if (device.ReadOnly())
@@ -839,15 +831,6 @@ void MainRunner::RomPathAdded(const DeviceMount& device)
 
 void MainRunner::RomPathRemoved(const DeviceMount& device)
 {
-  /*mAddedDevices.erase(device.Device().ToString());
-  mAddedEmptyDevices.erase(device.Device().ToString());
-  if (mRemovedDevices.contains(device.Device().ToString()))
-  {
-    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (remove)"; }
-    return;
-  }
-  mRemovedDevices.erase(device.Device().ToString());*/
-
   (void)device;
   std::string text = _("A device containing roms has been unplugged! EmulationStation must relaunch to remove unavailable games.");
   GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); }, _("LATER"), []{});
@@ -856,26 +839,30 @@ void MainRunner::RomPathRemoved(const DeviceMount& device)
 
 void MainRunner::NoRomPathFound(const DeviceMount& device)
 {
-  /*mAddedDevices.erase(device.Device().ToString());
-  mRemovedDevices.erase(device.Device().ToString());
-  if (mAddedEmptyDevices.contains(device.Device().ToString()))
+  auto initializeRoms = [this, &device]
   {
-    { LOG(LogDebug) << "[MainRunner] Device " << device.Name() << " already notified! (add)"; }
-    return;
-  }
-  mAddedEmptyDevices.insert(device.Device().ToString());*/
-
-  auto lambda = [this, device]
-  {
-    // Initialize device
-    if (SystemManager::CreateRomFoldersIn(device))
-      mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, _("Your USB device has been initialized! You can unplug it and copy your games on it."), _("OK"), []{}));
-    else
-      mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, _("Initialization failed! Your USB device is full or contains errors. Please repair or use another device."), _("OK"), []{}));
+    USBInitialization init(USBInitializationAction::OnlyRomFolders, &device);
+    mApplicationWindow->pushGui((new GuiWaitLongExecution<USBInitialization, bool>(*mApplicationWindow, *this))->Execute(init, _("Initializing roms folders...")));
   };
-  std::string text = _("The USB device %NAME% with no rom folder has been plugged in. Would you like to create rom folders on this device?");
+
+  auto moveShareFolder = [this, &device]
+  {
+    USBInitialization init(USBInitializationAction::CompleteShare, &device);
+    mApplicationWindow->pushGui((new GuiWaitLongExecution<USBInitialization, bool>(*mApplicationWindow, *this))->Execute(init, _("Initializing share folders...")));
+  };
+
+  std::string text = _("The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?");
+              text.append(1, '\n');
+              text.append(_("• Choose '%INIT%' to create only all the rom folders")).append(1, '\n')
+                  .append(_("• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot")).append(1, '\n')
+                  .append(_("• Or just chose '%CANCEL%' to do nothing with this new device"));
   Strings::ReplaceAllIn(text, "%NAME%", device.Name());
-  GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("YES"), lambda, _("NO"), [] { });
+  Strings::ReplaceAllIn(text, "%INIT%", _("INITIALIZE"));
+  Strings::ReplaceAllIn(text, "%MOVE%", _("MOVE SHARE"));
+  Strings::ReplaceAllIn(text, "%CANCEL%", _("CANCEL"));
+  GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("INITIALIZE"), initializeRoms,
+                                                               _("MOVE SHARE"), moveShareFolder,
+                                                               _("CANCEL"), nullptr, TextAlignment::Left);
   mApplicationWindow->pushGui(msgBox);
 }
 
@@ -888,16 +875,16 @@ void MainRunner::InstallCRTFeatures()
     std::string recalboxTheme = "recalbox-next";
     if (conf.GetThemeFolder() == recalboxTheme)
     {
-      if(!Strings::Contains(conf.GetThemeSystemView(recalboxTheme), "240p"))
+      if (!Strings::Contains(conf.GetThemeSystemView(recalboxTheme), "240p"))
         conf.SetThemeSystemView(recalboxTheme, "9-240p");
 
-      if(!Strings::Contains(conf.GetThemeMenuSet(recalboxTheme), "240p"))
+      if (!Strings::Contains(conf.GetThemeMenuSet(recalboxTheme), "240p"))
         conf.SetThemeMenuSet(recalboxTheme, "7-240p");
 
-      if(!Strings::Contains(conf.GetThemeGameClipView(recalboxTheme), "240p"))
+      if (!Strings::Contains(conf.GetThemeGameClipView(recalboxTheme), "240p"))
         conf.SetThemeGameClipView(recalboxTheme, "3-240p");
 
-      if(!Strings::Contains(conf.GetThemeGamelistView(recalboxTheme), "240p"))
+      if (!Strings::Contains(conf.GetThemeGamelistView(recalboxTheme), "240p"))
         conf.SetThemeGamelistView(recalboxTheme, "10-240p");
     }
     conf.SetBool("240ptestsuite.ignore", false);
@@ -945,4 +932,81 @@ void MainRunner::PatreonState(PatronAuthenticationResult result, int level, cons
 
   if (!message.empty())
     mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, GuiInfoPopupBase::PopupType::Help));
+}
+
+bool MainRunner::Execute(GuiWaitLongExecution<USBInitialization, bool>& from, const USBInitialization& parameter)
+{
+  (void) from;
+  switch(parameter.Action())
+  {
+    case USBInitializationAction::None: break;
+    case USBInitializationAction::OnlyRomFolders: return SystemManager::CreateRomFoldersIn(parameter.Device()); break;
+    case USBInitializationAction::CompleteShare:
+    {
+      struct
+      {
+        Path From;
+        Path To;
+      }
+      pathFromTo[]
+      {
+        { Path("/recalbox/share/bios")       , parameter.Device().MountPoint() / "recalbox/bios"       },
+        { Path("/recalbox/share/cheats")     , parameter.Device().MountPoint() / "recalbox/cheats"     },
+        { Path("/recalbox/share/kodi")       , parameter.Device().MountPoint() / "recalbox/kodi"       },
+        { Path("/recalbox/share/music")      , parameter.Device().MountPoint() / "recalbox/music"      },
+        { Path("/recalbox/share/overlays")   , parameter.Device().MountPoint() / "recalbox/overlays"   },
+        { Path("/recalbox/share/roms")       , parameter.Device().MountPoint() / "recalbox/roms"       },
+        { Path("/recalbox/share/saves")      , parameter.Device().MountPoint() / "recalbox/saves"      },
+        { Path("/recalbox/share/screenshots"), parameter.Device().MountPoint() / "recalbox/screenshots"},
+        { Path("/recalbox/share/shaders")    , parameter.Device().MountPoint() / "recalbox/shaders"    },
+        { Path("/recalbox/share/system")     , parameter.Device().MountPoint() / "recalbox/system"     },
+        { Path("/recalbox/share/themes")     , parameter.Device().MountPoint() / "recalbox/themes"     },
+        { Path("/recalbox/share/userscripts"), parameter.Device().MountPoint() / "recalbox/userscripts"},
+      };
+
+      // Copy share folders
+      for(const auto& ft : pathFromTo)
+      {
+        { LOG(LogInfo) << "[MainRunner] USB Initialization: Copying " << ft.From.Filename(); }
+        from.SetText(Strings::Replace(_("Copying %s folder..."), "%s", ft.From.Filename()));
+        if (!Files::CopyFolder(ft.From, ft.To, true)) return false;
+      }
+
+      // Install new device
+      { LOG(LogInfo) << "[MainRunner] USB Initialization: Setup boot device."; }
+      from.SetText(_("Setting up boot device..."));
+      StorageDevices storages;
+      for(const StorageDevices::Device& storage : storages.GetStorageDevices())
+        if (storage.DevicePath == parameter.Device().Device().ToString())
+        {
+          { LOG(LogInfo) << "[MainRunner] USB Initialization: Boot device set to " << storage.UUID; }
+          storages.SetStorageDevice(storage);
+          return true;
+        }
+    }
+  }
+  return false;
+}
+
+void MainRunner::Completed(const USBInitialization& parameter, const bool& result)
+{
+  switch(parameter.Action())
+  {
+    case USBInitializationAction::None: break;
+    case USBInitializationAction::OnlyRomFolders:
+    {
+      mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, result ? _("Your USB device has been initialized! You can unplug it and copy your games on it.")
+                                                                            : _("Initialization failed! Your USB device is full or contains errors. Please repair or use another device."), _("OK"), nullptr));
+      break;
+    }
+    case USBInitializationAction::CompleteShare:
+    {
+      if (result)
+        mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, _("Your USB device has been initialized! Ready to reboot on your new share device!"),
+                                                  _("OK"), [] { MainRunner::RequestQuit(MainRunner::ExitState::Relaunch); }));
+      else
+        mApplicationWindow->pushGui(new GuiMsgBox(*mApplicationWindow, _("Initialization failed! Your USB device is full or contains errors. Please repair or use another device."), _("OK"), nullptr));
+      break;
+    }
+  }
 }
