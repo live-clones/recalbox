@@ -75,7 +75,7 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
          ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
 }
 
-void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, FileData::StringMap& doppelgangerWatcher)
+void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, const std::string& ignoreList, FileData::StringMap& doppelgangerWatcher)
 {
   const Path& folderPath = FilePath();
   if (!folderPath.IsDirectory())
@@ -126,6 +126,15 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
     if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
 
+    // Force to hide ignored files
+    // Force to hide ignored files
+    const std::string fileName = filePath.Filename();
+    int p = (int)ignoreList.find(fileName);
+    if (p != (int)std::string::npos)
+      if (p > 0 && ignoreList[p-1] == ',')
+        if (ignoreList[p + fileName.length()] == ',')
+          continue;
+
     if (containsMultiDiskFile && blacklist.contains(filePath.ToString())) continue;
 
     // and Extension
@@ -159,7 +168,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
       if (!isLaunchableGame && filePath.IsDirectory())
       {
         FolderData* newFolder = new FolderData(filePath, root);
-        newFolder->PopulateRecursiveFolder(root, filteredExtensions, doppelgangerWatcher);
+        newFolder->PopulateRecursiveFolder(root, filteredExtensions, ignoreList, doppelgangerWatcher);
 
         //ignore folders that do not contain games
         if (newFolder->HasChildren())

@@ -56,6 +56,7 @@ class SystemDescriptor
       , mCrtMultiRegion(false)
       , mPort(false)
       , mReadOnly(false)
+      , mIgnoredFiles()
     {
     }
 
@@ -124,7 +125,8 @@ class SystemDescriptor
                                                const std::string& manufacturer,
                                                bool lightgun,
                                                bool multiresolution,
-                                               bool multiregion)
+                                               bool multiregion,
+                                               const std::string& ignoredfiles)
     {
       mType = ConvertSystemType(systemtype);
       mPad = ConvertDeviceRequirement(pad);
@@ -136,6 +138,7 @@ class SystemDescriptor
       mLightgun = lightgun;
       mCrtInterlaced = multiresolution;
       mCrtMultiRegion = multiregion;
+      mIgnoredFiles = ignoredfiles;
       return *this;
     }
 
@@ -191,6 +194,7 @@ class SystemDescriptor
     bool LightGun() const { return mLightgun; }
     bool CrtHighResolution() const { return mCrtInterlaced; }
     bool CrtMultiRegion() const { return mCrtMultiRegion; }
+    const std::string& IgnoredFiles() const { return mIgnoredFiles; }
 
     bool HasNetPlayCores() const
     {
@@ -250,6 +254,7 @@ class SystemDescriptor
 
     bool                    mPort;            //!< This system is a port
     bool                    mReadOnly;        //!< This system is a port and is readonly
+    std::string             mIgnoredFiles;    //!< Ignored files list
 
     static SystemType ConvertSystemType(const std::string& systemtype)
     {
