@@ -65,10 +65,11 @@ createMissingPartitions() {
   }
 
   # Display SHARE creation splash screen
+  touch /tmp/.first-install
   if [ -f /tmp/.install.sh ]; then
       ( /tmp/.install.sh createshare ) &
   else
-      /recalbox/scripts/recalbox-create-share.sh
+      /recalbox/scripts/recalbox-play-first-install-media.sh
   fi
 
   # Determine last free (available) space on device
