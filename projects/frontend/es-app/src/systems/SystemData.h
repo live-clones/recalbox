@@ -174,11 +174,6 @@ class SystemData : private INoCopy
     FileData::List getFolders() const;
     FileData::List getTopGamesAndFolders() const;
 
-    PlatformIds::PlatformId PlatformIds(int index) const { return mDescriptor.Platform(index); }
-    int PlatformCount() const { return mDescriptor.PlatformCount(); }
-    bool HasPlatform() const { return mDescriptor.PlatformCount() != 0; }
-    bool hasPlatformId(PlatformIds::PlatformId id) const { return mDescriptor.HasPlatform(id); }
-
     inline const ThemeData& Theme() const { return mTheme; }
 
     static Path getGamelistPath(const RootFolderData& root, bool forWrite);

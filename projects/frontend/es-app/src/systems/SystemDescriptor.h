@@ -69,20 +69,11 @@ class SystemDescriptor
      */
     SystemDescriptor& SetSystemInformation(const std::string& guid,
                                            const std::string& name,
-                                           const std::string& fullname,
-                                           const std::string& platforms)
+                                           const std::string& fullname)
     {
       mGUID = guid;
       mName = name;
       mFullName = fullname;
-
-      // Platform list
-      for (const auto &platform : Strings::Split(platforms, ' '))
-      {
-        PlatformIds::PlatformId platformId = PlatformIds::getPlatformId(platform);
-        if (platformId == PlatformIds::PlatformId::PLATFORM_IGNORE) { ClearPlatforms().AddPlatformIdentifiers(platformId); break; }
-        if (!AddPlatformIdentifiers(platformId)) { LOG(LogError) << "[System] Platform count for system " << Name() << " full. " << platform << " ignored!"; }
-      }
 
       return *this;
     }
@@ -152,20 +143,6 @@ class SystemDescriptor
     SystemDescriptor& ClearPlatforms() { mPlateformCount = 0; return *this; }
     //! Clear all emulator entries
     SystemDescriptor& ClearEmulators() { mEmulators.Clear(); return *this; }
-
-    /*!
-     * @brief Set all platform identifiers
-     * @param platformIdentifiers Platform identifiers
-     */
-    bool AddPlatformIdentifiers(PlatformIds::PlatformId platformIdentifier)
-    {
-      if (mPlateformCount < sMaximumPlatformIds)
-      {
-        mPlatformIds[mPlateformCount++] = platformIdentifier;
-        return true;
-      }
-      return false;
-    }
 
     /*!
      * @brief Set the whole emulator tree
@@ -238,16 +215,6 @@ class SystemDescriptor
 
     bool IsPort() const { return mPort; }
     bool IsReadOnly() const { return mReadOnly; }
-
-    int PlatformCount() const { return mPlateformCount; }
-    PlatformIds::PlatformId Platform(int index) const { return (unsigned int)index < (unsigned int)sMaximumPlatformIds ? mPlatformIds[index] : PlatformIds::PlatformId::PLATFORM_UNKNOWN; }
-    bool HasPlatform(PlatformIds::PlatformId id) const
-    {
-      for(int i = mPlateformCount; --i >= 0;)
-        if (id == mPlatformIds[i])
-          return true;
-      return false;
-    }
 
     const EmulatorList& EmulatorTree() const { return mEmulators; }
 

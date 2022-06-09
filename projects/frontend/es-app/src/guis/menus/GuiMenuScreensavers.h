@@ -39,7 +39,7 @@ class GuiMenuScreensavers : public GuiMenuBase
     std::shared_ptr<OptionListComponent<std::string>> mSystemList;
 
     //! Get Screensaver type List
-    std::vector<ListEntry<std::string>> GetTypeEntries();
+    static std::vector<ListEntry<std::string>> GetTypeEntries();
 
     //! Get System List
     std::vector<ListEntry<std::string>> GetSystemEntries();
