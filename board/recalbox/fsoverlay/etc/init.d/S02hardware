@@ -26,6 +26,8 @@ if [ "$1" == "start" ]; then
 
   # Installation image
   if [ -f /tmp/.install.sh ]; then
+    source /recalbox/scripts/recalbox-boot-media.sh
+    mediaIgnoreAll
     ( /tmp/.install.sh initialize ) &
   fi
 fi

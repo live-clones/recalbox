@@ -6,16 +6,16 @@ if [ "$1" != "start" ]; then
   exit 0
 fi
 
-SKIPVIDEOSPLASHFLAG=/overlay/.configs/skipvideosplash
+
 INTERNALDEVICE=$(/recalbox/scripts/recalbox-part.sh "share_internal")
 ARCH=$(cat /recalbox/recalbox.arch)
 INIT_SCRIPT=$(basename "$0")
 FIRSTTIMEFLAG=/overlay/.configs/firsttimevideo
-source /recalbox/scripts/recalbox-utils.sh
+
+source /recalbox/scripts/recalbox-boot-media.sh
 
 # first boot or upgrade
-if [ -f "$SKIPVIDEOSPLASHFLAG" ] || [ -f /tmp/.install.sh ] || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
-  [[ -f "$SKIPVIDEOSPLASHFLAG" ]] && rm "$SKIPVIDEOSPLASHFLAG"
+if mediaShouldIgnoreSplash || [ ! -e "$INTERNALDEVICE" ] || ls /boot/update/recalbox-*.img.xz >/dev/null 2>&1 ; then
   recallog -s "${INIT_SCRIPT}" -t "INSTALL" "Install in progress. Don't play boot video"
   exit 0
 fi
@@ -30,13 +30,6 @@ originalSmallVideoPath="${originalVideoPath}/240p"
 customVideoPath="/overlay/bootvideos"
 firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 
-# get output video size
-
-# Low definiton devices
-if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
-   && ! isRecalboxRGBDual; then
-  LOWDEF=1
-fi
 
 ## -1 : Video will be stopped when emulationstation is ready to start.
 ##  0 : All the video will be played before emulationstation start (default)
@@ -49,16 +42,6 @@ else
   videoLength="$timeout"
 fi
 
-## Functions ##
-
-# turnOffGPiCaseHDMI
-#   takes no argument, power off HDMI port to save energy when running in a GPi case
-turnOffGPiCaseHDMI() {
-  if grep -q -E '^case=GPiV1:1' /boot/recalbox-boot.conf; then
-     recallog -s "${INIT_SCRIPT}" -t "GPI" "GPi case detected: turning HDMI off"
-    tvservice -o
-  fi
-}
 
 # selectVideo
 #   takes no argument and outputs a random video from those available
@@ -69,7 +52,7 @@ selectVideo() {
   local videos
   local num_videos
   if isFirstTime; then
-    [ -n "${LOWDEF}" ] \
+    mediaIsLowDef \
         && echo "${originalSmallVideoPath}/${firstTimeVideo}" \
         || echo "${originalVideoPath}/${firstTimeVideo}"
     return 0
@@ -108,79 +91,9 @@ isFirstTime() {
   return 0
 }
 
-# showIntroBackground
-#   displays our intro background via the framebuffer
-showIntroBackground() {
-  if [ -n "${LOWDEF}" ] ; then
-    fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
-  else
-    fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
-  fi
-  # launching ES just after fbv can cause some screen corruption
-  sleep 1
-}
-
-
-# start mpv then show the background (aka pacman screen)
-# $1 timeout
-# $2 array of options for mpv
-runInBackground() {
-  local timeout="$1"; shift
-  local options=("$@")
-
-  if [ "$timeout" -gt 0 ]; then
-    timeout "$videoLength" mpv "${options[@]}"
-  else
-    mpv "${options[@]}"
-  fi
-  showIntroBackground
-}
-
-# playVideoOnOneScreen
-#   play a video on a specific display
-# intput:
-# * filename to play
-# * optins regarding output screen (--ao=alsa  --vo=drm  --drm-connector=1.DVI-I-1)
-playVideoOnOneScreen() {
-  local options
-  # shellcheck disable=SC2206
-  options+=($2) # get space delimited options as is
-  options+=(--ao=pulse)
-  options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
-  options+=("$1")
-  runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
-}
-
-# playVideo
-#   select all screen and run playVideoOnOneScreen for each connected screen
-# intput:
-# * filename to play
-playVideo() {
-  local conn
-  local resolution
-  local drmmode=""
-
-  if [[ "$machineArch" =~ x86 ]]; then
-    resolution="$($systemsetting -command load -key system.splash.resolution -source /boot/recalbox-backup.conf)"
-    if [ "$resolution" != "" ] ; then drmmode="--drm-mode=$resolution" ; fi
-    # on x86 and x86_64, find connected monitors and play video on all of them
-    findConnectedConnectors |while read -r conn; do
-      playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
-    done
-  elif isRecalboxRGBDual; then
-    # On recalbox RGB Dual we will try to get 640x480i for videos 
-    playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
-  elif [[ "$ARCH" == "rpi1" ]]; then
-    # on rpi1 2 and 3 we need to force output
-    playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
-  else
-    # on other simply play
-    playVideoOnOneScreen "$1"
-  fi
-}
-
 ## Main ##
 
-playVideo "$(selectVideo)"
+startMpvQueue
+mediaPlaySplash "$(selectVideo)" "${videoLength}"
 
 exit 0

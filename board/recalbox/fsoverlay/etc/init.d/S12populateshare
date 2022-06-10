@@ -5,11 +5,6 @@ then
   exit 0
 fi
 
-# If the share partition is empty, try playing the "creating share" video
-if [ ! -d /recalbox/share/roms ]; then
-    /recalbox/scripts/recalbox-create-share.sh
-fi
-
 # Installation image
 if [ -f /tmp/.install.sh ]; then
     ( /tmp/.install.sh installstuff ) &
@@ -128,14 +123,18 @@ RECALBOX_VERSION_FILE="/recalbox/recalbox.version"
 RECALBOX_VERSION=$(cat "$RECALBOX_VERSION_FILE")
 SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
 SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
+
+
+
 if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.0] - The system has been updated, copying share_init"
     # Starting the video
     source /recalbox/scripts/recalbox-utils.sh
-    IMAGE_PATH=$(getInstallUpgradeImagePath)
-    killall mpv
-    mpv $(getMpvOptions) --loop "${IMAGE_PATH}/creating-share.mp4" & echo $! > /tmp/.mpv.pid
+    source /recalbox/scripts/recalbox-boot-media.sh
 
+    IMAGE_PATH=$(getInstallUpgradeImagePath)
+    mediaPlayVideo "${IMAGE_PATH}/creating-share.mp4"
+    
     # Copy all bios from share_upgrade to share
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.1] - BIOS"
     rsync --size-only -r "${UPGRADE}/bios/." "${OUT}/bios"
@@ -204,7 +203,7 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     # Update version
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.7] - Copy version to share"
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
-    kill $(cat /tmp/.mpv.pid)
+    stopMpvQueue
 fi
 
 # directories to force directories exists
@@ -278,8 +277,3 @@ recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[14] - CORE LIST"
 [ ! -e /recalbox/share/system/configs/retroarch.corenames ] && upgradeRetroarchCoreNames -f /recalbox/share/system/configs/retroarch.corenames
 
 # END
-if [ -e /tmp/newshare ]; then
-    recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[15] - Create share"
-    /recalbox/scripts/recalbox-create-share.sh stop
-    #reboot
-fi

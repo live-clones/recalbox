@@ -1,0 +1,15 @@
+#/bin/bash
+
+if test "$1" == "start"; then
+    start-stop-daemon -S -n mediaservice -- bash -c \
+        "source /recalbox/scripts/recalbox-boot-media.sh && stopMpvQueue && startMpvQueue&" \
+		--exit-idle-time=-1 --log-target=syslog --daemonize --use-pid-file --background
+elif test "$1" == "stop"; then
+    start-stop-daemon -K -n mediaservice -- bash -c \
+        "source /recalbox/scripts/recalbox-boot-media.sh && stopMpvQueue && stopAllMedia" \
+		--exit-idle-time=-1 --log-target=syslog --daemonize --use-pid-file --background
+else
+  exit 0
+fi
+
+

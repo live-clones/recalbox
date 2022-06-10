@@ -67,9 +67,10 @@ createMissingPartitions() {
   # Display SHARE creation splash screen
   if [ -f /tmp/.install.sh ]; then
       ( /tmp/.install.sh createshare ) &
-  else
-      /recalbox/scripts/recalbox-create-share.sh
   fi
+
+  source /recalbox/scripts/recalbox-boot-media.sh
+  mediaPlayInstallMedia
 
   # Determine last free (available) space on device
   freeSpaceStart=$(parted "${defaultPartedOptions[@]}" print free | grep ':free;$' | tail -1 | cut -d: -f2 | sed 's/B$//')
