@@ -20,7 +20,7 @@ MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   , mInterface(interface)
 {
   // Initialize mount points
-  mMountPoints = LoadMountPoints();
+  mMountPoints = LoadMountPoints(true);
 
   { LOG(LogInfo) << "[MountMonitor] Mount monitoring starts"; }
   Start("MountMon");
@@ -42,7 +42,7 @@ void MountMonitor::Run()
     struct pollfd poller { .fd = fd, .events = POLLPRI, .revents = 0 };
     if (poll(&poller, 1, 500) != 1 || (poller.revents & POLLPRI) == 0) continue;
 
-    DeviceMountList newMounts = LoadMountPoints();
+    DeviceMountList newMounts = LoadMountPoints(false);
     Process(mMountPoints, newMounts);
     mMountPoints = std::move(newMounts);
   }
@@ -50,7 +50,7 @@ void MountMonitor::Run()
   close(fd);
 }
 
-MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
+MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpecialMountPoints)
 {
   static constexpr const int sDeviceIndex = 0;
   static constexpr const int sMountPointIndex = 1;
@@ -59,9 +59,6 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
 
   { LOG(LogDebug) << "[MountMonitor] Loading available mount points"; }
   DeviceMountList result;
-
-  // Device actually mounted on /recalbox/share
-  Path shareDevice;
 
   // Get all valid mount point
   for(const std::string& line : Strings::Split(Files::LoadFile(Path(sMountPointFile)), '\n')) // For every entry
@@ -72,16 +69,9 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
     const std::string& type = items[sTypeIndex];
     const std::string& options = items[sOptionsIndex];
 
-    //{ LOG(LogDebug) << "[MountMonitor] Pre-Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
-
-    // Physical USB device?
+    // Physical USB devices
     if (device.StartWidth(std::string(LEGACY_STRING("/dev/")))) // starting with /dev/
     {
-      if (mountPoint == sSharePath)
-      {
-        shareDevice = device; // Store share device
-        continue; // Don't store real share
-      }
       #ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
       #endif
@@ -90,17 +80,33 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints()
     }
     // Network?
     if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
+      #ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
+      #endif
       {
-        result.push_back(
-          DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+        result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
+
+    // Initialize special mount points
+    if (initializeSpecialMountPoints)
+    {
+      if (mountPoint == sSharePath)
+      {
+        mShareMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+        { LOG(LogDebug) << "[MountMonitor] Share mount point found on device: " << mShareMountPoint.Device().ToString(); }
+      }
+      else if (mountPoint == sShareRomsPath)
+      {
+        mShareRomsMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+        { LOG(LogDebug) << "[MountMonitor] Roms mount point found on device: " << mShareRomsMountPoint.Device().ToString(); }
+      }
+    }
   }
 
   // Seek & destroy any Mount device that match the share device
   for(int i = (int)result.size(); --i >= 0;)
-    if (result[i].Device() == shareDevice)
+    if (result[i].Device() == mShareMountPoint.Device())
       result.erase(result.begin() + i);
 
   // Final result
