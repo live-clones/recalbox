@@ -75,7 +75,8 @@ void GuiMenuGameFilters::ManageSystems()
   ViewController::Instance().getGameListView(systemData)->refreshList();
 
   ViewController::Instance().setAllInvalidGamesList(nullptr);
-  ViewController::Instance().getSystemListView().populate();
+  ViewController::Instance().getSystemListView().manageSystemsList();
+
   // for updating game counts on system view
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }
