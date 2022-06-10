@@ -61,6 +61,7 @@ public:
 	void populate();
 	void removeFavoriteSystem();
 	void manageFavorite();
+	void manageSystemsList();
 
   /*!
   * @brief Add a system to system view
@@ -68,6 +69,8 @@ public:
   */
   void addSystem(SystemData * it);
 
+  void removeSystem(SystemData * it);
+  
   SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
   SystemData* Prev();
