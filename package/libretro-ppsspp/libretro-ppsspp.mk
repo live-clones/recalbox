@@ -5,7 +5,8 @@
 ################################################################################
 
 LIBRETRO_PPSSPP_VERSION = 47ff758af11369f1dc602ec39cc710f33ac44bc3
-LIBRETRO_PPSSPP_SITE = git://github.com/hrydgard/ppsspp.git
+LIBRETRO_PPSSPP_SITE = https://github.com/hrydgard/ppsspp
+LIBRETRO_PPSSPP_SITE_METHOD=git
 LIBRETRO_PPSSPP_GIT_SUBMODULES=y
 LIBRETRO_PPSSPP_DEPENDENCIES = ffmpeg snappy zip sdl2 libpng
 LIBRETRO_PPSSPP_LICENSE = GPL-2.0
