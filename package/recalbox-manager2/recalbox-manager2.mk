@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_MANAGER2_VERSION = bd1d90934a5e4a8bd4625c8a7207c40802443068
+RECALBOX_MANAGER2_VERSION = b7ef530ec69a830f9813b583e87ee68fcd9d4fdf
 RECALBOX_MANAGER2_SITE = https://gitlab.com/recalbox/recalbox-manager
 RECALBOX_MANAGER2_LICENSE = COPYRIGHT
 RECALBOX_MANAGER2_NON_COMMERCIAL = y
