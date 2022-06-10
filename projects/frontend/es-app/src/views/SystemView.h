@@ -63,11 +63,22 @@ public:
 	void manageFavorite();
 
   /*!
+   * @brief update view with only visible games systems
+   */
+	void manageSystemsList();
+
+  /*!
   * @brief Add a system to system view
   * @param System data
   */
   void addSystem(SystemData * it);
 
+  /*!
+   * @brief remove a system from system view
+   * @param System data
+   */
+  void removeSystem(SystemData * it);
+  
   SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
   SystemData* Prev();
