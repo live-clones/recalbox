@@ -124,46 +124,17 @@ RECALBOX_VERSION=$(cat "$RECALBOX_VERSION_FILE")
 SHARE_VERSION_FILE="/recalbox/share/system/.share.version"
 SHARE_VERSION=$(cat "$SHARE_VERSION_FILE" 2>/dev/null)
 
-function startMpvQueue {
-    touch /tmp/.mpvqueue
-    (
-        while [ -f /tmp/.mpvqueue ];do
-            if ! pgrep mpv; then
-                if [ -f /tmp/.mpvqueuevideos ] && [ $(wc -l < /tmp/.mpvqueuevideos) -gt 0 ]; then
-                    touch /tmp/.mpvqueuevideos.runned
-                    video=$(head -n1 /tmp/.mpvqueuevideos)
-                    cp /tmp/.mpvqueuevideos /tmp/.mpvqueuevideos.save
-                    tail -n+2 /tmp/.mpvqueuevideos.save > /tmp/.mpvqueuevideos
-                    mpv $video
-                fi
-            fi
-            sleep 1
-        done
-    )&
-}
 
-function stopMpvQueue {
-    if [ -f /tmp/.mpvqueuevideos.runned ];then
-        killall mpv
-    fi
-    rm -f /tmp/.mpvqueue /tmp/.mpvqueuevideos.save /tmp/.mpvqueuevideos /tmp/.mpvqueuevideos.runned
-}
-
-function addMpvNextVideo {
-    newVideo="$@"
-    echo "${newVideo}" >> /tmp/.mpvqueuevideos
-}
 
 if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.0] - The system has been updated, copying share_init"
     # Starting the video
     source /recalbox/scripts/recalbox-utils.sh
+    source /recalbox/scripts/recalbox-boot-media.sh
+
     IMAGE_PATH=$(getInstallUpgradeImagePath)
-    # If it's first install, the slides are running
-    if [ ! -f /tmp/.first-install ];then
-        startMpvQueue
-        addMpvNextVideo $(getMpvOptions) --loop "${IMAGE_PATH}/creating-share.mp4" & echo $! > /tmp/.mpv.pid
-    fi
+    mediaPlayVideo "${IMAGE_PATH}/creating-share.mp4"
+    
     # Copy all bios from share_upgrade to share
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.1] - BIOS"
     rsync --size-only -r "${UPGRADE}/bios/." "${OUT}/bios"

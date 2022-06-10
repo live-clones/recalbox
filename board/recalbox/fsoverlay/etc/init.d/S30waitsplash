@@ -2,6 +2,7 @@
 
 # in some situations (emmc, ssd...) emulationstation can load really fast,
 # so wait for splash to finish before launching ES
+source /recalbox/scripts/recalbox-boot-media.sh
 
 wait_splash_end() {
   systemsetting="recalbox_settings"
@@ -11,7 +12,7 @@ wait_splash_end() {
   ## -1 : All the video will be played before emulationstation start (default)
   ## >0 : Time the video will be played before emulationstation start (in seconds)
   if [ "${videoLength}" -eq 0 ]; then
-    pkill mpv
+    /etc/init.d/S05mediaservice stop
   fi
   # TODO: implement a failsafe timeout
   while pgrep mpv >/dev/null 2>&1 ; do
