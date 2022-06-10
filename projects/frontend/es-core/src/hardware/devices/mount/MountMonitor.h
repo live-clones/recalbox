@@ -76,9 +76,10 @@ class MountMonitor : private Thread, private ISynchronousEvent
 
     /*!
      * @brief Load moint points in /media and return them as a path list
+     * @param initializeSpecialMountPoints true to initialize share and roms mount points
      * @return Path list
      */
-    DeviceMountList LoadMountPoints();
+    DeviceMountList LoadMountPoints(bool initializeSpecialMountPoints);
 
     /*!
      * @brief Compare old list and new list an generate add/remove events accordingly
