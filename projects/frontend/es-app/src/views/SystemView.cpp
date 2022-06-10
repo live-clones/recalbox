@@ -36,8 +36,6 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
 
 void SystemView::addSystem(SystemData * it)
 {
-	if (!(it)->HasVisibleGame()) return;
-
 	const ThemeData& theme = (it)->Theme();
 	
 	if(mViewNeedsReload)
@@ -536,7 +534,6 @@ void  SystemView::getViewElements(const ThemeData& theme)
 {
   { LOG(LogDebug) << "[SystemView] Get View Elements"; }
 		getDefaultElements();
-		
 		const ThemeElement* carouselElem = theme.getElement("system", "systemcarousel", "carousel");
 		if (carouselElem != nullptr)
 			getCarouselFromTheme(carouselElem);
@@ -808,6 +805,14 @@ void SystemView::removeFavoriteSystem(){
 		}
 }
 
+void SystemView::removeSystem(SystemData * system){
+  for (auto it = mEntries.begin(); it != mEntries.end(); it++)
+    if(it->object->Name() == system->Name()){
+      mEntries.erase(it);
+      break;
+    }
+}
+
 void SystemView::manageFavorite()
 {
   // Favorite system displayed?
@@ -824,4 +829,28 @@ void SystemView::manageFavorite()
   // Add or remove system
   if (hasFavorite && favorite->FavoritesCount() == 0) removeFavoriteSystem();
   else if (!hasFavorite && favorite->FavoritesCount() > 0) addSystem(favorite);
+}
+
+void SystemView::manageSystemsList()
+{
+  for (auto& system : mSystemManager.GetAllSystemList())
+  {
+    if(system->Descriptor().IsPort())
+      continue;
+
+    bool hasGame = system->HasVisibleGame();
+    bool systemIsAlreadyVisible = false;
+
+    for (auto& mEntrie : mEntries)
+      if (mEntrie.object->Name() == system->Name())
+      {
+        systemIsAlreadyVisible = true;
+        break;
+      }
+
+    if(!systemIsAlreadyVisible && hasGame)
+      addSystem(system);
+    else if (systemIsAlreadyVisible && !hasGame)
+      removeSystem(system);
+  }
 }
