@@ -21,6 +21,13 @@ class ResolutionAdapter
       bool Interlaced;  //!< Interlaced mode
       bool IsDefault;   //!< True if this is the default resolution (Desktop)
 
+      std::string ToRawString() const
+      {
+        return std::to_string(Width)
+               .append(1, 'x')
+               .append(std::to_string(Height));
+      }
+
       std::string ToString() const
       {
         return std::string("Display ")
