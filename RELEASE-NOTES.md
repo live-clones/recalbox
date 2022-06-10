@@ -115,6 +115,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add buttons x and y for keyboard
 - Fix black screen/no signal on Pi3 & Pi4
 - Fix Neo-Geo CD file extensions
+- Fix extension .bin for Gameboy and Gameboy Color
 
 ## Version 8.0.2-Electron
 
