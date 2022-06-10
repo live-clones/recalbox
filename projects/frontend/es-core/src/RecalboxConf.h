@@ -414,7 +414,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sScraperAuto              = "scraper.auto";
     static constexpr const char* sScraperGetNameFrom         = "scraper.getnamefrom";
 
-    static constexpr const char* sRecalboxPrivateKey         = "privatekey";
+    static constexpr const char* sRecalboxPrivateKey         = "patron.privatekey";
 
     static constexpr const char* sScreenScraperLogin         = "scraper.screenscraper.user";
     static constexpr const char* sScreenScraperPassword      = "scraper.screenscraper.password";
