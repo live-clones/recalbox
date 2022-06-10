@@ -116,7 +116,7 @@ class SystemHolder:
             "low" : 4,
         }
 
-        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str):
+        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
@@ -128,6 +128,7 @@ class SystemHolder:
             if compatibility not in self.__CompatibilityValues.keys(): raise TypeError("Invalid compatibility! {}".format(compatibility))
             self.__compatibility: str = compatibility
             self.__speed: str = speed
+            self.__crtavailable: bool = crtavailable
             pass
 
         @property
@@ -152,7 +153,7 @@ class SystemHolder:
 
         @property
         def netplay(self) -> bool:
-            return self.__netplay\
+            return self.__netplay
 
         @property
         def softpatching(self) -> bool:
@@ -166,6 +167,10 @@ class SystemHolder:
         def speed(self) -> str:
             return self.__speed
 
+        @property
+        def crtavailable(self) -> bool:
+            return self.__crtavailable
+
         def serialize(self):
             return {
                 "name": self.__core,
@@ -175,6 +180,7 @@ class SystemHolder:
                 "softpatching": '1' if self.__softpatching else '0',
                 "compatibility": self.__compatibility,
                 "speed": self.__speed,
+                "crt.available": '1' if self.__crtavailable else '0',
             }
 
     __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY% %CRT%"
@@ -311,6 +317,7 @@ class SystemHolder:
                     softpatching=(self.__get(desc, coreSection, "softpatching", "", True) == '1'),
                     compatibility=self.__get(desc, coreSection, "compatibility", "", True),
                     speed=self.__get(desc, coreSection, "speed", "", True),
+                    crtavailable=(self.__get(desc, coreSection, "crt.available", "", False) == '1'),
                 )
                 # Package defined?
                 if self.__config.isDefined(core.package):
