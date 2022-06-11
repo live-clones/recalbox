@@ -53,6 +53,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
 {
   emulator.clear();
   core.clear();
+  const bool isCRT = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
   {
@@ -63,7 +64,7 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
       // Search for lowest priority core/emulator
       for(int i = list.Count(); --i >= 0; )
         for(int j = list.EmulatorAt(i).CoreCount(); --j >= 0; )
-          if (list.EmulatorAt(i).CorePriorityAt(j) < priority)
+          if (list.EmulatorAt(i).CorePriorityAt(j) < priority && ((isCRT && list.EmulatorAt(i).CoreCrtAvailable(i)) || !isCRT))
           {
             priority = list.EmulatorAt(i).CorePriorityAt(j);
             core = list.EmulatorAt(i).CoreNameAt(j);
@@ -253,28 +254,43 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
   if (tryList != nullptr)
   {
     const EmulatorList& list = **tryList;
+    EmulatorList effectiveList;
+
+    // When on CRT select only emulators that have one core available
+    const bool isCRT = Board::Instance().CrtBoard().IsCrtAdapterAttached();
+    for(int emulatorIndex = list.Count(); --emulatorIndex >= 0; ){
+      bool hasCrtCore = false;
+      for(int coreIndex = list.EmulatorAt(emulatorIndex).CoreCount(); --coreIndex >= 0; )
+      {
+        if(list.EmulatorAt(emulatorIndex).CoreCrtAvailable(coreIndex))
+          hasCrtCore = true;
+      }
+      if(!isCRT || (isCRT && hasCrtCore))
+        effectiveList.AddEmulator(list.EmulatorAt(emulatorIndex));
+    }
+
 
     // Get priorities
     unsigned char emulatorPriorities[EmulatorList::sMaximumEmulators];
     for(int i = EmulatorList::sMaximumEmulators; --i >= 0; ) emulatorPriorities[i] = 255;
-    for(int i = list.Count(); --i >= 0; )
-      for(int j = list.EmulatorAt(i).CoreCount(); --j >= 0; )
-        if (list.EmulatorAt(i).CorePriorityAt(j) < emulatorPriorities[i])
-          emulatorPriorities[i] = list.EmulatorAt(i).CorePriorityAt(j);
+    for(int i = effectiveList.Count(); --i >= 0; )
+      for(int j = effectiveList.EmulatorAt(i).CoreCount(); --j >= 0; )
+        if (effectiveList.EmulatorAt(i).CorePriorityAt(j) < emulatorPriorities[i])
+          emulatorPriorities[i] = effectiveList.EmulatorAt(i).CorePriorityAt(j);
 
     // Build a sorted output list
     Strings::Vector result;
-    for(int round = list.Count(); --round >= 0; )
+    for(int round = effectiveList.Count(); --round >= 0; )
     {
       int lowestPriority = emulatorPriorities[0];
       int index = 0;
-      for(int i = 0; i < list.Count(); ++i)
+      for(int i = 0; i < effectiveList.Count(); ++i)
         if (emulatorPriorities[i] < lowestPriority)
         {
           lowestPriority = emulatorPriorities[i];
           index = i;
         }
-      result.push_back(list.EmulatorAt(index).Name());
+      result.push_back(effectiveList.EmulatorAt(index).Name());
       emulatorPriorities[index] = 255;
     }
 
@@ -287,6 +303,7 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
 Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::string& emulator) const
 {
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
+  const bool isCRT = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   if (tryList != nullptr)
   {
     const EmulatorList& list = **tryList;
@@ -310,8 +327,10 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
             lowestPriority = corePriorities[i];
             index = i;
           }
-        result.push_back(descriptor.CoreNameAt(index));
         corePriorities[index] = 255;
+        if(isCRT && !descriptor.CoreCrtAvailable(index))
+          continue;
+        result.push_back(descriptor.CoreNameAt(index));
       }
 
       return result;
