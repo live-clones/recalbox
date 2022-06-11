@@ -19,11 +19,18 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
                                  , private ISwitchComponent
 {
   public:
-    /*!
+    struct AdvancedMenuOptions {
+      bool emulator, ratio, smooth, rewind, autosave, shaders, shaderSet;
+    };
+
+    constexpr const static AdvancedMenuOptions allOptions =
+        {.emulator = true, .ratio=true, .smooth=true, .rewind=true, .autosave=true, .shaders=true, .shaderSet=true};
+
+  /*!
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager);
+    explicit GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager, AdvancedMenuOptions options = allOptions);
 
   private:
     enum class Components

@@ -55,8 +55,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
 
   // Custom config for systems
-  if(!isCrt)
-    AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
+  AddSubMenu(_("ADVANCED EMULATOR CONFIGURATION"), (int)Components::AdvancedSubMenu, _(MENUMESSAGE_ADVANCED_EMULATOR_ADVANCED_HELP_MSG));
 
   //Kodi
   if (RecalboxSystem::kodiExists())

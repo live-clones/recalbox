@@ -85,6 +85,8 @@ class EmulatorDescriptor
     Speed CoreSpeed(int index) const { return CoreAt(index).mSpeed; }
     //! Get core Compatibility
     Compatibility CoreCompatibility(int index) const { return CoreAt(index).mCompatibility; }
+    //! Get core available on CRT
+    bool CoreCrtAvailable(int index) const { return CoreAt(index).mCRTAvailable; }
 
     /*!
      * @brief Add core
@@ -101,7 +103,8 @@ class EmulatorDescriptor
                  bool netplay,
                  const std::string& compatibility,
                  const std::string& speed,
-                 bool softpatching)
+                 bool softpatching,
+                 bool crtAvailable)
     {
       if (mCoreCount < sMaximumCores)
       {
@@ -113,6 +116,7 @@ class EmulatorDescriptor
         core.mSpeed = ConvertSpeed(speed);
         core.mNetplay = netplay;
         core.mSoftpatching = softpatching;
+        core.mCRTAvailable = crtAvailable;
       }
       else { LOG(LogError) << "[Emulator] Core " << name << " cannot be added to emulator " << mEmulator; }
     }
@@ -128,6 +132,7 @@ class EmulatorDescriptor
       Speed mSpeed;                 //!< Average speed
       bool mNetplay;                //!< Netplay compatible?
       bool mSoftpatching;           //!< Softpathing compatible?
+      bool mCRTAvailable;           //!< Available on CRT?
 
       //! Constructor
       Core()
@@ -136,6 +141,7 @@ class EmulatorDescriptor
         , mSpeed(Speed::Unknown)
         , mNetplay(false)
         , mSoftpatching(false)
+        , mCRTAvailable(false)
       {
       }
 
@@ -149,6 +155,7 @@ class EmulatorDescriptor
         mSpeed = Speed::Unknown;
         mNetplay = false;
         mSoftpatching = false;
+        mCRTAvailable = false;
       }
     };
 

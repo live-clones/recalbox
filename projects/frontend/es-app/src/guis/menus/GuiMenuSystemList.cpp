@@ -25,5 +25,8 @@ GuiMenuSystemList::GuiMenuSystemList(WindowManager& window, SystemManager& syste
 void GuiMenuSystemList::SubMenuSelected(int id)
 {
   SystemData& system = *mSystemManager.GetAllSystemList()[id];
-  mWindow.pushGui(new GuiMenuSystemConfiguration(mWindow, system, mSystemManager));
+  GuiMenuSystemConfiguration::AdvancedMenuOptions options = GuiMenuSystemConfiguration::allOptions;
+  if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
+    options = {.emulator = true, .ratio=false, .smooth=false, .rewind=true, .autosave=true, .shaders=false, .shaderSet=false};
+  mWindow.pushGui(new GuiMenuSystemConfiguration(mWindow, system, mSystemManager, options));
 }
