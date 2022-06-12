@@ -123,9 +123,14 @@ RecalboxEndPoints::RecalboxEndPoints()
     case BoardType::PCx64:                mBoard = "x64"; break;
   }
 
-  std::string servers = mDns.GetARecord(sRootDomainName);
+  std::string servers = mDns.GetTxtRecord(sRootDomainName);
   if (!servers.empty())
+  {
     mServers = Strings::Split(servers, '|', false);
+    srand(time(NULL));
+    mServerIndex = rand() % mServers.size();
+    { LOG(LogDebug) << "[RecalboxEndpoints] Selecting server " << mServerIndex+1 << "/" << mServers.size() << " : " << mServers[mServerIndex]; }
+  }
 }
 
 std::string RecalboxEndPoints::GetUrlBase()
