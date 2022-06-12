@@ -124,7 +124,7 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
-  if (target == "patron" && PatronInfo::Instance().IsPatron())
+  if (target == "patron" && !PatronInfo::Instance().IsPatron())
     target = "stable";
   Strings::ReplaceAllIn(target, ' ', "", 0);
   std::string domain(target + sUpgradeDNS);
