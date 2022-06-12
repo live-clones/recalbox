@@ -14,6 +14,7 @@
 #include "Upgrade.h"
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
+#include "recalbox/RecalboxSystem.h"
 #include <patreon/PatronInfo.h>
 #include <guis/GuiInfoPopup.h>
 
@@ -40,6 +41,9 @@ void Upgrade::Run()
 {
   try
   {
+    // Wait for patron response
+    PatronInfo::Instance().WaitForAuthentication(*this);
+
     // First check at 15s
     int waitForSeconds = 15;
     while (IsRunning())
@@ -73,7 +77,7 @@ void Upgrade::Run()
           if (RecalboxConf::Instance().AsBool("updates.enabled"))
           {
             while (mWindow.HasGui() || mWindow.isSleeping())
-              sleep(5);
+              Thread::Sleep(5000);
 
             mMessageBoxMessage = _("NEW VERSION:");
             mMessageBoxMessage += " ";
@@ -120,7 +124,7 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
-  if (target == "patron" && !(PatronInfo::Instance().IsPatron() && PatronInfo::Instance().BossLevel() >= 2))
+  if (target == "patron" && PatronInfo::Instance().IsPatron())
     target = "stable";
   Strings::ReplaceAllIn(target, ' ', "", 0);
   std::string domain(target + sUpgradeDNS);

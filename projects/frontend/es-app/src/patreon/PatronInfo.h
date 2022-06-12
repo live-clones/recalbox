@@ -18,7 +18,7 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
                  , public ISynchronousEvent
 {
   public:
-    PatronInfo(IPatreonNotification* callback);
+    explicit PatronInfo(IPatreonNotification* callback);
     /*!
      * @brief Get the name of the patron
      * @returns the name of the patron, or empty string if not a patron
@@ -45,11 +45,18 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      */
     PatronAuthenticationResult Status() const { return mResult; }
 
+    /*!
+     * @brief Wait indefinitely for authentication to finish
+     * Can take up to 4mn. Call from a thread only!
+     * @param caller Calling thread
+     */
+    void WaitForAuthentication(Thread& caller);
+
   protected:
     /*!
      * @brief Non blocking initialization
      */
-    void Run() override { Initialize(); }
+    void Run() override { Initialize(); mDone = true; }
 
   private:
     //! Timeout in milliseconds
@@ -65,6 +72,7 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
     IPatreonNotification* mCallback;    //!< Callback interface
     PatronAuthenticationResult mResult; //!< Patron state & authentication result
     int mLevel;                         //!< Boss Level
+    volatile bool mDone;                //!< Status of initial authentication request
 
     /*!
      * @brief Request patreon.com and update states accordingly
