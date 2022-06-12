@@ -78,7 +78,7 @@ std::string RecalboxEndPoints::BuildQueryString(const FileData* game, long long 
           .append(LEGACY_STRING("&systemname="))
           .append(Strings::URLEncode(game->System().Name()))
           .append(LEGACY_STRING("&gamename="))
-          .append(Strings::URLEncode(game->Metadata().Name()))
+          .append(Strings::URLEncode(game->FilePath().Filename()))
           .append(LEGACY_STRING("&size="))
           .append(Strings::ToString(size));
 
