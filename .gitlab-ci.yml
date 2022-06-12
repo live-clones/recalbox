@@ -163,7 +163,7 @@ tests buildroot patches:
     # Build
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
-    - mkdir -p ${OUTPUTDIR} && echo "${CI_JOB_ID}" > "${OUTPUTDIR}/.building"
+    - mkdir -p ${OUTPUTDIR}
     - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
     # Dist
@@ -174,9 +174,7 @@ tests buildroot patches:
     - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
-    - rm -rf "${DIST_DIR}" "${OUTPUTDIR}/images/recalbox"
-  after_script:
-    - if [ "${CI_JOB_ID}" = "$(cat /recalbox-builds/outputs/output-${ARCH}/.building)" ];then rm /recalbox-builds/outputs/output-${ARCH}/.building;fi
+    - rm -rf "${DIST_DIR}" "${OUTPUTDIR}"
   artifacts:
     name: dist-${ARCH}-${CI_PIPELINE_ID}
     when: always
