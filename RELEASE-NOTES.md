@@ -4,12 +4,29 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.1-Electron
+## Version 8.1-patron-2
+
+- Fix auto scrap language selection
+- Add full scrap Recalbox server for Boss Level 2
+- Add GAME FILTER menu to filter games in lists based on several criteria
+- Add Mixtapes streaming
+- Add softpatching manager in game settings
+- Add new Atari 5200 core (libretro core: a5200)
+- Bump libretro mame 0.243
+- Bump Realtek 8821-CU driver
+- Bump libretro SameBoy
+- Bump Parallel N64 to add Raspberry Pi 4 64 bits support
+- Fix extension .bin for Nintendo 64DD
+- Fix Neo-Geo CD file extensions
+- Fix extension .bin for Gameboy and Gameboy Color
+- Fix extension .bin for Gameboy Advance
+- Fix netplay for mame
+- Fix PiBoy DMG losts its joystick controller and volume control after first boot
+
+## Version 8.1-patron-1
 
 ### News
 
-- Add seamless scraping for Patrons
-- Add GAME FILTER menu to filter games in lists based on several criteria
 - Recalbox RGB Dual: fix arcade games when 50Hz mode is forced
 - Recalbox RGB Dual: add mame2015 support
 - Recalbox RGB Dual: fix 31kHz vertical arcade games ratio
@@ -30,8 +47,6 @@ as release notes for end user on a Recalbox upgrade.
 - Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
 - Recalbox RGB Dual: fix region selection for megadrive on 31kHz
 
-- Add remote playlists (Patrons)
-- Add seamless scraping (Patrons)
 - Add slangs shaders support on retroarch
 - Fix swanstation memory card compatibility option for saving on network
 - Add libretro PSP emulator (libretro ppsspp)
@@ -62,13 +77,10 @@ as release notes for end user on a Recalbox upgrade.
 - Add go to game from search results and add search games from gamelist menu
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
 - Add Amiga 500 Mini controller configuration
-- Add softpatching manager in game settings
-- Add new Atari 5200 core (libretro core: a5200)
 - Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 
 ### Improvements
 
-- Improve region processing in the internal scraper
 - Alert the user if too much systems or games are loaded regarding available memory
 - Bump EmuSCV (Super Cassette Vision)
   - Fix zipped rom handling
@@ -90,9 +102,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
 - Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
 - Bump Beetle Saturn (add netplay support)
+- Bump libretro SameBoy
 - Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
-- Bump libretro mame 0.243
+- Bump libretro mame 0.242
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
 - Bump libretro fuse to v1.6.0 (ZX Spectrum core)
 - Add support for many bluetooth controllers on Odroid GO Advanced and Go Super (notably Realtek one)
@@ -102,18 +115,15 @@ as release notes for end user on a Recalbox upgrade.
   - Use F12 as ESC replacement to quit
 - Bump Hypseus Singe (Daphne) - Add support for Singe 2 games
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
-- Bump Realtek 8821-CU driver
-- Bump libretro SameBoy
-- Bump Parallel N64 to add Raspberry Pi 4 64 bits support
 -Bump libretro Pscx-Rearmed
-  - Use F12 as ESC replacement to quit
+- Bump nvidia legacy drivers to 390.147
+- Bump nvidia production drivers to 510.68.02
 - Bump libretro Dosbox-Pure 0.9.1
   - Use F12 as ESC replacement to quit 
 - Bump Realtek 8821-CU driver
 
 ### Fixes
 
-- Fix lots of issues in the internal scraper
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
 - Fix es_input for 8bitdo SN30Pro+ and Xbox One S Controller Model 1708
@@ -127,16 +137,11 @@ as release notes for end user on a Recalbox upgrade.
 - Fix wifi not connecting when inserting the wifi controller afterwards
 - Fix extension bin for the watara supervision system (libretro potator)
 - Fix wifi password that could not contain & character
-- Fix extension .bin for Nintendo 64DD
+- Fix theme Philips CD-i
+- Add controller.svg for atomiswave, naomi and naomigd
+- Fix missing arcade systems for virtual systems
 - Fix reversal of buttons A and B on SF 30 PRO controller
 - Add buttons x and y for keyboard
-- Fix black screen/no signal on Pi3 & Pi4
-- Fix Neo-Geo CD file extensions
-- Fix extension .bin for Gameboy and Gameboy Color
-- Fix extension .bin for Gameboy Advance
-- Fix netplay for mame
-- Fix PiBoy DMG losts its joystick controller and volume control after first boot
-
 
 ## Version 8.0.2-Electron
 
