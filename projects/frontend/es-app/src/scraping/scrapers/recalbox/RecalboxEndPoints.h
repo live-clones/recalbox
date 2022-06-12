@@ -123,7 +123,7 @@ class RecalboxEndPoints : public IEndPointProvider
   private:
     //! Root domain name
     //static constexpr const char* sRootDomainName = "https://scraper-rocketeer.recalbox.com";
-    static constexpr const char* sRootDomainName = "https://scraper-ganondorf.recalbox.com";
+    static constexpr const char* sRootDomainName = "scrapers.recalbox.com";
 
     //! UUID
     std::string mUUID;
