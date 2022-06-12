@@ -67,7 +67,7 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
         case 429:
         case 499:
         case 504:
-        case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; Thread::Sleep(5000); continue;
+        case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; mEndPointProvider.NotifyError(); Thread::Sleep(5000); continue;
         case 426:
         case 423:
         case 403:
@@ -85,9 +85,16 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
         }
       }
       // Error?
-      if (game.mResult != ScrapeResult::Ok) { LOG(LogError) << "[ScreenScraperApis] URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
+      if (game.mResult != ScrapeResult::Ok)
+      {
+        LOG(LogError) << "[ScreenScraperApis] URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
+        mEndPointProvider.NotifyError();
+      }
     }
-    else { LOG(LogError) << "[ScreenScraperApis] Error executing HTTP request #1 onto " << url; }
+    else {
+      LOG(LogError) << "[ScreenScraperApis] Error executing HTTP request #1 onto " << url;
+      mEndPointProvider.NotifyError();
+    }
 
     // Deserialize
     if (!output.empty()) DeserializeGameInformationOuter(output, game, file.FilePath(), md5, size);
@@ -672,6 +679,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const std::string
   ScrapeResult result = ScrapeResult::FatalError;
   size = 0;
   std::string url = Strings::StartsWith(mediaurl,LEGACY_STRING("http")) ? mediaurl : mEndPointProvider.GetUrlBase() + mediaurl;
+  { LOG(LogDebug) << "[ScreenScraperApis] Requesting : " << url; }
   InitializeClient();
   mEndPointProvider.AddQueryParametersToMediaRequest(&game, size, url);
   for(int i = 3; --i >= 0; )
