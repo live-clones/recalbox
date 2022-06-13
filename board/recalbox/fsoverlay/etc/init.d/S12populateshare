@@ -221,10 +221,10 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     IFS=$'\n'
     set -f
     for file in $(xml sel -t -v "//descriptor[@readonly='0']/@path" /recalbox/share_init/system/.emulationstation/systemlist.xml); do
-    FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
-    DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
-    SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
-    rsync --size-only -r "$SRCDIR" "$(dirname "$DSTDIR")"
+        FILE_PATH_IN_SHARE="${file#'%ROOT%/'}"
+        DSTDIR="/recalbox/share/roms/${FILE_PATH_IN_SHARE}"
+        SRCDIR="/recalbox/share_init/roms/${FILE_PATH_IN_SHARE}"
+        rsync --size-only -r "$SRCDIR" "$(dirname "$DSTDIR")"
     done
     set +f
     IFS=$IFS_BAK
@@ -232,7 +232,6 @@ if [ "$RECALBOX_VERSION" != "$SHARE_VERSION" ] ; then
     # Update version
     recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[7.7] - Copy version to share"
     cp "$RECALBOX_VERSION_FILE" "$SHARE_VERSION_FILE"
-    stopMpvQueue
 fi
 
 # directories to force directories exists
@@ -254,7 +253,7 @@ do
         TDIR="$OUT""/""$DIR""/""$BNAME"
         if test ! -e "$TDIR" # ASSUME THAT PARENTS ARE LISTED BEFORE CHILDREN
         then
-            rsync --size-only -r "$SUBDIR" "$TDIR"
+            cp -r "$SUBDIR" "$TDIR"
         fi
     done
 done
@@ -306,3 +305,5 @@ recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[14] - CORE LIST"
 [ ! -e /recalbox/share/system/configs/retroarch.corenames ] && upgradeRetroarchCoreNames -f /recalbox/share/system/configs/retroarch.corenames
 
 # END
+
+stopMpvQueue
