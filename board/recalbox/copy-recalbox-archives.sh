@@ -93,7 +93,7 @@ fi
 
 mkdir -p "${RECALBOX_BINARIES_DIR}"
 
-# XU4, RPI0, RPI1, RPI2 or RPI3
+# XU4, RPI1, RPI2 or RPI3
 RECALBOX_TARGET=$(grep -E "^BR2_PACKAGE_RECALBOX_TARGET_[A-Z_0-9]*=y$" "${BR2_CONFIG}" | sed -e s+'^BR2_PACKAGE_RECALBOX_TARGET_\([A-Z_0-9]*\)=y$'+'\1'+)
 
 RECALBOX_TARGET_LOWER=$(echo ${RECALBOX_TARGET} | tr '[:upper:]' '[:lower:]')
@@ -103,7 +103,7 @@ RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 echo -e "\n----- Generating images/recalbox files -----\n"
 
 case "${RECALBOX_TARGET}" in
-    RPI0|RPI1|RPI3|RPI4|RPI4_64|RPIZERO2LEGACY|RPIZERO2)
+    RPI1|RPI3|RPI4|RPI4_64|RPIZERO2LEGACY|RPIZERO2)
 	# /boot
 	echo "generating boot"
 	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
@@ -164,9 +164,9 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
-	# boot.tar.xz
-	tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	# boot.tar.xz (unecessary)
+	#tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+	#	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -200,9 +200,9 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
-	# boot.tar.xz
-	tar -C "${BINARIES_DIR}/odroidgo2-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	# boot.tar.xz (unecessary)
+	# tar -C "${BINARIES_DIR}/odroidgo2-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+	# 	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -236,9 +236,9 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
 
-	# boot.tar.xz
-	tar -C "${BINARIES_DIR}/pc-boot" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-		{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	# boot.tar.xz (unecessary)
+	#tar -C "${BINARIES_DIR}/pc-boot" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
+	#	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
 	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
@@ -263,7 +263,7 @@ esac
 # Compress the generated .img
 if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
     echo "Compressing ${RECALBOX_IMG} ... "
-    xz -9 -e --threads=0 "${RECALBOX_IMG}"
+    xz -9 -e --threads=0 "${RECALBOX_IMG}" || exit 1
 else
     echo "Couldn't move recalbox.img or compress it"
     exit 1
