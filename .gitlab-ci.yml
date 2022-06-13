@@ -12,6 +12,7 @@ image: docker:latest
     - tags
 
 stages:
+  - special
   - lint
   - build
   - release
@@ -248,10 +249,9 @@ build rpizero2:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "561777363"
     - mkdir release
     - ls -la builds
-    - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "${BUCKET}" "release" "latest"
@@ -315,6 +315,7 @@ release patron edition:
   environment:
     name: patron/${CI_COMMIT_REF_SLUG}
 
+
 release branch:
   <<: *release_definition
   <<: *only-default
@@ -326,3 +327,15 @@ release branch:
     BUCKET: recalbox-archive-branch
   environment:
     name: branch/${CI_COMMIT_REF_SLUG}
+
+
+force patron release:
+  <<: *release_definition
+  <<: *only-default
+  stage: special
+  when: manual
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-patron
+  environment:
+    name: patron/8.1-patron-2
