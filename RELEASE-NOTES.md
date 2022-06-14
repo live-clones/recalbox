@@ -4,7 +4,27 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.1-Electron
+
+## Version 8.1-patron-2
+
+- Add Mixtapes streaming
+- Fix auto scrap language selection
+- Add full scrap Recalbox server for Boss Level 2
+- Add GAME FILTER menu to filter games in lists based on several criteria
+- Add softpatching manager in game settings
+- Add new Atari 5200 core (libretro core: a5200)
+- Bump libretro mame 0.243
+- Bump Realtek 8821-CU driver
+- Bump libretro SameBoy
+- Bump Parallel N64 to add Raspberry Pi 4 64 bits support
+- Fix extension .bin for Nintendo 64DD
+- Fix Neo-Geo CD file extensions
+- Fix extension .bin for Gameboy and Gameboy Color
+- Fix extension .bin for Gameboy Advance
+- Fix netplay for mame
+- Fix PiBoy DMG losts its joystick controller and volume control after first boot
+
+## Version 8.1-patron-1
 
 ### News
 
