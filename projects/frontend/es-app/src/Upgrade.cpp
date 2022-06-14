@@ -15,7 +15,6 @@
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
 #include "recalbox/RecalboxSystem.h"
-#include <patreon/PatronInfo.h>
 #include <guis/GuiInfoPopup.h>
 
 std::string Upgrade::mDomainName;
@@ -41,9 +40,6 @@ void Upgrade::Run()
 {
   try
   {
-    // Wait for patron response
-    PatronInfo::Instance().WaitForAuthentication(*this);
-
     // First check at 15s
     int waitForSeconds = 15;
     while (IsRunning())
