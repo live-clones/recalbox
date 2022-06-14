@@ -17,6 +17,7 @@ PatronInfo::PatronInfo(IPatreonNotification* callback)
   , mCallback(callback)
   , mResult(PatronAuthenticationResult::Unknown)
   , mLevel(0)
+  , mDone(false)
 {
   Thread::Start("PatreonThread");
 }
@@ -109,4 +110,10 @@ void PatronInfo::ReceiveSyncCallback(const SDL_Event& event)
   // No need to check event content, there is only one use case
   if (mCallback != nullptr)
     mCallback->PatreonState(mResult, mLevel, mName);
+}
+
+void PatronInfo::WaitForAuthentication(Thread& caller)
+{
+  while(!mDone && caller.IsRunning())
+    Thread::Sleep(1000);
 }

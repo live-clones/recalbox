@@ -30,8 +30,7 @@ RemotePlaylist::~RemotePlaylist()
 void RemotePlaylist::Run()
 {
   // Wait for Patreon response
-  while(IsRunning() && PatronInfo::Instance().Status() == PatronAuthenticationResult::Unknown)
-    Thread::Sleep(1000);
+  PatronInfo::Instance().WaitForAuthentication(*this);
 
   // Check patron status
   if (PatronInfo::Instance().Status() == PatronAuthenticationResult::Patron)
