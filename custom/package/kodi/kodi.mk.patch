@@ -1,8 +1,35 @@
 diff --git a/package/kodi/kodi.mk b/package/kodi/kodi.mk
-index a5c9db1d7e..1aff7b7e68 100644
+index a5c9db1d7e..1c5c673221 100644
 --- a/package/kodi/kodi.mk
 +++ b/package/kodi/kodi.mk
-@@ -92,7 +92,7 @@ endif
+@@ -8,7 +8,7 @@
+ # and kodi-texturepacker
+ KODI_VERSION_MAJOR = 19.1
+ KODI_VERSION_NAME = Matrix
+-KODI_VERSION = $(KODI_VERSION_MAJOR)-$(KODI_VERSION_NAME)
++KODI_VERSION = e976cd0e3ad9ed0e4ff80e2f97e2fce1922717be
+ KODI_SITE = $(call github,xbmc,xbmc,$(KODI_VERSION))
+ KODI_LICENSE = GPL-2.0
+ KODI_LICENSE_FILES = LICENSE.md
+@@ -40,6 +40,7 @@ KODI_DEPENDENCIES = \
+ 	libcurl \
+ 	libdrm \
+ 	libegl \
++	libegl \
+ 	libfribidi \
+ 	libplist \
+ 	lzo \
+@@ -51,7 +52,8 @@ KODI_DEPENDENCIES = \
+ 	sqlite \
+ 	taglib \
+ 	tinyxml \
+-	zlib
++	zlib \
++	giflib
+ 
+ # taken from tools/depends/target/*/*-VERSION
+ KODI_LIBDVDCSS_VERSION = 1.4.2-Leia-Beta-5
+@@ -92,7 +94,7 @@ endif
  
  ifeq ($(BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM),y)
  KODI_CORE_PLATFORM_NAME += gbm

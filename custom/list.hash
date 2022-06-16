@@ -16,6 +16,8 @@ fa8422487675ed76ce98b1e46fa3849d  package/binutils/binutils.mk
 fc62ad5ef004d09e7bc7d770df274fc8  package/bluez5_utils/bluez5_utils.mk
 910e03748d7d47d92fafba340afcd29e  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
+59c6098207203b8366e4bb35d899a32c  package/ffmpeg/0002-avcodec-vaapi_h264-skip-decode-if-pic-has-no-slices.patch
+b8af7f3e3b17f5caa515c99e955a2400  package/ffmpeg/ffmpeg.hash
 0afce828887bd7db2da0c8e73eb2ea12  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
@@ -33,6 +35,7 @@ bf6b702fe33dcbcbbce343f3c3858086  package/kodi-inputstream-adaptive/kodi-inputst
 efc13d77634de9dd30a1ba9917ce01f0  package/kodi-peripheral-joystick/kodi-peripheral-joystick.hash
 9233aed50880c2f44bb00fab68055390  package/kodi-peripheral-joystick/kodi-peripheral-joystick.mk
 bcbaad468953721a974d363a83848090  package/kodi/Config.in
+01320a8ad43e665a58b9845fb19728c8  package/kodi/kodi.hash
 dcc13c14688db2529be8f52b6acce0ba  package/kodi/kodi.mk
 367247392ba46e25ca5208be66d9add2  package/libcec/libcec.mk
 ebf2b3624c1427077933a903679ed7a9  package/lirc-tools/lirc-tools.mk

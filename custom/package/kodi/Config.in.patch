@@ -1,5 +1,5 @@
 diff --git a/package/kodi/Config.in b/package/kodi/Config.in
-index f4cfc6380c..d3f4c70ba5 100644
+index f4cfc6380c..812e723c00 100644
 --- a/package/kodi/Config.in
 +++ b/package/kodi/Config.in
 @@ -22,7 +22,7 @@ config BR2_PACKAGE_KODI_PLATFORM_SUPPORTS_GBM
@@ -11,7 +11,15 @@ index f4cfc6380c..d3f4c70ba5 100644
  	depends on BR2_PACKAGE_HAS_UDEV # libinput
  	select BR2_PACKAGE_KODI_PLATFORM_SUPPORTS
  	select BR2_PACKAGE_LIBINPUT
-@@ -279,86 +279,86 @@ config BR2_PACKAGE_KODI_OPTICALDRIVE
+@@ -101,6 +101,7 @@ menuconfig BR2_PACKAGE_KODI
+ 	select BR2_PACKAGE_TAGLIB
+ 	select BR2_PACKAGE_TINYXML
+ 	select BR2_PACKAGE_ZLIB
++	select BR2_PACKAGE_GIFLIB
+ 	select BR2_TOOLCHAIN_GLIBC_GCONV_LIBS_COPY if BR2_TOOLCHAIN_USES_GLIBC # runtime UTF conversion support
+ 	help
+ 	  Kodi is an award-winning free and open source (GPL) software
+@@ -279,86 +280,86 @@ config BR2_PACKAGE_KODI_OPTICALDRIVE
  	  Add support for optical drives, to read e.g. DVDs...
  
  menu "Audio decoder addons"

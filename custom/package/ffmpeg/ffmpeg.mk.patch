@@ -1,14 +1,34 @@
 diff --git a/package/ffmpeg/ffmpeg.mk b/package/ffmpeg/ffmpeg.mk
-index 8ff8ea8c6c..05fabf2029 100644
+index 8ff8ea8c6c..705d2f0fd8 100644
 --- a/package/ffmpeg/ffmpeg.mk
 +++ b/package/ffmpeg/ffmpeg.mk
-@@ -60,6 +60,11 @@ FFMPEG_CONF_OPTS = \
+@@ -4,9 +4,14 @@
+ #
+ ################################################################################
+ 
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
++FFMPEG_VERSION = 4.4-N-Alpha1
++FFMPEG_SITE = $(call github,xbmc,FFmpeg,$(FFMPEG_VERSION))
++else
+ FFMPEG_VERSION = 4.4
+-FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.xz
+-FFMPEG_SITE = http://ffmpeg.org/releases
++FFMPEG_SITE = $(call github,FFmpeg,FFmpeg,$(FFMPEG_VERSION))
++endif
++
+ FFMPEG_INSTALL_STAGING = YES
+ 
+ FFMPEG_LICENSE = LGPL-2.1+, libjpeg license
+@@ -60,6 +65,14 @@ FFMPEG_CONF_OPTS = \
  
  FFMPEG_DEPENDENCIES += host-pkgconf
  
-+ifeq ($(BR2_PACKAGE_ROCKCHIP_MPP),y)
-+FFMPEG_CONF_OPTS += --enable-rkmpp --enable-libdrm --enable-version3
-+FFMPEG_DEPENDENCIES += rockchip-mpp
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4),y)
++FFMPEG_DEPENDENCIES += host-pkgconf libv4l libdrm
++FFMPEG_CONF_OPTS += --enable-v4l2_m2m --enable-libdrm --enable-libudev --enable-v4l2-request \
++	--disable-hwaccel=h264_v4l2request --disable-hwaccel=mpeg2_v4l2request \
++	--disable-hwaccel=vp8_v4l2request --disable-hwaccel=vp9_v4l2request \
++	--enable-encoder=wrapped_avframe --enable-muxer=null --enable-vout-drm --enable-outdev=vout_drm
 +endif
 +
  ifeq ($(BR2_PACKAGE_FFMPEG_GPL),y)
