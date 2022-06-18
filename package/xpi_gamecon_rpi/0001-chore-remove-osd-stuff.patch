@@ -1,4 +1,4 @@
-From f9c0dbf3348f6716a88606223cd8c065d8747e11 Mon Sep 17 00:00:00 2001
+From 91f859f3098bbf27ec587beecac9ee7713e14a42 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Tue, 6 Apr 2021 22:22:53 +0200
 Subject: [PATCH 1/4] chore: remove osd stuff
@@ -8,10 +8,10 @@ Subject: [PATCH 1/4] chore: remove osd stuff
  1 file changed, 19 deletions(-)
 
 diff --git a/xpi_gamecon.c b/xpi_gamecon.c
-index 5cbdfc7..e156c45 100644
+index 5e07cb1..a74a2d1 100644
 --- a/xpi_gamecon.c
 +++ b/xpi_gamecon.c
-@@ -409,23 +409,6 @@ static u32 __init gc_bcm_peri_base_probe(void) {
+@@ -412,23 +412,6 @@ static u32 __init gc_bcm_peri_base_probe(void) {
  	return base_address == 1 ? 0x02000000 : base_address;
  }
  
@@ -35,7 +35,7 @@ index 5cbdfc7..e156c45 100644
  static int __init gc_init(void)
  {
  	/* BCM board peripherals address base */
-@@ -436,8 +419,6 @@ static int __init gc_init(void)
+@@ -439,8 +422,6 @@ static int __init gc_init(void)
  	values.red_val = 100;
  	values.green_val = 100;
  
@@ -45,5 +45,5 @@ index 5cbdfc7..e156c45 100644
  	gc_bcm2708_peri_base = gc_bcm_peri_base_probe();
  	if (!gc_bcm2708_peri_base) {
 -- 
-2.34.1
+2.36.1
 
