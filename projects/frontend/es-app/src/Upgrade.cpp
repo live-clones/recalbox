@@ -155,7 +155,27 @@ std::string Upgrade::GetRemoteVersion()
   std::string url = ReplaceMachineParameters(sVersionPatternUrl, Strings::Empty);
 
   std::string version;
-  if (!Http().Execute(url, version)) version.clear();
+  Http request;
+  for(int i = 3; --i >= 0; )
+    if (request.Execute(url, version))
+    {
+      int returnCode = request.GetLastHttpResponseCode();
+      if (returnCode == 200) break;  // Exit for
+      else if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
+      else
+      {
+        { LOG(LogError) << "[Update] Error getting remote version: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
+        version.clear();
+        break;
+      }
+    }
+    else
+    {
+      { LOG(LogError) << "[Update] Error getting remote version: " << url; }
+      version.clear();
+    }
+
+  if (Strings::StartsWith(version, "<", 1)) version.clear();
   version = Strings::Trim(version, " \t\r\n");
   { LOG(LogDebug) << "[Update] Remote version: " << version << " (" << url << ')'; }
 
@@ -221,7 +241,25 @@ std::string Upgrade::GetRemoteReleaseVersion()
   std::string url = ReplaceMachineParameters(sReleasenotePatternUrl, Strings::Empty);
 
   std::string releaseNote;
-  if (!Http().Execute(url, releaseNote)) releaseNote.clear();
+  Http request;
+  for(int i = 3; --i >= 0; )
+    if (request.Execute(url, releaseNote))
+    {
+      int returnCode = request.GetLastHttpResponseCode();
+      if (returnCode == 200) break;  // Exit for
+      else if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
+      else
+      {
+        { LOG(LogError) << "[Update] Error getting remote release note: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
+        releaseNote.clear();
+        break;
+      }
+    }
+    else
+    {
+      { LOG(LogError) << "[Update] Error getting remote release note: " << url; }
+      releaseNote.clear();
+    }
 
   { LOG(LogDebug) << "[Update] Remote release note: " << releaseNote << " (" << url << ')'; }
 
