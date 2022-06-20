@@ -120,8 +120,9 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
         r.Width == sr.Width &&
         r.Height == sr.Height)
     {
+      output = { sr.Width, sr.Height };
       { LOG(LogDebug) << "[ResolutionAdapter] " << value << " already match an existing resolution"; }
-      return false; // No need to adjust
+      return true; // No need to adjust
     }
 
   // Check best higher height
