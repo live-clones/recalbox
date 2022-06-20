@@ -287,7 +287,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
     }
 
-		if (event.SelectPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
+		if (event.SelectPressed())
 		{
 		  GuiMenuQuit::PushQuitGui(mWindow);
 		}
