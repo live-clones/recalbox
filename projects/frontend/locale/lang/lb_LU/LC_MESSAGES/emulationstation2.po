@@ -3167,6 +3167,26 @@ msgstr ""
 
 #
 msgid ""
+"Your system has not enough memory to handle %SYSTEMS% systems. You should "
+"not exceed %MAXSYSTEMS% consoles/computers or you may face stability "
+"issues!\n"
+"\n"
+"You can hide preinstalled games in UI SETTINGS menu to decrease active "
+"systems"
+msgstr ""
+
+#
+msgid ""
+"Your system has not enough memory to handle %GAMES% games. You should not "
+"exceed %MAXGAMES% or you may face stability issues!"
+msgstr ""
+
+#
+msgid "WARNING! SYSTEM OVERLOAD!"
+msgstr ""
+
+#
+msgid ""
 "Welcome back %NAME%!\n"
 "Patron level %LEVEL%\n"
 "You are now connected to your recalbox patron account, and all exclusives "
