@@ -12,6 +12,7 @@
 #include "utils/sdl2/ISynchronousEvent.h"
 
 class AudioManager : private ISynchronousEvent
+                   , public StaticLifeCycleControler<AudioManager>
 {
   public:
     typedef unsigned long long AudioHandle;
@@ -32,9 +33,6 @@ class AudioManager : private ISynchronousEvent
 
     //! Max tries to find a different music to play
     static constexpr int sMaxTries = 8;
-
-    //! Unique instance
-    static AudioManager* sInstance;
 
     //! Path to Sound
     std::map<AudioHandle, Sound*> mSoundMap;
@@ -110,12 +108,6 @@ class AudioManager : private ISynchronousEvent
     explicit AudioManager(WindowManager& window);
 
     /*!
-     * @brief Singleton instance
-     * @return Instance
-     */
-    static AudioManager& Instance();
-
-    /*!
      * @brief Destructor
      */
     virtual ~AudioManager();
@@ -186,6 +178,6 @@ class AudioManager : private ISynchronousEvent
      */
     void Reactivate();
 
-    void PauseMusicIfNecessary();
-    void ResumeMusicIfNecessary();
+    static void PauseMusicIfNecessary();
+    static void ResumeMusicIfNecessary();
 };

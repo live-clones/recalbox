@@ -10,35 +10,22 @@
 #include <guis/GuiInfoPopup.h>
 #include <utils/Strings.h>
 
-AudioManager* AudioManager::sInstance;
-
 AudioManager::AudioManager(WindowManager& window)
-  : mWindow(window),
-    mCurrentMusic(0),
-    mCurrentMusicSource(MusicSource::None),
-    mSender(SyncronousEventService::Instance().ObtainSyncCallback(this)),
-    mRandomGenerator(mRandomDevice()),
-    mSystemRandomizer()
+  : StaticLifeCycleControler<AudioManager>("AudioManager")
+  , mWindow(window)
+  , mCurrentMusic(0)
+  , mCurrentMusicSource(MusicSource::None)
+  , mSender(SyncronousEventService::Instance().ObtainSyncCallback(this))
+  , mRandomGenerator(mRandomDevice())
+  , mSystemRandomizer()
 {
-  if (sInstance == nullptr)
-  {
-    sInstance = this;
-    Initialize();
-  }
-  else
-  {
-    { LOG(LogError) << "[AudioManager] multiple instance detected"; }
-    exit(-1);
-  }
+  Initialize();
 }
 
 AudioManager::~AudioManager()
 {
   // Finalize SDL
   Finalize();
-
-  // Null instance
-  sInstance = nullptr;
 }
 
 void AudioManager::ClearCaches()
@@ -52,16 +39,6 @@ void AudioManager::ClearCaches()
   for(auto& music : mMusicMap)
     delete music.second;
   mMusicMap.clear();
-}
-
-AudioManager& AudioManager::Instance()
-{
-  if (sInstance == nullptr)
-  {
-    { LOG(LogError) << "[AudioManager] AudioManager not available!"; }
-    exit(-1);
-  }
-  return *sInstance;
 }
 
 void AudioManager::Initialize()
@@ -203,9 +180,18 @@ void AudioManager::PlayRandomMusic()
   const char* log = "No music found.";
   MusicSource source = MusicSource::None;
 
+  // Then check user folder
+  Path musicPath = FetchRandomMusic(Path(sMusicFolder), previousPath);
+  if (!musicPath.IsEmpty())
+  {
+    musicToPlay = LoadMusic(musicPath);
+    log = "User music found.";
+    source = MusicSource::User;
+  }
+
   // Remote music?
   RemotePlaylist::TrackInfo* remoteTrack = RemotePlaylist::Instance().GetNextTrack();
-  if (remoteTrack != nullptr)
+  if (source == MusicSource::None && remoteTrack != nullptr)
   {
     musicToPlay = LoadMusic(remoteTrack->LocalPath());
     log = "Remote track.";
@@ -220,23 +206,10 @@ void AudioManager::PlayRandomMusic()
     source = MusicSource::ThemeSystem;
   }
 
-  // Then check user folder
-  Path userMusics(sMusicFolder);
-  if (source == MusicSource::None && !userMusics.IsEmpty())
-  {
-    Path musicPath = FetchRandomMusic(userMusics, previousPath);
-    if (!musicPath.IsEmpty())
-    {
-      musicToPlay = LoadMusic(musicPath);
-      log = "User music found.";
-      source = MusicSource::User;
-    }
-  }
-
   // Finally check theme folder
   if (source == MusicSource::None && !mThemeMusicFolder.IsEmpty())
   {
-    Path musicPath = FetchRandomMusic(mThemeMusicFolder, previousPath);
+    musicPath = FetchRandomMusic(mThemeMusicFolder, previousPath);
     if (!musicPath.IsEmpty())
     {
       musicToPlay = LoadMusic(musicPath);
