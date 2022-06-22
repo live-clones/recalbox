@@ -11,6 +11,7 @@
 #include "hardware/Board.h"
 #include "utils/Strings.h"
 #include "systems/SystemData.h"
+#include <games/adapter/GameAdapter.h>
 
 std::string RecalboxEndPoints::GetUserInfoUrl(const std::string& login, const std::string& password)
 {
@@ -53,7 +54,7 @@ RecalboxEndPoints::GetGameInfoUrlByName(const std::string& login, const std::str
   url.append("/api/game/bysystem/")
      .append(Strings::ToString(game.System().Descriptor().ScreenScaperID()))
      .append("/andname/")
-     .append(Strings::URLEncode(game.FilePath().Filename()))
+     .append(Strings::URLEncode(GameAdapter(game).ScrapingName()))
      .append("/andsize/")
      .append(Strings::ToString(size))
      .append(BuildQueryString(&game, size));
@@ -78,7 +79,7 @@ std::string RecalboxEndPoints::BuildQueryString(const FileData* game, long long 
           .append(LEGACY_STRING("&systemname="))
           .append(Strings::URLEncode(game->System().Name()))
           .append(LEGACY_STRING("&gamename="))
-          .append(Strings::URLEncode(game->FilePath().Filename()))
+          .append(Strings::URLEncode(GameAdapter(*game).ScrapingName()))
           .append(LEGACY_STRING("&size="))
           .append(Strings::ToString(size));
 

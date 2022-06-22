@@ -1,8 +1,8 @@
 #include "FileData.h"
-#include "systems/SystemData.h"
+#include <systems/SystemData.h>
+#include <games/adapter/GameAdapter.h>
 
 #include <utils/Strings.h>
-#include <GameNameMapManager.h>
 #include <utils/Zip.h>
 #include <utils/hash/Crc32File.h>
 
@@ -11,7 +11,7 @@ FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
   , mParent(nullptr)
   , mType(type)
   , mPath(path)
-  , mMetadata(DisplayName(), type)
+  , mMetadata(type != ItemType::Root ? GameAdapter::RawDisplayName(ancestor.System(), path) : path.FilenameWithoutExtension(), type)
 {
 }
 
@@ -21,12 +21,8 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 
 std::string FileData::DisplayName() const
 {
-	std::string stem = mPath.FilenameWithoutExtension();
-	if (mType == ItemType::Game)
-    if (GameNameMapManager::HasRenaming(System()))
-      stem = GameNameMapManager::Rename(System(), stem);
-
-  return stem;
+  GameAdapter adapter(*this);
+  return adapter.DisplayName();
 }
 
 std::string FileData::ScrappableName() const
