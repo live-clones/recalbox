@@ -6,6 +6,7 @@
 //
 
 #include "ScreenScraperSingleEngine.h"
+#include "games/adapter/GameAdapter.h"
 #include <utils/Zip.h>
 #include <utils/hash/Md5.h>
 #include <utils/Files.h>
@@ -57,8 +58,8 @@ ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& 
       if (mAbortRequest) break;
 
       // Get file size
-      long long size = game.FilePath().Size();
-      if (size <= 0) break;
+      long long size = GameAdapter(game).RomSize();
+      if (size < 0) break;
       if (mAbortRequest) break;
 
       // Zip request
@@ -139,7 +140,8 @@ std::string ScreenScraperSingleEngine::ComputeMD5(const Path& path)
 ScrapeResult ScreenScraperSingleEngine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   // Get MD5
-  std::string md5 = (size < sMaxMd5Calculation) ? ComputeMD5(game.FilePath()) : std::string();
+  const Path romPath(game.FilePath());
+  std::string md5 = romPath.IsFile() ? ((size < sMaxMd5Calculation) ? ComputeMD5(romPath) : Strings::Empty) : Strings::Empty;
   { LOG(LogDebug) << "[ScreenScraper] MD5 of " << game.FilePath().ToString() << " : " << md5; }
 
   // Get crc32
