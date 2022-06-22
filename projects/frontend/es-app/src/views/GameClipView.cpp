@@ -243,7 +243,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
 
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->DisplayName(), popupDuration,
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->Name(), popupDuration,
                                             GuiInfoPopupBase::PopupType::None));
 
         updateHelpPrompts();
