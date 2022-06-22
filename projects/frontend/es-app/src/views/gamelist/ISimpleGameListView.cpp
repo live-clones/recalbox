@@ -205,7 +205,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
 
       int popupDuration = RecalboxConf::Instance().GetPopupHelp();
       std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->DisplayName(), popupDuration,
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->Name(), popupDuration,
                                             GuiInfoPopupBase::PopupType::None));
 
       // Reload to refresh the favorite icon
