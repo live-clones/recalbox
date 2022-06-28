@@ -7,8 +7,8 @@ MODULES = {
     "installers.nespi4.install": (cases.NESPI4,),
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
+    "installers.retroflags.install": (cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
 }
-
 
 def processHardware(install, case, previousCase):
 
@@ -29,13 +29,14 @@ def processHardware(install, case, previousCase):
     # Call target installer/uninstaller
     for moduleName, caseNames in MODULES.items():
         if case in caseNames:
-            logger.hardlog("Install new case: " + case)
             module = __import__(moduleName, fromlist=["Install"])
             installClass = getattr(module, "Install")
             installer = installClass()
             if install:
+                logger.hardlog("Installing case hardware: " + case)
                 installReboot = installer.InstallHardware(case)
             else:
+                logger.hardlog("Uninstalling case hardware: " + case)
                 installReboot = installer.UninstallHardware(case)
 
     return uninstallReboot | installReboot
@@ -46,13 +47,14 @@ def processSoftware(install, case):
     # Call target installer/uninstaller
     for moduleName, caseNames in MODULES.items():
         if case in caseNames:
-            logger.hardlog("Install new case: " + case)
             module = __import__(moduleName, fromlist=["Install"])
             installClass = getattr(module, "Install")
             installer = installClass()
             if install:
+                logger.hardlog("Installing case software: " + case)
                 case = installer.InstallSoftware(case)
             else:
+                logger.hardlog("Uninstalling case software: " + case)
                 case = installer.UninstallSoftware(case)
 
     return case
@@ -62,7 +64,7 @@ def getInstallScript(case):
 
     for moduleName, caseNames in MODULES.items():
         if case in caseNames:
-            logger.hardlog("Get install picture: " + case)
+            logger.hardlog("Get install script: " + case)
             module = __import__(moduleName, fromlist=["Install"])
             installClass = getattr(module, "Install")
             installer = installClass()
