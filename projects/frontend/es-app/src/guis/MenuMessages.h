@@ -137,6 +137,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_KODI_X_HELP_MSG "Use the X button to start Kodi."
     #define MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG "Automatically start into Kodi on boot."
 
+    #define MENUMESSAGE_ADVANCED_CASES_HELP_MSG "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
+
     #define MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG "Enable or disable overscan.\nOverscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\nMore overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
     #define MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG "Show the framerate in EmulationStation and in game."
     #define MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from within the manager, and even manage games, saves, and scrapes!"

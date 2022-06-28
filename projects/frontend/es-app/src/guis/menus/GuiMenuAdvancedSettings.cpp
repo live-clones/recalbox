@@ -21,6 +21,7 @@
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
 #include <recalbox/RecalboxSystem.h>
+#include <hardware/Case.h>
 
 GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ADVANCED SETTINGS"), this)
@@ -61,13 +62,16 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   if (RecalboxSystem::kodiExists())
     AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
 
+  // Cases
+  if(!Case::SupportedManualCases().empty())
+    AddList<std::string>(_("CASE MANAGEMENT"),  (int)Components::Cases, this, GetCasesEntries(), _(MENUMESSAGE_ADVANCED_CASES_HELP_MSG));
+
   // overscan
   if(!isCrt)
     AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
 
   // framerate
   AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
-
 
   // Recalbox Manager
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
@@ -228,6 +232,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::VirtualSubMenu:
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
+    case Components::Cases:
     case Components::SecuritySubMenu:
     case Components::FactoryReset:
     case Components::CrtSubMenu:
@@ -253,6 +258,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::SecuritySubMenu:
     case Components::Manager:
     case Components::DebugLogs:
+    case Components::Cases:
     default: break;
   }
 }
@@ -307,4 +313,43 @@ void GuiMenuAdvancedSettings::DoResetFactory()
   // Reset!
   if (system("shutdown -r now") != 0)
   { LOG(LogError) << "[ResetFactory] Error rebooting system"; }
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuAdvancedSettings::GetCasesEntries()
+{
+  std::vector<ListEntry<std::string>> list;
+  Case currentCase = Case::CurrentCase();
+  if(currentCase.Automatic())
+  {
+    list.push_back({currentCase.DisplayName() + " (AUTO)", currentCase.ShortName(), true});
+  }
+  else {
+    for(const Case& theCase : Case::SupportedManualCases())
+      list.push_back({theCase.DisplayName(), theCase.ShortName(), theCase.Model() == currentCase.Model()});
+  }
+
+  return list;
+}
+
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+{
+  (void)index;
+  if ((Components)id == Components::Cases)
+  {
+    Case selectedCase = Case::FromShortName(value);
+    Case currentCase = Case::CurrentCase();
+    if(selectedCase.Model() != currentCase.Model())
+    {
+      if(selectedCase.Model() == Case::CaseModel::None)
+      {
+        bool installed = currentCase.Uninstall();
+        { LOG(LogInfo) << "[Settings - Cases] Uninstalled case " << currentCase.DisplayName() << (installed ? " successfully" : " failed!"); }
+      }
+      else {
+        bool installed = selectedCase.Install();
+        { LOG(LogInfo) << "[Settings - Cases] Installed case " << selectedCase.DisplayName() << (installed ? " successfully" : " failed!"); }
+      }
+      RequestReboot();
+    }
+  }
 }

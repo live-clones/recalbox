@@ -137,6 +137,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   int exitCode = -1;
   {
     Sdl2Runner sdl2Runner;
+    sdl2Runner.Register(SDL_KEYDOWN, &mSdl2Callback);
 
     PadToKeyboardManager padToKeyboard(controllers, game.FilePath(), sdl2Runner);
     padToKeyboard.StartMapping();
@@ -243,26 +244,37 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   if (debug)
     command.append(" -verbose");
 
-  { LOG(LogInfo) << "[Run] Demo command: " << command; }
-  NotificationManager::Instance().Notify(game, Notification::RunDemo);
-  Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
-  int exitCode = WEXITSTATUS(Run(command, debug));
-  Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
-  NotificationManager::Instance().Notify(game, Notification::EndDemo);
-  { LOG(LogInfo) << "[Run] Demo exit code :	" << exitCode; }
-
-
-  // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
-  if (exitCode == 0x33)
+  int exitCode = -1;
   {
-    { LOG(LogInfo) << "[Run] Exiting demo upon user request"; }
-    return true;
+    Sdl2Runner sdl2Runner;
+    sdl2Runner.Register(SDL_KEYDOWN, &mSdl2Callback);
+
+    NotificationManager::Instance().Notify(game, Notification::RunDemo);
+    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::FullSpeed);
+    Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
+
+    { LOG(LogInfo) << "[Run] Demo command: " << command; }
+    ThreadRunner gameRunner(sdl2Runner, command, debug);
+    sdl2Runner.Run();
+    exitCode = gameRunner.ExitCode();
+    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
+    NotificationManager::Instance().Notify(game, Notification::EndDemo);
+    { LOG(LogInfo) << "[Run] Demo exit code :	" << exitCode; }
+
+    // Configgen returns an exitcode 0x33 when the user interact with any pad/mouse
+    if (exitCode == 0x33)
+    {
+      { LOG(LogInfo) << "[Run] Exiting demo upon user request"; }
+      return true;
+    }
+
+    if (exitCode != 0)
+    { LOG(LogWarning) << "[Run] ...launch terminated with nonzero exit code " << exitCode << "!"; }
+
+    return false;
+
   }
 
-  if (exitCode != 0)
-  { LOG(LogWarning) << "[Run] ...launch terminated with nonzero exit code " << exitCode << "!"; }
-
-  return false;
 }
 
 std::string GameRunner::NetplayOption(const FileData& game, const NetPlayData& netplay)
@@ -304,10 +316,23 @@ bool GameRunner::RunKodi()
   NotificationManager::Instance().NotifyKodi();
 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
-  int exitCode = Run(command.c_str(), debug);
-  if (WIFEXITED(exitCode))
+  int exitCode = -1;
   {
-    exitCode = WEXITSTATUS(exitCode);
+    Sdl2Runner sdl2Runner;
+    sdl2Runner.Register(SDL_KEYDOWN, &mSdl2Callback);
+    Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
+
+    { LOG(LogInfo) << "[Run] Launching kodi..."; }
+
+    ThreadRunner gameRunner(sdl2Runner, command, debug);
+
+    sdl2Runner.Run();
+    exitCode = gameRunner.ExitCode();
+
+    if (WIFEXITED(exitCode))
+    {
+      exitCode = WEXITSTATUS(exitCode);
+    }
   }
 
   demoFinalize();
@@ -407,3 +432,4 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
 
   return result;
 }
+
