@@ -56,6 +56,13 @@ class IHardwareNotifications
      */
     virtual void PowerButtonPressed(BoardType board, int milliseconds) = 0;
 
+
+    /*!
+     * @brief Reset button had been pressed
+     * @param board current board
+     */
+    virtual void ResetButtonPressed(BoardType board) = 0;
+
     /*!
      * @brief We have been resumed from suspend mode
      * @param board current board
