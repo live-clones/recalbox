@@ -29,7 +29,10 @@ void DemoMode::runDemo()
 
   mGameSelector.Initialize();
 
-  Path mustExit(MainRunner::sQuitNow);
+  Path shouldStop(MainRunner::sStopDemo);
+  shouldStop.Delete();
+  { LOG(LogDebug) << "[DemoMode] Starting demo mode"; }
+
   for(FileData* game = mGameSelector.NextGame();
       game != nullptr;
       game = mGameSelector.NextGame())
@@ -44,13 +47,12 @@ void DemoMode::runDemo()
     int duration = RecalboxConf::Instance().GetSystemDemoDuration(game->System());
     // Run game
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
-    if (GameRunner::DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs))
+    if (GameRunner::Instance().DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs) || shouldStop.Exists())
     {
+      { LOG(LogDebug) << "[DemoMode] Stopping demo mode"; }
       mWindow.DoWake();
       break;
     }
-    // Exit required?
-    if (mustExit.Exists()) break;
   }
   // Finalize (remount ES display)
   if (Initialized)

@@ -126,6 +126,12 @@ class IBoardInterface
      */
     virtual void Suspend() = 0;
 
+    /*!
+     * @brief The reboot or shutdown is managed by MainRunner, but the board can have some features to manage
+     * @return True if a side effect has been triggered
+     */
+    virtual bool OnRebootOrShutdown() = 0;
+
   protected:
     //! Hardware event Notification interface
     HardwareMessageSender& mSender;

@@ -135,7 +135,7 @@ MainRunner::ExitState MainRunner::Run()
       RemotePlaylist remotePlaylist;
 
       // Run kodi at startup?
-      GameRunner gameRunner(window, systemManager);
+      GameRunner gameRunner(window, systemManager, *this);
       //if (RecalboxSystem::kodiExists())
       if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
         gameRunner.RunKodi();
@@ -208,9 +208,18 @@ MainRunner::ExitState MainRunner::Run()
       case ExitState::Relaunch:
       case ExitState::RelaunchNoUpdate: NotificationManager::Instance().Notify(Notification::Relaunch); break;
       case ExitState::NormalReboot:
-      case ExitState::FastReboot: NotificationManager::Instance().Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal"); break;
+      case ExitState::FastReboot:
+      {
+        NotificationManager::Instance().Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal");
+        board.OnRebootOrShutdown();
+        break;
+      }
       case ExitState::Shutdown:
-      case ExitState::FastShutdown: NotificationManager::Instance().Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal"); break;
+      case ExitState::FastShutdown: {
+        NotificationManager::Instance().Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal");
+        board.OnRebootOrShutdown();
+        break;
+      }
     }
 
     return exitState;
@@ -279,11 +288,14 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         case SDL_MOUSEBUTTONUP:
         {
           // Convert event
+          { LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
+
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
           // Process
           if (!compactEvent.Empty())
-            if (!Board::Instance().ProcessSpecialInputs(compactEvent))
-              window.ProcessInput(compactEvent);
+            if (!ProcessSpecialInputs(compactEvent))
+              if (!Board::Instance().ProcessSpecialInputs(compactEvent))
+                window.ProcessInput(compactEvent);
           // Quit?
           if (window.Closed()) RequestQuit(ExitState::Quit);
           break;
@@ -733,6 +745,24 @@ void MainRunner::HeadphoneUnplugged(BoardType board)
   }
 }
 
+void MainRunner::ResetButtonPressed(BoardType board)
+{
+  (void)board;
+  if (IsApplicationRunning())
+  {
+    // The application is running and is on screen.
+    // Display little window to notify the user we are going to reset
+    { LOG(LogDebug) << "[MainRunner] Reset Button Pressed : reseting"; }
+    mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
+                                      ->Execute(HardwareTriggeredSpecialOperations::Reset, _("Restarting.")));
+  } else {
+    // Something is running (game, demo, kodi)
+    Files::SaveFile(Path(sStopDemo), std::string());
+    { LOG(LogDebug) << "[MainRunner] Reset Button Pressed in game : exiting subprocesses"; }
+    ProcessTree::TerminateAll(1000);
+  }
+}
+
 void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
 {
   (void)board;
@@ -740,7 +770,7 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
   {
     // The application is running and is on screen.
     // Display little window to notify the user
-    if (milliseconds < 500)
+    if (milliseconds < sPowerButtonThreshold)
     {
       // Only if supported. Otherwise does nothing
       if (Board::Instance().HasSuspendResume())
@@ -748,21 +778,27 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
                                       ->Execute(HardwareTriggeredSpecialOperations::Suspend, _("Entering standby...")));
     }
     else
+    {
+      { LOG(LogDebug) << "[MainRunner] Power Button Pressed: shutting down"; }
       mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
-                                    ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
+                                      ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
+    }
   }
   else
   {
     // The application is not Running, execute orders immediately
-    if (milliseconds < 500)
+    if (milliseconds < sPowerButtonThreshold)
     {
+      { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: suspending"; }
       // Only if supported. Otherwise does nothing
       if (Board::Instance().HasSuspendResume())
         Board::Instance().Suspend();
     }
     else
     {
+      { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: shutting down"; }
       Files::SaveFile(Path(sQuitNow), std::string());
+      Files::SaveFile(Path(sStopDemo), std::string());
       // Gracefuly qui emulators and all the call chain
       ProcessTree::TerminateAll(1000);
       // Quit
@@ -786,9 +822,15 @@ bool MainRunner::Execute(GuiWaitLongExecution<HardwareTriggeredSpecialOperations
   (void)from;
   switch(parameter)
   {
+    case HardwareTriggeredSpecialOperations::PowerOff:
+    case HardwareTriggeredSpecialOperations::Reset:
+    {
+      mApplicationWindow->DoWake();
+      Thread::Sleep(1000); // Just sleep one second
+      break;
+    }
     case HardwareTriggeredSpecialOperations::Suspend:
     case HardwareTriggeredSpecialOperations::Resume:
-    case HardwareTriggeredSpecialOperations::PowerOff:
     default: Thread::Sleep(1000); // Just sleep one second
   }
   return false; // unused
@@ -814,6 +856,11 @@ void MainRunner::Completed(const HardwareTriggeredSpecialOperations& parameter, 
     {
       // Bye bye :)
       RequestQuit(ExitState::Shutdown);
+      break;
+    }
+    case HardwareTriggeredSpecialOperations::Reset:
+    {
+      RequestQuit(ExitState::NormalReboot);
       break;
     }
     case HardwareTriggeredSpecialOperations::Resume:
@@ -1043,4 +1090,27 @@ void MainRunner::Completed(const USBInitialization& parameter, const bool& resul
       break;
     }
   }
+}
+
+void MainRunner::Sdl2EventReceived(const SDL_Event& event)
+{
+  if (event.type == SDL_KEYDOWN)
+    ProcessSpecialInputs(InputManager::Instance().ManageSDLEvent(mApplicationWindow, event));
+}
+
+bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
+{
+  { LOG(LogInfo) << "[MainRunner] Processing special input."; }
+
+  const InputEvent& raw = event.RawEvent();
+  if (raw.Type() == InputEvent::EventType::Key)
+    if (raw.Value() == 1) // KEYDOWN
+      switch(raw.Id())
+      {
+        case SDLK_POWER: PowerButtonPressed(Board::Instance().GetBoardType(), sPowerButtonThreshold); return true;
+        case SDLK_STOP: ResetButtonPressed(Board::Instance().GetBoardType()); return true;
+        default: break;
+      }
+
+  return false;
 }

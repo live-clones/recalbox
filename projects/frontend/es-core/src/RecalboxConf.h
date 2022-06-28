@@ -209,6 +209,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(StartupStartOnGamelist, bool, Bool, sStartupStartOnGamelist, false)
     DefineGetterSetter(StartupHideSystemView, bool, Bool, sStartupHideSystemView, false)
 
+    DefineGetterSetter(PowerSwitch, std::string, String, sPowerSwitch, "")
+
     DefineGetterSetter(GlobalRatio, std::string, String, sGlobalRatio, "auto")
     DefineGetterSetter(GlobalSmooth, bool, Bool, sGlobalSmooth, true)
     DefineGetterSetter(GlobalRecalboxOverlays, bool, Bool, sGlobalRecalboxOverlays, true)
@@ -409,6 +411,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sOverclocking               = "system.overclocking";
     static constexpr const char* sOverscan                   = "system.overscan";
+
+    static constexpr const char* sPowerSwitch                = "system.power.switch";
 
     static constexpr const char* sKodiEnabled                = "kodi.enabled";
     static constexpr const char* sKodiAtStartup              = "kodi.atstartup";

@@ -8,6 +8,7 @@
 
 #include <guis/menus/GuiMenuBase.h>
 #include "ResolutionAdapter.h"
+#include "hardware/Case.h"
 
 // Forward declaration
 class SystemManager;
@@ -30,6 +31,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
                               , private IOptionListComponent<Overclocking>
                               , private ISwitchComponent
                               , private IGuiMenuBase
+                              , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -51,6 +53,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,
+      Cases,
       SecuritySubMenu,
       Overscan,
       ShowFPS,
@@ -92,6 +95,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     //! Reset overclock
     void ResetOverclock();
 
+    //! Get supported cases List
+    static std::vector<GuiMenuBase::ListEntry<std::string>> GetCasesEntries();
+
     //! Reset Factory requested Level 1
     void ResetFactory();
 
@@ -106,6 +112,9 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const Overclocking& value) override;
+
+    //! Case component management
+    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 
     /*
      * ISwitchComponent implementation
