@@ -1,0 +1,79 @@
+/dts-v1/;
+/plugin/;
+
+/{
+	compatible = "brcm,bcm2835";
+
+	// GPIO configuration
+	fragment@0 {
+        target = <&gpio>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&my_pins>;
+
+            my_pins: my_pins {
+				brcm,pins = <3 2 4 14>; 		// POWER  RESET  POWEREN  LED
+				brcm,function = <0 0 1 1>; 		// IN     INT	 OUT      OUT
+				brcm,pull = <2 2 0 0>; 			// UP     UP 	 NONE     NONE
+				output-high;
+            };
+        };
+    };
+
+	// The power led
+	// Active by default, can be managed from userspace in /sys/class
+	fragment@1 {
+		target-path = "/";
+		__overlay__ {
+			leds: leds@0 {
+				compatible = "gpio-leds";
+				status = "okay";
+
+				led: led {
+					label = "retroflagled";
+					// GPIO 14, active LOW
+					gpios = <&gpio 14 1>;
+					linux,default-trigger = "none";
+				};
+			};
+		};
+	};
+
+	// Reset and Shutdown buttons
+	fragment@3 {
+		// Add a new device to the /soc devicetree node
+		target-path = "/soc";
+		__overlay__ {
+			power_buttons: power_buttons {
+				compatible = "gpio-keys";
+				status = "okay";
+
+				shutdown: shutdown {
+					label = "shutdown";
+					linux,code = <116>; // KEY_POWER
+					gpios = <&gpio 3 1>;
+					debounce-interval = <100>; // ms
+				};
+				reset: reset {
+					label = "reset";
+					linux,code = <128>;
+					gpios = <&gpio 2 0>;
+					debounce-interval = <100>;
+				};
+			};
+		};
+	};
+
+	// Power off notification
+	// Is not responsible for shutdown, just notify the case
+	fragment@4 {
+		target-path = "/";
+		__overlay__ {
+			power_ctrl: power_ctrl {
+				compatible = "gpio-poweroff";
+				gpios = <&gpio 4 1>;
+				force;
+			};
+		};
+	};
+};
