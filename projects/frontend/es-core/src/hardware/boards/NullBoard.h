@@ -46,5 +46,7 @@ class NullBoard: public IBoardInterface
     bool ProcessSpecialInputs(InputCompactEvent& inputEvent) final { (void)inputEvent; return false; }
 
     void Suspend() final {}
+
+    bool OnRebootOrShutdown() { return false; }
 };
 

@@ -98,7 +98,7 @@ int main(int argc, char* argv[], char** env)
       case MainRunner::ExitState::Shutdown:
       case MainRunner::ExitState::FastShutdown:
       {
-        { LOG(LogInfo) << "[Main] Rebooting system (fast)"; }
+        { LOG(LogInfo) << "[Main] Shutting down system"; }
         #ifndef DEBUG
         if (system("shutdown -h now") != 0)
           { LOG(LogError) << "[Main] Error shutting system down"; }

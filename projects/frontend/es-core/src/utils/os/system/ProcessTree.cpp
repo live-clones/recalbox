@@ -24,6 +24,7 @@ Array<int> ProcessTree::GetTree(int pid)
     while(readproc(procs, &proc) != nullptr)
       if (((proc.ppid == pid) || result.Contains(proc.ppid)) && !result.Contains(proc.tgid))
       {
+        { LOG(LogDebug) << "[ProcessTree] Will terminate " << proc.tgid; }
         result.Add(proc.tgid);
         keepLooking = true;
       }
