@@ -23,6 +23,7 @@ enum class HardwareTriggeredSpecialOperations
   Suspend,  //!< The hardware require a Suspend operation
   Resume,   //!< The hardware just woken up
   PowerOff, //!< The hardware require a Power-off
+  Reset,    //!< The hardware require a reset
 };
 
 //! USB Initialization state
@@ -72,6 +73,7 @@ class MainRunner
   , private IRomFolderChangeNotification
   , private IPatreonNotification
   , private ILongExecution<USBInitialization, bool>
+  , public ISdl2EventNotifier
 {
   public:
     //! Pending Exit
@@ -101,11 +103,16 @@ class MainRunner
     static constexpr const char* sReadyFile = "/tmp/externalnotifications/emulationstation.ready";
     //! Temporary file used as quit request
     static constexpr const char* sQuitNow = "/tmp/externalnotifications/emulationstation.quitnow";
+    //! Temporary file used to stop game demo loop
+    static constexpr const char* sStopDemo = "/tmp/externalnotifications/emulationstation.stopdemo";
     //! Upgrade file flag. Only available once in /tmp after a successful update
     static constexpr const char* sUpgradeFileFlag = "/tmp/upgraded";
     static constexpr const char* sUpgradeFailedFlag = "/tmp/upgradefailed";
 
   private:
+    //! Power button: Threshold from short to long press, in milisecond
+    static constexpr const int sPowerButtonThreshold = 500;
+
     //! Requested width
     unsigned int mRequestedWidth;
     //! Requested height
@@ -221,6 +228,13 @@ class MainRunner
     ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier);
 
     /*!
+     * @brief Process general special inputs
+     * @param event Input event
+     * @return bool if the input has been consummed, false otherwise
+     */
+    bool ProcessSpecialInputs(const InputCompactEvent& event);
+
+    /*!
      * @brief Create ready flag file to notify all external software that
      * Emulationstation is ready
      */
@@ -290,6 +304,9 @@ class MainRunner
      */
     void PowerButtonPressed(BoardType board, int delayInMs) final;
 
+
+
+    void ResetButtonPressed(BoardType board) final;
     /*!
      * @brief We have been resumed from suspend mode
      * @param board current board
@@ -389,6 +406,17 @@ class MainRunner
      */
     static void SetLocale(const std::string& executablePath);
 
+    /*!
+     * @brief Set debug log state
+     * @param state True to set debug logs on
+     */
+    static void SetDebugLogs(bool state);
+
+    /*!
+     * @brief Install CRT features
+     */
+    static void InstallCRTFeatures();
+
     /*
      * RomFolderChangeNotification implementaton
      */
@@ -411,14 +439,14 @@ class MainRunner
      */
     void NoRomPathFound(const DeviceMount& deviceRoot) override;
 
-    /*!
-     * @brief Set debug log state
-     * @param state True to set debug logs on
+
+    /*
+     * ISdl2EventNotifier implementation
      */
-    static void SetDebugLogs(bool state);
 
     /*!
-     * @brief Install CRT features
+     * @brief Received a raw SDL2 event
+     * @param event SDL2 event
      */
-    static void InstallCRTFeatures();
+    void Sdl2EventReceived(const SDL_Event& event) final;
 };

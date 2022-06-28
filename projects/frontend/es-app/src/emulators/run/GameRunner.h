@@ -20,10 +20,11 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param window Window manager
      * @param systemManager System manager
      */
-    GameRunner(WindowManager& window, SystemManager& systemManager)
+    GameRunner(WindowManager& window, SystemManager& systemManager, ISdl2EventNotifier& sdl2Callback)
       : StaticLifeCycleControler<GameRunner>("GameRunner")
       , mWindowManager(window)
       , mSystemManager(systemManager)
+      , mSdl2Callback(sdl2Callback)
     {
     }
 
@@ -56,7 +57,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param controlersConfig Controller configuration string
      * @return True if the demo exited on user request
      */
-    static bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
+    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
 
     /*!
      * @brief Run kodi
@@ -78,6 +79,8 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
     WindowManager& mWindowManager;
     //! System manager reference
     SystemManager& mSystemManager;
+    //! SDL callback interface
+    ISdl2EventNotifier& mSdl2Callback;
 
     //! Game running flag
     static bool sGameIsRunning;
