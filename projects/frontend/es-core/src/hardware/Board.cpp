@@ -7,6 +7,7 @@
 #include <sys/utsname.h>
 #include <hardware/boards/NullBoard.h>
 #include <hardware/boards/pc/PcComputers.h>
+#include <hardware/boards/pis/PiBoard.h>
 #include "hardware/crt/CrtAdapterDetector.h"
 #include "hardware/crt/CrtNull.h"
 #include <hardware/boards/pi400/Pi400Board.h>
@@ -44,13 +45,13 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
     }
     case BoardType::UndetectedYet: { LOG(LogInfo) << "[Hardware] Undetected hardware."; break; }
     case BoardType::Unknown: { LOG(LogInfo) << "[Hardware] Unknown hardware."; break; }
-    case BoardType::Pi0: { LOG(LogInfo) << "[Hardware] Pi zero detected."; break; }
-    case BoardType::Pi02: { LOG(LogInfo) << "[Hardware] Pi zero 2 detected."; break; }
-    case BoardType::Pi1: { LOG(LogInfo) << "[Hardware] Pi 1 detected."; break; }
-    case BoardType::Pi2: { LOG(LogInfo) << "[Hardware] Pi 2 detected."; break; }
-    case BoardType::Pi3: { LOG(LogInfo) << "[Hardware] Pi 3 detected."; break; }
-    case BoardType::Pi3plus: { LOG(LogInfo) << "[Hardware] Pi 3B+ detected."; break; }
-    case BoardType::Pi4: { LOG(LogInfo) << "[Hardware] Pi 4 detected."; break; }
+    case BoardType::Pi0: { LOG(LogInfo) << "[Hardware] Raspberry Pi Zero detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi02: { LOG(LogInfo) << "[Hardware] Raspberry Pi Zero 2 detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi1: { LOG(LogInfo) << "[Hardware] Raspberry Pi 1 detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi2: { LOG(LogInfo) << "[Hardware] Raspberry Pi 2 detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi3: { LOG(LogInfo) << "[Hardware] Raspberry Pi 3 detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi3plus: { LOG(LogInfo) << "[Hardware] Raspberry Pi 3B+ detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi4: { LOG(LogInfo) << "[Hardware] Raspberry Pi 4 detected."; return *(new PiBoard(messageSender)); }
     case BoardType::Pi400:
     {
       { LOG(LogInfo) << "[Hardware] Pi 400 detected."; }

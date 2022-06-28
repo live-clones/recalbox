@@ -160,6 +160,12 @@ class OdroidAdvanceGo2Board: public IBoardInterface
      * @return True = charging, False = discharging or no battery
      */
     bool IsBatteryCharging() final;
+
+    /*!
+     * @brief The reboot or shutdown is managed by MainRunner, but the board can have some features to manage
+     * @return True if a side effect has been triggered
+     */
+    bool OnRebootOrShutdown() { return false; }
 };
 
 
