@@ -63,6 +63,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add retroachievements for systems PSP, Amstrad CPC, Dreamcast, Atomiswave, Naomi and Naomigd
 - Add Amiga 500 Mini controller configuration
 - Add softpatching manager in game settings
+- Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 
 ### Improvements
 

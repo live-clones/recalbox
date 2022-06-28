@@ -1,0 +1,11 @@
+config BR2_PACKAGE_LIBRETRO_SAMEDUCK
+	bool "libretro-sameduck"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  A libretro megaduck/cougar boy  emulator.
+
+	  https://github.com/LIJI32/SameBoy/tree/SameDuck
+
+comment "LIBRETRO_SAMEDUCK needs a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
