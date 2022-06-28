@@ -43,6 +43,12 @@ void HardwareMessageSender::ProcessMessage(HardwareMessage* message)
       mNotificationInterface.PowerButtonPressed(message->Board(), message->Millisecond());
       break;
     }
+    case MessageTypes::ResetButtonPressed:
+    {
+      { LOG(LogDebug) << "[Hardware] Reset button pressed"; }
+      mNotificationInterface.ResetButtonPressed(message->Board());
+      break;
+    }
     case MessageTypes::VolumeDownPressed:
     {
       { LOG(LogDebug) << "[Hardware] Volume down button pressed."; }

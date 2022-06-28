@@ -167,6 +167,16 @@ class Board: public StaticLifeCycleControler<Board>
       return mBoard.StopInGameBackgroundProcesses(sdlRunner);
     }
 
+    /*!
+     * @brief The reboot or shutdown is managed by MainRunner, but the board can have some features to manage
+     * @return True if a side effect has been triggered
+     */
+    bool OnRebootOrShutdown()
+    {
+      { LOG(LogInfo) << "[Hardware] Reboot or shutdown event passed to the board"; }
+      return mBoard.OnRebootOrShutdown();
+    }
+
   private:
     //! Board type
     BoardType mType;
