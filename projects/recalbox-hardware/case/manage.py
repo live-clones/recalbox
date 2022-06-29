@@ -202,12 +202,18 @@ def mainInstall():
         
         import installer
 
+        # We will unsinstall when share is mounted (phase=1)
         if previousPhase == 3:
-            logger.hardlog("Uninstalling {}".format(case))
-            case = cases.NONE
-            phase = 1
-            needReboot = installer.processHardware(0, previousCase, previousCase)
-            case = installer.processSoftware(0, previousCase)
+            if phase == 1:
+                logger.hardlog("Uninstalling {}".format(previousCase))
+                needReboot = installer.processHardware(0, previousCase, previousCase)
+                installer.processSoftware(0, previousCase)
+                settings.setOption(caseKey, "none:1")
+                settings.saveFile()
+                subprocess.call(["reboot", "-f"])
+                sys.exit(0)
+            else:
+                sys.exit(0)
         elif machine:
             # Machine initiated - process install phases
             if phase == 0:
