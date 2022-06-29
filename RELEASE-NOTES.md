@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 
 - Add case support for retroflag, argon and nuxii cases
+- Fix kodi controller configuration
 - Recalbox RGB Dual: add emulator/core selection
 - Add seamless scraping for Patrons
 - Add GAME FILTER menu to filter games in lists based on several criteria
