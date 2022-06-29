@@ -5,6 +5,9 @@ from installers.base.install import InstallBase
 
 class Install(InstallBase):
 
+    BASE_SOURCE_FOLDER = InstallBase.BASE_SOURCE_FOLDER + "retroflags/"
+    POWER_KEYBOARD_FILE = "/recalbox/share/system/.kodi/userdata/keymaps/power-keyboard.xml"
+
     def __init__(self):
         InstallBase.__init__(self)
 
@@ -29,6 +32,7 @@ class Install(InstallBase):
 
     def InstallSoftware(self, case):
         logger.hardlog("Installing Retroflag Case software")
+        os.system("cp {}{} {}".format(self.BASE_SOURCE_FOLDER, "assets/power-keyboard.xml", self.POWER_KEYBOARD_FILE))
         return case
 
 
@@ -54,6 +58,7 @@ class Install(InstallBase):
 
     def UninstallSoftware(self, case):
         logger.hardlog("Uninstalling Retroflag Case software")
+        os.system("rm -f {}".format(self.POWER_KEYBOARD_FILE))
         return ""
 
 

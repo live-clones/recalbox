@@ -1108,7 +1108,7 @@ bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
       switch(raw.Id())
       {
         case SDLK_POWER: PowerButtonPressed(Board::Instance().GetBoardType(), sPowerButtonThreshold); return true;
-        case SDLK_STOP: ResetButtonPressed(Board::Instance().GetBoardType()); return true;
+        case SDLK_SLEEP: ResetButtonPressed(Board::Instance().GetBoardType()); return true;
         default: break;
       }
 
