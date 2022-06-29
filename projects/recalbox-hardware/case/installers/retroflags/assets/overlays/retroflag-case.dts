@@ -56,7 +56,7 @@
 				};
 				reset: reset {
 					label = "reset";
-					linux,code = <128>;
+					linux,code = <142>; // KEY_SLEEP
 					gpios = <&gpio 2 0>;
 					debounce-interval = <100>;
 				};
