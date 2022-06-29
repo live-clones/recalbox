@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import os
+
 import configgen.recalboxFiles as recalboxFiles
 
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
@@ -36,6 +38,16 @@ def getFormattedAxis(inpt: InputItem, controller: Controller):
     axis = str(controller.getAxisNumber(inpt))
     return primary + axis, secondary + axis
 
+
+def getControllerName(device: str):
+    parts: [str] = device.split("/")
+    index: str = parts[len(parts) - 1]
+    sysFile = "/sys/class/input/{}/device/name".format(index)
+    if os.path.isfile(sysFile):
+        with open(sysFile, "r") as f:
+            return f.readline().rstrip()
+    return ""
+
 def writeKodiControllersConfig(controllers: ControllerPerPlayer):
     leftstick = rightstick = None
     import os
@@ -52,7 +64,10 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
 
         from xml.etree import ElementTree as ET
         buttonmap = ET.Element("buttonmap")
-        device = ET.SubElement(buttonmap, "device", name=controller.DeviceName, provider="linux", buttoncount=str(nbButtons), axiscount=str(nbAxis))
+        controllerName = getControllerName(controller.DevicePath)
+        if controllerName == "":
+            controllerName = controller.DeviceName
+        device = ET.SubElement(buttonmap, "device", name=controllerName, provider="linux", buttoncount=str(nbButtons), axiscount=str(nbAxis))
         ET.SubElement(device, "configuration")
         controllerXml = ET.SubElement(device, "controller", id="game.controller.default")
 
