@@ -1,0 +1,7 @@
+<keymap>
+  <global>
+    <keyboard>
+      <power>ShutDown()</power><sleep>Reboot</sleep>
+    </keyboard>
+  </global>
+</keymap>
