@@ -18,6 +18,9 @@ All notable changes to this project have been documented in this file since 8.1.
 ## [8.0.2-Electron]
 - Fix 4k resolution issue on 4k tv
 
+## NEXT
+- Add support for GPi CASE 2 (#2042)
+
 ## [8.0.1-Electron]
 - Fix release notes
 - Fix es typo (#2137)

@@ -79,7 +79,8 @@ findConnectedConnectors() {
 
 # Check if we are on Recalbox RGB Dual
 isRecalboxRGBDual() {
-  if grep -q "Recalbox RGB Dual" /sys/firmware/devicetree/base/hat/product;then
+  local firmwareFile=/sys/firmware/devicetree/base/hat/product
+  if [ -e "$firmwareFile" ] && grep -q "Recalbox RGB Dual" "$firmwareFile";then
     return 0
   else
     return 1
@@ -104,4 +105,19 @@ doesBoardNeedKMSManager() {
     *)
       return 1 ;;
   esac
+}
+
+##
+# getBoardName
+# return the detected board from /boot/recalbox-boot.conf
+# can be one of GPiV1, PiBoy, none.
+# If detection has not already occured, the response will be empty
+getBoardName() {
+  sed -E '/^\s*case=/!d;s/\s*case=([^:]+):.*/\1/' /boot/recalbox-boot.conf
+}
+
+# getStepNumber
+# return the step number (empty, 0 or 1) from /boot/recalbox-boot.conf
+getStepNumber() {
+  sed -E '/^\s*case=/!d;s/\s*case=[^:]+:(.*)/\1/' /boot/recalbox-boot.conf
 }

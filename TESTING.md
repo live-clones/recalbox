@@ -18,6 +18,8 @@ Pour les pending features, elles ne seront activées que si les beta testeurs le
 - [ ] Check PiBoy controls are working from fresh (#2133)
 - [ ] Test wifi connection still works (#1768)
 - [ ] Test WPA3 wifi connection works (#1768)
+- [ ] Test hardware detection (gpicase, piboy, nespi4case) still works (#2042)
+- [ ] Test gpicase2 is correctly detected and working, look at /boot/hardware.log (#2042)
 
 ## [8.0.1]
 - [ ] Check the crt-pi shader that it is working (#2065)

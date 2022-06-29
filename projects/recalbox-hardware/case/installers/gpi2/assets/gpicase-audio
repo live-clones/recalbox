@@ -1,0 +1,21 @@
+#!/bin/bash
+logger -t "gpicase-audio" "adding mono sink"
+
+fork_me() {
+  echo $$ >/tmp/gpicase-audio
+  while ! pactl list sinks short | grep -q "mono"; do
+    MASTER=$(pactl list sinks short |grep ^1 |awk '{print $2}')
+    if [ "$(cat /tmp/gpicase-audio)" != $$ ]; then
+      exit
+    fi
+    if [ ! -z "$MASTER" ]; then
+      logger -t "gpicase-audio" "link to master $MASTER"
+      pacmd load-module module-remap-sink sink_name=mono master="$MASTER" channels=2 channel_map=mono,mono sink_properties='device.description="Mono\ analog\ output"' |& logger -t "gpicase-audio"
+    fi
+    sleep 0.2
+  done
+  rm /tmp/gpicase-audio
+}
+
+fork_me >/dev/null 2>&1 &
+

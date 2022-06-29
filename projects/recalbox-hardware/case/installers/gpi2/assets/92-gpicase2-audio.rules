@@ -1,0 +1,1 @@
+DRIVER=="snd-usb-audio", RUN+="/usr/bin/gpicase-audio"
