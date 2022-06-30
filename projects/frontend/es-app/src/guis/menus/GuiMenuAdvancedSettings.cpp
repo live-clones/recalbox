@@ -338,11 +338,18 @@ void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, cons
   {
     Case selectedCase = Case::FromShortName(value);
     Case currentCase = Case::CurrentCase();
-    if(selectedCase.Model() != currentCase.Model())
-    {
+    const auto install = [this, selectedCase] {
       bool installed = selectedCase.Install();
       { LOG(LogInfo) << "[Settings - Cases] Installed case " << selectedCase.DisplayName() << (installed ? " successfully" : " failed!"); }
       RequestReboot();
+    };
+    if(selectedCase.Model() != currentCase.Model())
+    {
+      const std::string installMessage = selectedCase.GetInstallMessage();
+      if (installMessage != "")
+        mWindow.pushGui(new GuiMsgBox(mWindow, installMessage, _("OK"), install));
+      else
+        install();
     }
   }
 }
