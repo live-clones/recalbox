@@ -1,0 +1,80 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides: argononed.py & argononed-poweroff.py
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Argon One Fan Service.
+# Description: Starts and stops service.
+### END INIT INFO
+
+#VAR
+RUN="/recalbox/system/hardware/case/installers/argonone/assets/argononed.py"
+RUNSTOP="/recalbox/system/hardware/case/installers/argonone/assets/argononed-poweroff.py"
+BTD_PID=$(ps -eo pid,args | grep "/usr/bin/python $RUN" | grep -v grep | awk '{print $1}')
+
+serviceStatus() {
+	if [ ! -z "$BTD_PID" ]; then
+		echo -e "$0 [RUNNING] ['']"
+	else
+		echo -e "$0 [NOT RUNNING]"
+	fi
+}
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+	start)
+		echo -e "Starting script $RUN ..."
+		if [ -z "$BTD_PID" ]; then
+			nice -n 19 $RUN&
+
+			if [ $? -eq 0 ]; then
+				echo -e "$0 [STARTED]"
+			fi
+		else
+			echo -e "$0 [ALREADY STARTED] ['']!"
+		fi
+		#serviceStatus
+	;;
+	stopuninstall)
+		echo "Stopping script $RUN ..."
+		kill $BTD_PID
+		echo -e "$0 [STOPPED]"
+	;;
+	stop)
+		TMPVAL=$(/sbin/runlevel)
+		if [ "$TMPVAL" == "3 6" ]; then
+			$RUNSTOP reboot
+		else
+			$RUNSTOP halt
+		fi
+		#serviceStatus
+	;;
+	status)
+		serviceStatus
+	;;
+	restart)
+		echo -e "Restarting script $RUN ..."
+			if [ ! -z "$BTD_PID" ]; then
+				echo "Stopping script $RUN ..."
+				kill $BTD_PID
+				if [ $? -eq 0 ]; then
+					echo -e "Starting script $RUN ..."
+					nice -n 19 $RUN&
+					echo -e "$0 [RESTARTED]"
+				fi
+			else
+				echo -e "Script $RUN not running"
+				echo -e "Starting script $RUN ..."
+				nice -n 19 $RUN&
+				if [ $? -eq 0 ]; then
+					echo -e "$0 [RESTARTED]"
+				fi
+			fi
+	;;
+	*)
+		echo -e "Usage: $0 {start | stop | restart | status}"
+		exit 1
+	;;
+esac
+
+exit $?
