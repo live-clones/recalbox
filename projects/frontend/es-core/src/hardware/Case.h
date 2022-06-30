@@ -25,6 +25,7 @@ class Case
       // Retroflag auto
       Nespi4Case,
       // Retroflag Manual
+      Nespi4CaseManual,
       NespiCasePlus,
       PiStation,
       SuperPiCase,
