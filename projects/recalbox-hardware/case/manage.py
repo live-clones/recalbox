@@ -178,6 +178,7 @@ def mainInstall():
     needReboot = False
     requestedCase = case
     caseKey = "case"
+    installedCaseKey = "installedCase"
     previousPhase = -1
 
     previousCase = settings.getOption(caseKey, "")
@@ -185,11 +186,29 @@ def mainInstall():
         previousCase, previousPhase = previousCase.split(':')
         previousPhase = int(previousPhase)
 
-    logger.hardlog("Script info - case: {}, previousCase: {}, phase: {}, previousPhase: {}".format(case,previousCase ,phase, previousPhase))
+    installedCase = settings.getOption(installedCaseKey, "")
 
-    # Decide whether we install/uninstall or not
-    # previousPhase == 3 is a special case for uninstall from frontend
-    if previousCase == "" or previousPhase < phase or not machine or previousPhase == 3:
+    logger.hardlog("Script info - case: {}, previousCase: {}, installedCase: {}, phase: {}, previousPhase: {}".format(case, previousCase, installedCase, phase, previousPhase))
+
+    # Force uninstall if the installedCase is not previousCase (used for uninstall)
+    # This must be done on phase 1 so share is mounted and we can uninstall the software
+    # We exit the script on phase 0 to wait for phase 1
+    if installedCase != "" and installedCase != "none" and installedCase != previousCase:
+        if phase == 1:
+            import installer
+            logger.hardlog("Uninstalling {}".format(installedCase))
+            installer.processHardware(0, installedCase, installedCase)
+            installer.processSoftware(0, installedCase)
+            settings.setOption(installedCaseKey,"")
+            subprocess.call(["mount", "-o", "remount,rw", "/boot"])
+            settings.saveFile()
+            subprocess.call(["reboot", "-f"])
+            sys.exit(0)
+        else:
+            logger.hardlog("Waiting for phase 1 to uninstall {}".format(installedCase))
+            sys.exit(0)
+
+    if previousCase == "" or previousPhase < phase or not machine:
         if len(case) == 0:
             case = Identify(previousCase)
             if case is not cases.NONE:
@@ -199,31 +218,19 @@ def mainInstall():
 
         logger.hardlog("Processing case {} on phase {}".format(case, phase))
 
-        
         import installer
-
-        # We will unsinstall when share is mounted (phase=1)
-        if previousPhase == 3:
-            if phase == 1:
-                logger.hardlog("Uninstalling {}".format(previousCase))
-                needReboot = installer.processHardware(0, previousCase, previousCase)
-                installer.processSoftware(0, previousCase)
-                settings.setOption(caseKey, "none:1")
-                settings.saveFile()
-                subprocess.call(["reboot", "-f"])
-                sys.exit(0)
-            else:
-                sys.exit(0)
-        elif machine:
+        if machine:
             # Machine initiated - process install phases
             if phase == 0:
                 needReboot = installer.processHardware(install, case, previousCase)
             else:
                 case = installer.processSoftware(install, case)
+                settings.setOption(installedCaseKey, case if case != cases.NONE else "")
         else:
             # Human action - process both hardware & software
             needReboot = installer.processHardware(install, case, previousCase)
             case = installer.processSoftware(install, case)
+            settings.setOption(installedCaseKey, case if case != cases.NONE else "")
 
         # Set new case value
         settings.setOption(caseKey, "{}:{}".format(case, phase))
@@ -231,6 +238,7 @@ def mainInstall():
         # Save settings
         subprocess.call(["mount", "-o", "remount,rw", "/boot"])
         settings.saveFile()
+        subprocess.call(["mount", "-o", "remount,ro", "/boot"])
 
         if needReboot and machine:
             logger.hardlog("Automatic reboot required")
