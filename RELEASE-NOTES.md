@@ -85,7 +85,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro NX Engine (Cave Story) - Lots of small bug fixes!
 - Bump Amiberry to v1.4.6 (fix some graphic glitches)
 - Bump libretro Quasi88 (Nec PC-8800)
-- Bump libretro MAMA 2003 Plus
+- Bump libretro MAME 2003 Plus
 - Bump libretro FBNeo
 - Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
 - Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
@@ -103,6 +103,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Hypseus Singe (Daphne) - Add support for Singe 2 games
 - Add support for additional WIFI USB adapters on Odroid GO Super (Mediatek, Realtek, …)
 - Bump Realtek 8821-CU driver
+-Bump libretro Pscx-Rearmed
 
 ### Fixes
 
