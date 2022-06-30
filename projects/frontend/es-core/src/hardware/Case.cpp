@@ -4,6 +4,7 @@
 
 #include "Case.h"
 #include "Board.h"
+#include <utils/locale/LocaleHelper.h>
 
 bool Case::SetCaseInBoot(const std::string& theCase)
 {
@@ -14,7 +15,7 @@ bool Case::SetCaseInBoot(const std::string& theCase)
 }
 
 
-bool Case::Install()
+bool Case::Install() const
 {
   switch (mModel)
   {
@@ -62,34 +63,35 @@ Case Case::FromShortName(const std::string& value)
 //! Create case from CaseModel
 Case Case::Create(CaseModel model)
 {
+  const std::string retroflagInstallMessage = _("To take advantage of the safe shutdown function, the SAFE SHUTDOWN switch of your retroflag case (located inside the case, on the electronic part) must be positioned on ON.");
   switch (model)
   {
     case CaseModel::None:
-      return Case(CaseModel::None, false, "None", "");
+      return Case(CaseModel::None, false, "None", "", "");
     case CaseModel::GPiV1:
-      return Case(CaseModel::GPiV1, true, "Gpi Case (v1)", "GPiV1");
+      return Case(CaseModel::GPiV1, true, "Gpi Case (v1)", "GPiV1","");
     case CaseModel::GPiV2:
-      return Case(CaseModel::GPiV2, true, "Gpi Case (v2)", "GPiV2");
+      return Case(CaseModel::GPiV2, true, "Gpi Case (v2)", "GPiV2", "");
     case CaseModel::GPiV3:
-      return Case(CaseModel::GPiV3, true, "Gpi Case (v3)", "GPiV3");
+      return Case(CaseModel::GPiV3, true, "Gpi Case (v3)", "GPiV3", "");
     case CaseModel::GPi2:
-      return Case(CaseModel::GPiV3, true, "Gpi Case 2", "GPi2");
+      return Case(CaseModel::GPiV3, true, "Gpi Case 2", "GPi2", "");
     case CaseModel::Nuxii:
-      return Case(CaseModel::Nuxii, true, "Nuxii", "Nuxii");
+      return Case(CaseModel::Nuxii, true, "Nuxii", "Nuxii", "");
     case CaseModel::PiBoy:
-      return Case(CaseModel::PiBoy, true, "PiBoy DMG", "PiBoy");
+      return Case(CaseModel::PiBoy, true, "PiBoy DMG", "PiBoy", "");
     case CaseModel::Nespi4Case:
-      return Case(CaseModel::Nespi4Case, true, "Nespi4Case", "NESPi4");
+      return Case(CaseModel::Nespi4Case, true, "Nespi4Case", "NESPi4", "");
     case CaseModel::NespiCasePlus:
-      return Case(CaseModel::NespiCasePlus, false, "Nespi Case +", "NespiCasePlus");
+      return Case(CaseModel::NespiCasePlus, false, "Nespi Case +", "NespiCasePlus", retroflagInstallMessage);
     case CaseModel::PiStation:
-      return Case(CaseModel::PiStation, false, "PiStation", "PiStation");
+      return Case(CaseModel::PiStation, false, "PiStation", "PiStation", retroflagInstallMessage);
     case CaseModel::SuperPiCase:
-      return Case(CaseModel::SuperPiCase, false, "Super Pi Case", "SuperPiCase");
+      return Case(CaseModel::SuperPiCase, false, "Super Pi Case", "SuperPiCase", retroflagInstallMessage);
     case CaseModel::MegaPiCase:
-      return Case(CaseModel::MegaPiCase, false, "Mega Pi Case", "MegaPiCase");
+      return Case(CaseModel::MegaPiCase, false, "Mega Pi Case", "MegaPiCase", retroflagInstallMessage);
   }
-  return Case(CaseModel::None, false, "None", "");
+  return Case(CaseModel::None, false, "None", "", "");
 }
 
 
