@@ -7,6 +7,7 @@ MODULES = {
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
     "installers.gpi2.install": (cases.GPI2,),
+    "installers.argonone.install": (cases.ARGONONE,),
     "installers.retroflags.install": (cases.NESPI4, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
 }
 

@@ -29,6 +29,7 @@ class Case
       PiStation,
       SuperPiCase,
       MegaPiCase,
+      ArgonOne,
       None,
     };
 

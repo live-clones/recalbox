@@ -23,6 +23,7 @@ bool Case::Install() const
     case CaseModel::SuperPiCase:
     case CaseModel::MegaPiCase:
     case CaseModel::PiStation:
+    case CaseModel::ArgonOne:
     {
       SetCaseInBoot(mShortName);
       break;
@@ -32,6 +33,7 @@ bool Case::Install() const
       SetCaseInBoot("none");
       break;
     }
+    case CaseModel::GPiV1:
     case CaseModel::GPiV2:
     case CaseModel::GPiV3:
     case CaseModel::GPi2:
@@ -57,6 +59,7 @@ Case Case::FromShortName(const std::string& value)
   if (value == "PiStation") return Create(CaseModel::PiStation);
   if (value == "SuperPiCase") return Create(CaseModel::SuperPiCase);
   if (value == "MegaPiCase") return Create(CaseModel::MegaPiCase);
+  if (value == "ArgonOne") return Create(CaseModel::ArgonOne);
   return Create(CaseModel::None);
 }
 
@@ -90,6 +93,8 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::SuperPiCase, false, "Super Pi Case", "SuperPiCase", retroflagInstallMessage);
     case CaseModel::MegaPiCase:
       return Case(CaseModel::MegaPiCase, false, "Mega Pi Case", "MegaPiCase", retroflagInstallMessage);
+    case CaseModel::ArgonOne:
+      return Case(CaseModel::MegaPiCase, false, "Argon One", "ArgonOne", "");
   }
   return Case(CaseModel::None, false, "None", "", "");
 }
@@ -111,6 +116,7 @@ std::vector<Case> Case::SupportedManualCases()
   if (Board::Instance().GetBoardType() == BoardType::Pi4)
   {
     list.push_back(Case::Create(Case::CaseModel::PiStation));
+    list.push_back(Case::Create(Case::CaseModel::ArgonOne));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   if (Board::Instance().GetBoardType() == BoardType::Pi3plus || Board::Instance().GetBoardType() == BoardType::Pi3)
