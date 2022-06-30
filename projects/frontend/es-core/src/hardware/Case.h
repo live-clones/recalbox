@@ -59,12 +59,18 @@ class Case
     /*!
      * @brief Install the case on the system. If the case is None, it will uninstall cases.
      */
-    bool Install();
+    bool Install() const;
 
     /*!
      * @brief Uninstall the case
      */
-    bool Uninstall();
+    const bool Uninstall() const;
+
+    /*!
+     * @brief Returns the install message
+     * @return the installe message
+     */
+    std::string GetInstallMessage() const { return mInstallMessage; }
 
     /*!
      * @brief Get the case from short name
@@ -100,9 +106,10 @@ class Case
      * @param displayName Displayable name
      * @param shortName Internal name
      */
-    Case(CaseModel model, bool automatic, const std::string& displayName, const std::string& shortName)
+    Case(CaseModel model, bool automatic, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
       : mDisplayName(displayName)
       , mShortName(shortName)
+      , mInstallMessage(installMessage)
       , mModel(model)
       , mAutomatic(automatic)
      {}
@@ -110,6 +117,7 @@ class Case
     static bool SetCaseInBoot(const std::string& theCase);
     const std::string mDisplayName;
     const std::string mShortName;
+    const std::string mInstallMessage;
     const enum CaseModel mModel;
     const bool mAutomatic;
 };
