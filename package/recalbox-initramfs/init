@@ -52,7 +52,7 @@ do_clean_overlay() {
 
 do_clean_case() {
     # clear case setting
-    sed -i -E 's/^case=/;case=/' /boot_root/recalbox-boot.conf
+    sed -i -E 's/^case=(.+):1/case=\1/' /boot/recalbox-boot.conf
 }
 
 do_clean_safeboot() {
