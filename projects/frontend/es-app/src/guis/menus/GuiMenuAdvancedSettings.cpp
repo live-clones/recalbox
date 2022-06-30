@@ -340,15 +340,8 @@ void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, cons
     Case currentCase = Case::CurrentCase();
     if(selectedCase.Model() != currentCase.Model())
     {
-      if(selectedCase.Model() == Case::CaseModel::None)
-      {
-        bool installed = currentCase.Uninstall();
-        { LOG(LogInfo) << "[Settings - Cases] Uninstalled case " << currentCase.DisplayName() << (installed ? " successfully" : " failed!"); }
-      }
-      else {
-        bool installed = selectedCase.Install();
-        { LOG(LogInfo) << "[Settings - Cases] Installed case " << selectedCase.DisplayName() << (installed ? " successfully" : " failed!"); }
-      }
+      bool installed = selectedCase.Install();
+      { LOG(LogInfo) << "[Settings - Cases] Installed case " << selectedCase.DisplayName() << (installed ? " successfully" : " failed!"); }
       RequestReboot();
     }
   }
