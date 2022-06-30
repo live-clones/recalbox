@@ -17,7 +17,7 @@ check_safeboot() {
     if test -e "${safeboot}" ; then
         safebootvalue=`cat "${safeboot}"`
         let safebootvalue++
-            if test "${safebootvalue}" -gt 2 ; then
+            if test "${safebootvalue}" -gt 3 ; then
             return 1
         else
             echo "${safebootvalue}" > "${safeboot}"
@@ -52,7 +52,7 @@ do_clean_overlay() {
 
 do_clean_case() {
     # clear case setting
-    sed -i -E 's/^case=(.+):1/case=\1/' /boot/recalbox-boot.conf
+    sed -i -E 's/^case=(.+):1/case=\1/' /boot_root/recalbox-boot.conf
 }
 
 do_clean_safeboot() {
