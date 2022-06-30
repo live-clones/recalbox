@@ -4,11 +4,10 @@ import cases
 # Module per case(s)
 MODULES = {
     "installers.gpi.install": (cases.GPI_V1, cases.GPI_V2, cases.GPI_V3),
-    "installers.nespi4.install": (cases.NESPI4,),
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
     "installers.gpi2.install": (cases.GPI2,),
-    "installers.retroflags.install": (cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
+    "installers.retroflags.install": (cases.NESPI4, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
 }
 
 def processHardware(install, case, previousCase):

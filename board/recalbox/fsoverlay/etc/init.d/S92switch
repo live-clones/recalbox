@@ -24,10 +24,6 @@ case "$1" in
                 recallog -s "${INIT_SCRIPT}" -t "GPI" "GPi case detected: running shutdown script"
                 python /recalbox/system/hardware/case/installers/gpi/assets/recalbox_SafeShutdown_gpi.py &
             ;;
-            NESPi4:1)
-                recallog -s "${INIT_SCRIPT}" -t "CASE" "NESPi4 case detected: running shutdown script"
-                python /recalbox/system/hardware/case/installers/nespi4/assets/shutdown.py &
-            ;;
             GPi2:1)
                 recallog -s "${INIT_SCRIPT}" -t "CASE" "GPi2 case detected: running shutdown script"
                 python /recalbox/system/hardware/case/installers/gpi2/assets/SafeShutdown.py &
