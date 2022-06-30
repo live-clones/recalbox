@@ -23,6 +23,8 @@ bool Case::Install() const
     case CaseModel::SuperPiCase:
     case CaseModel::MegaPiCase:
     case CaseModel::PiStation:
+    case CaseModel::ArgonOne:
+    case CaseModel::Nespi4CaseManual:
     {
       SetCaseInBoot(mShortName);
       break;
@@ -53,6 +55,7 @@ Case Case::FromShortName(const std::string& value)
   if (value == "Nuxii") return Create(CaseModel::Nuxii);
   if (value == "PiBoy") return Create(CaseModel::PiBoy);
   if (value == "NESPi4") return Create(CaseModel::Nespi4Case);
+  if (value == "NESPi4Manual") return Create(CaseModel::Nespi4CaseManual);
   if (value == "NespiCasePlus") return Create(CaseModel::NespiCasePlus);
   if (value == "PiStation") return Create(CaseModel::PiStation);
   if (value == "SuperPiCase") return Create(CaseModel::SuperPiCase);
@@ -82,6 +85,8 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::PiBoy, true, "PiBoy DMG", "PiBoy", "");
     case CaseModel::Nespi4Case:
       return Case(CaseModel::Nespi4Case, true, "Nespi4Case", "NESPi4", "");
+    case CaseModel::Nespi4CaseManual:
+      return Case(CaseModel::Nespi4CaseManual, false, "Nespi4Case", "NESPi4Manual", retroflagInstallMessage);
     case CaseModel::NespiCasePlus:
       return Case(CaseModel::NespiCasePlus, false, "Nespi Case +", "NespiCasePlus", retroflagInstallMessage);
     case CaseModel::PiStation:
@@ -111,6 +116,8 @@ std::vector<Case> Case::SupportedManualCases()
   if (Board::Instance().GetBoardType() == BoardType::Pi4)
   {
     list.push_back(Case::Create(Case::CaseModel::PiStation));
+    list.push_back(Case::Create(Case::CaseModel::ArgonOne));
+    list.push_back(Case::Create(Case::CaseModel::Nespi4CaseManual));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   if (Board::Instance().GetBoardType() == BoardType::Pi3plus || Board::Instance().GetBoardType() == BoardType::Pi3)

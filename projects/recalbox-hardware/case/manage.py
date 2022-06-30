@@ -121,7 +121,7 @@ def DetectPiBoyCase():
 
 # --------- Main
 
-manualCases = (cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE)
+manualCases = (cases.NESPI4MANUAL, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE)
 # Main identification routine
 def Identify(previousCase):
     case = cases.NONE
