@@ -107,8 +107,7 @@ class Case
       , mAutomatic(automatic)
      {}
 
-    static bool SetCaseInBoot(const std::string& theCase, bool uninstall = false);
-    bool SetInstalled(bool install);
+    static bool SetCaseInBoot(const std::string& theCase);
     const std::string mDisplayName;
     const std::string mShortName;
     const enum CaseModel mModel;
