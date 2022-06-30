@@ -5,18 +5,16 @@
 #include "Case.h"
 #include "Board.h"
 
-bool Case::SetCaseInBoot(const std::string& theCase, bool install)
+bool Case::SetCaseInBoot(const std::string& theCase)
 {
   IniFile bootConf(Path("/boot/recalbox-boot.conf"), false);
-  if(install)
-    bootConf.SetString("case", theCase);
-  else
-    bootConf.SetString("case", theCase + ":3");
+  bootConf.SetString("case", theCase);
   bootConf.Save();
   return true;
 }
 
-bool Case::SetInstalled(bool install)
+
+bool Case::Install()
 {
   switch (mModel)
   {
@@ -25,27 +23,23 @@ bool Case::SetInstalled(bool install)
     case CaseModel::MegaPiCase:
     case CaseModel::PiStation:
     {
-      SetCaseInBoot(mShortName, install);
+      SetCaseInBoot(mShortName);
       break;
     }
     case CaseModel::None:
     {
-      SetCaseInBoot("none:1");
+      SetCaseInBoot("none");
       break;
     }
-    default:
+    case CaseModel::GPiV2:
+    case CaseModel::GPiV3:
+    case CaseModel::GPi2:
+    case CaseModel::Nuxii:
+    case CaseModel::PiBoy:
+    case CaseModel::Nespi4Case:
       break;
   }
   return true;
-}
-bool Case::Install()
-{
-  return SetInstalled(true);
-}
-
-bool Case::Uninstall()
-{
-  return SetInstalled(false);
 }
 
 //! Get case from string
