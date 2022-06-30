@@ -17,7 +17,7 @@ check_safeboot() {
     if test -e "${safeboot}" ; then
         safebootvalue=`cat "${safeboot}"`
         let safebootvalue++
-            if test "${safebootvalue}" -gt 2 ; then
+            if test "${safebootvalue}" -gt 3 ; then
             return 1
         else
             echo "${safebootvalue}" > "${safeboot}"
