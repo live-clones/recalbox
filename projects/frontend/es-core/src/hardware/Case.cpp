@@ -74,7 +74,7 @@ Case Case::Create(CaseModel model)
   switch (model)
   {
     case CaseModel::None:
-      return Case(CaseModel::None, false, "None", "", "");
+      return Case(CaseModel::None, false, _("NONE"), "", "");
     case CaseModel::GPiV1:
       return Case(CaseModel::GPiV1, true, "Gpi Case (v1)", "GPiV1","");
     case CaseModel::GPiV2:
@@ -104,7 +104,7 @@ Case Case::Create(CaseModel model)
     case CaseModel::ArgonOne:
       return Case(CaseModel::MegaPiCase, false, "Argon One (Argon40)", "ArgonOne", "");
   }
-  return Case(CaseModel::None, false, "None", "", "");
+  return Case(CaseModel::None, false, _("NONE"), "", "");
 }
 
 
