@@ -111,7 +111,7 @@ void Upgrade::ReceiveSyncCallback(const SDL_Event& event)
   (void)event;
 
   // Volatile popup
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 60, GuiInfoPopupBase::PopupType::Recalbox));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, PatronInfo::Instance().IsPatron() ? 10 : 30, GuiInfoPopupBase::PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())
@@ -124,12 +124,16 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
-  if (target == "patron" && !PatronInfo::Instance().IsPatron())
-    target = "stable";
+  // If target has been set to patron, we set it as unexisting, to avoid the upgrade if the key is not valid
+  if(target == "patron")
+    target = "unexisting";
+  // And if we are a patron, we can upgrade
+  if (PatronInfo::Instance().IsPatron() && target != "alpha")
+    target = "patron";
   Strings::ReplaceAllIn(target, ' ', "", 0);
   std::string domain(target + sUpgradeDNS);
 
-  { LOG(LogDebug) << "[Update] updates.type implied dns to use: " << domain; }
+  { LOG(LogDebug) << "[Update] " << (PatronInfo::Instance().IsPatron() ? "As a patron" : "") << " updates.type implied dns to use: " << domain; }
 
   // Query TXT
   unsigned char buffer[4096];
