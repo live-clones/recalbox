@@ -66,7 +66,7 @@ class Case
     /*!
      * @brief Uninstall the case
      */
-    const bool Uninstall() const;
+    bool Uninstall() const;
 
     /*!
      * @brief Returns the install message
