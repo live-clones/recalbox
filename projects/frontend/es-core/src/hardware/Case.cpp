@@ -88,17 +88,17 @@ Case Case::Create(CaseModel model)
     case CaseModel::Nespi4Case:
       return Case(CaseModel::Nespi4Case, true, "Nespi4Case", "NESPi4", "");
     case CaseModel::Nespi4CaseManual:
-      return Case(CaseModel::Nespi4CaseManual, false, "Nespi4Case", "NESPi4Manual", retroflagInstallMessage);
+      return Case(CaseModel::Nespi4CaseManual, false, "Nespi4Case (Retroflag)", "NESPi4Manual", retroflagInstallMessage);
     case CaseModel::NespiCasePlus:
-      return Case(CaseModel::NespiCasePlus, false, "Nespi Case +", "NespiCasePlus", retroflagInstallMessage);
+      return Case(CaseModel::NespiCasePlus, false, "Nespi Case + (Retroflag)", "NespiCasePlus", retroflagInstallMessage);
     case CaseModel::PiStation:
-      return Case(CaseModel::PiStation, false, "PiStation", "PiStation", retroflagInstallMessage);
+      return Case(CaseModel::PiStation, false, "PiStation (Retroflag)", "PiStation", retroflagInstallMessage);
     case CaseModel::SuperPiCase:
-      return Case(CaseModel::SuperPiCase, false, "Super Pi Case", "SuperPiCase", retroflagInstallMessage);
+      return Case(CaseModel::SuperPiCase, false, "Super Pi Case (Retroflag)", "SuperPiCase", retroflagInstallMessage);
     case CaseModel::MegaPiCase:
-      return Case(CaseModel::MegaPiCase, false, "Mega Pi Case", "MegaPiCase", retroflagInstallMessage);
+      return Case(CaseModel::MegaPiCase, false, "Mega Pi Case (Retroflag)", "MegaPiCase", retroflagInstallMessage);
     case CaseModel::ArgonOne:
-      return Case(CaseModel::MegaPiCase, false, "Argon One", "ArgonOne", "");
+      return Case(CaseModel::MegaPiCase, false, "Argon One (Argon40)", "ArgonOne", "");
   }
   return Case(CaseModel::None, false, "None", "", "");
 }
