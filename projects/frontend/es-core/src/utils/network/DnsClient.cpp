@@ -30,7 +30,7 @@ std::string DnsClient::GetTxtRecord(const std::string& domain)
     if (ns_parserr(&msg, ns_s_an, 0, &rr) == 0)
     {
       std::string result = std::string((char*) (ns_rr_rdata(rr) + 1), (int) ns_rr_rdata(rr)[0]);
-      { LOG(LogDebug) << "[Update] Domain: " << result; }
+      { LOG(LogDebug) << "[DnsClient] Domain: " << result; }
 
       if (entry == nullptr) entry = &mCache[domain];
       entry->SetTxtRecord(result);
@@ -68,11 +68,11 @@ std::string DnsClient::GetARecord(const std::string& domain)
         memcpy(&in.s_addr, ns_rr_rdata(rr), sizeof(in.s_addr));
         result.append(inet_ntoa(in));
         if (count != 0) result.append(1, '|');
-        { LOG(LogDebug) << "[Update] " << ns_rr_name(rr) << " in " << inet_ntoa(in); }
+        { LOG(LogDebug) << "[DnsClient] " << ns_rr_name(rr) << " in " << inet_ntoa(in); }
       }
       else { LOG(LogError) << "[DnsClient] Error parsing DNS response! (" << domain << ')'; }
     }
-    { LOG(LogDebug) << "[Update] Domain: " << result; }
+    { LOG(LogDebug) << "[DnsClient] Domain: " << result; }
 
     if (entry == nullptr) entry = &mCache[domain];
     entry->SetARecord(result);
