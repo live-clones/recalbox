@@ -288,8 +288,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         case SDL_MOUSEBUTTONUP:
         {
           // Convert event
-          { LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
-
+          //{ LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
           // Process
           if (!compactEvent.Empty())
