@@ -1,14 +1,14 @@
-From 207707a3be4c5df99711ed865b6b64623b15d1b4 Mon Sep 17 00:00:00 2001
+From fe5ec36e1c532f27ee567471bf2a02ab31a6cf8f Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
-Date: Fri, 18 Feb 2022 22:23:31 +0100
-Subject: [PATCH 3/5] linux usb hid input xinmo
+Date: Fri, 10 Jun 2022 21:54:24 +0200
+Subject: [PATCH 3/6] linux usb hid input xinmo
 
 ---
  drivers/hid/hid-input.c | 10 ++--------
  1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 3d33c0c06cbb..f80026d72a23 100644
+index 3172987a9ebd..57a2c41b4b53 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
 @@ -740,14 +740,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
@@ -36,5 +36,5 @@ index 3d33c0c06cbb..f80026d72a23 100644
  			if (field->flags & HID_MAIN_ITEM_RELATIVE)
  				map_rel(usage->hid & 0xf);
 -- 
-2.35.1
+2.36.1
 

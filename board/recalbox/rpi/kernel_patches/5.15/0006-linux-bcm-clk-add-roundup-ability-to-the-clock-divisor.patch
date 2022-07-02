@@ -1,5 +1,5 @@
-From fea0c1a28c6202d1fd51dd817a688ce54347c965 Mon Sep 17 00:00:00 2001
-From: David Barbion <davidb@230ruedubac.fr>
+From 9e66a0290180447bfea576fd145d84996fdbc643 Mon Sep 17 00:00:00 2001
+From: digitalLumberjack <digitallumberjack@gmail.com>
 Date: Fri, 10 Jun 2022 22:03:03 +0200
 Subject: [PATCH 6/6] linux bcm clk add roundup ability to the clock divisor
 
