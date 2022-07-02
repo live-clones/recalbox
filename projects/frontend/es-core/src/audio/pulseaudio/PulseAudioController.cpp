@@ -748,6 +748,11 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
     pa_operation_unref(op);
      { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been set as default sink."; }
 
+    // Unmute sink
+    pa_context_set_sink_mute_by_name(mPulseAudioContext, sink->Name.data(), 0, SetMuteCallback, this);
+    // Wait for result
+    mSignal.WaitSignal(sTimeOut);
+     { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been unmuted."; }
   }
 
   // Return new  playback
