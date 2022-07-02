@@ -251,8 +251,8 @@ build rpizero2:
     - apk add --update-cache --no-cache xz bash
   script:
     - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
+    - mv builds/rpi4 builds/rpi4_32 && cp -r builds/rpi4_64 builds/rpi4 # Legacy rpi4 32 bits and force 32 bits to upgrade to 64
     - mkdir release
-    - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
