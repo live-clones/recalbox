@@ -251,8 +251,15 @@ build rpizero2:
     - apk add --update-cache --no-cache xz bash
   script:
     - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
+    - echo "Legacy rpi4 32 bits and force 32 bits to upgrade to 64"
+    - mv builds/rpi4 builds/rpi4_32 && cp -r builds/rpi4_64 builds/rpi4
+    - mv builds/rpi4/recalbox-rpi4_64.img.xz  builds/rpi4/recalbox-rpi4.img.xz
+    - mv builds/rpi4/recalbox-rpi4_64.img.xz.sha1  builds/rpi4/recalbox-rpi4.img.xz.sha1
+    - mv builds/rpi4/recalbox-rpi4_64.tar.xz  builds/rpi4/recalbox-rpi4.tar.xz
+    - mv builds/rpi4/recalbox-rpi4_64.tar.xz.sha1  builds/rpi4/recalbox-rpi4.tar.xz.sha1
+    - sed -i "s/recalbox-rpi4_64.tar.xz/recalbox-rpi4.tar.xz/g" builds/rpi4/recalbox-rpi4.tar.xz.sha1
+    - sed -i "s/recalbox-rpi4_64.img.xz/recalbox-rpi4.img.xz/g" builds/rpi4/recalbox-rpi4.img.xz.sha1
     - mkdir release
-    - ls -la builds
     - ./scripts/release/generate_external_installer_assets.sh --images-dir builds --destination-dir release
     - echo "Releasing files"
     - mv builds/* release
