@@ -80,9 +80,9 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
     }
     // Network?
     if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
-      #ifndef DEBUG
+      //#ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
-      #endif
+      //#endif
       {
         result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }

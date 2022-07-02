@@ -121,9 +121,15 @@ def DetectPiBoyCase():
 
 # --------- Main
 
+manualCases = (cases.SUPERPI4CASE, cases.NESPI4MANUAL, cases.PISTATION, cases.ARGONONE, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE)
 # Main identification routine
-def Identify():
+def Identify(previousCase):
     case = cases.NONE
+
+    if previousCase in manualCases:
+        logger.hardlog("Manual case detected")
+        # Takes priority on auto detection or we have gpio that will be deactivated
+        return previousCase
 
     with open("/recalbox/recalbox.arch", "r") as sf:
         board = sf.readline()
@@ -139,7 +145,7 @@ def Identify():
 
     if board in ("rpi3", "rpi4", "rpi4_64") and case == cases.NONE:
         case = DetectPiBoyCase()
-
+    
     return case
 
 
@@ -172,6 +178,7 @@ def mainInstall():
     needReboot = False
     requestedCase = case
     caseKey = "case"
+    installedCaseKey = "installedCase"
     previousPhase = -1
 
     previousCase = settings.getOption(caseKey, "")
@@ -179,14 +186,37 @@ def mainInstall():
         previousCase, previousPhase = previousCase.split(':')
         previousPhase = int(previousPhase)
 
-    # Decide whether we install/uninstall or not
-    if previousCase == "" or previousPhase < phase or not machine:
+    installedCase = settings.getOption(installedCaseKey, "")
 
-        # Auto-identifying
-        logger.hardlog("Current case: " + case)
+    logger.hardlog("Script info - case: {}, previousCase: {}, installedCase: {}, phase: {}, previousPhase: {}".format(case, previousCase, installedCase, phase, previousPhase))
+
+    # Force uninstall if the installedCase is not previousCase (used for uninstall)
+    # This must be done on phase 1 so share is mounted and we can uninstall the software
+    # We exit the script on phase 0 to wait for phase 1
+    if installedCase != "" and installedCase != "none" and installedCase != previousCase:
+        if phase == 1:
+            import installer
+            logger.hardlog("Uninstalling {}".format(installedCase))
+            installer.processHardware(0, installedCase, installedCase)
+            installer.processSoftware(0, installedCase)
+            settings.setOption(installedCaseKey,"")
+            subprocess.call(["mount", "-o", "remount,rw", "/boot"])
+            settings.saveFile()
+            subprocess.call(["reboot", "-f"])
+            sys.exit(0)
+        else:
+            logger.hardlog("Waiting for phase 1 to uninstall {}".format(installedCase))
+            sys.exit(0)
+
+    if previousCase == "" or previousPhase < phase or not machine:
         if len(case) == 0:
-            case = Identify()
-            logger.hardlog("Case detected: " + case)
+            case = Identify(previousCase)
+            if case is not cases.NONE:
+                logger.hardlog("Case detected: " + case)
+            else:
+                logger.hardlog("No case detected")
+
+        logger.hardlog("Processing case {} on phase {}".format(case, phase))
 
         import installer
         if machine:
@@ -195,10 +225,12 @@ def mainInstall():
                 needReboot = installer.processHardware(install, case, previousCase)
             else:
                 case = installer.processSoftware(install, case)
+                settings.setOption(installedCaseKey, case if case != cases.NONE else "")
         else:
             # Human action - process both hardware & software
             needReboot = installer.processHardware(install, case, previousCase)
             case = installer.processSoftware(install, case)
+            settings.setOption(installedCaseKey, case if case != cases.NONE else "")
 
         # Set new case value
         settings.setOption(caseKey, "{}:{}".format(case, phase))
@@ -206,6 +238,7 @@ def mainInstall():
         # Save settings
         subprocess.call(["mount", "-o", "remount,rw", "/boot"])
         settings.saveFile()
+        subprocess.call(["mount", "-o", "remount,ro", "/boot"])
 
         if needReboot and machine:
             logger.hardlog("Automatic reboot required")
@@ -216,18 +249,16 @@ def mainInstall():
     if previousPhase == 0:
 
         import installer
-        picture = installer.getInstallScript(previousCase)
-        if picture is not None:
-
+        script = installer.getInstallScript(previousCase)
+        if script is not None:
             # import logger
-            logger.hardlog("Request install script")
-
+            logger.hardlog("Linking "+previousCase+ " install script (" + script + ") to /tmp/.install.sh")
             # Make temporary link to install script
             import os
             pathToSymLink = "/tmp/.install.sh"
             if os.path.exists(pathToSymLink):
                 os.remove(pathToSymLink)
-            os.symlink(picture, pathToSymLink)
+            os.symlink(script, pathToSymLink)
 
 
     # Need reboot?
