@@ -846,3 +846,39 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode_f
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"50"'
+
+
+
+def test_given_31kHz_and_system_width_should_ignore_system_width(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx@60.0988,2560,0",
+        MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\npsx2560:ntsc:240@59.826,2560 1 104 248 416 240 1 2 3 17 0 0 0 59 0 52164443 1,59.826"})
+
+    emulator = configureForCrt(Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
+                               crtresolutiontype="progressive", crtvideostandard="auto", crtscreentype="31kHz")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
+        emulator, "Die Hard Trilogy.iso")
+
+    assert libretro_config["crt_switch_timings_pal"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 640
+    assert libretro_config["custom_viewport_height_ntsc"] == 480
+    assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_height_pal"] == 480
+
+def test_given_31kHz_and_doublefreq_system_width_should_ignore_system_width(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx2560:ntsc:240@59.826,2560,0",
+        MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\npsx2560:ntsc:240@59.826,2560 1 104 248 416 240 1 2 3 17 0 0 0 59 0 52164443 1,59.826"})
+
+    emulator = configureForCrt(Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
+                               crtresolutiontype="doublefreq", crtvideostandard="auto", crtscreentype="31kHz")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
+        emulator, "Die Hard Trilogy.iso")
+
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
+    assert libretro_config["custom_viewport_height_ntsc"] == 240
+    assert libretro_config["custom_viewport_width_pal"] == 1920
+    assert libretro_config["custom_viewport_height_pal"] == 240
