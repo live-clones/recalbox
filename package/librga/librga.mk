@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-LIBRGA_VERSION = 2134dde256e10bf54c490d06f44f22a6859c83eb
-LIBRGA_SITE = $(call github,rockchip-linux,linux-rga,$(LIBRGA_VERSION))
+LIBRGA_VERSION = 16f547acaf4af082ef118e7da10d198458be0602
+LIBRGA_SITE = $(call github,hardkernel,rk3568_linux_linux-rga,$(LIBRGA_VERSION))
 LIBRGA_LICENSE = GPL-2+
 LIBRGA_LICENSE_FILES = COPYING
 
