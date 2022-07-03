@@ -26,6 +26,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gPSP
 - Bump libretro gong
 
+- Bump libretro-mesen_s
+
 ### Fixes
 - Fix pad 8bitdo Pro 2 mode D (Android)
 
