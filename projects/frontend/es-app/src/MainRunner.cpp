@@ -1099,7 +1099,7 @@ void MainRunner::Sdl2EventReceived(const SDL_Event& event)
 
 bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
 {
-  { LOG(LogInfo) << "[MainRunner] Processing special input."; }
+  //{ LOG(LogInfo) << "[MainRunner] Processing special input."; }
 
   const InputEvent& raw = event.RawEvent();
   if (raw.Type() == InputEvent::EventType::Key)
