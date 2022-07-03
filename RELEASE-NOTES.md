@@ -55,6 +55,13 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 
 
+### News
+- Bump libretro-mesen_s
+
+### Improvements
+
+### Fixes
+
 ## Version 8.1.1-Electron
 
 ## Fixes
