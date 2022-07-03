@@ -57,6 +57,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro uae
 - Bump libretro dosbox-pure
 - Improve AppleIIGS configurator & add eXoAppleIIGS config support
+- Bump libretro-mesen_s
 
 - Improve bluetooth devices pairing
   - Audio devices can be paired in sound settings
