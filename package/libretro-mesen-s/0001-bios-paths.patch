@@ -1,0 +1,11 @@
+--- a/Core/FirmwareHelper.h	2022-07-03 23:48:30.000000000 +0200
++++ b/Core/FirmwareHelper.h	2022-07-03 23:49:12.000000000 +0200
+@@ -115,7 +115,7 @@
+ 
+ 	static bool LoadSgbFirmware(Console* console, uint8_t** prgRom, uint32_t& prgSize, bool useSgb2)
+ 	{
+-		string filename = useSgb2 ? "SGB2.sfc" : "SGB1.sfc";
++		string filename = useSgb2 ? "sgb/SGB2.sfc" : "sgb/SGB1.sfc";
+ 		prgSize = useSgb2 ? 0x80000 : 0x40000;
+ 		if(AttemptLoadFirmware(prgRom, filename, prgSize)) {
+ 			return true;
