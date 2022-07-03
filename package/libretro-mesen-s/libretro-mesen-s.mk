@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_MESEN_S_VERSION = 73afbc362314a2b7bcdaf166474b70c0f5b4e0a6
-LIBRETRO_MESEN_S_SITE = $(call github,SourMesen,Mesen-S,$(LIBRETRO_MESEN_S_VERSION))
+LIBRETRO_MESEN_S_VERSION = b0b53409eecb696fb13f411ffde72e8f576feb09
+LIBRETRO_MESEN_S_SITE = $(call github,libretro,Mesen-S,$(LIBRETRO_MESEN_S_VERSION))
 LIBRETRO_MESEN_S_LICENSE = GPL-3.0
 LIBRETRO_MESEN_S_LICENSE_FILES = LICENSE
 
