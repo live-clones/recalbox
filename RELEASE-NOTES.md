@@ -39,6 +39,14 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 ### Fixes
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
+## Version 8.2-Electron
+
+### News
+- Bump libretro-mesen_s
+
+### Improvements
+
+### Fixes
 
 ## Version 8.1.1-Electron
 
