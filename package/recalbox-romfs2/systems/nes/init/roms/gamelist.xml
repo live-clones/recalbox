@@ -343,4 +343,20 @@ Therefore the release is in nes rom format so you'll need an emulator to play it
     <image>./media/images/Zooming Secretary (Shiru).png</image>
     <genreid>256</genreid>
   </game>
+  <game id="250256" source="ScreenScraper.fr">
+    <path>./Zdey_the_game_World_Rev_A.nes</path>
+    <name>ZDEY The Game</name>
+    <desc>You become Zdey – your malicious alter ego – in his Parisian metro quest ! But before reaching the mythic Train Yard, you'll have to bust the grans using rutting cats, avoid pesky rats and bribe less-than-reputable dog handlers.
+You've managed to survive all the street pitfalls ?
+Now, it's time to confront the final Boss: a hopping mad, bulimic policeman! Keep tossing him doughnuts so you can advance without being apprehended.
+It's a race against time to finish your train's masterpiece and inscribe your high score blaze.</desc>
+    <releasedate>20210328T000000</releasedate>
+    <developer>Art'cade</developer>
+    <publisher>Dale Coop & Raftronaut</publisher>
+    <genre>Plateforme</genre>
+    <players>1</players>
+    <hash>947972D0</hash>
+    <image>./media/images/Zdey_the_game_World_Rev_A.png</image>
+    <genreid>256</genreid>
+  </game>
 </gameList>

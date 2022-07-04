@@ -66,6 +66,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add softpatching manager in game settings
 - Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 - Add new Atari 5200 core (libretro core: a5200)
+- Add the game Zdey The Game on Nintendo Nes. Thank you to Art'cade
 
 ### Improvements
 
@@ -82,7 +83,6 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Retroarch to v1.10.0
 - Bump libretro Gearcoloeco (fix graphics glitches, fix PAL refresh rates, add bios alert)
 - Bump libretro Picodrive - lots of small fixes & improvements
-- Bump libretro DosBox Pure to v0.26
 - Bump libretro NX Engine (Cave Story) - Lots of small bug fixes!
 - Bump Amiberry to v1.4.6 (fix some graphic glitches)
 - Bump libretro Quasi88 (Nec PC-8800)
@@ -91,7 +91,6 @@ as release notes for end user on a Recalbox upgrade.
 - Bump SimCoupe to v1.2.8 (fix some tape issues & update spectrum library)
 - Bump libretro FCEUMM (NES) - Lots of bug fixes & increase compatibility with new mappers
 - Bump Beetle Saturn (add netplay support)
-- Bump EmuSCV to fix zipped games load
 - Bump libretro mame2015
 - Bump libretro mame 0.239
 - Improve vectorial image quality (particularly on low resolutions) - Thanks to @rymcclel
