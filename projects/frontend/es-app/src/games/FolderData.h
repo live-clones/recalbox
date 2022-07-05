@@ -3,6 +3,7 @@
 #include <utils/storage/Set.h>
 #include "FileData.h"
 #include "IFilter.h"
+#include "IParser.h"
 
 class FolderData : public FileData
 {
@@ -315,6 +316,12 @@ class FolderData : public FileData
     static void Sort(FileData::List& items, FileData::Comparer comparer, bool ascending);
 
     /*!
+     * @brief Run through all item recursively and call the Parser interface on each item
+     * @param parser Parser interface
+     */
+    void ParseAllItems(IParser& parser);
+
+    /*!
      * Count filtered items recursively starting from the current folder
      * @param filters Filter to apply
      * @param includefolders True to include subfolders in the result
@@ -457,7 +464,7 @@ class FolderData : public FileData
      * @brief Check if game filtered
      * @return file data filtered state
      */
-    bool IsFiltered(FileData* fd, Filter includes, Filter excludes) const;
+    static bool IsFiltered(FileData* fd, Filter includes, Filter excludes) ;
 };
 
 
