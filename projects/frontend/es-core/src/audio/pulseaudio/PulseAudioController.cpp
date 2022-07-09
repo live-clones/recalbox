@@ -570,6 +570,17 @@ std::string PulseAudioController::GetActivePlaybackName()
   std::string playbackName = "";
   std::string sinkName = GetDefaultSink();
 
+  // return special playback name (like auto)
+  switch(Board::Instance().GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    {
+      return(sAutoSwitch);
+      break;
+    }
+  }
+
   if (sinkName == "")
     return "";
 
