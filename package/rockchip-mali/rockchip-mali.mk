@@ -5,7 +5,8 @@
 ################################################################################
 
 ROCKCHIP_MALI_VERSION = ad4c28932c3d07c75fc41dd4a3333f9013a25e7f
-ROCKCHIP_MALI_SITE = $(call github,rockchip-linux,libmali,$(ROCKCHIP_MALI_VERSION))
+ROCKCHIP_MALI_SITE = https://github.com/Txwv/rockchip-linux-libmali.git
+ROCKCHIP_MALI_SITE_METHOD = git
 ROCKCHIP_MALI_INSTALL_STAGING = YES
 
 ROCKCHIP_MALI_DEPENDENCIES = libdrm
