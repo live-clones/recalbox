@@ -89,7 +89,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   // Busy
   mBusy.setPosition(mImage.getPosition());
   mBusy.setSize(mImage.getSize());
-  mBusy.setText("UPDATING...");
+  mBusy.setText(_("UPDATING..."));
 
   // metadata labels + values
   mLblRating.setText(_("Rating") + ": ");
@@ -498,7 +498,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
 {
   if(mSystem.Name() != "imageviewer")
     setRegions(file);
-  
+
   mRating.setValue(file->Metadata().RatingAsString());
   mReleaseDate.setValue(file->Metadata().ReleaseDate());
   mDeveloper.setValue(file->Metadata().Developer().empty() ? _("UNKNOWN") : file->Metadata().Developer());
