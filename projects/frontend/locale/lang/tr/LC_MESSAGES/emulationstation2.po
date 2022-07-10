@@ -3174,6 +3174,156 @@ msgid ""
 "be positioned on ON."
 msgstr ""
 
+#
+msgid "RECALBOX CRT"
+msgstr ""
+
+#
+msgid "RGB output for VGA666, PI2SCART, RGBPI."
+msgstr ""
+
+#
+msgid "CRT ADAPTER"
+msgstr ""
+
+#
+msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
+msgstr ""
+
+#
+msgid "MENU RESOLUTION"
+msgstr ""
+
+#
+msgid ""
+"Select emulationstation resolution. 480i is recommended for better details."
+msgstr ""
+
+#
+msgid "SCREEN TYPE"
+msgstr ""
+
+#
+msgid "FORCE 50HZ"
+msgstr ""
+
+#
+msgid "SELECT GAME REFRESH RATE AT LAUNCH"
+msgstr ""
+
+#
+msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
+msgstr ""
+
+#
+msgid "SELECT GAME RESOLUTION AT LAUNCH"
+msgstr ""
+
+#
+msgid ""
+"Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
+msgstr ""
+
+#
+msgid "RUN DEMOS IN 240P@120"
+msgstr ""
+
+#
+msgid "SCANLINES IN 480P"
+msgstr ""
+
+#
+msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgstr ""
+
+#
+msgid "ZERO LAG (BETA)"
+msgstr ""
+
+#
+msgid "Configure emulators to approach a zero lag experience."
+msgstr ""
+
+#
+msgid "FORCE SOUND ON JACK"
+msgstr ""
+
+#
+msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
+msgstr ""
+
+#
+msgid "SCREEN CALIBRATION (BETA)"
+msgstr ""
+
+#
+msgid "PAL HORIZONTAL OFFSET"
+msgstr ""
+
+#
+msgid ""
+"If you PAL images are not centered, you can override the default horizontal "
+"offset here."
+msgstr ""
+
+#
+msgid "PAL VERTICAL OFFSET"
+msgstr ""
+
+#
+msgid ""
+"If you PAL images are not centered, you can override the default vertical "
+"offset here."
+msgstr ""
+
+#
+msgid "CRT SETTINGS"
+msgstr ""
+
+#
+msgid "(Hardware managed)"
+msgstr ""
+
+#
+msgid "240p"
+msgstr ""
+
+#
+msgid "480p"
+msgstr ""
+
+#
+msgid "480i (recommended)"
+msgstr ""
+
+#
+msgid "MOVE SCREEN"
+msgstr ""
+
+#
+msgid "WIDER"
+msgstr ""
+
+#
+msgid "NARROWER"
+msgstr ""
+
+#
+msgid "VALIDATE CHANGES"
+msgstr ""
+
+#
+msgid "Image width:"
+msgstr ""
+
+#
+msgid "Horizontal offset:"
+msgstr ""
+
+#
+msgid "Vertical offset:"
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "KALAN DEPO"
 
