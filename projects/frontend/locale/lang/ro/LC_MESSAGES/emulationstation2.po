@@ -3202,6 +3202,26 @@ msgstr ""
 msgid "Vertical offset:"
 msgstr ""
 
+#
+msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
+msgstr ""
+
+#
+msgid "Select a region to filter out games not matching the selected region."
+msgstr ""
+
+#
+msgid "SOFTPATCHING"
+msgstr ""
+
+#
+msgid "SYSTEM RESOLUTIONS"
+msgstr ""
+
+#
+msgid "AUTOMATIC SCRAPING"
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "UTILIZARE DISC"
 
