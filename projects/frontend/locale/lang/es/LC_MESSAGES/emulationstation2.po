@@ -225,7 +225,7 @@ msgid "VERSION"
 msgstr "VERSIÓN"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr "USO DE DISCO"
+msgstr "USO DE DISCO (LIBRE/TOTAL)"
 
 msgid "STORAGE DEVICE"
 msgstr "ALMACENAMIENTO"
@@ -358,10 +358,10 @@ msgid "TRANSITION STYLE"
 msgstr "TIPO DE TRANSICIÓN"
 
 msgid "SCREENSAVER BEHAVIOR"
-msgstr "COMPORTAMIENTO DE SALVAPANTALLA"
+msgstr "COMPORTAMIENTO DEL SALVAPANTALLAS"
 
 msgid "SHOW FRAMERATE"
-msgstr "MOSTRAR TASA DE REFRESCO"
+msgstr "MOSTRAR FPS"
 
 msgid "CLOCK IN MENU"
 msgstr "RELOJ EN MENÚ"
@@ -379,10 +379,10 @@ msgid "THEME CONFIGURATION"
 msgstr "CONFIGURACIÓN DEL TEMA"
 
 msgid "THEME COLORSET"
-msgstr "CONJUNTO DE COLORES DEL TEMA"
+msgstr "COLORES DEL TEMA"
 
 msgid "THEME ICONSET"
-msgstr "CONJUNTO DE ÍCONOS DEL TEMA"
+msgstr "ÍCONOS DEL TEMA"
 
 msgid "THEME MENU"
 msgstr "MENÚ DEL TEMA"
@@ -908,7 +908,7 @@ msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
 msgstr "¿APAGAR SIN GUARDAR DATOS?"
 
 msgid "FAST SHUTDOWN SYSTEM"
-msgstr "APAGAR RÁPIDO"
+msgstr "APAGADO RÁPIDO"
 
 msgid ""
 "WE CAN'T FIND ANY SYSTEMS!\n"
@@ -1875,10 +1875,10 @@ msgid "Must match MD5"
 msgstr "Debe coincidir con MD5"
 
 msgid "File found ?"
-msgstr "Archivo encontrado ?"
+msgstr "¿Archivo encontrado?"
 
 msgid "Matching MD5 ?"
-msgstr "MD5 correcto?"
+msgstr "¿MD5 correcto?"
 
 msgid "NOTE"
 msgstr "NOTA"
@@ -2011,8 +2011,6 @@ msgstr "SISTEMAS VIRTUALES POR GÉNERO"
 
 msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
-"Muestre un sistema de 'todos los juegos' con todos los juegos de todos los "
-"sistemas."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr ""
@@ -2057,7 +2055,7 @@ msgid ""
 "short region game (JP or Japan, EU or Europe, ...)"
 msgstr ""
 "Intenta extraer la región del juego de su nombre de archivo cuando sea "
-"posible. Admite juegos de regiones largas y cortas (JP o Japón, UE o "
+"posible. Admite juegos de regiones largas y cortas (JP o Japón, EU o "
 "Europa, ...)"
 
 msgid "GET GAME NAME FROM"
@@ -2270,7 +2268,7 @@ msgid "VIEWER-ONLY"
 msgstr "ESPECTADOR"
 
 msgid "JOIN AS"
-msgstr "ÚNETE COMO"
+msgstr "UNIRTE COMO"
 
 msgid "CHOOSE PASSWORD"
 msgstr "ELEGIR UNA CONTRASEÑA"
@@ -2336,7 +2334,7 @@ msgid "AUTOMATIC WPS CONNECTION"
 msgstr "CONEXIÓN AUTOMÁTICA WPS"
 
 msgid "Connecting to WIFI..."
-msgstr "Conectando a Wi-Fi..."
+msgstr "Conectando al Wi-Fi..."
 
 msgid "Disconnecting from WIFI..."
 msgstr "Desconectando Wi-Fi..."
@@ -2924,14 +2922,12 @@ msgstr "Es necesario reiniciar para aplicar los cambios"
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "MOSTRAR SISTEMA LIGHTGUN"
 
-#
 msgid "SHOW PORTS SYSTEM"
 msgstr ""
 
 msgid "Show all available games playable with a lightgun."
 msgstr "Mostrar todos los juegos disponibles que pueden jugarse con pistola."
 
-#
 msgid "Show a 'ports' system with all ports in the same place."
 msgstr ""
 
@@ -3016,143 +3012,116 @@ msgstr "¡Despertando!"
 msgid "Bye bye!"
 msgstr "¡Hasta pronto!"
 
-#
 msgid "LightGun Games"
-msgstr ""
+msgstr "Juegos LightGun"
 
-#
 msgid "NEW YORK"
-msgstr ""
+msgstr "NEW YORK"
 
-#
 msgid "MADRID"
-msgstr ""
+msgstr "MADRID"
 
-#
 msgid "AUTOMATIC"
-msgstr ""
+msgstr "AUTOMÁTICO"
 
-#
 msgid "SYSTEM DRIVER"
-msgstr ""
+msgstr "DRIVER DE SISTEMA"
 
-#
 msgid "GAME LIBRARY DRIVER"
-msgstr ""
+msgstr "DRIVER DE BIBLIOTECA DE JUEGOS"
 
-#
 msgid "Allow to swap validate button B/X and cancel button B/O"
-msgstr ""
+msgstr "Intercambiar botones de aceptar B/X y botones de cancelar A/O"
 
-#
 msgid "Select exisiting game clip view options for this theme."
 msgstr ""
+"Selecciona las opciones de visualización de clips de juegos existentes para "
+"este tema."
 
-#
 msgid "box2D"
-msgstr ""
+msgstr "BOX2D"
 
-#
 msgid "box3d"
-msgstr ""
+msgstr "BOX3D"
 
-#
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "CONTROLES P2K"
 
-#
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "LA ACTUALIZACIÓN HA FALLADO"
 
-#
 msgid ""
 "The upgrade process has failed. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"Ha fallado el proceso de actualización. Has vuelto a Recalbox %s.\n"
+"Vuelve a intentar actualizar tu Recalbox y comunícate con el equipo en "
+"https://forum.recalbox.com si el problema persiste."
 
-#
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "RECALBOX OVERLAYS"
 
-#
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
+"En pantallas panorámicas, muestra una imagen del sistema alrededor de la "
+"pantalla emulada."
 
-#
 msgid "No comment available"
-msgstr ""
+msgstr "No hay comentarios disponibles"
 
-#
 msgid "UNKNOWN"
-msgstr ""
+msgstr "DESCONOCIDO"
 
-#
 msgid "GO TO GAME"
-msgstr ""
+msgstr "IR AL JUEGO"
 
-#
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "BORRA EL JUEGO %s"
 
-#
 msgid "GAME FILES (ROM | DISK IMAGE)"
 msgstr ""
 
-#
 msgid "MEDIA FILES"
 msgstr ""
 
-#
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "ARCHIVOS DE CONFIGURACION Y PARCHES"
 
-#
 msgid "SAVE FILES"
 msgstr ""
 
-#
 msgid "SELECT FILES TO DELETE"
 msgstr ""
 
-#
 msgid "DELETE SELECTED FILES, CONFIRM?"
 msgstr ""
 
-#
 msgid "RELEASE DATE"
 msgstr ""
 
-#
 msgid "TYPE, THEN NAME"
 msgstr ""
 
-#
 msgid "TYPE, THEN RELEASE DATE"
 msgstr ""
 
-#
 msgid "MANUFACTURER, THEN NAME"
 msgstr ""
 
-#
 msgid "MANUFACTURER, THEN RELEASE DATE"
 msgstr ""
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
 msgstr ""
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
 msgstr ""
 
-#
 msgid "SYSTEM SORTING"
 msgstr ""
 
-#
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
 "System Type: order by Console/Handheld/Computer/Arcade/Other\n"
@@ -3161,199 +3130,155 @@ msgid ""
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
 
-#
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "BORRA TODOS LOS ARCHIVOS"
 
-#
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "BORRADO AVANZADO"
 
-#
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "BORRA TODOS LOS ARCHIVOS, ¿CONFIRMA?"
 
-#
 msgid "DELETE SCREENSHOT, CONFIRM?"
 msgstr ""
 
-#
 msgid "DELETE SCREENSHOT"
 msgstr ""
 
-#
 msgid "This option display a menu which allows to DELETE game data."
 msgstr ""
 
-#
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
 
-#
 msgid "Select the resolution EmulationStation will use."
 msgstr ""
 
-#
 msgid "Select the resolution used by specific systems."
 msgstr ""
 
-#
 msgid "Select resolution to use with this system."
 msgstr ""
 
-#
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "RESOLUCIONES"
 
-#
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "RESOLUCIÓN GLOBAL"
 
-#
 msgid "EMULATIONSTATION RESOLUTION"
 msgstr ""
 
-#
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
 msgstr ""
 
-#
 msgid "USE GLOBAL"
 msgstr ""
 
-#
 msgid "NATIVE"
-msgstr ""
+msgstr "NATIVO"
 
-#
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
 
-#
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
 
-#
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
 
-#
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
 
-#
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
 
-#
 msgid ""
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
 
-#
 msgid "DISPLAY BY FILENAME"
 msgstr ""
 
-#
 msgid "Display games by file names."
-msgstr "Afficher les jeux par noms de fichier"
+msgstr ""
 
-#
 msgid "SEARCH GAMES HERE"
 msgstr ""
 
-#
 msgid "GAME FILTERS"
 msgstr ""
 
-#
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
 
-#
 msgid "SHOW ONLY LATEST VERSION"
 msgstr ""
 
-#
 msgid "SHOW ONLY FAVORITES"
 msgstr ""
 
-#
 msgid "SHOW HIDDEN GAMES"
 msgstr ""
 
-#
 msgid "HIDE NO GAMES"
 msgstr ""
 
-#
 msgid "Hide non final versions of a same game."
 msgstr ""
 
-#
 msgid "Hide all pre-installed games."
 msgstr ""
 
-#
 msgid "Hide no executable games. for example bios"
 msgstr ""
 
-#
 msgid "Display game by file name instead of game name."
 msgstr ""
 
-#
 msgid "Filtering games you want to show."
 msgstr ""
 
-#
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
 
-#
 msgid "DISABLE"
 msgstr ""
 
-#
 msgid "CONFIRM"
 msgstr ""
 
-#
 msgid "A patch has been detected"
 msgstr ""
 
-#
 msgid "original"
 msgstr ""
 
-#
 msgid "patched"
 msgstr ""
 
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
@@ -3361,15 +3286,12 @@ msgid ""
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
 
-#
 msgid "Your scraping session completed. Press OK to show the results."
 msgstr ""
 
-#
 msgid "Please select one or more systems to scrape!"
 msgstr ""
 
-#
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
 "not exceed %MAXSYSTEMS% consoles/computers or you may face stability "
@@ -3379,17 +3301,14 @@ msgid ""
 "systems"
 msgstr ""
 
-#
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
 
-#
 msgid "WARNING! SYSTEM OVERLOAD!"
 msgstr ""
 
-#
 msgid ""
 "Welcome back %NAME%!\n"
 "Patron level %LEVEL%\n"
@@ -3397,7 +3316,6 @@ msgid ""
 "features are available!"
 msgstr ""
 
-#
 msgid ""
 "Hello %NAME%, your private key is linked to a Patreon account which is no "
 "longer a Recalbox Patron.\n"
@@ -3405,99 +3323,171 @@ msgid ""
 "Delete your private key to suppress this message."
 msgstr ""
 
-#
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
 
-#
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
 
-#
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
 
-#
 msgid "CASE MANAGEMENT"
 msgstr ""
 
-#
 msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
 
-#
 msgid "Initializing roms folders..."
 msgstr ""
 
-#
 msgid "Initializing share folders..."
 msgstr ""
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
 
-#
 msgid "• Choose '%INIT%' to create only all the rom folders"
 msgstr ""
 
-#
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
 
-#
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
 msgstr ""
 
-#
 msgid "INITIALIZE"
 msgstr ""
 
-#
 msgid "MOVE SHARE"
 msgstr ""
 
-#
 msgid "Setting up boot device..."
 msgstr ""
 
-#
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
 
-#
 msgid "UPDATING..."
 msgstr ""
 
-#
 msgid "%i file"
 msgstr ""
 
-#
 msgid "%i files"
 msgstr ""
 
-#
 msgid "Video"
 msgstr ""
 
-#
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
 "your Retroflag case (located inside the case, on the electronic part) must "
 "be positioned on ON."
 msgstr ""
+
+#~ msgid "DISK USAGE"
+#~ msgstr "USO DE DISCO"
+
+#~ msgid "SECURITY"
+#~ msgstr "SEGURIDAD"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "REFORZAR SEGURIDAD"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "CONTRASEÑA ROOT"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Configurar el comportamiento del protector de pantalla. DIM reducirá el "
+#~ "brillo de pantalla, y BLACK pondrá la pantalla en negro."
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Administrar la seguridad de Recalbox."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Cambiar la contraseña root SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Reforzar la seguridad de Recalbox."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSIÓN DE LA ACTUALIZACIÓN:"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom encontrado"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copiar sistema actual en otro dispositivo. ¡Precaución! Se eliminarán "
+#~ "todos los datos en el dispositivo destino."
+
+#~ msgid "Show a 'all-games' system with all ames from all systems."
+#~ msgstr ""
+#~ "Muestre un sistema de 'todos los juegos' con todos los juegos de todos "
+#~ "los sistemas."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "Estrategia en Tiempo Real"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Si presionas el botón POWER durante más de 2 segundos, tu consola se "
+#~ "apagará. Si haces esto durante un juego, Recalbox cerrará con gracia el "
+#~ "emulador actual antes.\n"
+#~ "Como precaución, presionar el botón POWER durante más de 5 segundos se "
+#~ "iniciará un apagado forzado.\n"
+#~ "\n"
+#~ "Presione el botón B para continuar."
+
+#~ msgid "added to favorites"
+#~ msgstr "añadido a favoritos"
+
+#~ msgid "removed from favorites"
+#~ msgstr "borrado de favoritos"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Gameclips no pueden ser reproducidos\n"
+#~ "\n"
+#~ "No hay video disponible en tu selección"
+
+#~ msgid "Analog Output"
+#~ msgstr "Salida Analógica"
+
+#~ msgid "HDMI / DisplayPort"
+#~ msgstr "HDMI / DisplayPort"
+
+#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+#~ msgstr ""
+#~ "TU LISTA DE FAVORITOS ESTÁ VACÍA. PULSA SELECT PARA MOSTRAR TODOS LOS "
+#~ "JUEGOS."
