@@ -21,9 +21,9 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
 
     // Delete
     mGameFiles = AddMultiList<Path>(_("GAME FILES (ROM | DISK IMAGE)"), (int) Components::Delete, nullptr, GetGameFileEntries());
-    mMedias = AddMultiList<Path>(_("MEDIA"), (int) Components::Delete, nullptr, GetMediaEntries());
-    mExtras = AddMultiList<Path>(_("CONF | PATCHES"), (int) Components::Delete, nullptr, GetExtraEntries());
-    mSaves = AddMultiList<Path>(_("SAVES"), (int) Components::Delete, nullptr, GetSaveEntries());
+    mMedias = AddMultiList<Path>(_("MEDIA FILES"), (int) Components::Delete, nullptr, GetMediaEntries());
+    mExtras = AddMultiList<Path>(_("CONFIGURATION AND PATCH FILES"), (int) Components::Delete, nullptr, GetExtraEntries());
+    mSaves = AddMultiList<Path>(_("SAVE FILES"), (int) Components::Delete, nullptr, GetSaveEntries());
 
     mMenu.addButton(_("OK"), "", [this]
     {
@@ -66,15 +66,15 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
   std::vector<ListEntry<Path>> list;
    if (mGame.Metadata().Image().Exists())
     {
-        list.push_back({ "image", mGame.Metadata().Image(), false });
+        list.push_back({ _("Image"), mGame.Metadata().Image(), false });
     }
     if (mGame.Metadata().Thumbnail().Exists())
     {
-        list.push_back({ "thumbnail", mGame.Metadata().Thumbnail(), false });
+        list.push_back({ _("Thumbnail"), mGame.Metadata().Thumbnail(), false });
     }
     if (mGame.Metadata().Video().Exists())
     {
-        list.push_back({ "video", mGame.Metadata().Video(), false });
+        list.push_back({ _("Video"), mGame.Metadata().Video(), false });
     }
 
   return list;

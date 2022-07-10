@@ -2918,14 +2918,14 @@ msgstr "Afficher le système Lightgun"
 
 #
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "AFFICHER LE SYSTÈME PORTS"
 
 msgid "Show all available games playable with a lightgun."
 msgstr "Afficher tous les jeux disponibles jouables avec un pistolet optique."
 
 #
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "Afficher un système 'PORTS' avec tous les ports au même endroit."
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -3006,66 +3006,58 @@ msgid "Adult"
 msgstr "Adulte"
 
 msgid "Waking up!"
-msgstr "En cours de reveil!"
+msgstr "En cours de réveil !"
 
 msgid "Bye bye!"
 msgstr "A la prochaine!"
 
 #
 msgid "LightGun Games"
-msgstr ""
+msgstr "Jeux LightGun"
 
 #
 msgid "NEW YORK"
-msgstr ""
+msgstr "NEW YORK"
 
 #
 msgid "MADRID"
-msgstr ""
+msgstr "MADRID"
 
 #
 msgid "AUTOMATIC"
-msgstr ""
+msgstr "AUTOMATIQUE"
 
 #
 msgid "SYSTEM DRIVER"
-msgstr ""
+msgstr "PILOTE SYSTÈME"
 
 #
 msgid "GAME LIBRARY DRIVER"
-msgstr ""
+msgstr "PILOTE DE LA BIBLIOTHÈQUE DE JEU"
 
 #
 msgid "Allow to swap validate button B/X and cancel button B/O"
-msgstr ""
+msgstr "Permet de changer les boutons de validation B/X et d'annulation B/O"
 
 #
 msgid "Select exisiting game clip view options for this theme."
-msgstr ""
-
-#
-msgid "Analog Output"
-msgstr ""
-
-#
-msgid "HDMI / DisplayPort"
-msgstr ""
+msgstr "Permet de sélectionner les options des clips de jeux pour ce thème."
 
 #
 msgid "box2D"
-msgstr ""
+msgstr "BOX2D"
 
 #
 msgid "box3d"
-msgstr ""
+msgstr "BOX3D"
 
 #
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "CONTRÔLES P2K"
 
 #
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "LA MISE À JOUR A ÉCHOUÉ"
 
 #
 msgid ""
@@ -3073,27 +3065,27 @@ msgid ""
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"Le processus de mise à jour a échoué. Vous êtes toujours sur la version %s.\n"
+"Veuillez retenter de mettre à jour votre Recalbox et contactez l’équipe sur https://forum."
+"recalbox.com si le problème persiste."
 
 #
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "OVERLAYS RECALBOX"
 
 #
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
-
-#
-msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-msgstr ""
+"Avec les écrans larges, affiche une image du système autour de l’écran émulé."
 
 #
 msgid "No comment available"
-msgstr ""
+msgstr "Aucun commentaire disponible"
 
 #
 msgid "UNKNOWN"
-msgstr ""
+msgstr "INCONNU"
 
 #
 msgid "GO TO GAME"
@@ -3109,11 +3101,11 @@ msgstr "FICHIERS DE JEU (ROM | IMAGE DISQUE)"
 
 #
 msgid "MEDIA FILES"
-msgstr "FICHIERS MEDIA"
+msgstr "FICHIERS MÉDIAS"
 
 #
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr "FICHIERS DE CONFIGURATION ET DE PATCH"
+msgstr "FICHIERS DE CONFIGURATION ET DE PATCHES"
 
 #
 msgid "SAVE FILES"
@@ -3125,39 +3117,39 @@ msgstr "SELECTIONNER LES FICHIERS À SUPPRIMER"
 
 #
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr "SUPPRIMER LES FICHIERS SELECTIONNÉS, CONFIRMER ?"
+msgstr "SUPPRIMER LES FICHIERS SÉLECTIONNÉS, CONFIRMER ?"
 
 #
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "DATE DE SORTIE"
 
 #
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "TYPE, PUIS NOM"
 
 #
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYPE, PUIS DATE DE SORTIE"
 
 #
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "FABRICANT, PUIS NOM"
 
 #
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "FABRICANT, PUIS DATE DE SORTIE"
 
 #
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "TYPE, PUIS FABRICANT, PUIS NOM"
 
 #
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYPE, PUIS FABRICANT, PUIS DATE DE SORTIE"
 
 #
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "TRI DES SYSTÈMES"
 
 #
 msgid ""
@@ -3167,6 +3159,11 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+"Par défaut : utiliser l'ordre du systemlist.xml\n"
+"Nom : classer par nom de système\n"
+"Type : classer par Console/Portable/Ordinateur/Arcade/Autre\n"
+"Date de sortie : classer par date de sortie\n"
+"Fabricant : classer par fabricant (ex : Sega)"
 
 #
 msgid "DELETE ALL FILES"
@@ -3182,95 +3179,107 @@ msgstr "SUPPRIMER TOUS LES FICHIERS, CONFIRMER ?"
 
 #
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr "SUPPRIMER LA CAPTURE, CONFIRMER ?"
+msgstr "SUPPRIMER LA CAPTURE D'ÉCRAN, CONFIRMER ?"
 
 #
 msgid "DELETE SCREENSHOT"
-msgstr "SUPPRIMER LA CAPTURE"
+msgstr "SUPPRIMER LA CAPTURE D'ÉCRAN"
 
 #
 msgid "This option display a menu which allows to DELETE game data."
-msgstr "Cette option affiche un menu qui permet d'effacer les données du jeu"
+msgstr "Cette option affiche un menu qui permet de SUPPRIMER les données d'un jeu."
 
 #
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
+"La résolution globale est la résolution utilisée par défaut lorsque "
+"les résolutions spécifiques ne sont pas définies."
 
 #
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "Choisir la résolution du frontend (menu)."
 
 #
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "Choisir la résolution utilisée par des systèmes spécifiques."
 
 #
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "Choisir la résolution à utiliser avec ce système."
 
 #
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "RÉSOLUTIONS"
 
 #
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "RÉSOLUTION GLOBALE"
 
 #
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "RÉSOLUTION D'EMULATIONSTATION"
 
 #
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "RÉSOLUTIONS DES ÉMULATEURS"
 
 #
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "UTILISER GLOBAL"
 
 #
 msgid "NATIVE"
-msgstr ""
+msgstr "NATIVE"
 
 #
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
-"Aucun fichier selectionné,\n"
-"vous devez au moins en choisir un."
+"Aucun fichier sélectionné,\n"
+"vous devez en choisir au moins un."
 
 #
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
+"Le périphérique %NAME% contenant des roms a été branché ! EmulationStation doit "
+"être relancé pour charger les nouveaux jeux."
 
 #
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
+"Un périphérique contenant des roms a été débranché ! EmulationStation doit être "
+"relancé pour ne plus afficher les jeux non disponibles."
 
 #
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
+"Votre périphérique USB a été initialisé ! Vous pouvez le débrancher et copier "
+"vos jeux dessus."
 
 #
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
+"Le périphérique USB %NAME% sans dossier rom a été branché. Voulez-vous créer "
+"des dossiers roms sur ce périphérique ?"
 
 #
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
+"L'initialisation a échoué ! Votre périphérique USB est plein ou contient des erreurs. "
+"Veuillez le réparer ou utiliser un autre périphérique."
 
 #
 msgid ""
@@ -3278,6 +3287,9 @@ msgid ""
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"AVERTISSEMENT : Votre périphérique n'a peut-être pas été correctement "
+"débranché et présente des erreurs. Par conséquent, il a été monté en lecture seule. "
+"Il est recommandé de brancher votre appareil sur un PC Windows et d'utiliser l'outil de réparation de disques."
 
 #
 msgid "DISPLAY BY FILENAME"
@@ -3285,29 +3297,29 @@ msgstr "AFFICHER PAR NOM DE FICHIER"
 
 #
 msgid "Display games by file names."
-msgstr "Afficher les jeux par noms de fichier"
+msgstr "Afficher les jeux par noms de fichier."
 
 #
 msgid "SEARCH GAMES HERE"
-msgstr "CHERCHER DES JEUX ICI"
+msgstr "RECHERCHER DES JEUX ICI"
 
 #
 msgid "GAME FILTERS"
-msgstr "FILTRES DE JEU"
+msgstr "FILTRES DES JEU"
 
 #
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
-"Le jeu est en train de mettre à jour ses meta-données, réésseyez dans "
+"Le jeu est en train de mettre à jour ses métadonnées. Réessayez dans "
 "quelques secondes."
 
 #
 msgid "SHOW ONLY LATEST VERSION"
-msgstr "SEULEMENT DERNIÈRE VERSION"
+msgstr "AFFICHER UNIQUEMENT LA DERNIÈRE VERSION"
 
 #
 msgid "SHOW ONLY FAVORITES"
-msgstr "SEULEMENT LES FAVORIS"
+msgstr "N'AFFICHER QUE LES FAVORIS"
 
 #
 msgid "SHOW HIDDEN GAMES"
@@ -3319,23 +3331,23 @@ msgstr "CACHER LES NON JEUX"
 
 #
 msgid "Hide non final versions of a same game."
-msgstr "Masque toutes les versions non finales d'un jeu. exemple beta, sample"
+msgstr "Cacher les versions non finales d'un même jeu."
 
 #
 msgid "Hide all pre-installed games."
-msgstr "Permet de masquer tous les jeux pré-installés dans recalbox"
+msgstr "Cacher tous les jeux préinstallés."
 
 #
 msgid "Hide no executable games. for example bios"
-msgstr "Cacher tous les non jeux. par exemple bios, zzz"
+msgstr "Cacher les jeux non exécutables, par exemple les bios."
 
 #
 msgid "Display game by file name instead of game name."
-msgstr "Afficher les jeux par nom de fichier au lieu du nom de jeu"
+msgstr "Afficher le nom de fichier au lieu du nom de jeu."
 
 #
 msgid "Filtering games you want to show."
-msgstr "Filter les jeux que vous voulez afficher."
+msgstr "Filtrer les jeux que vous voulez afficher."
 
 #
 msgid ""
@@ -3345,8 +3357,8 @@ msgid ""
 msgstr ""
 "Si un patch de jeu (hack, trad) porte le même nom qu'une rom, elle sera "
 "automatiquement patchée.\n"
-"Ce menu permet de désactiver le patch automatique ou d'avoir une boîte de "
-"confirmation"
+"Ce menu permet de désactiver l'auto patch ou d'avoir une boîte de "
+"confirmation."
 
 #
 msgid "DISABLE"
@@ -3375,19 +3387,19 @@ msgid ""
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
-"Une erreur est apparue pendant le scpaing de vos jeux! C'est très "
-"possiblement un mauvais login/mot de passe.\n"
+"Une erreur fatale s'est produite pendant le scraping de votre jeu ! Cela peut "
+"être lié à des problèmes de serveur ou à un mauvais nom d'utilisateur/mot de passe.\n"
 "\n"
-"Réssayez dans un moment ou mettez à jour vos login et mot de passe."
+"Essayez à nouveau dans quelques instants ou corrigez vos informations d'identification si nécessaire."
 
 #
 msgid "Your scraping session completed. Press OK to show the results."
 msgstr ""
-"Votre session de scrape est terminée. Appuyez sur OK pour voir les resultats."
+"Votre session de scraping est terminée. Appuyez sur OK pour afficher les résultats."
 
 #
 msgid "Please select one or more systems to scrape!"
-msgstr "Selectionnez un ou plusieurs systèmes à scraper!"
+msgstr "Veuillez sélectionnez un ou plusieurs systèmes à scraper !"
 
 #
 msgid ""
@@ -3398,16 +3410,24 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
+"Votre système n'a pas assez de mémoire pour gérer %SYSTEMS% systèmes. Vous ne devriez "
+"pas dépasser %MAXSYSTEMS% consoles/ordinateurs ou vous risqueriez de rencontrer des problèmes "
+"de stabilité !\n"
+"\n"
+"Vous pouvez masquer les jeux préinstallés dans le menu de l'interface utilisateur pour réduire "
+"le nombre de systèmes actifs."
 
 #
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
+"Votre système n'a pas assez de mémoire pour gérer %GAMES% jeux. Vous ne devriez pas "
+"dépasser %MAXGAMES% jeux ou vous risqueriez de rencontrer des problèmes de stabilité !"
 
 #
 msgid "WARNING! SYSTEM OVERLOAD!"
-msgstr ""
+msgstr "AVERTISSEMENT ! SURCHARGE DU SYSTÈME !"
 
 #
 msgid ""
@@ -3416,10 +3436,10 @@ msgid ""
 "You are now connected to your recalbox patron account, and all exclusives "
 "features are available!"
 msgstr ""
-"Bienvenue %NAME%!\n"
+"Bienvenue %NAME% !\n"
 "Patron niveau %LEVEL%\n"
-"Vous êtes maintenant connecté à votre compte patreon de Recalbox et toutes "
-"les fonctionnalités exclusives sont disponibles!"
+"Vous êtes maintenant connecté à votre compte patron de Recalbox et toutes "
+"les fonctionnalités exclusives sont disponibles !"
 
 #
 msgid ""
@@ -3428,31 +3448,99 @@ msgid ""
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
-"Bonjour %NAME%, votre clef privée est liée à un compte Patreon qui n'est "
+"Bonjour %NAME%, votre clé privée est liée à un compte Patreon qui n'est "
 "plus patron de Recalbox.\n"
-"Nous espérons toujours vous revoir bientôt en tant que patron de Recalbox!\n"
-"Supprimez votre clef privée pour faire disparaitre ce message."
+"Nous espérons tout de même vous revoir bientôt en tant que patron de Recalbox !\n"
+"Effacez votre clé privée pour supprimer ce message."
 
 #
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
-"Votre clef privée ne permet pas de retrouver vos information Patreon. Allez "
-"sur recalbox.com/patreon et régénérez une nouvelle clef!"
+"Votre clé privée ne permet pas de retrouver vos informations de patron. Rendez-vous "
+"sur recalbox.com/patreon pour générer une nouvelle clé valide !"
 
 #
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
-"Nous ne pouvons pas acceder à vos information Patreon car il n'y a aucun "
-"reseau disponible!"
+"Désolé, nous ne sommes pas en mesure de récupérer votre niveau de patron car aucun "
+"réseau n'est disponible !"
 
 #
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
-"Nous ne pouvons pas acceder à vos information Patreon. Nous vous prions de "
-"nous excuser pour le désagrément, nous travaillons déjà sur le problème!"
+"Nous ne sommes pas en mesure de récupérer votre niveau de patron ! Désolé pour "
+"le désagrément, nous travaillons déjà sur un correctif !"
+
+#
+msgid "CASE MANAGEMENT"
+msgstr "GESTION DES BOÎTIERS"
+
+#
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of your "
+"Retroflag case (located inside the case, on the electronic part) must be switched to ON."
+msgstr ""
+"Pour bénéficier de la fonction d'arrêt sécurisé, l'interrupteur SAFE SHUTDOWN de votre "
+"boîtier Retroflag (situé à l'intérieur du boîtier, sur la partie électronique) doit être positionné sur ON."
+
+#
+msgid "Initializing roms folders..."
+msgstr "Initialisation des dossiers des roms..."
+
+#
+msgid "Initializing share folders..."
+msgstr "Initialisation des dossiers du share..."
+
+#
+msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
+msgstr "Le périphérique USB %NAME% avec aucun dossier de roms ou de dossier share a été branché ! Souhaitez-vous initialiser ce périphérique ?"
+
+#
+msgid "• Choose '%INIT%' to create only all the rom folders"
+msgstr "• Choisissez '%INIT%' pour créer uniquement tous les dossiers des roms"
+
+#
+msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
+msgstr "• Choisissez '%MOVE%' pour copier tout le share actuel vers le nouveau périphérique, de basculer automatiquement sur ce dernier et de redémarrer"
+
+#
+msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
+msgstr "• Ou choisissez '%CANCEL%' pour ne rien faire avec ce nouveau périphérique"
+
+#
+msgid "INITIALIZE"
+msgstr "INITIALISER"
+
+#
+msgid "MOVE SHARE"
+msgstr "DÉPLACER LE SHARE"
+
+#
+msgid "Setting up boot device..."
+msgstr "Paramétrage du nouveau périphérique de démarrage..."
+
+#
+msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
+msgstr "Votre périphérique USB a été initialisé ! Le système est prêt à redémarrer sur votre nouveau share !"
+
+#
+msgid "UPDATING..."
+msgstr "MISE À JOUR..."
+
+#
+msgid "%i file"
+msgstr "%i fichier"
+
+#
+msgid "%i files"
+msgstr "%i fichiers"
+
+#
+msgid "Video"
+msgstr "Vidéo"

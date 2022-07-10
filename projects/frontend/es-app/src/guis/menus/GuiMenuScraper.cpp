@@ -33,7 +33,7 @@ GuiMenuScraper::GuiMenuScraper(WindowManager& window, SystemManager& systemManag
   mSystems = AddMultiList<SystemData*>(_("SYSTEMS"), (int)Components::Systems, nullptr, GetSystemsEntries(), "");
 
   // Buttons
-  mMenu.addButton(_("SCRAPE NOW"), "start", [this] { start(); });
+  mMenu.addButton(_("SCRAPE NOW"), _("SCRAPE NOW"), [this] { start(); });
 }
 
 std::vector<GuiMenuBase::ListEntry<ScraperType>> GuiMenuScraper::GetScrapersEntries()
