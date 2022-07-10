@@ -3493,3 +3493,8 @@ msgstr ""
 #
 msgid "Video"
 msgstr ""
+
+#
+msgid "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of your Retroflag case (located inside the case, on the electronic part) must be positioned on ON."
+msgstr ""
+

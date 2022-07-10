@@ -3084,10 +3084,6 @@ msgid ""
 msgstr ""
 
 #
-msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-msgstr ""
-
-#
 msgid "No comment available"
 msgstr ""
 
@@ -3435,7 +3431,9 @@ msgid "CASE MANAGEMENT"
 msgstr ""
 
 #
-msgid "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
+msgid ""
+"If you installed a case on your Recalbox, you can install or uninstall it in "
+"this. Some cases are detected automatically and will also be reported here."
 msgstr ""
 
 #
@@ -3447,7 +3445,9 @@ msgid "Initializing share folders..."
 msgstr ""
 
 #
-msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
+msgid ""
+"The USB device %NAME% with no rom folder and no share folder has been "
+"plugged in! Would you like to initialize this device?"
 msgstr ""
 
 #
@@ -3455,7 +3455,9 @@ msgid "• Choose '%INIT%' to create only all the rom folders"
 msgstr ""
 
 #
-msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
+msgid ""
+"• Choose '%MOVE%' to copy all the current share to the new device, "
+"automatically switch to this device, and reboot"
 msgstr ""
 
 #
@@ -3475,7 +3477,9 @@ msgid "Setting up boot device..."
 msgstr ""
 
 #
-msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
+msgid ""
+"Your USB device has been initialized! Ready to reboot on your new share "
+"device!"
 msgstr ""
 
 #
@@ -3492,4 +3496,11 @@ msgstr ""
 
 #
 msgid "Video"
+msgstr ""
+
+#
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part) must "
+"be positioned on ON."
 msgstr ""

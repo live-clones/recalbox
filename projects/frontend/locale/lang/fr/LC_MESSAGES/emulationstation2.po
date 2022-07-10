@@ -3066,8 +3066,8 @@ msgid ""
 "recalbox.com if the problem persists."
 msgstr ""
 "Le processus de mise à jour a échoué. Vous êtes toujours sur la version %s.\n"
-"Veuillez retenter de mettre à jour votre Recalbox et contactez l’équipe sur https://forum."
-"recalbox.com si le problème persiste."
+"Veuillez retenter de mettre à jour votre Recalbox et contactez l’équipe sur "
+"https://forum.recalbox.com si le problème persiste."
 
 #
 msgid "RECALBOX OVERLAYS"
@@ -3187,15 +3187,16 @@ msgstr "SUPPRIMER LA CAPTURE D'ÉCRAN"
 
 #
 msgid "This option display a menu which allows to DELETE game data."
-msgstr "Cette option affiche un menu qui permet de SUPPRIMER les données d'un jeu."
+msgstr ""
+"Cette option affiche un menu qui permet de SUPPRIMER les données d'un jeu."
 
 #
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
-"La résolution globale est la résolution utilisée par défaut lorsque "
-"les résolutions spécifiques ne sont pas définies."
+"La résolution globale est la résolution utilisée par défaut lorsque les "
+"résolutions spécifiques ne sont pas définies."
 
 #
 msgid "Select the resolution EmulationStation will use."
@@ -3246,24 +3247,24 @@ msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
-"Le périphérique %NAME% contenant des roms a été branché ! EmulationStation doit "
-"être relancé pour charger les nouveaux jeux."
+"Le périphérique %NAME% contenant des roms a été branché ! EmulationStation "
+"doit être relancé pour charger les nouveaux jeux."
 
 #
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
-"Un périphérique contenant des roms a été débranché ! EmulationStation doit être "
-"relancé pour ne plus afficher les jeux non disponibles."
+"Un périphérique contenant des roms a été débranché ! EmulationStation doit "
+"être relancé pour ne plus afficher les jeux non disponibles."
 
 #
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
-"Votre périphérique USB a été initialisé ! Vous pouvez le débrancher et copier "
-"vos jeux dessus."
+"Votre périphérique USB a été initialisé ! Vous pouvez le débrancher et "
+"copier vos jeux dessus."
 
 #
 msgid ""
@@ -3278,8 +3279,8 @@ msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
-"L'initialisation a échoué ! Votre périphérique USB est plein ou contient des erreurs. "
-"Veuillez le réparer ou utiliser un autre périphérique."
+"L'initialisation a échoué ! Votre périphérique USB est plein ou contient des "
+"erreurs. Veuillez le réparer ou utiliser un autre périphérique."
 
 #
 msgid ""
@@ -3288,8 +3289,9 @@ msgid ""
 "device in a Window PC and use the repair tool."
 msgstr ""
 "AVERTISSEMENT : Votre périphérique n'a peut-être pas été correctement "
-"débranché et présente des erreurs. Par conséquent, il a été monté en lecture seule. "
-"Il est recommandé de brancher votre appareil sur un PC Windows et d'utiliser l'outil de réparation de disques."
+"débranché et présente des erreurs. Par conséquent, il a été monté en lecture "
+"seule. Il est recommandé de brancher votre appareil sur un PC Windows et "
+"d'utiliser l'outil de réparation de disques."
 
 #
 msgid "DISPLAY BY FILENAME"
@@ -3387,15 +3389,18 @@ msgid ""
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
-"Une erreur fatale s'est produite pendant le scraping de votre jeu ! Cela peut "
-"être lié à des problèmes de serveur ou à un mauvais nom d'utilisateur/mot de passe.\n"
+"Une erreur fatale s'est produite pendant le scraping de votre jeu ! Cela "
+"peut être lié à des problèmes de serveur ou à un mauvais nom d'utilisateur/"
+"mot de passe.\n"
 "\n"
-"Essayez à nouveau dans quelques instants ou corrigez vos informations d'identification si nécessaire."
+"Essayez à nouveau dans quelques instants ou corrigez vos informations "
+"d'identification si nécessaire."
 
 #
 msgid "Your scraping session completed. Press OK to show the results."
 msgstr ""
-"Votre session de scraping est terminée. Appuyez sur OK pour afficher les résultats."
+"Votre session de scraping est terminée. Appuyez sur OK pour afficher les "
+"résultats."
 
 #
 msgid "Please select one or more systems to scrape!"
@@ -3410,20 +3415,21 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
-"Votre système n'a pas assez de mémoire pour gérer %SYSTEMS% systèmes. Vous ne devriez "
-"pas dépasser %MAXSYSTEMS% consoles/ordinateurs ou vous risqueriez de rencontrer des problèmes "
-"de stabilité !\n"
+"Votre système n'a pas assez de mémoire pour gérer %SYSTEMS% systèmes. Vous "
+"ne devriez pas dépasser %MAXSYSTEMS% consoles/ordinateurs ou vous risqueriez "
+"de rencontrer des problèmes de stabilité !\n"
 "\n"
-"Vous pouvez masquer les jeux préinstallés dans le menu de l'interface utilisateur pour réduire "
-"le nombre de systèmes actifs."
+"Vous pouvez masquer les jeux préinstallés dans le menu de l'interface "
+"utilisateur pour réduire le nombre de systèmes actifs."
 
 #
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
-"Votre système n'a pas assez de mémoire pour gérer %GAMES% jeux. Vous ne devriez pas "
-"dépasser %MAXGAMES% jeux ou vous risqueriez de rencontrer des problèmes de stabilité !"
+"Votre système n'a pas assez de mémoire pour gérer %GAMES% jeux. Vous ne "
+"devriez pas dépasser %MAXGAMES% jeux ou vous risqueriez de rencontrer des "
+"problèmes de stabilité !"
 
 #
 msgid "WARNING! SYSTEM OVERLOAD!"
@@ -3448,9 +3454,10 @@ msgid ""
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
-"Bonjour %NAME%, votre clé privée est liée à un compte Patreon qui n'est "
-"plus patron de Recalbox.\n"
-"Nous espérons tout de même vous revoir bientôt en tant que patron de Recalbox !\n"
+"Bonjour %NAME%, votre clé privée est liée à un compte Patreon qui n'est plus "
+"patron de Recalbox.\n"
+"Nous espérons tout de même vous revoir bientôt en tant que patron de "
+"Recalbox !\n"
 "Effacez votre clé privée pour supprimer ce message."
 
 #
@@ -3458,24 +3465,24 @@ msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
-"Votre clé privée ne permet pas de retrouver vos informations de patron. Rendez-vous "
-"sur recalbox.com/patreon pour générer une nouvelle clé valide !"
+"Votre clé privée ne permet pas de retrouver vos informations de patron. "
+"Rendez-vous sur recalbox.com/patreon pour générer une nouvelle clé valide !"
 
 #
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
-"Désolé, nous ne sommes pas en mesure de récupérer votre niveau de patron car aucun "
-"réseau n'est disponible !"
+"Désolé, nous ne sommes pas en mesure de récupérer votre niveau de patron car "
+"aucun réseau n'est disponible !"
 
 #
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
-"Nous ne sommes pas en mesure de récupérer votre niveau de patron ! Désolé pour "
-"le désagrément, nous travaillons déjà sur un correctif !"
+"Nous ne sommes pas en mesure de récupérer votre niveau de patron ! Désolé "
+"pour le désagrément, nous travaillons déjà sur un correctif !"
 
 #
 msgid "CASE MANAGEMENT"
@@ -3483,11 +3490,9 @@ msgstr "GESTION DES BOÎTIERS"
 
 #
 msgid ""
-"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of your "
-"Retroflag case (located inside the case, on the electronic part) must be switched to ON."
+"If you installed a case on your Recalbox, you can install or uninstall it in "
+"this. Some cases are detected automatically and will also be reported here."
 msgstr ""
-"Pour bénéficier de la fonction d'arrêt sécurisé, l'interrupteur SAFE SHUTDOWN de votre "
-"boîtier Retroflag (situé à l'intérieur du boîtier, sur la partie électronique) doit être positionné sur ON."
 
 #
 msgid "Initializing roms folders..."
@@ -3498,20 +3503,29 @@ msgid "Initializing share folders..."
 msgstr "Initialisation des dossiers du share..."
 
 #
-msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
-msgstr "Le périphérique USB %NAME% avec aucun dossier de roms ou de dossier share a été branché ! Souhaitez-vous initialiser ce périphérique ?"
+msgid ""
+"The USB device %NAME% with no rom folder and no share folder has been "
+"plugged in! Would you like to initialize this device?"
+msgstr ""
+"Le périphérique USB %NAME% avec aucun dossier de roms ou de dossier share a "
+"été branché ! Souhaitez-vous initialiser ce périphérique ?"
 
 #
 msgid "• Choose '%INIT%' to create only all the rom folders"
 msgstr "• Choisissez '%INIT%' pour créer uniquement tous les dossiers des roms"
 
 #
-msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
-msgstr "• Choisissez '%MOVE%' pour copier tout le share actuel vers le nouveau périphérique, de basculer automatiquement sur ce dernier et de redémarrer"
+msgid ""
+"• Choose '%MOVE%' to copy all the current share to the new device, "
+"automatically switch to this device, and reboot"
+msgstr ""
+"• Choisissez '%MOVE%' pour copier tout le share actuel vers le nouveau "
+"périphérique, de basculer automatiquement sur ce dernier et de redémarrer"
 
 #
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr "• Ou choisissez '%CANCEL%' pour ne rien faire avec ce nouveau périphérique"
+msgstr ""
+"• Ou choisissez '%CANCEL%' pour ne rien faire avec ce nouveau périphérique"
 
 #
 msgid "INITIALIZE"
@@ -3526,8 +3540,12 @@ msgid "Setting up boot device..."
 msgstr "Paramétrage du nouveau périphérique de démarrage..."
 
 #
-msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
-msgstr "Votre périphérique USB a été initialisé ! Le système est prêt à redémarrer sur votre nouveau share !"
+msgid ""
+"Your USB device has been initialized! Ready to reboot on your new share "
+"device!"
+msgstr ""
+"Votre périphérique USB a été initialisé ! Le système est prêt à redémarrer "
+"sur votre nouveau share !"
 
 #
 msgid "UPDATING..."
@@ -3544,3 +3562,13 @@ msgstr "%i fichiers"
 #
 msgid "Video"
 msgstr "Vidéo"
+
+#
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part) must "
+"be positioned on ON."
+msgstr ""
+"Pour bénéficier de la fonction d'arrêt sécurisé, l'interrupteur SAFE "
+"SHUTDOWN de votre boîtier Retroflag (situé à l'intérieur du boîtier, sur la "
+"partie électronique) doit être positionné sur ON."
