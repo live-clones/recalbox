@@ -152,11 +152,11 @@ void CrtView::UpdateViewport() {
   mPattern.setSize((float) (reference + CrtConf::Instance().GetSystemCRTViewportWidth()), mPattern.getSize().y());
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f+hoffsetDiff, Renderer::Instance().DisplayHeightAsFloat() / 2.f +voffsetDiff, .0f);
 
-  mViewportText->setText(_("Image width: ") + Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
+  mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
   mHorizontalOffsetText->setText(
-      _("Horizontal offset: ") + Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
+      _("Horizontal offset:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
   mVerticalOffsetText->setText(
-      _("Vertical offset: ") + Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
+      _("Vertical offset:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
 
   if (mOriginalHOffset != CrtConf::Instance().GetSystemCRTHorizontalOffset()) {
     mHorizontalOffsetText->setColor(0xAAAAFFFF);
