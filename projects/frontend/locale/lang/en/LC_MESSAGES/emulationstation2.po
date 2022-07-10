@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "AN UPDATE IS AVAILABLE FOR RECALBOX"
+msgstr "A RECALBOX UPDATE IS AVAILABLE"
 
 msgid "DOWNLOADED"
 msgstr "DOWNLOADED"
@@ -116,7 +116,7 @@ msgid "PLEASE VISIT"
 msgstr "PLEASE VISIT"
 
 msgid "ONLY 1 SCRAPPING ENGINE"
-msgstr "ONLY 1 SCRAPING ENGINE"
+msgstr "YOU'RE USING 1 SCRAPING ENGINE"
 
 msgid "%i SCRAPPING ENGINES"
 msgstr "%i SCRAPING ENGINES"
@@ -278,7 +278,7 @@ msgid "ENABLE KODI"
 msgstr "ENABLE KODI"
 
 msgid "KODI AT START"
-msgstr "KODI AT START"
+msgstr "LOAD KODI AT START"
 
 msgid "START KODI WITH X"
 msgstr "START KODI WITH X BUTTON"
@@ -290,10 +290,10 @@ msgid "GAMES SETTINGS"
 msgstr "GAME SETTINGS"
 
 msgid "GAME RATIO"
-msgstr "GAME RATIO"
+msgstr "ASPECT RATIO"
 
 msgid "SMOOTH GAMES"
-msgstr "SMOOTH GAMES"
+msgstr "GAME SMOOTHING"
 
 msgid "REWIND"
 msgstr "REWIND"
@@ -305,7 +305,7 @@ msgid "PRESS TWICE TO QUIT GAME"
 msgstr "PRESS TWICE TO QUIT GAME"
 
 msgid "SHADERS SET"
-msgstr "SHADERS SET"
+msgstr "SHADER SET"
 
 msgid "SCANLINES"
 msgstr "SCANLINES"
@@ -332,7 +332,7 @@ msgid "ADVANCED"
 msgstr "ADVANCED"
 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr "REALLY UPDATE GAME LISTS?"
+msgstr "UPDATE GAME LISTS?"
 
 msgid "UPDATE GAMES LISTS"
 msgstr "UPDATE GAMES LISTS"
@@ -362,7 +362,7 @@ msgid "SHOW FRAMERATE"
 msgstr "SHOW FRAMERATE"
 
 msgid "CLOCK IN MENU"
-msgstr "CLOCK IN MENU"
+msgstr "MENU CLOCK"
 
 msgid "ON-SCREEN HELP"
 msgstr "ON-SCREEN HELP"
@@ -398,7 +398,7 @@ msgid "THEME REGION"
 msgstr "THEME REGION"
 
 msgid "THIS THEME HAS NO OPTION"
-msgstr "THIS THEME HAS NO OPTION"
+msgstr "THIS THEME HAS NO OPTIONS"
 
 msgid "SOUND SETTINGS"
 msgstr "SOUND SETTINGS"
@@ -440,22 +440,22 @@ msgid "HOSTNAME"
 msgstr "HOSTNAME"
 
 msgid "ENABLE WIFI"
-msgstr "ENABLE WIFI"
+msgstr "ENABLE WI-FI"
 
 msgid "WIFI SSID"
-msgstr "WIFI SSID"
+msgstr "NETWORK NAME"
 
 msgid "MANUAL INPUT"
 msgstr "MANUAL INPUT"
 
 msgid "WIFI KEY"
-msgstr "WIFI KEY"
+msgstr "WI-FI PASSWORD"
 
 msgid "WIFI ENABLED"
-msgstr "WIFI ENABLED"
+msgstr "WI-FI ENABLED"
 
 msgid "WIFI CONFIGURATION ERROR"
-msgstr "WIFI CONFIGURATION ERROR"
+msgstr "WI-FI CONFIGURATION ERROR"
 
 msgid "SCRAPER"
 msgstr "SCRAPER"
@@ -473,13 +473,13 @@ msgid "QUIT"
 msgstr "QUIT"
 
 msgid "REALLY RESTART?"
-msgstr "REALLY RESTART?"
+msgstr "RESTART?"
 
 msgid "RESTART SYSTEM"
 msgstr "RESTART SYSTEM"
 
 msgid "REALLY SHUTDOWN?"
-msgstr "REALLY SHUTDOWN?"
+msgstr "SHUT DOWN?"
 
 msgid "SHUTDOWN SYSTEM"
 msgstr "SHUTDOWN SYSTEM"
@@ -565,7 +565,7 @@ msgstr "All Games"
 
 #. MISSING SCRAPPER TRANSLATIONS
 msgid "Only missing image"
-msgstr "Only missing images"
+msgstr "Only not scraped"
 
 msgid "FILTER"
 msgstr "FILTER"
@@ -595,16 +595,16 @@ msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "NO GAMES FIT THAT CRITERIA."
 
 msgid "REALLY UPDATE?"
-msgstr "REALLY UPDATE?"
+msgstr "PERFORM A SYSTEM UPDATE?"
 
 msgid "NETWORK CONNECTION NEEDED"
-msgstr "NETWORK CONNECTION NEEDED"
+msgstr "NETWORK CONNECTION REQUIRED"
 
 msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
-msgstr "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+msgstr "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT."
 
 msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
-msgstr "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+msgstr "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT."
 
 msgid "NO UPDATE AVAILABLE"
 msgstr "NO UPDATE AVAILABLE"
@@ -903,7 +903,7 @@ msgid "PLEASE WAIT..."
 msgstr "PLEASE WAIT..."
 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
-msgstr "REALLY SHUTDOWN WITHOUT SAVING METADATA?"
+msgstr "SHUT DOWN WITHOUT SAVING METADATA?"
 
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "FAST SHUTDOWN SYSTEM"
@@ -922,10 +922,10 @@ msgstr ""
 "VISIT RECALBOX.COM FOR MORE INFORMATION."
 
 msgid "ON SCREEN KEYBOARD"
-msgstr "ON SCREEN KEYBOARD"
+msgstr "ON-SCREEN KEYBOARD"
 
 msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
-msgstr "SHIFT FOR UPPER,LOWER, AND SPECIAL"
+msgstr "SHIFT FOR UPPER, LOWER, AND SPECIAL"
 
 msgid "SPACE"
 msgstr "SPACE"
@@ -989,9 +989,9 @@ msgid ""
 "THEM AT YOUR OWN RISK.\n"
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
 msgstr ""
-"TURBO AND EXTREME OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITY, SO USE "
-"THEM AT YOUR OWN RISK.\n"
-"IF YOU CONTINUE, THE SYSTEM WILL REBOOT."
+"TURBO AND EXTREME OVERCLOCK PRESETS MAY CAUSE SYSTEM INSTABILITY, SO USE "
+"THEM AT YOUR OWN RISK!\n"
+"THE SYSTEM WILL REBOOT IF YOU CONTINUE."
 
 msgid "%i GAME HIDDEN"
 msgid_plural "%i GAMES HIDDEN"
@@ -1007,8 +1007,8 @@ msgid ""
 "on your drive"
 msgstr ""
 "Select the language for Recalbox, select an external drive to store your "
-"games and configurations, check your current version and the free space on "
-"your drive."
+"games and configurations, check your current version, and check drive free "
+"space."
 
 msgid "Shows your current recalboxOS version."
 msgstr "Shows your current Recalbox version."
@@ -1035,12 +1035,13 @@ msgstr ""
 
 msgid ""
 "Select your language. A reboot is needed to set this configuration active."
-msgstr "Select your language. A reboot is needed to apply this setting."
+msgstr "Select your language. A reboot is needed to change this setting."
 
 msgid ""
 "Manage your recalbox updates. Select the update type. Activate update check."
 msgstr ""
-"Manage your Recalbox updates. Select the update type. Activate update check."
+"Manage your Recalbox updates, select the update type, and toggle update "
+"checking."
 
 msgid "Check if an update is available, and start the update process."
 msgstr "Check if an update is available, and start the update process."
@@ -1054,18 +1055,19 @@ msgid ""
 "If you choose unstable update, be so kind to report issues on the recalbox-"
 "os issue board (https://github.com/recalbox/recalbox-os/issues)"
 msgstr ""
-"Stable updates will check for updates on stable Recalbox releases. Stable "
+"Stable updates will check for updates on stable Recalbox releases. These "
 "updates are tested and approved by the Recalbox team and their testers.\n"
-"Unstable updates allows you to get the latest Recalbox features by checking "
-"our unstable repository. Help us test the very latest version of Recalbox!\n"
-"If you choose unstable updates, please be sure to report issues on the "
-"recalbox-os issue board (https://gitlab.com/recalbox/recalbox/-/issues)"
+"Unstable updates allows you to get the latest Recalbox features by using our "
+"unstable repository. Help us test the very latest version of Recalbox!\n"
+"If you choose to install unstable updates, please be sure to report issues "
+"on the recalbox-os issue board! (https://gitlab.com/recalbox/recalbox/-/"
+"issues)"
 
 msgid ""
 "Automatically check if an update is avaialble. If so, it notifies you with a "
 "message."
 msgstr ""
-"Automatically check if an update is available. If so, you will be notified "
+"Automatically check if an update is available. If so, you'll be notified "
 "with a message."
 
 msgid "Shows the current available update version."
@@ -1078,32 +1080,30 @@ msgid ""
 "Configure games display, ratio, filters (shaders), auto save and load and "
 "retroachievement account."
 msgstr ""
-"Configure games display, ratio, filters (shaders), auto save and load, and "
-"Retroachievement account."
+"Configure game's display, ratio, filters (shaders), auto save and load, and "
+"your Retroachievements account."
 
 msgid ""
 "The game ratio is the ratio between image width and image height. Use AUTO "
 "to let the emulator choose the original game ratio, that will give you the "
 "best retrogaming experience."
 msgstr ""
-"The game ratio is the ratio between image width and image height. Use AUTO "
-"to let the emulator choose the original game ratio, which will give you the "
-"best retrogaming experience."
+"The aspect ratio is the ratio between image width and image height. Use AUTO "
+"to let the emulator choose the optimal ratio, which will give you the best "
+"experience."
 
 msgid ""
 "Smooth the game image. This option makes the image smoother, using bilinear "
 "filtering."
-msgstr ""
-"Smooth the game image. This option uses bilinear filtering to make the image "
-"smoother."
+msgstr "Smooths the game video by using bilinear filtering."
 
 msgid ""
 "This option allows you to rewind the game if you get killed by a monster, or "
 "if you make any other mistake. Use the HOTKEY + LEFT command within the game "
 "to rewind."
 msgstr ""
-"This option allows you to rewind the game if you die in the game, or make "
-"another kind of mistake. Use the HOTKEY + LEFT command in-game to rewind."
+"This option allows you to rewind the game if you make a mistake. Use HOTKEY "
+"+ LEFT in-game to rewind."
 
 msgid ""
 "Auto save the state when you quit a game, and auto load last saved state "
@@ -1137,9 +1137,9 @@ msgid ""
 "here, which is a collection of shaders selected for each system. You can "
 "also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
 msgstr ""
-"Shaders are like filters for the game rendering. You can select a shader set "
+"Shaders are like filters for game rendering. You can select a shader set "
 "here, which is a collection of shaders selected for each system. You can "
-"also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+"also change the shader in-game with HOTKEY + L2 or HOTKEY + R2."
 
 msgid "Enable or disable RetroAchievements in games."
 msgstr "Enable or disable RetroAchievements in-game."
@@ -1169,10 +1169,10 @@ msgid ""
 "PCEngine and more! Create your account on retroachievements.org and start "
 "your quest for achievements!"
 msgstr ""
-"The website retroachievements.org proposes challenges/achievements/trophies "
-"on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/"
-"PCEngine and more! Create your account on retroachievements.org and start "
-"your quest for achievements!"
+"RetroAchievements gives challenges/achievements/trophies on platforms such "
+"as NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and "
+"more! Create an account on retroachievements.org and start your quest for "
+"achievements!"
 
 msgid "Add and configure up to 5 controllers."
 msgstr "Add and configure up to 5 controllers."
@@ -1181,8 +1181,8 @@ msgid ""
 "Configure an associated controller. Your controller has to be associated / "
 "plugged before."
 msgstr ""
-"Configure an associated controller. Your controller has to be associated / "
-"plugged beforehand."
+"Configure a paired controller. Your controller has to be paired / plugged in "
+"beforehand."
 
 msgid ""
 "Pair a bluetooth controller with your recalbox. Your controller must be in "
@@ -1214,23 +1214,23 @@ msgstr ""
 "list from this menu."
 
 msgid "Configure screensaver"
-msgstr "Configure Screensaver"
+msgstr "Configure screensaver"
 
 msgid "Start the screensaver after N minutes."
-msgstr "Start the screensaver after N minutes."
+msgstr "Configure when the screensaver should start and its behavior."
 
 msgid ""
 "Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
 "turn the screen black, DEMO will launch demo mode."
 msgstr ""
-"Set the screensaver behavior. DIM will reduce the screen light, BLACK will "
-"turn the screen black, and DEMO will launch the demo mode."
+"Set the screensaver behavior. DIM will reduce the screen's light, BLACK will "
+"turn the screen black, and DEMO will launch demo mode."
 
 msgid ""
 "Shows a help at the bottom of the screen which displays commands you can use."
 msgstr ""
-"Shows a help at the bottom of the screen which shows the commands you can "
-"use."
+"Show help at the bottom of the screen, which will show you the buttons you "
+"can use."
 
 msgid ""
 "When enabled, you can switch between systems while browsing a gamelist by "
@@ -1285,11 +1285,11 @@ msgid ""
 "Select Region of logos, pictures for system that are different for some "
 "countries. E.g. Megadrive in EU / Genesis in US"
 msgstr ""
-"Select region of logos / pictures for systems that are different in some "
-"countries. E.g. Megadrive in EU / Genesis in US"
+"Select region of logos / pictures for systems that differ per country. E.g. "
+"Megadrive in EU / Genesis in US"
 
 msgid "Updates the gamelists, if you added games since the last boot."
-msgstr "Updates the gamelists, if you have added games since the last boot."
+msgstr "Updates the gamelists if you've added games since the last boot."
 
 msgid "Configure the sound options of your recalbox."
 msgstr "Configure the sound options for Recalbox."
@@ -1312,16 +1312,16 @@ msgid ""
 "Check your network status and IP address, set the hostname and configure the "
 "WIFI."
 msgstr ""
-"Configure network settings on your recalbox.\n"
-"Check your connection status, IP address, set the hostname and configure "
-"WiFi settings."
+"Configure Recalbox's network settings.\n"
+"Check your connection status, IP address, change the hostname, and configure "
+"wireless settings."
 
 msgid ""
 "Displays CONNECTED, if you are connected, by checking if your recalbox can "
 "access the recalbox.com update server."
 msgstr ""
-"Displays whether or not you are connected by checking if Recalbox can access "
-"the recalbox.com update server."
+"Displays if you're connected by checking if Recalbox can access the recalbox."
+"com update server."
 
 msgid "The IP address of your recalbox within your local network."
 msgstr "The IP address of your system on your local network."
@@ -1332,7 +1332,7 @@ msgid ""
 "used when you reactivate it"
 msgstr ""
 "Enable or disable Wi-Fi.\n"
-"If you disable Wi-Fi, the SSID and the Wi-Fi passwords are saved and can be "
+"If you disable Wi-Fi, the Wi-Fi name and password are saved and can be re-"
 "used if you choose to reactivate it."
 
 msgid "The name of your recalbox in your local network"
@@ -1342,7 +1342,7 @@ msgid "SSID (WIFI Name) of your network."
 msgstr "SSID (Wi-Fi name) of your network."
 
 msgid "Type the name of your SSID if it is hidden or not listed"
-msgstr "Type the name of your SSID if it's hidden or not listed"
+msgstr "Type the name of your network if it's hidden or not listed."
 
 msgid "Private key of your WIFI network."
 msgstr "Password for your Wi-Fi network."
@@ -1361,8 +1361,8 @@ msgid ""
 "is based on www.screenscraper.fr and scrapes game data in your language, if "
 "available."
 msgstr ""
-"Select a server to scrape from. The Screenscraper server is recommended. and "
-"scrapes game data in your language, if available."
+"Select a server to scrape from. The ScreenScraper (screenscraper.fr) server "
+"is recommended, and scrapes game data in your language, if it's available."
 
 msgid "Begin the scrape process with the configuration shown below."
 msgstr "Begin the scrape process with the configuration below."
@@ -1486,7 +1486,7 @@ msgstr ""
 "Enable or disable the Recalbox Manager.\n"
 "The Recalbox Manager is a web application available on http://recalbox, if "
 "you are on windows, http://recalbox.local, if you are on Linux or Mac, or "
-"directly with your recalbox IP: typically http://192.168.1.xxx.\n"
+"directly with your Recalbox IP: typically http://192.168.1.xxx.\n"
 "You can configure many options from within the manager, and even manage "
 "games, saves, and scrapes!"
 
@@ -1495,8 +1495,8 @@ msgid ""
 "The Recalbox API is a REST API exposing endpoints to control your recalbox "
 "via http requests."
 msgstr ""
-"Enable or disable the recalbox API.\n"
-"The Recalbox API is a REST API exposing endpoints to control your recalbox "
+"Enable or disable the Recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your Recalbox "
 "via http requests."
 
 msgid "Select which emulator to use when you start a game for this system."
@@ -1542,7 +1542,7 @@ msgid ""
 "flatten top level."
 msgstr ""
 "Switch between seeing the folders structure and seeing all games in a "
-"flatten top level."
+"flattened top level."
 
 msgid ""
 "This option display a menu which allows to change game data and many others "
@@ -1624,7 +1624,7 @@ msgid "POPUP POSITION"
 msgstr "POPUP POSITION"
 
 msgid "Select the position of popups on screen."
-msgstr "Select the position of popups on screen."
+msgstr "Select the popup position on the screen."
 
 msgid "Set position and duration of popups."
 msgstr "Set position and duration of popups."
@@ -1669,7 +1669,7 @@ msgid ""
 "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
 "Megadrive and more!"
 msgstr ""
-"Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
+"Go online with games using through Retroarch like NES, SNES, FBA, Genesis/"
 "Megadrive and more!"
 
 msgid "KODI/NETPLAY"
@@ -1693,7 +1693,7 @@ msgid "HASH ROMS"
 msgstr "HASH ROMS"
 
 msgid "Only missing hashs"
-msgstr "Only missing hashs"
+msgstr "Only missing hashes"
 
 msgid "Username"
 msgstr "Username"
@@ -1741,7 +1741,7 @@ msgid "Rom hash"
 msgstr "ROM hash"
 
 msgid "THIS COULD TAKE A WHILE, CONFIRM?"
-msgstr "THIS COULD TAKE A WHILE. CONFIRM?"
+msgstr "THIS MIGHT TAKE A WHILE. CONFIRM?"
 
 msgid "good"
 msgstr "good"
@@ -1768,7 +1768,7 @@ msgid "A Recalbox friend has started a Netplay game!"
 msgstr "A Recalbox friend has started a Netplay game!"
 
 msgid "Add a clock in the main menu."
-msgstr "Add a clock to the main menu."
+msgstr "Adds a clock to the menu."
 
 #. UPGRADE PROCESS
 msgid "UPGRADING"
@@ -1809,7 +1809,7 @@ msgstr "BIOS CHECKING"
 msgid ""
 "Scan and check all your BIOS files and report everything in a comprehensive "
 "way."
-msgstr "Scan and check all your BIOS files and view a comprehensive report."
+msgstr "Scan and check all your BIOS files and view a detailed report."
 
 msgid "RESCAN"
 msgstr "RESCAN"
@@ -1820,33 +1820,31 @@ msgstr "Rescan all BIOS files"
 msgid ""
 "EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
 msgstr ""
-"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOSES ARE MADE "
-"AVAILABLE!"
+"EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOSES ARE AVAILABLE!"
 
 msgid ""
 "%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
 "AVAILABLE!"
 msgstr ""
-"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOSES ARE MADE "
-"AVAILABLE!"
+"%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOSES ARE AVAILABLE!"
 
 msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
-msgstr "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr "CONGRATS! ALL EMULATORS SHOULD WORK PROPERLY!"
 
 msgid "%i BIOS NOT FOUND"
-msgstr "%i BIOS NOT FOUND"
+msgstr "%i BIOSES NOT FOUND"
 
 msgid "%i NON-MATCHING BIOS FOUND"
-msgstr "%i NON-MATCHING BIOS FOUND"
+msgstr "%i NON-MATCHING BIOSES FOUND"
 
 msgid "%i GOOD BIOS FOUND!"
-msgstr "%i GOOD BIOS FOUND!"
+msgstr "%i GOOD BIOSES FOUND!"
 
 msgid "File Path"
-msgstr "File Path"
+msgstr "File path"
 
 msgid "Mandatory"
-msgstr "Mandatory"
+msgstr "Required"
 
 msgid "Must match MD5"
 msgstr "Must match MD5"
@@ -1871,28 +1869,27 @@ msgid ""
 "This bios is not mandatory in most cases. The emulator will run properly "
 "unless you want to use features requiring this particular bios file."
 msgstr ""
-"In most cases, this BIOS is not mandatory. The emulator will run properly, "
-"unless you want to use features that require this particular BIOS."
+"This BIOS is not mandatory. Unless you're using features that require it, "
+"the emulator should run fine."
 
 msgid ""
 "Your bios file does not match any known MD5. However, there are chances of "
 "getting the emulator running fine."
 msgstr ""
-"Your BIOS file does not match any known MD5 hashes. There is a good chance "
+"While your BIOS file does not match any known hashes, it's likely that "
 "everything will run fine without it."
 
 msgid ""
 "Your bios file does not match any known MD5 but this is not required. So "
 "there are strong chances of getting everything running fine."
 msgstr ""
-"While your BIOS file does not match any known MD5, it is not required. There "
-"is a good chance everything will run fine without it."
+"While your BIOS file does not match any known hashes, it's not required. "
+"There is a good chance everything will run anyways."
 
 msgid ""
 "Your bios file does match one of the known MD5. Everything will run fine!"
 msgstr ""
-"Your BIOS file matches one of the known MD5 hashes. Everything should run "
-"fine!"
+"Your BIOS matches one of the known MD5 hashes, so everything should run fine!"
 
 msgid "MD5 LIST"
 msgstr "MD5 LIST"
@@ -1905,15 +1902,15 @@ msgid ""
 "Cores/emulators listed below won't probably work until required bios are "
 "made available."
 msgstr ""
-"Cores/emulators listed below might not work until all required BIOS files "
-"are available."
+"The cores/emulators listed below might not work until all required BIOS "
+"files are available."
 
 msgid ""
 "Cores/emulators listed below may work in most cases, unless you use features "
 "requiring special bios."
 msgstr ""
-"In most cases, the cores/emulators below will run properly, unless you want "
-"to use features requiring a particular BIOS."
+"The cores/emulators listed below will work, unless you're using features "
+"that require a particular BIOS."
 
 msgid "BIOS OK"
 msgstr "BIOS OK"
@@ -1940,7 +1937,7 @@ msgid "Your bios' MD5"
 msgstr "Your BIOS' MD5"
 
 msgid "Known MD5 List"
-msgstr "Known MD5 List"
+msgstr "Known MD5 list"
 
 msgid "MY SYSTEMS"
 msgstr "MY SYSTEMS"
@@ -1982,7 +1979,7 @@ msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "VIRTUAL SYSTEMS PER GENRE"
 
 msgid "Show a 'all-games' system with all games from all systems."
-msgstr "Show an 'all-games' system with all games from all systems."
+msgstr "Show an 'all games' system with all games from every system."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr "Show multiplayer games (all games playable by two or more players)."
@@ -2009,7 +2006,7 @@ msgid "HIGHLIGHT GAMES OF REGION..."
 msgstr "HIGHLIGHT GAMES OF REGION..."
 
 msgid "Highlight all games of a particular region and fade out all others."
-msgstr "Highlight all games of a particular region and fade out others."
+msgstr "Highlight all games of a particular region and dim others."
 
 msgid ""
 "Select the source of your game name. Trust the scraping database or get them "
@@ -2059,10 +2056,10 @@ msgid "Marquee"
 msgstr "Marquee"
 
 msgid "ScreenScraper Mix V1"
-msgstr "ScreenScraper Mix V1"
+msgstr "ScreenScraper Mix v1"
 
 msgid "ScreenScraper Mix V2"
-msgstr "ScreenScraper Mix V2"
+msgstr "ScreenScraper Mix v2"
 
 msgid "SCRAPE IMAGE"
 msgstr "SCRAPE IMAGE"
@@ -2120,12 +2117,12 @@ msgid ""
 "- missing/bad mandatory bios files\n"
 "- missing/bad optional BIOS files (but required for this very game)"
 msgstr ""
-"It appears your game didn't start at all!\n"
+"Looks like your game didn't start at all!\n"
 "\n"
-"A couple of things could cause this:\n"
+"There's a couple of things could cause this:\n"
 "- Bad ROM\n"
 "- Missing/bad mandatory BIOS files\n"
-"- Missing/bad optional BIOS files (but required for this game)"
+"- Missing/bad optional BIOS files (required for this game)"
 
 msgid ""
 "At least one mandatory BIOS is missing for %emulator%!\n"
@@ -2135,8 +2132,8 @@ msgid ""
 "Do you want to launch the game anyway?"
 msgstr ""
 "At least one mandatory BIOS is missing for %emulator%!\n"
-"Your game '%game%' will very likely not run at all until the required BIOS "
-"files are put in the expected folder.\n"
+"Your game '%game%' will likely not run until its required BIOS is put in the "
+"correct folder.\n"
 "\n"
 "Do you want to launch the game anyway?"
 
@@ -2184,13 +2181,14 @@ msgid "Ready to play!"
 msgstr "Ready to play!"
 
 msgid "Not configured yet! Press a button to enter the configuration window."
-msgstr "Not configured yet! Press a button to enter the configuration window."
+msgstr ""
+"This isn't configured yet! Press a button to enter the configuration window."
 
 msgid " has been unplugged!"
 msgstr " has been unplugged!"
 
 msgid "Remove from favorite"
-msgstr "Remove from favorite"
+msgstr "Remove from favorites"
 
 msgid "Default output"
 msgstr "Default output"
@@ -2214,7 +2212,7 @@ msgid "POSITION"
 msgstr "POSITION"
 
 msgid "PREDEFINED PASSWORDS"
-msgstr "PREDEFINED PASSWORDS"
+msgstr "PRESET PASSWORDS"
 
 msgid "VALIDATE"
 msgstr "VALIDATE"
@@ -2279,14 +2277,14 @@ msgstr ""
 "\n"
 "Once the download is finished, Recalbox will reboot and start installing the "
 "new version.\n"
-"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox "
-"until the installation is complete."
+"Typical upgrades take about 5-10 minutes. DO NOT reboot or power off "
+"Recalbox until the installation is complete."
 
 msgid "REBOOT IN %s"
 msgstr "REBOOT IN %s"
 
 msgid "Error downloading Recalbox %s... Please retry later!"
-msgstr "Error downloading Recalbox %s... Please retry later!"
+msgstr "Error downloading Recalbox %s... Please try again later!"
 
 msgid "ALL"
 msgstr "ALL"
@@ -2298,22 +2296,22 @@ msgid "AUTOMATIC WPS CONNECTION"
 msgstr "AUTOMATIC WPS CONNECTION"
 
 msgid "Connecting to WIFI..."
-msgstr "Connecting to WiFi..."
+msgstr "Connecting to Wi-Fi..."
 
 msgid "Disconnecting from WIFI..."
-msgstr "Disconnecting from WiFi..."
+msgstr "Disconnecting from Wi-Fi..."
 
 msgid "NO WPS CONFIGURATION FOUND!"
 msgstr "NO WPS CONFIGURATION FOUND!"
 
 msgid "Hostname changes will not be effective until next reboot"
-msgstr "Hostname changes will not take effect until next reboot"
+msgstr "Hostname changes will not take effect until next reboot."
 
 msgid "Enable/Disable Arcade virtual system and set its options"
 msgstr "Enable/Disable Arcade virtual system and set its options"
 
 msgid "Fetching WIFI parameters"
-msgstr "Fetching WiFi parameters"
+msgstr "Fetching Wi-Fi parameters..."
 
 msgid "EDIT MANUALLY"
 msgstr "EDIT MANUALLY"
@@ -2331,7 +2329,7 @@ msgid "RECALBOX MANAGER"
 msgstr "RECALBOX MANAGER"
 
 msgid "Reseting WIFI configuration..."
-msgstr "Resetting WiFi configuration..."
+msgstr "Resetting Wi-Fi configuration..."
 
 msgid "WPS CONFIGURATION SUCCESSFUL!"
 msgstr "WPS CONFIGURATION SUCCESSFUL!"
@@ -2352,13 +2350,13 @@ msgid "SHADERS"
 msgstr "SHADERS"
 
 msgid "SYSTEMS TO SHOW IN DEMO"
-msgstr "SYSTEMS TO SHOW IN DEMO"
+msgstr "SYSTEMS TO SHOW IN DEMOS/GAMECLIPS"
 
 msgid "Saving WIFI configuration"
-msgstr "Saving WiFi configuration"
+msgstr "Saving Wi-Fi configuration..."
 
 msgid "Scanning WIFI networks..."
-msgstr "Scanning WiFi networks..."
+msgstr "Scanning Wi-Fi networks..."
 
 msgid "THEME"
 msgstr "THEME"
@@ -2578,10 +2576,10 @@ msgid ""
 "Press any button to start!"
 msgstr ""
 "Welcome to RECALBOX for ODROID-GO Advance!\n"
-"This short presentation will show you how to use the 6 special buttons "
-"available right under the screen.\n"
+"This short presentation will show you how to use the 6 special buttons right "
+"under the screen.\n"
 "\n"
-"Press any button to start!"
+"Press any button to get started."
 
 msgid ""
 "The leftmost button is the SELECT button, marked with a 'I', also available "
@@ -2592,13 +2590,12 @@ msgid ""
 "\n"
 "Press the SELECT button."
 msgstr ""
-"The leftmost button is the SELECT button, marked with 'I', which is also "
-"available on most modern pads.\n"
+"The leftmost button is the SELECT button, marked with 'I'.\n"
 "It's also the HOTKEY button that you can use in conjunction with other "
 "buttons in most emulators.\n"
 "For example, you can use HOTKEY+START to quit the current game.\n"
 "\n"
-"Press the SELECT button."
+"Press the SELECT button to continue."
 
 msgid ""
 "Next to the SELECT button is the START button, marked with an 'II'.\n"
@@ -2608,10 +2605,10 @@ msgid ""
 "Press this START button please."
 msgstr ""
 "Next to the SELECT button is the START button, marked with 'II'.\n"
-"Use it to open the main menu in the Recalbox interface and use it in-game as "
+"Use it to open the main menu in the Recalbox interface, or use it in-game as "
 "the regular START button available on most consoles.\n"
 "\n"
-"Press the START button."
+"Press the START button to continue."
 
 msgid ""
 "Then, there are 2 buttons marked with a 'III' and a 'IV'.\n"
@@ -2624,7 +2621,7 @@ msgstr ""
 "Use them to raise or lower the volume at any time in the Recalbox interface "
 "or in-game.\n"
 "\n"
-"Press either volume up or down."
+"Press a volume button to continue."
 
 msgid ""
 "The last two buttons marked 'V' and 'VI' are useful to make your screen "
@@ -2637,14 +2634,14 @@ msgstr ""
 "brightness.\n"
 "Remember: the brighter the screen, the more power you'll use!\n"
 "\n"
-" Press either brightness up or down."
+"Press a brightness button to continue."
 
 msgid ""
 "Now you're ready to start your RETROGAMING experience with Recalbox! Press "
 "button B to start... and PLAY AGAIN!"
 msgstr ""
-"Now you're ready to start your RETRO GAMING experience with Recalbox! Press "
-"the B button to start... and PLAY AGAIN!"
+"You're ready to start your RETRO GAMING experience with Recalbox! Press the "
+"B button to start... and PLAY AGAIN!"
 
 msgid "WELCOME TO RECALBOX!"
 msgstr "WELCOME TO RECALBOX!"
@@ -2658,7 +2655,7 @@ msgid ""
 "Press button B to continue."
 msgstr ""
 "A few things you should know about the POWER button.\n"
-"A quick press - like a mouse click - will put your console into sleep mode. "
+"A short press - like a mouse click - will put your console into sleep mode. "
 "Another short press and your console will turn back on! This works in the "
 "Recalbox interface and in-game.\n"
 "\n"
@@ -2700,7 +2697,8 @@ msgid ""
 "Hide all pre-installed games. Changing this option makes EmulationStation to "
 "relaunch."
 msgstr ""
-"Hide all pre-installed games. Changing this option restarts EmulationStation."
+"Hide all pre-installed games. Restarting EmulationStation is required to "
+"change this option."
 
 msgid "SHOW IN LIST"
 msgstr "SHOW IN LIST"
@@ -2715,7 +2713,8 @@ msgid "Removed from favorites"
 msgstr "Removed from favorites"
 
 msgid "Gameclips cannot be played. No video availabe for your selection"
-msgstr "Game clips cannot be played. No videos available for your selection."
+msgstr ""
+"Game clips cannot be played. No videos are available for your selection."
 
 msgid "EmulationStation must relaunch to apply your changes."
 msgstr "EmulationStation must restart to apply your changes."
@@ -2876,16 +2875,14 @@ msgstr "A reboot is required to apply pending changes."
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "SHOW LIGHTGUN SYSTEM"
 
-#
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "SHOW PORTS SYSTEM"
 
 msgid "Show all available games playable with a lightgun."
 msgstr "Show all available games playable with a lightgun."
 
-#
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "Show a 'ports' system with all ports in the same place."
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -2925,7 +2922,7 @@ msgid ""
 msgstr ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
-"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+"ARE YOU SURE YOU WANT TO DO THIS?"
 
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr "SWAP VALIDATE/CANCEL BUTTONS"
@@ -2966,143 +2963,113 @@ msgstr "Waking up..."
 msgid "Bye bye!"
 msgstr "Bye bye!"
 
-#
 msgid "LightGun Games"
-msgstr ""
+msgstr "Lightgun Games"
 
-#
 msgid "NEW YORK"
-msgstr ""
+msgstr "NEW YORK"
 
-#
 msgid "MADRID"
-msgstr ""
+msgstr "MADRID"
 
-#
 msgid "AUTOMATIC"
-msgstr ""
+msgstr "AUTOMATIC"
 
-#
 msgid "SYSTEM DRIVER"
-msgstr ""
+msgstr "SYSTEM DRIVER"
 
-#
 msgid "GAME LIBRARY DRIVER"
-msgstr ""
+msgstr "GAME LIBRARY DRIVER"
 
-#
 msgid "Allow to swap validate button B/X and cancel button B/O"
-msgstr ""
+msgstr "Swap validate buttons (B/X) and cancel buttons (A/O)"
 
-#
 msgid "Select exisiting game clip view options for this theme."
-msgstr ""
+msgstr "Select existing game clip view options for this theme."
 
-#
 msgid "box2D"
-msgstr ""
+msgstr "BOX2D"
 
-#
 msgid "box3d"
-msgstr ""
+msgstr "BOX3D"
 
-#
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "P2K CONTROLS"
 
-#
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "UPGRADE FAILED"
 
-#
 msgid ""
 "The upgrade process has failed. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"The upgrade process failed. You're back on Recalbox %s.\n"
+"Please try upgrading your Recalbox again, and contact the team at https://"
+"forum.recalbox.com if the problem persists."
 
-#
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "RECALBOX OVERLAYS"
 
-#
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
+"On wide screens, display system images that wrap around emulated screen."
 
-#
 msgid "No comment available"
-msgstr ""
+msgstr "No comment available"
 
-#
 msgid "UNKNOWN"
-msgstr ""
+msgstr "UNKNOWN"
 
-#
 msgid "GO TO GAME"
-msgstr ""
+msgstr "GO TO GAME"
 
-#
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "DELETE GAME %s"
 
-#
 msgid "GAME FILES (ROM | DISK IMAGE)"
-msgstr ""
+msgstr "GAME FILES (ROM | DISK IMAGE)"
 
-#
 msgid "MEDIA FILES"
-msgstr ""
+msgstr "MEDIA FILES"
 
-#
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "CONFIGURATION AND PATCH FILES"
 
-#
 msgid "SAVE FILES"
-msgstr ""
+msgstr "SAVE FILES"
 
-#
 msgid "SELECT FILES TO DELETE"
-msgstr ""
+msgstr "SELECT FILES TO DELETE"
 
-#
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr ""
+msgstr "DELETE SELECTED FILES, CONFIRM?"
 
-#
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "RELEASE DATE"
 
-#
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "TYPE, THEN NAME"
 
-#
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYPE, THEN RELEASE DATE"
 
-#
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "MANUFACTURER, THEN NAME"
 
-#
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "MANUFACTURER, THEN RELEASE DATE"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "TYPE, THEN MANUFACTURER, THEN NAME"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
 
-#
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "SYSTEM SORTING"
 
-#
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
 "System Type: order by Console/Handheld/Computer/Arcade/Other\n"
@@ -3110,216 +3077,199 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+"Default: use original or custom systemlist.xml order\n"
+"Name: order by system name alphabetically\n"
+"System Type: order by Console/Handheld/Computer/Arcade/Other\n"
+"Release Date: order by release date\n"
+"Manufacturer: order by manufacturer (e.g. Sega)"
 
-#
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "DELETE ALL FILES"
 
-#
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "ADVANCED DELETE"
 
-#
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "DELETE ALL FILES, CONFIRM?"
 
-#
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr ""
+msgstr "DELETE SCREENSHOT, CONFIRM?"
 
-#
 msgid "DELETE SCREENSHOT"
-msgstr ""
+msgstr "DELETE SCREENSHOT"
 
-#
 msgid "This option display a menu which allows to DELETE game data."
-msgstr ""
+msgstr "This option displays a menu allowing to DELETE game data."
 
-#
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
+"Global resolution is the resolution used by default when specific "
+"resolutions aren't defined."
 
-#
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "Select the resolution EmulationStation will use."
 
-#
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "Select the resolution used by specific systems."
 
-#
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "Select resolution to use on this system."
 
-#
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "RESOLUTIONS"
 
-#
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "GLOBAL RESOLUTION"
 
-#
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "EMULATIONSTATION RESOLUTION"
 
-#
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "EMULATORS SPECIFIC RESOLUTIONS"
 
-#
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "USE GLOBAL"
 
-#
 msgid "NATIVE"
-msgstr ""
+msgstr "NATIVE"
 
-#
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
+"No file selected.\n"
+"You must choose at least one."
 
-#
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
+"The device %NAME% containing ROMs has been plugged in! EmulationStation must "
+"relaunch to load new games."
 
-#
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
+"A device containing ROMs has been unplugged! EmulationStation must relaunch "
+"to remove unavailable games."
 
-#
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
+"Your USB device has been initialized! You can unplug it and copy your games "
+"on it."
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
+"The USB device %NAME% with no ROM folder has been plugged in. Would you like "
+"to create ROM folders on this device?"
 
-#
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
+"Initialization failed! Your USB device is full or contains errors. Please "
+"repair or use another device."
 
-#
 msgid ""
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"WARNING: You device may not have been properly unplugged and has consistency "
+"errors. As a result, it's been mounted as read-only. You should plug your "
+"device in a Windows PC and use the repair tool."
 
-#
 msgid "DISPLAY BY FILENAME"
-msgstr ""
+msgstr "DISPLAY BY FILENAME"
 
-#
 msgid "Display games by file names."
-msgstr "Afficher les jeux par noms de fichier"
+msgstr "Display games by file names."
 
-#
 msgid "SEARCH GAMES HERE"
-msgstr ""
+msgstr "SEARCH GAMES HERE"
 
-#
 msgid "GAME FILTERS"
-msgstr ""
+msgstr "GAME FILTERS"
 
-#
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
+"This game is currently updating its metadata. Try again in a few seconds."
 
-#
 msgid "SHOW ONLY LATEST VERSION"
-msgstr ""
+msgstr "SHOW ONLY LATEST VERSION"
 
-#
 msgid "SHOW ONLY FAVORITES"
-msgstr ""
+msgstr "SHOW ONLY FAVORITES"
 
-#
 msgid "SHOW HIDDEN GAMES"
-msgstr ""
+msgstr "SHOW HIDDEN GAMES"
 
-#
 msgid "HIDE NO GAMES"
-msgstr ""
+msgstr "HIDE NO GAMES"
 
-#
 msgid "Hide non final versions of a same game."
-msgstr ""
+msgstr "Hide non-final versions of a game."
 
-#
 msgid "Hide all pre-installed games."
-msgstr "Allow to hide all preinstalled games in recalbox"
+msgstr "Hide all pre-installed games."
 
-#
 msgid "Hide no executable games. for example bios"
-msgstr "Hide all non games. for example bios, zzz"
+msgstr "Hide unexecutable games, such as BIOS."
 
-#
 msgid "Display game by file name instead of game name."
-msgstr ""
+msgstr "Display game by file name instead of game name."
 
-#
 msgid "Filtering games you want to show."
-msgstr ""
+msgstr "Filtering games you want to show."
 
-#
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
+"If a game patch (hack, trad) has same name as a rom, it will be be auto "
+"patched.\n"
+"This menu allow to deactivate the auto patch or to have a confirm box."
 
-#
 msgid "DISABLE"
-msgstr ""
+msgstr "DISABLE"
 
-#
 msgid "CONFIRM"
-msgstr ""
+msgstr "CONFIRM"
 
-#
 msgid "A patch has been detected"
-msgstr ""
+msgstr "A patch has been detected"
 
-#
 msgid "original"
-msgstr ""
+msgstr "original"
 
-#
 msgid "patched"
-msgstr ""
+msgstr "patched"
 
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
+"A fatal error occured while scraping your game! It may be related to server "
+"issues or bad login/password.\n"
+"\n"
+"Try again in a few moments or fix your credentials."
 
-#
 msgid "Your scraping session completed. Press OK to show the results."
-msgstr ""
+msgstr "Your scraping session finished. Press OK to show the results."
 
-#
 msgid "Please select one or more systems to scrape!"
-msgstr ""
+msgstr "Please select one or more systems to scrape!"
 
-#
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
 "not exceed %MAXSYSTEMS% consoles/computers or you may face stability "
@@ -3328,126 +3278,215 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
+"Your system doesn't have enough memory to handle %SYSTEMS% systems. You "
+"should not exceed %MAXSYSTEMS% consoles/computers or else you may face "
+"stability issues!\n"
+"\n"
+"You can hide preinstalled games in UI SETTINGS menu to decrease active "
+"systems."
 
-#
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
+"Your system doesn't have enough memory to handle %GAMES% games. You should "
+"not exceed %MAXGAMES% or else you may face stability issues!"
 
-#
 msgid "WARNING! SYSTEM OVERLOAD!"
-msgstr ""
+msgstr "WARNING! SYSTEM OVERLOAD!"
 
-#
 msgid ""
 "Welcome back %NAME%!\n"
 "Patron level %LEVEL%\n"
 "You are now connected to your recalbox patron account, and all exclusives "
 "features are available!"
 msgstr ""
+"Welcome back %NAME%!\n"
+"Patron level %LEVEL%\n"
+"You are now connected to your Recalbox Patreon account, and all exclusive "
+"features are available!"
 
-#
 msgid ""
 "Hello %NAME%, your private key is linked to a Patreon account which is no "
 "longer a Recalbox Patron.\n"
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
+"Hello %NAME%, your private key is linked to a Patreon account which is no "
+"longer a Recalbox Patron.\n"
+"We still hope to see you back soon as a Recalbox Patron!\n"
+"Delete your private key to suppress this message."
 
-#
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
+"Your private key doesn't allow retrieval of your Patreon information. Go to "
+"recalbox.com/patreon to generate a new valid key!"
 
-#
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
+"Sorry, we're not able to retrieve your Patreon level because no network is "
+"available!"
 
-#
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
+"We're not able to retrieve your Patreon level! Sorry for the inconvenience, "
+"we're already working on a fix!"
 
-#
 msgid "CASE MANAGEMENT"
-msgstr ""
+msgstr "CASE MANAGEMENT"
 
-#
 msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
 
-#
 msgid "Initializing roms folders..."
 msgstr ""
 
-#
 msgid "Initializing share folders..."
 msgstr ""
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
 
-#
 msgid "• Choose '%INIT%' to create only all the rom folders"
 msgstr ""
 
-#
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
 
-#
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
 msgstr ""
 
-#
 msgid "INITIALIZE"
 msgstr ""
 
-#
 msgid "MOVE SHARE"
 msgstr ""
 
-#
 msgid "Setting up boot device..."
 msgstr ""
 
-#
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
 
-#
 msgid "UPDATING..."
 msgstr ""
 
-#
 msgid "%i file"
 msgstr ""
 
-#
 msgid "%i files"
 msgstr ""
 
-#
 msgid "Video"
 msgstr ""
 
-#
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
 "your Retroflag case (located inside the case, on the electronic part) must "
 "be positioned on ON."
 msgstr ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part) must "
+"be switched to ON."
+
+#~ msgid "DISK USAGE"
+#~ msgstr "DISK USAGE"
+
+#~ msgid "SECURITY"
+#~ msgstr "SECURITY"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ENFORCE SECURITY"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "ROOT PASSWORD"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Manage Recalbox security."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Change the SSH root password."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Enforce Recalbox security."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "UPDATE VERSION:"
+
+#~ msgid "Rom found"
+#~ msgstr "ROM found"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copy current system to another device. Warning! You will erase all data "
+#~ "on the target device."
+
+#~ msgid "Show a 'all-games' system with all ames from all systems."
+#~ msgstr "Show an 'all-games' system with all games from every system."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "Real Time Strategy"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "If you push the POWER button in for more than 2 seconds, you will turn "
+#~ "off your console. If you do so in-game, Recalbox will gracefully close "
+#~ "the current emulator before powering off.\n"
+#~ "Just so you're aware, holding the POWER button down for more than 5 "
+#~ "seconds will perform a hard shutdown.\n"
+#~ "\n"
+#~ "Press the B button to continue."
+
+#~ msgid "added to favorites"
+#~ msgstr "added to favorites"
+
+#~ msgid "removed from favorites"
+#~ msgstr "removed from favorites"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Game clips cannot be played.\n"
+#~ "\n"
+#~ "No videos available for your selection."
+
+#~ msgid "Analog Output"
+#~ msgstr "Analog Output"
+
+#~ msgid "HDMI / DisplayPort"
+#~ msgstr "HDMI / DisplayPort"
+
+#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+#~ msgstr "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
