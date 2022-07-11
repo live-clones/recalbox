@@ -1,5 +1,5 @@
 diff --git a/package/rpi-firmware/Config.in b/package/rpi-firmware/Config.in
-index f5a25c5680..f4d2ddc7d1 100644
+index 8070dc3019..8c56db4496 100644
 --- a/package/rpi-firmware/Config.in
 +++ b/package/rpi-firmware/Config.in
 @@ -84,8 +84,9 @@ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
