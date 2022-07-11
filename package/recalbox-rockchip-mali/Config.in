@@ -1,0 +1,62 @@
+menuconfig BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI
+	bool "Mali Rockchip"
+	depends on BR2_arm || BR2_aarch64
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_LIBDRM
+	help
+	  The Mali GPU library used in Rockchip Platform.
+	  Supported GPU: bifrost, midgard, utgard.
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI
+
+choice
+	prompt "Platform/GPU"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST
+	bool "bifrost g31"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD
+	bool "midgard t86x"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD
+	bool "utgard 450"
+endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST
+choice
+	prompt "bifrost backend"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_GBM
+	bool "gbm"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_WAYLAND
+	bool "wayland"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_X11
+	bool "x11"
+endchoice
+endif
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD
+choice
+	prompt "midgard backend"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_GBM
+	bool "gbm"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_WAYLAND
+	bool "Wayland"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_X11
+	bool "X11"
+endchoice
+endif
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD
+choice
+	prompt "utgard backend"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_GBM
+	bool "gbm"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_WAYLAND
+	bool "Wayland"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_X11
+	bool "X11"
+endchoice
+endif
+
+endif
+
+comment "Mali Rockchip"
+	depends on !BR2_arm && !BR2_aarch64
