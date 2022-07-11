@@ -460,7 +460,6 @@ bool SystemManager::AddArcadeMetaSystem()
         {
           arcades.push_back(system);
           system->BuildDoppelgangerMap(doppelganger, false);
-          break;
         }
 
     // Non empty?
