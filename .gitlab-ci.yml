@@ -45,7 +45,7 @@ lint buildroot:
   <<: *lint_definition
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
-  image: python:2-alpine
+  image: python:3-alpine
   before_script:
     - pip install six
   script: test/lint/buildroot
