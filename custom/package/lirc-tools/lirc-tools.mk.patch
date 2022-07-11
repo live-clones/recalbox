@@ -1,8 +1,8 @@
 diff --git a/package/lirc-tools/lirc-tools.mk b/package/lirc-tools/lirc-tools.mk
-index d66f4e9925..482ae39e70 100644
+index 05f20f5726..a410d0f79b 100644
 --- a/package/lirc-tools/lirc-tools.mk
 +++ b/package/lirc-tools/lirc-tools.mk
-@@ -16,6 +16,7 @@ LIRC_TOOLS_AUTORECONF = YES
+@@ -17,6 +17,7 @@ LIRC_TOOLS_AUTORECONF = YES
  
  LIRC_TOOLS_CONF_ENV = XSLTPROC=yes HAVE_WORKING_POLL=yes
  LIRC_TOOLS_CONF_OPTS = --without-x --enable-devinput --enable-uinput

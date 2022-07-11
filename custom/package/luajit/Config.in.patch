@@ -1,8 +1,8 @@
 diff --git a/package/luajit/Config.in b/package/luajit/Config.in
-index eb3eb01998..13e55d3692 100644
+index f27099e80c..5ef83f20e4 100644
 --- a/package/luajit/Config.in
 +++ b/package/luajit/Config.in
-@@ -20,7 +20,6 @@ config BR2_PACKAGE_LUAJIT
+@@ -24,7 +24,6 @@ config BR2_PACKAGE_LUAJIT
  	# luajit.mk for details.
  	select BR2_PACKAGE_HAS_LUAINTERPRETER
  	select BR2_PACKAGE_LUAINTERPRETER_ABI_VERSION_5_1
