@@ -32,6 +32,18 @@ bool wpaf_i2c_initialize() {
   return true;
 }
 
+bool wpaf_i2c_close() {
+  bcm2835_initialized = false;
+  log_trace("wpaf_i2c_close()");
+#ifdef HAVE_LIBBCM2835
+  if (bcm2835_initialized)
+    return(bcm2835_close());
+#else
+  log_error("no libbcm2835 on this system");
+  return false;
+#endif
+}
+
 #define BCM2835_LOCK()   sem_wait(semaphore[BCM2835_SEMAPHORE])
 #define BCM2835_UNLOCK() sem_post(semaphore[BCM2835_SEMAPHORE])
 
@@ -54,6 +66,7 @@ uint8_t wpaf_i2c_write_to_addr(uint8_t slave_address, char * write_buffer, uint3
   __length = bcm2835_i2c_write(write_buffer, length);
   bcm2835_i2c_end();
 #endif
+  wpaf_i2c_close();
   BCM2835_UNLOCK();
   return __length;
 }
@@ -70,6 +83,7 @@ uint8_t wpaf_i2c_write1_to_addr(uint8_t slave_address, char write_buffer) {
   __length = bcm2835_i2c_write(&write_buffer, 1);
   bcm2835_i2c_end();
 #endif
+  wpaf_i2c_close();
   BCM2835_UNLOCK();
   return __length;
 }
@@ -86,6 +100,7 @@ uint8_t wpaf_i2c_read_from_addr(uint8_t slave_address, char * read_buffer, uint3
   __length = bcm2835_i2c_read(read_buffer, length);
   bcm2835_i2c_end();
 #endif
+  wpaf_i2c_close();
   BCM2835_UNLOCK();
   return __length;
 }
@@ -102,6 +117,7 @@ uint8_t wpaf_i2c_read1_from_addr(uint8_t slave_address) {
   bcm2835_i2c_read(&data, 1);
   bcm2835_i2c_end();
 #endif
+  wpaf_i2c_close();
   BCM2835_UNLOCK();
   return data;
 }
