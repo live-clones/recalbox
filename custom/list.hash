@@ -7,6 +7,7 @@
 ++++++++++++++++++++++++++++++++  package/clang/0001-lib-Driver-ToolChains-Gnu-Use-GCC_INSTALL_PREFIX-in-.patch
 37fc771459a375673c08670304c30d72  linux/Config.in
 ce8d49486ba3d91d405658e8823c606e  linux/linux.mk
+c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 e1c48b945047496dc3d5a5456237fe6a  package/binutils/binutils.mk
 27d53f122c18c56675696e267bee2ea2  package/bluez5_utils/bluez5_utils.mk
 40e93c6a4fd117a51513b11cd6a334f7  package/dhcpcd/dhcpcd.mk
