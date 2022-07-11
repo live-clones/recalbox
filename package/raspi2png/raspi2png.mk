@@ -14,7 +14,7 @@ RASPI2PNG_INCLUDES = -I$(STAGING_DIR)/usr/include/ -I$(STAGING_DIR)/usr/include/
 
 # rpi0, 1, 2 and 3
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
-RASPI2PNG_DEPENDENCIES = rpi-userland
+RASPI2PNG_DEPENDENCIES += rpi-userland
 endif
 
 define RASPI2PNG_BUILD_CMDS

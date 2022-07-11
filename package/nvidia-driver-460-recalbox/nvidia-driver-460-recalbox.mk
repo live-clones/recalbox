@@ -11,6 +11,7 @@ NVIDIA_DRIVER_460_RECALBOX_LICENSE = NVIDIA Software License
 NVIDIA_DRIVER_460_RECALBOX_LICENSE_FILES = LICENSE
 NVIDIA_DRIVER_460_RECALBOX_REDISTRIBUTE = NO
 NVIDIA_DRIVER_460_RECALBOX_INSTALL_STAGING = YES
+NVIDIA_DRIVER_460_RECALBOX_DEPENDENCIES = xlib_libX11 xlib_libXext
 
 NVIDIA_DRIVER_460_RECALBOX_VERSION_GL = 1.7.0
 NVIDIA_DRIVER_460_RECALBOX_VERSION_WAYLAND = 1.1.5
@@ -22,7 +23,6 @@ ifeq ($(BR2_PACKAGE_NVIDIA_DRIVER_460_RECALBOX_XORG),y)
 # are build dependencies of packages that depend on nvidia-driver, so
 # they should be built prior to those packages, and the only simple
 # way to do so is to make nvidia-driver depend on them.
-NVIDIA_DRIVER_460_RECALBOX_DEPENDENCIES = xlib_libX11 xlib_libXext
 
 # recalbox - enable both mesa and nvidia
 ifneq ($(BR2_PACKAGE_MESA3D),y)

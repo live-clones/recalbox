@@ -4,8 +4,6 @@
 #
 ################################################################################
 
-ifneq ($(GITLAB_TOKEN_BEEBEM),)
-
 BEEBEM_VERSION = 8a67ac0eb400e92b7a01171ed571342ad5a54030
 BEEBEM_SITE = https://gitlab-ci-token-beebem:$(GITLAB_TOKEN_BEEBEM)@gitlab.com/bkg2k/beebem-linux.git
 BEEBEM_SITE_METHOD = git
@@ -29,6 +27,6 @@ BEEBEM_CONF_OPTS += -DCMAKE_C_FLAGS="$(COMPILER_COMMONS_CFLAGS_EXE)"
 BEEBEM_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAGS_EXE)"
 BEEBEM_CONF_OPTS += -DCMAKE_EXE_LINKER_FLAGS="$(COMPILER_COMMONS_LDFLAGS_EXE)"
 
+ifneq ($(GITLAB_TOKEN_BEEBEM),)
 $(eval $(cmake-package))
-
 endif
