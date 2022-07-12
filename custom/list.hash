@@ -29,6 +29,7 @@ eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 7dd2e53d8b5a99680e4ccff69cd4b8fb  package/rpi-firmware/rpi-firmware.mk
+b908959a214b74a37cab5f5acee1a8f5  package/sdl2/Config.in
 058eb783d0392c78a12154315e751988  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
 76f5941c64fe63d71fdbafde3594ba78  package/sdl_sound/Config.in
