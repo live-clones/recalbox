@@ -1,9 +1,9 @@
---- ./setup.py.orig	2021-06-21 23:40:01.999828667 +0200
-+++ ./setup.py	2021-06-21 23:41:00.366507447 +0200
-@@ -215,7 +215,7 @@
+--- python-pygame-2.1.2/setup.py.orig	2022-07-12 17:33:52.718170998 +0200
++++ python-pygame-2.1.2/setup.py	2022-07-12 17:34:26.241895760 +0200
+@@ -256,7 +256,7 @@
  
- 
- AUTO_CONFIG = False
+ no_compilation = any(x in ['lint', 'format', 'docs'] for x in sys.argv)
+ AUTO_CONFIG = not os.path.isfile('Setup') and not no_compilation
 -if consume_arg('-auto'):
 +if '-auto' in sys.argv:
      AUTO_CONFIG = True
