@@ -37,9 +37,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetTransit
   std::vector<ListEntry<std::string>> list;
 
   mOriginalTransition = RecalboxConf::Instance().GetThemeTransition();
-  list.push_back({ "fade", "fade", mOriginalTransition == "fade" });
-  list.push_back({ "slide", "slide", mOriginalTransition == "slide" });
-  list.push_back({ "instant", "instant", mOriginalTransition == "instant" });
+  list.push_back({ _("FADE"), "fade", mOriginalTransition == "fade" });
+  list.push_back({ _("SLIDE"), "slide", mOriginalTransition == "slide" });
+  list.push_back({ _("INSTANT"), "instant", mOriginalTransition == "instant" });
 
   return list;
 }

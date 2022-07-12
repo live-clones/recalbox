@@ -108,7 +108,7 @@ void GuiMenuNetplay::SwitchComponentChanged(int id, bool status)
           break;
         }
     if (needHashRefresh)
-      mWindow.pushGui(new GuiMsgBox(mWindow, _("Some games are not netplay ready yet. "), _("OK"), [this] { StartHashing(); }));
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("Some games are not netplay ready yet."), _("OK"), [this] { StartHashing(); }));
   }
 }
 
