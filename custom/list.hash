@@ -20,6 +20,9 @@ be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 d01ff39be7590054b52166b00c3d54ae  package/lirc-tools/lirc-tools.mk
 ea3caecad7c732805207c02964aadfd9  package/luajit/Config.in
 1197405dd629b7353cb27c6c871dd487  package/mosquitto/mosquitto.mk
+135abab5349e68ddb60a698bf31db0c5  package/nodejs/0001-add-qemu-wrapper-support.patch
+618b44931f510b1d9e66b35fe948fd46  package/nodejs/nodejs.mk
+47de25932269f5b7168360840e798fa1  package/nodejs/v8-qemu-wrapper.in
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 481ff92234bdf273c5ed16867caa501f  package/python-pygame/python-pygame.mk
 1be54d36d35fa5649a764c6b9a93e2c5  package/rpi-firmware/Config.in
