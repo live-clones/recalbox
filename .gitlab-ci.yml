@@ -129,7 +129,7 @@ tests buildroot patches:
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
-                                          "recalbox-${ARCH}" make $PKG-patch 2>&1 ||exit 1
+                                          "recalbox-${ARCH}" make BR2_DL_DIR="/share/dl" $PKG-patch 2>&1 ||exit 1
         fi
       done
 
