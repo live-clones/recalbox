@@ -292,6 +292,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
           // Process
           if (!compactEvent.Empty())
+            // TODO: invert those lines, special events should be managed by the board in priority
             if (!ProcessSpecialInputs(compactEvent))
               if (!Board::Instance().ProcessSpecialInputs(compactEvent))
                 window.ProcessInput(compactEvent);
@@ -772,13 +773,14 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
     if (milliseconds < sPowerButtonThreshold)
     {
       // Only if supported. Otherwise does nothing
+      { LOG(LogDebug) << "[MainRunner] Short Power Button Press: standby"; }
       if (Board::Instance().HasSuspendResume())
         mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
                                       ->Execute(HardwareTriggeredSpecialOperations::Suspend, _("Entering standby...")));
     }
     else
     {
-      { LOG(LogDebug) << "[MainRunner] Power Button Pressed: shutting down"; }
+      { LOG(LogDebug) << "[MainRunner] Long Power Button Press: shutting down"; }
       mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
                                       ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
     }
@@ -1099,17 +1101,20 @@ void MainRunner::Sdl2EventReceived(const SDL_Event& event)
 
 bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
 {
-  //{ LOG(LogInfo) << "[MainRunner] Processing special input."; }
-
+  // Setting this high quality code will avoid the MainRunner to manage
+  // power buttons on those specific boards.
+  // TODO: Must be cleaned after 8.1
+  const BoardType board = Board::Instance().GetBoardType();
+  if (board == BoardType::OdroidAdvanceGo || board == BoardType::OdroidAdvanceGoSuper || board == BoardType::Pi400)
+    return false;
   const InputEvent& raw = event.RawEvent();
   if (raw.Type() == InputEvent::EventType::Key)
     if (raw.Value() == 1) // KEYDOWN
       switch(raw.Id())
       {
-        case SDLK_POWER: PowerButtonPressed(Board::Instance().GetBoardType(), sPowerButtonThreshold); return true;
-        case SDLK_SLEEP: ResetButtonPressed(Board::Instance().GetBoardType()); return true;
+        case SDLK_POWER: PowerButtonPressed(board, sPowerButtonThreshold); return true;
+        case SDLK_SLEEP: ResetButtonPressed(board); return true;
         default: break;
       }
-
   return false;
 }
