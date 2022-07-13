@@ -310,7 +310,7 @@ std::string ScreenScraperApis::GetRequiredRegion(Regions::RegionPack romRegions,
   region = regionsFromFile.HasRegion(favoriteRegion) ? favoriteRegion : regionsFromFile.First();
   // Then from database
   if (region == Regions::GameRegions::Unknown)
-    region = romRegions.HasRegion(favoriteRegion) ? favoriteRegion : romRegions.First();
+    region = favoriteRegion != Regions::GameRegions::Unknown && romRegions.HasRegion(favoriteRegion) ? favoriteRegion : romRegions.First();
   // Finally fav'
   if (region == Regions::GameRegions::Unknown)
     region = favoriteRegion;
