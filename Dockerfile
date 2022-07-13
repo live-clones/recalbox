@@ -28,7 +28,8 @@ RUN mkdir -p /work
 WORKDIR /work
 
 CMD echo ">>> Setting recalbox version to ${RECALBOX_VERSION}" && echo "${RECALBOX_VERSION}" > board/recalbox/fsoverlay/recalbox/recalbox.version && \
-    echo ">>> Fetching and reseting buildroot submodule" && ( git submodule update --init ; cd buildroot && git reset HEAD --hard && git clean -dfx ) && \
+    echo ">>> Reseting buildroot submodule" && ( cd buildroot && git reset HEAD --hard && git clean -dfx ) && \
+    echo ">>> Fetching buildroot submodule" && ( git submodule update --init ) && \
     echo ">>> Making recalbox-${ARCH}_defconfig" && make recalbox-${ARCH}_defconfig && \
     export RECALBOX_CCACHE=${RECALBOX_CCACHE_ENABLED:+"BR2_CCACHE=y BR2_CCACHE_DIR=/share/ccache BR2_CCACHE_INITIAL_SETUP=--max-size=500G BR2_CCACHE_USE_BASEDIR=y"} && \
     echo ">>> Make with command : BR2_DL_DIR="/share/dl" $RECALBOX_CCACHE $PACKAGE" && \
