@@ -9,6 +9,7 @@
 #include "EmulationStation.h"
 #include "utils/Strings.h"
 #include "systems/SystemData.h"
+#include <games/adapter/GameAdapter.h>
 
 std::string ScreenScraperEndPoints::BuildUrlCommon(ScreenScraperEndPoints::Api api, const std::string& login, const std::string& password)
 {
@@ -48,7 +49,7 @@ std::string ScreenScraperEndPoints::GetGameInfoUrl(const std::string& login, con
   // Add gameinfo properties
   result.append("&romtype=rom");
   result.append("&systemeid=").append(Strings::ToString(game.System().Descriptor().ScreenScaperID()));
-  result.append("&romnom=").append(Strings::URLEncode(game.FilePath().Filename()));
+  result.append("&romnom=").append(Strings::URLEncode(GameAdapter(game).ScrapingName()));
   result.append("&romtaille=").append(Strings::ToString(size));
   if (!crc32.empty())
     result.append("&crc=").append(crc32);
