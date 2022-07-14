@@ -8,50 +8,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
-- Add case support for retroflag, argon and nuxii cases
-- Fix kodi controller configuration
-- Recalbox RGB Dual: add emulator/core selection
-- Add seamless scraping for Patrons
-- Add GAME FILTER menu to filter games in lists based on several criteria
-- Recalbox RGB Dual: fix arcade games when 50Hz mode is forced
-- Recalbox RGB Dual: add mame2015 support
-- Recalbox RGB Dual: fix 31kHz vertical arcade games ratio
-- Recalbox RGB Dual: fix atari st resolution
-- Recalbox RGB Dual: add PAL specific offset in the menu
-- Recalbox RGB Dual: fix PAL auto game offsets
-- Recalbox RGB Dual: enhance resolution on Playstation PAL games
-- Recalbox RGB Dual: fix calibration screen steps
-- Recalbox RGB Dual: on 31kHz add the resolution choice on game launch
-- Recalbox RGB Dual: add recalbox rgb dual menu in main menu
-- Recalbox RGB Dual: enhance image quality in frontend
-- Recalbox RGB Dual: enhance calibration screen accuracy
-- Recalbox RGB Dual: fix option management when upgrading from 8.0.2
-- Recalbox RGB Dual: fix playstation games performance
-- Recalbox RGB Dual: fix quake 2 resolution
-- Recalbox RGB Dual: add scanlines option in menu for 480p on 31kHz
-- Recalbox RGB Dual: add game resolution option in menu for demo games
-- Recalbox RGB Dual: fix resolution selection for arcade games on 31kHz
-- Recalbox RGB Dual: fix region selection for megadrive on 31kHz
-- Add remote playlists (Patrons)
-- Add seamless scraping (Patrons)
-- Add slangs shaders support on retroarch
-- Fix swanstation memory card compatibility option for saving on network
-- Add libretro PSP emulator (libretro ppsspp)
-- Add delete game options
-- Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
-- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
-- Add system Philips CD-I (libretro core : cdi2015)
-- Add Iris driver for Intel iGPUs on x64 version
-- New option in UI menu : hide PORTS collection
-- Add recalbox.conf option to force resolution of splash videos on x64
-- New Random game picker in demo mode (less cycling)
-- Add BSNES core (performance build) (PC and RPi4/400)
-- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
-- Add Pi400 power button support (Fn + F10 to turn off)
-- Display game regions flag in gamelist
-- Make default no image in gamelist themable
-- Add Twitch as Kodi plugin
-- Add resolution menu in Advanced Settings > Resolutions
+- Add Raspberry Pi 4 64 bit support
+- Add Recalbox RGB Dual support
 - Add support for external rom folders on USB devices (up to 8 volumes/partitions)
   - Hotplug: EmulationStation automatically reconize USB device containing roms!
   - Initialization: Ask the user when USB device with no rom folders at all
@@ -59,6 +17,27 @@ as release notes for end user on a Recalbox upgrade.
   - Games are merged into your game list seamlessly
 - Add support for additional network rom folders (up to 4)
   - As for USB devices, games are merged into your game list seamlessly
+- Add case support for retroflag, argon and nuxii cases
+- Add Pi400 power button support (Fn + F10 to turn off)
+- Add remote playlists (Patrons)
+- Add seamless scraping (Patrons)
+- Add GAME FILTER menu to filter games in lists based on several criteria
+- Add slangs shaders support on retroarch
+- Add system Philips CD-I (libretro core : cdi2015)
+- Add BSNES core (performance build) (PC and RPi4/400)
+- Add BSNES HD for wide screen Super Nintendo games (PC and RPi4/400)
+- Add libretro PSP emulator (libretro ppsspp)
+- Add delete game options
+- Add the game Zdey The Game on Nintendo Nes. Thank you Art'cade
+- Add core libretro vitaquake2 for x64, RPi4, Odroid Xu4 and Odroid Go Advance/Super
+- New system sorting options in UI menu: sort your systems by type, manufacturer, release dates and more !
+- Add Iris driver for Intel iGPUs on x64 version
+- New option in UI menu : hide PORTS collection
+- Add recalbox.conf option to force resolution of splash videos on x64
+- New Random game picker in demo mode (less cycling)
+- Display game regions flag in gamelist
+- Add Twitch as Kodi plugin
+- Add resolution menu in Advanced Settings > Resolutions
 - Add scraper progress bar
 - Add display by filename in gamelist option
 - Add go to game from search results and add search games from gamelist menu
@@ -67,7 +46,6 @@ as release notes for end user on a Recalbox upgrade.
 - Add softpatching manager in game settings
 - Add system MegaDuck (libretro core : sameduck) Thanks Duimon for the drawing of the console on the theme.
 - Add new Atari 5200 core (libretro core: a5200)
-- Add the game Zdey The Game on Nintendo Nes. Thank you to Art'cade
 
 ### Improvements
 
@@ -110,6 +88,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
+- Fix kodi controller configuration
+- Fix swanstation memory card compatibility option for saving on network
 - Fix lots of issues in the internal scraper
 - Add mc10 and coco3 model to trs80 color computer xroar emulator
 - Add CRT check menu footer
