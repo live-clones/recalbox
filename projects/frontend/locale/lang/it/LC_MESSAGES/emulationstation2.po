@@ -3404,54 +3404,62 @@ msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"Se hai installato Recalbox in un case, puoi installarlo o disinstallarlo con "
+"questo. Alcuni case sono riconosciuti automaticamente e verrà notificato qui."
 
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "Inizializzazione cartelle roms..."
 
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "Inzializzazione cartelle condivise..."
 
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
+"La periferica USB %NAME% senza cartelle roms e cartelle share è stata "
+"collegata! Vuoi inizializzare la periferica?"
 
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "• Scegli '%INIT%' per creare solamente le cartelle roms"
 
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
+"• Scegli '%MOVE%' per copiare tutte le cartelle nella nuova periferica, "
+"cambiare automaticamente ad essa e riavviare"
 
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr ""
+msgstr "• Oppure scegli '%CANCEL%' per non fare nulla sulla nuova periferica"
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INIZIALIZZA"
 
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "SPOSTA SHARE"
 
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "Impostazione periferica di boot..."
 
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
+"La tua periferica USB è stata inizializzata! Pronta per riavviare la tua "
+"periferica share!"
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "AGGIORNAMENTO..."
 
 msgid "%i file"
-msgstr ""
+msgstr "%i file"
 
 msgid "%i files"
-msgstr ""
+msgstr "%i files"
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
@@ -3462,305 +3470,251 @@ msgstr ""
 "SAFE SHUTDOWN dentro al tuo case Retroflag (posizionato dentro al case, "
 "sulla scheda elettronica) deve essere posizionato su ON."
 
-#
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
-#
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Uscita RGB per VGA666, PI2SCART, RGBPI."
 
-#
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "ADATTATORE CRT"
 
-#
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Abilita l'uscita RGB per VGA666, PI2SCART, RGBPI"
 
-#
 msgid "MENU RESOLUTION"
-msgstr ""
+msgstr "RISOLUZIONE MENU"
 
-#
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
 msgstr ""
+"Seleziona la risoluzione di emulationstation. 480i è consigliato per avere "
+"più dettagli."
 
-#
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "TIPO DI SCHERMO"
 
-#
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "FORZA 50HZ"
 
-#
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "SELEZIONA LA FREQUENZA DI AGGIORNAMENTO DEL GIOCO ALL'AVVIO"
 
-#
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
 msgstr ""
+"Ti permette di selezionare tra 50Hz e 60Hz all'avvio, per i sistemi "
+"compatibili."
 
-#
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "SELEZIONA RISOLUZIONE DI GIOCO ALL'AVVIO"
 
-#
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
+"Ti permette di selezionare tra 240p, 480i, o 480p all'avvio, per i sistemi "
+"compatibili."
 
-#
 msgid "RUN DEMOS IN 240P@120"
-msgstr ""
+msgstr "AVVIA DEMO A 240p@120"
 
-#
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "Avvia le demo con risoluzione a 240p sul tuo monitor a 31kHz."
 
-#
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "SCANLINES A 480P"
 
-#
 msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
+"Aggiungi scanline durante l'esecuzione di giochi a 480p su uno schermo a "
+"31kHz."
 
-#
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "ZERO LAG (BETA)"
 
-#
 msgid "Configure emulators to approach a zero lag experience."
-msgstr ""
+msgstr "Configura gli emulatori per raggiungere una esperienza con zero lag."
 
-#
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "FORZA AUDIO SU JACK"
 
-#
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
+"Forza audio su jack. Automaticamente abilitato quando lo switch 31kHz è "
+"posizionato su ON"
 
-#
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "CALIBRAZIONE SCHERMO (BETA)"
 
-#
 msgid "PAL HORIZONTAL OFFSET"
-msgstr ""
+msgstr "OFFSET ORIZZONTALE PAL"
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
+"Se le tue immagini PAL non sono centrate, puoi modificare l'offset "
+"orizzontale di default qui."
 
-#
 msgid "PAL VERTICAL OFFSET"
-msgstr ""
+msgstr "OFFSET VERTICALE PAL"
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
+"Se le tue immagini PAL non sono centrate, puoi modificare l'offset verticale "
+"di default qui."
 
-#
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "OPZIONI CRT"
 
-#
 msgid "(Hardware managed)"
-msgstr ""
+msgstr "(Gestito dall'hardware)"
 
-#
 msgid "240p"
-msgstr ""
+msgstr "240p"
 
-#
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
-#
 msgid "480i (recommended)"
-msgstr ""
+msgstr "480i (consigliato)"
 
-#
 msgid "MOVE SCREEN"
-msgstr ""
+msgstr "SPOSTA SCHERMO"
 
-#
 msgid "WIDER"
-msgstr ""
+msgstr "PIÙ LARGO"
 
-#
 msgid "NARROWER"
-msgstr ""
+msgstr "PIÙ STRETTO"
 
-#
 msgid "VALIDATE CHANGES"
-msgstr ""
+msgstr "CONFERMA MODIFICHE"
 
-#
 msgid "Image width:"
-msgstr ""
+msgstr "Larghezza immagine:"
 
-#
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "Offset orizzontale:"
 
-#
 msgid "Vertical offset:"
-msgstr ""
+msgstr "Offset verticale:"
 
-#
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
-msgstr ""
+msgstr "LA TUA LISTA È VUOTA. PREMI START PER CAMBIARE I TUOI FILTRI DI GIOCO."
 
-#
 msgid "Select a region to filter out games not matching the selected region."
 msgstr ""
+"Seleziona una regione per filtrare via i giochi che non corrispondono alla "
+"regione selezionata."
 
-#
 msgid "SOFTPATCHING"
-msgstr ""
+msgstr "SOFTPATCH"
 
-#
 msgid "SYSTEM RESOLUTIONS"
-msgstr ""
+msgstr "RISOLUZIONI DI SISTEMA"
 
-#
 msgid "AUTOMATIC SCRAPING"
-msgstr ""
+msgstr "SCRAPING AUTOMATICO"
 
-#
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "CORRI IN SFONDO"
 
-#
 msgid "MONTREAL"
-msgstr ""
+msgstr "MONTREAL"
 
-#
 msgid "SAOPAULO"
-msgstr ""
+msgstr "SAN PAOLO"
 
-#
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i Conosciuto MD5"
 
-#
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "Cambia l'uscita audio in Cuffie!"
 
-#
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "Riporta l'uscita audio su Altoparlanti!"
 
-#
 msgid "Restarting."
-msgstr ""
+msgstr "Riavvio."
 
-#
 msgid "Entering standby..."
-msgstr ""
+msgstr "Entrando in standby..."
 
-#
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "COMANDI DA PAD A TASTIERA"
 
-#
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
-#
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "LOG DI DEBUG"
 
-#
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "Stai per eliminare questo file, conferma ?"
 
-#
 msgid "Preparing Games..."
-msgstr ""
+msgstr "Preparazione dei giochi..."
 
-#
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "Alcuni giochi non sono ancora pronti per il netplay."
 
-#
 msgid "Free"
-msgstr ""
+msgstr "Free"
 
-#
 msgid "FADE"
-msgstr ""
+msgstr "FADE"
 
-#
 msgid "SLIDE"
-msgstr ""
+msgstr "SLIDE"
 
-#
 msgid "INSTANT"
-msgstr ""
+msgstr "INSTANT"
 
-#
 msgid "Are you sure the selected theme is compatible with CRT screens?"
 msgstr ""
+"Sei sicuro che il tema selezionato sia compatibile con gli schermi CRT?"
 
-#
 msgid "You must have at least %dGB free on 'SHARE' partition!"
-msgstr ""
+msgstr "Devi avere almeno %dGB libero sulla partizione 'SHARE'!"
 
-#
 msgid "ADD STAR"
-msgstr ""
+msgstr "AGGIUNGI STELLA"
 
-#
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"Lo spazio libero sul dispositivo %NAME% è sceso sotto il %LIMIT%!\n"
+"Dovresti provare a liberare spazio velocemente!"
 
-#
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60Hz (US)"
 
-#
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60Hz (JP)"
 
-#
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50Hz (EU)"
 
-#
 msgid "60Hz"
-msgstr ""
+msgstr "60Hz"
 
-#
 msgid "50Hz"
-msgstr ""
+msgstr "50Hz"
 
-#
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
-#
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
-#
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Recalbox RGB Dual opzioni e configurazione."
 
-#
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "Seleziona le risoluzioni del sistema, del frontend e dell'emulatore."
 
 #~ msgid "DISK USAGE"
 #~ msgstr "UTILIZZO DISCO"

@@ -3187,303 +3187,230 @@ msgid ""
 "be positioned on ON."
 msgstr ""
 
-#
 msgid "RECALBOX CRT"
 msgstr ""
 
-#
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
 msgstr ""
 
-#
 msgid "CRT ADAPTER"
 msgstr ""
 
-#
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
 msgstr ""
 
-#
 msgid "MENU RESOLUTION"
 msgstr ""
 
-#
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
 msgstr ""
 
-#
 msgid "SCREEN TYPE"
 msgstr ""
 
-#
 msgid "FORCE 50HZ"
 msgstr ""
 
-#
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
 msgstr ""
 
-#
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
 msgstr ""
 
-#
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
 msgstr ""
 
-#
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
 
-#
 msgid "RUN DEMOS IN 240P@120"
 msgstr ""
 
-#
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
 msgstr ""
 
-#
 msgid "SCANLINES IN 480P"
 msgstr ""
 
-#
 msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
 
-#
 msgid "ZERO LAG (BETA)"
 msgstr ""
 
-#
 msgid "Configure emulators to approach a zero lag experience."
 msgstr ""
 
-#
 msgid "FORCE SOUND ON JACK"
 msgstr ""
 
-#
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
 
-#
 msgid "SCREEN CALIBRATION (BETA)"
 msgstr ""
 
-#
 msgid "PAL HORIZONTAL OFFSET"
 msgstr ""
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
 
-#
 msgid "PAL VERTICAL OFFSET"
 msgstr ""
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
 
-#
 msgid "CRT SETTINGS"
 msgstr ""
 
-#
 msgid "(Hardware managed)"
 msgstr ""
 
-#
 msgid "240p"
 msgstr ""
 
-#
 msgid "480p"
 msgstr ""
 
-#
 msgid "480i (recommended)"
 msgstr ""
 
-#
 msgid "MOVE SCREEN"
 msgstr ""
 
-#
 msgid "WIDER"
 msgstr ""
 
-#
 msgid "NARROWER"
 msgstr ""
 
-#
 msgid "VALIDATE CHANGES"
 msgstr ""
 
-#
 msgid "Image width:"
 msgstr ""
 
-#
 msgid "Horizontal offset:"
 msgstr ""
 
-#
 msgid "Vertical offset:"
 msgstr ""
 
-#
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
 msgstr ""
 
-#
 msgid "Select a region to filter out games not matching the selected region."
 msgstr ""
 
-#
 msgid "SOFTPATCHING"
 msgstr ""
 
-#
 msgid "SYSTEM RESOLUTIONS"
 msgstr ""
 
-#
 msgid "AUTOMATIC SCRAPING"
 msgstr ""
 
-#
 msgid "RUN IN BACKGROUND"
 msgstr ""
 
-#
 msgid "MONTREAL"
 msgstr ""
 
-#
 msgid "SAOPAULO"
 msgstr ""
 
-#
 msgid "%i Known MD5"
 msgstr ""
 
-#
 msgid "Switch audio output to Headphones!"
 msgstr ""
 
-#
 msgid "Switch audio output back to Speakers!"
 msgstr ""
 
-#
 msgid "Restarting."
 msgstr ""
 
-#
 msgid "Entering standby..."
 msgstr ""
 
-#
 msgid "PAD TO KEYBOARD CONTROLS"
 msgstr ""
 
-#
 msgid "RECALBOX RGB DUAL"
 msgstr ""
 
-#
 msgid "DEBUG LOGS"
 msgstr ""
 
-#
 msgid "You are about to delete this files, confirm ?"
 msgstr ""
 
-#
 msgid "Preparing Games..."
 msgstr ""
 
-#
 msgid "Some games are not netplay ready yet."
 msgstr ""
 
-#
 msgid "Free"
 msgstr ""
 
-#
 msgid "FADE"
 msgstr ""
 
-#
 msgid "SLIDE"
 msgstr ""
 
-#
 msgid "INSTANT"
 msgstr ""
 
-#
 msgid "Are you sure the selected theme is compatible with CRT screens?"
 msgstr ""
 
-#
 msgid "You must have at least %dGB free on 'SHARE' partition!"
 msgstr ""
 
-#
 msgid "ADD STAR"
 msgstr ""
 
-#
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
 
-#
 msgid "60Hz (US)"
 msgstr ""
 
-#
 msgid "60Hz (JP)"
 msgstr ""
 
-#
 msgid "50Hz (EU)"
 msgstr ""
 
-#
 msgid "60Hz"
 msgstr ""
 
-#
 msgid "50Hz"
 msgstr ""
 
-#
 msgid "240p@120"
 msgstr ""
 
-#
 msgid "480p@60"
 msgstr ""
 
-#
 msgid "Recalbox RGB Dual options and configuration."
 msgstr ""
 
-#
 msgid "Select system, frontend and emulator resolutions."
 msgstr ""
 

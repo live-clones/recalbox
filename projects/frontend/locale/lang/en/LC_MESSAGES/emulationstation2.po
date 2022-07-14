@@ -1850,7 +1850,7 @@ msgid "Must match MD5"
 msgstr "Must match MD5"
 
 msgid "File found ?"
-msgstr "File exists?"
+msgstr "Bios found?"
 
 msgid "Matching MD5 ?"
 msgstr "Matching MD5?"
@@ -1919,7 +1919,7 @@ msgid "BIOS UNSAFE"
 msgstr "BIOS UNSAFE"
 
 msgid "BIOS KO"
-msgstr "BIOS OK"
+msgstr "BIOS KO"
 
 msgid "BIOS NOT FOUND"
 msgstr "BIOS NOT FOUND"
@@ -2062,7 +2062,7 @@ msgid "ScreenScraper Mix V2"
 msgstr "ScreenScraper Mix v2"
 
 msgid "SCRAPE IMAGE"
-msgstr "SCRAPE IMAGE"
+msgstr "SCRAP IMAGE"
 
 msgid "SELECT THUMBNAIL TYPE"
 msgstr "SELECT THUMBNAIL TYPE"
@@ -2071,7 +2071,7 @@ msgid "No thumbnail"
 msgstr "No thumbnail"
 
 msgid "SCRAPE THUMBNAIL"
-msgstr "SCRAPE THUMBNAIL"
+msgstr "SCRAP THUMBNAIL"
 
 msgid "SELECT VIDEO TYPE"
 msgstr "SELECT VIDEO TYPE"
@@ -3345,54 +3345,62 @@ msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"If you installed a case on your Recalbox, you can install or uninstall it in "
+"this. Some cases are detected automatically and will also be reported here."
 
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "Initializing roms folders..."
 
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "Initializing share folders..."
 
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
+"The USB device %NAME% with no rom folder and no share folder has been "
+"plugged in! Would you like to initialize this device?"
 
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "• Choose '%INIT%' to create only all the rom folders"
 
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
+"• Choose '%MOVE%' to copy all the current share to the new device, "
+"automatically switch to this device, and reboot"
 
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr ""
+msgstr "• Or just chose '%CANCEL%' to do nothing with this new device"
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INITIALIZE"
 
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "MOVE SHARE"
 
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "Setting up boot device..."
 
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
+"Your USB device has been initialized! Ready to reboot on your new share "
+"device!"
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "UPDATING..."
 
 msgid "%i file"
-msgstr ""
+msgstr "%i file"
 
 msgid "%i files"
-msgstr ""
+msgstr "%i files"
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
@@ -3403,305 +3411,241 @@ msgstr ""
 "your Retroflag case (located inside the case, on the electronic part) must "
 "be switched to ON."
 
-#
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
-#
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "RGB output for VGA666, PI2SCART, RGBPI."
 
-#
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "CRT ADAPTER"
 
-#
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Enable RGB output for VGA666, PI2SCART, RGBPI"
 
-#
 msgid "MENU RESOLUTION"
-msgstr ""
+msgstr "MENU RESOLUTION"
 
-#
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
 msgstr ""
+"Select emulationstation resolution. 480i is recommended for better details."
 
-#
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "SCREEN TYPE"
 
-#
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "FORCE 50HZ"
 
-#
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "SELECT GAME REFRESH RATE AT LAUNCH"
 
-#
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
 msgstr ""
+"Let you choose between 50Hz and 60Hz at launch, for compatible systems."
 
-#
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "SELECT GAME RESOLUTION AT LAUNCH"
 
-#
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
+"Let you choose between 240p, 480i, or 480p at launch, for compatible systems."
 
-#
 msgid "RUN DEMOS IN 240P@120"
-msgstr ""
+msgstr "RUN DEMOS IN 240P@120"
 
-#
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "Run the demos in 240p resolution on you 31kHz monitor."
 
-#
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "SCANLINES IN 480P"
 
-#
 msgid "Add scanlines when running games in 480p on 31kHz screen."
-msgstr ""
+msgstr "Add scanlines when running games in 480p on 31kHz screen."
 
-#
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "ZERO LAG (BETA)"
 
-#
 msgid "Configure emulators to approach a zero lag experience."
-msgstr ""
+msgstr "Configure emulators to approach a zero lag experience."
 
-#
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "FORCE SOUND ON JACK"
 
-#
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
-msgstr ""
+msgstr "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 
-#
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "SCREEN CALIBRATION (BETA)"
 
-#
 msgid "PAL HORIZONTAL OFFSET"
-msgstr ""
+msgstr "PAL HORIZONTAL OFFSET"
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
+"If you PAL images are not centered, you can override the default horizontal "
+"offset here."
 
-#
 msgid "PAL VERTICAL OFFSET"
-msgstr ""
+msgstr "PAL VERTICAL OFFSET"
 
-#
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
+"If you PAL images are not centered, you can override the default vertical "
+"offset here."
 
-#
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "CRT SETTINGS"
 
-#
 msgid "(Hardware managed)"
-msgstr ""
+msgstr "(Hardware managed)"
 
-#
 msgid "240p"
-msgstr ""
+msgstr "240p"
 
-#
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
-#
 msgid "480i (recommended)"
-msgstr ""
+msgstr "480i (recommended)"
 
-#
 msgid "MOVE SCREEN"
-msgstr ""
+msgstr "MOVE SCREEN"
 
-#
 msgid "WIDER"
-msgstr ""
+msgstr "WIDER"
 
-#
 msgid "NARROWER"
-msgstr ""
+msgstr "NARROWER"
 
-#
 msgid "VALIDATE CHANGES"
-msgstr ""
+msgstr "VALIDATE CHANGES"
 
-#
 msgid "Image width:"
-msgstr ""
+msgstr "Image width:"
 
-#
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "Horizontal offset:"
 
-#
 msgid "Vertical offset:"
-msgstr ""
+msgstr "Vertical offset:"
 
-#
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
-msgstr ""
+msgstr "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
 
-#
 msgid "Select a region to filter out games not matching the selected region."
-msgstr ""
+msgstr "Select a region to filter out games not matching the selected region."
 
-#
 msgid "SOFTPATCHING"
-msgstr ""
+msgstr "SOFTPATCHING"
 
-#
 msgid "SYSTEM RESOLUTIONS"
-msgstr ""
+msgstr "SYSTEMS RESOLUTIONS"
 
-#
 msgid "AUTOMATIC SCRAPING"
-msgstr ""
+msgstr "AUTOMATIC SCRAPING"
 
-#
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "RUN IN BACKGROUND"
 
-#
 msgid "MONTREAL"
-msgstr ""
+msgstr "MONTREAL"
 
-#
 msgid "SAOPAULO"
-msgstr ""
+msgstr "SAOPAULO"
 
-#
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i Known MD5"
 
-#
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "Switch audio output to Headphones!"
 
-#
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "Switch audio output back to Speakers!"
 
-#
 msgid "Restarting."
-msgstr ""
+msgstr "Restarting."
 
-#
 msgid "Entering standby..."
-msgstr ""
+msgstr "Entering standby..."
 
-#
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "PAD TO KEYBOARD CONTROLS"
 
-#
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
-#
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "DEBUG LOGS"
 
-#
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "You are about to delete this files, confirm?"
 
-#
 msgid "Preparing Games..."
-msgstr ""
+msgstr "Preparing Games..."
 
-#
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "Some games are not netplay ready yet."
 
-#
 msgid "Free"
-msgstr ""
+msgstr "Free"
 
-#
 msgid "FADE"
-msgstr ""
+msgstr "FADE"
 
-#
 msgid "SLIDE"
-msgstr ""
+msgstr "SLIDE"
 
-#
 msgid "INSTANT"
-msgstr ""
+msgstr "INSTANT"
 
-#
 msgid "Are you sure the selected theme is compatible with CRT screens?"
-msgstr ""
+msgstr "Are you sure the selected theme is compatible with CRT screens?"
 
-#
 msgid "You must have at least %dGB free on 'SHARE' partition!"
-msgstr ""
+msgstr "You must have at least %dGB free on 'SHARE' partition!"
 
-#
 msgid "ADD STAR"
-msgstr ""
+msgstr "ADD STAR"
 
-#
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"Free space on device %NAME% has gone under %LIMIT%!\n"
+"You should try to free some space quickly!"
 
-#
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60Hz (US)"
 
-#
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60Hz (JP)"
 
-#
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50Hz (EU)"
 
-#
 msgid "60Hz"
-msgstr ""
+msgstr "60Hz"
 
-#
 msgid "50Hz"
-msgstr ""
+msgstr "50Hz"
 
-#
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
-#
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
-#
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Recalbox RGB Dual options and configuration."
 
-#
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "Select system, frontend and emulator resolutions."
 
 #~ msgid "DISK USAGE"
 #~ msgstr "DISK USAGE"
