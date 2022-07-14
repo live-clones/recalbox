@@ -189,10 +189,12 @@ void RemotePlaylist::DownloadFiles()
         { LOG(LogDebug) << "[RemotePlaylist] Downloading " << track.LocalPath().ToString(); }
         if (!mRequest.Execute(track.Url(), track.LocalPath()))
         {
+          if (!IsRunning()) return;
           { LOG(LogError) << "[RemotePlaylist] Failed to download " << track.Url() << ". Retry in a few seconds."; }
           Thread::Sleep(5000);
           continue;
         }
+        if (!IsRunning()) return;
         if (mRequest.GetLastHttpResponseCode() != 200)
         {
           { LOG(LogError) << "[RemotePlaylist] Failed to download " << track.Url() << ". Http Result code: " << mRequest.GetLastHttpResponseCode() << ". Retry in a few seconds."; }
