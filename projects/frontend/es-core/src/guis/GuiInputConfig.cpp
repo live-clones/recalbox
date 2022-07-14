@@ -158,8 +158,8 @@ void GuiInputConfig::initFormInputs()
 	addFormInput("X", _("X"), ":/help/button_x.svg", true, InputEvent::EventType::Button);
 	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("Start", _("START"), ":/help/button_start.svg", false, InputEvent::EventType::Button);
-	addFormInput("Select", _("SELECT"), ":/help/button_select.svg", false, InputEvent::EventType::Button);
+	addFormInput("Start", "START", ":/help/button_start.svg", false, InputEvent::EventType::Button);
+	addFormInput("Select", "SELECT", ":/help/button_select.svg", false, InputEvent::EventType::Button);
 	
 	addFormInput("L1", _("L1"), ":/help/button_l.svg", true, InputEvent::EventType::Button);
 	addFormInput("R1", _("R1"), ":/help/button_r.svg", true, InputEvent::EventType::Button);
