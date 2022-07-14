@@ -3242,11 +3242,15 @@ msgid "RUN DEMOS IN 240P@120"
 msgstr ""
 
 #
+msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgstr ""
+
+#
 msgid "SCANLINES IN 480P"
 msgstr ""
 
 #
-msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
 
 #
@@ -3355,6 +3359,132 @@ msgstr ""
 
 #
 msgid "AUTOMATIC SCRAPING"
+msgstr ""
+
+#
+msgid "RUN IN BACKGROUND"
+msgstr ""
+
+#
+msgid "MONTREAL"
+msgstr ""
+
+#
+msgid "SAOPAULO"
+msgstr ""
+
+#
+msgid "%i Known MD5"
+msgstr ""
+
+#
+msgid "Switch audio output to Headphones!"
+msgstr ""
+
+#
+msgid "Switch audio output back to Speakers!"
+msgstr ""
+
+#
+msgid "Restarting."
+msgstr ""
+
+#
+msgid "Entering standby..."
+msgstr ""
+
+#
+msgid "PAD TO KEYBOARD CONTROLS"
+msgstr ""
+
+#
+msgid "RECALBOX RGB DUAL"
+msgstr ""
+
+#
+msgid "DEBUG LOGS"
+msgstr ""
+
+#
+msgid "You are about to delete this files, confirm ?"
+msgstr ""
+
+#
+msgid "Preparing Games..."
+msgstr ""
+
+#
+msgid "Some games are not netplay ready yet."
+msgstr ""
+
+#
+msgid "Free"
+msgstr ""
+
+#
+msgid "FADE"
+msgstr ""
+
+#
+msgid "SLIDE"
+msgstr ""
+
+#
+msgid "INSTANT"
+msgstr ""
+
+#
+msgid "Are you sure the selected theme is compatible with CRT screens?"
+msgstr ""
+
+#
+msgid "You must have at least %dGB free on 'SHARE' partition!"
+msgstr ""
+
+#
+msgid "ADD STAR"
+msgstr ""
+
+#
+msgid ""
+"Free space on device %NAME% has bone under %LIMIT%!\n"
+"You should try to free some space quickly!"
+msgstr ""
+
+#
+msgid "60Hz (US)"
+msgstr ""
+
+#
+msgid "60Hz (JP)"
+msgstr ""
+
+#
+msgid "50Hz (EU)"
+msgstr ""
+
+#
+msgid "60Hz"
+msgstr ""
+
+#
+msgid "50Hz"
+msgstr ""
+
+#
+msgid "240p@120"
+msgstr ""
+
+#
+msgid "480p@60"
+msgstr ""
+
+#
+msgid "Recalbox RGB Dual options and configuration."
+msgstr ""
+
+#
+msgid "Select system, frontend and emulator resolutions."
 msgstr ""
 
 #~ msgid "DISK USAGE"
