@@ -15,7 +15,7 @@
 #include <systems/SystemManager.h>
 
 GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window, SystemManager& systemManager)
-  : GuiMenuBase(window, _("VIRTUAL SYSTEMS PER GENRE"), this)
+  : GuiMenuBase(window, _("VIRTUAL SYSTEMS"), this)
   , mSystemManager(systemManager)
   , mAllGamesOriginalValues(RecalboxConf::Instance().GetCollectionAllGames())
   , mMultiplayersOriginalValues(RecalboxConf::Instance().GetCollectionMultiplayer())

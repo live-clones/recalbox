@@ -155,7 +155,7 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
   }
   if(!mExtras->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("CONF | PATCHES")).append("\n");
+    message.append("\n").append(_("CONFIGURATION AND PATCH FILES")).append("\n");
     for (const Path& path: mExtras->getSelectedObjects())
     {
       message.append(path.Filename()).append("\n");
@@ -164,7 +164,7 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
 
   if(!mSaves->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("SAVES")).append("\n");
+    message.append("\n").append(_("SAVE FILES")).append("\n");
     for (const Path& path: mSaves->getSelectedObjects())
     {
       message.append(path.Filename()).append("\n");
@@ -173,7 +173,7 @@ std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
 
   if(!mMedias->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("MEDIA")).append("\n");
+    message.append("\n").append(_("MEDIA FILES")).append("\n");
     for (const Path& path: mMedias->getSelectedObjects())
     {
       message.append(path.Filename()).append("\n");

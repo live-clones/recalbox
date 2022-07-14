@@ -225,7 +225,7 @@ msgid "VERSION"
 msgstr "VERZE"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr "VYUŽITÍ DISKU"
+msgstr "VYUŽITÍ DISKU (VOLNO/CELKEM)"
 
 msgid "STORAGE DEVICE"
 msgstr "ÚLOŽIŠTĚ"
@@ -864,10 +864,10 @@ msgid "A TO UNSET"
 msgstr "A PRO ZRUŠENÍ"
 
 msgid "DOWN TO SKIP AND KEEP [%1%]"
-msgstr "DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ"
+msgstr "DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ [%1%]"
 
 msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
-msgstr "NAHORU/DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ"
+msgstr "NAHORU/DOLŮ PRO PŘESKOČENÍ A ULOŽENÍ [%1%]"
 
 #. Config controllers missing translation
 msgid "PRESS ANYTHING"
@@ -1984,7 +1984,7 @@ msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "VIRTUÁLNÍ SYSTÉMY DLE ŽÁNRU"
 
 msgid "Show a 'all-games' system with all games from all systems."
-msgstr "Zobrazí všechny hry pro všechny sytémy."
+msgstr "Ukázat systém 'všech her' se všemi hrami z každého systému."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr "Zobrazí multiplayer hry (všechny hry pro dva a více hráčů)."
@@ -2880,16 +2880,14 @@ msgstr "Aby se projevily změny, je vyžadován nový start."
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "ZOBRAZIT SYSTÉM SVĚTELNÉ PISTOLE"
 
-#
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "ZOBRAZIT PORTOVANÉ SYSTÉMY"
 
 msgid "Show all available games playable with a lightgun."
 msgstr "Zobrazit všechny hry hratelné se světelnou pistolí."
 
-#
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "Zobrazit systém \"portů\" se všemi porty na stejném místě."
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -2958,157 +2956,127 @@ msgid "No sound"
 msgstr "Bez zvuku"
 
 msgid "BRIGHTNESS -"
-msgstr ""
+msgstr "JAS -"
 
 msgid "BRIGHTNESS +"
-msgstr ""
+msgstr "JAS +"
 
 msgid "Adult"
-msgstr ""
+msgstr "Dospělí"
 
 msgid "Waking up!"
-msgstr ""
+msgstr "Startuji..."
 
 msgid "Bye bye!"
-msgstr ""
+msgstr "Na shledanou!"
 
-#
 msgid "LightGun Games"
-msgstr ""
+msgstr "Hry pro světelnou pistoli"
 
-#
 msgid "NEW YORK"
-msgstr ""
+msgstr "NEW YORK"
 
-#
 msgid "MADRID"
-msgstr ""
+msgstr "MADRID"
 
-#
 msgid "AUTOMATIC"
-msgstr ""
+msgstr "AUTOMATICKY"
 
-#
 msgid "SYSTEM DRIVER"
-msgstr ""
+msgstr "SYSTÉMOVÝ OVLADAČ"
 
-#
 msgid "GAME LIBRARY DRIVER"
-msgstr ""
+msgstr "OVLADAČ KNIHOVNY HER"
 
-#
 msgid "Allow to swap validate button B/X and cancel button B/O"
-msgstr ""
+msgstr "Prohodit potvrzovací tlačítka (B/X) a storno tlačítka (A/O)"
 
-#
 msgid "Select exisiting game clip view options for this theme."
-msgstr ""
+msgstr "Vyberte stávající možnosti zobrazení herního klipu pro toto téma."
 
-#
 msgid "box2D"
-msgstr ""
+msgstr "BOX2D"
 
-#
 msgid "box3d"
-msgstr ""
+msgstr "BOX3D"
 
-#
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "P2K OVLÁDÁNÍ"
 
-#
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "AKTUALIZACE SELHALA"
 
-#
 msgid ""
 "The upgrade process has failed. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"Proces aktualizace selhal. Jste zpět na  Recalbox %s. Prosím zkuste znovu "
+"aktualizovat svůj Recalbox a pokud problém přetrvává kontaktujte tým na "
+"https://forum.recalbox.com"
 
-#
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "RECALBOX OVERLAYS"
 
-#
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
+"Na širokoúhlé obrazovce zobrazí obrázky systémů kolem emulované obrazovky."
 
-#
 msgid "No comment available"
-msgstr ""
+msgstr "Komentář není dostupný"
 
-#
 msgid "UNKNOWN"
-msgstr ""
+msgstr "NEZNÁMÝ"
 
-#
 msgid "GO TO GAME"
-msgstr ""
+msgstr "JÍT NA HRU"
 
-#
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "SMAZAT HRU %s"
 
-#
 msgid "GAME FILES (ROM | DISK IMAGE)"
-msgstr ""
+msgstr "SOUBORY HRY (ROM / OBRAZ DISKU)"
 
-#
 msgid "MEDIA FILES"
-msgstr ""
+msgstr "MEDIÁLNÍ SOUBORY"
 
-#
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "KONFIGURAČNÍ A OPRAVNÉ SOUBORY"
 
-#
 msgid "SAVE FILES"
-msgstr ""
+msgstr "ULOŽIT SOUBORY"
 
-#
 msgid "SELECT FILES TO DELETE"
-msgstr ""
+msgstr "VYBRAT SOUBORY KE SMAZÁNÍ"
 
-#
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr ""
+msgstr "SMAZAT VYBRANÉ SOUBORY?"
 
-#
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "DATUM VYDÁNÍ"
 
-#
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "TYP, POTOM JMÉNO"
 
-#
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYP, POTOM DATUM VYDÁNÍ"
 
-#
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "VÝROBCE, POTOM JMÉNO"
 
-#
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "VÝROBCE, POTOM DATUM VYDÁNÍ"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "TYP, POTOM VÝROBCE, POTOM JMÉNO"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYP, POTOM VÝROBCE, POTOM DATUM VYDÁNÍ"
 
-#
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "TŘÍDĚNÍ SYSTÉMŮ"
 
-#
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
 "System Type: order by Console/Handheld/Computer/Arcade/Other\n"
@@ -3116,216 +3084,201 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+"výchozí: použít původní nebo vlastní pořadí systemlist.xml\n"
+"Název: abecedně seřadit podle názvu systému\n"
+"Typ systému: seřadit podle konzole/ručního počítače/počítače/arkády/jiného\n"
+"Datum vydání: seřadit podle data vydání\n"
+"Výrobce: seřadit podle výrobce (např. Sega)"
 
-#
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "SMAZAT VŠECHNY SOUBORY"
 
-#
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "POKROČILÉ MAZÁNÍ"
 
-#
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "SMAZAT VŠECHNY SOUBORY?"
 
-#
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr ""
+msgstr "SMAZAT SNÍMEK OBRAZOVKY?"
 
-#
 msgid "DELETE SCREENSHOT"
-msgstr ""
+msgstr "SMAZAT SNÍMEK OBRAZOVKY"
 
-#
 msgid "This option display a menu which allows to DELETE game data."
-msgstr ""
+msgstr "Tato možnost zobrazí nabídku umožňující SMAZAT data hry."
 
-#
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
+"Globální rozlišení je rozlišení, které se používá ve výchozím nastavení, "
+"pokud nejsou definována konkrétní rozlišení."
 
-#
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "Vyberte rozlišení, které bude používat aplikace EmulationStation."
 
-#
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "Vyberte rozlišení, které bude využito konkrétním systémem."
 
-#
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "Vyberte rozlišení využívané tímto systémem."
 
-#
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "ROZLIŠENÍ"
 
-#
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "GLOBÁLNÍ ROZLIŠENÍ"
 
-#
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "ROZLIŠENÍ EMULATIONSTATION"
 
-#
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "ROZLIŠENÍ KONKRÉTNÍHO EMULÁTORU"
 
-#
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "POUŽÍT GLOBÁLNÍ"
 
-#
 msgid "NATIVE"
-msgstr ""
+msgstr "NATIVNÍ"
 
-#
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
+"Není vybrán žádný soubor.\n"
+"Musíte vybrat alespoň jeden."
 
-#
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
+"Zařízení %NAME% obsahující ROM bylo připojeno! EmulationStation se musí "
+"znovu spustit, aby načetla nové hry."
 
-#
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
+"Zařízení obsahující ROM bylo odpojeno! EmulationStation se musí znovu "
+"spustit, aby se odstranily nedostupné hry."
 
-#
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
+"Vaše zařízení USB bylo inicializováno! Můžete jej odpojit a zkopírovat na "
+"něj hry."
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
+"Bylo připojeno zařízení USB %NAME% bez složky ROM. Chcete na tomto zařízení "
+"vytvořit složky ROM?"
 
-#
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
+"Inicializace selhala! Zařízení USB je plné nebo obsahuje chyby. Opravte jej "
+"nebo použijte jiné zařízení."
 
-#
 msgid ""
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"UPOZORNĚNÍ: Je možné, že zařízení nebylo správně odpojeno a obsahuje chyby "
+"konzistence. V důsledku toho bylo připojeno pouze pro čtení. Měli byste "
+"zařízení připojit k počítači se systémem Windows a použít nástroj pro opravu."
 
-#
 msgid "DISPLAY BY FILENAME"
-msgstr ""
+msgstr "ZOBRAZIT PODLE NÁZVU SOUBORU"
 
-#
 msgid "Display games by file names."
-msgstr "Afficher les jeux par noms de fichier"
+msgstr "Zobrazení her podle názvů souborů."
 
-#
 msgid "SEARCH GAMES HERE"
-msgstr ""
+msgstr "HLEDAT HRY"
 
-#
 msgid "GAME FILTERS"
-msgstr ""
+msgstr "FILTROVÁNÍ HER"
 
-#
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
+"Tato hra právě aktualizuje svá metadata. Zkuste to znovu za několik sekund."
 
-#
 msgid "SHOW ONLY LATEST VERSION"
-msgstr ""
+msgstr "ZOBRAZIT POUZE POSLEDNÍ VERZI"
 
-#
 msgid "SHOW ONLY FAVORITES"
-msgstr ""
+msgstr "ZOBRAZIT POUZE OBLÍBENÉ"
 
-#
 msgid "SHOW HIDDEN GAMES"
-msgstr ""
+msgstr "ZOBRAZIT SKRYTÉ HRY"
 
-#
 msgid "HIDE NO GAMES"
-msgstr ""
+msgstr "SKÝT BEZ HER"
 
-#
 msgid "Hide non final versions of a same game."
-msgstr ""
+msgstr "Skrytí nefinálních verzí hry"
 
-#
 msgid "Hide all pre-installed games."
-msgstr ""
+msgstr "Skrýt všechny předinstalované hry."
 
-#
 msgid "Hide no executable games. for example bios"
-msgstr ""
+msgstr "Skrýt nespustitelné hry, jako například BIOS."
 
-#
 msgid "Display game by file name instead of game name."
-msgstr ""
+msgstr "Zobrazení hry podle názvu souboru místo názvu hry."
 
-#
 msgid "Filtering games you want to show."
-msgstr ""
+msgstr "Filtrování her, které chcete zobrazit."
 
-#
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
+"Pokud má herní patch (hack, trad) stejný název jako rom, bude automaticky "
+"opraven.\n"
+"Tato nabídka umožňuje deaktivovat automatický patch nebo zobrazit "
+"potvrzovací okno."
 
-#
 msgid "DISABLE"
-msgstr ""
+msgstr "VYPNOUT"
 
-#
 msgid "CONFIRM"
-msgstr ""
+msgstr "POTVRDIT"
 
-#
 msgid "A patch has been detected"
-msgstr ""
+msgstr "Detekována oprava."
 
-#
 msgid "original"
-msgstr ""
+msgstr "originál"
 
-#
 msgid "patched"
-msgstr ""
+msgstr "opravený"
 
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
+"Při vyhledávání hry došlo k fatální chybě! Může to souviset s problémy se "
+"serverem nebo špatným přihlašovacím jménem/heslem.\n"
+"\n"
+"Zkuste to za chvíli znovu nebo opravte své přihlašovací údaje."
 
-#
 msgid "Your scraping session completed. Press OK to show the results."
 msgstr ""
+"Vaše úloha vyhledávání skončila. Stisknutím tlačítka OK zobrazíte výsledky."
 
-#
 msgid "Please select one or more systems to scrape!"
-msgstr ""
+msgstr "Prosím vyberte jeden nebo více systému k vyhledávání."
 
-#
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
 "not exceed %MAXSYSTEMS% consoles/computers or you may face stability "
@@ -3334,114 +3287,443 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
+"Váš systém nemá dostatek paměti pro práci se systémy %SYSTEMS%. Neměli byste "
+"překročit %MAXSYSTEMS% konzolí/počítačů, jinak se můžete setkat s problémy "
+"se stabilitou!\n"
+"\n"
+"Předinstalované hry můžete skrýt v nabídce NASTAVENÍ UI a snížit tak počet "
+"aktivních systémů."
 
-#
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
+"Váš systém nemá dostatek paměti pro zpracování her %GAMES%. Neměli byste "
+"překročit %MAXGAMES%, jinak se můžete setkat s problémy se stabilitou!"
 
-#
 msgid "WARNING! SYSTEM OVERLOAD!"
-msgstr ""
+msgstr "VAROVÁNÍ, PŘETÍŽENÍ SYSTÉMU"
 
-#
 msgid ""
 "Welcome back %NAME%!\n"
 "Patron level %LEVEL%\n"
 "You are now connected to your recalbox patron account, and all exclusives "
 "features are available!"
 msgstr ""
+"Vítejte zpět %NAME%!\n"
+"Úroveň patrona %LEVEL%\n"
+"Nyní jste připojeni ke svému účtu Recalbox Patreon a máte k dispozici "
+"všechny exkluzivní funkce!"
 
-#
 msgid ""
 "Hello %NAME%, your private key is linked to a Patreon account which is no "
 "longer a Recalbox Patron.\n"
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
+"Ahoj %NAME%, tvůj privátní klíč je spojen s účtem Patreon, který již není "
+"Patronem Recalboxu.\n"
+"Přesto doufáme, že se k nám brzy vrátíte jako Patron Recalboxu!\n"
+"Smažte svůj soukromý klíč, abyste tuto zprávu potlačili."
 
-#
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
+"Váš privátní klíč neumožňuje načíst informace o Patreonu. Přejděte na "
+"recalbox.com/patreon a vygenerujte si nový platný klíč!"
 
-#
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
+"Je nám líto, ale nemůžeme načíst vaši úroveň Patreonu, protože není k "
+"dispozici žádná síť!"
 
-#
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
+"Nejsme schopni načíst vaši úroveň Patreonu! Omlouváme se za nepříjemnosti, "
+"již pracujeme na nápravě!"
 
-#
 msgid "CASE MANAGEMENT"
+msgstr "SPRÁVA SKŘÍNÍ"
+
+msgid ""
+"If you installed a case on your Recalbox, you can install or uninstall it in "
+"this. Some cases are detected automatically and will also be reported here."
 msgstr ""
 
-#
-msgid "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
-msgstr ""
-
-#
 msgid "Initializing roms folders..."
 msgstr ""
 
-#
 msgid "Initializing share folders..."
 msgstr ""
 
-#
-msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
+msgid ""
+"The USB device %NAME% with no rom folder and no share folder has been "
+"plugged in! Would you like to initialize this device?"
 msgstr ""
 
-#
 msgid "• Choose '%INIT%' to create only all the rom folders"
 msgstr ""
 
-#
-msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
+msgid ""
+"• Choose '%MOVE%' to copy all the current share to the new device, "
+"automatically switch to this device, and reboot"
 msgstr ""
 
-#
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
 msgstr ""
 
-#
 msgid "INITIALIZE"
 msgstr ""
 
-#
 msgid "MOVE SHARE"
 msgstr ""
 
-#
 msgid "Setting up boot device..."
 msgstr ""
 
-#
-msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
+msgid ""
+"Your USB device has been initialized! Ready to reboot on your new share "
+"device!"
 msgstr ""
 
-#
 msgid "UPDATING..."
 msgstr ""
 
-#
 msgid "%i file"
 msgstr ""
 
-#
 msgid "%i files"
 msgstr ""
 
-#
 msgid "Video"
 msgstr ""
 
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part) must "
+"be positioned on ON."
+msgstr ""
+"Chcete-li využít funkci bezpečného vypnutí, musí být spínač SAFE SHUTDOWN na "
+"skříni Retroflag (umístěný uvnitř skříně na elektronické části) přepnutý do "
+"polohy ON."
+
+msgid "RECALBOX CRT"
+msgstr ""
+
+msgid "RGB output for VGA666, PI2SCART, RGBPI."
+msgstr ""
+
+msgid "CRT ADAPTER"
+msgstr ""
+
+msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
+msgstr ""
+
+msgid "MENU RESOLUTION"
+msgstr ""
+
+msgid ""
+"Select emulationstation resolution. 480i is recommended for better details."
+msgstr ""
+
+msgid "SCREEN TYPE"
+msgstr ""
+
+msgid "FORCE 50HZ"
+msgstr ""
+
+msgid "SELECT GAME REFRESH RATE AT LAUNCH"
+msgstr ""
+
+msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
+msgstr ""
+
+msgid "SELECT GAME RESOLUTION AT LAUNCH"
+msgstr ""
+
+msgid ""
+"Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
+msgstr ""
+
+msgid "RUN DEMOS IN 240P@120"
+msgstr ""
+
+msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgstr ""
+
+msgid "SCANLINES IN 480P"
+msgstr ""
+
+msgid "Add scanlines when running games in 480p on 31kHz screen."
+msgstr ""
+
+msgid "ZERO LAG (BETA)"
+msgstr ""
+
+msgid "Configure emulators to approach a zero lag experience."
+msgstr ""
+
+msgid "FORCE SOUND ON JACK"
+msgstr ""
+
+msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
+msgstr ""
+
+msgid "SCREEN CALIBRATION (BETA)"
+msgstr ""
+
+msgid "PAL HORIZONTAL OFFSET"
+msgstr ""
+
+msgid ""
+"If you PAL images are not centered, you can override the default horizontal "
+"offset here."
+msgstr ""
+
+msgid "PAL VERTICAL OFFSET"
+msgstr ""
+
+msgid ""
+"If you PAL images are not centered, you can override the default vertical "
+"offset here."
+msgstr ""
+
+msgid "CRT SETTINGS"
+msgstr ""
+
+msgid "(Hardware managed)"
+msgstr ""
+
+msgid "240p"
+msgstr ""
+
+msgid "480p"
+msgstr ""
+
+msgid "480i (recommended)"
+msgstr ""
+
+msgid "MOVE SCREEN"
+msgstr ""
+
+msgid "WIDER"
+msgstr ""
+
+msgid "NARROWER"
+msgstr ""
+
+msgid "VALIDATE CHANGES"
+msgstr ""
+
+msgid "Image width:"
+msgstr ""
+
+msgid "Horizontal offset:"
+msgstr ""
+
+msgid "Vertical offset:"
+msgstr ""
+
+msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
+msgstr ""
+
+msgid "Select a region to filter out games not matching the selected region."
+msgstr ""
+
+msgid "SOFTPATCHING"
+msgstr ""
+
+msgid "SYSTEM RESOLUTIONS"
+msgstr ""
+
+msgid "AUTOMATIC SCRAPING"
+msgstr ""
+
+msgid "RUN IN BACKGROUND"
+msgstr ""
+
+msgid "MONTREAL"
+msgstr ""
+
+msgid "SAOPAULO"
+msgstr ""
+
+msgid "%i Known MD5"
+msgstr ""
+
+msgid "Switch audio output to Headphones!"
+msgstr ""
+
+msgid "Switch audio output back to Speakers!"
+msgstr ""
+
+msgid "Restarting."
+msgstr ""
+
+msgid "Entering standby..."
+msgstr ""
+
+msgid "PAD TO KEYBOARD CONTROLS"
+msgstr ""
+
+msgid "RECALBOX RGB DUAL"
+msgstr ""
+
+msgid "DEBUG LOGS"
+msgstr ""
+
+msgid "You are about to delete this files, confirm ?"
+msgstr ""
+
+msgid "Preparing Games..."
+msgstr ""
+
+msgid "Some games are not netplay ready yet."
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "FADE"
+msgstr ""
+
+msgid "SLIDE"
+msgstr ""
+
+msgid "INSTANT"
+msgstr ""
+
+msgid "Are you sure the selected theme is compatible with CRT screens?"
+msgstr ""
+
+msgid "You must have at least %dGB free on 'SHARE' partition!"
+msgstr ""
+
+msgid "ADD STAR"
+msgstr ""
+
+msgid ""
+"Free space on device %NAME% has bone under %LIMIT%!\n"
+"You should try to free some space quickly!"
+msgstr ""
+
+msgid "60Hz (US)"
+msgstr ""
+
+msgid "60Hz (JP)"
+msgstr ""
+
+msgid "50Hz (EU)"
+msgstr ""
+
+msgid "60Hz"
+msgstr ""
+
+msgid "50Hz"
+msgstr ""
+
+msgid "240p@120"
+msgstr ""
+
+msgid "480p@60"
+msgstr ""
+
+msgid "Recalbox RGB Dual options and configuration."
+msgstr ""
+
+msgid "Select system, frontend and emulator resolutions."
+msgstr ""
+
+#~ msgid "DISK USAGE"
+#~ msgstr "VYUŽITÍ DISKU"
+
 #~ msgid "SECURITY"
 #~ msgstr "ZABEZPEČENÍ"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "ZVÝŠENÍ ZABEZPEČENÍ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "HESLO ROOT"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Nastavení chování spořiče obrazovky. DIM redukuje jas obrazovky a BLACK "
+#~ "ji zcela vypne."
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Spravovat zabezpečení recalboxu."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Změnit heslo root pro SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Vynutit zabezpečení recalboxu."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "UPDATE VERZE"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom nalezena"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Zkopírovat stávající systém na jiné zařízení. Pozor, data na cílovém "
+#~ "zařízení budou vymazána."
+
+#~ msgid "Show a 'all-games' system with all ames from all systems."
+#~ msgstr "Zobrazí všechny hry pro všechny sytémy."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "Strategie v reálném čase"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Pokud stisknete tlačítko NAPÁJENÍ na více než 2 sekund, dojde k vypnutí "
+#~ "konzole. Pokud jste ve hře, Recalbox nejdříve korektně ukončí běžící "
+#~ "emulátor.\n"
+#~ "V případě, že tlačítko NAPÁJENÍ podržíte déle než 5 sekund, dojde tvrdému "
+#~ "vypnutí.\n"
+#~ "\n"
+#~ "Stiskněte B pro pokračování."
+
+#~ msgid "added to favorites"
+#~ msgstr "přidáno do oblíbených"
+
+#~ msgid "removed from favorites"
+#~ msgstr "odebráno z oblíbených"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Klip ze hry nemůže být přehrán.\n"
+#~ "\n"
+#~ "Pro váš výběr není dostupné video."
+
+#~ msgid "Analog Output"
+#~ msgstr "Analogový výstup"
+
+#~ msgid "HDMI / DisplayPort"
+#~ msgstr "HDMI/DisplayPort"
+
+#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+#~ msgstr ""
+#~ "VÁŠ SEZNAM OBLÍBENÝCH JE PRÁZDNÝ. PROSÍM VYBERTE ZOBRAZENÍ VŠECH HER."

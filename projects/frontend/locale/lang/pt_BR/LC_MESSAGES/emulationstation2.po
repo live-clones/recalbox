@@ -224,7 +224,7 @@ msgid "VERSION"
 msgstr "VERSÃO"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr "ESPAÇO USADO"
+msgstr "USO DO DISCO (LIVRE/TOTAL)"
 
 msgid "STORAGE DEVICE"
 msgstr "ARMAZENAMENTO"
@@ -1727,7 +1727,7 @@ msgid "Only missing hashs"
 msgstr "Apenas hashs faltando"
 
 msgid "Username"
-msgstr "Nome de usuário"
+msgstr "Nome do usuário"
 
 msgid "Country"
 msgstr "País"
@@ -1736,10 +1736,10 @@ msgid "Latency"
 msgstr "Latência"
 
 msgid "Host arch."
-msgstr "Arquitetura do servidor."
+msgstr "Arquitetura do Host"
 
 msgid "Core ver."
-msgstr "Versão do núcleo."
+msgstr "Versão do núcleo"
 
 msgid "RA ver."
 msgstr "Retroarch ver."
@@ -1766,7 +1766,7 @@ msgid "No Match"
 msgstr "Não OK"
 
 msgid "Rom file"
-msgstr "Arquivo de rom"
+msgstr "Arquivo ROM"
 
 msgid "Rom hash"
 msgstr "Hash da rom"
@@ -1883,13 +1883,13 @@ msgid "Mandatory"
 msgstr "Obrigatório"
 
 msgid "Must match MD5"
-msgstr "MD5 Deve corresponder"
+msgstr "MD5 deve corresponder"
 
 msgid "File found ?"
-msgstr "Arquivo encontrado ?"
+msgstr "Arquivo encontrado?"
 
 msgid "Matching MD5 ?"
-msgstr "MD5 correspondente ?"
+msgstr "MD5 ok?"
 
 msgid "NOTE"
 msgstr "NOTA"
@@ -2007,7 +2007,7 @@ msgid "SHOW ALL-GAMES SYSTEM"
 msgstr "MOSTRAR O SISTEMA TODOS OS JOGOS"
 
 msgid "SHOW MULTIPLAYER SYSTEM"
-msgstr "MOTRAR O SISTEMA MULTIJOGADORES"
+msgstr "MOSTRAR O SISTEMA MULTIJOGADORES"
 
 msgid "SHOW LAST-PLAYED SYSTEM"
 msgstr "MOSTRAR O SISTEMA ÚLTIMOS JOGADOS"
@@ -2017,7 +2017,7 @@ msgstr "SISTEMAS VIRTUAIS POR GÊNERO"
 
 msgid "Show a 'all-games' system with all games from all systems."
 msgstr ""
-"Mostra um sistema \"todos os jogos\" com todos os jogos de todos os sistemas"
+"Mostrar um sistema 'todos os jogos' com todos os jogos de todos os sistemas."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr ""
@@ -2065,19 +2065,19 @@ msgstr ""
 "nome de região longa e curta (JP ou Japão, UE ou Europa, ...)"
 
 msgid "GET GAME NAME FROM"
-msgstr "OBTER O NOME DO JOGO DE"
+msgstr "OBTER O NOME DO JOGO DO"
 
 msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
 msgstr "OBTER REGIÃO A PARTIR DO NOME DO ARQUIVO QUANDO POSSÍVEL"
 
 msgid "Scraper results"
-msgstr "Resultados do Scraper"
+msgstr "Resultado do Scraper"
 
 msgid "Raw filename"
 msgstr "Nome do arquivo bruto"
 
 msgid "Undecorated filename"
-msgstr "Nome de arquivo não decorado"
+msgstr "Nome do arquivo não decorado"
 
 msgid "OPEN-SOURCE LICENSE"
 msgstr "LICENÇA OPEN-SOURCE"
@@ -2116,7 +2116,7 @@ msgid "SCRAPE THUMBNAIL"
 msgstr "SCRAPEAR MINIATURA"
 
 msgid "SELECT VIDEO TYPE"
-msgstr "SELECIONAR O TIPO DE VÍDEO"
+msgstr "SELECIONE O TIPO DE VÍDEO"
 
 msgid "No video"
 msgstr "Nenhum vídeo"
@@ -2131,13 +2131,13 @@ msgid "SCRAPE VIDEO"
 msgstr "SCRAPEAR VÍDEO"
 
 msgid "SELECT FAVORITE REGION"
-msgstr "SELECIONAR REGIÃO PREFERIDA"
+msgstr "SELECIONE A REGIÃO PREFERIDA"
 
 msgid "FAVORITE REGION"
 msgstr "REGIÃO PREFERIDA"
 
 msgid "SELECT FAVORITE LANGUAGE"
-msgstr "SELECIONAR IDIOMA PREFERIDO"
+msgstr "SELECIONE O IDIOMA PREFERIDO"
 
 msgid "FAVORITE LANGUAGE"
 msgstr "IDIOMA PREFERIDO"
@@ -2926,17 +2926,15 @@ msgstr "Uma reinicialização é necessária para aplicar as alterações penden
 msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "MOSTRAR SISTEMA LIGHTGUN"
 
-#
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "MOSTRAR OS PORTS"
 
 msgid "Show all available games playable with a lightgun."
 msgstr ""
 "Mostrar todos os jogos disponíveis que podem ser jogados com uma lightgun."
 
-#
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "Mostra um sistema 'port' com todos os ports no mesmo local."
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -3021,143 +3019,116 @@ msgstr "Acordando..."
 msgid "Bye bye!"
 msgstr "Até logo!"
 
-#
 msgid "LightGun Games"
-msgstr ""
+msgstr "Jogos LightGun"
 
-#
 msgid "NEW YORK"
-msgstr ""
+msgstr "NEW YORK"
 
-#
 msgid "MADRID"
-msgstr ""
+msgstr "MADRI"
 
-#
 msgid "AUTOMATIC"
-msgstr ""
+msgstr "AUTOMÁTICO"
 
-#
 msgid "SYSTEM DRIVER"
-msgstr ""
+msgstr "DRIVER DO SISTEMA"
 
-#
 msgid "GAME LIBRARY DRIVER"
-msgstr ""
+msgstr "DRIVER DA BIBLIOTECA DE JOGOS"
 
-#
 msgid "Allow to swap validate button B/X and cancel button B/O"
 msgstr ""
+"Permite trocar o botão de validação (B/X) com o botão de cancelar (A/O)"
 
-#
 msgid "Select exisiting game clip view options for this theme."
 msgstr ""
+"Selecione as opções de visualização de gameclips existentes para este tema."
 
-#
 msgid "box2D"
-msgstr ""
+msgstr "BOX2D"
 
-#
 msgid "box3d"
-msgstr ""
+msgstr "BOX3D"
 
-#
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "CONTROLES P2K"
 
-#
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "A ATUALIZAÇÃO FALHOU"
 
-#
 msgid ""
 "The upgrade process has failed. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"O processo de atualização falhou. Você está de volta ao Recalbox %s.\n"
+"Tente atualizar seu Recalbox novamente e, se o problema persistir, entre em "
+"contato com a equipe em https://forum.recalbox.com"
 
-#
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "OVERLAYS DO RECALBOX"
 
-#
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
+"Em telas do tipo Wide, exiba imagens do sistema ao redor da tela emulada, "
+"como uma moldura."
 
-#
 msgid "No comment available"
-msgstr ""
+msgstr "Nenhum comentário disponível"
 
-#
 msgid "UNKNOWN"
-msgstr ""
+msgstr "DESCONHECIDO"
 
-#
 msgid "GO TO GAME"
-msgstr ""
+msgstr "IR PARA O JOGO"
 
-#
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "EXCLUIR JOGO %s"
 
-#
 msgid "GAME FILES (ROM | DISK IMAGE)"
-msgstr ""
+msgstr "ARQUIVOS DO JOGO (ROM | IMAGEM DE DISCO)"
 
-#
 msgid "MEDIA FILES"
-msgstr ""
+msgstr "ARQUIVOS DE MÍDIA"
 
-#
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "CONFIGURAÇÃO E ARQUIVOS DE PATCH"
 
-#
 msgid "SAVE FILES"
-msgstr ""
+msgstr "ARQUIVOS DE SAVE"
 
-#
 msgid "SELECT FILES TO DELETE"
-msgstr ""
+msgstr "SELECIONAR ARQUIVOS PARA EXCLUIR"
 
-#
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr ""
+msgstr "EXCLUIR ARQUIVOS SELECIONADOS, CONFIRMAR?"
 
-#
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "DATA DE LANÇAMENTO"
 
-#
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "TIPO, DEPOIS NOME"
 
-#
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "TIPO, DEPOIS DATA DE LANÇAMENTO"
 
-#
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "FABRICANTE, DEPOIS NOME"
 
-#
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "FABRICANTE, DEPOIS DATA DE LANÇAMENTO"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "TIPO, DEPOIS FABRICANTE, DEPOIS NOME"
 
-#
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "TIPO, DEPOIS FABRICANTE, DEPOIS DATA DE LANÇAMENTO"
 
-#
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "SISTEMA DE CLASSIFICAÇÃO"
 
-#
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
 "System Type: order by Console/Handheld/Computer/Arcade/Other\n"
@@ -3165,216 +3136,204 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+"Padrão: use a ordem do systemlist.xml original ou personalizado\n"
+"Nome: ordenar por nome do sistema em ordem alfabética\n"
+"Tipo de sistema: ordenar por Console/Portátil/Computador/Arcade/Outro\n"
+"Data de lançamento: ordenar por data de lançamento\n"
+"Fabricante: ordenar por fabricante (ex.: Sega)"
 
-#
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "EXCLUIR TODOS OS ARQUIVOS"
 
-#
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "EXCLUSÃO AVANÇADA"
 
-#
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "EXCLUIR TODOS OS ARQUIVOS, CONFIRMAR?"
 
-#
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr ""
+msgstr "EXCLUIR CAPTURA DE TELA, CONFIRMAR?"
 
-#
 msgid "DELETE SCREENSHOT"
-msgstr ""
+msgstr "EXCLUIR CAPTURA DE TELA"
 
-#
 msgid "This option display a menu which allows to DELETE game data."
-msgstr ""
+msgstr "Esta opção exibe um menu que permite EXCLUIR os dados do jogo."
 
-#
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
+"A resolução global é a resolução usada por padrão quando resoluções "
+"específicas são indefinidas."
 
-#
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "Selecione a resolução que o EmulationStation usará."
 
-#
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "Selecione a resolução usada por sistemas específicos."
 
-#
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "Selecione a resolução a ser usada com este sistema."
 
-#
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "RESOLUÇÕES"
 
-#
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "RESOLUÇÃO GLOBAL"
 
-#
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "RESOLUÇÃO DO EMULATIONSTATION"
 
-#
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "RESOLUÇÕES ESPECÍFICAS DE EMULADORES"
 
-#
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "USAR GLOBAL"
 
-#
 msgid "NATIVE"
-msgstr ""
+msgstr "NATIVA"
 
-#
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
+"Nenhum arquivo selecionado,\n"
+"você deve escolher pelo menos um."
 
-#
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
+"O dispositivo %NAME% contendo roms foi conectado! O EmulationStation deve "
+"ser reiniciado para carregar novos jogos."
 
-#
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
+"Um dispositivo contendo roms foi desconectado! O EmulationStation deve ser "
+"reiniciado para remover jogos indisponíveis."
 
-#
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
 msgstr ""
+"Seu dispositivo USB foi inicializado! Você pode desconectá-lo e copiar seus "
+"jogos nele."
 
-#
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
+"O dispositivo USB %NAME% sem pasta de roms foi conectado. Deseja criar "
+"pastas de roms neste dispositivo?"
 
-#
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
+"Inicialização falhou! Seu dispositivo USB está cheio ou contém erros. Por "
+"favor, repare ou use outro dispositivo."
 
-#
 msgid ""
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"AVISO: Seu dispositivo pode não ter sido desconectado corretamente e "
+"apresenta erros de consistência. Como resultado, ele foi montado como "
+"somente leitura. Você deve conectar seu dispositivo em um computador com "
+"Windows e usar a ferramenta de reparo."
 
-#
 msgid "DISPLAY BY FILENAME"
-msgstr ""
+msgstr "EXIBIR POR NOME DO ARQUIVO"
 
-#
 msgid "Display games by file names."
-msgstr "Afficher les jeux par noms de fichier"
+msgstr "Exiba jogos por nomes de arquivos."
 
-#
 msgid "SEARCH GAMES HERE"
-msgstr ""
+msgstr "PESQUISE JOGOS AQUI"
 
-#
 msgid "GAME FILTERS"
-msgstr ""
+msgstr "FILTROS DE JOGO"
 
-#
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
+"Este jogo está atualizando seus metadados. Tente novamente em alguns "
+"segundos."
 
-#
 msgid "SHOW ONLY LATEST VERSION"
-msgstr ""
+msgstr "MOSTRAR APENAS A VERSÃO MAIS RECENTE"
 
-#
 msgid "SHOW ONLY FAVORITES"
-msgstr ""
+msgstr "MOSTRAR APENAS FAVORITOS"
 
-#
 msgid "SHOW HIDDEN GAMES"
-msgstr ""
+msgstr "MOSTRAR JOGOS OCULTOS"
 
-#
 msgid "HIDE NO GAMES"
-msgstr ""
+msgstr "NÃO OCULTAR JOGOS"
 
-#
 msgid "Hide non final versions of a same game."
-msgstr ""
+msgstr "Ocultar versões não finais de um mesmo jogo."
 
-#
 msgid "Hide all pre-installed games."
-msgstr ""
+msgstr "Oculte todos os jogos pré-instalados."
 
-#
 msgid "Hide no executable games. for example bios"
-msgstr ""
+msgstr "Oculte jogos não executáveis, por exemplo, bios."
 
-#
 msgid "Display game by file name instead of game name."
-msgstr ""
+msgstr "Exibe o jogo pelo nome do arquivo em vez do nome do jogo."
 
-#
 msgid "Filtering games you want to show."
-msgstr ""
+msgstr "Filtrando jogos que você deseja mostrar."
 
-#
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
+"Se um patch de jogo (hack, trad) tiver o mesmo nome de uma rom, ele será "
+"corrigido automaticamente.\n"
+"Este menu permite desativar o patch automático ou ter uma caixa de "
+"confirmação."
 
-#
 msgid "DISABLE"
-msgstr ""
+msgstr "DESABILITAR"
 
-#
 msgid "CONFIRM"
-msgstr ""
+msgstr "CONFIRMAR"
 
-#
 msgid "A patch has been detected"
-msgstr ""
+msgstr "Um patch foi detectado"
 
-#
 msgid "original"
-msgstr ""
+msgstr "original"
 
-#
 msgid "patched"
-msgstr ""
+msgstr "com patch"
 
-#
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
 "issues or bad login/password.\n"
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
+"Ocorreu um erro fatal ao fazer scrape do seu jogo! Pode estar relacionado a "
+"problemas no servidor ou login/senha incorretos.\n"
+"\n"
+"Tente novamente em alguns instantes ou corrija suas credenciais, se "
+"necessário."
 
-#
 msgid "Your scraping session completed. Press OK to show the results."
 msgstr ""
+"Sua sessão de scrape foi concluída. Pressione OK para mostrar os resultados."
 
-#
 msgid "Please select one or more systems to scrape!"
-msgstr ""
+msgstr "Selecione um ou mais sistemas para fazer scrape!"
 
-#
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
 "not exceed %MAXSYSTEMS% consoles/computers or you may face stability "
@@ -3383,111 +3342,473 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
+"Seu sistema não tem memória suficiente para lidar com %SYSTEMS% sistemas. "
+"Você não deve exceder %MAXSYSTEMS% consoles/computadores ou poderá enfrentar "
+"problemas de estabilidade!\n"
+"\n"
+"Você pode ocultar jogos pré-instalados no menu CONFIGURAÇÕES DE INTERFACE "
+"para diminuir os sistemas ativos."
 
-#
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
+"Seu sistema não tem memória suficiente para lidar com %GAMES% jogos. Você "
+"não deve exceder %MAXGAMES% ou poderá enfrentar problemas de estabilidade!"
 
-#
 msgid "WARNING! SYSTEM OVERLOAD!"
-msgstr ""
+msgstr "AVISO! SISTEMA SOBRECARREGADO!"
 
-#
 msgid ""
 "Welcome back %NAME%!\n"
 "Patron level %LEVEL%\n"
 "You are now connected to your recalbox patron account, and all exclusives "
 "features are available!"
 msgstr ""
+"Bem-vindo de volta %NAME%!\n"
+"Nível de Patrono %LEVEL%\n"
+"Agora você está conectado à sua conta de usuário do recalbox e todos os "
+"recursos exclusivos estão disponíveis!"
 
-#
 msgid ""
 "Hello %NAME%, your private key is linked to a Patreon account which is no "
 "longer a Recalbox Patron.\n"
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
+"Olá %NAME%, sua chave privada está vinculada a uma conta Patreon que não é "
+"mais um Patrono do Recalbox.\n"
+"Ainda esperamos vê-lo de volta em breve como um Patrono do Recalbox!\n"
+"Exclua sua chave privada para suprimir esta mensagem."
 
-#
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
+"Sua chave privada não permite recuperar suas informações do Patreon. Acesse "
+"recalbox.com/patreon para gerar uma nova chave válida!"
 
-#
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
 msgstr ""
+"Desculpe, não podemos recuperar seu nível de Patrono porque nenhuma rede "
+"está disponível!"
 
-#
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
 msgstr ""
+"Não conseguimos recuperar seu nível de Patrono! Desculpe pelo inconveniente, "
+"já estamos trabalhando em uma correção!"
 
-#
 msgid "CASE MANAGEMENT"
-msgstr ""
+msgstr "GERENCIAMENTO DE CASE"
 
-#
-msgid "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
+msgid ""
+"If you installed a case on your Recalbox, you can install or uninstall it in "
+"this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"Se você instalou uma case em seu Recalbox, você pode instalá-la ou "
+"desinstalá-la aqui. Algumas cases são detectadas automaticamente e também "
+"serão relatadas aqui."
 
-#
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "Inicializando pastas de roms..."
 
-#
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "Inicializando pasta share..."
 
-#
-msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
+msgid ""
+"The USB device %NAME% with no rom folder and no share folder has been "
+"plugged in! Would you like to initialize this device?"
 msgstr ""
+"O dispositivo USB %NAME% sem pasta rom e sem pasta share foi conectado! "
+"Deseja inicializar este dispositivo?"
 
-#
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "• Escolha '%INIT%' para criar apenas todas as pastas rom"
 
-#
-msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
+msgid ""
+"• Choose '%MOVE%' to copy all the current share to the new device, "
+"automatically switch to this device, and reboot"
 msgstr ""
+"• Escolha '%MOVE%' para copiar toda pasta share atual para o novo "
+"dispositivo, alternar automaticamente para este dispositivo e reinicializar"
 
-#
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
 msgstr ""
+"• Ou apenas escolha '%CANCEL%' para não fazer nada com este novo dispositivo"
 
-#
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INICIALIZAR"
 
-#
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "MOVER SHARE"
 
-#
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "Configurando o dispositivo de inicialização..."
 
-#
-msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
+msgid ""
+"Your USB device has been initialized! Ready to reboot on your new share "
+"device!"
 msgstr ""
+"Seu dispositivo USB foi inicializado! Pronto para reiniciar em seu novo "
+"dispositivo de compartilhamento!"
 
-#
 msgid "UPDATING..."
-msgstr ""
+msgstr "ATUALIZANDO..."
 
-#
 msgid "%i file"
-msgstr ""
+msgstr "%i arquivo"
 
-#
 msgid "%i files"
-msgstr ""
+msgstr "%i arquivos"
 
-#
 msgid "Video"
+msgstr "Vídeo"
+
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part) must "
+"be positioned on ON."
 msgstr ""
+"Para aproveitar o recurso de desligamento seguro, o interruptor SAFE "
+"SHUTDOWN da sua case Retroflag (localizado dentro da case, na parte "
+"eletrônica) deve estar posicionado em ON."
+
+msgid "RECALBOX CRT"
+msgstr "RECALBOX CRT"
+
+msgid "RGB output for VGA666, PI2SCART, RGBPI."
+msgstr "Saída RGB para VGA666, PI2SCART, RGBPI."
+
+msgid "CRT ADAPTER"
+msgstr "ADAPTADOR CRT"
+
+msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
+msgstr "Habilitar a saída RGB para VGA666, PI2SCART, RGBPI"
+
+msgid "MENU RESOLUTION"
+msgstr "RESOLUÇÃO DO MENU"
+
+msgid ""
+"Select emulationstation resolution. 480i is recommended for better details."
+msgstr ""
+"Selecione a resolução do Emulationstation. 480i é o recomendado para "
+"melhores detalhes."
+
+msgid "SCREEN TYPE"
+msgstr "TIPO DE TELA"
+
+msgid "FORCE 50HZ"
+msgstr "FORÇAR 50Hz"
+
+msgid "SELECT GAME REFRESH RATE AT LAUNCH"
+msgstr "SELECIONE A TAXA DE ATUALIZAÇÃO DO JOGO NO INÍCIO"
+
+msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
+msgstr ""
+"Permite que você escolha entre 50Hz e 60Hz no início, para sistemas "
+"compatíveis"
+
+msgid "SELECT GAME RESOLUTION AT LAUNCH"
+msgstr "SELECIONE A RESOLUÇÃO DO JOGO NO INÍCIO"
+
+msgid ""
+"Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
+msgstr ""
+"Permite escolher entre 240p, 480i ou 480p no início, para sistemas "
+"compatíveis."
+
+msgid "RUN DEMOS IN 240P@120"
+msgstr "EXECUTAR DEMOS EM 240P@120"
+
+msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgstr "Execute as demos em resolução de 240p em seu monitor de 31kHz."
+
+msgid "SCANLINES IN 480P"
+msgstr "SCANLINES EM 480P"
+
+msgid "Add scanlines when running games in 480p on 31kHz screen."
+msgstr ""
+"Adicione linhas de varredura ao executar jogos em 480p na tela de 31kHz."
+
+msgid "ZERO LAG (BETA)"
+msgstr "ZERO LAG (BETA)"
+
+msgid "Configure emulators to approach a zero lag experience."
+msgstr "Configure emuladores para se aproximar de uma experiência de zero lag."
+
+msgid "FORCE SOUND ON JACK"
+msgstr "FORÇAR SOM NO CONECTOR"
+
+msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
+msgstr ""
+"Força o som no conector. Habilitado automaticamente quando o modo de 31kHz "
+"está LIGADO"
+
+msgid "SCREEN CALIBRATION (BETA)"
+msgstr "CALIBRAÇÃO DE TELA (BETA)"
+
+msgid "PAL HORIZONTAL OFFSET"
+msgstr "DESLOCAMENTO HORIZONTAL PAL"
+
+msgid ""
+"If you PAL images are not centered, you can override the default horizontal "
+"offset here."
+msgstr ""
+"Se suas imagens PAL não estiverem centralizadas, você pode substituir o "
+"deslocamento horizontal padrão aqui."
+
+msgid "PAL VERTICAL OFFSET"
+msgstr "DESLOCAMENTO VERTICAL PAL"
+
+msgid ""
+"If you PAL images are not centered, you can override the default vertical "
+"offset here."
+msgstr ""
+"Se suas imagens PAL não estiverem centralizadas, você pode substituir o "
+"deslocamento vertical padrão aqui."
+
+msgid "CRT SETTINGS"
+msgstr "CONFIGURAÇÕES DE CRT"
+
+msgid "(Hardware managed)"
+msgstr "(Hardware gerenciado)"
+
+msgid "240p"
+msgstr "240p"
+
+msgid "480p"
+msgstr "480p"
+
+msgid "480i (recommended)"
+msgstr "480i (recomendado)"
+
+msgid "MOVE SCREEN"
+msgstr "MOVER TELA"
+
+msgid "WIDER"
+msgstr "LARGA"
+
+msgid "NARROWER"
+msgstr "ESTREITA"
+
+msgid "VALIDATE CHANGES"
+msgstr "VALIDAR ALTERAÇÕES"
+
+msgid "Image width:"
+msgstr "Largura da imagem:"
+
+msgid "Horizontal offset:"
+msgstr "Deslocamento horizontal:"
+
+msgid "Vertical offset:"
+msgstr "Deslocamento vertical:"
+
+msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
+msgstr "SUA LISTA ESTÁ VAZIA. PRESSIONE START PARA MUDAR OS FILTROS DE JOGOS."
+
+msgid "Select a region to filter out games not matching the selected region."
+msgstr ""
+"Selecione uma região para filtrar os jogos que não correspondem à região "
+"selecionada."
+
+msgid "SOFTPATCHING"
+msgstr "SOFTPATCHING"
+
+msgid "SYSTEM RESOLUTIONS"
+msgstr "RESOLUÇÕES DOS SISTEMAS"
+
+msgid "AUTOMATIC SCRAPING"
+msgstr "SCRAPE AUTOMÁTICO"
+
+msgid "RUN IN BACKGROUND"
+msgstr "EXECUTADO EM SEGUNDO PLANO"
+
+msgid "MONTREAL"
+msgstr "MONTREAL"
+
+msgid "SAOPAULO"
+msgstr "SÃO PAULO"
+
+msgid "%i Known MD5"
+msgstr "%i MD5 conhecido"
+
+msgid "Switch audio output to Headphones!"
+msgstr "Mude a saída de áudio para fones de ouvido!"
+
+msgid "Switch audio output back to Speakers!"
+msgstr "Mude a saída de áudio de volta para Alto-falantes!"
+
+msgid "Restarting."
+msgstr "Reiniciando."
+
+msgid "Entering standby..."
+msgstr "Entrando no modo de espera..."
+
+msgid "PAD TO KEYBOARD CONTROLS"
+msgstr "PAD PARA CONTROLES DE TECLADO"
+
+msgid "RECALBOX RGB DUAL"
+msgstr "RECALBOX RGB DUAL"
+
+msgid "DEBUG LOGS"
+msgstr "DEBUG LOGS"
+
+msgid "You are about to delete this files, confirm ?"
+msgstr "Você está prestes a excluir esses arquivos, confirme ?"
+
+msgid "Preparing Games..."
+msgstr "Preparando jogos..."
+
+msgid "Some games are not netplay ready yet."
+msgstr "Alguns jogos ainda não estão prontos para netplay."
+
+msgid "Free"
+msgstr "Free"
+
+msgid "FADE"
+msgstr "FADE"
+
+msgid "SLIDE"
+msgstr "SLIDE"
+
+msgid "INSTANT"
+msgstr "INSTANT"
+
+msgid "Are you sure the selected theme is compatible with CRT screens?"
+msgstr "Tem certeza de que o tema selecionado é compatível com telas CRT?"
+
+msgid "You must have at least %dGB free on 'SHARE' partition!"
+msgstr "Você deve ter pelo menos %dGB livre na partição 'SHARE'!"
+
+msgid "ADD STAR"
+msgstr "ADICIONAR ESTRELA"
+
+msgid ""
+"Free space on device %NAME% has bone under %LIMIT%!\n"
+"You should try to free some space quickly!"
+msgstr ""
+"O espaço livre no dispositivo %NAME% ficou abaixo de %LIMIT%!\n"
+"Você deve tentar liberar algum espaço rapidamente!"
+
+msgid "60Hz (US)"
+msgstr "60Hz (US)"
+
+msgid "60Hz (JP)"
+msgstr "60Hz (JP)"
+
+msgid "50Hz (EU)"
+msgstr "50Hz (EU)"
+
+msgid "60Hz"
+msgstr "60Hz"
+
+msgid "50Hz"
+msgstr "50Hz"
+
+msgid "240p@120"
+msgstr "240p@120"
+
+msgid "480p@60"
+msgstr "480p@60"
+
+msgid "Recalbox RGB Dual options and configuration."
+msgstr "Recalbox RGB Dual opções e configuração."
+
+msgid "Select system, frontend and emulator resolutions."
+msgstr "Selecione as resoluções do sistema, frontend e emulador."
+
+#~ msgid "DISK USAGE"
+#~ msgstr "ESPAÇO USADO"
+
+#~ msgid "SECURITY"
+#~ msgstr "SEGURANÇA"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "REFORÇAR A SEGURANÇA"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "SENHA ROOT"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Ajustar o comportamento da tela de proteção. ESCURECER reduz o brilho da "
+#~ "tela e TELA PRETA deixa a tela preta."
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Gerencie a segurança do seu recalbox."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Altera a senha de root do SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Aprimora a segurança do recalbox."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSÃO DA ATUALIZAÇÃO:"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom encontrada"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copiar sistema atual em outro dispositivo.\n"
+#~ "Alerta ! Irá apagar os dados no dispositivo de destino."
+
+#~ msgid "Show a 'all-games' system with all ames from all systems."
+#~ msgstr ""
+#~ "Mostra um sistema \"todos os jogos\" com todos os jogos de todos os "
+#~ "sistemas"
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "RTS - Estratégia em Tempo Real"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Se você apertar o botão POWER por mais de 2 segundos, seu console será "
+#~ "desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente "
+#~ "fechará o emulador atual antes.\n"
+#~ "Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará "
+#~ "um desligamento forçado.\n"
+#~ "\n"
+#~ "Pressione o botão B para continuar."
+
+#~ msgid "added to favorites"
+#~ msgstr "adicionado aos favoritos"
+
+#~ msgid "removed from favorites"
+#~ msgstr "removido dos favoritos"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Gamesclips não podem ser reproduzidos.\n"
+#~ "\n"
+#~ "Não existem vídeos disponíveis para sua seleção."
+
+#~ msgid "Analog Output"
+#~ msgstr "Saída Analógica"
+
+#~ msgid "HDMI / DisplayPort"
+#~ msgstr "HDMI / DisplayPort"
+
+#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+#~ msgstr ""
+#~ "SUA LISTA DE FAVORITOS ESTÁ VAZIA. PRESSIONE SELECT PARA MOSTRAR TODOS OS "
+#~ "JOGOS."

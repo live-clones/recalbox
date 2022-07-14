@@ -247,9 +247,9 @@ void AudioManager::PlayRandomMusic()
     // Create music popup
     if (source == MusicSource::RemoteTrack)
     {
-      std::string text(_("Now playing:\n"));
-      text.append(remoteTrack->Name()).append(1, '\n')
-          .append(_("(")).append(remoteTrack->MixTaper()).append(_(")"));
+      std::string text(_("Now playing"));
+      text.append(":\n").append(remoteTrack->Name()).append(1, '\n')
+          .append("(").append(remoteTrack->MixTaper()).append(")");
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, text, popupDuration, GuiInfoPopupBase::PopupType::Music));
     }
     else
