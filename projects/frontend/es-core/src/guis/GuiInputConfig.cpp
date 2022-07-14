@@ -241,10 +241,10 @@ void GuiInputConfig::setHelpMessage() {
 		if (mTargetDevice->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-          Strings::Replace(_("DOWN TO KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
+          Strings::Replace(_("DOWN TO SKIP AND KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
 			else
 				msg = (msg.length() != 0u ? msg + " - " : "") +
-          Strings::Replace(_("UP/DOWN TO KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
+          Strings::Replace(_("UP/DOWN TO SKIP AND KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
 		}
 
 	} else if (formInput.skippable)

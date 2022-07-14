@@ -89,7 +89,8 @@ void GuiMenuGamelistGameDeleteOptions::SubMenuSelected(int id)
 std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
 {
   std::string message = _("Game").append(": ").append(mGame.Name()).append("\n");
-  message.append("You are about to delete this files, confirm ?\n\n");
+  message.append(_("You are about to delete this files, confirm ?"));
+  message.append("\n\n");
   message.append(mGame.FilePath().Filename()).append("\n");
   for(const auto& path : mGameFiles)
   {
@@ -116,11 +117,11 @@ std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
     for (const auto& path: mMediaFiles)
     {
       if(Strings::Contains(path, "/media/images/"))
-        message.append(_("image")).append("\n");
+        message.append(_("Image")).append("\n");
       if(Strings::Contains(path, "/media/thumbnails/"))
-        message.append(_("thumbnails")).append("\n");
+        message.append(_("Thumbnail")).append("\n");
       if(Strings::Contains(path, "/media/videos/"))
-        message.append(_("video")).append("\n");
+        message.append(_("Video")).append("\n");
     }
   }
   return message;
