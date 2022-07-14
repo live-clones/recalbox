@@ -310,13 +310,11 @@ release recalboxrgbdual:
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
 
-release patron edition:
+release patron:
   <<: *release_definition
   only:
     refs:
       - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /patron/i
   when: manual
   variables:
     DEPLOY_TYPE: review
