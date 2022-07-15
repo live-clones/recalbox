@@ -159,7 +159,7 @@ std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSort
     return std::vector<ListEntry<SystemSorting>>
     ({
         { _("DEFAULT")                                    , SystemSorting::Default                                    , mOriginalSort == SystemSorting::Default },
-        { _("NAME")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
+        { _("Name")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
         { _("RELEASE DATE")                               , SystemSorting::ReleaseDate                                , mOriginalSort == SystemSorting::ReleaseDate },
         { _("TYPE, THEN NAME")                            , SystemSorting::SystemTypeThenName                         , mOriginalSort == SystemSorting::SystemTypeThenName },
         { _("TYPE, THEN RELEASE DATE")                    , SystemSorting::SystemTypeThenReleaseDate                  , mOriginalSort == SystemSorting::SystemTypeThenReleaseDate },
