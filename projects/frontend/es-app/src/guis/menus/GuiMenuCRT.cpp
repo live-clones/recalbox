@@ -123,7 +123,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   };
 
   // Always push none
-  list.push_back( { "NONE", CrtAdapterType::None, selectedDac == CrtAdapterType::None } );
+  list.push_back( { _("NONE"), CrtAdapterType::None, selectedDac == CrtAdapterType::None } );
   // Push all adapters or only one if it is automatically detected
   const ICrtInterface& crt = Board::Instance().CrtBoard();
   for(const auto& item : Adapters)

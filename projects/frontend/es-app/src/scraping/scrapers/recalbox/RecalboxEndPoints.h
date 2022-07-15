@@ -118,7 +118,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @brief Provide screenscraper Web URL
      * @return Screenscraper Web url
      */
-    std::string GetProviderWebURL() override { return "http://www.recalbox.com"; };
+    std::string GetProviderWebURL() override { return "https://www.recalbox.com"; };
 
   private:
     //! Root domain name
