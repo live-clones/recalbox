@@ -152,23 +152,23 @@ void GuiInputConfig::initFormInputs()
 	addFormInput("Joystick2Up", _("JOYSTICK 2 UP"), ":/help/joystick_up.svg", true, InputEvent::EventType::Axis);
 	addFormInput("Joystick2Left", _("JOYSTICK 2 LEFT"), ":/help/joystick_left.svg", true, InputEvent::EventType::Axis);
 	
-	addFormInput("A", _("A"), ":/help/button_a.svg", false, InputEvent::EventType::Button);
-	addFormInput("B", _("B"), ":/help/button_b.svg", false, InputEvent::EventType::Button);
+	addFormInput("A", "A", ":/help/button_a.svg", false, InputEvent::EventType::Button);
+	addFormInput("B", "B", ":/help/button_b.svg", false, InputEvent::EventType::Button);
 	
-	addFormInput("X", _("X"), ":/help/button_x.svg", true, InputEvent::EventType::Button);
-	addFormInput("Y", _("Y"), ":/help/button_y.svg", true, InputEvent::EventType::Button);
+	addFormInput("X", "X", ":/help/button_x.svg", true, InputEvent::EventType::Button);
+	addFormInput("Y", "Y", ":/help/button_y.svg", true, InputEvent::EventType::Button);
 	
 	addFormInput("Start", "START", ":/help/button_start.svg", false, InputEvent::EventType::Button);
 	addFormInput("Select", "SELECT", ":/help/button_select.svg", false, InputEvent::EventType::Button);
 	
-	addFormInput("L1", _("L1"), ":/help/button_l.svg", true, InputEvent::EventType::Button);
-	addFormInput("R1", _("R1"), ":/help/button_r.svg", true, InputEvent::EventType::Button);
+	addFormInput("L1", "L1", ":/help/button_l.svg", true, InputEvent::EventType::Button);
+	addFormInput("R1", "R1", ":/help/button_r.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("L2", _("L2"), ":/help/button_l2.svg", true, InputEvent::EventType::Button);
-	addFormInput("R2", _("R2"), ":/help/button_r2.svg", true, InputEvent::EventType::Button);
+	addFormInput("L2", "L2", ":/help/button_l2.svg", true, InputEvent::EventType::Button);
+	addFormInput("R2", "R2", ":/help/button_r2.svg", true, InputEvent::EventType::Button);
 	
-	addFormInput("L3", _("L3"), ":/help/button_l3.svg", true, InputEvent::EventType::Button);
-	addFormInput("R3", _("R3"), ":/help/button_r3.svg", true, InputEvent::EventType::Button);
+	addFormInput("L3", "L3", ":/help/button_l3.svg", true, InputEvent::EventType::Button);
+	addFormInput("R3", "R3", ":/help/button_r3.svg", true, InputEvent::EventType::Button);
 
 	if (Board::Instance().HasPhysicalVolumeButtons())
   {
@@ -246,11 +246,9 @@ void GuiInputConfig::setHelpMessage() {
         }
 		if (mTargetDevice->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
-				msg = (msg.length() != 0u ? msg + " - " : "") +
-          Strings::Replace(_("DOWN TO SKIP AND KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
+				msg = (msg.length() != 0u ? msg + " - " : "") + _("DOWN TO SKIP");
 			else
-				msg = (msg.length() != 0u ? msg + " - " : "") +
-          Strings::Replace(_("UP/DOWN TO SKIP AND KEEP [%1%]"), "%1%", Strings::ToUpperASCII(input.ToString()));
+				msg = (msg.length() != 0u ? msg + " - " : "") + _("UP/DOWN TO SKIP");
 		}
 
 	} else if (formInput.skippable)

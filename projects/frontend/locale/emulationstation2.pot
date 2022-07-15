@@ -3612,7 +3612,7 @@ msgid "480p"
 msgstr ""
 
 #
-msgid "480i (recommended)"
+msgid "480i"
 msgstr ""
 
 #
@@ -3800,4 +3800,208 @@ msgid "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any bluetooth controller you want to pair.\n"
 "The next window will display all detected bluetooth devices and their status for information purposes only.\n"
 "You can close it at any time, while continuing to pair your bluetooth devices for as long as the bluetooth icon is blinking on the top left."
+msgstr ""
+
+#
+msgid "DOWN TO SKIP"
+msgstr ""
+
+#
+msgid "START DOWNLOADING..."
+msgstr ""
+
+#
+msgid "Pair a bluetooth audio device. Put your device in discovery mode before starting."
+msgstr ""
+
+#
+msgid "PAIR A BLUETOOTH AUDIO DEVICE"
+msgstr ""
+
+#
+msgid "Failed"
+msgstr ""
+
+#
+msgid "Succeeded"
+msgstr ""
+
+#
+msgid "J1 UP"
+msgstr ""
+
+#
+msgid "J1 DOWN"
+msgstr ""
+
+#
+msgid "J1 LEFT"
+msgstr ""
+
+#
+msgid "J1 RIGHT"
+msgstr ""
+
+#
+msgid "J2 UP"
+msgstr ""
+
+#
+msgid "J2 DOWN"
+msgstr ""
+
+#
+msgid "J2 LEFT"
+msgstr ""
+
+#
+msgid "J2 RIGHT"
+msgstr ""
+
+#
+msgid "Alias: "
+msgstr ""
+
+#
+msgid "MAC: "
+msgstr ""
+
+#
+msgid "Connected: "
+msgstr ""
+
+#
+msgid "Trusted: "
+msgstr ""
+
+#
+msgid "Paired: "
+msgstr ""
+
+#
+msgid "Blocked: "
+msgstr ""
+
+#
+msgid "NO DEVICE"
+msgstr ""
+
+#
+msgid "SEARCH BY"
+msgstr ""
+
+#
+msgid "NO RESULTS"
+msgstr ""
+
+#
+msgid "PRIORITY TO HDMI"
+msgstr ""
+
+#
+msgid "ON"
+msgstr ""
+
+#
+msgid "OFF"
+msgstr ""
+
+#
+msgid "You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\nDuring the calibration, press B to apply the mode, START to validate, and A to cancel."
+msgstr ""
+
+#
+msgid "60Hz Only"
+msgstr ""
+
+#
+msgid "50Hz Only"
+msgstr ""
+
+#
+msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
+msgstr ""
+
+#
+msgid "NO AUDIO DEVICE FOUND"
+msgstr ""
+
+#
+msgid "KODI RESOLUTION"
+msgstr ""
+
+#
+msgid "AUDIO DEVICE PAIRED"
+msgstr ""
+
+#
+msgid "UNABLE TO PAIR AUDIO DEVICE"
+msgstr ""
+
+#
+msgid "select a patch"
+msgstr ""
+
+#
+msgid "BRIGHTNESS"
+msgstr ""
+
+#
+msgid "NAME"
+msgstr ""
+
+#
+msgid "suspend"
+msgstr ""
+
+#
+msgid "NO GAME"
+msgstr ""
+
+#
+msgid "NEXT RESOLUTION"
+msgstr ""
+
+#
+msgid "Game refresh rate"
+msgstr ""
+
+#
+msgid "Game resolution"
+msgstr ""
+
+#
+msgid "CHANGELOG"
+msgstr ""
+
+#
+msgid "Copying %s folder..."
+msgstr ""
+
+#
+msgid "VOLUME -"
+msgstr ""
+
+#
+msgid "VOLUME +"
+msgstr ""
+
+#
+msgid "B"
+msgstr ""
+
+#
+msgid "KB"
+msgstr ""
+
+#
+msgid "MB"
+msgstr ""
+
+#
+msgid "GB"
+msgstr ""
+
+#
+msgid "TB"
 msgstr ""

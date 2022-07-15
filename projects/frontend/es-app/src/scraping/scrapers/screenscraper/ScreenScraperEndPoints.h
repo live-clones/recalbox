@@ -123,7 +123,7 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @brief Provide screenscraper Web URL
      * @return Screenscraper Web url
      */
-    std::string GetProviderWebURL() override { return "http://www.screenscraper.fr"; };
+    std::string GetProviderWebURL() override { return "https://www.screenscraper.fr"; };
 
   private:
     static constexpr const char* API_DEV_U = "\xF1\x5A\xA8\x46\x25\xDE\x48\x2A";
