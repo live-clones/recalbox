@@ -579,6 +579,20 @@ std::string PulseAudioController::GetActivePlaybackName()
       return(sAutoSwitch);
       break;
     }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi02:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::Pi400:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
   }
 
   if (sinkName == "")

@@ -26,8 +26,10 @@ void Log::open(const char* filename)
   // Backup?
   if (logpath.Exists())
   {
-    system(std::string("rm -f ").append(logpath.ToString()+".backup").data());
-    system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data());
+    if (system(std::string("rm -f ").append(logpath.ToString()+".backup").data()) != 0)
+    { printf("[Logs] Cannot remove old log!"); };
+    if (system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data()) != 0)
+    { printf("[Logs] Cannot backup current log!"); };
   }
 
   // Open new log
