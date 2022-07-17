@@ -8,6 +8,7 @@
 #include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
+#include "SystemManager.h"
 
 template<typename T> class TextListComponent;
 
@@ -143,8 +144,30 @@ class ThemeData
       Strings::ReplaceAllIn(result, "$language", lc);
       Strings::ReplaceAllIn(result, "$country", cc);
 
+       // Handle system+x and system-x variables (up to +10/-10)
+      const std::vector<SystemData*> systems = mSystemManager.GetAllSystemList();
+      int size = systems.size();
+      int index = 0;
 
-      return PickRandomPath(result, randomPath);;
+      for(int i = 0; i < size; ++i){
+          if (systems[i]->ThemeFolder() == systemThemeFolder)
+          {
+            index = i;
+          }
+      }
+          
+      for(int i = 0; i < 10; ++i)
+      {
+        int positiveOffset = index + i;
+        while( positiveOffset > size - 1) positiveOffset -= size;
+        Strings::ReplaceAllIn(result, "$system+"+positiveOffset, systems[positiveOffset]->ThemeFolder());
+        
+        int negativeOffset = index - i;
+        while( negativeOffset < 0) negativeOffset += size;
+        Strings::ReplaceAllIn(result, "$system-"+negativeOffset, systems[negativeOffset]->ThemeFolder());
+      }
+
+      return PickRandomPath(result, randomPath);
     }
 
     static std::string PickRandomPath(std::string value, std::string& randomPath)
