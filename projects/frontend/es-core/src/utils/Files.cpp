@@ -5,10 +5,11 @@
 #include "Files.h"
 #include "fcntl.h"
 #include "unistd.h"
+#include <utils/String.h>
 
-std::string Files::LoadFile(const Path& path)
+String Files::LoadFile(const Path& path)
 {
-  std::string result;
+  String result;
 
   if (path.Exists())
   {
@@ -27,8 +28,8 @@ std::string Files::LoadFile(const Path& path)
       else if (l < 0)
       {
         char buffer[4096];
-        for(int r = 0; (r = read(fd, buffer, sizeof(buffer))) > 0; )
-          result.append(buffer, r);
+        for(int r = 0; (r = (int)read(fd, buffer, sizeof(buffer))) > 0; )
+          result.Append(buffer, r);
       }
       close(fd);
     }
@@ -37,9 +38,9 @@ std::string Files::LoadFile(const Path& path)
   return result;
 }
 
-std::string Files::LoadFile(const Path& path, long long from, long long size)
+String Files::LoadFile(const Path& path, long long from, long long size)
 {
-  std::string result;
+  String result;
 
   if (path.Exists())
   {
