@@ -10,6 +10,9 @@ ce8d49486ba3d91d405658e8823c606e  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 e1c48b945047496dc3d5a5456237fe6a  package/binutils/binutils.mk
 27d53f122c18c56675696e267bee2ea2  package/bluez5_utils/bluez5_utils.mk
+4fbf2de99aaf8b6037c406109f17d8a9  package/clang/Config.in
+14748aec240cb0c5d8db58c55b143f33  package/clang/clang.hash
+f89e97c9468e00c700f471883928df64  package/clang/clang.mk
 40e93c6a4fd117a51513b11cd6a334f7  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 fc12f12bdb47fc6ee8edb25f5c14c1d1  package/ffmpeg/ffmpeg.mk
