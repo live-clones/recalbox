@@ -42,6 +42,8 @@ b908959a214b74a37cab5f5acee1a8f5  package/sdl2/Config.in
 7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
 837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
+0fc766d5908d4af698be14ee392e9d96  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.hash
+104f1fdf7671deb378c5ef0ca22b6c46  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.mk
 67a78ca1ca82b120ba9b24423c089ccf  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
 7c04e662b37e09a98c46141cf08fb247  system/skeleton/etc/passwd
