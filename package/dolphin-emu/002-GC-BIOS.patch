@@ -1,8 +1,8 @@
---- a/Source/Core/Core/ConfigManager.cpp	2019-12-03 04:03:49.000000000 +0100
-+++ b/Source/Core/Core/ConfigManager.cpp	2020-01-01 18:24:10.065789699 +0100
-@@ -848,11 +848,8 @@
+--- a/Source/Core/Core/Config/MainSettings.cpp	2022-07-21 20:51:06.545821763 +0200
++++ b/Source/Core/Core/Config/MainSettings.cpp	2022-07-21 20:52:29.840040369 +0200
+@@ -576,11 +576,8 @@
  
- std::string SConfig::GetBootROMPath(const std::string& region_directory) const
+ std::string GetBootROMPath(const std::string& region_directory)
  {
 -  const std::string path =
 -      File::GetUserPath(D_GCUSER_IDX) + DIR_SEP + region_directory + DIR_SEP GC_IPL;
@@ -13,4 +13,4 @@
 +  return std::string("/recalbox/share/bios/gamecube") + DIR_SEP + region_directory + DIR_SEP GC_IPL;
  }
  
- struct SetGameMetadata
+ std::string GetMemcardPath(ExpansionInterface::Slot slot, DiscIO::Region region, u16 size_mb)
