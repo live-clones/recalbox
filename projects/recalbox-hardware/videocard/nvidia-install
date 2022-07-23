@@ -27,13 +27,13 @@ gpuid=("$(lspci -nd10de::0300 | egrep -o "[[:xdigit:]]{4}:[[:xdigit:]]{4}" | cut
 # if has intel igpu and nvidia gpu serie M you need optimus technologie is not compatible for a moment in recalbox
 igpu=("$(lspci -d8086::0300)")
 
-# check the compatibility of the graphics card with the driver version "460.67" then "390.116"
-supportList460=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-460.txt))
-supportList390=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
+# check the compatibility of the graphics card with the driver version "470.129.06" then "390.116"
+supportList470=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-470.txt))
+#supportList390=($(grep -i -E "${gpuid}" /recalbox/system/hardware/videocard/nvidiacheckcompatibility-390.txt))
 
 # check the version
-nvidia460=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
-nvidia390=("$(echo /usr/lib/extra/nvidia-3* |cut -d'-' -f 2)")
+nvidia470=("$(echo /usr/lib/extra/nvidia-4* |cut -d'-' -f 2)")
+#nvidia390=("$(echo /usr/lib/extra/nvidia-3* |cut -d'-' -f 2)")
 
 # nouveau conflict with nvidia-drm
 blacklistFile="/etc/modprobe.d/blacklist.conf"
@@ -49,12 +49,12 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
 	exit 0
 	else
 	# detect/configure nvidia driver version to install
-		if [ -n "${gpuid}" ] && [ -n "${supportList460}" ]; then
-	        nvver="${nvidia460}"
-	        echo "${supportList460}"
-        elif [ -n "${gpuid}" ] && [ -n "${supportList390}" ]; then
-	        nvver="${nvidia390}"
-	        echo "${supportList390}"
+		if [ -n "${gpuid}" ] && [ -n "${supportList470}" ]; then
+	        nvver="${nvidia470}"
+	        echo "${supportList470}"
+#        elif [ -n "${gpuid}" ] && [ -n "${supportList390}" ]; then
+#	        nvver="${nvidia390}"
+#	        echo "${supportList390}"
         fi
 fi
 
@@ -94,12 +94,12 @@ echo "Installing..."
 ##
 # install/symlink xorg modules
 ##
-# 390/460
+# 390/470
 try_symlink "${nvxorg}/drivers/nvidia_drv.so" "${xorg}/drivers/nvidia_drv.so"
 # 390
 try_symlink_lib "${nvxorg}/libnvidia-wfb.so" "${xorg}/libnvidia-wfb.so" "${nvver}"
 try_symlink_lib "${nvxorg}/extensions/libglx.so" "${xorg}/extensions/libglx.so" "${nvver}"
-# 460
+# 470
 try_symlink_lib "${nvxorg}/extensions/libglxserver_nvidia.so" "${xorg}/extensions/libglxserver_nvidia.so" "${nvver}"
 
 ##
@@ -117,7 +117,7 @@ try_symlink_lib "${nvlibs}/libGLX_nvidia.so" "${libs}/libGLX_nvidia.so" "${nvver
 try_symlink_lib "${nvlibs}/libOpenCL.so" "${libs}/libOpenCL.so" "1.0.0"
 try_symlink_lib "${nvlibs}/libvdpau_nvidia.so" "${libs}/libvdpau_nvidia.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-egl-wayland.so" "${libs}/libnvidia-egl-wayland.so" "${nvway}"
-try_symlink_lib "${nvlibs}/libnvidia-ml.so" "${libs}/libnvidia-ml.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-ml.so" "${libs}/libnvidia-ml.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libGLX.so" "${libs}/libGLX.so" "0"
 try_symlink_lib "${nvlibs}/libGLdispatch.so" "${libs}/libGLdispatch.so" "0"
 try_symlink_lib "${nvlibs}/libnvidia-eglcore.so" "${libs}/libnvidia-eglcore.so" "${nvver}"
@@ -125,12 +125,12 @@ try_symlink_lib "${nvlibs}/libnvidia-glcore.so" "${libs}/libnvidia-glcore.so" "$
 try_symlink_lib "${nvlibs}/libnvidia-glsi.so" "${libs}/libnvidia-glsi.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-tls.so" "${libs}/libnvidia-tls.so" "${nvver}"
 # try_symlink_lib "${nvlibs}/libcuda.so" "${libs}/libcuda.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvcuvid.so" "${libs}/libnvcuvid.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvidia-fatbinaryloader.so" "${libs}/libnvidia-fatbinaryloader.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvidia-opencl.so" "${libs}/libnvidia-opencl.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvidia-compiler.so" "${libs}/libnvidia-compiler.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvidia-encode.so" "${libs}/libnvidia-encode.so" "${nvver}"
-try_symlink_lib "${nvlibs}/libnvidia-ptxjitcompiler.so" "${libs}/libnvidia-ptxjitcompiler.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvcuvid.so" "${libs}/libnvcuvid.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-fatbinaryloader.so" "${libs}/libnvidia-fatbinaryloader.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-opencl.so" "${libs}/libnvidia-opencl.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-compiler.so" "${libs}/libnvidia-compiler.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-encode.so" "${libs}/libnvidia-encode.so" "${nvver}"
+#try_symlink_lib "${nvlibs}/libnvidia-ptxjitcompiler.so" "${libs}/libnvidia-ptxjitcompiler.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-gtk2.so" "${libs}/libnvidia-gtk2.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-gtk3.so" "${libs}/libnvidia-gtk3.so" "${nvver}"
 try_symlink_lib "${nvlibs}/libnvidia-ngx.so" "${libs}/libnvidia-ngx.so" "${nvver}"
