@@ -9,6 +9,9 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 - Duplicate the option to show only favorites in gamelists menu
+## Fixes
+
+- Fix older nVidia adapters support
 
 ## Version 8.1-Electron
 
