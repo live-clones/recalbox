@@ -69,6 +69,9 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
     if (!system.IsAlwaysFlat())
       mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
+  // favorites only
+  mFavoritesOnly = AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
+
   // update game list
   if (!system.IsFavorite())
     AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -274,6 +277,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
+    case Components::FavoritesOnly:
     case Components::FlatFolders: break;
   }
 }
@@ -283,6 +287,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
+    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ManageSystems(); break;
     case Components::Regions:
     case Components::Sorts:
     case Components::JumpToLetter:
@@ -299,5 +304,16 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   mGamelist.refreshList();
   mGamelist.setCursor(game);
   RefreshGameMenuContext();
+}
 
+void GuiMenuGamelistOptions::ManageSystems()
+{
+  SystemData* systemData = ViewController::Instance().getState().getSystem();
+  ViewController::Instance().getGameListView(systemData)->refreshList();
+
+  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().getSystemListView().manageSystemsList();
+
+  // for updating game counts on system view
+  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }

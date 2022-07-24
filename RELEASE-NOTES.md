@@ -5,6 +5,11 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 - Fix audio menu crash
+## Version 8.1.1-Electron
+
+### Fixes
+
+- Duplicate the option to show only favorites in gamelists menu
 
 ## Version 8.1-Electron
 
