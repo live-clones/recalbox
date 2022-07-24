@@ -34,6 +34,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Sorts,
       Regions,
       FlatFolders,
+      FavoritesOnly,
       MetaData,
       UpdateGamelist,
       Delete,
@@ -54,6 +55,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;
     std::shared_ptr<OptionListComponent<Regions::GameRegions>> mListRegion;
     std::shared_ptr<SwitchComponent> mFlatFolders;
+    std::shared_ptr<SwitchComponent> mFavoritesOnly;
     std::shared_ptr<TextComponent> mGame;
 
     //! Refresh first menu entry
@@ -65,6 +67,11 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::vector<ListEntry<FileSorts::Sorts>> GetSortEntries();
     //! Get available region List
     std::vector<ListEntry<Regions::GameRegions>> GetRegionEntries();
+
+    /*!
+     * @brief Refresh gamelist
+     */
+    static void ManageSystems();
 
     /*
      * GuiMetaDataEd::IMetaDataAction implementation
