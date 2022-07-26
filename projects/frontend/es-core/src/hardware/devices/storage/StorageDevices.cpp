@@ -120,7 +120,7 @@ StorageDevices::PropertyMap StorageDevices::ExtractProperties(const std::string&
 
   std::string key;
   std::string value;
-  for(const std::string& kv : Strings::SplitQuotted(properties, ' '))
+  for(const std::string& kv : Strings::SplitQuoted(properties, ' '))
     if (Strings::SplitAt(kv, '=', key, value, true))
       map[key] = Strings::Trim(value, "\"");
 

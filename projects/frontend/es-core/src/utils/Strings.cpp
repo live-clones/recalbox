@@ -222,7 +222,7 @@ std::string Strings::unicode2Chars(const unsigned int _unicode)
 
 } // unicode2Chars
 
-size_t Strings::nextCursor(const std::string& _string, const size_t _cursor)
+/*size_t Strings::nextCursor(const std::string& _string, const size_t _cursor)
 {
 	size_t result = _cursor;
 
@@ -272,7 +272,7 @@ size_t Strings::moveCursor(const std::string& _string, const size_t _cursor, con
 	return result;
 
 } // moveCursor
-
+*/
 std::string Strings::ToLowerASCII(const std::string& _string)
 {
 	std::string string = _string;
@@ -508,7 +508,7 @@ std::string Strings::Format(const char* _string, ...)
 } // format
 
 // Simple XOR scrambling of a string, with an accompanying key
-std::string Strings::ScrambleSymetric(const std::string& _input, const std::string& key)
+/*std::string Strings::ScrambleSymetric(const std::string& _input, const std::string& key)
 {
 	std::string buffer = _input;
 
@@ -518,7 +518,7 @@ std::string Strings::ScrambleSymetric(const std::string& _input, const std::stri
 	}
 
 	return buffer;
-} // scramble
+}*/ // scramble
 
 std::string Strings::ScrambleSymetric2(const std::string& _input, const std::string& key)
 {
@@ -619,6 +619,7 @@ std::string Strings::ToString(int integer)
   int Index = INT32BUFFERLEN - 1;
   bool Sign = (integer < 0);
   if (Sign) integer = -integer;
+  if (integer < 0) return ToString((long long)integer);
 
   do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
   if (Sign) Buffer[--Index] = '-';
@@ -643,7 +644,8 @@ std::string Strings::ToString(long long integer)
   bool Sign = (integer < 0);
   if (Sign) integer = -integer;
 
-  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+  if (integer >= 0) do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
+  else do { Buffer[--Index] = (char)(0x30 + -(integer % 10)); integer /= 10; } while (integer != 0);
   if (Sign) Buffer[--Index] = '-';
 
   return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
@@ -770,14 +772,14 @@ unsigned long long Strings::ToHash64(const std::string& string)
   return Hash;
 }
 
-unsigned long long Strings::ToHash64(const char* string)
+/*unsigned long long Strings::ToHash64(const char* string)
 {
   int count = (int)strlen(string);
   unsigned long long Hash = (unsigned long long)count;
   const unsigned char* p = (unsigned char*)string;
   while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
   return Hash;
-}
+}*/
 
 static const char* HexaChars = "0123456789ABCDEF";
 
@@ -788,7 +790,7 @@ std::string Strings::ToHexa(int hex)
   do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (int)((unsigned int)hex >> 4); } while(hex != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
-
+/*
 std::string Strings::ToHexa(long long hex)
 {
   char Buffer[18];
@@ -796,25 +798,35 @@ std::string Strings::ToHexa(long long hex)
   do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (long long)((unsigned long long)hex >> 4); } while(hex != 0);
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
-
+*/
 std::string Strings::ToHexa(int hex, int length)
 {
   char Buffer[10];
   if ((unsigned int)length > 8) length = 8;
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (int)((unsigned int)hex >> 4); } while(--length != 0);
+  for(;;)
+  {
+    Buffer[--Index] = HexaChars[hex & 0xF];
+    hex = (int)((unsigned int)hex >> 4);
+    if (--length <= 0 && hex == 0) break;
+  }
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
-
+/*
 std::string Strings::ToHexa(long long hex, int length)
 {
   char Buffer[18];
   if ((unsigned int)length > 16) length = 16;
   int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (long long)((unsigned long long)hex >> 4); } while(--length != 0);
+  for(;;)
+  {
+    Buffer[--Index] = HexaChars[hex & 0xF];
+    hex = (long long)((unsigned long long)hex >> 4);
+    if (--length <= 0 && hex == 0) break;
+  }
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
-
+*/
 std::string Strings::URLEncode(const std::string& source)
 {
   std::string result;
@@ -892,12 +904,12 @@ bool Strings::SplitAt(const std::string& _string, char splitter, std::string& le
   return true;
 }
 
-Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter)
+Strings::Vector Strings::SplitQuoted(const std::string& _string, char splitter)
 {
-  return SplitQuotted(_string, splitter, INT32_MAX);
+  return SplitQuoted(_string, splitter, INT32_MAX);
 }
 
-Strings::Vector Strings::SplitQuotted(const std::string& _string, char splitter, int max)
+Strings::Vector Strings::SplitQuoted(const std::string& _string, char splitter, int max)
 {
   int Len = (int)_string.size();
   const char* Current = _string.data();
