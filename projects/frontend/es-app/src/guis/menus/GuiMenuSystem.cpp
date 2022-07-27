@@ -47,7 +47,10 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
   // Share space
   MountMonitor::DeviceMountReferences mounts = systemManager.GetMountMonitor().AllMountPoints();
   if (mounts.size() == 1)
+  {
+    mounts[0]->UpdateSize();
     AddText(_("DISK USAGE (FREE/TOTAL)"), mounts[0]->DisplayableFreeSpace(), RecalboxSystem::isFreeSpaceUnderLimit(mounts[0]->FreeSize()) ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
+  }
   else
     AddSubMenu(_("DISK USAGE (FREE/TOTAL)"), (int)Components::DiskUsage);
 
