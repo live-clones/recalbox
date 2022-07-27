@@ -28,7 +28,6 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
 bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescriptor)
 {
   systemDescriptor.ClearEmulators();
-  systemDescriptor.ClearPlatforms();
 
   XmlNode systemNode = mSystemList[index];
   // System Information
