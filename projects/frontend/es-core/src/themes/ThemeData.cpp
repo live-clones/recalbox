@@ -17,6 +17,7 @@ ThemeData* ThemeData::sCurrent = nullptr;
 bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
+SystemManager* ThemeData::sSystemManager = nullptr;
 
 std::vector<std::string>& ThemeData::SupportedViews()
 {
@@ -977,4 +978,48 @@ bool ThemeData::isFolderHandled() const
 {
 	const auto* elem = getElement("detailed", "md_folder_name", "text");
 	return elem != nullptr && elem->HasProperty("pos");
+}
+
+std::string ThemeData::resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath)
+{
+  {
+    std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
+    std::string lc = "en";
+    std::string cc = "us";
+    if (lccc.size() >= 5)
+    {
+      size_t pos = lccc.find('_');
+      if (pos >=2 && pos < lccc.size() - 1)
+      {
+        lc = lccc.substr(0, pos);
+        cc = lccc.substr(pos + 1);
+      }
+    }
+
+    std::string result = path;
+    Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
+    Strings::ReplaceAllIn(result, "$language", lc);
+    Strings::ReplaceAllIn(result, "$country", cc);
+
+    // Handle system+x and system-x variables (up to +10/-10)
+    if (sSystemManager != nullptr)
+    {
+      const std::vector<SystemData*> systems = sSystemManager->GetAllSystemList();
+      int index = -1;
+      for (int i = (int)systems.size(); --i >= 0;)
+        if (systems[i]->ThemeFolder() == systemThemeFolder) { index = i; break; }
+
+      if (index >= 0)
+        for (int i = 0; i < 10; ++i)
+        {
+          int positiveOffset = (index + i) % (int) systems.size();
+          Strings::ReplaceAllIn(result, std::string("$system+").append(Strings::ToString(positiveOffset)), systems[positiveOffset]->ThemeFolder());
+
+          int negativeOffset = ((index + (int) systems.size() * 10) - i) % (int) systems.size();
+          Strings::ReplaceAllIn(result, std::string("$system-").append(Strings::ToString(positiveOffset)), systems[negativeOffset]->ThemeFolder());
+        }
+    }
+
+    return PickRandomPath(result, randomPath);;
+  }
 }

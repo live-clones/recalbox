@@ -17,6 +17,7 @@ class ImageComponent;
 class NinePatchComponent;
 class TextComponent;
 class WindowManager;
+class SystemManager;
 
 class ThemeSet
 {
@@ -57,6 +58,11 @@ class ThemeData
 
   	// throws ThemeException
 	  void loadFile(const std::string& systemThemeFolder, const Path& path);
+
+    /*!
+     * @brief Just another crappy thing in this awfully crappy class...
+     */
+    static void SetSystemManager(SystemManager* sm) { sSystemManager = sm; }
 
     enum class ElementProperty
     {
@@ -109,8 +115,8 @@ class ThemeData
 	std::string mGameClipView;
 	std::string mSystemThemeFolder;
 	std::string mRandomPath;
+  static SystemManager* sSystemManager;
 	static constexpr const char* sRandomMethod = "$random(";
-
 
     void parseFeatures(const pugi::xml_node& themeRoot);
     void parseIncludes(const pugi::xml_node& themeRoot);
@@ -123,46 +129,22 @@ class ThemeData
     static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
 
     static bool CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset);
-    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath)
-    {
-      std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-      std::string lc = "en";
-      std::string cc = "us";
-      if (lccc.size() >= 5)
-      {
-        size_t pos = lccc.find('_');
-        if (pos >=2 && pos < lccc.size() - 1)
-        {
-          lc = lccc.substr(0, pos);
-          cc = lccc.substr(pos + 1);
-        }
-      }
-
-      std::string result = path;
-      Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
-      Strings::ReplaceAllIn(result, "$language", lc);
-      Strings::ReplaceAllIn(result, "$country", cc);
-
-
-      return PickRandomPath(result, randomPath);;
-    }
+    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath);
 
     static std::string PickRandomPath(std::string value, std::string& randomPath)
     {
-
       if(!Strings::Contains(value, sRandomMethod))
         return value;
 
       std::string args = Strings::Extract(value, sRandomMethod, ")", 8, 1);
-
       if(randomPath.empty())
       {
         std::vector<std::string> paths = Strings::Split(args, ',');
         std::random_device rd;
         std::default_random_engine engine(rd());
-        const int max = paths.size();
+        const int max = (int)paths.size();
         std::uniform_int_distribution<int> distrib{0, max-1};
-        randomPath = paths[distrib(engine)];
+        randomPath = std::string(paths[distrib(engine)]);
       }
 
       return Strings::Replace(value, sRandomMethod + args + ")", randomPath);
