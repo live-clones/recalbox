@@ -14,8 +14,10 @@
 #include <components/GameClipNoVideoContainer.h>
 #include "RecalboxConf.h"
 #include "games/GameRandomSelector.h"
+#include <utils/sync/SyncMessageSender.h>
 
-class GameClipView : public Gui, public ISynchronousEvent
+class GameClipView : public Gui
+                   , public ISyncMessageReceiver<void>
 {
     enum class State
     {
@@ -40,14 +42,14 @@ class GameClipView : public Gui, public ISynchronousEvent
     class Filter : public IFilter
     {
       public:
-        bool ApplyFilter(const FileData& file) const override
+        [[nodiscard]] bool ApplyFilter(const FileData& file) const override
         {
           return  !file.Metadata().VideoAsString().empty() && file.IsDisplayable();
         }
     } mFilter;
 
     //! Synchronous event
-    SyncronousEvent mEvent;
+    SyncMessageSender<void> mEvent;
 
     //! Window
     WindowManager& mWindow;
@@ -97,7 +99,7 @@ class GameClipView : public Gui, public ISynchronousEvent
      * @brief Receive SDL event from the main thread
      * @param event SDL event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() override;
 
   public:
 

@@ -8,14 +8,13 @@
 #include <recalbox/RecalboxSystem.h>
 #include <views/ViewController.h>
 #include <utils/locale/LocaleHelper.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <guis/GuiInfoPopupBase.h>
 #include <rapidjson/document.h>
 #include <emulators/run/GameRunner.h>
 
 NetPlayThread::NetPlayThread(WindowManager&window)
-  : mWindow(window),
-    mSender(this)
+  : mWindow(window)
+  , mSender(*this)
 {
   StartScan();
 }
@@ -45,7 +44,7 @@ void NetPlayThread::Run()
 {
   try
   {
-    sleep(5);
+    Thread::Sleep(5000);
 
     { LOG(LogInfo) << "[Netplay] NetPlayThread started"; }
 
@@ -96,9 +95,8 @@ void NetPlayThread::Run()
   }
 }
 
-void NetPlayThread::ReceiveSyncCallback(const SDL_Event& event)
+void NetPlayThread::ReceiveSyncMessage()
 {
-  (void)event;
   int popupDuration = RecalboxConf::Instance().GetPopupNetplay();
   mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopupBase::PopupType::Netplay));
 }
@@ -113,7 +111,7 @@ bool NetPlayThread::Sleep(bool& enabled)
       enabled = stillEnabled;
       return true;
     }
-    sleep(1);
+    Thread::Sleep(1000);
   }
   return false;
 }
@@ -126,8 +124,7 @@ void NetPlayThread::PopupTriggered(const std::string& player, const std::string&
 
   // Push event to the main thread so that all GUI operations are safely run in the main thread.
   // SDL_PushEvent is synchronized & thread-safe
-  mSender.Call();
-
+  mSender.Send();
 }
 
 bool NetPlayThread::RefreshNetplayList(PlayerGameList& list, bool filtered)

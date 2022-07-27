@@ -3,14 +3,12 @@
 //
 #pragma once
 
-#include <utils/sdl2/ISynchronousEvent.h>
 #include <ApplicationWindow.h>
 #include <utils/cplusplus/INoCopy.h>
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <usernotifications/NotificationManager.h>
 #include <guis/GuiWaitLongExecution.h>
-#include <utils/storage/Queue.h>
 #include <emulators/run/GameRunner.h>
 #include <patreon/IPatreonNotification.h>
 
@@ -52,10 +50,10 @@ class USBInitialization
     }
 
     //! Get action
-    USBInitializationAction Action() const { return mAction; }
+    [[nodiscard]] USBInitializationAction Action() const { return mAction; }
 
     //! Get device
-    const DeviceMount& Device() const { return *mDevice; }
+    [[nodiscard]] const DeviceMount& Device() const { return *mDevice; }
 
   private:
     //! Action to execute on the device
@@ -66,7 +64,6 @@ class USBInitialization
 
 class MainRunner
   : private INoCopy
-  , private ISynchronousEvent
   , private IFileSystemWatcherNotification
   , public IHardwareNotifications
   , private ILongExecution<HardwareTriggeredSpecialOperations, bool>
@@ -223,9 +220,10 @@ class MainRunner
      * @param window Main window
      * @param systemManager System Manager
      * @param fileNotifier gamelist file notifier
+     * @param syncMessageFactory Syn'ed message factory
      * @return Exit state
      */
-    ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier);
+    ExitState MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier, SyncMessageFactory& syncMessageFactory);
 
     /*!
      * @brief Process general special inputs
@@ -250,16 +248,6 @@ class MainRunner
      * @return True if we have to update the gamelists before exiting
      */
     static bool DoWeHaveToUpdateGamelist(ExitState state);
-
-    /*
-     * ISynchronousEvent implementation
-     */
-
-    /*!
-     * @brief Receive requested exit state event
-     * @param event SDL event
-     */
-    void ReceiveSyncCallback(const SDL_Event& event) final;
 
     /*
      * IFileSystemWatcherNotification implementation

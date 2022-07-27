@@ -13,7 +13,7 @@
 #include <blkid/blkid.h>
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
-  : mEvent(this)
+  : mEvent(*this)
   , mShareMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mShareRomsMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
   , mPendingMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
@@ -140,20 +140,19 @@ std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
   return result;
 }
 
-void MountMonitor::ReceiveSyncCallback(const SDL_Event& event)
+void MountMonitor::ReceiveSyncMessage(bool message)
 {
-  switch((Action)event.user.code)
+  if (mInterface != nullptr)
   {
-    case Action::Mount: if (mInterface != nullptr) mInterface->NotifyDeviceMount(mPendingMountPoint); break;
-    case Action::Unmount: if (mInterface != nullptr) mInterface->NotifyDeviceUnmount(mPendingMountPoint); break;
-    default: break;
+    if (message) mInterface->NotifyDeviceMount(mPendingMountPoint);
+    else mInterface->NotifyDeviceUnmount(mPendingMountPoint);
   }
 }
 
 void MountMonitor::Process(DeviceMountList& oldList, const DeviceMountList& newListOriginal)
 {
   DeviceMountList newList = newListOriginal;
-  // Kill dups in both list
+  // Kill duplicates in both list
   for(int i = (int)oldList.size(); --i >= 0;)
     for(int j = (int)newList.size(); --j >= 0;)
       if (oldList[i] == newList[j])
@@ -167,14 +166,14 @@ void MountMonitor::Process(DeviceMountList& oldList, const DeviceMountList& newL
   {
     { LOG(LogInfo) << "[MountMonitor] Mount point removed: " << mp.MountPoint().ToString(); }
     mPendingMountPoint = mp;
-    mEvent.Call((int)Action::Unmount);
+    mEvent.Send(false);
   }
   // Remaining points in new list are added mount points
   for(const DeviceMount& mp : newList)
   {
     { LOG(LogInfo) << "[MountMonitor] Mount point added: " << mp.MountPoint().ToString(); }
     mPendingMountPoint = mp;
-    mEvent.Call((int)Action::Mount);
+    mEvent.Send(true);
   }
 }
 
@@ -205,7 +204,7 @@ MountMonitor::DeviceMountReferences MountMonitor::AllMountPoints()
   // Add rom mount point
   if (!mShareRomsMountPoint.MountPoint().IsEmpty())
     references.push_back(&mShareRomsMountPoint);
-  // Add all mountpoints
+  // Add all mount points
   for(DeviceMount& device : mMountPoints)
     references.push_back(&device.UpdateSize());
   return references;

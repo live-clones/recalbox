@@ -1,17 +1,14 @@
 #pragma once
 
-#include <memory>
-
 #include <guis/GuiInfoPopupBase.h>
 #include <random>
 
 #include "Sound.h"
 #include "Music.h"
 
-#include "utils/sdl2/SyncronousEvent.h"
-#include "utils/sdl2/ISynchronousEvent.h"
+#include "utils/sync/SyncMessageSender.h"
 
-class AudioManager : private ISynchronousEvent
+class AudioManager : private ISyncMessageReceiver<void>
                    , public StaticLifeCycleControler<AudioManager>
 {
   public:
@@ -50,7 +47,7 @@ class AudioManager : private ISynchronousEvent
     MusicSource mCurrentMusicSource;
 
     //! Reserved SDL Event
-    SyncronousEvent mSender;
+    SyncMessageSender<void> mSender;
 
     //! Random device to seed random generator
     std::random_device mRandomDevice;
@@ -66,9 +63,8 @@ class AudioManager : private ISynchronousEvent
 
     /*!
      * @brief Synchronous event receiver
-     * @param event Event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() final;
 
     /*!
      * @brief Initialize SDL audio
@@ -110,13 +106,13 @@ class AudioManager : private ISynchronousEvent
     /*!
      * @brief Destructor
      */
-    virtual ~AudioManager();
+    ~AudioManager() override;
 
     /*!
      * @brief Send a signal to the AudioManager from another thread to instruct
      * current music has ended
      */
-    void SignalEndOfMusic() { mSender.Call(); }
+    void SignalEndOfMusic() { mSender.Send(); }
 
     /*!
      * @brief Load sound effect from the givenpath

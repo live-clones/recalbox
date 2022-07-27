@@ -6,39 +6,39 @@
 #include <guis/Gui.h>
 #include <utils/os/system/Thread.h>
 #include <components/BusyComponent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+#include <utils/sync/SyncMessageSender.h>
 #include <Renderer.h>
 
 // Forward declaration
-template<typename intype, typename outtype> class GuiWaitLongExecution;
+template<typename inType, typename outType> class GuiWaitLongExecution;
 
 /*!
  * @brief Task execution interface
- * @tparam intype In type
- * @tparam outtype Out type
+ * @tparam inType In type
+ * @tparam outType Out type
  */
-template<typename intype, typename outtype> class ILongExecution
+template<typename inType, typename outType> class ILongExecution
 {
   public:
-    virtual outtype Execute(GuiWaitLongExecution<intype, outtype>& from, const intype& parameter) = 0;
+    virtual outType Execute(GuiWaitLongExecution<inType, outType>& from, const inType& parameter) = 0;
 
-    virtual void Completed(const intype& parameter, const outtype& result) = 0;
+    virtual void Completed(const inType& parameter, const outType& result) = 0;
 };
 
-template<typename intype, typename outtype> class GuiWaitLongExecution
+template<typename inType, typename outType> class GuiWaitLongExecution
   : public Gui
   , public Thread
-  , private ISynchronousEvent
+  , private ISyncMessageReceiver<void>
 {
   public:
-    explicit GuiWaitLongExecution(WindowManager& window, ILongExecution<intype, outtype>& executor)
+    explicit GuiWaitLongExecution(WindowManager& window, ILongExecution<inType, outType>& executor)
       : Gui(window)
       , mExecutor(executor)
       , mParameter()
       , mBusyAnim(window)
-      , mSender(this)
+      , mSender(*this)
     {
-      // Configura animation
+      // Configure animation
       mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     }
 
@@ -56,7 +56,7 @@ template<typename intype, typename outtype> class GuiWaitLongExecution
      * @param text initial text
      * @return This
      */
-    GuiWaitLongExecution* Execute(const intype& parameter, const std::string& text)
+    GuiWaitLongExecution* Execute(const inType& parameter, const std::string& text)
     {
       // Do not restart if it's already started
       Join();
@@ -73,7 +73,7 @@ template<typename intype, typename outtype> class GuiWaitLongExecution
     }
 
     /*!
-     * @brief Set anumation text
+     * @brief Set animation text
      * @param text text to set
      */
     void SetText(const std::string& text) { mBusyAnim.setText(text); }
@@ -106,7 +106,7 @@ template<typename intype, typename outtype> class GuiWaitLongExecution
      * @brief This window is an overlay and does not hide underlying windows
      * @return Always true
      */
-    bool IsOverlay() const override { return true; }
+    [[nodiscard]] bool IsOverlay() const override { return true; }
 
   protected:
     /*!
@@ -117,31 +117,28 @@ template<typename intype, typename outtype> class GuiWaitLongExecution
       // Execute the executor command & store the result
       mResult = mExecutor.Execute(*this, mParameter);
       // Notify the result can be sent back
-      mSender.Call();
+      mSender.Send();
     }
 
   private:
     //! Executor reference
-    ILongExecution<intype, outtype>& mExecutor;
+    ILongExecution<inType, outType>& mExecutor;
     //! Input parameter reference
-    intype mParameter;
+    inType mParameter;
     //! Result storage
-    outtype mResult;
+    outType mResult;
 
     //! Busy animation
     BusyComponent mBusyAnim;
 
     //! Event
-    SyncronousEvent mSender;
+    SyncMessageSender<void> mSender;
 
     /*!
      * @brief Receive end of execution
-     * @param event SDL2 event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override
+    void ReceiveSyncMessage() override
     {
-      (void)event;
-
       // Close gui
       Close();
       // Wait for thread to complete so that the Completed can restart a new process safely

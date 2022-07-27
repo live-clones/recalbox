@@ -6,17 +6,45 @@
 #include <vector>
 #include <utils/os/system/Thread.h>
 #ifndef PURE_BIOS_ONLY
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+  #include <utils/sync/SyncMessageSender.h>
 #endif
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "BiosList.h"
 #include "IBiosScanReporting.h"
 
+struct BiosMessage
+{
+  IBiosScanReporting* mReporting;
+  int mListIndex;
+  int mIndex;
+  bool mComplete;
+
+  /*!
+   * @brief Statically build a single bios report message
+   * @param report Reporting interface
+   * @param list List index
+   * @param index Bios index
+   * @return Bios message
+   */
+  static BiosMessage SingleBiosReport(IBiosScanReporting* report, int list, int index)
+  {
+    return { .mReporting = report, .mListIndex = list, .mIndex = index, .mComplete = false };
+  }
+  /*!
+   * @brief Statically build a bios report completion message
+   * @param report Reporting interface
+   * @return Bios message
+   */
+  static BiosMessage EndBiosReport(IBiosScanReporting* report)
+  {
+    return { .mReporting = report, .mListIndex = 0, .mIndex = 0, .mComplete = true };
+  }
+};
+
 class BiosManager : public StaticLifeCycleControler<BiosManager>
                   , private Thread
 #ifndef PURE_BIOS_ONLY
-                  , public ISynchronousEvent
+                  , public ISyncMessageReceiver<BiosMessage>
 #endif
 {
   private:
@@ -29,7 +57,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
     std::vector<BiosList> mSystemBiosList;
     #ifndef PURE_BIOS_ONLY
     //! Sync'ed event sender
-    SyncronousEvent mSender;
+    SyncMessageSender<BiosMessage> mSender;
     #endif
     //! Current scan's reporting interface (also flag for an already running scan)
     IBiosScanReporting* mReporting;
@@ -52,7 +80,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @brief Receive synchronous SDL2 event
      * @param event SDL event with .user populated by the sender
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(const BiosMessage& event) override;
     #endif
 
   public:
@@ -72,14 +100,14 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
     void LoadFromFile();
 
     //! Get system count
-    int SystemCount() const { return (int)mSystemBiosList.size(); }
+    [[nodiscard]] int SystemCount() const { return (int)mSystemBiosList.size(); }
 
     /*!
      * @brief Get bios list from the given system index
      * @param index System index
      * @return BiosList object
      */
-    const BiosList& SystemBios(int index) const { return mSystemBiosList[index]; }
+    [[nodiscard]] const BiosList& SystemBios(int index) const { return mSystemBiosList[index]; }
 
     /*!
      * @brief Lookup bios list for the given system

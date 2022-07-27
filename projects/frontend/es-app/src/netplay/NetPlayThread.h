@@ -4,11 +4,11 @@
 #pragma once
 
 #include <WindowManager.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+#include <utils/sync/SyncMessageSender.h>
 #include <utils/os/system/Thread.h>
 
-class NetPlayThread: private Thread, private ISynchronousEvent
+class NetPlayThread: private Thread
+                   , private ISyncMessageReceiver<void>
 {
   public:
     //! Typedef for convenience
@@ -47,7 +47,7 @@ class NetPlayThread: private Thread, private ISynchronousEvent
     WindowManager& mWindow;
 
     //! SDL Event sender
-    SyncronousEvent mSender;
+    SyncMessageSender<void> mSender;
 
     //! Last created popup
     std::string mLastPopupText;
@@ -57,9 +57,8 @@ class NetPlayThread: private Thread, private ISynchronousEvent
 
     /*!
      * @brief Synchronous event receiver
-     * @param event Event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() override;
 
     /*!
      * @brief Sleep a bit

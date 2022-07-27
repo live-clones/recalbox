@@ -1,15 +1,15 @@
 #pragma once
 
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+#include <utils/sync/SyncMessageSender.h>
 #include <utils/os/system/Signal.h>
 #include <utils/Files.h>
 
 // Forward declaration
 class WindowManager;
 
-class Upgrade: private Thread, private ISynchronousEvent
+class Upgrade: private Thread
+             , private ISyncMessageReceiver<void>
 {
   public:
     //! Local version file
@@ -97,7 +97,7 @@ class Upgrade: private Thread, private ISynchronousEvent
     //! MainWindow
     WindowManager& mWindow;
     //! Syncronous event to display popup
-    SyncronousEvent mSender;
+    SyncMessageSender<void> mSender;
     //! Signal used to stop the thread
     Signal mSignal;
     //! Built popup message
@@ -130,10 +130,9 @@ class Upgrade: private Thread, private ISynchronousEvent
 
 
     /*!
-     * @brief Receive SDL event from the main thread
-     * @param event SDL event
+     * @brief Receive synchronous message
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() override;
 
     /*!
      * @brief Get update url from DNS TXT records

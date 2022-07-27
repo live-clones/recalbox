@@ -13,7 +13,7 @@ void SyncTimer::Run()
       break; // A cancel signal is received
 
     // Send the callback event
-    mSender.Call();
+    mSender.Send();
 
     // Once again?
     if (!mRepeat)

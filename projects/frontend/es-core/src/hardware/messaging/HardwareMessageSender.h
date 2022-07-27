@@ -3,14 +3,12 @@
 //
 #pragma once
 
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
-#include <utils/storage/MessageFactory.h>
 #include "IHardwareNotifications.h"
 #include "MessageTypes.h"
 #include "HardwareMessage.h"
+#include <utils/sync/SyncMessageSender.h>
 
-class HardwareMessageSender: private ISynchronousEvent
+class HardwareMessageSender: private ISyncMessageReceiver<HardwareMessage>
 {
   public:
     /*!
@@ -36,23 +34,19 @@ class HardwareMessageSender: private ISynchronousEvent
   private:
     //! Target interface to send synchronoized message to
     IHardwareNotifications& mNotificationInterface;
-    //! Message factory
-    MessageFactory<HardwareMessage> mMessages;
     //! Synchronous event sender
-    SyncronousEvent mSender;
+    SyncMessageSender<HardwareMessage> mSender;
 
     /*!
-     * @brief Received synchronized messages from hardware threads
-     * and send them to the target interface so that the main thread
-     * can process hardware event safely
-     * @param event SDL2 event
+     * @brief Receive a synchronized message
+     * @param message Message object
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(const HardwareMessage& message) final;
 
     /*!
      * @brief Process the hardware message
      * @param message Message to process
      */
-    void ProcessMessage(HardwareMessage* message);
+    void ProcessMessage(const HardwareMessage& message);
 };
 

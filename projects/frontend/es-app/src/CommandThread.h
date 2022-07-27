@@ -1,11 +1,12 @@
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
 #include <sys/socket.h>
+#include <utils/sync/SyncMessageSender.h>
 
 class SystemManager;
+class FileData;
 
-class CommandThread: private Thread, private ISynchronousEvent
+class CommandThread: private Thread
+                   , private ISyncMessageReceiver<FileData*>
 {
   public:
     /*!
@@ -28,7 +29,7 @@ class CommandThread: private Thread, private ISynchronousEvent
     //! Socket handle
     int mSocket;
     //! Synchronous event
-    SyncronousEvent mEvent;
+    SyncMessageSender<FileData*> mEvent;
 
     /*!
      * @brief Try to open the socket continuously.
@@ -42,7 +43,7 @@ class CommandThread: private Thread, private ISynchronousEvent
      * @brief Read an UDP packets and convert the buffer to a string
      * @return Received string
      */
-    std::string ReadUDP() const;
+    [[nodiscard]] std::string ReadUDP() const;
 
     /*
      * Thread overrides
@@ -66,8 +67,8 @@ class CommandThread: private Thread, private ISynchronousEvent
      */
 
     /*!
-     * @brief Receive SDL event from the main thread
-     * @param event SDL event
+     * @brief Receive message from the command thread
+     * @param game Game data
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(FileData* const& game) override;
 };

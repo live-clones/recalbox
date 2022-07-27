@@ -1,7 +1,6 @@
 #pragma once
 
 #include <input/InputDevice.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <utils/sdl2/ISyncTimer.h>
 #include <utils/sdl2/SyncTimer.h>
 #include <functional>

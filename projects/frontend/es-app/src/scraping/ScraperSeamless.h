@@ -11,18 +11,22 @@
 #include <utils/os/system/ThreadPool.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperSingleEngine.h>
-#include "scraping/scrapers/recalbox/RecalboxEndPoints.h"
-#include <utils/sdl2/SyncronousEvent.h>
+#include <scraping/scrapers/recalbox/RecalboxEndPoints.h>
+#include <utils/sync/SyncMessageSender.h>
 #include <RecalboxConf.h>
 #include <SDL_timer.h>
+#include <scraping/ScraperSeamlessMessage.h>
 
 // Forward declaration
 class SystemManager;
 
+/*!
+ * @brief Seamless scraping class
+ */
 class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
                       , public StaticLifeCycleControler<ScraperSeamless>
                       , public IConfiguration
-                      , public ISynchronousEvent
+                      , public ISyncMessageReceiver<ScrapeSeamlessMessage>
                       , public IScraperEngineStage
 {
   public:
@@ -35,7 +39,7 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     ScraperSeamless();
 
     //! Destructor
-    virtual ~ScraperSeamless() = default;
+    ~ScraperSeamless() override = default;
 
     /*!
      * @brief Push a new candidate to scraping
@@ -81,7 +85,7 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     Mutex mBusyEngineLocker;
 
     //! Main thread synchronizer
-    SyncronousEvent mSender;
+    SyncMessageSender<ScrapeSeamlessMessage> mSender;
 
     //! Current scraping set
     HashMap<FileData*, Information> mRunningScrapes;
@@ -89,9 +93,6 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     Mutex mRunningScrapesLoker;
     //! Thread pool
     ThreadPool<FileData*, FileData*> mPool;
-
-    //! Basic authentication
-    bool Authenticate();
 
     /*!
      * @brief Pop game from the scrape set
@@ -145,28 +146,28 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     void ResetConfiguration() override {}
 
     //! Get screenscraper login
-    std::string GetLogin() const override { return Strings::Empty; }
+    [[nodiscard]] std::string GetLogin() const override { return Strings::Empty; }
 
     //! Get screenscraper password
-    std::string GetPassword() const override { return Strings::Empty; }
+    [[nodiscard]] std::string GetPassword() const override { return Strings::Empty; }
 
     //! Get recalbox token
-    std::string GetBearer() const override { return Strings::Trim(mConfiguration.GetRecalboxPrivateKey()); }
+    [[nodiscard]] std::string GetBearer() const override { return Strings::Trim(mConfiguration.GetRecalboxPrivateKey()); }
 
     //! Get favorite language
-    Languages GetFavoriteLanguage() const override { return LanguagesTools::GetScrapingLanguage(); };
+    [[nodiscard]] Languages GetFavoriteLanguage() const override { return LanguagesTools::GetScrapingLanguage(); };
 
     //! Get favorite region
-    Regions::GameRegions GetFavoriteRegion() const override { return mConfiguration.GetScreenScraperRegion(); }
+    [[nodiscard]] Regions::GameRegions GetFavoriteRegion() const override { return mConfiguration.GetScreenScraperRegion(); }
 
     //! Get main image type
-    ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mConfiguration.GetScreenScraperMainMedia(); }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mConfiguration.GetScreenScraperMainMedia(); }
 
     //! Get thumbnail image typ
-    ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mConfiguration.GetScreenScraperThumbnail(); }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mConfiguration.GetScreenScraperThumbnail(); }
 
     //! Check if video are required
-    ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override
     {
       switch(mConfiguration.GetScreenScraperVideo())
       {
@@ -179,29 +180,29 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     }
 
     //! Check if marquee are required
-    bool GetWantMarquee() const override { return mConfiguration.GetScreenScraperWantMarquee(); }
+    [[nodiscard]] bool GetWantMarquee() const override { return mConfiguration.GetScreenScraperWantMarquee(); }
 
     //! Check if wheel are required
-    bool GetWantWheel() const override { return mConfiguration.GetScreenScraperWantWheel(); }
+    [[nodiscard]] bool GetWantWheel() const override { return mConfiguration.GetScreenScraperWantWheel(); }
 
     //! Check if manual are required
-    bool GetWantManual() const override { return mConfiguration.GetScreenScraperWantManual(); }
+    [[nodiscard]] bool GetWantManual() const override { return mConfiguration.GetScreenScraperWantManual(); }
 
     //! Check if maps are required
-    bool GetWantMaps() const override { return mConfiguration.GetScreenScraperWantMaps(); }
+    [[nodiscard]] bool GetWantMaps() const override { return mConfiguration.GetScreenScraperWantMaps(); }
 
     //! Check if p2k are required
-    bool GetWantP2K() const override { return mConfiguration.GetScreenScraperWantP2K(); }
+    [[nodiscard]] bool GetWantP2K() const override { return mConfiguration.GetScreenScraperWantP2K(); }
 
     /*
-     * ISynchronousEvent implementation
+     * ISyncMessageReceiver implementation
      */
 
     /*!
-     * @brief Receive synchronous SDL2 event
-     * @param event SDL event with .user populated by the sender
+     * @brief Receive message
+     * @param message Scraper message
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(const ScrapeSeamlessMessage& message) override;
 
     /*
      * IScrapeEngineStage implementation

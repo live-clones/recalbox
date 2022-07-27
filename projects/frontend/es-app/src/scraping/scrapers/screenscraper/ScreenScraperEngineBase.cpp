@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-msc51-cpp"
 //
 // Created by bkg2k on 04/12/2019.
 //
@@ -8,7 +10,6 @@
 #include <utils/locale/LocaleHelper.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperEngineBase.h>
 #include <scraping/ScraperSeamless.h>
-#include <algorithm>
 
 ScreenScraperEngineBase::ScreenScraperEngineBase(IEndPointProvider& endpoint, IScraperEngineFreezer* freezer)
   : mRunner(this, "Scraper-ssfr", false)
@@ -44,7 +45,7 @@ ScreenScraperEngineBase::ScreenScraperEngineBase(IEndPointProvider& endpoint, IS
   , mImages(0)
   , mVideos(0)
   , mMediaSize(0)
-  , mSender(this)
+  , mSender(*this)
   , mFreezeInterface(freezer)
 {
 }
@@ -113,7 +114,6 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
                      .append(1, ' ')
                      .append(Strings::ToUpperASCII(mEndPoint.GetProviderWebURL()));
   // Get all games to scrape
-  std::default_random_engine rng;
   std::vector<FileData*> allGames;
   for(SystemData* system : systemList)
   {
@@ -121,7 +121,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
     allGames.insert(allGames.end(), games.begin(), games.end());
   }
   // Shuffle!
-  std::shuffle(allGames.begin(), allGames.end(), rng);
+  std::shuffle(allGames.begin(), allGames.end(), std::default_random_engine());
   // Feed thread pool
   for (FileData* game : allGames)
     mRunner.PushFeed(game);
@@ -144,7 +144,8 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
     if (!engine.IsAborted())
     {
       engine.Initialize(true);
-      switch(engine.Scrape(mMethod, *feed, mMd5Set))
+      ScrapeResult result = engine.Scrape(mMethod, *feed, mMd5Set);
+      switch(result)
       {
         case ScrapeResult::Ok:
         {
@@ -157,12 +158,12 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
         }
         case ScrapeResult::NotScraped: break;
         case ScrapeResult::NotFound: mStatNotFound++; break;
-        case ScrapeResult::FatalError: mSender.Call((int)ScrapeResult::FatalError, nullptr); mStatErrors++; break;
-        case ScrapeResult::QuotaReached: mSender.Call((int)ScrapeResult::QuotaReached, nullptr); break;
-        case ScrapeResult::DiskFull: mSender.Call((int)ScrapeResult::DiskFull, nullptr); break;
+        case ScrapeResult::FatalError: mSender.Send({ nullptr, ScrapeResult::FatalError }); mStatErrors++; break;
+        case ScrapeResult::QuotaReached: mSender.Send({ nullptr, ScrapeResult::QuotaReached }); break;
+        case ScrapeResult::DiskFull: mSender.Send({ nullptr, ScrapeResult::DiskFull }); break;
       }
       // Then, signal the main thread with the engine number.
-      mSender.Call(feed);
+      mSender.Send({ feed, result });
     }
     // Take a deep breath
     Thread::Sleep(1);
@@ -174,10 +175,10 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
   return false;
 }
 
-void ScreenScraperEngineBase::ReceiveSyncCallback(const SDL_Event& event)
+void ScreenScraperEngineBase::ReceiveSyncMessage(const ScrapeEngineMessage& message)
 {
   // Finally, we process the result in the main thread
-  FileData* game = (FileData*)event.user.data1;
+  FileData* game = message.mGame;
   if (game != nullptr)
   {
     // Processed
@@ -192,7 +193,7 @@ void ScreenScraperEngineBase::ReceiveSyncCallback(const SDL_Event& event)
   }
   else
   {
-    ScrapeResult error = (ScrapeResult)event.user.code;
+    ScrapeResult error = message.mResult;
     switch(error)
     {
       case ScrapeResult::Ok:
@@ -251,3 +252,5 @@ void ScreenScraperEngineBase::RecycleEngine(int index)
     mEngineSignal.Fire();
   }
 }
+
+#pragma clang diagnostic pop

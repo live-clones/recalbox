@@ -16,7 +16,7 @@ CrtView::CrtView(WindowManager& window)
   : Gui(window)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
-  , mEvent(this)
+  , mEvent(*this)
   , mOriginalVOffset(CrtConf::Instance().GetSystemCRTVerticalOffset())
   , mOriginalHOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset())
   , mOriginalViewportWidth(CrtConf::Instance().GetSystemCRTViewportWidth())
@@ -87,7 +87,7 @@ bool CrtView::getHelpPrompts(Help& help)
 
 bool CrtView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed()) mEvent.Call(); // Synchroneous quit (delete this class)
+  if (event.CancelPressed()) mEvent.Send(); // Synchroneous quit (delete this class)
   else if (event.ValidPressed()) // Validater: reinit SDL
   {
     mOriginalVOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
@@ -136,9 +136,8 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   return true;
 }
 
-void CrtView::ReceiveSyncCallback(const SDL_Event& event)
+void CrtView::ReceiveSyncMessage()
 {
-  (void)event;
   ViewController::Instance().quitCrtView();
 }
 
@@ -150,7 +149,7 @@ void CrtView::UpdateViewport() {
   int voffsetDiff = CrtConf::Instance().GetSystemCRTVerticalOffset() - mOriginalVOffset;
 
   mPattern.setSize((float) (reference + CrtConf::Instance().GetSystemCRTViewportWidth()), mPattern.getSize().y());
-  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f+hoffsetDiff, Renderer::Instance().DisplayHeightAsFloat() / 2.f +voffsetDiff, .0f);
+  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f + (float)hoffsetDiff, Renderer::Instance().DisplayHeightAsFloat() / 2.f + (float)voffsetDiff, .0f);
 
   mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
   mHorizontalOffsetText->setText(
@@ -204,7 +203,7 @@ void CrtView::UpdatePosition()
   bool khz31 = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   // Child Code
   int size =  khz31 ? sizeof(modes31khz)/sizeof(modes31khz[0]) : sizeof(modes15khz)/sizeof(modes15khz[0]);
-  auto modes = khz31 ? modes31khz: modes15khz;
+  const char** modes = khz31 ? modes31khz: modes15khz;
 
   for(int line = 0; line<size; line++)
   {

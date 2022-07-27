@@ -12,7 +12,7 @@
 
 PatronInfo::PatronInfo(IPatreonNotification* callback)
   : StaticLifeCycleControler<PatronInfo>("PatronInfo")
-  , mEvent(this)
+  , mEvent(*this)
   , mToken(Strings::Trim(RecalboxConf::Instance().GetRecalboxPrivateKey(), " \t"))
   , mCallback(callback)
   , mResult(PatronAuthenticationResult::Unknown)
@@ -102,18 +102,17 @@ void PatronInfo::Initialize()
   if (mResult == PatronAuthenticationResult::Unknown)
     mResult = PatronAuthenticationResult::NoPatron;
 
-  mEvent.Call((int)mResult);
+  mEvent.Send();
 }
 
-void PatronInfo::ReceiveSyncCallback(const SDL_Event& event)
+void PatronInfo::ReceiveSyncMessage()
 {
-  (void)event;
   // No need to check event content, there is only one use case
   if (mCallback != nullptr)
     mCallback->PatreonState(mResult, mLevel, mName);
 }
 
-void PatronInfo::WaitForAuthentication(Thread& caller)
+void PatronInfo::WaitForAuthentication(Thread& caller) const
 {
   while(!mDone && caller.IsRunning())
     Thread::Sleep(1000);

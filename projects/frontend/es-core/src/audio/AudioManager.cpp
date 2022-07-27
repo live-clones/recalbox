@@ -5,7 +5,6 @@
 #include <views/SystemView.h>
 #include <RecalboxConf.h>
 #include <RootFolders.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiInfoPopup.h>
 #include <utils/Strings.h>
@@ -15,7 +14,7 @@ AudioManager::AudioManager(WindowManager& window)
   , mWindow(window)
   , mCurrentMusic(0)
   , mCurrentMusicSource(MusicSource::None)
-  , mSender(SyncronousEventService::Instance().ObtainSyncCallback(this))
+  , mSender(*this)
   , mRandomGenerator(mRandomDevice())
   , mSystemRandomizer()
 {
@@ -305,9 +304,8 @@ Path AudioManager::FetchRandomMusic(const Path& from, const Path& previousPath)
   return Path::Empty;
 }
 
-void AudioManager::ReceiveSyncCallback(const SDL_Event& event)
+void AudioManager::ReceiveSyncMessage()
 {
-  (void)event;
   if (mCurrentMusicSource == MusicSource::RemoteTrack)
     RemotePlaylist::Instance().TrackConsumed();
   mCurrentMusic = 0;

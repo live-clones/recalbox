@@ -11,8 +11,7 @@
 #include <themes/MenuThemeData.h>
 #include <components/BusyComponent.h>
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+#include <utils/sync/SyncMessageSender.h>
 
 class TextComponent;
 class ButtonComponent;
@@ -57,7 +56,15 @@ class LobbyGame
     }
 };
 
-class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
+enum class GuiNetPlayMessageType
+{
+  LobbyLoaded,
+  Ping,
+};
+
+class GuiNetPlay: public Gui
+                , private Thread
+                , private ISyncMessageReceiver<GuiNetPlayMessageType>
 {
   public:
     explicit GuiNetPlay(WindowManager&window, SystemManager& systemManager);
@@ -76,7 +83,7 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
 
     void launch();
 
-    float getButtonGridHeight() const;
+    [[nodiscard]] float getButtonGridHeight() const;
 
     void updateSize();
 
@@ -113,19 +120,13 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
         CoreInfo() = default;
 
         //! Long name
-        const std::string& LongName() const { return mLongName; }
+        [[nodiscard]] const std::string& LongName() const { return mLongName; }
         //! Short name
-        const std::string& ShortName() const { return mShortName; }
+        [[nodiscard]] const std::string& ShortName() const { return mShortName; }
         //! Version
-        const std::string& Version() const { return mVersion; }
+        [[nodiscard]] const std::string& Version() const { return mVersion; }
         //! Empty?
-        bool Empty() const { return mLongName.empty(); }
-    };
-
-    enum class MessageType
-    {
-      LobbyLoaded,
-      Ping,
+        [[nodiscard]] bool Empty() const { return mLongName.empty(); }
     };
 
     /*
@@ -145,7 +146,7 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
      * @brief Receive SDL event from the main thread
      * @param event SDL event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(const GuiNetPlayMessageType& event) override;
 
     /*!
      * @brief Look for a game in all gamelist available
@@ -192,7 +193,7 @@ class GuiNetPlay : public Gui, private Thread, private ISynchronousEvent
 
     bool mLobbyLoaded;
 
-    SyncronousEvent mSender;
+    SyncMessageSender<GuiNetPlayMessageType> mSender;
 
     NinePatchComponent mBackground;
     BusyComponent mBusyAnim;

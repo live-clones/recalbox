@@ -14,7 +14,7 @@
 
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
   : Gui(window)
-  , mEvent(this)
+  , mEvent(*this)
   , mWindow(window)
   , mSystemManager(systemManager)
   , mGameRandomSelector(systemManager, &mFilter)
@@ -102,7 +102,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
   if (mState == State::Quit)
   {
-    mEvent.Call(); // Asynchronous delete!
+    mEvent.Send(); // Asynchronous delete!
     mState = State::Terminated;
   }
 
@@ -294,9 +294,8 @@ bool GameClipView::getHelpPrompts(Help& help)
   return true;
 }
 
-void GameClipView::ReceiveSyncCallback(const SDL_Event& event)
+void GameClipView::ReceiveSyncMessage()
 {
-  (void)event;
   ViewController::Instance().quitGameClipView();
 }
 

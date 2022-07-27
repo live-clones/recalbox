@@ -12,7 +12,6 @@
 // TODO
 // - [ ] menu pour wiper les videos si plus de place
 // - [ ] enlever le loading... quand l'image est chargée
-// - [ ] Round robin/failover via DNS
 
 ScraperSeamless::ScraperSeamless()
   : StaticLifeCycleControler<ScraperSeamless>("SeamlessScrape")
@@ -25,7 +24,7 @@ ScraperSeamless::ScraperSeamless()
       ScreenScraperSingleEngine(this, &mEndPoints, this), ScreenScraperSingleEngine(this, &mEndPoints, this)
     }
   , mBusyEngines(0)
-  , mSender(this)
+  , mSender(*this)
   , mPool(this, "SeamlessScrape", true)
 {
   // Run the thread pool for texture loading
@@ -57,15 +56,10 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
   return feed;
 }
 
-bool ScraperSeamless::Authenticate()
+void ScraperSeamless::ReceiveSyncMessage(const ScrapeSeamlessMessage& message)
 {
-  return PatronInfo::Instance().IsPatron();
-}
-
-void ScraperSeamless::ReceiveSyncCallback(const SDL_Event& event)
-{
-  FileData* game = (FileData*)event.user.data1;
-  IScraperEngineStage::Stage stage = (IScraperEngineStage::Stage)event.user.code;
+  FileData* game = message.mGame;
+  IScraperEngineStage::Stage stage = message.mStage;
   IScraperEngineStage* interface = Pop(game, stage == IScraperEngineStage::Stage::Completed);
   if (game != nullptr && interface != nullptr)
     interface->StageCompleted(game, stage);
@@ -74,12 +68,12 @@ void ScraperSeamless::ReceiveSyncCallback(const SDL_Event& event)
 void ScraperSeamless::StageCompleted(FileData* game, IScraperEngineStage::Stage stage)
 {
   // Send result to main thread
-  mSender.Call((int)stage, (void*)game);
+  mSender.Send({ game, stage });
 }
 
 void ScraperSeamless::Push(FileData* game, IScraperEngineStage* interface)
 {
-  if (Authenticate() && !game->TopAncestor().ReadOnly() && RecalboxConf::Instance().GetScraperAuto())
+  if (PatronInfo::Instance().IsPatron() && !game->TopAncestor().ReadOnly() && RecalboxConf::Instance().GetScraperAuto())
   {
     // Need to run scrape again?
     long long ts = (long long)game->Metadata().TimeStamp();
