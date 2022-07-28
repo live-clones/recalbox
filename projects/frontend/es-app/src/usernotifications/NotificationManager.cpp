@@ -207,12 +207,10 @@ void NotificationManager::BuildStateCommons(std::string& output, const SystemDat
           .append("ImagePath=").append(eol);
 }
 
-void NotificationManager::BuildStateGame(std::string& output, const FileData* game)
+void NotificationManager::BuildStateGame(std::string& output, const FileData* game, Notification action)
 {
-  std::string emulator;
-  std::string core;
-
   if (game == nullptr) return;
+
   output.append("IsFolder=").append(game->IsFolder() ? "1" : "0").append(eol)
         .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append(eol)
         .append("VideoPath=").append(game->Metadata().Video().ToString()).append(eol)
@@ -226,22 +224,26 @@ void NotificationManager::BuildStateGame(std::string& output, const FileData* ga
         .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append(eol)
         .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol);
 
-  if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
-    output.append("Emulator=").append(emulator).append(eol)
-          .append("Core=").append(core).append(eol);
+  if (action != Notification::ScrapGame)
+  {
+    std::string emulator;
+    std::string core;
+    if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
+      output.append("Emulator=").append(emulator).append(eol).append("Core=").append(core).append(eol);
+  }
 }
 
-void NotificationManager::BuildStateSystem(std::string& output, const SystemData* system)
+void NotificationManager::BuildStateSystem(std::string& output, const SystemData* system, Notification action)
 {
-  std::string emulator;
-  std::string core;
-
   if (system == nullptr) return;
 
-  if (!system->IsVirtual())
+  if (!system->IsVirtual() && action != Notification::ScrapGame)
+  {
+    std::string emulator;
+    std::string core;
     if (system->Manager().Emulators().GetDefaultEmulator(*system, emulator, core))
-      output.append("DefaultEmulator=").append(emulator).append(eol)
-            .append("DefaultCore=").append(core).append(eol);
+      output.append("DefaultEmulator=").append(emulator).append(eol).append("DefaultCore=").append(core).append(eol);
+  }
 }
 
 void NotificationManager::BuildStateCompatibility(std::string& output, Notification action)
@@ -292,8 +294,8 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
     // Build all
     std::string output("Version=2.0"); output.append(eol);
     BuildStateCommons(output, system, game, action, actionParameters);
-    BuildStateGame(output, game);
-    BuildStateSystem(output, system);
+    BuildStateGame(output, game, action);
+    BuildStateSystem(output, system, action);
     BuildStateCompatibility(output, action);
 
     // Save
