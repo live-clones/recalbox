@@ -190,7 +190,7 @@ void Http::StoreDownloadInfo(const DateTime& start, const DateTime& stop, long l
   if (++sDownloadIndex >= sMaxBandwidthInfo) sDownloadIndex = 0;
   sDownloadCount++;
 
-  LOG(LogDebug) << "[Http] Average Bandwidth: " << (float)GetAverageBandwidth() << " bytes/s.";
+  { LOG(LogDebug) << "[Http] Average Bandwidth: " << (float)GetAverageBandwidth() << " bytes/s."; }
 }
 
 double Http::GetAverageBandwidth()

@@ -260,7 +260,7 @@ bool RecalboxSystem::getIpV4Address(std::string& result)
         void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
         char addressBuffer[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-        LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer;
+        { LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
         if (strcmp(ifa->ifa_name, "lo") != 0)
         {
           result = std::string(addressBuffer);
@@ -285,7 +285,7 @@ bool RecalboxSystem::getIpV6Address(std::string& result)
         void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-        LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer;
+        { LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
         if (strcmp(ifa->ifa_name, "lo") != 0)
         {
           result = std::string(addressBuffer);

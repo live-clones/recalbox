@@ -255,10 +255,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         FileData* file = LookupOrCreateGame(root, relativeTo, path, type, doppelgangerWatcher);
         if (file == nullptr)
         {
-          {
-            LOG(LogError) << "[Gamelist] Error finding/creating FileData for \"" << path.ToString()
-                          << "\", skipping.";
-          }
+          { LOG(LogError) << "[Gamelist] Error finding/creating FileData for \"" << path.ToString() << "\", skipping."; }
           continue;
         }
 
@@ -460,7 +457,7 @@ RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, Root
 
 FolderData& SystemData::GetFavoriteRoot()
 {
-  if (!IsFavorite()) {LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
+  if (!IsFavorite()) { LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
   return LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
 }
 

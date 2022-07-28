@@ -87,14 +87,14 @@ int main(int argc, char *argv[])
   // Keep it simple: Log are saved in emulationstation log file
   Log::open();
   Log::setReportingLevel(LogLevel::LogDebug);
-  LOG(LogInfo) << "Running pad2keyboard...";
+  { LOG(LogInfo) << "Running pad2keyboard..."; }
 
   // Parse command line arguments: get pad description
   Configuration configuration = ParseArguments(argc, argv);
   if (configuration.Debug) Log::setReportingLevel(LogLevel::LogDebug);
   if (!configuration.Valid())
   {
-    LOG(LogError) << "Missing arguments.";
+    { LOG(LogError) << "Missing arguments."; }
     return 1;
   }
 
@@ -102,50 +102,50 @@ int main(int argc, char *argv[])
   MappingConfiguration pad2KeybMapping(Path(configuration.RomPath));
   if (!pad2KeybMapping.Valid())
   {
-    LOG(LogInfo) << "No pad2keyb configuration.";
+    { LOG(LogInfo) << "No pad2keyb configuration."; }
     return 0;
   }
-  LOG(LogInfo) << "[Pad2Keyboard] user mapping loaded loaded.";
+  { LOG(LogInfo) << "[Pad2Keyboard] user mapping loaded loaded."; }
 
   // Get pad mapping from /recalbox/share/system/.emulationstation/es_input.cfg
   PadConfiguration padMapping(configuration);
   if (!padMapping.Ready())
   {
-    LOG(LogError) << "Cannot load pad configurations.";
+    { LOG(LogError) << "Cannot load pad configurations."; }
     return 1;
   }
-  LOG(LogInfo) << "[Pad2Keyboard] pad configuration loaded.";
+  { LOG(LogInfo) << "[Pad2Keyboard] pad configuration loaded."; }
 
   // Get pad event reader
   Pad pad(padMapping, configuration);
   if (!pad.Ready())
   {
-    LOG(LogError) << "Cannot access pad.";
+    { LOG(LogError) << "Cannot access pad."; }
     return 1;
   }
-  LOG(LogInfo) << "[Pad2Keyboard] Pad reader is ready.";
+  { LOG(LogInfo) << "[Pad2Keyboard] Pad reader is ready."; }
 
   // Create virtual keyboard device
   VirtualKeyboard keyboard;
   keyboard.Open();
   if (!keyboard.Ready())
   {
-    LOG(LogError) << "Cannot create virtual keyboard.";
+    { LOG(LogError) << "Cannot create virtual keyboard."; }
     return 1;
   }
-  LOG(LogInfo) << "[Pad2Keyboard] Virtual keyboard is ready.";
+  { LOG(LogInfo) << "[Pad2Keyboard] Virtual keyboard is ready."; }
 
   InitializedPad = &pad; // Give SIGTERM intercepter an access to the Pad reader
   Pad::Event event {};
   while(pad.GetEvent(event))
   {
-    LOG(LogWarning) << "Event read! " << (int)event.Item << " - " << (int)event.Pad << (int)event.On;
+    { LOG(LogWarning) << "Event read! " << (int)event.Item << " - " << (int)event.Pad << (int)event.On; }
     VirtualKeyboard::Event keyboardEvent = pad2KeybMapping.Translate(event);
-    LOG(LogWarning) << "Translated! " << (int)keyboardEvent.Key << " - " << (int)keyboardEvent.Pressed;
+    { LOG(LogWarning) << "Translated! " << (int)keyboardEvent.Key << " - " << (int)keyboardEvent.Pressed; }
     if (keyboardEvent.Key != 0) // Valid?
     {
       keyboard.Write(keyboardEvent);
-      LOG(LogDebug) << "Key: " << keyboardEvent.Key << (keyboardEvent.Pressed ? " Pressed" : " Released");
+      { LOG(LogDebug) << "Key: " << keyboardEvent.Key << (keyboardEvent.Pressed ? " Pressed" : " Released"); }
     }
   }
   InitializedPad = nullptr;

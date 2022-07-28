@@ -23,7 +23,7 @@ void StorageDevices::Initialize()
   {
     current = "RAM";
     mDevices.push_back(Device(Types::Ram, "SHARE",  sInMemory, "RECALBOX", "tmpfs",_("In Memory!")+ " \u26a0", true, sizeInfos));
-    LOG(LogWarning) << "[Storage] Share is stored in memory!";
+    { LOG(LogWarning) << "[Storage] Share is stored in memory!"; }
   }
 
   // Add Internal
@@ -33,7 +33,7 @@ void StorageDevices::Initialize()
   if (mBootConfiguration.HasKeyStartingWith("sharenetwork_") || mBootConfiguration.AsString("sharedevice") == "NETWORK")
   {
     mDevices.push_back(Device(Types::Internal, "", sNetwork, "", "", _("Network Share"), current == sNetwork, sizeInfos));
-    LOG(LogDebug) << "[Storage] Network share configuration detected";
+    { LOG(LogDebug) << "[Storage] Network share configuration detected"; }
   }
 
   // Go advance does not support external storage
@@ -66,7 +66,7 @@ void StorageDevices::Initialize()
 
       // Store
       mDevices.push_back(Device(Types::External, devicePath, uuid, label, filesystem, displayable, current == uuid, sizeInfos));
-      LOG(LogDebug) << "[Storage] External storage: " << devicePath << ' ' << uuid << " \"" << label << "\" " << filesystem;
+      { LOG(LogDebug) << "[Storage] External storage: " << devicePath << ' ' << uuid << " \"" << label << "\" " << filesystem; }
     }
 }
 
@@ -146,13 +146,13 @@ void StorageDevices::AnalyseMounts()
     Strings::Vector items = Strings::Split(line, ' ', true);
     if (items.size() < 6)
     {
-      LOG(LogError) << "[Storage] Incomplete mount line: " << line;
+      { LOG(LogError) << "[Storage] Incomplete mount line: " << line; }
       continue;
     }
     if (items[2] == "/recalbox/share") mShareInRAM =  (items[4] == "tmpfs");
     else if (items[2] == "/boot") mBootRoot = Strings::Trim(items[0], "0123456789");
   }
   if (mBootRoot.empty()) mBootRoot = "/dev/boot"; // for testing purpose only :)
-  LOG(LogDebug) << "[Storage] BootRoot: " << mBootRoot << " - Is In Ram: " << mShareInRAM;
+  { LOG(LogDebug) << "[Storage] BootRoot: " << mBootRoot << " - Is In Ram: " << mShareInRAM; }
 }
 

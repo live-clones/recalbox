@@ -52,9 +52,9 @@ CrtView::~CrtView()
 {
   CrtConf::Instance().Save();
 
-  if (system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
+  if (system("mount -o remount,rw /boot") != 0) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
   Path(sTimingFile).Delete();
-  if (system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
+  if (system("mount -o remount,ro /boot") != 0) { LOG(LogError) << "[IniFile] Error remounting boot partition (RW)"; }
 }
 
 void CrtView::Render(const Transform4x4f& parentTrans)
@@ -211,7 +211,7 @@ void CrtView::UpdatePosition()
     Array<int> values((int)items.size());
     for(int i = (int)items.size(); --i >= 0; )
       if (!Strings::ToInt(items[i], values(i)))
-        LOG(LogError) << "[CrtView] Mode " << line << " contains invalid value at index " << i;
+      { LOG(LogError) << "[CrtView] Mode " << line << " contains invalid value at index " << i; }
 
     if (values[sHorizontalFrontPorch] - hOffset > 0 && values[sHorizontalBackPorch] + hOffset > 0)
     {
