@@ -220,15 +220,17 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @brief Build es_state.info game information into output string
      * @param output Output string
      * @param game Game or nullptr
+     * @param action Notification
      */
-    static void BuildStateGame(std::string& output, const FileData* game);
+    static void BuildStateGame(std::string& output, const FileData* game, Notification action);
 
     /*!
      * @brief Build es_state.info system information into output string
      * @param output Output string
      * @param game System or nullptr
+     * @param action Notification
      */
-    static void BuildStateSystem(std::string& output, const SystemData* system);
+    static void BuildStateSystem(std::string& output, const SystemData* system, Notification action);
 
     /*!
      * @brief Build es_state.info compatibility key/values
