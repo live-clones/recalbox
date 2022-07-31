@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix older nVidia adapters support
 - Fix auto framerate selection for video mode on retroarch
 - Duplicate the option to show only favorites in gamelists menu
+- Fix audio menu crash
 
 ## Version 8.1-Electron
 

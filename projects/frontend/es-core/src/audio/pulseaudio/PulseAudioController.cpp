@@ -390,9 +390,6 @@ IAudioController::DeviceList PulseAudioController::GetPlaybackList()
   // API Sync'
   Mutex::AutoLock locker(mAPISyncer);
 
-  // Refresh all objects
-  Refresh();
-
   Mutex::AutoLock lock(mSyncer);
   DeviceList result;
 
@@ -557,6 +554,7 @@ std::string PulseAudioController::GetDefaultSink()
 {
   // Enumerate cards
   { LOG(LogInfo) << "[PulseAudio] Get server info"; }
+
   pa_operation* serverInfoOp = pa_context_get_server_info(mPulseAudioContext, GetServerInfoCallback, this);
   // Wait for response
   mSignal.WaitSignal(sTimeOut);
@@ -569,6 +567,8 @@ std::string PulseAudioController::GetActivePlaybackName()
 {
   std::string playbackName = "";
   std::string sinkName = GetDefaultSink();
+
+  LOG(LogDebug) << "[PulseAudio] Default sink name is '" << sinkName << "'";
 
   // return special playback name (like auto)
   switch(Board::Instance().GetBoardType())
@@ -584,7 +584,16 @@ std::string PulseAudioController::GetActivePlaybackName()
   if (sinkName == "")
     return "";
 
-  const Card* card = GetCardByIndex(GetSinkFromName(sinkName)->CardIndex);
+  // Refresh all objects
+  // We need to refresh now in case a new sink has been added
+  Refresh();
+  const PulseAudioController::Sink* sink = GetSinkFromName(sinkName);
+
+  if (!sink) {
+    LOG(LogDebug) << "[PulseAudio] Sink not found... bailing out";
+    return "";
+  }
+  const Card* card = GetCardByIndex(sink->CardIndex);
 
   // Classic audio sink (card + port + profile)
   if (card != nullptr && card->Ports.size() > 0)
@@ -598,6 +607,7 @@ std::string PulseAudioController::GetActivePlaybackName()
   else
     playbackName.append(sinkName).append(":");
   
+  LOG(LogDebug) << "[PulseAudio] Playback name is '" << playbackName << "'";
   return playbackName;
 }
 
