@@ -14,19 +14,22 @@
 BasicGameListView::BasicGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
 	: ISimpleGameListView(window, systemManager, system)
 	, mList(window)
+  , mEmptyList(window)
   , mElapsedTimeOnGame(0)
   , mIsScraping(false)
 	, mHasGenre(false)
-  , mEmptyListItem(&system)
   , mPopulatedFolder(nullptr)
 {
 	mList.setSize(mSize.x(), mSize.y() * 0.8f);
 	mList.setPosition(0, mSize.y() * 0.2f);
 	mList.setDefaultZIndex(20);
+  mEmptyList.setUppercase(true);
+  mEmptyList.setVerticalAlignment(TextAlignment::Center);
+  mEmptyList.setHorizontalAlignment(TextAlignment::Center);
 
   addChild(&mList);
+  addChild(&mEmptyList);
 
-	mEmptyListItem.Metadata().SetName(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."));
 	populateList(system.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
@@ -40,6 +43,7 @@ void BasicGameListView::onThemeChanged(const ThemeData& theme)
 {
 	ISimpleGameListView::onThemeChanged(theme);
 	mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
+  mEmptyList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
 	// Set color 2/3 50% transparent of color 0/1
 	mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
   mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
@@ -99,7 +103,7 @@ void BasicGameListView::populateList(const FolderData& folder)
   else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
 
   // Check emptyness
-  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+  mEmptyList.setText(items.empty() ? Strings::Empty : _("Your list is empty!\nAll your games are filtered out.\nPress START to change game filters."));
 
   // Sort
   FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() : RecalboxConf::Instance().GetSystemSort(mSystem);

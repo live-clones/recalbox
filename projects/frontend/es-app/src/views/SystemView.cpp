@@ -159,7 +159,7 @@ void SystemView::addSystem(SystemData * it)
 SystemData* SystemView::Prev()
 {
   SystemData* prev = mSystemManager.PreviousVisible(mCurrentSystem);
-  while(!prev->HasVisibleGame()) {
+  while(!prev->HasGame()) {
     prev = mSystemManager.PreviousVisible(prev);
   }
 
@@ -170,7 +170,7 @@ void SystemView::RemoveCurrentSystem()
 {
   std::vector<Entry> newEntries;
     for(auto& systemView : mEntries)
-      if (systemView.object == mCurrentSystem && mCurrentSystem->HasVisibleGame())
+      if (systemView.object == mCurrentSystem && mCurrentSystem->HasGame())
       {
         newEntries.push_back(systemView);
         break;
@@ -196,8 +196,8 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (const auto it : mSystemManager.GetVisibleSystemList())
-    if (it->HasVisibleGame())
+	for (const auto& it : mSystemManager.GetVisibleSystemList())
+    if (it->HasGame())
       addSystem(it);
 }
 
@@ -833,12 +833,12 @@ void SystemView::manageFavorite()
 
 void SystemView::manageSystemsList()
 {
-  for (auto& system : mSystemManager.GetAllSystemList())
+  for (SystemData* system : mSystemManager.GetAllSystemList())
   {
     if(system->Descriptor().IsPort())
       continue;
 
-    bool hasGame = system->HasVisibleGame();
+    bool hasGame = system->HasGame();
     bool systemIsAlreadyVisible = false;
 
     for (auto& mEntrie : mEntries)

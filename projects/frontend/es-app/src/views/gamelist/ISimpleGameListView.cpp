@@ -92,8 +92,8 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
     return ;
   }
 
-  if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
-    return;
+  //if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
+  //  return;
 
   if (file->IsGame())
   {

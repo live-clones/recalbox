@@ -97,7 +97,7 @@ public:
 	 */
 	IProgressInterface& GetProgressInterface() { return mSplashView; }
 
-  bool CheckFilters();
+  //bool CheckFilters();
 
   private:
 	void playViewTransition();
@@ -149,5 +149,5 @@ public:
     /*!
      * @brief Reset game filters
      */
-    void ResetFilters();
+    //void ResetFilters();
 };

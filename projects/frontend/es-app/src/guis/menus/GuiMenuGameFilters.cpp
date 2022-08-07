@@ -17,7 +17,6 @@
 GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
   :	GuiMenuBase(window, _("GAME FILTERS"), nullptr)
 {
-
   AddSwitch(_("SHOW ONLY LATEST VERSION") + " (BETA)", RecalboxConf::Instance().GetShowOnlyLatestVersion(), (int)Components::ShowOnlyLatestVersion, this, _(MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG));
 
   AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
@@ -29,12 +28,11 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
   AddSwitch(_("HIDE PREINSTALLED GAMES"), RecalboxConf::Instance().GetGlobalHidePreinstalled(), (int)Components::HidePreinstalled, this, _(MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG));
 
   AddSwitch(_("HIDE NO GAMES"), RecalboxConf::Instance().GetHideNoGames(), (int)Components::NoGames, this, _(MENUMESSAGE_UI_HIDE_NO_GAMES_MSG));
-
 }
 
 GuiMenuGameFilters::~GuiMenuGameFilters()
 {
-  if(!ViewController::Instance().CheckFilters())
+  //if(!ViewController::Instance().CheckFilters())
    ManageSystems();
 }
 
@@ -75,7 +73,7 @@ void GuiMenuGameFilters::ManageSystems()
   ViewController::Instance().getGameListView(systemData)->refreshList();
 
   ViewController::Instance().setAllInvalidGamesList(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
+  //ViewController::Instance().getSystemListView().manageSystemsList();
 
   // for updating game counts on system view
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);

@@ -42,5 +42,5 @@ class GuiMenuGameFilters : public GuiMenuBase
     /*!
     * @brief Manage all systems
     */
-    void ManageSystems();
+    static void ManageSystems();
 };

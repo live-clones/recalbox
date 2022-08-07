@@ -63,9 +63,8 @@ public:
 protected:
 	void launch(FileData* game) override { ViewController::Instance().Launch(game, GameLinkedData(), Vector3f()); }
 
-  FileData* getEmptyListItem() override { return &mEmptyListItem; }
-
   TextListComponent<FileData*> mList;
+  TextComponent mEmptyList;
 
   std::string GetDisplayName(FileData* game);
 
@@ -83,7 +82,6 @@ private:
   //! Elapsed time since starting seamless scraping before displaying busy animation
   static constexpr int sMaxScrapingTimeBeforeBusyAnim = 200; // 200ms
 
-  EmptyData mEmptyListItem;
   const FolderData *mPopulatedFolder;
 
 	std::string getItemIcon(FileData* item);

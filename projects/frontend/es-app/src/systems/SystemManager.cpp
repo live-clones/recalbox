@@ -943,7 +943,7 @@ int SystemManager::getVisibleSystemIndex(const std::string &name)
 SystemData* SystemManager::FirstNonEmptySystem()
 {
   for (auto &system : mVisibleSystemVector)
-    if (system->HasVisibleGame())
+    if (system->HasGame())
       return system;
 
   return nullptr;
