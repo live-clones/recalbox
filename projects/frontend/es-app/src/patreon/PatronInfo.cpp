@@ -27,7 +27,7 @@ void PatronInfo::Initialize()
   if (!mToken.empty())
   {
     unsigned int start = SDL_GetTicks();
-    while(SDL_GetTicks() - start < sNetworkTimeout)
+    while((SDL_GetTicks() - start) < sNetworkTimeout)
     {
       Http http;
       http.SetBearer(mToken);
@@ -37,7 +37,7 @@ void PatronInfo::Initialize()
       if (http.Execute(url, body))
       {
         bool success = http.GetLastHttpResponseCode() == 200;
-        { LOG(LogInfo) << "[Patreon] " << (success ? "Successfully" : "Not") << " authenticated"; }
+        { LOG(LogInfo) << "[Patreon] Request " << (success ? " successful" : "failed"); }
         if (success)
         {
           rapidjson::Document json;
@@ -50,19 +50,20 @@ void PatronInfo::Initialize()
               mName = response.GetString();
               bool active = std::string(json["patron_status"].GetString()) == "active_patron";
               mResult = active ? PatronAuthenticationResult::Patron : PatronAuthenticationResult::FormerPatron;
+              { LOG(LogInfo) << "[Patreon] You're a " << (active ? "Patron!" : "Former patron"); }
               mLevel = json["tier_status"].GetInt();
               break;
             }
             else
             {
-              LOG(LogError) << "[Patreon] API error, missing fields";
+              { LOG(LogError) << "[Patreon] API error, missing fields"; }
               mResult = PatronAuthenticationResult::ApiError;
               break;
             }
           }
           else
           {
-            LOG(LogError) << "[Patreon] Json parsing error";
+            { LOG(LogError) << "[Patreon] Json parsing error"; }
             mResult = PatronAuthenticationResult::ApiError;
             break;
           }
@@ -71,13 +72,13 @@ void PatronInfo::Initialize()
         {
           if (http.GetLastHttpResponseCode() == 401)
           {
-            LOG(LogError) << "[Patreon] Invalid key!";
+            { LOG(LogError) << "[Patreon] Invalid key!"; }
             mResult = PatronAuthenticationResult::Invalid;
             break;
           }
           else
           {
-            LOG(LogError) << "[Patreon] Http error: " << http.GetLastHttpResponseCode();
+            { LOG(LogError) << "[Patreon] Http error: " << http.GetLastHttpResponseCode(); }
             mResult = PatronAuthenticationResult::HttpError;
             Thread::Sleep(10000); // Wait 10s & retry
           }
@@ -85,15 +86,15 @@ void PatronInfo::Initialize()
       }
       else
       {
-        LOG(LogError) << "[Patreon] Unknown Http error";
+        { LOG(LogError) << "[Patreon] Unknown Http error"; }
         mResult = PatronAuthenticationResult::HttpError;
         Thread::Sleep(1000); // Wait 1s & retry
       }
     }
 
-    if (SDL_GetTicks() - start >= sNetworkTimeout)
+    if (!RecalboxSystem::hasIpAdress(false))
     {
-      LOG(LogError) << "[Patreon] No network";
+      { LOG(LogError) << "[Patreon] No network"; }
       mResult = PatronAuthenticationResult::NetworkError;
     }
   }
