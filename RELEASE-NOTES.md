@@ -6,6 +6,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.1-Electron
 
+- Fix auto framerate selection for video mode on retroarch
+
+## Version 8.1-Electron
+
 ### News
 
 - Add Raspberry Pi 4 64 bit support
