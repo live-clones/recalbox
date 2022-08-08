@@ -58,12 +58,6 @@ if [ "${gpu}" ] && [ "${igpu}" ]; then
         fi
 fi
 
-# unload nouveau. udev may have loaded it first
-if lsmod | grep -q ^nouveau; then
-  echo 0 > /sys/class/vtconsole/vtcon1/bind
-  rmmod nouveau
-fi
-
 # set paths/vars
 libs="/usr/lib"
 xorg="${libs}/xorg/modules"
@@ -83,6 +77,13 @@ else
 	echo "GPU: ${gpu}, id: ${gpuid}, is unknown or unsupported, skipping nvidia driver installation"
 	exit 0
 fi
+
+# unload nouveau. udev may have loaded it first
+if lsmod | grep -q ^nouveau; then
+  echo 0 > /sys/class/vtconsole/vtcon1/bind
+  rmmod nouveau
+fi
+
 # proceed installation
 mount -o remount, rw /
 echo "blacklist nouveau" >> "${blacklistFile}"
