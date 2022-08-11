@@ -335,7 +335,7 @@ template<class FeedObject, class ResultObject>
 void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
 {
   int loop = -1;
-  nice(-mPriority);
+  if (nice(-mPriority) <0) { LOG(LogError) << "[ThreadPool] Cannot change thread priority!"; }
   while(IsRunning())
   {
     // Wait start signal
