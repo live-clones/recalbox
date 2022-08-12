@@ -65,6 +65,8 @@ if(BCMHOST_FOUND)
     add_definitions(-D_RPI_)
 endif()
 
+add_definitions(-D_FILE_OFFSET_BITS=64)
+
 #-------------------------------------------------------------------------------
 option(USE_DRMKMS "Use DRM/KMS backend." OFF)
 
