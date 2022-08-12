@@ -3,14 +3,15 @@
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Signal.h>
 #include "ISyncTimer.h"
-#include "SyncronousEvent.h"
-#include "ISynchronousEvent.h"
+#include <utils/sync/SyncMessageSender.h>
+#include <utils/sync/ISyncMessageReceiver.h>
 
-class SyncTimer : private Thread, private ISynchronousEvent
+class SyncTimer : private Thread
+                , private ISyncMessageReceiver<void>
 {
   private:
     //! Synchronous Event manager
-    SyncronousEvent mSender;
+    SyncMessageSender<void> mSender;
 
     //! Timer's thread name
     std::string mName;
@@ -31,16 +32,15 @@ class SyncTimer : private Thread, private ISynchronousEvent
     bool mRepeat;
 
     /*
-     *  ISynchronousEvent implementation
+     *  ISyncMessageReceiver implementation
      */
 
     /*!
      * @brief Synchronous event callback
      * @param event Received event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override
+    void ReceiveSyncMessage() override
     {
-      (void)event;
       if (mCallback != nullptr)
         mCallback->TimerTick(mIdentifier);
     }
@@ -61,7 +61,7 @@ class SyncTimer : private Thread, private ISynchronousEvent
      * @param identifier Identifier passed to the timer callback to identify the source timer
      */
     SyncTimer(ISyncTimer* callback, int identifier, const std::string& name)
-      : mSender(this),
+      : mSender(*this),
         mName(name),
         mCallback(callback),
         mIdentifier(identifier),

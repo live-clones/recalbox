@@ -23,7 +23,7 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& i
   , mNewVersion(newVersion)
   , mTotalSize(0)
   , mCurrentSize(0)
-  , mSender(this)
+  , mSender(*this)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
 {
@@ -139,7 +139,7 @@ void GuiUpdateRecalbox::Run()
   if (system("mount -o remount,rw /boot") != 0)
   {
     { LOG(LogError) << "[UpdateGui] Cannot mount /boot RW!"; }
-    mSender.Call(-1);
+    mSender.Send(-1);
   }
   // Empty target folder
   if (system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data()) != 0)
@@ -174,7 +174,7 @@ void GuiUpdateRecalbox::Run()
 
   // Error
   destination.Delete();
-  mSender.Call(-1);
+  mSender.Send(-1);
 }
 
 void GuiUpdateRecalbox::DownloadProgress(const Http&, long long int currentSize, long long int expectedSize)
@@ -182,12 +182,12 @@ void GuiUpdateRecalbox::DownloadProgress(const Http&, long long int currentSize,
   // Store data and synchronize
   mTotalSize = expectedSize;
   mCurrentSize = currentSize;
-  mSender.Call(0);
+  mSender.Send(0);
 }
 
-void GuiUpdateRecalbox::ReceiveSyncCallback(const SDL_Event& event)
+void GuiUpdateRecalbox::ReceiveSyncMessage(int code)
 {
-  if (event.user.code == 0)
+  if (code == 0)
   {
     // Load size into progress bar component
     mBar->setMaxValue(mTotalSize);
@@ -204,7 +204,7 @@ void GuiUpdateRecalbox::ReceiveSyncCallback(const SDL_Event& event)
       mEta->setText(text);
     }
   }
-  else if (event.user.code < 0)
+  else if (code < 0)
   {
     mEta->setText(mError);
     mGrid.onSizeChanged();

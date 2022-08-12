@@ -679,7 +679,7 @@ DetailedGameListView::~DetailedGameListView()
 
 void DetailedGameListView::setRegions(FileData* file)
 {
-  Strings::Vector regionList = Strings::SplitQuotted(file->Regions(), ',');
+  Strings::Vector regionList = Strings::SplitQuoted(file->Regions(), ',');
 
   // reinit non used region flags
   for(unsigned long idx = 0; idx < mRegions.size(); idx++)

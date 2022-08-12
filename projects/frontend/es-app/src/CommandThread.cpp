@@ -8,7 +8,7 @@
 CommandThread::CommandThread(SystemManager& systemManager)
   : mSystemManager(systemManager),
     mSocket(-1),
-    mEvent(this)
+    mEvent(*this)
 {
   Thread::Start("CommandThread");
 }
@@ -22,7 +22,7 @@ void CommandThread::Run()
 {
   try
   {
-    sleep(5);
+    Thread::Sleep(5000);
 
     { LOG(LogInfo) << "[Command] CommandThread started"; }
 
@@ -46,7 +46,7 @@ void CommandThread::Run()
 
         // Get and check game
         FileData* result = system->MasterRoot().LookupGame(gameName, FileData::SearchAttributes::ByNameWithExt);
-        if (result != nullptr) { LOG(LogInfo) << "[Command] Starting game " << gameName << " for system " << systemName; mEvent.Call(result); }
+        if (result != nullptr) { LOG(LogInfo) << "[Command] Starting game " << gameName << " for system " << systemName; mEvent.Send(result); }
         else { LOG(LogError) << "[Command] Couldn't find game " << gameName << " for system " << systemName; }
       }
   }
@@ -61,8 +61,8 @@ std::string CommandThread::ReadUDP() const
 {
   sockaddr_in si_other = {};
   char buffer[2048];
-  long size, slen = sizeof(si_other);
-  if ((size = recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen)) > 0)
+  long slen = sizeof(si_other);
+  if (long size = recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen); size > 0)
     return std::string(buffer, size);
   return std::string();
 }
@@ -86,17 +86,14 @@ bool CommandThread::OpenUDP()
         return true;
     }
     // Wait a bit before the next try
-    sleep(1);
+    Thread::Sleep(1000);
   }
 
   return false;
 }
 
-void CommandThread::ReceiveSyncCallback(const SDL_Event& event)
+void CommandThread::ReceiveSyncMessage(FileData* const& game)
 {
-  // Get game
-  FileData* game = (FileData*)event.user.data1;
-
   ViewController::Instance().WakeUp();
   ViewController::Instance().Launch(game, GameLinkedData(), Vector3f());
 }

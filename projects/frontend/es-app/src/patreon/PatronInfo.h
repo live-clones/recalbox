@@ -7,15 +7,14 @@
 #pragma once
 
 #include <string>
-#include <utils/network/Http.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/SyncronousEvent.h>
 #include <patreon/IPatreonNotification.h>
+#include <utils/sync/SyncMessageSender.h>
 
 class PatronInfo : public StaticLifeCycleControler<PatronInfo>
                  , public Thread
-                 , public ISynchronousEvent
+                 , public ISyncMessageReceiver<void>
 {
   public:
     explicit PatronInfo(IPatreonNotification* callback);
@@ -31,26 +30,26 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      * @returns true if the user is a patron
      * @note Boolean are atomic values, there is no need to protect them against Multi thread access
      */
-    bool IsPatron() const { return mResult == PatronAuthenticationResult::Patron; }
+    [[nodiscard]] bool IsPatron() const { return mResult == PatronAuthenticationResult::Patron; }
 
     /*!
      * @brief Get boss level (or 0 if the user is not a patron)
      * @return Boss level
      */
-    int BossLevel() const { return mLevel; }
+    [[nodiscard]] int BossLevel() const { return mLevel; }
 
     /*!
      * @brief Get current patron status
      * @return Patron status
      */
-    PatronAuthenticationResult Status() const { return mResult; }
+    [[nodiscard]] PatronAuthenticationResult Status() const { return mResult; }
 
     /*!
      * @brief Wait indefinitely for authentication to finish
      * Can take up to 4mn. Call from a thread only!
      * @param caller Calling thread
      */
-    void WaitForAuthentication(Thread& caller);
+    void WaitForAuthentication(Thread& caller) const;
 
   protected:
     /*!
@@ -64,7 +63,7 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
     //! Patreon api base url
     static constexpr const char *sRootDomainName = "https://api-patreon.recalbox.com";
 
-    SyncronousEvent mEvent;             //!< Synchronous event to send/receive synchronized messages
+    SyncMessageSender<void> mEvent;     //!< Synchronous event to send/receive synchronized messages
 
     Mutex       mLocker;                //!< Prevent members from being accessed from different threads
     std::string mToken;                 //!< User toten from Patreon
@@ -81,7 +80,6 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
 
     /*!
      * @brief Received synchronous events
-     * @param event SCL2 event
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() final;
 };

@@ -190,25 +190,25 @@ template<typename T> class Array : private Allocator
      * Get array length
      * @return Number of items in the array
      */
-    int Count() const { return fCount; }
+    [[nodiscard]] int Count() const { return fCount; }
 
     /*!
      * Return whether the list is empty or not
      * @return True if there is no element
      */
-    bool Empty() const { return fCount == 0; }
+    [[nodiscard]] bool Empty() const { return fCount == 0; }
 
     /*!
      * Return whether the list has at least one element or not
      * @return True if there is at least one element
      */
-    bool HasElement() const { return fCount != 0; }
+    [[nodiscard]] bool HasElement() const { return fCount != 0; }
 
     /*!
      * Get array byte size
      * @return Sie of the array in byte
      */
-    int ByteSize() const { return Capacity() * sizeof(T); }
+    [[nodiscard]] int ByteSize() const { return Capacity() * sizeof(T); }
 
     /*!
      * Get array capacity (before memory reallocation)
@@ -222,6 +222,7 @@ template<typename T> class Array : private Allocator
     void Clear() { Resize(0); fCount = 0; }
     void Delete(int index) { Contract(index, 1); }
     void Delete(int index, int count) { Contract(index, count); }
+    void DeleteLast() { if (--fCount < 0) fCount = 0; }
 
     /*!
      * If the array size exceed the given size, it is truncated to the given size.

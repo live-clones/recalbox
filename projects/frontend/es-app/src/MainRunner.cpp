@@ -6,7 +6,6 @@
 #include <utils/Log.h>
 #include <utils/Files.h>
 #include <utils/locale/Internationalizer.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <audio/AudioManager.h>
 #include <views/ViewController.h>
 #include <systems/SystemManager.h>
@@ -68,6 +67,9 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
+    // Inter-thread messaging system
+    SyncMessageFactory syncMessageFactory;
+
     // Hardware board
     Board board(*this);
 
@@ -179,7 +181,7 @@ MainRunner::ExitState MainRunner::Run()
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
 
       // Main SDL loop
-      exitState = MainLoop(window, systemManager, fileNotifier);
+      exitState = MainLoop(window, systemManager, fileNotifier, syncMessageFactory);
 
       ResetExitState();
       fileNotifier.ResetEventNotifier();
@@ -248,11 +250,12 @@ void MainRunner::DeleteReadyFlagFile()
   ready.Delete();
 }
 
-MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier)
+MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier, SyncMessageFactory& syncMessageFactory)
 {
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
+  // Demo mode (real game launching)
   DemoMode demoMode(window, systemManager);
 
   { LOG(LogDebug) << "[MainRunner] Entering main loop"; }
@@ -263,6 +266,9 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
     // File watching
     fileNotifier.CheckAndDispatch();
     InputManager::Instance().WatchJoystickAddRemove(&window);
+
+    // Sync'ed message
+    syncMessageFactory.DispatchMessage();
 
     // SDL
     SDL_Event event;
@@ -300,11 +306,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
           if (window.Closed()) RequestQuit(ExitState::Quit);
           break;
         }
-        default:
-        {
-          SyncronousEventService::Instance().Dispatch(&event);
-          break;
-        }
+        default: break;
       }
     }
 
@@ -602,12 +604,6 @@ void MainRunner::SetLocale(const std::string& executablePath)
   { LOG(LogWarning) << "[Locale] No locale found. Default text used."; }
 }
 
-void MainRunner::ReceiveSyncCallback(const SDL_Event& /*event*/)
-{
-  //sQuitRequested = true;
-  //sRequestedExitState = (ExitState)event.user.code;
-}
-
 void MainRunner::RequestQuit(MainRunner::ExitState requestedState, bool forceReloadFromDisk)
 {
   ViewController::Instance().quitGameClipView();
@@ -784,27 +780,26 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
       mApplicationWindow->pushGui((new GuiWaitLongExecution<HardwareTriggeredSpecialOperations, bool>(*mApplicationWindow, *this))
                                       ->Execute(HardwareTriggeredSpecialOperations::PowerOff, _("Bye bye!")));
     }
+    return;
+  }
+
+  // The application is not Running, execute orders immediately
+  if (milliseconds < sPowerButtonThreshold)
+  {
+    { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: suspending"; }
+    // Only if supported. Otherwise does nothing
+    if (Board::Instance().HasSuspendResume())
+      Board::Instance().Suspend();
   }
   else
   {
-    // The application is not Running, execute orders immediately
-    if (milliseconds < sPowerButtonThreshold)
-    {
-      { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: suspending"; }
-      // Only if supported. Otherwise does nothing
-      if (Board::Instance().HasSuspendResume())
-        Board::Instance().Suspend();
-    }
-    else
-    {
-      { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: shutting down"; }
-      Files::SaveFile(Path(sQuitNow), std::string());
-      Files::SaveFile(Path(sStopDemo), std::string());
-      // Gracefuly qui emulators and all the call chain
-      ProcessTree::TerminateAll(1000);
-      // Quit
-      RequestQuit(ExitState::Shutdown);
-    }
+    { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: shutting down"; }
+    Files::SaveFile(Path(sQuitNow), std::string());
+    Files::SaveFile(Path(sStopDemo), std::string());
+    // Gracefuly qui emulators and all the call chain
+    ProcessTree::TerminateAll(1000);
+    // Quit
+    RequestQuit(ExitState::Shutdown);
   }
 }
 

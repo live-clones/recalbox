@@ -4,17 +4,16 @@
 
 #include <RootFolders.h>
 #include <utils/Log.h>
-#include <algorithm>
 #include <utils/Files.h>
 #include <utils/datetime/DateTime.h>
 #include "BiosManager.h"
 
 BiosManager::BiosManager()
-  : StaticLifeCycleControler<BiosManager>("BiosManager"),
-    #ifndef PURE_BIOS_ONLY
-      mSender(this),
-    #endif
-    mReporting(nullptr)
+  : StaticLifeCycleControler<BiosManager>("BiosManager")
+  #ifndef PURE_BIOS_ONLY
+  , mSender(*this)
+  #endif
+  , mReporting(nullptr)
 {
 }
 
@@ -64,14 +63,14 @@ void BiosManager::Run()
     {
       biosList.ScanAt(i);
       #ifndef PURE_BIOS_ONLY
-        mSender.Call((l << 16) + i, mReporting);
+        mSender.Send(BiosMessage::SingleBiosReport(mReporting, l, i));
       #endif
     }
   }
 
   // End of scan
   #ifndef PURE_BIOS_ONLY
-    mSender.Call(-1, mReporting);
+    mSender.Send(BiosMessage::EndBiosReport(mReporting));
   #endif
 
   // Nullify interface
@@ -82,12 +81,12 @@ void BiosManager::Run()
 }
 
 #ifndef PURE_BIOS_ONLY
-void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
+void BiosManager::ReceiveSyncMessage(const BiosMessage& message)
 {
   // Extract interface
-  IBiosScanReporting* reporting = ((IBiosScanReporting*)event.user.data1);
+  IBiosScanReporting* reporting = message.mReporting;
 
-  if (event.user.code < 0)
+  if (message.mComplete)
   {
     if (reporting != nullptr)
       reporting->ScanComplete();
@@ -96,13 +95,9 @@ void BiosManager::ReceiveSyncCallback(const SDL_Event& event)
   }
   else
   {
-    // Extraxt data
-    int biosIndex = event.user.code & 0xFFFF;
-    int biosListIndex = (event.user.code >> 16) & 0xFFFF;
-
     // Call interface
     if (reporting != nullptr)
-      reporting->ScanProgress(SystemBios(biosListIndex).BiosAt(biosIndex));
+      reporting->ScanProgress(SystemBios(message.mListIndex).BiosAt(message.mIndex));
   }
 }
 #endif

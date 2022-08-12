@@ -2,7 +2,7 @@
  * File:   Upgrade.cpp
  * Author: matthieu
  * 
- * Created on 6 février 2015, 11:40
+ * Created on 6 February 2015, 11:40
  */
 
 #include <guis/GuiInfoPopupBase.h>
@@ -10,7 +10,6 @@
 #include <resolv.h>
 #include "utils/network/Http.h"
 #include <utils/Files.h>
-#include <algorithm>
 #include "Upgrade.h"
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
@@ -25,8 +24,8 @@ std::string Upgrade::mRemoteReleaseNote;
 std::string Upgrade::mLocalReleaseNote;
 
 Upgrade::Upgrade(WindowManager& window)
-  : mWindow(window),
-    mSender(this)
+  : mWindow(window)
+  , mSender(*this)
 {
   Thread::Start("Upgrade");
 }
@@ -92,7 +91,7 @@ void Upgrade::Run()
             }
           }
 
-          mSender.Call();
+          mSender.Send();
         }
         else { LOG(LogInfo) << "[Update] Remote version match local version. No update."; }
       }
@@ -106,10 +105,8 @@ void Upgrade::Run()
   }
 }
 
-void Upgrade::ReceiveSyncCallback(const SDL_Event& event)
+void Upgrade::ReceiveSyncMessage()
 {
-  (void)event;
-
   // Volatile popup
   mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, PatronInfo::Instance().IsPatron() ? 10 : 30, GuiInfoPopupBase::PopupType::Recalbox));
 
@@ -124,9 +121,9 @@ std::string Upgrade::GetDomainName()
 
   // Select DNS to query
   std::string target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
-  // If target has been set to patron, we set it as unexisting, to avoid the upgrade if the key is not valid
+  // If target has been set to patron, we set it as not existing, to avoid the upgrade if the key is not valid
   if(target == "patron")
-    target = "unexisting";
+    target = "not-existing";
   // And if we are a patron, we can upgrade
   if (PatronInfo::Instance().IsPatron() && target != "alpha")
     target = "patron";

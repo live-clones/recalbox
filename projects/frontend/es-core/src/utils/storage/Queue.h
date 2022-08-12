@@ -20,10 +20,24 @@ template<typename T> class Queue : private Allocator
     int mIn;
 
     /*!
+     * @brief Add an increment to the given value, modulo the capacity
+     * @param value Source value
+     * @param inc Increment
+     * @return Adjusted value
+     */
+    [[nodiscard]] int Inc(int value, int inc)
+    {
+      int c = Capacity();
+      if (inc >= c) inc %= c;
+      if ((value += inc) >= c) value -= c;
+      return value;
+    }
+
+    /*!
      * @brief Get free items in the current space area
      * @return Free items
      */
-    int FreeSpace() const
+    [[nodiscard]] int FreeSpace() const
     {
       int Free = mOut - mIn;
       if (Free <= 0) Free = Capacity() + Free;
@@ -34,7 +48,7 @@ template<typename T> class Queue : private Allocator
      * @brief Get allocated items in the current space area
      * @return
      */
-    int AllocatedSpace() const { return Capacity() - FreeSpace(); }
+    [[nodiscard]] int AllocatedSpace() const { return Capacity() - FreeSpace(); }
 
     /*!
      * @brief Make the Queue grow according to the configured granularity
@@ -69,11 +83,28 @@ template<typename T> class Queue : private Allocator
       return __GET(index);
     }
 
+    void Reserve(int capacity)
+    {
+      if (capacity > Capacity())
+      {
+        int PreviousCapacity = Capacity();
+        Resize(capacity);
+        // If the queue is split in high/low parts, move the lower part to the top, into the newly allocated memory.
+        if ((mIn < mOut) && (mIn != 0))
+        {
+          int upperSize = (PreviousCapacity - mOut);
+          int newCapacity = Capacity();
+          memcpy(&__GET(newCapacity - upperSize), &__GET(mOut), __OBJSZ * upperSize);
+          mOut += newCapacity - upperSize;
+        }
+      }
+    }
+
     void Push(const T item)
     {
       if (FreeSpace() < 2) Grow();
       __GET(mIn) = item;
-      mIn = (mIn + 1) & (Capacity() - 1);
+      mIn = Inc(mIn, 1);
     }
 
     T& Peek() const
@@ -86,14 +117,14 @@ template<typename T> class Queue : private Allocator
     {
       if (mIn == mOut) LOG_AND_EXIT("Queue Out of data");
       T Result = __GET(mOut);
-      mOut = (mOut + 1) & (Capacity() - 1);
+      mOut = Inc(mOut, 1);
       return Result;
     }
 
     T PopAt(int index)
     {
       if (index >= AllocatedSpace()) LOG_AND_EXIT("Queue Index out of range!");
-      index = (index + mOut) & (Capacity() - 1);
+      index = Inc(index, mOut);
       T Result = __GET(index);
 
       // Contiguous block?
@@ -129,7 +160,7 @@ template<typename T> class Queue : private Allocator
     {
       if (mIn > mOut)
       {
-        for (int Out = mOut; Out != mIn; Out++)
+        for (int Out = mOut; Out < mIn; Out++)
           if (__GET(Out) == thisone) return PopAt(Out - mOut);
         return false;
       }
@@ -140,15 +171,11 @@ template<typename T> class Queue : private Allocator
       return false;
     }
 
-    void PopAndDelete() { Pop(); }
-    void PopAndDeleteAt(int index) { PopAt(index); }
-    void PopAndDelete(T thisone) { Pop(thisone); }
-
     bool Contains(const T thisone) const
     {
-      if (mIn > mOut)
+      if (mIn >= mOut)
       {
-        for (int Out = mOut; Out != mIn; Out++)
+        for (int Out = mOut; Out < mIn; ++Out)
           if (__GET(Out) == thisone) return true;
         return false;
       }
@@ -164,9 +191,9 @@ template<typename T> class Queue : private Allocator
       mIn = mOut = 0;
     }
 
-    int Count() const { return AllocatedSpace(); }
+    [[nodiscard]] int Count() const { return AllocatedSpace(); }
 
-    bool Empty() const
+    [[nodiscard]] bool Empty() const
     {
       return mIn == mOut;
     }

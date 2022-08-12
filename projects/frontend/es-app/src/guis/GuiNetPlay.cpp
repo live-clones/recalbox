@@ -28,7 +28,7 @@ GuiNetPlay::GuiNetPlay(WindowManager& window, SystemManager& systemManager)
   : Gui(window),
     mSystemManager(systemManager),
     mLobbyLoaded(false),
-    mSender(this),
+    mSender(*this),
     mBackground(window, Path(":/frame.png")),
     mBusyAnim(window),
     mGrid(window, Vector2i(1, 3)),
@@ -450,7 +450,7 @@ void GuiNetPlay::Run()
   LoadCoreMap();
   { LOG(LogDebug) << "[NetplayGui] Start getting lobby list"; }
   ParseLobby();
-  mSender.Call((int)MessageType::LobbyLoaded);
+  mSender.Send(GuiNetPlayMessageType::LobbyLoaded);
 
   { LOG(LogDebug) << "[NetplayGui] Start pinging players"; }
   // Build ping object
@@ -493,20 +493,20 @@ void GuiNetPlay::Run()
   ping_destroy(pinger);
 
   { LOG(LogDebug) << "[NetplayGui] Start sleeping"; }
-  mSender.Call((int)MessageType::Ping);
+  mSender.Send(GuiNetPlayMessageType::Ping);
 }
 
-void GuiNetPlay::ReceiveSyncCallback(const SDL_Event& event)
+void GuiNetPlay::ReceiveSyncMessage(const GuiNetPlayMessageType& message)
 {
-  switch((MessageType)event.user.code)
+  switch(message)
   {
-    case MessageType::LobbyLoaded:
+    case GuiNetPlayMessageType::LobbyLoaded:
     {
       mLobbyLoaded = true;
       populateGrid();
       break;
     }
-    case MessageType::Ping:
+    case GuiNetPlayMessageType::Ping:
     {
       populateGridMeta(mList->getCursor());
       break;

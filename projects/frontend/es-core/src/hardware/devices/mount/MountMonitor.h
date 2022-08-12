@@ -8,10 +8,11 @@
 
 #include "utils/os/system/Thread.h"
 #include "IMountMonitorNotifications.h"
-#include "utils/sdl2/SyncronousEvent.h"
+#include "utils/sync/SyncMessageSender.h"
 #include "MountDevice.h"
 
-class MountMonitor : private Thread, private ISynchronousEvent
+class MountMonitor : private Thread
+                   , private ISyncMessageReceiver<bool>
 {
   public:
     //! Recalbox Mount point root
@@ -33,7 +34,7 @@ class MountMonitor : private Thread, private ISynchronousEvent
     ~MountMonitor() override;
 
     //! Get current mount point list
-    const DeviceMountList& MountPoints() const { return mMountPoints; }
+    [[nodiscard]] const DeviceMountList& MountPoints() const { return mMountPoints; }
 
     /*!
      * @brief Get size of a registered mount point
@@ -52,15 +53,8 @@ class MountMonitor : private Thread, private ISynchronousEvent
     //! Mount point list file
     static constexpr const char* sMountPointFile = "/proc/mounts";
 
-    //! Action used in synchronous event
-    enum class Action
-    {
-      Mount,   //!< mPendingMountPoint is a new mount point
-      Unmount, //!< mPendingMountPoint is a removed mount point
-    };
-
     //! Syncro events
-    SyncronousEvent mEvent;
+    SyncMessageSender<bool> mEvent;
 
     //! Current path list
     DeviceMountList mMountPoints;
@@ -103,11 +97,11 @@ class MountMonitor : private Thread, private ISynchronousEvent
     void Run() override;
 
     /*
-     * ISynchronousEvent implementation
+     * ISyncMessageReceiver implementation
      */
 
     //! Requested to process mountpoints
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(bool message) override;
 };
 
 

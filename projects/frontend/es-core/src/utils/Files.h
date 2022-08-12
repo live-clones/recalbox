@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/os/fs/Path.h>
+#include <utils/String.h>
 
 class Files
 {
@@ -15,7 +16,7 @@ class Files
      * @param path File to load
      * @return File content
      */
-    static std::string LoadFile(const Path& path);
+    static String LoadFile(const Path& path);
 
     /*!
      * @brief Load partial content of a file into a string
@@ -24,7 +25,7 @@ class Files
      * @param size Size to read
      * @return Partial file content
      */
-    static std::string LoadFile(const Path& path, long long from, long long size);
+    static String LoadFile(const Path& path, long long from, long long size);
 
     /*!
      * @brief Save the given string into a file
@@ -49,9 +50,9 @@ class Files
      * @param content String ot append
      * @return True if the content has been saved
      */
-    static bool AppendToFile(const Path& path, const std::string& content)
+    static bool AppendToFile(const Path& path, const String& content)
     {
-      return AppendToFile(path, content.c_str(), content.length());
+      return AppendToFile(path, content.c_str(), content.Count());
     }
 
     /*!

@@ -453,8 +453,9 @@ Path Path::MakeRelative(const Path& parent, bool &ok) const
     if (mPath.find(startWidth.mPath) <= 0)
     {
       char c = mPath.c_str()[startWidth.mPath.size()];
-      ok = ((c == 0) || (c == sSeparator));
-      if (ok) return Path(mPath.c_str() + startWidth.mPath.size() + 1);
+      ok = true;
+      if (c == sSeparator) return Path(mPath.c_str() + startWidth.mPath.size() + 1);
+      if (c == 0) return Path::Empty;
     }
   }
 

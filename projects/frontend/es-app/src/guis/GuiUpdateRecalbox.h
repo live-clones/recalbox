@@ -11,11 +11,13 @@
 #include <recalbox/RecalboxSystem.h>
 #include <themes/MenuThemeData.h>
 #include <utils/os/system/Thread.h>
-#include <utils/sdl2/ISynchronousEvent.h>
-#include <utils/sdl2/SyncronousEvent.h>
+#include <utils/sync/SyncMessageSender.h>
 #include "utils/network/Http.h"
 
-class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent, private Http::IDownload
+class GuiUpdateRecalbox: public Gui
+                       , private Thread
+                       , private ISyncMessageReceiver<int>
+                       , private Http::IDownload
 {
   public:
     GuiUpdateRecalbox(WindowManager& window, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion);
@@ -30,10 +32,9 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
     static constexpr const char* sDownloadFolder = "/boot/update";
 
     /*!
-     * @brief Receive synchronous SDL2 event
-     * @param event SDL event with .user populated by the sender
+     * @brief Receive synchronous code
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage(int code) override;
 
     /*
      * Thread Implementation
@@ -77,7 +78,7 @@ class GuiUpdateRecalbox : public Gui, private Thread, private ISynchronousEvent,
     //! Downloaded length
     long long mCurrentSize;
 
-    SyncronousEvent mSender;
+    SyncMessageSender<int> mSender;
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
 

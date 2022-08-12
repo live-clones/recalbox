@@ -2,7 +2,6 @@
 //http://www.aloshi.com
 
 #include <EmulationStation.h>
-#include <utils/sdl2/SyncronousEventService.h>
 #include <utils/Log.h>
 #include "MainRunner.h"
 

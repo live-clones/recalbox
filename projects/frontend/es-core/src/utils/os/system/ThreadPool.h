@@ -103,7 +103,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
     //! Global index (also total queue-ed object count)
     int                        mIndex;
     //! Total completed
-    volatile int               mTotalCompleted;
+    int                        mTotalCompleted;
     //! Tick duration
     int                        mTickDuration;
     //! Permanent workers
@@ -133,6 +133,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
     void PushResult(IndexedResult& result)
     {
       mStackMutex.Lock();
+      mTotalCompleted++;
       mResults.push_back(result);
       mStackMutex.UnLock();
     }
@@ -352,7 +353,6 @@ void ThreadPool<FeedObject, ResultObject>::WorkerThread::Run()
 
         // Run job
         IndexedResult result(feed.Index, mParent.mInterface->ThreadPoolRunJob(feed.Feed));
-        mParent.mTotalCompleted++;
         mParent.PushResult(result);
 
         // Stop job

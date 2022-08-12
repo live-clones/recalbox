@@ -3,10 +3,12 @@
 //
 #include <WindowManager.h>
 #include <components/TextComponent.h>
+#include <utils/sync/SyncMessageSender.h>
 
 #pragma once
 
-class CrtView : public Gui, private ISynchronousEvent
+class CrtView : public Gui
+              , private ISyncMessageReceiver<void>
 {
   public:
     /*!
@@ -51,7 +53,7 @@ class CrtView : public Gui, private ISynchronousEvent
     std::shared_ptr<TextComponent> mViewportText;
 
     //! Synchronous event
-    SyncronousEvent mEvent;
+    SyncMessageSender<void> mEvent;
 
     //! Original config
     int mOriginalVOffset;
@@ -72,10 +74,9 @@ class CrtView : public Gui, private ISynchronousEvent
      */
 
     /*!
-     * @brief Receive SDL event from the main thread
-     * @param event SDL event
+     * @brief Receive message from the CRT thread
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override;
+    void ReceiveSyncMessage() override;
 };
 
 

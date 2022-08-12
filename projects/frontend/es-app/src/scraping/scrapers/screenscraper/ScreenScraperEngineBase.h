@@ -6,18 +6,19 @@
 #include <scraping/scrapers/IScraperEngine.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/os/system/Signal.h>
-#include <utils/sdl2/SyncronousEvent.h>
 #include <utils/os/system/ThreadPool.h>
 #include <games/MetadataFieldDescriptor.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperApis.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperSingleEngine.h>
 #include <scraping/scrapers/screenscraper/ProtectedSet.h>
+#include <scraping/scrapers/ScrapeEngineMessage.h>
+#include <utils/sync/SyncMessageSender.h>
 
 class ScreenScraperEngineBase
   : public IScraperEngine,
     public IThreadPoolWorkerInterface<FileData*, bool>,
     public IConfiguration,
-    public ISynchronousEvent
+    public ISyncMessageReceiver<ScrapeEngineMessage>
 {
   private:
 
@@ -70,7 +71,7 @@ class ScreenScraperEngineBase
     ProtectedSet mMd5Set;
 
     //! Main thread synchronizer
-    SyncronousEvent mSender;
+    SyncMessageSender<ScrapeEngineMessage> mSender;
 
     //! Database message
     std::string mDatabaseMessage;
@@ -83,10 +84,10 @@ class ScreenScraperEngineBase
      */
 
     //! Get current scraping session completion
-    int Completed() const { return mCount; }
+    [[nodiscard]] int Completed() const { return mCount; }
 
     //! Get current scraping session's total item to process
-    int Total() const { return mTotal; }
+    [[nodiscard]] int Total() const { return mTotal; }
 
     /*
      * Engine providers/recyclers
@@ -140,34 +141,34 @@ class ScreenScraperEngineBase
     void ClearResultInterface() { mNotifier = nullptr; }
 
     //! Get total to scrape
-    int ScrapesTotal() const override { return mTotal; }
+    [[nodiscard]] int ScrapesTotal() const override { return mTotal; }
 
     //! Get processed items
-    int ScrapesProcessed() const override { return mCount; }
+    [[nodiscard]] int ScrapesProcessed() const override { return mCount; }
 
     //! Get pending items (still not scraped)
-    int ScrapesStillPending() const override { return mTotal - mCount; }
+    [[nodiscard]] int ScrapesStillPending() const override { return mTotal - mCount; }
 
     //! Get successfully scraped games
-    int ScrapesSuccessful() const override { return mStatScraped; }
+    [[nodiscard]] int ScrapesSuccessful() const override { return mStatScraped; }
 
     //! Get unsuccessfully scraped games
-    int ScrapesNotFound() const override { return mStatNotFound; }
+    [[nodiscard]] int ScrapesNotFound() const override { return mStatNotFound; }
 
     //! Get failes scrapes
-    int ScrapesErrors() const override { return mStatErrors; }
+    [[nodiscard]] int ScrapesErrors() const override { return mStatErrors; }
 
     //! Stats Text infos
-    int StatsTextInfo() const override { return mTextInfo; };
+    [[nodiscard]] int StatsTextInfo() const override { return mTextInfo; };
 
     //! Stats images downloaded
-    int StatsImages() const override { return mImages; };
+    [[nodiscard]] int StatsImages() const override { return mImages; };
 
     //! Stats videos downloaded
-    int StatsVideos() const override { return mVideos; };
+    [[nodiscard]] int StatsVideos() const override { return mVideos; };
 
     //! Stats videos downloaded
-    long long StatsMediaSize() const override { return mMediaSize; };
+    [[nodiscard]] long long StatsMediaSize() const override { return mMediaSize; };
 
 
     //! Get Scraper message
@@ -201,7 +202,7 @@ class ScreenScraperEngineBase
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
      * @return True if the engine is running
      */
-    bool IsRunning() const override
+    [[nodiscard]] bool IsRunning() const override
     {
       for(int i = sMaxEngines; --i >= 0; )
         if (mEngines[i].IsRunning())
@@ -221,14 +222,14 @@ class ScreenScraperEngineBase
     bool ThreadPoolRunJob(FileData*& feed) override;
 
     /*
-     * ISynchronousEvent implementation
+     * ISyncMessageReceiver implementation
      */
 
     /*!
      * @brief Receive synchronous SDL2 event
      * @param event SDL event with .user populated by the sender
      */
-    void ReceiveSyncCallback(const SDL_Event& event) override ;
+    void ReceiveSyncMessage(const ScrapeEngineMessage& event) final;
 
   public:
     /*!
