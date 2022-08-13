@@ -46,6 +46,7 @@ as release notes for end user on a Recalbox upgrade.
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 - Fix pad 8bitdo Pro 2 mode D (Android)
 - Systems without one default overlay won't show anymore an overlay from another system.
+- Add .wia file extension for Gamecube and Wii + .gcz for Wii.
 
 ## Version 8.1.1-Electron
 
