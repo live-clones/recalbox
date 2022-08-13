@@ -48,6 +48,9 @@ class LibretroConfigCRT:
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
                 config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                # For arcade, the viewport info by region seems not selected sometimes on retroarch so we set default values
+                config["custom_viewport_x"] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
+                config["custom_viewport_y"] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
 
         return config
 
@@ -94,7 +97,8 @@ class LibretroConfigCRT:
             if system.CRTScreenType == CRTScreenType.k31:
                 if system.CRTResolutionType == CRTResolutionType.Progressive:
                     width = 640 * width / 1920
-                    if height * 2 <= 480:
+                    # up to 256 px we double the height (rtype)
+                    if height <= 256:
                         height = height * 2
                 if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
                     if height > 240:
