@@ -179,10 +179,10 @@ def test_given_no_viewport_config_returns_viewport_values_from_mode(mocker, syst
     assert libretro_config["custom_viewport_width_pal"] == 1840
     assert libretro_config["custom_viewport_height_ntsc"] == 224
     assert libretro_config["custom_viewport_height_pal"] == 224
-    assert libretro_config["custom_viewport_x"] == ""
+    assert libretro_config["custom_viewport_x"] == 40
     assert libretro_config["custom_viewport_x_ntsc"] == 40
     assert libretro_config["custom_viewport_x_pal"] == 40
-    assert libretro_config["custom_viewport_y"] == ""
+    assert libretro_config["custom_viewport_y"] == 0
     assert libretro_config["custom_viewport_y_ntsc"] == 0
     assert libretro_config["custom_viewport_y_pal"] == 0
 
@@ -882,3 +882,27 @@ def test_given_31kHz_and_doublefreq_system_width_should_ignore_system_width(mock
     assert libretro_config["custom_viewport_height_ntsc"] == 240
     assert libretro_config["custom_viewport_width_pal"] == 1920
     assert libretro_config["custom_viewport_height_pal"] == 240
+
+# Rtype in 31khz 480p should be 512px height
+def test_given_rtype_with_256px_height_in_480_the_height_is_doubled(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "rtype,fbneo,arcade:256@55.017606,0,0,0",
+        MODES_TXT: "arcade:256@55.017606,1920 1 80 184 312 256 1 5 3 20 0 0 0 55 0 39000000 1,55.017606\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="31kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/rtype.zip")
+
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 640
+    assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_height_ntsc"] == 512
+    assert libretro_config["custom_viewport_height_pal"] == 512
+    assert libretro_config["custom_viewport_y_ntsc"] == -16
+    assert libretro_config["custom_viewport_y_pal"] == -16
+    assert libretro_config["custom_viewport_y"] == -16
