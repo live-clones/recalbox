@@ -25,6 +25,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
+## Version 8.2-Electron
+
+### News
+- Add the possibility to sort games by release date.
+
+### Improvements
+
+### Fixes
 
 ## Version 8.1.1-Electron
 
