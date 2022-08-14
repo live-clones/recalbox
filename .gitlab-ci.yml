@@ -201,11 +201,6 @@ build rpi4_64:
   when: manual
   variables:
     ARCH: 'rpi4_64'
-build rpi4:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rpi4'
 build odroidgo2:
   <<: *build_definition
   when: manual
