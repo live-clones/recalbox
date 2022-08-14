@@ -11,6 +11,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-pcsx_rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
+- Add new category 'Demoscene' in tic80 games downloader.
+- Add the possibility to sort games by release date.
 
 ### Improvements
 - Update of the theme for the X68000 system
