@@ -469,7 +469,7 @@ void GuiNetPlay::Run()
   // Ping!
   int r = ping_send(pinger);
   { LOG(LogWarning) << "[Ping] Number of ping response: " << r; }
-  if (r < 0) LOG(LogError) << "[Ping] Ping error: " << ping_get_error(pinger);
+  if (r < 0) { LOG(LogError) << "[Ping] Ping error: " << ping_get_error(pinger); }
   // Iterate results
   if (r > 0)
     for (pingobj_iter_t *iter = ping_iterator_get(pinger); iter != nullptr; iter = ping_iterator_next(iter))

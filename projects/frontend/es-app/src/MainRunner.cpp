@@ -548,7 +548,7 @@ void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char 
     case SDL_NUM_LOG_PRIORITIES:
     default: break;
   }
-  LOG(LogDebug) << "[SDL2] (" << cat << ':' << subType << ") " << message;
+  { LOG(LogDebug) << "[SDL2] (" << cat << ':' << subType << ") " << message; }
 }
 
 void MainRunner::SetDebugLogs(bool state)

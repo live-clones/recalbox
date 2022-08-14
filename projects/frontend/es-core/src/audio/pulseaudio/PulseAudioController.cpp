@@ -638,7 +638,7 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
       if (originalPlaybackName == IAudioController::sAutoSwitch)
       {
         bool headphonePlugged = IsPortAvailable("analog-output-headphones");
-        LOG(LogInfo) << "[PulseAudio] AutoSwitch set to " << (headphonePlugged ? "Headphones" : "Speakers");
+        { LOG(LogInfo) << "[PulseAudio] AutoSwitch set to " << (headphonePlugged ? "Headphones" : "Speakers"); }
         if (system(headphonePlugged? "amixer sset 'Playback Path' HP" :"amixer sset 'Playback Path' SPK") != 0)
         { LOG(LogError) << "[PulseAudio] Error setting playback path on GoA/GoA"; }
       }
@@ -706,7 +706,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
     // This can happend when migrating or when audio cards have changed
     if (!sink and !card)
     {
-      LOG(LogWarning) << "[PulseAudio] Invalid sink or card: " << deviceName;
+      { LOG(LogWarning) << "[PulseAudio] Invalid sink or card: " << deviceName; }
       return playbackName;
     }
 

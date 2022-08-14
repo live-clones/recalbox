@@ -63,14 +63,14 @@ void InputManager::IntitializeSDL2JoystickSystem()
   }*/
   SDL_JoystickEventState(SDL_ENABLE);
   SDL_JoystickUpdate();
-  LOG(LogInfo) << "[InputManager] Initialize SDL Joystick system";
+  { LOG(LogInfo) << "[InputManager] Initialize SDL Joystick system"; }
 }
 
 void InputManager::FinalizeSDL2JoystickSystem()
 {
   SDL_JoystickEventState(SDL_DISABLE);
   //SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-  LOG(LogInfo) << "[InputManager] Finalize SDL Joystick system";
+  { LOG(LogInfo) << "[InputManager] Finalize SDL Joystick system"; }
 }
 
 void InputManager::Finalize()
@@ -92,7 +92,7 @@ void InputManager::Refresh(WindowManager* window, bool padplugged)
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
   ClearAllConfigurations();
   LoadAllJoysticksConfiguration(previousList, window, padplugged);
-  LOG(LogInfo) << "[InputManager] Refresh joysticks";
+  { LOG(LogInfo) << "[InputManager] Refresh joysticks"; }
 }
 
 void InputManager::LoadDefaultKeyboardConfiguration()
@@ -157,7 +157,7 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
 void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previous, WindowManager* window, bool padplugged)
 {
   int numJoysticks = SDL_NumJoysticks();
-  LOG(LogInfo) << "[InputManager] Joystick count: " << numJoysticks;
+  { LOG(LogInfo) << "[InputManager] Joystick count: " << numJoysticks; }
   for (int i = 0; i < numJoysticks; i++)
     LoadJoystickConfiguration(i);
 
@@ -218,7 +218,7 @@ std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
 
 void InputManager::LoadJoystickConfiguration(int index)
 {
-  LOG(LogInfo) << "[InputManager] Lond configuration for Joystick #: " << index;
+  { LOG(LogInfo) << "[InputManager] Lond configuration for Joystick #: " << index; }
 
   // Open joystick & add to our list
   SDL_Joystick* joy = SDL_JoystickOpen(index);
@@ -512,7 +512,7 @@ void InputManager::RemoveNotificationInterface(IInputChange* interface)
 void InputManager::FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time)
 {
   (void)time;
-  LOG(LogWarning) << "[/dev/input] Event " << (int)event << " : " << path.ToString();
+  { LOG(LogWarning) << "[/dev/input] Event " << (int)event << " : " << path.ToString(); }
   if (Strings::StartsWith(path.Filename(), "event"))
     mJoystickChangePending = true;
 }

@@ -316,7 +316,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
   int fd = open(devicePath, O_RDONLY);
   if (fd < 0)
   {
-    LOG(LogError) << "[AutoMapper] Can't open device " << devicePath;
+    { LOG(LogError) << "[AutoMapper] Can't open device " << devicePath; }
     return std::string();
   }
 
@@ -324,7 +324,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
   ioctl(fd, EVIOCGID, id);
   char name[256] = {};
   ioctl(fd, EVIOCGNAME(sizeof(name)), name);
-  LOG(LogDebug) << "[AutoMapper] Analysing input device: \"" << name << "\" " << Strings::ToHexa(id[ID_VENDOR], 4) << ':' << Strings::ToHexa(id[ID_PRODUCT], 4);
+  { LOG(LogDebug) << "[AutoMapper] Analysing input device: \"" << name << "\" " << Strings::ToHexa(id[ID_VENDOR], 4) << ':' << Strings::ToHexa(id[ID_PRODUCT], 4); }
 
   unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
   memset(bit, 0, sizeof(bit));
@@ -352,22 +352,22 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
           .append(",dpdown:b").append(Strings::ToString(button + 1))
           .append(",dpleft:b").append(Strings::ToString(button + 2))
           .append(1, ',');
-    LOG(LogDebug) << "[AutoMapper] DPAD mapped to buttons";
+    { LOG(LogDebug) << "[AutoMapper] DPAD mapped to buttons"; }
   }
   else if ((test_bit(ABS_HAT0X, bit[EV_ABS])) != 0)
   {
     result.append("dpup:h0.1,dpright:h0.2,dpdown:h0.4,dpleft:h0.8,");
-    LOG(LogDebug) << "[AutoMapper] DPAD mapped to Hat0";
+    { LOG(LogDebug) << "[AutoMapper] DPAD mapped to Hat0"; }
   }
   else if ((test_bit(ABS_X, bit[EV_ABS])) != 0)
   {
     result.append("dpup:-a1,dpright:+a0,dpdown:+a1,dpleft:-a0,");
     firstAxisConsumed = true;
-    LOG(LogDebug) << "[AutoMapper] DPAD mapped to Axis0/1";
+    { LOG(LogDebug) << "[AutoMapper] DPAD mapped to Axis0/1"; }
   }
   else
   {
-    LOG(LogError) << "[AutoMapper] Cannot extract DPAD mapping. Automapping aborted.";
+    { LOG(LogError) << "[AutoMapper] Cannot extract DPAD mapping. Automapping aborted."; }
     return std::string();
   }
 
@@ -418,7 +418,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
       result.append(((test_bit(ABS_Z, bit[EV_ABS])) != 0) ? "rightx:a3,righty:a4," : "rightx:a2,righty:a3,");
   }
 
-  LOG(LogDebug) << "[AutoMapper] Resulting SDL2 mapping: " << result;
+  { LOG(LogDebug) << "[AutoMapper] Resulting SDL2 mapping: " << result; }
 
   return result;
 }

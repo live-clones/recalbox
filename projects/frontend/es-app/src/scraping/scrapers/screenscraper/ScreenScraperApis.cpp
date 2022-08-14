@@ -67,7 +67,7 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
         case 429:
         case 499:
         case 504:
-        case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; mEndPointProvider.NotifyError(); Thread::Sleep(5000); continue;
+        case 500: { LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; } mEndPointProvider.NotifyError(); Thread::Sleep(5000); continue;
         case 426:
         case 423:
         case 403:
@@ -87,12 +87,12 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
       // Error?
       if (game.mResult != ScrapeResult::Ok)
       {
-        LOG(LogError) << "[ScreenScraperApis] URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode();
+        { LOG(LogError) << "[ScreenScraperApis] URL: " << url << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
         mEndPointProvider.NotifyError();
       }
     }
     else {
-      LOG(LogError) << "[ScreenScraperApis] Error executing HTTP request #1 onto " << url;
+      { LOG(LogError) << "[ScreenScraperApis] Error executing HTTP request #1 onto " << url; }
       mEndPointProvider.NotifyError();
     }
 
@@ -691,7 +691,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const std::string
         case 429:
         case 499:
         case 504:
-        case 500: LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; Thread::Sleep(5000); continue;
+        case 500: { LOG(LogError) << "[ScreenScraperApis] Server error " << mClient.GetLastHttpResponseCode() << ", retrying..."; Thread::Sleep(5000); } continue;
         case 426:
         case 423:
         case 403:

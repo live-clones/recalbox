@@ -205,7 +205,7 @@ void SystemManager::CheckMissingHashed(SystemData& system)
       DateTime start;
       system.MasterRoot().ParseAllItems(missingHashes);
       if (missingHashes.MissingHashesFound())
-        LOG(LogInfo) << "[System] Calculated " << missingHashes.HashCount() << " missing hashes of " << system.FullName() << ". Took " << (DateTime() - start).TotalMilliseconds() << "ms.";
+      { LOG(LogInfo) << "[System] Calculated " << missingHashes.HashCount() << " missing hashes of " << system.FullName() << ". Took " << (DateTime() - start).TotalMilliseconds() << "ms."; }
     }
 }
 
@@ -1053,19 +1053,19 @@ void SystemManager::NotifyDeviceMount(const DeviceMount& mountpoint)
   {
     case RomStructure::None:
     {
-      LOG(LogWarning) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " does not contain any known rom folder";
+      { LOG(LogWarning) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " does not contain any known rom folder"; }
       mRomFolderChangeNotificationInterface.NoRomPathFound(mountpoint);
       break;
     }
     case RomStructure::Filled:
     {
-      LOG(LogInfo) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " contains rom folder " << romPath.ToString();
+      { LOG(LogInfo) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " contains rom folder " << romPath.ToString(); }
       mRomFolderChangeNotificationInterface.RomPathAdded(mountpoint);
       break;
     }
     case RomStructure::Empty:
     {
-      LOG(LogInfo) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " contains empty rom folder " << romPath.ToString();
+      { LOG(LogInfo) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " contains empty rom folder " << romPath.ToString(); }
       break;
     }
     default: break;
@@ -1101,7 +1101,7 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
     Path(""),
   };
 
-  LOG(LogDebug) << "[SystemManager] Analysing mount point: " << root.MountPoint().ToString();
+  { LOG(LogDebug) << "[SystemManager] Analysing mount point: " << root.MountPoint().ToString(); }
   RomStructure result = RomStructure::None;
 
   // Check known inner path
@@ -1133,7 +1133,7 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
 
 void SystemManager::InitializeMountPoints()
 {
-  LOG(LogDebug) << "[SystemManager] Initialize mount points";
+  { LOG(LogDebug) << "[SystemManager] Initialize mount points"; }
 
   Path romPath;
   for(const DeviceMount& root : mMountPointMonitoring.MountPoints())
