@@ -68,6 +68,7 @@ class MetadataDescriptor
     bool         mLatestVerion; //!< Latest version state
     bool         mNoGame;       //!< no game state
     bool         mDirty;        //!< Dirty flag (modified data flag)
+    Path         mLastPatch;    //!< Last applied patch
 
     ItemType     mType;         //!< Metadata type
 
@@ -440,6 +441,7 @@ class MetadataDescriptor
       mAdult       = source.mAdult      ;
       mDirty       = source.mDirty      ;
       mType        = source.mType       ;
+      mLastPatch   = source.mLastPatch  ; source.mLastPatch   = nullptr;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -514,6 +516,7 @@ class MetadataDescriptor
     bool               LatestVersion()   const { return mLatestVerion;                     }
     bool               NoGame()          const { return mNoGame;                           }
     GameGenres         GenreId()         const { return mGenreId;                          }
+    const Path&        LastPatch()       const { return mLastPatch;                        }
 
     /*
      * String accessors
@@ -542,6 +545,8 @@ class MetadataDescriptor
     std::string HiddenAsString()      const { return mHidden ? "true" : "false";                           }
     std::string AdultAsString()       const { return mAdult ? "true" : "false";                            }
     std::string GenreIdAsString()     const { return Strings::ToString((int)mGenreId);                           }
+    std::string LastPatchAsString()   const { return mLastPatch.ToString();  }
+
 
     /*
      * Setters
@@ -573,10 +578,13 @@ class MetadataDescriptor
     void SetGenreId(GameGenres genre)                   { mGenreId = genre; mDirty = true;                              }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                }
     void SetNoGame(bool noGame)                         { mNoGame = noGame;                                             }
+    void SetLastPatch(const Path& patch)                {mLastPatch = patch, mDirty = true;                             }
 
     // Special setter to force dirty
     void SetDirty() { mDirty = true; }
     void UnDirty() { mDirty = true; }
+
+
 
     /*
      * Volatile setters - do not set the Dirty flag for auto-saving
@@ -613,6 +621,7 @@ class MetadataDescriptor
     void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlaycount = p; mDirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
     void SetRegionAsString(const std::string& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
+    void SetLastPatchAsString(const std::string& patch)         { mLastPatch = patch; mDirty = true; }
 
     /*
      * Defaults
@@ -640,6 +649,8 @@ class MetadataDescriptor
     bool IsDefaultHidden()          const { return sDefault.mHidden == mHidden;      }
     bool IsDefaultAdult()           const { return sDefault.mAdult == mAdult;       }
     bool IsDefaultGenreId()         const { return sDefault.mGenreId == mGenreId;     }
+    bool IsDefaultLastPath()        const { return sDefault.mLastPatch == mLastPatch;      }
+
 
     /*
      * Convenient Accessors
