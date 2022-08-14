@@ -27,6 +27,8 @@ bool FileSorts::Initialize()
     sAllSorts.push_back(SortType(Sorts::GenreDescending, &compareGenre, false, "\uF15e " + _("GENRE")));
     sAllSorts.push_back(SortType(Sorts::SystemAscending, &compareSystemName, true, "\uF166 " + _("SYSTEM NAME")));
     sAllSorts.push_back(SortType(Sorts::SystemDescending, &compareSystemName, false, "\uF167 " + _("SYSTEM NAME")));
+    sAllSorts.push_back(SortType(Sorts::ReleaseDateAscending, &compareReleaseDate, true, "\uF160 " + _("RELEASE DATE")));
+    sAllSorts.push_back(SortType(Sorts::ReleaseDateDescending, &compareReleaseDate, false, "\uF161 " + _("RELEASE DATE")));
     mInitialized = true;
   }
   return mInitialized;
@@ -127,6 +129,14 @@ ImplementSortMethod(compareGenre)
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
+ImplementSortMethod(compareReleaseDate)
+{
+  CheckFoldersAndGames(file1, file2)
+  int releasedate = (int)(file1).Metadata().ReleaseDateEpoc() - (int)(file2).Metadata().ReleaseDateEpoc();
+  if (releasedate != 0) return releasedate;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
+}
+
 const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)
 {
   //! Ordered mono-system sorts
@@ -148,6 +158,8 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)
     Sorts::DevelopperDescending,
     Sorts::PublisherAscending,
     Sorts::PublisherDescending,
+    Sorts::ReleaseDateAscending,
+    Sorts::ReleaseDateDescending,
   };
 
   //! Ordered multi-system sorts
@@ -171,6 +183,8 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(bool multisystem)
     Sorts::DevelopperDescending,
     Sorts::PublisherAscending,
     Sorts::PublisherDescending,
+    Sorts::ReleaseDateAscending,
+    Sorts::ReleaseDateDescending,
   };
 
   return multisystem ? sMulti : sSingle;

@@ -9,6 +9,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+### News
+- Add the possibility to sort games by release date.
+
 ### Improvements
 
 ### Fixes
