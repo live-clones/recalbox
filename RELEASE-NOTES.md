@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
+- Add the possibility to sort games by release date.
 
 ### Improvements
 - Bump libretro pcsx-rearmed

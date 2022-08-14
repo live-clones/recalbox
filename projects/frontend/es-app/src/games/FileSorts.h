@@ -27,6 +27,8 @@ class FileSorts
         PublisherDescending,  //!< By publisher then by filename, Z-A
         GenreAscending,       //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
         GenreDescending,      //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
+        ReleaseDateAscending, //!< By release date then by filename, 0-9
+        ReleaseDateDescending,//!< By release date then by filename, 9-0
     };
 
   private:
@@ -66,6 +68,7 @@ class FileSorts
     DeclareSortMethodPrototype(compareDevelopper)
     DeclareSortMethodPrototype(comparePublisher)
     DeclareSortMethodPrototype(compareGenre)
+    DeclareSortMethodPrototype(compareReleaseDate)
 
     /*!
      * @brief Get available sorts for a single system
