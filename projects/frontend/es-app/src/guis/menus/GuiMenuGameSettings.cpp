@@ -94,12 +94,12 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSoftpat
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
 
   std::string currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
-  if(currentOption != "auto" && currentOption != "confirm" && currentOption != "disable")
+
+  if(currentOption != "auto" && currentOption != "select" && currentOption != "disable")
     currentOption = "auto";
 
-  
   list.emplace_back( _("AUTO"), "auto", currentOption == "auto" );
-  list.emplace_back( _("CONFIRM"), "confirm", currentOption == "confirm" );
+  list.emplace_back( _("SELECT"), "select", currentOption == "select" );
   list.emplace_back( _("DISABLE"), "disable", currentOption == "disable");
 
   return list;
