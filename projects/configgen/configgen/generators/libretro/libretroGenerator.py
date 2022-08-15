@@ -240,6 +240,18 @@ class LibretroGenerator(Generator):
         if args.disabledsoftpatching:
             commandArray.extend(["--no-patch"])
 
+        # ips patch path
+        if args.ips != '':
+            commandArray.extend(["--ips", args.ips])
+
+        # bps patch path
+        if args.bps != '':
+            commandArray.extend(["--bps", args.bps])
+
+        # ubs patch path
+        if args.ups != '':
+            commandArray.extend(["--ups", args.ups])
+
         # Core & config
         commandArray.extend(["-L", retroarchCore, "--config", configFileName])
         # Extra configs - pass in-place override last
