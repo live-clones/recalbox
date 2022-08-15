@@ -4,6 +4,7 @@
 #
 ################################################################################
 
+RECALBOX_CRT_SOURCE =
 RECALBOX_CRT_VERSION = 1
 RECALBOX_CRT_LICENSE = MIT
 
@@ -19,4 +20,4 @@ define RECALBOX_CRT_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/arcade_games.txt $(TARGET_DIR)/recalbox/system/configs/crt/
 endef
 
-$(eval $(virtual-package))
+$(eval $(generic-package))
