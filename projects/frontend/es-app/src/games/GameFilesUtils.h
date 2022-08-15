@@ -12,7 +12,7 @@ class GameFilesUtils
   public:
     static HashSet<std::string> GetGameSubFiles(FileData& game);
     static HashSet<std::string> GetGameExtraFiles(FileData& fileData);
-    static bool HasSoftPatch(const FileData* fileData);
+    static std::list<Path> GetSoftPatches(const FileData* fileData);
     static HashSet<std::string> GetGameSaveFiles(FileData& game);
     static HashSet<std::string> GetMediaFiles(FileData& fileData);
 
