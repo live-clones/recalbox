@@ -132,8 +132,30 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
 
-  bool isDisabledSoftpatching = data.Patch().DisabledSofpatching();
-  if (isDisabledSoftpatching) command.append(" -disabledsoftpatching");
+  // launch without patch
+  if (data.Patch().DisabledSofpatching())
+  {
+    command.append(" -disabledsoftpatching");
+  }
+  // launch with a selected path in xxxxx-patches directory
+  else if (data.Patch().HasPatchPath()
+  && data.Patch().PatchPath().Directory() != game.RomPath().Directory())
+  {
+    const std::string patchPAthEscaped = data.Patch().PatchPath().MakeEscaped();
+
+    if (data.Patch().PatchPath().Extension() == ".ips")
+      {
+        command.append(" -ips ").append(patchPAthEscaped);
+      }
+      else if (data.Patch().PatchPath().Extension() == ".bps")
+      {
+        command.append(" -bps ").append(patchPAthEscaped);
+      }
+      else if (data.Patch().PatchPath().Extension() == ".ubs")
+      {
+        command.append(" -ubs ").append(patchPAthEscaped);
+      }
+  }
 
   int exitCode = -1;
   {
