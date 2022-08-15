@@ -56,7 +56,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 
         if (Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
             Strings::Contains(extension, ".ips"))
-          AddIfExist(file, list);
+          list.insert(path.ToString());
       }
     }
 
@@ -94,23 +94,31 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
   return list;
 }
 
-bool GameFilesUtils::HasSoftPatch(const FileData* fileData)
+std::list<Path> GameFilesUtils::GetSoftPatches(const FileData* fileData)
 {
-  const Path& path = fileData->RomPath();
-  if (fileData->IsGame())
+  std::list<Path> patches;
+  if (!fileData->IsGame()) return patches;
 
-    for (const auto& file: path.Directory().GetDirectoryContent())
+  Path path = fileData->RomPath();
+  Path folder = path.Directory() / path.FilenameWithoutExtension().append("-patches");
+  for (const auto& file: folder.GetDirectoryContent())
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
 
-      if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
-      {
-        std::string extension = Strings::ToLowerUTF8(file.Extension());
+    if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+      patches.insert(patches.begin(), file);
+  }
 
-        if ((Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
-            Strings::Contains(extension, ".ips")) && path.Exists())
-          return true;
-      }
+  for (const auto& file: path.Directory().GetDirectoryContent())
+    if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
+    {
+      std::string extension = Strings::ToLowerUTF8(file.Extension());
 
-  return false;
+      if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+        patches.insert(patches.begin(), file);
+    }
+
+  return patches;
 }
 
 HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
@@ -182,9 +190,8 @@ void GameFilesUtils::ExtractUselessFilesFromCue(const Path& path, HashSet<std::s
   for (const std::string& line: Strings::Split(file, '\n'))
     if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
     {
-      Path file = path.Directory() / ExtractFileNameFromLine(line);
-      AddIfExist(file, list);
-
+      Path newfile = path.Directory() / ExtractFileNameFromLine(line);
+      AddIfExist(newfile, list);
     }
 }
 
@@ -204,10 +211,10 @@ void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::s
     if (line.empty()) continue;
 
     line = Strings::Trim(line, "\r");
-    Path file = path.Directory() / Path(line);
-    AddIfExist(file, list);
+    Path newfile = path.Directory() / Path(line);
+    AddIfExist(newfile, list);
 
-    ExtractUselessFiles(file, list);
+    ExtractUselessFiles(newfile, list);
   }
 }
 
