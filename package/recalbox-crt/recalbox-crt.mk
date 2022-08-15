@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_CRT_SOURCE = 
+RECALBOX_CRT_SOURCE =
 RECALBOX_CRT_VERSION = 1
 RECALBOX_CRT_LICENSE = MIT
 
