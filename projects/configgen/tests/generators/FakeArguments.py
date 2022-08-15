@@ -10,3 +10,6 @@ class Arguments:
         self.system = 'virtual'
         self.test = False
         self.disabledsoftpatching = False
+        self.ips = ''
+        self.bps = ''
+        self.ups = ''
