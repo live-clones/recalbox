@@ -2,13 +2,13 @@
     "os_list": [
         {
             "name": "Recalbox - Raspberry Pi 4 / 400",
-            "description": "Recalbox {{version}} for Raspberry Pi 4 / 400.",
-            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi4/recalbox-rpi4.img.xz",
+            "description": "Recalbox {{version}} (64bits) for Raspberry Pi 4 / 400.",
+            "url": "https://upgrade.recalbox.com/latest/rpi-imager/rpi4_64/recalbox-rpi4_64.img.xz",
             "icon": "https://upgrade.recalbox.com/latest/rpi-imager/recalbox.png",
-            "extract_size": {{rpi4ExtractSize}},
-            "extract_sha256": "{{rpi4ExtractSha256}}",
-            "image_download_size": {{rpi4ImageDownloadSize}},
-            "image_download_sha256": "{{rpi4ImageDownloadSha256}}",
+            "extract_size": {{rpi4_64ExtractSize}},
+            "extract_sha256": "{{rpi4_64ExtractSha256}}",
+            "image_download_size": {{rpi4_64ImageDownloadSize}},
+            "image_download_sha256": "{{rpi4_64ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
             "website": "https://www.recalbox.com"
         },
