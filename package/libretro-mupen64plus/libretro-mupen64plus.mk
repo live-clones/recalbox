@@ -62,11 +62,11 @@ define LIBRETRO_MUPEN64PLUS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/Mupen64plus/cache
 endef
 
-define MUPEN64PLUS_CROSS_FIXUP
+define LIBRETRO_MUPEN64PLUS_CROSS_FIXUP
 	$(SED) 's|/opt/vc/include|$(STAGING_DIR)/usr/include|g' $(@D)/Makefile
 	$(SED) 's|/opt/vc/lib|$(STAGING_DIR)/usr/lib|g' $(@D)/Makefile
 endef
 
-LIBRETRO_MUPEN64PLUS_PRE_CONFIGURE_HOOKS += MUPEN64PLUS_CROSS_FIXUP
+LIBRETRO_MUPEN64PLUS_PRE_CONFIGURE_HOOKS += LIBRETRO_MUPEN64PLUS_CROSS_FIXUP
 
 $(eval $(generic-package))

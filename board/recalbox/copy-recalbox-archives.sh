@@ -228,8 +228,8 @@ case "${RECALBOX_TARGET}" in
 	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
 		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
 	mkdir -p "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	cp "${BINARIES_DIR}/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	cp "${BINARIES_DIR}/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
 	genimg=genimage-x86-64.cfg
 
@@ -241,7 +241,7 @@ case "${RECALBOX_TARGET}" in
 	#	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
 
 	# recalbox.img
-	cp "${HOST_DIR}/usr/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
+	cp "${TARGET_DIR}/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" "${BINARIES_DIR}/genimage.cfg" || exit 1

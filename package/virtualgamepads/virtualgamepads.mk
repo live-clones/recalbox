@@ -4,13 +4,14 @@
 #
 ################################################################################
 
-VIRTUALGAMEPADS_VERSION = v1.4.0
-VIRTUALGAMEPADS_BRANCH = recalbox
-VIRTUALGAMEPADS_SITE = $(call github,jehervy,node-virtual-gamepads,$(VIRTUALGAMEPADS_BRANCH),$(VIRTUALGAMEPADS_VERSION))
+VIRTUALGAMEPADS_VERSION = v1.5.0
+VIRTUALGAMEPADS_SITE = $(call github,jehervy,node-virtual-gamepads,$(VIRTUALGAMEPADS_VERSION))
 VIRTUALGAMEPADS_LICENSE = MIT
 VIRTUALGAMEPADS_LICENSE_FILES = LICENSE
 
 VIRTUALGAMEPADS_DEPENDENCIES = nodejs
+
+VIRTUALGAMEPADS_BIN_ARCH_EXCLUDE = /usr/node-virtual-gamepads/node_modules/ref-napi/prebuilds/
 
 NPM = $(TARGET_CONFIGURE_OPTS) \
 	LD="$(TARGET_CXX)" \

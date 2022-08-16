@@ -1,8 +1,8 @@
 diff --git a/support/scripts/mkusers b/support/scripts/mkusers
-index d00ba33823..ca71382c12 100755
+index 4fc06f8fdf..b92a06c744 100755
 --- a/support/scripts/mkusers
 +++ b/support/scripts/mkusers
-@@ -312,7 +312,9 @@ add_one_user() {
+@@ -330,7 +330,9 @@ add_one_user() {
      fi
  
      # Remove any previous instance of this user
@@ -13,7 +13,7 @@ index d00ba33823..ca71382c12 100755
          sed -r -i --follow-symlinks -e '/^'"${username}"':.*/d;' "${_f}"
      done
  
-@@ -346,9 +348,10 @@ add_one_user() {
+@@ -364,9 +366,10 @@ add_one_user() {
             "${username}" "${uid}" "${_gid}"     \
             "${comment}" "${_home}" "${_shell}"  \
             >>"${PASSWD}"

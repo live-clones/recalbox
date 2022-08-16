@@ -1,8 +1,0 @@
-diff --git a/package/rtl8189fs/rtl8189fs.hash b/package/rtl8189fs/rtl8189fs.hash
-index f1524a6fcc..dc3dc4dee8 100644
---- a/package/rtl8189fs/rtl8189fs.hash
-+++ b/package/rtl8189fs/rtl8189fs.hash
-@@ -1,2 +1,2 @@
- # Locally calculated
--sha256 f3f8bcc1e75f095350f12c36f7b8af88eebf3913d4bc921083489f1758cb5068 rtl8189fs-54bd6808e38f213126e7d6447ae9d80c656179f3.tar.gz
-+sha256 81982503faa0edf7e7a8511d98121040e35527b9d66e7c36eb1f22676d37ac0b rtl8189fs-930d3d7cfe3b25c0cf8a57ca4b79f6aef5b6de4b.tar.gz

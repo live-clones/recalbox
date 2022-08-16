@@ -1,0 +1,25 @@
+From 24e247e55bcb39589c88aa52da61a46f5d1d9654 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 20 Jul 2022 11:07:08 +0200
+Subject: [PATCH] fix build with meson 0.62.1
+
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 9c83d05..876eb93 100755
+--- a/meson.build
++++ b/meson.build
+@@ -28,7 +28,7 @@ libthreads_dep = dependency('threads')
+ 
+ gen_version = vcs_tag(
+ 	command : ['./genversion.sh', 'meson'],
+-	replace_string : ['$GIT_BUILD_VERSION'],
++	replace_string : '$GIT_BUILD_VERSION',
+ 	input : 'version.h.template', output : 'version.h',
+  )
+ add_project_arguments('-DLINUX=1', language : 'cpp')
+-- 
+2.37.1
+

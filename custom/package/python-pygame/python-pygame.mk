@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-PYTHON_PYGAME_VERSION = 2.0.1
+PYTHON_PYGAME_VERSION = 2.1.2
 PYTHON_PYGAME_SITE = $(call github,pygame,pygame,$(PYTHON_PYGAME_VERSION))
 PYTHON_PYGAME_SETUP_TYPE = setuptools
 PYTHON_PYGAME_LICENSE = LGPL-2.1+
@@ -47,7 +47,7 @@ PYTHON_PYGAME_POST_INSTALL_TARGET_HOOKS += PYTHON_PYGAME_REMOVE_TESTS
 
 ifneq ($(BR2_PACKAGE_PYTHON_PYGAME_EXAMPLES),y)
 define PYTHON_PYGAME_REMOVE_EXAMPLES
-	rm -rf $(TARGET_DIR)/usr/lib/python*/site-packages/pygame/examples
+	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/site-packages/pygame/examples
 endef
 PYTHON_PYGAME_POST_INSTALL_TARGET_HOOKS += PYTHON_PYGAME_REMOVE_EXAMPLES
 endif

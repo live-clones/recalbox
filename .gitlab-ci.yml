@@ -45,7 +45,7 @@ lint buildroot:
   <<: *lint_definition
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
-  image: python:2-alpine
+  image: python:3-alpine
   before_script:
     - pip install six
   script: test/lint/buildroot
@@ -129,7 +129,7 @@ tests buildroot patches:
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
-                                          "recalbox-${ARCH}" make $PKG-patch 2>&1 ||exit 1
+                                          "recalbox-${ARCH}" make BR2_DL_DIR="/share/dl" $PKG-patch 2>&1 ||exit 1
         fi
       done
 
@@ -169,7 +169,7 @@ tests buildroot patches:
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}
-    - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
     # Dist
     - export DIST_DIR="dist/${ARCH}"

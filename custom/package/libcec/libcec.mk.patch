@@ -1,9 +1,9 @@
 diff --git a/package/libcec/libcec.mk b/package/libcec/libcec.mk
-index 6591bc009a..ac6f9f657a 100644
+index 33e0463eb8..5cfbcb707b 100644
 --- a/package/libcec/libcec.mk
 +++ b/package/libcec/libcec.mk
-@@ -24,6 +24,10 @@ ifeq ($(BR2_PACKAGE_PYTHON)$(BR2_PACKAGE_PYTHON3),y)
- LIBCEC_DEPENDENCIES += host-swig $(if $(BR2_PACKAGE_PYTHON3),python3,python)
+@@ -24,6 +24,10 @@ ifeq ($(BR2_PACKAGE_PYTHON3),y)
+ LIBCEC_DEPENDENCIES += host-swig python3
  endif
  
 +ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)

@@ -1,16 +1,7 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index a2e426e578..8f66b4ac91 100644
+index 94533fa9b4..d737c4b74c 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
-@@ -4,7 +4,7 @@
- #
- ################################################################################
- 
--SDL2_VERSION = 2.0.14
-+SDL2_VERSION = 2.0.20
- SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
- SDL2_SITE = http://www.libsdl.org/release
- SDL2_LICENSE = Zlib
 @@ -15,11 +15,11 @@ SDL2_INSTALL_STAGING = YES
  SDL2_CONFIG_SCRIPTS = sdl2-config
  
@@ -24,19 +15,18 @@ index a2e426e578..8f66b4ac91 100644
  	--disable-video-wayland
  
  # We are using autotools build system for sdl2, so the sdl2-config.cmake
-@@ -32,6 +32,11 @@ define SDL2_REMOVE_SDL2_CONFIG_CMAKE
+@@ -33,6 +33,10 @@ define SDL2_FIX_SDL2_CONFIG_CMAKE
+ 		$(STAGING_DIR)/usr/lib/cmake/SDL2/sdl2-config.cmake
  endef
- SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_REMOVE_SDL2_CONFIG_CMAKE
- 
+ SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_FIX_SDL2_CONFIG_CMAKE
 +define SDL2_RUN_AUTOGEN
 +	$(@D)/autogen.sh
 +endef
 +SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
-+
+ 
  # We must enable static build to get compilation successful.
  SDL2_CONF_OPTS += --enable-static
- 
-@@ -149,6 +154,13 @@ else
+@@ -151,11 +155,29 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  
@@ -48,9 +38,10 @@ index a2e426e578..8f66b4ac91 100644
 +endif
 +
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
- SDL2_DEPENDENCIES += libdrm
+-SDL2_DEPENDENCIES += libdrm mesa3d
++SDL2_DEPENDENCIES += libdrm libgbm
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -156,4 +168,15 @@ else
+ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  

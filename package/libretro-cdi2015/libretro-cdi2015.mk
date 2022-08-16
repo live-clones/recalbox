@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit version of 26/12/21
-LIBRETRO_CDI2015_VERSION = 3fa75d01ff02d08815cde442a5a79cdbbf8142e7
+#Commit version of 14/06/22
+LIBRETRO_CDI2015_VERSION = 2599c8aeaf84f62fe16ea00daa460a19298c121c
 LIBRETRO_CDI2015_SITE = $(call github,libretro,mame2015-libretro,$(LIBRETRO_CDI2015_VERSION))
 LIBRETRO_CDI2015_LICENSE = MAME
 LIBRETRO_CDI2015_NON_COMMERCIAL = y
