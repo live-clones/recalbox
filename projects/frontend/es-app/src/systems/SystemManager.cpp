@@ -15,14 +15,13 @@
 #include <utils/Strings.h>
 #include <utils/os/fs/StringMapFile.h>
 #include <utils/Files.h>
-#include <algorithm>
 #include <utils/locale/LocaleHelper.h>
 #include <dirent.h>
 
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {
   RomSources roots;
-  if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
+  //if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
   {
     std::string rootTag(sRootTag);
     // Share_init roms
@@ -47,7 +46,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
       }
     }
   }
-  else
+  /*else
   {
     // For compatibility until we move romfs
     bool ok = false;
@@ -68,7 +67,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
       roots[systemDescriptor.RomPath().ToString()] = false;
       { LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder."; }
     }
-  }
+  }*/
 
   return roots;
 }
@@ -325,7 +324,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false, "")
+            .SetVirtualPropertiesInformation(SystemDescriptor::SystemType::Virtual, SystemDescriptor::DeviceRequirement::Recommended, SystemDescriptor::DeviceRequirement::Recommended, SystemDescriptor::DeviceRequirement::Recommended)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite);
 
@@ -348,6 +347,10 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                            SystemDescriptor::SystemType systemType,
+                                            SystemDescriptor::DeviceRequirement keyboard,
+                                            SystemDescriptor::DeviceRequirement mouse,
+                                            SystemDescriptor::DeviceRequirement pad,
                                             SystemData::Properties properties, FileData::StringMap& doppelganger,
                                             FileSorts::Sorts fixedSort)
 {
@@ -356,7 +359,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("engine", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false, "")
+            .SetVirtualPropertiesInformation(systemType, keyboard, mouse, pad)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -379,6 +382,10 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const FileData::List& games,
+                                            SystemDescriptor::SystemType systemType,
+                                            SystemDescriptor::DeviceRequirement keyboard,
+                                            SystemDescriptor::DeviceRequirement mouse,
+                                            SystemDescriptor::DeviceRequirement pad,
                                             SystemData::Properties properties, FileData::StringMap& doppelganger,
                                             FileSorts::Sorts fixedSort)
 {
@@ -387,7 +394,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("virtual", "mandatory", "mandatory", "mandatory", "2020-01-01", "None", false, false, false, "")
+            .SetVirtualPropertiesInformation(systemType, keyboard, mouse, pad)
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -486,7 +493,12 @@ bool SystemManager::AddArcadeMetaSystem()
       // Create meta-system
       SystemData::Properties properties = SystemData::Properties::Virtual;
       if (hideOriginals) properties |= SystemData::Properties::Searchable;
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
+      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades,
+                                            SystemDescriptor::SystemType::Arcade,
+                                            SystemDescriptor::DeviceRequirement::None,
+                                            SystemDescriptor::DeviceRequirement::None,
+                                            SystemDescriptor::DeviceRequirement::Required,
+                                            properties, doppelganger);
       { LOG(LogInfo) << "[System] Creating Arcade meta-system"; }
       int position = RecalboxConf::Instance().GetCollectionArcadePosition() % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
@@ -526,7 +538,12 @@ bool SystemManager::AddPorts()
     if ((!RecalboxConf::Instance().GetCollectionHide("ports")) || (mVisibleSystemVector.size() == 1))
     {
       // Create meta-system
-      SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
+      SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports,
+                                                SystemDescriptor::SystemType::Port,
+                                                SystemDescriptor::DeviceRequirement::None,
+                                                SystemDescriptor::DeviceRequirement::None,
+                                                SystemDescriptor::DeviceRequirement::Required,
+                                                SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
       { LOG(LogInfo) << "[System] Creating Ports"; }
       // Seek default position
       int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
@@ -540,7 +557,12 @@ bool SystemManager::AddPorts()
   return !ports.empty();
 }
 
-bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier, const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)
+bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier,
+                                                  SystemDescriptor::SystemType systemType,
+                                                  SystemDescriptor::DeviceRequirement keyboard,
+                                                  SystemDescriptor::DeviceRequirement mouse,
+                                                  SystemDescriptor::DeviceRequirement pad,
+                                                  const std::string& fullname, SystemData::Properties properties, FileSorts::Sorts fixedSort)
 {
   // Collection activated?
   bool collection = RecalboxConf::Instance().GetCollection(identifier);
@@ -582,7 +604,9 @@ bool SystemManager::AddManuallyFilteredMetasystem(IFilter* filter, FileData::Com
 
       // Create!
       { LOG(LogInfo) << "[System] Creating " << fullname << " meta-system"; }
-      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, properties, doppelganger, fixedSort);
+      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames,
+                                               systemType, keyboard, mouse, pad,
+                                               properties, doppelganger, fixedSort);
 
       // And add the system
       int position = RecalboxConf::Instance().GetCollectionPosition(identifier) % (int) mVisibleSystemVector.size();
@@ -639,7 +663,12 @@ bool SystemManager::AddLightGunMetaSystem()
       { LOG(LogInfo) << "[System] Creating " << fullname << " meta-system"; }
       SystemData::Properties props = SystemData::Properties::Virtual |
                                      SystemData::Properties::AlwaysFlat;
-      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames, props, doppelganger);
+      SystemData* allsystem = CreateMetaSystem(identifier, _S(fullname), theme, allGames,
+                                               SystemDescriptor::SystemType::Virtual,
+                                               SystemDescriptor::DeviceRequirement::None,
+                                               SystemDescriptor::DeviceRequirement::None,
+                                               SystemDescriptor::DeviceRequirement::Required,
+                                               props, doppelganger);
 
       // And add the system
       int position = RecalboxConf::Instance().GetCollectionPosition(identifier) % (int) mVisibleSystemVector.size();
@@ -662,8 +691,12 @@ bool SystemManager::AddAllGamesMetaSystem()
         return fileData.IsDisplayable();
       }
   } filter;
-  return AddManuallyFilteredMetasystem(&filter, nullptr, sAllGamesSystemShortName, sAllGamesSystemFullName,
-                                       SystemData::Properties::None);
+  return AddManuallyFilteredMetasystem(&filter, nullptr, sAllGamesSystemShortName,
+                                       SystemDescriptor::SystemType::Virtual,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       sAllGamesSystemFullName, SystemData::Properties::None);
 }
 
 bool SystemManager::AddMultiplayerMetaSystems()
@@ -676,8 +709,12 @@ bool SystemManager::AddMultiplayerMetaSystems()
         return file.IsDisplayable() && (file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1);
       }
   } filter;
-  return AddManuallyFilteredMetasystem(&filter, nullptr, sMultiplayerSystemShortName, sMultiplayerSystemFullName,
-                                       SystemData::Properties::None);
+  return AddManuallyFilteredMetasystem(&filter, nullptr, sMultiplayerSystemShortName,
+                                       SystemDescriptor::SystemType::Virtual,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       sMultiplayerSystemFullName, SystemData::Properties::None);
 }
 
 bool SystemManager::AddLastPlayedMetaSystem()
@@ -690,7 +727,12 @@ bool SystemManager::AddLastPlayedMetaSystem()
         return file.IsDisplayable() && file.Metadata().LastPlayedEpoc() != 0;
       }
   } filter;
-  return AddManuallyFilteredMetasystem(&filter, nullptr, sLastPlayedSystemShortName, sLastPlayedSystemFullName,
+  return AddManuallyFilteredMetasystem(&filter, nullptr, sLastPlayedSystemShortName,
+                                       SystemDescriptor::SystemType::Virtual,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       SystemDescriptor::DeviceRequirement::Unknown,
+                                       sLastPlayedSystemFullName,
                                        SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat, FileSorts::Sorts::LastPlayedDescending);
 }
 
@@ -721,7 +763,12 @@ bool SystemManager::AddGenresMetaSystem()
   for(const auto& genre : genres)
   {
     Filter filter(genre.first);
-    AddManuallyFilteredMetasystem(&filter, nullptr, genre.second, Genres::GetName(genre.first),
+    AddManuallyFilteredMetasystem(&filter, nullptr, genre.second,
+                                  SystemDescriptor::SystemType::Virtual,
+                                  SystemDescriptor::DeviceRequirement::Unknown,
+                                  SystemDescriptor::DeviceRequirement::Unknown,
+                                  SystemDescriptor::DeviceRequirement::Unknown,
+                                  Genres::GetName(genre.first),
                                   SystemData::Properties::None);
   }
   return true;
