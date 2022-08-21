@@ -16,5 +16,5 @@ class IFilter
      * @param file FileData to filter
      * @return Return true to validate this entry, false to ignore it
      */
-    virtual bool ApplyFilter(const FileData& file) const = 0;
+    [[nodiscard]] virtual bool ApplyFilter(const FileData& file) const = 0;
 };

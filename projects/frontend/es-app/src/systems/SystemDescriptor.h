@@ -111,6 +111,20 @@ class SystemDescriptor
       return *this;
     }
 
+    /*!
+     * @brief Set property information
+     * @param systemtype System type
+     * @param pad Pad requirement
+     * @param keyboard Keyboard requirement
+     * @param mouse Mouser requirement
+     * @param releasedate Release data
+     * @param manufacturer Manufacturer
+     * @param lightgun Has lightgun support?
+     * @param multiresolution Support CRT Multi resolution?
+     * @param multiregion Support multi region?
+     * @param ignoredfiles Ignored files
+     * @return This
+     */
     SystemDescriptor& SetPropertiesInformation(const std::string& systemtype,
                                                const std::string& pad,
                                                const std::string& keyboard,
@@ -133,6 +147,32 @@ class SystemDescriptor
       mCrtInterlaced = multiresolution;
       mCrtMultiRegion = multiregion;
       mIgnoredFiles = ignoredfiles;
+      return *this;
+    }
+
+    /*!
+     * @brief Set property information for virtual systems
+     * @param systemtype System type (virtual most of the time, but arcade for all arcade)
+     * @param pad
+     * @param keyboard
+     * @param mouse
+     * @return
+     */
+    SystemDescriptor& SetVirtualPropertiesInformation(SystemType systemtype,
+                                                      DeviceRequirement keyboard,
+                                                      DeviceRequirement mouse,
+                                                      DeviceRequirement pad)
+    {
+      mType = systemtype;
+      mPad = pad;
+      mKeyboard = keyboard;
+      mMouse = mouse;
+      mReleaseDate = 0;
+      mManufacturer = "Virtual";
+      mLightgun = false;
+      mCrtInterlaced = false;
+      mCrtMultiRegion = false;
+      mIgnoredFiles.clear();
       return *this;
     }
 
