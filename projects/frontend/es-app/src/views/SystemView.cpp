@@ -196,7 +196,7 @@ void SystemView::populate()
 {
 	mEntries.clear();
 
-	for (const auto it : mSystemManager.GetVisibleSystemList())
+	for (auto *const it : mSystemManager.GetVisibleSystemList())
     if (it->HasVisibleGame())
       addSystem(it);
 }
@@ -618,9 +618,9 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 	{
 		int index = i;
 		while (index < 0)
-			index += mEntries.size();
+			index += (int)mEntries.size();
 		while (index >= (int)mEntries.size())
-			index -= mEntries.size();
+			index -= (int)mEntries.size();
 
 		Transform4x4f logoTrans = carouselTrans;
 		logoTrans.translate(Vector3f((float)i * logoSpacing[0] + xOff, (float)i * logoSpacing[1] + yOff, 0));
