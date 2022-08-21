@@ -156,10 +156,20 @@ class SystemManager :
      * @param filter Filter to apply
      * @param comparer Comparer to sort items. If null, no sorting is applied
      * @param identifier System identifier (short name)
+     * @param systemType System type
+     * @param keyboard Keyboard requirement
+     * @param mouse Mouse requirement
+     * @param pad Pad requirement
      * @param fullname System full name
+     * @param properties System property flags
+     * @param fixedSort Fixed sort if required
      * @return True if the system has been added
      */
     bool AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier,
+                                       SystemDescriptor::SystemType systemType,
+                                       SystemDescriptor::DeviceRequirement keyboard,
+                                       SystemDescriptor::DeviceRequirement mouse,
+                                       SystemDescriptor::DeviceRequirement pad,
                                        const std::string& fullname, SystemData::Properties properties,
                                        FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
@@ -232,12 +242,20 @@ class SystemManager :
      * @param fullName Target system fullname
      * @param themeFolder Theme folder name
      * @param systems System to fetch games to aggregate into a single list
+     * @param systemType System type
+     * @param keyboard Keyboard requirement
+     * @param mouse Mouse requirement
+     * @param pad Pad requirement
      * @param properties System properties
      * @param doppelganger Map to FileData
      * @return New meta-system
      */
     SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                  const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                 SystemDescriptor::SystemType systemType,
+                                 SystemDescriptor::DeviceRequirement keyboard,
+                                 SystemDescriptor::DeviceRequirement mouse,
+                                 SystemDescriptor::DeviceRequirement pad,
                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
                                  FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
@@ -247,12 +265,20 @@ class SystemManager :
      * @param fullName Target system fullname
      * @param themeFolder Theme folder name
      * @param games Games to add
+     * @param systemType System type
+     * @param keyboard Keyboard requirement
+     * @param mouse Mouse requirement
+     * @param pad Pad requirement
      * @param properties System properties
      * @param doppelganger Map to FileData
      * @return New meta-system
      */
     SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                  const std::string& themeFolder, const FileData::List& games,
+                                 SystemDescriptor::SystemType systemType,
+                                 SystemDescriptor::DeviceRequirement keyboard,
+                                 SystemDescriptor::DeviceRequirement mouse,
+                                 SystemDescriptor::DeviceRequirement pad,
                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
                                  FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
