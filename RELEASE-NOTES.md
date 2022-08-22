@@ -29,6 +29,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add the possibility to sort games by release date.
+## Version 8.2-Electron
+
+### News
+- Add new category 'Demoscene' in tic80 games downloader.
 
 ### Improvements
 
