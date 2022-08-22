@@ -19,6 +19,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gPSP
 
 ### Fixes
+- Bump libretro gong
+
+### Fixes
+
 
 ## Version 8.1.1-Electron
 
