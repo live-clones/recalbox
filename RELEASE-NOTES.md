@@ -17,6 +17,11 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
+- Bump libretro gong
+
+### Fixes
+
+
 ## Version 8.1.1-Electron
 
 ## Fixes
