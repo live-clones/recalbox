@@ -36,6 +36,13 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 
+### News
+- Add new category 'Demoscene' in tic80 games downloader.
+
+### Improvements
+
+### Fixes
+
 ## Version 8.1.1-Electron
 
 ## Fixes

@@ -11,7 +11,7 @@
 # VARIABLES #
 #############
 
-releaseDate=2021.08.01
+releaseDate=2022.08.22
 
 #############
 # FUNCTIONS #
@@ -21,9 +21,9 @@ releaseDate=2021.08.01
 #   asks the user which category of software they want to download and set it as ${categoryChoice}
 function chooseCategory {
   PS3="Which category of software do you want to download? "
-  select categoryChoice in Games Demos Tools Music WIP "All categories"; do
+  select categoryChoice in Games Demos Tools Music WIP Demoscene "All categories"; do
     case ${categoryChoice} in
-      Games|Demos|Tools|Music|WIP|"All categories") break;;
+      Games|Demos|Tools|Music|WIP|Demoscene|"All categories") break;;
     esac
   done
 }
@@ -44,6 +44,7 @@ function categoryId {
     Tools) echo 2;;
     Music) echo 3;;
     WIP) echo 4;;
+    Demoscene) echo 5;;
     *) echo "Category not found"; break;;
   esac
 }
@@ -89,7 +90,7 @@ echo "recalbox-tic80 ver. ${releaseDate}"
 chooseCategory
 
 if [ "${categoryChoice}" = "All categories" ]; then
-  for category in Games Demos Tools Music WIP; do
+  for category in Games Demos Tools Music WIP Demoscene; do
     downloadCategorySoftware ${category}
   done
 else
