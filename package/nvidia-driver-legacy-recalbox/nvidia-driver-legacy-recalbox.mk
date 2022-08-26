@@ -199,6 +199,7 @@ define NVIDIA_DRIVER_LEGACY_RECALBOX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 $(@D)/nvidia-drm-outputclass.conf $(TARGET_DIR)/usr/share/X11/xorg.conf.d/10-nvidia-drm.conf.$(NVIDIA_DRIVER_LEGACY_RECALBOX_VERSION)
 	$(INSTALL) -D -m 0755 $(@D)/nvidia-settings $(TARGET_DIR)/usr/bin/nvidia-settings.$(NVIDIA_DRIVER_LEGACY_RECALBOX_VERSION)
 	$(INSTALL) -D -m 0755 $(@D)/nvidia-smi $(TARGET_DIR)/usr/bin/nvidia-smi.$(NVIDIA_DRIVER_LEGACY_RECALBOX_VERSION)
+	$(INSTALL) -D -m 0644 $(@D)/supported-gpus/supported-gpus.json $(TARGET_DIR)/usr/lib/extra/nvidia-$(NVIDIA_DRIVER_LEGACY_RECALBOX_VERSION)/
 endef
 
 # recalbox hardware script will handle kernel module version
