@@ -6,16 +6,20 @@
 #include <guis/GuiMsgBox.h>
 #include <utils/locale/LocaleHelper.h>
 #include <MainRunner.h>
+#include <hardware/Case.h>
 
 
 GuiMenuQuit::GuiMenuQuit(WindowManager& window)
   : GuiMenuBase(window, _("QUIT"), this)
 {
-  // Shutdown
-  AddSubMenu(_("SHUTDOWN SYSTEM"), (int)Components::Shutdown);
+  if (Case::CurrentCase().CanShutdownFromMenu())
+  {
+    // Shutdown
+    AddSubMenu(_("SHUTDOWN SYSTEM"), (int)Components::Shutdown);
 
-  // Fast Shutdown
-  AddSubMenu(_("FAST SHUTDOWN SYSTEM"), (int)Components::FastShutdown);
+    // Fast Shutdown
+    AddSubMenu(_("FAST SHUTDOWN SYSTEM"), (int) Components::FastShutdown);
+  }
 
   // Reboot
   AddSubMenu(_("RESTART SYSTEM"), (int)Components::Reboot);
