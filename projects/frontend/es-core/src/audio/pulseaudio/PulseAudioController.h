@@ -4,12 +4,17 @@
 #pragma once
 
 #include <audio/IAudioController.h>
+#include <audio/IAudioNotification.h>
 #include <pulse/pulseaudio.h>
 #include <vector>
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Signal.h>
+#include <utils/sync/SyncMessageSender.h>
 
-class PulseAudioController: public IAudioController, private Thread
+class PulseAudioController: public IAudioController
+                          , private Thread
+                          , private ISyncMessageReceiver<void>
+
 {
   public:
     /*!
@@ -150,6 +155,12 @@ class PulseAudioController: public IAudioController, private Thread
     //! Signal
     Signal mSignal;
 
+    //! Notifier Sync messager
+    SyncMessageSender<void> mEvent;
+
+    //! Audio notification
+    IAudioNotification* mNotificationInterface;
+
     /*!
      * @brief Initialize all
      */
@@ -182,7 +193,7 @@ class PulseAudioController: public IAudioController, private Thread
 
     static const Profile* LookupProfile(const Card& card, const std::string& name);
 
-    std::string GetDefaultSink();
+    void UpdateDefaultSink();
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
@@ -368,5 +379,20 @@ class PulseAudioController: public IAudioController, private Thread
      * @return uint count
      */
     uint CountAvailableProfiles(const Port& port);
+
+    /*!
+     * @brief Receive synchronous events
+     */
+    void ReceiveSyncMessage();
+
+    /*!
+     * @brief Set notification callback to call when a sink is added or removed
+     */
+    void SetNotificationCallback(IAudioNotification* callback) override { mNotificationInterface = callback; }
+
+    /*!
+     * @brief Clear notification callback
+     */
+    void ClearNotificationCallback() override { mNotificationInterface = nullptr; }
 
 };
