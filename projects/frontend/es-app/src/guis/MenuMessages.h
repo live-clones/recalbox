@@ -92,6 +92,7 @@ class MenuMessages
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
     #define MENUMESSAGE_SOUND_MODE_HELP_MSG "Select sound to play. Musics, videos sound, both or none"
     #define MENUMESSAGE_SOUND_DEVICE_HELP_MSG "Select your output device. Only HDMI and JACK are supported."
+    #define MENUMESSAGE_SOUND_BT_HELP_MSG "Pair a bluetooth audio device. Put your device in discovery mode before starting."
 
     #define MENUMESSAGE_NETWORK_HELP_MSG "Configure the network options of your recalbox.\nCheck your network status and IP address, set the hostname and configure the WIFI."
     #define MENUMESSAGE_NETWORK_STATUS_HELP_MSG "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
