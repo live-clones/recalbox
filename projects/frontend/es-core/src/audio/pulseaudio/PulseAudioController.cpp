@@ -14,6 +14,8 @@ PulseAudioController::PulseAudioController()
   : mConnectionState(ConnectionState::NotConnected)
   , mPulseAudioContext(nullptr)
   , mPulseAudioMainLoop(nullptr)
+  , mNotificationInterface(nullptr)
+  , mEvent(*this)
 {
   Thread::Start("PulseAudio");
   Initialize();
@@ -132,8 +134,20 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 		case PA_CONTEXT_READY:
     {
       { LOG(LogInfo) << "[PulseAudio] Connected to PulseAudio server."; }
-      This.mConnectionState =ConnectionState::Ready;
+      pa_operation *o;
+      This.mConnectionState = ConnectionState::Ready;
       This.mSignal.Fire();
+
+      // Set callback
+      pa_context_set_subscribe_callback(context, SubscriptionCallback, userdata);
+      // Set events mask and enable event callback.
+      o = pa_context_subscribe(context, (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK), nullptr, nullptr);
+
+      if (o)
+      {
+        { LOG(LogInfo) << "[PulseAudio] Subscribed to card and sink event."; }
+        pa_operation_unref(o);
+      }
       break;
     }
     case PA_CONTEXT_UNCONNECTED:
@@ -144,18 +158,18 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
 	}
 }
 
-void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscription_event_type_t type, uint32_t index, void *userdata)
+void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscription_event_type_t t, uint32_t index, void *userdata)
 {
   (void)context;
   // Get class
   PulseAudioController& This = *(PulseAudioController*)userdata;
   (void)This;
 
-  unsigned int facility = type & PA_SUBSCRIPTION_EVENT_FACILITY_MASK;
-  unsigned int typ = (pa_subscription_event_type_t)(type & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
+  unsigned int facility = t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK;
+  unsigned int type = (pa_subscription_event_type_t)(t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
 
   std::string typeStr;
-  switch(typ)
+  switch(type)
   {
     case PA_SUBSCRIPTION_EVENT_NEW: typeStr = "NEW"; break;
     case PA_SUBSCRIPTION_EVENT_CHANGE: typeStr = "CHANGE"; break;
@@ -178,7 +192,19 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
     default: eventStr = "UNKNOWN EVENT"; break;
   }
 
-  { LOG(LogError) << "[PulseAudio] EVENT! Type: " << typeStr << " - Event: " << eventStr << " - Index: " << index; }
+  { LOG(LogDebug) << "[PulseAudio] Event received Type: " << typeStr << " - Event: " << eventStr << " - Index: " << index; }
+
+  // Emit signal when a sink is added or removed
+  // all chances are the new sink is now the default one
+  // UI may need to refresh that change
+  if ((type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
+      &&
+      (facility == PA_SUBSCRIPTION_EVENT_SINK))
+  {
+    { LOG(LogDebug) << "[PulseAudio] Sink altered, send event"; }
+    // Notify of sink/card change
+    This.mEvent.Send();
+  }
 }
 
 void PulseAudioController::GetServerInfoCallback(pa_context *context, const pa_server_info* i, void* userdata)
@@ -550,9 +576,9 @@ bool PulseAudioController::IsPortAvailable(const std::string& portName)
   return available;
 }
 
-std::string PulseAudioController::GetDefaultSink()
+void PulseAudioController::UpdateDefaultSink()
 {
-  // Enumerate cards
+
   { LOG(LogInfo) << "[PulseAudio] Get server info"; }
 
   pa_operation* serverInfoOp = pa_context_get_server_info(mPulseAudioContext, GetServerInfoCallback, this);
@@ -560,13 +586,12 @@ std::string PulseAudioController::GetDefaultSink()
   mSignal.WaitSignal(sTimeOut);
   // Release
   pa_operation_unref(serverInfoOp);
-  return mServerInfo.DefaultSinkName;
 }
 
 std::string PulseAudioController::GetActivePlaybackName()
 {
   std::string playbackName = "";
-  std::string sinkName = GetDefaultSink();
+  std::string sinkName = mServerInfo.DefaultSinkName; // DefaultSinkName is updated by event subscription
 
   LOG(LogDebug) << "[PulseAudio] Default sink name is '" << sinkName << "'";
 
@@ -598,9 +623,6 @@ std::string PulseAudioController::GetActivePlaybackName()
   if (sinkName == "")
     return "";
 
-  // Refresh all objects
-  // We need to refresh now in case a new sink has been added
-  Refresh();
   const PulseAudioController::Sink* sink = GetSinkFromName(sinkName);
 
   if (!sink) {
@@ -875,8 +897,7 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile2(const
     return nullptr;
 
   const PulseAudioController::Profile* bestProfile = nullptr;
-  { LOG(LogDebug) << "[PulseAudio] Get Best profile for Card : " << ((targetCard != nullptr) ? targetCard->Description : "NULL"); }
-  { LOG(LogDebug) << "[PulseAudio] Get Best profile for Port : " << ((targetPort != nullptr) ? targetPort->Description : "NULL"); }
+  { LOG(LogDebug) << "[PulseAudio] Get Best profile for Card:Port : " << ((targetCard != nullptr) ? targetCard->Description : "NULL") << ":" << ((targetPort != nullptr) ? targetPort->Description : "NULL"); }
 
   // Card loop
   for(const Card& card : mCards)
@@ -896,7 +917,7 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile2(const
         {
           priority = profile.Priority;
           bestProfile = &profile;
-          { LOG(LogDebug) << "[PulseAudio] Get Best profile for Card : " << targetCard->Name << " Port : "  << targetPort->Name << " Profile : " << profile.Name << " with priority=" << profile.Priority; }
+          { LOG(LogDebug) << "[PulseAudio] Get Best profile result : " << targetCard->Name << ":"  << targetPort->Name << ":" << profile.Name << " with priority=" << profile.Priority; }
         }
       }
     }
@@ -993,7 +1014,7 @@ void PulseAudioController::PulseEnumerateSinks()
   mSyncer.UnLock();
 
   // Enumerate cards
-  { LOG(LogInfo) << "[PulseAudio] Enumerating Sinks"; }
+  { LOG(LogInfo) << "[PulseAudio] Enumerating Sinks."; }
   pa_operation* sinkOp = pa_context_get_sink_info_list(mPulseAudioContext, EnumerateSinkCallback, this);
   // Wait for response
   mSignal.WaitSignal(sTimeOut);
@@ -1161,7 +1182,20 @@ void PulseAudioController::Refresh()
 
   if (mConnectionState == ConnectionState::Ready)
   {
+    // Update default sink name
+    UpdateDefaultSink();
+
     PulseEnumerateSinks();
     PulseEnumerateCards();
   }
+}
+
+void PulseAudioController::ReceiveSyncMessage()
+{
+  // Get new sink/card and default sink name
+  Refresh();
+
+  { LOG(LogDebug) << "[PulseAudio] Send notification on sink change"; }
+  if (mNotificationInterface != nullptr)
+    mNotificationInterface->NotifyAudioChange();
 }

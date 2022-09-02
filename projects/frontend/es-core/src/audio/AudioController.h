@@ -79,4 +79,14 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Return the current active audio output name
      */
     std::string GetActivePlaybackName() const { return mController.GetActivePlaybackName(); }
+
+    /*!
+     * @brief Set the callback to call whenever a sink is added or removed
+     */
+    void SetNotificationCallback(IAudioNotification* callback) const { mController.SetNotificationCallback(callback); }
+
+    /*!
+     * @brief Clear the callback
+     */
+    void ClearNotificationCallback() const { mController.ClearNotificationCallback(); }
 };

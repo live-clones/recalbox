@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "DeviceDescriptor.h"
+#include <audio/IAudioNotification.h>
 
 class IAudioController
 {
@@ -53,4 +54,8 @@ class IAudioController
      * @brief Get current running audio output name
      */
     virtual std::string GetActivePlaybackName() = 0;
+
+    virtual void SetNotificationCallback(IAudioNotification*) = 0;
+
+    virtual void ClearNotificationCallback() = 0;
 };
