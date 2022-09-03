@@ -49,6 +49,7 @@ as release notes for end user on a Recalbox upgrade.
   - Detection and pairing stays in background for 5 minutes
  
 - Bump libretro Opera
+- Bump libretro Beetle Lynx
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
