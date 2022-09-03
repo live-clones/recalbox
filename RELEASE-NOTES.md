@@ -5,12 +5,14 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## 8.2-Electron
+## Version 8.2-Electron
 
 ### News
 
 ### Improvements
 
 - Bump libretro Opera
+- Bump libretro Beetle Lynx
 
 ### Fixes
 
