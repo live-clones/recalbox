@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump libretro Opera
 - Bump libretro Beetle Lynx
+- Bump libretro gPSP
 
 ### Fixes
 
