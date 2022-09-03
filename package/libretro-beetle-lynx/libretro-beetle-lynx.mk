@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_LYNX_VERSION = 4756c2eb602afe8b607daaf224f03cbc5544b7a6
+# 10/06/2022
+LIBRETRO_BEETLE_LYNX_VERSION = 3d2fcc5a555bea748b76f92a082c40227dff8222
 LIBRETRO_BEETLE_LYNX_SITE = $(call github,libretro,beetle-lynx-libretro,$(LIBRETRO_BEETLE_LYNX_VERSION))
 LIBRETRO_BEETLE_LYNX_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_LYNX_LICENSE_FILES = COPYING
