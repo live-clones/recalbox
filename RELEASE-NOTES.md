@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Systems without one default overlay won't show anymore an overlay from another system.
 - Bump libretro Opera
+- Bump libretro Beetle Lynx
 
 ### Fixes
 
