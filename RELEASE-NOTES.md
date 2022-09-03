@@ -18,6 +18,8 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump libretro Opera
 
+- Bump libretro Beetle Lynx
+
 ### Fixes
 - Fix pad 8bitdo Pro 2 mode D (Android)
 
