@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro fbneo
 - Bump libretro Opera
 - Bump libretro Beetle Lynx
+- Bump libretro gPSP
 
 - Update of the theme for the X68000 system
  
