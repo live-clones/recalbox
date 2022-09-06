@@ -425,6 +425,12 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::UnknownPi:
       default: break;
     }
+    // start autopair process
+    MqttClient * mqtt = new MqttClient("recalbox-emulationstation-bt");
+    mqtt->Wait();
+    mqtt->Send("bluetooth/operation", "{\"command\": \"start_discovery\"}");
+    mqtt->Disconnect();
+    mqtt->Wait();
     RecalboxConf::Instance().SetFirstTimeUse(false);
   }
 }
