@@ -1,0 +1,118 @@
+#!/usr/bin/python
+
+from __future__ import absolute_import, print_function, unicode_literals
+
+import logging
+import dbus
+import dbus.service
+import dbus.mainloop.glib
+
+try:
+    from gi.repository import GObject
+except ImportError:
+    import gobject as GObject
+
+APPNAME = "recalbox-bt-agent"
+BUS_NAME = "org.bluez"
+AGENT_INTERFACE = "org.bluez.Agent1"
+AGENT_PATH = "/recalbox/agent"
+
+bus = None
+device_obj = None
+dev_path = None
+
+
+def init_logger():
+    _logger = logging.getLogger(APPNAME)
+    log_formatter = logging.Formatter(
+        "%(asctime)s [%(name)-12.12s]:[%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
+    )
+    _logger.setLevel(logging.NOTSET)
+
+    file_handler = logging.FileHandler("/var/log/recalbox-bluetooth.log")
+    file_handler.setFormatter(log_formatter)
+    file_handler.setLevel(logging.INFO)
+    _logger.addHandler(file_handler)
+
+    _logger.setLevel(logging.INFO)
+    return _logger
+
+
+def set_trusted(path):
+    props = dbus.Interface(
+        bus.get_object("org.bluez", path), "org.freedesktop.DBus.Properties"
+    )
+    props.Set("org.bluez.Device1", "Trusted", True)
+
+
+class Agent(dbus.service.Object):
+    exit_on_release = True
+
+    def set_exit_on_release(self, exit_on_release):
+        self.exit_on_release = exit_on_release
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="", out_signature="")
+    def Release(self):
+        logger.info("Release")
+        if self.exit_on_release:
+            mainloop.quit()
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="os", out_signature="")
+    def AuthorizeService(self, device, uuid):
+        logger.info("AuthorizedService (%s, %s)" % (device, uuid))
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="s")
+    def RequestPinCode(self, device):
+        logger.info("RequestPinCode (%s)" % (device))
+        set_trusted(device)
+        return "0000"
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="u")
+    def RequestPasskey(self, device):
+        logger.info("RequestPasskey (%s)" % (device))
+        set_trusted(device)
+        return 0
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="ouq", out_signature="")
+    def DisplayPasskey(self, device, passkey, entered):
+        logger.info("DisplayPasskey (%s, %06u entered %u)" % (device, passkey, entered))
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="os", out_signature="")
+    def DisplayPinCode(self, device, pincode):
+        logger.info("DisplayPinCode (%s, %s)" % (device, pincode))
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="ou", out_signature="")
+    def RequestConfirmation(self, device, passkey):
+        logger.info("RequestConfirmation (%s, %06d)" % (device, passkey))
+        set_trusted(device)
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="o", out_signature="")
+    def RequestAuthorization(self, device):
+        logger.info("RequestAuthorization (%s)" % (device))
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature="", out_signature="")
+    def Cancel(self):
+        logger.warning("Cancel")
+
+
+if __name__ == "__main__":
+    logger = init_logger()
+    logger.info("%s starting", APPNAME)
+    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
+    bus = dbus.SystemBus()
+
+    mainloop = GObject.MainLoop()
+
+    obj = bus.get_object(BUS_NAME, "/org/bluez")
+    manager = dbus.Interface(obj, "org.bluez.AgentManager1")
+    manager.RegisterAgent(AGENT_PATH, "NoInputNoOutput")
+    manager.RequestDefaultAgent(AGENT_PATH)
+    agent = Agent(bus, AGENT_PATH)
+
+    logger.info("Agent registered")
+
+    mainloop.run()
+
+    # adapter.UnregisterAgent(path)
+    # print("Agent unregistered")
