@@ -46,6 +46,11 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro fuse & add new supported file extensions
 - Update of the theme for the X68000 system
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
+- Improve bluetooth devices pairing
+  - Audio devices can be paired in sound settings
+  - Joysticks and joypads will be automatically paired on first boot
+  - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
+  - Detection and pairing stays in background for 5 minutes
  
 - Improve AppleIIGS configurator & add eXoAppleIIGS config support
 - Bump libretro genesisplusgxwide
