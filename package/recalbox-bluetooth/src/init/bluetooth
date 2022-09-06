@@ -10,8 +10,6 @@ if [ ! -f "$config_file" ]; then
   systemsetting="recalbox_settings -source $config_file_noshare"
 fi
 
-scanningDaemon=test-discovery
-scanCmd=
 
 handle_ertm() {
   local modprobe_option
@@ -36,30 +34,36 @@ start_bluetoothd() {
   settings_version="$($systemsetting -command load -key controllers.ps3.driver -default bluez)"
   if [ "$settings_version" != "bluez" ]; then BLUETOOTHD_ARGS="--noplugin=sixaxis"; else BLUETOOTHD_ARGS="--noplugin=sixaxispair"; fi
   start-stop-daemon -S -q -m -p /var/run/bluetoothd.pid  --exec /usr/libexec/bluetooth/bluetoothd -- $BLUETOOTHD_ARGS &
-  ( /recalbox/scripts/bluetooth/bluetoothcontrollers.sh ; $scanCmd ) &
+  ( /recalbox/scripts/bluetooth/bluetoothcontrollers.sh ) &
+}
+
+start_bluetooth_agent() {
+  start-stop-daemon -S -q -m -p /var/run/bt-agent.pid -b --exec /recalbox/scripts/bluetooth/recalbox-bluetooth-agent --
+}
+
+start_bluetooth_autopair() {
+  start-stop-daemon -S -q -m -p /var/run/bt-autopair.pid -b --exec /recalbox/scripts/bluetooth/autopair --
 }
 
 case "$1" in
   start)
-  handle_ertm
-  alternate="$($systemsetting  -command load -key controllers.bluetooth.alternate -default 0)"
-  if [ "$alternate" = "1" ] ; then
-    scanningDaemon=btDaemon
-    scanCmd="start-stop-daemon -S -q -m -p /var/run/$scanningDaemon.pid --exec /recalbox/scripts/bluetooth/$scanningDaemon > /dev/null 2>&1"
-  fi
-  enabled="$($systemsetting  -command load -key controllers.bluetooth.enabled -default 1)"
-  if [ "$enabled" = "1" ];then
-    start_bluetoothd
-  fi
-    ;;
+    handle_ertm
+    enabled="$($systemsetting  -command load -key controllers.bluetooth.enabled -default 1)"
+    if [ "$enabled" = "1" ];then
+      start_bluetoothd
+      start_bluetooth_agent
+      start_bluetooth_autopair
+    fi
+  ;;
   stop)
-	start-stop-daemon -K -q -p /var/run/"$scanningDaemon".pid
-	start-stop-daemon -K -q -p /var/run/bluetoothd.pid
-	;;
+    start-stop-daemon -K -q -p /ver/run/bt-autopair.pid
+    start-stop-daemon -K -q -p /ver/run/bt-agent.pid
+    start-stop-daemon -K -q -p /var/run/bluetoothd.pid
+  ;;
   restart|reload)
     "$0" stop
     "$0" start
-	;;
+  ;;
   *)
     echo "Usage: $0 {start|stop|restart}"
     exit 1
