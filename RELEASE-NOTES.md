@@ -51,6 +51,12 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro uae
 - Bump libretro fbneo
 
+- Improve bluetooth devices pairing
+  - Audio devices can be paired in sound settings
+  - Joysticks and joypads will be automatically paired on first boot
+  - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
+  - Detection and pairing stays in background for 5 minutes
+ 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
