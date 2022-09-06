@@ -20,7 +20,7 @@ MqttClient::MqttClient(const char* clientId)
   }
   catch(std::exception& e)
   {
-    { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (ctor) !"; }
+    { LOG(LogError) << "[MQTT] Connection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (ctor) ! reason: " << e.what(); }
   }
 }
 
@@ -33,7 +33,7 @@ bool MqttClient::Send(const std::string& topic, const std::string& message)
   }
   catch(std::exception& e)
   {
-    { LOG(LogError) << "[MQTT] Sending messageConnexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (send) !"; }
+    { LOG(LogError) << "[MQTT] Sending messageConnection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (send) ! reason: " << e.what(); }
   }
   return false;
 }
@@ -44,17 +44,17 @@ void MqttClient::on_failure(const mqtt::token& asyncActionToken)
   {
     case mqtt::token::CONNECT:
     {
-      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed!"; }
+      { LOG(LogError) << "[MQTT] Connection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed code " << asyncActionToken.get_reason_code(); }
       break;
     }
     case mqtt::token::SUBSCRIBE:
     {
-      { LOG(LogError) << "[MQTT] Subscribing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed!"; }
+      { LOG(LogError) << "[MQTT] Subscribing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed code " << asyncActionToken.get_reason_code(); }
       break;
     }
     case mqtt::token::PUBLISH:
     {
-      { LOG(LogError) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed!"; }
+      { LOG(LogError) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed code " << asyncActionToken.get_reason_code(); }
       break;
     }
     case mqtt::token::UNSUBSCRIBE:
@@ -73,7 +73,7 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
   {
     case mqtt::token::CONNECT:
     {
-      { LOG(LogDebug) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
+      { LOG(LogDebug) << "[MQTT] Connection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
       break;
     }
     case mqtt::token::SUBSCRIBE:
@@ -96,3 +96,13 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
   }
 }
 
+void MqttClient::Wait()
+{
+  mOriginalTocken->wait();
+}
+
+void MqttClient::Disconnect()
+{
+  mMqtt.disconnect();
+
+}
