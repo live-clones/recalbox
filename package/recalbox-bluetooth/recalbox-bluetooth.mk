@@ -16,12 +16,12 @@ endif
 
 RECALBOX_BLUETOOTH_SCRIPTS_FILES = \
 	bluezutils.py \
-	btDaemon \
-	eslist.sh \
 	recalpair \
-	simple-agent \
+	eslist.sh \
 	test-device \
-	test-discovery
+	test-discovery \
+	autopair \
+	recalbox-bluetooth-agent
 define RECALBOX_BLUETOOTH_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(RECALBOX_BLUETOOTH_PKGDIR)src/init/bluetooth $(TARGET_DIR)/etc/init.d/S07bluetooth
 	$(foreach script,$(RECALBOX_BLUETOOTH_SCRIPTS_FILES),\
