@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_OPERA_VERSION = cc00f9c68cb8947210f60ece441b9830a1c32bd7
+# Commit of 2022/07/25
+LIBRETRO_OPERA_VERSION = 8a49bb8877611037438aeb857cb182f41ee0e3a1
 LIBRETRO_OPERA_SITE = $(call github,libretro,opera-libretro,$(LIBRETRO_OPERA_VERSION))
 LIBRETRO_OPERA_LICENSE = COPYRIGHT
 LIBRETRO_OPERA_NON_COMMERCIAL = y
