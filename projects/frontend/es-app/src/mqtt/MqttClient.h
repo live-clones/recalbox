@@ -39,6 +39,10 @@ class MqttClient : mqtt::iaction_listener
      */
     bool Send(const std::string& topic, const std::string& data);
 
+    void Wait();
+
+    void Disconnect();
+
   private:
     /*
      * mqtt::iaction_listener implementation
