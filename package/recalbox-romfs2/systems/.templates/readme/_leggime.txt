@@ -1,5 +1,5 @@
 =======================================================================
-# RECALBOX: Sistema $(FULLNAME) ($(TYPE:Cabinato Arcade:Console da Tavolo:Console Portatile:Computer:Systema virtuale:Motore grafico:Port))
+# RECALBOX: Sistema $(FULLNAME) ($(TYPE:Cabinato Arcade:Console da Tavolo:Console Portatile:Computer:Systema virtuale:Motore grafico:Port:Console virtuale))
 =======================================================================
 
 Copia qui le rom per $(FULLNAME).
