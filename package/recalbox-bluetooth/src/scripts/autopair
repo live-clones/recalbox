@@ -1,0 +1,326 @@
+#!/usr/bin/python
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
+from __future__ import absolute_import, print_function, unicode_literals
+
+import time
+from threading import Thread, Lock, Timer
+import logging
+import json
+import dbus
+import dbus.mainloop.glib
+
+try:
+    from gi.repository import GObject
+except ImportError:
+    import gobject as GObject
+
+try:
+    import paho.mqtt.client as mqtt
+
+    MQTT_AVAILABLE = True
+except ImportError:
+    MQTT_AVAILABLE = False
+
+import bluezutils
+
+APPNAME = "autopair"
+
+devices = {}
+threads = {}
+mutex = Lock()
+
+
+def init_logger():
+    """initialize the logger"""
+    _logger = logging.getLogger(APPNAME)
+    log_formatter = logging.Formatter(
+        "%(asctime)s [%(name)-12.12s]:[%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s"
+    )
+    _logger.setLevel(logging.NOTSET)
+
+    file_handler = logging.FileHandler("/var/log/recalbox-bluetooth.log")
+    file_handler.setFormatter(log_formatter)
+    file_handler.setLevel(logging.INFO)
+    _logger.addHandler(file_handler)
+
+    _logger.setLevel(logging.INFO)
+    return _logger
+
+
+def mqtt_client_connect(client, broker, port, keepalive=60):
+    while True:
+        logger.info("connecting to mqtt broker %s:%d", broker, port)
+
+        try:
+            client.connect(broker, port, keepalive)
+            logger.info("connected to mqtt broker")
+            client.subscribe("bluetooth/operation")
+            client.loop_forever()
+        except ConnectionRefusedError:
+            logging.error("mqtt connection refused, trying again in 2 seconds")
+        except RuntimeError as err:
+            logging.error("mqtt connection failed: %s", err)
+
+        time.sleep(2)
+
+
+def on_mqtt_message(mqtt_client, userdata, message):
+    logger.info("message received from broker")
+    data = json.loads(str(message.payload.decode("utf-8")))
+    try:
+        if data["command"] == "start_discovery":
+            start_discovery()
+            # automatically stop autopair discovery after 300 seconds
+            stop_discovery_timer = Timer(300.0, stop_discovery)
+            stop_discovery_timer.start()
+        if data["command"] == "stop_discovery":
+            stop_discovery()
+        if data["command"] == "report_status":
+            report_status()
+    except RuntimeError as err:
+        logger.error("error processing message: %s", err)
+
+
+def report_status():
+    global is_discovering
+    with mutex:
+        mqtt_client.publish(
+            "bluetooth/status",
+            json.dumps({"threads": threads, "is_discovering": is_discovering}),
+        )
+
+
+def start_discovery():
+    global is_discovering
+    if is_discovering is False:
+        is_discovering = True
+        logger.info("starting discovery")
+        adapter.StartDiscovery()
+
+
+def stop_discovery():
+    global is_discovering
+    if is_discovering is True:
+        is_discovering = False
+        logger.info("stopping discovery")
+        adapter.StopDiscovery()
+
+
+def pair_device(address):
+    try:
+        stop_discovery()
+        device = bluezutils.find_device(address)
+        device.Pair()
+    except Exception as e:
+        logger.error("can't pair device %s: %s", address, e)
+    start_discovery()
+
+
+def trust_bt_device(path):
+    btprops = dbus.Interface(
+        bus.get_object("org.bluez", path), "org.freedesktop.DBus.Properties"
+    )
+    return btprops.Set("org.bluez.Device1", "Trusted", True)
+
+
+def connect_device(address):
+    try:
+        stop_discovery()
+        device = bluezutils.find_device(address)
+    except dbus.exceptions.DBusException as err:
+        logger.error("connection to device %s could not start: %s", address, err)
+        start_discovery()
+        return
+
+    tries = 5
+    while tries > 0:
+        try:
+            logger.info("connect %s", address)
+            device.Connect()
+            logger.info("connection to %s successfull", address)
+            start_discovery()
+            return
+        except dbus.exceptions.DBusException as err:
+            logger.warning("error connecting to %s: %s", address, err)
+            time.sleep(1)
+        tries = tries - 1
+
+    logger.error("connection to %s failed", address)
+    start_discovery()
+
+
+def connect_new_device(path, props):
+    trusted = bool(props["Trusted"])
+    paired = bool(props["Paired"])
+    connected = bool(props["Connected"])
+    device_name = props["Name"]
+    device_address = props["Address"]
+
+    if not paired:
+        logger.info("device %s not paired", device_name)
+        if not connected:
+            logger.info("new device %s found, pairing and connecting...", device_name)
+            threads[device_address]["status"] = "connecting"
+            pair_device(device_address)
+            threads[device_address]["status"] = "done"
+        return
+
+    if not trusted:
+        logger.info("device %s not trusted, trusting...", device_name)
+        threads[device_address]["status"] = "trusting"
+        trust_bt_device(path)
+        threads[device_address]["status"] = "trusted"
+
+    if not connected:
+        logger.info("device %s not connected, connecting...", device_name)
+        threads[device_address]["status"] = "connecting"
+        connect_device(device_address)
+
+    threads[device_address]["status"] = "done"
+
+
+def power_on_adapter(adapter_path):
+    """power-on one bluetooth adapter"""
+    adapter_p = dbus.Interface(adapter_path, "org.freedesktop.DBus.Properties")
+    adapter_p.Set("org.bluez.Adapter1", "Powered", True)
+
+
+def is_joystick(cod: int) -> bool:
+    """return true if class of device is joystick or gamepad"""
+    if cod & 0x1F0F in (0x504, 0x508):
+        return True
+    return False
+
+
+def interfaces_added(path, interfaces):
+    if "org.bluez.Device1" not in interfaces:
+        return
+    properties = interfaces["org.bluez.Device1"]
+    if not properties:
+        return
+
+    if path in devices:
+        devices[path] = dict(devices[path], **properties)
+    else:
+        devices[path] = properties
+
+
+def properties_changed(interface, changed, invalidated, path):
+    if interface != "org.bluez.Device1":
+        return
+
+    if is_discovering is False:
+        return
+
+    if path in devices:
+        devices[path] = dict(devices[path], **changed)
+    else:
+        devices[path] = changed
+
+    if dbus.String("Class") in devices[path].keys() and is_joystick(
+        devices[path]["Class"]
+    ):
+        name = "unknown"
+        if "Name" in devices[path]:
+            name = devices[path]["Name"]
+    else:
+        # not a joystick nor a gamepad, not interested
+        return
+
+    # joystick found, try to pair and connect
+
+    # verify that Paired, Connected and Trusted are in the properties
+    if (
+        dbus.String("Paired") not in devices[path].keys()
+        or dbus.String("Connected") not in devices[path].keys()
+        or dbus.String("Trusted") not in devices[path].keys()
+    ):
+        return
+
+    if (
+        bool(devices[path]["Paired"]) is False
+        or bool(devices[path]["Connected"]) is False
+        or bool(devices[path]["Trusted"]) is False
+    ):
+        address = str(devices[path]["Address"])
+        if address in threads and threads[address]["status"] == "done":
+            logger.info("thread %s done", threads[address]["name"])
+            with mutex:
+                del threads[address]
+        if address not in threads:
+            logger.info("trying to pair with %s (%s)", name, address)
+            with mutex:
+                threads[address] = {}
+            threads[address]["thread"] = Thread(
+                target=connect_new_device, args=(path, devices[path]), name=name
+            )
+            threads[address]["name"] = name
+            threads[address]["status"] = "pending"
+            threads[address]["thread"].start()
+
+
+if __name__ == "__main__":
+    logger = init_logger()
+    logger.info("%s starting", APPNAME)
+    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
+    bus = dbus.SystemBus()
+
+    adapter = bluezutils.find_adapter()
+
+    bus.add_signal_receiver(
+        interfaces_added,
+        dbus_interface="org.freedesktop.DBus.ObjectManager",
+        signal_name="InterfacesAdded",
+    )
+
+    bus.add_signal_receiver(
+        properties_changed,
+        dbus_interface="org.freedesktop.DBus.Properties",
+        signal_name="PropertiesChanged",
+        arg0="org.bluez.Device1",
+        path_keyword="path",
+    )
+
+    # check all BT managed items
+    om = dbus.Interface(
+        bus.get_object("org.bluez", "/"), "org.freedesktop.DBus.ObjectManager"
+    )
+    objects = om.GetManagedObjects()
+    for path, interfaces in objects.items():
+        # fill in known gaming devices
+        if (
+            "org.bluez.Device1" in interfaces
+            and "Class" in interfaces["org.bluez.Device1"]
+            and is_joystick(interfaces["org.bluez.Device1"]["Class"])
+        ):
+            devices[path] = interfaces["org.bluez.Device1"]
+
+        # power-on bt adapters
+        if (
+            "org.bluez.Adapter1" in interfaces
+            and "Powered" in interfaces["org.bluez.Adapter1"]
+            and bool(interfaces["org.bluez.Adapter1"]["Powered"]) is False
+        ):
+            logger.info(
+                "powering bluetooth adapter %s on",
+                interfaces["org.bluez.Adapter1"]["Address"],
+            )
+            power_on_adapter(bus.get_object("org.bluez", path))
+
+    is_discovering = False
+
+    # mqtt_handler
+    if MQTT_AVAILABLE:
+        mqtt_client = mqtt.Client(APPNAME)
+        mqtt_client.on_message = on_mqtt_message
+        mqtt_thread = Thread(
+            target=mqtt_client_connect, args=(mqtt_client, "127.0.0.1", 1883), name="mqtt-client"
+        )
+        mqtt_thread.start()
+    else:
+        logger.warning("mqtt unavailable")
+
+    mainloop = GObject.MainLoop()
+    mainloop.run()
