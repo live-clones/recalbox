@@ -18,6 +18,7 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   : GuiMenuBase(window, _("CONTROLLERS SETTINGS"), this)
   , mMapper(this)
   , mRefreshing(false)
+  , mMQTTClient("recalbox-emulationstation-menupads")
 {
   // Configure a pad
   AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
@@ -92,9 +93,22 @@ void GuiMenuPads::Completed(const bool&, const Strings::Vector& result)
                   : (Gui*)new GuiMenuPadsPair(mWindow, result));
 }
 
+const char* GuiMenuPads::ActionToString(Command action)
+{
+  switch(action)
+  {
+    case Command::StartDiscovery:  return "{\"command\": \"start_discovery\"}";
+    case Command::StopDiscovery:   return "{\"command\": \"stop_discovery\"}";
+    default: break;
+  }
+  return "error";
+}
+
+
 void GuiMenuPads::StartScanningDevices()
 {
-  mWindow.pushGui((new GuiWaitLongExecution<bool, Strings::Vector>(mWindow, *this))->Execute(false, _("SCANNING BLUETOOTH DEVICES...")));
+  mMQTTClient.Send(sEventTopic, GuiMenuPads::ActionToString(Command::StartDiscovery));
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("PAIRING PROCESS STARTED.\nENABLE PAIRING ON YOUR GAME CONTROLLER."), _("OK")));
 }
 
 void GuiMenuPads::UnpairAll()
