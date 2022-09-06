@@ -159,7 +159,7 @@ class InstallRoms:
                 replacement = chunks[1 + holder.Properties.KeyboardEnum]
             elif chunks[0] == "MOUSE" and len(chunks) == 5:
                 replacement = chunks[1 + holder.Properties.MouseEnum]
-            elif chunks[0] == "TYPE" and len(chunks) == 8:
+            elif chunks[0] == "TYPE" and len(chunks) == 9:
                 replacement = chunks[1 + holder.Properties.TypeEnum]
             line = line.replace(line[start: stop + 1], replacement)
 
