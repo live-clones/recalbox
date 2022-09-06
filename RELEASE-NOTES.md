@@ -16,6 +16,8 @@ as release notes for end user on a Recalbox upgrade.
  
 - Bump libretro fbneo
 
+- Bump libretro Opera
+
 ### Fixes
 - Fix pad 8bitdo Pro 2 mode D (Android)
 
