@@ -5,6 +5,7 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## Version 8.2-Electron
+## 8.2-Electron
 
 ### News
 
@@ -13,6 +14,9 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 - Systems without one default overlay won't show anymore an overlay from another system.
+- Bump libretro Opera
+
+### Fixes
 
 ## Version 8.1.1-Electron
 
