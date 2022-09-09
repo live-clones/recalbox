@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix crash libretro pcsx-rearmed for x64
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 - Fix pad 8bitdo Pro 2 mode D (Android)
+- Systems without one default overlay won't show anymore an overlay from another system.
 
 ## Version 8.1.1-Electron
 
