@@ -21,6 +21,8 @@ as release notes for end user on a Recalbox upgrade.
 
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
+- Systems without one default overlay won't show anymore an overlay from another system.
+
 ## Version 8.1.1-Electron
 
 ## Fixes
