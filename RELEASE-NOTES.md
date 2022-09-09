@@ -21,7 +21,7 @@ as release notes for end user on a Recalbox upgrade.
  
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
-
+- Systems without one default overlay won't show anymore an overlay from another system.
 
 ## Version 8.1.1-Electron
 
