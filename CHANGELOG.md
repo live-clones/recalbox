@@ -5,6 +5,7 @@ See `git log` for the project history.
 All notable changes to this project have been documented in this file since 8.1.
 
 ## [8.1-Electron]
+- Fix support for Ultimarc IPAC 2
 - Add wpaf repository in monorepo
 - Add piboy repository in monorepo
 - Enhance linter performance on ci
