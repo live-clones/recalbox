@@ -29,6 +29,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
 - Add the possibility to sort games by release date.
 - Add guncon2 support for CRT tvs
+- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 
 ### Improvements
 - Bump libretro pcsx-rearmed

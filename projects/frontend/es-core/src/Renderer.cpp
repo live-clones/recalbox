@@ -296,10 +296,10 @@ bool Renderer::Initialize(int w, int h)
 
   if (!createdSurface)
   {
-    SDL_DisplayMode dispMode;
-    SDL_GetDesktopDisplayMode(0, &dispMode);
-    { LOG(LogInfo) << "[Renderer] Get resolution from desktop: " << dispMode.w << 'x' << dispMode.h; }
-    createdSurface = CreateSdlSurface(dispMode.w, dispMode.h);
+    ResolutionAdapter adapter;
+    ResolutionAdapter::Resolution defaultRes = adapter.DefaultResolution();
+    { LOG(LogInfo) << "[Renderer] Get default resolution from Resolution Adapter: " << defaultRes.Width << 'x' << defaultRes.Height; }
+    createdSurface = CreateSdlSurface(defaultRes.Width, defaultRes.Height);
   }
   if (!createdSurface)
     return false;
