@@ -14,9 +14,9 @@
 #include <xf86drmMode.h>
 #include <libdrm/drm.h>
 #include <fcntl.h>
-  #include <unistd.h>
+#include <unistd.h>
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList()
 {
   static ResolutionList resolutions;
   resolutions.clear();
@@ -45,12 +45,35 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
         {
           { LOG(LogDebug) << "[DRM]   Open connector #" << i << " - Connected " << (connector->connection == DRM_MODE_CONNECTED ? "Yes" : "No"); }
           // List modes
+          bool defaultFound = false;
+          drmModeModeInfo* defaultMode;
           for(int m = 0; m < connector->count_modes; ++m)
           {
             drmModeModeInfo& mode = connector->modes[m];
+            if(mode.type & DRM_MODE_TYPE_DEFAULT != 0)
+              defaultMode = &mode;
+            // 4k not supported on KMS boards
+            if(mode.vdisplay > 2000) {
+              { LOG(LogDebug) << "[ResolutionAdapter] Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay; }
+              continue;
+            }
             resolutions.push_back({ monitor, mode.hdisplay, mode.vdisplay, -1, (int)mode.vrefresh, (mode.flags & DRM_MODE_FLAG_INTERLACE) != 0, (mode.type & DRM_MODE_TYPE_DEFAULT) != 0 });
+            defaultFound |= (mode.type & DRM_MODE_TYPE_DEFAULT) != 0;
             { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << resolutions.back().ToString(); }
           }
+
+          // Default 4K has been eliminated, let's set 1080p as default mode
+          if(!defaultFound)
+            for(Resolution& r : resolutions)
+              if(r.Height == 1080 && r.Width == 1920) {
+                { LOG(LogDebug) << "[ResolutionAdapter] Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
+                defaultFound = true;
+                r.IsDefault = true;
+              }
+          // 4K has been eliminated, but 1080p not found
+          // This should not happen, but we cannot allow it, we put back the desktop resolution
+          if(!defaultFound)
+            resolutions.push_back({ monitor, defaultMode->hdisplay, defaultMode->vdisplay, -1, (int)defaultMode->vrefresh, (defaultMode->flags & DRM_MODE_FLAG_INTERLACE) != 0, true });
 
           // Inc monitor index
           monitor++;
@@ -72,9 +95,11 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
 
 #else // SDL2
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList()
 {
-  if (mResolutions.empty())
+  { LOG(LogDebug) << "[ResolutionAdapter] Getting resolution from sdl"; }
+
+  if (mResolutionsDetailed.empty())
   {
     SDL_DisplayMode mode = { SDL_PIXELFORMAT_UNKNOWN, 0, 0, 0, nullptr };
     int displayCount = SDL_GetNumVideoDisplays();
@@ -85,11 +110,11 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
       int modesCount = SDL_GetNumDisplayModes(i);
       for (int m = 0; m < modesCount; ++m)
         if (SDL_GetDisplayMode(i, m, &mode) == 0)
-          mResolutions.push_back({ i, mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate, false, mode.w == defaultMode.w && mode.h == defaultMode.h && mode.format == defaultMode.format && mode.refresh_rate == defaultMode.refresh_rate });
+          mResolutionsDetailed.push_back({i, mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate, false, mode.w == defaultMode.w && mode.h == defaultMode.h && mode.format == defaultMode.format && mode.refresh_rate == defaultMode.refresh_rate });
     }
   }
 
-  return mResolutions;
+  return mResolutionsDetailed;
 }
 
 #endif // USE_KMSDRM
@@ -100,8 +125,11 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
   // Process default
   if (value == "default")
   {
-    { LOG(LogDebug) << "[ResolutionAdapter] Not adjusting " << value; }
-    return false;
+    Resolution res = GetDefaultResolution();
+    { LOG(LogDebug) << "[ResolutionAdapter] Default resolution asked, adjusting with current default resolution: " << res.Width << "x" << res.Height; }
+    output.Height = res.Height;
+    output.Width = res.Width;
+    return true;
   }
 
   // Convert resolution
@@ -112,7 +140,7 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
     return false;
   }
 
-  const ResolutionList& list = GetResolutionList();
+  const ResolutionList& list = GetResolutionDetailedList();
 
   // Check if the resolution match an existing resolution
   for(const Resolution& r : list)
@@ -175,5 +203,45 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
   // Something goes wrong...
   { LOG(LogDebug) << "[ResolutionAdapter] Not adjusting " << value << " because something goes wrong!"; }
   return false;
+}
+
+const ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution()
+{
+  ResolutionList allResolutions = GetResolutionDetailedList();
+  for(const Resolution& rawResolution : allResolutions){
+    if(rawResolution.IsDefault) return rawResolution;
+  }
+}
+
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
+{
+  if(mResolutions.empty())
+  {
+    ResolutionList allResolutions = GetResolutionDetailedList();
+    for(const Resolution& rawResolution : allResolutions)
+    {
+      bool alreadyPresent = false;
+      // if mResolutions.contains(rawResolution)
+      for(Resolution& filteredResolution : mResolutions)
+      {
+        if(filteredResolution.Width == rawResolution.Width && filteredResolution.Height == rawResolution.Height)
+        {
+          // The resolution already exists, we should update the frequency value if it's higher
+          if(filteredResolution.Frequency < rawResolution.Frequency) {
+            filteredResolution.Frequency = rawResolution.Frequency;
+            if(filteredResolution.Bpp < rawResolution.Bpp)
+              filteredResolution.Bpp = rawResolution.Bpp;
+            if(filteredResolution.Interlaced && !rawResolution.Interlaced)
+              filteredResolution.Interlaced = false;
+          }
+          alreadyPresent = true;
+          break;
+        }
+      }
+      if(!alreadyPresent)
+        mResolutions.push_back(rawResolution);
+      }
+    }
+  return mResolutions;
 }
 
