@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add the possibility to sort games by release date.
+- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
