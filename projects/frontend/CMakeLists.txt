@@ -66,9 +66,9 @@ if(BCMHOST_FOUND)
 endif()
 
 #-------------------------------------------------------------------------------
-option(USE_DRMKMS "Use DRM/KMS backend." OFF)
+option(USE_KMSDRM "Use DRM/KMS backend." OFF)
 
-if (USE_DRMKMS)
+if (USE_KMSDRM)
     add_definitions("-DUSE_KMSDRM=1")
     execute_process(COMMAND pkg-config libdrm --cflags OUTPUT_VARIABLE LIBDRM_INCLUDE OUTPUT_STRIP_TRAILING_WHITESPACE)
     execute_process(COMMAND pkg-config libdrm --libs OUTPUT_VARIABLE LIBDRM_LIBRARY OUTPUT_STRIP_TRAILING_WHITESPACE)
