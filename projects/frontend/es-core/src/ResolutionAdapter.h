@@ -40,11 +40,11 @@ class ResolutionAdapter
           #ifdef USE_KMSDRM
           .append(Interlaced ? "interlaced " : "progressive ")
           #else
-          .append(std::to_string(Bpp))
-          .append("Bpp ")
+          //.append(std::to_string(Bpp))
+          //.append("Bpp ")
           #endif
           .append(std::to_string(Frequency))
-          .append("Hz")
+          .append("Hz Max")
           .append(IsDefault ? " (Default)" : "");
       }
     };
@@ -53,14 +53,29 @@ class ResolutionAdapter
     //! Adjust the given resolution to the best matching available resolution
     bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output);
 
-    //! Resolution list
+    //! Resolution list with bpm and frequency
+    const ResolutionList& ResolutionsDetailed() { return GetResolutionDetailedList(); }
+
+    //! Resolution list simplified: one entry by couple (width, height)
     const ResolutionList& Resolutions() { return GetResolutionList(); }
 
-  private:
+    //! Default resolution, replacing the desktop resolution
+    const Resolution DefaultResolution() { return GetDefaultResolution(); }
+
+
+
+private:
+    ResolutionList mResolutionsDetailed;
     ResolutionList mResolutions;
 
     //! Get resolution list
+    const ResolutionList& GetResolutionDetailedList();
+
+    //! Get resolution list
     const ResolutionList& GetResolutionList();
+
+    //! Get resolution list
+    const Resolution GetDefaultResolution();
 };
 
 
