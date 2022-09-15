@@ -55,7 +55,7 @@ def system_gb_with_overlays():
 
 @pytest.fixture
 def system_snes():
-    return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x2002')
+    return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x')
 
 
 @pytest.fixture
@@ -99,7 +99,7 @@ def test_simple_generate_snes(emulator, system_snes, controller_configuration):
     command = emulator.generate(system_snes, controller_configuration, keyValueSettings("", False),
                                 Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
-    assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/snes9x2002_libretro.so',
+    assert command.array == ['/usr/bin/retroarch', '-L', '/usr/lib/libretro/snes9x_libretro.so',
                              '--config', 'tests/tmp/ra-custom.cfg',
                              '--appendconfig', 'tests/tmp/ra-custom.cfg.overrides.cfg',
                              'path/to/test']
@@ -191,7 +191,7 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
 def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
     recalbox_conf = keyValueSettings("", True)
     givenThoseFiles(mocker, {
-        "/recalbox/share/system/configs/crt/systems.txt": "snes,pal,15kHz,progressive,snes:224@50p,1740,224\nsnes,ntsc,15kHz,progressive,snes:224@60p,0,0",
+        "/recalbox/share/system/configs/crt/systems.txt": "snes,snes9x,pal,15kHz,progressive,snes:224@50p,1740,224\nsnes,snes9x,ntsc,15kHz,progressive,snes:224@60p,0,0",
         "/recalbox/share/system/configs/crt/modes.txt": "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:224@50p,1920 1 78 192 210 224 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
 
     system_snes.configure(recalbox_conf,
@@ -217,7 +217,7 @@ def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_wi
                                                      "recalboxrgbdual", 0, 0, 0, "auto"))
 
     givenThoseFiles(mocker, {
-        "/recalbox/share/system/configs/crt/systems.txt": "gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",
+        "/recalbox/share/system/configs/crt/systems.txt": "gb,gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,gb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",
         "/recalbox/share/system/configs/crt/modes.txt": "gb:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,501\ngb:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1"})
 
     # Easy way to fake overlay file on file system
