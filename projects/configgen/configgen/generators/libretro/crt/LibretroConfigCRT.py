@@ -3,7 +3,7 @@ from pathlib import Path
 
 from configgen.Emulator import Emulator
 from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTVideoStandard, CRTScreenType, \
-    CRTResolutionType
+    CRTResolutionType, CRTSystem
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.crt.Mode import Mode
 from configgen.utils.recallog import recallog
@@ -47,7 +47,8 @@ class LibretroConfigCRT:
                 config[
                     "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
                 config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+                config["custom_viewport_y" + region] = (
+                                                                   mode.height - viewport_height) // 2 if viewport_height > 0 else 0
                 # For arcade, the viewport info by region seems not selected sometimes on retroarch so we set default values
                 config["custom_viewport_x"] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
                 config["custom_viewport_y"] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
@@ -115,14 +116,14 @@ class LibretroConfigCRT:
             if game != "" and core in self.arcade_cores:
                 return self.get_best_dimensions_for_arcade(system, game, core)
             else:
-                system_config = self.crt_config_parser.findSystem(system.Name, region, CRTScreenType.k15,
+                system_config:CRTSystem = self.crt_config_parser.findSystem(system.Name, system.Core, region, CRTScreenType.k15,
                                                                   CRTResolutionType.Progressive)
             if system_config is not None:
-                width = system_config[4]
-                height = system_config[5]
+                width = system_config.viewport_width
+                height = system_config.viewport_height
                 if height == 0:
                     # No height found in systems height we should use mode height if we found it
-                    mode = self.crt_config_parser.loadMode(system_config[3])
+                    mode = self.crt_config_parser.loadMode(system_config.mode_id)
                     if mode is not None:
                         height = mode.height
                 if system.CRTScreenType == CRTScreenType.k31:
@@ -224,7 +225,8 @@ class LibretroConfigCRT:
                                                                    system.CRTHorizontalPalOffset,
                                                                    system.CRTVerticalPalOffset)
                         recallog(
-                            "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core, mode_id,
+                            "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core,
+                                                                                                 mode_id,
                                                                                                  "vertical" if rotation == 1 else ""),
                             log_type="CRT")
 
@@ -239,10 +241,11 @@ class LibretroConfigCRT:
             if system.CRTVideoStandard == CRTVideoStandard.AUTO:
                 recallog("AUTO region selected", log_type="CRT")
                 for region in [CRTVideoStandard.PAL, CRTVideoStandard.NTSC, CRTVideoStandard.ALL]:
-                    system_config = self.crt_config_parser.findSystem(system.Name, region, system.CRTScreenType,
-                                                                      system.CRTResolutionType)
+                    system_config: CRTSystem = self.crt_config_parser.findSystem(system.Name, system.Core, region,
+                                                                                 system.CRTScreenType,
+                                                                                 system.CRTResolutionType)
                     if system_config is not None:
-                        mode_id = system_config[3]
+                        mode_id = system_config.mode_id
                         mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
                                                                    system.CRTHorizontalOffset,
                                                                    system.CRTVerticalOffset,
@@ -253,8 +256,9 @@ class LibretroConfigCRT:
                                                                                         mode_id),
                             log_type="CRT")
                         config.update(
-                            self.createConfigForMode(region, mode, self.select_width(system, system_config[4]),
-                                                     system_config[5], 0))
+                            self.createConfigForMode(region, mode,
+                                                     self.select_width(system, system_config.viewport_width),
+                                                     system_config.viewport_height, 0))
                         default = False
                     else:
                         recallog(
@@ -262,11 +266,12 @@ class LibretroConfigCRT:
                                                                            system.CRTResolutionType), log_type="CRT")
             else:
                 recallog("Forced region {}".format(system.CRTVideoStandard), log_type="CRT")
-                system_config = self.crt_config_parser.findSystem(system.Name, system.CRTVideoStandard,
-                                                                  system.CRTScreenType,
-                                                                  system.CRTResolutionType)
+                system_config: CRTSystem = self.crt_config_parser.findSystem(system.Name, system.Core,
+                                                                             system.CRTVideoStandard,
+                                                                             system.CRTScreenType,
+                                                                             system.CRTResolutionType)
                 if system_config is not None:
-                    mode_id = system_config[3]
+                    mode_id = system_config.mode_id
                     mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id),
                                                                system.CRTHorizontalOffset, system.CRTVerticalOffset,
                                                                system.CRTHorizontalPalOffset,
@@ -277,8 +282,8 @@ class LibretroConfigCRT:
                                                                                         mode_id),
                             log_type="CRT")
                         config.update(
-                            self.createConfigForMode(region, mode, self.select_width(system, system_config[4]),
-                                                     system_config[5], 0))
+                            self.createConfigForMode(region, mode, self.select_width(system, system_config.viewport_width),
+                                                     system_config.viewport_height, 0))
                     default = False
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
