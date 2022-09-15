@@ -1,13 +1,13 @@
 import os
 import typing
+from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
 
 from configgen.crt.Mode import Mode
 from configgen.recalboxFiles import crtFilesRootFolder, crtUserFilesRootFolder
 from configgen.utils.recallog import recallog
 
-CRTSystemMode = typing.Tuple[str, str, str, str, int, int]
+CRTSystemMode = typing.Tuple[str, str, str, str, str, int, int]
 CRTArcadeMode = typing.Tuple[str, str, int, int, int]
 
 
@@ -24,6 +24,7 @@ class CRTVideoStandard(str, Enum):
         if value == "ntsc":
             return CRTVideoStandard.NTSC
         return CRTVideoStandard.AUTO
+
 
 class CRTRegion(str, Enum):
     AUTO = "auto"
@@ -45,6 +46,7 @@ class CRTRegion(str, Enum):
 class CRTScreenType(str, Enum):
     k15 = "15kHz"
     k31 = "31kHz"
+
     @staticmethod
     def fromString(value: str):
         if value == "31kHz":
@@ -65,6 +67,17 @@ class CRTResolutionType(str, Enum):
         return CRTResolutionType.Progressive
 
 
+@dataclass
+class CRTSystem:
+    core: str
+    region: str
+    display: str
+    reztype: str
+    mode_id: str
+    viewport_width: int
+    viewport_height: int
+
+
 class CRTConfigParser:
 
     def parseModeLine(self, mode_line: str) -> typing.Optional[Mode]:
@@ -76,20 +89,21 @@ class CRTConfigParser:
             raise Exception('Malformed mode file')
         return Mode(id_and_mode[1], id_and_mode[2])
 
-    def parseSystem(self, line: str) -> CRTSystemMode:
+    def parseSystem(self, line: str) -> CRTSystem:
         line = line.rstrip()
         id_and_region_and_modeid = line.split(",")
-        if len(id_and_region_and_modeid) < 3:
+        if len(id_and_region_and_modeid) < 8:
             recallog("Malformed system file", log_type="CRT")
             raise Exception('Malformed system file')
-        region = id_and_region_and_modeid[1]
-        display = id_and_region_and_modeid[2]
-        reztype = id_and_region_and_modeid[3]
-        mode_id = id_and_region_and_modeid[4]
-        viewport_width = int(id_and_region_and_modeid[5])
-        viewport_height = int(id_and_region_and_modeid[6])
+        core = id_and_region_and_modeid[1]
+        region = id_and_region_and_modeid[2]
+        display = id_and_region_and_modeid[3]
+        reztype = id_and_region_and_modeid[4]
+        mode_id = id_and_region_and_modeid[5]
+        viewport_width = int(id_and_region_and_modeid[6])
+        viewport_height = int(id_and_region_and_modeid[7])
 
-        return region, display, reztype, mode_id, viewport_width, viewport_height
+        return CRTSystem(core, region, display, reztype, mode_id, viewport_width, viewport_height)
 
     def parseArcadeGame(self, line: str) -> CRTArcadeMode:
         line = line.rstrip()
@@ -115,14 +129,14 @@ class CRTConfigParser:
             raise Exception("Mode not found")
         return mode
 
-    def findSystem(self, system: str, region: CRTVideoStandard, screenType: CRTScreenType,
-                   rezType: CRTResolutionType) -> typing.Optional[CRTSystemMode]:
+    def findSystem(self, system: str, core: str, region: CRTVideoStandard, screenType: CRTScreenType,
+                   rezType: CRTResolutionType) -> typing.Optional[CRTSystem]:
         for line in self.find_lines_begining_with_in_configs(
-                "{},{},{},{}".format(system, region, screenType, rezType), "systems.txt"):
+                "{},{},{},{},{}".format(system, core, region, screenType, rezType), "systems.txt"):
             return self.parseSystem(line)
 
     def findArcadeGame(self, game: str, emulator: str) -> CRTArcadeMode:
-        for line in self.find_lines_begining_with_in_configs("{},{}".format(game,emulator), "arcade_games.txt"):
+        for line in self.find_lines_begining_with_in_configs("{},{}".format(game, emulator), "arcade_games.txt"):
             return self.parseArcadeGame(line)
 
     def find_line_begining_with(self, string, fp):

@@ -19,7 +19,8 @@ def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutionty
                     crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0,
                     crtregion="auto", crtscanlines=False):
     emulator.configure(keyValueSettings(""),
-                       ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype, crtscreentype,
+                       ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype,
+                                      crtscreentype,
                                       crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion,
                                       crtscanlines))
     return emulator
@@ -28,7 +29,7 @@ def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutionty
 @pytest.fixture
 def system_snes():
     return Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro',
-                    core='snes9x2002')
+                    core='snes9x')
 
 
 @pytest.fixture
@@ -54,15 +55,17 @@ def givenDefaultsModesAndSystems(mocker):
         MODES_TXT: "default:pal:288@50,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50\ndefault:ntsc:240@60,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,50\n"
     })
 
+
 def test_given_any_system_should_avoid_fullscreen_dimensions(mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
     assert config_lines["video_fullscreen"] == '"true"'
     assert config_lines["video_fullscreen_x"] == ''
     assert config_lines["video_fullscreen_y"] == ''
+
 
 def test_given_any_config_should_create_default_config_with_no_graphical_filters(mocker):
     givenDefaultsModesAndSystems(mocker)
@@ -74,7 +77,7 @@ def test_given_any_config_should_create_default_config_with_no_graphical_filters
 
 def test_given_snes_system_and_a_single_mode_should_create_mode_in_configuration(mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
@@ -86,7 +89,7 @@ def test_given_snes_system_and_a_single_mode_should_create_mode_in_configuration
 
 def test_given_snes_system_and_a_two_modes_pal_ntsc_should_create_two_mode_in_configuration(mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,pal,15kHz,progressive,snes:pal:240@50p,0,0\nsnes,ntsc,15kHz,progressive,snes:ntsc:224@60p,0,0",
+        SYSTEMS_TXT: "snes,snes9x,pal,15kHz,progressive,snes:pal:240@50p,0,0\nsnes,snes9x,ntsc,15kHz,progressive,snes:ntsc:224@60p,0,0",
         MODES_TXT: "snes:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
     assert config_lines["crt_switch_timings_pal"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
@@ -108,7 +111,7 @@ def test_missing_system_creates_default_config(mocker, system_snes):
 
 def test_missing_mode_throw(mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "nes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     with pytest.raises(Exception):
@@ -117,7 +120,7 @@ def test_missing_mode_throw(mocker, system_snes):
 
 def test_given_overscan_feature_creates_viewport_all_region_config(mocker, system_snes: Emulator):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,1820,200",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,1820,200",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
@@ -135,7 +138,7 @@ def test_given_overscan_feature_creates_viewport_all_region_config(mocker, syste
 
 def test_given_overscan_feature_creates_viewport_ntsc_region_config(mocker, system_snes: Emulator):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,ntsc,15kHz,progressive,snes:224@60p,1830,200",
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:224@60p,1830,200",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
@@ -149,7 +152,7 @@ def test_given_overscan_feature_creates_viewport_ntsc_region_config(mocker, syst
 
 def test_given_overscan_horizontal_creates_viewport_config(mocker, system_snes: Emulator):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,1840,0",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,1840,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
@@ -167,7 +170,7 @@ def test_given_overscan_horizontal_creates_viewport_config(mocker, system_snes: 
 
 def test_given_no_viewport_config_returns_viewport_values_from_mode(mocker, system_snes: Emulator):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,all,15kHz,progressive,snes:224@60p,0,0",
+        SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
     snes = configureForCrt(system_snes, viewport_width=0)
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
@@ -201,7 +204,7 @@ def test_given_fbneo_game_returns_game_mode(mocker, system_fbneo: Emulator):
 def test_given_neogeocd_game_returns_neogeo_mode(mocker):
     givenThoseFiles(mocker, {
         ARCADE_TXT: "mslug5,fbneo,whatever,1920,0,0",
-        SYSTEMS_TXT: "neogeocd,all,15kHz,progressive,neogeocdmode,0,0",
+        SYSTEMS_TXT: "neogeocd,fbneo,all,15kHz,progressive,neogeocdmode,0,0",
         MODES_TXT: "neogeocdmode,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     neogeocd = Emulator(name='neogeocd', videoMode='1920x1080', ratio='auto', emulator='libretro',
@@ -316,7 +319,7 @@ def test_given_wonderswan_systems_should_create_config_with_vsync_deactivated(mo
 
 
 SEGA_CONFIGURATION = {
-    SYSTEMS_TXT: "dreamcast,pal,15kHz,progressive,palmode,0,0\ndreamcast,ntsc,15kHz,progressive,ntscmode,0,0\ndreamcast,pal,15kHz,interlaced,palimode,0,0\ndreamcast,ntsc,15kHz,interlaced,ntscimode,0,0\ndreamcast,all,31kHz,progressive,480pmode,640,0\ndreamcast,all,31kHz,doublefreq,240on31,0,0",
+    SYSTEMS_TXT: "dreamcast,flycast,pal,15kHz,progressive,palmode,0,0\ndreamcast,flycast,ntsc,15kHz,progressive,ntscmode,0,0\ndreamcast,flycast,pal,15kHz,interlaced,palimode,0,0\ndreamcast,flycast,ntsc,15kHz,interlaced,ntscimode,0,0\ndreamcast,flycast,all,31kHz,progressive,480pmode,640,0\ndreamcast,flycast,all,31kHz,doublefreq,240on31,0,0",
     MODES_TXT: "palmode,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50.5\nntscmode,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60.6\npalimode,1920 1 80 184 312 576 1 18 6 21 0 0 0 50 1 39312000 1,50\nntscimode,1920 1 80 184 312 480 1 18 6 21 0 0 0 60 1 39312000 1,60\n480pmode,1920 1 80 184 312 480 1 18 6 21 0 0 0 60 0 99999999 1,60\n240on31,1920 1 80 184 312 240 1 18 6 21 0 0 0 60 0 66666666 1,60"
 }
 
@@ -509,10 +512,10 @@ def test_given_a_arcade_game_and_31kHz_screen_and_doublefreq_then_return_default
     assert libretro_config["video_black_frame_insertion"] == '"1"'
 
 
-def test_given_a_nes_game_should_return_viewport_info(mocker, system_fbneo):
+def test_given_a_nes_game_should_return_viewport_info(mocker):
     # BUG where the viewport height was empty
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "nes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0\nnes,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,240",
+        SYSTEMS_TXT: "nes,nestopia,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0\nnes,nestopia,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,240",
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\nsnes:nes:pal:288@50.01,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39070212 1,50.01"})
 
     nes_crt = configureForCrt(Emulator("nes", "libretro", "nestopia", "", "auto"), crtresolutiontype="progressive",
@@ -536,12 +539,11 @@ def test_given_a_nes_game_should_return_viewport_info(mocker, system_fbneo):
     assert libretro_config["custom_viewport_y_pal"] == 24
 
 
-
 def test_given_15kHz_and_force50hz_selected_and_no_pal_config_should_create_config_with_default_pal_mode_but_best_viewport_size_selected_from_ntsc(
         mocker):
     givenThoseFiles(mocker, {
         MODES_TXT: "gamegear:all:224@59.92274,1920 1 80 184 312 224 1 10 3 24 0 0 0 59 0 39037029 1,59.92274\ndefault:pal:288@50,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1,50",
-        SYSTEMS_TXT: "gamegear,all,15kHz,progressive,standard:ntsc:224@60,960,144"
+        SYSTEMS_TXT: "gamegear,picodrive,all,15kHz,progressive,standard:ntsc:224@60,960,144"
     })
     gamegear = configureForCrt(
         Emulator(name='gamegear', videoMode='1920x1080', ratio='auto', emulator='libretro', core='picodrive'),
@@ -559,7 +561,7 @@ def test_given_31kHz_should_create_config_with_default_mode_but_best_viewport_si
         mocker):
     givenThoseFiles(mocker, {
         MODES_TXT: "1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60",
-        SYSTEMS_TXT: "gamegear,all,15kHz,progressive,standard:ntsc:224@60,960,144"
+        SYSTEMS_TXT: "gamegear,picodrive,all,15kHz,progressive,standard:ntsc:224@60,960,144"
     })
     gamegear = configureForCrt(
         Emulator(name='gamegear', videoMode='1920x1080', ratio='auto', emulator='libretro', core='picodrive'),
@@ -576,7 +578,7 @@ def test_given_31kHz_should_create_config_with_default_mode_but_best_viewport_si
 def test_given_31kHz_and_double_freq_should_create_config_with_default_mode_but_best_viewport_size_selected_from_ntsc(
         mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,239",
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,239",
         MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60"
     })
     snes = configureForCrt(system_snes, crtresolutiontype="doublefreq", crtvideostandard="pal",
@@ -599,7 +601,7 @@ def test_given_31kHz_and_double_freq_should_create_config_with_default_mode_but_
 def test_given_31kHz_should_create_config_with_default_mode_but_best_viewport_size_selected_from_mode(mocker,
                                                                                                       system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0",
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0",
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
     })
     snes = configureForCrt(system_snes, crtresolutiontype="progressive", crtvideostandard="auto",
@@ -621,7 +623,7 @@ def test_given_31kHz_should_create_config_with_default_mode_but_best_viewport_si
 def test_given_31kHz_and_double_freq_should_create_config_with_default_mode_but_best_viewport_size_selected_from_mode(
         mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "snes,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0",
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,0",
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60"
     })
     snes = configureForCrt(system_snes, crtresolutiontype="doublefreq", crtvideostandard="auto",
@@ -695,7 +697,7 @@ def test_given_31kHz_and_arcade_game_should_create_arcade_config_with_default_mo
 def test_given_psx_when_starting_a_game_then_use_alsamixer(
         mocker, system_snes):
     givenThoseFiles(mocker, {
-        SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx@60.0988,0,0",
+        SYSTEMS_TXT: "psx,swanstation,ntsc,15kHz,progressive,psx@60.0988,0,0",
         MODES_TXT: "psx@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988"
     })
 
@@ -821,7 +823,8 @@ def test_given_15kHz_and_no_mode_found_should_create_default_config_for_arcade(m
         ARCADE_TXT: "anygame,fbneo,arcade:224@60.000000,1920,0,0",
         MODES_TXT: "arcade:224@60.000000,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60\ndefault:pal:288@50,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1,50\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"})
 
-    emulator = configureForCrt(system_fbneo, crtresolutiontype="progressive", crtvideostandard="auto", crtscreentype="15kHz")
+    emulator = configureForCrt(system_fbneo, crtresolutiontype="progressive", crtvideostandard="auto",
+                               crtscreentype="15kHz")
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "arkbl2.zip")
 
@@ -836,9 +839,8 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode_f
         ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,1920,0,0",
         MODES_TXT: "arcade:224@60.000000,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60\ndefault:pal:288@50,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1,50\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"})
 
-
-
-    emulator = configureForCrt(system_fbneo, crtresolutiontype="progressive", crtvideostandard="pal", crtscreentype="15kHz")
+    emulator = configureForCrt(system_fbneo, crtresolutiontype="progressive", crtvideostandard="pal",
+                               crtscreentype="15kHz")
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "arkbl2.zip")
 
@@ -848,14 +850,14 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode_f
     assert libretro_config["video_refresh_rate_ntsc"] == '"50"'
 
 
-
 def test_given_31kHz_and_system_width_should_ignore_system_width(mocker):
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx@60.0988,2560,0",
         MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\npsx2560:ntsc:240@59.826,2560 1 104 248 416 240 1 2 3 17 0 0 0 59 0 52164443 1,59.826"})
 
-    emulator = configureForCrt(Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
-                               crtresolutiontype="progressive", crtvideostandard="auto", crtscreentype="31kHz")
+    emulator = configureForCrt(
+        Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtscreentype="31kHz")
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "Die Hard Trilogy.iso")
 
@@ -866,13 +868,15 @@ def test_given_31kHz_and_system_width_should_ignore_system_width(mocker):
     assert libretro_config["custom_viewport_width_pal"] == 640
     assert libretro_config["custom_viewport_height_pal"] == 480
 
+
 def test_given_31kHz_and_doublefreq_system_width_should_ignore_system_width(mocker):
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "psx,ntsc,15kHz,progressive,psx2560:ntsc:240@59.826,2560,0",
         MODES_TXT: "default@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\npsx2560:ntsc:240@59.826,2560 1 104 248 416 240 1 2 3 17 0 0 0 59 0 52164443 1,59.826"})
 
-    emulator = configureForCrt(Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
-                               crtresolutiontype="doublefreq", crtvideostandard="auto", crtscreentype="31kHz")
+    emulator = configureForCrt(
+        Emulator(name='playstation', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swansation'),
+        crtresolutiontype="doublefreq", crtvideostandard="auto", crtscreentype="31kHz")
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "Die Hard Trilogy.iso")
 
@@ -882,6 +886,7 @@ def test_given_31kHz_and_doublefreq_system_width_should_ignore_system_width(mock
     assert libretro_config["custom_viewport_height_ntsc"] == 240
     assert libretro_config["custom_viewport_width_pal"] == 1920
     assert libretro_config["custom_viewport_height_pal"] == 240
+
 
 # Rtype in 31khz 480p should be 512px height
 def test_given_rtype_with_256px_height_in_480_the_height_is_doubled(mocker):
@@ -906,3 +911,38 @@ def test_given_rtype_with_256px_height_in_480_the_height_is_doubled(mocker):
     assert libretro_config["custom_viewport_y_ntsc"] == -16
     assert libretro_config["custom_viewport_y_pal"] == -16
     assert libretro_config["custom_viewport_y"] == -16
+
+
+def test_given_core_in_systems_then_use_system(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "snes,snes9x,pal,15kHz,progressive,snes:224@60p,0,0\nsnes,snes9x,ntsc,15kHz,progressive,snes:240@60p,0,0",
+        MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60\nsnes:240@60p,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730001 1,60"})
+    emulator = configureForCrt(
+        Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/snes/SMK.zip")
+
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730001 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730001 1"'
+
+    emulator = configureForCrt(
+        Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
+        crtresolutiontype="progressive", crtvideostandard="pal", crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/snes/SMK.zip")
+
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
+
+    emulator = configureForCrt(
+        Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
+        crtresolutiontype="progressive", crtvideostandard="auto", crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/snes/SMK.zip")
+
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730001 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
