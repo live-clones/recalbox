@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add libretro-pcsx_rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
 
@@ -29,6 +30,10 @@ as release notes for end user on a Recalbox upgrade.
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
 - Systems without one default overlay won't show anymore an overlay from another system.
+- Bump libretro pcsx-rearmed
+
+### Fixes
+- Fix crash libretro pcsx-rearmed for x64
 
 ## Version 8.1.1-Electron
 
