@@ -80,17 +80,3 @@ def test_main(mocker):
     rc, wait = emulatorlauncher.main(arguments)
     assert rc < 0
 
-
-def test_select_crt_emulator_when_crt_enabled(mocker):
-    getGenerator = mocker.patch('configgen.emulatorlauncher.getGenerator')
-    recalboxConf = keyValueSettings("")
-    recalboxConf.setString("system.crt", "vga666")
-    mocker.patch('configgen.emulatorlauncher.loadRecalboxSettings', return_value=(recalboxConf, False))
-
-    arguments = FakeArguments()
-    arguments.crtadaptor = "recalboxrgbdual"
-    arguments.system = "snes"
-    arguments.emulator = "pisnes"
-    arguments.core = "anycore"
-    emulatorlauncher.main(arguments)
-    getGenerator.assert_called_with("libretro")
