@@ -9,12 +9,15 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add libretro-pcsx_rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
 
 ### Improvements
 - Bump libretro pcsx-rearmed
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
+
 
 ## Version 8.1.1-Electron
 
