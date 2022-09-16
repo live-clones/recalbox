@@ -24,6 +24,15 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 
+### News
+- Add libretro-pcsx_rearmed for OGA/OGS
+
+### Improvements
+- Bump libretro pcsx-rearmed
+
+### Fixes
+- Fix crash libretro pcsx-rearmed for x64
+
 ## Version 8.1.1-Electron
 
 ## Fixes
