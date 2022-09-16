@@ -49,6 +49,11 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
+# Version NEXT
+
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+
 
 ## Version 8.1.1-Electron
 
