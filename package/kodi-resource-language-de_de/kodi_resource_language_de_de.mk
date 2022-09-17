@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-KODI_RESOURCE_LANGUAGE_DE_DE_VERSION = 3.0.16
+KODI_RESOURCE_LANGUAGE_DE_DE_VERSION = 9.0.49
 KODI_RESOURCE_LANGUAGE_DE_DE_SOURCE = resource.language.de_de-$(KODI_RESOURCE_LANGUAGE_DE_DE_VERSION).zip
-KODI_RESOURCE_LANGUAGE_DE_DE_SITE = http://mirrors.kodi.tv/addons/krypton/resource.language.de_de
+KODI_RESOURCE_LANGUAGE_DE_DE_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.de_de
 KODI_RESOURCE_LANGUAGE_DE_DE_PLUGINNAME=resource.language.de_de
 KODI_RESOURCE_LANGUAGE_DE_DE_LICENSE = COPYRIGHT
 
