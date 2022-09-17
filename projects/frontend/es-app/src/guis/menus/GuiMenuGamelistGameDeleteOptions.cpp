@@ -46,7 +46,7 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
         AddText(_("SAVE FILES"), fileCount);
     }
 
-    AddSubMenu(_("ADVANCED DELETE"), mTheme.menuIconSet.advanced, (int)Components::Advanced, "");
+    AddSubMenu(_("ADVANCED DELETE"),  (int)Components::Advanced, "");
 
     mMenu.addButton(_("OK"), "", [this]
     {
