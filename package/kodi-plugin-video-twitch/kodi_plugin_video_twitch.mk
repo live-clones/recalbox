@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_PLUGIN_VIDEO_TWITCH_VERSION = 2.6.0
+KODI_PLUGIN_VIDEO_TWITCH_VERSION = 2.6.2
 KODI_PLUGIN_VIDEO_TWITCH_SOURCE = plugin.video.twitch-$(KODI_PLUGIN_VIDEO_TWITCH_VERSION)+matrix.1.zip
 KODI_PLUGIN_VIDEO_TWITCH_SITE = https://github.com/anxdpanic/plugin.video.twitch/releases/download/v$(KODI_PLUGIN_VIDEO_TWITCH_VERSION)
 KODI_PLUGIN_VIDEO_TWITCH_PLUGINNAME = plugin.video.twitch
