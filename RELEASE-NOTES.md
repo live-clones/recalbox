@@ -4,6 +4,15 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 8.2-Electron
+
+### News
+- Add new category 'Demoscene' in tic80 games downloader.
+
+### Improvements
+
+### Fixes
+
 ## Version 8.1.1-Electron
 
 ## Fixes
