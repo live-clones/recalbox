@@ -846,3 +846,15 @@ void ViewController::ApplyHelpStyle()
 	return mCurrentView->ApplyHelpStyle();
 }
 
+void ViewController::ManageSystems()
+{
+  SystemData* systemData = ViewController::Instance().getState().getSystem();
+  getGameListView(systemData)->refreshList();
+
+  setAllInvalidGamesList(nullptr);
+  getSystemListView().manageSystemsList();
+
+  // for updating game counts on system view
+  getSystemListView().onCursorChanged(CursorState::Stopped);
+}
+

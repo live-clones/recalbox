@@ -112,4 +112,7 @@ private:
 	bool mViewNeedsReload;
 	bool mShowing;
 	bool launchKodi;
+
+  std::vector<Entry> mCompleteList;
+
 };

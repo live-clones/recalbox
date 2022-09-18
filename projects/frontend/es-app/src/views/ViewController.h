@@ -39,6 +39,11 @@ public:
 	void setInvalidGamesList(SystemData* system);
 	void setAllInvalidGamesList(SystemData* systemExclude);
 
+    /*!
+    * @brief Manage all systems
+    */
+  void ManageSystems();
+
 	// Navigation.
 	void goToNextGameList();
 	void goToPrevGameList();

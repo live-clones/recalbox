@@ -153,7 +153,7 @@ void SystemView::addSystem(SystemData * it)
 	// sort the extras by z-index
 	e.data.backgroundExtras->sortExtrasByZIndex();
 
-	this->add(e);
+  mCompleteList.push_back(e);
 }
 
 SystemData* SystemView::Prev()
@@ -195,10 +195,17 @@ void SystemView::Sort()
 void SystemView::populate()
 {
 	mEntries.clear();
-
-	for (const auto it : mSystemManager.GetVisibleSystemList())
-    if (it->HasVisibleGame())
+	for (const auto it : mSystemManager.GetAllSystemList())
+  {
       addSystem(it);
+  }
+
+  for (const auto entry : mCompleteList)
+  {
+    for(const SystemData* systemData: mSystemManager.GetVisibleSystemList())
+    if (systemData == entry.object && entry.object->HasVisibleGame())
+    this->add(entry);
+  }
 }
 
 void SystemView::goToSystem(SystemData* system, bool animate)
@@ -212,6 +219,7 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 
 	if(!animate)
 		finishAnimation(0);
+	onCursorChanged(CursorState::Stopped);
 	onCursorChanged(CursorState::Stopped);
 }
 
@@ -622,6 +630,10 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		while (index >= (int)mEntries.size())
 			index -= mEntries.size();
 
+    if(!mEntries[index].object->HasVisibleGame()) {
+      continue;
+    }
+
 		Transform4x4f logoTrans = carouselTrans;
 		logoTrans.translate(Vector3f((float)i * logoSpacing[0] + xOff, (float)i * logoSpacing[1] + yOff, 0));
 
@@ -842,15 +854,23 @@ void SystemView::manageSystemsList()
     bool systemIsAlreadyVisible = false;
 
     for (auto& mEntrie : mEntries)
-      if (mEntrie.object->Name() == system->Name())
+      if (mEntrie.name == system->Name())
       {
         systemIsAlreadyVisible = true;
         break;
       }
 
-    if(!systemIsAlreadyVisible && hasGame)
-      addSystem(system);
+    if(!systemIsAlreadyVisible && hasGame) {
+      for( const auto s : mCompleteList)
+        if(system == s.object)
+          this->add(s);
+    }
+
     else if (systemIsAlreadyVisible && !hasGame)
       removeSystem(system);
+  }
+  if(mEntries.empty()) {
+    ViewController::Instance().CheckFilters();
+    ViewController::Instance().ManageSystems();
   }
 }
