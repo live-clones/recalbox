@@ -5,14 +5,12 @@
 
 #include "GuiMenuGameFilters.h"
 #include <RecalboxConf.h>
-#include <views/gamelist/ISimpleGameListView.h>
 #include <games/GameFilesUtils.h>
 #include "views/ViewController.h"
 #include "components/SwitchComponent.h"
 #include "utils/locale/LocaleHelper.h"
 #include "guis/MenuMessages.h"
 #include "GuiMenu.h"
-#include "guis/GuiMsgBox.h"
 
 GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
   :	GuiMenuBase(window, _("GAME FILTERS"), nullptr)
@@ -34,8 +32,7 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
 
 GuiMenuGameFilters::~GuiMenuGameFilters()
 {
-  if(!ViewController::Instance().CheckFilters())
-   ManageSystems();
+  ViewController::Instance().RefreshSystems();
 }
 
 void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)
@@ -44,39 +41,21 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)
   {
     case Components::ShowOnlyLatestVersion:
       RecalboxConf::Instance().SetShowOnlyLatestVersion(status).Save();
-      ManageSystems();
       break;
     case Components::FavoritesOnly:
       RecalboxConf::Instance().SetFavoritesOnly(status).Save();
-      ManageSystems();
       break;
     case Components::ShowHidden:
       RecalboxConf::Instance().SetShowHidden(status).Save();
-      ManageSystems();
       break;
     case Components::Adult:
       RecalboxConf::Instance().SetFilterAdultGames(status).Save();
-      ManageSystems();
       break;
     case Components::HidePreinstalled:
       RecalboxConf::Instance().SetGlobalHidePreinstalled(status).Save();
-      ManageSystems();
       break;
     case Components::NoGames:
       RecalboxConf::Instance().SetHideNoGames(status).Save();
-      ManageSystems();
       break;
   }
-}
-
-void GuiMenuGameFilters::ManageSystems()
-{
-  SystemData* systemData = ViewController::Instance().getState().getSystem();
-  ViewController::Instance().getGameListView(systemData)->refreshList();
-
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
-
-  // for updating game counts on system view
-  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }

@@ -54,21 +54,14 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 
 void ViewController::goToStart()
 {
-  CheckFilters();
+  CheckEmptySystemList();
 
   std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
 
-  if ((selectedSystem == nullptr) || !selectedSystem->HasVisibleGame())
+  if ((selectedSystem == nullptr) || !selectedSystem->IsDisplayable())
     selectedSystem = mSystemManager.FirstNonEmptySystem();
-
-  if (selectedSystem == nullptr)
-  {
-
-    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [this] { ResetFilters();}));
-    return;
-  }
 
   if (RecalboxConf::Instance().GetStartupHideSystemView())
     goToGameList(selectedSystem);
@@ -81,13 +74,14 @@ void ViewController::goToStart()
   }
 }
 
-bool ViewController::CheckFilters()
+bool ViewController::CheckEmptySystemList()
 {
 
   if(mSystemManager.FirstNonEmptySystem() == nullptr)
   {
     ResetFilters();
-    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nAll filters have been reseted.", _("OK"), []{}));
+    EnabledAllSystems();
+    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nAll filters have been reseted.", _("OK") ));
     return false;
   }
   return true;
@@ -103,8 +97,17 @@ void ViewController::ResetFilters()
   conf.SetHideNoGames(false);
   conf.SetFilterAdultGames(false);
 
-  conf.SetCollectionHide("ports",false);
-//  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
+}
+
+void ViewController::EnabledAllSystems()
+{
+  RecalboxConf& conf = RecalboxConf::Instance();
+
+  for(const auto & system : mSystemManager.GetVisibleSystemList())
+  {
+    conf.SetBool(system->Name() + ".ignore", false);
+  }
+  RecalboxConf::Instance().Save();
 }
 
 int ViewController::getSystemId(SystemData* system)
@@ -122,10 +125,10 @@ void ViewController::goToQuitScreen()
 
 void ViewController::goToSystemView(SystemData* system)
 {
-  CheckFilters();
+  CheckEmptySystemList();
   mSystemListView.setPosition((float)getSystemId(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
-  if (!system->HasVisibleGame()) {
+  if (!system->IsDisplayable()) {
     system = mSystemManager.FirstNonEmptySystem();
   }
 
@@ -172,7 +175,7 @@ void ViewController::quitGameClipView()
       goToSystemView(mSystemListView.getSelected());
       break;
     case ViewMode::GameList:
-      if(mState.getSystem()->HasVisibleGame())
+      if(mState.getSystem()->IsDisplayable())
         goToGameList(mState.getSystem());
       else goToStart();
       break;
@@ -221,9 +224,9 @@ void ViewController::goToNextGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 
-  CheckFilters();
+  CheckEmptySystemList();
   SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->HasVisibleGame()) {
+	while(!next->IsDisplayable()) {
 		next = mSystemManager.NextVisible(next);
 
 	}
@@ -239,9 +242,9 @@ void ViewController::goToPrevGameList()
 	SystemData* system = getState().getSystem();
 	assert(system);
 
-  CheckFilters();
+  CheckEmptySystemList();
   SystemData* prev = mSystemManager.PreviousVisible(system);
-	while(!prev->HasVisibleGame()) {
+	while(!prev->IsDisplayable()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
 
@@ -780,7 +783,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if (view->System().HasVisibleGame())
+	if (view->System().IsDisplayable())
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{
@@ -844,5 +847,25 @@ bool ViewController::getHelpPrompts(Help& help)
 void ViewController::ApplyHelpStyle()
 {
 	return mCurrentView->ApplyHelpStyle();
+}
+
+void ViewController::RefreshSystems()
+{
+  CheckEmptySystemList();
+  
+  // usefull when changing filters inside a system
+  // if system displayable refresh game list
+  // else redirect to system view pev system
+  SystemData* currentSystem = getState().getSystem();
+  getGameListView(currentSystem)->refreshList();
+  if(mState.viewing == ViewMode::GameList)
+    currentSystem->IsDisplayable()? getGameListView(currentSystem)->refreshList() :goToSystemView(getSystemListView().Prev());
+
+
+  setAllInvalidGamesList(nullptr);
+  getSystemListView().RefreshSystemsList();
+
+  // for updating game counts on system view
+  getSystemListView().onCursorChanged(CursorState::Stopped);
 }
 

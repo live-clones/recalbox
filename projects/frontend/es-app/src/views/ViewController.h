@@ -39,6 +39,11 @@ public:
 	void setInvalidGamesList(SystemData* system);
 	void setAllInvalidGamesList(SystemData* systemExclude);
 
+    /*!
+    * @brief Refresh all systems
+    */
+  void RefreshSystems();
+
 	// Navigation.
 	void goToNextGameList();
 	void goToPrevGameList();
@@ -98,7 +103,7 @@ public:
 	 */
 	IProgressInterface& GetProgressInterface() { return mSplashView; }
 
-  bool CheckFilters();
+  bool CheckEmptySystemList();
 
     /*
      * Gui implementation
@@ -163,4 +168,9 @@ public:
      * @brief Reset game filters
      */
     void ResetFilters();
+
+    /*!
+     * @brief Reset game filters
+    */
+    void EnabledAllSystems();
 };

@@ -68,11 +68,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     //! Get available region List
     std::vector<ListEntry<Regions::GameRegions>> GetRegionEntries();
 
-    /*!
-     * @brief Refresh gamelist
-     */
-    static void ManageSystems();
-
     /*
      * GuiMetaDataEd::IMetaDataAction implementation
      */

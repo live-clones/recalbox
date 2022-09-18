@@ -251,7 +251,7 @@ void BasicGameListView::setCursor(FileData* cursor)
 void BasicGameListView::removeEntry(FileData* fileData)
 {
 
-  if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame())
+  if (!mCursorStack.empty() && !fileData->Parent()->IsDisplayable())
   {
     //FolderData* selected = mCursorStack.top();
 

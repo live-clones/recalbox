@@ -397,7 +397,7 @@ bool SystemData::IsAlwaysFlat() const
 
 bool SystemData::IsSearchable() const
 {
-  return (mProperties & Properties::Searchable) != 0;
+  return (mProperties & Properties::Searchable) != 0 && IsDisplayable();
 }
 
 void SystemData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const
@@ -545,6 +545,8 @@ bool SystemData::HasVisibleGame() const
   return false;
 }
 
+
+
 bool SystemData::HasScrapableGame() const
 {
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
@@ -590,6 +592,9 @@ FileData::Filter SystemData::Excludes() const
 
   // Default excludes filter
   FileData::Filter excludesFilter = FileData::Filter::None;
+  // ignore normal (aka non favorites games) ?
+  if (conf.GetFavoritesOnly())
+    excludesFilter |= FileData::Filter::Normal;
   // ignore hidden?
   if (!conf.GetShowHidden())
     excludesFilter |= FileData::Filter::Hidden;
