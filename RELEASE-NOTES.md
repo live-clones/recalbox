@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
+- Fix pad 8bitdo Pro 2 mode D (Android)
 
 ## Version 8.1.1-Electron
 
