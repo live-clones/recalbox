@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro fbneo
 
 ### Fixes
+- Fix pad 8bitdo Pro 2 mode D (Android)
 
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
