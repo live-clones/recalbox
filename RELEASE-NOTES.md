@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 
 ### Fixes
+- Fix pad 8bitdo Pro 2 mode D (Android)
 
 ## Version 8.1.1-Electron
 
