@@ -7,11 +7,14 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.2-Electron
 
 ### News
+- Add libretro-pcsx_rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 
 ### Improvements
+- Bump libretro pcsx-rearmed
 
 ### Fixes
+- Fix crash libretro pcsx-rearmed for x64
 
 ## Version 8.1.1-Electron
 
