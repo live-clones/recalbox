@@ -17,23 +17,23 @@ std::string GameAdapter::ScrapingName() const
 {
   if (mGame.System().Name() == sEasyRPGSystemName)
   {
-    if (mGame.FilePath().Filename() == sEasyRPGGameNameUpper ||
-        mGame.FilePath().Filename() == sEasyRPGGameNameLower)
+    if (mGame.RomPath().Filename() == sEasyRPGGameNameUpper ||
+        mGame.RomPath().Filename() == sEasyRPGGameNameLower)
     {
-      IniFile ini(mGame.FilePath(), false);
+      IniFile ini(mGame.RomPath(), false);
       std::string gameName = Strings::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
   }
 
-  return mGame.FilePath().Filename();
+  return mGame.RomPath().Filename();
 }
 
 std::string GameAdapter::DisplayName() const
 {
   if (!mGame.Name().empty()) return mGame.Name();
 
-  return RawDisplayName(mGame.System(), mGame.FilePath());
+  return RawDisplayName(mGame.System(), mGame.RomPath());
 }
 
 std::string GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
@@ -59,6 +59,6 @@ std::string GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
 
 long long GameAdapter::RomSize()
 {
-  Path romPath(mGame.FilePath());
+  Path romPath(mGame.RomPath());
   return romPath.IsFile() ? romPath.Size() : 0L;
 }

@@ -22,7 +22,7 @@ bool LightGunDatabase::SetCurrentSystem(const SystemData& system)
 
 bool LightGunDatabase::ApplyFilter(const FileData& file) const
 {
-  std::string name = GetSimplifiedName(file.Name().empty() ? file.FilePath().FilenameWithoutExtension() : file.Name());
+  std::string name = GetSimplifiedName(file.Name().empty() ? file.RomPath().FilenameWithoutExtension() : file.Name());
   if (mCurrentList != nullptr)
     for(const std::string& gamename : *mCurrentList)
       if (Strings::Contains(name, gamename))
