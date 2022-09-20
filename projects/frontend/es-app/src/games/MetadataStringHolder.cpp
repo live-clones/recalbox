@@ -11,6 +11,7 @@ MetadataStringHolder::MetadataStringHolder(int capacity, int granularity)
   : mMetaString(capacity, granularity)
   , mIndexes(1024, 1024)
 {
+  Initialize();
 }
 
 void MetadataStringHolder::Initialize()
@@ -19,6 +20,8 @@ void MetadataStringHolder::Initialize()
   mMetaString.Clear();
   mIndexes.Clear();
   mStringToIndexes.clear();
+  // Add empty string so that all uninitialized indexes must be set to 0
+  AddString32(Strings::Empty);
 }
 
 void MetadataStringHolder::Finalize()
@@ -29,12 +32,44 @@ void MetadataStringHolder::Finalize()
 
 std::string MetadataStringHolder::GetString(Index32 index)
 {
+  // Synchronize
+  Mutex::AutoLock locker(mSyncher);
+
   // Out of range
-  if ((unsigned int)index >= (unsigned int)mIndexes.Count()) return std::string();
+  if ((unsigned int)index >= (unsigned int)mIndexes.Count())
+  #ifdef DEBUG
+    return std::string("Unknown Index ").append(Strings::ToString(index));
+  #else
+  {
+    { LOG(LogError) << "[MetadataStringHolder] GetString - Index error! " << index; }
+    return std::string();
+  }
+  #endif
   // Regular string
   if (index < mIndexes.Count() - 1) return std::string(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
   // Last item is zero terminal
-  return std::string(&mMetaString(mIndexes[index]), mMetaString.ByteSize() - 1 - mIndexes[index]);
+  return std::string(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
+}
+
+Path MetadataStringHolder::GetPath(MetadataStringHolder::Index32 index)
+{
+  // Synchronize
+  Mutex::AutoLock locker(mSyncher);
+
+  // Out of range
+  if ((unsigned int)index >= (unsigned int)mIndexes.Count())
+  #ifdef DEBUG
+    return Path("/unknown/index") / Strings::ToString(index);
+  #else
+  {
+    { LOG(LogError) << "[MetadataStringHolder] GetPath - Index error! " << index; }
+    return Path::Empty;
+  }
+  #endif
+  // Regular string
+  if (index < mIndexes.Count() - 1) return Path(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
+  // Last item is zero terminal
+  return Path(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
 }
 
 MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::string& newString)
@@ -49,9 +84,10 @@ MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::strin
   // Add new index
   Index32 result = mIndexes.Count();
   mStringToIndexes[newString] = result;
-  // Adds string
+  // Add string
   mIndexes.Add((int)mMetaString.Count());
-  mMetaString.AddItems(newString.data(), (int)newString.size() + 1); // Include zero terminal
+  const char* stringData = newString.data();
+  mMetaString.AddItems(stringData != nullptr ? stringData : "", (int)newString.size() + 1); // Include zero terminal
   return result;
 }
 
