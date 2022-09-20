@@ -524,13 +524,6 @@ class FolderData : public FileData
     void BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const;
 
     /*!
-     * @brief Lookup games whose path index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const;
-
-    /*!
      * @brief Check if game filtered
      * @return file data filtered state
      */

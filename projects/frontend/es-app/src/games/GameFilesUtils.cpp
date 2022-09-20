@@ -16,7 +16,7 @@ HashSet<std::string> GameFilesUtils::GetGameSubFiles(FileData& game)
   HashSet<std::string> list;
   if (game.IsGame())
   {
-    ExtractUselessFiles(game.FilePath(), list);
+    ExtractUselessFiles(game.RomPath(), list);
   }
   return list;
 }
@@ -30,7 +30,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   {
     for (const auto& path: directory.GetDirectoryContent())
     {
-      if (path.FilenameWithoutExtension() == game.FilePath().FilenameWithoutExtension())
+      if (path.FilenameWithoutExtension() == game.RomPath().FilenameWithoutExtension())
       {
         AddIfExist(path, list);
         // for next savestate screenshot feat
@@ -45,7 +45,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
 HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
-  const Path& path = fileData.FilePath();
+  const Path path = fileData.RomPath();
   if (fileData.IsGame())
   {
     for (const auto& file: path.Directory().GetDirectoryContent())
@@ -71,7 +71,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
       {
         for (const Path& subPath: configCorePath.GetDirectoryContent())
         {
-          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.RomPath().FilenameWithoutExtension())
             AddIfExist(subPath, list);
         }
       }
@@ -84,7 +84,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
       {
         for (const Path& subPath: remapCorePath.GetDirectoryContent())
         {
-          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.RomPath().FilenameWithoutExtension())
             AddIfExist(subPath, list);
         }
       }
@@ -96,7 +96,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 
 bool GameFilesUtils::HasSoftPatch(const FileData* fileData)
 {
-  const Path& path = fileData->FilePath();
+  const Path& path = fileData->RomPath();
   if (fileData->IsGame())
 
     for (const auto& file: path.Directory().GetDirectoryContent())
@@ -137,7 +137,7 @@ bool GameFilesUtils::IsMediaShared(FileData& fileData, const Path& mediaPath)
 
   for (const auto& other: fileData.System().getAllGames())
   {
-    if (fileData.FilePath() == other->FilePath())
+    if (fileData.AreRomEqual(*other))
     {
       continue;
     }
@@ -252,7 +252,7 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 
   HashSet<std::string> files;
   HashSet<std::string> mediaFiles = GetMediaFiles(fileData);
-  files.insert(fileData.FilePath().ToString());
+  files.insert(fileData.RomPath().ToString());
 
   for (const auto& path: GetGameExtraFiles(fileData))
   {
@@ -284,9 +284,9 @@ GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& pa
   }
 
   bool mainFileDeleted = false;
-  Path gamePath = fileData.FilePath();
-  Path root = fileData.TopAncestor().FilePath();
-  for (const auto& path: paths)
+  Path gamePath = fileData.RomPath();
+  Path root = fileData.TopAncestor().RomPath();
+  for (const auto& path : paths)
   {
     if (path == gamePath.ToString())
       mainFileDeleted = true;
@@ -354,7 +354,7 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
   if (folderData->IsRoot() || folderData->HasChildren())
   {
-    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
+    { LOG(LogDebug) << "[DELETE] Directory " << folderData->RomPath().ToString() << " folder is not empty or root, it cannot be deleted"; }
     return;
   }
 
@@ -365,5 +365,4 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
 
   DeleteFoldersRecIfEmpty(parent);
-
 }
