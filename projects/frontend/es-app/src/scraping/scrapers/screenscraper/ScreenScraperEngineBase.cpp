@@ -139,7 +139,7 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
   if (engineIndex >= 0)
   {
     // Process the scrape in this thread, allocated and fired automatically by the threadpool
-    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->FilePath().ToString(); }
+    { LOG(LogDebug) << "[ScreenScraper] Got engine #" << engineIndex << " for " << feed->RomPath().ToString(); }
     ScreenScraperSingleEngine& engine = mEngines[engineIndex];
     if (!engine.IsAborted())
     {

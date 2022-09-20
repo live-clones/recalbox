@@ -97,7 +97,7 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
     }
 
     // Deserialize
-    if (!output.empty()) DeserializeGameInformationOuter(output, game, file.FilePath(), md5, size);
+    if (!output.empty()) DeserializeGameInformationOuter(output, game, file.RomPath(), md5, size);
     break;
   }
   return game;
