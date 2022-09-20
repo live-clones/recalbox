@@ -176,7 +176,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
     case ScraperNameOptions::GetFromScraper: break;
     case ScraperNameOptions::GetFromFilename:
     {
-      result->Metadata().SetName(result->FilePath().FilenameWithoutExtension());
+      result->Metadata().SetName(result->RomPath().FilenameWithoutExtension());
       break;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:
@@ -193,7 +193,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   mSystem->setText(Strings::ToUpperASCII(result->System().FullName()));
 
   // update subtitle
-  mSubtitle->setText(Strings::ToUpperASCII(result->FilePath().Filename()));
+  mSubtitle->setText(Strings::ToUpperASCII(result->RomPath().Filename()));
 
   mBar->setMaxValue(total);
   mBar->setCurrentValue(index);
@@ -229,7 +229,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   mTiming->setText(status);
 
   // Check free space
-  RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), result->FilePath());
+  RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), result->RomPath());
 
   // Update database message
   mDatabaseMessage->setText(mScraper->ScraperDatabaseMessage());
