@@ -71,6 +71,17 @@ class Path
     }
 
     /*!
+     * @brief Build a path from a char* and a length
+     * @param path string path
+     * @param length string length
+     */
+    explicit Path(const char* path, int length)
+      : mPath(path, length)
+    {
+      Normalize();
+    }
+
+    /*!
      * @brief Move constructor from string
      * @param path source path
      */
