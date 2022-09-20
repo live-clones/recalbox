@@ -166,3 +166,6 @@ supermodelControlsIni = supermodelRooFolder + '/Supermodel.ini'
 
 crtFilesRootFolder = '/recalbox/system/configs/crt/'
 crtUserFilesRootFolder = '/recalbox/share/system/configs/crt/'
+
+minivmacRomFile = '/tmp/minivmac.cmd'
+minivmacOsFile = BIOS + '/macintosh/MinivMacBootv2.dsk'
