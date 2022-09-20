@@ -171,3 +171,6 @@ crtFilesRootFolder = '/recalbox/system/configs/crt/'
 crtUserFilesRootFolder = '/recalbox/share/system/configs/crt/'
 
 frotzConfig = HOME + '/.config/frotz/frotz.conf'
+
+minivmacRomFile = '/tmp/minivmac.cmd'
+minivmacOsFile = BIOS + '/macintosh/MinivMacBootv2.dsk'
