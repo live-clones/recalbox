@@ -244,20 +244,20 @@ bool IniFile::isInList(const std::string& name, const std::string& value) const
   return result;
 }
 
-std::string IniFile::ExtractValue(const std::string& key) const
+const std::string& IniFile::ExtractValue(const std::string& key) const
 {
   std::string* item = mPendingWrites.try_get(key);
   if (item == nullptr) item = mConfiguration.try_get(key);
-  return (item != nullptr) ? *item : std::string();
+  return (item != nullptr) ? *item : Strings::Empty;
 }
 
 bool IniFile::HasKeyStartingWith(const std::string& startWidth) const
 {
-  for (auto& it : mPendingWrites)
+  for (const auto& it : mPendingWrites)
     if (Strings::StartsWith(it.first, startWidth))
       return true;
 
-  for (auto& it : mConfiguration)
+  for (const auto& it : mConfiguration)
     if (Strings::StartsWith(it.first, startWidth))
       return true;
 
@@ -266,11 +266,11 @@ bool IniFile::HasKeyStartingWith(const std::string& startWidth) const
 
 bool IniFile::HasKey(const std::string& key) const
 {
-  for (auto& it : mPendingWrites)
+  for (const auto& it : mPendingWrites)
     if (it.first == key)
       return true;
 
-  for (auto& it : mConfiguration)
+  for (const auto& it : mConfiguration)
     if (it.first == key)
       return true;
 

@@ -349,7 +349,7 @@ class SystemManager :
      */
     explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<std::string>& watcherIgnoredFiles)
       : mMountPointMonitoring(this)
-      : mFastSearchSeries((int)FolderData::FastSearchContext::All)
+      , mFastSearchSeries((int)FolderData::FastSearchContext::All)
       , mProgressInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)

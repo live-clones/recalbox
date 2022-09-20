@@ -23,7 +23,7 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
 
 void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppelgangerWatcher)
 {
-  { LOG(LogInfo) << "[Gamelist] " << root.System().FullName() << ": Searching games/roms in " << root.FilePath().ToString() << "..."; }
+  { LOG(LogInfo) << "[Gamelist] " << root.System().FullName() << ": Searching games/roms in " << root.RomPath().ToString() << "..."; }
 
   try
   {
@@ -32,7 +32,7 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
   }
   catch (std::exception& ex)
   {
-    { LOG(LogError) << "[Gamelist] Reading folder \"" << root.FilePath().ToString() << "\" has raised an error!"; }
+    { LOG(LogError) << "[Gamelist] Reading folder \"" << root.RomPath().ToString() << "\" has raised an error!"; }
     { LOG(LogError) << "[Gamelist] Exception: " << ex.what(); }
   }
 }
@@ -40,7 +40,7 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
 Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
 {
   bool zip = RecalboxConf::Instance().AsBool("emulationstation.zippedgamelist", false);
-  Path filePath = root.FilePath() / (zip ? "gamelist.zip" : "gamelist.xml");
+  Path filePath = root.RomPath() / (zip ? "gamelist.zip" : "gamelist.xml");
 
   if (forWrite) // Write mode, ensure folder exist
   {
@@ -49,7 +49,7 @@ Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
   }
   else if (!filePath.Exists()) // Read mode. Try selected mode first, the fallback to the other mode
   {
-    Path otherFilePath = root.FilePath() / (zip ? "gamelist.xml" : "gamelist.zip");
+    Path otherFilePath = root.RomPath() / (zip ? "gamelist.xml" : "gamelist.zip");
     if (otherFilePath.Exists()) return otherFilePath;
   }
 
@@ -214,7 +214,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
     std::string ignoreList(1, ','); ignoreList.append(mDescriptor.IgnoredFiles()).append(1, ',');
 
-    const Path& relativeTo = root.FilePath();
+    const Path relativeTo(root.RomPath());
     XmlNode games = gameList.child("gameList");
     HashSet<std::string> blacklist{};
 
@@ -301,13 +301,15 @@ void SystemData::UpdateGamelistXml()
         /*
          * Serialize folder and game nodes
          */
+        Path rootPath = root->RomPath();
         for (const FileData* folder : folderList)
-          folder->Metadata().Serialize(gameList, folder->FilePath(), root->FilePath());
+          folder->Metadata().Serialize(gameList, folder->RomPath(), rootPath);
         for (FileData* file : fileList)
         {
-          if (root->GetDeletedChildren().contains(file->FilePath().ToString()))
+          Path path(file->RomPath());
+          if (root->GetDeletedChildren().contains(path.ToString()))
             continue;
-          file->Metadata().Serialize(gameList, file->FilePath(), root->FilePath());
+          file->Metadata().Serialize(gameList, path, rootPath);
           file->Metadata().UnDirty();
         }
 
@@ -407,21 +409,22 @@ void SystemData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
 void SystemData::UpdateLastPlayedGame(FileData& updated)
 {
   // Update game
-  updated.Metadata().SetLastplayedNow();
+  updated.Metadata().SetLastPlayedNow();
 
   // Build the doppelganger map
   FileData::StringMap map;
   BuildDoppelgangerMap(map, false);
   // If the game is already here, exit
-  if (map.contains(updated.FilePath().ToString())) return;
+  Path path(updated.RomPath());
+  if (map.contains(path.ToString())) return;
 
   // Prepare a one game map
   map.clear();
-  map[updated.FilePath().ToString()] = &updated;
+  map[path.ToString()] = &updated;
   // Add the virtual game
   RootFolderData* root = GetRootFolder(RootFolderData::Types::Virtual);
   if (root != nullptr)
-    LookupOrCreateGame(*root, updated.TopAncestor().FilePath(), updated.FilePath(), ItemType::Game, map);
+    LookupOrCreateGame(*root, updated.TopAncestor().RomPath(), path, ItemType::Game, map);
 }
 
 RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
@@ -435,7 +438,7 @@ RootFolderData* SystemData::GetRootFolder(RootFolderData::Types type)
 RootFolderData* SystemData::GetRootFolder(const Path& root)
 {
   for(RootFolderData* rootFolder : mRootOfRoot.SubRoots())
-    if (rootFolder->FilePath() == root)
+    if (rootFolder->RomPath() == root)
       return rootFolder;
   return nullptr;
 }
