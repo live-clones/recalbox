@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
+- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
