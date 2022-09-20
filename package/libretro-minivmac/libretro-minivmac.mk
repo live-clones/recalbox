@@ -4,9 +4,12 @@
 #
 ################################################################################
 
-LIBRETRO_MINIVMAC_VERSION = 91e6ee6e7b32e71cb3ecf60a04d187690b3e06f9
-LIBRETRO_MINIVMAC_SITE = $(call github,libretro,libretro-minivmac,$(LIBRETRO_MINIVMAC_VERSION))
+# Commit of 2022-07-30
+LIBRETRO_MINIVMAC_VERSION = 7a774cdb3e754c65f4c1df622cea93a53f7ab9f7
+LIBRETRO_MINIVMAC_SITE = https://github.com/libretro/libretro-minivmac.git
+LIBRETRO_MINIVMAC_SITE_METHOD = git
 LIBRETRO_MINIVMAC_LICENSE = GPL-1.0
+LIBRETRO_MINIVMAC_GIT_SUBMODULES=y
 
 define LIBRETRO_MINIVMAC_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
@@ -19,6 +22,7 @@ endef
 define LIBRETRO_MINIVMAC_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/minivmac_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/minivmac_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/macintosh
 endef
 
 $(eval $(generic-package))
