@@ -42,7 +42,7 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
     return feed;
   }
 
-  { LOG(LogDebug) << "[SeamlessScraping] Start scraping of " << feed->FilePath().ToString() << " using engine " << engineIndex; }
+  { LOG(LogDebug) << "[SeamlessScraping] Start scraping of " << feed->RomPath().ToString() << " using engine " << engineIndex; }
 
   // Get engine
   ScreenScraperSingleEngine& engine = mEngines[engineIndex];
@@ -51,7 +51,7 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
   // Free engine so that another scrape can start now
   FreeEngine(engineIndex);
 
-  { LOG(LogDebug) << "[SeamlessScraping] Stop scraping of " << feed->FilePath().ToString(); }
+  { LOG(LogDebug) << "[SeamlessScraping] Stop scraping of " << feed->RomPath().ToString(); }
 
   return feed;
 }
@@ -99,6 +99,6 @@ IScraperEngineStage* ScraperSeamless::Pop(FileData* game, bool remove)
     if (remove) mRunningScrapes.erase(game);
     return (*result).Interface;
   }
-  { LOG(LogError) << "[SeamlessScraping] Key " << game->FilePath().ToString() << " not found in scraping map!"; }
+  { LOG(LogError) << "[SeamlessScraping] Key " << game->RomPath().ToString() << " not found in scraping map!"; }
   return nullptr;
 }
