@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Add guncon2 support for CRT tvs
 - Add new system 'Z-Machine' with new core frotz
+- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
