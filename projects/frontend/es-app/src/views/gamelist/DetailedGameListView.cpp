@@ -522,8 +522,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
-  { LOG(LogDebug) << "[GamelistView] Set video '" << file->Metadata().Video().ToString() << "' for " << file->Metadata().Name() << " => " << file->FilePath().ToString(); }
-
+  { LOG(LogDebug) << "[GamelistView] Set video " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->RomPath().ToString(); }
   mDescription.setText(file->Metadata().Description());
   mDescContainer.reset();
 }

@@ -78,7 +78,7 @@ const HashMap<ScraperType, std::string>& ScraperFactory::GetScraperList()
 
 void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
 {
-  std::string name = game.FilePath().FilenameWithoutExtension();
+  std::string name = game.RomPath().FilenameWithoutExtension();
 
   // Remove (text)
   bool found = false;
@@ -107,7 +107,7 @@ void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
 
 void ScraperFactory::ExtractRegionFromFilename(FileData& game)
 {
-  Regions::RegionPack region = Regions::ExtractRegionsFromFileName(game.FilePath());
+  Regions::RegionPack region = Regions::ExtractRegionsFromFileName(game.RomPath());
   if (region.HasRegion())
     game.Metadata().SetRegion(region);
 }

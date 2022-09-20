@@ -305,21 +305,21 @@ void GuiSearch::Render(const Transform4x4f& parentTrans)
 
 void GuiSearch::PopulateGrid(const std::string& search)
 {
-	if (mList) {
+	if (mList)
 		mList->clear();
-	}
 
 	if (search.length()>2)
 	{
-        ViewController::State viewControllerState = ViewController::Instance().getState();
-        SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
+    ViewController::State viewControllerState = ViewController::Instance().getState();
+    SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
 		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");
 			ComponentListRow row;
 			std::shared_ptr<Component> ed;
-			for (auto *game : mSearchResults) {
+			for (auto *game : mSearchResults)
+      {
 				row.elements.clear();
 				std::string gameName;
 
