@@ -217,6 +217,6 @@ class IniFile
      * @param key Key
      * @return Value or empty string if the key does not exists
      */
-    std::string ExtractValue(const std::string& key) const;
+    const std::string& ExtractValue(const std::string& key) const;
 };
 

@@ -16,7 +16,7 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
   {
     // Footer
     std::string gameName(game.Name());
-    gameName.append(" (").append(game.FilePath().Filename()).append(1, ')');
+    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
     SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
 
     // Delete
@@ -91,7 +91,7 @@ std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
   std::string message = _("Game").append(": ").append(mGame.Name()).append("\n");
   message.append(_("You are about to delete this files, confirm ?"));
   message.append("\n\n");
-  message.append(mGame.FilePath().Filename()).append("\n");
+  message.append(mGame.RomPath().Filename()).append("\n");
   for(const auto& path : mGameFiles)
   {
     message.append(Path(path).Filename()).append("\n");

@@ -81,8 +81,8 @@ void SystemManager::CheckAutoScraping(SystemData& system)
         static std::string png(LEGACY_STRING(".png"));
         if (game.IsGame())
           if (game.Metadata().Image().IsEmpty())
-            if (Strings::ToLowerASCII(game.FilePath().Extension()) == png)
-              game.Metadata().SetImagePath(game.FilePath());
+            if (Strings::ToLowerASCII(game.RomPath().Extension()) == png)
+              game.Metadata().SetImagePath(game.RomPath());
       }
   } autoScraper;
 
@@ -151,12 +151,13 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
       {
         if (game.IsFolder())
         {
+          Path romPath = game.RomPath();
           // Override image
-          Path fullPath = game.FilePath() / ".folder.picture.png";
+          Path fullPath = romPath / ".folder.picture.png";
           if (fullPath.Exists())
           {
             game.Metadata().SetVolatileImagePath(fullPath);
-            fullPath = game.FilePath() / ".folder.description.txt";
+            fullPath = romPath / ".folder.description.txt";
             std::string text = Files::LoadFile(fullPath);
             if (!text.empty())
             {
@@ -232,24 +233,27 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
         if (game.IsGame())
         {
           // Highest version
-          Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(game.FilePath().Filename());
-          std::string key = game.ScrappableName().append(Strings::ToHexa((int)Regions::ExtractRegionsFromNoIntroName(game.FilePath().FilenameWithoutExtension()).Pack));
-          VersionedGame* previous = mHighestVersions.try_get(key);
+          Path romPath = game.RomPath();
+          std::string fileName = romPath.Filename();
+          Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(fileName);
+          std::string gameNameWithRegion = Strings::RemoveParenthesis(fileName).append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
+
+          VersionedGame* previous = mHighestVersions.try_get(gameNameWithRegion);
           if (previous == nullptr)
           {
             game.Metadata().SetLatestVersion(true);
-            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+            mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
           else if (version > previous->Version)
           {
             previous->Game->Metadata().SetLatestVersion(false);
             game.Metadata().SetLatestVersion(true);
-            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+            mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
 
           // Not a game?
           game.Metadata().SetNoGame(Strings::StartsWith(game.Name(),LEGACY_STRING("ZZZ")) ||
-                                    Strings::StartsWith(game.FilePath().Filename(), LEGACY_STRING("[BIOS]")));
+                                    Strings::StartsWith(fileName, LEGACY_STRING("[BIOS]")));
         }
       }
   } dynamicMetadata;
@@ -364,7 +368,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     {
       { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
       for (auto* fd : all)
-        result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+        result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
     }
   }
 
@@ -396,7 +400,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
     for (auto* fd : games)
-      result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+      result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
   }
 
   result->loadTheme();
@@ -1129,7 +1133,7 @@ void SystemManager::NotifyDeviceUnmount(const DeviceMount& mountpoint)
 {
   for(const SystemData* system : mAllSystemVector)
     for(const RootFolderData* root : system->MasterRoot().SubRoots())
-      if (root->FilePath().StartWidth(mountpoint.MountPoint()))
+      if (root->RomPath().StartWidth(mountpoint.MountPoint()))
         if (root->HasGame())
         {
           { LOG(LogWarning) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " used at least in " << system->FullName(); }
