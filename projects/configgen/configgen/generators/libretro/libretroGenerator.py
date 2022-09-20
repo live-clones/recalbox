@@ -331,4 +331,12 @@ class LibretroGenerator(Generator):
             if collector.Count > 1:
                 return [collector.Disks[0]]
 
+        # macintosh
+        if core == "minivmac":
+            with open(recalboxFiles.minivmacRomFile, 'w') as f:
+                f.write('"Mini vMac" "' + recalboxFiles.minivmacOsFile + '" "' + rom + '"')
+
+            rom = [recalboxFiles.minivmacRomFile]
+            return rom
+
         return [rom]

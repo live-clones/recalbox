@@ -1,0 +1,17 @@
+diff --git a/minivmac/src/OSGLUERETRO.c b/minivmac/src/OSGLUERETRO.c
+index 500365a..f92ea30 100644
+--- a/minivmac/src/OSGLUERETRO.c
++++ b/minivmac/src/OSGLUERETRO.c
+@@ -775,10 +775,10 @@ LOCALFUNC blnr LoadMacRom(void)
+ {
+ 	tMacErr err;
+ 	
+-	sprintf(RETRO_ROM,"%s/MacIIx.ROM\0",RETRO_DIR);
++	sprintf(RETRO_ROM,"/recalbox/share/bios/macintosh/MacIIx.ROM\0");
+ 	if (mnvm_fnfErr == (err = LoadMacRomFrom(RETRO_ROM)))
+ 	{
+-		sprintf(RETRO_ROM,"%s/MacII.ROM\0",RETRO_DIR);
++		sprintf(RETRO_ROM,"/recalbox/share/bios/macintosh/MacII.ROM\0");
+ 		if (mnvm_fnfErr == (err = LoadMacRomFrom(RETRO_ROM)))
+ 		if ((NULL == rom_path)
+ 			|| (mnvm_fnfErr == (err = LoadMacRomFrom(rom_path))))

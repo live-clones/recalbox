@@ -7,7 +7,9 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.2-Electron
 
 ### News
+
 - Add new category 'Demoscene' in tic80 games downloader.
+- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/PC)
 
 ### Improvements
 - Update of the theme for the X68000 system
