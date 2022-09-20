@@ -24,6 +24,10 @@
   <system fullname="Apple IIGS" platform="apple2gs">
     <bios path="apple2gs.rom" md5="20a0334c447cb069a040ae5be1d938df,ba89edf2729a28a17cd9e0f7a0ac9a39" core="apple2gs" />
   </system>
+  <system fullname="Apple Macintosh" platform="macintosh">
+    <bios path="macintosh/MacII.ROM" md5="66223be1497460f1e60885eeb35e03cc" core="minivmac" />
+    <bios path="macintosh/MinivMacBootv2.dsk" md5="16ddb8838d48be26e471a2f2bb85a961,e66dc7952c8b9673868ad2faba3c0d20" hashMatchMandatory="false" core="minivmac" />
+  </system>
   <system fullname="Atari 8Bits" platform="atari800">
     <bios path="ATARIBAS.ROM" md5="0bac0c6a50104045d902df4503a4c30b" core="atari800" />
     <bios path="ATARIOSA.ROM" md5="eb1f32f5d9f382db1bbfb8d7f9cb343a" core="atari800" />
