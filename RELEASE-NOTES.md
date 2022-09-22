@@ -12,6 +12,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Update of the theme for the X68000 system
  
+- Bump libretro fbneo
+
 ### Fixes
 
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
