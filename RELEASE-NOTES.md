@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gong
 - Update of the theme for the X68000 system
 - Bump libretro uae
+- Bump libretro fbneo
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
