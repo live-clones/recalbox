@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro genesisplusgxwide
 - Bump libretro Beetle Lynx
 - Bump libretro Opera
+- Bump libretro fbneo
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
