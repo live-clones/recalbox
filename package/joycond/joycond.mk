@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JOYCOND_VERSION = 2990fe2b156697e7eca6f32be5a2d22ed26f6386
+JOYCOND_VERSION = 5b590ecc9bca181d8bc21377e752126bc9180319
 JOYCOND_SITE = $(call github,DanielOgorchock,joycond,$(JOYCOND_VERSION))
 JOYCOND_DEPENDENCIES = eudev libevdev hid-nintendo
 JOYCOND_LICENSE = GPL-3.0
