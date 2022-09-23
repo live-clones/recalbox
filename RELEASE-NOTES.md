@@ -62,6 +62,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix support for Ultimarc IPAC 2
 - Fix internal scraper saving path before actual media
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
+- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
 ## Version 8.1.1-Electron
 
