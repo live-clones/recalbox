@@ -46,6 +46,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix pad 8bitdo Pro 2 mode D (Android)
 - Fix bad overlay showing when save on exit is enabled on retroarch
 - Fix support for Ultimarc IPAC 2
+- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
 ## Version 8.1.1-Electron
 
