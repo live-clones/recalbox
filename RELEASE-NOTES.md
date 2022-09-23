@@ -55,6 +55,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix support for Ultimarc IPAC 2
 - Fix pause menu in the game for libretro pcsx_rearmed
 - Fix internal scraper saving path before actual media
+- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
 ## Version 8.1.1-Electron
 
