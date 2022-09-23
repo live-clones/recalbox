@@ -24,6 +24,40 @@ hotkeysCombo: Dict[int, str] =\
     InputItem.ItemRight:  "Increase Emulation Speed"
 }
 
+hotkeysXboxCombo: Dict[int,str] =\
+{
+    InputItem.ItemB:      "General/Stop", ## to unify the unique combination of Recalbox ;)
+    #    "b":      "Toggle Pause",
+    InputItem.ItemL1:     "General/Take Screenshot",
+    InputItem.ItemStart:  "General/Exit",
+    InputItem.ItemA:      "General/Reset",
+    InputItem.ItemY:      "Save State/Save to selected slot",
+    InputItem.ItemX:      "Load State/Load from selected slot",
+    #    "r2":     "Stop",
+    InputItem.ItemR2:     "General/Toggle Pause",
+    InputItem.ItemUp:     "Select State/Select State Slot 1",
+    InputItem.ItemDown:   "Select State/Select State Slot 2",
+    InputItem.ItemLeft:   "Emulation Speed/Decrease Emulation Speed",
+    InputItem.ItemRight:  "Emulation Speed/Increase Emulation Speed"
+}
+
+hotkeysXboxComboValues: Dict[int,str] =\
+{
+    InputItem.ItemB:      "SOUTH", ## to unify the unique combination of Recalbox ;)
+    #    "b":      "Toggle Pause",
+    InputItem.ItemL1:     "TL",
+    InputItem.ItemStart:  "START",
+    InputItem.ItemA:      "EAST",
+    InputItem.ItemY:      "NORTH",
+    InputItem.ItemX:      "WEST",
+    #    "r2":     "Stop",
+    InputItem.ItemR2:     "`Full Axis 5+`",
+    InputItem.ItemUp:     "`Axis 7+`",
+    InputItem.ItemDown:   "`Axis 7-`",
+    InputItem.ItemLeft:   "`Axis 6-`",
+    InputItem.ItemRight:  "`Axis 6+`"
+}
+
 # Create the controller configuration file
 def generateControllerConfig(system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings):
     generateHotkeys(playersControllers)
@@ -111,6 +145,14 @@ def EvdevGetJoystickName(path: str) -> str:
     with open(path) as fd:
         return fcntl.ioctl(fd, 0x80804506, bytes(128)).decode('utf-8').rstrip().replace('\x00', '')
 
+def getControllerName(device: str):
+    import os
+    sysFile = "/sys/class/input/{}/device/name".format(os.path.basename(device))
+    if os.path.isfile(sysFile):
+        with open(sysFile, "r") as f:
+            return f.readline().rstrip("\n")
+    return ""
+
 def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filename: str, anyDefKey: str, anyMapping: Dict[int, str], system: Emulator):
     configFileName = "{}/{}".format(recalboxFiles.dolphinConfig, filename)
     f = open(configFileName, "w")
@@ -180,22 +222,39 @@ def generateHotkeys(playersControllers: ControllerPerPlayer):
         raise ValueError("Couldn't find Player 1 input config")
 
     # Read its inputs, get the hotkey
-    HK: int = player1.Hotkey.Id if player1.HasHotkey else -1
+    if player1.DeviceName not in getControllerName(player1.DevicePath):
+        # Mostly sure it's an Xbox-recognized controller
+        HK: str = "MODE" if player1.HasHotkey else -1
+    else:
+        # Non-Xbox controller
+        HK: int = player1.Hotkey.Id if player1.HasHotkey else -1
 
-    if HK < 0:
-        print("no HK")
-        raise ValueError("Couldn't find Player 1 hotkey")
+        if HK < 0:
+            print("no HK")
+            raise ValueError("Couldn't find Player 1 hotkey")
 
     # Now generate the hotkeys
-    for inputItem in player1.AvailableInput:
-        if inputItem.Item in hotkeysCombo:
-            propertyName = "Keys/{}".format(hotkeysCombo[inputItem.Item])
-            print(propertyName)
-            propertyValue = "`Button {}` & `Button {}`".format(HK, inputItem.Id)
-            iniValues[propertyName] = propertyValue
-    iniValues["Device"] = '"evdev/0/{}"'.format(player1.DeviceName)
-    # Prepare the ini write
-    iniSections = { "Hotkeys1": iniValues }
+    if player1.DeviceName not in getControllerName(player1.DevicePath):
+        for inputItem in player1.AvailableInput:
+            if inputItem.Item in hotkeysXboxCombo:
+                propertyName = "{}".format(hotkeysXboxCombo[inputItem.Item])
+                print(propertyName)
+                propertyValue = "@({}+{})".format(HK, hotkeysXboxComboValues[inputItem.Item])
+                iniValues[propertyName] = propertyValue
+
+        iniValues["Device"] = '"evdev/0/{}"'.format(getControllerName(player1.DevicePath))
+        # Prepare the ini write
+        iniSections = { "Hotkeys": iniValues }
+    else:
+        for inputItem in player1.AvailableInput:
+            if inputItem.Item in hotkeysCombo:
+                propertyName = "Keys/{}".format(hotkeysCombo[inputItem.Item])
+                print(propertyName)
+                propertyValue = "`Button {}` & `Button {}`".format(HK, inputItem.Id)
+                iniValues[propertyName] = propertyValue
+        iniValues["Device"] = '"evdev/0/{}"'.format(player1.DeviceName)
+        # Prepare the ini write
+        iniSections = { "Hotkeys1": iniValues }
     writeIniFile(recalboxFiles.dolphinHKeys, iniSections)
 
 

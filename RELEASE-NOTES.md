@@ -14,6 +14,8 @@ as release notes for end user on a Recalbox upgrade.
  
 ### Fixes
 
+- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
+
 ## Version 8.1.1-Electron
 
 ## Fixes
