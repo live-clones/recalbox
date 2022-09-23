@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
 - Fix bad overlay showing when save on exit is enabled on retroarch
 
+- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 
 ## Version 8.1.1-Electron
 
