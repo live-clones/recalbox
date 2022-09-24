@@ -10,7 +10,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add new category 'Demoscene' in tic80 games downloader.
 
 ### Improvements
-
+- Update of the theme for the X68000 system
+ 
 ### Fixes
 
 ## Version 8.1.1-Electron
