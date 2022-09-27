@@ -235,9 +235,15 @@ void GuiInputConfig::setHelpMessage() {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
 	if (assigned) {
-		if (mTargetDevice->IsSet(InputDevice::Entry::A)) {
-			msg = msg + _("A TO UNSET");
-		}
+        if (RecalboxConf::Instance().GetSwapValidateAndCancel()) {
+            if (mTargetDevice->IsSet(InputDevice::Entry::B)) {
+                msg = msg + _("B TO UNSET");
+            }
+        } else {
+            if (mTargetDevice->IsSet(InputDevice::Entry::A)) {
+                msg = msg + _("A TO UNSET");
+            }
+        }
 		if (mTargetDevice->IsSet(InputDevice::Entry::Down)) {
 			if (inputId == 0)
 				msg = (msg.length() != 0u ? msg + " - " : "") +
@@ -358,7 +364,7 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
             return;
           }
 
-          if (isAssigned() && mTargetDevice->IsMatching(InputDevice::Entry::A, input))
+          if (isAssigned() && mTargetDevice->IsMatching((RecalboxConf::Instance().GetSwapValidateAndCancel() ? InputDevice::Entry::B : InputDevice::Entry::A), input))
           {
             unAssign();
             setHelpMessage();
@@ -391,5 +397,12 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
   };
 
   return false;
+}
+
+bool GuiInputConfig::getHelpPrompts(Help &help)
+{
+    help.Set(Help::Cancel(), _("CANCEL"));
+
+    return true;
 }
 
