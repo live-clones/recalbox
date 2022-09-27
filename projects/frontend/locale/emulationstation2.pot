@@ -3790,3 +3790,7 @@ msgstr ""
 #
 msgid "Select system, frontend and emulator resolutions."
 msgstr ""
+
+#
+msgid "B TO UNSET"
+msgstr ""
