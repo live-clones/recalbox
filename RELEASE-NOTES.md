@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add new category 'Demoscene' in tic80 games downloader.
+- Add libretro-dolphin for RPi4
 
 ### Improvements
 
