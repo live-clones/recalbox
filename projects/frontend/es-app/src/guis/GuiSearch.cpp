@@ -312,7 +312,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 	{
     ViewController::State viewControllerState = ViewController::Instance().getState();
     SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
-		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100);
+		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");
