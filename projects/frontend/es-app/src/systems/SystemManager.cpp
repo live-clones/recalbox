@@ -1018,7 +1018,7 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   system.UpdateLastPlayedGame(game);
 }
 
-FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal)
+FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
 {
   // Everything to lowercase cause search is not case sensitive
   std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
@@ -1058,9 +1058,11 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   // Build searchable system list
   { LOG(LogWarning) << "BUILD SEARCHABLE SYSTEM LIST"; }
   Array<const SystemData*> searchableSystems((int)GetVisibleSystemList().size());
-  for(const SystemData* system : GetVisibleSystemList())
-    if (system->IsSearchable())
-      searchableSystems.Add(system);
+  if (targetSystem == nullptr) searchableSystems.Add(targetSystem);
+  else
+    for(const SystemData* system : GetVisibleSystemList())
+      if (system->IsSearchable())
+        searchableSystems.Add(system);
 
   // Build Item series
   CreateFastSearchCache(resultIndexes, searchableSystems);
