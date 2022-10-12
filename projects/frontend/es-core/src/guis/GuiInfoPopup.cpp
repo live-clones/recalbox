@@ -37,8 +37,9 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.08f : 0.04f) * hwSize);
-  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.04f : 0.02f) * hwSize);
+  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().IsSmallResolution() ? FONT_SIZE_SMALL : 0.04f * hwSize));
+  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().IsSmallResolution() ? FONT_SIZE_SMALL : 0.02f * hwSize));
+
 
   mMsgText = std::make_shared<TextComponent>(window, mMessage, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Left);
   mMsgIcon = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
