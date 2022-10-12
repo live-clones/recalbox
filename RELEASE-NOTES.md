@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add guncon2 support for CRT tvs
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Add new system 'Z-Machine' with new core frotz
+- Add new arcade game support for 15kHz.
 
 ### Improvements
 - Bump libretro pcsx-rearmed
