@@ -19282,3 +19282,5 @@ zzyzzyx2,mame2003,arcade:224@60.000000,0,0,1
 zzyzzyxx,mame2003,arcade:224@60.000000,0,0,1
 espgal,mame2003,arcade:224@59.170000,0,0,1
 espgalbl,mame2003,arcade:224@60.000000,0,0,1
+daimakaib,fbneo,arcade:224@59.637405,0,0,0
+gngbla,fbneo,arcade:224@59.590000,0,0,0
