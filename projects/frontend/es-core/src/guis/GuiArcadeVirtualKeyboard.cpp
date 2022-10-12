@@ -46,8 +46,8 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const 
     mMoveOn(false),
     mValidateCallback(okCallback),
     mWheelFont(Font::get(GetFontSize(sWheelFontRatio), Path(":/vk.ttf"))),
-    mTitleFont(Font::get(GetFontSize(sTitleFontRatio))),
-    mTextFont(Font::get(GetFontSize(sTextFontRatio))),
+    mTitleFont(Font::get(GetFontSize(sTitleFontRatio), Path(":/ubuntu_condensed.ttf"))),
+    mTextFont(Font::get(GetFontSize(sTextFontRatio), Path(":/ubuntu_condensed.ttf"))),
     mSelectedChar(TextureResource::get(Path(":/plaincircle30.png"), false, true, true))
 {
   ChangeWheel(0);

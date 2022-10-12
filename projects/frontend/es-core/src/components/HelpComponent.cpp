@@ -109,7 +109,6 @@ void HelpComponent::UpdateHelps()
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
-  auto vv = HelpItemStyle().Position();
 	mGrid.setPosition(Vector3f((int)HelpItemStyle().Position().x(), (int)HelpItemStyle().Position().y(), 0.0f));
 }
 
