@@ -124,7 +124,6 @@ void HelpComponent::setOpacity(unsigned char opacity)
 void HelpComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = (parentTrans * getTransform()).translate({ (float)-mScrollingOffset, 0, 0 });
-
 	if (mGrid.EntryCount() != 0)
     mGrid.Render(trans);
 }
