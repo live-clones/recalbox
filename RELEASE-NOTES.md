@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
 - Fix rtype resolution for 31kHz
+- Add new arcade game support for 15kHz.
 
 ### Improvements
 - Bump libretro pcsx-rearmed
