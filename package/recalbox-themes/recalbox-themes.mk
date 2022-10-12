@@ -5,7 +5,7 @@
 ################################################################################
 
 ifneq ($(GITLAB_TOKEN_THEMES),)
-RECALBOX_THEMES_VERSION = 2786998b33993546e716d8c09821e7e69149e70a
+RECALBOX_THEMES_VERSION = 7f43e4f0595b650b5ad3f485b0ad54cdc8222480
 RECALBOX_THEMES_SITE = https://gitlab-ci-token:$(GITLAB_TOKEN_THEMES)@gitlab.com/recalbox/recalbox-themes-prime
 else
 RECALBOX_THEMES_VERSION = dd10b43c5bf48861274a77af9e604b1fa5bcc2ae
@@ -19,6 +19,8 @@ define RECALBOX_THEMES_INSTALL_TARGET_CMDS
 	cp -r $(@D)/themes/recalbox-next \
 		$(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
 	cp -r $(@D)/themes/recalbox-goa2 \
+		$(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
+	cp -r $(@D)/themes/recalbox-240p \
 		$(TARGET_DIR)/recalbox/share_init/system/.emulationstation/themes/
 endef
 

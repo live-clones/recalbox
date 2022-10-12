@@ -1,10 +1,7 @@
 #!/bin/bash
 
 declare -A ES_CONFIG=( \
-    ["emulationstation.theme.recalbox-next.systemview"]="9-240p" \
-    ["emulationstation.theme.recalbox-next.gamelistview"]="10-240p" \
-    ["emulationstation.theme.recalbox-next.menuset"]="7-240p" \
-    ["emulationstation.theme.recalbox-next.gameclipview"]="3-240p" \
+    ["emulationstation.theme.folder"]="recalbox-240p" \
     ["emulationstation.screensaver.type"]="demo" \
     ["240ptestsuite.ignore"]="0" \
     ["global.smooth"]="0" \
