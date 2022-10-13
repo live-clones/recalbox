@@ -13,10 +13,11 @@
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
 
-ScraperSearchComponent::ScraperSearchComponent(WindowManager& window)
+ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowResolution)
   : Component(window),
     mGrid(window, Vector2i(7, 6)),
-    mBusyAnim(window)
+    mBusyAnim(window),
+    mLowResolution(lowResolution)
 {
 	addChild(&mGrid);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -57,7 +58,8 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window)
 
   // Image thumbnail
   mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
-  mGrid.setEntry(mResultThumbnail, Vector2i(1, 1), false, false, Vector2i(1, 4));
+  if(!lowResolution)
+    mGrid.setEntry(mResultThumbnail, Vector2i(1, 1), false, false, Vector2i(1, 4));
 
   // selected result desc + container
   mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
@@ -65,7 +67,8 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window)
   mDescContainer->addChild(mResultDesc.get());
   mDescContainer->setAutoScroll(true);
   // show description on the right
-  mGrid.setEntry(mDescContainer, Vector2i(2, 4), false, false, Vector2i(4, 2));
+  if(!lowResolution)
+    mGrid.setEntry(mDescContainer, Vector2i(2, 4), false, false, Vector2i(4, 2));
   mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 
   // Labels
@@ -108,13 +111,24 @@ void ScraperSearchComponent::onSizeChanged()
 	if(mSize.x() == 0 || mSize.y() == 0) return;
 
   // column widths
-  mGrid.setColWidthPerc(0, 0.05f);
-	mGrid.setColWidthPerc(1, 0.30f);
-	mGrid.setColWidthPerc(2, 0.15f);
-  mGrid.setColWidthPerc(3, 0.15f);
-  mGrid.setColWidthPerc(4, 0.15f);
-  mGrid.setColWidthPerc(5, 0.15f);
-  mGrid.setColWidthPerc(6, 0.05f);
+  if(mLowResolution)
+  {
+    mGrid.setColWidthPerc(0, 0.05f);
+    mGrid.setColWidthPerc(1, 0.0f);
+    mGrid.setColWidthPerc(2, 0.25f);
+    mGrid.setColWidthPerc(3, 0.25f);
+    mGrid.setColWidthPerc(4, 0.20f);
+    mGrid.setColWidthPerc(5, 0.20f);
+    mGrid.setColWidthPerc(6, 0.05f);
+  } else {
+    mGrid.setColWidthPerc(0, 0.05f);
+    mGrid.setColWidthPerc(1, 0.30f);
+    mGrid.setColWidthPerc(2, 0.15f);
+    mGrid.setColWidthPerc(3, 0.15f);
+    mGrid.setColWidthPerc(4, 0.15f);
+    mGrid.setColWidthPerc(5, 0.15f);
+    mGrid.setColWidthPerc(6, 0.05f);
+  }
 
 	// row heights
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -126,7 +140,7 @@ void ScraperSearchComponent::onSizeChanged()
   mGrid.setRowHeightPerc(1, textRowPercent);
   mGrid.setRowHeightPerc(2, textRowPercent);
   mGrid.setRowHeightPerc(3, textRowPercent);
-  mGrid.setRowHeightPerc(4, otherRowPercent);
+  mGrid.setRowHeightPerc(4, mLowResolution ? 0.001f : otherRowPercent);
   mGrid.setRowHeightPerc(5, otherRowPercent);
 
   // Resize title & description
@@ -152,8 +166,11 @@ void ScraperSearchComponent::onSizeChanged()
   mValuePlayers->setSize(mGrid.getColWidth(5) * boxartCellScale, mValuePublisher->getFont()->getHeight());
 
   mGrid.onSizeChanged();
-  mBusyAnim.setPosition(mGrid.getColWidth(0), mGrid.getRowHeight(0, 4));
-	mBusyAnim.setSize(mGrid.getColWidth(1), mGrid.getRowHeight(5));
+  if(!mLowResolution)
+  {
+    mBusyAnim.setPosition(mGrid.getColWidth(0), mGrid.getRowHeight(0, 4));
+    mBusyAnim.setSize(mGrid.getColWidth(1), mGrid.getRowHeight(5));
+  }
 }
 
 void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
@@ -211,7 +228,7 @@ void ScraperSearchComponent::Render(const Transform4x4f& parentTrans)
 		Renderer::SetMatrix(trans);
 		Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 
-    mBusyAnim.Render(trans);
+    if(!mLowResolution) mBusyAnim.Render(trans);
 	}
 }
 
@@ -219,7 +236,7 @@ void ScraperSearchComponent::Update(int deltaTime)
 {
   Component::Update(deltaTime);
 
-	if (mRunning)
+	if (mRunning && !mLowResolution)
     mBusyAnim.Update(deltaTime);
 }
 

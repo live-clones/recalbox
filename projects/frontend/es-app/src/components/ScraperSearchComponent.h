@@ -17,7 +17,7 @@ class AnimatedImageComponent;
 class ScraperSearchComponent : public Component
 {
   public:
-    explicit ScraperSearchComponent(WindowManager& window);
+    explicit ScraperSearchComponent(WindowManager& window, bool lowResolution);
 
     bool ProcessInput(const InputCompactEvent& event) override;
 
@@ -45,6 +45,7 @@ class ScraperSearchComponent : public Component
 
   private:
     ComponentGrid mGrid;
+    bool mLowResolution;
     BusyComponent mBusyAnim;
 
     std::shared_ptr<TextComponent> mResultName;

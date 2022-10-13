@@ -111,7 +111,7 @@ void GuiMenuScraper::start()
     mWindow.pushGui(msgBox);
   }
   else
-    GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected(), &GameRunner::Instance());
+    GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected(), &GameRunner::Instance(), Renderer::Instance().DisplayHeightAsInt() <=576);
 }
 
 void GuiMenuScraper::SwitchComponentChanged(int id, bool status)
