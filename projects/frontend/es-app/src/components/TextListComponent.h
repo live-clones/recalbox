@@ -147,7 +147,7 @@ template <typename T>
 void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
-  if(Renderer::Instance().IsSmallResolution())
+  //if(Renderer::Instance().IsSmallResolution())
     trans.round();
 	std::shared_ptr<Font>& font = mFont;
 

@@ -20,14 +20,14 @@ class ThemeElement;
 class ResourceManager;
 
 #define MIN_DISPLAY_SIZE (Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat()))
-#define FONT_SIZE_EXTRASMALL ((unsigned int) (Renderer::Instance().IsSmallResolution() ? 7 : 0.030f * MIN_DISPLAY_SIZE))
-#define FONT_SIZE_SMALL ((unsigned int) (Renderer::Instance().IsSmallResolution() ? 7 : 0.035f  * MIN_DISPLAY_SIZE))
-#define FONT_SIZE_MEDIUM ((unsigned int) (Renderer::Instance().IsSmallResolution() ? 7 : 0.045f  * MIN_DISPLAY_SIZE))
-#define FONT_SIZE_LARGE ((unsigned int) (Renderer::Instance().IsSmallResolution() ? 14 : 0.085f  * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_EXTRASMALL ((unsigned int) (0.030f * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_SMALL ((unsigned int) (0.035f  * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_MEDIUM ((unsigned int) (0.045f  * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_LARGE ((unsigned int) (0.085f  * MIN_DISPLAY_SIZE))
 
 
-#define FONT_PATH_LIGHT (Renderer::Instance().IsSmallResolution() ? ":/f8bitfortressplus.ttf" : ":/ubuntu_condensed.ttf")
-#define FONT_PATH_REGULAR (Renderer::Instance().IsSmallResolution() ? ":/f8bitfortressplus.ttf" : ":/ubuntu_condensed.ttf")
+#define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
+#define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"
 
 typedef unsigned int UnicodeChar;
 
