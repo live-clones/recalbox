@@ -37,11 +37,15 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().IsSmallResolution() ? FONT_SIZE_SMALL : 0.04f * hwSize));
-  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().IsSmallResolution() ? FONT_SIZE_SMALL : 0.02f * hwSize));
+  unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
+  unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
 
+  if(menuTheme->menuText.font->getSize() > 1){
+    FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
+    FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
+  }
 
-  mMsgText = std::make_shared<TextComponent>(window, mMessage, Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Left);
+  mMsgText = std::make_shared<TextComponent>(window, mMessage, Font::get((int)FONT_SIZE_TEXT, menuTheme->menuText.font->getPath()), menuTheme->menuText.color, TextAlignment::Left);
   mMsgIcon = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
 
   grid.setEntry(mMsgText, Vector2i(1, 0), false, false);

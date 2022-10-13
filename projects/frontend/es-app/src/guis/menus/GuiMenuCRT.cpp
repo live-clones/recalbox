@@ -149,7 +149,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
 
   list.push_back({ "240p", "240", rdef });
-  list.push_back({ "480i (recommended)", "480", !rdef });
+  list.push_back({ "480i", "480", !rdef });
 
   return list;
 }
