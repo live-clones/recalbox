@@ -81,9 +81,9 @@ void BusyComponent::onSizeChanged()
 
 	mGrid.setColWidthPerc(1, textHeight / mSize.x()); // animation is square
 	mGrid.setColWidthPerc(2, middleSpacerWidth / mSize.x());
-	mGrid.setColWidthPerc(3, textWidth / mSize.x());
+	mGrid.setColWidthPerc(3, textWidth / mSize.x() <= 1 ? textWidth / mSize.x() : 1);
 
-	mGrid.setRowHeightPerc(1, textHeight / mSize.y());
+	mGrid.setRowHeightPerc(1, textHeight / mSize.y() <= 1 ? textHeight / mSize.y() : 1);
 	
 	mBackground.fitTo(Vector2f(mGrid.getColWidth(1) + mGrid.getColWidth(2) + mGrid.getColWidth(3), textHeight + 2),
 		mAnimation->getPosition(), Vector2f(0, 0));

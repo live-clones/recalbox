@@ -41,7 +41,7 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, SystemMan
 	// row 4 is a spacer
 
 	// ScraperSearchComponent
-	mSearch = std::make_shared<ScraperSearchComponent>(window);
+	mSearch = std::make_shared<ScraperSearchComponent>(window, Renderer::Instance().DisplayHeightAsInt()<=576);
 	mGrid.setEntry(mSearch, Vector2i(0, 5), false);
 
 	// buttons

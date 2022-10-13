@@ -107,7 +107,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Scraper:
     {
       if (GuiScraperRun::IsRunning())
-        GuiScraperRun::CreateOrShow(mWindow, mSystemManager, SystemManager::SystemList(), ScrapingMethod::All, &GameRunner::Instance());
+        GuiScraperRun::CreateOrShow(mWindow, mSystemManager, SystemManager::SystemList(), ScrapingMethod::All, &GameRunner::Instance(),Renderer::Instance().DisplayHeightAsFloat() <=576);
       else
         mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager));
       break;

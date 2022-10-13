@@ -20,12 +20,12 @@
 
 GuiScraperRun* GuiScraperRun::sInstance = nullptr;
 
-void GuiScraperRun::CreateOrShow(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer)
+void GuiScraperRun::CreateOrShow(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
 {
   if (IsRunning())
     Show(window);
   else
-    window.pushGui(sInstance = new GuiScraperRun(window, systemManager, systems, method, freezer));
+    window.pushGui(sInstance = new GuiScraperRun(window, systemManager, systems, method, freezer, lowResolution));
 }
 
 void GuiScraperRun::Show(WindowManager& window)
@@ -54,13 +54,14 @@ void GuiScraperRun::Terminate()
   sInstance = nullptr;
 }
 
-GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer)
+GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
   :	Gui(window)
   , mSystemManager(systemManager)
   , mResult(ScrapeResult::NotScraped)
   , mSearchQueue(systems)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(1, 8))
+  , mLowResolution(lowResolution)
   , mPopup(window)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -77,7 +78,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	mIsProcessing = true;
 
 	// set up grid
-	mTitle = std::make_shared<TextComponent>(mWindow, _("SCRAPING IN PROGRESS"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, _("SCRAPING IN PROGRESS"), lowResolution ? menuTheme->menuText.font : menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
   mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
@@ -86,7 +87,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	mSubtitle = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle, Vector2i(0, 2), false, true);
 
-	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow);
+	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow,lowResolution);
 	mGrid.setEntry(mSearchComp, Vector2i(0, 3), false, true);
 
   // Progress bar
@@ -104,8 +105,10 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
   mTiming = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
   mGrid.setEntry(mTiming, Vector2i(0, 5), false, true);
 
+
   mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
-  mGrid.setEntry(mDatabaseMessage, Vector2i(0, 6), false, true);
+  if(!lowResolution)
+    mGrid.setEntry(mDatabaseMessage, Vector2i(0, 6), false, true);
 
   std::vector<std::shared_ptr<ButtonComponent>> buttons
   {
@@ -115,7 +118,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
 
-	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
+	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * (lowResolution ? 0.78f : 0.849f));
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
 	// Final report component
@@ -198,11 +201,14 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   // Update timings
   TimeSpan elapsed = DateTime() - mStart;
 
-  std::string status = Strings::Format(_("GAME %i OF %i").c_str(), index, total)
-    .append(" - ").append(_("ELAPSED TIME: "))
+  std::string status = Strings::Format(_("GAME %i OF %i").c_str(), index, total).append(" - ");
+  if(!mLowResolution)
+  {
+    status.append(_("ELAPSED TIME: "))
     .append(elapsed.ToStringFormat("%H:%mm:%ss"))
-    .append(" - ")
-    .append(_("ESTIMATED TIME: "));
+    .append(" - ");
+  }
+  status.append(_("ESTIMATED TIME: "));
 
   if ((mScraper->ScrapesProcessed() > 10 || mScraper->ScrapesTotal() <= 10) && elapsed.TotalSeconds() > 10)
   {
@@ -214,6 +220,9 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
       status.append(_("COMPLETE!"));
   }
   else status.append("---");
+
+  if (mScraper->ScrapesProcessed() >= mScraper->ScrapesTotal() && mLowResolution)
+    status = "";
   mTiming->setText(status);
 
   // Check free space
