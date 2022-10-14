@@ -16,6 +16,9 @@ as release notes for end user on a Recalbox upgrade.
   - Add fceumm core support for nes and fds
   - Fix rtype resolution for 31kHz
   - Add new arcade game support for 15kHz.
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+- Add new theme for recalbox rgb dual with 240p optimisations
 
 ### Improvements
 - Bump libretro pcsx-rearmed
