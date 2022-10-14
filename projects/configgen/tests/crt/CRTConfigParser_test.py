@@ -2,7 +2,7 @@ from unittest.mock import mock_open
 
 import pytest
 
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTVideoStandard, CRTScreenType, CRTResolutionType
+from configgen.crt.CRTConfigParser import CRTConfigParser, CRTVideoStandard, CRTScreenType, CRTResolutionType, CRTSystem
 from configgen.crt.Mode import Mode
 
 
@@ -38,25 +38,25 @@ def test_given_a_malformed_file_load_mode_should_throw(mocker):
 
 def test_given_a_single_line_file_parse_systems_file_should_returns_a_dict_with_the_system_id_the_region_and_mode_id(
         mocker):
-    givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,0,0")
-    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
-    assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 0, 0)
+    givenThisFileContent(mocker, "snes,snes9x,pal,15kHz,progressive,snes:224@50p,0,0")
+    config = CRTConfigParser().findSystem("snes", "snes9x", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    assert config == CRTSystem(core='snes9x', region='pal', display='15kHz', reztype='progressive', mode_id='snes:224@50p', viewport_width=0, viewport_height=0)
 
 
 def test_given_a_multi_line_file_parse_systems_file_should_returns_a_dict_with_the_system_id_the_region_and_mode_id(
         mocker):
-    givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,0,0\nsnes,ntsc,15kHz,progressive,snes:224@60p,0,0")
-    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
-    assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 0, 0)
-    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.NTSC, CRTScreenType.k15, CRTResolutionType.Progressive)
-    assert config == ("ntsc", "15kHz", "progressive", "snes:224@60p", 0, 0)
+    givenThisFileContent(mocker, "snes,snes9x,pal,15kHz,progressive,snes:224@50p,0,0\nsnes,snes9x,ntsc,15kHz,progressive,snes:224@60p,0,0")
+    config = CRTConfigParser().findSystem("snes", "snes9x", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    assert config == CRTSystem(core='snes9x', region='pal', display='15kHz', reztype='progressive', mode_id='snes:224@50p', viewport_width=0, viewport_height=0)
+    config = CRTConfigParser().findSystem("snes", "snes9x", CRTVideoStandard.NTSC, CRTScreenType.k15, CRTResolutionType.Progressive)
+    assert config == CRTSystem(core='snes9x', region='ntsc', display='15kHz', reztype='progressive', mode_id='snes:224@60p', viewport_width=0, viewport_height=0)
 
 
 def test_given_a_systems_with_overscans_should_returns_the_overscans(
         mocker):
-    givenThisFileContent(mocker, "snes,pal,15kHz,progressive,snes:224@50p,10,20")
-    config = CRTConfigParser().findSystem("snes", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
-    assert config == ("pal", "15kHz", "progressive", "snes:224@50p", 10, 20)
+    givenThisFileContent(mocker, "snes,default,pal,15kHz,progressive,snes:224@50p,10,20")
+    config = CRTConfigParser().findSystem("snes", "default", CRTVideoStandard.PAL, CRTScreenType.k15, CRTResolutionType.Progressive)
+    assert config == CRTSystem(core='default', region='pal', display='15kHz', reztype='progressive', mode_id='snes:224@50p', viewport_width=10, viewport_height=20)
 
 
 def test_given_an_arcade_game_file_should_load_game_modes(
