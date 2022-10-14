@@ -226,10 +226,10 @@ void GuiBiosScan::onSizeChanged()
   float footerPercent = mFooter->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float buttonPercent = (mButtonGrid->getSize().y() * 1.2f) / mSize.y();
 
-  float spacerPercent = Renderer::Instance().IsSmallResolution() ? 0.0f : 0.02f;
+  float spacerPercent = Renderer::Instance().Is240p() ? 0.0f : 0.02f;
   float systemPercent = mDetailSystemLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float corePercent = mDetailCoreLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
-  float pathPercent = Renderer::Instance().IsSmallResolution() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
+  float pathPercent = Renderer::Instance().Is240p() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float mandatoryPercent = mDetailMandatoryLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float filePercent = mDetailFileFoundLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remarkPercent = mDetailText1Value->getFont()->getLetterHeight() * 8.6f / mSize.y();
@@ -485,7 +485,7 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailSystemValue->setValue(context.mBiosList->FullName());
     mDetailCoreLabel->setValue(_("Core") + " :");
     mDetailCoreValue->setValue(context.mBios->Cores());
-    if (!Renderer::Instance().IsSmallResolution())
+    if (!Renderer::Instance().Is240p())
     {
       mDetailPathLabel->setValue(_("File Path") + " :");
       mDetailPathValue->setValue(context.mBios->Filepath().ToString());

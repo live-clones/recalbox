@@ -15,7 +15,7 @@ SwitchComponent::SwitchComponent(WindowManager&window)
 {
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
-	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * (Renderer::Instance().IsSmallResolution() ? 1.4f : 1.0f));
+	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * (Renderer::Instance().Is240p() ? 1.4f : 1.0f));
 	mImage.setColorShift(menuTheme->menuText.color);
 	mOriginColor = menuTheme->menuText.color;
 	mSize = mImage.getSize();

@@ -36,8 +36,8 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& i
 
   std::shared_ptr<MenuTheme> menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-  const float height = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.7f : 0.5f);
-  const float width = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().IsSmallResolution() ? 0.8f : 0.6f);
+  const float height = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.7f : 0.5f);
+  const float width = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.8f : 0.6f);
 
   // Title
   mTitle = std::make_shared<TextComponent>(mWindow, _("DOWNLOADING UPDATE..."), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);

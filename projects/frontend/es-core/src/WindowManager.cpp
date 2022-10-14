@@ -407,7 +407,7 @@ void WindowManager::DisplayBatteryState()
   if (charge < 15) color = 0xFF8000FF;
   if ((charge < 10) && ((SDL_GetTicks() >> 8) & 3) == 0) color = 0xFF0000FF;
 
-  Font* font = Font::get(Renderer::Instance().IsSmallResolution() ? (int)FONT_SIZE_LARGE : (int)FONT_SIZE_MEDIUM).get();
+  Font* font = Font::get(Renderer::Instance().Is240p() ? (int)FONT_SIZE_LARGE : (int)FONT_SIZE_MEDIUM).get();
   Font::Glyph& glyph = font->Character(unicodeIcon);
   float glyphWidth = glyph.texSize.x() * (float) glyph.texture->textureSize.x();
   float glyphHeight = glyph.texSize.y() * (float) glyph.texture->textureSize.y();

@@ -31,7 +31,7 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	
 	// title
 	mTitle = std::make_shared<TextComponent>(mWindow, firstRun ? _("WELCOME") : _("CONFIGURE INPUT"),
-                                           Renderer::Instance().IsSmallResolution() ? menuTheme->menuTitle.font : menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+                                           Renderer::Instance().Is480pOrLower() ? menuTheme->menuTitle.font : menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 	//mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_BOTTOM);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	
@@ -65,7 +65,7 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 
 	float y= ((mMsg1->getFont()->getHeight() * 4.0f) + mTitle->getFont()->getHeight() ) / Renderer::Instance().DisplayHeightAsFloat() + 0.08f;
 
-	setSize(Renderer::Instance().IsSmallResolution() ? Renderer::Instance().DisplayWidthAsFloat() * 0.9f : Renderer::Instance().DisplayWidthAsFloat() * 0.6f, Renderer::Instance().DisplayHeightAsFloat() * y);
+	setSize(Renderer::Instance().Is480pOrLower() ? Renderer::Instance().DisplayWidthAsFloat() * 0.9f : Renderer::Instance().DisplayWidthAsFloat() * 0.6f, Renderer::Instance().DisplayHeightAsFloat() * y);
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 }
 
