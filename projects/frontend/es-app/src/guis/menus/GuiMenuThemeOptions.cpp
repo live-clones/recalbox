@@ -66,7 +66,7 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const st
   if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
   else if ((Components)id == Components::Theme)
   {
-    if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None && value != "recalbox-next")
+    if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None && value != "recalbox-240p")
     {
       Gui* gui = new GuiMsgBox(mWindow, _("Are you sure the selected theme is compatible with CRT screens?"),
                                _("YES"), [value] { RecalboxConf::Instance().SetThemeFolder(value).Save();; },
