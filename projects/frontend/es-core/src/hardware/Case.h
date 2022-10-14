@@ -48,6 +48,12 @@ class Case
     bool Automatic() const { return mAutomatic; }
 
     /*!
+     * @brief Some cases have an on/off button with a state
+     * @return true if the case allows shutting down recalbox from the menu
+     */
+    bool CanShutdownFromMenu() const { return mShutdownSupported; }
+
+    /*!
      * @brief Case name should be human readable
      * @return a nice and hamun readable name
      */
@@ -109,12 +115,13 @@ class Case
      * @param displayName Displayable name
      * @param shortName Internal name
      */
-    Case(CaseModel model, bool automatic, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
+    Case(CaseModel model, bool automatic, bool shutdownSupported, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
       : mDisplayName(displayName)
       , mShortName(shortName)
       , mInstallMessage(installMessage)
       , mModel(model)
       , mAutomatic(automatic)
+      , mShutdownSupported(shutdownSupported)
      {}
 
     static bool SetCaseInBoot(const std::string& theCase);
@@ -123,4 +130,5 @@ class Case
     const std::string mInstallMessage;
     const enum CaseModel mModel;
     const bool mAutomatic;
+    const bool mShutdownSupported;
 };
