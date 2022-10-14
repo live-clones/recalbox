@@ -42,7 +42,10 @@ void GuiScraperRun::Hide(WindowManager& window)
   if (sInstance != nullptr)
   {
     window.RemoveGui(sInstance);
-    window.InfoPopupAdd(&sInstance->mPopup, true);
+    if(sInstance->mLowResolution)
+      window.InfoPopupAdd(new GuiInfoPopup(window, _("Scrap running in background.\nReturn to the scrap menu to get the progression."), 8, GuiInfoPopupBase::PopupType::Scraper));
+    else
+        window.InfoPopupAdd(&sInstance->mPopup, true);
     window.CloseAll();
   }
 }
@@ -293,7 +296,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
   NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));
 
   // Hiden?
-  if (mWindow.InfoPopupIsShown(&mPopup))
+  if (mWindow.InfoPopupIsShown(&mPopup) || mLowResolution)
   {
     std::string text = _("Your scraping session completed. Press OK to show the results.");
     GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { Show(mWindow); mButtonGrid->resetCursor(); });
