@@ -134,8 +134,8 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 4), true, false);
-	float width = Renderer::Instance().IsSmallResolution() ? Renderer::Instance().DisplayWidthAsFloat() * 0.80f : Renderer::Instance().DisplayWidthAsFloat() * 0.60f;
-	float height = Renderer::Instance().IsSmallResolution() ? Renderer::Instance().DisplayHeightAsFloat() * 0.70f : Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
+	float width = Renderer::Instance().Is480pOrLower() ? Renderer::Instance().DisplayWidthAsFloat() * 0.80f : Renderer::Instance().DisplayWidthAsFloat() * 0.60f;
+	float height = Renderer::Instance().Is480pOrLower() ? Renderer::Instance().DisplayHeightAsFloat() * 0.70f : Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
 	setSize(width, height);
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 }

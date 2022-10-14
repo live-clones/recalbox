@@ -40,7 +40,7 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
   unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
   unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
 
-  if(menuTheme->menuText.font->getSize() > 1){
+  if(Renderer::Instance().Is480pOrLower()){
     FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
     FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
   }

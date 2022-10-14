@@ -9,7 +9,7 @@
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
 
-#define ICON_TEXT_SPACING (Renderer::Instance().IsSmallResolution() ? 2.0f : Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f)) // space between [icon] and [text] (px)
+#define ICON_TEXT_SPACING (Renderer::Instance().Is480pOrLower() ? 2.0f : Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f)) // space between [icon] and [text] (px)
 #define ENTRY_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
 static const HashMap<HelpType, const char*>& IconPathMap()

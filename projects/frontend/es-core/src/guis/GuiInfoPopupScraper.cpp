@@ -27,8 +27,8 @@ float GuiInfoPopupScraper::AddComponents(WindowManager& window, ComponentGrid& g
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.08f : 0.04f) * hwSize);
-  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().IsSmallResolution() ? 0.04f : 0.02f) * hwSize);
+  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().Is240p() ? 0.08f : 0.04f) * hwSize);
+  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().Is240p() ? 0.04f : 0.02f) * hwSize);
 
   mText        = std::make_shared<TextComponent>(window, mTextTemplate + '\n', Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Top);
   mIcon        = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);

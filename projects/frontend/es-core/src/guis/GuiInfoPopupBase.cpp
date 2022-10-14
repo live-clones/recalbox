@@ -28,8 +28,8 @@ void GuiInfoPopupBase::Initialize()
   if (mInitialized) return;
   mInitialized = true;
 
-  float maxWidth = mWidthRatio * Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().DisplayHeightAsFloat()<= 576 ? 0.6f : 0.2f);
-  float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().DisplayHeightAsFloat()<= 576 ? 0.6f : 0.4f);
+  float maxWidth = mWidthRatio * Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.6f : 0.2f);
+  float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.6f : 0.4f);
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
