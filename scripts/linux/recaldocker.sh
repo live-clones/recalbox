@@ -27,5 +27,6 @@ docker run -ti --rm \
 	-e "RECALBOX_VERSION=${RECALBOX_VERSION:-development}" \
 	-e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
 	-e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
+	-e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" \
 	--user="`id -u`:`id -g`" \
 	"recalbox-dev" ${@}
