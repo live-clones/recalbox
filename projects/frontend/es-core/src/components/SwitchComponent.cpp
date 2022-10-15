@@ -52,7 +52,8 @@ void SwitchComponent::Render(const Transform4x4f& parentTrans)
 
 void SwitchComponent::setImageState()
 {
-  mImage.setImage(mState ? Path(":/on.svg") : Path(":/off.svg"));
+  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
 }
 
 void SwitchComponent::setState(bool state)
