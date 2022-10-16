@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Add guncon2 support for CRT tvs
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
+- Add new system 'Z-Machine' with new core frotz
 
 ### Improvements
 - Bump libretro pcsx-rearmed
