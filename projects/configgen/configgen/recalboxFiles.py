@@ -31,6 +31,7 @@ recalboxBins =\
     'dosbox'      : '/usr/bin/dosbox',
     'duckstation' : '/usr/bin/duckstation',
     'fba2x'       : '/usr/bin/fba2x',
+    'frotz'       : '/usr/bin/sfrotz',
     'gsplus'      : '/usr/bin/GSplus',
     'hatari'      : '/usr/bin/hatari',
     'kodi'        : '/recalbox/scripts/kodilauncher.sh',
@@ -168,3 +169,5 @@ supermodelControlsIni = supermodelRooFolder + '/Supermodel.ini'
 
 crtFilesRootFolder = '/recalbox/system/configs/crt/'
 crtUserFilesRootFolder = '/recalbox/share/system/configs/crt/'
+
+frotzConfig = HOME + '/.config/frotz/frotz.conf'
