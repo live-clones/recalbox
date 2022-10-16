@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new Kodi theme for lower resolutions
 - Add demo Astebros (Neofid studio) on megadrive
 - Add guncon2 support for CRT tvs
+- Add new system 'Z-Machine' with new core frotz
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
