@@ -1,0 +1,52 @@
+--- a/src/sdl/sf_util.c	2022-10-17 10:30:15.000000000 +0200
++++ b/src/sdl/sf_util.c	2022-10-17 10:32:50.000000000 +0200
+@@ -647,6 +647,7 @@
+  *
+  * Return value is NULL is there was a problem
+  */
++#include <sys/stat.h>
+ char *os_read_file_name(const char *default_name, int flag)
+ {
+     int st;
+@@ -661,6 +661,12 @@
+ 			initname = getnumbername(initname, ext);
+ 	}
+ 
++	char recalbox_name[FILENAME_MAX + 1];
++	strcpy(recalbox_name, "/recalbox/share/saves/zmachine");
++	mkdir(initname, S_IRWXU);
++	strcat(recalbox_name, "/");
++	strcat(recalbox_name, default_name);
++
+ 	/* If we're restoring a game before the interpreter starts,
+ 	 * and our filename is already provided with the -L flag,
+ 	 * just go ahead silently.
+
+--- a/src/sdl/sf_video.c	2022-10-18 19:32:02.000000000 +0200
++++ b/src/sdl/sf_video.c	2022-10-18 19:34:34.000000000 +0200
+@@ -732,7 +732,7 @@
+ 
+ 	switch (e->type) {
+ 	case SDL_QUIT:
+-		sf_quitconf();
++		os_quit(EXIT_SUCCESS);
+ 		return 0;
+ 	case SDL_MOUSEBUTTONDOWN:
+ 		if (true) {
+@@ -744,14 +744,10 @@
+ 	case SDL_KEYDOWN:
+ 		if ((e->key.keysym.mod & 0xfff) == (KMOD_LALT | KMOD_LCTRL)
+ 		    && e->key.keysym.sym == 'x')
+-			os_fatal("Emergency exit!\n\n(Control-Alt-X pressed)");
++			os_quit(EXIT_SUCCESS);
+ 		if (e->key.keysym.mod & (KMOD_LALT | KMOD_RALT)) {
+ 			if (e->key.keysym.sym == 'q') {
+-				numAltQ++;
+-				if (numAltQ > 2)
+-					os_fatal("Emergency exit!\n\n"
+-						 "(Alt-Q pressed 3 times in succession)");
+-				return 0;
++				os_quit(EXIT_SUCCESS);
+ 			} else
+ 				numAltQ = 0;
+ 			if (e->key.keysym.sym == SDLK_RETURN) {
