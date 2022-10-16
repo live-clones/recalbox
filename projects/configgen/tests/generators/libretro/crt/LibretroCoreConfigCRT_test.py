@@ -120,7 +120,7 @@ def test_given_c64_system_should_create_core_config_with_c64config():
 
 def test_given_gameboy_system_should_create_core_config_with_color():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gambatte')
-    assert LibretroCoreConfigCRT().createConfigFor(gb) == {"gambatte_gb_colorization": '"auto"'}
+    assert LibretroCoreConfigCRT().createConfigFor(gb) == {"gambatte_gb_colorization": '"internal"'}
 
 
 def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():

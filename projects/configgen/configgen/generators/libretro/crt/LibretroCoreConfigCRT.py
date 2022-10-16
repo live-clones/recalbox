@@ -92,7 +92,7 @@ class LibretroCoreConfigCRT:
             lines["vice_zoom_mode_crop"] = '"4:3"'
             lines["vice_c64_model"] = '"C64 PAL auto"'
         if system.Name == "gb":
-            lines["gambatte_gb_colorization"] = '"auto"'
+            lines["gambatte_gb_colorization"] = '"internal"'
         if system.Name in ["dreamcast", "naomi", "naomigd", "atomiswave"]:
             if system.CRTScreenType == CRTScreenType.k15:
                 if system.CRTResolutionType == CRTResolutionType.Progressive:
