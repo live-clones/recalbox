@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add the possibility to sort games by release date.
 - Add guncon2 support for CRT tvs
+- Add new system 'Z-Machine' with new core frotz
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections

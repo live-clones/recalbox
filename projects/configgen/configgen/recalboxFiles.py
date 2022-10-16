@@ -31,6 +31,7 @@ recalboxBins =\
     'dosbox'      : '/usr/bin/dosbox',
     'duckstation' : '/usr/bin/duckstation',
     'fba2x'       : '/usr/bin/fba2x',
+    'frotz'       : '/usr/bin/sfrotz',
     'gsplus'      : '/usr/bin/GSplus',
     'hatari'      : '/usr/bin/hatari',
     'kodi'        : '/recalbox/scripts/kodilauncher.sh',
@@ -171,3 +172,5 @@ crtUserFilesRootFolder = '/recalbox/share/system/configs/crt/'
 
 minivmacRomFile = '/tmp/minivmac.cmd'
 minivmacOsFile = BIOS + '/macintosh/MinivMacBootv2.dsk'
+
+frotzConfig = HOME + '/.config/frotz/frotz.conf'
