@@ -63,18 +63,20 @@ class LibretroCoreConfigCRT:
             lines["picodrive_overscan"] = '"disabled"'
         if system.Name in ["snes", "satellaview", "sufami"]:
             lines["snes9x_overscan"] = '"disabled"'
+            lines["bsnes_ppu_show_overscan"] = '"ON"'
         if system.Name in ["nes", "fds"]:
             lines["nestopia_overscan_h"] = '"disabled"'
             lines["nestopia_overscan_v"] = '"disabled"'
+            lines["fceumm_overscan_h"] = '"disabled"'
+            lines["fceumm_overscan_v"] = '"disabled"'
         if system.Name == "atari2600":
             lines["stella_crop_hoverscan"] = '"disabled"'
             lines["stella_console"] = '"auto"'
         if system.Name in ["amiga600", "amiga1200", "amigacd32", "amigacdtv"]:
             lines["uae4arm_resolution"] = '"320x240"'
             lines["uae4arm_leds_on_screen"] = '"off"'
-        if system.Name == "amiga600":
-            lines["uae4arm_resolution"] = '"320x240"'
-            lines["uae4arm_leds_on_screen"] = '"off"'
+            lines["puae_zoom_mode"] = '"disabled"'
+            lines["puae_cpu_compatibility"] = '"compatible"'
         if system.Name in ["n64", "64dd"]:
             lines["parallel-n64-screensize"] = '"320x240"'
         if system.Name == "psx":
