@@ -7,12 +7,16 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.2-Electron
 
 ### News
-- Add libretro-pcsx_rearmed for OGA/OGS
+- Add libretro-pcsx rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
-- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
-- Fix rtype resolution for 31kHz
-- Add new theme for recalbox rgb dual with 240p optimisations
-- Add new arcade game support for 15kHz.
+- RRGBD:
+  - Add new theme for recalbox rgb dual with 240p optimisations
+  - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
+  - Add snes9x2002, 2005, 2010 and bsnes support for rrgbd
+  - Add region selection for satellaview, sufami, amiga 600, amiga 1200
+  - Add fceumm core support for nes and fds
+  - Fix rtype resolution for 31kHz
+  - Add new arcade game support for 15kHz.
 
 ### Improvements
 - Bump libretro pcsx-rearmed
