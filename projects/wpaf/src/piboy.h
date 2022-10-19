@@ -3,12 +3,12 @@
 
 #include "board_driver.h"
 
-#define PIBOY_TEMP_SETPOINT 65
+#define PIBOY_TEMP_SETPOINT 60
 #define PIBOY_PWM_MAX 255
 #define PIBOY_PWM_MIN -255
-#define PIBOY_PWM_KP 5
-#define PIBOY_PWM_KI 0.5
-#define PIBOY_PWM_KD 0.3
+#define PIBOY_PWM_KP 10
+#define PIBOY_PWM_KI 0.01
+#define PIBOY_PWM_KD 1
 
 extern board_interface piboy_interface;
 
