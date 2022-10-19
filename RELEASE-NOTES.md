@@ -27,6 +27,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
+- Add the possibility to sort games by release date.
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 - Bump libretro pcsx-rearmed
