@@ -41,7 +41,7 @@ sed -i \
     -e '$aaudio.device=alsa_card.1:hdmi-output-0' /recalbox/share/system/recalbox.conf
 
 # Force VSync on PPSSPP
-# If file is not here, we let the user take care of it 
+# If file is not here, we let the user take care of it
 PPSSPPCONFIGILE="/recalbox/share/system/configs/ppsspp/PSP/SYSTEM/ppsspp.ini"
 if [ -f "${PPSSPPCONFIGILE}" ]; then
   sed -i \
@@ -79,3 +79,7 @@ rm -f /recalbox/share/roms/240ptestsuite/LICENCE.md
 rm -f /recalbox/share/roms/240ptestsuite/gamelist.xml
 # Remove shaders files
 rm -f /recalbox/share/shaders/crt-pi.glslp
+
+## Move cfg config for cdi-2015
+mkdir -p /recalbox/share/system/configs/cdi/cdi2015
+mv /recalbox/share/saves/cdi/cdi2015/cfg /recalbox/share/system/configs/cdi2015/
