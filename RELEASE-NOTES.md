@@ -40,6 +40,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add Anbernic RG353P/V/M support
 - Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
 - Add demo Astebros (Neofid studio) on megadrive
+- Add the possibility to sort games by release date.
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
