@@ -60,6 +60,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add Anbernic RG353P/V/M support
+- Add the possibility to sort games by release date.
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 - Add the possibility to sort games by release date.
