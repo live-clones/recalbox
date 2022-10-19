@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
 - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 - Bump libretro pcsx-rearmed
