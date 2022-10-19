@@ -123,6 +123,22 @@ class libretroLightGun:
         if self.__debug: self.__Log("  Found {} Dolphinbars among {} Mouses".format(player, mouseIndex))
         return player != 0
 
+    def __findGunconIndexes(self) -> bool:
+        # Lookup mouse sub-device in dolphin bar devices & count them
+        if self.__debug: self.__Log('Seeking for Guncons...')
+        import pyudev
+        # todo pass players from lightguns as parameter to add from the list
+        player: int = 0
+        mouseIndex: int = 0
+        for device in pyudev.Context().list_devices(subsystem="input", ID_INPUT_MOUSE="1"):
+            if self.__getOrDefault(device.properties, "NAME", "") == '"Namco GunCon 2"':
+                print("found")
+                self.__MouseIndexByPlayer[player] = mouseIndex
+                player += 1
+
+        if self.__debug: self.__Log("  Found {} Guncons among {} Mouses".format(player, mouseIndex))
+        return player != 0
+
     # Find game name from /tmp/es_state.inf
     def __getGameNameFromESState(self) -> str:
         from configgen.settings.keyValueSettings import keyValueSettings
@@ -212,12 +228,15 @@ class libretroLightGun:
         if self.__debug: self.__Log('  Final best matching game name: ' + gameNode.attrib['name'] if gameNode is not None else "NONE")
         return gameNode, gameListNode
 
-    def __setCoreOptionsFromNode(self, rootNode: Element, emulatorNode: Element):
+    def __setCoreOptionsFromNode(self, rootNode: Element, emulatorNode: Element, guntype: str):
         for coreOptionsNode in rootNode.findall("coreOptions"):
             coreFilter: str = coreOptionsNode.attrib["filter"] if "filter" in coreOptionsNode.attrib else "*"
+
             if coreFilter == "*" or coreFilter == emulatorNode.attrib["core"]:
                 for option in coreOptionsNode.findall('option'):
-                    self.__coreConfig.setString(option.attrib["name"], '"' + option.attrib["value"] + '"')
+                    guntypeFilter: str = option.attrib["guntype"] if "guntype" in option.attrib else "*"
+                    if (guntypeFilter == "*" or guntypeFilter == guntype):
+                        self.__coreConfig.setString(option.attrib["name"], '"' + option.attrib["value"] + '"')
 
     # Set inputs depending of keyword set or simple value
     def __setOption(self, name: str, value: str):
@@ -229,14 +248,17 @@ class libretroLightGun:
         if self.__debug: self.__Log("    {} = {} {}".format(name, value, "(was {})".format(prevValue) if value != prevValue else ""))
         self.__retroarchConfig.setString(name, value)
 
-    def __setEmulatorOptionsFromNode(self, rootNode: Element, emulatorNode: Element):
+    def __setEmulatorOptionsFromNode(self, rootNode: Element, emulatorNode: Element, guntype: str):
         for emulatorOptionsNode in rootNode.findall("emulatorOptions"):
             emulatorFilter: str = emulatorOptionsNode.attrib["filter"] if "filter" in emulatorOptionsNode.attrib else "*"
-            if emulatorFilter == "*" or emulatorFilter == emulatorNode.attrib["name"]:
+            guntypeFilter: str = emulatorOptionsNode.attrib["guntype"] if "guntype" in emulatorOptionsNode.attrib else "*"
+            if (guntypeFilter == "*" or guntypeFilter == guntype) and (emulatorFilter == "*" or emulatorFilter == emulatorNode.attrib["name"]):
                 for option in emulatorOptionsNode.findall('option'):
-                    self.__setOption(option.attrib["name"], option.attrib["value"])
+                    guntypeFilter: str = option.attrib["guntype"] if "guntype" in option.attrib else "*"
+                    if (guntypeFilter == "*" or guntypeFilter == guntype):
+                        self.__setOption(option.attrib["name"], option.attrib["value"])
 
-    def __setConfigurationFromNode(self, stage: str, rootNode: Element, emulatorNode: Element, emulatorOptions: bool, coreOptions: bool, updateEmulatorAndCore: bool) -> Element:
+    def __setConfigurationFromNode(self, stage: str, rootNode: Element, emulatorNode: Element, emulatorOptions: bool, coreOptions: bool, updateEmulatorAndCore: bool, guntype: str) -> Element:
         if self.__debug: self.__Log("Configuring stage: {}".format(stage))
         # Start with updating the emulator so that the following option update match the new emulator
         if updateEmulatorAndCore:
@@ -249,16 +271,16 @@ class libretroLightGun:
         # Then set emulator options
         if emulatorOptions:
             if self.__debug: self.__Log('  Update emulator options')
-            self.__setEmulatorOptionsFromNode(rootNode, emulatorNode)
+            self.__setEmulatorOptionsFromNode(rootNode, emulatorNode, guntype)
         # And finally core options
         if coreOptions:
             if self.__debug: self.__Log('  Update core options')
-            self.__setCoreOptionsFromNode(rootNode, emulatorNode)
+            self.__setCoreOptionsFromNode(rootNode, emulatorNode, guntype)
 
         return emulatorNode
 
     # Load all configurations from the lightgun.cfg
-    def __setLightGunConfig(self, system_name: str, requestedGameName: str) -> bool:
+    def __setLightGunConfig(self, system_name: str, requestedGameName: str, guntype: str) -> bool:
         if requestedGameName == '':
             if self.__debug: self.__Log('Game name empty, Not Configured !!!')
             return False
@@ -290,16 +312,16 @@ class libretroLightGun:
 
         if gameNode is not None:
             # Set config from root node - Do not update emulator from root node
-            emulatorNode = self.__setConfigurationFromNode("Root", root, emulatorNode, True, True, False)
+            emulatorNode = self.__setConfigurationFromNode("Root", root, emulatorNode, True, True, False, guntype)
 
             # Then override from system node - Do not update emulator from system node as our primary source is the system node
-            emulatorNode = self.__setConfigurationFromNode("System", system, emulatorNode, True, True, False)
+            emulatorNode = self.__setConfigurationFromNode("System", system, emulatorNode, True, True, False, guntype)
 
             # Then override from gameList node
-            emulatorNode = self.__setConfigurationFromNode("GameList", gameListNode, emulatorNode, True, True, True)
+            emulatorNode = self.__setConfigurationFromNode("GameList", gameListNode, emulatorNode, True, True, True, guntype)
 
             # Finally override from game node
-            emulatorNode = self.__setConfigurationFromNode("Game", gameNode, emulatorNode, True, True, True)
+            emulatorNode = self.__setConfigurationFromNode("Game", gameNode, emulatorNode, True, True, True, guntype)
 
             # Cancel Devices where mouse index is finally not set
             self.__cancelDevicesNotUsed()
@@ -319,12 +341,21 @@ class libretroLightGun:
     def createLightGunConfiguration(self) -> bool:
         if self.__debug: self.__Log('Playing {} on system {}'.format(self.__Rom, self.__System.Name))
 
-        # Check if Mayflash_Wiimote_PC_Adapter exists and get mouse indexes
-        if not self.__findDolphinBarIndexes():
-            # No dolphin bar found, no need to overload configuration in this case
+        guntype: str = "none"
+        if self.__findDolphinBarIndexes():
+            guntype = "dolphinbar"
+        else:
             if self.__debug: self.__Log('No dolphin bar found.')
+
+        if self.__findGunconIndexes():
+            guntype = "guncon2"
+        else:
+            if self.__debug: self.__Log('No guncon 2 found.')
+
+        # No gun found, we can skip the configuration
+        if guntype == "none":
             return False
-        
+
         ## to check if lightgun.cfg exists or not
         import os
         if not os.path.exists(recalboxFiles.esLightGun):
@@ -336,5 +367,5 @@ class libretroLightGun:
         gameName = self.__getGameNameFromESState()
 
         ## set LightGun Configuration for the game selected
-        result: bool = self.__setLightGunConfig(self.__System.Name, gameName)
+        result: bool = self.__setLightGunConfig(self.__System.Name, gameName, guntype)
         return result
