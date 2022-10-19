@@ -14,3 +14,18 @@ index 751ea4432a..07f97ffa00 100755
        Add_Option((char*)(tmp_dir));
     } else { // test whether cdimono1.zip in game dir with chd files.
        sprintf(tmp_dir, "%s%ccdimono1.zip", MgamePath, slash);
+
+--- a/src/osd/retro/retromain.c	2022-10-19 22:39:21.000000000 +0200
++++ b/src/osd/retro/retromain.c	2022-10-19 23:53:47.000000000 +0200
+@@ -1860,7 +1860,10 @@
+       if(opt_type[i] == 0)
+       {
+          if (retro_save_directory)
+-            sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
++            if (strcmp(dir_name[i], "cfg"))
++               sprintf(tmp_dir, "%c%s%c%s%c%s%c%s%c%s%c%s%c", slash, "recalbox", slash, "share", slash, "system", slash, "configs", slash, core, slash,dir_name[i],slash);
++            else
++               sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
+          else
+             sprintf(tmp_dir, "%s%c%s%c%s%c", ".", slash, core, slash,dir_name[i],slash);
+       }
