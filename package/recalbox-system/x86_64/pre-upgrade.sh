@@ -10,3 +10,7 @@ rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem2
 
 # Remove shaders files
 rm -rf /recalbox/share/shaders/crt-pi.glslp
+
+## Move cfg config for cdi-2015
+mkdir -p /recalbox/share/system/configs/cdi/cdi2015
+mv /recalbox/share/saves/cdi/cdi2015/cfg /recalbox/share/system/configs/cdi2015/
