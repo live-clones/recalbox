@@ -1,0 +1,9 @@
+config BR2_PACKAGE_RECALBOX_RGB_DUAL_GUNCON2
+	bool "Guncon drivers for Recalbox RGB Dual"
+	depends on BR2_LINUX_KERNEL
+	select DRM_KMS_HELPER
+	help
+	    Based on https://github.com/beardypig/guncon2 Guncon2 Driver for linux
+
+comment "Guncon Drivers needs a kernel and headers"
+	depends on !BR2_LINUX_KERNEL
