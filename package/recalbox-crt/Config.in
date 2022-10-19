@@ -1,6 +1,7 @@
 config BR2_PACKAGE_RECALBOX_CRT
 	bool "recalbox crt"
 	select BR2_PACKAGE_RECALBOX_RGB_DUAL
+	select BR2_PACKAGE_RECALBOX_RGB_DUAL_GUNCON2
 
 	help
 	  Crt tv support for recalbox
