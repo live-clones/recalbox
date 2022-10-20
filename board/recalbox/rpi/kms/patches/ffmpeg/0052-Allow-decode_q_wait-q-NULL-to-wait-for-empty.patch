@@ -1,0 +1,28 @@
+From b27a4da7103e69392577f5105596dc3fe4a00dde Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Sun, 19 Sep 2021 16:44:35 +0100
+Subject: [PATCH 052/151] Allow decode_q_wait(q, NULL) to wait for empty
+
+---
+ libavcodec/v4l2_req_decode_q.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_decode_q.c b/libavcodec/v4l2_req_decode_q.c
+index 2adbd5999b..5b3fb958fa 100644
+--- a/libavcodec/v4l2_req_decode_q.c
++++ b/libavcodec/v4l2_req_decode_q.c
+@@ -45,10 +45,8 @@ void decode_q_remove(req_decode_q * const q, req_decode_ent * const d)
+ 
+     if (d->next)
+         d->next->prev = d->prev;
+-    else {
+-        try_signal = 0; // If we were a singleton then no point signalling
++    else
+         q->tail = d->prev;
+-    }
+ 
+     // Not strictly needed but makes debug easier
+     d->next = NULL;
+-- 
+2.38.1
+

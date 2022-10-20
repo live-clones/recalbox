@@ -1,0 +1,61 @@
+From 1e1dc596167c90bf4b64be0440b2fe5a21f6ee5e Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 26 Aug 2021 16:58:02 +0100
+Subject: [PATCH 048/151] Fix case where H265 does end_frame without
+ start_frame
+
+---
+ libavcodec/v4l2_req_decode_q.c | 5 +++++
+ libavcodec/v4l2_req_decode_q.h | 1 +
+ libavcodec/v4l2_req_hevc_vx.c  | 7 +++++++
+ 3 files changed, 13 insertions(+)
+
+diff --git a/libavcodec/v4l2_req_decode_q.c b/libavcodec/v4l2_req_decode_q.c
+index d14f3d6cf6..2adbd5999b 100644
+--- a/libavcodec/v4l2_req_decode_q.c
++++ b/libavcodec/v4l2_req_decode_q.c
+@@ -4,6 +4,11 @@
+ 
+ #include "v4l2_req_decode_q.h"
+ 
++int decode_q_in_q(const req_decode_ent * const d)
++{
++    return d->in_q;
++}
++
+ void decode_q_add(req_decode_q * const q, req_decode_ent * const d)
+ {
+     pthread_mutex_lock(&q->q_lock);
+diff --git a/libavcodec/v4l2_req_decode_q.h b/libavcodec/v4l2_req_decode_q.h
+index d6c9f34ddb..af7bbe1de4 100644
+--- a/libavcodec/v4l2_req_decode_q.h
++++ b/libavcodec/v4l2_req_decode_q.h
+@@ -14,6 +14,7 @@ typedef struct req_decode_q {
+     req_decode_ent * tail;
+ } req_decode_q;
+ 
++int decode_q_in_q(const req_decode_ent * const d);
+ void decode_q_add(req_decode_q * const q, req_decode_ent * const d);
+ void decode_q_remove(req_decode_q * const q, req_decode_ent * const d);
+ void decode_q_wait(req_decode_q * const q, req_decode_ent * const d);
+diff --git a/libavcodec/v4l2_req_hevc_vx.c b/libavcodec/v4l2_req_hevc_vx.c
+index 3c109bcca9..c628bd5ab4 100644
+--- a/libavcodec/v4l2_req_hevc_vx.c
++++ b/libavcodec/v4l2_req_hevc_vx.c
+@@ -911,6 +911,13 @@ static int v4l2_request_hevc_end_frame(AVCodecContext *avctx)
+     unsigned int i;
+     int rv;
+ 
++    // It is possible, though maybe a bug, to get an end_frame without
++    // a previous start_frame.  If we do then give up.
++    if (!decode_q_in_q(&rd->decode_ent)) {
++        av_log(avctx, AV_LOG_DEBUG, "%s: Frame not in decode Q\n", __func__);
++        return AVERROR_INVALIDDATA;
++    }
++
+     {
+         const ScalingList *sl = h->ps.pps->scaling_list_data_present_flag ?
+                                     &h->ps.pps->scaling_list :
+-- 
+2.38.1
+

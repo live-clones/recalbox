@@ -1,0 +1,61 @@
+From 0566b39978181e67f69dc90ca68eabd2b99a384c Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 27 Apr 2021 17:56:16 +0100
+Subject: [PATCH 014/151] Add chroma location to hevc parse
+
+---
+ libavcodec/hevc_parser.c | 13 +++++++++++++
+ libavcodec/hevcdec.c     | 13 +++++++++++++
+ 2 files changed, 26 insertions(+)
+
+diff --git a/libavcodec/hevc_parser.c b/libavcodec/hevc_parser.c
+index 463d352055..7feff43c28 100644
+--- a/libavcodec/hevc_parser.c
++++ b/libavcodec/hevc_parser.c
+@@ -98,6 +98,19 @@ static int hevc_parse_slice_header(AVCodecParserContext *s, H2645NAL *nal,
+     avctx->profile  = ps->sps->ptl.general_ptl.profile_idc;
+     avctx->level    = ps->sps->ptl.general_ptl.level_idc;
+ 
++    if (ps->sps->chroma_format_idc == 1) {
++        avctx->chroma_sample_location = ps->sps->vui.chroma_loc_info_present_flag ?
++            ps->sps->vui.chroma_sample_loc_type_top_field + 1 :
++            AVCHROMA_LOC_LEFT;
++    }
++    else if (ps->sps->chroma_format_idc == 2 ||
++             ps->sps->chroma_format_idc == 3) {
++        avctx->chroma_sample_location = AVCHROMA_LOC_TOPLEFT;;
++    }
++    else {
++        avctx->chroma_sample_location = AVCHROMA_LOC_UNSPECIFIED;
++    }
++
+     if (ps->vps->vps_timing_info_present_flag) {
+         num = ps->vps->vps_num_units_in_tick;
+         den = ps->vps->vps_time_scale;
+diff --git a/libavcodec/hevcdec.c b/libavcodec/hevcdec.c
+index 87865301b2..ee2242a272 100644
+--- a/libavcodec/hevcdec.c
++++ b/libavcodec/hevcdec.c
+@@ -333,6 +333,19 @@ static void export_stream_params(HEVCContext *s, const HEVCSPS *sps)
+ 
+     ff_set_sar(avctx, sps->vui.sar);
+ 
++    if (sps->chroma_format_idc == 1) {
++        avctx->chroma_sample_location = sps->vui.chroma_loc_info_present_flag ?
++            sps->vui.chroma_sample_loc_type_top_field + 1 :
++            AVCHROMA_LOC_LEFT;
++    }
++    else if (sps->chroma_format_idc == 2 ||
++             sps->chroma_format_idc == 3) {
++        avctx->chroma_sample_location = AVCHROMA_LOC_TOPLEFT;;
++    }
++    else {
++        avctx->chroma_sample_location = AVCHROMA_LOC_UNSPECIFIED;
++    }
++
+     if (sps->vui.video_signal_type_present_flag)
+         avctx->color_range = sps->vui.video_full_range_flag ? AVCOL_RANGE_JPEG
+                                                             : AVCOL_RANGE_MPEG;
+-- 
+2.38.1
+

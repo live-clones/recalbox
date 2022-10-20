@@ -1,0 +1,25 @@
+From 5792cc10ebb3ef4a1a70bd3b0406d00f99aa9dca Mon Sep 17 00:00:00 2001
+From: Paul Mulders <justinkb@gmail.com>
+Date: Sun, 4 Jul 2021 14:38:46 +0200
+Subject: [PATCH 040/151] fix missing include for close in drm_vout.c
+
+(cherry picked from commit 5fcdff0c30815996c28ac78519299b175af1682d)
+---
+ libavdevice/drm_vout.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libavdevice/drm_vout.c b/libavdevice/drm_vout.c
+index 5362ac9e28..d58b8fc7c8 100644
+--- a/libavdevice/drm_vout.c
++++ b/libavdevice/drm_vout.c
+@@ -30,6 +30,7 @@
+ 
+ #include "pthread.h"
+ #include <semaphore.h>
++#include <unistd.h>
+ 
+ #include <xf86drm.h>
+ #include <xf86drmMode.h>
+-- 
+2.38.1
+
