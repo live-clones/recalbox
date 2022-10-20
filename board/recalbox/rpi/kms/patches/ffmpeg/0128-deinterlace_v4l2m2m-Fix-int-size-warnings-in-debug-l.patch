@@ -1,0 +1,26 @@
+From 93dc16aa30abe4ef20ff6b8453425008b598a7f3 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Mon, 1 Aug 2022 14:34:02 +0100
+Subject: [PATCH 128/151] deinterlace_v4l2m2m: Fix int size warnings in debug
+ logging
+
+---
+ libavfilter/vf_deinterlace_v4l2m2m.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavfilter/vf_deinterlace_v4l2m2m.c b/libavfilter/vf_deinterlace_v4l2m2m.c
+index 9fb93ce2ee..49fab3158d 100644
+--- a/libavfilter/vf_deinterlace_v4l2m2m.c
++++ b/libavfilter/vf_deinterlace_v4l2m2m.c
+@@ -1112,7 +1112,7 @@ static int deint_v4l2m2m_filter_frame(AVFilterLink *link, AVFrame *in)
+         ctx->orig_width = drm_desc->layers[0].planes[0].pitch;
+         ctx->orig_height = drm_desc->layers[0].planes[1].offset / ctx->orig_width;
+ 
+-        av_log(priv, AV_LOG_DEBUG, "%s: %dx%d (%d,%d)\n", __func__, ctx->width, ctx->height,
++        av_log(priv, AV_LOG_DEBUG, "%s: %dx%d (%td,%td)\n", __func__, ctx->width, ctx->height,
+            drm_desc->layers[0].planes[0].pitch, drm_desc->layers[0].planes[1].offset);
+ 
+         ret = deint_v4l2m2m_set_format(output, pixelformat, ctx->field_order, ctx->width, ctx->height, ctx->orig_width, drm_desc->layers[0].planes[1].offset);
+-- 
+2.38.1
+
