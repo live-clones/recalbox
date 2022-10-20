@@ -1,0 +1,102 @@
+From a8c7af1eb3a9933ca99e2142a36dc7b74a29c154 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 27 Apr 2021 12:02:09 +0100
+Subject: [PATCH 005/151] Deal with the lack of trivial sand cropping
+
+---
+ fftools/ffmpeg.c        |  4 ++--
+ fftools/ffmpeg_filter.c |  4 ++--
+ libavutil/frame.c       | 11 +++++++++++
+ libavutil/frame.h       | 10 ++++++++++
+ 4 files changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
+index 46bb014de8..5d32095361 100644
+--- a/fftools/ffmpeg.c
++++ b/fftools/ffmpeg.c
+@@ -2186,8 +2186,8 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
+                        ifilter->channel_layout != frame->channel_layout;
+         break;
+     case AVMEDIA_TYPE_VIDEO:
+-        need_reinit |= ifilter->width  != frame->width ||
+-                       ifilter->height != frame->height;
++        need_reinit |= ifilter->width  != av_frame_cropped_width(frame) ||
++                       ifilter->height != av_frame_cropped_height(frame);
+         break;
+     }
+ 
+diff --git a/fftools/ffmpeg_filter.c b/fftools/ffmpeg_filter.c
+index 4ab769c07b..5cdc3a7b6c 100644
+--- a/fftools/ffmpeg_filter.c
++++ b/fftools/ffmpeg_filter.c
+@@ -1160,8 +1160,8 @@ int ifilter_parameters_from_frame(InputFilter *ifilter, const AVFrame *frame)
+ 
+     ifilter->format = frame->format;
+ 
+-    ifilter->width               = frame->width;
+-    ifilter->height              = frame->height;
++    ifilter->width               = av_frame_cropped_width(frame);
++    ifilter->height              = av_frame_cropped_height(frame);
+     ifilter->sample_aspect_ratio = frame->sample_aspect_ratio;
+ 
+     ifilter->sample_rate         = frame->sample_rate;
+diff --git a/libavutil/frame.c b/libavutil/frame.c
+index 75e347bf2f..daa6477485 100644
+--- a/libavutil/frame.c
++++ b/libavutil/frame.c
+@@ -16,6 +16,8 @@
+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+  */
+ 
++#include "config.h"
++
+ #include "channel_layout.h"
+ #include "avassert.h"
+ #include "buffer.h"
+@@ -26,6 +28,9 @@
+ #include "mem.h"
+ #include "samplefmt.h"
+ #include "hwcontext.h"
++#if CONFIG_SAND
++#include "rpi_sand_fns.h"
++#endif
+ 
+ #if FF_API_FRAME_GET_SET
+ MAKE_ACCESSORS(AVFrame, frame, int64_t, best_effort_timestamp)
+@@ -903,6 +908,12 @@ int av_frame_apply_cropping(AVFrame *frame, int flags)
+         (frame->crop_top + frame->crop_bottom) >= frame->height)
+         return AVERROR(ERANGE);
+ 
++#if CONFIG_SAND
++    // Sand cannot be cropped - do not try
++    if (av_rpi_is_sand_format(frame->format))
++        return 0;
++#endif
++
+     desc = av_pix_fmt_desc_get(frame->format);
+     if (!desc)
+         return AVERROR_BUG;
+diff --git a/libavutil/frame.h b/libavutil/frame.h
+index 7d1f8e2935..a4e7dc915d 100644
+--- a/libavutil/frame.h
++++ b/libavutil/frame.h
+@@ -990,6 +990,16 @@ int av_frame_apply_cropping(AVFrame *frame, int flags);
+  */
+ const char *av_frame_side_data_name(enum AVFrameSideDataType type);
+ 
++
++static inline int av_frame_cropped_width(const AVFrame * const frame)
++{
++    return frame->width - (frame->crop_left + frame->crop_right);
++}
++static inline int av_frame_cropped_height(const AVFrame * const frame)
++{
++    return frame->height - (frame->crop_top + frame->crop_bottom);
++}
++
+ /**
+  * @}
+  */
+-- 
+2.38.1
+

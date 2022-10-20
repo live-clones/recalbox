@@ -1,0 +1,25 @@
+From 1ce9318745976996b34dd4762515bff99c27fa3f Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 24 Dec 2021 10:03:05 +0000
+Subject: [PATCH 083/151] v4l2_m2m_dec: Fix drain debug
+
+---
+ libavcodec/v4l2_m2m_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavcodec/v4l2_m2m_dec.c b/libavcodec/v4l2_m2m_dec.c
+index e7055c7a18..3dd462362c 100644
+--- a/libavcodec/v4l2_m2m_dec.c
++++ b/libavcodec/v4l2_m2m_dec.c
+@@ -384,7 +384,7 @@ static int try_enqueue_src(AVCodecContext * const avctx, V4L2m2mContext * const
+     }
+ 
+     if (s->draining) {
+-        if (!s->buf_pkt.size) {
++        if (s->buf_pkt.size) {
+             av_log(avctx, AV_LOG_WARNING, "Unexpected input whilst draining\n");
+             av_packet_unref(&s->buf_pkt);
+         }
+-- 
+2.38.1
+
