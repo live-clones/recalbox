@@ -1,0 +1,39 @@
+From f994b28288e631a9950e8d57ee3739f9ccec8e35 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 6 May 2021 15:24:26 +0100
+Subject: [PATCH 022/151] Fix up configure issues on arm64
+
+---
+ configure           | 1 +
+ libavcodec/Makefile | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index da99db465b..cfbbb4f27d 100755
+--- a/configure
++++ b/configure
+@@ -3470,6 +3470,7 @@ v4l2_outdev_suggest="libv4l2"
+ vout_drm_outdev_deps="libdrm vout_drm"
+ vout_egl_outdev_deps="xlib"
+ vout_egl_outdev_select="epoxy"
++vout_rpi_outdev_deps="rpi"
+ vout_rpi_outdev_select="sand"
+ vfwcap_indev_deps="vfw32 vfwcap_defines"
+ xcbgrab_indev_deps="libxcb"
+diff --git a/libavcodec/Makefile b/libavcodec/Makefile
+index 01b9dc546e..c0df07f07e 100644
+--- a/libavcodec/Makefile
++++ b/libavcodec/Makefile
+@@ -156,7 +156,8 @@ OBJS-$(CONFIG_VIDEODSP)                += videodsp.o
+ OBJS-$(CONFIG_VP3DSP)                  += vp3dsp.o
+ OBJS-$(CONFIG_VP56DSP)                 += vp56dsp.o
+ OBJS-$(CONFIG_VP8DSP)                  += vp8dsp.o
+-OBJS-$(CONFIG_V4L2_M2M)                += v4l2_m2m.o v4l2_context.o v4l2_buffers.o v4l2_fmt.o
++OBJS-$(CONFIG_V4L2_M2M)                += v4l2_m2m.o v4l2_context.o v4l2_buffers.o v4l2_fmt.o\
++                                          weak_link.o
+ OBJS-$(CONFIG_V4L2_REQUEST)            += v4l2_req_media.o v4l2_req_pollqueue.o v4l2_req_dmabufs.o\
+ 					  v4l2_req_devscan.o weak_link.o
+ OBJS-$(CONFIG_WMA_FREQS)               += wma_freqs.o
+-- 
+2.38.1
+

@@ -1,0 +1,35 @@
+From 6ae20ec73128c3e2fbab604a873b970e4251612a Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 3 Jun 2021 18:33:41 +0100
+Subject: [PATCH 025/151] Add debian name to build dir
+
+---
+ pi-util/conf_native.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/pi-util/conf_native.sh b/pi-util/conf_native.sh
+index 5c76b8158e..d5240ff388 100755
+--- a/pi-util/conf_native.sh
++++ b/pi-util/conf_native.sh
+@@ -28,15 +28,16 @@ else
+   RPI_EXTRALIBS="-Wl,--start-group -lbcm_host -lmmal -lmmal_util -lmmal_core -lvcos -lvcsm -lvchostif -lvchiq_arm -Wl,--end-group"
+   RPIOPTS="--enable-mmal --enable-rpi"
+ fi
++C=`lsb_release -sc`
+ 
+ SHARED_LIBS="--enable-shared"
+ if [ "$1" == "--noshared" ]; then
+   SHARED_LIBS="--disable-shared"
+-  OUT=out/$B-static-rel
++  OUT=out/$B-$C-static-rel
+   echo Static libs
+ else
+   echo Shared libs
+-  OUT=out/$B-shared-rel
++  OUT=out/$B-$C-shared-rel
+ fi
+ 
+ USR_PREFIX=$FFSRC/$OUT/install
+-- 
+2.38.1
+
