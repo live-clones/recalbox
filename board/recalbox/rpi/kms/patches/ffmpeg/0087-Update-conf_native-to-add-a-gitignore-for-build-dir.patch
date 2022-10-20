@@ -1,0 +1,52 @@
+From d9bf05955e8ebd912973c7605b81ff6ed75924d8 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 1 Feb 2022 12:45:04 +0000
+Subject: [PATCH 087/151] Update conf_native to add a gitignore for build dir
+
+---
+ pi-util/conf_native.sh | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/pi-util/conf_native.sh b/pi-util/conf_native.sh
+index f51b81d713..65576846e8 100755
+--- a/pi-util/conf_native.sh
++++ b/pi-util/conf_native.sh
+@@ -2,6 +2,7 @@ echo "Configure for native build"
+ 
+ FFSRC=`pwd`
+ MC=`dpkg --print-architecture`
++BUILDBASE=$FFSRC/out
+ 
+ #RPI_KEEPS="-save-temps=obj"
+ RPI_KEEPS=""
+@@ -64,20 +65,22 @@ V=`cat RELEASE`
+ SHARED_LIBS="--enable-shared"
+ if [ $NOSHARED ]; then
+   SHARED_LIBS="--disable-shared"
+-  OUT=out/$B-$C-$V-static-rel
++  OUT=$BUILDBASE/$B-$C-$V-static-rel
+   echo Static libs
+ else
+   echo Shared libs
+-  OUT=out/$B-$C-$V-shared-rel
++  OUT=$BUILDBASE/$B-$C-$V-shared-rel
+ fi
+ 
+-USR_PREFIX=$FFSRC/$OUT/install
++USR_PREFIX=$OUT/install
+ LIB_PREFIX=$USR_PREFIX/lib/$A
+ INC_PREFIX=$USR_PREFIX/include/$A
+ 
+ echo Destination directory: $OUT
+-mkdir -p $FFSRC/$OUT
+-cd $FFSRC/$OUT
++mkdir -p $OUT
++# Nothing under here need worry git - including this .gitignore!
++echo "**" > $BUILDBASE/.gitignore
++cd $OUT
+ 
+ $FFSRC/configure \
+  --prefix=$USR_PREFIX\
+-- 
+2.38.1
+

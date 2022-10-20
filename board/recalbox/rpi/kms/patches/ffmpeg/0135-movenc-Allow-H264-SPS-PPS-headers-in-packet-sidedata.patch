@@ -1,0 +1,24 @@
+From 96d82928a2b4e1d9b9dbee4ddf194d60ab85d3ae Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 14 Sep 2022 15:55:15 +0000
+Subject: [PATCH 135/151] movenc: Allow H264 SPS/PPS headers in packet sidedata
+
+---
+ libavformat/movenc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libavformat/movenc.c b/libavformat/movenc.c
+index bade57dcea..d23101b23f 100644
+--- a/libavformat/movenc.c
++++ b/libavformat/movenc.c
+@@ -5913,6 +5913,7 @@ static int mov_write_single_packet(AVFormatContext *s, AVPacket *pkt)
+     if (trk->par->codec_id == AV_CODEC_ID_MP4ALS ||
+             trk->par->codec_id == AV_CODEC_ID_AAC ||
+             trk->par->codec_id == AV_CODEC_ID_AV1 ||
++            trk->par->codec_id == AV_CODEC_ID_H264 ||
+             trk->par->codec_id == AV_CODEC_ID_FLAC) {
+         buffer_size_t side_size;
+         uint8_t *side = av_packet_get_side_data(pkt, AV_PKT_DATA_NEW_EXTRADATA, &side_size);
+-- 
+2.38.1
+

@@ -1,0 +1,28 @@
+From 1b3e76885fb02cb9bd3162555a77f4106669de4c Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 13 Aug 2021 16:11:53 +0100
+Subject: [PATCH 046/151] Fix V4L2 stateful to avoid crash if flush before
+ start
+
+---
+ libavcodec/v4l2_context.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/libavcodec/v4l2_context.c b/libavcodec/v4l2_context.c
+index 2f2d648881..e94e5e4ab4 100644
+--- a/libavcodec/v4l2_context.c
++++ b/libavcodec/v4l2_context.c
+@@ -735,6 +735,10 @@ static int v4l2_get_coded_format(V4L2Context* ctx, uint32_t *p)
+ static void flush_all_buffers_status(V4L2Context* const ctx)
+ {
+     int i;
++
++    if (!ctx->bufrefs)
++        return;
++
+     for (i = 0; i < ctx->num_buffers; ++i) {
+         struct V4L2Buffer * const buf = (struct V4L2Buffer *)ctx->bufrefs[i]->data;
+         if (buf->status == V4L2BUF_IN_DRIVER)
+-- 
+2.38.1
+
