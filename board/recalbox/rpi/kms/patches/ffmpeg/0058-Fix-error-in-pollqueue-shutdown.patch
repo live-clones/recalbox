@@ -1,0 +1,60 @@
+From c1883b9c9581ea77c4251f8836f018a702de524f Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 6 Oct 2021 13:33:22 +0100
+Subject: [PATCH 058/151] Fix error in pollqueue shutdown
+
+---
+ libavcodec/v4l2_req_pollqueue.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_pollqueue.c b/libavcodec/v4l2_req_pollqueue.c
+index 5c47c50a6f..cc8a5d4001 100644
+--- a/libavcodec/v4l2_req_pollqueue.c
++++ b/libavcodec/v4l2_req_pollqueue.c
+@@ -187,19 +187,19 @@ static void *poll_thread(void *v)
+         unsigned int i;
+         unsigned int n = 0;
+         struct polltask *pt;
++        struct polltask *pt_next;
+         uint64_t now = pollqueue_now(0);
+         int timeout = -1;
+         int rv;
+ 
+-        for (pt = pq->head; pt; pt = pt->next) {
++        for (pt = pq->head; pt; pt = pt_next) {
+             int64_t t;
+ 
++            pt_next = pt->next;
++
+             if (pt->state == POLLTASK_Q_KILL) {
+-                struct polltask * const prev = pt->prev;
+                 pollqueue_rem_task(pq, pt);
+                 sem_post(&pt->kill_sem);
+-                if ((pt = prev) == NULL)
+-                    break;
+                 continue;
+             }
+ 
+@@ -238,8 +238,8 @@ static void *poll_thread(void *v)
+          * infinite looping
+         */
+         pq->no_prod = true;
+-        for (i = 0, pt = pq->head; i < n; ++i) {
+-            struct polltask *const pt_next = pt->next;
++        for (i = 0, pt = pq->head; i < n; ++i, pt = pt_next) {
++            pt_next = pt->next;
+ 
+             /* Pending? */
+             if (a[i].revents ||
+@@ -263,8 +263,6 @@ static void *poll_thread(void *v)
+                 if (pt->state == POLLTASK_RUN_KILL)
+                     sem_post(&pt->kill_sem);
+             }
+-
+-            pt = pt_next;
+         }
+         pq->no_prod = false;
+ 
+-- 
+2.38.1
+

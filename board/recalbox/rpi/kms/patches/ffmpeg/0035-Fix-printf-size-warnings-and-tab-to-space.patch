@@ -1,0 +1,116 @@
+From f6573965919a29719b33afd63f2fb761e8ad17b9 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 17 Jun 2021 11:41:20 +0100
+Subject: [PATCH 035/151] Fix printf size warnings and tab to space
+
+---
+ libavcodec/v4l2_buffers.c       |  2 +-
+ libavcodec/v4l2_req_dmabufs.c   |  2 +-
+ libavcodec/v4l2_req_media.c     |  4 ++--
+ libavcodec/v4l2_req_pollqueue.c |  2 +-
+ libavcodec/v4l2_request_hevc.c  | 30 +++++++++++++++---------------
+ 5 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/libavcodec/v4l2_buffers.c b/libavcodec/v4l2_buffers.c
+index d4f26e416a..60c6793797 100644
+--- a/libavcodec/v4l2_buffers.c
++++ b/libavcodec/v4l2_buffers.c
+@@ -531,7 +531,7 @@ static int v4l2_buffer_swframe_to_buf(const AVFrame *frame, V4L2Buffer *out)
+                 offset += dst_stride * out->context->height;
+             }
+             if (offset > out->plane_info[0].length) {
+-                av_log(NULL, AV_LOG_ERROR, "%s: Plane total %d > buffer size %d\n", __func__, offset, out->plane_info[0].length);
++                av_log(NULL, AV_LOG_ERROR, "%s: Plane total %u > buffer size %zu\n", __func__, offset, out->plane_info[0].length);
+                 return -1;
+             }
+ 
+diff --git a/libavcodec/v4l2_req_dmabufs.c b/libavcodec/v4l2_req_dmabufs.c
+index 828da1dd05..0717279e75 100644
+--- a/libavcodec/v4l2_req_dmabufs.c
++++ b/libavcodec/v4l2_req_dmabufs.c
+@@ -76,7 +76,7 @@ struct dmabuf_h * dmabuf_realloc(struct dmabufs_ctl * dbsc, struct dmabuf_h * ol
+     while (ioctl(dbsc->fd, DMA_HEAP_IOCTL_ALLOC, &data)) {
+         int err = errno;
+         request_log("Failed to alloc %" PRIu64 " from dma-heap(fd=%d): %d (%s)\n",
+-                data.len,
++                (uint64_t)data.len,
+                 dbsc->fd,
+                 err,
+                 strerror(err));
+diff --git a/libavcodec/v4l2_req_media.c b/libavcodec/v4l2_req_media.c
+index 5a9f55dbc0..3a9d53169f 100644
+--- a/libavcodec/v4l2_req_media.c
++++ b/libavcodec/v4l2_req_media.c
+@@ -739,10 +739,10 @@ static int qent_base_realloc(struct qent_base *const be, const size_t len, struc
+ {
+     if (!be->dh[0] || len > dmabuf_size(be->dh[0])) {
+         size_t newsize = round_up_size(len);
+-        request_log("%s: Overrun %d > %d; trying %d\n", __func__, len, dmabuf_size(be->dh[0]), newsize);
++        request_log("%s: Overrun %zd > %zd; trying %zd\n", __func__, len, dmabuf_size(be->dh[0]), newsize);
+         if (!dbsc ||
+             (be->dh[0] = dmabuf_realloc(dbsc, be->dh[0], newsize)) == NULL) {
+-            request_log("%s: Realloc %d failed\n", __func__, newsize);
++            request_log("%s: Realloc %zd failed\n", __func__, newsize);
+             return -ENOMEM;
+         }
+     }
+diff --git a/libavcodec/v4l2_req_pollqueue.c b/libavcodec/v4l2_req_pollqueue.c
+index 6ef057232b..0f7d9020ee 100644
+--- a/libavcodec/v4l2_req_pollqueue.c
++++ b/libavcodec/v4l2_req_pollqueue.c
+@@ -151,7 +151,7 @@ static void *poll_thread(void *v)
+                 asize = asize ? asize * 2 : 4;
+                 a = realloc(a, asize * sizeof(*a));
+                 if (!a) {
+-                    request_log("Failed to realloc poll array to %d\n", asize);
++                    request_log("Failed to realloc poll array to %zd\n", asize);
+                     goto fail_locked;
+                 }
+             }
+diff --git a/libavcodec/v4l2_request_hevc.c b/libavcodec/v4l2_request_hevc.c
+index f869c4e3d5..92205cc178 100644
+--- a/libavcodec/v4l2_request_hevc.c
++++ b/libavcodec/v4l2_request_hevc.c
+@@ -111,24 +111,24 @@ typedef struct V4L2RequestContextHEVC {
+ typedef struct V4L2ReqFrameDataPrivHEVC {
+ } V4L2ReqFrameDataPrivHEVC;
+ 
+-static uint8_t nalu_slice_start_code[] = { 0x00, 0x00, 0x01 };
++// static uint8_t nalu_slice_start_code[] = { 0x00, 0x00, 0x01 };
+ 
+ static size_t bit_buf_size(unsigned int w, unsigned int h, unsigned int bits_minus8)
+ {
+-	const size_t wxh = w * h;
+-	size_t bits_alloc;
+-
+-	/* Annex A gives a min compression of 2 @ lvl 3.1
+-	 * (wxh <= 983040) and min 4 thereafter but avoid
+-	 * the odity of 983041 having a lower limit than
+-	 * 983040.
+-	 * Multiply by 3/2 for 4:2:0
+-	 */
+-	bits_alloc = wxh < 983040 ? wxh * 3 / 4 :
+-		wxh < 983040 * 2 ? 983040 * 3 / 4 :
+-		wxh * 3 / 8;
+-	/* Allow for bit depth */
+-	bits_alloc += (bits_alloc * bits_minus8) / 8;
++    const size_t wxh = w * h;
++    size_t bits_alloc;
++
++    /* Annex A gives a min compression of 2 @ lvl 3.1
++     * (wxh <= 983040) and min 4 thereafter but avoid
++     * the odity of 983041 having a lower limit than
++     * 983040.
++     * Multiply by 3/2 for 4:2:0
++     */
++    bits_alloc = wxh < 983040 ? wxh * 3 / 4 :
++        wxh < 983040 * 2 ? 983040 * 3 / 4 :
++        wxh * 3 / 8;
++    /* Allow for bit depth */
++    bits_alloc += (bits_alloc * bits_minus8) / 8;
+     return bits_alloc;
+ }
+ 
+-- 
+2.38.1
+
