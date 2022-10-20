@@ -1,0 +1,43 @@
+From 8552c0d547b14ea3a5e9ee096ca8e2619dac4749 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 17 Nov 2021 17:59:27 +0000
+Subject: [PATCH 067/151] v4l2_m2m_dec: Try harder to get an initial frame
+
+If the input Q is full then wait on a short timeout for a capture frame
+rather than stuffing yet still another frame into the input if we could
+do that first. This attempts to restrict the sometimes daft initial
+buffering that ends up confusing the rest of the system.
+---
+ libavcodec/v4l2_context.c | 2 +-
+ libavcodec/v4l2_m2m_dec.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libavcodec/v4l2_context.c b/libavcodec/v4l2_context.c
+index e94e5e4ab4..793e62b284 100644
+--- a/libavcodec/v4l2_context.c
++++ b/libavcodec/v4l2_context.c
+@@ -403,7 +403,7 @@ static V4L2Buffer* v4l2_dequeue_v4l2buf(V4L2Context *ctx, int timeout)
+ start:
+     if (is_capture) {
+         /* no need to listen to requests for more input while draining */
+-        if (ctx_to_m2mctx(ctx)->draining)
++        if (ctx_to_m2mctx(ctx)->draining || timeout > 0)
+             pfd.events =  POLLIN | POLLRDNORM | POLLPRI;
+     } else {
+         pfd.events =  POLLOUT | POLLWRNORM;
+diff --git a/libavcodec/v4l2_m2m_dec.c b/libavcodec/v4l2_m2m_dec.c
+index 8b43f6bf21..510cb99f1c 100644
+--- a/libavcodec/v4l2_m2m_dec.c
++++ b/libavcodec/v4l2_m2m_dec.c
+@@ -447,7 +447,7 @@ static int v4l2_receive_frame(AVCodecContext *avctx, AVFrame *frame)
+                 // when discarding
+                 // This returns AVERROR(EAGAIN) if there isn't a frame ready yet
+                 // but there is room in the input Q
+-                dst_rv = ff_v4l2_context_dequeue_frame(&s->capture, frame, -1, 1);
++                dst_rv = ff_v4l2_context_dequeue_frame(&s->capture, frame, src_rv == NQ_Q_FULL ? 100 : -1, 1);
+ 
+                 if (dst_rv == AVERROR_EOF && (s->draining || s->capture.done))
+                     av_log(avctx, AV_LOG_DEBUG, "Dequeue EOF: draining=%d, cap.done=%d\n",
+-- 
+2.38.1
+
