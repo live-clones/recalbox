@@ -1,0 +1,28 @@
+From 391fe6aa281b21dc7e7ba8c5401431bf353d1329 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 19 Oct 2021 11:09:34 +0100
+Subject: [PATCH 062/151] Fix sand64_10 pixdesc
+
+Probably irrelevant to everything, but FATE winged
+---
+ libavutil/pixdesc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libavutil/pixdesc.c b/libavutil/pixdesc.c
+index 15eafb4c54..cada39e92f 100644
+--- a/libavutil/pixdesc.c
++++ b/libavutil/pixdesc.c
+@@ -2414,8 +2414,8 @@ static const AVPixFmtDescriptor av_pix_fmt_descriptors[AV_PIX_FMT_NB] = {
+         .log2_chroma_h = 1,
+         .comp = {
+             { 0, 2, 0, 0, 10, 0, 9, 1 },        /* Y */
+-            { 1, 4, 0, 0, 10, 1, 9, 1 },        /* U */
+-            { 1, 4, 1, 0, 10, 1, 9, 2 },        /* V */
++            { 1, 4, 0, 0, 10, 3, 9, 1 },        /* U */
++            { 1, 4, 2, 0, 10, 3, 9, 3 },        /* V */
+         },
+         .flags = 0,
+     },
+-- 
+2.38.1
+
