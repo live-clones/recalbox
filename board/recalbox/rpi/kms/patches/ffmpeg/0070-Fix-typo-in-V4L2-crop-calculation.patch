@@ -1,0 +1,26 @@
+From 2ee946c2b9431e42df638a621729f2ba2f92b262 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 16 Nov 2021 08:11:11 +0000
+Subject: [PATCH 070/151] Fix typo in V4L2 crop calculation
+
+Thanks to Sam Lantinga <slouken@libsdl.org> for spotting this
+---
+ libavcodec/v4l2_buffers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavcodec/v4l2_buffers.c b/libavcodec/v4l2_buffers.c
+index 8b10fd5398..942ebf963b 100644
+--- a/libavcodec/v4l2_buffers.c
++++ b/libavcodec/v4l2_buffers.c
+@@ -727,7 +727,7 @@ int ff_v4l2_buffer_buf_to_avframe(AVFrame *frame, V4L2Buffer *avbuf, int no_resc
+         frame->crop_right = ctx->selection.left + ctx->selection.width < frame->width ?
+             frame->width - (ctx->selection.left + ctx->selection.width) : 0;
+         frame->crop_bottom = ctx->selection.top + ctx->selection.height < frame->height ?
+-            frame->width - (ctx->selection.top + ctx->selection.height) : 0;
++            frame->height - (ctx->selection.top + ctx->selection.height) : 0;
+     }
+ 
+     /* 3. report errors upstream */
+-- 
+2.38.1
+

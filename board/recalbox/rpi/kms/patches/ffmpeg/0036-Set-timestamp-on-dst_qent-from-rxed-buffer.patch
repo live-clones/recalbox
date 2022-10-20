@@ -1,0 +1,58 @@
+From d962570c9cdd118baa2c172ed6c6f6e7d4a55815 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 24 Jun 2021 18:31:28 +0100
+Subject: [PATCH 036/151] Set timestamp on dst_qent from rxed buffer
+
+---
+ libavcodec/v4l2_req_media.c | 7 +++++++
+ libavcodec/v4l2_req_media.h | 2 ++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/libavcodec/v4l2_req_media.c b/libavcodec/v4l2_req_media.c
+index 3a9d53169f..5eb13fe6ee 100644
+--- a/libavcodec/v4l2_req_media.c
++++ b/libavcodec/v4l2_req_media.c
+@@ -665,6 +665,7 @@ static struct qent_base * qe_dequeue(struct buf_pool *const bp,
+         return NULL;
+     }
+ 
++    be->timestamp = buffer.timestamp;
+     be->status = (buffer.flags & V4L2_BUF_FLAG_ERROR) ? QENT_ERROR : QENT_DONE;
+     return be;
+ }
+@@ -735,6 +736,11 @@ int qent_src_params_set(struct qent_src *const be_src, const struct timeval * ti
+     return 0;
+ }
+ 
++struct timeval qent_dst_timestamp_get(const struct qent_dst *const be_dst)
++{
++    return be_dst->base.timestamp;
++}
++
+ static int qent_base_realloc(struct qent_base *const be, const size_t len, struct dmabufs_ctl * dbsc)
+ {
+     if (!be->dh[0] || len > dmabuf_size(be->dh[0])) {
+@@ -812,6 +818,7 @@ MediaBufsStatus mediabufs_start_request(struct mediabufs_ctl *const mbc,
+             request_info(mbc->dc, "Request buffer already waiting on start\n");
+             goto fail1;
+         }
++        dst_be->base.timestamp = (struct timeval){0,0};
+         if (qe_v4l2_queue(&dst_be->base, mbc->vfd, NULL, &mbc->dst_fmt, true, false))
+             goto fail1;
+         queue_put_inuse(mbc->dst, &dst_be->base);
+diff --git a/libavcodec/v4l2_req_media.h b/libavcodec/v4l2_req_media.h
+index 75956eb962..e503773b1a 100644
+--- a/libavcodec/v4l2_req_media.h
++++ b/libavcodec/v4l2_req_media.h
+@@ -71,6 +71,8 @@ struct dmabuf_h;
+ struct dmabufs_ctl;
+ 
+ int qent_src_params_set(struct qent_src *const be, const struct timeval * timestamp);
++struct timeval qent_dst_timestamp_get(const struct qent_dst *const be_dst);
++
+ // prealloc
+ int qent_src_alloc(struct qent_src *const be_src, const size_t len, struct dmabufs_ctl * dbsc);
+ // dbsc may be NULL if realloc not required
+-- 
+2.38.1
+

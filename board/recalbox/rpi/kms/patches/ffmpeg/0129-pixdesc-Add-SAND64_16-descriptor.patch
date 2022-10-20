@@ -1,0 +1,45 @@
+From f4ec6ece3e5da05b152cbd4c4dd6c4b84438554e Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 2 Aug 2022 16:25:15 +0000
+Subject: [PATCH 129/151] pixdesc: Add SAND64_16 descriptor
+
+Its stil a defined format even if mostly obsolete - it needs a
+descriptor. Fixes issue #46
+---
+ libavutil/pixdesc.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/libavutil/pixdesc.c b/libavutil/pixdesc.c
+index cada39e92f..bab13a4d50 100644
+--- a/libavutil/pixdesc.c
++++ b/libavutil/pixdesc.c
+@@ -2419,12 +2419,24 @@ static const AVPixFmtDescriptor av_pix_fmt_descriptors[AV_PIX_FMT_NB] = {
+         },
+         .flags = 0,
+     },
++    [AV_PIX_FMT_SAND64_16] = {
++        .name = "sand64_16",
++        .nb_components = 3,
++        .log2_chroma_w = 1,
++        .log2_chroma_h = 1,
++        .comp = {
++            { 0, 2, 0, 0, 16, 0, 15, 1 },        /* Y */
++            { 1, 4, 0, 0, 16, 3, 15, 1 },        /* U */
++            { 1, 4, 2, 0, 16, 3, 15, 3 },        /* V */
++        },
++        .flags = 0,
++    },
+     [AV_PIX_FMT_RPI4_8] = {
+-        .name = "rpi",
++        .name = "rpi4_8",
+         .flags = AV_PIX_FMT_FLAG_HWACCEL,
+     },
+     [AV_PIX_FMT_RPI4_10] = {
+-        .name = "rpi",
++        .name = "rpi4_10",
+         .flags = AV_PIX_FMT_FLAG_HWACCEL,
+     },
+ };
+-- 
+2.38.1
+
