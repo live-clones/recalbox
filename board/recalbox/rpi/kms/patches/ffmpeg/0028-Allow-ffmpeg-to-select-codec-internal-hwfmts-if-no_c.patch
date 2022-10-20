@@ -1,0 +1,36 @@
+From f1333ca2ebe703bf755651ecd296a32559ed821d Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 10 Jun 2021 18:42:38 +0100
+Subject: [PATCH 028/151] Allow ffmpeg to select codec internal hwfmts if
+ no_cvt_hw
+
+This allows the selection of DRM_PRIME from v4l2m2m without forcing it
+in the decoder.
+---
+ fftools/ffmpeg.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
+index a8e87f1d5a..a29f7d3b5b 100644
+--- a/fftools/ffmpeg.c
++++ b/fftools/ffmpeg.c
+@@ -2897,6 +2897,16 @@ static enum AVPixelFormat get_format(AVCodecContext *s, const enum AVPixelFormat
+         } else {
+             const HWAccel *hwaccel = NULL;
+             int i;
++
++            if (no_cvt_hw) {
++                config = avcodec_get_hw_config(s->codec, 0);
++                if (config->methods == AV_CODEC_HW_CONFIG_METHOD_INTERNAL) {
++                    av_log(s, AV_LOG_DEBUG, "no_cvt_hw so accepting pix_fmt %d with codec internal hwaccel\n", *p);
++                    ist->hwaccel_pix_fmt = *p;
++                    break;
++                }
++            }
++
+             for (i = 0; hwaccels[i].name; i++) {
+                 if (hwaccels[i].pix_fmt == *p) {
+                     hwaccel = &hwaccels[i];
+-- 
+2.38.1
+

@@ -1,0 +1,25 @@
+From 50cc5431c3a9852e28eccea938cca4baae7c0d37 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 4 Jun 2021 19:02:25 +0100
+Subject: [PATCH 027/151] Fix return value in rpivid frame alloc
+
+---
+ libavcodec/rpivid_hevc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavcodec/rpivid_hevc.c b/libavcodec/rpivid_hevc.c
+index 09a1922656..85c5b46d75 100644
+--- a/libavcodec/rpivid_hevc.c
++++ b/libavcodec/rpivid_hevc.c
+@@ -1872,7 +1872,7 @@ static int rpivid_hevc_alloc_frame(AVCodecContext * avctx, AVFrame *frame)
+     {
+         const AVZcEnvPtr zc = avctx->opaque;
+         av_rpi_zc_set_decoder_pool_size(zc, pool_req);
+-        av_rpi_zc_get_buffer(zc, frame);   // get_buffer2 would alloc
++        rv = av_rpi_zc_get_buffer(zc, frame);   // get_buffer2 would alloc
+     }
+     else
+     {
+-- 
+2.38.1
+

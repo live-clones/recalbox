@@ -1,0 +1,111 @@
+From 83a7a6c2863ba71e2e57a929149c891814dade7c Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 3 Dec 2021 17:35:14 +0000
+Subject: [PATCH 072/151] Rework conf native to not take mmal by default
+
+Now takes --mmal if you want mmal, by default not
+---
+ pi-util/conf_native.sh | 51 ++++++++++++++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 14 deletions(-)
+
+diff --git a/pi-util/conf_native.sh b/pi-util/conf_native.sh
+index a8d9f3ba62..f51b81d713 100755
+--- a/pi-util/conf_native.sh
++++ b/pi-util/conf_native.sh
+@@ -6,37 +6,63 @@ MC=`dpkg --print-architecture`
+ #RPI_KEEPS="-save-temps=obj"
+ RPI_KEEPS=""
+ 
++NOSHARED=
++MMAL=
++
++while [ "$1" != "" ] ; do
++    case $1 in
++	--noshared)
++	    NOSHARED=1
++	    ;;
++	--mmal)
++	    MMAL=1
++	    ;;
++	*)
++	    echo "Usage $0: [--noshared] [--mmal]"
++	    exit 1
++	    ;;
++    esac
++    shift
++done
++
++
++MCOPTS=
++RPI_INCLUDES=
++RPI_LIBDIRS=
++RPI_DEFINES=
++RPI_EXTRALIBS=
++
+ if [ "$MC" == "arm64" ]; then
+   echo "M/C aarch64"
+   A=aarch64-linux-gnu
+   B=arm64
+-  MCOPTS=
+-  RPI_INCLUDES=
+-  RPI_LIBDIRS=
+-  RPI_DEFINES=
+-  RPI_EXTRALIBS=
+-  RPIOPTS="--disable-mmal --enable-sand"
+ elif [ "$MC" == "armhf" ]; then
+   echo "M/C armv7"
+   A=arm-linux-gnueabihf
+   B=armv7
+   MCOPTS="--arch=armv6t2 --cpu=cortex-a7"
++  RPI_DEFINES=-mfpu=neon-vfpv4
++else
++  echo Unexpected architecture $MC
++  exit 1
++fi
++
++if [ $MMAL ]; then
+   RPI_OPT_VC=/opt/vc
+   RPI_INCLUDES="-I$RPI_OPT_VC/include -I$RPI_OPT_VC/include/interface/vcos/pthreads -I$RPI_OPT_VC/include/interface/vmcs_host/linux"
+   RPI_LIBDIRS="-L$RPI_OPT_VC/lib"
+-  RPI_DEFINES="-D__VCCOREVER__=0x4000000 -mfpu=neon-vfpv4"
++  RPI_DEFINES="$RPI_DEFINES -D__VCCOREVER__=0x4000000"
+   RPI_EXTRALIBS="-Wl,--start-group -lbcm_host -lmmal -lmmal_util -lmmal_core -lvcos -lvcsm -lvchostif -lvchiq_arm -Wl,--end-group"
+   RPIOPTS="--enable-mmal --enable-rpi"
+ else
+-  echo Unexpected architecture $MC
+-  exit 1
++  RPIOPTS="--disable-mmal --enable-sand"
+ fi
+ 
+ C=`lsb_release -sc`
+ V=`cat RELEASE`
+ 
+ SHARED_LIBS="--enable-shared"
+-if [ "$1" == "--noshared" ]; then
++if [ $NOSHARED ]; then
+   SHARED_LIBS="--disable-shared"
+   OUT=out/$B-$C-$V-static-rel
+   echo Static libs
+@@ -64,8 +90,8 @@ $FFSRC/configure \
+  --enable-libdrm\
+  --enable-epoxy\
+  --enable-libudev\
+- --enable-vout-drm\
+  --enable-vout-egl\
++ --enable-vout-drm\
+  $SHARED_LIBS\
+  $RPIOPTS\
+  --extra-cflags="-ggdb $RPI_KEEPS $RPI_DEFINES $RPI_INCLUDES"\
+@@ -74,9 +100,6 @@ $FFSRC/configure \
+  --extra-libs="$RPI_EXTRALIBS"\
+  --extra-version="rpi"
+ 
+-# --enable-decoder=hevc_rpi\
+-# --enable-extra-warnings\
+-# --arch=armv71\
+ 
+ # gcc option for getting asm listing
+ # -Wa,-ahls
+-- 
+2.38.1
+

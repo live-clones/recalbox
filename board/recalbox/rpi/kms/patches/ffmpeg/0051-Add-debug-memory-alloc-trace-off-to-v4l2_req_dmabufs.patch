@@ -1,0 +1,77 @@
+From 4d8c36f233e06400c4e2bbd060b66171c71c6890 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Sat, 18 Sep 2021 16:43:31 +0100
+Subject: [PATCH 051/151] Add debug memory alloc trace (off) to
+ v4l2_req_dmabufs
+
+---
+ libavcodec/v4l2_req_dmabufs.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/libavcodec/v4l2_req_dmabufs.c b/libavcodec/v4l2_req_dmabufs.c
+index 0717279e75..ae6c648369 100644
+--- a/libavcodec/v4l2_req_dmabufs.c
++++ b/libavcodec/v4l2_req_dmabufs.c
+@@ -17,6 +17,7 @@
+ #define DMABUF_NAME1  "/dev/dma_heap/linux,cma"
+ #define DMABUF_NAME2  "/dev/dma_heap/reserved"
+ 
++#define TRACE_ALLOC 0
+ 
+ struct dmabufs_ctl {
+     int fd;
+@@ -30,6 +31,11 @@ struct dmabuf_h {
+     void * mapptr;
+ };
+ 
++#if TRACE_ALLOC
++static unsigned int total_bufs = 0;
++static size_t total_size = 0;
++#endif
++
+ struct dmabuf_h * dmabuf_import(int fd, size_t size)
+ {
+     struct dmabuf_h *dh;
+@@ -49,6 +55,13 @@ struct dmabuf_h * dmabuf_import(int fd, size_t size)
+         .size = size,
+         .mapptr = MAP_FAILED
+     };
++
++#if TRACE_ALLOC
++    ++total_bufs;
++    total_size += dh->size;
++    request_log("%s: Import: %zd, total=%zd, bufs=%d\n", __func__, dh->size, total_size, total_bufs);
++#endif
++
+     return dh;
+ }
+ 
+@@ -91,6 +104,12 @@ struct dmabuf_h * dmabuf_realloc(struct dmabufs_ctl * dbsc, struct dmabuf_h * ol
+         .mapptr = MAP_FAILED
+     };
+ 
++#if TRACE_ALLOC
++    ++total_bufs;
++    total_size += dh->size;
++    request_log("%s: Alloc: %zd, total=%zd, bufs=%d\n", __func__, dh->size, total_size, total_bufs);
++#endif
++
+     return dh;
+ 
+ fail:
+@@ -186,6 +205,12 @@ void dmabuf_free(struct dmabuf_h * dh)
+     if (!dh)
+         return;
+ 
++#if TRACE_ALLOC
++    --total_bufs;
++    total_size -= dh->size;
++    request_log("%s: Free: %zd, total=%zd, bufs=%d\n", __func__, dh->size, total_size, total_bufs);
++#endif
++
+     if (dh->mapptr != MAP_FAILED)
+         munmap(dh->mapptr, dh->size);
+     while (close(dh->fd) == -1 && errno == EINTR)
+-- 
+2.38.1
+

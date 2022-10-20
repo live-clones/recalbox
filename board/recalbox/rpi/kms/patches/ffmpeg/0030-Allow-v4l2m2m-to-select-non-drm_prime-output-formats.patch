@@ -1,0 +1,55 @@
+From 610d5108cdc1276f26ad714df4f9fd1a7c8bd2f6 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Thu, 10 Jun 2021 18:59:18 +0100
+Subject: [PATCH 030/151] Allow v4l2m2m to select non-drm_prime output formats
+
+---
+ libavcodec/v4l2_m2m_dec.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/libavcodec/v4l2_m2m_dec.c b/libavcodec/v4l2_m2m_dec.c
+index 9eb1435fef..f7722969cc 100644
+--- a/libavcodec/v4l2_m2m_dec.c
++++ b/libavcodec/v4l2_m2m_dec.c
+@@ -460,10 +460,10 @@ static av_cold int v4l2_decode_init(AVCodecContext *avctx)
+     V4L2Context *capture, *output;
+     V4L2m2mContext *s;
+     V4L2m2mPriv *priv = avctx->priv_data;
++    int gf_pix_fmt;
+     int ret;
+ 
+     av_log(avctx, AV_LOG_TRACE, "<<< %s\n", __func__);
+-    avctx->pix_fmt = AV_PIX_FMT_DRM_PRIME;
+ 
+     ret = ff_v4l2_m2m_create_context(priv, &s);
+     if (ret < 0)
+@@ -491,10 +491,15 @@ static av_cold int v4l2_decode_init(AVCodecContext *avctx)
+      *   - the DRM frame format is passed in the DRM frame descriptor layer.
+      *       check the v4l2_get_drm_frame function.
+      */
+-    switch (ff_get_format(avctx, avctx->codec->pix_fmts)) {
+-    default:
++
++    gf_pix_fmt = ff_get_format(avctx, avctx->codec->pix_fmts);
++    av_log(avctx, AV_LOG_DEBUG, "avctx requested=%d (%s); get_format requested=%d (%s)\n",
++           avctx->pix_fmt, av_get_pix_fmt_name(avctx->pix_fmt), gf_pix_fmt, av_get_pix_fmt_name(gf_pix_fmt));
++
++    s->output_drm = 0;
++    if (gf_pix_fmt == AV_PIX_FMT_DRM_PRIME || avctx->pix_fmt == AV_PIX_FMT_DRM_PRIME) {
++        avctx->pix_fmt = AV_PIX_FMT_DRM_PRIME;
+         s->output_drm = 1;
+-        break;
+     }
+ 
+     s->device_ref = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_DRM);
+@@ -610,6 +615,7 @@ static const AVCodecHWConfigInternal *v4l2_m2m_hw_configs[] = {
+         .caps_internal  = FF_CODEC_CAP_SETS_PKT_DTS | FF_CODEC_CAP_INIT_CLEANUP, \
+         .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_DRM_PRIME, \
+                                                          AV_PIX_FMT_NV12, \
++                                                         AV_PIX_FMT_YUV420P, \
+                                                          AV_PIX_FMT_NONE}, \
+         .hw_configs     = v4l2_m2m_hw_configs, \
+         .wrapper_name   = "v4l2m2m", \
+-- 
+2.38.1
+

@@ -1,0 +1,25 @@
+From 302ce26d4d152930c75e8ae8dad3954acc7fcb3f Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Mon, 23 May 2022 08:18:48 +0000
+Subject: [PATCH 099/151] v4l2m2m_dec: Fix \n in debug
+
+---
+ libavcodec/v4l2_m2m_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavcodec/v4l2_m2m_dec.c b/libavcodec/v4l2_m2m_dec.c
+index a3d9f1b790..d614d14914 100644
+--- a/libavcodec/v4l2_m2m_dec.c
++++ b/libavcodec/v4l2_m2m_dec.c
+@@ -540,7 +540,7 @@ static int v4l2_receive_frame(AVCodecContext *avctx, AVFrame *frame)
+ 
+         ++i;
+         if (i >= 256) {
+-            av_log(avctx, AV_LOG_ERROR, "Unexpectedly large retry count: %d", i);
++            av_log(avctx, AV_LOG_ERROR, "Unexpectedly large retry count: %d\n", i);
+             src_rv = AVERROR(EIO);
+         }
+ 
+-- 
+2.38.1
+

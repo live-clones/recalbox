@@ -1,0 +1,35 @@
+From 0b31c9fbfa0ae6491f8821758e4e39af9be69a3b Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Mon, 20 Sep 2021 13:28:54 +0100
+Subject: [PATCH 055/151] Stream off capture before output to work round driver
+ leak bug
+
+---
+ libavcodec/v4l2_req_media.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_media.c b/libavcodec/v4l2_req_media.c
+index 9e8d6342ca..10f720f814 100644
+--- a/libavcodec/v4l2_req_media.c
++++ b/libavcodec/v4l2_req_media.c
+@@ -1322,13 +1322,13 @@ MediaBufsStatus mediabufs_stream_off(struct mediabufs_ctl *const mbc)
+     if (!mbc->stream_on)
+         return MEDIABUFS_STATUS_SUCCESS;
+ 
+-    if (set_stream(mbc->vfd, mbc->src_fmt.type, false) < 0) {
+-        request_log("Failed to set stream off src type %d\n", mbc->src_fmt.type);
++    if (set_stream(mbc->vfd, mbc->dst_fmt.type, false) < 0) {
++        request_log("Failed to set stream off dst type %d\n", mbc->dst_fmt.type);
+         status = MEDIABUFS_ERROR_OPERATION_FAILED;
+     }
+ 
+-    if (set_stream(mbc->vfd, mbc->dst_fmt.type, false) < 0) {
+-        request_log("Failed to set stream off dst type %d\n", mbc->dst_fmt.type);
++    if (set_stream(mbc->vfd, mbc->src_fmt.type, false) < 0) {
++        request_log("Failed to set stream off src type %d\n", mbc->src_fmt.type);
+         status = MEDIABUFS_ERROR_OPERATION_FAILED;
+     }
+ 
+-- 
+2.38.1
+

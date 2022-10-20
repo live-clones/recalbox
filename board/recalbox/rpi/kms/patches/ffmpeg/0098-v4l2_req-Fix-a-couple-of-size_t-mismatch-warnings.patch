@@ -1,0 +1,50 @@
+From f990d41b57b095a3bd49b704068069ba9b8f9e2c Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Sun, 8 May 2022 11:30:36 +0000
+Subject: [PATCH 098/151] v4l2_req: Fix a couple of size_t mismatch warnings
+
+---
+ libavcodec/v4l2_req_hevc_vx.c | 6 +++---
+ libavcodec/v4l2_req_media.c   | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_hevc_vx.c b/libavcodec/v4l2_req_hevc_vx.c
+index eb3a8c96a9..55c41ae679 100644
+--- a/libavcodec/v4l2_req_hevc_vx.c
++++ b/libavcodec/v4l2_req_hevc_vx.c
+@@ -1031,9 +1031,9 @@ probe(AVCodecContext * const avctx, V4L2RequestContextHEVC * const ctx)
+         return AVERROR(EINVAL);
+     }
+     for (i = 0; i != noof_ctrls; ++i) {
+-        if (ctrl_sizes[i] != qc[i].elem_size) {
+-            av_log(avctx, AV_LOG_DEBUG, "Probed V%d control %d size mismatch %u != %u\n",
+-                   HEVC_CTRLS_VERSION, i, ctrl_sizes[i], qc[i].elem_size);
++        if (ctrl_sizes[i] != (size_t)qc[i].elem_size) {
++            av_log(avctx, AV_LOG_DEBUG, "Probed V%d control %d size mismatch %zu != %zu\n",
++                   HEVC_CTRLS_VERSION, i, ctrl_sizes[i], (size_t)qc[i].elem_size);
+             return AVERROR(EINVAL);
+         }
+     }
+diff --git a/libavcodec/v4l2_req_media.c b/libavcodec/v4l2_req_media.c
+index bc8fd5ffde..980b306b8a 100644
+--- a/libavcodec/v4l2_req_media.c
++++ b/libavcodec/v4l2_req_media.c
+@@ -775,13 +775,13 @@ static int qent_base_realloc(struct qent_base *const be, const size_t len, struc
+ {
+     if (!be->dh[0] || len > dmabuf_size(be->dh[0])) {
+         size_t newsize = round_up_size(len);
+-        request_log("%s: Overrun %d > %d; trying %d\n", __func__, len, dmabuf_size(be->dh[0]), newsize);
++        request_log("%s: Overrun %zd > %zd; trying %zd\n", __func__, len, dmabuf_size(be->dh[0]), newsize);
+         if (!dbsc) {
+             request_log("%s: No dmbabuf_ctrl for realloc\n", __func__);
+             return -ENOMEM;
+         }
+         if ((be->dh[0] = dmabuf_realloc(dbsc, be->dh[0], newsize)) == NULL) {
+-            request_log("%s: Realloc %d failed\n", __func__, newsize);
++            request_log("%s: Realloc %zd failed\n", __func__, newsize);
+             return -ENOMEM;
+         }
+     }
+-- 
+2.38.1
+
