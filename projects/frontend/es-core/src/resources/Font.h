@@ -11,6 +11,7 @@
 #include <utils/math/Vector2i.h>
 #include <utils/math/Vector2f.h>
 #include <utils/os/fs/Path.h>
+#include <Renderer.h>
 
 #include FT_FREETYPE_H
 
@@ -18,10 +19,12 @@ class TextCache;
 class ThemeElement;
 class ResourceManager;
 
-#define FONT_SIZE_EXTRASMALL ((unsigned int)(0.030f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
-#define FONT_SIZE_SMALL ((unsigned int)(0.035f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
-#define FONT_SIZE_MEDIUM ((unsigned int)(0.045f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
-#define FONT_SIZE_LARGE ((unsigned int)(0.085f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
+#define MIN_DISPLAY_SIZE (Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat()))
+#define FONT_SIZE_EXTRASMALL ((unsigned int) (0.030f * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_SMALL ((unsigned int) (0.035f  * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_MEDIUM ((unsigned int) (0.045f  * MIN_DISPLAY_SIZE))
+#define FONT_SIZE_LARGE ((unsigned int) (0.085f  * MIN_DISPLAY_SIZE))
+
 
 #define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
 #define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"

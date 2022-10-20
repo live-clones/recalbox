@@ -861,8 +861,17 @@ Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const s
   Path path = (orig ? orig->mPath : getDefaultPath());
 
   float sh = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize"))
-    size = (int) (sh * elem->AsFloat("fontSize"));
+  if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize")){
+    float configFontSize = elem->AsFloat("fontSize");
+    if(configFontSize < 1)
+      size = (int) (sh * elem->AsFloat("fontSize"));
+    else {
+      // As the size is given as an integer as the 240p size reference, we use it as absolute size.
+      // and then we adapt to the screen height (x1 up to 288p, x2 up to 576, ....)
+      size = configFontSize * Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 288);
+    }
+
+  }
   if (hasFlag(properties, ThemeProperties::FontPath) && elem->HasProperty("fontPath"))
     path = Path(elem->AsString("fontPath"));
 

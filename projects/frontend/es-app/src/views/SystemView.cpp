@@ -744,7 +744,7 @@ void  SystemView::getDefaultElements()
 	mSystemInfo.setPosition(0, (mCarousel.pos.y() + mCarousel.size.y() - 0.2f));
 	mSystemInfo.setBackgroundColor(0xDDDDDDD8);
 	mSystemInfo.setRenderBackground(true);
-	mSystemInfo.setFont(Font::get((int)(0.035f * (Math::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
+	mSystemInfo.setFont(Font::get(Renderer::Instance().Is480pOrLower() ? FONT_SIZE_MEDIUM :(int)(0.035f * (Math::min(mSize.y(), mSize.x()))), Font::getDefaultPath()));
 	mSystemInfo.setHorizontalAlignment(TextAlignment::Center);
 	mSystemInfo.setColor(0x000000FF);
 	mSystemInfo.setZIndex(50);

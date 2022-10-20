@@ -117,8 +117,7 @@ void SliderComponent::setColor(unsigned int color)
 void SliderComponent::onSizeChanged()
 {
 	if(!mSuffix.empty())
-		mFont = Font::get((int)(mSize.y()), Path(FONT_PATH_LIGHT));
-	
+    mFont = MenuThemeData::getInstance()->getCurrentTheme()->menuTextSmall.font;
 	onValueChanged();
 }
 

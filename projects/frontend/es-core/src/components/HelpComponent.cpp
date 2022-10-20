@@ -9,7 +9,7 @@
 #include "components/TextComponent.h"
 #include "components/ComponentGrid.h"
 
-#define ICON_TEXT_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f) // space between [icon] and [text] (px)
+#define ICON_TEXT_SPACING (Renderer::Instance().Is480pOrLower() ? 2.0f : Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f)) // space between [icon] and [text] (px)
 #define ENTRY_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
 static const HashMap<HelpType, const char*>& IconPathMap()
@@ -101,16 +101,15 @@ void HelpComponent::UpdateHelps()
 	for (int i = 0; i < (int)icons.size(); i++)
 	{
 		const int col = i*4;
-		mGrid.setColWidthPerc(col, icons[i]->getSize().x() / width);
-		mGrid.setColWidthPerc(col + 1, ICON_TEXT_SPACING / width);
-		mGrid.setColWidthPerc(col + 2, labels[i]->getSize().x() / width);
-    mGrid.setColWidthPerc(col + 3, ENTRY_SPACING / width);
+		mGrid.setColWidthPerc(col, ((int)icons[i]->getSize().x() / width));
+		mGrid.setColWidthPerc(col + 1, ((int)ICON_TEXT_SPACING / width));
+		mGrid.setColWidthPerc(col + 2, ((int)labels[i]->getSize().x() / width));
+    mGrid.setColWidthPerc(col + 3, ((int)ENTRY_SPACING / width));
 
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
-
-	mGrid.setPosition(Vector3f(HelpItemStyle().Position().x(), HelpItemStyle().Position().y(), 0.0f));
+	mGrid.setPosition(Vector3f((int)HelpItemStyle().Position().x(), (int)HelpItemStyle().Position().y(), 0.0f));
 }
 
 void HelpComponent::setOpacity(unsigned char opacity)
@@ -124,7 +123,6 @@ void HelpComponent::setOpacity(unsigned char opacity)
 void HelpComponent::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = (parentTrans * getTransform()).translate({ (float)-mScrollingOffset, 0, 0 });
-
 	if (mGrid.EntryCount() != 0)
     mGrid.Render(trans);
 }

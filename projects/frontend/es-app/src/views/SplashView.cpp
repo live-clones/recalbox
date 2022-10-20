@@ -11,7 +11,7 @@
 SplashView::SplashView(WindowManager& window)
   : Gui(window)
   , mLogo(window, true, true)
-  , mLoading(window, _("LOADING..."), Font::get(Renderer::Instance().IsSmallResolution() ? (int)(FONT_SIZE_LOADING) : (int)(FONT_SIZE_MEDIUM)), 0)
+  , mLoading(window, _("LOADING..."), Font::get(FONT_SIZE_MEDIUM), 0)
   , mSystemCount(0)
   , mSystemLoaded(0)
   , mIsRGBDual(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
@@ -37,8 +37,8 @@ void SplashView::Render(const Transform4x4f& parentTrans)
 
   Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), mIsRGBDual ? 0x35495EFF : 0xFFFFFFFF);
 
-  int w = (int)(Renderer::Instance().DisplayWidthAsFloat() / (Renderer::Instance().IsSmallResolution() ? 5.0f : 10.0f));
-  int h = (int)(Renderer::Instance().DisplayHeightAsFloat() / (Renderer::Instance().IsSmallResolution() ? 70.0f : 80.0f));
+  int w = (int)(Renderer::Instance().DisplayWidthAsFloat() / (Renderer::Instance().Is480pOrLower() ? 5.0f : 10.0f));
+  int h = (int)(Renderer::Instance().DisplayHeightAsFloat() / (Renderer::Instance().Is480pOrLower() ? 70.0f : 80.0f));
   int x = (int)((Renderer::Instance().DisplayWidthAsFloat() - (float)w) / 2.0f);
   int y = (int)(Renderer::Instance().DisplayHeightAsFloat() * 0.9f);
   Renderer::DrawRectangle(x, y, w, h, mIsRGBDual ? 0x404040FF : 0xC0C0C0FF);

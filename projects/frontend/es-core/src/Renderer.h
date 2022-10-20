@@ -314,7 +314,9 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     float DisplayHeightAsFloat() const { return mDisplayHeightFloat; }
 
     // Is small resolution?
-    bool IsSmallResolution() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    bool Is240p() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    // Is middle resolution?
+    bool Is480pOrLower() const { return mDisplayHeight <= 576; }
     // Return true image width
     int RealDisplayWidthAsInt() const { return mDisplayWidth; }
 

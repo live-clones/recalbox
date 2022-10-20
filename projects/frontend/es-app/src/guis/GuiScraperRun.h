@@ -20,11 +20,11 @@ class GuiScraperRun : public Gui
      * @brief Public Constructor - Create or show an existing instance
      * @param window Window manager
      * @param systemManager System manager
-     * @param systems Syustem list to scrape
+     * @param systems System list to scrape
      * @param method Scrapping method
      * @param freezer Freeze interface
      */
-    static void CreateOrShow(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer);
+    static void CreateOrShow(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
 
     /*!
      * @brief Show a existing instance
@@ -56,16 +56,16 @@ class GuiScraperRun : public Gui
     void onSizeChanged() override;
     bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
 
-  private:
+  protected:
     /*!
      * @brief Private Constructor
      * @param window Window manager
      * @param systemManager System manager
-     * @param systems Syustem list to scrape
+     * @param systems System list to scrape
      * @param method Scrapping method
      * @param freezer Freeze interface
      */
-    GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer);
+    GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
 
     void finish();
 
@@ -84,10 +84,14 @@ class GuiScraperRun : public Gui
     //! Last scrapping result
     ScrapeResult mResult;
 
+
     SystemManager::SystemList mSearchQueue;
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
+
+    //! Low resolution
+    bool mLowResolution;
 
     std::shared_ptr<TextComponent> mTitle;
     std::shared_ptr<TextComponent> mSystem;

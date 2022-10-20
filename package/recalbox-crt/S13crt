@@ -1,10 +1,7 @@
 #!/bin/bash
 
 declare -A ES_CONFIG=( \
-    ["emulationstation.theme.recalbox-next.systemview"]="9-240p" \
-    ["emulationstation.theme.recalbox-next.gamelistview"]="10-240p" \
-    ["emulationstation.theme.recalbox-next.menuset"]="7-240p" \
-    ["emulationstation.theme.recalbox-next.gameclipview"]="3-240p" \
+    ["emulationstation.theme.folder"]="recalbox-240p" \
     ["emulationstation.screensaver.type"]="demo" \
     ["240ptestsuite.ignore"]="0" \
     ["global.smooth"]="0" \
@@ -35,7 +32,7 @@ RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
 RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
 RRGBDUAL_31KHZ_LASTBOOT="/boot/crt/.stamprrgbdual31khz"
 
-function configure_es {
+function configure_rbconf {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
     echo "" >> "${RECALBOX_CONF}"
     for KEY in "${!ES_CONFIG[@]}"; do
@@ -48,15 +45,13 @@ function configure_es {
     done
 }
 
-function unconfigureCRT {
-    recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
-    rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
+function unconfigure_rbconf {
     recallog -s "S13crt" -t "CRT" "Removing configuration in recalbox.conf"
     for KEY in "${!ES_CONFIG[@]}"; do
         sed -i "/${KEY}=${ES_CONFIG[$KEY]}/d" \
             "${RECALBOX_CONF}"
     done
-    
+
     echo "" >> "${RECALBOX_CONF}"
     for KEY in "${!ES_CLEAN_CONFIG[@]}"; do
         if grep -q -e "${KEY}=.*" "${RECALBOX_CONF}"; then
@@ -66,6 +61,13 @@ function unconfigureCRT {
             echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >> "${RECALBOX_CONF}"
         fi
     done
+}
+
+function unconfigureCRT {
+    recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
+    rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
+
+    unconfigure_rbconf
 
     recallog -s "S13crt" -t "CRT" "Clearing CRT files"
     mount -o remount,rw /boot
@@ -136,6 +138,12 @@ function rrgbd31kHzSwitchIsOn {
     return $?
 }
 
+
+function oldThemeInstalled {
+    grep -q "emulationstation\.theme\.recalbox-next\.systemview=9-240p" "${RECALBOX_CONF}"
+    return $?
+}
+
 if test "$1" == "start" ; then
 
     rmTimings
@@ -152,11 +160,18 @@ if test "$1" == "start" ; then
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
-            configure_es
+            configure_rbconf
             mount -o remount,rw /boot
             touch "${RRGBDUAL_LASTBOOT}"
             mount -o remount,ro /boot
             exit 0
+        fi
+
+        # Migrate theme
+        if oldThemeInstalled; then
+          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
+          unconfigure_rbconf
+          configure_rbconf
         fi
 
         # RRGBD 31khz switch means we must force jack audio
@@ -236,6 +251,12 @@ if test "$1" == "start" ; then
 
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
+        # Migrate theme
+        if oldThemeInstalled; then
+          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
+          unconfigure_rbconf
+          configure_rbconf
+        fi
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -243,7 +264,7 @@ if test "$1" == "start" ; then
             mount -o remount,rw /boot
             echo -e "${CONFIG_CONTENT[$DAC]}" > ${CRT_DAC_FILE}
             mount -o remount,ro /boot
-            configure_es
+            configure_rbconf
             reboot
         fi
     elif [[ "${DAC}" == "" ]]; then
