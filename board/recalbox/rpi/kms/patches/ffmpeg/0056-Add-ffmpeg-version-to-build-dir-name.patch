@@ -1,0 +1,35 @@
+From 42505d10bb360b7472aecd173edffc8619b7d914 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Mon, 20 Sep 2021 19:25:40 +0100
+Subject: [PATCH 056/151] Add ffmpeg version to build dir name
+
+---
+ pi-util/conf_native.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/pi-util/conf_native.sh b/pi-util/conf_native.sh
+index d5240ff388..13fae3cf78 100755
+--- a/pi-util/conf_native.sh
++++ b/pi-util/conf_native.sh
+@@ -29,15 +29,16 @@ else
+   RPIOPTS="--enable-mmal --enable-rpi"
+ fi
+ C=`lsb_release -sc`
++V=`cat RELEASE`
+ 
+ SHARED_LIBS="--enable-shared"
+ if [ "$1" == "--noshared" ]; then
+   SHARED_LIBS="--disable-shared"
+-  OUT=out/$B-$C-static-rel
++  OUT=out/$B-$C-$V-static-rel
+   echo Static libs
+ else
+   echo Shared libs
+-  OUT=out/$B-$C-shared-rel
++  OUT=out/$B-$C-$V-shared-rel
+ fi
+ 
+ USR_PREFIX=$FFSRC/$OUT/install
+-- 
+2.38.1
+

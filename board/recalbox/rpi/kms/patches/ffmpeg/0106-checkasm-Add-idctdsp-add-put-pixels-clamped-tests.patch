@@ -1,0 +1,176 @@
+From 0e792491232440edf4aebab7c701cfcf8cffdf7a Mon Sep 17 00:00:00 2001
+From: Ben Avison <bavison@riscosopen.org>
+Date: Thu, 31 Mar 2022 18:23:44 +0100
+Subject: [PATCH 106/151] checkasm: Add idctdsp add/put-pixels-clamped tests
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Ben Avison <bavison@riscosopen.org>
+Signed-off-by: Martin Storsjö <martin@martin.st>
+---
+ tests/checkasm/Makefile   |  1 +
+ tests/checkasm/checkasm.c |  3 ++
+ tests/checkasm/checkasm.h |  1 +
+ tests/checkasm/idctdsp.c  | 98 +++++++++++++++++++++++++++++++++++++++
+ tests/fate/checkasm.mak   |  1 +
+ 5 files changed, 104 insertions(+)
+ create mode 100644 tests/checkasm/idctdsp.c
+
+diff --git a/tests/checkasm/Makefile b/tests/checkasm/Makefile
+index 5ac6b4f512..08da4166ef 100644
+--- a/tests/checkasm/Makefile
++++ b/tests/checkasm/Makefile
+@@ -9,6 +9,7 @@ AVCODECOBJS-$(CONFIG_G722DSP)           += g722dsp.o
+ AVCODECOBJS-$(CONFIG_H264DSP)           += h264dsp.o
+ AVCODECOBJS-$(CONFIG_H264PRED)          += h264pred.o
+ AVCODECOBJS-$(CONFIG_H264QPEL)          += h264qpel.o
++AVCODECOBJS-$(CONFIG_IDCTDSP)           += idctdsp.o
+ AVCODECOBJS-$(CONFIG_LLVIDDSP)          += llviddsp.o
+ AVCODECOBJS-$(CONFIG_LLVIDENCDSP)       += llviddspenc.o
+ AVCODECOBJS-$(CONFIG_VC1DSP)            += vc1dsp.o
+diff --git a/tests/checkasm/checkasm.c b/tests/checkasm/checkasm.c
+index 0602d34fd0..81ef182f04 100644
+--- a/tests/checkasm/checkasm.c
++++ b/tests/checkasm/checkasm.c
+@@ -131,6 +131,9 @@ static const struct {
+     #if CONFIG_HUFFYUV_DECODER
+         { "huffyuvdsp", checkasm_check_huffyuvdsp },
+     #endif
++    #if CONFIG_IDCTDSP
++        { "idctdsp", checkasm_check_idctdsp },
++    #endif
+     #if CONFIG_JPEG2000_DECODER
+         { "jpeg2000dsp", checkasm_check_jpeg2000dsp },
+     #endif
+diff --git a/tests/checkasm/checkasm.h b/tests/checkasm/checkasm.h
+index 3381507316..1a1e17d835 100644
+--- a/tests/checkasm/checkasm.h
++++ b/tests/checkasm/checkasm.h
+@@ -70,6 +70,7 @@ void checkasm_check_hevc_epel_bi(void);
+ void checkasm_check_hevc_epel_bi_w(void);
+ void checkasm_check_hevc_sao(void);
+ void checkasm_check_huffyuvdsp(void);
++void checkasm_check_idctdsp(void);
+ void checkasm_check_jpeg2000dsp(void);
+ void checkasm_check_llviddsp(void);
+ void checkasm_check_llviddspenc(void);
+diff --git a/tests/checkasm/idctdsp.c b/tests/checkasm/idctdsp.c
+new file mode 100644
+index 0000000000..02724536a7
+--- /dev/null
++++ b/tests/checkasm/idctdsp.c
+@@ -0,0 +1,98 @@
++/*
++ * Copyright (c) 2022 Ben Avison
++ *
++ * This file is part of FFmpeg.
++ *
++ * FFmpeg is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * FFmpeg is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with FFmpeg; if not, write to the Free Software Foundation, Inc.,
++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#include <string.h>
++
++#include "checkasm.h"
++
++#include "libavcodec/idctdsp.h"
++
++#include "libavutil/common.h"
++#include "libavutil/internal.h"
++#include "libavutil/intreadwrite.h"
++#include "libavutil/mem_internal.h"
++
++#define IDCTDSP_TEST(func) { #func, offsetof(IDCTDSPContext, func) },
++
++typedef struct {
++    const char *name;
++    size_t offset;
++} test;
++
++#define RANDOMIZE_BUFFER16(name, size)          \
++    do {                                        \
++        int i;                                  \
++        for (i = 0; i < size; ++i) {            \
++            uint16_t r = rnd() % 0x201 - 0x100; \
++            AV_WN16A(name##0 + i, r);           \
++            AV_WN16A(name##1 + i, r);           \
++        }                                       \
++    } while (0)
++
++#define RANDOMIZE_BUFFER8(name, size)         \
++    do {                                      \
++        int i;                                \
++        for (i = 0; i < size; ++i) {          \
++            uint8_t r = rnd();                \
++            name##0[i] = r;                   \
++            name##1[i] = r;                   \
++        }                                     \
++    } while (0)
++
++static void check_add_put_clamped(void)
++{
++    /* Source buffers are only as big as needed, since any over-read won't affect results */
++    LOCAL_ALIGNED_16(int16_t, src0, [64]);
++    LOCAL_ALIGNED_16(int16_t, src1, [64]);
++    /* Destination buffers have borders of one row above/below and 8 columns left/right to catch overflows */
++    LOCAL_ALIGNED_8(uint8_t, dst0, [10 * 24]);
++    LOCAL_ALIGNED_8(uint8_t, dst1, [10 * 24]);
++
++    AVCodecContext avctx = { 0 };
++    IDCTDSPContext h;
++
++    const test tests[] = {
++        IDCTDSP_TEST(add_pixels_clamped)
++        IDCTDSP_TEST(put_pixels_clamped)
++        IDCTDSP_TEST(put_signed_pixels_clamped)
++    };
++
++    ff_idctdsp_init(&h, &avctx);
++
++    for (size_t t = 0; t < FF_ARRAY_ELEMS(tests); ++t) {
++        void (*func)(const int16_t *, uint8_t * ptrdiff_t) = *(void **)((intptr_t) &h + tests[t].offset);
++        if (check_func(func, "idctdsp.%s", tests[t].name)) {
++            declare_func_emms(AV_CPU_FLAG_MMX, void, const int16_t *, uint8_t *, ptrdiff_t);
++            RANDOMIZE_BUFFER16(src, 64);
++            RANDOMIZE_BUFFER8(dst, 10 * 24);
++            call_ref(src0, dst0 + 24 + 8, 24);
++            call_new(src1, dst1 + 24 + 8, 24);
++            if (memcmp(dst0, dst1, 10 * 24))
++                fail();
++            bench_new(src1, dst1 + 24 + 8, 24);
++        }
++    }
++}
++
++void checkasm_check_idctdsp(void)
++{
++    check_add_put_clamped();
++    report("idctdsp");
++}
+diff --git a/tests/fate/checkasm.mak b/tests/fate/checkasm.mak
+index 4159c8a8c0..aa5f45ec8f 100644
+--- a/tests/fate/checkasm.mak
++++ b/tests/fate/checkasm.mak
+@@ -16,6 +16,7 @@ FATE_CHECKASM = fate-checkasm-aacpsdsp                                  \
+                 fate-checkasm-hevc_add_res                              \
+                 fate-checkasm-hevc_idct                                 \
+                 fate-checkasm-hevc_sao                                  \
++                fate-checkasm-idctdsp                                   \
+                 fate-checkasm-jpeg2000dsp                               \
+                 fate-checkasm-llviddsp                                  \
+                 fate-checkasm-llviddspenc                               \
+-- 
+2.38.1
+

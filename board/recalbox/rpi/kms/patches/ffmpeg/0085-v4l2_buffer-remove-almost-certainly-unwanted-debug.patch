@@ -1,0 +1,25 @@
+From 83c7d49b9b327f1d74dc484650d93c3693884f5e Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 5 Jan 2022 09:42:37 +0000
+Subject: [PATCH 085/151] v4l2_buffer: remove (almost certainly) unwanted debug
+
+---
+ libavcodec/v4l2_buffers.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/libavcodec/v4l2_buffers.c b/libavcodec/v4l2_buffers.c
+index a176ea8207..6ee6ad8642 100644
+--- a/libavcodec/v4l2_buffers.c
++++ b/libavcodec/v4l2_buffers.c
+@@ -747,8 +747,6 @@ int ff_v4l2_buffer_buf_to_avframe(AVFrame *frame, V4L2Buffer *avbuf)
+ 
+ int ff_v4l2_buffer_buf_to_avpkt(AVPacket *pkt, V4L2Buffer *avbuf)
+ {
+-    av_log(logger(avbuf), AV_LOG_INFO, "%s\n", __func__);
+-
+     av_packet_unref(pkt);
+ 
+     pkt->buf = wrap_avbuf(avbuf);
+-- 
+2.38.1
+

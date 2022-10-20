@@ -1,0 +1,33 @@
+From 49af07478b1f12d3b0c74543dcb290a18a3a5f73 Mon Sep 17 00:00:00 2001
+From: graysky <graysky@archlinux.us>
+Date: Tue, 18 May 2021 12:47:27 -0400
+Subject: [PATCH 034/151] Provide several missing defines
+
+V4L2_PIX_FMT_NV12_COL128 and V4L2_PIX_FMT_NV12_10_COL128
+---
+ libavcodec/v4l2_request_hevc.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/libavcodec/v4l2_request_hevc.c b/libavcodec/v4l2_request_hevc.c
+index f8a4b7db4e..f869c4e3d5 100644
+--- a/libavcodec/v4l2_request_hevc.c
++++ b/libavcodec/v4l2_request_hevc.c
+@@ -55,6 +55,15 @@
+ #define DRM_FORMAT_NV20 fourcc_code('N', 'V', '2', '0')
+ #endif
+ 
++// V4L2_PIX_FMT_NV12_10_COL128 and V4L2_PIX_FMT_NV12_COL128 should be defined
++// in drm_fourcc.h hopefully will be sometime in the future but until then...
++#ifndef V4L2_PIX_FMT_NV12_10_COL128
++#define V4L2_PIX_FMT_NV12_10_COL128 v4l2_fourcc('N', 'C', '3', '0')
++#endif
++
++#ifndef V4L2_PIX_FMT_NV12_COL128
++#define V4L2_PIX_FMT_NV12_COL128 v4l2_fourcc('N', 'C', '1', '2') /* 12  Y/CbCr 4:2:0 128 pixel wide column */
++#endif
+ 
+ // Attached to buf[0] in frame
+ // Pooled in hwcontext so generally create once - 1/frame
+-- 
+2.38.1
+
