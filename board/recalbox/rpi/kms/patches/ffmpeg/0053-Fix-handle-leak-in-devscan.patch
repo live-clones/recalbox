@@ -1,0 +1,26 @@
+From 3ffb0cea232fd5eabbab8acfcd9938f6b381e8a3 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Mon, 20 Sep 2021 14:20:02 +0100
+Subject: [PATCH 053/151] Fix handle leak in devscan
+
+---
+ libavcodec/v4l2_req_devscan.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_devscan.c b/libavcodec/v4l2_req_devscan.c
+index 59724a8104..cfa94d55c4 100644
+--- a/libavcodec/v4l2_req_devscan.c
++++ b/libavcodec/v4l2_req_devscan.c
+@@ -332,9 +332,6 @@ static int probe_media_device(void * const dc,
+             goto fail;
+     }
+ 
+-    free(interfaces);
+-    return ret;
+-
+ fail:
+     free(interfaces);
+     if (media_fd != -1)
+-- 
+2.38.1
+

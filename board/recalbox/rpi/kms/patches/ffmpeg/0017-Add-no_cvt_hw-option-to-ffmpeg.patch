@@ -1,0 +1,71 @@
+From b535ab9d4ba7492446d6ca8673a4b1fecc5d7792 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 27 Apr 2021 19:30:36 +0100
+Subject: [PATCH 017/151] Add no_cvt_hw option to ffmpeg
+
+---
+ fftools/ffmpeg.c     | 6 ++++--
+ fftools/ffmpeg.h     | 1 +
+ fftools/ffmpeg_opt.c | 3 +++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
+index e01d70dfe2..a8e87f1d5a 100644
+--- a/fftools/ffmpeg.c
++++ b/fftools/ffmpeg.c
+@@ -2198,6 +2198,9 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
+         (ifilter->hw_frames_ctx && ifilter->hw_frames_ctx->data != frame->hw_frames_ctx->data))
+         need_reinit = 1;
+ 
++    if (no_cvt_hw && fg->graph)
++        need_reinit = 0;
++
+     if (need_reinit) {
+         ret = ifilter_parameters_from_frame(ifilter, frame);
+         if (ret < 0)
+@@ -2466,8 +2469,7 @@ static int decode_video(InputStream *ist, AVPacket *pkt, int *got_output, int64_
+         decoded_frame->top_field_first = ist->top_field_first;
+ 
+     ist->frames_decoded++;
+-
+-    if (ist->hwaccel_retrieve_data && decoded_frame->format == ist->hwaccel_pix_fmt) {
++    if (!no_cvt_hw && ist->hwaccel_retrieve_data && decoded_frame->format == ist->hwaccel_pix_fmt) {
+         err = ist->hwaccel_retrieve_data(ist->dec_ctx, decoded_frame);
+         if (err < 0)
+             goto fail;
+diff --git a/fftools/ffmpeg.h b/fftools/ffmpeg.h
+index a817dd41e3..448cd2e009 100644
+--- a/fftools/ffmpeg.h
++++ b/fftools/ffmpeg.h
+@@ -612,6 +612,7 @@ extern int video_sync_method;
+ extern float frame_drop_threshold;
+ extern int do_benchmark;
+ extern int do_benchmark_all;
++extern int no_cvt_hw;
+ extern int do_deinterlace;
+ extern int do_hex_dump;
+ extern int do_pkt_dump;
+diff --git a/fftools/ffmpeg_opt.c b/fftools/ffmpeg_opt.c
+index 3f67d349ae..456d4f349b 100644
+--- a/fftools/ffmpeg_opt.c
++++ b/fftools/ffmpeg_opt.c
+@@ -168,6 +168,7 @@ float frame_drop_threshold = 0;
+ int do_deinterlace    = 0;
+ int do_benchmark      = 0;
+ int do_benchmark_all  = 0;
++int no_cvt_hw         = 0;
+ int do_hex_dump       = 0;
+ int do_pkt_dump       = 0;
+ int copy_ts           = 0;
+@@ -3509,6 +3510,8 @@ const OptionDef options[] = {
+         "add timings for benchmarking" },
+     { "benchmark_all",  OPT_BOOL | OPT_EXPERT,                       { &do_benchmark_all },
+       "add timings for each task" },
++    { "no_cvt_hw",      OPT_BOOL | OPT_EXPERT,                       { &no_cvt_hw },
++      "do not auto-convert hw frames to sw" },
+     { "progress",       HAS_ARG | OPT_EXPERT,                        { .func_arg = opt_progress },
+       "write program-readable progress information", "url" },
+     { "stdin",          OPT_BOOL | OPT_EXPERT,                       { &stdin_interaction },
+-- 
+2.38.1
+

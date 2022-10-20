@@ -1,0 +1,70 @@
+From 34fb1cd924eba2ee0b9ee48e8245bf7c8078e93a Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 2 Mar 2022 17:50:04 +0000
+Subject: [PATCH 091/151] Fix segfault in h264 stateful
+
+It was possible for get_qbuf to return 0 but to not return an avbuf.
+This happened if it was polling the capture Q with timeout == -1 and
+found an output buf ready. Return EAGAIN in this case instead.
+---
+ libavcodec/v4l2_context.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/libavcodec/v4l2_context.c b/libavcodec/v4l2_context.c
+index b2c40636a2..d8a86e8261 100644
+--- a/libavcodec/v4l2_context.c
++++ b/libavcodec/v4l2_context.c
+@@ -329,6 +329,7 @@ dq_buf(V4L2Context * const ctx, V4L2Buffer ** const ppavbuf)
+ 
+     while (ioctl(m->fd, VIDIOC_DQBUF, &buf) != 0) {
+         const int err = errno;
++        av_assert0(AVERROR(err) < 0);
+         if (err != EINTR) {
+             av_log(avctx, AV_LOG_DEBUG, "%s VIDIOC_DQBUF, errno (%s)\n",
+                 ctx->name, av_err2str(AVERROR(err)));
+@@ -417,6 +418,7 @@ get_event(V4L2m2mContext * const m)
+ // Get a buffer
+ // If output then just gets the buffer in the expected way
+ // If capture then runs the capture state m/c to deal with res change etc.
++// If return value == 0 then *ppavbuf != NULL
+ 
+ static int
+ get_qbuf(V4L2Context * const ctx, V4L2Buffer ** const ppavbuf, const int timeout)
+@@ -464,16 +466,19 @@ get_qbuf(V4L2Context * const ctx, V4L2Buffer ** const ppavbuf, const int timeout
+         ret = poll(&pfd, 1,
+                    ff_v4l2_ctx_eos(ctx) ? 10 :
+                    timeout == -1 ? 3000 : timeout);
++        if (ret < 0) {
++            ret = AVERROR(errno);  // Remember errno before logging etc.
++            av_assert0(ret < 0);
++        }
+ 
+         av_log(avctx, AV_LOG_TRACE, "V4L2 poll %s ret=%d, timeout=%d, events=%#x, revents=%#x\n",
+                ctx->name, ret, timeout, pfd.events, pfd.revents);
+ 
+         if (ret < 0) {
+-            const int err = errno;
+-            if (err == EINTR)
++            if (ret == AVERROR(EINTR))
+                 continue;
+-            av_log(avctx, AV_LOG_ERROR, "V4L2 %s poll error %d (%s)\n", ctx->name, err, strerror(err));
+-            return AVERROR(err);
++            av_log(avctx, AV_LOG_ERROR, "V4L2 %s poll error %d (%s)\n", ctx->name, AVUNERROR(ret), av_err2str(ret));
++            return ret;
+         }
+ 
+         if (ret == 0) {
+@@ -512,7 +517,9 @@ get_qbuf(V4L2Context * const ctx, V4L2Buffer ** const ppavbuf, const int timeout
+         }
+ 
+         if ((pfd.revents & poll_out) != 0) {
+-            return is_cap ? 0 : dq_buf(ctx, ppavbuf);
++            if (is_cap)
++                return AVERROR(EAGAIN);
++            return dq_buf(ctx, ppavbuf);
+         }
+ 
+         av_log(avctx, AV_LOG_ERROR, "V4L2 poll unexpected events=%#x, revents=%#x\n", pfd.events, pfd.revents);
+-- 
+2.38.1
+

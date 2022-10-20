@@ -1,0 +1,222 @@
+From 468efd40fec213dad8205b52f494d1f62f0faddf Mon Sep 17 00:00:00 2001
+From: Ben Avison <bavison@riscosopen.org>
+Date: Thu, 31 Mar 2022 18:23:49 +0100
+Subject: [PATCH 111/151] avcodec/idctdsp: Arm 64-bit NEON block add and clamp
+ fast paths
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+checkasm benchmarks on 1.5 GHz Cortex-A72 are as follows.
+
+idctdsp.add_pixels_clamped_c: 313.3
+idctdsp.add_pixels_clamped_neon: 24.3
+idctdsp.put_pixels_clamped_c: 220.3
+idctdsp.put_pixels_clamped_neon: 15.5
+idctdsp.put_signed_pixels_clamped_c: 210.5
+idctdsp.put_signed_pixels_clamped_neon: 19.5
+
+Signed-off-by: Ben Avison <bavison@riscosopen.org>
+Signed-off-by: Martin Storsjö <martin@martin.st>
+---
+ libavcodec/aarch64/Makefile               |   3 +-
+ libavcodec/aarch64/idctdsp_init_aarch64.c |  26 +++--
+ libavcodec/aarch64/idctdsp_neon.S         | 130 ++++++++++++++++++++++
+ 3 files changed, 150 insertions(+), 9 deletions(-)
+ create mode 100644 libavcodec/aarch64/idctdsp_neon.S
+
+diff --git a/libavcodec/aarch64/Makefile b/libavcodec/aarch64/Makefile
+index 5b25e4dfb9..c8935f205e 100644
+--- a/libavcodec/aarch64/Makefile
++++ b/libavcodec/aarch64/Makefile
+@@ -44,7 +44,8 @@ NEON-OBJS-$(CONFIG_H264PRED)            += aarch64/h264pred_neon.o
+ NEON-OBJS-$(CONFIG_H264QPEL)            += aarch64/h264qpel_neon.o             \
+                                            aarch64/hpeldsp_neon.o
+ NEON-OBJS-$(CONFIG_HPELDSP)             += aarch64/hpeldsp_neon.o
+-NEON-OBJS-$(CONFIG_IDCTDSP)             += aarch64/simple_idct_neon.o
++NEON-OBJS-$(CONFIG_IDCTDSP)             += aarch64/idctdsp_neon.o              \
++                                           aarch64/simple_idct_neon.o
+ NEON-OBJS-$(CONFIG_MDCT)                += aarch64/mdct_neon.o
+ NEON-OBJS-$(CONFIG_MPEGAUDIODSP)        += aarch64/mpegaudiodsp_neon.o
+ NEON-OBJS-$(CONFIG_PIXBLOCKDSP)         += aarch64/pixblockdsp_neon.o
+diff --git a/libavcodec/aarch64/idctdsp_init_aarch64.c b/libavcodec/aarch64/idctdsp_init_aarch64.c
+index 742a3372e3..eec21aa5a2 100644
+--- a/libavcodec/aarch64/idctdsp_init_aarch64.c
++++ b/libavcodec/aarch64/idctdsp_init_aarch64.c
+@@ -27,19 +27,29 @@
+ #include "libavcodec/idctdsp.h"
+ #include "idct.h"
+ 
++void ff_put_pixels_clamped_neon(const int16_t *, uint8_t *, ptrdiff_t);
++void ff_put_signed_pixels_clamped_neon(const int16_t *, uint8_t *, ptrdiff_t);
++void ff_add_pixels_clamped_neon(const int16_t *, uint8_t *, ptrdiff_t);
++
+ av_cold void ff_idctdsp_init_aarch64(IDCTDSPContext *c, AVCodecContext *avctx,
+                                      unsigned high_bit_depth)
+ {
+     int cpu_flags = av_get_cpu_flags();
+ 
+-    if (have_neon(cpu_flags) && !avctx->lowres && !high_bit_depth) {
+-        if (avctx->idct_algo == FF_IDCT_AUTO ||
+-            avctx->idct_algo == FF_IDCT_SIMPLEAUTO ||
+-            avctx->idct_algo == FF_IDCT_SIMPLENEON) {
+-            c->idct_put  = ff_simple_idct_put_neon;
+-            c->idct_add  = ff_simple_idct_add_neon;
+-            c->idct      = ff_simple_idct_neon;
+-            c->perm_type = FF_IDCT_PERM_PARTTRANS;
++    if (have_neon(cpu_flags)) {
++        if (!avctx->lowres && !high_bit_depth) {
++            if (avctx->idct_algo == FF_IDCT_AUTO ||
++                avctx->idct_algo == FF_IDCT_SIMPLEAUTO ||
++                avctx->idct_algo == FF_IDCT_SIMPLENEON) {
++                c->idct_put  = ff_simple_idct_put_neon;
++                c->idct_add  = ff_simple_idct_add_neon;
++                c->idct      = ff_simple_idct_neon;
++                c->perm_type = FF_IDCT_PERM_PARTTRANS;
++            }
+         }
++
++        c->add_pixels_clamped        = ff_add_pixels_clamped_neon;
++        c->put_pixels_clamped        = ff_put_pixels_clamped_neon;
++        c->put_signed_pixels_clamped = ff_put_signed_pixels_clamped_neon;
+     }
+ }
+diff --git a/libavcodec/aarch64/idctdsp_neon.S b/libavcodec/aarch64/idctdsp_neon.S
+new file mode 100644
+index 0000000000..7f47611206
+--- /dev/null
++++ b/libavcodec/aarch64/idctdsp_neon.S
+@@ -0,0 +1,130 @@
++/*
++ * IDCT AArch64 NEON optimisations
++ *
++ * Copyright (c) 2022 Ben Avison <bavison@riscosopen.org>
++ *
++ * This file is part of FFmpeg.
++ *
++ * FFmpeg is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * FFmpeg is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with FFmpeg; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ */
++
++#include "libavutil/aarch64/asm.S"
++
++// Clamp 16-bit signed block coefficients to unsigned 8-bit
++// On entry:
++//   x0 -> array of 64x 16-bit coefficients
++//   x1 -> 8-bit results
++//   x2 = row stride for results, bytes
++function ff_put_pixels_clamped_neon, export=1
++        ld1             {v0.16b, v1.16b, v2.16b, v3.16b}, [x0], #64
++        ld1             {v4.16b, v5.16b, v6.16b, v7.16b}, [x0]
++        sqxtun          v0.8b, v0.8h
++        sqxtun          v1.8b, v1.8h
++        sqxtun          v2.8b, v2.8h
++        sqxtun          v3.8b, v3.8h
++        sqxtun          v4.8b, v4.8h
++        st1             {v0.8b}, [x1], x2
++        sqxtun          v0.8b, v5.8h
++        st1             {v1.8b}, [x1], x2
++        sqxtun          v1.8b, v6.8h
++        st1             {v2.8b}, [x1], x2
++        sqxtun          v2.8b, v7.8h
++        st1             {v3.8b}, [x1], x2
++        st1             {v4.8b}, [x1], x2
++        st1             {v0.8b}, [x1], x2
++        st1             {v1.8b}, [x1], x2
++        st1             {v2.8b}, [x1]
++        ret
++endfunc
++
++// Clamp 16-bit signed block coefficients to signed 8-bit (biased by 128)
++// On entry:
++//   x0 -> array of 64x 16-bit coefficients
++//   x1 -> 8-bit results
++//   x2 = row stride for results, bytes
++function ff_put_signed_pixels_clamped_neon, export=1
++        ld1             {v0.16b, v1.16b, v2.16b, v3.16b}, [x0], #64
++        movi            v4.8b, #128
++        ld1             {v16.16b, v17.16b, v18.16b, v19.16b}, [x0]
++        sqxtn           v0.8b, v0.8h
++        sqxtn           v1.8b, v1.8h
++        sqxtn           v2.8b, v2.8h
++        sqxtn           v3.8b, v3.8h
++        sqxtn           v5.8b, v16.8h
++        add             v0.8b, v0.8b, v4.8b
++        sqxtn           v6.8b, v17.8h
++        add             v1.8b, v1.8b, v4.8b
++        sqxtn           v7.8b, v18.8h
++        add             v2.8b, v2.8b, v4.8b
++        sqxtn           v16.8b, v19.8h
++        add             v3.8b, v3.8b, v4.8b
++        st1             {v0.8b}, [x1], x2
++        add             v0.8b, v5.8b, v4.8b
++        st1             {v1.8b}, [x1], x2
++        add             v1.8b, v6.8b, v4.8b
++        st1             {v2.8b}, [x1], x2
++        add             v2.8b, v7.8b, v4.8b
++        st1             {v3.8b}, [x1], x2
++        add             v3.8b, v16.8b, v4.8b
++        st1             {v0.8b}, [x1], x2
++        st1             {v1.8b}, [x1], x2
++        st1             {v2.8b}, [x1], x2
++        st1             {v3.8b}, [x1]
++        ret
++endfunc
++
++// Add 16-bit signed block coefficients to unsigned 8-bit
++// On entry:
++//   x0 -> array of 64x 16-bit coefficients
++//   x1 -> 8-bit input and results
++//   x2 = row stride for 8-bit input and results, bytes
++function ff_add_pixels_clamped_neon, export=1
++        ld1             {v0.16b, v1.16b, v2.16b, v3.16b}, [x0], #64
++        mov             x3, x1
++        ld1             {v4.8b}, [x1], x2
++        ld1             {v5.8b}, [x1], x2
++        ld1             {v6.8b}, [x1], x2
++        ld1             {v7.8b}, [x1], x2
++        ld1             {v16.16b, v17.16b, v18.16b, v19.16b}, [x0]
++        uaddw           v0.8h, v0.8h, v4.8b
++        uaddw           v1.8h, v1.8h, v5.8b
++        uaddw           v2.8h, v2.8h, v6.8b
++        ld1             {v4.8b}, [x1], x2
++        uaddw           v3.8h, v3.8h, v7.8b
++        ld1             {v5.8b}, [x1], x2
++        sqxtun          v0.8b, v0.8h
++        ld1             {v6.8b}, [x1], x2
++        sqxtun          v1.8b, v1.8h
++        ld1             {v7.8b}, [x1]
++        sqxtun          v2.8b, v2.8h
++        sqxtun          v3.8b, v3.8h
++        uaddw           v4.8h, v16.8h, v4.8b
++        st1             {v0.8b}, [x3], x2
++        uaddw           v0.8h, v17.8h, v5.8b
++        st1             {v1.8b}, [x3], x2
++        uaddw           v1.8h, v18.8h, v6.8b
++        st1             {v2.8b}, [x3], x2
++        uaddw           v2.8h, v19.8h, v7.8b
++        sqxtun          v4.8b, v4.8h
++        sqxtun          v0.8b, v0.8h
++        st1             {v3.8b}, [x3], x2
++        sqxtun          v1.8b, v1.8h
++        sqxtun          v2.8b, v2.8h
++        st1             {v4.8b}, [x3], x2
++        st1             {v0.8b}, [x3], x2
++        st1             {v1.8b}, [x3], x2
++        st1             {v2.8b}, [x3]
++        ret
++endfunc
+-- 
+2.38.1
+

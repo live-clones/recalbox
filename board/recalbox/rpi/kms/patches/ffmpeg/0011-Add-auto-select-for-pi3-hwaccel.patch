@@ -1,0 +1,179 @@
+From 7e9e42d56d7924141992dbe24abd58630987b428 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 27 Apr 2021 14:57:44 +0100
+Subject: [PATCH 011/151] Add auto-select for pi3 hwaccel
+
+---
+ libavcodec/allcodecs.c | 35 +++++++++++++++++++++++
+ libavcodec/codec.h     | 11 +++++++
+ libavformat/utils.c    | 65 +++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 107 insertions(+), 4 deletions(-)
+
+diff --git a/libavcodec/allcodecs.c b/libavcodec/allcodecs.c
+index aa1c61ffcb..d9571b437f 100644
+--- a/libavcodec/allcodecs.c
++++ b/libavcodec/allcodecs.c
+@@ -918,6 +918,41 @@ static enum AVCodecID remap_deprecated_codec_id(enum AVCodecID id)
+     }
+ }
+ 
++static int codec_supports_format(const AVCodec * const p, const enum AVPixelFormat fmt)
++{
++    const enum AVPixelFormat *pf = p->pix_fmts;
++
++    // Assume good if we lack info
++    if (pf == NULL)
++        return 1;
++    if (fmt == AV_PIX_FMT_NONE)
++        return 0;
++
++    for (; *pf != AV_PIX_FMT_NONE; ++pf) {
++        if (*pf == fmt)
++            return 1;
++    }
++    return 0;
++}
++
++AVCodec *avcodec_find_decoder_by_id_and_fmt(enum AVCodecID id, enum AVPixelFormat fmt)
++{
++    const AVCodec *p, *experimental = NULL;
++    void *i = 0;
++
++    id= remap_deprecated_codec_id(id);
++    while ((p = av_codec_iterate(&i))) {
++        if (av_codec_is_decoder(p) && p->id == id && codec_supports_format(p, fmt)) {
++            if (p->capabilities & AV_CODEC_CAP_EXPERIMENTAL && !experimental) {
++                experimental = p;
++            } else
++                return (AVCodec *)p;
++        }
++        p = p->next;
++    }
++    return (AVCodec *)experimental;
++}
++
+ static AVCodec *find_codec(enum AVCodecID id, int (*x)(const AVCodec *))
+ {
+     const AVCodec *p, *experimental = NULL;
+diff --git a/libavcodec/codec.h b/libavcodec/codec.h
+index 50a22f6e3c..5acf572ef4 100644
+--- a/libavcodec/codec.h
++++ b/libavcodec/codec.h
+@@ -367,6 +367,17 @@ const AVCodec *av_codec_iterate(void **opaque);
+  */
+ AVCodec *avcodec_find_decoder(enum AVCodecID id);
+ 
++/**
++ * Find a registered decoder with a matching codec ID and pix_fmt.
++ * A decoder will pix_fmt set to NULL will match any fmt.
++ * A fmt of AV_PIX_FMT_NONE will only match a decoder will px_fmt NULL.
++ *
++ * @param id AVCodecID of the requested decoder
++ * @param fmt AVPixelForma that msut be supported by decoder
++ * @return A decoder if one was found, NULL otherwise.
++ */
++AVCodec *avcodec_find_decoder_by_id_and_fmt(enum AVCodecID id, enum AVPixelFormat fmt);
++
+ /**
+  * Find a registered decoder with the specified name.
+  *
+diff --git a/libavformat/utils.c b/libavformat/utils.c
+index 1384b56771..27479e3c40 100644
+--- a/libavformat/utils.c
++++ b/libavformat/utils.c
+@@ -3011,6 +3011,40 @@ static int has_codec_parameters(AVStream *st, const char **errmsg_ptr)
+     return 1;
+ }
+ 
++#if CONFIG_HEVC_RPI_DECODER && CONFIG_HEVC_DECODER
++// This should be quite general purpose but avoid possible conflicts
++// by limiting usage to cases wehere we know it works.
++static int try_fallback_decoder(AVCodecContext * const avctx, const AVCodec *const old_codec, AVDictionary ** const opts)
++{
++    // Only try fallback if we know it is supported (HEVC only)
++    const AVCodec *const new_codec = old_codec->id != AV_CODEC_ID_HEVC ? NULL :
++        avcodec_find_decoder_by_id_and_fmt(old_codec->id, AV_PIX_FMT_NONE);
++    int err;
++
++    // Failed to find fallback or we are already at the fallback
++    if (new_codec == NULL || new_codec == old_codec)
++    {
++        return AVERROR_DECODER_NOT_FOUND;
++    }
++
++    // * This may be dodgy - header says to not use this fn,
++    //   especially if we are going to reopen the context...
++    //   (but it does seem to work for our cases)
++    if (avcodec_is_open(avctx)) {
++        avcodec_close(avctx);
++    }
++
++    if ((err = avcodec_open2(avctx, new_codec, opts)) < 0)
++    {
++        return err;
++    }
++
++    return 0;
++}
++#else
++#define try_fallback_decoder(avctx, old_codec, opts) (AVERROR_DECODER_NOT_FOUND)
++#endif
++
+ /* returns 1 or 0 if or if not decoded data was returned, or a negative error */
+ static int try_decode_frame(AVFormatContext *s, AVStream *st,
+                             const AVPacket *avpkt, AVDictionary **options)
+@@ -3049,7 +3083,11 @@ static int try_decode_frame(AVFormatContext *s, AVStream *st,
+         av_dict_set(options ? options : &thread_opt, "lowres", "0", 0);
+         if (s->codec_whitelist)
+             av_dict_set(options ? options : &thread_opt, "codec_whitelist", s->codec_whitelist, 0);
+-        ret = avcodec_open2(avctx, codec, options ? options : &thread_opt);
++        if ((ret = avcodec_open2(avctx, codec, options ? options : &thread_opt)) == AVERROR_DECODER_NOT_FOUND)
++        {
++            // Try fallback if if looks worth a try
++            ret = try_fallback_decoder(avctx, codec, options ? options : &thread_opt);
++        }
+         if (!options)
+             av_dict_free(&thread_opt);
+         if (ret < 0) {
+@@ -3080,6 +3118,14 @@ static int try_decode_frame(AVFormatContext *s, AVStream *st,
+         if (avctx->codec_type == AVMEDIA_TYPE_VIDEO ||
+             avctx->codec_type == AVMEDIA_TYPE_AUDIO) {
+             ret = avcodec_send_packet(avctx, &pkt);
++
++            // If we are going to want to fall back we should know here
++            if (ret == AVERROR_DECODER_NOT_FOUND) {
++                if ((ret = try_fallback_decoder(avctx, avctx->codec, options)) < 0)
++                    break;
++                continue;
++            }
++
+             if (ret < 0 && ret != AVERROR(EAGAIN) && ret != AVERROR_EOF)
+                 break;
+             if (ret >= 0)
+@@ -3708,9 +3754,20 @@ FF_ENABLE_DEPRECATION_WARNINGS
+         // Try to just open decoders, in case this is enough to get parameters.
+         if (!has_codec_parameters(st, NULL) && st->internal->request_probe <= 0) {
+             if (codec && !avctx->codec)
+-                if (avcodec_open2(avctx, codec, options ? &options[i] : &thread_opt) < 0)
+-                    av_log(ic, AV_LOG_WARNING,
+-                           "Failed to open codec in %s\n",__FUNCTION__);
++            {
++                int err;
++
++                if ((err = avcodec_open2(avctx, codec, options ? &options[i] : &thread_opt)) < 0)
++                {
++                    if (err == AVERROR_DECODER_NOT_FOUND) {
++                        err = try_fallback_decoder(avctx, codec, options ? &options[i] : &thread_opt);
++                    }
++                    if (err < 0) {
++                        av_log(ic, AV_LOG_WARNING,
++                               "Failed to open codec in %s\n",__FUNCTION__);
++                    }
++                }
++            }
+         }
+         if (!options)
+             av_dict_free(&thread_opt);
+-- 
+2.38.1
+
