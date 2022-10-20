@@ -1,0 +1,213 @@
+From 754deb3c4b9451d291586fa949920e38d2b3d8f5 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 8 Oct 2021 12:26:46 +0100
+Subject: [PATCH 060/151] Add ability to set a fixed dst buffer limit in V4L2
+ Req
+
+---
+ libavcodec/v4l2_req_media.c    | 87 ++++++++++++++++++++++------------
+ libavcodec/v4l2_req_media.h    |  7 ++-
+ libavcodec/v4l2_req_utils.h    |  1 +
+ libavcodec/v4l2_request_hevc.c | 15 ++++--
+ 4 files changed, 75 insertions(+), 35 deletions(-)
+
+diff --git a/libavcodec/v4l2_req_media.c b/libavcodec/v4l2_req_media.c
+index 2ffd42158a..ee020da1e7 100644
+--- a/libavcodec/v4l2_req_media.c
++++ b/libavcodec/v4l2_req_media.c
+@@ -594,6 +594,7 @@ struct mediabufs_ctl {
+     int vfd;
+     bool stream_on;
+     bool polling;
++    bool dst_fixed;             // Dst Q is fixed size
+     pthread_mutex_t lock;
+     struct buf_pool * src;
+     struct buf_pool * dst;
+@@ -1095,10 +1096,13 @@ MediaBufsStatus qent_dst_import_fd(struct qent_dst *const be_dst,
+     return MEDIABUFS_STATUS_SUCCESS;
+ }
+ 
+-static int create_dst_buf(struct mediabufs_ctl *const mbc)
++// Returns noof buffers created, -ve for error
++static int create_dst_bufs(struct mediabufs_ctl *const mbc, unsigned int n, struct qent_dst * const qes[])
+ {
++    unsigned int i;
++
+     struct v4l2_create_buffers cbuf = {
+-        .count = 1,
++        .count = n,
+         .memory = V4L2_MEMORY_DMABUF,
+         .format = mbc->dst_fmt,
+     };
+@@ -1110,7 +1114,14 @@ static int create_dst_buf(struct mediabufs_ctl *const mbc)
+             return -err;
+         }
+     }
+-    return cbuf.index;
++
++    if (cbuf.count != n)
++        request_warn(mbc->dc, "%s: Created %d of %d V4L2 buffers requested\n", __func__, cbuf.count, n);
++
++    for (i = 0; i != cbuf.count; ++i)
++        qes[i]->base.index = cbuf.index + i;
++
++    return cbuf.count;
+ }
+ 
+ struct qent_dst* mediabufs_dst_qent_alloc(struct mediabufs_ctl *const mbc, struct dmabufs_ctl *const dbsc)
+@@ -1124,20 +1135,23 @@ struct qent_dst* mediabufs_dst_qent_alloc(struct mediabufs_ctl *const mbc, struc
+         return be_dst;
+     }
+ 
+-    be_dst = base_to_dst(queue_tryget_free(mbc->dst));
+-    if (!be_dst) {
+-        int index;
+-
+-        be_dst = qe_dst_new(mbc->this_wlm);
++    if (mbc->dst_fixed) {
++        be_dst = base_to_dst(queue_get_free(mbc->dst));
+         if (!be_dst)
+             return NULL;
+-
+-        if ((index = create_dst_buf(mbc)) < 0) {
+-            qe_dst_free(be_dst);
+-            return NULL;
++    }
++    else {
++        be_dst = base_to_dst(queue_tryget_free(mbc->dst));
++        if (!be_dst) {
++            be_dst = qe_dst_new(mbc->this_wlm);
++            if (!be_dst)
++                return NULL;
++
++            if (create_dst_bufs(mbc, 1, &be_dst) != 1) {
++                qe_dst_free(be_dst);
++                return NULL;
++            }
+         }
+-
+-        be_dst->base.index = (uint32_t)index;
+     }
+ 
+     if (qe_alloc_from_fmt(&be_dst->base, dbsc, &mbc->dst_fmt)) {
+@@ -1191,29 +1205,42 @@ MediaBufsStatus mediabufs_dst_fmt_set(struct mediabufs_ctl *const mbc,
+     return status;
+ }
+ 
+-MediaBufsStatus mediabufs_dst_slots_create(struct mediabufs_ctl *const mbc, unsigned int n)
++// ** This is a mess if we get partial alloc but without any way to remove
++//    individual V4L2 Q members we are somewhat stuffed
++MediaBufsStatus mediabufs_dst_slots_create(struct mediabufs_ctl *const mbc, const unsigned int n, const bool fixed)
+ {
+-    // **** request buffers
+     unsigned int i;
++    int a = 0;
++    unsigned int qc;
++    struct qent_dst * qes[32];
++
++    if (n > 32)
++        return MEDIABUFS_ERROR_ALLOCATION_FAILED;
+ 
+-    for (i = 0; i != n; ++i)
++    // Create qents first as it is hard to get rid of the V4L2 buffers on error
++    for (qc = 0; qc != n; ++qc)
+     {
+-        int index;
+-        struct qent_dst *const be_dst = qe_dst_new(mbc->this_wlm);
+-        if (!be_dst)
+-            return MEDIABUFS_ERROR_OPERATION_FAILED;
++        if ((qes[qc] = qe_dst_new(mbc->this_wlm)) == NULL)
++            goto fail;
++    }
+ 
+-        index = create_dst_buf(mbc);
+-        if (index < 0) {
+-            qe_dst_free(be_dst);
+-            return MEDIABUFS_ERROR_OPERATION_FAILED;
+-        }
++    if ((a = create_dst_bufs(mbc, n, qes)) < 0)
++        goto fail;
+ 
+-        // Add index to free chain
+-        be_dst->base.index = (uint32_t)index;
+-        queue_put_free(mbc->dst, &be_dst->base);
+-    }
++    for (i = 0; i != a; ++i)
++        queue_put_free(mbc->dst, &qes[i]->base);
++
++    if (a != n)
++        goto fail;
++
++    mbc->dst_fixed = fixed;
+     return MEDIABUFS_STATUS_SUCCESS;
++
++fail:
++    for (i = (a < 0 ? 0 : a); i != qc; ++i)
++        qe_dst_free(qes[i]);
++
++    return MEDIABUFS_ERROR_ALLOCATION_FAILED;
+ }
+ 
+ struct qent_src *mediabufs_src_qent_get(struct mediabufs_ctl *const mbc)
+diff --git a/libavcodec/v4l2_req_media.h b/libavcodec/v4l2_req_media.h
+index 15a6952748..2f826cfb14 100644
+--- a/libavcodec/v4l2_req_media.h
++++ b/libavcodec/v4l2_req_media.h
+@@ -99,11 +99,14 @@ MediaBufsStatus mediabufs_start_request(struct mediabufs_ctl *const mbc,
+                 struct qent_dst *const dst_be,
+                 const bool is_final);
+ // Get / alloc a dst buffer & associate with a slot
+-// * BEWARE * Currently has no alloc limit
++// If the dst pool is empty then behaviour depends on the fixed flag passed to
++// dst_slots_create.  Default is !fixed = unlimited alloc
+ struct qent_dst* mediabufs_dst_qent_alloc(struct mediabufs_ctl *const mbc,
+                            struct dmabufs_ctl *const dbsc);
+ // Create dst slots without alloc
+-MediaBufsStatus mediabufs_dst_slots_create(struct mediabufs_ctl *const mbc, unsigned int n);
++// If fixed true then qent_alloc will only get slots from this pool and will
++// block until a qent has been unrefed
++MediaBufsStatus mediabufs_dst_slots_create(struct mediabufs_ctl *const mbc, const unsigned int n, const bool fixed);
+ 
+ MediaBufsStatus mediabufs_stream_on(struct mediabufs_ctl *const mbc);
+ MediaBufsStatus mediabufs_stream_off(struct mediabufs_ctl *const mbc);
+diff --git a/libavcodec/v4l2_req_utils.h b/libavcodec/v4l2_req_utils.h
+index 9e9a5f7e39..cb4bd164b4 100644
+--- a/libavcodec/v4l2_req_utils.h
++++ b/libavcodec/v4l2_req_utils.h
+@@ -3,6 +3,7 @@
+ #define request_log(...) av_log(NULL, AV_LOG_INFO, __VA_ARGS__)
+ 
+ #define request_err(_ctx, ...) av_log(_ctx, AV_LOG_ERROR, __VA_ARGS__)
++#define request_warn(_ctx, ...) av_log(_ctx, AV_LOG_WARNING, __VA_ARGS__)
+ #define request_info(_ctx, ...) av_log(_ctx, AV_LOG_INFO, __VA_ARGS__)
+ #define request_debug(_ctx, ...) av_log(_ctx, AV_LOG_DEBUG, __VA_ARGS__)
+ 
+diff --git a/libavcodec/v4l2_request_hevc.c b/libavcodec/v4l2_request_hevc.c
+index 18ff8c0e64..02d81c7f7d 100644
+--- a/libavcodec/v4l2_request_hevc.c
++++ b/libavcodec/v4l2_request_hevc.c
+@@ -216,9 +216,18 @@ static int v4l2_request_hevc_init(AVCodecContext *avctx)
+         goto fail4;
+     }
+ 
+-    if (mediabufs_dst_slots_create(ctx->mbufs, 1)) {
+-        av_log(avctx, AV_LOG_ERROR, "Failed to create destination slots\n");
+-        goto fail4;
++    {
++        unsigned int dst_slots = sps->temporal_layer[sps->max_sub_layers - 1].max_dec_pic_buffering +
++            avctx->thread_count + (avctx->extra_hw_frames > 0 ? avctx->extra_hw_frames : 6);
++        av_log(avctx, AV_LOG_DEBUG, "Slots=%d: Reordering=%d, threads=%d, hw+=%d\n", dst_slots,
++               sps->temporal_layer[sps->max_sub_layers - 1].max_dec_pic_buffering,
++               avctx->thread_count, avctx->extra_hw_frames);
++
++        // extra_hw_frames is -1 if unset
++        if (mediabufs_dst_slots_create(ctx->mbufs, dst_slots, (avctx->extra_hw_frames > 0))) {
++            av_log(avctx, AV_LOG_ERROR, "Failed to create destination slots\n");
++            goto fail4;
++        }
+     }
+ 
+     if (mediabufs_stream_on(ctx->mbufs)) {
+-- 
+2.38.1
+

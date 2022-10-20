@@ -1,0 +1,33 @@
+From 83245feebc93bd645c360e019e33ba5cdbdeffb3 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 20 Apr 2022 10:01:22 +0000
+Subject: [PATCH 096/151] egl_vout: Fix compile errors/warnings
+
+---
+ libavdevice/egl_vout.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libavdevice/egl_vout.c b/libavdevice/egl_vout.c
+index 0539282733..f666adc8e9 100644
+--- a/libavdevice/egl_vout.c
++++ b/libavdevice/egl_vout.c
+@@ -41,6 +41,7 @@
+ #include <unistd.h>
+ 
+ #include <X11/Xlib.h>
++#include <X11/Xutil.h>
+ 
+ #include "libavutil/rpi_sand_fns.h"
+ 
+@@ -252,7 +253,7 @@ make_window(struct AVFormatContext * const s,
+    XMapWindow(dpy, win);
+ 
+    {
+-      EGLSurface surf = eglCreateWindowSurface(egl_dpy, config, (uintptr_t)win, NULL);
++      EGLSurface surf = eglCreateWindowSurface(egl_dpy, config, (EGLNativeWindowType)win, NULL);
+       if (!surf) {
+          av_log(s, AV_LOG_ERROR, "Error: eglCreateWindowSurface failed\n");
+          return -1;
+-- 
+2.38.1
+
