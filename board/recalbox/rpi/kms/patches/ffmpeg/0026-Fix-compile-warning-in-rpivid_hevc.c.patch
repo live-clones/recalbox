@@ -1,0 +1,33 @@
+From 800f9ae5c051187c995a96bdbad793389f556c08 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Fri, 4 Jun 2021 19:01:47 +0100
+Subject: [PATCH 026/151] Fix compile warning in rpivid_hevc.c
+
+---
+ libavcodec/rpivid_hevc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libavcodec/rpivid_hevc.c b/libavcodec/rpivid_hevc.c
+index f37355dcf9..09a1922656 100644
+--- a/libavcodec/rpivid_hevc.c
++++ b/libavcodec/rpivid_hevc.c
+@@ -1674,7 +1674,7 @@ static void dump_data(const uint8_t * p, size_t len)
+ }
+ #endif
+ 
+-
++#if OPT_EMU
+ static const uint8_t * ptr_from_index(const uint8_t * b, unsigned int idx)
+ {
+     unsigned int z = 0;
+@@ -1692,6 +1692,7 @@ static const uint8_t * ptr_from_index(const uint8_t * b, unsigned int idx)
+     }
+     return b;
+ }
++#endif
+ 
+ static void WriteBitstream(dec_env_t * const de, const HEVCContext * const s) {
+     const int rpi_use_emu = OPT_EMU; // FFmpeg removes emulation prevention bytes
+-- 
+2.38.1
+

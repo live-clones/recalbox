@@ -1,0 +1,124 @@
+From a74e36a9436dc795b0e0385baa34816b1c98611b Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 1 Feb 2022 12:47:38 +0000
+Subject: [PATCH 088/151] Remove conf_pi* cross compile scripts
+
+These have now rotted and it is best to remove them
+---
+ pi-util/conf_pi1.sh | 39 -------------------------------
+ pi-util/conf_pi2.sh | 57 ---------------------------------------------
+ 2 files changed, 96 deletions(-)
+ delete mode 100755 pi-util/conf_pi1.sh
+ delete mode 100755 pi-util/conf_pi2.sh
+
+diff --git a/pi-util/conf_pi1.sh b/pi-util/conf_pi1.sh
+deleted file mode 100755
+index 29fa9fa68d..0000000000
+--- a/pi-util/conf_pi1.sh
++++ /dev/null
+@@ -1,39 +0,0 @@
+-echo "Configure for Pi1"
+-
+-RPI_TOOLROOT=`pwd`/../tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf
+-RPI_OPT_VC=`pwd`/../firmware/hardfp/opt/vc
+-
+-RPI_INCLUDES="-I$RPI_OPT_VC/include -I$RPI_OPT_VC/include/interface/vcos/pthreads -I$RPI_OPT_VC/include/interface/vmcs_host/linux"
+-RPI_LIBDIRS="-L$RPI_TOOLROOT/lib -L$RPI_OPT_VC/lib"
+-#RPI_KEEPS="-save-temps=obj"
+-RPI_KEEPS=""
+-
+-SHARED_LIBS="--enable-shared"
+-if [ "$1" == "--noshared" ]; then
+-  SHARED_LIBS="--disable-shared"
+-  echo Static libs
+-else
+-  echo Shared libs
+-fi
+-
+-./configure --enable-cross-compile\
+- --cpu=arm1176jzf-s\
+- --arch=arm\
+- --disable-neon\
+- --target-os=linux\
+- --disable-stripping\
+- --enable-mmal\
+- $SHARED_LIBS\
+- --extra-cflags="-g $RPI_KEEPS $RPI_INCLUDES"\
+- --extra-cxxflags="$RPI_INCLUDES"\
+- --extra-ldflags="$RPI_LIBDIRS -Wl,-rpath=/opt/vc/lib,-rpath-link=$RPI_OPT_VC/lib,-rpath=/lib,-rpath=/usr/lib,-rpath-link=$RPI_TOOLROOT/lib,-rpath-link=$RPI_TOOLROOT/lib"\
+- --extra-libs="-Wl,--start-group -lbcm_host -lmmal -lmmal_util -lmmal_core -lvcos -lvcsm -lvchostif -lvchiq_arm"\
+- --cross-prefix=$RPI_TOOLROOT/bin/arm-linux-gnueabihf-
+-
+-
+-# --enable-extra-warnings\
+-# --arch=armv71\
+-# --enable-shared\
+-
+-# gcc option for getting asm listing
+-# -Wa,-ahls
+diff --git a/pi-util/conf_pi2.sh b/pi-util/conf_pi2.sh
+deleted file mode 100755
+index 92cd9e7cfd..0000000000
+--- a/pi-util/conf_pi2.sh
++++ /dev/null
+@@ -1,57 +0,0 @@
+-echo "Configure for Pi2/3"
+-
+-FFSRC=`pwd`
+-
+-RPI_TOOLROOT=$FFSRC/../tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf
+-RPI_OPT_VC=$FFSRC/../firmware/hardfp/opt/vc
+-
+-RPI_INCLUDES="-I$RPI_OPT_VC/include -I$RPI_OPT_VC/include/interface/vcos/pthreads -I$RPI_OPT_VC/include/interface/vmcs_host/linux"
+-RPI_LIBDIRS="-L$RPI_TOOLROOT/lib -L$RPI_OPT_VC/lib"
+-RPI_DEFINES="-D__VCCOREVER__=0x4000000 -mfpu=neon-vfpv4"
+-#RPI_KEEPS="-save-temps=obj"
+-RPI_KEEPS=""
+-
+-SHARED_LIBS="--enable-shared"
+-if [ "$1" == "--noshared" ]; then
+-  SHARED_LIBS="--disable-shared"
+-  OUT=out/x-armv7-static-rel
+-  echo Static libs
+-else
+-  echo Shared libs
+-  OUT=out/x-armv7-shared-rel
+-fi
+-
+-USR_PREFIX=$FFSRC/$OUT/install
+-LIB_PREFIX=$USR_PREFIX/lib/arm-linux-gnueabihf
+-INC_PREFIX=$USR_PREFIX/include/arm-linux-gnueabihf
+-
+-mkdir -p $FFSRC/$OUT
+-cd $FFSRC/$OUT
+-
+-$FFSRC/configure --enable-cross-compile\
+- --prefix=$USR_PREFIX\
+- --libdir=$LIB_PREFIX\
+- --incdir=$INC_PREFIX\
+- --arch=armv6t2\
+- --cpu=cortex-a7\
+- --target-os=linux\
+- --disable-stripping\
+- --disable-thumb\
+- --enable-mmal\
+- --enable-rpi\
+- $SHARED_LIBS\
+- --extra-cflags="-ggdb $RPI_KEEPS $RPI_DEFINES $RPI_INCLUDES"\
+- --extra-cxxflags="$RPI_DEFINES $RPI_INCLUDES"\
+- --extra-ldflags="$RPI_LIBDIRS -Wl,-rpath=/opt/vc/lib,-rpath-link=$RPI_OPT_VC/lib,-rpath=/lib,-rpath=/usr/lib,-rpath-link=$RPI_TOOLROOT/lib,-rpath-link=$RPI_TOOLROOT/lib"\
+- --extra-libs="-Wl,--start-group -lbcm_host -lmmal -lmmal_util -lmmal_core -lvcos -lvcsm -lvchostif -lvchiq_arm"\
+- --cross-prefix=$RPI_TOOLROOT/bin/arm-linux-gnueabihf-
+-
+-# --enable-shared\
+-
+-# --enable-decoder=hevc_rpi\
+-# --enable-extra-warnings\
+-# --arch=armv71\
+-# --enable-shared\
+-
+-# gcc option for getting asm listing
+-# -Wa,-ahls
+-- 
+2.38.1
+

@@ -1,0 +1,38 @@
+From f099ce8d423914fa86fdf161ad268f987b0ca4b4 Mon Sep 17 00:00:00 2001
+From: Paul Mulders <justinkb@gmail.com>
+Date: Sun, 4 Jul 2021 10:49:01 +0200
+Subject: [PATCH 038/151] fix missing include for usleep in {egl,rpi}_vout.c
+
+(cherry picked from commit 1ec6278698c97fb94bf2cc934af3b31360a04cf8)
+---
+ libavdevice/egl_vout.c | 1 +
+ libavdevice/rpi_vout.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/libavdevice/egl_vout.c b/libavdevice/egl_vout.c
+index 5d97fe9310..b1b1f7bb60 100644
+--- a/libavdevice/egl_vout.c
++++ b/libavdevice/egl_vout.c
+@@ -38,6 +38,7 @@
+ #include "pthread.h"
+ #include <semaphore.h>
+ #include <stdatomic.h>
++#include <unistd.h>
+ 
+ #include "drm_fourcc.h"
+ #include <drm.h>
+diff --git a/libavdevice/rpi_vout.c b/libavdevice/rpi_vout.c
+index b1617d48a8..84723a34ad 100644
+--- a/libavdevice/rpi_vout.c
++++ b/libavdevice/rpi_vout.c
+@@ -34,6 +34,7 @@
+ #include "avdevice.h"
+ 
+ #include <stdatomic.h>
++#include <unistd.h>
+ 
+ #pragma GCC diagnostic push
+ // Many many redundant decls in the header files
+-- 
+2.38.1
+

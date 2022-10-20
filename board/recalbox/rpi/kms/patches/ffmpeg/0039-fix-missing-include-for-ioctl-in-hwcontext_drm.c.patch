@@ -1,0 +1,25 @@
+From 5d5c4fd34af49ace4aa1de59bff7ed4a526480d4 Mon Sep 17 00:00:00 2001
+From: Paul Mulders <justinkb@gmail.com>
+Date: Sun, 4 Jul 2021 10:55:18 +0200
+Subject: [PATCH 039/151] fix missing include for ioctl in hwcontext_drm.c
+
+(cherry picked from commit 73dc9114b7687c7068984412dff79f4180e8c4d6)
+---
+ libavutil/hwcontext_drm.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libavutil/hwcontext_drm.c b/libavutil/hwcontext_drm.c
+index 1f97ab8eaf..2a498f9b50 100644
+--- a/libavutil/hwcontext_drm.c
++++ b/libavutil/hwcontext_drm.c
+@@ -21,6 +21,7 @@
+ #include <fcntl.h>
+ #include <sys/mman.h>
+ #include <unistd.h>
++#include <sys/ioctl.h>
+ 
+ /* This was introduced in version 4.6. And may not exist all without an
+  * optional package. So to prevent a hard dependency on needing the Linux
+-- 
+2.38.1
+
