@@ -283,3 +283,6 @@ class ResolutionParser:
     @property
     def string(self): # type: () -> str
         return "{}x{}".format(self.__Width, self.__Height)
+
+    def ratio(self): # type: () -> float
+        return self.__Width / self.__Height if self.isSet else 1
