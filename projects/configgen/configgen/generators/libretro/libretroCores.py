@@ -197,10 +197,9 @@ class LibretroCores:
     def configureDosBoxPure(coreSettings: keyValueSettings):
         coreSettings.setString("dosbox_pure_savestate", '"rewind"')
 
-    @staticmethod
-    def configureGenesisPlusGxWide(coreSettings: keyValueSettings):
-        from configgen.utils.videoMode import getCurrentFramebufferRatio
-        ratio = getCurrentFramebufferRatio()
+    def configureGenesisPlusGxWide(self, coreSettings: keyValueSettings):
+        from configgen.utils.resolutions import ResolutionParser
+        ratio = ResolutionParser(self.system.VideoMode).ratio()
         currentColumns = 10
         # Ratio to columns (16/9 and more => 10 cols, 1.6 = 16/10 => 6 cols, 1.5 = GOA => 2 cols, 1.34 = 4/3 => 0 cols)
         if ratio <= 1.6:
@@ -228,7 +227,7 @@ class LibretroCores:
             "parallel_n64": LibretroCores.configurePARALLELN64,
             "np2kai" : LibretroCores.configureNPKAI,
             "swanstation" : LibretroCores.configureSwanstation,
-            "genesisplusgxwide": LibretroCores.configureGenesisPlusGxWide,
+            "genesisplusgxwide": self.configureGenesisPlusGxWide,
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
             "bsneshd": LibretroCores.configureBsnesHd,
         }
