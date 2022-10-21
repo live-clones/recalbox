@@ -3,6 +3,7 @@ from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.utils.architecture import Architecture
 
 
 class KodiGenerator(Generator):
@@ -12,6 +13,8 @@ class KodiGenerator(Generator):
         if not system.HasConfigFile:
             import configgen.generators.kodi.kodiConfig as kodiConfig
             kodiConfig.writeKodiControllersConfig(playersControllers)
+
+        kodiConfig.writeKodiAdvancedSettingsConfig(Architecture().Architecture)
 
         import configgen.recalboxFiles as recalboxFiles
         commandArray = [recalboxFiles.recalboxBins[system.Emulator]]
