@@ -191,11 +191,3 @@ def getCurrentFramebufferResolution():
         return int(height), int(width)
     else:
         return int(width), int(height)
-
-# Return the current ratio as float from framebuffer
-def getCurrentFramebufferRatio():
-    try:
-        width, height = getCurrentFramebufferResolution()
-        return width / height
-    except Exception:
-        return 4/3
