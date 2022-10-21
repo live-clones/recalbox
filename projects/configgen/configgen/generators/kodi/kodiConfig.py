@@ -2,6 +2,7 @@
 import os
 
 import configgen.recalboxFiles as recalboxFiles
+from xml.etree import ElementTree as ET
 
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 
@@ -60,7 +61,6 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
         nbButtons = controller.ButtonCount
         nbAxis = controller.getTotalAxisNumber()
         xmlFileName = recalboxFiles.kodiJoystick + "/{}_{}b_{}a.xml".format(controller.DeviceName.strip().replace(' ', '_').replace(':', '_'), nbButtons, nbAxis)
-        print(xmlFileName)
 
         from xml.etree import ElementTree as ET
         buttonmap = ET.Element("buttonmap")
@@ -118,3 +118,53 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
         with open(xmlFileName, "w") as f:
             from xml.dom import minidom
             f.write(minidom.parseString(ET.tostring(buttonmap)).toprettyxml())
+
+
+def writeKodiAdvancedSettingsConfig(architecture: str):
+    """special configuration depending on architecture"""
+    """rpi4:"""
+    """<setting id="videoplayer.useprimedecoder">true</setting>"""
+    """<setting id="videoplayer.useprimedecoderforhw" default="true">true</setting>"""
+    """<setting id="videoplayer.useprimerenderer">0</setting>"""
+
+    force_configuration = {
+        "rpi4_64": {
+            "videoplayer": {
+                "useprimedecoder": "true",
+                "useprimedecoderforhw": "true",
+                "useprimerenderer": "0",
+            }
+        }
+    }
+
+    try:
+        kodiAdvancedSettingsSetter(force_configuration[architecture])
+    except KeyError:
+        print(f"no gui settings for {architecture}")
+
+
+def kodiAdvancedSettingsSetter(wanted_configuration):
+    try:
+        tree = ET.parse(recalboxFiles.kodiAdvancedSettings)
+        advanced_settings = tree.getroot()
+    except Exception as err:
+        print(f"can't parse guisettings.xml: {err}")
+        advanced_settings = ET.fromstring('<advancedsettings></advancedsettings>')
+
+    for category, category_items in wanted_configuration.items():
+        category_setting = advanced_settings.find(f"./{category}")
+        if category_setting is None:
+            category_setting = ET.SubElement(advanced_settings, category)
+
+        for setting_name, setting_value in category_items.items():
+            setting = category_setting.find(f"./{setting_name}")
+            if setting is None:
+                print(f"add setting {setting_name} in {category}")
+                setting = ET.SubElement(category_setting, setting_name)
+            setting.text = setting_value
+
+    try:
+        tree.write(recalboxFiles.kodiAdvancedSettings)
+    except:
+        with open(recalboxFiles.kodiAdvancedSettings, "wb") as fh:
+            fh.write(ET.tostring(advanced_settings, encoding="UTF-8"))
