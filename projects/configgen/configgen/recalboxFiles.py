@@ -84,6 +84,7 @@ mupenMappingSystem  = '/recalbox/share_init/system/configs/mupen64/input.xml'
 shaderPresetRoot = "/recalbox/share_init/system/configs/shadersets/"
 
 kodiJoystick = HOME + '/.kodi/userdata/addon_data/peripheral.joystick/resources/buttonmaps/xml/linux/'
+kodiAdvancedSettings = HOME + '/.kodi/userdata/advancedsettings.xml'
 kodiMappingUser    = CONF + '/kodi/input.xml'
 kodiMappingSystem  = '/recalbox/share_init/system/configs/kodi/input.xml'
 
