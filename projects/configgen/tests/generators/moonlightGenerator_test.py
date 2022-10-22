@@ -47,5 +47,5 @@ def controller_configuration():
 def test_simple_generate_moonlight(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('somegame_'))
     assert command.array == ['/usr/bin/moonlight', 'stream',
-                             '-config', 'tests/tmp/moonlight/moonlight.conf',
-                             '-app', 'SOMEGAME']
+                             '1.2.3.4',
+                             'SOMEGAME']

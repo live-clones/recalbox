@@ -14,17 +14,15 @@ class MoonlightGenerator(Generator):
         outputFile = recalboxFiles.moonlightCustom + '/gamecontrollerdb.txt'
         from configgen.controllers.controller import Controller
         Controller.GenerateSDLGameDatabase(playersControllers, outputFile)
-        (gameName,confFile) = self.getRealGameNameAndConfigFile(args.rom)
-        commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream','-config',  confFile]
+        (gameName, streamHost) = self.getRealGameNameAndConfigFile(args.rom)
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream', streamHost]
 
         if system.HasArgs: commandArray.extend(system.Args)
 
-        commandArray.append('-app')
         commandArray.append(gameName)
         return Command(videomode='default', array=commandArray, env={"XDG_DATA_DIRS": recalboxFiles.CONF})
 
-    @staticmethod
-    def getRealGameNameAndConfigFile(rom: str) -> (str, str):
+    def getRealGameNameAndConfigFile(self, rom: str) -> (str, str, str):
         # Rom's basename without extension
         import os
         romName = os.path.splitext(os.path.basename(rom))[0]
@@ -32,16 +30,19 @@ class MoonlightGenerator(Generator):
         f = open(recalboxFiles.moonlightGamelist, 'r')
         gfeGame = None
         for line in f:
-            try:
-                gfeRom, gfeGame, confFile = line.rstrip().split(';')
-                #confFile = confFile.rstrip()
-            except ValueError:
-                gfeRom, gfeGame = line.split(';')
-                confFile = recalboxFiles.moonlightConfig
-            #If found
+            gfeRom, gfeGame, confFile = line.rstrip().split(';')
+            streamHost = self.getStreamHostFromConfig(confFile)
             if gfeRom == romName:
                 # return it
                 f.close()
-                return [gfeGame, confFile]
-        # If nothing is found (old gamelist file format ?)
-        return gfeGame, recalboxFiles.moonlightConfig
+                return [gfeGame, streamHost]
+
+    @staticmethod
+    def getStreamHostFromConfig(configFile: str) -> str:
+        import re
+        with open(configFile, 'r') as fp:
+            for line in fp:
+                z = re.match(r"^address\s*=\s*(.*)", line)
+                if z:
+                    return z.group(1)
+        raise "IP not found"
