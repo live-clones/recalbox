@@ -64,7 +64,11 @@ function mlPair {
   rm -rf $mlKeydir
   
   # We're all set, time to pair ! Exit if failed
-  moonlight pair -keydir $mlKeydir $mlIp 
+  pin=$((1 + RANDOM % 10000))
+  pin=$(printf "%04d" "$pin")
+  echo "When PIN is asked on your PC, enter the number ----> $pin <----"
+  moonlight --pin "$pin" pair "$mlIp" >/dev/null 2>&1
+
   [ $? != 0 ] && { echo "ERROR mlPair() : could not pair. Exiting ... " ; exit 1 ; }
   
   if [ -z "$1" ]; then
@@ -76,9 +80,16 @@ function mlPair {
     rm $info
     # Create the moonlight conf
     rm $mlConf 2>/dev/null
+    mkdir -p "$mlKeydir"
     cp /recalbox/share_init/system/configs/moonlight/moonlight.conf $mlConf
     sed -i "s+.*address =+address = $mlIp+" $mlConf 
     sed -i "s+.*keydir =.*+keydir = $mlKeydir+" $mlConf 
+    # write certificate and key from moonlight-qt config
+
+    # q&d
+    cat /recalbox/share/system/.config/Moonlight\ Game\ Streaming\ Project/Moonlight.conf | grep ^certificate= | sed -E 's/.*\(([^)]+)\).*/\1/;s/\\n/\n/g' >"$mlKeydir/client.pem"
+    cat /recalbox/share/system/.config/Moonlight\ Game\ Streaming\ Project/Moonlight.conf | grep ^key= | sed -E 's/.*\(([^)]+)\).*/\1/;s/\\n/\n/g' >$"$mlKeydir/key.pem"
+    cat /recalbox/share/system/.config/Moonlight\ Game\ Streaming\ Project/Moonlight.conf | sed -n -E '/DESKTOP/,/customname/!d;/uuid/s/.*uuid=(.*)/\1/p' >"$mlKeydir/uniqueid.dat"
   fi
 }
 
@@ -113,8 +124,8 @@ function mlInit {
   fi
   
   # Let's make sure the required files exist
-  if [[ ! -f $mlConf || ! -d $mlKeydir ]] ; then
-    echo "$mlConf or $mlKeyDir doesn't exist. Have you added the right arguments to the script ?"
+  if [[ ! -f $mlConf  ]] ; then
+    echo "$mlConf doesn't exist. Have you added the right arguments to the script ?"
     exit 1
   fi
   # cleanup previous existing host with the samename
