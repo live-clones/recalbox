@@ -67,6 +67,16 @@ def test_given_amiga_systems_should_create_core_config_for_amiga():
     emulators = [
         Emulator(name='amiga600', videoMode='1920x1080', ratio='auto', emulator='libretro', core='uae4arm'),
         Emulator(name='amiga1200', videoMode='1920x1080', ratio='auto', emulator='libretro', core='uae4arm'),
+    ]
+
+    for emulator in emulators:
+        assert core_configurator.createConfigFor(emulator) == {"uae4arm_resolution": '"320x256"',
+                                                               "uae4arm_leds_on_screen": '"off"',
+                                                               "puae_zoom_mode": '"disabled"',
+                                                               }
+def test_given_amiga_cd32_systems_should_create_core_config_for_amiga():
+    core_configurator = LibretroCoreConfigCRT()
+    emulators = [
         Emulator(name='amigacd32', videoMode='1920x1080', ratio='auto', emulator='libretro', core='uae4arm'),
         Emulator(name='amigacdtv', videoMode='1920x1080', ratio='auto', emulator='libretro', core='uae4arm')
     ]
@@ -74,16 +84,13 @@ def test_given_amiga_systems_should_create_core_config_for_amiga():
     for emulator in emulators:
         assert core_configurator.createConfigFor(emulator) == {"uae4arm_resolution": '"320x240"',
                                                                "uae4arm_leds_on_screen": '"off"',
-                                                               "puae_zoom_mode": '"disabled"',
-                                                               "puae_cpu_compatibility": '"compatible"',
                                                                }
-
 def test_given_n64_systems_should_create_core_config_for_parallel_resolution():
     core_configurator = LibretroCoreConfigCRT()
     emulator = Emulator(name='n64', videoMode='1920x1080', ratio='auto', emulator='libretro', core='parallel_n64')
-    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"320x240"'}
+    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"640x480"'}
     emulator = Emulator(name='64dd', videoMode='1920x1080', ratio='auto', emulator='libretro', core='parallel_n64')
-    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"320x240"'}
+    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"640x480"'}
 
 
 def test_given_psx_systems_should_create_core_config():
