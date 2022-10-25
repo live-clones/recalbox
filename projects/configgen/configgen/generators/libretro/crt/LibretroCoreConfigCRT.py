@@ -72,13 +72,15 @@ class LibretroCoreConfigCRT:
         if system.Name == "atari2600":
             lines["stella_crop_hoverscan"] = '"disabled"'
             lines["stella_console"] = '"auto"'
-        if system.Name in ["amiga600", "amiga1200", "amigacd32", "amigacdtv"]:
-            lines["uae4arm_resolution"] = '"320x240"'
+        if system.Name in ["amiga600", "amiga1200"]:
+            lines["uae4arm_resolution"] = '"320x256"'
             lines["uae4arm_leds_on_screen"] = '"off"'
             lines["puae_zoom_mode"] = '"disabled"'
-            lines["puae_cpu_compatibility"] = '"compatible"'
+        if system.Name in ["amigacd32", "amigacdtv"]:
+            lines["uae4arm_resolution"] = '"320x240"'
+            lines["uae4arm_leds_on_screen"] = '"off"'
         if system.Name in ["n64", "64dd"]:
-            lines["parallel-n64-screensize"] = '"320x240"'
+            lines["parallel-n64-screensize"] = '"640x480"'
         if system.Name == "psx":
             lines["duckstation_Display.AspectRatio"] = '"Auto"'
             lines["duckstation_Display.CropMode"] = '"None"'
