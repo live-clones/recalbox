@@ -26,6 +26,8 @@ as release notes for end user on a Recalbox upgrade.
   - Add fceumm core support for nes and fds
   - Fix rtype resolution for 31kHz
   - Add new arcade game support for 15kHz.
+  - Add mupen64plus glide64mk2 support
+  - Add multiple PAL/NTSC modes
 
 ### Improvements
 - Bump libretro pcsx-rearmed
