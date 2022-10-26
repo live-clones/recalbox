@@ -254,7 +254,9 @@ class libretroLightGun:
             guntypeFilter: str = emulatorOptionsNode.attrib["guntype"] if "guntype" in emulatorOptionsNode.attrib else "*"
             if (guntypeFilter == "*" or guntypeFilter == guntype) and (emulatorFilter == "*" or emulatorFilter == emulatorNode.attrib["name"]):
                 for option in emulatorOptionsNode.findall('option'):
-                    self.__setOption(option.attrib["name"], option.attrib["value"])
+                    guntypeFilter: str = option.attrib["guntype"] if "guntype" in option.attrib else "*"
+                    if (guntypeFilter == "*" or guntypeFilter == guntype):
+                        self.__setOption(option.attrib["name"], option.attrib["value"])
 
     def __setConfigurationFromNode(self, stage: str, rootNode: Element, emulatorNode: Element, emulatorOptions: bool, coreOptions: bool, updateEmulatorAndCore: bool, guntype: str) -> Element:
         if self.__debug: self.__Log("Configuring stage: {}".format(stage))
