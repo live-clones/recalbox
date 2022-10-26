@@ -1,0 +1,29 @@
+diff --git a/sources/src/fpp_native.c b/sources/src/fpp_native.c
+index f3cf247..52ee51c 100644
+--- a/sources/src/fpp_native.c
++++ b/sources/src/fpp_native.c
+@@ -903,7 +903,7 @@ static void fp_log10(fpdata *a, fpdata *b)
+ static void fp_log2(fpdata *a, fpdata *b)
+ {
+ 	fp_normal_prec();
+-	a->fp = log2l(b->fp);
++	a->fp = logbl(b->fp);
+ 	fp_reset_normal_prec();
+ 	fp_round(a);
+ }
+diff --git a/sources/src/include/sysdeps.h b/sources/src/include/sysdeps.h
+index 9220c54..4782c0f 100644
+--- a/sources/src/include/sysdeps.h
++++ b/sources/src/include/sysdeps.h
+@@ -747,11 +747,4 @@ typedef uint8_t uint8;
+ #define _daylight 0
+ #endif
+
+-#ifndef log2
+-#define log2 logb
+-#endif
+-#ifndef log2l
+-#define log2l logbl
+-#endif
+-
+ #endif /* UAE_SYSDEPS_H */
