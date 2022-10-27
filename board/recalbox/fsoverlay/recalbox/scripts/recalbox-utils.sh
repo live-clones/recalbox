@@ -87,6 +87,18 @@ isRecalboxRGBDual() {
   fi
 }
 
+# Check if we are on Recalbox RGB Dual
+isCRTLoaded() {
+  lsmod | grep -q "^recalboxrgbdual"
+}
+
+# Check if we have to disable HDMI
+# See S13crt
+rrgbdHDMIPriority() {
+  local CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
+  grep -q "video.forcehdmi = 1" "${CRT_OPTIONS_FILE}"
+}
+
 # Get the best MPV Options
 getMpvOptions() {
   if isRecalboxRGBDual; then

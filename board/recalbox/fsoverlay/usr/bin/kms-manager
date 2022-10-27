@@ -74,19 +74,30 @@ log_info() {
 
 refresh_card_list() {
   # refresh card list
-  readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-*" -maxdepth 1 2>/dev/null)
+  # We wait only for HDMI cards to be connected when recalbox rgbdual has HDMI priority
+  if isCRTLoaded && rrgbdHDMIPriority; then
+    readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-HDMI*" -maxdepth 1 2>/dev/null)
+  else
+    readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-*" -maxdepth 1 2>/dev/null)
+  fi
 }
 
-# when running Recalbox RGB Dual, we forcibly disable HDMI output!
-if isRecalboxRGBDual; then
-  # Disable HDMI output
-  log_info "Recalbox RGB Dual detected, disabling HDMI connectors"
-  echo "off" > /sys/class/drm/card1-HDMI-A-1/status
-  echo "off" > /sys/class/drm/card1-HDMI-A-2/status
-  exit
+timeout=30
+# when running Recalbox RGB Dual, we forcibly disable HDMI output when the configuration is not on "HDMI priority" !
+if isCRTLoaded; then
+  timeout=10
+  if ! rrgbdHDMIPriority; then
+    # Disable HDMI output
+    log_info "Recalbox RGB Dual detected, disabling HDMI connectors"
+    echo "off" > /sys/class/drm/card1-HDMI-A-1/status
+    echo "off" > /sys/class/drm/card1-HDMI-A-2/status
+    exit
+  else
+    # HDMI is priority, so we disable VGA. S13crt will reenable it if HDMI is not found
+    echo "off" > /sys/class/drm/card1-VGA-1/status
+  fi
 fi
 
-timeout=30
 while ! are_any_card_connected; do
   log_info "no DRM card connected, entering force detection loop"
   for card in $(list_cards); do
