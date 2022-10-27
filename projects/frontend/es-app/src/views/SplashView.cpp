@@ -14,7 +14,7 @@ SplashView::SplashView(WindowManager& window)
   , mLoading(window, _("LOADING..."), Font::get(FONT_SIZE_MEDIUM), 0)
   , mSystemCount(0)
   , mSystemLoaded(0)
-  , mIsRGBDual(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
+  , mIsRGBDual(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual && Board::Instance().CrtBoard().IsCrtAdapterAttached())
 {
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());

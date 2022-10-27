@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
+- Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
 
 ### Improvements
 - Bump libretro pcsx-rearmed
