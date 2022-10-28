@@ -15,13 +15,14 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Add demo Astebros (Neofid studio) on megadrive
 - Enhance shader support by setting multi threaded renderer when shader enabled
+- Add game Pong Recalbox Edition by Studio 40A on gameboy
 
 ### Improvements
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Bump libretro fuse & add new supported file extensions
 - Update of the theme for the X68000 system
- 
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.

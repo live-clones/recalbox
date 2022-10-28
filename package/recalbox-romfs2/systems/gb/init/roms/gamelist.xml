@@ -49,4 +49,19 @@
     <image>./media/images/Tuff.png</image>
     <genreid>257</genreid>
   </game>
+  <game id="419463" source="ScreenScraper.fr">
+    <path>./Pongboy_recalbox_edition.gb</path>
+    <name>Pong Boy Recalbox Editon</name>
+    <desc>In the distant future...
+Times have changed and powerful space machines are battling it out in "Pong-Boy".
+With 2 players or against "Artificial Intelligence", will you be efficient enough to win!</desc>
+    <releasedate>20220725T000000</releasedate>
+    <developer>MBaran</developer>
+    <publisher>Studio 40A</publisher>
+    <genre>Sports</genre>
+    <players>1-2</players>
+    <hash>71A7EBF4</hash>
+    <image>./media/images/Pong Boy.png</image>
+    <genreid>1536</genreid>
+  </game>
 </gameList>
