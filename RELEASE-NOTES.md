@@ -14,12 +14,13 @@ as release notes for end user on a Recalbox upgrade.
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add the possibility to sort games by release date.
 - Enhance shader support by setting multi threaded renderer when shader enabled
+- Add game Pong Recalbox Edition by Studio 40A on gameboy
 
 ### Improvements
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Update of the theme for the X68000 system
- 
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Fix bad overlay showing when save on exit is enabled on retroarch
