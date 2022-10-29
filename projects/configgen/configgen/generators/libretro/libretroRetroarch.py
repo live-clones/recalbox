@@ -253,6 +253,7 @@ class LibretroRetroarch:
         # Shaders?
         import os
         settings.setBool("video_shader_enable", self.system.HasShaderFile) \
+                .setBool("video_threaded", self.system.HasShaderFile) \
                 .setString("video_shader_dir", os.path.dirname(self.system.ShaderFile) if self.system.HasShaderFile else recalboxFiles.shadersRoot)
         if self.system.HasShaderFile:
             settings.setString("video_shader", os.path.basename(self.system.ShaderFile))
