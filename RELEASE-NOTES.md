@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
  
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
+- Fix bad overlay showing when save on exit is enabled on retroarch
 
 
 ## Version 8.1.1-Electron
