@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add the possibility to sort games by release date.
+- Enhance shader support by setting multi threaded renderer when shader enabled
 
 ### Improvements
 - Bump libretro pcsx-rearmed
