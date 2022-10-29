@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add the possibility to sort games by release date.
 - Add demo Astebros (Neofid studio) on megadrive
+- Enhance shader support by setting multi threaded renderer when shader enabled
 
 ### Improvements
 - Bump libretro pcsx-rearmed
