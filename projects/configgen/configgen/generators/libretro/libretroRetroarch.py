@@ -339,3 +339,6 @@ class LibretroRetroarch:
             settings.setInt("video_max_swapchain_images", 2)
         else:
             settings.setInt("video_max_swapchain_images", 3)
+
+        # Overlay reset
+        settings.setString("input_overlay", "")
