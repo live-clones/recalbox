@@ -24,6 +24,10 @@ as release notes for end user on a Recalbox upgrade.
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Add demo Astebros (Neofid studio) on megadrive
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+- Add new theme for recalbox rgb dual with 240p optimisations
+- Enhance shader support by setting multi threaded renderer when shader enabled
 
 ### Improvements
 - Bump libretro pcsx-rearmed
