@@ -945,7 +945,7 @@ void MainRunner::NoRomPathFound(const DeviceMount& device)
 
 void MainRunner::InstallCRTFeatures()
 {
-  if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
+  if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
   {
     RecalboxConf& conf = RecalboxConf::Instance();
     if (!conf.HasScreenSaverType()) conf.SetScreenSaverType("demo");
