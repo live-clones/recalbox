@@ -30,6 +30,10 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
 - Add new Kodi theme for lower resolutions
 - Add demo Astebros (Neofid studio) on megadrive
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+- Add new theme for recalbox rgb dual with 240p optimisations
+- Enhance shader support by setting multi threaded renderer when shader enabled
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
