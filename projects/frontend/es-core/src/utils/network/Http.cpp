@@ -16,6 +16,7 @@ Http::Http() noexcept
   , mIDownload(nullptr)
   , mContentSize(0)
   , mContentLength(0)
+  , mContentFlushed(0)
   , mLastReturnCode(0)
   , mCancel(false)
 {
@@ -66,6 +67,7 @@ bool Http::Execute(const std::string& url, const Path& output)
       output.Directory().CreatePath();
     DateTime start;
     mContentSize = 0;
+    mContentFlushed = 0;
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = output;
@@ -115,7 +117,7 @@ size_t Http::DoDataReceived(const char* data, int length)
   if (mIDownload != nullptr)
     mIDownload->DownloadProgress(*this, mContentSize, mContentLength);
 
-  // Inherited procesing
+  // Inherited processing
   DataReceived(data, length);
 
   // Should flush?
@@ -125,6 +127,7 @@ size_t Http::DoDataReceived(const char* data, int length)
       // Try flushing to disk
       if (!Files::AppendToFile(mResultFile, mResultHolder.c_str(), (int)mResultHolder.length()))
         return 0; // Error flushing to disk
+      mContentFlushed += (int)mResultHolder.length();
       // Clear the string
       mResultHolder.clear();
     }
