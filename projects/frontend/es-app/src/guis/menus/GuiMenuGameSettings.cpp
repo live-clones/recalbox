@@ -20,7 +20,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   , mSystemManager(systemManager)
 {
   // Screen ratio choice
-  bool isCrt = Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None;
+  bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   if (! isCrt && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
     mRatio = AddList<std::string>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 

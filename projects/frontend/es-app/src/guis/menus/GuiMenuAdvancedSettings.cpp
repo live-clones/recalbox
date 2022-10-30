@@ -34,7 +34,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this);
   #endif
 
-  bool isCrt = Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None;
+  bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
 
   // Overclock choice
   mOverclock = AddList<Overclocking>(_("OVERCLOCK"), (int)Components::OverclockList, this, GetOverclockEntries(), _(MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG));
@@ -290,10 +290,7 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     "/overlay/upper.old",                 // System overlay backup
     "/overlay/.config",                   // Old system configurations
     "/boot/recalbox-backup.conf",         // Recalbox configuration backup
-    "/boot/crt/recalbox-crt-config.txt",  // CRT Configuration
-    "/boot/crt/recalbox-crt-options.cfg", // CRT options
-    "/boot/crt/.stamprrgbdual",           // Recalbox RGB Dual auto install
-    "/boot/crt/.stamprrgbdual31khz"       // Recalbox RGB Dual auto install
+    "/boot/crt",                          // CRT Configuration
   });
 
   // Make boot partition writable
