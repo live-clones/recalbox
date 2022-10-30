@@ -2,15 +2,21 @@
 
 if test "$1" == "start" ; then
   # Cases - Don't try to detect if already done
+  source /recalbox/scripts/recalbox-utils.sh
+  INIT_SCRIPT=$(basename "$0")
 
-  if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! lsmod | grep -q "^recalboxrgbdual";then
-    INIT_SCRIPT=$(basename "$0")
+  if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! isCRTLoaded;then
     recallog -s "${INIT_SCRIPT}" -t HARDWARE "Starting hardware detection"
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 1
   fi
 
+
   # Force enable DRM connectors
-  ( /usr/bin/kms-manager >/dev/null 2>&1 ) &
+  # CRT have been managed by S05hardware and S13crt
+  if ! isCRTLoaded; then
+    recallog -s "${INIT_SCRIPT}" -t HARDWARE "Starting kms-manager"
+    ( /usr/bin/kms-manager >/dev/null 2>&1 ) &
+  fi
 
   # Installation image
   if [ -f /tmp/.install.sh ]; then
