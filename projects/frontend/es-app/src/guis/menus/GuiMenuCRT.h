@@ -44,6 +44,7 @@ class GuiMenuCRT : public GuiMenuBase
       Adjustment,
       HorizontalPalOffset,
       VerticalPalOffset,
+      ForceHDMI,
     };
 
     //! Dac selection
@@ -55,6 +56,9 @@ class GuiMenuCRT : public GuiMenuBase
     //! Force jack audio
     bool mForceJack;
     bool mOriginalForceJack;
+    //! Force HDMI video
+    bool mForceHDMI;
+    bool mOriginalForceHDMI;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
@@ -103,7 +107,3 @@ class GuiMenuCRT : public GuiMenuBase
 
     void SubMenuSelected(int id) override;
 };
-
-
-
-

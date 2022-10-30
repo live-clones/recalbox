@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add standalone vice emulator 3.6.1 (c64)
 - RRGBD:
   - Add new theme for recalbox rgb dual with 240p optimisations
+  - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
   - Add snes9x2002, 2005, 2010 and bsnes support for rrgbd
   - Add region selection for satellaview, sufami, amiga 600, amiga 1200
@@ -51,6 +52,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix support for Ultimarc IPAC 2
 - Fix pause menu in the game for libretro pcsx_rearmed
 - Fix internal scraper saving path before actual media
+- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 
 ## Version 8.1.1-Electron
 
