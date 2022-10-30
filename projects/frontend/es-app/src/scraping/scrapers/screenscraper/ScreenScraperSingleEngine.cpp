@@ -399,7 +399,7 @@ ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImageP
     {
       case ScrapeResult::Ok:
       {
-        if (pathSetter != nullptr)
+        if (pathSetter != nullptr && size != 0) // Ensure the media has a valid size before setting the path
           (game.Metadata().*pathSetter)(AbsoluteImagePath);
         if(mediaType == MediaType::Image) mImages++;
         if(mediaType == MediaType::Video) mVideos++;
