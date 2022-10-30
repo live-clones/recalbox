@@ -45,7 +45,7 @@ class CrtData
     bool IsHighResolutionConfigured() const
     {
       if (!mHighResolutionConfigured)
-        if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
+        if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
           if (CrtConf::Instance().GetSystemCRTGameResolutionSelect())
             return true;
       return false;
@@ -58,7 +58,7 @@ class CrtData
     bool IsRegionOrStandardConfigured() const
     {
       if (!mRegionOrVideoStandardConfigured)
-        if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
+        if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
           if (CrtConf::Instance().GetSystemCRTGameRegionSelect())
             return true;
       return false;
@@ -98,6 +98,7 @@ class CrtData
     bool MustChoosePALorNTSC(const SystemData& system) const
     {
       return system.Descriptor().CrtMultiRegion() &&        // System must support multi-region
+             Board::Instance().CrtBoard().IsCrtAdapterAttached() &&
              !Board::Instance().CrtBoard().MustForce50Hz() && // & hardware must not force 50hz
              Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
     }
