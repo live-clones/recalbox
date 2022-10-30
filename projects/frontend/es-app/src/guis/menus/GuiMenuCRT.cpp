@@ -34,6 +34,12 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Force 50HZ
   if (Board::Instance().CrtBoard().HasForced50hzSupport()) AddText(_("FORCE 50HZ"), Get50hz());
 
+  // Force HDMI
+  mOriginalForceHDMI = CrtConf::Instance().GetSystemCRTForceHDMI();
+  mForceHDMI = mOriginalForceHDMI;
+  if(isRGBDual)
+    AddSwitch(_("PRIORITY TO HDMI"), mOriginalForceHDMI, (int)Components::ForceHDMI, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_HDMI_HELP_MSG));
+
   // Game Region selection
   AddSwitch(_("SELECT GAME REFRESH RATE AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameRegionSelect(), (int)Components::GameRegion, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG));
 
@@ -68,13 +74,13 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
     AddSlider(_("PAL HORIZONTAL OFFSET"), -30, 30, 1, CrtConf::Instance().GetSystemCRTHorizontalPALOffset(), ".0", (int)Components::HorizontalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG));
     AddSlider(_("PAL VERTICAL OFFSET"), -10, 10, 1, CrtConf::Instance().GetSystemCRTVerticalPALOffset(), ".0", (int)Components::VerticalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG));
   }
-
 }
 
 GuiMenuCRT::~GuiMenuCRT()
 {
   // Reboot?
-  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected() || mOriginalForceJack != mForceJack)
+  if (mOriginalDac != mDac->getSelected() || mOriginalEsResolution != mEsResolution->getSelected() ||
+      mOriginalForceJack != mForceJack || mOriginalForceHDMI != mForceHDMI)
     RequestReboot();
 }
 
@@ -199,6 +205,11 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
   {
     mForceJack = status;
     CrtConf::Instance().SetSystemCRTForceJack(status).Save();
+  }
+  if ((Components)id == Components::ForceHDMI)
+  {
+    mForceHDMI = status;
+    CrtConf::Instance().SetSystemCRTForceHDMI(status).Save();
   }
 }
 

@@ -26,12 +26,13 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScanlines31kHz, bool, Bool, sSystemCRTScanlines31kHz, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, -5)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalOffset, int, Int, sSystemCRTHorizontalOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalOffset, int, Int, sSystemCRTVerticalOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTHorizontalPALOffset, int, Int, sSystemCRTHorizontalPALOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTVerticalPALOffset, int, Int, sSystemCRTVerticalPALOffset, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTViewportWidth, int, Int, sSystemCRTViewportWidth, 0)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
 
 
 private:
@@ -47,6 +48,7 @@ private:
     static constexpr const char* sSystemCRTVerticalPALOffset      = "mode.offset.vertical.pal";
     static constexpr const char* sSystemCRTViewportWidth          = "viewport.width";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
+    static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
 
 
     static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
