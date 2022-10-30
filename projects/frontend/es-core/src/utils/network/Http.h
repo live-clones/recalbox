@@ -72,13 +72,19 @@ class Http
      * @brief Get last http response code
      * @return Http code, or 0 if the request failed to execute
      */
-    int GetLastHttpResponseCode() const { return mLastReturnCode; }
+    [[nodiscard]] int GetLastHttpResponseCode() const { return mLastReturnCode; }
 
     /*!
      * @brief Get last http content size
      * @return Content size
      */
-    long long GetLastContentSize() const { return mContentSize; }
+    [[nodiscard]] long long GetLastContentSize() const { return mContentSize; }
+
+    /*!
+     * @brief When content has been downloaded, return if the output file match content size
+     * @return True if the file is complete, false otherwise
+     */
+    [[nodiscard]] bool IsOutputFileValid() const { return mContentSize == mContentFlushed; }
 
     /*!
      * @brief Set basic authentication
@@ -127,8 +133,10 @@ class Http
     long long mContentSize;
     //! Expected content size
     long long mContentLength;
+    //! Content successfully flushed
+    long long mContentFlushed;
     //! HTTP return code of last request
-    int   mLastReturnCode;
+    int  mLastReturnCode;
     //! Cancel flag
     bool mCancel;
 

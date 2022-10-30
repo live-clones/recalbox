@@ -715,7 +715,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const std::string
   { LOG(LogError) << "[ScreenScraperApis] Media URL: " << mediaurl << " - HTTP Result code = " << mClient.GetLastHttpResponseCode(); }
 
   // Delete wrong files
-  if (to.Size() <= 256)
+  if (to.Size() <= 256 || !mClient.IsOutputFileValid())
   {
     to.Delete();
     size = 0;
