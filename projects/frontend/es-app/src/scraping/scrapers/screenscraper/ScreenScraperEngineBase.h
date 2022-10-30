@@ -13,6 +13,7 @@
 #include <scraping/scrapers/screenscraper/ProtectedSet.h>
 #include <scraping/scrapers/ScrapeEngineMessage.h>
 #include <utils/sync/SyncMessageSender.h>
+#include "scraping/scrapers/IScraperEngineFreezer.h"
 
 class ScreenScraperEngineBase
   : public IScraperEngine,
