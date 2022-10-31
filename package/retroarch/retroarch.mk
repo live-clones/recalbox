@@ -11,10 +11,14 @@ RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1
 RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system flac
+# platform dependencies
+RETROARCH_DEPENDENCIES += $(RECALBOX_SYSTEM_TARGET_DEPENDENCIES)
 
 RETROARCH_COMPILER_COMMONS_CFLAGS = $(COMPILER_COMMONS_CFLAGS_NOLTO)
 RETROARCH_COMPILER_COMMONS_CXXFLAGS = $(COMPILER_COMMONS_CXXFLAGS_NOLTO)
 RETROARCH_COMPILER_COMMONS_LDFLAGS = $(COMPILER_COMMONS_LDFLAGS_NOLTO)
+RETROARCH_COMPILER_COMMONS_CFLAGS += $(RECALBOX_SYSTEM_TARGET_CFLAGS)
+RETROARCH_COMPILER_COMMONS_CXXFLAGS += $(RECALBOX_SYSTEM_TARGET_CXXFLAGS)
 
 ifeq ($(BR2_PACKAGE_SDL2),y)
 RETROARCH_CONF_OPTS += --enable-sdl2
@@ -33,19 +37,8 @@ ifeq ($(BR2_PACKAGE_LIBDRM),y)
 RETROARCH_CONF_OPTS += --enable-kms
 endif
 
-# RPI 0 and 1
-ifeq ($(BR2_arm1176jzf_s),y)
-RETROARCH_CONF_OPTS += --enable-floathard
-endif
-
-# RPI 2, 3 and 4
-ifeq ($(BR2_cortex_a7),y)
-RETROARCH_CONF_OPTS += --enable-floathard
-endif
-ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
-RETROARCH_CONF_OPTS += --enable-floathard
-endif
-ifeq ($(BR2_arm)$(BR2_cortex_a72),yy)
+# hard float
+ifeq ($(BR2_arm)$(BR2_ARM_CPU_HAS_FPU),yy)
 RETROARCH_CONF_OPTS += --enable-floathard
 endif
 
@@ -56,28 +49,28 @@ endif
 # Add dispamnx renderer and no opengl1.1 for Pi, but not for RPI4
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 RETROARCH_CONF_OPTS += --enable-dispmanx
-endif
-
-# odroid xu4
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
-RETROARCH_CONF_OPTS += --enable-floathard
+else
+RETROARCH_CONF_OPTS += --disable-videocore
 endif
 
 # odroid go advance
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
-RETROARCH_COMPILER_COMMONS_CFLAGS += "-DEGL_NO_X11"
-RETROARCH_CONF_OPTS += --enable-odroidgo2 --enable-opengles --enable-opengles3 --enable-kms --enable-slang
-RETROARCH_DEPENDENCIES += librga
+RETROARCH_CONF_OPTS += --enable-odroidgo2
 endif
 
-# rpi3
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
-RETROARCH_CONF_OPTS += --enable-opengles --disable-videocore --enable-kms
+# opengles3
+ifeq ($(BR2_PACKAGE_RECALBOX_HAS_LIBGLES3),y)
+RETROARCH_CONF_OPTS += --enable-opengles3 --enable-opengles3_1
 endif
 
-# rpi4
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
-RETROARCH_CONF_OPTS += --enable-opengles3 --disable-videocore --enable-opengles3_1 --enable-kms --enable-slang
+# slang
+ifeq ($(BR2_PACKAGE_RECALBOX_HAS_SLANG),y)
+RETROARCH_CONF_OPTS += --enable-slang
+endif
+
+# is running kernel mode setting
+ifeq ($(BR2_PACKAGE_RECALBOX_HAS_KMS),y)
+RETROARCH_CONF_OPTS += --enable-kms
 endif
 
 # x86 : SSE
@@ -226,20 +219,12 @@ ifeq ($(BR2_cortex_a15)$(BR2_cortex_a15_a7),y)
 RETROARCH_LIBRETRO_PLATFORM += armv7 odroidxu4
 endif
 
-ifeq ($(BR2_aarch64)$(BR2_cortex_a53),yy)
-RETROARCH_LIBRETRO_PLATFORM += unix
-endif
-
-ifeq ($(BR2_aarch64)$(BR2_cortex_a35),yy)
+ifeq ($(BR2_aarch64),y)
 RETROARCH_LIBRETRO_PLATFORM += unix
 endif
 
 ifeq ($(BR2_arm)$(BR2_cortex_a53),yy)
 RETROARCH_LIBRETRO_PLATFORM += armv8
-endif
-
-ifeq ($(BR2_aarch64)$(BR2_cortex_a72),yy)
-RETROARCH_LIBRETRO_PLATFORM += unix
 endif
 
 ifeq ($(BR2_arm)$(BR2_cortex_a72),yy)
