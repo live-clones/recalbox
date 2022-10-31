@@ -3,58 +3,117 @@ menuconfig BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI
 	depends on BR2_arm || BR2_aarch64
 	select BR2_PACKAGE_HAS_LIBEGL
 	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBGBM
 	select BR2_PACKAGE_LIBDRM
 	help
 	  The Mali GPU library used in Rockchip Platform.
-	  Supported GPU: bifrost, midgard, utgard.
+	  Supported GPU: bifrost, midgard, utgard, valhall.
 
 if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI
 
 choice
 	prompt "Platform/GPU"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_G31
 	bool "bifrost g31"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_G52
+	bool "bifrost g52"
 config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD
 	bool "midgard t86x"
 config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD
 	bool "utgard 450"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_VALHALL
+	bool "valhall g610"
 endchoice
 
-if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST
+# mali bifrost g31
 choice
-	prompt "bifrost backend"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_GBM
-	bool "gbm"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_WAYLAND
-	bool "wayland"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_X11
-	bool "x11"
+	prompt "bifrost g31 version"
+	depends on BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_G31
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G31_G2P0
+	bool "mali g31 g2p0"
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G31_R13P0
+	bool "mali g31 r13p0"
+	help
+	  libmali g31 version r13p0
+	  GBM only with Vulkan support
 endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G31_G2P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "g2p0"
 endif
 
-if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD
-choice
-	prompt "midgard backend"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_GBM
-	bool "gbm"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_WAYLAND
-	bool "Wayland"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD_X11
-	bool "X11"
-endchoice
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G31_R13P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "r13p0"
 endif
 
-if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD
+# mali bifrost g52
 choice
-	prompt "utgard backend"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_GBM
-	bool "gbm"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_WAYLAND
-	bool "Wayland"
-config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD_X11
-	bool "X11"
+	prompt "bifrost g52 version"
+	depends on BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_BIFROST_G52
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G52_G2P0
+	bool "mali g52 g2p0"
 endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G52_G2P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "g2p0"
 endif
+
+# mali midgard t86x
+choice
+	prompt "bifrost g52 version"
+	depends on BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_MIDGARD
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_T86X_R18P0
+	bool "mali t86x r18p0"
+endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_T860X_R18P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "r18p0"
+endif
+
+# mali utgard 450
+choice
+	prompt "utgard 450 version"
+	depends on BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_UTGARD
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_450_R7P0
+	bool "mali 450 r7p0"
+endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_450_R17P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "r7p0"
+endif
+
+# mali valhall g610
+choice
+	prompt "valhall g610 version"
+	depends on BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_VALHALL
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G610_G6P0
+	bool "mali g610 g6p0"
+endchoice
+
+if BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION_G610_G6P0
+config BR2_PACKAGE_RECALBOX_ROCKCHIP_MALI_LIB_VERSION
+	string
+	default "g6p0"
+endif
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "recalbox-rockchip-mali"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "recalbox-rockchip-mali"
+
+config BR2_PACKAGE_PROVIDES_LIBGBM
+	default "recalbox-rockchip-mali"
 
 endif
 
