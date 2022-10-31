@@ -1,0 +1,24 @@
+From 5a7cce2e7326ba43982512bbddf456cf92d30c1c Mon Sep 17 00:00:00 2001
+From: fewtarius <fewtarius@jelos.org>
+Date: Mon, 16 May 2022 23:00:40 +0000
+Subject: [PATCH 1/6] address-of-packed-member to warning
+
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index d3e3d37..663d717 100644
+--- a/Makefile
++++ b/Makefile
+@@ -593,6 +593,7 @@ endif
+ 
+ KBUILD_CFLAGS += $(call cc-option,-fno-stack-protector)
+ KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks)
++KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
+ 
+ KBUILD_CFLAGS	+= -g
+ # $(KBUILD_AFLAGS) sets -g, which causes gcc to pass a suitable -g<format>
+-- 
+2.38.1
+
