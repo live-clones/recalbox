@@ -236,6 +236,8 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
       ResolutionAdapter adapter;
       Resolutions::SimpleResolution output { 0, 0 };
       std::string resolution = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationVideoMode()));
+      { LOG(LogInfo) << "[Renderer] Get resolution from recalbox.conf: " << w << 'x' << h; }
+
       if (!adapter.AdjustResolution(0, resolution, output))
       {
         resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
@@ -248,7 +250,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
       }
     }
   }
-  { LOG(LogInfo) << "[Renderer] Get resolution from recalbox.conf: " << w << 'x' << h; }
+  { LOG(LogInfo) << "[Renderer] Get resolution from configuration (adjusted): " << w << 'x' << h; }
 }
 
 bool Renderer::ReInitialize()
@@ -264,34 +266,36 @@ bool Renderer::Initialize(int w, int h)
   // Get resolution from config if either w or h is nul
   bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   bool createdSurface = false;
-  if ((w * h) == 0 && !isCrt)
-    GetResolutionFromConfiguration(w, h);
-
-  if (isCrt && (w * h) == 0)
-  {
-    // Es will choose its own resolution. The desktop mode cannot be trusted.
-    if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
-    {
-      w = 640; h = 480;
+  if ((w * h) == 0) {
+    if (!isCrt) {
+      GetResolutionFromConfiguration(w, h);
     } else {
-      if (CrtConf::Instance().GetSystemCRTResolution() == "480")
-      {
-        if(Board::Instance().CrtBoard().MustForce50Hz())
-        {
-          w = 768; h = 576;
-        } else {
-          w = 640; h = 480;
-        }
+      // Es will choose its own resolution. The desktop mode cannot be trusted.
+      if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31) {
+        w = 640;
+        h = 480;
       } else {
-        if(Board::Instance().CrtBoard().MustForce50Hz())
-        {
-          w = 1920; h = 288;
+        if (CrtConf::Instance().GetSystemCRTResolution() == "480") {
+          if (Board::Instance().CrtBoard().MustForce50Hz()) {
+            w = 768;
+            h = 576;
+          } else {
+            w = 640;
+            h = 480;
+          }
         } else {
-          w = 1920; h = 240;
+          if (Board::Instance().CrtBoard().MustForce50Hz()) {
+            w = 1920;
+            h = 288;
+          } else {
+            w = 1920;
+            h = 240;
+          }
         }
       }
     }
   }
+
   if ((w * h) != 0) createdSurface = CreateSdlSurface(w, h);
 
   if (!createdSurface)
@@ -299,7 +303,8 @@ bool Renderer::Initialize(int w, int h)
     ResolutionAdapter adapter;
     ResolutionAdapter::Resolution defaultRes = adapter.DefaultResolution();
     { LOG(LogInfo) << "[Renderer] Get default resolution from Resolution Adapter: " << defaultRes.Width << 'x' << defaultRes.Height; }
-    createdSurface = CreateSdlSurface(defaultRes.Width, defaultRes.Height);
+    if((w * h) != 0)
+      createdSurface = CreateSdlSurface(defaultRes.Width, defaultRes.Height);
   }
   if (!createdSurface)
     return false;
