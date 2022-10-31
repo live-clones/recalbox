@@ -33,6 +33,10 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system 'Z-Machine' with new core frotz
 - Add new Kodi theme for lower resolutions
 - Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+- Add new theme for recalbox rgb dual with 240p optimisations
+- Add Anbernic RG353P/V/M support
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
