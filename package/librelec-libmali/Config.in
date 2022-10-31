@@ -1,42 +1,54 @@
-config BR2_PACKAGE_MALI_T62X
-	bool "MALI_T62X"
-	depends on BR2_arm
+config BR2_PACKAGE_LIBRELEC_LIBMALI
+	bool "libmali"
+	depends on BR2_arm || BR2_aarch64
 	select BR2_PACKAGE_MALI_OPENGLES_SDK
 	select BR2_PACKAGE_HAS_LIBEGL
 	select BR2_PACKAGE_HAS_LIBGLES
 	select BR2_PACKAGE_HAS_LIBGBM
-	select BR2_PACKAGE_LIBGBM_HAS_FEATURE_DMA_BUF
-	select BR2_PACKAGE_LIBDRM_EXYNOS
 	select BR2_PACKAGE_LIBDRM
 	help
-	  Install the binary user-space components for the
-	  ARM Mali Midgard T62X GPU. This package requires a
-	  kernel with the ARM Mali Midgard GPU Kernel Drivers enabled.
+	  Install the binary user-space components for various
+	  ARM Mali devices. This package requires a
+	  kernel with the ARM Mali Midgard/Utgard/Panfrost GPU
+	  Kernel Drivers enabled.
 
 	  http://malideveloper.arm.com/resources/drivers/arm-mali-midgard-gpu-user-space-drivers
 
-if BR2_PACKAGE_MALI_T62X
+if BR2_PACKAGE_LIBRELEC_LIBMALI
 
 config BR2_PACKAGE_PROVIDES_LIBEGL
-	default "mali-t62x"
+	default "librelec-libmali"
 
 config BR2_PACKAGE_PROVIDES_LIBGLES
-	default "mali-t62x"
+	default "librelec-libmali"
 
 config BR2_PACKAGE_PROVIDES_LIBGBM
-	default "mali-t62x"
+	default "librelec-libmali"
 
 choice
-	prompt "Driver flavor"
-config BR2_PACKAGE_MALI_T62X_FBDEV
-	bool "fbdev"
-config BR2_PACKAGE_MALI_T62X_GBM
-	bool "GBM"
+	prompt "GPU"
+config BR2_PACKAGE_LIBRELEC_LIBMALI_T62X
+	bool "mali t62x"
+	depends on BR2_arm
+	select BR2_PACKAGE_LIBGBM_HAS_FEATURE_DMA_BUF
+	select BR2_PACKAGE_LIBDRM_EXYNOS
 	select BR2_PACKAGE_WAYLAND
-config BR2_PACKAGE_MALI_T62X_BIGMALI
-	bool "BigMali"
+config BR2_PACKAGE_LIBRELEC_LIBMALI_G52
+	bool "mali g52"
+	select BR2_PACKAGE_LIBGBM_HAS_FEATURE_DMA_BUF
 endchoice
+
+config BR2_PACKAGE_LIBRELEC_LIBMALI_ARCH
+	string
+	default "arm-linux-gnueabihf" if BR2_arm
+	default "aarch64-linux-gnu" if BR2_aarch64
+
+config BR2_PACKAGE_LIBRELEC_LIBMALI_VARIANT
+	string
+	default "t620" if BR2_PACKAGE_LIBRELEC_LIBMALI_T62X
+	default "g52" if BR2_PACKAGE_LIBRELEC_LIBMALI_G52
+
 endif
 
-comment "mali-t62x"
-	depends on !BR2_arm || !BR2_PACKAGE_MALI_OPENGLES_SDK
+comment "librelec-libmali"
+	depends on !BR2_arm || !BR2_aarch64 || !BR2_PACKAGE_MALI_OPENGLES_SDK
