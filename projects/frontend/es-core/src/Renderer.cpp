@@ -302,7 +302,9 @@ bool Renderer::Initialize(int w, int h)
   {
     ResolutionAdapter adapter;
     ResolutionAdapter::Resolution defaultRes = adapter.DefaultResolution();
-    { LOG(LogInfo) << "[Renderer] Get default resolution from Resolution Adapter: " << defaultRes.Width << 'x' << defaultRes.Height; }
+    w = defaultRes.Width;
+    h = defaultRes.Height;
+    { LOG(LogInfo) << "[Renderer] Get default resolution from Resolution Adapter: " << w << 'x' << h; }
     if((w * h) != 0)
       createdSurface = CreateSdlSurface(defaultRes.Width, defaultRes.Height);
   }
