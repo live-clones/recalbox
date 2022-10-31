@@ -1,0 +1,8 @@
+config BR2_PACKAGE_UBOOT_RG353X
+	bool "U-Boot for Anbernic RG353x"
+	select BR2_PACKAGE_HOST_DTC
+	select BR2_PACKAGE_ROCKCHIP_RKBIN
+	help
+	  u-boot for Anbernic RG35P/V/M
+
+	  https://github.com/pkegg/RG353P_uboot
