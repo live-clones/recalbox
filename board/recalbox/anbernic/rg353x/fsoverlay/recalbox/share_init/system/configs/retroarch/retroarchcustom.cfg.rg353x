@@ -1,0 +1,30 @@
+# Performance configuration
+video_driver = "gl"
+video_threaded = true
+
+# RGUI configuration
+menu_driver = "rgui"
+menu_rgui_full_width_layout = "true"
+menu_rgui_shadows = "true"
+rgui_aspect_ratio = 0
+rgui_aspect_ratio_lock = 1
+rgui_background_filler_thickness_enable = false
+rgui_border_filler_enable = "true"
+rgui_border_filler_thickness_enable = false
+rgui_browser_directory = "default"
+rgui_config_directory = "~/.config/retroarch/config"
+rgui_extended_ascii = "true"
+rgui_inline_thumbnails = "true"
+#rgui_internal_upscale_level = 1
+rgui_menu_color_theme = 25
+rgui_menu_theme_preset = 
+rgui_particle_effect = 4
+rgui_particle_effect_speed = 1.000000
+rgui_show_start_screen = "false"
+rgui_swap_thumbnails = "false"
+rgui_thumbnail_delay = 0
+rgui_thumbnail_downscaler = 0
+video_font_size = 18
+menu_widget_scale_auto = "false"
+menu_widget_scale_factor = 2.800000
+menu_widget_scale_factor_windowed = 2.800000
