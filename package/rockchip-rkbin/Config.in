@@ -1,0 +1,6 @@
+config BR2_PACKAGE_ROCKCHIP_RKBIN
+	bool "Rockchip blobs"
+	help
+	  Firmware and Tool Binarys
+
+	  https://github.com/rockchip-linux/rkbin
