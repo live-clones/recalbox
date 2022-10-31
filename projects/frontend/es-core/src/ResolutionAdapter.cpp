@@ -24,7 +24,7 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
   Path connectorMainPath("/dev/dri");
   Path::PathList connectorList = connectorMainPath.GetDirectoryContent();
 
-  int monitor = 0;
+  int connectedMonitors = 0;
   for(const Path& connectorPath : connectorList)
   {
     // Open connector
@@ -37,50 +37,59 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     {
       { LOG(LogDebug) << "[DRM] Open card '" << connectorPath.ToString() << "' with " << resource->count_connectors << " connectors"; }
       // Run through connectors
-      for(int i = 0; i < resource->count_connectors; ++i)
+      for(int connectorIndex = 0; connectorIndex < resource->count_connectors; ++connectorIndex)
       {
        // Get connectors
-        drmModeConnectorPtr connector = drmModeGetConnector(fd, resource->connectors[i]);
+        drmModeConnectorPtr connector = drmModeGetConnector(fd, resource->connectors[connectorIndex]);
         if (connector != nullptr)
         {
-          { LOG(LogDebug) << "[DRM]   Open connector #" << i << " - Connected " << (connector->connection == DRM_MODE_CONNECTED ? "Yes" : "No"); }
-          // List modes
-          bool defaultFound = false;
-          drmModeModeInfo* defaultMode;
-          for(int m = 0; m < connector->count_modes; ++m)
-          {
-            drmModeModeInfo& mode = connector->modes[m];
-            if(mode.type & DRM_MODE_TYPE_DEFAULT != 0)
-              defaultMode = &mode;
-            // 4k not supported on KMS boards
-            if(mode.vdisplay > 2000) {
-              { LOG(LogDebug) << "[ResolutionAdapter] Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay; }
-              continue;
-            }
-            resolutions.push_back({ monitor, mode.hdisplay, mode.vdisplay, -1, (int)mode.vrefresh, (mode.flags & DRM_MODE_FLAG_INTERLACE) != 0, (mode.type & DRM_MODE_TYPE_DEFAULT) != 0 });
-            defaultFound |= (mode.type & DRM_MODE_TYPE_DEFAULT) != 0;
-            { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << resolutions.back().ToString(); }
-          }
-
-          // Default 4K has been eliminated, let's set 1080p as default mode
-          if(!defaultFound)
-            for(Resolution& r : resolutions)
-              if(r.Height == 1080 && r.Width == 1920) {
-                { LOG(LogDebug) << "[ResolutionAdapter] Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
-                defaultFound = true;
-                r.IsDefault = true;
+          { LOG(LogDebug) << "[DRM]   Open connector #" << connectorIndex << " - Connected " << (connector->connection == DRM_MODE_CONNECTED ? "Yes" : "No"); }
+          if (connector->connection == DRM_MODE_CONNECTED) {
+            // List modes
+            bool defaultFound = false;
+            drmModeModeInfo *defaultMode;
+            for (int m = 0; m < connector->count_modes; ++m) {
+              drmModeModeInfo &mode = connector->modes[m];
+              if ((mode.type & DRM_MODE_TYPE_DEFAULT) != 0)
+                defaultMode = &mode;
+              // 4k not supported on KMS boards
+              if (mode.vdisplay > 2000) {
+                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay; }
+                continue;
               }
-          // 4K has been eliminated, but 1080p not found
-          // This should not happen, but we cannot allow it, we put back the desktop resolution
-          if(!defaultFound)
-            resolutions.push_back({ monitor, defaultMode->hdisplay, defaultMode->vdisplay, -1, (int)defaultMode->vrefresh, (defaultMode->flags & DRM_MODE_FLAG_INTERLACE) != 0, true });
+              resolutions.push_back({connectedMonitors, mode.hdisplay, mode.vdisplay, -1, (int) mode.vrefresh,
+                                     (mode.flags & DRM_MODE_FLAG_INTERLACE) != 0,
+                                     (mode.type & DRM_MODE_TYPE_DEFAULT) != 0});
+              defaultFound |= (mode.type & DRM_MODE_TYPE_DEFAULT) != 0;
+              { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << resolutions.back().ToString(); }
+            }
 
-          // Inc monitor index
-          monitor++;
+            // Default 4K has been eliminated, let's set 1080p as default mode
+            if (!defaultFound)
+              for (Resolution &r: resolutions)
+                if (r.Height == 1080 && r.Width == 1920) {
+                  {
+                    LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x'
+                                  << r.Height;
+                  }
+                  defaultFound = true;
+                  r.IsDefault = true;
+                  break;
+                }
+            // 4K has been eliminated, but 1080p not found
+            // This should not happen, but we cannot allow it, we put back the desktop resolution
+            if (!defaultFound)
+              resolutions.push_back(
+                  {connectedMonitors, defaultMode->hdisplay, defaultMode->vdisplay, -1, (int) defaultMode->vrefresh,
+                   (defaultMode->flags & DRM_MODE_FLAG_INTERLACE) != 0, true});
+            // Inc connected monitors index
+            connectedMonitors++;
+          }
+          else { LOG(LogDebug) << "[DRM]   Skipping unconnected connector " << connectorIndex; }
           // Free connector
           drmModeFreeConnector(connector);
         }
-        else { LOG(LogDebug) << "[DRM]   Error opening connector " << i; }
+        else { LOG(LogDebug) << "[DRM]   Error opening connector " << connectorIndex; }
       }
       // Free resources
       drmModeFreeResources(resource);
