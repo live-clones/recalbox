@@ -21,14 +21,14 @@ class ResolutionAdapter
       bool Interlaced;  //!< Interlaced mode
       bool IsDefault;   //!< True if this is the default resolution (Desktop)
 
-      std::string ToRawString() const
+      [[nodiscard]] std::string ToRawString() const
       {
         return std::to_string(Width)
                .append(1, 'x')
                .append(std::to_string(Height));
       }
 
-      std::string ToString() const
+      [[nodiscard]] std::string ToString() const
       {
         return std::string("Display ")
           .append(std::to_string(Display))
@@ -54,28 +54,40 @@ class ResolutionAdapter
     bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output);
 
     //! Resolution list with bpm and frequency
-    const ResolutionList& ResolutionsDetailed() { return GetResolutionDetailedList(); }
+    const ResolutionList& ResolutionsDetailed() { int w = 0, h = 0; GetMaximumResolution(w, h); return GetResolutionDetailedList(w, h); }
 
     //! Resolution list simplified: one entry by couple (width, height)
     const ResolutionList& Resolutions() { return GetResolutionList(); }
 
     //! Default resolution, replacing the desktop resolution
-    const Resolution DefaultResolution() { return GetDefaultResolution(); }
-
-
+    Resolution DefaultResolution() { return GetDefaultResolution(); }
 
 private:
     ResolutionList mResolutionsDetailed;
     ResolutionList mResolutions;
 
-    //! Get resolution list
-    const ResolutionList& GetResolutionDetailedList();
+    /*!
+     * @brief Get resolution list under maxWidth & maxHeight
+     * use 0 to ignore one or both max values
+     * if no resolution is availaiable under the given maximum, return all available resolution
+     * @param maxWidth Maximum width (0 to ignore)
+     * @param maxHeight Maximum height (0 to ignore)
+     * @return Resolution list
+     */
+    const ResolutionList& GetResolutionDetailedList(int maxWidth, int maxHeight);
 
     //! Get resolution list
     const ResolutionList& GetResolutionList();
 
     //! Get resolution list
-    const Resolution GetDefaultResolution();
+    Resolution GetDefaultResolution();
+
+    /*!
+     * @brief Get maximum resolution regarding the current board
+     * @param w Output maximum with
+     * @param h Output maximum height
+     */
+    static void GetMaximumResolution(int& w, int& h);
 };
 
 

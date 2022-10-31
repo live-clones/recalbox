@@ -8,6 +8,7 @@
 #include <utils/math/Misc.h>
 #include <utils/os/fs/Path.h>
 #include <utils/Log.h>
+#include <hardware/Board.h>
 
 #ifdef USE_KMSDRM
 
@@ -16,7 +17,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList()
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(int maxWidth, int maxHeight)
 {
   static ResolutionList resolutions;
   resolutions.clear();
@@ -44,44 +45,85 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
         if (connector != nullptr)
         {
           { LOG(LogDebug) << "[DRM]   Open connector #" << connectorIndex << " - Connected " << (connector->connection == DRM_MODE_CONNECTED ? "Yes" : "No"); }
-          if (connector->connection == DRM_MODE_CONNECTED) {
+          if (connector->connection == DRM_MODE_CONNECTED)
+          {
             // List modes
-            bool defaultFound = false;
-            drmModeModeInfo *defaultMode;
-            for (int m = 0; m < connector->count_modes; ++m) {
+            int defaultModeIndex = -1;
+            for (int m = 0; m < connector->count_modes; ++m)
+            {
               drmModeModeInfo &mode = connector->modes[m];
-              if ((mode.type & DRM_MODE_TYPE_DEFAULT) != 0)
-                defaultMode = &mode;
-              // 4k not supported on KMS boards
-              if (mode.vdisplay > 2000) {
-                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay; }
+              // Out of bounds?
+              if (maxHeight != 0 && mode.vdisplay > maxHeight)
+              {
+                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay << ". Height higher than " << maxHeight; }
                 continue;
               }
+              if (maxWidth != 0 && mode.hdisplay > maxWidth)
+              {
+                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay << ". Width higher than " << maxWidth; }
+                continue;
+              }
+              if ((mode.type & DRM_MODE_TYPE_DEFAULT) != 0) defaultModeIndex = (int)resolutions.size();
               resolutions.push_back({connectedMonitors, mode.hdisplay, mode.vdisplay, -1, (int) mode.vrefresh,
                                      (mode.flags & DRM_MODE_FLAG_INTERLACE) != 0,
                                      (mode.type & DRM_MODE_TYPE_DEFAULT) != 0});
-              defaultFound |= (mode.type & DRM_MODE_TYPE_DEFAULT) != 0;
               { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << resolutions.back().ToString(); }
             }
 
-            // Default 4K has been eliminated, let's set 1080p as default mode
-            if (!defaultFound)
-              for (Resolution &r: resolutions)
-                if (r.Height == 1080 && r.Width == 1920) {
-                  {
-                    LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x'
-                                  << r.Height;
-                  }
-                  defaultFound = true;
+            // Default 4K has been eliminated, try seting 1080p as default mode
+            if (defaultModeIndex < 0)
+              for(int i = (int)resolutions.size(); --i >= 0; )
+                if (Resolution& r = resolutions[i]; r.Height == 1080 && r.Width == 1920)
+                {
+                  { LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
                   r.IsDefault = true;
+                  defaultModeIndex = i;
                   break;
                 }
-            // 4K has been eliminated, but 1080p not found
-            // This should not happen, but we cannot allow it, we put back the desktop resolution
-            if (!defaultFound)
-              resolutions.push_back(
-                  {connectedMonitors, defaultMode->hdisplay, defaultMode->vdisplay, -1, (int) defaultMode->vrefresh,
-                   (defaultMode->flags & DRM_MODE_FLAG_INTERLACE) != 0, true});
+
+            // Nothing found
+            if (defaultModeIndex < 0)
+            {
+              // Get all delta first
+              std::vector<long long> deltas;
+              for(const Resolution& r : resolutions)
+              {
+                long long heightDelta = r.Height - 1080;
+                long long widthDelta = r.Width - 1920;
+                deltas.push_back(heightDelta * heightDelta + widthDelta * widthDelta);
+              }
+
+              // Try closest higher resolution first
+              long long diff = 0x7FFFFFFFFFFFFFFF;
+              for(int i = (int)resolutions.size(); --i >= 0; )
+                if (const Resolution& r = resolutions[i]; r.Height >= 1080 && deltas[i] < diff)
+                {
+                  diff = deltas[i];
+                  defaultModeIndex = i;
+                }
+
+              // Try the closest resolution, whatever it is
+              if (defaultModeIndex < 0)
+              {
+                diff = 0x7FFFFFFFFFFFFFFF;
+                for(int i = (int)resolutions.size(); --i >= 0; )
+                  if (deltas[i] < diff)
+                  {
+                    diff = deltas[i];
+                    defaultModeIndex = i;
+                  }
+              }
+
+              // Store
+              if (defaultModeIndex >= 0)
+              {
+                Resolution& r = resolutions[defaultModeIndex];
+                { LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
+                r.IsDefault = true;
+              }
+              else
+              { LOG(LogError) << "[DRM]      Unable to figure out non desktop default resolution among " << resolutions.size() << " resolutions!"; }
+            }
             // Inc connected monitors index
             connectedMonitors++;
           }
@@ -99,12 +141,45 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     close(fd);
   }
 
+  // Horizontal screens?
+  switch(Board::Instance().GetBoardType())
+  {
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    {
+      for(Resolution& r : resolutions)
+      {
+        int tmp = r.Height;
+        r.Height = r.Width;
+        r.Width = tmp;
+      }
+      break;
+    }
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi02:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::Pi4:
+    case BoardType::Pi400:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    default: break;
+  }
+
+  if (mResolutionsDetailed.empty() && (maxWidth | maxHeight) != 0)
+    return GetResolutionDetailedList(0, 0);
+
   return resolutions;
 }
 
 #else // SDL2
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList()
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(int maxWidth, int maxHeight)
 {
   { LOG(LogDebug) << "[ResolutionAdapter] Getting resolution from sdl"; }
 
@@ -119,9 +194,16 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
       int modesCount = SDL_GetNumDisplayModes(i);
       for (int m = 0; m < modesCount; ++m)
         if (SDL_GetDisplayMode(i, m, &mode) == 0)
+        {
+          if (maxWidth  != 0 && mode.w > maxWidth ) continue;
+          if (maxHeight != 0 && mode.h > maxHeight) continue;
           mResolutionsDetailed.push_back({i, mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate, false, mode.w == defaultMode.w && mode.h == defaultMode.h && mode.format == defaultMode.format && mode.refresh_rate == defaultMode.refresh_rate });
+        }
     }
   }
+
+  if (mResolutionsDetailed.empty() && (maxWidth | maxHeight) != 0)
+    return GetResolutionDetailedList(0, 0);
 
   return mResolutionsDetailed;
 }
@@ -149,7 +231,9 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
     return false;
   }
 
-  const ResolutionList& list = GetResolutionDetailedList();
+  int w = 0, h = 0;
+  GetMaximumResolution(w, h);
+  const ResolutionList& list = GetResolutionDetailedList(w, h);
 
   // Check if the resolution match an existing resolution
   for(const Resolution& r : list)
@@ -214,9 +298,11 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
   return false;
 }
 
-const ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution()
+ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution()
 {
-  ResolutionList allResolutions = GetResolutionDetailedList();
+  int w = 0, h = 0;
+  GetMaximumResolution(w, h);
+  ResolutionList allResolutions = GetResolutionDetailedList(w, h);
   for(const Resolution& rawResolution : allResolutions){
     if(rawResolution.IsDefault) return rawResolution;
   }
@@ -226,7 +312,9 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
 {
   if(mResolutions.empty())
   {
-    ResolutionList allResolutions = GetResolutionDetailedList();
+    int w = 0, h = 0;
+    GetMaximumResolution(w, h);
+    ResolutionList allResolutions = GetResolutionDetailedList(w, h);
     for(const Resolution& rawResolution : allResolutions)
     {
       bool alreadyPresent = false;
@@ -252,5 +340,28 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
       }
     }
   return mResolutions;
+}
+
+void ResolutionAdapter::GetMaximumResolution(int& w, int& h)
+{
+  switch(Board::Instance().GetBoardType())
+  {
+    case BoardType::Pi0:
+    case BoardType::Pi02:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus: w = 0; h = 799; break;
+    case BoardType::Pi4:
+    case BoardType::Pi400: w = 0; h = 1079; break;
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::UnknownPi:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    default: w = h = 0; break;
+  }
 }
 
