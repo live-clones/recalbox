@@ -1,0 +1,29 @@
+From 914ad5d1cabd2160c5da4f4dfc591197078f448b Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 15 Feb 2023 18:37:20 +0100
+Subject: [PATCH 3/4] rename anbernic dts
+
+---
+ .../{rk3566-rg353p-linux.dts => rk3566-anbernic-rg353p.dts}       | 0
+ .../{rk3566-rg353v-linux.dts => rk3566-anbernic-rg353v.dts}       | 0
+ .../{rk3566-rg503-linux.dts => rk3566-anbernic-rg503.dts}         | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ rename arch/arm64/boot/dts/rockchip/{rk3566-rg353p-linux.dts => rk3566-anbernic-rg353p.dts} (100%)
+ rename arch/arm64/boot/dts/rockchip/{rk3566-rg353v-linux.dts => rk3566-anbernic-rg353v.dts} (100%)
+ rename arch/arm64/boot/dts/rockchip/{rk3566-rg503-linux.dts => rk3566-anbernic-rg503.dts} (100%)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-rg353p-linux.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/rockchip/rk3566-rg353p-linux.dts
+rename to arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353p.dts
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-rg353v-linux.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/rockchip/rk3566-rg353v-linux.dts
+rename to arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg353v.dts
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-rg503-linux.dts b/arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
+similarity index 100%
+rename from arch/arm64/boot/dts/rockchip/rk3566-rg503-linux.dts
+rename to arch/arm64/boot/dts/rockchip/rk3566-anbernic-rg503.dts
+-- 
+2.39.1
+

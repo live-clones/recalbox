@@ -1,0 +1,25 @@
+From 3cb59bfc8fe1bcc4e3ca17c24a748d26e76bc4eb Mon Sep 17 00:00:00 2001
+From: fewtarius <fewtarius@jelos.org>
+Date: Tue, 1 Nov 2022 17:09:45 -0400
+Subject: [PATCH 4/6] Fixes-for-GCC-12.2
+
+---
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 663d717..cdb3ff9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -594,6 +594,8 @@ endif
+ KBUILD_CFLAGS += $(call cc-option,-fno-stack-protector)
+ KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks)
+ KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
++KBUILD_CFLAGS   += $(call cc-disable-warning, dangling-pointer)
++KBUILD_CFLAGS   += $(call cc-disable-warning, address)
+ 
+ KBUILD_CFLAGS	+= -g
+ # $(KBUILD_AFLAGS) sets -g, which causes gcc to pass a suitable -g<format>
+-- 
+2.38.1
+
