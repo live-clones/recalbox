@@ -1,0 +1,33 @@
+From 57d0b869412faa2b40c5e828f33883d7ef2f769a Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sat, 19 Nov 2022 00:55:14 +0100
+Subject: [PATCH 6/6] fixup path to dtc
+
+---
+ make.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/make.sh b/make.sh
+index b306c92..521e9ed 100755
+--- a/make.sh
++++ b/make.sh
+@@ -25,6 +25,7 @@ GCC_ARM32=arm-linux-gnueabihf-
+ GCC_ARM64=aarch64-linux-gnu-
+ TOOLCHAIN_ARM32=../prebuilts/gcc/linux-x86/arm/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin
+ TOOLCHAIN_ARM64=../prebuilts/gcc/linux-x86/aarch64/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin
++DTC=${TOOLCHAIN_ARM64}/dtc
+ 
+ ########################################### User not touch #############################################
+ # Declare global INI file searching index name for every chip, update in select_chip_info()
+@@ -652,7 +653,7 @@ function pack_trust_image()
+ function pack_fit_image()
+ {
+ 	# check host tools
+-	if ! which dtc >/dev/null 2>&1 ; then
++	if ! which "$DTC" >/dev/null 2>&1 ; then
+ 		echo "ERROR: No 'dtc', please: apt-get install device-tree-compiler"
+ 		exit 1
+ 	fi
+-- 
+2.38.1
+
