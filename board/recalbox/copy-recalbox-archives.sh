@@ -57,7 +57,7 @@ xu4_fusing() {
 # https://github.com/hardkernel/u-boot/blob/odroidxu4-v2017.05/sd_fuse/sd_fusing.sh
 #sudo dd if=$IDBLOADER of=$1 conv=fsync bs=512 seek=64
 #sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=16384
-#sudo dd if=$TRUST of=$1 conv=fsync bs=512 seek=24576 
+#sudo dd if=$TRUST of=$1 conv=fsync bs=512 seek=24576
 odroidgo2_fusing() {
     BINARIES_DIR=$1
     RECALBOXIMG=$2
@@ -214,6 +214,40 @@ case "${RECALBOX_TARGET}" in
 	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
 	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	odroidgo2_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
+	sync || exit 1
+	;;
+
+	RG353X)
+	rm -rf "${BINARIES_DIR}/rg353x-firmware/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/extlinux" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/dtb" || exit 1
+
+	# /boot
+	echo "generating boot"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/rg353x-firmware/boot/extlinux/extlinux.conf" || exit 1
+	cp "${BINARIES_DIR}/rk3566-anbernic-rg353p.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-anbernic-rg353v.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-anbernic-rg353m.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-anbernic-rg503.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rg353x-firmware/boot/initrd.gz" || exit 1
+	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/rg353x-firmware/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rg353x-firmware/boot/recalbox" || exit 1
+  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rg353x-firmware/pre-upgrade.sh"
+
+	generate_boot_file_list "${BINARIES_DIR}/rg353x-firmware/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+
+	# recalbox.img
+	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
+	rm -rf "${GENIMAGE_TMP}" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/genimage.cfg" "${BINARIES_DIR}" || exit 1
+	echo "generating image"
+	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
+	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	sync || exit 1
 	;;
 
