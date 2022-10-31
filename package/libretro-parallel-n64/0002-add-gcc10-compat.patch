@@ -1,5 +1,16 @@
---- ./mupen64plus-core/src/r4300/r4300.c	2021-03-09 23:15:30.707326744 +0100
-+++ ./mupen64plus-core/src/r4300/r4300.c	2021-03-09 23:15:54.367554712 +0100
+From 98737592defea160b6b9f7152a30551f82bdde76 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 26 Oct 2022 22:17:35 +0200
+Subject: [PATCH 2/3] add gcc10 compat
+
+---
+ mupen64plus-core/src/r4300/r4300.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mupen64plus-core/src/r4300/r4300.c b/mupen64plus-core/src/r4300/r4300.c
+index 744198d6..73cb1f27 100644
+--- a/mupen64plus-core/src/r4300/r4300.c
++++ b/mupen64plus-core/src/r4300/r4300.c
 @@ -50,8 +50,8 @@
  unsigned int r4300emu = 0;
  unsigned int count_per_op = COUNT_PER_OP_DEFAULT;
@@ -10,3 +21,6 @@
  int64_t reg[32], hi, lo;
  uint32_t next_interrupt;
  struct precomp_instr *PC;
+-- 
+2.38.1
+
