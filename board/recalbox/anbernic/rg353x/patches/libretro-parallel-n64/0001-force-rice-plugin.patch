@@ -1,0 +1,18 @@
+--- ./libretro/libretro.c.orig	2021-03-16 23:47:27.547996607 +0100
++++ ./libretro/libretro.c	2021-03-16 23:51:25.700753540 +0100
+@@ -203,10 +203,14 @@
+    }
+ #endif
+ 
+-#if (defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)) && defined(HAVE_GLIDE64)
++#if (defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)) && defined(HAVE_GLIDE64) || defined(HAVE_RICE)
+    if (gl_inited)
+    {
++#ifdef HAVE_RICE
++      gfx_plugin = GFX_RICE;
++#else
+       gfx_plugin = GFX_GLIDE64;
++#endif
+       return;
+    }
+ #endif
