@@ -1,0 +1,40 @@
+################################################################################
+#
+# uboot-rg353x
+#
+################################################################################
+
+UBOOT_RG353X_VERSION = 62a0e69da448ca37a8c106ff3886e8b1543ea829
+UBOOT_RG353X_SITE = $(call github,JustEnoughLinuxOS,rk356x-uboot,$(UBOOT_RG353X_VERSION))
+UBOOT_RG353X_LICENSE = GPL-2.0+
+UBOOT_RG353X_LICENSE_FILES = Licenses/gpl-2.0.txt
+UBOOT_RG353X_DEPENDENCIES = host-dtc host-rockchip-rkbin
+
+UBOOT_RG353X_INSTALL_TARGET = NO
+UBOOT_RG353X_INSTALL_IMAGES = YES
+
+define UBOOT_RG353X_TOOLCHAIN_PATCH
+	$(SED) '/^TOOLCHAIN_ARM64=/s#=.*#="$(HOST_DIR)/bin/"#' $(@D)/make.sh
+	$(SED) '/^ADDR2LINE_ARM64=/s#=.*#=aarch64-buildroot-linux-gnu-addr2line#' $(@D)/make.sh
+	$(SED) '/^OBJ_ARM64=/s#=.*#=aarch64-buildroot-linux-gnu-objdump#' $(@D)/make.sh
+	$(SED) '/^NM_ARM64=/s#=.*#=aarch64-buildroot-linux-gnu-nm#' $(@D)/make.sh
+	$(SED) '/^GCC_ARM64=/s#=.*#=aarch64-buildroot-linux-gnu-#' $(@D)/make.sh
+	$(SED) '/^RKBIN_TOOLS=/s#=.*#=$(HOST_DIR)/rkbin/.#' $(@D)/make.sh
+endef
+
+define UBOOT_RG353X_BUILD_CMDS
+	#cd $(@D) && PATH="$(HOST_DIR)/bin:$$PATH" ./make.sh rk3566
+	#cd $(@D) && ./tools/mkimage -n rk356x -T rksd -d $(HOST_DIR)/rkbin/bin/rk35/rk3566_ddr_1056MHz_v1.08.bin:$(HOST_DIR)/rkbin/bin/rk35/rk356x_spl_v1.11.bin -C bzip2 idbloader.img
+	echo "ok"
+endef
+#	cd $(@D) && ./tools/mkimage -n rk356x -T rksd -d $(HOST_DIR)/rkbin/bin/rk35/rk3566_ddr_1056MHz_v1.13.bin:$(HOST_DIR)/rkbin/bin/rk35/rk356x_spl_v1.12.bin -C bzip2 idbloader.img
+
+define UBOOT_RG353X_INSTALL_IMAGES_CMDS
+#	$(INSTALL) -D $(@D)/uboot.img $(BINARIES_DIR)/
+#	$(INSTALL) -D $(@D)/idbloader.img $(BINARIES_DIR)/
+	echo "ok"
+endef
+
+UBOOT_RG353X_PRE_BUILD_HOOKS += UBOOT_RG353X_TOOLCHAIN_PATCH
+
+$(eval $(generic-package))
