@@ -1,0 +1,179 @@
+From f4680fca588bd8d41ab3d00f7266ffb9e2a253f6 Mon Sep 17 00:00:00 2001
+From: fewtarius <fewtarius@jelos.org>
+Date: Fri, 29 Jul 2022 07:37:48 -0400
+Subject: [PATCH 3/6] Fix-scripts
+
+---
+ arch/arm/mach-rockchip/decode_bl31.py  | 2 +-
+ arch/arm/mach-rockchip/make_fit_atf.py | 2 +-
+ make.sh                                | 2 +-
+ scripts/dtc/pylibfdt/setup.py          | 2 +-
+ scripts/fill_scrapyard.py              | 2 +-
+ scripts/mailmapper                     | 2 +-
+ test/py/test.py                        | 2 +-
+ tools/binman/binman.py                 | 2 +-
+ tools/buildman/buildman.py             | 2 +-
+ tools/dtoc/dtoc.py                     | 2 +-
+ tools/genboardscfg.py                  | 2 +-
+ tools/microcode-tool.py                | 2 +-
+ tools/moveconfig.py                    | 2 +-
+ tools/patman/patman.py                 | 2 +-
+ tools/rkmux.py                         | 2 +-
+ 15 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/arch/arm/mach-rockchip/decode_bl31.py b/arch/arm/mach-rockchip/decode_bl31.py
+index 301bd15..c0db739 100755
+--- a/arch/arm/mach-rockchip/decode_bl31.py
++++ b/arch/arm/mach-rockchip/decode_bl31.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (C) 2020 Rockchip Electronics Co., Ltd
+ #
+diff --git a/arch/arm/mach-rockchip/make_fit_atf.py b/arch/arm/mach-rockchip/make_fit_atf.py
+index 27b6ef7..59a2cc9 100755
+--- a/arch/arm/mach-rockchip/make_fit_atf.py
++++ b/arch/arm/mach-rockchip/make_fit_atf.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ """
+ A script to generate FIT image source for rockchip boards
+ with ARM Trusted Firmware
+diff --git a/make.sh b/make.sh
+index 7e76bcb..b306c92 100755
+--- a/make.sh
++++ b/make.sh
+@@ -718,7 +718,7 @@ select_ini_file
+ handle_args_late
+ sub_commands
+ clean_files
+-make PYTHON=python2 CROSS_COMPILE=${TOOLCHAIN_GCC} all --jobs=${JOB}
++make PYTHON=python3 CROSS_COMPILE=${TOOLCHAIN_GCC} all --jobs=${JOB}
+ pack_images
+ #pack_idbloader
+ finish
+diff --git a/scripts/dtc/pylibfdt/setup.py b/scripts/dtc/pylibfdt/setup.py
+index 4f7cf04..992cdec 100755
+--- a/scripts/dtc/pylibfdt/setup.py
++++ b/scripts/dtc/pylibfdt/setup.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+ """
+ setup.py file for SWIG libfdt
+diff --git a/scripts/fill_scrapyard.py b/scripts/fill_scrapyard.py
+index 9a94354..ae76116 100755
+--- a/scripts/fill_scrapyard.py
++++ b/scripts/fill_scrapyard.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Author: Masahiro Yamada <yamada.m@jp.panasonic.com>
+ #
+diff --git a/scripts/mailmapper b/scripts/mailmapper
+index 78b23d1..50e4719 100755
+--- a/scripts/mailmapper
++++ b/scripts/mailmapper
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (C) 2014, Masahiro Yamada <yamada.m@jp.panasonic.com>
+ #
+diff --git a/test/py/test.py b/test/py/test.py
+index 4695079..36a7746 100755
+--- a/test/py/test.py
++++ b/test/py/test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+ # Copyright (c) 2015 Stephen Warren
+ # Copyright (c) 2015-2016, NVIDIA CORPORATION. All rights reserved.
+diff --git a/tools/binman/binman.py b/tools/binman/binman.py
+index e75a59d..d57e6db 100755
+--- a/tools/binman/binman.py
++++ b/tools/binman/binman.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+ # Copyright (c) 2016 Google, Inc
+ # Written by Simon Glass <sjg@chromium.org>
+diff --git a/tools/buildman/buildman.py b/tools/buildman/buildman.py
+index f5c4b04..cd40894 100755
+--- a/tools/buildman/buildman.py
++++ b/tools/buildman/buildman.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2012 The Chromium OS Authors.
+ #
+diff --git a/tools/dtoc/dtoc.py b/tools/dtoc/dtoc.py
+index 6eacfc9..d3aa7b6 100755
+--- a/tools/dtoc/dtoc.py
++++ b/tools/dtoc/dtoc.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (C) 2016 Google, Inc
+ # Written by Simon Glass <sjg@chromium.org>
+diff --git a/tools/genboardscfg.py b/tools/genboardscfg.py
+index 2345a19..daf1498 100755
+--- a/tools/genboardscfg.py
++++ b/tools/genboardscfg.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Author: Masahiro Yamada <yamada.m@jp.panasonic.com>
+ #
+diff --git a/tools/microcode-tool.py b/tools/microcode-tool.py
+index 069d961..2bc2cf3 100755
+--- a/tools/microcode-tool.py
++++ b/tools/microcode-tool.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2014 Google, Inc
+ #
+diff --git a/tools/moveconfig.py b/tools/moveconfig.py
+index 6f549a5..bfde61e 100755
+--- a/tools/moveconfig.py
++++ b/tools/moveconfig.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Author: Masahiro Yamada <yamada.masahiro@socionext.com>
+ #
+diff --git a/tools/patman/patman.py b/tools/patman/patman.py
+index 7647440..3f9855e 100755
+--- a/tools/patman/patman.py
++++ b/tools/patman/patman.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ #
+ # Copyright (c) 2011 The Chromium OS Authors.
+ #
+diff --git a/tools/rkmux.py b/tools/rkmux.py
+index 11c192a..e8a0424 100755
+--- a/tools/rkmux.py
++++ b/tools/rkmux.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+ # Script to create enums from datasheet register tables
+ #
+-- 
+2.38.1
+
