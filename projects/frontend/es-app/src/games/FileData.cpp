@@ -20,6 +20,7 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 
 std::string FileData::DisplayName(const Path& romPath) const
 {
+  (void)romPath;
   GameAdapter adapter(*this);
   return adapter.DisplayName();
 }
