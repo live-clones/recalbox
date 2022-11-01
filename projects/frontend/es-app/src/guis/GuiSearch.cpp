@@ -57,8 +57,7 @@ void GuiSearch::initGridsNStuff()
 	mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
 
 	//init search option selector
-	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow,
-	                                                                                       _("SEARCH BY"), false);
+	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"), false);
 	FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
 
 	mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name, currentSearch == FolderData::FastSearchContext::Name);

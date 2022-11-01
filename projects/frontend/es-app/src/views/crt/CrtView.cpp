@@ -198,7 +198,6 @@ void CrtView::UpdatePosition()
   int hOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset() * hOffSetMultiplier;
   int vOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
 
-
   Strings::Vector result;
   bool khz31 = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   // Child Code
@@ -244,5 +243,4 @@ void CrtView::UpdatePosition()
   if (system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
   Files::SaveFile(Path(sTimingFile), Strings::Join(result, '\n').append(1, '\n'));
   if (system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
-
 }
