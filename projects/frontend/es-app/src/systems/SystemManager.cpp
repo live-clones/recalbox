@@ -196,8 +196,8 @@ void SystemManager::CheckMissingHashed(SystemData& system)
           }
       }
 
-      int HashCount() const { return mCount; }
-      bool MissingHashesFound() const { return mFound; }
+      [[nodiscard]] int HashCount() const { return mCount; }
+      [[nodiscard]] bool MissingHashesFound() const { return mFound; }
   } missingHashes;
 
   if (RecalboxConf::Instance().GetNetplayEnabled())
@@ -654,7 +654,7 @@ bool SystemManager::AddAllGamesMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& fileData) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& fileData) const override
       {
         return fileData.IsDisplayable();
       }
@@ -668,7 +668,7 @@ bool SystemManager::AddMultiplayerMetaSystems()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         return file.IsDisplayable() && (file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1);
       }
@@ -682,7 +682,7 @@ bool SystemManager::AddLastPlayedMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         return file.IsDisplayable() && file.Metadata().LastPlayedEpoc() != 0;
       }
@@ -707,7 +707,7 @@ bool SystemManager::AddGenresMetaSystem()
         , mSubGenre(Genres::IsSubGenre(genre))
       {
       }
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         bool isDisplayable = file.IsDisplayable();
         if (mSubGenre) return isDisplayable && file.Metadata().GenreId() == mGenre;

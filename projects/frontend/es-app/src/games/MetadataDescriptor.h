@@ -220,6 +220,7 @@ class MetadataDescriptor
       if (_Type == ItemType::Game) LivingGames++;
       if (_Type == ItemType::Folder) LivingFolders++;
       #endif
+      UnsetDirty();
     }
 
     /*!
@@ -534,16 +535,15 @@ class MetadataDescriptor
     void SetFavorite(bool favorite)                     { mFavorite     = favorite;                                    mDirty = true; }
     void SetHidden(bool hidden)                         { mHidden       = hidden;                                      mDirty = true; }
     void SetAdult(bool adult)                           { mAdult        = adult;                                       mDirty = true; }
-    void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                mDirty = true; }
-    void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                               mDirty = true; }
-    void SetNoGame(bool noGame)                         { mNoGame       = noGame;                                      mDirty = true; }
     void SetGenreId(GameGenres genre)                   { mGenreId      = genre;                                       mDirty = true; }
+    // Volatiles flags - no dirtiness
+    void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                               }
+    void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                              }
+    void SetNoGame(bool noGame)                         { mNoGame       = noGame;                                                     }
 
     // Special setter to force dirty
     void SetDirty() { mDirty = true; }
-    void UnDirty() { mDirty = true; }
-
-
+    void UnsetDirty() { mDirty = false; }
 
     /*
      * Volatile setters - do not set the Dirty flag for auto-saving
