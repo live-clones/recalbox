@@ -14,10 +14,10 @@
 #include "themes/MenuThemeData.h"
 
 ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowResolution)
-  : Component(window),
-    mGrid(window, Vector2i(7, 6)),
-    mBusyAnim(window),
-    mLowResolution(lowResolution)
+  : Component(window)
+  , mGrid(window, Vector2i(7, 6))
+  , mLowResolution(lowResolution)
+  , mBusyAnim(window)
 {
 	addChild(&mGrid);
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
