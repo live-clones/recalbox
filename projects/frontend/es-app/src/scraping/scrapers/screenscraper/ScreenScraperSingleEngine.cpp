@@ -146,7 +146,7 @@ ScrapeResult ScreenScraperSingleEngine::RequestGameInfo(ScreenScraperApis::Game&
 
   // Get crc32
   std::string crc32;
-  if (game.Metadata().RomCrc32() != 0) game.Metadata().RomCrc32AsString();
+  if (game.Metadata().RomCrc32() != 0) crc32 = game.Metadata().RomCrc32AsString();
 
   // Call!
   if (!mAbortRequest)

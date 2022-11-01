@@ -310,7 +310,7 @@ void SystemData::UpdateGamelistXml()
           if (root->GetDeletedChildren().contains(path.ToString()))
             continue;
           file->Metadata().Serialize(gameList, path, rootPath);
-          file->Metadata().UnDirty();
+          file->Metadata().UnsetDirty();
         }
 
         /*
