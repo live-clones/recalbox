@@ -1007,7 +1007,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   // Build searchable system list
   { LOG(LogWarning) << "BUILD SEARCHABLE SYSTEM LIST"; }
   Array<const SystemData*> searchableSystems((int)GetVisibleSystemList().size());
-  if (targetSystem == nullptr) searchableSystems.Add(targetSystem);
+  if (targetSystem != nullptr) searchableSystems.Add(targetSystem);
   else
     for(const SystemData* system : GetVisibleSystemList())
       if (system->IsSearchable())
