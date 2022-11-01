@@ -61,7 +61,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
         MetadataFieldDescriptor("genreid"    , DefaultValueEmpty    , _("Genre ID")    , _("enter game genre id")         , MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultGenreId        , &MetadataDescriptor::GenreIdAsString     , &MetadataDescriptor::SetGenreIdAsString      , false, false),
         MetadataFieldDescriptor("adult"      , DefaultValueEmpty    , _("Adult")       , _("enter adult state")           , MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultAdult          , &MetadataDescriptor::AdultAsString       , &MetadataDescriptor::SetAdultAsString        , false, false),
         MetadataFieldDescriptor("players"    , DefaultValuePlayers  , _("Players")     , _("enter number of players")     , MetadataFieldDescriptor::DataType::Range  , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultPlayerRange    , &MetadataDescriptor::PlayersAsString     , &MetadataDescriptor::SetPlayersAsString      , false, false),
-        MetadataFieldDescriptor("region"     , DefaultValueEmpty    , _("Region")      , _("enter region")                , MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultRegion         , &MetadataDescriptor::RegionAsString      , &MetadataDescriptor::SetRegionAsString       , false, false),
+        MetadataFieldDescriptor("region"     , DefaultValueEmpty    , _("Region")      , _("enter region")                , MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultRegion         , &MetadataDescriptor::RegionAsString      , &MetadataDescriptor::SetRegionAsString       , false, false),
         MetadataFieldDescriptor("playcount"  , DefaultValuePlayCount, _("Play count")  , _("enter number of times played"), MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultPlayCount      , &MetadataDescriptor::PlayCountAsString   , &MetadataDescriptor::SetPlayCountAsString    , true , false),
         MetadataFieldDescriptor("lastplayed" , DefaultValueEmpty    , _("Last played") , _("enter last played date")      , MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPlayedEpoc , &MetadataDescriptor::LastPlayedAsString  , &MetadataDescriptor::SetLastPlayedAsString   , true , false),
         MetadataFieldDescriptor("hash"       , DefaultValueEmpty    , _("Rom Crc32")   , _("enter rom crc32")             , MetadataFieldDescriptor::DataType::Crc32  , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRomCrc32       , &MetadataDescriptor::RomCrc32AsString    , &MetadataDescriptor::SetRomCrc32AsString     , true , false),
@@ -285,9 +285,6 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(mType, count);
   if (fields == nullptr) return false;
 
-  // Extract default name
-  std::string defaultName = sNameHolder.GetString(mName);
-
   for (; --count >= 0; )
   {
     // Get field descriptor
@@ -310,6 +307,8 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   // Control name
   if (mName < 0)
   {
+    // Extract default name
+    std::string defaultName = sFileHolder.GetString(mRomFile);
     mName = sNameHolder.AddString32(defaultName);
     mDirty = true;
   }
