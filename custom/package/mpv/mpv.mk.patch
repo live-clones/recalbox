@@ -1,0 +1,14 @@
+diff --git a/package/mpv/mpv.mk b/package/mpv/mpv.mk
+index ff77f248e5..05b21eeaa0 100644
+--- a/package/mpv/mpv.mk
++++ b/package/mpv/mpv.mk
+@@ -27,7 +27,8 @@ MPV_CONF_OPTS = \
+ 	--disable-opensles \
+ 	--disable-rubberband \
+ 	--disable-uchardet \
+-	--disable-vapoursynth
++	--disable-vapoursynth \
++	--disable-sdl2-gamepad
+ 
+ ifeq ($(BR2_REPRODUCIBLE),y)
+ MPV_CONF_OPTS += --disable-build-date
