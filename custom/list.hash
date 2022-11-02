@@ -26,6 +26,7 @@ d01ff39be7590054b52166b00c3d54ae  package/lirc-tools/lirc-tools.mk
 07e24c7e14b4e4f8ed8b52d8c8b62500  package/llvm/llvm.mk
 ea3caecad7c732805207c02964aadfd9  package/luajit/Config.in
 1197405dd629b7353cb27c6c871dd487  package/mosquitto/mosquitto.mk
+11ad80c411d2df20c1e09022e7bcfc28  package/mpv/mpv.mk
 135abab5349e68ddb60a698bf31db0c5  package/nodejs/0001-add-qemu-wrapper-support.patch
 618b44931f510b1d9e66b35fe948fd46  package/nodejs/nodejs.mk
 47de25932269f5b7168360840e798fa1  package/nodejs/v8-qemu-wrapper.in
