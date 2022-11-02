@@ -7,6 +7,7 @@
 
 #include "String.h"
 #include "Unicode.h"
+#include <utils/os/fs/Path.h>
 
 const String StringStatics::Empty;
 const char CR = '\r';
@@ -36,3 +37,13 @@ bool StringStatics::InitializeUTF8Tables()
   return true;
 }
 
+String::String(const Path& source)
+ : std::string(source.ToString())
+{
+}
+
+String& String::operator =(const Path& source)
+{
+  *((std::string*)this) = source.ToString();
+  return *this;
+}
