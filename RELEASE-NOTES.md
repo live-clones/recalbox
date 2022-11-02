@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
+- Bump libretro fuse & add new supported file extensions
 - Update of the theme for the X68000 system
  
 ### Fixes
