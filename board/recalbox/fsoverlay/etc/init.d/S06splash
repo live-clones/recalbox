@@ -147,6 +147,7 @@ playVideoOnOneScreen() {
   options+=($2) # get space delimited options as is
   options+=(--ao=pulse)
   options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
+  options+=(--input-conf=/etc/mpv-input.conf --input-gamepad)
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }
