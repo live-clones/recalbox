@@ -105,7 +105,6 @@ class SystemManager :
 
     HashSet<std::string>& mWatcherIgnoredFiles;
 
-  private:
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
 
@@ -330,6 +329,7 @@ class SystemManager :
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {
+      ThemeData::SetSystemManager(this);
     }
 
     //! Destructor
