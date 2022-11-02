@@ -826,6 +826,10 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       if (path.Exists())
         gamelistWatcher.WatchFile(path);
 
+  ThemeData::SetThemeChanged(true);
+  for(SystemData* system : mAllSystemVector)
+    system->loadTheme();
+
   return true;
 }
 
