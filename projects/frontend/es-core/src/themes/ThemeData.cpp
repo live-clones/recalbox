@@ -12,11 +12,13 @@
 #include "RootFolders.h"
 #include "ThemeException.h"
 #include "MenuThemeData.h"
+#include "utils/String.h"
 
 ThemeData* ThemeData::sCurrent = nullptr;
 bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
+SystemManager* ThemeData::sSystemManager = nullptr;
 
 std::vector<std::string>& ThemeData::SupportedViews()
 {
@@ -977,4 +979,93 @@ bool ThemeData::isFolderHandled() const
 {
 	const auto* elem = getElement("detailed", "md_folder_name", "text");
 	return elem != nullptr && elem->HasProperty("pos");
+}
+
+std::string ThemeData::resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath)
+{
+  std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
+  std::string lc = "en";
+  std::string cc = "us";
+  if (lccc.size() >= 5)
+  {
+    size_t pos = lccc.find('_');
+    if (pos >=2 && pos < lccc.size() - 1)
+    {
+      lc = lccc.substr(0, pos);
+      cc = lccc.substr(pos + 1);
+    }
+  }
+
+  // Take path
+  std::string result = path;
+
+  // Handle system specific variables
+  if (sSystemManager != nullptr && !systemThemeFolder.empty())
+  {
+    const std::vector<SystemData*> systems = sSystemManager->GetAllSystemList();
+    int index = -1;
+    for (int i = (int)systems.size(); --i >= 0;)
+      if (systems[i]->ThemeFolder() == systemThemeFolder) { index = i; break; }
+
+    if (index >= 0)
+    {
+      const SystemData& currentSystem = *systems[index];
+      // System properties
+      Strings::ReplaceAllIn(result, "$manufacturer", currentSystem.Descriptor().Manufacturer());
+      Strings::ReplaceAllIn(result, "$lightgun", Strings::ToString(currentSystem.Descriptor().LightGun()));
+      Strings::ReplaceAllIn(result, "$keyboard", ConvertDeviceRequirement(currentSystem.Descriptor().KeyboardRequirement()));
+      Strings::ReplaceAllIn(result, "$mouse", ConvertDeviceRequirement(currentSystem.Descriptor().MouseRequirement()));
+      Strings::ReplaceAllIn(result, "$pad", ConvertDeviceRequirement(currentSystem.Descriptor().PadRequirement()));
+      Strings::ReplaceAllIn(result, "$type", ConvertSystemType(currentSystem.Descriptor().Type()));
+      
+      // system+x and system-x variables (up to +10/-10)
+      for (int i = 0; i < 10; ++i)
+      {
+        int positiveOffset = (index + i) % (int) systems.size();
+        Strings::ReplaceAllIn(result, String("$system+").Append(positiveOffset), systems[positiveOffset]->ThemeFolder());
+
+        int negativeOffset = ((index + (int) systems.size() * 10) - i) % (int) systems.size();
+        Strings::ReplaceAllIn(result, String("$system-").Append(positiveOffset), systems[negativeOffset]->ThemeFolder());
+      }
+    }
+  }
+
+  // Replace static variables
+  Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
+  Strings::ReplaceAllIn(result, "$language", lc);
+  Strings::ReplaceAllIn(result, "$country", cc);
+
+  return PickRandomPath(result, randomPath);;
+}
+
+std::string ThemeData::ConvertDeviceRequirement(SystemDescriptor::DeviceRequirement requirement)
+{
+  switch(requirement)
+  {
+    case SystemDescriptor::DeviceRequirement::Unknown: return "unknown";
+    case SystemDescriptor::DeviceRequirement::Required: return "required";
+    case SystemDescriptor::DeviceRequirement::Recommended: return "recommended";
+    case SystemDescriptor::DeviceRequirement::Optional: return "pptional";
+    case SystemDescriptor::DeviceRequirement::None:
+    default: break;
+  }
+  return "none";
+}
+
+std::string ThemeData::ConvertSystemType(SystemDescriptor::SystemType type)
+{
+  switch(type)
+  {
+    case SystemDescriptor::SystemType::Arcade: return "arcade";
+    case SystemDescriptor::SystemType::Console: return "console";
+    case SystemDescriptor::SystemType::Handheld: return "handheld";
+    case SystemDescriptor::SystemType::Fantasy: return "fantasy";
+    case SystemDescriptor::SystemType::Computer: return "computer";
+    case SystemDescriptor::SystemType::Virtual: return "virtual";
+    case SystemDescriptor::SystemType::Engine: return "engine";
+    case SystemDescriptor::SystemType::Port: return "port";
+    case SystemDescriptor::SystemType::Unknown:
+    default: break;
+  }
+  return "unknown";
 }
