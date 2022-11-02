@@ -332,6 +332,7 @@ class SystemManager :
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {
+      ThemeData::SetSystemManager(this);
     }
 
     //! Destructor
