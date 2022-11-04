@@ -55,7 +55,7 @@ class WindowManager
     bool isSleeping() const { return mSleeping; }
 
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
-    void UpdateHelp() { mHelp.UpdateHelps(); }
+    void UpdateHelp(bool force = false) { mHelp.UpdateHelps(force); }
 
     void DoSleep();
 
