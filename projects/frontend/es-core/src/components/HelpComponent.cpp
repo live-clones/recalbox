@@ -49,10 +49,10 @@ HelpComponent::HelpComponent(WindowManager&window)
 {
 }
 
-void HelpComponent::UpdateHelps()
+void HelpComponent::UpdateHelps(bool force)
 {
   // No change?
-  if (mHelp == HelpItems())
+  if (mHelp == HelpItems() && !force)
     return;
 
   mGrid.ClearEntries();
@@ -109,7 +109,7 @@ void HelpComponent::UpdateHelps()
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
-	mGrid.setPosition(Vector3f((int)HelpItemStyle().Position().x(), (int)HelpItemStyle().Position().y(), 0.0f));
+	mGrid.setPosition(Vector3f(HelpItemStyle().Position().x() * Renderer::Instance().DisplayWidthAsFloat(), HelpItemStyle().Position().y() * Renderer::Instance().DisplayHeightAsFloat(), 0.0f));
 }
 
 void HelpComponent::setOpacity(unsigned char opacity)
