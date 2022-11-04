@@ -4,6 +4,7 @@
 #include <WindowManager.h>
 #include <components/TextComponent.h>
 #include <utils/sync/SyncMessageSender.h>
+#include <views/crt/CrtResolutions.h>
 
 #pragma once
 
@@ -37,6 +38,39 @@ class CrtView : public Gui
     bool getHelpPrompts(Help& help) override;
 
   private:
+    static constexpr CrtResolution sForced31khz[] =
+    {
+      CrtResolution::r480p,
+      CrtResolution::r240p,
+      CrtResolution::r224p,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sPALOnly[] =
+    {
+      CrtResolution::r288p,
+      CrtResolution::r576i,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sNTSCOnly[] =
+    {
+      CrtResolution::r240p,
+      CrtResolution::r224p,
+      CrtResolution::r480i,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sPALNTSC[] =
+    {
+      CrtResolution::r240p,
+      CrtResolution::r224p,
+      CrtResolution::r480i,
+      CrtResolution::r288p,
+      CrtResolution::r576i,
+      CrtResolution::rNone
+    };
+
     //! Timing file path
     static constexpr const char* sTimingFile = "/boot/crt/timings.txt";
 
@@ -55,10 +89,20 @@ class CrtView : public Gui
     //! Synchronous event
     SyncMessageSender<void> mEvent;
 
+    //! Configuration sequence
+    const CrtResolution* mSequence;
+    //! Sequence index
+    int mSequenceIndex;
+
     //! Original config
     int mOriginalVOffset;
     int mOriginalHOffset;
     int mOriginalViewportWidth;
+
+    //! Original resolution width
+    int mOriginalWidth;
+    //! Original resolution height
+    int mOriginalHeight;
 
     //! Viewport ratio
     int mStep;
@@ -68,6 +112,12 @@ class CrtView : public Gui
 
     //! Update position
     void UpdatePosition();
+
+    //! Change resolution
+    void SetResolution(CrtResolution resolution);
+
+    //! Initialize all the view
+    void Initialize();
 
     /*
      * Synchronous event
