@@ -7,7 +7,7 @@
 
 HelpStyle::HelpStyle()
   : mFont(Font::get(FONT_SIZE_SMALL)),
-    mPosition(Renderer::Instance().DisplayWidthAsFloat() * 0.012f, Renderer::Instance().DisplayHeightAsFloat() * 0.9515f),
+    mPosition(0.012f, 0.9515f),
     mIconColor(0x777777FF),
     mTextColor(0x777777FF)
 {
@@ -23,7 +23,7 @@ void HelpStyle::FromTheme(const ThemeData& theme, const std::string& view)
 	  mImagesPath[i] = Path::Empty;
 
 	if(elem->HasProperty("pos"))
-		mPosition = elem->AsVector("pos") * Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+		mPosition = elem->AsVector("pos");
 
 	if(elem->HasProperty("textColor"))
 		mTextColor = (unsigned int)elem->AsInt("textColor");
