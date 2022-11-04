@@ -115,6 +115,10 @@ class NvidiaInstaller:
                     "/usr/bin/nvidia-settings",
                 ),
                 ("/usr/bin/nvidia-smi." + self.driver_version, "/usr/bin/nvidia-smi"),
+                (
+                    "/usr/bin/nvidia-xconfig." + self.driver_version,
+                    "/usr/bin/nvidia-xconfig",
+                ),
             ],
             "libraries": [
                 (
@@ -222,6 +226,16 @@ class NvidiaInstaller:
                 (
                     extra_search_path + "/libnvidia-ngx.so",
                     LIBRARY_DIR + "/libnvidia-ngx.so",
+                    [self.driver_version],
+                ),
+                (
+                    extra_search_path + "/libnvidia-ml.so",
+                    LIBRARY_DIR + "/libnvidia-ml.so",
+                    [self.driver_version],
+                ),
+                (
+                    extra_search_path + "/libnvidia-cfg.so",
+                    LIBRARY_DIR + "/libnvidia-cfg.so",
                     [self.driver_version],
                 ),
             ],
