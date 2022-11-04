@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
  
 - Bump libretro genesisplusgxwide
+- Bump libretro uae
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
