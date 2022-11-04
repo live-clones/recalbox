@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
+- Bump libretro uae
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
