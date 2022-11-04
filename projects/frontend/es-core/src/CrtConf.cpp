@@ -46,6 +46,41 @@ const std::string& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
     case CrtAdapterType::None:
     default: break;
   }
-  static std::string sDefault = "";
+  static std::string sDefault;
   return sDefault;
 }
+
+CrtResolution CrtConf::CrtResolutionFromString(const std::string& menu)
+{
+  if (menu == "224p") return CrtResolution::r224p;
+  if (menu == "240p") return CrtResolution::r240p;
+  if (menu == "288p") return CrtResolution::r288p;
+  if (menu == "480i") return CrtResolution::r480i;
+  if (menu == "576i") return CrtResolution::r576i;
+  if (menu == "480p") return CrtResolution::r480p;
+  return CrtResolution::rNone;
+}
+
+const std::string& CrtConf::CrtResolutionFromEnum(CrtResolution type)
+{
+  switch(type)
+  {
+    case CrtResolution::r224p: { static std::string result("224p"); return result; }
+    case CrtResolution::r240p: { static std::string result("240p"); return result; }
+    case CrtResolution::r288p: { static std::string result("288p"); return result; }
+    case CrtResolution::r480i: { static std::string result("480i"); return result; }
+    case CrtResolution::r576i: { static std::string result("576i"); return result; }
+    case CrtResolution::r480p: { static std::string result("480p"); return result; }
+    case CrtResolution::_rCount:
+    case CrtResolution::rNone:
+    default: break;
+  }
+  static std::string result("None");
+  return result;
+}
+
+DefineCrtModeOffsetImplementation(VerticalOffset, int, Int, sVerticalOffset, 0)
+DefineCrtModeOffsetImplementation(HorizontalOffset, int, Int, sHorizontalOffset, 0)
+DefineCrtViewportImplementation(Width, int, Int, sWidth, 0)
+
+

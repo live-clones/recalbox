@@ -35,7 +35,7 @@ class HelpComponent : public Component
 
     void setOpacity(unsigned char opacity) final;
 
-    void UpdateHelps();
+    void UpdateHelps(bool force);
 
   private:
     static constexpr int sPauseTime = 5000;
