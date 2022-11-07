@@ -90,6 +90,7 @@ kodiMappingSystem  = '/recalbox/share_init/system/configs/kodi/input.xml'
 moonlightCustom = CONF+'/moonlight'
 moonlightConfig = moonlightCustom + '/moonlight.conf'
 moonlightGamelist = moonlightCustom + '/gamelist.txt'
+moonlightIsQT = '/recalbox/scripts/moonlight/is_qt'
 moonlightMapping = dict()
 moonlightMapping[1] = moonlightCustom + '/mappingP1.conf'
 moonlightMapping[2] = moonlightCustom + '/mappingP2.conf'
