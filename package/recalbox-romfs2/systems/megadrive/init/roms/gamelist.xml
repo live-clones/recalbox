@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <gameList>
   <provider>
     <System>Genesis</System>
@@ -143,33 +143,53 @@ Good Luck!</desc>
     <image>./media/images/Yazzie (Retrosouls).png</image>
     <genreid>258</genreid>
   </game>
-  <game>
-		<path>Demons Of Asteborg (Demo).zip</path>
-		<hash>67283FBE</hash>
-		<region>11</region>
-		<genreid>257</genreid>
-		<genre>Platform,Action</genre>
-		<publisher>Neofid Studios</publisher>
-		<developer>Neofid Studios</developer>
-		<releasedate>20210803T230000</releasedate>
-		<image>media/images/Demons of Asteborg (Demo).png</image>
-		<desc>Long ago in the Kingdom of Asteborg, a war broke out, pitting humans and demons against each other in a bloody battle. Sagramor, a powerful mercenary, and Maria, a sorceress with fighting magic, joined forces to defeat the demonic army.
-
+  <game id="419412" source="ScreenScraper.fr">
+    <path>./Astebros Demo (fr).zip</path>
+    <name>Astebros (Français)</name>
+    <desc>Cette histoire se déroule bien avant les événements de "Demons of Asteborg"...
+En quête d'un Eldorado, humains et démons ont découvert Asteborg, un continent riche en ressources et promettant un avenir luxueux.
+Cependant, aucun de ceux qui ont mis le pied sur le continent d'Asteborg n'en est encore revenu.
+Incarnez trois héros qui partent en éclaireur et affrontent les dangers d'Asteborg, collectent des trésors et découvrent les plus anciens secrets de ce continent perdu...</desc>
+    <releasedate>20230301T000000</releasedate>
+    <developer>Neofid Studios</developer>
+    <publisher>Neofid Studios</publisher>
+    <genre>Platform,Action</genre>
+    <players>2</players>
+    <image>./media/images/Astebros Demo.png</image>
+  </game>
+  <game id="419412" source="ScreenScraper.fr">
+    <path>./Astebros Demo (en).zip</path>
+    <name>Astebros (English)</name>
+    <desc>This story takes place long before the events of "Demons of Asteborg"...
+In search of an Eldorado, humans and demons discovered Asteborg, a continent rich in resources and promising a luxurious future.
+However, no one who had ever set foot on the continent of Asteborg had yet returned.
+Play as three heroes who set out to scout and confront the dangers of Asteborg, collect treasures and discover the oldest secrets of this lost continent...</desc>
+    <releasedate>20230301T000000</releasedate>
+    <developer>Neofid Studios</developer>
+    <publisher>Neofid Studios</publisher>
+    <genre>Platform,Action</genre>
+    <players>2</players>
+    <image>./media/images/Astebros Demo.png</image>
+  </game>
+  <game id="268176" source="ScreenScraper.fr">
+    <path>./Demons Of Asteborg (Demo).zip</path>
+    <hash>67283FBE</hash>
+    <region>11</region>
+    <genreid>257</genreid>
+    <genre>Platform,Action</genre>
+    <publisher>Neofid Studios</publisher>
+    <developer>Neofid Studios</developer>
+    <releasedate>20210803T230000</releasedate>
+    <image>./media/images/Demons of Asteborg (Demo).png</image>
+    <desc>Long ago in the Kingdom of Asteborg, a war broke out, pitting humans and demons against each other in a bloody battle. Sagramor, a powerful mercenary, and Maria, a sorceress with fighting magic, joined forces to defeat the demonic army.
 Sagramor found a way to lock the demons in an alternate dimension, at the cost of his own life. His sacrifice earned him the title of "Legend of Asteborg".
-
 Shortly before the end of the war, Maria gave birth to a child named Gareth.
-
 She died 4 years later.
-
 Gareth was then taken in by the royal orphanage, and Bohort, the leader of the armed troops, saw in him an invaluable potential. He trained him from an early age to become a formidable warrior.
-
 Decades later, Zadimus, the former leader of the Demons, who survived the great war, found a way to reopen the portal to the parallel dimension in order to free his fellow Demons and declare war on the humans in order to take back the Kingdom of Asteborg.
-
 As Gareth, now the royal guard of Asteborg, you will go on an adventure, braving the lands of the kingdom and its dangerous lands populated by bloodthirsty monsters.
-
 Along the way, you'll learn more and more about the ancient war and your identity.
-
 But beware, Zadimus won't let you get away with it...</desc>
-		<name>Demons Of Asteborg (Demo)</name>
-	</game>
+    <name>Demons Of Asteborg (Demo)</name>
+  </game>
 </gameList>

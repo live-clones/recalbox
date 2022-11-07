@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
+- Add demo Astebros (Neofid studio) on megadrive
 
 ### Improvements
 - Bump libretro pcsx-rearmed
