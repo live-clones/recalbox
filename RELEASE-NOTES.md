@@ -29,6 +29,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
 - Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
 - Add new Kodi theme for lower resolutions
+- Add demo Astebros (Neofid studio) on megadrive
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
