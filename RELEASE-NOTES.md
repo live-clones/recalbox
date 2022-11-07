@@ -62,6 +62,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro Beetle Lynx
 - Bump libretro gPSP
 - Bump libretro-mesen_s
+- Bump libretro dosbox-pure
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
