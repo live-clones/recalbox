@@ -4,6 +4,7 @@ import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.settings import keyValueSettings
+import os
 
 
 class MoonlightGenerator(Generator):
@@ -14,34 +15,58 @@ class MoonlightGenerator(Generator):
         outputFile = recalboxFiles.moonlightCustom + '/gamecontrollerdb.txt'
         from configgen.controllers.controller import Controller
         Controller.GenerateSDLGameDatabase(playersControllers, outputFile)
-        (gameName,confFile) = self.getRealGameNameAndConfigFile(args.rom)
-        commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream','-config',  confFile]
+        (gameName, argument) = self.getRealGameNameAndArgument(args.rom)
+        if self.isEmbedded():
+            commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream', '-config', argument]
+        else:
+            commandArray = [recalboxFiles.recalboxBins[system.Emulator], 'stream', argument]
 
-        if system.HasArgs: commandArray.extend(system.Args)
+        if system.HasArgs:
+            commandArray.extend(system.Args)
 
-        commandArray.append('-app')
+        if self.isEmbedded():
+            commandArray.append('-app')
         commandArray.append(gameName)
         return Command(videomode='default', array=commandArray, env={"XDG_DATA_DIRS": recalboxFiles.CONF})
 
-    @staticmethod
-    def getRealGameNameAndConfigFile(rom: str) -> (str, str):
+    def getRealGameNameAndArgument(self, rom: str) -> (str, str):
         # Rom's basename without extension
         import os
         romName = os.path.splitext(os.path.basename(rom))[0]
         # find the real game name
         f = open(recalboxFiles.moonlightGamelist, 'r')
         gfeGame = None
+
         for line in f:
-            try:
+            if self.isEmbedded():
+                try:
+                    gfeRom, gfeGame, confFile = line.rstrip().split(';')
+                except ValueError:
+                    gfeRom, gfeGame = line.split(';')
+                    confFile = recalboxFiles.moonlightConfig
+                if gfeRom == romName:
+                    f.close()
+                    return [gfeGame, confFile]
+            else:
                 gfeRom, gfeGame, confFile = line.rstrip().split(';')
-                #confFile = confFile.rstrip()
-            except ValueError:
-                gfeRom, gfeGame = line.split(';')
-                confFile = recalboxFiles.moonlightConfig
-            #If found
-            if gfeRom == romName:
-                # return it
-                f.close()
-                return [gfeGame, confFile]
+                streamHost = self.getStreamHostFromConfig(confFile)
+                if gfeRom == romName:
+                    # return it
+                    f.close()
+                    return [gfeGame, streamHost]
         # If nothing is found (old gamelist file format ?)
         return gfeGame, recalboxFiles.moonlightConfig
+
+    @staticmethod
+    def getStreamHostFromConfig(configFile: str) -> str:
+        import re
+        with open(configFile, 'r') as fp:
+            for line in fp:
+                z = re.match(r"^address\s*=\s*(.*)", line)
+                if z:
+                    return z.group(1)
+        raise "IP not found"
+
+    @staticmethod
+    def isEmbedded() -> bool:
+        return not os.path.exists(recalboxFiles.moonlightIsQT)

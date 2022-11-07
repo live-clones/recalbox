@@ -41,6 +41,7 @@ endif
 
 define MOONLIGHT_QT_SCRIPT_INSTALL
 	$(INSTALL) -D -m 0755 $(MOONLIGHT_QT_PKGDIR)/Moonlight.sh $(TARGET_DIR)/recalbox/scripts/moonlight/Moonlight.sh
+	touch $(TARGET_DIR)/recalbox/scripts/moonlight/is_qt
 endef
 
 MOONLIGHT_QT_POST_INSTALL_TARGET_HOOKS += MOONLIGHT_QT_SCRIPT_INSTALL
