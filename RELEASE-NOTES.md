@@ -18,7 +18,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Update of the theme for the X68000 system
- 
+- Bump libretro dosbox-pure
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
