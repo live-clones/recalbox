@@ -1,5 +1,5 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 94533fa9b4..d737c4b74c 100644
+index 8167cd5eac..1ee8bdb89c 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
 @@ -15,11 +15,11 @@ SDL2_INSTALL_STAGING = YES
@@ -26,7 +26,7 @@ index 94533fa9b4..d737c4b74c 100644
  
  # We must enable static build to get compilation successful.
  SDL2_CONF_OPTS += --enable-static
-@@ -151,11 +155,29 @@ else
+@@ -157,11 +161,29 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  

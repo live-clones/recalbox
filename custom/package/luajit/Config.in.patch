@@ -1,5 +1,5 @@
 diff --git a/package/luajit/Config.in b/package/luajit/Config.in
-index f27099e80c..5ef83f20e4 100644
+index 31e9e0243e..7d5fb2d5c8 100644
 --- a/package/luajit/Config.in
 +++ b/package/luajit/Config.in
 @@ -24,7 +24,6 @@ config BR2_PACKAGE_LUAJIT
