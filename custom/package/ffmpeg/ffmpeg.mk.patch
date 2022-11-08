@@ -1,5 +1,5 @@
 diff --git a/package/ffmpeg/ffmpeg.mk b/package/ffmpeg/ffmpeg.mk
-index 82d229903f..c885cbcbbb 100644
+index ced5ce598f..a3e5006db1 100644
 --- a/package/ffmpeg/ffmpeg.mk
 +++ b/package/ffmpeg/ffmpeg.mk
 @@ -60,6 +60,11 @@ FFMPEG_CONF_OPTS = \
