@@ -1,5 +1,5 @@
 diff --git a/package/mosquitto/mosquitto.mk b/package/mosquitto/mosquitto.mk
-index 3e7a728acb..d14fb42899 100644
+index 12de2946b7..18e39d3390 100644
 --- a/package/mosquitto/mosquitto.mk
 +++ b/package/mosquitto/mosquitto.mk
 @@ -115,7 +115,7 @@ endef
@@ -11,12 +11,3 @@ index 3e7a728acb..d14fb42899 100644
  endef
  
  define MOSQUITTO_INSTALL_INIT_SYSTEMD
-@@ -124,7 +124,7 @@ define MOSQUITTO_INSTALL_INIT_SYSTEMD
- endef
- 
- define MOSQUITTO_USERS
--	mosquitto -1 nobody -1 * - - - Mosquitto user
-+	mosquitto -1 nogroup -1 * - - - Mosquitto user
- endef
- endif
- 
