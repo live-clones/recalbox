@@ -32,7 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
 - Fix pad 8bitdo Pro 2 mode D (Android)
 - Fix bad overlay showing when save on exit is enabled on retroarch
-
+- Fix support for Ultimarc IPAC 2
 
 ## Version 8.1.1-Electron
 
