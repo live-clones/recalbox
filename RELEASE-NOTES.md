@@ -10,7 +10,6 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-pcsx rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
-<<<<<<< master
 - RRGBD:
   - Add new theme for recalbox rgb dual with 240p optimisations
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
@@ -21,9 +20,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add new arcade game support for 15kHz.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
-=======
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
->>>>>>> feat(game): add pongboy edition recalbox on gb
 
 ### Improvements
 - Bump libretro pcsx-rearmed
@@ -34,6 +31,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
 - Fix pad 8bitdo Pro 2 mode D (Android)
+- Fix bad overlay showing when save on exit is enabled on retroarch
+
 
 ## Version 8.1.1-Electron
 
