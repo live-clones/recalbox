@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
  
 - Improve AppleIIGS configurator & add eXoAppleIIGS config support
+- Bump libretro genesisplusgxwide
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
