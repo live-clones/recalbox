@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Update of the theme for the X68000 system
+- Bump libretro genesisplusgxwide
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
