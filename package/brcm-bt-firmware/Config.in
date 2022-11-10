@@ -1,0 +1,12 @@
+config BR2_PACKAGE_BRCM_BT_FIRMWARE
+	bool "Broadcom bluetooth firmware"
+	help
+	  Install additional Broadcom firmware
+	  This package intentended to provide firmware of
+	  Broadcom WIDCOMM® Bluetooth devices (including BCM20702,
+	  BCM20703, BCM43142 chipsets and other) for
+	  Linux kernel.
+	  Since February 2017, Broadcom ships their drivers
+	  directly to Windows Update service.
+
+	  https://github.com/winterheart/broadcom-bt-firmware
