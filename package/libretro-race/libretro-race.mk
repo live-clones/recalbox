@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_RACE_VERSION = 7ad607340bfc188ed819e15386366c4cd890cc18
+# commit of 2022/07/25
+LIBRETRO_RACE_VERSION = cb002043c65276dac592ed0214ae8a6bba82e2b1
 LIBRETRO_RACE_SITE = $(call github,libretro,RACE,$(LIBRETRO_RACE_VERSION))
 LIBRETRO_RACE_LICENSE = GPL-2.0
 LIBRETRO_RACE_LICENSE_FILES = license.txt
