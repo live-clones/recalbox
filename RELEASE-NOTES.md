@@ -29,6 +29,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gong
 - Bump Amiberry to v5.4
 - Bump libretro bluemsx
+- Bump libretro neocd
 - Update of the theme for the X68000 system
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
 - Improve AppleIIGS configurator & add eXoAppleIIGS config support
