@@ -1,6 +1,17 @@
---- ./drivers/net/wireless/rtl8821cu/Makefile	2020-10-25 00:53:19.256019997 +0200
-+++ ./drivers/net/wireless/rtl8821cu/Makefile	2020-10-25 01:05:00.061994202 +0200
-@@ -15,6 +15,7 @@
+From 05fd35f0ed4367da9b072dd03d411bb15f4d6852 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 10 Nov 2022 21:35:28 +0100
+Subject: [PATCH 2/6] rtl8821cu no bool operation
+
+---
+ drivers/net/wireless/rtl8821cu/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/wireless/rtl8821cu/Makefile b/drivers/net/wireless/rtl8821cu/Makefile
+index 4d86dc91100d..141b2d9353fa 100755
+--- a/drivers/net/wireless/rtl8821cu/Makefile
++++ b/drivers/net/wireless/rtl8821cu/Makefile
+@@ -15,6 +15,7 @@ EXTRA_CFLAGS += -Wno-unused-function
  EXTRA_CFLAGS += -Wno-unused
  #EXTRA_CFLAGS += -Wno-uninitialized
  EXTRA_CFLAGS += -Wno-implicit-fallthrough
@@ -8,3 +19,6 @@
  
  GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
  ifeq ($(GCC_VER_49),1)
+-- 
+2.38.1
+
