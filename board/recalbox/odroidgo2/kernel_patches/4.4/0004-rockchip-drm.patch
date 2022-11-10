@@ -1,95 +1,29 @@
-diff -Naur ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
---- ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c	2020-11-04 22:47:16.669645064 +0100
-@@ -17,6 +17,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/phy/phy.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_of.h>
- #include <drm/drmP.h>
- #include <drm/drm_crtc_helper.h>
-@@ -338,6 +339,46 @@
- 	}
- };
- 
-+static const struct dw_hdmi_mpll_config rockchip_rk3288w_mpll_cfg_420[] = {
-+	{
-+		30666000, {
-+			{ 0x00b7, 0x0000 },
-+			{ 0x2157, 0x0000 },
-+			{ 0x40f7, 0x0000 },
-+		},
-+	},  {
-+		92000000, {
-+			{ 0x00b7, 0x0000 },
-+			{ 0x2143, 0x0001 },
-+			{ 0x40a3, 0x0001 },
-+		},
-+	},  {
-+		184000000, {
-+			{ 0x0073, 0x0001 },
-+			{ 0x2146, 0x0002 },
-+			{ 0x4062, 0x0002 },
-+		},
-+	},  {
-+		340000000, {
-+			{ 0x0052, 0x0003 },
-+			{ 0x214d, 0x0003 },
-+			{ 0x4065, 0x0003 },
-+		},
-+	},  {
-+		600000000, {
-+			{ 0x0040, 0x0003 },
-+			{ 0x3b4c, 0x0003 },
-+			{ 0x5a65, 0x0003 },
-+		},
-+	},  {
-+		~0UL, {
-+			{ 0x0000, 0x0000 },
-+			{ 0x0000, 0x0000 },
-+			{ 0x0000, 0x0000 },
-+		},
-+	}
-+};
-+
- static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
- 	/*      pixelclk    bpp8    bpp10   bpp12 */
- 	{
-@@ -1086,10 +1127,18 @@
- 	} else if (property == hdmi->quant_range) {
- 		hdmi->hdmi_quant_range = val;
- 		return 0;
-+	} else if (property == hdmi->outputmode_capacity) {
-+		return -EINVAL;
-+	} else if (property == hdmi->colordepth_capacity) {
-+		return -EINVAL;
-+	} else {
-+		if (!state)
-+			return drm_atomic_helper_connector_set_property(connector,
-+									property, val);
-+		else
-+			return drm_atomic_connector_set_property(connector, state,
-+								 property, val);
- 	}
--
--	DRM_ERROR("failed to set rockchip hdmi connector property\n");
--	return -EINVAL;
- }
- 
- static int
-@@ -1182,6 +1231,7 @@
- static const struct dw_hdmi_plat_data rk3288_hdmi_drv_data = {
- 	.mode_valid = dw_hdmi_rockchip_mode_valid,
- 	.mpll_cfg   = rockchip_mpll_cfg,
-+	.mpll_cfg_420 = rockchip_rk3288w_mpll_cfg_420,
- 	.cur_ctr    = rockchip_cur_ctr,
- 	.phy_config = rockchip_phy_config,
- 	.dev_type   = RK3288_HDMI,
-diff -Naur ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c
---- ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c	2020-11-04 22:47:16.669645064 +0100
-@@ -895,180 +895,6 @@
+From 14c3b3465913f1d024077879f1a261f4329683b7 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 10 Nov 2022 21:35:58 +0100
+Subject: [PATCH 4/6] rockchip drm
+
+---
+ drivers/gpu/drm/rockchip/dw-mipi-dsi.c        | 350 +++++++++---------
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  56 ++-
+ drivers/gpu/drm/rockchip/rk618/rk618_dsi.c    |  16 +-
+ drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c   |  23 +-
+ drivers/gpu/drm/rockchip/rk618/rk618_lvds.c   |   5 +-
+ drivers/gpu/drm/rockchip/rk618/rk618_rgb.c    |   5 +-
+ drivers/gpu/drm/rockchip/rk618/rk618_scaler.c |  12 +-
+ drivers/gpu/drm/rockchip/rk618/rk618_vif.c    |   6 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   8 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |  69 ++--
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |  14 +
+ drivers/gpu/drm/rockchip/rockchip_rgb.c       |   1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |   6 +-
+ 13 files changed, 320 insertions(+), 251 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi.c
+index dba07a352f5d..486e96badf6c 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi.c
+@@ -895,180 +895,6 @@ static int dw_mipi_dsi_read_from_fifo(struct dw_mipi_dsi *dsi,
  	return 0;
  }
  
@@ -270,7 +204,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c ./drivers/gpu/drm/rockchip/d
  static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
  {
  	u32 val = LP_VACT_EN | LP_VFP_EN | LP_VBP_EN | LP_VSA_EN |
-@@ -1595,10 +1421,185 @@
+@@ -1595,10 +1421,185 @@ static const struct drm_connector_funcs dw_mipi_dsi_atomic_connector_funcs = {
  	.detect = dw_mipi_dsi_detect,
  	.destroy = dw_mipi_dsi_drm_connector_destroy,
  	.reset = drm_atomic_helper_connector_reset,
@@ -456,7 +390,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c ./drivers/gpu/drm/rockchip/d
  static int dw_mipi_dsi_register(struct drm_device *drm,
  				      struct dw_mipi_dsi *dsi)
  {
-@@ -1607,6 +1608,7 @@
+@@ -1607,6 +1608,7 @@ static int dw_mipi_dsi_register(struct drm_device *drm,
  	struct device *dev = dsi->dev;
  	int ret;
  
@@ -464,10 +398,100 @@ diff -Naur ./drivers/gpu/drm/rockchip/dw-mipi-dsi.c ./drivers/gpu/drm/rockchip/d
  	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm,
  							     dev->of_node);
  	/*
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c	2020-11-04 22:47:16.669645064 +0100
-@@ -293,8 +293,13 @@
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+index c652e208b1bd..d2754a62a3b0 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+@@ -17,6 +17,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/phy/phy.h>
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_of.h>
+ #include <drm/drmP.h>
+ #include <drm/drm_crtc_helper.h>
+@@ -338,6 +339,46 @@ static const struct dw_hdmi_mpll_config rockchip_mpll_cfg_420[] = {
+ 	}
+ };
+ 
++static const struct dw_hdmi_mpll_config rockchip_rk3288w_mpll_cfg_420[] = {
++	{
++		30666000, {
++			{ 0x00b7, 0x0000 },
++			{ 0x2157, 0x0000 },
++			{ 0x40f7, 0x0000 },
++		},
++	},  {
++		92000000, {
++			{ 0x00b7, 0x0000 },
++			{ 0x2143, 0x0001 },
++			{ 0x40a3, 0x0001 },
++		},
++	},  {
++		184000000, {
++			{ 0x0073, 0x0001 },
++			{ 0x2146, 0x0002 },
++			{ 0x4062, 0x0002 },
++		},
++	},  {
++		340000000, {
++			{ 0x0052, 0x0003 },
++			{ 0x214d, 0x0003 },
++			{ 0x4065, 0x0003 },
++		},
++	},  {
++		600000000, {
++			{ 0x0040, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a65, 0x0003 },
++		},
++	},  {
++		~0UL, {
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++		},
++	}
++};
++
+ static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
+ 	/*      pixelclk    bpp8    bpp10   bpp12 */
+ 	{
+@@ -1086,10 +1127,18 @@ dw_hdmi_rockchip_set_property(struct drm_connector *connector,
+ 	} else if (property == hdmi->quant_range) {
+ 		hdmi->hdmi_quant_range = val;
+ 		return 0;
++	} else if (property == hdmi->outputmode_capacity) {
++		return -EINVAL;
++	} else if (property == hdmi->colordepth_capacity) {
++		return -EINVAL;
++	} else {
++		if (!state)
++			return drm_atomic_helper_connector_set_property(connector,
++									property, val);
++		else
++			return drm_atomic_connector_set_property(connector, state,
++								 property, val);
+ 	}
+-
+-	DRM_ERROR("failed to set rockchip hdmi connector property\n");
+-	return -EINVAL;
+ }
+ 
+ static int
+@@ -1182,6 +1231,7 @@ static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
+ static const struct dw_hdmi_plat_data rk3288_hdmi_drv_data = {
+ 	.mode_valid = dw_hdmi_rockchip_mode_valid,
+ 	.mpll_cfg   = rockchip_mpll_cfg,
++	.mpll_cfg_420 = rockchip_rk3288w_mpll_cfg_420,
+ 	.cur_ctr    = rockchip_cur_ctr,
+ 	.phy_config = rockchip_phy_config,
+ 	.dev_type   = RK3288_HDMI,
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_dsi.c b/drivers/gpu/drm/rockchip/rk618/rk618_dsi.c
+index 8f130c468934..30bda86a623b 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_dsi.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_dsi.c
+@@ -293,8 +293,13 @@ static void rk618_dsi_set_hs_clk(struct rk618_dsi *dsi)
  
  		bandwidth = (u64)mode->clock * 1000 * bpp;
  		do_div(bandwidth, lanes);
@@ -483,7 +507,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c ./drivers/gpu/drm/rockch
  		fout = bandwidth;
  	}
  
-@@ -653,9 +658,6 @@
+@@ -653,9 +658,6 @@ static int rk618_dsi_pre_enable(struct rk618_dsi *dsi)
  	regmap_update_bits(dsi->regmap, DSI_PHY_RSTZ,
  			   PHY_ENABLECLK, PHY_ENABLECLK);
  
@@ -493,7 +517,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c ./drivers/gpu/drm/rockch
  	regmap_update_bits(dsi->regmap, DSI_VID_MODE_CFG, EN_VIDEO_MODE, 0);
  	regmap_update_bits(dsi->regmap, DSI_CMD_MODE_CFG,
  			   EN_CMD_MODE, EN_CMD_MODE);
-@@ -1135,6 +1137,10 @@
+@@ -1135,6 +1137,10 @@ static int rk618_dsi_probe(struct platform_device *pdev)
  		return ret;
  	}
  
@@ -504,10 +528,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_dsi.c ./drivers/gpu/drm/rockch
  	dsi->phy.regmap = devm_regmap_init_i2c(rk618->client,
  					       &rk618_dsi_phy_regmap_config);
  	if (IS_ERR(dsi->phy.regmap)) {
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c	2020-11-04 22:47:16.669645064 +0100
-@@ -554,22 +554,6 @@
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c b/drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c
+index 2fcaf94f3454..1dfb2f3b70c2 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c
+@@ -554,22 +554,6 @@ static void rk618_hdmi_set_polarity(struct rk618_hdmi *hdmi, int vic)
  	regmap_update_bits(hdmi->parent->regmap, RK618_MISC_CON, mask, val);
  }
  
@@ -530,7 +555,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockc
  static inline void hdmi_modb(struct rk618_hdmi *hdmi, u16 offset,
  			     u32 msk, u32 val)
  {
-@@ -656,6 +640,10 @@
+@@ -656,6 +640,10 @@ static void rk618_hdmi_reset(struct rk618_hdmi *hdmi)
  	u32 val;
  	u32 msk;
  
@@ -541,7 +566,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockc
  	hdmi_modb(hdmi, HDMI_SYS_CTRL, m_RST_DIGITAL, v_NOT_RST_DIGITAL);
  	usleep_range(100, 110);
  
-@@ -1512,7 +1500,6 @@
+@@ -1512,7 +1500,6 @@ static int rk618_hdmi_probe(struct platform_device *pdev)
  		return PTR_ERR(hdmi->clock);
  	}
  
@@ -549,7 +574,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockc
  	rk618_hdmi_reset(hdmi);
  
  	hdmi->ddc = rk618_hdmi_i2c_adapter(hdmi);
-@@ -1540,7 +1527,7 @@
+@@ -1540,7 +1527,7 @@ static int rk618_hdmi_probe(struct platform_device *pdev)
  
  	ret = devm_request_threaded_irq(dev, irq, NULL,
  					rk618_hdmi_irq,
@@ -558,10 +583,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_hdmi.c ./drivers/gpu/drm/rockc
  					dev_name(dev), hdmi);
  	if (ret) {
  		dev_err(dev, "failed to request hdmi irq: %d\n", ret);
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c	2020-11-04 22:47:16.669645064 +0100
-@@ -231,6 +231,7 @@
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_lvds.c b/drivers/gpu/drm/rockchip/rk618/rk618_lvds.c
+index 3f27088b440d..9598564d7905 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_lvds.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_lvds.c
+@@ -231,6 +231,7 @@ static int rk618_lvds_probe(struct platform_device *pdev)
  
  	lvds->dev = dev;
  	lvds->parent = rk618;
@@ -569,7 +595,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c ./drivers/gpu/drm/rockc
  	platform_set_drvdata(pdev, lvds);
  
  	ret = rk618_lvds_parse_dt(lvds);
-@@ -239,10 +240,6 @@
+@@ -239,10 +240,6 @@ static int rk618_lvds_probe(struct platform_device *pdev)
  		return ret;
  	}
  
@@ -580,10 +606,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_lvds.c ./drivers/gpu/drm/rockc
  	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
  	if (endpoint) {
  		struct device_node *remote;
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c	2020-11-04 22:47:16.669645064 +0100
-@@ -220,12 +220,9 @@
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_rgb.c b/drivers/gpu/drm/rockchip/rk618/rk618_rgb.c
+index 733c48d43178..1b4e81656744 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_rgb.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_rgb.c
+@@ -220,12 +220,9 @@ static int rk618_rgb_probe(struct platform_device *pdev)
  
  	rgb->dev = dev;
  	rgb->parent = rk618;
@@ -597,10 +624,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_rgb.c ./drivers/gpu/drm/rockch
  	rgb->clock = devm_clk_get(dev, "rgb");
  	if (IS_ERR(rgb->clock)) {
  		ret = PTR_ERR(rgb->clock);
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c	2020-11-04 22:47:16.669645064 +0100
-@@ -296,8 +296,10 @@
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_scaler.c b/drivers/gpu/drm/rockchip/rk618/rk618_scaler.c
+index 85a822fced2b..3a6978ff8eff 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_scaler.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_scaler.c
+@@ -296,8 +296,10 @@ static void rk618_scaler_bridge_mode_set(struct drm_bridge *bridge,
  	dclk_rate = src->clock * 1000;
  	sclk_rate = (u64)dclk_rate * dst->vdisplay * dst->htotal;
  	do_div(sclk_rate, src->vdisplay * src->htotal);
@@ -613,7 +641,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c ./drivers/gpu/drm/roc
  	scl->bridge->driver_private = dst;
  
  	DRM_DEV_INFO(scl->dev, "src=%s, dst=%s\n", src->name, dst->name);
-@@ -349,6 +351,7 @@
+@@ -349,6 +351,7 @@ static const struct drm_bridge_funcs rk618_scaler_bridge_funcs = {
  
  static int rk618_scaler_probe(struct platform_device *pdev)
  {
@@ -621,7 +649,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c ./drivers/gpu/drm/roc
  	struct device *dev = &pdev->dev;
  	struct rk618_scaler *scl;
  	int ret;
-@@ -361,12 +364,9 @@
+@@ -361,12 +364,9 @@ static int rk618_scaler_probe(struct platform_device *pdev)
  		return -ENOMEM;
  
  	scl->dev = dev;
@@ -635,10 +663,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_scaler.c ./drivers/gpu/drm/roc
  	scl->vif_clk = devm_clk_get(dev, "vif");
  	if (IS_ERR(scl->vif_clk)) {
  		ret = PTR_ERR(scl->vif_clk);
-diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c
---- ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c	2020-11-04 22:47:16.669645064 +0100
-@@ -197,6 +197,7 @@
+diff --git a/drivers/gpu/drm/rockchip/rk618/rk618_vif.c b/drivers/gpu/drm/rockchip/rk618/rk618_vif.c
+index 77022bc0cc96..729635c1cff9 100644
+--- a/drivers/gpu/drm/rockchip/rk618/rk618_vif.c
++++ b/drivers/gpu/drm/rockchip/rk618/rk618_vif.c
+@@ -197,6 +197,7 @@ static const struct drm_bridge_funcs rk618_vif_bridge_funcs = {
  
  static int rk618_vif_probe(struct platform_device *pdev)
  {
@@ -646,7 +675,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c ./drivers/gpu/drm/rockch
  	struct device *dev = &pdev->dev;
  	struct rk618_vif *vif;
  	int ret;
-@@ -209,12 +210,9 @@
+@@ -209,12 +210,9 @@ static int rk618_vif_probe(struct platform_device *pdev)
  		return -ENOMEM;
  
  	vif->dev = dev;
@@ -660,10 +689,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rk618/rk618_vif.c ./drivers/gpu/drm/rockch
  	vif->vif_clk = devm_clk_get(dev, "vif");
  	if (IS_ERR(vif->vif_clk)) {
  		ret = PTR_ERR(vif->vif_clk);
-diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c
---- ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c	2020-11-04 22:47:16.672978396 +0100
-@@ -209,7 +209,9 @@
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index 5dce24b6e172..88cfee13e231 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -209,7 +209,9 @@ void rockchip_free_loader_memory(struct drm_device *drm)
  	if (private->domain) {
  		iommu_unmap(private->domain, logo->dma_addr,
  			    logo->iommu_map_size);
@@ -673,7 +703,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c ./drivers/gpu/drm/rockc
  	} else {
  		dma_unmap_sg(drm->dev, logo->sgt->sgl,
  			     logo->sgt->nents, DMA_TO_DEVICE);
-@@ -269,9 +271,11 @@
+@@ -269,9 +271,11 @@ static int init_loader_memory(struct drm_device *drm_dev)
  
  	if (private->domain) {
  		memset(&logo->mm, 0, sizeof(logo->mm));
@@ -685,7 +715,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c ./drivers/gpu/drm/rockc
  		if (ret < 0) {
  			DRM_ERROR("out of I/O virtual memory: %d\n", ret);
  			goto err_free_pages;
-@@ -349,10 +353,10 @@
+@@ -349,10 +353,10 @@ get_framebuffer_by_node(struct drm_device *drm_dev, struct device_node *node)
  
  	switch (bpp) {
  	case 16:
@@ -698,10 +728,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_drv.c ./drivers/gpu/drm/rockc
  		break;
  	case 32:
  		mode_cmd.pixel_format = DRM_FORMAT_XRGB8888;
-diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c
---- ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c	2020-11-04 22:47:16.672978396 +0100
-@@ -911,8 +911,11 @@
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index e9c7593074e1..72735d5d7c0f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -911,8 +911,11 @@ static int to_vop_csc_mode(int csc_mode)
  {
  	switch (csc_mode) {
  	case V4L2_COLORSPACE_SMPTE170M:
@@ -713,7 +744,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  	case V4L2_COLORSPACE_DEFAULT:
  		return CSC_BT709L;
  	case V4L2_COLORSPACE_JPEG:
-@@ -1001,10 +1004,15 @@
+@@ -1001,10 +1004,15 @@ static int vop_setup_csc_table(const struct vop_csc_table *csc_table,
  				*r2r_table = csc_table->r2r_bt2020_to_bt709;
  			if (!is_input_yuv || *y2r_table) {
  				if (output_csc == V4L2_COLORSPACE_REC709 ||
@@ -730,7 +761,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  			}
  		}
  	} else {
-@@ -1019,11 +1027,16 @@
+@@ -1019,11 +1027,16 @@ static int vop_setup_csc_table(const struct vop_csc_table *csc_table,
  
  		if (input_csc == V4L2_COLORSPACE_BT2020)
  			*y2r_table = csc_table->y2r_bt2020;
@@ -750,7 +781,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  
  		if (input_csc == V4L2_COLORSPACE_BT2020)
  			/*
-@@ -1754,12 +1767,10 @@
+@@ -1754,12 +1767,10 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
  
  	rb_swap = has_rb_swapped(fb->pixel_format);
  	/*
@@ -766,7 +797,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  		rb_swap = !rb_swap;
  	VOP_WIN_SET(vop, win, rb_swap, rb_swap);
  
-@@ -2416,6 +2427,23 @@
+@@ -2416,6 +2427,23 @@ static size_t vop_crtc_bandwidth(struct drm_crtc *crtc,
  	u64 bandwidth;
  	int i, cnt = 0, plane_num = 0;
  
@@ -790,7 +821,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  	if (!htotal || !vdisplay)
  		return 0;
  
-@@ -2708,6 +2736,10 @@
+@@ -2708,6 +2736,10 @@ static void vop_crtc_enable(struct drm_crtc *crtc)
  	 */
  	if (vop->lut_active)
  		vop_crtc_load_lut(crtc);
@@ -801,7 +832,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  	dclk_inv = (adjusted_mode->flags & DRM_MODE_FLAG_PPIXDATA) ? 0 : 1;
  
  	VOP_CTRL_SET(vop, dclk_pol, dclk_inv);
-@@ -2841,8 +2873,6 @@
+@@ -2841,8 +2873,6 @@ static void vop_crtc_enable(struct drm_crtc *crtc)
  
  	clk_set_rate(vop->dclk, adjusted_mode->crtc_clock * 1000);
  
@@ -810,7 +841,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  
  	vop_cfg_done(vop);
  
-@@ -3029,23 +3059,6 @@
+@@ -3029,23 +3059,6 @@ static int vop_crtc_atomic_check(struct drm_crtc *crtc,
  	int dsp_layer_sel = 0;
  	int i, j, cnt = 0, ret = 0;
  
@@ -834,10 +865,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_drm_vop.c ./drivers/gpu/drm/rockc
  	ret = vop_afbdc_atomic_check(crtc, crtc_state);
  	if (ret)
  		return ret;
-diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip/rockchip_lvds.c
---- ./drivers/gpu/drm/rockchip/rockchip_lvds.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rockchip_lvds.c	2020-11-04 22:47:16.672978396 +0100
-@@ -76,6 +76,8 @@
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index 582840c8583d..87cea32ce942 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -76,6 +76,8 @@ enum lvds_format {
  	LVDS_8BIT_MODE_FORMAT_2,
  	LVDS_8BIT_MODE_FORMAT_3,
  	LVDS_6BIT_MODE,
@@ -846,7 +878,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip
  };
  
  struct rockchip_lvds;
-@@ -123,6 +125,7 @@
+@@ -123,6 +125,7 @@ static const struct drm_connector_funcs rockchip_lvds_connector_funcs = {
  	.fill_modes = drm_helper_probe_single_connector_modes,
  	.destroy = drm_connector_cleanup,
  	.reset = drm_atomic_helper_connector_reset,
@@ -854,7 +886,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip
  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
  };
-@@ -177,9 +180,15 @@
+@@ -177,9 +180,15 @@ static void rockchip_lvds_encoder_mode_set(struct drm_encoder *encoder,
  	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:	/* jeida-24 */
  		lvds->format = LVDS_8BIT_MODE_FORMAT_2;
  		break;
@@ -870,7 +902,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip
  	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:	/* vesa-24 */
  	default:
  		lvds->format = LVDS_8BIT_MODE_FORMAT_1;
-@@ -204,6 +213,11 @@
+@@ -204,6 +213,11 @@ rockchip_lvds_encoder_atomic_check(struct drm_encoder *encoder,
  		s->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
  
  	s->output_mode = ROCKCHIP_OUT_MODE_P888;
@@ -882,10 +914,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_lvds.c ./drivers/gpu/drm/rockchip
  	s->output_type = DRM_MODE_CONNECTOR_LVDS;
  	s->tv_state = &conn_state->tv;
  	s->eotf = TRADITIONAL_GAMMA_SDR;
-diff -Naur ./drivers/gpu/drm/rockchip/rockchip_rgb.c ./drivers/gpu/drm/rockchip/rockchip_rgb.c
---- ./drivers/gpu/drm/rockchip/rockchip_rgb.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rockchip_rgb.c	2020-11-04 22:47:16.672978396 +0100
-@@ -90,6 +90,7 @@
+diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+index 0d28493e5b10..77cd6561281c 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
++++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+@@ -90,6 +90,7 @@ static const struct drm_connector_funcs rockchip_rgb_connector_funcs = {
  	.fill_modes = drm_helper_probe_single_connector_modes,
  	.destroy = drm_connector_cleanup,
  	.reset = drm_atomic_helper_connector_reset,
@@ -893,10 +926,11 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_rgb.c ./drivers/gpu/drm/rockchip/
  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
  };
-diff -Naur ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c
---- ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c	2020-06-25 07:36:51.000000000 +0200
-+++ ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c	2020-11-04 22:47:16.672978396 +0100
-@@ -497,7 +497,7 @@
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index 6fb3c0f63b71..5b65d2a67f69 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -497,7 +497,7 @@ static const struct vop_data rk3366_vop = {
  
  static const uint32_t vop_csc_y2r_bt601[] = {
  	0x00000400, 0x0400059c, 0xfd25fea0, 0x07170400,
@@ -905,7 +939,7 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c ./drivers/gpu/drm/rockc
  };
  
  static const uint32_t vop_csc_y2r_bt601_12_235[] = {
-@@ -1439,9 +1439,9 @@
+@@ -1439,9 +1439,9 @@ static const struct vop_win_phy rk3126_win1_data = {
  
  static const struct vop_win_data rk3126_vop_win_data[] = {
  	{ .base = 0x00, .phy = &rk3036_win0_data,
@@ -917,3 +951,6 @@ diff -Naur ./drivers/gpu/drm/rockchip/rockchip_vop_reg.c ./drivers/gpu/drm/rockc
  };
  
  static const struct vop_data rk3126_vop = {
+-- 
+2.38.1
+

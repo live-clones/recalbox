@@ -1,5 +1,16 @@
---- ./drivers/net/wireless/esp8089/Makefile	2020-10-25 00:33:38.154796371 +0200
-+++ ./drivers/net/wireless/esp8089/Makefile	2020-10-25 00:43:06.106375893 +0200
+From 7d208a941f6edcf2ad3d412e41966978f42e74e9 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 10 Nov 2022 21:35:09 +0100
+Subject: [PATCH 1/6] esp8089 build fix
+
+---
+ drivers/net/wireless/esp8089/Makefile | 87 ---------------------------
+ 1 file changed, 87 deletions(-)
+
+diff --git a/drivers/net/wireless/esp8089/Makefile b/drivers/net/wireless/esp8089/Makefile
+index f90fa5080827..3e1858d9073e 100755
+--- a/drivers/net/wireless/esp8089/Makefile
++++ b/drivers/net/wireless/esp8089/Makefile
 @@ -1,52 +1,5 @@
  MODNAME = esp8089
  
@@ -53,7 +64,7 @@
  SRC_DIR=$(shell pwd)
  
  include $(KCONFIG)
-@@ -95,31 +48,6 @@
+@@ -95,31 +48,6 @@ config_check:
  		echo; echo; \
  	fi
  
@@ -85,7 +96,7 @@
  modules:
  	$(MAKE) -C $(KBUILD) M=$(SRC_DIR)
  
-@@ -130,19 +58,4 @@
+@@ -130,19 +58,4 @@ clean:
  	rm -f *.o *.ko .*.cmd *.mod.c *.symvers modules.order
  	rm -rf .tmp_versions
  
@@ -105,3 +116,6 @@
 -endif
 -
  .PHONY: all modules clean install config_check
+-- 
+2.38.1
+
