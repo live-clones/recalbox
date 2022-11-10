@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_RETRO8_VERSION = 31b144f3a9e2c3982e83dbcda7bd61848d0aa6e1
+LIBRETRO_RETRO8_VERSION = bc388ec7d217a08265d116aaa74afc0ca3f204f5
 LIBRETRO_RETRO8_SITE = $(call gitlab,recalbox,packages/libretro/libretro-retro8,$(LIBRETRO_RETRO8_VERSION))
 LIBRETRO_RETRO8_LICENSE = GPL-3.0
 LIBRETRO_RETRO8_LICENSE_FILES = LICENSE
