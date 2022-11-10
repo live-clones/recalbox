@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# commit of 25/09/2021
-LIBRETRO_UAE4ARM_VERSION = 4d2e723667a84fcdca73102eb91a83b3c60edba3
+# commit of 22/04/2022
+LIBRETRO_UAE4ARM_VERSION = 177c2f0e892adf2603ada9b150e31beffe0f76c3
 LIBRETRO_UAE4ARM_SITE = $(call github,Chips-fr,uae4arm-rpi,$(LIBRETRO_UAE4ARM_VERSION))
 LIBRETRO_UAE4ARM_BRANCH = master
 LIBRETRO_UAE4ARM_LICENSE = GPL-2.0
