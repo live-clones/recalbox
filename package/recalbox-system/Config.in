@@ -6,6 +6,7 @@ config BR2_PACKAGE_RECALBOX_SYSTEM
 	select BR2_PACKAGE_AVAHI
 	select BR2_PACKAGE_RECALBOX_BLUETOOTH
 	select BR2_PACKAGE_RECALBOX_WIFI
+	select BR2_PACKAGE_BRCM_BT_FIRMWARE
 	help
 	  Install the recalbox system files
 
