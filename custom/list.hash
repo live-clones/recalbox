@@ -20,6 +20,7 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 0f9a8e9cb7874feebb5ddb6632ee456d  package/intel-gmmlib/0001-Drop-hardening-related-flags.patch
 be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
+7ecd8faf8aee2a75412583ccbca01ef0  package/libfreeimage/libfreeimage.mk
 d01ff39be7590054b52166b00c3d54ae  package/lirc-tools/lirc-tools.mk
 46d7c69a4aa287db56c9aa7a6cd18941  package/llvm/Config.in
 7e75396e1df40927003bdba95ba389c2  package/llvm/llvm.hash
