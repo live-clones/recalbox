@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gong
 - Bump libretro bluemsx
 - Bump libretro neocd
+- Bump libretro race
 - Update of the theme for the X68000 system
 
 ### Fixes
