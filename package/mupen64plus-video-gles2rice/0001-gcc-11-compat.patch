@@ -1,0 +1,409 @@
+From 17cabf3eecfdf1aca5116eef861a37571973dc9d Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Fri, 11 Nov 2022 20:34:50 +0100
+Subject: [PATCH] gcc 11 compat
+
+---
+ src/DecodedMux.cpp      | 10 ++++----
+ src/FrameBuffer.cpp     |  4 +--
+ src/GeneralCombiner.cpp |  2 +-
+ src/IColor.h            | 56 ++++++++++++++++++++---------------------
+ src/OGLDecodedMux.cpp   |  2 +-
+ src/OGLExtCombiner.cpp  |  2 +-
+ src/RDP_Texture.h       | 26 +++++++++----------
+ src/RSP_GBI_Others.h    |  6 ++---
+ src/RSP_Parser.cpp      | 18 ++++++-------
+ src/RenderBase.cpp      |  6 ++---
+ 10 files changed, 66 insertions(+), 66 deletions(-)
+
+diff --git a/src/DecodedMux.cpp b/src/DecodedMux.cpp
+index f776c19..7b7d4ca 100644
+--- a/src/DecodedMux.cpp
++++ b/src/DecodedMux.cpp
+@@ -698,7 +698,7 @@ void DecodedMux::Reformat(bool do_complement)
+         m_n64Combiners[3].d = MUX_COMBINED;
+     }
+     
+-    mType = max(max(max(splitType[0], splitType[1]),splitType[2]),splitType[3]);
++    mType = __max(__max(__max(splitType[0], splitType[1]),splitType[2]),splitType[3]);
+ }
+ 
+ const char* MuxGroupStr[4] =
+@@ -792,7 +792,7 @@ int DecodedMux::CountTexels(void)
+     for( int i=0; i<4; i++ )
+     {
+         N64CombinerType &m = m_n64Combiners[i];
+-        count = max(count, ::CountTexel1Cycle(m));
++        count = __max(count, ::CountTexel1Cycle(m));
+         if( count == 2 ) 
+             break;
+     }
+@@ -986,7 +986,7 @@ void DecodedMux::UseShadeForConstant(void)
+ 
+     bool forceToUsed = constants>m_maxConstants;
+ 
+-    if( !isUsedInColorChannel(MUX_SHADE) && (forceToUsed || max(splitType[0], splitType[2]) >= CM_FMT_TYPE_A_MOD_C_ADD_D) )
++    if( !isUsedInColorChannel(MUX_SHADE) && (forceToUsed || __max(splitType[0], splitType[2]) >= CM_FMT_TYPE_A_MOD_C_ADD_D) )
+     {
+         int countEnv = Count(MUX_ENV, N64Cycle0RGB, mask) + Count(MUX_ENV, N64Cycle1RGB, mask);
+         int countPrim = Count(MUX_PRIM, N64Cycle0RGB, mask) + Count(MUX_PRIM, N64Cycle1RGB, mask);
+@@ -1022,8 +1022,8 @@ void DecodedMux::UseShadeForConstant(void)
+         int countEnv = Count(MUX_ENV|MUX_ALPHAREPLICATE, N64Cycle0RGB, mask) + Count(MUX_ENV|MUX_ALPHAREPLICATE, N64Cycle1RGB, mask);
+         int countPrim = Count(MUX_PRIM|MUX_ALPHAREPLICATE, N64Cycle0RGB, mask) + Count(MUX_PRIM|MUX_ALPHAREPLICATE, N64Cycle1RGB, mask);
+ 
+-        if( forceToUsed || max(splitType[1], splitType[3]) >= CM_FMT_TYPE_A_MOD_C_ADD_D ||
+-            (max(splitType[0], splitType[2]) >= CM_FMT_TYPE_A_MOD_C_ADD_D && countEnv+countPrim > 0 ) )
++        if( forceToUsed || __max(splitType[1], splitType[3]) >= CM_FMT_TYPE_A_MOD_C_ADD_D ||
++            (__max(splitType[0], splitType[2]) >= CM_FMT_TYPE_A_MOD_C_ADD_D && countEnv+countPrim > 0 ) )
+         {
+             countEnv = Count(MUX_ENV, N64Cycle0Alpha) + Count(MUX_ENV, N64Cycle1Alpha) +
+                             Count(MUX_ENV|MUX_ALPHAREPLICATE, N64Cycle0RGB, mask) + Count(MUX_ENV|MUX_ALPHAREPLICATE, N64Cycle1RGB, mask);
+diff --git a/src/FrameBuffer.cpp b/src/FrameBuffer.cpp
+index c7c97c0..d7fcea1 100644
+--- a/src/FrameBuffer.cpp
++++ b/src/FrameBuffer.cpp
+@@ -484,8 +484,8 @@ void TexRectToFrameBuffer_8b(uint32 dwXL, uint32 dwYL, uint32 dwXH, uint32 dwYH,
+     uint32 dwLeft = dwXL;
+     uint32 dwTop = dwYL;
+ 
+-    dwWidth = min(dwWidth, maxW-dwLeft);
+-    dwHeight = min(dwHeight, maxH-dwTop);
++    dwWidth = __min(dwWidth, maxW-dwLeft);
++    dwHeight = __min(dwHeight, maxH-dwTop);
+     
+     if( maxH <= dwTop )
+         return;
+diff --git a/src/GeneralCombiner.cpp b/src/GeneralCombiner.cpp
+index 9329bd2..61563fc 100644
+--- a/src/GeneralCombiner.cpp
++++ b/src/GeneralCombiner.cpp
+@@ -867,7 +867,7 @@ int CGeneralCombiner::ParseDecodedMux()
+         stages[i] = n;
+     }
+ 
+-    gci.nStages = max(stages[0], stages[1]);
++    gci.nStages = __max(stages[0], stages[1]);
+     if( gci.nStages > m_dwGeneralMaxStages )
+     {
+         resultIsGood = false;
+diff --git a/src/IColor.h b/src/IColor.h
+index 179f6c0..9e12a9a 100644
+--- a/src/IColor.h
++++ b/src/IColor.h
+@@ -20,11 +20,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ #ifndef _ICOLOR_H_
+ #define _ICOLOR_H_
+ 
+-#ifndef min
+-#define min(a,b) ((a) < (b) ? (a) : (b))
++#ifndef __min
++#define __min(a,b) ((a) < (b) ? (a) : (b))
+ #endif
+-#ifndef max
+-#define max(a,b) ((a) > (b) ? (a) : (b))
++#ifndef __max
++#define __max(a,b) ((a) > (b) ? (a) : (b))
+ #endif
+ 
+ class IColor {
+@@ -64,10 +64,10 @@ public:
+     inline IColor operator + (const IColor &sec) const
+     {
+         IColor newc;
+-        newc.r = (uint8)min((unsigned int) r + (unsigned int) sec.r, 0xFF);
+-        newc.g = (uint8)min((unsigned int) g + (unsigned int) sec.g, 0xFF);
+-        newc.b = (uint8)min((unsigned int) b + (unsigned int) sec.b, 0xFF);
+-        newc.a = (uint8)min((unsigned int) a + (unsigned int) sec.a, 0xFF);
++        newc.r = (uint8)__min((unsigned int) r + (unsigned int) sec.r, 0xFF);
++        newc.g = (uint8)__min((unsigned int) g + (unsigned int) sec.g, 0xFF);
++        newc.b = (uint8)__min((unsigned int) b + (unsigned int) sec.b, 0xFF);
++        newc.a = (uint8)__min((unsigned int) a + (unsigned int) sec.a, 0xFF);
+ 
+         return newc;
+     }
+@@ -75,47 +75,47 @@ public:
+     inline IColor operator - (const IColor &sec) const
+     {
+         IColor newc;
+-        newc.r = max(int(r)-int(sec.r),0);
+-        newc.g = max(int(g)-int(sec.g),0);
+-        newc.b = max(int(b)-int(sec.b),0);
+-        newc.a = max(int(a)-int(sec.a),0);
++        newc.r = __max(int(r)-int(sec.r),0);
++        newc.g = __max(int(g)-int(sec.g),0);
++        newc.b = __max(int(b)-int(sec.b),0);
++        newc.a = __max(int(a)-int(sec.a),0);
+ 
+         return newc;
+     }
+     inline IColor operator * (const IColor &sec) const
+     {
+         IColor newc;
+-        newc.r = (uint8)min((unsigned int) r * (unsigned int) sec.r / 256,255);
+-        newc.g = (uint8)min((unsigned int) g * (unsigned int) sec.g / 256,255);
+-        newc.b = (uint8)min((unsigned int) b * (unsigned int) sec.b / 256,255);
+-        newc.a = (uint8)min((unsigned int) a * (unsigned int) sec.a / 256,255);
++        newc.r = (uint8)__min((unsigned int) r * (unsigned int) sec.r / 256,255);
++        newc.g = (uint8)__min((unsigned int) g * (unsigned int) sec.g / 256,255);
++        newc.b = (uint8)__min((unsigned int) b * (unsigned int) sec.b / 256,255);
++        newc.a = (uint8)__min((unsigned int) a * (unsigned int) sec.a / 256,255);
+         return newc;
+     }
+ 
+     inline IColor& operator += (const IColor &sec)
+     {
+-        r = uint8(min((unsigned int) r + (unsigned int) sec.r, 255));
+-        g = uint8(min((unsigned int) g + (unsigned int) sec.g, 255));
+-        b = uint8(min((unsigned int) b + (unsigned int) sec.b, 255));
+-        a = uint8(min((unsigned int) a + (unsigned int) sec.a, 255));
++        r = uint8(__min((unsigned int) r + (unsigned int) sec.r, 255));
++        g = uint8(__min((unsigned int) g + (unsigned int) sec.g, 255));
++        b = uint8(__min((unsigned int) b + (unsigned int) sec.b, 255));
++        a = uint8(__min((unsigned int) a + (unsigned int) sec.a, 255));
+         return *this;
+     }
+ 
+     inline IColor& operator -= (const IColor &sec)
+     {
+-        r = uint8(max(int(r)-int(sec.r),0));
+-        g = uint8(max(int(g)-int(sec.g),0));
+-        b = uint8(max(int(b)-int(sec.b),0));
+-        a = uint8(max(int(a)-int(sec.a),0));
++        r = uint8(__max(int(r)-int(sec.r),0));
++        g = uint8(__max(int(g)-int(sec.g),0));
++        b = uint8(__max(int(b)-int(sec.b),0));
++        a = uint8(__max(int(a)-int(sec.a),0));
+         return *this;
+     }
+ 
+     inline IColor& operator *= (const IColor &sec)
+     {
+-        r = uint8(min((unsigned int) r * (unsigned int) sec.r / 256,255));
+-        g = uint8(min((unsigned int) g * (unsigned int) sec.g / 256,255));
+-        b = uint8(min((unsigned int) b * (unsigned int) sec.b / 256,255));
+-        a = uint8(min((unsigned int) a * (unsigned int) sec.a / 256,255));
++        r = uint8(__min((unsigned int) r * (unsigned int) sec.r / 256,255));
++        g = uint8(__min((unsigned int) g * (unsigned int) sec.g / 256,255));
++        b = uint8(__min((unsigned int) b * (unsigned int) sec.b / 256,255));
++        a = uint8(__min((unsigned int) a * (unsigned int) sec.a / 256,255));
+         return *this;
+     }
+     
+diff --git a/src/OGLDecodedMux.cpp b/src/OGLDecodedMux.cpp
+index ed98307..608062c 100644
+--- a/src/OGLDecodedMux.cpp
++++ b/src/OGLDecodedMux.cpp
+@@ -27,7 +27,7 @@ void COGLDecodedMux::Simplify(void)
+ void COGLDecodedMux::Reformat(void)
+ {
+     DecodedMux::Reformat();
+-    mType = max(max(max(splitType[0], splitType[1]),splitType[2]),splitType[3]);
++    mType = __max(__max(__max(splitType[0], splitType[1]),splitType[2]),splitType[3]);
+ }
+ 
+ void COGLExtDecodedMux::Simplify(void)
+diff --git a/src/OGLExtCombiner.cpp b/src/OGLExtCombiner.cpp
+index 9a249d0..962a577 100644
+--- a/src/OGLExtCombiner.cpp
++++ b/src/OGLExtCombiner.cpp
+@@ -384,7 +384,7 @@ int COGLColorCombiner4::ParseDecodedMux()
+         }
+     }
+         
+-    res.numOfUnits = min(m_maxTexUnits, max(unitNos[0],unitNos[1]));
++    res.numOfUnits = __min(m_maxTexUnits, __max(unitNos[0],unitNos[1]));
+ 
+     if( unitNos[0]>m_maxTexUnits || unitNos[1]>m_maxTexUnits ) 
+     {
+diff --git a/src/RDP_Texture.h b/src/RDP_Texture.h
+index c308655..0e82ba6 100644
+--- a/src/RDP_Texture.h
++++ b/src/RDP_Texture.h
+@@ -49,9 +49,9 @@ uint32 sizeBytes[4] = {0,1,2,4};
+ inline uint32 Txl2Words(uint32 width, uint32 size)
+ {
+     if( size == TXT_SIZE_4b )
+-        return max(1, width/16);
++        return __max(1, width/16);
+     else
+-        return max(1, width*sizeBytes[size]/8);
++        return __max(1, width*sizeBytes[size]/8);
+ }
+ 
+ inline uint32 CalculateImgSize(uint32 width, uint32 height, uint32 size)
+@@ -763,7 +763,7 @@ bool CalculateTileSizes_method_2(int tileno, TMEMLoadMapInfo *info, TxtrInfo &gt
+         if( gti.WidthToLoad > gti.HeightToLoad )
+         {
+             uint32 newheight = (dwPitch << 1 )>> tile.dwSize;
+-            tile.dwWidth = gti.WidthToLoad = gti.WidthToCreate = min(newheight, (gti.WidthToLoad&0xFFFFFFFE));
++            tile.dwWidth = gti.WidthToLoad = gti.WidthToCreate = __min(newheight, (gti.WidthToLoad&0xFFFFFFFE));
+             tile.dwHeight = gti.HeightToCreate = gti.HeightToLoad = ((0x200 - tile.dwTMem) << (4-tile.dwSize)) / gti.WidthToLoad;
+         }
+         else
+@@ -976,30 +976,30 @@ bool CalculateTileSizes_method_1(int tileno, TMEMLoadMapInfo *info, TxtrInfo &gt
+ 
+     if( tile.dwMaskS == 0 || tile.bClampS )
+     {
+-        gti.WidthToLoad = linewidth ? min( linewidth, maskwidth ? min(clampwidth,maskwidth) : clampwidth ) : clampwidth;
++        gti.WidthToLoad = linewidth ? __min( linewidth, maskwidth ? __min(clampwidth,maskwidth) : clampwidth ) : clampwidth;
+         if( tile.dwMaskS && clampwidth < maskwidth )
+             tile.dwWidth = gti.WidthToCreate = clampwidth;
+         else
+-            tile.dwWidth = gti.WidthToCreate = max(clampwidth,maskwidth);
++            tile.dwWidth = gti.WidthToCreate = __max(clampwidth,maskwidth);
+     }
+     else
+     {
+-        gti.WidthToLoad = loadwidth > 2 ? min(loadwidth,maskwidth) : maskwidth;
+-        if( linewidth ) gti.WidthToLoad = min( linewidth, (int)gti.WidthToLoad );
++        gti.WidthToLoad = loadwidth > 2 ? __min(loadwidth,maskwidth) : maskwidth;
++        if( linewidth ) gti.WidthToLoad = __min( linewidth, (int)gti.WidthToLoad );
+         tile.dwWidth = gti.WidthToCreate = maskwidth;
+     }
+ 
+     if( tile.dwMaskT == 0 || tile.bClampT )
+     {
+-        gti.HeightToLoad = maskheight ? min(clampheight,maskheight) : clampheight;
++        gti.HeightToLoad = maskheight ? __min(clampheight,maskheight) : clampheight;
+         if( tile.dwMaskT && clampheight < maskheight )
+             tile.dwHeight = gti.HeightToCreate = clampheight;
+         else
+-            tile.dwHeight = gti.HeightToCreate = max(clampheight,maskheight);
++            tile.dwHeight = gti.HeightToCreate = __max(clampheight,maskheight);
+     }
+     else
+     {
+-        gti.HeightToLoad = loadheight > 2 ? min(loadheight,maskheight) : maskheight;
++        gti.HeightToLoad = loadheight > 2 ? __min(loadheight,maskheight) : maskheight;
+         tile.dwHeight = gti.HeightToCreate = maskheight;
+     }
+ 
+@@ -1020,7 +1020,7 @@ bool CalculateTileSizes_method_1(int tileno, TMEMLoadMapInfo *info, TxtrInfo &gt
+         if( gti.WidthToLoad > gti.HeightToLoad )
+         {
+             uint32 newheight = (tile.dwPitch << 1 )>> tile.dwSize;
+-            tile.dwWidth = gti.WidthToLoad = gti.WidthToCreate = min(newheight, (gti.WidthToLoad&0xFFFFFFFE));
++            tile.dwWidth = gti.WidthToLoad = gti.WidthToCreate = __min(newheight, (gti.WidthToLoad&0xFFFFFFFE));
+             tile.dwHeight = gti.HeightToCreate = gti.HeightToLoad = ((0x200 - tile.dwTMem) << (4-tile.dwSize)) / gti.WidthToLoad;
+         }
+         else
+@@ -1951,7 +1951,7 @@ void DLParser_TexRect(Gfx *gfx)
+         }
+     }
+ 
+-    if( status.bHandleN64RenderTexture )    g_pRenderTextureInfo->maxUsedHeight = max(g_pRenderTextureInfo->maxUsedHeight,(int)dwYH);
++    if( status.bHandleN64RenderTexture )    g_pRenderTextureInfo->maxUsedHeight = __max(g_pRenderTextureInfo->maxUsedHeight,(int)dwYH);
+ 
+     ForceMainTextureIndex(curTile);
+ }
+@@ -2024,7 +2024,7 @@ void DLParser_TexRectFlip(Gfx *gfx)
+     CRender::g_pRender->TexRectFlip(dwXL, dwYL, dwXH, dwYH, t0u0, t0v0, t0u1, t0v1);
+     status.dwNumTrisRendered += 2;
+ 
+-    if( status.bHandleN64RenderTexture )    g_pRenderTextureInfo->maxUsedHeight = max(g_pRenderTextureInfo->maxUsedHeight,int(dwYL+(dwXH-dwXL)));
++    if( status.bHandleN64RenderTexture )    g_pRenderTextureInfo->maxUsedHeight = __max(g_pRenderTextureInfo->maxUsedHeight,int(dwYL+(dwXH-dwXL)));
+ 
+     ForceMainTextureIndex(curTile);
+ }
+diff --git a/src/RSP_GBI_Others.h b/src/RSP_GBI_Others.h
+index fbff6e2..f81a71d 100644
+--- a/src/RSP_GBI_Others.h
++++ b/src/RSP_GBI_Others.h
+@@ -899,7 +899,7 @@ void DLParser_RS_Color_Buffer(Gfx *gfx)
+         DebuggerAppendMsg("Vtx_Color at PC=%08X: 0x%08x 0x%08x\n", dwPC-8, (gfx->words.w0), (gfx->words.w1));
+         if( dwAddr < g_dwRamSize )
+         {
+-            DumpHex(dwAddr, min(64, g_dwRamSize-dwAddr));
++            DumpHex(dwAddr, __min(64, g_dwRamSize-dwAddr));
+         }
+     }
+ #endif
+@@ -929,7 +929,7 @@ void DLParser_RS_Vtx_Buffer(Gfx *gfx)
+         DebuggerAppendMsg("Vtx_XYZ at PC=%08X: 0x%08x 0x%08x\n", dwPC-8, (gfx->words.w0), (gfx->words.w1));
+         if( dwAddr < g_dwRamSize )
+         {
+-            DumpHex(dwAddr, min(64, g_dwRamSize-dwAddr));
++            DumpHex(dwAddr, __min(64, g_dwRamSize-dwAddr));
+         }
+     }
+ #endif
+@@ -1727,7 +1727,7 @@ void DLParser_TexRect_Last_Legion(Gfx *gfx)
+     }
+ 
+     if( status.bHandleN64RenderTexture ) 
+-        g_pRenderTextureInfo->maxUsedHeight = max(g_pRenderTextureInfo->maxUsedHeight,(int)dwYH);
++        g_pRenderTextureInfo->maxUsedHeight = __max(g_pRenderTextureInfo->maxUsedHeight,(int)dwYH);
+ 
+     ForceMainTextureIndex(curTile);
+ }
+diff --git a/src/RSP_Parser.cpp b/src/RSP_Parser.cpp
+index 0c2de1f..cd02f60 100644
+--- a/src/RSP_Parser.cpp
++++ b/src/RSP_Parser.cpp
+@@ -1355,12 +1355,12 @@ void DLParser_FillRect(Gfx *gfx)
+     {
+         if( !status.bCIBufferIsRendered ) g_pFrameBufferManager->ActiveTextureBuffer();
+ 
+-        status.leftRendered = status.leftRendered<0 ? x0 : min((int)x0,status.leftRendered);
+-        status.topRendered = status.topRendered<0 ? y0 : min((int)y0,status.topRendered);
+-        status.rightRendered = status.rightRendered<0 ? x1 : max((int)x1,status.rightRendered);
+-        status.bottomRendered = status.bottomRendered<0 ? y1 : max((int)y1,status.bottomRendered);
++        status.leftRendered = status.leftRendered<0 ? x0 : __min((int)x0,status.leftRendered);
++        status.topRendered = status.topRendered<0 ? y0 : __min((int)y0,status.topRendered);
++        status.rightRendered = status.rightRendered<0 ? x1 : __max((int)x1,status.rightRendered);
++        status.bottomRendered = status.bottomRendered<0 ? y1 : __max((int)y1,status.bottomRendered);
+ 
+-        g_pRenderTextureInfo->maxUsedHeight = max(g_pRenderTextureInfo->maxUsedHeight,(int)y1);
++        g_pRenderTextureInfo->maxUsedHeight = __max(g_pRenderTextureInfo->maxUsedHeight,(int)y1);
+ 
+         if( status.bDirectWriteIntoRDRAM || ( x0==0 && y0==0 && (x1 == g_pRenderTextureInfo->N64Width || x1 == g_pRenderTextureInfo->N64Width-1 ) ) )
+         {
+@@ -1432,10 +1432,10 @@ void DLParser_FillRect(Gfx *gfx)
+         {
+             if( !status.bCIBufferIsRendered ) g_pFrameBufferManager->ActiveTextureBuffer();
+ 
+-            status.leftRendered = status.leftRendered<0 ? x0 : min((int)x0,status.leftRendered);
+-            status.topRendered = status.topRendered<0 ? y0 : min((int)y0,status.topRendered);
+-            status.rightRendered = status.rightRendered<0 ? x1 : max((int)x1,status.rightRendered);
+-            status.bottomRendered = status.bottomRendered<0 ? y1 : max((int)y1,status.bottomRendered);
++            status.leftRendered = status.leftRendered<0 ? x0 : __min((int)x0,status.leftRendered);
++            status.topRendered = status.topRendered<0 ? y0 : __min((int)y0,status.topRendered);
++            status.rightRendered = status.rightRendered<0 ? x1 : __max((int)x1,status.rightRendered);
++            status.bottomRendered = status.bottomRendered<0 ? y1 : __max((int)y1,status.bottomRendered);
+         }
+ 
+         if( gRDP.otherMode.cycle_type == CYCLE_TYPE_FILL )
+diff --git a/src/RenderBase.cpp b/src/RenderBase.cpp
+index db55e26..2def969 100644
+--- a/src/RenderBase.cpp
++++ b/src/RenderBase.cpp
+@@ -750,7 +750,7 @@ void SetFogMinMax(float fMin, float fMax, float fMul, float fOffset)
+     }
+ 
+     {
+-        gRSPfFogMin = max(0,fMin/500-1);
++        gRSPfFogMin = __max(0,fMin/500-1);
+         gRSPfFogMax = fMax/500-1;
+     }
+ 
+@@ -1089,7 +1089,7 @@ uint32 LightVert(XVECTOR4 & norm, int vidx)
+                 {
+                     //float f = d2/gRSPlights[l].range*50;
+                     float f = d2/15000*50;
+-                    f = 1 - min(f,1);
++                    f = 1 - __min(f,1);
+                     fCosT *= f*f;
+ 
+                     r += gRSPlights[l].fr * fCosT;
+@@ -1720,7 +1720,7 @@ bool PrepareTriangle(uint32 dwV0, uint32 dwV1, uint32 dwV2)
+         g_vtxIndex[gRSP.numVertices++] = dwV1;
+         g_vtxIndex[gRSP.numVertices++] = dwV2;
+         status.dwNumTrisRendered++;
+-        gRSP.maxVertexID = max(gRSP.maxVertexID,max(dwV0,max(dwV1,dwV2)));
++        gRSP.maxVertexID = __max(gRSP.maxVertexID,__max(dwV0,__max(dwV1,dwV2)));
+     }
+     else
+     {
+-- 
+2.38.1
+
