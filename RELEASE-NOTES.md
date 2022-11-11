@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add guncon2 support for CRT tvs
 - Add new system 'Z-Machine' with new core frotz
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
+- Add support for nVidia Prime Offloading (for laptop with both iGPU and nVidia GPU)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
