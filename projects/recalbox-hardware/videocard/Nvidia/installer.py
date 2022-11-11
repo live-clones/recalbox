@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import glob
 import logging
 import os
 import re
@@ -99,6 +100,59 @@ def protect_root():
     os.system("mount -o remount,ro /")
 
 
+# return the card id that was used to display boot sequence
+def get_bootvga_card():
+    bootvga = None
+    cards = glob.glob("/sys/class/drm/card[0-9]")
+    for card in cards:
+        bootvga_path = os.path.join(card, "device/boot_vga")
+        try:
+            with open(bootvga_path, "r") as file:
+                t = file.read()
+                file.close()
+                if t:
+                    if int(t.strip()) > 0:
+                        bootvga = card
+                        break
+        except:
+            pass
+    return bootvga
+
+
+# return card vendor id from card id
+def get_card_vendor(card):
+    vendor_path = os.path.join(card, "device/vendor")
+    with open(vendor_path, "r") as file:
+        t = file.read()
+        file.close()
+        return t.strip()
+    return ""
+
+
+# if booted from Intel or Amd iGPU, return True
+# else False
+def has_booted_on_igpu():
+    card = get_bootvga_card()
+    if card is not None:
+        vendor = get_card_vendor(card)
+        log.info("Boot vga card is %s from vendor %s", card, vendor)
+        if vendor in ["0x8086", "0x1002"]:
+            return True
+    return False
+
+
+# effectively configure nvidia prime offloading
+def configure_prime():
+    os.system("/usr/bin/nvidia-xconfig --prime")
+
+
+# test if prime is needed and enable it
+def eventualy_configure_prime():
+    if has_booted_on_igpu():
+        log.info("Enable prime offloading")
+        configure_prime()
+
+
 def main(args):
 
     if not args.force and is_nouveau_blacklisted():
@@ -123,6 +177,8 @@ def main(args):
         try:
             unprotect_root()
             installer.install(f"0x{product}")
+            # this part is reach if installer.install() found a supported nvidia controller
+            eventualy_configure_prime()
             blacklist_nouveau()
             unload_nouveau()
             run_depmod()
