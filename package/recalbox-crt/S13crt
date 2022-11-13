@@ -201,7 +201,7 @@ if test "$1" == "start"; then
 
         if rrgbdHDMIPriority; then
             # Check if any HDMI is connected
-            if isKMSHDMIConnected; then
+            if isScreenConnected; then
                 recallog -s "S13crt" -t "CRT" "Force HDMI set and HDMI connected, turning VGA OFF"
                 if ! currentConfigIsHDMI; then
                     switchTo "HDMI"
