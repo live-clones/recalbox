@@ -119,11 +119,11 @@ doesBoardNeedKMSManager() {
   esac
 }
 
-# Returns if a hdmi is connected (kms dri compatible only)
-isKMSHDMIConnected() {
-    RETURNCODE="-1"
+# Returns if any display connector is connected (kms dri compatible only)
+isScreenConnected() {
+    local RETURNCODE="-1"
     if [ -d /sys/class/drm ]; then
-        readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-HDMI*" -maxdepth 1 2>/dev/null)
+        readarray -t CARD_PATH < <(find /sys/class/drm -name "card?-*" ! -name "card?-VGA-*" -maxdepth 1 2>/dev/null)
         grep -q '^connected' "${CARD_PATH[@]/%//status}"
         RETURNCODE="$?"
     fi
