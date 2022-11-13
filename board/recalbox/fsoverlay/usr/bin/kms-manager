@@ -76,7 +76,7 @@ if isCRTLoaded; then
   fi
 fi
 
-while ! isKMSHDMIConnected; do
+while ! isScreenConnected; do
   log_info "no DRM card connected, entering force detection loop"
   for card in $(list_cards); do
     log_info "testing $card"
