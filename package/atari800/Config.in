@@ -1,0 +1,5 @@
+config BR2_PACKAGE_ATARI800
+	bool "atari800"
+	help
+	  An Atari 800/XL/XE - A5200 emulator
+	  http://github.com/atari800/atari800
