@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for nVidia Prime Offloading (for laptop with both iGPU and nVidia GPU)
 
 ### Improvements
+- Improve metadata storage, using far less memory for huge game collections
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Bump Amiberry to v5.4
