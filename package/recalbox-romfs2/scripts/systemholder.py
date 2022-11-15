@@ -302,7 +302,7 @@ class SystemHolder:
 
         # Create Cores
         extensions: Set[str] = set()
-        for i in range(0, 10):
+        for i in range(0, 20):
             coreSection = "core.{}".format(i)
             coreSectionArch = "{}.{}".format(coreSection, self.__arch)
             if desc.hasSection(coreSection) or desc.hasSection(coreSectionArch):
