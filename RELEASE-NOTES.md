@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
 - Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
+- Add standalone vice emulator 3.6.1 (c64)
 - RRGBD:
   - Add multiple resolution calibration screen
   - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
