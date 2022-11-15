@@ -1,0 +1,11 @@
+config BR2_PACKAGE_RB5000
+	bool "rb5000"
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_SDL2_TTF
+	help
+	  Phillips VG 5000 Emulator
+
+	  http://gitlab.com/bkg2k/rb5000
+
+comment "Gsplus needs a toolchain w/ OpenGl, SDL2"
+	depends on BR2_PACKAGE_SDL2
