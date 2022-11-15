@@ -44,6 +44,7 @@ recalboxBins =\
     'pcsx2'       : '/usr/bin/PCSX2/PCSX2',
     'pisnes'      : '/usr/bin/pisnes',
     'ppsspp'      : '/usr/bin/PPSSPPSDL',
+    'rb5000'      : '/usr/bin/rb5000',
     'reicast'     : '/usr/bin/reicast.elf',
     'scummvm'     : '/usr/bin/scummvm',
     'simcoupe'    : '/usr/bin/simcoupe',
