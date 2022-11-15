@@ -1,6 +1,7 @@
 config BR2_PACKAGE_VICE
 	bool "vice"
 	depends on BR2_PACKAGE_SDL
+	select BR2_PACKAGE_XA65
 	help
 	  VICE is an emulator collection which emulates the C64,
 	  the C64-DTV, the C128, the VIC20, practically all PET models,
