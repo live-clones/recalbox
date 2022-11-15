@@ -120,7 +120,7 @@ tests buildroot patches:
     - git fetch target "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" OUTPUTDIR="$(pwd)/output"
-    - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" "recalbox-${ARCH}" make recalbox-${ARCH}_defconfig 2>&1
+    - docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000} -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" "recalbox-${ARCH}" make recalbox-${ARCH}_defconfig 2>&1
     - |
       for PKG in $(git diff --name-only "target/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" | grep -E '^(board/recalbox/patches|package/)' | sed -E 's#board/recalbox/patches/([^/]+)/.*#\1#;s#package/([^/]+)/.*#\1#' | sort | uniq); do
         if [ -d "package/$PKG" ] || [ -d "buildroot/package/$PKG" ]; then
@@ -128,6 +128,7 @@ tests buildroot patches:
           docker run --rm --tmpfs /tmp:exec -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" \
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
+                                          -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
                                           "recalbox-${ARCH}" make BR2_DL_DIR="/share/dl" $PKG-patch 2>&1 ||exit 1
         fi
@@ -169,7 +170,7 @@ tests buildroot patches:
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}
-    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
     # Dist
     - export DIST_DIR="dist/${ARCH}"

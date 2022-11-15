@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
 - Add standalone vice emulator 3.6.1 (c64)
+- Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
 - RRGBD:
   - Add new theme for recalbox rgb dual with 240p optimisations
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
