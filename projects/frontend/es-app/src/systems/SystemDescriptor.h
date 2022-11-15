@@ -41,9 +41,7 @@ class SystemDescriptor
      * @brief Default constructor
      */
     SystemDescriptor()
-      : mPlatformIds{}
-      , mPlateformCount(0)
-      , mIcon(0)
+      : mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
       , mManufacturer()
@@ -142,8 +140,6 @@ class SystemDescriptor
       return *this;
     }
 
-    //! Clear all platform entries
-    SystemDescriptor& ClearPlatforms() { mPlateformCount = 0; return *this; }
     //! Clear all emulator entries
     SystemDescriptor& ClearEmulators() { mEmulators.Clear(); return *this; }
 
@@ -229,8 +225,6 @@ class SystemDescriptor
     std::string             mGUID;            //!< System GUID
     std::string             mName;            //!< Short name ("snes")
     std::string             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
-    PlateformIdentifiers    mPlatformIds;     //!< Platform identifiers
-    int                     mPlateformCount;  //!< Platform count
     // Descriptor
     Path                    mPath;            //!< Rom path
     std::string             mThemeFolder;     //!< Theme sub-folder
