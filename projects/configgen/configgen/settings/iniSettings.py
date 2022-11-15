@@ -70,6 +70,11 @@ class IniSettings:
                 return True
         return False
 
+    def isEmpty(self) -> bool:
+        for region in self.regions.keys():
+            if len(region) > 0: return False
+        return True
+
     def setString(self, section, item: str, value: str) -> IniSettings:
         if section not in self.regions:
             self.regions[section] = {}
