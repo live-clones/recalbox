@@ -4,22 +4,36 @@
 #
 ################################################################################
 
-VICE_VERSION = 3.4
+VICE_VERSION = 3.6.1
+#VICE_SOURCE = vice-$(VICE_VERSION).tar.gz
 VICE_SITE = https://sourceforge.net/projects/vice-emu/files/releases
 VICE_LICENSE = GPL-2.0
 VICE_LICENSE_FILES = COPYING
 
+VICE_DEPENDENCIES = sdl2 ffmpeg libpng giflib zlib lame pulseaudio jpeg sdl2_image host-xa65
+
 VICE_CONF_OPTS += \
 	--disable-option-checking \
-	--enable-sdlui2 \
-	--enable-native-tools=gcc \
 	--disable-sdltest \
-	--with-sdl-prefix=$(STAGING_DIR)/usr \
-	--sdl2-config=$(STAGING_DIR)/usr/bin/sdl2-config \
-	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
-	CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
-	LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)"
-
-VICE_DEPENDENCIES = sdl2
+	--disable-pdf-docs \
+	--disable-html-docs \
+	--disable-platformdox \
+	--disable-debug-gtk3ui \
+	--disable-native-gtk3ui \
+	--enable-sdlui2 \
+	--enable-arch=sdl \
+	--enable-external-ffmpeg \
+	--enable-midi \
+	--enable-lame \
+	--with-alsa \
+	--with-zlib \
+	--with-jpeg \
+	--with-png \
+	--with-pulse \
+	--enable-x64 \
+	--bindir=/usr/bin/vice \
+	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_NOLTO)" \
+	CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)" \
+	LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_NOLTO)"
 
 $(eval $(autotools-package))
