@@ -130,6 +130,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.pcsx2.pcsx2Generator", fromlist=["Pcsx2Generator"])
         generatorClass = getattr(module, "Pcsx2Generator")
         return generatorClass()
+    elif emulator == "rb5000":
+        module = __import__("configgen.generators.rb5000.rb5000Generator", fromlist=["RB5000Generator"])
+        generatorClass = getattr(module, "RB5000Generator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
