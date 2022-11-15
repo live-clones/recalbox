@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-pcsx rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
+- Add standalone vice emulator 3.6.1 (c64)
 - RRGBD:
   - Add new theme for recalbox rgb dual with 240p optimisations
   - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
