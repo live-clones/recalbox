@@ -217,6 +217,14 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 
 bool SystemView::ProcessInput(const InputCompactEvent& event)
 {
+  if (event.IsNotPressedAndReleased())
+    return true;
+
+  if (event.HotkeyPressed() && !mHotKeyAlreadyPressed) mHotKeyAlreadyPressed = true;
+
+  else mHotKeyAlreadyPressed = false;
+
+
 	if (event.AnythingPressed())
 	{
 		switch (mCarousel.type)
@@ -466,6 +474,22 @@ void SystemView::onCursorChanged(const CursorState& state)
 
 void SystemView::Render(const Transform4x4f& parentTrans)
 {
+  if (mHotKeyAlreadyPressed && mWindow.GetTimeSinceLastInput() >= 5000)
+  {
+    if(RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
+    mWindow.pushGui((new GuiMsgBox(mWindow, "VERROUILLER LES MENUS ?\n(Pour déverrouiller maintenez HOTKEY pendant 10sec.)", _("OK"), [this]
+    {
+      RecalboxConf::Instance().SetString("emulationstation.menu", "none");
+    }, _("CANCEL"), nullptr))->SetDefaultButton(1));
+    else
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("Déverrouller les menus ?"), _("OK"), [this]
+      {
+        RecalboxConf::Instance().SetString("emulationstation.menu", "");
+      }, _("CANCEL"), nullptr));
+
+    mHotKeyAlreadyPressed = false;
+  }
+
 	if(size() == 0)
 		return;  // nothing to render
 	
@@ -504,13 +528,14 @@ bool SystemView::getHelpPrompts(Help& help)
 	else if (RecalboxConf::Instance().GetNetplayEnabled())
 	  help.Set(HelpType::X, _("NETPLAY"));
 
-	help.Set(HelpType::Select, _("QUIT"))
-	    .Set(HelpType::Start, _("MENU"))
-	    .Set(HelpType::R, _("SEARCH"));
-
-	if(GameClipView::IsGameClipEnabled())
+  if(RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
   {
-    help.Set(HelpType::Y, _("gameclip"));
+    help.Set(HelpType::Select, _("QUIT")).Set(HelpType::Start, _("MENU")).Set(HelpType::R, _("SEARCH"));
+
+    if (GameClipView::IsGameClipEnabled())
+    {
+      help.Set(HelpType::Y, _("gameclip"));
+    }
   }
 
 	return true;

@@ -217,6 +217,8 @@ class InputCompactEvent
     bool CancelPressed() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? BPressed() : APressed(); }
     bool CancelReleased() const { return RecalboxConf::Instance().GetSwapValidateAndCancel() ? BReleased() : AReleased(); }
 
+    bool IsNotPressedAndReleased() const { return !mActivatedEntryFlags && !mDeactivatedEntryFlags; }
+
     /*
      * Debug
      */

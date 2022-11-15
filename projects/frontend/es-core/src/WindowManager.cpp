@@ -176,7 +176,9 @@ bool WindowManager::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  mTimeSinceLastInput = 0;
+  if(!event.IsNotPressedAndReleased())
+    mTimeSinceLastInput = 0;
+
   if (peekGui() != nullptr)
   {
     peekGui()->ProcessInput(event);

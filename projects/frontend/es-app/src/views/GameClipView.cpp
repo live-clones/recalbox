@@ -217,7 +217,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES - Y
-  if (event.YPressed())
+  if (event.YPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
   {
     if (mGame->IsGame() && mGame->System().HasFavoritesInTheme())
     {

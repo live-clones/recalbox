@@ -61,6 +61,8 @@ class WindowManager
 
     void DoWake();
 
+    unsigned int GetTimeSinceLastInput() const { return mTimeSinceLastInput; }
+
     /*!
      * @brief Add new popup to dysplay list
      * @param infoPopup Popup to add to display list
