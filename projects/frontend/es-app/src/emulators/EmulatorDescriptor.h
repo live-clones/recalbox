@@ -29,7 +29,7 @@ class EmulatorDescriptor
     };
 
     //! Maximum core per emulator
-    static constexpr int sMaximumCores = 10;
+    static constexpr int sMaximumCores = 18;
 
     //! Default constructor
     EmulatorDescriptor()
