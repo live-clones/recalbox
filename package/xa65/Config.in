@@ -1,0 +1,5 @@
+config BR2_PACKAGE_XA65
+	bool "xa65"
+	help
+	  xa65 - 6502 assembler
+	  https://github/fachat/xa65
