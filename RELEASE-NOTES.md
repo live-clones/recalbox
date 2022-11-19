@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro fbneo
 - Bump libretro uae
 - Bump libretro dosbox-pure
+- Improve AppleIIGS configurator & add eXoAppleIIGS config support
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
