@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro gong
 - Bump Amiberry to v5.4
 - Update of the theme for the X68000 system
+- Improve AppleIIGS configurator & add eXoAppleIIGS config support
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
