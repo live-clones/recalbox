@@ -52,6 +52,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro dosbox-pure
 - Add support for 4k video in Kodi for Raspberry Pi 4
 - Enable H/W video decoding for Raspberry Pi 4, Pi 3 & Pi zero 2
+- Improve AppleIIGS configurator & add eXoAppleIIGS config support
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
