@@ -96,30 +96,80 @@ class GSplusGenerator(Generator):
         This way, any modification is kept accross emulator launches
         """
 
-        # Load config file
-        settings = keyValueSettings(recalboxFiles.gsplusConfig, True)
-        settings.loadFile(True)
+        slot: int = -1
+        if ".gsplus" in args.rom:
+            settings = keyValueSettings(args.rom, True)
+            settings.loadFile(True)
+            settings.changeSettingsFile(recalboxFiles.gsplusConfig)
 
-        # Try to guess the best drive
-        import os
-        size = os.path.getsize(args.rom) >> 10
-        if size == 140: # Probably Apple II software on 5.25" disk
-            slot = 6
-            disks = 2
-        elif size == 800: # Most likely an Apple IIGS 3.5" disk
-            slot = 5
-            disks = 2
-        else: # Apple IIGS hard disk image or unknown size, let the emulator decide!
-            slot = 7
-            disks = 32
+            # Adjust BIOS path
+            import os
+            if settings.getString("g_cfg_rom_path", "") == "%1":
+                settings.setString("g_cfg_rom_path", os.path.join(recalboxFiles.BIOS, "apple2gs1.rom"))
+            elif settings.getString("g_cfg_rom_path", "") == "%3":
+                settings.setString("g_cfg_rom_path", os.path.join(recalboxFiles.BIOS, "apple2gs3.rom"))
 
-        # Seek multidisk games
-        disks = GSplusGenerator.SeekMultiDisks(args.rom, disks)
-        diskDrive = 1
-        self.clearDisks(settings)
-        for disk in disks:
-            settings.setString("s{}d{}".format(slot, diskDrive), disk)
-            diskDrive += 1
+            # Adjust rom path
+            folder = os.path.dirname(args.rom)
+            for i in range(1, 33):
+                if i < 3:
+                    if settings.hasOption("s5d{}".format(i)) and settings.getString("s5d{}".format(i), "") != "":
+                        settings.setString("s5d{}".format(i), os.path.join(folder, settings.getString("s5d{}".format(i), "")))
+                    if settings.hasOption("s6d{}".format(i)) and settings.getString("s6d{}".format(i), "") != "":
+                        settings.setString("s6d{}".format(i), os.path.join(folder, settings.getString("s6d{}".format(i), "")))
+                if settings.hasOption("s7d{}".format(i)) and settings.getString("s7d{}".format(i), "") != "":
+                    settings.setString("s7d{}".format(i), os.path.join(folder, settings.getString("s7d{}".format(i), "")))
+
+        else:
+            # Load config file
+            settings = keyValueSettings(recalboxFiles.gsplusConfig, True)
+            settings.loadFile(True)
+
+            # Reset drive slots
+            for i in range(1, 33):
+                if i < 3:
+                    if settings.hasOption("s5d{}".format(i)):
+                        settings.setString("s5d{}".format(i), "")
+                    if settings.hasOption("s6d{}".format(i)):
+                        settings.setString("s6d{}".format(i), "")
+                if settings.hasOption("s7d{}".format(i)):
+                    settings.setString("s7d{}".format(i), "")
+
+            # Reset bios
+            import os
+            bios = os.path.join(recalboxFiles.BIOS, "apple2gs1.rom")
+            if os.path.exists(bios):
+                settings.setString("g_cfg_rom_path", bios)
+            else:
+                bios = os.path.join(recalboxFiles.BIOS, "apple2gs3.rom")
+                if os.path.exists(bios):
+                    settings.setString("g_cfg_rom_path", bios)
+                else:
+                    settings.removeOption("g_cfg_rom_path")
+
+            # Reset speed limit
+            settings.removeOption("g_limit_speed")
+
+            # Try to guess the best drive
+            import os
+            size = os.path.getsize(args.rom) >> 10
+            if size == 140:     # Probably Apple II software on 5.25" disk
+                slot: int = 6
+                maxDisks: int = 2
+            elif size == 800:   # Most likely an Apple IIGS 3.5" disk
+                slot: int = 5
+                maxDisks: int = 2
+            else:               # Apple IIGS hard disk image or unknown size, let the emulator decide!
+                slot: int = 7
+                maxDisks: int = 32
+
+            # Seek multidisk games
+            disks = GSplusGenerator.SeekMultiDisks(args.rom, maxDisks)
+            diskDrive = 1
+            self.clearDisks(settings)
+            for disk in disks:
+                settings.setString("s{}d{}".format(slot, diskDrive), disk)
+                diskDrive += 1
 
         # Save config file
         settings.saveFile()
@@ -128,8 +178,9 @@ class GSplusGenerator(Generator):
         options = ["-fullscreen",
                    "-ssdir", recalboxFiles.SCREENSHOTS,
                    "-config", recalboxFiles.gsplusConfig,
-                   "-mem", "14680064",
-                   "-slot", str(slot)]
+                   "-mem", "14680064"]
+        if slot >= 0:
+            options.extend(["-slot", str(slot)])
 
         # Screen resolution
         from configgen.utils.resolutions import ResolutionParser

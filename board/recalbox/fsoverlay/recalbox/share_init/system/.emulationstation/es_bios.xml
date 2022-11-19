@@ -22,7 +22,8 @@
     <bios path="kick40060.CD32.ext" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="false" note="Extended ROM rev 40.060" />
   </system>
   <system fullname="Apple IIGS" platform="apple2gs">
-    <bios path="apple2gs.rom" md5="20a0334c447cb069a040ae5be1d938df,ba89edf2729a28a17cd9e0f7a0ac9a39" core="apple2gs" />
+    <bios path="apple2gs1.rom" md5="20a0334c447cb069a040ae5be1d938df" core="gsplus" />
+    <bios path="apple2gs3.rom" md5="ba89edf2729a28a17cd9e0f7a0ac9a39" core="gsplus" />
   </system>
   <system fullname="Apple Macintosh" platform="macintosh">
     <bios path="macintosh/MacII.ROM" md5="66223be1497460f1e60885eeb35e03cc" core="minivmac" />
