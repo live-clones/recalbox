@@ -30,6 +30,8 @@ as release notes for end user on a Recalbox upgrade.
 - Update of the theme for the X68000 system
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
  
+- Improve AppleIIGS configurator & add eXoAppleIIGS config support
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
