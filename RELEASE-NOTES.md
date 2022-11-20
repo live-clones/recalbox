@@ -47,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix bad overlay showing when save on exit is enabled on retroarch
 - Fix support for Ultimarc IPAC 2
 - Fix internal scraper saving path before actual media
+- Fix pause menu in the game for libretro pcsx_rearmed
 
 ## Version 8.1.1-Electron
 
