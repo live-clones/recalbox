@@ -28,10 +28,10 @@ index 521b5d26..fa90e081 100644
  		default:
  			continue;
 diff --git a/src/osdep/amiberry_gfx.cpp b/src/osdep/amiberry_gfx.cpp
-index 2dececf8..ad66c09d 100644
+index e11c51fc..e4b75aaa 100644
 --- a/src/osdep/amiberry_gfx.cpp
 +++ b/src/osdep/amiberry_gfx.cpp
-@@ -1888,7 +1888,7 @@ int graphics_init(bool mousecapture)
+@@ -2034,7 +2034,7 @@ int graphics_init(bool mousecapture)
  		}
  		check_error_sdl(mon->sdl_window == nullptr, "Unable to create window:");
  
@@ -116,23 +116,27 @@ index b39319e2..decb4bdf 100644
  	cmdKeyMinimizeClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyMinimizeClear->setId("cmdKeyMinimizeClear");
 diff --git a/src/osdep/gui/ShowMessage.cpp b/src/osdep/gui/ShowMessage.cpp
-index bdc31ced..9d341804 100644
+index de7b5a31..b5889bc3 100644
 --- a/src/osdep/gui/ShowMessage.cpp
 +++ b/src/osdep/gui/ShowMessage.cpp
-@@ -153,7 +153,7 @@ static void InitShowMessage(const std::string& message)
- 	if (gui_font == nullptr)
+@@ -174,10 +174,10 @@ static void InitShowMessage(const std::string& message)
  	{
  		TTF_Init();
+ #ifdef USE_OPENGL
+-		gui_font = new gcn::ImageFont(prefix_with_data_path("fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
++		gui_font = new gcn::ImageFont(prefix_with_data_path("/usr/share/amiberry/data/fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+ 
+ #else
 -		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("AmigaTopaz.ttf"), 15);
 +		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
- 		gcn::Widget::setGlobalFont(gui_font);
  		gui_font->setAntiAlias(false);
- 	}
+ #endif
+ 		gcn::Widget::setGlobalFont(gui_font);
 diff --git a/src/osdep/gui/main_window.cpp b/src/osdep/gui/main_window.cpp
-index fba9f016..f409d7b4 100644
+index 0970d2aa..575569f3 100644
 --- a/src/osdep/gui/main_window.cpp
 +++ b/src/osdep/gui/main_window.cpp
-@@ -47,49 +47,49 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
+@@ -51,49 +51,49 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
  }
  
  ConfigCategory categories[] = {
@@ -205,12 +209,15 @@ index fba9f016..f409d7b4 100644
  #endif
  	{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}
  };
-@@ -1138,7 +1138,7 @@ void gui_widgets_init()
- 
+@@ -1218,9 +1218,9 @@ void gui_widgets_init()
  	try
  	{
+ #ifdef USE_OPENGL
+-		gui_font = new gcn::ImageFont(prefix_with_data_path("fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
++		gui_font = new gcn::ImageFont(prefix_with_data_path("/usr/share/amiberry/data/fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+ #else
 -		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("AmigaTopaz.ttf"), 15);
-+    gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
++		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
+ #endif
  	}
  	catch (exception& ex)
- 	{

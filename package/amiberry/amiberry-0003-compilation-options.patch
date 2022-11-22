@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 57c13e9a..6e1e157a 100644
+index cac7ec2c..248e7c9e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -17,10 +17,10 @@ SDL_CONFIG ?= sdl2-config
+@@ -21,10 +21,10 @@ SDL_CONFIG ?= sdl2-config
  export SDL_CFLAGS := $(shell $(SDL_CONFIG) --cflags)
  export SDL_LDFLAGS := $(shell $(SDL_CONFIG) --libs)
  

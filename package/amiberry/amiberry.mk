@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-AMIBERRY_VERSION = v5.3
+AMIBERRY_VERSION = v5.4
 AMIBERRY_SITE = $(call gitlab,recalbox,packages/standalone/amiberry,$(AMIBERRY_VERSION))
 AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf libcapsimage libmpeg2 mpg123 flac
 AMIBERRY_LICENSE = GPL-3.0
