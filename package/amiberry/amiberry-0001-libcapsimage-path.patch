@@ -12,7 +12,7 @@ index 86c1ffb8..868d4595 100644
  	TCHAR path[MAX_DPATH];
  	_tcscpy(path, name);
 diff --git a/src/osdep/amiberry_gui.cpp b/src/osdep/amiberry_gui.cpp
-index 75e7b81b..8eea1d61 100644
+index 003a2a52..d9e5e1e7 100644
 --- a/src/osdep/amiberry_gui.cpp
 +++ b/src/osdep/amiberry_gui.cpp
 @@ -64,8 +64,8 @@ struct gui_msg gui_msglist[] = {
