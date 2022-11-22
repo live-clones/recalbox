@@ -29,6 +29,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Bump libretro fuse & add new supported file extensions
+- Bump Amiberry to v5.4
 - Update of the theme for the X68000 system
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
 - Bump libretro gPSP
