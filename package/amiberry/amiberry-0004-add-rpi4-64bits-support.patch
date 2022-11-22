@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 6e1e157a..444d2adb 100644
+index 248e7c9e..80ab1d14 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -64,8 +64,13 @@ endif
+@@ -77,8 +77,13 @@ endif
  
  # Raspberry Pi 4 CPU flags
  ifneq (,$(findstring rpi4,$(PLATFORM)))

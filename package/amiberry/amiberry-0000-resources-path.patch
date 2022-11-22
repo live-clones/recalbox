@@ -27,11 +27,23 @@ index 521b5d26..fa90e081 100644
  			break;
  		default:
  			continue;
+diff --git a/src/osdep/amiberry_filesys.cpp b/src/osdep/amiberry_filesys.cpp
+index a8464956..a76d5534 100644
+--- a/src/osdep/amiberry_filesys.cpp
++++ b/src/osdep/amiberry_filesys.cpp
+@@ -136,6 +136,7 @@ std::string prefix_with_application_directory_path(std::string currentpath)
+ 
+ std::string prefix_with_data_path(std::string filename)
+ {
++  if (!filename.empty() && filename[0] == '/') return filename;
+ #ifdef __MACH__
+ 	CFBundleRef mainBundle = CFBundleGetMainBundle();
+ 	if (mainBundle == NULL)
 diff --git a/src/osdep/amiberry_gfx.cpp b/src/osdep/amiberry_gfx.cpp
-index 2dececf8..ad66c09d 100644
+index e11c51fc..e4b75aaa 100644
 --- a/src/osdep/amiberry_gfx.cpp
 +++ b/src/osdep/amiberry_gfx.cpp
-@@ -1888,7 +1888,7 @@ int graphics_init(bool mousecapture)
+@@ -2034,7 +2034,7 @@ int graphics_init(bool mousecapture)
  		}
  		check_error_sdl(mon->sdl_window == nullptr, "Unable to create window:");
  
@@ -40,6 +52,34 @@ index 2dececf8..ad66c09d 100644
  		if (icon_surface != nullptr)
  		{
  			SDL_SetWindowIcon(mon->sdl_window, icon_surface);
+diff --git a/src/osdep/gui/ControllerMap.cpp b/src/osdep/gui/ControllerMap.cpp
+index a115f2fd..334e40a1 100644
+--- a/src/osdep/gui/ControllerMap.cpp
++++ b/src/osdep/gui/ControllerMap.cpp
+@@ -481,10 +481,10 @@ WatchJoystick(SDL_Joystick* joystick)
+ 	Uint32 alpha_ticks = 0;
+ 	SDL_JoystickID nJoystickID;
+ 
+-	background_front_image = gcn::Image::load(prefix_with_data_path("controllermap.png"));
++	background_front_image = gcn::Image::load(prefix_with_data_path("/usr/share/amiberry/data/controllermap.png"));
+ 	background_front_icon = new gcn::Icon(background_front_image);
+ 
+-	background_back_image = gcn::Image::load(prefix_with_data_path("controllermap_back.png"));
++	background_back_image = gcn::Image::load(prefix_with_data_path("/usr/share/amiberry/data/controllermap_back.png"));
+ 	background_back_icon = new gcn::Icon(background_back_image);
+ 
+ #ifdef USE_DISPMANX
+@@ -492,8 +492,8 @@ WatchJoystick(SDL_Joystick* joystick)
+ #elif USE_OPENGL
+ 	//TODO need implementation
+ #else
+-	button = LoadTexture(sdl_renderer, prefix_with_data_path("button.png").c_str(), SDL_TRUE);
+-	axis = LoadTexture(sdl_renderer, prefix_with_data_path("axis.png").c_str(), SDL_TRUE);
++	button = LoadTexture(sdl_renderer, prefix_with_data_path("/usr/share/amiberry/data/button.png").c_str(), SDL_TRUE);
++	axis = LoadTexture(sdl_renderer, prefix_with_data_path("/usr/share/amiberry/data/axis.png").c_str(), SDL_TRUE);
+ #endif
+ 
+ 	/* Print info about the joystick we are watching */
 diff --git a/src/osdep/gui/PanelAbout.cpp b/src/osdep/gui/PanelAbout.cpp
 index 69ae6116..e599cd11 100644
 --- a/src/osdep/gui/PanelAbout.cpp
@@ -53,6 +93,32 @@ index 69ae6116..e599cd11 100644
  	icon = new gcn::Icon(amiberryLogoImage);
  	lblEmulatorVersion = new gcn::Label(get_version_string());
  	lblCopyright = new gcn::Label("Copyright (C) 2016-2022 Dimitris Panokostas");
+diff --git a/src/osdep/gui/PanelCustom.cpp b/src/osdep/gui/PanelCustom.cpp
+index e0a75d27..9842dbc0 100644
+--- a/src/osdep/gui/PanelCustom.cpp
++++ b/src/osdep/gui/PanelCustom.cpp
+@@ -313,7 +313,7 @@ void InitPanelCustom(const config_category& category)
+ 	cmdSetHotkey->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
+ 	cmdSetHotkey->setBaseColor(gui_baseCol);
+ 	cmdSetHotkey->addActionListener(grpActionListener);
+-	cmdSetHotkeyClear = new gcn::ImageButton(prefix_with_data_path("delete.png"));
++	cmdSetHotkeyClear = new gcn::ImageButton(prefix_with_data_path("/usr/share/amiberry/data/delete.png"));
+ 	cmdSetHotkeyClear->setBaseColor(gui_baseCol);
+ 	cmdSetHotkeyClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
+ 	cmdSetHotkeyClear->setId("cmdSetHotkeyClear");
+diff --git a/src/osdep/gui/PanelDiskSwapper.cpp b/src/osdep/gui/PanelDiskSwapper.cpp
+index 502123d7..a68c68e9 100644
+--- a/src/osdep/gui/PanelDiskSwapper.cpp
++++ b/src/osdep/gui/PanelDiskSwapper.cpp
+@@ -255,7 +255,7 @@ void InitPanelDiskSwapper(const config_category& category)
+ 		cmdDiskSwapperListAdd[row]->setId(tmp);
+ 		cmdDiskSwapperListAdd[row]->addActionListener(diskSwapperAddActionListener);
+ 
+-		cmdDiskSwapperListDelete[row] = new gcn::ImageButton(prefix_with_data_path("delete.png"));
++		cmdDiskSwapperListDelete[row] = new gcn::ImageButton(prefix_with_data_path("/usr/share/amiberry/data/delete.png"));
+ 		cmdDiskSwapperListDelete[row]->setBaseColor(gui_baseCol);
+ 		cmdDiskSwapperListDelete[row]->setSize(SMALL_BUTTON_HEIGHT, SMALL_BUTTON_HEIGHT);
+ 		snprintf(tmp, 20, "cmdDiskSwapperDel%d", row);
 diff --git a/src/osdep/gui/PanelHD.cpp b/src/osdep/gui/PanelHD.cpp
 index 346567ff..5a08981d 100644
 --- a/src/osdep/gui/PanelHD.cpp
@@ -116,23 +182,27 @@ index b39319e2..decb4bdf 100644
  	cmdKeyMinimizeClear->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
  	cmdKeyMinimizeClear->setId("cmdKeyMinimizeClear");
 diff --git a/src/osdep/gui/ShowMessage.cpp b/src/osdep/gui/ShowMessage.cpp
-index bdc31ced..9d341804 100644
+index de7b5a31..b5889bc3 100644
 --- a/src/osdep/gui/ShowMessage.cpp
 +++ b/src/osdep/gui/ShowMessage.cpp
-@@ -153,7 +153,7 @@ static void InitShowMessage(const std::string& message)
- 	if (gui_font == nullptr)
+@@ -174,10 +174,10 @@ static void InitShowMessage(const std::string& message)
  	{
  		TTF_Init();
+ #ifdef USE_OPENGL
+-		gui_font = new gcn::ImageFont(prefix_with_data_path("fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
++		gui_font = new gcn::ImageFont(prefix_with_data_path("/usr/share/amiberry/data/fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+ 
+ #else
 -		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("AmigaTopaz.ttf"), 15);
 +		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
- 		gcn::Widget::setGlobalFont(gui_font);
  		gui_font->setAntiAlias(false);
- 	}
+ #endif
+ 		gcn::Widget::setGlobalFont(gui_font);
 diff --git a/src/osdep/gui/main_window.cpp b/src/osdep/gui/main_window.cpp
-index fba9f016..f409d7b4 100644
+index 0970d2aa..ec4b33c1 100644
 --- a/src/osdep/gui/main_window.cpp
 +++ b/src/osdep/gui/main_window.cpp
-@@ -47,49 +47,49 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
+@@ -51,49 +51,49 @@ void target_startup_msg(const TCHAR* title, const TCHAR* msg)
  }
  
  ConfigCategory categories[] = {
@@ -205,12 +275,33 @@ index fba9f016..f409d7b4 100644
  #endif
  	{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}
  };
-@@ -1138,7 +1138,7 @@ void gui_widgets_init()
+@@ -302,7 +302,7 @@ void update_gui_screen()
+ #else
+ void setup_cursor()
+ {
+-	cursor_surface = SDL_LoadBMP(prefix_with_data_path("cursor.bmp").c_str());
++	cursor_surface = SDL_LoadBMP(prefix_with_data_path("/usr/share/amiberry/data/cursor.bmp").c_str());
+ 	if (!cursor_surface)
+ 	{
+ 		// Load failed. Log error.
+@@ -473,7 +473,7 @@ void amiberry_gui_init()
+ 			GUI_HEIGHT,
+ 			flags);
  
+-		auto* const icon_surface = IMG_Load(prefix_with_data_path("amiberry.png").c_str());
++		auto* const icon_surface = IMG_Load(prefix_with_data_path("/usr/share/amiberry/data/amiberry.png").c_str());
+ 		if (icon_surface != nullptr)
+ 		{
+ 			SDL_SetWindowIcon(mon->sdl_window, icon_surface);
+@@ -1218,9 +1218,9 @@ void gui_widgets_init()
  	try
  	{
+ #ifdef USE_OPENGL
+-		gui_font = new gcn::ImageFont(prefix_with_data_path("fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
++		gui_font = new gcn::ImageFont(prefix_with_data_path("/usr/share/amiberry/data/fixedfont.bmp"), " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+ #else
 -		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("AmigaTopaz.ttf"), 15);
-+    gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
++		gui_font = new gcn::SDLTrueTypeFont(prefix_with_data_path("/usr/share/amiberry/data/AmigaTopaz.ttf"), 15);
+ #endif
  	}
  	catch (exception& ex)
- 	{
