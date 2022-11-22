@@ -1,8 +1,8 @@
 diff --git a/src/osdep/amiberry.cpp b/src/osdep/amiberry.cpp
-index 1d5cff7a..6d9d79c7 100644
+index f6f7c988..48211de1 100644
 --- a/src/osdep/amiberry.cpp
 +++ b/src/osdep/amiberry.cpp
-@@ -2349,8 +2349,7 @@ void get_data_path(char* out, int size)
+@@ -2350,8 +2350,7 @@ void get_data_path(char* out, int size)
  
  void get_saveimage_path(char* out, int size, int dir)
  {
@@ -12,7 +12,7 @@ index 1d5cff7a..6d9d79c7 100644
  }
  
  void get_configuration_path(char* out, int size)
-@@ -2457,8 +2456,7 @@ void get_rp9_path(char* out, int size)
+@@ -2458,8 +2457,7 @@ void get_rp9_path(char* out, int size)
  
  void get_savestate_path(char* out, int size)
  {
@@ -22,7 +22,7 @@ index 1d5cff7a..6d9d79c7 100644
  }
  
  void fetch_ripperpath(TCHAR* out, int size)
-@@ -2475,8 +2473,7 @@ void fetch_inputfilepath(TCHAR *out, int size)
+@@ -2482,8 +2480,7 @@ void get_nvram_path(TCHAR *out, int size)
  
  void get_screenshot_path(char* out, int size)
  {
@@ -32,7 +32,7 @@ index 1d5cff7a..6d9d79c7 100644
  }
  
  int target_cfgfile_load(struct uae_prefs* p, const char* filename, int type, int isdefault)
-@@ -3223,8 +3220,8 @@ static void init_amiberry_paths(void)
+@@ -3234,8 +3231,8 @@ static void init_amiberry_paths(void)
  {
  	strncpy(current_dir, start_path_data, MAX_DPATH - 1);
  	snprintf(config_path, MAX_DPATH, "%s/conf/", start_path_data);
@@ -43,7 +43,7 @@ index 1d5cff7a..6d9d79c7 100644
  	snprintf(whdboot_path, MAX_DPATH, "%s/whdboot/", start_path_data);
  	snprintf(logfile_path, MAX_DPATH, "%s/amiberry.log", start_path_data);
  
-@@ -3239,9 +3236,9 @@ static void init_amiberry_paths(void)
+@@ -3250,9 +3247,9 @@ static void init_amiberry_paths(void)
  	else
  		snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
  #else
@@ -55,7 +55,7 @@ index 1d5cff7a..6d9d79c7 100644
  #ifdef __MACH__
  	// Open amiberry.conf from Application Data directory
  	const std::string macos_home_directory = getenv("HOME");
-@@ -3403,9 +3400,8 @@ int main(int argc, char* argv[])
+@@ -3415,9 +3412,8 @@ int main(int argc, char* argv[])
  	}
  	else
  	{
@@ -66,7 +66,7 @@ index 1d5cff7a..6d9d79c7 100644
  	rename_old_adfdir();
  	init_amiberry_paths();
  	// Parse command line to get possibly set amiberry_config.
-@@ -3426,8 +3422,7 @@ int main(int argc, char* argv[])
+@@ -3438,8 +3434,7 @@ int main(int argc, char* argv[])
  		abort();
  	}
  
