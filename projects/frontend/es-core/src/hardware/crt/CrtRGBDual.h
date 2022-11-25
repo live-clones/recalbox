@@ -36,7 +36,7 @@ class CrtRGBDual : public ICrtInterface
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
     static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";
-    static constexpr const char* vgaCardConnected = "/sys/class/drm/card1-VGA-1/status";
+    static constexpr const char* vgaCardConnected = "/sys/class/drm/card*-VGA-*/status";
 
     //! Get 31khz switch state on RGB dual board
     static bool GetRGBDual31khzSwitchState() { return Files::LoadFile(Path(sRGBDual31khzSwitch)) == "0\n"; }
