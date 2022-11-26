@@ -46,6 +46,7 @@ b908959a214b74a37cab5f5acee1a8f5  package/sdl2/Config.in
 837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
 56d682dfa88db5ceb05f3caa47de7bdd  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.hash
 104f1fdf7671deb378c5ef0ca22b6c46  package/x11r7/xdriver_xf86-video-amdgpu/xdriver_xf86-video-amdgpu.mk
+6e3ab6b232135fb951ccb3c161e481d8  package/x265/x265.mk
 67a78ca1ca82b120ba9b24423c089ccf  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt
 7c04e662b37e09a98c46141cf08fb247  system/skeleton/etc/passwd
