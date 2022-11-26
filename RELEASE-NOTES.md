@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
+- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
