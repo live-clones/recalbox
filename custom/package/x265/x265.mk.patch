@@ -1,12 +1,12 @@
 diff --git a/package/x265/x265.mk b/package/x265/x265.mk
-index 51c39df4cd..e3a4acc6e5 100644
+index 51c39df4cd..ada7f1e4eb 100644
 --- a/package/x265/x265.mk
 +++ b/package/x265/x265.mk
 @@ -35,4 +35,8 @@ else
  X265_CONF_OPTS += -DENABLE_CLI=OFF
  endif
  
-+ifeq ($(BR2_arm)$(BR2_aarch64),y)
++ifeq ($(BR2_ARM_CPU_ARMV6),y)
 +X265_CONF_OPTS += -DCROSS_COMPILE_ARM=1
 +endif
 +
