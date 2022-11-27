@@ -171,7 +171,8 @@ class Emulator:
         self._netplay               = arguments.netplay in ("host", "client")
 
         # Video mode direct override
-        if len(arguments.resolution) > 0:
+        from configgen.utils.architecture import Architecture
+        if len(arguments.resolution) > 0 and not Architecture().isSupportingTvService:
             self._videoMode = arguments.resolution
 
         # Generate args array
