@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system 'Z-Machine' with new core frotz
 
 ### Improvements
+- Improve metadata storage, using far less memory for huge game collections
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Bump libretro fuse & add new supported file extensions

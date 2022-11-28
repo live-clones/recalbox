@@ -20,6 +20,17 @@ class PatchData
       mPatchConfigured = true;
     }
 
+
+    bool HasPatchPath() const { return mHasPatchPath; }
+    Path PatchPath() const { return mPatchPath; }
+
+    void SetPatchPath(Path path)
+    {
+      mPatchPath = path;
+      mHasPatchPath = true;
+      mPatchConfigured = true;
+    }
+
     bool IsConfigured()
     {
       return mPatchConfigured;
@@ -28,4 +39,6 @@ class PatchData
   private:
     bool mDisabledSoftpatching;
     bool mPatchConfigured;
+    bool mHasPatchPath;
+    Path mPatchPath;
 };
