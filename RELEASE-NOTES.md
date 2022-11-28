@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
   - Add multiple PAL/NTSC modes
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
+- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
 
 ### Improvements
 - Bump libretro pcsx-rearmed
