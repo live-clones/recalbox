@@ -25,6 +25,8 @@ MetadataStringHolder MetadataDescriptor::sCoreHolder(2 << 10, 1 << 10);
 MetadataStringHolder MetadataDescriptor::sRatioHolder(1 << 10, 1 << 10);
 MetadataStringHolder MetadataDescriptor::sPathHolder(64 << 10, 32 << 10);
 MetadataStringHolder MetadataDescriptor::sFileHolder(128 << 10, 32 << 10);
+MetadataStringHolder MetadataDescriptor::sLastPatchPathHolder(2 << 10, 1 << 10);
+MetadataStringHolder MetadataDescriptor::sLastPatchFileHolder(2 << 10, 1 << 10);
 
 #ifdef _METADATA_STATS_
 int MetadataDescriptor::LivingClasses = 0;
@@ -63,6 +65,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
         MetadataFieldDescriptor("playcount"  , DefaultValuePlayCount, _("Play count")  , _("enter number of times played"), MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultPlayCount      , &MetadataDescriptor::PlayCountAsString   , &MetadataDescriptor::SetPlayCountAsString    , true , false),
         MetadataFieldDescriptor("lastplayed" , DefaultValueEmpty    , _("Last played") , _("enter last played date")      , MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPlayedEpoc , &MetadataDescriptor::LastPlayedAsString  , &MetadataDescriptor::SetLastPlayedAsString   , true , false),
         MetadataFieldDescriptor("hash"       , DefaultValueEmpty    , _("Rom Crc32")   , _("enter rom crc32")             , MetadataFieldDescriptor::DataType::Crc32  , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRomCrc32       , &MetadataDescriptor::RomCrc32AsString    , &MetadataDescriptor::SetRomCrc32AsString     , true , false),
+        MetadataFieldDescriptor("lastPatch"  , DefaultValueEmpty    , _("Last Patch")  , _("enter patch")                 , MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPath       , &MetadataDescriptor::LastPatchAsString   , &MetadataDescriptor::SetLastPatchAsString    , true , false),
       };
 
       count = sizeof(sGameMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
@@ -369,16 +372,18 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
 
 void MetadataDescriptor::CleanupHolders()
 {
-  LOG(LogDebug) << "[MetadataDescriptor] Name storage: "        << sNameHolder.StorageSize()        << " - object count: " << sNameHolder.ObjectCount()       ;
-  LOG(LogDebug) << "[MetadataDescriptor] Description storage: " << sDescriptionHolder.StorageSize() << " - object count: " << sDescriptionHolder.ObjectCount();
-  LOG(LogDebug) << "[MetadataDescriptor] Publisher storage: "   << sPublisherHolder.StorageSize()   << " - object count: " << sPublisherHolder.ObjectCount()  ;
-  LOG(LogDebug) << "[MetadataDescriptor] Developer storage: "   << sDeveloperHolder.StorageSize()   << " - object count: " << sDeveloperHolder.ObjectCount()  ;
-  LOG(LogDebug) << "[MetadataDescriptor] Genre storage: "       << sGenreHolder.StorageSize()       << " - object count: " << sGenreHolder.ObjectCount()      ;
-  LOG(LogDebug) << "[MetadataDescriptor] Ratio storage: "       << sRatioHolder.StorageSize()       << " - object count: " << sRatioHolder.ObjectCount()      ;
-  LOG(LogDebug) << "[MetadataDescriptor] Core storage: "        << sCoreHolder.StorageSize()        << " - object count: " << sCoreHolder.ObjectCount()       ;
-  LOG(LogDebug) << "[MetadataDescriptor] Emulator storage: "    << sEmulatorHolder.StorageSize()    << " - object count: " << sEmulatorHolder.ObjectCount()   ;
-  LOG(LogDebug) << "[MetadataDescriptor] Path storage: "        << sPathHolder.StorageSize()        << " - object count: " << sPathHolder.ObjectCount()       ;
-  LOG(LogDebug) << "[MetadataDescriptor] File storage: "        << sFileHolder.StorageSize()        << " - object count: " << sFileHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Name storage: "        << sNameHolder.StorageSize()          << " - object count: " << sNameHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Description storage: " << sDescriptionHolder.StorageSize()   << " - object count: " << sDescriptionHolder.ObjectCount();
+  LOG(LogDebug) << "[MetadataDescriptor] Publisher storage: "   << sPublisherHolder.StorageSize()     << " - object count: " << sPublisherHolder.ObjectCount()  ;
+  LOG(LogDebug) << "[MetadataDescriptor] Developer storage: "   << sDeveloperHolder.StorageSize()     << " - object count: " << sDeveloperHolder.ObjectCount()  ;
+  LOG(LogDebug) << "[MetadataDescriptor] Genre storage: "       << sGenreHolder.StorageSize()         << " - object count: " << sGenreHolder.ObjectCount()      ;
+  LOG(LogDebug) << "[MetadataDescriptor] Ratio storage: "       << sRatioHolder.StorageSize()         << " - object count: " << sRatioHolder.ObjectCount()      ;
+  LOG(LogDebug) << "[MetadataDescriptor] Core storage: "        << sCoreHolder.StorageSize()          << " - object count: " << sCoreHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Emulator storage: "    << sEmulatorHolder.StorageSize()      << " - object count: " << sEmulatorHolder.ObjectCount()   ;
+  LOG(LogDebug) << "[MetadataDescriptor] Path storage: "        << sPathHolder.StorageSize()          << " - object count: " << sPathHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] File storage: "        << sFileHolder.StorageSize()          << " - object count: " << sFileHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Patch Path storage: "  << sLastPatchPathHolder.StorageSize() << " - object count: " << sLastPatchPathHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Patcn File storage: "  << sLastPatchFileHolder.StorageSize() << " - object count: " << sLastPatchFileHolder.ObjectCount()       ;
   sNameHolder.Finalize();
   sDescriptionHolder.Finalize();
   sPublisherHolder.Finalize();
@@ -389,4 +394,6 @@ void MetadataDescriptor::CleanupHolders()
   sEmulatorHolder.Finalize();
   sPathHolder.Finalize();
   sFileHolder.Finalize();
+  sLastPatchPathHolder.Finalize();
+  sLastPatchFileHolder.Finalize();
 }
