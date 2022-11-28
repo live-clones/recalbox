@@ -133,6 +133,24 @@ tests buildroot patches:
         fi
       done
 
+tests nvidia:
+  <<: *lint_definition
+  stage: lint
+  image: python:3.9-slim
+  only:
+    refs:
+      - master
+      - merge_requests
+      - tags
+    changes:
+      - projects/recalbox-hardware/videocard/**/*
+  script: 
+    - cd projects/recalbox-hardware/videocard
+    - echo "Installing dependencies"
+    - pip install -r requirements-dev.txt
+    - echo "Running unittests"
+    - export PYTHONPATH=$PYTHONPATH:$(pwd) && pytest --cov
+
 # Build
 
 .build_template: &build_definition
