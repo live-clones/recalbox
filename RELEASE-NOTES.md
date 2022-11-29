@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix pad 8bitdo Pro 2 mode D (Android)
 - Fix bad overlay showing when save on exit is enabled on retroarch
 - Fix support for Ultimarc IPAC 2
+- Fix internal scraper saving path before actual media
 
 ## Version 8.1.1-Electron
 

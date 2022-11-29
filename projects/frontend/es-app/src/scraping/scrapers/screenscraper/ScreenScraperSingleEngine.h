@@ -12,7 +12,6 @@
 #include <games/FileData.h>
 #include <games/MetadataFieldDescriptor.h>
 #include <scraping/scrapers/IScraperEngineStage.h>
-#include <scraping/scrapers/IScraperEngineFreezer.h>
 
 //! Persistant engine class accross requests
 class ScreenScraperSingleEngine
@@ -133,7 +132,7 @@ class ScreenScraperSingleEngine
      * @param result Result code
      * @return True if the code is fatal
      */
-    bool IsFatal(ScrapeResult result) const;
+    [[nodiscard]] bool IsFatal(ScrapeResult result) const;
 
     /*!
      * @brief Download and store one media
@@ -182,22 +181,22 @@ class ScreenScraperSingleEngine
     void Abort() { mAbortRequest = true; }
 
     //! Check if the engine has been aborted
-    bool IsAborted() const { return mAbortRequest; }
+    [[nodiscard]] bool IsAborted() const { return mAbortRequest; }
 
     //! Check if the engine is running
-    bool IsRunning() const { return mRunning; }
+    [[nodiscard]] bool IsRunning() const { return mRunning; }
 
     //! Stats Text infos
-    int StatsTextInfo() const { return mTextInfo; };
+    [[nodiscard]] int StatsTextInfo() const { return mTextInfo; };
 
     //! Stats images downloaded
-    int StatsImages() const { return mImages; };
+    [[nodiscard]] int StatsImages() const { return mImages; };
 
     //! Stats videos downloaded
-    int StatsVideos() const { return mVideos; };
+    [[nodiscard]] int StatsVideos() const { return mVideos; };
 
     //! Stats videos downloaded
-    long long StatsMediaSize() const { return mMediaSize; };
+    [[nodiscard]] long long StatsMediaSize() const { return mMediaSize; };
 };
 
 
