@@ -4,9 +4,10 @@ config BR2_PACKAGE_LIBRETRO_FLYCAST
 	depends on BR2_INSTALL_LIBSTDCPP
 	depends on BR2_GCC_ENABLE_OPENMP
 	help
-	  A libretro atomiswave, dreamcast and naomi core.
+	  A libretro atomiswave, dreamcast, naomi and naomi 2 core.
 
-	  http://www.libretro.com
+	  https://github.com/flyinghead/flycast
+
 
 comment "LIBRETRO_FLYCAST needs a toolchain w/ C++"
 	depends on !BR2_INSTALL_LIBSTDCPP
