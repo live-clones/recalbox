@@ -378,7 +378,7 @@ class PulseAudioController: public IAudioController
      * @param Port
      * @return uint count
      */
-    uint CountAvailableProfiles(const Port& port);
+    static uint CountAvailableProfiles(const Port& port);
 
     /*!
      * @brief Receive synchronous events
