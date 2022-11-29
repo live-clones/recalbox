@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro Opera
 - Bump libretro fbneo
 - Bump libretro uae
+- Bump libretro dosbox-pure
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
