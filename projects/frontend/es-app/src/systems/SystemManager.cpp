@@ -766,8 +766,6 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     SystemDescriptor descriptor;
     if (deserializer.Deserialize(index, descriptor))
     {
-      if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
-      {
         // Get weight
         int weight = weights.GetInt(descriptor.FullName(), 0);
         // Add system name and raw rompath
@@ -777,8 +775,6 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
           mAllDeclaredSystemExtensionSet.insert(ext);
         // Push weighted system
         threadPool.PushFeed(descriptor, weight);
-      }
-      else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
     }
   }
 
@@ -953,7 +949,7 @@ int SystemManager::getVisibleSystemIndex(const std::string &name)
 SystemData* SystemManager::FirstNonEmptySystem()
 {
   for (auto &system : mVisibleSystemVector)
-    if (system->HasVisibleGame())
+    if (system->IsDisplayable())
       return system;
 
   return nullptr;

@@ -410,7 +410,7 @@ GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& pa
     fileData.Metadata().SetDirty();
   }
 
-  if (!systemData.HasVisibleGame())
+  if (!systemData.IsDisplayable())
   {
     { LOG(LogDebug) << "[DELETE] System " << systemData.Name() << " has no more visible games"; }
     ViewController::Instance().getSystemListView().RemoveCurrentSystem();

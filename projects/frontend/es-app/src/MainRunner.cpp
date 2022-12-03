@@ -376,7 +376,7 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
   {
     int realSystemCount = 0;
     for(const SystemData* system : systemManager.GetVisibleSystemList())
-      if (system->HasVisibleGame())
+      if (system->IsDisplayable())
         realSystemCount++;
     if (realSystemCount > maxSystem)
     {

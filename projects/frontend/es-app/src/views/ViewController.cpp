@@ -60,7 +60,7 @@ void ViewController::goToStart()
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
 
-  if ((selectedSystem == nullptr) || !selectedSystem->HasVisibleGame())
+  if ((selectedSystem == nullptr) || !selectedSystem->IsDisplayable())
     selectedSystem = mSystemManager.FirstNonEmptySystem();
 
   if (selectedSystem == nullptr)
@@ -125,7 +125,7 @@ void ViewController::goToSystemView(SystemData* system)
   CheckFilters();
   mSystemListView.setPosition((float)getSystemId(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
-  if (!system->HasVisibleGame()) {
+  if (!system->IsDisplayable()) {
     system = mSystemManager.FirstNonEmptySystem();
   }
 
@@ -172,7 +172,7 @@ void ViewController::quitGameClipView()
       goToSystemView(mSystemListView.getSelected());
       break;
     case ViewMode::GameList:
-      if(mState.getSystem()->HasVisibleGame())
+      if(mState.getSystem()->IsDisplayable())
         goToGameList(mState.getSystem());
       else goToStart();
       break;
@@ -223,7 +223,7 @@ void ViewController::goToNextGameList()
 
   CheckFilters();
   SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->HasVisibleGame()) {
+	while(!next->IsDisplayable()) {
 		next = mSystemManager.NextVisible(next);
 
 	}
@@ -241,7 +241,7 @@ void ViewController::goToPrevGameList()
 
   CheckFilters();
   SystemData* prev = mSystemManager.PreviousVisible(system);
-	while(!prev->HasVisibleGame()) {
+	while(!prev->IsDisplayable()) {
 		prev = mSystemManager.PreviousVisible(prev);
 	}
 
@@ -780,7 +780,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
 bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 {
-	if (view->System().HasVisibleGame())
+	if (view->System().IsDisplayable())
 	{
 		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
 		{
@@ -852,7 +852,7 @@ void ViewController::ManageSystems()
   getGameListView(systemData)->refreshList();
 
   setAllInvalidGamesList(nullptr);
-  getSystemListView().manageSystemsList();
+  getSystemListView().RefreshSystemsList();
 
   // for updating game counts on system view
   getSystemListView().onCursorChanged(CursorState::Stopped);

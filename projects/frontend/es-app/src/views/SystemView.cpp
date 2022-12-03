@@ -159,7 +159,7 @@ void SystemView::addSystem(SystemData * it)
 SystemData* SystemView::Prev()
 {
   SystemData* prev = mSystemManager.PreviousVisible(mCurrentSystem);
-  while(!prev->HasVisibleGame()) {
+  while(!prev->IsDisplayable()) {
     prev = mSystemManager.PreviousVisible(prev);
   }
 
@@ -170,7 +170,7 @@ void SystemView::RemoveCurrentSystem()
 {
   std::vector<Entry> newEntries;
     for(auto& systemView : mEntries)
-      if (systemView.object == mCurrentSystem && mCurrentSystem->HasVisibleGame())
+      if (systemView.object == mCurrentSystem && mCurrentSystem->IsDisplayable())
       {
         newEntries.push_back(systemView);
         break;
@@ -203,7 +203,7 @@ void SystemView::populate()
   for (const auto entry : mCompleteList)
   {
     for(const SystemData* systemData: mSystemManager.GetVisibleSystemList())
-    if (systemData == entry.object && entry.object->HasVisibleGame())
+    if (systemData == entry.object && entry.object->IsDisplayable() && !RecalboxConf::Instance().AsBool(systemData->Name() + ".ignore"))
     this->add(entry);
   }
 }
@@ -269,7 +269,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
             return true;
         }
 
-    if (event.XPressed())
+    if (event.R1Pressed())
     {
       bool kodiExists = RecalboxSystem::kodiExists();
       bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
@@ -304,7 +304,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 			return true;
 		}
 
-		if (event.R1Pressed())
+		if (event.XPressed())
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       return true;
@@ -630,7 +630,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		while (index >= (int)mEntries.size())
 			index -= mEntries.size();
 
-    if(!mEntries[index].object->HasVisibleGame()) {
+    if(!mEntries[index].object->IsDisplayable()) {
       continue;
     }
 
@@ -843,16 +843,14 @@ void SystemView::manageFavorite()
   else if (!hasFavorite && favorite->FavoritesCount() > 0) addSystem(favorite);
 }
 
-void SystemView::manageSystemsList()
+void SystemView::RefreshSystemsList()
 {
   for (auto& system : mSystemManager.GetAllSystemList())
   {
     if(system->Descriptor().IsPort())
       continue;
 
-    bool hasGame = system->HasVisibleGame();
     bool systemIsAlreadyVisible = false;
-
     for (auto& mEntrie : mEntries)
       if (mEntrie.name == system->Name())
       {
@@ -860,17 +858,22 @@ void SystemView::manageSystemsList()
         break;
       }
 
+    bool hasGame = system->IsDisplayable();
+
+
     if(!systemIsAlreadyVisible && hasGame) {
       for( const auto s : mCompleteList)
         if(system == s.object)
           this->add(s);
     }
 
-    else if (systemIsAlreadyVisible && !hasGame)
+    if (systemIsAlreadyVisible && !hasGame)
       removeSystem(system);
   }
   if(mEntries.empty()) {
     ViewController::Instance().CheckFilters();
     ViewController::Instance().ManageSystems();
   }
+
+  Sort();
 }

@@ -65,7 +65,7 @@ public:
   /*!
    * @brief update view with only visible games systems
    */
-	void manageSystemsList();
+	void RefreshSystemsList();
 
   /*!
   * @brief Add a system to system view

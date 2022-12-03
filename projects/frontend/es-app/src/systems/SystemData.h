@@ -166,7 +166,7 @@ class SystemData : private INoCopy
     Path getThemePath() const;
 
     bool HasGame() const;
-    bool HasVisibleGame() const;
+    bool IsDisplayable() const;
 
     /*!
     * @brief Check if system has no only RO games

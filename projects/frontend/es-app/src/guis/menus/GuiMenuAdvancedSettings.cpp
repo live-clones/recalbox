@@ -13,6 +13,7 @@
 #include "GuiMenuCRT.h"
 #include "GuiMenuResolutionSettings.h"
 #include "ResolutionAdapter.h"
+#include "GuiMenuSystems.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -43,6 +44,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSubMenu(_("BOOT SETTINGS"), (int)Components::BootSubMenu, _(MENUMESSAGE_ADVANCED_BOOT_HELP_MSG));
 
   // Virtual systems
+  AddSubMenu(_("SYSTEMS"), (int)Components::Systems, "");
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
 
   // CRT
@@ -233,6 +235,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
     case Components::OverclockList:
     case Components::BootSubMenu:
+    case Components::Systems:
     case Components::VirtualSubMenu:
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
@@ -251,6 +254,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
   {
     case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
     case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
+    case Components::Systems: mWindow.pushGui(new GuiMenuSystems(mWindow, mSystemManager)); break;
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;

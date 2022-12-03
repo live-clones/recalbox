@@ -33,7 +33,7 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
 GuiMenuGameFilters::~GuiMenuGameFilters()
 {
   if(!ViewController::Instance().CheckFilters())
-   ViewController::Instance().ManageSystems();
+    ViewController::Instance().ManageSystems();
 }
 
 void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)

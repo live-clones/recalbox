@@ -397,7 +397,7 @@ bool SystemData::IsAlwaysFlat() const
 
 bool SystemData::IsSearchable() const
 {
-  return (mProperties & Properties::Searchable) != 0;
+  return (mProperties & Properties::Searchable) != 0 && IsDisplayable();
 }
 
 void SystemData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool includefolder) const
@@ -537,8 +537,10 @@ FileData::List SystemData::getAllGames() const
   return result;
 }
 
-bool SystemData::HasVisibleGame() const
+bool SystemData::IsDisplayable() const
 {
+  if(RecalboxConf::Instance().AsBool(Name() + ".ignore")) return false;
+
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (root->HasVisibleGame()) return true;
 
