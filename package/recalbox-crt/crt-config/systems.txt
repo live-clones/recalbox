@@ -31,7 +31,7 @@ neogeo,mame2015,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
 pcengine,mednafen_supergrafx,all,15kHz,progressive,pcengine:pcenginecd:all:240@59.94,0,0
 pcenginecd,mednafen_supergrafx,all,15kHz,progressive,pcengine:pcenginecd:all:240@59.94,0,0
 amiga600,uae4arm,pal,15kHz,progressive,standard:pal:288@50,0,256
-amiga600,uae4arm,ntsc,15kHz,progressive,standard:ntsc:240@60,0,0
+amiga600,uae4arm,ntsc,15kHz,progressive,standard:ntsc:240@60,0,256
 amiga600,puae,pal,15kHz,progressive,standard:pal:288@50,0,0
 amiga600,puae,ntsc,15kHz,progressive,amiga600:ntsc:240@59.94,0,0
 megadrive,genesisplusgx,ntsc,15kHz,progressive,megadrive:mastersystem:segacd:ntsc:240@59.92274,0,0
@@ -67,6 +67,7 @@ dreamcast,flycast,all,31kHz,progressive,default@31kHz:all:480@60,640,0
 gamegear,genesisplusgx,all,15kHz,progressive,standard:ntsc:224@60,960,144
 gb,gambatte,all,15kHz,progressive,standard:ntsc:224@60,960,144
 dos,dosbox_pure,all,15kHz,progressive,standard:ntsc:224@60,1780,200
+dos,dosbox_pure,all,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0
 gbc,gambatte,all,15kHz,progressive,standard:ntsc:224@60,960,144
 wswan,mednafen_wswan,all,15kHz,progressive,standard:ntsc:224@60,1344,144
 wswanc,mednafen_wswan,all,15kHz,progressive,standard:ntsc:224@60,1344,144
