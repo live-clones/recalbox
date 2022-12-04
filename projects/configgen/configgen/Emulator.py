@@ -172,7 +172,7 @@ class Emulator:
 
         # Video mode direct override
         from configgen.utils.architecture import Architecture
-        if len(arguments.resolution) > 0 and not Architecture().isSupportingTvService:
+        if len(arguments.resolution) > 0 and not Architecture().isSupportingTvService and not self._crtenabled:
             self._videoMode = arguments.resolution
 
         # Generate args array
