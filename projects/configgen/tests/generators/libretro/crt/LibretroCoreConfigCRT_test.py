@@ -88,9 +88,9 @@ def test_given_amiga_cd32_systems_should_create_core_config_for_amiga():
 def test_given_n64_systems_should_create_core_config_for_parallel_resolution():
     core_configurator = LibretroCoreConfigCRT()
     emulator = Emulator(name='n64', videoMode='1920x1080', ratio='auto', emulator='libretro', core='parallel_n64')
-    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"640x480"'}
+    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"320x240"'}
     emulator = Emulator(name='64dd', videoMode='1920x1080', ratio='auto', emulator='libretro', core='parallel_n64')
-    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"640x480"'}
+    assert core_configurator.createConfigFor(emulator) == {"parallel-n64-screensize": '"320x240"'}
 
 
 def test_given_psx_systems_should_create_core_config():
