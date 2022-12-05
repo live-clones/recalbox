@@ -17,10 +17,15 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(int maxWidth, int maxHeight)
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(bool filterHighResolutions)
 {
-  static ResolutionList resolutions;
-  resolutions.clear();
+  mResolutionsDetailed.clear();
+
+  int dummy = 0;
+  bool strict = false;
+  GetMaximumResolution(dummy, dummy, strict);
+
+  { LOG(LogDebug) << "[DRM] Enumerating resolution list. High resolution filtering is: " << (filterHighResolutions ? "ON" : "OFF"); }
 
   Path connectorMainPath("/dev/dri");
   Path::PathList connectorList = connectorMainPath.GetDirectoryContent();
@@ -45,85 +50,74 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
         if (connector != nullptr)
         {
           { LOG(LogDebug) << "[DRM]   Open connector #" << connectorIndex << " - Connected " << (connector->connection == DRM_MODE_CONNECTED ? "Yes" : "No"); }
+
+          /*
+           * If filtering is on, check if default (or element zero if no explicit default)
+           * has been filtered. This will change the way we're searching for default resolution
+           */
           if (connector->connection == DRM_MODE_CONNECTED)
           {
-            // List modes
+            bool hasDefaultElement = false;
+            bool firstElementHasBeenFiltered = false;
+            bool defaultElementHasBeenFiltered = false;
+            if (filterHighResolutions)
+              for (int m = 0; m < connector->count_modes; ++m)
+              {
+                drmModeModeInfo& mode = connector->modes[m];
+                if ((mode.type & DRM_MODE_TYPE_PREFERRED) != 0) hasDefaultElement = true;
+                if (FilterHighResolution(mode.hdisplay, mode.vdisplay))
+                {
+                  if (m == 0) firstElementHasBeenFiltered = true;
+                  if ((mode.type & DRM_MODE_TYPE_PREFERRED) != 0) defaultElementHasBeenFiltered = true;
+                }
+              }
+            /*
+             * No true default element?
+             * if the first element (considered as default) has been filtered then set the defaultElementHasBeenFiltered
+             * so that the following code just deal with *one* composite flag
+             */
+            if (!hasDefaultElement)
+              if (firstElementHasBeenFiltered)
+                defaultElementHasBeenFiltered = true;
+
+            /*
+             * But if the default resolution has not been filtered out (either true or element 0)
+             * reset the filter
+            */
+            if (defaultElementHasBeenFiltered && !strict)
+            {
+              filterHighResolutions = false;
+              { LOG(LogDebug) << "[DRM]     Default item filtered & strict mode is off: reset filter"; }
+            }
+
+            // List & record modes
             int defaultModeIndex = -1;
             for (int m = 0; m < connector->count_modes; ++m)
             {
               drmModeModeInfo &mode = connector->modes[m];
               // Out of bounds?
-              if (maxHeight != 0 && mode.vdisplay > maxHeight)
-              {
-                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay << ". Height higher than " << maxHeight; }
-                continue;
-              }
-              if (maxWidth != 0 && mode.hdisplay > maxWidth)
-              {
-                { LOG(LogDebug) << "[DRM]      Skip resolution: " << mode.hdisplay << 'x' << mode.vdisplay << ". Width higher than " << maxWidth; }
-                continue;
-              }
-              if ((mode.type & DRM_MODE_TYPE_DEFAULT) != 0) defaultModeIndex = (int)resolutions.size();
-              resolutions.push_back({connectedMonitors, mode.hdisplay, mode.vdisplay, -1, (int) mode.vrefresh,
+              if (filterHighResolutions)
+                if (FilterHighResolution(mode.hdisplay, mode.vdisplay))
+                  continue;
+              if ((mode.type & DRM_MODE_TYPE_PREFERRED) != 0) defaultModeIndex = (int)mResolutionsDetailed.size();
+              mResolutionsDetailed.push_back({connectedMonitors, mode.hdisplay, mode.vdisplay, -1, (int) mode.vrefresh,
                                      (mode.flags & DRM_MODE_FLAG_INTERLACE) != 0,
-                                     (mode.type & DRM_MODE_TYPE_DEFAULT) != 0});
-              { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << resolutions.back().ToString(); }
+                                     (mode.type & DRM_MODE_TYPE_PREFERRED) != 0});
+              { LOG(LogDebug) << "[DRM]     Mode #" << m << " : " << mResolutionsDetailed.back().ToString(); }
             }
-
-            // Default 4K has been eliminated, try seting 1080p as default mode
-            if (defaultModeIndex < 0)
-              for(int i = (int)resolutions.size(); --i >= 0; )
-                if (Resolution& r = resolutions[i]; r.Height == 1080 && r.Width == 1920)
-                {
-                  { LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
-                  r.IsDefault = true;
-                  defaultModeIndex = i;
-                  break;
-                }
 
             // Nothing found
             if (defaultModeIndex < 0)
             {
-              // Get all delta first
-              std::vector<long long> deltas;
-              for(const Resolution& r : resolutions)
-              {
-                long long heightDelta = r.Height - 1080;
-                long long widthDelta = r.Width - 1920;
-                deltas.push_back(heightDelta * heightDelta + widthDelta * widthDelta);
-              }
-
-              // Try closest higher resolution first
-              long long diff = 0x7FFFFFFFFFFFFFFF;
-              for(int i = (int)resolutions.size(); --i >= 0; )
-                if (const Resolution& r = resolutions[i]; r.Height >= 1080 && deltas[i] < diff)
-                {
-                  diff = deltas[i];
-                  defaultModeIndex = i;
-                }
-
-              // Try the closest resolution, whatever it is
-              if (defaultModeIndex < 0)
-              {
-                diff = 0x7FFFFFFFFFFFFFFF;
-                for(int i = (int)resolutions.size(); --i >= 0; )
-                  if (deltas[i] < diff)
-                  {
-                    diff = deltas[i];
-                    defaultModeIndex = i;
-                  }
-              }
+              // Default behavior is to just take the first element
+              defaultModeIndex = 0;
 
               // Store
-              if (defaultModeIndex >= 0)
-              {
-                Resolution& r = resolutions[defaultModeIndex];
-                { LOG(LogDebug) << "[DRM]      Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
-                r.IsDefault = true;
-              }
-              else
-              { LOG(LogError) << "[DRM]      Unable to figure out non desktop default resolution among " << resolutions.size() << " resolutions!"; }
+              Resolution& r = mResolutionsDetailed[defaultModeIndex];
+              { LOG(LogDebug) << "[DRM]     Setting non desktop default resolution: " << r.Width << 'x' << r.Height; }
+              r.IsDefault = true;
             }
+
             // Inc connected monitors index
             connectedMonitors++;
           }
@@ -147,7 +141,7 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
-      for(Resolution& r : resolutions)
+      for(Resolution& r : mResolutionsDetailed)
       {
         int tmp = r.Height;
         r.Height = r.Width;
@@ -171,15 +165,18 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     default: break;
   }
 
-  if (mResolutionsDetailed.empty() && (maxWidth | maxHeight) != 0)
-    return GetResolutionDetailedList(0, 0);
+  if (mResolutionsDetailed.empty() && filterHighResolutions)
+  {
+    { LOG(LogDebug) << "[DRM] No resolution available with filtering on. Trying w/o filter."; }
+    return GetResolutionDetailedList(false);
+  }
 
-  return resolutions;
+  return mResolutionsDetailed;
 }
 
 #else // SDL2
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(int maxWidth, int maxHeight)
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetailedList(bool filterHighResolution)
 {
   { LOG(LogDebug) << "[ResolutionAdapter] Getting resolution from sdl"; }
 
@@ -195,15 +192,14 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
       for (int m = 0; m < modesCount; ++m)
         if (SDL_GetDisplayMode(i, m, &mode) == 0)
         {
-          if (maxWidth  != 0 && mode.w > maxWidth ) continue;
-          if (maxHeight != 0 && mode.h > maxHeight) continue;
+          if (FilterHighResolution(mode.w, mode.h)) continue;
           mResolutionsDetailed.push_back({i, mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate, false, mode.w == defaultMode.w && mode.h == defaultMode.h && mode.format == defaultMode.format && mode.refresh_rate == defaultMode.refresh_rate });
         }
     }
   }
 
-  if (mResolutionsDetailed.empty() && (maxWidth | maxHeight) != 0)
-    return GetResolutionDetailedList(0, 0);
+  if (mResolutionsDetailed.empty() && filterHighResolution)
+    return GetResolutionDetailedList(false);
 
   return mResolutionsDetailed;
 }
@@ -231,9 +227,7 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
     return false;
   }
 
-  int w = 0, h = 0;
-  GetMaximumResolution(w, h);
-  const ResolutionList& list = GetResolutionDetailedList(w, h);
+  const ResolutionList& list = GetResolutionDetailedList(true);
 
   // Check if the resolution match an existing resolution
   for(const Resolution& r : list)
@@ -300,21 +294,17 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
 
 ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution()
 {
-  int w = 0, h = 0;
-  GetMaximumResolution(w, h);
-  ResolutionList allResolutions = GetResolutionDetailedList(w, h);
-  for(const Resolution& rawResolution : allResolutions){
-    if(rawResolution.IsDefault) return rawResolution;
-  }
+  ResolutionList allResolutions = GetResolutionDetailedList(true);
+  for(const Resolution& rawResolution : allResolutions)
+    if (rawResolution.IsDefault)
+      return rawResolution;
 }
 
-const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
+const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList(bool filterHighResolutions)
 {
   if(mResolutions.empty())
   {
-    int w = 0, h = 0;
-    GetMaximumResolution(w, h);
-    ResolutionList allResolutions = GetResolutionDetailedList(w, h);
+    ResolutionList allResolutions = GetResolutionDetailedList(filterHighResolutions);
     for(const Resolution& rawResolution : allResolutions)
     {
       bool alreadyPresent = false;
@@ -324,11 +314,12 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
         if(filteredResolution.Width == rawResolution.Width && filteredResolution.Height == rawResolution.Height)
         {
           // The resolution already exists, we should update the frequency value if it's higher
-          if(filteredResolution.Frequency < rawResolution.Frequency) {
+          if(filteredResolution.Frequency < rawResolution.Frequency)
+          {
             filteredResolution.Frequency = rawResolution.Frequency;
-            if(filteredResolution.Bpp < rawResolution.Bpp)
+            if (filteredResolution.Bpp < rawResolution.Bpp)
               filteredResolution.Bpp = rawResolution.Bpp;
-            if(filteredResolution.Interlaced && !rawResolution.Interlaced)
+            if (filteredResolution.Interlaced && !rawResolution.Interlaced)
               filteredResolution.Interlaced = false;
           }
           alreadyPresent = true;
@@ -337,12 +328,12 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList()
       }
       if(!alreadyPresent)
         mResolutions.push_back(rawResolution);
-      }
     }
+  }
   return mResolutions;
 }
 
-void ResolutionAdapter::GetMaximumResolution(int& w, int& h)
+void ResolutionAdapter::GetMaximumResolution(int& w, int& h, bool& strict)
 {
   switch(Board::Instance().GetBoardType())
   {
@@ -351,9 +342,9 @@ void ResolutionAdapter::GetMaximumResolution(int& w, int& h)
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::Pi3:
-    case BoardType::Pi3plus: w = 0; h = 799; break;
+    case BoardType::Pi3plus: w = 0; h = 800; strict = false; break;
     case BoardType::Pi4:
-    case BoardType::Pi400: w = 0; h = 1079; break;
+    case BoardType::Pi400: w = 0; h = 1200; strict = true; break;
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::UnknownPi:
@@ -361,7 +352,26 @@ void ResolutionAdapter::GetMaximumResolution(int& w, int& h)
     case BoardType::PCx64:
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
-    default: w = h = 0; break;
+    default: w = h = 0; strict =false; break;
   }
+}
+
+bool ResolutionAdapter::FilterHighResolution(int w, int h)
+{
+  int maxw = 0, maxh = 0;
+  bool strict = false;
+  GetMaximumResolution(maxw, maxh, strict);
+
+  if (maxh != 0 && h > maxh)
+  {
+    { LOG(LogDebug) << "[DRM]     Skip resolution: " << w << 'x' << h << ". Height higher than " << maxh; }
+    return true;
+  }
+  if (maxw != 0 && w > maxw)
+  {
+    { LOG(LogDebug) << "[DRM]     Skip resolution: " << w << 'x' << h << ". Width higher than " << maxw; }
+    return true;
+  }
+  return false;
 }
 
