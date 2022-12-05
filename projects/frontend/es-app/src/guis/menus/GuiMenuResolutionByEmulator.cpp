@@ -28,7 +28,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionByEmulator::Ge
   result.push_back({ _("USE GLOBAL"), "", !RecalboxConf::Instance().IsDefinedSystemVideoMode(system) });
   result.push_back({ _("NATIVE"), "default", RecalboxConf::Instance().GetSystemVideoMode(system) == "default" });
   ResolutionAdapter resolutionAdapter;
-  for(const ResolutionAdapter::Resolution& resolution : resolutionAdapter.Resolutions())
+  for(const ResolutionAdapter::Resolution& resolution : resolutionAdapter.Resolutions(false))
   {
     std::string reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetSystemVideoMode(system) });
