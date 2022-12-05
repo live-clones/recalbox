@@ -54,10 +54,10 @@ class ResolutionAdapter
     bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output);
 
     //! Resolution list with bpm and frequency
-    const ResolutionList& ResolutionsDetailed() { int w = 0, h = 0; GetMaximumResolution(w, h); return GetResolutionDetailedList(w, h); }
+    const ResolutionList& ResolutionsDetailed(bool filterHighResolutions) { return GetResolutionDetailedList(filterHighResolutions); }
 
     //! Resolution list simplified: one entry by couple (width, height)
-    const ResolutionList& Resolutions() { return GetResolutionList(); }
+    const ResolutionList& Resolutions(bool filterHighResolutions) { return GetResolutionList(filterHighResolutions); }
 
     //! Default resolution, replacing the desktop resolution
     Resolution DefaultResolution() { return GetDefaultResolution(); }
@@ -70,14 +70,22 @@ private:
      * @brief Get resolution list under maxWidth & maxHeight
      * use 0 to ignore one or both max values
      * if no resolution is availaiable under the given maximum, return all available resolution
-     * @param maxWidth Maximum width (0 to ignore)
-     * @param maxHeight Maximum height (0 to ignore)
+     * @param filterHighResolutions Set to true to filter resolutions known to be slow on the givent board
      * @return Resolution list
      */
-    const ResolutionList& GetResolutionDetailedList(int maxWidth, int maxHeight);
+    const ResolutionList& GetResolutionDetailedList(bool filterHighResolutions);
+
+    /*!
+     * @brief check if the given resolution must be filtered out because it's known to be slow
+     * on the current board
+     * @param w Width to test
+     * @param h Height to test
+     * @return True if the given resolution has to be filtered out. False otherwise
+     */
+    static bool FilterHighResolution(int w, int h);
 
     //! Get resolution list
-    const ResolutionList& GetResolutionList();
+    const ResolutionList& GetResolutionList(bool filterHighResolutions);
 
     //! Get resolution list
     Resolution GetDefaultResolution();
