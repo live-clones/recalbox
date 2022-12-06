@@ -56,7 +56,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 
         if (Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
             Strings::Contains(extension, ".ips"))
-          AddIfExist(file, list);
+          list.insert(path.ToString());
       }
     }
 
@@ -94,23 +94,31 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
   return list;
 }
 
-bool GameFilesUtils::HasSoftPatch(const FileData* fileData)
+std::list<Path> GameFilesUtils::GetSoftPatches(const FileData* fileData)
 {
+  std::list<Path> patches;
+  if (!fileData->IsGame()) return patches;
+
+  Path folder = fileData->FilePath().Directory()/Path(fileData->FilePath().FilenameWithoutExtension().append("-patches"));
+  for (const auto& file: folder.GetDirectoryContent())
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+      patches.insert(patches.begin(), file);
+  }
+
   const Path& path = fileData->FilePath();
-  if (fileData->IsGame())
+  for (const auto& file: path.Directory().GetDirectoryContent())
+    if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
+    {
+      std::string extension = Strings::ToLowerUTF8(file.Extension());
 
-    for (const auto& file: path.Directory().GetDirectoryContent())
+      if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+        patches.insert(patches.begin(), file);
+    }
 
-      if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
-      {
-        std::string extension = Strings::ToLowerUTF8(file.Extension());
-
-        if ((Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
-            Strings::Contains(extension, ".ips")) && path.Exists())
-          return true;
-      }
-
-  return false;
+  return patches;
 }
 
 HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
