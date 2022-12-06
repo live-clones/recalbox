@@ -124,3 +124,4 @@ atarist,hatari,pal,15kHz,progressive,default:pal:288@50,0,200
 atarist,hatari,ntsc,15kHz,progressive,default:ntsc:240@60,0,200
 psx,pcsx_rearmed,pal,15kHz,progressive,psx:pal:288@49.761,1920,240
 psx,pcsx_rearmed,ntsc,15kHz,progressive,psx:ntsc:240@59.826,1920,0
+macintosh,minivmac,all,15kHz,interlaced,standard_interlaced:ntsc:480@60,1920,0
