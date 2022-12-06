@@ -37,6 +37,8 @@ RRGBDUAL_CURRENT_VIDEO_CONFIG="/boot/crt/.currentvideoconfig"
 
 source /recalbox/scripts/recalbox-utils.sh
 
+MIGRATIONS_FILE="/boot/crt/.migrations"
+
 function configure_rbconf {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
     echo "" >>"${RECALBOX_CONF}"
@@ -130,8 +132,22 @@ function rrgbd31kHzSwitchIsOn {
     [ "$(cat ${SWITCH_31KHZ_FILE})" == "0" ]
 }
 
-function oldThemeInstalled {
-    grep -q "emulationstation\.theme\.recalbox-next\.systemview=9-240p" "${RECALBOX_CONF}"
+function migrationDone {
+    echo "${1}" >> "${MIGRATIONS_FILE}"
+}
+
+function shouldMigrate {
+    if [ ! -f "${MIGRATIONS_FILE}" ]; then echo "#Migrations" > "${MIGRATIONS_FILE}"; fi
+    ! grep -q "${1}" "${MIGRATIONS_FILE}"
+}
+
+function runMigrations {
+    if shouldMigrate "8.2-theme"; then
+        recallog -s "S13crt" -t "CRT" "Running migration 8.2-theme"
+        unconfigure_rbconf
+        configure_rbconf
+        migrationDone "8.2-theme"
+    fi
 }
 
 function switchTo {
@@ -217,13 +233,6 @@ if test "$1" == "start"; then
             fi
         fi
 
-        # Migrate theme
-        if oldThemeInstalled; then
-            recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-            unconfigure_rbconf
-            configure_rbconf
-        fi
-
         # RRGBD 31khz switch means we must force jack audio
         # and remove the hdmi_force_hotplug option because it block the 480p@60 mode
         # Should be done at least one boot after the first boot (installation of recalbox),
@@ -276,6 +285,7 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
+        runMigrations
         exit 0
         # End RRGBD
     fi
@@ -300,12 +310,7 @@ if test "$1" == "start"; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
-        # Migrate theme
-        if oldThemeInstalled; then
-            recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-            configure_rbconf
-        fi
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -335,7 +340,7 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
-
+        runMigrations
     elif [[ "${DAC}" == "" ]]; then
         if [[ -f "${CRT_DAC_FILE}" ]] && grep -q "#device=" "${CRT_DAC_FILE}"; then
             # We should clean
