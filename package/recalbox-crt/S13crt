@@ -32,6 +32,8 @@ RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
 RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
 RRGBDUAL_31KHZ_LASTBOOT="/boot/crt/.stamprrgbdual31khz"
 
+MIGRATIONS_FILE="/boot/crt/.migrations"
+
 function configure_rbconf {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
     echo "" >> "${RECALBOX_CONF}"
@@ -138,10 +140,22 @@ function rrgbd31kHzSwitchIsOn {
     return $?
 }
 
+function migrationDone {
+    echo "${1}" >> "${MIGRATIONS_FILE}"
+}
 
-function oldThemeInstalled {
-    grep -q "emulationstation\.theme\.recalbox-next\.systemview=9-240p" "${RECALBOX_CONF}"
-    return $?
+function shouldMigrate {
+    if [ ! -f "${MIGRATIONS_FILE}" ]; then echo "#Migrations" > "${MIGRATIONS_FILE}"; fi
+    ! grep -q "${1}" "${MIGRATIONS_FILE}"
+}
+
+function runMigrations {
+    if shouldMigrate "8.2-theme"; then
+        recallog -s "S13crt" -t "CRT" "Running migration 8.2-theme"
+        unconfigure_rbconf
+        configure_rbconf
+        migrationDone "8.2-theme"
+    fi
 }
 
 if test "$1" == "start" ; then
@@ -165,13 +179,6 @@ if test "$1" == "start" ; then
             touch "${RRGBDUAL_LASTBOOT}"
             mount -o remount,ro /boot
             exit 0
-        fi
-
-        # Migrate theme
-        if oldThemeInstalled; then
-          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-          unconfigure_rbconf
-          configure_rbconf
         fi
 
         # RRGBD 31khz switch means we must force jack audio
@@ -226,6 +233,7 @@ if test "$1" == "start" ; then
             reboot
             exit 0
         fi
+        runMigrations
         exit 0
         # End RRGBD
     fi
@@ -251,12 +259,6 @@ if test "$1" == "start" ; then
 
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
-        # Migrate theme
-        if oldThemeInstalled; then
-          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-          unconfigure_rbconf
-          configure_rbconf
-        fi
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -267,6 +269,7 @@ if test "$1" == "start" ; then
             configure_rbconf
             reboot
         fi
+        runMigrations
     elif [[ "${DAC}" == "" ]]; then
         if [[ -f "${CRT_DAC_FILE}" ]] && grep -q "#device=" "${CRT_DAC_FILE}"; then
             # We should clean

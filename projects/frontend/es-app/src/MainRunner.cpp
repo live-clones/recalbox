@@ -76,9 +76,6 @@ MainRunner::ExitState MainRunner::Run()
     // Save power for battery-powered devices
     board.SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
 
-    // Install CRT features if they are still unset
-    InstallCRTFeatures();
-
     // Audio controller
     AudioController audioController;
     audioController.SetVolume(audioController.GetVolume());
@@ -941,16 +938,6 @@ void MainRunner::NoRomPathFound(const DeviceMount& device)
                                                                _("MOVE SHARE"), moveShareFolder,
                                                                _("CANCEL"), nullptr, TextAlignment::Left);
   mApplicationWindow->pushGui(msgBox);
-}
-
-void MainRunner::InstallCRTFeatures()
-{
-  if (Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None)
-  {
-    RecalboxConf& conf = RecalboxConf::Instance();
-    if (!conf.HasScreenSaverType()) conf.SetScreenSaverType("demo");
-    conf.SetBool("240ptestsuite.ignore", false);
-  }
 }
 
 void MainRunner::PatreonState(PatronAuthenticationResult result, int level, const std::string& name)
