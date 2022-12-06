@@ -16,7 +16,8 @@ class CrtRGBDual : public ICrtInterface
     explicit CrtRGBDual(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
 
     //! An RGB Dual is attached
-    bool IsCrtAdapterAttached() const override { return true; }
+    bool IsCrtAdapterAttached() const override { return Files::LoadFile(Path(vgaCardConnectedPi4)) == "connected\n"
+                                                        || Files::LoadFile(Path(vgaCardConnectedPi3)) == "connected\n" ; }
 
     //! This adapter is an RGB Dual
     CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBDual; }
@@ -36,6 +37,8 @@ class CrtRGBDual : public ICrtInterface
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
     static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";
+    static constexpr const char* vgaCardConnectedPi4 = "/sys/class/drm/card1-VGA-1/status";
+    static constexpr const char* vgaCardConnectedPi3 = "/sys/class/drm/card0-VGA-1/status";
 
     //! Get 31khz switch state on RGB dual board
     static bool GetRGBDual31khzSwitchState() { return Files::LoadFile(Path(sRGBDual31khzSwitch)) == "0\n"; }

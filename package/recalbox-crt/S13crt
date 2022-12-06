@@ -1,23 +1,24 @@
 #!/bin/bash
 
-declare -A ES_CONFIG=( \
-    ["emulationstation.theme.folder"]="recalbox-240p" \
-    ["emulationstation.screensaver.type"]="demo" \
-    ["240ptestsuite.ignore"]="0" \
-    ["global.smooth"]="0" \
-    )
+declare -A ES_CONFIG=(
+    ["emulationstation.theme.folder"]="recalbox-240p"
+    ["emulationstation.screensaver.type"]="demo"
+    ["240ptestsuite.ignore"]="0"
+    ["global.smooth"]="0"
+    ["audio.device"]="alsa_card.platform-bcm2835_audio:analog-output:output:analog-stereo"
+)
 
-declare -A ES_CLEAN_CONFIG=( \
-    ["global.smooth"]="1" \
-    ["240ptestsuite.ignore"]="1" \
-    )
+declare -A ES_CLEAN_CONFIG=(
+    ["global.smooth"]="1"
+    ["240ptestsuite.ignore"]="1"
+)
 
-declare -A CONFIG_CONTENT=( \
-    ["recalboxrgbdual"]="#device=recalboxrgbdual\ndtoverlay=recalboxrgbdual" \
-    ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones" \
-    ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones" \
-    ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19" \
-    )
+declare -A CONFIG_CONTENT=(
+    ["recalboxrgbdual"]="#device=recalboxrgbdual\ndtoverlay=recalboxrgbdual"
+    ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
+    ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
+    ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19"
+)
 
 RGBDUAL_FORCE_HEADPHONE_CONTENT="dtoverlay=headphones"
 RGBDUAL_31KHZ_CONTENT="hdmi_force_hotplug=0\ndtoverlay=headphones"
@@ -31,16 +32,20 @@ SWITCH_31KHZ_FILE="/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value"
 RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
 RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
 RRGBDUAL_31KHZ_LASTBOOT="/boot/crt/.stamprrgbdual31khz"
+RRGBDUAL_FORCE_HDMI="/boot/crt/.stamphdmiforced"
+RRGBDUAL_CURRENT_VIDEO_CONFIG="/boot/crt/.currentvideoconfig"
+
+source /recalbox/scripts/recalbox-utils.sh
 
 function configure_rbconf {
     recallog -s "S13crt" -t "CRT" "Adding configuration in recalbox.conf"
-    echo "" >> "${RECALBOX_CONF}"
+    echo "" >>"${RECALBOX_CONF}"
     for KEY in "${!ES_CONFIG[@]}"; do
         if grep -q -e "^.\?${KEY}=.*" "${RECALBOX_CONF}"; then
             sed -i "s/^.\?${KEY}=.*/${KEY}=${ES_CONFIG[$KEY]}/g" \
                 "${RECALBOX_CONF}"
         else
-            echo "${KEY}=${ES_CONFIG[$KEY]}" >> "${RECALBOX_CONF}"
+            echo "${KEY}=${ES_CONFIG[$KEY]}" >>"${RECALBOX_CONF}"
         fi
     done
 }
@@ -52,27 +57,24 @@ function unconfigure_rbconf {
             "${RECALBOX_CONF}"
     done
 
-    echo "" >> "${RECALBOX_CONF}"
+    echo "" >>"${RECALBOX_CONF}"
     for KEY in "${!ES_CLEAN_CONFIG[@]}"; do
         if grep -q -e "${KEY}=.*" "${RECALBOX_CONF}"; then
             sed -i "s/${KEY}=.*/${KEY}=${ES_CLEAN_CONFIG[$KEY]}/g" \
-            "${RECALBOX_CONF}"
+                "${RECALBOX_CONF}"
         else
-            echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >> "${RECALBOX_CONF}"
+            echo "${KEY}=${ES_CLEAN_CONFIG[$KEY]}" >>"${RECALBOX_CONF}"
         fi
     done
 }
 
 function unconfigureCRT {
-    recallog -s "S13crt" -t "CRT" "Removing retroarch-custom.cfg and retroarch-core-options.cfg"
-    rm -rf "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg"
-
-    unconfigure_rbconf
-
-    recallog -s "S13crt" -t "CRT" "Clearing CRT files"
+    recallog -s "S13crt" -t "CRT" "Clearing CRT filesToSave"
     mount -o remount,rw /boot
     rm -f "${RRGBDUAL_LASTBOOT}"
     rm -f "${RRGBDUAL_31KHZ_LASTBOOT}"
+    rm -f "${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
+
     sed -i "/audio\.forcejack = 1/d" "${CRT_OPTIONS_FILE}"
     rm "${CRT_DAC_FILE}"
     # In case of manual selection before the detection of Recalbox RGB Dual
@@ -88,9 +90,9 @@ function rmTimings {
 
 function addLineToConfig {
     if ! grep -q "#device=recalboxrgbdual" "${CRT_DAC_FILE}"; then
-        echo -e "#device=recalboxrgbdual" > "${CRT_DAC_FILE}"
+        echo -e "#device=recalboxrgbdual" >"${CRT_DAC_FILE}"
     fi
-    echo -e "$1" >> "${CRT_DAC_FILE}"
+    echo -e "$1" >>"${CRT_DAC_FILE}"
 }
 
 function removeLineFromConfig {
@@ -99,16 +101,14 @@ function removeLineFromConfig {
 
 function jackShouldBeForced {
     grep -q "audio.forcejack = 1" "${CRT_OPTIONS_FILE}"
-    return $?
 }
 function jackIsForced {
     grep -q "${RGBDUAL_FORCE_HEADPHONE_CONTENT}" "${CRT_DAC_FILE}"
-    return $?
 }
 
 function forceJackInOptions {
-    if ! grep -q "audio.forcejack" "${CRT_OPTIONS_FILE}";then
-        echo -e "\naudio.forcejack = 1" >> "${CRT_OPTIONS_FILE}"
+    if ! grep -q "audio.forcejack" "${CRT_OPTIONS_FILE}"; then
+        echo -e "\naudio.forcejack = 1" >>"${CRT_OPTIONS_FILE}"
     else
         sed -i "s/audio\.forcejack = .*/audio.forcejack = 1/g" "${CRT_OPTIONS_FILE}"
     fi
@@ -118,48 +118,71 @@ function unforceJackInOptions {
     sed -i "/audio\.forcejack = 1/d" "${CRT_OPTIONS_FILE}"
 }
 
-function rrgbdIsPlugged {
-    grep -q "Recalbox RGB Dual" "${RRGBDUAL_FILE}"
-    return $?
-}
-
 function rrgbdAlreadyInstalled {
     [ -f "${RRGBDUAL_LASTBOOT}" ]
-    return $?
 }
 
 function rrgbd31kHzAlreadyInstalled {
     [ -f "${RRGBDUAL_31KHZ_LASTBOOT}" ]
-    return $?
 }
 
 function rrgbd31kHzSwitchIsOn {
     [ "$(cat ${SWITCH_31KHZ_FILE})" == "0" ]
-    return $?
 }
-
 
 function oldThemeInstalled {
     grep -q "emulationstation\.theme\.recalbox-next\.systemview=9-240p" "${RECALBOX_CONF}"
-    return $?
 }
 
-if test "$1" == "start" ; then
+function switchTo {
+    declare -A filesToSave=(["retroarchcustom.cfg"]="/recalbox/share/system/configs/retroarch"
+        ["retroarch-core-options.cfg"]="/recalbox/share/system/configs/retroarch/cores"
+        ["recalbox.conf"]="/recalbox/share/system")
+    local CRT_SAVE_DIR="/boot/crt/rrgbd.crt"
+    local HDMI_SAVE_DIR="/boot/crt/rrgbd.hdmi"
+    local SAVE_DIR=""
+
+    if [ "${1}" == "HDMI" ]; then
+        SAVE_DIR="${CRT_SAVE_DIR}"
+        RESTORE_DIR="${HDMI_SAVE_DIR}"
+    else
+        SAVE_DIR="${HDMI_SAVE_DIR}"
+        RESTORE_DIR="${CRT_SAVE_DIR}"
+    fi
+    recallog -s "S13crt" -t "CRT" "Switching to ${1}."
+    mount -o remount,rw /boot
+    mkdir -p "${SAVE_DIR}"
+    for fileName in "${!filesToSave[@]}"; do
+        cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
+        if [ -f "${RESTORE_DIR}/${fileName}" ]; then
+            cp "${RESTORE_DIR}/${fileName}" "${filesToSave[$fileName]}/${fileName}"
+        fi
+    done
+    echo "${1}" >"${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
+    mount -o remount,ro /boot
+}
+
+function currentConfigIsHDMI {
+    grep -q "HDMI" "${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
+}
+
+if test "$1" == "start"; then
 
     rmTimings
 
     # create the directory if we are upgrading from 8.0.2
-    if [ ! -d /boot/crt/ ];then
+    if [ ! -d /boot/crt/ ]; then
         mount -o remount,rw /boot
         mkdir -p /boot/crt/
         mount -o remount,ro /boot
     fi
 
     # RRGBD is present
-    if rrgbdIsPlugged; then
+    if isRecalboxRGBDual; then
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
+            switchTo "CRT"
             configure_rbconf
             mount -o remount,rw /boot
             touch "${RRGBDUAL_LASTBOOT}"
@@ -167,11 +190,38 @@ if test "$1" == "start" ; then
             exit 0
         fi
 
+        if rrgbdHDMIPriority && ! currentConfigIsHDMI; then
+            recallog -s "S13crt" -t "CRT" "HDMI has been forced in configuration, switching to HDMI."
+            switchTo "HDMI"
+        fi
+        if ! rrgbdHDMIPriority && currentConfigIsHDMI; then
+            recallog -s "S13crt" -t "CRT" "HDMI is not forced anymore, switching to CRT."
+            switchTo "CRT"
+        fi
+
+        if rrgbdHDMIPriority; then
+            # Check if any HDMI is connected
+            if isScreenConnected; then
+                recallog -s "S13crt" -t "CRT" "Force HDMI set and HDMI connected, turning VGA OFF"
+                if ! currentConfigIsHDMI; then
+                    switchTo "HDMI"
+                fi
+                # Just in case (should have been done by S05 -> kms-manager
+                echo "off" >"/sys/class/drm/card1-VGA-1/status"
+            else
+                recallog -s "S13crt" -t "CRT" "Force HDMI set but no HDMI connected, keeping VGA video"
+                if currentConfigIsHDMI; then
+                    switchTo "CRT"
+                fi
+                echo "on" >"/sys/class/drm/card1-VGA-1/status"
+            fi
+        fi
+
         # Migrate theme
         if oldThemeInstalled; then
-          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-          unconfigure_rbconf
-          configure_rbconf
+            recallog -s "S13crt" -t "CRT" "Migrate for old theme."
+            unconfigure_rbconf
+            configure_rbconf
         fi
 
         # RRGBD 31khz switch means we must force jack audio
@@ -179,8 +229,8 @@ if test "$1" == "start" ; then
         # Should be done at least one boot after the first boot (installation of recalbox),
         # so the RRGBDUAL_LASTBOOT must be present
         # and RRGBDUAL_31KHZ_LASTBOOT should not be present
-        if rrgbdAlreadyInstalled && \
-            rrgbd31kHzSwitchIsOn && \
+        if rrgbdAlreadyInstalled &&
+            rrgbd31kHzSwitchIsOn &&
             ! rrgbd31kHzAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Setting Recalbox RGB Dual jack sound as 31kHz dipswtich is ON."
             mount -o remount,rw /boot
@@ -212,10 +262,10 @@ if test "$1" == "start" ; then
         fi
 
         # RRGBD specific 31khz uninstallation
-        # Only if Recalbox rgb dual is present, and the 31khz has been modified, 
+        # Only if Recalbox rgb dual is present, and the 31khz has been modified,
         # and the switch is back to state UP
-        if rrgbdAlreadyInstalled && \
-            rrgbd31kHzAlreadyInstalled && \
+        if rrgbdAlreadyInstalled &&
+            rrgbd31kHzAlreadyInstalled &&
             ! rrgbd31kHzSwitchIsOn; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual 31kHz automatic uninstallation."
             mount -o remount,rw /boot
@@ -231,17 +281,18 @@ if test "$1" == "start" ; then
     fi
 
     # RRGBD uninstallation
-    if ! rrgbdIsPlugged && rrgbdAlreadyInstalled; then
+    if ! isRecalboxRGBDual && rrgbdAlreadyInstalled; then
         recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic uninstallation."
+        switchTo "HDMI"
         unconfigureCRT
         reboot
         exit 0
     fi
-    
+
     # Other dacs
 
     # If the file exists, make it unix lf
-    if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ];then
+    if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ]; then
         mount -o remount,rw /boot
         dos2unix "${CRT_OPTIONS_FILE}"
         mount -o remount,ro /boot
@@ -249,28 +300,47 @@ if test "$1" == "start" ; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
         # Migrate theme
         if oldThemeInstalled; then
-          recallog -s "S13crt" -t "CRT" "Migrate for old theme."
-          unconfigure_rbconf
-          configure_rbconf
+            recallog -s "S13crt" -t "CRT" "Migrate for old theme."
+            configure_rbconf
         fi
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
             recallog -s "S13crt" -t "CRT" "Installing config in /boot/crt/"
             mount -o remount,rw /boot
-            echo -e "${CONFIG_CONTENT[$DAC]}" > ${CRT_DAC_FILE}
+            echo -e "${CONFIG_CONTENT[$DAC]}" >${CRT_DAC_FILE}
             mount -o remount,ro /boot
+            switchTo "CRT"
             configure_rbconf
             reboot
         fi
+        # Jack have been set from ES
+        if jackShouldBeForced && ! jackIsForced; then
+            mount -o remount,rw /boot
+            recallog -s "S13crt" -t "CRT" "Forcing Recalbox RGB Dual jack sound."
+            addLineToConfig "${RGBDUAL_FORCE_HEADPHONE_CONTENT}"
+            mount -o remount,ro /boot
+            reboot
+            exit 0
+        fi
+        # Jack have been unset from ES
+        if ! jackShouldBeForced && jackIsForced; then
+            mount -o remount,rw /boot
+            recallog -s "S13crt" -t "CRT" "Unforcing Recalbox RGB Dual jack sound."
+            removeLineFromConfig "${RGBDUAL_FORCE_HEADPHONE_CONTENT}"
+            mount -o remount,ro /boot
+            reboot
+            exit 0
+        fi
+
     elif [[ "${DAC}" == "" ]]; then
         if [[ -f "${CRT_DAC_FILE}" ]] && grep -q "#device=" "${CRT_DAC_FILE}"; then
             # We should clean
             recallog -s "S13crt" -t "CRT" "Uninstalling CRT configuration."
+            switchTo "HDMI"
             unconfigureCRT
             reboot
         fi
