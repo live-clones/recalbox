@@ -334,6 +334,7 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
   Xml::AddAsString(node, "path", relative.ToChars());
 
   // Metadata
+  std::string value;
   for (; --count >= 0; )
   {
     // Get field descriptor
@@ -342,8 +343,15 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
     // Default value?
     if ((this->*field.IsDefaultValueMethod())()) continue;
 
+    // Get value
+    value = (this->*field.GetValueMethod())();
+
+    // Relative path
+    if (field.Type() == MetadataFieldDescriptor::DataType::Path)
+      value = Path(value).MakeRelative(relativeTo, dummy).ToString();
+
     // Store
-    Xml::AddAsString(node, field.Key(), (this->*field.GetValueMethod())());
+    Xml::AddAsString(node, field.Key(), value);
   }
 }
 
