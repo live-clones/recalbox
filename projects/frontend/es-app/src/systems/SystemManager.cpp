@@ -82,8 +82,8 @@ void SystemManager::CheckAutoScraping(SystemData& system)
         static std::string png(LEGACY_STRING(".png"));
         if (game.IsGame())
           if (game.Metadata().Image().IsEmpty())
-            if (Strings::ToLowerASCII(game.FilePath().Extension()) == png)
-              game.Metadata().SetImagePath(game.FilePath());
+            if (Strings::ToLowerASCII(game.RomPath().Extension()) == png)
+              game.Metadata().SetImagePath(game.RomPath());
       }
   } autoScraper;
 
@@ -152,12 +152,13 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
       {
         if (game.IsFolder())
         {
+          Path romPath = game.RomPath();
           // Override image
-          Path fullPath = game.FilePath() / ".folder.picture.png";
+          Path fullPath = romPath / ".folder.picture.png";
           if (fullPath.Exists())
           {
             game.Metadata().SetVolatileImagePath(fullPath);
-            fullPath = game.FilePath() / ".folder.description.txt";
+            fullPath = romPath / ".folder.description.txt";
             std::string text = Files::LoadFile(fullPath);
             if (!text.empty())
             {
@@ -195,8 +196,8 @@ void SystemManager::CheckMissingHashed(SystemData& system)
           }
       }
 
-      int HashCount() const { return mCount; }
-      bool MissingHashesFound() const { return mFound; }
+      [[nodiscard]] int HashCount() const { return mCount; }
+      [[nodiscard]] bool MissingHashesFound() const { return mFound; }
   } missingHashes;
 
   if (RecalboxConf::Instance().GetNetplayEnabled())
@@ -233,24 +234,27 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
         if (game.IsGame())
         {
           // Highest version
-          Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(game.FilePath().Filename());
-          std::string key = game.ScrappableName().append(Strings::ToHexa((int)Regions::ExtractRegionsFromNoIntroName(game.FilePath().FilenameWithoutExtension()).Pack));
-          VersionedGame* previous = mHighestVersions.try_get(key);
+          Path romPath = game.RomPath();
+          std::string fileName = romPath.Filename();
+          Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(fileName);
+          std::string gameNameWithRegion = Strings::RemoveParenthesis(fileName).append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
+
+          VersionedGame* previous = mHighestVersions.try_get(gameNameWithRegion);
           if (previous == nullptr)
           {
             game.Metadata().SetLatestVersion(true);
-            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+            mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
           else if (version > previous->Version)
           {
             previous->Game->Metadata().SetLatestVersion(false);
             game.Metadata().SetLatestVersion(true);
-            mHighestVersions.insert_or_assign(key, VersionedGame(game, version));
+            mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
 
           // Not a game?
           game.Metadata().SetNoGame(Strings::StartsWith(game.Name(),LEGACY_STRING("ZZZ")) ||
-                                    Strings::StartsWith(game.FilePath().Filename(), LEGACY_STRING("[BIOS]")));
+                                    Strings::StartsWith(fileName, LEGACY_STRING("[BIOS]")));
         }
       }
   } dynamicMetadata;
@@ -361,7 +365,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     {
       { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
       for (auto* fd : all)
-        result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+        result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
     }
   }
 
@@ -389,7 +393,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
     for (auto* fd : games)
-      result->LookupOrCreateGame(root, fd->TopAncestor().FilePath(), fd->FilePath(), fd->Type(), doppelganger);
+      result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
   }
 
   result->loadTheme();
@@ -650,7 +654,7 @@ bool SystemManager::AddAllGamesMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& fileData) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& fileData) const override
       {
         return fileData.IsDisplayable();
       }
@@ -664,7 +668,7 @@ bool SystemManager::AddMultiplayerMetaSystems()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         return file.IsDisplayable() && (file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1);
       }
@@ -678,7 +682,7 @@ bool SystemManager::AddLastPlayedMetaSystem()
   class Filter: public IFilter
   {
     public:
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         return file.IsDisplayable() && file.Metadata().LastPlayedEpoc() != 0;
       }
@@ -696,13 +700,14 @@ bool SystemManager::AddGenresMetaSystem()
     private:
       GameGenres mGenre;
       bool mSubGenre;
+
     public:
       explicit Filter(GameGenres genre)
         : mGenre(genre)
         , mSubGenre(Genres::IsSubGenre(genre))
       {
       }
-      bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
       {
         bool isDisplayable = file.IsDisplayable();
         if (mSubGenre) return isDisplayable && file.Metadata().GenreId() == mGenre;
@@ -805,6 +810,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 
   DateTime stop;
   { LOG(LogInfo) << "[System] Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
+
+  // Cleanup metadata
+  MetadataDescriptor::CleanupHolders();
 
   // Add special systems
   AddFavoriteSystem();
@@ -959,54 +967,65 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   system.UpdateLastPlayedGame(game);
 }
 
-void SystemManager::SearchResultQuickSortAscending(FolderData::ResultList& items, int low, int high)
+FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
 {
-  int Low = low, High = high;
-  const FolderData::FastSearchItem& pivot = items[(Low + High) >> 1];
-  do
-  {
-    while(items[Low].Distance  < pivot.Distance) Low++;
-    while(items[High].Distance > pivot.Distance) High--;
-    if (Low <= High)
-    {
-      FolderData::FastSearchItem Tmp = items[Low]; items[Low] = items[High]; items[High] = Tmp;
-      Low++; High--;
-    }
-  }while(Low <= High);
-  if (High > low) SearchResultQuickSortAscending(items, low, High);
-  if (Low < high) SearchResultQuickSortAscending(items, Low, high);
-}
-
-FileData::List SystemManager::searchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxpersystem, int maxglobal, SystemData* systemData)
-{
+  // Everything to lowercase cause search is not case sensitive
   std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
 
-  // Get search results
-  FolderData::ResultList searchResults;
-  searchResults.reserve(5000);
-  for(auto *system : mVisibleSystemVector)
+  // Fast search into metadata, collecting index and distances
+  { LOG(LogWarning) << "SEARCH"; }
+  MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
+  switch(context)
   {
-    if (systemData != nullptr && systemData != system)
-      continue;
-
-    if (system->IsSearchable())
+    case FolderData::FastSearchContext::Name       : MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+    case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
+    case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
+    case FolderData::FastSearchContext::Developer  : MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
+    case FolderData::FastSearchContext::Publisher  : MetadataDescriptor::SearchInPublisher(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Publisher); break;
+    case FolderData::FastSearchContext::All        :
     {
-      int maximumResultPerSystem = maxpersystem;
-
-      system->FastSearch(context, lowercaseText, searchResults, maximumResultPerSystem);
+      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+      MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
+      MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
+      MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
+      MetadataDescriptor::SearchInPublisher(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Publisher); break;
+      break;
     }
+    default: break;
   }
 
-  // Sort results
-  if (searchResults.size() > 1)
-    SearchResultQuickSortAscending(searchResults, 0, (int)searchResults.size() - 1);
+  // Sort first: Distance
+  { LOG(LogWarning) << "SORT"; }
+  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return b.Distance - a.Distance; });
+  // Remove dups by index. Higher index are removed so that the lowest distances remain
+  { LOG(LogWarning) << "REMOVE DUPS"; }
+  resultIndexes.RemoveDups([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> bool { return a.Index == b.Index; });
+  // Finaly truncate max results
+  { LOG(LogWarning) << "TRUNCATE"; }
+  resultIndexes.TruncateTo(maxglobal);
 
-  // Copy to final list
+  // Build searchable system list
+  { LOG(LogWarning) << "BUILD SEARCHABLE SYSTEM LIST"; }
+  Array<const SystemData*> searchableSystems((int)GetVisibleSystemList().size());
+  if (targetSystem != nullptr) searchableSystems.Add(targetSystem);
+  else
+    for(const SystemData* system : GetVisibleSystemList())
+      if (system->IsSearchable())
+        searchableSystems.Add(system);
+
+  // Build Item series
+  CreateFastSearchCache(resultIndexes, searchableSystems);
+
+  // Collect result
+  { LOG(LogWarning) << "COLLECT"; }
   FileData::List results;
-  results.reserve(searchResults.size());
-  for(auto& sr : searchResults)
-    if (--maxglobal >= 0)
-      results.push_back(sr.Data);
+  for(int i = (int)resultIndexes.Count(); --i >= 0; )
+  {
+    const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
+    FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
+    for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
+      if (item->Game != nullptr) results.push_back((FileData*)item->Game);
+  }
 
   return results;
 }
@@ -1033,11 +1052,39 @@ void SystemManager::SystemSorting(std::vector<SystemData *>& systems, const std:
   }
 }
 
+void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems)
+{
+  { LOG(LogWarning) << "BUILD SERIES"; }
+  for(int i = (int)resultIndexes.Count(); --i >= 0; )
+    if (mFastSearchSeries[resultIndexes[i].Context].Empty())
+    {
+      int count = 0;
+      switch((FolderData::FastSearchContext)resultIndexes[i].Context)
+      {
+        case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
+        case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
+        case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
+        case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
+        case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;
+        case FolderData::FastSearchContext::All:break;
+      }
+      FolderData::FastSearchItemSerie serie(count);
+      for(int s = searchableSystems.Count(); --s >= 0; )
+        searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext)resultIndexes[i].Context);
+      mFastSearchSeries[resultIndexes[i].Context] = std::move(serie);
+    }
+}
+
+void SystemManager::DeleteFastSearchCache()
+{
+  mFastSearchSeries.clear();
+}
+
 void SystemManager::NotifyDeviceUnmount(const DeviceMount& mountpoint)
 {
   for(const SystemData* system : mAllSystemVector)
     for(const RootFolderData* root : system->MasterRoot().SubRoots())
-      if (root->FilePath().StartWidth(mountpoint.MountPoint()))
+      if (root->RomPath().StartWidth(mountpoint.MountPoint()))
         if (root->HasGame())
         {
           { LOG(LogWarning) << "[SystemManager] " << mountpoint.MountPoint().ToString() << " used at least in " << system->FullName(); }

@@ -42,7 +42,7 @@ void FolderData::RemoveChild(FileData* file)
 
 void FolderData::deleteChild(FileData* file)
 {
-  mDeletedChildren.insert(file->FilePath().ToString());
+  mDeletedChildren.insert(file->RomPath().ToString());
   RemoveChild(file);
 }
 
@@ -77,7 +77,7 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
 
 void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, const std::string& ignoreList, FileData::StringMap& doppelgangerWatcher)
 {
-  const Path& folderPath = FilePath();
+  const Path folderPath(RomPath());
   if (!folderPath.IsDirectory())
   {
     { LOG(LogWarning) << "[FolderData] Error - folder with path \"" << folderPath.ToString() << "\" is not a directory!"; }
@@ -113,7 +113,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   Path::PathList items = folderPath.GetDirectoryContent();
 
-  HashSet<std::string> blacklist{};
+  HashSet<std::string> blacklist;
   bool containsMultiDiskFile = GameFilesUtils::ContainsMultiDiskFile(filteredExtensions);
   if (containsMultiDiskFile)
     for(const auto& itemPath : items)
@@ -173,7 +173,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
         //ignore folders that do not contain games
         if (newFolder->HasChildren())
         {
-          const std::string& key = newFolder->FilePath().ToString();
+          const std::string key = newFolder->RomPath().ToString();
           if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
           {
             AddChild(newFolder, true);
@@ -317,10 +317,10 @@ void FolderData::BuildDoppelgangerMap(FileData::StringMap& doppelganger, bool in
     {
       CastFolder(fd)->BuildDoppelgangerMap(doppelganger, includefolder);
       if (includefolder)
-        doppelganger[fd->FilePath().ToString()] = fd;
+        doppelganger[fd->RomPath().ToString()] = fd;
     }
     else
-      doppelganger[fd->FilePath().ToString()] = fd;
+      doppelganger[fd->RomPath().ToString()] = fd;
   }
 }
 
@@ -477,7 +477,7 @@ int FolderData::countExcludesItemsRecursively(Filter includes, Filter excludes, 
       Filter currentExcludes = Filter::None;
       if (fd->Metadata().Hidden()) currentExcludes |= Filter::Hidden;
       if (!fd->Metadata().LatestVersion()) currentExcludes |= Filter::NotLatest;
-      if (Strings::Contains(fd->FilePath().ToString(), "share_init"))
+      if (Strings::Contains(fd->RomPath().ToString(), "share_init"))
         currentExcludes |= Filter::PreInstalled;
       if(!fd->System().IncludeAdultGames() && fd->Metadata().Adult()) currentExcludes |= Filter::Adult;
 
@@ -615,7 +615,7 @@ void FolderData::ParseAllItems(IParser& parser)
   }
 }
 
-bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::Filter excludes)
+bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::Filter excludes) const
 {
   Filter currentIncludes = Filter::None;
   if (fd->Metadata().Favorite())
@@ -634,7 +634,7 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::PreInstalled;
   if (!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
 
-    currentExcludes |= Filter::Adult;
+  currentExcludes |= Filter::Adult;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }
@@ -668,7 +668,8 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
   {
-    std::string filename = path.empty() ? fd->FilePath().ToString() : path + '/' + fd->FilePath().Filename();
+    Path filePath(fd->RomPath());
+    std::string filename = path.empty() ? filePath.ToString() : path + '/' + filePath.Filename();
 
     if (fd->IsFolder())
     {
@@ -687,7 +688,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
           return fd;
       if ((attributes & SearchAttributes::ByName) != 0)
       {
-        filename = path.empty() ? fd->FilePath().FilenameWithoutExtension() : path + '/' + fd->FilePath().FilenameWithoutExtension();
+        filename = path.empty() ? filePath.FilenameWithoutExtension() : path + '/' + filePath.FilenameWithoutExtension();
         if (strcasecmp(filename.c_str(), item.c_str()) == 0)
           return fd;
       }
@@ -708,7 +709,7 @@ FileData* FolderData::LookupGameByFilePath(const std::string& filepath) const
         return result;
     }
     else
-      if (filepath == fd->FilePath().ToString())
+      if (filepath == fd->RomPath().ToString())
         return fd;
 
   return nullptr;
@@ -893,56 +894,6 @@ bool FolderData::IsDirty() const
   return false;
 }
 
-int FolderData::FastSearchText(const std::string& text, const std::string& into)
-{
-  const char* fdn = into.c_str();                        // Keep filedata name pointer for fast result computation
-  const char* tts = text.c_str();                        // Keep text pointer for fast search reset
-  int lmax = (int)into.size() - (int)text.size() + 1;    // MAximum byte to search in
-
-  for(const char* p = fdn - 1; --lmax >= 0; ++p)         // Run through the game name, straight forward
-    if ((*p | 0x20) == (*tts))                           // Try to catch the first char
-      for (const char* s = tts, *ip = p; ; )             // Got it, run through both string
-      {
-        const char c = *(++s);
-        if ((c != 0) && ((*(++ip) | 0x20) != c) ) break; // Chars are not equal, exit the inner loop
-        if (c == 0) return (int)(p - fdn);               // Chars are equal, got a zero terminal? Found it!
-      }
-  return -1;                                             // Nothing found
-}
-
-void FolderData::FastSearch(FastSearchContext context, const std::string& text, ResultList& results, int& remaining) const
-{
-  for (FileData* fd : mChildren)
-  {
-    if (remaining <= 0) return;
-    if (fd->IsFolder()) CastFolder(fd)->FastSearch(context, text, results, remaining);
-    else if (fd->IsDisplayable())
-    {
-      int distance = 0;
-      switch(context)
-      {
-        case FastSearchContext::Name       : distance = FastSearchText(text, fd->Name()); break;
-        case FastSearchContext::Path       : distance = FastSearchText(text, fd->FilePath().ToString()); break;
-        case FastSearchContext::Description: distance = FastSearchText(text, fd->Metadata().Description()); break;
-        case FastSearchContext::Developer  : distance = FastSearchText(text, fd->Metadata().Developer()); break;
-        case FastSearchContext::Publisher  : distance = FastSearchText(text, fd->Metadata().Publisher()); break;
-        case FastSearchContext::All        :
-        {
-          distance = FastSearchText(text, fd->Name());
-          if (distance < 0) distance = FastSearchText(text, fd->FilePath().ToString());
-          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Description());
-          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Developer());
-          if (distance < 0) distance = FastSearchText(text, fd->Metadata().Publisher());
-          break;
-        }
-      }
-      if (distance >= 0)
-        if (--remaining > 0)
-          results.push_back(FastSearchItem(distance, fd));
-    }
-  }
-}
-
 int FolderData::GetFoldersRecursivelyTo(FileData::List& to) const
 {
   if (IsTopMostRoot())
@@ -980,4 +931,97 @@ int FolderData::GetItemsTo(FileData::List& to, FileData::Filter includes, FileDa
   }
 
   return getItems(to, includes, excludes, includefolders);
+}
+
+void FolderData::LookupGamesFromPath(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromPath(index, games);
+    else if (game->Metadata().IsMatchingFileIndex(index.Index))
+        games.push_back(game);
+}
+
+void FolderData::LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromName(index, games);
+    else if (game->Metadata().IsMatchingNameIndex(index.Index))
+          games.push_back(game);
+}
+
+void FolderData::LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromDescription(index, games);
+    else if (game->Metadata().IsMatchingDescriptionIndex(index.Index))
+          games.push_back(game);
+}
+
+void FolderData::LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromDeveloper(index, games);
+    else if (game->Metadata().IsMatchingDeveloperIndex(index.Index))
+          games.push_back(game);
+}
+
+void
+FolderData::LookupGamesFromPublisher(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromPublisher(index, games);
+    else if (game->Metadata().IsMatchingPublisherIndex(index.Index))
+          games.push_back(game);
+}
+
+void FolderData::LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromAll(index, games);
+    else
+      switch((FastSearchContext)index.Context)
+      {
+        case FastSearchContext::Path: if (game->Metadata().IsMatchingFileIndex(index.Index)) games.push_back(game); break;
+        case FastSearchContext::Name: if (game->Metadata().IsMatchingNameIndex(index.Index)) games.push_back(game); break;
+        case FastSearchContext::Description: if (game->Metadata().IsMatchingDescriptionIndex(index.Index)) games.push_back(game); break;
+        case FastSearchContext::Developer: if (game->Metadata().IsMatchingDeveloperIndex(index.Index)) games.push_back(game); break;
+        case FastSearchContext::Publisher: if (game->Metadata().IsMatchingPublisherIndex(index.Index)) games.push_back(game); break;
+        case FastSearchContext::All:
+        default: break;
+      }
+}
+
+void FolderData::BuildFastSearchSeriesPath(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesPath(into);
+    else into.Set(game, game->Metadata().FileIndex());
+}
+
+void FolderData::BuildFastSearchSeriesName(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesName(into);
+    else into.Set(game, game->Metadata().NameIndex());
+}
+
+void FolderData::BuildFastSearchSeriesDescription(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesDescription(into);
+    else into.Set(game, game->Metadata().DescriptionIndex());
+}
+
+void FolderData::BuildFastSearchSeriesDeveloper(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesDeveloper(into);
+    else into.Set(game, game->Metadata().DeveloperIndex());
+}
+
+void FolderData::BuildFastSearchSeriesPublisher(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesPublisher(into);
+    else into.Set(game, game->Metadata().PublisherIndex());
 }

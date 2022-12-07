@@ -16,7 +16,7 @@ HashSet<std::string> GameFilesUtils::GetGameSubFiles(FileData& game)
   HashSet<std::string> list;
   if (game.IsGame())
   {
-    ExtractUselessFiles(game.FilePath(), list);
+    ExtractUselessFiles(game.RomPath(), list);
   }
   return list;
 }
@@ -30,7 +30,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   {
     for (const auto& path: directory.GetDirectoryContent())
     {
-      if (path.FilenameWithoutExtension() == game.FilePath().FilenameWithoutExtension())
+      if (path.FilenameWithoutExtension() == game.RomPath().FilenameWithoutExtension())
       {
         AddIfExist(path, list);
         // for next savestate screenshot feat
@@ -45,7 +45,7 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
 HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
-  const Path& path = fileData.FilePath();
+  const Path path = fileData.RomPath();
   if (fileData.IsGame())
   {
     for (const auto& file: path.Directory().GetDirectoryContent())
@@ -56,7 +56,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 
         if (Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
             Strings::Contains(extension, ".ips"))
-          AddIfExist(file, list);
+          list.insert(path.ToString());
       }
     }
 
@@ -71,7 +71,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
       {
         for (const Path& subPath: configCorePath.GetDirectoryContent())
         {
-          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.RomPath().FilenameWithoutExtension())
             AddIfExist(subPath, list);
         }
       }
@@ -84,7 +84,7 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
       {
         for (const Path& subPath: remapCorePath.GetDirectoryContent())
         {
-          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.FilePath().FilenameWithoutExtension())
+          if (subPath.IsFile() && subPath.FilenameWithoutExtension() == fileData.RomPath().FilenameWithoutExtension())
             AddIfExist(subPath, list);
         }
       }
@@ -94,23 +94,95 @@ HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
   return list;
 }
 
-bool GameFilesUtils::HasSoftPatch(const FileData* fileData)
+
+bool GameFilesUtils::HasAutoPatch(const FileData* fileData)
 {
-  const Path& path = fileData->FilePath();
-  if (fileData->IsGame())
+  std::list<Path> patches;
+  if (!fileData->IsGame()) return false;
 
-    for (const auto& file: path.Directory().GetDirectoryContent())
+  Path path = fileData->RomPath();
+  for (const auto& file: path.Directory().GetDirectoryContent())
+    if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
+    {
+      std::string extension = Strings::ToLowerUTF8(file.Extension());
 
-      if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
-      {
-        std::string extension = Strings::ToLowerUTF8(file.Extension());
-
-        if ((Strings::Contains(extension, ".ups") || Strings::Contains(extension, ".bps") ||
-            Strings::Contains(extension, ".ips")) && path.Exists())
-          return true;
-      }
+      if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+        return true;
+    }
 
   return false;
+}
+
+Path GameFilesUtils::GetSubDirPriorityPatch(const FileData* fileData)
+{
+  if (!fileData->IsGame()) return Path("");
+
+  Path romPath = fileData->RomPath();
+
+  Path folder = romPath.Directory() / romPath.FilenameWithoutExtension().append("-patches");
+  Path::PathList subDirPatches = folder.GetDirectoryContent();
+
+  for (const auto& file: subDirPatches)
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".ups")
+      return file;
+  }
+  for (const auto& file: subDirPatches)
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".bps")
+      return file;
+  }
+  for (const auto& file: subDirPatches)
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".ips")
+      return file;
+  }
+
+  if (subDirPatches.size() == 1)
+  for (const auto& file: subDirPatches)
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".ups" || extension == ".bps" || extension == ".ips")
+      return file;
+  }
+
+  return Path("");
+}
+
+
+
+std::list<Path> GameFilesUtils::GetSoftPatches(const FileData* fileData)
+{
+  std::list<Path> patches;
+  if (!fileData->IsGame()) return patches;
+
+  Path path = fileData->RomPath();
+  Path folder = path.Directory() / path.FilenameWithoutExtension().append("-patches");
+  for (const auto& file: folder.GetDirectoryContent())
+  {
+    std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+    if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+      patches.insert(patches.begin(), file);
+  }
+
+  for (const auto& file: path.Directory().GetDirectoryContent())
+    if (file.FilenameWithoutExtension() == path.FilenameWithoutExtension())
+    {
+      std::string extension = Strings::ToLowerUTF8(file.Extension());
+
+      if (extension == ".ups" || extension ==".bps" ||extension == ".ips")
+        patches.insert(patches.begin(), file);
+    }
+
+  return patches;
 }
 
 HashSet<std::string> GameFilesUtils::GetMediaFiles(FileData& fileData)
@@ -137,7 +209,7 @@ bool GameFilesUtils::IsMediaShared(FileData& fileData, const Path& mediaPath)
 
   for (const auto& other: fileData.System().getAllGames())
   {
-    if (fileData.FilePath() == other->FilePath())
+    if (fileData.AreRomEqual(*other))
     {
       continue;
     }
@@ -182,9 +254,8 @@ void GameFilesUtils::ExtractUselessFilesFromCue(const Path& path, HashSet<std::s
   for (const std::string& line: Strings::Split(file, '\n'))
     if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
     {
-      Path file = path.Directory() / ExtractFileNameFromLine(line);
-      AddIfExist(file, list);
-
+      Path newfile = path.Directory() / ExtractFileNameFromLine(line);
+      AddIfExist(newfile, list);
     }
 }
 
@@ -204,10 +275,10 @@ void GameFilesUtils::ExtractUselessFilesFromM3u(const Path& path, HashSet<std::s
     if (line.empty()) continue;
 
     line = Strings::Trim(line, "\r");
-    Path file = path.Directory() / Path(line);
-    AddIfExist(file, list);
+    Path newfile = path.Directory() / Path(line);
+    AddIfExist(newfile, list);
 
-    ExtractUselessFiles(file, list);
+    ExtractUselessFiles(newfile, list);
   }
 }
 
@@ -252,7 +323,7 @@ void GameFilesUtils::DeleteAllFiles(FileData& fileData)
 
   HashSet<std::string> files;
   HashSet<std::string> mediaFiles = GetMediaFiles(fileData);
-  files.insert(fileData.FilePath().ToString());
+  files.insert(fileData.RomPath().ToString());
 
   for (const auto& path: GetGameExtraFiles(fileData))
   {
@@ -284,9 +355,9 @@ GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<std::string>& pa
   }
 
   bool mainFileDeleted = false;
-  Path gamePath = fileData.FilePath();
-  Path root = fileData.TopAncestor().FilePath();
-  for (const auto& path: paths)
+  Path gamePath = fileData.RomPath();
+  Path root = fileData.TopAncestor().RomPath();
+  for (const auto& path : paths)
   {
     if (path == gamePath.ToString())
       mainFileDeleted = true;
@@ -354,16 +425,15 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 {
   if (folderData->IsRoot() || folderData->HasChildren())
   {
-    { LOG(LogDebug) << "[DELETE] Directory " << folderData->FilePath().ToString() << " folder is not empty or root, it cannot be deleted"; }
+    { LOG(LogDebug) << "[DELETE] Directory " << folderData->RomPath().ToString() << " folder is not empty or root, it cannot be deleted"; }
     return;
   }
 
   FolderData* parent = folderData->Parent();
-  Path currentFolder = folderData->FilePath();
+  Path currentFolder = folderData->RomPath();
   currentFolder.Delete();
   parent->RemoveChild(folderData);
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
 
   DeleteFoldersRecIfEmpty(parent);
-
 }

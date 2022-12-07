@@ -8,10 +8,9 @@
 
 FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
 	: mTopAncestor(ancestor)
-  , mParent(nullptr)
-  , mType(type)
-  , mPath(path)
-  , mMetadata(type != ItemType::Root ? GameAdapter::RawDisplayName(ancestor.System(), path) : path.FilenameWithoutExtension(), type)
+    , mParent(nullptr)
+    , mType(type)
+    , mMetadata(path, type != ItemType::Root ? GameAdapter::RawDisplayName(ancestor.System(), path) : path.FilenameWithoutExtension(), type)
 {
 }
 
@@ -19,15 +18,11 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 {
 }
 
-std::string FileData::DisplayName() const
+std::string FileData::DisplayName(const Path& romPath) const
 {
+  (void)romPath;
   GameAdapter adapter(*this);
   return adapter.DisplayName();
-}
-
-std::string FileData::ScrappableName() const
-{
-  return Strings::RemoveParenthesis(DisplayName());
 }
 
 bool FileData::HasP2K() const
@@ -51,13 +46,15 @@ SystemData& FileData::System() const
 
 FileData& FileData::CalculateHash()
 {
+  Path path(mMetadata.Rom());
+
   if (mType != ItemType::Game) return *this;
-  if (mPath.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
+  if (path.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
 
   bool done = false;
-  if (Strings::ToLowerASCII(mPath.Extension()) == ".zip")
+  if (Strings::ToLowerASCII(path.Extension()) == ".zip")
   {
-    Zip zip(mPath);
+    Zip zip(path);
     if (zip.Count() == 1)
     {
       mMetadata.SetRomCrc32(zip.Crc32(0));
@@ -69,7 +66,7 @@ FileData& FileData::CalculateHash()
   {
     // Hash file
     unsigned int result = 0;
-    if (Crc32File(mPath).Crc32(result))
+    if (Crc32File(path).Crc32(result))
       mMetadata.SetRomCrc32((int) result);
   }
 
@@ -78,7 +75,7 @@ FileData& FileData::CalculateHash()
 
 std::string FileData::Regions()
 {
-  std::string fileName = FilePath().FilenameWithoutExtension();
+  std::string fileName = mMetadata.RomFileOnly().ToString();
   Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);
   if (!regions.HasRegion())
     regions = Regions::ExtractRegionsFromTosecName(fileName);
@@ -92,7 +89,7 @@ std::string FileData::Regions()
 
 bool FileData::UpdateMetadataFrom(FileData& from)
 {
-  if (from.FilePath() != FilePath()) return false;
+  if (from.RomPath() != RomPath()) return false;
   mMetadata = std::move(from.mMetadata);
   return true;
 }

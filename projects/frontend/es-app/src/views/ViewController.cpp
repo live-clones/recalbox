@@ -12,6 +12,7 @@
 #include "animations/LambdaAnimation.h"
 
 #include "audio/AudioManager.h"
+#include "guis/menus/GuiMenuSoftpatchingLauncher.h"
 #include <audio/AudioMode.h>
 
 #include <memory>
@@ -391,7 +392,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
   if (!emulator.IsValid())
   {
-    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->FilePath().ToString() << '!'; }
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->RomPath().ToString() << '!'; }
     return;
   }
 
@@ -504,27 +505,41 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
     }
   }
   bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
+  std::list<Path> patches = GameFilesUtils::GetSoftPatches(game);
+
   if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "disable")
   {
-    mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true);
+    mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
   }
-  else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "confirm"
-  && !mGameLinkedData.ConfigurablePath().IsConfigured() && GameFilesUtils::HasSoftPatch(game))
+  else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "auto")
+  {
+    if(!GameFilesUtils::HasAutoPatch(game))
+    {
+      Path priorityPath = GameFilesUtils::GetSubDirPriorityPatch(game);
+      if(!priorityPath.IsEmpty() && priorityPath.Exists())
+        mGameLinkedData.ConfigurablePatch().SetPatchPath(priorityPath);
+    }
+  }
+  else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "select"
+          && !mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
   {
     static int lastChoice = 0;
-    mWindow.pushGui(new GuiCheckMenu(mWindow,
-                                     _("A patch has been detected"),
-                                     game->Name(),
-                                     lastChoice,
-                                     _("original"),
-                                     _("original"),
-                                     [this, game, &cameraTarget] {
-                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(true); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                     _("patched"),
-                                     _("patched"),
-                                     [this, game, &cameraTarget] {
-                                       mGameLinkedData.ConfigurablePath().SetDisabledSoftPatching(false); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
-                                    ));
+    mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow,
+                                                      *game,
+                                                      patches,
+                                                      lastChoice,
+                                                      [this, game, &cameraTarget]
+                                                      {
+                                                        mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
+                                                        LaunchCheck(game, cameraTarget, true);
+                                                        lastChoice = 0;
+                                                      },
+                                                      [this, game, &cameraTarget](const Path& path) -> void
+                                                      {
+                                                        mGameLinkedData.ConfigurablePatch().SetPatchPath(path);
+                                                        LaunchCheck(game, cameraTarget, true);
+                                                        lastChoice = 1;
+                                                      }));
     return;
   }
 

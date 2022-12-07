@@ -57,8 +57,7 @@ void GuiSearch::initGridsNStuff()
 	mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
 
 	//init search option selector
-	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow,
-	                                                                                       _("SEARCH BY"), false);
+	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"), false);
 	FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
 
 	mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name, currentSearch == FolderData::FastSearchContext::Name);
@@ -305,21 +304,21 @@ void GuiSearch::Render(const Transform4x4f& parentTrans)
 
 void GuiSearch::PopulateGrid(const std::string& search)
 {
-	if (mList) {
+	if (mList)
 		mList->clear();
-	}
 
 	if (search.length()>2)
 	{
     ViewController::State viewControllerState = ViewController::Instance().getState();
     SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
-		mSearchResults =  mSystemManager.searchTextInGames(mSearchChoices->getSelected(), search, 100, 500, systemData);
+		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");
 			ComponentListRow row;
 			std::shared_ptr<Component> ed;
-			for (auto *game : mSearchResults) {
+			for (auto *game : mSearchResults)
+      {
 				row.elements.clear();
 				std::string gameName;
 
