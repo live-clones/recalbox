@@ -302,7 +302,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   } // Let the doppelgangerWatcher to free its memory ASAP
 
   // Hashing
-  CheckMissingHashed(*result);
+  //CheckMissingHashed(*result);
   // Game In Png?
   CheckAutoScraping(*result);
   // Overrides?

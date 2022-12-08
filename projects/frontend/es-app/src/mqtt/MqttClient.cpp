@@ -3,10 +3,13 @@
 //
 
 #include "MqttClient.h"
+#include <utils/Log.h>
 #include <mqtt/paho/cpp/connect_options.h>
 
-MqttClient::MqttClient(const char* clientId)
-  : mMqtt("tcp://127.0.0.1:1883", clientId, 0, nullptr)
+MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
+  : mSender(*this)
+  , mMqtt("tcp://127.0.0.1:1883", clientId, 0, nullptr)
+  , mCallbackInterface(callback)
 {
   // Set options
   mqtt::connect_options connectOptions;
@@ -16,11 +19,14 @@ MqttClient::MqttClient(const char* clientId)
   // Connect
   try
   {
-    mOriginalTocken = mMqtt.connect(connectOptions, nullptr, *this);
+    if (mMqtt.connect(connectOptions, nullptr, *this) != nullptr)
+      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
+    else
+      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (init) !"; }
   }
   catch(std::exception& e)
   {
-    { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (ctor) !"; }
+    { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (catch) !"; }
   }
 }
 
@@ -74,6 +80,7 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
     case mqtt::token::CONNECT:
     {
       { LOG(LogDebug) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
+      mSender.Send();
       break;
     }
     case mqtt::token::SUBSCRIBE:
@@ -96,3 +103,39 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
   }
 }
 
+void MqttClient::Subscribe(const char* topic)
+{
+  if (!mMqtt.is_connected())
+  {
+    if (std::find(mPendingSubs.begin(), mPendingSubs.end(), String(topic)) == mPendingSubs.end())
+      mPendingSubs.push_back(topic);
+    { LOG(LogInfo) << "[MQTT] Pending subscribing to: " << topic; }
+    return;
+  }
+
+  if (mMqtt.subscribe(topic, 0, this, *this) == nullptr)
+  {
+    LOG(LogError) << "[MQTT] Error subscribing to: " << topic;
+    return;
+  }
+  { LOG(LogInfo) << "[MQTT] Subscribed to: " << topic; }
+  mMqtt.set_message_callback([this](mqtt::const_message_ptr msg)
+                             {
+                               MessageReceived(msg);
+                             });
+}
+
+void MqttClient::MessageReceived(mqtt::const_message_ptr& msg)
+{
+  if (mCallbackInterface != nullptr)
+    mCallbackInterface->MqttMessageReceived(String(msg->get_topic().data(), (int)msg->get_topic().length()),
+                                            String(msg->get_payload_str().data(), (int)msg->get_payload_str().length()));
+}
+
+void MqttClient::ReceiveSyncMessage()
+{
+  String::List pendings = mPendingSubs;
+  mPendingSubs.clear();
+  for(const String& pending : pendings)
+    Subscribe(pending.data());
+}
