@@ -28,6 +28,7 @@ CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
 CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
 TIMINGS_FILE="/boot/crt/timings.txt"
 SWITCH_31KHZ_FILE="/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value"
+KODI_GUI_FILE="/recalbox/share/system/.kodi/userdata/guisettings.xml"
 
 RRGBDUAL_FILE="/sys/firmware/devicetree/base/hat/product"
 RRGBDUAL_LASTBOOT="/boot/crt/.stamprrgbdual"
@@ -82,6 +83,17 @@ function unconfigureCRT {
     # In case of manual selection before the detection of Recalbox RGB Dual
     sed -i "/adapter\.type = */d" "${CRT_OPTIONS_FILE}"
     mount -o remount,ro /boot
+}
+
+function configure_kodi {
+    recallog -s "S13crt" -t "CRT" "Adding skin configuration in Kodi"
+    echo "" >>"${KODI_GUI_FILE}"
+    sed -i "s/skin\.estuary/skin\.confluence\.480/g" "${KODI_GUI_FILE}"
+}
+
+function unconfigure_kodi {
+    recallog -s "S13crt" -t "CRT" "Removing skin configuration in Kodi"
+    sed -i "s/skin\.confluence\.480/skin\.estuary/g" "${KODI_GUI_FILE}"
 }
 
 function rmTimings {
@@ -200,6 +212,7 @@ if test "$1" == "start"; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
             switchTo "CRT"
             configure_rbconf
+            configure_kodi
             mount -o remount,rw /boot
             touch "${RRGBDUAL_LASTBOOT}"
             mount -o remount,ro /boot
@@ -295,6 +308,7 @@ if test "$1" == "start"; then
         recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic uninstallation."
         switchTo "HDMI"
         unconfigureCRT
+        unconfigure_kodi
         reboot
         exit 0
     fi
@@ -310,7 +324,7 @@ if test "$1" == "start"; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]];then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -320,6 +334,7 @@ if test "$1" == "start"; then
             mount -o remount,ro /boot
             switchTo "CRT"
             configure_rbconf
+            configure_kodi
             reboot
         fi
         # Jack have been set from ES
@@ -347,6 +362,7 @@ if test "$1" == "start"; then
             recallog -s "S13crt" -t "CRT" "Uninstalling CRT configuration."
             switchTo "HDMI"
             unconfigureCRT
+            unconfigure_kodi
             reboot
         fi
     else
