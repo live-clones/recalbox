@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add new system 'Z-Machine' with new core frotz
+- Add new Kodi theme for lower resolutions
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
