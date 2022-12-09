@@ -1,0 +1,8 @@
+config BR2_PACKAGE_KODI_SKIN_CONFLUENCE_480
+	bool "kodi-skin-confluence-480"
+	default y
+	depends on BR2_PACKAGE_KODI
+	help
+	  Kodi Skin confluence 480
+
+	  https://kodi.tv/addons/matrix/skin.confluence
