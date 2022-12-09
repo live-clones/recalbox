@@ -268,6 +268,9 @@ menu "Languages"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-resource-language-tr_tr/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-resource-language-zh_cn/Config.in"
 endmenu
+menu "Skins"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-skin-confluence-480/Config.in"
+endmenu
 endmenu
 menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/fbv-recalbox/Config.in"

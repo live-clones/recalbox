@@ -244,6 +244,7 @@
     <setting id="services.webserver" default="true">false</setting>
     <setting id="services.webserverport">8081</setting>
     <setting id="services.webserverauthentication">false</setting>
+<<<<<<< HEAD
     <setting id="services.webserverusername" default="true">kodi</setting>
     <setting id="services.webserverpassword" default="true" />
     <setting id="services.webserverssl" default="true">false</setting>
@@ -526,4 +527,9 @@
         <mute>false</mute>
         <fvolumelevel>1.000000</fvolumelevel>
     </audio>
+=======
+    <setting id="services.airplay">true</setting>
+    <setting id="services.devicename">Recalbox</setting>
+    <setting id="lookandfeel.skin">skin.estuary</setting>
+>>>>>>> 9867524a3d (feat(kodi): add skin confluence for lower resolutions)
 </settings>
