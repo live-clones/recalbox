@@ -272,8 +272,13 @@ bool Renderer::Initialize(int w, int h)
     } else {
       // Es will choose its own resolution. The desktop mode cannot be trusted.
       if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31) {
-        w = 640;
-        h = 480;
+        if (CrtConf::Instance().GetSystemCRT31kHzResolution() == "480") {
+          w = 640;
+          h = 480;
+        } else {
+          w = 1920;
+          h = 240;
+        }
       } else {
         if (CrtConf::Instance().GetSystemCRTResolution() == "480") {
           if (Board::Instance().CrtBoard().MustForce50Hz()) {
