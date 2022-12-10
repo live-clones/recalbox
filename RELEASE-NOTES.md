@@ -31,6 +31,12 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
 - Bump libretro fuse & add new supported file extensions
+- Bump libretro bluemsx
+- Bump libretro neocd
+- Bump libretro race
+- Bump libretro uae4arm
+- Bump bebeem
+- Bump retro8
 - Update of the theme for the X68000 system
 - Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
 - Bump libretro gPSP

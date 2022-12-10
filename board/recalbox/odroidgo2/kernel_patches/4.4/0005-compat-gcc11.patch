@@ -1,0 +1,29 @@
+From 7c709c48e8790e0814a85b9eb63db1509727717c Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Thu, 10 Nov 2022 21:37:18 +0100
+Subject: [PATCH 5/6] compat gcc11
+
+---
+ Makefile | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index f4225eb9e3d5..1c948738479e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -667,6 +667,12 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, int-in-bool-context)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, address-of-packed-member)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, attribute-alias)
++KBUILD_CFLAGS += $(call cc-disable-warning, missing-attributes)
++KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
++KBUILD_CFLAGS += $(call cc-disable-warning, bool-operation)
++KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
++KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
++KBUILD_CFLAGS += $(call cc-disable-warning, misleading-indentation)
+ 
+ ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ KBUILD_CFLAGS	+= -Os
+-- 
+2.38.1
+
