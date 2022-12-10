@@ -22,6 +22,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
 
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
     DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, std::string, String, sSystemCRTResolution, "240")
+    DefineGetterSetterGeneric(CrtConf, SystemCRT31kHzResolution, std::string, String, sSystemCRT31kHzResolution, "480")
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
@@ -40,6 +41,7 @@ private:
     static constexpr const char* sSystemCRTResolution             = "options.es.resolution";
     static constexpr const char* sSystemCRTGameRegionSelect       = "options.regionselect";
     static constexpr const char* sSystemCRTGameResolutionSelect   = "options.resolutionselect";
+    static constexpr const char* sSystemCRT31kHzResolution        = "options.31khz.es.resolution";
     static constexpr const char* sSystemCRTRunDemoIn240pOn31kHz   = "options.31khz.demo240pOn31khz";
     static constexpr const char* sSystemCRTScanlines31kHz         = "options.31khz.scanlines";
     static constexpr const char* sSystemCRTHorizontalOffset       = "mode.offset.horizontal";
