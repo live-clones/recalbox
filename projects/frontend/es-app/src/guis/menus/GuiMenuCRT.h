@@ -59,6 +59,7 @@ class GuiMenuCRT : public GuiMenuBase
     //! Force HDMI video
     bool mForceHDMI;
     bool mOriginalForceHDMI;
+    bool mOriginalFrontendIn240pOn31kHz;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);

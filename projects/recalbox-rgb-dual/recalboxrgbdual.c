@@ -112,6 +112,20 @@ static const struct videomode p1920x288 = {
     .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
 };
 
+// 1920x240p@120 : 1920 1 48 208 256 240 1 4 3 15 0 0 0 120 0 76462080 1
+static const struct videomode p1920x240at120 = {
+    .pixelclock = 76462080,
+    .hactive = 1920,
+    .hfront_porch = 48,
+    .hsync_len = 208,
+    .hback_porch = 256,
+    .vactive = 240,
+    .vfront_porch = 4,
+    .vsync_len = 3,
+    .vback_porch = 15,
+    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+};
+
 // 576i@50 : 768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1
 static const struct videomode i576 = {
     .pixelclock = 14875000,
@@ -370,8 +384,10 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     return i;
   } else {
     if (dip31kHz.gpio_state == 0) {
-      printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: using 31kHz modes\n", i);
       dpidac_apply_module_mode(connector, &p480, true);
+      dpidac_apply_module_mode(connector, &p1920x240at120, false);
+
       return 1;
     } else {
       if (dip50Hz.gpio_state == 0) {
