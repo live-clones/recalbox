@@ -7,6 +7,7 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 8.2-Electron
 
 ### News
+- Add kodi dynamic resolution
 - Add libretro-pcsx rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
