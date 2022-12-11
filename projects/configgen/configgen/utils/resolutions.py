@@ -1,3 +1,5 @@
+import re
+
 from configgen.utils.architecture import Architecture
 
 
@@ -207,6 +209,7 @@ class ResolutionParser:
 
     __Width = 0  # type: int
     __Height = 0  # type: int
+    __Progressive: bool = True  # type: bool
 
     def __init__(self, resolution): # type: (str) -> None
         self.__parse(resolution)
@@ -252,7 +255,11 @@ class ResolutionParser:
             wh = resolution.split('x')
             if len(wh) == 2:
                 w = int(wh[0])
-                h = int(wh[1])
+                m = re.search(r"(\d+)(.?)", wh[1])
+                if m:
+                    if m.group(2) and m.group(2) == "i":
+                        self.__Progressive = False
+                    h = int(m.group(1))
                 if w > 0 and h > 0:
                     self.__Width = w
                     self.__Height = h
@@ -279,6 +286,9 @@ class ResolutionParser:
     @property
     def height(self): # type: () -> int
         return self.__Height
+    @property
+    def progressive(self): # type: () -> bool
+        return self.__Progressive
 
     @property
     def string(self): # type: () -> str
