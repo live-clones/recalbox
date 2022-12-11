@@ -244,6 +244,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "")
     DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "")
+    DefineGetterSetter(KodiVideoMode, std::string, String, sKodiVideoMode, "")
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
@@ -403,6 +404,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
+    static constexpr const char* sKodiVideoMode              = "kodi.videomode";
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
     static constexpr const char* sSystemLanguage             = "system.language";
