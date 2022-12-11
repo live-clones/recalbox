@@ -4,6 +4,7 @@ import os
 import configgen.recalboxFiles as recalboxFiles
 from xml.etree import ElementTree as ET
 
+from configgen.Emulator import Emulator
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 
 kodiMapping = {
@@ -120,12 +121,13 @@ def writeKodiControllersConfig(controllers: ControllerPerPlayer):
             f.write(minidom.parseString(ET.tostring(buttonmap)).toprettyxml())
 
 
-def writeKodiAdvancedSettingsConfig(architecture: str):
+def writeKodiAdvancedSettingsConfig(architecture: str, resolution: str):
     """special configuration depending on architecture"""
     """rpi4:"""
     """<setting id="videoplayer.useprimedecoder">true</setting>"""
     """<setting id="videoplayer.useprimedecoderforhw" default="true">true</setting>"""
     """<setting id="videoplayer.useprimerenderer">0</setting>"""
+    print(f"Setting advanced kodi settings with resolution {resolution} for arch {architecture}")
 
     force_configuration = {
         "rpi4_64": {
@@ -133,6 +135,10 @@ def writeKodiAdvancedSettingsConfig(architecture: str):
                 "useprimedecoder": "true",
                 "useprimedecoderforhw": "true",
                 "useprimerenderer": "0",
+
+            },
+            "videoscreen": {
+                "screenmode": resolution,
             }
         },
         "rpi3": {
@@ -140,6 +146,9 @@ def writeKodiAdvancedSettingsConfig(architecture: str):
                 "useprimedecoder": "true",
                 "useprimedecoderforhw": "true",
                 "useprimerenderer": "0",
+            },
+            "videoscreen": {
+                "screenmode": resolution,
             }
         },
         "rpizero2": {
@@ -147,12 +156,22 @@ def writeKodiAdvancedSettingsConfig(architecture: str):
                 "useprimedecoder": "true",
                 "useprimedecoderforhw": "true",
                 "useprimerenderer": "0",
+            },
+            "videoscreen": {
+                "screenmode": resolution,
+            }
+        },
+        "default": {
+            "videoscreen": {
+                "screenmode": resolution,
             }
         }
     }
-
+    config = force_configuration["default"]
+    if architecture in force_configuration:
+        config = force_configuration[architecture]
     try:
-        kodiAdvancedSettingsSetter(force_configuration[architecture])
+        kodiAdvancedSettingsSetter(config)
     except KeyError:
         print(f"no gui settings for {architecture}")
 
