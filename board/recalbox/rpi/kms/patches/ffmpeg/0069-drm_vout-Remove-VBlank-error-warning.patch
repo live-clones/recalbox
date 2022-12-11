@@ -1,0 +1,27 @@
+From 124391dba698389481798fe24c006d33cc9f1e60 Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 17 Nov 2021 19:10:53 +0000
+Subject: [PATCH 069/151] drm_vout: Remove VBlank error warning
+
+The VBLank call always returns an error I don't know why.  Remove the
+logging as it only serves to confuse and take up valuable screen space.
+---
+ libavdevice/drm_vout.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libavdevice/drm_vout.c b/libavdevice/drm_vout.c
+index 064cbf6b08..4b25ec4344 100644
+--- a/libavdevice/drm_vout.c
++++ b/libavdevice/drm_vout.c
+@@ -208,7 +208,7 @@ static int do_display(AVFormatContext * const s, drm_display_env_t * const de, A
+ 
+         while (drmWaitVBlank(de->drm_fd, &vbl)) {
+             if (errno != EINTR) {
+-                av_log(s, AV_LOG_WARNING, "drmWaitVBlank failed: %s\n", ERRSTR);
++//                av_log(s, AV_LOG_WARNING, "drmWaitVBlank failed: %s\n", ERRSTR);
+                 break;
+             }
+         }
+-- 
+2.38.1
+
