@@ -9,11 +9,12 @@
 enum class CrtResolution
 {
   rNone, //!< Null element
-  r224p, //!< PAL + NTSC 224p - Compatible VGA 120hz
-  r240p, //!< PAL + NTSC 224p - Compatible VGA 120hz
+  r224p, //!< PAL + NTSC 224p
+  r240p, //!< PAL + NTSC 224p
   r288p, //!< PAL only
   r480i, //!< NTSC interlaced hires
   r576i, //!< PAL interlaced hires
-  r480p, //!< VGA hires
+  r480p, //!< 31kHz
+  r240p120Hz, //!< 31kHz 240
   _rCount, //!< Counter
 };

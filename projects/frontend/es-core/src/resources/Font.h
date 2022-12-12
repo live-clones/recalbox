@@ -28,6 +28,7 @@ class ResourceManager;
 
 #define FONT_PATH_LIGHT ":/ubuntu_condensed.ttf"
 #define FONT_PATH_REGULAR ":/ubuntu_condensed.ttf"
+#define FONT_PATH_CRT ":/f8bitfortressplus.ttf"
 
 typedef unsigned int UnicodeChar;
 
