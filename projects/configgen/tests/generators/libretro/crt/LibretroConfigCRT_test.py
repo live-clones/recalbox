@@ -4,7 +4,8 @@ from unittest.mock import mock_open
 import pytest
 
 from configgen.Emulator import Emulator, ExtraArguments
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTSystemMode, CRTArcadeMode
+from configgen.crt.CRTConfigParser import CRTConfigParser
+from configgen.crt.CRTTypes import CRTSystemMode, CRTArcadeMode
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -16,12 +17,11 @@ ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 
 def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
-                    crtadaptor="recalboxrgbdual", vertical_offset=0, horizontal_offset=0, viewport_width=0,
-                    crtregion="auto", crtscanlines=False):
+                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype,
                                       crtscreentype,
-                                      crtadaptor, vertical_offset, horizontal_offset, viewport_width, crtregion,
+                                      crtadaptor, crtregion,
                                       crtscanlines))
     return emulator
 
@@ -92,7 +92,7 @@ def test_given_snes_system_and_a_two_modes_pal_ntsc_should_create_two_mode_in_co
         SYSTEMS_TXT: "snes,snes9x,pal,15kHz,progressive,snes:pal:240@50p,0,0\nsnes,snes9x,ntsc,15kHz,progressive,snes:ntsc:224@60p,0,0",
         MODES_TXT: "snes:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
-    assert config_lines["crt_switch_timings_pal"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
+    assert config_lines["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1"'
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
     assert config_lines["video_refresh_rate_pal"] == '"50.1"'
     assert config_lines["video_refresh_rate_ntsc"] == '"60.1"'
@@ -103,7 +103,7 @@ def test_missing_system_creates_default_config(mocker, system_snes):
         MODES_TXT: "default:pal:288@50,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50\ndefault:ntsc:240@60,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
-    assert config_lines["crt_switch_timings_pal"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
+    assert config_lines["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1"'
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1"'
     assert config_lines["video_refresh_rate_pal"] == '"50"'
     assert config_lines["video_refresh_rate_ntsc"] == '"60"'
@@ -172,7 +172,7 @@ def test_given_no_viewport_config_returns_viewport_values_from_mode(mocker, syst
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "snes,snes9x,all,15kHz,progressive,snes:224@60p,0,0",
         MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
-    snes = configureForCrt(system_snes, viewport_width=0)
+    snes = configureForCrt(system_snes)
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         snes, "Mario.smc")
 
@@ -332,7 +332,7 @@ def test_given_sega_systems_when_15khz_and_progressive_selected_should_create_co
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1"'
 
 
@@ -344,7 +344,7 @@ def test_given_sega_systems_when_15khz_and_interlaced_selected_should_create_con
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 576 1 18 6 21 0 0 0 50 1 39312000 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 576 1 18 6 21 0 0 0 50 1 39312000 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 480 1 18 6 21 0 0 0 60 1 39312000 1"'
 
 
@@ -383,8 +383,8 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode(m
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
-    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 60 192 228 240 1 3 3 16 0 0 0 50 0 37730000 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50.5"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"50.5"'
 
@@ -411,8 +411,8 @@ def test_given_sega_systems_when_15khz_and_interlaced_and_force_50hz_should_crea
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 576 1 18 6 21 0 0 0 50 1 39312000 1"'
-    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 62 184 330 576 1 18 6 21 0 0 0 50 1 39312000 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 576 1 18 6 21 0 0 0 50 1 39312000 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 576 1 18 6 21 0 0 0 50 1 39312000 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"50"'
 
@@ -471,7 +471,7 @@ def test_given_any_systems_when_15kHz_and_auto_region_with_no_mode_found_should_
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                "/recalbox/share/roms/snes/Mario.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
@@ -488,8 +488,8 @@ def test_given_any_systems_when_15kHz_and_forced_region_with_no_mode_found_shoul
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(snes,
                                                                                                "/recalbox/share/roms/snes/Mario.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
-    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"50"'
 
@@ -519,11 +519,11 @@ def test_given_a_nes_game_should_return_viewport_info(mocker):
         MODES_TXT: "snes:nes:ntsc:240@60.0988,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\nsnes:nes:pal:288@50.01,1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39070212 1,50.01"})
 
     nes_crt = configureForCrt(Emulator("nes", "libretro", "nestopia", "", "auto"), crtresolutiontype="progressive",
-                              crtvideostandard="auto", crtscreentype="15kHz", viewport_width=0)
+                              crtvideostandard="auto", crtscreentype="15kHz")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         nes_crt, "/recalbox/share/roms/nes/nes.zip")
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39070212 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39070212 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 39001717 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50.01"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60.0988"'
@@ -551,7 +551,7 @@ def test_given_15kHz_and_force50hz_selected_and_no_pal_config_should_create_conf
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(gamegear, "rom.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["custom_viewport_width_pal"] == 960
     assert libretro_config["custom_viewport_height_pal"] == 144
@@ -828,7 +828,7 @@ def test_given_15kHz_and_no_mode_found_should_create_default_config_for_arcade(m
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "arkbl2.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
@@ -844,8 +844,8 @@ def test_given_15kHz_and_force50hz_selected_should_create_config_with_pal_mode_f
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
         emulator, "arkbl2.zip")
 
-    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
-    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 62 184 330 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_pal"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"50"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"50"'
 

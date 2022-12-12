@@ -1,7 +1,7 @@
 import typing
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType, CRTVideoStandard, CRTRegion
+from configgen.crt.CRTTypes import CRTScreenType, CRTResolutionType, CRTVideoStandard, CRTRegion
 from configgen.utils.recallog import recallog
 
 VideoStandardToRegionMap = {
