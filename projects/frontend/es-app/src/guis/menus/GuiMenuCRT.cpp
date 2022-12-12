@@ -237,7 +237,7 @@ void GuiMenuCRT::SubMenuSelected(int id)
     }
     else
     {
-      mWindow.pushGui(new GuiMsgBox(mWindow, _("Select standard resolution set\nto calibrate:"),
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\nDuring the calibration, press B to apply the mode, START to validate, and A to cancel."),
                                     _("60Hz & 50Hz"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60plus50Hz);
             mWindow.CloseAll(); },
                                     _("60Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60Hz);

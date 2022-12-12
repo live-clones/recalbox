@@ -15,7 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
 - RRGBD:
-  - Add new theme for recalbox rgb dual with 240p optimisations
+  - Add multiple resolution calibration screen
   - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
   - Add snes9x2002, 2005, 2010 and bsnes support for rrgbd

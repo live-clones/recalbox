@@ -116,9 +116,6 @@ class CrtView : public Gui
     //! Update viewport
     void UpdateViewport();
 
-    //! Update position
-    void UpdatePosition();
-
     //! Change resolution
     void SetResolution(CrtResolution resolution);
 
