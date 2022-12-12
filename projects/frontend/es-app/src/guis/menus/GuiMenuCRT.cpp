@@ -7,6 +7,7 @@
 
 #include "GuiMenuCRT.h"
 #include "views/ViewController.h"
+#include "guis/GuiMsgBox.h"
 #include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
@@ -225,8 +226,26 @@ void GuiMenuCRT::SubMenuSelected(int id)
 {
   if ((Components)id == Components::Adjustment)
   {
-    ViewController::Instance().goToCrtView();
-    mWindow.CloseAll();
+    if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    {
+      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz31);
+      mWindow.CloseAll();
+    }
+    else if (Board::Instance().CrtBoard().MustForce50Hz()){
+      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+      mWindow.CloseAll();
+    }
+    else
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("Select standard resolution set\nto calibrate:"),
+                                    _("60Hz & 50Hz"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60plus50Hz);
+            mWindow.CloseAll(); },
+                                    _("60Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60Hz);
+            mWindow.CloseAll(); },
+                                    _("50Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+            mWindow.CloseAll();},
+                                    TextAlignment::Center));
+    }
   }
 }
 
