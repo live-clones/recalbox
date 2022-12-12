@@ -184,9 +184,9 @@ void ViewController::quitGameClipView()
   updateHelpPrompts();
 }
 
-void ViewController::goToCrtView()
+void ViewController::goToCrtView(CrtView::CalibrationType screenType)
 {
-  mCrtView = new CrtView(mWindow);
+  mCrtView = new CrtView(mWindow, screenType);
   mCrtView->onShow();
 }
 
