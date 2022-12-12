@@ -3,79 +3,10 @@ import typing
 from dataclasses import dataclass
 from enum import Enum
 
+from configgen.crt.CRTTypes import CRTSystem, CRTArcadeMode, CRTVideoStandard, CRTScreenType, CRTResolutionType
 from configgen.crt.Mode import Mode
 from configgen.recalboxFiles import crtFilesRootFolder, crtUserFilesRootFolder
 from configgen.utils.recallog import recallog
-
-CRTSystemMode = typing.Tuple[str, str, str, str, str, int, int]
-CRTArcadeMode = typing.Tuple[str, str, int, int, int]
-
-
-class CRTVideoStandard(str, Enum):
-    PAL = "pal"
-    NTSC = "ntsc"
-    AUTO = "auto"
-    ALL = "all"
-
-    @staticmethod
-    def fromString(value: str):
-        if value == "pal":
-            return CRTVideoStandard.PAL
-        if value == "ntsc":
-            return CRTVideoStandard.NTSC
-        return CRTVideoStandard.AUTO
-
-
-class CRTRegion(str, Enum):
-    AUTO = "auto"
-    EU = "eu"
-    US = "us"
-    JP = "jp"
-
-    @staticmethod
-    def fromString(value: str):
-        if value == "eu":
-            return CRTRegion.EU
-        if value == "us":
-            return CRTRegion.US
-        if value == "jp":
-            return CRTRegion.JP
-        return CRTRegion.AUTO
-
-
-class CRTScreenType(str, Enum):
-    k15 = "15kHz"
-    k31 = "31kHz"
-
-    @staticmethod
-    def fromString(value: str):
-        if value == "31kHz":
-            return CRTScreenType.k31
-        return CRTScreenType.k15
-
-
-class CRTResolutionType(str, Enum):
-    Progressive = "progressive"
-    Interlaced = "interlaced"
-    DoubleFreq = "doublefreq"
-
-    @classmethod
-    def fromString(cls, value: str):
-        for k, v in cls.__members__.items():
-            if v == value:
-                return v
-        return CRTResolutionType.Progressive
-
-
-@dataclass
-class CRTSystem:
-    core: str
-    region: str
-    display: str
-    reztype: str
-    mode_id: str
-    viewport_width: int
-    viewport_height: int
 
 
 class CRTConfigParser:

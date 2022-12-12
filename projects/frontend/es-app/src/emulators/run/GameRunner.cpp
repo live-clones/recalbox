@@ -406,9 +406,9 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
     {
       CrtResolution reso = (CrtResolution)i;
       std::string sreso = std::string(CrtConf::CrtResolutionFromEnum(reso));
-      result.append(" -crtverticaloffset-").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
-      result.append(" -crthorizontaloffset-").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
-      result.append(" -crtviewportwidth-").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
+      result.append(" -crt_verticaloffset_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
+      result.append(" -crt_horizontaloffset_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
+      result.append(" -crt_viewportwidth_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
     }
 
     // Resolution type

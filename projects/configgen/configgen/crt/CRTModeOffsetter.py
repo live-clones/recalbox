@@ -1,5 +1,8 @@
 from os.path import exists
 
+from configgen.Emulator import Emulator
+from configgen.crt.CRTConfigParser import CRTScreenType
+from configgen.crt.CRTTypes import CRTResolution
 from configgen.crt.Mode import Mode
 from configgen.utils.recallog import recallog
 
@@ -8,18 +11,24 @@ class CRTModeOffsetter:
 
     switchFile = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value"
 
-    def processMode(self, mode: Mode, ntsc_horizontal_offset: int, ntsc_vertical_offset: int, pal_horizontal_offset: int, pal_vertical_offset: int) -> Mode:
+    def findOffsetsFromMode(self, mode: Mode, system: Emulator) -> [int, int]:
+        resolution = mode.extractCRTResolution()
+        if mode:
+            return system.CRTHorizontalOffset(resolution), system.CRTVerticalOffset(resolution)
+        return [0, 0]
+
+    def processMode(self, mode: Mode, system: Emulator) -> Mode:
         # Todo remove when we will have a specific screen for pal calibration
-        horizontal = ntsc_horizontal_offset
-        vertical = ntsc_vertical_offset
-        if abs(50 - mode.framerate) < 2:
-            if pal_horizontal_offset != 0 or pal_vertical_offset != 0:
-                # Pal offset set (may be forced 50Hz), so we use values
-                horizontal = pal_horizontal_offset
-                vertical = pal_vertical_offset
-            else:
-                # Here we have no overload of pal offset, so we adapt as we can
-                horizontal += 3
+
+        horizontal, vertical = self.findOffsetsFromMode(mode, system)
+        # if abs(50 - mode.framerate) < 2:
+        #     if pal_horizontal_offset != 0 or pal_vertical_offset != 0:
+        #         # Pal offset set (may be forced 50Hz), so we use values
+        #         horizontal = pal_horizontal_offset
+        #         vertical = pal_vertical_offset
+        #     else:
+        #         # Here we have no overload of pal offset, so we adapt as we can
+        #         horizontal += 3
         horizontal *= mode.width // 320
         if mode.h_front_porch - horizontal < 1:
             horizontal = mode.h_front_porch - 1
