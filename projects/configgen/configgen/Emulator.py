@@ -1,42 +1,55 @@
+from dataclasses import dataclass
 from enum import Enum
 from typing import List, Union
 
-from configgen.crt.CRTConfigParser import CRTVideoStandard, CRTResolutionType, CRTScreenType, CRTRegion
+from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
+    CRTResolutionType, CRTScreenType
 from configgen.settings.keyValueSettings import keyValueSettings
 
-
+@dataclass
 class ExtraArguments:
-    def __init__(self, resolution:str, hash:str, netplay:str, netplay_ip:str, netplay_port:str, netplay_playerpassword:str,
-                 netplay_viewerpassword:str, netplay_vieweronly:str,
-                 crtvideostandard:str, crtresolutiontype:str, crtscreentype:str, crtadaptor:str,
-                 crtverticaloffset: int, crthorizontaloffset: int, crtviewportwidth: int, crtregion:str = "auto", crtscanlines:bool = False,
-                 crtverticalpaloffset: int=0, crthorizontalpaloffset: int=0):
-        self.resolution = resolution
-        self.hash = hash
-        self.netplay = netplay
-        self.netplay_ip = netplay_ip
-        self.netplay_port = netplay_port
-        self.netplay_playerpassword = netplay_playerpassword
-        self.netplay_viewerpassword = netplay_viewerpassword
-        self.netplay_vieweronly = netplay_vieweronly
-        self.crtvideostandard = crtvideostandard
-        self.crtregion = crtregion
-        self.crtresolutiontype = crtresolutiontype
-        self.crtscreentype = crtscreentype
-        self.crtadaptor = crtadaptor
-        self.crtverticaloffset = crtverticaloffset
-        self.crthorizontaloffset = crthorizontaloffset
-        self.crtverticalpaloffset = crtverticalpaloffset
-        self.crthorizontalpaloffset = crthorizontalpaloffset
-        self.crtviewportwidth = crtviewportwidth
-        self.crtscanlines = crtscanlines
+     resolution:str
+     hash:str
+     netplay:str
+     netplay_ip:str
+     netplay_port:str
+     netplay_playerpassword:str
+     netplay_viewerpassword:str
+     netplay_vieweronly:str
+     crtvideostandard:str
+     crtresolutiontype:str
+     crtscreentype:str
+     crtadaptor:str
+     crtregion:str = "auto"
+     crtscanlines:bool = False
+     crt_verticaloffset_p1920x240at120: int = 0
+     crt_horizontaloffset_p1920x240at120: int = 0
+     crt_viewportwidth_p1920x240at120: int = 0
+     crt_verticaloffset_p640x480: int = 0
+     crt_horizontaloffset_p640x480: int = 0
+     crt_viewportwidth_p640x480: int = 0
+     crt_verticaloffset_i768x576: int = 0
+     crt_horizontaloffset_i768x576: int = 0
+     crt_viewportwidth_i768x576: int = 0
+     crt_verticaloffset_i640x480: int = 0
+     crt_horizontaloffset_i640x480: int = 0
+     crt_viewportwidth_i640x480: int = 0
+     crt_verticaloffset_p1920x288: int = 0
+     crt_horizontaloffset_p1920x288: int = 0
+     crt_viewportwidth_p1920x288: int = 0
+     crt_verticaloffset_p1920x240: int = 0
+     crt_horizontaloffset_p1920x240: int = 0
+     crt_viewportwidth_p1920x240: int = 0
+     crt_verticaloffset_p1920x224: int = 0
+     crt_horizontaloffset_p1920x224: int = 0
+     crt_viewportwidth_p1920x224: int = 0
 
 
 class Emulator:
 
-    def __init__(self, name: str, emulator: str, core: str, videoMode: str="default", ratio:str='auto'):
+    def __init__(self, name: str, emulator: str, core: str, videoMode: str="default", ratio: str='auto'):
         self._name: str = name
-        # Overriding vars - **Always define dezfault values here and ONLY here**
+        # Overriding vars - **Always define default values here and ONLY here**
         self._emulator: str = emulator
         self._core: str = core
         self._ratio: str = ratio
@@ -87,12 +100,8 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
         self._crtscreentype: CRTScreenType = CRTScreenType.k15
         self._crtenabled: bool = False
-        self._crtverticaloffset: int = 0
-        self._crthorizontaloffset: int = 0
-        self._crtverticalpaloffset: int = 0
-        self._crthorizontalpaloffset: int = 0
-        self._crtviewportwidth: int = 0
         self._crtscanlines: bool = False
+        self._crt_config = {}
 
         # Computed vars
         self._netplay: bool = False
@@ -160,11 +169,16 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
-        self._crtverticaloffset = arguments.crtverticaloffset
-        self._crthorizontaloffset = arguments.crthorizontaloffset
-        self._crtverticalpaloffset = arguments.crtverticalpaloffset
-        self._crthorizontalpaloffset = arguments.crthorizontalpaloffset
-        self._crtviewportwidth = arguments.crtviewportwidth
+        self._crt_config = {}
+        for resolution in CRTResolution:
+            self._crt_config[resolution] = {}
+            if hasattr(arguments, f'crt_verticaloffset_{resolution}'):
+                self._crt_config[resolution]["vertical"] = getattr(arguments, f'crt_verticaloffset_{resolution}')
+            if hasattr(arguments, f'crt_horizontaloffset_{resolution}'):
+                self._crt_config[resolution]["horizontal"] = getattr(arguments, f'crt_horizontaloffset_{resolution}')
+            if hasattr(arguments, f'crt_viewportwidth_{resolution}'):
+                self._crt_config[resolution]["viewportwidth"] = getattr(arguments, f'crt_viewportwidth_{resolution}')
+
         self._crtscanlines = arguments.crtscanlines
 
         # Computed vars
@@ -341,20 +355,23 @@ class Emulator:
     @property
     def CRTEnabled(self) -> bool: return self._crtenabled
 
-    @property
-    def CRTVerticalOffset(self) -> int: return self._crtverticaloffset
 
-    @property
-    def CRTHorizontalOffset(self) -> int: return self._crthorizontaloffset
+    def CRTVerticalOffset(self, resolution: CRTResolution) -> int:
+        if resolution in self._crt_config:
+            if "vertical" in self._crt_config[resolution]:
+                return self._crt_config[resolution]["vertical"]
+        return 0
+    def CRTHorizontalOffset(self, resolution: CRTResolution) -> int:
+        if resolution in self._crt_config:
+            if "horizontal" in self._crt_config[resolution]:
+                return self._crt_config[resolution]["horizontal"]
+        return 0
 
-    @property
-    def CRTVerticalPalOffset(self) -> int: return self._crtverticalpaloffset
-
-    @property
-    def CRTHorizontalPalOffset(self) -> int: return self._crthorizontalpaloffset
-
-    @property
-    def CRTViewportWidth(self) -> int: return self._crtviewportwidth
+    def CRTViewportWidth(self, resolution: CRTResolution) -> int:
+        if resolution in self._crt_config:
+            if "viewportwidth" in self._crt_config[resolution]:
+                return self._crt_config[resolution]["viewportwidth"]
+        return 0
 
     @property
     def CRTScanlines(self) -> bool: return self._crtscanlines

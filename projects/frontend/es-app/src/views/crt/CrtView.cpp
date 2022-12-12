@@ -26,7 +26,7 @@ CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
   , mOriginalViewportWidth(0)
   , mOriginalWidth(Renderer::Instance().RealDisplayWidthAsInt())
   , mOriginalHeight(Renderer::Instance().DisplayHeightAsInt())
-  , mStep(0)
+  , mStep(1)
 {
   switch(calibrationType){
     case kHz31:
@@ -38,8 +38,12 @@ CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
     case kHz15_60plus50Hz:
       mSequence = sPALNTSC; break;
   }
+  mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(mSequence[0]);
+  mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(mSequence[0]);
+  mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(mSequence[0]);
   SetResolution(mSequence[0]);
   Initialize();
+  UpdateViewport();
 }
 
 void CrtView::Initialize()
@@ -64,26 +68,11 @@ void CrtView::Initialize()
   mGrid.setEntry(mHorizontalOffsetText, { 0, 0 }, false);
   mGrid.setEntry(mVerticalOffsetText, { 0, 1 }, false);
   mGrid.setEntry(mViewportText, { 0, 2 }, false);
-
-  mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(mSequence[0]);
-  mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(mSequence[0]);
-  mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(mSequence[0]);
-
-  UpdateViewport();
-  UpdatePosition();
 }
 
 CrtView::~CrtView()
 {
   SetResolution(CrtResolution::rNone);
-  CrtConf::Instance().Save();
-
-/*  if (RecalboxSystem::MakeBootReadWrite())
-  {
-    Path(sTimingFile).Delete();
-    if (!RecalboxSystem::MakeBootReadOnly()) LOG(LogWarning) << "[CrtView] Boot partition left in writable state";
-  }
-  else LOG(LogError) << "[CrtView] Error removing CRT timing file.";*/
 }
 
 void CrtView::Render(const Transform4x4f& parentTrans)
@@ -94,9 +83,6 @@ void CrtView::Render(const Transform4x4f& parentTrans)
   Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x000000FF);
   mPattern.Render(trans);
   Renderer::SetMatrix(trans);
- /* Renderer::DrawRectangle(Renderer::Instance().DisplayWidthAsInt() / 3, Renderer::Instance().DisplayHeightAsInt() / 3,
-                          Renderer::Instance().DisplayWidthAsInt() / 3, Renderer::Instance().DisplayHeightAsInt() / 3, 0x00000080);
-*/
   Component::Render(trans);
 
   // Wake up permanently
@@ -109,29 +95,11 @@ bool CrtView::getHelpPrompts(Help& help)
       .Set(HelpType::AllDirections, _("MOVE SCREEN"))
       .Set(HelpType::X, _("WIDER"))
       .Set(HelpType::Y, _("NARROWER"))
-      .Set(Help::Valid(), _("VALIDATE CHANGES"));
+      .Set(Help::Valid(), _("APPLY MODE"))
+      .Set(HelpType::Start, _("NEXT RESOLUTION"));
 
   return true;
 }
-
-/*
-static HashMap<CrtResolution, std::string> modes =
-    {
-        {  CrtResolution::r224p, "1920 1 80 184 312 224 1 10 3 24 0 0 0 60 0 39087360 1\n" },
-        {  CrtResolution::r240p, "1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1\n" },
-        {  CrtResolution::r288p, "1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1\n" },
-        {  CrtResolution::r480i, "640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1\n" },
-        {  CrtResolution::r576i, "768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1\n" },
-        {  CrtResolution::r480p, "640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1\n" },
-        {  CrtResolution::r240p120Hz, "1920 1 48 208 256 240 1 4 3 15 0 0 0 120 0 76462080 1\n" },
-    };
-
-static constexpr int sHorizontalFrontPorch = 2;
-static constexpr int sHorizontalBackPorch = 4;
-static constexpr int sVerticalLinesActive = 5;
-static constexpr int sVerticalFrontPorch = 7;
-static constexpr int sVerticalBackPorch = 9;
-static constexpr int sInterlaced = 14;*/
 
 void CrtView::SetResolution(CrtResolution resolution)
 {
@@ -153,15 +121,6 @@ void CrtView::SetResolution(CrtResolution resolution)
     case CrtResolution::rNone: // Original resolution
     default: break;
   }
-/*  // Rebuild modeline file
-  if (RecalboxSystem::MakeBootReadWrite())
-  {
-    { LOG(LogDebug) << "[CrtView] Setting timings.txt file with modeline for " << modes[resolution]; }
-    Files::SaveFile(Path(sTimingFile), modes[resolution]);
-
-    if (!RecalboxSystem::MakeBootReadOnly()) LOG(LogWarning) << "[CrtView] Boot partition left in writable state";
-  }
-  else LOG(LogError) << "[CrtView] Error writing CRT timing file.";*/
 
   mWindow.Initialize(w, h);
   mWindow.normalizeNextUpdate();
@@ -178,8 +137,9 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   CrtResolution reso = mSequence[mSequenceIndex];
 
   if (event.CancelPressed()) mEvent.Send(); // Synchronous quit (delete this class)
-  else if (event.ValidPressed()) // Validate: reinit SDL
+  else if (event.StartPressed()) // Validate: reinit SDL
   {
+    CrtConf::Instance().Save();
     reso = mSequence[++mSequenceIndex];
     if (mSequence[mSequenceIndex] == CrtResolution::rNone)
       mEvent.Send();
@@ -187,11 +147,15 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
       mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso);
       mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso);
       mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(reso);
-      UpdateViewport();
-      UpdatePosition();
-      SetResolution(mSequence[mSequenceIndex]);
+      SetResolution(reso);
       Initialize();
     }
+  }
+  else if (event.ValidPressed()) // Wider
+  {
+    CrtConf::Instance().Save();
+    SetResolution(reso);
+    Initialize();
   }
   else if (event.XPressed()) // Wider
   {
@@ -217,12 +181,6 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   {
     CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
   }
-  // If we are in force 50HZ, then we copy the offsets to pal ones
-  if(Board::Instance().CrtBoard().MustForce50Hz())
-  {
-    CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso));
-    CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso));
-  }
   UpdateViewport();
   return true;
 }
@@ -238,8 +196,7 @@ void CrtView::UpdateViewport()
 
   // Reference
   int reference = ((Renderer::Instance().DisplayWidthAsInt()) * 1840) / 1920;
-  //const int hOffSetMultiplier = Renderer::Instance().DisplayWidthAsInt() / 320;
-  int hoffsetDiff = (CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - mOriginalHOffset)/**hOffSetMultiplier*/;
+  int hoffsetDiff = (CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - mOriginalHOffset);
   int voffsetDiff = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - mOriginalVOffset;
 
   mPattern.setSize((float) (reference + CrtConf::Instance().GetCrtViewportWidth(reso)), mPattern.getSize().y());
@@ -267,52 +224,3 @@ void CrtView::UpdateViewport()
     mViewportText->setColor(0xFFFFFFFF);
   }
 }
-
-
-void CrtView::UpdatePosition()
-{
-  /*CrtResolution reso = mSequence[mSequenceIndex];
-
-  // Get offsets
-  const int hOffSetMultiplier = Renderer::Instance().RealDisplayWidthAsInt() / 320;
-  int hOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) * hOffSetMultiplier;
-  int vOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso);
-
-  // Split and convert current modeline
-  Strings::Vector items = Strings::Split(modes[reso], ' ', false);
-  Array<int> values((int)items.size());
-  for(int i = (int)items.size(); --i >= 0; )
-    if (!Strings::ToInt(items[i], values(i)))
-    { LOG(LogError) << "[CrtView] Mode " << modes[reso] << " contains invalid value at index " << i; }
-
-  // Horizontal porch
-  if (values[sHorizontalFrontPorch] - hOffset > 0 && values[sHorizontalBackPorch] + hOffset > 0)
-  {
-    values(sHorizontalFrontPorch) -= hOffset;
-    values(sHorizontalBackPorch) += hOffset;
-  } else {
-    values(sHorizontalBackPorch) += values(sHorizontalFrontPorch) -1;
-    values(sHorizontalFrontPorch) = 1;
-  }
-
-  // Vertical porch
-  int min_voffset = 1;
-  if(values[sVerticalLinesActive] == 480 && values[sInterlaced] == 1) min_voffset = 2; // Horribeul special case for 480i
-  if (values[sVerticalFrontPorch] - vOffset >= min_voffset && values[sVerticalBackPorch] + vOffset >= min_voffset)
-  {
-    values(sVerticalFrontPorch) -= vOffset;
-    values(sVerticalBackPorch) += vOffset;
-  } else {
-    values(sVerticalBackPorch) += values(sVerticalFrontPorch) -min_voffset;
-    values(sVerticalFrontPorch) = min_voffset;
-  }
-*/
-/* Unneeded
-  // Rebuild mode line
-  for(int i = (int)items.size(); --i >= 0; )
-    items[i] = Strings::ToString(values[i]);
-  modes[reso] = Strings::Join(items, ' ');
-*/
-
-}
-
