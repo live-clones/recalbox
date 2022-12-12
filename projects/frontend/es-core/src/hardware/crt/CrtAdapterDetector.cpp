@@ -42,6 +42,7 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
 ICrtInterface* CrtAdapterDetector::CreateCrtBoard()
 {
   bool automatic = false;
+  return new CrtRGBDual(automatic);
   switch(DetectCrtAdapter(automatic))
   {
     case CrtAdapterType::Vga666: return new CrtVga666(automatic);
