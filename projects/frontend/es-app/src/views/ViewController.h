@@ -47,7 +47,7 @@ public:
   void goToSystemView(SystemData* system);
 	void goToGameClipView();
 	void quitGameClipView();
-  void goToCrtView();
+  void goToCrtView(CrtView::CalibrationType screenType);
   void quitCrtView();
 	void selectGamelistAndCursor(FileData* file);
 	void goToStart();

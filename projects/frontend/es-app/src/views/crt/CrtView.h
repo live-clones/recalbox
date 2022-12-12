@@ -12,11 +12,18 @@ class CrtView : public Gui
               , private ISyncMessageReceiver<void>
 {
   public:
+    enum CalibrationType {
+      kHz15_60plus50Hz,
+      kHz15_60Hz,
+      kHz15_50Hz,
+      kHz31,
+    };
+
     /*!
      * @brief Constructor
      * @param window Main Window instance
      */
-    explicit CrtView(WindowManager& window);
+    explicit CrtView(WindowManager& window, CalibrationType calibrationType);
 
     //! Destructor
     ~CrtView() override;
@@ -41,8 +48,7 @@ class CrtView : public Gui
     static constexpr CrtResolution sForced31khz[] =
     {
       CrtResolution::r480p,
-      CrtResolution::r240p,
-      CrtResolution::r224p,
+      CrtResolution::r240p120Hz,
       CrtResolution::rNone
     };
 
