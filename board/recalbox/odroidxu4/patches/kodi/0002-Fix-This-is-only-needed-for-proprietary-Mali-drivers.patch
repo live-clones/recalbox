@@ -1,0 +1,26 @@
+From ab27e2074e094482f88a0329ba0780a3ac5092b8 Mon Sep 17 00:00:00 2001
+From: AreaScout <d.mehrwald@gmail.com>
+Date: Thu, 1 Sep 2022 12:52:36 +0200
+Subject: [PATCH 2/9] Fix: This is only needed for proprietary Mali drivers,
+ MESA reports both EGL_MESA_platform_gbm AND EGL_KHR_platform_gbm
+
+---
+ xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+index d07092ba78..bfdcf14f1f 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmGLESContext.cpp
+@@ -34,7 +34,7 @@
+ using namespace KODI::WINDOWING::GBM;
+ 
+ CWinSystemGbmGLESContext::CWinSystemGbmGLESContext()
+-: CWinSystemGbmEGLContext(EGL_PLATFORM_GBM_MESA, "EGL_MESA_platform_gbm")
++: CWinSystemGbmEGLContext(EGL_PLATFORM_GBM_MESA, "EGL_KHR_platform_gbm")
+ {}
+ 
+ void CWinSystemGbmGLESContext::Register()
+-- 
+2.38.1
+
