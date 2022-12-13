@@ -1,0 +1,26 @@
+From 3356ef6f5a8b60f55d2b26660712f79aec1ac8bc Mon Sep 17 00:00:00 2001
+From: AreaScout <d.mehrwald@gmail.com>
+Date: Thu, 1 Sep 2022 12:56:30 +0200
+Subject: [PATCH 3/9] Fix: Needed sometimes because of header files used by
+ Mali
+
+---
+ xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp b/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp
+index d8d775dcad..21efc02d34 100644
+--- a/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp
++++ b/xbmc/windowing/gbm/WinSystemGbmEGLContext.cpp
+@@ -23,7 +23,7 @@ bool CWinSystemGbmEGLContext::InitWindowSystemEGL(EGLint renderableType, EGLint
+     return false;
+   }
+ 
+-  if (!m_eglContext.CreatePlatformDisplay(m_GBM->GetDevice()->Get(), m_GBM->GetDevice()->Get()))
++  if (!m_eglContext.CreatePlatformDisplay(m_GBM->GetDevice()->Get(), reinterpret_cast<EGLNativeDisplayType>(m_GBM->GetDevice()->Get())))
+   {
+     return false;
+   }
+-- 
+2.38.1
+
