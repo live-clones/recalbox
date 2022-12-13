@@ -1,0 +1,28 @@
+From 01c7feaa12bc3f78afc068ad5c7b383f770eeac3 Mon Sep 17 00:00:00 2001
+From: AreaScout <d.mehrwald@gmail.com>
+Date: Thu, 1 Sep 2022 12:41:34 +0200
+Subject: [PATCH 1/9] Add: ODROID-XU4 plane support, as we do not have
+ NV21/NV12 plane available, we have to use XRGB plane, a frame from decoder
+ can't directly use this plane (NV21 != XRGB), a shader is used to do the
+ conversation, thus this is slower than drmPRIME zero copy method
+
+---
+ xbmc/windowing/gbm/drm/DRMUtils.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/xbmc/windowing/gbm/drm/DRMUtils.cpp b/xbmc/windowing/gbm/drm/DRMUtils.cpp
+index 85fc266fd2..f38736ca3b 100644
+--- a/xbmc/windowing/gbm/drm/DRMUtils.cpp
++++ b/xbmc/windowing/gbm/drm/DRMUtils.cpp
+@@ -187,7 +187,7 @@ bool CDRMUtils::FindPlanes()
+     auto videoPlane = std::find_if(m_planes.begin(), m_planes.end(), [&i](auto& plane) {
+       if (plane->GetPossibleCrtcs() & (1 << i))
+       {
+-        return plane->SupportsFormat(DRM_FORMAT_NV12);
++        return (plane->SupportsFormat(DRM_FORMAT_NV12) || plane->SupportsFormat(DRM_FORMAT_XRGB8888));
+       }
+       return false;
+     });
+-- 
+2.38.1
+
