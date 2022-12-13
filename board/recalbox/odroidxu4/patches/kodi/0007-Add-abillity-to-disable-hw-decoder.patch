@@ -1,0 +1,86 @@
+From f000412a69506d69ef28427a90982aecab932c90 Mon Sep 17 00:00:00 2001
+From: AreaScout <d.mehrwald@gmail.com>
+Date: Thu, 1 Sep 2022 13:11:00 +0200
+Subject: [PATCH 7/9] Add: abillity to disable hw decoder
+
+---
+ addons/resource.language.en_gb/resources/strings.po | 12 ++++++++++++
+ system/settings/linux.xml                           |  6 ++++++
+ xbmc/settings/Settings.cpp                          |  1 +
+ xbmc/settings/Settings.h                            |  1 +
+ 4 files changed, 20 insertions(+)
+
+diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
+index 67cbbe0afb..6a6f6b0e44 100644
+--- a/addons/resource.language.en_gb/resources/strings.po
++++ b/addons/resource.language.en_gb/resources/strings.po
+@@ -732,6 +732,12 @@ msgctxt "#170"
+ msgid "Adjust display refresh rate"
+ msgstr ""
+ 
++#. String for options 2 of setting with label
++#: system/settings/settings.xml
++msgctxt "#13468"
++msgid "Always use software decoder"
++msgstr ""
++
+ #: xbmc/playlists/SmartPlayList.cpp
+ #: xbmc/utils/SortUtils.cpp
+ msgctxt "#171"
+@@ -18756,6 +18762,12 @@ msgctxt "#36164"
+ msgid "Allow the refresh rate of the display to be changed so that it best matches the video frame rate. This may yield smoother video playback."
+ msgstr ""
+ 
++#. Description of setting with label #13466 "Always use software decoder"
++#: system/settings/settings.xml
++msgctxt "#13469"
++msgid "Use FFmpeg instead of HW Decoder."
++msgstr ""
++
+ #. Description of setting with label #13550 "Delay after change of refresh rate"
+ #: system/settings/settings.xml
+ msgctxt "#36165"
+diff --git a/system/settings/linux.xml b/system/settings/linux.xml
+index 6d1fb9cd49..c0b5686523 100644
+--- a/system/settings/linux.xml
++++ b/system/settings/linux.xml
+@@ -181,6 +181,12 @@
+           </constraints>
+           <control type="spinner" format="string" />
+         </setting>
++        <setting id="videoplayer.usesoftwaredecoder" type="boolean" label="13468" help="13469">
++          <visible>true</visible>
++          <level>1</level>
++          <default>false</default>
++          <control type="toggle" />
++        </setting>
+       </group>
+     </category>
+   </section>
+diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
+index 2b487339d6..202a5f7bb1 100644
+--- a/xbmc/settings/Settings.cpp
++++ b/xbmc/settings/Settings.cpp
+@@ -148,6 +148,7 @@ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEVDPAUVC1;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEDXVA2;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEVTB;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USEPRIMEDECODER;
++constexpr const char* CSettings::SETTING_VIDEOPLAYER_USESOFTWAREDECODER;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_USESTAGEFRIGHT;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_LIMITGUIUPDATE;
+ constexpr const char* CSettings::SETTING_VIDEOPLAYER_SUPPORTMVC;
+diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
+index 8276c8a5aa..8e96a1e9f3 100644
+--- a/xbmc/settings/Settings.h
++++ b/xbmc/settings/Settings.h
+@@ -126,6 +126,7 @@ public:
+   static constexpr auto SETTING_VIDEOPLAYER_USEDXVA2 = "videoplayer.usedxva2";
+   static constexpr auto SETTING_VIDEOPLAYER_USEVTB = "videoplayer.usevtb";
+   static constexpr auto SETTING_VIDEOPLAYER_USEPRIMEDECODER = "videoplayer.useprimedecoder";
++  static constexpr auto SETTING_VIDEOPLAYER_USESOFTWAREDECODER = "videoplayer.usesoftwaredecoder";
+   static constexpr auto SETTING_VIDEOPLAYER_USESTAGEFRIGHT = "videoplayer.usestagefright";
+   static constexpr auto SETTING_VIDEOPLAYER_LIMITGUIUPDATE = "videoplayer.limitguiupdate";
+   static constexpr auto SETTING_VIDEOPLAYER_SUPPORTMVC = "videoplayer.supportmvc";
+-- 
+2.38.1
+
