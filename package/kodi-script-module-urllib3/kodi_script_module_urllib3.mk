@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_SCRIPT_MODULE_URLLIB3_VERSION = 1.26.4
+KODI_SCRIPT_MODULE_URLLIB3_VERSION = 1.26.13
 KODI_SCRIPT_MODULE_URLLIB3_SOURCE = script.module.urllib3-$(KODI_SCRIPT_MODULE_URLLIB3_VERSION)+matrix.1.zip
 KODI_SCRIPT_MODULE_URLLIB3_SITE = https://mirrors.kodi.tv/addons/matrix/script.module.urllib3
 KODI_SCRIPT_MODULE_URLLIB3_PLUGIN_NAME = script.module.urllib3

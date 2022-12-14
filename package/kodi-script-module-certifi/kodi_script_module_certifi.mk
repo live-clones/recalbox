@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-KODI_SCRIPT_MODULE_CERTIFI_VERSION = 2019.9.11
-KODI_SCRIPT_MODULE_CERTIFI_SOURCE = script.module.certifi-$(KODI_SCRIPT_MODULE_CERTIFI_VERSION).zip
-KODI_SCRIPT_MODULE_CERTIFI_SITE = https://mirrors.kodi.tv/addons/krypton/script.module.certifi
+KODI_SCRIPT_MODULE_CERTIFI_VERSION = 2022.5.18
+KODI_SCRIPT_MODULE_CERTIFI_SOURCE = script.module.certifi-$(KODI_SCRIPT_MODULE_CERTIFI_VERSION)+matrix.1.zip
+KODI_SCRIPT_MODULE_CERTIFI_SITE = https://mirrors.kodi.tv/addons/matrix/script.module.certifi
 KODI_SCRIPT_MODULE_CERTIFI_PLUGIN_NAME = script.module.certifi
 KODI_SCRIPT_MODULE_CERTIFI_LICENSE = MPL-2.0
 
