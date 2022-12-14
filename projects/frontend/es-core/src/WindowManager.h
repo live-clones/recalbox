@@ -185,4 +185,10 @@ class WindowManager
      * @brief Check and display battery icon
      */
     static void DisplayBatteryState();
+
+    /*!
+     * @brief Check if at least a GUI on the stack is claiming not to be disturbed!
+     * @return
+     */
+    [[nodiscard]] bool DoNotDisturb() const;
 };
