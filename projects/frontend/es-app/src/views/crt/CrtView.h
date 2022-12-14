@@ -29,6 +29,12 @@ class CrtView : public Gui
     ~CrtView() override;
 
     /*
+     * Gui implementation
+     */
+
+    [[nodiscard]] bool DoNotDisturb() const override { return true; }
+
+    /*
      * IComponent implementation
      */
 
