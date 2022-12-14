@@ -352,7 +352,7 @@ bool GameRunner::RunKodi()
     } else {
       command.append(" -resolution ").append("640x480p");
     }
-  } else if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetKodiVideoMode(), targetResolution))
+  } else if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetKodiVideoMode(), targetResolution, false))
   {
     { LOG(LogInfo) << "[Run] Kodi resolution: " << targetResolution.ToString(); }
     command.append(" -resolution ").append(targetResolution.ToString());
