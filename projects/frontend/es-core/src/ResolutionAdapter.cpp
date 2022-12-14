@@ -206,13 +206,13 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
 
 #endif // USE_KMSDRM
 
-bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output)
+bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output, bool filtered)
 {
   { LOG(LogDebug) << "[ResolutionAdapter] Adjusting " << value; }
   // Process default
   if (value == "default")
   {
-    Resolution res = GetDefaultResolution();
+    Resolution res = GetDefaultResolution(filtered);
     { LOG(LogDebug) << "[ResolutionAdapter] Default resolution asked, adjusting with current default resolution: " << res.Width << "x" << res.Height; }
     output.Height = res.Height;
     output.Width = res.Width;
@@ -227,7 +227,7 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
     return false;
   }
 
-  const ResolutionList& list = GetResolutionDetailedList(true);
+  const ResolutionList& list = GetResolutionDetailedList(filtered);
 
   // Check if the resolution match an existing resolution
   for(const Resolution& r : list)
@@ -292,9 +292,9 @@ bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, 
   return false;
 }
 
-ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution()
+ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution(bool filtered)
 {
-  ResolutionList allResolutions = GetResolutionDetailedList(true);
+  ResolutionList allResolutions = GetResolutionDetailedList(filtered);
   for(const Resolution& rawResolution : allResolutions)
     if (rawResolution.IsDefault)
       return rawResolution;

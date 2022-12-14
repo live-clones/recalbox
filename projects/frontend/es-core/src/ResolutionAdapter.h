@@ -72,7 +72,7 @@ class ResolutionAdapter
     typedef std::vector<Resolution> ResolutionList;
 
     //! Adjust the given resolution to the best matching available resolution
-    bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output);
+    bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output, bool filtered = true);
 
     //! Resolution list with bpm and frequency
     const ResolutionList& ResolutionsDetailed(bool filterHighResolutions) { return GetResolutionDetailedList(filterHighResolutions); }
@@ -81,7 +81,7 @@ class ResolutionAdapter
     const ResolutionList& Resolutions(bool filterHighResolutions) { return GetResolutionList(filterHighResolutions); }
 
     //! Default resolution, replacing the desktop resolution
-    Resolution DefaultResolution() { return GetDefaultResolution(); }
+    Resolution DefaultResolution(bool filtered = true) { return GetDefaultResolution(filtered); }
 
 private:
     ResolutionList mResolutionsDetailed;
@@ -108,8 +108,9 @@ private:
     //! Get resolution list
     const ResolutionList& GetResolutionList(bool filterHighResolutions);
 
-    //! Get resolution list
-    Resolution GetDefaultResolution();
+    //! Get default resolution
+    Resolution GetDefaultResolution(bool filtered = true);
+
 
     /*!
      * @brief Get maximum resolution regarding the current board
