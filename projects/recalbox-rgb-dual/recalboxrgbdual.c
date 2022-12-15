@@ -225,9 +225,9 @@ static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int vo
     vm->hback_porch += vm->hfront_porch - 1;
     vm->hfront_porch = 1;
   }
-  // Horribeul special case for 480i
   int min_voffset = 1;
-  if (vm->pixelclock == 13054080) {
+  if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
+    // Interlaced modes won't accept a vertical porch < 2
     min_voffset = 2;
   }
   if ((int) vm->vfront_porch - voffset >= min_voffset) {
