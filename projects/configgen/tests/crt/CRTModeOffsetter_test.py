@@ -26,6 +26,12 @@ def createSystem(crt_verticaloffset_p1920x240at120: int = 0,
                  crt_verticaloffset_p1920x224: int = 0,
                  crt_horizontaloffset_p1920x224: int = 0,
                  crt_viewportwidth_p1920x224: int = 0,
+                 crt_verticaloffset_p320x240: int = 0,
+                 crt_horizontaloffset_p320x240: int = 0,
+                 crt_viewportwidth_p320x240: int = 0,
+                 crt_verticaloffset_p384x288: int = 0,
+                 crt_horizontaloffset_p384x288: int = 0,
+                 crt_viewportwidth_p384x288: int = 0,
                  crtscreentype: CRTScreenType = CRTScreenType.k15):
     system = Emulator("fbneo", "retroarch", "fbneo")
     system.configure(keyValueSettings(""),
@@ -52,7 +58,14 @@ def createSystem(crt_verticaloffset_p1920x240at120: int = 0,
                                     crt_viewportwidth_p1920x240,
                                     crt_verticaloffset_p1920x224,
                                     crt_horizontaloffset_p1920x224,
-                                    crt_viewportwidth_p1920x224))
+                                    crt_viewportwidth_p1920x224,
+                                    crt_verticaloffset_p320x240,
+                                    crt_horizontaloffset_p320x240,
+                                    crt_viewportwidth_p320x240,
+                                    crt_verticaloffset_p384x288,
+                                    crt_horizontaloffset_p384x288,
+                                    crt_viewportwidth_p384x288,
+    ))
     return system
 
 
@@ -112,7 +125,7 @@ def test_given_horizontal_offset_will_adapt_to_1920_horizontal_resolution_by_x6(
 
 def test_given_horizontal_offset_will_adapt_to_320_horizontal_resolution(mocker):
     mode = Mode("320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1")
-    system = createSystem(crt_horizontaloffset_p1920x240=-2, crt_verticaloffset_p1920x240=-2)
+    system = createSystem(crt_horizontaloffset_p320x240=-2, crt_verticaloffset_p320x240=-2)
     assert CRTModeOffsetter().processMode(mode, system) == Mode("320 1 6 30 44 240 1 6 5 12 0 0 0 60 0 6400000 1")
 
 

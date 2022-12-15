@@ -6,10 +6,12 @@ from enum import Enum
 class CRTResolution(str, Enum):
     # 60Hz
     p1920x240 = "p1920x240"
+    p320x240 = "p320x240"
     p1920x224 = "p1920x224"
     i640x480 = "i640x480"
     # 50Hz
     p1920x288 = "p1920x288"
+    p384x288 = "p384x288"
     i768x576 = "i768x576"
     # 31kHz
     p640x480 = "p640x480"

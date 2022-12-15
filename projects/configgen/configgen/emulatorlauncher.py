@@ -385,6 +385,12 @@ if __name__ == '__main__':
     parser.AddInt(command="crt_verticaloffset_p1920x224", chelp="", required=False)
     parser.AddInt(command="crt_horizontaloffset_p1920x224", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p1920x224", chelp="", required=False)
+    parser.AddInt(command="crt_verticaloffset_p320x240", chelp="", required=False)
+    parser.AddInt(command="crt_horizontaloffset_p320x240", chelp="", required=False)
+    parser.AddInt(command="crt_viewportwidth_p320x240", chelp="", required=False)
+    parser.AddInt(command="crt_verticaloffset_p384x288", chelp="", required=False)
+    parser.AddInt(command="crt_horizontaloffset_p384x288", chelp="", required=False)
+    parser.AddInt(command="crt_viewportwidth_p384x288", chelp="", required=False)
 
     parser.AddBool(command="crtscanlines", chelp="scanline on 31khz", required=False)
 
