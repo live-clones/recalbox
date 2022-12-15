@@ -95,10 +95,10 @@ bool CrtView::getHelpPrompts(Help& help)
 {
   help.Set(Help::Cancel(), _("QUIT"))
       .Set(HelpType::AllDirections, _("MOVE SCREEN"))
+      .Set(Help::Valid(), _("TEST MODE"))
+      .Set(HelpType::Start, _("NEXT RESOLUTION"))
       .Set(HelpType::X, _("WIDER"))
-      .Set(HelpType::Y, _("NARROWER"))
-      .Set(Help::Valid(), _("APPLY MODE"))
-      .Set(HelpType::Start, _("NEXT RESOLUTION"));
+      .Set(HelpType::Y, _("NARROWER"));
 
   return true;
 }
@@ -114,7 +114,9 @@ void CrtView::SetResolution(CrtResolution resolution)
   {
     case CrtResolution::r224p: w = 1920; h = 224; break;
     case CrtResolution::r240p: w = 1920; h = 240; break;
+    case CrtResolution::r320x240p: w = 320; h = 240; break;
     case CrtResolution::r288p: w = 1920; h = 288; break;
+    case CrtResolution::r384x288p: w = 384; h = 288; break;
     case CrtResolution::r480i: w = 640; h = 480; break;
     case CrtResolution::r576i: w = 768; h = 576; break;
     case CrtResolution::r480p: w = 640; h = 480; break;

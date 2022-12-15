@@ -61,6 +61,7 @@ class CrtView : public Gui
     static constexpr CrtResolution sPALOnly[] =
     {
       CrtResolution::r288p,
+      CrtResolution::r384x288p,
       CrtResolution::r576i,
       CrtResolution::rNone
     };
@@ -68,6 +69,7 @@ class CrtView : public Gui
     static constexpr CrtResolution sNTSCOnly[] =
     {
       CrtResolution::r240p,
+      CrtResolution::r320x240p,
       CrtResolution::r224p,
       CrtResolution::r480i,
       CrtResolution::rNone
@@ -76,9 +78,11 @@ class CrtView : public Gui
     static constexpr CrtResolution sPALNTSC[] =
     {
       CrtResolution::r240p,
+      CrtResolution::r320x240p,
       CrtResolution::r224p,
       CrtResolution::r480i,
       CrtResolution::r288p,
+      CrtResolution::r384x288p,
       CrtResolution::r576i,
       CrtResolution::rNone
     };

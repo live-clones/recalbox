@@ -16,5 +16,7 @@ enum class CrtResolution
   r576i, //!< PAL interlaced hires
   r480p, //!< 31kHz
   r240p120Hz, //!< 31kHz 240
+  r320x240p, //!< 320x240
+  r384x288p, //!< 384x288
   _rCount, //!< Counter
 };
