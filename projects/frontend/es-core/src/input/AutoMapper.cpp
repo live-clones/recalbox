@@ -6,6 +6,7 @@
 //
 #include <SDL_gamecontroller.h>
 #include "AutoMapper.h"
+#include "utils/Strings.h"
 #include <linux/input.h>
 #include <fcntl.h>
 #include <utils/Log.h>

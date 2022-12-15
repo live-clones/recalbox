@@ -224,7 +224,10 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     {
       public:
         //! Default constructor
-        OrderMessage() : mOrder(Order::Stop), mDecodeAudio(true) {}
+        OrderMessage()
+          : mOrder(Order::Stop)
+          , mDecodeAudio(true)
+        {}
         //! Copy constructor
         OrderMessage(const OrderMessage& source) : mOrder(source.GetOrder()), mVideoPath(source.mVideoPath), mDecodeAudio(source.mDecodeAudio) {}
         //! Copy operator

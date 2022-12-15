@@ -37,7 +37,7 @@ static int NanoSleep(long long nanoseconds)
     nanosleep(&delay, &remaining);
   }
   // Return fractionnal or remaining time
-  return remaining.tv_nsec;
+  return (int)remaining.tv_nsec;
 }
 
 static char* FourCCToString(unsigned int fourcc)

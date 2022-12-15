@@ -6,6 +6,7 @@
 #include <utils/Log.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
+#include "utils/Strings.h"
 
 std::string InputEvent::TypeToString(EventType type)
 {

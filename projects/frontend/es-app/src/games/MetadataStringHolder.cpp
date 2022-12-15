@@ -6,6 +6,7 @@
 //
 
 #include "MetadataStringHolder.h"
+#include "utils/Strings.h"
 
 MetadataStringHolder::MetadataStringHolder(int capacity, int granularity)
   : mMetaString(capacity, granularity)
