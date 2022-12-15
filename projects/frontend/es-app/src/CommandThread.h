@@ -1,5 +1,6 @@
-#include <utils/os/system/Thread.h>
+
 #include <sys/socket.h>
+#include <utils/os/system/Thread.h>
 #include <utils/sync/SyncMessageSender.h>
 
 class SystemManager;
@@ -43,7 +44,7 @@ class CommandThread: private Thread
      * @brief Read an UDP packets and convert the buffer to a string
      * @return Received string
      */
-    [[nodiscard]] std::string ReadUDP() const;
+    [[nodiscard]] String ReadUDP() const;
 
     /*
      * Thread overrides

@@ -2,7 +2,6 @@
 #include "utils/Log.h"
 #include "views/ViewController.h"
 #include "systems/SystemManager.h"
-#include <utils/Strings.h>
 #include <netinet/in.h>
 
 CommandThread::CommandThread(SystemManager& systemManager)
@@ -29,13 +28,13 @@ void CommandThread::Run()
     if (OpenUDP())
       while (IsRunning())
       {
-        std::string frame = ReadUDP();
-        std::vector<std::string> tokens = Strings::Split(frame, '|');
+        String frame = ReadUDP();
+        String::List tokens = frame.Split('|');
         if (tokens.size() < 3) continue;
 
-        std::string command = tokens[0];
-        std::string systemName = tokens[1];
-        std::string gameName = tokens[2];
+        String command = tokens[0];
+        String systemName = tokens[1];
+        String gameName = tokens[2];
 
         // Check that the command is valid. Easy way as there is just 1 for now
         if (command != "START") { LOG(LogError) << "[Command] Wrong network command " << tokens[0]; continue; }
@@ -57,14 +56,14 @@ void CommandThread::Run()
   }
 }
 
-std::string CommandThread::ReadUDP() const
+String CommandThread::ReadUDP() const
 {
   sockaddr_in si_other = {};
   char buffer[2048];
   long slen = sizeof(si_other);
-  if (long size = recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen); size > 0)
-    return std::string(buffer, size);
-  return std::string();
+  if (int size = (int)recvfrom(mSocket, buffer, sizeof(buffer), 0, (struct sockaddr *) &si_other, (socklen_t*)&slen); size > 0)
+    return String(buffer, size);
+  return String();
 }
 
 bool CommandThread::OpenUDP()
@@ -72,7 +71,7 @@ bool CommandThread::OpenUDP()
   while(IsRunning())
   {
     // Create an UDP socket
-    if ((mSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) >= 0)
+    if (mSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP); mSocket >= 0)
     {
       // zero out the structure
       sockaddr_in si_me = {};
