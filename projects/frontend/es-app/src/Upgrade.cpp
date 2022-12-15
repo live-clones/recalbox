@@ -17,11 +17,11 @@
 #include <patreon/PatronInfo.h>
 #include <guis/GuiInfoPopup.h>
 
-std::string Upgrade::mDomainName;
-std::string Upgrade::mRemoteVersion;
-std::string Upgrade::mLocalVersion;
-std::string Upgrade::mRemoteReleaseNote;
-std::string Upgrade::mLocalReleaseNote;
+String Upgrade::mDomainName;
+String Upgrade::mRemoteVersion;
+String Upgrade::mLocalVersion;
+String Upgrade::mRemoteReleaseNote;
+String Upgrade::mLocalReleaseNote;
 
 Upgrade::Upgrade(WindowManager& window)
   : mWindow(window)
@@ -55,9 +55,9 @@ void Upgrade::Run()
 
       // Do we have to update?
       mRemoteVersion = GetRemoteVersion();
-      mLocalVersion = Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n");
+      mLocalVersion = Files::LoadFile(Path(sLocalVersionFile)).Trim(" \t\r\n");
       mRemoteReleaseNote = GetRemoteReleaseVersion();
-      mLocalReleaseNote = Strings::Trim(Files::LoadFile(Path(sLocalReleaseNoteFile)), " \t\r\n");
+      mLocalReleaseNote = Files::LoadFile(Path(sLocalReleaseNoteFile)).Trim(" \t\r\n");
 
       if (ValidateVersion(mRemoteVersion))
       {
@@ -115,20 +115,20 @@ void Upgrade::ReceiveSyncMessage()
     mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage, false);
 }
 
-std::string Upgrade::GetDomainName()
+String Upgrade::GetDomainName()
 {
   if (!mDomainName.empty()) return mDomainName;
 
   // Select DNS to query
-  std::string target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
+  String target = Strings::ToLowerASCII(RecalboxConf::Instance().GetUpdatesType());
   // If target has been set to patron, we set it as not existing, to avoid the upgrade if the key is not valid
   if(target == "patron")
     target = "not-existing";
   // And if we are a patron, we can upgrade
   if (PatronInfo::Instance().IsPatron() && target != "alpha")
     target = "patron";
-  Strings::ReplaceAllIn(target, ' ', "", 0);
-  std::string domain(target + sUpgradeDNS);
+  target.Remove(' ');
+  String domain(target + sUpgradeDNS);
 
   { LOG(LogDebug) << "[Update] " << (PatronInfo::Instance().IsPatron() ? "As a patron" : "") << " updates.type implied dns to use: " << domain; }
 
@@ -142,7 +142,7 @@ std::string Upgrade::GetDomainName()
     ns_rr rr;
     if (ns_parserr(&msg, ns_s_an, 0, &rr) == 0)
     {
-      mDomainName = std::string((char*) (ns_rr_rdata(rr) + 1), (int)ns_rr_rdata(rr)[0]);
+      mDomainName = String((char*) (ns_rr_rdata(rr) + 1), (int)ns_rr_rdata(rr)[0]);
       { LOG(LogDebug) << "[Update] Domain: " << mDomainName; }
     }
   }
@@ -150,12 +150,12 @@ std::string Upgrade::GetDomainName()
   return mDomainName;
 }
 
-std::string Upgrade::GetRemoteVersion()
+String Upgrade::GetRemoteVersion()
 {
   // Get version
-  std::string url = ReplaceMachineParameters(sVersionPatternUrl, Strings::Empty);
+  String url = ReplaceMachineParameters(sVersionPatternUrl, String::Empty);
 
-  std::string version;
+  String version;
   Http request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, version))
@@ -176,72 +176,72 @@ std::string Upgrade::GetRemoteVersion()
       version.clear();
     }
 
-  if (Strings::StartsWith(version, "<", 1)) version.clear();
-  version = Strings::Trim(version, " \t\r\n");
+  if (version.StartsWith('<')) version.clear();
+  version.Trim(" \t\r\n");
   { LOG(LogDebug) << "[Update] Remote version: " << version << " (" << url << ')'; }
 
   // Return version
   return version;
 }
 
-std::string Upgrade::ImageUrl()
+String Upgrade::ImageUrl()
 {
   // Get url
-  std::string url = ReplaceMachineParameters(sDownloadPatternUrl, Strings::Empty);
+  String url = ReplaceMachineParameters(sDownloadPatternUrl, String::Empty);
   { LOG(LogDebug) << "[Update] Image file url: " << url; }
 
   return url;
 }
 
-std::string Upgrade::HashUrl()
+String Upgrade::HashUrl()
 {
   // Get url
-  std::string url = ReplaceMachineParameters(sDownloadPatternUrl, ".sha1");
+  String url = ReplaceMachineParameters(sDownloadPatternUrl, ".sha1");
   { LOG(LogDebug) << "[Update] Hash file url: " << url; }
 
   return url;
 }
 
-std::string Upgrade::ReplaceMachineParameters(const std::string& url, const std::string& ext)
+String Upgrade::ReplaceMachineParameters(const String& url, const String& ext)
 {
-  std::string result(url);
+  String result(url);
 
   // Get domain
   GetDomainName();
 
   // Get arch
-  std::string arch = Files::LoadFile(Path(sLocalArchFile));
+  String arch = Files::LoadFile(Path(sLocalArchFile));
   if (arch == "xu4") arch = "odroidxu4";
 
   // Get uuid
-  std::string uuid = Strings::Trim(Files::LoadFile(Path(sLocalUUID)), " \t\r\n");
+  String uuid = Files::LoadFile(Path(sLocalUUID)).Trim(" \t\r\n");
   if (uuid.empty()) uuid = "";
 
   // Replacements
-  Strings::ReplaceAllIn(result, "#DOMAIN#", mDomainName);
-  Strings::ReplaceAllIn(result, "#ARCH#", arch);
-  Strings::ReplaceAllIn(result, "#UUID#", uuid);
-  Strings::ReplaceAllIn(result, "#EXT#", ext);
+  result.Replace("#DOMAIN#", mDomainName)
+        .Replace("#ARCH#", arch)
+        .Replace("#UUID#", uuid)
+        .Replace("#EXT#", ext);
 
   return result;
 }
 
-bool Upgrade::ValidateVersion(const std::string& version)
+bool Upgrade::ValidateVersion(const String& version)
 {
-  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._- ()/";
+  static String _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._- ()/";
   if (!version.empty())
     if (version[0] >= '0' && version[0] <= '9')
-      return (version.find_first_not_of(_allowedCharacters) == std::string::npos);
+      return (version.find_first_not_of(_allowedCharacters) == String::npos);
 
   return false;
 }
 
-std::string Upgrade::GetRemoteReleaseVersion()
+String Upgrade::GetRemoteReleaseVersion()
 {
   // Get version
-  std::string url = ReplaceMachineParameters(sReleasenotePatternUrl, Strings::Empty);
+  String url = ReplaceMachineParameters(sReleasenotePatternUrl, String::Empty);
 
-  std::string releaseNote;
+  String releaseNote;
   Http request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, releaseNote))
@@ -264,8 +264,8 @@ std::string Upgrade::GetRemoteReleaseVersion()
 
   { LOG(LogDebug) << "[Update] Remote release note: " << releaseNote << " (" << url << ')'; }
 
-  if (Strings::StartsWith(releaseNote, "<", 1)) releaseNote.clear();
-  else releaseNote = Strings::Trim(releaseNote, " \t\r\n");
+  if (releaseNote.StartsWith('<')) releaseNote.clear();
+  else releaseNote = releaseNote.Trim(" \t\r\n");
 
   // Return version
   return releaseNote;

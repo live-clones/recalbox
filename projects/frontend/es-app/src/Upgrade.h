@@ -36,37 +36,37 @@ class Upgrade: private Thread
      * @brief Return remote version.
      * @return Remote version
      */
-    static std::string NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
+    static String NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
 
     /*!
      * @brief Return trimmed current version.
      * @return Current version
      */
-    static std::string CurrentVersion() { return Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n"); }
+    static String CurrentVersion() { return Strings::Trim(Files::LoadFile(Path(sLocalVersionFile)), " \t\r\n"); }
 
     /*!
      * @brief Return trimmed current version.
      * @return Current version
      */
-    static std::string CurrentArch() { return Strings::Replace(Strings::Trim(Files::LoadFile(Path(sLocalArchFile)), " \t\r\n"), '_', '/'); }
+    static String CurrentArch() { return Strings::Replace(Strings::Trim(Files::LoadFile(Path(sLocalArchFile)), " \t\r\n"), '_', '/'); }
 
     /*!
      * @brief Return remote releasenote
      * @return Remote release note
      */
-    static std::string NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
+    static String NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
 
     /*!
      * @brief Return remote version.
      * @return Remote version
      */
-    static std::string ImageUrl();
+    static String ImageUrl();
 
     /*!
      * @brief Return remote version.
      * @return Remote version
      */
-    static std::string HashUrl();
+    static String HashUrl();
 
     /*!
      * @brief Check if there is a pending update
@@ -101,19 +101,19 @@ class Upgrade: private Thread
     //! Signal used to stop the thread
     Signal mSignal;
     //! Built popup message
-    std::string mPopupMessage;
+    String mPopupMessage;
     //! Build MessageBox message
-    std::string mMessageBoxMessage;
+    String mMessageBoxMessage;
     //! Download URL
-    static std::string mDomainName;
+    static String mDomainName;
     //! Remote version
-    static std::string mRemoteVersion;
+    static String mRemoteVersion;
     //! Local version
-    static std::string mLocalVersion;
+    static String mLocalVersion;
     //! Remote version
-    static std::string mRemoteReleaseNote;
+    static String mRemoteReleaseNote;
     //! Local version
-    static std::string mLocalReleaseNote;
+    static String mLocalReleaseNote;
 
     /*
      * Thread implementation
@@ -137,17 +137,17 @@ class Upgrade: private Thread
     /*!
      * @brief Get update url from DNS TXT records
      */
-    static std::string GetDomainName();
+    static String GetDomainName();
 
     /*!
      * @brief Get remote version
      */
-    static std::string GetRemoteVersion();
+    static String GetRemoteVersion();
 
     /*!
      * @brief Get remote version
      */
-    static std::string GetRemoteReleaseVersion();
+    static String GetRemoteReleaseVersion();
 
     /*!
      * @brief Replace machine parameters parameters in the given url (Arch, uuid, domain, ...)
@@ -155,14 +155,14 @@ class Upgrade: private Thread
      * @param ext Optional extention
      * @return Final url
      */
-    static std::string ReplaceMachineParameters(const std::string& url, const std::string& ext);
+    static String ReplaceMachineParameters(const String& url, const String& ext);
 
     /*!
      * @brief Validate the given version
      * @param version Version to validate
      * @return True if the given version has been identified as valid, false otherwise
      */
-    static bool ValidateVersion(const std::string& version);
+    static bool ValidateVersion(const String& version);
 };
 
 
