@@ -194,3 +194,11 @@ def test_given_mode_lower_than_288p_then_use240p_offsets(mocker):
                           crt_horizontaloffset_p1920x288=0, crt_verticaloffset_p1920x288=0)
     assert CRTModeOffsetter().processMode(mode, system) == Mode(
         "1920 1 86 184 306 287 1 11 3 23 0 0 0 60 0 39087360 1")
+
+
+
+def test_given_interlaced_mode_and_offsets_then_do_not_get_under_2_for_vfrontporch(mocker):
+    mode = Mode("768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1")
+    system = createSystem(crt_verticaloffset_i768x576=+5)
+    assert CRTModeOffsetter().processMode(mode, system) == Mode(
+        "768 1 24 72 88 576 1 2 5 42 0 0 0 50 1 14875000 1")
