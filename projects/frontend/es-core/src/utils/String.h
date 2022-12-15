@@ -11,7 +11,7 @@
 #pragma once
 
 //! Disable implicit construction from string (copy or move)
-#define NO_STD_STRING_AUTOBOXING
+//#define NO_STD_STRING_AUTOBOXING
 
 #include <string>
 #include <vector>

@@ -4,9 +4,8 @@
 #define LOG(level) \
 if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
 
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
-#include "Strings.h"
 
 //! Log level
 enum class LogLevel
@@ -29,23 +28,24 @@ class Log
     static void open(const char* filename = nullptr);
     static void close();
 
-    Log& operator << (char v) { mMessage.append(1, v); return *this; }
-    Log& operator << (const char* v) { mMessage.append(v); return *this; }
-    Log& operator << (const std::string& v) { mMessage.append(v); return *this; }
-    Log& operator << (int v) { mMessage.append(Strings::ToString(v)); return *this; }
-    Log& operator << (unsigned int v) { mMessage.append(Strings::ToString(v)); return *this; }
-    Log& operator << (long long v) { mMessage.append(Strings::ToString(v)); return *this; }
-    Log& operator << (unsigned long long v) { mMessage.append(Strings::ToString(v)); return *this; }
-    Log& operator << (long v) { mMessage.append(Strings::ToString((long long)v)); return *this; }
-    Log& operator << (unsigned long v) { mMessage.append(Strings::ToString((unsigned long long)v)); return *this; }
-    Log& operator << (bool v) { mMessage.append(Strings::ToString(v)); return *this; }
-    Log& operator << (float v) { mMessage.append(Strings::ToString(v, 4)); return *this; }
-    Log& operator << (const Strings::Vector& v) { for(const std::string& s : v) mMessage.append(s).append(1, ' '); return *this; }
+    Log& operator << (char v) { mMessage.Append(v); return *this; }
+    Log& operator << (const char* v) { mMessage.Append(v); return *this; }
+    Log& operator << (const std::string& v) { mMessage.Append(v); return *this; }
+    Log& operator << (const String& v) { mMessage.Append(v); return *this; }
+    Log& operator << (int v) { mMessage.Append(v); return *this; }
+    Log& operator << (unsigned int v) { mMessage.Append(v); return *this; }
+    Log& operator << (long long v) { mMessage.Append(v); return *this; }
+    Log& operator << (unsigned long long v) { mMessage.Append(v); return *this; }
+    Log& operator << (long v) { mMessage.Append((long long)v); return *this; }
+    Log& operator << (unsigned long v) { mMessage.Append((unsigned long long)v); return *this; }
+    Log& operator << (bool v) { mMessage.Append(v); return *this; }
+    Log& operator << (float v) { mMessage.Append(v, 4); return *this; }
+    Log& operator << (const String::List& v) { for(const String& s : v) mMessage.Append(s).Append(' '); return *this; }
 
   private:
     static FILE* sFile;
     static LogLevel reportingLevel;
-    std::string mMessage;
+    String mMessage;
     LogLevel messageLevel;
 
     static Path getLogPath(const char* filename);

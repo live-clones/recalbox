@@ -26,10 +26,9 @@ void Log::open(const char* filename)
   // Backup?
   if (logpath.Exists())
   {
-    if (system(std::string("rm -f ").append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot remove old log!"); };
-    if (system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot backup current log!"); };
+    Path backup(logpath.ToString() + ".backup");
+    if (!backup.Delete()) { printf("[Logs] Cannot remove old log!"); }
+    if (!Path::Rename(logpath, backup)) { printf("[Logs] Cannot backup current log!"); }
   }
 
   // Open new log
@@ -38,11 +37,11 @@ void Log::open(const char* filename)
 
 Log& Log::get(LogLevel level)
 {
-	mMessage.append(1, '[')
-	        .append(DateTime().ToPreciseTimeStamp())
-	        .append("] (")
-	        .append(StringLevel[(int)level])
-	        .append(") : ");
+	mMessage.Append('[')
+	        .Append(DateTime().ToPreciseTimeStamp())
+	        .Append(LEGACY_STRING("] ("))
+	        .Append(StringLevel[(int)level])
+	        .Append(LEGACY_STRING(") : "));
 	messageLevel = level;
 
 	return *this;
@@ -50,7 +49,7 @@ Log& Log::get(LogLevel level)
 
 void Log::flush()
 {
-	fflush(sFile);
+	if (fflush(sFile) != 0) { printf("[Logs] Cannot flush current log!"); }
 }
 
 void Log::close()
@@ -67,7 +66,7 @@ void Log::close()
 void Log::doClose()
 {
   if (sFile != nullptr)
-    fclose(sFile);
+    if (fclose(sFile) != 0) { printf("[Logs] Cannot close current log!"); }
   sFile = nullptr;
 }
 
@@ -88,6 +87,6 @@ Log::~Log()
 
   // if it's an error, also print to console
   // print all messages if using --debug
-  if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
+  if (messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
     fputs(mMessage.c_str(), stdout);
 }
