@@ -61,10 +61,15 @@ class Mode:
             # this is between 224 and 288p, we use the 240p offsets
             if self.framerate > 100:
                 return CRTResolution.p1920x240at120
+            elif self.width <= 320:
+                return CRTResolution.p320x240
             else:
                 return CRTResolution.p1920x240
         if self.height == 288:
-            return CRTResolution.p1920x288
+            if self.width <= 384:
+                return CRTResolution.p384x288
+            else:
+                return CRTResolution.p1920x288
         if self.height == 480:
             if self.interlaced == 1:
                 return CRTResolution.i640x480

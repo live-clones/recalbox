@@ -43,6 +43,12 @@ class ExtraArguments:
      crt_verticaloffset_p1920x224: int = 0
      crt_horizontaloffset_p1920x224: int = 0
      crt_viewportwidth_p1920x224: int = 0
+     crt_verticaloffset_p320x240: int = 0,
+     crt_horizontaloffset_p320x240: int = 0,
+     crt_viewportwidth_p320x240: int = 0,
+     crt_verticaloffset_p384x288: int = 0,
+     crt_horizontaloffset_p384x288: int = 0,
+     crt_viewportwidth_p384x288: int = 0,
 
 
 class Emulator:

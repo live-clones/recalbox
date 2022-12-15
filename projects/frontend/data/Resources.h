@@ -131,6 +131,12 @@ extern const uint8_t crt__p640x480_png_data[];
 extern const uint16_t crt__i768x576_png_size;
 extern const uint8_t crt__i768x576_png_data[];
 
+extern const uint16_t crt__p320x240_png_size;
+extern const uint8_t crt__p320x240_png_data[];
+
+extern const uint16_t crt__p384x288_png_size;
+extern const uint8_t crt__p384x288_png_data[];
+
 extern const uint16_t crt__p1920x240at120_png_size;
 extern const uint8_t crt__p1920x240at120_png_data[];
 
