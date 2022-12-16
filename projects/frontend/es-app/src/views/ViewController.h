@@ -100,29 +100,41 @@ public:
 
   bool CheckFilters();
 
+    /*
+     * Gui implementation
+     */
+
+    [[nodiscard]] bool DoNotDisturb() const override
+    {
+      if (mCrtView != nullptr) return mCrtView->DoNotDisturb();
+      if (mGameClipView != nullptr) return mGameClipView->DoNotDisturb();
+      if (mCurrentView != nullptr) return mCurrentView->DoNotDisturb();
+      return false;
+    }
+
   private:
-	void playViewTransition();
-	int getSystemId(SystemData* system);
+    void playViewTransition();
+    int getSystemId(SystemData* system);
 
-  //! Game linked data internal instance
-  GameLinkedData mGameLinkedData;
+    //! Game linked data internal instance
+    GameLinkedData mGameLinkedData;
 
-  //! SystemManager instance
-	SystemManager& mSystemManager;
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
-	Gui* mCurrentView;
-	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;
-	SystemView mSystemListView;
-	SplashView mSplashView;
-	GameClipView* mGameClipView;
-  CrtView* mCrtView;
-	std::map<SystemData*, bool> mInvalidGameList;
-	
-	Transform4x4f mCamera;
-	float mFadeOpacity;
-	bool mLockInput;
+    Gui* mCurrentView;
+    std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;
+    SystemView mSystemListView;
+    SplashView mSplashView;
+    GameClipView* mGameClipView;
+    CrtView* mCrtView;
+    std::map<SystemData*, bool> mInvalidGameList;
 
-	State mState;
+    Transform4x4f mCamera;
+    float mFadeOpacity;
+    bool mLockInput;
+
+    State mState;
 
     /*!
      * @brief Check bios and call LaunchAnimated
