@@ -40,6 +40,7 @@ setup(name='recalbox-configgen',
                 'configgen.generators.xroar',
                 'configgen.generators.ti99sim',
                 'configgen.generators.duckstation',
+                'configgen.generators.rb5000',
                 'configgen.settings',
                 'configgen.utils'],
       scripts=['emulatorlauncher.py']
