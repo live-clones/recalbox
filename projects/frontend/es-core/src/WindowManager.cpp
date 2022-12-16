@@ -194,21 +194,23 @@ bool WindowManager::ProcessInput(const InputCompactEvent& event)
 
 void WindowManager::Update(int deltaTime)
 {
-  if (!mMessages.empty())
+  if (!DoNotDisturb())
   {
-    std::string message = mMessages.back();
-    mMessages.pop_back();
-    pushGui(new GuiMsgBox(*this, message));
-  }
-
-  if (!mScrollMessages.empty())
-  {
-    std::string message = mScrollMessages.back();
-    std::string title = mScrollTitle.back();
-    mScrollMessages.pop_back();
-    mScrollTitle.pop_back();
-    pushGui(new GuiMsgBoxScroll(*this, title, message, _("OK"), []
-    {}, "", nullptr, "", nullptr, TextAlignment::Left));
+    if (!mMessages.empty())
+    {
+      std::string message = mMessages.back();
+      mMessages.pop_back();
+      pushGui(new GuiMsgBox(*this, message));
+    }
+    else if (!mScrollMessages.empty())
+    {
+      std::string message = mScrollMessages.back();
+      std::string title = mScrollTitle.back();
+      mScrollMessages.pop_back();
+      mScrollTitle.pop_back();
+      pushGui(new GuiMsgBoxScroll(*this, title, message, _("OK"), []
+      {}, "", nullptr, "", nullptr, TextAlignment::Left));
+    }
   }
 
   if (mNormalizeNextUpdate)
@@ -490,7 +492,7 @@ void WindowManager::InfoPopupRetarget()
 void WindowManager::InfoPopupAdd(GuiInfoPopupBase* infoPopup, bool first)
 {
   infoPopup->Initialize();
-  if (first)mInfoPopups.Insert(infoPopup, 0);
+  if (first) mInfoPopups.Insert(infoPopup, 0);
   else mInfoPopups.Add(infoPopup);
   InfoPopupsShrink();
   InfoPopupRetarget();
@@ -524,17 +526,20 @@ void WindowManager::InfoPopupsRemove(int index)
 
 void WindowManager::InfoPopupsUpdate(int delta)
 {
-  for(int i = mInfoPopups.Count(); --i >= 0;)
-  {
-    mInfoPopups[i]->Update(delta);
-    if (mInfoPopups[i]->TimeOut() && !mInfoPopups[i]->SelfProcessed())
-      InfoPopupsRemove(i);
-  }
+  if (!DoNotDisturb())
+    for(int i = mInfoPopups.Count(); --i >= 0;)
+    {
+      mInfoPopups[i]->Update(delta);
+      if (mInfoPopups[i]->TimeOut() && !mInfoPopups[i]->SelfProcessed())
+        InfoPopupsRemove(i);
+    }
 }
 
 void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
 {
-  for(int i = mInfoPopups.Count(); --i >= 0;)
-    mInfoPopups[i]->Render(transform);
+  if (!DoNotDisturb())
+    for(int i = mInfoPopups.Count(); --i >= 0;)
+      mInfoPopups[i]->Render(transform);
 }
+
 
