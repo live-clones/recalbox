@@ -140,15 +140,10 @@ class Install(InstallBase):
                 os.system("mv " + self.BASE_SOURCE_FOLDER + "assets/es_input.fragment.xml /recalbox/share/system/.emulationstation/es_input.cfg")
                 logger.hardlog("GPi: controller updated")
 
-                # Install Theme
-                sourceTheme = self.BASE_SOURCE_FOLDER + "assets/theme/recalbox-gpicase"
-                if os.system("cp -r {} /recalbox/share/themes/".format(sourceTheme)) == 0:
-                    # Switch Theme
-                    recalboxConf.setOption("emulationstation.theme.folder", "recalbox-gpicase")
-                    recalboxConf.saveFile()
-                    logger.hardlog("GPi: GPi-case theme installed")
-                else:
-                    logger.hardlog("GPi: GPi-case theme NOT installed")
+                # Switch Theme
+                recalboxConf.setOption("emulationstation.theme.folder", "recalbox-240p")
+                recalboxConf.saveFile()
+                logger.hardlog("GPi: GPi-case 240p theme installed")
 
                 # install boot image
                 sourcePpm = self.BASE_SOURCE_FOLDER + "assets/gpi.ppm"
