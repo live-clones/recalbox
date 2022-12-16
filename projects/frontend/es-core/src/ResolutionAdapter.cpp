@@ -298,6 +298,7 @@ ResolutionAdapter::Resolution ResolutionAdapter::GetDefaultResolution(bool filte
   for(const Resolution& rawResolution : allResolutions)
     if (rawResolution.IsDefault)
       return rawResolution;
+  return Resolution(0, -1, -1, 32, 50, false, true);
 }
 
 const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionList(bool filterHighResolutions)

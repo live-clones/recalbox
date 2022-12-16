@@ -161,6 +161,7 @@ void ViewController::quitGameClipView()
 
   WakeUp();
   delete mGameClipView;
+  mGameClipView = nullptr;
   if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
   {
     AudioManager::Instance().StartPlaying(mState.system->Theme());
