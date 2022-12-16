@@ -1,0 +1,14 @@
+config BR2_PACKAGE_FROTZ_RECALBOX
+	bool "frotz-recalbox"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_LIBAO
+	select BR2_PACKAGE_JPEG
+	select BR2_PACKAGE_SDL2
+	select BR2_PACKAGE_SDL2_MIXER
+	help
+	  A ZMachine emulator
+
+	  https://gitlab.com/DavidGriffith/frotz
+
+comment "Frotz needs a toolchain w/ C++ SDL2"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_LIBAO || !BR2_PACKAGE_JPEG || !BR2_PACKAGE_SDL2 || !BR2_PACKAGE_SDL2_MIXER

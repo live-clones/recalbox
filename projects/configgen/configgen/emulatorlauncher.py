@@ -9,7 +9,7 @@ recalboxFiles = recalboxFiles
 def getGenerator(emulator):
 
     # We use a if...elif...else structure in order to instantiate the strict minimum required for an emulator
-    # and minimize static imports that are very time consuming, specialy on low-end boards
+    # and minimize static imports that are very time consuming, specially on low-end boards
     if emulator == "libretro":
         module = __import__("configgen.generators.libretro.libretroGenerator", fromlist=["LibretroGenerator"])
         generatorClass = getattr(module, "LibretroGenerator")
@@ -130,6 +130,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.pcsx2.pcsx2Generator", fromlist=["Pcsx2Generator"])
         generatorClass = getattr(module, "Pcsx2Generator")
         return generatorClass()
+    elif emulator == "frotz":
+        module = __import__("configgen.generators.frotz.frotzGenerator", fromlist=["FrotzGenerator"])
+        generatorClass = getattr(module, "FrotzGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError
@@ -155,6 +159,7 @@ def getDefaultEmulator(systemName: str, emulatorName: str, coreName: str):
         # Computers
         "oricatmos"      : Emulator(name='oricatmos', emulator='oricutron', core='oricutron', videoMode='default'),
         "samcoupe"       : Emulator(name='samcoupe', emulator='simcoupe', core='simcoupe', videoMode='default'),
+        "frotz"          : Emulator(name='frotz', emulator='frotz', core='frotz', videoMode='default'),
 
         # Game engines
         "scummvm"        : Emulator(name='scummvm', emulator='scummvm', core='scummvm', videoMode='default'),
@@ -199,7 +204,7 @@ def loadRecalboxSettings(rom, systemname):
     # Load global settings
     settings = keyValueSettings(recalboxFiles.recalboxConf, False)
     settings.loadFile(True)
-    
+
     if rom is not None:
         # build file names
         from configgen.settings.configOverriding import buildOverrideChain

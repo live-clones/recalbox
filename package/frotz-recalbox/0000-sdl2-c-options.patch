@@ -1,0 +1,25 @@
+--- a/src/sdl/Makefileorg	2022-15-04 20:51:00.449076651 +0200
++++ b/src/sdl/Makefile	2022-15-04 20:03:18.338953993 +0200
+@@ -34,7 +34,7 @@
+ clean:
+ 	-rm -f $(TARGET) $(OBJECTS) $(DEPS)
+ 
+-%.o: override CFLAGS += $(shell $(PKG_CONFIG) $(SDL_PKGS) --cflags) $(SDL_CFLAGS)
++%.o: override CFLAGS += -I$(CROSS_DIR)/usr/include/SDL2 -I$(CROSS_DIR)/usr/include/libpng16 -I$(CROSS_DIR)/usr/include/freetype2 $(SDL_CFLAGS)
+ 
+ %.o: %.c
+ 	$(CC) $(CFLAGS) -fPIC -fpic -o $@ -c $<
+
+--- a/src/sdl/sf_resource.c	2022-10-16 19:46:09.000000000 +0200
++++ b/src/sdl/sf_resource.c	2022-10-16 19:48:02.000000000 +0200
+@@ -442,8 +442,8 @@
+ 	m_gfxScale_w = 1.0;
+ 	m_gfxScale_h = 1.0;
+ 	sf_initcolours();
+-	m_defaultFore = (sf_GetProfileInt("Display", "Foreground", m_colours[7]));
+-	m_defaultBack = (sf_GetProfileInt("Display", "Background", m_colours[10]));
++	m_defaultFore = m_colours[sf_GetProfileInt("Display", "Foreground", 7) % 11];
++	m_defaultBack = m_colours[sf_GetProfileInt("Display", "Background", 10) % 11];
+ 	m_morePrompts =
+ 	    sf_GetProfileInt("Display", "Show More Prompts", 1) ? true : false;
+ 	m_gamma = sf_GetProfileDouble("Display", "Gamma", DEFAULT_GAMMA);
