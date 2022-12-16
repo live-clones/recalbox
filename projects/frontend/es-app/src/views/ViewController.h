@@ -151,4 +151,10 @@ public:
      * @brief Reset game filters
      */
     void ResetFilters();
+
+    /*
+     * Gui implementation
+     */
+
+    [[nodiscard]] bool DoNotDisturb() const override { return mCurrentView != nullptr ? mCurrentView->DoNotDisturb() : false; }
 };
