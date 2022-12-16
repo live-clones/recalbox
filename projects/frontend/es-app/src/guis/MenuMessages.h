@@ -140,6 +140,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
     #define MENUMESSAGE_ADVANCED_KODI_X_HELP_MSG "Use the X button to start Kodi."
     #define MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG "Automatically start into Kodi on boot."
+    #define MENUMESSAGE_ADVANCED_RESOLUTION_KODI_HELP_MSG "Select the resolution for kofi interface and videos"
 
     #define MENUMESSAGE_ADVANCED_CASES_HELP_MSG "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
 

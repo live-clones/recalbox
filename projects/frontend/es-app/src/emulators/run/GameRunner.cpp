@@ -339,21 +339,28 @@ bool GameRunner::RunKodi()
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
+  std::string kodiVideoMode = RecalboxConf::Instance().GetKodiVideoMode();
+  ResolutionAdapter().AdjustResolution(0, kodiVideoMode, targetResolution, false);
 
   if (crtBoard.IsCrtAdapterAttached())
   {
     const bool is15Khz = crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15;
     if(is15Khz){
-      if(crtBoard.MustForce50Hz()){
-        command.append(" -resolution ").append("768x576i");
-      }else {
-        command.append(" -resolution ").append("640x480i");
+      if(kodiVideoMode == "default"){
+        if(crtBoard.MustForce50Hz()){
+          command.append(" -resolution ").append("768x576i");
+        }else {
+          command.append(" -resolution ").append("640x480i");
+        }
+      } else {
+        // Custom resolution for CRT, we must add the resolution type
+        command.append(" -resolution ").append(targetResolution.ToString());
+        command.append(targetResolution.Height > 288 ? "i":"p");
       }
     } else {
       command.append(" -resolution ").append("640x480p");
     }
-  } else if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetKodiVideoMode(), targetResolution, false))
-  {
+  } else {
     { LOG(LogInfo) << "[Run] Kodi resolution: " << targetResolution.ToString(); }
     command.append(" -resolution ").append(targetResolution.ToString());
   }

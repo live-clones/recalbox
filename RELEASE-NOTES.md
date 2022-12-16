@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add 240p theme as default for GPiCase 1 
 - Add kodi dynamic resolution
+- Add kodi resolution menu selection and dynamic resolution for CRT
 - Add libretro-pcsx rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
 - Add the possibility to sort games by release date.
