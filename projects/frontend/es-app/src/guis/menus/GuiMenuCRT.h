@@ -16,7 +16,6 @@ template<class T> class OptionListComponent;
 class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
                  , private IOptionListComponent<std::string>
-                 , private ISliderComponent
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -89,12 +88,6 @@ class GuiMenuCRT : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const std::string & value) override;
-
-    /*
-     * IOptionListComponent<int> implementation
-     */
-
-    void SliderMoved(int id, float value) override;
 
     /*
      * ISwitchComponent implementation

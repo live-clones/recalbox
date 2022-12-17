@@ -198,11 +198,9 @@ void CrtView::UpdateViewport()
 
   // Reference
   int reference = ((Renderer::Instance().DisplayWidthAsInt()) * 1840) / 1920;
-  int hoffsetDiff = (CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - mOriginalHOffset);
-  int voffsetDiff = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - mOriginalVOffset;
 
   mPattern.setSize((float) (reference + CrtConf::Instance().GetCrtViewportWidth(reso)), mPattern.getSize().y());
-  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f + (float)hoffsetDiff, Renderer::Instance().DisplayHeightAsFloat() / 2.f + (float)voffsetDiff, .0f);
+  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
   mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
   mHorizontalOffsetText->setText(
