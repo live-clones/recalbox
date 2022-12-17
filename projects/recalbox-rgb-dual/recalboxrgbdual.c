@@ -237,7 +237,8 @@ static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int vo
     vm->vback_porch += (vm->vfront_porch - min_voffset);
     vm->vfront_porch = min_voffset;
   }
-  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %d - %d %d %d\n",
+  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %dx%d - %d %d %d\n",
+         vm->hactive,
          vm->vactive,
          vm->vfront_porch,
          vm->vsync_len,

@@ -114,9 +114,6 @@ class CrtView : public Gui
     //! Original resolution height
     int mOriginalHeight;
 
-    //! Viewport ratio
-    int mStep;
-
     //! Update viewport
     void UpdateViewport();
 
