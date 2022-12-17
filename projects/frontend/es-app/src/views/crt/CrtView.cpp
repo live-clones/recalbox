@@ -93,10 +93,9 @@ void CrtView::Render(const Transform4x4f& parentTrans)
 
 bool CrtView::getHelpPrompts(Help& help)
 {
-  help.Set(Help::Cancel(), _("QUIT"))
-      .Set(HelpType::AllDirections, _("MOVE SCREEN"))
-      .Set(Help::Valid(), _("TEST MODE"))
-      .Set(HelpType::Start, _("NEXT RESOLUTION"))
+  help.Set(HelpType::AllDirections, _("MOVE SCREEN"))
+      .Set(Help::Valid(), _("NEXT RESOLUTION"))
+      .Set(Help::Cancel(), _("QUIT"))
       .Set(HelpType::X, _("WIDER"))
       .Set(HelpType::Y, _("NARROWER"));
 
@@ -139,24 +138,17 @@ void CrtView::SetResolution(CrtResolution resolution)
 bool CrtView::ProcessInput(const InputCompactEvent& event)
 {
   CrtResolution reso = mSequence[mSequenceIndex];
-
+  bool update = false;
   if (event.CancelPressed()) mEvent.Send(); // Synchronous quit (delete this class)
-  else if (event.StartPressed()) // Validate: reinit SDL
+  else if (event.ValidPressed()) // Validate: go to next screen
   {
     CrtConf::Instance().Save();
     reso = mSequence[++mSequenceIndex];
     if (mSequence[mSequenceIndex] == CrtResolution::rNone)
       mEvent.Send();
     else {
-      SetResolution(reso);
-      Initialize();
+      update = true;
     }
-  }
-  else if (event.ValidPressed()) // Wider
-  {
-    CrtConf::Instance().Save();
-    SetResolution(reso);
-    Initialize();
   }
   else if (event.XPressed()) // Wider
   {
@@ -169,18 +161,28 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   else if (event.AnyUpPressed())
   {
     CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - 1);
+    update = true;
   }
   else if (event.AnyDownPressed())
   {
     CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) + 1);
+    update = true;
   }
   else if (event.AnyLeftPressed())
   {
     CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - 1);
+    update = true;
   }
   else if (event.AnyRightPressed())
   {
     CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
+    update = true;
+  }
+  if(update)
+  {
+    CrtConf::Instance().Save();
+    SetResolution(reso);
+    Initialize();
   }
   UpdateViewport();
   return true;
