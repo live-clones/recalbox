@@ -1,0 +1,11 @@
+config BR2_PACKAGE_LIBRETRO_MOJOZORK
+	bool "libretro-mojozrok"
+	depends on BR2_PACKAGE_RETROARCH
+	depends on BR2_INSTALL_LIBSTDCPP
+	help
+	  A Z-Machine libretro core.
+
+	  https://www.libretro.com
+
+comment "Mojozork a toolchain w/ C++"
+	depends on !BR2_INSTALL_LIBSTDCPP
