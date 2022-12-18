@@ -73,7 +73,7 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
 
 GuiMenuGamelistGameOptions::~GuiMenuGamelistGameOptions()
 {
-  if(mGame.Parent()->IsDirty())
+  if(mGame.Metadata().IsDirty())
     mSystem.UpdateGamelistXml();
 }
 
