@@ -9,52 +9,71 @@
 #include "utils/Files.h"
 #include "sdl2/Sdl2Init.h"
 #include "themes/MenuThemeData.h"
+#include "recalbox/RecalboxSystem.h"
+#include "guis/GuiMsgBox.h"
 
 #define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
-CrtView::CrtView(WindowManager& window)
+CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
   : Gui(window)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
   , mEvent(*this)
-  , mOriginalVOffset(CrtConf::Instance().GetSystemCRTVerticalOffset())
-  , mOriginalHOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset())
-  , mOriginalViewportWidth(CrtConf::Instance().GetSystemCRTViewportWidth())
+  , mSequence(nullptr)
+  , mSequenceIndex(0)
+  , mOriginalVOffset(0)
+  , mOriginalHOffset(0)
+  , mOriginalViewportWidth(0)
+  , mOriginalWidth(Renderer::Instance().RealDisplayWidthAsInt())
+  , mOriginalHeight(Renderer::Instance().DisplayHeightAsInt())
 {
+  switch(calibrationType){
+    case kHz31:
+      mSequence = sForced31khz; break;
+    case kHz15_50Hz:
+      mSequence = sPALOnly; break;
+    case kHz15_60Hz:
+      mSequence = sNTSCOnly; break;
+    case kHz15_60plus50Hz:
+      mSequence = sPALNTSC; break;
+  }
+
+  SetResolution(mSequence[0]);
+  Initialize();
+  UpdateViewport();
+}
+
+void CrtView::Initialize()
+{
+  mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(mSequence[0]);
+  mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(mSequence[0]);
+  mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(mSequence[0]);
+
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
-  bool lowRes = Renderer::Instance().DisplayHeightAsInt() <= 288;
-  mStep = lowRes ? 1 : 2;
+  mGrid.ClearEntries();
+  mGrid.setSize(Renderer::Instance().DisplayWidthAsFloat() * (300.0f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (156.f / 576.f));
+  mGrid.setPosition(Renderer::Instance().DisplayWidthAsFloat() * (140.f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (100.0f / 576.f));
+  addChild(&mGrid);
+
   mPattern.setResize(0.0f, Renderer::Instance().DisplayHeightAsFloat());
-  mPattern.setImage(Path(lowRes ? ":/crt/pattern240.png" : ":/crt/pattern480.png"));
   mPattern.setOrigin(.5f, .5f);
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
-  mGrid.setSize(Renderer::Instance().DisplayWidthAsFloat() / 3.f, Renderer::Instance().DisplayHeightAsFloat() / 3.f);
-  mGrid.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 3.f, Renderer::Instance().DisplayHeightAsFloat() / 3.f);
-  addChild(&mGrid);
-
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mHorizontalOffsetText = std::make_shared<TextComponent>(window, "HZ OFFSET", menuTheme->menuText.font, 0xFFFFFFFF);
-  mVerticalOffsetText = std::make_shared<TextComponent>(window, "HZ OFFSET", menuTheme->menuText.font, 0xFFFFFFFF);
-  mViewportText = std::make_shared<TextComponent>(window, "HZ OFFSET", menuTheme->menuText.font, 0xFFFFFFFF);
+  auto font = Font::get(7*Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 288), Path(FONT_PATH_CRT));
+  mHorizontalOffsetText = std::make_shared<TextComponent>(mWindow, "H OFFSET", font, 0xFFFFFFFF);
+  mVerticalOffsetText = std::make_shared<TextComponent>(mWindow, "V OFFSET", font, 0xFFFFFFFF);
+  mViewportText = std::make_shared<TextComponent>(mWindow, "WIDTH", font, 0xFFFFFFFF);
 
   mGrid.setEntry(mHorizontalOffsetText, { 0, 0 }, false);
   mGrid.setEntry(mVerticalOffsetText, { 0, 1 }, false);
   mGrid.setEntry(mViewportText, { 0, 2 }, false);
-
-  UpdateViewport();
-  UpdatePosition();
 }
 
 CrtView::~CrtView()
 {
-  CrtConf::Instance().Save();
-
-  if (system("mount -o remount,rw /boot") != 0) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
-  Path(sTimingFile).Delete();
-  if (system("mount -o remount,ro /boot") != 0) { LOG(LogError) << "[IniFile] Error remounting boot partition (RW)"; }
+  SetResolution(CrtResolution::rNone);
 }
 
 void CrtView::Render(const Transform4x4f& parentTrans)
@@ -65,9 +84,6 @@ void CrtView::Render(const Transform4x4f& parentTrans)
   Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x000000FF);
   mPattern.Render(trans);
   Renderer::SetMatrix(trans);
-  Renderer::DrawRectangle(Renderer::Instance().DisplayWidthAsInt() / 3, Renderer::Instance().DisplayHeightAsInt() / 3,
-                          Renderer::Instance().DisplayWidthAsInt() / 3, Renderer::Instance().DisplayHeightAsInt() / 3, 0x00000080);
-
   Component::Render(trans);
 
   // Wake up permanently
@@ -76,61 +92,96 @@ void CrtView::Render(const Transform4x4f& parentTrans)
 
 bool CrtView::getHelpPrompts(Help& help)
 {
-  help.Set(Help::Cancel(), _("QUIT"))
-      .Set(HelpType::AllDirections, _("MOVE SCREEN"))
+  help.Set(HelpType::AllDirections, _("MOVE SCREEN"))
+      .Set(Help::Valid(), _("NEXT RESOLUTION"))
+      .Set(Help::Cancel(), _("QUIT"))
       .Set(HelpType::X, _("WIDER"))
-      .Set(HelpType::Y, _("NARROWER"))
-      .Set(Help::Valid(), _("VALIDATE CHANGES"));
+      .Set(HelpType::Y, _("NARROWER"));
 
   return true;
 }
 
+void CrtView::SetResolution(CrtResolution resolution)
+{
+  WindowManager::Finalize();
+  Sdl2Init::Finalize();
+  Sdl2Init::Initialize();
+  int w = mOriginalWidth;
+  int h = mOriginalHeight;
+  switch(resolution)
+  {
+    case CrtResolution::r224p: w = 1920; h = 224; break;
+    case CrtResolution::r240p: w = 1920; h = 240; break;
+    case CrtResolution::r320x240p: w = 320; h = 240; break;
+    case CrtResolution::r288p: w = 1920; h = 288; break;
+    case CrtResolution::r384x288p: w = 384; h = 288; break;
+    case CrtResolution::r480i: w = 640; h = 480; break;
+    case CrtResolution::r576i: w = 768; h = 576; break;
+    case CrtResolution::r480p: w = 640; h = 480; break;
+    case CrtResolution::r240p120Hz: w = 1920; h = 240; break;
+    case CrtResolution::_rCount:
+    case CrtResolution::rNone: // Original resolution
+    default: break;
+  }
+
+  mWindow.Initialize(w, h);
+  mWindow.normalizeNextUpdate();
+  mWindow.UpdateHelp(true);
+  mPattern.setResize(0.0f, Renderer::Instance().DisplayHeightAsFloat());
+  mPattern.setImage(Path(":/crt/" + CrtConf::CrtResolutionFromEnum(resolution) + ".png"));
+  mPattern.setOrigin(.5f, .5f);
+  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
+  InputManager::Instance().Refresh(&mWindow, false);
+}
+
 bool CrtView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed()) mEvent.Send(); // Synchroneous quit (delete this class)
-  else if (event.ValidPressed()) // Validater: reinit SDL
+  CrtResolution reso = mSequence[mSequenceIndex];
+  bool update = false;
+  if (event.CancelPressed()) mEvent.Send(); // Synchronous quit (delete this class)
+  else if (event.ValidPressed()) // Validate: go to next screen
   {
-    mOriginalVOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
-    mOriginalHOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset();
-    mOriginalViewportWidth = CrtConf::Instance().GetSystemCRTViewportWidth();
-    UpdateViewport();
-    UpdatePosition();
-    WindowManager::Finalize();
-    Sdl2Init::Finalize();
-    Sdl2Init::Initialize();
-    mWindow.ReInitialize();
-    mWindow.normalizeNextUpdate();
-    InputManager::Instance().Refresh(&mWindow, false);
+    CrtConf::Instance().Save();
+    reso = mSequence[++mSequenceIndex];
+    if (mSequence[mSequenceIndex] == CrtResolution::rNone)
+      mEvent.Send();
+    else {
+      update = true;
+    }
   }
   else if (event.XPressed()) // Wider
   {
-    CrtConf::Instance().SetSystemCRTViewportWidth(CrtConf::Instance().GetSystemCRTViewportWidth() + mStep);
+    CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) + 1);
   }
   else if (event.YPressed()) // Narrower
   {
-    CrtConf::Instance().SetSystemCRTViewportWidth(CrtConf::Instance().GetSystemCRTViewportWidth() - mStep);
+    CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) - 1);
   }
   else if (event.AnyUpPressed())
   {
-    CrtConf::Instance().SetSystemCRTVerticalOffset(CrtConf::Instance().GetSystemCRTVerticalOffset() - 1);
+    CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - 1);
+    update = true;
   }
   else if (event.AnyDownPressed())
   {
-    CrtConf::Instance().SetSystemCRTVerticalOffset(CrtConf::Instance().GetSystemCRTVerticalOffset() + 1);
+    CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) + 1);
+    update = true;
   }
   else if (event.AnyLeftPressed())
   {
-    CrtConf::Instance().SetSystemCRTHorizontalOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset() - 1);
+    CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - 1);
+    update = true;
   }
   else if (event.AnyRightPressed())
   {
-    CrtConf::Instance().SetSystemCRTHorizontalOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset() + 1);
+    CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
+    update = true;
   }
-  // If we are in force 50HZ, then we copy the offsets to pal ones
-  if(Board::Instance().CrtBoard().MustForce50Hz())
+  if(update)
   {
-    CrtConf::Instance().SetSystemCRTVerticalPALOffset(CrtConf::Instance().GetSystemCRTVerticalOffset());
-    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(CrtConf::Instance().GetSystemCRTHorizontalOffset());
+    CrtConf::Instance().Save();
+    SetResolution(reso);
+    Initialize();
   }
   UpdateViewport();
   return true;
@@ -141,106 +192,35 @@ void CrtView::ReceiveSyncMessage()
   ViewController::Instance().quitCrtView();
 }
 
-void CrtView::UpdateViewport() {
+void CrtView::UpdateViewport()
+{
+  CrtResolution reso = mSequence[mSequenceIndex];
+
   // Reference
   int reference = ((Renderer::Instance().DisplayWidthAsInt()) * 1840) / 1920;
-  const int hOffSetMultiplier = Renderer::Instance().DisplayWidthAsInt() / 320;
-  int hoffsetDiff = (CrtConf::Instance().GetSystemCRTHorizontalOffset() - mOriginalHOffset)*hOffSetMultiplier;
-  int voffsetDiff = CrtConf::Instance().GetSystemCRTVerticalOffset() - mOriginalVOffset;
 
-  mPattern.setSize((float) (reference + CrtConf::Instance().GetSystemCRTViewportWidth()), mPattern.getSize().y());
-  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f + (float)hoffsetDiff, Renderer::Instance().DisplayHeightAsFloat() / 2.f + (float)voffsetDiff, .0f);
+  mPattern.setSize((float) (reference + CrtConf::Instance().GetCrtViewportWidth(reso)), mPattern.getSize().y());
+  mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
-  mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
+  mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
   mHorizontalOffsetText->setText(
-      _("Horizontal offset:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
+      _("Horizontal offset:") + " " + Strings::ToString(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
   mVerticalOffsetText->setText(
-      _("Vertical offset:") + " " + Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
+      _("Vertical offset:") + " " + Strings::ToString(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
 
-  if (mOriginalHOffset != CrtConf::Instance().GetSystemCRTHorizontalOffset()) {
+  if (mOriginalHOffset != CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)) {
     mHorizontalOffsetText->setColor(0xAAAAFFFF);
   } else {
     mHorizontalOffsetText->setColor(0xFFFFFFFF);
   }
-  if (mOriginalVOffset != CrtConf::Instance().GetSystemCRTVerticalOffset()) {
+  if (mOriginalVOffset != CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)) {
     mVerticalOffsetText->setColor(0xAAAAFFFF);
   } else {
     mVerticalOffsetText->setColor(0xFFFFFFFF);
   }
-  if (mOriginalViewportWidth != CrtConf::Instance().GetSystemCRTViewportWidth()) {
+  if (mOriginalViewportWidth != CrtConf::Instance().GetCrtViewportWidth(reso)) {
     mViewportText->setColor(0xAAAAFFFF);
   } else {
     mViewportText->setColor(0xFFFFFFFF);
   }
-}
-
-void CrtView::UpdatePosition()
-{
-  static const char* modes15khz[] =
-      {
-          "1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1",
-          "1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1",
-          "640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1",
-          "768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1",
-      };
-  static const char* modes31khz[] =
-    {
-        "640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1",
-    };
-  static constexpr int sHorizontalFrontPorch = 2;
-  static constexpr int sHorizontalBackPorch = 4;
-  static constexpr int sVerticalLinesActive = 5;
-  static constexpr int sVerticalFrontPorch = 7;
-  static constexpr int sVerticalBackPorch = 9;
-  static constexpr int sInterlaced = 14;
-
-  const int hOffSetMultiplier = Renderer::Instance().RealDisplayWidthAsInt() / 320;
-  int hOffset = CrtConf::Instance().GetSystemCRTHorizontalOffset() * hOffSetMultiplier;
-  int vOffset = CrtConf::Instance().GetSystemCRTVerticalOffset();
-
-  Strings::Vector result;
-  bool khz31 = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
-  // Child Code
-  int size =  khz31 ? sizeof(modes31khz)/sizeof(modes31khz[0]) : sizeof(modes15khz)/sizeof(modes15khz[0]);
-  const char** modes = khz31 ? modes31khz: modes15khz;
-
-  for(int line = 0; line<size; line++)
-  {
-    Strings::Vector items = Strings::Split(modes[line], ' ', false);
-    Array<int> values((int)items.size());
-    for(int i = (int)items.size(); --i >= 0; )
-      if (!Strings::ToInt(items[i], values(i)))
-      { LOG(LogError) << "[CrtView] Mode " << line << " contains invalid value at index " << i; }
-
-    if (values[sHorizontalFrontPorch] - hOffset > 0 && values[sHorizontalBackPorch] + hOffset > 0)
-    {
-      values(sHorizontalFrontPorch) -= hOffset;
-      values(sHorizontalBackPorch) += hOffset;
-    } else {
-      values(sHorizontalBackPorch) += values(sHorizontalFrontPorch) -1;
-      values(sHorizontalFrontPorch) = 1;
-    }
-    int min_voffset = 1;
-    if(values[sVerticalLinesActive] == 480 && values[sInterlaced] == 1){
-      // Horribeul special case for 480i
-      min_voffset = 2;
-    }
-    if (values[sVerticalFrontPorch] - vOffset >= min_voffset && values[sVerticalBackPorch] + vOffset >= min_voffset)
-    {
-      values(sVerticalFrontPorch) -= vOffset;
-      values(sVerticalBackPorch) += vOffset;
-    } else {
-      values(sVerticalBackPorch) += values(sVerticalFrontPorch) -min_voffset;
-      values(sVerticalFrontPorch) = min_voffset;
-    }
-
-    for(int i = (int)items.size(); --i >= 0; )
-      items[i] = Strings::ToString(values[i]);
-
-    result.push_back(Strings::Join(items, ' '));
-  }
-
-  if (system("mount -o remount,rw /boot") != 0) LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)";
-  Files::SaveFile(Path(sTimingFile), Strings::Join(result, '\n').append(1, '\n'));
-  if (system("mount -o remount,ro /boot") != 0) LOG(LogError) << "[IniFile] Error remounting boot partition (RW)";
 }

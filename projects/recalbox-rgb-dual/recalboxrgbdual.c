@@ -37,10 +37,9 @@ static const char *config_path = "/boot/crt/recalbox-crt-options.cfg";
 
 // Global config
 static struct rrgbdualconfiguration {
-  int resolution;
   int voffset;
   int hoffset;
-} configuration;
+};
 
 
 struct dpidac {
@@ -54,135 +53,196 @@ static struct gpiodesc {
   int gpio_state;
 } dip50Hz, dip31kHz;
 
-// Default modes.
-// 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
-static const struct videomode p240 = {
-    .pixelclock = 6400000,
-    .hactive = 320,
-    .hfront_porch = 4,
-    .hsync_len = 30,
-    .hback_porch = 46,
-    .vactive = 240,
-    .vfront_porch = 4,
-    .vsync_len = 5,
-    .vback_porch = 14,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+enum ModeIds {
+  p320x240 = 0,
+  p1920x240,
+  p1920x224,
+  p384x288,
+  p1920x288,
+  p1920x240at120,
+  i768x576,
+  i640x480,
+  p640x480,
+  ModeCount,
 };
 
-// 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
-static const struct videomode p1920x240 = {
-    .pixelclock = 38937600,
-    .hactive = 1920,
-    .hfront_porch = 80,
-    .hsync_len = 184,
-    .hback_porch = 312,
-    .vactive = 240,
-    .vfront_porch = 1,
-    .vsync_len = 3,
-    .vback_porch = 16,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+static const char* ModeNames[] = {
+    "p320x240",
+    "p1920x240",
+    "p1920x224",
+    "p384x288",
+    "p1920x288",
+    "p1920x240at120",
+    "i768x576",
+    "i640x480",
+    "p640x480",
+    "ModeCount",
+};
+static struct rrgbdualconfiguration modeconfigs[ModeCount] = {
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
 };
 
+static struct videomode modes[ModeCount] = {
 
-// 288p@50 : 384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200
-static const struct videomode p288 = {
-    .pixelclock = 7363200,
-    .hactive = 384,
-    .hfront_porch = 16,
-    .hsync_len = 32,
-    .hback_porch = 40,
-    .vactive = 288,
-    .vfront_porch = 3,
-    .vsync_len = 2,
-    .vback_porch = 19,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-};
+    // 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
+    {
+        .pixelclock = 6400000,
+        .hactive = 320,
+        .hfront_porch = 4,
+        .hsync_len = 30,
+        .hback_porch = 46,
+        .vactive = 240,
+        .vfront_porch = 4,
+        .vsync_len = 5,
+        .vback_porch = 14,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
+    {
+        .pixelclock = 38937600,
+        .hactive = 1920,
+        .hfront_porch = 80,
+        .hsync_len = 184,
+        .hback_porch = 312,
+        .vactive = 240,
+        .vfront_porch = 1,
+        .vsync_len = 3,
+        .vback_porch = 16,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x224p@60 : 1920 1 80 184 312 224 1 10 3 24 0 0 0 60 0 39087360 1
+    {
+        .pixelclock = 39087360,
+        .hactive = 1920,
+        .hfront_porch = 80,
+        .hsync_len = 184,
+        .hback_porch = 312,
+        .vactive = 224,
+        .vfront_porch = 10,
+        .vsync_len = 3,
+        .vback_porch = 24,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 288p@50 : 384 1 16 32 40 288 1 3 2 19 0 0 0 50 0 7363200
+    {
+        .pixelclock = 7363200,
+        .hactive = 384,
+        .hfront_porch = 16,
+        .hsync_len = 32,
+        .hback_porch = 40,
+        .vactive = 288,
+        .vfront_porch = 3,
+        .vsync_len = 2,
+        .vback_porch = 19,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x288p@50 : 1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1
+    {
+        .pixelclock = 39062400,
+        .hactive = 1920,
+        .hfront_porch = 80,
+        .hsync_len = 184,
+        .hback_porch = 312,
+        .vactive = 288,
+        .vfront_porch = 4,
+        .vsync_len = 3,
+        .vback_porch = 18,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x240p@120 : 1920 1 48 208 256 240 1 4 3 15 0 0 0 120 0 76462080 1
+    {
+        .pixelclock = 76462080,
+        .hactive = 1920,
+        .hfront_porch = 48,
+        .hsync_len = 208,
+        .hback_porch = 256,
+        .vactive = 240,
+        .vfront_porch = 4,
+        .vsync_len = 3,
+        .vback_porch = 15,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
 
-// 1920x288p@50 : 1920 1 80 184 312 288 1 4 3 18 0 0 0 50 0 39062400 1
-static const struct videomode p1920x288 = {
-    .pixelclock = 39062400,
-    .hactive = 1920,
-    .hfront_porch = 80,
-    .hsync_len = 184,
-    .hback_porch = 312,
-    .vactive = 288,
-    .vfront_porch = 4,
-    .vsync_len = 3,
-    .vback_porch = 18,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-};
+    // 576i@50 : 768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1
+    {
+      .pixelclock = 14875000,
+      .hactive = 768,
+      .hfront_porch = 24,
+      .hsync_len = 72,
+      .hback_porch = 88,
+      .vactive = 576,
+      .vfront_porch = 6,
+      .vsync_len = 5,
+      .vback_porch = 38,
+      .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+    },
 
-// 576i@50 : 768 1 24 72 88 576 1 6 5 38 0 0 0 50 1 14875000 1
-static const struct videomode i576 = {
-    .pixelclock = 14875000,
-    .hactive = 768,
-    .hfront_porch = 24,
-    .hsync_len = 72,
-    .hback_porch = 88,
-    .vactive = 576,
-    .vfront_porch = 6,
-    .vsync_len = 5,
-    .vback_porch = 38,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
-};
-
-// 480i@60 : 640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1
-static const struct videomode i480 = {
-    .pixelclock = 13054080,
-    .hactive = 640,
-    .hfront_porch = 24,
-    .hsync_len = 64,
-    .hback_porch = 104,
-    .vactive = 480,
-    .vfront_porch = 3,
-    .vsync_len = 6,
-    .vback_porch = 34,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
-};
-
-// 480p@60 : 640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1
-static const struct videomode p480 = {
-    .pixelclock = 25452000,
-    .hactive = 640,
-    .hfront_porch = 24,
-    .hsync_len = 96,
-    .hback_porch = 48,
-    .vactive = 480,
-    .vfront_porch = 11,
-    .vsync_len = 2,
-    .vback_porch = 32,
-    .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    // 480i@60 : 640 1 24 64 104 480 1 3 6 34 0 0 0 60 1 13054080 1
+   {
+      .pixelclock = 13054080,
+      .hactive = 640,
+      .hfront_porch = 24,
+      .hsync_len = 64,
+      .hback_porch = 104,
+      .vactive = 480,
+      .vfront_porch = 3,
+      .vsync_len = 6,
+      .vback_porch = 34,
+      .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_INTERLACED
+    },
+    // 480p@60 : 640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1
+    {
+      .pixelclock = 25452000,
+      .hactive = 640,
+      .hfront_porch = 24,
+      .hsync_len = 96,
+      .hback_porch = 48,
+      .vactive = 480,
+      .vfront_porch = 11,
+      .vsync_len = 2,
+      .vback_porch = 32,
+      .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    }
 };
 
 
 static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int voffset) {
 
   hoffset *= vm->hactive / 320;
-  if((int)vm->hfront_porch - hoffset >= 1){
+  if ((int) vm->hfront_porch - hoffset >= 1) {
     vm->hfront_porch -= hoffset;
     vm->hback_porch += hoffset;
   } else {
     // minimum front porch = 1
-    vm->hback_porch += vm->hfront_porch-1;
+    vm->hback_porch += vm->hfront_porch - 1;
     vm->hfront_porch = 1;
   }
-  // Horribeul special case for 480i
   int min_voffset = 1;
-  if(vm->pixelclock == 13054080){
+  if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
+    // Interlaced modes won't accept a vertical porch < 2
     min_voffset = 2;
   }
-  if((int)vm->vfront_porch - voffset >= min_voffset) {
+  if ((int) vm->vfront_porch - voffset >= min_voffset) {
     vm->vfront_porch -= voffset;
     vm->vback_porch += voffset;
   } else {
-    vm->vback_porch += (vm->vfront_porch-min_voffset);
+    vm->vback_porch += (vm->vfront_porch - min_voffset);
     vm->vfront_porch = min_voffset;
   }
-  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %d - %d %d %d\n", 
-  vm->vactive, 
-  vm->vfront_porch,
-  vm->vsync_len,
-  vm->vback_porch);
+  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %dx%d - %d %d %d\n",
+         vm->hactive,
+         vm->vactive,
+         vm->vfront_porch,
+         vm->vsync_len,
+         vm->vback_porch);
 
 }
 
@@ -214,7 +274,7 @@ static struct drm_display_mode *dpidac_display_mode_from_timings(struct drm_conn
       return NULL;
     }
 
-    dpidac_offset_and_validate(&vm,0,0);
+    dpidac_offset_and_validate(&vm, 0, 0);
     drm_display_mode_from_videomode(&vm, mode);
 
     return mode;
@@ -276,10 +336,12 @@ static int dpidac_load_config(const char *configfile) {
   size_t cursor = 0;
   char line[LINE_SIZE_MAX];
   char optionname[LINE_SIZE_MAX];
+  char optionbuffer[LINE_SIZE_MAX];
   int optionvalue = 0;
   size_t line_start = 0;
   size_t line_len = 0;
   int scanret = 0;
+  int modeId = 0;
 
   fp = filp_open(config_path, O_RDONLY, 0);
   if (IS_ERR(fp) || !fp) {
@@ -302,18 +364,19 @@ static int dpidac_load_config(const char *configfile) {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
-          if (strcmp(optionname, "options.es.resolution") == 0) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting resolution to %d\n", optionvalue);
-            configuration.resolution = optionvalue;
+          for(modeId = 0; modeId < ModeCount; modeId++){
+            sprintf(optionbuffer, "mode.offset.%s.verticaloffset", ModeNames[modeId]);
+            if (strcmp(optionname, optionbuffer) == 0) {
+              printk(KERN_INFO "[RECALBOXRGBDUAL]: setting %s to %d\n", optionbuffer, optionvalue);
+              modeconfigs[modeId].voffset = optionvalue;
+            }
+            sprintf(optionbuffer, "mode.offset.%s.horizontaloffset", ModeNames[modeId]);
+            if (strcmp(optionname, optionbuffer) == 0) {
+              printk(KERN_INFO "[RECALBOXRGBDUAL]: setting %s to %d\n", optionbuffer, optionvalue);
+              modeconfigs[modeId].hoffset = optionvalue;
+            }
           }
-          if (strcmp(optionname, "mode.offset.vertical") == 0) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting mode.offset.vertical to %d\n", optionvalue);
-            configuration.voffset = optionvalue;
-          }
-          if (strcmp(optionname, "mode.offset.horizontal") == 0) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: setting mode.offset.horizontal to %d\n", optionvalue);
-            configuration.hoffset = optionvalue;
-          }
+
         }
       }
       line_start += line_len;
@@ -334,24 +397,23 @@ static inline struct dpidac *drm_connector_to_dpidac(struct drm_connector *conne
 }
 
 
-
-static void dpidac_apply_module_mode(struct drm_connector *connector, const struct videomode *vm, bool preferred) {
+static void dpidac_apply_module_mode(struct drm_connector *connector, int modeId, bool preferred) {
   struct drm_device *dev = connector->dev;
   struct drm_display_mode *mode = drm_mode_create(dev);
   struct videomode vmcopy;
-
+  struct videomode *vm = &modes[modeId];
   vmcopy.vback_porch = vm->vback_porch;
   vmcopy.vfront_porch = vm->vfront_porch;
   vmcopy.hback_porch = vm->hback_porch;
   vmcopy.hfront_porch = vm->hfront_porch;
-  vmcopy.flags= vm->flags;
+  vmcopy.flags = vm->flags;
   vmcopy.hactive = vm->hactive;
   vmcopy.hsync_len = vm->hsync_len;
-  vmcopy.pixelclock= vm->pixelclock;
+  vmcopy.pixelclock = vm->pixelclock;
   vmcopy.vactive = vm->vactive;
   vmcopy.vsync_len = vm->vsync_len;
 
-  dpidac_offset_and_validate(&vmcopy, configuration.hoffset, configuration.voffset);
+  dpidac_offset_and_validate(&vmcopy, modeconfigs[modeId].hoffset, modeconfigs[modeId].voffset);
   drm_display_mode_from_videomode(&vmcopy, mode);
   mode->type = DRM_MODE_TYPE_DRIVER;
   if (preferred)
@@ -370,25 +432,29 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     return i;
   } else {
     if (dip31kHz.gpio_state == 0) {
-      printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz 480p mode\n", i);
-      dpidac_apply_module_mode(connector, &p480, true);
-      return 1;
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n", i);
+      dpidac_apply_module_mode(connector, p640x480, true);
+      dpidac_apply_module_mode(connector, p1920x240at120, false);
+
+      return 2;
     } else {
       if (dip50Hz.gpio_state == 0) {
         // 50hz
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 50Hz modes\n", i);
-          dpidac_apply_module_mode(connector, &p288, true);
-          dpidac_apply_module_mode(connector, &p1920x288, false);
-          dpidac_apply_module_mode(connector, &i576, false);
-          return 2;
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n", i);
+        dpidac_apply_module_mode(connector, p384x288, true);
+        dpidac_apply_module_mode(connector, p1920x288, false);
+        dpidac_apply_module_mode(connector, i768x576, false);
+        return 3;
       } else {
-          printk(KERN_INFO "[RECALBOXRGBDUAL]: using 60Hz modes\n");
-          dpidac_apply_module_mode(connector, &p240, true);
-          dpidac_apply_module_mode(connector, &p1920x240, false);
-          dpidac_apply_module_mode(connector, &i480, false);
-          dpidac_apply_module_mode(connector, &p288, false);
-          dpidac_apply_module_mode(connector, &i576, false);
-          return 4;
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: 60Hz + 50Hz modes will be available\n");
+        dpidac_apply_module_mode(connector, p320x240, true);
+        dpidac_apply_module_mode(connector, p1920x240, false);
+        dpidac_apply_module_mode(connector, p1920x224, false);
+        dpidac_apply_module_mode(connector, p384x288, false);
+        dpidac_apply_module_mode(connector, p1920x288, false);
+        dpidac_apply_module_mode(connector, i640x480, false);
+        dpidac_apply_module_mode(connector, i768x576, false);
+        return 7;
       }
     }
   }

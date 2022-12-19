@@ -1,7 +1,7 @@
 import typing
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTScreenType, CRTResolutionType, CRTVideoStandard, CRTRegion
+from configgen.crt.CRTTypes import CRTScreenType, CRTResolutionType, CRTVideoStandard, CRTRegion
 from configgen.utils.recallog import recallog
 
 VideoStandardToRegionMap = {
@@ -80,7 +80,7 @@ class LibretroCoreConfigCRT:
             lines["uae4arm_resolution"] = '"320x240"'
             lines["uae4arm_leds_on_screen"] = '"off"'
         if system.Name in ["n64", "64dd"]:
-            lines["parallel-n64-screensize"] = '"640x480"'
+            lines["parallel-n64-screensize"] = '"320x240"'
         if system.Name == "psx":
             lines["duckstation_Display.AspectRatio"] = '"Auto"'
             lines["duckstation_Display.CropMode"] = '"None"'

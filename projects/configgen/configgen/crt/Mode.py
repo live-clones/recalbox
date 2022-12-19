@@ -1,5 +1,7 @@
 import re
 
+from configgen.crt.CRTTypes import CRTResolution
+
 
 class Mode:
     def __init__(self, timings, refresh_rate="60"):
@@ -48,3 +50,31 @@ class Mode:
 
     def __eq__(self, o: object) -> bool:
         return isinstance(o, Mode) and o.timings() == self.timings() and o.refresh_rate == self.refresh_rate
+
+    def __str__(self):
+        return self.timings()
+
+    def extractCRTResolution(self) -> [int, int]:
+        if self.height <= 224:
+            return CRTResolution.p1920x224
+        if self.height < 288:
+            # this is between 224 and 288p, we use the 240p offsets
+            if self.framerate > 100:
+                return CRTResolution.p1920x240at120
+            elif self.width <= 320:
+                return CRTResolution.p320x240
+            else:
+                return CRTResolution.p1920x240
+        if self.height == 288:
+            if self.width <= 384:
+                return CRTResolution.p384x288
+            else:
+                return CRTResolution.p1920x288
+        if self.height == 480:
+            if self.interlaced == 1:
+                return CRTResolution.i640x480
+            else:
+                return CRTResolution.p640x480
+        if self.height == 576:
+            return CRTResolution.i768x576
+        return None

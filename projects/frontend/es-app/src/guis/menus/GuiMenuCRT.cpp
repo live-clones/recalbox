@@ -7,6 +7,7 @@
 
 #include "GuiMenuCRT.h"
 #include "views/ViewController.h"
+#include "guis/GuiMsgBox.h"
 #include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
@@ -25,7 +26,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(isRGBDual), _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
-  mOriginalEsResolution = is31kHz ? "480p" : CrtConf::Instance().GetSystemCRTResolution();
+  mOriginalEsResolution = is31kHz ? CrtConf::Instance().GetSystemCRT31kHzResolution() : CrtConf::Instance().GetSystemCRTResolution();
   mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
@@ -66,14 +67,6 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
-
-  if(!Board::Instance().CrtBoard().MustForce50Hz())
-  {
-    // PAL offsets until when have a PAL calibration screen
-    // Only displayed when we are in 60Hz, the calibration screen set thoses values if we are in 50Hz
-    AddSlider(_("PAL HORIZONTAL OFFSET"), -30, 30, 1, CrtConf::Instance().GetSystemCRTHorizontalPALOffset(), ".0", (int)Components::HorizontalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG));
-    AddSlider(_("PAL VERTICAL OFFSET"), -10, 10, 1, CrtConf::Instance().GetSystemCRTVerticalPALOffset(), ".0", (int)Components::VerticalPalOffset, this, _(MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG));
-  }
 }
 
 GuiMenuCRT::~GuiMenuCRT()
@@ -148,14 +141,15 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
 
   if(only31kHz)
   {
-    list.push_back({ "480p", "480p", true });
+    bool is480 = CrtConf::Instance().GetSystemCRT31kHzResolution() == "480";
+    list.push_back({ "480p", "480", is480 });
+    list.push_back({ "240p@120Hz", "240", !is480 });
     return list;
+  } else {
+    bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
+    list.push_back({ "240p", "240", rdef });
+    list.push_back({ "480i", "480", !rdef });
   }
-
-  bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
-
-  list.push_back({ "240p", "240", rdef });
-  list.push_back({ "480i", "480", !rdef });
 
   return list;
 }
@@ -185,7 +179,12 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
-    CrtConf::Instance().SetSystemCRTResolution(value).Save();
+    if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    {
+      CrtConf::Instance().SetSystemCRT31kHzResolution(value).Save();
+    } else {
+      CrtConf::Instance().SetSystemCRTResolution(value).Save();
+    }
   }
 }
 
@@ -217,20 +216,25 @@ void GuiMenuCRT::SubMenuSelected(int id)
 {
   if ((Components)id == Components::Adjustment)
   {
-    ViewController::Instance().goToCrtView();
-    mWindow.CloseAll();
-  }
-}
-
-
-void GuiMenuCRT::SliderMoved(int id, float value)
-{
-  if ((Components)id == Components::HorizontalPalOffset)
-  {
-    CrtConf::Instance().SetSystemCRTHorizontalPALOffset(value).Save();
-  }
-  if ((Components)id == Components::VerticalPalOffset)
-  {
-    CrtConf::Instance().SetSystemCRTVerticalPALOffset(value).Save();
+    if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    {
+      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz31);
+      mWindow.CloseAll();
+    }
+    else if (Board::Instance().CrtBoard().MustForce50Hz()){
+      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+      mWindow.CloseAll();
+    }
+    else
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\nDuring the calibration, press B to apply the mode, START to validate, and A to cancel."),
+                                    _("60Hz & 50Hz"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60plus50Hz);
+            mWindow.CloseAll(); },
+                                    _("60Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60Hz);
+            mWindow.CloseAll(); },
+                                    _("50Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+            mWindow.CloseAll();},
+                                    TextAlignment::Center));
+    }
   }
 }

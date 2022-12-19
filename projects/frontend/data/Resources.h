@@ -122,11 +122,32 @@ extern const uint8_t plaincircle30_png_data[];
 extern const uint16_t thumbs_up_green_svg_size;
 extern const uint8_t thumbs_up_green_svg_data[];
 
-extern const uint16_t crt__pattern480_png_size;
-extern const uint8_t crt__pattern480_png_data[];
+extern const uint16_t crt__p1920x224_png_size;
+extern const uint8_t crt__p1920x224_png_data[];
 
-extern const uint16_t crt__pattern240_png_size;
-extern const uint8_t crt__pattern240_png_data[];
+extern const uint16_t crt__p640x480_png_size;
+extern const uint8_t crt__p640x480_png_data[];
+
+extern const uint16_t crt__i768x576_png_size;
+extern const uint8_t crt__i768x576_png_data[];
+
+extern const uint16_t crt__p320x240_png_size;
+extern const uint8_t crt__p320x240_png_data[];
+
+extern const uint16_t crt__p384x288_png_size;
+extern const uint8_t crt__p384x288_png_data[];
+
+extern const uint16_t crt__p1920x240at120_png_size;
+extern const uint8_t crt__p1920x240at120_png_data[];
+
+extern const uint16_t crt__i640x480_png_size;
+extern const uint8_t crt__i640x480_png_data[];
+
+extern const uint16_t crt__p1920x240_png_size;
+extern const uint8_t crt__p1920x240_png_data[];
+
+extern const uint16_t crt__p1920x288_png_size;
+extern const uint8_t crt__p1920x288_png_data[];
 
 extern const uint32_t crt__logo_png_size;
 extern const uint8_t crt__logo_png_data[];

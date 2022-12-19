@@ -377,14 +377,18 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
   std::string result;
 
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
-  if (crtBoard.IsCrtAdapterAttached()) {
+  if (crtBoard.IsCrtAdapterAttached())
+  {
     result.append(" -crtadaptor ").append("present");
     result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
-    result.append(" -crtverticaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalOffset()));
-    result.append(" -crthorizontaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalOffset()));
-    result.append(" -crtverticalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTVerticalPALOffset()));
-    result.append(" -crthorizontalpaloffset ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTHorizontalPALOffset()));
-    result.append(" -crtviewportwidth ").append(Strings::ToString(CrtConf::Instance().GetSystemCRTViewportWidth()));
+    for(int i = (int)CrtResolution::_rCount; --i > 0;)
+    {
+      CrtResolution reso = (CrtResolution)i;
+      std::string sreso = std::string(CrtConf::CrtResolutionFromEnum(reso));
+      result.append(" -crt_verticaloffset_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
+      result.append(" -crt_horizontaloffset_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
+      result.append(" -crt_viewportwidth_").append(sreso).append(1, ' ').append(Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
+    }
 
     // Resolution type
     if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)

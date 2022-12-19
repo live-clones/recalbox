@@ -13,7 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add the possibility to sort games by release date.
 - Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
 - RRGBD:
-  - Add new theme for recalbox rgb dual with 240p optimisations
+  - Add multiple resolution calibration screen
   - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
   - Add snes9x2002, 2005, 2010 and bsnes support for rrgbd
@@ -23,12 +23,14 @@ as release notes for end user on a Recalbox upgrade.
   - Add new arcade game support for 15kHz.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
+  - Add 240p@120Hz frontend resolution for 31kHz screens
 - Add game Pong Recalbox Edition by Studio 40A on gameboy
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
 - Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add new system 'Z-Machine' with new core frotz
+- Add new Kodi theme for lower resolutions
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections

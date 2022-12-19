@@ -4,6 +4,7 @@
 #include <WindowManager.h>
 #include <components/TextComponent.h>
 #include <utils/sync/SyncMessageSender.h>
+#include <views/crt/CrtResolutions.h>
 
 #pragma once
 
@@ -11,11 +12,18 @@ class CrtView : public Gui
               , private ISyncMessageReceiver<void>
 {
   public:
+    enum CalibrationType {
+      kHz15_60plus50Hz,
+      kHz15_60Hz,
+      kHz15_50Hz,
+      kHz31,
+    };
+
     /*!
      * @brief Constructor
      * @param window Main Window instance
      */
-    explicit CrtView(WindowManager& window);
+    explicit CrtView(WindowManager& window, CalibrationType calibrationType);
 
     //! Destructor
     ~CrtView() override;
@@ -37,6 +45,42 @@ class CrtView : public Gui
     bool getHelpPrompts(Help& help) override;
 
   private:
+    static constexpr CrtResolution sForced31khz[] =
+    {
+      CrtResolution::r480p,
+      CrtResolution::r240p120Hz,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sPALOnly[] =
+    {
+      CrtResolution::r288p,
+      CrtResolution::r384x288p,
+      CrtResolution::r576i,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sNTSCOnly[] =
+    {
+      CrtResolution::r240p,
+      CrtResolution::r320x240p,
+      CrtResolution::r224p,
+      CrtResolution::r480i,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sPALNTSC[] =
+    {
+      CrtResolution::r240p,
+      CrtResolution::r320x240p,
+      CrtResolution::r224p,
+      CrtResolution::r480i,
+      CrtResolution::r288p,
+      CrtResolution::r384x288p,
+      CrtResolution::r576i,
+      CrtResolution::rNone
+    };
+
     //! Timing file path
     static constexpr const char* sTimingFile = "/boot/crt/timings.txt";
 
@@ -55,19 +99,29 @@ class CrtView : public Gui
     //! Synchronous event
     SyncMessageSender<void> mEvent;
 
+    //! Configuration sequence
+    const CrtResolution* mSequence;
+    //! Sequence index
+    int mSequenceIndex;
+
     //! Original config
     int mOriginalVOffset;
     int mOriginalHOffset;
     int mOriginalViewportWidth;
 
-    //! Viewport ratio
-    int mStep;
+    //! Original resolution width
+    int mOriginalWidth;
+    //! Original resolution height
+    int mOriginalHeight;
 
     //! Update viewport
     void UpdateViewport();
 
-    //! Update position
-    void UpdatePosition();
+    //! Change resolution
+    void SetResolution(CrtResolution resolution);
+
+    //! Initialize all the view
+    void Initialize();
 
     /*
      * Synchronous event
