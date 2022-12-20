@@ -336,6 +336,34 @@ bool GameRunner::RunKodi()
 
   std::string commandline = demoInitialize();
   std::string command = "configgen -system kodi -rom '' " + commandline;
+  // Forced resolution
+  Resolutions::SimpleResolution targetResolution { 0, 0 };
+  const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
+  std::string kodiVideoMode = RecalboxConf::Instance().GetKodiVideoMode();
+  ResolutionAdapter().AdjustResolution(0, kodiVideoMode, targetResolution, false);
+
+  if (crtBoard.IsCrtAdapterAttached())
+  {
+    const bool is15Khz = crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15;
+    if(is15Khz){
+      if(kodiVideoMode == "default"){
+        if(crtBoard.MustForce50Hz()){
+          command.append(" -resolution ").append("768x576i");
+        }else {
+          command.append(" -resolution ").append("640x480i");
+        }
+      } else {
+        // Custom resolution for CRT, we must add the resolution type
+        command.append(" -resolution ").append(targetResolution.ToString());
+        command.append(targetResolution.Height > 288 ? "i":"p");
+      }
+    } else {
+      command.append(" -resolution ").append("640x480p");
+    }
+  } else {
+    { LOG(LogInfo) << "[Run] Kodi resolution: " << targetResolution.ToString(); }
+    command.append(" -resolution ").append(targetResolution.ToString());
+  }
 
   NotificationManager::Instance().NotifyKodi();
 
@@ -346,7 +374,7 @@ bool GameRunner::RunKodi()
     sdl2Runner.Register(SDL_KEYDOWN, &mSdl2Callback);
     Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
 
-    { LOG(LogInfo) << "[Run] Launching kodi..."; }
+    { LOG(LogInfo) << "[Run] Launching Kodi with command: " << command; }
 
     ThreadRunner gameRunner(sdl2Runner, command, debug);
 

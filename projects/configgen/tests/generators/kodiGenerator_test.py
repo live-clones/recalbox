@@ -13,7 +13,7 @@ from tests.generators.FakeArguments import Arguments
 @pytest.fixture
 def emulator():
     kodiConfig.recalboxFiles.kodiJoystick = 'tests/tmp/kodi-joystick/'
-    kodiConfig.recalboxFiles.kodiAdvancedSettings = 'tests/tmp/kodiadvanced-settinqs.xml'
+    kodiConfig.recalboxFiles.kodiAdvancedSettings = 'tests/tmp/advanced-settings.xml'
     return KodiGenerator()
 
 
