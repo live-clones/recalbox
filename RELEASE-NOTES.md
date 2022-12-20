@@ -4,80 +4,17 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.2-Electron
+## Version 8.2-patron-2
 
 ### News
 - Add 240p theme as default for GPiCase 1 
 - Add kodi resolution menu selection and dynamic resolution for CRT
-- Add libretro-pcsx rearmed for OGA/OGS
-- Add new category 'Demoscene' in tic80 games downloader.
-- Add the possibility to sort games by release date.
-- Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
 - Add standalone vice emulator 3.6.1 (c64)
 - RRGBD:
   - Add multiple resolution calibration screen
-  - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
-  - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
-  - Add snes9x2002, 2005, 2010 and bsnes support for rrgbd
-  - Add region selection for satellaview, sufami, amiga 600, amiga 1200
-  - Add fceumm core support for nes and fds
-  - Fix rtype resolution for 31kHz
-  - Add new arcade game support for 15kHz.
-  - Add mupen64plus glide64mk2 support
-  - Add multiple PAL/NTSC modes
   - Add 240p@120Hz frontend resolution for 31kHz screens
-- Add game Pong Recalbox Edition by Studio 40A on gameboy
+  - Add new Kodi theme for lower resolutions
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
-- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
-- Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
-- Enhance shader support by setting multi threaded renderer when shader enabled
-- Add new system 'Z-Machine' with new core frotz
-- Add new Kodi theme for lower resolutions
-- Add demo Astebros (Neofid studio) on megadrive
-- Add guncon2 support for CRT tvs
-- Add Nintendo Switch Online N64 & Genesis/Megadrive controllers support
-
-### Improvements
-- Improve metadata storage, using far less memory for huge game collections
-- Bump libretro pcsx-rearmed
-- Bump libretro gong
-- Bump libretro fuse & add new supported file extensions
-- Bump libretro bluemsx
-- Bump libretro neocd
-- Bump libretro race
-- Bump libretro uae4arm
-- Bump bebeem
-- Bump retro8
-- Update of the theme for the X68000 system
-- Add support for BCM20702, BCM20703, BCM43142 bluetooth chipsets
-- Bump libretro gPSP
-- Bump libretro genesisplusgxwide
-- Bump libretro Beetle Lynx
-- Bump libretro Opera
-- Bump libretro fbneo
-- Bump libretro uae
-- Bump libretro dosbox-pure
-- Add support for 4k video in Kodi for Raspberry Pi 4
-- Enable H/W video decoding for Raspberry Pi 4, Pi 3 & Pi zero 2
-- Improve AppleIIGS configurator & add eXoAppleIIGS config support
-- Bump libretro-mesen_s
-
-- Improve bluetooth devices pairing
-  - Audio devices can be paired in sound settings
-  - Joysticks and joypads will be automatically paired on first boot
-  - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
-  - Detection and pairing stays in background for 5 minutes
- 
-### Fixes
-- Fix crash libretro pcsx-rearmed for x64
-- Add .wia file extension for Gamecube and Wii + .gcz for Wii.
-- Fix pad 8bitdo Pro 2 mode D (Android)
-- Fix bad overlay showing when save on exit is enabled on retroarch
-- Fix support for Ultimarc IPAC 2
-- Fix internal scraper saving path before actual media
-- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
-- Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
-- Fix pause menu in the game for libretro pcsx_rearmed
 
 ## Version 8.1.1-Electron
 
