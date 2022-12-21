@@ -30,10 +30,22 @@ class Files
     /*!
      * @brief Save the given string into a file
      * @param path File path
+     * @param data Data buffer to save
+     * @param size Data size to save
+     * @return True if the content has been saved
+     */
+    static bool SaveFile(const Path& path, const void* data, int size);
+
+    /*!
+     * @brief Save the given string into a file
+     * @param path File path
      * @param content String ot save
      * @return True if the content has been saved
      */
-    static bool SaveFile(const Path& path, const std::string& content);
+    static bool SaveFile(const Path& path, const std::string& content)
+    {
+      return SaveFile(path, content.data(), content.length());
+    }
 
     /*!
      * @brief Append the given string at the end of the given file or create it if it does not exist

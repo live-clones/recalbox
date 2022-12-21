@@ -84,6 +84,13 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
     #endif
 
   public:
+    enum LookupResult
+    {
+      NotFound,      //!< Bios name not found or MD5 does not match any known md5
+      Found,         //!< Bios has been found either by name or MD5
+      AlreadyExists, //!< The given bios already exists with the same
+    };
+
     /*!
      * @brief Default constructor
      */
@@ -121,6 +128,14 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @param reporting Reporting interface
      */
     void Scan(IBiosScanReporting* reporting, bool sync = false);
+
+    /*!
+     * @brief Try to lookup the given bios in all systems
+     * @param name Bios name
+     * @param md5 Bios md5
+     * @return LookupResult and outputPath set to bios path or empty path
+     */
+    LookupResult Lookup(const std::string& name, const std::string& md5, const Bios*& outputBios);
 
     /*!
      * @brief Generate missing bios report in bios root folder

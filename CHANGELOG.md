@@ -646,6 +646,8 @@ All notable changes to this project have been documented in this file since 8.1.
 - Fix recalbox stable version generation
 - Change board build order for gitlab ci
 - Remove Donkey Kong Classic
+- Implement Pulseaudio
+- Add WebManager v3
 
 ## [7.1.1-Reloaded]
 - Fix abnormally long boots

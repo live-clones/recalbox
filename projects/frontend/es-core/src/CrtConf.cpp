@@ -16,7 +16,7 @@ CrtConf::CrtConf()
 {
 }
 
-void CrtConf::OnSave()
+void CrtConf::OnSave() const 
 {
   NotificationManager::Instance().Notify(Notification::ConfigurationChanged, crtConfFile.ToString());
 }

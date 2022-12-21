@@ -3,7 +3,7 @@
 //
 
 #include "IniFile.h"
-
+#include <memory.h>
 #include <utils/Strings.h>
 #include <utils/Files.h>
 #include "utils/Log.h"
@@ -103,6 +103,7 @@ bool IniFile::Save()
     // Write new kay/value
     std::string key = it.first;
     std::string val = it.second;
+    bool deleted = (it.second == sDeleteTag);
     bool lineFound = false;
     bool commented = false;
     for (auto& line : lines)
@@ -154,10 +155,28 @@ std::string IniFile::AsString(const std::string& name, const std::string& defaul
   return (!item.empty()) ? item : defaultValue;
 }
 
+std::string IniFile::AsString(const char* name) const
+{
+  std::string* item = mConfiguration.try_get(name);
+  return (item != nullptr) ? *item : std::string();
+}
+
+std::string IniFile::AsString(const char* name, const char* defaultValue) const
+{
+  std::string* item = mConfiguration.try_get(name);
+  return (item != nullptr) ? *item : defaultValue;
+}
+
 bool IniFile::AsBool(const std::string& name, bool defaultValue) const
 {
   std::string item = ExtractValue(name);
   return (!item.empty()) ? (item.size() == 1 && item[0] == '1') : defaultValue;
+}
+
+bool IniFile::AsBool(const char* name, bool defaultValue) const
+{
+  std::string* item = mConfiguration.try_get(name);
+  return (item != nullptr) ? (item->size() == 1 && (*item)[0] == '1') : defaultValue;
 }
 
 unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue) const
@@ -180,6 +199,19 @@ int IniFile::AsInt(const std::string& name, int defaultValue) const
   {
     int value = 0;
     if (Strings::ToInt(item, value))
+      return value;
+  }
+
+  return defaultValue;
+}
+
+int IniFile::AsInt(const char* name, int defaultValue) const
+{
+  std::string* item = mConfiguration.try_get(name);
+  if (item != nullptr)
+  {
+    int value = 0;
+    if (Strings::ToInt(*item, value))
       return value;
   }
 
