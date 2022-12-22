@@ -180,7 +180,7 @@ class LibretroConfigCRT:
             config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines.glslp'})
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
-        if system.Name == "psx":
+        if system.Core == "swanstation":
             config.update({"audio_driver": '"alsathread"'})
 
         config_core: str = core
