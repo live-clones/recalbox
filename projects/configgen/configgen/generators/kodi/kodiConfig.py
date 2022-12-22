@@ -161,11 +161,22 @@ def writeKodiAdvancedSettingsConfig(architecture: str, resolution: str):
                 "screenmode": resolution,
             }
         },
+        "odroidxu4": {
+            "videoplayer": {
+                "useprimedecoder": "false",
+                "useprimedecoderforhw": "true",
+                "useprimerenderer": "1",
+                "usesoftwaredecoder": "false",
+            },
+            "videoscreen": {
+                "screenmode": resolution,
+            }
+        },
         "default": {
             "videoscreen": {
                 "screenmode": resolution,
             }
-        }
+        },
     }
     config = force_configuration["default"]
     if architecture in force_configuration:
