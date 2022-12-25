@@ -1,0 +1,13 @@
+--- a/sdl-config.in	2022-10-24 20:15:56.000000000 +0200
++++ b/sdl-config.in.new	2022-12-25 18:45:05.305449022 +0100
+@@ -10,8 +10,8 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=${prefix}
+ exec_prefix_set=no
+-libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+-includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
++libdir=@SDL12_COMPAT_LIBDIR@
++includedir=@SDL12_COMPAT_INCLUDEDIR@
+ 
+ @ENABLE_STATIC_FALSE@usage="\
+ @ENABLE_STATIC_FALSE@Usage: $0 [--prefix[=DIR]] [--exec-prefix[=DIR]] [--version] [--cflags] [--libs]"
