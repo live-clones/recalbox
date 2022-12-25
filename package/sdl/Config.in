@@ -1,0 +1,10 @@
+config BR2_PACKAGE_SDL
+	bool "sdl"
+	depends on BR2_PACKAGE_SDL2
+	help
+	  SDL1.2 compatibility library
+
+	  https://github.com/libsdl-org/sdl12-compat
+
+comment "sdl needs a toolchain w/ OpenGl, SDL2"
+	depends on BR2_PACKAGE_SDL2
