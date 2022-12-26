@@ -36,6 +36,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype resolution for 31kHz
 - Add new theme for recalbox rgb dual with 240p optimisations
 - Add Anbernic RG353P/V/M support
+- Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
