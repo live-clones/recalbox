@@ -26,6 +26,7 @@ bool Case::Install() const
     case CaseModel::ArgonOne:
     case CaseModel::Nespi4CaseManual:
     case CaseModel::SuperPi4Case:
+    case CaseModel::RaspberryPiTouchDisplay:
     {
       SetCaseInBoot(mShortName);
       break;
@@ -64,6 +65,7 @@ Case Case::FromShortName(const std::string& value)
   if (value == "SuperPiCase") return Create(CaseModel::SuperPiCase);
   if (value == "MegaPiCase") return Create(CaseModel::MegaPiCase);
   if (value == "ArgonOne") return Create(CaseModel::ArgonOne);
+  if (value == "RaspberryPiTouchDisplay") return Create(CaseModel::RaspberryPiTouchDisplay);
   return Create(CaseModel::None);
 }
 
@@ -74,35 +76,37 @@ Case Case::Create(CaseModel model)
   switch (model)
   {
     case CaseModel::None:
-      return Case(CaseModel::None, false, true, _("NONE"), "", "");
+      return Case(CaseModel::None, !CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, _("NONE"), "", "");
     case CaseModel::GPiV1:
-      return Case(CaseModel::GPiV1, true, true, "Gpi Case (v1)", "GPiV1","");
+      return Case(CaseModel::GPiV1, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case (v1)", "GPiV1","");
     case CaseModel::GPiV2:
-      return Case(CaseModel::GPiV2, true, true, "Gpi Case (v2)", "GPiV2", "");
+      return Case(CaseModel::GPiV2, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case (v2)", "GPiV2", "");
     case CaseModel::GPiV3:
-      return Case(CaseModel::GPiV3, true, true, "Gpi Case (v3)", "GPiV3", "");
+      return Case(CaseModel::GPiV3, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case (v3)", "GPiV3", "");
     case CaseModel::GPi2:
-      return Case(CaseModel::GPi2, true, true, "Gpi Case 2", "GPi2", "");
+      return Case(CaseModel::GPi2, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case 2", "GPi2", "");
     case CaseModel::Nuxii:
-      return Case(CaseModel::Nuxii, true, true, "Nuxii", "Nuxii", "");
+      return Case(CaseModel::Nuxii, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Nuxii", "Nuxii", "");
     case CaseModel::PiBoy:
-      return Case(CaseModel::PiBoy, true, true, "PiBoy DMG", "PiBoy", "");
+      return Case(CaseModel::PiBoy, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "PiBoy DMG", "PiBoy", "");
     case CaseModel::Nespi4Case:
-      return Case(CaseModel::Nespi4Case, true, false, "Nespi4Case", "NESPi4", "");
+      return Case(CaseModel::Nespi4Case, CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Nespi4Case", "NESPi4", "");
     case CaseModel::Nespi4CaseManual:
-      return Case(CaseModel::Nespi4CaseManual, false, false, "Nespi4Case (Retroflag)", "NESPi4Manual", retroflagInstallMessage);
+      return Case(CaseModel::Nespi4CaseManual, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Nespi4Case (Retroflag)", "NESPi4Manual", retroflagInstallMessage);
     case CaseModel::SuperPi4Case:
-      return Case(CaseModel::SuperPi4Case, false, false, "SuperPi4Case (Retroflag)", "SuperPi4Case", retroflagInstallMessage);
+      return Case(CaseModel::SuperPi4Case, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "SuperPi4Case (Retroflag)", "SuperPi4Case", retroflagInstallMessage);
     case CaseModel::NespiCasePlus:
-      return Case(CaseModel::NespiCasePlus, false, false, "Nespi Case + (Retroflag)", "NespiCasePlus", retroflagInstallMessage);
+      return Case(CaseModel::NespiCasePlus, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Nespi Case + (Retroflag)", "NespiCasePlus", retroflagInstallMessage);
     case CaseModel::PiStation:
-      return Case(CaseModel::PiStation, false, false, "PiStation (Retroflag)", "PiStation", retroflagInstallMessage);
+      return Case(CaseModel::PiStation, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "PiStation (Retroflag)", "PiStation", retroflagInstallMessage);
     case CaseModel::SuperPiCase:
-      return Case(CaseModel::SuperPiCase, false, false, "Super Pi Case (Retroflag)", "SuperPiCase", retroflagInstallMessage);
+      return Case(CaseModel::SuperPiCase, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Super Pi Case (Retroflag)", "SuperPiCase", retroflagInstallMessage);
     case CaseModel::MegaPiCase:
-      return Case(CaseModel::MegaPiCase, false, false, "Mega Pi Case (Retroflag)", "MegaPiCase", retroflagInstallMessage);
+      return Case(CaseModel::MegaPiCase, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Mega Pi Case (Retroflag)", "MegaPiCase", retroflagInstallMessage);
     case CaseModel::ArgonOne:
-      return Case(CaseModel::ArgonOne, false, true, "Argon One (Argon40)", "ArgonOne", "");
+      return Case(CaseModel::ArgonOne, !CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Argon One (Argon40)", "ArgonOne", "");
+    case CaseModel::RaspberryPiTouchDisplay:
+      return Case(CaseModel::RaspberryPiTouchDisplay, !CASE_DETECTION_AUTOMATIC, !CASE_SHUTDOWN_SUPPORTED, "Raspberry Pi Touch Display", "RaspberryPiTouchDisplay", "");
   }
   return Case(CaseModel::None, false, true, _("NONE"), "", "");
 }
@@ -127,6 +131,7 @@ std::vector<Case> Case::SupportedManualCases()
     list.push_back(Case::Create(Case::CaseModel::ArgonOne));
     list.push_back(Case::Create(Case::CaseModel::Nespi4CaseManual));
     list.push_back(Case::Create(Case::CaseModel::SuperPi4Case));
+    list.push_back(Case::Create(Case::CaseModel::RaspberryPiTouchDisplay));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   if (Board::Instance().GetBoardType() == BoardType::Pi3plus || Board::Instance().GetBoardType() == BoardType::Pi3)
@@ -134,6 +139,7 @@ std::vector<Case> Case::SupportedManualCases()
     list.push_back(Case::Create(Case::CaseModel::MegaPiCase));
     list.push_back(Case::Create(Case::CaseModel::SuperPiCase));
     list.push_back(Case::Create(Case::CaseModel::NespiCasePlus));
+    list.push_back(Case::Create(Case::CaseModel::RaspberryPiTouchDisplay));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   return list;
