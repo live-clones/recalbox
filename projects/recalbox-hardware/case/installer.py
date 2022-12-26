@@ -10,6 +10,7 @@ MODULES = {
     "installers.gpi2w.install": (cases.GPI2W,),
     "installers.argonone.install": (cases.ARGONONE,),
     "installers.retroflags.install": (cases.SUPERPI4CASE, cases.NESPI4, cases.NESPI4MANUAL, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
+    "installers.raspberrypi-touch-display.install": (cases.RPITOUCHDISPLAY),
 }
 
 def processHardware(install, case, previousCase):
@@ -25,7 +26,7 @@ def processHardware(install, case, previousCase):
                 module = __import__(moduleName, fromlist=["Install"])
                 installClass = getattr(module, "Install")
                 installer = installClass()
-                installer.UninstallSoftware()
+                installer.UninstallSoftware(case)
                 uninstallReboot = installer.UninstallHardware(previousCase)
 
     # Call target installer/uninstaller

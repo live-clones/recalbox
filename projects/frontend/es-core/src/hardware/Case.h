@@ -6,6 +6,9 @@
 #include <utils/IniFile.h>
 #include <utils/Strings.h>
 
+#define CASE_DETECTION_AUTOMATIC true
+#define CASE_SHUTDOWN_SUPPORTED true
+
 /*!
 * Case management
 *
@@ -33,6 +36,7 @@ class Case
       SuperPiCase,
       MegaPiCase,
       ArgonOne,
+      RaspberryPiTouchDisplay,
       None,
     };
 

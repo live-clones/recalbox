@@ -132,7 +132,7 @@ def DetectPiBoyCase():
 
 # --------- Main
 
-manualCases = (cases.SUPERPI4CASE, cases.NESPI4MANUAL, cases.PISTATION, cases.ARGONONE, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE)
+manualCases = (cases.SUPERPI4CASE, cases.NESPI4MANUAL, cases.PISTATION, cases.ARGONONE, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE, cases.RPITOUCHDISPLAY)
 # Main identification routine
 def Identify(previousCase):
     case = cases.NONE
@@ -159,7 +159,7 @@ def Identify(previousCase):
 
     if board in ("rpi3", "rpi4", "rpi4_64") and case == cases.NONE:
         case = DetectPiBoyCase()
-    
+
     return case
 
 
