@@ -462,6 +462,12 @@ LINUX_APPEND_DTB += ; \
 endif
 endif
 
+define LINUX_BUILD_IMAGES
+	$(foreach image,$(call qstrip,$(BR2_LINUX_KERNEL_ADDITIONAL_IMAGES)), \
+		$(LINUX_MAKE_ENV) $(MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(addsuffix .img,$(image))
+		$(INSTALL) -D $(@D)/resource.img $(BINARIES_DIR)
+	)
+endef
 # Compilation. We make sure the kernel gets rebuilt when the
 # configuration has changed. We call the 'all' and
 # '$(LINUX_TARGET_NAME)' targets separately because calling them in
@@ -481,6 +487,7 @@ define LINUX_BUILD_CMDS
 	)
 	$(LINUX_BUILD_DTB)
 	$(LINUX_APPEND_DTB)
+	$(LINUX_BUILD_IMAGES)
 endef
 
 ifeq ($(BR2_LINUX_KERNEL_APPENDED_DTB),y)
