@@ -1,8 +1,8 @@
 diff --git a/linux/Config.in b/linux/Config.in
-index de9bf0ad7a..0bed55ceb0 100644
+index de9bf0ad7a..bda41bb71c 100644
 --- a/linux/Config.in
 +++ b/linux/Config.in
-@@ -436,6 +436,13 @@ config BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT
+@@ -436,6 +436,20 @@ config BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT
  
  endif
  
@@ -12,6 +12,13 @@ index de9bf0ad7a..0bed55ceb0 100644
 +	help
 +	  Build in-tree device tree overlays.
 +	  Currently supports Raspberry Pi kernels.
++
++config BR2_LINUX_KERNEL_ADDITIONAL_IMAGES
++	string "Addtional images to build (like rk3566.img)"
++	help
++	  This is used to create resource.img with custom boot logo
++	  and kernel device tree blob.
++	  (do not set .img suffix)
 +
  config BR2_LINUX_KERNEL_INSTALL_TARGET
  	bool "Install kernel image to /boot in target"
