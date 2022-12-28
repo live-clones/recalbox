@@ -53,6 +53,7 @@ maxWaitFromConfig() {
 #     uses same partition type as BOOT partition (primary or logical) to ensure partition numbers continuity
 #     creates their filesystem (exfat for SHARE, ext4 for OVERLAY)
 createMissingPartitions() {
+  fixGPTAltHeader "$bootDevice"
   alignSize=$((1024 * 1024)) # Align partition on megabyte
   overlayPartitionSize=$((1024 * 1024 * 1024)) # OVERLAY partition will be 1GB
   defaultPartedOptions=("-m" "-s" "-a" "optimal" "${bootDevice}" "unit" "b")
@@ -264,6 +265,19 @@ partitionHasAFilesystem() {
   [ -n "$(blkid "${partition}")" ]
 }
 
+# fixGPTAltHeader <disk>
+#   → check if the alternate (backup) GPT header needs to be moved
+#   When creating the image, genimage place the backup header at the end of the last partition.
+#   That location will not be the expected one by the kernel which expect it at the exact end of the disk
+#   To fix this, sgdisk is executed with option -e to move alternate header to the expected location. 
+fixGPTAltHeader() {
+  which sgdisk >/dev/null 2>&1 || return 0
+  [[ -z "$1" ]] && return 1
+  if sgdisk -v "$1" | grep -q "Problem: The secondary header's self-pointer indicates that it doesn't reside"; then
+    echo "Alternate GPT header on device $1 needs to be fixed"
+    sgdisk -e "$1"
+  fi
+}
 ########
 # MAIN #
 ########
