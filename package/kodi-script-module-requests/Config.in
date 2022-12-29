@@ -9,4 +9,4 @@ config BR2_PACKAGE_KODI_SCRIPT_MODULE_REQUESTS
 	help
 	  Kodi Requests script module
 
-	  https://gitlab.com/recalbox/recalbox-configgen/-/pipelines
+	  https://mirrors.kodi.tv/addons/matrix/script.module.requests/
