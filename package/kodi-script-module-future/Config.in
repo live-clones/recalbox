@@ -5,4 +5,4 @@ config BR2_PACKAGE_KODI_SCRIPT_MODULE_FUTURE
 	help
 	  Kodi Future script module
 
-	  https://kodi.wiki/view/Add-on:Future
+	  https://mirrors.kodi.tv/addons/matrix/script.module.future/
