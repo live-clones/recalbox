@@ -5,4 +5,4 @@ config BR2_PACKAGE_KODI_SCRIPT_MODULE_ADDON_SIGNALS
 	help
 	  Kodi Addon Signals script
 
-	  https://kodi.wiki/view/Add-on:Addon_Signals
+	  https://mirrors.kodi.tv/addons/matrix/script.module.addon.signals/
