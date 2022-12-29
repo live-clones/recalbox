@@ -10,4 +10,4 @@ config BR2_PACKAGE_KODI_PLUGIN_VIDEO_TWITCH
 	help
 	  Kodi Twitch Plugin
 
-	  source https://kodi.tv/addon/plugins-video-add-ons/twitch
+	  source https://github.com/anxdpanic/plugin.video.twitch/
