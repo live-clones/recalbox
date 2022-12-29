@@ -1,0 +1,18 @@
+config BR2_PACKAGE_LINAPPLE_RECALBOX
+	bool "LinApple-Recalbox"
+	select BR2_PACKAGE_SDL
+	select BR2_PACKAGE_SDL_IMAGE
+	select BR2_PACKAGE_SDL_IMAGE_PNG
+	select BR2_PACKAGE_SDL_IMAGE_XPM
+	select BR2_PACKAGE_LIBCURL
+	select BR2_PACKAGE_ZLIB
+	select BR2_PACKAGE_LIBZIP
+	help
+	  Linapple on Raspberry Pi
+	  Great thanks to Mark Ormond for fine tuning LinApple and
+	  publishing his work on GitHub
+
+	  https://github.com/dabonetn/linapple-pie
+
+comment "LinApple-pie needs a toolchain w/ C++, and following librarie : sdl, sdl_image (bmp, xpm), curl, zlib and libzip"
+	depends on !BR2_PACKAGE_SDL || !BR2_PACKAGE_SDL_IMAGE || !BR2_PACKAGE_SDL_IMAGE_PNG || !BR2_PACKAGE_SDL_IMAGE_XPM || !BR2_PACKAGE_CURL || !BR2_PACKAGE_ZLIB || !BR2_PACKAGE_LIBZIP
