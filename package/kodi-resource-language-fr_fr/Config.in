@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_FR_FR
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi fr_fr language resource
+	  Kodi French language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.fr_fr/
