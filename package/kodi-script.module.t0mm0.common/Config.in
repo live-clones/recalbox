@@ -5,4 +5,4 @@ config BR2_PACKAGE_KODI_SCRIPT_MODULE_T0MM0_COMMON
 	help
 	  Kodi Collection of commonly used addon routines
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/leia/script.module.t0mm0.common/

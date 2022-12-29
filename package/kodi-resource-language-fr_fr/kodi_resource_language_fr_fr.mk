@@ -1,13 +1,14 @@
 ################################################################################
 #
-# kodi fr_fr language resource
+# kodi french language resource
 #
 ################################################################################
 
+KODI_RESOURCE_LANGUAGE_FR_FR_RELEASE = matrix
 KODI_RESOURCE_LANGUAGE_FR_FR_VERSION = 9.0.54
-KODI_RESOURCE_LANGUAGE_FR_FR_SOURCE = resource.language.fr_fr-$(KODI_RESOURCE_LANGUAGE_FR_FR_VERSION).zip
-KODI_RESOURCE_LANGUAGE_FR_FR_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.fr_fr
-KODI_RESOURCE_LANGUAGE_FR_FR_PLUGINNAME=resource.language.fr_fr
+KODI_RESOURCE_LANGUAGE_FR_FR_PLUGINNAME = resource.language.fr_fr
+KODI_RESOURCE_LANGUAGE_FR_FR_SOURCE = $(KODI_RESOURCE_LANGUAGE_FR_FR_PLUGINNAME)-$(KODI_RESOURCE_LANGUAGE_FR_FR_VERSION).zip
+KODI_RESOURCE_LANGUAGE_FR_FR_SITE = https://mirrors.kodi.tv/addons/$(KODI_RESOURCE_LANGUAGE_FR_FR_RELEASE)/$(KODI_RESOURCE_LANGUAGE_FR_FR_PLUGINNAME)
 KODI_RESOURCE_LANGUAGE_FR_FR_LICENSE = COPYRIGHT
 
 KODI_RESOURCE_LANGUAGE_FR_FR_PLUGIN_TARGET_DIR=$(TARGET_DIR)/usr/share/kodi/addons
