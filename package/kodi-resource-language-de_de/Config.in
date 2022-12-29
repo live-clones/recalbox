@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_DE_DE
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi de_de language resource
+	  Kodi German language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.de_de/

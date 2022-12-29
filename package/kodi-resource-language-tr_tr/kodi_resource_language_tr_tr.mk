@@ -1,13 +1,14 @@
 ################################################################################
 #
-# kodi tr_tr language resource
+# kodi turkish language resource
 #
 ################################################################################
 
+KODI_RESOURCE_LANGUAGE_TR_TR_RELEASE = matrix
 KODI_RESOURCE_LANGUAGE_TR_TR_VERSION = 9.0.39
-KODI_RESOURCE_LANGUAGE_TR_TR_SOURCE = resource.language.tr_tr-$(KODI_RESOURCE_LANGUAGE_TR_TR_VERSION).zip
-KODI_RESOURCE_LANGUAGE_TR_TR_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.tr_tr
-KODI_RESOURCE_LANGUAGE_TR_TR_PLUGINNAME=resource.language.tr_tr
+KODI_RESOURCE_LANGUAGE_TR_TR_PLUGINNAME = resource.language.tr_tr
+KODI_RESOURCE_LANGUAGE_TR_TR_SOURCE = $(KODI_RESOURCE_LANGUAGE_TR_TR_PLUGINNAME)-$(KODI_RESOURCE_LANGUAGE_TR_TR_VERSION).zip
+KODI_RESOURCE_LANGUAGE_TR_TR_SITE = https://mirrors.kodi.tv/addons/$(KODI_RESOURCE_LANGUAGE_TR_TR_RELEASE)/$(KODI_RESOURCE_LANGUAGE_TR_TR_PLUGINNAME)
 KODI_RESOURCE_LANGUAGE_TR_TR_LICENSE = COPYRIGHT
 
 KODI_RESOURCE_LANGUAGE_TR_TR_PLUGIN_TARGET_DIR=$(TARGET_DIR)/usr/share/kodi/addons
