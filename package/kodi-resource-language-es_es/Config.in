@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_ES_ES
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi es_es language resource
+	  Kodi Spanish language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.es_es/

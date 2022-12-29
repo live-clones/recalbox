@@ -7,4 +7,4 @@ config BR2_PACKAGE_KODI_PLUGIN_VIDEO_YOUTUBE
 	help
 	  Kodi Youtube Plugin
 
-	  https://kodi.tv/addon/plugins-video-add-ons/youtube
+	  https://github.com/anxdpanic/plugin.video.youtube/
