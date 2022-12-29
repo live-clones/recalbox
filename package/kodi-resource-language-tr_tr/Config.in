@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_TR_TR
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi tr_tr language resource
+	  Kodi Turkish language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.tr_tr/

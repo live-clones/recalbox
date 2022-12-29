@@ -1,13 +1,14 @@
 ################################################################################
 #
-# kodi sv_se language resource
+# kodi swedish language resource
 #
 ################################################################################
 
+KODI_RESOURCE_LANGUAGE_SV_SE_RELEASE = matrix
 KODI_RESOURCE_LANGUAGE_SV_SE_VERSION = 9.0.45
-KODI_RESOURCE_LANGUAGE_SV_SE_SOURCE = resource.language.sv_se-$(KODI_RESOURCE_LANGUAGE_SV_SE_VERSION).zip
-KODI_RESOURCE_LANGUAGE_SV_SE_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.sv_se
-KODI_RESOURCE_LANGUAGE_SV_SE_PLUGINNAME=resource.language.sv_se
+KODI_RESOURCE_LANGUAGE_SV_SE_PLUGINNAME = resource.language.sv_se
+KODI_RESOURCE_LANGUAGE_SV_SE_SOURCE = $(KODI_RESOURCE_LANGUAGE_SV_SE_PLUGINNAME)-$(KODI_RESOURCE_LANGUAGE_SV_SE_VERSION).zip
+KODI_RESOURCE_LANGUAGE_SV_SE_SITE = https://mirrors.kodi.tv/addons/$(KODI_RESOURCE_LANGUAGE_SV_SE_RELEASE)/$(KODI_RESOURCE_LANGUAGE_SV_SE_PLUGINNAME)
 KODI_RESOURCE_LANGUAGE_SV_SE_LICENSE = COPYRIGHT
 
 KODI_RESOURCE_LANGUAGE_SV_SE_PLUGIN_TARGET_DIR=$(TARGET_DIR)/usr/share/kodi/addons
