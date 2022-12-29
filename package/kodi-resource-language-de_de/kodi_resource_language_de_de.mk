@@ -1,13 +1,14 @@
 ################################################################################
 #
-# kodi de_de language resource
+# kodi german language resource
 #
 ################################################################################
 
+KODI_RESOURCE_LANGUAGE_DE_DE_RELEASE = matrix
 KODI_RESOURCE_LANGUAGE_DE_DE_VERSION = 9.0.54
-KODI_RESOURCE_LANGUAGE_DE_DE_SOURCE = resource.language.de_de-$(KODI_RESOURCE_LANGUAGE_DE_DE_VERSION).zip
-KODI_RESOURCE_LANGUAGE_DE_DE_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.de_de
-KODI_RESOURCE_LANGUAGE_DE_DE_PLUGINNAME=resource.language.de_de
+KODI_RESOURCE_LANGUAGE_DE_DE_PLUGINNAME = resource.language.de_de
+KODI_RESOURCE_LANGUAGE_DE_DE_SOURCE = $(KODI_RESOURCE_LANGUAGE_DE_DE_PLUGINNAME)-$(KODI_RESOURCE_LANGUAGE_DE_DE_VERSION).zip
+KODI_RESOURCE_LANGUAGE_DE_DE_SITE = https://mirrors.kodi.tv/addons/$(KODI_RESOURCE_LANGUAGE_DE_DE_RELEASE)/$(KODI_RESOURCE_LANGUAGE_DE_DE_PLUGINNAME)
 KODI_RESOURCE_LANGUAGE_DE_DE_LICENSE = COPYRIGHT
 
 KODI_RESOURCE_LANGUAGE_DE_DE_PLUGIN_TARGET_DIR=$(TARGET_DIR)/usr/share/kodi/addons

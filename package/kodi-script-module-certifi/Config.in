@@ -1,8 +1,8 @@
-config BR2_PACKAGE_KODI_SCRIPT_MODULE_FUTURE
-	bool "kodi-script-module-future"
+config BR2_PACKAGE_KODI_SCRIPT_MODULE_CERTIFI
+	bool "kodi-script-module-certifi"
 	default n
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi Future script module
+	  Kodi Certifi script module
 
-	  https://kodi.wiki/view/Add-on:Future
+	  https://mirrors.kodi.tv/addons/matrix/script.module.certifi/
