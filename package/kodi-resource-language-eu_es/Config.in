@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_EU_ES
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi eu_es language resource
+	  Kodi Basque language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.eu_es/

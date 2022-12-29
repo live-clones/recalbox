@@ -5,4 +5,4 @@ config BR2_PACKAGE_KODI_SCRIPT_MODULE_SIX
 	help
 	  Kodi Six script module
 
-	  https://kodi.wiki/view/Add-on:Six
+	  https://mirrors.kodi.tv/addons/matrix/script.module.six/

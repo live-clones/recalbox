@@ -1,13 +1,14 @@
 ################################################################################
 #
-# kodi zh_cn language resource
+# kodi chinese simple language resource
 #
 ################################################################################
 
+KODI_RESOURCE_LANGUAGE_ZH_CN_RELEASE = matrix
 KODI_RESOURCE_LANGUAGE_ZH_CN_VERSION = 9.0.39
-KODI_RESOURCE_LANGUAGE_ZH_CN_SOURCE = resource.language.zh_cn-$(KODI_RESOURCE_LANGUAGE_ZH_CN_VERSION).zip
-KODI_RESOURCE_LANGUAGE_ZH_CN_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.zh_cn
-KODI_RESOURCE_LANGUAGE_ZH_CN_PLUGINNAME=resource.language.zh_cn
+KODI_RESOURCE_LANGUAGE_ZH_CN_PLUGINNAME = resource.language.zh_cn
+KODI_RESOURCE_LANGUAGE_ZH_CN_SOURCE = $(KODI_RESOURCE_LANGUAGE_ZH_CN_PLUGINNAME)-$(KODI_RESOURCE_LANGUAGE_ZH_CN_VERSION).zip
+KODI_RESOURCE_LANGUAGE_ZH_CN_SITE = https://mirrors.kodi.tv/addons/$(KODI_RESOURCE_LANGUAGE_ZH_CN_RELEASE)/$(KODI_RESOURCE_LANGUAGE_ZH_CN_PLUGINNAME)
 KODI_RESOURCE_LANGUAGE_ZH_CN_LICENSE = COPYRIGHT
 
 KODI_RESOURCE_LANGUAGE_ZH_CN_PLUGIN_TARGET_DIR=$(TARGET_DIR)/usr/share/kodi/addons
