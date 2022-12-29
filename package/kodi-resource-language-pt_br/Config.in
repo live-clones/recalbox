@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_PT_BR
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi pt_br language resource
+	  Kodi Portuguese (Brazil) language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.pt_br/
