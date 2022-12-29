@@ -3,6 +3,6 @@ config BR2_PACKAGE_KODI_RESOURCE_LANGUAGE_ZH_CN
 	default y
 	depends on BR2_PACKAGE_KODI
 	help
-	  Kodi zh_cn language resource
+	  Kodi Chinese (Simple) language resource
 
-	  https://kodi.tv
+	  https://mirrors.kodi.tv/addons/matrix/resource.language.zh_cn/
