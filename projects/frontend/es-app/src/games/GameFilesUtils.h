@@ -4,6 +4,7 @@
 
 
 #include "FileData.h"
+#include "SaveState.h"
 #include <utils/storage/Set.h>
 #include <views/gamelist/IGameListView.h>
 
@@ -16,6 +17,7 @@ class GameFilesUtils
     static Path GetSubDirPriorityPatch(const FileData* fileData);
     static std::list<Path> GetSoftPatches(const FileData* fileData);
     static HashSet<std::string> GetGameSaveFiles(FileData& game);
+    static std::list<SaveState> GetGameSaveStateFiles(FileData& game);
     static HashSet<std::string> GetMediaFiles(FileData& fileData);
 
     static bool ContainsMultiDiskFile(const std::string& extensions)

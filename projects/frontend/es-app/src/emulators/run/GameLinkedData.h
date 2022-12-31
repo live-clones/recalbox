@@ -38,6 +38,16 @@ class GameLinkedData
     {
     }
 
+    /*!
+ * @brief Configure netplay data as host
+ * @param port Listening port
+ * @param playerPassword Password for players
+ * @param viewerPassword Password for viewers
+ */
+    GameLinkedData(std::string saveStateSlot)
+      : mSaveStateSlot(saveStateSlot)
+    {}
+
     //! Default constructor
     GameLinkedData() = default;
 
@@ -60,6 +70,9 @@ class GameLinkedData
     //! Get read only Patch data
     const PatchData& Patch() const { return mPatchData; }
 
+    //! Get read only save state
+    const std::string  SaveStateSlot() const { return mSaveStateSlot; }
+
   private:
     //! Netplay data
     NetPlayData mNetPlayData;
@@ -68,4 +81,6 @@ class GameLinkedData
     CrtData mCrtData;
 
     PatchData mPatchData;
+
+    std::string mSaveStateSlot;
 };
