@@ -377,7 +377,7 @@ bool SystemData::IsPorts() const
 
 bool SystemData::IsScreenshots() const
 {
-    return "Screenshots" == mDescriptor.FullName();
+    return (mProperties & Properties::ScreenShots) != 0;
 }
 
 bool SystemData::IsVirtual() const
