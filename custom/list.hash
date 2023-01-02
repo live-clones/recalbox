@@ -5,11 +5,10 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/clang/0001-lib-Driver-ToolChains-Gnu-Use-GCC_INSTALL_PREFIX-in-.patch
+++++++++++++++++++++++++++++++++  package/sdl/sdl-0000-route-sdl-config-to-staging.patch
 --------------------------------  package/sdl/0001-use-correct-directfb-config.patch
 --------------------------------  package/sdl/0002-fix-compilation-with-libx11.patch
---------------------------------  package/sdl/Config.in
 --------------------------------  package/sdl/sdl.hash
---------------------------------  package/sdl/sdl.mk
 087eaf782e2a27d9830114325ad8681a  linux/Config.in
 214c5e2762f0292cf0a31cabc895e54d  linux/linux.mk
 a1f7a565a8bd2e201c9a682054a30d2a  package/Config.in
@@ -43,6 +42,8 @@ eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 f38548efeaeaaa6515c91bc6ab7d9d54  package/rpi-firmware/cmdline.txt
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 7dd2e53d8b5a99680e4ccff69cd4b8fb  package/rpi-firmware/rpi-firmware.mk
+fa419eb47b38fa16ec18a0dfb2dd7d12  package/sdl/Config.in
+8a52348082fa88a0e4b0405c4a07a2fc  package/sdl/sdl.mk
 b908959a214b74a37cab5f5acee1a8f5  package/sdl2/Config.in
 6011acfed79ad650866038acda02b61e  package/sdl2/sdl2.mk
 92d54b262be45808e8892ccc6214bd25  package/sdl2_mixer/sdl2_mixer.mk
