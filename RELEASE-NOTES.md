@@ -75,6 +75,7 @@ as release notes for end user on a Recalbox upgrade.
   - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
   - Detection and pairing stays in background for 5 minutes
  
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
