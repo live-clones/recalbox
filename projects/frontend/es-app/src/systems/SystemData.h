@@ -26,6 +26,7 @@ class SystemData : private INoCopy
       AlwaysFlat = 16, //!< This system is presented always flat
       Searchable = 32, //!< We can search games in this system
       GameInPng  = 64, //!< Game is its image and vice-versa :)
+      ScreenShots = 128, //! < This system is the special "Screenshots" system
     };
 
 	private:
@@ -188,7 +189,7 @@ class SystemData : private INoCopy
     //! Is this system the "Favorite" system?
     bool IsFavorite() const;
 
-    //! Is this system the "Ports" system?
+    //! Is this system the "Ports" system?ScreenShots
     bool IsPorts() const;
 
     bool IsScreenshots() const;

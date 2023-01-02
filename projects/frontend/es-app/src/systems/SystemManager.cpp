@@ -267,6 +267,8 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
   if (systemDescriptor.Name() == "pico8") properties |= SystemData::Properties::GameInPng;
+  if (systemDescriptor.Name() == "imageviewer") properties = SystemData::Properties::GameInPng | SystemData::Properties::ScreenShots;
+
   SystemData* result = new SystemData(*this, systemDescriptor, properties);
 
   PortTypes port = PortTypes::None;
