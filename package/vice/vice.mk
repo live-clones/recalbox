@@ -5,12 +5,11 @@
 ################################################################################
 
 VICE_VERSION = 3.6.1
-#VICE_SOURCE = vice-$(VICE_VERSION).tar.gz
 VICE_SITE = https://sourceforge.net/projects/vice-emu/files/releases
 VICE_LICENSE = GPL-2.0
 VICE_LICENSE_FILES = COPYING
 
-VICE_DEPENDENCIES = sdl2 ffmpeg libpng giflib zlib lame pulseaudio jpeg sdl2_image host-xa65
+VICE_DEPENDENCIES = sdl2 ffmpeg libpng giflib zlib lame pulseaudio jpeg sdl2_image host-xa65 host-dos2unix
 
 VICE_CONF_OPTS += \
 	--disable-option-checking \
