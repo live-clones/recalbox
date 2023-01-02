@@ -163,6 +163,8 @@ void BasicGameListView::Update(int delta)
 {
   Component::Update(delta);
 
+  if(mSystem.IsScreenshots()) return;
+
   // Need busy animation?
   ScraperSeamless& scraper = ScraperSeamless::Instance();
   FileData* game = getCursor();
