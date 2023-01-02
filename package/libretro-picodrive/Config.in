@@ -3,7 +3,7 @@ config BR2_PACKAGE_LIBRETRO_PICODRIVE
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	depends on BR2_PACKAGE_LIBPNG
-	depends on BR2_PACKAGE_SDL
+	depends on BR2_PACKAGE_SDL2
 	help
 	  A libretro Megadrive SMS emulator core for ARM.
 
