@@ -75,13 +75,13 @@ class DiskCollector:
     def scanDisk(rom: str) -> (bool, int, str, str):
         try:
             romlower = rom.lower().replace('[', '(').replace(']', ')')
-            start = romlower.find('(disk ')
-            if start < 0:
-                start = romlower.find('(disc ')
+            start = romlower.find('(side ')
+            if start < 0: start = romlower.find('(disk ')
+            if start < 0: start = romlower.find('(disc ')
             if start > 0:
                 stop = romlower.find(')', start)
                 if stop > 0:
-                    subParts = romlower[start:].split(' ')
+                    subParts = romlower[start:stop].split(' ')
                     if 'a' <= subParts[1] <= 'z':
                         return True, ord(subParts[1]) - ord('a') + 1, rom[0:start], rom[stop+1:]
                     return True, int(subParts[1]), rom[0:start], rom[stop+1:]
