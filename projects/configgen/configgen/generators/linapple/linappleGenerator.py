@@ -1,124 +1,156 @@
-"""
-Created on Mar 6, 2016
+from typing import List
 
-@author: Laurent Marchelli
-"""
-
+from configgen import recalboxFiles
 from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
-import configgen.recalboxFiles as recalboxFiles
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
 class LinappleGenerator(Generator):
-    """
-    Command line generator for linapple-pie emulator
-    
-    Ensure the user's configuration directory has all needed files to run
-    linapple emulator and manage configuration file to tune emulator behaviour 
-    with current hardware configuration.
-    
-    Args:
-        pathInit (str):
-            Full path name where default settings are stored.
-            ('/recalbox/share_init/system/.linapple')
-        
-        pathUser (str):
-            Full path name where user settings are stored.
-            ('/recalbox/share/system/.linapple')
-            
-    """
+
+    EMULATOR_BINARY = "/usr/bin/linapple"
+
+    SETTINGS_TEMPLATE = "linapple.conf.origin"
+    SETTINGS_FINAL = "linapple.conf"
+
     def __init__(self, pathInit, pathUser):
         self.pathInit = pathInit
         self.pathUser = pathUser
-        self.resources = ['Master.dsk']
-        self.filename = 'linapple.conf'
 
-    def check_resources(self) -> bool:
-        """
-        Check system needed resources
-        
-        Returns (bool:
-            Returns True if the check suceeded, False otherwise.
-        """
-        # Create user setting path, if it does not exists
+    @staticmethod
+    def setGraphicConfig(system: Emulator, settings: keyValueSettings):
+        settings.removeOption("Screen Width")
+        settings.removeOption("Screen Height")
+        if 'x' in system.VideoMode:
+            width, height = system.VideoMode.split('x')
+            settings.setInt("Screen Width", int(width))
+            settings.setInt("Screen Height", int(height))
+        settings.setInt("Fullscreen", 1)
+
+    @staticmethod
+    def setMediaConfig(settings: keyValueSettings, args):
+        # Static folders
         import os
-        if not os.path.exists(self.pathUser):
-            os.makedirs(self.pathUser)
+        romPath: str = os.path.join(recalboxFiles.ROMS, "apple2")
+        settings.setString("FTP Local Dir", romPath)
 
-        # Ensure system configuration file is available
-        sys_conf = os.path.join(self.pathInit, self.filename)
-        if not os.path.exists(sys_conf):
-            return False
+        # Save states
+        settings.setString("Save State Directory", os.path.join(recalboxFiles.SAVES, "apple2"))
+        settings.setString("Save State Filename", os.path.join(recalboxFiles.SAVES, "apple2", os.path.basename(args.rom) + ".savestate"))
 
-        # Ensure system resources are available
-        for r in self.resources:
-            sys_filename = os.path.join(self.pathInit, r)
-            if not os.path.exists(sys_filename):
-                return False
-            usr_filename = os.path.join(self.pathUser, r)
-            if not os.path.exists(usr_filename):
-                import shutil
-                shutil.copyfile(sys_filename, usr_filename)
+        # Disk/HDD images
+        settings.setString("HDV Starting Directory", romPath)
+        settings.setString("Slot 6 Directory", romPath)
+        _, ext = os.path.splitext(args.rom)
+        if ext.lower() == ".hdv":
+            settings.setInt("Harddisk Enable", 1)
+            from configgen.utils.diskCollector import DiskCollector
+            collector = DiskCollector(args.rom, 2, True)
+            settings.setString("Harddisk Image 1", collector.Disks[0])
+            settings.setString("Harddisk Image 2", collector.Disks[1] if collector.Count > 1 else "")
+            settings.setInt("Slot 6 Autoload", 0)
+            settings.removeOption("Disk Image 1")
+            settings.removeOption("Disk Image 2")
+        else:
+            settings.setInt("Slot 6 Autoload", 1)
+            from configgen.utils.diskCollector import DiskCollector
+            collector = DiskCollector(args.rom, 2, True)
+            settings.setString("Disk Image 1", collector.Disks[0])
+            settings.setString("Disk Image 2", collector.Disks[1] if collector.Count > 1 else "")
+            settings.setInt("Harddisk Enable", 0)
+            settings.removeOption("Harddisk Image 1")
+            settings.removeOption("Harddisk Image 2")
 
-        return True
+    @staticmethod
+    def setPrinterConfig(settings: keyValueSettings, args):
+        import os
+        settings.setString("Parallel Printer Filename", os.path.join(recalboxFiles.SAVES, "apple2", os.path.basename(args.rom) + ".printer.txt"))
+        settings.setInt("Append to printer file", 1)
+
+    @staticmethod
+    def setGeneralConfig(system: Emulator, settings: keyValueSettings):
+        settings.setInt("Boot at Startup", 1)
+        settings.setInt("Show Leds", 1 if system.ShowFPS else 0)
+        from configgen.utils.architecture import Architecture
+        settings.setInt("Singlethreaded", 1 if Architecture().isPi0or1 else 0)
+
+    @staticmethod
+    def setJoystickConfig(playersControllers: ControllerPerPlayer, settings: keyValueSettings):
+        # Enable both joystick
+        settings.setInt("Joystick 0", 1)
+        settings.setInt("Joystick 1", 1)
+
+        for index in playersControllers:
+            controller = playersControllers[index]
+            if controller.PlayerIndex == 1:
+                settings.setInt("Joy0Index", controller.SdlIndex)
+                settings.setInt("Joy0Axis0", 0)
+                settings.setInt("Joy0Axis1", 1)
+                settings.setInt("Joy0up", controller.Up.Id if controller.HasUp and controller.Up.IsButton else -1)
+                settings.setInt("Joy0down", controller.Down.Id if controller.HasDown and controller.Down.IsButton else -1)
+                settings.setInt("Joy0left", controller.Left.Id if controller.HasLeft and controller.Left.IsButton else -1)
+                settings.setInt("Joy0right", controller.Right.Id if controller.HasRight and controller.Right.IsButton else -1)
+                settings.setInt("Joy0Button1", controller.B.Id if controller.HasB and controller.B.IsButton else 1)
+                settings.setInt("Joy0Button2", controller.A.Id if controller.HasA and controller.A.IsButton else 0)
+                settings.setInt("Joy0ButtonX", controller.X.Id if controller.HasX and controller.B.IsButton else -1)
+                settings.setInt("Joy0ButtonY", controller.Y.Id if controller.HasY and controller.A.IsButton else -1)
+                settings.setInt("Joy0ButtonL1", controller.L1.Id if controller.HasL1 and controller.L1.IsButton else -1)
+                settings.setInt("Joy0ButtonR1", controller.R1.Id if controller.HasR1 and controller.R1.IsButton else -1)
+                settings.setInt("JoyExitEnable", 0)
+                if controller.HasStart and controller.HasHotkey and controller.Start.IsButton and controller.Hotkey.IsButton:
+                    settings.setInt("JoyExitEnable", 1)
+                    settings.setInt("JoyExitButtonHotKey", controller.Hotkey.Id)
+                    settings.setInt("JoyExitButtonStart", controller.Start.Id)
+            elif controller.PlayerIndex == 2:
+                settings.setInt("Joy1Index", controller.SdlIndex)
+                settings.setInt("Joy1Axis0", 0)
+                settings.setInt("Joy1Axis1", 1)
+                settings.setInt("Joy1up", controller.Up.Id if controller.HasUp and controller.Up.IsButton else -1)
+                settings.setInt("Joy1down", controller.Down.Id if controller.HasDown and controller.Down.IsButton else -1)
+                settings.setInt("Joy1left", controller.Left.Id if controller.HasLeft and controller.Left.IsButton else -1)
+                settings.setInt("Joy1right", controller.Right.Id if controller.HasRight and controller.Right.IsButton else -1)
+                settings.setInt("Joy1Button1", controller.A.Id if controller.HasA and controller.A.IsButton else 0)
 
     def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings, args):
-        # Check resources
-        if not self.check_resources():
-            return
 
+        # Has user config?
+        final = system.ConfigFile
+
+        # Nope, create it
         if not system.HasConfigFile:
             # Load config file
             import os
-            usr_conf = os.path.join(self.pathUser, self.filename)
-            filename = usr_conf \
-                if os.path.exists(usr_conf) \
-                else os.path.join(self.pathInit, self.filename)
-            from configgen.generators.linapple.linappleConfig import LinappleConfig
-            config = LinappleConfig(filename=filename)
-            config.joysticks(playersControllers)
-            config.system(system, args.rom)
-            # Save changes
-            config.save(filename=usr_conf)
+            template = os.path.join(self.pathUser, LinappleGenerator.SETTINGS_TEMPLATE)
+            if not os.path.exists(template):
+                template = os.path.join(self.pathInit, LinappleGenerator.SETTINGS_TEMPLATE)
+            settings: keyValueSettings = keyValueSettings(template, True)
+            settings.loadFile(True)
 
-        commandArray = [ recalboxFiles.recalboxBins[system.Emulator] ]
+            # Configure
+            self.setGeneralConfig(system, settings)
+            self.setPrinterConfig(settings, args)
+            self.setGraphicConfig(system, settings)
+            self.setJoystickConfig(playersControllers, settings)
+            self.setMediaConfig(settings, args)
+
+            # Load overrides
+            from configgen.settings.configOverriding import buildOverrideChain
+            overrides: List[str] = buildOverrideChain(args.rom, ".linapple.conf")
+            for override in overrides:
+                settings.changeSettingsFile(override)
+                settings.loadFile()
+
+            # Save configuration
+            final: str = os.path.join(self.pathUser, LinappleGenerator.SETTINGS_FINAL)
+            settings.changeSettingsFile(final)
+            settings.saveFile()
+
+        commandArray = [LinappleGenerator.EMULATOR_BINARY,
+                        "-r", "128",  # Add paged memory
+                        "--conf", final,
+                        "-l" if args.verbose else ""]
 
         if system.HasArgs: commandArray.extend(system.Args)
 
         return Command(videomode=system.VideoMode, array=commandArray)
-
-    def config_upgrade(self, version: str):
-        """
-        Upgrade the user's configuration file with new values added to the
-        system configuration file upgraded by S11Share:do_upgrade()
-        
-        Args: 
-            version (str): New Recalbox version
-            
-        Returns (bool):
-            Returns True if this Generators sucessfully handled the upgrade.
-        """
-        # Check resources
-        if not self.check_resources(): 
-            return False
-
-        # Load system configuration file
-        import os
-        from configgen.generators.linapple.linappleConfig import LinappleConfig
-        config = LinappleConfig(filename=os.path.join(self.pathInit, self.filename))
-
-        # If an user's configuration file exists, upgrade it
-        usr_conf = os.path.join(self.pathUser, self.filename)
-        if os.path.exists(usr_conf):
-            config_sys = config
-            config = LinappleConfig(filename=usr_conf)
-            for k,v in config_sys.settings.items():
-                if k not in config.settings:
-                    config.settings[k]=v
-
-        # Save config file (original/updated) to user's directory
-        config.save(filename=usr_conf)
-        print("{} 's configuration successfully upgraded".format(self.__class__.__name__))
-        return True
