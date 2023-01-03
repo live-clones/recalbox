@@ -68,8 +68,8 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.linapple.linappleGenerator", fromlist=["LinappleGenerator"])
         generatorClass = getattr(module, "LinappleGenerator")
         import os
-        return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.linapple'),
-                              os.path.join(recalboxFiles.HOME     , '.linapple'))
+        return generatorClass(os.path.join(recalboxFiles.HOME_INIT, '.config/linapple'),
+                              os.path.join(recalboxFiles.HOME     , '.config/linapple'))
     elif emulator == "kodi":
         module = __import__("configgen.generators.kodi.kodiGenerator", fromlist=["KodiGenerator"])
         generatorClass = getattr(module, "KodiGenerator")
