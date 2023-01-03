@@ -64,6 +64,8 @@ as release notes for end user on a Recalbox upgrade.
   - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
   - Detection and pairing stays in background for 5 minutes
  
+- Bump LinApple (new file formats, HDD, better pad management, pad shortcuts)
+
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
@@ -74,6 +76,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Controllers recognized as Xbox in Dolphin (GC/Wii) have their hotkeys working
 - Fix pause menu in the game for libretro pcsx_rearmed
+- Fix disk enumerator (allow some emulators to auto-load multiple disk games)
 
 ## Version 8.1.1-Electron
 
