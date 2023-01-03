@@ -16,7 +16,7 @@ docker build -t "recalbox-dev" .
 NPM_PREFIX_OUTPUT_PATH="`pwd`/output/build/.npm"
 mkdir -p "$NPM_PREFIX_OUTPUT_PATH" "${PWD}/dl" "${PWD}/host"
 
-docker run -ti --rm \
+docker run -ti --rm --security-opt seccomp=unconfined \
 	-w="$(pwd)" \
 	-v "$(pwd):$(pwd)" \
 	-v "$NPM_PREFIX_OUTPUT_PATH:/.npm" \
