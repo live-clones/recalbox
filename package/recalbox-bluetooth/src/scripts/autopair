@@ -34,6 +34,21 @@ devices = {}
 discovery_timeout = 0
 
 
+class JoystickDevice:
+    def __init__(self, id, name, alias, address, paired, trusted, connected, blocked, services_resolved, rssi=None):
+        self.id = id
+        self.name = name
+        self.alias = alias
+        self.address = address
+        if rssi is not None:
+            self.rssi = rssi
+        self.paired = paired
+        self.trusted = trusted
+        self.connected = connected
+        self.blocked = blocked
+        self.services_resolved = services_resolved
+
+
 class PairStatus(Enum):
     OK = 1
     ALREADY_EXISTS = 2
@@ -48,7 +63,7 @@ def init_logger():
     )
     _logger.setLevel(logging.NOTSET)
 
-    file_handler = logging.FileHandler("/var/log/recalbox-bluetooth.log")
+    file_handler = logging.FileHandler("/tmp/recalbox-bluetooth.log")
     file_handler.setFormatter(log_formatter)
     file_handler.setLevel(logging.INFO)
     _logger.addHandler(file_handler)
@@ -116,18 +131,49 @@ def on_mqtt_message(mqtt_client, userdata, message):
         if data["command"] == "stop_discovery" and is_discovering:
             stop_discovery()
         if data["command"] == "report_status":
-            report_status()
+            report_status(sys._getframe().f_code.co_name)
     except RuntimeError as err:
         logger.error("error processing message: %s", err)
 
     logger.info("end of processing mqtt message")
 
 
-def report_status():
+def report_status(initiator=None):
+    if not MQTT_AVAILABLE:
+        return
+
     global is_discovering
+
+    joy = {}
+    devicelist = []
+    for devpath in devices:
+        if is_joystick(devices[devpath]):
+            joy[devpath] = JoystickDevice(
+                id=devpath,
+                name=devices[devpath].get("Name", "unknown"),
+                alias=devices[devpath].get("Alias", "unknown"),
+                paired=bool(devices[devpath].get("Paired", 0)),
+                trusted=bool(devices[devpath].get("Trusted", 0)),
+                connected=bool(devices[devpath].get("Connected", 0)),
+                blocked=bool(devices[devpath].get("Blocked", 0)),
+                services_resolved=bool(devices[devpath].get("ServicesResolved", 0)),
+                address=devices[devpath].get("Address", "00:00:00:00:00:00"),
+                rssi=devices[devpath].get("RSSI", None),
+            ).__dict__
+            devicelist.append(joy[devpath])
+
     mqtt_client.publish(
         "bluetooth/status",
-        json.dumps({"is_discovering": is_discovering, "discovery_timeout": discovery_timeout}),
+        json.dumps(
+            {
+                "is_discovering": is_discovering,
+                "discovery_timeout": discovery_timeout,
+                "discovery_total": DISCOVERY_PERIOD,
+                "devices": devicelist,
+                "initiator": initiator,
+            },
+            indent=2,
+        ),
     )
 
 
@@ -156,7 +202,10 @@ def iterate_stop_discovery():
             should_stop_discovery_timer = Timer(1.0, iterate_stop_discovery)
             should_stop_discovery_timer.start()
 
-    report_status()
+    if is_discovering is False:
+        discovery_timeout = 0
+
+    report_status(initiator=sys._getframe().f_code.co_name)
 
 
 def stop_discovery():
@@ -172,8 +221,11 @@ def stop_discovery():
 
 def remove_device(address):
     try:
-        device = bluezutils.find_device(address)
-        adapter.RemoveDevice(device)
+        #device = bluezutils.find_device(address)
+        #adapter.RemoveDevice(device)
+        for path in devices:
+            if devices[path].get("Address", "00:00:00:00:00:00") == address:
+                adapter.RemoveDevice(path, dbus_interface="org.bluez.Adapter1")
     except Exception as e:
         logger.error("can't remove device %s: %s", address, e)
 
@@ -208,26 +260,28 @@ def trust_device(path) -> bool:
 
 
 def connect_device(address) -> bool:
+#    try:
+#        device = bluezutils.find_device(address)
+#    except dbus.exceptions.DBusException as err:
+#        logger.error("connection to device %s could not start: %s", address, err)
+#        return False
+#    except Exception as err:
+#        # device may have been removed elsewhere
+#        logger.warning("connection to device %s ended in error: %s", address, err)
+#        return False
+
     try:
+        logger.info("connecting to %s", address)
         device = bluezutils.find_device(address)
+        device.Connect()
+        logger.info("connected to %s", address)
+        return True
     except dbus.exceptions.DBusException as err:
-        logger.error("connection to device %s could not start: %s", address, err)
-        return False
+        logger.error("error connecting to %s: %s", address, err)
+        remove_device(address)
     except Exception as err:
         # device may have been removed elsewhere
         logger.warning("connection to device %s ended in error: %s", address, err)
-        return False
-
-    tries = 5
-    while tries > 0:
-        try:
-            logger.info("connecting to %s", address)
-            device.Connect()
-            logger.info("connected to %s", address)
-            return True
-        except dbus.exceptions.DBusException as err:
-            logger.error("error connecting to %s: %s", address, err)
-        tries = tries - 1
 
     logger.error("connection to %s failed", address)
     return False
@@ -325,6 +379,7 @@ def interfaces_added(path, interfaces):
         return
 
     connect_new_device(path, devices[path], False)
+    report_status(sys._getframe().f_code.co_name)
 
 
 def interfaces_removed(path, interfaces):
@@ -334,6 +389,7 @@ def interfaces_removed(path, interfaces):
     if path in devices:
         logger.info("removed device %s", path)
         del devices[path]
+    report_status(sys._getframe().f_code.co_name)
 
 
 def properties_changed(interface, changed, invalidated, path):
@@ -341,7 +397,7 @@ def properties_changed(interface, changed, invalidated, path):
         return
 
     if path in devices:
-        devices[path] = dict(devices[path], **changed)
+        devices[path] = {**devices[path], **changed}
     else:
         devices[path] = changed
 
@@ -365,6 +421,7 @@ def properties_changed(interface, changed, invalidated, path):
     # device is disconnected, end
     if dbus.String("Connected") in changed and bool(changed["Connected"]) is False:
         logger.info("device %s disconnected", devices[path]["Name"])
+        report_status(sys._getframe().f_code.co_name)
         return
 
     force = True
@@ -372,6 +429,7 @@ def properties_changed(interface, changed, invalidated, path):
         force = False
 
     connect_new_device(path, devices[path], force)
+    report_status(sys._getframe().f_code.co_name)
 
 
 if __name__ == "__main__":
@@ -418,6 +476,7 @@ if __name__ == "__main__":
         if "org.bluez.Device1" in interfaces and is_joystick(
             interfaces["org.bluez.Device1"]
         ):
+            logger.info("adding %s", interfaces["org.bluez.Device1"]["Name"])
             devices[path] = interfaces["org.bluez.Device1"]
 
         # power-on bt adapters
@@ -452,7 +511,7 @@ if __name__ == "__main__":
         )
         mqtt_thread.start()
     else:
-        logger.warning("mqtt unavailable")
+        logger.warning("mqtt library unavailable")
 
     mainloop = GObject.MainLoop()
     mainloop.run()
