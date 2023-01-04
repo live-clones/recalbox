@@ -24,11 +24,11 @@ class LibretroConfigCRT:
         if region == "all":
             config["crt_switch_timings_pal"] = '"' + mode.timings() + '"'
             config["crt_switch_timings_ntsc"] = '"' + mode.timings() + '"'
-            config["video_refresh_rate_pal"] = '"{}"'.format(mode.refresh_rate)
-            config["video_refresh_rate_ntsc"] = '"{}"'.format(mode.refresh_rate)
+            config["video_refresh_rate_pal"] = '"{}"'.format(mode.emulator_refresh)
+            config["video_refresh_rate_ntsc"] = '"{}"'.format(mode.emulator_refresh)
         else:
             config["crt_switch_timings_" + region] = '"' + mode.timings() + '"'
-            config["video_refresh_rate_" + region] = '"{}"'.format(mode.refresh_rate)
+            config["video_refresh_rate_" + region] = '"{}"'.format(mode.emulator_refresh)
 
         config["aspect_ratio_index"] = '23'
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
