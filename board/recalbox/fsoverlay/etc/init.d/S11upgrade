@@ -51,6 +51,8 @@ if [[ -f $UPDATEFILE ]]; then
     failed_clean_exit
   fi
 
+  fbv2 -k -i "$IMAGE_PATH/offline-install-1.jpg"
+
   clean_dir "$SHAREUPDATEDIR"
   if ! unxz -c "${UPDATEFILE}" >"$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"; then
     recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -f upgrade.log "decompression failed, removing stale files. Exiting..."
