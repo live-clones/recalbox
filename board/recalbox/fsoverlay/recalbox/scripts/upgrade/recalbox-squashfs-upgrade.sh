@@ -18,17 +18,24 @@ do_update() {
   # Stop ES
   echo "stopping emulationstation"
   /etc/init.d/S31emulationstation stop
-  dd if=/dev/zero of=/dev/fb0 > /dev/null 2>&1
-  fbv2 -k -i "$IMAGE_PATH/offline-install-1.jpg"
-  sleep 1
 
   # Mount
   echo "mount image"
   fbv2 -k -i "$IMAGE_PATH/offline-install-2.jpg"
   sleep 1
-  LBA=$(lba-finder "${UPDATEFILE}")
-  echo "intiating a losetup for lba ${LBA} (offset $((LBA * 512))s)"
-  LOOPFILE=$(losetup -f --show "${UPDATEFILE}" -o $((LBA * 512))) || return 2
+  if [ "$(getArchName)" = "rg353x" ]; then
+    # rg353x uses GPT a partition format
+    # so we have to process slightly differently from other systems
+    echo "initiating a losetup"
+    LOOPDISK=$(losetup -f --show "${UPDATEFILE}") || return 2
+    partprobe "$LOOPDISK"
+    LOOPFILE="${LOOPDISK}p3"
+    echo "RECALBOX partition is $LOOPFILE"
+  else
+    LBA=$(lba-finder "${UPDATEFILE}")
+    echo "initiating a losetup for lba ${LBA} (offset $((LBA * 512))s)"
+    LOOPFILE=$(losetup -f --show "${UPDATEFILE}" -o $((LBA * 512))) || return 2
+  fi
   mount "$LOOPFILE" /mnt || return 3
 
   echo "remounting /boot R/W"
