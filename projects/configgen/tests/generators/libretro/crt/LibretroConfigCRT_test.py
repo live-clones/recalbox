@@ -115,7 +115,7 @@ def test_missing_mode_throw(mocker, system_snes):
         MODES_TXT: "nes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
 
     with pytest.raises(Exception):
-        LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes), "Mario.smc"
+        LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(system_snes, "Mario.smc")
 
 
 def test_given_overscan_feature_creates_viewport_all_region_config(mocker, system_snes: Emulator):
