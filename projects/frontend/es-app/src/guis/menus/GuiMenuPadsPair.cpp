@@ -11,7 +11,7 @@
 #include <utils/locale/LocaleHelper.h>
 
 GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList)
-  : GuiMenuBase(window, _("PAIR A BLUETOOTH CONTROLLER"), this)
+  : GuiMenuBase(window, _("PAIR BLUETOOTH CONTROLLERS"), this)
   , mDevices(deviceList)
 {
   int index = -1;

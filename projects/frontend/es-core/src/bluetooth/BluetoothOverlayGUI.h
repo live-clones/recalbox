@@ -6,26 +6,19 @@
 #include "guis/Gui.h"
 #include "components/ImageComponent.h"
 #include "utils/gl/Rectangle.h"
+#include "DeviceStatus.h"
+#include "IBluetoothDeviceStatusListener.h"
 
-class BluetoothOverlayGUI : public Gui
+class BluetoothOverlayGUI
+  : public Gui
+  , public IBluetoothDeviceStatusListener
 {
   public:
     /*!
      * @brief Constructor
      * @param windowManager Window manager reference
      */
-    BluetoothOverlayGUI(WindowManager& windowManager);
-
-    /*!
-     * @brief Update notification information
-     * @param remainingMs Remaining time in second
-     * @param totalMs Total time in second
-     */
-    void UpdatePairingTime(int remaining, int total)
-    {
-      mRemaining = remaining * 1000;
-      mTotal = total * 1000;
-    }
+    explicit BluetoothOverlayGUI(WindowManager& windowManager);
 
     /*
      * Component/Gui overrides
@@ -54,4 +47,18 @@ class BluetoothOverlayGUI : public Gui
     ImageComponent mBluetoothIcon;
     //! Progress bar position
     Rectangle mProgressBar;
+
+    /*
+     * IBluetoothDeviceStatusListener implementation
+     */
+
+    /*!
+     * @brief Receive latest device status
+     * @param status DeviceStatus instance
+     */
+    void ReceiveBluetoothDeviceStatus(DeviceStatus& status) final
+    {
+      mRemaining = status.RemainingTime() * 1000;
+      mTotal = status.TotalTime() * 1000;
+    }
 };

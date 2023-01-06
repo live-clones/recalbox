@@ -98,7 +98,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     InputManager::Instance().Initialize();
     mApplicationWindow = &window;
-    mBluetooth.SetNotifier(window.BluetoothNotifier());
+    mBluetooth.Register(&window.BluetoothNotifier());
     // Brightness
     if (board.HasBrightnessSupport())
       board.SetBrightness(RecalboxConf::Instance().GetBrightness());

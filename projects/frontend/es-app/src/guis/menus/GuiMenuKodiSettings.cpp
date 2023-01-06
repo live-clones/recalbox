@@ -35,6 +35,7 @@ void GuiMenuKodiSettings::SwitchComponentChanged(int id, bool status)
     case Components::Enabled: RecalboxConf::Instance().SetKodiEnabled(status).Save(); break;
     case Components::RunAtStartup: RecalboxConf::Instance().SetKodiAtStartup(status).Save(); break;
     case Components::ButtonX: RecalboxConf::Instance().SetKodiXButton(status).Save(); break;
+    case Components::KodiResolution:
     default: break;
   }
 }
@@ -64,6 +65,9 @@ void GuiMenuKodiSettings::OptionListComponentChanged(int id, int index, const st
       else RecalboxConf::Instance().SetKodiVideoMode(value).Save();
       break;
     }
+    case Components::Enabled:
+    case Components::RunAtStartup:
+    case Components::ButtonX:
     default: break;
   }
 }

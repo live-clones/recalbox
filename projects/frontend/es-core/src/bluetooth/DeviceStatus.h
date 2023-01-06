@@ -52,6 +52,12 @@ class DeviceStatus
      */
     static DeviceStatus Deserialize(const String& message);
 
+    /*!
+     * @brief Return en empty DeviceStatus instance
+     * @return Empty DeviceStatus instance
+     */
+    static DeviceStatus CreateEmpty() { return DeviceStatus(); }
+
   private:
     //! Device list
     std::vector<Device> mDevices;
