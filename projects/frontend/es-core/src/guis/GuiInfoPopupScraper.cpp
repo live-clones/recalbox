@@ -27,8 +27,14 @@ float GuiInfoPopupScraper::AddComponents(WindowManager& window, ComponentGrid& g
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  unsigned int FONT_SIZE_ICON = (unsigned int)((Renderer::Instance().Is240p() ? 0.08f : 0.04f) * hwSize);
-  unsigned int FONT_SIZE_TEXT = (unsigned int)((Renderer::Instance().Is240p() ? 0.04f : 0.02f) * hwSize);
+  unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
+  unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
+
+  if(Renderer::Instance().Is480pOrLower())
+  {
+    FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
+    FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
+  }
 
   mText        = std::make_shared<TextComponent>(window, mTextTemplate + '\n', Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Top);
   mIcon        = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
@@ -42,9 +48,8 @@ float GuiInfoPopupScraper::AddComponents(WindowManager& window, ComponentGrid& g
   grid.setEntry(mNoImage    , Vector2i(2, 0), false, false);
   grid.setEntry(mProgressBar, Vector2i(0, 1), false, false, Vector2i(3, 1));
 
-  float msgHeight = 0.0f;
   mText->setSize(maxWidth - mIcon->getSize().y(), 0);
-  msgHeight = Math::min(maxHeight, Math::max(mText->getSize().y(), mIcon->getSize().y()));
+  float msgHeight = Math::min(maxHeight, Math::max(mText->getSize().y(), mIcon->getSize().y()));
   grid.setColWidthPerc(0, (float)(mIcon->getFont()->getSize() + paddingX) / maxWidth);
   grid.setColWidthPerc(2, (msgHeight * 1.5f) / maxWidth);
   grid.setRowHeightPerc(1, 0.16f);
