@@ -22,15 +22,16 @@ class GuiInfoPopupBase : public Gui
 
     enum class PopupType
     {
-      None,     //!< No icon
-      Warning,  //!< Warning icon!
-      Music,    //!< Music icon
-      Help,     //!< Help icon
-      Netplay,  //!< Netplay logo
-      Recalbox, //!< Recalbox logo
-      Pads,     //!< Joystick logo
-      Reboot,   //!< Pending reboot
-      Scraper,  //!< Background scraping
+      None,      //!< No icon
+      Warning,   //!< Warning icon!
+      Music,     //!< Music icon
+      Help,      //!< Help icon
+      Netplay,   //!< Netplay logo
+      Recalbox,  //!< Recalbox logo
+      Pads,      //!< Joystick logo
+      Reboot,    //!< Pending reboot
+      Scraper,   //!< Background scraping
+      Bluetooth, //!< Bluetooth icon
     };
 
     //! Default destructor
@@ -56,7 +57,7 @@ class GuiInfoPopupBase : public Gui
     /*!
      * @brief Check if this instance is self processed and must not be deleted by the window manager
      */
-    bool SelfProcessed() const { return mSelfProcessed; }
+    [[nodiscard]] bool SelfProcessed() const { return mSelfProcessed; }
 
     /*
      * Component implementation

@@ -46,6 +46,7 @@ enum class TextAlignment : unsigned char
 class Font : public IReloadable
 {
   private:
+    static constexpr int sMaxFallbackFont = 4;
     static FT_Library sLibrary;
     static std::map< std::pair<Path, int>, std::weak_ptr<Font> > sFontMap;
 
@@ -84,7 +85,8 @@ class Font : public IReloadable
 
     void getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_out, Vector2i& cursor_out);
 
-    std::map< unsigned int, std::unique_ptr<FontFace> > mFaceCache;
+    std::unique_ptr<FontFace> mMainFace;
+    std::unique_ptr<FontFace> mFaceCache[sMaxFallbackFont];
     FT_Face getFaceForChar(UnicodeChar id);
     void clearFaceCache();
 
