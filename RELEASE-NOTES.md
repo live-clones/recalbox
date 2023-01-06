@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Enhance shader support by setting multi threaded renderer when shader enabled
 - Add new system 'Z-Machine' with new core frotz
 - Add new Kodi theme for lower resolutions
+- Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections

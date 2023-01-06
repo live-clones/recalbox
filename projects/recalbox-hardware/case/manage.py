@@ -87,6 +87,17 @@ def DetectGPiCase2():
 
     return detected
 
+
+# GPi case 2W (support only rpizero2, kms needed)
+def DetectGPiCase2W():
+    gpiUsbPath = "1-1"
+    if read(gpiUsbPath, "manufacturer") == "RetroFlag":
+        if read(gpiUsbPath, "product") == "GPi Case":
+            return cases.GPI2W
+
+    return cases.NONE
+
+
 # --------- NesPi 4
 
 def DetectNesPi4Case():
@@ -136,6 +147,9 @@ def Identify(previousCase):
 
     if board in ("rpi0", "rpi1", "rpi3", "rpizero2legacy"):
         case = DetectGPiCase()
+
+    if board in ("rpizero2"):
+        case = DetectGPiCase2W()
 
     if board in ("rpi4", "rpi4_64"):
         case = DetectNesPi4Case()
