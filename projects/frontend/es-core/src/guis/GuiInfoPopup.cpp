@@ -23,14 +23,15 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
   std::string iconText;
   switch (mIcon)
   {
-    case PopupType::Music   : iconText = "\uF1b0"; break;
-    case PopupType::Warning : iconText = "\uF1ca"; break;
-    case PopupType::Help    : iconText = "\uF1c1"; break;
-    case PopupType::Netplay : iconText = "\uF1c4"; break;
-    case PopupType::Recalbox: iconText = "\uF200"; break;
-    case PopupType::Pads    : iconText = "\uF2ee"; break;
-    case PopupType::Reboot  : iconText = "\uF006"; break;
-    case PopupType::Scraper : iconText = "\uF1e4"; break;
+    case PopupType::Music    : iconText = "\uF1b0"; break;
+    case PopupType::Warning  : iconText = "\uF1ca"; break;
+    case PopupType::Help     : iconText = "\uF1c1"; break;
+    case PopupType::Netplay  : iconText = "\uF1c4"; break;
+    case PopupType::Recalbox : iconText = "\uF200"; break;
+    case PopupType::Pads     : iconText = "\uF2ee"; break;
+    case PopupType::Reboot   : iconText = "\uF006"; break;
+    case PopupType::Scraper  : iconText = "\uF1e4"; break;
+    case PopupType::Bluetooth: iconText = "\uF1da"; break;
     case PopupType::None:
     default: break;
   }
@@ -40,7 +41,8 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
   unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
   unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
 
-  if(Renderer::Instance().Is480pOrLower()){
+  if(Renderer::Instance().Is480pOrLower())
+  {
     FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
     FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
   }

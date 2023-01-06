@@ -159,8 +159,10 @@ size_t Font::getMemUsage() const
   for (const auto& mTexture : mTextures)
     memUsage += (size_t)(mTexture.textureSize.x() * mTexture.textureSize.y() * 4);
 
+  if (mMainFace != nullptr) memUsage += mMainFace->data.size();
   for (const auto& it : mFaceCache)
-    memUsage += it.second->data.size();
+    if (it != nullptr)
+      memUsage += it->data.size();
 
   return memUsage;
 }
@@ -330,13 +332,21 @@ void Font::getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_ou
   }
 }
 
-const std::vector<Path>& getFallbackFontPaths()
+FT_Face Font::getFaceForChar(UnicodeChar id)
 {
-  static Path originalPath[] = {
-    Path("/usr/share/fonts/truetype/Recalbox_icons.ttf"),
-    Path("/usr/share/fonts/truetype/DroidSansFallback.ttf"),// japanese, chinese, korean
-    Path("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"),
+  if (mMainFace == nullptr)
+  {
+    ResourceData data = ResourceManager::getFileData(mPath);
+    mMainFace = std::unique_ptr<FontFace>(new FontFace(std::move(data), mSize));
+    if (FT_Get_Char_Index(mMainFace->face, id) != 0)
+      return mMainFace->face;
+  }
+
+  static Path originalPath[Font::sMaxFallbackFont] = {
     Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"),
+    Path("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"),
+    Path("/usr/share/fonts/truetype/DroidSansFallback.ttf"),// japanese, chinese, korean
+    Path(":/Recalbox_icons.ttf"),
   };
   static std::vector<Path> fontPaths;
   if (fontPaths.empty())
@@ -346,39 +356,27 @@ const std::vector<Path>& getFallbackFontPaths()
         fontPaths.push_back(path);
   }
 
-  return fontPaths;
-}
-
-FT_Face Font::getFaceForChar(UnicodeChar id)
-{
-  const std::vector<Path>& fallbackFonts = getFallbackFontPaths();
-
   // look through our current font + fallback fonts to see if any have the glyph we're looking for
-  for (unsigned int i = 0; i < (unsigned int) fallbackFonts.size() + 1; i++)
+  for (int i = sMaxFallbackFont; --i >= 0; )
   {
-    auto fit = mFaceCache.find(i);
-
-    if (fit == mFaceCache.end()) // doesn't exist yet
+    if (mFaceCache[i] == nullptr) // doesn't exist yet
     {
-      // i == 0 -> mPath
-      // otherwise, take from fallbackFonts
-      const Path& path = (i == 0 ? mPath : fallbackFonts[i - 1]);
-      ResourceData data = ResourceManager::getFileData(path);
+      ResourceData data = ResourceManager::getFileData(originalPath[i]);
       mFaceCache[i] = std::unique_ptr<FontFace>(new FontFace(std::move(data), mSize));
-      fit = mFaceCache.find(i);
     }
-
-    if (FT_Get_Char_Index(fit->second->face, id) != 0)
-      return fit->second->face;
+    if (FT_Get_Char_Index(mFaceCache[i]->face, id) != 0)
+      return mFaceCache[i]->face;
   }
 
   // nothing has a valid glyph - return the "real" face so we get a "missing" character
-  return mFaceCache.begin()->second->face;
+  return mMainFace->face;
 }
 
 void Font::clearFaceCache()
 {
-  mFaceCache.clear();
+  mMainFace.release();
+  for(auto& ff : mFaceCache)
+    ff.release();
 }
 
 Font::Glyph* Font::getGlyph(UnicodeChar id)
