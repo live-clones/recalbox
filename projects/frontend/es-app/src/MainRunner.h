@@ -11,6 +11,7 @@
 #include <guis/GuiWaitLongExecution.h>
 #include <emulators/run/GameRunner.h>
 #include <patreon/IPatreonNotification.h>
+#include "bluetooth/BluetoothListener.h"
 
 class AudioManager;
 class SystemManager;
@@ -130,6 +131,9 @@ class MainRunner
     //! Force reload list requested
     static bool sForceReloadFromDisk;
 
+    //! Inter-thread messaging system
+    SyncMessageFactory syncMessageFactory;
+
     //! Recalbox configuration
     RecalboxConf mConfiguration;
     //! Crt configuration
@@ -141,6 +145,9 @@ class MainRunner
     //! Window reference
     ApplicationWindow* mApplicationWindow;
 
+    //! Bluetooth listener
+    BluetoothListener mBluetooth;
+
     //! Known added devices
     HashSet<std::string> mAddedDevices;
     //! Known empty added devices
@@ -148,6 +155,7 @@ class MainRunner
     //! Known removed devices
     HashSet<std::string> mRemovedDevices;
 
+    //! Ignored files
     HashSet<std::string> mIgnoredFiles;
 
     /*!

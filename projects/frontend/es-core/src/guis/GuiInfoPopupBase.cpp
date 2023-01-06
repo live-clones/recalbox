@@ -3,7 +3,6 @@
 //
 
 #include "GuiInfoPopupBase.h"
-#include "components/TextComponent.h"
 #include "Renderer.h"
 #include <SDL_timer.h>
 #include <themes/MenuThemeData.h>
