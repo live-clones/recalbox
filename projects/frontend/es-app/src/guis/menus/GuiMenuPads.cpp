@@ -7,6 +7,7 @@
 
 #include "GuiMenuPads.h"
 #include "GuiMenuPadsPair.h"
+#include "guis/GuiBluetoothDevices.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 #include <utils/Files.h>
@@ -18,13 +19,12 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   : GuiMenuBase(window, _("CONTROLLERS SETTINGS"), this)
   , mMapper(this)
   , mRefreshing(false)
-  , mMQTTClient("recalbox-emulationstation-menupads")
 {
   // Configure a pad
   AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
 
   // Pair a pad
-  AddSubMenu(_("PAIR A BLUETOOTH CONTROLLER"), (int)Components::Pair, _(MENUMESSAGE_CONTROLLER_BT_HELP_MSG));
+  AddSubMenu(_("PAIR BLUETOOTH CONTROLLERS"), (int)Components::Pair, _(MENUMESSAGE_CONTROLLER_BT_HELP_MSG));
 
   // Unpair all pads
   AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), (int)Components::Unpair, _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
@@ -107,8 +107,10 @@ const char* GuiMenuPads::ActionToString(Command action)
 
 void GuiMenuPads::StartScanningDevices()
 {
-  mMQTTClient.Send(sEventTopic, GuiMenuPads::ActionToString(Command::StartDiscovery));
-  mWindow.pushGui(new GuiMsgBox(mWindow, _("PAIRING PROCESS STARTED.\nENABLE PAIRING ON YOUR GAME CONTROLLER."), _("OK")));
+  MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
+  mqtt.Wait();
+  mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})");
+  mWindow.pushGui(new GuiBluetoothDevices(mWindow));
 }
 
 void GuiMenuPads::UnpairAll()
@@ -145,7 +147,17 @@ void GuiMenuPads::SubMenuSelected(int id)
   switch((Components)id)
   {
     case Components::Configure: StartConfiguring(); break;
-    case Components::Pair: StartScanningDevices(); break;
+    case Components::Pair:
+    {
+      Gui* msgBox = new GuiMsgBox(mWindow,
+                                  _("The bluetooth pairing will start and run for several minutes.\n"
+                                  "During this time, you just have to apply the pairing procedure on any bluetooth controller you want to pair.\n"
+                                  "The next window will display all detected bluetooth devices and their status for information purposes only.\n"
+                                  "You can close it at any time, while continuing to pair your bluetooth devices for as long as the bluetooth icon is blinking on the top left."),
+                                  _("OK"), [this] { StartScanningDevices(); });
+      mWindow.pushGui(msgBox);
+      break;
+    }
     case Components::Unpair: UnpairAll(); break;
     case Components::Pads:
     case Components::Driver:break;

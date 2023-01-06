@@ -9,17 +9,18 @@
 #include <usernotifications/NotificationManager.h>
 
 WindowManager::WindowManager()
-  : mHelp(*this),
-    mBackgroundOverlay(*this),
-    mInfoPopups(sMaxInfoPopups),
-    mGuiStack(16), // Allocate memory once for all gui
-    mFrameTimeElapsed(0),
-    mFrameCountElapsed(0),
-    mAverageDeltaTime(10),
-    mTimeSinceLastInput(0),
-    mNormalizeNextUpdate(false),
-    mSleeping(false),
-    mRenderedHelpPrompts(false)
+  : mHelp(*this)
+  , mBackgroundOverlay(*this)
+  , mInfoPopups(sMaxInfoPopups)
+  , mGuiStack(16) // Allocate memory once for all gui
+  , mBluetooth(*this)
+  , mFrameTimeElapsed(0)
+  , mFrameCountElapsed(0)
+  , mAverageDeltaTime(10)
+  , mTimeSinceLastInput(0)
+  , mNormalizeNextUpdate(false)
+  , mSleeping(false)
+  , mRenderedHelpPrompts(false)
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   mBackgroundOverlay.setImage(menuTheme->menuBackground.fadePath);
@@ -258,6 +259,8 @@ void WindowManager::Update(int deltaTime)
 
   // Process popups
   InfoPopupsUpdate(deltaTime);
+  // Process bluetooth
+  mBluetooth.Update(deltaTime);
 }
 
 void WindowManager::Render(Transform4x4f& transform)
@@ -305,7 +308,7 @@ void WindowManager::Render(Transform4x4f& transform)
 
   Renderer::SetMatrix(Transform4x4f::Identity());
   DisplayBatteryState();
-
+  mBluetooth.Render(Transform4x4f::Identity());
   InfoPopupsDisplay(transform);
 }
 

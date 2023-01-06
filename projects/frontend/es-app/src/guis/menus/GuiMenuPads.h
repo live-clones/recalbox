@@ -58,9 +58,6 @@ class GuiMenuPads : public GuiMenuBase
     //! MQTT Topic
     static constexpr const char* sEventTopic = "bluetooth/operation";
 
-    // MQTT client
-    MqttClient mMQTTClient;
-
     //! Called when the user start configuring a pad
     void StartConfiguring();
 
