@@ -54,6 +54,8 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
   return true;
 }
 
+#include <bluetooth/DeviceStatus.h>
+
 int main(int argc, char* argv[], char** env)
 {
   Log::open();
