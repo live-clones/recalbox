@@ -6,6 +6,7 @@
 #include <components/ImageComponent.h>
 #include <resources/Font.h>
 #include <input/InputManager.h>
+#include "bluetooth/BluetoothOverlayGUI.h"
 
 class GuiInfoPopupBase;
 
@@ -20,7 +21,7 @@ class WindowManager
     /*!
      * @brief Default destructor
      */
-    ~WindowManager();
+    virtual ~WindowManager();
 
     void pushGui(Gui* gui);
 
@@ -52,7 +53,7 @@ class WindowManager
 
     void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
 
-    bool isSleeping() const { return mSleeping; }
+    [[nodiscard]] bool isSleeping() const { return mSleeping; }
 
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
     void UpdateHelp(bool force = false) { mHelp.UpdateHelps(force); }
@@ -92,7 +93,7 @@ class WindowManager
      * @brief Check if the window has
      * @return
      */
-    bool HasGui() const { return !mGuiStack.Empty(); }
+    [[nodiscard]] bool HasGui() const { return !mGuiStack.Empty(); }
 
     /*!
      * @brief Check if the given UI is on top of the screen
@@ -125,6 +126,12 @@ class WindowManager
       return false;
     }
 
+    /*!
+     * @brief Get access to bluetooth notifier
+     * @return Bluetooth notifier instance
+     */
+    BluetoothOverlayGUI& BluetoothNotifier() { return mBluetooth; }
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;
@@ -151,6 +158,7 @@ class WindowManager
 
     std::vector<std::shared_ptr<Font> > mDefaultFonts;
     std::unique_ptr<TextCache> mFrameDataText;
+    BluetoothOverlayGUI mBluetooth;
 
     int mFrameTimeElapsed;
     int mFrameCountElapsed;

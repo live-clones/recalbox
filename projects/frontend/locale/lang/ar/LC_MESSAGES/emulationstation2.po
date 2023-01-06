@@ -511,9 +511,6 @@ msgstr "حدث خطأ"
 msgid "NO CONTROLLERS FOUND"
 msgstr "لم يتم العثور على اي يد تحكم"
 
-msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr "اقتران يد تحكم بالبلوتوث"
-
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "تم حذف جميع ايدي التحكم المقترنة بالبلوتوث"
 
@@ -3308,6 +3305,24 @@ msgid "Recalbox RGB Dual options and configuration."
 msgstr ""
 
 msgid "Select system, frontend and emulator resolutions."
+msgstr ""
+
+#
+msgid "B TO UNSET"
+msgstr ""
+
+msgid "PAIR BLUETOOTH CONTROLLERS"
+msgstr ""
+
+#
+msgid ""
+"The bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to apply the pairing procedure on any "
+"bluetooth controller you want to pair.\n"
+"The next window will display all detected bluetooth devices and their status "
+"for information purposes only.\n"
+"You can close it at any time, while continuing to pair your bluetooth "
+"devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
 
 #~ msgid "DISK USAGE"
