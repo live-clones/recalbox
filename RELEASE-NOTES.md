@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system 'Z-Machine' with new core frotz
 - Add new Kodi theme for lower resolutions
 - Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
+- Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections

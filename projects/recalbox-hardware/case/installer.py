@@ -7,6 +7,7 @@ MODULES = {
     "installers.nuxii.install": (cases.NUXII,),
     "installers.piboy.install": (cases.PIBOY,),
     "installers.gpi2.install": (cases.GPI2,),
+    "installers.gpi2w.install": (cases.GPI2W,),
     "installers.argonone.install": (cases.ARGONONE,),
     "installers.retroflags.install": (cases.SUPERPI4CASE, cases.NESPI4, cases.NESPI4MANUAL, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
     "installers.raspberrypi-touch-display.install": (cases.RPITOUCHDISPLAY),
