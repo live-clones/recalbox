@@ -20,6 +20,7 @@ class Case
       GPiV2,
       GPiV3,
       GPi2,
+      GPi2W,
       Nuxii,
       PiBoy,
       // Retroflag auto
