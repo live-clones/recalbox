@@ -6,8 +6,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "ДОСТУПНЕ ОНОВЛЕННЯ ДЛЯ ВАШОГО RECALBOX"
@@ -524,9 +524,6 @@ msgstr "ВИНИКЛА ПОМИЛКА"
 
 msgid "NO CONTROLLERS FOUND"
 msgstr "КОНТРОЛЛЕРІВ НЕ ЗНАЙДЕНО"
-
-msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr "СПАРУВАТИ  BLUETOOTH КОНТРОЛЛЕР"
 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "ЗВ'ЯЗКИ КОНТРОЛЛЕРІВ ВИДАЛЕНО."
@@ -3457,6 +3454,24 @@ msgid "Recalbox RGB Dual options and configuration."
 msgstr ""
 
 msgid "Select system, frontend and emulator resolutions."
+msgstr ""
+
+#
+msgid "B TO UNSET"
+msgstr ""
+
+msgid "PAIR BLUETOOTH CONTROLLERS"
+msgstr ""
+
+#
+msgid ""
+"The bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to apply the pairing procedure on any "
+"bluetooth controller you want to pair.\n"
+"The next window will display all detected bluetooth devices and their status "
+"for information purposes only.\n"
+"You can close it at any time, while continuing to pair your bluetooth "
+"devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
 
 #~ msgid "DISK USAGE"
