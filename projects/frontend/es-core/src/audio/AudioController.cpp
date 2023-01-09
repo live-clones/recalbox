@@ -26,3 +26,13 @@ std::string AudioController::SetDefaultPlayback(const std::string& playbackName)
 
   return playbackName;
 }
+
+void AudioController::DisableNotification()
+{
+  mController.DisableNotification();
+}
+
+void AudioController::EnableNotification()
+{
+  mController.EnableNotification();
+}

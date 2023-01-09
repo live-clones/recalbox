@@ -89,4 +89,14 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Clear the callback
      */
     void ClearNotificationCallback() const { mController.ClearNotificationCallback(); }
+
+    /*!
+     * @brief Disable notification sending
+     */
+    void DisableNotification();
+
+    /*!
+     * @brief Enable notification sending
+     */
+    void EnableNotification();
 };

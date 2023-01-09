@@ -67,6 +67,16 @@ class PulseAudioController: public IAudioController
      */
     void Refresh() override;
 
+    /*!
+     * @brief Disable notification on sink or card change
+     */
+    void DisableNotification() override;
+
+    /*!
+     * @brief Enable notification on sink or card change
+     */
+    void EnableNotification() override;
+
   private:
     //! Timeout
     static constexpr int sTimeOut = 800; //! 800ms timeout
@@ -160,6 +170,9 @@ class PulseAudioController: public IAudioController
 
     //! Audio notification
     IAudioNotification* mNotificationInterface;
+
+    //! Enable/disable notifications
+    bool mNotification = true;
 
     /*!
      * @brief Initialize all
