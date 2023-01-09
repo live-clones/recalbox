@@ -198,7 +198,7 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
   // Emit signal when a sink is added or removed
   // all chances are the new sink is now the default one
   // UI may need to refresh that change
-  if ((type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
+  if (This.mNotification && (type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
       &&
       (facility == PA_SUBSCRIPTION_EVENT_SINK))
   {
@@ -592,7 +592,10 @@ void PulseAudioController::UpdateDefaultSink()
 std::string PulseAudioController::GetActivePlaybackName()
 {
   std::string playbackName;
-  std::string sinkName = mServerInfo.DefaultSinkName; // DefaultSinkName is updated by event subscription
+  std::string sinkName ;
+
+  Refresh();
+  sinkName = mServerInfo.DefaultSinkName; // DefaultSinkName is updated by event subscription
 
   LOG(LogDebug) << "[PulseAudio] Default sink name is '" << sinkName << "'";
 
@@ -722,7 +725,7 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
     if (!Strings::SplitAt(playbackName, ':', deviceName, portName, true))
     { LOG(LogError) << "[PulseAudio] Invalid playbackname: " << playbackName; }
 
-    sink = LookupSink(deviceName);
+    sink = LookupSink(deviceName); // lookup existing sink in case of filter
     card = LookupCard(deviceName);
 
     // Bail out if sink or card not available anymore
@@ -796,9 +799,11 @@ std::string PulseAudioController::SetDefaultPlayback(const std::string& original
      { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been set as default sink."; }
 
     // Unmute sink
-    pa_context_set_sink_mute_by_name(mPulseAudioContext, sink->Name.data(), 0, SetMuteCallback, this);
+    op = pa_context_set_sink_mute_by_name(mPulseAudioContext, sink->Name.data(), 0, SetMuteCallback, this);
     // Wait for result
     mSignal.WaitSignal(sTimeOut);
+    // Release
+    pa_operation_unref(op);
      { LOG(LogDebug) << "[PulseAudio] Sink '" << sink->Name << "' has been unmuted."; }
   }
 
@@ -1189,6 +1194,14 @@ void PulseAudioController::Refresh()
     PulseEnumerateSinks();
     PulseEnumerateCards();
   }
+}
+
+void PulseAudioController::DisableNotification() {
+  mNotification = false;
+}
+
+void PulseAudioController::EnableNotification() {
+  mNotification = true;
 }
 
 void PulseAudioController::ReceiveSyncMessage()

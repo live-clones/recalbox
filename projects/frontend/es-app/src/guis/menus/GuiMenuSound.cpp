@@ -90,7 +90,9 @@ void GuiMenuSound::OptionListComponentChanged(int id, int index, const std::stri
   if ((Components)id == Components::Output)
   {
     AudioManager::Instance().Deactivate();
+    AudioController::Instance().DisableNotification();
     AudioController::Instance().SetDefaultPlayback(value);
+    AudioController::Instance().EnableNotification();
     AudioManager::Instance().Reactivate();
     RecalboxConf::Instance().SetAudioOuput(value).Save();
   }
