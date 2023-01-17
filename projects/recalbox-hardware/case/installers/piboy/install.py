@@ -150,12 +150,18 @@ class Install(InstallBase):
 
         try:
             os.system("mount -o remount,rw /")
+            os.remove("/recalbox/share/.retroarch.cfg")
+            logger.hardlog("PiBoy: /recalbox/share/.retroarch.cfg uninstalled")
+
+        except Exception as e:
+            logger.hardlog("PiBoy: Exception = {}".format(e))
+
+        try:
+            os.system("mount -o remount,rw /")
             os.remove("/etc/init.d/S06volumed")
             logger.hardlog("PiBoy: /etc/init.d/S06volumed uninstalled")
             os.remove("/etc/init.d/S15piboyswitch")
             logger.hardlog("PiBoy: /etc/init.d/S15piboyswitch uninstalled")
-            os.remove("/recalbox/share/.retroarch.cfg")
-            logger.hardlog("PiBoy: /recalbox/share/.retroarch.cfg uninstalled")
             # Load recalbox.conf
             recalboxConf = keyValueSettings(self.RECALBOX_CONF, False)
             recalboxConf.loadFile()
@@ -170,12 +176,12 @@ class Install(InstallBase):
 
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
-            return False
+            return case
 
         finally:
             os.system("mount -o remount,ro /")
 
-        return True
+        return ""
 
     def GetInstallScript(self, case):
 

@@ -130,12 +130,11 @@ class Install(InstallBase):
 
         except Exception as e:
             logger.hardlog("GPi2: Exception = {}".format(e))
-            return False
 
         finally:
             os.system("mount -o remount,ro /")
 
-        return True
+        return ""
 
     def GetInstallScript(self, case):
 
