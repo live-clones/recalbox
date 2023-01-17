@@ -43,7 +43,7 @@ class Install(InstallBase):
                 logger.hardlog("ArgonOne: error installing config file")
         except Exception as e:
             logger.hardlog("ArgonOne: Exception = {}".format(e))
-        return case
+        return ""
 
 
     def UninstallHardware(self, case):
@@ -63,7 +63,7 @@ class Install(InstallBase):
                 logger.hardlog("ArgonOne: Error removing S99argononed")
         except Exception as e:
             logger.hardlog("ArgonOne: Exception = {}".format(e))
-        return True
+        return case
 
 
     def UninstallSoftware(self, case):
