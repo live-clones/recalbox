@@ -307,6 +307,11 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
     game.Metadata().SetName(sourceData.mName);
     mTextInfo++;
   }
+  if (!sourceData.mScreenScraperName.empty())
+  {
+    game.Metadata().SetAlias(sourceData.mScreenScraperName);
+    mTextInfo++;
+  }
   // Store data only if they are not empty and not scraped if method is IncompleteKeep
   if (!sourceData.mSynopsis.empty())
     if (game.Metadata().Description().empty() || noKeep)

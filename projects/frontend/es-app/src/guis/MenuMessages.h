@@ -91,6 +91,8 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
     #define MENUMESSAGE_SCREEN_ROTATION "Rotate the screen (TATE MODE)."
+    #define MENUMESSAGE_UI_SHOW_REGION_MSG "Display regions code after game name"
+    #define MENUMESSAGE_UI_DISPLAY_GAME_BY_MSG "Display game in list by file name, game name (scraped or real game name for arcade), or alias (international name)."
 
     #define MENUMESSAGE_SOUND_HELP_MSG "Configure the sound options of your recalbox."
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
@@ -160,6 +162,7 @@ class MenuMessages
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG "Switch between seeing the folders structure and seeing all games in a flatten top level."
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."
     #define MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG "This option display a menu which allows to DELETE game data."
+    #define MENUMESSAGE_GAMELISTOPTION_SHOW_SIBLINGS_MSG "This option seach for the others versions of a game."
 
     #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."

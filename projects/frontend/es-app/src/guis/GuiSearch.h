@@ -14,11 +14,13 @@
 #include <components/VideoComponent.h>
 #include <themes/MenuThemeData.h>
 #include "systems/SystemManager.h"
+#include "SearchForceOptions.h"
 
 class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
 {
   public:
-    GuiSearch(WindowManager& window, SystemManager& systemManager);
+    GuiSearch(WindowManager& window, SystemManager& systemManager, bool hasForcedOption = false);
+    GuiSearch(WindowManager& window, SystemManager& systemManager, SearchForcedOptions& forcedOptions);
 
     ~GuiSearch() override;
 
@@ -80,7 +82,9 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
     std::shared_ptr<TextComponent> mResultDesc;
     std::shared_ptr<OptionListComponent<FolderData::FastSearchContext>> mSearchChoices;
     FileData::List mSearchResults;
-    SystemData* mSystemData;
+    bool mForcedOptions = true;
+    std::string  mForcedSearch;
+    FolderData::FastSearchContext mForcedContext = FolderData::FastSearchContext::Name;
 
     //! Just-open flag
     bool mJustOpen;
