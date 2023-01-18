@@ -11,6 +11,7 @@
 #include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
 #include "GuiNetPlayHostPasswords.h"
+#include "SearchForceOptions.h"
 #include <VideoEngine.h>
 
 
@@ -19,13 +20,14 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
-GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
+GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, bool hasForcedOption)
 		: Gui(window),
 		  mSystemManager(systemManager),
 		  mBackground(window, Path(":/frame.png")),
 		  mGrid(window, Vector2i(3, 3)),
 		  mList(nullptr),
-		  mJustOpen(true)
+		  mJustOpen(true),
+      mForcedOptions(hasForcedOption)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -45,33 +47,66 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
 	PopulateGrid("");
 }
 
+GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, SearchForcedOptions& forcedOptions)
+  : GuiSearch(window, systemManager, true)
+{
+  mForcedOptions = true;
+  mForcedSearch = forcedOptions.mSearchText;
+  mForcedContext = forcedOptions.mContext;
+  mJustOpen = false;
+  mSearch->setValue(mForcedSearch);
+
+  PopulateGrid(mForcedSearch);
+}
+
 void GuiSearch::initGridsNStuff()
 {
-	//init Title
-	mTitle = std::make_shared<TextComponent>(mWindow, _("SEARCH") + " : ", mMenuTheme->menuText.font,
-	                                         mMenuTheme->menuText.color, TextAlignment::Right);
-	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1));
+  //init Title
 
-	//init search textfield
-	mSearch = std::make_shared<TextEditComponent>(mWindow);
-	mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
 
-	//init search option selector
-	mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"), false);
-	FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
+  mTitle = std::make_shared<TextComponent>(mWindow, _("SEARCH") + " : ", mMenuTheme->menuText.font,
+                                           mMenuTheme->menuText.color, TextAlignment::Right);
+  if (!mForcedOptions)
+  {
+    mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1));
+  }
 
-	mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name, currentSearch == FolderData::FastSearchContext::Name);
-	mSearchChoices->add(_("Description"), FolderData::FastSearchContext::Description, currentSearch == FolderData::FastSearchContext::Description);
-	mSearchChoices->add(_("DEVELOPER"), FolderData::FastSearchContext::Developer, currentSearch == FolderData::FastSearchContext::Developer);
-	mSearchChoices->add(_("PUBLISHER"), FolderData::FastSearchContext::Publisher, currentSearch == FolderData::FastSearchContext::Publisher);
-	mSearchChoices->add(_("FILENAME"), FolderData::FastSearchContext::Path, currentSearch == FolderData::FastSearchContext::Path);
-	mSearchChoices->add(_("ALL"), FolderData::FastSearchContext::All, currentSearch == FolderData::FastSearchContext::All);
+  //init search textfield
+  mSearch = std::make_shared<TextEditComponent>(mWindow);
+  if (!mForcedOptions)
+  {
+    mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
+  }
 
-	mSearchChoices->setChangedCallback([this]{
-		mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
-	});
-	mGrid.setEntry(mSearchChoices, Vector2i(1, 0), false, false, Vector2i(1, 1));
+  //init search option selector
+  mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"),
+                                                                                         false);
+  FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
 
+  mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name,
+                      currentSearch == FolderData::FastSearchContext::Name);
+  mSearchChoices->add(_("Description"), FolderData::FastSearchContext::Description,
+                      currentSearch == FolderData::FastSearchContext::Description);
+  mSearchChoices->add(_("DEVELOPER"), FolderData::FastSearchContext::Developer,
+                      currentSearch == FolderData::FastSearchContext::Developer);
+  mSearchChoices->add(_("PUBLISHER"), FolderData::FastSearchContext::Publisher,
+                      currentSearch == FolderData::FastSearchContext::Publisher);
+  mSearchChoices->add(_("FILENAME"), FolderData::FastSearchContext::Path,
+                      currentSearch == FolderData::FastSearchContext::Path);
+  mSearchChoices->add(_("Alias"), FolderData::FastSearchContext::Alias,
+                      currentSearch == FolderData::FastSearchContext::Alias);
+  mSearchChoices->add(_("ALL"), FolderData::FastSearchContext::All,
+                      currentSearch == FolderData::FastSearchContext::All);
+
+  mSearchChoices->setChangedCallback([this]
+                                     {
+                                       mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
+                                     });
+
+  if (!mForcedOptions)
+  {
+    mGrid.setEntry(mSearchChoices, Vector2i(1, 0), false, false, Vector2i(1, 1));
+}
 	//init big center grid with List and Meta
 	mGridMeta = std::make_shared<ComponentGrid>(mWindow, Vector2i(4, 3));
 	mGridMeta->setEntry(std::make_shared<Component>(mWindow), Vector2i(1, 0), false, false, Vector2i(1, 3));
@@ -178,7 +213,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 		Close();
 		return true;
 	}
-  else if (event.R1Pressed())
+  else if (event.R1Pressed() && !mForcedOptions)
   {
 	  mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
 	  return true;
@@ -234,7 +269,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     }
   }
 
-  if (event.AnyLeftPressed() || event.AnyRightPressed()) return mSearchChoices->ProcessInput(event);
+  if ((event.AnyLeftPressed() || event.AnyRightPressed()) && !mForcedOptions) return mSearchChoices->ProcessInput(event);
 
 	return Component::ProcessInput(event);
 }
@@ -266,10 +301,13 @@ bool GuiSearch::getHelpPrompts(Help& help)
   help.Clear();
   if (AmIOnTopOfScreen())
   {
-    help.Set(HelpType::LeftRight, _("SEARCH IN..."))
-        .Set(HelpType::UpDown, _("SELECT"))
-        .Set(Help::Cancel(), _("BACK"))
-        .Set(HelpType::R, _("KEYBOARD"));
+    help.Set(HelpType::UpDown, _("SELECT"))
+        .Set(Help::Cancel(), _("BACK"));
+
+    if (!mForcedOptions)
+      help.Set(HelpType::LeftRight, _("SEARCH IN..."))
+          .Set(HelpType::R, _("KEYBOARD"));
+
     if (!mList->isEmpty())
       help.Set(Help::Valid(), _("LAUNCH"))
           .Set(HelpType::Select, _("GO TO GAME"))
@@ -311,7 +349,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 	{
     ViewController::State viewControllerState = ViewController::Instance().getState();
     SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
-		mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);
+		mSearchResults =  mSystemManager.SearchTextInGames(mForcedOptions ? mForcedContext : mSearchChoices->getSelected() , search, 100, systemData);
 		if (!mSearchResults.empty())
 		{
 			mText->setValue("");
@@ -323,7 +361,7 @@ void GuiSearch::PopulateGrid(const std::string& search)
 				std::string gameName;
 
         gameName.append(game->System().Descriptor().IconPrefix());
-				gameName.append(game->Metadata().Name());
+				gameName.append(game->DisplayableName());
 
 				ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
 				                                     mMenuTheme->menuText.color,

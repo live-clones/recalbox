@@ -54,7 +54,8 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   AddSubMenu(_("GAME FILTERS"),  (int)Components::Filters, _(MENUMESSAGE_UI_GAME_FILTERS_MSG));
 
   // Display filename
-  AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
+  AddSwitch(_("SHOW REGION"), RecalboxConf::Instance().GetDisplayGameRegions(), (int)Components::DisplayGameRegions, this, _(MENUMESSAGE_UI_SHOW_REGION_MSG));
+  AddList<FileData::DisplayGameBy>(_("DISPLAY GAME BY"),  (int)Components::GetDisplayGameBy, this, GetDisplayGameBy(), _(MENUMESSAGE_UI_DISPLAY_GAME_BY_MSG));
 
   // Screen rotation
   AddList<std::string>(_("SCREEN ROTATION"), (int)Components::ScreenRotation, this, GetRotationEntries(), _(MENUMESSAGE_SCREEN_ROTATION));
@@ -102,6 +103,8 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::SystemSort:
     case Components::DisplayByFileName:
     case Components::ScreenRotation:
+    case Components::GetDisplayGameBy:
+    case Components::DisplayGameRegions:
     case Components::QuickSelect: break;
   }
 }
@@ -119,6 +122,7 @@ void GuiMenuUserInterface::SliderMoved(int id, float value)
 void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
 {
   SystemData* systemData = ViewController::Instance().getState().getSystem();
+  FileData* game = ViewController::Instance().getGameListView(systemData)->getCursor();
 
   switch((Components)id)
   {
@@ -131,11 +135,13 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
       updateHelpPrompts();
       break;
     }
-    case Components::DisplayByFileName:
-      RecalboxConf::Instance().SetDisplayByFileName(status).Save();
-      ViewController::Instance().getGameListView(systemData)->refreshList();
+    case Components::DisplayGameRegions:
+      RecalboxConf::Instance().SetDisplayGameRegions(status).Save();
       ViewController::Instance().setAllInvalidGamesList(nullptr);
+      ViewController::Instance().getGameListView(systemData)->refreshList();
+      ViewController::Instance().getGameListView(systemData)->setCursor(game);
       break;
+    case Components::GetDisplayGameBy:
     case Components::Popups:
     case Components::Theme:
     case Components::ThemeConfig:
@@ -183,6 +189,19 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUserInterface::GetRotati
 }
 
 
+void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const FileData::DisplayGameBy & value)
+{
+  (void)index;
+  (void)id;
+  SystemData* systemData = ViewController::Instance().getState().getSystem();
+  FileData* game = ViewController::Instance().getGameListView(systemData)->getCursor();
+  RecalboxConf::Instance().SetDisplayGameBy(value).Save();
+  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().getGameListView(systemData)->refreshList();
+  ViewController::Instance().getGameListView(systemData)->setCursor(game);
+
+}
+
 std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSortingEntries()
 {
     mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
@@ -198,4 +217,16 @@ std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSort
         { _("TYPE, THEN MANUFACTURER, THEN NAME")         , SystemSorting::SystemTypeThenManufacturerThenName         , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenName },
         { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
     });
+}
+
+std::vector<GuiMenuBase::ListEntry<FileData::DisplayGameBy>> GuiMenuUserInterface::GetDisplayGameBy()
+{
+  FileData::DisplayGameBy confValue = RecalboxConf::Instance().GetDisplayGameBy();
+
+  return std::vector<ListEntry<FileData::DisplayGameBy>>
+  ({
+    {"NAME", FileData::DisplayGameBy::Name, FileData::DisplayGameBy::Name == confValue },
+    {"ALIAS", FileData::DisplayGameBy::Alias, FileData::DisplayGameBy::Alias == confValue },
+    {"FILENAME", FileData::DisplayGameBy::Filename, FileData::DisplayGameBy::Filename == confValue }
+  });
 }
