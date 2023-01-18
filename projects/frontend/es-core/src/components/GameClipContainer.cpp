@@ -401,8 +401,8 @@ void GameClipContainer::setGameInfo(FileData* game)
   mSystemName.setValue(mGame->System().FullName());
 
   onThemeChanged(mSystem->Theme());
-
-  mGameName.setValue(mGame->Metadata().Name());
+  
+  mGameName.setValue(game->DisplayableName());
   mRating.setValue(mGame->Metadata().RatingAsString());
   mReleaseDate.setValue(mGame->Metadata().ReleaseDateAsString());
   mDeveloper.setValue(mGame->Metadata().Developer());

@@ -69,7 +69,7 @@ ImplementSortMethod(compareSystemName)
 ImplementSortMethod(compareFileName)
 {
   CheckFoldersAndGames(file1, file2)
-  return unicodeCompareUppercase(file1.Name(), file2.Name());
+  return unicodeCompareUppercase(file1.DisplayableName(), file2.DisplayableName());
 }
 
 ImplementSortMethod(compareRating)

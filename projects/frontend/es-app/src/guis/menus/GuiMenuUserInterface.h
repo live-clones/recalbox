@@ -46,7 +46,9 @@ class GuiMenuUserInterface : public GuiMenuBase
       UpdateGamelist,
       Filters,
       DisplayByFileName,
-      ScreenRotation
+      ScreenRotation,
+      DisplayFileNameType,
+      DisplayGameRegions
     };
 
     //! System Manager
@@ -72,6 +74,10 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::vector<ListEntry<SystemSorting>> GetSortingEntries();
     //! Get Sorting List
     std::vector<ListEntry<std::string>> GetRotationEntries();
+    /*!
+     * Get game name display type List
+     */
+    std::vector<ListEntry<std::string>> GetDisplayTypes();
 
     /*!
      * @brief Reload gamelists
@@ -105,7 +111,6 @@ class GuiMenuUserInterface : public GuiMenuBase
     /*
      * IOptionListComponent<int> implementation
      */
-
     void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };
 
