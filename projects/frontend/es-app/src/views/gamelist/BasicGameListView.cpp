@@ -77,7 +77,12 @@ std::string BasicGameListView::GetDisplayName(FileData* game)
   // Select Icon
   std::string result = getItemIcon(game);
   // Get name
-  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game->RomPath().Filename() : game->Name());
+  std::string name = game->DisplayableName();
+
+  if (RecalboxConf::Instance().GetDisplayGameRegions())
+    name = name .append(" [").append(game->Regions()).append("]");
+
+  result.append(name);
   return result;
 }
 
