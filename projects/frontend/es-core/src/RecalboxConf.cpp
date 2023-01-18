@@ -124,6 +124,31 @@ const std::string& RecalboxConf::ScraperTypeFromEnum(ScraperType type)
   return defaultString;
 }
 
+FileData::DisplayGameBy RecalboxConf::DisplayGameByFromString(const std::string& displayGameBy)
+{
+  if (displayGameBy == "name")
+    return FileData::DisplayGameBy::Name;
+  else if (displayGameBy == "filename")
+    return FileData::DisplayGameBy::Filename;
+  else if (displayGameBy == "alias")
+    return FileData::DisplayGameBy::Alias;
+
+  return FileData::DisplayGameBy::Name;
+}
+
+const std::string& RecalboxConf::DisplayGameByFromEnum(FileData::DisplayGameBy displayGameBy)
+{
+  static std::string defaultString("name");
+  switch(displayGameBy)
+  {
+    case FileData::DisplayGameBy::Name : return defaultString;
+    case FileData::DisplayGameBy::Alias : { static std::string string("alias"); return string; }
+    case FileData::DisplayGameBy::Filename : { static std::string string("filename"); return string; }
+    default: break;
+  }
+  return defaultString;
+}
+
 DefineSystemGetterSetterImplementation(Emulator, std::string, String, sSystemEmulator, "")
 DefineSystemGetterSetterImplementation(Core, std::string, String, sSystemCore, "")
 DefineSystemGetterSetterImplementation(Ratio, std::string, String, sSystemRatio, GetGlobalRatio())
@@ -136,6 +161,7 @@ DefineSystemGetterSetterImplementation(Ignore, bool, Bool, sSystemIgnore, false)
 DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclude, false)
 DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
 DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, GetGlobalVideoMode())
+DefineSystemGetterSetterImplementation(SiblingsOnly, std::string, String, sSiblingsOnly, "")
 
 DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, GetFilterAdultGames())
 DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, sSystemFlatFolders, false)

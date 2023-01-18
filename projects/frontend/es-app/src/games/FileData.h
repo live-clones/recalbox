@@ -7,6 +7,7 @@
 #include "MetadataDescriptor.h"
 #include "ItemType.h"
 #include "utils/cplusplus/Bitflags.h"
+#include "utils/storage/Set.h"
 
 // Forward declarations
 class SystemData;
@@ -19,6 +20,7 @@ class FileData
   public:
     typedef HashMap<std::string, FileData*> StringMap;
     typedef std::vector<FileData*> List;
+    typedef HashSet<FileData*> Set;
     typedef std::vector<const FileData*> ConstList;
     typedef int (*Comparer)(const FileData& a, const FileData& b);
 
@@ -34,6 +36,13 @@ class FileData
       NoGame   = 32,
       PreInstalled = 64,
       All      = 127, //!< Include all
+    };
+
+    enum class DisplayGameBy
+    {
+      Name     = 0,
+      Filename = 1,
+      Alias    = 2,
     };
 
     //! Search attribute enumeration
@@ -160,7 +169,7 @@ class FileData
      * @brief Get region string
      * @return
      */
-    std::string Regions();
+    std::string Regions() const;
 
     /*!
      * @brief Check if file data can be displayable
@@ -198,6 +207,8 @@ class FileData
      * @return True if rom path are equal, false otherwise
      */
     bool AreRomEqual(const FileData& other) { return mMetadata.AreRomEqual(other.mMetadata); }
+
+    std::string DisplayableName() const;
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

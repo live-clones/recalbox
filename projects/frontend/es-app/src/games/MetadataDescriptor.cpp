@@ -16,6 +16,7 @@ const std::string MetadataDescriptor::GameNodeIdentifier("game");
 const std::string MetadataDescriptor::FolderNodeIdentifier("folder");
 
 MetadataStringHolder MetadataDescriptor::sNameHolder(1 << 20, 128 << 10);
+MetadataStringHolder MetadataDescriptor::sAliasHolder(1 << 20, 128 << 10);
 MetadataStringHolder MetadataDescriptor::sDescriptionHolder(1 << 20, 128 << 10);
 MetadataStringHolder MetadataDescriptor::sDeveloperHolder(64 << 10, 32 << 10);
 MetadataStringHolder MetadataDescriptor::sPublisherHolder(64 << 10, 32 << 10);
@@ -44,6 +45,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
       {
         MetadataFieldDescriptor("path"       , DefaultValueEmpty    , _("Path")        , _("enter game path")             , MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true),
         MetadataFieldDescriptor("name"       , DefaultValueEmpty    , _("Name")        , _("enter game name")             , MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true),
+        MetadataFieldDescriptor("alias"      , DefaultValueEmpty    , _("Alias")       , _("enter game alias")            , MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultAlias          , &MetadataDescriptor::AliasAsString       , &MetadataDescriptor::SetAlias                , false, true),
         MetadataFieldDescriptor("rating"     , DefaultValueRating   , _("Rating")      , _("enter rating")                , MetadataFieldDescriptor::DataType::Rating , MetadataFieldDescriptor::EditableType::Rating , &MetadataDescriptor::IsDefaultRating         , &MetadataDescriptor::RatingAsString      , &MetadataDescriptor::SetRatingAsString       , false, true),
         MetadataFieldDescriptor("favorite"   , DefaultValueFavorite , _("Favorite")    , _("enter favorite")              , MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultFavorite       , &MetadataDescriptor::FavoriteAsString    , &MetadataDescriptor::SetFavoriteAsString     , false, true),
         MetadataFieldDescriptor("hidden"     , DefaultValueHidden   , _("Hidden")      , _("set hidden")                  , MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString      , &MetadataDescriptor::SetHiddenAsString       , false, true),
@@ -380,6 +382,7 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
 void MetadataDescriptor::CleanupHolders()
 {
   LOG(LogDebug) << "[MetadataDescriptor] Name storage: "        << sNameHolder.StorageSize()          << " - object count: " << sNameHolder.ObjectCount()       ;
+  LOG(LogDebug) << "[MetadataDescriptor] Alias storage: "       << sAliasHolder.StorageSize()         << " - object count: " << sAliasHolder.ObjectCount()      ;
   LOG(LogDebug) << "[MetadataDescriptor] Description storage: " << sDescriptionHolder.StorageSize()   << " - object count: " << sDescriptionHolder.ObjectCount();
   LOG(LogDebug) << "[MetadataDescriptor] Publisher storage: "   << sPublisherHolder.StorageSize()     << " - object count: " << sPublisherHolder.ObjectCount()  ;
   LOG(LogDebug) << "[MetadataDescriptor] Developer storage: "   << sDeveloperHolder.StorageSize()     << " - object count: " << sDeveloperHolder.ObjectCount()  ;
@@ -392,6 +395,7 @@ void MetadataDescriptor::CleanupHolders()
   LOG(LogDebug) << "[MetadataDescriptor] Patch Path storage: "  << sLastPatchPathHolder.StorageSize() << " - object count: " << sLastPatchPathHolder.ObjectCount()       ;
   LOG(LogDebug) << "[MetadataDescriptor] Patcn File storage: "  << sLastPatchFileHolder.StorageSize() << " - object count: " << sLastPatchFileHolder.ObjectCount()       ;
   sNameHolder.Finalize();
+  sAliasHolder.Finalize();
   sDescriptionHolder.Finalize();
   sPublisherHolder.Finalize();
   sDeveloperHolder.Finalize();
