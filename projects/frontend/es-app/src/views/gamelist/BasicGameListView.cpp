@@ -77,7 +77,9 @@ std::string BasicGameListView::GetDisplayName(FileData* game)
   // Select Icon
   std::string result = getItemIcon(game);
   // Get name
-  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game->RomPath().Filename() : game->Name());
+  std::string name = game->DisplayableName();
+
+  result.append(name);
   return result;
 }
 
@@ -122,14 +124,13 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Add to list
   mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
+
+  std::string wantedAlias = RecalboxConf::Instance().GetSystemSiblingsOnly(mSystem);
   for (FileData* fd : items)
 	{
-    // Select fron icon
-    std::string icon = getItemIcon(fd);
-  	// Get name
+    if (!wantedAlias.empty() && fd->Metadata().Alias() != wantedAlias)
+      continue;
 
-  	std::string name = RecalboxConf::Instance().GetDisplayByFileName() ?  fd->RomPath().Filename() : fd->Name();
-  	std::string line = !icon.empty() ? icon + name : name;
   	// Region filtering?
   	int colorIndexOffset = 0;
   	if (activeRegionFiltering)
