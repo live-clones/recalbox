@@ -998,7 +998,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
 
   // Sort first: Distance
   { LOG(LogWarning) << "SORT"; }
-  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return b.Distance - a.Distance; });
+  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return a.Distance - b.Distance; });
   // Remove dups by index. Higher index are removed so that the lowest distances remain
   { LOG(LogWarning) << "REMOVE DUPS"; }
   resultIndexes.RemoveDups([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> bool { return a.Index == b.Index; });
@@ -1021,7 +1021,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   // Collect result
   { LOG(LogWarning) << "COLLECT"; }
   FileData::List results;
-  for(int i = (int)resultIndexes.Count(); --i >= 0; )
+  for(int i = -1; ++i < (int)resultIndexes.Count(); )
   {
     const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
