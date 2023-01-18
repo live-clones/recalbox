@@ -164,6 +164,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
     DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
+    DefineGetterSetter(DisplayGameRegions, bool, Bool, sDisplayGameRegions, true)
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
 
@@ -251,6 +252,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
+    DefineGetterSetter(DisplayGameNameType, std::string, String, sDisplayGameNameType, "")
+
+
     /*
      * System
      */
@@ -314,6 +318,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
     static constexpr const char* sDisplayByFileName          = "displaybyfilename";
+    static constexpr const char* sDisplayGameRegions          = "displayGameRegions";
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
@@ -407,6 +412,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
     static constexpr const char* sKodiVideoMode              = "kodi.videomode";
     static constexpr const char* sESForce43                  = "system.es.force43";
+    static constexpr const char* sDisplayGameNameType        = "global.displayGameNameType";
 
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";

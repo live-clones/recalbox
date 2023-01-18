@@ -198,6 +198,8 @@ class FileData
      * @return True if rom path are equal, false otherwise
      */
     bool AreRomEqual(const FileData& other) { return mMetadata.AreRomEqual(other.mMetadata); }
+
+    std::string DisplayableName() const;
 };
 
 DEFINE_BITFLAG_ENUM(FileData::Filter, int)

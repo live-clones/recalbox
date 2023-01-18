@@ -25,6 +25,17 @@ std::string FileData::DisplayName(const Path& romPath) const
   return adapter.DisplayName();
 }
 
+std::string FileData::DisplayableName() const
+{
+  std::string  conf = RecalboxConf::Instance().GetDisplayGameNameType();
+  if (conf == "filename")
+    return RomPath().Filename();
+  else if (conf == "alias" && Metadata().Alias() != Strings::Empty)
+    return Metadata().Alias();
+
+  return Name();
+}
+
 bool FileData::HasP2K() const
 {
   // Check game file
