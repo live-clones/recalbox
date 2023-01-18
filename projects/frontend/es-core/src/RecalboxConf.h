@@ -163,7 +163,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
-    DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
+    DefineGetterSetter(DisplayGameRegions, bool, Bool, sDisplayGameRegions, true)
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
 
@@ -255,6 +255,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
+    DefineGetterSetterEnum(DisplayGameBy, FileData::DisplayGameBy, sDisplayGameBy, DisplayGameBy)
+
     /*
      * System
      */
@@ -271,6 +273,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
     DefineSystemGetterSetterDeclaration(VideoMode, std::string, String, sSystemVideoMode)
+    DefineSystemGetterSetterDeclaration(SiblingsOnly, std::string, String, sSiblingsOnly)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -318,12 +321,14 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
     static constexpr const char* sDisplayByFileName          = "displaybyfilename";
+    static constexpr const char* sDisplayGameRegions         = "displayGameRegions";
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
     static constexpr const char* sSystemDemoInclude          = "demo.include";
     static constexpr const char* sSystemDemoDuration         = "demo.duration";
     static constexpr const char* sSystemVideoMode            = "videomode";
+    static constexpr const char* sSiblingsOnly               = "siblingsOnlyWithAlias";
 
     /*
      * Collection Keys
@@ -411,6 +416,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
     static constexpr const char* sKodiVideoMode              = "kodi.videomode";
     static constexpr const char* sESForce43                  = "system.es.force43";
+    static constexpr const char* sDisplayGameBy              = "global.displayGameBy";
 
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
@@ -512,4 +518,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const std::string& SystemSortingFromEnum(SystemSorting systemSorting);
     static ScraperType ScraperTypeFromString(const std::string& menu);
     static const std::string& ScraperTypeFromEnum(ScraperType type);
+    static FileData::DisplayGameBy DisplayGameByFromString(const std::string& displayGameBy);
+    static const std::string& DisplayGameByFromEnum(FileData::DisplayGameBy displayGameBy);
 };

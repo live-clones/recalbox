@@ -15,6 +15,7 @@ class GuiMenuUserInterface : public GuiMenuBase
                            , private ISwitchComponent
                            , private IOptionListComponent<SystemSorting>
                            , private IOptionListComponent<std::string>
+                           , private IOptionListComponent<FileData::DisplayGameBy>
 {
   public:
     /*!
@@ -46,7 +47,9 @@ class GuiMenuUserInterface : public GuiMenuBase
       UpdateGamelist,
       Filters,
       DisplayByFileName,
-      ScreenRotation
+      ScreenRotation,
+      GetDisplayGameBy,
+      DisplayGameRegions
     };
 
     //! System Manager
@@ -72,6 +75,10 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::vector<ListEntry<SystemSorting>> GetSortingEntries();
     //! Get Sorting List
     std::vector<ListEntry<std::string>> GetRotationEntries();
+    /*!
+     * Get game name display type List
+     */
+    std::vector<ListEntry<FileData::DisplayGameBy>> GetDisplayGameBy();
 
     /*!
      * @brief Reload gamelists
@@ -107,5 +114,6 @@ class GuiMenuUserInterface : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const FileData::DisplayGameBy& value) override;
 };
 
