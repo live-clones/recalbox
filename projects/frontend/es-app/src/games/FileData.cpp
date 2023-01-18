@@ -25,6 +25,29 @@ std::string FileData::DisplayName(const Path& romPath) const
   return adapter.DisplayName();
 }
 
+std::string FileData::DisplayableName() const
+{
+  RecalboxConf& recalboxConf = RecalboxConf::Instance();
+
+  std::string displayableName = Name();
+  DisplayGameBy  displayGameBy = recalboxConf.GetDisplayGameBy();
+
+  switch (displayGameBy)
+  {
+    case DisplayGameBy::Filename : displayableName = RomPath().Filename(); break;
+    case DisplayGameBy::Alias :
+      if (!Metadata().Alias().empty())
+        displayableName = Metadata().Alias();
+      break;
+    case DisplayGameBy::Name : break;
+  }
+
+  if (recalboxConf.GetDisplayGameRegions() && !Regions().empty())
+    displayableName.append(" [").append(Regions()).append("]");
+
+  return displayableName;
+}
+
 bool FileData::HasP2K() const
 {
   // Check game file
@@ -73,7 +96,7 @@ FileData& FileData::CalculateHash()
   return *this;
 }
 
-std::string FileData::Regions()
+std::string FileData::Regions() const
 {
   std::string fileName = mMetadata.RomFileOnly().ToString();
   Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);

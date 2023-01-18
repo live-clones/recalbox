@@ -933,95 +933,44 @@ int FolderData::GetItemsTo(FileData::List& to, FileData::Filter includes, FileDa
   return getItems(to, includes, excludes, includefolders);
 }
 
-void FolderData::LookupGamesFromPath(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromPath(index, games);
-    else if (game->Metadata().IsMatchingFileIndex(index.Index))
-        games.push_back(game);
-}
-
-void FolderData::LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromName(index, games);
-    else if (game->Metadata().IsMatchingNameIndex(index.Index))
-          games.push_back(game);
-}
-
-void FolderData::LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromDescription(index, games);
-    else if (game->Metadata().IsMatchingDescriptionIndex(index.Index))
-          games.push_back(game);
-}
-
-void FolderData::LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromDeveloper(index, games);
-    else if (game->Metadata().IsMatchingDeveloperIndex(index.Index))
-          games.push_back(game);
-}
-
-void
-FolderData::LookupGamesFromPublisher(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromPublisher(index, games);
-    else if (game->Metadata().IsMatchingPublisherIndex(index.Index))
-          games.push_back(game);
-}
-
-void FolderData::LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
-{
-  for(FileData* game : mChildren)
-    if (game->IsFolder()) CastFolder(game)->LookupGamesFromAll(index, games);
-    else
-      switch((FastSearchContext)index.Context)
-      {
-        case FastSearchContext::Path: if (game->Metadata().IsMatchingFileIndex(index.Index)) games.push_back(game); break;
-        case FastSearchContext::Name: if (game->Metadata().IsMatchingNameIndex(index.Index)) games.push_back(game); break;
-        case FastSearchContext::Description: if (game->Metadata().IsMatchingDescriptionIndex(index.Index)) games.push_back(game); break;
-        case FastSearchContext::Developer: if (game->Metadata().IsMatchingDeveloperIndex(index.Index)) games.push_back(game); break;
-        case FastSearchContext::Publisher: if (game->Metadata().IsMatchingPublisherIndex(index.Index)) games.push_back(game); break;
-        case FastSearchContext::All:
-        default: break;
-      }
-}
-
 void FolderData::BuildFastSearchSeriesPath(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesPath(into);
-    else into.Set(game, game->Metadata().FileIndex());
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().FileIndex());
 }
 
 void FolderData::BuildFastSearchSeriesName(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesName(into);
-    else into.Set(game, game->Metadata().NameIndex());
+    else if (game->IsDisplayable()) into.Set(game, game->Metadata().NameIndex());
+}
+
+void FolderData::BuildFastSearchSeriesAlias(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesAlias(into);
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().AliasIndex());
 }
 
 void FolderData::BuildFastSearchSeriesDescription(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesDescription(into);
-    else into.Set(game, game->Metadata().DescriptionIndex());
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().DescriptionIndex());
 }
 
 void FolderData::BuildFastSearchSeriesDeveloper(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesDeveloper(into);
-    else into.Set(game, game->Metadata().DeveloperIndex());
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().DeveloperIndex());
 }
 
 void FolderData::BuildFastSearchSeriesPublisher(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesPublisher(into);
-    else into.Set(game, game->Metadata().PublisherIndex());
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().PublisherIndex());
 }
