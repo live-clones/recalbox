@@ -66,6 +66,7 @@ class MetadataDescriptor
     unsigned int                  mTimeStamp;    //!< Scraping timestamp
     MetadataStringHolder::Index32 mRomFile;      //!< Rom file
     MetadataStringHolder::Index32 mName;         //!< Name as simple string
+    MetadataStringHolder::Index32 mAlias;        //!< Alias as simple string
     MetadataStringHolder::Index32 mDescription;  //!< Description, multiline text
     MetadataStringHolder::Index32 mImageFile;    //!< Image file
     MetadataStringHolder::Index32 mThumbnailFile;//!< Thumbnail file
@@ -180,6 +181,7 @@ class MetadataDescriptor
       : mTimeStamp(0)
       , mRomFile(0)
       , mName(0)
+      , mAlias(0)
       , mDescription(0)
       , mImageFile(0)
       , mThumbnailFile(0)
@@ -285,6 +287,7 @@ class MetadataDescriptor
       mRomFile       = source.mRomFile      ;
       mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
+      mAlias         = source.mAlias        ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
       mImageFile     = source.mImageFile    ;
@@ -338,6 +341,7 @@ class MetadataDescriptor
       mRomFile       = source.mRomFile      ;
       mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
+      mAlias         = source.mAlias        ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
       mImageFile     = source.mImageFile    ;
@@ -416,6 +420,7 @@ class MetadataDescriptor
     [[nodiscard]] Path         Rom()         const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
     [[nodiscard]] Path         RomFileOnly() const { return sFileHolder.GetPath(mRomFile);        }
     [[nodiscard]] std::string  Name()        const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] std::string  Alias()       const { return sNameHolder.GetString(mAlias);    }
     [[nodiscard]] std::string  Description() const { return sDescriptionHolder.GetString(mDescription);   }
     [[nodiscard]] Path         Image()       const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
     [[nodiscard]] Path         Thumbnail()   const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
@@ -460,6 +465,7 @@ class MetadataDescriptor
 
     [[nodiscard]] std::string RomAsString()         const { return (sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile)).ToString(); }
     [[nodiscard]] std::string NameAsString()        const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] std::string AliasAsString()       const { return sNameHolder.GetString(mAlias);                 }
     [[nodiscard]] std::string EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     [[nodiscard]] std::string CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
     [[nodiscard]] std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio, DefaultValueRatio); }
@@ -524,6 +530,7 @@ class MetadataDescriptor
     void SetRatio(const std::string& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
     void SetGenre(const std::string& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
     void SetName(const std::string& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
+    void SetAlias(const std::string& alias)             {mAlias        = sNameHolder.AddString32(alias);              mDirty = true; }
     void SetDescription(const std::string& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
     void SetReleaseDate(const DateTime& releasedate)    { mReleaseDate  = (int)releasedate.ToEpochTime();              mDirty = true; }
     void SetDeveloper(const std::string& developer)     { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
@@ -589,6 +596,7 @@ class MetadataDescriptor
 
     [[nodiscard]] bool IsDefaultRom()             const { return Default().mRomFile == mRomFile && Default().mRomPath == mRomPath; }
     [[nodiscard]] bool IsDefaultName()            const { return Default().mName == mName;               }
+    [[nodiscard]] bool IsDefaultAlias()           const { return Default().mAlias == mAlias;               }
     [[nodiscard]] bool IsDefaultEmulator()        const { return Default().mEmulator == mEmulator;       }
     [[nodiscard]] bool IsDefaultCore()            const { return Default().mCore == mCore;               }
     [[nodiscard]] bool IsDefaultRatio()           const { return Default().mRatio == mRatio;           }

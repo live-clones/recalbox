@@ -47,6 +47,8 @@ class GuiMenuUserInterface : public GuiMenuBase
       Filters,
       DisplayByFileName,
       ScreenRotation
+      DisplayFileNameType,
+      DisplayGameRegions
     };
 
     //! System Manager
@@ -72,6 +74,10 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::vector<ListEntry<SystemSorting>> GetSortingEntries();
     //! Get Sorting List
     std::vector<ListEntry<std::string>> GetRotationEntries();
+    /*!
+     * Get game name display type List
+     */
+    std::vector<ListEntry<std::string>> GetDisplayTypes();
 
     /*!
      * @brief Reload gamelists
