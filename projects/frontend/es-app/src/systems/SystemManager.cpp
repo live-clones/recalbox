@@ -973,7 +973,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
 
   // Fast search into metadata, collecting index and distances
-  { LOG(LogWarning) << "SEARCH"; }
+  { LOG(LogDebug) << "[Search] Start searching for '" << lowercaseText << '\''; }
   MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
   switch(context)
   {
@@ -993,31 +993,36 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
     }
     default: break;
   }
+  { LOG(LogDebug) << "[Search] Found " << resultIndexes.Count() << " matching file/folders"; }
 
+  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return a.Index - b.Index; });
+  for(int i = resultIndexes.Count() - 1; --i >= 0;)
+    if (resultIndexes(i).Index == resultIndexes(i + 1).Index)
+    {
+      resultIndexes(i + 1) = resultIndexes[resultIndexes.Count() - 1];
+      resultIndexes.TruncateTo(resultIndexes.Count() - 1);
+    }
+  //resultIndexes.RemoveDups([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> bool { return a.Index == b.Index; });
+  { LOG(LogDebug) << "[Search] " << resultIndexes.Count() << " remaining matching file/folders after removing duplicates"; }
   // Sort first: Distance
-  { LOG(LogWarning) << "SORT"; }
   resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return a.Distance - b.Distance; });
   // Remove dups by index. Higher index are removed so that the lowest distances remain
-  { LOG(LogWarning) << "REMOVE DUPS"; }
-  resultIndexes.RemoveDups([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> bool { return a.Index == b.Index; });
-  // Finaly truncate max results
-  { LOG(LogWarning) << "TRUNCATE"; }
-  resultIndexes.TruncateTo(maxglobal);
 
   // Build searchable system list
-  { LOG(LogWarning) << "BUILD SEARCHABLE SYSTEM LIST"; }
   Array<const SystemData*> searchableSystems((int)GetVisibleSystemList().size());
   if (targetSystem != nullptr) searchableSystems.Add(targetSystem);
   else
     for(const SystemData* system : GetVisibleSystemList())
       if (system->IsSearchable())
         searchableSystems.Add(system);
+  { LOG(LogDebug) << "[Search] Lookup in " << searchableSystems.Count() << " systems"; }
 
   // Build Item series
+  DateTime start;
   CreateFastSearchCache(resultIndexes, searchableSystems);
+  { LOG(LogDebug) << "[Search] Fast lookup cache built in " << ((DateTime() - start).TotalMilliseconds()) << "ms"; }
 
   // Collect result
-  { LOG(LogWarning) << "COLLECT"; }
   FileData::List results;
   for(int i = -1; ++i < (int)resultIndexes.Count(); )
   {
@@ -1025,7 +1030,9 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
     for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
       if (item->Game != nullptr) results.push_back((FileData*)item->Game);
+    if ((int)results.size() >= maxglobal) break;
   }
+  { LOG(LogDebug) << "[Search] Final result: " << results.size() << " games"; }
 
   return results;
 }
@@ -1054,7 +1061,6 @@ void SystemManager::SystemSorting(std::vector<SystemData *>& systems, const std:
 
 void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems)
 {
-  { LOG(LogWarning) << "BUILD SERIES"; }
   for(int i = (int)resultIndexes.Count(); --i >= 0; )
     if (mFastSearchSeries[resultIndexes[i].Context].Empty())
     {
