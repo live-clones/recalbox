@@ -97,6 +97,8 @@ class SystemManager :
 
     //! Fast search cache
     std::vector<FolderData::FastSearchItemSerie> mFastSearchSeries;
+    //! Fast search cache hash
+    unsigned int mFastSearchCacheHash;
 
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
@@ -105,7 +107,6 @@ class SystemManager :
 
     HashSet<std::string>& mWatcherIgnoredFiles;
 
-  private:
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
 
@@ -324,7 +325,8 @@ class SystemManager :
      */
     explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<std::string>& watcherIgnoredFiles)
       : mMountPointMonitoring(this)
-      , mFastSearchSeries((int)FolderData::FastSearchContext::All)
+      , mFastSearchSeries()
+      , mFastSearchCacheHash(0)
       , mProgressInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
@@ -463,7 +465,7 @@ class SystemManager :
     }
 
     //! Get emulator manager
-    const EmulatorManager& Emulators() const { return mEmulatorManager; }
+    [[nodiscard]] const EmulatorManager& Emulators() const { return mEmulatorManager; }
 
     /*!
      * @brief Search games from text
