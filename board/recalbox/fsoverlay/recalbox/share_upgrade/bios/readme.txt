@@ -120,6 +120,7 @@ fcd403db69f54290b51035d82f835e7b  lynxboot.img
 
 - ATARI 7800 :
 0763f1ffb006ddbe32e52d497ee848ae  7800 BIOS (U).rom
+397bb566584be7b9764e7a68974c4263  7800 BIOS (E).rom
 
 
 - ATARI ST : 
