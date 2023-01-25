@@ -281,6 +281,11 @@ bool GuiInputConfig::assign(InputEvent input)
 		return false;
 	}
 
+  // Trigger axis are required to be positive
+  if ((formInput.name == "L2") || (formInput.name == "R2"))
+    if ((input.Type() == InputEvent::EventType::Axis) && (input.Value() < 0))
+      input = InputEvent(input.Device(), input.Type(), input.Id(), -input.Value(), input.Code());
+
 	setAssignedTo(input);
 	
 	// set a code while the device is still connected
