@@ -44,7 +44,7 @@ class ApplicationWindow: public WindowManager
      * @brief Return true if the Application window is required to close
      * @return True if the window must close
      */
-    bool Closed() const { return mClosed; }
+    [[nodiscard]] bool Closed() const { return mClosed; }
 
     /*!
      * @brief Check if the given UI is on top of the screen
@@ -67,5 +67,10 @@ class ApplicationWindow: public WindowManager
       mViewController.goToQuitScreen();
       DoWake(); // Avoid screensaver to run
       RenderAll();
+    }
+
+    [[nodiscard]] bool DoNotDisturb() const override
+    {
+      return HasWindowInDoNotDisturb() || mViewController.DoNotDisturb();
     }
 };

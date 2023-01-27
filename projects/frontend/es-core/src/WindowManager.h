@@ -111,6 +111,20 @@ class WindowManager
      */
     virtual bool UpdateHelpSystem();
 
+
+    /*!
+     * @brief Check if at least a GUI on the stack is claiming not to be disturbed!
+     * @return
+     */
+    [[nodiscard]] virtual bool DoNotDisturb() const = 0;
+
+    [[nodiscard]] bool HasWindowInDoNotDisturb() const
+    {
+      for(int i = mGuiStack.Count(); --i >= 0;)
+        if (mGuiStack[i]->DoNotDisturb()) return true;
+      return false;
+    }
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;
