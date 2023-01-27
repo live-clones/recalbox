@@ -58,4 +58,7 @@ class IAudioController
     virtual void SetNotificationCallback(IAudioNotification*) = 0;
 
     virtual void ClearNotificationCallback() = 0;
+
+    virtual void DisableNotification() = 0;
+    virtual void EnableNotification() = 0;
 };

@@ -40,6 +40,7 @@ bool Case::Install() const
     case CaseModel::GPiV2:
     case CaseModel::GPiV3:
     case CaseModel::GPi2:
+    case CaseModel::GPi2W:
     case CaseModel::Nuxii:
     case CaseModel::PiBoy:
     case CaseModel::Nespi4Case:
@@ -55,6 +56,7 @@ Case Case::FromShortName(const std::string& value)
   if (value == "GPiV2") return Create(CaseModel::GPiV2);
   if (value == "GPiV3") return Create(CaseModel::GPiV3);
   if (value == "GPi2") return Create(CaseModel::GPi2);
+  if (value == "GPi2W") return Create(CaseModel::GPi2W);
   if (value == "Nuxii") return Create(CaseModel::Nuxii);
   if (value == "PiBoy") return Create(CaseModel::PiBoy);
   if (value == "NESPi4") return Create(CaseModel::Nespi4Case);
@@ -85,6 +87,8 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::GPiV3, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case (v3)", "GPiV3", "");
     case CaseModel::GPi2:
       return Case(CaseModel::GPi2, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case 2", "GPi2", "");
+    case CaseModel::GPi2W:
+      return Case(CaseModel::GPi2W, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Gpi Case 2W", "GPi2W", "");
     case CaseModel::Nuxii:
       return Case(CaseModel::Nuxii, CASE_DETECTION_AUTOMATIC, CASE_SHUTDOWN_SUPPORTED, "Nuxii", "Nuxii", "");
     case CaseModel::PiBoy:
