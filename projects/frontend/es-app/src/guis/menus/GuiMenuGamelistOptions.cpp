@@ -32,6 +32,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
     if(!mGamelist.getCursor()->IsEmpty())
     {
+      mAlias = mGamelist.getCursor()->Metadata().Alias();
       if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
           !mSystem.IsScreenshots())
       {
@@ -44,6 +45,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       {
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
       }
+
+      if(!mGamelist.getCursor()->Metadata().Alias().empty())
+        mSiblingsOnly = AddSwitch(_("SHOW ONLY SIBLINGS"), !mAlias.empty() && RecalboxConf::Instance().GetSystemSiblingsOnly(mSystem) == mAlias, (int)Components::SiblingsOnly, this, Strings::Empty);
+
     }
   }
 
@@ -287,6 +292,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ManageSystems(); break;
+    case Components::SiblingsOnly:
+      RecalboxConf::Instance().SetSystemSiblingsOnly(mSystem, status ? mAlias : Strings::Empty).Save();
+      ViewController::Instance().getGameListView(ViewController::Instance().getState().getSystem())->refreshList();
+      break;
     case Components::Regions:
     case Components::Sorts:
     case Components::JumpToLetter:
