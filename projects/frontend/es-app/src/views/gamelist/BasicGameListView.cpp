@@ -127,8 +127,13 @@ void BasicGameListView::populateList(const FolderData& folder)
   // Add to list
   mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
+
+  std::string wantedAlias = RecalboxConf::Instance().GetSystemSiblingsOnly(mSystem);
   for (FileData* fd : items)
 	{
+    if (!wantedAlias.empty() && fd->Metadata().Alias() != wantedAlias)
+      continue;
+
     // Select fron icon
     std::string icon = getItemIcon(fd);
   	// Get name
