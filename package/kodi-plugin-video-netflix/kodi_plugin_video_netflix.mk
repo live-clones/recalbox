@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_PLUGIN_VIDEO_NETFLIX_VERSION = 1.20.2
+KODI_PLUGIN_VIDEO_NETFLIX_VERSION = 1.20.4
 KODI_PLUGIN_VIDEO_NETFLIX_SOURCE = plugin.video.netflix-$(KODI_PLUGIN_VIDEO_NETFLIX_VERSION)+matrix.1.zip
 KODI_PLUGIN_VIDEO_NETFLIX_SITE = https://github.com/CastagnaIT/plugin.video.netflix/releases/download/v$(KODI_PLUGIN_VIDEO_NETFLIX_VERSION)
 KODI_PLUGIN_VIDEO_NETFLIX_PLUGINNAME = plugin.video.netflix
