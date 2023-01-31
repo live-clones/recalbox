@@ -16,6 +16,7 @@ PiBoy_startup() {
 	echo "Loading xpi_gamecon module"
 	/sbin/modprobe xpi_gamecon
 	echo "OK"
+  echo 200 > /sys/kernel/xpi_gamecon/fan # set fan to high speed when uncontrolled
 	echo "Starting piboy-battery-indicator"
 	start-stop-daemon -S -b /usr/bin/piboy-battery-indicator
 	echo "OK"
