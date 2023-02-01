@@ -18,7 +18,7 @@ class DaphneGenerator(Generator):
 
         import os.path
         romName = os.path.splitext(os.path.basename(args.rom))[0]
-        frameFile = args.rom + "/" + romName + ".txt"
+        frameFile = args.rom + "/" + romName + ".png"
         commandsFile = args.rom + "/" + romName + ".commands"
         singeFile = args.rom + "/" + romName + ".singe"
         # the command to run
@@ -27,7 +27,7 @@ class DaphneGenerator(Generator):
             # for a singe game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                 "singe", "vldp",
-                "-framefile", frameFile,
+                "-bezel", frameFile,
                 "-fullscreen",
                 "-script", singeFile,
                 "-blend_sprites",
@@ -42,7 +42,7 @@ class DaphneGenerator(Generator):
             # for a classical game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                 romName, "vldp",
-                "-framefile", frameFile,
+                "-bezel", frameFile,
                 "-fullscreen",
                 "-useoverlaysb", "2",
                 "-opengl",
