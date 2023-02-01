@@ -248,6 +248,9 @@ class LibretroRetroarch:
         # Allow extended ASCII
         settings.setBool("rgui_extended_ascii", True)
 
+        # swap valid cancel button ?
+        settings.setBool("menu_swap_ok_cancel_buttons", self.system.RetroarchSwapValidCancel)
+
         # Smoothing?
         settings.setBool("video_smooth", self.system.Smooth)
 

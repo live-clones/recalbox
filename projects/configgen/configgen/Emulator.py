@@ -79,6 +79,7 @@ class Emulator:
         self._extraArgs: str = ""  # Extra parameters from systemlist.xml commands
         self._configArgs: str = ""  # Extra parameters from recalbox.conf
         self._args: List[str] = [] # Array representation of ExtraArgs + ConfigArgs
+        self._retroarchSwapValidCancel: bool = False
 
         # Vars straight from recalbox.conf
         self._netplayNick: str = "Recalbox Anonymous"
@@ -147,6 +148,7 @@ class Emulator:
         self._translateTo: str       = self.__guessBestStringValue(recalboxOptions, "translate.to", recalboxOptions.getString("system.language", self._translateTo))
         self._extraArgs: str         = self.__guessBestStringValue(recalboxOptions, "extra", self._extraArgs)
         self._configArgs: str        = self.__guessBestStringValue(recalboxOptions, "args", self._configArgs)
+        self._retroarchSwapValidCancel: bool = self.__guessBestBoolValue  (recalboxOptions, "controllers.swapvalidateandcancel", self._retroarchSwapValidCancel)
 
         # Vars straight from recalbox.conf
         self._specialKeys               = recalboxOptions.getString('system.emulators.specialkeys', self._specialKeys)
@@ -385,3 +387,6 @@ class Emulator:
     @property
     def RecalboxExperimental(self) -> bool:
         return self._recalboxexperimental == "1" or (self._recalboxexperimental == "" and self._updatestype != "stable")
+
+    @property
+    def RetroarchSwapValidCancel(self) -> bool: return self._retroarchSwapValidCancel
