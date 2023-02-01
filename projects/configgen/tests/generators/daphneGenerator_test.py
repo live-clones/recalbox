@@ -30,7 +30,7 @@ def test_simple_generate_singe_file(emulator, system, mocker):
     command = emulator.generate(system, dict(), keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/hypseus', 'singe', 'vldp',
-                             '-framefile', 'path/to/test/test.txt',
+                             '-bezel', 'path/to/test/test.png',
                              '-fullscreen',
                              '-script', 'path/to/test/test.singe',
                              '-blend_sprites',
@@ -65,7 +65,7 @@ def test_simple_generate_other_rom(emulator, system, controller_configuration):
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '16'
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
-                             '-framefile', 'path/to/test/test.txt',
+                             '-bezel', 'path/to/test/test.png',
                              '-fullscreen',
                              '-useoverlaysb', '2',
                              '-opengl',
@@ -79,7 +79,7 @@ def test_simple_generate_rpi_resolution(emulator, system_xy, mocker):
     command = emulator.generate(system_xy, dict(), keyValueSettings("", False), Arguments('path/to/test'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
-                             '-framefile', 'path/to/test/test.txt',
+                             '-bezel', 'path/to/test/test.png',
                              '-fullscreen',
                              '-useoverlaysb', '2',
                              '-opengl',
