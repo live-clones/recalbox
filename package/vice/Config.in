@@ -1,6 +1,6 @@
 config BR2_PACKAGE_VICE
 	bool "vice"
-	depends on BR2_PACKAGE_SDL
+	depends on BR2_PACKAGE_SDL2
 	help
 	  VICE is an emulator collection which emulates the C64,
 	  the C64-DTV, the C128, the VIC20, practically all PET models,
@@ -9,4 +9,4 @@ config BR2_PACKAGE_VICE
 	  or Mac OS X machines.
 
 comment "Vice  needs a toolchain w/ OpenGl,  SDL"
-	depends on BR2_PACKAGE_SDL
+	depends on BR2_PACKAGE_SDL2
