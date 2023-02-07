@@ -5,6 +5,17 @@
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
 ++++++++++++++++++++++++++++++++  package/clang/0001-lib-Driver-ToolChains-Gnu-Use-GCC_INSTALL_PREFIX-in-.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0001-meson-Set-proper-value-for-LIBCLC_INCLUDEDIR.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0003-src-util-rand_xor-Include-stddef.h-to-fix-build-erro.patch
+++++++++++++++++++++++++++++++++  package/mesa3d/0004-Fix-uClibc-build.patch
+--------------------------------  package/mesa3d/0001-c99_math-import-isinf-for-uclibc-based-toolchains.patch
+--------------------------------  package/mesa3d/0002-meson-Set-proper-value-for-LIBCLC_INCLUDEDIR.patch
+--------------------------------  package/mesa3d/0003-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
+--------------------------------  package/mesa3d/0004-src-util-rand_xor-Include-stddef.h-to-fix-build-erro.patch
+--------------------------------  package/mesa3d/0005-src-util-futex.h-fix-build-on-32-bit-architectures-u.patch
+--------------------------------  package/mesa3d/0006-fix-valist.patch
+--------------------------------  package/mesa3d/0007-fix-cpp-detection.patch
 087eaf782e2a27d9830114325ad8681a  linux/Config.in
 214c5e2762f0292cf0a31cabc895e54d  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
@@ -26,6 +37,10 @@ d01ff39be7590054b52166b00c3d54ae  package/lirc-tools/lirc-tools.mk
 7e75396e1df40927003bdba95ba389c2  package/llvm/llvm.hash
 07e24c7e14b4e4f8ed8b52d8c8b62500  package/llvm/llvm.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
+6a3efbae068f6c1c04450fee91f2cb99  package/mesa3d-headers/mesa3d-headers.mk
+ed8bb4896bb8de6cc07c550105614d3c  package/mesa3d/Config.in
+d17f66a13fa02c49686276540d49b51a  package/mesa3d/mesa3d.hash
+ece045603a80d9b12eb80a08da6c8882  package/mesa3d/mesa3d.mk
 d7cb896078557db39434504d041a681f  package/mosquitto/mosquitto.mk
 11ad80c411d2df20c1e09022e7bcfc28  package/mpv/mpv.mk
 135abab5349e68ddb60a698bf31db0c5  package/nodejs/0001-add-qemu-wrapper-support.patch

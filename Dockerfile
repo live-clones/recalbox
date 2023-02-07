@@ -17,7 +17,8 @@ apt-get -y install build-essential git libncurses5-dev qtbase5-dev qtchooser qt5
 mercurial libdbus-glib-1-dev texinfo zip openssh-client libxml2-utils libpng-dev \
 software-properties-common wget cpio bc locales rsync imagemagick bison flex bsdmainutils \
 nano vim automake autopoint mtools dosfstools subversion openjdk-8-jdk libssl-dev libelf-dev \
-graphviz python3 python3-matplotlib python3-numpy python3-six re2c libc6-dev-i386 libtool cabextract && \
+graphviz python3 python3-matplotlib python3-numpy python3-six re2c libc6-dev-i386 libtool cabextract \
+glslang-tools && \
 rm -rf /var/lib/apt/lists/*
 
 # Set the locale needed by toolchain

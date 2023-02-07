@@ -1,0 +1,113 @@
+From cd719750ce57b0381b8ac56e95571fc5d39c7dc7 Mon Sep 17 00:00:00 2001
+From: Vasyl Gello <vasek.gello@gmail.com>
+Date: Mon, 12 Dec 2022 15:54:11 +0000
+Subject: [PATCH 1/2] Get rid of bashisms in kodi*.sh
+
+Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
+---
+ tools/Linux/kodi-standalone.sh.in | 8 ++++----
+ tools/Linux/kodi.sh.in            | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/tools/Linux/kodi-standalone.sh.in b/tools/Linux/kodi-standalone.sh.in
+index dc902b4d7ef7d..956e1938649a3 100644
+--- a/tools/Linux/kodi-standalone.sh.in
++++ b/tools/Linux/kodi-standalone.sh.in
+@@ -30,21 +30,21 @@ LOOP=1
+ CRASHCOUNT=0
+ LASTSUCCESSFULSTART=$(date +%s)
+ 
+-while [ $(( $LOOP )) = "1" ]
++while [ $LOOP -eq 1 ]
+ do
+   $APP
+   RET=$?
+   NOW=$(date +%s)
+-  if [ $(( ($RET >= 64 && $RET <=66) || $RET == 0 )) = "1" ]; then # clean exit
++  if [ $RET -ge 64 ] && [ $RET -le 66 ] || [ $RET -eq 0 ]; then # clean exit
+     LOOP=0
+   else # crash
+     DIFF=$((NOW-LASTSUCCESSFULSTART))
+-    if [ $(($DIFF > 60 )) = "1" ]; then # Not on startup, ignore
++    if [ $DIFF -gt 60 ]; then # Not on startup, ignore
+       LASTSUCESSFULSTART=$NOW
+       CRASHCOUNT=0
+     else # at startup, look sharp
+       CRASHCOUNT=$((CRASHCOUNT+1))
+-      if [ $(($CRASHCOUNT >= 3)) = "1" ]; then # Too many, bail out
++      if [ $CRASHCOUNT -ge 3 ]; then # Too many, bail out
+         LOOP=0
+         echo "${APP} has exited in an unclean state 3 times in the last ${DIFF} seconds."
+         echo "Something is probably wrong"
+diff --git a/tools/Linux/kodi.sh.in b/tools/Linux/kodi.sh.in
+index 108c0b007b802..11cace29a58b3 100644
+--- a/tools/Linux/kodi.sh.in
++++ b/tools/Linux/kodi.sh.in
+@@ -180,10 +180,10 @@ do
+   CHILD=$!
+   wait "${CHILD}"
+   RET=$?
+-  if [ $(( $RET == 65 )) = "1" ]
++  if [ $RET -eq 65 ]
+   then # User requested to restart app
+     LOOP=1
+-  elif [ $(( ($RET >= 131 && $RET <= 136) || $RET == 139 )) = "1" ]
++  elif [ $RET -ge 131 ] && [ $RET -le 136 ] || [ $RET -eq 139 ]
+   then # Crashed with core dump
+     print_crash_report
+   fi
+
+From 5449652abf0bb9dddd0d796de4120e60f19f89a5 Mon Sep 17 00:00:00 2001
+From: Alan Swanson <reiver@improbability.net>
+Date: Mon, 19 Dec 2022 21:28:13 +0200
+Subject: [PATCH 2/2] Work around Mesa eglchromium.h removal
+
+I have polished Alan's snippet to buildable state and tested
+on Kodi from Debian sid.
+
+Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
+---
+ cmake/modules/FindEGL.cmake       | 6 ++++++
+ xbmc/windowing/X11/GLContextEGL.h | 4 ++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/cmake/modules/FindEGL.cmake b/cmake/modules/FindEGL.cmake
+index b00fe08a25f95..a68a8db901222 100644
+--- a/cmake/modules/FindEGL.cmake
++++ b/cmake/modules/FindEGL.cmake
+@@ -9,6 +9,7 @@
+ # EGL_INCLUDE_DIRS - the EGL include directory
+ # EGL_LIBRARIES - the EGL libraries
+ # EGL_DEFINITIONS - the EGL definitions
++# HAVE_EGLEXTANGLE - if eglext_angle.h exists else use eglextchromium.h
+ #
+ # and the following imported targets::
+ #
+@@ -35,6 +36,11 @@ if(EGL_FOUND)
+   set(EGL_LIBRARIES ${EGL_LIBRARY})
+   set(EGL_INCLUDE_DIRS ${EGL_INCLUDE_DIR})
+   set(EGL_DEFINITIONS -DHAS_EGL=1)
++  include(CheckIncludeFiles)
++  check_include_files("EGL/egl.h;EGL/eglext.h;EGL/eglext_angle.h" HAVE_EGLEXTANGLE)
++  if(HAVE_EGLEXTANGLE)
++    list(APPEND EGL_DEFINITIONS "-DHAVE_EGLEXTANGLE=1")
++  endif()
+ 
+   if(NOT TARGET EGL::EGL)
+     add_library(EGL::EGL UNKNOWN IMPORTED)
+diff --git a/xbmc/windowing/X11/GLContextEGL.h b/xbmc/windowing/X11/GLContextEGL.h
+index 99a6a9024e8c6..afea0b7c43eac 100644
+--- a/xbmc/windowing/X11/GLContextEGL.h
++++ b/xbmc/windowing/X11/GLContextEGL.h
+@@ -13,7 +13,11 @@
+ #include "threads/CriticalSection.h"
+ 
+ #include <EGL/eglext.h>
++#ifdef HAVE_EGLEXTANGLE
++#include <EGL/eglext_angle.h>
++#else
+ #include <EGL/eglextchromium.h>
++#endif
+ #include <X11/Xutil.h>
+ 
+ class CGLContextEGL : public CGLContext
