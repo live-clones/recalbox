@@ -42,9 +42,14 @@ class BluetoothOverlayGUI
     //! Total time in ms
     int mTotal;
 
-
-    //! BT icon
-    ImageComponent mBluetoothIcon;
+    //! Controller icon
+    ImageComponent mControllerIcon;
+    //! network icon top
+    ImageComponent mBtTop;
+    //! network icon middle
+    ImageComponent mBtMiddle;
+    //! network icon bottom
+    ImageComponent mBtBottom;
     //! Progress bar position
     Rectangle mProgressBar;
 
