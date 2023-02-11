@@ -7,6 +7,7 @@
 #include "SystemDeserializer.h"
 #include "LightGunDatabase.h"
 #include "games/classifications/Versions.h"
+#include "utils/hash/Crc32.h"
 #include <systems/SystemSorting.h>
 #include <utils/Log.h>
 #include <RecalboxConf.h>
@@ -975,7 +976,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
 
   // Fast search into metadata, collecting index and distances
-  { LOG(LogWarning) << "SEARCH"; }
+  { LOG(LogDebug) << "[Search] Start searching for '" << lowercaseText << '\''; }
   MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
   switch(context)
   {
@@ -995,39 +996,45 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
     }
     default: break;
   }
+  { LOG(LogDebug) << "[Search] Found " << resultIndexes.Count() << " matching file/folders"; }
 
-  // Sort first: Distance
-  { LOG(LogWarning) << "SORT"; }
-  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return b.Distance - a.Distance; });
   // Remove dups by index. Higher index are removed so that the lowest distances remain
-  { LOG(LogWarning) << "REMOVE DUPS"; }
-  resultIndexes.RemoveDups([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> bool { return a.Index == b.Index; });
-  // Finaly truncate max results
-  { LOG(LogWarning) << "TRUNCATE"; }
-  resultIndexes.TruncateTo(maxglobal);
+  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return a.Index - b.Index; });
+  for(int i = resultIndexes.Count() - 1; --i >= 0;)
+    if (resultIndexes(i).Index == resultIndexes(i + 1).Index)
+    {
+      resultIndexes(i + 1) = resultIndexes[resultIndexes.Count() - 1];
+      resultIndexes.TruncateTo(resultIndexes.Count() - 1);
+    }
+  { LOG(LogDebug) << "[Search] " << resultIndexes.Count() << " remaining matching file/folders after removing duplicates"; }
+  // Sort first: Distance
+  resultIndexes.Sort([](const MetadataStringHolder::IndexAndDistance& a, const MetadataStringHolder::IndexAndDistance& b) -> int { return a.Distance - b.Distance; });
 
   // Build searchable system list
-  { LOG(LogWarning) << "BUILD SEARCHABLE SYSTEM LIST"; }
   Array<const SystemData*> searchableSystems((int)GetVisibleSystemList().size());
   if (targetSystem != nullptr) searchableSystems.Add(targetSystem);
   else
     for(const SystemData* system : GetVisibleSystemList())
       if (system->IsSearchable())
         searchableSystems.Add(system);
+  { LOG(LogDebug) << "[Search] Lookup in " << searchableSystems.Count() << " systems"; }
 
   // Build Item series
+  DateTime start;
   CreateFastSearchCache(resultIndexes, searchableSystems);
+  { LOG(LogDebug) << "[Search] Fast lookup cache built in " << ((DateTime() - start).TotalMilliseconds()) << "ms"; }
 
   // Collect result
-  { LOG(LogWarning) << "COLLECT"; }
   FileData::List results;
-  for(int i = (int)resultIndexes.Count(); --i >= 0; )
+  for(int i = -1; ++i < (int)resultIndexes.Count(); )
   {
     const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
     for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
       if (item->Game != nullptr) results.push_back((FileData*)item->Game);
+    if ((int)results.size() >= maxglobal) break;
   }
+  { LOG(LogDebug) << "[Search] Final result: " << results.size() << " games"; }
 
   return results;
 }
@@ -1056,25 +1063,41 @@ void SystemManager::SystemSorting(std::vector<SystemData *>& systems, const std:
 
 void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems)
 {
-  { LOG(LogWarning) << "BUILD SERIES"; }
-  for(int i = (int)resultIndexes.Count(); --i >= 0; )
-    if (mFastSearchSeries[resultIndexes[i].Context].Empty())
-    {
-      int count = 0;
-      switch((FolderData::FastSearchContext)resultIndexes[i].Context)
+  // Calculate searchable system hash
+  unsigned int hash = 0;
+  for(int i = searchableSystems.Count(); --i >= 0; )
+  {
+    const SystemData& system = *searchableSystems[i];
+    hash = crc32_16bytes(system.FullName().c_str(), system.FullName().size(), hash);
+  }
+
+  // Refresh hash?
+  if (hash != mFastSearchCacheHash)
+  {
+    mFastSearchCacheHash = hash;
+    { LOG(LogDebug) << "[Search] Fast cache refresh required"; }
+    mFastSearchSeries.clear();
+    for(int i = (int)FolderData::FastSearchContext::All + 1; --i >= 0; )
+      mFastSearchSeries.push_back(FolderData::FastSearchItemSerie(0));
+    for(int i = (int)resultIndexes.Count(); --i >= 0; )
+      if (mFastSearchSeries[resultIndexes[i].Context].Empty())
       {
-        case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
-        case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
-        case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
-        case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
-        case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;
-        case FolderData::FastSearchContext::All:break;
+        int count = 0;
+        switch((FolderData::FastSearchContext)resultIndexes[i].Context)
+        {
+          case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
+          case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
+          case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
+          case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
+          case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;
+          case FolderData::FastSearchContext::All:break;
+        }
+        FolderData::FastSearchItemSerie serie(count);
+        for(int s = searchableSystems.Count(); --s >= 0; )
+          searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext)resultIndexes[i].Context);
+        mFastSearchSeries[resultIndexes[i].Context] = std::move(serie);
       }
-      FolderData::FastSearchItemSerie serie(count);
-      for(int s = searchableSystems.Count(); --s >= 0; )
-        searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext)resultIndexes[i].Context);
-      mFastSearchSeries[resultIndexes[i].Context] = std::move(serie);
-    }
+  }
 }
 
 void SystemManager::DeleteFastSearchCache()
@@ -1205,7 +1228,7 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
       if (romFolder.IsDirectory())
       {
         Path destination = device.MountPoint() / "recalbox/roms" / romFolder.Filename();
-        if ((error = !destination.CreatePath())) break;
+        if (error = !destination.CreatePath(); error) break;
         // Copy
         Path::PathList templates = romFolder.GetDirectoryContent();
         for(const Path& file : templates)
