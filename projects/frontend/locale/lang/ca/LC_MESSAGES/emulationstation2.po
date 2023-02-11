@@ -505,9 +505,6 @@ msgstr "S'HA PRODUÏT UN ERROR"
 msgid "NO CONTROLLERS FOUND"
 msgstr "NO S'HA TROBAT CAP COMANDAMENT"
 
-msgid "PAIR A BLUETOOTH CONTROLLER"
-msgstr "APARELLA UN COMANDAMENT BLUETOOTH"
-
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
 msgstr "S'HAN ESBORRAT TOTS ELS COMANDAMENTS."
 
@@ -3403,6 +3400,20 @@ msgid "Recalbox RGB Dual options and configuration."
 msgstr ""
 
 msgid "Select system, frontend and emulator resolutions."
+msgstr ""
+
+msgid "PAIR BLUETOOTH CONTROLLERS"
+msgstr ""
+
+#
+msgid ""
+"The bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to apply the pairing procedure on any "
+"bluetooth controller you want to pair.\n"
+"The next window will display all detected bluetooth devices and their status "
+"for information purposes only.\n"
+"You can close it at any time, while continuing to pair your bluetooth "
+"devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
 
 #~ msgid "DISK USAGE"

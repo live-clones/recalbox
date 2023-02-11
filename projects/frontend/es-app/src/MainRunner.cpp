@@ -48,6 +48,7 @@ MainRunner::MainRunner(const std::string& executablePath, unsigned int width, un
   , mRunCount(runCount)
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
+  , mBluetooth()
 {
   Intro(debug);
   SetLocale(executablePath);
@@ -67,9 +68,6 @@ MainRunner::ExitState MainRunner::Run()
 {
   try
   {
-    // Inter-thread messaging system
-    SyncMessageFactory syncMessageFactory;
-
     // Hardware board
     Board board(*this);
 
@@ -100,6 +98,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     InputManager::Instance().Initialize();
     mApplicationWindow = &window;
+    mBluetooth.Register(&window.BluetoothNotifier());
     // Brightness
     if (board.HasBrightnessSupport())
       board.SetBrightness(RecalboxConf::Instance().GetBrightness());
@@ -112,7 +111,6 @@ MainRunner::ExitState MainRunner::Run()
     board.StartGlobalBackgroundProcesses();
 
     // Display "loading..." screen
-    //window.renderLoadingScreen();
     window.RenderAll();
     PlayLoadingSound(audioManager);
 
@@ -121,7 +119,6 @@ MainRunner::ExitState MainRunner::Run()
     if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
       return ExitState::FatalError;
     ResetForceReloadState();
-    //systemManager.SearchTextInGames(FolderData::FastSearchContext::Name, "SUP", 100);
 
     // Scrapers
     ScraperFactory scraperFactory;
