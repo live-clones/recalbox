@@ -9,6 +9,13 @@
 #include <guis/menus/GuiMenuBase.h>
 #include <guis/GuiWaitLongExecution.h>
 #include <input/InputMapper.h>
+#include <mqtt/MqttClient.h>
+
+enum class Command
+{
+    StartDiscovery     = 0x00001,
+    StopDiscovery      = 0x00002,
+};
 
 // Forward declaration
 class SystemManager;
@@ -48,6 +55,9 @@ class GuiMenuPads : public GuiMenuBase
     //! Refreshing component, ignore change event
     bool mRefreshing;
 
+    //! MQTT Topic
+    static constexpr const char* sEventTopic = "bluetooth/operation";
+
     //! Called when the user start configuring a pad
     void StartConfiguring();
 
@@ -57,7 +67,7 @@ class GuiMenuPads : public GuiMenuBase
     //! Refresh the device list
     void RefreshDevices();
 
-    //! Called when the user start configuring a pad
+    //! Called when the user starts bluetooth discovery
     void StartScanningDevices();
 
     //! Unpair all device
@@ -109,6 +119,11 @@ class GuiMenuPads : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const std::string& value) override;
+
+    /*
+     * @brief convert action enum to string
+     */
+    const char* ActionToString(Command action);
 };
 
 

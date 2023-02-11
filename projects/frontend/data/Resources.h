@@ -20,6 +20,9 @@ extern const uint8_t Recalbox_logo_Grey_svg_data[];
 extern const uint16_t textinput_ninepatch_active_png_size;
 extern const uint8_t textinput_ninepatch_active_png_data[];
 
+extern const uint32_t Recalbox_icons_ttf_size;
+extern const uint8_t Recalbox_icons_ttf_data[];
+
 extern const uint16_t checkbox_checked_svg_size;
 extern const uint8_t checkbox_checked_svg_data[];
 
@@ -121,6 +124,18 @@ extern const uint8_t plaincircle30_png_data[];
 
 extern const uint16_t thumbs_up_green_svg_size;
 extern const uint8_t thumbs_up_green_svg_data[];
+
+extern const uint16_t bluetooth__bt_controller_svg_size;
+extern const uint8_t bluetooth__bt_controller_svg_data[];
+
+extern const uint16_t bluetooth__bt_top_svg_size;
+extern const uint8_t bluetooth__bt_top_svg_data[];
+
+extern const uint16_t bluetooth__bt_middle_svg_size;
+extern const uint8_t bluetooth__bt_middle_svg_data[];
+
+extern const uint16_t bluetooth__bt_bottom_svg_size;
+extern const uint8_t bluetooth__bt_bottom_svg_data[];
 
 extern const uint16_t crt__p1920x224_png_size;
 extern const uint8_t crt__p1920x224_png_data[];

@@ -2,6 +2,9 @@
 // Created by bkg2k on 14/05/19.
 //
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include <SDL_audio.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
@@ -499,3 +502,4 @@ void VideoEngine::FinalizeDecoder()
   mContext.Dispose();
 }
 
+#pragma GCC diagnostic pop

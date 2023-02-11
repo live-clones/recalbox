@@ -3,6 +3,9 @@
 //
 #pragma once
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include <utils/os/system/Thread.h>
 #include <utils/os/system/Mutex.h>
 #include <utils/os/system/Signal.h>
@@ -221,7 +224,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     {
       public:
         //! Default constructor
-        OrderMessage() : mOrder(Order::Stop) {}
+        OrderMessage() : mOrder(Order::Stop), mDecodeAudio(true) {}
         //! Copy constructor
         OrderMessage(const OrderMessage& source) : mOrder(source.GetOrder()), mVideoPath(source.mVideoPath), mDecodeAudio(source.mDecodeAudio) {}
         //! Copy operator
@@ -240,9 +243,9 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
         //! Set properties
         void Set(Order order) { mOrder = order; }
 
-        Order GetOrder() const { return mOrder; }
-        const Path& GetPath() const { return mVideoPath; }
-        bool GetDecodeAudio() const { return mDecodeAudio; }
+        [[nodiscard]] Order GetOrder() const { return mOrder; }
+        [[nodiscard]] const Path& GetPath() const { return mVideoPath; }
+        [[nodiscard]] bool GetDecodeAudio() const { return mDecodeAudio; }
 
       private:
         Order mOrder;
@@ -362,13 +365,13 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
      * @brief Return true if the player is actually playing a video
      * @return True if a video is playing, false otherwise
      */
-    bool IsPlaying() const { return mIsPlaying; }
+    [[nodiscard]] bool IsPlaying() const { return mIsPlaying; }
 
     /*!
      * @brief Return true if the engine is in idle state
      * @return True if in idle state, false otherwise
      */
-    int GetVideoDurationMs() const { return IsPlaying() ? mContext.TotalTime : 0; }
+    [[nodiscard]] int GetVideoDurationMs() const { return IsPlaying() ? mContext.TotalTime : 0; }
 
     //! Lock texture for thread safety
     void AquireTexture() { mTextureSyncer.Lock(); }
@@ -376,3 +379,5 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
     //! Release texture
     void ReleaseTexture() { mTextureSyncer.UnLock(); }
 };
+
+#pragma GCC diagnostic pop

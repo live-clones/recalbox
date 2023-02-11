@@ -1,0 +1,114 @@
+# autopair and mqtt interaction
+
+The python script `autopair` reports some info to mqtt in `bluetooth/status` topic.
+It also listen to command in `bluetooth/operation` topic.
+
+## Operations
+
+autopair can be controlled by sending a correctly forged payload to `bluetooth/operation` topic.
+The payload to send through mqtt must be a JSON. It have a command property.
+
+```json
+{
+  "command": "some_command"
+}
+```
+
+Here is the list of commands understood by autopair:
+
+### `start_discovery`
+
+This command tells autopair to start pairing with joysticks/joypads that are in pairing mode.
+Sample payload:
+```json
+{
+  "command": "start_discovery"
+}
+```
+
+This command pairs joysticks/joypad for 5 minutes and stop automatic pairing after that. 
+
+Example shell command: `mosquitto_pub -t bluetooth/operation -m '{"command": "start_discovery"}'`
+
+### `stop_discovery`
+
+This command tells autopair to stop pairing with joysticks/joypads.
+Sample payload:
+```json
+{
+  "command": "stop_discovery"
+}
+```
+
+Example shell command: `mosquitto_pub -t bluetooth/operation -m '{"command": "stop_discovery"}'`
+
+### `report_status`
+
+This command tells autopair to report some information. autopair sends back information into
+`bluetooth/status` topic.
+Sample payload:
+```json
+{
+  "command": "report_status"
+}
+```
+
+Example shell command: `mosquitto_pub -t bluetooth/operation -m '{"command": "report_status"}'`
+
+## Status
+
+autopair sends runtime status into `bluetooth/status` topic.
+
+Example shell command to get autopair status: `mosquitto_sub -t bluetooth/status`
+
+Here is the json property of `bluetooth/status`:
+* `is_disovering` (bool): true if discovering else false
+* `discovery_timeout` (int): number of second before pairing timeout is reached
+* `discovery_total` (int): total number of second for discovering
+* `devices` (object): contains a list of all paired devices (connected or not connected)
+  * id (string): DBus path of the device
+  * `name` (string): name of the device
+  * `alias` (string): alias of the device
+  * `address` (string): address of the device
+  * `rssi` (int): received signal strength indication
+  * `paired` (bool): if the device is paired (should be true)
+  * `trusted` (bool): if the device is trusted (should be true)
+  * `connected` (bool): if the device is currently powered on and connected to the BT adapter
+  * `services_resolved` (bool): if the device services has been successfully resolved
+* `initiator`: name of the function that called the status report
+```
+{
+  "is_discovering": true,
+  "discovery_timeout": 287,
+  "discovery_total": 300,
+  "devices": [
+    {
+      "id": "/org/bluez/hci0/dev_E4_17_D8_52_FD_6C",
+      "name": "8BitDo Pro 2",
+      "alias": "8BitDo Pro 2",
+      "address": "E4:17:D8:52:FD:6C",
+      "rssi": 0,
+      "paired": true,
+      "trusted": true,
+      "connected": false,
+      "blocked": false,
+      "services_resolved": false
+    },
+    {
+      "id": "/org/bluez/hci0/dev_E4_17_D8_16_73_00",
+      "name": "8Bitdo SN30 Pro",
+      "alias": "8Bitdo SN30 Pro",
+      "address": "E4:17:D8:16:73:00",
+      "rssi": 0,
+      "paired": true,
+      "trusted": false,
+      "connected": false,
+      "blocked": false,
+      "services_resolved": false
+    }
+  ],
+  "initiator": "iterate_stop_discovery"
+}
+```
+
+Status report are sent regularly when a known device is connected or is lost, when a new device is paired and during the discovery process.
