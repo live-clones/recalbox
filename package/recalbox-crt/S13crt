@@ -158,12 +158,16 @@ function shouldMigrate {
 }
 
 function runMigrations {
-    if shouldMigrate "8.2-theme"; then
-        recallog -s "S13crt" -t "CRT" "Running migration 8.2-theme"
+    if shouldMigrate "8.2-config"; then
+        recallog -s "S13crt" -t "CRT" "Running migration 8.2-config"
+        # We must clean everything but the options file and reboot for a clean install
+        # This way a clean install will be done at next reboot: default files will be copied by S12, switching to CRT will processed
+        mount -o remount,rw /boot
+        rm -f "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg" \
+        "${RRGBDUAL_CURRENT_VIDEO_CONFIG}" "${RRGBDUAL_LASTBOOT}" "${RRGBDUAL_31KHZ_LASTBOOT}" "${CRT_DAC_FILE}"
         unconfigure_rbconf
-        configure_rbconf
-        configure_kodi
-        migrationDone "8.2-theme"
+        migrationDone "8.2-config"
+        reboot
     fi
 }
 
@@ -186,7 +190,9 @@ function switchTo {
     mount -o remount,rw /boot
     mkdir -p "${SAVE_DIR}"
     for fileName in "${!filesToSave[@]}"; do
-        cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
+        if [ -f "${filesToSave[$fileName]}/${fileName}" ]; then
+            cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
+        fi
         if [ -f "${RESTORE_DIR}/${fileName}" ]; then
             cp "${RESTORE_DIR}/${fileName}" "${filesToSave[$fileName]}/${fileName}"
         fi
@@ -212,6 +218,7 @@ if test "$1" == "start"; then
 
     # RRGBD is present
     if isRecalboxRGBDual; then
+        runMigrations
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
@@ -303,7 +310,6 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
-        runMigrations
         exit 0
         # End RRGBD
     fi
@@ -330,6 +336,7 @@ if test "$1" == "start"; then
     fi
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
+        runMigrations
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -360,7 +367,6 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
-        runMigrations
     elif [[ "${DAC}" == "" ]]; then
         if [[ -f "${CRT_DAC_FILE}" ]] && grep -q "#device=" "${CRT_DAC_FILE}"; then
             # We should clean
