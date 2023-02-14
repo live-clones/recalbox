@@ -37,4 +37,7 @@ struct EmulatorData
 
     //! Valid?
     bool IsValid() const { return !mEmulator.empty() && !mCore.empty(); }
+
+    //! Is libretro
+    bool IsLibretro() const { return "libretro" == mEmulator; }
 };
