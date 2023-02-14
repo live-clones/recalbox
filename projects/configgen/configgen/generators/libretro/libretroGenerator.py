@@ -277,6 +277,10 @@ class LibretroGenerator(Generator):
         if args.ups != '':
             commandArray.extend(["--ups", args.ups])
 
+        # entryslot number
+        if args.entryslot != '':
+            commandArray.extend(["--entryslot", args.entryslot])
+
         # Core & config
         commandArray.extend(["-L", retroarchCore, "--config", configFileName])
         # Extra configs - pass in-place override last
