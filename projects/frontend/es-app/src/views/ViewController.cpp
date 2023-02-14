@@ -13,6 +13,7 @@
 
 #include "audio/AudioManager.h"
 #include "guis/menus/GuiMenuSoftpatchingLauncher.h"
+#include "guis/GuiSaveStates.h"
 #include <audio/AudioMode.h>
 
 #include <memory>
@@ -385,6 +386,7 @@ void ViewController::onFileChanged(FileData* file, FileChangeType change)
 void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceLaunch)
 {
   mGameLinkedData = data;
+  mShowSaveStateBeforeStart = true;
   LaunchCheck(game, cameraTarget, forceLaunch);
 }
 
@@ -406,7 +408,8 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
       std::string emulatorString = emulator.Emulator();
       if (emulator.Emulator() != emulator.Core()) emulatorString.append(1, '/').append(emulator.Core());
       // Build text
-      std::string text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
+      std::string text = _(
+        "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
       text = Strings::Replace(text, "%emulator%", emulatorString);
       text = Strings::Replace(text, "%game%", game->Name());
       // Add bios names
@@ -415,12 +418,8 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
           .append(1, ' ')
           .append(Strings::Join(biosList.GetMissingBiosFileList(), '\n'));*/
       // Show the dialog box
-      Gui* gui = new GuiMsgBox(mWindow,
-                               text,
-                               _("YES"),
-                               [this, game, &cameraTarget] { LaunchCheck(game, cameraTarget, true); },
-                               _("NO"),
-                               nullptr);
+      Gui* gui = new GuiMsgBox(mWindow, text, _("YES"), [this, game, &cameraTarget]
+      { LaunchCheck(game, cameraTarget, true); }, _("NO"), nullptr);
       mWindow.pushGui(gui);
       return;
     }
@@ -541,6 +540,19 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
                                                         LaunchCheck(game, cameraTarget, true);
                                                         lastChoice = 1;
                                                       }));
+    return;
+  }
+
+
+  if (mSystemManager.Emulators().GetGameEmulator(*game).IsLibretro() && RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun()
+  && !GameFilesUtils::GetGameSaveStateFiles(*game).empty() && !mGameLinkedData.ConfigurableSaveState().IsConfigured() )
+  {
+    mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *game,
+                                      [this, game, &cameraTarget](const std::string & slotNumber) {
+      mGameLinkedData.ConfigurableSaveState().SetSlotNumber(slotNumber);
+      LaunchCheck(game, cameraTarget, true);
+    }
+    , false));
     return;
   }
 
