@@ -27,6 +27,7 @@ savestate_auto_save = false
 savestate_auto_load = false
 save_file_compression = true
 savestate_file_compression = true
+savestate_thumbnail_enable = true
 
 video_shader_dir = /recalbox/share/shaders/
 screenshot_directory = /recalbox/share/screenshots/

@@ -9,6 +9,7 @@
 #include <emulators/run/NetPlayData.h>
 #include <emulators/run/CrtData.h>
 #include <emulators/run/PatchData.h>
+#include <emulators/run/SaveStateData.h>
 
 class GameLinkedData
 {
@@ -57,8 +58,15 @@ class GameLinkedData
     //! Get writable Patch data
     PatchData& ConfigurablePatch() { return mPatchData; }
 
+    //! Get writable savestate data
+    SaveStateData& ConfigurableSaveState() { return mSaveSateData; }
+
     //! Get read only Patch data
     const PatchData& Patch() const { return mPatchData; }
+
+    //! Get read only savestate data
+    const SaveStateData& SaveState() const { return mSaveSateData; }
+
 
   private:
     //! Netplay data
@@ -68,4 +76,6 @@ class GameLinkedData
     CrtData mCrtData;
 
     PatchData mPatchData;
+
+    SaveStateData mSaveSateData;
 };

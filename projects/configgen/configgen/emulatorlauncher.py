@@ -358,6 +358,7 @@ if __name__ == '__main__':
     parser.AddString(command="ips", chelp="patch with ips file", required=False)
     parser.AddString(command="bps", chelp="patch with bps file", required=False)
     parser.AddString(command="ups", chelp="patch with ups file", required=False)
+    parser.AddString(command="entryslot", chelp="entryslot number", required=False)
     parser.AddString(command="crtadaptor", chelp="Plugged crt adaptor", required=False)
     parser.AddString(command="crtvideostandard", chelp="Selected crt video standard, auto, pal, ntsc", required=False)
     parser.AddString(command="crtregion", chelp="Selected crt region: us,jp,eu", required=False)
