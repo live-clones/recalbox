@@ -119,6 +119,13 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetSystemVideoMode(game.System()), targetResolution))
     command.append(" -resolution ").append(targetResolution.ToString());
 
+  // Allow to load save state slot on game launching
+  if (!data.SaveState().SlotNumber().empty())
+  {
+    command.append(" -entryslot ").append(data.SaveState().SlotNumber());
+  }
+
+  // launch without patch
   if (data.Patch().DisabledSofpatching())
   {
     // launch without patch
@@ -236,10 +243,6 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
 
   std::string command = CreateCommandLine(game, emulator, emulator.Core(), GameLinkedData(), mapper, debug, true);
-
-  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
-  if(RotationManager::ShouldRotateGameControls(game))
-    command.append(" -rotatecontrols ");
 
   // Add demo stuff
   command.append(" -demo 1");

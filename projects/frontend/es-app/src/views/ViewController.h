@@ -136,6 +136,8 @@ public:
 
     State mState;
 
+    bool mShowSaveStateBeforeStart;
+
     /*!
      * @brief Check bios and call LaunchAnimated
      * @param game game to launch

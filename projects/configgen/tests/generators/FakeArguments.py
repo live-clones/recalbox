@@ -13,3 +13,4 @@ class Arguments:
         self.ips = ''
         self.bps = ''
         self.ups = ''
+        self.entryslot = ''
