@@ -28,6 +28,7 @@ class MenuMessages
     #define MENUMESSAGE_GAME_RATIO_HELP_MSG "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
     #define MENUMESSAGE_GAME_SMOOTH_HELP_MSG "Smooth the game image. This option makes the image smoother, using bilinear filtering."
     #define MENUMESSAGE_GAME_REWIND_HELP_MSG "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
+    #define MENUMESSAGE_GAME_SHOW_SAVESTATES_HELP_MSG "Show savestates on start will display available save states before launch a game."
     #define MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG "Auto save the state when you quit a game, and auto load last saved state when you start a game."
     #define MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG "Press twice the buttons to end the game and go back to main menu."
     #define MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."

@@ -36,6 +36,9 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   // Softpatching
   mSoftpatching = AddList<std::string>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
 
+  // show savestates
+  mShowSaveStates = AddSwitch(_("SHOW SAVE STATES ON START"), RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun(), (int)Components::ShowSaveStates, this, _(MENUMESSAGE_GAME_SHOW_SAVESTATES_HELP_MSG));
+
   // autosave
   mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
@@ -141,7 +144,22 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
     case Components::Smooth: RecalboxConf::Instance().SetGlobalSmooth(status).Save(); break;
     case Components::RecalboxOverlays: RecalboxConf::Instance().SetGlobalRecalboxOverlays(status).Save(); break;
     case Components::Rewind: RecalboxConf::Instance().SetGlobalRewind(status).Save(); break;
-    case Components::AutoSave: RecalboxConf::Instance().SetGlobalAutoSave(status).Save(); break;
+    case Components::ShowSaveStates:
+      RecalboxConf::Instance().SetGlobalShowSaveStateBeforeRun(status).Save();
+      if (status)
+      {
+        mAutoSave->setState(false);
+        RecalboxConf::Instance().SetGlobalAutoSave(false).Save();
+      }
+      break;
+    case Components::AutoSave:
+      RecalboxConf::Instance().SetGlobalAutoSave(status).Save();
+      if (status)
+      {
+        mShowSaveStates->setState(false);
+        RecalboxConf::Instance().SetGlobalShowSaveStateBeforeRun(false).Save();
+      }
+      break;
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
     case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
     case Components::Ratio:
