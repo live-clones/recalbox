@@ -42,6 +42,30 @@ HashSet<std::string> GameFilesUtils::GetGameSaveFiles(FileData& game)
   return list;
 }
 
+std::list<SaveState> GameFilesUtils::GetGameSaveStateFiles(FileData& game)
+{
+  std::list<SaveState> list;
+  Path directory = Path("/recalbox/share/saves") / game.System().Name();
+
+  if (game.IsGame())
+  {
+    for (const auto& path: directory.GetDirectoryContent())
+    {
+      if (path.FilenameWithoutExtension() == game.RomPath().FilenameWithoutExtension() && path.Extension().starts_with(".state"))
+      {
+        list.push_back(*new SaveState(path));
+      }
+
+      if (path.FilenameWithoutExtension() == game.RomPath().FilenameWithoutExtension() + ".state" && path.Extension() == (".auto"))
+      {
+        list.push_back(*new SaveState(path));
+      }
+    }
+
+  }
+  return list;
+}
+
 HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<std::string> list;
@@ -437,3 +461,4 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
 
   DeleteFoldersRecIfEmpty(parent);
 }
+
