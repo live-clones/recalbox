@@ -115,6 +115,12 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetSystemVideoMode(game.System()), targetResolution))
     command.append(" -resolution ").append(targetResolution.ToString());
 
+  // Allow to load save state slot on game launching
+  if (!data.SaveState().SlotNumber().empty())
+  {
+    command.append(" -entryslot ").append(data.SaveState().SlotNumber());
+  }
+
   if (data.Patch().DisabledSofpatching())
   {
     // launch without patch
