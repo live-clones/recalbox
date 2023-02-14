@@ -35,6 +35,7 @@ class GuiMenuGameSettings : public GuiMenuBase
       Smooth,
       Rewind,
       AutoSave,
+      ShowSaveStates,
       QuitTwice,
       IntegerScale,
       Shaders,
@@ -55,8 +56,10 @@ class GuiMenuGameSettings : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mSmooth;
     //! Rewind
     std::shared_ptr<SwitchComponent> mRewind;
-    //! Shaders
+    //! Soft-patching
     std::shared_ptr<OptionListComponent<std::string>> mSoftpatching;
+    //! Show save states
+    std::shared_ptr<SwitchComponent> mShowSaveStates;
     //! Auto-save
     std::shared_ptr<SwitchComponent> mAutoSave;
     //! Press twice to quit
