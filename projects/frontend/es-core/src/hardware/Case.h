@@ -7,7 +7,7 @@
 #include <utils/Strings.h>
 
 #define CASE_DETECTION_AUTOMATIC true
-#define CASE_SHUTDOWN_SUPPORTED true
+#define MENU_SHUTDOWN_ENABLED true
 
 /*!
 * Case management
@@ -56,7 +56,7 @@ class Case
      * @brief Some cases have an on/off button with a state
      * @return true if the case allows shutting down recalbox from the menu
      */
-    bool CanShutdownFromMenu() const { return mShutdownSupported; }
+    bool CanShutdownFromMenu() const { return mMenuShutdownEnabled; }
 
     /*!
      * @brief Case name should be human readable
@@ -116,17 +116,18 @@ class Case
     /*!
      * @brief Private constructor
      * @param model Case model
-     * @param automatic Detectyed automatically?
+     * @param automatic Detected automatically?
+     * @param menuShutdownEnabled Display or not shutdown option in the menu
      * @param displayName Displayable name
      * @param shortName Internal name
      */
-    Case(CaseModel model, bool automatic, bool shutdownSupported, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
+    Case(CaseModel model, bool automatic, bool menuShutdownEnabled, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
       : mDisplayName(displayName)
       , mShortName(shortName)
       , mInstallMessage(installMessage)
       , mModel(model)
       , mAutomatic(automatic)
-      , mShutdownSupported(shutdownSupported)
+      , mMenuShutdownEnabled(menuShutdownEnabled)
      {}
 
     static bool SetCaseInBoot(const std::string& theCase);
@@ -135,5 +136,5 @@ class Case
     const std::string mInstallMessage;
     const enum CaseModel mModel;
     const bool mAutomatic;
-    const bool mShutdownSupported;
+    const bool mMenuShutdownEnabled;
 };
