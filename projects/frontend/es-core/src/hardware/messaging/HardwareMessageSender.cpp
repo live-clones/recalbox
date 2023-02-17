@@ -64,6 +64,18 @@ void HardwareMessageSender::ProcessMessage(const HardwareMessage& message)
       mNotificationInterface.Resume(message.mBoardType);
       break;
     }
+    case MessageTypes::BrightnessDownPressed:
+    {
+      { LOG(LogDebug) << "[Hardware] Brightness down button pressed."; }
+      mNotificationInterface.BrightnessDecrease(message.mBoardType, 0.10f);
+      break;
+    }
+    case MessageTypes::BrightnessUpPressed:
+    {
+      { LOG(LogDebug) << "[Hardware] Brightness up button pressed."; }
+      mNotificationInterface.BrightnessIncrease(message.mBoardType, 0.10f);
+      break;
+    }
     default: break;
   }
 }

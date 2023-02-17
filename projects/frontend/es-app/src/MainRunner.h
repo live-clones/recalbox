@@ -312,6 +312,18 @@ class MainRunner
      */
     void Resume(BoardType board) final;
 
+    /*!
+     * @brief Decrease brightness
+     * @param board current board
+     */
+    void BrightnessDecrease(BoardType board, float percent) final;
+
+    /*!
+     * @brief Increase volume
+     * @param board current board
+     */
+    void BrightnessIncrease(BoardType board, float percent) final;
+
     /*
      * ILongExecution implementation
      */
