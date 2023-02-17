@@ -4,6 +4,7 @@
 #include <utils/Files.h>
 #include <input/InputCompactEvent.h>
 #include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
+#include <hardware/boards/anbernic/RG353XBoard.h>
 #include <sys/utsname.h>
 #include <hardware/boards/NullBoard.h>
 #include <hardware/boards/pc/PcComputers.h>
@@ -36,6 +37,14 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected."; }
       return *(new OdroidAdvanceGo2Board(messageSender, model));
+    }
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
+    {
+      { LOG(LogInfo) << "[Hardware] Anbernic RG353x."; }
+      return *(new RG353XBoard(messageSender, model));
     }
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -161,7 +170,7 @@ BoardType Board::GetBoardType()
     std::string str; // Declared before loop to keep memory allocated
     while (fgets(line, sizeof(line) - 1, f) != nullptr)
     {
-      // Raspberry pi
+      // Raspberry pi or Anbernic
       if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
       {
         char* colon = strchr(line, ':');
@@ -170,6 +179,27 @@ BoardType Board::GetBoardType()
           hardware = colon + 2;
           hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
           { LOG(LogInfo) << "[Hardware] Hardware " << hardware; }
+        }
+
+        if (hardware == "Anbernic RG353P")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353P" ; }
+          mType = BoardType::RG353P;
+        }
+        if (hardware == "Anbernic RG353V")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353V" ; }
+          mType = BoardType::RG353V;
+        }
+        if (hardware == "Anbernic RG353M")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353M" ; }
+          mType = BoardType::RG353M;
+        }
+        if (hardware == "Anbernic RG503")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG503" ; }
+          mType = BoardType::RG503;
         }
       }
       if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
