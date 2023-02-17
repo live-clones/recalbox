@@ -22,6 +22,11 @@ enum class BoardType
     // Odroid
     OdroidAdvanceGo,      // Odroid advance go 1 & 2
     OdroidAdvanceGoSuper, // Odroid advance go 3 (super)
+    // Anbernic
+    RG353P,
+    RG353V,
+    RG353M,
+    RG503,
     // PC
     PCx86,
     PCx64,
