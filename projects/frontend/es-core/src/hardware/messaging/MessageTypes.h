@@ -14,4 +14,6 @@ enum class MessageTypes
     VolumeUpPressed,    //!< Go3 Volume button up pressed
     VolumeDownPressed,  //!< Go3 Volume button down pressed
     Resume,             //!< Hardware exited from suspend mode
+    BrightnessUpPressed, //!< Brightness UP button pressed
+    BrightnessDownPressed, //!< Brightness DOWN button pressed
 };

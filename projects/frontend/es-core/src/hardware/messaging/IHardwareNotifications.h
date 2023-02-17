@@ -68,4 +68,17 @@ class IHardwareNotifications
      * @param board current board
      */
     virtual void Resume(BoardType board) = 0;
+
+    /*!
+     * @brief Decrease brightness
+     * @param board current board
+     */
+    virtual void BrightnessDecrease(BoardType board, float percent) = 0;
+
+    /*!
+     * @brief Increase brightness
+     * @param board current board
+     */
+    virtual void BrightnessIncrease(BoardType board, float percent) = 0;
+
 };
