@@ -228,6 +228,10 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     case BoardType::Unknown:
     case BoardType::PCx86:
     case BoardType::PCx64:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     default:
     {
       ResolutionAdapter adapter;
