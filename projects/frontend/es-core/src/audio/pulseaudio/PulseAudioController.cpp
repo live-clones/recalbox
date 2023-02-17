@@ -391,6 +391,9 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     {
       list.push_back({ std::string("\u26ab ").append(" \uf1e0 ").append(_("auto select")).append(" \u26ab"), sAutoSwitch, AudioIcon::Auto });
       break;
@@ -604,6 +607,9 @@ std::string PulseAudioController::GetActivePlaybackName()
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     {
       return(sAutoSwitch);
       break;
@@ -659,6 +665,9 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     {
       // Patch to bypass buggy PulseAudio on GoA/GoS
       if (originalPlaybackName == IAudioController::sAutoSwitch)
@@ -1085,6 +1094,9 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
     }
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper: break;
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M: break;
     case BoardType::PCx86:
     case BoardType::PCx64:
     case BoardType::UndetectedYet:
@@ -1128,6 +1140,9 @@ std::string PulseAudioController::GetPortDescription(const pa_sink_port_info& in
     case BoardType::UnknownPi: break;
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     {
       if (low == "multichannel output")
       {
@@ -1164,6 +1179,9 @@ std::string PulseAudioController::GetPortDescription(const pa_card_port_info& in
     case BoardType::UnknownPi: break;
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     {
       if (low == "multichannel output")
       {

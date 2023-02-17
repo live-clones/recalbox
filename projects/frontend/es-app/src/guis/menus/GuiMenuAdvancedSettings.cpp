@@ -146,6 +146,9 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::UnknownPi:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
     case BoardType::PCx86:
     case BoardType::PCx64: break;
   }

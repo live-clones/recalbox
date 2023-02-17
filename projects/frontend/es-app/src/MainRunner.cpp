@@ -20,6 +20,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <guis/wizards/WizardAgo2.h>
 #include <guis/wizards/WizardAgo3.h>
+#include <guis/wizards/WizardRG353X.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -410,6 +411,13 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       {
         window.pushGui(new WizardAgo3(window));
         return; // Let the OGA Wizard reset the flag
+      }
+      case BoardType::RG353P:
+      case BoardType::RG353V:
+      case BoardType::RG353M:
+      {
+        window.pushGui(new WizardRG353X(window));
+        return; // Let the RG Wizard reset the flag
       }
       case BoardType::PCx86:
       case BoardType::PCx64:

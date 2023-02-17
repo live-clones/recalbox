@@ -4,6 +4,7 @@
 #include <utils/Files.h>
 #include <input/InputCompactEvent.h>
 #include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
+#include <hardware/boards/anbernic/RG353X.h>
 #include <sys/utsname.h>
 #include <hardware/boards/NullBoard.h>
 #include <hardware/boards/pc/PcComputers.h>
@@ -36,6 +37,13 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected."; }
       return *(new OdroidAdvanceGo2Board(messageSender, model));
+    }
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    {
+      { LOG(LogInfo) << "[Hardware] Anbernic RG353x."; }
+      return *(new RG353XBoard(messageSender, model));
     }
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -171,6 +179,22 @@ BoardType Board::GetBoardType()
           hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
           { LOG(LogInfo) << "[Hardware] Hardware " << hardware; }
         }
+        // for instance process the two boards as same hardware
+        if (hardware == "Anbernic RG353P")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353P " << revision; }
+          mType = BoardType::RG353P;
+        }
+        if (hardware == "Anbernic RG353V")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353V " << revision; }
+          mType = BoardType::RG353V;
+        }
+        if (hardware == "Anbernic RG353M")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG353M " << revision; }
+          mType = BoardType::RG353M;
+        }
       }
       if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
       {
@@ -191,11 +215,6 @@ BoardType Board::GetBoardType()
           {
             { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision; }
             mType = BoardType::OdroidAdvanceGoSuper;
-          }
-          if ((hardware == "Hardkernel ODROID-GO2") || (hardware == "Hardkernel ODROID-GO1") || (hardware == "Hardkernel ODROID-GO"))
-          {
-            { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision; }
-            mType = BoardType::OdroidAdvanceGo;
           }
         }
       }
