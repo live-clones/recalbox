@@ -20,6 +20,7 @@
 #include <recalbox/RecalboxSystem.h>
 #include <guis/wizards/WizardAgo2.h>
 #include <guis/wizards/WizardAgo3.h>
+#include <guis/wizards/WizardRG353X.h>
 #include "MainRunner.h"
 #include "EmulationStation.h"
 #include "Upgrade.h"
@@ -410,6 +411,14 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
         window.pushGui(new WizardAgo3(window));
         return; // Let the OGA Wizard reset the flag
       }
+      case BoardType::RG353P:
+      case BoardType::RG353V:
+      case BoardType::RG353M:
+      case BoardType::RG503:
+      {
+        window.pushGui(new WizardRG353X(window));
+        return; // Let the RG Wizard reset the flag
+      }
       case BoardType::PCx86:
       case BoardType::PCx64:
       case BoardType::UndetectedYet:
@@ -490,6 +499,10 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     default: break;
   }
 
@@ -897,6 +910,26 @@ void MainRunner::VolumeIncrease(BoardType board, float percent)
   RecalboxConf::Instance().Save();
 }
 
+void MainRunner::BrightnessDecrease(BoardType board, float percent)
+{
+  (void)board;
+  int value = RecalboxConf::Instance().GetBrightness() - 1;
+  value = Math::clampi(value, 0, 8);
+  Board::Instance().SetBrightness(value);
+  RecalboxConf::Instance().SetBrightness(value);
+  RecalboxConf::Instance().Save();
+}
+
+void MainRunner::BrightnessIncrease(BoardType board, float percent)
+{
+  (void)board;
+  int value = RecalboxConf::Instance().GetBrightness() + 1;
+  value = Math::clampi(value, 0, 8);
+  Board::Instance().SetBrightness(value);
+  RecalboxConf::Instance().SetBrightness(value);
+  RecalboxConf::Instance().Save();
+}
+
 void MainRunner::RomPathAdded(const DeviceMount& device)
 {
   std::string text = _("The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games.");
@@ -1076,7 +1109,8 @@ bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
   // power buttons on those specific boards.
   // TODO: Must be cleaned after 8.1
   const BoardType board = Board::Instance().GetBoardType();
-  if (board == BoardType::OdroidAdvanceGo || board == BoardType::OdroidAdvanceGoSuper || board == BoardType::Pi400)
+  if (board == BoardType::OdroidAdvanceGo || board == BoardType::OdroidAdvanceGoSuper || board == BoardType::Pi400 ||
+      board == BoardType::RG353P || board == BoardType::RG353V || board == BoardType::RG353M || board == BoardType::RG503)
     return false;
   const InputEvent& raw = event.RawEvent();
   if (raw.Type() == InputEvent::EventType::Key)
