@@ -162,6 +162,10 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     default: break;
   }
 
@@ -351,6 +355,10 @@ void ResolutionAdapter::GetMaximumResolution(int& w, int& h, bool& strict)
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     default: w = h = 0; strict =false; break;

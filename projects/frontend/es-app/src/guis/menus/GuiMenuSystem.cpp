@@ -40,6 +40,10 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
     case BoardType::OdroidAdvanceGoSuper: arch = "Odroid GO Super"; break;
     case BoardType::PCx86:                arch = "x86"; break;
     case BoardType::PCx64:                arch = "x64"; break;
+    case BoardType::RG353P:               arch = "RG353P"; break;
+    case BoardType::RG353V:               arch = "RG353V"; break;
+    case BoardType::RG353M:               arch = "RG353M"; break;
+    case BoardType::RG503:                arch = "RG503"; break;
   }
   arch.append(1, ' ').append(sizeof(void*) == 4 ? "32bits" : "64bits");
   AddText(_("VERSION"), version.append(" (").append(arch).append(1,')'), _(MENUMESSAGE_VERSION_HELP_MSG));
