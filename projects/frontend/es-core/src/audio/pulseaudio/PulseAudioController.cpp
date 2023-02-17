@@ -391,6 +391,10 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     {
       list.push_back({ std::string("\u26ab ").append(" \uf1e0 ").append(_("auto select")).append(" \u26ab"), sAutoSwitch, AudioIcon::Auto });
       break;
@@ -604,6 +608,10 @@ std::string PulseAudioController::GetActivePlaybackName()
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     {
       return(sAutoSwitch);
       break;
@@ -679,6 +687,18 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
         { LOG(LogError) << "[PulseAudio] Error setting playback path on GoA/GoA"; }
       }
       else { LOG(LogError) << "[PulseAudio] Unreconized GoA/GoS output: " << originalPlaybackName; }
+      allprocessed = true;
+      break;
+    }
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
+    {
+      // the headset detection does not work/is not available
+      // just force SPK_HP output
+      if (system("amixer sset 'Playback Path' SPK_HP") != 0)
+        { LOG(LogError) << "[PulseAudio] Error setting playback path on Anbernic RG353X"; }
       allprocessed = true;
       break;
     }
@@ -1085,6 +1105,10 @@ std::string PulseAudioController::GetCardDescription(const pa_card_info& info)
     }
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper: break;
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503: break;
     case BoardType::PCx86:
     case BoardType::PCx64:
     case BoardType::UndetectedYet:
@@ -1128,6 +1152,10 @@ std::string PulseAudioController::GetPortDescription(const pa_sink_port_info& in
     case BoardType::UnknownPi: break;
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     {
       if (low == "multichannel output")
       {
@@ -1164,6 +1192,10 @@ std::string PulseAudioController::GetPortDescription(const pa_card_port_info& in
     case BoardType::UnknownPi: break;
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     {
       if (low == "multichannel output")
       {
