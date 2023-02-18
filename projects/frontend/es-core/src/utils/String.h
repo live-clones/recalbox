@@ -20,6 +20,7 @@
 #define LEGACY_STRING(x) x, (int)sizeof(x)-1
 
 class String;
+class Path;
 
 /*!
  * @brief Strings statics moved in this class
@@ -432,6 +433,12 @@ class String : public std::string
     String(const std::string& source, int from, int length) : std::string(source, (size_t)from, (size_t)length) {}
 
     /*!
+     * @brief Build a string from a path
+     * @param source Source path
+     */
+    String(const Path& source);
+
+    /*!
      * @brief Build a string from a part of a source c-string
      * @param source Source string
      * @param length Number of character to take in the new string
@@ -802,14 +809,14 @@ class String : public std::string
      * @param from Start position to get string from
      * @return new string
      */
-    String SubString(int from) const { return String(*this, from); }
+    [[nodiscard]] String SubString(int from) const { return String(*this, from); }
     /*!
      * @brief Get the substring starting at position "from" for "length" characters
      * @param from Start position to get string from
      * @param length Amount of character to get
      * @return new string
      */
-    String SubString(int from, int length) const { return String(*this, from, length); }
+    [[nodiscard]] String SubString(int from, int length) const { return String(*this, from, length); }
 
     // Replacers
 
@@ -3280,6 +3287,13 @@ class String : public std::string
      * @return This
      */
     String& operator =(String&& source) noexcept { if (&source != this) *((std::string*)this) = source; return *this; }
+
+    /*!
+     * @brief Copy assignment from Path
+     * @param source Source path
+     * @return This
+     */
+    String& operator =(const Path& source);
 
     #ifdef NO_STD_STRING_AUTOBOXING
     /*!

@@ -10,17 +10,13 @@
 class SystemDescriptor
 {
   public:
-    //! Maximum platform Id (usually only one is used)
-    static constexpr int sMaximumPlatformIds = 8;
-    //! Platform array
-    typedef PlatformIds::PlatformId PlateformIdentifiers[sMaximumPlatformIds];
-
     enum class SystemType
     {
       Unknown , //!< ?!
       Arcade  , //!< Arcade system
       Console , //!< Home console
       Handheld, //!< Handheld console
+      Fantasy,  //!< Fantasy console (no real hardware)
       Computer, //!< Computer
       Virtual , //!< Virtual system
       Engine  , //!< Game Engine
@@ -41,9 +37,7 @@ class SystemDescriptor
      * @brief Default constructor
      */
     SystemDescriptor()
-      : mPlatformIds{}
-      , mPlateformCount(0)
-      , mIcon(0)
+      : mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
       , mManufacturer()
@@ -117,6 +111,20 @@ class SystemDescriptor
       return *this;
     }
 
+    /*!
+     * @brief Set property information
+     * @param systemtype System type
+     * @param pad Pad requirement
+     * @param keyboard Keyboard requirement
+     * @param mouse Mouser requirement
+     * @param releasedate Release data
+     * @param manufacturer Manufacturer
+     * @param lightgun Has lightgun support?
+     * @param multiresolution Support CRT Multi resolution?
+     * @param multiregion Support multi region?
+     * @param ignoredfiles Ignored files
+     * @return This
+     */
     SystemDescriptor& SetPropertiesInformation(const std::string& systemtype,
                                                const std::string& pad,
                                                const std::string& keyboard,
@@ -142,8 +150,32 @@ class SystemDescriptor
       return *this;
     }
 
-    //! Clear all platform entries
-    SystemDescriptor& ClearPlatforms() { mPlateformCount = 0; return *this; }
+    /*!
+     * @brief Set property information for virtual systems
+     * @param systemtype System type (virtual most of the time, but arcade for all arcade)
+     * @param pad
+     * @param keyboard
+     * @param mouse
+     * @return
+     */
+    SystemDescriptor& SetVirtualPropertiesInformation(SystemType systemtype,
+                                                      DeviceRequirement keyboard,
+                                                      DeviceRequirement mouse,
+                                                      DeviceRequirement pad)
+    {
+      mType = systemtype;
+      mPad = pad;
+      mKeyboard = keyboard;
+      mMouse = mouse;
+      mReleaseDate = 0;
+      mManufacturer = "Virtual";
+      mLightgun = false;
+      mCrtInterlaced = false;
+      mCrtMultiRegion = false;
+      mIgnoredFiles.clear();
+      return *this;
+    }
+
     //! Clear all emulator entries
     SystemDescriptor& ClearEmulators() { mEmulators.Clear(); return *this; }
 
@@ -171,32 +203,32 @@ class SystemDescriptor
      * Accessors
      */
 
-    const std::string& GUID() const { return mGUID; }
-    const std::string& Name() const { return mName; }
-    const std::string& FullName() const { return mFullName; }
+    [[nodiscard]] const std::string& GUID() const { return mGUID; }
+    [[nodiscard]] const std::string& Name() const { return mName; }
+    [[nodiscard]] const std::string& FullName() const { return mFullName; }
 
-    const Path& RomPath() const { return mPath; }
-    const std::string& Extension() const { return mExtensions; }
-    const std::string& ThemeFolder() const { return mThemeFolder; }
-    const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
-    unsigned int Icon() const { return (unsigned int)mIcon; }
-    std::string IconPrefix() const;
+    [[nodiscard]] const Path& RomPath() const { return mPath; }
+    [[nodiscard]] const std::string& Extension() const { return mExtensions; }
+    [[nodiscard]] const std::string& ThemeFolder() const { return mThemeFolder; }
+    [[nodiscard]] const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
+    [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
+    [[nodiscard]] std::string IconPrefix() const;
 
-    int ScreenScaperID() const { return mScreenScraperID; }
+    [[nodiscard]] int ScreenScaperID() const { return mScreenScraperID; }
 
-    int ReleaseDate() const { return mReleaseDate; }
-    const std::string& Manufacturer() const { return mManufacturer; }
+    [[nodiscard]] int ReleaseDate() const { return mReleaseDate; }
+    [[nodiscard]] const std::string& Manufacturer() const { return mManufacturer; }
 
-    SystemType Type() const { return mType; }
-    DeviceRequirement PadRequirement() const { return mPad; }
-    DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
-    DeviceRequirement MouseRequirement() const { return mMouse; }
-    bool LightGun() const { return mLightgun; }
-    bool CrtHighResolution() const { return mCrtInterlaced; }
-    bool CrtMultiRegion() const { return mCrtMultiRegion; }
-    const std::string& IgnoredFiles() const { return mIgnoredFiles; }
+    [[nodiscard]] SystemType Type() const { return mType; }
+    [[nodiscard]] DeviceRequirement PadRequirement() const { return mPad; }
+    [[nodiscard]] DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
+    [[nodiscard]] DeviceRequirement MouseRequirement() const { return mMouse; }
+    [[nodiscard]] bool LightGun() const { return mLightgun; }
+    [[nodiscard]] bool CrtHighResolution() const { return mCrtInterlaced; }
+    [[nodiscard]] bool CrtMultiRegion() const { return mCrtMultiRegion; }
+    [[nodiscard]] const std::string& IgnoredFiles() const { return mIgnoredFiles; }
 
-    bool HasNetPlayCores() const
+    [[nodiscard]] bool HasNetPlayCores() const
     {
       for(int i = mEmulators.Count(); --i >= 0; )
         for(int j = mEmulators.EmulatorAt(i).CoreCount(); --j >= 0; )
@@ -205,7 +237,7 @@ class SystemDescriptor
       return false;
     }
 
-    bool IsSoftpatching(std::string emulatorName, std::string coreName) const
+    [[nodiscard]] bool IsSoftpatching(const std::string& emulatorName, const std::string& coreName) const
     {
       for(int i = mEmulators.Count(); --i >= 0; )
       {
@@ -217,10 +249,10 @@ class SystemDescriptor
       return false;
     }
 
-    bool IsPort() const { return mPort; }
-    bool IsReadOnly() const { return mReadOnly; }
+    [[nodiscard]] bool IsPort() const { return mPort; }
+    [[nodiscard]] bool IsReadOnly() const { return mReadOnly; }
 
-    const EmulatorList& EmulatorTree() const { return mEmulators; }
+    [[nodiscard]] const EmulatorList& EmulatorTree() const { return mEmulators; }
 
   private:
     static std::string      mDefaultCommand;  //!< Default command
@@ -229,8 +261,6 @@ class SystemDescriptor
     std::string             mGUID;            //!< System GUID
     std::string             mName;            //!< Short name ("snes")
     std::string             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
-    PlateformIdentifiers    mPlatformIds;     //!< Platform identifiers
-    int                     mPlateformCount;  //!< Platform count
     // Descriptor
     Path                    mPath;            //!< Rom path
     std::string             mThemeFolder;     //!< Theme sub-folder
@@ -262,6 +292,7 @@ class SystemDescriptor
       if      (systemtype == "arcade"  ) result = SystemType::Arcade;
       else if (systemtype == "console" ) result = SystemType::Console;
       else if (systemtype == "handheld") result = SystemType::Handheld;
+      else if (systemtype == "fantasy" ) result = SystemType::Fantasy;
       else if (systemtype == "computer") result = SystemType::Computer;
       else if (systemtype == "virtual" ) result = SystemType::Virtual;
       else if (systemtype == "engine"  ) result = SystemType::Engine;
