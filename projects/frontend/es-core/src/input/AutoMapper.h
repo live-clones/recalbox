@@ -35,13 +35,13 @@ class AutoMapper
      * @brief Check if the joystick is an XBox pad managed by the XBad driver
      * @return True if the the joystick is an XBox pad
      */
-    bool IsXBox() const;
+    //bool IsXBox() const;
 
     /*!
      * @brief Build mapping from udev properties
      * @return SDL2 compatible mapping
      */
-    std::string BuildMapping(const std::string& sdlMapping) const;
+    [[nodiscard]] std::string BuildMapping(const std::string& sdlMapping) const;
 };
 
 
