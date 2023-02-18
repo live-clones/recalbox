@@ -277,13 +277,13 @@ std::string AutoMapper::GetSDLMapping()
 
   // If this is an XBox pas or if the SDL2 did not provide us with a mapping, try to fetch
   // all information from udev
-  if (IsXBox() || conf.empty())
+  if (/*IsXBox() || */conf.empty())
     conf = BuildMapping(conf);
 
   return conf;
 }
 
-bool AutoMapper::IsXBox() const
+/*bool AutoMapper::IsXBox() const
 {
   unsigned short productId = SDL_JoystickGetDeviceProduct(mSDLJoystickIndex);
   unsigned short vendorId = SDL_JoystickGetDeviceVendor(mSDLJoystickIndex);
@@ -293,7 +293,7 @@ bool AutoMapper::IsXBox() const
       return true;
 
   return false;
-}
+}*/
 
 #define BITS_PER_LONG (sizeof(long) * 8)
 #define NBITS(x) ((((x) - 1) / BITS_PER_LONG) + 1)
@@ -377,7 +377,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
   // Then, maps buttons, since we need to take L2/R2 from button first
   int buttonIndex = 0;
   bool mainButtons = false;
-  const char buttonNames[] = { 'a', 'b', 'x', 'y' };
+  const char buttonNames[] = { 'b', 'a', 'x', 'y' };
   for(int i = 0; i < KEY_MAX; i++)
     if (((test_bit(i, bit[EV_KEY])) != 0))
     {
