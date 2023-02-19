@@ -1,0 +1,11 @@
+--- a/libretro.cpp	2022-07-08 00:56:38.000000000 +0200
++++ b/libretro.cpp	2022-07-08 00:58:51.000000000 +0200
+@@ -1080,7 +1080,7 @@
+ 
+    {
+       char bios_path[4096];
+-      snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory, retro_slash, bios_filename);
++      snprintf(bios_path, sizeof(bios_path), "%s%c%s%c%s", retro_base_directory, retro_slash, "saturn", retro_slash, bios_filename);
+ 
+       RFILE *BIOSFile = filestream_open(bios_path,
+             RETRO_VFS_FILE_ACCESS_READ,

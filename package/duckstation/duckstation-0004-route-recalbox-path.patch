@@ -12,7 +12,7 @@ index d0f25fe4..cdaf6f5b 100644
 +  std::string directory = (separator == std::string::npos) ? formatted_path : formatted_path.substr(0, separator);
 +  std::string sub_path = (separator == std::string::npos) ? "" : formatted_path.substr(separator);
 +  if (directory == "shaders"    ) return "/recalbox/share/shaders" + sub_path;
-+  if (directory == "bios"       ) return "/recalbox/share/bios" + sub_path;
++  if (directory == "bios"       ) return "/recalbox/share/bios/psx" + sub_path;
 +  if (directory == "memcards"   ) return "/recalbox/share/saves/psx/duckstation/memcards" + sub_path;
 +  if (directory == "savestates" ) return "/recalbox/share/saves/psx/duckstation/savestates" + sub_path;
 +  if (directory == "cheats"     ) return "/recalbox/share/cheats" + sub_path;

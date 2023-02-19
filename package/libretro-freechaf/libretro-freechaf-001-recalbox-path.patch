@@ -1,0 +1,11 @@
+--- a/src/libretro.c	2021-11-24 17:09:01.000000000 +0100
++++ b/src/libretro.c	2021-11-24 17:10:36.000000000 +0100
+@@ -169,6 +169,8 @@
+ 	// get paths
+ 	Environ(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &SystemPath);
+ 
++	strcat(SystemPath, "channelf/");
++
+ 	// load PSU 1 Update
+ 	fill_pathname_join(PSU_1_Update_Path, SystemPath, "sl90025.bin", PATH_MAX_LENGTH);
+ 	if(!CHANNELF_loadROM_libretro(PSU_1_Update_Path, 0))

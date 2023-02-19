@@ -111,6 +111,7 @@ endef
 define LIBRETRO_PARALLEL_N64_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/parallel_n64_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/parallel_n64_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/64dd
 endef
 
 $(eval $(generic-package))

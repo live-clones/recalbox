@@ -1,0 +1,11 @@
+--- a/libretro.c	2022-07-07 22:07:52.000000000 +0200
++++ b/libretro.c	2022-07-07 22:09:23.000000000 +0200
+@@ -573,7 +573,7 @@
+   if((rv == 0) || (system_path == NULL))
+     return -1;
+ 
+-  fill_pathname_join(fullpath,system_path,filename_,PATH_MAX_LENGTH);
++  fill_pathname_join(fullpath,system_path,"3do",filename_,PATH_MAX_LENGTH);
+ 
+   file = filestream_open(fullpath,
+                          RETRO_VFS_FILE_ACCESS_READ,

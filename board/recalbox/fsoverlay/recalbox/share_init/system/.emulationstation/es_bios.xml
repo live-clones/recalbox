@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <biosList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="es_bios.xsd">
   <system fullname="Amiga 600 (ECS/OCS)" platform="amiga600">
-    <bios path="kick33180.A500"     md5="85ad74194e87c08904327de1a9443b7a" core="amiberry" />
-    <bios path="kick34005.A500"     md5="82a21c1890cae844b3df741f2762d48d" core="amiberry,libretro-uae,libretro-uae4arm" />
-    <bios path="kick37175.A500"     md5="dc10d7bdd1b6f450773dfb558477c230" core="amiberry,libretro-uae" />
-    <bios path="kick40063.A600"     md5="e40a5dfb3d017ba8779faba30cbd1c8e" core="amiberry,libretro-uae,libretro-uae4arm" />
-    <bios path="kick02019.AROS.ext" md5="4fa7042d73d0f77bf5723cf8430989bf" core="amiberry" note="AROS Free bios" />
-    <bios path="kick02019.AROS"     md5="186d23cccd9fbd6336d0f988b39dce4d" core="amiberry" note="AROS Free bios" />
+    <bios path="amiga/kick33180.A500"     md5="85ad74194e87c08904327de1a9443b7a" core="amiberry" />
+    <bios path="amiga/kick34005.A500"     md5="82a21c1890cae844b3df741f2762d48d" core="amiberry,libretro-uae,libretro-uae4arm" />
+    <bios path="amiga/kick37175.A500"     md5="dc10d7bdd1b6f450773dfb558477c230" core="amiberry,libretro-uae" />
+    <bios path="amiga/kick40063.A600"     md5="e40a5dfb3d017ba8779faba30cbd1c8e" core="amiberry,libretro-uae,libretro-uae4arm" />
+    <bios path="amiga/kick02019.AROS.ext" md5="4fa7042d73d0f77bf5723cf8430989bf" core="amiberry" note="AROS Free bios" />
+    <bios path="amiga/kick02019.AROS"     md5="186d23cccd9fbd6336d0f988b39dce4d" core="amiberry" note="AROS Free bios" />
   </system>
   <system fullname="Amiga 1200 (AGA)" platform="amiga1200">
-    <bios path="kick39106.A1200" md5="b7cc148386aa631136f510cd29e42fc3" core="amiberry" />
-    <bios path="kick40068.A1200" md5="646773759326fbac3b2311fd8c8793ee" core="amiberry,libretro-uae,libretro-uae4arm" />
-    <bios path="kick40068.A4000" md5="9bdedde6a4f33555b4a270c8ca53297d" core="amiberry,libretro-uae" note="This bios is required only for A4000 emulation" />
+    <bios path="amiga/kick39106.A1200" md5="b7cc148386aa631136f510cd29e42fc3" core="amiberry" />
+    <bios path="amiga/kick40068.A1200" md5="646773759326fbac3b2311fd8c8793ee" core="amiberry,libretro-uae,libretro-uae4arm" />
+    <bios path="amiga/kick40068.A4000" md5="9bdedde6a4f33555b4a270c8ca53297d" core="amiberry,libretro-uae" note="This bios is required only for A4000 emulation" />
   </system>
   <system fullname="Amiga CDTV" platform="amigacdtv">
-    <bios path="kick34005.CDTV" md5="89da1838a24460e4b93f4f0c5d92d48d,d98112f18792ee3714df16a6eb421b89,
+    <bios path="amiga/kick34005.CDTV" md5="89da1838a24460e4b93f4f0c5d92d48d,d98112f18792ee3714df16a6eb421b89,
                                      d1145ab3a0f89340f94c9e734762c198" hashMatchMandatory="true" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="true" note="This bios is required only for CDTV emulation" />
   </system>
   <system fullname="Amiga CD32" platform="amigacd32">
-    <bios path="kick40060.CD32"     md5="f2f241bf094168cfb9e7805dc2856433,5f8924d013dd57a89cf349f4cdedc6b1" hashMatchMandatory="false" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="true" note="Use the combined ROM 'KS + extended v3.1 rev 40.060' or separate ROMs 'KS v3.1 rev 40.060 + Extended ROM rev 40.060'" />
-    <bios path="kick40060.CD32.ext" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="false" note="Extended ROM rev 40.060" />
+    <bios path="amiga/kick40060.CD32"     md5="f2f241bf094168cfb9e7805dc2856433,5f8924d013dd57a89cf349f4cdedc6b1" hashMatchMandatory="false" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="true" note="Use the combined ROM 'KS + extended v3.1 rev 40.060' or separate ROMs 'KS v3.1 rev 40.060 + Extended ROM rev 40.060'" />
+    <bios path="amiga/kick40060.CD32.ext" md5="bb72565701b1b6faece07d68ea5da639" core="amiberry,libretro-uae,libretro-uae4arm" mandatory="false" note="Extended ROM rev 40.060" />
   </system>
   <system fullname="Apple IIGS" platform="apple2gs">
-    <bios path="apple2gs1.rom" md5="20a0334c447cb069a040ae5be1d938df" core="gsplus" />
-    <bios path="apple2gs3.rom" md5="ba89edf2729a28a17cd9e0f7a0ac9a39" core="gsplus" />
+    <bios path="apple2gs/apple2gs1.rom" md5="20a0334c447cb069a040ae5be1d938df" core="gsplus" />
+    <bios path="apple2gs/apple2gs3.rom" md5="ba89edf2729a28a17cd9e0f7a0ac9a39" core="gsplus" />
   </system>
   <system fullname="Apple Macintosh" platform="macintosh">
     <bios path="macintosh/MacII.ROM" md5="66223be1497460f1e60885eeb35e03cc" core="minivmac" />
     <bios path="macintosh/MinivMacBootv2.dsk" md5="16ddb8838d48be26e471a2f2bb85a961,e66dc7952c8b9673868ad2faba3c0d20" hashMatchMandatory="false" core="minivmac" />
   </system>
   <system fullname="Atari 8Bits" platform="atari800">
-    <bios path="ATARIBAS.ROM" md5="0bac0c6a50104045d902df4503a4c30b" core="atari800" />
-    <bios path="ATARIOSA.ROM" md5="eb1f32f5d9f382db1bbfb8d7f9cb343a" core="atari800" />
-    <bios path="ATARIOSB.ROM" md5="a3e8d617c95d08031fe1b20d541434b2" core="atari800" />
-    <bios path="ATARIXL.ROM"  md5="06daac977823773a3eea3422fd26a703" core="atari800" />
+    <bios path="atari800/ATARIBAS.ROM" md5="0bac0c6a50104045d902df4503a4c30b" core="atari800" />
+    <bios path="atari800/ATARIOSA.ROM" md5="eb1f32f5d9f382db1bbfb8d7f9cb343a" core="atari800" />
+    <bios path="atari800/ATARIOSB.ROM" md5="a3e8d617c95d08031fe1b20d541434b2" core="atari800" />
+    <bios path="atari800/ATARIXL.ROM"  md5="06daac977823773a3eea3422fd26a703" core="atari800" />
   </system>
   <system fullname="Atari 5200" platform="atari5200">
-    <bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />
+    <bios path="atari5200/5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="a5200,atari800" />
   </system>
   <system fullname="Atari 7800" platform="atari7800">
-    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
+    <bios path="atari7800/7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
   </system>
   <system fullname="Elektronika BK" platform="bk">
     <bios path="bk/B11M_BOS.ROM" md5="fe4627d1e3a1535874085050733263e7" core="bk" />
@@ -55,7 +55,7 @@
                                     042a0adecf2d616ccfb915a5cd71fde5,27fb8181fd9a0df18c7f6f941e9d60ab,
                                     74f5e994ecff655f18f0f9f998c9b1d9" core="flycast" />
   </system>
-  <system fullname="Naomi" platform="naomi">
+  <system fullname="Sega Naomi" platform="naomi">
     <bios path="dc/naomi.zip"    md5="7300a99a4fc856d1a3c36b4485789897,40ae83a9552df0f340d5eeeadc5436ea,
                                       7ed453bda92b25156536ff055b8685b6,a48e7a735b9036be8f150018155370ad" core="flycast" />
     <bios path="dc/airlbios.zip" md5="06dd41b614a6d6d079ec1ee73e2bf87d,5b7de05fb2dea6fb0408149c9bada27c,
@@ -64,9 +64,9 @@
                                       9e1f4846028b18b5ef8a6bd8efd6c67d,fbdf7e1cef86d3ffd23754c0a303a4af,
                                       729A623576CB9D8F7FD7C4E44ECE3066" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'The House of the Dead 2'" />
   </system>
-  <system fullname="Naomi GD-Rom" platform="naomigd">
+  <system fullname="Sega Naomi GD-Rom" platform="naomigd">
     <bios path="dc/naomigd.zip" md5="288cde03a112e7726fa8093e05d46853,416b5914acb3d0b4a190a1d358c8710d,
-                                     bd9f19b4be0692e92e272d0eb82402f7,be57d3744e71a3396fb8dc59830e880a" core="flycast" />
+                                     bd9f19b4be0692e92e272d0eb82402f7,be57d3744e71a3396fb8dc59830e880a" core="libretro-flycast" />
   </system>
   <system fullname="Commodore 64" platform="c64">
     <bios path="vice/JiffyDOS_C64.bin"             md5="be09394f0576cf81fa8bacf634daf9a2" mandatory="false" core="vice_x64,vice_x64sc,vice_x128" note="JiffyDOS support" />
@@ -77,19 +77,13 @@
     <bios path="vice/SCPU64/scpu-dos-1.4.bin"      md5="cda2fcd2e1f0412029383e51dd472095" mandatory="false" core="xscpu64" note="1.4 SuperCPU dos from SuperCPU64" />
     <bios path="vice/SCPU64/scpu-dos-2.04.bin"     md5="b2869f8678b8b274227f35aad26ba509" mandatory="false" core="xscpu64" note="2.04 SuperCPU dos from SuperCPU128" />
   </system>
-  <system fullname="Dreamcast" platform="dreamcast">
-    <bios path="dc_boot.bin"     md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
-                                   d407fcf70b56acb84b8c77c93b0e5327" hashMatchMandatory="false" core="reicast" />
-    <bios path="dc_flash.bin"    md5="d6e11a23f1fa01cddb5dfccf7e4cc8d7,93a9766f14159b403178ac77417c6b68,
-                                   0a93f7940c455905bea6e392dfde92a4,23df18aa53c8b30784cd9a84e061d008,
-                                   69c036adfca4ebea0b0c6fa4acfc8538,74e3f69c2bb92bc1fc5d9a53dcf6ffe2,
-                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="reicast" />
+  <system fullname="Sega Dreamcast" platform="dreamcast">
     <bios path="dc/dc_boot.bin"  md5="e10c53c2f8b90bab96ead2d368858623,d552d8b577faa079e580659cd3517f86,
-                                   d407fcf70b56acb84b8c77c93b0e5327" hashMatchMandatory="false" core="flycast" />
+                                   d407fcf70b56acb84b8c77c93b0e5327" hashMatchMandatory="false" core="flycast,reicast" />
     <bios path="dc/dc_flash.bin" md5="d6e11a23f1fa01cddb5dfccf7e4cc8d7,93a9766f14159b403178ac77417c6b68,
                                    0a93f7940c455905bea6e392dfde92a4,23df18aa53c8b30784cd9a84e061d008,
                                    69c036adfca4ebea0b0c6fa4acfc8538,74e3f69c2bb92bc1fc5d9a53dcf6ffe2,
-                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="flycast" />
+                                   2f818338f47701c606ade664a3e16a8a" hashMatchMandatory="false" core="flycast,reicast" />
   </system>
   <system fullname="PC-8800 Series" platform="pc88">
     <bios path="quasi88/n88.rom"      md5="22be239bc0c4298bc0561252eed98633,f7cba6a308c2718dbe97e60e46ddd66a,4f984e04a99d56c4cfe36115415d6eb8" core="quasi88" note="BASIC rom" />
@@ -126,57 +120,57 @@
     <bios path="np2kai/2608_top.wav"   md5="3721ace646ffd56439aebbb2154e9263,593cff6597ab9380d822b8f824fd2c28" mandatory="false" hashMatchMandatory="false" core="np2kai" />
   </system>
   <system fullname="Sega MEGA CD" platform="segacd">
-    <bios path="bios_CD_E.bin" md5="e66fa1dc5820d254611fdcdba0662372" core="genesisplusgx,picodrive" />
-    <bios path="bios_CD_U.bin" md5="2efd74e3232ff260e371b99f84024f7f" core="genesisplusgx,picodrive" />
-    <bios path="bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd,bdeb4c47da613946d422d97d98b21cda" core="genesisplusgx,picodrive" />
+    <bios path="segacd/bios_CD_E.bin" md5="e66fa1dc5820d254611fdcdba0662372" core="genesisplusgx,genesisplusgxwide,picodrive" />
+    <bios path="segacd/bios_CD_U.bin" md5="2efd74e3232ff260e371b99f84024f7f" core="genesisplusgx,genesisplusgxwide,picodrive" />
+    <bios path="segacd/bios_CD_J.bin" md5="278a9397d192149e84e820ac621a8edd,bdeb4c47da613946d422d97d98b21cda" core="genesisplusgx,genesisplusgxwide,picodrive" />
   </system>
   <system fullname="Family Computer Disk System" platform="fds">
-    <bios path="disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia,mesen" />
+    <bios path="fds/disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia,mesen" />
   </system>
   <system fullname="Game Boy Advance" platform="gba">
-    <bios path="gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />
+    <bios path="gba/gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba" />
     <bios path="gba/open_gba_bios.bin" md5="1876f71b0d8c65eef3454547896ffb11" mandatory="false" core="gpsp" />
   </system>
   <system fullname="Satellaview" platform="satellaview">
-    <bios path="BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s,bsnes,bsnes-hd" />
+    <bios path="satellaview/BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s,bsnes,bsnes-hd" />
   </system>
   <system fullname="Sufami Turbo" platform="sufami">
-    <bios path="STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="true" core="snes9x" />
+    <bios path="sufami/STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="true" core="snes9x" />
   </system>
   <system fullname="NEC PC-Engine" platform="pcengine">
-    <bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
   </system>
   <system fullname="NEC SuperGrafx" platform="supergrafx">
-    <bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
   </system>
   <system fullname="NEC PC-Engine CD" platform="pcenginecd">
-    <bios path="syscard3.pce" md5="ff1a674273fe3540ccef576376407d1d,1e47a1780aaa7e277a3896c1ba00e317,38179df8f4ac870017db21ebcbf53114" core="mednafen_supergrafx,mednafen_pce_fast" />
-    <bios path="syscard1.pce" md5="9f770275393b8627cf9d24e5c56d2ab9" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
-    <bios path="syscard2.pce" md5="424f1d6bf93259bf255afa7d1dc9f721" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
-    <bios path="gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/syscard3.pce" md5="ff1a674273fe3540ccef576376407d1d,1e47a1780aaa7e277a3896c1ba00e317,38179df8f4ac870017db21ebcbf53114" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/syscard1.pce" md5="9f770275393b8627cf9d24e5c56d2ab9" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/syscard2.pce" md5="424f1d6bf93259bf255afa7d1dc9f721" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
+    <bios path="pcengine/gexpress.pce" md5="6d2cb14fc3e1f65ceb135633d1694122" mandatory="false" core="mednafen_supergrafx,mednafen_pce_fast" />
   </system>
   <system fullname="NEC PC-FX" platform="pcfx">
-    <bios path="pcfx.rom" md5="08e36edbea28a017f79f8d4f7ff9b6d7" core="pcfx" />
+    <bios path="pcfx/pcfx.rom" md5="08e36edbea28a017f79f8d4f7ff9b6d7" core="mednafen_pcfx" />
   </system>
   <system fullname="MSX Familly" platform="msx1,msx2">
-    <bios path="CARTS.SHA"    md5="d6dedca1112ddfda94cc9b2e426b818b" core="fmsx" />
-    <bios path="CYRILLIC.FNT" md5="85b38e4128bbc300e675f55b278683a8" core="fmsx" />
-    <bios path="DISK.ROM"     md5="80dcd1ad1a4cf65d64b7ba10504e8190" core="fmsx" />
-    <bios path="FMPAC16.ROM"  md5="af8537262df8df267072f359399a7635" core="fmsx" />
-    <bios path="FMPAC.ROM"    md5="6f69cc8b5ed761b03afd78000dfb0e19" core="fmsx" />
-    <bios path="ITALIC.FNT"   md5="c83e50e9f33b8dd893c414691822740d" core="fmsx" />
-    <bios path="KANJI.ROM"    md5="febe8782b466d7c3b16de6d104826b34" core="fmsx" />
-    <bios path="MSX2EXT.ROM"  md5="2183c2aff17cf4297bdb496de78c2e8a" core="fmsx" />
-    <bios path="MSX2PEXT.ROM" md5="7c8243c71d8f143b2531f01afa6a05dc" core="fmsx" />
-    <bios path="MSX2P.ROM"    md5="6d8c0ca64e726c82a4b726e9b01cdf1e" core="fmsx" />
-    <bios path="MSX2.ROM"     md5="ec3a01c91f24fbddcbcab0ad301bc9ef" core="fmsx" />
-    <bios path="MSXDOS2.ROM"  md5="6418d091cd6907bbcf940324339e43bb" core="fmsx" />
-    <bios path="MSX.ROM"      md5="aa95aea2563cd5ec0a0919b44cc17d47" core="fmsx" />
-    <bios path="PAINTER.ROM"  md5="403cdea1cbd2bb24fae506941f8f655e" core="fmsx" />
-    <bios path="RS232.ROM"    md5="279efd1eae0d358eecd4edc7d9adedf3" core="fmsx" />
+    <bios path="msx/CARTS.SHA"    md5="d6dedca1112ddfda94cc9b2e426b818b" core="fmsx" />
+    <bios path="msx/CYRILLIC.FNT" md5="85b38e4128bbc300e675f55b278683a8" core="fmsx" />
+    <bios path="msx/DISK.ROM"     md5="80dcd1ad1a4cf65d64b7ba10504e8190" core="fmsx" />
+    <bios path="msx/FMPAC16.ROM"  md5="af8537262df8df267072f359399a7635" core="fmsx" />
+    <bios path="msx/FMPAC.ROM"    md5="6f69cc8b5ed761b03afd78000dfb0e19" core="fmsx" />
+    <bios path="msx/ITALIC.FNT"   md5="c83e50e9f33b8dd893c414691822740d" core="fmsx" />
+    <bios path="msx/KANJI.ROM"    md5="febe8782b466d7c3b16de6d104826b34" core="fmsx" />
+    <bios path="msx/MSX2EXT.ROM"  md5="2183c2aff17cf4297bdb496de78c2e8a" core="fmsx" />
+    <bios path="msx/MSX2PEXT.ROM" md5="7c8243c71d8f143b2531f01afa6a05dc" core="fmsx" />
+    <bios path="msx/MSX2P.ROM"    md5="6d8c0ca64e726c82a4b726e9b01cdf1e" core="fmsx" />
+    <bios path="msx/MSX2.ROM"     md5="ec3a01c91f24fbddcbcab0ad301bc9ef" core="fmsx" />
+    <bios path="msx/MSXDOS2.ROM"  md5="6418d091cd6907bbcf940324339e43bb" core="fmsx" />
+    <bios path="msx/MSX.ROM"      md5="aa95aea2563cd5ec0a0919b44cc17d47" core="fmsx" />
+    <bios path="msx/PAINTER.ROM"  md5="403cdea1cbd2bb24fae506941f8f655e" core="fmsx" />
+    <bios path="msx/RS232.ROM"    md5="279efd1eae0d358eecd4edc7d9adedf3" core="fmsx" />
   </system>
   <system fullname="Atari Lynx" platform="lynx">
-    <bios path="lynxboot.img" md5="fcd403db69f54290b51035d82f835e7b" core="handy,mednafen_lynx" />
+    <bios path="lynx/lynxboot.img" md5="fcd403db69f54290b51035d82f835e7b" core="handy,mednafen_lynx" />
   </system>
   <system fullname="Atari ST/STE/MegaSTE/TT/Falcon" platform="atarist">
     <bios path="/recalbox/share/bios/tos.img|/recalbox/share/bios/atarist/tos.img" md5="27ac71b59d59f65571b972e0f894054a,5d65c6a384d847a0b8013d5e22ec0887,
@@ -211,7 +205,7 @@
                                               dd1010ec566efbd71047d6c4919feba5,ed2647936ce4bd283c4d7dfd7ae09d1c,
                                               9e880168d0a004f7f5e852be758f39e4,919fd0f045299f101cf7757e5e058c41,
                                               b2ecabc15b65afef96331be46f2a2cd4,e5ea0f216fb446f1c4a4f476bc5f03d4,
-                                              941baac767269649f92f7918dd5740b8" mandatory="false" hashMatchMandatory="false" core="hatari,libretro-hatari" note="Default bios" />
+                                              941baac767269649f92f7918dd5740b8" mandatory="false" hashMatchMandatory="false" core="hatari" note="Default bios" />
       <bios path="atarist/st.img" md5="c87a52c277f7952b41c639fc7bf0a43b,e0444d8c51a8093a3f09665d8099c0af,
                                        d0f682ee6237497004339fb02172638b,5491b3755992feaf743ceecaa3b18f34,
                                        25789a649faff0a1176dc7d9b98105c0,b9e37f0f0a700fc673049794870bdb85,
@@ -227,7 +221,7 @@
                                        886b9b6bb6afa287211a594e16f6ca67,e690bec90d902024beed549d22150755,
                                        4a0d4f282c3f2a0196681adf88862dd4,332fe3803a7e20cd625b27a69f07ae69,
                                        a7dc40dc5c1086bce1a8f3d44fd29051,c9093f27159e7d13ac0d1501a95e53d4,
-                                       736adb2dc835df4d323191fdc8926cc9" mandatory="true" hashMatchMandatory="false" core="hatari,libretro-hatari" note="Atari ST/Mega-ST (not STE!) bios." />
+                                       736adb2dc835df4d323191fdc8926cc9" mandatory="true" hashMatchMandatory="false" core="hatari" note="Atari ST/Mega-ST (not STE!) bios." />
       <bios path="atarist/ste.img" md5="992bac38e01633a529121a2a65f0779e,30f69d70fe7c210300ed83f991b12de9,
                                         bc7b224d0dc3f0cc14c8897db89c5787,6033f2b9364edfed321c6931a8181fd2,
                                         f3f92cd4e2c331aef8970a156be03b7c,a0982e760f9807d82667ff5a69e78f6b,
@@ -238,7 +232,7 @@
                                         0604dbb85928f0598d04144a8b554bbe,b2873004a408b8db36321f98daafa251,
                                         886b9b6bb6afa287211a594e16f6ca67,e690bec90d902024beed549d22150755,
                                         4a0d4f282c3f2a0196681adf88862dd4,332fe3803a7e20cd625b27a69f07ae69,
-                                        a7dc40dc5c1086bce1a8f3d44fd29051,c9093f27159e7d13ac0d1501a95e53d4" mandatory="true" hashMatchMandatory="false" core="hatari,libretro-hatari" note="Atari STE bios." />
+                                        a7dc40dc5c1086bce1a8f3d44fd29051,c9093f27159e7d13ac0d1501a95e53d4" mandatory="true" hashMatchMandatory="false" core="hatari" note="Atari STE bios." />
       <bios path="atarist/megaste.img" md5="4689ef3694ac86e7289923190e6cd10d,7aeabdc25f8134590e25643a405210ca,
                                             7449b131681f1dfe62ebed1392847057,61b620ad951815a25cb37895c81a947c,
                                             7e87d8fe7e24e0b4c55ad1b7955beae3,1c92855316a33faee602b8007f22d2cb,
@@ -246,38 +240,38 @@
                                             b2873004a408b8db36321f98daafa251,886b9b6bb6afa287211a594e16f6ca67,
                                             e690bec90d902024beed549d22150755,4a0d4f282c3f2a0196681adf88862dd4,
                                             332fe3803a7e20cd625b27a69f07ae69,a7dc40dc5c1086bce1a8f3d44fd29051,
-                                            c9093f27159e7d13ac0d1501a95e53d4" mandatory="false" hashMatchMandatory="true" core="hatari,libretro-hatari" note="Atari Mega-STE bios." />
+                                            c9093f27159e7d13ac0d1501a95e53d4" mandatory="false" hashMatchMandatory="true" core="hatari" note="Atari Mega-STE bios." />
       <bios path="atarist/tt.img" md5="066f39a7ea5789d5afd59dd7b3104fa6,2a8e39c60317b921eabd7e25b5d74395,
                                        dd1010ec566efbd71047d6c4919feba5,19cd81e1c3049bf408ad426dc5c3b2e0,
-                                       ac6ca0f0ed42a1603dfd409c4bf8eb89" mandatory="false" hashMatchMandatory="true" core="hatari,libretro-hatari" note="Atari TT bios." />
+                                       ac6ca0f0ed42a1603dfd409c4bf8eb89" mandatory="false" hashMatchMandatory="true" core="hatari" note="Atari TT bios." />
       <bios path="atarist/falcon.img" md5="ed2647936ce4bd283c4d7dfd7ae09d1c,9e880168d0a004f7f5e852be758f39e4,
                                            919fd0f045299f101cf7757e5e058c41,b2ecabc15b65afef96331be46f2a2cd4,
                                            e5ea0f216fb446f1c4a4f476bc5f03d4,941baac767269649f92f7918dd5740b8,
-                                           b338bacb2fc453bab61bcc1e2cf5076b" core="hatari,libretro-hatari" note="FALCON 30/40 bios." />
-      <bios path="atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="hatari,libretro-hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
+                                           b338bacb2fc453bab61bcc1e2cf5076b" core="hatari" note="FALCON 30/40 bios." />
+      <bios path="atarist/emutos.img" md5="e2c861c588fca2d0cf6be3df3aaf05f2" mandatory="true" hashMatchMandatory="true" core="hatari" note="EMUTOS Open-source bios. 99% Compatible with all atari machines." />
   </system>
   <system fullname="Magnavox Odyssey²" platform="o2em">
-    <bios path="o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />
-    <bios path="c52.bin"   md5="f1071cdb0b6b10dde94d3bc8a6146387" core="o2em" />
+    <bios path="o2em/o2rom.bin" md5="562d5ebf9e030a40d6fabfc2f33139fd" core="o2em" />
+    <bios path="o2em/c52.bin"   md5="f1071cdb0b6b10dde94d3bc8a6146387" core="o2em" />
   </system>
-  <system fullname="VideoPac+" platform="videopacplus">
-    <bios path="g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
-    <bios path="jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
+  <system fullname="Philips VideoPac+" platform="videopacplus">
+    <bios path="o2em/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
+    <bios path="o2em/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
   </system>
   <system fullname="Panasonic 3DO" platform="3do">
-    <bios path="panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" />
-    <bios path="panafz1j.bin"                md5="a496cfdded3da562759be3561317b605" core="opera" note="Panasonic FZ-1 (J)" />
-    <bios path="panafz1j-norsa.bin"          md5="f6c71de7470d16abe4f71b1444883dc8" core="opera" note="Panasonic FZ-1 (J) (RSA check disabled)" />
-    <bios path="panafz10.bin"                md5="51f2f43ae2f3508a14d9f56597e2d3ce" mandatory="false" core="opera" note="Panasonic FZ-10 (U)" />
-    <bios path="panafz10-norsa.bin"          md5="1477bda80dc33731a65468c1f5bcbee9" mandatory="false" core="opera" note="Panasonic FZ-10 (U) (RSA check disabled)" />
-    <bios path="panafz10e-anvil.bin"         md5="a48e6746bd7edec0f40cff078f0bb19f" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL" />
-    <bios path="panafz10e-anvil-norsa.bin"   md5="cf11bbb5a16d7af9875cca9de9a15e09" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL (RSA check disabled)" />
-    <bios path="goldstar.bin"                md5="8639fd5e549bd6238cfee79e3e749114" mandatory="false" core="opera" note="Goldstar GDO-101M" />
-    <bios path="sanyotry.bin"                md5="35fa1a1ebaaeea286dc5cd15487c13ea" mandatory="false" core="opera" note="Sanyo IMP-21J TRY" />
-    <bios path="3do_arcade_saot.bin"         md5="8970fc987ab89a7f64da9f8a8c4333ff" mandatory="false" core="opera" note="Shootout At Old Tucson" />
-    <bios path="panafz1-kanji.bin"           md5="b8dc97f778a6245c58e064b0312e8281" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />
-    <bios path="panafz1j-kanji.bin"          md5="c23fb5d5e6bb1c240d02cf968972be37" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />
-    <bios path="panafz10ja-anvil-kanji.bin"  md5="428577250f43edc902ea239c50d2240d" mandatory="false" core="opera" note="Panasonic FZ-10 (J) w/ ANVIL Kanji ROM. Useful for some Japanese games" />
+    <bios path="3do/panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" />
+    <bios path="3do/panafz1j.bin"                md5="a496cfdded3da562759be3561317b605" core="opera" note="Panasonic FZ-1 (J)" />
+    <bios path="3do/panafz1j-norsa.bin"          md5="f6c71de7470d16abe4f71b1444883dc8" core="opera" note="Panasonic FZ-1 (J) (RSA check disabled)" />
+    <bios path="3do/panafz10.bin"                md5="51f2f43ae2f3508a14d9f56597e2d3ce" mandatory="false" core="opera" note="Panasonic FZ-10 (U)" />
+    <bios path="3do/panafz10-norsa.bin"          md5="1477bda80dc33731a65468c1f5bcbee9" mandatory="false" core="opera" note="Panasonic FZ-10 (U) (RSA check disabled)" />
+    <bios path="3do/panafz10e-anvil.bin"         md5="a48e6746bd7edec0f40cff078f0bb19f" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL" />
+    <bios path="3do/panafz10e-anvil-norsa.bin"   md5="cf11bbb5a16d7af9875cca9de9a15e09" mandatory="false" core="opera" note="Panasonic FZ-10 (E) w/ ANVIL (RSA check disabled)" />
+    <bios path="3do/goldstar.bin"                md5="8639fd5e549bd6238cfee79e3e749114" mandatory="false" core="opera" note="Goldstar GDO-101M" />
+    <bios path="3do/sanyotry.bin"                md5="35fa1a1ebaaeea286dc5cd15487c13ea" mandatory="false" core="opera" note="Sanyo IMP-21J TRY" />
+    <bios path="3do/3do_arcade_saot.bin"         md5="8970fc987ab89a7f64da9f8a8c4333ff" mandatory="false" core="opera" note="Shootout At Old Tucson" />
+    <bios path="3do/panafz1-kanji.bin"           md5="b8dc97f778a6245c58e064b0312e8281" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />
+    <bios path="3do/panafz1j-kanji.bin"          md5="c23fb5d5e6bb1c240d02cf968972be37" mandatory="false" core="opera" note="Panasonic FZ-1 (J) Kanji ROM. Useful for some Japanese games" />
+    <bios path="3do/panafz10ja-anvil-kanji.bin"  md5="428577250f43edc902ea239c50d2240d" mandatory="false" core="opera" note="Panasonic FZ-10 (J) w/ ANVIL Kanji ROM. Useful for some Japanese games" />
   </system>
   <system fullname="Sharp X68000" platform="x68000">
     <bios path="keropi/iplrom.dat"   md5="7fd4caabac1d9169e289f0f7bbf71d8e" core="px68k" />
@@ -290,14 +284,14 @@
     <bios path="xmil/IPLROM.X1"  md5="eeeea1cd29c6e0e8b094790ae969bfa7,59074727a953fe965109b7dbe3298e30" core="xmil" />
     <bios path="xmil/IPLROM.X1T" md5="56c28adcf1f3a2f87cf3d57c378013f5" core="xmil" />
   </system>
-  <system fullname="Playstation" platform="psx">
-    <bios path="scph5500.bin" md5="8dd7d5296a650fac7319bce665a6a53c" core="mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
-    <bios path="scph5501.bin" md5="490f666e1afb15b7362b406ed1cea246" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
-    <bios path="scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
-    <bios path="scph101.bin"  md5="6E3735FF4C7DC899EE98981385F6F3D0" core="pcsx_rearmed" note="Recommended for better compatibility." />
-    <bios path="scph7001.bin" md5="1e68c231d0896b7eadcad1d7d8e76129" core="pcsx_rearmed" note="Recommended for better compatibility." />
-    <bios path="scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d,924e392ed05558ffdb115408c263dccf" core="pcsx_rearmed" note="Recommended for better compatibility." />
-    <bios path="ps1_rom.bin" md5="81bbe60ba7a3d1cea1d48c14cbcc647b" core="swanstation,duckstation" mandatory="false" note="Bios you can grab in PS3 firmware upgrade. Compatible with all regions, can replace all others bios." />
+  <system fullname="Sony Playstation 1" platform="psx">
+    <bios path="psx/scph5500.bin" md5="8dd7d5296a650fac7319bce665a6a53c" core="mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
+    <bios path="psx/scph5501.bin" md5="490f666e1afb15b7362b406ed1cea246" core="pcsx_rearmed,mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
+    <bios path="psx/scph5502.bin" md5="32736f17079d0b2b7024407c39bd3050" core="mednafen_psx,mednafen_psx_hw,swanstation,duckstation" />
+    <bios path="psx/scph101.bin"  md5="6E3735FF4C7DC899EE98981385F6F3D0" core="pcsx_rearmed" note="Recommended for better compatibility." />
+    <bios path="psx/scph7001.bin" md5="1e68c231d0896b7eadcad1d7d8e76129" core="pcsx_rearmed" note="Recommended for better compatibility." />
+    <bios path="psx/scph1001.bin" md5="dc2b9bf8da62ec93e868cfd29f0d067d,924e392ed05558ffdb115408c263dccf" core="pcsx_rearmed" note="Recommended for better compatibility." />
+    <bios path="psx/ps1_rom.bin" md5="81bbe60ba7a3d1cea1d48c14cbcc647b" core="swanstation,duckstation" mandatory="false" note="Bios you can grab in PS3 firmware upgrade. Compatible with all regions, can replace all others bios." />
   </system>
   <system fullname="Playstation 2" platform="ps2">
     <bios path="ps2/ps2-0230a-20080220.bin" md5="21038400dc633070a78ad53090c53017" core="pcsx2" note="Recommended for better compatibility." />
@@ -306,25 +300,25 @@
     <bios path="ps2/ps2-0230j-20080220.bin" md5="80ac46fa7e77b8ab4366e86948e54f83" core="pcsx2" />
   </system>
   <system fullname="Fairchild Channel-F" platform="channelf">
-    <bios path="sl31254.bin" md5="da98f4bb3242ab80d76629021bb27585" core="freechaf" />
-    <bios path="sl31253.bin" md5="ac9804d4c0e9d07e33472e3726ed15c3" core="freechaf" />
-    <bios path="sl90025.bin" md5="95d339631d867c8f1d15a5f2ec26069d" core="freechaf" mandatory="false" note="Optional replacement for sl31254.bin"/>
+    <bios path="channelf/sl31254.bin" md5="da98f4bb3242ab80d76629021bb27585" core="freechaf" />
+    <bios path="channelf/sl31253.bin" md5="ac9804d4c0e9d07e33472e3726ed15c3" core="freechaf" />
+    <bios path="channelf/sl90025.bin" md5="95d339631d867c8f1d15a5f2ec26069d" core="freechaf" mandatory="false" note="Optional replacement for sl31254.bin"/>
   </system>
   <system fullname="Mattel Intellivision" platform="intellivision">
-    <bios path="exec.bin" md5="62e761035cb657903761800f4437b8af" core="freeintv" />
-    <bios path="grom.bin" md5="0cd5946c6473e42e8e4c2137785e427f" core="freeintv" />
+    <bios path="intellivision/exec.bin" md5="62e761035cb657903761800f4437b8af" core="freeintv" />
+    <bios path="intellivision/grom.bin" md5="0cd5946c6473e42e8e4c2137785e427f" core="freeintv" />
   </system>
-  <system fullname="Pokémon Mini" platform="pokemini">
-    <bios path="bios.min" md5="1e4fb124a3a886865acb574f388c803d" mandatory="false" core="pokemini" />
+  <system fullname="Nintendo Pokémon Mini" platform="pokemini">
+    <bios path="pokemini/bios.min" md5="1e4fb124a3a886865acb574f388c803d" mandatory="false" core="pokemini" />
   </system>
   <system fullname="Nintendo DS" platform="nds">
-    <bios path="bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="melonds,desmume" />
-    <bios path="bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="melonds,desmume" />
-    <bios path="firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />
+    <bios path="nds/bios7.bin"    md5="df692a80a5b1bc90728bc3dfc76cd948" core="melonds,desmume" />
+    <bios path="nds/bios9.bin"    md5="a392174eb3e572fed6447e956bde4b25" core="melonds,desmume" />
+    <bios path="nds/firmware.bin" md5="145eaef5bd3037cbc247c213bb3da1b3,e45033d9b0fa6b0de071292bba7c9d13,3ad72b2c9a736b24953f2d391da4bfcc" core="melonds,desmume" />
   </system>
   <system fullname="Palm Pilot" platform="palm">
-    <bios path="palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" />
-    <bios path="bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" mandatory="false" />
+    <bios path="palm/palmos41-en-m515.rom"   md5="83cb1d1c76e568b916dc2e7c0bf669f6" core="mu" />
+    <bios path="palm/bootloader-dbvz.rom"    md5="9da101cd2317830649a31f8fa46debec" core="mu" mandatory="false" />
   </system>
   <system fullname="Tangerine Oric/Atmos" platform="oricatmos">
     <bios path="oricutron/basic11b.rom" md5="a330779c42ad7d0c4ac6ef9e92788ec6" core="oricutron" />
@@ -439,34 +433,34 @@
     <bios path="Machines/Shared Roms/nowindDos2.rom"             md5="1847398c014384b833868c64f149f338" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip" />
   </system>
   <system fullname="Sega GameGear" platform="gamegear">
-    <bios path="bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx" />
+    <bios path="gamegear/bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx,genesisplusgxwide" />
   </system>
   <system fullname="Sega MasterSystem" platform="mastersystem">
-    <bios path="bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d,
+    <bios path="mastersystem/bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d,
                                  e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
                                  5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824,
                                  bdb34f2c471e5d0c358eeec621f9d029" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f,
+    <bios path="mastersystem/bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f,
                                  e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
-                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx" />
-    <bios path="bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
+                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx,genesisplusgxwide" />
+    <bios path="mastersystem/bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx,genesisplusgxwide" />
   </system>
   <system fullname="Sega Megadrive/Genesis" platform="megadrive">
-    <bios path="bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx" />
+    <bios path="megadrive/bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx,genesisplusgxwide" />
   </system>
   <system fullname="Nintendo Gameboy" platform="gb">
-    <bios path="gb_bios.bin"  md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte" />
-    <bios path="dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2,60f1d849a435e9053b8ac0fd5776804a" mandatory="false" core="sameboy,mesen_s" />
+    <bios path="gb/gb_bios.bin"  md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte" />
+    <bios path="gb/dmg_boot.bin" md5="57f6a79fb41d6b2c8987fa529c3a90f2,60f1d849a435e9053b8ac0fd5776804a" mandatory="false" core="sameboy,mesen_s" />
   </system>
   <system fullname="Nintendo Super Gameboy" platform="gb,gbc">
-    <bios path="sgb_bios.bin"  md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
-    <bios path="sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
+    <bios path="sgb/sgb_bios.bin"  md5="d574d4f9c12f305074798f54c091a8b4" mandatory="false" core="mgba,mesen_s" />
+    <bios path="sgb/sgb2_boot.bin" md5="b4331a9e612b4738867a30af9c96df52" mandatory="false" core="mesen_s" />
     <bios path="sgb/SGB1.sfc" md5="b15ddb15721c657d82c5bab6db982ee9" mandatory="true" core="bsnes" />
     <bios path="sgb/SGB2.sfc" md5="8ecd73eb4edf7ed7e81aef1be80031d5" mandatory="true" core="bsnes" />
   </system>
   <system fullname="Nintendo Gameboy Color" platform="gbc">
-    <bios path="gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
-    <bios path="cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a,6b68be48dab6a7298a8c07e00c136b4e" mandatory="false" core="sameboy,mesen_s" />
+    <bios path="gbc/gbc_bios.bin" md5="dbfce9db9deaa2567f6a84fde55f9680" mandatory="false" core="mgba,gambatte" />
+    <bios path="gbc/cgb_boot.bin" md5="b560efd759d87634a03b243f22bba27a,6b68be48dab6a7298a8c07e00c136b4e" mandatory="false" core="sameboy,mesen_s" />
   </system>
   <system fullname="Pentagon 128/512/1024 (ZX Spectrum clone)" platform="zxspectrum">
     <bios path="fuse/128p-0.rom" md5="a249565f03b98d004ee7f019570069cd" mandatory="false" core="fuse" note="Only required if you want to emulate Pentagon machines" />
@@ -497,21 +491,20 @@
     <bios path="gamecube/USA/IPL.bin" md5="339848a0b7c2124cf155276c1e79cbd0" mandatory="false" core="dolphin" note="Only required if you want the US Gamecube menu and the boot animation" />
   </system>
   <system fullname="Nintendo 64DD" platform="64dd">
-    <bios path="64DD_IPL.bin" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="parallel_n64" note="64DD_IPL.bin - Required for Nintendo 64 DD"/>
-    <bios path="Mupen64plus/IPL.n64" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="mupen64plus_next" note="IPL.n64 - Required for Nintendo 64 DD"/>
+    <bios path="64dd/64DD_IPL.bin" md5="8d3d9f294b6e174bc7b1d2fd1c727530" mandatory="true" core="mupen64plus_next,parallel_n64" note="64DD_IPL.bin - Required for Nintendo 64 DD"/>
   </system>
   <system fullname="Super Cassette Vision" platform="scv">
-    <bios path="upd7801g.s01" md5="635A978FD40DB9A18EE44EFF449FC126" mandatory="true" core="emuscv" />
+    <bios path="scv/upd7801g.s01" md5="635A978FD40DB9A18EE44EFF449FC126" mandatory="true" core="emuscv" />
   </system>
   <system fullname="Sega Saturn" platform="saturn">
-    <bios path="saturn_bios.bin"  md5="af5828fdff51384f99b3c4926be27762" hashMatchMandatory="false" mandatory="true" core="yabause,yabasanshiro,kronos" />
-    <bios path="stvbios.zip"      md5="2b99d9dcecde22db4371580b6bb33f32,53a094ad3a188f86de4e64624fe9b3ca,
+    <bios path="saturn/saturn_bios.bin"  md5="af5828fdff51384f99b3c4926be27762" hashMatchMandatory="false" mandatory="true" core="yabause,yabasanshiro,kronos" />
+    <bios path="saturn/stvbios.zip"      md5="2b99d9dcecde22db4371580b6bb33f32,53a094ad3a188f86de4e64624fe9b3ca,
                                        17116d2aea72454096b3f80ab714bfba,2b99d9dcecde22db4371580b6bb33f32,
                                        4cb34733b741ada074f11e3abcdc56d8,6b6d422a6c392eaec178b64b92987e99,
                                        88b9da6cda268ba1d9e37dd82d038801,8c34608cc140e1bfbf9c945a12fed0e8,
-                                       b876d86e244d00b336980b4e26e94132" hashMatchMandatory="false" mandatory="true" core="yabasanshiro,kronos" />
-    <bios path="sega_101.bin"     md5="85ec9ca47d8f6807718151cbcca8b964" core="mednafen_saturn" note="Saturn JP BIOS - Required for JP games" />
-    <bios path="mpr-17933.bin"    md5="3240872c70984b6cbfda1586cab68dbe" core="mednafen_saturn" note="Saturn US/EU BIOS - Required for US/EU games" />
+                                       b876d86e244d00b336980b4e26e94132" hashMatchMandatory="false" mandatory="true" core="kronos" />
+    <bios path="saturn/sega_101.bin"     md5="85ec9ca47d8f6807718151cbcca8b964" mandatory="true" core="mednafen_saturn,kronos,yabause,yabasanshiro" note="Saturn JP BIOS - Required for JP games" />
+    <bios path="saturn/mpr-17933.bin"    md5="3240872c70984b6cbfda1586cab68dbe" mandatory="true" core="mednafen_saturn,kronos,yabause,yabasanshiro" note="Saturn US/EU BIOS - Required for US/EU games" />
     <bios path="mpr-18811-mx.ic1" md5="255113ba943c92a54facd25a10fd780c" core="mednafen_saturn,kronos" note="Required for The King of Fighters '95 ROM Cartridge" />
     <bios path="mpr-19367-mx.ic1" md5="1cd19988d1d72a3e7caa0b73234c96b4" core="mednafen_saturn,kronos" note="Required for Ultraman: Hikari no Kyojin Densetsu ROM Cartridge" />
   </system>
@@ -530,7 +523,7 @@
                                                                                              a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
   </system>
   <system fullname="SNK Neo-Geo CD" platform="neogeocd">
-    <bios path="neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
+    <bios path="neogeo/neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,
                                  42e359e394f0be1d61b94ddca0efbe6c,c1e0a738d266926f604186aa9d63e4db,
                                  d12bba59121229ff13702878b415cb7c,2b4ffdf24d5d4f24c4b116c50c4bafc3,
                                  005b843b6e70b939c2cca41887cbc371,42e359e394f0be1d61b94ddca0efbe6c,

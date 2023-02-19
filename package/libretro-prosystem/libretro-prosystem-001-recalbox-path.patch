@@ -1,0 +1,10 @@
+--- a/core/libretro.c	2021-11-13 00:51:51.000000000 +0100
++++ b/core/libretro.c	2021-11-13 00:53:08.000000000 +0100
+@@ -309,7 +309,7 @@
+       environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_directory_c);
+
+       /* BIOS is optional */
+-      sprintf(biospath, "%s%c%s", system_directory_c, slash, "7800 BIOS (U).rom");
++      sprintf(biospath, "%s%c%s%c%s", system_directory_c, slash, "atari7800", slash, "7800 BIOS (U).rom");
+       if (bios_Load(biospath))
+          bios_enabled = true;

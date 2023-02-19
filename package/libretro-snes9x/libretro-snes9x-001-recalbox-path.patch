@@ -1,0 +1,18 @@
+--- a/libretro/libretro.cpp	2022-07-07 13:33:35.000000000 +0200
++++ b/libretro/libretro.cpp	2022-07-07 13:35:01.000000000 +0200
+@@ -1114,13 +1114,13 @@
+         }
+ 
+         if (is_SufamiTurbo_Cart((uint8 *) game->data, game->size)) {
+-            if ((rom_loaded = LoadBIOS(biosrom,"STBIOS.bin",0x40000)))
++            if ((rom_loaded = LoadBIOS(biosrom,"sufami/STBIOS.bin",0x40000)))
+             rom_loaded = Memory.LoadMultiCartMem((const uint8_t*)game->data, game->size, 0, 0, biosrom, 0x40000);
+         }
+ 
+         else
+         if ((is_bsx((uint8 *) game->data + 0x7fc0)==1) | (is_bsx((uint8 *) game->data + 0xffc0)==1)) {
+-            if ((rom_loaded = LoadBIOS(biosrom,"BS-X.bin",0x100000)))
++            if ((rom_loaded = LoadBIOS(biosrom,"satellaview/BS-X.bin",0x100000)))
+             rom_loaded = Memory.LoadMultiCartMem(biosrom, 0x100000, (const uint8_t*)game->data, game->size, 0, 0);
+         }
+ 

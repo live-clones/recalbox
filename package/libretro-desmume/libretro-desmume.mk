@@ -28,6 +28,7 @@ endef
 define LIBRETRO_DESMUME_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/desmume/src/frontend/libretro/desmume_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/desmume_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/nds
 endef
 
 $(eval $(generic-package))

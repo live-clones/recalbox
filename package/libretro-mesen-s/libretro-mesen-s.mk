@@ -20,6 +20,10 @@ endef
 define LIBRETRO_MESEN_S_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/Libretro/mesen-s_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mesen_s_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/satellaview
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
 endef
 
 $(eval $(generic-package))

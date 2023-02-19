@@ -27,6 +27,7 @@ endef
 define LIBRETRO_BEETLE_LYNX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_lynx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_lynx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/lynx
 endef
 
 $(eval $(generic-package))

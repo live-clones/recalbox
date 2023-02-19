@@ -1,0 +1,29 @@
+--- a/src/platform/libretro/libretro.c	2022-05-08 23:45:00.000000000 +0200
++++ b/src/platform/libretro/libretro.c	2022-05-08 23:46:38.000000000 +0200
+@@ -1926,7 +1926,7 @@
+ #ifdef M_CORE_GBA
+ 	if (core->platform(core) == mPLATFORM_GBA) {
+ 		core->setPeripheral(core, mPERIPH_GBA_LUMINANCE, &lux);
+-		biosName = "gba_bios.bin";
++		biosName = "gba/gba_bios.bin";
+ 	}
+ #endif
+
+@@ -1953,14 +1953,14 @@
+ 		switch (gb->model) {
+ 		case GB_MODEL_AGB:
+ 		case GB_MODEL_CGB:
+-			biosName = "gbc_bios.bin";
++			biosName = "gbc/gbc_bios.bin";
+ 			break;
+ 		case GB_MODEL_SGB:
+-			biosName = "sgb_bios.bin";
++			biosName = "sgb/sgb_bios.bin";
+ 			break;
+ 		case GB_MODEL_DMG:
+ 		default:
+-			biosName = "gb_bios.bin";
++			biosName = "gb/gb_bios.bin";
+ 			break;
+ 		}
+ 	}

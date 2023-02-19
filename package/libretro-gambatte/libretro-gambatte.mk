@@ -20,6 +20,8 @@ endef
 define LIBRETRO_GAMBATTE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/gambatte_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/gambatte_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
 endef
 
 $(eval $(generic-package))

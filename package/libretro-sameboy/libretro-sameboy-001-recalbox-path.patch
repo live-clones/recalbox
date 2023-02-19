@@ -1,0 +1,18 @@
+--- a/libretro/libretro.c	2022-07-02 23:35:08.000000000 +0200
++++ b/libretro/libretro.c	2022-07-03 00:21:00.000000000 +0200
+@@ -523,7 +523,14 @@
+     boot_rom_path[0] = '\0';
+     boot_rom_file[0] = '\0';
+ 
+-    snprintf(boot_rom_file, sizeof(boot_rom_file), "%s_boot.bin", model_name);
++	if (model_name == "dmg0" || model_name == "dmg" || model_name == "mgb")
++		snprintf(boot_rom_file, sizeof(boot_rom_file), "%s%s_boot.bin", "gb/", model_name);
++	else if (model_name == "sgb" || model_name == "sgb2")
++		snprintf(boot_rom_file, sizeof(boot_rom_file), "%s%s_boot.bin", "sgb/", model_name);
++	else if (model_name == "cgb0" || model_name == "cgb")
++		snprintf(boot_rom_file, sizeof(boot_rom_file), "%s%s_boot.bin", "gbc/", model_name);
++	else if (model_name == "agb")
++		snprintf(boot_rom_file, sizeof(boot_rom_file), "%s%s_boot.bin", "gba/", model_name);
+     fill_pathname_join(boot_rom_path, retro_system_directory,
+             boot_rom_file, sizeof(boot_rom_path));
+ 

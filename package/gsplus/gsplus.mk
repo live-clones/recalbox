@@ -15,11 +15,12 @@ define GSPLUS_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/usr/bin/
 	cp $(@D)/bin/libx_readline.so $(TARGET_DIR)/usr/lib/
 	cp $(@D)/lib/letgothl.ttf $(TARGET_DIR)/usr/share
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/apple2gs
 endef
 
 define GSPLUS_POST_EXTRACT_FIX_PATH
 	$(SED) "s|lib/letgothl.ttf|/usr/share/letgothl.ttf|g" $(@D)/src/sim65816.c
-	$(SED) 's|g_cfg_rom_path = "ROM";|g_cfg_rom_path = "/recalbox/share/bios/apple2gs.rom";|g' $(@D)/src/config.c
+	$(SED) 's|g_cfg_rom_path = "ROM";|g_cfg_rom_path = "/recalbox/share/bios/apple2gs/apple2gs.rom";|g' $(@D)/src/config.c
 endef
 
 GSPLUS_POST_EXTRACT_HOOKS += GSPLUS_POST_EXTRACT_FIX_PATH

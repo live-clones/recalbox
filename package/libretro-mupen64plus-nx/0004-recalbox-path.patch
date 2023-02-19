@@ -1,0 +1,14 @@
+--- a/mupen64plus-core/src/main/main.c	2022-07-08 00:24:08.000000000 +0200
++++ b/mupen64plus-core/src/main/main.c	2022-07-08 00:26:26.000000000 +0200
+@@ -893,9 +893,9 @@
+     strncpy(pathname, sys_pathname, 2048 - 1);
+     if (pathname[(strlen(pathname)-1)] != '/' && pathname[(strlen(pathname)-1)] != '\\')
+         strcat(pathname, PATH_DEFAULT_SLASH());
+-    strcat(pathname, "Mupen64plus");
++    strcat(pathname, "64dd");
+     strcat(pathname, PATH_DEFAULT_SLASH());
+-    strcat(pathname, "IPL.n64");
++    strcat(pathname, "64DD_IPL.bin");
+ 
+     if(retro_dd_path_img)
+     {

@@ -1,0 +1,23 @@
+--- a/libretro/libretro-core.c	2022-12-30 00:50:54.000000000 +0100
++++ b/libretro/libretro-core.c	2022-12-30 00:53:37.000000000 +0100
+@@ -514,6 +514,20 @@
+     if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_dir) && system_dir)
+     {
+         // if defined, use the system directory
++        var.key = "atari800_system";
++	    var.value = NULL;
++
++	   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
++	   {
++		   if (strcmp(var.value, "5200") == 0)
++		   {
++			   strcat(system_dir, "atari5200/");
++		   }
++		   else
++		   {
++			   strcat(system_dir, "atari800/");
++		   }
++	   }
+         retro_system_directory = system_dir;
+     }
+ 

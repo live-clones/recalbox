@@ -1,0 +1,11 @@
+--- a/libretro/core/libretro-core.cpp	2021-11-14 13:54:47.000000000 +0100
++++ b/libretro/core/libretro-core.cpp	2021-11-14 13:56:39.000000000 +0100
+@@ -754,6 +754,8 @@
+           prefs->nr_floppies=0;
+       }
+ 
++      strcat(retro_system_directory, "/amiga")
++
+       if (strcmp(var.value, "A600") == 0)
+       {
+          prefs->cpu_model = 68000;

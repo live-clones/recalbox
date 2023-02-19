@@ -1,0 +1,11 @@
+--- a/libretro/libretro.c	2022-07-08 00:11:36.000000000 +0200
++++ b/libretro/libretro.c	2022-07-08 00:12:24.000000000 +0200
+@@ -564,7 +564,7 @@
+       disk_data = NULL;
+ 
+       /* 64DD IPL LOAD - assumes "64DD_IPL.bin" is in system folder */
+-      sprintf(disk_ipl_path, "%s%c64DD_IPL.bin", dir, slash);
++      sprintf(disk_ipl_path, "%s%c%s%c64DD_IPL.bin", dir, slash, "64dd", slash);
+ 
+       if (log_cb)
+          log_cb(RETRO_LOG_INFO, "64DD_IPL.bin path: %s\n", disk_ipl_path);

@@ -20,6 +20,7 @@ endef
 define LIBRETRO_PROSYSTEM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/prosystem_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/prosystem_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari7800
 endef
 
 $(eval $(generic-package))
