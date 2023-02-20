@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new Kodi theme for lower resolutions
 - Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
 - Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
+- Add demo Astebros (Neofid studio) on megadrive
 
 ### Improvements
 - Improve metadata storage, using far less memory for huge game collections
@@ -64,7 +65,7 @@ as release notes for end user on a Recalbox upgrade.
   - Joysticks and joypads will be automatically paired on first boot
   - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
   - Detection and pairing stays in background for 5 minutes
-- Bump libretro-mesen_s
+- Bump libretro-mesen
 
 ### Fixes
 - Fix crash libretro pcsx-rearmed for x64
