@@ -1,0 +1,22 @@
+--- gcc-11.3.0/libatomic/Makefile.am.orig	2022-11-13 21:33:00.954102941 +0100
++++ gcc-11.3.0/libatomic/Makefile.am	2022-11-13 21:38:32.783755698 +0100
+@@ -129,7 +129,7 @@
+ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS)))
+ endif
+ if ARCH_ARM_LINUX
+-IFUNC_OPTIONS	     = -march=armv7-a+fp -DHAVE_KERNEL64
++IFUNC_OPTIONS	     = -march=armv6zk -DHAVE_KERNEL64
+ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS)))
+ libatomic_la_LIBADD += $(addsuffix _8_2_.lo,$(SIZEOBJS))
+ endif
+--- gcc-11.3.0/libatomic/Makefile.in.orig	2022-11-13 21:53:59.323692356 +0100
++++ gcc-11.3.0/libatomic/Makefile.in	2022-11-13 21:54:37.940361214 +0100
+@@ -435,7 +435,7 @@
+ 	_$(s)_.lo,$(SIZEOBJS))) $(am__append_1) $(am__append_2) \
+ 	$(am__append_3) $(am__append_4)
+ @ARCH_AARCH64_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv8-a+lse
+-@ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
++@ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv6zk -DHAVE_KERNEL64
+ @ARCH_I386_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=i586
+ @ARCH_X86_64_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -mcx16 -mcx16
+ libatomic_convenience_la_SOURCES = $(libatomic_la_SOURCES)
