@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KODI_RESOURCE_LANGUAGE_TR_TR_VERSION = 9.0.37
+KODI_RESOURCE_LANGUAGE_TR_TR_VERSION = 9.0.39
 KODI_RESOURCE_LANGUAGE_TR_TR_SOURCE = resource.language.tr_tr-$(KODI_RESOURCE_LANGUAGE_TR_TR_VERSION).zip
 KODI_RESOURCE_LANGUAGE_TR_TR_SITE = http://mirrors.kodi.tv/addons/matrix/resource.language.tr_tr
 KODI_RESOURCE_LANGUAGE_TR_TR_PLUGINNAME=resource.language.tr_tr
