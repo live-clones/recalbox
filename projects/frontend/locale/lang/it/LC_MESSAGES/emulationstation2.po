@@ -3574,9 +3574,8 @@ msgstr "240p"
 msgid "480p"
 msgstr "480p"
 
-#
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
 msgstr "SPOSTA SCHERMO"
@@ -3714,14 +3713,12 @@ msgstr "Recalbox RGB Dual opzioni e configurazione."
 msgid "Select system, frontend and emulator resolutions."
 msgstr "Seleziona le risoluzioni del sistema, del frontend e dell'emulatore."
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B PER RESETTARE"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
-msgstr "ASSOCIA CONTROLLER BLUETOOTH"
+msgstr "ACCOPPIA CONTROLLER BLUETOOTH"
 
-#
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any "
@@ -3731,219 +3728,178 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"L'accoppiamento del bluetooth inizierà e sarà in funzione per alcuni minuti. "
+"Durante questi momenti, dovrai procedere alla procedura di accoppiamento di "
+"qualsiasi controller bluetooth tu voglia collegare.\n"
+"La prossima finestra mostrerà tutte le periferiche bluetooth ed il loro "
+"stato solo come informazioni.\n"
+"Puoi chiuderla in ogni momento tu voglia, mentre continui ad accoppiare le "
+"tue periferiche bluetooth fintanto che l'icona lampeggi in alto a sinistra."
 
-#
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "GIU' PER SALTARE"
 
-#
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "INIZIO DOWNLOAD..."
 
-#
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Accoppia una periferica audio bluetooth. Metti la periferica in modalità di "
+"scoperta prima di iniziare."
 
-#
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "ACCOPPIA UNA PERIFERICA AUDIO BLUETOOTH"
 
-#
 msgid "Failed"
-msgstr ""
+msgstr "Fallito"
 
-#
 msgid "Succeeded"
-msgstr ""
+msgstr "Successo"
 
-#
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 SU'"
 
-#
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 GIU'"
 
-#
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 SINISTRA"
 
-#
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 DESTRA"
 
-#
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 SU'"
 
-#
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 GIU'"
 
-#
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 SINISTRA"
 
-#
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 DESTRA"
 
-#
 msgid "Alias: "
-msgstr ""
+msgstr "Alias: "
 
-#
 msgid "MAC: "
-msgstr ""
+msgstr "MAC: "
 
-#
 msgid "Connected: "
-msgstr ""
+msgstr "Connesso: "
 
-#
 msgid "Trusted: "
-msgstr ""
+msgstr "Conosciuto: "
 
-#
 msgid "Paired: "
-msgstr ""
+msgstr "Accoppiato: "
 
-#
 msgid "Blocked: "
-msgstr ""
+msgstr "Bloccato: "
 
-#
 msgid "NO DEVICE"
-msgstr ""
+msgstr "NESSUN DISPOSITIVO"
 
-#
 msgid "SEARCH BY"
-msgstr ""
+msgstr "CERCA PER"
 
-#
 msgid "NO RESULTS"
-msgstr ""
+msgstr "NESSUN RISULTATO"
 
-#
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORITA' A HDMI"
 
-#
 msgid "ON"
-msgstr ""
+msgstr "ACCESO"
 
-#
 msgid "OFF"
-msgstr ""
+msgstr "SPENTO"
 
-#
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"Ora calibrerai varie risoluzioni per la tua TV. Seleziona la frequenza di "
+"aggiornamento in base a cosa la tua TV possa supportare.\n"
+"Durante la calibrazione, premi B per applicare la modalità, START per "
+"validarla, ed A per cancellare."
 
-#
 msgid "60Hz Only"
-msgstr ""
+msgstr "Solo 60Hz"
 
-#
 msgid "50Hz Only"
-msgstr ""
+msgstr "Solo 50Hz"
 
-#
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "SCOPERTA DISPOSITIVI AUDIO BLUETOOTH..."
 
-#
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "NESSUN DISPOSITIVO AUDIO TROVATO"
 
-#
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "RISOLUZIONE KODI"
 
-#
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "DISPOSITIVO AUDIO ACCOPPIATO"
 
-#
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "IMPOSSIBILE ACCOPPIARE DISPOSITIVO AUDIO"
 
-#
 msgid "select a patch"
-msgstr ""
+msgstr "seleziona una patch"
 
-#
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "LUMINOSITA'"
 
-#
 msgid "NAME"
-msgstr ""
+msgstr "NOME"
 
-#
 msgid "suspend"
-msgstr ""
+msgstr "sospendi"
 
-#
 msgid "NO GAME"
-msgstr ""
+msgstr "NESSUN GIOCO"
 
-#
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "PROSSIMA RISOLUZIONE"
 
-#
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Frequenza d'aggiornamento gioco"
 
-#
 msgid "Game resolution"
-msgstr ""
+msgstr "Risoluzione gioco"
 
-#
 msgid "CHANGELOG"
-msgstr ""
+msgstr "CHANGELOG"
 
-#
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Copia %s cartella..."
 
-#
 msgid "VOLUME -"
-msgstr ""
+msgstr "VOLUME -"
 
-#
 msgid "VOLUME +"
-msgstr ""
+msgstr "VOLUME +"
 
-#
 msgid "B"
-msgstr ""
+msgstr "B"
 
-#
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
-#
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
-#
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
-#
 msgid "TB"
-msgstr ""
-
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (consigliato)"
+msgstr "TB"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "UTILIZZO DISCO"
@@ -3956,6 +3912,9 @@ msgstr ""
 
 #~ msgid "ROOT PASSWORD"
 #~ msgstr "PASSWORD DI ROOT"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "CERCA UN CONTROLLER BLUETOOTH"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
@@ -4036,3 +3995,6 @@ msgstr ""
 #~ msgstr ""
 #~ "LA LISTA DEI PREFERITI È VUOTA. PREMI SELECT PER VISUALIZZARE TUTTI I "
 #~ "GIOCHI."
+
+#~ msgid "480i (recommended)"
+#~ msgstr "480i (consigliato)"
