@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "A RECALBOX UPDATE IS AVAILABLE"
+msgstr "UPDATE AVAILABLE"
 
 msgid "DOWNLOADED"
 msgstr "DOWNLOADED"
@@ -1036,9 +1036,7 @@ msgstr "Select your language. A reboot is needed to change this setting."
 
 msgid ""
 "Manage your recalbox updates. Select the update type. Activate update check."
-msgstr ""
-"Manage your Recalbox updates, select the update type, and toggle update "
-"checking."
+msgstr "Toggle update checking, view changelog content and start updates."
 
 msgid "Check if an update is available, and start the update process."
 msgstr "Check if an update is available, and start the update process."
@@ -1172,7 +1170,7 @@ msgstr ""
 "achievements!"
 
 msgid "Add and configure up to 5 controllers."
-msgstr "Add and configure up to 5 controllers."
+msgstr "Add and configure up to 10 controllers."
 
 msgid ""
 "Configure an associated controller. Your controller has to be associated / "
@@ -1302,7 +1300,7 @@ msgstr ""
 "ogg format in the 'music' directory of your recalbox."
 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr "Select your output device. Only HDMI and 3.5mm jacks are supported."
+msgstr "Select your output device."
 
 msgid ""
 "Configure the network options of your recalbox.\n"
@@ -1666,7 +1664,7 @@ msgid ""
 "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
 "Megadrive and more!"
 msgstr ""
-"Go online with games using through Retroarch like NES, SNES, FBA, Genesis/"
+"Go online with games using through RetroArch like NES, SNES, FBA, Genesis/"
 "Megadrive and more!"
 
 msgid "KODI/NETPLAY"
@@ -2305,7 +2303,7 @@ msgid "Hostname changes will not be effective until next reboot"
 msgstr "Hostname changes will not take effect until next reboot."
 
 msgid "Enable/Disable Arcade virtual system and set its options"
-msgstr "Enable/Disable Arcade virtual system and set its options"
+msgstr "Enable/Disable Arcade virtual system and set its options."
 
 msgid "Fetching WIFI parameters"
 msgstr "Fetching Wi-Fi parameters..."
@@ -2973,10 +2971,10 @@ msgid "AUTOMATIC"
 msgstr "AUTOMATIC"
 
 msgid "SYSTEM DRIVER"
-msgstr "SYSTEM DRIVER"
+msgstr "SYSTEM DRIVER (UDEV)"
 
 msgid "GAME LIBRARY DRIVER"
-msgstr "GAME LIBRARY DRIVER"
+msgstr "SOFTWARE DRIVER (SDL2)"
 
 msgid "Allow to swap validate button B/X and cancel button B/O"
 msgstr "Swap validate buttons (B/X) and cancel buttons (A/O)"
@@ -3508,9 +3506,8 @@ msgstr "240p"
 msgid "480p"
 msgstr "480p"
 
-#
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
 msgstr "MOVE SCREEN"
@@ -3645,14 +3642,12 @@ msgstr "Recalbox RGB Dual options and configuration."
 msgid "Select system, frontend and emulator resolutions."
 msgstr "Select system, frontend and emulator resolutions."
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B TO UNSET"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
 msgstr "PAIR BLUETOOTH CONTROLLERS"
 
-#
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any "
@@ -3662,219 +3657,178 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"The bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to apply the pairing procedure on any "
+"bluetooth controller you want to pair.\n"
+"The next window will display all detected bluetooth devices and their status "
+"for information purposes only.\n"
+"You can close it at any time, while continuing to pair your bluetooth "
+"devices for as long as the bluetooth icon is blinking on the top left."
 
-#
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "DOWN TO SKIP"
 
-#
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "START DOWNLOADING..."
 
-#
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Pair a bluetooth audio device. Put your device in discovery mode before "
+"starting."
 
-#
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "PAIR A BLUETOOTH AUDIO DEVICE"
 
-#
 msgid "Failed"
-msgstr ""
+msgstr "Failed"
 
-#
 msgid "Succeeded"
-msgstr ""
+msgstr "Succeeded"
 
-#
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 UP"
 
-#
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 DOWN"
 
-#
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 LEFT"
 
-#
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 RIGHT"
 
-#
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 UP"
 
-#
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 DOWN"
 
-#
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 LEFT"
 
-#
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 RIGHT"
 
-#
 msgid "Alias: "
-msgstr ""
+msgstr "Alias: "
 
-#
 msgid "MAC: "
-msgstr ""
+msgstr "MAC: "
 
-#
 msgid "Connected: "
-msgstr ""
+msgstr "Connected: "
 
-#
 msgid "Trusted: "
-msgstr ""
+msgstr "Trusted: "
 
-#
 msgid "Paired: "
-msgstr ""
+msgstr "Paired: "
 
-#
 msgid "Blocked: "
-msgstr ""
+msgstr "Blocked: "
 
-#
 msgid "NO DEVICE"
-msgstr ""
+msgstr "NO DEVICE"
 
-#
 msgid "SEARCH BY"
-msgstr ""
+msgstr "SEARCH BY"
 
-#
 msgid "NO RESULTS"
-msgstr ""
+msgstr "NO RESULTS"
 
-#
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORITY TO HDMI"
 
-#
 msgid "ON"
-msgstr ""
+msgstr "ON"
 
-#
 msgid "OFF"
-msgstr ""
+msgstr "OFF"
 
-#
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"You will now calibrate different resolutions for your TV. Select the refresh "
+"rate according to what your TV supports.\n"
+"During the calibration, press B to apply the mode, START to validate, and A "
+"to cancel."
 
-#
 msgid "60Hz Only"
-msgstr ""
+msgstr "60Hz Only"
 
-#
 msgid "50Hz Only"
-msgstr ""
+msgstr "50Hz Only"
 
-#
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "DISCOVERING BLUETOOTH AUDIO DEVICES..."
 
-#
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "NO AUDIO DEVICE FOUND"
 
-#
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "KODI RESOLUTION"
 
-#
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "AUDIO DEVICE PAIRED"
 
-#
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "UNABLE TO PAIR AUDIO DEVICE"
 
-#
 msgid "select a patch"
-msgstr ""
+msgstr "select a patch"
 
-#
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "BRIGHTNESS"
 
-#
 msgid "NAME"
-msgstr ""
+msgstr "NAME"
 
-#
 msgid "suspend"
-msgstr ""
+msgstr "suspend"
 
-#
 msgid "NO GAME"
-msgstr ""
+msgstr "NO GAME"
 
-#
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "NEXT RESOLUTION"
 
-#
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Game refresh rate"
 
-#
 msgid "Game resolution"
-msgstr ""
+msgstr "Game resolution"
 
-#
 msgid "CHANGELOG"
-msgstr ""
+msgstr "CHANGELOG"
 
-#
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Copying %s folder..."
 
-#
 msgid "VOLUME -"
-msgstr ""
+msgstr "VOLUME -"
 
-#
 msgid "VOLUME +"
-msgstr ""
+msgstr "VOLUME +"
 
-#
 msgid "B"
-msgstr ""
+msgstr "B"
 
-#
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
-#
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
-#
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
-#
 msgid "TB"
-msgstr ""
-
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (recommended)"
+msgstr "TB"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "DISK USAGE"
@@ -3887,6 +3841,9 @@ msgstr ""
 
 #~ msgid "ROOT PASSWORD"
 #~ msgstr "ROOT PASSWORD"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "PAIR A BLUETOOTH CONTROLLER"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
@@ -3963,3 +3920,6 @@ msgstr ""
 
 #~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 #~ msgstr "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+
+#~ msgid "480i (recommended)"
+#~ msgstr "480i (recommended)"

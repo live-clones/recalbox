@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "UNE MISE À JOUR EST DISPONIBLE POUR VOTRE RECALBOX"
+msgstr "MISE À JOUR DISPONIBLE"
 
 msgid "DOWNLOADED"
 msgstr "TÉLÉCHARGÉ"
@@ -992,7 +992,7 @@ msgstr[0] "%i JEU CACHÉ"
 msgstr[1] "%i JEUX CACHÉS"
 
 msgid "Start kodi media player."
-msgstr "LANCER LE MEDIA CENTER KODI"
+msgstr "Lancer le média center Kodi."
 
 msgid ""
 "Select the language for your recalbox, select an external drive to store "
@@ -1004,7 +1004,7 @@ msgstr ""
 "l'espace libre sur votre disque."
 
 msgid "Shows your current recalboxOS version."
-msgstr "MONTRER LA VERSION ACTUELLE DE RecalboxOS."
+msgstr "Affiche la version actuelle de Recalbox."
 
 msgid ""
 "Show how much space is used on your SHARE partition, located either on the "
@@ -1029,13 +1029,15 @@ msgstr ""
 
 msgid ""
 "Select your language. A reboot is needed to set this configuration active."
-msgstr "CHOIX DE LA LANGUE. UN RÉDEMARRAGE EST NÉCESSAIRE."
+msgstr ""
+"Sélectionnez votre langue. Un redémarrage est nécessaire pour appliquer ce "
+"paramètre."
 
 msgid ""
 "Manage your recalbox updates. Select the update type. Activate update check."
 msgstr ""
-"GESTION DES MISES A JOUR de Recalbox. Choisissez le type de mise à jour. "
-"Activez la vérification de mise à jour."
+"Activez la vérification des mise à jour, visualisez le contenu des mises à "
+"jour et lancez les mises à jour."
 
 msgid "Check if an update is available, and start the update process."
 msgstr "SI UNE MISE A JOUR EST DISPONIBLE, LANCEZ-LA !"
@@ -1113,7 +1115,7 @@ msgstr ""
 "lancez automatiquement la dernière sauvegarde quand vous lancez un jeu."
 
 msgid "Press twice the buttons to end the game and go back to main menu."
-msgstr "Appuyer deux fois pour quitter le jeu et retourner au menu principal"
+msgstr "Appuyer deux fois pour quitter le jeu et retourner au menu principal."
 
 msgid ""
 "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
@@ -1140,7 +1142,7 @@ msgstr ""
 "Les \"shaders\" sont des filtres pour le rendu du jeu. Vous pouvez choisir "
 "un \"shader set\" ici qui est une collection de \"shaders\" sélectionnés "
 "pour chaque système. Vous pouvez aussi changer de \"shader\" en cours de jeu "
-"avec 'HOTKEY' + L2 ou 'HOTKEY' + R2"
+"avec 'HOTKEY' + L2 ou 'HOTKEY' + R2."
 
 msgid "Enable or disable RetroAchievements in games."
 msgstr "Activez ou désactivez RetroAchievements dans les jeux."
@@ -1173,18 +1175,18 @@ msgid ""
 msgstr ""
 "Le site web retroachievements.org propose des challenges/succès/trophées sur "
 "les système comme NES, SNES, GB, GBC, GBA, Megadrive, TurboGrafx16/PCEngine "
-"et plus! Créez un compte sur retroachievements.org et lancez-vous dans la "
-"quête des succès!"
+"et plus ! Créez un compte sur retroachievements.org et lancez-vous dans la "
+"quête des succès !"
 
 msgid "Add and configure up to 5 controllers."
-msgstr "Ajoutez et configurez jusqu'à 5 manettes."
+msgstr "Ajoutez et configurez jusqu'à 10 manettes."
 
 msgid ""
 "Configure an associated controller. Your controller has to be associated / "
 "plugged before."
 msgstr ""
-"Configurer une manette appairée. Votre manette doit être appairée / branchée "
-"auparavant."
+"Configurer une manette appairée. Votre manette doit déjà avoir été "
+"appairée / branchée auparavant."
 
 msgid ""
 "Pair a bluetooth controller with your recalbox. Your controller must be in "
@@ -1311,8 +1313,7 @@ msgstr ""
 "Recalbox."
 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr ""
-"Sélectionnez votre périphérique de sortie. Seuls HDMI et JACK sont supportés."
+msgstr "Sélectionnez votre périphérique de sortie."
 
 msgid ""
 "Configure the network options of your recalbox.\n"
@@ -1398,7 +1399,7 @@ msgid ""
 "value is 'favorites'."
 msgstr ""
 "Choisissez quel système montrer quand Recalbox démarre.\n"
-"La valeur par défaut est 'favoris'."
+"La valeur par défaut est 'Favoris'."
 
 msgid ""
 "On boot, recalbox will show the list of games of the selected system rather "
@@ -1442,7 +1443,7 @@ msgid ""
 "Configure boot options that make your recalbox boot straight into a system "
 "or into Kodi, lock a user to a single system, or directly show the gamelist."
 msgstr ""
-"Configurez les options de démarrage de votre Recalbox : Directement dans un "
+"Configurez les options de démarrage de votre Recalbox : directement dans un "
 "système ou dans Kodi, bloquer un utilisateur dans un seul système ou montrer "
 "directement la liste de jeux."
 
@@ -1685,8 +1686,8 @@ msgid ""
 "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/"
 "Megadrive and more!"
 msgstr ""
-"Jouez en ligne à des jeux sous Retroarch comme NES, SNES, FBA, Megadrive et "
-"bien plus!"
+"Jouez en ligne à des jeux sous RetroArch comme NES, SNES, FBA, Megadrive et "
+"bien plus !"
 
 msgid "KODI/NETPLAY"
 msgstr "KODI/NETPLAY"
@@ -1785,7 +1786,7 @@ msgid "A Recalbox friend has started a Netplay game!"
 msgstr "Un ami sur Recalbox a démarré une partie Netplay !"
 
 msgid "Add a clock in the main menu."
-msgstr "Ajouter une horloge dans le menu principal"
+msgstr "Ajouter une horloge dans le menu principal."
 
 #. UPGRADE PROCESS
 msgid "UPGRADING"
@@ -1828,7 +1829,7 @@ msgid ""
 "way."
 msgstr ""
 "Scanne et vérifie tous vos fichiers BIOS, puis affiche le tout de manière "
-"compréhensible"
+"compréhensible."
 
 msgid "RESCAN"
 msgstr "RESCANNER"
@@ -2345,7 +2346,7 @@ msgid "Hostname changes will not be effective until next reboot"
 msgstr "Le changement de nom sera effectif au prochain démarrage"
 
 msgid "Enable/Disable Arcade virtual system and set its options"
-msgstr "Active/désactive le système virtuel Arcade et règle ses options"
+msgstr "Active/désactive le système virtuel Arcade et règle ses options."
 
 msgid "Fetching WIFI parameters"
 msgstr "Récupération des paramètres WIFI"
@@ -2408,7 +2409,7 @@ msgstr ""
 "pour les shaders prédéfinis."
 
 msgid "Select your keyboard layout."
-msgstr "Sélectionnez votre clavier"
+msgstr "Sélectionnez votre disposition de clavier."
 
 msgid "Mute (no sound)"
 msgstr "Coupé (pas de son)"
@@ -2914,7 +2915,7 @@ msgstr ""
 "Un redémarrage est nécessaire pour appliquer les changements en attente."
 
 msgid "SHOW LIGHTGUN SYSTEM"
-msgstr "Afficher le système Lightgun"
+msgstr "AFFICHER LE SYSTÈME LIGHTGUN"
 
 msgid "SHOW PORTS SYSTEM"
 msgstr "AFFICHER LE SYSTÈME PORTS"
@@ -3022,10 +3023,10 @@ msgid "AUTOMATIC"
 msgstr "AUTOMATIQUE"
 
 msgid "SYSTEM DRIVER"
-msgstr "PILOTE SYSTÈME"
+msgstr "PILOTE SYSTÈME (UDEV)"
 
 msgid "GAME LIBRARY DRIVER"
-msgstr "PILOTE DE LA BIBLIOTHÈQUE DE JEU"
+msgstr "PILOTE SOFTWARE (SDL2)"
 
 msgid "Allow to swap validate button B/X and cancel button B/O"
 msgstr "Permet de changer les boutons de validation B/X et d'annulation B/O"
@@ -3535,7 +3536,7 @@ msgstr ""
 "Configure les émulateurs pour vous rapprocher d'une expérience sans latence."
 
 msgid "FORCE SOUND ON JACK"
-msgstr "FORCER LE SON SUR LE JACK"
+msgstr "FORCER LE SON SUR JACK"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
@@ -3577,9 +3578,8 @@ msgstr "240p"
 msgid "480p"
 msgstr "480p"
 
-#
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
 msgstr "DÉPLACER L'ÉCRAN"
@@ -3628,7 +3628,7 @@ msgid "SAOPAULO"
 msgstr "SÃO PAULO"
 
 msgid "%i Known MD5"
-msgstr "%i MD5 connues"
+msgstr "%i MD5 connus"
 
 msgid "Switch audio output to Headphones!"
 msgstr "Basculement de la sortie audio sur le casque !"
@@ -3652,7 +3652,7 @@ msgid "DEBUG LOGS"
 msgstr "DEBUG LOGS"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr "Vous êtes sur le point de supprimer ces fichier, confirmer ?"
+msgstr "Vous êtes sur le point de supprimer ces fichiers, confirmer ?"
 
 msgid "Preparing Games..."
 msgstr "Préparation des jeux..."
@@ -3716,9 +3716,8 @@ msgid "Select system, frontend and emulator resolutions."
 msgstr ""
 "Sélectionnez les résolutions du système, du frontend et des émulateurs."
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B POUR ANNULER"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
 msgstr "ASSOCIER DES MANETTES BLUETOOTH"
@@ -3732,224 +3731,273 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
-"L'appairage bluetooth va démarrer et tourner pendant plusieurs minutes.\n"
-"Durant ce temps, vous n'avez qu'à appliquer la procédure d'appairage sur "
-"tout controleur bluetooth que vous voulez appairer.\n"
-"La fenetre suivante affichera tous les periphériques bluetooth detectés "
-"ainsi que leurs status à titre d'information uniquement.\n"
+"L'appairage Bluetooth va démarrer et tourner pendant plusieurs minutes.\n"
+"Pendant ce temps, vous n'avez qu'à appliquer la procédure d'appairage sur "
+"toute manette Bluetooth que vous voulez appairer.\n"
+"La fenêtre suivante affichera tous les périphériques Bluetooth détectés "
+"ainsi que leurs statuts à titre d'information uniquement.\n"
 "Vous pouvez la fermer à n'importe quel moment, tout en continuant à appairer "
-"vos controleurs bluetooth pendant toute la durée ou l'icone Bluetooth "
-"clignote en haut a gauche."
+"vos manettes Bluetooth pendant la durée ou l'icône Bluetooth clignote en "
+"haut à gauche."
 
-#
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "BAS POUR PASSER"
 
-#
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "DÉBUT DU TÉLÉCHARGEMENT..."
 
-#
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Associer un appareil audio Bluetooth. Mettez votre appareil en mode "
+"découverte avant de commencer."
 
-#
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "ASSOCIER DES APPAREILS AUDIO BLUETOOTH"
 
-#
 msgid "Failed"
-msgstr ""
+msgstr "Échec"
 
-#
 msgid "Succeeded"
-msgstr ""
+msgstr "Succès"
 
-#
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 HAUT"
 
-#
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 BAS"
 
-#
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 GAUCHE"
 
-#
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 DROITE"
 
-#
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 HAUT"
 
-#
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 BAS"
 
-#
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 GAUCHE"
 
-#
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 DROITE"
 
-#
 msgid "Alias: "
-msgstr ""
+msgstr "Alias : "
 
-#
 msgid "MAC: "
-msgstr ""
+msgstr "MAC : "
 
-#
 msgid "Connected: "
-msgstr ""
+msgstr "Connecté : "
 
-#
 msgid "Trusted: "
-msgstr ""
+msgstr "Approuvé : "
 
-#
 msgid "Paired: "
-msgstr ""
+msgstr "Appairé : "
 
-#
 msgid "Blocked: "
-msgstr ""
+msgstr "Bloqué : "
 
-#
 msgid "NO DEVICE"
-msgstr ""
+msgstr "AUCUN APPAREIL"
 
-#
 msgid "SEARCH BY"
-msgstr ""
+msgstr "RECHERCHER"
 
-#
 msgid "NO RESULTS"
-msgstr ""
+msgstr "AUCUN RÉSULTAT"
 
-#
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORITÉ AU HDMI"
 
-#
 msgid "ON"
-msgstr ""
+msgstr "ON"
 
-#
 msgid "OFF"
-msgstr ""
+msgstr "OFF"
 
-#
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"Vous allez maintenant calibrer différentes résolutions pour votre TV. "
+"Sélectionnez la fréquence de rafraîchissement en fonction de celles que "
+"votre téléviseur supporte.\n"
+"Pendant le calibrage, appuyez sur B pour appliquer le mode, START pour "
+"valider et A pour annuler."
 
-#
 msgid "60Hz Only"
-msgstr ""
+msgstr "60Hz Uniquement"
 
-#
 msgid "50Hz Only"
-msgstr ""
+msgstr "50Hz Uniquement"
 
-#
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "DÉCOUVERTE DES APPAREILS AUDIO BLUETOOTH..."
 
-#
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "AUCUN APPAREIL AUDIO TROUVÉ"
 
-#
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "RÉSOLUTION DE KODI"
 
-#
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "APPAREIL AUDIO APPAIRÉ"
 
-#
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "IMPOSSIBLE D'APPAIRER L'APPAREIL AUDIO"
 
-#
 msgid "select a patch"
-msgstr ""
+msgstr "CHOISIR UN PATCH"
 
-#
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "LUMINOSITÉ"
 
-#
 msgid "NAME"
-msgstr ""
+msgstr "NOM"
 
-#
 msgid "suspend"
-msgstr ""
+msgstr "suspendre"
 
-#
 msgid "NO GAME"
-msgstr ""
+msgstr "AUCUN JEU"
 
-#
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "RÉSOLUTION SUIVANTE"
 
-#
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Fréquence du jeu"
 
-#
 msgid "Game resolution"
-msgstr ""
+msgstr "Résolution du jeu"
 
-#
 msgid "CHANGELOG"
-msgstr ""
+msgstr "NOTES DE VERSION"
 
-#
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Copie du répertoire %s..."
 
-#
 msgid "VOLUME -"
-msgstr ""
+msgstr "VOLUME -"
 
-#
 msgid "VOLUME +"
-msgstr ""
+msgstr "VOLUME +"
 
-#
 msgid "B"
-msgstr ""
+msgstr "o"
 
-#
 msgid "KB"
-msgstr ""
+msgstr "ko"
 
-#
 msgid "MB"
-msgstr ""
+msgstr "mo"
 
-#
 msgid "GB"
-msgstr ""
+msgstr "go"
 
-#
 msgid "TB"
-msgstr ""
+msgstr "to"
+
+#~ msgid "DISK USAGE"
+#~ msgstr "ESPACE DISQUE"
+
+#~ msgid "SECURITY"
+#~ msgstr "SÉCURITÉ"
+
+#~ msgid "ENFORCE SECURITY"
+#~ msgstr "RENFORCER LA SÉCURITÉ"
+
+#~ msgid "ROOT PASSWORD"
+#~ msgstr "MOT DE PASSE AU DÉMARRAGE"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "ASSOCIER UNE MANETTE BLUETOOTH"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Choisissez le comportement de l'économiseur d'écran: DIM réduira la "
+#~ "luminosité de l'écran, BLACK rendra l'écran noir."
+
+#~ msgid "Manage your recalbox security."
+#~ msgstr "Gérez la sécurité de votre Recalbox."
+
+#~ msgid "Change the SSH root password."
+#~ msgstr "Modifiez le mot de passe root SSH."
+
+#~ msgid "Enforce recalbox security."
+#~ msgstr "Renforcer la sécurité de Recalbox."
+
+#~ msgid "UPDATE VERSION:"
+#~ msgstr "VERSION MISE ­À JOUR :"
+
+#~ msgid "Rom found"
+#~ msgstr "Rom trouvée"
+
+#~ msgid ""
+#~ "Copy current system on another device.\n"
+#~ "Warning ! It will erase all data on target device."
+#~ msgstr ""
+#~ "Copier le système actuel sur un autre périphérique.\n"
+#~ "Attention ! Cela effacera tout le contenu de la cible."
+
+#~ msgid "Show a 'all-games' system with all ames from all systems."
+#~ msgstr "Ajoute un système qui contient tous les jeux de tous les systèmes."
+
+#~ msgid "Real Time Stratégy"
+#~ msgstr "Stratégie Temps Réel"
+
+#~ msgid ""
+#~ "If you push the POWER button more than 2 seconds, this will power-off "
+#~ "your console. If you do so in-game, Recalbox will close the current "
+#~ "emulator gracefully before.\n"
+#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
+#~ "power-off.\n"
+#~ "\n"
+#~ "Press button B to continue."
+#~ msgstr ""
+#~ "Si vous laissez appuyé le bouton POWER plus de 2 secondes, votre console "
+#~ "s'arrêtera. Si vous le faites en cours de jeu, Recalbox fermera "
+#~ "proprement l'émulateur en cours.\n"
+#~ "Juste au cas ou, laisser appuyé le bouton POWER plus de 5 secondes "
+#~ "provoquera un arrêt matériel.\n"
+#~ "\n"
+#~ "Appuyez sur le bouton B pour continuer."
+
+#~ msgid "added to favorites"
+#~ msgstr "ajouté aux favoris"
+
+#~ msgid "removed from favorites"
+#~ msgstr "retiré des favoris"
+
+#~ msgid ""
+#~ "Gameclips cannot be played\n"
+#~ "\n"
+#~ "No video availabe for you selection"
+#~ msgstr ""
+#~ "Les clips de jeux ne peuvent être lus\n"
+#~ "\n"
+#~ "Aucune vidéo disponible pour votre selection"
+
+#~ msgid "Analog Output"
+#~ msgstr "Sortie analogique"
+
+#~ msgid "HDMI / DisplayPort"
+#~ msgstr "HDMI / DisplayPort"
+
+#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+#~ msgstr ""
+#~ "VOTRE LISTE DE FAVORIS EST VIDE. APPUYEZ SUR SELECT POUR AFFICHER TOUS "
+#~ "LES JEUX."
 
 #~ msgid "480i (recommended)"
 #~ msgstr "480i (recommandé)"
