@@ -95,8 +95,8 @@ msgstr ""
 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i SPIEL ERFOLGREICH GESCRAPED"
-msgstr[1] "%i SPIELE ERFOLGREICH GESCRAPED"
+msgstr[0] "%i SPIEL ERFOLGREICH GESCRAPED!"
+msgstr[1] "%i SPIELE ERFOLGREICH GESCRAPED!"
 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
@@ -523,7 +523,7 @@ msgid "NO CONTROLLERS FOUND"
 msgstr "KEIN CONTROLLER GEFUNDEN"
 
 msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
-msgstr "CONTROLLER VERBINDUNG WURDE GELÖSCHT"
+msgstr "CONTROLLER VERBINDUNG WURDE GELÖSCHT."
 
 msgid "FORGET BLUETOOTH CONTROLLERS"
 msgstr "BLUETOOTH CONTROLLER VERGESSEN"
@@ -588,7 +588,7 @@ msgstr ""
 "TROTZDEM FORTFAHREN?"
 
 msgid "NO GAMES FIT THAT CRITERIA."
-msgstr "KEIN SPIEL ERFÜLLT DIE KRITERIEN"
+msgstr "KEIN SPIEL ERFÜLLT DIE KRITERIEN."
 
 msgid "REALLY UPDATE?"
 msgstr "WIRKLICH AKTUALISIEREN?"
@@ -986,7 +986,7 @@ msgid ""
 "IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
 msgstr ""
 "TURBO UND EXTREM ÜBERTAKTUNG KÖNNEN ZU SYSTEMINSTABILITÄT FÜHREN. BENUTZUNG "
-"DESHALB AUF EIGENE GEFAHR. WENN DU FORTFÄHRST, WIRD DAS SYSTEM JETZT NEU "
+"DESHALB AUF EIGENE GEFAHR! WENN DU FORTFÄHRST, WIRD DAS SYSTEM JETZT NEU "
 "GESTARTET."
 
 msgid "%i GAME HIDDEN"
@@ -1060,8 +1060,8 @@ msgstr ""
 "Unstable-Updates ermöglichen es dir, die neuesten Recalbox-Features zu "
 "benutzen. Du kannst mit uns die neueste Version testen und validieren.\n"
 "Falls du die Unstable-Updates gewählt hast, würden wir es schätzen wenn du "
-"gefundene Fehler mit uns teilen würdest (https://github.com/recalbox/"
-"recalbox-os/issues)."
+"gefundene Fehler mit uns teilen würdest (https://gitlab.com/recalbox/"
+"recalbox/issues)."
 
 msgid ""
 "Automatically check if an update is avaialble. If so, it notifies you with a "
@@ -1117,8 +1117,7 @@ msgstr ""
 
 msgid "Press twice the buttons to end the game and go back to main menu."
 msgstr ""
-"Drücken Sie zweimal, um das Spiel zu verlassen und zum Hauptmenü "
-"zurückzukehren."
+"Drücke zweimal, um das Spiel zu verlassen und zum Hauptmenü zurückzukehren."
 
 msgid ""
 "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, "
@@ -1551,7 +1550,7 @@ msgid ""
 "and select 'Hide'."
 msgstr ""
 "Wechsle zwischen VERSTECKTE Spiele sehen, oder nicht. Um ein Spiel "
-"auszublenden, bearbeite Sie dessen Daten und wähle 'Verstecken'."
+"auszublenden, bearbeite dessen Daten und wähle 'Verstecken'."
 
 msgid ""
 "Switch between seeing the folders structure and seeing all games in a "
@@ -2096,7 +2095,7 @@ msgid "SCRAPE IMAGE"
 msgstr "BILD SCRAPEN"
 
 msgid "SELECT THUMBNAIL TYPE"
-msgstr "WÄHLEN SIE DEN VORSCHAUBILD-TYP"
+msgstr "WÄHLE DEN VORSCHAUBILD-TYP"
 
 msgid "No thumbnail"
 msgstr "Keine Vorschaubild"
@@ -2105,7 +2104,7 @@ msgid "SCRAPE THUMBNAIL"
 msgstr "VORSCHAUBILD SCRAPEN"
 
 msgid "SELECT VIDEO TYPE"
-msgstr "WÄHLEN SIE DEN VIDEOTYP AUS"
+msgstr "WÄHLE DEN VIDEOTYP AUS"
 
 msgid "No video"
 msgstr "Kein Video"
@@ -2120,13 +2119,13 @@ msgid "SCRAPE VIDEO"
 msgstr "VIDEO SCRAPEN"
 
 msgid "SELECT FAVORITE REGION"
-msgstr "WÄHLEN SIE IHRE BEVORZUGTE REGION"
+msgstr "WÄHLE DEINE BEVORZUGTE REGION"
 
 msgid "FAVORITE REGION"
 msgstr "BEVORZUGTE REGION"
 
 msgid "SELECT FAVORITE LANGUAGE"
-msgstr "WÄHLEN SIE IHRE BEVORZUGTE SPRACHE"
+msgstr "WÄHLE DEINE BEVORZUGTE SPRACHE"
 
 msgid "FAVORITE LANGUAGE"
 msgstr "BEVORZUGTE SPRACHE"
@@ -2167,7 +2166,7 @@ msgstr ""
 "Das Spiel '%game%' wird höchstwahrscheinlich nicht funktionieren, bis die "
 "erforderlichen BIOS in das richtige Verzeichnis gelegt werden.\n"
 "\\v\n"
-"Wollen Sie das Spiel trotzdem starten ?"
+"Willst Du das Spiel trotzdem starten?"
 
 msgid "BACKSPACE"
 msgstr "RÜCKTASTE"
@@ -2914,7 +2913,7 @@ msgid "DETECTED REGION"
 msgstr "DETEKTIERTE REGION"
 
 msgid "SELECT REGION PRIORITY"
-msgstr "WÄHLEN SIE IHRE REGION PRIORITÄT"
+msgstr "REGION PRIORITÄT AUSWÄHLEN"
 
 msgid "LATER"
 msgstr "SPÄTER"
@@ -2940,7 +2939,7 @@ msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
 "carefully!"
 msgstr ""
-"WARNUNG : Diese Option löscht alle Recalbox- und Emulator-Konfigurationen !"
+"WARNUNG : Diese Option löscht alle Recalbox- und Emulator-Konfigurationen!"
 
 msgid "RESET TO FACTORY SETTINGS"
 msgstr "WERKSEINSTELLUNGEN WIEDERHERSTELLEN"
@@ -2960,23 +2959,22 @@ msgid ""
 msgstr ""
 "WERKSEINSTELLUNGEN WIEDERHERSTELLEN\n"
 "\n"
-"SIND SIE DABEI, DIE WERKSEINSTELLUNGEN VON RECALBOX UND ALLEN EMULATOREN "
-"WIEDERHERZUSTELLEN!\n"
-"ALLE IHRE SPIELE, SPIELSTÄNDE, MUSIK, SCREENSHOTS USW. ERHALTEN BLEIBEN.\n"
+"DU BIST DABEI, DIE WERKSEINSTELLUNGEN VON RECALBOX UND ALLEN EMULATOREN "
+"WIEDERHERZUSTELLEN.\n"
+"ALLE DEINE SPIELE, SPIELSTÄNDE, MUSIK, SCREENSHOTS USW. BLEIBEN ERHALTEN.\n"
 "\n"
-"DIESER VORGANG KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN !\n"
-"\n"
-"SIND SIE SICHER, DASS SIE DIE WERKSEINSTELLUNGEN WIEDERHERSTELLEN WOLLEN ?"
+"DIESER VORGANG KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN!\n"
+"BIST DU SICHER, DASS DU DIE WERKSEINSTELLUNGEN WIEDERHERSTELLEN WILLST?"
 
 msgid ""
 "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
 "\n"
 "ARE YOU REALLY SURE YOU WANT TO DO THIS?"
 msgstr ""
-"SIND SIE NUR EINEN KLICK DAVON ENTFERNT, DIE WERKSEINSTELLUNGEN VON RECALBOX "
-"UND ALLEN EMULATOREN WIEDERHERZUSTELLEN !\n"
+"DU BIST NUR EINEN KLICK DAVON ENTFERNT, DIE WERKSEINSTELLUNGEN VON RECALBOX "
+"UND ALLEN EMULATOREN WIEDERHERZUSTELLEN!\n"
 "\n"
-"SIND SIE WIRKLICH SICHER, DASS SIE DAS TUN WOLLEN ?"
+"BIST DU WIRKLICH SICHER, DASS DU DAS TUN WILLST?"
 
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
 msgstr "BUTTONS ZUM BESTÄTIGEN/ABBRECHEN VERTAUSCHEN"
@@ -2985,8 +2983,7 @@ msgid "AUDIO MODE"
 msgstr "AUDIO-MODUS"
 
 msgid "Select sound to play. Musics, videos sound, both or none"
-msgstr ""
-"Wählen Sie den abzuspielenden Ton aus. Musik, Videoton, beides oder keine"
+msgstr "Wähle den abzuspielenden Ton aus. Musik, Videoton, beides oder keine"
 
 msgid "Musics or videos sound"
 msgstr "Musik oder Ton der Videos"
@@ -3411,54 +3408,63 @@ msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"Wenn Du Deine Recalbox in ein Gehäuse installiert hast, kannst Du es hier "
+"installieren oder deinstallieren. Einige Gehäuse werden automatisch erkannt "
+"und auch hier aufgelistet."
 
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "Initialisiere roms Ordner..."
 
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "Initialisiere share Ordner..."
 
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
+"Das USB-Gerät %NAME% ohne rom-Ordner und ohne share-Ordner wurde "
+"eingesteckt! Möchtest Du dieses Gerät initialisieren?"
 
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "• Wähle '%INIT%' um nur alle rom Ordner zu anzulegen"
 
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
+"• Wähle '%MOVE%', um die gesamte aktuelle Freigabe auf das neue Gerät zu "
+"kopieren, automatisch zu diesem Gerät zu wechseln und neu zu starten"
 
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr ""
+msgstr "• Oder wähle '%CANCEL%' um nichts mit diesem neuen Gerät zu tun"
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INITIALISIERE"
 
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "VERSCHIEBE SHARE"
 
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "Startgerät einrichten..."
 
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
+"Dein USB-Gerät wurde initialisiert! Bereit zum Neustart auf Deinem neuen "
+"Share-Gerät!"
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "AUTUALISIERE..."
 
 msgid "%i file"
-msgstr ""
+msgstr "%i Datei"
 
 msgid "%i files"
-msgstr ""
+msgstr "%i Dateien"
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
@@ -3470,241 +3476,256 @@ msgstr ""
 "elektronischen Teil) auf ON stehen."
 
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "RGB Ausgabe für VGA666, PI2SCART, RGBPI."
 
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "CRT ADAPTER"
 
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Aktiviere RGB Ausgabe für VGA666, PI2SCART, RGBPI"
 
 msgid "MENU RESOLUTION"
-msgstr ""
+msgstr "MENUAUFLÖSUNG"
 
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
 msgstr ""
+"Wähle die Auflösung der Emulationsstation. 480i wird für bessere Details "
+"empfohlen."
 
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "BILDSCHIRMTYP"
 
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "ERZWINGE 50HZ"
 
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "AKTUALISIERUNGSRATE DES SPIELS BEIM START AUSWÄHLEN"
 
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
-msgstr ""
+msgstr "Wähle beim Start zwischen 50Hz und 60Hz für kompatible Systeme."
 
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "SPIELAUFLÖSUNG BEI START AUSWÄHLEN"
 
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
+"Wähle beim Start zwischen 240p, 480i, oder 480p für kompatible Systeme."
 
 msgid "RUN DEMOS IN 240P@120"
-msgstr ""
+msgstr "STARTE DEMOS IN 240P@120"
 
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "Führe die Demos in 240p-Auflösung auf Deinem 31-kHz-Monitor aus."
 
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "SCANLINES IN 480P"
 
 msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
+"Füge Scanlines hinzu, wenn Du Spiele in 480p auf einem 31-kHz-Bildschirm "
+"ausführst."
 
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "ZERO LAG (BETA)"
 
 msgid "Configure emulators to approach a zero lag experience."
-msgstr ""
+msgstr "Konfiguriere Emulatoren, um dich einem Zero-Lag-Erlebnis anzunähern."
 
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "ERZWINGE TON AUF KLINKE"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
+"Ton auf Klinke erzwingen. Automatisch aktiviert, wenn die 31-kHz-Option auf "
+"ON gesetzt ist"
 
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "BILDSCHIRMKALIBRIERUNG (BETA)"
 
 msgid "PAL HORIZONTAL OFFSET"
-msgstr ""
+msgstr "PAL HORIZONTALE VERSCHIEBUNG"
 
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
+"Wenn die PAL-Bilder nicht zentriert sind, kannst Du hier den standardmäßigen "
+"horizontalen Versatz überschreiben."
 
 msgid "PAL VERTICAL OFFSET"
-msgstr ""
+msgstr "PAL VERTIKALE VERSCHIEBUNG"
 
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
+"Wenn die PAL-Bilder nicht zentriert sind, kannst Du hier den standardmäßigen "
+"vertikalen Versatz überschreiben."
 
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "CRT EINSTELLUNGEN"
 
 msgid "(Hardware managed)"
-msgstr ""
+msgstr "(Hardware verwaltet)"
 
 msgid "240p"
-msgstr ""
+msgstr "240p"
 
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
-#
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
-msgstr ""
+msgstr "BILDSCHIRM BEWEGEN"
 
 msgid "WIDER"
-msgstr ""
+msgstr "WEITER"
 
 msgid "NARROWER"
-msgstr ""
+msgstr "ENGER"
 
 msgid "VALIDATE CHANGES"
-msgstr ""
+msgstr "ÄNDERUNGEN VALIDIEREN"
 
 msgid "Image width:"
-msgstr ""
+msgstr "Bildbreite:"
 
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "Horizontale Verschiebung:"
 
 msgid "Vertical offset:"
-msgstr ""
+msgstr "Vertikale Verschiebung:"
 
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
-msgstr ""
+msgstr "DEINE LISTE IST LEER. DRÜCKE START, UM SPIELFILTER ZU ÄNDERN."
 
 msgid "Select a region to filter out games not matching the selected region."
 msgstr ""
+"Wähle eine Region aus, um Spiele herauszufiltern, die nicht der ausgewählten "
+"Region entsprechen."
 
 msgid "SOFTPATCHING"
-msgstr ""
+msgstr "SOFTPATCHING"
 
 msgid "SYSTEM RESOLUTIONS"
-msgstr ""
+msgstr "SYSTEMAUFLÖSUNGEN"
 
 msgid "AUTOMATIC SCRAPING"
-msgstr ""
+msgstr "AUTOMATISCHES SCRAPING"
 
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "IM HINTERGRUND STARTEN"
 
 msgid "MONTREAL"
-msgstr ""
+msgstr "MONTREAL"
 
 msgid "SAOPAULO"
-msgstr ""
+msgstr "SAOPAULO"
 
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i Bekannter MD5"
 
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "Audioausgabe auf Kopfhörer umschalten!"
 
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "Audioausgabe zurück auf Lautsprecher umschalten!"
 
 msgid "Restarting."
-msgstr ""
+msgstr "Starte neu."
 
 msgid "Entering standby..."
-msgstr ""
+msgstr "Gehe in den Standby..."
 
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "PAD ZU TASTATUR STEUERUNG"
 
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "DEBUG-PROTOKOLLE"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "Du bist im Begriff, diese Dateien zu löschen. Bestätigen?"
 
 msgid "Preparing Games..."
-msgstr ""
+msgstr "Spiele vorbereiten..."
 
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "Einige Spiele sind noch nicht netplay-fähig."
 
 msgid "Free"
-msgstr ""
+msgstr "Frei"
 
 msgid "FADE"
-msgstr ""
+msgstr "ÜBERBLENDEN"
 
 msgid "SLIDE"
-msgstr ""
+msgstr "GLEITEN"
 
 msgid "INSTANT"
-msgstr ""
+msgstr "SOFORT"
 
 msgid "Are you sure the selected theme is compatible with CRT screens?"
 msgstr ""
+"Bist Du sicher, dass das ausgewählte Theme mit CRT-Bildschirmen kompatibel "
+"ist?"
 
 msgid "You must have at least %dGB free on 'SHARE' partition!"
 msgstr ""
+"Du musst mindestens %dGB freien Speicher auf der 'SHARE'-Partition haben!"
 
 msgid "ADD STAR"
-msgstr ""
+msgstr "STERN HINZUFÜGEN"
 
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"Der freie Speicherplatz auf Gerät %NAME% ist unter %LIMIT% gesunken!\n"
+"Du solltest schnell versuchen etwas Speicherplatz freizugeben!"
 
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60Hz (US)"
 
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60Hz (JP)"
 
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50Hz (EU)"
 
 msgid "60Hz"
-msgstr ""
+msgstr "60Hz"
 
 msgid "50Hz"
-msgstr ""
+msgstr "50Hz"
 
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Recalbox RGB Dual Optionen und Konfiguration."
 
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "Wählen Sie System-, Frontend- und Emulatorauflösungen aus."
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B ZUM AUFHEBEN"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "BLUETOOTH-CONTROLLER KOPPELN"
 
-#
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any "
@@ -3714,216 +3735,179 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"Die Bluetooth-Kopplung wird gestartet und läuft einige Minuten lang.\n"
+"Während dieser Zeit musst du nur das Verbindungsverfahren auf jeden "
+"Bluetooth-Controller anwenden, den du verbinden möchtest.\n"
+"Im nächsten Fenster werden alle erkannten Bluetooth-Geräte und ihr Status "
+"nur zu Informationszwecken angezeigt.\n"
+"Du kannst dies jederzeit schließen, während du deine Bluetooth-Geräte "
+"weiterhin koppelst, solange das Bluetooth-Symbol oben links blinkt."
 
-#
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "RUNTER ZUM ÜBERSPRINGEN"
 
-#
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "HERUNTERLADEN BEGINNT..."
 
-#
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Kopple ein Bluetooth-Audiogerät. Versetze das Gerät vor dem Start in den "
+"Erkennungsmodus."
 
-#
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "EIN BLUETOOTH-AUDIOGERÄT KOPPELN"
 
-#
 msgid "Failed"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
-#
 msgid "Succeeded"
-msgstr ""
+msgstr "Erfolgreich"
 
-#
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 HOCH"
 
-#
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 RUNTER"
 
-#
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 LINKS"
 
-#
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 RECHTS"
 
-#
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 HOCH"
 
-#
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 RUNTER"
 
-#
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 LINKS"
 
-#
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 RECHTS"
 
-#
 msgid "Alias: "
-msgstr ""
+msgstr "Alias:␣"
 
-#
 msgid "MAC: "
-msgstr ""
+msgstr "MAC:␣"
 
-#
 msgid "Connected: "
-msgstr ""
+msgstr "Verbunden:␣"
 
-#
 msgid "Trusted: "
-msgstr ""
+msgstr "Trusted:␣"
 
-#
 msgid "Paired: "
-msgstr ""
+msgstr "Gekoppelt:␣"
 
-#
 msgid "Blocked: "
-msgstr ""
+msgstr "Gesperrt:␣"
 
-#
 msgid "NO DEVICE"
-msgstr ""
+msgstr "KEIN GERÄT"
 
-#
 msgid "SEARCH BY"
-msgstr ""
+msgstr "SUCHEN MIT"
 
-#
 msgid "NO RESULTS"
-msgstr ""
+msgstr "KEINE ERGEBNISSE"
 
-#
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORITÄT FÜR HDMI"
 
-#
 msgid "ON"
-msgstr ""
+msgstr "AN"
 
-#
 msgid "OFF"
-msgstr ""
+msgstr "AUS"
 
-#
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"Du wirst nun verschiedene Auflösungen für deinen TV kalibrieren. Wähle die "
+"Bildwiederholfrequenz entsprechend der von deinem TV unterstützten "
+"Auflösung.\n"
+"Drücke während der Kalibrierung B, um den Modus zu übernehmen, START, um zu "
+"bestätigen, und A, um abzubrechen."
 
-#
 msgid "60Hz Only"
-msgstr ""
+msgstr "Nur 60Hz"
 
-#
 msgid "50Hz Only"
-msgstr ""
+msgstr "Nur 50Hz"
 
-#
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "ERKENNUNG VON BLUETOOTH-AUDIOGERÄTEN..."
 
-#
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "KEIN AUDIOGERÄT GEFUNDEN"
 
-#
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "KODI AUFLÖSUNG"
 
-#
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "AUDIOGERÄT GEKOPPELT"
 
-#
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "AUDIOGERÄT KANN NICHT GEKOPPELT WERDEN"
 
-#
 msgid "select a patch"
-msgstr ""
+msgstr "wähle einen Patch"
 
-#
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "HELLIGKEIT"
 
-#
 msgid "NAME"
-msgstr ""
+msgstr "NAME"
 
-#
 msgid "suspend"
-msgstr ""
+msgstr "aufschieben"
 
-#
 msgid "NO GAME"
-msgstr ""
+msgstr "KEIN SPIEL"
 
-#
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "NÄCHSTE AUFLÖSUNG"
 
-#
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Bildwiederholfrequenz des Spiels"
 
-#
 msgid "Game resolution"
-msgstr ""
+msgstr "Auflösung des Spiels"
 
-#
 msgid "CHANGELOG"
-msgstr ""
+msgstr "CHANGELOG"
 
-#
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Kopiere Ordner %s..."
 
-#
 msgid "VOLUME -"
-msgstr ""
+msgstr "LAUTSTÄRKE -"
 
-#
 msgid "VOLUME +"
-msgstr ""
+msgstr "LAUTSTÄRKE +"
 
-#
 msgid "B"
-msgstr ""
+msgstr "B"
 
-#
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
-#
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
-#
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
-#
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "SPEICHERNUTZUNG"
@@ -3936,6 +3920,9 @@ msgstr ""
 
 #~ msgid "ROOT PASSWORD"
 #~ msgstr "ROOT PASSWORT"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "EINEN BLUETOOTH CONTROLLER VERBINDEN"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
@@ -4013,3 +4000,6 @@ msgstr ""
 #~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 #~ msgstr ""
 #~ "DEINE FAVOURITENLISTE IST LEER. DRÜCKE SELECT, UM ALLE SPIELE ANZUZEIGEN."
+
+#~ msgid "480i (recommended)"
+#~ msgstr "480i (empfohlen)"
