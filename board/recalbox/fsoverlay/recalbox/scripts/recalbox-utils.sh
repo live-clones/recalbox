@@ -130,6 +130,26 @@ isScreenConnected() {
     return $RETURNCODE
 }
 
+# Disable dpi connectors
+disableDPIConnectors() {
+    for card in $(ls /sys/class/drm/ | grep VGA); do
+        echo "off" > "/sys/class/drm/${card}/status"
+    done
+}
+
+# Disable HDMI connectors
+disableHDMIConnectors() {
+    for card in $(ls /sys/class/drm/ | grep HDMI); do
+        echo "off" > "/sys/class/drm/${card}/status"
+    done
+}
+
+# Enable the DPI connector
+enableDPIConnectors() {
+    for card in $(ls /sys/class/drm/ | grep VGA); do
+        echo "on" > "/sys/class/drm/${card}/status"
+    done
+}
 ##
 # getBoardName
 # return the detected board from /boot/recalbox-boot.conf
