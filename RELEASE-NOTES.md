@@ -4,17 +4,28 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 8.2-Electron
+## Version 9-Pulstar
 
 ### News
-- Add 240p theme as default for GPiCase 1 
-- Add kodi resolution menu selection and dynamic resolution for CRT
-- Add libretro-pcsx rearmed for OGA/OGS
+
+- Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
+- Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
+- Add support for 4k video in Kodi for Raspberry Pi 4
+- New bluetooth system
+  - Audio devices can be paired in sound settings
+  - Joysticks and joypads will be automatically paired on first boot
+  - New background pairing, letting new devices pair for 5 minutes
+- Add 'Z-Machine' emulator with new core frotz
+- Add 'Philips VG5000' emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
+- Add 'Macintosh' emulator with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
+- Add 'C64' Vice standalone emulator 3.6.1
+- Add game Pong Recalbox Edition by Studio 40A on Gameboy
+- Add demo Astebros (Neofid studio) on Megadrive
+- Add 240p theme as default for GPiCase 1
+- Add Playstation core libretro-pcsx-rearmed for OGA/OGS
 - Add new category 'Demoscene' in tic80 games downloader.
-- Add the possibility to sort games by release date.
-- Add Philips VG5000 emulator (RB5000, a new Recalbox's emulator based on DCVG5K)
-- Add standalone vice emulator 3.6.1 (c64)
-- RRGBD:
+- Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
+- Recalbox RGB Dual:
   - Add multiple resolution calibration screen
   - Add HDMI priority option in recalbox rgb dual to switch between Scart and HDMI
   - Add neogeocd, picodrive and pcsx rearmed, cores for rrgbd
@@ -26,18 +37,13 @@ as release notes for end user on a Recalbox upgrade.
   - Add mupen64plus glide64mk2 support
   - Add multiple PAL/NTSC modes
   - Add 240p@120Hz frontend resolution for 31kHz screens
-- Add game Pong Recalbox Edition by Studio 40A on gameboy
-- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
-- Add new system 'Macintosh' with new core libretro-MinivMac (RPi3/RPi4/XU4/OGS/PC)
-- Add support for nVidia Prime Offloading (for computers with both iGPU and nVidia GPU)
-- Enhance shader support by setting multi threaded renderer when shader enabled
-- Add new system 'Z-Machine' with new core frotz
-- Add new Kodi theme for lower resolutions
-- Add Raspberry Pi Touch Display case support for Raspberry Pi 3 and 4
-- Add RetroFlag GPi2W case support with only Raspberry Pi Zero2 board
-- Add demo Astebros (Neofid studio) on megadrive
+  - Add kodi resolution menu selection and dynamic resolution for CRT
+  - Add new Kodi theme for 240p/480i resolutions
+- Add H/W video decoding for Raspberry Pi 4, Pi 3 & Pi zero 2
 
 ### Improvements
+- Add the possibility to sort games by release date.
+- Enhance shader support by setting multi-threaded renderer when shader enabled
 - Improve metadata storage, using far less memory for huge game collections
 - Bump libretro pcsx-rearmed
 - Bump libretro gong
@@ -57,17 +63,11 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro fbneo
 - Bump libretro uae
 - Bump libretro dosbox-pure
-- Add support for 4k video in Kodi for Raspberry Pi 4
-- Enable H/W video decoding for Raspberry Pi 4, Pi 3 & Pi zero 2
 - Improve AppleIIGS configurator & add eXoAppleIIGS config support
-- Improve bluetooth devices pairing
-  - Audio devices can be paired in sound settings
-  - Joysticks and joypads will be automatically paired on first boot
-  - No more pairing menu, just start discovery on your joystick and select "Pair a bluetooth controller"
-  - Detection and pairing stays in background for 5 minutes
 - Bump libretro-mesen
 
 ### Fixes
+- Fix resolution selection in frontend for Raspberry Pi 4/400/3/Zero2 (KMS)
 - Fix crash libretro pcsx-rearmed for x64
 - Add .wia file extension for Gamecube and Wii + .gcz for Wii.
 - Fix pad 8bitdo Pro 2 mode D (Android)
