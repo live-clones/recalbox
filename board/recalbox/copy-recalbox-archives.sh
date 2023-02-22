@@ -222,6 +222,9 @@ case "${RECALBOX_TARGET}" in
 	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot" || exit 1
 	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/extlinux" || exit 1
 	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/dtb" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/uboot/64" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/uboot/16384" || exit 1
+	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/uboot/24576" || exit 1
 
 	# /boot
 	echo "generating boot"
@@ -233,6 +236,9 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rg353x-firmware/boot/initrd.gz" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/rg353x-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rg353x-firmware/boot/recalbox" || exit 1
+	cp "${BINARIES_DIR}/idbloader.img" "${BINARIES_DIR}/rg353x-firmware/boot/uboot/64/" || exit 1
+	cp "${BINARIES_DIR}/uboot.img"     "${BINARIES_DIR}/rg353x-firmware/boot/uboot/16384/" || exit 1
+	cp "${BINARIES_DIR}/resource.img"  "${BINARIES_DIR}/rg353x-firmware/boot/uboot/24576/" || exit 1
   [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rg353x-firmware/pre-upgrade.sh"
 
