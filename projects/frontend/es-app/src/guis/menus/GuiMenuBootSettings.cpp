@@ -48,7 +48,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemE
       found |= match;
       list.push_back({ system->FullName(), system->Name(), match });
     }
-  list.push_back({ SystemManager::sFavoriteSystemShortName, SystemManager::sFavoriteSystemShortName, !found });
+  list.push_back({ _("Favorites"), SystemManager::sFavoriteSystemShortName, !found });
 
   return list;
 }
