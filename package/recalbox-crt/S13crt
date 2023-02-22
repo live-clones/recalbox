@@ -222,6 +222,13 @@ if test "$1" == "start"; then
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
+            # As we will save the current config as the HDMI one, let's force the HDMI output
+            recallog -s "S13crt" -t "CRT" "Saving current configuration as HDMI configuration (forcing hdmi sound output)"
+            if [ "$(getArchName)" = "rpi3" ]; then
+                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-3f902000.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+            else
+                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-fef00700.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+            fi
             switchTo "CRT"
             configure_rbconf
             configure_kodi
@@ -231,15 +238,6 @@ if test "$1" == "start"; then
             exit 0
         fi
 
-        if rrgbdHDMIPriority && ! currentConfigIsHDMI; then
-            recallog -s "S13crt" -t "CRT" "HDMI has been forced in configuration, switching to HDMI."
-            switchTo "HDMI"
-        fi
-        if ! rrgbdHDMIPriority && currentConfigIsHDMI; then
-            recallog -s "S13crt" -t "CRT" "HDMI is not forced anymore, switching to CRT."
-            switchTo "CRT"
-        fi
-
         if rrgbdHDMIPriority; then
             # Check if any HDMI is connected
             if isScreenConnected; then
@@ -247,17 +245,20 @@ if test "$1" == "start"; then
                 if ! currentConfigIsHDMI; then
                     switchTo "HDMI"
                 fi
-                # Just in case (should have been done by S05 -> kms-manager
-                echo "off" >"/sys/class/drm/card1-VGA-1/status"
             else
                 recallog -s "S13crt" -t "CRT" "Force HDMI set but no HDMI connected, keeping VGA video"
                 if currentConfigIsHDMI; then
                     switchTo "CRT"
                 fi
-                echo "on" >"/sys/class/drm/card1-VGA-1/status"
+                # Re-enable DPI connector as it has been disabled by kms-manager
+                enableDPIConnectors
+            fi
+        else
+            if currentConfigIsHDMI; then
+                recallog -s "S13crt" -t "CRT" "HDMI is not forced anymore, switching back to CRT."
+                switchTo "CRT"
             fi
         fi
-
         # RRGBD 31khz switch means we must force jack audio
         # and remove the hdmi_force_hotplug option because it block the 480p@60 mode
         # Should be done at least one boot after the first boot (installation of recalbox),

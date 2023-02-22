@@ -67,12 +67,12 @@ if isCRTLoaded; then
   if ! rrgbdHDMIPriority; then
     # Disable HDMI output
     log_info "Recalbox RGB Dual detected, disabling HDMI connectors"
-    echo "off" > /sys/class/drm/card1-HDMI-A-1/status
-    echo "off" > /sys/class/drm/card1-HDMI-A-2/status
+    disableHDMIConnectors
     exit
   else
     # HDMI is priority, so we disable VGA. S13crt will reenable it if HDMI is not found
-    echo "off" > /sys/class/drm/card1-VGA-1/status
+    log_info "Recalbox RGB Dual detected with priority to HDMI, disabling DPI"
+    disableDPIConnectors
   fi
 fi
 
