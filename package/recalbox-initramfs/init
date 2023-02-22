@@ -4,6 +4,7 @@
 #!/bin/ash
 
 safeboot="/overlay_root/.safeboot"
+ubootlog="/boot_root/boot/uboot.log"
 
 do_splash() {
     img="$1"
@@ -72,6 +73,49 @@ do_update() {
     # delete content of /boot_root/update/
     rm -rf /boot_root/update/
     mkdir /boot_root/update/
+
+    # remove useless files
+    rm /boot_root/boot.lst
+    rm /boot_root/pre-upgrade.sh
+}
+
+get_boot_device() {
+    # return /dev entry which is mounted under /boot_root
+    mount >&2
+    part=$(mount | sed '/\/boot_root/!d;s/\son\s*.*//')
+    part=${part#/dev/}
+    disk=$(readlink /sys/class/block/$part)
+    disk=$(dirname $disk)
+    disk=/dev/$(basename $disk)
+    echo $disk
+}
+
+do_flash() {
+    # flash uboot:
+    # $1 file name to flash
+    # $2 device where to flash
+    # $3 sector where to flash
+    echo "will flash $1 on $2 at sector $3"
+    dd if="$1" of="$2" conv=notrunc seek="$3"
+}
+
+do_uboot_update() {
+    echo "==========================="
+    boot_device=$(get_boot_device)
+    if [ -z "$boot_device" ]; then
+        echo "boot device not found..." >&2
+        return 1
+    fi
+
+    echo "boot_device=$boot_device"
+
+    find /boot_root/boot/uboot -type f | while read -r file; do
+      echo "found $file"
+      sector_dir=$(dirname $file)
+      sector=$(basename $sector_dir)
+      do_flash "$file" "$boot_device" "$sector"
+      rm -rf "$sector_dir"
+    done
 }
 
 do_root() {
@@ -112,6 +156,7 @@ do_root() {
     if check_update ; then
         if ! do_update ; then return 1; fi
         updated="1"
+        [ -d /boot_root/boot/uboot ] && do_uboot_update >>$ubootlog 2>&1
     fi
 
     # Get overlay mount
