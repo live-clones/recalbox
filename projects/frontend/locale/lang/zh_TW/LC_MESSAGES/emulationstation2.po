@@ -97,7 +97,7 @@ msgstr ""
 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i 個遊戲資料搜括成功！"
+msgstr[0] "%i 個遊戲資料抓取成功！"
 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
@@ -116,10 +116,10 @@ msgid "PLEASE VISIT"
 msgstr "請訪問"
 
 msgid "ONLY 1 SCRAPPING ENGINE"
-msgstr "僅1個搜刮引擎"
+msgstr "您正在使用1個抓取引擎"
 
 msgid "%i SCRAPPING ENGINES"
-msgstr "%i搜刮搜尋機"
+msgstr "%i 抓取中"
 
 msgid ""
 "Scraping complete! {PROCESSED} games processed.\n"
@@ -166,7 +166,7 @@ msgid ""
 msgstr ""
 "您的共享分區幾乎已滿。搜索自動停止。\n"
 "\n"
-"刪除未使用的遊戲，媒體和文件以騰出空間，然後再次運行搜刮！"
+"刪除未使用的遊戲，媒體和文件以騰出空間，然後再次運行抓取！"
 
 msgid "OK"
 msgstr "確定"
@@ -221,7 +221,7 @@ msgid "VERSION"
 msgstr "版本"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr ""
+msgstr "磁碟使用量 (剩餘/總計)"
 
 msgid "STORAGE DEVICE"
 msgstr "儲存裝置"
@@ -385,7 +385,7 @@ msgid "THEME MENU"
 msgstr "主題選單"
 
 msgid "THEME SYSTEMVIEW"
-msgstr "系統主題界面設定"
+msgstr "系統主題介面設定"
 
 msgid "THEME GAMELISTVIEW"
 msgstr "遊戲主題設定"
@@ -503,8 +503,8 @@ msgid ""
 msgstr ""
 "《您即將進行遊戲控制器的設定》\n"
 "請依畫面指示設定遊戲控制器方向鍵及按鍵\n"
-"長按任一鍵可以略過不需要的按鍵設定\n"
-"若無足夠按鍵設定「熱鍵」請直接按Select鍵\n"
+"長按已定義過的任一鍵可以略過不需要的按鍵設定\n"
+"若無足夠按鍵設定「熱鍵」請使用Select鍵\n"
 "預設的按鍵定義來自超級任天堂手把"
 
 #. GUIMENU
@@ -1143,12 +1143,12 @@ msgid ""
 "PCEngine and more! Create your account on retroachievements.org and start "
 "your quest for achievements!"
 msgstr ""
-"透過 retroachievements.org 遊戲平台建立帳號，即可在NES、SNES、GB、GBC、GBA、"
+"透過 RetroAchievements.org 遊戲平台建立帳號，即可在NES、SNES、GB、GBC、GBA、"
 "Genesis / Megadrive、TurboGrafx16 / PCEngine等平台上提供挑戰、成就、獎盃等功"
 "能！"
 
 msgid "Add and configure up to 5 controllers."
-msgstr "增加最多五個控制器"
+msgstr "增加最多10個控制器"
 
 msgid ""
 "Configure an associated controller. Your controller has to be associated / "
@@ -1175,7 +1175,7 @@ msgid ""
 "If you've added games since the last boot, you can also refresh the gamelist "
 "from this menu."
 msgstr ""
-"設定您的 EmulationStation 用戶界面。可選擇轉場效果、幫助顯示、螢幕保護效果"
+"設定您的 EmulationStation 用戶介面。可選擇轉場效果、幫助顯示、螢幕保護效果"
 "等。若您有接上實體鍵盤，也可在此停用螢幕虛擬鍵盤。\n"
 "若您有上傳更新了遊戲檔案，還可在此更新遊戲列表。"
 
@@ -1223,9 +1223,9 @@ msgid ""
 "cover (or name if there is no scrape information)"
 msgstr ""
 "選擇開始遊戲時發生的轉場類型。\n"
-"INSTANT將不執行任何操作。\n"
-"FADE將淡出黑暗。\n"
-"SLIDE將放大遊戲封面（如果沒有遊戲訊息，則顯示名稱）。"
+"INSTANT將不執行任何效果。\n"
+"FADE將會淡出漸黑。\n"
+"SLIDE將放大遊戲封面（若無遊戲封面，則顯示遊戲名稱）。"
 
 msgid "Select a theme for your recalbox."
 msgstr "為你的 Recalbox 選擇一個漂亮的佈景主題吧！"
@@ -1253,8 +1253,8 @@ msgid ""
 "Select Region of logos, pictures for system that are different for some "
 "countries. E.g. Megadrive in EU / Genesis in US"
 msgstr ""
-"選擇Logo的區域，系統圖片在某些國家/地區會有所不同。例如：歐洲的Megadrive /美"
-"國的Genesis。"
+"選擇Logo的區域，系統圖片在某些國家/地區會有所不同。例如：歐規的Megadrive / 美"
+"規的Genesis，日規的紅白機 / 美規的灰機。"
 
 msgid "Updates the gamelists, if you added games since the last boot."
 msgstr "若您有上傳或新增遊戲，更新遊戲列表後即可顯示剛才上傳的新遊戲。"
@@ -1314,7 +1314,7 @@ msgid ""
 "and visuals for your games from different servers and enhances the user "
 "experience in EmulationStation completely."
 msgstr ""
-"從網路上的遊戲資料庫中，搜括下載取得遊戲的簡介及圖片等資料，讓界面更加豐富美"
+"從網路上的遊戲資料庫中，抓取下載取得遊戲的簡介及圖片等資料，讓介面更加豐富美"
 "觀。"
 
 msgid ""
@@ -1494,7 +1494,7 @@ msgid "UPDATE TYPE"
 msgstr "更新類型"
 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr "倍數放大畫面（完美像素效果）"
+msgstr "倍數放大畫面（點對點像素效果）"
 
 msgid "ADVANCED SETTINGS"
 msgstr "進階設定"
@@ -1897,7 +1897,7 @@ msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "每個類型的虛擬系統"
 
 msgid "Show a 'all-games' system with all games from all systems."
-msgstr ""
+msgstr "顯示 '所有遊戲'，包含每個系統的所有遊戲。"
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr "顯示多人遊戲（所有遊戲均可由兩個或更多玩家遊玩）。"
@@ -2038,7 +2038,7 @@ msgstr ""
 "您的遊戲似乎無法啟動！\n"
 "這很可能是由於以下原因之一：\n"
 "-錯誤的rom\n"
-"-缺少/錯誤的必填bios文件\n"
+"-缺少/錯誤的必填BIOS文件\n"
 "-缺少/錯誤的可選BIOS文件（但對於該遊戲而言是必需的）"
 
 msgid ""
@@ -2082,12 +2082,12 @@ msgid "DOWNLOAD GAME MAPS"
 msgstr "下載遊戲地圖"
 
 msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
-msgstr "安裝PAD-2-鍵盤配置"
+msgstr "安裝PAD-2-KEYBOARD手把模擬鍵盤配置"
 
 msgid ""
 "You're strongly recommended to update your Recalbox.\n"
 "No support will be provided for older versions!"
-msgstr "強烈建議您更新Recalbox。不支持舊版本！"
+msgstr "強烈建議您更新Recalbox。不支援舊版本！"
 
 msgid " has been plugged!"
 msgstr " 已經插好了！"
@@ -2188,14 +2188,15 @@ msgid ""
 "until the installation is complete."
 msgstr ""
 "我們正在下載Recalbox版本 %s!\n"
-"下載完成後，Recalbox將重新啟動並開始安裝新版本。典型的安裝大約需要5-10分鐘。"
-"在安裝完成之前，請勿重新啟動或關閉Recalbox的電源。"
+"\n"
+"下載完成後Recalbox將重新啟動並安裝新版本。\n"
+"典型安裝約需5-10分鐘。在安裝完成前，請勿重新啟動或關閉Recalbox的電源。"
 
 msgid "REBOOT IN %s"
 msgstr "重新啟動 %s"
 
 msgid "Error downloading Recalbox %s... Please retry later!"
-msgstr "下載Recalbox時出錯 %s... 請稍後重試！"
+msgstr "下載Recalbox時出錯 %s ... 請稍後重試！"
 
 msgid "ALL"
 msgstr "所有"
@@ -2317,13 +2318,13 @@ msgid "Adventure (All)"
 msgstr "冒險（全部）"
 
 msgid "Artillery"
-msgstr "火砲"
+msgstr "炮術遊戲"
 
 msgid "Auto-battler"
-msgstr "自動戰鬥"
+msgstr "自走棋遊戲"
 
 msgid "Battle Royale"
-msgstr "生存"
+msgstr "生存遊戲"
 
 msgid "Beat'em All"
 msgstr "動作遊戲"
@@ -2335,7 +2336,7 @@ msgid "Build & Management"
 msgstr "建設與管理"
 
 msgid "Casino"
-msgstr "博弈"
+msgstr "博弈遊戲"
 
 msgid "Casual game"
 msgstr "休閒遊戲"
@@ -2374,13 +2375,13 @@ msgid "Graphical Adventure"
 msgstr "圖形冒險"
 
 msgid "Infiltration"
-msgstr "臥底"
+msgstr "隱蔽類遊戲"
 
 msgid "Interactive Movie"
 msgstr "互動電影"
 
 msgid "JRPG"
-msgstr "日式RPG"
+msgstr "日式角色扮演"
 
 msgid "Life Simulation"
 msgstr "生活模擬"
@@ -2389,7 +2390,7 @@ msgid "MMORPG"
 msgstr "線上角色扮演"
 
 msgid "Multi Game Compilation"
-msgstr "合輯遊戲"
+msgstr "混合型遊戲"
 
 msgid "Multiplayer Online Battle Arena"
 msgstr "線上多人戰鬥競技場"
@@ -2398,7 +2399,7 @@ msgid "Multiplayer Party Game"
 msgstr "多人派對遊戲"
 
 msgid "Party based RPG"
-msgstr "回合制RPG"
+msgstr "多人團隊角色扮演"
 
 msgid "Pinball"
 msgstr "彈球台"
@@ -2410,7 +2411,7 @@ msgid "Platform"
 msgstr "桌上類"
 
 msgid "Puzzle & Logic"
-msgstr "益智/推理 "
+msgstr "益智/推理"
 
 msgid "RPG (All)"
 msgstr "角色扮演（全部）"
@@ -2419,7 +2420,7 @@ msgid "Racing"
 msgstr "競速"
 
 msgid "Real Time 3D Adventure"
-msgstr "實時3D冒險"
+msgstr "即時3D冒險"
 
 msgid "Real Time Strategy"
 msgstr "實時策略"
@@ -2464,7 +2465,7 @@ msgid "Trivia"
 msgstr "問答遊戲"
 
 msgid "Turn Based Strategy"
-msgstr "回合製策略"
+msgstr "回合制策略"
 
 msgid "Vehicle Simulation"
 msgstr "車輛模擬"
@@ -2512,8 +2513,8 @@ msgid ""
 "\n"
 "Press this START button please."
 msgstr ""
-"“SELECT”按鈕旁邊是“START”按鈕，標記有 'II'。\n"
-"使用它可以在Recalbox界面中打開主菜單，並在遊戲中將其用作大多數控制台上可用的"
+"'SELECT' 按鈕旁邊是 'START' 按鈕，標記有 'II'。\n"
+"使用它可以在Recalbox介面中打開主菜單，並在遊戲中將其用作大多數控制台上可用的"
 "常規START按鈕。\n"
 "\n"
 "請按 START 鍵繼續。"
@@ -2526,7 +2527,7 @@ msgid ""
 " Press either volume up or down"
 msgstr ""
 "然後，有兩個標記為 'III' 和 'IV' 的按鈕。\n"
-"隨時在Recalbox界面或遊戲中使用它們提高或降低音量。\n"
+"隨時在Recalbox介面或遊戲中使用它們提高或降低音量。\n"
 "\n"
 "請試著調高或調低音量"
 
@@ -2698,7 +2699,7 @@ msgid ""
 "\n"
 " Press any button to continue"
 msgstr ""
-"在控制台的頂部，有兩個標記為 “-” 和 “+” 的按鈕。 無論您是在Recalbox界面中還是"
+"在控制台的頂部，有兩個標記為 “-” 和 “+” 的按鈕。 無論您是在Recalbox介面中還是"
 "在遊戲中，都可以使用它們隨時提高或降低音量。\n"
 "\n"
 "請按任意按鍵繼續。"
@@ -2770,13 +2771,13 @@ msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "顯示光線槍系統"
 
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "顯示 PORTS 系統"
 
 msgid "Show all available games playable with a lightgun."
 msgstr "顯示所有可用光線槍玩的遊戲。"
 
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "顯示 'PORTS' 系統讓所有 PORTS 遊戲都集中在同個位置。"
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -2914,52 +2915,52 @@ msgid "UNKNOWN"
 msgstr "未知"
 
 msgid "GO TO GAME"
-msgstr ""
+msgstr "前往遊戲"
 
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "刪除遊戲 %s"
 
 msgid "GAME FILES (ROM | DISK IMAGE)"
-msgstr ""
+msgstr "遊戲檔案 (ROM | 映像檔)"
 
 msgid "MEDIA FILES"
-msgstr ""
+msgstr "媒體檔案"
 
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "設定與更新檔案"
 
 msgid "SAVE FILES"
-msgstr ""
+msgstr "儲存檔案"
 
 msgid "SELECT FILES TO DELETE"
-msgstr ""
+msgstr "刪除選擇的檔案"
 
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr ""
+msgstr "確定要刪除選擇的檔案嗎?"
 
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "發佈日期"
 
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "輸入並命名"
 
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "輸入發佈日期"
 
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "製造商 命名"
 
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "製造商 發佈日期"
 
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "輸入 製造商 命名"
 
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "輸入 製造商 發佈日期"
 
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "系統排序"
 
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
@@ -2968,155 +2969,172 @@ msgid ""
 "Manufacturer: order by manufacturer (e.g. Sega)\n"
 "Special Blend: Sort by type then Manufacturer then Release Date"
 msgstr ""
+"預設: 依原始或自定義 systemlist.xml 排序\n"
+"名稱: 依系統名稱字母順序排列\n"
+"系統類型: 依 裝置/掌上型/電腦/街機/其他 來排序\n"
+"發布日期: 依發佈日期來排序\n"
+"製造商: 依製造商名稱來排序（如 Sega）"
 
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "刪除所有檔案"
 
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "自定義刪除"
 
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "確認要刪除所有檔案嗎?"
 
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr ""
+msgstr "確認要刪除截圖嗎?"
 
 msgid "DELETE SCREENSHOT"
-msgstr ""
+msgstr "刪除截圖"
 
 msgid "This option display a menu which allows to DELETE game data."
-msgstr ""
+msgstr "顯示允許刪除遊戲資料的選單。"
 
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
-msgstr ""
+msgstr "全域解析度會用在系統尚未設定時的解析度預設值。"
 
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "選擇 EmulationStation 前導使用的解析度。"
 
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "選擇特定系統專用的解析度。"
 
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "選擇此系統專用的解析度。"
 
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "解析度"
 
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "全域解析度"
 
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "EmulationStation 解析度"
 
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "模擬器專用解析度"
 
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "使用全域設定"
 
 msgid "NATIVE"
-msgstr ""
+msgstr "原生"
 
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
+"未選擇檔案。\n"
+"您至少要選擇一個檔案。"
 
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
 "relaunch to load new games."
 msgstr ""
+"檢測到新插入的設備 %NAME% 有ROM檔案，EmulationStation 必須重開機才能重新載入"
+"新遊戲。"
 
 msgid ""
 "A device containing roms has been unplugged! EmulationStation must relaunch "
 "to remove unavailable games."
 msgstr ""
+"已拔下包含 ROM 的設備！ EmulationStation 必須重開機才能移除不可用的遊戲。"
 
 msgid ""
 "Your USB device has been initialized! You can unplug it and copy your games "
 "on it."
-msgstr ""
+msgstr "您的 USB 設備已完成初始化！您可以拔下它並複製您的遊戲到設備裡。"
 
 msgid ""
 "The USB device %NAME% with no rom folder has been plugged in. Would you like "
 "to create rom folders on this device?"
 msgstr ""
+"沒有 ROM 資料夾的 USB 設備 %NAME% 已插入。您要在此設備上建立完整的 ROM 資料夾"
+"嗎？"
 
 msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
+"初始化失敗！ 您的 USB 設備空間已滿或內容發生錯誤。請檢查修復或使用其他設備。"
 
 msgid ""
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"警告：您的設備可能層經沒有正確拔出並存在部份磁區的錯誤。目前它會被設定成唯"
+"讀。建議您盡快將設備插入 Windows PC 並使用修復工具。"
 
 msgid "DISPLAY BY FILENAME"
-msgstr ""
+msgstr "以檔案名稱顯示"
 
 msgid "Display games by file names."
-msgstr ""
+msgstr "依檔案名稱來顯示遊戲"
 
 msgid "SEARCH GAMES HERE"
-msgstr ""
+msgstr "在此搜尋遊戲"
 
 msgid "GAME FILTERS"
-msgstr ""
+msgstr "過濾遊戲"
 
 msgid "This game is currently updating its metadata. Retry in a few seconds."
-msgstr ""
+msgstr "此遊戲目前正在更新原始資料。請再稍候幾秒鐘後重試。"
 
 msgid "SHOW ONLY LATEST VERSION"
-msgstr ""
+msgstr "只顯示最終的版本"
 
 msgid "SHOW ONLY FAVORITES"
-msgstr ""
+msgstr "只顯示最愛"
 
 msgid "SHOW HIDDEN GAMES"
-msgstr ""
+msgstr "顯示隱藏的遊戲"
 
 msgid "HIDE NO GAMES"
-msgstr ""
+msgstr "沒有隱藏遊戲"
 
 msgid "Hide non final versions of a same game."
-msgstr ""
+msgstr "隱藏遊戲的非最終版本。"
 
 msgid "Hide all pre-installed games."
-msgstr ""
+msgstr "隱藏所有預裝遊戲。"
 
 msgid "Hide no executable games. for example bios"
-msgstr ""
+msgstr "隱藏無法執行的檔案，例如 BIOS。"
 
 msgid "Display game by file name instead of game name."
-msgstr ""
+msgstr "依檔案名稱而非遊戲名來顯示遊戲。"
 
 msgid "Filtering games you want to show."
-msgstr ""
+msgstr "過濾您要顯示的遊戲。"
 
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
 "patched.\n"
 "This menu allow to deactivate the auto patch or to have a confirm box"
 msgstr ""
+"如果遊戲補丁 (hack、trad) 與 ROM 檔案同名，則會自動更新。\n"
+"此選項將允許停用自動補丁或提示確認訊息。"
 
 msgid "DISABLE"
-msgstr ""
+msgstr "停用"
 
 msgid "CONFIRM"
-msgstr ""
+msgstr "確認"
 
 msgid "A patch has been detected"
-msgstr ""
+msgstr "已檢測到補丁檔案"
 
 msgid "original"
-msgstr ""
+msgstr "原始檔"
 
 msgid "patched"
-msgstr ""
+msgstr "已打補丁"
 
 msgid ""
 "A fatal error occured while scraping your game! It may be related to server "
@@ -3124,12 +3142,15 @@ msgid ""
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
+"抓取遊戲資料時發生錯誤！可能伺服器有問題或者登入的帳號密碼有錯誤。\n"
+"\n"
+"請稍後再試或更正您的登入資料。"
 
 msgid "Your scraping session completed. Press OK to show the results."
-msgstr ""
+msgstr "您本次的資料抓取已完成。請按 OK 顯示結果。"
 
 msgid "Please select one or more systems to scrape!"
-msgstr ""
+msgstr "請選擇一個或多個系統進行抓取！"
 
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
@@ -3139,14 +3160,20 @@ msgid ""
 "You can hide preinstalled games in UI SETTINGS menu to decrease active "
 "systems"
 msgstr ""
+"您的系統沒有足夠的記憶體來處理 %SYSTEMS% 系統。 您不應超過 %MAXSYSTEMS% 個平"
+"台裝置，否則您可能會遇到穩定性問題！\n"
+"\n"
+"您可以在 介面設定 選單中隱藏預裝遊戲以減少系統佔用的記憶體。"
 
 msgid ""
 "Your system has not enough memory to handle %GAMES% games. You should not "
 "exceed %MAXGAMES% or you may face stability issues!"
 msgstr ""
+"您的系統沒有足夠的記憶體來處理 %GAMES% 遊戲。 您不應超過 %MAXGAMES% 個遊戲，"
+"否則您可能會遇到穩定性問題！"
 
 msgid "WARNING! SYSTEM OVERLOAD!"
-msgstr ""
+msgstr "警告！系統已超載！"
 
 msgid ""
 "Welcome back %NAME%!\n"
@@ -3154,6 +3181,9 @@ msgid ""
 "You are now connected to your recalbox patron account, and all exclusives "
 "features are available!"
 msgstr ""
+"歡迎回來 %NAME% ！\n"
+"Patron等級 %LEVEL%\n"
+"您現在已連接到您的 Recalbox Patreon 帳戶，並且所有獨家功能都可用！"
 
 msgid ""
 "Hello %NAME%, your private key is linked to a Patreon account which is no "
@@ -3161,320 +3191,331 @@ msgid ""
 "We still hope to see you back soon as a Recalbox Patron!\n"
 "Delete your private key to suppress this message."
 msgstr ""
+"您好 %NAME%，您的私鑰已連接到不再是 Recalbox Patron 的 Patreon 帳戶。\n"
+"我們仍然希望盡快看到您作為 Recalbox 贊助人回來！\n"
+"刪除您的私鑰以禁止顯示此消息。"
 
 msgid ""
 "Your private key does not allow to retrieve your Patreon information. Go to "
 "recalbox.com/patreon to generate a new valid key!"
 msgstr ""
+"您的私鑰不允許查詢您的 Patreon 資料。前往 recalbox.com/patreon 重新產生新的有"
+"效密鑰！"
 
 msgid ""
 "Sorry we're not able to retrieve your Patron level because no network is "
 "available!"
-msgstr ""
+msgstr "抱歉，我們無法查詢您的 Patreon 等級，因為沒有連接網路！"
 
 msgid ""
 "We're not able to retrieve your Patron level! Sorry for the inconvenience, "
 "we're already working on a fix!"
-msgstr ""
+msgstr "我們無法查詢您的 Patreon 等級！很抱歉給您帶來不便，我們已經在修復中！"
 
 msgid "CASE MANAGEMENT"
-msgstr ""
+msgstr "外殼管理"
 
 msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"如果您的 Recalbox 有使用外殼，您可以在此安裝或移除它。有些外殼會自動檢測，同"
+"時會在此處報告。"
 
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "正在初始化 ROMS 遊戲資料夾..."
 
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "正在初始化 SHARE 分享資料夾..."
 
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
+"沒有 ROM 資料夾和 SHARE 文件夾的 USB 設備 %NAME% 已插入！您要初始化此設備嗎？"
 
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "• 選擇 '%INIT%' 僅創建所有 ROM 資料夾"
 
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
+"• 選擇 '%MOVE%' 將目前所有的分享資料複製到新的設備，並自動切換到新設備，然後"
+"重新啟動"
 
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr ""
+msgstr "或者只是選擇 '%CANCEL%' 對這新的設備不做任何事情"
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "初始化"
 
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "移動 SHARE 分享"
 
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "正在設定啟動設備..."
 
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
-msgstr ""
+msgstr "您的 USB 設備已初始化！請將您的設備重新啟動吧！"
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "更新中..."
 
 msgid "%i file"
-msgstr ""
+msgstr "%i 檔案"
 
 msgid "%i files"
-msgstr ""
+msgstr "%i 檔案"
 
 msgid "Video"
-msgstr ""
+msgstr "影片"
 
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
 "your Retroflag case (located inside the case, on the electronic part) must "
 "be positioned on ON."
 msgstr ""
+"請使用安全關機功能，必須將 Retroflag 外殼的 SAFE SHUTDOWN 開關 (在外殼底部) "
+"切換到 ON。"
 
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "RGB 輸出 VGA666, PI2SCART, RGBPI"
 
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "CRT轉接頭"
 
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "啟用 RGB 輸出 VGA666, PI2SCART, RGBPI"
 
 msgid "MENU RESOLUTION"
-msgstr ""
+msgstr "解析度選單"
 
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
-msgstr ""
+msgstr "請選擇 EmulationStation 解析度。建議使用 480i 以獲得更好的細節。"
 
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "螢幕類型"
 
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "強制 50HZ"
 
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "在啟動遊戲時選擇遊戲的畫面更新率"
 
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
-msgstr ""
+msgstr "當啟動時可在 50Hz 和 60Hz 之間進行選擇，以便於相容系統。"
 
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "在啟動遊戲時選擇遊戲的解析度"
 
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
-msgstr ""
+msgstr "在啟動遊戲時選擇 240p、480i 或 480p 解析度，以便於相容系統。"
 
 msgid "RUN DEMOS IN 240P@120"
-msgstr ""
+msgstr "展示模式時以 240P@120 顯示"
 
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "展示模式時以 240P解析度在31kHz螢幕上顯示。"
 
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "在 480P 顯示掃描線"
 
 msgid "Add scanlines when running games in 480p on 31kHz screen."
-msgstr ""
+msgstr "在 31kHz的螢幕上以 480p 執行遊戲時顯示掃描線。"
 
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "零延遲 (BETA)"
 
 msgid "Configure emulators to approach a zero lag experience."
-msgstr ""
+msgstr "進一步設定模擬器以接近零延遲的體驗。"
 
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "強制從3.5mm接孔輸出聲音"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
-msgstr ""
+msgstr "強制從3.5mm接孔輸出聲音。並於接上31kHz開關時自動啟用"
 
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "螢幕校準 (BETA)"
 
 msgid "PAL HORIZONTAL OFFSET"
-msgstr ""
+msgstr "PAL 水平偏移"
 
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
-msgstr ""
+msgstr "若您的 PAL 畫面未居中，您可以在此處更改預設的水平偏移。"
 
 msgid "PAL VERTICAL OFFSET"
-msgstr ""
+msgstr "PAL 垂直偏移"
 
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
-msgstr ""
+msgstr "若您的 PAL 畫面未居中，您可以在此處更改預設的垂直偏移。"
 
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "CRT 設定"
 
 msgid "(Hardware managed)"
-msgstr ""
+msgstr "(硬體管理)"
 
 msgid "240p"
-msgstr ""
+msgstr "240p"
 
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
-#
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
-msgstr ""
+msgstr "移動畫面"
 
 msgid "WIDER"
-msgstr ""
+msgstr "更寬"
 
 msgid "NARROWER"
-msgstr ""
+msgstr "更窄"
 
 msgid "VALIDATE CHANGES"
-msgstr ""
+msgstr "更改驗證"
 
 msgid "Image width:"
-msgstr ""
+msgstr "圖像寬度:"
 
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "水平偏移:"
 
 msgid "Vertical offset:"
-msgstr ""
+msgstr "垂直偏移:"
 
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
-msgstr ""
+msgstr "您的清單是空的。請按 START鍵 更改遊戲過濾器。"
 
 msgid "Select a region to filter out games not matching the selected region."
-msgstr ""
+msgstr "選擇一個區域以過濾掉與不同區域的遊戲。"
 
 msgid "SOFTPATCHING"
-msgstr ""
+msgstr "軟體補丁"
 
 msgid "SYSTEM RESOLUTIONS"
-msgstr ""
+msgstr "系統解析度"
 
 msgid "AUTOMATIC SCRAPING"
-msgstr ""
+msgstr "自動抓取資料"
 
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "在背景執行"
 
 msgid "MONTREAL"
-msgstr ""
+msgstr "蒙特利爾"
 
 msgid "SAOPAULO"
-msgstr ""
+msgstr "聖保羅"
 
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i 已知 MD5"
 
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "將聲音輸出切換到耳機！"
 
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "將聲音輸出切換到喇叭！"
 
 msgid "Restarting."
-msgstr ""
+msgstr "重新啟動中"
 
 msgid "Entering standby..."
-msgstr ""
+msgstr "進入待機中..."
 
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "鍵盤對應到手把按鍵"
 
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "除錯LOGS"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "您確定要將刪除此檔案嗎?"
 
 msgid "Preparing Games..."
-msgstr ""
+msgstr "準備遊戲中..."
 
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "某個遊戲尚未準備好網絡連線。"
 
 msgid "Free"
-msgstr ""
+msgstr "自由"
 
 msgid "FADE"
-msgstr ""
+msgstr "淡出"
 
 msgid "SLIDE"
-msgstr ""
+msgstr "滑動"
 
 msgid "INSTANT"
-msgstr ""
+msgstr "瞬間"
 
 msgid "Are you sure the selected theme is compatible with CRT screens?"
-msgstr ""
+msgstr "您確定所選主題與 CRT螢幕是相容的嗎？"
 
 msgid "You must have at least %dGB free on 'SHARE' partition!"
-msgstr ""
+msgstr "您的 'SHARE' 磁區中至少要有 %dGB 的可用空間！"
 
 msgid "ADD STAR"
-msgstr ""
+msgstr "加星星"
 
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"設備 %NAME% 上的可用空間已低於 %LIMIT% ！\n"
+"請盡快釋放一些儲存空間，以免磁區加速損壞！"
 
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60Hz (US)"
 
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60Hz (JP)"
 
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50Hz (EU)"
 
 msgid "60Hz"
-msgstr ""
+msgstr "60Hz"
 
 msgid "50Hz"
-msgstr ""
+msgstr "50Hz"
 
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Recalbox RGB Dual 選項和設定。"
 
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "選擇系統、前導介面和模擬器的解析度。"
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "按[B]鍵取消"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "配對藍芽控制器"
 
-#
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any "
@@ -3484,216 +3525,171 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"即將開始進行藍芽配對！\n"
+"預計花費幾分鐘不等，期間您只需在配對的藍芽控制器上操作即可。\n"
+"下一個畫面將顯示所有檢測到的藍芽設備及狀態，僅供參考。\n"
+"您可隨時關閉它，左上角藍芽圖示閃爍時，皆可繼續配對藍牙設備。"
 
-#
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "按[下]鍵略過"
 
-#
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "開始下載中..."
 
-#
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
-msgstr ""
+msgstr "配對藍牙音訊設備。在開始前請確認您的設備已開啟可被搜尋的配對模式。"
 
-#
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "配對一個藍芽音訊設備"
 
-#
 msgid "Failed"
-msgstr ""
+msgstr "失敗"
 
-#
 msgid "Succeeded"
-msgstr ""
+msgstr "成功"
 
-#
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 上"
 
-#
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 下"
 
-#
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 左"
 
-#
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 右"
 
-#
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 上"
 
-#
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 下"
 
-#
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 左"
 
-#
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 右"
 
-#
 msgid "Alias: "
-msgstr ""
+msgstr "別名:␣"
 
-#
 msgid "MAC: "
-msgstr ""
+msgstr "MAC:␣"
 
-#
 msgid "Connected: "
-msgstr ""
+msgstr "已連接:␣"
 
-#
 msgid "Trusted: "
-msgstr ""
+msgstr "已信任:␣"
 
-#
 msgid "Paired: "
-msgstr ""
+msgstr "已配對:␣"
 
-#
 msgid "Blocked: "
-msgstr ""
+msgstr "已封鎖:␣"
 
-#
 msgid "NO DEVICE"
-msgstr ""
+msgstr "無裝置"
 
-#
 msgid "SEARCH BY"
-msgstr ""
+msgstr "搜尋自"
 
-#
 msgid "NO RESULTS"
-msgstr ""
+msgstr "沒有結果"
 
-#
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "HDMI優先"
 
-#
 msgid "ON"
-msgstr ""
+msgstr "開啟"
 
-#
 msgid "OFF"
-msgstr ""
+msgstr "關閉"
 
-#
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"您正在為電視調整不同的解析度。請根據您電視支援的範圍選擇更新率。\n"
+"調整過程中，按 B 套用模式，按 START 驗證，按 A 取消。"
 
-#
 msgid "60Hz Only"
-msgstr ""
+msgstr "限制60Hz"
 
-#
 msgid "50Hz Only"
-msgstr ""
+msgstr "限制50Hz"
 
-#
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "發現藍芽音訊設備..."
 
-#
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "找不到藍芽音訊設備"
 
-#
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "KODI 解析度"
 
-#
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "音訊設備已配對"
 
-#
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "無法配對音訊設備"
 
-#
 msgid "select a patch"
-msgstr ""
+msgstr "選擇更新"
 
-#
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "亮度"
 
-#
 msgid "NAME"
-msgstr ""
+msgstr "名稱"
 
-#
 msgid "suspend"
-msgstr ""
+msgstr "暫停"
 
-#
 msgid "NO GAME"
-msgstr ""
+msgstr "沒有遊戲"
 
-#
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "下一個解析度"
 
-#
 msgid "Game refresh rate"
-msgstr ""
+msgstr "遊戲更新率"
 
-#
 msgid "Game resolution"
-msgstr ""
+msgstr "遊戲解析度"
 
-#
 msgid "CHANGELOG"
-msgstr ""
+msgstr "更新歷程"
 
-#
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "複製 %s 資料夾..."
 
-#
 msgid "VOLUME -"
-msgstr ""
+msgstr "音量 -"
 
-#
 msgid "VOLUME +"
-msgstr ""
+msgstr "音量 +"
 
-#
 msgid "B"
-msgstr ""
+msgstr "B"
 
-#
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
-#
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
-#
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
-#
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "磁碟使用情況"
@@ -3706,6 +3702,9 @@ msgstr ""
 
 #~ msgid "ROOT PASSWORD"
 #~ msgstr "ROOT 密碼"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "配對藍牙遊戲控制器"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
@@ -3738,7 +3737,7 @@ msgstr ""
 #~ msgstr "展示一個“所有遊戲”系統，其中包含所有系統的所有主題。"
 
 #~ msgid "Real Time Stratégy"
-#~ msgstr "實時策略"
+#~ msgstr "即時策略"
 
 #~ msgid ""
 #~ "If you push the POWER button more than 2 seconds, this will power-off "
@@ -3775,3 +3774,6 @@ msgstr ""
 
 #~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 #~ msgstr "您的收藏列表是空的。按先選擇您想要顯示的遊戲。"
+
+#~ msgid "480i (recommended)"
+#~ msgstr "480i (推薦)"
