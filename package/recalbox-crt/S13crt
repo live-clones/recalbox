@@ -159,15 +159,22 @@ function shouldMigrate {
 
 function runMigrations {
     if shouldMigrate "8.2-config"; then
-        recallog -s "S13crt" -t "CRT" "Running migration 8.2-config"
         # We must clean everything but the options file and reboot for a clean install
         # This way a clean install will be done at next reboot: default files will be copied by S12, switching to CRT will processed
+        if [ ! -f "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" ];then
+            recallog -s "S13crt" -t "CRT" "Fresh install, skipping 8.2-config migration"
+            migrationDone "8.2-config"
+            return
+        fi
+        recallog -s "S13crt" -t "CRT" "Running migration 8.2-config"
         mount -o remount,rw /boot
+
         rm -f "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg" \
         "${RRGBDUAL_CURRENT_VIDEO_CONFIG}" "${RRGBDUAL_LASTBOOT}" "${RRGBDUAL_31KHZ_LASTBOOT}" "${CRT_DAC_FILE}"
         unconfigure_rbconf
         migrationDone "8.2-config"
         reboot
+        exit
     fi
 }
 
@@ -191,10 +198,17 @@ function switchTo {
     mkdir -p "${SAVE_DIR}"
     for fileName in "${!filesToSave[@]}"; do
         if [ -f "${filesToSave[$fileName]}/${fileName}" ]; then
+            recallog -s "S13crt" -t "CRT" "Saving ${fileName} to ${SAVE_DIR}"
             cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
         fi
+    done
+    for fileName in "${!filesToSave[@]}"; do
         if [ -f "${RESTORE_DIR}/${fileName}" ]; then
+            recallog -s "S13crt" -t "CRT" "Restoring ${RESTORE_DIR}/${fileName} to ${filesToSave[$fileName]}/${fileName}"
             cp "${RESTORE_DIR}/${fileName}" "${filesToSave[$fileName]}/${fileName}"
+        elif [ "${fileName}" != "recalbox.conf" ]; then
+            recallog -s "S13crt" -t "CRT" "Deleting ${filesToSave[$fileName]}/${fileName} as ${RESTORE_DIR}/${fileName} do not exists"
+            rm -f "${filesToSave[$fileName]}/${fileName}"
         fi
     done
     echo "${1}" >"${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
