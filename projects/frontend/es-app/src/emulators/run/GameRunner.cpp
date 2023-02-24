@@ -109,14 +109,13 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Path path(game.RomPath());
   const std::string rom = path.MakeEscaped();
   const std::string basename = path.FilenameWithoutExtension();
-  const std::string rom_raw = path.ToString();
   const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
   Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
-  Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
+  Strings::ReplaceAllIn(command, "%ROM_RAW%", path.ToString());
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
@@ -144,17 +143,17 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     const std::string patchPAthEscaped = data.Patch().PatchPath().MakeEscaped();
 
     if (data.Patch().PatchPath().Extension() == ".ips")
-      {
-        command.append(" -ips ").append(patchPAthEscaped);
-      }
-      else if (data.Patch().PatchPath().Extension() == ".bps")
-      {
-        command.append(" -bps ").append(patchPAthEscaped);
-      }
-      else if (data.Patch().PatchPath().Extension() == ".ups")
-      {
-        command.append(" -ups ").append(patchPAthEscaped);
-      }
+    {
+      command.append(" -ips ").append(patchPAthEscaped);
+    }
+    else if (data.Patch().PatchPath().Extension() == ".bps")
+    {
+      command.append(" -bps ").append(patchPAthEscaped);
+    }
+    else if (data.Patch().PatchPath().Extension() == ".ups")
+    {
+      command.append(" -ups ").append(patchPAthEscaped);
+    }
   }
 
   int exitCode = -1;
@@ -246,13 +245,12 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   Path path(game.RomPath());
   const std::string rom = path.MakeEscaped();
   const std::string basename = path.FilenameWithoutExtension();
-  const std::string rom_raw = path.ToString();
 
   Strings::ReplaceAllIn(command, "%ROM%", rom);
   Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
   Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
-  Strings::ReplaceAllIn(command, "%ROM_RAW%", rom_raw);
+  Strings::ReplaceAllIn(command, "%ROM_RAW%", path.ToString());
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
   Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());

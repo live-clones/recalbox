@@ -305,21 +305,21 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      */
 
     //! Get display Width as integer
-    int DisplayWidthAsInt() const { return mVirtualDisplayWidth; }
+    [[nodiscard]] int DisplayWidthAsInt() const { return mVirtualDisplayWidth; }
     //! Get display Height as integer
-    int DisplayHeightAsInt() const { return mDisplayHeight; }
+    [[nodiscard]] int DisplayHeightAsInt() const { return mDisplayHeight; }
     //! Get display Width as float
-    float DisplayWidthAsFloat() const { return mVirtualDisplayWidthFloat; }
+    [[nodiscard]] float DisplayWidthAsFloat() const { return mVirtualDisplayWidthFloat; }
     //! Get display Height as float
-    float DisplayHeightAsFloat() const { return mDisplayHeightFloat; }
+    [[nodiscard]] float DisplayHeightAsFloat() const { return mDisplayHeightFloat; }
 
     // Is small resolution?
-    bool Is240p() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    [[nodiscard]] bool Is240p() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
     // Is middle resolution?
-    bool Is480pOrLower() const { return mDisplayHeight <= 576; }
+    [[nodiscard]] bool Is480pOrLower() const { return mDisplayHeight <= 576; }
     // Return true image width
-    int RealDisplayWidthAsInt() const { return mDisplayWidth; }
+    [[nodiscard]] int RealDisplayWidthAsInt() const { return mDisplayWidth; }
 
     //! Check if the Renderer is properly initialized
-    bool Initialized() const { return mViewPortInitialized; }
+    [[nodiscard]] bool Initialized() const { return mViewPortInitialized; }
 };
