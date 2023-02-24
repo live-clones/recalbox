@@ -3089,13 +3089,13 @@ msgid "CONFIGURATION AND PATCH FILES"
 msgstr "ARCHIVOS DE CONFIGURACION Y PARCHES"
 
 msgid "SAVE FILES"
-msgstr "ARCHIVOS DE SAVE"
+msgstr "ARCHIVOS DE GUARDADO"
 
 msgid "SELECT FILES TO DELETE"
 msgstr "SELECCIONAR ARCHIVOS PARA BORRAR"
 
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr "¿BORRAR ARCHIVOS SELECCIONADOS, CONFIRMAR?"
+msgstr "BORRAR ARCHIVOS SELECCIONADOS, ¿CONFIRMAS?"
 
 msgid "RELEASE DATE"
 msgstr "FECHA DE LANZAMIENTO"
@@ -3141,10 +3141,10 @@ msgid "ADVANCED DELETE"
 msgstr "BORRADO AVANZADO"
 
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr "BORRA TODOS LOS ARCHIVOS, ¿CONFIRMA?"
+msgstr "BORRA TODOS LOS ARCHIVOS, ¿CONFIRMAS?"
 
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr "¿BORRAR CAPTURA DE PANTALLA, CONFIRMAR?"
+msgstr "BORRAR CAPTURA DE PANTALLA, ¿CONFIRMAS?"
 
 msgid "DELETE SCREENSHOT"
 msgstr "ELIMINAR CAPTURA DE PANTALLA"
@@ -3175,7 +3175,7 @@ msgid "GLOBAL RESOLUTION"
 msgstr "RESOLUCIÓN GLOBAL"
 
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr "RESOLUCIÓN DE EMULATIONSTATION "
+msgstr "RESOLUCIÓN DE EMULATIONSTATION"
 
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
 msgstr "RESOLUCIONES ESPECÍFICAS DE EMULADORES"
@@ -3225,7 +3225,7 @@ msgid ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 msgstr ""
-"¡Inicialización falló! Su dispositivo USB está lleno o contiene errores. "
+"¡La inicialización falló! Su dispositivo USB está lleno o contiene errores. "
 "Repare o use otro dispositivo."
 
 msgid ""
@@ -3395,7 +3395,7 @@ msgstr ""
 "estamos trabajando en una solución!"
 
 msgid "CASE MANAGEMENT"
-msgstr "GESTIÓN DE ESTUCHE"
+msgstr "GESTIÓN DE CARCASA"
 
 msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
@@ -3467,7 +3467,7 @@ msgid ""
 "be positioned on ON."
 msgstr ""
 "Para aprovechar la función de apagado seguro, el interruptor de SAFE "
-"SHUTDOWN de su estuche Retroflag (ubicado dentro del estuche, en la parte "
+"SHUTDOWN de su carcasa Retroflag (ubicado dentro de la carcasa, en la parte "
 "electrónica) debe estar encendido."
 
 msgid "RECALBOX CRT"
@@ -3522,10 +3522,11 @@ msgstr ""
 "Ejecute las demostraciones en una resolución de 240p en su monitor de 31kHz."
 
 msgid "SCANLINES IN 480P"
-msgstr "LÍNEAS DE ESCANEO EN 480P"
+msgstr "SCANLINES EN 480P"
 
 msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
+"Agregue scanlines cuando ejecute juegos en 480p en una pantalla de 31kHz."
 
 msgid "ZERO LAG (BETA)"
 msgstr "CERO RETRASO (BETA)"
@@ -3535,7 +3536,7 @@ msgstr ""
 "Configure emuladores para acercarse a una experiencia de cero retrasos."
 
 msgid "FORCE SOUND ON JACK"
-msgstr "FUERZA EL SONIDO EN EL CONECTOR"
+msgstr "FUERZA EL SONIDO EN LA SALIDA JACK"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
@@ -3577,8 +3578,8 @@ msgstr "240p"
 msgid "480p"
 msgstr "480p"
 
-msgid "480i (recommended)"
-msgstr "480i (recomendado)"
+msgid "480i"
+msgstr "480i"
 
 msgid "MOVE SCREEN"
 msgstr "MOVER PANTALLA"
@@ -3610,7 +3611,7 @@ msgstr ""
 "seleccionada."
 
 msgid "SOFTPATCHING"
-msgstr "PARCHE SUAVE"
+msgstr "SOFTPATCHING"
 
 msgid "SYSTEM RESOLUTIONS"
 msgstr "RESOLUCIONES DE SISTEMAS"
@@ -3619,108 +3620,110 @@ msgid "AUTOMATIC SCRAPING"
 msgstr "SCRAPEO AUTOMÁTICO"
 
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "EJECUTAR EN SEGUNDO PLANO"
 
 msgid "MONTREAL"
-msgstr ""
+msgstr "MONTREAL"
 
 msgid "SAOPAULO"
-msgstr ""
+msgstr "SAOPAULO"
 
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i MD5 conocido"
 
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "¡Cambia la salida de audio a auriculares!"
 
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "¡Cambia la salida de audio a Altavoces!"
 
 msgid "Restarting."
-msgstr ""
+msgstr "Reiniciando."
 
 msgid "Entering standby..."
-msgstr ""
+msgstr "Entrando en modo de espera..."
 
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "CONTROLES DE MANDOS A TECLADO"
 
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "REGISTROS DE DEPURACIÓN"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "Está a punto de borrar estos archivos, ¿confirmas?"
 
 msgid "Preparing Games..."
-msgstr ""
+msgstr "Preparando Juegos..."
 
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "Algunos juegos aún no están listos para jugar en red."
 
 msgid "Free"
-msgstr ""
+msgstr "Libre"
 
 msgid "FADE"
-msgstr ""
+msgstr "DESTEÑIR"
 
 msgid "SLIDE"
-msgstr ""
+msgstr "DESLIZAR"
 
 msgid "INSTANT"
-msgstr ""
+msgstr "INSTANTÁNEO"
 
 msgid "Are you sure the selected theme is compatible with CRT screens?"
 msgstr ""
+"¿Estás seguro de que el tema seleccionado es compatible con las pantallas "
+"CRT?"
 
 msgid "You must have at least %dGB free on 'SHARE' partition!"
-msgstr ""
+msgstr "¡Debe tener al menos %dGB libre en la partición 'SHARE'!"
 
 msgid "ADD STAR"
-msgstr ""
+msgstr "AÑADIR ESTRELLA"
 
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"¡El espacio libre en el dispositivo %NAME% está por debajo del %LIMIT%!\n"
+"¡Debes intentar liberar algo de espacio rápidamente!"
 
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60Hz (US)"
 
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60Hz (JP)"
 
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50Hz (EU)"
 
 msgid "60Hz"
-msgstr ""
+msgstr "60Hz"
 
 msgid "50Hz"
-msgstr ""
+msgstr "50Hz"
 
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Opciones y configuración de Recalbox RGB Dual."
 
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "Seleccione las resoluciones del sistema, interfaz y emulador."
 
-#
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B PARA ANULAR"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
 msgstr "VINCULAR MANDOS BLUETOOTH"
 
-#
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
 "During this time, you just have to apply the pairing procedure on any "
@@ -3730,6 +3733,180 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"El emparejamiento bluetooth comenzará y se ejecutará durante varios "
+"minutos.\n"
+"Durante este tiempo, solo tienes que activar el modo emparejamiento en el "
+"dispositivo bluetooth que quieras emparejar.\n"
+"La siguiente ventana mostrará todos los dispositivos bluetooth detectados y "
+"su estado solo con fines informativos.\n"
+"Puede cerrarlo en cualquier momento, continuará emparejando sus dispositivos "
+"bluetooth mientras el ícono de bluetooth esté parpadeando en la parte "
+"superior izquierda."
+
+msgid "DOWN TO SKIP"
+msgstr "ABAJO PARA OMITIR"
+
+msgid "START DOWNLOADING..."
+msgstr "COMENZANDO DESCARGA..."
+
+msgid ""
+"Pair a bluetooth audio device. Put your device in discovery mode before "
+"starting."
+msgstr ""
+"Vincular un dispositivo de audio bluetooh. Activa en tu dispositivo el modo "
+"emparejar antes de empezar."
+
+msgid "PAIR A BLUETOOTH AUDIO DEVICE"
+msgstr "VINCULAR UN DISPOSITIVO DE AUDIO"
+
+msgid "Failed"
+msgstr "Ha fallado"
+
+msgid "Succeeded"
+msgstr "Conseguido"
+
+msgid "J1 UP"
+msgstr "J1 ARRIBA"
+
+msgid "J1 DOWN"
+msgstr "J1 ABAJO"
+
+msgid "J1 LEFT"
+msgstr "J1 IZQUIERDA"
+
+msgid "J1 RIGHT"
+msgstr "J1 DERECHA"
+
+msgid "J2 UP"
+msgstr "J2 ARRIBA"
+
+msgid "J2 DOWN"
+msgstr "J2 ABAJO"
+
+msgid "J2 LEFT"
+msgstr "J2 IZQUIERDA"
+
+msgid "J2 RIGHT"
+msgstr "J2 DERECHA"
+
+msgid "Alias: "
+msgstr "Alias:␣"
+
+msgid "MAC: "
+msgstr "MAC:␣"
+
+msgid "Connected: "
+msgstr "Conectado:␣"
+
+msgid "Trusted: "
+msgstr "Aprobado:␣"
+
+msgid "Paired: "
+msgstr "Vinculado:␣"
+
+msgid "Blocked: "
+msgstr "Bloqueado:␣"
+
+msgid "NO DEVICE"
+msgstr "SIN DISPOSITIVO"
+
+msgid "SEARCH BY"
+msgstr "BUSCAR POR"
+
+msgid "NO RESULTS"
+msgstr "SIN RESULTADOS"
+
+msgid "PRIORITY TO HDMI"
+msgstr "PRIORIDAD AL HDMI"
+
+msgid "ON"
+msgstr "ON"
+
+msgid "OFF"
+msgstr "OFF"
+
+msgid ""
+"You will now calibrate different resolutions for your TV. Select the refresh "
+"rate according to what your TV supports.\n"
+"During the calibration, press B to apply the mode, START to validate, and A "
+"to cancel."
+msgstr ""
+"Ahora calibrará diferentes resoluciones para su TV. Seleccione la tasa de "
+"refresco de acuerdo con lo que admita su TV.\n"
+"Durante la calibración, presione B para aplicar el modo, START para validar "
+"y A para cancelar."
+
+msgid "60Hz Only"
+msgstr "60Hz Solamente"
+
+msgid "50Hz Only"
+msgstr "50Hz Solamente"
+
+msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
+msgstr "BUSCANDO DISPOSITIVOS DE AUDIO BLUETOOTH"
+
+msgid "NO AUDIO DEVICE FOUND"
+msgstr "NO SE HA ENCONTRADO DISPOSITIVO DE AUDIO"
+
+msgid "KODI RESOLUTION"
+msgstr "RESOLUCIÓN DE KODI"
+
+msgid "AUDIO DEVICE PAIRED"
+msgstr "DISPOSITIVO DE AUDIO VINCULADO"
+
+msgid "UNABLE TO PAIR AUDIO DEVICE"
+msgstr "NO SE HA PODIDO VINCULAR DISPOSITIVO DE AUDIO"
+
+msgid "select a patch"
+msgstr "selecciona un parche"
+
+msgid "BRIGHTNESS"
+msgstr "BRILLO"
+
+msgid "NAME"
+msgstr "NOMBRE"
+
+msgid "suspend"
+msgstr "suspender"
+
+msgid "NO GAME"
+msgstr "SIN JUEGO"
+
+msgid "NEXT RESOLUTION"
+msgstr "SIGUIENTE RESOLUCIÓN"
+
+msgid "Game refresh rate"
+msgstr "Tasa de refresco del juego"
+
+msgid "Game resolution"
+msgstr "Resolución del juego"
+
+msgid "CHANGELOG"
+msgstr "NOTAS DE VERSIÓN"
+
+msgid "Copying %s folder..."
+msgstr "Copiando %s carpeta..."
+
+msgid "VOLUME -"
+msgstr "VOLUMEN -"
+
+msgid "VOLUME +"
+msgstr "VOLUMEN +"
+
+msgid "B"
+msgstr "B"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "GB"
+msgstr "GB"
+
+msgid "TB"
+msgstr "TB"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "USO DE DISCO"
@@ -3742,6 +3919,9 @@ msgstr ""
 
 #~ msgid "ROOT PASSWORD"
 #~ msgstr "CONTRASEÑA ROOT"
+
+#~ msgid "PAIR A BLUETOOTH CONTROLLER"
+#~ msgstr "VINCULAR MANDO BLUETOOTH"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
@@ -3822,3 +4002,6 @@ msgstr ""
 #~ msgstr ""
 #~ "TU LISTA DE FAVORITOS ESTÁ VACÍA. PULSA SELECT PARA MOSTRAR TODOS LOS "
 #~ "JUEGOS."
+
+#~ msgid "480i (recommended)"
+#~ msgstr "480i (recomendado)"
