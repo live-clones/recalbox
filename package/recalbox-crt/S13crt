@@ -158,12 +158,23 @@ function shouldMigrate {
 }
 
 function runMigrations {
-    if shouldMigrate "8.2-theme"; then
-        recallog -s "S13crt" -t "CRT" "Running migration 8.2-theme"
+    if shouldMigrate "8.2-config"; then
+        # We must clean everything but the options file and reboot for a clean install
+        # This way a clean install will be done at next reboot: default files will be copied by S12, switching to CRT will processed
+        if [ ! -f "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" ];then
+            recallog -s "S13crt" -t "CRT" "Fresh install, skipping 8.2-config migration"
+            migrationDone "8.2-config"
+            return
+        fi
+        recallog -s "S13crt" -t "CRT" "Running migration 8.2-config"
+        mount -o remount,rw /boot
+
+        rm -f "/recalbox/share/system/configs/retroarch/retroarchcustom.cfg" "/recalbox/share/system/configs/retroarch/cores/retroarch-core-options.cfg" \
+        "${RRGBDUAL_CURRENT_VIDEO_CONFIG}" "${RRGBDUAL_LASTBOOT}" "${RRGBDUAL_31KHZ_LASTBOOT}" "${CRT_DAC_FILE}"
         unconfigure_rbconf
-        configure_rbconf
-        configure_kodi
-        migrationDone "8.2-theme"
+        migrationDone "8.2-config"
+        reboot
+        exit
     fi
 }
 
@@ -186,9 +197,18 @@ function switchTo {
     mount -o remount,rw /boot
     mkdir -p "${SAVE_DIR}"
     for fileName in "${!filesToSave[@]}"; do
-        cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
+        if [ -f "${filesToSave[$fileName]}/${fileName}" ]; then
+            recallog -s "S13crt" -t "CRT" "Saving ${fileName} to ${SAVE_DIR}"
+            cp "${filesToSave[$fileName]}/${fileName}" "${SAVE_DIR}"
+        fi
+    done
+    for fileName in "${!filesToSave[@]}"; do
         if [ -f "${RESTORE_DIR}/${fileName}" ]; then
+            recallog -s "S13crt" -t "CRT" "Restoring ${RESTORE_DIR}/${fileName} to ${filesToSave[$fileName]}/${fileName}"
             cp "${RESTORE_DIR}/${fileName}" "${filesToSave[$fileName]}/${fileName}"
+        elif [ "${fileName}" != "recalbox.conf" ]; then
+            recallog -s "S13crt" -t "CRT" "Deleting ${filesToSave[$fileName]}/${fileName} as ${RESTORE_DIR}/${fileName} do not exists"
+            rm -f "${filesToSave[$fileName]}/${fileName}"
         fi
     done
     echo "${1}" >"${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
@@ -212,9 +232,17 @@ if test "$1" == "start"; then
 
     # RRGBD is present
     if isRecalboxRGBDual; then
+        runMigrations
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
+            # As we will save the current config as the HDMI one, let's force the HDMI output
+            recallog -s "S13crt" -t "CRT" "Saving current configuration as HDMI configuration (forcing hdmi sound output)"
+            if [ "$(getArchName)" = "rpi3" ]; then
+                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-3f902000.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+            else
+                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-fef00700.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+            fi
             switchTo "CRT"
             configure_rbconf
             configure_kodi
@@ -224,15 +252,6 @@ if test "$1" == "start"; then
             exit 0
         fi
 
-        if rrgbdHDMIPriority && ! currentConfigIsHDMI; then
-            recallog -s "S13crt" -t "CRT" "HDMI has been forced in configuration, switching to HDMI."
-            switchTo "HDMI"
-        fi
-        if ! rrgbdHDMIPriority && currentConfigIsHDMI; then
-            recallog -s "S13crt" -t "CRT" "HDMI is not forced anymore, switching to CRT."
-            switchTo "CRT"
-        fi
-
         if rrgbdHDMIPriority; then
             # Check if any HDMI is connected
             if isScreenConnected; then
@@ -240,17 +259,20 @@ if test "$1" == "start"; then
                 if ! currentConfigIsHDMI; then
                     switchTo "HDMI"
                 fi
-                # Just in case (should have been done by S05 -> kms-manager
-                echo "off" >"/sys/class/drm/card1-VGA-1/status"
             else
                 recallog -s "S13crt" -t "CRT" "Force HDMI set but no HDMI connected, keeping VGA video"
                 if currentConfigIsHDMI; then
                     switchTo "CRT"
                 fi
-                echo "on" >"/sys/class/drm/card1-VGA-1/status"
+                # Re-enable DPI connector as it has been disabled by kms-manager
+                enableDPIConnectors
+            fi
+        else
+            if currentConfigIsHDMI; then
+                recallog -s "S13crt" -t "CRT" "HDMI is not forced anymore, switching back to CRT."
+                switchTo "CRT"
             fi
         fi
-
         # RRGBD 31khz switch means we must force jack audio
         # and remove the hdmi_force_hotplug option because it block the 480p@60 mode
         # Should be done at least one boot after the first boot (installation of recalbox),
@@ -303,7 +325,6 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
-        runMigrations
         exit 0
         # End RRGBD
     fi
@@ -330,6 +351,7 @@ if test "$1" == "start"; then
     fi
 
     if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
+        runMigrations
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
@@ -360,7 +382,6 @@ if test "$1" == "start"; then
             reboot
             exit 0
         fi
-        runMigrations
     elif [[ "${DAC}" == "" ]]; then
         if [[ -f "${CRT_DAC_FILE}" ]] && grep -q "#device=" "${CRT_DAC_FILE}"; then
             # We should clean
