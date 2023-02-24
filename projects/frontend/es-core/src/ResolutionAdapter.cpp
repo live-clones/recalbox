@@ -4,6 +4,8 @@
 
 #include "ResolutionAdapter.h"
 #include "Resolutions.h"
+#include "CrtConf.h"
+#include "utils/String.h"
 #include <SDL2/SDL.h>
 #include <utils/math/Misc.h>
 #include <utils/os/fs/Path.h>
@@ -194,6 +196,7 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
         {
           if (FilterHighResolution(mode.w, mode.h)) continue;
           mResolutionsDetailed.push_back({i, mode.w, mode.h, (int)SDL_BITSPERPIXEL(mode.format), mode.refresh_rate, false, mode.w == defaultMode.w && mode.h == defaultMode.h && mode.format == defaultMode.format && mode.refresh_rate == defaultMode.refresh_rate });
+          { LOG(LogDebug) << "[ResolutionAdapter]   Mode #" << m << " : " << mResolutionsDetailed.back().ToString(); }
         }
     }
   }
@@ -374,5 +377,46 @@ bool ResolutionAdapter::FilterHighResolution(int w, int h)
     return true;
   }
   return false;
+}
+
+bool ResolutionAdapter::GetCRTResolution(int& w, int& h)
+{
+  ICrtInterface& crt = Board::Instance().CrtBoard();
+  if (!crt.IsCrtAdapterAttached()) return false;
+  std::string reso = CrtConf::Instance().GetSystemCRTResolution();
+
+  // Es will choose its own resolution. The desktop mode cannot be trusted.
+  if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+  {
+    w = 1920;
+    h = 240;
+    if (reso == "480")
+    {
+      w = 640;
+      h = 480;
+    }
+  }
+  else if (reso == "480")
+  {
+    w = 640;
+    h = 480;
+    if (Board::Instance().CrtBoard().MustForce50Hz())
+    {
+      w = 768;
+      h = 576;
+    }
+  }
+  else
+  {
+    w = 1920;
+    h = 240;
+    if (Board::Instance().CrtBoard().MustForce50Hz())
+    {
+      w = 1920;
+      h = 288;
+    }
+  }
+
+  return true;
 }
 

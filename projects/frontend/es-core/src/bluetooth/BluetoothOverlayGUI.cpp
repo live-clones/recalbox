@@ -7,13 +7,14 @@
 #include "themes/MenuThemeData.h"
 
 BluetoothOverlayGUI::BluetoothOverlayGUI(WindowManager &windowManager)
-    : Gui(windowManager),
-    mControllerIcon(windowManager),
-    mBtTop(windowManager),
-    mBtMiddle(windowManager),
-    mBtBottom(windowManager),
-    mRemaining(0),
-    mTotal(0) {
+  : Gui(windowManager)
+  , mRemaining(0)
+  , mTotal(0)
+  , mControllerIcon(windowManager)
+  , mBtTop(windowManager)
+  , mBtMiddle(windowManager)
+  , mBtBottom(windowManager)
+{
   float sw = Renderer::Instance().DisplayWidthAsFloat();
   float sh = Renderer::Instance().DisplayHeightAsFloat();
 
