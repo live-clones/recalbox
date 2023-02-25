@@ -37,6 +37,7 @@ class Case
       MegaPiCase,
       ArgonOne,
       RaspberryPiTouchDisplay,
+      RecalboxRGBDualOrRGBHat,
       None,
     };
 
