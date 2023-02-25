@@ -9,6 +9,9 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 - Fix black screen on older PC with Intel graphic card
+- Add Ukrainian, Persian, Deutch (CH), and Slovak languages
+- Fix resolution selection
+
 
 ## Version 9-Pulstar
 
