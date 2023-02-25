@@ -219,6 +219,39 @@ function currentConfigIsHDMI {
     grep -q "HDMI" "${RRGBDUAL_CURRENT_VIDEO_CONFIG}"
 }
 
+function configure_case {
+    recallog -s "S13crt" -t "CRT" "Configuring rgbhat case"
+    mount -o remount,rw /boot
+    if grep -qe "^;\?case=" /boot/recalbox-boot.conf;then
+        sed -i "s/^.\?case=.*/case=rgbhat:1/g" /boot/recalbox-boot.conf
+    else
+        echo -e "\ncase=rgbhat:1" >> /boot/recalbox-boot.conf
+    fi
+    # Calling manage.py "" 1 1 0 will uninstall the previous case if installed, and reboot
+    python /recalbox/system/hardware/case/manage.py "" 1 1 1
+    mount -o remount,rw /boot
+}
+
+function unconfigure_case {
+    recallog -s "S13crt" -t "CRT" "Unconfiguring rgbhat case"
+    mount -o remount,rw /boot
+    sed -i "s/^.\?case=.*/case=/g" /boot/recalbox-boot.conf
+    mount -o remount,rw /boot
+}
+
+function genericInstall {
+    # As we will save the current config as the HDMI one, let's force the HDMI output
+    recallog -s "S13crt" -t "CRT" "Saving current configuration as HDMI configuration (forcing hdmi sound output)"
+    if [ "$(getArchName)" = "rpi3" ]; then
+        sed -i "s/audio.device=.*/audio.device=alsa_card.platform-3f902000.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+    else
+        sed -i "s/audio.device=.*/audio.device=alsa_card.platform-fef00700.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
+    fi
+    switchTo "CRT"
+    configure_rbconf
+    configure_kodi
+}
+
 if test "$1" == "start"; then
 
     rmTimings
@@ -236,19 +269,12 @@ if test "$1" == "start"; then
         # Installation
         if ! rrgbdAlreadyInstalled; then
             recallog -s "S13crt" -t "CRT" "Processing Recalbox RGB Dual automatic installation."
-            # As we will save the current config as the HDMI one, let's force the HDMI output
-            recallog -s "S13crt" -t "CRT" "Saving current configuration as HDMI configuration (forcing hdmi sound output)"
-            if [ "$(getArchName)" = "rpi3" ]; then
-                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-3f902000.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
-            else
-                sed -i "s/audio.device=.*/audio.device=alsa_card.platform-fef00700.hdmi:hdmi-output-0:output:iec958-stereo/" "${RECALBOX_CONF}"
-            fi
-            switchTo "CRT"
-            configure_rbconf
-            configure_kodi
+            genericInstall
             mount -o remount,rw /boot
             touch "${RRGBDUAL_LASTBOOT}"
             mount -o remount,ro /boot
+            # May Reboot
+            configure_case
             exit 0
         fi
 
@@ -335,6 +361,7 @@ if test "$1" == "start"; then
         switchTo "HDMI"
         unconfigureCRT
         unconfigure_kodi
+        unconfigure_case
         reboot
         exit 0
     fi
@@ -359,9 +386,8 @@ if test "$1" == "start"; then
             mount -o remount,rw /boot
             echo -e "${CONFIG_CONTENT[$DAC]}" >${CRT_DAC_FILE}
             mount -o remount,ro /boot
-            switchTo "CRT"
-            configure_rbconf
-            configure_kodi
+            genericInstall
+            configure_case
             reboot
         fi
         # Jack have been set from ES
@@ -389,6 +415,7 @@ if test "$1" == "start"; then
             switchTo "HDMI"
             unconfigureCRT
             unconfigure_kodi
+            unconfigure_case
             reboot
         fi
     else
