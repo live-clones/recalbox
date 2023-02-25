@@ -165,3 +165,19 @@ getStepNumber() {
   sed -E '/^\s*case=/!d;s/\s*case=[^:]+:(.*)/\1/' /boot/recalbox-boot.conf
 }
 
+# isOldIntelChipset
+# chipset number is 4 hexa digit (without the 8086)
+# return 0 if the given device id mathces a Gen3 and older GPU
+isOldIntelChipset() {
+  local OLD_CHIPSETS=(7800 1240 7121 7123 7125 1132 \
+                      2562 3577 2572 3582 358e 3582 \
+                      2582 258a 2592 2772 27a2 27ae 29d2 29b2 29c2 a001 a011 \
+                     )
+  local chipset=$(echo "$1" | tr "[:upper:]" "[:lower:]") 
+  for old_chipset in "${OLD_CHIPSETS[@]}"; do
+    if [ "$chipset" = "$old_chipset" ]; then
+     return 0
+    fi 
+  done
+  return 1
+}

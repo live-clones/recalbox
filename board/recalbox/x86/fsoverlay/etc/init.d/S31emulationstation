@@ -8,6 +8,30 @@ INIT_SCRIPT=$(basename "$0")
 
 case "$1" in
 	start)
+    intel_chip_id=$(lspci -d 8086::0300 -mm -n | sed -E 's/^.*8086"\s*"([^"]+)".*/\1/')
+    if [ -n "$intel_chip_id" -a ! -f /etc/X11/xorg.conf ]; then
+      # we should reach this part if we have an intel GPU and no hybrid laptop 
+      # nor prime configuration (which configures /etc/X11/xorg.conf)
+      source /recalbox/scripts/recalbox-utils.sh
+      mount -o remount,rw /
+      if isOldIntelChipset "$intel_chip_id"; then
+        recallog -s "${INIT_SCRIPT}" -t "ES" "Older intel chipset detected (${intel_chip_id}), using intel Xorg driver"
+        cat >/etc/X11/xorg.conf <<"        EOF"
+        Section "Device"
+            Identifier "intel"
+            Driver     "intel"
+        EndSection
+        EOF
+      else
+        recallog -s "${INIT_SCRIPT}" -t "ES" "Newer intel chipset detected (${intel_chip_id}), using modesetting Xorg driver"
+        cat >/etc/X11/xorg.conf <<"        EOF"
+        Section "Module"
+            Load     "modesetting"
+        EndSection
+        EOF
+      fi
+      mount -o remount,ro /
+    fi
 		enabled="`$systemsetting  -command load -key system.es.atstartup`"
 		if [ "$enabled" != "0" ];then
 			settings_lang="`$systemsetting -command load -key system.language`"
