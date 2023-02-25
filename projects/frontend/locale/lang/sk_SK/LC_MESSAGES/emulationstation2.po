@@ -1,0 +1,4327 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: recalbox-emulationstation\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: 
+msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
+msgstr "Dostupná aktualizácia"
+
+#: 
+msgid "CANCEL"
+msgstr "Zrušiť"
+
+#: 
+msgid "Rating"
+msgstr "Hodnotenie"
+
+#: 
+msgid "Released"
+msgstr "Vydané"
+
+#: 
+msgid "Developer"
+msgstr "Vývojár"
+
+#: 
+msgid "Publisher"
+msgstr "Vydavateľ"
+
+#: 
+msgid "Genre"
+msgstr "Žáner"
+
+#: 
+msgid "Players"
+msgstr "Hráčov"
+
+#: 
+msgid "NO GAMES FOUND - SKIP"
+msgstr "Nenašli sa hry - preskakujem"
+
+#: 
+msgid "RETRY"
+msgstr "Znovu"
+
+#: 
+msgid "SKIP"
+msgstr "Preskočiť"
+
+#: 
+msgid "SEARCH FOR"
+msgstr "Hľadať"
+
+#: 
+msgid "SEARCH"
+msgstr "Hľadať"
+
+#: 
+msgid "SCRAPING IN PROGRESS"
+msgstr "Prebieha vyhľadávanie"
+
+#: 
+msgid "SYSTEM"
+msgstr "Systém"
+
+#: 
+msgid "subtitle text"
+msgstr "text podtitulu"
+
+#: 
+msgid "INPUT"
+msgstr "Vstup"
+
+#: 
+msgid "search"
+msgstr "hľadať"
+
+#: 
+msgid "STOP"
+msgstr "Zastaviť"
+
+#: 
+msgid "stop (progress saved)"
+msgstr "zastaviť (uložiť priebeh)"
+
+#: 
+msgid "GAME %i OF %i"
+msgstr "Hra %i z %i"
+
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.COM FOR MORE INFORMATION."
+msgstr "Nenašiel sa žiadny systém.\n"
+"Skontrolujte, či máte v poriadku cesty v konfiguračnom súbore systémov a váš adresár hier má aspoň jednu hru so správnou koncovkou.\n"
+"\n"
+"Pre viac informácií navštívte recalbox.com"
+
+#: 
+msgid "%i GAME SUCCESSFULLY SCRAPED!"
+msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
+msgstr[0] "%i hra úspešne vyhľadaná"
+msgstr[1] "%i hry úspešne vyhľadané"
+msgstr[2] "%i hier úspešne vyhľadaných"
+msgstr[3] "%i hier úspešne vyhľadaných"
+
+#: 
+msgid "%i GAME SKIPPED."
+msgid_plural "%i GAMES SKIPPED."
+msgstr[0] "%i hra preskočená"
+msgstr[1] "%i hry preskočené"
+msgstr[2] "%i hier preskočených"
+msgstr[3] "%i hier preskočených"
+
+#: 
+msgid "OK"
+msgstr "OK"
+
+#: 
+msgid "EDIT METADATA"
+msgstr "Upraviť metadáta"
+
+#: 
+msgid "SCRAPE"
+msgstr "Vyhľadať"
+
+#: 
+msgid "SAVE"
+msgstr "Uložiť"
+
+#: 
+msgid "THIS WILL DELETE A FILE!\n"
+"ARE YOU SURE?"
+msgstr "Týmto vymažete súbor.\n"
+"Ste si istý?"
+
+#: 
+msgid "YES"
+msgstr "Áno"
+
+#: 
+msgid "NO"
+msgstr "Nie"
+
+#: 
+msgid "DELETE"
+msgstr "Vymazať"
+
+#: 
+msgid "SAVE CHANGES?"
+msgstr "Uložiť zmeny?"
+
+#: 
+msgid "BACK"
+msgstr "Späť"
+
+#: 
+msgid "CLOSE"
+msgstr "Zatvoriť"
+
+#: 
+msgid "MAIN MENU"
+msgstr "Hlavná ponuka"
+
+#: 
+msgid "KODI MEDIA CENTER"
+msgstr "Prehrávač KODI"
+
+#: 
+msgid "SYSTEM SETTINGS"
+msgstr "Systémové nastavenia"
+
+#: 
+msgid "VERSION"
+msgstr "Verzia"
+
+#: 
+msgid "DISK USAGE"
+msgstr "Využitie disku"
+
+#: 
+msgid "STORAGE DEVICE"
+msgstr "Úložné zariadenie"
+
+#: 
+msgid "LANGUAGE"
+msgstr "Jazyk"
+
+#: 
+msgid "OVERCLOCK"
+msgstr "Pretaktovanie"
+
+#: 
+msgid "EXTREM (1100Mhz)"
+msgstr "Extrémne (1100 MHz)"
+
+#: 
+msgid "TURBO (1000Mhz)"
+msgstr "Turbo (1000 MHz)"
+
+#: 
+msgid "HIGH (950Mhz)"
+msgstr "Vysoké (950 MHz)"
+
+#: 
+msgid "NONE (700Mhz)"
+msgstr "Žiadne (700 MHz)"
+
+#: 
+msgid "TURBO (1050Mhz)+"
+msgstr "Turbo (1050 MHz)+"
+
+#: 
+msgid "HIGH (1050Mhz)"
+msgstr "Vysoké (1050 MHz)"
+
+#: 
+msgid "NONE (900Mhz)"
+msgstr "Žiadne (900 MHz)"
+
+#: 
+msgid "NONE (1200Mhz)"
+msgstr "Žiadne (1200 MHz)"
+
+#: 
+msgid "NONE"
+msgstr "Žiadne"
+
+#. NEW SETTINGS ORGANIZATION
+#: 
+msgid "UPDATES"
+msgstr "Aktualizácie"
+
+#: 
+msgid "AUTO UPDATES"
+msgstr "Automatické aktualizácie"
+
+#: 
+msgid "START UPDATE"
+msgstr "Spustiť aktualizáciu"
+
+#: 
+msgid "KODI SETTINGS"
+msgstr "Nastavenia KODI"
+
+#: 
+msgid "ENABLE KODI"
+msgstr "Povoliť KODI"
+
+#: 
+msgid "KODI AT START"
+msgstr "Spustiť KODI pri štarte"
+
+#: 
+msgid "START KODI WITH X"
+msgstr "Spustiť KODI tlačidlom X"
+
+#: 
+msgid "SECURITY"
+msgstr "Zabezpečenie"
+
+#: 
+msgid "ENFORCE SECURITY"
+msgstr "Vynútiť zabezpečenie"
+
+#: 
+msgid "ROOT PASSWORD"
+msgstr "Heslo roota"
+
+#: 
+msgid "THE SYSTEM WILL NOW REBOOT"
+msgstr "Systém sa teraz reštartuje"
+
+#: 
+msgid "GAMES SETTINGS"
+msgstr "Nastavenia hier"
+
+#: 
+msgid "GAME RATIO"
+msgstr "Pomer strán"
+
+#: 
+msgid "SMOOTH GAMES"
+msgstr "Vyhladzovanie hier"
+
+#: 
+msgid "REWIND"
+msgstr "Pretočiť"
+
+#: 
+msgid "AUTO SAVE/LOAD"
+msgstr "Automaticky uložiť/načítať"
+
+#: 
+msgid "SHADERS SET"
+msgstr "Sada shaderov"
+
+#: 
+msgid "SCANLINES"
+msgstr "Scan riadky"
+
+#: 
+msgid "RETRO"
+msgstr "Retro"
+
+#: 
+msgid "RETROACHIEVEMENTS SETTINGS"
+msgstr "Nastavenia Retroachievements"
+
+#: 
+msgid "RETROACHIEVEMENTS"
+msgstr "Retroachievements"
+
+#: 
+msgid "HARDCORE MODE"
+msgstr "Hardcore režim"
+
+#: 
+msgid "USERNAME"
+msgstr "Meno používateľa"
+
+#: 
+msgid "PASSWORD"
+msgstr "Heslo"
+
+#: 
+msgid "ADVANCED"
+msgstr "Pokročilé"
+
+#: 
+msgid "REALLY UPDATE GAMES LISTS ?"
+msgstr "Aktualizovať zoznamy hier?"
+
+#: 
+msgid "UPDATE GAMES LISTS"
+msgstr "Aktualizovať zoznamy hier"
+
+#: 
+msgid "CONTROLLERS SETTINGS"
+msgstr "Nastavenia ovládačov"
+
+#: 
+msgid "UI SETTINGS"
+msgstr "Nastavenia UI"
+
+#: 
+msgid "OVERSCAN"
+msgstr "Overscan"
+
+#: 
+msgid "SCREENSAVER AFTER"
+msgstr "Šetrič obrazovky po"
+
+#: 
+msgid "TRANSITION STYLE"
+msgstr "Štýl prechodu"
+
+#: 
+msgid "SCREENSAVER BEHAVIOR"
+msgstr "Správanie šetriča obrazovky"
+
+#: 
+msgid "SHOW FRAMERATE"
+msgstr "Zobraziť framerate"
+
+#: 
+msgid "ON-SCREEN HELP"
+msgstr "Pomoc na obrazovke"
+
+#: 
+msgid "QUICK SYSTEM SELECT"
+msgstr "Rýchly výber systému"
+
+#: 
+msgid "THEME SET"
+msgstr "Sada tém"
+
+#: 
+msgid "SOUND SETTINGS"
+msgstr "Nastavenia zvuku"
+
+#: 
+msgid "SYSTEM VOLUME"
+msgstr "Systémová hlasitosť"
+
+#: 
+msgid "FRONTEND MUSIC"
+msgstr "Hudba rozhrania"
+
+#: 
+msgid "OUTPUT DEVICE"
+msgstr "Výstupné zariadenie"
+
+#: 
+msgid "HDMI"
+msgstr "HDMI"
+
+#: 
+msgid "JACK"
+msgstr "Jack"
+
+#: 
+msgid "AUTO"
+msgstr "Auto"
+
+#: 
+msgid "NETWORK SETTINGS"
+msgstr "Nastavenia siete"
+
+#: 
+msgid "CONNECTED"
+msgstr "Pripojené"
+
+#: 
+msgid "NOT CONNECTED"
+msgstr "Nepripojené"
+
+#: 
+msgid "STATUS"
+msgstr "Stav"
+
+#: 
+msgid "IP ADDRESS"
+msgstr "IP adresa"
+
+#: 
+msgid "HOSTNAME"
+msgstr "Názov hostiteľa"
+
+#: 
+msgid "ENABLE WIFI"
+msgstr "Povoliť Wi-Fi"
+
+#: 
+msgid "WIFI SSID"
+msgstr "Názov siete"
+
+#: 
+msgid "WIFI KEY"
+msgstr "Wi-Fi heslo"
+
+#: 
+msgid "WIFI ENABLED"
+msgstr "Wi-Fi povolené"
+
+#: 
+msgid "WIFI CONFIGURATION ERROR"
+msgstr "Chyba konfigurácie Wi-Fi"
+
+#: 
+msgid "SCRAPER"
+msgstr "Vyhľadávač"
+
+#: 
+msgid "SCRAPE FROM"
+msgstr "Vyhľadať v"
+
+#: 
+msgid "SCRAPE RATINGS"
+msgstr "Vyhľadať hodnotenia"
+
+#: 
+msgid "SCRAPE NOW"
+msgstr "Vyhľadať teraz"
+
+#: 
+msgid "QUIT"
+msgstr "Ukončiť"
+
+#: 
+msgid "REALLY RESTART?"
+msgstr "Reštartovať?"
+
+#: 
+msgid "RESTART SYSTEM"
+msgstr "Reštartovať systém"
+
+#: 
+msgid "REALLY SHUTDOWN?"
+msgstr "Vypnúť?"
+
+#: 
+msgid "SHUTDOWN SYSTEM"
+msgstr "Vypnúť systém"
+
+#: 
+msgid "Emulator"
+msgstr "Emulátor"
+
+#: 
+msgid "Core"
+msgstr "Jadro"
+
+#: 
+msgid "YOU ARE GOING TO CONFIGURE A CONTROLLER. IF YOU HAVE ONLY ONE JOYSTICK, CONFIGURE THE DIRECTIONS KEYS AND SKIP JOYSTICK CONFIG BY HOLDING A BUTTON. IF YOU DO NOT HAVE A SPECIAL KEY FOR HOTKEY, CHOOSE THE SELECT BUTTON. SKIP ALL BUTTONS YOU DO NOT HAVE BY HOLDING A KEY. BUTTONS NAMES ARE BASED ON THE SNES CONTROLLER."
+msgstr "Idete nastaviť ovládač. Ak máte iba jeden joystick, nastavte ovládacie tlačidlá a preskočte nastavenie joysticku držaním tlačidla A. Ak nemáte špeciálne tlačidlo pre HOTKEY, vyberte tlačidlo SELECT. Preskočte všetky tlačidlá, ktoré nemáte držaním tlačidla A. Názvy tlačidiel sú založené na ovládači SNES."
+
+#. GUIMENU
+#: 
+msgid "CONFIGURE A CONTROLLER"
+msgstr "Nastaviť ovládač"
+
+#. Bluetooth
+#: 
+msgid "CONTROLLER PAIRED"
+msgstr "Ovládač spárovaný"
+
+#: 
+msgid "UNABLE TO PAIR CONTROLLER"
+msgstr "Nemôžem spárovať ovládač"
+
+#: 
+msgid "AN ERROR OCCURED"
+msgstr "Nastala chyba"
+
+#: 
+msgid "NO CONTROLLERS FOUND"
+msgstr "Nenašli sa ovládače"
+
+#: 
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "Spárovať Bluetooth ovládač"
+
+#: 
+msgid "CONTROLLERS LINKS HAVE BEEN DELETED."
+msgstr "Odkazy na ovládač boli vymazané"
+
+#: 
+msgid "FORGET BLUETOOTH CONTROLLERS"
+msgstr "Zabudnúť bluetooth ovládače"
+
+#: 
+msgid "INPUT P%i"
+msgstr "Zadajte P%i"
+
+#: 
+msgid "CHOOSE"
+msgstr "Vybrať"
+
+#: 
+msgid "SELECT"
+msgstr "Vybrať"
+
+#: 
+msgid "OPTIONS"
+msgstr "Voľby"
+
+#: 
+msgid "JUMP TO LETTER"
+msgstr "Skočiť na písmeno"
+
+#: 
+msgid "SORT GAMES BY"
+msgstr "Zoradiť podľa hier"
+
+#. FAVORITES
+#: 
+msgid "FAVORITES ONLY"
+msgstr "Iba obľúbené"
+
+#: 
+msgid "EDIT THIS GAME'S METADATA"
+msgstr "Upraviť metadáta tejto hry"
+
+#: 
+msgid "SCRAPE THESE GAMES"
+msgstr "Vyhľadať tieto hry"
+
+#: 
+msgid "All Games"
+msgstr "Všetky hry"
+
+#. MISSING SCRAPPER TRANSLATIONS
+#: 
+msgid "Only missing image"
+msgstr "Iba nevyhľadané"
+
+#: 
+msgid "FILTER"
+msgstr "Filter"
+
+#: 
+msgid "SCRAPE THESE SYSTEMS"
+msgstr "Vyhľadať tieto systémy"
+
+#: 
+msgid "SYSTEMS"
+msgstr "Systémy"
+
+#: 
+msgid "USER DECIDES ON CONFLICTS"
+msgstr "Používateľ rozhodne konflikt"
+
+#: 
+msgid "START"
+msgstr "Spustiť"
+
+#: 
+msgid "WARNING: SOME OF YOUR SELECTED SYSTEMS DO NOT HAVE A PLATFORM SET. RESULTS MAY BE EVEN MORE INACCURATE THAN USUAL!\n"
+"CONTINUE ANYWAY?"
+msgstr "Upozornenie: Niektoré vaše systémy nemajú nastavenú platformu. Výsledky môžu byť nepresnejšie ako zvyčajne!\n"
+"Pokračovať?"
+
+#: 
+msgid "NO GAMES FIT THAT CRITERIA."
+msgstr "Žiadne hry vyhovujúce kritériu"
+
+#: 
+msgid "REALLY UPDATE?"
+msgstr "Vykonať aktualizáciu systému?"
+
+#: 
+msgid "NETWORK CONNECTION NEEDED"
+msgstr "Vyžaduje sa sieťové pripojenie"
+
+#: 
+msgid "UPDATE DOWNLOADED, THE SYSTEM WILL NOW REBOOT"
+msgstr "Aktualizácia stiahnutá, systém sa reštartuje"
+
+#: 
+msgid "UPDATE FAILED, THE SYSTEM WILL NOW REBOOT"
+msgstr "Aktualizácia zlyhala, systém sa reštartuje"
+
+#: 
+msgid "NO UPDATE AVAILABLE"
+msgstr "Nie je dostupná aktualizácia"
+
+#: 
+msgid "enter emulator"
+msgstr "zadajte emulátor"
+
+#: 
+msgid "enter core"
+msgstr "zadajte jadro"
+
+#: 
+msgid "Ratio"
+msgstr "Pomer"
+
+#: 
+msgid "enter ratio"
+msgstr "zadajte pomer"
+
+#: 
+msgid "Name"
+msgstr "Názov"
+
+#: 
+msgid "enter game name"
+msgstr "zadajte názov hry"
+
+#: 
+msgid "Description"
+msgstr "Popis"
+
+#: 
+msgid "enter description"
+msgstr "zadajte popis"
+
+#: 
+msgid "Image"
+msgstr "Obrázok"
+
+#: 
+msgid "enter path to image"
+msgstr "zadajte cestu k obrázku"
+
+#: 
+msgid "Thumbnail"
+msgstr "Miniatúra"
+
+#: 
+msgid "enter path to thumbnail"
+msgstr "zadajte cestu k miniatúre"
+
+#: 
+msgid "enter rating"
+msgstr "Zadajte hodnotenie"
+
+#: 
+msgid "Release date"
+msgstr "Dátum vydania"
+
+#: 
+msgid "enter release date"
+msgstr "Zadajte dátum vydania"
+
+#: 
+msgid "enter game developer"
+msgstr "zadajte vývojára hry"
+
+#: 
+msgid "enter game publisher"
+msgstr "zadajte vydavateľa hry"
+
+#: 
+msgid "enter game genre"
+msgstr "zadajte žáner hry"
+
+#: 
+msgid "enter number of players"
+msgstr "zadajte počet hráčov"
+
+#: 
+msgid "Favorite"
+msgstr "Obľúbené"
+
+#: 
+msgid "enter favorite"
+msgstr "zadajte obľúbené"
+
+#: 
+msgid "Region"
+msgstr "Región"
+
+#: 
+msgid "enter region"
+msgstr "zadajte región"
+
+#: 
+msgid "Romtype"
+msgstr "Typ romu"
+
+#: 
+msgid "enter romtype"
+msgstr "zadajte typ romu"
+
+#: 
+msgid "Hidden"
+msgstr "Skryté"
+
+#: 
+msgid "set hidden"
+msgstr "nastaviť skryté"
+
+#: 
+msgid "Play count"
+msgstr "Počet hraní"
+
+#: 
+msgid "enter number of times played"
+msgstr "zadajte počet hraní"
+
+#: 
+msgid "Last played"
+msgstr "Naposledy hrané"
+
+#: 
+msgid "enter last played date"
+msgstr "zadajte dátum poslednej hry"
+
+#: 
+msgid "%i GAME AVAILABLE"
+msgid_plural "%i GAMES AVAILABLE"
+msgstr[0] "%i hra dostupná"
+msgstr[1] "%i hry dostupné"
+msgstr[2] "%i hier dostupných"
+msgstr[3] "%i hier dostupných"
+
+#: 
+msgid "%i FAVORITE"
+msgid_plural "%i FAVORITES"
+msgstr[0] "%i obľúbená"
+msgstr[1] "%i obľúbené"
+msgstr[2] "%i obľúbených"
+msgstr[3] "%i obľúbených"
+
+#: 
+msgid "SCROLL"
+msgstr "Rolovať"
+
+#: 
+msgid "LAUNCH"
+msgstr "Spustiť"
+
+#: 
+msgid "Times played"
+msgstr "Počet hraní"
+
+#: 
+msgid "MENU"
+msgstr "Ponuka"
+
+#: 
+msgid "FILENAME, ASCENDING"
+msgstr "Názov súboru, vzostupne"
+
+#: 
+msgid "FILENAME, DESCENDING"
+msgstr "Názov súboru, zostupne"
+
+#: 
+msgid "RATING, ASCENDING"
+msgstr "Hodnotenie, vzostupne"
+
+#: 
+msgid "RATING, DESCENDING"
+msgstr "Hodnotenie, zostupne"
+
+#: 
+msgid "TIMES PLAYED, ASCENDING"
+msgstr "Čas hrania, vzostupne"
+
+#: 
+msgid "TIMES PLAYED, DESCENDING"
+msgstr "Čas hrania, zostupne"
+
+#: 
+msgid "LAST PLAYED, ASCENDING"
+msgstr "Posledná hra, vzostupne"
+
+#: 
+msgid "LAST PLAYED, DESCENDING"
+msgstr "Posledná hra, zostupne"
+
+#: 
+msgid "WORKING..."
+msgstr "Pracujem..."
+
+#: 
+msgid "CHANGE"
+msgstr "Zmeniť"
+
+#: 
+msgid "never"
+msgstr "nikdy"
+
+#: 
+msgid "just now"
+msgstr "práve teraz"
+
+#: 
+msgid "%i sec ago"
+msgid_plural "%i secs ago"
+msgstr[0] "pred %i sekundou"
+msgstr[1] "pred %i sekundami"
+msgstr[2] "pred %i sekundami"
+msgstr[3] "pred %i sekundami"
+
+#: 
+msgid "%i min ago"
+msgid_plural "%i mins ago"
+msgstr[0] "pred %i minútou"
+msgstr[1] "pred %i minútami"
+msgstr[2] "pred %i minútami"
+msgstr[3] "pred %i minútami"
+
+#: 
+msgid "%i hour ago"
+msgid_plural "%i hours ago"
+msgstr[0] "pred %i hodinou"
+msgstr[1] "pred %i hodinami"
+msgstr[2] "pred %i hodinami"
+msgstr[3] "pred %i hodinami"
+
+#: 
+msgid "%i day ago"
+msgid_plural "%i days ago"
+msgstr[0] "pred %i dňom"
+msgstr[1] "pred %i dňami"
+msgstr[2] "pred %i dňami"
+msgstr[3] "pred %i dňami"
+
+#: 
+msgid "unknown"
+msgstr "neznáme"
+
+#: 
+msgid "SELECT ALL"
+msgstr "Vybrať všetko"
+
+#: 
+msgid "SELECT NONE"
+msgstr "Zrušiť všetko"
+
+#: 
+msgid "%i SELECTED"
+msgid_plural "%i SELECTED"
+msgstr[0] "%i vybrané"
+msgstr[1] "%i vybrané"
+msgstr[2] "%i vybrané"
+msgstr[3] "%i vybrané"
+
+#: 
+msgid "UP"
+msgstr "Hore"
+
+#: 
+msgid "DOWN"
+msgstr "Dolu"
+
+#: 
+msgid "LEFT"
+msgstr "Vľavo"
+
+#: 
+msgid "RIGHT"
+msgstr "Vpravo"
+
+#: 
+msgid "JOYSTICK 1 UP"
+msgstr "Joystick 1 hore"
+
+#: 
+msgid "JOYSTICK 1 LEFT"
+msgstr "Joystick 1 vľavo"
+
+#: 
+msgid "JOYSTICK 2 UP"
+msgstr "Joystick 2 hore"
+
+#: 
+msgid "JOYSTICK 2 LEFT"
+msgstr "Joystick 2 vľavo"
+
+#: 
+msgid "PAGE UP"
+msgstr "Strana hore"
+
+#: 
+msgid "PAGE DOWN"
+msgstr "Strana dolu"
+
+#: 
+msgid "HOTKEY"
+msgstr "Hotkey"
+
+#: 
+msgid "CONFIGURING"
+msgstr "Nastavovanie"
+
+#: 
+msgid "KEYBOARD"
+msgstr "Klávesnica"
+
+#: 
+msgid "GAMEPAD %i"
+msgstr "Gamepad %i"
+
+#. Config controllers missing translation
+#: 
+msgid "PRESS ANYTHING"
+msgstr "Stlačte niečo"
+
+#: 
+msgid "ALREADY TAKEN"
+msgstr "Už použité"
+
+#: 
+msgid "DISCARD CHANGES"
+msgstr "Zahodiť zmeny"
+
+#: 
+msgid "WELCOME"
+msgstr "Vitajte"
+
+#: 
+msgid "CONFIGURE INPUT"
+msgstr "Nastaviť vstup"
+
+#: 
+msgid "%i GAMEPAD DETECTED"
+msgid_plural "%i GAMEPADS DETECTED"
+msgstr[0] "%i gamepad vybraný"
+msgstr[1] "%i gamepady vybrané"
+msgstr[2] "%i gamepadov vybraných"
+msgstr[3] "%i gamepadov vybraných"
+
+#: 
+msgid "NO GAMEPADS DETECTED"
+msgstr "Nenašiel sa gamepad"
+
+#: 
+msgid "HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."
+msgstr "Stlačte tlačidlo A na nastavenie vášho zariadenia."
+
+#: 
+msgid "PRESS F4 TO QUIT AT ANY TIME."
+msgstr "Stlačte F4 na ukončenie kedykoľvek."
+
+#: 
+msgid "PRESS ESC OR THE HOTKEY TO CANCEL."
+msgstr "Stlačte ESC alebo HOTKEY na zrušenie"
+
+#: 
+msgid "DO YOU WANT TO START KODI MEDIA CENTER ?"
+msgstr "Chcete spustiť prehrávač KODI?"
+
+#: 
+msgid "LOADING..."
+msgstr "Načítavam..."
+
+#: 
+msgid "PLEASE WAIT..."
+msgstr "Prosím čakajte..."
+
+#: 
+msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
+msgstr "Vypnúť bez uloženia metadát?"
+
+#: 
+msgid "FAST SHUTDOWN SYSTEM"
+msgstr "Rýchlo vypnúť systém"
+
+#: 
+msgid "WE CAN'T FIND ANY SYSTEMS!\n"
+"CHECK THAT YOUR PATHS ARE CORRECT IN THE SYSTEMS CONFIGURATION FILE, AND YOUR GAME DIRECTORY HAS AT LEAST ONE GAME WITH THE CORRECT EXTENSION.\n"
+"\n"
+"VISIT RECALBOX.FR FOR MORE INFORMATION."
+msgstr "Nemôžeme nájsť žiadny systém!\n"
+"Skontrolujte, či sú vaše cesty správne v konfiguračnom súbore systému a váš adresár hier má aspoň jednu hru so správnou príponou.\n"
+"\n"
+"Pre viac informácií navštívte recalbox.com."
+
+#: 
+msgid "ON SCREEN KEYBOARD"
+msgstr "Klávesnica na obrazovke"
+
+#: 
+msgid "SHIFTS FOR UPPER,LOWER, AND SPECIAL"
+msgstr "Zdvih pre horný, dolný a špeciálny"
+
+#: 
+msgid "SPACE"
+msgstr "Medzera"
+
+#: 
+msgid "DELETE A CHAR"
+msgstr "Vymazať znak"
+
+#: 
+msgid "SHIFT"
+msgstr "Shift"
+
+#: 
+msgid "STOP EDITING"
+msgstr "Koniec editácie"
+
+#: 
+msgid "MOVE CURSOR"
+msgstr "Posunúť kurzor"
+
+#: 
+msgid "EDIT"
+msgstr "Upraviť"
+
+#: 
+msgid "ACCEPT RESULT"
+msgstr "Prijať výsledok"
+
+#: 
+msgid "FILENAME"
+msgstr "Názov súboru"
+
+#: 
+msgid "RATING"
+msgstr "Hodnotenie"
+
+#: 
+msgid "TIMES PLAYED"
+msgstr "Počet hraní"
+
+#: 
+msgid "LAST PLAYED"
+msgstr "Posledná hra"
+
+#: 
+msgid "NUMBER OF PLAYERS"
+msgstr "Počet hráčov"
+
+#: 
+msgid "DEVELOPER"
+msgstr "Vývojár"
+
+#: 
+msgid "GENRE"
+msgstr "Žáner"
+
+#: 
+msgid "SHOW HIDDEN"
+msgstr "Zobraziť skryté"
+
+#: 
+msgid "EXTREM (1400Mhz)"
+msgstr "Extrémne (1400 MHz)"
+
+#: 
+msgid "TURBO (1350Mhz)"
+msgstr "Turbo (1350 MHz)"
+
+#: 
+msgid "HIGH (1300Mhz)"
+msgstr "Vysoké (1300 MHz)"
+
+#: 
+msgid "TURBO AND EXTREM OVERCLOCK PRESETS MAY CAUSE SYSTEM UNSTABILITIES, SO USE THEM AT YOUR OWN RISK.\n"
+"IF YOU CONTINUE, THE SYSTEM WILL REBOOT NOW."
+msgstr "Turbo a Extrémne pretaktovanie môže spôsobiť nestabilitu systému, používajte ich iba na vlastné riziko!\n"
+"Systém sa teraz reštartuje, ak budete pokračovať."
+
+#: 
+msgid "%i GAME HIDDEN"
+msgid_plural "%i GAMES HIDDEN"
+msgstr[0] "%i hra skrytá"
+msgstr[1] "%i hry skryté"
+msgstr[2] "%i hier skrytých"
+msgstr[3] "%i hier skrytých"
+
+#: 
+msgid "Start kodi media player."
+msgstr "Spustiť prehrávač KODI"
+
+#: 
+msgid "Select the language for your recalbox, select an external drive to store your games and configurations, check your current version and the free space on your drive"
+msgstr "Vyberte jazyk pre Recalbox, vyberte externý disk na uloženie vašich hier a nastavení, skontrolujte verziu a skontrolujte voľné miesto."
+
+#: 
+msgid "Shows your current recalboxOS version."
+msgstr "Zobrazí aktuálnu verziu Recalboxu"
+
+#: 
+msgid "Show how much space is used on your SHARE partition, located either on the SDCARD or on an external drive. The information shows how much GB are used and how much GB your storage has overall (example 13GB/26GB)."
+msgstr "Zobrazí, koľko miesta sa používa na vašej SHARE partícii, umiestnenej na SD karte alebo externom disku. Informácia ukáže, koľko GB sa používa a aká je celková kapacita (napr. 13 GB/26 GB)."
+
+#: 
+msgid "Select an external drive to store your roms, saves, configurations etc.\n"
+"Use a FAT32 formatted drive. The system does not format the drive. On first boot, with this option enabled, recalbox will create a '/recalbox' folder with all system files inside."
+msgstr "Vybrať externý disk na uloženie vašich ROMov, uložení, nastavení a pod.\n"
+"Použite disk vo formáte FAT32. Systém ho nenaformátuje. Pri prvom spustení, ak je to povolené, Recalbox vytvorí priečinok /recalbox so všetkými systémovými súbormi."
+
+#: 
+msgid "Select your language. A reboot is needed to set this configuration active."
+msgstr "Vyberte váš jazyk. Na zmenu tohto nastavenia je potrebný reštart."
+
+#: 
+msgid "Manage your recalbox updates. Select the update type. Activate update check."
+msgstr "Prepnúť kontrolu aktualizácie, zobrazenie zoznamu zmien a spustenie aktualizácie"
+
+#: 
+msgid "Check if an update is available, and start the update process."
+msgstr "Skontrolovať, či je dostupná aktualizácia a spustiť proces aktualizácie"
+
+#: 
+msgid "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\n"
+"Unstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\n"
+"If you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
+msgstr "Stabilné aktualizácie kontrolujú aktualizácie stabilných vydaní Recalboxu. Tieto aktualizácie testujú a povoľujú členovia tímu Recalbox a ich testeri.\n"
+"Nestabilné aktualizácie vám umožnia získať najnovší Recalbox použitím nestabilného repozitára. Pomôžte nám testovať najnovšie verziu Recalboxu!\n"
+"Ak zvolíte inštaláciu nestabilných aktualizácií, určite zadávajte chyby na nástenku chýb recalbox-os!\n"
+"(https://gitlab.com/recalbox/recalbox/-/issues)"
+
+#: 
+msgid "Automatically check if an update is avaialble. If so, it notifies you with a message."
+msgstr "Automaticky kontrolovať, či je dostupná aktualizácia. Ak áno, budete informovaní správou."
+
+#: 
+msgid "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
+msgstr "Nastaviť zobrazenie hry, pomer strán, filtre, automatické ukladanie a načítavania a váš Retroachievements účet"
+
+#: 
+msgid "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
+msgstr "Pomer strán je pomer medzi šírkou a výškou obrazu. Použite AUTO a emulátor určí optimálny pomer, ktorý poskytne najlepší zážitok."
+
+#: 
+msgid "Smooth the game image. This option makes the image smoother, using bilinear filtering."
+msgstr "Vyhladí video hry bilineárnym filtrovaním"
+
+#: 
+msgid "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."
+msgstr "Táto voľba vám umožní pretočiť hru, ak ste spravili chybu. Použite HOTKEY + Vľavo na pretočenie."
+
+#: 
+msgid "Auto save the state when you quit a game, and auto load last saved state when you start a game."
+msgstr "Automaticky uložiť stav pri ukončení hry a načítať ho pri spustení hry"
+
+#: 
+msgid "Integer scaling is scaling by a factor of a whole number, such as 2x, 3x, 4x, etc. This option scales the image up to the greatest integer scale below the set resolution. So for instance, if you set your fullscreen resolution to 1920x1080 and enable integer scaling, it will only scale a 320x240 image up to 1280x960, and leave black borders all around. This is to maintain a 1:1 pixel ratio with the original source image, so that pixels are not unevenly duplicated."
+msgstr "Celočíselné škálovanie je škálovanie násobkom celého čísla, ako 2x, 3x, 4x, atď. Táto voľba škáluje obraz na najväčšiu celú mierku pod rozlíšením. Napríklad, ak nastavíte rozlíšenie celej obrazovky na 1920x1080 a povolíte celočíselné škálovanie, zmení mierku 320x240 na 1280x960 a nechá čierne okraje okolo. Je to na zachovanie pomeru veľkosti bodu 1:1 s pôvodným zdrojovým obrazom, aby pixely neboli nerovnomerne duplikované."
+
+#: 
+msgid "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
+msgstr "Shadery sú ako filtre pre renderovanie hier. Tu môžete vybrať sadu shaderov, čo je kolekcia shaderov pre každý systém. Môžete tiež zmeniť shadery v hre pomocou HOTKEY + L2 or HOTKEY + R2."
+
+#: 
+msgid "Enable or disable RetroAchievements in games."
+msgstr "Povoliť alebo zakázať Retroachievements v hre"
+
+#: 
+msgid "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."
+msgstr "Hardcore režim vypína ukladanie a pretáčanie. Nie je možné ukladať postup v hre ani sa k nemu vracať. Hru musíte ukončiť na prvýkrát, rovnako ako na originálnej konzoli. Ako odmenu za túto funckiu získate štandardné body plus ďalšie body naviac. 400 bežne získaných bodov bude teraz 800 bodov, ak hru dokončíte v hardcore režime."
+
+#: 
+msgid "The website retroachievements.org proposes challenges/achievements/trophies on platforms like NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine and more! Create your account on retroachievements.org and start your quest for achievements!"
+msgstr "Stránka retroachievements.org ponúa možnosť výziev/úspechov/cien pre platformy ako NES, SNES, GB, GBC, GBA, Genesis/Megadrive, TurboGrafx16/PCEngine a ďalšie. Vytvorte si účet na retroachievements.org a začnite vašu cestu k herným úspechom."
+
+#: 
+msgid "Add and configure up to 5 controllers."
+msgstr "Pridať a nastaviť do 10 ovládačov"
+
+#: 
+msgid "Pair a bluetooth controller with your recalbox. Your controller must be in pairing mode."
+msgstr "Spárovať Bluetooth ovládač s vašim Recalboxom. Ovládač musí byť v párovacom režime."
+
+#: 
+msgid "Forget all paired bluetooth controllers. You will have to pair your controllers again, but this option can help if you have issues to reconnect a controller, which is already paired."
+msgstr "Zabudnúť všetky Bluetooth ovládače. Budete ich musieť spárovať znova, ale táto voľba vám pomôže, ak máte problémy s už spárovaným ovládačom."
+
+#: 
+msgid "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\n"
+"If you've added games since the last boot, you can also refresh the gamelist from this menu."
+msgstr "Nastavte vzhľad vášho prostredia EmulationStation. Vyberte typy prechodov, pomocníka a správanie šetriča obrazovky. Môžete tiež deaktivovať klávesnicu na obrazovke, ak máte pripojenú skutočnú klávesnicu."
+
+#: 
+msgid "Start the screensaver after N minutes."
+msgstr "Nastaviť spustenie šetriča obrazovky a jeho správanie"
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, and BLACK will turn the screen black."
+msgstr "Nastaviť správanie šetriča obrazovky. Stmaviť zníži jas obrazovky, Čierna vypne obrazovku."
+
+#: 
+msgid "Shows a help at the bottom of the screen which displays commands you can use."
+msgstr "Zobraziť pomocníka na spodu obrazovky, ktorý vám ukáže, ktoré tlačidlá môžete použiť"
+
+#: 
+msgid "When enabled, you can switch between systems while browsing a gamelist by pressing LEFT or RIGHT."
+msgstr "Ak je povolené, môžete prechádzať systémy počas prehliadania hier stlačením Vľavo alebo Vpravo"
+
+#: 
+msgid "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
+msgstr "Klávesnica na obrazovke je potrebná na zápis textu, ak máte pripojené iba ovládače. Môžete ju zakázať, ak máte reálnu klávesnicu."
+
+#: 
+msgid "Select a theme for your recalbox."
+msgstr "Vyberte tému pre Recalbox"
+
+#: 
+msgid "Updates the gamelists, if you added games since the last boot."
+msgstr "Aktualizuje zoznamy hier, ak ste pridali hry od posledného spustenia"
+
+#: 
+msgid "Configure the sound options of your recalbox."
+msgstr "Nastaviť zvukové voľby pre Recalbox"
+
+#: 
+msgid "Set the volume of the sound output for the frontend and the games."
+msgstr "Nastaviť hlasitosť zvukového výstupu pre rozhranie a pre hry"
+
+#: 
+msgid "Enable or disable the frontend music. You can add your own music as mp3, or ogg format in the 'musics' directory of your recalbox."
+msgstr "Povoliť alebo zakázať hudbu prostredia. Môžete pridať vlastnú hudbu v mp3 alebo ogg formáte v adresári \"music\" vo vašom Recalboxe."
+
+#: 
+msgid "Select your output device. Only HDMI and JACK are supported."
+msgstr "Vyberte výstupné zariadenie"
+
+#: 
+msgid "Configure the network options of your recalbox.\n"
+"Check your network status and IP address, set the hostname and configure the WIFI."
+msgstr "Nastaviť sieťové nastavenia Recalboxu.\n"
+"Skontrolujte stav pripojenia, IP adresu, zmeňte názov hostiteľa a nastavte bezdôtovú sieť."
+
+#: 
+msgid "Displays CONNECTED, if you are connected, by checking if your recalbox can access the recalbox.com update server."
+msgstr "Zobrazí, či ste pripojení skontrolovaním, či sa Recalbox vie pripojiť na aktualizačný server recalbox.com."
+
+#: 
+msgid "The IP address of your recalbox within your local network."
+msgstr "IP adresa vášho systému na miestnej sieti"
+
+#: 
+msgid "Enable or disable WIFI.\n"
+"If you disable WIFI, the SSID and the WIFI passwords are saved and can be used when you reactivate it"
+msgstr "Povoliť alebo zakázať Wi-Fi.\n"
+"Ak zakážete Wi-Fi, meno a heslo sa uložia a môžu sa použiť neskôr."
+
+#: 
+msgid "The name of your recalbox in your local network"
+msgstr "Názov vášho systému na miestnej sieti"
+
+#: 
+msgid "SSID (WIFI Name) of your network."
+msgstr "Názov vašej Wi-Fi siete"
+
+#: 
+msgid "Private key of your WIFI network."
+msgstr "Heslo vašej Wi-Fi siete"
+
+#: 
+msgid "Get informations and visual for your games. The scraper downloads metadata and visuals for your games from different servers and enhances the user experience in EmulationStation completely."
+msgstr "Získať informácie a vizuály pre vaše hry. Vyhľadávač stiahne údaje z rôznych servrov a úplne zmení váš zážitok v EmulationStation."
+
+#: 
+msgid "Select a server to scrape from. The SCREENSCRAPER server is recommended and is based on www.screenscraper.fr and scrapes game data in your language, if available."
+msgstr "Vyberte server, kde vyhľadávať. ScreenScraper (screenscraper.fr) sa odporúča a stiahne údaje vo vašom jazyku, ak sú dostupné."
+
+#: 
+msgid "Begin the scrape process with the configuration shown below."
+msgstr "Spustiť proces vyhľadávania s daným nastavením"
+
+#: 
+msgid "Scrape and display game ratings."
+msgstr "Vyhľadať a zobraziť hodnotenia hier"
+
+#: 
+msgid "Advanced settings. Please make sure you really know what you're doing, before changing any values in this menu."
+msgstr "Pokročilé nastavenia. Meňte nastavenia len vtedy, ak viete, čo robíte!"
+
+#: 
+msgid "Overclock your board to increase the performance.\n"
+"Overclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
+msgstr "Pretaktovať váš systém na zvýšenie výkonu.\n"
+"Nastavenia pretaktovanie sú testovaní a validované komunitou.\n"
+"Pamätajte, že pretaktovanie môže zrušiť záruku!"
+
+#: 
+msgid "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
+msgstr "Vybrať, ktorý systém sa zobrazí pri spustení prostredia RecalBox. Predvolené je Obľúbené."
+
+#: 
+msgid "On boot, recalbox will show the list of games of the selected system rather than the system view."
+msgstr "Pri štarte Recalbox zobrazí zoznam hier vybraného systému namiesto pohľadu systémov."
+
+#: 
+msgid "Only show games contained in the gamelist.xml file (located in your roms directories).\n"
+"This option highly speeds up boot time, but new games will not be detected."
+msgstr "Zobraziť iba hry obsiahnuté v súbore gamelist.xml (vo vašich adresároch hier).\n"
+"Táto voľba mierne zrýchľuje čas spustenia, ale nezistia sa nové hry."
+
+#: 
+msgid "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
+msgstr "Táto voľba vám umožní nastaviť vybraný systém na fixný režim. Ak je táto voľba aktivovaná, používateľ nemá prístup k iným systémom."
+
+#: 
+msgid "Always display the basic gamelist view, even if you have scraped your games."
+msgstr "Vždy zobraziť základný zoznam hier, aj ak ste vyhľadali vaše hry"
+
+#: 
+msgid "Override global options like emulator, core, ratio and more for each available system in your recalbox."
+msgstr "Prepísať globálne voľby ako emulátor, jadro, pomer strán a iné pre každý dostupný systém v Recalboxe"
+
+#: 
+msgid "Configure boot options that make your recalbox boot straight into a system or into Kodi, lock a user to a single system, or directly show the gamelist."
+msgstr "Nastaviť voľby spustenia, ktoré spustia Recalbox priamo do systému alebo do Kodi, zamknú používateľa na jeden systém alebo priamo zobrazia zoznam hier"
+
+#: 
+msgid "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
+msgstr "Povoliť alebo zakázať Kodi, prispôsobiť spustenie Kodi, povoliť spustenie Kodi tlačidlom X"
+
+#: 
+msgid "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
+msgstr "Povoliť alebo zakázať Kodi. Ak je Kodi zakázané, nebudete mať možnosť spustiť ho tlačidlom X alebo spustiť ho automaticky pri štarte. Odstráni sa aj položka v ponuke."
+
+#: 
+msgid "Use the X button to start Kodi."
+msgstr "Použiť tlačidlo X na spustenie KODI"
+
+#: 
+msgid "Automatically start into Kodi on boot."
+msgstr "Automaticky spustiť KODI pri štarte"
+
+#: 
+msgid "Manage your recalbox security."
+msgstr "Spravovať zabezpečenie Recalboxu"
+
+#: 
+msgid "Change the SSH root password."
+msgstr "Zmeniť SSH heslo roota"
+
+#: 
+msgid "Enforce recalbox security."
+msgstr "Vynútiť zabezpečenie Recalboxu"
+
+#: 
+msgid "Enable or disable overscan.\n"
+"Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
+"More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
+msgstr "Povoliť alebo zakázať overscan.\n"
+"Overscan môže pomôcť, ak máte čierne okraje alebo obraz je väčší ako obrazovka. Pred nastavením overscanu skúste nastaviť váš televízor na pomer bodov 1:1.\n"
+"Viac nastavení overscanu sa dá definovať v súbore boot.txt, ktorý je dostupný, ak vložíte SD kartu do počítača."
+
+#: 
+msgid "Show the framerate in EmulationStation and in game."
+msgstr "Zobraziť framerate v EmulationStation a v hre"
+
+#: 
+msgid "Enable or disable the Recalbox Manager.\n"
+"The Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\n"
+"You can configure many options from within the manager, and even manage games, saves, and scrapes!"
+msgstr "Zapnúť alebo vypnúť Recalbox Manager. Recalbox Manager je webová aplikácia dostupná na adrese http://recalbox na Windows alebo na adrese http://recalbox.local v Linuxe a Mac alebo priamo pomocou IP adresy Recalboxu: http://192.168.1.XX.\n"
+"V aplikácii môžete vykonávať nastavenia, správu hier, uložených postupov a vyhľadávať informácie o hrách."
+
+#: 
+msgid "Enable or disable the recalbox API.\n"
+"The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
+msgstr "Povoliť alebo zakázať Recalbox API.\n"
+"Recalbox API je REST API vystavujúce endpointy na ovládanie vášho Recalboxu cez http requesty."
+
+#: 
+msgid "Select which emulator to use when you start a game for this system."
+msgstr "Vyberte, ktorý emulátor sa má použiť pri spustení hry pre tento systém"
+
+#: 
+msgid "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
+msgstr "Vyberte, aké jadro sa použije pre daný emulátor. Napríklad emulátor Libretro poskytuje mnoho jadier na spustenie Super Nindento hier. Predvolené jadro, ktoré tu vyberiete, sa môže prepísať špecifickým nastavením niektorej hry."
+
+#: 
+msgid "USE COMPOSED VISUALS"
+msgstr "Použiť zložené vizuály"
+
+#: 
+msgid "CHECK UPDATES"
+msgstr "Skontrolovať aktualizácie"
+
+#: 
+msgid "UPDATE TYPE"
+msgstr "Typ aktualizácie"
+
+#: 
+msgid "INTEGER SCALE (PIXEL PERFECT)"
+msgstr "Celočíselná mierka (pixel perfect)"
+
+#: 
+msgid "ADVANCED SETTINGS"
+msgstr "Pokročilé nastavenia"
+
+#: 
+msgid "BOOT SETTINGS"
+msgstr "Nastavenia spustenia"
+
+#: 
+msgid "GAMELIST ONLY"
+msgstr "Iba zoznamy hier"
+
+#: 
+msgid "BOOT ON SYSTEM"
+msgstr "Spustiť do systému"
+
+#: 
+msgid "BOOT ON GAMELIST"
+msgstr "Spustiť do zoznamu hier"
+
+#: 
+msgid "HIDE SYSTEM VIEW"
+msgstr "Skryť zobrazenie systému"
+
+#: 
+msgid "EMULATOR ADVANCED CONFIGURATION"
+msgstr "Pokročilé nastavenie emulátora"
+
+#: 
+msgid "ADVANCED EMULATOR CONFIGURATION"
+msgstr "Pokročilé nastavenie emulátora"
+
+#: 
+msgid "HELP"
+msgstr "Pomoc"
+
+#: 
+msgid "THE SYSTEM IS UP TO DATE"
+msgstr "Systém je aktuálny"
+
+#: 
+msgid "FORCE BASIC GAMELIST VIEW"
+msgstr "Vynútiť základný pohľad zoznamu hier"
+
+#: 
+msgid "DOWNLOADED"
+msgstr "Stiahnuté"
+
+#: 
+msgid "UPDATE VERSION:"
+msgstr "Verzia aktualizácie:"
+
+#: 
+msgid "UPDATE CHANGELOG:"
+msgstr "Zoznam zmien aktualizácie:"
+
+#: 
+msgid "MORE DETAILS"
+msgstr "Viac podrobností"
+
+#: 
+msgid "CAROUSEL ANIMATION"
+msgstr "Otočná animácia"
+
+#: 
+msgid "THEME CONFIGURATION"
+msgstr "Nastavenie témy"
+
+#: 
+msgid "THEME COLORSET"
+msgstr "Farebná sada témy"
+
+#: 
+msgid "THEME ICONSET"
+msgstr "Sada ikon témy"
+
+#: 
+msgid "THEME MENU"
+msgstr "Ponuka témy"
+
+#: 
+msgid "THEME SYSTEMVIEW"
+msgstr "Téma pohľadu systému"
+
+#: 
+msgid "THEME GAMELISTVIEW"
+msgstr "Téma pohľadu zoznamu hier"
+
+#: 
+msgid "THEME REGION"
+msgstr "Región témy"
+
+#: 
+msgid "THIS THEME HAS NO OPTION"
+msgstr "Táto téma nemá žiadne voľby"
+
+#: 
+msgid "MANUAL INPUT"
+msgstr "Ručný vstup"
+
+#: 
+msgid "AN ERROR OCCURED - DOWNLOADED"
+msgstr "Nastala chyba - stiahnuté"
+
+#: 
+msgid "START KODI"
+msgstr "Spustiť KODI"
+
+#: 
+msgid "Shows the current available update version."
+msgstr "Zobrazí aktuálne dostupnú verziu aktualizácie"
+
+#: 
+msgid "Shows the current available update changelog."
+msgstr "Zobrazí aktuálne dostupný zoznam zmien aktualizácie"
+
+#: 
+msgid "Configure an associated controller. Your controller has to be associated / plugged before."
+msgstr "Nastaviť spárovaný ovládač. Váš ovládač musí byť už spárovaný."
+
+#: 
+msgid "Choose if carousel will be animated or not during transitions"
+msgstr "Vyberte, či má byť otočná animácia počas prechodov"
+
+#: 
+msgid "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+msgstr "Vyberte typ prechodu, ktorý sa použije pri spustení hry. Okamžité neurobí nič, Vytratenie urobí stmavenie a Posun priblíži obal hry."
+
+#: 
+msgid "Select exisiting colorset options for this theme."
+msgstr "Vybrať existujúce voľby farebnej sady pre túto tému"
+
+#: 
+msgid "Select exisiting iconset options for this theme."
+msgstr "Vybrať existujúce voľby sady ikon pre túto tému"
+
+#: 
+msgid "Select exisiting menu style options for this theme."
+msgstr "Vybrať existujúce voľby štýlu ponuky pre túto tému"
+
+#: 
+msgid "Select exisiting system view options for this theme."
+msgstr "Vybrať existujúce voľby pohľadu systémov pre túto tému"
+
+#: 
+msgid "Select exisiting gamelist view options for this theme."
+msgstr "Vybrať existujúce voľby pohľadu zoznamu hier pre túto tému"
+
+#: 
+msgid "Configure theme options if available."
+msgstr "Nastaviť voľby témy, ak sú dostupné"
+
+#: 
+msgid "Select Region of logos, pictures for system that are different for some countries. E.g. Megadrive in EU / Genesis in US"
+msgstr "Vyberte región pre logá/obrázky pre systémy, ktoré sa líšia pre krajinu. Napr. Megadrive v EU/Genesis v US"
+
+#: 
+msgid "Type the name of your SSID if it is hidden or not listed"
+msgstr "Zadajte názov siete, ak je skrytá alebo nezobrazená"
+
+#: 
+msgid "Select a letter and the listing will go directly on the first game starting with this letter."
+msgstr "Vyberte písmeno a zoznam pôjde priamo na prvú hru začínajúcu na toto písmeno"
+
+#: 
+msgid "Select the way the game list is sortered (alphabetically, by notation...)."
+msgstr "Vyberte spôsob, akým sa triedi zoznam hier (abecedne, podľa zápisu)"
+
+#: 
+msgid "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+msgstr "Prepnúť viditeľnosť categórie Obľúbené hry. Na pridanie hry do obľúbených vyberte hru a prepnite jej stav pomocou \"Y\"."
+
+#: 
+msgid "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
+msgstr "Prepnúť viditeľnésť skrytých hier. Na skrytie hry opravte jej údaje a vyberte \"Skryť\"."
+
+#: 
+msgid "This option display a menu which allows to change game data and many others options."
+msgstr "Táto voľba zobrazí ponuku, ktorá vám umožní zmeniť údaje hier a mnohé iné voľby"
+
+#: 
+msgid "AVAILABLE UPDATE"
+msgstr "Dostupná aktualizácia"
+
+#: 
+msgid "UPDATE CHANGELOG"
+msgstr "Zoznam zmien aktualizácie"
+
+#: 
+msgid "CLOCK IN MENU"
+msgstr "Hodiny v ponuke"
+
+#: 
+msgid "Now playing"
+msgstr "Teraz hrá"
+
+#: 
+msgid "DEFAULT (%1%)"
+msgstr "Predvolené (%1%)"
+
+#: 
+msgid "INPUT REQUIRED"
+msgstr "Vyžaduje sa vstup"
+
+#: 
+msgid "(skipped)"
+msgstr "(preskočené)"
+
+#: 
+msgid "UP/DOWN TO SKIP"
+msgstr "Hore/Dolu na preskočenie"
+
+#: 
+msgid "A TO UNSET"
+msgstr "A na zrušenie"
+
+#: 
+msgid "DOWN TO SKIP AND KEEP [%1%]"
+msgstr "Dolu na preskočenie a ponechanie [%1%]"
+
+#: 
+msgid "UP/DOWN TO SKIP AND KEEP [%1%]"
+msgstr "Hore/Dolu na preskočenie a ponechanie [%1%]"
+
+#: 
+msgid "Set duration of help popups, 0 means no popup."
+msgstr "Nastaviť trvanie popupov. 0 ich zakáže."
+
+#: 
+msgid "HELP POPUP DURATION"
+msgstr "Trvanie pomocných popupov"
+
+#: 
+msgid "Set duration of music popups, 0 means no popup."
+msgstr "Nastaviť trvanie hudobných popupov. 0 ich zakáže."
+
+#: 
+msgid "MUSIC POPUP DURATION"
+msgstr "Trvanie hudobného popupu"
+
+#: 
+msgid "POPUP SETTINGS"
+msgstr "Nastavenia popupu"
+
+#: 
+msgid "POPUP POSITION"
+msgstr "Poloha popupu"
+
+#: 
+msgid "Select the position of popups on screen."
+msgstr "Vyberte polohu popupu na obrazovke"
+
+#: 
+msgid "Set position and duration of popups."
+msgstr "Nastaviť polohu a trvanie popupov"
+
+#: 
+msgid "TOP/RIGHT"
+msgstr "Hore/Vpravo"
+
+#: 
+msgid "BOTTOM/RIGHT"
+msgstr "Dolu/Vpravo"
+
+#: 
+msgid "BOTTOM/LEFT"
+msgstr "Dolu/Vľavo"
+
+#: 
+msgid "TOP/LEFT"
+msgstr "Hore/Vľavo"
+
+#: 
+msgid "SHOW FOLDERS CONTENT"
+msgstr "Zobraziť obsah adresárov"
+
+#: 
+msgid "Switch between seeing the folders structure and seeing all games in a flatten top level."
+msgstr "Prepnúť medzi zobrazením štruktúry adresárov a zobrazením všetkých hier v jednej úrovni"
+
+#: 
+msgid "NETPLAY"
+msgstr "Sieťová hra"
+
+#: 
+msgid "NETPLAY SETTINGS"
+msgstr "Nastavenia netplay"
+
+#: 
+msgid "NETPLAY LOBBY"
+msgstr "Sieťová miestnosť"
+
+#: 
+msgid "Enable or disable Netplay in games."
+msgstr "Povoliť alebo zakázať sieťovú hru"
+
+#: 
+msgid "PORT"
+msgstr "Port"
+
+#: 
+msgid "NICKNAME"
+msgstr "Prezývka"
+
+#: 
+msgid "RELAY SERVER"
+msgstr "Relay server"
+
+#: 
+msgid "Enable or disable connections throught relay servers."
+msgstr "Povoliť alebo zakázať pripojenia cez relay servre"
+
+#: 
+msgid "KODI/NETPLAY"
+msgstr "KODI/Netplay"
+
+#: 
+msgid "NO GAMES OR NO CONNECTION"
+msgstr "Žiadne hry alebo pripojenie"
+
+#: 
+msgid "HASH NOW"
+msgstr "Hashovať teraz"
+
+#: 
+msgid "HASH THESE SYSTEMS"
+msgstr "Hashovať tieto systémy"
+
+#: 
+msgid "Add hash of roms in your gamelists to have more accurate results in Netplay."
+msgstr "Pridať hashe vašich hier do vašich zoznamov hier pre presnejšie výsledky sieťových hier"
+
+#: 
+msgid "HASH ROMS"
+msgstr "Hashovať ROMy"
+
+#: 
+msgid "Only missing hashs"
+msgstr "Iba chýbajúce hashe"
+
+#: 
+msgid "Username"
+msgstr "Meno používateľa"
+
+#: 
+msgid "Country"
+msgstr "Krajina"
+
+#: 
+msgid "Latency"
+msgstr "Latencia"
+
+#: 
+msgid "Host arch."
+msgstr "Arch. hostiteľa"
+
+#: 
+msgid "Core ver."
+msgstr "Verzia jadra"
+
+#: 
+msgid "RA ver."
+msgstr "Verzia RA"
+
+#: 
+msgid "Can join"
+msgstr "Môže pripojiť"
+
+#: 
+msgid "Rom and core match"
+msgstr "Zhoda ROMu a jadra"
+
+#: 
+msgid "Rom found"
+msgstr "ROM nájdený"
+
+#: 
+msgid "No rom match"
+msgstr "ROM nenájdený"
+
+#: 
+msgid "Match"
+msgstr "Zhoda"
+
+#: 
+msgid "No Match"
+msgstr "Bez zhody"
+
+#: 
+msgid "Rom file"
+msgstr "ROM súbor"
+
+#: 
+msgid "Rom hash"
+msgstr "ROM hash"
+
+#: 
+msgid "THIS COULD TAKE A WHILE, CONFIRM?"
+msgstr "Toto chvíľu potrvá. Potvrdiť?"
+
+#: 
+msgid "good"
+msgstr "dobré"
+
+#: 
+msgid "bad"
+msgstr "zlé"
+
+#: 
+msgid "medium"
+msgstr "stredné"
+
+#: 
+msgid "NETPLAY POPUP DURATION"
+msgstr "Doba zobrazenia okna sieťovej hry"
+
+#: 
+msgid "Set duration of netplay popups, 0 means no popup."
+msgstr "Nastaviť trvanie popupov sieťových hier, 0 znamená žiadny popup"
+
+#: 
+msgid "Player"
+msgstr "Hráč"
+
+#: 
+msgid "Game"
+msgstr "Hra"
+
+#: 
+msgid "A Recalbox friend has started a Netplay game!"
+msgstr "Priateľ v Recalboxe spustil sieťovú hru!"
+
+#: 
+msgid "Play online on games running through Retroarch like NES, SNES, FBA, Genesis/Megadrive and more!"
+msgstr "Pripojte sa online pomocou hier cez RetroArch, ako sú NES, SNES, FBA, Genesis/Megadrive a ďalšie!"
+
+#: 
+msgid "Rom, hash and core match"
+msgstr "Zhoda ROM, jadra a hashu"
+
+#: 
+msgid "No core match"
+msgstr "Bez zhody jadra"
+
+#: 
+msgid "Add a clock in the main menu."
+msgstr "Pridá hodiny do ponuky"
+
+#. UPGRADE PROCESS
+#: 
+msgid "UPGRADING"
+msgstr "Aktualizujem"
+
+#: 
+msgid "PREPARING"
+msgstr "Pripravujem"
+
+#: 
+msgid "VERIFYING"
+msgstr "Kontrolujem"
+
+#: 
+msgid "PRESS TWICE TO QUIT GAME"
+msgstr "Stlačte 2x na ukončenie hry"
+
+#: 
+msgid "Press twice the buttons to end the game and go back to main menu."
+msgstr "Stlačte dvakrát tlačidlo na ukončenie hry a návrat do hlavnej ponuky"
+
+#: 
+msgid "Configure screensaver"
+msgstr "Nastaviť šetrič obrazovky"
+
+#: 
+msgid "Set the screensaver behavior. DIM will reduce the screen light, BLACK will turn the screen black, DEMO will launch demo mode."
+msgstr "Nastavenie chovania šetriča obrazovky. Stmaviť zníži jas obrazovky. Čierne zapne čiernu obrazovku a Demo spustí demo režim."
+
+#: 
+msgid "EMPTY LIST"
+msgstr "Prázdny zoznam"
+
+#: Retroarch ratio
+msgid "Auto"
+msgstr "Auto"
+
+#: 
+msgid "Square pixel"
+msgstr "Štvorcový pixel"
+
+#: 
+msgid "Retroarch Config"
+msgstr "Retroarch nastavenie"
+
+#: 
+msgid "Retroarch Custom"
+msgstr "Retroarch vlastné"
+
+#: 
+msgid "Core provided"
+msgstr "Podľa jadra"
+
+#: 
+msgid "Do not set"
+msgstr "Nenastavovať"
+
+#: 
+msgid "Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr "Skopírovať aktuálny systém na iné zariadenie. Upozornenie! Vymažete všetky údaje na cieľovom zariadení."
+
+#: 
+msgid "NEW VERSION:"
+msgstr "Nová verzia:"
+
+#: 
+msgid "ESTIMATED TIME: "
+msgstr "Odhadovaný čas: "
+
+#: 
+msgid "ELAPSED TIME: "
+msgstr "Uplynutý čas: "
+
+#: 
+msgid "COMPLETE!"
+msgstr "Hotovo!"
+
+#: 
+msgid "PLEASE VISIT"
+msgstr "Prosím navštívte"
+
+#: 
+msgid "ONLY 1 SCRAPPING ENGINE"
+msgstr "Používate 1 vyhľadávací engine"
+
+#: 
+msgid "%i SCRAPPING ENGINES"
+msgstr "%i vyhľadávacích enginov"
+
+#: 
+msgid "Your share partition is almost full.\n"
+"The scraper stopped automatically.\n"
+"\n"
+"Remove unused games, media, files to make room before running the scraper again!"
+msgstr "Vaša SHARE partícia je skoro plná!\n"
+"Vyhľadávač sa automaticky zastavil.\n"
+"\n"
+"Odstráňte nepotrebné hry, médiá a iné súbory, aby ste uvoľnili miesto a spustite vyhľadávač znova."
+
+#: 
+msgid "THEME GAMECLIPVIEW"
+msgstr "Náhľad klipu témy"
+
+#. Bios
+#: 
+msgid "BIOS CHECKING"
+msgstr "Kontrola BIOSu"
+
+#: 
+msgid "Scan and check all your BIOS files and report everything in a comprehensive way."
+msgstr "Prehľadať a skontrolovať všetky BIOS súbory a všetko oznámiť komplexným spôsobom"
+
+#: 
+msgid "RESCAN"
+msgstr "Znovu prehľadať"
+
+#: 
+msgid "Rescan all bios files"
+msgstr "Prehľadať všetky BIOS súbory"
+
+#: 
+msgid "EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr "Emulátor %s nemusí pracovať správne, kým nie sú dostupné všetky potrebné BIOSy!"
+
+#: 
+msgid "%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"
+msgstr "%i emulátorov nemusí pracovať správne, kým nie sú dostupné všetky potrebné BIOSy!"
+
+#: 
+msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
+msgstr "Blahoželáme! Všetky emulátory by mali spracovať správne!"
+
+#: 
+msgid "%i BIOS NOT FOUND"
+msgstr "%i BIOSov nenájdených"
+
+#: 
+msgid "%i NON-MATCHING BIOS FOUND"
+msgstr "Našlo sa %i nezhodných BIOSov"
+
+#: 
+msgid "%i GOOD BIOS FOUND!"
+msgstr "%i dobrých BIOSov nájdených"
+
+#: 
+msgid "File Path"
+msgstr "Cesta k súboru"
+
+#: 
+msgid "Mandatory"
+msgstr "Povinné"
+
+#: 
+msgid "Must match MD5"
+msgstr "Musí sa zhodovať MD5"
+
+#: 
+msgid "File found ?"
+msgstr "Našiel sa BIOS?"
+
+#: 
+msgid "Matching MD5 ?"
+msgstr "Zhoduje sa MD5?"
+
+#: 
+msgid "NOTE"
+msgstr "Poznámka"
+
+#: 
+msgid "This bios is required in order to run the emulator properly. You won't be able to run any games with the emulator/core above."
+msgstr "Tento BIOS je potrebný, aby emulátor bežal správne.\n"
+"Nebudete môcť spustiť žiadne hry s týmto emulátorom/jadrom."
+
+#: 
+msgid "This bios is not mandatory in most cases. The emulator will run properly unless you want to use features requiring this particular bios file."
+msgstr "BIOS nie je potrebný. Ak nepoužívate funkcie, ktoré ho vyžadujú, emulátor by mal fungovať správne."
+
+#: 
+msgid "Your bios file does not match any known MD5. However, there are chances of getting the emulator running fine."
+msgstr "Váš BIOS súbor nezodpovedá žiadnemu známemu MD5. Aj tak je šanca, že emulátor pobeží správne."
+
+#: 
+msgid "Your bios file does not match any known MD5 but this is not required. So there are strong chances of getting everything running fine."
+msgstr "Vás BIOS súbor nezodpovedá žiadnemu známemu MD5, ale nie je to potrebné. Je veľká šanca, že všetko pobeží správne."
+
+#: 
+msgid "Your bios file does match one of the known MD5. Everything will run fine!"
+msgstr "Váš BIOS súbor zodpovedá jednému zo známych MD5. Všetko pobeží správne!"
+
+#: 
+msgid "MD5 LIST"
+msgstr "Zoznam MD5"
+
+#: 
+msgid "Congratulation, all cores/emulators listed below will work flawlessly!"
+msgstr "Blahoželáme, všetky jadrá/emulátory budú fungovať správne!"
+
+#: 
+msgid "Cores/emulators listed below won't probably work until required bios are made available."
+msgstr "Jadrá/emulátory nemusia fungovať, kým nie sú dostupné všetky potrebné BIOSy."
+
+#: 
+msgid "Cores/emulators listed below may work in most cases, unless you use features requiring special bios."
+msgstr "Jadrá/emulátory budú fungovať, ak nepoužívate funkcie, ktoré potrebujú určitý BIOS."
+
+#: 
+msgid "BIOS OK"
+msgstr "BIOS OK"
+
+#: 
+msgid "BIOS UNSAFE"
+msgstr "BIOS nie bezpečný"
+
+#: 
+msgid "BIOS KO"
+msgstr "BIOS KO"
+
+#: 
+msgid "BIOS NOT FOUND"
+msgstr "BIOS nenájdený"
+
+#: 
+msgid "MD5 OK"
+msgstr "MD5 OK"
+
+#: 
+msgid "MD5 NOT OK"
+msgstr "MD5 nie OK"
+
+#: 
+msgid "BROWSE"
+msgstr "Prehľadávať"
+
+#: 
+msgid "Your bios' MD5"
+msgstr "MD5 vášho BIOSu"
+
+#: 
+msgid "Known MD5 List"
+msgstr "Zoznam známych MD5"
+
+#: 
+msgid "MY SYSTEMS"
+msgstr "Moje systémy"
+
+#: 
+msgid "ALL SYSTEMS"
+msgstr "Všetky systémy"
+
+#: 
+msgid "EmulationStation has detected external changes on a gamelist file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all files."
+msgstr "EmulationStation zistil externé zmeny na súboroch so zoznamom hier. Aby sa zabránilo strate dát, EmulationStation sa znovu spustí a všetky súbory sa znovu načítajú."
+
+#: 
+msgid "EmulationStation has detected external changes on a theme file.\n"
+"To avoid loss of data, EmulationStation is about to relaunch and reload all files."
+msgstr "EmulationStation zistil externé zmeny na súboroch s témami. Aby sa zabránilo strate dát, EmulationStation sa znovu spustí a všetky súbory sa znova načítajú."
+
+#: 
+msgid "VIRTUAL SYSTEMS"
+msgstr "Virtuálne systémy"
+
+#: 
+msgid "SHOW ALL-GAMES SYSTEM"
+msgstr "Zobraziť systém VŠETKY HRY"
+
+#: 
+msgid "SHOW MULTIPLAYER SYSTEM"
+msgstr "Zobraziť systém MULTIPLAYER"
+
+#: 
+msgid "SHOW LAST-PLAYED SYSTEM"
+msgstr "Zobraziť posledný hraný systém"
+
+#: 
+msgid "VIRTUAL SYSTEMS PER GENRE"
+msgstr "Virtuálne systémy na žáner"
+
+#: 
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "Zobrazí všetky hry pre všetky systémy"
+
+#: 
+msgid "Show multiplayer games (all games playable by two or more players)."
+msgstr "Zobrazí multiplayer hry (všetky hry pre dvoch a viac hráčov)"
+
+#: 
+msgid "Show last played games."
+msgstr "Zobraziť posledne hrané hry"
+
+#: 
+msgid "Select virtual systems to show."
+msgstr "Vybrať virtuálne systémy na zobrazenie"
+
+#: 
+msgid "Select vitual systems per genre to show."
+msgstr "Výber virtuálnych systémov podľa žánru"
+
+#: 
+msgid "HIDE ADULT GAMES"
+msgstr "Skryť hry pre dospelých"
+
+#: 
+msgid "HIDE ADULT GAMES IN ALL SYSTEMS"
+msgstr "Skryť hry pre dospelých vo všetkých systémoch"
+
+#: 
+msgid "Hide games flagged as adult games."
+msgstr "Skryť hry označené ako pre dospelých"
+
+#: 
+msgid "HIGHLIGHT GAMES OF REGION..."
+msgstr "Zvýrazniť hry z regiónu..."
+
+#: 
+msgid "Highlight all games of a particular region and fade out all others."
+msgstr "Zvýrazní všetky hry z daného regiónu a potlačí všetky ostatné"
+
+#: 
+msgid "Try to extract game region from its filename when possible. Support long and short region game (JP or Japan, EU or Europe, ...)"
+msgstr "Ak je to možné, pokúsiť sa extrahovať región hry z názvu súboru. Podporuje dlhé alebo krátke názvy regiónov (JP alebo Japonsko, EU alebo Európa atď.)"
+
+#: 
+msgid "GET GAME NAME FROM"
+msgstr "Získať názvy hier z"
+
+#: 
+msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
+msgstr "Získať región z názvu súboru, ak je to možné"
+
+#: 
+msgid "Raw filename"
+msgstr "Čistý názov súboru"
+
+#: 
+msgid "Undecorated filename"
+msgstr "Nedekorovaný názov súboru"
+
+#: 
+msgid "OPEN-SOURCE LICENSE"
+msgstr "Open-source licencia"
+
+#: 
+msgid "SELECT IMAGE TYPE"
+msgstr "Vybrať typ obrázka"
+
+#: 
+msgid "In-game screenshot"
+msgstr "Obrazovka z hry"
+
+#: 
+msgid "Title screenshot"
+msgstr "Titulná obrazovka"
+
+#: 
+msgid "Clear logo"
+msgstr "Čisté logo"
+
+#: 
+msgid "Marquee"
+msgstr "Markíza"
+
+#: 
+msgid "ScreenScraper Mix V1"
+msgstr "ScreenScraper Mix v1"
+
+#: 
+msgid "ScreenScraper Mix V2"
+msgstr "ScreenScraper Mix v2"
+
+#: 
+msgid "SCRAPE IMAGE"
+msgstr "Vyhľadať obrázok"
+
+#: 
+msgid "SELECT THUMBNAIL TYPE"
+msgstr "Vyberte typ miniatúry"
+
+#: 
+msgid "No thumbnail"
+msgstr "Bez miniatúry"
+
+#: 
+msgid "SCRAPE THUMBNAIL"
+msgstr "Vyhľadať miniatúru"
+
+#: 
+msgid "SELECT VIDEO TYPE"
+msgstr "Vyberte typ videa"
+
+#: 
+msgid "No video"
+msgstr "Žiadne video"
+
+#: 
+msgid "Original video"
+msgstr "Pôvodné video"
+
+#: 
+msgid "Optimized/Normalized video"
+msgstr "Optimalizované/normalizované video"
+
+#: 
+msgid "SCRAPE VIDEO"
+msgstr "Vyhľadať video"
+
+#: 
+msgid "SELECT FAVORITE REGION"
+msgstr "Vybete obľúbený región"
+
+#: 
+msgid "FAVORITE REGION"
+msgstr "Obľúbený región"
+
+#: 
+msgid "SELECT FAVORITE LANGUAGE"
+msgstr "Vyberte obľúbený jazyk"
+
+#: 
+msgid "FAVORITE LANGUAGE"
+msgstr "Obľúbený jazyk"
+
+#: 
+msgid "SYSTEM NAME"
+msgstr "Názov systému"
+
+#: 
+msgid "PUBLISHER"
+msgstr "Vydavateľ"
+
+#: 
+msgid "DEFAULT"
+msgstr "Predvolené"
+
+#: 
+msgid "It seems that your game didn't start at all!\n"
+"\n"
+"It's most likely due to either:\n"
+"- bad rom\n"
+"- missing/bad mandatory bios files\n"
+"- missing/bad optional BIOS files (but required for this very game)"
+msgstr "Zdá sa, že vaša hra sa nespustila!\n"
+"\n"
+"Väčšinou je to kvôli:\n"
+"- chybný ROM\n"
+"- chýbajúci/chybný BIOS súbor\n"
+"- chýbajúce/chybné voliteľné BIOS súbory (ale povinné pre túto hru)"
+
+#: 
+msgid "At least one mandatory BIOS is missing for %emulator%!\n"
+"Your game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n"
+"\n"
+"Do you want to launch the game anyway?"
+msgstr "Chýba minimálne jeden z povinných BIOS súborov pre %emulator%!\n"
+"Vaša hra '%game%' pravdepodobne nebude fungovať, kým nevložíte potrebné BIOS súbory do správneho priečinka.\n"
+"\n"
+"Chcete aj tak spustiť túto hru?"
+
+#: 
+msgid "BACKSPACE"
+msgstr "Backspace"
+
+#: 
+msgid "FAST WHEEL"
+msgstr "Rýchle koliesko"
+
+#: 
+msgid "CHANGE CHARSET"
+msgstr "Zmeniť znakovú sadu"
+
+#: 
+msgid "MOVE WHEEL"
+msgstr "Posunúť koliesko"
+
+#: 
+msgid "FAST CURSOR"
+msgstr "Rýchly kurzor"
+
+#: 
+msgid "No missing hash found!"
+msgstr "Nenašiel sa žiadny chýbajúci hash!"
+
+#: 
+msgid "%i missing hashes have been calculated!"
+msgstr "%i chýbajúcich hashov bolo dopočítaných!"
+
+#: 
+msgid "DOWNLOAD GAME MANUALS"
+msgstr "Stiahnuť manuály hier"
+
+#: 
+msgid "DOWNLOAD GAME MAPS"
+msgstr "Stiahnuť mapy hier"
+
+#: 
+msgid "INSTALL PAD-2-KEYBOARD CONFIGURATIONS"
+msgstr "Inštalovať konfiguráciu Ovládač na klávesnicu"
+
+#: 
+msgid "You're strongly recommended to update your Recalbox.\n"
+"No support will be provided for older versions!"
+msgstr "Vysoko sa odporúča aktualizovať váš Recalbox.\n"
+"Podpora sa neposkytuje pre neaktuálne verzie!"
+
+#: 
+msgid " has been plugged!"
+msgstr " bol pripojený!"
+
+#: 
+msgid "Ready to play!"
+msgstr "Pripravené na hru!"
+
+#: 
+msgid "Not configured yet! Press a button to enter the configuration window."
+msgstr "Toto ešte nie je nastavené! Stlačte tlačidlo na otvorenie konfiguračného okna."
+
+#: 
+msgid " has been unplugged!"
+msgstr " bol odpojený!"
+
+#: 
+msgid "Remove from favorite"
+msgstr "Odstrániť z obľúbených"
+
+#: 
+msgid "Default output"
+msgstr "Predvolený výstup"
+
+#: 
+msgid "ARCADE VIRTUAL SYSTEM"
+msgstr "Virtuálny systém ARCADE"
+
+#: 
+msgid "BETWEEN %1 AND %2"
+msgstr "Medzi %1 a %2"
+
+#: 
+msgid "ENABLE ARCADE VIRTUAL SYSTEM"
+msgstr "Povoliť virtuálny systém ARCADE"
+
+#: 
+msgid "HIDE ORIGINAL SYSTEMS"
+msgstr "Skryť pôvodné systémy"
+
+#: 
+msgid "INCLUDE NEO-GEO"
+msgstr "Vrátane Neo-Geo"
+
+#: 
+msgid "POSITION"
+msgstr "Poloha"
+
+#: 
+msgid "PREDEFINED PASSWORDS"
+msgstr "Zachovať heslá"
+
+#: 
+msgid "VALIDATE"
+msgstr "Skontrolovať"
+
+#: 
+msgid "PASSWORD #%i"
+msgstr "Heslo #%i"
+
+#: 
+msgid "PASSWORD REQUIRED"
+msgstr "Vyžaduje sa heslo"
+
+#: 
+msgid "PLAYER"
+msgstr "Hráč"
+
+#: 
+msgid "VIEWER-ONLY"
+msgstr "Iba prehliadač"
+
+#: 
+msgid "JOIN AS"
+msgstr "Pripojiť ako"
+
+#: 
+msgid "CHOOSE PASSWORD"
+msgstr "Vybrať heslo"
+
+#: 
+msgid "EDIT PASSWORDS"
+msgstr "Upraviť heslá"
+
+#: 
+msgid "GAME PASSWORDS"
+msgstr "Heslá hier"
+
+#: 
+msgid "SET PLAYER PASSWORD"
+msgstr "Nastaviť heslo hráča"
+
+#: 
+msgid "SET VIEWER PASSWORD"
+msgstr "Nastaviť heslo prezerača"
+
+#: 
+msgid "CHOOSE PLAYER PASSWORD"
+msgstr "Vybrať heslo hráča"
+
+#: 
+msgid "CHOOSE VIEWER-ONLY PASSWORD"
+msgstr "Vybrať heslo prezerača"
+
+#: 
+msgid "GAME PROTECTION"
+msgstr "Ochrana hry"
+
+#: 
+msgid "JOIN NETPLAY GAME"
+msgstr "Pripojiť k sieťovej hre"
+
+#: 
+msgid "SEARCH IN..."
+msgstr "Hľadať v..."
+
+#: 
+msgid "DOWNLOADING UPDATE..."
+msgstr "Sťahujem aktualizáciu..."
+
+#: 
+msgid "We're downloading Recalbox version %s!\n"
+"\n"
+"Once the download is complete, Recalbox will reboot and start installing the new version.\n"
+"Typical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete."
+msgstr "Sťahuje sa Recalbox verzie %s!\n"
+"\n"
+"Len čo bude sťahovanie dokončené, dôjde k reštartu Recalboxu a inštalácii novej verzie.\n"
+"Bežná inštalácia zaberie 5 až 10 minút. Nereštartujte ani nevypínajte Recalbox, kým sa inštalácia neukončí."
+
+#: 
+msgid "REBOOT IN %s"
+msgstr "Reštart za %s"
+
+#: 
+msgid "Error downloading Recalbox %s... Please retry later!"
+msgstr "Chyba sťahovanie Recalboxu %s... Prosím, skúste znova!"
+
+#: 
+msgid "ALL"
+msgstr "Všetko"
+
+#: 
+msgid "TYPE AT LEAST 3 CHARACTERS"
+msgstr "Zadajte aspoň 3 znaky"
+
+#: 
+msgid "AUTOMATIC WPS CONNECTION"
+msgstr "Automatické WPS pripojenie"
+
+#: 
+msgid "Connecting to WIFI..."
+msgstr "Pripájam k Wi-Fi..."
+
+#: 
+msgid "Disconnecting from WIFI..."
+msgstr "Odpájam od Wi-Fi..."
+
+#: 
+msgid "NO WPS CONFIGURATION FOUND!"
+msgstr "Nenašlo sa nastavenie WPS"
+
+#: 
+msgid "Hostname changes will not be effective until next reboot"
+msgstr "Zmena názvu hostiteľa sa neprejaví do najbližšieho reštartu."
+
+#: 
+msgid "Enable/Disable Arcade virtual system and set its options"
+msgstr "Povoliť/zakázať virtuálny systém ARCADE a nastaviť jeho voľby"
+
+#: 
+msgid "Fetching WIFI parameters"
+msgstr "Získavam Wi-Fi parametre..."
+
+#: 
+msgid "EDIT MANUALLY"
+msgstr "Upraviť ručne"
+
+#: 
+msgid "Headphones"
+msgstr "Slúchadlá"
+
+#: 
+msgid "NETPLAY MITM"
+msgstr "Sieťová hra MITM"
+
+#: 
+msgid "RECALBOX API"
+msgstr "Recalbox API"
+
+#: 
+msgid "RECALBOX MANAGER"
+msgstr "Správca Recalbox"
+
+#: 
+msgid "Reseting WIFI configuration..."
+msgstr "Obnovujem nastavenie W-Fi..."
+
+#: 
+msgid "WPS CONFIGURATION SUCCESSFUL!"
+msgstr "WPS nastavenie úspešné!"
+
+#: 
+msgid "WPS CONNECTION"
+msgstr "WPS pripojenie"
+
+#: 
+msgid "Waiting for IP address... (%is)"
+msgstr "Čakanie na IP adresu... (%is)"
+
+#: 
+msgid "Waiting for WPS configuration..."
+msgstr "Čakanie na WPS nastavenie..."
+
+#: 
+msgid "SCREENSAVER"
+msgstr "Šetrič obrazovky"
+
+#: 
+msgid "SHADERS"
+msgstr "Shadery"
+
+#: 
+msgid "SYSTEMS TO SHOW IN DEMO"
+msgstr "Systémy na zobrazenie v demách/klipoch"
+
+#: 
+msgid "Saving WIFI configuration"
+msgstr "Ukladám Wi-Fi konfiguráciu..."
+
+#: 
+msgid "Scanning WIFI networks..."
+msgstr "Hľadanie Wi-Fi sietí..."
+
+#: 
+msgid "THEME"
+msgstr "Téma"
+
+#: 
+msgid "Shaders are like filters for the game rendering. You can select a raw shader file here. This setting may be overloaded by shaderset if not definied to 'none'."
+msgstr "Shadery fungujú ako filtre pre renderovanie hry. Tu môžete vybrať súbor so shaderom. Toto nastavenie môže byť prebité sadou shaderov, ak nie je nastavené na \"žiadne\"."
+
+#: 
+msgid "Select your keyboard layout."
+msgstr "Vyberte vaše rozloženie klávesnice"
+
+#: 
+msgid "Mute (no sound)"
+msgstr "Stlmiť (bez zvuku)"
+
+#: 
+msgid "Internal Speakers"
+msgstr "Vnútorné reproduktory"
+
+#: 
+msgid "Headphone Jack"
+msgstr "Jack slúchadiel"
+
+#: 
+msgid "Internal Speakers + Headphone Jack"
+msgstr "Vnútorné reproduktory + jack slúchadiel"
+
+#: 
+msgid "black"
+msgstr "čierne"
+
+#: 
+msgid "demo"
+msgstr "demo"
+
+#: 
+msgid "dim"
+msgstr "stmaviť"
+
+#: 
+msgid "gameclip"
+msgstr "herný klip"
+
+#: 
+msgid "Action (All)"
+msgstr "Akčné (všetko)"
+
+#: 
+msgid "Action RPG"
+msgstr "Akčné RPG"
+
+#: 
+msgid "Adventure (All)"
+msgstr "Adventúra (všetko)"
+
+#: 
+msgid "Artillery"
+msgstr "Delostrelectvo"
+
+#: 
+msgid "Auto-battler"
+msgstr "Auto-bojové"
+
+#: 
+msgid "Battle Royale"
+msgstr "Battle Royale"
+
+#: 
+msgid "Beat'em All"
+msgstr "Poraz ich všetkých"
+
+#: 
+msgid "Board game"
+msgstr "Dosková hra"
+
+#: 
+msgid "Build & Management"
+msgstr "Výstavba a správa"
+
+#: 
+msgid "Casino"
+msgstr "Kasíno"
+
+#: 
+msgid "Casual game"
+msgstr "Neformálna hra"
+
+#: 
+msgid "Competition Sport"
+msgstr "Súťažný šport"
+
+#: 
+msgid "Demo from Demo Screne"
+msgstr "Demo z demoscény"
+
+#: 
+msgid "Digital Cards"
+msgstr "Digitálne karty"
+
+#: 
+msgid "Dungeon Crawler"
+msgstr "Dungeon crawler"
+
+#: 
+msgid "Educative"
+msgstr "Výuková"
+
+#: 
+msgid "Favorites"
+msgstr "Obľúbené"
+
+#: 
+msgid "Fighting"
+msgstr "Bojové"
+
+#: 
+msgid "Fighting/Violent Sport"
+msgstr "Bojové/násilné športy"
+
+#: 
+msgid "First Person Shooter"
+msgstr "Strieľačka z prvej osoby"
+
+#: 
+msgid "Fishing & Hunting"
+msgstr "Rybolov a poľovníctvo"
+
+#: 
+msgid "Graphical Adventure"
+msgstr "Grafická adventúra"
+
+#: 
+msgid "Infiltration"
+msgstr "Krádež"
+
+#: 
+msgid "Interactive Movie"
+msgstr "Interaktívny film"
+
+#: 
+msgid "JRPG"
+msgstr "JRPG"
+
+#: 
+msgid "Life Simulation"
+msgstr "Simulátor života"
+
+#: 
+msgid "MMORPG"
+msgstr "MMORPG"
+
+#: 
+msgid "Multi Game Compilation"
+msgstr "Kolekcia viacerých hier"
+
+#: 
+msgid "Multiplayer Online Battle Arena"
+msgstr "Online bojová aréna pre viac hráčov"
+
+#: 
+msgid "Multiplayer Party Game"
+msgstr "Párty hra pre viac hráčov"
+
+#: 
+msgid "Party based RPG"
+msgstr "Párty RPG"
+
+#: 
+msgid "Pinball"
+msgstr "Pinball"
+
+#: 
+msgid "Platform Shooter"
+msgstr "Platformová strieľačka"
+
+#: 
+msgid "Platform"
+msgstr "Plošinovka"
+
+#: 
+msgid "Puzzle & Logic"
+msgstr "Puzzle & logické"
+
+#: 
+msgid "RPG (All)"
+msgstr "RPG (všetky)"
+
+#: 
+msgid "Racing"
+msgstr "Preteky"
+
+#: 
+msgid "Real Time 3D Adventure"
+msgstr "Real time 3D adventúra"
+
+#: 
+msgid "Real Time Stratégy"
+msgstr "Real time stratégia"
+
+#: 
+msgid "Rythm & Music"
+msgstr "Rhythm & Music"
+
+#: 
+msgid "Science Fiction Simulation"
+msgstr "Simulácia sci-fi"
+
+#: 
+msgid "Shoot with Gun"
+msgstr "Streľba z pištole"
+
+#: 
+msgid "Shoot'em Up"
+msgstr "Strieľačka"
+
+#: 
+msgid "Simulation (All)"
+msgstr "Simulácia (všetko)"
+
+#: 
+msgid "Sport Simulation"
+msgstr "Športový simulátor"
+
+#: 
+msgid "Sports (All)"
+msgstr "Šport (všetko)"
+
+#: 
+msgid "Strategy (All)"
+msgstr "Stratégia (všetko)"
+
+#: 
+msgid "Survival"
+msgstr "Prežitie"
+
+#: 
+msgid "Tactical RPG"
+msgstr "Taktické RPG"
+
+#: 
+msgid "Textual Adventure"
+msgstr "Textová adventúra"
+
+#: 
+msgid "Tower Defense"
+msgstr "Obrana veže"
+
+#: 
+msgid "Trivia"
+msgstr "Trivia"
+
+#: 
+msgid "Turn Based Strategy"
+msgstr "Ťahová stratégia"
+
+#: 
+msgid "Vehicle Simulation"
+msgstr "Simulácia vozidla"
+
+#: 
+msgid "Visual Novel"
+msgstr "Vizuálna poviedka"
+
+#: 
+msgid "Wargame"
+msgstr "Vojna"
+
+#: 
+msgid "eXplore, eXpand, eXploit & eXterminate"
+msgstr "eXplore, eXpand, eXploit & eXterminate"
+
+#: 
+msgid "Welcome to RECALBOX for Odroid Go Advance!\n"
+"This little presentation will show you how to use the 6 special buttons available right under the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr "Vitajte v Recalboxe pre Odroid Go Advance!\n"
+"Táto malá prezentácia vám ukáže použitie šiestich tlačidiel v dolnej časti obrazovky.\n"
+"\n"
+"Stlačte nejaké tlačidlo na spustenie!"
+
+#: 
+msgid "The leftmost button is the SELECT button, marked with a 'I', also available on most modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr "Tlačidlo najviac vľavo je tlačidlo SELECT, označené ako I, dostupné na mnohých moderných gamepadoch.\n"
+"Slúži aj ako tlačidlo HOTKEY, ktoré môžete používať v mnohých emulátoroch v spojení s ďalšími tlačidlami.\n"
+"Napríklad HOTKEY+START ukončí bežiacu hru.\n"
+"\n"
+"Stlačte tlačidlo SELECT."
+
+#: 
+msgid "Next to the SELECT button is the START button, marked with an 'II'.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr "Vedľa tlačidla SELECT sa nachádza tlačidlo START, označené ako II.\n"
+"Použite ho na otvorenie hlavnej ponuky rozhrania Recalboxu. V hrách potom funguje ako štandardný START dostupný na mnohých konzolách."
+
+#: 
+msgid "Then, there are 2 buttons marked with a 'III' and a 'IV'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface or in-game.\n"
+"\n"
+" Press either volume up or down"
+msgstr "Ďalej sú tu dve tlačidlá označené ako III a IV.\n"
+"Použite ich na zníženie alebo zvýšenie hlasitosti v rozhraní Recalboxu alebo priamo v hre.\n"
+"\n"
+"Stlačte znížiť alebo zvýšiť hlasitosť."
+
+#: 
+msgid "The last two buttons marked 'V' and 'VI' are useful to make your screen darker or brighter.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down (V/VI)"
+msgstr "Posledné dve tlačidlá, označené ako V a VI slúžia na zvýšenie alebo zníženie jasu obrazovky.\n"
+"Pamätajte, že s vyšším jasom sa zvyšuje aj spotreba!\n"
+"\n"
+"Stlačte tlačidlo na zvýšenie alebo zníženie jasu."
+
+#: 
+msgid "Now you're ready to start your RETROGAMING experience with Recalbox! Press button B to start... and PLAY AGAIN!"
+msgstr "Ste pripravení začať vaše retro herné zážitky s Recalboxom! Stlačte tlačidlo B na spustenie... A hrajte znova!"
+
+#: 
+msgid "WELCOME TO RECALBOX!"
+msgstr "Vitajte v Recalboxe!"
+
+#: 
+msgid "Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter sleep mode. Make another short press and your console will restart instanly! Work in Recalbox interface and in-game!\n"
+"\n"
+"Press button B to continue."
+msgstr "Niekoľko slov o tlačidle napájania.\n"
+"Krátke stlačenie, podobné kliknutiu myši, zapne režim spánku pre vašu konzolu.\n"
+"Ďalšie krátke stlačenie vykoná okamžitý reštart vašej konzoly.\n"
+"Funguje v rozhraní Recalboxu, ale aj v hre.\n"
+"\n"
+"Stlačte B na pokračovanie."
+
+#: 
+msgid "If you push the POWER button more than 2 seconds, this will power-off your console. If you do so in-game, Recalbox will close the current emulator gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr "Ak stlačíte tlačidlo napájania na 2 a viac sekúnd, dôjde k vypnutiu konzoly. Ak ste v hre, Recalbox najprv korektne ukončí bežiaci emulátor.\n"
+"V prípade, že tlačidlo napájania podržíte dlhšie ako 5 sekúnd, dôjde k tvdrému vypnutiu.\n"
+"\n"
+"Stlačte B na pokračovanie."
+
+#: 
+msgid "One more thing to know: If you plug in or unplug your headphones in the jack connector, Recalbox will automatically switch the audio output. Convenient.\n"
+"\n"
+"Press button B, as usual."
+msgstr "Ešte jedna vec, ktorú by ste mali vedieť: Ak pripojíte alebo odpojíte slúchadlá do jack konektora, Recalbox automaticky prepne zvukový výstup. Aké pohodlné.\n"
+"\n"
+"Stlačte tlačidlo B, ako obyčajne."
+
+#: 
+msgid "HIDE PREINSTALLED GAMES"
+msgstr "Skryť predinštalované hry"
+
+#: 
+msgid "Hide all pre-installed games. Changing this option makes EmulationStation to relaunch."
+msgstr "Skryť všetky predinštalované hry. Na zmenu tejto voľby treba reštartovať EmulationStation."
+
+#: 
+msgid "SHOW IN LIST"
+msgstr "Zobraziť v zozname"
+
+#: 
+msgid "System"
+msgstr "Systém"
+
+#: 
+msgid "added to favorites"
+msgstr "pridané do obľúbených"
+
+#: 
+msgid "removed from favorites"
+msgstr "odobrané z obľúbených"
+
+#: 
+msgid "Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr "Herné klipy sa nedajú prehrať.\n"
+"\n"
+"Pre váš výber nie sú dostupné videá."
+
+#: 
+msgid "Real Time Strategy"
+msgstr "Real time stratégia"
+
+#: 
+msgid "If you push the POWER button more than 2 seconds, this will power-off your console. If you do so in-game, Recalbox will close the current emulator gracefully.\n"
+"Just in case, holding the POWER button down more than 5s perform an hard power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr "Ak stlačíte tlačidlo napájania na viac ako 2 sekundy, dôjde k vypnutiu konzoly. Ak ste v hre, Recalbox najprv korektne ukončí bežiaci emulátor.\n"
+"V prípade, že tlačidlo napájania podržíte dlhšie ako 5 sekúnd, dôjde k tvrdému vypnutiu.\n"
+"\n"
+"Stlačte B na pokračovanie."
+
+#: 
+msgid "Added to favorites"
+msgstr "Pridané do obľúbených"
+
+#: 
+msgid "Removed from favorites"
+msgstr "Odstránené z obľúbených"
+
+#: 
+msgid "Gameclips cannot be played. No video availabe for your selection"
+msgstr "Herné klipy sa nedajú prehrať. Pre váš výber nie sú dostupné videá."
+
+#: 
+msgid "EmulationStation must relaunch to apply your changes."
+msgstr "EmulationStation sa musí reštartovať na použitie vašich zmien"
+
+#: 
+msgid "PAIRING %s ..."
+msgstr "Párujem %s ..."
+
+#: 
+msgid "SCANNING BLUETOOTH DEVICES..."
+msgstr "Hľadám Bluetooth zariadenia..."
+
+#: 
+msgid "GAME OPTIONS"
+msgstr "Herné voľby"
+
+#: 
+msgid "NO GAME SELECTED"
+msgstr "Nevybraná hra"
+
+#: 
+msgid "GAME %s"
+msgstr "Hra %s"
+
+#: 
+msgid "FOLDER %s"
+msgstr "Priečinok %s"
+
+#: 
+msgid "EDIT GAME %s"
+msgstr "Upraviť hru %s"
+
+#: 
+msgid "EDIT FOLDER %s"
+msgstr "Upraviť priečinok %s"
+
+#: 
+msgid "RUN WITH"
+msgstr "Spustiť s"
+
+#: 
+msgid "NON EDITABLE GAME"
+msgstr "Needitovateľná hra"
+
+#: 
+msgid "auto select"
+msgstr "automatický výber"
+
+#: 
+msgid "Welcome to RECALBOX for Odroid Go Super!\n"
+"This little presentation will show you how to use all the special buttons available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr "Vitajte v Recalboxe pre Odroid-Go Super!\n"
+"Táto malá prezentácia vám ukáže, ako využívať všetky špeciálne tlačidlá na obrazovke.\n"
+"\n"
+"Stlačte nejaké tlačidlo na spustenie!"
+
+#: 
+msgid "The top-left black button is the SELECT button, also available on most modern pads.\n"
+"But it is also the HOTKEY button that you can use in conjunction with other buttons in most emulators.\n"
+"For example, you can use HOTKEY+START to quit the current game.\n"
+"\n"
+"Press the SELECT button."
+msgstr "Ľavé horné čierne tlačidlo je SELECT, ktoré je dostupné na väčšine moderných ovládačov.\n"
+"Je to aj tlačidlo HOTKEY, ktoré môžete použiť v spojení s inými tlačidlami vo väčšine emulátorov.\n"
+"Napríklad môžete použiť HOTKEY+START na ukončenie práve bežiacej hry.\n"
+"\n"
+"Stlačte tlačidlo SELECT."
+
+#: 
+msgid "At the opposite side of the SELECT button is the START button.\n"
+"Use it to open the main menu in the Recalbox interface and use it in-game as the regular START button available on most consoles.\n"
+"\n"
+"Press this START button please."
+msgstr "Oproti tlačidlu SELECT je tlačidlo START. Použite ho na otvorenie hlavnej ponuky v rozhraní Recalboxu a použite ho ako bežné tlačidlo START v hre.\n"
+"\n"
+"Stlačte tlačidlo START."
+
+#: 
+msgid "Then, on the top of the console, there are 2 buttons marked with a '-' and a '+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface or in-game.\n"
+"\n"
+" Press any button to continue"
+msgstr "V hornej časti konzoly sú dve tlačidlá označené \"-\" a \"+\".\n"
+"Použite ich na zvýšenie a zníženie hlasitosti kedykoľvek, v rozhraní Recalbox alebo v hre.\n"
+"\n"
+"Pokračujte stlačením tlačidla."
+
+#: 
+msgid "The two bottom-left gray buttons control the screen brightness.\n"
+"Note that the brighter the screen, the more power it consumes!\n"
+"\n"
+" Press either brightness up or down button"
+msgstr "Dve šedé tlačidlá vľavo dolu ovládajú jas obrazovky.\n"
+"Pamätajte: čím jasnejšia obrazovka, tým vyššia je spotreba energie!\n"
+"\n"
+"Stlačte tlačidlo na zvýšenie alebo zníženie jasu."
+
+#: 
+msgid "Finally, the two bottom-right gray buttons are third left & right triggers (L3/R3), only usefull in some emulators or to record videos.\n"
+"\n"
+" Press either L3 or R3"
+msgstr "A konečne dve pravé dolné šedé tlačidlá sú tretí ľavý a pravý spúšťač (L3/R3). Je to užitočné iba v niektorých emulátoroch alebo na nahrávanie videa.\n"
+"\n"
+"Stlačte L3 alebo R3."
+
+#: 
+msgid "DRIVER"
+msgstr "Ovládač"
+
+#: 
+msgid "Change the driver if your pad is not working at all or not working properly in-game."
+msgstr "Zmeňte ovládač, ak váš ovládač nepracuje správne"
+
+#: 
+msgid "In Memory!"
+msgstr "V pamäti!"
+
+#: 
+msgid "Internal Share Partition"
+msgstr "Vnútorná partícia SHARE"
+
+#: 
+msgid "Network Share"
+msgstr "Sieťové zdieľanie"
+
+#: 
+msgid "Device %d - %l (%f)"
+msgstr "Zariadenie %d - %l (%f)"
+
+#: 
+msgid "Any External Device"
+msgstr "Ľubovoľné externé zariadenie"
+
+#: 
+msgid "SCRAPER OPTIONS"
+msgstr "Voľby vyhľadávača"
+
+#: 
+msgid "SCREENSCRAPER OPTIONS"
+msgstr "Voľby Screenscrapera"
+
+#: 
+msgid "DETECTED REGION"
+msgstr "Zistený región"
+
+#: 
+msgid "SELECT REGION PRIORITY"
+msgstr "Vyberte prioritu regiónu"
+
+#: 
+msgid "LATER"
+msgstr "Neskôr"
+
+#: 
+msgid "A reboot is required to apply pending changes."
+msgstr "Na použitie zmien je potrebný reštart"
+
+#: 
+msgid "SHOW LIGHTGUN SYSTEM"
+msgstr "Zobraziť systém LIGHTGUN"
+
+#: 
+msgid "Show all available games playable with a lightgun."
+msgstr "Zobraziť všetky dostupný hry pre svetelnú pištoľ"
+
+#: 
+msgid "WARNING! This option erase all recalbox and emulator configurations! Use it carefully!"
+msgstr "Upozornenie! Táto voľba vymaže všetky nastavenia Recalboxu a emulátorov! Používajte opatrne!"
+
+#: 
+msgid "RESET TO FACTORY SETTINGS"
+msgstr "Obnoviť výrobné nastavenia"
+
+#: 
+msgid "WARNING!"
+msgstr "Upozornenie!"
+
+#: 
+msgid "RESET TO FACTORY SETTINGS\n"
+"\n"
+"YOU'RE ABOUT TO RESET RECALBOX AND EMULATOR SETTINGS TO DEFAULT VALUES.\n"
+"ALL YOUR DATA LIKE GAMES, SAVES, MUSIC, SCREENSHOTS AND SO ON, WILL BE KEPT.\n"
+"\n"
+"THIS OPERATION CANNOT BE UNDONE!\n"
+"ARE YOU SURE YOU WANT TO RESET ALL YOUR SETTINGS?"
+msgstr "Obnovenie do továrenského nastavenia\n"
+"\n"
+"Chystáte sa obnoviť nastavenie Recalboxu a emulátorov na predvolené hodnoty.\n"
+"Všetky vaše údaje ako hry, uložené pozície, hudba, snímky obrazovky a ďalšie budú zachované.\n"
+"\n"
+"Táto operácia sa nedá vrátiť späť!\n"
+"Ste si istí, že chcete vymazať všetky vaše nastavenia?"
+
+#: 
+msgid "YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n"
+"\n"
+"ARE YOU REALLY SURE YOU WANT TO DO THIS?"
+msgstr "Ste iba jeden klik od obnovenia vášho Recalboxu do továrenského nastavenia!\n"
+"\n"
+"Ste si naozaj istí, že to chcete urobiť?"
+
+#: 
+msgid "SWAP VALIDATE/CANCEL BUTTONS"
+msgstr "Vymeniť tlačidlá Potvrdiť/Zrušiť"
+
+#: 
+msgid "AUDIO MODE"
+msgstr "Režim zvuku"
+
+#: 
+msgid "Select sound to play. Musics, videos sound, both or none"
+msgstr "Vyberte zvuk na prehranie. Hudba, video zvuk, oboje alebo nič"
+
+#: 
+msgid "Musics or videos sound"
+msgstr "Hudba alebo video zvuk"
+
+#: 
+msgid "Musics and videos sound"
+msgstr "Hudba a video zvuk"
+
+#: 
+msgid "Musics only"
+msgstr "Iba hudba"
+
+#: 
+msgid "Videos sound only"
+msgstr "Iba video zvuk"
+
+#: 
+msgid "No sound"
+msgstr "Bez zvuku"
+
+#: 
+msgid "Scraping complete! {PROCESSED} games processed.\n"
+"\n"
+"{SUCCESS} game(s) scraped or updated\n"
+"{NOTFOUND} game(s) not found...\n"
+"{ERRORS} request/download errors\n"
+"\n"
+"{TEXTINFO} Text information updated\n"
+"{IMAGES} images and {VIDEOS} videos downloaded\n"
+"{MEDIASIZE} of media saved\n"
+"Now, EmulationStation is going to relaunch to update all gamelists."
+msgstr "Vyhľadávanie dokončené! Spracované {PROCESSED} hier.\n"
+"\n"
+"Vyhľadané alebo aktualizované {SUCCESS} hier\n"
+"{NOTFOUND} hier nenájdených...\n"
+"{ERRORS} chýb požiadaviek/stiahnutí\n"
+"\n"
+"Aktualizovaných {TEXTINFO} textových informácií\n"
+"Stiahnutých {IMAGES} obrázkov a {VIDEOS} videí\n"
+"Uložených {MEDIASIZE} médií\n"
+"Teraz sa vykoná rečtart EmulationStation kvôli aktualizácii všetkých zoznamov hier."
+
+#: 
+msgid "You reached your daily quota of scraping request.\n"
+"All your today's scrapes have been saved anyway.\n"
+"\n"
+"Start scraping again tomorrow.\n"
+"Dont forget to select 'update' and not 'scrape all'"
+msgstr "Dosiahli ste denný limit pre vyhľadávanie.\n"
+"Všetky vaše dnešné záznamy boli však uložené.\n"
+"\n"
+"Spustite vyhľadávanie znovu zajtra.\n"
+"Nezabudnite vybrať \"Aktualizovať\" namiesto \"Vyhľadať všetko\"."
+
+#: 
+msgid "Select the source of your game name. Trust the scraping database or get them from filename, raw or undecorated (without decoration in () or [] )."
+msgstr "Vyberte zdroj názvu vašej hry. Dôverovať vyhľadávacej databázi, získať ho z názvu súboru v surovej alebo upravenej forme (bez častí v () alebo v [] )."
+
+#: 
+msgid "Scraper results"
+msgstr "Výsledky vyhľadávania"
+
+#: 
+msgid "BRIGHTNESS -"
+msgstr "Jas -"
+
+#: 
+msgid "BRIGHTNESS +"
+msgstr "Jas +"
+
+#: 
+msgid "Adult"
+msgstr "Pre dospelých"
+
+#: 
+msgid "Waking up!"
+msgstr "Prebúdzam..."
+
+#: 
+msgid "Bye bye!"
+msgstr "Dovidenia!"
+
+#: 
+msgid "LightGun Games"
+msgstr "Hry so svetelnou pištoľou"
+
+#: 
+msgid "NEW YORK"
+msgstr "NEW YORK"
+
+#: 
+msgid "MADRID"
+msgstr "MADRID"
+
+#: 
+msgid "AUTOMATIC"
+msgstr "Automaticky"
+
+#: 
+msgid "SYSTEM DRIVER"
+msgstr "Systémový ovládač"
+
+#: 
+msgid "GAME LIBRARY DRIVER"
+msgstr "Softvérový ovládač (SDL2)"
+
+#: 
+msgid "Allow to swap validate button B/X and cancel button B/O"
+msgstr "Vymeniť tlačidlá potvrdenia (B/X) a zrušenia (A/O)"
+
+#: 
+msgid "Select exisiting game clip view options for this theme."
+msgstr "Vyberte existujúce voľby zobrazenie herného klipu pre túto tému"
+
+#: 
+msgid "Analog Output"
+msgstr "Analógový výstup"
+
+#: 
+msgid "HDMI / DisplayPort"
+msgstr "HDMI/DisplayPort"
+
+#: 
+msgid "box2D"
+msgstr "BOX2D"
+
+#: 
+msgid "box3d"
+msgstr "BOX3D"
+
+#: 
+msgid "P2K CONTROLS"
+msgstr "Ovládače P2K"
+
+#: 
+msgid "THE UPGRADE HAS FAILED"
+msgstr "Aktualizácia zlyhala"
+
+#: 
+msgid "The upgrade process has failed. You are back on Recalbox %s.\n"
+"Please retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists."
+msgstr "Proces aktualizácie zlyhal. Ste naspäť v Recalboxe %s. Prosím, skúste znovu aktualizovať svoj Recalbox a ak problém pretrváva, kontaktuje tím na https://forum.recalbox.com."
+
+#: 
+msgid "RECALBOX OVERLAYS"
+msgstr "Recalbox prekrytia"
+
+#: 
+msgid "On wide screens, display system images that wrap around emulated screen."
+msgstr "Na širokých obrazovkách, zobraziť systémové obrázky okolo emulovanej obrazovky"
+
+#: 
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr "Váš zoznam obľúbených je prázdny. Stlačte SELECT na zobrazenie všetkých hier."
+
+#: 
+msgid "No comment available"
+msgstr "Žiadny komentár"
+
+#: 
+msgid "UNKNOWN"
+msgstr "Neznáme"
+
+#: 
+msgid "DISK USAGE (FREE/TOTAL)"
+msgstr "Využitie disku (voľné/celkové)"
+
+#: 
+msgid "Show a 'all-games' system with all games from all systems."
+msgstr "Zobraziť systém VŠETKY HRY s hrami zo všetkých systémov"
+
+#: 
+msgid "SHOW PORTS SYSTEM"
+msgstr "Zobraziť systém PORTS"
+
+#: 
+msgid "Show a 'ports' system with all ports in the same place."
+msgstr "Zobraziť systém PORTY so všetkými portami na jednom mieste"
+
+#: 
+msgid "GO TO GAME"
+msgstr "Prejsť na hru"
+
+#: 
+msgid "DELETE GAME %s"
+msgstr "Vymazať hru %s"
+
+#: 
+msgid "GAME FILES (ROM | DISK IMAGE)"
+msgstr "Súbory hier (ROM/obrazy disku)"
+
+#: 
+msgid "MEDIA FILES"
+msgstr "Súbory médií"
+
+#: 
+msgid "CONFIGURATION AND PATCH FILES"
+msgstr "Súbory nastavenia a záplat"
+
+#: 
+msgid "SAVE FILES"
+msgstr "Súbory uloženia"
+
+#: 
+msgid "SELECT FILES TO DELETE"
+msgstr "Vyberte súbory na vymazanie"
+
+#: 
+msgid "DELETE SELECTED FILES, CONFIRM?"
+msgstr "Vymazať vybrané súbory, potvrdiť?"
+
+#: 
+msgid "RELEASE DATE"
+msgstr "Dátum vydania"
+
+#: 
+msgid "TYPE, THEN NAME"
+msgstr "Typ, potom názov"
+
+#: 
+msgid "TYPE, THEN RELEASE DATE"
+msgstr "Typ, potom dátum vydania"
+
+#: 
+msgid "MANUFACTURER, THEN NAME"
+msgstr "Výrobca, potom názov"
+
+#: 
+msgid "MANUFACTURER, THEN RELEASE DATE"
+msgstr "Výrobca, potom dátum vydania"
+
+#: 
+msgid "TYPE, THEN MANUFACTURER, THEN NAME"
+msgstr "Typ, potom výrobca, potom názov"
+
+#: 
+msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
+msgstr "Typ, potom výrobca, potom dátum vydania"
+
+#: 
+msgid "SYSTEM SORTING"
+msgstr "Triedenie systémov"
+
+#: 
+msgid "Default: use original or custom systemlist.xml order\n"
+"System Type: order by Console/Handheld/Computer/Arcade/Other\n"
+"Release Date: order by release date asc\n"
+"Manufacturer: order by manufacturer (e.g. Sega)\n"
+"Special Blend: Sort by type then Manufacturer then Release Date"
+msgstr "Predvolené: použiť pôvodné alebo vlastné poradie systemlist.xml\n"
+"Názov: abecedne zoradiť podľa názvu systému\n"
+"Typ systému: zoradiť podľa konzoly/prenosného počítača/počítača/arkády/iného\n"
+"Dátum vydania: zoradiť podľa dátumu vydania\n"
+"Výrobca: zoradiť podľa výrobcu (napr. Sega)"
+
+#: 
+msgid "DELETE ALL FILES"
+msgstr "Vymazať všetky súbory"
+
+#: 
+msgid "ADVANCED DELETE"
+msgstr "Pokročilé vymazanie"
+
+#: 
+msgid "DELETE ALL FILES, CONFIRM?"
+msgstr "Vymazať všetky súbory, potvrdiť?"
+
+#: 
+msgid "DELETE SCREENSHOT, CONFIRM?"
+msgstr "Vymazať snímku, potvrdiť?"
+
+#: 
+msgid "DELETE SCREENSHOT"
+msgstr "Vymazať snímku"
+
+#: 
+msgid "This option display a menu which allows to DELETE game data."
+msgstr "Táto voľba zobrazí ponuku umožňujúcu vymazať údaje hier"
+
+#: 
+msgid "Global resolution is the resolution used by default when specific resolutions are undefined."
+msgstr "Globálne rozlíšenie sa použije, ak nie sú určené špecifické rozlíšenia"
+
+#: 
+msgid "Select the resolution EmulationStation will use."
+msgstr "Vybrať rozlíšenie, ktoré použije EmulationStation"
+
+#: 
+msgid "Select the resolution used by specific systems."
+msgstr "Vybrať rozlíšenie použité špecifickými systémami"
+
+#: 
+msgid "Select resolution to use with this system."
+msgstr "Vybrať rozlíšenie použité na tomto systéme"
+
+#: 
+msgid "RESOLUTIONS"
+msgstr "Rozlíšenia"
+
+#: 
+msgid "GLOBAL RESOLUTION"
+msgstr "Globálne rozlíšenie"
+
+#: 
+msgid "EMULATIONSTATION RESOLUTION"
+msgstr "Rozlíšenie EmulationStation"
+
+#: 
+msgid "EMULATORS SPECIFIC RESOLUTIONS"
+msgstr "Rozlíšenia špecifické pre emulátory"
+
+#: 
+msgid "USE GLOBAL"
+msgstr "Použiť globálne"
+
+#: 
+msgid "NATIVE"
+msgstr "Natívne"
+
+#: 
+msgid "No file selected,\n"
+"you must at least choose one."
+msgstr "Nie je vybraný súbor.\n"
+"Musíte vybrať aspoň jeden."
+
+#: 
+msgid "The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games."
+msgstr "Bolo pripojené zariadenie %NAME% obsahujúce hry! EmulationStation sa musí reštartovať na načítanie nových hier."
+
+#: 
+msgid "A device containing roms has been unplugged! EmulationStation must relaunch to remove unavailable games."
+msgstr "Zariadenie obsahujúce hry bolo odpojené!\n"
+"EmulationStation sa musí znovu spustiť na odstránenie nedostupných hier."
+
+#: 
+msgid "Your USB device has been initialized! You can unplug it and copy your games on it."
+msgstr "Vaše USB zariadenie bolo inicializované! Môžete ho odpojiť a nahrať tam hry."
+
+#: 
+msgid "The USB device %NAME% with no rom folder has been plugged in. Would you like to create rom folders on this device?"
+msgstr "Bolo pripojené USB zariadenie %NAME% bez priečinku hier. Chcete na tomto zariadení vytvoriť priečinky hier?"
+
+#: 
+msgid "Initialization failed! Your USB device is full or contains errors. Please repair or use another device."
+msgstr "Inicializácia zlyhala! Vaše USB zariadenie je plné alebo obsahuje chyby. Prosím, opravte ho alebo použite iné."
+
+#: 
+msgid "WARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."
+msgstr "Upozornenie: Je možné, že zariadenie nebolo správne odpojené a obsahuje chyby konzistencie. V dôsledku toho bolo pripojené iba na čítanie. Mali by ste zariadenie pripojiť k počítaču so systémom Windows a použiť nástroj na opravu."
+
+#: 
+msgid "DISPLAY BY FILENAME"
+msgstr "Zobraziť podľa názvu súboru"
+
+#: 
+msgid "Display games by file names."
+msgstr "Zobraziť hry podľa názvov súborov"
+
+#: 
+msgid "SEARCH GAMES HERE"
+msgstr "Tu vyhľadajte hry"
+
+#: 
+msgid "GAME FILTERS"
+msgstr "Filtre hier"
+
+#: 
+msgid "This game is currently updating its metadata. Retry in a few seconds."
+msgstr "Táto hra práve aktualizuje svoje metadára. Skúste prosím neskôr."
+
+#: 
+msgid "SHOW ONLY LATEST VERSION"
+msgstr "Zobraziť iba poslednú verziu"
+
+#: 
+msgid "SHOW ONLY FAVORITES"
+msgstr "Zobraziť iba obľúbené"
+
+#: 
+msgid "SHOW HIDDEN GAMES"
+msgstr "Zobraziť skryté hry"
+
+#: 
+msgid "HIDE NO GAMES"
+msgstr "Skryť bez hier"
+
+#: 
+msgid "Hide non final versions of a same game."
+msgstr "Skryť nefinálne verzie hry"
+
+#: 
+msgid "Hide all pre-installed games."
+msgstr "Skryť všetky predinštalované hry"
+
+#: 
+msgid "Hide no executable games. for example bios"
+msgstr "Skryť nespustiteľné hry, napr. BIOS"
+
+#: 
+msgid "Display game by file name instead of game name."
+msgstr "Zobraziť hru podľa názvu súboru namiesto názvu hry"
+
+#: 
+msgid "Filtering games you want to show."
+msgstr "Filtrovanie hier, ktoré chcete zobraziť"
+
+#: 
+msgid "If a game patch (hack, trad) has same name as a rom, it will be be auto patched.\n"
+"This menu allow to deactivate the auto patch or to have a confirm box"
+msgstr "Ak má herná záplata (hack, trad) rovnaký názov ako ROM, bude automaticky opravená.\n"
+"Táto ponuka umožňuje deaktivovať automatický patch alebo zobraziť potvrdzovacie okno."
+
+#: 
+msgid "DISABLE"
+msgstr "Zakázať"
+
+#: 
+msgid "CONFIRM"
+msgstr "Potvrdiť"
+
+#: 
+msgid "A patch has been detected"
+msgstr "Bola nájdená záplata"
+
+#: 
+msgid "original"
+msgstr "originál"
+
+#: 
+msgid "patched"
+msgstr "patchované"
+
+#: 
+msgid "A fatal error occured while scraping your game! It may be related to server issues or bad login/password.\n"
+"\n"
+"Try again in a few moment or fix your credentials if required."
+msgstr "Počas vyhľadávania vašej hry nastala fatálna chyba! Môže to súvisieť so servrom alebo zlým menom/heslom.\n"
+"\n"
+"Skúste neskôr alebo opravte vaše údaje."
+
+#: 
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr "Vyhľadávanie bolo ukončené. Stlačte OK na zobrazenie výsledkov."
+
+#: 
+msgid "Please select one or more systems to scrape!"
+msgstr "Prosím, vyberte jeden alebo viac systémov na vyhľadanie!"
+
+#: 
+msgid "Your system has not enough memory to handle %SYSTEMS% systems. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!\n"
+"\n"
+"You can hide preinstalled games in UI SETTINGS menu to decrease active systems"
+msgstr "Váš systém nemá dosť pamäte na spracovanie %SYSTEMS% systémov. Nemali by ste presiahnuť %MAXSYSTEMS% konzol/systémov, inak budete mať problémy so stabilitou!\n"
+"\n"
+"Môžete skryť predinštalované hry v ponuke Nastavenia UI na zníženie počtu aktívnych systémov."
+
+#: 
+msgid "Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!"
+msgstr "Váš systém nemá dosť pamäte na spracovanie %GAMES% hier. Nemali by ste presiahnuť %MAXGAMES%, inak budete mať problémy so stabilitou!"
+
+#: 
+msgid "WARNING! SYSTEM OVERLOAD!"
+msgstr "Upozornenie! Preťaženie systému!"
+
+#: 
+msgid "Welcome back %NAME%!\n"
+"Patron level %LEVEL%\n"
+"You are now connected to your recalbox patron account, and all exclusives features are available!"
+msgstr "Vitajte späť, %NAME%!\n"
+"Patron úroveň %LEVEL%\n"
+"Ste teraz prepojení s vašim Recalbox účtom Patreon a máte dostupné exkluzívne funkcie!"
+
+#: 
+msgid "Hello %NAME%, your private key is linked to a Patreon account which is no longer a Recalbox Patron.\n"
+"We still hope to see you back soon as a Recalbox Patron!\n"
+"Delete your private key to suppress this message."
+msgstr "Vitajte, %NAME%, váš súkromný kľúč je prepojený s účtom Patreon, ktorý už nie je patrónom Recalboxu.\n"
+"Stále dúfame, že vás uvidíme znova ako patróna Recalboxu!\n"
+"Vymažte súkromný kľúč na zrušenie tejto správy."
+
+#: 
+msgid "Your private key does not allow to retrieve your Patreon information. Go to recalbox.com/patreon to generate a new valid key!"
+msgstr "Váš súkromný kľúč neumožňuje získanie informácie z Patreon. Choďte na recalbox.com/patreon na vygenerovanie nového platného kľúča!"
+
+#: 
+msgid "Sorry we're not able to retrieve your Patron level because no network is available!"
+msgstr "Prepáčte, nemôžeme získať vašu Patreon úroveň, lebo nie je dostupná sieť"
+
+#: 
+msgid "We're not able to retrieve your Patron level! Sorry for the inconvenience, we're already working on a fix!"
+msgstr "Nevieme získať vašu Patreon úroveň! Ospravedlňujeme sa za nepríjemnosti, pracujeme na oprave!"
+
+#: 
+msgid "CASE MANAGEMENT"
+msgstr "Správa skriniek"
+
+#: 
+msgid "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of your Retroflag case (located inside the case, on the electronic part) must be positioned on ON."
+msgstr "Na využitie funkcie bezpečného vypnutia musí byť zapnutý prepínač SAFE SHUTDOWN na vašej krabičke Retroflag (vnútri na elektronickej časti)."
+
+#: 
+msgid "If you installed a case on your Recalbox, you can install or uninstall it in this. Some cases are detected automatically and will also be reported here."
+msgstr "Ak ste nainštalovali krabičku na váš Recalbox, môžete ju nainštalovať alebo odinštalovať tu. Niektoré krabičky sa zistia automaticky a tu sa aj zobrazia."
+
+#: 
+msgid "Initializing roms folders..."
+msgstr "Inicializujem ROM priečinky..."
+
+#: 
+msgid "Initializing share folders..."
+msgstr "Inicializujem SHARE priečinky..."
+
+#: 
+msgid "The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?"
+msgstr "Bolo vložené USB zariadenie %NAME% bez hier a SHARE priečinka! Chcete inicializovať toto zariadenie?"
+
+#: 
+msgid "• Choose '%INIT%' to create only all the rom folders"
+msgstr "Zvoľte '%INIT%' na vytvorenie iba priečinkov pre hry"
+
+#: 
+msgid "• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot"
+msgstr "Zvoľte '%MOVE%' na skopírovanie všetkých vašich údajov na nové zariadenie, automaticky prepnutie na toto zariadenie a reštart"
+
+#: 
+msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
+msgstr "Alebo len zvoľte '%CANCEL%' na nevykonanie žiadnej akcie s týmto novým zariadením"
+
+#: 
+msgid "INITIALIZE"
+msgstr "Inicializovať"
+
+#: 
+msgid "MOVE SHARE"
+msgstr "Presunúť SHARE"
+
+#: 
+msgid "Setting up boot device..."
+msgstr "Nastavujem spúšťacie zariadenie..."
+
+#: 
+msgid "Your USB device has been initialized! Ready to reboot on your new share device!"
+msgstr "Vaše USB zariadenie bolo inicializované! Pripravte sa na reštart na nové zariadenie!"
+
+#: 
+msgid "UPDATING..."
+msgstr "Aktualizujem..."
+
+#: 
+msgid "%i file"
+msgstr "%i súbor"
+
+#: 
+msgid "%i files"
+msgstr "%i súborov"
+
+#: 
+msgid "Video"
+msgstr "Video"
+
+#: 
+msgid "RECALBOX CRT"
+msgstr "Recalbox CRT"
+
+#: 
+msgid "RGB output for VGA666, PI2SCART, RGBPI."
+msgstr "RGB výstup pre VGA666, PI2SCART, RGBPI"
+
+#: 
+msgid "CRT ADAPTER"
+msgstr "CRT adaptér"
+
+#: 
+msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
+msgstr "Povoliť RGB výstup pre VGA666, PI2SCART, RGBPI"
+
+#: 
+msgid "MENU RESOLUTION"
+msgstr "Rozlíšenie ponuky"
+
+#: 
+msgid "Select emulationstation resolution. 480i is recommended for better details."
+msgstr "Vyberte rozlíšenie EmulationStation. 480i sa odporúča pre lepšie detaily."
+
+#: 
+msgid "SCREEN TYPE"
+msgstr "Typ obrazovky"
+
+#: 
+msgid "FORCE 50HZ"
+msgstr "Vynútiť 50 Hz"
+
+#: 
+msgid "SELECT GAME REFRESH RATE AT LAUNCH"
+msgstr "Vybrať frekvenciu hry pri spustení"
+
+#: 
+msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
+msgstr "Umožní vám vybrať medzi 50 Hz a 60 Hz pri spustení pre kompatibilné systémy"
+
+#: 
+msgid "SELECT GAME RESOLUTION AT LAUNCH"
+msgstr "Vybrať rozlíšenie hry pri spustení"
+
+#: 
+msgid "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
+msgstr "Umožní vám vybrať medzi 240p, 480i alebo 480p pre kompatibilné systémy"
+
+#: 
+msgid "RUN DEMOS IN 240P@120"
+msgstr "Spustiť demá v 240p@120"
+
+#: 
+msgid "SCANLINES IN 480P"
+msgstr "Scan riadky v 480p"
+
+#: 
+msgid "Run the demos in 240p resolution on you 31kHz monitor."
+msgstr "Spustiť demá v rozlíšení 240p na vašom 31 kHz monitore"
+
+#: 
+msgid "ZERO LAG (BETA)"
+msgstr "Nulový lag (beta)"
+
+#: 
+msgid "Configure emulators to approach a zero lag experience."
+msgstr "Nastaviť emulátory na dosiahnutie nulového lagu"
+
+#: 
+msgid "FORCE SOUND ON JACK"
+msgstr "Vynútiť zvuk cez jack"
+
+#: 
+msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
+msgstr "Vynútiť zvuk cez jack. Automaticky povolené pri zapnutí 31 kHz."
+
+#: 
+msgid "SCREEN CALIBRATION (BETA)"
+msgstr "Kalibrácia obrazovky (beta)"
+
+#: 
+msgid "PAL HORIZONTAL OFFSET"
+msgstr "PAL vodorovný posun"
+
+#: 
+msgid "If you PAL images are not centered, you can override the default horizontal offset here."
+msgstr "Ak váš PAL obraz nie je vycentrovaný, môžete nastaviť predvolený vodorovný posun"
+
+#: 
+msgid "PAL VERTICAL OFFSET"
+msgstr "PAL zvislý posun"
+
+#: 
+msgid "If you PAL images are not centered, you can override the default vertical offset here."
+msgstr "Ak váš PAL obraz nie je vycentrovaný, môžete tu zmeniť predvolený posun"
+
+#: 
+msgid "CRT SETTINGS"
+msgstr "Nastavenia CRT"
+
+#: 
+msgid "(Hardware managed)"
+msgstr "(Spravované hardvérom)"
+
+#: 
+msgid "240p"
+msgstr "240p"
+
+#: 
+msgid "480p"
+msgstr "480p"
+
+#: 
+msgid "480i (recommended)"
+msgstr "480i (odporúčané)"
+
+#: 
+msgid "MOVE SCREEN"
+msgstr "Posunúť obrazovku"
+
+#: 
+msgid "WIDER"
+msgstr "Širšie"
+
+#: 
+msgid "NARROWER"
+msgstr "Užšie"
+
+#: 
+msgid "VALIDATE CHANGES"
+msgstr "Skontrolovať zmeny"
+
+#: 
+msgid "Image width:"
+msgstr "Šírka obrázka:"
+
+#: 
+msgid "Horizontal offset:"
+msgstr "Vodorovný posun:"
+
+#: 
+msgid "Vertical offset:"
+msgstr "Zvislý posun:"
+
+#: 
+msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
+msgstr "Váš zoznam je prázdny. Stlačte Štart na zmenu herných filtrov."
+
+#: 
+msgid "Select a region to filter out games not matching the selected region."
+msgstr "Vyberte región na filtrovanie hier mimo zvoleného regiónu"
+
+#: 
+msgid "SOFTPATCHING"
+msgstr "Softpatching"
+
+#: 
+msgid "SYSTEM RESOLUTIONS"
+msgstr "Rozlíšenia systémov"
+
+#: 
+msgid "AUTOMATIC SCRAPING"
+msgstr "Automatické vyhľadávanie"
+
+#: 
+msgid "Add scanlines when running games in 480p on 31kHz screen."
+msgstr "Pridať scan riadky pri behu hier v 480p na 31 kHz obrazovke"
+
+#: 
+msgid "RUN IN BACKGROUND"
+msgstr "Spustiť v pozadí"
+
+#: 
+msgid "MONTREAL"
+msgstr "MONTREAL"
+
+#: 
+msgid "SAOPAULO"
+msgstr "SAOPAULO"
+
+#: 
+msgid "%i Known MD5"
+msgstr "%i známe MD5"
+
+#: 
+msgid "Switch audio output to Headphones!"
+msgstr "Prepnúť zvukový výstup na slúchadlá"
+
+#: 
+msgid "Switch audio output back to Speakers!"
+msgstr "Prepnúť zvukový výstup na reproduktory"
+
+#: 
+msgid "Restarting."
+msgstr "Reštartujem"
+
+#: 
+msgid "Entering standby..."
+msgstr "Prechádzam do standby..."
+
+#: 
+msgid "PAD TO KEYBOARD CONTROLS"
+msgstr "Ovládač na klávesnicu"
+
+#: 
+msgid "RECALBOX RGB DUAL"
+msgstr "Recalbox RGB Dual"
+
+#: 
+msgid "DEBUG LOGS"
+msgstr "Záznamy ladenia"
+
+#: 
+msgid "You are about to delete this files, confirm ?"
+msgstr "Idete vymazať tento súbor, potvrdiť?"
+
+#: 
+msgid "Preparing Games..."
+msgstr "Pripravujem hry..."
+
+#: 
+msgid "Some games are not netplay ready yet."
+msgstr "Niektoré hry ešte nie sú pripravené na sieťovú hru."
+
+#: 
+msgid "Free"
+msgstr "Voľné"
+
+#: 
+msgid "FADE"
+msgstr "Vytratenie"
+
+#: 
+msgid "SLIDE"
+msgstr "Posun"
+
+#: 
+msgid "INSTANT"
+msgstr "Okamžité"
+
+#: 
+msgid "Are you sure the selected theme is compatible with CRT screens?"
+msgstr "Určite je vybraná téma nekompatibilná s CRT obrazovkami?"
+
+#: 
+msgid "You must have at least %dGB free on 'SHARE' partition!"
+msgstr "Musíte mať aspoň %d GB voľných na 'SHARE' partícii!"
+
+#: 
+msgid "ADD STAR"
+msgstr "Pridať hviezdičku"
+
+#: 
+msgid "Free space on device %NAME% has bone under %LIMIT%!\n"
+"You should try to free some space quickly!"
+msgstr "Voľné miesto na zariadení %NAME% je menšie ako %LIMIT%!\n"
+"Mali by ste rýchlo uvoľniť miesto!"
+
+#: 
+msgid "60Hz (US)"
+msgstr "60 Hz (US)"
+
+#: 
+msgid "60Hz (JP)"
+msgstr "60 Hz (JP)"
+
+#: 
+msgid "50Hz (EU)"
+msgstr "50 Hz (EU)"
+
+#: 
+msgid "60Hz"
+msgstr "60 Hz"
+
+#: 
+msgid "50Hz"
+msgstr "50 Hz"
+
+#: 
+msgid "240p@120"
+msgstr "240p@120"
+
+#: 
+msgid "480p@60"
+msgstr "480p@60"
+
+#: 
+msgid "Recalbox RGB Dual options and configuration."
+msgstr "Voľby a nastavenie Recalbox RGB Dual"
+
+#: 
+msgid "Select system, frontend and emulator resolutions."
+msgstr "Vyberte systém, rozhranie a rozlíšenia emulátorov"
+
+#: 
+msgid "480i"
+msgstr "480i"
+
+#: 
+msgid "B TO UNSET"
+msgstr "B na zrušenie"
+
+#: 
+msgid "PAIR BLUETOOTH CONTROLLERS"
+msgstr "Spárovať bluetooth ovládače"
+
+#: 
+msgid "The bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to apply the pairing procedure on any bluetooth controller you want to pair.\n"
+"The next window will display all detected bluetooth devices and their status for information purposes only.\n"
+"You can close it at any time, while continuing to pair your bluetooth devices for as long as the bluetooth icon is blinking on the top left."
+msgstr "Bluetooth párovanie sa spustí a bude trvať niekoľko minút. Počas tejto doby musíte len spustiť párovaciu procedúru na ovládači. Ďalšie okno zobrazí všetky zistené zariadenia a ich stav pre informačné účely. Môžete to zatvoriť kedykoľvek, počas párovania kým bluetooth ikona bliká vľavo hore."
+
+#: 
+msgid "DOWN TO SKIP"
+msgstr "Dolu na preskočenie"
+
+#: 
+msgid "START DOWNLOADING..."
+msgstr "Spustiť sťahovanie..."
+
+#: 
+msgid "Pair a bluetooth audio device. Put your device in discovery mode before starting."
+msgstr "Spárovať bluetooth zvukové zariadenie. Uveďže zariadenie do párovacieho režimu pred párovaním."
+
+#: 
+msgid "PAIR A BLUETOOTH AUDIO DEVICE"
+msgstr "Spárovať bluetooth zvukové zariadenie"
+
+#: 
+msgid "Failed"
+msgstr "Zlyhalo"
+
+#: 
+msgid "Succeeded"
+msgstr "Úspech"
+
+#: 
+msgid "J1 UP"
+msgstr "J1 hore"
+
+#: 
+msgid "J1 DOWN"
+msgstr "J1 dolu"
+
+#: 
+msgid "J1 LEFT"
+msgstr "J1 vľavo"
+
+#: 
+msgid "J1 RIGHT"
+msgstr "J1 vpravo"
+
+#: 
+msgid "J2 UP"
+msgstr "J2 hore"
+
+#: 
+msgid "J2 DOWN"
+msgstr "J2 dolu"
+
+#: 
+msgid "J2 LEFT"
+msgstr "J2 vľavo"
+
+#: 
+msgid "J2 RIGHT"
+msgstr "J2 vpravo"
+
+#: 
+msgid "Alias: "
+msgstr "Alias: "
+
+#: 
+msgid "MAC: "
+msgstr "MAC: "
+
+#: 
+msgid "Connected: "
+msgstr "Pripojené: "
+
+#: 
+msgid "Trusted: "
+msgstr "Dôveryhodné: "
+
+#: 
+msgid "Paired: "
+msgstr "Spárované: "
+
+#: 
+msgid "Blocked: "
+msgstr "Blokované: "
+
+#: 
+msgid "NO DEVICE"
+msgstr "Žiadne zariadenie"
+
+#: 
+msgid "SEARCH BY"
+msgstr "Hľadať podľa"
+
+#: 
+msgid "NO RESULTS"
+msgstr "Žiadne výsledky"
+
+#: 
+msgid "PRIORITY TO HDMI"
+msgstr "Priorita na HDMI"
+
+#: 
+msgid "ON"
+msgstr "Zapnuté"
+
+#: 
+msgid "OFF"
+msgstr "Vypnuté"
+
+#: 
+msgid "You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\n"
+"During the calibration, press B to apply the mode, START to validate, and A to cancel."
+msgstr "Teraz skalibrujete rôzne rozlíšenia pre vašu TV. Vyberte frekvenciu podľa podpory vašej TV. Počas kalibrácie stlačte B na použitie, START na kontrolu a A na zrušenie."
+
+#: 
+msgid "60Hz Only"
+msgstr "Iba 60 Hz"
+
+#: 
+msgid "50Hz Only"
+msgstr "Iba 50 Hz"
+
+#: 
+msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
+msgstr "Zisťujem bluetooth zvukové zariadenia..."
+
+#: 
+msgid "NO AUDIO DEVICE FOUND"
+msgstr "Nenašlo sa zvukové zariadenie"
+
+#: 
+msgid "KODI RESOLUTION"
+msgstr "Rozlíšenie KODI"
+
+#: 
+msgid "AUDIO DEVICE PAIRED"
+msgstr "Zvukové zariadenie spárované"
+
+#: 
+msgid "UNABLE TO PAIR AUDIO DEVICE"
+msgstr "Nemôžem spárovať zvukové zariadenie"
+
+#: 
+msgid "select a patch"
+msgstr "vybrať záplatu"
+
+#: 
+msgid "BRIGHTNESS"
+msgstr "Jas"
+
+#: 
+msgid "NAME"
+msgstr "Názov"
+
+#: 
+msgid "suspend"
+msgstr "pozastaviť"
+
+#: 
+msgid "NO GAME"
+msgstr "Žiadna hra"
+
+#: 
+msgid "NEXT RESOLUTION"
+msgstr "Ďalšie rozlíšenie"
+
+#: 
+msgid "Game refresh rate"
+msgstr "Frekvencia hry"
+
+#: 
+msgid "Game resolution"
+msgstr "Rozlíšenie hry"
+
+#: 
+msgid "CHANGELOG"
+msgstr "Zoznam zmien"
+
+#: 
+msgid "Copying %s folder..."
+msgstr "Kopírovanie priečinka %1..."
+
+#: 
+msgid "VOLUME -"
+msgstr "Hlasitosť -"
+
+#: 
+msgid "VOLUME +"
+msgstr "Hlasitosť +"
+
+#: 
+msgid "B"
+msgstr "B"
+
+#: 
+msgid "KB"
+msgstr "KB"
+
+#: 
+msgid "MB"
+msgstr "MB"
+
+#: 
+msgid "GB"
+msgstr "GB"
+
+#: 
+msgid "TB"
+msgstr "TB"
+
