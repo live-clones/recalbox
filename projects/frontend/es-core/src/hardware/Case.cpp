@@ -44,6 +44,7 @@ bool Case::Install() const
     case CaseModel::Nuxii:
     case CaseModel::PiBoy:
     case CaseModel::Nespi4Case:
+    case CaseModel::RecalboxRGBDualOrRGBHat:
       break;
   }
   return true;
@@ -68,6 +69,7 @@ Case Case::FromShortName(const std::string& value)
   if (value == "MegaPiCase") return Create(CaseModel::MegaPiCase);
   if (value == "ArgonOne") return Create(CaseModel::ArgonOne);
   if (value == "RaspberryPiTouchDisplay") return Create(CaseModel::RaspberryPiTouchDisplay);
+  if (value == "rgbhat") return Create(CaseModel::RecalboxRGBDualOrRGBHat);
   return Create(CaseModel::None);
 }
 
@@ -111,6 +113,8 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::ArgonOne, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Argon One (Argon40)", "ArgonOne", "");
     case CaseModel::RaspberryPiTouchDisplay:
       return Case(CaseModel::RaspberryPiTouchDisplay, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Raspberry Pi Touch Display", "RaspberryPiTouchDisplay", "");
+    case CaseModel::RecalboxRGBDualOrRGBHat:
+      return Case(CaseModel::RecalboxRGBDualOrRGBHat, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Recalbox RGB Dual or RGB Hat", "rgbhat", "");
   }
   return Case(CaseModel::None, false, true, _("NONE"), "", "");
 }
