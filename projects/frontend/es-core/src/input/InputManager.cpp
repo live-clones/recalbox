@@ -21,8 +21,12 @@ InputManager::InputManager()
   : mIndexToId {}
   , mKeyboard(nullptr, InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
   , mMousse(nullptr, InputEvent::sMousseDevice, 0, "Mousse", KEYBOARD_GUID_STRING, 0, 0, 5)
+  , mScancodeStates()
+  , mScancodePreviousStates()
   , mJoystickChangePending(false)
 {
+  memset(mScancodeStates, 0, sizeof(mScancodeStates));
+  memset(mScancodePreviousStates, 0, sizeof(mScancodePreviousStates));
   // Create keyboard
   LoadDefaultKeyboardConfiguration();
   // Watcher
@@ -142,10 +146,8 @@ std::vector<InputDevice> InputManager::BuildCurrentDeviceList()
     result.push_back(item.second);
   std::sort(result.begin(), result.end(), [] (const InputDevice& a, const InputDevice& b)
   {
-    int r = strcmp(a.RawName(), b.RawName());
-    if (r < 0) return true;
-    r =  memcmp(&a.RawGUID(), &b.RawGUID(), sizeof(SDL_JoystickGUID));
-    if (r < 0) return true;
+    if (a.Name() < b.Name()) return true;
+    if (a.GUID() < b.GUID()) return true;
     if (a.AxeCount() < b.AxeCount()) return true;
     if (a.HatCount() < b.HatCount()) return true;
     return (a.ButtonCount() < b.ButtonCount());
@@ -281,19 +283,13 @@ int InputManager::ConfiguredDeviceCount()
 InputCompactEvent InputManager::ManageAxisEvent(const SDL_JoyAxisEvent& axis)
 {
   // Normalize value
-  int value = (axis.value < 0) ?
-              (axis.value < -sJoystickDeadZone ? -1 : 0) :
-              (axis.value > sJoystickDeadZone ? 1 : 0) ;
+  int value = axis.value < -sJoystickDeadZone ? -1 : (axis.value > sJoystickDeadZone ? 1 : 0);
 
   // Check if the axis enter or exit from the dead area
   InputDevice& device = GetDeviceConfigurationFromId(axis.which);
-  InputEvent event(axis.which, InputEvent::EventType::Axis, axis.axis, value);
   if (value != device.PreviousAxisValues(axis.axis))
-  {
-    device.SetPreviousAxisValues(axis.axis, value);
-    return device.ConvertToCompact(event);
-  }
-  return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, device, event };
+    return device.ConvertToCompact(InputEvent(axis.which, InputEvent::EventType::Axis, axis.axis, value));
+  return InputCompactEvent(device);
 }
 
 InputCompactEvent InputManager::ManageButtonEvent(const SDL_JoyButtonEvent& button)
@@ -305,25 +301,22 @@ InputCompactEvent InputManager::ManageButtonEvent(const SDL_JoyButtonEvent& butt
 InputCompactEvent InputManager::ManageHatEvent(const SDL_JoyHatEvent& hat)
 {
   InputDevice& device = GetDeviceConfigurationFromId(hat.which);
-  return device.ConvertToCompact(InputEvent(hat.which, InputEvent::EventType::Hat, hat.hat, hat.value));
+  InputCompactEvent event = device.ConvertToCompact(InputEvent(hat.which, InputEvent::EventType::Hat, hat.hat, hat.value));
+  return event;
 }
 
 InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, bool down)
 {
   InputEvent event = InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, key.keysym.sym, down ? 1 : 0);
-  if (down)
+  // Ignore repeat events
+  if (key.repeat != 0u) return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
+  // Quit?
+  if (down && key.keysym.sym == SDLK_F4 && (key.keysym.mod & KMOD_ALT) != 0)
   {
-    // Ignore repeat events
-    if (key.repeat != 0u) return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, event };
-
-    // Quit?
-    if (key.keysym.sym == SDLK_F4)
-    {
-      SDL_Event quit;
-      quit.type = SDL_QUIT;
-      SDL_PushEvent(&quit);
-      return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, event };
-    }
+    SDL_Event quit;
+    quit.type = SDL_QUIT;
+    SDL_PushEvent(&quit);
+    return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
   }
   return mKeyboard.ConvertToCompact(event);
 }
@@ -359,7 +352,7 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     }
   }
 
-  return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, mKeyboard, InputEvent() };
+  return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, InputEvent() };
 }
 
 Path InputManager::ConfigurationPath()
