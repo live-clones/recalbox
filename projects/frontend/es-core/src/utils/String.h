@@ -3397,7 +3397,7 @@ class String : public std::string
     // Boolean operator
 
     //! Convert to bool
-    operator bool() const { return ConvertToBool(0, 0, false); }
+    explicit operator bool() const { return ConvertToBool(0, 0, false); }
     //! Convert to not bool
     bool operator !() const { return !ConvertToBool(0, 0, false); }
 

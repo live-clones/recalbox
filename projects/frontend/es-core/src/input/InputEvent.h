@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "utils/String.h"
 
 class InputEvent
 {
@@ -83,26 +84,26 @@ class InputEvent
      * Accessors
      */
 
-    int Device()     const { return mDeviceIdentifier; }
-    EventType Type() const { return mType; }
-    int Id()         const { return mId; }
-    int Value()      const { return mValue; }
-    int Code()       const { return mCode; }
+    [[nodiscard]] int Device()     const { return mDeviceIdentifier; }
+    [[nodiscard]] EventType Type() const { return mType; }
+    [[nodiscard]] int Id()         const { return mId; }
+    [[nodiscard]] int Value()      const { return mValue; }
+    [[nodiscard]] int Code()       const { return mCode; }
 
     /*
      * Special accessor for configuration convenience
      */
 
-    bool AnyButtonPressed() const { return (mType == EventType::Button) && (mValue != 0); }
-    bool AnyButtonReleased() const { return (mType == EventType::Button) && (mValue == 0); }
-    bool AnythingPressed() const { return (mValue != 0); }
-    bool AnythingReleased() const { return (mValue == 0); }
+    [[nodiscard]] bool AnyButtonPressed() const { return (mType == EventType::Button) && (mValue != 0); }
+    [[nodiscard]] bool AnyButtonReleased() const { return (mType == EventType::Button) && (mValue == 0); }
+    [[nodiscard]] bool AnythingPressed() const { return (mValue != 0); }
+    [[nodiscard]] bool AnythingReleased() const { return (mValue == 0); }
 
     /*!
      * @brief Convert current event to a string representation
      * @return String representation of the c urrent event
      */
-    std::string ToString() const;
+    [[nodiscard]] String ToString() const;
 
     /*!
      * @brief Get the raw SDL2 code for the current event.
@@ -114,7 +115,7 @@ class InputEvent
      * Helpers
      */
 
-    static std::string TypeToString(InputEvent::EventType type);
+    static String TypeToString(InputEvent::EventType type);
     static EventType StringToType(const std::string& type);
-    static const char* HatDir(int val);
+    static String HatDir(int val);
 };
