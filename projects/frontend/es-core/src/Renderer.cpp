@@ -288,8 +288,7 @@ bool Renderer::Initialize(int w, int h)
   mScale = 1;
   mVirtualDisplayWidth = mDisplayWidth;
   mVirtualDisplayWidthFloat = mDisplayWidthFloat;
-  if(isCrt)
-  {
+  if(isCrt || RecalboxConf::Instance().GetESForce43()) {
     mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334f);
     mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334f);
     mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334f;
