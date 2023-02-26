@@ -289,7 +289,7 @@ bool Renderer::Initialize(int w, int h)
   mScale.Set(1,1);
   mVirtualViewportSize.Set(mViewportSize.x(), mViewportSize.y());
   mVirtualViewportSizeFloat.Set(mViewportSize.x(), mViewportSize.y());
-  if(isCrt)
+  if(isCrt || RecalboxConf::Instance().GetESForce43())
   {
     float scaledWidth = (float)mViewportSize.y() * 1.3334f;
     mScale.Set((float)mViewportSize.x() / scaledWidth, 1);
