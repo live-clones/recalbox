@@ -162,6 +162,11 @@ class InputManager : public IFileSystemWatcherNotification
     //! Default Mousse
     InputDevice mMousse;
 
+    //! Raw key events
+    bool mScancodeStates[0x100];
+    //! Previous raw key events
+    bool mScancodePreviousStates[0x100];
+
     //! Notification interfaces
     Array<IInputChange*> mNotificationInterfaces;
 
