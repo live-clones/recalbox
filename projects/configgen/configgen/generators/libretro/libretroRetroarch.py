@@ -36,6 +36,7 @@ class LibretroRetroarch:
         "squarepixel",
         "coreprovided",
         "custom",
+        "fullscreen"
     ]
 
     # Define systems not compatible with rewind option
