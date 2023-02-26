@@ -76,6 +76,12 @@ if isCRTLoaded; then
   fi
 fi
 
+# When composite is enabled, just activate it and exit
+if ls /sys/class/drm/ | grep -q Composite;then
+    echo on > /sys/class/drm/card*-Composite-*/status
+    exit 0
+fi
+
 while ! isScreenConnected; do
   log_info "no DRM card connected, entering force detection loop"
   for card in $(list_cards); do
