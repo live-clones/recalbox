@@ -45,43 +45,43 @@ std::string InputDevice::EntryToString(InputDevice::Entry entry)
 
 InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
 {
-  std::string lentry = Strings::ToLowerASCII(entry);
-  if (lentry == "none") return InputDevice::Entry::None;
-  if (lentry == "start") return InputDevice::Entry::Start;
-  if (lentry == "select") return InputDevice::Entry::Select;
-  if (lentry == "hotkey") return InputDevice::Entry::Hotkey;
-  if (lentry == "a") return InputDevice::Entry::A;
-  if (lentry == "b") return InputDevice::Entry::B;
-  if (lentry == "x") return InputDevice::Entry::X;
-  if (lentry == "y") return InputDevice::Entry::Y;
-  if (lentry == "l1") return InputDevice::Entry::L1;
-  if (lentry == "r1") return InputDevice::Entry::R1;
-  if (lentry == "l2") return InputDevice::Entry::L2;
-  if (lentry == "r2") return InputDevice::Entry::R2;
-  if (lentry == "l3") return InputDevice::Entry::L3;
-  if (lentry == "r3") return InputDevice::Entry::R3;
-  if (lentry == "up") return InputDevice::Entry::Up;
-  if (lentry == "right") return InputDevice::Entry::Right;
-  if (lentry == "down") return InputDevice::Entry::Down;
-  if (lentry == "left") return InputDevice::Entry::Left;
-  if (lentry == "joystick1left") return InputDevice::Entry::Joy1AxisH;
-  if (lentry == "joystick1up") return InputDevice::Entry::Joy1AxisV;
-  if (lentry == "joystick2left") return InputDevice::Entry::Joy2AxisH;
-  if (lentry == "joystick2up") return InputDevice::Entry::Joy2AxisV;
-  if (lentry == "vol+") return InputDevice::Entry::VolumeUp;
-  if (lentry == "vol-") return InputDevice::Entry::VolumeDown;
-  if (lentry == "lum+") return InputDevice::Entry::BrightnessUp;
-  if (lentry == "lum-") return InputDevice::Entry::BrightnessDown;
-  else
+  static HashMap<std::string, InputDevice::Entry> sStringToEntry
   {
-    { LOG(LogError) << "[InputDevice] Unknown string Input entry: " << entry; }
-    return InputDevice::Entry::None;
-  }
+    { "none", InputDevice::Entry::None },
+    { "start", InputDevice::Entry::Start },
+    { "select", InputDevice::Entry::Select },
+    { "hotkey", InputDevice::Entry::Hotkey },
+    { "a", InputDevice::Entry::A },
+    { "b", InputDevice::Entry::B },
+    { "x", InputDevice::Entry::X },
+    { "y", InputDevice::Entry::Y },
+    { "l1", InputDevice::Entry::L1 },
+    { "r1", InputDevice::Entry::R1 },
+    { "l2", InputDevice::Entry::L2 },
+    { "r2", InputDevice::Entry::R2 },
+    { "l3", InputDevice::Entry::L3 },
+    { "r3", InputDevice::Entry::R3 },
+    { "up", InputDevice::Entry::Up },
+    { "right", InputDevice::Entry::Right },
+    { "down", InputDevice::Entry::Down },
+    { "left", InputDevice::Entry::Left },
+    { "joystick1left", InputDevice::Entry::Joy1AxisH },
+    { "joystick1up", InputDevice::Entry::Joy1AxisV },
+    { "joystick2left", InputDevice::Entry::Joy2AxisH },
+    { "joystick2up", InputDevice::Entry::Joy2AxisV },
+    { "vol+", InputDevice::Entry::VolumeUp },
+    { "vol-", InputDevice::Entry::VolumeDown },
+    { "lum+", InputDevice::Entry::BrightnessUp },
+    { "lum-", InputDevice::Entry::BrightnessDown },
+  };
+  InputDevice::Entry* result = sStringToEntry.try_get(Strings::ToLowerASCII(entry));
+  if (result != nullptr) return *result;
+  { LOG(LogError) << "[InputDevice] Unknown string Input entry: " << entry; }
+  return InputDevice::Entry::None;
 }
 
-InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
-  : mDeviceName {},
-    mDeviceNameLength(0),
+InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const String& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
+  : mDeviceName(deviceName),
     mDeviceGUID(deviceGUID),
     mDeviceSDL(device),
     mDeviceId(deviceId),
@@ -90,14 +90,12 @@ InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int devi
     mDeviceNbHats(deviceNbHats),
     mDeviceNbButtons(deviceNbButtons),
     mConfigurationBits(0),
+    mPreviousHatsValues{},
     mPreviousAxisValues{},
     mConfiguring(false)
 {
-  memset(mDeviceName, 0, sizeof(mDeviceName));
-  mDeviceNameLength = deviceName.length();
-  if (mDeviceNameLength >= (int)sizeof(mDeviceName))
-    mDeviceNameLength = (int)sizeof(mDeviceName) - 1;
-  memcpy(mDeviceName, deviceName.data(), mDeviceNameLength);
+  memset(mPreviousAxisValues, 0, sizeof(mPreviousAxisValues));
+  memset(mPreviousHatsValues, 0, sizeof(mPreviousHatsValues));
 }
 
 void InputDevice::ClearAll()
@@ -112,19 +110,16 @@ void InputDevice::LoadFrom(const InputDevice& source)
   *this = source;
 }
 
-std::string InputDevice::NameExtented() const
+String InputDevice::NameExtented() const
 {
-  std::string result(mDeviceName, mDeviceNameLength);
+  String result(mDeviceName);
   std::string powerLevel = PowerLevel();
   if (!powerLevel.empty())
-  {
-    result.append(1, ' ');
-    result.append(powerLevel);
-  }
+    result.Append(' ').Append(powerLevel);
   return result;
 }
 
-std::string InputDevice::PowerLevel() const
+String InputDevice::PowerLevel() const
 {
   if (mDeviceSDL != nullptr)
   {
@@ -466,78 +461,121 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
   }
 }
 
+void InputDevice::ConvertButtonToOnOff(int button, bool pressed, InputCompactEvent::Entry& on,
+                                          InputCompactEvent::Entry& off)
+{
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::Button)
+        if (config.Id() == button)
+          (pressed ? on : off) |= ConvertEntry((Entry)i);
+}
+
+void InputDevice::ConvertKeyToOnOff(int key, bool pressed, InputCompactEvent::Entry& on,
+                                          InputCompactEvent::Entry& off)
+{
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::Key)
+        if (config.Id() == key)
+          (pressed ? on : off) |= ConvertEntry((Entry)i);
+}
+
+void InputDevice::ConvertHatToOnOff(int hat, int bits, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off)
+{
+  int previousBits = mPreviousHatsValues[hat];
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::Hat && config.Id() == hat)
+      {
+        // Hat bits are matching, set the target direction
+        if ((bits & config.Value()) == config.Value())
+          on |= ConvertEntry((Entry)i);
+        // Otherwise, if previous value matched,
+        else if ((previousBits & config.Value()) == config.Value()) // Previous value match bits?
+            off |= ConvertEntry((Entry)i);
+      }
+
+  // Record previous value
+  mPreviousHatsValues[hat] = bits;
+}
+
+void InputDevice::ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off)
+{
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::Axis && config.Id() == axis)
+      {
+        // For axis, we must distinguish target axis from other binary targets.
+        // Axis to axis are converted to negative/center/positive.
+        // Axis to binaries are converted to on only for the right sign. off otherwise
+        // That is, axis on triggers will be properly converted to on/off buttons.
+        if (InputCompactEvent::Entry targetEntry = ConvertEntry((Entry)i); targetEntry >= InputCompactEvent::Entry::J1Left)
+        {
+          InputCompactEvent::Entry targetOpposite = (InputCompactEvent::Entry)((int)targetEntry << 1);
+          // Since configured event are negatives, if we got a positive value in current config, that means
+          // the joystick is inverted.
+          // Note: values are already normalized to -1/0/+1
+          value = (config.Value() > 0) ? -value : value;
+          int previousValue = (config.Value() > 0) ? -mPreviousAxisValues[axis] : mPreviousAxisValues[axis];
+          if (previousValue != value)
+          switch(value)
+          {
+            case -1: // configured axis direction?
+            {
+              on |= targetEntry;
+              if (previousValue > 0) off |= targetOpposite; // In case joystick has been quickly moved from one direction to another
+              break;
+            }
+            case 1: // Opposite of configured axis direction?
+            {
+              on |= targetOpposite;
+              if (previousValue < 0) off |= targetEntry; // In case joystick has been quickly moved from one direction to another
+              break;
+            }
+            default: // Axis centered again
+            {
+              off |= previousValue < 0 ? targetEntry : targetOpposite;
+              break;
+            }
+          }
+        }
+        else // Axis has a binary on/off
+        {
+          // If the config is negative, invert the value so that we just compare to positive range
+          value = (config.Value() < 0) ? -value : value;
+          if (value > 0) on |= targetEntry;
+          else off |= targetEntry;
+        }
+      }
+
+  // Record previous value
+  mPreviousAxisValues[axis] = value;
+}
+
+
 InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
 {
+  //{ LOG(LogError) << "[InputEvent] " << event.ToString(); }
   InputCompactEvent::Entry on  = InputCompactEvent::Entry::Nothing;
   InputCompactEvent::Entry off = InputCompactEvent::Entry::Nothing;
 
   // Need configuration?
-  if (!IsConfigured())
-      off = (on |= InputCompactEvent::Entry::NeedConfiguration);
+  if (!IsConfigured()) off = (on |= InputCompactEvent::Entry::NeedConfiguration);
 
-  // Normal processing
-  for (int i = (int)Entry::__Count; --i >= 0; )
-    if ((mConfigurationBits & (1 << (int)i)) != 0)
-    {
-      const InputEvent& current = mInputEvents[i];
-      InputCompactEvent::Entry targetEntry = ConvertEntry((Entry)i);
+  switch(event.Type())
+  {
+    case InputEvent::EventType::Axis: ConvertAxisToOnOff(event.Id(), event.Value(), on, off); break;
+    case InputEvent::EventType::Hat: ConvertHatToOnOff(event.Id(), event.Value(), on, off); break;
+    case InputEvent::EventType::Button: ConvertButtonToOnOff(event.Id(), event.Value() != 0, on, off); break;
+    case InputEvent::EventType::Key: ConvertKeyToOnOff(event.Id(), event.Value() != 0, on, off); break;
+    case InputEvent::EventType::Unknown:
+    default: { LOG(LogError) << "[InputDevice] Abnormal InputEvent::EventType: " << (int)event.Type(); break; }
+  }
 
-      if(current.Device() == event.Device() && current.Type() == event.Type() && current.Id() == event.Id())
-      switch(event.Type())
-      {
-        case InputEvent::EventType::Hat:
-        {
-          // Hat bits are compared strictly because any position might be configured.
-          // Also any non-equal entry relying on the same hat will be set to off
-          // That is, a center position will set any hat mapping to off
-          if (event.Value() == current.Value()) on |= targetEntry;
-          else off |= targetEntry;
-          break;
-        }
-        case InputEvent::EventType::Axis:
-        {
-          // For axis, we must distinguish target axis from other binary targets.
-          // Axis to axis are converted to negative/center/positive.
-          // Axis to binaries are converted to on only for the right sign. off otherwise
-          // That is, axis on triggers will be properly converted to on/off buttons.
-          if (targetEntry >= InputCompactEvent::Entry::J1Left)
-          {
-            InputCompactEvent::Entry targetOpposite = (InputCompactEvent::Entry)((int)targetEntry << 1);
-            // Since configured event are negatives, if we got a positive value in current config, that means
-            // the joystick is inverted.
-            // Note: values are already normalized to -1/0/+1
-            int value = (current.Value() > 0) ? -event.Value() : event.Value();
-            if (value < 0) on |= targetEntry;
-            else if (value > 0) on |= targetOpposite;
-            else off |= targetEntry | targetOpposite; // Reset both directions
-          }
-          else
-          {
-            // If the config is negative, invert the value so that we just compare to positive range
-            int value = (current.Value() < 0) ? -event.Value() : event.Value();
-            if (value > 0) on |= targetEntry;
-            else off|= targetEntry;
-          }
-          break;
-        }
-        case InputEvent::EventType::Key:
-        case InputEvent::EventType::Button:
-        {
-          // Buttons and keys are simple on/off
-          if (event.Value() != 0) on |= targetEntry;
-          else off |= targetEntry;
-          break;
-        }
-        case InputEvent::EventType::Unknown:
-        default:
-        {
-          { LOG(LogError) << "[InputDevice] Abnormal InputEvent::EventType: " << (int)event.Type(); }
-          break;
-        }
-      }
-    }
-
-  return { on, off, *this, event };
+  InputCompactEvent result = { on, off, *this, event };
+  //{ LOG(LogError) << "[CompactInputEvent] " << result.ToString(); }
+  return result;
 }
 
 InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
@@ -579,7 +617,7 @@ InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
 
 bool InputDevice::EqualsTo(const InputDevice& to) const
 {
-  return (strcmp(mDeviceName, to.mDeviceName) == 0) &&
+  return (mDeviceName == to.mDeviceName) &&
          (memcmp(&mDeviceGUID, &to.mDeviceGUID, sizeof(SDL_JoystickGUID)) == 0) &&
          (mDeviceNbAxes == to.mDeviceNbAxes) &&
          (mDeviceNbHats == to.mDeviceNbHats) &&
