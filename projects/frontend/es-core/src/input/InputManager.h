@@ -148,9 +148,6 @@ class InputManager : public IFileSystemWatcherNotification
     //! Device list
     typedef Array<InputDevice> InputDeviceList;
 
-    //! Joystick deadzone, in the 0-32767 range
-    static constexpr int sJoystickDeadZone = 23000;
-
     //! Index to SDL Identifiers
     SDL_JoystickID mIndexToId[Input::sMaxInputDevices];
     //! SDL Identifier to Joystick structures
@@ -161,6 +158,11 @@ class InputManager : public IFileSystemWatcherNotification
     InputDevice mKeyboard;
     //! Default Mousse
     InputDevice mMousse;
+
+    //! Raw key events
+    bool mScancodeStates[0x100];
+    //! Previous raw key events
+    bool mScancodePreviousStates[0x100];
 
     //! Notification interfaces
     Array<IInputChange*> mNotificationInterfaces;
