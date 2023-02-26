@@ -34,6 +34,7 @@ const std::map<std::string, std::string>& LibretroRatio::GetRatio()
     { _("Retroarch Config"), "config"       },
     { _("Retroarch Custom"), "custom"       },
     { _("Core provided"),    "coreprovided" },
+    { _("Full Screen"),      "fullscreen"   },
     { _("Do not set"),       "none"         },
   };
 
