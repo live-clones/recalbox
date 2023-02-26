@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
 
-std::string InputEvent::TypeToString(EventType type)
+String InputEvent::TypeToString(EventType type)
 {
   switch(type)
   {
@@ -55,25 +55,27 @@ void InputEvent::StoreSDLCode(int deviceIndex)
   { LOG(LogDebug) << "[InputEvent] Device Index: " << deviceIndex << "Device ID: " << mDeviceIdentifier << "ID: " << mId << "Event: " << ToString() << " - Code: " << mCode; }
 }
 
-std::string InputEvent::ToString() const
+String InputEvent::ToString() const
 {
   switch (mType)
   {
-    case EventType::Button:  return std::string("Button ").append(Strings::ToString(mId));
-    case EventType::Axis:    return std::string("Axis ").append(Strings::ToString(mId)).append(1, (mValue > 0 ? '+' : '-'));
-    case EventType::Hat:     return std::string("Hat ").append(Strings::ToString(mId)).append(1, ' ').append(HatDir(mValue));
-    case EventType::Key:     return std::string("Key ").append(SDL_GetKeyName((SDL_Keycode) mId));
+    case EventType::Button:  return String("Button ").Append(mId).Append(' ').Append(mValue != 0 ? "pressed" : "released");
+    case EventType::Axis:    return String("Axis ").Append(mId).Append((mValue > 0 ? '+' : '-'));
+    case EventType::Hat:     return String("Hat ").Append(mId).Append(' ').Append(HatDir(mValue));
+    case EventType::Key:     return String("Key ").Append(SDL_GetKeyName((SDL_Keycode)mId));
     case EventType::Unknown:
     default: break;
   }
-  return std::string("Input to string error");
+  return String("Input to string error");
 }
 
-const char* InputEvent::HatDir(int val)
+String InputEvent::HatDir(int val)
 {
-  if ((val & SDL_HAT_UP) != 0)    return "up";
-  if ((val & SDL_HAT_DOWN) != 0)  return "down";
-  if ((val & SDL_HAT_LEFT) != 0)  return "left";
-  if ((val & SDL_HAT_RIGHT) != 0) return "right";
-  return "neutral?";
+  String result;
+  if ((val & SDL_HAT_UP) != 0)    result.Append("up");
+  if ((val & SDL_HAT_DOWN) != 0)  result.Append(result.empty() ? "" : "+").Append("down");
+  if ((val & SDL_HAT_LEFT) != 0)  result.Append(result.empty() ? "" : "+").Append("left");
+  if ((val & SDL_HAT_RIGHT) != 0) result.Append(result.empty() ? "" : "+").Append("right");
+  if (result.empty()) result = "center";
+  return result;
 }
