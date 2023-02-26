@@ -399,7 +399,7 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
     }
   };
 
-  return false;
+  return true;
 }
 
 bool GuiInputConfig::getHelpPrompts(Help &help)
