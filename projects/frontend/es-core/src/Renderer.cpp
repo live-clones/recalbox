@@ -4,7 +4,6 @@
 #include "utils/Log.h"
 #include "ImageIO.h"
 #include "../data/Resources.h"
-#include "CrtConf.h"
 #include "ResolutionAdapter.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
@@ -127,9 +126,7 @@ bool Renderer::CreateSdlSurface(int width, int height)
   { LOG(LogInfo) << "[Renderer] Trying Resolution: " << width << ',' << height; }
 
   int flags = SDL_WINDOW_OPENGL;
-  if (!mWindowed) flags |= Board::Instance().GetBoardType() == BoardType::PCx64 ?
-                           SDL_WINDOW_FULLSCREEN/*_DESKTOP*/ :
-                           SDL_WINDOW_FULLSCREEN;
+  if (!mWindowed) flags |= SDL_WINDOW_FULLSCREEN;
   mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                 mDisplayWidth,
@@ -263,46 +260,18 @@ bool Renderer::Initialize(int w, int h)
 {
   { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
 
-  // Get resolution from config if either w or h is nul
-  bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   bool createdSurface = false;
-  if ((w * h) == 0) {
-    if (!isCrt) {
+  bool isCrt = false;
+  // Get resolution from config or crt fixed resolutions if either w or h is nul (not set from command line)
+  if (w <= 0 || h <= 0)
+  {
+    if (isCrt = ResolutionAdapter::GetCRTResolution(w, h); !isCrt)
       GetResolutionFromConfiguration(w, h);
-    } else {
-      // Es will choose its own resolution. The desktop mode cannot be trusted.
-      if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31) {
-        if (CrtConf::Instance().GetSystemCRT31kHzResolution() == "480") {
-          w = 640;
-          h = 480;
-        } else {
-          w = 1920;
-          h = 240;
-        }
-      } else {
-        if (CrtConf::Instance().GetSystemCRTResolution() == "480") {
-          if (Board::Instance().CrtBoard().MustForce50Hz()) {
-            w = 768;
-            h = 576;
-          } else {
-            w = 640;
-            h = 480;
-          }
-        } else {
-          if (Board::Instance().CrtBoard().MustForce50Hz()) {
-            w = 1920;
-            h = 288;
-          } else {
-            w = 1920;
-            h = 240;
-          }
-        }
-      }
-    }
   }
+  // Try to create surface if the resolution is valid
+  if (w > 0 && h > 0) createdSurface = CreateSdlSurface(w, h);
 
-  if ((w * h) != 0) createdSurface = CreateSdlSurface(w, h);
-
+  // Fallback to SDL2 default resolution
   if (!createdSurface)
   {
     ResolutionAdapter adapter;
@@ -310,20 +279,20 @@ bool Renderer::Initialize(int w, int h)
     w = defaultRes.Width;
     h = defaultRes.Height;
     { LOG(LogInfo) << "[Renderer] Get default resolution from Resolution Adapter: " << w << 'x' << h; }
-    if((w * h) != 0)
+    if (w > 0 && h > 0)
       createdSurface = CreateSdlSurface(defaultRes.Width, defaultRes.Height);
   }
   if (!createdSurface)
     return false;
 
-  if(isCrt) {
+  mScale = 1;
+  mVirtualDisplayWidth = mDisplayWidth;
+  mVirtualDisplayWidthFloat = mDisplayWidthFloat;
+  if(isCrt)
+  {
     mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334f);
     mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334f);
     mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334f;
-  } else {
-    mScale = 1;
-    mVirtualDisplayWidth = mDisplayWidth;
-    mVirtualDisplayWidthFloat = mDisplayWidthFloat;
   }
 
   glViewport(0, 0, mDisplayWidth, mDisplayHeight);
@@ -352,7 +321,7 @@ void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vert
 
 void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
-  Vector4i box((int)(pos.x() * mScale), pos.y(), (int)((float)dim.x() * mScale), dim.y());
+  Vector4i box((int)((float)pos.x() * mScale), pos.y(), (int)((float)dim.x() * mScale), dim.y());
   if (box[2] == 0)
     box[2] = mDisplayWidth - box.x();
   if (box[3] == 0)

@@ -4,6 +4,15 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.0.1-Pulstar
+
+### Fixes
+
+- Fix black screen on older PC with Intel graphic card
+- Add Ukrainian, Persian, Deutch (CH), and Slovak languages
+- Fix resolution selection
+
+
 ## Version 9-Pulstar
 
 ### News

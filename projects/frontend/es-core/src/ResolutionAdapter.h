@@ -83,6 +83,14 @@ class ResolutionAdapter
     //! Default resolution, replacing the desktop resolution
     Resolution DefaultResolution(bool filtered = true) { return GetDefaultResolution(filtered); }
 
+    /*!
+     * @brief Get Crt resolution
+     * @param w output width
+     * @param h output height
+     * @return true if a CRT resolution has been set in w & h
+     */
+    static bool GetCRTResolution(int& w, int& h);
+
 private:
     ResolutionList mResolutionsDetailed;
     ResolutionList mResolutions;
@@ -110,7 +118,6 @@ private:
 
     //! Get default resolution
     Resolution GetDefaultResolution(bool filtered = true);
-
 
     /*!
      * @brief Get maximum resolution regarding the current board

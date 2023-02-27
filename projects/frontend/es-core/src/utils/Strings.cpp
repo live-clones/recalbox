@@ -455,7 +455,7 @@ std::string Strings::Join(const std::vector<std::string>& _string, const std::st
 std::string Strings::Join(const std::vector<const char*>& _string, const std::string& joiner)
 {
   std::string result;
-  for(const std::string& string : _string)
+  for(const char* string : _string)
   {
     if (!result.empty()) result.append(joiner);
     result.append(string);
@@ -477,7 +477,7 @@ std::string Strings::Join(const std::vector<std::string>& _string, char joiner)
 std::string Strings::Join(const std::vector<const char*>& _string, char joiner)
 {
   std::string result;
-  for(const std::string& string : _string)
+  for(const char* string : _string)
   {
     if (!result.empty()) result.append(1, joiner);
     result.append(string);
