@@ -138,8 +138,8 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
 {
   CrtResolution reso = mSequence[mSequenceIndex];
   bool update = false;
-  if (event.CancelPressed()) mEvent.Send(); // Synchronous quit (delete this class)
-  else if (event.ValidPressed()) // Validate: go to next screen
+  if (event.CancelReleased()) mEvent.Send(); // Synchronous quit (delete this class)
+  else if (event.ValidReleased()) // Validate: go to next screen
   {
     CrtConf::Instance().Save();
     reso = mSequence[++mSequenceIndex];
@@ -149,30 +149,30 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
       update = true;
     }
   }
-  else if (event.XPressed()) // Wider
+  else if (event.XReleased()) // Wider
   {
     CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) + 1);
   }
-  else if (event.YPressed()) // Narrower
+  else if (event.YReleased()) // Narrower
   {
     CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) - 1);
   }
-  else if (event.AnyUpPressed())
+  else if (event.AnyUpReleased())
   {
     CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - 1);
     update = true;
   }
-  else if (event.AnyDownPressed())
+  else if (event.AnyDownReleased())
   {
     CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) + 1);
     update = true;
   }
-  else if (event.AnyLeftPressed())
+  else if (event.AnyLeftReleased())
   {
     CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - 1);
     update = true;
   }
-  else if (event.AnyRightPressed())
+  else if (event.AnyRightReleased())
   {
     CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
     update = true;
