@@ -39,7 +39,8 @@ function getURL {
     # Get NV unique id from pairing. If not paired, no need to continue
     [ ! -s $keydir/uniqueid.dat ] && { echo "ERROR getURL(): your recalbox is not yet paired with a GeForce Now compatible PC" >&2 ; exit 1 ; }
     uniqueId=$(cat $keydir/uniqueid.dat)
-    echo "$protocol://$host:47984/$command?unique_id=$uniqueId&uuid=$uuid"
+    # add uniqueid to compatible with Sunshine
+    echo "$protocol://$host:47984/$command?unique_id=$uniqueId&uuid=$uuid&uniqueid=$uniqueId"
     return 0
   elif [ "$protocol" == "http" ]
   then
@@ -172,7 +173,8 @@ function parseAppList {
   do
     # echo "  ++ Parsing game $line"
     appId=$($xmlCmd "root/App[AppTitle = '$line']/ID" $xmlFile)
-    appShortName=$($xmlCmd "root/App[AppTitle = '$line']/ShortName" $xmlFile)
+    # use ID to keep compatible with Sunshine host
+    appShortName=$($xmlCmd "root/App[AppTitle = '$line']/Id" $xmlFile)
     # echo "    ++ Id : $appId"
     # echo "    ++ Short name : $appShortName"
     echo "$appId$moonlightSeparator$appShortName$moonlightSeparator$line"
