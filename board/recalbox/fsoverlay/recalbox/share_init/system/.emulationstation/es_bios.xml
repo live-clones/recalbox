@@ -600,6 +600,8 @@
     <bios path="trs80coco/alice4k.rom"   md5="78af465c2f31cf4e05dec1efda77da01" core="xroar" mandatory="false" hashMatchMandatory="false" note="Alice" />
   </system>
     <system fullname="Philips CD-I" platform="cdi">
-    <bios path="cdi/cdimono1.zip"     md5="ce590c4787460161359f2b680136cb60,bbe6636ac11d3744f0710e8e820187e7" core="cdi2015" mandatory="true" hashMatchMandatory="false" />
+    <bios path="cdi/cdimono1.zip"     md5="ce590c4787460161359f2b680136cb60,bbe6636ac11d3744f0710e8e820187e7,1a7c3c98c46555ff5fc93ee3feae4b47" core="cdi2015,same_cdi" mandatory="true" hashMatchMandatory="false" />
+    <bios path="cdi/cdibios.zip"      md5="9fd6b277cd877d51426427a33d1d19bb" core="same_cdi" mandatory="false" hashMatchMandatory="false" />
+    <bios path="cdi/cdimono2.zip"     md5="2ac8cd5bb23287e022ca17d616949255" core="same_cdi" mandatory="false" hashMatchMandatory="false" />
   </system>
 </biosList>
