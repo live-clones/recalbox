@@ -1,4 +1,4 @@
-From 1d33186f3b0b96d1f0db8503330e4935c2d26565 Mon Sep 17 00:00:00 2001
+From 531b4d67ce6705de06779e4dfe3d046af7c7eb53 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Fri, 6 Jan 2023 21:04:11 +0100
 Subject: [PATCH 7/7] feat: add retroflag gpi2w dpi panel for kms driver
@@ -11,10 +11,10 @@ Subject: [PATCH 7/7] feat: add retroflag gpi2w dpi panel for kms driver
  create mode 100644 arch/arm/boot/dts/overlays/vc4-kms-dpi-retroflag-gpi2w-overlay.dts
 
 diff --git a/arch/arm/boot/dts/overlays/Makefile b/arch/arm/boot/dts/overlays/Makefile
-index 2636fdff85b4..b5b928e9cf6c 100644
+index 717f41b8ea48..6616eb4e0bc2 100644
 --- a/arch/arm/boot/dts/overlays/Makefile
 +++ b/arch/arm/boot/dts/overlays/Makefile
-@@ -241,6 +241,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
+@@ -268,6 +268,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
  	vc4-kms-dpi-panel.dtbo \
  	vc4-kms-dpi-piboydmg.dtbo \
  	vc4-kms-dpi-a030vvn01-0.dtbo \
@@ -73,7 +73,7 @@ index 000000000000..473a9f812087
 +       };
 +};
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 63c4923697a0..93cfdf24f3ae 100644
+index 78a989e073a1..557786ef49b2 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
 @@ -2548,6 +2548,32 @@ static const struct panel_desc auo_a030vvn01 = {
@@ -109,7 +109,7 @@ index 63c4923697a0..93cfdf24f3ae 100644
  static const struct display_timing innolux_at056tn53v1_timing = {
  	.pixelclock = { 39700000, 39700000, 39700000},
  	.hactive = { 640, 640, 640 },
-@@ -4800,6 +4826,9 @@ static const struct of_device_id platform_of_match[] = {
+@@ -4803,6 +4829,9 @@ static const struct of_device_id platform_of_match[] = {
  	}, {
  		.compatible = "auo,a030vvn01",
  		.data = &auo_a030vvn01,
@@ -120,5 +120,5 @@ index 63c4923697a0..93cfdf24f3ae 100644
  		.compatible = "innolux,at056tn53v1",
  		.data = &innolux_at056tn53v1,
 -- 
-2.39.0
+2.39.2
 
