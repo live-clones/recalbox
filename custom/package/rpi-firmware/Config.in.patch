@@ -1,8 +1,8 @@
 diff --git a/package/rpi-firmware/Config.in b/package/rpi-firmware/Config.in
-index 8070dc3019..8c56db4496 100644
+index a9aeaed745..8b833a6c94 100644
 --- a/package/rpi-firmware/Config.in
 +++ b/package/rpi-firmware/Config.in
-@@ -84,8 +84,9 @@ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
+@@ -91,8 +91,9 @@ config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
  config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTB_OVERLAYS
  	bool "Install DTB overlays"
  	default y
