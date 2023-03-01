@@ -1,4 +1,4 @@
-From c5b701543f309bd9bcaab5696fa09ca85160a81c Mon Sep 17 00:00:00 2001
+From 64d2caed4374894230e317a3f92f7d5ad6ddff0f Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Fri, 18 Feb 2022 22:23:31 +0100
 Subject: [PATCH 3/7] linux usb hid input xinmo
@@ -8,10 +8,10 @@ Subject: [PATCH 3/7] linux usb hid input xinmo
  1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 3d33c0c06cbb..f80026d72a23 100644
+index f197aed6444a..77173a0fc5b3 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -740,14 +740,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+@@ -744,14 +744,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
  
  		switch (usage->hid) {
  		/* These usage IDs map directly to the usage codes. */
@@ -26,7 +26,7 @@ index 3d33c0c06cbb..f80026d72a23 100644
  		case HID_GD_WHEEL:
  			if (field->flags & HID_MAIN_ITEM_RELATIVE) {
  				set_bit(REL_WHEEL, input->relbit);
-@@ -756,6 +748,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+@@ -760,6 +752,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
  				map_abs(usage->hid & 0xf);
  			}
  			break;
@@ -36,5 +36,5 @@ index 3d33c0c06cbb..f80026d72a23 100644
  			if (field->flags & HID_MAIN_ITEM_RELATIVE)
  				map_rel(usage->hid & 0xf);
 -- 
-2.39.0
+2.39.2
 
