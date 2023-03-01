@@ -1,12 +1,12 @@
-From 6b72fa690cf9c0351fcb6c678bfb022b3c9c3be1 Mon Sep 17 00:00:00 2001
+From a7bf83007bed419ce4aa7d5226e63682c88d0484 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Fri, 5 Nov 2021 21:05:35 +0100
-Subject: [PATCH] priotize hdmi sink
+Subject: [PATCH] prioritize hdmi sink
 
 ---
  src/modules/module-switch-on-connect.c | 2 +-
- src/pulsecore/sink.c                   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ src/pulsecore/sink.c                   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/modules/module-switch-on-connect.c b/src/modules/module-switch-on-connect.c
 index 950ecbee2..7bedae842 100644
@@ -22,18 +22,17 @@ index 950ecbee2..7bedae842 100644
  PA_MODULE_AUTHOR("Michael Terry");
  PA_MODULE_DESCRIPTION("When a sink/source is added, switch to it or conditionally switch to it");
 diff --git a/src/pulsecore/sink.c b/src/pulsecore/sink.c
-index e89b59655..ed895c8bb 100644
+index 0f0dc56fc..5f94558c2 100644
 --- a/src/pulsecore/sink.c
 +++ b/src/pulsecore/sink.c
-@@ -3612,7 +3612,7 @@ unsigned pa_device_init_priority(pa_proplist *p) {
-         if (pa_startswith(s, "analog-"))
-             priority += 9;
+@@ -3704,6 +3704,7 @@ unsigned pa_device_init_priority(pa_proplist *p) {
+         }
          else if (pa_startswith(s, "iec958-"))
--            priority += 8;
+             priority += 7;
 +            priority += 10;
      }
  
      return priority;
 -- 
-2.33.1
+2.39.2
 
