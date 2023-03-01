@@ -222,6 +222,9 @@ def mainInstall():
             logger.hardlog("Waiting for phase 1 to uninstall {}".format(installedCase))
             sys.exit(0)
 
+    if len(case) == 0:
+        case = previousCase
+
     if previousCase == "" or previousPhase < phase or not machine:
         if len(case) == 0:
             case = Identify(previousCase)
@@ -229,7 +232,6 @@ def mainInstall():
                 logger.hardlog("Case detected: " + case)
             else:
                 logger.hardlog("No case detected")
-
         logger.hardlog("Processing case {} on phase {}".format(case, phase))
 
         import installer

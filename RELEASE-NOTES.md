@@ -39,6 +39,11 @@ as release notes for end user on a Recalbox upgrade.
 - Add recommended info for scrap video menu
 - Added CRT Curved shaders support
 - Added wizard to disable smooth and enable integer scale when enabling shaders
+## Version 9.0.2-Pulstar
+
+### Fixes
+
+- Allow manual installation of GPiCase2W with RpiZero1, see wiki.
 
 
 ## Version 9.0.1-Pulstar
