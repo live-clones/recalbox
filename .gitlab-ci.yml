@@ -48,6 +48,8 @@ lint buildroot:
   image: python:3-alpine
   before_script:
     - pip install six
+    - pip install python-magic
+    - apk update && apk add libmagic
   script: test/lint/buildroot
 
 lint commits:
