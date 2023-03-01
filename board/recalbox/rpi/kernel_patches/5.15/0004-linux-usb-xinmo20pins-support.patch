@@ -1,4 +1,4 @@
-From e698b74fa8a1a7458e9cdc91ce54c93b93e563b6 Mon Sep 17 00:00:00 2001
+From 4472b0697219270d37b2ff25ba6f4b49651869e9 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Fri, 18 Feb 2022 22:23:52 +0100
 Subject: [PATCH 4/7] linux usb xinmo20pins support
@@ -8,10 +8,10 @@ Subject: [PATCH 4/7] linux usb xinmo20pins support
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index e6e1db188ef2..66cd53f49c9a 100644
+index 2fbcd46b072a..17226ebde680 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
-@@ -194,6 +194,7 @@ static const struct hid_device_id hid_quirks[] = {
+@@ -197,6 +197,7 @@ static const struct hid_device_id hid_quirks[] = {
  	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP_LTD2, USB_DEVICE_ID_SMARTJOY_DUAL_PLUS), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_QUAD_USB_JOYPAD), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE), HID_QUIRK_MULTI_INPUT },
@@ -20,5 +20,5 @@ index e6e1db188ef2..66cd53f49c9a 100644
  	{ HID_USB_DEVICE(USB_VENDOR_ID_XENTA, USB_DEVICE_ID_AIRMOUSE_MX3), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
  
 -- 
-2.39.0
+2.39.2
 
