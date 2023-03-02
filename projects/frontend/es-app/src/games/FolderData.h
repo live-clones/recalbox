@@ -68,8 +68,8 @@ class FolderData : public FileData
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
-    int countItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
-    int countExcludesItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
+    [[nodiscard]] int countItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
+    [[nodiscard]] int countExcludesItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
 
     /*!
      * Count all items recursively
@@ -91,7 +91,7 @@ class FolderData : public FileData
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
-    int countItems(Filter includes, Filter excludes, bool includefolders) const;
+    [[nodiscard]] int countItems(Filter includes, Filter excludes, bool includefolders) const;
 
     /*!
      * Lookup for a given game in the current tree
@@ -100,7 +100,7 @@ class FolderData : public FileData
      * @param path Current tree path
      * @return First mathing game or nullptr
      */
-    FileData* LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const;
+    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const;
 
     /*!
      * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -235,7 +235,7 @@ class FolderData : public FileData
           return nullptr;
         }
 
-        bool Empty() const { return !mValid; }
+        [[nodiscard]] bool Empty() const { return !mValid; }
 
       private:
         Array<FastSearchItem> mItems;
@@ -274,10 +274,10 @@ class FolderData : public FileData
      * Return true if this FileData is a folder and has at lease one child
      * @return Boolean result
      */
-    bool HasChildren() const { return !mChildren.empty(); }
+    [[nodiscard]] bool HasChildren() const { return !mChildren.empty(); }
 
-    const HashSet<std::string>& GetDeletedChildren() const { return mDeletedChildren; }
-    bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
+    [[nodiscard]] const HashSet<std::string>& GetDeletedChildren() const { return mDeletedChildren; }
+    [[nodiscard]] bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
 
     /*!
      * Run through filesystem's folders, seeking for games, and when found, add them into the current tree
@@ -301,36 +301,36 @@ class FolderData : public FileData
      * @param attributes Compare item against hashes, filenames or filenames with extension
      * @return First matching game or nullptr
      */
-    FileData* LookupGame(const std::string& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
+    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
 
     /*!
      * @brief Lookup a game by file path recusively
      * @param filepath Filepath to look for
      * @return FileData if a game is found, nullptr otherwise
      */
-    FileData* LookupGameByFilePath(const std::string& filepath) const;
+    [[nodiscard]] FileData* LookupGameByFilePath(const std::string& filepath) const;
 
     /*!
      * Return true if contain at least one game
      */
-    bool HasGame() const;
+    [[nodiscard]] bool HasGame() const;
 
     /*!
      * Return true if contain at least one visible game
      */
-    bool HasVisibleGame() const;
+    [[nodiscard]] bool HasVisibleGame() const;
 
-    bool HasSacrapableGame() const;
+    [[nodiscard]] bool HasSacrapableGame() const;
 
     /*!
      * Return true if contain at least one visible game with a video md
      */
-    bool HasVisibleGameWithVideo() const;
+    [[nodiscard]] bool HasVisibleGameWithVideo() const;
 
     /*!
      * @brief Check if there are one or more missing hash recursively
      */
-    bool HasMissingHashRecursively();
+    [[nodiscard]] bool HasMissingHashRecursively();
 
     /*!
      * @brief Compute all missing hashes recursively
@@ -349,27 +349,27 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the result
      * @return Game count
      */
-    int CountAll(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::All, excludes, includefolders); }
+    [[nodiscard]] int CountAll(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::All, excludes, includefolders); }
 
     /*!
      * Get favorite games in all folders
      * @param includefolders True to include subfolders in the result
      * @return Favorite game count
      */
-    int CountAllFavorites(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::Favorite, excludes, includefolders); }
+    [[nodiscard]] int CountAllFavorites(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::Favorite, excludes, includefolders); }
 
     /*!
      * Get hidden games in all folders
      * @param includefolders True to include subfolders in the result
      * @return Hidden game count
      */
-    int CountAllHidden(bool includefolders, Filter excludes) const { return countExcludesItemsRecursively(FileData::Filter::All, excludes, includefolders); }
+    [[nodiscard]] int CountAllHidden(bool includefolders, Filter excludes) const { return countExcludesItemsRecursively(FileData::Filter::All, excludes, includefolders); }
 
     /*!
      * Return true if at least one game in the three has more metadata than just path & names
      * @return True if detailed data are available
      */
-    bool HasDetailedData() const;
+    [[nodiscard]] bool HasDetailedData() const;
 
     /*!
      * Return true if the current folder contains the given item
@@ -399,7 +399,7 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the result
      * @return List of filtered items
      */
-    int CountFilteredItemsRecursively(Filter filters, Filter excludes, bool includefolders) const { return countItemsRecursively(filters, excludes, includefolders); }
+    [[nodiscard]] int CountFilteredItemsRecursively(Filter filters, Filter excludes, bool includefolders) const { return countItemsRecursively(filters, excludes, includefolders); }
     /*!
      * Count filtered items recursively starting from the current folder
      * @param filters Filter to apply
@@ -414,13 +414,13 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the result
      * @return List of filtered items
      */
-    int CountFilteredItems(Filter filters, Filter excludes, bool includefolders) const { return countItems(filters, excludes, includefolders); }
+    [[nodiscard]] int CountFilteredItems(Filter filters, Filter excludes, bool includefolders) const { return countItems(filters, excludes, includefolders); }
     /*!
      * Count displayable items (normal + favorites) recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return Number of displayable items
      */
-    int CountAllDisplayableItemsRecursively(bool includefolders) const { return countItemsRecursively(Filter::Normal | Filter::Favorite, Filter::None, includefolders); }
+    [[nodiscard]] int CountAllDisplayableItemsRecursively(bool includefolders) const { return countItemsRecursively(Filter::Normal | Filter::Favorite, Filter::None, includefolders); }
 
     /*!
      * Get filtered items recursively starting from the current folder
@@ -428,7 +428,7 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetFilteredItemsRecursively(Filter filters, Filter excludes, bool includefolders) const;
+    [[nodiscard]] FileData::List GetFilteredItemsRecursively(Filter filters, Filter excludes, bool includefolders) const;
     /*!
      * Get filtered items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
@@ -440,19 +440,19 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllItemsRecursively(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllItemsRecursively(bool includefolders, Filter excludes) const;
     /*!
      * Get all displayable items (normal + favorites) recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllDisplayableItemsRecursively(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllDisplayableItemsRecursively(bool includefolders, Filter excludes) const;
     /*!
      * Get all favorite items recursively starting from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllFavoritesRecursively(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllFavoritesRecursively(bool includefolders, Filter excludes) const;
 
     /*!
      * Get filtered items from the current folder
@@ -460,31 +460,31 @@ class FolderData : public FileData
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetFilteredItems(Filter filters, Filter excludes, bool includefolders) const;
+    [[nodiscard]] FileData::List GetFilteredItems(Filter filters, Filter excludes, bool includefolders) const;
     /*!
      * Get all items from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllItems(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllItems(bool includefolders, Filter excludes) const;
     /*!
      * Get all displayable items (normal + favorites) from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllDisplayableItems(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllDisplayableItems(bool includefolders, Filter excludes) const;
     /*!
      * Get all favorite items from the current folder
      * @param includefolders True to include subfolders in the resulting list
      * @return List of filtered items
      */
-    FileData::List GetAllFavorites(bool includefolders, Filter excludes) const;
+    [[nodiscard]] FileData::List GetAllFavorites(bool includefolders, Filter excludes) const;
 
     /*!
      * @brief Get all folders recursively
      * @return Folder list
      */
-    FileData::List GetAllFolders() const;
+    [[nodiscard]] FileData::List GetAllFolders() const;
 
     /*!
      * @brief Get all folders recursively - Root hierarchy aware methods!
@@ -514,7 +514,7 @@ class FolderData : public FileData
      * with dirty metadata (modified)
      * @return True if the folder is "dirty"
      */
-    bool IsDirty() const;
+    [[nodiscard]] bool IsDirty() const;
 
     /*!
      * @brief Rebuild a complete map path/FileData recursively

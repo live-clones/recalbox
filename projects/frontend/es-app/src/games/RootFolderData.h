@@ -58,25 +58,25 @@ class RootFolderData : public FolderData
     }
 
     //! System
-    SystemData& RootSystem() const { return mSystem; }
+    [[nodiscard]] SystemData& RootSystem() const { return mSystem; }
 
     //! Get type
-    Types RootType() const { return mType; }
+    [[nodiscard]] Types RootType() const { return mType; }
 
     //! Normal folder?
-    bool Normal() const { return (mType == Types::None); }
+    [[nodiscard]] bool Normal() const { return (mType == Types::None); }
 
     //! Is read only?
-    bool ReadOnly() const { return (mType == Types::ReadOnly); }
+    [[nodiscard]] bool ReadOnly() const { return (mType == Types::ReadOnly); }
 
     //! Virtual folder?
-    bool Virtual() const { return (mType == Types::Virtual); }
+    [[nodiscard]] bool Virtual() const { return (mType == Types::Virtual); }
 
     //! Preinstalled folder?
-    bool PreInstalled() const { return mPreinstalled; }
+    [[nodiscard]] bool PreInstalled() const { return mPreinstalled; }
 
     //! Has sub root?
-    bool HasSubRoots() const
+    [[nodiscard]] bool HasSubRoots() const
     {
       for(FileData* child : mChildren)
         if (child->IsRoot())
@@ -85,7 +85,7 @@ class RootFolderData : public FolderData
     }
 
     //! Get sub-root folders
-    std::vector<RootFolderData*> SubRoots() const
+    [[nodiscard]] std::vector<RootFolderData*> SubRoots() const
     {
       std::vector<RootFolderData*> roots;
       for(FileData* child : mChildren)
