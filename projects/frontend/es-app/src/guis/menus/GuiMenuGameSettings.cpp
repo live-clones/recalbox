@@ -47,13 +47,14 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   if(!isCrt)
     mIntegerScale = AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalIntegerScale(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
 
-  // Shaders
-  if(!isCrt)
-    mShaders = AddList<std::string>(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
-
   // Shaders preset
   if(!isCrt)
     mShaderSet = AddList<std::string>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+
+  // Shaders
+  if(!isCrt)
+    mShaders = AddList<std::string>(_("ADVANCED SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+
 
   // Retroachievements
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
@@ -126,6 +127,11 @@ void GuiMenuGameSettings::SubMenuSelected(int id)
   else if ((Components)id == Components::Netplay) mWindow.pushGui(new GuiMenuNetplay(mWindow, mSystemManager));
 }
 
+void GuiMenuGameSettings::ChangeShadersOptions(){
+  mSmooth->setState(false);
+  mIntegerScale->setState(true);
+}
+
 void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const std::string& value)
 {
   (void)index;
@@ -133,7 +139,16 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const st
   else if ((Components)id == Components::Softpatching)
     RecalboxConf::Instance().SetGlobalSoftpatching(value).Save();
   else if ((Components)id == Components::Shaders) RecalboxConf::Instance().SetGlobalShaders(value).Save();
-  else if ((Components)id == Components::ShaderSet) RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
+  else if ((Components)id == Components::ShaderSet)
+  {
+    if(value != "none" && (RecalboxConf::Instance().GetGlobalSmooth() || RecalboxConf::Instance().GetGlobalIntegerScale()))
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT IS ADVISED TO DISABLE THE SMOOTHING OF THE GAMES AND TO ACTIVATE THE SCALE INTEGRATOR. DO YOU WANT TO CHANGE THESE OPTIONS AUTOMATICALLY?"),
+                                    _("LATER"), nullptr,
+                                    _("YES"), std::bind(&GuiMenuGameSettings::ChangeShadersOptions, this)));
+    }
+    RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
+  }
 }
 
 void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
