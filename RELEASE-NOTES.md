@@ -20,6 +20,11 @@ as release notes for end user on a Recalbox upgrade.
 ## Next
 
 - Add recommended info for scrap video menu
+## Version 9.0.2-Pulstar
+
+### News
+
+- Added CRT Curved shaders support
 
 ## Version 9.0.1-Pulstar
 

@@ -223,6 +223,10 @@ class Emulator:
             systemShader = shaderContent.getString(self._name, "")
             if len(systemShader) != 0:
                 self._shaderFile = systemShader
+            else:
+                allShader = shaderContent.getString("all", "")
+                if len(allShader) != 0:
+                    self._shaderFile = allShader
 
     # Only for lightgun
     def ChangeEmulatorAndCore(self, emulator: str, core: str):
