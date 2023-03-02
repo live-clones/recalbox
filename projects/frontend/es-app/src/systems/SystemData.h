@@ -5,7 +5,6 @@
 #include <emulators/EmulatorList.h>
 #include <games/RootFolderData.h>
 #include <WindowManager.h>
-#include <systems/PlatformId.h>
 #include <systems/SystemDescriptor.h>
 #include <games/FileSorts.h>
 #include <themes/ThemeData.h>
@@ -118,7 +117,7 @@ class SystemData : private INoCopy
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists
      */
-    bool IncludeAdultGames() const;
+    [[nodiscard]] bool IncludeAdultGames() const;
 
     /*!
      * @brief Get master root
@@ -129,32 +128,31 @@ class SystemData : private INoCopy
      * @brief Get master root - const version
      * @return Master root
      */
-    const RootFolderData& MasterRoot() const { return mRootOfRoot; }
+    [[nodiscard]] const RootFolderData& MasterRoot() const { return mRootOfRoot; }
 
     /*!
      * @brief Get system descriptor
      * @return System descriptor
      */
-    const SystemDescriptor& Descriptor() const { return mDescriptor; }
+    [[nodiscard]] const SystemDescriptor& Descriptor() const { return mDescriptor; }
 
     //! Get system name
-    const std::string& Name() const { return mDescriptor.Name(); }
+    [[nodiscard]] const std::string& Name() const { return mDescriptor.Name(); }
     //! Get full name
-    const std::string& FullName() const { return mDescriptor.FullName(); }
-    //! Theme folder
-    const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
+    [[nodiscard]] const std::string& FullName() const { return mDescriptor.FullName(); }
     //! Get system rotation option in system view (tate mode)
     bool Rotatable() const { return mDescriptor.Name() == "tate"; }
+    [[nodiscard]] const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
 
     //! Has favorite in theme?
     // TODO: Please kill me asap!
-    bool HasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
+    [[nodiscard]] bool HasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
 
-    FileData::List getFavorites() const;
-    FileData::List getGames() const;
-    FileData::List getAllGames() const;
-    FileData::List getFolders() const;
-    FileData::List getTopGamesAndFolders() const;
+    [[nodiscard]] FileData::List getFavorites() const;
+    [[nodiscard]] FileData::List getGames() const;
+    [[nodiscard]] FileData::List getAllGames() const;
+    [[nodiscard]] FileData::List getFolders() const;
+    [[nodiscard]] FileData::List getTopGamesAndFolders() const;
 
     inline const ThemeData& Theme() const { return mTheme; }
 
@@ -165,48 +163,48 @@ class SystemData : private INoCopy
      * @return List of writable gamelists
      */
     Path::PathList WritableGamelists();
-    Path getThemePath() const;
+    [[nodiscard]] Path getThemePath() const;
 
-    bool HasGame() const;
-    bool HasVisibleGame() const;
+    [[nodiscard]] bool HasGame() const;
+    [[nodiscard]] bool HasVisibleGame() const;
 
     /*!
     * @brief Check if system has no only RO games
     * @return if has no only RO games
     */
-    bool HasScrapableGame() const;
-    int GameCount() const;
-    int GameAndFolderCount() const;
-    int FavoritesCount() const;
-    int HiddenCount() const;
+    [[nodiscard]] bool HasScrapableGame() const;
+    [[nodiscard]] int GameCount() const;
+    [[nodiscard]] int GameAndFolderCount() const;
+    [[nodiscard]] int FavoritesCount() const;
+    [[nodiscard]] int HiddenCount() const;
 
     // Load or re-load theme.
     void loadTheme();
 
-    const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
+    [[nodiscard]] const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
 
     //! Is this system auto scrapable? (Games in png?)
-    bool IsAutoScrapable() const;
+    [[nodiscard]] bool IsAutoScrapable() const;
 
     //! Is this system the "Favorite" system?
-    bool IsFavorite() const;
+    [[nodiscard]] bool IsFavorite() const;
 
     //! Is this system the "Ports" system?ScreenShots
-    bool IsPorts() const;
+    [[nodiscard]] bool IsPorts() const;
 
-    bool IsScreenshots() const;
+    [[nodiscard]] bool IsScreenshots() const;
 
     //! Is this system virtual?
-    bool IsVirtual() const;
+    [[nodiscard]] bool IsVirtual() const;
 
     //! Is this system selt sorted
-    bool IsSelfSorted() const;
+    [[nodiscard]] bool IsSelfSorted() const;
 
     //! Is this system always flat?
-    bool IsAlwaysFlat() const;
+    [[nodiscard]] bool IsAlwaysFlat() const;
 
     //! Is this system always flat?
-    bool IsSearchable() const;
+    [[nodiscard]] bool IsSearchable() const;
 
     /*!
      * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
@@ -214,7 +212,7 @@ class SystemData : private INoCopy
      */
     FolderData& GetFavoriteRoot();
 
-    FileSorts::Sorts FixedSort() const { return mFixedSort; }
+    [[nodiscard]] FileSorts::Sorts FixedSort() const { return mFixedSort; }
 
     /*!
      * @brief Write modified games back to the gamelist xml file
@@ -238,7 +236,7 @@ class SystemData : private INoCopy
      * @brief Get parent system manager
      * @return
      */
-    SystemManager& Manager() const { return mSystemManager; }
+    [[nodiscard]] SystemManager& Manager() const { return mSystemManager; }
 
     /*!
      * @brief Search for all games containing 'text' and add them to 'result'
@@ -259,7 +257,7 @@ class SystemData : private INoCopy
      * @brief Get excludes filter
      * @return excludes Filter
      */
-    FileData::Filter Excludes() const;
+    [[nodiscard]] FileData::Filter Excludes() const;
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)
