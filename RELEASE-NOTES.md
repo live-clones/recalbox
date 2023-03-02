@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Add recommended info for scrap video menu
 - Added CRT Curved shaders support
+- Added wizard to disable smooth and enable integer scale when enabling shaders
 
 
 ## Version 9.0.1-Pulstar
