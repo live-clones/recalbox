@@ -77,6 +77,9 @@ class GuiMenuGameSettings : public GuiMenuBase
     //! Get shader sets List
     static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
 
+    //! Change options when enabling shaders
+    void ChangeShadersOptions();
+
     /*
      * IGuiMenuBase implementation
      */
