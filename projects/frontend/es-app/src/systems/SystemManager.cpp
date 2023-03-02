@@ -175,42 +175,6 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
   system.MasterRoot().ParseAllItems(overrider);
 }
 
-void SystemManager::CheckMissingHashed(SystemData& system)
-{
-  class MissingHashes : public IParser
-  {
-    private:
-      int mCount;
-      bool mFound;
-
-    public:
-      MissingHashes() : mCount(0), mFound(false) {}
-
-      void Parse(FileData& game) override
-      {
-        if (game.IsGame())
-          if (game.Metadata().RomCrc32() == 0)
-          {
-            game.CalculateHash();
-            mCount++;
-            mFound = true;
-          }
-      }
-
-      [[nodiscard]] int HashCount() const { return mCount; }
-      [[nodiscard]] bool MissingHashesFound() const { return mFound; }
-  } missingHashes;
-
-  if (RecalboxConf::Instance().GetNetplayEnabled())
-    if (system.Descriptor().HasNetPlayCores())
-    {
-      DateTime start;
-      system.MasterRoot().ParseAllItems(missingHashes);
-      if (missingHashes.MissingHashesFound())
-      { LOG(LogInfo) << "[System] Calculated " << missingHashes.HashCount() << " missing hashes of " << system.FullName() << ". Took " << (DateTime() - start).TotalMilliseconds() << "ms."; }
-    }
-}
-
 void SystemManager::BuildDynamicMetadata(SystemData& system)
 {
   class : public IParser
@@ -302,17 +266,20 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     #endif
   } // Let the doppelgangerWatcher to free its memory ASAP
 
-  // Hashing
-  CheckMissingHashed(*result);
-  // Game In Png?
-  CheckAutoScraping(*result);
-  // Overrides?
-  CheckFolderOverriding(*result);
-  // Dynamic data
-  BuildDynamicMetadata(*result);
+  if (result->HasGame())
+  {
+    // Hashing
+    mHasher.Push(result);
+    // Game In Png?
+    CheckAutoScraping(*result);
+    // Overrides?
+    CheckFolderOverriding(*result);
+    // Dynamic data
+    BuildDynamicMetadata(*result);
 
-  // Load theme
-  result->loadTheme();
+    // Load theme
+    result->loadTheme();
+  }
 
   return result;
 }
