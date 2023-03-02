@@ -306,9 +306,11 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     if (system(std::string("rm -rf ").append(path).data()) != 0)
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
 
-  // Reset case to force detection again
   IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
+  // Reset case to force detection again
   recalboxBoot.SetString("case", "");
+  // Reset rotation
+  recalboxBoot.SetString("screen.rotation", "0");
   recalboxBoot.Save();
 
   // Reset!
