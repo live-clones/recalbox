@@ -9,6 +9,7 @@
 #include "GuiMenuTools.h"
 #include "GuiMenuNetplay.h"
 #include "GuiMenuRetroAchievements.h"
+#include "guis/GuiMsgBox.h"
 #include <components/OptionListComponent.h>
 #include <systems/SystemManager.h>
 #include <guis/MenuMessages.h>
@@ -110,10 +111,11 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaderP
   std::vector<GuiMenuBase::ListEntry<std::string>> list;
 
   std::string currentPreset = RecalboxConf::Instance().GetGlobalShaderSet();
-  if (currentPreset != "scanlines" && currentPreset != "retro") currentPreset = "none";
+  if (currentPreset != "scanlines" && currentPreset != "retro" && currentPreset != "crtcurved") currentPreset = "none";
   list.push_back({ _("NONE"), "none", currentPreset == "none" });
   list.push_back({ _("SCANLINES"), "scanlines", currentPreset == "scanlines" });
   list.push_back({ _("RETRO"), "retro", currentPreset == "retro" });
+  list.push_back({ _("CRT CURVED"), "crtcurved", currentPreset == "crtcurved" });
 
   return list;
 }
