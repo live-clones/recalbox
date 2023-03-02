@@ -11,6 +11,7 @@
 #include <utils/os/fs/watching/FileNotifier.h>
 #include <utils/os/system/Mutex.h>
 #include "IRomFolderChangeNotification.h"
+#include "SystemHasher.h"
 #include <utils/storage/Set.h>
 
 class SystemManager :
@@ -78,6 +79,9 @@ class SystemManager :
     EmulatorManager mEmulatorManager;
     //! Emulator manager guard
     Mutex mEmulatorGuard;
+
+    //! Hasher
+    SystemHasher mHasher;
 
     //! Visible system, including virtual system (Arcade)
     std::vector<SystemData*> mVisibleSystemVector;
@@ -486,12 +490,6 @@ class SystemManager :
      * @param system System to check folders from
      */
     static void CheckFolderOverriding(SystemData& system);
-
-    /*!
-     * @brief Check missing hashed and calculate them all
-     * @param system System to check for missing hashes
-     */
-    static void CheckMissingHashed(SystemData& system);
 
     /*!
      * @brief Build dynamic metadata for the given system
