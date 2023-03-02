@@ -30,22 +30,20 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     //! SDL GL context
     SDL_GLContext mSdlGLContext;
 
-    //! Display width as integer
-    int   mDisplayWidth;
-    //! Display height as integer
-    int   mDisplayHeight;
-    //! Display width as float
-    float mDisplayWidthFloat;
-    //! Display height as float
-    float mDisplayHeightFloat;
-    //! Virtual viewport display width as integer
-    int   mVirtualDisplayWidth;
-    //! Virtual viewport display width as float
-    float mVirtualDisplayWidthFloat;
-    //! X Scaling
-    float mScale;
-    //! Aspect ratio
-    float mAspectRatio;
+    //! Viewport size as ints
+    Vector2i   mViewportSize;
+    //! Virtual viewport size as floats
+    Vector2f   mVirtualViewportSizeFloat;
+    //! Virtual viewport size as ints
+    Vector2i   mVirtualViewportSize;
+
+    //! Horizontal and vertical scaling
+    Vector2f   mScale;
+    //! Viewport rotation
+    enum Rotation {
+      None, Left, UpsideDown, Right
+    };
+    Rotation mRotate;
 
     //! True if both surface and context have been initialized
     bool mViewPortInitialized;
@@ -305,20 +303,26 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      */
 
     //! Get display Width as integer
-    [[nodiscard]] int DisplayWidthAsInt() const { return mVirtualDisplayWidth; }
+    [[nodiscard]] int DisplayWidthAsInt() const { return mVirtualViewportSize.x(); }
     //! Get display Height as integer
-    [[nodiscard]] int DisplayHeightAsInt() const { return mDisplayHeight; }
+    [[nodiscard]] int DisplayHeightAsInt() const { return mVirtualViewportSize.y(); }
     //! Get display Width as float
-    [[nodiscard]] float DisplayWidthAsFloat() const { return mVirtualDisplayWidthFloat; }
+    [[nodiscard]] float DisplayWidthAsFloat() const { return mVirtualViewportSizeFloat.x(); }
     //! Get display Height as float
-    [[nodiscard]] float DisplayHeightAsFloat() const { return mDisplayHeightFloat; }
+    [[nodiscard]] float DisplayHeightAsFloat() const { return mVirtualViewportSizeFloat.y(); }
 
     // Is small resolution?
-    [[nodiscard]] bool Is240p() const { return mVirtualDisplayWidth <= 480 || mDisplayHeight <= 320; }
+    [[nodiscard]] bool Is240p() const { return mRotate ? mVirtualViewportSize.y() <= 480 || mViewportSize.x() <= 320 : mVirtualViewportSize.x() <= 480 || mViewportSize.y() <= 320; }
     // Is middle resolution?
-    [[nodiscard]] bool Is480pOrLower() const { return mDisplayHeight <= 576; }
-    // Return true image width
-    [[nodiscard]] int RealDisplayWidthAsInt() const { return mDisplayWidth; }
+    [[nodiscard]] bool Is480pOrLower() const { return mViewportSize.y() <= 576; }
+    // Return true window width (not scaled, not rotated)
+    [[nodiscard]] int RealDisplayWidthAsInt() const { return mViewportSize.x(); }
+    // Return true window height
+    [[nodiscard]] int RealDisplayHeightAsInt() const { return mViewportSize.y(); }
+    // Return true if the screen is rotated either left or right
+    [[nodiscard]] int IsRotated90() const { return mRotate == Left || mRotate == Right; }
+    // Return the screen rotation
+    [[nodiscard]] Rotation RotationType() const { return mRotate; }
 
     //! Check if the Renderer is properly initialized
     [[nodiscard]] bool Initialized() const { return mViewPortInitialized; }
