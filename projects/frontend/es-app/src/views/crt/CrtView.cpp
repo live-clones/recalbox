@@ -25,7 +25,7 @@ CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
   , mOriginalHOffset(0)
   , mOriginalViewportWidth(0)
   , mOriginalWidth(Renderer::Instance().RealDisplayWidthAsInt())
-  , mOriginalHeight(Renderer::Instance().DisplayHeightAsInt())
+  , mOriginalHeight(Renderer::Instance().RealDisplayHeightAsInt())
 {
   switch(calibrationType){
     case kHz31:
