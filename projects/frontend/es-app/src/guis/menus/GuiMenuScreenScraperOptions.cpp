@@ -13,8 +13,8 @@ GuiMenuScreenScraperOptions::GuiMenuScreenScraperOptions(WindowManager& window, 
   , mType(scraperType)
 {
   AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), "");
-  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), "");
   AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), "");
 
   AddList<ScreenScraperEnums::ScreenScraperRegionPriority>(_("SELECT REGION PRIORITY"), (int)Components::RegionPriority, this, GetRegionOptionsEntries(), "");
   AddList<Regions::GameRegions>(_("SELECT FAVORITE REGION"), (int)Components::Region, this, GetRegionsEntries(), "");
@@ -69,8 +69,9 @@ std::vector<GuiMenuBase::ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> 
   ScreenScraperEnums::ScreenScraperVideoType videoCode = RecalboxConf::Instance().GetScreenScraperVideo();
   std::vector<ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> list;
   list.push_back({ _("No video"), ScreenScraperEnums::ScreenScraperVideoType::None, ScreenScraperEnums::ScreenScraperVideoType::None == videoCode });
+  list.push_back({ std::string(_("Optimized video")).append(" (").append(_("RECOMMENDED")).append(")"),
+                   ScreenScraperEnums::ScreenScraperVideoType::Optimized,ScreenScraperEnums::ScreenScraperVideoType::Optimized == videoCode });
   list.push_back({ _("Original video"),   ScreenScraperEnums::ScreenScraperVideoType::Raw,  ScreenScraperEnums::ScreenScraperVideoType::Raw == videoCode});
-  list.push_back({ _("Optimized/Normalized video"),         ScreenScraperEnums::ScreenScraperVideoType::Optimized,ScreenScraperEnums::ScreenScraperVideoType::Optimized == videoCode });
   return list;
 }
 
