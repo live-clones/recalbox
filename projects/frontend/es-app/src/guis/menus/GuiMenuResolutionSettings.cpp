@@ -29,7 +29,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetG
 {
   std::vector<GuiMenuBase::ListEntry<std::string>> result;
   result.push_back({ _("NATIVE"), "default", !RecalboxConf::Instance().IsDefinedGlobalVideoMode() || RecalboxConf::Instance().GetGlobalVideoMode() == "default" });
-  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(false))
+  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(true))
   {
     std::string reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetGlobalVideoMode() });
@@ -42,7 +42,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetF
   std::vector<GuiMenuBase::ListEntry<std::string>> result;
   result.push_back({ _("USE GLOBAL"), "", !RecalboxConf::Instance().IsDefinedEmulationstationVideoMode() });
   result.push_back({ _("NATIVE"), "default", RecalboxConf::Instance().GetEmulationstationVideoMode() == "default" });
-  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(false))
+  for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(true))
   {
     std::string reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetEmulationstationVideoMode() });

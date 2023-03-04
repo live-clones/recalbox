@@ -50,7 +50,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
     AddSubMenu(_("RECALBOX CRT"), (int)Components::CrtSubMenu, _(MENUMESSAGE_ADVANCED_CRT_HELP_MSG));
 
   // RESOLUTION
-  if (mResolutionAdapter.Resolutions(false).size() > 1 &&
+  if (mResolutionAdapter.Resolutions(true).size() > 1 &&
       !isCrt &&
       Board::Instance().GetBoardType() != BoardType::PCx64)
     AddSubMenu(_("RESOLUTIONS"), (int)Components::ResolutionSubMenu, _(MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG));
