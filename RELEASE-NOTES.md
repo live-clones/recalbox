@@ -16,6 +16,16 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ## Version 9.0.2-Pulstar
+### News
+
+
+
+### Improvements
+
+- Add support for Super Game Boy games
+
+### Fixes
+
 
 
 ## Version 9.0.1-Pulstar
