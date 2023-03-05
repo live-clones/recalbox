@@ -255,7 +255,7 @@ bool Renderer::Initialize(int w, int h)
   { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
 
   bool createdSurface = false;
-  bool isCrt = false;
+  bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   // Get resolution from config or crt fixed resolutions if either w or h is nul (not set from command line)
   if (w <= 0 || h <= 0)
   {
