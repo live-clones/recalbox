@@ -183,7 +183,7 @@ class SystemHolder:
                 "crt.available": '1' if self.__crtavailable else '0',
             }
 
-    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY% %CRT%"
+    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -rotation %ROTATION% -ratio %RATIO% %NETPLAY% %CRT%"
 
     def __init__(self, arch: str, systemIni: str, config: ConfigIn):
         self.__config = config

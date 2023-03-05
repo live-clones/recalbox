@@ -32,10 +32,10 @@ class LibretroRetroarch:
         "19/14",
         "30/17",
         "32/9",
-        "config",
+        "config", #20
         "squarepixel",
-        "coreprovided",
-        "custom",
+        "coreprovided", #22
+        "custom", # 23
     ]
 
     # Define systems not compatible with rewind option

@@ -3,6 +3,7 @@ from unittest.mock import mock_open
 import pytest
 
 from configgen.crt.CRTConfigParser import CRTConfigParser, CRTVideoStandard, CRTScreenType, CRTResolutionType, CRTSystem
+from configgen.crt.CRTTypes import CRTArcadeGameV2
 from configgen.crt.Mode import Mode
 
 
@@ -71,3 +72,15 @@ def test_given_an_arcade_with_rotation_then_return_rotation(
     givenThisFileContent(mocker, "arkangc,fbneo,arcade:224@59.185606,0,0,1")
     config = CRTConfigParser().findArcadeGame("arkangc","fbneo")
     assert config == ("fbneo", "arcade:224@59.185606", 0, 0, 1)
+
+
+
+def test_given_a_config_file_with_one_game_should_load_the_game(mocker):
+    givenThisFileContent(mocker, "mslug5,mame2010,320,224,59.185606,H\n")
+    config = CRTConfigParser(True).findArcadeGameV2("mslug5", "mame2010")
+    assert config == CRTArcadeGameV2("mslug5", "mame2010", 320, 224, 59.185606, False)
+
+def test_given_a_config_file_with_one_vertical_game_should_load_the_game(mocker):
+    givenThisFileContent(mocker, "19xxh,mame2010,384,224,59.629403,V\n")
+    config = CRTConfigParser().findArcadeGameV2("19xxh", "mame2010")
+    assert config == CRTArcadeGameV2("19xxh", "mame2010", 384, 224, 59.629403, True)

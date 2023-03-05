@@ -364,6 +364,7 @@ if __name__ == '__main__':
     parser.AddString(command="crtresolutiontype", chelp="progressive, interlaced, or auto", required=False)
     parser.AddString(command="crtscreentype", chelp="15kHz, 31kHz", required=False)
     parser.AddString(command="resolution", chelp="forced resolution", required=False)
+    parser.AddInt(command="rotation", chelp="rotate screen", required=False)
     parser.AddInt(command="crt_verticaloffset_p1920x240at120", chelp="", required=False)
     parser.AddInt(command="crt_horizontaloffset_p1920x240at120", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p1920x240at120", chelp="", required=False)
@@ -393,6 +394,7 @@ if __name__ == '__main__':
     parser.AddInt(command="crt_viewportwidth_p384x288", chelp="", required=False)
 
     parser.AddBool(command="crtscanlines", chelp="scanline on 31khz", required=False)
+    parser.AddString(command="crtsuperrez", chelp="original, x2, x6 or x8", required=False)
 
     args = parser.Parse()
 

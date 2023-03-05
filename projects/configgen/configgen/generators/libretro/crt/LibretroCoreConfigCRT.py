@@ -98,7 +98,7 @@ class LibretroCoreConfigCRT:
         if system.Name == "gb":
             lines["gambatte_gb_colorization"] = '"internal"'
         if system.Name in ["dreamcast", "naomi", "naomigd", "atomiswave"]:
-            if system.CRTScreenType == CRTScreenType.k15:
+            if system.CRTScreenType == CRTScreenType.k15 or system.CRTScreenType == CRTScreenType.k15Ext:
                 if system.CRTResolutionType == CRTResolutionType.Progressive:
                     rez = "320x240"
                 else:
@@ -121,7 +121,7 @@ class LibretroCoreConfigCRT:
                     lines[RegionToCoreRegionMap[system.Core]["prop_name"]] = \
                         RegionToCoreRegionMap[system.Core]["values"][system.CRTRegion]
         if system.Name == "quake2":
-            if system.CRTScreenType == CRTScreenType.k15:
+            if system.CRTScreenType == CRTScreenType.k15 or system.CRTScreenType == CRTScreenType.k15Ext:
                 rez = "320x240"
             else:
                 if system.CRTResolutionType == CRTResolutionType.DoubleFreq:

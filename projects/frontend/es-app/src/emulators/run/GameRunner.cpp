@@ -120,6 +120,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
+  Strings::ReplaceAllIn(command, "%ROTATION%", std::to_string(Renderer::Instance().RotationType()));
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
 
   // Forced resolution
@@ -406,7 +407,9 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
   if (crtBoard.IsCrtAdapterAttached())
   {
     result.append(" -crtadaptor ").append("present");
-    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
+    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ?
+                                             (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz") : "31kHz");
+    result.append(" -crtsuperrez ").append(CrtConf::Instance().GetSystemCRTSuperrez());
     for(int i = (int)CrtResolution::_rCount; --i > 0;)
     {
       CrtResolution reso = (CrtResolution)i;
