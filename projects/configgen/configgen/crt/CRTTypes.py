@@ -18,10 +18,50 @@ class CRTResolution(str, Enum):
     p1920x240at120 = "p1920x240at120"
 
 
+class CRTSuperRez(str, Enum):
+    original = "original"
+    x2 = "x2"
+    x6 = "x6"
+    x8 = "x8"
+
+    @staticmethod
+    def fromString(value: str):
+        if value == "original":
+            return CRTSuperRez.original
+        if value == "x2":
+            return CRTSuperRez.x2
+        if value == "x6":
+            return CRTSuperRez.x6
+        if value == "x8":
+            return CRTSuperRez.x8
+        return CRTSuperRez.original
+
+    def multiplier(self):
+        if self == "original":
+            return 1
+        if self == "x2":
+            return 2
+        if self == "x6":
+            return 6
+        if self == "x8":
+            return 8
+        return 1
+
+
 CRTConfigurationByResolution = dict[str, dict[str, int]]
 
 CRTSystemMode = typing.Tuple[str, str, str, str, str, int, int]
 CRTArcadeMode = typing.Tuple[str, str, int, int, int]
+
+
+@dataclass
+class CRTArcadeGameV2:
+    name: str
+    core: str
+    width: int
+    height: int
+    vfreq: float
+    vertical: bool
 
 
 class CRTVideoStandard(str, Enum):
@@ -58,12 +98,15 @@ class CRTRegion(str, Enum):
 
 class CRTScreenType(str, Enum):
     k15 = "15kHz"
+    k15Ext = "15kHzExt"
     k31 = "31kHz"
 
     @staticmethod
     def fromString(value: str):
         if value == "31kHz":
             return CRTScreenType.k31
+        if value == "15kHzExt":
+            return CRTScreenType.k15Ext
         return CRTScreenType.k15
 
 

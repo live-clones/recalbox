@@ -13,7 +13,7 @@ class CRTModeOffsetter:
 
     def findOffsetsFromMode(self, mode: Mode, system: Emulator) -> [int, int]:
         resolution = mode.extractCRTResolution()
-        if mode:
+        if resolution:
             return system.CRTHorizontalOffset(resolution), system.CRTVerticalOffset(resolution)
         return [0, 0]
 

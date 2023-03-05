@@ -38,6 +38,9 @@ class GuiMenuCRT : public GuiMenuBase
       GameResolution,
       DemoIn240pOn31kHz,
       ScanlinesOn31kHz,
+      Extended15kHzRange,
+      UseV2,
+      SuperRez,
       ZeroLag,
       ForceJack,
       Adjustment,
@@ -64,6 +67,9 @@ class GuiMenuCRT : public GuiMenuBase
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
     //! Get resolutions
     static std::vector<ListEntry<std::string>> GetEsResolutionEntries(bool only31kHz);
+    //! Get super resolutions
+    static std::vector<ListEntry<std::string>> GetSuperRezEntries();
+
 
     /*!
      * @brief Get Horizontal frequency display test
