@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KERNELFIRMWARES_VERSION = 20210716
+KERNELFIRMWARES_VERSION = 20230210
 KERNELFIRMWARES_SOURCE = linux-firmware-$(KERNELFIRMWARES_VERSION).tar.gz
 KERNELFIRMWARES_SITE = https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot
 KERNELFIRMWARES_LICENSE = MULTIPLE
