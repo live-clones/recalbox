@@ -18,6 +18,7 @@ define RECALBOX_CRT_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/modes.txt $(TARGET_DIR)/recalbox/system/configs/crt/
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/systems.txt $(TARGET_DIR)/recalbox/system/configs/crt/
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/arcade_games.txt $(TARGET_DIR)/recalbox/system/configs/crt/
+	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/arcade_games_v2.txt $(TARGET_DIR)/recalbox/system/configs/crt/
 endef
 
 $(eval $(generic-package))

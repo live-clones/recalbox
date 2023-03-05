@@ -174,6 +174,10 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_HORIZONTAL_PAL_OFFSET_HELP_MSG "If you PAL images are not centered, you can override the default horizontal offset here."
     #define MENUMESSAGE_ADVANCED_CRT_VERTICAL_PAL_OFFSET_HELP_MSG "If you PAL images are not centered, you can override the default vertical offset here."
     #define MENUMESSAGE_ADVANCED_CRT_FORCE_HDMI_HELP_MSG "When a HDMI cable is connected, use HDMI output in priority."
+    #define MENUMESSAGE_ADVANCED_CRT_V2 "Use experimental CRT V2 implementation. Works only on selected systems."
+    #define MENUMESSAGE_ADVANCED_CRT_EXTENDED "Uses a range at the edge of the CRT support to increase image quality."
+    #define MENUMESSAGE_ADVANCED_CRT_SUPERREZ "Superrez can increase image quality depending on your CRT."
+
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

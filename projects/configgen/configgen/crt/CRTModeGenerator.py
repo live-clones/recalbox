@@ -52,7 +52,7 @@ class CRTModeGenerator:
         mode.width = width
         mode.height = height
         mode.framerate = framerate
-        if mode.framerate < 65 is not None:
+        if mode.framerate < 65:
             mode.emulator_refresh = f"{framerate}"
         else:
             mode.emulator_refresh = "60"
