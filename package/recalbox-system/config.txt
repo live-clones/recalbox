@@ -23,7 +23,7 @@ kernel=boot/linux
 initramfs boot/initrd.gz
 
 # force hdmi while the tv can take time before sending the signal on the hdmi output
-hdmi_force_hotplug=1
+hdmi_force_hotplug=0
 
 # total amount of GPU memory
 gpu_mem=128
