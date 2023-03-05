@@ -59,6 +59,16 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Zero Lag
   AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
 
+
+  // ConfiggenV2
+  AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
+
+  // Extended range
+  AddSwitch(_("V2 - 15KHZ EXTENDED RANGE"), CrtConf::Instance().GetSystemCRTExtended15KhzRange(), (int)Components::Extended15kHzRange, this,  _(MENUMESSAGE_ADVANCED_CRT_EXTENDED));
+
+  // Superrez multiplier
+  AddList<std::string>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
+
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
   mForceJack = mOriginalForceJack;
@@ -154,6 +164,19 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   return list;
 }
 
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetSuperRezEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::string selected = CrtConf::Instance().GetSystemCRTSuperrez();
+
+  list.push_back({ "X6 (DEFAULT)", "x6", selected == "x6" });
+  list.push_back({ "ORIGINAL", "original", selected == "original" });
+  list.push_back({ "X2", "x2", selected == "x2" });
+  list.push_back({ "x8", "x8", selected == "x8" });
+  return list;
+}
+
+
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
 {
@@ -186,6 +209,10 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string
       CrtConf::Instance().SetSystemCRTResolution(value).Save();
     }
   }
+  else if ((Components)id == Components::SuperRez)
+    {
+      CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
+    }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
@@ -200,6 +227,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTScanlines31kHz(status).Save();
   if ((Components)id == Components::ZeroLag)
     RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
+  if ((Components)id == Components::UseV2)
+    CrtConf::Instance().SetSystemCRTUseV2(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

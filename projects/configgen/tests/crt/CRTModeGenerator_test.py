@@ -91,3 +91,6 @@ def test_given_a_1920x240pat120Hz_then_generate_mode():
     mode = CRTModeGenerator().generate(1920, 240, 120, standard31KhzMonitor)
     assert mode == Mode("1920 1 48 208 256 240 1 4 3 15 0 0 0 120 0 76462080 1", "60")
 
+# def test_generate():
+#     mode = CRTModeGenerator().generate(400, 224, 60, extended15KhzMonitor)
+#     assert mode == ""
