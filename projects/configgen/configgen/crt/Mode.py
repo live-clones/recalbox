@@ -60,12 +60,15 @@ class Mode:
 
     def extractCRTResolution(self) -> [int, int]:
         if self.height <= 224:
-            return CRTResolution.p1920x224
+            if self.width < 480:
+                return CRTResolution.p320x240
+            else:
+                return CRTResolution.p1920x224
         if self.height < 288:
             # this is between 224 and 288p, we use the 240p offsets
             if self.framerate > 100:
                 return CRTResolution.p1920x240at120
-            elif self.width <= 320:
+            elif self.width <= 480:
                 return CRTResolution.p320x240
             else:
                 return CRTResolution.p1920x240
