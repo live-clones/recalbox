@@ -46,7 +46,7 @@ class GuiMenuUserInterface : public GuiMenuBase
       UpdateGamelist,
       Filters,
       DisplayByFileName,
-      ScreenRotation
+      ScreenRotation,
       DisplayFileNameType,
       DisplayGameRegions
     };
