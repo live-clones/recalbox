@@ -442,7 +442,7 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
     cfg.append_attribute("deviceName") = "Keyboard";
   }else{
     cfg.append_attribute("type") = "joystick";
-    cfg.append_attribute("deviceName") = mDeviceName;
+    cfg.append_attribute("deviceName") = mDeviceName.data();
   }
 
   cfg.append_attribute("deviceGUID") = GUID().c_str();
