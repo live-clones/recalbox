@@ -37,8 +37,6 @@ hdmi_timings=640 0 41 40 41 480 0 18 9 18 0 0 0 60 0 24000000 1   #80hz
 
 [pi4]
 max_framebuffers=2
-hdmi_force_hotplug:0=1
-hdmi_force_hotplug:1=0
 
 [all]
 dtoverlay=vc4-kms-dpi-a030vvn01-0
