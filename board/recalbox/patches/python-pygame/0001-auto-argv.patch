@@ -1,6 +1,15 @@
---- python-pygame-2.1.2/setup.py.orig	2022-07-12 17:33:52.718170998 +0200
-+++ python-pygame-2.1.2/setup.py	2022-07-12 17:34:26.241895760 +0200
-@@ -256,7 +256,7 @@
+--- ./setup.py.orig	2023-03-07 16:07:21.527056701 +0100
++++ ./setup.py	2023-03-07 16:08:04.013094129 +0100
+@@ -77,8 +77,6 @@
+ avx2_filenames = ['simd_blitters_avx2']
+ 
+ compiler_options = {
+-    'unix': ('-mavx2',),
+-    'msvc': ('/arch:AVX2',)
+ }
+ 
+ 
+@@ -296,7 +294,7 @@
  
  no_compilation = any(x in ['lint', 'format', 'docs'] for x in sys.argv)
  AUTO_CONFIG = not os.path.isfile('Setup') and not no_compilation
