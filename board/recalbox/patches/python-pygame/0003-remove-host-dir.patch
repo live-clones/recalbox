@@ -1,0 +1,11 @@
+--- ./buildconfig/config_unix.py.orig	2023-03-07 16:00:26.759815070 +0100
++++ ./buildconfig/config_unix.py	2023-03-07 16:00:39.632962498 +0100
+@@ -17,8 +17,6 @@
+ if os.environ.get('LOCALBASE', ''):
+     extrabases.append(os.environ['LOCALBASE'])
+ 
+-extrabases.extend(("/usr", "/usr/local"))
+-
+ class DependencyProg:
+     def __init__(self, name, envname, exename, minver, defaultlibs, version_flag="--version"):
+         self.name = name
