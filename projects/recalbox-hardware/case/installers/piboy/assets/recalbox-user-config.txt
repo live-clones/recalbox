@@ -70,8 +70,6 @@ enable_dpi_lcd=1
 
 [pi4]
 max_framebuffers=2
-hdmi_force_hotplug:0=0
-hdmi_force_hotplug:1=1
 
 [all]
 dtoverlay=vc4-kms-dpi-piboydmg
