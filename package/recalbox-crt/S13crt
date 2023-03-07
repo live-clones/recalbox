@@ -21,7 +21,7 @@ declare -A CONFIG_CONTENT=(
 )
 
 RGBDUAL_FORCE_HEADPHONE_CONTENT="dtoverlay=headphones"
-RGBDUAL_31KHZ_CONTENT="hdmi_force_hotplug=0\ndtoverlay=headphones"
+RGBDUAL_31KHZ_CONTENT="dtoverlay=headphones"
 
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
 CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"

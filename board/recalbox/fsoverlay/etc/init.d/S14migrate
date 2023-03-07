@@ -1,15 +1,8 @@
 #!/bin/bash
 
-# This file runs migration scripts at each boot.
-#
-# Because they are run more than once, each migration must be *idempotent*.
-# Running them at each boot ensures that even configurations stored on external
-# USB drives will get migrated too.
-#
-# TODO: each migration should be in a separate timestamped file to ensure they
-#       are executed in order and properly isolated. So far, they are just
-#       declared in order, and assigned an incremental index (the currently
-#       informative timestamp is generated with `date +%Y%m%d%H%M%S`).
+# This file runs migration scripts ONCE
+## Migration type will save the migration stamp will be save in BOOT or SHARE
+## Migrations will NOT be done on fresh install
 
 # Run this script on startup only
 if [[ $1 != "start" ]]; then
@@ -17,41 +10,69 @@ if [[ $1 != "start" ]]; then
 fi
 
 # Useful global variables
-_SHAREINIT="/recalbox/share_init"
-_SHARE="/recalbox/share"
-_ARCH=$(cat /recalbox/recalbox.arch)
 INIT_SCRIPT=$(basename "$0")
-
-# Significant files paths
-recalboxConfPath="system/recalbox.conf"
-esInputCfgPath="system/.emulationstation/es_input.cfg"
 
 ##########################
 ###     Migrations     ###
 ##########################
 
 recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running MIGRATIONS..."
+BOOT_TYPE="boot"
+SHARE_TYPE="share"
 
-### Migration 6 [20210617165703] Keep it until 8.1
-### Copy all psp saves to the new directory : see https://gitlab.com/recalbox/recalbox/-/issues/1773
-PSPSAVEDIR="/recalbox/share/saves/psp/ppsspp/PSP/"
-mkdir -p "${PSPSAVEDIR}"
+declare -A MIGRATION_FILES=(
+    [$BOOT_TYPE]="/boot/.system-migrations"
+    [$SHARE_TYPE]="/recalbox/share/system/.system-migrations"
+)
+echo "${MIGRATION_FILES['boot']}"
+function migrationDone {
+    local MIGRATIONTYPE="${1}"
+    local MIGRATION="${2}"
+    if [[ "${MIGRATIONTYPE}" == "${BOOT_TYPE}" ]];then
+        mount -o remount,rw /boot
+        echo "${MIGRATION}" >> "${MIGRATION_FILES[${BOOT_TYPE}]}"
+        mount -o remount,ro /boot
+    elif [[ "${MIGRATIONTYPE}" == "${SHARE_TYPE}" ]];then
+        echo "${MIGRATION}" >> "${MIGRATION_FILES[${SHARE_TYPE}]}"
+    fi
+}
 
-for SAVE_DIR in "SAVEDATA" "PPSSPP_STATE"; do
-  if [ ! -z "$(ls -A /recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/)" ]; then
-    recallog -s "${INIT_SCRIPT}" -t "MIGRATION-INFO" "MIGRATION of PPSSPP saves from /recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/ to /recalbox/share/saves/psp/ppsspp/PSP/"
-    cp -r "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/" "${PSPSAVEDIR}" && \
-    rm -rf "/recalbox/share/system/configs/ppsspp/PSP/${SAVE_DIR}/"
-  fi
-done
+function shouldMigrate {
+    local MIGRATIONTYPE="${1}"
+    local MIGRATION="${2}"
+    # The file does not exists, we should create it
+    if [ -n "${MIGRATION_FILES[${MIGRATIONTYPE}]}" ] && [ ! -f "${MIGRATION_FILES[${MIGRATIONTYPE}]}" ]; then
+        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Creating migration stamp file ${MIGRATION_FILES[${MIGRATIONTYPE}]}"
+        migrationDone "${MIGRATIONTYPE}" "#Migrations"
+    fi
+    # On first install we should not migrate
+    # so we save the migration as done and don't let the migration happen
+    if [ -f "/tmp/.first-install" ]; then
+        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "First install, ignoring ${MIGRATION}"
+        migrationDone "${MIGRATIONTYPE}" "${MIGRATION}"
+        return 1
+    fi
 
-### Migration 7 [20220323142920] Added in 8.1
-### Rename all Amiga bios following commit cd57bb7bcc3c65392f15a1b9f19c5c9799400be4
-AMIGABIOS=(kick33180.A500.rom kick34005.A500.rom kick37175.A500.rom kick40063.A600.rom kick02019.AROS.ext.rom kick02019.AROS.rom kick39106.A1200.rom kick40068.A1200.rom kick40068.A4000.rom kick34005.CDTV.rom kick40060.CD32.rom kick40060.CD32.ext.rom)
+    ! grep -q "${MIGRATION}" "${MIGRATION_FILES[${MIGRATIONTYPE}]}"
+}
 
-for file in "${AMIGABIOS[@]}"; do
-  if [ -f "${_SHARE}/bios/${file}" ]; then
-    recallog -s "${INIT_SCRIPT}" -t "MIGRATION-INFO" "MIGRATION of AMIGA bios - renaming ${_SHARE}/bios/${file}"
-    mv "${_SHARE}/bios/${file}" "${_SHARE}/bios/${file%.rom}"
-  fi
-done
+function runMigrations {
+    if shouldMigrate "${BOOT_TYPE}" "9.1-hdmi-hotplug"; then
+        # HDMI hotplug options should be removed from recalbox-user-config.txt for all
+        # See https://gitlab.com/recalbox/recalbox/-/merge_requests/2514
+        source /recalbox/scripts/recalbox-utils.sh
+        if [[ $(getArchName) =~ rpi* ]] && [ -f "/boot/recalbox-user-config.txt" ];then
+            recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running migration 9.1-hdmi-hotplug"
+            mount -o remount,rw /boot
+            sed -i "s/hdmi_force_hotplug=./hdmi_force_hotplug=0/g" "/boot/recalbox-user-config.txt"
+            mount -o remount,ro /boot
+            migrationDone "${BOOT_TYPE}" "9.1-hdmi-hotplug"
+            reboot
+            return
+        else
+            migrationDone "${BOOT_TYPE}" "9.1-hdmi-hotplug"
+        fi
+    fi
+}
+
+runMigrations
