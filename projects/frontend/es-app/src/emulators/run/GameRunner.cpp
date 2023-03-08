@@ -88,31 +88,16 @@ int GameRunner::Run(const std::string& cmd_utf8, bool debug)
   return exitcode;
 }
 
-bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const GameLinkedData& data)
+std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& emulator, const std::string& core, const GameLinkedData& data, const InputMapper& mapper, bool debug, bool demo)
 {
-  // Automatic running flag management
-  GameRunning IAmRunning;
-
-  { LOG(LogInfo) << "[Run] Launching game..."; }
-
-  InputMapper mapper(nullptr);
-  OrderedDevices controllers = InputManager::Instance().GetMappedDeviceList(mapper);
+  std::string command = game.System().Descriptor().Command();
+  Path path(game.RomPath());
+  const std::string basename = path.FilenameWithoutExtension();
   std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   { LOG(LogInfo) << "[Run] Controllers config : " << controlersConfig; }
 
-  VideoEngine::Instance().StopVideo(false);
-  AudioManager::Instance().Deactivate();
-  WindowManager::Finalize();
-
-  std::string command = game.System().Descriptor().Command();
-
-  Path path(game.RomPath());
-  const std::string rom = path.MakeEscaped();
-  const std::string basename = path.FilenameWithoutExtension();
-  const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
-
-  Strings::ReplaceAllIn(command, "%ROM%", rom);
-  Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
+  Strings::ReplaceAllIn(command, "%ROM%", path.MakeEscaped());
+  Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", InputManager::Instance().GetMappedDeviceListConfiguration(mapper));
   Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
   Strings::ReplaceAllIn(command, "%ROM_RAW%", path.ToString());
@@ -120,28 +105,25 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
-  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), demo));
+
+  if (debug) command.append(" -verbose");
 
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };
   if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetSystemVideoMode(game.System()), targetResolution))
     command.append(" -resolution ").append(targetResolution.ToString());
 
-  // Debug
-  bool debug = RecalboxConf::Instance().GetDebugLogs();
-  if (debug) command.append(" -verbose");
-
-  // launch without patch
   if (data.Patch().DisabledSofpatching())
   {
+    // launch without patch
     command.append(" -disabledsoftpatching");
   }
-  // launch with a selected path in xxxxx-patches directory
   else if (data.Patch().HasPatchPath()
-  && data.Patch().PatchPath().Directory() != game.RomPath().Directory())
+           && data.Patch().PatchPath().Directory() != game.RomPath().Directory())
   {
+    // launch with a selected path in xxxxx-patches directory
     const std::string patchPAthEscaped = data.Patch().PatchPath().MakeEscaped();
-
     if (data.Patch().PatchPath().Extension() == ".ips")
     {
       command.append(" -ips ").append(patchPAthEscaped);
@@ -155,7 +137,26 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
       command.append(" -ups ").append(patchPAthEscaped);
     }
   }
+  return command;
+}
 
+bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const GameLinkedData& data)
+{
+  // Automatic running flag management
+  GameRunning IAmRunning;
+
+  { LOG(LogInfo) << "[Run] Launching game"; }
+
+  bool debug = RecalboxConf::Instance().GetDebugLogs();
+  InputMapper mapper(nullptr);
+  OrderedDevices controllers = InputManager::Instance().GetMappedDeviceList(mapper);
+  const std::string& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
+
+  std::string command = CreateCommandLine(game, emulator, core, data, mapper, debug, false);
+
+  SubSystemPrepareForRun();
+
+  Path path(game.RomPath());
   int exitCode = -1;
   {
     Sdl2Runner sdl2Runner;
@@ -187,13 +188,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     else LOG(LogInfo) << "[Run] No error running " << path.ToString();
   }
 
-  // Reinit
-  Sdl2Init::Finalize();
-  Sdl2Init::Initialize();
-  mWindowManager.ReInitialize();
-  mWindowManager.normalizeNextUpdate();
-  AudioManager::Instance().Reactivate();
-  InputManager::Instance().Refresh(&mWindowManager, false);
+  SubSystemRestore();
 
   // Update number of times the game has been launched
   game.Metadata().IncPlayCount();
@@ -205,23 +200,15 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   return exitCode == 0;
 }
 
-std::string GameRunner::demoInitialize()
+void GameRunner::SubSystemPrepareForRun()
 {
-  { LOG(LogInfo) << "[DemoMode] Entering demo mode..."; }
-
-  InputMapper mapper(nullptr);
-  std::string controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
-  { LOG(LogInfo) << "[DemoMode] Controllers config : " << controlersConfig; }
-
   if (VideoEngine::IsInstantiated())
     VideoEngine::Instance().StopVideo(false);
   AudioManager::Instance().Deactivate();
   WindowManager::Finalize();
-
-  return controlersConfig;
 }
 
-void GameRunner::demoFinalize()
+void GameRunner::SubSystemRestore()
 {
   // Reinit
   Sdl2Init::Finalize();
@@ -233,38 +220,23 @@ void GameRunner::demoFinalize()
 }
 
 bool
-GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig)
+GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration)
 {
   // Automatic running flag management
   GameRunning IAmRunning;
 
   { LOG(LogInfo) << "[Run] Launching game demo..."; }
 
-  std::string command = game.System().Descriptor().Command();
+  InputMapper mapper(nullptr);
+  bool debug = RecalboxConf::Instance().GetDebugLogs();
 
-  Path path(game.RomPath());
-  const std::string rom = path.MakeEscaped();
-  const std::string basename = path.FilenameWithoutExtension();
-
-  Strings::ReplaceAllIn(command, "%ROM%", rom);
-  Strings::ReplaceAllIn(command, "%CONTROLLERSCONFIG%", controlersConfig);
-  Strings::ReplaceAllIn(command, "%SYSTEM%", game.System().Name());
-  Strings::ReplaceAllIn(command, "%BASENAME%", basename);
-  Strings::ReplaceAllIn(command, "%ROM_RAW%", path.ToString());
-  Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
-  Strings::ReplaceAllIn(command, "%CORE%", emulator.Core());
-  Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
-  Strings::ReplaceAllIn(command, "%NETPLAY%", "");
-  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(GameLinkedData().Crt(), true));
+  std::string command = CreateCommandLine(game, emulator, emulator.Core(), GameLinkedData(), mapper, debug, true);
 
   // Add demo stuff
   command.append(" -demo 1");
   command.append(" -demoduration ").append(Strings::ToString(duration));
   command.append(" -demoinfoduration ").append(Strings::ToString(infoscreenduration));
 
-  bool debug = RecalboxConf::Instance().GetDebugLogs();
-  if (debug)
-    command.append(" -verbose");
 
   int exitCode = -1;
   {
@@ -294,9 +266,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
     { LOG(LogWarning) << "[Run] ...launch terminated with nonzero exit code " << exitCode << "!"; }
 
     return false;
-
   }
-
 }
 
 std::string GameRunner::NetplayOption(const FileData& game, const NetPlayData& netplay)
@@ -331,9 +301,9 @@ std::string GameRunner::NetplayOption(const FileData& game, const NetPlayData& n
 bool GameRunner::RunKodi()
 {
   { LOG(LogInfo) << "[System] Attempting to launch kodi..."; }
-
-  std::string commandline = demoInitialize();
-  std::string command = "configgen -system kodi -rom '' " + commandline;
+  InputMapper mapper(nullptr);
+  SubSystemPrepareForRun();
+  std::string command = "configgen -system kodi -rom '' " + InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
@@ -385,7 +355,7 @@ bool GameRunner::RunKodi()
     }
   }
 
-  demoFinalize();
+  SubSystemRestore();
 
   // handle end of kodi
   switch (exitCode)
