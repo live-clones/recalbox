@@ -43,8 +43,7 @@ done
 recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[2] - Linking directories"
 OLDIFS=$IFS
 IFS=','
-for DIRS in /usr/share/retroarch/assets,system/.config/retroarch/assets \
-            /overlay/bootvideos,bootvideos
+for DIRS in /overlay/bootvideos,bootvideos
 do
     set -- $DIRS
     TARGET=$1
