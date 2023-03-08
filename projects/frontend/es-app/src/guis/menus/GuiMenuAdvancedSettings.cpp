@@ -308,7 +308,12 @@ void GuiMenuAdvancedSettings::DoResetFactory()
 
   // Reset case to force detection again
   IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
-  recalboxBoot.SetString("case", "");
+  // Special case for rpizero plus GPiCase2W, that cannot be detected. Can be removed after the rpizero image is frozen
+  if(Board::Instance().GetBoardType() == BoardType::Pi0 && recalboxBoot.AsString("case").starts_with("GPi2w"))
+      recalboxBoot.SetString("case", "GPi2w");
+  else
+    recalboxBoot.SetString("case", "");
+
   recalboxBoot.Save();
 
   // Reset!

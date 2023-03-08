@@ -8,7 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
-- Allow manual installation of GPiCase2W with RpiZero1, see wiki.
+- New image for RPIZero (first one) and GPiCase2W
 
 
 ## Version 9.0.1-Pulstar
