@@ -307,10 +307,14 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
 
   IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
-  // Reset case to force detection again
-  recalboxBoot.SetString("case", "");
   // Reset rotation
   recalboxBoot.SetString("screen.rotation", "0");
+  // Special case for rpizero plus GPiCase2W, that cannot be detected. Can be removed after the rpizero image is frozen
+  if(Board::Instance().GetBoardType() == BoardType::Pi0 && recalboxBoot.AsString("case").starts_with("GPi2W"))
+      recalboxBoot.SetString("case", "GPi2W");
+  else
+    recalboxBoot.SetString("case", "");
+
   recalboxBoot.Save();
 
   // Reset!
