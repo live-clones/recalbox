@@ -6,6 +6,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.0.1-Pulstar
 
+### News
+
+- Add new core for Philips CDI (libretro same_cdi)
+
 ### Fixes
 
 - Fix black screen on older PC with Intel graphic card

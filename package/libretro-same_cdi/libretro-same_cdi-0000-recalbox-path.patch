@@ -1,0 +1,35 @@
+diff --git a/src/osd/libretro/libretro-internal/retro_init.cpp b/src/osd/libretro/libretro-internal/retro_init.cpp
+index 4eeedd5f..8ecd335e 100644
+--- a/src/osd/libretro/libretro-internal/retro_init.cpp
++++ b/src/osd/libretro/libretro-internal/retro_init.cpp
+@@ -403,7 +403,10 @@ static void Set_Path_Option(void)
+           if(opt_game_dir[i] == 0)
+          {
+             if (retro_save_directory)
+-               sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
++               if (dir_name[i] == "cfg")
++                  sprintf(tmp_dir, "%c%s%c%s%c%s%c%s%c%s%c%s%c%s", slash, "recalbox", slash, "share", slash, "system", slash, "configs", slash, "cdi", slash, core, slash,dir_name[i]);
++               else
++                  sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
+             else
+                sprintf(tmp_dir, "%s%c%s%c%s%c", ".", slash, core, slash,dir_name[i],slash);
+          }
+@@ -416,7 +419,7 @@ static void Set_Path_Option(void)
+                   sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
+             else
+                if (game_specific_nvram_enable)
+-                  sprintf(tmp_dir, "%s%c%s%c%s%c%s%c",".",slash,core,slash,dir_name[i],slash,MgameName,slash);   
++                  sprintf(tmp_dir, "%s%c%s%c%s%c%s%c",".",slash,core,slash,dir_name[i],slash,MgameName,slash);
+                else
+                   sprintf(tmp_dir, "%s%c%s%c%s%c", ".", slash, core, slash,dir_name[i],slash);
+          }
+@@ -537,7 +540,7 @@ static int execute_game(char* path)
+            }
+    }
+    Add_Option((char*)("-rp"));
+-   sprintf(tmp_dir, "%s%c;%s%c%s%cbios%c",MgamePath,slash,retro_system_directory,slash,core,slash,slash);
++   sprintf(tmp_dir, "%s%ccdi",retro_system_directory,slash);
+    Add_Option((char*)(tmp_dir));
+ 
+    return 0;
+
