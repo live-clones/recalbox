@@ -38,15 +38,28 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
     bool RunGame(FileData& game, const EmulatorData& emulator, const GameLinkedData& data);
 
     /*!
-     * @brief INitialize demo launching
+     * @brief Create basic command line for starting a game
+     * @param game Game to run
+     * @param emulator Emulator data
+     * @param core the core to run
+     * @param data game linked data
+     * @param mapper
+     * @param debug debug logs
+     * @param demo is it for a demo ?
+     * @return The command line
+     */
+    std::string CreateCommandLine(const FileData& game, const EmulatorData& emulator, const std::string& core, const GameLinkedData& data,const InputMapper& mapper, bool debug, bool demo);
+
+    /*!
+     * @brief Initialize demo launching
      * @return Controller configuration string
      */
-    static std::string demoInitialize();
+    static void SubSystemPrepareForRun();
 
     /*!
      * @brief Finalize demo run
      */
-    void demoFinalize();
+    void SubSystemRestore();
 
     /*!
      * @brief Run a game demo
@@ -54,10 +67,9 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param emulator Emulator data
      * @param duration Duraction in second
      * @param infoscreenduration Info screen duration in second
-     * @param controlersConfig Controller configuration string
      * @return True if the demo exited on user request
      */
-    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration, const std::string& controlersConfig);
+    bool DemoRunGame(const FileData& game, const EmulatorData& emulator, int duration, int infoscreenduration);
 
     /*!
      * @brief Run kodi
