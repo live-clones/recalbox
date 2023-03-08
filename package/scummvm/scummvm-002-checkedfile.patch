@@ -1,24 +1,19 @@
-Replace check_gamedata configuration by a "gameid".checked file in game directory.
-Avoid multiple MD5 verification, also for command-line games.
-
-Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
-
---- a/engines/grim/grim.cpp
-+++ b/engines/grim/grim.cpp
-@@ -34,6 +34,7 @@
+--- ./engines/grim/grim.cpp.orig	2023-03-08 23:58:40.661362734 +0100
++++ ./engines/grim/grim.cpp	2023-03-09 00:01:08.892573894 +0100
+@@ -32,6 +32,7 @@
  #include "common/config-manager.h"
- #include "common/stuffit.h"
+ #include "common/compression/stuffit.h"
  #include "common/translation.h"
 +#include "common/stream.h"
  
  #include "backends/keymapper/action.h"
  #include "backends/keymapper/keymap.h"
-@@ -340,8 +341,10 @@ Common::Error GrimEngine::run() {
+@@ -341,8 +342,10 @@
  		}
  	}
  
 -	ConfMan.registerDefault("check_gamedata", true);
--	if (ConfMan.getBool("check_gamedata") && getGameFlags() != ADGF_REMASTERED) {
+-	if (ConfMan.getBool("check_gamedata") && !isRemastered()) {
 +	// If this file exists, game files have already been checked
 +	Common::FSNode gameDir = Common::FSNode(ConfMan.get("path"));
 +	Common::FSNode checkFile = gameDir.getChild(ConfMan.get("gameid") + ".checked");
@@ -26,7 +21,7 @@ Signed-off-by: Laurent Merckx <laurent-merckx@skynet.be>
  		MD5CheckDialog d;
  		if (!d.runModal()) {
  			Common::U32String confirmString = Common::U32String::format(_(
-@@ -356,8 +359,12 @@ Common::Error GrimEngine::run() {
+@@ -357,8 +360,12 @@
  			}
  		}
  

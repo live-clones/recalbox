@@ -4,19 +4,19 @@
 #
 ################################################################################
 
-#Release version 2.4.0
-SCUMMVM_VERSION = dffa1971c8fb932939ffafe5e8ed53549ebf6992
+#Release version 2.7.0
+SCUMMVM_VERSION = v2.7.0
 SCUMMVM_SITE = $(call github,scummvm,scummvm,$(SCUMMVM_VERSION))
 SCUMMVM_LICENSE = GPL2
 SCUMMVM_LICENSE_FILES = COPYING
-SCUMMVM_DEPENDENCIES = sdl2 zlib jpeg-turbo libmpeg2 libogg libvorbis flac libmad libpng libtheora faad2 fluidsynth freetype
+SCUMMVM_DEPENDENCIES = sdl2 sdl2_net zlib jpeg-turbo libmpeg2 libogg libvorbis flac libmad libpng libtheora faad2 fluidsynth freetype
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 SCUMMVM_CONF_OPTS += --host=raspberrypi
 endif
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
-SCUMMVM_CONF_ENV += LDFLAGS="-lmali"
+SCUMMVM_CONF_ENV += LDFLAGS="-lmali -lrga"
 endif
 
 SCUMMVM_CONF_ENV += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)"
