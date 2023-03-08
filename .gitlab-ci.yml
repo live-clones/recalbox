@@ -200,6 +200,21 @@ tests nvidia:
     - cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
     - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
     - rm -rf "${DIST_DIR}" "${OUTPUTDIR}"
+    # Specific image for RPIZero 1 + GPICASE2w
+    - |
+      if [ "${ARCH}" == "rpi1" ];then
+        sed -i "s/^;case=.*/case=GPi2W/g" output/images/rpi-firmware/recalbox-boot.conf
+        docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+        export DIST_DIR="dist/${ARCH}-gpicase2w"
+        mkdir -p "${DIST_DIR}"
+        cp ${OUTPUTDIR}/images/recalbox/* "${DIST_DIR}"
+        echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
+        cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
+        cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
+        cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
+        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
+        rm -rf "${DIST_DIR}" "${OUTPUTDIR}"
+      fi
   artifacts:
     name: dist-${ARCH}-${CI_PIPELINE_ID}
     when: always
