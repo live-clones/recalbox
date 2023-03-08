@@ -52,7 +52,11 @@ do_clean_overlay() {
 
 do_clean_case() {
     # clear case setting
-    sed -i -E 's/^case=(.+):1/case=\1/' /boot_root/recalbox-boot.conf
+    if grep -q "case=GPi2W:1" /boot_root/recalbox-boot.conf; then
+        sed -i -E 's/^case=(.+):1/case=GPi2W/' /boot_root/recalbox-boot.conf
+    else
+        sed -i -E 's/^case=(.+):1/case=\1/' /boot_root/recalbox-boot.conf
+    fi
 }
 
 do_clean_safeboot() {
