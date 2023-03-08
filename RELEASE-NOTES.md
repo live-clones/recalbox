@@ -6,6 +6,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.1-Pulstar
 
+### Fixes
+
+- Add missing netplay support for sameboy and mgba
+
 ### News
 
 - Add new core for Philips CDI (libretro samecdi, for PC only)
