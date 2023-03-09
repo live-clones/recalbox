@@ -1,0 +1,25 @@
+--- ./src/libFLAC/window.c.orig	2023-03-09 09:07:55.890097163 +0100
++++ ./src/libFLAC/window.c	2023-03-09 09:08:02.096674255 +0100
+@@ -182,18 +182,10 @@
+ {
+ 	FLAC__int32 n;
+ 
+-	if (L & 1) {
+-		for (n = 1; n <= (L+1)/2; n++)
+-			window[n-1] = 2.0f * n / ((float)L + 1.0f);
+-		for (; n <= L; n++)
+-			window[n-1] = (float)(2 * (L - n + 1)) / ((float)L + 1.0f);
+-	}
+-	else {
+-		for (n = 1; n <= L/2; n++)
+-			window[n-1] = 2.0f * n / ((float)L + 1.0f);
+-		for (; n <= L; n++)
+-			window[n-1] = (float)(2 * (L - n + 1)) / ((float)L + 1.0f);
+-	}
++	for (n = 1; n <= (L & 1) ? (L+1)/2 : L/2; n++)
++		window[n-1] = 2.0f * n / ((float)L + 1.0f);
++	for (; n <= L; n++)
++		window[n-1] = (float)(2 * (L - n + 1)) / ((float)L + 1.0f);
+ }
+ 
+ void FLAC__window_tukey(FLAC__real *window, const FLAC__int32 L, const FLAC__real p)
