@@ -283,6 +283,9 @@ class LibretroRetroarch:
         settings.setString("savestate_directory", recalboxFiles.savesDir + self.system.Name) \
                 .setString("savefile_directory", recalboxFiles.savesDir + self.system.Name)
 
+        # swap valid cancel button ?  True is west | False is japanese
+        settings.setBool("menu_swap_ok_cancel_buttons", not self.system.MenuSwapValidCancel)
+
         # Extend Controller configurations
         for i in range(0, 11):
             settings.setInt("input_libretro_device_p{}".format(i), 1)
