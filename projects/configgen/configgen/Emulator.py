@@ -71,6 +71,7 @@ class Emulator:
         self._smooth: bool = True
         self._rewind: bool = False
         self._autoSave: bool = False
+        self._menuSwapValidCancel: bool = False
         self._integerScale: bool = False
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
@@ -84,7 +85,7 @@ class Emulator:
         self._configArgs: str = ""  # Extra parameters from recalbox.conf
         self._args: List[str] = [] # Array representation of ExtraArgs + ConfigArgs
 
-        # Vars straight from recalbox.conf
+    # Vars straight from recalbox.conf
         self._netplayNick: str = "Recalbox Anonymous"
         self._netplayMITM: str = ""
         self._specialKeys: str = ""
@@ -93,7 +94,7 @@ class Emulator:
         self._retroachievementsNickname: str = ""
         self._retroachievementsPassword: str = ""
         self._recalboxexperimental: str = ""
-        self._updatestype : str = "stable"
+        self._updatestype: str = "stable"
 
         # Vars from arguments
         self._hash: str = "default"
@@ -143,6 +144,7 @@ class Emulator:
         self._smooth: bool           = self.__guessBestBoolValue  (recalboxOptions, "smooth", self._smooth)
         self._rewind: bool           = self.__guessBestBoolValue  (recalboxOptions, "rewind", self._rewind)
         self._autoSave: bool         = self.__guessBestBoolValue  (recalboxOptions, "autosave", self._autoSave)
+        self._menuSwapValidCancel: bool  = self.__guessBestBoolValue  (recalboxOptions, "controllers.swapvalidateandcancel", self._menuSwapValidCancel)
         self._integerScale: bool     = self.__guessBestBoolValue  (recalboxOptions, "integerscale", self._integerScale)
         self._quitTwice: bool        = self.__guessBestBoolValue  (recalboxOptions, "quitpresstwice", self._quitTwice)
         self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
@@ -345,6 +347,9 @@ class Emulator:
 
     @property
     def AutoSave(self) -> bool: return self._autoSave
+
+    @property
+    def MenuSwapValidCancel(self) -> bool: return self._menuSwapValidCancel
 
     @property
     def Translate(self) -> bool: return self._translate
