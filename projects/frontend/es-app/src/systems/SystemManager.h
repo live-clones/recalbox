@@ -475,6 +475,9 @@ class SystemManager :
     //! Get emulator manager
     [[nodiscard]] const EmulatorManager& Emulators() const { return mEmulatorManager; }
 
+    FileData::List SearchFullMatchInGames(FolderData::FastSearchContext context, const std::string& text, int maxglobal, const SystemData* targetSystem);
+
+
     /*!
      * @brief Search games from text
      * @param text Text to search for
