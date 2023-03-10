@@ -114,6 +114,8 @@ class MetadataStringHolder
      */
     void FindText(const std::string& text, FoundTextList& output, int context);
 
+    void FindIndex(const std::string& index, FoundTextList& output, int context);
+
   private:
     //! Synchronizer
     Mutex mSyncher;

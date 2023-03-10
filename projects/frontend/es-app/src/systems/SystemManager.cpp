@@ -970,6 +970,55 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   system.UpdateLastPlayedGame(game);
 }
 
+FileData::List SystemManager::SearchFullMatchInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
+{
+  std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
+  FileData::List resultsList;
+
+  // Build searchable system list
+  std::list<const SystemData*> searchableSystems;
+
+  if (targetSystem != nullptr && targetSystem->IsSearchable() && !targetSystem->IsFavorite())
+    searchableSystems.push_back(targetSystem);
+  else
+    for (const SystemData* system : GetVisibleSystemList())
+    {
+      if (system->IsSearchable() && system->HasVisibleGame())
+        searchableSystems.push_back(system);
+    }
+
+  for (const SystemData* system: searchableSystems)
+  {
+    for (auto& game: system->getGames()) {
+      if(game->IsGame())
+      {
+        std::string found;
+        switch (context)
+        {
+          case FolderData::FastSearchContext::Name: found = game->Metadata().Name();
+            break;
+          case FolderData::FastSearchContext::Alias: found = game->Metadata().Alias();
+            break;
+          case FolderData::FastSearchContext::Path:
+          case FolderData::FastSearchContext::Description:
+          case FolderData::FastSearchContext::Developer:
+          case FolderData::FastSearchContext::Publisher:
+          case FolderData::FastSearchContext::All: break;
+        }
+
+        if (Strings::ToLowerUTF8(found) == lowercaseText)
+
+          resultsList.push_back(game);
+      }
+      if ((int)resultsList.size() >= maxglobal)
+        break;
+    }
+  }
+
+  return resultsList;
+}
+
+
 FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
 {
   // Everything to lowercase cause search is not case sensitive
@@ -980,7 +1029,10 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
   switch(context)
   {
-    case FolderData::FastSearchContext::Name       : MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); // when seach in Name we also search in Alias
+    case FolderData::FastSearchContext::Name       :
+      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name);
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+
     case FolderData::FastSearchContext::Alias      : MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
     case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
     case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
@@ -1042,9 +1094,8 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
 
   FileData::List resultsList;
   for(auto& game : results)
-  {
     resultsList.push_back(game);
-  }
+
   return resultsList;
 }
 
