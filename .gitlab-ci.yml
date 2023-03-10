@@ -63,7 +63,7 @@ lint commits:
 tests configgen:
   <<: *lint_definition
   stage: lint
-  image: python:3.9-slim
+  image: python:3.11-slim
   only:
     refs:
       - master
