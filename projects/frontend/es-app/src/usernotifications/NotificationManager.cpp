@@ -222,7 +222,8 @@ void NotificationManager::BuildStateGame(std::string& output, const FileData* ga
         .append("GenreId=").append(game->Metadata().GenreIdAsString()).append(eol)
         .append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append(eol)
         .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append(eol)
-        .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol);
+        .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol)
+        .append("Alias=").append(game->Metadata().Alias()).append(eol);
 
   if (action != Notification::ScrapGame)
   {
