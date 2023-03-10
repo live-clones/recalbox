@@ -26,8 +26,8 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, bool h
 		  mBackground(window, Path(":/frame.png")),
 		  mGrid(window, Vector2i(3, 3)),
 		  mList(nullptr),
-		  mJustOpen(true),
-      mForcedOptions(hasForcedOption)
+      mForcedOptions(hasForcedOption),
+      mJustOpen(true)
 {
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -52,6 +52,7 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, Search
 {
   mForcedOptions = true;
   mForcedSearch = forcedOptions.mSearchText;
+  mFullMatch = forcedOptions.mFullMatch;
   mForcedContext = forcedOptions.mContext;
   mJustOpen = false;
   mSearch->setValue(mForcedSearch);
@@ -349,8 +350,18 @@ void GuiSearch::PopulateGrid(const std::string& search)
 	{
     ViewController::State viewControllerState = ViewController::Instance().getState();
     SystemData* systemData = viewControllerState.viewing == ViewController::ViewMode::GameList ? viewControllerState.getSystem() : nullptr;
-		mSearchResults =  mSystemManager.SearchTextInGames(mForcedOptions ? mForcedContext : mSearchChoices->getSelected() , search, 100, systemData);
-		if (!mSearchResults.empty())
+
+    if (mForcedOptions)
+    {
+      if (mFullMatch)
+        mSearchResults = mSystemManager.SearchFullMatchInGames(mForcedContext, search, 100, nullptr);
+      else
+        mSearchResults = mSystemManager.SearchTextInGames(mForcedContext, search, 100, systemData);
+    }
+    else
+      mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected() , search, 100, systemData);
+
+    if (!mSearchResults.empty())
 		{
 			mText->setValue("");
 			ComponentListRow row;

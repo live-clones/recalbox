@@ -702,6 +702,7 @@ class MetadataDescriptor
      * @param output Result container
      */
     static void SearchInAlias(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sAliasHolder.FindText(originaltext, output, context); }
+    static void FindInAlias(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sAliasHolder.FindIndex(originaltext, output, context); }
 
     /*!
      * @brief Search text in descriptions

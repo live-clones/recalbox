@@ -281,7 +281,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::SearchSiblings:
     {
       std::string alias = mGamelist.getCursor()->Metadata().Alias();
-      SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias);
+      SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
       break;
     }
