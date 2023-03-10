@@ -11,12 +11,14 @@
 class SearchForcedOptions
 {
   public:
-    explicit SearchForcedOptions(std::string& searchText, FolderData::FastSearchContext context)
+    explicit SearchForcedOptions(std::string& searchText, FolderData::FastSearchContext context, bool fullMatch)
       : mSearchText(searchText),
-        mContext(context)
+        mContext(context),
+        mFullMatch(fullMatch)
     {}
 
     std::string mSearchText;
     FolderData::FastSearchContext mContext;
+    bool mFullMatch;
 };
 
