@@ -112,6 +112,8 @@ class SystemBuilder:
         for emulator in holder.Cores:
             emulatorNode = ET.SubElement(emulatorsNode, "emulator", attrib={ "name": emulator })
             for core in holder.Cores[emulator]:
-                ET.SubElement(emulatorNode, "core", attrib=core.serialize())
+                coreNode = ET.SubElement(emulatorNode, "core", attrib=core.serialize())
+                if core.arcade.IsValid:
+                    ET.SubElement(coreNode, "arcade", attrib=core.arcade.Serialize())
 
         return system

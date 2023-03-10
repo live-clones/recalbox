@@ -108,6 +108,37 @@ class SystemHolder:
 
     class Core:
 
+        class ArcadeProperties:
+
+            def __init__(self, file: str, limit: int, split: str, ignore: str):
+                self.__file: str = file
+                self.__limit: int = limit
+                self.__split: str = split
+                self.__ignore: str = ignore
+
+            def Serialize(self):
+                return {
+                    "file": self.__file,
+                    "limit": str(self.__limit),
+                    "split": self.__split,
+                    "ignore": self.__ignore,
+                }
+
+            @property
+            def IsValid(self) -> bool: return len(self.__file) > 0
+
+            @property
+            def File(self) -> str: return self.__file
+
+            @property
+            def Limit(self) -> int: return self.__limit
+
+            @property
+            def Split(self) -> str: return self.__split
+
+            @property
+            def Ignore(self) -> str: return self.__ignore
+
         __CompatibilityValues: Dict[str, int] = {
             "unknown": 0,
             "high": 1,
@@ -116,7 +147,8 @@ class SystemHolder:
             "low" : 4,
         }
 
-        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool):
+        def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool,
+                     arcadefile: str, arcadelimit: int, arcadesplit: str, arcadeignore: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
@@ -129,7 +161,12 @@ class SystemHolder:
             self.__compatibility: str = compatibility
             self.__speed: str = speed
             self.__crtavailable: bool = crtavailable
+            self.__arcade = SystemHolder.Core.ArcadeProperties(arcadefile, arcadelimit, arcadesplit, arcadeignore)
             pass
+
+        @property
+        def arcade(self) -> ArcadeProperties:
+            return self.__arcade
 
         @property
         def priority(self) -> int:
@@ -318,6 +355,10 @@ class SystemHolder:
                     compatibility=self.__get(desc, coreSection, "compatibility", "", True),
                     speed=self.__get(desc, coreSection, "speed", "", True),
                     crtavailable=(self.__get(desc, coreSection, "crt.available", "", False) == '1'),
+                    arcadefile=self.__get(desc, coreSection, "arcade.file", "", False),
+                    arcadelimit=int(self.__get(desc, coreSection, "arcade.limit", "0", False)),
+                    arcadesplit=self.__get(desc, coreSection, "arcade.split", "", False),
+                    arcadeignore=self.__get(desc, coreSection, "arcade.ignore", "", False),
                 )
                 # Package defined?
                 if self.__config.isDefined(core.package):
