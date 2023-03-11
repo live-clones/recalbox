@@ -31,12 +31,16 @@ class SystemManager :
     static constexpr const char* sLastPlayedSystemShortName = "lastplayed";
     //! All games system internal name
     static constexpr const char* sAllGamesSystemShortName = "allgames";
+    //! Tate games system internal name
+    static constexpr const char* sTateSystemShortName = "tate";
     //! Multiplayer system internal name
     static constexpr const char* sMultiplayerSystemFullName = "Multi Players";
     //! Last Played system internal name
     static constexpr const char* sLastPlayedSystemFullName = "Last Played";
     //! All games system internal name
     static constexpr const char* sAllGamesSystemFullName = "All Games";
+    //! Tate games system internal name
+    static constexpr const char* sTateSystemFullName = "Tate";
 
   private:
     //! Rom source folder to read/write (false) / read-only (true) state
@@ -174,6 +178,12 @@ class SystemManager :
      * @return Always true
      */
     bool AddMultiplayerMetaSystems();
+
+    /*!
+     * @brief Add tate games from all systems (from all visible systems)
+     * @return Always true
+     */
+    bool AddTateMetaSystem();
 
     /*!
      * @brief Add last-played games from all systems (from all visible systems)

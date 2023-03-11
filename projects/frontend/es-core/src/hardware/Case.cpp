@@ -4,6 +4,7 @@
 
 #include "Case.h"
 #include "Board.h"
+#include "recalbox/BootConf.h"
 #include <utils/locale/LocaleHelper.h>
 
 bool Case::SetCaseInBoot(const std::string& theCase)
@@ -80,54 +81,49 @@ Case Case::Create(CaseModel model)
   switch (model)
   {
     case CaseModel::None:
-      return Case(CaseModel::None, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, _("NONE"), "", "");
+      return Case(CaseModel::None, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, _("NONE"), "", "");
     case CaseModel::GPiV1:
-      return Case(CaseModel::GPiV1, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Gpi Case (v1)", "GPiV1", "");
+      return Case(CaseModel::GPiV1, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case (v1)", "GPiV1", "");
     case CaseModel::GPiV2:
-      return Case(CaseModel::GPiV2, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Gpi Case (v2)", "GPiV2", "");
+      return Case(CaseModel::GPiV2, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case (v2)", "GPiV2", "");
     case CaseModel::GPiV3:
-      return Case(CaseModel::GPiV3, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Gpi Case (v3)", "GPiV3", "");
+      return Case(CaseModel::GPiV3, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case (v3)", "GPiV3", "");
     case CaseModel::GPi2:
-      return Case(CaseModel::GPi2, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Gpi Case 2", "GPi2", "");
+      return Case(CaseModel::GPi2, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case 2", "GPi2", "");
     case CaseModel::GPi2W:
-      return Case(CaseModel::GPi2W, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Gpi Case 2W", "GPi2W", "");
+      return Case(CaseModel::GPi2W, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case 2W", "GPi2W", "");
     case CaseModel::Nuxii:
-      return Case(CaseModel::Nuxii, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Nuxii", "Nuxii", "");
+      return Case(CaseModel::Nuxii, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nuxii", "Nuxii", "");
     case CaseModel::PiBoy:
-      return Case(CaseModel::PiBoy, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "PiBoy DMG", "PiBoy", "");
+      return Case(CaseModel::PiBoy, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "PiBoy DMG", "PiBoy", "");
     case CaseModel::Nespi4Case:
-      return Case(CaseModel::Nespi4Case, CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "Nespi4Case", "NESPi4", "");
+      return Case(CaseModel::Nespi4Case, CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nespi4Case", "NESPi4", "");
     case CaseModel::Nespi4CaseManual:
-      return Case(CaseModel::Nespi4CaseManual, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "Nespi4Case (Retroflag)", "NESPi4Manual", retroflagInstallMessage);
+      return Case(CaseModel::Nespi4CaseManual, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nespi4Case (Retroflag)", "NESPi4Manual", retroflagInstallMessage);
     case CaseModel::SuperPi4Case:
-      return Case(CaseModel::SuperPi4Case, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "SuperPi4Case (Retroflag)", "SuperPi4Case", retroflagInstallMessage);
+      return Case(CaseModel::SuperPi4Case, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "SuperPi4Case (Retroflag)", "SuperPi4Case", retroflagInstallMessage);
     case CaseModel::NespiCasePlus:
-      return Case(CaseModel::NespiCasePlus, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "Nespi Case + (Retroflag)", "NespiCasePlus", retroflagInstallMessage);
+      return Case(CaseModel::NespiCasePlus, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nespi Case + (Retroflag)", "NespiCasePlus", retroflagInstallMessage);
     case CaseModel::PiStation:
-      return Case(CaseModel::PiStation, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "PiStation (Retroflag)", "PiStation", retroflagInstallMessage);
+      return Case(CaseModel::PiStation, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "PiStation (Retroflag)", "PiStation", retroflagInstallMessage);
     case CaseModel::SuperPiCase:
-      return Case(CaseModel::SuperPiCase, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "Super Pi Case (Retroflag)", "SuperPiCase", retroflagInstallMessage);
+      return Case(CaseModel::SuperPiCase, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Super Pi Case (Retroflag)", "SuperPiCase", retroflagInstallMessage);
     case CaseModel::MegaPiCase:
-      return Case(CaseModel::MegaPiCase, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED, "Mega Pi Case (Retroflag)", "MegaPiCase", retroflagInstallMessage);
+      return Case(CaseModel::MegaPiCase, !CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Mega Pi Case (Retroflag)", "MegaPiCase", retroflagInstallMessage);
     case CaseModel::ArgonOne:
-      return Case(CaseModel::ArgonOne, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Argon One (Argon40)", "ArgonOne", "");
+      return Case(CaseModel::ArgonOne, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Argon One (Argon40)", "ArgonOne", "");
     case CaseModel::RaspberryPiTouchDisplay:
-      return Case(CaseModel::RaspberryPiTouchDisplay, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Raspberry Pi Touch Display", "RaspberryPiTouchDisplay", "");
+      return Case(CaseModel::RaspberryPiTouchDisplay, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Raspberry Pi Touch Display", "RaspberryPiTouchDisplay", "");
     case CaseModel::RecalboxRGBDualOrRGBHat:
-      return Case(CaseModel::RecalboxRGBDualOrRGBHat, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, "Recalbox RGB Dual or RGB Hat", "rgbhat", "");
+      return Case(CaseModel::RecalboxRGBDualOrRGBHat, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, CASE_ROTATION_SUPPORTED, "Recalbox RGB Dual or RGB Hat", "rgbhat", "");
   }
-  return Case(CaseModel::None, false, true, _("NONE"), "", "");
+  return Case(CaseModel::None, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, CASE_ROTATION_SUPPORTED, _("NONE"), "", "");
 }
 
 
 Case Case::CurrentCase()
 {
-  IniFile bootConf(Path("/boot/recalbox-boot.conf"), false);
-  std::string currentCase = bootConf.AsString("case");
-  Strings::Vector splitted = Strings::Split(currentCase, ':');
-  if (!splitted.empty())
-    return Case::FromShortName(splitted[0]);
-  return Case::Create(Case::CaseModel::None);
+  return Case::FromShortName(BootConf::Instance().GetCase());
 }
 
 std::vector<Case> Case::SupportedManualCases()

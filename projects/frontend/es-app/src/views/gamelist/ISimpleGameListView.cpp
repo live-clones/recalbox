@@ -8,6 +8,7 @@
 #include "WindowManager.h"
 #include "views/ViewController.h"
 #include "utils/locale/LocaleHelper.h"
+#include "RotationManager.h"
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : IGameListView(window, system)
@@ -176,6 +177,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     }
     else if (!hideSystemView)
     {
+      if(mSystem.Rotatable())
+      {
+        RotationType rotation = RotationType::None;
+        if(RotationManager::ShouldRotateTateExit(rotation))
+        {
+          mWindow.Rotate(rotation);
+        }
+      }
       onFocusLost();
       ViewController::Instance().goToSystemView(&mSystem);
     }
