@@ -5,6 +5,8 @@ from typing import List, Union
 from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
     CRTResolutionType, CRTScreenType
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.utils.Rotation import Rotation
+
 
 @dataclass
 class ExtraArguments:
@@ -43,12 +45,14 @@ class ExtraArguments:
      crt_verticaloffset_p1920x224: int = 0
      crt_horizontaloffset_p1920x224: int = 0
      crt_viewportwidth_p1920x224: int = 0
-     crt_verticaloffset_p320x240: int = 0,
-     crt_horizontaloffset_p320x240: int = 0,
-     crt_viewportwidth_p320x240: int = 0,
-     crt_verticaloffset_p384x288: int = 0,
-     crt_horizontaloffset_p384x288: int = 0,
-     crt_viewportwidth_p384x288: int = 0,
+     crt_verticaloffset_p320x240: int = 0
+     crt_horizontaloffset_p320x240: int = 0
+     crt_viewportwidth_p320x240: int = 0
+     crt_verticaloffset_p384x288: int = 0
+     crt_horizontaloffset_p384x288: int = 0
+     crt_viewportwidth_p384x288: int = 0
+     rotation: int = 0
+     rotatecontrols: bool = False
 
 
 class Emulator:
@@ -99,6 +103,10 @@ class Emulator:
         self._netplayPlayerPassword: str = ""
         self._netplayViewerPassword: str = ""
         self._netplayViewerOnly: bool = False
+        self._rotation: Rotation = Rotation.none
+        self._rotatecontrols: bool = False
+
+
 
         # CRT arguments
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.AUTO
@@ -168,6 +176,9 @@ class Emulator:
         self._netplayPlayerPassword = arguments.netplay_playerpassword
         self._netplayViewerPassword = arguments.netplay_viewerpassword
         self._netplayViewerOnly     = arguments.netplay_vieweronly
+        self._rotation: Rotation    = Rotation.fromInt(arguments.rotation)
+        self._rotatecontrols: bool  = arguments.rotatecontrols
+
 
         # CRT arguments
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.fromString(arguments.crtvideostandard)
@@ -385,3 +396,8 @@ class Emulator:
     @property
     def RecalboxExperimental(self) -> bool:
         return self._recalboxexperimental == "1" or (self._recalboxexperimental == "" and self._updatestype != "stable")
+
+    @property
+    def Rotation(self) -> Rotation: return self._rotation
+    @property
+    def RotateControls(self) -> bool: return self._rotatecontrols
