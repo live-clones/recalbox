@@ -65,6 +65,9 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   // Adult
   if (mGame.IsGame())
     mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
+  // Adult
+  if (mGame.IsGame())
+    mRotation = AddSwitch(_("Rotation"), mGame.Metadata().Rotation() != RotationType::None, (int)Components::Rotation, this);
 
   // Scrape
   if (mGame.IsGame())

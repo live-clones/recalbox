@@ -41,6 +41,8 @@ class ScreenScraperApis
       std::string mCrc;
       //! Pad2Keyboard
       std::string mP2k;
+      //! Rotation
+      std::string mRotation;
       //! Editor
       DateTime mReleaseDate;
       //! Rating
