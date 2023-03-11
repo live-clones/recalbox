@@ -21,7 +21,7 @@ GuiMenuTateVirtualSystem::GuiMenuTateVirtualSystem(WindowManager& window)
   {
     mRotateGames = AddSwitch(_("ROTATE GAMES"), mOriginalRotateGames, (int)Components::TateRotateGames, this);
     // Rotate system view
-    mRotateSystemView = AddSwitch(_("ROTATE SYSTEM VIEW"), mOriginalRotateSystemView, (int)Components::TateRotateSystemView, this);
+    //mRotateSystemView = AddSwitch(_("ROTATE SYSTEM VIEW"), mOriginalRotateSystemView, (int)Components::TateRotateSystemView, this);
     if(Board::Instance().GetRotationCapabilities().defaultRotationWhenTate == RotationType::None)
     {
       // Rotation

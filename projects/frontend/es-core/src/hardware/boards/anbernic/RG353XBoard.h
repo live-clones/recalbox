@@ -159,6 +159,9 @@ class RG353XBoard: public IBoardInterface
      * @return True if a side effect has been triggered
      */
     bool OnRebootOrShutdown() { return false; }
+
+    const RotationCapability GetRotationCapabilities() const override { return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true}; }
+
 };
 
 

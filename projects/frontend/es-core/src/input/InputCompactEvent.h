@@ -236,7 +236,6 @@ class InputCompactEvent
      */
     [[nodiscard]] std::string ToString() const;
 
-    std::string ToString() const;
     static const InputCompactEvent Rotate(const InputCompactEvent& toRotate);
     static void swap(uint& n, int p, int q);
 
