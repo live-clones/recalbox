@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-from typing import List
+from typing import List, Dict, Any
 
 import configgen.recalboxFiles as recalboxFiles
 from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
+from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -43,6 +44,9 @@ class LibretroGenerator(Generator):
     @staticmethod
     def processOverlays(system: Emulator, romName: str, configs: List[str], recalboxOptions: keyValueSettings):
         import os.path
+        # tate mode do not support overlay
+        if system.Rotation:
+            return
         # If we are in crt mode, we only allow recalbox default 240p overlays
         if system.CRTEnabled:
             if system.RecalboxOverlays:
@@ -149,6 +153,32 @@ class LibretroGenerator(Generator):
             retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
             retroarchOverrides.saveFile()
 
+    # Create tate mode configuration
+    @staticmethod
+    def createTateModeConfiguration(system: Emulator) -> (Dict[str, Any], Dict[str, Any]):
+        config = {
+            "video_allow_rotate": '"true"',
+            "video_rotation": 0,
+        }
+        coreConfig = {
+            "wswan_rotate_display": '"manual"',
+            "wswan_rotate_keymap": '"enabled"'
+        }
+        if system.Rotation:
+            config["video_rotation"] = system.Rotation.value
+            config["aspect_ratio_index"] = 0
+            config["video_scale_integer"] = '"false"'
+            if system.Core == "mednafen_wswan":
+                config["video_rotation"] = (system.Rotation.value + 1) % 4
+            if system.Core == "flycast":
+                if system.Name == "dreamcast":
+                    config["video_rotation"] = (system.Rotation.value + 1) % 4
+                config["input_player1_analog_dpad_mode"] = 3
+
+
+        return config, coreConfig
+
+
     # Create zerolag configuration
     @staticmethod
     def createZeroLagConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
@@ -198,6 +228,15 @@ class LibretroGenerator(Generator):
                                                      retroarchOverrides)
         # zerolag config
         LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
+
+        # tate mode config
+        tateLRConfig, tateCoreConfig = LibretroGenerator.createTateModeConfiguration(system)
+        for option in tateLRConfig.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+        for option in tateCoreConfig.items():
+            coreConfig.setString(option[0], option[1])
+        coreConfig.saveFile()
 
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
