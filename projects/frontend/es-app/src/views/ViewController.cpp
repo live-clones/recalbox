@@ -13,6 +13,7 @@
 
 #include "audio/AudioManager.h"
 #include "guis/menus/GuiMenuSoftpatchingLauncher.h"
+#include "RotationManager.h"
 #include <audio/AudioMode.h>
 
 #include <memory>
@@ -260,6 +261,11 @@ bool ViewController::goToGameList(std::string& systemName) {
 
 void ViewController::goToGameList(SystemData* system)
 {
+	RotationType rotation = RotationType::None;
+	if(system->Rotatable() && RotationManager::ShouldRotateTateEnter(rotation))
+	{
+		mWindow.Rotate(rotation);
+	}
 	if (mState.viewing == ViewMode::SystemList)
 	{
 		// move system list
