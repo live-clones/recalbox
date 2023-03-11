@@ -41,6 +41,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
       Rating,
       Genre,
       Scrape,
+      Rotation,
     };
 
     //! View reference
@@ -75,6 +76,8 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mHidden;
     //! Adult
     std::shared_ptr<SwitchComponent> mAdult;
+    //! Rotation
+    std::shared_ptr<SwitchComponent> mRotation;
 
     //! Emulator/Core list
     std::shared_ptr<IOptionListComponent<std::string>> mEmulators;

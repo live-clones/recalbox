@@ -26,6 +26,7 @@
 #include "CommandThread.h"
 #include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
+#include "RotationManager.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -89,7 +90,8 @@ MainRunner::ExitState MainRunner::Run()
     SDL_JoystickEventState(SDL_DISABLE);
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
-    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed);
+    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed,
+                      RotationManager::GetSystemRotation());
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Initialize main Window and ViewController
