@@ -132,6 +132,12 @@ class WindowManager
      */
     BluetoothOverlayGUI& BluetoothNotifier() { return mBluetooth; }
 
+    /*!
+     * @brief Rotate
+     * @return
+     */
+    virtual void Rotate(RotationType rotation) = 0;
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;

@@ -26,6 +26,35 @@ int InputCompactEvent::KeyCode() const
   return mInputDevice.IsKeyboard() ? mInputEvent.Id() : SDLK_UNKNOWN;
 }
 
+void InputCompactEvent::swap(uint& n, int p, int q)
+{
+  if (((n & (1 << p)) >> p) ^ ((n & (1 << q)) >> q))
+  {
+    n ^= (1 << p);
+    n ^= (1 << q);
+  }
+}
+
+const InputCompactEvent InputCompactEvent::Rotate(const InputCompactEvent& toRotate)
+{
+  {LOG(LogDebug) << "[InputCompactEvent] Rotate CompactEvent"; };
+
+  InputCompactEvent event(toRotate);
+  swap(event.mActivatedEntryFlags,5,6);
+  swap(event.mActivatedEntryFlags,6,3);
+  swap(event.mActivatedEntryFlags,4,6);
+  swap(event.mActivatedEntryFlags,21,24); // Down on Left
+  swap(event.mActivatedEntryFlags,22,23); // Up on Right
+  swap(event.mActivatedEntryFlags,23,24);
+  swap(event.mDeactivatedEntryFlags,5,6);
+  swap(event.mDeactivatedEntryFlags,6,3);
+  swap(event.mDeactivatedEntryFlags,4,6);
+  swap(event.mDeactivatedEntryFlags,21,24);
+  swap(event.mDeactivatedEntryFlags,22,23);
+  swap(event.mDeactivatedEntryFlags,23,24);
+  return event;
+}
+
 std::string InputCompactEvent::ToString() const
 {
   std::string pressed;

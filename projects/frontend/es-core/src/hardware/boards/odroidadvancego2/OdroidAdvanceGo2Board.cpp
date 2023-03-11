@@ -120,4 +120,3 @@ bool OdroidAdvanceGo2Board::IsBatteryCharging()
   static Path sBatteryStatus(sBatteryStatusPath);
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
-
