@@ -5,6 +5,7 @@
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "ResolutionAdapter.h"
+#include "resources/ResourceManager.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
 
@@ -63,7 +64,7 @@ void Renderer::ActivateGLDebug()
   #endif
 }
 
-Renderer::Renderer(int width, int height, bool windowed)
+Renderer::Renderer(int width, int height, bool windowed, RotationType rotation)
   : StaticLifeCycleControler<Renderer>("Renderer")
   , mSdlWindow(nullptr)
   , mSdlGLContext(nullptr)
@@ -71,7 +72,7 @@ Renderer::Renderer(int width, int height, bool windowed)
   , mVirtualViewportSizeFloat(Vector2f(0,0))
   , mVirtualViewportSize(Vector2i(0,0))
   , mScale(Vector2f(1,1))
-  , mRotate(None)
+  , mRotate(rotation)
   , mViewPortInitialized(false)
   , mInitialCursorState(false)
   , mWindowed(windowed)
@@ -250,6 +251,12 @@ bool Renderer::ReInitialize()
   return Initialize(mViewportSize.x(), mViewportSize.y());
 }
 
+bool Renderer::Rotate(RotationType rotation)
+{
+  this->mRotate = rotation;
+  return true;
+}
+
 bool Renderer::Initialize(int w, int h)
 {
   { LOG(LogInfo) << "[Renderer] Initial resolution: " << w << 'x' << h; }
@@ -294,10 +301,9 @@ bool Renderer::Initialize(int w, int h)
 
   glMatrixMode(GL_PROJECTION);
   glOrtho(0, w, h, 0, -1.0, 1.0);
-  IniFile iniBoot(Path("/boot/recalbox-boot.conf"), false);
 
-  mRotate = (Rotation) (iniBoot.AsInt("screen.rotation", 0));
-  if(mRotate == Right)
+  //Todo sortir dans une methode
+  if(mRotate == RotationType::Right)
   {
     // Reverse virtual height and width
     mVirtualViewportSize.Set(mVirtualViewportSize.y(), mVirtualViewportSize.x());
@@ -306,7 +312,7 @@ bool Renderer::Initialize(int w, int h)
     glRotatef(90,0,0,1);
     glTranslatef(0, -mViewportSize.x(),0);
   }
-  else if(mRotate == Left)
+  else if(mRotate == RotationType::Left)
   {
     mVirtualViewportSize.Set(mVirtualViewportSize.y(), mVirtualViewportSize.x());
     mVirtualViewportSizeFloat.Set(mVirtualViewportSizeFloat.y(), mVirtualViewportSizeFloat.x());
@@ -314,7 +320,7 @@ bool Renderer::Initialize(int w, int h)
     glRotatef(270,0,0,1);
     glTranslatef(-mViewportSize.y(),0,0);
   }
-  else if(mRotate == UpsideDown)
+  else if(mRotate == RotationType::Upsidedown)
   {
     glRotatef(180,0,0,1);
     glTranslatef(-mViewportSize.x(),-mViewportSize.y(),0);
@@ -347,10 +353,10 @@ void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
     box[3] = mViewportSize.y() - box.y();
 
   switch(mRotate){
-    case None: break;
-    case Right: box = Vector4i(mViewportSize.x() - box.y()-box.w(),box.x(),box.w(),box.z()); break;
-    case UpsideDown: box = Vector4i(mViewportSize.x() - box.x()-box.z(),mViewportSize.y() - box.y()- box.w(), box.z(), box.w()); break;
-    case Left: box = Vector4i(box.y(),mViewportSize.y()-box.x()-box.z(),box.w(),box.z()); break;
+    case RotationType::None: break;
+    case RotationType::Right: box = Vector4i(mViewportSize.x() - box.y()-box.w(),box.x(),box.w(),box.z()); break;
+    case RotationType::Upsidedown: box = Vector4i(mViewportSize.x() - box.x()-box.z(),mViewportSize.y() - box.y()- box.w(), box.z(), box.w()); break;
+    case RotationType::Left: box = Vector4i(box.y(),mViewportSize.y()-box.x()-box.z(),box.w(),box.z()); break;
   }
 
 
