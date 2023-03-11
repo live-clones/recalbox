@@ -4,6 +4,8 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
+++++++++++++++++++++++++++++++++  package/libgtk3/0001-Remove-atk-bridge-support.patch
+--------------------------------  package/libgtk3/0001-disable-atk-bridge.patch
 5edcf5fed8a246d91127f7c351e79548  linux/Config.in
 bcdf40985943e35c90fd4b405fa50ebe  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
