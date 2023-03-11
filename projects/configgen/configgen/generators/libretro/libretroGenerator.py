@@ -5,6 +5,7 @@ import configgen.recalboxFiles as recalboxFiles
 from configgen.Command import Command
 from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
+from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -43,6 +44,9 @@ class LibretroGenerator(Generator):
     @staticmethod
     def processOverlays(system: Emulator, romName: str, configs: List[str], recalboxOptions: keyValueSettings):
         import os.path
+        # tate mode do not support overlay
+        if system.Rotation:
+            return
         # If we are in crt mode, we only allow recalbox default 240p overlays
         if system.CRTEnabled:
             if system.RecalboxOverlays:
@@ -149,6 +153,21 @@ class LibretroGenerator(Generator):
             retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
             retroarchOverrides.saveFile()
 
+    # Create tate mode configuration
+    @staticmethod
+    def createTateModeConfiguration(system: Emulator):
+        config = {
+            "video_allow_rotate": '"true"',
+            "video_rotation": 0
+        }
+        if system.Rotation:
+            config["video_rotation"] = system.Rotation.value
+            config["aspect_ratio_index"] = 0
+            config["video_scale_integer"] = '"false"'
+
+        return config
+
+
     # Create zerolag configuration
     @staticmethod
     def createZeroLagConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
@@ -198,6 +217,11 @@ class LibretroGenerator(Generator):
                                                      retroarchOverrides)
         # zerolag config
         LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
+
+        # tate mode config
+        for option in LibretroGenerator.createTateModeConfiguration(system).items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
 
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
