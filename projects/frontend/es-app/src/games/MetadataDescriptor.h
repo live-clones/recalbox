@@ -8,6 +8,7 @@
 #include "ItemType.h"
 #include "games/classifications/Genres.h"
 #include "MetadataStringHolder.h"
+#include "hardware/RotationType.h"
 
 //#define _METADATA_STATS_
 
@@ -31,6 +32,7 @@ class MetadataDescriptor
     static const std::string DefaultValuePlayCount;
     static const std::string DefaultValueFavorite;
     static const std::string DefaultValueHidden;
+    static const std::string DefaultValueRotation;
 
     //! Game node <game></game>
     static const std::string GameNodeIdentifier;
@@ -61,6 +63,8 @@ class MetadataDescriptor
     static MetadataStringHolder sLastPatchPathHolder;
     //! File string holder
     static MetadataStringHolder sLastPatchFileHolder;
+    //! Rotation string holder
+    static MetadataStringHolder sRotationHolder;
 
     // Please keep field ordered by type size to reduce alignment padding
     unsigned int                  mTimeStamp;    //!< Scraping timestamp
@@ -98,6 +102,7 @@ class MetadataDescriptor
     bool                          mPreinstalled:1; //!< Preinstalled game?
     bool                          mNoGame:1;       //!< ?!
     bool                          mDirty:1;        //!< Dirty flag (modified data flag)
+    RotationType                  mRotation:2;     //<! Rotation flag
 
     //! Default value storage for fast default detection
     static const MetadataDescriptor& Default();
@@ -212,6 +217,7 @@ class MetadataDescriptor
       , mPreinstalled(false)
       , mNoGame(false)
       , mDirty(false)
+      , mRotation(RotationType::None)
     {
       SetRomPath(path);
       SetName(defaultName);
@@ -258,7 +264,8 @@ class MetadataDescriptor
         mLatestVerion(source.mLatestVerion),
         mNoGame(source.mNoGame),
         mDirty(source.mDirty),
-        mType(source.mType)
+        mType(source.mType),
+        mRotation(source.mRotation),
     {
       LivingClasses++;
       if (_Type == ItemType::Game) LivingGames++;
@@ -314,6 +321,7 @@ class MetadataDescriptor
       mPreinstalled  = source.mPreinstalled ;
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
+      mRotation      = source.mRotation     ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -368,6 +376,7 @@ class MetadataDescriptor
       mPreinstalled  = source.mPreinstalled ;
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
+      mRotation      = source.mRotation     ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -445,6 +454,7 @@ class MetadataDescriptor
     [[nodiscard]] bool               LatestVersion()   const { return mLatestVerion;                     }
     [[nodiscard]] bool               NoGame()          const { return mNoGame;                           }
     [[nodiscard]] GameGenres         GenreId()         const { return mGenreId;                          }
+    [[nodiscard]] RotationType       Rotation()        const { return mRotation;                         }
 
     /*
      * Validators
@@ -483,6 +493,7 @@ class MetadataDescriptor
     [[nodiscard]] std::string AdultAsString()       const { return mAdult ? "true" : "false";                            }
     [[nodiscard]] std::string GenreIdAsString()     const { return Strings::ToString((int)mGenreId);                           }
     [[nodiscard]] std::string LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
+    [[nodiscard]] std::string RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
 
 
     /*
@@ -536,6 +547,7 @@ class MetadataDescriptor
     void SetHidden(bool hidden)                         { mHidden       = hidden;                                      mDirty = true; }
     void SetAdult(bool adult)                           { mAdult        = adult;                                       mDirty = true; }
     void SetGenreId(GameGenres genre)                   { mGenreId      = genre;                                       mDirty = true; }
+    void SetRotation(RotationType rotation)             { mRotation     = rotation;                                    mDirty = true; }
     // Volatiles flags - no dirtiness
     void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                               }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                              }
@@ -582,7 +594,7 @@ class MetadataDescriptor
     void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlayCount = (short)p; mDirty = true; } }
     void SetGenreIdAsString(const std::string& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
     void SetRegionAsString(const std::string& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
-
+    void SetRotationAsString(const std::string& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
     /*
      * Defaults
      */
@@ -611,6 +623,7 @@ class MetadataDescriptor
     [[nodiscard]] bool IsDefaultAdult()           const { return Default().mAdult == mAdult;             }
     [[nodiscard]] bool IsDefaultGenreId()         const { return Default().mGenreId == mGenreId;         }
     [[nodiscard]] bool IsDefaultLastPath()        const { return Default().mLastPatchPath == mLastPatchPath && Default().mLastPatchFile == mLastPatchFile; }
+    [[nodiscard]] bool IsDefaultRotation()        const { return Default().mRotation == mRotation; }
 
 
     /*
