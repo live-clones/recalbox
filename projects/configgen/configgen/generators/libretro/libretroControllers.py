@@ -26,6 +26,15 @@ class LibretroControllers:
         InputItem.ItemJoy2Left: 'r_x'
     }
 
+    # The tate mode on a handheld makes joy 2 the first joystick
+    retroarchjoysticksTate: Dict[int, str] = \
+    {
+        InputItem.ItemJoy2Left  : 'l_y',
+        InputItem.ItemJoy2Up: 'l_x',
+        InputItem.ItemJoy1Left  : 'r_x',
+        InputItem.ItemJoy1Up: 'r_y',
+    }
+
     # Map an emulationstation input type to the corresponding retroarch type
     # 6.1: add _ in front of suffixes to allow empty ones
     typetoname: Dict[int, str] = \
@@ -99,6 +108,23 @@ class LibretroControllers:
         InputItem.ItemSelect: 'select'
     }
 
+    # Tate buttons
+    retroarchbtnsTate: Dict[int, str] = \
+    {
+        InputItem.ItemA     : 'b',
+        InputItem.ItemB     : 'y',
+        InputItem.ItemX     : 'a',
+        InputItem.ItemY     : 'x',
+        InputItem.ItemL1    : 'l',
+        InputItem.ItemR1    : 'r',
+        InputItem.ItemL2    : 'l2',
+        InputItem.ItemR2    : 'r2',
+        InputItem.ItemL3    : 'l3',
+        InputItem.ItemR3    : 'r3',
+        InputItem.ItemStart : 'start',
+        InputItem.ItemSelect: 'select'
+    }
+
     def __init__(self, system: Emulator, recalboxOptions: keyValueSettings, settings: keyValueSettings, controllers: ControllerPerPlayer, nodefaultkeymap: bool):
         self.system: Emulator = system
         self.recalboxOptions: keyValueSettings = recalboxOptions
@@ -109,7 +135,7 @@ class LibretroControllers:
         self.retroarchspecials[InputItem.ItemB] = 'menu_toggle'
 
     # Fill controllers configuration
-    def fillControllersConfiguration(self) -> keyValueSettings:
+    def fillControllersConfiguration(self, rotateControls: bool = False) -> keyValueSettings:
         inputDriver: str = self.recalboxOptions.getString("global.inputdriver", self.recalboxOptions.getString(self.system.Name + ".inputdriver", 'auto'))
 
         # Cleanup all
@@ -117,7 +143,7 @@ class LibretroControllers:
 
         # Build configurations
         for player in self.controllers:
-            self.buildController(self.controllers[player], player)
+            self.buildController(self.controllers[player], player, rotateControls)
 
         # Set Hotkey
         self.setHotKey()
@@ -177,8 +203,19 @@ class LibretroControllers:
 
         raise TypeError
 
+    # May change the sign of a joystick axis if rotated
+    @staticmethod
+    def getJoystickSignRotated(rotate: bool, standardAxis: str, jskey: int) -> str:
+        if rotate:
+            if jskey == InputItem.ItemJoy2Up and standardAxis == "-":
+                return "+"
+            if jskey == InputItem.ItemJoy2Up and standardAxis == "+":
+                return "-"
+        return standardAxis
+
+
     # Write a configuration for a specified controller
-    def buildController(self, controller: Controller, playerIndex: int):
+    def buildController(self, controller: Controller, playerIndex: int, rotateControls: bool = False):
         settings = self.settings
 
         # Get specials string or default
@@ -186,7 +223,7 @@ class LibretroControllers:
 
         # config['input_device'] = '"%s"' % controller.RealName
         for btnkey in self.retroarchbtns:
-            btnvalue = self.retroarchbtns[btnkey]
+            btnvalue = self.retroarchbtns[btnkey] if not rotateControls else self.retroarchbtnsTate[btnkey]
             if controller.HasInput(btnkey):
                 inp: InputItem = controller.Input(btnkey)
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, btnvalue, self.typetoname[inp.Type]),
@@ -198,11 +235,11 @@ class LibretroControllers:
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, dirvalue, self.typetoname[inp.Type]),
                                    self.getConfigValue(inp))
         for jskey in self.retroarchjoysticks:
-            jsvalue = self.retroarchjoysticks[jskey]
+            jsvalue = self.retroarchjoysticks[jskey] if not rotateControls else self.retroarchjoysticksTate[jskey]
             if controller.HasInput(jskey):
                 inp = controller.Input(jskey)
-                settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), '-' + str(inp.Id))
-                settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  '+' + str(inp.Id))
+                settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), self.getJoystickSignRotated(rotateControls, '-', jskey) + str(inp.Id))
+                settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  self.getJoystickSignRotated(rotateControls, '+', jskey) + str(inp.Id))
 
         if controller.PlayerIndex == 1:
             specialMap: Dict[int, str] = {}
