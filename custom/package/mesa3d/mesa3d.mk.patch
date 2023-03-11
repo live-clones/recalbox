@@ -1,0 +1,12 @@
+diff --git a/package/mesa3d/mesa3d.mk b/package/mesa3d/mesa3d.mk
+index cf2352a355..36b7151510 100644
+--- a/package/mesa3d/mesa3d.mk
++++ b/package/mesa3d/mesa3d.mk
+@@ -136,6 +136,7 @@ ifeq ($(BR2_PACKAGE_MESA3D_VULKAN_DRIVER),)
+ MESA3D_CONF_OPTS += \
+ 	-Dvulkan-drivers=
+ else
++MESA3D_DEPENDENCIES += host-python-glslang
+ MESA3D_CONF_OPTS += \
+ 	-Dvulkan-drivers=$(subst $(space),$(comma),$(MESA3D_VULKAN_DRIVERS-y))
+ endif

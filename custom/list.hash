@@ -18,6 +18,7 @@ be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 7ecd8faf8aee2a75412583ccbca01ef0  package/libfreeimage/libfreeimage.mk
 84caeaa857a89462b8a4e4c775a60ea4  package/lirc-tools/lirc-tools.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
+882db974f80db986b35cc3f053b47568  package/mesa3d/mesa3d.mk
 f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk
 2cd9a8d1ff6aa58b1ae2709179929998  package/mpv/mpv.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
