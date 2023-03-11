@@ -73,4 +73,6 @@ class ApplicationWindow: public WindowManager
     {
       return HasWindowInDoNotDisturb() || mViewController.DoNotDisturb();
     }
+
+    void Rotate(RotationType rotation) override;
 };
