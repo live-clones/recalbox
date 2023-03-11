@@ -379,6 +379,12 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
       mTextInfo++;
     }
   }
+  // Store Rotation information
+  if (!sourceData.mRotation.empty())
+  {
+    game.Metadata().SetRotation(RotationUtils::FromAngle(sourceData.mRotation));
+    mTextInfo++;
+  }
 }
 
 ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImagePath, FileData& game,

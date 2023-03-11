@@ -11,6 +11,7 @@ const std::string MetadataDescriptor::DefaultValuePlayers("1");
 const std::string MetadataDescriptor::DefaultValuePlayCount("0");
 const std::string MetadataDescriptor::DefaultValueFavorite("false");
 const std::string MetadataDescriptor::DefaultValueHidden("false");
+const std::string MetadataDescriptor::DefaultValueRotation("None");
 
 const std::string MetadataDescriptor::GameNodeIdentifier("game");
 const std::string MetadataDescriptor::FolderNodeIdentifier("folder");
@@ -66,6 +67,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
         MetadataFieldDescriptor("lastplayed" , DefaultValueEmpty    , _("Last played") , _("enter last played date")      , MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPlayedEpoc , &MetadataDescriptor::LastPlayedAsString  , &MetadataDescriptor::SetLastPlayedAsString   , true , false),
         MetadataFieldDescriptor("hash"       , DefaultValueEmpty    , _("Rom Crc32")   , _("enter rom crc32")             , MetadataFieldDescriptor::DataType::Crc32  , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRomCrc32       , &MetadataDescriptor::RomCrc32AsString    , &MetadataDescriptor::SetRomCrc32AsString     , true , false),
         MetadataFieldDescriptor("lastPatch"  , DefaultValueEmpty    , _("Last Patch")  , _("enter patch")                 , MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPath       , &MetadataDescriptor::LastPatchAsString   , &MetadataDescriptor::SetLastPatchAsString    , true , false),
+        MetadataFieldDescriptor("rotation"   , DefaultValueRotation , _("Rotation")    , _("enter rotation")              , MetadataFieldDescriptor::DataType::Int , MetadataFieldDescriptor::EditableType::Switch   , &MetadataDescriptor::IsDefaultRotation       , &MetadataDescriptor::RotationAsString    , &MetadataDescriptor::SetRotationAsString     , false , false),
       };
 
       count = sizeof(sGameMetadataDescriptors) / sizeof(MetadataFieldDescriptor);

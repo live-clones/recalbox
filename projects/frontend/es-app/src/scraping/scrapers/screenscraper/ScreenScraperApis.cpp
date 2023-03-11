@@ -161,6 +161,8 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
     game.mDeveloper = json["developpeur"]["text"].GetString();
   if (json.HasMember("joueurs"))
     game.mPlayers = json["joueurs"]["text"].GetString();
+  if (json.HasMember("rotation"))
+    game.mRotation = json["rotation"].GetString();
   if (json.HasMember("dates"))
   {
     std::string dateTime = ExtractRegionalizedText(json["dates"], requiredRegion);
