@@ -233,6 +233,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionAllGames, bool, Bool, sCollectionAllGames, false)
     DefineGetterSetter(CollectionLightGun, bool, Bool, sCollectionLightGun, false)
     DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, false)
+    DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
+    DefineGetterSetter(CollectionTateRotation, int, Int, sCollectionTateRotation, 0)
+    DefineGetterSetter(CollectionTateRotateSystemView, bool, Bool, sCollectionTateRotateSystemView, false)
+    DefineGetterSetter(CollectionTateRotateGames, bool, Bool,sCollectionTateRotateGames, false)
 
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
     DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
@@ -466,6 +470,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionAllGames         = "emulationstation.collection.allgames";
     static constexpr const char* sCollectionLightGun         = "emulationstation.collection.lightgun";
     static constexpr const char* sCollectionPorts            = "emulationstation.collection.ports";
+    static constexpr const char* sCollectionTate             = "emulationstation.collection.tate";
+    static constexpr const char* sCollectionTateRotation     = "emulationstation.collection.tate.rotation";
+    static constexpr const char* sCollectionTateRotateSystemView = "emulationstation.collection.tate.rotatesystem";
+    static constexpr const char* sCollectionTateRotateGames  = "emulationstation.collection.tate.rotategames";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";

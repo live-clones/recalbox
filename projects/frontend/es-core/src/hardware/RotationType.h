@@ -20,12 +20,14 @@ typedef struct {
 
 class RotationUtils {
 public:
+
   static RotationType FromString(const std::string& value){
     if(value == "Left") return RotationType::Left;
     if(value == "Right") return RotationType::Right;
     if(value == "Upsidedown") return RotationType::Upsidedown;
     return RotationType::None;
   }
+
   static std::string StringValue(RotationType value){
     switch(value){
       case(RotationType::Left): return "Left";
@@ -40,6 +42,11 @@ public:
     if(angle == "90") return RotationType::Left;
     if(angle == "270") return RotationType::Right;
     if(angle == "180") return RotationType::Upsidedown;
+    return RotationType::None;
+  }
+
+  static RotationType FromUint(const unsigned int value){
+    if(value < 4) return (RotationType)value;
     return RotationType::None;
   }
 

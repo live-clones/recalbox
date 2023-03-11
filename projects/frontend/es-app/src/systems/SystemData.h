@@ -143,6 +143,8 @@ class SystemData : private INoCopy
     const std::string& FullName() const { return mDescriptor.FullName(); }
     //! Theme folder
     const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
+    //! Get system rotation option in system view (tate mode)
+    bool Rotatable() const { return mDescriptor.Name() == "tate"; }
 
     //! Has favorite in theme?
     // TODO: Please kill me asap!

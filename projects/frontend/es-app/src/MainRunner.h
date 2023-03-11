@@ -12,6 +12,7 @@
 #include <emulators/run/GameRunner.h>
 #include <patreon/IPatreonNotification.h>
 #include "bluetooth/BluetoothListener.h"
+#include "recalbox/BootConf.h"
 
 class AudioManager;
 class SystemManager;
@@ -138,6 +139,8 @@ class MainRunner
     RecalboxConf mConfiguration;
     //! Crt configuration
     CrtConf mCrtConfiguration;
+    //! Crt configuration
+    BootConf mBootConf;
 
     //! Nofitication manager
     NotificationManager mNotificationManager;

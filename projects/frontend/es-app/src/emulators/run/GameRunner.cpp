@@ -19,6 +19,7 @@
 #include "GameRunner.h"
 #include "Resolutions.h"
 #include "ResolutionAdapter.h"
+#include "RotationManager.h"
 
 bool GameRunner::sGameIsRunning = false;
 
@@ -121,6 +122,10 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), false));
+
+  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
+  if(RotationManager::ShouldRotateGameControls(game))
+    command.append(" -rotatecontrols ");
 
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };
@@ -256,6 +261,10 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", "");
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(GameLinkedData().Crt(), true));
+
+  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
+  if(RotationManager::ShouldRotateGameControls(game))
+    command.append(" -rotatecontrols ");
 
   // Add demo stuff
   command.append(" -demo 1");
