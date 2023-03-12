@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 
 - Add new core for Philips CDI (libretro samecdi, for PC only)
+- Add TATE mode for HDMI and handhels
 
 
 ## Version 9.0.2-Pulstar

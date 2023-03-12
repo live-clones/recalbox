@@ -33,4 +33,5 @@ RotationType BootConf::GetRotation()
 bool BootConf::SetRotation(RotationType rotation)
 {
   SetString("screen.rotation", RotationUtils::StringValue(rotation));
+  return true;
 }

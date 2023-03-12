@@ -165,8 +165,6 @@ void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const S
     ViewController::Instance().getSystemListView().Sort();
 }
 
-<<<<<<< HEAD
-
 void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const std::string& value)
 {
     (void)index;
@@ -190,7 +188,6 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUserInterface::GetRotati
 }
 
 
-=======
 void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const FileData::DisplayGameBy & value)
 {
   (void)index;
@@ -204,7 +201,6 @@ void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const F
 
 }
 
->>>>>>> e651de83be (feat(frontend): add new alias metadata)
 std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSortingEntries()
 {
     mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
