@@ -12,6 +12,19 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
     const std::string& emulatorName = Xml::AttributeAsString(emulator, "name", "");
     EmulatorDescriptor emulatorDescriptor(emulatorName);
     for (const auto& coreNode : emulator.children("core"))
+    {
+      XmlNode arcadeNode = coreNode.child("arcade");
+      String fileBaseName;
+      String ignoreDrivers;
+      String splitDrivers;
+      int limit = 0;
+      if (arcadeNode.empty())
+      {
+        fileBaseName = Xml::AttributeAsString(arcadeNode, "file", "");
+        ignoreDrivers = Xml::AttributeAsString(arcadeNode, "ignore", "");
+        splitDrivers = Xml::AttributeAsString(arcadeNode, "split", "");
+        limit = Xml::AttributeAsInt(arcadeNode, "limit", 0);
+      }
       emulatorDescriptor.AddCore(Xml::AttributeAsString(coreNode, "name", ""),
                                  Xml::AttributeAsInt(coreNode, "priority", 255),
                                  Xml::AttributeAsString(coreNode, "extensions", ""),
@@ -19,8 +32,9 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
                                  Xml::AttributeAsString(coreNode, "compatibility", ""),
                                  Xml::AttributeAsString(coreNode, "speed", ""),
                                  Xml::AttributeAsBool(coreNode, "softpatching", false),
-                                 Xml::AttributeAsBool(coreNode, "crt.available", false));
-
+                                 Xml::AttributeAsBool(coreNode, "crt.available", false),
+                                 fileBaseName, ignoreDrivers, splitDrivers, limit);
+    }
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }
 }

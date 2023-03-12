@@ -30,11 +30,11 @@ struct EmulatorData
      */
 
     //! Get emulator
-    const std::string& Emulator() const { return mEmulator; }
+    [[nodiscard]] const std::string& Emulator() const { return mEmulator; }
 
     //! Get emulator
-    const std::string& Core() const { return mCore; }
+    [[nodiscard]] const std::string& Core() const { return mCore; }
 
     //! Valid?
-    bool IsValid() const { return !mEmulator.empty() && !mCore.empty(); }
+    [[nodiscard]] bool IsValid() const { return !mEmulator.empty() && !mCore.empty(); }
 };

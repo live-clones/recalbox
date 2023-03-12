@@ -23,11 +23,11 @@ class EmulatorList
     {
     }
 
-    int Count() const { return mEmulatorCount; }
+    [[nodiscard]] int Count() const { return mEmulatorCount; }
 
-    const EmulatorDescriptor& EmulatorAt(int index) const { return (unsigned int)index < (unsigned int)mEmulatorCount ? mEmulators[index] : sEmptyEmulator; }
+    [[nodiscard]] const EmulatorDescriptor& EmulatorAt(int index) const { return (unsigned int)index < (unsigned int)mEmulatorCount ? mEmulators[index] : sEmptyEmulator; }
 
-    const EmulatorDescriptor& Named(const std::string& name) const
+    [[nodiscard]] const EmulatorDescriptor& Named(const std::string& name) const
     {
       for(int i=mEmulatorCount; --i>=0; )
         if (name == mEmulators[i].Name())
@@ -35,9 +35,9 @@ class EmulatorList
       return sEmptyEmulator;
     }
 
-    bool HasAny() const { return mEmulatorCount != 0; }
+    [[nodiscard]] bool HasAny() const { return mEmulatorCount != 0; }
 
-    bool HasNamed(const std::string& name) const
+    [[nodiscard]] bool HasNamed(const std::string& name) const
     {
       for(int i=mEmulatorCount; --i>=0; )
         if (name == mEmulators[i].Name())
