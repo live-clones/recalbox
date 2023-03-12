@@ -13,6 +13,11 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.0.2-Pulstar
 
+- Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
+
+### Improvements
+
+### Fixes
 
 ## Version 9.0.1-Pulstar
 
