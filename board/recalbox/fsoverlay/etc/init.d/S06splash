@@ -33,8 +33,7 @@ firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 # get output video size
 
 # Low definiton devices
-if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
-   && ! isRecalboxRGBDual; then
+if isLowDef; then
   LOWDEF=1
 fi
 
@@ -51,15 +50,6 @@ fi
 
 ## Functions ##
 
-# turnOffGPiCaseHDMI
-#   takes no argument, power off HDMI port to save energy when running in a GPi case
-turnOffGPiCaseHDMI() {
-  if grep -q -E '^case=GPiV1:1' /boot/recalbox-boot.conf; then
-     recallog -s "${INIT_SCRIPT}" -t "GPI" "GPi case detected: turning HDMI off"
-    tvservice -o
-  fi
-}
-
 # selectVideo
 #   takes no argument and outputs a random video from those available
 selectVideo() {
@@ -73,6 +63,10 @@ selectVideo() {
         && echo "${originalSmallVideoPath}/${firstTimeVideo}" \
         || echo "${originalVideoPath}/${firstTimeVideo}"
     return 0
+  fi
+  if isRotatedLeftOrRight;then
+      echo "/recalbox/system/resources/splash/tate/introTate.mp4"
+      return
   fi
   whatToPlay="$($systemsetting -command load -key system.splash.select -source /boot/recalbox-backup.conf)"
   if [ "$whatToPlay" != "all" ] && [ "$whatToPlay" != "recalbox" ] && [ "$whatToPlay" != "custom" ] ; then whatToPlay="all" ; fi
@@ -108,32 +102,19 @@ isFirstTime() {
   return 0
 }
 
-# showIntroBackground
-#   displays our intro background via the framebuffer
-showIntroBackground() {
-  if [ -n "${LOWDEF}" ] ; then
-    fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
-  else
-    fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
-  fi
-  # launching ES just after fbv can cause some screen corruption
-  sleep 1
-}
-
-
 # start mpv then show the background (aka pacman screen)
 # $1 timeout
 # $2 array of options for mpv
 runInBackground() {
   local timeout="$1"; shift
   local options=("$@")
-
   if [ "$timeout" -gt 0 ]; then
-    timeout "$videoLength" mpv "${options[@]}"
+    timeout "$videoLength" mpv $(getMpvOptions) "${options[@]}"
   else
-    mpv "${options[@]}"
+    echo mpv $(getMpvOptions) "${options[@]}"
+    mpv $(getMpvOptions) "${options[@]}"
   fi
-  showIntroBackground
+  displayFrameBufferImage
 }
 
 # playVideoOnOneScreen
@@ -146,7 +127,11 @@ playVideoOnOneScreen() {
   # shellcheck disable=SC2206
   options+=($2) # get space delimited options as is
   options+=(--ao=pulse)
-  options+=(--fs --sub-file=/recalbox/system/resources/splash/recalboxintro.srt --really-quiet)
+  options+=(--fs)
+  if ! isRotated; then
+   options+=(--sub-file=/recalbox/system/resources/splash/recalboxintro.srt)
+  fi
+  options+=(--really-quiet)
   options+=(--input-conf=/etc/mpv-input.conf --input-gamepad)
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
@@ -168,11 +153,8 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
-  elif isRecalboxRGBDual; then
-    # On recalbox RGB Dual we will try to get 640x480i for videos 
-    playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
   elif [[ "$ARCH" == "rpi1" ]]; then
-    # on rpi1 2 and 3 we need to force output
+    # on rpi1 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
   else
     # on other simply play
