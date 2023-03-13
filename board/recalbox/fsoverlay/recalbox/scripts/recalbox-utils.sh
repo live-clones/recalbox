@@ -76,6 +76,13 @@ findConnectedConnectors() {
   grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
 }
 
+isLowDef() {
+    if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
+       && ! isRecalboxRGBDual; then
+      return 0
+    fi
+    return 1
+}
 
 # Check if we are on Recalbox RGB Dual
 isRecalboxRGBDual() {
@@ -99,13 +106,50 @@ rrgbdHDMIPriority() {
   grep -q "video.forcehdmi = 1" "${CRT_OPTIONS_FILE}"
 }
 
-# Get the best MPV Options
+isRotated() {
+    if [ "$(getRotationIndex)" != "0" ];then
+        return 0
+    fi
+    return 1
+}
+
+isRotatedLeftOrRight() {
+    local rotation="$(getRotationIndex)"
+    if [ "${rotation}" == "1" ] || [ "${rotation}" == "3" ];then
+        return 0
+    fi
+    return 1
+}
+getRotationIndex() {
+    if grep -q "^screen.rotation=.*" /boot/recalbox-boot.conf;then
+        grep "^screen.rotation=.*" /boot/recalbox-boot.conf | cut -d"=" -f2
+        return 0
+    fi
+    echo "0"
+}
+getRotationAngle() {
+    local rot=$(getRotationIndex)
+    if [ "${rot}" == "1" ];then echo "270"; return; fi
+    if [ "${rot}" == "2" ];then echo "180"; return; fi
+    if [ "${rot}" == "3" ];then echo "90"; return; fi
+    echo "0"
+}
+
+# Get the best MPV Options considering board, rrgbd and rotation
 getMpvOptions() {
-  if isRecalboxRGBDual; then
-    getCrtMpvOptions
-  else
-    echo ""
-  fi
+    local rotationcli=""
+    if isRotated; then
+        local rotation="$(getRotationAngle)"
+        if [ "${rotation}" == "270" ] || [ "${rotation}" == "180" ];then
+            # Videos will be already rotated, but we need to rotate upsidedown
+            rotationcli="--video-rotate=180"
+        fi
+    fi
+    if isRecalboxRGBDual; then
+        echo "${rotationcli} $(getCrtMpvOptions)"
+    else
+        echo "${rotationcli}"
+    fi
 }
 
 # Returns true if the platform may need to force enable DRM connector.
@@ -180,4 +224,18 @@ isOldIntelChipset() {
     fi 
   done
   return 1
+}
+
+# showIntroBackground
+#   displays our intro background via the framebuffer
+displayFrameBufferImage() {
+    if isRotated; then
+        fbv2 -f -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
+    else
+        if isLowDef && ! isRecalboxRGBDual; then
+            fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
+        else
+            fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
+        fi
+    fi
 }
