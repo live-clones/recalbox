@@ -50,7 +50,7 @@ RotationType RotationManager::ShouldRotateGame(const FileData& game)
     bool rotate = cap.canRotate && RecalboxConf::Instance().GetCollectionTateRotateGames();
     if (rotate) {
       {LOG(LogDebug) << "[RotationManager] Rotate game will be set ON";}
-      return cap.defaultRotationWhenTate != RotationType::None ? cap.defaultRotationWhenTate : game.Metadata().Rotation();
+      return cap.defaultRotationWhenTate != RotationType::None ? cap.defaultRotationWhenTate : RotationUtils::FromUint(RecalboxConf::Instance().GetCollectionTateRotation());
     }
   }
   return RotationType::None;

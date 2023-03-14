@@ -3,7 +3,7 @@
 #include <string>
 
 //! Rotation type
-enum class RotationType : int
+enum class RotationType : unsigned int
 {
   None,
   Left,
@@ -42,6 +42,10 @@ public:
     if(angle == "90") return RotationType::Left;
     if(angle == "270") return RotationType::Right;
     if(angle == "180") return RotationType::Upsidedown;
+    return RotationType::None;
+  }
+  static RotationType FromUint(const unsigned int value){
+    if(value < 4) return (RotationType)value;
     return RotationType::None;
   }
 
