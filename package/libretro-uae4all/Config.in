@@ -1,7 +1,6 @@
 config BR2_PACKAGE_LIBRETRO_UAE4ALL
 	bool "libretro-uae4all"
 	depends on BR2_PACKAGE_RETROARCH
-	select BR2_PACKAGE_RECALBOX_ROMFS_AMIGA600
 	help
 	  A fast libretro AMIGA emulator core.
 
