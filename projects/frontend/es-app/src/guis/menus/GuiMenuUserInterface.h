@@ -14,7 +14,6 @@ class GuiMenuUserInterface : public GuiMenuBase
                            , private ISliderComponent
                            , private ISwitchComponent
                            , private IOptionListComponent<SystemSorting>
-                           , private IOptionListComponent<std::string>
 {
   public:
     /*!
@@ -45,8 +44,7 @@ class GuiMenuUserInterface : public GuiMenuBase
       SystemSort,
       UpdateGamelist,
       Filters,
-      DisplayByFileName,
-      ScreenRotation
+      DisplayByFileName
     };
 
     //! System Manager
@@ -64,14 +62,10 @@ class GuiMenuUserInterface : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mQuickSelect;
     //! Original Sorting type
     SystemSorting mOriginalSort;
-    //! recalbox-boot.cfg init file
-    IniFile mBootIniFile;
     //! System Sort
     std::shared_ptr<OptionListComponent<SystemSorting>> mSort;
     //! Get Sorting List
     std::vector<ListEntry<SystemSorting>> GetSortingEntries();
-    //! Get Sorting List
-    std::vector<ListEntry<std::string>> GetRotationEntries();
 
     /*!
      * @brief Reload gamelists
@@ -102,10 +96,5 @@ class GuiMenuUserInterface : public GuiMenuBase
 
     void OptionListComponentChanged(int id, int index, const SystemSorting& value) override;
 
-    /*
-     * IOptionListComponent<int> implementation
-     */
-
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
 };
 

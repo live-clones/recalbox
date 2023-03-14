@@ -17,9 +17,9 @@ public:
 
 
   std::string GetCase();
-  bool SetCase(std::string caze);
+  BootConf& SetCase(std::string caze);
   RotationType GetRotation();
-  bool SetRotation(RotationType rotation);
+  BootConf& SetRotation(RotationType rotation);
 };
 
 
