@@ -17,7 +17,6 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   : GuiMenuBase(window, _("UI SETTINGS"), this)
   , mSystemManager(systemManager)
   , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
-  , mBootIniFile(IniFile(Path("/boot/recalbox-boot.conf"), false))
 {
   // Screensavers
   AddSubMenu(_("SCREENSAVER"), (int)Components::ScreenSaver, _(MENUMESSAGE_UI_SCREENSAVER_HELP_MSG));
@@ -55,9 +54,6 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
 
   // Display filename
   AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
-
-  // Screen rotation
-  AddList<std::string>(_("SCREEN ROTATION"), (int)Components::ScreenRotation, this, GetRotationEntries(), _(MENUMESSAGE_SCREEN_ROTATION));
 
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -101,7 +97,6 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Help:
     case Components::SystemSort:
     case Components::DisplayByFileName:
-    case Components::ScreenRotation:
     case Components::QuickSelect: break;
   }
 }
@@ -143,7 +138,6 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
     case Components::ScreenSaver:
     case Components::SystemSort:
     case Components::Filters:
-    case Components::ScreenRotation:
     case Components::Brightness: break;
   }
 }
@@ -158,30 +152,6 @@ void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const S
     mSystemManager.SystemSorting();
     ViewController::Instance().getSystemListView().Sort();
 }
-
-
-void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const std::string& value)
-{
-    (void)index;
-    (void)id;
-    if(value != mBootIniFile.AsString("screen.rotation", "0"))
-    {
-      mBootIniFile.SetString("screen.rotation", value);
-      RequestRelaunch();
-    }
-}
-
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUserInterface::GetRotationEntries() {
-    std::string originalRotation = mBootIniFile.AsString("screen.rotation", "0");
-    return std::vector<ListEntry<std::string>>
-    ({
-      { _("NONE"), "0", originalRotation == "0"},
-      { _("LEFT (90)"), "1", originalRotation == "1" },
-      { _("UPSIDE DOWN (180)"), "2", originalRotation == "2" },
-      { _("RIGHT (270)"), "3", originalRotation == "3" },
-    });
-}
-
 
 std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSortingEntries()
 {
