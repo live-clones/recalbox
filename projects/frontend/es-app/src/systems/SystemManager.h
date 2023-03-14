@@ -234,11 +234,14 @@ class SystemManager :
      * @param systems System to fetch games to aggregate into a single list
      * @param properties System properties
      * @param doppelganger Map to FileData
+     * @param includeSubfolders True to include subfolders, false to restrict to top games only
+     * @param fixedSort Fixed sort
      * @return New meta-system
      */
     SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
                                  const std::string& themeFolder, const std::vector<SystemData*>& systems,
                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                 bool includeSubfolders = true,
                                  FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
