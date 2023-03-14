@@ -127,9 +127,6 @@ MenuThemeData::MenuThemeData()
 		if (elem->HasProperty("iconSystem"))
 			mCurrent->menuIconSet.system = elem->AsString("iconSystem");
 
-		if (elem->HasProperty("iconRecalboxRGBDual"))
-			mCurrent->menuIconSet.recalboxrgbdual = elem->AsString("iconRecalboxRGBDual");
-
 		if (elem->HasProperty("iconUpdates"))
 			mCurrent->menuIconSet.updates = elem->AsString("iconUpdates");
 
@@ -155,18 +152,24 @@ MenuThemeData::MenuThemeData()
 			mCurrent->menuIconSet.advanced = elem->AsString("iconAdvanced");
 
 		if (elem->HasProperty("iconQuit"))
-            		mCurrent->menuIconSet.quit = elem->AsString("iconQuit");
+      mCurrent->menuIconSet.quit = elem->AsString("iconQuit");
 
     if (elem->HasProperty("iconRestart"))
-          mCurrent->menuIconSet.restart = elem->AsString("iconRestart");
+      mCurrent->menuIconSet.restart = elem->AsString("iconRestart");
 
     if (elem->HasProperty("iconShutdown"))
-          mCurrent->menuIconSet.shutdown = elem->AsString("iconShutdown");
+      mCurrent->menuIconSet.shutdown = elem->AsString("iconShutdown");
 
     if (elem->HasProperty("iconFastShutdown"))
-          mCurrent->menuIconSet.fastshutdown = elem->AsString("iconFastShutdown");
+      mCurrent->menuIconSet.fastshutdown = elem->AsString("iconFastShutdown");
 
     if (elem->HasProperty("iconLicense"))
       mCurrent->menuIconSet.license = elem->AsString("iconLicense");
+
+    if (elem->HasProperty("iconRecalboxRGBDual"))
+      mCurrent->menuIconSet.recalboxrgbdual = elem->AsString("iconRecalboxRGBDual");
+
+    if (elem->HasProperty("iconTate"))
+      mCurrent->menuIconSet.tate = elem->AsString("iconTate");
 	}
 }
