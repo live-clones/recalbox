@@ -525,7 +525,7 @@ FileData::List SystemData::getGames() const
 
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-  root->GetItemsRecursivelyTo(result, filter, excludes, false);
+    root->GetItemsRecursivelyTo(result, filter, excludes, false);
   return result;
 }
 
