@@ -42,18 +42,27 @@ bool RotationManager::ShouldRotateTateExit(RotationType& rotationType)
 RotationType RotationManager::ShouldRotateGame(const FileData& game)
 {
   // We will rotate the game if:
+  // - the system rotation is set
+  // OR
   // - the game is a vertical game
   // - the board can rotate
   // - the rotate game option is set
-  if(game.Metadata().Rotation() != RotationType::None) {
+  RotationType gameRotation = RotationType::None;
+  if(GetSystemRotation() != RotationType::None)
+  {
+    gameRotation = GetSystemRotation();
+  }
+  else if(game.Metadata().Rotation() != RotationType::None)
+  {
     const RotationCapability cap = Board::Instance().GetRotationCapabilities();
     bool rotate = cap.canRotate && RecalboxConf::Instance().GetCollectionTateRotateGames();
-    if (rotate) {
-      {LOG(LogDebug) << "[RotationManager] Rotate game will be set ON";}
-      return cap.defaultRotationWhenTate != RotationType::None ? cap.defaultRotationWhenTate : game.Metadata().Rotation();
+    if (rotate)
+    {
+      {LOG(LogDebug) << "[RotationManager] Rotate game will be ON";}
+      gameRotation = cap.defaultRotationWhenTate != RotationType::None ? cap.defaultRotationWhenTate : RotationUtils::FromUint(RecalboxConf::Instance().GetCollectionTateRotation());
     }
   }
-  return RotationType::None;
+  return gameRotation;
 }
 
 bool RotationManager::ShouldRotateFrontendControls()
