@@ -171,7 +171,7 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     /*!
     * @return the rotation capabilities for tate mode
     */
-    const RotationCapability GetRotationCapabilities() const override { return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true}; }
+    const RotationCapability GetRotationCapabilities() const override;
 };
 
 

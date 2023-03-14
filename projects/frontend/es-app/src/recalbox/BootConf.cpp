@@ -19,10 +19,10 @@ std::string BootConf::GetCase()
   return "none";
 }
 
-bool BootConf::SetCase(std::string caze)
+BootConf& BootConf::SetCase(std::string caze)
 {
   SetString("case", caze);
-  return true;
+  return *this;
 }
 
 RotationType BootConf::GetRotation()
@@ -30,7 +30,8 @@ RotationType BootConf::GetRotation()
   return (RotationType)AsInt("screen.rotation",0);
 }
 
-bool BootConf::SetRotation(RotationType rotation)
+BootConf& BootConf::SetRotation(RotationType rotation)
 {
-  SetString("screen.rotation", RotationUtils::StringValue(rotation));
+  SetInt("screen.rotation", (uint)rotation);
+  return *this;
 }

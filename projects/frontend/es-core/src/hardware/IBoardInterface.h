@@ -136,8 +136,16 @@ class IBoardInterface
     /*!
     * @return the rotation capabilities for tate mode
     */
-    static inline RotationCapability defaultCap = { .canRotate = true, .defaultRotationWhenTate = RotationType::None, .rotateControls = false};
-    static inline RotationCapability noCap = { .canRotate = false, .defaultRotationWhenTate = RotationType::None, .rotateControls = false};
+    static inline RotationCapability defaultCap = {
+        .canRotate = true,
+        .defaultRotationWhenTate = RotationType::None,
+        .rotateControls = false,
+        .autoRotateGames = false};
+    static inline RotationCapability noCap = {
+        .canRotate = false,
+        .defaultRotationWhenTate = RotationType::None,
+        .rotateControls = false,
+        .autoRotateGames = false};
     virtual const RotationCapability GetRotationCapabilities() const {
       return Case::CurrentCase().RotationSupported() ? defaultCap : noCap;
     }

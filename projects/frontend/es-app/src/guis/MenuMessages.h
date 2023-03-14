@@ -90,7 +90,9 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG "Hide all pre-installed games."
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
-    #define MENUMESSAGE_SCREEN_ROTATION "Rotate the screen (TATE MODE)."
+
+    #define MENUMESSAGE_TATE_HELP_MSG "Manage screen and game rotation options"
+    #define MENUMESSAGE_TATE_SCREEN_ROTATION "Proceed to a complete screen rotation, for frontend and games."
 
     #define MENUMESSAGE_SOUND_HELP_MSG "Configure the sound options of your recalbox."
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
@@ -136,7 +138,6 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG "Select virtual systems to show."
     #define MENUMESSAGE_ADVANCED_VIRTUALGENRESYSTEMS_HELP_MSG "Select vitual systems per genre to show."
     #define MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG "Enable/Disable Arcade virtual system and set its options"
-    #define MENUMESSAGE_ADVANCED_TATE_HELP_MSG "Enable/Disable Tate (vertical) virtual system and set its options"
 
     #define MENUMESSAGE_ADVANCED_KODI_HELP_MSG "Enable or disable Kodi, customize the Kodi startup, enable the X button to start Kodi"
     #define MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG "Enable or disable Kodi. If kodi is disabled, you won't be able to start it with the X button, or start it automatically at boot. The menu entry will be removed as well."
