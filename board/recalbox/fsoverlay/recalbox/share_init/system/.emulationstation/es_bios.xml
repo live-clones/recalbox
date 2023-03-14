@@ -542,7 +542,7 @@
                                  ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
                                  b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
                                  ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
-                                 a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+                                 a3b2c9a69c28ad0bd4ea07877b744bbe,c5c24b182a5a5708251012b769b16ba1" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2,b9ab07a79997fc044ca164fc72cd5680" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="neocd/neocd.bin"                 md5="f39572af7584cb5b3f70ae8cc848aba2" core="neocd" mandatory="true" hashMatchMandatory="false" note="CDZ BIOS (MAME)" />
     <bios path="neocd/uni-bioscd.rom"            md5="08ca8b2dba6662e8024f9e789711c6fc" core="neocd" mandatory="false" hashMatchMandatory="false" note="Universe BIOS CD 3.3" />
