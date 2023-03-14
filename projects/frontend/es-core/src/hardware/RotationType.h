@@ -16,6 +16,7 @@ typedef struct {
   bool canRotate;
   RotationType defaultRotationWhenTate;
   bool rotateControls;
+  bool autoRotateGames;
 } RotationCapability;
 
 class RotationUtils {

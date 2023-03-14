@@ -13,12 +13,12 @@ bool RotationManager::ShouldRotateTateEnter(RotationType& rotationType)
   // - the board can rotate
   // - there is no Left or Right rotation yet
   // - the system Tate is configured to be rotated
-  if(Board::Instance().GetRotationCapabilities().canRotate
+ /* if(Board::Instance().GetRotationCapabilities().canRotate
     && !Renderer::Instance().IsRotatedSide()
     && RecalboxConf::Instance().GetCollectionTateRotateSystemView()){
       rotationType = static_cast<RotationType>(RecalboxConf::Instance().GetCollectionTateRotation());
       return true;
-  }
+  }*/
   return false;
 }
 
@@ -29,13 +29,13 @@ bool RotationManager::ShouldRotateTateExit(RotationType& rotationType)
   // - there is Left or Right rotation
   // - the system Tate is configured to be rotated
   // - the system wide rotation is not left or right
-  if(Board::Instance().GetRotationCapabilities().canRotate
+  /*if(Board::Instance().GetRotationCapabilities().canRotate
      && Renderer::Instance().IsRotatedSide()
      && RecalboxConf::Instance().GetCollectionTateRotateSystemView()
      && (GetSystemRotation() == RotationType::None || GetSystemRotation() == RotationType::Upsidedown)){
     rotationType = RotationType::None;
     return true;
-  }
+  }*/
   return false;
 }
 
@@ -51,15 +51,22 @@ RotationType RotationManager::ShouldRotateGame(const FileData& game)
   if(GetSystemRotation() != RotationType::None)
   {
     gameRotation = GetSystemRotation();
+    {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] System rotation is set, setting game rotation to " << RotationUtils::StringValue(gameRotation);}
   }
   else if(game.Metadata().Rotation() != RotationType::None)
   {
     const RotationCapability cap = Board::Instance().GetRotationCapabilities();
-    bool rotate = cap.canRotate && RecalboxConf::Instance().GetCollectionTateRotateGames();
-    if (rotate)
+    // The board should be able to rotate, either the config has been set by user, either we use the automatic capability
+    if(cap.canRotate)
     {
-      {LOG(LogDebug) << "[RotationManager] Rotate game will be ON";}
-      gameRotation = cap.defaultRotationWhenTate != RotationType::None ? cap.defaultRotationWhenTate : RotationUtils::FromUint(RecalboxConf::Instance().GetCollectionTateRotation());
+      if(RecalboxConf::Instance().IsDefined(RecalboxConf::sTateGameRotation)) {
+        // Forced rotation
+        gameRotation = RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation());
+        {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from recalbox.conf";}
+      } else if(cap.autoRotateGames){
+        gameRotation = cap.defaultRotationWhenTate;
+        {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from Board capabilities";}
+      }
     }
   }
   return gameRotation;
@@ -84,7 +91,7 @@ bool RotationManager::ShouldRotateGameControls(const FileData& game)
   // - the board is rotated for tate or system-wide
   const RotationCapability cap = Board::Instance().GetRotationCapabilities();
   const RotationType gameRotation = ShouldRotateGame(game);
-  bool rotate = (gameRotation == RotationType::Left ||gameRotation == RotationType::Right) && cap.rotateControls;
+  bool rotate = (gameRotation == RotationType::Left || gameRotation == RotationType::Right) && cap.rotateControls;
   if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate game controls ON"; };
   return rotate;
 }

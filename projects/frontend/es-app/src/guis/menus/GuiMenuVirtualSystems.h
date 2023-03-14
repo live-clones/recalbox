@@ -37,7 +37,6 @@ class GuiMenuVirtualSystems : public GuiMenuBase
       VirtualArcade,
       LightGun,
       Ports,
-      Tate,
     };
 
     //! System manager

@@ -24,6 +24,7 @@ class GuiMenu : public GuiMenuBase
       Games,
       Controllers,
       UISettings,
+      Tate,
       Sound,
       Network,
       Scraper,
