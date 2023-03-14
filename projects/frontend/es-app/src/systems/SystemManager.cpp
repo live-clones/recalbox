@@ -349,7 +349,7 @@ SystemData* SystemManager::CreateFavoriteSystem(const std::string& name, const s
 SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::string& fullName,
                                             const std::string& themeFolder, const std::vector<SystemData*>& systems,
                                             SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                            FileSorts::Sorts fixedSort)
+                                            bool includeSubfolders, FileSorts::Sorts fixedSort)
 {
   std::vector<PlatformIds::PlatformId> platformIds;
   platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
@@ -363,7 +363,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
   for(SystemData* source : systems)
   {
-    FileData::List all = source->getTopGamesAndFolders();
+    FileData::List all = includeSubfolders ? source->getAllGames() : source->getTopGamesAndFolders();
     if (!all.empty())
     {
       { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
@@ -526,7 +526,7 @@ bool SystemManager::AddPorts()
     if ((!RecalboxConf::Instance().GetCollectionHide("ports")) || (mVisibleSystemVector.size() == 1))
     {
       // Create meta-system
-      SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
+      SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger, false);
       { LOG(LogInfo) << "[System] Creating Ports"; }
       // Seek default position
       int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
