@@ -1,5 +1,5 @@
 diff --git a/linux/Config.in b/linux/Config.in
-index de9bf0ad7a..0bed55ceb0 100644
+index 5cbef197ab..0ce2371e74 100644
 --- a/linux/Config.in
 +++ b/linux/Config.in
 @@ -436,6 +436,13 @@ config BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-SDL2_VERSION = 2.0.22
+SDL2_VERSION = 2.26.3
 SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
 SDL2_SITE = http://www.libsdl.org/release
 SDL2_LICENSE = Zlib
@@ -20,7 +20,24 @@ SDL2_CONF_OPTS += \
 	--disable-arts \
 	--disable-esd \
 	--disable-dbus \
-	--disable-video-wayland
+	--disable-video-vivante \
+	--disable-video-cocoa \
+	--disable-video-metal \
+	--disable-video-wayland \
+	--disable-video-dummy \
+	--disable-video-offscreen \
+	--disable-video-vulkan \
+	--disable-ime \
+	--disable-ibus \
+	--disable-fcitx \
+	--disable-joystick-mfi \
+	--disable-directx \
+	--disable-xinput \
+	--disable-wasapi \
+	--disable-hidapi-joystick \
+	--disable-hidapi-libusb \
+	--disable-joystick-virtual \
+	--disable-render-d3d
 
 # We are using autotools build system for sdl2, so the sdl2-config.cmake
 # include path are not resolved like for sdl2-config script.
@@ -169,7 +186,7 @@ SDL2_CONF_OPTS += --disable-pulseaudio
 endif
 
 ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
-SDL2_DEPENDENCIES += libdrm libgbm
+SDL2_DEPENDENCIES += libdrm libgbm libegl
 SDL2_CONF_OPTS += --enable-video-kmsdrm
 else
 SDL2_CONF_OPTS += --disable-video-kmsdrm
