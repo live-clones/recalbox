@@ -9,7 +9,7 @@ LIBRETRO_MAME_VERSION = ec47e94c7eed598e87a6da898821b5c8024c21a5
 LIBRETRO_MAME_SITE = $(call github,libretro,mame,$(LIBRETRO_MAME_VERSION))
 LIBRETRO_MAME_LICENSE = MAME
 LIBRETRO_MAME_NON_COMMERCIAL = y
-LIBRETRO_MAME_DEPENDENCIES = alsa-lib
+LIBRETRO_MAME_DEPENDENCIES = alsa-lib arcade-dats
 
 ifeq ($(BR2_x86_64),y)
 LIBRETRO_MAME_OPTS += PTR64=1
@@ -66,6 +66,9 @@ define LIBRETRO_MAME_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/flats/mame.lst
 	$(INSTALL) -D $(@D)/mamearcade_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame/samples

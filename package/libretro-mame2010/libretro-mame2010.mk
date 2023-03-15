@@ -9,7 +9,7 @@ LIBRETRO_MAME2010_SITE = $(call github,libretro,mame2010-libretro,$(LIBRETRO_MAM
 LIBRETRO_MAME2010_LICENSE = MAME
 LIBRETRO_MAME2010_NON_COMMERCIAL = y
 
-LIBRETRO_MAME2010_DEPENDENCIES = zlib
+LIBRETRO_MAME2010_DEPENDENCIES = zlib arcade-dats
 
 ifeq ($(BR2_arm),y)
 LIBRETRO_MAME2010_BUILD_OPTS=VRENDER=soft PTR64=0 ARM_ENABLED=1
@@ -30,10 +30,16 @@ define LIBRETRO_MAME2010_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME2010_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010
+	cp $(@D)/metadata/mame2010.xml $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010/mame2010.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2010.lst
 	$(INSTALL) -D $(@D)/mame2010_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2010_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/samples
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010
+	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/mame2010.xml
 	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/README.txt
 	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2010/mameini.boilerplate
 endef

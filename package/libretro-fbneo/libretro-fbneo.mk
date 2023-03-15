@@ -11,6 +11,8 @@ LIBRETRO_FBNEO_LICENSE = COPYRIGHT
 LIBRETRO_FBNEO_LICENSE_FILES = LICENSE.md
 LIBRETRO_FBNEO_NON_COMMERCIAL = y
 
+LIBRETRO_FBNEO_DEPENDENCIES = arcade-dats
+
 ifeq ($(BR2_ARM_CPU_HAS_NEON),y)
 LIBRETRO_FBNEO_OPTIONS += "HAVE_NEON=1"
 else
@@ -39,10 +41,14 @@ define LIBRETRO_FBNEO_BUILD_CMDS
 endef
 
 define LIBRETRO_FBNEO_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		'$(@D)/dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fbneo.lst
 	$(INSTALL) -D $(@D)/src/burner/libretro/fbneo_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fbneo_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fbneo/samples
-	cp -R $(@D)/dats/* $(TARGET_DIR)/recalbox/share_upgrade/bios/fbneo
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
+	cp -R $(@D)/dats/* $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/fbneo
 endef
 

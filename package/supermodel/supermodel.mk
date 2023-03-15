@@ -12,6 +12,12 @@ SUPERMODEL_LICENSE_FILES = Docs/LICENSE.txt
 SUPERMODEL_DEPENDENCIES = zlib libpng libogg libvorbis sdl2_net sdl2 libglu
 
 define SUPERMODEL_BUILD_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/model3
+	xsltproc $(ARCADE_DATS_PKGDIR)/model3.xslt $(ARCADE_DATS_FULLARCADE_DAT) > $(TARGET_DIR)/recalbox/system/arcade/dats/model3/model3.xml
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	#xsltproc --stringparam mamedatfile $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+	xsltproc $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/model3/model3.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/model3.lst
 	cp $(@D)/Makefiles/Makefile.UNIX $(@D)/Makefile
 	$(SED) "s|CC = gcc|CC = $(TARGET_CC) $(COMPILER_COMMONS_CFLAGS_NOLTO)|g" $(@D)/Makefile
 	$(SED) "s|CXX = g++|CXX = $(TARGET_CXX) $(COMPILER_COMMONS_CXXFLAGS_NOLTO)|g" $(@D)/Makefile

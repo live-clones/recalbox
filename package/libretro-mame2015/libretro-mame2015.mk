@@ -10,6 +10,8 @@ LIBRETRO_MAME2015_SITE = $(call github,libretro,mame2015-libretro,$(LIBRETRO_MAM
 LIBRETRO_MAME2015_LICENSE = MAME
 LIBRETRO_MAME2015_NON_COMMERCIAL = y
 
+LIBRETRO_MAME2015_DEPENDENCIES = arcade-dats 
+
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
 LIBRETRO_MAME2015_CFLAGSO = $(COMPILER_COMMONS_CFLAGS_NOLTO)
 LIBRETRO_MAME2015_CXXFLAGSO = $(COMPILER_COMMONS_CXXFLAGS_NOLTO)
@@ -38,10 +40,16 @@ define LIBRETRO_MAME2015_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME2015_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015
+	$(UNZIP) -o -d $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015 $(@D)/metadata/mame2015-xml.zip
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015/mame2014.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2015.lst
 	$(INSTALL) -D $(@D)/mame2015_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2015_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/samples
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015
+	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/mame2015-xml.zip
 endef
 
 $(eval $(generic-package))

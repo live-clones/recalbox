@@ -9,7 +9,8 @@ PIFBA_SITE = $(call github,recalbox,pifba,$(PIFBA_VERSION))
 PIFBA_LICENSE = COPYRIGHT
 PIFBA_NON_COMMERCIAL = y
 
-PIFBA_DEPENDENCIES = sdl2 alsa-lib rpi-userland
+PIFBA_DEPENDENCIES = sdl2 alsa-lib arcade-dats
+#rpi-userland
 
 PIFBA_SDL_CONFIG=$(STAGING_DIR)/usr/bin/sdl2-config
 PIFBA_SDL_FLAGS=`$(PIFBA_SDL_CONFIG) --cflags`
@@ -41,6 +42,11 @@ define PIFBA_INSTALL_STAGING_CMDS
 endef
 
 define PIFBA_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/fba
+	cp $(PIFBA_PKGDIR)/fba_rb.dat $(TARGET_DIR)/recalbox/system/arcade/dats/fba
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		'$(TARGET_DIR)/recalbox/system/arcade/dats/fba/fba_rb.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fba.lst
 	$(INSTALL) -D -m 0755 $(@D)/fba2x $(TARGET_DIR)/usr/bin/fba2x
 endef
 

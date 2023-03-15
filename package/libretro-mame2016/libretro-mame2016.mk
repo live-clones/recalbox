@@ -9,6 +9,8 @@ LIBRETRO_MAME2016_SITE = $(call github,libretro,mame2016-libretro,$(LIBRETRO_MAM
 LIBRETRO_MAME2016_LICENSE = MAME
 LIBRETRO_MAME2016_NON_COMMERCIAL = y
 
+LIBRETRO_MAME2016_DEPENDENCIES = arcade-dats 
+
 # x86_64
 ifeq ($(BR2_x86_64),y)
 LIBRETRO_MAME2016_OPTS = PTR64=1
@@ -37,10 +39,16 @@ define LIBRETRO_MAME2016_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME2016_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016
+	$(UNZIP) -o -d $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016 '$(@D)/metadata/MAME 0.174 Arcade XML DAT.zip'
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		'$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016/MAME 0.174 Arcade XML.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2016.lst
 	$(INSTALL) -D $(@D)/mamearcade2016_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2016_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2016/samples
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2016
+	rm '$(TARGET_DIR)/recalbox/share_upgrade/bios/mame2016/MAME 0.174 Arcade XML DAT.zip'
 endef
 
 $(eval $(generic-package))

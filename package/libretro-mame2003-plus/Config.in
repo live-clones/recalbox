@@ -1,5 +1,6 @@
 config BR2_PACKAGE_LIBRETRO_MAME2003_PLUS
 	bool "libretro-mame2003-plus"
+	select BR2_PACKAGE_ARCADE_DATS
 	depends on BR2_PACKAGE_RETROARCH
 	depends on BR2_INSTALL_LIBSTDCPP
 	help
