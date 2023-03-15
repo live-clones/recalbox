@@ -5,6 +5,7 @@ menu "Recalbox"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mpp/Config.in"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/librga/Config.in"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-rkbin/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rkwifibt/Config.in"
     endmenu
     menu "Hardkernel"
 			menu "odroidgo2"

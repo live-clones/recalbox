@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RKWIFIBT
+	bool "Rockchip rtk_hciattach"
+	help
+	  Tools for starting bluetooth on Rockchip device
+
+	  https://github.com/Caesar-github/rkwifibt/tree/master/realtek/rtk_hciattach
