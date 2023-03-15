@@ -1,0 +1,4 @@
+config BR2_PACKAGE_ARCADE_DATS
+	bool "Arcade dats processor"
+	help
+	  An arcade dats processor for Recalbox frontend

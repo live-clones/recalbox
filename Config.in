@@ -301,6 +301,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kmsgrab/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/eepromutils/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-dtoverlay/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/arcade-dats/Config.in"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"
