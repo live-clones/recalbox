@@ -20,9 +20,6 @@ disable_overscan=1
 
 config_hdmi_boost=0
 
-# force hdmi while the tv can take time before sending the signal on the hdmi output
-hdmi_force_hotplug=1
-
 # uncomment for composite PAL
 #sdtv_mode=2
 

@@ -1,4 +1,4 @@
-From 93443e3829a813fdc3fd684f81f966f1b534251c Mon Sep 17 00:00:00 2001
+From f60d86eafa843d7b9d84d73c39b09cd0894c7577 Mon Sep 17 00:00:00 2001
 From: digitalLumberjack <digitallumberjack@gmail.com>
 Date: Fri, 10 Jun 2022 22:03:03 +0200
 Subject: [PATCH 6/7] linux bcm clk add roundup ability to the clock divisor
@@ -11,10 +11,10 @@ It made clocks for low definitons having bad calculation.
  1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/clk/bcm/clk-bcm2835.c b/drivers/clk/bcm/clk-bcm2835.c
-index 7112a9c4f7e3..a1c581488c7c 100644
+index 2b0ca6670ae6..b5b00f162a3a 100644
 --- a/drivers/clk/bcm/clk-bcm2835.c
 +++ b/drivers/clk/bcm/clk-bcm2835.c
-@@ -938,7 +938,8 @@ static int bcm2835_clock_is_on(struct clk_hw *hw)
+@@ -941,7 +941,8 @@ static int bcm2835_clock_is_on(struct clk_hw *hw)
  
  static u32 bcm2835_clock_choose_div(struct clk_hw *hw,
  				    unsigned long rate,
@@ -24,7 +24,7 @@ index 7112a9c4f7e3..a1c581488c7c 100644
  {
  	struct bcm2835_clock *clock = bcm2835_clock_from_hw(hw);
  	const struct bcm2835_clock_data *data = clock->data;
-@@ -950,6 +951,10 @@ static u32 bcm2835_clock_choose_div(struct clk_hw *hw,
+@@ -953,6 +954,10 @@ static u32 bcm2835_clock_choose_div(struct clk_hw *hw,
  
  	rem = do_div(temp, rate);
  	div = temp;
@@ -35,7 +35,7 @@ index 7112a9c4f7e3..a1c581488c7c 100644
  	div &= ~unused_frac_mask;
  
  	/* different clamping limits apply for a mash clock */
-@@ -1106,7 +1111,7 @@ static int bcm2835_clock_set_rate_and_parent(struct clk_hw *hw,
+@@ -1136,7 +1141,7 @@ static int bcm2835_clock_set_rate_and_parent(struct clk_hw *hw,
  	struct bcm2835_clock *clock = bcm2835_clock_from_hw(hw);
  	struct bcm2835_cprman *cprman = clock->cprman;
  	const struct bcm2835_clock_data *data = clock->data;
@@ -44,7 +44,7 @@ index 7112a9c4f7e3..a1c581488c7c 100644
  	u32 ctl;
  
  	spin_lock(&cprman->regs_lock);
-@@ -1172,7 +1177,7 @@ static unsigned long bcm2835_clock_choose_div_and_prate(struct clk_hw *hw,
+@@ -1202,7 +1207,7 @@ static unsigned long bcm2835_clock_choose_div_and_prate(struct clk_hw *hw,
  
  	if (!(BIT(parent_idx) & data->set_rate_parent)) {
  		*prate = clk_hw_get_rate(parent);
@@ -54,5 +54,5 @@ index 7112a9c4f7e3..a1c581488c7c 100644
  		*avgrate = bcm2835_clock_rate_from_divisor(clock, *prate, *div);
  
 -- 
-2.39.0
+2.39.2
 
