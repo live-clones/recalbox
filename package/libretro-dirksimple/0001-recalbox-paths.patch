@@ -1,0 +1,14 @@
+--- a/dirksimple_libretro.c	2023-03-15 09:49:12.000000000 +0100
++++ b/dirksimple_libretro.c	2023-03-16 08:59:37.000000000 +0100
+@@ -683,9 +683,9 @@
+     char *basedir = NULL;
+ 
+     if (setjmp(panic_jmpbuf) == 0) {  // if non-zero, something called DirkSimple_panic()
+-        const size_t slen = strlen(sysdir) + strlen("DirkSimple") + 32;
++        const size_t slen = strlen(sysdir) + strlen("daphne") + strlen("DirkSimple") + 32;
+         basedir = DirkSimple_xmalloc(slen);
+-        snprintf(basedir, slen, "%s%sDirkSimple%s", sysdir, DIRSEP, DIRSEP);
++        snprintf(basedir, slen, "%s%s%s%sDirkSimple%s", sysdir, DIRSEP, "daphne", DIRSEP, DIRSEP);
+ 
+         free_cvars();
+ 
