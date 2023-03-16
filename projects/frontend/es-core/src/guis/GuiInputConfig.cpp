@@ -14,11 +14,15 @@ GuiInputConfig::~GuiInputConfig()
 }
 
 GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const std::function<void()>& doneCallback)
-  : Gui(window),
-    mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 5)),
-    mTargetDevice(target),
-    mCursorOnList(true)
+  : Gui(window)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(1, 5))
+  , mTargetDevice(target)
+  , mActiveButtons(0)
+  , mActiveAxis(0)
+  , mActiveHats(0)
+  , mNeutralPositionSet(false)
+  , mCursorOnList(true)
 {
   mTargetDevice->SetConfiguringState(true);
   { LOG(LogInfo) << "[GuiInput] Configuring device " << mTargetDevice->Index() << " (" << mTargetDevice->Name() << ")."; }
@@ -98,7 +102,6 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 	// other one(s) will be sent to the mList last item handler, so, we have to swallow this kind of "echo"
 	// during a small empiric delay
 	mList->setFocusGainedCallback([this]() {
-		mInputStack.debounce();
 		mCursorOnList = true;
 		auto cursorChange = mList->getCursorChangedCallback();
 		cursorChange(CursorState::Stopped);
@@ -206,8 +209,10 @@ void GuiInputConfig::onSizeChanged()
 
 // move cursor to the next thing if we're configuring all, 
 // or come out of "configure mode" if we were only configuring one row
-void GuiInputConfig::rowDone() {
-	if(!mList->moveCursor(1)) { // try to move to the next one
+void GuiInputConfig::rowDone()
+{
+	if(!mList->moveCursor(1))
+  { // try to move to the next one
 		mCursorOnList = false;
 		mGrid.moveCursor(Vector2i(0, 1));
 	}
@@ -225,7 +230,8 @@ void GuiInputConfig::setText(const std::string& msg, unsigned int color, const i
 	text->setColor(color);
 }
 
-void GuiInputConfig::setHelpMessage() {
+void GuiInputConfig::setHelpMessage()
+{
 	std::string msg;
 	InputEvent input;
 	int inputId = mList->getCursorId();
@@ -234,27 +240,24 @@ void GuiInputConfig::setHelpMessage() {
 	//std::shared_ptr<TextComponent>& text = mMappings[inputId];
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 
-	if (assigned) {
-        if (RecalboxConf::Instance().GetSwapValidateAndCancel()) {
-            if (mTargetDevice->IsSet(InputDevice::Entry::B)) {
-                msg = msg + _("B TO UNSET");
-            }
-        } else {
-            if (mTargetDevice->IsSet(InputDevice::Entry::A)) {
-                msg = msg + _("A TO UNSET");
-            }
-        }
-		if (mTargetDevice->IsSet(InputDevice::Entry::Down)) {
-			if (inputId == 0)
-				msg = (msg.length() != 0u ? msg + " - " : "") + _("DOWN TO SKIP");
-			else
-				msg = (msg.length() != 0u ? msg + " - " : "") + _("UP/DOWN TO SKIP");
+	if (assigned)
+  {
+    if (RecalboxConf::Instance().GetSwapValidateAndCancel())
+    {
+      if (mTargetDevice->IsSet(InputDevice::Entry::B)) msg = msg + _("B TO UNSET");
+    }
+    else
+    {
+      if (mTargetDevice->IsSet(InputDevice::Entry::A)) msg = msg + _("A TO UNSET");
+    }
+		if (mTargetDevice->IsSet(InputDevice::Entry::Down))
+    {
+			if (inputId == 0) msg = (msg.length() != 0u ? msg + " - " : "") + _("DOWN TO SKIP");
+			else              msg = (msg.length() != 0u ? msg + " - " : "") + _("UP/DOWN TO SKIP");
 		}
-
-	} else if (formInput.skippable)
-		msg = _("UP/DOWN TO SKIP");
-	else 
-		msg = _("INPUT REQUIRED");
+	}
+  else if (formInput.skippable)	msg = _("UP/DOWN TO SKIP");
+	else                          msg = _("INPUT REQUIRED");
 
 	mSubtitle2->setText(msg);
 	mSubtitle2->setColor(formInput.skippable || assigned ? menuTheme->menuTextSmall.color : 0xff4141ff);
@@ -314,7 +317,8 @@ void GuiInputConfig::unAssign() {
   { LOG(LogInfo) << "[GuiInput]   Unmapping [" << input.ToString() << "] -> " << formInput.name; }
 }
 
-void GuiInputConfig::restaurePreviousAssignment() {
+void GuiInputConfig::restaurePreviousAssignment()
+{
 	InputEvent input;
 	FormInput formInput = mFormInputs[mList->getCursorId()];
 	if(mTargetDevice->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input))
@@ -323,83 +327,37 @@ void GuiInputConfig::restaurePreviousAssignment() {
 		setNotDefined();
 }
 
-bool GuiInputConfig::isAssigned() {
+bool GuiInputConfig::isAssigned()
+{
 	FormInput formInput = mFormInputs[mList->getCursorId()];
 	return mTargetDevice->IsSet(InputDevice::StringToEntry(formInput.name));
 }
 
 bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
 {
+  (void)id;
+
   // ignore input not from our target device
   if(&event.Device() != mTargetDevice)
     return false;
 
-  FormInput formInput = mFormInputs[id];
-
-  if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
+  // Neutral position has been reached?
+  if (!mNeutralPositionSet)
   {
+    if (mTargetDevice->CheckNeutralPosition()) mNeutralPositionSet = true;
+    return true;
+  }
+
+  // Record
+  RecordRawInput(event.RawEvent());
+  if (!mEventList.empty() && NeutralPosition())
+    ProcessEvents();
+
+  /*if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
     if (!mInputStack.hasInput(event.RawEvent()))
-    {
-      mInputStack.push(event.RawEvent(), [this, formInput](const std::vector<InputEvent>& inputs)
-      {
-        for (auto input: inputs)
-        {
-          // Key Up
-          if (mTargetDevice->IsMatching(InputDevice::Entry::Up, input))
-          {
-            if (mList->getCursorId() > 0 && mTargetDevice->IsSet(InputDevice::Entry::Down))
-            {
-              restaurePreviousAssignment();
-              if (!isAssigned() && formInput.skippable) setSkipped();
-              mList->moveCursor(-1);
-              setPress();
-            }
-            return;
-          }
+      mInputStack.push(event.RawEvent());*/
 
-          // Key Down
-          if (mTargetDevice->IsMatching(InputDevice::Entry::Down, input))
-          {
-            if (!isAssigned() && !formInput.skippable) return ;
-            restaurePreviousAssignment();
-            if (!isAssigned()) setSkipped();
-            rowDone();
-            return;
-          }
-
-          if (isAssigned() && mTargetDevice->IsMatching((RecalboxConf::Instance().GetSwapValidateAndCancel() ? InputDevice::Entry::B : InputDevice::Entry::A), input))
-          {
-            unAssign();
-            setHelpMessage();
-            setPress();
-            return;
-          }
-        }
-
-        if (isAssigned())
-        {
-          setHelpMessage();
-          setPress();
-          return;
-        }
-
-        // At first, try to find the preferred type, on the second pass, we ignore the preferred type
-        for (int pass = 0; pass < 2; pass++)
-        {
-          for (auto input: inputs)
-          {
-            if (((input.Type() == formInput.preferredType) || (pass == 1) ) && assign(input))
-            {
-              rowDone(); // if successful, move cursor/stop configuring - if not, we'll just try again
-              return ;
-            }
-          }
-        }
-      });
-    }
-  };
-
-  return false;
+  return true;
 }
 
 bool GuiInputConfig::getHelpPrompts(Help &help)
@@ -409,3 +367,122 @@ bool GuiInputConfig::getHelpPrompts(Help &help)
     return true;
 }
 
+void GuiInputConfig::ProcessEvents()
+{
+  const FormInput& formInput = mFormInputs[mList->getCursorId()];
+
+  std::vector<InputEvent> events = std::move(mEventList);
+  mEventList.clear();
+
+  for (auto input : events)
+  {
+    // Key Up
+    if (mTargetDevice->IsMatching(InputDevice::Entry::Up, input))
+    {
+      if (mList->getCursorId() > 0 && mTargetDevice->IsSet(InputDevice::Entry::Down))
+      {
+        restaurePreviousAssignment();
+        if (!isAssigned() && formInput.skippable) setSkipped();
+        mList->moveCursor(-1);
+        setPress();
+      }
+      return;
+    }
+
+    // Key Down
+    if (mTargetDevice->IsMatching(InputDevice::Entry::Down, input))
+    {
+      bool assigned = isAssigned();
+      bool skippable = formInput.skippable;
+      if (!assigned && !skippable) return;
+      restaurePreviousAssignment();
+      if (!isAssigned()) setSkipped();
+      rowDone();
+      return;
+    }
+
+    if (isAssigned() && mTargetDevice->IsMatching((RecalboxConf::Instance().GetSwapValidateAndCancel() ? InputDevice::Entry::B : InputDevice::Entry::A), input))
+    {
+      unAssign();
+      setHelpMessage();
+      setPress();
+      return;
+    }
+  }
+
+  if (isAssigned())
+  {
+    setHelpMessage();
+    setPress();
+    return;
+  }
+
+  // At first, try to find the preferred type, on the second pass, we ignore the preferred type
+  for (auto input: events)
+    if ((input.Type() == formInput.preferredType) && assign(input)) { rowDone(); return; }
+  for (auto input: events)
+    if (assign(input)) { rowDone(); break; }
+}
+
+void GuiInputConfig::RecordRawInput(const InputEvent& raw)
+{
+  switch(raw.Type())
+  {
+    case InputEvent::EventType::Axis:
+    {
+      // Calculate
+      int value = 0;
+      if (int neutral = mTargetDevice->NeutralAxisValue(raw.Id()); neutral != 0)
+        value = raw.Value() < 0 && neutral > 0 ? 1 : (raw.Value() > 0 && neutral < 0 ? 3 : 0);
+      else
+        value = raw.Value() < 0 ? 1 : (raw.Value() > 0 ? 3 : 0); // 1 = -1 & 3 = 1 => value - 2 = +/-1
+
+      // Affect?
+      int mask = ~(0x3 << (2 * raw.Id()));
+      if ((mActiveAxis & ~mask) != 0) // This axis has been activated?
+        if (value == 0)
+          mEventList.push_back(InputEvent(raw.Device(), raw.Type(), raw.Id(), ((mActiveAxis >> (2 * raw.Id())) & 0x03) - 2));
+
+      // Assign value
+      mActiveAxis &= mask;
+      mActiveAxis |= value << (2 * raw.Id());
+      break;
+    }
+    case InputEvent::EventType::Button:
+    {
+      int id = raw.Id() & 0x1F;
+
+      // Affect?
+      if (raw.Value() == 0) mEventList.push_back(InputEvent(raw.Device(), raw.Type(), raw.Id(), 1));
+
+      // Assign
+      mActiveButtons &= ~(1 << id);
+      mActiveButtons |= (raw.Value() << id);
+      /*if (raw.Value() != 0) mButtonReferenceTime[id] = (int)SDL_GetTicks();
+      else
+      {
+        if (mButtonReferenceTime[id] !=0) SetActiveElement(0);
+        mButtonReferenceTime[id] = 0;
+      }*/
+      break;
+    }
+    case InputEvent::EventType::Hat:
+    {
+      int mask = ~(0xF << (4 * raw.Id()));
+      int value = raw.Value() << (4 * raw.Id());
+
+      // Affect?
+      if ((mActiveHats & ~mask) != 0) // This axis has been activated?
+        if (raw.Value() == 0)
+          mEventList.push_back(InputEvent(raw.Device(), raw.Type(), raw.Id(), (mActiveHats >> (4 * raw.Id())) & 0x0F));
+
+      // Assign value
+      mActiveHats &= mask;
+      mActiveHats |= value;
+      break;
+    }
+    case InputEvent::EventType::Unknown:
+    case InputEvent::EventType::Key:
+    default: break;
+  }
+}

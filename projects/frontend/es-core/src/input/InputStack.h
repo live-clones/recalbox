@@ -15,6 +15,34 @@
  */
 class InputStack : private ISyncTimer
 {
+  public:
+    //! Call back interface
+    class InputStackCallback
+    {
+      public:
+        //! Virtual destructor
+        virtual ~InputStackCallback() = default;
+        virtual void EventsReceived(const std::vector<InputEvent>& inputs) = 0;
+    };
+
+    bool hasInput(const InputEvent& input);
+
+    void push(const InputEvent& input);
+
+    void debounce()
+    {
+      mDebounceReference = DateTime();
+    }
+
+    explicit InputStack(InputStackCallback& callbackInterface)
+      : mTimer(this, 0, "InputStack"),
+        mInterface(callbackInterface)
+    {
+      mDebounceReference = DateTime(0LL);
+    }
+
+    virtual ~InputStack() = default;
+
   private:
     //! Time reference for debouncing (reject bouncing events)
     DateTime mDebounceReference;
@@ -25,32 +53,14 @@ class InputStack : private ISyncTimer
     //! Event list
     std::vector<InputEvent> mInputs;
 
-    //! Callbacl method
-    std::function<void(const std::vector<InputEvent>& inputs)> mCallback;
+    //! Callbacl interface
+    InputStackCallback& mInterface;
 
     void TimerTick(int id) override
     {
       (void)id;
-      mCallback(mInputs);
+      mInterface.EventsReceived(mInputs);
       mInputs.clear();
     }
-
-  public:
-    bool hasInput(const InputEvent& input);
-
-    void push(const InputEvent& input, const std::function<void(const std::vector<InputEvent>& inputs)>& func);
-
-    void debounce()
-    {
-      mDebounceReference = DateTime();
-    }
-
-    InputStack()
-      : mTimer(this, 0, "InputStack"),
-        mCallback(nullptr)
-    {
-      mDebounceReference = DateTime(0LL);
-    }
-
 };
 

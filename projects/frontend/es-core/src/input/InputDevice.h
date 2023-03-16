@@ -5,6 +5,7 @@
 #include <input/InputCompactEvent.h>
 #include <SDL2/SDL_joystick.h>
 #include <pugixml/pugixml.hpp>
+#include "utils/String.h"
 
 /*!
  * @brief Hold input configurations for a given device
@@ -12,6 +13,9 @@
 class InputDevice
 {
   public:
+    //! Joystick deadzone, in the 0-32767 range
+    static constexpr int sJoystickDeadZone = 23000;
+
     enum class Entry
     {
       None,
@@ -45,11 +49,14 @@ class InputDevice
 
     //! Maximum Axis
     static constexpr int sMaxAxis = 8;
+    //! Maximum hats
+    static constexpr int sMaxHats = 2;
+    //! Maximum buttons
+    static constexpr int sMaxButtons = 32;
 
   private:
     InputEvent mInputEvents[(int)Entry::__Count]; //!< Entry configurations
-    char mDeviceName[128];                        //!< Device name: Keyboard or Pad/joystick name
-    int mDeviceNameLength;                        //!< Device name length in char
+    String mDeviceName;                           //!< Device name: Keyboard or Pad/joystick name
     SDL_JoystickGUID mDeviceGUID;                 //!< GUID
     SDL_Joystick* mDeviceSDL;                     //!< SDL2 structure
     int mDeviceId;                                //!< SDL2 Joystick Identifier
@@ -58,7 +65,13 @@ class InputDevice
     int mDeviceNbHats;                            //!< Hat count
     int mDeviceNbButtons;                         //!< Button count
     int mConfigurationBits;                       //!< Configured entries bitflag
+    int mPreviousHatsValues[sMaxHats];            //!< Recorded hat value for move detection
     int mPreviousAxisValues[sMaxAxis];            //!< Recorded axis value for move detection
+    int mNeutralAxisValues[sMaxAxis];             //!< Neutral axis values
+
+    //! Reference time of activated entries
+    static unsigned int mReferenceTimes[32];
+
     //! This special flags is managed by configuration UI to keep the
     //! "configure" flag in compact event while entries are configured
     bool mConfiguring;
@@ -69,7 +82,76 @@ class InputDevice
      * @param source source entry
      * @return compact entry
      */
-    static InputCompactEvent::Entry ConvertEntry(Entry source);
+    static InputCompactEvent::Entry ConvertEntry(Entry source) __attribute((const));
+
+    /*!
+     * @brief Build a new Button event to on/off event flags regarding current device configuration
+     * @param button Button id
+     * @param pressed Button state - true = pressed, false = released
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return elapsed time
+     */
+    int ConvertButtonToOnOff(int button, bool pressed, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Build a new key event to on/off event flags regarding current device configuration
+     * @param key Key id
+     * @param pressed Key state - true = pressed, false = released
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return elapsed time
+     */
+    int ConvertKeyToOnOff(int key, bool pressed, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Build a new hat event to on/off event flags regarding current device configuration
+     * @param hat Hat id
+     * @param bits Hat current state
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return elapsed time
+     */
+    int ConvertHatToOnOff(int hat, int bits, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Build a new axis event to on/off event flags regarding current device configuration
+     * @param axis Axis id
+     * @param value Axis current value
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return
+     */
+    int ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Record time reference or get elapsed time of a global entry regarding the active flag
+     * @param entry Entry tu record/get elapsed time
+     * @param active Activate/deactivate entry
+     * @param on Activated bit flags
+     * @param off Deactivated bit flags
+     * @return Elapsed time or 0 if the action is activated
+     */
+    static int SetEntry(InputCompactEvent::Entry entry, bool active, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Record global reference time the first time en entry is activated
+     * Once an entry is recorded, the same entry from another pad is ignored
+     * Thus, only the very firest entry is recorded and will give the longer time
+     * @param entry source entry to record
+     * @param bits target entries bitflag
+     */
+    static void StartEntry(InputCompactEvent::Entry entry, InputCompactEvent::Entry& bits);
+
+    /*!
+     * @brief Stop recording time of the given entry
+     * Only the very first release will give a recording time. Any other release from other pads
+     * after an entry has been already stopped will give a time of 0
+     * @param entry source entry to stop recording
+     * @param bits target entries bitflag
+     * @return Elapsed time between entry activation and deactivation
+     */
+    static int StopEntry(InputCompactEvent::Entry entry, InputCompactEvent::Entry& bits);
 
   public:
     /*!
@@ -77,18 +159,19 @@ class InputDevice
      * @return Empty InputDevice
      */
     InputDevice()
-      : mDeviceName {},
-        mDeviceNameLength(0),
-        mDeviceGUID {},
-        mDeviceSDL(nullptr),
-        mDeviceId(0),
-        mDeviceIndex(0),
-        mDeviceNbAxes(0),
-        mDeviceNbHats(0),
-        mDeviceNbButtons(0),
-        mConfigurationBits(0),
-        mPreviousAxisValues{},
-        mConfiguring(false)
+      : mDeviceName {}
+      , mDeviceGUID {}
+      , mDeviceSDL(nullptr)
+      , mDeviceId(0)
+      , mDeviceIndex(0)
+      , mDeviceNbAxes(0)
+      , mDeviceNbHats(0)
+      , mDeviceNbButtons(0)
+      , mConfigurationBits(0)
+      , mPreviousHatsValues{ 0 }
+      , mPreviousAxisValues{ 0 }
+      , mNeutralAxisValues{ 0 }
+      , mConfiguring(false)
     {
     }
 
@@ -102,7 +185,7 @@ class InputDevice
      * @param deviceNbHats Number of hats
      * @param deviceNbButtons Numper of buttons
      */
-    InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const std::string& deviceName,
+    InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const String& deviceName,
                 const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons);
 
     /*!
@@ -122,35 +205,40 @@ class InputDevice
      * Accessors
      */
 
-    std::string Name() const { return std::string(mDeviceName, mDeviceNameLength); }
-    std::string NameExtented() const;
-    std::string GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
-    const char* RawName() const { return mDeviceName; }
-    const SDL_JoystickGUID& RawGUID() const { return mDeviceGUID; }
-    int Identifier()   const { return mDeviceId; };
-    int Index()        const { return mDeviceIndex; };
-    int AxeCount()     const { return mDeviceNbAxes; };
-    int HatCount()     const { return mDeviceNbHats; };
-    int ButtonCount()  const { return mDeviceNbButtons; };
-    std::string PowerLevel() const;
+    [[nodiscard]] String Name() const { return mDeviceName; }
+    [[nodiscard]] String NameExtented() const;
+    [[nodiscard]] String GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
+    [[nodiscard]] const SDL_JoystickGUID& RawGUID() const { return mDeviceGUID; }
+    [[nodiscard]] int Identifier()   const { return mDeviceId; };
+    [[nodiscard]] int Index()        const { return mDeviceIndex; };
+    [[nodiscard]] int AxeCount()     const { return mDeviceNbAxes; };
+    [[nodiscard]] int HatCount()     const { return mDeviceNbHats; };
+    [[nodiscard]] int ButtonCount()  const { return mDeviceNbButtons; };
+    [[nodiscard]] String PowerLevel() const;
     //std::string getSysPowerLevel();
 
-    bool IsKeyboard() const { return mDeviceId == InputEvent::sKeyboardDevice; }
-    bool IsPad()      const { return mDeviceId != InputEvent::sKeyboardDevice; }
+    [[nodiscard]] bool IsKeyboard() const { return mDeviceId == InputEvent::sKeyboardDevice; }
+    [[nodiscard]] bool IsPad()      const { return mDeviceId != InputEvent::sKeyboardDevice; }
 
     /*!
      * @brief Get recorded axis value for a particular axis
      * @param axis Axis index
      * @return Recorded value
      */
-    int PreviousAxisValues(int axis) const { return axis < sMaxAxis ? mPreviousAxisValues[axis] : 0; };
+    [[nodiscard]] int PreviousAxisValues(int axis) const { return axis < sMaxAxis ? mPreviousAxisValues[axis] : 0; };
 
     /*!
-     * @brief Record Axis value
+     * @brief Get neutral axis value for a particular axis
      * @param axis Axis index
-     * @param value Value to record
+     * @return neutral value
      */
-    void SetPreviousAxisValues(int axis, int value) { if (axis < sMaxAxis) mPreviousAxisValues[axis] = value; };
+    [[nodiscard]] int NeutralAxisValue(int axis) const { return axis < sMaxAxis ? mNeutralAxisValues[axis] : 0; };
+
+    /*!
+     * @brief Check if the whole pad is in neutral position
+     * @return True if the pad is in neutral position, fals eotherwise
+     */
+    bool CheckNeutralPosition() const;
 
     /*!
      * @brief Reset all InputEvent
@@ -172,7 +260,7 @@ class InputDevice
      * @param input
      * @return
      */
-    bool IsSet(Entry input) const { return ((mConfigurationBits & (1 << (int)input)) != 0); }
+    [[nodiscard]] bool IsSet(Entry input) const { return ((mConfigurationBits & (1 << (int)input)) != 0); }
 
     /*!
      * @brief Configure a new entry
@@ -220,7 +308,7 @@ class InputDevice
      * @brief Check if at least one entry has been configured
      * @return True if at least one entry has been configured
      */
-    bool IsConfigured() const { return mConfigurationBits != 0 && !mConfiguring; }
+    [[nodiscard]] bool IsConfigured() const { return mConfigurationBits != 0 && !mConfiguring; }
 
     /*!
      * @brief Check if the given event match the entry.
@@ -229,14 +317,14 @@ class InputDevice
      * @param event Event to check for matching
      * @return True if the event match the given entry
      */
-    bool IsMatching(Entry entry, InputEvent event) const;
+    [[nodiscard]] bool IsMatching(Entry entry, InputEvent event) const;
 
     /*!
      * @brief Check if the given event match at least a configured entry
      * @param event Event to check
      * @return The first matching entry
      */
-    InputDevice::Entry GetMatchedEntry(InputEvent event) const;
+    [[nodiscard]] InputDevice::Entry GetMatchedEntry(InputEvent event) const;
 
     /*!
      * @brief Get the configuration of a particular entry
@@ -281,5 +369,5 @@ class InputDevice
      * @param to compare to this device
      * @return True if name, uid, buttons, hat and axis are matching. False otherwise
      */
-    bool EqualsTo(const InputDevice& to) const;
+    [[nodiscard]] bool EqualsTo(const InputDevice& to) const;
 };

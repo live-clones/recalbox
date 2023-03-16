@@ -15,7 +15,7 @@ bool InputStack::hasInput(const InputEvent& input)
 	return false;
 }
 
-void InputStack::push(const InputEvent& input, const std::function<void(const std::vector<InputEvent>& inputs)>& func)
+void InputStack::push(const InputEvent& input)
 {
   { LOG(LogDebug) << "[InputStack] Push! " << input.ToString(); }
   // Debouncing
@@ -29,7 +29,6 @@ void InputStack::push(const InputEvent& input, const std::function<void(const st
 
 	// Start or restart the timer.
 	// Once this timer end, inputs are sent to the method associated with inputstack
-	mCallback = func; // TODO: should be set by the constructor
 	mTimer.Start(SDL_IDLE_MS, false);
 }
 
