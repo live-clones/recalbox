@@ -30,7 +30,6 @@ class DaphneGenerator(Generator):
                 "-framefile", frameFile,
                 "-fullscreen",
                 "-script", singeFile,
-                "-blend_sprites",
                 "-retropath",
                 "-grabmouse",
                 "-manymouse",
@@ -38,6 +37,44 @@ class DaphneGenerator(Generator):
                 "-texturestream",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
+
+            # This block needs to have a way to detect dolphinbar out of libretro to be used
+            # Enable lightgun if dolphin bar is connected, else enable mouse
+            #lst = ['lbh-hd', 'johnnyrock-hd', 'drugwars-hd', 'johnnyrocknoir', 'spacepirates-hd', 'crimepatrol-hd', 'maddog2-hd', 'maddog-hd']
+            #if romName in lst:
+                #if dolphinBar:
+                    #commandArray.extend(["-manymouse"])
+                #else:
+                    #commandArray.extend(["-grabmouse"])
+
+            # Enable -oversize_overlay
+            lst = ['lbh-hd', 'johnnyrock-hd', 'aurunmilla', 'drugwars-hd', 'johnnyrocknoir', 'spacepirates-hd', 'crimepatrol-hd', 'maddog2-hd', 'maddog-hd']
+            if romName in lst:
+                commandArray.extend(["-oversize_overlay"])
+
+            # Enable -blend_sprites
+            lst = ['lbh-hd', 'maddog', 'johnnyrock-hd', 'drugwars-hd', 'johnnyrocknoir', 'spacepirates-hd', 'maddog2', 'crimepatrol-hd', 'maddog2-hd', 'maddog-hd']
+            if romName in lst:
+                commandArray.extend(["-blend_sprites"])
+
+            # Enable -nolinear_scale
+            lst = ['lbh-hd', 'maddog', 'dltv', 'titanae', 'johnnyrock-hd', 'drugwars-hd', 'johnnyrocknoir', 'spacepirates-hd', 'chantze-hd', 'maddog2', 'hayate-hd', 'crimepatrol-hd', 'maddog2-hd', 'tron', 'suckerpunch', 'mononoke', 'maddog-hd']
+            if romName in lst:
+                commandArray.extend(["-nolinear_scale"])
+
+            # Enable -bootsilent
+            lst = ['dltv', 'titanae', 'tron', 'suckerpunch', 'mononoke']
+            if romName in lst:
+                commandArray.extend(["-bootsilent"])
+
+            # Enable specific options for rollercoaster
+            if romName == "rollercoaster":
+                commandArray.extend(["-scanlines"])
+                commandArray.extend(["-scanline_alpha 32"])
+                commandArray.extend(["-blank_searches"])
+                commandArray.extend(["-min_seek_delay 1000"])
+                commandArray.extend(["-blank_blue"])
+
         else:
             # for a classical game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],
