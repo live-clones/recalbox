@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# Start rpi-gpio
+#
+
+CONFFILE="/recalbox/share/system/recalbox.conf"
+CONFPARAM="system.rpi.gpio" 
+CONFVALUE=
+if [ -e $CONFFILE ]; then
+	CONFVALUE=$(sed -rn "s/^$CONFPARAM=(\w*)\s*.*$/\1/p" $CONFFILE | tail -n 1)
+fi
+
+start() {
+	echo -n "Starting gpio: "
+	case "$CONFVALUE" in
+		"enable")
+
+			/usr/bin/python /recalbox/scripts/rpi-gpio.py &
+			pid=$!
+			echo "$pid" > /tmp/rpi-gpio.pid
+			#wait "$pid"
+			echo "OK"
+		;;
+		*)
+			echo "disabled"
+			exit 1
+	esac	
+}
+
+stop() {
+	echo -n "Stopping gpio: "
+	if [[ -f /tmp/rpi-gpio.pid ]]; then
+		kill `cat /tmp/rpi-gpio.pid`
+		rm /tmp/rpi-gpio.pid
+		echo "OK"
+	else
+		echo "not running"
+	fi
+}
+
+case "$1" in
+  start)
+        start
+	;;
+  stop)
+	stop
+	;;
+  restart|reload)
+	stop
+	start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+
