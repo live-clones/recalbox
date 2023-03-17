@@ -49,6 +49,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       DebugLogs,
       OverclockList,
       BootSubMenu,
+      Systems,
       VirtualSubMenu,
       ResolutionSubMenu,
       AdvancedSubMenu,

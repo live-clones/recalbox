@@ -286,7 +286,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
-    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ManageSystems(); break;
+    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ViewController::Instance().RefreshSystems(); break;
     case Components::Regions:
     case Components::Sorts:
     case Components::JumpToLetter:
@@ -303,16 +303,4 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   mGamelist.refreshList();
   mGamelist.setCursor(game);
   RefreshGameMenuContext();
-}
-
-void GuiMenuGamelistOptions::ManageSystems()
-{
-  SystemData* systemData = ViewController::Instance().getState().getSystem();
-  ViewController::Instance().getGameListView(systemData)->refreshList();
-
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
-
-  // for updating game counts on system view
-  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }

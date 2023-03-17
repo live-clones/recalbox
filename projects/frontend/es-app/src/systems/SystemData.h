@@ -167,6 +167,8 @@ class SystemData : private INoCopy
 
     bool HasGame() const;
     bool HasVisibleGame() const;
+    bool IsDisplayable() const { return !RecalboxConf::Instance().AsBool(Name() + ".ignore") && HasVisibleGame(); }
+
 
     /*!
     * @brief Check if system has no only RO games

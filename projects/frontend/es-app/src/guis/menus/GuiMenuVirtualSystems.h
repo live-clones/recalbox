@@ -36,7 +36,6 @@ class GuiMenuVirtualSystems : public GuiMenuBase
       VirtualPerGenre,
       VirtualArcade,
       LightGun,
-      Ports,
     };
 
     //! System manager
@@ -50,8 +49,6 @@ class GuiMenuVirtualSystems : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mLastPlayed;
     //! Lightgun switch component
     std::shared_ptr<SwitchComponent> mLightGun;
-    //! Ports switch component
-    std::shared_ptr<SwitchComponent> mPorts;
 
     //! All games original value
     bool mAllGamesOriginalValues;
@@ -61,8 +58,6 @@ class GuiMenuVirtualSystems : public GuiMenuBase
     bool mLastPlayedOriginalValues;
     //! Lightgun original value
     bool mLightGunOriginalValues;
-    //! Ports original value
-    bool mPortsOriginalValues;
 
     /*
      * IGuiMenuBase implementation

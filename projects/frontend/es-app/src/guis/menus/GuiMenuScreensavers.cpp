@@ -40,8 +40,8 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuScreensavers::GetSystemE
 {
   std::vector<ListEntry<std::string>> list;
 
-  for (const SystemData* system : mSystemManager.GetAllSystemList())
-    if (system->HasVisibleGame())
+  for (const SystemData* system : mSystemManager.GetVisibleSystemList())
+    if (system->IsDisplayable())
       list.push_back({ system->FullName(), system->Name(), RecalboxConf::Instance().IsInScreenSaverSystemList(system->Name()) });
 
   return list;

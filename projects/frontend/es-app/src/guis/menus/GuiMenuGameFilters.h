@@ -38,9 +38,4 @@ class GuiMenuGameFilters : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
-
-    /*!
-    * @brief Manage all systems
-    */
-    void ManageSystems();
 };

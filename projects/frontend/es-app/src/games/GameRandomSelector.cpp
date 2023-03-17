@@ -28,9 +28,16 @@ void GameRandomSelector::InitializeSystems()
   mSystemArray.Clear();
   for(const SystemData* system : mSystemManager.GetVisibleSystemList())
   {
+    RecalboxConf& conf = RecalboxConf::Instance();
+
+    // is system ignored
+    if (conf.AsBool(system->Name() + ".ignore"))
+      continue;
+
     // Demo system?
-    if (!RecalboxConf::Instance().isInList("global.demo.systemlist", system->Name()) &&
-        !RecalboxConf::Instance().GetSystemDemoInclude(*system)) continue;
+    if (!conf.isInList("global.demo.systemlist", system->Name()) &&
+        !conf.GetSystemDemoInclude(*system)) continue;
+
     // Has game?
     int gameCount = SystemContent::GetSystemGameCount(system, mFilter);
     if (gameCount <= 0) continue;

@@ -523,18 +523,15 @@ bool SystemManager::AddPorts()
       mHiddenSystemVector.push_back(port);
     }
 
-    if ((!RecalboxConf::Instance().GetCollectionHide("ports")) || (mVisibleSystemVector.size() == 1))
-    {
-      // Create meta-system
-      SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
-      { LOG(LogInfo) << "[System] Creating Ports"; }
-      // Seek default position
-      int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
-      if (position == 0)
-        while((position < (int)mVisibleSystemVector.size()) && (portSystem->Name() > mVisibleSystemVector[position]->Name())) position++;
-      auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
-      mVisibleSystemVector.insert(it, portSystem);
-    }
+    // Create meta-system
+    SystemData* portSystem = CreateMetaSystem("ports", "Ports", "ports", ports, SystemData::Properties::Virtual | SystemData::Properties::Searchable, doppelganger);
+    { LOG(LogInfo) << "[System] Creating Ports"; }
+    // Seek default position
+    int position = RecalboxConf::Instance().GetCollectionPosition("ports") % (int)mVisibleSystemVector.size();
+    if (position == 0)
+      while((position < (int)mVisibleSystemVector.size()) && (portSystem->Name() > mVisibleSystemVector[position]->Name())) position++;
+    auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+    mVisibleSystemVector.insert(it, portSystem);
   }
 
   return !ports.empty();
@@ -767,8 +764,6 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     SystemDescriptor descriptor;
     if (deserializer.Deserialize(index, descriptor))
     {
-      if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
-      {
         // Get weight
         int weight = weights.GetInt(descriptor.FullName(), 0);
         // Add system name and raw rompath
@@ -778,8 +773,6 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
           mAllDeclaredSystemExtensionSet.insert(ext);
         // Push weighted system
         threadPool.PushFeed(descriptor, weight);
-      }
-      else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
     }
   }
 
@@ -954,7 +947,7 @@ int SystemManager::getVisibleSystemIndex(const std::string &name)
 SystemData* SystemManager::FirstNonEmptySystem()
 {
   for (auto &system : mVisibleSystemVector)
-    if (system->HasVisibleGame())
+    if (system->IsDisplayable())
       return system;
 
   return nullptr;

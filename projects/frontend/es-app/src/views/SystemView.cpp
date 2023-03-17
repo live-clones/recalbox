@@ -153,13 +153,13 @@ void SystemView::addSystem(SystemData * it)
 	// sort the extras by z-index
 	e.data.backgroundExtras->sortExtrasByZIndex();
 
-	this->add(e);
+  mCompleteList.push_back(e);
 }
 
 SystemData* SystemView::Prev()
 {
   SystemData* prev = mSystemManager.PreviousVisible(mCurrentSystem);
-  while(!prev->HasVisibleGame()) {
+  while(!prev->IsDisplayable()) {
     prev = mSystemManager.PreviousVisible(prev);
   }
 
@@ -170,7 +170,7 @@ void SystemView::RemoveCurrentSystem()
 {
   std::vector<Entry> newEntries;
     for(auto& systemView : mEntries)
-      if (systemView.object == mCurrentSystem && mCurrentSystem->HasVisibleGame())
+      if (systemView.object == mCurrentSystem && mCurrentSystem->IsDisplayable())
       {
         newEntries.push_back(systemView);
         break;
@@ -195,10 +195,17 @@ void SystemView::Sort()
 void SystemView::populate()
 {
 	mEntries.clear();
-
-	for (const auto it : mSystemManager.GetVisibleSystemList())
-    if (it->HasVisibleGame())
+	for (const auto it : mSystemManager.GetAllSystemList())
+  {
       addSystem(it);
+  }
+
+  for (const auto entry : mCompleteList)
+  {
+    for(const SystemData* systemData: mSystemManager.GetVisibleSystemList())
+    if (systemData == entry.object && entry.object->IsDisplayable())
+    this->add(entry);
+  }
 }
 
 void SystemView::goToSystem(SystemData* system, bool animate)
@@ -212,6 +219,7 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 
 	if(!animate)
 		finishAnimation(0);
+	onCursorChanged(CursorState::Stopped);
 	onCursorChanged(CursorState::Stopped);
 }
 
@@ -622,6 +630,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 		while (index >= (int)mEntries.size())
 			index -= mEntries.size();
 
+
 		Transform4x4f logoTrans = carouselTrans;
 		logoTrans.translate(Vector3f((float)i * logoSpacing[0] + xOff, (float)i * logoSpacing[1] + yOff, 0));
 
@@ -831,26 +840,36 @@ void SystemView::manageFavorite()
   else if (!hasFavorite && favorite->FavoritesCount() > 0) addSystem(favorite);
 }
 
-void SystemView::manageSystemsList()
+void SystemView::RefreshSystemsList()
 {
   for (auto& system : mSystemManager.GetAllSystemList())
   {
     if(system->Descriptor().IsPort())
       continue;
 
-    bool hasGame = system->HasVisibleGame();
     bool systemIsAlreadyVisible = false;
-
     for (auto& mEntrie : mEntries)
-      if (mEntrie.object->Name() == system->Name())
+      if (mEntrie.name == system->Name())
       {
         systemIsAlreadyVisible = true;
         break;
       }
 
-    if(!systemIsAlreadyVisible && hasGame)
-      addSystem(system);
-    else if (systemIsAlreadyVisible && !hasGame)
+    bool isDisplayable = system->IsDisplayable();
+
+    if(!systemIsAlreadyVisible && isDisplayable) {
+      for( const auto s : mCompleteList)
+        if(system == s.object)
+          this->add(s);
+    }
+
+    if (systemIsAlreadyVisible && !isDisplayable)
       removeSystem(system);
   }
+  if(mEntries.empty()) {
+    ViewController::Instance().CheckEmptySystemList();
+    RefreshSystemsList();
+  }
+
+  Sort();
 }

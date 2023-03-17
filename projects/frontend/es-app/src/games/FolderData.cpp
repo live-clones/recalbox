@@ -471,15 +471,19 @@ int FolderData::countExcludesItemsRecursively(Filter includes, Filter excludes, 
     else if (fd->IsGame())
     {
       Filter currentIncludes = Filter::None;
-      if (fd->Metadata().Favorite()) currentIncludes |= Filter::Favorite;
-      if (currentIncludes == 0) currentIncludes = Filter::Normal;
+      if (fd->Metadata().Favorite())
+        currentIncludes |= Filter::Favorite;
+      if (currentIncludes == 0)
+        currentIncludes = Filter::Normal;
 
       Filter currentExcludes = Filter::None;
+      if (!fd->Metadata().Favorite()) currentExcludes |= Filter::Normal;
       if (fd->Metadata().Hidden()) currentExcludes |= Filter::Hidden;
       if (!fd->Metadata().LatestVersion()) currentExcludes |= Filter::NotLatest;
       if (Strings::Contains(fd->RomPath().ToString(), "share_init"))
         currentExcludes |= Filter::PreInstalled;
-      if(!fd->System().IncludeAdultGames() && fd->Metadata().Adult()) currentExcludes |= Filter::Adult;
+      if(!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
+        currentExcludes |= Filter::Adult;
 
       if ((currentIncludes & includes) == 0 || (currentExcludes & excludes) != 0)
         result++;
