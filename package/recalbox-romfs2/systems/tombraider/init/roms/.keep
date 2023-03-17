@@ -1,0 +1,20 @@
+=======================================================================
+# RECALBOX: Sistema $(FULLNAME) ($(TYPE:Sistema Arcade:Console caseiro:Console portátil:Computador:Sistema Virtual:Game engine:Port))
+=======================================================================
+
+Copie suas roms de $(FULLNAME) aqui.
+As extensões suportadas são: $(EXTENSIONS)
+
+Esse sistema podem ser emulados usando $(CORECOUNT) emuladores.
+Todos os emuladores estão listados abaixo, em ordem de compatibilidade/facilidade de uso:
+$(FOREACHCORE)$(EMULATOR)-$(CORE) suporta arquivos de $(COREEXTENTIONS) e $(CORENETPLAY::NÃO) é compatível com netplay/jogo em rede.
+
+Dispositivo necessário:
+- Controle é $(PAD:desnecessário:opcional:recomendado:obrigatório)
+- Teclado é $(KEYBOARD:desnecessário:opcional:recomendado:obrigatório)
+- Mouse é $(MOUSE:desnecessário:opcional:recomendado:obrigatório)
+
+$(TAGS:ZIP.ONEROM)
+
+$(TAGS:DOC.TEXT)
+$(DOCLINK)
