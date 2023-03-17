@@ -1,0 +1,7 @@
+## RECALBOX - SYSTEM 3DS ##
+
+Placez ici vos roms Nintendo 3DS.
+
+Les roms doivent avoir l'extension ".3ds"
+
+Ce système supporte uniquement les roms decryptées.
