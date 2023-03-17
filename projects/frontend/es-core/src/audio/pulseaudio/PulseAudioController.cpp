@@ -289,6 +289,27 @@ void PulseAudioController::EnumerateCardCallback(pa_context* context, const pa_c
                     << info->active_profile2->priority; }
   }
 
+  // Card Profiles
+  for(int i = (int)info->n_profiles; --i >= 0; )
+  {
+    pa_card_profile_info2& profileInfo = *info->profiles2[i];
+    if (profileInfo.n_sinks <= 0) continue; // Ignore source-only profiles
+
+    Profile newProfile;
+    newProfile.Name = profileInfo.name;
+    newProfile.Description = profileInfo.description;
+    newProfile.Available = profileInfo.available != 0;
+    newProfile.Priority = (int)profileInfo.priority;
+
+    { LOG(LogDebug) << "[PulseAudio]  Card Profile " << newProfile.Description << " (" << newProfile.Name << ") - Available " << (newProfile.Available ? "YES" : "NO") << " - Priority " << newProfile.Priority; }
+
+    // Check if this profile is the active one
+    newCard.HasActiveProfile |= (newProfile.Name == activeProfileName);
+
+    // Add profile to the card
+    newCard.Profiles.push_back(newProfile);
+  }
+
   // Ports (device outputs)
   for(int i = (int)info->n_ports; --i >= 0; )
   {

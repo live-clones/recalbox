@@ -114,12 +114,13 @@ class PulseAudioController: public IAudioController
 
     struct Card
     {
-      std::vector<Port> Ports;   //!< Available port list
-      std::string Name;          //!< Card name
-      std::string Description;   //!< Card Description
-      int Index;                 //!< Device index in pulseaudio context
-      bool HasActiveProfile;     //!< Has an active profile already set?
-      std::string ActiveProfile; //!< Name of active profile
+      std::vector<Port> Ports;       //!< Available port list
+      std::vector<Profile> Profiles; //!< Available profile list
+      std::string Name;              //!< Card name
+      std::string Description;       //!< Card Description
+      int Index;                     //!< Device index in pulseaudio context
+      bool HasActiveProfile;         //!< Has an active profile already set?
+      std::string ActiveProfile;     //!< Name of active profile
     };
 
     typedef struct ServerInfo
