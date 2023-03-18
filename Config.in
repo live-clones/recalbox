@@ -1,17 +1,34 @@
 menu "Recalbox"
   menu "Hardware"
-    comment "CPU/GPU specific options"
-    menu "Rockchip"
-      source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-rockchip-mali/Config.in"
-      source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-rockchip-mali-bifrost-vulkan/Config.in"
-      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mpp/Config.in"
-    endmenu
     comment "Board specific options"
+    menu "Rockchip"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-mpp/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/librga/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rockchip-rkbin/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/rkwifibt/Config.in"
+    endmenu
     menu "Hardkernel"
 			menu "odroidgo2"
-        source "$BR2_EXTERNAL_RECALBOX_PATH/package/librga/Config.in"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libgo2/Config.in"
       endmenu
+    endmenu
+  endmenu
+  menu "GPU"
+    comment "GPU specific options"
+    menu "Rockchip"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-rockchip-mali/Config.in"
+    endmenu
+    comment "libmali provided by Librelec"
+    menu "Librelec"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/librelec-libmali/Config.in"
+    endmenu
+  endmenu
+  menu "Boot"
+    comment "Boot specific options"
+    menu "u-boot"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-xu4/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-odroidgo2/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-rg353x/Config.in"
     endmenu
   endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/dpi-pizero-gpicase/Config.in"
@@ -19,7 +36,6 @@ menu "Recalbox"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/guichan/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libenet/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/mali-450/Config.in"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/mali-t62x/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/moonlight-embedded/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/nvidia-driver-legacy-recalbox/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/nvidia-driver-production-recalbox/Config.in"
@@ -46,8 +62,6 @@ menu "Recalbox"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/tft-waveshare/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-hardware/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-settings/Config.in"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-xu4/Config.in"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-odroidgo2/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/wxwidgets/Config.in"
 menu "Emulationstation"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-emulationstation2/Config.in"

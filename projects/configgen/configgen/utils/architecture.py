@@ -60,5 +60,9 @@ class Architecture:
         return self.__Arch == "x86_64"
 
     @property
+    def isRg353x(self):
+        return self.__Arch == "rg353x"
+
+    @property
     def isSupportingTvService(self):
         return self.isPi0or1 or self.isPi2
