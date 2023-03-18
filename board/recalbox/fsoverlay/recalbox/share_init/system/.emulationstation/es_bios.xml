@@ -39,7 +39,8 @@
     <bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />
   </system>
   <system fullname="Atari 7800" platform="atari7800">
-    <bios path="7800 BIOS (U).rom" md5="0763F1FFB006DDBE32E52D497EE848AE" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
+    <bios path="7800 BIOS (U).rom" md5="0763f1ffb006ddbe32e52d497ee848ae" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />
+    <bios path="7800 BIOS (E).rom" md5="397bb566584be7b9764e7a68974c4263" mandatory="false" core="prosystem" note="RUN ONLY EUROPEAN GAMES! Display official Atari logo." />
   </system>
   <system fullname="Elektronika BK" platform="bk">
     <bios path="bk/B11M_BOS.ROM" md5="fe4627d1e3a1535874085050733263e7" core="bk" />
