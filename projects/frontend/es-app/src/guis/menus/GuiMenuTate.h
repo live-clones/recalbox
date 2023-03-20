@@ -14,7 +14,7 @@ class GuiMenuTate : public GuiMenuBase
 {
   public:
     //! Constructor
-    GuiMenuTate(WindowManager& window);
+    GuiMenuTate(WindowManager& window, SystemManager& systemManager);
 
     //! Destructor
     ~GuiMenuTate() override;
@@ -26,6 +26,8 @@ class GuiMenuTate : public GuiMenuBase
       TateGamesRotation,
       TateCompleteSystemRotation
     };
+
+    SystemManager& mSystemManager;
 
     //! Tate system enabled
     std::shared_ptr<SwitchComponent>                    mTateEnabled;
