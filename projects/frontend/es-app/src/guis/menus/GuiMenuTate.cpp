@@ -1,4 +1,3 @@
-#include <systems/SystemManager.h>
 #include <RecalboxConf.h>
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuTate.h"
@@ -7,9 +6,12 @@
 #include "utils/locale/LocaleHelper.h"
 #include "guis/MenuMessages.h"
 #include "recalbox/BootConf.h"
+#include <views/ViewController.h>
 
-GuiMenuTate::GuiMenuTate(WindowManager& window)
+
+GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("TATE SETTINGS"), nullptr)
+  , mSystemManager(systemManager)
   , mOriginalTateEnabled(RecalboxConf::Instance().GetCollectionTate())
   , mOriginalGamesRotation(RotationType::None)
   , mOriginalSystemRotation(BootConf::Instance().GetRotation())
@@ -40,8 +42,7 @@ GuiMenuTate::GuiMenuTate(WindowManager& window)
 
 GuiMenuTate::~GuiMenuTate()
 {
-  if ((mTateEnabled->getState() != mOriginalTateEnabled) ||
-      (mSystemRotation && mSystemRotation->getSelected() != mOriginalSystemRotation))
+  if (mSystemRotation && mSystemRotation->getSelected() != mOriginalSystemRotation)
     RequestRelaunch();
 }
 
@@ -73,7 +74,17 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::TateEnabled: RecalboxConf::Instance().SetCollectionTate(status).Save(); break;
+    case Components::TateEnabled:
+      RecalboxConf::Instance().SetCollectionTate(status).Save();
+      if (status)
+      {
+        mSystemManager.AddTateMetaSystem();
+      ViewController::Instance().getSystemListView().manageTate(!status);
+      ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
+      break;
+
+    case Components::TateGamesRotation:
+    case Components::TateCompleteSystemRotation:break;
   }
 }
 

@@ -108,7 +108,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
-    case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow)); break;
+    case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;
     case Components::Scraper:
