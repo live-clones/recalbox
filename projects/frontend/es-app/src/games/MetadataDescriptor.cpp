@@ -320,6 +320,8 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
 void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, const Path& relativeTo) const
 {
   int count = 0;
+  bool dummy = false;
+
   const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(mType, count);
   if (fields == nullptr) return;
 
@@ -327,11 +329,6 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
   XmlNode node = parentNode.append_child(mType == ItemType::Game ? GameNodeIdentifier.c_str() : FolderNodeIdentifier.c_str());
   Xml::AddAttribute(node, "source", "Recalbox");
   Xml::AddAttribute(node, "timestamp", mTimeStamp);
-
-  // Add path
-  bool dummy = false;
-  Path relative = filePath.MakeRelative(relativeTo, dummy);
-  Xml::AddAsString(node, "path", relative.ToChars());
 
   // Metadata
   std::string value;
