@@ -179,14 +179,17 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
     {
       mGame.Metadata().SetRotation(status ? RotationType::Left : RotationType::None);
       SystemData* tateSystem = mSystemManager.SystemByName("tate");
-      if (tateSystem != nullptr)
+
+      if (tateSystem != nullptr && RecalboxConf::Instance().GetCollectionTate())
       {
         if (mGame.Metadata().Rotation() != RotationType::None)
           tateSystem->GetFavoriteRoot().AddChild(&mGame, false);
         else
           tateSystem->GetFavoriteRoot().RemoveChild(&mGame);
-        ViewController::Instance().setInvalidGamesList(&mGame.System());
-        ViewController::Instance().setInvalidGamesList(tateSystem);
+
+        ViewController::Instance().getGameListView(tateSystem)->refreshList();
+        ViewController::Instance().setInvalidGamesList(mSystemManager.SystemByName("tate"));
+        ViewController::Instance().getSystemListView().manageTate(!tateSystem->HasGame());
       }
       break;
     }

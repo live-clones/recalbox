@@ -86,6 +86,8 @@ public:
   void Sort();
   void onCursorChanged(const CursorState& state) override;
 
+    void manageTate(bool remove = false);
+
   protected:
 
 private:
