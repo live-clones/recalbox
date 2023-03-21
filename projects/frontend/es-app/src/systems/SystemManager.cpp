@@ -981,6 +981,8 @@ FileData::List SystemManager::SearchFullMatchInGames(FolderData::FastSearchConte
             break;
           case FolderData::FastSearchContext::Alias: found = game->Metadata().Alias();
             break;
+          case FolderData::FastSearchContext::Family: found = game->Metadata().Family();
+            break;
           case FolderData::FastSearchContext::Path:
           case FolderData::FastSearchContext::Description:
           case FolderData::FastSearchContext::Developer:
@@ -1016,6 +1018,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
       MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
 
     case FolderData::FastSearchContext::Alias      : MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+    case FolderData::FastSearchContext::Family     : MetadataDescriptor::SearchInFamily(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Family); break;
     case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
     case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
     case FolderData::FastSearchContext::Developer  : MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
