@@ -1,0 +1,11 @@
+config BR2_PACKAGE_HYPERION_NG
+	bool "hyperion-ng"
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_QT5SERIALPORT
+	help
+	  Hyperion is an open source ambient light software.
+	  https://github.com/hyperion-project/hyperion
+
+comment "Hyperion-ng needs BR2_INSTALL_LIBSTDCPP BR2_PACKAGE_QT5SERIALPORT"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_QT5SERIALPORT
