@@ -131,6 +131,12 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   bool debug = RecalboxConf::Instance().GetDebugLogs();
   if (debug) command.append(" -verbose");
 
+  // Allow to load save state slot on game launching
+  if (!data.SaveState().SlotNumber().empty())
+  {
+    command.append(" -entryslot ").append(data.SaveState().SlotNumber());
+  }
+
   // launch without patch
   if (data.Patch().DisabledSofpatching())
   {

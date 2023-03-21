@@ -279,6 +279,9 @@ class LibretroRetroarch:
         settings.setBool("savestate_auto_save", hasAutoSave) \
                 .setBool("savestate_auto_load", hasAutoSave)
 
+        # Save thumbnail
+        settings.setBool("savestate_thumbnail_enable", True)
+
         # Save folders
         settings.setString("savestate_directory", recalboxFiles.savesDir + self.system.Name) \
                 .setString("savefile_directory", recalboxFiles.savesDir + self.system.Name)
