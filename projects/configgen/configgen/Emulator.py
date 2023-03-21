@@ -67,6 +67,7 @@ class Emulator:
         self._smooth: bool = True
         self._rewind: bool = False
         self._autoSave: bool = False
+        self._menuSwapValidCancel: bool = True
         self._integerScale: bool = False
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
@@ -80,7 +81,7 @@ class Emulator:
         self._configArgs: str = ""  # Extra parameters from recalbox.conf
         self._args: List[str] = [] # Array representation of ExtraArgs + ConfigArgs
 
-        # Vars straight from recalbox.conf
+    # Vars straight from recalbox.conf
         self._netplayNick: str = "Recalbox Anonymous"
         self._netplayMITM: str = ""
         self._specialKeys: str = ""
@@ -89,7 +90,7 @@ class Emulator:
         self._retroachievementsNickname: str = ""
         self._retroachievementsPassword: str = ""
         self._recalboxexperimental: str = ""
-        self._updatestype : str = "stable"
+        self._updatestype: str = "stable"
 
         # Vars from arguments
         self._hash: str = "default"
@@ -158,6 +159,7 @@ class Emulator:
         self._retroachievementsPassword = recalboxOptions.getString('global.retroachievements.password', self._retroachievementsPassword)
         self._recalboxexperimental      = recalboxOptions.getString('global.experimental', self._recalboxexperimental)
         self._updatestype               = recalboxOptions.getString('updates.type', self._updatestype)
+        self._menuSwapValidCancel       = recalboxOptions.getBool('controllers.swapvalidateandcancel', self._menuSwapValidCancel)
 
 
         # Vars from arguments
@@ -330,6 +332,9 @@ class Emulator:
 
     @property
     def AutoSave(self) -> bool: return self._autoSave
+
+    @property
+    def MenuSwapValidCancel(self) -> bool: return self._menuSwapValidCancel
 
     @property
     def Translate(self) -> bool: return self._translate
