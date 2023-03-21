@@ -183,7 +183,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES
-  if (event.YPressed() && !cursor->TopAncestor().PreInstalled())
+  if (RecalboxConf::Instance().AsString("emulationstation.menu") != "none" && event.YPressed() && !cursor->TopAncestor().PreInstalled())
   {
 
     if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
@@ -300,7 +300,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.StartPressed())
+  if (event.StartPressed() && RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
   {
     clean();
     mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager));
@@ -329,8 +329,6 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
         help.Set(HelpType::X, _("P2K CONTROLS"));
   }
   FileData* fd = getCursor();
-  if (!fd->TopAncestor().PreInstalled())
-    help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
     help.Set(Help::Cancel(), _("BACK"));
@@ -340,7 +338,12 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
-  help.Set(HelpType::Start, _("OPTIONS"));
+  if(RecalboxConf::Instance().AsString("emulationstation.menu") != "none")
+  {
+    help.Set(HelpType::Start, _("OPTIONS"));
+    if (!fd->TopAncestor().PreInstalled())
+      help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
+  }
 
   return true;
 }
