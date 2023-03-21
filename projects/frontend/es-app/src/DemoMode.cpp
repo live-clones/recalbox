@@ -25,7 +25,6 @@ void DemoMode::runDemo()
   if (!hasDemoMode()) return;
 
   bool Initialized = false;
-  std::string controllerConfigs;
 
   mGameSelector.Initialize();
 
@@ -40,14 +39,14 @@ void DemoMode::runDemo()
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
-      controllerConfigs = GameRunner::demoInitialize();
+      GameRunner::SubSystemPrepareForRun();
       Initialized = true;
     }
 
     int duration = RecalboxConf::Instance().GetSystemDemoDuration(game->System());
     // Run game
     EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
-    if (GameRunner::Instance().DemoRunGame(*game, emulator, duration, mInfoScreenDuration, controllerConfigs) || shouldStop.Exists())
+    if (GameRunner::Instance().DemoRunGame(*game, emulator, duration, mInfoScreenDuration) || shouldStop.Exists())
     {
       { LOG(LogDebug) << "[DemoMode] Stopping demo mode"; }
       mWindow.DoWake();
@@ -56,5 +55,5 @@ void DemoMode::runDemo()
   }
   // Finalize (remount ES display)
   if (Initialized)
-    GameRunner::Instance().demoFinalize();
+    GameRunner::Instance().SubSystemRestore();
 }
