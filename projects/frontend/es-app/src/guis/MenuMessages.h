@@ -160,6 +160,7 @@ class MenuMessages
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."
     #define MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG "This option display a menu which allows to DELETE game data."
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_SIBLINGS_MSG "This option seach for the others versions of a game."
+    #define MENUMESSAGE_GAMELISTOPTION_SHOW_FAMILY_MSG "This option seach for the others games of the same family."
 
     #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."

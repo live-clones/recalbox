@@ -42,7 +42,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       MainMenu,
       Quit,
       Search,
-      SearchSiblings
+      SearchSiblings,
+      SearchFamily,
     };
 
     //! System reference

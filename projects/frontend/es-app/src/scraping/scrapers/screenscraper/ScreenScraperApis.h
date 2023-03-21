@@ -25,6 +25,8 @@ class ScreenScraperApis
       std::string mScreenScraperName;
       //! Game Name
       std::string mName;
+
+      std::string mFamily;
       //! Developer
       std::string mDeveloper;
       //! Publisher

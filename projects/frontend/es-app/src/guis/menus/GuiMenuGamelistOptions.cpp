@@ -50,6 +50,8 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       if(!mGamelist.getCursor()->Metadata().Alias().empty())
         AddSubMenu(_("SEARCH OTHERS VERSIONS"), (int) Components::SearchSiblings, _(MENUMESSAGE_GAMELISTOPTION_SHOW_SIBLINGS_MSG));
     }
+    if(!mGamelist.getCursor()->Metadata().Family().empty())
+      AddSubMenu(_("SEARCH GAME OF SAME FAMILY"), (int) Components::SearchFamily, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FAMILY_MSG));
   }
 
   RefreshGameMenuContext();
@@ -282,6 +284,14 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     {
       std::string alias = mGamelist.getCursor()->Metadata().Alias();
       SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
+      break;
+    }
+
+    case Components::SearchFamily:
+    {
+      std::string family = mGamelist.getCursor()->Metadata().Family();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(family, FolderData::FastSearchContext::Family, true);
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
       break;
     }

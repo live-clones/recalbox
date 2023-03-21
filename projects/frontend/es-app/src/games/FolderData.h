@@ -144,6 +144,7 @@ class FolderData : public FileData
         Path,
         Name,
         Alias,
+        Family,
         Description,
         Developer,
         Publisher,
