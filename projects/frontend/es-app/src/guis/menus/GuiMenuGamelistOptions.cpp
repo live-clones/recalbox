@@ -1,4 +1,5 @@
 #include "GuiMenuGamelistOptions.h"
+#include "guis/SearchForceOptions.h"
 #include <guis/GuiSearch.h>
 #include <RecalboxConf.h>
 #include <MainRunner.h>
@@ -32,6 +33,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
     if(!mGamelist.getCursor()->IsEmpty())
     {
+      mAlias = mGamelist.getCursor()->Metadata().Alias();
       if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
           !mSystem.IsScreenshots())
       {
@@ -44,7 +46,12 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       {
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
       }
+
+      if(!mGamelist.getCursor()->Metadata().Alias().empty())
+        AddSubMenu(_("SEARCH OTHERS VERSIONS"), (int) Components::SearchSiblings, _(MENUMESSAGE_GAMELISTOPTION_SHOW_SIBLINGS_MSG));
     }
+    if(!mGamelist.getCursor()->Metadata().Family().empty())
+      AddSubMenu(_("SEARCH GAME OF SAME FAMILY"), (int) Components::SearchFamily, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FAMILY_MSG));
   }
 
   RefreshGameMenuContext();
@@ -273,6 +280,21 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       break;
     }
+    case Components::SearchSiblings:
+    {
+      std::string alias = mGamelist.getCursor()->Metadata().Alias();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
+      break;
+    }
+
+    case Components::SearchFamily:
+    {
+      std::string family = mGamelist.getCursor()->Metadata().Family();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(family, FolderData::FastSearchContext::Family, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
+      break;
+    }
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
@@ -296,6 +318,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::UpdateGamelist:
     case Components::Delete:
     case Components::DeleteScreeshot:
+    case Components::SearchSiblings:
     case Components::Quit: break;
   }
 

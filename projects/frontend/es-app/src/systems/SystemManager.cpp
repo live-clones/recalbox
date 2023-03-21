@@ -970,6 +970,57 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   system.UpdateLastPlayedGame(game);
 }
 
+FileData::List SystemManager::SearchFullMatchInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
+{
+  std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
+  FileData::List resultsList;
+
+  // Build searchable system list
+  std::list<const SystemData*> searchableSystems;
+
+  if (targetSystem != nullptr && targetSystem->IsSearchable() && !targetSystem->IsFavorite())
+    searchableSystems.push_back(targetSystem);
+  else
+    for (const SystemData* system : GetVisibleSystemList())
+    {
+      if (system->IsSearchable() && system->HasVisibleGame())
+        searchableSystems.push_back(system);
+    }
+
+  for (const SystemData* system: searchableSystems)
+  {
+    for (auto& game: system->getGames()) {
+      if(game->IsGame())
+      {
+        std::string found;
+        switch (context)
+        {
+          case FolderData::FastSearchContext::Name: found = game->Metadata().Name();
+            break;
+          case FolderData::FastSearchContext::Alias: found = game->Metadata().Alias();
+            break;
+          case FolderData::FastSearchContext::Family: found = game->Metadata().Family();
+            break;
+          case FolderData::FastSearchContext::Path:
+          case FolderData::FastSearchContext::Description:
+          case FolderData::FastSearchContext::Developer:
+          case FolderData::FastSearchContext::Publisher:
+          case FolderData::FastSearchContext::All: break;
+        }
+
+        if (Strings::ToLowerUTF8(found) == lowercaseText)
+
+          resultsList.push_back(game);
+      }
+      if ((int)resultsList.size() >= maxglobal)
+        break;
+    }
+  }
+
+  return resultsList;
+}
+
+
 FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
 {
   // Everything to lowercase cause search is not case sensitive
@@ -980,7 +1031,12 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
   switch(context)
   {
-    case FolderData::FastSearchContext::Name       : MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+    case FolderData::FastSearchContext::Name       :
+      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name);
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+
+    case FolderData::FastSearchContext::Alias      : MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+    case FolderData::FastSearchContext::Family     : MetadataDescriptor::SearchInFamily(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Family); break;
     case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
     case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
     case FolderData::FastSearchContext::Developer  : MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
@@ -988,6 +1044,7 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
     case FolderData::FastSearchContext::All        :
     {
       MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
       MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
       MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
       MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
@@ -1021,22 +1078,28 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
 
   // Build Item series
   DateTime start;
-  CreateFastSearchCache(resultIndexes, searchableSystems);
+  CreateFastSearchCache(resultIndexes, searchableSystems, context);
   { LOG(LogDebug) << "[Search] Fast lookup cache built in " << ((DateTime() - start).TotalMilliseconds()) << "ms"; }
 
   // Collect result
-  FileData::List results;
+  FileData::Set results;
   for(int i = -1; ++i < (int)resultIndexes.Count(); )
   {
     const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
     for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
-      if (item->Game != nullptr) results.push_back((FileData*)item->Game);
-    if ((int)results.size() >= maxglobal) break;
+      if (item->Game != nullptr)
+        results.insert((FileData*) item->Game);
+    if ((int)results.size() >= maxglobal)
+      break;
   }
   { LOG(LogDebug) << "[Search] Final result: " << results.size() << " games"; }
 
-  return results;
+  FileData::List resultsList;
+  for(auto& game : results)
+    resultsList.push_back(game);
+
+  return resultsList;
 }
 
 void SystemManager::SystemSorting()
@@ -1061,14 +1124,15 @@ void SystemManager::SystemSorting(std::vector<SystemData *>& systems, const std:
   }
 }
 
-void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems)
+void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems, FolderData::FastSearchContext context)
 {
   // Calculate searchable system hash
   unsigned int hash = 0;
   for(int i = searchableSystems.Count(); --i >= 0; )
   {
     const SystemData& system = *searchableSystems[i];
-    hash = crc32_16bytes(system.FullName().c_str(), system.FullName().size(), hash);
+    String key = String(system.FullName().c_str()).Append((int)context);
+    hash = crc32_16bytes(key.c_str(), key.size(), hash);
   }
 
   // Refresh hash?
@@ -1087,6 +1151,7 @@ void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextL
         {
           case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
           case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
+          case FolderData::FastSearchContext::Alias: count = MetadataDescriptor::AliasIndexCount(); break;
           case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
           case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
           case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;
@@ -1094,7 +1159,18 @@ void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextL
         }
         FolderData::FastSearchItemSerie serie(count);
         for(int s = searchableSystems.Count(); --s >= 0; )
-          searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext)resultIndexes[i].Context);
+        {
+          searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext) resultIndexes[i].Context);
+
+          // for building Alias serie when search in Neme context
+          if ((FolderData::FastSearchContext)resultIndexes[i].Context == FolderData::FastSearchContext::Name)
+          {
+            FolderData::FastSearchItemSerie aliasSerie(MetadataDescriptor::AliasIndexCount());
+            searchableSystems[s]->BuildFastSearchSeries(aliasSerie,
+                                                        (FolderData::FastSearchContext) resultIndexes[i].Context);
+          }
+
+        }
         mFastSearchSeries[resultIndexes[i].Context] = std::move(serie);
       }
   }

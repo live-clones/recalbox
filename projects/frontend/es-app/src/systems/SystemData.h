@@ -239,14 +239,6 @@ class SystemData : private INoCopy
     SystemManager& Manager() const { return mSystemManager; }
 
     /*!
-     * @brief Search for all games containing 'text' and add them to 'result'
-     * @param context Field in which to search text for
-     * @param indexes item indexes resulting from a fast search
-     * @param games Resulting game list
-     */
-    void LookupGames(FolderData::FastSearchContext context, const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
      * @brief Fill in the given Item series with all filedata recursively
      * @param into Item series to fill in
      * @param context Context for indexes

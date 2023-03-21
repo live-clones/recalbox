@@ -143,6 +143,8 @@ class FolderData : public FileData
     {
         Path,
         Name,
+        Alias,
+        Family,
         Description,
         Developer,
         Publisher,
@@ -231,7 +233,8 @@ class FolderData : public FileData
 
         FastSearchItem* Next(FastSearchItem* item)
         {
-          if (item->Next >= 0) return &mItems(item->Next);
+          if (item->Next >= 0)
+            return &mItems(item->Next);
           return nullptr;
         }
 
@@ -528,51 +531,10 @@ class FolderData : public FileData
      * @return file data filtered state
      */
     bool IsFiltered(FileData* fd, Filter includes, Filter excludes) const;
-    
-    /*!
-     * @brief Lookup games whose path index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-     void LookupGamesFromPath(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
-     * @brief Lookup games whose name index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
-     * @brief Lookup games whose description index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
-     * @brief Lookup games whose developer index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void LookupGamesFromDeveloper(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
-     * @brief Lookup games whose publisher index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void LookupGamesFromPublisher(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
-
-    /*!
-     * @brief Lookup games whose any index matches one of the given indexes
-     * @param index Index to seek into
-     * @param games Output list
-     */
-    void LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
 
     void BuildFastSearchSeriesPath(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesName(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesAlias(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDescription(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDeveloper(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesPublisher(FastSearchItemSerie& into) const;

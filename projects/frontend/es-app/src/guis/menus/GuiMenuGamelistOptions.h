@@ -42,6 +42,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       MainMenu,
       Quit,
       Search,
+      SearchSiblings,
+      SearchFamily,
     };
 
     //! System reference
@@ -51,11 +53,14 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     //! Gamelist UI reference
     IGameListView& mGamelist;
 
+    std::string mAlias;
+
     std::shared_ptr<OptionListComponent<unsigned int>> mJumpToLetterList;
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;
     std::shared_ptr<OptionListComponent<Regions::GameRegions>> mListRegion;
     std::shared_ptr<SwitchComponent> mFlatFolders;
     std::shared_ptr<SwitchComponent> mFavoritesOnly;
+    std::shared_ptr<SwitchComponent> mSiblingsOnly;
     std::shared_ptr<TextComponent> mGame;
 
     //! Refresh first menu entry
