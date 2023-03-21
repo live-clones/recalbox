@@ -82,3 +82,7 @@ bool RG353XBoard::IsBatteryCharging()
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
 
+const RotationCapability RG353XBoard::GetRotationCapabilities() const {
+    return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
+}
+
