@@ -128,6 +128,13 @@ else
 RETROARCH_CONF_OPTS += --disable-egl
 endif
 
+ifeq ($(BR2_PACKAGE_HAS_LIBVULKAN),y)
+RETROARCH_CONF_OPTS += --enable-vulkan
+RETROARCH_DEPENDENCIES += libvulkan
+else
+RETROARCH_CONF_OPTS += --disable-vulkan
+endif
+
 ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
 RETROARCH_DEPENDENCIES += libopenvg
 endif
