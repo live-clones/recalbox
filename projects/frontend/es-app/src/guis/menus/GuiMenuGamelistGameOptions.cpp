@@ -65,6 +65,9 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
   // Adult
   if (mGame.IsGame())
     mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
+  // Adult
+  if (mGame.IsGame())
+    mRotation = AddSwitch(_("Rotation"), mGame.Metadata().Rotation() != RotationType::None, (int)Components::Rotation, this);
 
   // Scrape
   if (mGame.IsGame())
@@ -170,6 +173,24 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
         ViewController::Instance().setInvalidGamesList(favoriteSystem);
       }
       ViewController::Instance().getSystemListView().manageFavorite();
+      break;
+    }
+    case Components::Rotation:
+    {
+      mGame.Metadata().SetRotation(status ? RotationType::Left : RotationType::None);
+      SystemData* tateSystem = mSystemManager.SystemByName("tate");
+
+      if (tateSystem != nullptr && RecalboxConf::Instance().GetCollectionTate())
+      {
+        if (mGame.Metadata().Rotation() != RotationType::None)
+          tateSystem->GetFavoriteRoot().AddChild(&mGame, false);
+        else
+          tateSystem->GetFavoriteRoot().RemoveChild(&mGame);
+
+        ViewController::Instance().getGameListView(tateSystem)->refreshList();
+        ViewController::Instance().setInvalidGamesList(mSystemManager.SystemByName("tate"));
+        ViewController::Instance().getSystemListView().manageTate(!tateSystem->HasGame());
+      }
       break;
     }
     case Components::Hidden: mGame.Metadata().SetHidden(status); break;

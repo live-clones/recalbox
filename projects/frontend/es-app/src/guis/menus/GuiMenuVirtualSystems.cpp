@@ -11,6 +11,7 @@
 #include <MainRunner.h>
 #include <guis/MenuMessages.h>
 #include "GuiMenuArcadeVirtualSystem.h"
+#include "GuiMenuTate.h"
 #include <guis/menus/GuiMenuVirtualSystemPerGenre.h>
 #include <systems/SystemManager.h>
 

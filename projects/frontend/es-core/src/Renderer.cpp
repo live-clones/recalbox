@@ -5,6 +5,7 @@
 #include "ImageIO.h"
 #include "../data/Resources.h"
 #include "ResolutionAdapter.h"
+#include "resources/ResourceManager.h"
 #include <RecalboxConf.h>
 #include <hardware/Board.h>
 
@@ -63,18 +64,15 @@ void Renderer::ActivateGLDebug()
   #endif
 }
 
-Renderer::Renderer(int width, int height, bool windowed)
+Renderer::Renderer(int width, int height, bool windowed, RotationType rotation)
   : StaticLifeCycleControler<Renderer>("Renderer")
   , mSdlWindow(nullptr)
   , mSdlGLContext(nullptr)
-  , mDisplayWidth(0)
-  , mDisplayHeight(0)
-  , mDisplayWidthFloat(0.0f)
-  , mDisplayHeightFloat(0.0f)
-  , mVirtualDisplayWidth(0)
-  , mVirtualDisplayWidthFloat(0.0f)
-  , mScale(0.0f)
-  , mAspectRatio(0.0f)
+  , mViewportSize(Vector2i(0,0))
+  , mVirtualViewportSizeFloat(Vector2f(0,0))
+  , mVirtualViewportSize(Vector2i(0,0))
+  , mScale(Vector2f(1,1))
+  , mRotate(rotation)
   , mViewPortInitialized(false)
   , mInitialCursorState(false)
   , mWindowed(windowed)
@@ -119,18 +117,15 @@ bool Renderer::CreateSdlSurface(int width, int height)
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
   #endif
 
-  mDisplayWidth = width;
-  mDisplayHeight = height;
-  mDisplayWidthFloat = (float)mDisplayWidth;
-  mDisplayHeightFloat = (float)mDisplayHeight;
+  mViewportSize.Set(width, height);
   { LOG(LogInfo) << "[Renderer] Trying Resolution: " << width << ',' << height; }
 
   int flags = SDL_WINDOW_OPENGL;
   if (!mWindowed) flags |= SDL_WINDOW_FULLSCREEN;
   mSdlWindow = SDL_CreateWindow("EmulationStation",
                                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                mDisplayWidth,
-                                mDisplayHeight,
+                                mViewportSize.x(),
+                                mViewportSize.y(),
                                 flags);
 
   if (mSdlWindow == nullptr)
@@ -253,7 +248,13 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
 bool Renderer::ReInitialize()
 {
   // Reinitialize with real resolution settings
-  return Initialize(mDisplayWidth, mDisplayHeight);
+  return Initialize(mViewportSize.x(), mViewportSize.y());
+}
+
+bool Renderer::Rotate(RotationType rotation)
+{
+  this->mRotate = rotation;
+  return true;
 }
 
 bool Renderer::Initialize(int w, int h)
@@ -285,24 +286,48 @@ bool Renderer::Initialize(int w, int h)
   if (!createdSurface)
     return false;
 
-  mScale = 1;
-  mVirtualDisplayWidth = mDisplayWidth;
-  mVirtualDisplayWidthFloat = mDisplayWidthFloat;
+  mScale.Set(1,1);
+  mVirtualViewportSize.Set(mViewportSize.x(), mViewportSize.y());
+  mVirtualViewportSizeFloat.Set(mViewportSize.x(), mViewportSize.y());
   if(isCrt)
   {
-    mScale = mDisplayWidthFloat / (mDisplayHeightFloat * 1.3334f);
-    mVirtualDisplayWidth = (int) (mDisplayHeightFloat * 1.3334f);
-    mVirtualDisplayWidthFloat = mDisplayHeightFloat * 1.3334f;
+    float scaledWidth = (float)mViewportSize.y() * 1.3334f;
+    mScale.Set((float)mViewportSize.x() / scaledWidth, 1);
+    mVirtualViewportSize.Set((int) (scaledWidth), mViewportSize.y());
+    mVirtualViewportSizeFloat.Set(scaledWidth, mViewportSize.y());
   }
 
-  glViewport(0, 0, mDisplayWidth, mDisplayHeight);
+  glViewport(0, 0, mViewportSize.x(), mViewportSize.y());
 
   glMatrixMode(GL_PROJECTION);
-  glOrtho(0, mDisplayWidth, mDisplayHeight, 0, -1.0, 1.0);
-  glScalef(mScale,1,1);
+  glOrtho(0, w, h, 0, -1.0, 1.0);
+
+  //Todo sortir dans une methode
+  if(mRotate == RotationType::Right)
+  {
+    // Reverse virtual height and width
+    mVirtualViewportSize.Set(mVirtualViewportSize.y(), mVirtualViewportSize.x());
+    mVirtualViewportSizeFloat.Set(mVirtualViewportSizeFloat.y(), mVirtualViewportSizeFloat.x());
+    mScale.Set(mScale.y(), mScale.x());
+    glRotatef(90,0,0,1);
+    glTranslatef(0, -mViewportSize.x(),0);
+  }
+  else if(mRotate == RotationType::Left)
+  {
+    mVirtualViewportSize.Set(mVirtualViewportSize.y(), mVirtualViewportSize.x());
+    mVirtualViewportSizeFloat.Set(mVirtualViewportSizeFloat.y(), mVirtualViewportSizeFloat.x());
+    mScale.Set(mScale.y(), mScale.x());
+    glRotatef(270,0,0,1);
+    glTranslatef(-mViewportSize.y(),0,0);
+  }
+  else if(mRotate == RotationType::Upsidedown)
+  {
+    glRotatef(180,0,0,1);
+    glTranslatef(-mViewportSize.x(),-mViewportSize.y(),0);
+  }
+  glScalef(mScale.x(),mScale.y(),1);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
   return true;
 }
 
@@ -321,17 +346,25 @@ void Renderer::BuildGLColorArray(GLubyte* ptr, Colors::ColorARGB color, int vert
 
 void Renderer::PushClippingRect(Vector2i pos, Vector2i dim)
 {
-  Vector4i box((int)((float)pos.x() * mScale), pos.y(), (int)((float)dim.x() * mScale), dim.y());
+  Vector4i box((int)((float)pos.x() * mScale.x()), (int)((float)pos.y()*mScale.y()), (int)((float)dim.x() * mScale.x()), (int)((float) dim.y()*mScale.y()));
   if (box[2] == 0)
-    box[2] = mDisplayWidth - box.x();
+    box[2] = mViewportSize.x() - box.x();
   if (box[3] == 0)
-    box[3] = mDisplayHeight - box.y();
+    box[3] = mViewportSize.y() - box.y();
+
+  switch(mRotate){
+    case RotationType::None: break;
+    case RotationType::Right: box = Vector4i(mViewportSize.x() - box.y()-box.w(),box.x(),box.w(),box.z()); break;
+    case RotationType::Upsidedown: box = Vector4i(mViewportSize.x() - box.x()-box.z(),mViewportSize.y() - box.y()- box.w(), box.z(), box.w()); break;
+    case RotationType::Left: box = Vector4i(box.y(),mViewportSize.y()-box.x()-box.z(),box.w(),box.z()); break;
+  }
+
 
   //glScissor starts at the bottom left of the window
   //so (0, 0, 1, 1) is the bottom left pixel
   //everything else uses y+ = down, so flip it to be consistent
   //rect.pos.y = Renderer::Instance().GetScreenHeight() - rect.pos.y - rect.size.y;
-  box[1] = mDisplayHeight - box.y() - box[3];
+  box[1] = mViewportSize.y() - box.y() - box[3];
 
   //make sure the box fits within clipStack.top(), and clip further accordingly
   if (!mClippingStack.empty())

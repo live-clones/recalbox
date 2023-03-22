@@ -680,6 +680,20 @@ bool SystemManager::AddMultiplayerMetaSystems()
                                        SystemData::Properties::None);
 }
 
+bool SystemManager::AddTateMetaSystem()
+{
+  class Filter: public IFilter
+  {
+  public:
+    [[nodiscard]] bool ApplyFilter(const FileData& file) const override
+    {
+      return file.IsDisplayable() && (file.Metadata().Rotation() == RotationType::Left || file.Metadata().Rotation() == RotationType::Right);
+    }
+  } filter;
+  return AddManuallyFilteredMetasystem(&filter, nullptr, sTateSystemShortName, sTateSystemFullName,
+                                       SystemData::Properties::None);
+}
+
 bool SystemManager::AddLastPlayedMetaSystem()
 {
   class Filter: public IFilter
@@ -733,6 +747,7 @@ bool SystemManager::AddSpecialCollectionsMetaSystems(bool portableSystem)
   AddLastPlayedMetaSystem();
   AddMultiplayerMetaSystems();
   if (!portableSystem) AddLightGunMetaSystem();
+  AddTateMetaSystem();
   AddGenresMetaSystem();
 
   return true;

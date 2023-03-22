@@ -95,5 +95,6 @@ class GuiMenuUserInterface : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const SystemSorting& value) override;
+
 };
 

@@ -91,6 +91,9 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
 
+    #define MENUMESSAGE_TATE_HELP_MSG "Manage screen and game rotation options"
+    #define MENUMESSAGE_TATE_SCREEN_ROTATION "Proceed to a complete screen rotation, for frontend and games."
+
     #define MENUMESSAGE_SOUND_HELP_MSG "Configure the sound options of your recalbox."
     #define MENUMESSAGE_SOUND_VOLUME_HELP_MSG "Set the volume of the sound output for the frontend and the games."
     #define MENUMESSAGE_SOUND_MODE_HELP_MSG "Select sound to play. Musics, videos sound, both or none"

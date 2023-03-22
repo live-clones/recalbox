@@ -229,6 +229,8 @@ std::map< std::string, std::map<std::string, ThemeData::ElementProperty> >& Them
         { "iconShutdown", ElementProperty::Path },
         { "iconFastShutdown", ElementProperty::Path },
         { "iconLicense", ElementProperty::Path },
+        { "iconRecalboxRGBDual", ElementProperty::Path },
+        { "iconTate", ElementProperty::Path },
       },
     },
     { "menuSwitch",

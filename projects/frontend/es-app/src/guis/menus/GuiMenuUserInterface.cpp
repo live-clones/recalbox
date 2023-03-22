@@ -8,6 +8,7 @@
 #include "GuiMenuScreensavers.h"
 #include "GuiMenuThemeConfiguration.h"
 #include "GuiMenuGameFilters.h"
+#include "GuiMenuBase.h"
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
@@ -53,7 +54,6 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
 
   // Display filename
   AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
-
 
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));

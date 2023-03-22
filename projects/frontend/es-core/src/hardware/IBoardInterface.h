@@ -5,6 +5,7 @@
 
 #include <input/InputCompactEvent.h>
 #include <hardware/messaging/HardwareMessageSender.h>
+#include "Case.h"
 
 class Sdl2Runner;
 
@@ -131,6 +132,23 @@ class IBoardInterface
      * @return True if a side effect has been triggered
      */
     virtual bool OnRebootOrShutdown() = 0;
+
+    /*!
+    * @return the rotation capabilities for tate mode
+    */
+    static inline RotationCapability defaultCap = {
+        .canRotate = true,
+        .defaultRotationWhenTate = RotationType::None,
+        .rotateControls = false,
+        .autoRotateGames = false};
+    static inline RotationCapability noCap = {
+        .canRotate = false,
+        .defaultRotationWhenTate = RotationType::None,
+        .rotateControls = false,
+        .autoRotateGames = false};
+    virtual const RotationCapability GetRotationCapabilities() const {
+      return Case::CurrentCase().RotationSupported() ? defaultCap : noCap;
+    }
 
   protected:
     //! Hardware event Notification interface

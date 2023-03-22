@@ -7,6 +7,7 @@
 #include <utils/Strings.h>
 
 #define CASE_DETECTION_AUTOMATIC true
+#define CASE_ROTATION_SUPPORTED true
 #define MENU_SHUTDOWN_ENABLED true
 
 /*!
@@ -87,6 +88,13 @@ class Case
      */
     std::string GetInstallMessage() const { return mInstallMessage; }
 
+
+    /*!
+     * @brief A case can support rotation or not
+     * @return true if supports rotation
+     */
+    bool RotationSupported() const { return mRotationSupported; }
+
     /*!
      * @brief Get the case from short name
      * @param the short name of the case
@@ -122,13 +130,14 @@ class Case
      * @param displayName Displayable name
      * @param shortName Internal name
      */
-    Case(CaseModel model, bool automatic, bool menuShutdownEnabled, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
+    Case(CaseModel model, bool automatic, bool menuShutdownEnabled, bool rotationSupported, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
       : mDisplayName(displayName)
       , mShortName(shortName)
       , mInstallMessage(installMessage)
       , mModel(model)
       , mAutomatic(automatic)
       , mMenuShutdownEnabled(menuShutdownEnabled)
+      , mRotationSupported(rotationSupported)
      {}
 
     static bool SetCaseInBoot(const std::string& theCase);
@@ -138,4 +147,5 @@ class Case
     const enum CaseModel mModel;
     const bool mAutomatic;
     const bool mMenuShutdownEnabled;
+    const bool mRotationSupported;
 };
