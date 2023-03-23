@@ -111,22 +111,6 @@ void MetadataStringHolder::FindText(const std::string& text, MetadataStringHolde
       }
 }
 
-void MetadataStringHolder::FindIndex(const std::string& index, MetadataStringHolder::FoundTextList& output, int context)
-{
-  const char* fdn = mMetaString.BufferReadOnly();             // Keep filedata name pointer for fast result computation
-  int lmax = (int)mMetaString.Count() - (int)index.size() + 1; // MAximum byte to search in
-
-  for(const char* p = fdn; --lmax >= 0; ++p)
-  {
-    bool equals = strcmp(index.c_str(), p) == 0;
-    if(equals)
-      output.Add(IndexFromPos((int) (p - fdn), context));
-  //  output.Add(IndexFromPos((int) (p - fdn), context));
-  }
-
-
-}
-
 MetadataStringHolder::IndexAndDistance MetadataStringHolder::IndexFromPos(int pos, int context)
 {
   // Out of bounds?

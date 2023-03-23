@@ -48,18 +48,20 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       }
 
       if(!mGamelist.getCursor()->Metadata().Alias().empty())
-        AddSubMenu(_("SEARCH OTHERS VERSIONS"), (int) Components::SearchSiblings, _(MENUMESSAGE_GAMELISTOPTION_SHOW_SIBLINGS_MSG));
+        AddSubMenu(_("SEARCH OTHERS VERSIONS"), (int) Components::SearchSiblings, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_SIBLINGS_MSG));
     }
+    if(!mGamelist.getCursor()->Metadata().Family().empty())
+      AddSubMenu(_("SEARCH GAMES OF SAME LICENCE"), (int) Components::SearchFamily, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_LICENCE_MSG));
   }
+
+  // open search wheel for this system
+  if (!system.IsFavorite())
+    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
   RefreshGameMenuContext();
 
     // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
-
-  // open search wheel for this system
-  if (!system.IsFavorite())
-  AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
   // Sorting
 	if (!system.IsSelfSorted())
@@ -282,7 +284,15 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     {
       std::string alias = mGamelist.getCursor()->Metadata().Alias();
       SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
-      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, forcedOptions));
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, &forcedOptions));
+      break;
+    }
+
+    case Components::SearchFamily:
+    {
+      std::string family = mGamelist.getCursor()->Metadata().Family();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(family, FolderData::FastSearchContext::Family, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, &forcedOptions));
       break;
     }
     case Components::JumpToLetter:
@@ -309,6 +319,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::Delete:
     case Components::DeleteScreeshot:
     case Components::SearchSiblings:
+    case Components::SearchFamily:
     case Components::Quit: break;
   }
 

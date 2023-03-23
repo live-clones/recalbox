@@ -616,6 +616,7 @@ void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, Fo
       case FolderData::FastSearchContext::Path: root->BuildFastSearchSeriesPath(into); break;
       case FolderData::FastSearchContext::Name: root->BuildFastSearchSeriesName(into); break;
       case FolderData::FastSearchContext::Alias: root->BuildFastSearchSeriesAlias(into); break;
+      case FolderData::FastSearchContext::Family: root->BuildFastSearchSeriesFamily(into); break;
       case FolderData::FastSearchContext::Description: root->BuildFastSearchSeriesDescription(into); break;
       case FolderData::FastSearchContext::Developer: root->BuildFastSearchSeriesDeveloper(into); break;
       case FolderData::FastSearchContext::Publisher: root->BuildFastSearchSeriesPublisher(into); break;
