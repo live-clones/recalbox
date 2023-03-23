@@ -8,10 +8,19 @@ INIT_SCRIPT=$(basename "$0")
 
 case "$1" in
 	start)
+    boot_card=$(grep -H -l 1 /sys/class/drm/card*/device/boot_vga)
+    if [ -z "${boot_card}" ]; then
+      recallog -s "${INIT_SCRIPT}" -t "ES" "no boot_gva device"
+      boot_card_vendor=0x0000
+    else
+      boot_card_vendor=$(cat $(dirname /sys/class/drm/card0/device/boot_vga)/vendor)
+    fi
+    recallog -s "${INIT_SCRIPT}" -t "ES" "boot card vendor is ${boot_card_vendor}"
     intel_chip_id=$(lspci -d 8086::0300 -mm -n | sed -E 's/^.*8086"\s*"([^"]+)".*/\1/')
-    if [ -n "$intel_chip_id" -a ! -f /etc/X11/xorg.conf ]; then
-      # we should reach this part if we have an intel GPU and no hybrid laptop 
+    if [ -n "$intel_chip_id" ] && [ "${boot_card_vendor}" = "0x8086" ] && [ ! -f /etc/X11/xorg.conf ]; then
+      # we should reach this part if we have an intel GPU and no hybrid laptop
       # nor prime configuration (which configures /etc/X11/xorg.conf)
+      # and we booted from the intel GPU
       source /recalbox/scripts/recalbox-utils.sh
       mount -o remount,rw /
       if isOldIntelChipset "$intel_chip_id"; then
