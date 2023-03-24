@@ -1,0 +1,29 @@
+#!/bin/bash
+
+mount -o remount, rw /
+
+cdRomLecteur=$(ls /dev/cdrom) ## detect if cdromLecteur exist
+hexDumpCdrom=$(hexdump -C /dev/cdrom |head -n 10) ## scan cdrom for identification 
+
+playstationGame=($(echo "${hexDumpCdrom}" | grep "Sony"))
+dreamcastGame=($(echo "${hexDumpCdrom}" |grep "SEGA SEGAKATANA"))
+saturnGame=($(echo "${hexDumpCdrom}" |grep "SEGA SEGASATURN"))
+segaCdGame=($(echo "${hexDumpCdrom}" | grep "SEGA MEGADRIVE"))
+panasonicGame=($(echo "${hexDumpCdrom}" | grep "The 3DO"))
+pcengineCdGame=($(echo "${hexDumpCdrom}" | grep "PCE"))
+
+if [ "$cdRomLecteur" ] ; then ## detect platform 
+    if [ "$playstationGame" ]; then
+        echo "system = psx" >> /tmp/cd.conf
+    elif [ "$dreamcastGame" ]; then
+        echo "system = dreamcast" >> /tmp/cd.conf
+    elif [ "$saturnGame" ]; then
+        echo "system = saturn" >> /tmp/cd.conf
+    elif [ "$segaCdGame" ]; then
+        echo "system = segacd" >> /tmp/cd.conf
+    elif [ "$panasonicGame" ]; then
+        echo "system = 3do" >> /tmp/cd.conf
+    elif [ "$pcengineCdGame" ]; then
+        echo "system = pcenginecd" >> /tmp/cd.conf
+    fi
+fi

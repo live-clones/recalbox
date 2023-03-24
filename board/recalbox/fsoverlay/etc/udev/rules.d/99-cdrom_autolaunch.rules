@@ -1,0 +1,2 @@
+KERNEL=="sr[0-9]*", DRIVERS=="sr", SUBSYSTEM=="block", ACTION=="change", ENV{ID_FS_TYPE}=="iso9660", RUN+="/bin/sh -c '/usr/bin/launch_cdrom'"
+KERNEL=="sr[0-9]*", DRIVERS=="sr", SUBSYSTEM=="block", ACTION=="change", ENV{DISK_EJECT_REQUEST}=="1", RUN+="/bin/rm -f /tmp/cd.conf"

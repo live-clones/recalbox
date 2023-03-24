@@ -881,6 +881,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump FBNeo to include latest fixes
 - Bump Retroarch to 1.8.1  to include latest fixes & optimizations
 - Bump Doplhin-emu on 5.0-11288 add automatic configuration and netplay compatibility
+- Improved retroarch support cd 
+
 
 ### Fixes
 - Fix Reicast on XU4 and PC platforms and fix wrong flycast entry on Rpi
